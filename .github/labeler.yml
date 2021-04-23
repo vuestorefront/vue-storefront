@@ -1,6 +1,6 @@
 # Add 'Next' label to any change to packages files
 Next:
-- 
+- true
 
 # Add 'core' label to any change to packages/core files within the source dir EXCEPT for the docs sub-folder
 core:
