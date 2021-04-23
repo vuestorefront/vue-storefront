@@ -1,16 +1,12 @@
-# Add 'VSF1' label to any change to packages files
+# Add 'VSF1' label to any change to this branch
 VSF1:
 - true
 
-# Add 'core' label to any change to packages/core files within the source dir EXCEPT for the docs sub-folder
+# Add 'core' label to any change to core files
 core:
 - core/**/*
 
-# Add 'commercetools' label to any change to packages/commercetools files
-commercetools:
-- packages/commercetools/**/*
-
-# Add 'docs' label to any change to packages/core/docs files
+# Add 'docs' label to any change to docs files
 docs:
 - docs/**/*
 
