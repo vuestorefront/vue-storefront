@@ -322,7 +322,7 @@ To add the product to the wishlist you can use `addItem` method:
 
 ## Removing an item from the wishlist
  
-To remove an item from the cart use `removeItem` method.
+To remove an item from the wishlist use `removeItem` method.
 
 ```vue
 <template>
@@ -408,7 +408,6 @@ To check if a product is already on the wishlist pass it to `isInWishlist` metho
     },
     setup() {
       const {
-        cart,
         isInWishlist, 
       } = useWishlist();
 
@@ -452,7 +451,7 @@ Cleaning the wishlist can be achieved by `clear` property.
       const {
         wishlist,
         clear, 
-      } = useCart();
+      } = useWishlist();
       const products = computed(() => wishlistGetters.getItems(wishlist.value));
 
       return {
@@ -469,7 +468,7 @@ Cleaning the wishlist can be achieved by `clear` property.
 
 ### Common usage example
 
-Here is an example of how both composables can be used in real-life applications. We have three components: a product list, a cart, and a wishlist. In the examples, we cover the logic of adding/removing items from the wish list and cart, working with getters, and loading state.
+Here is an example of how both composables can be used in real-life applications. We have three components: a product list, a cart, and a wishlist. In the examples, we cover the logic of adding/removing items from the wishlist and cart, working with getters, and loading state.
 
 The product list: 
 
