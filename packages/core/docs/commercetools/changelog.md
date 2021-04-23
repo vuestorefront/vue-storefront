@@ -2,6 +2,7 @@
 
 ## 1.2.0-rc.3
 
+
 -  Fix getters in `cartGetters` to not throw errors when some properties don't exist ([#5699](https://github.com/vuestorefront/vue-storefront/pull/5699)) - [Filip Sobol](https://github.com/filipsobol)
 ,
 -  Fixed mapping for product attributes with type `set` ([#5708](https://github.com/vuestorefront/vue-storefront/pull/5708)) - [Filip Sobol](https://github.com/filipsobol)

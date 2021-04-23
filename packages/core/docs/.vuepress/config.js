@@ -63,7 +63,7 @@ module.exports = {
 						['/commercetools/', 'Introduction'],
 						['/commercetools/getting-started', 'Getting started'],
 						['/commercetools/configuration', 'Configuration'],
-						['/commercetools/authorization-strategy', 'Authentication'],
+						['/commercetools/authorization-strategy', 'Authorization'],
 						['/enterprise/feature-list', 'Feature list'],
 						['/commercetools/maintainers', 'Maintainers and support'],
 						['/commercetools/changelog', 'Changelog']
@@ -140,8 +140,7 @@ module.exports = {
 					children: [
 						['/shopify/', 'Introduction'],
 						['/shopify/getting-started', 'Getting Started'],
-						['/shopify/api-client', 'API Client'],
-						['/shopify/composables', 'Composables'],
+						['/shopify/configuration', 'Configuration'],
 						['/shopify/feature-list', 'Feature list'],
 						['/shopify/maintainers', 'Maintainers and support']
 					]
