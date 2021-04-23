@@ -1,0 +1,35 @@
+# Add 'VSF1' label to any change to this branch
+VSF1:
+- true
+
+# Add 'core' label to any change to core files
+core:
+- core/**/*
+
+# Add 'docs' label to any change to docs files
+docs:
+- docs/**/*
+
+# Add 'ci' label to any change to continuous integration files inside .github folder
+ci:
+- .github/**/*
+
+# Add 'docker' label to any change to Docker files inside docker or dev folders
+docker:
+- any: ['docker/**/*', 'dev/**/*']
+
+# Add 'test' label to any change to test folder
+test:
+- test/**/*
+
+# Add 'cli' label to any change to cli folder
+cli:
+- cli/**/*
+
+# Add 'kubernetes' label to any change to kubernetes folder
+kubernetes:
+- kubernetes/**/*
+
+# Add 'config' label to any change to config folder
+config:
+- config/**/*
