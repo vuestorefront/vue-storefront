@@ -27,7 +27,7 @@
                 v-for="subCategoryChild in subCategory.children"
                 :key="subCategoryChild.name"
               >
-                <SfMenuItem :label="subCategoryChild.name" :link="localePath(`/c/${subCategoryChild.slug}`)">
+                <SfMenuItem :label="subCategoryChild.name" :link="localePath(`/c/${currentCatSlug}/${subCategoryChild.slug}`)">
                   <SfLink>
                     {{ subCategoryChild.name }}
                   </SfLink>
