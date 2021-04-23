@@ -26,7 +26,7 @@ If you followed our [Installation guide](/general/installation), you should have
 
 Almost every component in our default theme uses components whose names start with `Sf`. These come from [Storefront UI](http://storefrontui.io/) - a design system and library of Vue.js components dedicated to e-commerce, maintained by the Vue Storefront core team. It comes with [Storybook](https://storybook.storefrontui.io/) to help you customize and test the components.
 
-The library is fully customizable and can be used in different contexts and with different designs.
+The library is fully customizable. It can be used in different contexts and with different designs.
 It's excellent for the multi-tenancy model as a shared UI library that can be customized differently for each tenant.
 
 To learn more about Storefront UI, please check its [Documentation](https://docs.storefrontui.io/).
