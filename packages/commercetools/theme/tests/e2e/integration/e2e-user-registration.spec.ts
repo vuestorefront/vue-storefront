@@ -11,8 +11,8 @@ before(() => {
 });
 
 context(['regression'], 'User registration', () => {
-  it('Should successfully register', () => {
-    const data = cy.fixtures.data['Should successfully register'];
+  it('Should successfully register', function () {
+    const data = cy.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     page.home.visit();
     page.home.header.openLoginModal();
@@ -24,8 +24,8 @@ context(['regression'], 'User registration', () => {
     page.myAccount.sidebar.heading.should('be.visible');
   });
 
-  it('Existing user - should display an error', () => {
-    const data = cy.fixtures.data['Existing user - should display an error'];
+  it('Existing user - should display an error', function () {
+    const data = cy.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     requests.customerSignMeUp(data.customer).then(() => {
       cy.clearCookies();

@@ -1,4 +1,5 @@
 import page from '../pages/factory';
+import intercept from '../utils/network';
 
 before(() => {
   cy.fixture('test-data/e2e-place-order').then((fixture) => {
@@ -9,15 +10,13 @@ before(() => {
 });
 
 context('Order placement', () => {
-  it(['e2e', 'happypath'], 'Should successfully place an order', () => {
+  it(['happypath', 'regression'], 'Should successfully place an order', () => {
     const data = cy.fixtures.data;
-    const waitHydration = () => {
-      cy.wait(1000);
-    };
+    const getProductReq = intercept.getProduct();
     page.home.visit();
     page.home.header.categories.first().click();
     page.category.products.first().click().then(() => {
-      waitHydration();
+      cy.wait(getProductReq);
     });
     page.product().addToCartButton.click();
     page.product().header.openCart();

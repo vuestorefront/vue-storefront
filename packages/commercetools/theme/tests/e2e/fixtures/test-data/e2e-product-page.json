@@ -23,16 +23,16 @@
       }
     }
   },
-  "Should select proper size option": {
+  "Should select correct size option": {
     "product": {
       "id": "38143c0c-c9b0-448c-93cd-60eb90d8da57",
       "slug": "aspesi-shirt-h805-white",
       "attributes": {
-        "size": "70"
+        "size": "58"
       }
     }
   },
-  "Should add proper variant to cart": {
+  "Should add correct variant to cart": {
     "product": {
       "id": "38143c0c-c9b0-448c-93cd-60eb90d8da57",
       "slug": "aspesi-shirt-h805-white",
