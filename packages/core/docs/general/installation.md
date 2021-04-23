@@ -2,38 +2,19 @@
 
 ## Using Vue Storefront CLI
 
-The easiest way to get started with Vue Storefront is to set up your project using our CLI. You can install it globally using `yarn` or `npm`:
-
-<code-group>
-<code-block title="YARN">
-```bash
-# Install Vue Storefront CLI
-yarn global add @vue-storefront/cli
-```
-</code-block>
-
-<code-block title="NPM">
-```bash
-# Install Vue Storefront CLI
-npm i -g @vue-storefront/cli
-```
-</code-block>
-</code-group>
-
-Once installed, you can set up a project using `vsf init` command:
+The easiest way to get started with Vue Storefront is to set up your project using our CLI. You can install it globally using `npx` command:
 
 ```bash
-# Create a new Vue Storefront project
-vsf init <project_name>
+# Run Vue Storefront CLI
+npx @vue-storefront/cli init
 ```
-
-The next step is to select the backend platform you wish to use.
+Enter the name of the project and select the backend platform you wish to use.
 
 <center>
-  <img src="../images/cli.png" alt="vue storefront cli" />
+  <img src="../images/cli.jpg" alt="Vue Storefront CLI" />
 </center>
 
-Once selected, the CLI creates the project files in the `<project_name>` directory. The only thing left is to go to this directory in the terminal and install the dependencies:
+Once selected, the CLI creates the project files in the directory matching your project name. The only thing left is to go to this directory in the terminal and install the dependencies:
 
 ```bash
 # Go to project folder
