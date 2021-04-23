@@ -2,7 +2,7 @@
 
 ## Using Vue Storefront CLI
 
-If you want to get started with Vue Storefront, the easiest way is to set up your project using our CLI. You can install it globally using `yarn` or `npm`:
+The easiest way to get started with Vue Storefront is to set up your project using our CLI. You can install it globally using `yarn` or `npm`:
 
 <code-group>
 <code-block title="YARN">
