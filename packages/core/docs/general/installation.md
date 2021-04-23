@@ -2,7 +2,7 @@
 
 ## Using Vue Storefront CLI
 
-The easiest way to get started with Vue Storefront is to set up your project using our CLI. You can run it using `npx` command:
+The easiest way to get started with Vue Storefront is to set up your project using our CLI. You can run it using the `npx` command:
 
 ```bash
 # Run Vue Storefront CLI
