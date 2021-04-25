@@ -18,6 +18,7 @@
         <LazyHydrate on-interaction>
           <SfButton
             class="sf-button--text navbar__filters-button"
+            data-cy="category-btn_filters"
             aria-label="Filters"
             @click="toggleFilterSidebar"
           >
@@ -26,6 +27,7 @@
               color="dark-secondary"
               icon="filter2"
               class="navbar__filters-icon"
+              data-cy="category-icon_"
             />
             {{ $t('Filters') }}
           </SfButton>
@@ -37,6 +39,7 @@
             <SfSelect
               :value="sortBy.selected"
               placeholder="Select sorting"
+              data-cy="category-select_sortBy"
               class="navbar__select"
               @input="th.changeSorting"
             >
@@ -60,6 +63,7 @@
         <div class="navbar__view">
           <span class="navbar__view-label desktop-only">{{ $t('View') }}</span>
           <SfIcon
+            data-cy="category-icon_grid-view"
             class="navbar__view-icon"
             :color="isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="tiles"
@@ -70,6 +74,7 @@
             @click="toggleCategoryGridView"
           />
           <SfIcon
+            data-cy="category-icon_list-view"
             class="navbar__view-icon"
             :color="!isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="list"
@@ -103,6 +108,7 @@
                     <SfListItem class="list__item">
                       <SfMenuItem
                         :count="cat.count || ''"
+                        :data-cy="`category-link_subcategory_${cat.slug}`"
                         :label="cat.label"
                       >
                         <template #label>
@@ -122,6 +128,7 @@
                     >
                       <SfMenuItem
                         :count="subCat.count || ''"
+                        :data-cy="`category-link_subcategory_${subCat.slug}`"
                         :label="subCat.label"
                       >
                         <template #label="{ label }">
@@ -151,7 +158,7 @@
             class="products__grid"
           >
             <SfProductCard
-              v-e2e="'category-product-card'"
+              data-cy="category-product-card"
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"
@@ -178,6 +185,7 @@
             class="products__list"
           >
             <SfProductCardHorizontal
+              data-cy="category-product-cart_wishlist"
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"
@@ -218,6 +226,7 @@
           <LazyHydrate on-interaction>
             <SfPagination
               v-if="!loading"
+              data-cy="category-pagination"
               class="products__pagination desktop-only"
               v-show="pagination.totalPages > 1"
               :current="pagination.currentPage"
@@ -251,88 +260,14 @@
         </div>
       </SfLoader>
     </div>
-
     <LazyHydrate when-idle>
-      <SfSidebar
-        :visible="isFilterSidebarOpen"
-        title="Filters"
-        class="sidebar-filters"
-        @close="toggleFilterSidebar"
-      >
-        <div class="filters desktop-only">
-          <div v-for="(facet, i) in facets" :key="i">
-            <SfHeading
-              :level="4"
-              :title="facet.label"
-              class="filters__title sf-heading--left"
-              :key="`filter-title-${facet.id}`"
-            />
-              <div
-                v-if="isFacetColor(facet)"
-                class="filters__colors"
-                :key="`${facet.id}-colors`"
-              >
-                <SfColor
-                  v-for="option in facet.options"
-                  :key="`${facet.id}-${option.value}`"
-                  :color="option.value"
-                  :selected="isFilterSelected(facet, option)"
-                  class="filters__color"
-                  @click="() => selectFilter(facet, option)"
-                />
-              </div>
-              <div v-else>
-                <SfFilter
-                  v-for="option in facet.options"
-                  :key="`${facet.id}-${option.value}`"
-                  :label="option.id + `${option.count ? ` (${option.count})` : ''}`"
-                  :selected="isFilterSelected(facet, option)"
-                  class="filters__item"
-                  @change="() => selectFilter(facet, option)"
-                />
-              </div>
-          </div>
-        </div>
-        <SfAccordion class="filters smartphone-only">
-          <div v-for="(facet, i) in facets" :key="i">
-            <SfAccordionItem
-              :key="`filter-title-${facet.id}`"
-              :header="facet.label"
-              class="filters__accordion-item"
-            >
-            <SfFilter
-              v-for="option in facet.options"
-              :key="`${facet.id}-${option.id}`"
-              :label="option.id"
-              :selected="isFilterSelected(facet, option)"
-              class="filters__item"
-              @change="() => selectFilter(facet, option)"
-            />
-          </SfAccordionItem>
-        </div>
-        </SfAccordion>
-        <template #content-bottom>
-          <div class="filters__buttons">
-            <SfButton
-              class="sf-button--full-width"
-              @click="applyFilters"
-              >{{ $t('Done') }}</SfButton
-            >
-            <SfButton
-              class="sf-button--full-width filters__button-clear"
-              @click="clearFilters"
-              >{{ $t('Clear all') }}</SfButton
-            >
-          </div>
-        </template>
-      </SfSidebar>
-    </LazyHydrate>
+      <FilterSidebar @close="toggleFilterSidebar"/>
+    </LazyHydrate>        
   </div>
 </template>
 
 <script>
 import {
-  SfSidebar,
   SfButton,
   SfList,
   SfIcon,
@@ -345,16 +280,15 @@ import {
   SfAccordion,
   SfSelect,
   SfBreadcrumbs,
-  SfLoader,
-  SfColor,
+  SfLoader,  
   SfProperty
 } from '@storefront-ui/vue';
-import { ref, computed, onMounted } from '@vue/composition-api';
+import { computed } from '@vue/composition-api';
 import { useCart, useWishlist, productGetters, useFacet, facetGetters } from '<%= options.generate.replace.composables %>';
 import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
-import Vue from 'vue';
+import FilterSidebar from "../components/FilterSidebar"
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
@@ -388,47 +322,6 @@ export default {
       await search(th.getFacetsFromURL());
     });
 
-    const { changeFilters, isFacetColor } = useUiHelpers();
-    const { toggleFilterSidebar } = useUiState();
-    const selectedFilters = ref({});
-
-    onMounted(() => {
-      context.root.$scrollTo(context.root.$el, 2000);
-      if (!facets.value.length) return;
-      selectedFilters.value = facets.value.reduce((prev, curr) => ({
-        ...prev,
-        [curr.id]: curr.options
-          .filter(o => o.selected)
-          .map(o => o.id)
-      }), {});
-    });
-
-    const isFilterSelected = (facet, option) => (selectedFilters.value[facet.id] || []).includes(option.id);
-
-    const selectFilter = (facet, option) => {
-      if (!selectedFilters.value[facet.id]) {
-        Vue.set(selectedFilters.value, facet.id, []);
-      }
-
-      if (selectedFilters.value[facet.id].find(f => f === option.id)) {
-        selectedFilters.value[facet.id] = selectedFilters.value[facet.id].filter(f => f !== option.id);
-        return;
-      }
-
-      selectedFilters.value[facet.id].push(option.id);
-    };
-
-    const clearFilters = () => {
-      toggleFilterSidebar();
-      selectedFilters.value = {};
-      changeFilters(selectedFilters.value);
-    };
-
-    const applyFilters = () => {
-      toggleFilterSidebar();
-      changeFilters(selectedFilters.value);
-    };
-
     return {
       ...uiState,
       th,
@@ -444,17 +337,10 @@ export default {
       addItemToWishlist,
       addItemToCart,
       isInCart,
-      isFacetColor,
-      selectFilter,
-      isFilterSelected,
-      selectedFilters,
-      clearFilters,
-      applyFilters
     };
   },
   components: {
     SfButton,
-    SfSidebar,
     SfIcon,
     SfList,
     SfFilter,
@@ -465,11 +351,11 @@ export default {
     SfAccordion,
     SfSelect,
     SfBreadcrumbs,
-    SfLoader,
-    SfColor,
+    SfLoader,    
     SfHeading,
     SfProperty,
-    LazyHydrate
+    LazyHydrate,
+    FilterSidebar
   }
 };
 </script>
@@ -637,15 +523,6 @@ export default {
   border: 1px solid var(--c-light);
   border-width: 0 1px 0 0;
 }
-.sidebar-filters {
-  --overlay-z-index: 3;
-  --sidebar-title-display: none;
-  --sidebar-top-padding: 0;
-  @include for-desktop {
-    --sidebar-content-padding: 0 var(--spacer-xl);
-    --sidebar-bottom-padding: 0 var(--spacer-xl);
-  }
-}
 .list {
   --menu-item-font-size: var(--font-size--sm);
   &__item {
@@ -739,66 +616,6 @@ export default {
     @include for-desktop {
       margin-top: 3.75rem;
     }
-  }
-}
-::v-deep .sf-sidebar__aside {
-  --sidebar-z-index: 3;
-}
-.filters {
-  &__title {
-    --heading-title-font-size: var(--font-size--xl);
-    margin: var(--spacer-xl) 0 var(--spacer-base) 0;
-    &:first-child {
-      margin: calc(var(--spacer-xl) + var(--spacer-base)) 0 var(--spacer-xs) 0;
-    }
-  }
-  &__colors {
-    display: flex;
-  }
-  &__color {
-    margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
-  }
-  &__chosen {
-    color: var(--c-text-muted);
-    font-weight: var(--font-weight--normal);
-    font-family: var(--font-family--secondary);
-    position: absolute;
-    right: var(--spacer-xl);
-  }
-  &__item {
-    --radio-container-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
-    --radio-background: transparent;
-    --filter-label-color: var(--c-secondary-variant);
-    --filter-count-color: var(--c-secondary-variant);
-    --checkbox-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
-    padding: var(--spacer-sm) 0;
-    border-bottom: 1px solid var(--c-light);
-    &:last-child {
-      border-bottom: 0;
-    }
-    @include for-desktop {
-      --checkbox-padding: 0;
-      margin: var(--spacer-sm) 0;
-      border: 0;
-      padding: 0;
-    }
-  }
-  &__accordion-item {
-    --accordion-item-content-padding: 0;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    width: 100vw;
-  }
-  &__buttons {
-    margin: var(--spacer-sm) 0;
-  }
-  &__button-clear {
-    --button-background: var(--c-light);
-    --button-color: var(--c-dark-variant);
-    margin: var(--spacer-xs) 0 0 0;
   }
 }
 </style>

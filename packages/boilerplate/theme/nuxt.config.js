@@ -61,6 +61,7 @@ export default {
     // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
       generate: {
+        ignore: ['./theme/components/FilterSidebar.vue'],
         replace: {
           apiClient: '@vue-storefront/boilerplate-api',
           composables: '@vue-storefront/boilerplate'
