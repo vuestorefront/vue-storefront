@@ -1,6 +1,8 @@
-export const integrations = {
-  Commercetools: 'https://github.com/vuestorefront/template-commercetools.git',
+export default {
+  Commercetools:
+      'https://github.com/vuestorefront/template-commercetools.git',
+  'Salesforce Commerce Cloud (beta)': 'https://github.com/ForkPoint/vsf-sfcc-template.git',
+  'Shopify (beta)': 'https://github.com/vuestorefront/template-shopify.git',
   'Spryker (beta)': 'https://github.com/spryker/vsf-theme.git',
-  'Salesforce Commerce Cloud (beta)':
-    'https://github.com/ForkPoint/vsf-sfcc-template.git'
+  'Magento 2 (WIP - beta end of April)': 'https://github.com/vuestorefront/template-magento.git'
 };
