@@ -101,7 +101,7 @@ Each integration starts with `api-client`. This is one of the packages which is 
 
 Our API client always shares two entry points:
 
-- `@vue-storefront/{INTEGRATION}/server` - shares the `createApiClient` and `integrationPlugin` for direct connection
+- `@vue-storefront/{INTEGRATION}/server` - shares the `createApiClient`.
 - `@vue-storefront/{INTEGRATION}` - shares other library code, such as helpers, types etc.
 
 
@@ -125,15 +125,14 @@ const onCreate = (settings) => {
 
 
 
-const { createApiClient, integrationPlugin } = apiClientFactory({
+const { createApiClient } = apiClientFactory({
   onCreate,
   api,
   extensions: []
 });
 
 export {
-  createApiClient,
-  integrationPlugin
+  createApiClient
 };
 ```
 
