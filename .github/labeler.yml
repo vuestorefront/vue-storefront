@@ -14,9 +14,9 @@ commercetools:
 boilerplate:
 - packages/boilerplate/**/*
 
-# Add 'docs' label to any change to packages/core/docs files
+# Add 'docs' label to any change to packages/core/docs files EXCEPT for the changelog
 docs:
-- packages/core/docs/**/*
+- any: ['packages/core/docs/**/*', '!packages/core/docs/changelog/**/*']
 
 # Add 'ci' label to any change to continuous integration files inside .github folder
 ci:
