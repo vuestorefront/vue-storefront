@@ -1,5 +1,9 @@
 # Installation
 
+## Prerequisites
+
+Before proceeding, make sure you have [Node 10+](https://nodejs.org/en/) and [Yarn 1](https://classic.yarnpkg.com/lang/en/) installed.
+
 ## Using Vue Storefront CLI
 
 The easiest way to get started with Vue Storefront is to set up your project using our CLI. You can run it using the `npx` command:
