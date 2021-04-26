@@ -15,7 +15,10 @@
       </div>
 
       <div class="navbar__main">
-        <LazyHydrate on-interaction>
+
+        <!-- Filter and sort buttons are disabled until building seperate component and apply filter and sort logic -->
+
+        <!-- <LazyHydrate on-interaction>
           <SfButton
             class="sf-button--text navbar__filters-button"
             data-cy="category-btn_filters"
@@ -52,7 +55,7 @@
               >
             </SfSelect>
           </LazyHydrate>
-        </div>
+        </div> -->
 
         <div class="navbar__counter">
           <span class="navbar__label desktop-only">{{ $t('Products found') }}: </span>
@@ -260,9 +263,12 @@
         </div>
       </SfLoader>
     </div>
-    <LazyHydrate when-idle>
+
+    <!-- Filters sidebar is disabled until filter and sort logic is applied -->
+
+    <!-- <LazyHydrate when-idle>
       <FilterSidebar @close="toggleFilterSidebar"/>
-    </LazyHydrate>        
+    </LazyHydrate>         -->
   </div>
 </template>
 
@@ -482,7 +488,6 @@ export default {
     font-family: var(--font-family--secondary);
     order: 1;
     @include for-desktop {
-      margin: auto 0 auto auto;
       order: 0;
     }
   }
