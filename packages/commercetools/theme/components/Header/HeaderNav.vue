@@ -15,7 +15,7 @@
           :visible="currentCatSlug === category.slug"
           :title="category.name"
           @close="currentCatSlug = ''"
-          v-if="activeCategory && activeCategory[0] && activeCategory[0].children"
+          v-if="hasChildren"
         >
           <SfMegaMenuColumn
             v-for="subCategory in activeCategory[0].children"
@@ -62,7 +62,7 @@
           </template>
           <SfLoader :loading="subCategoriesLoading">
             <div v-if="!subCategoriesLoading">
-              <SfList v-if="activeCategory && activeCategory[0] && activeCategory[0].children">
+              <SfList v-if="hasChildren">
                 <SfListItem
                   v-for="subCategory in activeCategory[0].children"
                   :key="subCategory.id"
@@ -123,6 +123,9 @@ export default {
 
     const getCurrentCat = (source, slug) => source.find(src => src.slug === slug);
 
+    const hasChildren = computed(() => activeCategory.value && activeCategory.value[0] && activeCategory.value[0].children);
+    const hasBanners = computed(() => getCurrentCat(categoriesWithBanners.value, currentCatSlug.value));
+
     const fetchSubCategories = async slug => {
       await subCategoriesSearch({ slug });
       fetchedSubCategories.value = {
@@ -131,21 +134,15 @@ export default {
       };
     };
 
-    const handleActiveCategory = async slug => {
-      if (!fetchedSubCategories.value[slug]) {
-        await fetchSubCategories(slug);
-      }
-      activeCategory.value = fetchedSubCategories.value[slug];
-    };
-
     const handleMouseEnter = debounce(async slug => {
       currentCatSlug.value = slug;
       const { childCount } = getCurrentCat(categories.value, slug);
       emit('setOverlay', Boolean(childCount));
 
-      if (childCount) {
-        await handleActiveCategory(slug);
+      if (!fetchedSubCategories.value[slug] && Boolean(childCount)) {
+        await fetchSubCategories(slug);
       }
+      activeCategory.value = fetchedSubCategories.value[slug];
     }, 200);
 
     const handleMouseLeave = debounce(() => {
@@ -158,21 +155,21 @@ export default {
         root.$router.push(`/c/${slug}`);
         toggleMobileMenu();
       }
-      await handleActiveCategory(slug);
+      if (!fetchedSubCategories.value[slug]) {
+        await fetchSubCategories(slug);
+      }
+      activeCategory.value = fetchedSubCategories.value[slug];
     };
 
     const handleClickCategoryLvl = async (slug, lvl) => {
       currentCatSlug.value = slug;
       let childCount;
-      const hasChildren = activeCategory.value && activeCategory.value[0] && activeCategory.value[0].children;
 
       if (lvl === 1) childCount = getCurrentCat(categories.value, slug).childCount;
       else if (lvl === 2 && hasChildren) childCount = getCurrentCat(activeCategory.value[0].children, slug).childCount;
 
       await getSubCategories(slug, childCount);
     };
-
-    const hasBanners = computed(() => getCurrentCat(categoriesWithBanners.value, currentCatSlug.value));
 
     onSSR(async () => {
       await search({ customQuery: { categories: 'megamenu-categories-query' } });
@@ -188,6 +185,7 @@ export default {
       handleMouseLeave,
       handleClickCategoryLvl,
       hasBanners,
+      hasChildren,
       toggleMobileMenu,
       isMobileMenuOpen
     };
