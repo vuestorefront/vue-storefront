@@ -9,7 +9,7 @@ jest.mock('../../src/utils', () => ({
 }));
 
 describe('[CORE - factories] apiClientFactory', () => {
-  it('Should return passed config with overrides property', () => {
+  it('Should return passed config with overrides property', async () => {
     const params = {
       onCreate: jest.fn((config) => ({ config })),
       defaultSettings: { option: 'option' }
@@ -17,10 +17,11 @@ describe('[CORE - factories] apiClientFactory', () => {
 
     const { createApiClient } = apiClientFactory<any, any>(params as any) as any;
 
-    expect(createApiClient({}).settings).toEqual({});
+    const { settings } = await createApiClient({});
+    expect(settings).toEqual({});
   });
 
-  it('Should merge with default settings when setup is called', () => {
+  it('Should merge with default settings when setup is called', async () => {
     const params = {
       onCreate: jest.fn((config) => ({ config })),
       defaultSettings: { option: 'option' }
@@ -28,14 +29,14 @@ describe('[CORE - factories] apiClientFactory', () => {
 
     const { createApiClient} = apiClientFactory<any, any>(params as any) as any;
 
-    const { settings } = createApiClient({ newOption: 'newOption'});
+    const { settings } = await createApiClient({ newOption: 'newOption'});
 
     expect(settings).toEqual({
       newOption: 'newOption'
     });
   });
 
-  it('Should run onCreate when setup is invoked', () => {
+  it('Should run onCreate when setup is invoked', async () => {
     const params = {
       onCreate: jest.fn((config) => ({ config })),
       defaultSettings: {}
@@ -43,12 +44,12 @@ describe('[CORE - factories] apiClientFactory', () => {
 
     const { createApiClient } = apiClientFactory<any, any>(params as any);
 
-    createApiClient({});
+    await createApiClient({});
 
     expect(params.onCreate).toHaveBeenCalled();
   });
 
-  it('Should run given extensions', () => {
+  it('Should run given extensions', async () => {
     const beforeCreate = jest.fn(a => a);
     const afterCreate = jest.fn(a => a);
     const extension = {
@@ -65,13 +66,13 @@ describe('[CORE - factories] apiClientFactory', () => {
     const { createApiClient } = apiClientFactory<any, any>(params as any);
     const extensions = (createApiClient as any)._predefinedExtensions;
 
-    createApiClient.bind({ middleware: { req: null, res: null, extensions } })({});
+    await createApiClient.bind({ middleware: { req: null, res: null, extensions } })({});
 
     expect(beforeCreate).toHaveBeenCalled();
     expect(afterCreate).toHaveBeenCalled();
   });
 
-  it('applyContextToApi adds context as first argument to api functions', () => {
+  it('applyContextToApi adds context as first argument to api functions', async () => {
     const api = {
       firstFunc: jest.fn(),
       secondFunc: jest.fn(),
@@ -83,9 +84,9 @@ describe('[CORE - factories] apiClientFactory', () => {
 
     const apiWithContext: any = applyContextToApi(api, context);
 
-    apiWithContext.firstFunc();
-    apiWithContext.secondFunc('TEST');
-    apiWithContext.thirdFunc('A', 'FEW', 'ARGS');
+    await apiWithContext.firstFunc();
+    await apiWithContext.secondFunc('TEST');
+    await apiWithContext.thirdFunc('A', 'FEW', 'ARGS');
 
     expect(api.firstFunc).toHaveBeenCalledWith(
       expect.objectContaining({ extendQuery: expect.any(Function) })
