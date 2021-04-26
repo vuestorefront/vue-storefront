@@ -267,7 +267,7 @@
     <!-- Filters sidebar is disabled until filter and sort logic is applied -->
 
     <!-- <LazyHydrate when-idle>
-      <FilterSidebar @close="toggleFilterSidebar"/>
+      <FiltersSidebar @close="toggleFilterSidebar"/>
     </LazyHydrate>         -->
   </div>
 </template>
@@ -294,7 +294,7 @@ import { useCart, useWishlist, productGetters, useFacet, facetGetters } from '<%
 import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
-import FilterSidebar from "../components/FilterSidebar"
+import FiltersSidebar from "../components/FiltersSidebar"
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
@@ -361,7 +361,7 @@ export default {
     SfHeading,
     SfProperty,
     LazyHydrate,
-    FilterSidebar
+    FiltersSidebar
   }
 };
 </script>
