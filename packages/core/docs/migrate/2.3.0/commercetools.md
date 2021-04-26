@@ -8,7 +8,6 @@ For more information about this version, refer to the [Overview](./overview.md) 
 
 ## Changes
 
-
 - Added E2E (cypress) tests:
   - use `yarn test:e2e` to start Cypress,
   - use `test:e2e:hl` to run Cypress tests in headless mode. Useful for running the tests in CI/CD workflows,
