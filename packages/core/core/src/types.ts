@@ -652,10 +652,10 @@ export interface AfterCallParams<C> extends CallHookParams<C> {
 }
 
 export interface ApiClientExtensionHooks<C = any> {
-  beforeCreate?: (params: HookParams<C>) => C;
-  afterCreate?: (params: HookParams<C>) => C;
-  beforeCall?: (params: BeforeCallParams<C>) => BeforeCallArgs;
-  afterCall?: (params: AfterCallParams<C>) => AfterCallArgs;
+  beforeCreate?: (params: HookParams<C>) => Promise<C> | C;
+  afterCreate?: (params: HookParams<C>) => Promise<C> | C;
+  beforeCall?: (params: BeforeCallParams<C>) => Promise<BeforeCallArgs> | BeforeCallArgs;
+  afterCall?: (params: AfterCallParams<C>) => Promise<AfterCallArgs> | AfterCallArgs;
 }
 
 export type CustomQueryFn<T = any> = (query: any, variables: T) => {
@@ -699,7 +699,7 @@ export interface ApiInstance {
 }
 
 export type CreateApiProxyFn = (givenConfig: any, customApi?: any) => ApiInstance;
-export type CreateApiClientFn = (givenConfig: any, customApi?: any) => ApiInstance;
+export type CreateApiClientFn = (givenConfig: any, customApi?: any) => Promise<ApiInstance>;
 
 export interface ApiClientFactory {
   createApiClient: CreateApiClientFn;

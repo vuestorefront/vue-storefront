@@ -1,8 +1,8 @@
 import { ApiClientMethod } from './../../types';
 
 interface ApplyingContextHooks {
-  before: ({ callName, args }) => any[];
-  after: ({ callName, args, response }) => any;
+  before: ({ callName, args }) => Promise<any[]> | any[];
+  after: ({ callName, args, response }) => Promise<any> | any;
 }
 
 const nopBefore = ({ args }) => args;
@@ -39,10 +39,10 @@ const applyContextToApi = (
       ...prev,
       [callName]: async (...args) => {
         const extendQuery = createExtendQuery(context);
-        const transformedArgs = hooks.before({ callName, args });
+        const transformedArgs = await hooks.before({ callName, args });
         const apiClientContext = { ...context, extendQuery };
         const response = await fn(apiClientContext, ...transformedArgs);
-        const transformedResponse = hooks.after({ callName, args, response });
+        const transformedResponse = await hooks.after({ callName, args, response });
 
         return transformedResponse;
       }
