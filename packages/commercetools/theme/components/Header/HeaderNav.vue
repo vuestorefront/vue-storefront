@@ -131,15 +131,21 @@ export default {
       };
     };
 
+    const handleActiveCategory = async slug => {
+      if (!fetchedSubCategories.value[slug]) {
+        await fetchSubCategories(slug);
+      }
+      activeCategory.value = fetchedSubCategories.value[slug];
+    };
+
     const handleMouseEnter = debounce(async slug => {
       currentCatSlug.value = slug;
       const { childCount } = getCurrentCat(categories.value, slug);
       emit('setOverlay', Boolean(childCount));
 
-      if (!fetchedSubCategories.value[slug] && Boolean(childCount)) {
-        await fetchSubCategories(slug);
+      if (childCount) {
+        await handleActiveCategory(slug);
       }
-      activeCategory.value = fetchedSubCategories.value[slug];
     }, 200);
 
     const handleMouseLeave = debounce(() => {
@@ -152,10 +158,7 @@ export default {
         root.$router.push(`/c/${slug}`);
         toggleMobileMenu();
       }
-      if (!fetchedSubCategories.value[slug]) {
-        await fetchSubCategories(slug);
-      }
-      activeCategory.value = fetchedSubCategories.value[slug];
+      await handleActiveCategory(slug);
     };
 
     const handleClickCategoryLvl = async (slug, lvl) => {
