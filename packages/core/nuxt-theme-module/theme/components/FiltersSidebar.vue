@@ -89,7 +89,6 @@ import { ref, computed, onMounted } from '@vue/composition-api';
 import { useFacet, facetGetters } from '<%= options.generate.replace.composables %>';
 import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
-import LazyHydrate from 'vue-lazy-hydration';
 import Vue from 'vue';
 
 export default {
@@ -101,7 +100,6 @@ export default {
     SfAccordion,
     SfColor,
     SfHeading,
-    LazyHydrate
   },
   setup(props, context) {
     const th = useUiHelpers();			
