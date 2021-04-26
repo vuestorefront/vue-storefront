@@ -22,7 +22,7 @@ interface RequestParams {
   functionName: string;
 }
 
-function createServer (config: MiddlewareConfig): Express {
+function createServer(config: MiddlewareConfig): Express {
   consola.info('Middleware starting....');
   consola.info('Loading integartions...');
 
@@ -43,6 +43,11 @@ function createServer (config: MiddlewareConfig): Express {
       res.send(platformResponse);
     } catch (error) {
       res.status(500);
+
+      // we got an HTTP response
+      if (error.response.data.status) {
+        res.status(error.response.data.status);
+      }
 
       res.send(error);
     }
