@@ -9,7 +9,8 @@ const {
   toggleCartSidebar,
   toggleWishlistSidebar,
   toggleLoginModal,
-  toggleCategoryGridView,
+  changeToCategoryListView,
+  changeToCategoryGridView,
   toggleFilterSidebar
 } = useUiState();
 
@@ -39,9 +40,17 @@ describe('useUiState', () => {
   });
 
   it('Grid View', () => {
+    const expectedIsCategoryGridView = isCategoryGridView.value;
+
+    changeToCategoryGridView();
+
+    expect(expectedIsCategoryGridView).toBe(isCategoryGridView.value);
+  });
+
+  it('List View', () => {
     const expectedIsCategoryGridView = !isCategoryGridView.value;
 
-    toggleCategoryGridView();
+    changeToCategoryListView();
 
     expect(expectedIsCategoryGridView).toBe(isCategoryGridView.value);
   });
