@@ -21,7 +21,6 @@
 						<SfColor
 							v-for="option in facet.options"
 							:key="`${facet.id}-${option.value}`"
-							:data-cy="`category-filter_color_${option.value}`"
 							:color="option.value"
 							:selected="isFilterSelected(facet, option)"
 							class="filters__color"
@@ -32,7 +31,6 @@
 						<SfFilter
 							v-for="option in facet.options"
 							:key="`${facet.id}-${option.value}`"
-							:data-cy="`category-filter_${facet.id}_${option.value}`"
 							:label="option.id + `${option.count ? ` (${option.count})` : ''}`"
 							:selected="isFilterSelected(facet, option)"
 							class="filters__item"
