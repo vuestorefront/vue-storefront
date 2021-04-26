@@ -85,13 +85,23 @@
 		SfColor,
 	} from '@storefront-ui/vue';
 	import { ref, computed, onMounted } from '@vue/composition-api';
-	import { useCart, useWishlist, productGetters, useFacet, facetGetters } from '<%= options.generate.replace.composables %>';
+	import { useFacet, facetGetters } from '<%= options.generate.replace.composables %>';
 	import { useUiHelpers, useUiState } from '~/composables';
 	import { onSSR } from '@vue-storefront/core';
 	import LazyHydrate from 'vue-lazy-hydration';
 	import Vue from 'vue';
 
 	export default {
+		name: 'FiltersSidebar',
+		components: {
+			SfButton,
+			SfSidebar,
+			SfFilter,
+			SfAccordion,
+			SfColor,
+			SfHeading,
+			LazyHydrate
+		},
 		setup(props, context) {
 			const th = useUiHelpers();			
 			const uiState = useUiState();
@@ -144,27 +154,18 @@
 			};
 
 			return {
-      ...uiState,
-      loading,
-			facets,
-			toggleFilterSidebar,
-      isFacetColor,
-      selectFilter,
-      isFilterSelected,
-      selectedFilters,
-      clearFilters,
-      applyFilters
-    };
+				...uiState,
+				loading,
+				facets,
+				toggleFilterSidebar,
+				isFacetColor,
+				selectFilter,
+				isFilterSelected,
+				selectedFilters,
+				clearFilters,
+				applyFilters
+			};
 		},
-		components: {
-			SfButton,
-			SfSidebar,
-			SfFilter,
-			SfAccordion,
-			SfColor,
-			SfHeading,
-			LazyHydrate
-		}
 	}
 </script>
 <style lang="scss" scoped>	
