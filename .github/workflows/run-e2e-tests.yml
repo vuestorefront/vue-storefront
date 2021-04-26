@@ -57,14 +57,18 @@ jobs:
 
       - name: Generate report
         if: ${{ always() }}
-        run: yarn test:e2e:${{ github.event.inputs.tags_exclude }}:generate:report
+        run: yarn test:e2e:${{ github.event.inputs.package }}:generate:report
 
-      - name: Upload report artifact
+      - name: Upload bp report artifact
         uses: actions/upload-artifact@v2
-        if: ${{ always() }}
+        if: ${{ github.event.inputs.package == "bp" }}
         with:
           name: report
-          path: "packages/$${{ github.event.inputs.package }}/theme/tests/e2e/report"
-        env:
-          bp: boilerplate
-          ct: commercetools
+          path: "packages/boilerplate/theme/tests/e2e/report"
+
+      - name: Upload ct report artifact
+        uses: actions/upload-artifact@v2
+        if: ${{ github.event.inputs.package == "ct" }}
+        with:
+          name: report
+          path: "packages/commercetools/theme/tests/e2e/report"

@@ -50,10 +50,14 @@ jobs:
 
       - name: Upload report artifact
         uses: actions/upload-artifact@v2
-        if: ${{ always() }}
+        if: ${{ matrix.package == "bp" }}
         with:
           name: report
-          path: "packages/$${{ matrix.package }}/theme/tests/e2e/report"
-        env:
-          bp: boilerplate
-          ct: commercetools
+          path: "packages/boilerplate/theme/tests/e2e/report"
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v2
+        if: ${{ matrix.package == "bp" }}
+        with:
+          name: report
+          path: "packages/boilerplate/theme/tests/e2e/report"
