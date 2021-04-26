@@ -61,21 +61,23 @@
             />
           </template>
           <SfLoader :loading="subCategoriesLoading">
-            <SfList v-if="!subCategoriesLoading && activeCategory && activeCategory[0] && activeCategory[0].children">
-              <SfListItem
-                v-for="subCategory in activeCategory[0].children"
-                :key="subCategory.id"
-              >
-                <SfMenuItem
-                  :label="subCategory.name"
-                  @click.native="handleClickCategoryLvl(subCategory.slug, 2)"
+            <div v-if="!subCategoriesLoading">
+              <SfList v-if="activeCategory && activeCategory[0] && activeCategory[0].children">
+                <SfListItem
+                  v-for="subCategory in activeCategory[0].children"
+                  :key="subCategory.id"
                 >
-                  <SfLink>
-                    {{ subCategory.name }}
-                  </SfLink>
-                </SfMenuItem>
-              </SfListItem>
-            </SfList>
+                  <SfMenuItem
+                    :label="subCategory.name"
+                    @click.native="handleClickCategoryLvl(subCategory.slug, 2)"
+                  >
+                    <SfLink>
+                      {{ subCategory.name }}
+                    </SfLink>
+                  </SfMenuItem>
+                </SfListItem>
+              </SfList>
+            </div>
           </SfLoader>
           <NewCatBanners v-if="!subCategoriesLoading && hasBanners" />
         </SfMegaMenuColumn>
