@@ -2550,7 +2550,7 @@
     defu "^3.2.2"
     normalize-path "^3.0.0"
 
-"@nuxtjs/pwa@^3.2.2":
+"@nuxtjs/pwa@^3.2.2", "@nuxtjs/pwa@^3.3.5":
   version "3.3.5"
   resolved "https://registry.yarnpkg.com/@nuxtjs/pwa/-/pwa-3.3.5.tgz#db7c905536ebe8a464a347b6ae3215810642c044"
   integrity sha512-8tTmW8DBspWxlJwTimOHTkwfkwPpL9wIcGmy75Gcmin+c9YtX2Ehxmhgt/TLFOC9XsLAqojqynw3/Agr/9OE1w==
@@ -2757,6 +2757,11 @@
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.4.tgz#f0579e807e43486f45d3b9942b0cb96ce1fe8f7e"
   integrity sha512-luFwpkawD5dnFT9hg40MvX1aZYFXlt1RThcAvpsZjNkxlR4+uGY+9IzFibGE3dOz+zBUvy8RVOT07JKlt4AR0g==
 
+"@storefront-ui/shared@0.9.2":
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.9.2.tgz#b50d6c8baec1a479054fd4a14b786f2809f0598e"
+  integrity sha512-2JX76IgwTrP/7Ksa5mF9+r1vlaZojKiqrPh9HCDo2yznnseqNOzKVgWn9vIRKxWqofMzmZeleNdriKfoulfFoQ==
+
 "@storefront-ui/vue@0.10.3":
   version "0.10.3"
   resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.10.3.tgz#949b69a0888f85aa0f17fcdaf396972e5c210016"
@@ -2788,6 +2793,25 @@
     core-js "^3.6.5"
     hammerjs "^2.0.8"
     leaflet "^1.5.1"
+    node-sass "^4.13.1"
+    sass-loader "^8.0.2"
+    simplebar-vue "^1.4.0"
+    vue-drag-drop "^1.1.4"
+    vue-fragment "^1.5.1"
+    vue2-leaflet "^2.5.2"
+
+"@storefront-ui/vue@^0.9.1":
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.9.2.tgz#56593b1cbfe62a5e03c965b5ccc2320edabbf504"
+  integrity sha512-yHaXY14fswtie4ULw64hbI8HGQ8wGOCdaGvZ1nwkcai0JJtCqLw7VWzCy0kPobZPXzc1fCFTt2KEUBbqPI342A==
+  dependencies:
+    "@glidejs/glide" "^3.3.0"
+    "@storefront-ui/shared" "0.9.2"
+    body-scroll-lock "^3.0.1"
+    core-js "^3.6.5"
+    hammerjs "^2.0.8"
+    leaflet "^1.5.1"
+    lozad "^1.14.0"
     node-sass "^4.13.1"
     sass-loader "^8.0.2"
     simplebar-vue "^1.4.0"
@@ -2999,6 +3023,11 @@
   integrity sha512-Fb38HkXSVA4L8fGKEZ6le5bB8r6MRWlOCZbVuWZcmOMSCd2wCYOwN1ibj8daIoV9naq7aaOZjrLCoCMptKU/4Q==
   dependencies:
     jest-diff "^24.3.0"
+
+"@types/js-cookie@^2.2.6":
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/@types/js-cookie/-/js-cookie-2.2.6.tgz#f1a1cb35aff47bc5cfb05cb0c441ca91e914c26f"
+  integrity sha512-+oY0FDTO2GYKEV0YPvSshGq9t7YozVkgvXLty7zogQNuCxBhT9/3INX9Q7H1aRZ4SUDRXAKlJuA4EA5nTt7SNw==
 
 "@types/json-schema@^7.0.3", "@types/json-schema@^7.0.4", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.6":
   version "7.0.7"
@@ -3286,6 +3315,27 @@
   dependencies:
     "@typescript-eslint/types" "4.21.0"
     eslint-visitor-keys "^2.0.0"
+
+"@vue-storefront/shopify-api@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/shopify-api/-/shopify-api-0.1.1.tgz#ba5d11ab524ea5717a3baa7b864f56fdcecda5ad"
+  integrity sha512-cTT+DMWUsk7uX5vLDIbAxdy/Zg7B6FyrxBDPXBcwXlgRi9m2Bc4QGW214KB7UANpDcNvzfIWIeHO48izKA1TOA==
+  dependencies:
+    "@types/js-cookie" "^2.2.6"
+    "@vue-storefront/core" "^2.3.0-rc.3"
+    graphql "^14.5.8"
+    graphql-tag "^2.10.1"
+    isomorphic-fetch "^2.2.1"
+    shopify-buy "^2.11.0"
+
+"@vue-storefront/shopify@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/shopify/-/shopify-0.1.1.tgz#302462d5b0df25676eaac776b26166e1a86df7cc"
+  integrity sha512-sAH4uKKewLOzO2ztm4Dpo7N08kdICH10686ve6LsmEiUBlDXU4KXQfElOuL3yOp1tHuMXDP20I6hsDL3i39Axg==
+  dependencies:
+    "@types/js-cookie" "^2.2.6"
+    "@vue-storefront/core" "^2.3.0-rc.3"
+    "@vue-storefront/shopify-api" "0.1.1"
 
 "@vue-storefront/theme-utilities@^0.1.3":
   version "0.1.3"
@@ -6262,6 +6312,11 @@ core-js@^3.0.1, core-js@^3.6.4, core-js@^3.6.5:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.10.0.tgz#9a020547c8b6879f929306949e31496bbe2ae9b3"
   integrity sha512-MQx/7TLgmmDVamSyfE+O+5BHvG1aUGj/gHhLn1wVtm2B5u1eVIPvh7vkfjwWKNCjrTJB8+He99IntSQ1qP+vYQ==
+
+core-js@^3.9.0:
+  version "3.10.2"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.10.2.tgz#17cb038ce084522a717d873b63f2b3ee532e2cd5"
+  integrity sha512-W+2oVYeNghuBr3yTzZFQ5rfmjZtYB/Ubg87R5YOmlGrIb+Uw9f7qjUbhsj+/EkXhcV7eOD3jiM4+sgraX3FZUw==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -10348,6 +10403,14 @@ isomorphic-fetch@^2.2.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
+isomorphic-fetch@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-3.0.0.tgz#0267b005049046d2421207215d45d6a262b8b8b4"
+  integrity sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==
+  dependencies:
+    node-fetch "^2.6.1"
+    whatwg-fetch "^3.4.1"
+
 isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
@@ -11757,6 +11820,11 @@ lowercase-keys@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/lowercase-keys/-/lowercase-keys-2.0.0.tgz#2603e78b7b4b0006cbca2fbcc8a3202558ac9479"
   integrity sha512-tqNXrS78oMOE73NMxK4EMLQsQowWf8jKooH9g7xPavRT706R6bkQJ6DY2Te7QukaZsulxa30wQ7bk0pm4XiHmA==
+
+lozad@^1.14.0:
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/lozad/-/lozad-1.16.0.tgz#86ce732c64c69926ccdebb81c8c90bb3735948b4"
+  integrity sha512-JBr9WjvEFeKoyim3svo/gsQPTkgG/mOHJmDctZ/+U9H3ymUuvEkqpn8bdQMFsvTMcyRJrdJkLv0bXqGm0sP72w==
 
 lru-cache@^4.0.1, lru-cache@^4.1.2, lru-cache@^4.1.5:
   version "4.1.5"
@@ -16124,6 +16192,11 @@ shiki@^0.9.3:
     onigasm "^2.2.5"
     vscode-textmate "^5.2.0"
 
+shopify-buy@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/shopify-buy/-/shopify-buy-2.11.0.tgz#0f7cb52741395e4ae778c336f32ddf3fe67c2f35"
+  integrity sha512-bGjS1b/VCPvCjazSstlKwgLtK1WBotWom06/12loja8yfo/cWkLuJsakBbQe1uEIDiOLhKaR0M0CAXZFheYDug==
+
 side-channel@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/side-channel/-/side-channel-1.0.4.tgz#efce5c8fdc104ee751b25c58d4290011fa5ea2cf"
@@ -18638,7 +18711,7 @@ whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3:
   dependencies:
     iconv-lite "0.4.24"
 
-whatwg-fetch@>=0.10.0:
+whatwg-fetch@>=0.10.0, whatwg-fetch@^3.4.1:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.6.2.tgz#dced24f37f2624ed0281725d51d0e2e3fe677f8c"
   integrity sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==
@@ -18753,8 +18826,6 @@ worker-farm@^1.6.0, worker-farm@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/worker-farm/-/worker-farm-1.7.0.tgz#26a94c5391bbca926152002f69b84a4bf772e5a8"
   integrity sha512-rvw3QTZc8lAxyVrqcSGVm5yP/IJ2UcB3U0graE3LCFoZ0Yn2x4EoVSqJKdB/T5M+FLcRPjz4TDacRf3OCfNUzw==
-  dependencies:
-    errno "~0.1.7"
 
 wrap-ansi@^2.0.0:
   version "2.1.0"
