@@ -244,13 +244,12 @@ Inside of the composables packages you have to create another directory, next to
 Example of plugin
 ```js
 // composables/nuxt/plugin.js
-import { integrationPlugin } from '@vue-storefront/commercetools-api/client'
+import { integrationPlugin } from '@vue-storefront/core'
 
 const moduleOptions = <%= serialize(options) %>;
 
 export default integrationPlugin(({ app, integration }) => {
   const settings = { api: '/graphql', user: 'root' }
-
   integration.configure({ ...moduleOptions, ...settings })
 });
 ```
@@ -265,32 +264,6 @@ export default function (moduleOptions) {
   });
 }
 ```
-
-### Extending an existing integration
-
-Sometimes you don't want to create a new integration, instead, you need to extend an existing one. You can achieve that by using the integration plugin that integrations share for us, but this time `configure` call is being replaced by `extend`.
-
-```js
-// coposables/nuxt/plugin.js
-import { integrationPlugin } from '@vue-storefront/commercetools'
-import { getCart } from '@vue-storefront/your-integration-package';
-
-export default integrationPlugin(({ app, integration }) => {
-  const api = {
-    getCart
-  }
-
-  integration.extend({ api })
-});
-```
-
-The `extend` is a special function that allows you to extend an existing integration. Based on the fields you give as arguments the extending will go in the following way:
-
-- when you pass `api` object - the function you used will be merged to the ones in the current integration with applied context
-- when you pass `config` object - it will be merged with the existing one, so given functions in the `api` section will have access to this
-- when you pass any other key - it will be assigned directly as a subfield in the context (eg. `$ct.yourField`).
-
-After extending, you can use a new API, in the same way as the one configured for the first time.
 
 ### Writing factory params
 
@@ -372,11 +345,11 @@ However, you have to keep in mind that you need to handle context and reactive p
 
 ```ts
 // composables/src/useCart/index.js
-import { vsfRef, generateContext } from '@vue-storefront/core';
+import { vsfRef, useVSFContext } from '@vue-storefront/core';
 
 const useCart = () => {
   const cart = vsfRef(null, 'my-own-cart')
-  const context = generateContext(); // we do the job for you
+  const context = useVSFContext();
 
   const addToCart = async ({ product }) => {
     return context.$ownAPI.updateCart(product)
