@@ -11,7 +11,7 @@ module.exports = {
     {
       module: '/components/Header/AppHeader.vue',
       before: 'Navigation as a list',
-      after: 'Moved into /components/Header/HeaderNav.vue'
+      after: 'Moved navigation into /components/Header/HeaderNav.vue'
     }
   ],
   author: 'Łukasz Jędrasik',
