@@ -1,77 +1,79 @@
 <template>
-  <SfSidebar
-    :visible="isFilterSidebarOpen"
-    title="Filters"
-    class="sidebar-filters"
-    @close="$emit('close')"
-  >
-    <div class="filters desktop-only">
-      <div v-for="(facet, i) in facets" :key="i">
-        <SfHeading
-          :level="4"
-          :title="facet.label"
-          class="filters__title sf-heading--left"
-          :key="`filter-title-${facet.id}`"
-        />
-          <div
-            v-if="isFacetColor(facet)"
-            class="filters__colors"
-            :key="`${facet.id}-colors`"
+  <div id="filters">
+    <SfSidebar
+      :visible="isFilterSidebarOpen"
+      title="Filters"
+      class="sidebar-filters"
+      @close="$emit('close')"
+    >
+      <div class="filters desktop-only">
+        <div v-for="(facet, i) in facets" :key="i">
+          <SfHeading
+            :level="4"
+            :title="facet.label"
+            class="filters__title sf-heading--left"
+            :key="`filter-title-${facet.id}`"
+          />
+            <div
+              v-if="isFacetColor(facet)"
+              class="filters__colors"
+              :key="`${facet.id}-colors`"
+            >
+              <SfColor
+                v-for="option in facet.options"
+                :key="`${facet.id}-${option.value}`"
+                :color="option.value"
+                :selected="isFilterSelected(facet, option)"
+                class="filters__color"
+                @click="() => selectFilter(facet, option)"
+              />
+            </div>
+            <div v-else>
+              <SfFilter
+                v-for="option in facet.options"
+                :key="`${facet.id}-${option.value}`"
+                :label="option.id + `${option.count ? ` (${option.count})` : ''}`"
+                :selected="isFilterSelected(facet, option)"
+                class="filters__item"
+                @change="() => selectFilter(facet, option)"
+              />
+            </div>
+        </div>
+      </div>
+      <SfAccordion class="filters smartphone-only">
+        <div v-for="(facet, i) in facets" :key="i">
+          <SfAccordionItem
+            :key="`filter-title-${facet.id}`"
+            :header="facet.label"
+            class="filters__accordion-item"
           >
-            <SfColor
-              v-for="option in facet.options"
-              :key="`${facet.id}-${option.value}`"
-              :color="option.value"
-              :selected="isFilterSelected(facet, option)"
-              class="filters__color"
-              @click="() => selectFilter(facet, option)"
-            />
-          </div>
-          <div v-else>
-            <SfFilter
-              v-for="option in facet.options"
-              :key="`${facet.id}-${option.value}`"
-              :label="option.id + `${option.count ? ` (${option.count})` : ''}`"
-              :selected="isFilterSelected(facet, option)"
-              class="filters__item"
-              @change="() => selectFilter(facet, option)"
-            />
-          </div>
+          <SfFilter
+            v-for="option in facet.options"
+            :key="`${facet.id}-${option.id}`"
+            :label="option.id"
+            :selected="isFilterSelected(facet, option)"
+            class="filters__item"
+            @change="() => selectFilter(facet, option)"
+          />
+        </SfAccordionItem>
       </div>
-    </div>
-    <SfAccordion class="filters smartphone-only">
-      <div v-for="(facet, i) in facets" :key="i">
-        <SfAccordionItem
-          :key="`filter-title-${facet.id}`"
-          :header="facet.label"
-          class="filters__accordion-item"
-        >
-        <SfFilter
-          v-for="option in facet.options"
-          :key="`${facet.id}-${option.id}`"
-          :label="option.id"
-          :selected="isFilterSelected(facet, option)"
-          class="filters__item"
-          @change="() => selectFilter(facet, option)"
-        />
-      </SfAccordionItem>
-    </div>
-    </SfAccordion>
-    <template #content-bottom>
-      <div class="filters__buttons">
-        <SfButton
-          class="sf-button--full-width"
-          @click="applyFilters"
-          >{{ $t('Done') }}</SfButton
-        >
-        <SfButton
-          class="sf-button--full-width filters__button-clear"
-          @click="clearFilters"
-          >{{ $t('Clear all') }}</SfButton
-        >
-      </div>
-    </template>
-  </SfSidebar>
+      </SfAccordion>
+      <template #content-bottom>
+        <div class="filters__buttons">
+          <SfButton
+            class="sf-button--full-width"
+            @click="applyFilters"
+            >{{ $t('Done') }}</SfButton
+          >
+          <SfButton
+            class="sf-button--full-width filters__button-clear"
+            @click="clearFilters"
+            >{{ $t('Clear all') }}</SfButton
+          >
+        </div>
+      </template>
+    </SfSidebar>
+  </div>
 </template>
 <script>
 import {
