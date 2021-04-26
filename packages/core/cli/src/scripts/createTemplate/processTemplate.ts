@@ -24,7 +24,7 @@ export const processTemplate = async ({
     const removeVsfTuConfigFile = () => fs.unlinkSync(vsfTuConfigFilePath);
     removeVsfTuConfigFile();
   } catch (error) {
-    log.error('Can\'t remove VSF-TU config file');
+    log.error("Can't remove VSF-TU config file");
   }
 
   await processMagicCommentsInNuxtConfig(generatedTemplatePath);
