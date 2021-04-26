@@ -1,7 +1,7 @@
 import integrations from '../utils/getIntegrations';
 import inquirer from 'inquirer';
 import createProject from '../scripts/createProject';
-import { customTemplateStrategy } from '../scripts/initStarategy/customTemplateStarategy';
+import { customTemplateStrategy } from '../scripts/initStrategy/customTemplateStrategy';
 export const CUSTOM_TEMPLATE = 'Custom template from Github';
 export default async (args) => {
   const cwd = process.cwd();
@@ -13,7 +13,7 @@ export default async (args) => {
       {
         type: 'input',
         name: 'typedProjectName',
-        message: 'What\'s your project name?',
+        message: "What's your project name?",
         validate(value) {
           if (value.trim().length > 0) {
             return true;
