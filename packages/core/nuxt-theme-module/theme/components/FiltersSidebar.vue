@@ -75,12 +75,12 @@
 </template>
 <script>
 import {
-	SfSidebar,
-	SfButton,
-	SfHeading,
-	SfFilter,
-	SfAccordion,
-	SfColor,
+  SfSidebar,
+  SfButton,
+  SfHeading,
+  SfFilter,
+  SfAccordion,
+  SfColor,
 } from '@storefront-ui/vue';
 	
 import { ref, computed, onMounted } from '@vue/composition-api';
@@ -91,80 +91,80 @@ import LazyHydrate from 'vue-lazy-hydration';
 import Vue from 'vue';
 
 export default {
-	name: 'FiltersSidebar',
-	components: {
-		SfButton,
-		SfSidebar,
-		SfFilter,
-		SfAccordion,
-		SfColor,
-		SfHeading,
-		LazyHydrate
-	},
-	setup(props, context) {
-		const th = useUiHelpers();			
-		const uiState = useUiState();
-		const { changeFilters, isFacetColor } = useUiHelpers();
-		const { toggleFilterSidebar } = useUiState();			
-		const { search, result, loading } = useFacet();			
+  name: 'FiltersSidebar',
+  components: {
+    SfButton,
+    SfSidebar,
+    SfFilter,
+    SfAccordion,
+    SfColor,
+    SfHeading,
+    LazyHydrate
+  },
+  setup(props, context) {
+    const th = useUiHelpers();			
+    const uiState = useUiState();
+    const { changeFilters, isFacetColor } = useUiHelpers();
+    const { toggleFilterSidebar } = useUiState();			
+    const { search, result, loading } = useFacet();			
 
-		const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
-		const selectedFilters = ref({});
+    const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
+    const selectedFilters = ref({});
 
-		onMounted(() => {
-			context.root.$scrollTo(context.root.$el, 2000);
-			if (!facets.value.length) return;
-			selectedFilters.value = facets.value.reduce((prev, curr) => ({
-				...prev,
-				[curr.id]: curr.options
-					.filter(o => o.selected)
-					.map(o => o.id)
-			}), {});
-		});
+    onMounted(() => {
+      context.root.$scrollTo(context.root.$el, 2000);
+      if (!facets.value.length) return;
+      selectedFilters.value = facets.value.reduce((prev, curr) => ({
+        ...prev,
+        [curr.id]: curr.options
+          .filter(o => o.selected)
+          .map(o => o.id)
+      }), {});
+    });
 
-		const isFilterSelected = (facet, option) => (selectedFilters.value[facet.id] || []).includes(option.id);
+    const isFilterSelected = (facet, option) => (selectedFilters.value[facet.id] || []).includes(option.id);
 
-		const selectFilter = (facet, option) => {
-			if (!selectedFilters.value[facet.id]) {
-				Vue.set(selectedFilters.value, facet.id, []);
-			}
+    const selectFilter = (facet, option) => {
+      if (!selectedFilters.value[facet.id]) {
+        Vue.set(selectedFilters.value, facet.id, []);
+      }
 
-			if (selectedFilters.value[facet.id].find(f => f === option.id)) {
-				selectedFilters.value[facet.id] = selectedFilters.value[facet.id].filter(f => f !== option.id);
-				return;
-			}
+      if (selectedFilters.value[facet.id].find(f => f === option.id)) {
+        selectedFilters.value[facet.id] = selectedFilters.value[facet.id].filter(f => f !== option.id);
+        return;
+      }
 
-			selectedFilters.value[facet.id].push(option.id);
-		};	
+      selectedFilters.value[facet.id].push(option.id);
+    };	
 
-		onSSR(async () => {
-			await search(th.getFacetsFromURL());
-		});
+    onSSR(async () => {
+      await search(th.getFacetsFromURL());
+    });
 
-		const clearFilters = () => {
-			toggleFilterSidebar();
-			selectedFilters.value = {};
-			changeFilters(selectedFilters.value);
-		};
+    const clearFilters = () => {
+      toggleFilterSidebar();
+      selectedFilters.value = {};
+      changeFilters(selectedFilters.value);
+    };
 
-		const applyFilters = () => {
-			toggleFilterSidebar();
-			changeFilters(selectedFilters.value);
-		};
+    const applyFilters = () => {
+      toggleFilterSidebar();
+      changeFilters(selectedFilters.value);
+    };
 
-		return {
-			...uiState,
-			loading,
-			facets,
-			toggleFilterSidebar,
-			isFacetColor,
-			selectFilter,
-			isFilterSelected,
-			selectedFilters,
-			clearFilters,
-			applyFilters
-		};
-	},
+    return {
+      ...uiState,
+      loading,
+      facets,
+      toggleFilterSidebar,
+      isFacetColor,
+      selectFilter,
+      isFilterSelected,
+      selectedFilters,
+      clearFilters,
+      applyFilters
+    };
+  },
 }
 </script>
 <style lang="scss" scoped>	
