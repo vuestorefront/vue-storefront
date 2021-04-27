@@ -20,20 +20,14 @@ export function optionLabel (state, { attributeKey, searchBy = 'code', optionId 
 
   let attr = state['list_by_' + searchBy][attributeKey]
   if (attr && Array.isArray(attr.options)) {
-    let opt = {
-      'label': null
-    }
-
-    if (attr.options) {
-      opt = attr.options.find(option => toString(option.value) === toString(optionId))
-    }
+    let opt = attr.options.find(option => toString(option.value) === toString(optionId));
 
     if (opt && opt.label) {
       if (!state.labels[attributeKey]) {
         state.labels[attributeKey] = {}
       }
       state.labels[attributeKey][optionId] = opt.label
-      return opt ? opt.label : optionId
+      return opt.label
     } else {
       return optionId
     }
