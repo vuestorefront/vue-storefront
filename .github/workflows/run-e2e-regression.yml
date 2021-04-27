@@ -37,6 +37,7 @@ jobs:
         with:
           start: yarn dev:${{ matrix.package }}
           wait-on: 'http://localhost:3000'
+          wait-on-timeout: 300
           command: yarn run test:e2e:${{ matrix.package }}:hl
           browser: chrome
           headless: true
@@ -48,16 +49,18 @@ jobs:
         if: ${{ always() }}
         run: yarn test:e2e:${{ matrix.package }}:generate:report
 
-      - name: Upload report artifact
+      - name: Upload bp report artifact
         uses: actions/upload-artifact@v2
-        if: ${{ matrix.package == "bp" }}
+        if: ${{ always() }}
         with:
-          name: report
+          name: report-bp
           path: "packages/boilerplate/theme/tests/e2e/report"
+          if-no-files-found: ignore
 
-      - name: Upload report artifact
+      - name: Upload ct report artifact
         uses: actions/upload-artifact@v2
-        if: ${{ matrix.package == "bp" }}
+        if: ${{ always() }}
         with:
-          name: report
-          path: "packages/boilerplate/theme/tests/e2e/report"
+          name: report-ct
+          path: "packages/commercetools/theme/tests/e2e/report"
+          if-no-files-found: ignore
