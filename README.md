@@ -2,7 +2,7 @@
 # Vue Storefront 2 (previously known as Next)
 
 
-[![Coverage Status](https://coveralls.io/repos/github/DivanteLtd/next/badge.svg?branch=master) ](https://coveralls.io/github/DivanteLtd/next?branch=master)<a href="https://discord.vuestorefront.io">![Discord](https://img.shields.io/discord/770285988244750366?label=join%20discord&logo=Discord&logoColor=white)</a>
+[![Coverage Status](https://coveralls.io/repos/github/vuestorefront/vue-storefront/badge.svg?branch=next) ](https://coveralls.io/github/vuestorefront/vue-storefront/?branch=next)<a href="https://discord.vuestorefront.io">![Discord](https://img.shields.io/discord/770285988244750366?label=join%20discord&logo=Discord&logoColor=white)</a>
 
 Vue Storefront is the most popular and most advanced Frontend Platform for eCommerce
 - [Documentation](https://docs.vuestorefront.io/v2/)
