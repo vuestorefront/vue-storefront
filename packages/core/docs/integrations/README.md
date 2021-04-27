@@ -16,17 +16,32 @@ Click on the integration tile to read its documentation.
     link="/v2/commercetools"
   />
   <IntegrationTile
-    name="Shopify"
-    image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Shopify_logo_2018.svg/1024px-Shopify_logo_2018.svg.png"
+    name="Magento"
+    image="https://www.plentymarkets.co.uk/tpl/blog/2226/Magento_Logo.png"
     category="eCommerce"
     isBeta="true"
-    link="/v2/shopify"
+    link="https://docs.vuestorefront.io/magento"
   />
   <IntegrationTile
     name="Salesforce Commerce Cloud"
     image="https://account.demandware.com/dwsso/XUI/themes/salesforce/images/2016sf_CommerceCloud_logo_RGB.png"
     category="eCommerce"
-    isWip="true"
+    isBeta="true"
+    link="https://docs.vuestorefront.io/sfcc"
+  />
+  <IntegrationTile
+    name="Spryker"
+    image="https://getlogovector.com/wp-content/uploads/2019/06/spryker-logo-vector.png"
+    category="eCommerce"
+    isBeta="true"
+    link="https://docs.vuestorefront.io/spryker"
+  />
+  <IntegrationTile
+    name="Shopify"
+    image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Shopify_logo_2018.svg/1024px-Shopify_logo_2018.svg.png"
+    category="eCommerce"
+    isBeta="true"
+    link="/v2/shopify"
   />
   <IntegrationTile
     name="Virto Commerce"

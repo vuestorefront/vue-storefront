@@ -25,7 +25,9 @@ interface ProductsSearchParams {
   id?: string;
 }
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  products: string
+}
 ```
 - `products: ProductVariant[]` - a main data object that contains an array of products fetched by `search` method.
 
