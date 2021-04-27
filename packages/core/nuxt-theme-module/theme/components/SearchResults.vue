@@ -16,8 +16,12 @@
               </SfMenuItem>
             </template>
             <SfList>
-              <SfListItem v-for="(category, key) in categories" :key="key">
-                <SfMenuItem :label="category.label" :link="`/c/${category.slug}`"/>
+              <SfListItem v-for="(category, key) in categories.items" :key="key">
+                <SfMenuItem :label="category.label" :link="`/c/women/${category.slug}`">
+                  <template #mobile-nav-icon>
+                    &#8203;
+                  </template>
+                </SfMenuItem>
               </SfListItem>
             </SfList>
           </SfMegaMenuColumn>
