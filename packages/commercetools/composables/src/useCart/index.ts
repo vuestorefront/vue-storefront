@@ -1,5 +1,6 @@
-import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
+import { ProductVariant, LineItem } from './../types/GraphQL';
+import { CartDetails } from '@vue-storefront/commercetools-api';
 import { AgnosticCoupon, useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
 
 const getBasketItemByProduct = ({ currentCart, product }) => {
@@ -7,15 +8,13 @@ const getBasketItemByProduct = ({ currentCart, product }) => {
 };
 
 /** returns current cart or creates new one **/
-const getCurrentCart = async (context: Context, currentCart) => {
-  if (!currentCart) {
-    return loadCurrentCart(context);
-  }
+const getCurrentCartDetails = async (context: Context, currentCart): Promise<CartDetails> => {
+  const { id, version } = currentCart || await loadCurrentCart(context);
 
-  return currentCart;
+  return { id, version };
 };
 
-const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupon> = {
+const params: UseCartFactoryParams<CartDetails, LineItem, ProductVariant, AgnosticCoupon> = {
   load: async (context: Context, { customQuery }) => {
     const { $ct } = context;
 
@@ -30,36 +29,36 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupo
     return profileData.me.activeCart;
   },
   addItem: async (context: Context, { currentCart, product, quantity, customQuery }) => {
-    const loadedCart = await getCurrentCart(context, currentCart);
+    const cartDetails = await getCurrentCartDetails(context, currentCart);
 
-    const { data } = await context.$ct.api.addToCart(loadedCart, product, quantity, customQuery);
+    const { data } = await context.$ct.api.addToCart(cartDetails, product, quantity, customQuery);
     return data.cart;
   },
   removeItem: async (context: Context, { currentCart, product, customQuery }) => {
-    const loadedCart = await getCurrentCart(context, currentCart);
+    const cartDetails = await getCurrentCartDetails(context, currentCart);
 
-    const { data } = await context.$ct.api.removeFromCart(loadedCart, product, customQuery);
+    const { data } = await context.$ct.api.removeFromCart(cartDetails, product, customQuery);
     return data.cart;
   },
   updateItemQty: async (context: Context, { currentCart, product, quantity, customQuery }) => {
-    const loadedCart = await getCurrentCart(context, currentCart);
+    const cartDetails = await getCurrentCartDetails(context, currentCart);
 
-    const { data } = await context.$ct.api.updateCartQuantity(loadedCart, { ...product, quantity }, customQuery);
+    const { data } = await context.$ct.api.updateCartQuantity(cartDetails, { ...product, quantity }, customQuery);
     return data.cart;
   },
   clear: async (context: Context, { currentCart }) => {
     return currentCart;
   },
   applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
-    const loadedCart = await getCurrentCart(context, currentCart);
+    const cartDetails = await getCurrentCartDetails(context, currentCart);
 
-    const { data } = await context.$ct.api.applyCartCoupon(loadedCart, couponCode, customQuery);
+    const { data } = await context.$ct.api.applyCartCoupon(cartDetails, couponCode, customQuery);
     return { updatedCart: data.cart, updatedCoupon: couponCode };
   },
   removeCoupon: async (context: Context, { currentCart, coupon, customQuery }) => {
-    const loadedCart = await getCurrentCart(context, currentCart);
+    const cartDetails = await getCurrentCartDetails(context, currentCart);
 
-    const { data } = await context.$ct.api.removeCartCoupon(loadedCart, { id: coupon.id, typeId: 'discount-code' }, customQuery);
+    const { data } = await context.$ct.api.removeCartCoupon(cartDetails, { id: coupon.id, typeId: 'discount-code' }, customQuery);
     return { updatedCart: data.cart };
   },
   isInCart: (context: Context, { currentCart, product }) => {
@@ -67,4 +66,4 @@ const params: UseCartFactoryParams<Cart, LineItem, ProductVariant, AgnosticCoupo
   }
 };
 
-export default useCartFactory<Cart, LineItem, ProductVariant, AgnosticCoupon>(params);
+export default useCartFactory<CartDetails, LineItem, ProductVariant, AgnosticCoupon>(params);
