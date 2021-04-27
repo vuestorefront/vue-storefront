@@ -41,12 +41,10 @@ A state without tax rules cannot work properly. Make sure to add the tax rules f
 :::
 
 :::details How to add tax rules to the state?
-In commercetools' dashboard, open *Settings* -> *Project settings* -> *Taxes* and click **Add rate** button to add tax rates for new states:
-
-![settings taxes for states](./../images/ct-taxes.png)
+Information about setting tax rules in the commercetools can be found [there](https://docs.commercetools.com/merchant-center/project-settings#configuring-taxes).
 :::
 
-If you select `United States`, there will be 2 available states. You can check it on Checkout's shipping and billing steps and MyAccount's user shipping and billing address views.
+After applying tax rules, if you select `United States`, there will be 2 available states. You can check it on Checkout's shipping and billing steps and MyAccount's user shipping and billing address views.
 
 ![comercetools states on my account](./../images/ct-states-myaccount.png)
 
