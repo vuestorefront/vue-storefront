@@ -14,3 +14,9 @@ In case of any questions don't hesitate reaching out to the maintainers on [Slac
   company="Aureate Labs"
   slack="yogeshsuhagiya"
 />
+<PersonTile 
+  photo="https://user-images.githubusercontent.com/65275444/114853628-9bbddf80-9e01-11eb-90f2-500d6e645b8f.png"
+  name="Viral Rana"
+  company="Aureate Labs"
+  slack="viralrana"
+/>

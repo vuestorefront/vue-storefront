@@ -23,6 +23,7 @@ export type Category = {
   description: string;
   descriptionHtml: string;
   updatedAt: string;
+  products: array;
 }
 ```
 - `loading` - a reactive object containing information about loading state of your `search` method
@@ -30,7 +31,7 @@ export type Category = {
 
 ## Examples
 
-Fetches all collections on the shop, not including products.
+Fetches all collections on the shop, including products.
 
 ```javascript
 import { onSSR } from '@vue-storefront/core';
@@ -51,14 +52,14 @@ export default {
 };
 ```
 
-Fetches a single collection by ID on the shop, not including products.
+Fetches a single collection by slug on the shop, including products.
 
 ```javascript
 
     const { categories, search } = useCategory('categories');
 
     onSSR(async () => {
-      await search({ id: 'Z3lkOi7vc3hvcGlmeS9Db1xsZWN2aW8uLzE3MjQzMTQ1NzU3Nw==' });
+      await search({ slug: 'sale' });
     });
 
     return {

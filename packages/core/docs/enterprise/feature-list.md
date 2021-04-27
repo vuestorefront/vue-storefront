@@ -257,7 +257,25 @@ Vue Storefront is the only truly Open Source eCommerce frontend framework with a
     7. Add new static page from CMS Admin Panel without deployment
     8. Connection to eCommerce platform from within CMS Admin Panel
     9. Custom Components support
-
+3. Out of the box components available in the CMS
+   - Accordion
+   - Alert
+   - Banner
+   - Call to action
+   - Carousel
+   - Editorial (renders HTML)
+   - Footer
+   - Gallery
+   - Grid
+   - Heading
+   - Hero
+   - Link
+   - List
+   - Navigation list
+   - Product Card
+   - Product Slider
+   - Steps
+   - Tabs
 ## Internationalization
 1. Frontend translations based on `nuxt-i18n`
    1. String translations based on keys 

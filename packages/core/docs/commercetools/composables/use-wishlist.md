@@ -48,7 +48,9 @@ type Wishlist = ShoppingList;
     - `customQuery?: CustomQuery`
     
 ```ts
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  createMyShoppingList: string
+}
 ```
 
 - `addItem` - function used to add new product to wishlist. When invoked, it submits data to the API and populates `wishlist` property with updated information. This method accepts a single `params` object. The `params` has the following options:
@@ -73,7 +75,9 @@ type ProductVariant = {
   attributeList: Array<Attribute>;
 }
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  updateShoppingList: string
+}
 ```
 
 - `removeItem` - function that removes products from the wishlist. It submits data to the API and populates updated `wishlist` property. This method accepts a single `params` object. The `params` has the following options:
@@ -114,7 +118,9 @@ type LineItem = {
   customFieldList?: Maybe<Array<CustomField>>;
 }
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  updateShoppingList: string
+}
 ```
 
 - `clear` - function that removes all products from the wishlist and populates clear `wishlist` property.

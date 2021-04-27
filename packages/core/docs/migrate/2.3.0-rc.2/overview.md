@@ -1,4 +1,6 @@
-# Migration guide 2.3.0-rc.1
+# Migration guide 2.3.0-rc.2
+
+## Introduction
 
 In this release, we introduced few new APIs but also some breaking changes.
 

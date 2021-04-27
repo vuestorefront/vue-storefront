@@ -1,20 +1,20 @@
 import { CustomQuery } from '@vue-storefront/core';
 import updateCart from '../updateCart';
-import { CartResponse } from '../../types/Api';
-import { Cart, LineItem } from '../../types/GraphQL';
+import { CartDetails, CartResponse } from '../../types/Api';
+import { LineItem } from '../../types/GraphQL';
 import { createChangeLineItemQuantityAction } from '../../helpers/cart/actions';
 
 const updateCartQuantity = async (
   context,
-  cart: Cart,
+  { id, version }: CartDetails,
   product: LineItem,
   customQuery?: CustomQuery
 ): Promise<CartResponse> => {
   return await updateCart(
     context,
     {
-      id: cart.id,
-      version: cart.version,
+      id,
+      version,
       actions: [createChangeLineItemQuantityAction(product)]
     },
     customQuery

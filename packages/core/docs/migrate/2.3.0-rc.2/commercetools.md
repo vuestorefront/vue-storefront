@@ -1,14 +1,14 @@
-# Migration guide 2.3.0-rc.1 for commercetools
+# Migration guide 2.3.0-rc.2 for commercetools
 
 ## Introduction
 
-This is a migration guide meant to help developers using our `commercetools` integration to upgrade to a new version 2.3.0-rc.1.
+This migration guide helps developers using our `commercetools` integration to upgrade to version 2.3.0-rc.2.
 
-For more information about the new version, please refer to the [Overview](./overview.md) page.
+For more information about this version, refer to the [Overview](./overview.md) page.
 
 ## Changes
 
-We also made changes to the following files:
+We made changes to the following files:
 - added new composable `useBilling`,
 - added new composable `useShipping`,
 - added new composable `useShippingProvider`

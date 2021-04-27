@@ -1,32 +1,25 @@
----
-platform: Shopify
----
+# Getting started
 
-::: warning Developer Preview 
-The integration is currently on developer Preview phase and could be unstable. We recommend checking it out on our repository. 
-Simply copy the [repo](https://github.com/DivanteLtd/vue-storefront) and run
-```bash
-yarn && yarn build:sp && yarn dev:sp
-```
-:::
+To get started  initialize the project from [Vue Storefront CLI](https://docs.vuestorefront.io/v2/general/installation.html).
 
-<IncludeContent content-key="getting-started" />
+Then set up your credentials in `middleware.config.js`
 
-<!-- Installation command -->
-::: slot installation
-```bash
-npm install --save @vue-storefront/shopify @vue-storefront/shopify-api
-# OR
-yarn add @vue-storefront/shopify @vue-storefront/shopify-api
-```
-:::
-
-::: slot setup
 ```js
-import { setup } from '@vue-storefront/shopify-api'
+// middleware.config.js
+module.exports = {
+  integrations: {
+    shopify: {
+      location: '@vue-storefront/shopify-api/server',
+      configuration: {
+        api: {
+          domain: 'YOUR SHOPIFY STORE DOMAIN',
+          storefrontAccessToken: 'SHOPIFY STORE API KEY'
+        },
+        currency: 'USD',
+        country: 'US'
+      }
+    }
+  }
+};
 
-setup({
-  // configuration of your eCommerce integration
-})
-:::
-
+```
