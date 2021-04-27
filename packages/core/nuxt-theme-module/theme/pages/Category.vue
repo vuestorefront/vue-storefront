@@ -67,7 +67,7 @@
             role="button"
             aria-label="Change to grid view"
             :aria-pressed="isCategoryGridView"
-            @click="toggleCategoryGridView"
+            @click="changeToCategoryGridView"
           />
           <SfIcon
             class="navbar__view-icon"
@@ -77,7 +77,7 @@
             role="button"
             aria-label="Change to list view"
             :aria-pressed="!isCategoryGridView"
-            @click="toggleCategoryGridView"
+            @click="changeToCategoryListView"
           />
         </div>
       </div>

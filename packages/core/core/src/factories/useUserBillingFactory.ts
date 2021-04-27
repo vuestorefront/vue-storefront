@@ -1,5 +1,5 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserBilling, Context, FactoryParams, UseUserBillingErrors } from '../types';
+import { UseUserBilling, Context, FactoryParams, UseUserBillingErrors, CustomQuery } from '../types';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> extends FactoryParams{
@@ -8,18 +8,21 @@ export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> ex
     params: {
       address: Readonly<USER_BILLING_ITEM>;
       billing: Readonly<USER_BILLING>;
+      customQuery?: CustomQuery;
     }) => Promise<USER_BILLING>;
   deleteAddress: (
     context: Context,
     params: {
       address: Readonly<USER_BILLING_ITEM>;
       billing: Readonly<USER_BILLING>;
+      customQuery?: CustomQuery;
     }) => Promise<USER_BILLING>;
   updateAddress: (
     context: Context,
     params: {
       address: Readonly<USER_BILLING_ITEM>;
       billing: Readonly<USER_BILLING>;
+      customQuery?: CustomQuery;
     }) => Promise<USER_BILLING>;
   load: (
     context: Context,
@@ -31,6 +34,7 @@ export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> ex
     params: {
       address: Readonly<USER_BILLING_ITEM>;
       billing: Readonly<USER_BILLING>;
+      customQuery?: CustomQuery;
     }) => Promise<USER_BILLING>;
 }
 
@@ -52,14 +56,15 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
 
     const readonlyBilling: Readonly<USER_BILLING> = unref(billing);
 
-    const addAddress = async ({ address }) => {
+    const addAddress = async ({ address, customQuery }) => {
       Logger.debug('useUserBilling.addAddress', address);
 
       try {
         loading.value = true;
         billing.value = await _factoryParams.addAddress({
           address,
-          billing: readonlyBilling
+          billing: readonlyBilling,
+          customQuery
         });
         error.value.addAddress = null;
       } catch (err) {
@@ -70,14 +75,15 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       }
     };
 
-    const deleteAddress = async ({ address }) => {
+    const deleteAddress = async ({ address, customQuery }) => {
       Logger.debug('useUserBilling.deleteAddress', address);
 
       try {
         loading.value = true;
         billing.value = await _factoryParams.deleteAddress({
           address,
-          billing: readonlyBilling
+          billing: readonlyBilling,
+          customQuery
         });
         error.value.deleteAddress = null;
       } catch (err) {
@@ -88,14 +94,15 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       }
     };
 
-    const updateAddress = async ({ address }) => {
+    const updateAddress = async ({ address, customQuery }) => {
       Logger.debug('useUserBilling.updateAddress', address);
 
       try {
         loading.value = true;
         billing.value = await _factoryParams.updateAddress({
           address,
-          billing: readonlyBilling
+          billing: readonlyBilling,
+          customQuery
         });
         error.value.updateAddress = null;
       } catch (err) {
@@ -123,14 +130,15 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       }
     };
 
-    const setDefaultAddress = async ({ address }) => {
+    const setDefaultAddress = async ({ address, customQuery }) => {
       Logger.debug('useUserBilling.setDefaultAddress');
 
       try {
         loading.value = true;
         billing.value = await _factoryParams.setDefaultAddress({
           address,
-          billing: readonlyBilling
+          billing: readonlyBilling,
+          customQuery
         });
         error.value.setDefaultAddress = null;
       } catch (err) {

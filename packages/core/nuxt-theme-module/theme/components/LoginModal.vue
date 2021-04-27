@@ -68,7 +68,7 @@
         </div>
         <div class="bottom">
           <p class="bottom__paragraph">{{ $t('No account') }}</p>
-          <SfButton @click="setIsLoginValue(false)">
+          <SfButton class="sf-button--text" @click="setIsLoginValue(false)">
             {{ $t('Register today') }}
           </SfButton>
         </div>
