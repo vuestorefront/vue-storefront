@@ -3,7 +3,7 @@ import { ProductVariant, LineItem } from './../types/GraphQL';
 import { CartDetails } from '@vue-storefront/commercetools-api';
 import { AgnosticCoupon, useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
 
-const getBasketItemByProduct = ({ currentCart, product }) => {
+const getCartItemByProduct = ({ currentCart, product }) => {
   return currentCart.lineItems.find((item) => item.productId === product._id);
 };
 
@@ -62,7 +62,7 @@ const params: UseCartFactoryParams<CartDetails, LineItem, ProductVariant, Agnost
     return { updatedCart: data.cart };
   },
   isInCart: (context: Context, { currentCart, product }) => {
-    return Boolean(currentCart && getBasketItemByProduct({ currentCart, product }));
+    return Boolean(currentCart && getCartItemByProduct({ currentCart, product }));
   }
 };
 

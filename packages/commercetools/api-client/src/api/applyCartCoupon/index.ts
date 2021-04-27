@@ -1,18 +1,17 @@
 import { CustomQuery } from '@vue-storefront/core';
 import updateCart from '../updateCart';
-import { CartResponse } from '../../types/Api';
-import { Cart } from '../../types/GraphQL';
+import { CartDetails, CartResponse } from '../../types/Api';
 import { addDiscountCodeAction } from '../../helpers/cart/actions';
 
 const applyCartCoupon = async (
   settings,
-  cart: Cart,
+  { id, version }: CartDetails,
   discountCode: string,
   customQuery?: CustomQuery
 ): Promise<CartResponse> => {
   return await updateCart(settings, {
-    id: cart.id,
-    version: cart.version,
+    id,
+    version,
     actions: [addDiscountCodeAction(discountCode)]
   }, customQuery);
 };

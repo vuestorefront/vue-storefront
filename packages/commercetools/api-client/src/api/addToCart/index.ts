@@ -1,12 +1,12 @@
 import { CustomQuery } from '@vue-storefront/core';
 import updateCart from './../updateCart';
-import { CartResponse } from './../../types/Api';
-import { Cart, ProductVariant } from './../../types/GraphQL';
+import { CartDetails, CartResponse } from './../../types/Api';
+import { ProductVariant } from './../../types/GraphQL';
 import { createAddLineItemAction } from './../../helpers/cart/actions';
 
 const addToCart = async (
   settings,
-  { id, version }: Cart,
+  { id, version }: CartDetails,
   product: ProductVariant,
   quantity: number,
   customQuery?: CustomQuery
