@@ -13,7 +13,7 @@ export default async (args) => {
       {
         type: 'input',
         name: 'typedProjectName',
-        message: 'What\'s your project name?',
+        message: "What's your project name?",
         validate(value) {
           if (value.trim().length > 0) {
             return true;
