@@ -29,10 +29,11 @@ describe('[commercetools-composables] useCart', () => {
 
   it('adds to cart', async () => {
     const { addItem } = useCart() as any;
-    const response = await addItem(context, { currentCart: 'current cart', product: 'product1', quantity: 3 });
+    const currentCart = { id: 1, version: 1 };
+    const response = await addItem(context, { currentCart, product: 'product1', quantity: 3 });
 
     expect(response).toEqual('some cart');
-    expect(context.$ct.api.addToCart).toBeCalledWith('current cart', 'product1', 3, customQuery);
+    expect(context.$ct.api.addToCart).toBeCalledWith(currentCart, 'product1', 3, customQuery);
   });
 
   it('creates a new cart and add an item', async () => {
@@ -42,39 +43,43 @@ describe('[commercetools-composables] useCart', () => {
     expect(loadCurrentCart).toBeCalled();
 
     expect(response).toEqual('some cart');
-    expect(context.$ct.api.addToCart).toBeCalledWith('some cart', 'product1', 3, customQuery);
+    expect(context.$ct.api.addToCart).toBeCalledWith({ id: undefined, version: undefined }, 'product1', 3, customQuery);
   });
 
   it('removes from cart', async () => {
     const { removeItem } = useCart() as any;
-    const response = await removeItem(context, { currentCart: 'current cart', product: 'product1' });
+    const currentCart = { id: 1, version: 1 };
+    const response = await removeItem(context, { currentCart, product: 'product1' });
 
     expect(response).toEqual('some cart');
-    expect(context.$ct.api.removeFromCart).toBeCalledWith('current cart', 'product1', customQuery);
+    expect(context.$ct.api.removeFromCart).toBeCalledWith(currentCart, 'product1', customQuery);
   });
 
   it('updates quantity', async () => {
     const { updateItemQty } = useCart() as any;
+    const currentCart = { id: 1, version: 1 };
     const response = await updateItemQty(context, {
-      currentCart: 'current cart',
+      currentCart,
       product: { name: 'product1' },
       quantity: 5
     });
 
     expect(response).toEqual('some cart');
-    expect(context.$ct.api.updateCartQuantity).toBeCalledWith('current cart', { name: 'product1', quantity: 5 }, customQuery);
+    expect(context.$ct.api.updateCartQuantity).toBeCalledWith(currentCart, { name: 'product1', quantity: 5 }, customQuery);
   });
 
   it('clears cart', async () => {
     const { clear } = useCart() as any;
-    const response = await clear(context, { currentCart: 'current cart' });
+    const currentCart = { id: 1, version: 1 };
+    const response = await clear(context, { currentCart });
 
-    expect(response).toEqual('current cart');
+    expect(response).toEqual(currentCart);
   });
 
   it('applies coupon', async () => {
     const { applyCoupon } = useCart() as any;
-    const response = await applyCoupon(context, { currentCart: 'current cart', coupon: 'X123' });
+    const currentCart = { id: 1, version: 1 };
+    const response = await applyCoupon(context, { currentCart, coupon: 'X123' });
 
     expect(response).toEqual({ updatedCart: 'some cart' });
   });
