@@ -170,7 +170,7 @@ export default {
 
 ```js
 // search products by ids
-import { useProduct } from '@vue-storefront/commercetools';
+import { useProduct, productGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import { computed } from '@vue/composition-api';
 
@@ -184,7 +184,7 @@ export defaut {
 
     return {
       products,
-      masterProducts: computed(() => products.value.filter(product => product._master))
+      masterProducts: computed(() => productGetters.getFiltered(products.value, { master: true }))
     };
   }
 }

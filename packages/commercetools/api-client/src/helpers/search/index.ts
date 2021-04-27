@@ -74,8 +74,7 @@ const buildProductWhere = (settings: Config, search: ProductWhereSearch) => {
   }
 
   if (search?.ids) {
-    const productIds = (Array.isArray(search.ids) ? search.ids : [search.ids]).join('","');
-    predicates.push(`id in ("${productIds}")`);
+    predicates.push(`id in ("${search.ids.join('","')}")`);
   }
 
   return predicates.join(' and ');
