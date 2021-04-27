@@ -1,10 +1,10 @@
-# Migration guide 2.3.0-rc.1 for Integrators
+# Migration guide 2.3.0-rc.2 for Integrators
 
 ## Introduction
 
-This is a migration guide meant to help Integrators make their integrations and plugins compatible with a new version 2.3.0-rc.1.
+This migration guide helps Integrators make their integrations and plugins compatible with version 2.3.0-rc.2.
 
-It only contains code examples. For more information about the new version, please refer to the [Overview](./overview.md) page.
+It only contains code examples. For more information about this version, refer to the [Overview](./overview.md) page.
 
 ## API middleware
 
