@@ -1,9 +1,12 @@
-import { CacheTagPrefix } from '../src';
+import { CacheTagPrefix, useCache } from '../src';
+import { useContext } from '@nuxtjs/composition-api';
 
 /**
  * Mocks
  */
-const mockedModuleName = '@nuxtjs/composition-api';
+jest.mock('@nuxtjs/composition-api', () => ({
+  useContext: jest.fn()
+}));
 
 /**
  * Variables
@@ -30,36 +33,30 @@ describe('useCache', () => {
   beforeEach(() => jest.resetModules());
 
   it('returns empty array by default', () => {
-    jest.mock(mockedModuleName, () => ({
-      useContext: () => {
-        return {
-          req: {
-            $vsfCache: {
-              tagsSet: new Set()
-            }
+    const useContextMock = useContext as jest.Mock;
+    useContextMock.mockImplementation(() => {
+      return {
+        req: {
+          $vsfCache: {
+            tagsSet: new Set()
           }
-        };
-      }
-    }));
-    const { useCache } = require('../src');
+        }
+      };
+    });
     const { getTags } = useCache();
 
     expect(getTags()).toEqual([]);
   });
 
   it('can add tags', () => {
-    jest.mock(mockedModuleName, () => ({
-      useContext: () => {
-        return {
-          req: {
-            $vsfCache: {
-              tagsSet: new Set()
-            }
-          }
-        };
+    const useContextMock = useContext as jest.Mock;
+    useContextMock.mockImplementation(() => ({
+      req: {
+        $vsfCache: {
+          tagsSet: new Set()
+        }
       }
     }));
-    const { useCache } = require('../src');
     const { addTags, getTags } = useCache();
 
     addTags(tags);
@@ -68,18 +65,14 @@ describe('useCache', () => {
   });
 
   it('can set / override tags', () => {
-    jest.mock(mockedModuleName, () => ({
-      useContext: () => {
-        return {
-          req: {
-            $vsfCache: {
-              tagsSet: new Set()
-            }
-          }
-        };
+    const useContextMock = useContext as jest.Mock;
+    useContextMock.mockImplementation(() => ({
+      req: {
+        $vsfCache: {
+          tagsSet: new Set()
+        }
       }
     }));
-    const { useCache } = require('../src');
     const { addTags, setTags, getTags } = useCache();
 
     addTags(tags);
@@ -89,18 +82,14 @@ describe('useCache', () => {
   });
 
   it('can clear tags', () => {
-    jest.mock(mockedModuleName, () => ({
-      useContext: () => {
-        return {
-          req: {
-            $vsfCache: {
-              tagsSet: new Set()
-            }
-          }
-        };
+    const useContextMock = useContext as jest.Mock;
+    useContextMock.mockImplementation(() => ({
+      req: {
+        $vsfCache: {
+          tagsSet: new Set()
+        }
       }
     }));
-    const { useCache } = require('../src');
     const { addTags, clearTags, getTags } = useCache();
 
     addTags(tags);
@@ -110,14 +99,10 @@ describe('useCache', () => {
   });
 
   it('runs when req in context is undefined', () => {
-    jest.mock(mockedModuleName, () => ({
-      useContext: () => {
-        return {
-          req: undefined
-        };
-      }
+    const useContextMock = useContext as jest.Mock;
+    useContextMock.mockImplementation(() => ({
+      req: undefined
     }));
-    const { useCache } = require('../src');
     const { getTags } = useCache();
 
     expect(getTags()).toEqual([]);
