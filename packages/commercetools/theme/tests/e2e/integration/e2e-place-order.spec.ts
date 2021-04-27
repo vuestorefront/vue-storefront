@@ -16,7 +16,7 @@ context('Order placement', () => {
     page.home.visit();
     page.home.header.categories.first().click();
     page.category.products.first().click().then(() => {
-      cy.wait(getProductReq);
+      cy.wait([getProductReq, getProductReq]);
     });
     page.product().addToCartButton.click();
     page.product().header.openCart();

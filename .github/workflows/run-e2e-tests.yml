@@ -48,7 +48,7 @@ jobs:
         with:
           start: yarn dev:${{ github.event.inputs.package }}
           wait-on: 'http://localhost:3000'
-          wait-on-timeout: 300
+          wait-on-timeout: 180
           command: yarn run test:e2e:${{ github.event.inputs.package }}:hl
           browser: ${{ github.event.inputs.browser }}
           headless: true

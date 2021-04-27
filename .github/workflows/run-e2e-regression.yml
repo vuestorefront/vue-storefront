@@ -37,7 +37,7 @@ jobs:
         with:
           start: yarn dev:${{ matrix.package }}
           wait-on: 'http://localhost:3000'
-          wait-on-timeout: 300
+          wait-on-timeout: 180
           command: yarn run test:e2e:${{ matrix.package }}:hl
           browser: chrome
           headless: true
