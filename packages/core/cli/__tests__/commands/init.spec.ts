@@ -20,13 +20,11 @@ jest.mock('@vue-storefront/cli/src/scripts/createProject', () =>
   jest.fn((data) => data)
 );
 jest.mock('@vue-storefront/cli/src/utils/getIntegrations', () => ({
-  integrations: {
-    __esModule: true,
-    default: {
-      'my-super-new-backend-ecommerce-system': '',
-      'some-other-integration': '',
-      'and-other': ''
-    }
+  __esModule: true,
+  default: {
+    'my-super-new-backend-ecommerce-system': '',
+    'some-other-integration': '',
+    'and-other': ''
   }
 }));
 jest.mock('shelljs', () => ({
