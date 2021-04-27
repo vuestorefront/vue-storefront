@@ -12,6 +12,7 @@ In this release, we focused on bug fixes and test coverage but also introduced f
 - Added new `v-e2e` directive. It adds `data-e2e` attribute to the element in development mode or when app is ran with `NUXT_ENV_E2E` environment variable and can be used as selectors for E2E tests.
 - Added E2E (cypress) tests.
 - Updated Storefront UI to the latest version.
+- Fix hydration bug on the Category page.
 - Added support for custom queries in methods in `useUserBilling` and `useUserShipping` composables.
 - **[BREAKING]** Added `changeToCategoryListView` and renamed `toggleCategoryGridView` to `changeToCategoryGridView` in `composables/useUiState.ts`.
 
