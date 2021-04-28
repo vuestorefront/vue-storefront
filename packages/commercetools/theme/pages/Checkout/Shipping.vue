@@ -12,6 +12,7 @@
       "
     >
       <UserShippingAddresses
+        v-e2e="'shipping-addresses'"
         v-if="isAuthenticated && hasSavedShippingAddress"
         v-model="setAsDefault"
         :currentAddressId="currentAddressId || NOT_SELECTED_ADDRESS"
