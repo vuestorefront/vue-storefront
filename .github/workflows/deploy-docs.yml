@@ -13,7 +13,7 @@ jobs:
       - shell: bash
         run: |
           echo "1.0.`date +%s`" > version.txt    
-          yarn && yarn build:ct
+          yarn && yarn build:ct:docs
       - name: Upload version artifact
         uses: actions/upload-artifact@v2
         with:
