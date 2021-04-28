@@ -422,7 +422,7 @@ module.exports = {
       location: '@vue-storefront/commercetools-api/server',
       configuration: { /* ... */ },
       customQueries: {
-        'my-products-query': ({ query, variables }) => {
+        'my-products-query': ({ query, variables, args }) => {
 
           variables.locale = 'en'
 
@@ -434,4 +434,4 @@ module.exports = {
 };
 ```
 
-The custom query function always has in the arguments the default query and default variables and must return the query and its variables as well. In the body you can do anything you want with those parameters - you can override them or even change to the new ones.
+The custom query function always has in the arguments the default query (`query`), default variables (`variables`) and additional parameters (`args`) sent from the front-end. This function always must return the query and its variables as well, while in the body you can do anything you want with those parameters - you can override them or even change to the new ones.
