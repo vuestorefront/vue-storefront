@@ -43,6 +43,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Incorrect load of default address in checkout - @lukaszjedrasik ([#4682](https://github.com/vuestorefront/vue-storefront/issues/4682))
 - Error with unknown theme/index.js alias - @Fifciuu (https://github.com/vuestorefront/vue-storefront/pull/5813)
 - ESLint warnings caused by the double import - @lukaszjedrasik
+- Fix Order History Pagination - @AishwaryShrivastav / @lukaszjedrasik ([#4599](https://github.com/vuestorefront/vue-storefront/issues/4599))
+
 ### Changed / Improved
 
 - Moved hardcoded fields from omitSelectedVariantFields.ts to config (#4679)

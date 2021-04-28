@@ -18,14 +18,19 @@ export default {
     ordersHistory () {
       let items = this.getOrdersHistory
       if (this.lazyLoadOrdersOnScroll) {
-        items = items.slice(0, (this.pagination.perPage + 1) * this.pagination.current)
+        items = items.slice(0, this.pagination.perPage * this.pagination.current)
       }
       return items
     }
   },
   methods: {
     onBottomScroll () {
-      ++this.pagination.current
+      const totalCount = this.$store.state.user.orders_history.total_count ? this.$store.state.user.orders_history.total_count : 0;
+      const isLastPage = this.pagination.current > Math.ceil(totalCount / this.pagination.perPage);
+      if (!isLastPage) {
+        ++this.pagination.current;
+        this.$store.dispatch('user/appendOrdersHistory', { pageSize: this.pagination.perPage, currentPage: this.pagination.current });
+      }
     }
   }
 }

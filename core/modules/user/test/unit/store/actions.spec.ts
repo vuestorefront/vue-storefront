@@ -456,6 +456,31 @@ describe('User actions', () => {
     })
   });
 
+  describe('appendOrdersHistory action', () => {
+    it('should append order to orders history', async () => {
+      const responseOb = {
+        result: data.ordersHistory,
+        code: 200
+      };
+      (UserService.getOrdersHistory as jest.Mock).mockImplementation(async () => responseOb);
+      const contextMock = {
+        commit: jest.fn(),
+        getters: {
+          getOrdersHistory: responseOb.result
+        }
+      };
+      const pageSize = data.pageSize;
+      const currentPage = data.currentPage;
+
+      await (userActions as any).appendOrdersHistory(contextMock, {
+        pageSize,
+        currentPage
+      })
+
+      expect(contextMock.commit).toBeCalledWith(types.USER_ORDERS_HISTORY_LOADED, responseOb.result);
+    })
+  })
+
   describe('refreshOrderHistory action', () => {
     it('should refresh orders history', async () => {
       const responseOb = {
