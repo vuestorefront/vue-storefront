@@ -8,7 +8,7 @@
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "prepublish": "yarn build",
-    "publish:local": "npm version patch && npm publish --registry"
+    "publish:local": "npm version patch && npm publish --force --registry"
   },
   "author": "Vue Storefront",
   "license": "MIT",

@@ -11,7 +11,7 @@
     "dev": "rollup -c -w",
     "test": "jest",
     "prepublish": "yarn build",
-    "publish:local": "npm version patch && npm publish --registry"
+    "publish:local": "npm version patch && npm publish --force --registry"
   },
   "dependencies": {
     "@vue-storefront/commercetools-api": "^1.2.0",

@@ -5,7 +5,7 @@
   "main": "lib/module.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "publish:local": "npm version patch && npm publish --registry"
+    "publish:local": "npm version patch && npm publish --force --registry"
   },
   "author": "Vue Storefront",
   "license": "MIT",
