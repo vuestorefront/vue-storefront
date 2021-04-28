@@ -49,6 +49,26 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('finally loading go to false', () => {
         expect(useUserShippingMethods.loading.value).toBe(false);
       });
+
+      it('called with correct arguments', async () => {
+        const params = {
+          address: {key: 'address'}
+        };
+
+        await useUserShippingMethods.addAddress({...params});
+        expect(factoryParams.addAddress).toHaveBeenNthCalledWith(1, {
+          ...params,
+          shipping: {},
+          customQuery: undefined
+        });
+
+        await useUserShippingMethods.addAddress({...params, customQuery: {key: 'customQuery'}});
+        expect(factoryParams.addAddress).toHaveBeenNthCalledWith(2, {
+          ...params,
+          shipping: {},
+          customQuery: {key: 'customQuery'}
+        });
+      });
     });
 
     describe('deleteAddress', () => {
@@ -71,6 +91,26 @@ describe('[CORE - factories] useUserShippingFactory', () => {
       it('finally loading go to false', () => {
         expect(useUserShippingMethods.loading.value).toBe(false);
       });
+
+      it('called with correct arguments', async () => {
+        const params = {
+          address: {key: 'address'}
+        };
+
+        await useUserShippingMethods.deleteAddress({...params});
+        expect(factoryParams.deleteAddress).toHaveBeenNthCalledWith(1, {
+          ...params,
+          shipping: {},
+          customQuery: undefined
+        });
+
+        await useUserShippingMethods.deleteAddress({...params, customQuery: {key: 'customQuery'}});
+        expect(factoryParams.deleteAddress).toHaveBeenNthCalledWith(2, {
+          ...params,
+          shipping: {},
+          customQuery: {key: 'customQuery'}
+        });
+      });
     });
 
     describe('updateAddress', () => {
@@ -92,6 +132,26 @@ describe('[CORE - factories] useUserShippingFactory', () => {
 
       it('finally loading go to false', () => {
         expect(useUserShippingMethods.loading.value).toBe(false);
+      });
+
+      it('called with correct arguments', async () => {
+        const params = {
+          address: {key: 'address'}
+        };
+
+        await useUserShippingMethods.updateAddress({...params});
+        expect(factoryParams.updateAddress).toHaveBeenNthCalledWith(1, {
+          ...params,
+          shipping: {},
+          customQuery: undefined
+        });
+
+        await useUserShippingMethods.updateAddress({...params, customQuery: {key: 'customQuery'}});
+        expect(factoryParams.updateAddress).toHaveBeenNthCalledWith(2, {
+          ...params,
+          shipping: {},
+          customQuery: {key: 'customQuery'}
+        });
       });
     });
 
@@ -136,6 +196,26 @@ describe('[CORE - factories] useUserShippingFactory', () => {
 
       it('finally loading go to false', () => {
         expect(useUserShippingMethods.loading.value).toBe(false);
+      });
+
+      it('called with correct arguments', async () => {
+        const params = {
+          address: {key: 'address'}
+        };
+
+        await useUserShippingMethods.setDefaultAddress({...params});
+        expect(factoryParams.setDefaultAddress).toHaveBeenNthCalledWith(1, {
+          ...params,
+          shipping: {},
+          customQuery: undefined
+        });
+
+        await useUserShippingMethods.setDefaultAddress({...params, customQuery: {key: 'customQuery'}});
+        expect(factoryParams.setDefaultAddress).toHaveBeenNthCalledWith(2, {
+          ...params,
+          shipping: {},
+          customQuery: {key: 'customQuery'}
+        });
       });
     });
   });

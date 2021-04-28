@@ -65,7 +65,7 @@
 
         <VsfPaymentProvider @status="isPaymentReady = true"/>
 
-        <SfCheckbox v-model="terms" name="terms" class="summary__terms">
+        <SfCheckbox v-e2e="'terms'" v-model="terms" name="terms" class="summary__terms">
           <template #label>
             <div class="sf-checkbox__label">
               {{ $t('I agree to') }} <SfLink href="#"> {{ $t('Terms and conditions') }}</SfLink>
@@ -82,6 +82,7 @@
             {{ $t('Go back') }}
           </SfButton>
           <SfButton
+            v-e2e="'make-an-order'"
             :disabled="loading || !isPaymentReady || !terms"
             class="summary__action-button"
             @click="processOrder"

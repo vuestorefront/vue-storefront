@@ -1,17 +1,20 @@
-import getIntegrations from '../utils/getIntegrations';
+import integrations from '../utils/getIntegrations';
 import inquirer from 'inquirer';
-import copyProject from '../scripts/copyProject';
-import path from 'path';
-
+import createProject from '../scripts/createProject';
+import { customTemplateStrategy } from '../scripts/initStarategy/customTemplateStarategy';
+export const CUSTOM_TEMPLATE = 'Custom template from Github';
 export default async (args) => {
-  let projectName = args[0];
+  const cwd = process.cwd();
+  const integrationsNames = Object.keys(integrations);
+  let projectName = args.join('-') || args[0];
+
   if (!projectName) {
     const { typedProjectName } = await inquirer.prompt([
       {
         type: 'input',
         name: 'typedProjectName',
         message: 'What\'s your project name?',
-        validate (value) {
+        validate(value) {
           if (value.trim().length > 0) {
             return true;
           }
@@ -19,19 +22,26 @@ export default async (args) => {
         }
       }
     ]);
-    projectName = typedProjectName;
+    projectName = typedProjectName.split(' ').join('-') || typedProjectName;
   }
 
-  const integrations = getIntegrations();
-  const { chosenIntegration } = await inquirer
-    .prompt([
-      {
-        type: 'list',
-        name: 'chosenIntegration',
-        message: 'Choose integration',
-        choices: integrations
-      }
-    ]);
+  const { chosenIntegration } = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'chosenIntegration',
+      message: 'Choose integration',
+      choices: [...integrationsNames, CUSTOM_TEMPLATE]
+    }
+  ]);
 
-  return copyProject(chosenIntegration, path.resolve(process.cwd(), projectName), projectName);
+  if (chosenIntegration !== CUSTOM_TEMPLATE) {
+    await createProject({
+      projectName: projectName,
+      targetPath: cwd,
+      repositoryLink: integrations[chosenIntegration]
+    });
+    return;
+  }
+
+  await customTemplateStrategy({ projectName, targetPath: cwd });
 };

@@ -55,6 +55,8 @@ export interface ProductWhereSearch extends BaseSearch {
   skus?: string[];
   slug?: string;
   id?: string;
+  ids?: string[];
+  key?: string;
   filters?: Filter[];
 }
 
@@ -66,6 +68,7 @@ export interface FilterOption {
 
 export interface CategoryWhereSearch extends BaseSearch {
   catId?: string;
+  key?: string;
   slug?: string;
 }
 
@@ -94,10 +97,11 @@ export type OrderResponse = OrderQueryResponse | OrderMutationResponse;
 export type ShippingMethodsResponse = QueryResponse<'shippingMethods', ShippingMethod>;
 export type SignInResponse = QueryResponse<'user', CustomerSignInResult>;
 export type ChangeMyPasswordResponse = QueryResponse<'user', Customer>;
+export type CartDetails = Pick<Cart, 'id' | 'version'>;
 
 interface ApiMethods {
-  addToCart ({ id, version }: Cart, product: ProductVariant, quantity: number): Promise<CartResponse>;
-  applyCartCoupon (cart: Cart, discountCode: string): Promise<CartResponse>;
+  addToCart ({ id, version }: CartDetails, product: ProductVariant, quantity: number): Promise<CartResponse>;
+  applyCartCoupon ({ id, version }: CartDetails, discountCode: string): Promise<CartResponse>;
   createCart (cartDraft?: CartData): Promise<{ data: CartQueryInterface }>;
   createMyOrderFromCart (draft: OrderMyCartCommand): Promise<OrderMutationResponse>;
   customerChangeMyPassword (version: any, currentPassword: string, newPassword: string): Promise<ChangeMyPasswordResponse>;
@@ -111,10 +115,10 @@ interface ApiMethods {
   getOrders (params): Promise<{ data: { me: Me } }>;
   getProduct (params): Promise<QueryResponse<'products', ProductQueryResult>>;
   getShippingMethods (cartId?: string): Promise<ShippingMethodData>;
-  removeCartCoupon (cart: Cart, discountCode: ReferenceInput): Promise<CartResponse>;
-  removeFromCart (cart: Cart, product: LineItem): Promise<CartResponse>;
+  removeCartCoupon ({ id, version }: CartDetails, discountCode: ReferenceInput): Promise<CartResponse>;
+  removeFromCart ({ id, version }: CartDetails, product: LineItem): Promise<CartResponse>;
   updateCart (params: UpdateCartParams): Promise<CartResponse>;
-  updateCartQuantity (cart: Cart, product: LineItem): Promise<CartResponse>;
+  updateCartQuantity ({ id, version }: CartDetails, product: LineItem): Promise<CartResponse>;
   updateShippingDetails (cart: Cart, shippingDetails: Address): Promise<CartResponse>;
   isGuest: () => boolean;
 }

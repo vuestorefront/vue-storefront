@@ -1,19 +1,18 @@
 <template>
   <div>
     <SfHeader
-      data-cy="app-header"
       class="sf-header--has-mobile-search"
       :class="{'header-on-top': isSearchOpen}"
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
-        <nuxt-link data-cy="app-header-url_logo" :to="localePath('/')" class="sf-header__logo">
+        <nuxt-link :to="localePath('/')" class="sf-header__logo">
           <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
         </nuxt-link>
       </template>
       <template #navigation>
-        <SfHeaderNavigationItem class="nav-item" data-cy="app-header-url_women" label="WOMEN" :link="localePath('/c/women')"/>
-        <SfHeaderNavigationItem class="nav-item"  data-cy="app-header-url_men" label="MEN" :link="localePath('/c/men')" />
+        <SfHeaderNavigationItem class="nav-item" v-e2e="'app-header-url_women'" label="WOMEN" :link="localePath('/c/women')"/>
+        <SfHeaderNavigationItem class="nav-item"  v-e2e="'app-header-url_men'" label="MEN" :link="localePath('/c/men')" />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />
@@ -21,6 +20,7 @@
       <template #header-icons>
         <div class="sf-header__icons">
           <SfButton
+            v-e2e="'app-header-account'"
             class="sf-button--pure sf-header__action"
             @click="handleAccountClick"
           >
@@ -40,6 +40,7 @@
             />
           </SfButton>
           <SfButton
+            v-e2e="'app-header-cart'"
             class="sf-button--pure sf-header__action"
             @click="toggleCartSidebar"
           >
@@ -88,7 +89,7 @@
         </SfSearchBar>
       </template>
     </SfHeader>
-    <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" />
+    <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" @removeSearchResults="removeSearchResults" />
     <SfOverlay :visible="isSearchOpen" />
   </div>
 </template>
@@ -96,7 +97,7 @@
 <script>
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
-import { useCart, useWishlist, useUser, cartGetters, useFacet } from '<%= options.generate.replace.composables %>';
+import { useCart, useWishlist, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useUiHelpers } from '~/composables';
@@ -108,6 +109,7 @@ import {
   unMapMobileObserver
 } from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 import debounce from 'lodash.debounce';
+import mockedSearchProducts from '../mockedSearchProducts.json';
 
 export default {
   components: {
@@ -126,14 +128,14 @@ export default {
   directives: { clickOutside },
   setup(props, { root }) {
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
-    const { setTermForUrl, getFacetsFromURL, getSearchTermFromUrl} = useUiHelpers();
-    const { result, search } = useFacet();
+    const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load: loadUser } = useUser();
     const { cart, load: loadCart } = useCart();
     const { load: loadWishlist } = useWishlist();
-    const term = ref(getFacetsFromURL().term);
+    const term = ref(getFacetsFromURL().phrase);
     const isSearchOpen = ref(false);
     const searchBarRef = ref(null);
+    const result = ref(null);
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -162,7 +164,6 @@ export default {
 
       term.value = '';
       isSearchOpen.value = false;
-      setTermForUrl(term.value);
     };
 
     const handleSearch = debounce(async (paramValue) => {
@@ -171,8 +172,8 @@ export default {
       } else {
         term.value = paramValue.target.value;
       }
-      setTermForUrl(term.value);
-      await search(getSearchTermFromUrl(term.value));
+      result.value = mockedSearchProducts;
+
     }, 1000);
 
     const isMobile = computed(() => mapMobileObserver().isMobile.get());
@@ -193,6 +194,10 @@ export default {
       }
     });
 
+    const removeSearchResults = () => {
+      result.value = null;
+    };
+
     onBeforeUnmount(() => {
       unMapMobileObserver();
     });
@@ -211,7 +216,8 @@ export default {
       result,
       closeOrFocusSearchBar,
       searchBarRef,
-      isMobile
+      isMobile,
+      removeSearchResults
     };
   }
 };

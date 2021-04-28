@@ -24,6 +24,7 @@ const createRawExtensions = (apiClient: ApiClientFactory, integration: Integrati
 };
 
 const lookUpExternal = (curr: string | ApiClientExtension): ApiClientExtension[] =>
+  // eslint-disable-next-line global-require
   typeof curr === 'string' ? require(curr) : [curr];
 
 const createExtensions = (rawExtensions: ApiClientExtension[]): ApiClientExtension[] => rawExtensions
@@ -33,6 +34,7 @@ const registerIntegrations = (app: Express, integrations: IntegrationsSection): 
   Object.entries<Integration>(integrations).reduce((prev, [tag, integration]) => {
     consola.info(`- Loading: ${tag} ${integration.location}`);
 
+    // eslint-disable-next-line global-require
     const apiClient: ApiClientFactory = require(integration.location);
     const rawExtensions: ApiClientExtension[] = createRawExtensions(apiClient, integration);
     const extensions: ApiClientExtension[] = createExtensions(rawExtensions);
@@ -41,7 +43,7 @@ const registerIntegrations = (app: Express, integrations: IntegrationsSection): 
       consola.info(`- Loading: ${tag} extension: ${name}`);
 
       if (extendApp) {
-        extendApp(app);
+        extendApp({ app, configuration: integration.configuration });
       }
     });
 

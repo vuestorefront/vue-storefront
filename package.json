@@ -44,6 +44,12 @@
     "lint": "eslint . --ext .js,.ts,.vue",
     "release": "cd scripts && yarn release",
     "cli": "cd packages/core/cli && yarn cli",
+    "test:e2e:bp": "cd packages/boilerplate/theme && yarn run test:e2e",
+    "test:e2e:bp:hl": "cd packages/boilerplate/theme && yarn run test:e2e:hl",
+    "test:e2e:bp:generate:report": "cd packages/boilerplate/theme && yarn run test:e2e:generate:report",
+    "test:e2e:ct": "cd packages/commercetools/theme && yarn run test:e2e",
+    "test:e2e:ct:hl": "cd packages/commercetools/theme && yarn run test:e2e:hl",
+    "test:e2e:ct:generate:report": "cd packages/commercetools/theme && yarn run test:e2e:generate:report",
     "core:changelog": "cd packages/core/docs/scripts && node changelog",
     "ct:changelog": "cd packages/core/docs/scripts && node changelog --in ../commercetools/changelog --out ../commercetools/changelog.md"
   },

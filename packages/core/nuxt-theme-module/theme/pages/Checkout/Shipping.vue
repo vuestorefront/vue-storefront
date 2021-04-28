@@ -1,6 +1,7 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
     <SfHeading
+      v-e2e="'shipping-heading'"
       :level="3"
       :title="$t('Shipping')"
       class="sf-heading--left sf-heading--no-underline title"
@@ -14,6 +15,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-firstName'"
             v-model="form.firstName"
             label="First name"
             name="firstName"
@@ -30,6 +32,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-lastName'"
             v-model="form.lastName"
             label="Last name"
             name="lastName"
@@ -46,6 +49,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-streetName'"
             v-model="form.streetName"
             label="Street name"
             name="streetName"
@@ -62,6 +66,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-apartment'"
             v-model="form.apartment"
             label="House/Apartment number"
             name="apartment"
@@ -78,6 +83,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-city'"
             v-model="form.city"
             label="City"
             name="city"
@@ -92,6 +98,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-state'"
             v-model="form.state"
             label="State/Province"
             name="state"
@@ -105,6 +112,7 @@
           slim
         >
           <SfSelect
+            v-e2e="'shipping-country'"
             v-model="form.country"
             label="Country"
             name="country"
@@ -129,6 +137,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-zipcode'"
             v-model="form.postalCode"
             label="Zip-code"
             name="zipCode"
@@ -145,6 +154,7 @@
           slim
         >
           <SfInput
+            v-e2e="'shipping-phone'"
             v-model="form.phone"
             label="Phone number"
             name="phone"
@@ -158,6 +168,7 @@
       <div class="form">
         <div class="form__action">
           <SfButton
+            v-e2e="'select-shipping'"
             v-if="!isFormSubmitted"
             :disabled="loading"
             class="form__action-button"

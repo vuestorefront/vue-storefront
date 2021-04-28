@@ -1,22 +1,27 @@
 import path from 'path';
+const shell = require('shelljs');
 import log from '../../utils/log';
-import copyIntegrationTheme from './copyIntegrationTheme';
-import copyAgnosticTheme from './copyAgnosticTheme';
-import processMagicComments from './processMagicComments';
+import { removeFolder } from '../../utils/removeFolder';
+interface ICreateProjectProps {
+  projectName: string;
+  targetPath: string;
+  repositoryLink: string;
+}
 
-async function createProject(integration: string, targetPath: string): Promise<void> {
-  log.info(`Coppying agnostic theme to ${targetPath}`);
-  await copyAgnosticTheme(integration, targetPath);
-
-  log.info(`Coppying ${integration}-theme to ${targetPath}`);
-  await copyIntegrationTheme(integration, targetPath, ['_theme', '.nuxt', 'node_modules']);
-
-  log.info('Updating Nuxt config');
-  const absoluteTargetPath = path.isAbsolute(targetPath)
-    ? targetPath
-    : path.join(__dirname, targetPath);
-  const nuxtConfigPath = path.join(absoluteTargetPath, 'nuxt.config.js');
-  await processMagicComments(nuxtConfigPath);
+async function createProject({
+  projectName,
+  targetPath,
+  repositoryLink
+}: ICreateProjectProps): Promise<void> {
+  const templatePath = path.join(targetPath, projectName);
+  try {
+    await shell.exec(`git clone ${repositoryLink} ${templatePath}`);
+    removeFolder(templatePath, '.git');
+    log.success('Project template initialized successfully. ');
+    log.info('Check out docs.vuestorefront.io/v2');
+  } catch (error) {
+    log.error('Unable to get integration template from git repository');
+  }
 }
 
 export default createProject;
