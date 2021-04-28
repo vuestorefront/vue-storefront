@@ -401,13 +401,13 @@ Since the communication with the API goes through our middleware, all queries al
 To customize or even totally override the original (default) queries you need to follow two steps.
 
 Firstly, you need to use a dedicated parameter: `customQuery` that tells the app, what to do with a query.
-This parameter is an object that has a name of the queries as keys, and the name of the queries function under the values.
+This parameter is an object that has a name of the queries as keys, and the name of the queries function under the values. Additionally, it has a special parameter called `args` which allows you to pass optional parameters to your custom query that will be accessible in the custom query function.
 
 
 ```ts
 const { search } = useProduct();
 
-search({ customQuery: { products: 'my-products-query' } }); 
+search({ customQuery: { products: 'my-products-query', args: { custom: true } } }); 
 ```
 
 In the example above, we are changing `products` query, and our function that will take care of this overriding is `my-products-query`. As a second step, we need to define that function.
