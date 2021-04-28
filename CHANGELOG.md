@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved: the code to remove the page key from the query before applying a filter - @ymaheshwari1 ([VSF Capybara #561](https://github.com/vuestorefront/vsf-capybara/issues/561))
 - Changing regex responsible for UnicodeAlpha validation and added unit tests - @lukaszjedrasik ([#5340](https://github.com/vuestorefront/vue-storefront/issues/5340))
 - Bugfix for problems with global state in SSR during concurrently requests from different stores - @cewald (#5639)
+- Solves the use of attributes without options as filters in the category pages.
 
 ### Changed / Improved
 
