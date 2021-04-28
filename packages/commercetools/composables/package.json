@@ -10,7 +10,8 @@
     "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
     "test": "jest",
-    "prepublish": "yarn build"
+    "prepublish": "yarn build",
+    "publish:local": "npm version patch && npm publish --registry"
   },
   "dependencies": {
     "@vue-storefront/commercetools-api": "^1.2.0",

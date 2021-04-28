@@ -51,7 +51,12 @@
     "test:e2e:ct:hl": "cd packages/commercetools/theme && yarn run test:e2e:hl",
     "test:e2e:ct:generate:report": "cd packages/commercetools/theme && yarn run test:e2e:generate:report",
     "core:changelog": "cd packages/core/docs/scripts && node changelog",
-    "ct:changelog": "cd packages/core/docs/scripts && node changelog --in ../commercetools/changelog --out ../commercetools/changelog.md"
+    "ct:changelog": "cd packages/core/docs/scripts && node changelog --in ../commercetools/changelog --out ../commercetools/changelog.md",
+    "ct:publish:local": "cd packages/commercetools/composables && yarn publish:local",
+    "middleware:publish:local": "cd packages/core/middleware && yarn publish:local",
+    "nuxt:publish:local": "cd packages/core/nuxt-module && yarn publish:local",
+    "nuxt-theme:publish:local": "cd packages/core/nuxt-theme-module && yarn publish:local",
+    "publish-packages:local": "yarn ct:publish:local $REGISTRY && yarn middleware:publish:local $REGISTRY && yarn nuxt:publish:local $REGISTRY && yarn nuxt-theme:publish:local $REGISTRY"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
