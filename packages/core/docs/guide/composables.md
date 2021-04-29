@@ -430,7 +430,7 @@ module.exports = {
         'my-products-query': ({ query, variables, metadata }) => {
 
           variables.locale = 'en'
-          variables.where = `masterData(variants(size === ${metadata.size}))`
+          variables.size = metadata.size
 
           return { query, variables }
         }
