@@ -15,7 +15,7 @@
 import { SfBanner } from '@storefront-ui/vue';
 
 export default {
-  name: 'NewCatBanners',
+  name: 'CatBanners',
   components: {
     SfBanner
   },

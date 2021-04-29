@@ -37,7 +37,7 @@
               </SfListItem>
             </SfList>
           </SfMegaMenuColumn>
-          <NewCatBanners v-if="hasBanners" />
+          <CatBanners v-if="hasBanners" />
         </SfMegaMenu>
       </SfHeaderNavigationItem>
     </SfHeaderNavigation>
@@ -76,7 +76,7 @@
               </SfMenuItem>
             </SfListItem>
           </SfList>
-          <NewCatBanners v-if="hasBanners" />
+          <CatBanners v-if="hasBanners" />
         </SfMegaMenuColumn>
       </SfMegaMenu>
     </transition>
@@ -96,7 +96,7 @@ export default {
     SfMegaMenu,
     SfMenuItem,
     SfList,
-    NewCatBanners: () => import('./NewCatBanners')
+    CatBanners: () => import('./CatBanners')
   },
   props: {
     isMobile: {
