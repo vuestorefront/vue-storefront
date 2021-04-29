@@ -41,14 +41,6 @@ If you don't want to use Storefront UI, feel free to remove it from your project
 
 Before starting to customize the base theme, we highly recommend getting familiar with [Nuxt.js](https://nuxtjs.org/) because the majority of UI functionalities in Vue Storefront are handled by it. It will help you understand the mechanisms behind the framework and how to extend it efficiently.
 
-### Install Vue.js Devtools
-
-We also recommend installing [Vue.js Devtools](https://github.com/vuejs/vue-devtools#installation) in your browser. It's an excellent tool for viewing component structure and their current state, inspecting events and routes, and much more.
-
-<center>
-<img src="../images/theme/vue-devtools.jpg" />
-</center>
-
 ### Changing existing pages, components, and layouts
 
 To update the existing components, you need to identify them first. Vue.js Devtools helps us in that. Open the tool and click on the `Select` button above the component tree, then click on the DOM element you want to update. One of the components in the tree should get highlighted. You can look for the component with the same name in the `layout`, `pages`, or `components` directories and update it to your needs. However, there are few exceptions to this rule.

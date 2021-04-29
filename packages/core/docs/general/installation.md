@@ -37,6 +37,31 @@ yarn dev
 
 You can read more about available commands and environments on [commands](https://nuxtjs.org/docs/2.x/get-started/commands/) page in Nuxt.js documentation.
 
+## Recommended tools
+
+### Vue.js Devtools
+
+We strongly recommend installing [Vue.js Devtools](https://github.com/vuejs/vue-devtools#installation) in your browser. It's an excellent tool for viewing component structure and their current state, inspecting events and routes, and much more.
+
+<center>
+    <img src="../images/theme/vue-devtools.jpg" alt="Vue.js Devtools"/>
+</center>
+
+### Vetur for VS Code
+For developers using VS Code as their main IDE, we also recommend using [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur).
+Vetur is a VS Code extension that speeds up Vue.js-based applications development by providing, amongst many others, features like Vue.js code autocompletion, and syntax highlighting.
+
+#### Installing Vetur
+To install Vetur extension:
+1. Open VS Code
+2. Open `Extensions`
+3. Search for `Vetur`
+4. Click `Install`
+
+<center>
+    <img src="../images/general/vs-code-vetur.gif" alt="VS Code Vetur" />
+</center>
+
 ## What's next?
 
 - Learn about [key concepts in Vue Storefront](./key-concepts.html) to confidently work with your newly created Vue Storefront project.
