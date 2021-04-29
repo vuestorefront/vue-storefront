@@ -9,6 +9,7 @@
         @mouseleave="() => handleMouseLeave()"
         @click="handleMouseLeave()"
         :link="localePath(`/c/${category.slug}`)"
+        v-e2e="category.name === 'Women' ? 'app-header-url_women' : category.name === 'Men' ? 'app-header-url_women' : ''"
       >
         <SfMegaMenu
           is-absolute
@@ -21,6 +22,7 @@
             v-for="subCategory in activeCategory[0].children"
             :key="subCategory.id"
             :title="subCategory.name"
+            @click.native='$router.push(`/c/${currentCatSlug}/${subCategory.slug}`)'
           >
             <SfLoader :loading="subCategoriesLoading">
               <SfList v-if="!subCategoriesLoading">
@@ -163,11 +165,8 @@ export default {
 
     const handleClickCategoryLvl = async (slug, lvl) => {
       currentCatSlug.value = slug;
-      let childCount;
-
-      if (lvl === 1) childCount = getCurrentCat(categories.value, slug).childCount;
-      else if (lvl === 2 && hasChildren) childCount = getCurrentCat(activeCategory.value[0].children, slug).childCount;
-
+      const catElements = lvl === 1 ? categories.value : activeCategory.value[0].children;
+      const { childCount } = getCurrentCat(catElements, slug);
       await getSubCategories(slug, childCount);
     };
 

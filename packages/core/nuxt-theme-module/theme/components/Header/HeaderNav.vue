@@ -9,6 +9,7 @@
         @mouseleave="() => handleMouseLeave()"
         @click="handleMouseLeave()"
         :link="localePath(`/c/${category.slug}`)"
+        v-e2e="category.name === 'Women' ? 'app-header-url_women' : category.name === 'Men' ? 'app-header-url_women' : ''"
       >
         <SfMegaMenu
           is-absolute
@@ -21,6 +22,7 @@
             v-for="subCategory in category.children"
             :key="subCategory.id"
             :title="subCategory.name"
+            @click.native='$router.push(`/c/${currentCatSlug}/${subCategory.slug}`)'
           >
             <SfList>
               <SfListItem
