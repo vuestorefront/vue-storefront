@@ -11,6 +11,6 @@ export const processMagicCommentsInNuxtConfig = async (
     );
   } catch (error) {
     log.error('No nuxt.config.js has been found in integration template');
-    process.exit(1);
+    process.exitCode = 1;
   }
 };
