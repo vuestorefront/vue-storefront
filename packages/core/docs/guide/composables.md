@@ -401,16 +401,21 @@ Since the communication with the API goes through our middleware, all queries al
 To customize or even totally override the original (default) queries you need to follow two steps.
 
 Firstly, you need to use a dedicated parameter: `customQuery` that tells the app, what to do with a query.
-This parameter is an object that has a name of the queries as keys, and the name of the queries function under the values. Additionally, it has a special parameter called `args` which allows you to pass optional parameters to your custom query that will be accessible in the custom query function.
+This parameter is an object that has a name of the queries as keys, and the name of the queries function under the values. Additionally, it has a special parameter called `metadata` which allows you to pass optional parameters to your custom query that will be accessible in the custom query function.
 
 
 ```ts
 const { search } = useProduct();
 
-search({ customQuery: { products: 'my-products-query', args: { custom: true } } }); 
+search({
+  customQuery: {
+    products: 'my-products-query',
+    metadata: { size: 'xl' }
+  }
+}); 
 ```
 
-In the example above, we are changing `products` query, and our function that will take care of this overriding is `my-products-query`. As a second step, we need to define that function.
+In the example above, we are changing `products` query, and our function that will take care of this overriding is `my-products-query`. Additionally, we used `metadata` field to send information about the product we seek for. As a second step, we need to define that function.
 
 
 Each custom query lives in the `middleware.config.js`, so it's the place where we should define `my-products-query`:
@@ -422,9 +427,10 @@ module.exports = {
       location: '@vue-storefront/commercetools-api/server',
       configuration: { /* ... */ },
       customQueries: {
-        'my-products-query': ({ query, variables, args }) => {
+        'my-products-query': ({ query, variables, metadata }) => {
 
           variables.locale = 'en'
+          variables.where = `masterData(variants(size === ${metadata.size}))`
 
           return { query, variables }
         }
@@ -434,4 +440,4 @@ module.exports = {
 };
 ```
 
-The custom query function always has in the arguments the default query (`query`), default variables (`variables`) and additional parameters (`args`) sent from the front-end. This function always must return the query and its variables as well, while in the body you can do anything you want with those parameters - you can override them or even change to the new ones.
+The custom query function always has in the arguments the default query (`query`), default variables (`variables`) and additional parameters (`metadata`) sent from the front-end. This function always must return the query and its variables as well, while in the body you can do anything you want with those parameters - you can override them or even change to the new ones.

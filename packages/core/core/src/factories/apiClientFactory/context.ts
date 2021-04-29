@@ -11,7 +11,7 @@ const nopAfter = ({ response }) => response;
 const createExtendQuery = (context) => (customQuery, defaults) => {
   const customQueries = context.customQueries || {};
   const queryArgs = customQuery || {};
-  const args = (customQuery && customQuery.args) || {};
+  const metadata = (customQuery && customQuery.metadata) || {};
 
   return Object.entries(defaults)
     .reduce((prev, [queryName, initialArgs]: any) => {
@@ -19,7 +19,7 @@ const createExtendQuery = (context) => (customQuery, defaults) => {
 
       return {
         ...prev,
-        [queryName]: queryFn({ ...initialArgs, args })
+        [queryName]: queryFn({ ...initialArgs, metadata })
       };
     }, {});
 };
