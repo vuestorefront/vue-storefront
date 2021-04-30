@@ -103,5 +103,6 @@ const { createApiClient } = apiClientFactory({
 });
 
 export {
-  createApiClient
+  createApiClient,
+  api
 };
