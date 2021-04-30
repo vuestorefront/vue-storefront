@@ -61,7 +61,7 @@ yarn dev
 2. Clone the [vue-storefront](https://github.com/vuestorefront/vue-storefront) project:
 
 ```bash
-git clone https://github.com/vuestorefront/vue-storefront.git vue-storefront
+git clone --single-branch --branch master https://github.com/vuestorefront/vue-storefront.git vue-storefront
 ```
 
 3. Go to `vue-storefront` directory:

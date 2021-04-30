@@ -1436,7 +1436,7 @@ We made it one step further where you just need to answer a series of questions 
 1. If you're MacOS or Linux user now you're able to install with pretty nice CLI installer :)
 
 ```bash
-git clone https://github.com/vuestorefront/vue-storefront.git vue-storefront
+git clone --single-branch --branch master https://github.com/vuestorefront/vue-storefront.git vue-storefront
 cd vue-storefront
 yarn
 yarn installer
