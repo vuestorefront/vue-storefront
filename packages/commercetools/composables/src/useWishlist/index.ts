@@ -8,7 +8,7 @@ type Wishlist = any;
 // @todo: implement wishlist
 // https://github.com/DivanteLtd/vue-storefront/issues/4420
 
-const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
+const useWishlistFactoryParams: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context) => {
     return {};
@@ -31,4 +31,9 @@ const params: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
   }
 };
 
-export default useWishlistFactory<Wishlist, LineItem, ProductVariant>(params);
+const useWishlist = useWishlistFactory<Wishlist, LineItem, ProductVariant>(useWishlistFactoryParams);
+
+export {
+  useWishlist,
+  useWishlistFactoryParams
+};
