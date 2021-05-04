@@ -3,18 +3,19 @@ import { track } from '@vue-storefront/core';
 
 track('VSFCommercetools');
 
-export { default as useCart } from './useCart';
-export { default as useCategory } from './useCategory';
-export { default as useFacet } from './useFacet';
-export { default as useMakeOrder } from './useMakeOrder';
-export { default as useProduct } from './useProduct';
-export { default as useReview } from './useReview';
-export { default as useShipping } from './useShipping';
-export { default as useShippingProvider } from './useShippingProvider';
-export { default as useBilling } from './useBilling';
-export { default as useUser } from './useUser';
-export { default as useUserBilling } from './useUserBilling';
-export { default as useUserOrder } from './useUserOrder';
-export { default as useUserShipping } from './useUserShipping';
-export { default as useWishlist } from './useWishlist';
+export { useBilling, useBillingProviderFactoryParams } from './useBilling';
+export { useCart, useCartFactoryParams } from './useCart';
+export { useCategory, useCategoryFactoryParams } from './useCategory';
+export { useFacet, useFacetFactoryParams } from './useFacet';
+export { useMakeOrder, useMakeOrderFactoryParams } from './useMakeOrder';
+export { useProduct, useProductFactoryParams } from './useProduct';
+export { useReview, useReviewFactoryParams } from './useReview';
+export { useShipping, useShippingFactoryParams } from './useShipping';
+export { useShippingProvider, useShippingProviderFactoryParams } from './useShippingProvider';
+export { useUser, useUserFactoryParams } from './useUser';
+export { useUserBilling, useUserBillingFactoryParams } from './useUserBilling';
+export { useUserOrder, useUserOrderFactoryParams } from './useUserOrder';
+export { useUserShipping, useUserShippingFactoryParams } from './useUserShipping';
+export { useWishlist, useWishlistFactoryParams } from './useWishlist';
+
 export * from './getters';
