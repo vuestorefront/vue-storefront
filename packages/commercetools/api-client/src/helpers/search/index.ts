@@ -104,6 +104,10 @@ const buildOrderWhere = (search: OrderWhereSearch): string => {
     return `id="${search.id}"`;
   }
 
+  if (search?.orderNumber) {
+    return `orderNumber="${search.orderNumber}"`;
+  }
+
   return null;
 };
 
