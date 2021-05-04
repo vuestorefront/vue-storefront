@@ -1,8 +1,7 @@
 import { server, graphql } from 'config'
 import Vue from 'vue'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { once } from '@vue-storefront/core/helpers'
-import { isServer } from '@vue-storefront/core/helpers';
+import { once, isServer } from '@vue-storefront/core/helpers'
 
 export const getApolloProvider = async () => {
   if (server.api === 'graphql') {
