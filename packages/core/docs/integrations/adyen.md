@@ -107,7 +107,7 @@ adyen: {
 ```
 
 * `configuration`:
-  * `ctApi` - You need `manage_orders` and `manage_payments` scopes to make it work properly, base on [that page](../commercetools/getting-started.html#configuring-your-commercetools-integration) during configuring this property.
+  * `ctApi` - You need `manage_orders` and `manage_payments` scopes to make it work properly, base on [that page](../commercetools/getting-started.html#configuring-your-commercetools-integration) during configuring this property. Then for `apiHost` you have to use only the base URL - `https://<SHOP_DOMAIN>.com/` instead of `https://<SHOP_DOMAIN>.com/vsf-ct-dev/graphql`
   * `adyenMerchantAccount` - Name of your Adyen's merchant account
   * `origin` - URL of your frontend. You could check it by printing out `window.location.origin` in the browser's console on your website.
   * `buildRedirectUrlAfter3ds1Auth` - `(paymentAndOrder: PaymentAndOrder, succeed: boolean) => string` - A method that tells the server where to redirect the user after 3DS1 Auth. You can test it with [these cards](https://docs.adyen.com/development-resources/test-cards/test-card-numbers#test-3d-secure-authentication).
@@ -192,3 +192,10 @@ If the transaction is authorized, the server's controller for `payAndOrder`/`sub
 
 ## Checkout.com
 Adyen's module isn't compatible with [Checkout.com's module](https://github.com/vuestorefront/checkout-com).
+
+## FAQ
+### Error: NotFound: URI not found: /<project_name>/carts/<cart_id>
+`ctApi.apiHost` property inside your `middleware.config.js` contains unnecessary path. It has to be `https://<SHOP_DOMAIN>.com/` instead of `https://<SHOP_DOMAIN>.com/<project_name>/graphql`
+
+### Error: The type with the key 'ctp-adyen-integration-web-components-payment-type' was not found
+You have to add new types and extension do commercetools as described [there](https://github.com/commercetools/commercetools-adyen-integration). We've pointed it out in 6th step of the Adyen's installation guide.
