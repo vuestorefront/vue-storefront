@@ -102,7 +102,26 @@ const createCommerceToolsConnection = (settings: Config): any => {
     delay: () => 0
   });
 
-  const apolloLink = ApolloLink.from([onErrorLink, errorRetry, authLinkBefore, authLinkAfter.concat(httpLink)]);
+  let links: ApolloLink[] = [
+    onErrorLink,
+    errorRetry,
+    authLinkBefore,
+    authLinkAfter.concat(httpLink)
+  ];
+
+  if (settings.overrideApolloLinks) {
+    links = settings.overrideApolloLinks({
+      sdkAuth,
+      tokenProvider,
+      httpLink,
+      onErrorLink,
+      authLinkBefore,
+      authLinkAfter,
+      errorRetry
+    });
+  }
+
+  const apolloLink = ApolloLink.from(links);
 
   return {
     apolloLink,

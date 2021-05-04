@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { ApolloLink } from 'apollo-link';
 import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
 import ApolloClient, { ApolloClientOptions } from 'apollo-client';
 
@@ -63,6 +64,16 @@ export interface CustomerCredentials {
   password: string;
 }
 
+export interface OverrideApolloLinksParameters {
+  sdkAuth: SdkAuth;
+  tokenProvider: TokenProvider;
+  httpLink: ApolloLink;
+  onErrorLink: ApolloLink;
+  authLinkBefore: ApolloLink;
+  authLinkAfter: ApolloLink;
+  errorRetry: ApolloLink;
+}
+
 export interface Config<T = any> {
   client?: ApolloClient<T>;
   api: ApiConfig;
@@ -79,4 +90,5 @@ export interface Config<T = any> {
   auth?: Auth;
   forceToken?: boolean;
   handleIsTokenUserSession: (token: Token) => boolean;
+  overrideApolloLinks: (config: OverrideApolloLinksParameters) => ApolloLink[];
 }
