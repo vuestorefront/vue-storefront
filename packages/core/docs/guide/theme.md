@@ -90,8 +90,6 @@ Out of the box, some routes are injected via `@vue-storefront/nuxt-theme` module
   - Thank You page (`/checkout/thank-you`);
 - Custom 404 page;
 
-Some [integrations](/integrations) may register additional routes. For example, CMS integrations often override Home Page and add custom, dynamic pages.
-
 To override existing routes or adding your own, use [extendRoutes](https://nuxtjs.org/guides/configuration-glossary/configuration-router#extendroutes) in `nuxt.config.js`. Additionally, Nuxt.js automatically registers components created in the `pages` folder as new routes. You can read more about this on the [File System Routing](https://nuxtjs.org/docs/2.x/features/file-system-routing/) page.
 
 ## Updating styles
