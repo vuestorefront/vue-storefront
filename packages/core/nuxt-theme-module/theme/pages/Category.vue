@@ -60,6 +60,7 @@
         <div class="navbar__view">
           <span class="navbar__view-label desktop-only">{{ $t('View') }}</span>
           <SfIcon
+            v-e2e="'tiles-icon'"
             class="navbar__view-icon"
             :color="isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="tiles"
@@ -70,6 +71,7 @@
             @click="changeToCategoryGridView"
           />
           <SfIcon
+            v-e2e="'list-icon'"
             class="navbar__view-icon"
             :color="!isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="list"
@@ -178,6 +180,7 @@
             class="products__list"
           >
             <SfProductCardHorizontal
+              v-e2e="'category-product-card'"
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"

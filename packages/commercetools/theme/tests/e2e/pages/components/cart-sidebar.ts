@@ -2,8 +2,9 @@ import { el } from '../utils/element';
 
 class Cart {
 
-  get product(): Cypress.Chainable {
-    return el('collected-product');
+  product(name?: string): Cypress.Chainable {
+    const product = el('collected-product');
+    return name ? product : product.contains(name);
   }
 
   get goToCheckoutButton(): Cypress.Chainable {

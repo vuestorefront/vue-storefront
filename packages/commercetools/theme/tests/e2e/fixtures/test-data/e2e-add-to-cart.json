@@ -1,0 +1,14 @@
+{
+  "Should successfully add product to cart - grid view": {
+    "product": {
+      "category": "women",
+      "name": "T-Shirt Moschino Cheap And Chic black"
+    }
+  },
+  "Should successfully add product to cart - list view": {
+    "product": {
+      "category": "men",
+      "name": "Sweater Polo Ralph Lauren pink"
+    }
+  }
+}
