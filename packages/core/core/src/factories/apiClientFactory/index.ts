@@ -11,7 +11,7 @@ import { applyContextToApi } from './context';
 const isFn = (x) => typeof x === 'function';
 
 const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>): ApiClientFactory => {
-  async function createApiClient (config: any, customApi: any = {}): Promise<ApiInstance> {
+  function createApiClient (config: any, customApi: any = {}): ApiInstance {
     const rawExtensions: ApiClientExtension[] = this?.middleware?.extensions || [];
     const lifecycles = Object.values(rawExtensions)
       .filter(ext => isFn(ext.hooks))
@@ -19,23 +19,23 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(f
     const extendedApis = Object.keys(rawExtensions)
       .reduce((prev, curr) => ({ ...prev, ...rawExtensions[curr].extendApiMethods }), customApi);
 
-    const _config = await lifecycles
+    const _config = lifecycles
       .filter(ext => isFn(ext.beforeCreate))
-      .reduce((prev, curr) => prev.then(configuration => curr.beforeCreate({ configuration })), Promise.resolve(config));
+      .reduce((configuration, curr) => curr.beforeCreate({ configuration }), config);
 
     const settings = factoryParams.onCreate ? factoryParams.onCreate(_config) : { config, client: config.client };
 
     Logger.debug('apiClientFactory.create', settings);
 
-    settings.config = await lifecycles
+    settings.config = lifecycles
       .filter(ext => isFn(ext.afterCreate))
-      .reduce((prev, curr) => prev.then(configuration => curr.afterCreate({ configuration })), Promise.resolve(settings.config));
+      .reduce((configuration, curr) => curr.afterCreate({ configuration }), settings.config);
 
-    const before = (params) => lifecycles
+    const before = async (params) => lifecycles
       .filter(e => isFn(e.beforeCall))
       .reduce((args, e) => args.then(args => e.beforeCall({ ...params, configuration: settings.config, args})), Promise.resolve(params.args));
 
-    const after = (params) => lifecycles
+    const after = async (params) => lifecycles
       .filter(e => isFn(e.afterCall))
       .reduce((response, e) => response.then(response => e.afterCall({ ...params, configuration: settings.config, response })), Promise.resolve(params.response));
 

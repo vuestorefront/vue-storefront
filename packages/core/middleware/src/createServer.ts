@@ -35,7 +35,7 @@ function createServer (config: MiddlewareConfig): Express {
     const { apiClient, configuration, extensions, customQueries } = integrations[integrationName];
     const middlewareContext: MiddlewareContext = { req, res, extensions, customQueries };
     const createApiClient = apiClient.createApiClient.bind({ middleware: middlewareContext });
-    const apiClientInstance = await createApiClient(configuration);
+    const apiClientInstance = createApiClient(configuration);
     const apiFunction = apiClientInstance.api[functionName];
     try {
       const platformResponse = await apiFunction(...req.body);

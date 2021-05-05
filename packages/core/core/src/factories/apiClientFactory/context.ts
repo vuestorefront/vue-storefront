@@ -1,8 +1,8 @@
 import { ApiClientMethod } from './../../types';
 
 interface ApplyingContextHooks {
-  before: ({ callName, args }) => Promise<any[]> | any[];
-  after: ({ callName, args, response }) => Promise<any> | any;
+  before: ({ callName, args }) => Promise<any[]>;
+  after: ({ callName, args, response }) => Promise<any>;
 }
 
 const nopBefore = ({ args }) => args;

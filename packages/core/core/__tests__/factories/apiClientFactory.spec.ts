@@ -9,7 +9,7 @@ jest.mock('../../src/utils', () => ({
 }));
 
 describe('[CORE - factories] apiClientFactory', () => {
-  it('Should return passed config with overrides property', async () => {
+  it('Should return passed config with overrides property', () => {
     const params = {
       onCreate: jest.fn((config) => ({ config })),
       defaultSettings: { option: 'option' }
@@ -17,11 +17,11 @@ describe('[CORE - factories] apiClientFactory', () => {
 
     const { createApiClient } = apiClientFactory<any, any>(params as any) as any;
 
-    const { settings } = await createApiClient({});
+    const { settings } = createApiClient({});
     expect(settings).toEqual({});
   });
 
-  it('Should merge with default settings when setup is called', async () => {
+  it('Should merge with default settings when setup is called', () => {
     const params = {
       onCreate: jest.fn((config) => ({ config })),
       defaultSettings: { option: 'option' }
@@ -29,14 +29,14 @@ describe('[CORE - factories] apiClientFactory', () => {
 
     const { createApiClient} = apiClientFactory<any, any>(params as any) as any;
 
-    const { settings } = await createApiClient({ newOption: 'newOption'});
+    const { settings } = createApiClient({ newOption: 'newOption'});
 
     expect(settings).toEqual({
       newOption: 'newOption'
     });
   });
 
-  it('Should run onCreate when setup is invoked', async () => {
+  it('Should run onCreate when setup is invoked', () => {
     const params = {
       onCreate: jest.fn((config) => ({ config })),
       defaultSettings: {}
@@ -44,12 +44,12 @@ describe('[CORE - factories] apiClientFactory', () => {
 
     const { createApiClient } = apiClientFactory<any, any>(params as any);
 
-    await createApiClient({});
+    createApiClient({});
 
     expect(params.onCreate).toHaveBeenCalled();
   });
 
-  it('Should run given extensions', async () => {
+  it('Should run given extensions', () => {
     const beforeCreate = jest.fn(a => a);
     const afterCreate = jest.fn(a => a);
     const extension = {
@@ -66,7 +66,7 @@ describe('[CORE - factories] apiClientFactory', () => {
     const { createApiClient } = apiClientFactory<any, any>(params as any);
     const extensions = (createApiClient as any)._predefinedExtensions;
 
-    await createApiClient.bind({ middleware: { req: null, res: null, extensions } })({});
+    createApiClient.bind({ middleware: { req: null, res: null, extensions } })({});
 
     expect(beforeCreate).toHaveBeenCalled();
     expect(afterCreate).toHaveBeenCalled();
