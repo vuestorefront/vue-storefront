@@ -11,7 +11,7 @@ before(() => {
 });
 
 context('Order placement', () => {
-  it(['e2e', 'happypath'], 'Should successfully place an order as a guest', function() {
+  it(['happypath', 'regression'], 'Should successfully place an order as a guest', function() {
     const data = cy.fixtures.data[this.test.title];
     const getProductReq = intercept.getProduct();
     page.home.visit();
@@ -19,8 +19,8 @@ context('Order placement', () => {
     page.category.products.first().click().then(() => {
       cy.wait([getProductReq, getProductReq]);
     });
-    page.product.addToCartButton.click();
-    page.product.header.openCart();
+    page.product().addToCartButton.click();
+    page.product().header.openCart();
     page.components.cart.goToCheckoutButton.click();
     page.checkout.shipping.heading.should('be.visible');
     page.checkout.shipping.fillForm(data.customer);
@@ -49,8 +49,8 @@ context('Order placement', () => {
     page.category.products.first().click().then(() => {
       cy.wait([getProductReq, getProductReq]);
     });
-    page.product.addToCartButton.click();
-    page.product.header.openCart();
+    page.product().addToCartButton.click();
+    page.product().header.openCart();
     page.components.cart.goToCheckoutButton.click();
     page.checkout.shipping.heading.should('be.visible');
     page.checkout.shipping.addresses.first().click();

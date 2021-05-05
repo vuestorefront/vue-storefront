@@ -9,6 +9,7 @@ const generator = {
       return random.toString(16);
     });
   }
+
 };
 
 export default generator;

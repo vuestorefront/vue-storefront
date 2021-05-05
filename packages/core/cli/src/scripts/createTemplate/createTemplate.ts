@@ -15,6 +15,6 @@ export const createTemplate = async ({
     log.success('Template generated');
   } catch (error) {
     log.error('Template not generated');
-    process.exit(1);
+    process.exitCode = 1;
   }
 };

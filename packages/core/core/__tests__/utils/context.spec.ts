@@ -1,7 +1,8 @@
 import {
   generateContext,
   useVSFContext,
-  configureContext
+  configureContext,
+  configureFactoryParams
 } from '../../src/utils/context';
 import { Context } from '../../src/types';
 
@@ -33,9 +34,11 @@ describe('context', () => {
   });
 
   it('generateContext returns useVSFContext().$vsf if setup not provided', () => {
-    const myFn = jest.fn((): Context => ({
-      $vsf: 12345
-    }));
+    const myFn = jest.fn(
+      (): Context => ({
+        $vsf: 12345
+      })
+    );
     configureContext({
       useVSFContext: myFn
     });
@@ -50,16 +53,18 @@ describe('context', () => {
       a: 1
     };
     const factoryParams = {
-      provide () {
+      provide() {
         return {
           b: 2,
           c: 3
         };
       }
     };
-    const myFn = jest.fn((): Context => ({
-      $vsf: vsfObject
-    }));
+    const myFn = jest.fn(
+      (): Context => ({
+        $vsf: vsfObject
+      })
+    );
     configureContext({
       useVSFContext: myFn
     });
@@ -70,6 +75,30 @@ describe('context', () => {
       a: 1,
       b: 2,
       c: 3
+    });
+  });
+
+  it('configureFactoryParams should return functions', () => {
+    const factoryParams = {
+      provide: () => {
+        return {
+          b: 2,
+          c: 3
+        };
+      },
+      test: () => {
+        return {
+          b: 2,
+          c: 3
+        };
+      }
+    };
+
+    const params = configureFactoryParams(factoryParams);
+
+    expect(params).toEqual({
+      provide: expect.any(Function),
+      test: expect.any(Function)
     });
   });
 });

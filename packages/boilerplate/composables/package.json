@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/boilerplate",
-  "version": "2.3.0-rc.3",
+  "version": "2.3.0",
   "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
@@ -13,8 +13,8 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/boilerplate-api": "^2.3.0-rc.3",
-    "@vue-storefront/core": "^2.3.0-rc.3"
+    "@vue-storefront/boilerplate-api": "^2.3.0",
+    "@vue-storefront/core": "^2.3.0"
   },
   "peerDependencies": {
     "@vue/composition-api": "1.0.0-beta.21"
