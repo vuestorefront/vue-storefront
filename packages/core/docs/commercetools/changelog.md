@@ -2,13 +2,14 @@
 
 ## 1.2.1
 
--  Add args parameter to custom queries ([#5854](https://github.com/vuestorefront/vue-storefront/issues/5854)) - [andrzejewsky](https://github.com/andrzejewsky)
+-  Add args parameter to custom queries ([#5854](https://github.com/vuestorefront/vue-storefront/issues/5854)) - [andrzejewsky](https://github.com/andrzejewsky),
+-  Export factory params for all composables to allow overriding ([#5862](https://github.com/vuestorefront/vue-storefront/pull/5862)) - [Filip Sobol](https://github.com/filipsobol),
+-  Export helper Apollo Link functions for easier overriding ([#5873](https://github.com/vuestorefront/vue-storefront/pull/5873)) - [Filip Sobol](https://github.com/filipsobol)
 
 
 ## 1.2.0
 
--  Set 'vsf-commercetools-token' cookie expiration time to match token expiration time. ([#5774](https://github.com/vuestorefront/vue-storefront/pull/5774)) - [Filip Sobol](https://github.com/filipsobol)
-,
+-  Set 'vsf-commercetools-token' cookie expiration time to match token expiration time. ([#5774](https://github.com/vuestorefront/vue-storefront/pull/5774)) - [Filip Sobol](https://github.com/filipsobol),
 -  Reduce payload size for cart methods ([#5836](https://github.com/vuestorefront/vue-storefront/pull/5836)) - [Filip Sobol](https://github.com/filipsobol)
 
 
