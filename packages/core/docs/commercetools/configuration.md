@@ -40,7 +40,7 @@ i18n: {
 A state without tax rules cannot work properly. Make sure to add the tax rules for each state in the commercetools as described [here](https://docs.commercetools.com/merchant-center/project-settings#configuring-taxes).
 :::
 
-After applying tax rules, if you select `United States`, there will be 2 available states. You can check it on Checkout's shipping and billing steps and MyAccount's user shipping and billing address views.
+If you select `United States`, after applying tax rules, there will be 2 states available. You can now select them on Checkout's shipping and billing steps and MyAccount's user shipping and billing address views.
 
 ![comercetools states on my account](./../images/ct-states-myaccount.png)
 
