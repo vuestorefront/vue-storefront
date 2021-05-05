@@ -37,11 +37,7 @@ i18n: {
 }
 ```
 ::: warning Each state requires the tax rules
-A state without tax rules cannot work properly. Make sure to add the tax rules for each state in the commercetools.
-:::
-
-:::details How to add tax rules to the state?
-Information about setting tax rules in the commercetools can be found [there](https://docs.commercetools.com/merchant-center/project-settings#configuring-taxes).
+A state without tax rules cannot work properly. Make sure to add the tax rules for each state in the commercetools as described [here](https://docs.commercetools.com/merchant-center/project-settings#configuring-taxes).
 :::
 
 After applying tax rules, if you select `United States`, there will be 2 available states. You can check it on Checkout's shipping and billing steps and MyAccount's user shipping and billing address views.
