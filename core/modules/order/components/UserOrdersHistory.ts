@@ -25,10 +25,7 @@ export default {
   },
   methods: {
     onBottomScroll () {
-      const totalCount = this.$store.state.user.orders_history.total_count ? this.$store.state.user.orders_history.total_count : 0;
-      const isLastPage = this.pagination.current > Math.ceil(totalCount / this.pagination.perPage);
-      if (!isLastPage) {
-        ++this.pagination.current;
+        this.pagination.current++;
         this.$store.dispatch('user/appendOrdersHistory', { pageSize: this.pagination.perPage, currentPage: this.pagination.current });
       }
     }
