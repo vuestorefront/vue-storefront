@@ -19,7 +19,7 @@ Let's go!
 If you're MacOS or Linux user now you're able to install with pretty nice CLI installer :)
 
 ```bash
-git clone https://github.com/vuestorefront/vue-storefront.git vue-storefront
+git clone --single-branch --branch master https://github.com/vuestorefront/vue-storefront.git vue-storefront
 cd vue-storefront
 yarn
 yarn installer
@@ -187,7 +187,7 @@ Now, it's the time to install the frontend itself.
 First step is to clone [vue-storefront](https://github.com/vuestorefront/vue-storefront)
 
 ```bash
-git clone https://github.com/vuestorefront/vue-storefront.git vue-storefront
+git clone --single-branch --branch master https://github.com/vuestorefront/vue-storefront.git vue-storefront
 cd vue-storefront
 ```
 
