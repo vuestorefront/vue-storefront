@@ -1,7 +1,7 @@
 import { optionLabel } from '@vue-storefront/core/modules/catalog/helpers/optionLabel';
 
 describe('optionLabel', () => {
-  it('returns proper opt.label and set it in state', () => {
+  it('returns proper opt.label and sets it in state', () => {
     const mockedData = {
       state: {
         attribute: {
@@ -27,7 +27,7 @@ describe('optionLabel', () => {
       }
     }
     const label = optionLabel(mockedData.state.attribute, { attributeKey: 'color', optionId: 5483 })
-    const result = mockedData.state.attribute['labels'];
+    const result = mockedData.state.attribute.labels;
     const expectedLabels = {
       color: {
         5483: 'Orange'
@@ -49,15 +49,14 @@ describe('optionLabel', () => {
         }
       }
     }
-   const result = optionLabel(mockedData.state.attribute, { attributeKey: 'color', optionId: 5483 })
 
-    const result = mockedData.state.attribute.labels.color['5483']
+    const result = optionLabel(mockedData.state.attribute, { attributeKey: 'color', optionId: 5483 })
     const expectedResult = 'Orange'
 
     expect(result).toBe(expectedResult)
   })
 
-  it('returns optionId if options.label doesn\'t exist', () => {
+  it('returns optionId if opt.label doesn\'t exist', () => {
     const mockedData = {
       state: {
         attribute: {
@@ -96,7 +95,7 @@ describe('optionLabel', () => {
     expect(label).toBe(5483);
   })
 
-  it('returns label when searchBy has other value than default', () => {
+  it('searchBy works properly', () => {
     const mockedData = {
       state: {
         attribute: {
