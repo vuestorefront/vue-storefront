@@ -865,10 +865,10 @@
     "@typescript-eslint/types" "4.17.0"
     eslint-visitor-keys "^2.0.0"
 
-"@vue-storefront/core@^2.3.0-rc.1":
-  version "2.3.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.3.0-rc.1.tgz#b60b6a0527d3ae6c815af770a36c02410e581daa"
-  integrity sha512-TxXXxNVpDovGemJZxaEXxdHBUq96tLu5ka7ZdOlYC1wU3qAqw4/Am0hYZblfcDoVrfWLCaXd4VsCCI6Oz0HbFQ==
+"@vue-storefront/core@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.3.0.tgz#2b0ce0d67201142536d3a2be855ce61653077f77"
+  integrity sha512-UIkPBd+nCszDY2YyRfxPJpW2MC49pOfcHTmwP8SeRA/cewe8u1SZgsol95vHAyThh/2ZIrmEkeCn0gihCVvhPg==
   dependencies:
     "@vue/composition-api" "1.0.0-beta.21"
     axios "0.21.1"

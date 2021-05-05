@@ -7,7 +7,7 @@ export default function storyblok (moduleOptions) {
     ...storyblok,
     ...moduleOptions,
   }
-  if (options?.jsBridge) {
+  if (options.jsBridge && head) {
     const scripts = head.script
     scripts.push({
       src: `${options.jsBridge}`,
