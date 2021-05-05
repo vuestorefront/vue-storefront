@@ -472,12 +472,14 @@ describe('User actions', () => {
       const pageSize = data.pageSize;
       const currentPage = data.currentPage;
 
-      await (userActions as any).appendOrdersHistory(contextMock, {
+      const result = await (userActions as any).appendOrdersHistory(contextMock, {
         pageSize,
         currentPage
       })
 
       expect(contextMock.commit).toBeCalledWith(types.USER_ORDERS_HISTORY_LOADED, responseOb.result);
+      expect(EventBus.$emit).toBeCalledWith('user-after-loaded-orders', result);
+      expect(result).toBe(responseOb.result)
     })
   })
 
