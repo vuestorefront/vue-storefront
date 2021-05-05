@@ -10,7 +10,7 @@ before(() => {
 
 context('Add product to cart', () => {
 
-  it(['regression'], 'Should successfully add product to cart - grid view', function() {
+  it(['regression'], 'Should successfully add product to cart - Category grid view', function() {
     const data = cy.fixtures.data[this.test.title];
     const category = page.category(data.product.category);
     category.visit();
@@ -19,7 +19,7 @@ context('Add product to cart', () => {
     page.components.cart.product(data.product.name).should('be.visible');
   });
 
-  it(['regression'], 'Should successfully add product to cart - list view', function() {
+  it(['regression'], 'Should successfully add product to cart - Category list view', function() {
     const data = cy.fixtures.data[this.test.title];
     const category = page.category(data.product.category);
     category.visit();
@@ -29,4 +29,11 @@ context('Add product to cart', () => {
     page.components.cart.product(data.product.name).should('be.visible');
   });
 
+  it(['regression'], 'Should successfully add product to cart - Product details page', function() {
+    const data = cy.fixtures.data[this.test.title];
+    page.product(data.product.id, data.product.slug).visit();
+    page.product().addToCartButton.click();
+    page.product().header.openCart();
+    page.components.cart.product(data.product.name).should('be.visible');
+  });
 });
