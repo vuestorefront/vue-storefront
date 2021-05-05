@@ -49,7 +49,7 @@ describe('optionLabel', () => {
         }
       }
     }
-    optionLabel(mockedData.state.attribute, { attributeKey: 'color', optionId: 5483 })
+   const result = optionLabel(mockedData.state.attribute, { attributeKey: 'color', optionId: 5483 })
 
     const result = mockedData.state.attribute.labels.color['5483']
     const expectedResult = 'Orange'
