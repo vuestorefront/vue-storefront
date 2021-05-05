@@ -1,4 +1,4 @@
-import { Ref, unref, computed } from '@vue/composition-api';
+import { Ref, unref, computed } from '@nuxtjs/composition-api';
 import { UseUserBilling, Context, FactoryParams, UseUserBillingErrors, CustomQuery } from '../types';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 

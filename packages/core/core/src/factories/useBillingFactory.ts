@@ -1,5 +1,5 @@
 import { UseBilling, Context, FactoryParams, UseBillingErrors, CustomQuery } from '../types';
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, computed } from '@nuxtjs/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 export interface UseBillingParams<BILLING, BILLING_PARAMS> extends FactoryParams {

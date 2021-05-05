@@ -1,5 +1,5 @@
 
-import { Ref } from '@vue/composition-api';
+import { Ref } from '@nuxtjs/composition-api';
 import { vsfRef, useVSFContext } from '../../utils';
 
 function sharedRef<T>(value: T, key: string): Ref;
