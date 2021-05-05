@@ -2,89 +2,90 @@
 
 ## What are getters?
 
-Getters are pure functions that allows you to receive properties from objects. They return an agnostic or primitive type. Each composable has its own getters e.g. `cartGetters` named according to values they return e.g. `getCartTotalItems` utilized to reach total quantity of items currently in the cart. 
+Getters are pure functions that allows you to receive properties from objects. They return an agnostic or primitive type. Each composable has its own getters e.g. `cartGetters` named according to values they return. `getCartTotalItems` is utilized to reach total quantity of items currently present in the cart.
 
-## When should I use them? 
+## When should I use them?
 
-Getters are needed when you want to use data in UI components e.g. quantity of the products that are in the cart currently. 
+Getters are needed when you want to use data in UI components like quantity of the products that are in the cart currently.
 
-As you can see on below example to access number of products in the cart you need to import the function from your integration package and set `getTotalItems` as computed property which then can be utlized in the component.   
+As you can see in below example to access number of products in the cart you need to import the function from your integration package and set `getTotalItems` as computed property which then can be utlized in the component.
 
 ```vue
 <template>
   <div>
-		//...
+    //...
     <span>
       {{ cartTotalItems }}
     </span>
   </div>
-</template>   
+</template>
 
 <script>
-	import { useCart, cartGetters } from '{INTEGRATION}';
-	import { onSSR } from '@vue-storefront/core';
+import { useCart, cartGetters } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
 
-	export default {
-		setup() {
-			const { cart, load } = useCart();
-			const cartTotalItems = computed(() => cartGetters.getTotalItems(cart.value);
+export default {
+	setup() {
+		const { cart, load } = useCart();
+		const cartTotalItems = computed(() => cartGetters.getTotalItems(cart.value);
 
-			onSSR(async () => {
-				await load();
-			});
+		onSSR(async () => {
+			await load();
+		});
 
-			return {
-				cart,
-				load,
-				cartTotalItems,
-			};
-		}
+		return {
+			cart,
+			load,
+			cartTotalItems,
+		};
 	}
+}
 </script>
 ```
-What if we woudln't use getters to access data?  
+
+What if we wouldn't use getters to access data?
 
 ```vue
 <template>
   <div>
-		//...
+    //...
     <span>
       {{ cartTotalItems }}
     </span>
   </div>
-</template>   
+</template>
 
 <script>
-	import { useCart } from '{INTEGRATION}';
-	import { onSSR } from '@vue-storefront/core';
+import { useCart } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
 
-	export default {
-		setup() {
-			const { cart, load } = useCart();
-			const cartTotalItems = computed(() => cart.lineItems.reduce((previous, current) => previous + current.quantity, 0)
+export default {
+	setup() {
+		const { cart, load } = useCart();
+		const cartTotalItems = computed(() => cart.lineItems.reduce((previous, current) => previous + current.quantity, 0)
 
-			onSSR(async () => {
-				await load();
-			});
+		onSSR(async () => {
+			await load();
+		});
 
-			return {
-				cart,
-				load,
-				cartTotalItems,
-			};
-		}
+		return {
+			cart,
+			load,
+			cartTotalItems,
+		};
 	}
+}
 </script>
 ```
 
 ## How can I use getters?
 
-
-## Available Getters 
+## Available Getters
 
 List of all available getters:
 
-### productGetters 
+### productGetters
+
 ```ts
 	getName: (product: PRODUCT) => string;
 	getSlug: (product: PRODUCT) => string;
@@ -103,6 +104,7 @@ List of all available getters:
 ```
 
 ### cartGetters
+
 ```ts
 	getItems: (cart: CART) => CART_ITEM[];
 	getItemName: (cartItem: CART_ITEM) => string;
@@ -120,6 +122,7 @@ List of all available getters:
 ```
 
 ### wishlistGetters
+
 ```ts
 	getItems: (wishlist: WISHLIST) => WISHLIST_ITEM[];
 	getItemName: (wishlistItem: WISHLIST_ITEM) => string;
@@ -133,21 +136,24 @@ List of all available getters:
 ```
 
 ### categoryGetters
+
 ```ts
 	getTree: (category: CATEGORY) => AgnosticCategoryTree | null;
 	getBreadcrumbs?: (category: CATEGORY) => AgnosticBreadcrumb[];
 ```
 
-### userGetters 
+### userGetters
+
 ```ts
-	getShippingMethodId: (shippingMethod: SHIPPING_METHOD) => string;
-	getShippingMethodName: (shippingMethod: SHIPPING_METHOD) => string;
-	getShippingMethodDescription: (shippingMethod: SHIPPING_METHOD) => string;
-	getShippingMethodPrice: (shippingMethod: SHIPPING_METHOD) => number;
-	getFormattedPrice: (price: number) => string;
+getShippingMethodId: (shippingMethod: SHIPPING_METHOD) => string;
+getShippingMethodName: (shippingMethod: SHIPPING_METHOD) => string;
+getShippingMethodDescription: (shippingMethod: SHIPPING_METHOD) => string;
+getShippingMethodPrice: (shippingMethod: SHIPPING_METHOD) => number;
+getFormattedPrice: (price: number) => string;
 ```
 
 ### checkoutGetters
+
 ```ts
 	getShippingMethodId: (shippingMethod: SHIPPING_METHOD) => string;
   getShippingMethodName: (shippingMethod: SHIPPING_METHOD) => string;
@@ -158,6 +164,7 @@ List of all available getters:
 ```
 
 ### userOrderGetters
+
 ```ts
 	getDate: (order: ORDER) => string;
 	getId: (order: ORDER) => string;
@@ -173,6 +180,7 @@ List of all available getters:
 ```
 
 ### reviewGetters
+
 ```ts
 	getItems: (review: REVIEW) => REVIEW_ITEM[];
 	getReviewId: (item: REVIEW_ITEM) => string;
@@ -187,6 +195,7 @@ List of all available getters:
 ```
 
 ### facetsGetters
+
 ```ts
 	getAll: (searchData: FacetSearchResult<SEARCH_DATA>, criteria?: CRITERIA) => AgnosticFacet[];
   getGrouped: (searchData: FacetSearchResult<SEARCH_DATA>, criteria?: CRITERIA) => AgnosticGroupedFacet[];
