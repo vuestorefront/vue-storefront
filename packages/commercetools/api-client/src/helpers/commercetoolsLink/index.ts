@@ -114,5 +114,6 @@ const createCommerceToolsConnection = (settings: Config): any => {
 export {
   isAnonymousSession,
   isUserSession,
+  createErrorHandler,
   createCommerceToolsConnection
 };

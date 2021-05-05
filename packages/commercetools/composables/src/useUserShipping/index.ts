@@ -56,7 +56,7 @@ const sortDefaultAtTop = (a, b) => {
   return 0;
 };
 
-const params: UseUserShippingFactoryParams<any, any> = {
+const useUserShippingFactoryParams: UseUserShippingFactoryParams<any, any> = {
   addAddress: async (context: Context, params?) => {
     console.log('Mocked: addAddress', params.address);
 
@@ -133,4 +133,9 @@ const params: UseUserShippingFactoryParams<any, any> = {
   }
 };
 
-export default useUserShippingFactory<any, any>(params);
+const useUserShipping = useUserShippingFactory<any, any>(useUserShippingFactoryParams);
+
+export {
+  useUserShipping,
+  useUserShippingFactoryParams
+};
