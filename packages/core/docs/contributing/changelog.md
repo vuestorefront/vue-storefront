@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.1
+
+-  Fix hydration bug on category page ([#5744](https://github.com/vuestorefront/vue-storefront/issues/5744)) - [Adam Pawliński](https://github.com/AdamPawlinski)
+,
+-  Add args parameter to custom queries ([#5854](https://github.com/vuestorefront/vue-storefront/issues/5854)) - [andrzejewsky](https://github.com/andrzejewsky)
+
+
 ## 2.3.0
 
 -  update Storefront UI version ([#5437](https://github.com/vuestorefront/vue-storefront/pull/5437/files)) - [Justyna Gieracka](https://github.com/justyna-13)

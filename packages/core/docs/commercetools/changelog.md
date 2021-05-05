@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.1
+
+-  Add args parameter to custom queries ([#5854](https://github.com/vuestorefront/vue-storefront/issues/5854)) - [andrzejewsky](https://github.com/andrzejewsky)
+
+
 ## 1.2.0
 
 -  Set 'vsf-commercetools-token' cookie expiration time to match token expiration time. ([#5774](https://github.com/vuestorefront/vue-storefront/pull/5774)) - [Filip Sobol](https://github.com/filipsobol)
