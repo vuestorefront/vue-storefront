@@ -18,7 +18,7 @@ class Cart {
     const propertiesData = () => {
       const data = {};
       this.productProperties.each((property) => {
-        data[`${property.children()[0].textContent.trim()}`] = `${property.children()[1].textContent.trim()}`;
+        data[`${property.children()[0].textContent.trim()}`] = property.children()[1].textContent.trim();
       });
       return data;
     };
