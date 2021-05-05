@@ -195,7 +195,7 @@ Adyen's module isn't compatible with [Checkout.com's module](https://github.com/
 
 ## FAQ
 ### Error: NotFound: URI not found: /<project_name>/carts/<cart_id>
-`ctApi.apiHost` property inside your `middleware.config.js` contains unnecessary path. It has to be `https://<SHOP_DOMAIN>.com/` instead of `https://<SHOP_DOMAIN>.com/<project_name>/graphql`
+`ctApi.apiHost` property inside your `middleware.config.js` contains wrong path. It should be `https://<SHOP_DOMAIN>.com/` instead of `https://<SHOP_DOMAIN>.com/<project_name>/graphql`
 
 ### Error: The type with the key 'ctp-adyen-integration-web-components-payment-type' was not found
 You have to add new types and extension do commercetools as described [there](https://github.com/commercetools/commercetools-adyen-integration). We've pointed it out in 6th step of the Adyen's installation guide.
