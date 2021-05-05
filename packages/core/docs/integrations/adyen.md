@@ -202,4 +202,4 @@ You have to add new types and extension to commercetools as described on these p
 - [Extension Module](https://github.com/commercetools/commercetools-adyen-integration/blob/master/extension/docs/HowToRun.md#commercetools-project-requirements),
 - [Notification Module](https://github.com/commercetools/commercetools-adyen-integration/blob/master/notification/docs/HowToRun.md#commercetools-project-requirements).   
 
-We've pointed it out in 6th step of the [Adyen's installation guide](./adyen.html#installation).
+For more information, see the 6th step of the [Adyen's installation guide](./adyen.html#installation).
