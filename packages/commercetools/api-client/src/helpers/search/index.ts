@@ -73,6 +73,10 @@ const buildProductWhere = (settings: Config, search: ProductWhereSearch) => {
     predicates.push(`key="${search.key}"`);
   }
 
+  if (search?.ids) {
+    predicates.push(`id in ("${search.ids.join('","')}")`);
+  }
+
   return predicates.join(' and ');
 };
 

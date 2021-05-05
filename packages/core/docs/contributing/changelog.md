@@ -1,5 +1,37 @@
 # Changelog
 
+## 2.3.0
+
+-  update Storefront UI version ([#5437](https://github.com/vuestorefront/vue-storefront/pull/5437/files)) - [Justyna Gieracka](https://github.com/justyna-13)
+,
+- [BREAKING] update Storefront UI version ([#5691](https://github.com/vuestorefront/vue-storefront/issues/5691)) - [Justyna Gieracka](https://github.com/justyna-13)
+
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+toggleCategoryGridView | changeToCategoryGridView, changeToCategoryListView | toggleCategoryGridView has been divided into two functions: changeToCategoryGridView and changeToCategoryListView | /composables/useUiState.ts,
+- [BREAKING] mocked results for search ([#5709](https://github.com/vuestorefront/vue-storefront/pull/5709/files)) - [Justyna Gieracka](https://github.com/justyna-13)
+
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+term | phrase | term is changed to phrase | acomposables/useUiHelpers/index.ts ,
+-  added SfLoader to VsfShippingProvider to correctly handle loading state ([#5725](https://github.com/vuestorefront/vue-storefront/issues/5725)) - [Baroshem](https://github.com/baroshem)
+,
+-  Fix hydration bug on category page ([#5744](https://github.com/vuestorefront/vue-storefront/issues/5744)) - [Adam Pawliński](https://github.com/AdamPawlinski)
+,
+-  customQuery support for user billing/shipping ([#5746](https://github.com/vuestorefront/vue-storefront/pull/5781)) - [vn-vlad](https://github.com/vn-vlad)
+,
+- [BREAKING] Pass integration configuration to 'extendApp' ([#5774](https://github.com/vuestorefront/vue-storefront/pull/5774)) - [Filip Sobol](https://github.com/filipsobol)
+
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+`extendApp` accepted only Express.js app as a parameter: `extendApp(app)` | `extendApp` accepts object containing `app` and `configuration` properties: `extendApp({ app, configuration })` | Allow access to integration configuration when extending application. | @vue-storefront/middleware,
+-  added missing class for text button ([#5827](https://github.com/vuestorefront/vue-storefront/issues/5827)) - [Justyna Gieracka](https://github.com/justyna-13)
+,
+-  add _key to enhanceProduct ([#5829](https://github.com/vuestorefront/vue-storefront/issues/5829)) - [Baroshem](https://github.com/baroshem)
+,
+-  add functionality to search products by ids ([#5847](https://github.com/vuestorefront/vue-storefront/issues/5847)) - [Baroshem](https://github.com/baroshem)
+
+
 ## 2.3.0-rc.3
 
 -  Fix VsfShippingProvider to correctly show errors related to no shipping methods available for certain country ([#5463](https://github.com/vuestorefront/vue-storefront/issues/5463)) - [Baroshem](https://github.com/Baroshem)

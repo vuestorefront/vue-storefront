@@ -661,6 +661,7 @@ export interface ApiClientExtensionHooks<C = any> {
 export type CustomQueryFn<T = any> = (query: any, variables: T) => {
   query?: any;
   variables?: T;
+  metadata: any;
 };
 
 export type ApiClientMethod = (...args: any) => Promise<any>

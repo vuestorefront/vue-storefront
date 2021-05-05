@@ -21,6 +21,7 @@
             <transition-group name="sf-fade" tag="div">
               <SfCollectedProduct
                 v-for="product in products"
+                v-e2e="'collected-product'"
                 :key="cartGetters.getItemSku(product)"
                 :image="cartGetters.getItemImage(product)"
                 :title="cartGetters.getItemName(product)"

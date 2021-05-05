@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/boilerplate-api",
-  "version": "2.3.0-rc.3",
+  "version": "2.3.0",
   "private": true,
   "sideEffects": false,
   "server": "server/index.js",
@@ -14,7 +14,7 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/core": "^2.3.0-rc.3"
+    "@vue-storefront/core": "^2.3.0"
   },
   "files": [
     "lib/**/*"

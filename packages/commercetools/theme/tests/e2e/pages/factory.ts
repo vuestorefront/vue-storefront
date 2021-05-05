@@ -4,7 +4,7 @@ import Cart from './components/cart-sidebar';
 import LoginModal from './components/login-modal';
 import Home from './home';
 import { Sidebar } from './my-account';
-import Product from './product';
+import { Product } from './product';
 
 const page = {
   get category() {
@@ -37,9 +37,10 @@ const page = {
     };
   },
 
-  get product() {
-    return Product;
+  product(id?: string, slug?: string) {
+    return new Product(id, slug);
   }
+
 };
 
 export default page;

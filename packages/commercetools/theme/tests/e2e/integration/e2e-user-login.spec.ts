@@ -12,8 +12,8 @@ before(() => {
 });
 
 context(['regression'], 'User login', () => {
-  it('Should successfully login', () => {
-    const data = cy.fixtures.data['Should successfully login'];
+  it('Should successfully login', function() {
+    const data = cy.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     requests.customerSignMeUp(data.customer).then(() => {
       cy.clearCookies();
@@ -26,11 +26,10 @@ context(['regression'], 'User login', () => {
     page.components.loginModal.container.should('not.exist');
     page.home.header.account.click();
     page.myAccount.sidebar.heading.should('be.visible');
-
   });
 
-  it('Incorrect credentials - should display an error', () => {
-    const data = cy.fixtures.data['Incorrect credentials - should display an error'];
+  it('Incorrect credentials - should display an error', function () {
+    const data = cy.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     page.home.visit();
     page.home.header.openLoginModal();
