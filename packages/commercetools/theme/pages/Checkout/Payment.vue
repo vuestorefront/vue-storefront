@@ -140,7 +140,7 @@ import {
   SfAccordion,
   SfLink
 } from '@storefront-ui/vue';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed, useRouter } from '@nuxtjs/composition-api';
 import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
@@ -162,7 +162,8 @@ export default {
     SfLink,
     VsfPaymentProviderMock
   },
-  setup(_, context) {
+  setup() {
+    const router = useRouter();
     const paymentReady = ref(false);
     const terms = ref(false);
     const { cart, removeItem, load, setCart } = useCart();
@@ -183,7 +184,7 @@ export default {
 
     const processOrder = async () => {
       await make();
-      context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
+      router.push(`/checkout/thank-you?order=${order.value.id}`);
       setCart(null);
     };
     return {

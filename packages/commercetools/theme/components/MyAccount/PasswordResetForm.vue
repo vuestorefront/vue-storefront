@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { SfInput, SfButton } from '@storefront-ui/vue';
 

@@ -74,7 +74,7 @@ import {
   SfInput,
   SfCircleIcon
 } from '@storefront-ui/vue';
-import { computed, ref } from '@vue/composition-api';
+import { computed, ref } from '@nuxtjs/composition-api';
 import { useCart, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 

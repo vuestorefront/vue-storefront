@@ -1,13 +1,16 @@
-import { getCurrentInstance } from '@vue/composition-api';
 import { Category } from '@vue-storefront/commercetools-api';
 import { AgnosticFacet } from '@vue-storefront/core';
+import {useRoute, useRouter} from '@nuxtjs/composition-api';
 
 const nonFilters = ['page', 'sort', 'phrase', 'itemsPerPage'];
 
-const getInstance = () => {
-  const vm = getCurrentInstance();
-  return vm.$root as any;
-};
+function normalizeQueryValue(queryValue: string | string[]): string[] {
+  return Array.isArray(queryValue) ? queryValue : [queryValue];
+}
+
+function getQueryValue(query: string | string[], position = 0): string {
+  return normalizeQueryValue(query)[position];
+}
 
 const reduceFilters = (query) => (prev, curr) => {
   const makeArray = Array.isArray(query[curr]) || nonFilters.includes(curr);
@@ -18,79 +21,81 @@ const reduceFilters = (query) => (prev, curr) => {
   };
 };
 
-const getFiltersDataFromUrl = (context, onlyFilters) => {
-  const { query } = context.$router.history.current;
-
+const getFiltersDataFromUrlQuery = (query, onlyFilters) => {
   return Object.keys(query)
     .filter(f => onlyFilters ? !nonFilters.includes(f) : nonFilters.includes(f))
     .reduce(reduceFilters(query), {});
 };
 
 const useUiHelpers = () => {
-  const instance = getInstance();
+  const route = useRoute();
+  const router = useRouter();
 
   const getFacetsFromURL = () => {
-    const { query, params } = instance.$router.history.current;
+    const { query, params } = route.value;
     const categorySlug = Object.keys(params).reduce((prev, curr) => params[curr] || prev, params.slug_1);
 
     return {
       rootCatSlug: params.slug_1,
       categorySlug,
-      page: parseInt(query.page, 10) || 1,
-      sort: query.sort || 'latest',
-      filters: getFiltersDataFromUrl(instance, true),
-      itemsPerPage: parseInt(query.itemsPerPage, 10) || 20,
-      phrase: query.phrase
+      page: parseInt(getQueryValue(query.page), 10) || 1,
+      sort: getQueryValue(query.sort) || 'latest',
+      filters: getFiltersDataFromUrlQuery(query, true),
+      itemsPerPage: parseInt(getQueryValue(query.itemsPerPage), 10) || 20,
+      phrase: getQueryValue(query.phrase)
     };
   };
 
   const getSearchTermFromUrl = () => {
-    const { query, params } = instance.$router.history.current;
+    const { query, params } = route.value;
     // hardcoded categorySlug for search results
     const categorySlug = 'women-clothing-jackets';
 
     return {
       rootCatSlug: params.slug_1,
       categorySlug,
-      page: parseInt(query.page, 10) || 1,
-      sort: query.sort || 'latest',
-      filters: getFiltersDataFromUrl(instance, true),
-      itemsPerPage: parseInt(query.itemsPerPage, 10) || 20,
-      phrase: query.phrase
+      page: parseInt(getQueryValue(query.page), 10) || 1,
+      sort: getQueryValue(query.sort) || 'latest',
+      filters: getFiltersDataFromUrlQuery(query, true),
+      itemsPerPage: parseInt(getQueryValue(query.itemsPerPage), 10) || 20,
+      phrase: getQueryValue(query.phrase)
     };
   };
 
   const getCatLink = (category: Category): string => {
-    return `/c/${instance.$route.params.slug_1}/${category.slug}`;
+    return `/c/${route.value.params.slug_1}/${category.slug}`;
   };
 
   const changeSorting = (sort: string) => {
-    const { query } = instance.$router.history.current;
-    instance.$router.push({ query: { ...query, sort } });
+    const { query } = route.value;
+    router.push({ query: { ...query, sort } });
   };
 
   const changeFilters = (filters: any) => {
-    instance.$router.push({
+    const { query } = route.value;
+    router.push({
       query: {
-        ...getFiltersDataFromUrl(instance, false),
+        ...getFiltersDataFromUrlQuery(query, false),
         ...filters
       }
     });
   };
 
   const changeItemsPerPage = (itemsPerPage: number) => {
-    instance.$router.push({
+    const { query } = route.value;
+    router.push({
       query: {
-        ...getFiltersDataFromUrl(instance, false),
+        ...getFiltersDataFromUrlQuery(query, false),
         itemsPerPage
       }
     });
   };
 
   const setTermForUrl = (term: string) => {
-    instance.$router.push({
+    const { query } = route.value;
+    router.push({
       query: {
-        ...getFiltersDataFromUrl(instance, false),
+        ...getFiltersDataFromUrlQuery(query, false),
         phrase: term || undefined
       }
     });
