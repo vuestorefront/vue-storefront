@@ -110,7 +110,7 @@ import {
   SfLink
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed } from '@nuxtjs/composition-api';
 import { useMakeOrder, useCart, cartGetters } from '<%= options.generate.replace.composables %>';
 
 export default {

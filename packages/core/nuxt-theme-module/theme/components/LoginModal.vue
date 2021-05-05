@@ -158,7 +158,7 @@
   </SfModal>
 </template>
 <script>
-import { ref, watch, reactive } from '@vue/composition-api';
+import { ref, watch, reactive } from '@nuxtjs/composition-api';
 import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert, SfBar } from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';

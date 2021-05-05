@@ -49,7 +49,7 @@
 </template>
 <script>
 import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
+import { computed, useRouter, useRoute } from '@nuxtjs/composition-api';
 import { useUser } from '<%= options.generate.replace.composables %>';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
@@ -75,11 +75,12 @@ export default {
   middleware: [
     'is-authenticated'
   ],
-  setup(props, context) {
-    const { $router, $route } = context.root;
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
     const { logout } = useUser();
     const activePage = computed(() => {
-      const { pageName } = $route.params;
+      const { pageName } = route.value.params;
 
       if (pageName) {
         return (pageName.charAt(0).toUpperCase() + pageName.slice(1)).replace('-', ' ');
@@ -91,11 +92,11 @@ export default {
     const changeActivePage = async (title) => {
       if (title === 'Log out') {
         await logout();
-        $router.push('/');
+        router.push('/');
         return;
       }
 
-      $router.push(`/my-account/${(title || '').toLowerCase().replace(' ', '-')}`);
+      router.push(`/my-account/${(title || '').toLowerCase().replace(' ', '-')}`);
     };
 
     return { changeActivePage, activePage };

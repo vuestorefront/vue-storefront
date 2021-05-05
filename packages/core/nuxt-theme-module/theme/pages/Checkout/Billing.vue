@@ -196,7 +196,7 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref, useRouter } from '@nuxtjs/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useBilling } from '<%= options.generate.replace.composables %>';
 import { required, min, digits } from 'vee-validate/dist/rules';
@@ -234,7 +234,8 @@ export default {
     ValidationProvider,
     ValidationObserver
   },
-  setup(props, context) {
+  setup() {
+    const router = useRouter();
     const { load, save } = useBilling();
 
     const form = ref({
@@ -251,7 +252,7 @@ export default {
 
     const handleFormSubmit = async () => {
       await save({ billingDetails: form.value });
-      context.root.$router.push('/checkout/payment');
+      router.push('/checkout/payment');
     };
 
     onSSR(async () => {

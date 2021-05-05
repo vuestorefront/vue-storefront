@@ -1,4 +1,4 @@
-import { computed, reactive } from '@vue/composition-api';
+import { computed, reactive } from '@nuxtjs/composition-api';
 
 interface UiNotification {
   message: string;

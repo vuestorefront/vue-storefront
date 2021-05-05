@@ -1,5 +1,5 @@
-export const getCategorySearchParameters = (context) => {
-  const { path } = context.root.$route;
+export const getCategorySearchParameters = (route) => {
+  const { path } = route;
   const slug = path.replace(/^\/c\//, '');
 
   return { slug };
