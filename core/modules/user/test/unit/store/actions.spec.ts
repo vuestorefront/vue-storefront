@@ -481,6 +481,46 @@ describe('User actions', () => {
       expect(EventBus.$emit).toBeCalledWith('user-after-loaded-orders', result);
       expect(result).toBe(responseOb.result)
     })
+
+    it('returns unique orders', async () => {
+      const oldOrders = [
+        { name: 'a', increment_id: 0 },
+        { name: 'b', increment_id: 1 }
+      ]
+      const orders = {
+        items: [
+          { name: 'a', increment_id: 0 },
+          { name: 'c', increment_id: 2 }
+        ]
+      }
+      const responseOb = {
+        result: orders,
+        code: 200
+      };
+      const contextMock = {
+        commit: jest.fn(),
+        getters: {
+          getOrdersHistory: oldOrders
+        }
+      };
+      const pageSize = data.pageSize;
+      const currentPage = data.currentPage;
+
+      (UserService.getOrdersHistory as jest.Mock).mockImplementation(async () => responseOb);
+      const result = await (userActions as any).appendOrdersHistory(contextMock, {
+        pageSize,
+        currentPage
+      })
+      const expectedResult = {
+        items: [
+          { name: 'a', increment_id: 0 },
+          { name: 'b', increment_id: 1 },
+          { name: 'c', increment_id: 2 }
+        ]
+      }
+
+      expect(result).toEqual(expectedResult);
+    })
   })
 
   describe('refreshOrderHistory action', () => {
