@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.3.1
+## 1.2.1
 
 -  Add args parameter to custom queries ([#5854](https://github.com/vuestorefront/vue-storefront/issues/5854)) - [andrzejewsky](https://github.com/andrzejewsky)
 
