@@ -70,7 +70,7 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   log.success('Installed Vue Storefront E2E testing plugin');
 
   // Composition API plugin
-  this.addModule('@nuxtjs/composition-api');
+  this.addModule('@nuxtjs/composition-api/module');
   log.success('Installed nuxt Composition API Module');
 
   // StorefrontUI module
