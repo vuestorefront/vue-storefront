@@ -13,6 +13,7 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { userHooksExecutors, userHooks } from '../hooks'
 import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
+import uniqBy from 'lodash-es/uniqBy'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {
@@ -267,6 +268,19 @@ const actions: ActionTree<UserState, RootState> = {
       EventBus.$emit('user-after-loaded-orders', ordersHistory)
 
       return ordersHistory
+    }
+  },
+  async appendOrdersHistory ({ commit, getters }, { pageSize = 20, currentPage = 1 }) {
+    const resp = await UserService.getOrdersHistory(pageSize, currentPage)
+
+    if (resp.code === 200) {
+      const oldOrders = getters.getOrdersHistory;
+      let orders = resp.result;
+      if (oldOrders && orders.items) orders.items = uniqBy([...oldOrders, ...orders.items], 'increment_id')
+
+      commit(types.USER_ORDERS_HISTORY_LOADED, orders)
+      EventBus.$emit('user-after-loaded-orders', orders)
+      return orders
     }
   },
   async refreshOrdersHistory ({ commit }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
