@@ -482,7 +482,7 @@ describe('User actions', () => {
       expect(result).toBe(responseOb.result)
     })
 
-    it('returns unique orders', async () => {
+    it('returns orders with unique increment_id', async () => {
       const oldOrders = [
         { name: 'a', increment_id: 0 },
         { name: 'b', increment_id: 1 }
