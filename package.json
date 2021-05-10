@@ -7,7 +7,7 @@
   "scripts": {
     "build:docs": "cd packages/core/docs && yarn build",
     "dev:docs": "cd packages/core/docs && yarn dev",
-    "build:core": "yarn build:middleware && cd packages/core/core && yarn build",
+    "build:core": "cd packages/core/core && yarn build && cd - && yarn build:middleware",
     "build:middleware": "cd packages/core/middleware && yarn build",
     "build:spr:api-client": "cd packages/spryker/api-client && yarn build",
     "build:spr:composables": "cd packages/spryker/composables && yarn build",
