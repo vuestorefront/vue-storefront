@@ -44,17 +44,16 @@ You can read more about available commands and environments on [commands](https:
 We strongly recommend installing [Vue.js Devtools](https://github.com/vuejs/vue-devtools#installation) in your browser. It's an excellent tool for viewing component structure and their current state, inspecting events and routes, and much more.
 
 <center>
-    <img src="../images/general/vue-js-devtools-install.gif" alt="Vue.js Devtools Installation"/>
+    <img src="../images/general/vue-js-devtools-install.gif" alt="Process of installing Vue.js Devtools plugin in Chrome browser"/>
 </center>
 
-
 <center>
-    <img src="../images/general/vue-js-devtools.gif" alt="Vue.js Devtools"/>
+    <img src="../images/general/vue-js-devtools.gif" alt="Usage of Vue.js Devtools with Vue Storefront application"/>
 </center>
 
 ### Vetur for VS Code
-For developers using VS Code as their main IDE, we also recommend using [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur).
-Vetur is a VS Code extension that speeds up Vue.js-based applications development by providing, amongst many others, features like Vue.js code autocompletion, and syntax highlighting.
+For those using Visual Studio Code as their main code editor, we also recommend using [Vetur extension](https://marketplace.visualstudio.com/items?itemName=octref.vetur).
+It speeds up development of Vue.js-based applications by providing, amongst many others, features like Vue.js code autocompletion and syntax highlighting.
 
 #### Installing Vetur
 To install Vetur extension:
@@ -64,11 +63,11 @@ To install Vetur extension:
 4. Click `Install`
 
 <center>
-    <img src="../images/general/vs-code-vetur-install.gif" alt="VS Code Vetur Installation" />
+    <img src="../images/general/vs-code-vetur-install.gif" alt="Process of installing of Vetur plugin in Visual Studio Code" />
 </center>
 
 <center>
-    <img src="../images/general/vs-code-vetur.gif" alt="VS Code Vetur" />
+    <img src="../images/general/vs-code-vetur.gif" alt="Example of autocompletion provided by Vetur" />
 </center>
 
 ## What's next?
