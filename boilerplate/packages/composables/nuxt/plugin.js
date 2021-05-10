@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { integrationPlugin } from '@vue-storefront/core';
 
 const moduleOptions = <%= serialize(options) %>;

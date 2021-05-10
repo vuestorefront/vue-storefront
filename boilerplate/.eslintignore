@@ -1,0 +1,5 @@
+**/node_modules/**/*
+**/lib/*
+**/GraphQL.ts
+!**/.vuepress/**/*
+packages/composables/nuxt/plugin.js

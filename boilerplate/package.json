@@ -8,12 +8,18 @@
     "build": "lerna run build",
     "dev": "lerna run dev --parallel",
     "test": "lerna run test",
+    "link-core": "yarn crosslink --overwrite",
     "release-patch": "lerna publish patch --skip-npm --force-publish=*",
     "release-stable": "lerna publish minor --skip-npm --force-publish=*"
   },
+  "crosslink": [
+    "core-repo/node_modules/@vue/composition-api -> node_modules",
+    "core-repo/packages/core/* -> node_modules"
+  ],
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@commitlint/cli": "^12.1.1",
+    "@loopmode/crosslink": "^0.4.0",
     "@commitlint/config-conventional": "^12.1.1",
     "@rollup/plugin-babel": "^5.1.0",
     "@rollup/plugin-replace": "^2.3.3",
