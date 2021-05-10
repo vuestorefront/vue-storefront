@@ -208,8 +208,10 @@ export default {
   --mega-menu-aside-menu-height: calc(100vh - var(--bottom-navigation-height) - var(--bar-height));
 }
 .sf-loader__spinner {
+  margin-bottom: var(--bar-height, 3.125rem);
   @include for-mobile {
     margin-top: var(--bar-height, 3.125rem);
+    margin-bottom: 0;
   }
 }
 </style>
