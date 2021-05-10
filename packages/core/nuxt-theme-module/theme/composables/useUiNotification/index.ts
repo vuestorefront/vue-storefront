@@ -10,7 +10,7 @@ interface UseUiNotification {
   dismiss?: () => void;
 }
 
-type SendUiNotificationParams = Omit<UseUiNotification, 'id'>;
+type SendUiNotificationParams = Omit<UseUiNotification, 'id'|'dismiss'>;
 
 const notifications = reactive<Array<UseUiNotification>>([]);
 const maxVisibleNotifications = 3;
