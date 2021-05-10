@@ -44,7 +44,12 @@ You can read more about available commands and environments on [commands](https:
 We strongly recommend installing [Vue.js Devtools](https://github.com/vuejs/vue-devtools#installation) in your browser. It's an excellent tool for viewing component structure and their current state, inspecting events and routes, and much more.
 
 <center>
-    <img src="../images/theme/vue-devtools.jpg" alt="Vue.js Devtools"/>
+    <img src="../images/general/vue-js-devtools-install.gif" alt="Vue.js Devtools Installation"/>
+</center>
+
+
+<center>
+    <img src="../images/general/vue-js-devtools.gif" alt="Vue.js Devtools"/>
 </center>
 
 ### Vetur for VS Code
@@ -57,6 +62,10 @@ To install Vetur extension:
 2. Open `Extensions`
 3. Search for `Vetur`
 4. Click `Install`
+
+<center>
+    <img src="../images/general/vs-code-vetur-install.gif" alt="VS Code Vetur Installation" />
+</center>
 
 <center>
     <img src="../images/general/vs-code-vetur.gif" alt="VS Code Vetur" />
