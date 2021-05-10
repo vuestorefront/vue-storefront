@@ -22,8 +22,14 @@
             v-for="subCategory in activeCategory[0].children"
             :key="subCategory.id"
             :title="subCategory.name"
-            @click.native='$router.push(`/c/${currentCatSlug}/${subCategory.slug}`)'
           >
+            <template #title="{ title, changeActive }">
+              <SfMenuItem
+                :label="title"
+                class="sf-mega-menu-column__header"
+                @click="$router.push(`/c/${currentCatSlug}/${subCategory.slug}`)"
+              />
+            </template>
             <SfLoader :loading="subCategoriesLoading">
               <SfList v-if="!subCategoriesLoading">
                 <SfListItem
