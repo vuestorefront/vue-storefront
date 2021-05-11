@@ -185,15 +185,7 @@ describe('[CORE - factories] useUserFactory', () => {
         useUserMethods.setUser(params.user);
         await useUserMethods.logout();
         expect(factoryParams.logOut).toHaveBeenNthCalledWith(1, {
-          currentUser: params.user,
-          customQuery: undefined
-        });
-
-        useUserMethods.setUser(params.user);
-        await useUserMethods.logout({customQuery: {key: 'customQuery'}});
-        expect(factoryParams.logOut).toHaveBeenNthCalledWith(2, {
-          currentUser: params.user,
-          customQuery: {key: 'customQuery'}
+          currentUser: params.user
         });
       });
     });

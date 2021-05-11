@@ -3,8 +3,8 @@ import { UseUser, Context, FactoryParams, UseUserErrors, CustomQuery } from '../
 import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 
 export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> extends FactoryParams {
-  load: (context: Context, params: { customQuery?: CustomQuery }) => Promise<USER>;
-  logOut: (context: Context, params: {currentUser: USER; customQuery?: CustomQuery}) => Promise<void>;
+  load: (context: Context, params?: { customQuery: CustomQuery }) => Promise<USER>;
+  logOut: (context: Context, params: {currentUser: USER}) => Promise<void>;
   updateUser: (context: Context, params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS; customQuery?: CustomQuery}) => Promise<USER>;
   register: (context: Context, params: REGISTER_USER_PARAMS & {customQuery?: CustomQuery}) => Promise<USER>;
   logIn: (context: Context, params: { username: string; password: string; customQuery?: CustomQuery }) => Promise<USER>;
@@ -87,12 +87,12 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
-    const logout = async ({customQuery} = {customQuery: undefined}) => {
+    const logout = async () => {
       Logger.debug('useUserFactory.logout');
       resetErrorValue();
 
       try {
-        await _factoryParams.logOut({currentUser: user.value, customQuery});
+        await _factoryParams.logOut({ currentUser: user.value });
         error.value.logout = null;
         user.value = null;
       } catch (err) {
