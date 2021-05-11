@@ -488,7 +488,7 @@ vi index.ts # of course you can open it with other editors!
 import { extendStore, isServer } from '@vue-storefront/core/helpers';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import Liked from './components/Liked.vue';
-import { exampleHooksExecutors  } from './src/modules/example-module/hooks'; // Import our hooks
+import { exampleHooksExecutors  } from 'src/modules/example-module/hooks'; // Import our hooks
 
 const examplePlugin = store => {
 // abridged ...
