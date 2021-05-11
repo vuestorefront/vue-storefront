@@ -446,7 +446,7 @@ const {
 const {
   hook: beforeExampleHook,
   executor: beforeExampleExecutor
-} = createMutatorHook<Product[], Product[]>()
+} = createMutatorHook<{ path: string, pathType: string, sizeX: number, sizeY: number }, { path: string }>()
 
 const {
   hook: afterExampleHook,
@@ -474,7 +474,19 @@ export {
 
 **What is and why you need to call the `executor`?**
 
-Open source creators more than often intentionally leave hooks as many as possible to everywhere they think extendable for 3rd party developers to inject logic into the flow of the program. In short `executor` is a function that will run all the collected hooks.
+In short `executor` is a function that will run all the collected hooks.
+Open source creators more than often intentionally leave hooks as many as possible to everywhere they think extendable for 3rd party developers to inject logic into the flow of the program.
+Ok, so why calling the `executor` is so important? It is important because without this all functions which you passed to hook will not be fired.
+
+**How to pass function to `hook`?**
+
+You just have to import the proper hook to any file inside your module and invoke it.
+
+```ts
+import { exampleHooks } from 'src/modules/example-module/hooks';
+
+exampleHooks.beforeExample(() => console.log('Do something!'))
+```
 
 **How to call `executor`?**
 1. Open the `index.ts` file of `example-module` again at `./src/modules/example-module`
@@ -506,8 +518,13 @@ export const ExampleModule: StorefrontModule = function ({app, store, router, mo
   router.addRoutes(exampleRoutes)
   router.beforeEach((to, from, next) => { next() })
 
-  const { serverItems, clientItems } = exampleHooksExecutors.beforeExample({ clientItems: getCartItems, serverItems: result })
-  console.log('Data retrieved from hooks:', serverItems, clientItems);
+  const relativeUrl = 'examplePath';
+  const width = 300;
+  const height = 100;
+  const pathType = 'product';
+
+  const { path } = exampleHooksExecutors.beforeExample({ path: relativeUrl, sizeX: width, sizeY: height, pathType })
+  console.log('Data retrieved from hooks:', path);
 }
 ```
 
@@ -523,7 +540,7 @@ yarn dev
 Once again the app is up and running, it will spit out tons of logs indicating the jobs done including  :
 ```bash{2}
 app_1  | [module] VS Modules registration finished. { succesfulyRegistered: '0 / 0', registrationOrder: [] }
-app_1  | App has just been initialized # Successfully Hooked !
+app_1  | Data retrieved from hooks: examplePath # Successfully Hooked !
 app_1  | Result from ES for 3e9eb2ab7b4d96276c016ae9d5aa18116483667603e7e84ad2346627 (category),  ms=613 null
 app_1  | whole request [/liked]: 1323ms
 ```
