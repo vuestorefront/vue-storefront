@@ -39,9 +39,9 @@ context(['regression'], 'Product page', () => {
     page.product().addToCartButton.click();
     page.product().header.openCart();
     page.components.cart.productProperties.should('be.visible').then(() => {
-      page.components.cart.productProperties.each((properties) => {
-        cy.wrap(properties).find('.sf-property__value').eq(0).should('contain', data.product.attributes.size);
-        cy.wrap(properties).find('.sf-property__value').eq(1).should('contain', data.product.attributes.color);
+      page.components.cart.product.each((product) => {
+        page.components.cart.getSizeProperty(product).should('contain', data.product.attributes.size);
+        page.components.cart.getColorProperty(product).should('contain', data.product.attributes.color);
       });
 
     });

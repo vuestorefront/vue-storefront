@@ -30,9 +30,9 @@ context([], 'Carts merging', () => {
     page.components.cart.quantityInput.each((input, index) => {
       cy.wrap(input).should('have.value', data.expectedCart[index].quantity);
     });
-    page.components.cart.productProperties.each((properties, index) => {
-      cy.wrap(properties).find('.sf-property__value').eq(0).should('contain', data.expectedCart[index].size);
-      cy.wrap(properties).find('.sf-property__value').eq(1).should('contain', data.expectedCart[index].color);
+    page.components.cart.product.each((product, index) => {
+      page.components.cart.getSizeProperty(product).should('contain', data.expectedCart[index].size);
+      page.components.cart.getColorProperty(product).should('contain', data.expectedCart[index].color);
     });
   });
 

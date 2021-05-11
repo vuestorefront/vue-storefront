@@ -22,6 +22,17 @@ class Cart {
     return this.product.find('.collected-product__properties');
   }
 
+  getProperty(collectedProduct: JQuery<HTMLElement>): Cypress.Chainable {
+    return cy.wrap(collectedProduct).find('.sf-property__value');
+  }
+
+  getSizeProperty(collectedProduct: JQuery<HTMLElement>): Cypress.Chainable {
+    return this.getProperty(collectedProduct).eq(0);
+  }
+
+  getColorProperty(collectedProduct: JQuery<HTMLElement>): Cypress.Chainable {
+    return this.getProperty(collectedProduct).eq(1);
+  }
 }
 
 export default new Cart();
