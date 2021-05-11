@@ -1,5 +1,15 @@
 import { Customer, Product } from '../types/types';
 
+export type CreateCartResponse = {
+  body: {
+    data: {
+      cart: {
+        id: string;
+      }
+    }
+  }
+}
+
 const requests = {
 
   addToCart(cartId: string, product: Product, quantity?: number): Cypress.Chainable {

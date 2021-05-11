@@ -7,7 +7,6 @@
     },
     "products": [
       {
-        "category": "women",
         "name": "Shirt Aspesi white M",
         "id": 1,
         "sku": "M0E20000000ED0W",
@@ -15,20 +14,36 @@
         "size": 34
       },
       {
-        "category": "women",
         "name": "Shirt Aspesi white M",
-        "id": 1,
-        "sku": "M0E20000000ED0W",
+        "id": 2,
+        "sku": "M0E20000000ED0X",
         "quantity": 1,
-        "size": 34
+        "size": 36
       },
       {
-        "category": "women",
-        "name": "Shirt Aspesi white M",
+        "name": "Shirt ”David” MU light blue",
         "id": 1,
-        "sku": "M0E20000000ED0W",
+        "sku": "M0E20000000DL5W",
+        "quantity": 2,
+        "size": 36
+      }
+    ],
+    "expectedCart": [
+      {
+        "name": "Shirt Aspesi white M",
         "quantity": 1,
-        "size": 34
+        "size": 34,
+        "color": "white"
+      }, {
+        "name": "Shirt Aspesi white M",
+        "quantity": 1,
+        "size": 36,
+        "color": "white"
+      }, {
+        "name": "Shirt ”David” MU light blue",
+        "quantity": 2,
+        "size": 36,
+        "color": "blue"
       }
     ]
   }

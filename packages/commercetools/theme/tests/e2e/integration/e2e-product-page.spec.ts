@@ -39,9 +39,11 @@ context(['regression'], 'Product page', () => {
     page.product().addToCartButton.click();
     page.product().header.openCart();
     page.components.cart.productProperties.should('be.visible').then(() => {
-      page.components.cart.getProductPropertiesData().then(attributes => {
-        expect(attributes).to.deep.eq(data.product.attributes);
+      page.components.cart.productProperties.each((properties) => {
+        cy.wrap(properties).find('.sf-property__value').eq(0).should('contain', data.product.attributes.size);
+        cy.wrap(properties).find('.sf-property__value').eq(1).should('contain', data.product.attributes.color);
       });
+
     });
   });
 

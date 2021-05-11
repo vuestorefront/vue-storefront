@@ -1,13 +1,3 @@
-export type CreateCartResponse = {
-  body: {
-    data: {
-      cart: {
-        id: string;
-      }
-    }
-  }
-}
-
 export type Address = {
   streetName: string;
   apartment: string;
@@ -17,6 +7,7 @@ export type Address = {
   zipcode: string;
   phone: string;
 }
+
 export type Customer = {
   firstName?: string;
   lastName?: string;
