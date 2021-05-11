@@ -203,6 +203,7 @@ module.exports = {
             ['/guide/theme', 'Theme'],
             ['/guide/configuration', 'Configuration'],
             ['/guide/composables', 'Composables'],
+            ['/guide/getters', 'Getters'],
             ['/guide/product-catalog', 'Product Catalog'],
             ['/guide/authentication', 'Authentication'],
             ['/guide/user-profile', 'User profile'],
