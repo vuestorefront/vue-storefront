@@ -1,0 +1,35 @@
+{
+  "Should merge guest cart with customer cart": {
+    "customer": {
+      "password": "Vu3S70r3fr0n7!",
+      "firstName": "Jane",
+      "lastName": "Doe"
+    },
+    "products": [
+      {
+        "category": "women",
+        "name": "Shirt Aspesi white M",
+        "id": 1,
+        "sku": "M0E20000000ED0W",
+        "quantity": 1,
+        "size": 34
+      },
+      {
+        "category": "women",
+        "name": "Shirt Aspesi white M",
+        "id": 1,
+        "sku": "M0E20000000ED0W",
+        "quantity": 1,
+        "size": 34
+      },
+      {
+        "category": "women",
+        "name": "Shirt Aspesi white M",
+        "id": 1,
+        "sku": "M0E20000000ED0W",
+        "quantity": 1,
+        "size": 34
+      }
+    ]
+  }
+}
