@@ -10,9 +10,9 @@ before(() => {
   });
 });
 
-context([], 'Carts merging', () => {
+context(['regression'], 'Carts merging', () => {
 
-  it('Should merge guest cart with customer cart', function() {
+  it('Should merge guest cart with registered customer cart', function() {
     const data = cy.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     requests.getMe();
@@ -31,8 +31,47 @@ context([], 'Carts merging', () => {
       cy.wrap(input).should('have.value', data.expectedCart[index].quantity);
     });
     page.components.cart.product.each((product, index) => {
-      page.components.cart.getSizeProperty(product).should('contain', data.expectedCart[index].size);
-      page.components.cart.getColorProperty(product).should('contain', data.expectedCart[index].color);
+      page.components.cart.getProductSizeProperty(product).should('contain', data.expectedCart[index].size);
+      page.components.cart.getProductColorProperty(product).should('contain', data.expectedCart[index].color);
+    });
+
+  });
+  it('Should merge guest cart with registered customer cart - products already in cart', function() {
+    const data = cy.fixtures.data[this.test.title];
+    data.customer.email = generator.email;
+    requests.customerSignMeUp(data.customer);
+    requests.createCart().then((response: CreateCartResponse) => {
+      data.products.customer.forEach(product => {
+        requests.addToCart(response.body.data.cart.id, product, product.quantity);
+      });
+      cy.clearCookies();
+    });
+    requests.createCart().then((response: CreateCartResponse) => {
+      data.products.guest.forEach(product => {
+        requests.addToCart(response.body.data.cart.id, product, product.quantity);
+      });
+    });
+    page.home.visit();
+    page.home.header.openLoginModal();
+    page.components.loginModal.loginToAccountButton.click();
+    page.components.loginModal.fillForm(data.customer);
+    page.components.loginModal.loginBtn.click();
+    page.home.header.openCart();
+    page.components.cart.totalItems.should($ti => {
+      const totalItems: number = data.expectedCart.reduce((total, product) => {
+        return total + product.quantity;
+      }, 0);
+      expect($ti.text().trim()).to.be.equal(totalItems.toString());
+    });
+    page.components.cart.productName.each((name, index) => {
+      cy.wrap(name).should('contain', data.expectedCart[index].name);
+    });
+    page.components.cart.quantityInput.each((input, index) => {
+      cy.wrap(input).should('have.value', data.expectedCart[index].quantity);
+    });
+    page.components.cart.product.each((product, index) => {
+      page.components.cart.getProductSizeProperty(product).should('contain', data.expectedCart[index].size);
+      page.components.cart.getProductColorProperty(product).should('contain', data.expectedCart[index].color);
     });
   });
 
