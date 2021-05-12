@@ -1,8 +1,13 @@
 import { Ref, computed } from '@vue/composition-api';
-import { UseUser, Context, FactoryParams, UseUserErrors } from '../types';
+import { UseUser, Context, FactoryParams, UseUserErrors, PlatformApi } from '../types';
 import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 
-export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> extends FactoryParams {
+export interface UseUserFactoryParams<
+  USER,
+  UPDATE_USER_PARAMS,
+  REGISTER_USER_PARAMS,
+  API extends PlatformApi = any
+> extends FactoryParams<API> {
   load: (context: Context, params?: any) => Promise<USER>;
   logOut: (context: Context, params?: {currentUser?: USER}) => Promise<void>;
   updateUser: (context: Context, params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS}) => Promise<USER>;
@@ -11,10 +16,15 @@ export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PA
   changePassword: (context: Context, params: {currentUser: USER; currentPassword: string; newPassword: string}) => Promise<USER>;
 }
 
-export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS extends { email: string; password: string }>(
-  factoryParams: UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS>
-) => {
-  return function useUser (): UseUser<USER, UPDATE_USER_PARAMS> {
+export const useUserFactory = <
+USER,
+UPDATE_USER_PARAMS,
+REGISTER_USER_PARAMS extends { email: string; password: string },
+API extends PlatformApi = any
+>(
+    factoryParams: UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS, API>
+  ) => {
+  return function useUser (): UseUser<USER, UPDATE_USER_PARAMS, API> {
     const errorsFactory = (): UseUserErrors => ({
       updateUser: null,
       register: null,
@@ -27,8 +37,12 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
     const user: Ref<USER> = sharedRef(null, 'useUser-user');
     const loading: Ref<boolean> = sharedRef(false, 'useUser-loading');
     const isAuthenticated = computed(() => Boolean(user.value));
-    const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseUserErrors> = sharedRef(errorsFactory(), 'useUser-error');
+
+    const _factoryParams = configureFactoryParams(
+      factoryParams,
+      { mainRef: user, alias: 'currentUser', loading, error }
+    );
 
     const setUser = (newUser: USER) => {
       user.value = newUser;
@@ -138,6 +152,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
     };
 
     return {
+      api: _factoryParams.api,
       setUser,
       user: computed(() => user.value),
       updateUser,
