@@ -44,7 +44,9 @@ To add the product to the cart you can use `addItem` method:
   <!-- ... -->
 </template>
 <script>
+import { ref } from '@vue/composition-api';
 import { useCart } from '{INTEGRATION}';
+
 export default {
   props: {
     products: {
@@ -57,8 +59,11 @@ export default {
 
     // load cart if it wasn't loaded before
 
+    const quantity = ref(0);
+
     return {
-      addItem
+      addItem,
+      quantity
     };
   }
 };
@@ -94,24 +99,21 @@ To remove an item from the cart use `removeItem` method, and similarly to update
   <!-- ... -->
 </template>
 <script>
-import { computed } from '@vue/composition-api';
+import { computed, ref } from '@vue/composition-api';
 import { useCart, cartGetters } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
   setup() {
-    const {
-      cart,
-      removeItem,
-      updateItemQty,
-      loading
-    } = useCart();
+    const { cart, removeItem, updateItemQty, loading } = useCart();
 
     // load cart if it wasn't loaded before
 
-    const products = computed(() => cartGetters.getItems(cart.value);
+    const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
+
+    const quantity = ref(0);
 
     return {
       products,
@@ -119,7 +121,8 @@ export default {
       totalItems,
       removeItem,
       updateItemQty,
-      loading
+      loading,
+      quantity
     };
   }
 };
@@ -441,7 +444,6 @@ export default {
   },
   setup() {
     const { addItem: addToCart, isInCart, loading } = useCart();
-
     const { addItem: addToWishlist, isInWishlist } = useWishlist();
 
     return {
