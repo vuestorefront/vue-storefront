@@ -63,12 +63,6 @@ const params: UseCartFactoryParams<CartDetails, LineItem, ProductVariant, Agnost
   },
   isInCart: (context: Context, { currentCart, product }) => {
     return Boolean(currentCart && getCartItemByProduct({ currentCart, product }));
-  },
-  api: {
-    exampleFunction: (context: Context, params) => {
-      console.log('example function called', context, params);
-      return { ...params.currentCart };
-    }
   }
 };
 
