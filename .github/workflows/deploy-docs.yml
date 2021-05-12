@@ -12,8 +12,8 @@ jobs:
         uses: actions/checkout@v1
       - shell: bash
         run: |
-          echo "1.0.`date +%s`" > version.txt    
-          yarn && yarn build:ct:tools && yarn build:ct:docs
+          echo "1.0.`date +%s`" > version.txt
+          yarn && yarn build:core && yarn build:ct:tools && yarn build:core:docs && yarn build:ct:docs
       - name: Upload version artifact
         uses: actions/upload-artifact@v2
         with:
