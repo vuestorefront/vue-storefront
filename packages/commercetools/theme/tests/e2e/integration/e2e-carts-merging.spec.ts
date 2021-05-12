@@ -2,18 +2,17 @@ import requests, { CreateCartResponse } from '../api/requests';
 import page from '../pages/factory';
 import generator from '../utils/data-generator';
 
-before(() => {
-  cy.fixture('test-data/e2e-carts-merging').then((fixture) => {
-    cy.fixtures = {
-      data: fixture
-    };
-  });
-});
-
 context(['regression'], 'Carts merging', () => {
+  beforeEach(function () {
+    cy.fixture('test-data/e2e-carts-merging').then((fixture) => {
+      this.fixtures = {
+        data: fixture
+      };
+    });
+  });
 
-  it('Should merge guest cart with registered customer cart', function() {
-    const data = cy.fixtures.data[this.test.title];
+  it('Should merge guest cart with registered customer cart', function () {
+    const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     requests.getMe();
     requests.createCart().then((response: CreateCartResponse) => {
@@ -36,8 +35,8 @@ context(['regression'], 'Carts merging', () => {
     });
 
   });
-  it('Should merge guest cart with registered customer cart - products already in cart', function() {
-    const data = cy.fixtures.data[this.test.title];
+  it('Should merge guest cart with registered customer cart - products already in cart', function () {
+    const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     requests.customerSignMeUp(data.customer);
     requests.createCart().then((response: CreateCartResponse) => {
