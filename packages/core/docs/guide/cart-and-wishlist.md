@@ -31,19 +31,19 @@ To add the product to the cart you can use `addItem` method:
 
 ```vue
 <template>
-  // ...
+  <!-- ... -->
   <ul>
     <li v-for="product in products" :key="product.id">
       <!-- ... -->
+      <input type="number" v-model="quantity" />
       <button @click="addItem({ product, quantity })">
         Add to cart
       </button>
     </li>
   </ul>
-  // ...
+  <!-- ... -->
 </template>
 <script>
-import { computed } from '@vue/composition-api';
 import { useCart } from '{INTEGRATION}';
 export default {
   props: {
@@ -130,21 +130,9 @@ export default {
 
 To check if a specific product configuration is already in the cart, pass it to `isInCart` method:
 
-```js
+```vue
 <script>
-  import { useCart } from '{INTEGRATION}';
-
-  export default {
-    props: {
-      products: {
-        type: Array,
-        required: true
-      }
-    },
-    setup() {
-      const {
-        isInCart,
-      } = useCart();
+import { useCart } from '{INTEGRATION}';
 
 export default {
   props: {
@@ -170,7 +158,7 @@ To clear cart items (not delete the cart) use `clear` method.
 
 ```vue
 <template>
-  // ...
+  <!-- ... -->
   <div>
     <ul>
       <li v-for="product in products" :key="product.id">
@@ -181,7 +169,7 @@ To clear cart items (not delete the cart) use `clear` method.
       Clear cart
     </button>
   </div>
-  // ...
+  <!-- ... -->
 </template>
 <script>
 import { computed } from '@vue/composition-api';
@@ -207,7 +195,7 @@ You can apply promotional coupons to your cart with `applyCoupon` and remove wit
 
 ```vue
 <template>
-  // ...
+  <!-- ... -->
   <div>
     <input type="text" v-model="promoCode" />
     <button @click="() => applyCoupon({ couponCode: promoCode })">
@@ -217,7 +205,7 @@ You can apply promotional coupons to your cart with `applyCoupon` and remove wit
       Remove promo code
     </button>
   </div>
-  // ...
+  <!-- ... -->
 </template>
 <script>
 import { useCart } from '{INTEGRATION}';
@@ -266,19 +254,18 @@ To add the product to the wishlist you can use `addItem` method:
 
 ```vue
 <template>
-  // ...
+  <!-- ... -->
   <ul>
     <li v-for="product in products" :key="product.id">
       <!-- ... -->
-      <button @click="addItem({ product, quantity })">
+      <button @click="addItem({ product })">
         Add to wishlist
       </button>
     </li>
   </ul>
-  // ...
+  <!-- ... -->
 </template>
 <script>
-import { computed } from '@vue/composition-api';
 import { useWishlist } from '{INTEGRATION}';
 
 export default {
@@ -288,7 +275,7 @@ export default {
       required: true
     }
   },
-  setup(props) {
+  setup() {
     const { addItem } = useWishlist();
 
     return {
@@ -305,7 +292,7 @@ To remove an item from the cart use `removeItem` method.
 
 ```vue
 <template>
-  // ...
+  <!-- ... -->
   <div>
     <ul>
       <li v-for="product in products" :key="product.id">
@@ -322,7 +309,7 @@ To remove an item from the cart use `removeItem` method.
       {{ totalItems }}
     </span>
   </div>
-  // ...
+  <!-- ... -->
 </template>
 <script>
 import { computed } from '@vue/composition-api';
@@ -330,7 +317,7 @@ import { useWishlist, wishlistGetters } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
 export default {
   setup() {
-    const { wishlist, removeItem, loading } = useWishlist();
+    const { wishlist, removeItem } = useWishlist();
 
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
@@ -338,12 +325,13 @@ export default {
       wishlistGetters.getTotalItems(wishlist.value)
     );
 
+    // load wishlist if it's not loaded before
+
     return {
       products,
       totals,
       totalItems,
-      removeItem,
-      loading
+      removeItem
     };
   }
 };
@@ -354,28 +342,25 @@ export default {
 
 To check if a product is already on the wishlist pass it to `isInWishlist` method:
 
-```js
+```vue
 <script>
-  import { computed } from '@vue/composition-api';
-  import { useWishlist} from '{INTEGRATION}';
-  export default {
-    props: {
-      products: {
-        type: Array,
-        required: true
-      }
-    },
-    setup() {
-      const {
-        cart,
-        isInWishlist,
-      } = useWishlist();
-
-      return {
-        isInWishlist,
-      };
+import { computed } from '@vue/composition-api';
+import { useWishlist } from '{INTEGRATION}';
+export default {
+  props: {
+    products: {
+      type: Array,
+      required: true
     }
-  };
+  },
+  setup() {
+    const { cart, isInWishlist } = useWishlist();
+
+    return {
+      isInWishlist
+    };
+  }
+};
 </script>
 ```
 
@@ -385,7 +370,7 @@ Cleaning the wishlist can be achieved by `clear` property.
 
 ```vue
 <template>
-  // ...
+  <!-- ... -->
   <div>
     <ul>
       <li v-for="product in products" :key="product.id">
@@ -396,7 +381,7 @@ Cleaning the wishlist can be achieved by `clear` property.
       Clear wishlist
     </button>
   </div>
-  // ...
+  <!-- ... -->
 </template>
 <script>
 import { computed } from '@vue/composition-api';
@@ -404,7 +389,7 @@ import { useWishlist, wishlistGetters } from '{INTEGRATION}';
 
 export default {
   setup() {
-    const { wishlist, clear } = useCart();
+    const { wishlist, clear } = useWishlist();
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
 
     return {
@@ -560,6 +545,7 @@ The wishlist component:
 import { computed } from '@vue/composition-api';
 import { useWishlist, wishlistGetters } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
+
 export default {
   setup() {
     const { wishlist, removeItem, clear, load } = useWishlist();
