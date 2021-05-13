@@ -4,16 +4,18 @@
 
 ## What are getters?
 
-Getters are pure functions that allows you to receive properties from objects. They return an agnostic or a primitive type. It makes them independent from the backend, which is used in the project and let you change it without additional work on frontend site.  
-Each composable has its own getters object e.g. `cartGetters` named according to values they return, so **you should use getters dedicated for specific composable**. `getCartTotalItems` is one of getters functions accessible as `cartGetters` property. It is utilized to provide a total quantity of items currently present in the cart.
+Getters are functions that allow you to get the data from the raw API responses. They return an agnostic or a primitive type. They allow you to write the same code regardless of the backend used.
+Each composable has its own dedicated getter, e.g. `useCart` and `cartGetters`. **You should only use getters dedicated to specific composable**.
 
 ## When should I use them?
 
-The getters are needed when you want to use data in UI components like e.g. quantity of the products that are in the cart currently. **They should always be used whenever it is possible to provide data from objects** such as `cart` or `products`.
+**Getters should be used whenever possible to extract the data from composables**, e.g., when you want to get the quantity of the products in the cart in UI components.
 
 ## How can I use getters?
 
-In order to use `getTotalItems` you need to import `cartGetters` from your integration and then apply it as the computed property.
+The getters accept arguments to get the data. As an example, we will use cart functionalities.
+Most functions in `cartGetters` accept whole `cart` object or individual cart items. This data needs to be extracted from `useCart` composable first.
+As the first example, we will use `getTotalItems` from `cartGetters` to get the total number of items in the cart.
 
 ```vue
 <template>
@@ -47,8 +49,6 @@ export default {
 }
 </script>
 ```
-
-The getters use arguments like `cart.value` in the function to get the data from. But they need to be extracted from composable `useCart` first.
 
 **It's important to use getters as the computed property** to have them always updated:
 
@@ -121,174 +121,58 @@ List of all available getters:
 
 composable: useProduct
 
-```js
-getName;
-getSlug;
-getPrice;
-getGallery;
-getCoverImage;
-getFiltered;
-getAttributes;
-getDescription;
-getCategoryIds;
-getId;
-getFormattedPrice;
-getTotalReviews;
-getAverageRating;
-getBreadcrumbs;
-```
+[productGetters](#)
 
 ### cartGetters
 
 composable: useCart
 
-```js
-getItems;
-getItemName;
-getItemImage;
-getItemPrice;
-getItemQty;
-getItemAttributes;
-getItemSku;
-getTotals;
-getShippingPrice;
-getTotalItems;
-getFormattedPrice;
-getCoupons;
-getDiscounts;
-```
+[cartGetters](#)
 
 ### wishlistGetters
 
 composable: useWishlist
 
-```js
-getItems;
-getItemName;
-getItemImage;
-getItemPrice;
-getItemQty;
-getItemAttributes;
-getItemSku;
-getTotals;
-getTotalItems;
-getFormattedPrice;
-```
+[wishlistGetters](#)
 
 ### categoryGetters
 
 composable: useCategory
 
-```js
-getTree;
-getBreadcrumbs;
-```
+[categoryGetters](#)
 
 ### userGetters
 
 composable: useUser
 
-```js
-getFirstName;
-getLastName;
-getFullName;
-getEmailAddress;
-```
+[userGetters](#)
 
 ### userShippingGetters
 
 composable: useUserShipping
 
-```js
-getAddresses;
-getDefault;
-getTotal;
-getId;
-getPostCode;
-getStreetName;
-getStreetNumber;
-getCity;
-getFirstName;
-getLastName;
-getCountry;
-getPhone;
-getEmail;
-getProvince;
-getCompanyName;
-getTaxNumber;
-getApartmentNumber;
-isDefault;
-```
+[userShippingGetters](#)
 
 ### userBillingGetters
 
 composable: useUserBilling
 
-```js
-getAddresses;
-getDefault;
-getTotal;
-getId;
-getPostCode;
-getStreetName;
-getStreetNumber;
-getCity;
-getFirstName;
-getLastName;
-getCountry;
-getPhone;
-getEmail;
-getProvince;
-getCompanyName;
-getTaxNumber;
-getApartmentNumber;
-isDefault;
-```
+[userBillingGetters](#)
 
 ### userOrderGetters
 
 composable: useUserOrder
 
-```js
-getDate;
-getId;
-getStatus;
-getPrice;
-getItems;
-getItemSku;
-getItemName;
-getItemQty;
-getItemPrice;
-getFormattedPrice;
-```
+[userOrderGetters](#)
 
 ### reviewGetters
 
 composable: useReview
 
-```js
-getItems;
-getReviewId;
-getReviewAuthor;
-getReviewMessage;
-getReviewRating;
-getReviewDate;
-getTotalReviews;
-getAverageRating;
-getRatesCount;
-getReviewsPage;
-```
+[reviewGetters](#)
 
 ### facetsGetters
 
 composable: useFacet
 
-```js
-getAll;
-getGrouped;
-getCategoryTree;
-getSortOptions;
-getProducts;
-getPagination;
-getBreadcrumbs;
-```
+[facetGetters](#)
