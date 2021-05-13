@@ -8,11 +8,11 @@ class Cart {
   }
 
   get productName(): Cypress.Chainable {
-    return this.product.find('.sf-collected-product__title');
+    return this.product().find('.sf-collected-product__title');
   }
 
   get quantityInput(): Cypress.Chainable {
-    return this.product.find('input');
+    return this.product().find('input');
   }
 
   get goToCheckoutButton(): Cypress.Chainable {
@@ -20,7 +20,7 @@ class Cart {
   }
 
   get productProperties(): Cypress.Chainable {
-    return this.product.find('.collected-product__properties');
+    return this.product().find('.collected-product__properties');
   }
 
   get totalItems(): Cypress.Chainable {
