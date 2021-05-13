@@ -46,7 +46,7 @@ context('Order placement', () => {
     page.components.loginModal.iWantToCreateAccountCheckbox.click();
     page.components.loginModal.submitButton.click();
     page.home.header.categories.first().click();
-    page.category.products.first().click().then(() => {
+    page.category().products.first().click().then(() => {
       cy.wait([getProductReq, getProductReq]);
     });
     page.product().addToCartButton.click();
