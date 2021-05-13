@@ -4,7 +4,7 @@ class Cart {
 
   product(name?: string): Cypress.Chainable {
     const product = el('collected-product');
-    return name ? product : product.contains(name);
+    return name === undefined ? product : product.contains(name);
   }
 
   get productName(): Cypress.Chainable {
