@@ -17,8 +17,7 @@ describe('[CORE - factories] apiClientFactory', () => {
 
     const { createApiClient } = apiClientFactory<any, any>(params as any) as any;
 
-    const { settings } = createApiClient({});
-    expect(settings).toEqual({});
+    expect(createApiClient({}).settings).toEqual({});
   });
 
   it('Should merge with default settings when setup is called', () => {
@@ -72,7 +71,7 @@ describe('[CORE - factories] apiClientFactory', () => {
     expect(afterCreate).toHaveBeenCalled();
   });
 
-  it('applyContextToApi adds context as first argument to api functions', async () => {
+  it('applyContextToApi adds context as first argument to api functions', () => {
     const api = {
       firstFunc: jest.fn(),
       secondFunc: jest.fn(),
@@ -84,9 +83,9 @@ describe('[CORE - factories] apiClientFactory', () => {
 
     const apiWithContext: any = applyContextToApi(api, context);
 
-    await apiWithContext.firstFunc();
-    await apiWithContext.secondFunc('TEST');
-    await apiWithContext.thirdFunc('A', 'FEW', 'ARGS');
+    apiWithContext.firstFunc();
+    apiWithContext.secondFunc('TEST');
+    apiWithContext.thirdFunc('A', 'FEW', 'ARGS');
 
     expect(api.firstFunc).toHaveBeenCalledWith(
       expect.objectContaining({ extendQuery: expect.any(Function) })
