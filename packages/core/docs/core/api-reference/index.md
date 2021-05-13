@@ -8,5 +8,5 @@
 
 |  Package | Description |
 |  --- | --- |
-|  [@vue-storefront/core](./core.md) |  |
+|  [@vue-storefront/core](./core.md) | The Core API Reference documentation provides detailed information for each of the functions and interfaces in the Vue Storefront. |
 

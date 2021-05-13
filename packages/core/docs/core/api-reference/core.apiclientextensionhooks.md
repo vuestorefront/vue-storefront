@@ -15,7 +15,7 @@ export interface ApiClientExtensionHooks<C = any>
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [afterCall?](./core.apiclientextensionhooks.aftercall.md) | (params: [AfterCallParams](./core.aftercallparams.md)<!-- -->&lt;C&gt;) =&gt; [AfterCallArgs](./core.aftercallargs.md) | <i>(Optional)</i> |
-|  [afterCreate?](./core.apiclientextensionhooks.aftercreate.md) | (params: [HookParams](./core.hookparams.md)<!-- -->&lt;C&gt;) =&gt; C | <i>(Optional)</i> |
-|  [beforeCall?](./core.apiclientextensionhooks.beforecall.md) | (params: [BeforeCallParams](./core.beforecallparams.md)<!-- -->&lt;C&gt;) =&gt; [BeforeCallArgs](./core.beforecallargs.md) | <i>(Optional)</i> |
-|  [beforeCreate?](./core.apiclientextensionhooks.beforecreate.md) | (params: [HookParams](./core.hookparams.md)<!-- -->&lt;C&gt;) =&gt; C | <i>(Optional)</i> |
+|  [afterCreate?](./core.apiclientextensionhooks.aftercreate.md) | (params: HookParams&lt;C&gt;) =&gt; C | <i>(Optional)</i> |
+|  [beforeCall?](./core.apiclientextensionhooks.beforecall.md) | (params: BeforeCallParams&lt;C&gt;) =&gt; [BeforeCallArgs](./core.beforecallargs.md) | <i>(Optional)</i> |
+|  [beforeCreate?](./core.apiclientextensionhooks.beforecreate.md) | (params: HookParams&lt;C&gt;) =&gt; C | <i>(Optional)</i> |
 

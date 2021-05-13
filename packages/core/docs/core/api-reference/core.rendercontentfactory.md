@@ -19,7 +19,7 @@ export declare function renderContentFactory(factoryParams: RenderContentFactory
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  factoryParams | [RenderContentFactoryParams](./core.rendercontentfactoryparams.md)<!-- -->&lt;[RenderComponent](./core.rendercomponent.md)<!-- -->\[\]&gt; |  |
+|  factoryParams | [RenderContentFactoryParams](./core.rendercontentfactoryparams.md)<!-- -->&lt;RenderComponent\[\]&gt; |  |
 
 <b>Returns:</b>
 

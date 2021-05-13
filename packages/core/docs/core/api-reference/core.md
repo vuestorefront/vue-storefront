@@ -4,6 +4,8 @@
 
 ## core package
 
+The Core API Reference documentation provides detailed information for each of the functions and interfaces in the Vue Storefront.
+
 ## Enumerations
 
 |  Enumeration | Description |
@@ -55,7 +57,6 @@
 |  [ApiClientFactory](./core.apiclientfactory.md) |  |
 |  [ApiClientFactoryParams](./core.apiclientfactoryparams.md) |  |
 |  [ApiInstance](./core.apiinstance.md) |  |
-|  [BeforeCallParams](./core.beforecallparams.md) |  |
 |  [CallHookParams](./core.callhookparams.md) |  |
 |  [CartGetters](./core.cartgetters.md) |  |
 |  [CategoryGetters](./core.categorygetters.md) |  |
@@ -64,19 +65,17 @@
 |  [FacetSearchResult](./core.facetsearchresult.md) |  |
 |  [FacetsGetters](./core.facetsgetters.md) |  |
 |  [FactoryParams](./core.factoryparams.md) |  |
-|  [HookParams](./core.hookparams.md) |  |
 |  [Integration](./core.integration.md) |  |
 |  [IntegrationContext](./core.integrationcontext.md) |  |
 |  [MiddlewareConfig](./core.middlewareconfig.md) |  |
 |  [ProductGetters](./core.productgetters.md) |  |
 |  [ProductsSearchParams](./core.productssearchparams.md) |  |
-|  [RenderComponent](./core.rendercomponent.md) |  |
 |  [ReviewGetters](./core.reviewgetters.md) |  |
 |  [UseBilling](./core.usebilling.md) |  |
 |  [UseBillingErrors](./core.usebillingerrors.md) |  |
 |  [UseBillingParams](./core.usebillingparams.md) |  |
 |  [UseCart](./core.usecart.md) |  |
-|  [UseCartErrors](./core.usecarterrors.md) |  |
+|  [UseCartErrors](./core.usecarterrors.md) | Dedicated error interface for [UseCart](./core.usecart.md) |
 |  [UseCartFactoryParams](./core.usecartfactoryparams.md) |  |
 |  [UseCategory](./core.usecategory.md) |  |
 |  [UseCategoryErrors](./core.usecategoryerrors.md) |  |

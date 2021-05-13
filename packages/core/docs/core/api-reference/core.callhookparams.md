@@ -9,7 +9,7 @@
 ```typescript
 export interface CallHookParams<C> extends HookParams<C> 
 ```
-<b>Extends:</b> [HookParams](./core.hookparams.md)<!-- -->&lt;C&gt;
+<b>Extends:</b> HookParams&lt;C&gt;
 
 ## Properties
 

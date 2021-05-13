@@ -180,6 +180,9 @@ export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS> {
   error: ComputedProperty<UseCategoryErrors>;
 }
 
+/**
+ * Dedicated error interface for {@link UseCart}
+ */
 export interface UseCartErrors {
   addItem: Error;
   removeItem: Error;
@@ -362,6 +365,9 @@ export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
   error: ComputedProperty<UseContentErrors>;
 }
 
+/**
+ * @internal
+ */
 export interface RenderComponent {
   componentName: string;
   props?: any;
@@ -632,6 +638,9 @@ export interface FactoryParams {
   provide?: (context: Context) => any;
 }
 
+/**
+ * @internal
+ */
 export interface HookParams<C> {
   configuration: C;
 }
@@ -643,6 +652,9 @@ export interface CallHookParams<C> extends HookParams<C> {
 export type BeforeCallArgs = any;
 export type AfterCallArgs = any;
 
+/**
+ * @internal
+ */
 export interface BeforeCallParams< C> extends CallHookParams<C> {
   args: BeforeCallArgs;
 }

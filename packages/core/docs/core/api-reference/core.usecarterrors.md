@@ -4,6 +4,8 @@
 
 ## UseCartErrors interface
 
+Dedicated error interface for [UseCart](./core.usecart.md)
+
 <b>Signature:</b>
 
 ```typescript
