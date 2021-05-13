@@ -59,7 +59,7 @@ export default {
 
     // load cart if it wasn't loaded before
 
-    const quantity = ref(0);
+    const quantity = ref(1);
 
     return {
       addItem,
@@ -113,7 +113,7 @@ export default {
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
 
-    const quantity = ref(0);
+    const quantity = ref(1);
 
     return {
       products,
@@ -157,7 +157,7 @@ export default {
 
 ## Removing all cart items at once
 
-To clear cart items (not delete the cart) use `clear` method.
+To clear cart items (not delete the cart itself) use the `clear` method.
 
 ```vue
 <template>
@@ -211,14 +211,19 @@ You can apply promotional coupons to your cart with `applyCoupon` and remove wit
   <!-- ... -->
 </template>
 <script>
+import { ref } from '@vue/composition-api';
 import { useCart } from '{INTEGRATION}';
+
 export default {
   setup() {
     const { applyCoupon, removeCoupon } = useCart();
 
+    const promoCode = ref('');
+
     return {
       applyCoupon,
-      removeCoupon
+      removeCoupon,
+      promoCode
     };
   }
 };
@@ -301,13 +306,10 @@ To remove an item from the cart use `removeItem` method.
       <li v-for="product in products" :key="product.id">
         <!-- ... -->
         <button @click="removeItem({ product })">
-          Clear wishlist
+          Remove item
         </button>
       </li>
     </ul>
-    <span>
-      {{ totals.total }}
-    </span>
     <span>
       {{ totalItems }}
     </span>
@@ -323,7 +325,6 @@ export default {
     const { wishlist, removeItem } = useWishlist();
 
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
-    const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
     const totalItems = computed(() =>
       wishlistGetters.getTotalItems(wishlist.value)
     );
@@ -332,7 +333,6 @@ export default {
 
     return {
       products,
-      totals,
       totalItems,
       removeItem
     };
@@ -341,7 +341,7 @@ export default {
 </script>
 ```
 
-## Checking if an item is on the wishlist
+## Checking if single item is on the wishlist
 
 To check if a product is already on the wishlist pass it to `isInWishlist` method:
 
@@ -446,12 +446,15 @@ export default {
     const { addItem: addToCart, isInCart, loading } = useCart();
     const { addItem: addToWishlist, isInWishlist } = useWishlist();
 
+    const quantity = ref(1);
+
     return {
       addToCart,
       isInCart,
       addToWishlist,
       isInWishlist,
-      loading
+      loading,
+      quantity
     };
   }
 };
@@ -475,9 +478,6 @@ The cart component:
       </li>
     </ul>
     <span>
-      {{ cartTotals.total }}
-    </span>
-    <span>
       {{ cartTotalItems }}
     </span>
     <button @click="clear">
@@ -499,7 +499,7 @@ export default {
       cartGetters.getTotalItems(cart.value)
     );
 
-    const quantity = ref(0);
+    const quantity = ref(1);
 
     onSSR(async () => {
       await load();
@@ -507,7 +507,6 @@ export default {
 
     return {
       cartProducts,
-      cartTotals,
       cartTotalItems,
       removeItem,
       cart,
@@ -533,9 +532,6 @@ The wishlist component:
       </li>
     </ul>
     <span>
-      {{ wishlistTotals.total }}
-    </span>
-    <span>
       {{ wishlistTotalItems }}
     </span>
     <button @click="clear">
@@ -555,9 +551,6 @@ export default {
     const wishlistProducts = computed(() =>
       wishlistGetters.getItems(wishlist.value)
     );
-    const wishlistTotals = computed(() =>
-      wishlistGetters.getTotals(wishlist.value)
-    );
     const wishlistTotalItems = computed(() =>
       wishlistGetters.getTotalItems(wishlist.value)
     );
@@ -568,7 +561,6 @@ export default {
 
     return {
       wishlistProducts,
-      wishlistTotals,
       wishlistTotalItems,
       wishlist,
       removeItem,
