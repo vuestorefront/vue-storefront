@@ -377,7 +377,7 @@ import { useUiNotification } from '~/composables';
 const { cart, error } = useCart();
 const { send } = useUiNotification();
 
-watch(() => ({...error.value}), (error, prevError) => {
+watch(() => error.value, (error, prevError) => {
   if (error.addItem && error.addItem !== prevError.addItem)
     send({ type: 'danger', message: error.addItem.message });
   if (
