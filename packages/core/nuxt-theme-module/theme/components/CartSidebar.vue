@@ -25,8 +25,8 @@
                 :key="cartGetters.getItemSku(product)"
                 :image="cartGetters.getItemImage(product)"
                 :title="cartGetters.getItemName(product)"
-                :regular-price="$n(cartGetters.getItemPrice(product).regular, 'currency')"
-                :special-price="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
+                :regular-price="$n(getCartItemTotals(product).regular, 'currency')"
+                :special-price="getCartItemTotals(product).special && $n(getCartItemTotals(product).special, 'currency')"
                 :stock="99999"
                 :qty="cartGetters.getItemQty(product)"
                 @input="updateItemQty({ product, quantity: $event })"
@@ -68,11 +68,14 @@
         <transition name="sf-fade">
           <div v-if="totalItems">
             <SfProperty
-              name="Total price"
+              name="Subtotal price"
               class="sf-property--full-width sf-property--large my-cart__total-price"
             >
               <template #value>
-                <SfPrice :regular="$n(totals.subtotal, 'currency')" />
+                <SfPrice
+                  :regular="$n(totals.subtotal, 'currency')"
+                  :special="(totals.special !== totals.subtotal) ? $n(totals.special, 'currency') : 0"
+                />
               </template>
             </SfProperty>
             <nuxt-link to="/checkout/shipping">
@@ -133,6 +136,16 @@ export default {
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
 
+    const getCartItemTotals = (product) => {
+      const quantity = cartGetters.getItemQty(product);
+      const { regular, special } = cartGetters.getItemPrice(product);
+
+      return {
+        regular: regular * quantity,
+        special: special * quantity
+      };
+    };
+
     onSSR(async () => {
       await loadCart();
     });
@@ -146,7 +159,8 @@ export default {
       toggleCartSidebar,
       totals,
       totalItems,
-      cartGetters
+      cartGetters,
+      getCartItemTotals
     };
   }
 };
