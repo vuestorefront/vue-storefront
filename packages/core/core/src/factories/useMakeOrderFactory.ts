@@ -1,6 +1,6 @@
 import { computed, Ref } from '@vue/composition-api';
 import { CustomQuery, Context, FactoryParams, UseMakeOrder, UseMakeOrderErrors } from '../types';
-import { sharedRef, Logger, configureFactoryParams } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, createErrorHandler } from '../utils';
 
 export interface UseMakeOrderFactoryParams<ORDER> extends FactoryParams {
   make: (context: Context, params: { customQuery?: CustomQuery }) => Promise<ORDER>;
@@ -12,7 +12,7 @@ export const useMakeOrderFactory = <ORDER>(
   return function useMakeOrder(): UseMakeOrder<ORDER> {
     const order: Ref<ORDER> = sharedRef(null, 'useMakeOrder-order');
     const loading: Ref<boolean> = sharedRef(false, 'useMakeOrder-loading');
-    const error: Ref<UseMakeOrderErrors> = sharedRef({
+    const errorHandler = createErrorHandler<UseMakeOrderErrors>({
       make: null
     }, 'useMakeOrder-error');
     const _factoryParams = configureFactoryParams(factoryParams);
@@ -23,10 +23,10 @@ export const useMakeOrderFactory = <ORDER>(
       try {
         loading.value = true;
         const createdOrder = await _factoryParams.make(params);
-        error.value.make = null;
+        errorHandler.clear('make');
         order.value = createdOrder;
       } catch (err) {
-        error.value.make = err;
+        errorHandler.update('make', err);
         Logger.error('useMakeOrder.make', err);
       } finally {
         loading.value = false;
@@ -37,7 +37,7 @@ export const useMakeOrderFactory = <ORDER>(
       order,
       make,
       loading: computed(() => loading.value),
-      error: computed(() => error.value)
+      error: errorHandler.getAll()
     };
   };
 };

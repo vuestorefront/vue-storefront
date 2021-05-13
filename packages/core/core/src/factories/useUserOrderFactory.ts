@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { CustomQuery, UseUserOrder, Context, FactoryParams, UseUserOrderErrors } from '../types';
-import { sharedRef, Logger, configureFactoryParams } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, createErrorHandler } from '../utils';
 
 export interface UseUserOrderFactoryParams<ORDERS, ORDER_SEARCH_PARAMS> extends FactoryParams {
   searchOrders: (context: Context, params: ORDER_SEARCH_PARAMS & { customQuery?: CustomQuery }) => Promise<ORDERS>;
@@ -11,7 +11,9 @@ export function useUserOrderFactory<ORDERS, ORDER_SEARCH_PARAMS>(factoryParams: 
     const orders: Ref<ORDERS> = sharedRef([], 'useUserOrder-orders');
     const loading: Ref<boolean> = sharedRef(false, 'useUserOrder-loading');
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseUserOrderErrors> = sharedRef({}, 'useUserOrder-error');
+    const errorHandler = createErrorHandler<UseUserOrderErrors>({
+      search: null
+    }, 'useUserOrder-error');
 
     const search = async (searchParams): Promise<void> => {
       Logger.debug('useUserOrder.search', searchParams);
@@ -19,9 +21,9 @@ export function useUserOrderFactory<ORDERS, ORDER_SEARCH_PARAMS>(factoryParams: 
       try {
         loading.value = true;
         orders.value = await _factoryParams.searchOrders(searchParams);
-        error.value.search = null;
+        errorHandler.clear('search');
       } catch (err) {
-        error.value.search = err;
+        errorHandler.update('search', err);
         Logger.error('useUserOrder/search', err);
       } finally {
         loading.value = false;
@@ -32,7 +34,7 @@ export function useUserOrderFactory<ORDERS, ORDER_SEARCH_PARAMS>(factoryParams: 
       orders: computed(() => orders.value),
       search,
       loading: computed(() => loading.value),
-      error: computed(() => error.value)
+      error: errorHandler.getAll()
     };
   };
 }

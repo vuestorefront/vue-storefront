@@ -1,6 +1,6 @@
 import { UseWishlist, CustomQuery, Context, FactoryParams, UseWishlistErrors } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, configureFactoryParams } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, createErrorHandler } from '../utils';
 
 export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> extends FactoryParams {
   load: (context: Context, params: { customQuery?: CustomQuery }) => Promise<WISHLIST>;
@@ -29,7 +29,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     const loading: Ref<boolean> = sharedRef<boolean>(false, 'useWishlist-loading');
     const wishlist: Ref<WISHLIST> = sharedRef(null, 'useWishlist-wishlist');
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseWishlistErrors> = sharedRef({
+    const errorHandler = createErrorHandler<UseWishlistErrors>({
       addItem: null,
       removeItem: null,
       load: null,
@@ -51,10 +51,10 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
           product,
           customQuery
         });
-        error.value.addItem = null;
+        errorHandler.clear('addItem');
         wishlist.value = updatedWishlist;
       } catch (err) {
-        error.value.addItem = err;
+        errorHandler.update('addItem', err);
         Logger.error('useWishlist/addItem', err);
       } finally {
         loading.value = false;
@@ -71,10 +71,10 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
           product,
           customQuery
         });
-        error.value.removeItem = null;
+        errorHandler.clear('removeItem');
         wishlist.value = updatedWishlist;
       } catch (err) {
-        error.value.removeItem = err;
+        errorHandler.update('removeItem', err);
         Logger.error('useWishlist/removeItem', err);
       } finally {
         loading.value = false;
@@ -88,9 +88,9 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       try {
         loading.value = true;
         wishlist.value = await _factoryParams.load({ customQuery });
-        error.value.load = null;
+        errorHandler.clear('load');
       } catch (err) {
-        error.value.load = err;
+        errorHandler.update('load', err);
         Logger.error('useWishlist/load', err);
       } finally {
         loading.value = false;
@@ -105,10 +105,10 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
         const updatedWishlist = await _factoryParams.clear({
           currentWishlist: wishlist.value
         });
-        error.value.clear = null;
+        errorHandler.clear('clear');
         wishlist.value = updatedWishlist;
       } catch (err) {
-        error.value.clear = err;
+        errorHandler.update('clear', err);
         Logger.error('useWishlist/clear', err);
       } finally {
         loading.value = false;
@@ -133,7 +133,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
       clear,
       setWishlist,
       loading: computed(() => loading.value),
-      error: computed(() => error.value)
+      error: errorHandler.getAll()
     };
   };
 

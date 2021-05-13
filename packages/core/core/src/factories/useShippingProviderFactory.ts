@@ -1,6 +1,6 @@
 import { UseShippingProvider, Context, FactoryParams, UseShippingProviderErrors, CustomQuery } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, configureFactoryParams } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, createErrorHandler } from '../utils';
 
 export interface UseShippingProviderParams<STATE, SHIPPING_METHOD> extends FactoryParams {
   load: (context: Context, params: { state: Ref<STATE>, customQuery?: CustomQuery }) => Promise<STATE>;
@@ -14,7 +14,7 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
     const loading: Ref<boolean> = sharedRef(false, 'useShippingProvider-loading');
     const state: Ref<STATE> = sharedRef(null, 'useShippingProvider-response');
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseShippingProviderErrors> = sharedRef({
+    const errorHandler = createErrorHandler<UseShippingProviderErrors>({
       load: null,
       save: null
     }, 'useShippingProvider-error');
@@ -30,9 +30,9 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
       try {
         loading.value = true;
         state.value = await _factoryParams.save({ shippingMethod, customQuery, state });
-        error.value.save = null;
+        errorHandler.clear('save');
       } catch (err) {
-        error.value.save = err;
+        errorHandler.update('save', err);
         Logger.error('useShippingProvider/save', err);
       } finally {
         loading.value = false;
@@ -45,9 +45,9 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
       try {
         loading.value = true;
         state.value = await _factoryParams.load({ customQuery, state });
-        error.value.load = null;
+        errorHandler.clear('load');
       } catch (err) {
-        error.value.load = err;
+        errorHandler.update('load', err);
         Logger.error('useShippingProvider/load', err);
       } finally {
         loading.value = false;
@@ -57,7 +57,7 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
     return {
       state,
       loading: computed(() => loading.value),
-      error: computed(() => error.value),
+      error: errorHandler.getAll(),
       load,
       save,
       setState

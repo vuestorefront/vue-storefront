@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { CustomQuery, UseReview, Context, FactoryParams, UseReviewErrors } from '../types';
-import { sharedRef, Logger, configureFactoryParams } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, createErrorHandler } from '../utils';
 
 export interface UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> extends FactoryParams {
   searchReviews: (context: Context, params: REVIEWS_SEARCH_PARAMS & { customQuery?: CustomQuery }) => Promise<REVIEW>;
@@ -13,7 +13,7 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
   return function useReview(id: string): UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
     const reviews: Ref<REVIEW> = sharedRef([], `useReviews-reviews-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useReviews-loading-${id}`);
-    const error: Ref<UseReviewErrors> = sharedRef({
+    const errorHandler = createErrorHandler<UseReviewErrors>({
       search: null,
       addReview: null
     }, `useReviews-error-${id}`);
@@ -25,9 +25,9 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       try {
         loading.value = true;
         reviews.value = await _factoryParams.searchReviews(searchParams);
-        error.value.search = null;
+        errorHandler.clear('search');
       } catch (err) {
-        error.value.search = err;
+        errorHandler.update('search', err);
         Logger.error(`useReview/${id}/search`, err);
       } finally {
         loading.value = false;
@@ -40,9 +40,9 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       try {
         loading.value = true;
         reviews.value = await _factoryParams.addReview(params);
-        error.value.addReview = null;
+        errorHandler.clear('addReview');
       } catch (err) {
-        error.value.addReview = err;
+        errorHandler.update('addReview', err);
         Logger.error(`useReview/${id}/addReview`, err);
       } finally {
         loading.value = false;
@@ -54,7 +54,7 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       addReview,
       reviews: computed(() => reviews.value),
       loading: computed(() => loading.value),
-      error: computed(() => error.value)
+      error: errorHandler.getAll()
     };
   };
 }

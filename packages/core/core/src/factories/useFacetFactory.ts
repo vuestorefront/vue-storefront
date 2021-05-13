@@ -1,5 +1,5 @@
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, vsfRef, Logger, configureFactoryParams } from '../utils';
+import { vsfRef, Logger, configureFactoryParams, createErrorHandler } from '../utils';
 import { UseFacet, FacetSearchResult, AgnosticFacetSearchParams, Context, FactoryParams, UseFacetErrors } from '../types';
 
 interface UseFacetFactoryParams<SEARCH_DATA> extends FactoryParams {
@@ -13,7 +13,7 @@ const useFacetFactory = <SEARCH_DATA>(factoryParams: UseFacetFactoryParams<SEARC
     const loading: Ref<boolean> = vsfRef(false, `${ssrKey}-loading`);
     const result: Ref<FacetSearchResult<SEARCH_DATA>> = vsfRef({ data: null, input: null }, `${ssrKey}-facets`);
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseFacetErrors> = sharedRef({
+    const errorHandler = createErrorHandler<UseFacetErrors>({
       search: null
     }, `useFacet-error-${id}`);
 
@@ -24,9 +24,9 @@ const useFacetFactory = <SEARCH_DATA>(factoryParams: UseFacetFactoryParams<SEARC
       try {
         loading.value = true;
         result.value.data = await _factoryParams.search(result.value);
-        error.value.search = null;
+        errorHandler.clear('search');
       } catch (err) {
-        error.value.search = err;
+        errorHandler.update('search', err);
         Logger.error(`useFacet/${ssrKey}/search`, err);
       } finally {
         loading.value = false;
@@ -36,7 +36,7 @@ const useFacetFactory = <SEARCH_DATA>(factoryParams: UseFacetFactoryParams<SEARC
     return {
       result: computed(() => result.value),
       loading: computed(() => loading.value),
-      error: computed(() => error.value),
+      error: errorHandler.getAll(),
       search
     };
   };

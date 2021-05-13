@@ -1,6 +1,6 @@
 import { UseBilling, Context, FactoryParams, UseBillingErrors, CustomQuery } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, configureFactoryParams } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, createErrorHandler } from '../utils';
 
 export interface UseBillingParams<BILLING, BILLING_PARAMS> extends FactoryParams {
   load: (context: Context, params: { customQuery?: CustomQuery }) => Promise<BILLING>;
@@ -14,7 +14,7 @@ export const useBillingFactory = <BILLING, BILLING_PARAMS>(
     const loading: Ref<boolean> = sharedRef(false, 'useBilling-loading');
     const billing: Ref<BILLING> = sharedRef(null, 'useBilling-billing');
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseBillingErrors> = sharedRef({
+    const errorHandler = createErrorHandler<UseBillingErrors>({
       load: null,
       save: null
     }, 'useBilling-error');
@@ -25,10 +25,10 @@ export const useBillingFactory = <BILLING, BILLING_PARAMS>(
       try {
         loading.value = true;
         const billingInfo = await _factoryParams.load({ customQuery });
-        error.value.load = null;
+        errorHandler.clear('load');
         billing.value = billingInfo;
       } catch (err) {
-        error.value.load = err;
+        errorHandler.update('load', err);
         Logger.error('useBilling/load', err);
       } finally {
         loading.value = false;
@@ -41,10 +41,10 @@ export const useBillingFactory = <BILLING, BILLING_PARAMS>(
       try {
         loading.value = true;
         const billingInfo = await _factoryParams.save(saveParams);
-        error.value.save = null;
+        errorHandler.clear('save');
         billing.value = billingInfo;
       } catch (err) {
-        error.value.save = err;
+        errorHandler.update('save', err);
         Logger.error('useBilling/save', err);
       } finally {
         loading.value = false;
@@ -54,7 +54,7 @@ export const useBillingFactory = <BILLING, BILLING_PARAMS>(
     return {
       billing: computed(() => billing.value),
       loading: computed(() => loading.value),
-      error: computed(() => error.value),
+      error: errorHandler.getAll(),
       load,
       save
     };

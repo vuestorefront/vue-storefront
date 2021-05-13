@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { RenderComponent, UseContent, Context, FactoryParams, UseContentErrors } from '../types';
-import { sharedRef, Logger, configureFactoryParams } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, createErrorHandler } from '../utils';
 import { PropOptions, VNode } from 'vue';
 
 export interface UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS> extends FactoryParams {
@@ -13,7 +13,7 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
   return function useContent(id: string): UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
     const content: Ref<CONTENT> = sharedRef([], `useContent-content-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useContent-loading-${id}`);
-    const error: Ref<UseContentErrors> = sharedRef({
+    const errorHandler = createErrorHandler<UseContentErrors>({
       search: null
     }, `useContent-error-${id}`);
     const _factoryParams = configureFactoryParams(factoryParams);
@@ -24,9 +24,9 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
       try {
         loading.value = true;
         content.value = await _factoryParams.search(params);
-        error.value.search = null;
+        errorHandler.clear('search');
       } catch (err) {
-        error.value.search = err;
+        errorHandler.update('search', err);
         Logger.error(`useContent/${id}/search`, err);
       } finally {
         loading.value = false;
@@ -37,7 +37,7 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
       search,
       content: computed(() => content.value),
       loading: computed(() => loading.value),
-      error: computed(() => error.value)
+      error: errorHandler.getAll()
     };
   };
 }
