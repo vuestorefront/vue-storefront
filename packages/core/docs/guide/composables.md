@@ -194,7 +194,7 @@ import { onSSR } from '@vue-storefront/core`
 
 export default {
   setup() {
-    const { products, search} = useProduct('<UNIQUE_ID>');
+    const { products, search } = useProduct('<UNIQUE_ID>');
 
     onSSR(async () => {
       await search(searchParams)
@@ -218,13 +218,16 @@ Every Vue Storefront composable usually returns three main pieces:
 - **Main data object**. A read-only object that represents data returned by the composable. For example, in `useProduct` it's a `products` object, in `useCategory` it's `category` etc.
 - **Supportive data objects**. These properties depend directly on indirectly on the main data object. For example, `loading`, `error` or `isAuthenticated` from `useUser` depend on a `user`.
 - **Main function that interacts with data object**. This function usually calls the API and updates the main data object. For example in `useProduct` and `useCategory` it's a `search` method,in `useCart` it's a `load` method. The rule of thumb here is to use `search` when you need to pass some search parameters. `load` is usually called when you need to load some content based on cookies or `localStorage`
+- **platform-specyfic API access**. This is the section where you can reach out to the API functions that are specific to the platform you are using. By default we provide an agnostic approach of using the same API and function calls for each platform, however sometimes there is a need to use something very specific to the certain service, thus you can easily access it over the `api` object.
 
 ```js
 import { useProduct } from '{INTEGRATION}';
 
-const { products, search, loading } = useProduct('<UNIQUE_ID>');
+const { products, search, loading, api } = useProduct('<UNIQUE_ID>');
 
-search({ slug: 'super-t-shirt' });
+search({ slug: 'super-t-shirt' }); // agnostic access
+
+api.addCartInsurence({ id: 't-shirt-01' }); // platform-specyfic API
 
 return { products, search, loading };
 ```

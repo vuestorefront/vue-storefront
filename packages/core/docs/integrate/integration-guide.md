@@ -311,6 +311,48 @@ export { useCart }
 
 Each function inside of factory params has the context in the very first argument. The second argument always contains the given parameters to the function (eg. product data in adding to cart function)
 
+### Plarform-specyfic API access
+
+By default, in factory params you are defining only the functions that cover agnostic and common scenarios of certain features and they will be called once you call one of function returned by the created composable.
+
+Sometimes there is a need to share also a platform-specyfic function, that may not present across other platforms you integrate with. To implement them, you can use an optional section `api` and define their an additional methods, which will be available under the `api` field returned by composable.
+
+```ts{21-27}
+import { useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
+
+interface Cart { /* ... */ }
+
+interface LineItem { /* ... */}
+
+interface ProductVariant { /* ... */ }
+
+const factoryParams: UseCartFactoryParams<Cart, LineItem, ProductVariant> = {
+  load: async (context: Context) => {
+    const { data } = await context.$ct.api.getCart();
+
+    return data.cart;
+  },
+  addItem: async (context: Context, params) => {
+    const { currentCart, product, quantity } = params;
+    const { data } = await context.$ct.api.addToCart(loadedCart, product, quantity, customQuery);
+
+    return data.cart;
+  },
+  api: {
+    addCartInsurence: async (context: Context, params) => {
+      const insurence = await await context.$ct.api.setInsurence(params.product.id);
+
+      return { ...params.currentCart, insurence }
+    }
+  }
+};
+
+const useCart = useCartFactory(factoryParams);
+
+export default useCart;
+```
+
+
 ### Composable dependencies
 
 Sometimes there is a need to use another composable inside of a new one as a dependency. We also allow you to do this by using a special function in the factory params - `provide`. This function is being called inside of the composable and the return values are available in the context:
