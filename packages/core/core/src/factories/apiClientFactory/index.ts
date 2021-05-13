@@ -51,7 +51,7 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(f
 
     settings.config = lifecycles.reduce(
       handleHook('afterCreate', callWithProp('configuration')),
-      config
+      settings.config
     );
 
     const before = (params) => lifecycles
