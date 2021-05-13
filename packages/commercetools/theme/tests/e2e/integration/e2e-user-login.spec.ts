@@ -2,18 +2,18 @@ import requests from '../api/requests';
 import page from '../pages/factory';
 import generator from '../utils/data-generator';
 
-before(() => {
-  cy.fixture('test-data/e2e-user-login').then((fixture) => {
-    cy.fixtures = {
-      data: fixture
-    };
-  });
-  cy.clearLocalStorage();
-});
-
 context(['regression'], 'User login', () => {
+  beforeEach(function () {
+    cy.fixture('test-data/e2e-user-login').then((fixture) => {
+      this.fixtures = {
+        data: fixture
+      };
+    });
+    cy.clearLocalStorage();
+  });
+
   it('Should successfully login', function() {
-    const data = cy.fixtures.data[this.test.title];
+    const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     requests.customerSignMeUp(data.customer).then(() => {
       cy.clearCookies();
@@ -29,7 +29,7 @@ context(['regression'], 'User login', () => {
   });
 
   it('Incorrect credentials - should display an error', function () {
-    const data = cy.fixtures.data[this.test.title];
+    const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     page.home.visit();
     page.home.header.openLoginModal();

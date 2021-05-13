@@ -2,17 +2,17 @@ import page from '../pages/factory';
 import generator from '../utils/data-generator';
 import intercept from '../utils/network';
 
-before(() => {
-  cy.fixture('test-data/e2e-place-order').then((fixture) => {
-    cy.fixtures = {
-      data: fixture
-    };
-  });
-});
-
 context('Order placement', () => {
+  beforeEach(function () {
+    cy.fixture('test-data/e2e-place-order').then((fixture) => {
+      this.fixtures = {
+        data: fixture
+      };
+    });
+  });
+
   it(['happypath', 'regression'], 'Should successfully place an order as a guest', function() {
-    const data = cy.fixtures.data[this.test.title];
+    const data = this.fixtures.data[this.test.title];
     const getProductReq = intercept.getProduct();
     page.home.visit();
     page.home.header.categories.first().click();
@@ -37,7 +37,7 @@ context('Order placement', () => {
   });
 
   it(['happypath', 'regression'], 'Should successfully place an order as a registered customer', function() {
-    const data = cy.fixtures.data[this.test.title];
+    const data = this.fixtures.data[this.test.title];
     const getProductReq = intercept.getProduct();
     data.customer.email = generator.email;
     page.home.visit();
