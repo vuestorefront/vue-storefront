@@ -1,17 +1,15 @@
 import page from '../pages/factory';
 
-before(() => {
-  cy.fixture('test-data/e2e-add-to-cart').then((fixture) => {
-    cy.fixtures = {
-      data: fixture
-    };
-  });
-});
-
 context('Add product to cart', () => {
-
+  beforeEach(function () {
+    cy.fixture('test-data/e2e-add-to-cart').then((fixture) => {
+      this.fixtures = {
+        data: fixture
+      };
+    });
+  });
   it(['regression'], 'Should successfully add product to cart - Category grid view', function() {
-    const data = cy.fixtures.data[this.test.title];
+    const data = this.fixtures.data[this.test.title];
     const category = page.category(data.product.category);
     category.visit();
     category.addToCart(data.product.name);
@@ -20,7 +18,7 @@ context('Add product to cart', () => {
   });
 
   it(['regression'], 'Should successfully add product to cart - Category list view', function() {
-    const data = cy.fixtures.data[this.test.title];
+    const data = this.fixtures.data[this.test.title];
     const category = page.category(data.product.category);
     category.visit();
     category.changeView('list');
@@ -30,7 +28,7 @@ context('Add product to cart', () => {
   });
 
   it(['regression'], 'Should successfully add product to cart - Product details page', function() {
-    const data = cy.fixtures.data[this.test.title];
+    const data = this.fixtures.data[this.test.title];
     page.product(data.product.id, data.product.slug).visit();
     page.product().addToCartButton.click();
     page.product().header.openCart();
