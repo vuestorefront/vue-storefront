@@ -38,7 +38,7 @@ context(['regression'], 'Product page', () => {
     page.product().addToCartButton.click();
     page.product().header.openCart();
     page.components.cart.productProperties.should('be.visible').then(() => {
-      page.components.cart.product.each((product) => {
+      page.components.cart.product().each((product) => {
         page.components.cart.getProductSizeProperty(product).should('contain', data.product.attributes.size);
         page.components.cart.getProductColorProperty(product).should('contain', data.product.attributes.color);
       });

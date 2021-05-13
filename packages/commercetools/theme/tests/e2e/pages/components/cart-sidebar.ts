@@ -2,16 +2,17 @@ import { el } from '../utils/element';
 
 class Cart {
 
-  get product(): Cypress.Chainable {
-    return el('collected-product');
+  product(name?: string): Cypress.Chainable {
+    const product = el('collected-product');
+    return name === undefined ? product : product.contains(name);
   }
 
   get productName(): Cypress.Chainable {
-    return this.product.find('.sf-collected-product__title');
+    return this.product().find('.sf-collected-product__title');
   }
 
   get quantityInput(): Cypress.Chainable {
-    return this.product.find('input');
+    return this.product().find('input');
   }
 
   get goToCheckoutButton(): Cypress.Chainable {
@@ -19,7 +20,7 @@ class Cart {
   }
 
   get productProperties(): Cypress.Chainable {
-    return this.product.find('.collected-product__properties');
+    return this.product().find('.collected-product__properties');
   }
 
   get totalItems(): Cypress.Chainable {
