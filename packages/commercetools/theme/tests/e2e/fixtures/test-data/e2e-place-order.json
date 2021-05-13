@@ -1,16 +1,36 @@
 {
-  "customer": {
-    "firstName": "John",
-    "lastName": "Doe",
-    "address": {
-      "shipping": {
-        "streetName": "1 VueStorefront Rd.",
-        "apartment": "23",
-        "city": "Los Angeles",
-        "state": "California",
-        "country": "United States",
-        "zipcode": "45678",
-        "phone": "123456789"
+  "Should successfully place an order as a guest": {
+    "customer": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "address": {
+        "shipping": {
+          "streetName": "1 VueStorefront Rd.",
+          "apartment": "23",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "United States",
+          "zipcode": "45678",
+          "phone": "123456789"
+        }
+      }
+    }
+  },
+  "Should successfully place an order as a registered customer": {
+    "customer": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "password": "P@ssw0rd",
+      "address": {
+        "shipping": {
+          "streetName": "1 VueStorefront Rd.",
+          "apartment": "23",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "United States",
+          "zipcode": "45678",
+          "phone": "123456789"
+        }
       }
     }
   }
