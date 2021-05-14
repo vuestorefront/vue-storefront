@@ -32,12 +32,18 @@ export interface Context {
   [x: string]: IntegrationContext | any;
 }
 
-export interface PlatformApi {
+export type PlatformApi = {
   [functionName: string]: (context: Context, ...args: any[]) => Promise<any>
 }
 
+export type ContextedPlatformApi<T extends PlatformApi> = {
+  [P in keyof T]: T[P] extends (context: Context, ...arg: infer X) => Promise<any>
+    ? (...arg: X) => Promise<any>
+    : never
+}
+
 export interface Composable<API extends PlatformApi> {
-  api?: API
+  api?: ContextedPlatformApi<API>
 }
 
 export interface UseProduct<
@@ -685,7 +691,7 @@ export interface VSFLogger {
 
 export interface FactoryParams<API extends PlatformApi = any> {
   provide?: (context: Context) => any;
-  api?: API;
+  api?: Partial<API>;
 }
 
 export interface HookParams<C> {
