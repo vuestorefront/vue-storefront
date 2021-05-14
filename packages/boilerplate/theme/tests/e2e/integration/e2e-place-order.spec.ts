@@ -9,7 +9,7 @@ before(() => {
 });
 
 context('Order placement', () => {
-  it(['e2e', 'happypath'], 'Should successfully place an order', () => {
+  it(['happypath', 'regression'], 'Should successfully place an order', () => {
     const data = cy.fixtures.data;
     page.home.visit();
     page.home.header.categories.first().click();

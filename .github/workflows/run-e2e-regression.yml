@@ -7,6 +7,7 @@ jobs:
     name: Run E2E Tests
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         package: ["ct", "bp"]
     steps:
