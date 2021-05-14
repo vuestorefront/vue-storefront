@@ -2,7 +2,7 @@ import { CustomQuery, UseCart, Context, FactoryParams, UseCartErrors, PlatformAp
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
-export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, API extends PlatformApi = PlatformApi> extends FactoryParams<API> {
+export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, API extends PlatformApi = any> extends FactoryParams<API> {
   load: (context: Context, params: { customQuery?: any }) => Promise<CART>;
   addItem: (
     context: Context,
@@ -27,7 +27,7 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, API exte
   isInCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
 }
 
-export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, API extends PlatformApi = PlatformApi>(
+export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, API extends PlatformApi = any>(
   factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, API>
 ) => {
   return function useCart (): UseCart<CART, CART_ITEM, PRODUCT, COUPON, API> {
