@@ -8,18 +8,30 @@
       <transition name="sf-fade" mode="out-in">
         <div v-if="products && products.length > 0" class="search__wrapper-results" key="results">
           <SfMegaMenuColumn :title="$t('Categories')" class="sf-mega-menu-column--pined-content-on-mobile search__categories">
+            <template #title="{title}">
+              <SfMenuItem :label="title" @click="megaMenu.changeActive(title)">
+                <template #mobile-nav-icon>
+                  &#8203;
+                </template>
+              </SfMenuItem>
+            </template>
             <SfList>
-              <SfListItem v-for="(category, key) in categories" :key="key">
-                <SfMenuItem :label="category.label" :link="`/c/${category.slug}`"/>
+              <SfListItem v-for="(category, key) in categories.items" :key="key">
+                <SfMenuItem :label="category.label" :link="`/c/women/${category.slug}`">
+                  <template #mobile-nav-icon>
+                    &#8203;
+                  </template>
+                </SfMenuItem>
               </SfListItem>
             </SfList>
           </SfMegaMenuColumn>
           <SfMegaMenuColumn :title="$t('Product suggestions')" class="sf-mega-menu-column--pined-content-on-mobile search__results">
             <template #title="{title}">
-              <SfMenuItem
-                :label="title"
-                class="sf-mega-menu-column__header search__header"
-              />
+              <SfMenuItem :label="title" class="sf-mega-menu-column__header search__header">
+                <template #mobile-nav-icon>
+                  &#8203;
+                </template>
+              </SfMenuItem>
             </template>
             <SfScrollable class="results--desktop desktop-only" show-text="" hide-text="">
               <div class="results-listing">
@@ -56,8 +68,8 @@
             <SfButton class="action-buttons__button color-light" @click="$emit('close')">{{ $t('Cancel') }}</SfButton>
           </div>
         </div>
-        <div v-else class="before-results" key="no-results">
-          <SfImage src="/error/error.svg" class="before-results__picture" alt="error"/>
+        <div v-else key="no-results" class="before-results">
+          <SfImage src="/error/error.svg" class="before-results__picture" alt="error" loading="lazy"/>
           <p class="before-results__paragraph">{{ $t('You haven’t searched for items yet') }}</p>
           <p class="before-results__paragraph">{{ $t('Let’s start now – we’ll help you') }}</p>
           <SfButton class="before-results__button color-secondary smartphone-only" @click="$emit('close')">{{ $t('Go back') }}</SfButton>
@@ -125,9 +137,7 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
-
 .search {
   position: absolute;
   right: 0;
@@ -236,5 +246,4 @@ export default {
     width: 100%;
   }
 }
-
 </style>

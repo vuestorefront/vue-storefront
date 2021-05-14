@@ -29,8 +29,11 @@ const useUiState = () => {
   };
 
   const isCategoryGridView = computed(() => state.isCategoryGridView);
-  const toggleCategoryGridView = () => {
-    state.isCategoryGridView = !state.isCategoryGridView;
+  const changeToCategoryGridView = () => {
+    state.isCategoryGridView = true;
+  };
+  const changeToCategoryListView = () => {
+    state.isCategoryGridView = false;
   };
 
   const isFilterSidebarOpen = computed(() => state.isFilterSidebarOpen);
@@ -47,7 +50,8 @@ const useUiState = () => {
     toggleCartSidebar,
     toggleWishlistSidebar,
     toggleLoginModal,
-    toggleCategoryGridView,
+    changeToCategoryGridView,
+    changeToCategoryListView,
     toggleFilterSidebar
   };
 };

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0
+
+-  Set 'vsf-commercetools-token' cookie expiration time to match token expiration time. ([#5774](https://github.com/vuestorefront/vue-storefront/pull/5774)) - [Filip Sobol](https://github.com/filipsobol)
+,
+-  Reduce payload size for cart methods ([#5836](https://github.com/vuestorefront/vue-storefront/pull/5836)) - [Filip Sobol](https://github.com/filipsobol)
+
+
 ## 1.2.0-rc.3
 
 -  Fix getters in `cartGetters` to not throw errors when some properties don't exist ([#5699](https://github.com/vuestorefront/vue-storefront/pull/5699)) - [Filip Sobol](https://github.com/filipsobol)

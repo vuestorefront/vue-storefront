@@ -31,11 +31,27 @@ module.exports = {
 		sidebar: {
 			'/migrate/': [
 				{
-					title: 'Migration guide 2.3.0-rc.1',
+					title: 'Migration guide 2.3.0',
 					children: [
-						['/migrate/2.3.0-rc.1/overview', 'Overview'],
-						['/migrate/2.3.0-rc.1/integrators', 'Integrators'],
-						['/migrate/2.3.0-rc.1/commercetools', 'commercetools']
+						['/migrate/2.3.0/overview', 'Overview'],
+						['/migrate/2.3.0/integrators', 'Integrators'],
+						['/migrate/2.3.0/commercetools', 'commercetools']
+					]
+				},
+				{
+					title: 'Migration guide 2.3.0-rc.3',
+					children: [
+						['/migrate/2.3.0-rc.3/overview', 'Overview'],
+						['/migrate/2.3.0-rc.3/integrators', 'Integrators'],
+						['/migrate/2.3.0-rc.3/commercetools', 'commercetools']
+					]
+				},
+				{
+					title: 'Migration guide 2.3.0-rc.2',
+					children: [
+						['/migrate/2.3.0-rc.2/overview', 'Overview'],
+						['/migrate/2.3.0-rc.2/integrators', 'Integrators'],
+						['/migrate/2.3.0-rc.2/commercetools', 'commercetools']
 					]
 				},
 				{
@@ -63,7 +79,7 @@ module.exports = {
 						['/commercetools/', 'Introduction'],
 						['/commercetools/getting-started', 'Getting started'],
 						['/commercetools/configuration', 'Configuration'],
-						['/commercetools/authorization-strategy', 'Authentication'],
+						['/commercetools/authorization-strategy', 'Authorization'],
 						['/enterprise/feature-list', 'Feature list'],
 						['/commercetools/maintainers', 'Maintainers and support'],
 						['/commercetools/changelog', 'Changelog']
@@ -140,8 +156,7 @@ module.exports = {
 					children: [
 						['/shopify/', 'Introduction'],
 						['/shopify/getting-started', 'Getting Started'],
-						['/shopify/api-client', 'API Client'],
-						['/shopify/composables', 'Composables'],
+						['/shopify/configuration', 'Configuration'],
 						['/shopify/feature-list', 'Feature list'],
 						['/shopify/maintainers', 'Maintainers and support']
 					]

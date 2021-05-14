@@ -33,6 +33,7 @@ const enhanceProduct = (productResponse: ApolloQueryResult<ProductData>, context
         _name: current.name,
         _slug: current.slug,
         _id: product.id,
+        _key: product.key,
         _master: current.masterVariant.id === variant.id,
         _description: current.description,
         _categoriesRef: current.categoriesRef.map((cr) => cr.id),

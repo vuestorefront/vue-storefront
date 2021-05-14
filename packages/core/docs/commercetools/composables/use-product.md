@@ -25,7 +25,9 @@ interface ProductsSearchParams {
   id?: string;
 }
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  products: string
+}
 ```
 - `products: ProductVariant[]` - a main data object that contains an array of products fetched by `search` method.
 
@@ -139,11 +141,13 @@ interface ProductVariantFilters {
 }
 ```
 
-## Example
+## Examples
 
 ```js
+// search single product
 import { useProduct, productGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core'
+import { computed } from '@vue/composition-api';
 
 export default {
   setup () {
@@ -160,6 +164,28 @@ export default {
       option: computed(() => productGetters.getAttributes(products.value, ['color', 'size'])),
       configuration: computed(() => productGetters.getCategoryIds(product.value))
     }
+  }
+}
+```
+
+```js
+// search products by ids
+import { useProduct, productGetters } from '@vue-storefront/commercetools';
+import { onSSR } from '@vue-storefront/core';
+import { computed } from '@vue/composition-api';
+
+export defaut {
+  setup () {
+    const { products, search } = useProduct('<UNIQUE_ID>');
+
+    onSSR(async () => {
+      await search({ ids: ['id-1', 'id-2'] });
+    });
+
+    return {
+      products,
+      masterProducts: computed(() => productGetters.getFiltered(products.value, { master: true }))
+    };
   }
 }
 ```

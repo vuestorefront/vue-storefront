@@ -15,6 +15,11 @@ closes #
 - [ ] I have updated the Changelog ([V1](https://github.com/DivanteLtd/vue-storefront/blob/develop/CHANGELOG.md)) [v2](https://docs-next.vuestorefront.io/contributing/creating-changelog.html) and mentioned all breaking changes in the public API.
 - [ ] I have documented all new public APIs and made changes to existing docs mentioning the parts I've changed so they're up to date.
 - [ ] I have tested my Pull Request on production build and (to my knowledge) it works without any issues
+<!-- VSF 1 only -->
+- I tested manually my code and it works well with both:
+- [ ] Default Theme
+- [ ] Capybara Theme
+- [ ] I have written test cases for my code
 <!-- VSF Next only -->
 - [ ] I have followed [naming conventions](https://github.com/kettanaito/naming-cheatsheet)
 

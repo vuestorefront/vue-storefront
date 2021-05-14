@@ -11,7 +11,9 @@
     - `customQuery?: CustomQuery`
 
 ```ts
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  createMyOrderFromCart: string
+}
 ```
 - `order: Order` - a main data object that contains a made order.
 ```ts

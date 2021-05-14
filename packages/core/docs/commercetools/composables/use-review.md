@@ -27,7 +27,9 @@ interface ReviewSearchParams {
   offset?: number;
 }
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  reviews: string
+}
 ```
 
 - `addReview` - function for posting new review. When invoked, it submits data to the API and populates `reviews` property with updated information. This method accepts a single params object. The `params` has the following options:
@@ -50,7 +52,9 @@ interface ReviewDraft {
   rating: number;
 }
 
-type CustomQuery = Record<string, string>
+type CustomQuery = {
+  addReview: string
+}
 ```
 
 - `reviews: Review[]` - reactive data object containing the response from the backend.

@@ -18,7 +18,7 @@
 
     - `address: ShippingAddressAddParams`
     
-    - `customQuery?`
+    - `customQuery?: customQuery`
 
 ```typescript
 interface ShippingAddressAddParams {
@@ -35,13 +35,16 @@ interface ShippingAddressAddParams {
     isDefault?: boolean;
   }
 }
+type customQuery = {
+  addShippingAddress: string
+}
 ```
 
 - `deleteAddress` - function for deleting existing shipping address. This method accepts a single `params` object. The `params` has the following options:
 
     - `address: ShippingAddressDeleteParams`
 
-    - `customQuery?`
+    - `customQuery?: customQuery`
 
 ```typescript
 interface ShippingAddressDeleteParams {
@@ -49,13 +52,16 @@ interface ShippingAddressDeleteParams {
     id: string;
   }
 }
+type customQuery = {
+  deleteShippingAddress: string
+}
 ```
 
 - `updateAddress` - function for updating existing shipping address. This method accepts a single `params` object. The `params` has the following options:
 
     - `address: ShippingAddressUpdateParams`
 
-    - `customQuery?`
+    - `customQuery?: customQuery`
 
 ```typescript
 interface ShippingAddressUpdateParams {
@@ -73,19 +79,25 @@ interface ShippingAddressUpdateParams {
     isDefault?: boolean;
   }
 }
+type customQuery = {
+  updateShippingAddress: string
+}
 ```
 
 - `setDefaultAddress` - function for settings an existing shipping address as default. This method accepts a single `params` object. The `params` has the following options:
 
     - `address: ShippingAddressSetDefaultParams`
 
-    - `customQuery?
+    - `customQuery?: customQuery`
 
 ```typescript
 interface ShippingAddressSetDefaultParams {
   address: {
     id: string;
   }
+}
+type customQuery = {
+  setDefaultShippingAddress: string
 }
 ```
 
