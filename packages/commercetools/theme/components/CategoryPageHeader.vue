@@ -32,7 +32,6 @@
 </template>
 <script>
 import { useUiHelpers, useUiState } from '~/composables';
-import FiltersSidebar from './FiltersSidebar';
 
 import {
   SfButton,
@@ -45,8 +44,7 @@ export default {
   components: {
     SfButton,
     SfIcon,
-    LazyHydrate,
-    FiltersSidebar
+    LazyHydrate
   },
   props: {
     pagination: {

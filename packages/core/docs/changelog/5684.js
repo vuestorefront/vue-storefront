@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'move filters sidebar to separate component',
+  description: 'extract category page header and filter sidebar to separate components',
   link: 'https://github.com/vuestorefront/vue-storefront/pull/5822',
   isBreaking: false,
   breakingChanges: [],
