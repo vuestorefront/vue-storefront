@@ -613,7 +613,7 @@
       "Latest": "updated_at:desc",
       "Price: Low to high": "final_price",
       "Price: High to low": "final_price:desc",
-      "Position: First to last": "position:asc",
+      "Position: First to last": "position",
       "Position: Last to first": "position:desc"
     },
     "gallery": {
