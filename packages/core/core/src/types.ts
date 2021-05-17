@@ -649,9 +649,6 @@ export interface CallHookParams<C> extends HookParams<C> {
 export type BeforeCallArgs = any;
 export type AfterCallArgs = any;
 
-/**
- * @internal
- */
 export interface BeforeCallParams< C> extends CallHookParams<C> {
   args: BeforeCallArgs;
 }
