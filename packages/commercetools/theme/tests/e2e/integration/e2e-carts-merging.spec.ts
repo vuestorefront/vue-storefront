@@ -30,8 +30,8 @@ context(['regression'], 'Carts merging', () => {
       cy.wrap(input).should('have.value', data.expectedCart[index].quantity);
     });
     page.components.cart.product().each((product, index) => {
-      page.components.cart.getProductSizeProperty(product).should('contain', data.expectedCart[index].size);
-      page.components.cart.getProductColorProperty(product).should('contain', data.expectedCart[index].color);
+      page.components.cart.productSizeProperty(product).should('contain', data.expectedCart[index].size);
+      page.components.cart.productColorProperty(product).should('contain', data.expectedCart[index].color);
     });
 
   });
@@ -69,8 +69,8 @@ context(['regression'], 'Carts merging', () => {
       cy.wrap(input).should('have.value', data.expectedCart[index].quantity);
     });
     page.components.cart.product().each((product, index) => {
-      page.components.cart.getProductSizeProperty(product).should('contain', data.expectedCart[index].size);
-      page.components.cart.getProductColorProperty(product).should('contain', data.expectedCart[index].color);
+      page.components.cart.productSizeProperty(product).should('contain', data.expectedCart[index].size);
+      page.components.cart.productColorProperty(product).should('contain', data.expectedCart[index].color);
     });
   });
 
