@@ -197,11 +197,11 @@ module.exports = {
 					collapsable: false,
 					children: [
 						['/guide/theme', 'Theme'],
-						['/guide/configuration', 'Configuration'],						
+						['/guide/configuration', 'Configuration'],
 						['/guide/composables', 'Composables'],
 						['/guide/product-catalog', 'Product Catalog'],
 						['/guide/authentication', 'Authentication'],
-						['/guide/user-profile', 'User profile'],						
+						['/guide/user-profile', 'User profile'],
 						['/guide/cart-and-wishlist', 'Cart and wishlist'],
             ['/guide/checkout', 'Checkout']
 					]
@@ -217,7 +217,8 @@ module.exports = {
 						['/advanced/internationalization', 'Internationalization'],
 						['/advanced/performance', 'Performance'],
 						['/advanced/ssr-cache', 'SSR Cache'],
-						['/advanced/logging', 'Logging']
+						['/advanced/logging', 'Logging'],
+						['/core/api-reference/', 'API Reference']
 					]
 				},
 				{

@@ -180,6 +180,9 @@ export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS> {
   error: ComputedProperty<UseCategoryErrors>;
 }
 
+/**
+ * Dedicated error interface for {@link UseCart}
+ */
 export interface UseCartErrors {
   addItem: Error;
   removeItem: Error;
@@ -362,6 +365,9 @@ export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
   error: ComputedProperty<UseContentErrors>;
 }
 
+/**
+ * @internal
+ */
 export interface RenderComponent {
   componentName: string;
   props?: any;
