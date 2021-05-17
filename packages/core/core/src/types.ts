@@ -638,9 +638,6 @@ export interface FactoryParams {
   provide?: (context: Context) => any;
 }
 
-/**
- * @internal
- */
 export interface HookParams<C> {
   configuration: C;
 }
