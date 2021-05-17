@@ -2,7 +2,7 @@
 
 There are two composables used to interact with the product catalog - `useProduct` and `useFacet`. The former loads a single product and its variants. The latter allows more complex product listings with filtering and sorting.
 
-## Using `useProduct`
+## Fetching a single product and it's variants
 
 `useProduct` composable is used primarily on the Product Details Page to display information about a single product and its variants.
 
@@ -34,7 +34,7 @@ export default {
 
 ```
 
-## Using `productGetters`
+## Accessing product data
 
 Once products are loaded using `useProduct`, access them using `productGetters`. Depending on the product, configuration, and integration used, the response might contain one or more products or variants. Use the `getFiltered` getter to access them.
 
@@ -123,7 +123,7 @@ export default {
 </script>
 ```
 
-## Using `useFacet`
+## Fetching a list of products and available filters
 
 Faceted search allows users to narrow down search results by applying multiple filters (called dimensions) to the catalog data. In the clothing shop, facet (dimension) would be a brand, size, color, etc.
 
@@ -162,7 +162,7 @@ export default {
 
 For a full list of parameters, please refer to the [AgnosticFacetSearchParams](../core/api-reference/core.agnosticfacetsearchparams) interface.
 
-## Using `facetGetters`
+## Accessing catalog data
 
 Once data is loaded using `useFacet`, access it using `facetGetters`. Get the data such as products, sorting and filtering options, pagination, and much more.
 
