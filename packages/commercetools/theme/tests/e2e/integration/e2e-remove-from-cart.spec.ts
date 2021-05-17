@@ -32,9 +32,9 @@ context('Remove from cart', () => {
     });
     page.home.visit();
     page.home.header.openCart();
-    page.components.cart.product(data.productToRemove).should('be.visible');
-    page.components.cart.removeProduct(data.productToRemove);
-    page.components.cart.product(data.productToRemove).should('not.exist');
+    page.components.cart.product(data.productToRemove.name).should('be.visible');
+    page.components.cart.removeProduct(data.productToRemove.name);
+    page.components.cart.product(data.productToRemove.name).should('not.exist');
     data.expectedCart.forEach(product => {
       page.components.cart.product(product.name).should('be.visible');
     });

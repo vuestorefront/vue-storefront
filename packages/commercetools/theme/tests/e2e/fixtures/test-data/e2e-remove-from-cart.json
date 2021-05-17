@@ -13,24 +13,22 @@
         "name": "Shirt Aspesi white M",
         "id": 1,
         "sku": "M0E20000000ED0W",
-        "quantity": 2,
+        "quantity": 1,
         "size": 34
       },
       {
         "name": "Shirt ”David” MU light blue",
         "id": 1,
         "sku": "M0E20000000DL5W",
-        "quantity": 2,
+        "quantity": 1,
         "size": 36
       }
     ],
-    "productToRemove": "Shirt Aspesi white M",
+    "productToRemove": {
+      "name": "Shirt Aspesi white M"
+    },
     "expectedCart": [{
-      "name": "Shirt ”David” MU light blue",
-      "id": 1,
-      "sku": "M0E20000000DL5W",
-      "quantity": 2,
-      "size": 36
+      "name": "Shirt ”David” MU light blue"
     }]
   }
 }

@@ -26,7 +26,7 @@ context(['regression'], 'Carts merging', () => {
     page.components.cart.productName.each((name, index) => {
       cy.wrap(name).should('contain', data.expectedCart[index].name);
     });
-    page.components.cart.quantityInput.each((input, index) => {
+    page.components.cart.quantity().each((input, index) => {
       cy.wrap(input).should('have.value', data.expectedCart[index].quantity);
     });
     page.components.cart.product().each((product, index) => {
@@ -65,7 +65,7 @@ context(['regression'], 'Carts merging', () => {
     page.components.cart.productName.each((name, index) => {
       cy.wrap(name).should('contain', data.expectedCart[index].name);
     });
-    page.components.cart.quantityInput.each((input, index) => {
+    page.components.cart.quantity().each((input, index) => {
       cy.wrap(input).should('have.value', data.expectedCart[index].quantity);
     });
     page.components.cart.product().each((product, index) => {

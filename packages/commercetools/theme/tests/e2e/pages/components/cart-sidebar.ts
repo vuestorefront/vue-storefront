@@ -11,10 +11,6 @@ class Cart {
     return this.product().find('.sf-collected-product__title');
   }
 
-  get quantityInput(): Cypress.Chainable {
-    return this.product().find('input');
-  }
-
   get goToCheckoutButton(): Cypress.Chainable {
     return el('go-to-checkout-btn');
   }
@@ -51,6 +47,17 @@ class Cart {
     return this.removeProductButton(name).first().click();
   }
 
+  increaseQtyButton(name?: string): Cypress.Chainable {
+    return this.product(name).find('button').contains('+');
+  }
+
+  decreaseQtyButton(name?: string): Cypress.Chainable {
+    return this.product(name).find('button').contains('−');
+  }
+
+  quantity(name?: string): Cypress.Chainable {
+    return this.product(name).find('input');
+  }
 }
 
 export default new Cart();
