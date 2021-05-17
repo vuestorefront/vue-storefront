@@ -57,6 +57,7 @@ The Core API Reference documentation provides detailed information for each of t
 |  [ApiClientFactory](./core.apiclientfactory.md) |  |
 |  [ApiClientFactoryParams](./core.apiclientfactoryparams.md) |  |
 |  [ApiInstance](./core.apiinstance.md) |  |
+|  [BeforeCallParams](./core.beforecallparams.md) |  |
 |  [CallHookParams](./core.callhookparams.md) |  |
 |  [CartGetters](./core.cartgetters.md) |  |
 |  [CategoryGetters](./core.categorygetters.md) |  |
@@ -65,6 +66,7 @@ The Core API Reference documentation provides detailed information for each of t
 |  [FacetSearchResult](./core.facetsearchresult.md) |  |
 |  [FacetsGetters](./core.facetsgetters.md) |  |
 |  [FactoryParams](./core.factoryparams.md) |  |
+|  [HookParams](./core.hookparams.md) |  |
 |  [Integration](./core.integration.md) |  |
 |  [IntegrationContext](./core.integrationcontext.md) |  |
 |  [MiddlewareConfig](./core.middlewareconfig.md) |  |
