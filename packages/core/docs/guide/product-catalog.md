@@ -2,7 +2,7 @@
 
 There are two composables used to interact with the product catalog - `useProduct` and `useFacet`. The former loads a single product and its variants. The latter allows more complex product listings with filtering and sorting.
 
-## Fetching a single product and it's variants
+## Fetching a single product and its variants
 
 `useProduct` composable is used primarily on the Product Details Page to display information about a single product and its variants.
 
