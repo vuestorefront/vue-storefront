@@ -1,4 +1,4 @@
-import { Ref, unref, computed } from '@vue/composition-api';
+import { Ref, UnwrapRef, unref, computed, reactive } from '@vue/composition-api';
 import { UseUserShipping, Context, FactoryParams, UseUserShippingErrors, CustomQuery } from '../types';
 import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 
@@ -47,13 +47,13 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     const shipping: Ref<USER_SHIPPING> = sharedRef({}, 'useUserShipping-shipping');
     const _factoryParams = configureFactoryParams(factoryParams);
     const readonlyShipping: Readonly<USER_SHIPPING> = unref(shipping);
-    const error: Ref<UseUserShippingErrors> = sharedRef({
+    const error: UnwrapRef<UseUserShippingErrors> = reactive({
       addAddress: null,
       deleteAddress: null,
       updateAddress: null,
       load: null,
       setDefaultAddress: null
-    }, 'useUserShipping-error');
+    });
 
     const addAddress = async ({ address, customQuery }) => {
       Logger.debug('useUserShipping.addAddress', mask(address));
@@ -65,9 +65,9 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
           shipping: readonlyShipping,
           customQuery
         });
-        error.value.addAddress = null;
+        error.addAddress = null;
       } catch (err) {
-        error.value.addAddress = err;
+        error.addAddress = err;
         Logger.error('useUserShipping/addAddress', err);
       } finally {
         loading.value = false;
@@ -84,9 +84,9 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
           shipping: readonlyShipping,
           customQuery
         });
-        error.value.deleteAddress = null;
+        error.deleteAddress = null;
       } catch (err) {
-        error.value.deleteAddress = err;
+        error.deleteAddress = err;
         Logger.error('useUserShipping/deleteAddress', err);
       } finally {
         loading.value = false;
@@ -103,9 +103,9 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
           shipping: readonlyShipping,
           customQuery
         });
-        error.value.updateAddress = null;
+        error.updateAddress = null;
       } catch (err) {
-        error.value.updateAddress = err;
+        error.updateAddress = err;
         Logger.error('useUserShipping/updateAddress', err);
       } finally {
         loading.value = false;
@@ -120,9 +120,9 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
         shipping.value = await _factoryParams.load({
           shipping: readonlyShipping
         });
-        error.value.load = null;
+        error.load = null;
       } catch (err) {
-        error.value.load = err;
+        error.load = err;
         Logger.error('useUserShipping/load', err);
       } finally {
         loading.value = false;
@@ -139,9 +139,9 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
           shipping: readonlyShipping,
           customQuery
         });
-        error.value.setDefaultAddress = null;
+        error.setDefaultAddress = null;
       } catch (err) {
-        error.value.setDefaultAddress = err;
+        error.setDefaultAddress = err;
         Logger.error('useUserShipping/setDefaultAddress', err);
       } finally {
         loading.value = false;
@@ -151,7 +151,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     return {
       shipping: computed(() => shipping.value),
       loading: computed(() => loading.value),
-      error: computed(() => error.value),
+      error: computed(() => error),
       addAddress,
       deleteAddress,
       updateAddress,

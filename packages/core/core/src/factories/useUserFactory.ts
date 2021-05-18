@@ -1,4 +1,4 @@
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, computed, UnwrapRef, reactive } from '@vue/composition-api';
 import { UseUser, Context, FactoryParams, UseUserErrors } from '../types';
 import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 
@@ -28,7 +28,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
     const loading: Ref<boolean> = sharedRef(false, 'useUser-loading');
     const isAuthenticated = computed(() => Boolean(user.value));
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseUserErrors> = sharedRef(errorsFactory(), 'useUser-error');
+    const error: UnwrapRef<UseUserErrors> = reactive(errorsFactory());
 
     const setUser = (newUser: USER) => {
       user.value = newUser;
@@ -36,7 +36,12 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
     };
 
     const resetErrorValue = () => {
-      error.value = errorsFactory();
+      error.updateUser = null;
+      error.register = null;
+      error.login = null;
+      error.logout = null;
+      error.changePassword = null;
+      error.load = null;
     };
 
     const updateUser = async ({ user: providedUser }) => {
@@ -46,9 +51,9 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       try {
         loading.value = true;
         user.value = await _factoryParams.updateUser({currentUser: user.value, updatedUserData: providedUser});
-        error.value.updateUser = null;
+        error.updateUser = null;
       } catch (err) {
-        error.value.updateUser = err;
+        error.updateUser = err;
         Logger.error('useUser/updateUser', err);
       } finally {
         loading.value = false;
@@ -62,9 +67,9 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       try {
         loading.value = true;
         user.value = await _factoryParams.register(providedUser);
-        error.value.register = null;
+        error.register = null;
       } catch (err) {
-        error.value.register = err;
+        error.register = err;
         Logger.error('useUser/register', err);
       } finally {
         loading.value = false;
@@ -78,9 +83,9 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       try {
         loading.value = true;
         user.value = await _factoryParams.logIn(providedUser);
-        error.value.login = null;
+        error.login = null;
       } catch (err) {
-        error.value.login = err;
+        error.login = err;
         Logger.error('useUser/login', err);
       } finally {
         loading.value = false;
@@ -93,10 +98,10 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
 
       try {
         await _factoryParams.logOut();
-        error.value.logout = null;
+        error.logout = null;
         user.value = null;
       } catch (err) {
-        error.value.logout = err;
+        error.logout = err;
         Logger.error('useUser/logout', err);
       }
     };
@@ -112,9 +117,9 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
           currentPassword: params.current,
           newPassword: params.new
         });
-        error.value.changePassword = null;
+        error.changePassword = null;
       } catch (err) {
-        error.value.changePassword = err;
+        error.changePassword = err;
         Logger.error('useUser/changePassword', err);
       } finally {
         loading.value = false;
@@ -128,9 +133,9 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       try {
         loading.value = true;
         user.value = await _factoryParams.load();
-        error.value.load = null;
+        error.load = null;
       } catch (err) {
-        error.value.load = err;
+        error.load = err;
         Logger.error('useUser/load', err);
       } finally {
         loading.value = false;
@@ -148,7 +153,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       changePassword,
       load,
       loading: computed(() => loading.value),
-      error: computed(() => error.value)
+      error: computed(() => error)
     };
   };
 };

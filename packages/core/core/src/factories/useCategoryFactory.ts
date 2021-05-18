@@ -1,5 +1,5 @@
 import { CustomQuery, UseCategory, Context, FactoryParams, UseCategoryErrors } from '../types';
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, UnwrapRef, computed, reactive } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 export interface UseCategoryFactoryParams<CATEGORY, CATEGORY_SEARCH_PARAMS> extends FactoryParams {
@@ -13,9 +13,9 @@ export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
     const categories: Ref<CATEGORY[]> = sharedRef([], `useCategory-categories-${id}`);
     const loading = sharedRef(false, `useCategory-loading-${id}`);
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseCategoryErrors> = sharedRef({
+    const error: UnwrapRef<UseCategoryErrors> = reactive({
       search: null
-    }, `useCategory-error-${id}`);
+    });
 
     const search = async (searchParams) => {
       Logger.debug(`useCategory/${id}/search`, searchParams);
@@ -23,9 +23,9 @@ export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
       try {
         loading.value = true;
         categories.value = await _factoryParams.categorySearch(searchParams);
-        error.value.search = null;
+        error.search = null;
       } catch (err) {
-        error.value.search = err;
+        error.search = err;
         Logger.error(`useCategory/${id}/search`, err);
       } finally {
         loading.value = false;
@@ -36,7 +36,7 @@ export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS>(
       search,
       loading: computed(() => loading.value),
       categories: computed(() => categories.value),
-      error: computed(() => error.value)
+      error: computed(() => error)
     };
   };
 }

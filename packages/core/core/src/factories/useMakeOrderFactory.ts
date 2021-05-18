@@ -1,4 +1,4 @@
-import { computed, Ref } from '@vue/composition-api';
+import { Ref, UnwrapRef, computed, reactive } from '@vue/composition-api';
 import { CustomQuery, Context, FactoryParams, UseMakeOrder, UseMakeOrderErrors } from '../types';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
@@ -12,9 +12,9 @@ export const useMakeOrderFactory = <ORDER>(
   return function useMakeOrder(): UseMakeOrder<ORDER> {
     const order: Ref<ORDER> = sharedRef(null, 'useMakeOrder-order');
     const loading: Ref<boolean> = sharedRef(false, 'useMakeOrder-loading');
-    const error: Ref<UseMakeOrderErrors> = sharedRef({
+    const error: UnwrapRef<UseMakeOrderErrors> = reactive({
       make: null
-    }, 'useMakeOrder-error');
+    });
     const _factoryParams = configureFactoryParams(factoryParams);
 
     const make = async (params = { customQuery: null }) => {
@@ -23,10 +23,10 @@ export const useMakeOrderFactory = <ORDER>(
       try {
         loading.value = true;
         const createdOrder = await _factoryParams.make(params);
-        error.value.make = null;
+        error.make = null;
         order.value = createdOrder;
       } catch (err) {
-        error.value.make = err;
+        error.make = err;
         Logger.error('useMakeOrder.make', err);
       } finally {
         loading.value = false;
@@ -37,7 +37,7 @@ export const useMakeOrderFactory = <ORDER>(
       order,
       make,
       loading: computed(() => loading.value),
-      error: computed(() => error.value)
+      error: computed(() => error)
     };
   };
 };
