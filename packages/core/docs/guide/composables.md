@@ -369,30 +369,29 @@ However, if you still want to check interfaces, you could find them inside [`pac
 
 ### How to listen for errors?
 
-Let's imagine you have some global component for error notifications. You want to send information about every new error to this component. But how to know when a new error appears? You can observe an error object with a watcher:
+You can listen to changes of individual `error` properties or whole `error` objects from composables with a Vue.js watcher. 
 
-```ts
+```vue
+<script>
 import { useUiNotification } from '~/composables';
 
-const { cart, error } = useCart();
-const { send } = useUiNotification();
+export default {
+  setup() {
+    const { cart, error } = useCart();
 
-watch(() => ({...error.value}), (error, prevError) => {
-  if (error.addItem && error.addItem !== prevError.addItem)
-    send({ type: 'danger', message: error.addItem.message });
-  if (
-    error.removeItem &&
-    error.removeItem !== prevError.removeItem
-  )
-    send({ type: 'danger', message: error.removeItem.message });
-});
+    watch(() => error.value.addItem, (error, prevError) => {
+      // Listen to specific error, in this case
+    });
+
+    watch(() => ({ ...error.value }), (error, prevError) => {
+      // Listen to all cart errors
+    });
+  }
+};
+</script>
 ```
 
-In this example, we are using `useUiNotification` - a composable that handles notifications state. You can read more about it in the API reference.
-
-[//]: # 'TODO: This should be added to API reference'
-
-### How to customize graphql queries?
+### How to customize GraphQL queries?
 
 If your integration uses GraphQL API, you may need to change the default query that is being sent to fetch the data. That's quite a common case and Vue Storefront also provides the mechanism for this.
 
