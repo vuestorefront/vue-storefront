@@ -111,7 +111,6 @@ import {
 import { computed } from '@vue/composition-api';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
-import { onSSR } from '@vue-storefront/core';
 
 export default {
   name: 'Cart',
@@ -133,9 +132,7 @@ export default {
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
 
-    onSSR(async () => {
-      await loadCart();
-    });
+    loadCart();
 
     return {
       isAuthenticated,
