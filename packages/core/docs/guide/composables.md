@@ -377,7 +377,7 @@ import { useUiNotification } from '~/composables';
 
 export default {
   setup() {
-    const { cart, error } = useCart();
+    const { error } = useCart();
 
     watch(() => error.value.addItem, (error, prevError) => {
       // Listen to specific error, in this case
