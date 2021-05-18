@@ -1,5 +1,5 @@
 import { UseShipping, Context, FactoryParams, UseShippingErrors, CustomQuery } from '../types';
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, UnwrapRef, computed, reactive } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 export interface UseShippingParams<SHIPPING, SHIPPING_PARAMS> extends FactoryParams {
@@ -14,10 +14,10 @@ export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
     const loading: Ref<boolean> = sharedRef(false, 'useShipping-loading');
     const shipping: Ref<SHIPPING> = sharedRef(null, 'useShipping-shipping');
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseShippingErrors> = sharedRef({
+    const error: UnwrapRef<UseShippingErrors> = reactive({
       load: null,
       save: null
-    }, 'useShipping-error');
+    });
 
     const load = async ({ customQuery = null } = {}) => {
       Logger.debug('useShipping.load');
@@ -25,10 +25,10 @@ export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
       try {
         loading.value = true;
         const shippingInfo = await _factoryParams.load({ customQuery });
-        error.value.load = null;
+        error.load = null;
         shipping.value = shippingInfo;
       } catch (err) {
-        error.value.load = err;
+        error.load = err;
         Logger.error('useShipping/load', err);
       } finally {
         loading.value = false;
@@ -41,10 +41,10 @@ export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
       try {
         loading.value = true;
         const shippingInfo = await _factoryParams.save(saveParams);
-        error.value.save = null;
+        error.save = null;
         shipping.value = shippingInfo;
       } catch (err) {
-        error.value.save = err;
+        error.save = err;
         Logger.error('useShipping/save', err);
       } finally {
         loading.value = false;
@@ -54,7 +54,7 @@ export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
     return {
       shipping: computed(() => shipping.value),
       loading: computed(() => loading.value),
-      error: computed(() => error.value),
+      error: computed(() => error),
       load,
       save
     };

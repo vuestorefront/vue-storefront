@@ -1,5 +1,5 @@
 import { UseBilling, Context, FactoryParams, UseBillingErrors, CustomQuery } from '../types';
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, UnwrapRef, computed, reactive } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 export interface UseBillingParams<BILLING, BILLING_PARAMS> extends FactoryParams {
@@ -14,10 +14,10 @@ export const useBillingFactory = <BILLING, BILLING_PARAMS>(
     const loading: Ref<boolean> = sharedRef(false, 'useBilling-loading');
     const billing: Ref<BILLING> = sharedRef(null, 'useBilling-billing');
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseBillingErrors> = sharedRef({
+    const error: UnwrapRef<UseBillingErrors> = reactive({
       load: null,
       save: null
-    }, 'useBilling-error');
+    });
 
     const load = async ({ customQuery = null } = {}) => {
       Logger.debug('useBilling.load');
@@ -25,10 +25,10 @@ export const useBillingFactory = <BILLING, BILLING_PARAMS>(
       try {
         loading.value = true;
         const billingInfo = await _factoryParams.load({ customQuery });
-        error.value.load = null;
+        error.load = null;
         billing.value = billingInfo;
       } catch (err) {
-        error.value.load = err;
+        error.load = err;
         Logger.error('useBilling/load', err);
       } finally {
         loading.value = false;
@@ -41,10 +41,10 @@ export const useBillingFactory = <BILLING, BILLING_PARAMS>(
       try {
         loading.value = true;
         const billingInfo = await _factoryParams.save(saveParams);
-        error.value.save = null;
+        error.save = null;
         billing.value = billingInfo;
       } catch (err) {
-        error.value.save = err;
+        error.save = err;
         Logger.error('useBilling/save', err);
       } finally {
         loading.value = false;
@@ -54,7 +54,7 @@ export const useBillingFactory = <BILLING, BILLING_PARAMS>(
     return {
       billing: computed(() => billing.value),
       loading: computed(() => loading.value),
-      error: computed(() => error.value),
+      error: computed(() => error),
       load,
       save
     };

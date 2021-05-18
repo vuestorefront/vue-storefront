@@ -8,7 +8,7 @@ const maskAny = (el: any) => {
   return '***';
 };
 
-const mask = (el: any): any => {
+export const mask = (el: any): any => {
   if (typeof el === 'object' && !Array.isArray(el)) {
     return Object.keys(el).reduce((prev, key) => ({
       ...prev,
@@ -18,5 +18,3 @@ const mask = (el: any): any => {
 
   return maskAny(el);
 };
-
-export default mask;

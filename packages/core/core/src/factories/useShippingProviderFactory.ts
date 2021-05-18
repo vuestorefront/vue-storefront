@@ -1,5 +1,5 @@
 import { UseShippingProvider, Context, FactoryParams, UseShippingProviderErrors, CustomQuery } from '../types';
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, UnwrapRef, computed, reactive } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 export interface UseShippingProviderParams<STATE, SHIPPING_METHOD> extends FactoryParams {
@@ -14,10 +14,10 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
     const loading: Ref<boolean> = sharedRef(false, 'useShippingProvider-loading');
     const state: Ref<STATE> = sharedRef(null, 'useShippingProvider-response');
     const _factoryParams = configureFactoryParams(factoryParams);
-    const error: Ref<UseShippingProviderErrors> = sharedRef({
+    const error: UnwrapRef<UseShippingProviderErrors> = reactive({
       load: null,
       save: null
-    }, 'useShippingProvider-error');
+    });
 
     const setState = (newState: STATE) => {
       state.value = newState;
@@ -30,9 +30,9 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
       try {
         loading.value = true;
         state.value = await _factoryParams.save({ shippingMethod, customQuery, state });
-        error.value.save = null;
+        error.save = null;
       } catch (err) {
-        error.value.save = err;
+        error.save = err;
         Logger.error('useShippingProvider/save', err);
       } finally {
         loading.value = false;
@@ -45,9 +45,9 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
       try {
         loading.value = true;
         state.value = await _factoryParams.load({ customQuery, state });
-        error.value.load = null;
+        error.load = null;
       } catch (err) {
-        error.value.load = err;
+        error.load = err;
         Logger.error('useShippingProvider/load', err);
       } finally {
         loading.value = false;
@@ -57,7 +57,7 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
     return {
       state,
       loading: computed(() => loading.value),
-      error: computed(() => error.value),
+      error: computed(() => error),
       load,
       save,
       setState

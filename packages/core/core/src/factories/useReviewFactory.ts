@@ -1,4 +1,4 @@
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, UnwrapRef, computed, reactive } from '@vue/composition-api';
 import { CustomQuery, UseReview, Context, FactoryParams, UseReviewErrors } from '../types';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
@@ -13,10 +13,10 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
   return function useReview(id: string): UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
     const reviews: Ref<REVIEW> = sharedRef([], `useReviews-reviews-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useReviews-loading-${id}`);
-    const error: Ref<UseReviewErrors> = sharedRef({
+    const error: UnwrapRef<UseReviewErrors> = reactive({
       search: null,
       addReview: null
-    }, `useReviews-error-${id}`);
+    });
     const _factoryParams = configureFactoryParams(factoryParams);
 
     const search = async (searchParams): Promise<void> => {
@@ -25,9 +25,9 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       try {
         loading.value = true;
         reviews.value = await _factoryParams.searchReviews(searchParams);
-        error.value.search = null;
+        error.search = null;
       } catch (err) {
-        error.value.search = err;
+        error.search = err;
         Logger.error(`useReview/${id}/search`, err);
       } finally {
         loading.value = false;
@@ -40,9 +40,9 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       try {
         loading.value = true;
         reviews.value = await _factoryParams.addReview(params);
-        error.value.addReview = null;
+        error.addReview = null;
       } catch (err) {
-        error.value.addReview = err;
+        error.addReview = err;
         Logger.error(`useReview/${id}/addReview`, err);
       } finally {
         loading.value = false;
@@ -54,7 +54,7 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       addReview,
       reviews: computed(() => reviews.value),
       loading: computed(() => loading.value),
-      error: computed(() => error.value)
+      error: computed(() => error)
     };
   };
 }
