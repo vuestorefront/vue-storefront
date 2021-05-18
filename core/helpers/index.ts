@@ -58,7 +58,7 @@ export function getThumbnailPath (relativeUrl: string, width: number = 0, height
   } else {
     let resultUrl
     if (relativeUrl && (relativeUrl.indexOf('://') > 0 || relativeUrl.indexOf('?') > 0 || relativeUrl.indexOf('&') > 0)) relativeUrl = encodeURIComponent(relativeUrl)
-    // proxyUrl is not a url base path but contains {{url}} parameters and so on to use the relativeUrl as a template value and then do the image proxy opertions
+    // proxyUrl is not a url base path but contains {{url}} parameters and so on to use the relativeUrl as a template value and then do the image proxy operations
     let baseUrl = processURLAddress(config.images.proxyUrl ? config.images.proxyUrl : config.images.baseUrl)
     if (baseUrl.indexOf('{{') >= 0) {
       baseUrl = baseUrl.replace('{{url}}', relativeUrl)
