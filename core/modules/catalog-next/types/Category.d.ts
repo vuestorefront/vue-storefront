@@ -21,7 +21,9 @@ export interface Category {
   url_key: string,
   children_data: ChildrenData[],
   slug: string,
-  position?: number
+  position?: number,
+  description?: string,
+  short_desc?: string,
 }
 
 export interface Filters {
