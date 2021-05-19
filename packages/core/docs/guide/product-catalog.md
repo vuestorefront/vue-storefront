@@ -1,6 +1,10 @@
 # Product Catalog
 
-There are two composables used to interact with the product catalog - `useProduct` and `useFacet`. The former loads a single product and its variants. The latter allows more complex product listings with filtering and sorting.
+There are two composables used to interact with the product catalog - `useProduct` and `useFacet`.
+
+`useProduct` allows loading products and their variants when some parameters like IDs, SKUs, or slug are already known. 
+
+`useFacet` allows more complex queries where categories, search terms, filters, and other options can narrow down and sort the results.
 
 ## Fetching a single product and its variants
 
