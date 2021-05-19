@@ -2,7 +2,12 @@ import {
   Customer
 } from '../types/GraphQL';
 
-import { params } from './factoryParams';
+import { useUserFactoryParams } from './factoryParams';
 import { useUserFactory } from '@vue-storefront/core';
 
-export default useUserFactory<Customer, any, any>(params);
+const useUser = useUserFactory<Customer, any, any>(useUserFactoryParams);
+
+export {
+  useUser,
+  useUserFactoryParams
+};

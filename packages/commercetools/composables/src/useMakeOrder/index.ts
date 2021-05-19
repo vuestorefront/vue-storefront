@@ -1,8 +1,8 @@
-import useCart from '../useCart';
+import { useCart } from '../useCart';
 import { Order } from './../types/GraphQL';
 import { UseMakeOrder, useMakeOrderFactory, Context } from '@vue-storefront/core';
 
-const factoryParams = {
+const useMakeOrderFactoryParams = {
   provide() {
     return {
       cart: useCart()
@@ -16,6 +16,9 @@ const factoryParams = {
   }
 };
 
-const useMakeOrder: () => UseMakeOrder<Order> = useMakeOrderFactory<Order>(factoryParams);
+const useMakeOrder: () => UseMakeOrder<Order> = useMakeOrderFactory<Order>(useMakeOrderFactoryParams);
 
-export default useMakeOrder;
+export {
+  useMakeOrder,
+  useMakeOrderFactoryParams
+};

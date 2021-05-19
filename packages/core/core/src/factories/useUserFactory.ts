@@ -71,7 +71,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
-    const login = async ({ user: providedUser }) => {
+    const login = async ({ user: providedUser } = { user: null }) => {
       Logger.debug('useUserFactory.login', providedUser);
       resetErrorValue();
 

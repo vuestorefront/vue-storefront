@@ -57,8 +57,8 @@ export interface UseUser
   user: ComputedProperty<USER>;
   setUser: (user: USER) => void;
   updateUser: (params: { user: UPDATE_USER_PARAMS }) => Promise<void>;
-  register: (params: { user: UseUserRegisterParams }) => Promise<void>;
-  login: (params: { user: UseUserLoginParams }) => Promise<void>;
+  register: (params?: { user: UseUserRegisterParams }) => Promise<void>;
+  login: (params?: { user: UseUserLoginParams }) => Promise<void>;
   logout: () => Promise<void>;
   changePassword: (params: { current: string; new: string }) => Promise<void>;
   load: () => Promise<void>;
@@ -180,6 +180,9 @@ export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS> {
   error: ComputedProperty<UseCategoryErrors>;
 }
 
+/**
+ * Dedicated error interface for {@link UseCart}
+ */
 export interface UseCartErrors {
   addItem: Error;
   removeItem: Error;
@@ -362,6 +365,9 @@ export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
   error: ComputedProperty<UseContentErrors>;
 }
 
+/**
+ * @internal
+ */
 export interface RenderComponent {
   componentName: string;
   props?: any;
@@ -661,6 +667,7 @@ export interface ApiClientExtensionHooks<C = any> {
 export type CustomQueryFn<T = any> = (query: any, variables: T) => {
   query?: any;
   variables?: T;
+  metadata: any;
 };
 
 export type ApiClientMethod = (...args: any) => Promise<any>

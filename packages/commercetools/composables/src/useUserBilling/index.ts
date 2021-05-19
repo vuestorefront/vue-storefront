@@ -56,7 +56,7 @@ const sortDefaultAtTop = (a, b) => {
   return 0;
 };
 
-const params: UseUserBillingFactoryParams<any, any> = {
+const useUserBillingFactoryParams: UseUserBillingFactoryParams<any, any> = {
   addAddress: async (context: Context, params?) => {
     console.log('Mocked: addAddress', params.address);
 
@@ -133,4 +133,9 @@ const params: UseUserBillingFactoryParams<any, any> = {
   }
 };
 
-export default useUserBillingFactory<any, any>(params);
+const useUserBilling = useUserBillingFactory<any, any>(useUserBillingFactoryParams);
+
+export {
+  useUserBilling,
+  useUserBillingFactoryParams
+};
