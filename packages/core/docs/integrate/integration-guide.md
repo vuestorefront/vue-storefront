@@ -1,14 +1,46 @@
 # Integration guide
 
 ::: warning Want to build an integration?
-If you want to integrate with Vue Storefront, please **contact the core team on our [Discord](https://discord.vuestorefront.io) server** first. We are eager to help you with building it and ensuring its high quality! Building the integration with the help of the core team is the best way to keep its quality high and making it officially recommended once completed.
+If you want to integrate with Vue Storefront, please **contact the core team on our [Discord](https://discord.vuestorefront.io) server**. We are eager to help you to ensure its high quality and maybe even officially recommended it 😉
 :::
 
 ## Introduction
 
-Integrating any eCommerce platform with Vue Storefront is a relatively simple process. The only requirement that the eCommerce platform needs to fulfill to be integrated is having a fully functional REST/GraphQL API.
+Integrating an eCommerce platform with Vue Storefront sounds scary. Luckily, some of our partners and community members with different seniority levels have successfully done it. We are sure that even without prior experience with Vue Storefront, you can too.
 
-This documentation will guide you through integrating your eCommerce platform with Vue Storefront.
+This tutorial will guide you through the process of creating integration and explain the concepts behind Vue Storefront.
+
+## Requirements
+
+Before we get started, make sure that:
+
+- platform you want to integrate has REST or GraphQL API,
+- you have installed [Node 10+](https://nodejs.org/en/) and [Yarn 1](https://classic.yarnpkg.com/lang/en/),
+- you are familiar with JavaScript and (optionally) TypeScript,
+- you are familiar with [Composables and Composition API](../guide/composables).
+
+## Basics
+
+To make it easy to get started, we created an [eCommerce integration boilerplate](https://github.com/vuestorefront/ecommerce-integration-boilerplate).
+
+It is a monorepo, which is a fancy word to describe a single repository containing multiple related projects. Each directory inside `packages` contains one project. There are 3 projects:
+
+- `api-client`,
+- `composables`,
+- `theme`.
+
+### Theme
+
+### Composables
+
+### API client
+
+
+TODO: Explain how and why each package uses the `core`
+
+
+
+-----------------------------------------------------------------------
 
 During the process you will make use of two tools:
 
@@ -24,7 +56,10 @@ One of the most important requirements for any Vue Storefront integration is to 
 
 We recommend starting the integration with the API Client. Once you have the required methods and types to interact with eCommerce logic you will have all the tools needed to start building Composition Functions.
 
+
 ## Scope
+
+The default theme in Vue Storefront comes with support for plenty of functionalities out of the box, which is great if you don't want to deal with the UI or styling. However, this comes at a cost. The less functionalities your platform supports, the more overriding it requires.
 
 Vue Storefront will require **at least** the following features from your eCommerce platform:
 
@@ -81,7 +116,6 @@ Vue Storefront will require **at least** the following features from your eComme
 **Additional features (optional)**
 - facet filtering
 - order notifications
-
 
 ## Getting started
 
