@@ -19,7 +19,7 @@ Before we get started, make sure that:
 - you are familiar with JavaScript and (optionally) TypeScript,
 - you are familiar with [Composables and Composition API](../guide/composables).
 
-## Basics
+## Project structure
 
 To make it easy to get started, we created an [eCommerce integration boilerplate](https://github.com/vuestorefront/ecommerce-integration-boilerplate).
 
@@ -29,104 +29,112 @@ It is a monorepo, which is a fancy word to describe a single repository containi
 - `composables`,
 - `theme`.
 
-### Theme
+### API client
+
+This project is the **_server layer_** that extends our [Server Middleware](../advanced/server-middleware.html). It creates an API client (like `Apollo` for GraphQL or `Axios` for plain HTTP) that communicates with your eCommerce platform. It acts as a proxy between the users and the platform.
+
+Here, you will create new endpoints that accept parameters from the frontend and use them to fetch data.
 
 ### Composables
 
-### API client
+This project consists of two parts:
 
+- [Composables](../guide/composables) that manage the state, prepare and send the request to the `api-client`, then save the response. If necessary, they also parse and format the response for getters.
 
-TODO: Explain how and why each package uses the `core`
+- [Getters](../guide/getters) that extract information from the responses provided by `composables` in formatted and agnostic format.
+
+Here, you will create new methods for `composables` to fetch the data and new `getters` to extract different pieces of information from that data.
+
+### Theme
+
+This project is a template for generating new Vue Storefront shops. It's a [Nuxt.js](https://nuxtjs.org/) application that contains pages, Vue components, and assets. It uses `composables` to interact with the platform and `getters` to display the data to the user. 
+
+Out of the box, the `theme` directory doesn't contain much - just a few configuration files and empty directories. However, this doesn't mean that you have to create the whole theme from scratch. When your integration is ready, you will use our CLI to combine this project with our base theme to create a new Nuxt.js application with all pieces inside.
+
+Here, you will create new components, scripts, and assets to override or extends our base theme.
+
+## Scope
+
+The default theme in Vue Storefront comes with support for plenty of functionalities out of the box, which is great if you don't want to deal with the UI or styling. However, this comes at a cost. The fewer functionalities your platform supports, the more overriding it requires.
+
+It's hard to list all functionalities your platform should support, but you can get a general idea by browsing individual composables in [`packages/composables/src` folder](https://github.com/vuestorefront/ecommerce-integration-boilerplate/tree/master/packages/composables/src) in boilerplate repository. For example [`useCart` composable](https://github.com/vuestorefront/ecommerce-integration-boilerplate/blob/master/packages/composables/src/useCart/index.ts) has following handlers:
+
+- `load`,
+- `addItem`,
+- `removeItem`,
+- `updateItemQty`,
+- `clear`,
+- `applyCoupon`,
+- `removeCoupon`,
+- `isInCart`.
+
+API of your platform should have endpoints for most of these operations, unless some of them can be performed on the frontend. One such example would be `isInCart`, which accepts `currentCart` and `product` as parameters. In most cases this is enough information to check if product is already in cart, without calling an API.
+
+## Getting started
+
+### Fork boilerplate repository
+
+Now that we explained the basics let's start creating an integration. Open the [eCommerce integration boilerplate repository](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and click `Use this template` button to fork it. This creates a copy of a repository and allows you to experiment with changes without affecting the original project.  Enter the name of the new repository and click `Create repository from template`.
+
+Once the new repository is ready, clone it locally.
+
+### Name your project
+
+**Before you start making changes and installing dependencies**, let's update the name of the packages and integrations. Doing it now prevents issues with linking dependencies later.
+
+Search for all instances of these strings (in this order) and change them to match your integration:
+
+- `@vue-storefront/boilerplate-theme`,
+- `@vue-storefront/boilerplate-api`,
+- `@vue-storefront/boilerplate`.
+
+For the sake of example and simplicity, let's assume our eCommerce platform is called **Sloth**. From now on, we will refer to these packages as:
+
+- `@example/theme`,
+- `@example/api`,
+- `@example/sloth`.
+
+:::tip
+It's a convention to call `composables` package with just a name of the platform because this is the package that developers mostly interact with when creating a shop. Example of this is `@vue-storefront/commercetools`, `@vue-storefront/magento` and `@vue-storefront/shopify`.
+:::
+
+Open `packages/composables/nuxt/plugin.js` and change `boilerplate` to the name of your integration. This name should not contain any special characters nor spaces. In our case, it's lowercase `sloth`.
+
+Open `packages/theme/middleware.config.js` and change `boilerplate` with the same name.
+
+### Install dependencies
+
+After renaming all packages, we can safely install dependencies and not worry about dependencies linking.
+
+Open the terminal in the root of the repository and run `yarn install`.
+
+### Test the project
+
+Once dependencies are installed, run `yarn build`, then `yarn dev`. Open the link shown in the terminal and test the page to confirm it's working.
+
+Since we are mocking all functionalities in the boilerplate, different parts of the application might not update properly (e.g., the cart). However, when you open different pages and click different buttons, **you should not see any errors in the terminal or browser console**. You might see some warnings about missing translations (starting with `[vue-i18n]`), but you don't have to worry about it now.
+
+Once you confirmed that everything is working, commit the changes.
+
+## Connecting to the platform
+
+Let's start by creating an API client that will talk to the API. As mentioned above, `api-client` project connects to the eCommerce platforms, so open `packages/api-client/src/index.server.ts`.
+
+GraphQL example https://github.com/vuestorefront/commercetools
+
+## Implementing `useProduct`
+
+It's impossible to write tutorial explaining how to implement each and every composable, especially because some of them might differ wildly between the platforms. 
 
 
 
 -----------------------------------------------------------------------
-
-During the process you will make use of two tools:
-
-- **Core** - a business logic that is shared between every Vue Storefront integration. It contains utilities and factories for composables that are ensuring common high-level APIs for each platform.
-- **Boilerplate** - boilerplate code of working integration that has hardcoded sample data. It uses core APIs under the hood.
-
-Integration requires three pieces to work:
-
-- **API Client** - a data layer of your application, not used directly in the UI.
-- **Composition API functions (aka Composables)** - functions using [Vue Composition API](https://vue-composition-api-rfc.netlify.com/). This is the actual business logic of the integration. It's a mixed logic of core APIs with platform-specific code.
-- **Theme** - This is basically a platform-specific part of your theme that is using an agnostic default theme under the hood.
-One of the most important requirements for any Vue Storefront integration is to work with a common default theme. This is our way of ensuring that the quality of UI layer, as well as developer experience, remains the same for every integration. Another reason why we are keeping a single theme is that it's much easier to maintain it and keep high quality. You can read more about the default theme [here](/contributing/themes.html). You shouldn't put there anything except plugins and modifications of `nuxt.config.js`
-
-We recommend starting the integration with the API Client. Once you have the required methods and types to interact with eCommerce logic you will have all the tools needed to start building Composition Functions.
-
-
-## Scope
-
-The default theme in Vue Storefront comes with support for plenty of functionalities out of the box, which is great if you don't want to deal with the UI or styling. However, this comes at a cost. The less functionalities your platform supports, the more overriding it requires.
-
-Vue Storefront will require **at least** the following features from your eCommerce platform:
-
-**Product**
-
-- fetch single/multiple products based on uuid/sku/catId/query
-- fetch product variants
-
-**Category**
-
-- fetch single category
-- fetch category tree
-
-**Cart**
-
-- create cart
-- add to cart
-- remove from the cart
-- change the quantity of an item in the cart
-- change the configuration of the item in the cart
-- clear cart
-- add promo coupon
-- remove promo coupon
-
-**User**
-
-- log in
-- log out
-- register
-- forgot password
-- add/remove shipping address
-- set the default shipping address
-- add/remove billing address
-- set the default billing address
-- see past orders
-
-**Wishlist**
-
-- add/remove the product
-- associate with the logged-in user
-
-**Checkout**
-
-- get shipping methods
-- get payment methods (depends on integration)
-- place order
-
-**i18n**
-
-- change currency
-- change locale
-- change language
-
-**Additional features (optional)**
-- facet filtering
-- order notifications
-
-## Getting started
-
-
-Copy our [integration boilerplate](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and replace all `boilerplate` strings with the name of your platform (for example `commercetools` `about-you`). The strings can be found in imports and `package.json` of every package.
-
-::: tip Test with the default theme
-The default theme is working out of the box with mocked data from boilerplate so it's a perfect test environment for your integration. Be sure to test it every time you make some changes
-:::
-
-Once you copied and renamed the boilerplate run `yarn dev` in your `theme` folder to see if everything works.
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+TODO: Explain how and why each package uses the `core`
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
 
 
 ## Creating an api-client
