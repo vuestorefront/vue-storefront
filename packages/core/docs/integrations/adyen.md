@@ -166,7 +166,7 @@ export default {
 };
 ```
 
-Read [Adyen's document aboout the Klarna](https://docs.adyen.com/payment-methods/klarna#supported-countries) to check which Klarna payment method is available for which country.
+Read [Adyen's document about the Klarna](https://docs.adyen.com/payment-methods/klarna#supported-countries) to check which Klarna payment methods are available for individual countries.
 
 :::warning Phone number
 If your users may provide phone number then make sure it is with **area code**. Otherwise, Klarna will throw an error because of unproper phone number.
