@@ -33,7 +33,7 @@ To add the product to the cart you can use `addItem` method:
 <template>
   <!-- ... -->
   <ul>
-    <li v-for="product in products" :key="product.id">
+    <li v-for="product in products" :key="">
       <!-- ... -->
       <input type="number" v-model="quantity" />
       <button @click="addItem({ product, quantity })">
@@ -44,8 +44,8 @@ To add the product to the cart you can use `addItem` method:
   <!-- ... -->
 </template>
 <script>
-import { ref } from '@vue/composition-api';
-import { useCart } from '{INTEGRATION}';
+import { ref, computed } from '@vue/composition-api';
+import { useCart, cartGetters } from '{INTEGRATION}';
 
 export default {
   props: {
@@ -58,12 +58,13 @@ export default {
     const { addItem } = useCart();
 
     // load cart if it wasn't loaded before
-
+    const produtId = computed(() => cartGetters.getItemSku(product));
     const quantity = ref(1);
 
     return {
       addItem,
-      quantity
+      quantity,
+      produtId
     };
   }
 };
