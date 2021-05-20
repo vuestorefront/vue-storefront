@@ -234,5 +234,5 @@ You have to add new types and extension to commercetools as described on these p
 
 For more information, see the 6th step of the [Adyen's installation guide](./adyen.html#installation).
 
-### Klarna Pay Later does not work for US
-Klarna Pay Later is not supported in US. However, sometimes when you add Klarna in the Adyen's dashboard - it is accidently added too. If you have this problem, contact the support so they will remove this one for the US. 
+### Klarna Pay Later does not work for United States
+Klarna Pay Later is not supported in the United States. However, sometimes it is added when you enable Klarna in Adyen's dashboard. If you have this problem, contact Adyen's support to remove it.
