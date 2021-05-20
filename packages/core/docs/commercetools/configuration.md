@@ -41,9 +41,7 @@ module.exports = {
             'manage_products:<PROJECT_KEY>',
             /* other scope rules */
           ]
-        },
-        currency: 'USD',
-        country: 'US'
+        }
       }
     }
   }
@@ -58,6 +56,8 @@ module.exports = {
 - `clientId` - unique Commercetools Client ID. Visit [Commercetools documentation](https://docs.commercetools.com/tutorials/getting-started#creating-an-api-client) for more details about creating an API Client
 - `clientSecret` - Commercetools secret API key. Visit [Commercetools documentation](https://docs.commercetools.com/tutorials/getting-started#creating-an-api-client) for more details about creating an API Client
 - `scopes` - The scope constrains the endpoints to which a client has access, and whether a client has read or write access to an endpoint. Visit [Commercetools documentation](https://docs.commercetools.com/api/scopes#top) for more details about Scopes.
+
+By default the i18n settings, such as `currency`, `locale` and `country` are loaded from cookies. To force and override that behavior you can also set those properties under the `api` section.
 
 ### `acceptLanguage`
 
