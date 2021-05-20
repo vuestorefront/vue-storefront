@@ -33,7 +33,7 @@ To add the product to the cart you can use `addItem` method:
 <template>
   <!-- ... -->
   <ul>
-    <li v-for="product in products" :key="">
+    <li v-for="product in products" :key="productGetters.getId(product)">
       <!-- ... -->
       <input type="number" v-model="quantity" />
       <button @click="addItem({ product, quantity })">
@@ -45,7 +45,7 @@ To add the product to the cart you can use `addItem` method:
 </template>
 <script>
 import { ref, computed } from '@vue/composition-api';
-import { useCart, cartGetters } from '{INTEGRATION}';
+import { useCart, productGetters } from '{INTEGRATION}';
 
 export default {
   props: {
@@ -58,13 +58,12 @@ export default {
     const { addItem } = useCart();
 
     // load cart if it wasn't loaded before
-    const produtId = computed(() => cartGetters.getItemSku(product));
     const quantity = ref(1);
 
     return {
       addItem,
       quantity,
-      produtId
+      productGetters
     };
   }
 };
@@ -80,7 +79,7 @@ To remove an item from the cart use `removeItem` method, and similarly to update
   <!-- ... -->
   <div>
     <ul>
-      <li v-for="product in products" :key="product.id">
+      <li v-for="product in products" :key="cartGetters.getItemSku(product)">
         <input type="number" v-model="quantity" />
         <button @click="updateItemQty({ product, quantity })">
           Change quantity
@@ -106,7 +105,7 @@ import { onSSR } from '@vue-storefront/core';
 
 export default {
   setup() {
-    const { cart, removeItem, updateItemQty, loading } = useCart();
+    const { cart, removeItem, updateItemQty } = useCart();
 
     // load cart if it wasn't loaded before
 
@@ -122,8 +121,8 @@ export default {
       totalItems,
       removeItem,
       updateItemQty,
-      loading,
-      quantity
+      quantity,
+      cartGetters
     };
   }
 };
@@ -165,7 +164,7 @@ To clear cart items (not delete the cart itself) use the `clear` method.
   <!-- ... -->
   <div>
     <ul>
-      <li v-for="product in products" :key="product.id">
+      <li v-for="product in products" :key="cartGetters.getItemSku(product)">
         <!-- ... -->
       </li>
     </ul>
@@ -186,7 +185,8 @@ export default {
 
     return {
       products,
-      clear
+      clear,
+      cartGetters
     };
   }
 };
@@ -265,7 +265,7 @@ To add the product to the wishlist you can use `addItem` method:
 <template>
   <!-- ... -->
   <ul>
-    <li v-for="product in products" :key="product.id">
+    <li v-for="product in products" :key="productGetters.getId(product)">
       <!-- ... -->
       <button @click="addItem({ product })">
         Add to wishlist
@@ -304,7 +304,7 @@ To remove an item from the cart use `removeItem` method.
   <!-- ... -->
   <div>
     <ul>
-      <li v-for="product in products" :key="product.id">
+      <li v-for="product in products" :key="wishlistGetters.getWishlistItemSku(product)">
         <!-- ... -->
         <button @click="removeItem({ product })">
           Remove item
@@ -377,7 +377,7 @@ Cleaning the wishlist can be achieved by `clear` property.
   <!-- ... -->
   <div>
     <ul>
-      <li v-for="product in products" :key="product.id">
+      <li v-for="product in products" :key="wishlistGetters.getWishlistItemSku(product)">
         <!-- ... -->
       </li>
     </ul>
@@ -417,7 +417,7 @@ The product list:
 ```vue
 <template>
   <ul>
-    <li v-for="product in products" :key="product.id">
+    <li v-for="product in products" :key="productGetters.getId(product)">
       <button @click="addToCart({ product, quantity })">
         Add to cart
       </button>
@@ -444,7 +444,7 @@ export default {
     }
   },
   setup() {
-    const { addItem: addToCart, isInCart, loading } = useCart();
+    const { addItem: addToCart, isInCart } = useCart();
     const { addItem: addToWishlist, isInWishlist } = useWishlist();
 
     const quantity = ref(1);
@@ -454,7 +454,6 @@ export default {
       isInCart,
       addToWishlist,
       isInWishlist,
-      loading,
       quantity
     };
   }
@@ -468,7 +467,7 @@ The cart component:
 <template>
   <div>
     <ul>
-      <li v-for="product in cartProducts" :key="product.id">
+      <li v-for="product in cartProducts" :key="cartGetters.getItemSku(product)">
         <input type="number" v-model="quantity" />
         <button @click="updateItemQty({ product, quantity })">
           Change quantity
@@ -513,7 +512,8 @@ export default {
       cart,
       updateItemQty,
       clear,
-      quantity
+      quantity,
+      cartGetters
     };
   }
 };
@@ -526,7 +526,7 @@ The wishlist component:
 <template>
   <div>
     <ul>
-      <li v-for="product in wishlistProducts" :key="product.id">
+      <li v-for="product in wishlistProducts" :key="wishlistGetters.getWishlistItemSku(product)">
         <button @click="removeItem({ product })">
           Remove from wishlist
         </button>
@@ -565,7 +565,8 @@ export default {
       wishlistTotalItems,
       wishlist,
       removeItem,
-      clear
+      clear,
+      wishlistGetters
     };
   }
 };
