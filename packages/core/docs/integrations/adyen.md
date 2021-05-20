@@ -113,7 +113,7 @@ adyen: {
   * `buildRedirectUrlAfterAuth` - `(paymentAndOrder: PaymentAndOrder, succeed: boolean) => string` - A method that tells the server where to redirect the user after coming back from payment gateway. You can test it with [these cards](https://docs.adyen.com/development-resources/test-cards/test-card-numbers#test-3d-secure-authentication).
   * `buildRedirectUrlAfter3ds1Auth` - deprecated in favor of `buildRedirectUrlAfterAuth`
   * `buildRedirectUrlAfterError` - `(err: Error) => string` - A method that tells the server where to redirect the user if error has been thrown inside `cardAuthAfterRedirect` controller.
-  * `buildRedirectUrlAfter3ds1Error` - deprecated `buildRedirectUrlAfterError`
+  * `buildRedirectUrlAfter3ds1Error` - deprecated in favor of `buildRedirectUrlAfterError`
 
 ```ts
 type PaymentAndOrder = Payment & { order: Order }
