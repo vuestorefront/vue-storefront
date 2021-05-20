@@ -223,7 +223,7 @@ module.exports = {
             ['/advanced/performance', 'Performance'],
             ['/advanced/ssr-cache', 'SSR Cache'],
             ['/advanced/logging', 'Logging'],
-						['/core/api-reference/', 'API Reference']
+            ['/core/api-reference/', 'API Reference']
           ]
         },
         {
