@@ -11,6 +11,10 @@ context(['regression'], 'Carts merging', () => {
     });
   });
 
+  const waitToggle = () => {
+    cy.wait(1000);
+  };
+
   it('Should merge guest cart with registered customer cart', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
@@ -53,6 +57,7 @@ context(['regression'], 'Carts merging', () => {
     page.home.visit();
     page.home.header.openLoginModal();
     page.components.loginModal.loginToAccountButton.click();
+    waitToggle();
     page.components.loginModal.fillForm(data.customer);
     page.components.loginModal.loginBtn.click();
     page.home.header.openCart();
