@@ -783,7 +783,8 @@
     "paths": {
       "product": "/catalog/product"
     },
-    "productPlaceholder": "/assets/placeholder.jpg"
+    "productPlaceholder": "/assets/placeholder.jpg",
+    "fileuploaderUploadUrl": "${FILEUPLOADER_UPLOAD_URL}"
   },
   "install": {
     "is_local_backend": true,

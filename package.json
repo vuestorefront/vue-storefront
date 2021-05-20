@@ -110,7 +110,7 @@
     "@typescript-eslint/parser": "^1.7.1-alpha.17",
     "@vue/test-utils": "^1.0.0-beta.29",
     "app-root-path": "^2.0.1",
-    "autoprefixer": "^8.6.2",
+    "autoprefixer": "^9",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^9.0.0",
     "babel-jest": "^24.1.0",
