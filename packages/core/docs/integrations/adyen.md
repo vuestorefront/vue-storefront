@@ -111,7 +111,7 @@ adyen: {
   * `adyenMerchantAccount` - Name of your Adyen's merchant account
   * `origin` - URL of your frontend. You could check it by printing out `window.location.origin` in the browser's console on your website.
   * `buildRedirectUrlAfterAuth` - `(paymentAndOrder: PaymentAndOrder, succeed: boolean) => string` - A method that tells the server where to redirect the user after coming back from payment gateway. You can test it with [these cards](https://docs.adyen.com/development-resources/test-cards/test-card-numbers#test-3d-secure-authentication).
-  * `buildRedirectUrlAfter3ds1Auth` - deprecated `buildRedirectUrlAfterAuth`
+  * `buildRedirectUrlAfter3ds1Auth` - deprecated in favor of `buildRedirectUrlAfterAuth`
   * `buildRedirectUrlAfterError` - `(err: Error) => string` - A method that tells the server where to redirect the user if error has been thrown inside `cardAuthAfterRedirect` controller.
   * `buildRedirectUrlAfter3ds1Error` - deprecated `buildRedirectUrlAfterError`
 
