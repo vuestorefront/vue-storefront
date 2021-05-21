@@ -67,11 +67,14 @@
         <transition name="sf-fade">
           <div v-if="totalItems">
             <SfProperty
-              name="Total price"
+              name="Subtotal price"
               class="sf-property--full-width sf-property--large my-cart__total-price"
             >
               <template #value>
-                <SfPrice :regular="$n(totals.subtotal, 'currency')" />
+                <SfPrice
+                  :regular="$n(totals.subtotal, 'currency')"
+                  :special="(totals.special !== totals.subtotal) ? $n(totals.special, 'currency') : 0"
+                />
               </template>
             </SfProperty>
             <nuxt-link to="/checkout/shipping">
