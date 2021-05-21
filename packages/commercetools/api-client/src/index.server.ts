@@ -17,6 +17,7 @@ const onCreate = (settings: Config): { config: Config; client: ClientInstance } 
     ...settings,
     languageMap,
     acceptLanguage: languageMap[locale] || acceptLanguage,
+    currency: settings.currency || defaultSettings.currency,
     auth: settings.auth || defaultSettings.auth
   } as any as Config;
 

@@ -6,6 +6,7 @@ jest.unmock('../../src/api/updateCart');
 const givenVariables = {
   acceptLanguage: ['en', 'de'],
   locale: 'en',
+  currency: 'USD',
   id: 'cart id',
   version: 1,
   actions: [{ addLineItem: {} }]

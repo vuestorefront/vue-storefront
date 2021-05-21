@@ -82,14 +82,14 @@ const getSpecialPrice = (product: ProductVariant | LineItem) => {
 
 export const createPrice = (product: ProductVariant | LineItem): AgnosticPrice => {
   if (!product) {
-    return { regular: null, special: null };
+    return {
+      regular: null,
+      special: null
+    };
   }
 
-  const regularPrice = getPrice(product.price);
-  const specialPrice = getSpecialPrice(product);
-
   return {
-    regular: regularPrice,
-    special: specialPrice
+    regular: getPrice(product.price),
+    special: getSpecialPrice(product)
   };
 };
