@@ -118,7 +118,15 @@ Once you confirmed that everything is working, commit the changes.
 
 ## Connecting to the platform
 
-Let's start by creating an API client that will talk to the API. As mentioned above, `api-client` project connects to the eCommerce platforms, so open `packages/api-client/src/index.server.ts`.
+Let's start by creating an API client that will talk to the API. As mentioned above, `api-client` project connects to the eCommerce platforms, so this is the project to update.
+
+### Structure of the `api-client` project
+
+When you open `packages/api-client/src` folder, you will see only two files and one empty folder. It's not much, considering how much code some Node.js servers require, but this is thanks to abstractions we created. So what are they for?
+
+
+- `index.ts` is a file that should **not** contain any server-side code but export things that `composables` or `theme` projects might need. Great examples are integration-specific TypeScript types for request and response bodies or helper functions.
+- `index.server.ts` is a file that contains server-side code. Inside of it `apiClientFactory` creates `createApiClient` method and exports it. This method is called on every request to Server Middleware. It returns request-specific API client and all endpoints that extend Server Middleware. 
 
 GraphQL example https://github.com/vuestorefront/commercetools
 
