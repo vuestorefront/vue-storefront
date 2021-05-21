@@ -370,7 +370,6 @@ export interface RenderComponent {
 export interface AgnosticPrice {
   regular: number | null;
   special?: number | null;
-  currency?: string | null;
 }
 
 export interface AgnosticMediaGalleryItem {
