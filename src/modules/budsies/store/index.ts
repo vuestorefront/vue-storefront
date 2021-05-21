@@ -5,7 +5,7 @@ import { actions } from './actions'
 import { state } from './state'
 import { BudsiesState } from '../types/State'
 
-export const module: Module<BudsiesState, RootState> = {
+export const budsiesStore: Module<BudsiesState, RootState> = {
   namespaced: true,
   state,
   mutations,

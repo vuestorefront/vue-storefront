@@ -12,15 +12,15 @@ export const actions: ActionTree<BudsiesState, RootState> = {
   ) {
     const url = processURLAddress(`${config.budsies.endpoint}/printed-products/cart-items`);
 
-    const result = await TaskQueue.execute({
+    return TaskQueue.execute({
       url,
       payload: {
         headers: { 'Content-Type': 'application/json' },
-        mode: 'cors'
+        mode: 'cors',
+        method: 'POST',
+        body: JSON.stringify({ productId, designOption, uploadedArtworkIds, qty, addons })
       },
       silent: true
     });
-
-    return result.result;
   }
 }

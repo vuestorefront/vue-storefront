@@ -1,8 +1,6 @@
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
-import { module } from './store'
+import { budsiesStore } from './store'
 
-export const KEY = 'budsies'
-
-export const BudsiesModule: StorefrontModule = function ({ store, router, appConfig }) {
-  store.registerModule(KEY, module);
+export const BudsiesModule: StorefrontModule = async function ({ store }) {
+  store.registerModule('budsies', budsiesStore);
 }
