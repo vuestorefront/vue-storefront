@@ -122,13 +122,69 @@ Let's start by creating an API client that will talk to the API. As mentioned ab
 
 ### Structure of the `api-client` project
 
-When you open `packages/api-client/src` folder, you will see only two files and one empty folder. It's not much, considering how much code some Node.js servers require, but this is thanks to abstractions we created. So what are they for?
-
+When you open `packages/api-client/src` folder, you will see only two files and one empty folder. It's not much, considering how much code some Node.js servers require, but this is thanks to abstractions we created. So what are these files for?
 
 - `index.ts` is a file that should **not** contain any server-side code but export things that `composables` or `theme` projects might need. Great examples are integration-specific TypeScript types for request and response bodies or helper functions.
-- `index.server.ts` is a file that contains server-side code. Inside of it `apiClientFactory` creates `createApiClient` method and exports it. This method is called on every request to Server Middleware. It returns request-specific API client and all endpoints that extend Server Middleware. 
+- `index.server.ts` is a file that contains server-side code. Inside of it `apiClientFactory` creates `createApiClient` method and exports it. Server Middleware calls this method on every request to create a fresh API client and to handle integration-specific endpoints.
 
-GraphQL example https://github.com/vuestorefront/commercetools
+### Adding API client
+
+API client is a library that handles sending requests to and handling responses from the eCommerce platform.
+
+:::warning
+Examples below use `axios` to handle HTTP requests. However, you can use other libraries if your platform uses GraphQL or have its own dedicated clients.
+:::
+
+In terminal, go to `packages/api-client` and install `axios`:
+
+```bash
+cd packages/api-client
+yarn add axios
+```
+
+Now in the code editor, open `packages/api-client/src/index.server.ts`. Inside of it, there is the `onCreate` method.
+
+`onCreate` accepts the `settings` parameter, which is a configuration provided in `packages/theme/middleware.config.js`. By default, it's an empty object, but can by any configuration you need.
+
+`onCreate` returns an object with at least `config` and `client` properties, but can have any number of custom properties if needed. This object is later available in API endpoints.
+
+Let's update `onCreate` method to create and return new Axios instance.
+
+```typescript
+// packages/api-client/index.server.ts
+import axios from 'axios';
+
+const onCreate = (settings) => {
+  const client = axios.create({
+    baseURL: settings.api.url
+  });
+
+  return {
+    config: settings,
+    client
+  };
+};
+```
+
+
+
+In the example above we passed `settings.api.url` to `axios.create`, but it's not defined in `middleware.config.js`. Let's add it:
+
+```javascript
+// packages/theme/middleware.config.js
+module.exports = {
+  integrations: {
+    sloth: { // name of your integration
+      location: '@example/api/server', // name of your api-client package followed by `/server`
+      configuration: {
+        api: {
+          url: '' // URL of your eCommerce platform
+        }
+      }
+    }
+  }
+};
+```
 
 ## Implementing `useProduct`
 
