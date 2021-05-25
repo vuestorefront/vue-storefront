@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.3
+
+-  Use cookies to read information about i18n ([#5919](https://github.com/vuestorefront/vue-storefront/pull/5919)) - [andrzejewsky](https://github.com/andrzejewsky)
+,
+-  Resetting commercetools token when clearing user session ([#5920](https://github.com/vuestorefront/vue-storefront/pull/5920)) - [andrzejewsky](https://github.com/andrzejewsky)
+,
+-  Fix calculation of cart totals ([#5932](https://github.com/vuestorefront/vue-storefront/pull/5932)) - [Filip Sobol](https://github.com/filipsobol)
+
+
 ## 1.2.2
 
 -  Allow searching by orderNumber ([#5858](https://github.com/vuestorefront/vue-storefront/pull/5858)) - [samriley](https://github.com/samriley)
