@@ -387,16 +387,8 @@ export default {
       return category?.label || items[0].label;
     });
 
-    onSSR(async () => {
-      await search(th.getFacetsFromURL());
-    });
-
-    const { changeFilters, isFacetColor } = useUiHelpers();
-    const { toggleFilterSidebar } = useUiState();
     const selectedFilters = ref({});
-
-    onMounted(() => {
-      context.root.$scrollTo(context.root.$el, 2000);
+    const setSelectedFilters = () => {
       if (!facets.value.length) return;
       selectedFilters.value = facets.value.reduce((prev, curr) => ({
         ...prev,
@@ -404,6 +396,18 @@ export default {
           .filter(o => o.selected)
           .map(o => o.id)
       }), {});
+    };
+
+    onSSR(async () => {
+      await search(th.getFacetsFromURL());
+      setSelectedFilters();
+    });
+
+    const { changeFilters, isFacetColor } = useUiHelpers();
+    const { toggleFilterSidebar } = useUiState();
+
+    onMounted(() => {
+      context.root.$scrollTo(context.root.$el, 2000);
     });
 
     const isFilterSelected = (facet, option) => (selectedFilters.value[facet.id] || []).includes(option.id);
