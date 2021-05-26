@@ -718,3 +718,32 @@ export type ApiClientMethods<T> = {
     (...args: [...Parameters<T[K]>, CustomQuery?]) => ReturnType<T[K]> :
     T[K]
 }
+
+export interface UseStoreErrors {
+  load: Error;
+  change: Error;
+}
+
+export interface UseStoreFactoryParams<STORE, CHANGE_PARAMS = any> extends FactoryParams {
+  load(context: Context): Promise<STORE>
+  change(context: Context, parmas: { current: string, next: CHANGE_PARAMS }): Promise<STORE>
+}
+export interface UseStoreInterface<STORE, CHANGE_PARAMS = any> {
+  change(params: CHANGE_PARAMS): Promise<void>;
+  load(): Promise<void>;
+  loading: ComputedProperty<boolean>;
+  store: ComputedProperty<STORE>;
+  error: ComputedProperty<UseStoreErrors>;
+}
+
+export interface UseStore<STORE, CHANGE_PARAMS = any> {
+  (): UseStoreInterface<STORE, CHANGE_PARAMS>;
+}
+
+// TODO
+export interface UseStoreGetters<STORE> {
+  getStoreId(store: STORE): string
+  getStoreVersion(store: STORE): number
+  getStoreKey(store: STORE): string
+  getStoreLanguages(store: STORE): string[]
+}
