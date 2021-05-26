@@ -1,6 +1,6 @@
 import { Ref, unref, computed } from '@vue/composition-api';
 import { UseUserShipping, Context, FactoryParams, UseUserShippingErrors, CustomQuery } from '../types';
-import { sharedRef, Logger, configureFactoryParams } from '../utils';
+import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 
 export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM> extends FactoryParams {
   addAddress: (
@@ -56,7 +56,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     }, 'useUserShipping-error');
 
     const addAddress = async ({ address, customQuery }) => {
-      Logger.debug('useUserShipping.addAddress');
+      Logger.debug('useUserShipping.addAddress', mask(address));
 
       try {
         loading.value = true;
