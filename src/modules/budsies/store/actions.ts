@@ -30,7 +30,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     { commit, state },
     { productId, designOption, uploadedArtworkIds, qty, addons }
   ): Promise<Task> {
-    const url = processURLAddress(`${config.budsies.endpoint}/printed-products/cart-items`);
+    const url = processURLAddress(`${config.budsies.endpoint}/printed-products/cart-items?token={{token}}&cartId={{cartId}}`);
 
     return TaskQueue.execute({
       url,

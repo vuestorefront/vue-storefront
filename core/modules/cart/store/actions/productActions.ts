@@ -20,6 +20,12 @@ const productActions = {
       return items.length >= 1 ? { sku: items[0].sku, childSku: serverItem.sku } : null
     }
 
+    if (serverItem.product_type === 'bundle') {
+      const skus = serverItem.sku.split('-')
+
+      return { sku: skus.length ? skus[0] : serverItem.sku }
+    }
+
     return { sku: serverItem.sku }
   },
   async getProductVariant ({ dispatch }, { serverItem }) {
