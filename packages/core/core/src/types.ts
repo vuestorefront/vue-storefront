@@ -60,7 +60,7 @@ export interface UseUser
   register: (params?: { user: UseUserRegisterParams }) => Promise<void>;
   login: (params?: { user: UseUserLoginParams }) => Promise<void>;
   logout: () => Promise<void>;
-  changePassword: (params: { current: string; new: string }) => Promise<void>;
+  changePassword: (params?: { current: string; new: string }) => Promise<void>;
   load: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
