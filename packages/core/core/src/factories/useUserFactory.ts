@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { UseUser, Context, FactoryParams, UseUserErrors } from '../types';
-import { sharedRef, Logger, configureFactoryParams } from '../utils';
+import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 
 export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> extends FactoryParams {
   load: (context: Context, params?: any) => Promise<USER>;
@@ -101,8 +101,8 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
-    const changePassword = async (params = { current: null, new: null }) => {
-      Logger.debug('useUserFactory.changePassword');
+    const changePassword = async (params) => {
+      Logger.debug('useUserFactory.changePassword', { currentPassword: mask(params.current), newPassword: mask(params.new) });
       resetErrorValue();
 
       try {
