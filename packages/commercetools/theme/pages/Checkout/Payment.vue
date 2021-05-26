@@ -117,7 +117,7 @@
           <SfButton v-e2e="'make-an-order'" class="summary__action-button" @click="processOrder" :disabled="loading || !paymentReady || !terms">
             {{ $t('Make an order') }}
           </SfButton>
-          <nuxt-link to="/checkout/billing" class="sf-button sf-button--underlined summary__back-button smartphone-only">
+          <nuxt-link :to="localePath('/checkout/billing')" class="sf-button sf-button--underlined summary__back-button smartphone-only">
             {{ $t('Go back') }}
           </nuxt-link>
         </div>
@@ -183,7 +183,7 @@ export default {
 
     const processOrder = async () => {
       await make();
-      context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
+      context.root.$router.push(context.root.localePath(`/checkout/thank-you?order=${order.value.id}`));
       setCart(null);
     };
     return {

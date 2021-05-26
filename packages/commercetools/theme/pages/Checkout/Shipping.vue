@@ -222,7 +222,7 @@
       </div>
       <VsfShippingProvider
         v-if="isShippingDetailsStepCompleted && !dirty"
-        @submit="$router.push('/checkout/billing')"
+        @submit="$router.push(localePath('/checkout/billing'))"
       />
     </form>
   </ValidationObserver>

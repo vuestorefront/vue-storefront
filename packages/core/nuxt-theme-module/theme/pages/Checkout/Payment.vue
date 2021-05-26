@@ -77,7 +77,7 @@
           <SfButton
             type="button"
             class="sf-button color-secondary summary__back-button"
-            @click="$router.push('/checkout/billing')"
+            @click="$router.push(localePath('/checkout/billing'))"
           >
             {{ $t('Go back') }}
           </SfButton>
@@ -142,7 +142,7 @@ export default {
 
     const processOrder = async () => {
       await make();
-      context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
+      context.root.$router.push(context.root.localePath(`/checkout/thank-you?order=${order.value.id}`));
       setCart(null);
     };
 
