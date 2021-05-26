@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Make parameters `changePassword` in `useUser` parameters',
+  description: 'Make parameters `changePassword` in `useUser` optional',
   link: 'https://github.com/vuestorefront/vue-storefront/pull/5943',
   isBreaking: false,
   breakingChanges: [],
