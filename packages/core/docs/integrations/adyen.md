@@ -92,15 +92,15 @@ adyen: {
     },
     adyenMerchantAccount: '<ADYEN_MERCHANT_ACCOUNT>',
     origin: 'http://localhost:3000',
-    buildRedirectUrlAfter3ds1Auth (paymentAndOrder, succeed) {
+    buildRedirectUrlAfterAuth (paymentAndOrder, succeed) {
       let redirectUrl = `/checkout/thank-you?order=${paymentAndOrder.order.id}`;
       if (!succeed) {
         redirectUrl += '&error=authorization-failed';
       }
       return redirectUrl;
     },
-    buildRedirectUrlAfter3ds1Error (err) {
-      return '/?3ds1-server-error';
+    buildRedirectUrlAfterError (err) {
+      return '/?server-error';
     }
   }
 }
@@ -110,8 +110,10 @@ adyen: {
   * `ctApi` - You need `manage_orders` and `manage_payments` scopes to make it work properly, base on [that page](../commercetools/getting-started.html#configuring-your-commercetools-integration) during configuring this property. Then for `apiHost` you have to use only the base URL - `https://<SHOP_DOMAIN>.com/` instead of `https://<SHOP_DOMAIN>.com/vsf-ct-dev/graphql`
   * `adyenMerchantAccount` - Name of your Adyen's merchant account
   * `origin` - URL of your frontend. You could check it by printing out `window.location.origin` in the browser's console on your website.
-  * `buildRedirectUrlAfter3ds1Auth` - `(paymentAndOrder: PaymentAndOrder, succeed: boolean) => string` - A method that tells the server where to redirect the user after 3DS1 Auth. You can test it with [these cards](https://docs.adyen.com/development-resources/test-cards/test-card-numbers#test-3d-secure-authentication).
-  * `buildRedirectUrlAfter3ds1Error` - `(err: Error) => string` - A method that tells the server where to redirect the user if error has been thrown inside `cardAuthAfterRedirect` controller.
+  * `buildRedirectUrlAfterAuth` - `(paymentAndOrder: PaymentAndOrder, succeed: boolean) => string` - A method that tells the server where to redirect the user after coming back from payment gateway. You can test it with [these cards](https://docs.adyen.com/development-resources/test-cards/test-card-numbers#test-3d-secure-authentication).
+  * `buildRedirectUrlAfter3ds1Auth` - deprecated in favor of `buildRedirectUrlAfterAuth`
+  * `buildRedirectUrlAfterError` - `(err: Error) => string` - A method that tells the server where to redirect the user if error has been thrown inside `cardAuthAfterRedirect` controller.
+  * `buildRedirectUrlAfter3ds1Error` - deprecated in favor of `buildRedirectUrlAfterError`
 
 ```ts
 type PaymentAndOrder = Payment & { order: Order }
@@ -142,6 +144,34 @@ const afterPayAndOrder = async ({ order }) => {
 
 ### Paypal configuration
 Configuration of PayPal is well-described in [Adyen's documentation](https://docs.adyen.com/payment-methods/paypal/web-drop-in).
+
+### Klarna configuration
+To enable Klarna, you have to add a new payment method in Adyen's dashboard. Then you should add specified methods to the `availablePaymentMethods` array in `nuxt.config.js`:
+```js
+// nuxt.config.js
+
+export default {
+  modules: [
+    ['@vsf-enterprise/adyen/nuxt', {
+      availablePaymentMethods: [
+        'scheme',
+        'paypal',
+        'klarna',
+        'klarna_account',
+        'klarna_paynow'
+      ],
+      // ...
+    }]
+  ]
+};
+```
+
+Read [Adyen's document about the Klarna](https://docs.adyen.com/payment-methods/klarna#supported-countries) to check which Klarna payment methods are available for individual countries.
+
+:::warning Phone number
+If your users can provide a phone number then make sure it is with **area code**. Otherwise, Klarna will throw an error because of an improper phone number format.
+:::
+
 
 ## API
 `@vsf-enterprise/adyen` exports a *useAdyen* composable.   
@@ -203,3 +233,6 @@ You have to add new types and extension to commercetools as described on these p
 - [Notification Module](https://github.com/commercetools/commercetools-adyen-integration/blob/master/notification/docs/HowToRun.md#commercetools-project-requirements).   
 
 For more information, see the 6th step of the [Adyen's installation guide](./adyen.html#installation).
+
+### Klarna Pay Later does not work for United States
+Klarna Pay Later is not supported in the United States. However, sometimes it is added when you enable Klarna in Adyen's dashboard. If you have this problem, contact Adyen's support to remove it.
