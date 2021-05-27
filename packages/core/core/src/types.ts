@@ -1,7 +1,21 @@
 /* istanbul ignore file */
-
 import { Ref } from '@vue/composition-api';
 import type { Request, Response } from 'express';
+
+/**
+ * Default name of the cookie storing active localization code
+ */
+export const VSF_LOCALE_COOKIE = 'vsf-locale';
+
+/**
+ * Default name of the cookie storing active currency code
+ */
+export const VSF_CURRENCY_COOKIE = 'vsf-currency';
+
+/**
+ * Default name of the cookie storing active country code
+ */
+export const VSF_COUNTRY_COOKIE = 'vsf-country';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 

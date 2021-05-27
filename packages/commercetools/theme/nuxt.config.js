@@ -97,13 +97,7 @@ export default {
     currency: 'USD',
     country: 'US',
     countries: [
-      { name: 'US',
-        label: 'United States',
-        states: [
-          'California',
-          'Nevada'
-        ]
-      },
+      { name: 'US', label: 'United States', states: ['California', 'Nevada'] },
       { name: 'AT', label: 'Austria' },
       { name: 'DE', label: 'Germany' },
       { name: 'NL', label: 'Netherlands' }
@@ -116,7 +110,7 @@ export default {
       { code: 'en', label: 'English', file: 'en.js', iso: 'en' },
       { code: 'de', label: 'German', file: 'de.js', iso: 'de' }
     ],
-    defaultLocale: 'en',
+    defaultLocale: 'de',
     lazy: true,
     seo: true,
     langDir: 'lang/',
