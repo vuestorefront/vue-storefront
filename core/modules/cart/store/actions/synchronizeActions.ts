@@ -10,20 +10,23 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { cartHooksExecutors } from '../../hooks'
 
 const synchronizeActions = {
-  async load ({ commit, dispatch }, { forceClientState = false }: {forceClientState?: boolean} = {}) {
+  async load (
+    { commit, dispatch },
+    { forceClientState = false, forceSync = false }: { forceClientState?: boolean, forceSync?: boolean} = {}
+  ) {
     if (isServer) return
 
     dispatch('setDefaultCheckoutMethods')
     const storedItems = await StorageManager.get('cart').getItem('current-cart')
     commit(types.CART_LOAD_CART, storedItems)
-    dispatch('synchronizeCart', { forceClientState })
+    dispatch('synchronizeCart', { forceClientState, forceSync })
 
     cartHooksExecutors.afterLoad(storedItems)
   },
   syncCartWhenLocalStorageChange ({ commit }, { items }) {
     commit(types.CART_LOAD_CART, items)
   },
-  async synchronizeCart ({ commit, dispatch }, { forceClientState }) {
+  async synchronizeCart ({ commit, dispatch }, { forceClientState, forceSync }) {
     const { synchronize, serverMergeByDefault } = config.cart
     if (!synchronize) return
     const cartStorage = StorageManager.get('cart')
@@ -38,7 +41,7 @@ const synchronizeActions = {
       commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
       Logger.info('Cart token received from cache.', 'cache', token)()
       Logger.info('Syncing cart with the server.', 'cart')()
-      dispatch('sync', { forceClientState, dryRun: !serverMergeByDefault })
+      dispatch('sync', { forceClientState, dryRun: !serverMergeByDefault, forceSync })
     }
     await dispatch('create')
   },

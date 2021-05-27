@@ -1,3 +1,6 @@
 import { BudsiesState } from '../types/State'
 
-export const state: BudsiesState = {}
+export const state: BudsiesState = {
+  addons: {},
+  printedProductAddons: {}
+}
