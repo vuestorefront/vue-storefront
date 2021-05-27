@@ -10,7 +10,7 @@ module.exports = {
           clientId: 'RT4iJGDbDzZe4b2E6RyeNe9s',
           clientSecret: '5eBt3yfZJWw1j7V6kXjfKXpuFP-YQXpg',
           scopes: [
-            'manage_products:vsf-ct-dev',
+            'manage_products:vsf-ct-devfasd',
             'create_anonymous_token:vsf-ct-dev',
             'manage_my_profile:vsf-ct-dev',
             'manage_customer_groups:vsf-ct-dev',

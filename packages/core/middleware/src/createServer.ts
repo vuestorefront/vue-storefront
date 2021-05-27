@@ -2,8 +2,13 @@ import express, { Request, Response, Express } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import consola from 'consola';
-import { MiddlewareConfig, ApiClientExtension, CustomQuery } from '@vue-storefront/core';
+import {
+  MiddlewareConfig,
+  ApiClientExtension,
+  CustomQuery
+} from '@vue-storefront/core';
 import { registerIntegrations } from './integrations';
+import { logMiddlewareNetworkError } from './logMiddlewareNetworkError';
 
 const app = express();
 app.use(express.json());
@@ -22,7 +27,7 @@ interface RequestParams {
   functionName: string;
 }
 
-function createServer (config: MiddlewareConfig): Express {
+function createServer(config: MiddlewareConfig): Express {
   consola.info('Middleware starting....');
   consola.info('Loading integartions...');
 
@@ -30,23 +35,43 @@ function createServer (config: MiddlewareConfig): Express {
 
   consola.success('Integrations loaded!');
 
-  app.post('/:integrationName/:functionName', async (req: Request, res: Response) => {
-    const { integrationName, functionName } = req.params as any as RequestParams;
-    const { apiClient, configuration, extensions, customQueries } = integrations[integrationName];
-    const middlewareContext: MiddlewareContext = { req, res, extensions, customQueries };
-    const createApiClient = apiClient.createApiClient.bind({ middleware: middlewareContext });
-    const apiClientInstance = createApiClient(configuration);
-    const apiFunction = apiClientInstance.api[functionName];
-    try {
-      const platformResponse = await apiFunction(...req.body);
-
-      res.send(platformResponse);
-    } catch (error) {
-      res.status(500);
-
-      res.send(error);
+  app.post(
+    '/:integrationName/:functionName',
+    async (req: Request, res: Response) => {
+      const {
+        integrationName,
+        functionName
+      } = (req.params as any) as RequestParams;
+      const {
+        apiClient,
+        configuration,
+        extensions,
+        customQueries
+      } = integrations[integrationName];
+      const middlewareContext: MiddlewareContext = {
+        req,
+        res,
+        extensions,
+        customQueries
+      };
+      const createApiClient = apiClient.createApiClient.bind({
+        middleware: middlewareContext
+      });
+      const apiClientInstance = createApiClient(configuration);
+      const apiFunction = apiClientInstance.api[functionName];
+      try {
+        const platformResponse = await apiFunction(...req.body);
+        res.send(platformResponse);
+      } catch (error) {
+        logMiddlewareNetworkError({
+          networkError: error.networkError,
+          failedFunctionName: functionName
+        });
+        res.status(500);
+        res.send({ error: error });
+      }
     }
-  });
+  );
 
   consola.success('Middleware created!');
 
