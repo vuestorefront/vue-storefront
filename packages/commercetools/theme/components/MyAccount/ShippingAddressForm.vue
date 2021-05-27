@@ -137,7 +137,7 @@
         </ValidationProvider>
       </div>
       <ValidationProvider
-        rules="required|min:8"
+        rules="required"
         v-slot="{ errors }"
         class="form__element"
       >
