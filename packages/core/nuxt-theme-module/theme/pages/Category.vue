@@ -389,7 +389,7 @@ export default {
 
     const selectedFilters = ref({});
     const setSelectedFilters = () => {
-      if (!facets.value.length) return;
+      if (!facets.value.length || Object.keys(selectedFilters.value).length) return;
       selectedFilters.value = facets.value.reduce((prev, curr) => ({
         ...prev,
         [curr.id]: curr.options
