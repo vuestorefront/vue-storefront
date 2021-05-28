@@ -110,7 +110,7 @@ export default {
       { code: 'en', label: 'English', file: 'en.js', iso: 'en' },
       { code: 'de', label: 'German', file: 'de.js', iso: 'de' }
     ],
-    defaultLocale: 'de',
+    defaultLocale: 'en',
     lazy: true,
     seo: true,
     langDir: 'lang/',
