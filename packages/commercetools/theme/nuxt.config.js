@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import { VSF_LOCALE_COOKIE } from '@vue-storefront/core';
 
 export default {
   mode: 'universal',
@@ -130,7 +131,7 @@ export default {
       }
     },
     detectBrowserLanguage: {
-      cookieKey: 'vsf-locale'
+      cookieKey: VSF_LOCALE_COOKIE
     }
   },
   styleResources: {

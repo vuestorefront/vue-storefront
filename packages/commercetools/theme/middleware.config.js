@@ -21,7 +21,9 @@ module.exports = {
             'manage_my_shopping_lists:vsf-ct-dev',
             'view_published_products:vsf-ct-dev'
           ]
-        }
+        },
+        currency: 'USD',
+        country: 'US'
       }
     }
   }

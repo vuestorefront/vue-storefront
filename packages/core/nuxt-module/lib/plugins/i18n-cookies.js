@@ -1,4 +1,4 @@
-const { VSF_LOCALE_COOKIE, VSF_CURRENCY_COOKIE, VSF_COUNTRY_COOKIE } = require('@vue-storefront/core');
+const { VSF_CURRENCY_COOKIE, VSF_COUNTRY_COOKIE } = require('@vue-storefront/core');
 
 const i18nCookiesPlugin = ({ $cookies }) => {
   const i18n = <%= serialize(options) %>;
@@ -27,7 +27,6 @@ const i18nCookiesPlugin = ({ $cookies }) => {
     expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)) // Year from now
   };
   
-  !$cookies.get(VSF_LOCALE_COOKIE) && $cookies.set(VSF_LOCALE_COOKIE, settings.defaultLocale, cookieOptions);
   !$cookies.get(VSF_CURRENCY_COOKIE) && $cookies.set(VSF_CURRENCY_COOKIE, settings.currency, cookieOptions);
   !$cookies.get(VSF_COUNTRY_COOKIE) && $cookies.set(VSF_COUNTRY_COOKIE, settings.country, cookieOptions);
 };
