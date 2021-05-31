@@ -52,7 +52,7 @@ jobs:
       - name: Deploy on demo.storefrontcloud.io
         if: github.ref == 'refs/heads/master'
         run: |
-          if curl -s -u ${{ secrets.CLOUD_USERNAME }}:${{ secrets.CLOUD_PASSWORD }} -H 'Content-Type: application/json' -X POST -d '{"code":"demo","region":"europe-west1.gcp","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
+          if curl -s -H "X-User-Id: ${{ secrets.DEMO_CLOUD_USERNAME }}" -H "X-Api-Key: ${{ secrets.DEMO_CLOUD_PASSWORD }}" -H 'Content-Type: application/json' -X POST -d '{"code":"demo","region":"europe-west1.gcp","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
             echo "Instance updated"
           else
             echo "Something went wrong during the update process..."
@@ -70,7 +70,7 @@ jobs:
       - name: Deploy on test.storefrontcloud.io
         if: github.ref == 'refs/heads/develop'
         run: |
-          if curl -s -u ${{ secrets.CLOUD_USERNAME }}:${{ secrets.CLOUD_PASSWORD }} -H 'Content-Type: application/json' -X POST -d '{"code":"test","region":"europe-west1.gcp","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
+          if curl -s "X-User-Id: ${{ secrets.DEMO_CLOUD_USERNAME }}" -H "X-Api-Key: ${{ secrets.DEMO_CLOUD_PASSWORD }}" -H 'Content-Type: application/json' -X POST -d '{"code":"test","region":"europe-west1.gcp","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
             echo "Instance updated"
           else
             echo "Something went wrong during the update process..."
