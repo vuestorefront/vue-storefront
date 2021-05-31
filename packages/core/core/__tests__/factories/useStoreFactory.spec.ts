@@ -5,7 +5,7 @@ const factoryParams = {
   change: jest.fn()
 };
 
-const useStore = useStoreFactory<any>(factoryParams);
+const useStore = useStoreFactory<any, any>(factoryParams);
 const useStoreMethods = useStore();
 
 describe('[CORE - factories] useStoreFactory', () => {
@@ -44,6 +44,18 @@ describe('[CORE - factories] useStoreFactory', () => {
         expect(useStoreMethods.error.value.load).toEqual(error);
       });
 
+      it('should be called with correct arguments', async () => {
+        await useStoreMethods.load();
+        expect(factoryParams.load).toHaveBeenNthCalledWith(1, {
+          customQuery: undefined
+        });
+
+        await useStoreMethods.load({customQuery: {key: 'customQuery'}});
+        expect(factoryParams.load).toHaveBeenNthCalledWith(2, {
+          customQuery: {key: 'customQuery'}
+        });
+      });
+
     });
 
     describe('change', () => {
@@ -60,6 +72,25 @@ describe('[CORE - factories] useStoreFactory', () => {
         factoryParams.change.mockRejectedValue(error);
         await useStoreMethods.change({});
         expect(useStoreMethods.error.value.change).toEqual(error);
+      });
+
+      it('should be called with correct arguments', async () => {
+        const store = {key: 'store'};
+        factoryParams.change.mockResolvedValue(store);
+
+        await useStoreMethods.change({key: 'test'});
+        expect(factoryParams.change).toHaveBeenNthCalledWith(1, {
+          current: {key: 'store'},
+          next: {key: 'test'},
+          customQuery: undefined
+        });
+
+        await useStoreMethods.change({key: 'test', customQuery: {key: 'customQuery'}});
+        expect(factoryParams.change).toHaveBeenNthCalledWith(2, {
+          current: {key: 'store'},
+          next: {key: 'test'},
+          customQuery: {key: 'customQuery'}
+        });
       });
 
     });

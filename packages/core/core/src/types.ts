@@ -724,19 +724,19 @@ export interface UseStoreErrors {
   change: Error;
 }
 
-export interface UseStoreFactoryParams<STORE, CHANGE_PARAMS = any> extends FactoryParams {
-  load(context: Context): Promise<STORE>
-  change(context: Context, parmas: { current: string, next: CHANGE_PARAMS }): Promise<STORE>
+export interface UseStoreFactoryParams<STORE, CHANGE_PARAMS> extends FactoryParams {
+  load(context: Context, params: { customQuery: CustomQuery; }): Promise<STORE>
+  change(context: Context, parmas: { current: STORE; next: CHANGE_PARAMS; customQuery?: CustomQuery; }): Promise<STORE>
 }
-export interface UseStoreInterface<STORE, CHANGE_PARAMS = any> {
-  change(params: CHANGE_PARAMS): Promise<void>;
-  load(): Promise<void>;
+export interface UseStoreInterface<STORE, CHANGE_PARAMS> {
+  change(params: CHANGE_PARAMS & { customQuery?: CustomQuery; }): Promise<void>;
+  load(params?: { customQuery: CustomQuery; }): Promise<void>;
   loading: ComputedProperty<boolean>;
   store: ComputedProperty<STORE>;
   error: ComputedProperty<UseStoreErrors>;
 }
 
-export interface UseStore<STORE, CHANGE_PARAMS = any> {
+export interface UseStore<STORE, CHANGE_PARAMS> {
   (): UseStoreInterface<STORE, CHANGE_PARAMS>;
 }
 
