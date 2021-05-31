@@ -5,7 +5,7 @@ const storesData = gql`
   ${StoreFragment}
 
   query {
-    inStore($keys: [KeyReferenceInput!]!) {
+    inStores($keys: [KeyReferenceInput!]!) {
       ...DefaultStore
     }
   }
