@@ -3,6 +3,8 @@ import { FetchResult } from 'apollo-link';
 import { ApiClientMethods } from '@vue-storefront/core';
 import { Token, CustomerCredentials } from './setup';
 import { UpdateCartParams } from '../api/updateCart';
+import { GetStoreParams } from '../api/getStore';
+import { GetStoresParams } from '../api/getStores';
 import { GetMeParams } from '../api/getMe';
 import { ShippingMethodData } from '../api/getShippingMethods';
 import {
@@ -22,7 +24,8 @@ import {
   CategoryQueryResult,
   ProductQueryResult,
   Me,
-  CartQueryInterface
+  CartQueryInterface,
+  Store
 } from './GraphQL';
 
 export interface BaseSearch {
@@ -122,6 +125,8 @@ interface ApiMethods {
   updateCartQuantity ({ id, version }: CartDetails, product: LineItem): Promise<CartResponse>;
   updateShippingDetails (cart: Cart, shippingDetails: Address): Promise<CartResponse>;
   isGuest: () => boolean;
+  getStore(params: GetStoreParams): Promise<Store>;
+  getStores(params: GetStoresParams): Promise<Store>;
 }
 
 export type CommercetoolsMethods = ApiClientMethods<ApiMethods>

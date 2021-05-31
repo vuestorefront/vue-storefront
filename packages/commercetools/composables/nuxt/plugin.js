@@ -1,9 +1,10 @@
-import { mapConfigToSetupObject, CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers'
+import { mapConfigToSetupObject, CT_TOKEN_COOKIE_NAME, CT_STORE_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers'
 import { integrationPlugin } from '@vue-storefront/core'
 
 const moduleOptions = <%= serialize(options) %>;
 
 export default integrationPlugin(({ app, integration }) => {
+  // Token
   const onTokenChange = (newToken) => {
     try {
       const currentToken = app.$cookies.get(CT_TOKEN_COOKIE_NAME);
@@ -24,6 +25,11 @@ export default integrationPlugin(({ app, integration }) => {
     return app.$cookies.get(CT_TOKEN_COOKIE_NAME);
   };
 
+  // Stores
+  const changeCurrentStoreKey = (storeKey) => {
+    app.$cookies.set(CT_STORE_COOKIE_NAME, storeKey);
+  }
+
   const settings = mapConfigToSetupObject({
     moduleOptions,
     app,
@@ -32,6 +38,9 @@ export default integrationPlugin(({ app, integration }) => {
         onTokenChange,
         onTokenRead,
         onTokenRemove
+      },
+      stores: {
+        changeCurrentStoreKey
       }
     }
   })

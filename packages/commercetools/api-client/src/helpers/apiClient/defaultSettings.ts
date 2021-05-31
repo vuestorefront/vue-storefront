@@ -6,9 +6,13 @@ export const defaultSettings = {
     onTokenRead: () => '',
     onTokenRemove: () => {}
   },
+  stores: {
+    changeCurrentStoreKey: () => {}
+  },
   cookies: {
     currencyCookieName: 'vsf-currency',
     countryCookieName: 'vsf-country',
-    localeCookieName: 'vsf-locale'
+    localeCookieName: 'vsf-locale',
+    storeCookieName: 'vsf-store'
   }
 };

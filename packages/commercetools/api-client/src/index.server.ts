@@ -60,12 +60,13 @@ const parseToken = (rawToken) => {
 
 const getI18nConfig = (req, configuration) => {
   const cookieSettings = configuration.cookies || defaultSettings.cookies;
-  const { currencyCookieName, countryCookieName, localeCookieName } = cookieSettings;
+  const { currencyCookieName, countryCookieName, localeCookieName, storeCookieName } = cookieSettings;
   const locale = req.cookies[localeCookieName] || configuration.locale || defaultSettings.locale;
   const currency = req.cookies[currencyCookieName] || configuration.currency;
   const country = req.cookies[countryCookieName] || configuration.country;
+  const store = req.cookies[storeCookieName] || configuration.store;
 
-  return { currency, country, locale };
+  return { currency, country, locale, store };
 };
 
 const tokenExtension: ApiClientExtension = {

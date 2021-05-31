@@ -29,6 +29,7 @@ export interface CookiesConfig {
   currencyCookieName: string;
   countryCookieName: string;
   localeCookieName: string;
+  storeCookieName: string;
 }
 
 export interface LocaleItem {
@@ -36,10 +37,16 @@ export interface LocaleItem {
   label: string;
 }
 
+export type StoreKey = string | string[]
+
 export interface Auth {
   onTokenChange?: (token: Token) => void;
   onTokenRead?: () => string;
   onTokenRemove?: () => void;
+}
+
+export interface Stores {
+  changeCurrentStoreKey: (storekey: StoreKey) => void
 }
 
 export interface SetupConfig<TCacheShape> {
@@ -53,8 +60,10 @@ export interface SetupConfig<TCacheShape> {
   locales?: LocaleItem[];
   languageMap?: Record<string, any>;
   acceptLanguage?: string[];
+  store: StoreKey;
   cookies?: CookiesConfig;
   auth?: Auth;
+  stores?: Stores;
   forceToken?: boolean;
 }
 
@@ -75,8 +84,10 @@ export interface Config<T = any> {
   locales: LocaleItem[];
   languageMap: Record<string, any>;
   acceptLanguage: string[];
+  store: StoreKey;
   cookies: CookiesConfig;
   auth?: Auth;
+  stores?: Stores;
   forceToken?: boolean;
   handleIsTokenUserSession: (token: Token) => boolean;
 }

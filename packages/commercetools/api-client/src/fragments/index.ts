@@ -266,3 +266,17 @@ export const OrderFragment = `
   }
 `;
 
+export const StoreFragment = `
+  fragment DefaultStore on Store {
+    id
+    version
+    key
+    name
+    nameAllLocales
+    languages
+    createdAt
+    lastModifiedAt
+    createdBy
+    lastModifiedBy
+  }
+`;
