@@ -82,9 +82,8 @@ export default {
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
-      i18n: {
-        useNuxtI18nConfig: true
-      }
+      i18n: { useNuxtI18nConfig: true },
+      store: 'luxury-brand'
     }]
   ],
   modules: [
