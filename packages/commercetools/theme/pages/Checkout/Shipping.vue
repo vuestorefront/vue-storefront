@@ -251,7 +251,7 @@ import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
 import { ref, watch, computed, onMounted } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
-import PhoneNumber from 'awesome-phonenumber';
+import '@/helpers/validators/phone';
 
 const NOT_SELECTED_ADDRESS = '';
 
@@ -266,15 +266,6 @@ extend('min', {
 extend('digits', {
   ...digits,
   message: 'Please provide a valid phone number'
-});
-extend('phone', {
-  message: 'This is not a valid phone number',
-  validate (value) {
-    return new Promise(resolve => {
-      const phone = new PhoneNumber(value);
-      resolve({ valid: phone.isValid() });
-    });
-  }
 });
 
 export default {

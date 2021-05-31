@@ -174,7 +174,7 @@ import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { reactive, computed, watch } from '@vue/composition-api';
 import { useVSFContext } from '@vue-storefront/core';
-import PhoneNumber from 'awesome-phonenumber';
+import '@/helpers/validators/phone';
 
 extend('required', {
   ...required,
@@ -189,16 +189,6 @@ extend('min', {
 extend('oneOf', {
   ...oneOf,
   message: 'Invalid country'
-});
-
-extend('phone', {
-  message: 'This is not a valid phone number',
-  validate (value) {
-    return new Promise(resolve => {
-      const phone = new PhoneNumber(value);
-      resolve({ valid: phone.isValid() });
-    });
-  }
 });
 
 export default {
