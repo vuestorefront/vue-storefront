@@ -31,7 +31,7 @@ jobs:
       - name: Build and publish docker image
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: demo-europe-west1-gcp-storefrontcloud-io/vue-storefront:${{ github.sha }}
+          name: demo-storefrontcloud-io/vue-storefront:${{ github.sha }}
           registry: registry.storefrontcloud.io
           username: ${{ secrets.CLOUD_USERNAME }}
           password: ${{ secrets.CLOUD_PASSWORD }}
