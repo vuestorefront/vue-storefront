@@ -14,18 +14,20 @@ export interface UseStoreFactoryChangeParams {
 }
 
 // Helpers
-function isSingleStore (store: string | string[]): store is string {
-  return !Array.isArray(store);
-}
+// function isSingleStore (store: string | string[]): store is string {
+//   return !Array.isArray(store);
+// }
 
 // Load param
 async function load (context: Context, params): Promise<Store> {
-  const { api, config: { store } } = context.$ct;
+  const { api /* , config: { store } */ } = context.$ct;
   const { customQuery } = params;
 
-  return isSingleStore(store)
-    ? api.getStore({key: store}, customQuery)
-    : api.getStores({keys: store}, customQuery);
+  // return isSingleStore(store)
+  //   ? api.getStore({key: store}, customQuery)
+  //   : api.getStores({keys: store}, customQuery);
+
+  return api.getStores({keys: []}, customQuery);
 }
 
 // Change param

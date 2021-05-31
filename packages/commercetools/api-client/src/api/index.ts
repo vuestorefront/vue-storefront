@@ -19,3 +19,4 @@ export { default as removeFromCart } from './removeFromCart';
 export { default as updateCart } from './updateCart';
 export { default as updateCartQuantity } from './updateCartQuantity';
 export { default as updateShippingDetails } from './updateShippingDetails';
+export { default as getStores } from './getStores';

@@ -266,17 +266,61 @@ export const OrderFragment = `
   }
 `;
 
-export const StoreFragment = `
-  fragment DefaultStore on Store {
+export const StoreResultFragment = `
+  fragment StoreResultFragment on Store {
     id
     version
     key
     name
-    nameAllLocales
+    nameAllLocales {
+      locale
+      value
+    }
     languages
     createdAt
     lastModifiedAt
-    createdBy
-    lastModifiedBy
+    createdBy {
+      isPlatformClient
+      user {
+        typeId
+        id
+      }
+      externalUserId
+      customer {
+        ...on Initiator {
+          isPlatformClient
+          user
+          externalUserId
+          customer
+          anonymousId
+          clientId
+        }
+      }
+      anonymousId
+      clientId
+    }
+    lastModifiedBy {
+      ...on Initiator {
+        isPlatformClient
+        user
+        externalUserId
+        customer
+        anonymousId
+        clientId
+      }
+    }
+  }
+`;
+
+export const StoreQueryResultFragment = `
+  ${StoreResultFragment}
+
+  fragment StoreQueryResultFragment on StoreQueryResult {
+    offset
+    count
+    total
+    results {
+      ...StoreResultFragment
+    }
   }
 `;
