@@ -4,9 +4,7 @@ import PhoneNumber from 'awesome-phonenumber';
 extend('phone', {
   message: 'This is not a valid phone number',
   validate (value) {
-    return new Promise(resolve => {
-      const phone = new PhoneNumber(value);
-      resolve({ valid: phone.isValid() });
-    });
+    const phone = new PhoneNumber(value);
+    return phone.isValid();
   }
 });
