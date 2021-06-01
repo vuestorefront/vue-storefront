@@ -20,12 +20,24 @@ export interface ProductsSearchParams {
 export interface UseProductErrors {
   search: Error;
 }
+
+export interface UseSearchErrors {
+  search: Error;
+}
+
 export interface UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS> {
   products: ComputedProperty<PRODUCTS>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseProductErrors>;
   search(params: ComposableFunctionArgs<PRODUCT_SEARCH_PARAMS>): Promise<void>;
   [x: string]: any;
+}
+
+export interface UseSearch<RESULT, SEARCH_PARAMS> {
+  products: ComputedProperty<RESULT>;
+  loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseSearchErrors>;
+  search(params: ComposableFunctionArgs<SEARCH_PARAMS>): Promise<void>;
 }
 
 export interface UseUserRegisterParams {
