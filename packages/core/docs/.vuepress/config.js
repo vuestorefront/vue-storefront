@@ -204,6 +204,8 @@ module.exports = {
             ['/guide/configuration', 'Configuration'],
             ['/guide/composition-api', 'Composition API'],
             ['/guide/composables', 'Composables'],
+            ['guide/error-handling', 'Error Handling'],
+            ['guide/custom-graphql-queries', 'Customizing GraphQL Queries'],
             ['/guide/getters', 'Getters'],
             ['/guide/product-catalog', 'Product Catalog'],
             ['/guide/authentication', 'Authentication'],
