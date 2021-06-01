@@ -1,7 +1,5 @@
 # Composables
 
-## What are Vue Storefront composables
-
 Composable is a function that uses [Composition API](#composition-api) under the hood. Composables are the main public API of Vue Storefront and, in most cases, the only API except configuration you will work with.
 
 You can treat composables as independent micro-applications. They manage their own state, handle server-side rendering, and rarely interact with each other (except [useUser](/composables/use-user.html) and [useCart](/composables/use-cart.html)). No matter what integration you are using, your application will always have the same set of composables with the same interfaces.
@@ -58,15 +56,17 @@ By default, Vue Storefront supports conveying server-side data to the client wit
 To solve this issue, we provide a temporary solution - `onSSR`:
 
 ```js
-import { useProduct } from '{INTEGRATION}';
+import { useProduct, useCategory } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
   setup() {
-    const { products, search, loading } = useProduct('<UNIQUE_ID>');
+    const { categories, search: searchCategory } = useCategory();
+    const { products, search: searchProduct, loading } = useProduct();
 
     onSSR(async () => {
-      await search({ slug: 'super-t-shirt' });
+      await searchCategory({ slug: 'my-category' });
+      await searchProduct({ catId: categories.value[0].id });
     });
 
     return {
@@ -87,41 +87,41 @@ Vue Storefront integrations are exposing the following composables:
 
 #### Product Catalog
 
-- `useProduct` - Managing a single product with variants (or a list).
-- `useCategory` - Managing category lists (but not category products).
-- `useFacet` - Complex catalog search with filtering.
-- `useReview` - Product reviews.
+- [`useProduct`](../core/api-reference/core.useproduct) - Managing a single product with variants (or a list).
+- [`useCategory`](../core/api-reference/core.usecategory) - Managing category lists (but not category products).
+- [`useFacet`](../core/api-reference/core.usefacet) - Complex catalog search with filtering.
+- [`useReview`](../core/api-reference/core.usereview) - Product reviews.
 
 #### User Profile and Authorization
 
-- `useUser` - Managing user sessions, credentials and registration.
-- `useUserShipping` - Managing shipping addresses.
-- `useUserBilling` - Managing billing addresses.
-- `useUserOrder` - Managing past and active user orders.
+- [`useUser`](../core/api-reference/core.useuser) - Managing user sessions, credentials and registration.
+- [`useUserShipping`](../core/api-reference/core.useusershipping) - Managing shipping addresses.
+- [`useUserBilling`](../core/api-reference/core.useuserbilling) - Managing billing addresses.
+- [`useUserOrder`](../core/api-reference/core.useuserorder) - Managing past and active user orders.
 
 #### Shopping Cart
 
-- `useCart` - Loading the cart, adding/removing products and discounts.
+- [`useCart`](../core/api-reference/core.usecart) - Loading the cart, adding/removing products and discounts.
 
 #### Wishlist/Favourite
 
-- `useWishlist` - Loading the wishlist, adding/removing products.
+- [`useWishlist`](../core/api-reference/core.usewishlist) - Loading the wishlist, adding/removing products.
 
 #### CMS Content
 
-- `useContent` - Fetching the CMS content. It is usually used in combination with `<RenderContent>`component.
+- [`useContent`](../core/api-reference/core.usecontent) - Fetching the CMS content. It is usually used in combination with `<RenderContent>`component.
 
 #### Checkout
 
-- `useShipping` - Saving the shipping address for a current order.
-- `useShippingProvider` - Choosing a shipping method for a current order. Shares data with `VsfShippingProvider` component.
-- `useBilling` - Saving the billing address for a current order.
+- [`useShipping`](../core/api-reference/core.useshipping) - Saving the shipping address for a current order.
+- [`useShippingProvider`](../core/api-reference/core.useshippingprovider) - Choosing a shipping method for a current order. Shares data with `VsfShippingProvider` component.
+- [`useBilling`](../core/api-reference/core.usebilling) - Saving the billing address for a current order.
 - `usePaymentProvider` - Choosing a payment method for a current order. Shares data with `VsfPaymentProvider` component
-- `useMakeOrder` - Placing the order.
+- [`useMakeOrder`](../core/api-reference/core.usemakeorder) - Placing the order.
 
 #### Other
 
-- `useVSFContext` - Accessing the integration API methods and client instances.
+- [`useVSFContext`](../core/api-reference/core.usevsfcontext) - Accessing the integration API methods and client instances.
 In a real-world application, these composables will most likely use different backend services under the hood yet still leverage the same frontend API. For instance within the same application `useProduct` and `useCategory` could use `commercetools`, `useCart` some ERP system, `useFacet` - Algolia etc.
 
 ## Error handling
