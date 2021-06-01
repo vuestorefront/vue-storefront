@@ -202,6 +202,7 @@ module.exports = {
           children: [
             ['/guide/theme', 'Theme'],
             ['/guide/configuration', 'Configuration'],
+            ['/guide/composition-api', 'Composition API'],
             ['/guide/composables', 'Composables'],
             ['/guide/getters', 'Getters'],
             ['/guide/product-catalog', 'Product Catalog'],
