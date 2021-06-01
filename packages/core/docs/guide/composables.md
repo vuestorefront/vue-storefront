@@ -418,7 +418,9 @@ search({
 In the example above, we are changing `products` query, and our function that will take care of this overriding is `my-products-query`. Additionally, we used `metadata` field to send information about the product we seek for. As a second step, we need to define that function.
 
 
-Each custom query lives in the `middleware.config.js`, so it's the place where we should define `my-products-query`:
+Each custom query lives in the `middleware.config.js`, so it's the place where we should define `my-products-query`.
+
+Customizing variables:
 
 ```js
 module.exports = {
@@ -433,6 +435,29 @@ module.exports = {
           variables.size = metadata.size
 
           return { query, variables }
+        }
+      }
+    }
+  }
+};
+```
+
+Writing custom GraphQL queries:
+
+```js
+module.exports = {
+  integrations: {
+    ct: {
+      location: '@vue-storefront/commercetools-api/server',
+      configuration: { /* ... */ },
+      customQueries: {
+        'my-products-query': ({ variables }) => {
+          query: `
+            query products($where: String) {
+              products(where: $where) { /* ... */ }
+            }
+          `,
+          variables,
         }
       }
     }
