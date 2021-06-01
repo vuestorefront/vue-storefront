@@ -10,7 +10,9 @@ import {
   createCartItemForUpdate
 } from '@vue-storefront/core/modules/cart/helpers'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
+import productChecksum from '@vue-storefront/core/modules/cart/helpers/productChecksum';
 import { cartHooksExecutors } from './../../hooks'
+import ServerItem from '../../types/Servertem'
 
 const mergeActions = {
   async updateClientItem ({ dispatch }, { clientItem, serverItem }) {
@@ -18,16 +20,21 @@ const mergeActions = {
 
     if (!cartItem || typeof serverItem.item_id === 'undefined') return
 
-    const product = {
+    const product: ServerItem = {
       server_item_id: serverItem.item_id,
       sku: cartItem.sku,
       server_cart_id: serverItem.quote_id,
       prev_qty: cartItem.qty,
       product_option: serverItem.product_option,
-      type_id: serverItem.product_type
+      type_id: serverItem.product_type,
+      plushieId: serverItem.plushieId ?? undefined,
+      plushieThumb: serverItem.plushieThumb ?? undefined,
+      uploadedArtworkIds: serverItem.uploadedArtworkIds ?? undefined
     }
 
-    await dispatch('updateItem', { product })
+    const productWithChecksum = { ...product, checksum: productChecksum(product) };
+
+    await dispatch('updateItem', { product: productWithChecksum })
     EventBus.$emit('cart-after-itemchanged', { item: cartItem })
   },
   async updateServerItem ({ getters, rootGetters, commit, dispatch }, { clientItem, serverItem, updateIds, mergeQty }) {
