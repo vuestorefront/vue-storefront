@@ -68,7 +68,7 @@ describe('[commercetools-getters] cart helpers', () => {
   });
 
   it('returns cart subtotal price', () => {
-    expect(getCartTotals(cart).subtotal).toEqual(41);
+    expect(getCartTotals(cart).subtotal).toEqual(26);
   });
 
   it('returns cart shipping price', () => {
