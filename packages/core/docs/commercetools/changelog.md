@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.0
+- Phone number validation via awesome-phonenumber ([#5951](https://github.com/vuestorefront/vue-storefront/issues/5951)) - [Fifciu](https://github.com/Fifciu)
+
 ## 1.2.3
 
 -  Use cookies to read information about i18n ([#5919](https://github.com/vuestorefront/vue-storefront/pull/5919)) - [andrzejewsky](https://github.com/andrzejewsky)

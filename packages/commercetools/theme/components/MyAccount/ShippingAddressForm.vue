@@ -137,7 +137,7 @@
         </ValidationProvider>
       </div>
       <ValidationProvider
-        rules="required|min:8"
+        rules="required|phone"
         v-slot="{ errors }"
         class="form__element"
       >
@@ -174,6 +174,7 @@ import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { reactive, computed, watch } from '@vue/composition-api';
 import { useVSFContext } from '@vue-storefront/core';
+import '@/helpers/validators/phone';
 
 extend('required', {
   ...required,
