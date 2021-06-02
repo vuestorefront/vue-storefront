@@ -44,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Error with unknown theme/index.js alias - @Fifciuu (https://github.com/vuestorefront/vue-storefront/pull/5813)
 - ESLint warnings caused by the double import - @lukaszjedrasik
 - Fix Order History Pagination - @AishwaryShrivastav / @lukaszjedrasik ([#4599](https://github.com/vuestorefront/vue-storefront/issues/4599))
+- Fix wrong prices after coupon code in cart/checkout - @lukaszjedrasik ([#4460](https://github.com/vuestorefront/vue-storefront/issues/4460))
 
 ### Changed / Improved
 
