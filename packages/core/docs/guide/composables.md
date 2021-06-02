@@ -7,12 +7,12 @@ You can treat composables as independent micro-applications. They manage their o
 To use a composable, you need to import it from an integration you are using, and call it on the component `setup` option:
 
 ```js
-import { useProduct } from '{INTEGRATION}';
+import { useProduct } from '@vue-storefront/commercetools'; // or any other integration package
 import { onSSR } from '@vue-storefront/core`
 
 export default {
   setup() {
-    const { products, search} = useProduct('<UNIQUE_ID>');
+    const { products, search} = useProduct();
 
     onSSR(async () => {
       await search(searchParams)
@@ -25,29 +25,27 @@ export default {
 };
 ```
 
-> `onSSR` is used to perform an asynchronous request on the server side and convey the received data to the client. You will learn more about it very soon.
+> `onSSR` is used to perform an asynchronous request on the server side and convey the received data to the client. You will learn more about it next section.
 
-For some composables (like `useProduct` ) you will need to pass a unique ID as a parameter (it can be a product ID, category ID etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](TODO)
+For some composables (like `useProduct` ) you will need to pass a unique ID as a parameter (it can be a product ID, category ID etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](../core/api-reference/core).
 
 ## Anatomy of a composable
 
 Every Vue Storefront composable usually returns three main pieces:
 
-- **Main data object**. A read-only object that represents data returned by the composable. For example, in `useProduct` it's a `products` object, in `useCategory` it's `category` etc.
-- **Supportive data objects**. These properties depend directly on indirectly on the main data object. For example, `loading`, `error` or `isAuthenticated` from `useUser` depend on a `user`.
+- **Main data object**. A read-only object that represents data returned by the composable. For example, in `useProduct` it's a `products` object, in `useCategory` it's `categories` etc.
+- **Supportive data objects**. These properties depend directly or indirectly on the main data object. For example, `loading`, `error` or `isAuthenticated` from `useUser` depend on a `user`.
 - **Main function that interacts with data object**. This function usually calls the API and updates the main data object. For example in `useProduct` and `useCategory` it's a `search` method,in `useCart` it's a `load` method. The rule of thumb here is to use `search` when you need to pass some search parameters. `load` is usually called when you need to load some content based on cookies or `localStorage`
 
 ```js
-import { useProduct } from '{INTEGRATION}';
+import { useProduct } from '@vue-storefront/commercetools'; // integration package
 
-const { products, search, loading } = useProduct('<UNIQUE_ID>');
+const { products, search, loading } = useProduct();
 
 search({ slug: 'super-t-shirt' });
 
 return { products, search, loading };
 ```
-
-However, the example above won't work without the `onSSR` helper. Let's take a look at it.
 
 ### Using `onSSR` for server-side rendering
 
@@ -56,7 +54,7 @@ By default, Vue Storefront supports conveying server-side data to the client wit
 To solve this issue, we provide a temporary solution - `onSSR`:
 
 ```js
-import { useProduct, useCategory } from '{INTEGRATION}';
+import { useProduct, useCategory } from '@vue-storefront/commercetools'; // integration package
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -81,7 +79,7 @@ export default {
 
 In the future, Vue 3 will provide an async setup and `onSSR` won't be needed anymore.
 
-## What composables I can use?
+## What composables I can use
 
 Vue Storefront integrations are exposing the following composables:
 
