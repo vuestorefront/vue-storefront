@@ -465,4 +465,38 @@ module.exports = {
 };
 ```
 
+In case of many custom queries extending the default ones, we recommend extracting them into separate folder to not overload `middleware.config.js` with GraphQL queries:
+
+```js
+// customQueries/index.js
+
+module.exports = {
+  'my-products-query': ({ variables }) => {
+    query: `
+      query products($where: String) {
+        products(where: $where) { /* ... */ }
+      }
+    `,
+    variables,
+  },
+  ... // other custom queries
+};
+```
+
+And then import it in `middleware.config.js`:
+
+```js
+const customQueries = require('./customQueries');
+
+module.exports = {
+  integrations: {
+    ct: {
+      location: '@vue-storefront/commercetools-api/server',
+      configuration: { /* ... */ },
+      customQueries,
+    }
+  }
+};
+```
+
 The custom query function always has in the arguments the default query (`query`), default variables (`variables`) and additional parameters (`metadata`) sent from the front-end. This function always must return the query and its variables as well, while in the body you can do anything you want with those parameters - you can override them or even change to the new ones.
