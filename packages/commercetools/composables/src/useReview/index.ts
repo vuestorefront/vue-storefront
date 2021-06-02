@@ -2,7 +2,7 @@
 
 import { useReviewFactory, UseReview, UseReviewFactoryParams, Context } from '@vue-storefront/core';
 
-const params: UseReviewFactoryParams<any, any, any> = {
+const useReviewFactoryParams: UseReviewFactoryParams<any, any, any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   searchReviews: async (context: Context, params) => {
     console.log('Mocked: searchReviews');
@@ -15,6 +15,9 @@ const params: UseReviewFactoryParams<any, any, any> = {
   }
 };
 
-const useReview: (cacheId: string) => UseReview<any, any, any> = useReviewFactory<any, any, any>(params);
+const useReview: (cacheId: string) => UseReview<any, any, any> = useReviewFactory<any, any, any>(useReviewFactoryParams);
 
-export default useReview;
+export {
+  useReview,
+  useReviewFactoryParams
+};

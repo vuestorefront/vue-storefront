@@ -60,6 +60,7 @@
         <div class="navbar__view">
           <span class="navbar__view-label desktop-only">{{ $t('View') }}</span>
           <SfIcon
+            v-e2e="'tiles-icon'"
             class="navbar__view-icon"
             :color="isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="tiles"
@@ -70,6 +71,7 @@
             @click="changeToCategoryGridView"
           />
           <SfIcon
+            v-e2e="'list-icon'"
             class="navbar__view-icon"
             :color="!isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="list"
@@ -162,11 +164,11 @@
               :max-rating="5"
               :score-rating="productGetters.getAverageRating(product)"
               :show-add-to-cart-button="true"
-              :isOnWishlist="false"
+              :isOnWishlist="isInWishlist({ product })"
               :isAddedToCart="isInCart({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="products__product-card"
-              @click:wishlist="addItemToWishlist({ product })"
+              @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeItemFromWishlist({ product })"
               @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
             />
           </transition-group>
@@ -178,6 +180,7 @@
             class="products__list"
           >
             <SfProductCardHorizontal
+              v-e2e="'category-product-card'"
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"
@@ -188,9 +191,9 @@
               :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
               :max-rating="5"
               :score-rating="3"
-              :is-on-wishlist="false"
+              :isOnWishlist="isInWishlist({ product })"
               class="products__product-card-horizontal"
-              @click:wishlist="addItemToWishlist({ product })"
+              @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeItemFromWishlist({ product })"
               @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             >
@@ -363,7 +366,7 @@ export default {
     const th = useUiHelpers();
     const uiState = useUiState();
     const { addItem: addItemToCart, isInCart } = useCart();
-    const { addItem: addItemToWishlist } = useWishlist();
+    const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
 
     const products = computed(() => facetGetters.getProducts(result.value));
@@ -442,6 +445,8 @@ export default {
       facets,
       breadcrumbs,
       addItemToWishlist,
+      removeItemFromWishlist,
+      isInWishlist,
       addItemToCart,
       isInCart,
       isFacetColor,

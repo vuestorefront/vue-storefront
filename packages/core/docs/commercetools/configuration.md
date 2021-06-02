@@ -41,9 +41,7 @@ module.exports = {
             'manage_products:<PROJECT_KEY>',
             /* other scope rules */
           ]
-        },
-        currency: 'USD',
-        country: 'US'
+        }
       }
     }
   }
@@ -58,6 +56,25 @@ module.exports = {
 - `clientId` - unique Commercetools Client ID. Visit [Commercetools documentation](https://docs.commercetools.com/tutorials/getting-started#creating-an-api-client) for more details about creating an API Client
 - `clientSecret` - Commercetools secret API key. Visit [Commercetools documentation](https://docs.commercetools.com/tutorials/getting-started#creating-an-api-client) for more details about creating an API Client
 - `scopes` - The scope constrains the endpoints to which a client has access, and whether a client has read or write access to an endpoint. Visit [Commercetools documentation](https://docs.commercetools.com/api/scopes#top) for more details about Scopes.
+
+By default, the internationalization settings, such as `currency`, `locale`, and `country` are loaded from cookies. To override this behavior you can set those properties inside the `configuration` section.
+
+```js
+// middleware.config.js
+module.exports = {
+  integrations: {
+    ct: {
+      location: '@vue-storefront/commercetools-api/server',
+      configuration: {
+        api: { /* ... */}
+        currency: 'EUR',
+        locale: 'en',
+        country: 'US'
+      }
+    }
+  }
+};
+
 
 ### `acceptLanguage`
 

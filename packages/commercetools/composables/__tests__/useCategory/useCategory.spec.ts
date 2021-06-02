@@ -1,4 +1,4 @@
-import useCategory from './../../src/useCategory';
+import { useCategory } from './../../src/useCategory';
 
 const categoriesResult = [
   { name: 'cat1',

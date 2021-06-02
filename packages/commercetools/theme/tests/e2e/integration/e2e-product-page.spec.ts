@@ -1,19 +1,18 @@
 import page from '../pages/factory';
 import intercept from '../utils/network';
 
-before(() => {
-  cy.fixture('test-data/e2e-product-page').then((fixture) => {
-    cy.fixtures = {
-      data: fixture
-    };
-  });
-  cy.clearLocalStorage();
-});
-
 context(['regression'], 'Product page', () => {
+  beforeEach(function () {
+    cy.fixture('test-data/e2e-product-page').then((fixture) => {
+      this.fixtures = {
+        data: fixture
+      };
+    });
+    cy.clearLocalStorage();
+  });
 
   it('Should contain all size options', function () {
-    const data = cy.fixtures.data[this.test.title];
+    const data = this.fixtures.data[this.test.title];
     page.product(data.product.id, data.product.slug).visit();
     page.product().sizeOptions.then(options => {
       const productSizes = [...options].map(option => option.value);
@@ -22,7 +21,7 @@ context(['regression'], 'Product page', () => {
   });
 
   it('Should select correct size option', function () {
-    const data = cy.fixtures.data[this.test.title];
+    const data = this.fixtures.data[this.test.title];
     page.product(data.product.id, data.product.slug).visit();
     page.product().sizeSelect.select(data.product.attributes.size);
     cy.url().should('contain', `size=${data.product.attributes.size}`);
@@ -30,7 +29,7 @@ context(['regression'], 'Product page', () => {
   });
 
   it('Should add correct variant to cart', function() {
-    const data = cy.fixtures.data[this.test.title];
+    const data = this.fixtures.data[this.test.title];
     const getProductReq = intercept.getProduct();
     page.product(data.product.id, data.product.slug).visit();
     page.product().sizeSelect.select(data.product.attributes.size).then(() => {
@@ -39,10 +38,10 @@ context(['regression'], 'Product page', () => {
     page.product().addToCartButton.click();
     page.product().header.openCart();
     page.components.cart.productProperties.should('be.visible').then(() => {
-      page.components.cart.getProductPropertiesData().then(attributes => {
-        expect(attributes).to.deep.eq(data.product.attributes);
+      page.components.cart.product().each((product) => {
+        page.components.cart.getProductSizeProperty(product).should('contain', data.product.attributes.size);
+        page.components.cart.getProductColorProperty(product).should('contain', data.product.attributes.color);
       });
     });
   });
-
 });

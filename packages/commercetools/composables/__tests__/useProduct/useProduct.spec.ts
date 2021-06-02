@@ -1,4 +1,4 @@
-import useProduct from '../../src/useProduct';
+import { useProduct } from '../../src/useProduct';
 import enhanceProducts from './../../src/helpers/internals/enhanceProduct';
 
 const product = (name, slug, id) => ({
