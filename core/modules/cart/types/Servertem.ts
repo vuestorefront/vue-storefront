@@ -1,4 +1,4 @@
-import { ProductOptions } from "core/modules/catalog/types/Product";
+import { ProductOptions } from 'core/modules/catalog/types/Product';
 
 export default interface ServerItem {
   server_item_id: number | string,

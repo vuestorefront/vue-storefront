@@ -26,10 +26,17 @@ const mergeActions = {
       server_cart_id: serverItem.quote_id,
       prev_qty: cartItem.qty,
       product_option: serverItem.product_option,
-      type_id: serverItem.product_type,
-      plushieId: serverItem.plushieId ?? undefined,
-      plushieThumb: serverItem.plushieThumb ?? undefined,
-      uploadedArtworkIds: serverItem.uploadedArtworkIds ?? undefined
+      type_id: serverItem.product_type
+    }
+
+    if (serverItem.plushieId) {
+      product.plushieId = serverItem.plushieId;
+    }
+    if (serverItem.plushieThumb) {
+      product.plushieThumb = serverItem.plushieThumb;
+    }
+    if (serverItem.uploadedArtworkIds) {
+      product.uploadedArtworkIds = serverItem.uploadedArtworkIds;
     }
 
     const productWithChecksum = { ...product, checksum: productChecksum(product) };
