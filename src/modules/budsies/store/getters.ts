@@ -10,6 +10,10 @@ const getters: GetterTree<BudsiesState, RootState> = {
   getPrintedProductAddons: (state: BudsiesState) => (id: string) => {
     const result: Addon[] = [];
 
+    if (!state.printedProductAddons[id] || !state.printedProductAddons[id].length) {
+      return result;
+    }
+
     state.printedProductAddons[id].forEach((id) => {
       result.push(state.addons[id]);
     });
