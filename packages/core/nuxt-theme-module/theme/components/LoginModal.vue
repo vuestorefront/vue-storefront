@@ -3,14 +3,14 @@
     v-e2e="'login-modal'"
     :visible="isLoginModalOpen"
     class="modal"
-    @close="toggleLoginModal"
+    @close="closeModal"
   >
     <template #modal-bar>
       <SfBar
         class="sf-modal__bar smartphone-only"
         :close="true"
         :title="isLogin ? 'Log in' : 'Sign in'"
-        @click:close="toggleLoginModal"
+        @click:close="closeModal"
       />
     </template>
     <transition name="sf-fade" mode="out-in">
@@ -62,7 +62,7 @@
           </form>
         </ValidationObserver>
         <div class="action">
-          <SfButton class="sf-button--text">
+          <SfButton class="sf-button--text" @click="setIsForgottenValue(true)">
             {{ $t('Forgotten password?') }}
           </SfButton>
         </div>
@@ -72,6 +72,40 @@
             {{ $t('Register today') }}
           </SfButton>
         </div>
+      </div>
+      <div v-if="isForgotten">
+        <p>If you can't remember your password, you can reset it.</p>
+        <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
+          <form class="form" @submit.prevent="handleSubmit(handleForgotten)">
+            <ValidationProvider rules="required|email" v-slot="{ errors }">
+              <SfInput
+                v-e2e="'login-modal-email'"
+                v-model="form.username"
+                :valid="!errors[0]"
+                :errorMessage="errors[0]"
+                name="email"
+                label="Email you are using to sign in:"
+                class="form__element"
+              />
+            </ValidationProvider>
+            <div v-if="forgotPasswordError">
+              {{ forgotPasswordError.value }}
+            </div>
+            <SfButton v-e2e="'login-modal-submit'"
+              type="submit"
+              class="sf-button--full-width form__button"
+              :disabled="forgotPasswordLoading"
+            >
+              <SfLoader :class="{ loader: forgotPasswordLoading }" :loading="forgotPasswordLoading">
+                <div>{{ $t('Reset Password') }}</div>
+              </SfLoader>
+            </SfButton>
+          </form>
+        </ValidationObserver>
+      </div>
+      <div v-if="isThankYouAfterForgotten" class="thank-you">
+        <p class="thank-you__paragraph">Thanks! If there is an account registered with the <span class="thank-you__paragraph--bold">{{ userEmail }}</span> email, you will find message with a password reset link in your inbox.</p>
+        <p class="thank-you__paragraph">If the message is not arriving in your inbox, try another email address you might've used to register.</p>
       </div>
       <div v-else class="form">
         <ValidationObserver v-slot="{ handleSubmit }" key="sign-up">
@@ -162,7 +196,7 @@ import { ref, watch, reactive } from '@vue/composition-api';
 import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert, SfBar } from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
-import { useUser } from '<%= options.generate.replace.composables %>';
+import { useUser, useForgotPassword } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
 
 extend('email', {
@@ -192,9 +226,13 @@ export default {
     const { isLoginModalOpen, toggleLoginModal } = useUiState();
     const form = ref({});
     const isLogin = ref(false);
+    const isForgotten = ref(false);
+    const isThankYouAfterForgotten = ref(false);
+    const userEmail = ref('');
     const createAccount = ref(false);
     const rememberMe = ref(false);
     const { register, login, loading, error: userError } = useUser();
+    const { reset, result, token, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
 
     const error = reactive({
       login: null,
@@ -218,6 +256,12 @@ export default {
       isLogin.value = value;
     };
 
+    const setIsForgottenValue = (value) => {
+      resetErrorValues();
+      isForgotten.value = value;
+      isLogin.value = !value;
+    };
+
     const handleForm = (fn) => async () => {
       resetErrorValues();
       await fn({ user: form.value });
@@ -231,9 +275,24 @@ export default {
       toggleLoginModal();
     };
 
+    const closeModal = () => {
+      setIsForgottenValue(false);
+      toggleLoginModal();
+    };
+
     const handleRegister = async () => handleForm(register)();
 
     const handleLogin = async () => handleForm(login)();
+
+    const handleForgotten = async () => {
+      userEmail.value = form.value.username;
+      await reset({ email: userEmail.value });
+
+      if (!forgotPasswordError.value.result) {
+        isThankYouAfterForgotten.value = true;
+        isForgotten.value = false;
+      }
+    };
 
     return {
       form,
@@ -247,7 +306,18 @@ export default {
       toggleLoginModal,
       handleLogin,
       handleRegister,
-      setIsLoginValue
+      setIsLoginValue,
+      isForgotten,
+      setIsForgottenValue,
+      reset,
+      result,
+      token,
+      forgotPasswordError,
+      forgotPasswordLoading,
+      handleForgotten,
+      closeModal,
+      isThankYouAfterForgotten,
+      userEmail
     };
   }
 };
@@ -292,6 +362,13 @@ export default {
     margin: 0 0 var(--spacer-base) 0;
     @include for-desktop {
       margin: 0;
+    }
+  }
+}
+.thank-you {
+  &__paragraph {
+    &--bold {
+      font-weight: var(--font-weight--semibold);
     }
   }
 }
