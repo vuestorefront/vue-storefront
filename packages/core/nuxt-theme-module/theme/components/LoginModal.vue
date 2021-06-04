@@ -9,7 +9,7 @@
       <SfBar
         class="sf-modal__bar smartphone-only"
         :close="true"
-        :title="isLogin ? 'Log in' : 'Sign in'"
+        :title="barTitle"
         @click:close="closeModal"
       />
     </template>
@@ -73,7 +73,7 @@
           </SfButton>
         </div>
       </div>
-      <div v-if="isForgotten">
+      <div v-else-if="isForgotten">
         <p>If you can't remember your password, you can reset it.</p>
         <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
           <form class="form" @submit.prevent="handleSubmit(handleForgotten)">
@@ -103,7 +103,7 @@
           </form>
         </ValidationObserver>
       </div>
-      <div v-if="isThankYouAfterForgotten" class="thank-you">
+      <div v-else-if="isThankYouAfterForgotten" class="thank-you">
         <p class="thank-you__paragraph">Thanks! If there is an account registered with the <span class="thank-you__paragraph--bold">{{ userEmail }}</span> email, you will find message with a password reset link in your inbox.</p>
         <p class="thank-you__paragraph">If the message is not arriving in your inbox, try another email address you might've used to register.</p>
       </div>
@@ -192,7 +192,7 @@
   </SfModal>
 </template>
 <script>
-import { ref, watch, reactive } from '@vue/composition-api';
+import { ref, watch, reactive, computed } from '@vue/composition-api';
 import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert, SfBar } from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
@@ -232,7 +232,7 @@ export default {
     const createAccount = ref(false);
     const rememberMe = ref(false);
     const { register, login, loading, error: userError } = useUser();
-    const { reset, result, token, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
+    const { reset, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
 
     const error = reactive({
       login: null,
@@ -243,6 +243,16 @@ export default {
       error.login = null;
       error.register = null;
     };
+
+    const barTitle = computed(() => {
+      if (isLogin.value) {
+        return 'Sign in';
+      } else if (isForgotten.value || isThankYouAfterForgotten.value) {
+        return 'Reset Password';
+      } else {
+        return 'Register';
+      }
+    });
 
     watch(isLoginModalOpen, () => {
       if (isLoginModalOpen) {
@@ -309,15 +319,13 @@ export default {
       setIsLoginValue,
       isForgotten,
       setIsForgottenValue,
-      reset,
-      result,
-      token,
       forgotPasswordError,
       forgotPasswordLoading,
       handleForgotten,
       closeModal,
       isThankYouAfterForgotten,
-      userEmail
+      userEmail,
+      barTitle
     };
   }
 };
