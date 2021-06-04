@@ -28,6 +28,19 @@ export interface UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS> {
   [x: string]: any;
 }
 
+export interface UseForgotPasswordErrors {
+  result: Error;
+}
+
+export interface UseForgotPassword<TOKEN, RESULT> {
+  result: ComputedProperty<RESULT>;
+  token: ComputedProperty<TOKEN>;
+  loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseForgotPasswordErrors>;
+  change(params: ComposableFunctionArgs<{ tokenValue: string, newPassword: string }>): Promise<void>;
+  reset(params: ComposableFunctionArgs<{ email: string }>): Promise<void>;
+}
+
 export interface UseUserRegisterParams {
   email: string;
   password: string;
