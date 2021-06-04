@@ -22,7 +22,8 @@ import {
   CategoryQueryResult,
   ProductQueryResult,
   Me,
-  CartQueryInterface
+  CartQueryInterface,
+  CustomerPasswordToken
 } from './GraphQL';
 
 export interface BaseSearch {
@@ -99,6 +100,8 @@ export type ShippingMethodsResponse = QueryResponse<'shippingMethods', ShippingM
 export type SignInResponse = QueryResponse<'user', CustomerSignInResult>;
 export type ChangeMyPasswordResponse = QueryResponse<'user', Customer>;
 export type CartDetails = Pick<Cart, 'id' | 'version'>;
+export type CreatePasswordResetTokenResponse = QueryResponse<'customerCreatePasswordResetToken', CustomerPasswordToken>;
+export type ResetPasswordResponse = QueryResponse<'customerResetPassword', Customer>;
 
 interface ApiMethods {
   addToCart ({ id, version }: CartDetails, product: ProductVariant, quantity: number): Promise<CartResponse>;
@@ -110,6 +113,8 @@ interface ApiMethods {
   customerSignMeUp (draft: CustomerSignMeUpDraft): Promise<SignInResponse>;
   customerSignOut (): Promise<void>;
   customerUpdateMe (currentUser, updatedUserData): Promise<any>;
+  customerResetPassword (tokenValue: string, newPassword: string): Promise<ResetPasswordResponse>;
+  customerCreatePasswordResetToken (email: string): Promise<CreatePasswordResetTokenResponse>;
   getCart (cartId: string): Promise<CartQueryResponse>;
   getCategory (params): Promise<QueryResponse<'categories', CategoryQueryResult>>;
   getMe (params?: GetMeParams): Promise<{ data: { me: Me } }>;
