@@ -1,15 +1,35 @@
-import CustomerResetPassword from './defaultMutation';
+import defaultQuery from './defaultMutation';
 import { ResetPasswordResponse } from 'src/types/Api';
+import { CustomQuery, Logger } from '@vue-storefront/core';
+import gql from 'graphql-tag';
 
-const customerResetPassword = async ({ client }, tokenValue: string, newPassword: string): Promise<ResetPasswordResponse> => {
-  return await client.mutate({
-    mutation: CustomerResetPassword,
-    variables: {
+const customerResetPassword = async (context, tokenValue: string, newPassword: string, customQuery?: CustomQuery): Promise<ResetPasswordResponse> => {
+  const { locale, acceptLanguage } = context.config;
+  const defaultVariables = tokenValue && newPassword
+    ? {
+      locale,
+      acceptLanguage,
       tokenValue,
       newPassword
-    },
-    fetchPolicy: 'no-cache'
-  }) as ResetPasswordResponse;
+    }
+    : { acceptLanguage };
+
+  const { customerResetPassword } = context.extendQuery(
+    customQuery, { customerResetPassword: { query: defaultQuery, variables: defaultVariables } }
+  );
+
+  try {
+    const result = await context.client.mutate({
+      mutation: gql`${customerResetPassword.query}`,
+      variables: customerResetPassword.variables,
+      fetchPolicy: 'no-cache'
+    }) as ResetPasswordResponse;
+
+    return result;
+  } catch (error) {
+    Logger.error(`Cannot change password after reset. Error: ${error}`);
+
+  }
 };
 
 export default customerResetPassword;
