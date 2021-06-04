@@ -17,5 +17,6 @@ export { useUserBilling, useUserBillingFactoryParams } from './useUserBilling';
 export { useUserOrder, useUserOrderFactoryParams } from './useUserOrder';
 export { useUserShipping, useUserShippingFactoryParams } from './useUserShipping';
 export { useWishlist, useWishlistFactoryParams } from './useWishlist';
+export { default as useForgotPassword } from './useForgotPassword';
 
 export * from './getters';
