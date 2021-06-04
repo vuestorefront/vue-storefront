@@ -26,7 +26,7 @@ const customerCreatePasswordResetToken = async (context: Context, email: string,
 
     return result;
   } catch (error) {
-    Logger.debug(`Cannot create password reset token. Error: ${error}`);
+    Logger.error(`Cannot create password reset token. Error: ${error}`);
     throw error;
   }
 
