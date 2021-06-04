@@ -118,5 +118,8 @@ export default {
   'Let’s start now – we’ll help you': 'Fangen wir jetzt an - wir helfen Ihnen.',
   'Search results': 'Suchergebnisse',
   'Product suggestions': 'Produktvorschläge',
-  'Search for items': 'Nach Artikeln suchen'
+  'Search for items': 'Nach Artikeln suchen',
+  'Reset Password': 'Passwort Zurücksetzen',
+  'Save Password': 'Passwort Speichern',
+  'Back to home': 'Zurück Zur Startseite',
 };
