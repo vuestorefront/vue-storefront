@@ -1,0 +1,170 @@
+<template>
+  <SfModal
+    v-e2e="'login-modal'"
+    :visible="true"
+    class="modal"
+    :cross="false"
+  >
+    <template #modal-bar>
+      <SfBar
+        class="sf-modal__bar"
+        title="Reset Password"
+      />
+    </template>
+      <div v-if="!isPasswordChanged">
+        <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
+          <form class="form" @submit.prevent="handleSubmit(handlePasswordChange)">
+            <ValidationProvider rules="required" v-slot="{ errors }">
+              <SfInput
+                v-e2e="'login-modal-password'"
+                v-model="form.password"
+                :valid="!errors[0]"
+                :errorMessage="errors[0]"
+                name="password"
+                label="Password"
+                type="password"
+                class="form__element"
+              />
+            </ValidationProvider>
+            <ValidationProvider rules="required" v-slot="{ errors }">
+              <SfInput
+                v-e2e="'login-modal-password'"
+                v-model="form.repeatPassword"
+                :valid="!errors[0]"
+                :errorMessage="errors[0]"
+                name="repeat-password"
+                label="Repeat Password"
+                type="password"
+                class="form__element"
+              />
+            </ValidationProvider>
+            <div v-if="passwordMatchError || forgotPasswordError.result">
+              {{ passwordMatchError || forgotPasswordError.result }}
+            </div>
+            <SfButton v-e2e="'reset-password-modal-submit'"
+              type="submit"
+              class="sf-button--full-width form__button"
+              :disabled="forgotPasswordLoading"
+            >
+              <SfLoader :class="{ loader: forgotPasswordLoading }" :loading="forgotPasswordLoading">
+                <div>{{ $t('Save Password') }}</div>
+              </SfLoader>
+            </SfButton>
+          </form>
+        </ValidationObserver>
+      </div>
+      <div v-else>
+        <p>Password successfuly changed. You can now go back to homepage and sign in.</p>
+        <SfButton class="sf-button--text" link="/">
+          {{ $t('Back to home') }}
+        </SfButton>
+      </div>
+  </SfModal>
+</template>
+<script>
+
+import { SfModal, SfButton, SfLoader, SfBar, SfInput } from '@storefront-ui/vue';
+import { ref } from '@vue/composition-api';
+import { useForgotPassword } from '<%= options.generate.replace.composables %>';
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
+import { required } from 'vee-validate/dist/rules';
+
+extend('required', {
+  ...required,
+  message: 'This field is required'
+});
+
+export default {
+  name: 'ResetPassword',
+  layout: 'blank',
+  middleware({ redirect, route }) {
+    if (!route.query.token) {
+      return redirect('/');
+    }
+  },
+  components: {
+    SfButton,
+    SfModal,
+    SfLoader,
+    SfBar,
+    SfInput,
+    ValidationProvider,
+    ValidationObserver
+  },
+  setup(props, context) {
+    const { change, result, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
+    const isPasswordChanged = ref(false);
+    const passwordMatchError = ref(false);
+    const form = ref({});
+
+    const token = context.root.$route.query.token;
+
+    const handlePasswordChange = async () => {
+      passwordMatchError.value = false;
+      if (form.value.password !== form.value.repeatPassword) {
+        passwordMatchError.value = 'Passwords do not match';
+        return;
+      }
+
+      await change({ tokenValue: token, newPassword: form.value.password });
+
+      if (result.value) {
+        isPasswordChanged.value = true;
+      }
+    };
+
+    return {
+      isPasswordChanged,
+      form,
+      handlePasswordChange,
+      forgotPasswordLoading,
+      forgotPasswordError,
+      passwordMatchError
+    };
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+
+.modal {
+  --modal-index: 3;
+  --overlay-z-index: 3;
+}
+.form {
+  margin-top: var(--spacer-sm);
+  &__element {
+    margin: 0 0 var(--spacer-xl) 0;
+  }
+}
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
+  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--secondary);
+  & > * {
+    margin: 0 0 0 var(--spacer-xs);
+  }
+}
+.action {
+  margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
+}
+.checkbox {
+  margin-bottom: var(--spacer-2xl);
+}
+.bottom {
+  text-align: center;
+  margin-bottom: var(--spacer-lg);
+  font-size: var(--h3-font-size);
+  font-weight: var(--font-weight--semibold);
+  font-family: var(--font-family--secondary);
+  &__paragraph {
+    color: var(--c-primary);
+    margin: 0 0 var(--spacer-base) 0;
+    @include for-desktop {
+      margin: 0;
+    }
+  }
+}
+</style>
