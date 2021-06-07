@@ -1,10 +1,9 @@
 import { Context, CustomQuery } from '@vue-storefront/core';
-import { StoreKey } from '@vue-storefront/commercetools-api';
 import { StoreQueryResult } from '../types/GraphQL';
 
 // Types
 export interface ChangeParam {
-  key: StoreKey;
+  id: string;
 }
 
 export interface UseStoreFactoryChangeParams {
@@ -23,7 +22,7 @@ async function load (context: Context, params): Promise<StoreQueryResult> {
 
 // Change param
 async function change (context: Context, { next }): Promise<StoreQueryResult> {
-  context.$ct.config.stores.changeCurrentStoreKey(next.key);
+  context.$ct.config.stores.changeCurrentStore(next.id);
   window.location.reload();
   return null as StoreQueryResult;
 }

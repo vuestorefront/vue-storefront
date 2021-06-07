@@ -1,5 +1,5 @@
-import { UseStoreGetters as UseStoreDefaultGetters } from '@vue-storefront/core';
-import { StoreQueryResult, Store, Channel, ChannelRole, Address, Geometry, LocalizedString, Maybe } from '../types/GraphQL';
+import { UseStoreGetters } from '@vue-storefront/core';
+import { StoreQueryResult, Store, Channel, Address, Geometry, Maybe } from '../types/GraphQL';
 
 /**
  * Types
@@ -28,11 +28,18 @@ type FilterCriteriaRecordField <T extends Record<string, any>> = [
   keyof T, FilterCriteriaRecordValue<T>
 ];
 
-interface StoreItem extends Channel {
-  _store: Store;
+interface AgnosticStore {
+  _storeID: string;
+  _channelID: string;
+  name: string;
+  id: string;
+  description: string;
+  locales: string[];
+  address: Maybe<Address>;
+  geoLocation: Maybe<Geometry>;
 }
 
-interface StoreItemFilterCriteria {
+interface AgnosticStoreFilterCriteria {
   store?: FilterCriteriaRecord<Store>;
   channel?: FilterCriteriaRecord<Channel>
 }
@@ -41,32 +48,9 @@ type StoreChannelSetKeys =
   'distributionChannels' |
   'supplyChannels';
 
-interface UseStoreGetters extends UseStoreDefaultGetters<StoreQueryResult, StoreItem> {
-  getParentStore(item: StoreItem): Store;
-  getOwnName(item: StoreItem): string;
-  getParentStoreName(item: StoreItem): string;
-  getRoles(item: StoreItem): ChannelRole[];
-  getVersion(item: StoreItem): number;
-  getParentStoreVersion(item: StoreItem): number;
-  getKey(item: StoreItem): string;
-  getParentStoreKey(item: StoreItem): string;
-  getParentStoreID(item: StoreItem): string;
-  getDescription(item: StoreItem): string;
-  getDescriptions(item: StoreItem): LocalizedString[];
-  getDescriptionByLocale(item: StoreItem, locale: string): string;
-  getAddress(item: StoreItem): Maybe<Address>;
-  getGeoLocation(item: StoreItem): Maybe<Geometry>;
-}
-
 /**
  * Helpers
  */
-
-function hasLocale (locale: string) {
-  return function <T extends Localized>(localized: T): boolean {
-    return localized?.locale === locale;
-  };
-}
 
 function getLocale <T extends Localized>(localized: T): string {
   return localized?.locale ?? '';
@@ -99,17 +83,29 @@ function filterArrayByCriteriaRecord <T>(array: T[], criteria?: FilterCriteriaRe
     : array;
 }
 
-function mapChannelToStoreItem (_store: Store) {
-  return function (channel: Channel): StoreItem {
-    return { ...channel, _store };
+function mapChannelToAgnosticStore (store: Store) {
+  return function (channel: Channel): AgnosticStore {
+    return {
+      // public
+      name: `${store?.name ?? ''} - ${channel?.name ?? ''}`.trim(),
+      id: `${store?.id ?? ''}/${channel?.id ?? ''}`.trim(),
+      description: channel?.description ?? '',
+      locales: channel?.descriptionAllLocales?.map(getLocale) ?? [],
+      address: channel?.address ?? null,
+      geoLocation: channel?.geoLocation ?? null,
+
+      // internal
+      _storeID: store?.id ?? '',
+      _channelID: channel?.id ?? ''
+    };
   };
 }
 
-function mapChannelSet (store: Store, channels: Channel[]): StoreItem[] {
-  return channels?.map(mapChannelToStoreItem(store)) ?? [];
+function mapChannelSet (store: Store, channels: Channel[]): AgnosticStore[] {
+  return channels?.map(mapChannelToAgnosticStore(store)) ?? [];
 }
 
-function mapChannelSetByKey (store: Store, key: StoreChannelSetKeys, criteria?: FilterCriteriaRecord<Channel>) {
+function mapChannelSetByKey (store: Store, key: StoreChannelSetKeys, criteria?: FilterCriteriaRecord<Channel>): AgnosticStore[] {
   return mapChannelSet(
     store, filterArrayByCriteriaRecord<Channel>(
       store?.[key], criteria
@@ -118,7 +114,7 @@ function mapChannelSetByKey (store: Store, key: StoreChannelSetKeys, criteria?: 
 }
 
 function gainStoreItems (criteria?: FilterCriteriaRecord<Channel>) {
-  return function (acc: StoreItem[], store: Store): StoreItem[] {
+  return function (acc: AgnosticStore[], store: Store): AgnosticStore[] {
     return [
       ...acc,
       ...mapChannelSetByKey(store, 'distributionChannels', criteria),
@@ -131,75 +127,31 @@ function gainStoreItems (criteria?: FilterCriteriaRecord<Channel>) {
  * Getters
  */
 
-function getParentStore (item: StoreItem): Store {
-  return item?._store;
-}
-
-function getItems (response: StoreQueryResult, criteria: StoreItemFilterCriteria = {}): StoreItem[] {
+function getItems (response: StoreQueryResult, criteria: AgnosticStoreFilterCriteria = {}): AgnosticStore[] {
   return filterArrayByCriteriaRecord<Store>(response?.results, criteria.store)?.reduce(gainStoreItems(criteria.channel), []) ?? [];
 }
 
-function getName (item: StoreItem): string {
-  return `${getParentStoreName(item)} ${getOwnName(item)}`.trim();
-}
-
-function getID (item: StoreItem): string {
-  return item?.id ?? '';
-}
-
-function getLangs (item: StoreItem): string[] {
-  return getDescriptions(item).map(getLocale);
-}
-
-function getOwnName (item: StoreItem): string {
+function getName (item: AgnosticStore): string {
   return item?.name ?? '';
 }
 
-function getParentStoreName (item: StoreItem): string {
-  return getParentStore(item)?.name ?? '';
+function getID (item: AgnosticStore): string {
+  return item?.id ?? '';
 }
 
-function getParentStoreID (item: StoreItem): string {
-  return getParentStore(item)?.id ?? '';
-}
-
-function getRoles (item: StoreItem): ChannelRole[] {
-  return item?.roles ?? [];
-}
-
-function getVersion (item: StoreItem): number {
-  return item?.version ?? -1;
-}
-
-function getParentStoreVersion (item: StoreItem): number {
-  return getParentStore(item)?.version ?? -1;
-}
-
-function getKey (item: StoreItem): string {
-  return item?.key ?? '';
-}
-
-function getParentStoreKey (item: StoreItem): string {
-  return getParentStore(item)?.key ?? '';
-}
-
-function getDescription (item: StoreItem): string {
+function getDescription (item: AgnosticStore): string {
   return item?.description ?? '';
 }
 
-function getDescriptions (item: StoreItem): LocalizedString[] {
-  return item?.descriptionAllLocales ?? [];
+function getLocales (item: AgnosticStore): string[] {
+  return item?.locales ?? [];
 }
 
-function getDescriptionByLocale (item: StoreItem, locale: string): string {
-  return getDescriptions(item)?.find(hasLocale(locale))?.value ?? '';
-}
-
-function getAddress (item: StoreItem): Maybe<Address> {
+function getAddress (item: AgnosticStore): Maybe<Address> {
   return item?.address ?? null;
 }
 
-function getGeoLocation (item: StoreItem): Maybe<Geometry> {
+function getLocation (item: AgnosticStore): Maybe<Geometry> {
   return item?.geoLocation ?? null;
 }
 
@@ -207,25 +159,14 @@ function getGeoLocation (item: StoreItem): Maybe<Geometry> {
  * Export
  */
 
-const storeGetters: UseStoreGetters = {
-  getParentStore,
+const storeGetters: UseStoreGetters<StoreQueryResult, AgnosticStore, Maybe<Address>, Maybe<Geometry>> = {
   getItems,
   getName,
-  getOwnName,
-  getParentStoreName,
-  getKey,
-  getParentStoreKey,
   getID,
-  getParentStoreID,
-  getVersion,
-  getParentStoreVersion,
-  getLangs,
-  getRoles,
   getDescription,
-  getDescriptions,
-  getDescriptionByLocale,
+  getLocales,
   getAddress,
-  getGeoLocation
+  getLocation
 };
 
 export default storeGetters;
