@@ -24,6 +24,6 @@ export default createApiClient({
     onTokenRemove: jest.fn()
   },
   stores: {
-    changeCurrentStoreKey: jest.fn()
+    changeCurrentStore: jest.fn()
   }
 } as any);

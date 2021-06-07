@@ -26,8 +26,8 @@ export default integrationPlugin(({ app, integration }) => {
   };
 
   // Stores
-  const changeCurrentStoreKey = (storeKey) => {
-    app.$cookies.set(CT_STORE_COOKIE_NAME, storeKey);
+  const changeCurrentStore = (id) => {
+    app.$cookies.set(CT_STORE_COOKIE_NAME, id);
   }
 
   const settings = mapConfigToSetupObject({
@@ -40,7 +40,7 @@ export default integrationPlugin(({ app, integration }) => {
         onTokenRemove
       },
       stores: {
-        changeCurrentStoreKey
+        changeCurrentStore
       }
     }
   })

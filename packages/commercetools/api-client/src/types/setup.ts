@@ -37,8 +37,6 @@ export interface LocaleItem {
   label: string;
 }
 
-export type StoreKey = string | string[]
-
 export interface Auth {
   onTokenChange?: (token: Token) => void;
   onTokenRead?: () => string;
@@ -46,7 +44,7 @@ export interface Auth {
 }
 
 export interface Stores {
-  changeCurrentStoreKey: (storekey: StoreKey) => void
+  changeCurrentStore: (id: string) => void
 }
 
 export interface SetupConfig<TCacheShape> {
@@ -60,7 +58,7 @@ export interface SetupConfig<TCacheShape> {
   locales?: LocaleItem[];
   languageMap?: Record<string, any>;
   acceptLanguage?: string[];
-  store: StoreKey;
+  store: string;
   cookies?: CookiesConfig;
   auth?: Auth;
   stores?: Stores;
@@ -84,7 +82,7 @@ export interface Config<T = any> {
   locales: LocaleItem[];
   languageMap: Record<string, any>;
   acceptLanguage: string[];
-  store: StoreKey;
+  store: string;
   cookies: CookiesConfig;
   auth?: Auth;
   stores?: Stores;
