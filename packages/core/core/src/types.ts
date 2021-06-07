@@ -740,10 +740,9 @@ export interface UseStore<STORE, CHANGE_PARAMS> {
   (): UseStoreInterface<STORE, CHANGE_PARAMS>;
 }
 
-// TODO
-export interface UseStoreGetters<STORE> {
-  getStoreId(store: STORE): string
-  getStoreVersion(store: STORE): number
-  getStoreKey(store: STORE): string
-  getStoreLanguages(store: STORE): string[]
+export interface UseStoreGetters<STORE, STORE_ITEM> {
+  getItems(response: STORE, ...xs: any[]): STORE_ITEM[];
+  getName(item: STORE_ITEM): string;
+  getID(item: STORE_ITEM): string;
+  getLangs(item: STORE_ITEM): string[];
 }
