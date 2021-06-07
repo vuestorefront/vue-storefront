@@ -6835,6 +6835,8 @@ export type Store = Versioned & {
   lastModifiedAt: Scalars["DateTime"];
   createdBy?: Maybe<Initiator>;
   lastModifiedBy?: Maybe<Initiator>;
+  distributionChannels: Array<Channel>;
+  supplyChannels: Array<Channel>;
 };
 
 /** [BETA] Stores allow defining different contexts for a project. */

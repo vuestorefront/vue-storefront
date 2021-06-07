@@ -1,10 +1,8 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
-import { ApiClientMethods } from '@vue-storefront/core';
+import { ApiClientMethods, CustomQuery } from '@vue-storefront/core';
 import { Token, CustomerCredentials } from './setup';
 import { UpdateCartParams } from '../api/updateCart';
-import { GetStoreParams } from '../api/getStore';
-import { GetStoresParams } from '../api/getStores';
 import { GetMeParams } from '../api/getMe';
 import { ShippingMethodData } from '../api/getShippingMethods';
 import {
@@ -25,7 +23,7 @@ import {
   ProductQueryResult,
   Me,
   CartQueryInterface,
-  Store
+  StoreQueryResult
 } from './GraphQL';
 
 export interface BaseSearch {
@@ -90,6 +88,8 @@ export interface CartData extends Omit<CartDraft, 'currency'> {
   currency?: string;
 }
 
+export type ApiResponseWrapper <KEY extends string, T> = Record<KEY, T>;
+
 export type QueryResponse<K extends string, V> = ApolloQueryResult<Record<K, V>>;
 export type MutationResponse<K extends string, V> = FetchResult<Record<K, V>>;
 export type CartQueryResponse = QueryResponse<'cart', Cart>;
@@ -125,8 +125,7 @@ interface ApiMethods {
   updateCartQuantity ({ id, version }: CartDetails, product: LineItem): Promise<CartResponse>;
   updateShippingDetails (cart: Cart, shippingDetails: Address): Promise<CartResponse>;
   isGuest: () => boolean;
-  getStore(params: GetStoreParams): Promise<Store>;
-  getStores(params: GetStoresParams): Promise<Store>;
+  getStores(params: CustomQuery): Promise<StoreQueryResult>;
 }
 
 export type CommercetoolsMethods = ApiClientMethods<ApiMethods>
