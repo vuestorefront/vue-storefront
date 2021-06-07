@@ -14,7 +14,7 @@ export function useStoreFactory <STORE, CHANGE_PARAMS>(
     /* @readonly */
     const store: Ref<STORE> = sharedRef(null, 'useStore-store');
     const loading: Ref<boolean> = sharedRef(false, 'useStore-loading');
-    const error: Ref<UseStoreErrors> = sharedRef({ load: null, change: null }, 'useUser-error');
+    const error: Ref<UseStoreErrors> = sharedRef({ load: null, change: null }, 'useStore-error');
 
     /* @public */
     async function load (params): Promise<void> {
