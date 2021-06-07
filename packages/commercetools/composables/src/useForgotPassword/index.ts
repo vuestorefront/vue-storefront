@@ -11,7 +11,9 @@ const params: UseForgotPasswordFactoryParams<any, any> = {
       html: `<a href='https://vsf-next-demo.storefrontcloud.io/reset-password?token=${token}'>Reset your password by clicking this link</a>`
     };
 
-    console.log(JSON.stringify(emailObject));
+    if (process.env.IS_DEMO) {
+      console.log(JSON.stringify(emailObject));
+    }
     return token;
   },
   changePassword: async (context: Context, { tokenValue, newPassword, customQuery }) => {
