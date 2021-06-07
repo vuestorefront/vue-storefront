@@ -1,6 +1,6 @@
 import { Context, CustomQuery } from '@vue-storefront/core';
 import { StoreKey } from '@vue-storefront/commercetools-api';
-import { Store } from '../types/GraphQL';
+import { StoreQueryResult } from '../types/GraphQL';
 
 // Types
 export interface ChangeParam {
@@ -8,33 +8,24 @@ export interface ChangeParam {
 }
 
 export interface UseStoreFactoryChangeParams {
-  current: Store;
+  current: StoreQueryResult;
   next: ChangeParam;
   customQuery?: CustomQuery;
 }
 
-// Helpers
-// function isSingleStore (store: string | string[]): store is string {
-//   return !Array.isArray(store);
-// }
-
 // Load param
-async function load (context: Context, params): Promise<Store> {
-  const { api /* , config: { store } */ } = context.$ct;
+async function load (context: Context, params): Promise<StoreQueryResult> {
+  const { api } = context.$ct;
   const { customQuery } = params;
 
-  // return isSingleStore(store)
-  //   ? api.getStore({key: store}, customQuery)
-  //   : api.getStores({keys: store}, customQuery);
-
-  return api.getStores({keys: []}, customQuery);
+  return api.getStores(customQuery);
 }
 
 // Change param
-async function change (context: Context, { next }): Promise<Store> {
+async function change (context: Context, { next }): Promise<StoreQueryResult> {
   context.$ct.config.stores.changeCurrentStoreKey(next.key);
   window.location.reload();
-  return null as Store;
+  return null as StoreQueryResult;
 }
 
 export default { load, change };
