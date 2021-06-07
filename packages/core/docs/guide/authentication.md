@@ -128,7 +128,64 @@ export default {
   }
 }
 </script>
-```  
+```
+
+## Forgot Password
+
+Usually the process of resetting user password after forgetting consists of two steps:
+
+1. Generate reset password token with an email address.
+
+```vue
+<template>
+  <form @submit.prevent="reset({ email: form.value.email })">
+    <!-- form fields -->
+    <button type="submit" :disabled="loading">Reset Password</button>
+  </form>
+</template>
+
+<script>
+import { useForgotPassword } from '{INTEGRATION}';
+
+export default {
+  setup () {
+    const { reset, loading } = useForgotPassword();
+
+    return {
+      reset,
+      loading
+    }
+  }
+}
+</script>
+```
+
+2. Set new user password using the token and new password.
+
+```vue
+<template>
+  <form @submit.prevent="change({ tokenValue: <TOKEN_FROM_URL>, newPassword: form.value.password })">
+    <!-- form fields -->
+    <button type="submit" :disabled="loading">Save Password</button>
+  </form>
+  <div>{{ result }} - Boolean confirmation of successful password change</div>
+</template>
+
+<script>
+import { useForgotPassword } from '{INTEGRATION}';
+
+export default {
+  setup () {
+    const { change, result, loading } = useForgotPassword();
+
+    return {
+      reset,
+      loading
+    }
+  }
+}
+</script>
+```
 
 ## How does it work in integrations?
 
