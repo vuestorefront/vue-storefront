@@ -740,9 +740,12 @@ export interface UseStore<STORE, CHANGE_PARAMS> {
   (): UseStoreInterface<STORE, CHANGE_PARAMS>;
 }
 
-export interface UseStoreGetters<STORE, STORE_ITEM> {
+export interface UseStoreGetters<STORE, STORE_ITEM, ADDRESS, LOCATION> {
   getItems(response: STORE, ...xs: any[]): STORE_ITEM[];
   getName(item: STORE_ITEM): string;
   getID(item: STORE_ITEM): string;
-  getLangs(item: STORE_ITEM): string[];
+  getDescription(item: STORE_ITEM): string;
+  getLocales(item: STORE_ITEM): string[];
+  getAddress(item: STORE_ITEM): ADDRESS;
+  getLocation(item: STORE_ITEM): LOCATION;
 }
