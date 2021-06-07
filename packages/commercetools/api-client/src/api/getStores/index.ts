@@ -1,23 +1,24 @@
-import { Context /* , CustomQuery */ } from '@vue-storefront/core';
-// import gql from 'graphql-tag';
+import { Context, CustomQuery} from '@vue-storefront/core';
 import ApolloClient from 'apollo-client';
-import { Store } from '../../types/GraphQL';
+import gql from 'graphql-tag';
+
+import { ApiResponseWrapper } from '../../types/Api';
+import { StoreQueryResult } from '../../types/GraphQL';
 import { storesData } from './defaultQuery';
 
-export interface GetStoresParams {
-  keys: string[];
-}
+export default async function getStores (context: Context, customQuery: CustomQuery): Promise<StoreQueryResult> {
 
-export default async function getStores (context: Context /* , params: GetStoresParams, customQuery: CustomQuery */) {
+  const variables = {locale: context.config.locale};
 
-  // const variables = {keys: params.keys};
+  const { getStoresData } = context.extendQuery(customQuery, {
+    getStoresData: { query: storesData, variables }
+  });
 
-  // const { getStoresData } = context.extendQuery(customQuery, {
-  //   getStoreData: { query: storesData, variables }
-  // });
-
-  return await (context.client as ApolloClient<any>).query<Store[]>({
-    query: storesData,
+  const response = await (context.client as ApolloClient<any>).query<ApiResponseWrapper<'stores', StoreQueryResult>>({
+    query: gql`${getStoresData.query}`,
+    variables: getStoresData.variables,
     fetchPolicy: 'no-cache'
   });
+
+  return response.data.stores;
 }
