@@ -62,8 +62,8 @@ const getI18nConfig = (req, configuration) => {
   const cookieSettings = configuration.cookies || defaultSettings.cookies;
   const { currencyCookieName, countryCookieName, localeCookieName } = cookieSettings;
   const locale = req.cookies[localeCookieName] || configuration.locale || defaultSettings.locale;
-  const currency = req.cookies[currencyCookieName] || configuration.currency;
-  const country = req.cookies[countryCookieName] || configuration.country;
+  const currency = req.cookies[currencyCookieName] || configuration.currency || defaultSettings.currency;
+  const country = req.cookies[countryCookieName] || configuration.country || defaultSettings.country;
 
   return { currency, country, locale };
 };

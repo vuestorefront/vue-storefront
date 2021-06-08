@@ -1,5 +1,7 @@
 export const defaultSettings = {
   locale: 'en',
+  currency: 'USD',
+  country: 'US',
   acceptLanguage: ['en'],
   auth: {
     onTokenChange: () => {},

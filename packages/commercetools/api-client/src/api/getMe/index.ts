@@ -13,12 +13,13 @@ export interface OrdersData {
 }
 
 const getMe = async (context, params: GetMeParams = {}, customQuery?: CustomQuery) => {
-  const { locale, acceptLanguage } = context.config;
+  const { locale, acceptLanguage, currency } = context.config;
 
   const { customer }: GetMeParams = params;
   const defaultVariables = {
     locale,
-    acceptLanguage
+    acceptLanguage,
+    currency
   };
 
   const { getBasicProfile, getFullProfile } = context.extendQuery(customQuery, {

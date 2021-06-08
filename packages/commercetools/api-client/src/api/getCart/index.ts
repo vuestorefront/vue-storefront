@@ -2,12 +2,16 @@ import { CartQueryResponse } from '../../types/Api';
 import defaultQuery from './defaultQuery';
 
 const getCart = async ({ config, client }, cartId: string): Promise<CartQueryResponse> => {
-  const { locale, acceptLanguage } = config;
+  const { locale, acceptLanguage, currency } = config;
+
   return await client.query({
     query: defaultQuery,
-    variables: { cartId,
+    variables: {
+      cartId,
       locale,
-      acceptLanguage },
+      acceptLanguage,
+      currency
+    },
     fetchPolicy: 'no-cache'
   });
 };

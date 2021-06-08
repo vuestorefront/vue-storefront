@@ -1,6 +1,6 @@
 import { registerLogger } from '@vue-storefront/core'
 
-const loggerPlugin = (app) => {
+const loggerPlugin = (ctx) => {
   const { verbosity, customLogger, ...args } = <%= serialize(options) %>;
   registerLogger(customLogger || args, verbosity || 'error')
 };
