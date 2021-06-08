@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changing regex responsible for UnicodeAlpha validation and added unit tests - @lukaszjedrasik ([#5340](https://github.com/vuestorefront/vue-storefront/issues/5340))
 - Bugfix for problems with global state in SSR during concurrently requests from different stores - @cewald (#5639)
 - Solves the use of attributes without options as filters in the category pages. - @michael-zangirolami-eleva ([#5845](https://forum.vuestorefront.io/t/category-ids-breaks-on-options-key/2194))
+- Fix product deletion from cart on logout->login on "out of stock" error - @SergeyDarnopykh ([#5974](https://github.com/vuestorefront/vue-storefront/issues/5974))
 
 ### Changed / Improved
 
