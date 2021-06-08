@@ -27,6 +27,10 @@ Custom query functions have the arguments:
 - default variables (`variables`) passed to the query,
 - additional parameters passed from the front-end (`metadata`).
 
+This function must always return an object with `query` and `variables` keys, while in the body you can do anything you want with those parameters - you can modify them or change to the new ones.
+
+Every custom query is registered in the `middleware.config.js` file:
+
 ```js
 // middleware.config.js
 
@@ -112,5 +116,3 @@ module.exports = {
   }
 };
 ```
-
-The custom query function always has in the arguments the default query (`query`), default variables (`variables`) and additional parameters (`metadata`) sent from the front-end. This function always must return the query and its variables as well, while in the body you can do anything you want with those parameters - you can override them or even change to the new ones.
