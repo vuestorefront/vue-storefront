@@ -15,18 +15,18 @@ jest.mock('@vue-storefront/core/helpers', () => ({
 describe('Cart getProductPrice', () => {
   const isOnlineSpy = jest.spyOn(onlineHelper, 'isOnline', 'get');
 
-  it('returns empty prices', () => {
+  it('returns empty prices when product object is empty', () => {
     const result = getProductPrice(null);
     const expectedResult = {
-      special: '',
-      original: '',
-      regular: ''
+      special: null,
+      original: null,
+      regular: null
     };
 
     expect(result).toEqual(expectedResult);
   });
 
-  it('returns prices when display item discount is not displayed', () => {
+  it('returns prices when displayItemDiscounts is equals false', () => {
     isOnlineSpy.mockReturnValueOnce(false);
     config.cart.displayItemDiscounts = false;
     const mockedProduct = {
@@ -45,7 +45,7 @@ describe('Cart getProductPrice', () => {
     expect(result).toEqual(expectedResult);
   });
 
-  it('returns prices when original price is 0', () => {
+  it('uses price_incl_tax when original_price_incl_tax equals 0', () => {
     isOnlineSpy.mockReturnValueOnce(false);
     config.cart.displayItemDiscounts = true;
     const mockedProduct = {
@@ -164,7 +164,7 @@ describe('Cart getProductPrice', () => {
     expect(result).toEqual(expectedResult);
   });
 
-  it('returns regular price', () => {
+  it('returns regular price when totals doesn\'t exist or displayItemDiscounts is equals false', () => {
     isOnlineSpy.mockReturnValueOnce(true);
     const mockedProduct = {
       regular_price: 24,
@@ -173,8 +173,8 @@ describe('Cart getProductPrice', () => {
 
     const result = getProductPrice(mockedProduct);
     const expectedResult = {
-      special: '',
-      original: '',
+      special: null,
+      original: null,
       regular: 24
     };
 

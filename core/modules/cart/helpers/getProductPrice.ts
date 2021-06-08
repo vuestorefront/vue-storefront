@@ -2,27 +2,23 @@ import { onlineHelper } from '@vue-storefront/core/helpers';
 import config from 'config';
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 
-type Price = number|string
-
-interface Prices {
-  special: Price,
-  original: Price,
-  regular: Price
+interface ItemPrices {
+  special: number,
+  original: number,
+  regular: number
 }
 
-const getProductPrice = (product: CartItem): Prices => {
+const getProductPrice = (product: CartItem): ItemPrices => {
   if (!product) {
     return {
-      special: '',
-      original: '',
-      regular: ''
+      special: null,
+      original: null,
+      regular: null
     };
   }
 
   const { isOnline } = onlineHelper;
-const { cart: { displayItemDiscounts }, tax: { finalPriceIncludesTax } } = config;
-  const { displayItemDiscounts } = cart;
-  const { finalPriceIncludesTax } = tax
+  const { cart: { displayItemDiscounts }, tax: { finalPriceIncludesTax } } = config;
   // @ts-ignore
   const { price_incl_tax, original_price_incl_tax, regular_price, totals, qty } = product;
 
@@ -33,17 +29,24 @@ const { cart: { displayItemDiscounts }, tax: { finalPriceIncludesTax } } = confi
       regular: (original_price_incl_tax || price_incl_tax) * qty
     }
   } else if (isOnline && totals) {
-    return {
-      special: finalPriceIncludesTax ? (totals.row_total + totals.tax_amount) - totals.discount_amount : totals.row_total - totals.discount_amount,
-      original: finalPriceIncludesTax ? totals.row_total_incl_tax : totals.row_total,
-      regular: finalPriceIncludesTax ? totals.row_total_incl_tax : totals.row_total
+    if (finalPriceIncludesTax) {
+      return {
+        special: (totals.row_total + totals.tax_amount) - totals.discount_amount,
+        original: totals.row_total_incl_tax,
+        regular: totals.row_total_incl_tax
+      }
+    } else {
+      return {
+        special: totals.row_total - totals.discount_amount,
+        original: totals.row_total,
+        regular: totals.row_total
+      }
     }
-  } else {
-    return {
-      special: '',
-      original: '',
-      regular: regular_price
-    }
+  }
+  return {
+    special: null,
+    original: null,
+    regular: regular_price
   }
 }
 
