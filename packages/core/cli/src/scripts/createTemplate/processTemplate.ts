@@ -1,7 +1,7 @@
 import log from '../../utils/log';
 import { processMagicCommentsInNuxtConfig } from './processMagicCommentsInNuxtConfig';
 import { removeFolder } from '../../utils/removeFolder';
-const execa = require('execa');
+import { generate } from '@vue-storefront/theme-utilities';
 const fs = require('fs');
 
 interface IProcessTemplateProps {
@@ -14,7 +14,8 @@ export const processTemplate = async ({
   generatedTemplatePath
 }: IProcessTemplateProps) => {
   try {
-    await execa('vsf-tu');
+    const config = require(vsfTuConfigFilePath);
+    generate(config);
   } catch (error) {
     log.error('Unprocessable template');
     process.exitCode = 1;
