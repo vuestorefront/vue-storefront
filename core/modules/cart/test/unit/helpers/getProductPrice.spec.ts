@@ -15,7 +15,7 @@ jest.mock('@vue-storefront/core/helpers', () => ({
 describe('Cart getProductPrice', () => {
   const isOnlineSpy = jest.spyOn(onlineHelper, 'isOnline', 'get');
 
-  it('returns empty prices when product object is empty', () => {
+  it('returns empty prices when product object is falsy', () => {
     const result = getProductPrice(null);
     const expectedResult = {
       special: null,
