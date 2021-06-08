@@ -26,7 +26,7 @@ describe('Cart getProductPrice', () => {
     expect(result).toEqual(expectedResult);
   });
 
-  it('returns prices when displayItemDiscounts is equals false', () => {
+  it('returns prices when displayItemDiscounts equals false', () => {
     isOnlineSpy.mockReturnValueOnce(false);
     config.cart.displayItemDiscounts = false;
     const mockedProduct = {
