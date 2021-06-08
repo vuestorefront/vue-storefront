@@ -27,7 +27,7 @@ import get from 'lodash-es/get'
 import { getSettings } from '../helpers'
 import StoryblokMixin from '../components/StoryblokMixin'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import Breadcrumbs from 'theme/components/core/Breadcrumbs'
+import { SfBreadcrumbs as Breadcrumbs } from '@storefront-ui/vue'
 
 export default {
   name: 'StoryblokPage',
