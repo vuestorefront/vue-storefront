@@ -20,7 +20,7 @@ const getProductPrice = (product: CartItem): Prices => {
   }
 
   const { isOnline } = onlineHelper;
-  const { cart, tax } = config;
+const { cart: { displayItemDiscounts }, tax: { finalPriceIncludesTax } } = config;
   const { displayItemDiscounts } = cart;
   const { finalPriceIncludesTax } = tax
   // @ts-ignore
