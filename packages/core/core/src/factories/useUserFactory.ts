@@ -55,7 +55,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
-    const register = async ({ user: providedUser }) => {
+    const register = async ({ user: providedUser } = { user: null }) => {
       Logger.debug('useUserFactory.register', providedUser);
       resetErrorValue();
 
