@@ -50,9 +50,11 @@ function _prepareProductOption (product) {
       bundle_options: []
     }
   }
-  /* if (product.product_option) {
-    product_option = product.product_option
-  } */
+
+  if (product.product_option && product.product_option.extension_attributes) {
+    Object.assign(product_option.extension_attributes, product.product_option.extension_attributes)
+  }
+
   return product_option
 }
 

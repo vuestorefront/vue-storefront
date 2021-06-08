@@ -39,7 +39,17 @@ export const filterChangedProduct = async (filterOption, store, router) => {
       separateSelectedVariant: true
     }
   }, { root: true })
-  const { configuration, selectedVariant, options, product_option } = newProductVariant
+  let { configuration, selectedVariant, options, product_option } = newProductVariant
+  const product = store.getters['product/getCurrentProduct']
+  if (product.product_option && product.product_option.extension_attributes) {
+    Object.assign(
+      product_option.extension_attributes,
+      {
+        bundle_options: product.product_option.extension_attributes.bundle_options,
+        custom_options: product.product_option.extension_attributes.custom_options
+      }
+    )
+  }
   if (config.products.setFirstVarianAsDefaultInURL && selectedVariant) {
     const routeProp = config.seo.useUrlDispatcher ? 'params' : 'query'
     router.push({ [routeProp]: { childSku: selectedVariant.sku } })
