@@ -164,7 +164,7 @@ describe('Cart getProductPrice', () => {
     expect(result).toEqual(expectedResult);
   });
 
-  it('returns regular price when totals doesn\'t exist or displayItemDiscounts is equals false', () => {
+  it('returns regular price when totals doesn\'t exist or displayItemDiscounts equals false', () => {
     isOnlineSpy.mockReturnValueOnce(true);
     const mockedProduct = {
       regular_price: 24,
