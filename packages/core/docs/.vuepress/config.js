@@ -4,7 +4,12 @@ module.exports = {
   description: 'Vue Storefront 2 documentation',
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
-    ['script', { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-12MM6R3MDK' },],
+
+    //HubSpot
+    ['script', { async: true, defer: true, src: 'https://js.hs-scripts.com/8443671.js', id: 'hs-script-loader' }],
+
+    // Google Analytics
+    ['script', { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-12MM6R3MDK' }],
     ['script', {}, ['window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-12MM6R3MDK");']],
   ],
   configureWebpack: (config) => {
