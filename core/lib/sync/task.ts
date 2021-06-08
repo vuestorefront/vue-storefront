@@ -31,19 +31,25 @@ function _sleep (time) {
 }
 
 function getUrl (task, currentToken, currentCartId) {
-  let url = task.url
-    .replace('{{token}}', (currentToken == null) ? '' : currentToken)
-    .replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
+  const parsedUrl = queryString.parseUrl(task.url)
+
+  if (parsedUrl?.query?.token === '{{token}}') {
+    parsedUrl.query.token = (currentToken == null) ? '' : currentToken
+  }
+
+  if (parsedUrl?.query?.cartId === '{{cartId}}') {
+    parsedUrl.query.cartId = (currentCartId == null) ? '' : currentCartId
+  }
+
+  if (config.users.tokenInHeader) {
+    delete parsedUrl['query']['token']
+  }
+
+  let url = queryString.stringifyUrl(parsedUrl)
 
   url = processURLAddress(url); // use relative url paths
   if (config.storeViews.multistore) {
     url = adjustMultistoreApiUrl(url)
-  }
-
-  if (config.users.tokenInHeader) {
-    const parsedUrl = queryString.parseUrl(url)
-    delete parsedUrl['query']['token']
-    url = queryString.stringifyUrl(parsedUrl)
   }
 
   return url
@@ -51,10 +57,14 @@ function getUrl (task, currentToken, currentCartId) {
 
 function getPayload (task, currentToken) {
   const payload = {
-    ...task.payload,
+    mode: 'cors',
+    method: 'GET',
+    ...(task?.payload || {}),
     headers: {
-      ...task.payload.headers,
-      ...(config.users.tokenInHeader ? { authorization: `Bearer ${currentToken}` } : {})
+      'Content-Type': 'application/json',
+      'Accept': 'application/json, text/plain, */*',
+      ...(task?.payload?.headers || {}),
+      ...(config.users.tokenInHeader ? { [config.users.tokenHeaderName]: `${config.users.tokenAuthScheme} ${currentToken}` } : {})
     }
   }
   return payload

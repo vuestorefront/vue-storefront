@@ -11,14 +11,13 @@ import toString from 'lodash-es/toString'
 import { optionLabel } from '../../helpers/optionLabel'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from '../../types/CategoryState'
-import { currentStoreView, localizedDispatcherRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedDispatcherRoute } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import createCategoryListQuery from '@vue-storefront/core/modules/catalog/helpers/createCategoryListQuery'
-import { formatCategoryLink } from 'core/modules/url/helpers'
 import { transformCategoryUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
 const actions: ActionTree<CategoryState, RootState> = {
@@ -212,7 +211,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     let t0 = new Date().getTime()
 
     const precachedQuery = searchProductQuery
-    let productPromise = rootStore.dispatch('product/list', {
+    let productPromise = rootStore.dispatch('product/findProducts', {
       query: precachedQuery,
       start: current,
       size: perPage,
@@ -323,7 +322,7 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     if (config.entities.twoStageCaching && config.entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled && !cacheOnly) { // second stage - request for caching entities; if cacheOnly set - the caching took place with the stage1 request!
       Logger.log('Using two stage caching for performance optimization - executing second stage product caching', 'category') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize()
-      rootStore.dispatch('product/list', {
+      rootStore.dispatch('product/findProducts', {
         query: precachedQuery,
         start: current,
         size: perPage,

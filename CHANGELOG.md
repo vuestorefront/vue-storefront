@@ -8,8 +8,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.13.0] - UNRELEASED
 
 ### Added
+
 - Reduce initial client-side bundle-size by lazy-loading `i18n` translations - @cewald (#4821)
 - Simplified price function by leveraging .toLocaleString @simonmaass(#4564)
+- Replaced deprecated action product/list call with product/findProducts (#4769)
+- Add sort options to `CategoryService` class to be able to add a sorting in `storefront-query-builder` style - @cewald (#4926)
+- Added handling redirection on server side and update docs about it - @gibkigonzo (#4647)
+- Added `setConfig` plugin for cypress - @gibkigonzo (#5047)
+- Allow array of localForage fallback drivers in config - @didkan (#5097)
+- Added unit tests for for modules.ts - @TamTran72111 (#5109)
+- Added `lazyVisibility` mixin - performance optimization - @gibkigonzo (#5182)
+- `config.server.compression` property for disabling gzip compression (#5183)
+- HTTP2 Server Push support for critical JS assets - @Fifciu (#5199)
+- Lazy loading services - @Fifciu (#5208)
+- Removed redundant request header `Content-Type`, `mode`, `method` and `Accept` while  calling TaskQueue.execute/queue method, added these request headers in task getPayload method. (#5081)
+- Lazy loading async catalog helpers - @Fifciu (#5208)
+- Check if the variable backendPaymentMethods is iterable before the for...of loop - @rozzilla [(#5289)](https://github.com/vuestorefront/vue-storefront/pull/5289)
+- Unit Tests for Core filters - @lukaszjedrasik (#5036)
+- Added information about i18n & Unit tests in modules to docs - @lukaszjedrasik ([#4991](https://github.com/vuestorefront/vue-storefront/issues/4991))
+- Added unit test for async-data-loader.ts - @lukaszjedrasik ([#5051](https://github.com/vuestorefront/vue-storefront/issues/5051))
+- Added `createAsyncMutatorHook` & unit tests for hooks - @lukaszjedrasik ([#4940](https://github.com/vuestorefront/vue-storefront/issues/4940))
+- Added unit test for `phoneNum` validator - @lukaszjedrasik ([#5730](https://github.com/vuestorefront/vue-storefront/issues/5730))
+- Added unit test for `optionLabel` - @lukaszjedrasik ([#5845](https://github.com/vuestorefront/vue-storefront/pull/5845#issuecomment-827705882))
+
+### Fixed
+
+- Improve `getCategoryByParams` as it will return the first value of `state.categoriesMap` if no route-params are set - @cewald (#4926)
+- Bugfix for type error in `omitSelectedVariantFields` return value - @cewald (#4926)
+- Fixed `category-next/loadCategoryProducts` and `category-next/loadMoreCategoryProducts` module actions to respect `config.entities.optimize` config option.- @hcmlopes (#5070)
+- Use `queryString` library in `task/getUrl` - @cewald (#5263)
+- Changing email & password at once - @Fifciu ([#5315](https://github.com/vuestorefront/vue-storefront/issues/5315))
+- Improved: the code to remove the page key from the query before applying a filter - @ymaheshwari1 ([VSF Capybara #561](https://github.com/vuestorefront/vsf-capybara/issues/561))
+- Changing regex responsible for UnicodeAlpha validation and added unit tests - @lukaszjedrasik ([#5340](https://github.com/vuestorefront/vue-storefront/issues/5340))
+- Bugfix for problems with global state in SSR during concurrently requests from different stores - @cewald (#5639)
+- Solves the use of attributes without options as filters in the category pages. - @michael-zangirolami-eleva ([#5845](https://forum.vuestorefront.io/t/category-ids-breaks-on-options-key/2194))
+
+### Changed / Improved
+
+- Add return types for `beforeOutputRendered` response mutator hook in `hooks.ts` - @lsliwaradioluz (#5242)
+- Add support for boolean filter aggregations in ES7 - @cewald (#4887)
+- Remove vue-lazyload from core - @jahvi (#5045)
+- Remove unnecessary async and Logger import - @jahvi (#5039)
+- Added support to configure custom auth header name - dixitdeepak (#5078)
+- Multistore refactor - more info in upgrade notes `docs/guide/upgrade-notes/README.md` - @gibkigonzo (#5043)
+- Commented depracatedActions in product's actions & catalog-next's actions by default to reduce bundle size
+- Got rid of lodash as we are using lodash-es - @Fifciu
+- Removed `myAccount-before-updateUser` and `myAccount-before-remainInEditMode` - @Fifciu ([#5315](https://github.com/vuestorefront/vue-storefront/issues/5315))
+- Removed `VueObserveVisibility` from core - @lukaszjedrasik ([#4998](https://github.com/vuestorefront/vue-storefront/issues/4998))
+
+### Fixed
+- Display default placeholder on the Product page (#5088)
+- Removed `visibilitychange` eventlistener on microcart beforeDestroy hook (#5293)
+- Device module fix for shared instance. Vue.prototype.$device isn't accessible anymore (#5297)
+- Added `beforeBuildCacheKey` server hook (#5297)
 
 ## [1.12.2] - 2020.07.28
 
@@ -32,6 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix wrong value in Cache-Control header for max-age - boehsermoe (#4657)
 
 ### Changed / Improved
+- Changed the Node version in the local Dockerfile to v12 - @waynetheisinger (#4989)
 
 ## [1.12.1] - 2020.06.22
 

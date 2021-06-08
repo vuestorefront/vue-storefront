@@ -10,11 +10,6 @@ const createReview = (review: Review): Promise<boolean> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.reviews, 'create_endpoint')),
     payload: {
       method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
       body: JSON.stringify({ review })
     }
   }).then(({ code }) => code === 200)

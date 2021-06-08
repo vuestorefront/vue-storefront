@@ -16,7 +16,7 @@ const actions: ActionTree<ReviewState, RootState> = {
     const reviewResponse = await quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields })
     context.commit(types.REVIEW_UPD_REVIEWS, reviewResponse)
   },
-  async add (context, review: Review) {
+  async add (_, review: Review) {
     EventBus.$emit('notification-progress-start', i18n.t('Adding a review ...'))
 
     const isReviewCreated = await ReviewsService.createReview(review)

@@ -144,7 +144,7 @@ describe('User actions', () => {
   });
 
   describe('resetPassword action', () => {
-    it('should return response from resetPassword', () => {
+    it('should return response from resetPassword', async () => {
       (UserService.resetPassword as jest.Mock).mockImplementation(() =>
         (data.responseOb)
       );
@@ -155,7 +155,7 @@ describe('User actions', () => {
         getters: { isLocalDataLoaded: false }
       };
       const email = data.email;
-      const result = (userActions as any).resetPassword(contextMock, { email });
+      const result = await (userActions as any).resetPassword(contextMock, { email });
 
       expect(result).toEqual(data.responseOb)
     })

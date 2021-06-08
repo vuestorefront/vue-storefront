@@ -3,13 +3,17 @@
 export const MicrocartButton = {
   name: 'MicrocartButton',
   mounted () {
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) {
-        this.$store.dispatch('cart/load')
-      }
-    })
+    document.addEventListener('visibilitychange', this.loadCartIfTabVisible)
+  },
+  beforeDestroy () {
+    document.removeEventListener('visibilitychange', this.loadCartIfTabVisible)
   },
   methods: {
+    loadCartIfTabVisible () {
+      if (!document.hidden) {
+        this.$store.dispatch('cart/load');
+      }
+    },
     toggleMicrocart () {
       this.$store.dispatch('cart/toggleMicrocart')
     }

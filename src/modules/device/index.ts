@@ -1,34 +1,34 @@
-import { isServer } from '@vue-storefront/core/helpers/index';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
-import Vue from 'vue'
+import Vue from 'vue';
+import { once } from '@vue-storefront/core/helpers'
+import { createDeviceTests } from './util/createDeviceTests';
+import { injectDeviceTests } from './util/injectDeviceTests';
+import config from 'config';
 
-const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.39 Safari/537.36'
-
-export const DeviceModule: StorefrontModule = async function ({ app, appConfig }) {
-  let headersOrUserAgent
-  if (isServer) {
-    headersOrUserAgent = Vue.prototype.$ssrRequestContext.userAgent || DEFAULT_USER_AGENT
-  } else {
-    headersOrUserAgent = window.navigator.userAgent || DEFAULT_USER_AGENT
-  }
-
-  if (appConfig.device && appConfig.device.appendToInstance && appConfig.device.tests && appConfig.device.tests.length) {
-    const deviceLibrary: any = await import(/* webpackChunkName: "device" */ './logic')
-    let userAgent = typeof headersOrUserAgent === 'string'
-      ? headersOrUserAgent
-      : headersOrUserAgent['user-agent']
-
-    Vue.prototype.$device = deviceLibrary.default(userAgent, appConfig.device.tests)
-    if (userAgent === 'Amazon CloudFront') {
-      if (headersOrUserAgent['cloudfront-is-mobile-viewer'] === 'true') {
-        Vue.prototype.$device.isMobile = true
-        Vue.prototype.$device.isMobileOrTablet = true
+if (config.device && config.device.appendToInstance) {
+  once('__VUE_DEVICE_MIXIN__', () => {
+    Vue.mixin({
+      computed: {
+        $device () {
+          return this.$root.$deviceRoot;
+        }
       }
-      if (headersOrUserAgent['cloudfront-is-tablet-viewer'] === 'true') {
-        Vue.prototype.$device.isMobile = false
-        Vue.prototype.$device.isMobileOrTablet = true
-      }
-    }
-    (app as any).device = Vue.prototype.$device
-  }
+    })
+  })
+}
+
+const DeviceModule: StorefrontModule = async function ({ router }) {
+  // router.addRoutes([
+  //   {
+  //     name: 'device-mod-test',
+  //     path: '/device-mod-test',
+  //     component: () => import(/* webpackChunkName: "device-mod-test" */ './pages/TestMode.vue')
+  //   }
+  // ])
+}
+
+export {
+  createDeviceTests,
+  injectDeviceTests,
+  DeviceModule
 }

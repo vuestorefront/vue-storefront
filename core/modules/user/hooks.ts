@@ -1,4 +1,4 @@
-import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
+import { createListenerHook } from '@vue-storefront/core/lib/hooks'
 
 // Authorize
 
