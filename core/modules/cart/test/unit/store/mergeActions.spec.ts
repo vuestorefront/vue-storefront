@@ -131,7 +131,7 @@ describe('Cart mergeActions', () => {
   })
 
   it('updates server item - restoring quantity', async () => {
-    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1, item_id: 1 };
+    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1, item_id: 1, prev_qty: 1 };
     const serverItem = {
       sku: '1',
       name: 'product1',
@@ -154,7 +154,10 @@ describe('Cart mergeActions', () => {
 
     await (cartActions as any).updateServerItem(contextMock, { clientItem, serverItem });
     expect(contextMock.commit).not.toBeCalledWith(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })
-    expect(contextMock.dispatch).toBeCalledWith('restoreQuantity', { product: clientItem })
+    expect(contextMock.dispatch).toBeCalledWith('restoreQuantity', { product: {
+        ...clientItem,
+        prev_qty: clientItem.prev_qty || (serverItem && serverItem.qty)
+      }})
   })
 
   it('updates server item - deletes non confirmed item', async () => {

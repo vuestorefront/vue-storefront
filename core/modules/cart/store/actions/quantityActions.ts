@@ -7,12 +7,14 @@ const quantityActions = {
   async restoreQuantity ({ dispatch }, { product }) {
     const currentCartItem = await dispatch('getItem', { product })
     if (currentCartItem) {
-      Logger.log('Restoring qty after error' + product.sku + currentCartItem.prev_qty, 'cart')()
-      if (currentCartItem.prev_qty > 0) {
+      const prevQty = currentCartItem.prev_qty || product.prev_qty;
+
+      Logger.log('Restoring qty after error' + product.sku + ' ' + prevQty, 'cart', )()
+      if (prevQty > 0) {
         await dispatch('updateItem', {
           product: {
             ...product,
-            qty: currentCartItem.prev_qty
+            qty: prevQty
           }
         })
         EventBus.$emit('cart-after-itemchanged', { item: currentCartItem })

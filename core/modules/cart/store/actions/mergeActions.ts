@@ -44,7 +44,12 @@ const mergeActions = {
     }
 
     if (!wasUpdatedSuccessfully && (clientItem.server_item_id || clientItem.item_id)) {
-      await dispatch('restoreQuantity', { product: clientItem })
+      await dispatch('restoreQuantity', {
+        product: {
+          ...clientItem,
+          prev_qty: clientItem.prev_qty || (serverItem && serverItem.qty)
+        }
+      })
       return diffLog
     }
 
