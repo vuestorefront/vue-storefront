@@ -1,13 +1,10 @@
 # Extending GraphQL Queries
 
-If your integration uses GraphQL API, you may need to change the default query that is being sent to fetch the data. That's quite a common case and Vue Storefront also provides the mechanism for this.
+If your integration uses GraphQL API, you may want to change the default query or mutation that is being sent. That's quite a common case for fetching additional or custom fields. Vue Storefront provides the mechanism for this called "custom queries".
 
-Since the communication with the API goes through our middleware, all queries also are defined there.
+Since the communication with the API goes through our middleware, all queries also are defined there. To customize or even entirely override the original (default) queries you need to follow two steps.
 
-To customize or even totally override the original (default) queries you need to follow two steps.
-
-Firstly, you need to use a dedicated parameter: `customQuery` that tells the app, what to do with a query.
-This parameter is an object that has a name of the queries as keys, and the name of the queries function under the values. Additionally, it has a special parameter called `metadata` which allows you to pass optional parameters to your custom query that will be accessible in the custom query function.
+Firstly, you need to pass a `customQuery` parameter to the method that triggers the call to the API. It's an object where the keys are the name of the default queries and values are the name of the custom query that overrides them. Additionally, there is a special parameter called `metadata` which allows you to optionally pass additional parameters to your custom query that will be accessible in the custom query function.
 
 ```ts
 const { search } = useProduct();
@@ -20,13 +17,19 @@ search({
 }); 
 ```
 
-In the example above, we are changing `products` query, and our function that will take care of this overriding is `my-products-query`. Additionally, we used `metadata` field to send information about the product we seek for. As a second step, we need to define that function.
+In the example above, we change the `products` query with our custom query named `my-products-query`. Additionally, the `metadata` field holds additional parameters about the product we seek for. As a second step, we need to define `my-products-query` query.
 
 Each custom query lives in the `middleware.config.js`, so it's the place where we should define `my-products-query`.
 
-Customizing variables:
+Custom query functions have the arguments:
+
+- the default query (`query`),
+- default variables (`variables`) passed to the query,
+- additional parameters passed from the front-end (`metadata`).
 
 ```js
+// middleware.config.js
+
 module.exports = {
   integrations: {
     ct: {
@@ -46,9 +49,11 @@ module.exports = {
 };
 ```
 
-Writing custom GraphQL queries:
+In the example above we only modified some `variables` that are passed to the custom query. However, we can also change the default GraphQL query:
 
 ```js
+// middleware.config.js
+
 module.exports = {
   integrations: {
     ct: {
@@ -69,7 +74,10 @@ module.exports = {
 };
 ```
 
-In case of many custom queries extending the default ones, we recommend extracting them into separate folder to not overload `middleware.config.js` with GraphQL queries:
+## Keeping the configuration tidy
+
+Your configuration file can quickly become a mess if you override a lot of queries. We recommend extracting them into a separate folder to not overload `middleware.config.js` with GraphQL queries.
+You can create a new file (or files) that exports the queries. Then, you can import them in the `middleware.config.js`:
 
 ```js
 // customQueries/index.js
@@ -87,9 +95,11 @@ module.exports = {
 };
 ```
 
-And then import it in `middleware.config.js`:
+Now let's import it in `middleware.config.js`:
 
 ```js
+// middleware.config.js
+
 const customQueries = require('./customQueries');
 
 module.exports = {
