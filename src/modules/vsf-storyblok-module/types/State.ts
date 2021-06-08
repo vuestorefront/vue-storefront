@@ -1,13 +1,13 @@
 export interface StoryblokStories {
   [key: string]: {
-    loading: boolean;
-    story: Object;
+    loading: boolean,
+    story: Record<string, any>
   }
 }
 
 export interface StoryblokState {
-  previewToken?: string;
-  storeCode: string;
-  stories: StoryblokStories;
-  supportsWebp: boolean;
+  previewToken?: string,
+  storeCode: string,
+  stories: StoryblokStories,
+  supportsWebp: boolean
 }

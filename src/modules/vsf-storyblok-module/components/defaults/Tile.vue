@@ -2,7 +2,8 @@
   <div class="tile" :style="{
     backgroundImage: 'url(' + item.background + ')',
     backgroundColor: item.overlay
-  }">
+  }"
+  >
     <div class="content">
       <h2>{{ item.title }}</h2>
       <p>{{ item.text }}</p>
