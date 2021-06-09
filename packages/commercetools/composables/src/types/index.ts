@@ -1,5 +1,6 @@
 import { Filter, ProductVariant, Category } from '@vue-storefront/commercetools-api';
-import { FacetSearchResult } from '@vue-storefront/core';
+import { FacetSearchResult, AgnosticStore } from '@vue-storefront/core';
+import { StoreQueryResult } from './GraphQL';
 
 export type OrderSearchParams = {
   id?: string;
@@ -29,3 +30,12 @@ export interface FacetResultsData {
 }
 
 export type SearchData = FacetSearchResult<FacetResultsData>
+
+export interface StoresData extends StoreQueryResult {
+  _selected: string;
+}
+
+export interface StoresItem extends AgnosticStore {
+  _storeID: string;
+  _channelID: string;
+}

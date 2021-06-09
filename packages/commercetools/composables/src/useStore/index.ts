@@ -1,8 +1,8 @@
 import { useStoreFactory } from '@vue-storefront/core';
-import { StoreQueryResult } from '../types/GraphQL';
 import useStoreFactoryParams, { ChangeParam } from './factoryParams';
+import { StoresData } from '../types';
 
-const useStore = useStoreFactory<StoreQueryResult, ChangeParam>(useStoreFactoryParams);
+const useStore = useStoreFactory<StoresData, ChangeParam>(useStoreFactoryParams);
 
 export {
   useStore,

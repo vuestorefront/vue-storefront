@@ -1,30 +1,29 @@
 import { Context, CustomQuery } from '@vue-storefront/core';
-import { StoreQueryResult } from '../types/GraphQL';
+import { StoresData, StoresItem } from '../types';
 
 // Types
 export interface ChangeParam {
-  id: string;
+  item: StoresItem;
 }
 
 export interface UseStoreFactoryChangeParams {
-  current: StoreQueryResult;
+  current: StoresData;
   next: ChangeParam;
   customQuery?: CustomQuery;
 }
 
 // Load param
-async function load (context: Context, params): Promise<StoreQueryResult> {
-  const { api } = context.$ct;
+async function load (context: Context, params): Promise<StoresData> {
+  const { api, config } = context.$ct;
   const { customQuery } = params;
-
-  return api.getStores(customQuery);
+  return { ...await api.getStores(customQuery), _selected: config.store };
 }
 
 // Change param
-async function change (context: Context, { next }): Promise<StoreQueryResult> {
-  context.$ct.config.stores.changeCurrentStore(next.id);
+async function change (context: Context, { next }: UseStoreFactoryChangeParams): Promise<StoresData> {
+  context.$ct.config.stores.changeCurrentStore(next?.item?.id);
   window.location.reload();
-  return null as StoreQueryResult;
+  return null as StoresData;
 }
 
 export default { load, change };
