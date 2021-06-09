@@ -17,9 +17,9 @@ describe('[CORE - factories] useStoreFactory', () => {
 
     it('should have proper initial properties', () => {
       const useUser = useStoreFactory(factoryParams);
-      const { store, loading, error } = useUser();
+      const { response, loading, error } = useUser();
 
-      expect(store.value).toEqual(null);
+      expect(response.value).toEqual(null);
       expect(loading.value).toEqual(false);
       expect(error.value).toEqual({load: null, change: null});
     });
@@ -34,7 +34,7 @@ describe('[CORE - factories] useStoreFactory', () => {
         const store = {key: 'store'};
         factoryParams.load.mockResolvedValue(store);
         await useStoreMethods.load();
-        expect(useStoreMethods.store.value).toEqual(store);
+        expect(useStoreMethods.response.value).toEqual(store);
       });
 
       it('should assign error on fail', async () => {
@@ -64,7 +64,7 @@ describe('[CORE - factories] useStoreFactory', () => {
         const store = {key: 'store'};
         factoryParams.change.mockResolvedValue(store);
         await useStoreMethods.change({});
-        expect(useStoreMethods.store.value).toEqual(store);
+        expect(useStoreMethods.response.value).toEqual(store);
       });
 
       it('should assign error on fail', async () => {

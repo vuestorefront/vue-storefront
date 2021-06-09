@@ -2,9 +2,9 @@ import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, configureFactoryParams, Logger } from '../utils';
 import { UseStoreFactoryParams, UseStore, UseStoreErrors } from '../types';
 
-export function useStoreFactory <STORE, CHANGE_PARAMS>(
-  factoryParams: UseStoreFactoryParams<STORE, CHANGE_PARAMS>
-): UseStore<STORE, CHANGE_PARAMS> {
+export function useStoreFactory <STORES, CHANGE_PARAMS>(
+  factoryParams: UseStoreFactoryParams<STORES, CHANGE_PARAMS>
+): UseStore<STORES, CHANGE_PARAMS> {
 
   return function useStore () {
 
@@ -12,7 +12,7 @@ export function useStoreFactory <STORE, CHANGE_PARAMS>(
     const _factoryParams = configureFactoryParams(factoryParams);
 
     /* @readonly */
-    const store: Ref<STORE> = sharedRef(null, 'useStore-store');
+    const response: Ref<STORES | null> = sharedRef(null, 'useStore-response');
     const loading: Ref<boolean> = sharedRef(false, 'useStore-loading');
     const error: Ref<UseStoreErrors> = sharedRef({ load: null, change: null }, 'useStore-error');
 
@@ -25,7 +25,7 @@ export function useStoreFactory <STORE, CHANGE_PARAMS>(
       try {
         loading.value = true;
         const { customQuery } = Object(params);
-        store.value = await _factoryParams.load({ customQuery });
+        response.value = await _factoryParams.load({ customQuery });
       } catch (err) {
         error.value.load = err;
       } finally {
@@ -41,7 +41,7 @@ export function useStoreFactory <STORE, CHANGE_PARAMS>(
       try {
         loading.value = true;
         const { customQuery, ...next } = Object(params);
-        store.value = await _factoryParams.change({current: store.value, next, customQuery});
+        response.value = await _factoryParams.change({current: response.value, next, customQuery});
       } catch (err) {
         error.value.change = err;
       } finally {
@@ -53,7 +53,7 @@ export function useStoreFactory <STORE, CHANGE_PARAMS>(
     return {
       load,
       change,
-      store: computed(() => store.value),
+      response: computed(() => response.value),
       loading: computed(() => loading.value),
       error: computed(() => error.value)
     };
