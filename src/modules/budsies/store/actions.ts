@@ -26,23 +26,6 @@ const parse = (
 }
 
 export const actions: ActionTree<BudsiesState, RootState> = {
-  async addPrintedProductToCart (
-    { commit, state },
-    { productId, designOption, uploadedArtworkIds, qty, addons }
-  ): Promise<Task> {
-    const url = processURLAddress(`${config.budsies.endpoint}/printed-products/cart-items?token={{token}}`);
-
-    return TaskQueue.execute({
-      url,
-      payload: {
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        mode: 'cors',
-        method: 'POST',
-        body: JSON.stringify({ productId, designOption, uploadedArtworkIds, qty, addons })
-      },
-      silent: true
-    });
-  },
   async loadPrintedProductAddons (
     { commit, state },
     { productId }

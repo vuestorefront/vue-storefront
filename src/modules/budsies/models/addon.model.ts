@@ -4,8 +4,8 @@ export default class Addon implements MutableValue {
   public isNew = true;
   public id;
 
-  private label: string;
-  private value: number;
+  public label: string;
+  public value: number;
 
   public constructor (
     fId: string,

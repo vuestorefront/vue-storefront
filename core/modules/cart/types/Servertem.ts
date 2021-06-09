@@ -8,6 +8,6 @@ export default interface ServerItem {
   product_option: ProductOptions,
   type_id: any,
   plushieId?: string,
-  plushieThumb?: string,
-  uploadedArtworkIds?: string[]
+  thumbnail?: string,
+  customerImagesIds?: string[]
 }

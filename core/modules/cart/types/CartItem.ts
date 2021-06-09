@@ -13,7 +13,6 @@ export default interface CartItem extends Product {
   item_id?: number | string,
   checksum?: string,
   quoteId?: string,
-  uploadedArtworkIds?: string[],
-  plushieId?: number,
-  plushieThumb?: string
+  customerImagesIds?: string[],
+  plushieId?: number
 }
