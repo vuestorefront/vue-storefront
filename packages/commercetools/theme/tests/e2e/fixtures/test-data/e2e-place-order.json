@@ -10,8 +10,8 @@
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
-          "zipcode": "45678",
-          "phone": "123456789"
+          "zipcode": "90210",
+          "phone": "+12345678910"
         }
       }
     }
@@ -28,8 +28,8 @@
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
-          "zipcode": "45678",
-          "phone": "123456789"
+          "zipcode": "90210",
+          "phone": "+12345678910"
         }
       }
     }
