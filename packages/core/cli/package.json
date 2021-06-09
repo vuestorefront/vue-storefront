@@ -13,7 +13,7 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/theme-utilities": "link:/home/fsobol/Projects/theme-utilities",
+    "@vue-storefront/theme-utilities": "../theme-utilities",
     "chokidar": "^3.3.1",
     "consola": "^2.10.1",
     "inquirer": "^7.3.3",

@@ -2,30 +2,23 @@ import log from '../../utils/log';
 import { processMagicCommentsInNuxtConfig } from './processMagicCommentsInNuxtConfig';
 import { removeFolder } from '../../utils/removeFolder';
 import { generate } from '@vue-storefront/theme-utilities';
+import { VsfTuConfiguration } from '../../utils/themeUtilsConfigTemplate';
 const fs = require('fs');
 
 interface IProcessTemplateProps {
-  vsfTuConfigFilePath: string;
+  vsfTuConfiguration: VsfTuConfiguration;
   generatedTemplatePath: string;
 }
 
 export const processTemplate = async ({
-  vsfTuConfigFilePath,
+  vsfTuConfiguration,
   generatedTemplatePath
 }: IProcessTemplateProps) => {
   try {
-    const config = require(vsfTuConfigFilePath);
-    generate(config);
+    await generate(vsfTuConfiguration);
   } catch (error) {
     log.error('Unprocessable template');
     process.exitCode = 1;
-  }
-
-  try {
-    const removeVsfTuConfigFile = () => fs.unlinkSync(vsfTuConfigFilePath);
-    removeVsfTuConfigFile();
-  } catch (error) {
-    log.error('Can\'t remove VSF-TU config file');
   }
 
   await processMagicCommentsInNuxtConfig(generatedTemplatePath);

@@ -3,7 +3,6 @@ import { createTemplate } from '../scripts/createTemplate/createTemplate';
 import log from '../utils/log';
 const process = require('process');
 const path = require('path');
-const fs = require('fs');
 
 export default async (args) => {
   if (!args[0]) {
@@ -16,34 +15,18 @@ export default async (args) => {
   const integrationThemePath: string | undefined = args[1]
     ? path.resolve(args[1])
     : process.cwd();
-  const vsfTuConfigFileName = 'theme-utils.config.js';
-  const vsfTuConfigFilePath = path.join(process.cwd(), vsfTuConfigFileName);
   const generatedTemplatePath = path.join(process.cwd(), outputPathName);
+  const vsfTuConfiguration = vsfTuConfig({
+    outputPathName,
+    themePath: integrationThemePath,
+    _themePath: path.join(integrationThemePath, '_theme')
+  });
 
-  const crateTemplateCallback = async (err) => {
+  await (async () => {
     try {
-      if (err) throw err;
-      await createTemplate({ vsfTuConfigFilePath, generatedTemplatePath });
+      await createTemplate({ vsfTuConfiguration, generatedTemplatePath });
     } catch (error) {
-      log.error('Error during VSF theme utils config file creation');
+      log.error('Error during creating template');
     }
-  };
-
-  const createVsfTuConfigFile = () => {
-    if (fs.existsSync(vsfTuConfigFilePath)) {
-      fs.unlinkSync(vsfTuConfigFilePath);
-    }
-
-    fs.appendFile(
-      vsfTuConfigFilePath,
-      vsfTuConfig({
-        outputPathName,
-        themePath: integrationThemePath,
-        _themePath: path.join(integrationThemePath, '_theme')
-      }),
-      async (err) => await crateTemplateCallback(err)
-    );
-  };
-
-  createVsfTuConfigFile();
+  })();
 };

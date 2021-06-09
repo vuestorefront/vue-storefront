@@ -1,17 +1,18 @@
 import { processTemplate } from './processTemplate';
 import log from '../../utils/log';
+import { VsfTuConfiguration } from '../../utils/themeUtilsConfigTemplate';
 
 interface ICreateTemplateProps {
-  vsfTuConfigFilePath: string;
+  vsfTuConfiguration: VsfTuConfiguration;
   generatedTemplatePath: string;
 }
 
 export const createTemplate = async ({
-  vsfTuConfigFilePath,
+  vsfTuConfiguration,
   generatedTemplatePath
 }: ICreateTemplateProps) => {
   try {
-    await processTemplate({ vsfTuConfigFilePath, generatedTemplatePath });
+    await processTemplate({ vsfTuConfiguration, generatedTemplatePath });
     log.success('Template generated');
   } catch (error) {
     log.error('Template not generated');
