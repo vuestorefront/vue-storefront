@@ -11,12 +11,12 @@
 
 - `reset` - function used to generate reset password token. When invoked, it requests data from the API and populates `token` property. This method accepts a single params object. The `params` has the following option:
 
-  - `params: IResetPasswordParams`
+  - `params: ResetPasswordParams`
 
   - `customQuery?: CustomQuery`
 
 ```typescript
-interface IResetPasswordParams {
+interface ResetPasswordParams {
     email: string;
 }
 
@@ -27,12 +27,12 @@ type CustomQuery = {
 
 - `change` - function used to set new user password after reset. When invoked, it requests data from the API and populates `result` property. This method accepts a single params object. The `params` has the following option:
 
-  - `params: IChangePasswordParams`
+  - `params: ChangePasswordParams`
   
   - `customQuery?: CustomQuery`
 
 ```typescript
-interface IChangePasswordParams {
+interface ChangePasswordParams {
     tokenValue: string;
     newPassword: string;
 }

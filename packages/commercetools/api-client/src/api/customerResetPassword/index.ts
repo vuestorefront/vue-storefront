@@ -19,16 +19,13 @@ const customerResetPassword = async (context, tokenValue: string, newPassword: s
   );
 
   try {
-    const result = await context.client.mutate({
+    return await context.client.mutate({
       mutation: gql`${customerResetPassword.query}`,
       variables: customerResetPassword.variables,
       fetchPolicy: 'no-cache'
     }) as ResetPasswordResponse;
-
-    return result;
   } catch (error) {
     Logger.error(`Cannot change password after reset. Error: ${error}`);
-
   }
 };
 

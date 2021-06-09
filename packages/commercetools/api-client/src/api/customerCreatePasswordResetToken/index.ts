@@ -18,18 +18,15 @@ const customerCreatePasswordResetToken = async (context: Context, email: string,
   );
 
   try {
-    const result = await context.client.mutate({
+    return await context.client.mutate({
       mutation: gql`${customerCreatePasswordResetToken.query}`,
       variables: customerCreatePasswordResetToken.variables,
       fetchPolicy: 'no-cache'
     }) as CreatePasswordResetTokenResponse;
-
-    return result;
   } catch (error) {
     Logger.error(`Cannot create password reset token. Error: ${error}`);
     throw error;
   }
-
 };
 
 export default customerCreatePasswordResetToken;
