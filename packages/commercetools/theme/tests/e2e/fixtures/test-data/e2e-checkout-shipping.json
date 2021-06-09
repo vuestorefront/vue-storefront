@@ -183,5 +183,50 @@
       }
     },
     "errorMessage": "Please fill out this field." 
+  },
+  "Should display an error - Country empty": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W",
+      "size": 34
+    },
+    "customer": {
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "address": {
+        "shipping": {
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "zipcode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "errorMessage": "This field is required" 
+  },
+  "Should display an error - State empty": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W",
+      "size": 34
+    },
+    "customer": {
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "address": {
+        "shipping": {
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "country": "United States",
+          "zipcode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "errorMessage": "This field is required" 
   }
 }
