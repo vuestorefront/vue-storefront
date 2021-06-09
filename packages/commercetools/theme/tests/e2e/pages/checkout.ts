@@ -1,7 +1,12 @@
 import { Customer } from '../types/types';
+import Base from './base';
 import { el } from './utils/element';
 
-class Shipping {
+class Shipping extends Base {
+
+  get path(): string {
+    return '/checkout/shipping';
+  }
 
   get addresses(): Cypress.Chainable {
     return el('shipping-addresses', '.sf-radio label');
@@ -60,15 +65,15 @@ class Shipping {
   }
 
   public fillForm(customer: Customer) {
-    this.firstName.type(customer.firstName);
-    this.lastName.type(customer.lastName);
-    this.streetName.type(customer.address.shipping.streetName);
-    this.apartment.type(customer.address.shipping.apartment);
-    this.city.type(customer.address.shipping.city);
-    this.country.select(customer.address.shipping.country);
-    this.state.select(customer.address.shipping.state);
-    this.zipcode.type(customer.address.shipping.zipcode);
-    this.phone.type(customer.address.shipping.phone);
+    if (customer.firstName !== undefined) this.firstName.type(customer.firstName);
+    if (customer.lastName !== undefined) this.lastName.type(customer.lastName);
+    if (customer.address.shipping.streetName !== undefined) this.streetName.type(customer.address.shipping.streetName);
+    if (customer.address.shipping.apartment !== undefined) this.apartment.click().type(customer.address.shipping.apartment);
+    if (customer.address.shipping.city !== undefined) this.city.type(customer.address.shipping.city);
+    if (customer.address.shipping.country !== undefined) this.country.select(customer.address.shipping.country);
+    if (customer.address.shipping.state !== undefined) this.state.select(customer.address.shipping.state);
+    if (customer.address.shipping.zipcode !== undefined) this.zipcode.type(customer.address.shipping.zipcode);
+    if (customer.address.shipping.phone !== undefined) this.phone.type(customer.address.shipping.phone);
   }
 }
 
