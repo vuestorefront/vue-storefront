@@ -37,8 +37,8 @@ describe('Cart getProductPrice', () => {
 
     const result = getProductPrice(mockedProduct);
     const expectedResult = {
-      special: 24,
-      original: 24,
+      special: null,
+      original: null,
       regular: 24
     };
 
@@ -56,8 +56,8 @@ describe('Cart getProductPrice', () => {
 
     const result = getProductPrice(mockedProduct);
     const expectedResult = {
-      special: 24,
-      original: 0,
+      special: null,
+      original: null,
       regular: 24
     };
 
@@ -80,8 +80,8 @@ describe('Cart getProductPrice', () => {
 
     const result = getProductPrice(mockedProduct);
     const expectedResult = {
-      special: 24,
-      original: 24,
+      special: null,
+      original: null,
       regular: 24
     };
 
@@ -106,7 +106,7 @@ describe('Cart getProductPrice', () => {
     const expectedResult = {
       special: 19,
       original: 24,
-      regular: 24
+      regular: null
     };
 
     expect(result).toEqual(expectedResult);
@@ -130,8 +130,8 @@ describe('Cart getProductPrice', () => {
 
     const result = getProductPrice(mockedProduct);
     const expectedResult = {
-      special: 25.98,
-      original: 25.98,
+      special: null,
+      original: null,
       regular: 25.98
     };
 
@@ -158,7 +158,7 @@ describe('Cart getProductPrice', () => {
     const expectedResult = {
       special: 20.57,
       original: 25.98,
-      regular: 25.98
+      regular: null
     };
 
     expect(result).toEqual(expectedResult);
