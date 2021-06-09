@@ -132,9 +132,9 @@ export default {
 
 ## Forgot Password
 
-Usually the process of resetting user password after forgetting consists of two steps:
+Usually, the process of resetting a user password consists of two steps:
 
-1. Generate reset password token with an email address.
+1. Generating reset password token for a given email address:
 
 ```vue
 <template>
@@ -146,13 +146,16 @@ Usually the process of resetting user password after forgetting consists of two 
 
 <script>
 import { useForgotPassword } from '{INTEGRATION}';
+import { ref } from '@vue/composition-api';
 
 export default {
   setup () {
     const { reset, loading } = useForgotPassword();
+    const form = ref({});
 
     return {
       reset,
+      form,
       loading
     }
   }
@@ -160,7 +163,7 @@ export default {
 </script>
 ```
 
-2. Set new user password using the token and new password.
+2. Setting a new user password using the token and new password.
 
 ```vue
 <template>
@@ -173,13 +176,16 @@ export default {
 
 <script>
 import { useForgotPassword } from '{INTEGRATION}';
+import { ref } from '@vue/composition-api';
 
 export default {
   setup () {
     const { change, result, loading } = useForgotPassword();
+    const form = ref({});
 
     return {
       reset,
+      form,
       loading
     }
   }

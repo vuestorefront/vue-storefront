@@ -56,7 +56,7 @@ interface UseForgotPasswordErrors {
 
 ## Getters
 
-We do not provide getters for forgotPassword and its parts.
+We do not provide getters for `useForgotPassword` composable.
 
 ## Example
 
@@ -71,7 +71,7 @@ Generating reset password token and changing user password.
   </form>
 
   <!-- Change user password -->
-  <form @submit.prevent="change({ tokenValue: <TOKEN_FROM_URL>, newPassword: form.value.password })">
+  <form @submit.prevent="change({ tokenValue: token, newPassword: form.value.password })">
     <!-- form fields -->
     <button type="submit" :disabled="loading">Save Password</button>
   </form>
@@ -79,17 +79,23 @@ Generating reset password token and changing user password.
 </template>
 
 <script>
-import { useForgotPassword } from '@vsf-enterprise/commercetoolss';
+import { useForgotPassword } from '@vsf-enterprise/commercetools';
+import { ref } from '@vue/composition-api';
 
 export default {
-  setup() {
+  setup(_, context) {
     const { reset, change, result, loading } = useForgotPassword();
+    const form = ref({});
+
+    const token = context.root.$route.query.token
 
     return {
       reset,
       change,
       result,
+      token,
       loading,
+      form
     };
   }
 };
