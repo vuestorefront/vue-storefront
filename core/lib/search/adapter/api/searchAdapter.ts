@@ -131,81 +131,18 @@ export class SearchAdapter {
   }
 
   public initBaseTypes () {
-    this.registerEntityType('product', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'product', start, size)
-      }
-    })
+    const baseTypes = config.elasticsearch.indices;
 
-    this.registerEntityType('attribute', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'attribute', start, size)
-      }
-    })
-
-    this.registerEntityType('category', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'category', start, size)
-      }
-    })
-
-    this.registerEntityType('taxrule', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'taxrule', start, size)
-      }
-    })
-
-    this.registerEntityType('review', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'review', start, size)
-      }
-    })
-    this.registerEntityType('cms_page', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'cms_page', start, size)
-      }
-    })
-    this.registerEntityType('cms_block', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'cms_block', start, size)
-      }
-    })
-    this.registerEntityType('cms_hierarchy', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'cms_hierarchy', start, size)
-      }
+    baseTypes.forEach(type => {
+      this.registerEntityType(type, {
+        queryProcessor: (query) => {
+          // function that can modify the query each time before it's being executed
+          return query
+        },
+        resultProcessor: (resp, start, size) => {
+          return this.handleResult(resp, type, start, size)
+        }
+      })
     })
   }
 }

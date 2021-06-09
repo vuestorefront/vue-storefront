@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `createAsyncMutatorHook` & unit tests for hooks - @lukaszjedrasik ([#4940](https://github.com/vuestorefront/vue-storefront/issues/4940))
 - Added unit test for `phoneNum` validator - @lukaszjedrasik ([#5730](https://github.com/vuestorefront/vue-storefront/issues/5730))
 - Added unit test for `optionLabel` - @lukaszjedrasik ([#5845](https://github.com/vuestorefront/vue-storefront/pull/5845#issuecomment-827705882))
+- Allow to configure the list of ElasticSearch indices (to be able to add custom ones) ([#5978](https://github.com/vuestorefront/vue-storefront/issues/5978))
 
 ### Fixed
 
