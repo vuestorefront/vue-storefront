@@ -500,6 +500,29 @@ export interface AgnosticPagination {
   pageOptions: number[];
 }
 
+export interface AgnosticAddress {
+  addressLine1: string;
+  addressLine2: string;
+  [x: string]: unknown;
+}
+
+export interface AgnosticGeoLocation {
+  type: string;
+  coordinates?: unknown;
+  [x: string]: unknown;
+}
+
+export interface AgnosticStore {
+  name: string;
+  id: string;
+  description?: string;
+  locales?: AgnosticLocale[];
+  currencies?: AgnosticCurrency[]
+  address?: AgnosticAddress;
+  geoLocation?: AgnosticGeoLocation;
+  [x: string]: unknown;
+}
+
 export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
   getName: (product: PRODUCT) => string;
   getSlug: (product: PRODUCT) => string;
@@ -720,32 +743,27 @@ export type ApiClientMethods<T> = {
 }
 
 export interface UseStoreErrors {
-  load: Error;
-  change: Error;
+  load: Error | null;
+  change: Error | null;
 }
 
-export interface UseStoreFactoryParams<STORE, CHANGE_PARAMS> extends FactoryParams {
-  load(context: Context, params: { customQuery: CustomQuery; }): Promise<STORE>
-  change(context: Context, parmas: { current: STORE; next: CHANGE_PARAMS; customQuery?: CustomQuery; }): Promise<STORE>
+export interface UseStoreFactoryParams<STORES, CHANGE_PARAMS> extends FactoryParams {
+  load(context: Context, params: { customQuery: CustomQuery; }): Promise<STORES>
+  change(context: Context, parmas: { current: STORES; next: CHANGE_PARAMS; customQuery?: CustomQuery; }): Promise<STORES>
 }
-export interface UseStoreInterface<STORE, CHANGE_PARAMS> {
+export interface UseStoreInterface<STORES, CHANGE_PARAMS> {
   change(params: CHANGE_PARAMS & { customQuery?: CustomQuery; }): Promise<void>;
   load(params?: { customQuery: CustomQuery; }): Promise<void>;
   loading: ComputedProperty<boolean>;
-  store: ComputedProperty<STORE>;
+  response: ComputedProperty<STORES>;
   error: ComputedProperty<UseStoreErrors>;
 }
 
-export interface UseStore<STORE, CHANGE_PARAMS> {
-  (): UseStoreInterface<STORE, CHANGE_PARAMS>;
+export interface UseStore<STORES, CHANGE_PARAMS> {
+  (): UseStoreInterface<STORES, CHANGE_PARAMS>;
 }
 
-export interface UseStoreGetters<STORE, STORE_ITEM, ADDRESS, LOCATION> {
-  getItems(response: STORE, ...xs: any[]): STORE_ITEM[];
-  getName(item: STORE_ITEM): string;
-  getID(item: STORE_ITEM): string;
-  getDescription(item: STORE_ITEM): string;
-  getLocales(item: STORE_ITEM): string[];
-  getAddress(item: STORE_ITEM): ADDRESS;
-  getLocation(item: STORE_ITEM): LOCATION;
+export interface UseStoreGetters<STORES, STORE_ITEM> {
+  getItems(stores: STORES, ...xs: any[]): STORE_ITEM[];
+  getSelected(stores: STORES): STORE_ITEM
 }
