@@ -1,4 +1,4 @@
-import ObjectBuilderInterface from '../types/object-builder.interface';
+import ObjectBuilderInterface from '../budsies/types/object-builder.interface';
 
 import FileProcessingRepository from './file-processing.repository';
 import Item from './item.model';
