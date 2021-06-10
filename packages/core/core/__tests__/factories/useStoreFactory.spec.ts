@@ -16,8 +16,8 @@ describe('[CORE - factories] useStoreFactory', () => {
   describe('initial setup', () => {
 
     it('should have proper initial properties', () => {
-      const useUser = useStoreFactory(factoryParams);
-      const { response, loading, error } = useUser();
+      const useStore = useStoreFactory(factoryParams);
+      const { response, loading, error } = useStore();
 
       expect(response.value).toEqual(null);
       expect(loading.value).toEqual(false);
