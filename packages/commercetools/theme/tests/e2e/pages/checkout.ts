@@ -2,15 +2,7 @@ import { Customer } from '../types/types';
 import Base from './base';
 import { el } from './utils/element';
 
-class Shipping extends Base {
-
-  get path(): string {
-    return '/checkout/shipping';
-  }
-
-  get addresses(): Cypress.Chainable {
-    return el('shipping-addresses', '.sf-radio label');
-  }
+class Checkout extends Base {
 
   get firstName(): Cypress.Chainable {
     return el('firstName');
@@ -48,6 +40,28 @@ class Shipping extends Base {
     return el('phone');
   }
 
+  public fillForm(customer: Customer) {
+    if (customer.firstName !== undefined) this.firstName.type(customer.firstName);
+    if (customer.lastName !== undefined) this.lastName.type(customer.lastName);
+    if (customer.address.shipping.streetName !== undefined) this.streetName.type(customer.address.shipping.streetName);
+    if (customer.address.shipping.apartment !== undefined) this.apartment.click().type(customer.address.shipping.apartment);
+    if (customer.address.shipping.city !== undefined) this.city.type(customer.address.shipping.city);
+    if (customer.address.shipping.country !== undefined) this.country.select(customer.address.shipping.country);
+    if (customer.address.shipping.state !== undefined) this.state.select(customer.address.shipping.state);
+    if (customer.address.shipping.postalCode !== undefined) this.zipcode.type(customer.address.shipping.postalCode);
+    if (customer.address.shipping.phone !== undefined) this.phone.type(customer.address.shipping.phone);
+  }
+}
+
+class Shipping extends Checkout {
+  get path(): string {
+    return '/checkout/shipping';
+  }
+
+  get addresses(): Cypress.Chainable {
+    return el('shipping-addresses', '.sf-radio label');
+  }
+
   get continueToBillingButton(): Cypress.Chainable {
     return el('continue-to-billing');
   }
@@ -64,20 +78,13 @@ class Shipping extends Base {
     return el('shipping-method-label');
   }
 
-  public fillForm(customer: Customer) {
-    if (customer.firstName !== undefined) this.firstName.type(customer.firstName);
-    if (customer.lastName !== undefined) this.lastName.type(customer.lastName);
-    if (customer.address.shipping.streetName !== undefined) this.streetName.type(customer.address.shipping.streetName);
-    if (customer.address.shipping.apartment !== undefined) this.apartment.click().type(customer.address.shipping.apartment);
-    if (customer.address.shipping.city !== undefined) this.city.type(customer.address.shipping.city);
-    if (customer.address.shipping.country !== undefined) this.country.select(customer.address.shipping.country);
-    if (customer.address.shipping.state !== undefined) this.state.select(customer.address.shipping.state);
-    if (customer.address.shipping.zipcode !== undefined) this.zipcode.type(customer.address.shipping.zipcode);
-    if (customer.address.shipping.phone !== undefined) this.phone.type(customer.address.shipping.phone);
-  }
 }
 
-class Billing {
+class Billing extends Checkout {
+  get path(): string {
+    return '/checkout/billing';
+  }
+
   get continueToPaymentButton(): Cypress.Chainable {
     return el('continue-to-payment');
   }
@@ -92,6 +99,10 @@ class Billing {
 }
 
 class Payment {
+  get heading(): Cypress.Chainable {
+    return el('heading-payment');
+  }
+
   get makeAnOrderButton(): Cypress.Chainable {
     return el('make-an-order');
   }
