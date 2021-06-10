@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "strict": true,
+    "allowJs": true,
+    "importHelpers": false,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": false,
+    "sourceMap": true,
+    "downlevelIteration": true,
+    "baseUrl": ".",
+    "types": [
+      "reflect-metadata",
+      "node",
+      "jest"
+    ],
+    "paths": {
+      "core/*": ["core/*"],
+      "theme/*": ["src/themes/petsies-capybara/*"], //needs testing with non-default theme!
+      "core/modules/*": ["./core/modules/*"],
+      "@vue-storefront/*": ["./"]
+    },
+    "lib": ["es2017", "dom"]
+  },
+  "files": ["shims.d.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "core/**/*.ts",
+    "core/**/*.vue",
+    "test/**/*.ts",
+    "module/**/*.ts",
+    "packages/**/*.ts",
+    "src/themes/petsies-capybara/ts/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
+}

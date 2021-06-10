@@ -78,6 +78,9 @@
       "addRoutes": true
     }
   },
+  "budsies": {
+    "endpoint": "https://${VSF_API_DOMAIN}/api/ext/budsies"
+  },
   "initialResources": [
     {
       "filters": [
@@ -785,7 +788,8 @@
     "paths": {
       "product": "/catalog/product"
     },
-    "productPlaceholder": "/assets/placeholder.jpg"
+    "productPlaceholder": "/assets/placeholder.jpg",
+    "fileuploaderUploadUrl": "${FILEUPLOADER_UPLOAD_URL}"
   },
   "install": {
     "is_local_backend": true,

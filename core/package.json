@@ -38,7 +38,7 @@
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.19",
     "app-root-path": "^2.0.1",
-    "autoprefixer": "^8.6.2",
+    "autoprefixer": "^9",
     "babel-core": "^6.26.0",
     "babel-loader": "^8.0.6",
     "babel-preset-env": "^1.6.x",

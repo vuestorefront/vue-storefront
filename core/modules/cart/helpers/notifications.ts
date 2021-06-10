@@ -37,9 +37,12 @@ const outOfStock = () => ({
   action1: { label: i18n.t('OK') }
 })
 
-const createNotification = ({ type, message }) => ({ type, message, action1: { label: i18n.t('OK') } })
-const createNotifications = ({ type, messages }) =>
-  messages.map(message => createNotification({ type, message }));
+const createNotification = (
+  { type, message, timeToLive = 5 * 1000 }: {type: string, message: string, timeToLive?: number }
+) => ({ type, message, timeToLive: timeToLive, action1: { label: i18n.t('OK') } });
+const createNotifications = (
+  { type, messages, timeToLive }: {type: string, messages: string[], timeToLive?: number}
+) => messages.map(message => createNotification({ type, message, timeToLive }));
 
 export {
   createNotification,
