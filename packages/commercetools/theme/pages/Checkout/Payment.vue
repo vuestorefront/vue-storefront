@@ -1,6 +1,7 @@
 <template>
   <div>
     <SfHeading
+      v-e2e="'heading-payment'"
       :level="3"
       :title="$t('Payment')"
       class="sf-heading--left sf-heading--no-underline title"

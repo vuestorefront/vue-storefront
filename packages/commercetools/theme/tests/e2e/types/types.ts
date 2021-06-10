@@ -1,11 +1,13 @@
 export type Address = {
-  streetName: string;
-  apartment: string;
-  city: string;
-  state: string;
-  country: string;
-  zipcode: string;
-  phone: string;
+  firstName?: string;
+  lastName?: string;
+  streetName?: string;
+  apartment?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  postalCode?: string;
+  phone?: string;
 }
 
 export type Customer = {

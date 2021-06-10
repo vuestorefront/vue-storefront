@@ -3,7 +3,7 @@ import page from '../pages/factory';
 
 context(['regression'], 'Checkout - Shipping', () => {
   beforeEach(function () {
-    cy.fixture('test-data/e2e-checkout-shipping').then((fixture) => {
+    cy.fixture('test-data/e2e-checkout-shipping-validation').then((fixture) => {
       this.fixtures = {
         data: fixture
       };
@@ -68,5 +68,4 @@ context(['regression'], 'Checkout - Shipping', () => {
       });
     });
   });
-
 });
