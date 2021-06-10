@@ -387,23 +387,28 @@ export default {
       return category?.label || items[0].label;
     });
 
-    onSSR(async () => {
-      await search(th.getFacetsFromURL());
-    });
-
-    const { changeFilters, isFacetColor } = useUiHelpers();
-    const { toggleFilterSidebar } = useUiState();
     const selectedFilters = ref({});
-
-    onMounted(() => {
-      context.root.$scrollTo(context.root.$el, 2000);
-      if (!facets.value.length) return;
+    const setSelectedFilters = () => {
+      if (!facets.value.length || Object.keys(selectedFilters.value).length) return;
       selectedFilters.value = facets.value.reduce((prev, curr) => ({
         ...prev,
         [curr.id]: curr.options
           .filter(o => o.selected)
           .map(o => o.id)
       }), {});
+    };
+
+    onSSR(async () => {
+      await search(th.getFacetsFromURL());
+      setSelectedFilters();
+    });
+
+    const { changeFilters, isFacetColor } = useUiHelpers();
+    const { toggleFilterSidebar } = useUiState();
+
+    onMounted(() => {
+      context.root.$scrollTo(context.root.$el, 2000);
+      setSelectedFilters();
     });
 
     const isFilterSelected = (facet, option) => (selectedFilters.value[facet.id] || []).includes(option.id);
@@ -657,7 +662,6 @@ export default {
     &:not(:last-of-type) {
       --list-item-margin: 0 0 var(--spacer-sm) 0;
     }
-
     .nuxt-link-exact-active {
       text-decoration: underline;
     }
