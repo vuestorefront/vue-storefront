@@ -1,6 +1,7 @@
+import Vue from 'vue';
 import { getStoryblokQueryParams } from '../helpers'
 
-export default {
+export default Vue.extend({
   props: {
     item: {
       type: Object,
@@ -8,7 +9,7 @@ export default {
     }
   },
   filters: {
-    pretty (value) {
+    pretty (value: any) {
       return value
     }
   },
@@ -23,4 +24,4 @@ export default {
       { charset: 'utf-8', vmid: 'charset' }
     ]
   }
-}
+});
