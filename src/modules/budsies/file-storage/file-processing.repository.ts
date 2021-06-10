@@ -1,20 +1,19 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-import ObjectBuilderInterface from './object-builder.interface';
-import { ImageType } from './imageType';
+import ObjectBuilderInterface from '../types/object-builder.interface';
+import { ImageType } from './image-type.value';
 import Item from './item.model';
+import ItemApiResponse from './item-api-response.interface';
+import isItemApiResponse from './is-item-api-response.typeguard';
 
 export default class FileProcessingRepository {
-  private uploadUrl: string;
-  private plushieBuilder: ObjectBuilderInterface;
-
   public constructor (
-    uploadUrl: string,
-    plushieBuilder: ObjectBuilderInterface
-  ) {
-    this.uploadUrl = uploadUrl;
-    this.plushieBuilder = plushieBuilder;
-  }
+    private uploadUrl: string,
+    private factory: ObjectBuilderInterface<
+    Item,
+    ItemApiResponse
+    >
+  ) {}
 
   public async uploadFile (
     file: File | Blob,
@@ -42,7 +41,12 @@ export default class FileProcessingRepository {
     };
 
     const result = await axios.post(this.uploadUrl, formData, options);
+    const data = result.data['item'];
 
-    return this.plushieBuilder.buildFromJSON(result.data['item']);
+    if (!isItemApiResponse(data)) {
+      throw new Error('Unexpected response!');
+    }
+
+    return this.factory(data);
   }
 }

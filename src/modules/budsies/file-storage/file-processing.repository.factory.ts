@@ -1,12 +1,13 @@
+import ObjectBuilderInterface from '../types/object-builder.interface';
+
 import FileProcessingRepository from './file-processing.repository';
-import ObjectBuilderInterface from './object-builder.interface';
+import Item from './item.model';
+import ItemApiResponse from './item-api-response.interface';
 
 export default class FileProcessingRepositoryFactory {
-  private plushieBuilder: ObjectBuilderInterface;
-
-  public constructor (plushieBuilder: ObjectBuilderInterface) {
-    this.plushieBuilder = plushieBuilder;
-  }
+  public constructor (
+    private plushieBuilder: ObjectBuilderInterface<Item, ItemApiResponse>
+  ) {}
 
   public create (uploadUrl: string) {
     return new FileProcessingRepository(uploadUrl, this.plushieBuilder);

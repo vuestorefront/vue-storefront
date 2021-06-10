@@ -1,25 +1,14 @@
-import { MutableValue } from '../types/mutable-value.interface';
-
-export default class Addon implements MutableValue {
-  public isNew = true;
-  public id;
-
-  public label: string;
-  public value: number;
-
+export default class Addon {
   public constructor (
-    fId: string,
-    fLabel: string,
-    fValue: number
+    public readonly id: string,
+    public readonly label: string,
+    public readonly value: number,
+    public readonly isNew = true
   ) {
-    [fId, fLabel, fValue].forEach((arg, index) => {
+    [id, label, value, isNew].forEach((arg, index) => {
       if (arg === undefined) {
         throw new Error(`Undefined value passed at position: ${index}`);
       }
     });
-
-    this.id = fId;
-    this.label = fLabel;
-    this.value = fValue;
   }
 }

@@ -1,14 +1,15 @@
-import ObjectBuilderInterface from './object-builder.interface';
+import ObjectBuilderInterface from '../types/object-builder.interface';
 import Item from './item.model';
+import ItemApiResponse from './item-api-response.interface';
 
-export default class FileStorageItemFactory implements ObjectBuilderInterface {
-  public buildFromJSON (data: { [key: string]: any }): Item {
-    const value = new Item(data.id, data.type.toString(), data.url);
-
-    (value as any).fCreatedAt = new Date(data.createdAt);
-
-    value.isNew = false;
-
-    return value;
-  }
+const factory: ObjectBuilderInterface<Item, ItemApiResponse> = (data) => {
+  return new Item(
+    data.id,
+    data.type.toString(),
+    data.url,
+    new Date(data.createdAt),
+    false
+  );
 }
+
+export default factory;
