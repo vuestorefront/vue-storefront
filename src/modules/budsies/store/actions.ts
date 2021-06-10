@@ -4,45 +4,36 @@ import { processURLAddress } from '@vue-storefront/core/helpers'
 import Task from 'core/lib/sync/types/Task'
 import { ActionTree } from 'vuex'
 import config from 'config'
+
 import { BudsiesState } from '../types/State'
 import ObjectBuilderInterface from '../types/object-builder.interface'
-import { Value } from '../types/value.interface'
-import { ValueCollection } from '../types/value.collection'
-import AddonFactory from '../factories/addon.factory'
+import addonFactory from '../factories/addon.factory'
+import Addon from '../models/addon.model'
+import AddonApiResponse from '../models/addon-api-response.interface'
+import isAddonApiResponse from '../models/is-addon-api-response.typeguard'
 
-const parse = (
-  items: any[],
-  objectBuilder: ObjectBuilderInterface<Value>
-): ValueCollection<Value> => {
-  const values: Value[] = [];
+function parse<T, R> (
+  items: unknown[],
+  objectBuilder: ObjectBuilderInterface<T, R>,
+  typeGuard: (arg: unknown) => arg is R
+): T[] {
+  const values: T[] = [];
 
-  items.forEach((item: any) => {
-    const value = objectBuilder.buildFromJSON(item);
+  items.forEach((item) => {
+    if (!typeGuard(item)) {
+      console.error(item);
+      throw new Error('Unexpected response!');
+    }
+
+    const value = objectBuilder(item);
 
     values.push(value);
   });
 
-  return new ValueCollection<Value>(values);
+  return values;
 }
 
 export const actions: ActionTree<BudsiesState, RootState> = {
-  async addPrintedProductToCart (
-    { commit, state },
-    { productId, designOption, uploadedArtworkIds, qty, addons }
-  ): Promise<Task> {
-    const url = processURLAddress(`${config.budsies.endpoint}/printed-products/cart-items?token={{token}}`);
-
-    return TaskQueue.execute({
-      url,
-      payload: {
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        mode: 'cors',
-        method: 'POST',
-        body: JSON.stringify({ productId, designOption, uploadedArtworkIds, qty, addons })
-      },
-      silent: true
-    });
-  },
   async loadPrintedProductAddons (
     { commit, state },
     { productId }
@@ -59,10 +50,8 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       silent: true
     });
 
-    const addonFactory = new AddonFactory();
+    const addons = parse<Addon, AddonApiResponse>(result.result, addonFactory, isAddonApiResponse);
 
-    const addons = parse(result.result, addonFactory);
-
-    commit('setPrintedProductAddons', { key: productId, addons: addons.getItems() });
+    commit('setPrintedProductAddons', { key: productId, addons: addons });
   }
 }

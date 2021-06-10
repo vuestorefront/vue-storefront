@@ -32,11 +32,11 @@ const mergeActions = {
     if (serverItem.plushieId) {
       product.plushieId = serverItem.plushieId;
     }
-    if (serverItem.plushieThumb) {
-      product.plushieThumb = serverItem.plushieThumb;
+    if (serverItem.thumbnail) {
+      product.thumbnail = serverItem.thumbnail;
     }
-    if (serverItem.uploadedArtworkIds) {
-      product.uploadedArtworkIds = serverItem.uploadedArtworkIds;
+    if (serverItem.customerImagesIds) {
+      product.customerImagesIds = serverItem.customerImagesIds;
     }
 
     const productWithChecksum = { ...product, checksum: productChecksum(product) };

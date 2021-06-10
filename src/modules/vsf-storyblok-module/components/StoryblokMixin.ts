@@ -28,7 +28,7 @@ export default {
         return !!this.storyblok.path
       },
       storyblokPath () {
-        const {storeCode} = currentStoreView()
+        const { storeCode } = currentStoreView()
         const path = this.storyblok.path
         if (this.storyblok.prependStorecode && config.storeViews.multistore && storeCode) {
           return `${storeCode}/${path}`

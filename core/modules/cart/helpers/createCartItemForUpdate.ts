@@ -8,7 +8,7 @@ const createCartItemForUpdate = (clientItem: CartItem, serverItem: any, updateId
     ...((serverItem && serverItem.item_id) ? { item_id: serverItem.item_id } : {}),
     qty: mergeQty ? (clientItem.qty + serverItem.qty) : clientItem.qty,
     product_option: clientItem.product_option,
-    uploadedArtworkIds: clientItem.uploadedArtworkIds ? clientItem.uploadedArtworkIds : undefined
+    customerImagesIds: clientItem.customerImagesIds ? clientItem.customerImagesIds : undefined
   } as any as CartItem
 
   if (updateIds && serverItem.quote_id && serverItem.item_id) {
