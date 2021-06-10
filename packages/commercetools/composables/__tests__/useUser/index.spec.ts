@@ -7,12 +7,12 @@ jest.mock('../../src/useUser/factoryParams', () => ({
 }));
 
 import { useUserFactory } from '@vue-storefront/core';
-import { params } from '../../src/useUser/factoryParams';
-import useUser from '../../src/useUser';
+import { useUserFactoryParams } from '../../src/useUser/factoryParams';
+import { useUser } from '../../src/useUser';
 
 describe('[commercetools-composables] useUser', () => {
   it('returns useUserFactory functions', () => {
-    expect(useUserFactory).toHaveBeenCalledWith(params);
+    expect(useUserFactory).toHaveBeenCalledWith(useUserFactoryParams);
     expect(useUser()).toEqual({user: 'api'});
   });
 });
