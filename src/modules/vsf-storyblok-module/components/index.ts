@@ -2,7 +2,7 @@ export const components = {
   debug: () => import('./defaults/Debug.vue'),
   page: () => import('./defaults/Page.vue'),
   block: () => import('./defaults/Block.vue'),
-  blockReference: () => import('./defaults/BlockReference.vue'),
+  block_reference: () => import('./defaults/BlockReference.vue'),
   grid: () => import('./defaults/Grid.vue'),
   tile: () => import('./defaults/Tile.vue')
 }
