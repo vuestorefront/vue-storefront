@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-import ObjectBuilderInterface from '../budsies/types/object-builder.interface';
+import { ObjectBuilderInterface } from 'src/modules/budsies';
 import { ImageType } from './image-type.value';
 import Item from './item.model';
 import ItemApiResponse from './item-api-response.interface';
