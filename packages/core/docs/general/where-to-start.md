@@ -4,15 +4,17 @@ This document will show where you should start if you are:
 
 [[toc]]
 
+[comment]: <> (## Considering using Vue Storefront)
+
 [comment]: <> (## Developer creating a shop)
 
 ## Integrator
 
-All integrations created and maintained by the Core Team and our partners you can found on the [Integrations](../integrations/) page.
+If you are using a custom backend or want to use platforms or technologies not listed on our [Integrations](../integrations/) page, you likely need to create an integration.
 
-If you didn't find the integration you were looking for, you can create your own.
+Vue Storefront integrates with a wide range of technologies and each has its own needs, so there is no generic tutorial for all of them.
 
-Depending on the kind of integrations you want to build, you should familiarize yourself with **Building Integration** section. Especially integration guide for [eCommerce](../integrate/integration-guide.html) and [CMS](../integrate/cms.html) platforms.
+However, depending on the kind of integrations you want to build, you should familiarize yourself with **Building Integration** section. Especially integration guide for [eCommerce](../integrate/integration-guide.html) and [CMS](../integrate/cms.html) platforms.
 
 **eCommerce** section will guide you through: 
 - [introduction](../integrate/integration-guide.html#introduction)
@@ -29,7 +31,11 @@ Depending on the kind of integrations you want to build, you should familiarize 
 
 ## Designer creating a theme
 
-The [theme](../guide/theme.html) guide includes all the necessary information needed for creating your own theme.
+Vue Storefront default theme is mostly based on Single UI components turned into a powerful design system for e-commerce we called [Storefront UI](https://www.storefrontui.io/)
+
+If you don't want to use [Storefront UI](https://www.storefrontui.io/) (it's just a UI layer), the project can work with any other UI library or a custom code. So it totally depends on you - create your own theme, edit the existing one or use our default theme.
+
+At the start you should familiarize yourself with the specially prepared [theme](../guide/theme.html) guide.
 
 **Theme** section will guide you through:
 - [directory structure](../guide/theme.html#directory-structure)
