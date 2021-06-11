@@ -34,7 +34,7 @@ describe('[commercetools-api-client] getStores', () => {
       extendQuery
     };
 
-    expect(await getStores(context, undefined)).toBe(response.data.stores);
+    expect(await getStores(context)).toBe(response.data.stores);
     expect(extendQuery).toHaveBeenCalled();
     expect(query).toHaveBeenCalledWith({ variables: { ...config }, query: storesData, fetchPolicy: 'no-cache' });
   });

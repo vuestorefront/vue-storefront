@@ -1,4 +1,4 @@
-import { Context, CustomQuery} from '@vue-storefront/core';
+import { Context, CustomQuery } from '@vue-storefront/core';
 import ApolloClient from 'apollo-client';
 import gql from 'graphql-tag';
 
@@ -6,9 +6,13 @@ import { ApiResponseWrapper } from '../../types/Api';
 import { StoreQueryResult } from '../../types/GraphQL';
 import { storesData } from './defaultQuery';
 
-export default async function getStores (context: Context, customQuery: CustomQuery): Promise<StoreQueryResult> {
+export interface GetStoresParams {
+  customQuery: CustomQuery;
+}
 
-  const variables = {locale: context.config.locale};
+export default async function getStores(context: Context, params?: GetStoresParams): Promise<StoreQueryResult> {
+  const variables = { locale: context.config.locale };
+  const { customQuery } = Object(params);
 
   const { getStoresData } = context.extendQuery(customQuery, {
     getStoresData: { query: storesData, variables }

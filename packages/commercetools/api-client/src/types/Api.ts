@@ -1,10 +1,11 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
-import { ApiClientMethods, CustomQuery } from '@vue-storefront/core';
+import { ApiClientMethods } from '@vue-storefront/core';
 import { Token, CustomerCredentials } from './setup';
 import { UpdateCartParams } from '../api/updateCart';
 import { GetMeParams } from '../api/getMe';
 import { ShippingMethodData } from '../api/getShippingMethods';
+import { GetStoresParams } from '../api/getStores';
 import {
   Cart,
   Order,
@@ -125,7 +126,7 @@ interface ApiMethods {
   updateCartQuantity ({ id, version }: CartDetails, product: LineItem): Promise<CartResponse>;
   updateShippingDetails (cart: Cart, shippingDetails: Address): Promise<CartResponse>;
   isGuest: () => boolean;
-  getStores(params: CustomQuery): Promise<StoreQueryResult>;
+  getStores(params: GetStoresParams): Promise<StoreQueryResult>;
 }
 
 export type CommercetoolsMethods = ApiClientMethods<ApiMethods>

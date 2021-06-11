@@ -32,7 +32,7 @@ describe('[commercetools-composables] useStore factoryParams', () => {
     };
 
     expect(useStoreFactoryParams.load((context as unknown) as Context, {})).resolves.toStrictEqual(expected);
-    expect(api.getStores).toHaveBeenCalledWith(undefined);
+    expect(api.getStores).toHaveBeenCalledWith({ customQuery: undefined });
   });
 
   it('changes selected store and reloads page', async () => {

@@ -16,7 +16,7 @@ export interface UseStoreFactoryChangeParams {
 async function load (context: Context, params): Promise<StoresData> {
   const { api, config } = context.$ct;
   const { customQuery } = params;
-  return { ...await api.getStores(customQuery), _selected: config.store };
+  return { ...await api.getStores({ customQuery }), _selected: config.store };
 }
 
 // Change param
