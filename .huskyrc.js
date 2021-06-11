@@ -6,7 +6,7 @@ module.exports = {
       'lint-staged'
     ]),
     'pre-push': tasks([
-      'yarn test:unit'
+      //'yarn test:unit'
     ])
   }
 }
