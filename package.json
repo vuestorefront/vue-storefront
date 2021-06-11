@@ -35,7 +35,7 @@
     "installer:ci": "yarn installer --default-config",
     "all": "cross-env NODE_ENV=development node ./core/scripts/all",
     "cache": "node ./core/scripts/cache",
-    "dev": "yarn generate-files && cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" node --max_old_space_size=1536 -r ts-node/register ./core/scripts/server.ts",
+    "dev": "yarn generate-files && cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" node --max_old_space_size=2048 -r ts-node/register ./core/scripts/server.ts",
     "dev:sw": "yarn generate-files && cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" yarn build:sw && yarn dev",
     "dev:inspect": "yarn generate-files && cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" node --inspect -r ts-node/register ./core/scripts/server",
     "build:sw": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" webpack --config ./core/build/webpack.prod.sw.config.ts --mode production --progress --hide-modules",

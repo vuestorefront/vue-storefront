@@ -67,6 +67,7 @@ services:
       - './src:/var/www/src'
       - './var:/var/www/var'
       - './packages:/var/www/packages'
+      - './node_modules:/var/www/node_modules'
     tmpfs:
       - /var/www/dist
     networks:
