@@ -97,7 +97,7 @@
 <script>
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
-import { useCart, useWishlist, useUser, cartGetters, useStore, storeGetters } from '<%= options.generate.replace.composables %>';
+import { useCart, useWishlist, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useUiHelpers } from '~/composables';
@@ -131,7 +131,6 @@ export default {
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load: loadUser } = useUser();
     const { cart, load: loadCart } = useCart();
-    const { load, response } = useStore();
     const { load: loadWishlist } = useWishlist();
     const term = ref(getFacetsFromURL().phrase);
     const isSearchOpen = ref(false);
@@ -153,11 +152,6 @@ export default {
 
       toggleLoginModal();
     };
-
-    load().then(() => {
-      console.log(storeGetters.getItems(response.value));
-      console.log(storeGetters.getSelected(response.value));
-    });
 
     onSSR(async () => {
       await loadUser();
