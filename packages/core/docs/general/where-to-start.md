@@ -10,11 +10,7 @@ This document will show where you should start if you are:
 
 All integrations created and maintained by the Core Team and our partners you can found on the [Integrations](../integrations/) page.
 
-Didn't find the integration you were looking for? You can create your own eCommerce, CMS, or other integrations with Vue Storefront but remember about:
-
-::: warning Want to build an integration?
-If you want to integrate with Vue Storefront, please **contact the core team on our [Discord](https://discord.vuestorefront.io) server** first. We are eager to help you with building it and ensuring its high quality! Building the integration with the help of the core team is the best way to keep its quality high and making it officially recommended once completed.
-:::
+If you didn't find the integration you were looking for, you can create your own.
 
 Depending on what kind of integrations you want to build you should familiarize yourself with **Building Integration** section. Especially integration guide for [eCommerce](../integrate/integration-guide.html) and [CMS](../integrate/cms.html).
 
