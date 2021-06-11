@@ -23,7 +23,7 @@ export interface Category {
   slug: string,
   position?: number,
   description?: string,
-  short_desc?: string,
+  short_desc?: string
 }
 
 export interface Filters {

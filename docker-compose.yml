@@ -51,6 +51,7 @@ services:
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
       VSF_API_DOMAIN: ${PETSIES_VSF_API_DOMAIN}
       DEFAULT_STORE_ID: ${PETSIES_STORE_ID}
+      FILEUPLOADER_UPLOAD_URL: ${FILEUPLOADER_UPLOAD_URL}
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       #- './config:/var/www/config'
@@ -66,6 +67,7 @@ services:
       - './src:/var/www/src'
       - './var:/var/www/var'
       - './packages:/var/www/packages'
+      - './node_modules:/var/www/node_modules'
     tmpfs:
       - /var/www/dist
     networks:

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <slot v-if="loading" name="loading"/>
-    <slot v-else-if="error" name="error"/>
-    <slot v-else/>
+    <slot v-if="loading" name="loading" />
+    <slot v-else-if="error" name="error" />
+    <slot v-else />
   </div>
 </template>
 
