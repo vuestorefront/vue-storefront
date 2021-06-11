@@ -7,16 +7,16 @@
       "size": 34
     },
     "customer": {
-      "firstName": "Jane",
-      "lastName": "Doe",
       "address": {
         "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
           "apartment": "13/37",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
-          "zipcode": "90001",
+          "postalCode": "90001",
           "phone": "+12345678910"
         }
       }
@@ -31,15 +31,15 @@
       "size": 34
     },
     "customer": {
-      "lastName": "Doe",
       "address": {
         "shipping": {
+          "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
           "apartment": "13/37",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
-          "zipcode": "90001",
+          "postalCode": "90001",
           "phone": "+12345678910"
         }
       }
@@ -54,15 +54,15 @@
       "size": 34
     },
     "customer": {
-      "firstName": "Jane",
       "address": {
         "shipping": {
+          "firstName": "Jane",
           "streetName": "Vuestorefront Rd.",
           "apartment": "13/37",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
-          "zipcode": "90001",
+          "postalCode": "90001",
           "phone": "+12345678910"
         }
       }
@@ -77,15 +77,15 @@
       "size": 34
     },
     "customer": {
-      "firstName": "Jane",
-      "lastName": "Doe",
       "address": {
         "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
           "apartment": "13/37",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
-          "zipcode": "90001",
+          "postalCode": "90001",
           "phone": "+12345678910"
         }
       }
@@ -100,15 +100,15 @@
       "size": 34
     },
     "customer": {
-      "firstName": "Jane",
-      "lastName": "Doe",
       "address": {
         "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
-          "zipcode": "90001",
+          "postalCode": "90001",
           "phone": "+12345678910"
         }
       }
@@ -123,15 +123,15 @@
       "size": 34
     },
     "customer": {
-      "firstName": "Jane",
-      "lastName": "Doe",
       "address": {
         "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
           "apartment": "13/37",
           "state": "California",
           "country": "United States",
-          "zipcode": "90001",
+          "postalCode": "90001",
           "phone": "+12345678910"
         }
       }
@@ -146,10 +146,10 @@
       "size": 34
     },
     "customer": {
-      "firstName": "Jane",
-      "lastName": "Doe",
       "address": {
         "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
           "apartment": "13/37",
           "city": "Los Angeles",
@@ -169,16 +169,16 @@
       "size": 34
     },
     "customer": {
-      "firstName": "Jane",
-      "lastName": "Doe",
       "address": {
         "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
           "apartment": "13/37",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
-          "zipcode": "90001"
+          "postalCode": "90001"
         }
       }
     },
@@ -192,14 +192,14 @@
       "size": 34
     },
     "customer": {
-      "firstName": "Jane",
-      "lastName": "Doe",
       "address": {
         "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
           "apartment": "13/37",
           "city": "Los Angeles",
-          "zipcode": "90001",
+          "postalCode": "90001",
           "phone": "+12345678910"
         }
       }
@@ -214,15 +214,15 @@
       "size": 34
     },
     "customer": {
-      "firstName": "Jane",
-      "lastName": "Doe",
       "address": {
         "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
           "apartment": "13/37",
           "city": "Los Angeles",
           "country": "United States",
-          "zipcode": "90001",
+          "postalCode": "90001",
           "phone": "+12345678910"
         }
       }
