@@ -18,42 +18,61 @@ export default Vue.extend({
       const { id } = getStoryblokQueryParams(this.$route)
       return !!id
     },
-    cssClasses (): string {
-      if (!this.item.css_classes) {
-        return '';
+    cssClasses (): string[] {
+      const result: string[] = [];
+
+      if (this.item.css_classes) {
+        const classes = this.item.css_classes.split(' ');
+        result.push(...classes);
       }
-      return this.item.css_classes;
+
+      result.push(...this.extraCssClasses);
+
+      return result
     },
-    styles (): string {
-      let styles = '';
+    extraCssClasses (): string[] {
+      return [];
+    },
+    styles (): Record<string, string> {
+      let result: Record<string, string> = {};
+
+      if ('background' in this.item && this.item.background.color) {
+        result['background-color'] = this.item.background.color;
+      }
       if (this.item.alignment) {
-        styles += 'text-align: ' + this.item.alignment.toString() + ';';
+        result['text-align'] = this.item.alignment;
       }
       if (this.item.margin_top) {
-        styles += 'margin-top: ' + this.item.margin_top.toString() + '%;';
+        result['margin-top'] = this.item.margin_top + 'px';
       }
       if (this.item.margin_left) {
-        styles += 'margin-left: ' + this.item.margin_left.toString() + '%;';
+        result['margin-left'] = this.item.margin_left + 'px';
       }
       if (this.item.margin_right) {
-        styles += 'margin-right: ' + this.item.margin_right.toString() + '%;';
+        result['margin-right'] = this.item.margin_right + 'px';
       }
       if (this.item.margin_bottom) {
-        styles += 'margin-bottom: ' + this.item.margin_bottom.toString() + '%;';
+        result['margin-bottom'] = this.item.margin_bottom + 'px';
       }
       if (this.item.padding_top) {
-        styles += 'padding-top: ' + this.item.padding_top.toString() + '%;';
+        result['padding-top'] = this.item.padding_top + 'px';
       }
       if (this.item.padding_left) {
-        styles += 'padding-left: ' + this.item.padding_left.toString() + '%;';
+        result['padding-left'] = this.item.padding_left + 'px';
       }
       if (this.item.padding_right) {
-        styles += 'padding-right: ' + this.item.padding_right.toString() + '%;';
+        result['padding-right'] = this.item.padding_right + 'px';
       }
       if (this.item.padding_bottom) {
-        styles += 'padding-bottom: ' + this.item.padding_bottom.toString() + '%;';
+        result['padding-bottom'] = this.item.padding_bottom + 'px';
       }
-      return styles;
+
+      result = Object.assign(result, this.extraStyles);
+
+      return result;
+    },
+    extraStyles (): Record<string, string> {
+      return {};
     }
   },
   metaInfo: {
