@@ -7,10 +7,21 @@
       "size": 34
     },
     "customer": {
-      "firstName": "Jane",
-      "lastName": "Doe",
       "address": {
         "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
           "apartment": "13/37",
           "city": "Los Angeles",

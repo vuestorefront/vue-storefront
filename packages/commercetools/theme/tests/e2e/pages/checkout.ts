@@ -1,59 +1,67 @@
-import { Customer } from '../types/types';
+import { Customer, Address } from '../types/types';
 import Base from './base';
 import { el } from './utils/element';
 
 class Checkout extends Base {
 
+  protected step = ''
+
   get firstName(): Cypress.Chainable {
-    return el('firstName');
+    return el(`${this.step}-firstName`);
   }
 
   get lastName(): Cypress.Chainable {
-    return el('lastName');
+    return el(`${this.step}-lastName`);
   }
 
   get streetName(): Cypress.Chainable {
-    return el('streetName');
+    return el(`${this.step}-streetName`);
   }
 
   get apartment(): Cypress.Chainable {
-    return el('apartment');
+    return el(`${this.step}-apartment`);
   }
 
   get city(): Cypress.Chainable {
-    return el('city');
+    return el(`${this.step}-city`);
   }
 
   get state(): Cypress.Chainable {
-    return el('state', 'select');
+    return el(`${this.step}-state`, 'select');
   }
 
   get country(): Cypress.Chainable {
-    return el('country', 'select');
+    return el(`${this.step}-country`, 'select');
   }
 
   get zipcode(): Cypress.Chainable {
-    return el('zipcode');
+    return el(`${this.step}-zipcode`);
   }
 
   get phone(): Cypress.Chainable {
-    return el('phone');
+    return el(`${this.step}-phone`);
   }
 
-  public fillForm(customer: Customer) {
-    if (customer.firstName !== undefined) this.firstName.type(customer.firstName);
-    if (customer.lastName !== undefined) this.lastName.type(customer.lastName);
-    if (customer.address.shipping.streetName !== undefined) this.streetName.type(customer.address.shipping.streetName);
-    if (customer.address.shipping.apartment !== undefined) this.apartment.click().type(customer.address.shipping.apartment);
-    if (customer.address.shipping.city !== undefined) this.city.type(customer.address.shipping.city);
-    if (customer.address.shipping.country !== undefined) this.country.select(customer.address.shipping.country);
-    if (customer.address.shipping.state !== undefined) this.state.select(customer.address.shipping.state);
-    if (customer.address.shipping.postalCode !== undefined) this.zipcode.type(customer.address.shipping.postalCode);
-    if (customer.address.shipping.phone !== undefined) this.phone.type(customer.address.shipping.phone);
+  public fillForm(address: Address) {
+    if (address.firstName !== undefined) this.firstName.type(address.firstName);
+    if (address.lastName !== undefined) this.lastName.type(address.lastName);
+    if (address.streetName !== undefined) this.streetName.type(address.streetName);
+    if (address.apartment !== undefined) this.apartment.click().type(address.apartment);
+    if (address.city !== undefined) this.city.type(address.city);
+    if (address.country !== undefined) this.country.select(address.country);
+    if (address.state !== undefined) this.state.select(address.state);
+    if (address.postalCode !== undefined) this.zipcode.type(address.postalCode);
+    if (address.phone !== undefined) this.phone.type(address.phone);
   }
 }
 
 class Shipping extends Checkout {
+
+  constructor() {
+    super();
+    this.step = 'shipping';
+  }
+
   get path(): string {
     return '/checkout/shipping';
   }
@@ -67,7 +75,7 @@ class Shipping extends Checkout {
   }
 
   get heading(): Cypress.Chainable {
-    return el('heading-shipping');
+    return el(`${this.step}-heading`);
   }
 
   get selectShippingButton(): Cypress.Chainable {
@@ -78,9 +86,19 @@ class Shipping extends Checkout {
     return el('shipping-method-label');
   }
 
+  public fillForm(customer: Customer) {
+    super.fillForm(customer.address.shipping);
+  }
+
 }
 
 class Billing extends Checkout {
+
+  constructor() {
+    super();
+    this.step = 'billing';
+  }
+
   get path(): string {
     return '/checkout/billing';
   }
@@ -90,11 +108,15 @@ class Billing extends Checkout {
   }
 
   get heading(): Cypress.Chainable {
-    return el('heading-billing');
+    return el(`${this.step}-heading`);
   }
 
   get copyAddressLabel(): Cypress.Chainable {
     return el('copy-address', 'label');
+  }
+
+  public fillForm(customer: Customer) {
+    super.fillForm(customer.address.billing);
   }
 }
 
