@@ -8,7 +8,7 @@ This document will show where you should start if you are:
 
 ## Integrator
 
-All integrations created and maintained by Core Team and our partners you can find on the special created [integrations](../integrations/) page.
+All integrations created and maintained by the Core Team and our partners you can found on the [Integrations](../integrations/) page.
 
 Didn't find the integration you were looking for? You can create your own eCommerce, CMS, or other integrations with Vue Storefront but remember about:
 
@@ -42,4 +42,3 @@ The [theme](../guide/theme.html) guide includes all the necessary information ne
 - [routing](../guide/theme.html#routing)
 - [how to updating styles](../guide/theme.html#updating-styles)
 - [preinstalled modules and libraries](../guide/theme.html#preinstalled-modules-and-libraries)
-
