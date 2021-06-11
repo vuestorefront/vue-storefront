@@ -33,5 +33,319 @@
       }
     },
     "shippingMethod": "Express US"
+  },
+  "Should display an error - First Name empty": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W",
+      "size": 34
+    },
+    "customer": {
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "shippingMethod": "Express US",
+    "errorMessage": "Please fill out this field."  
+  },
+  "Should display an error - Last Name empty": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W",
+      "size": 34
+    },
+    "customer": {
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "shippingMethod": "Express US",
+    "errorMessage": "Please fill out this field."  
+  },
+  "Should display an error - Street Name empty": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W",
+      "size": 34
+    },
+    "customer": {
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "shippingMethod": "Express US",
+    "errorMessage": "Please fill out this field." 
+  },
+  "Should display an error - Apartment empty": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W",
+      "size": 34
+    },
+    "customer": {
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "shippingMethod": "Express US",
+    "errorMessage": "Please fill out this field." 
+  },
+  "Should display an error - City empty": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W",
+      "size": 34
+    },
+    "customer": {
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "shippingMethod": "Express US",
+    "errorMessage": "Please fill out this field." 
+  },
+  "Should display an error - Zipcode empty": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W",
+      "size": 34
+    },
+    "customer": {
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "shippingMethod": "Express US",
+    "errorMessage": "Please fill out this field." 
+  },
+  "Should display an error - Phone empty": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W",
+      "size": 34
+    },
+    "customer": {
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001"
+        }
+      }
+    },
+    "shippingMethod": "Express US",
+    "errorMessage": "Please fill out this field." 
+  },
+  "Should display an error - Country empty": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W",
+      "size": 34
+    },
+    "customer": {
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "shippingMethod": "Express US",
+    "errorMessage": "This field is required" 
+  },
+  "Should display an error - State empty": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W",
+      "size": 34
+    },
+    "customer": {
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "shippingMethod": "Express US",
+    "errorMessage": "This field is required" 
   }
 }
