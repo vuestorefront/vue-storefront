@@ -12,7 +12,7 @@ All integrations created and maintained by the Core Team and our partners you ca
 
 If you didn't find the integration you were looking for, you can create your own.
 
-Depending on what kind of integrations you want to build you should familiarize yourself with **Building Integration** section. Especially integration guide for [eCommerce](../integrate/integration-guide.html) and [CMS](../integrate/cms.html).
+Depending on the kind of integrations you want to build, you should familiarize yourself with **Building Integration** section. Especially integration guide for [eCommerce](../integrate/integration-guide.html) and [CMS](../integrate/cms.html) platforms.
 
 **eCommerce** section will guide you through: 
 - [introduction](../integrate/integration-guide.html#introduction)
