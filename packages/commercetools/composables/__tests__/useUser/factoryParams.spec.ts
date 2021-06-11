@@ -37,23 +37,24 @@ const context = {
 
 describe('[commercetools-composables] factoryParams', () => {
   it('load return customer data', async () => {
-
     (context.$ct.api.getMe as jest.Mock).mockReturnValueOnce({ data: { me: { customer } }});
-    expect(await useUserFactoryParams.load(context as any)).toEqual(customer);
+    expect(await useUserFactoryParams.load(context as any, {} as any)).toEqual(customer);
+    expect(context.$ct.api.getMe).toHaveBeenNthCalledWith(1, {customer: true}, undefined);
 
     (context.$ct.api.getMe as jest.Mock).mockReturnValueOnce({ data: { me: { customer: null } }});
-    expect(await useUserFactoryParams.load(context)).toEqual(null);
+    expect(await useUserFactoryParams.load(context, {customQuery: {key: 'customQuery'}})).toEqual(null);
+    expect(context.$ct.api.getMe).toHaveBeenNthCalledWith(2, {customer: true}, {key: 'customQuery'});
   });
 
   it('does not loading the user without user session', async () => {
     (context.$ct.api.isGuest as any).mockReturnValue(true);
-    expect(await useUserFactoryParams.load(context as any)).toEqual(null);
+    expect(await useUserFactoryParams.load(context as any, {} as any)).toEqual(null);
   });
 
   it('logOut method calls API log out method', async () => {
     (context.$ct.api.createCart as jest.Mock).mockReturnValueOnce({ data: { cart: {} }});
     (useCart as jest.Mock).mockReturnValueOnce({refreshCart: refreshCartMock});
-    await useUserFactoryParams.logOut(context as any);
+    await useUserFactoryParams.logOut(context as any, {currentUser: {key: 'user'} as any});
     expect(context.$ct.api.customerSignOut).toHaveBeenCalled();
   });
 
