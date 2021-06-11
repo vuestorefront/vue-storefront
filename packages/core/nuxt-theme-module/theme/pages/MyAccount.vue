@@ -60,8 +60,8 @@ import OrderHistory from './MyAccount/OrderHistory';
 import MyReviews from './MyAccount/MyReviews';
 import {
   mapMobileObserver,
-  unMapMobileObserver,
-} from "@storefront-ui/vue/src/utilities/mobile-observer.js";
+  unMapMobileObserver
+} from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 
 export default {
   name: 'MyAccount',
@@ -82,7 +82,7 @@ export default {
   setup(props, context) {
     const { $router, $route } = context.root;
     const { logout } = useUser();
-    const isMobile = computed(() => mapMobileObserver().isMobile.get())
+    const isMobile = computed(() => mapMobileObserver().isMobile.get());
     const activePage = computed(() => {
       const { pageName } = $route.params;
 
@@ -91,7 +91,7 @@ export default {
       } else if (!isMobile.value) {
         return 'My profile';
       } else {
-        return ''
+        return '';
       }
     });
 
@@ -106,8 +106,8 @@ export default {
     };
 
     onBeforeUnmount(() => {
-      unMapMobileObserver()
-    })
+      unMapMobileObserver();
+    });
 
     return { changeActivePage, activePage };
   },
