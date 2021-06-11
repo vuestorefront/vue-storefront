@@ -1,16 +1,27 @@
 {
   "Should successfully place an order as a guest": {
     "customer": {
-      "firstName": "John",
-      "lastName": "Doe",
       "address": {
         "shipping": {
+          "firstName": "John",
+          "lastName": "Doe",
           "streetName": "1 VueStorefront Rd.",
           "apartment": "23",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
-          "zipcode": "90210",
+          "postalCode": "90210",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "John",
+          "lastName": "Doe",
+          "streetName": "1 VueStorefront Rd.",
+          "apartment": "23",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "United States",
+          "postalCode": "90210",
           "phone": "+12345678910"
         }
       }
@@ -23,12 +34,25 @@
       "password": "P@ssw0rd",
       "address": {
         "shipping": {
+          "firstName": "John",
+          "lastName": "Doe",
           "streetName": "1 VueStorefront Rd.",
           "apartment": "23",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
-          "zipcode": "90210",
+          "postalCode": "90210",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "John",
+          "lastName": "Doe",
+          "streetName": "1 VueStorefront Rd.",
+          "apartment": "23",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "United States",
+          "postalCode": "90210",
           "phone": "+12345678910"
         }
       }
