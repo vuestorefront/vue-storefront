@@ -18,10 +18,10 @@ Depending on the kind of integrations you want to build, you should familiarize 
 - [introduction](../integrate/integration-guide.html#introduction)
 - [scope](../integrate/integration-guide.html#scope)
 - [getting started](../integrate/integration-guide.html#getting-started)
-- [how to creating an api-client](../integrate/integration-guide.html#creating-an-api-client)
-- [how to creating composables](../integrate/integration-guide.html#creating-composables)
-- [how to creating getters](../integrate/integration-guide.html#creating-getters)
-- [how to creating a theme](../integrate/integration-guide.html#creating-a-theme)
+- [creating an api-client](../integrate/integration-guide.html#creating-an-api-client)
+- [creating composables](../integrate/integration-guide.html#creating-composables)
+- [creating getters](../integrate/integration-guide.html#creating-getters)
+- [creating a theme](../integrate/integration-guide.html#creating-a-theme)
 
 **CMS** section will guide you through:
 - [configuration / content fetching / content rendering](../integrate/cms.html#what-is-needed)
