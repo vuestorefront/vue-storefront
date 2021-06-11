@@ -1,10 +1,10 @@
-import Vue from 'vue';
+import Vue, { PropType } from 'vue';
 import { getStoryblokQueryParams } from '../helpers'
 
 export default Vue.extend({
   props: {
     item: {
-      type: Object,
+      type: Object as PropType<Record<string, any>>,
       required: true
     }
   },
@@ -14,17 +14,17 @@ export default Vue.extend({
     }
   },
   computed: {
-    isStoryblokPreview () {
+    isStoryblokPreview (): boolean {
       const { id } = getStoryblokQueryParams(this.$route)
       return !!id
     },
-    cssClasses() {
+    cssClasses (): string {
       if (!this.item.css_classes) {
         return '';
       }
       return this.item.css_classes;
     },
-    styles () {
+    styles (): string {
       let styles = '';
       if (this.item.alignment) {
         styles += 'text-align: ' + this.item.alignment.toString() + ';';
