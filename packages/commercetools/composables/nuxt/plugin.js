@@ -4,7 +4,6 @@ import { integrationPlugin } from '@vue-storefront/core'
 const moduleOptions = <%= serialize(options) %>;
 
 export default integrationPlugin(({ app, integration }) => {
-  // Token
   const onTokenChange = (newToken) => {
     try {
       const currentToken = app.$cookies.get(CT_TOKEN_COOKIE_NAME);
@@ -25,7 +24,11 @@ export default integrationPlugin(({ app, integration }) => {
     return app.$cookies.get(CT_TOKEN_COOKIE_NAME);
   };
 
-  // Stores
+  /**
+   * changeCurrentStore
+   * @param {string} id
+   * @returns {void} 
+   */
   const changeCurrentStore = (id) => {
     app.$cookies.set(CT_STORE_COOKIE_NAME, id);
   }
@@ -39,7 +42,7 @@ export default integrationPlugin(({ app, integration }) => {
         onTokenRead,
         onTokenRemove
       },
-      stores: {
+      storeService: {
         changeCurrentStore
       }
     }

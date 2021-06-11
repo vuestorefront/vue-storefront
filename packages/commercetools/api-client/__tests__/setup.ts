@@ -23,7 +23,7 @@ export default createApiClient({
     onTokenChange: jest.fn(),
     onTokenRemove: jest.fn()
   },
-  stores: {
+  storeService: {
     changeCurrentStore: jest.fn()
   }
 } as any);

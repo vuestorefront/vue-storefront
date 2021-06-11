@@ -6,7 +6,7 @@ export const defaultSettings = {
     onTokenRead: () => '',
     onTokenRemove: () => {}
   },
-  stores: {
+  storeService: {
     changeCurrentStore: () => {}
   },
   cookies: {

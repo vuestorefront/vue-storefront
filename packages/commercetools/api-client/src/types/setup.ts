@@ -43,7 +43,7 @@ export interface Auth {
   onTokenRemove?: () => void;
 }
 
-export interface Stores {
+export interface StoreService {
   changeCurrentStore: (id: string) => void
 }
 
@@ -61,7 +61,7 @@ export interface SetupConfig<TCacheShape> {
   store: string;
   cookies?: CookiesConfig;
   auth?: Auth;
-  stores?: Stores;
+  storeService?: StoreService;
   forceToken?: boolean;
 }
 
@@ -85,7 +85,7 @@ export interface Config<T = any> {
   store: string;
   cookies: CookiesConfig;
   auth?: Auth;
-  stores?: Stores;
+  storeService?: StoreService;
   forceToken?: boolean;
   handleIsTokenUserSession: (token: Token) => boolean;
 }

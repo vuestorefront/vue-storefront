@@ -50,12 +50,12 @@ describe('[commercetools-composables] useStore factoryParams', () => {
       return ({ location } as unknown) as Window & typeof globalThis;
     });
 
-    const stores = {
+    const storeService = {
       changeCurrentStore: jest.fn()
     };
 
     const config = {
-      stores
+      storeService
     };
 
     const $ct = {
@@ -73,7 +73,7 @@ describe('[commercetools-composables] useStore factoryParams', () => {
     };
 
     expect(await useStoreFactoryParams.change((context as unknown) as Context, (params as unknown) as UseStoreFactoryChangeParams)).toBe(null);
-    expect(stores.changeCurrentStore).toHaveBeenCalledWith(STORES_ID);
+    expect(storeService.changeCurrentStore).toHaveBeenCalledWith(STORES_ID);
     expect(location.reload).toHaveBeenCalled();
   });
 });

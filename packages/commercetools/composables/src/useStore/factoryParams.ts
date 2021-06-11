@@ -21,7 +21,7 @@ async function load (context: Context, params): Promise<StoresData> {
 
 // Change param
 async function change (context: Context, { next }: UseStoreFactoryChangeParams): Promise<StoresData> {
-  context.$ct.config.stores.changeCurrentStore(next?.item?.id);
+  context.$ct.config.storeService.changeCurrentStore(next?.item?.id);
   window.location.reload();
   return null as StoresData;
 }
