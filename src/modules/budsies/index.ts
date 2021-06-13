@@ -1,5 +1,6 @@
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import addonFactory from './factories/addon.factory';
+import nl2br from './filters/nl2br';
 import Addon from './models/addon.model';
 import { ProductValue } from './models/product.value';
 import ErrorConverterService from './services/error-converter.service';
@@ -16,6 +17,7 @@ export const BudsiesModule: StorefrontModule = async function ({ store }) {
 export {
   Addon,
   addonFactory,
+  nl2br,
   Dictionary,
   ObjectBuilderInterface,
   ErrorConverterService,
