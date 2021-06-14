@@ -43,18 +43,6 @@ export default Blok.extend({
         result.push(classPrefix + prefix + value);
       }
 
-      if (this.item.width === 'narrow') {
-        result.push('-narrow');
-      }
-
-      if (this.item.display === 'mobile-only') {
-        result.push('-mobile-only');
-      }
-
-      if (this.item.display === 'mobile-hidden') {
-        result.push('-mobile-hidden');
-      }
-
       if (this.isCardsMode) {
         result.push('-cards-mode');
       }
@@ -79,6 +67,8 @@ export default Blok.extend({
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/shared/styles/helpers/breakpoints";
+@import "./mixins";
+
 .grid {
   $sizes: (
     'sm': 480px,
@@ -87,50 +77,33 @@ export default Blok.extend({
     'xlg': $desktop-l-min,
   );
 
+  $default-grid-gap: 10px;
+
   display: grid;
+  grid-gap: $default-grid-gap;
 
   @for $i from 1 through 12 {
-    &.-columns-#{$i} {
-      grid-template-columns: repeat($i, 1fr);
+      &.-columns-#{$i} {
+        grid-template-columns: repeat($i, 1fr);
+      }
     }
-  }
 
-  @each $size, $breakpoint in $sizes {
-    @media (min-width: $breakpoint) {
-      @for $i from 1 through 12 {
-        &.-columns-#{$size}-#{$i} {
-          grid-template-columns: repeat($i, 1fr);
+    @each $size, $breakpoint in $sizes {
+      @media (min-width: $breakpoint) {
+        @for $i from 1 through 12 {
+          &.-columns-#{$size}-#{$i} {
+            grid-template-columns: repeat($i, 1fr);
+          }
         }
       }
     }
-  }
-
-  &.-narrow {
-    $padding-value: calc((100vw - 960px) / 2);
-    padding-left: $padding-value;
-    padding-right: $padding-value;
-  }
 
   &.-cards-mode {
-    grid-gap: 10px;
-    margin-top: 10px;
-
     > ._item {
       padding: 15px;
     }
   }
 
-  @include for-desktop {
-    &.-mobile-only {
-      display: none !important;
-    }
-  }
-
-  @include for-mobile {
-    &.-mobile-hidden {
-      display: none !important;
-    }
-  }
-
+  @include display-property-handling;
 }
 </style>

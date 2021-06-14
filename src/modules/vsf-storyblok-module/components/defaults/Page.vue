@@ -5,11 +5,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Blok } from '..'
 
-export default {
-  extends: Blok,
+export default Blok.extend({
   name: 'PageBlok'
-}
+
+})
 </script>

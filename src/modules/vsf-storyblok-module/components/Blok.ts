@@ -21,6 +21,14 @@ export default Vue.extend({
     cssClasses (): string[] {
       const result: string[] = [];
 
+      if (this.item.display === 'mobile-only') {
+        result.push('-mobile-only');
+      }
+
+      if (this.item.display === 'mobile-hidden') {
+        result.push('-mobile-hidden');
+      }
+
       if (this.item.css_classes) {
         const classes = this.item.css_classes.split(' ');
         result.push(...classes);

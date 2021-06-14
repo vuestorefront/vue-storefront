@@ -4,6 +4,8 @@ export const components = {
   block: () => import('./defaults/Block.vue'),
   block_reference: () => import('./defaults/BlockReference.vue'),
   grid: () => import('./defaults/Grid.vue'),
+  column: () => import('./defaults/Column.vue'),
+  page_section: () => import('./defaults/PageSection.vue'),
   tile: () => import('./defaults/Tile.vue')
 }
 
