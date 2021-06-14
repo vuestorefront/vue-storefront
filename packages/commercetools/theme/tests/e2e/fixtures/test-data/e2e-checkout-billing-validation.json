@@ -34,6 +34,44 @@
     },
     "shippingMethod": "Express US"
   },
+  "Should successfully save address - registered customer": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W",
+      "size": 34
+    },
+    "customer": {
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "password": "vuestorefront",
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "shippingMethod": "Express US"
+  },
   "Should display an error - First Name empty": {
     "product": {
       "name": "Shirt Aspesi white M",

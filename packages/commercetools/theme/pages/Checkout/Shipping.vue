@@ -200,6 +200,7 @@
         </ValidationProvider>
       </div>
       <SfButton
+        v-e2e="'shipping-add-new-address'"
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
         type="button"

@@ -6,24 +6,28 @@ class Checkout extends Base {
 
   protected step = ''
 
+  get addNewAddressButton(): Cypress.Chainable {
+    return el(`${this.step}-add-new-address`);
+  }
+
   get firstName(): Cypress.Chainable {
-    return el(`${this.step}-firstName`);
+    return el(`${this.step}-firstName`, 'input');
   }
 
   get lastName(): Cypress.Chainable {
-    return el(`${this.step}-lastName`);
+    return el(`${this.step}-lastName`, 'input');
   }
 
   get streetName(): Cypress.Chainable {
-    return el(`${this.step}-streetName`);
+    return el(`${this.step}-streetName`, 'input');
   }
 
   get apartment(): Cypress.Chainable {
-    return el(`${this.step}-apartment`);
+    return el(`${this.step}-apartment`, 'input');
   }
 
   get city(): Cypress.Chainable {
-    return el(`${this.step}-city`);
+    return el(`${this.step}-city`, 'input');
   }
 
   get state(): Cypress.Chainable {
@@ -35,23 +39,26 @@ class Checkout extends Base {
   }
 
   get zipcode(): Cypress.Chainable {
-    return el(`${this.step}-zipcode`);
+    return el(`${this.step}-zipcode`, 'input');
   }
 
   get phone(): Cypress.Chainable {
-    return el(`${this.step}-phone`);
+    return el(`${this.step}-phone`, 'input');
   }
 
   public fillForm(address: Address) {
-    if (address.firstName !== undefined) this.firstName.type(address.firstName);
-    if (address.lastName !== undefined) this.lastName.type(address.lastName);
-    if (address.streetName !== undefined) this.streetName.type(address.streetName);
-    if (address.apartment !== undefined) this.apartment.click().type(address.apartment);
-    if (address.city !== undefined) this.city.type(address.city);
+    if (address.firstName !== undefined) this.firstName.clear().type(address.firstName);
+    if (address.lastName !== undefined) this.lastName.clear().type(address.lastName);
+    if (address.streetName !== undefined) this.streetName.clear().type(address.streetName);
+    if (address.apartment !== undefined) {
+      this.apartment.parent().click();
+      this.apartment.clear().type(address.apartment);
+    }
+    if (address.city !== undefined) this.city.clear().type(address.city);
     if (address.country !== undefined) this.country.select(address.country);
     if (address.state !== undefined) this.state.select(address.state);
-    if (address.postalCode !== undefined) this.zipcode.type(address.postalCode);
-    if (address.phone !== undefined) this.phone.type(address.phone);
+    if (address.postalCode !== undefined) this.zipcode.clear().type(address.postalCode);
+    if (address.phone !== undefined) this.phone.clear().type(address.phone);
   }
 }
 
