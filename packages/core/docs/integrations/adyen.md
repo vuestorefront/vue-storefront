@@ -224,6 +224,8 @@ If the transaction is authorized, the server's controller for `payAndOrder`/`sub
 Adyen's module isn't compatible with [Checkout.com's module](https://github.com/vuestorefront/checkout-com).
 
 ## FAQ
+### How to debug?
+Open browser's `Network` tab. Each request related to the payment will have Commercetools Payment object in the response. You could look at `custom.fields.SOME_FIELD` to discover what has been sent to the Adyen and what was the response (or error!).
 ### Error: NotFound: URI not found: /<project_name>/carts/<cart_id>
 `ctApi.apiHost` property inside your `middleware.config.js` contains wrong path. It should be `https://<SHOP_DOMAIN>.com/` instead of `https://<SHOP_DOMAIN>.com/<project_name>/graphql`
 
@@ -236,3 +238,11 @@ For more information, see the 6th step of the [Adyen's installation guide](./ady
 
 ### Klarna Pay Later does not work for United States
 Klarna Pay Later is not supported in the United States. However, sometimes it is added when you enable Klarna in Adyen's dashboard. If you have this problem, contact Adyen's support to remove it.
+
+### Nothing happens after 3DS2 Auth in one environment but works in a different environment
+There might be a situation when you can finish 3DS2 Auth in the local environment. But it is impossible on staging. It simply means you've provided `http://localhost:3000` as an `origin` in the `middleware.config.js` instead of your staging's URL. 
+
+It can work properly only on provided `origin`.
+
+### Structure of DetailsRequest contains the following unknown fields...
+Update version of the both extension module and notification module. Just modify tag to the newest version in `extension.Dockerfile` and `notification.Dockerfile`.
