@@ -224,8 +224,11 @@ If the transaction is authorized, the server's controller for `payAndOrder`/`sub
 Adyen's module isn't compatible with [Checkout.com's module](https://github.com/vuestorefront/checkout-com).
 
 ## FAQ
-### How to debug?
-Open browser's `Network` tab. Each request related to the payment will have Commercetools Payment object in the response. You could look at `custom.fields.SOME_FIELD` to discover what has been sent to the Adyen and what was the response (or error!).
+
+### How to debug data flow?
+
+Open the` Network` tab in the browser's devtools. Each payment request will have commercetools [Payment object](https://docs.commercetools.com/api/projects/payments#payment) in the response. You can check `custom.fields.SOME_FIELD` to see what has data was sent to Adyen and what was the response (or error).
+
 ### Error: NotFound: URI not found: /<project_name>/carts/<cart_id>
 `ctApi.apiHost` property inside your `middleware.config.js` contains wrong path. It should be `https://<SHOP_DOMAIN>.com/` instead of `https://<SHOP_DOMAIN>.com/<project_name>/graphql`
 
