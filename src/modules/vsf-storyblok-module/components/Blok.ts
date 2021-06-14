@@ -50,29 +50,35 @@ export default Vue.extend({
       if (this.item.alignment) {
         result['text-align'] = this.item.alignment;
       }
-      if (this.item.margin_top) {
-        result['margin-top'] = this.item.margin_top + 'px';
-      }
-      if (this.item.margin_left) {
-        result['margin-left'] = this.item.margin_left + 'px';
-      }
-      if (this.item.margin_right) {
-        result['margin-right'] = this.item.margin_right + 'px';
-      }
-      if (this.item.margin_bottom) {
-        result['margin-bottom'] = this.item.margin_bottom + 'px';
-      }
-      if (this.item.padding_top) {
-        result['padding-top'] = this.item.padding_top + 'px';
-      }
-      if (this.item.padding_left) {
-        result['padding-left'] = this.item.padding_left + 'px';
-      }
-      if (this.item.padding_right) {
-        result['padding-right'] = this.item.padding_right + 'px';
-      }
-      if (this.item.padding_bottom) {
-        result['padding-bottom'] = this.item.padding_bottom + 'px';
+
+      if ('spacing_settings' in this.item) {
+        const spacingSettings: Record<string, string | number | undefined> = this.item.spacing_settings;
+
+        const fields = [
+          'margin_top',
+          'margin_left',
+          'margin_right',
+          'margin_bottom',
+          'padding_top',
+          'padding_left',
+          'padding_right',
+          'padding_bottom'
+        ]
+
+        for (const field of fields) {
+          let value = spacingSettings[field];
+
+          if (value === '' || value === undefined) {
+            continue;
+          }
+
+          if (isNaN(value as any) === false) {
+            value += 'px';
+          }
+
+          const cssPropertyName = field.replace('_', '-');
+          result[cssPropertyName] = value.toString();
+        }
       }
 
       result = Object.assign(result, this.extraStyles);
