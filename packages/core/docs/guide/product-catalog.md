@@ -2,7 +2,7 @@
 
 There are two composables used to interact with the product catalog - `useProduct` and `useFacet`.
 
-`useProduct` allows loading products and their variants when some parameters like IDs, SKUs, or slug are already known. 
+`useProduct` allows loading products and their variants when some parameters like IDs, SKUs, or slugs are already known. 
 
 `useFacet` allows more complex queries where categories, search terms, filters, and other options can narrow down and sort the results.
 
@@ -14,8 +14,8 @@ Use the `search` method to fetch the product and its variants. The response is a
 
 ```vue
 <script>
-import { useProduct } from '{INTEGRATION}'
-import { onSSR } from '@vue-storefront/core'
+import { useProduct } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
 
 export default {
   setup () {
@@ -50,18 +50,18 @@ Use the `getFiltered` getter without the second parameter to get the list of all
 
 ```vue
 <script>
-import { productGetters } from '{INTEGRATION}'
+import { productGetters } from '{INTEGRATION}';
 
 export default {
   setup () {
     // Load products as shown in the first example above
 
-    const list = computed(() => {
+    const productList = computed(() => {
       return productGetters.getFiltered(products.value);
     });
 
     return {
-      list
+      productList
     };
   }
 }
@@ -76,7 +76,7 @@ Let's use the `getFiltered` getter again, but this time pass `{ master: true }` 
 
 ```vue
 <script>
-import { productGetters } from '{INTEGRATION}'
+import { productGetters } from '{INTEGRATION}';
 
 export default {
   setup () {
@@ -104,7 +104,7 @@ To only get the products with specific attributes, pass the `{ attributes }` obj
 
 ```vue
 <script>
-import { productGetters } from '{INTEGRATION}'
+import { productGetters } from '{INTEGRATION}';
 
 export default {
   setup () {
@@ -137,8 +137,8 @@ Use the `search` method to fetch the products. The response is available in the 
 
 ```vue
 <script>
-import { useFacet } from '{INTEGRATION}'
-import { onSSR } from '@vue-storefront/core'
+import { useFacet } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
 
 export default {
   setup () {
@@ -172,8 +172,8 @@ Once data is loaded using `useFacet`, access it using `facetGetters`. Get the da
 
 ```vue
 <script>
-import { facetGetters } from '{INTEGRATION}'
-import { onSSR } from '@vue-storefront/core'
+import { facetGetters } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
 
 export default {
   setup () {
