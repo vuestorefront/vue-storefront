@@ -3,7 +3,6 @@ node_modules/
 dist/
 *.icloud
 npm-debug.log
-.vscode/
 .idea/
 config/local.json
 var
