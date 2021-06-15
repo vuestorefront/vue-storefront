@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.3
+
+-  Fix subtotal prices displayed in CartSidebar.vue ([#5932](https://github.com/vuestorefront/vue-storefront/pull/5932)) - [Filip Sobol](https://github.com/filipsobol)
+
 ## 2.3.1
 
 -  Add args parameter to custom queries ([#5854](https://github.com/vuestorefront/vue-storefront/issues/5854)) - [andrzejewsky](https://github.com/andrzejewsky)
