@@ -44,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Error with unknown theme/index.js alias - @Fifciuu (https://github.com/vuestorefront/vue-storefront/pull/5813)
 - ESLint warnings caused by the double import - @lukaszjedrasik
 - Fix Order History Pagination - @AishwaryShrivastav / @lukaszjedrasik ([#4599](https://github.com/vuestorefront/vue-storefront/issues/4599))
+- Fix for URL is updated with properly child SKU when filters are changed - @lukaszjedrasik ([#5981](https://github.com/vuestorefront/vue-storefront/issues/5981))
 
 ### Changed / Improved
 
