@@ -1,9 +1,9 @@
-import { Context, CustomQuery } from '@vue-storefront/core';
-import { StoresData, StoresItem } from '../types';
+import { Context, CustomQuery, AgnosticStore } from '@vue-storefront/core';
+import { StoresData } from '../types';
 
 // Types
 export interface ChangeParam {
-  item: StoresItem;
+  item: AgnosticStore;
 }
 
 export interface UseStoreFactoryChangeParams {

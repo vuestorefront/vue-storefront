@@ -763,7 +763,7 @@ export interface UseStore<STORES, CHANGE_PARAMS> {
   (): UseStoreInterface<STORES, CHANGE_PARAMS>;
 }
 
-export interface UseStoreGetters<STORES, STORE_ITEM> {
-  getItems(stores: STORES, ...xs: any[]): STORE_ITEM[];
-  getSelected(stores: STORES): STORE_ITEM
+export interface UseStoreGetters<STORES, CRITERIA = any> {
+  getItems(stores: STORES, criteria?: CRITERIA): AgnosticStore[];
+  getSelected(stores: STORES): AgnosticStore | undefined
 }
