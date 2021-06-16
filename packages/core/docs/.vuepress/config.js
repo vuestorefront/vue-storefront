@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Vue Storefront Next',
+  title: 'Vue Storefront 2',
   base: '/v2/',
   description: 'Vue Storefront 2 documentation',
   head: [
