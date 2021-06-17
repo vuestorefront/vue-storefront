@@ -1,4 +1,4 @@
-import useForgotPassword from '../../src/useForgotPassword';
+import { useForgotPassword } from '../../src/useForgotPassword';
 
 jest.mock('@vue-storefront/core', () => ({
   useForgotPasswordFactory: (params) => () => params
