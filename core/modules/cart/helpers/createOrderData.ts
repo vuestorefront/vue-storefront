@@ -35,7 +35,8 @@ const createOrderData = ({
       lastname: shippingDetails.lastName,
       city: shippingDetails.city,
       postcode: shippingDetails.zipCode,
-      street: [shippingDetails.streetAddress]
+      street: [shippingDetails.streetAddress],
+      region: shippingDetails.state ? shippingDetails.state : undefined
     },
     billingAddress: {
       firstname: paymentDetails.firstName,
