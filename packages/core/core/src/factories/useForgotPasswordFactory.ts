@@ -2,7 +2,7 @@ import { CustomQuery, Context, FactoryParams, UseForgotPasswordErrors, UseForgot
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
-interface ChangePasswordParams {
+interface SetNewPasswordParams {
   tokenValue: string;
   newPassword: string;
 }
@@ -13,7 +13,7 @@ interface ResetPasswordParams {
 
 export interface UseForgotPasswordFactoryParams<TOKEN, RESULT> extends FactoryParams {
   resetPassword: (context: Context, params: ResetPasswordParams & { customQuery?: CustomQuery }) => Promise<TOKEN>;
-  changePassword: (context: Context, params: ChangePasswordParams & { customQuery?: CustomQuery }) => Promise<RESULT>;
+  setNewPassword: (context: Context, params: SetNewPasswordParams & { customQuery?: CustomQuery }) => Promise<RESULT>;
 }
 
 export function useForgotPasswordFactory<TOKEN, RESULT>(
@@ -43,16 +43,16 @@ export function useForgotPasswordFactory<TOKEN, RESULT>(
       }
     };
 
-    const change = async (changePasswordParams: ChangePasswordParams) => {
-      Logger.debug('useForgotPassword/change');
+    const setNew = async (setNewPasswordParams: SetNewPasswordParams) => {
+      Logger.debug('useForgotPassword/setNew');
 
       try {
         loading.value = true;
-        result.value = await _factoryParams.changePassword(changePasswordParams);
+        result.value = await _factoryParams.setNewPassword(setNewPasswordParams);
         error.value.result = null;
       } catch (err) {
         error.value.result = err;
-        Logger.debug('useForgotPassword/change', err);
+        Logger.debug('useForgotPassword/setNew', err);
       } finally {
         loading.value = false;
       }
@@ -60,7 +60,7 @@ export function useForgotPasswordFactory<TOKEN, RESULT>(
 
     return {
       reset,
-      change,
+      setNew,
       result: computed(() => result.value),
       token: computed(() => token.value),
       loading: computed(() => loading.value),

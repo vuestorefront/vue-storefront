@@ -25,7 +25,7 @@ const customerResetPassword = async (context, tokenValue: string, newPassword: s
       fetchPolicy: 'no-cache'
     }) as ResetPasswordResponse;
   } catch (error) {
-    Logger.error(`Cannot change password after reset. Error: ${error}`);
+    Logger.error(`Cannot set new password after reset. Error: ${error}`);
   }
 };
 

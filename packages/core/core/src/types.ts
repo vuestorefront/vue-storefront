@@ -37,7 +37,7 @@ export interface UseForgotPassword<TOKEN, RESULT> {
   token: ComputedProperty<TOKEN>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseForgotPasswordErrors>;
-  change(params: ComposableFunctionArgs<{ tokenValue: string, newPassword: string }>): Promise<void>;
+  setNew(params: ComposableFunctionArgs<{ tokenValue: string, newPassword: string }>): Promise<void>;
   reset(params: ComposableFunctionArgs<{ email: string }>): Promise<void>;
 }
 

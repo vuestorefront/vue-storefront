@@ -8,8 +8,8 @@ const params: UseForgotPasswordFactoryParams<any, any> = {
     return {};
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  changePassword: async (context: Context, { tokenValue, newPassword, customQuery }) => {
-    console.log('Mocked: changePassword');
+  setNewPassword: async (context: Context, { tokenValue, newPassword, customQuery }) => {
+    console.log('Mocked: setNewPassword');
     return {};
   }
 };

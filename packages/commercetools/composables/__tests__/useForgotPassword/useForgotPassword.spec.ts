@@ -42,10 +42,10 @@ describe('[commercetools-composables] useForgotPassword', () => {
     expect(response).toEqual(mockedStringValue);
     expect(context.$ct.api.customerCreatePasswordResetToken).toBeCalledWith('xxx1', undefined);
   });
-  it('changes password after reset', async () => {
-    const { changePassword } = useForgotPassword() as any;
+  it('sets new password after reset', async () => {
+    const { setNewPassword } = useForgotPassword() as any;
 
-    const response = await changePassword(context, { tokenValue: mockedStringValue, newPassword: mockedStringValue });
+    const response = await setNewPassword(context, { tokenValue: mockedStringValue, newPassword: mockedStringValue });
 
     const mockedFalseValueAfterChangingPassword = false;
 

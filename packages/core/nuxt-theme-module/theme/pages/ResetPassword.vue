@@ -13,7 +13,7 @@
     </template>
       <div v-if="!isPasswordChanged">
         <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
-          <form class="form" @submit.prevent="handleSubmit(handlePasswordChange)">
+          <form class="form" @submit.prevent="handleSubmit(setNewPassword)">
             <ValidationProvider rules="required" v-slot="{ errors }">
               <SfInput
                 v-e2e="'login-modal-password'"
@@ -92,21 +92,21 @@ export default {
     ValidationObserver
   },
   setup(props, context) {
-    const { change, result, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
+    const { setNew, result, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
     const isPasswordChanged = ref(false);
     const passwordMatchError = ref(false);
     const form = ref({});
 
     const token = context.root.$route.query.token;
 
-    const handlePasswordChange = async () => {
+    const setNewPassword = async () => {
       passwordMatchError.value = false;
       if (form.value.password !== form.value.repeatPassword) {
         passwordMatchError.value = 'Passwords do not match';
         return;
       }
 
-      await change({ tokenValue: token, newPassword: form.value.password });
+      await setNew({ tokenValue: token, newPassword: form.value.password });
 
       if (result.value) {
         isPasswordChanged.value = true;
@@ -116,7 +116,7 @@ export default {
     return {
       isPasswordChanged,
       form,
-      handlePasswordChange,
+      setNewPassword,
       forgotPasswordLoading,
       forgotPasswordError,
       passwordMatchError

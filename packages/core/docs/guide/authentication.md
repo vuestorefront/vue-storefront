@@ -167,7 +167,7 @@ export default {
 
 ```vue
 <template>
-  <form @submit.prevent="change({ tokenValue: <TOKEN_FROM_URL>, newPassword: form.value.password })">
+  <form @submit.prevent="setNew({ tokenValue: <TOKEN_FROM_URL>, newPassword: form.value.password })">
     <!-- form fields -->
     <button type="submit" :disabled="loading">Save Password</button>
   </form>
@@ -180,11 +180,11 @@ import { ref } from '@vue/composition-api';
 
 export default {
   setup () {
-    const { change, result, loading } = useForgotPassword();
+    const { setNew, result, loading } = useForgotPassword();
     const form = ref({});
 
     return {
-      reset,
+      setNew,
       form,
       loading
     }

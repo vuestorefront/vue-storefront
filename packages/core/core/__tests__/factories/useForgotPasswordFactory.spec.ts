@@ -2,7 +2,7 @@ import { useForgotPasswordFactory } from '../../src/factories';
 
 const factoryParams = {
   resetPassword: jest.fn(),
-  changePassword: jest.fn()
+  setNewPassword: jest.fn()
 };
 
 const useForgotPassword = useForgotPasswordFactory(factoryParams);
@@ -44,18 +44,18 @@ describe('[CORE - factories] useForgotPassword', () => {
       });
     });
     describe('change', () => {
-      it('return registered user', async () => {
+      it('sets new password', async () => {
         const mockedResult = true;
-        factoryParams.changePassword.mockReturnValueOnce(mockedResult);
-        await useForgotPasswordMethods.change({ tokenValue: '1234', newPassword: '1234' });
+        factoryParams.setNewPassword.mockReturnValueOnce(mockedResult);
+        await useForgotPasswordMethods.setNew({ tokenValue: '1234', newPassword: '1234' });
         expect(useForgotPasswordMethods.result.value).toEqual(mockedResult);
       });
       it('throws error', async () => {
         const err = new Error('test-568-5687565');
-        factoryParams.changePassword.mockImplementationOnce(() => {
+        factoryParams.setNewPassword.mockImplementationOnce(() => {
           throw err;
         });
-        await useForgotPasswordMethods.change('' as any);
+        await useForgotPasswordMethods.setNew('' as any);
         expect(useForgotPasswordMethods.error.value.result).toBe(err);
       });
       it('finally loading go to false', () => {

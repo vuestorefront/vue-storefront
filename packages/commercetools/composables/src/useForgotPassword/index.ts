@@ -16,7 +16,7 @@ const params: UseForgotPasswordFactoryParams<any, any> = {
     }
     return token;
   },
-  changePassword: async (context: Context, { tokenValue, newPassword, customQuery }) => {
+  setNewPassword: async (context: Context, { tokenValue, newPassword, customQuery }) => {
     const response = await context.$ct.api.customerResetPassword(tokenValue, newPassword, customQuery);
     return Boolean(response?.data?.customerResetPassword?.id);
   }

@@ -25,14 +25,14 @@ type CustomQuery = {
 }
 ```
 
-- `change` - function used to set new user password after reset. When invoked, it requests data from the API and populates `result` property. This method accepts a single params object. The `params` has the following option:
+- `setNew` - function used to set new user password after reset. When invoked, it requests data from the API and populates `result` property. This method accepts a single params object. The `params` has the following option:
 
-  - `params: ChangePasswordParams`
+  - `params: SetNewPasswordParams`
   
   - `customQuery?: CustomQuery`
 
 ```typescript
-interface ChangePasswordParams {
+interface SetNewPasswordParams {
     tokenValue: string;
     newPassword: string;
 }
@@ -71,7 +71,7 @@ Generating reset password token and changing user password.
   </form>
 
   <!-- Change user password -->
-  <form @submit.prevent="change({ tokenValue: token, newPassword: form.value.password })">
+  <form @submit.prevent="setNew({ tokenValue: token, newPassword: form.value.password })">
     <!-- form fields -->
     <button type="submit" :disabled="loading">Save Password</button>
   </form>
@@ -84,14 +84,14 @@ import { ref } from '@vue/composition-api';
 
 export default {
   setup(_, context) {
-    const { reset, change, result, loading } = useForgotPassword();
+    const { reset, setNew, result, loading } = useForgotPassword();
     const form = ref({});
 
     const token = context.root.$route.query.token
 
     return {
       reset,
-      change,
+      setNew,
       result,
       token,
       loading,
