@@ -13,7 +13,8 @@ describe('[commercetools-api-client] getOrders', () => {
       where: null,
       limit: 10,
       offset: 0,
-      sort: undefined
+      sort: undefined,
+      currency: 'USD'
     };
     params = {
       limit: 10,

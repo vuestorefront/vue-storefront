@@ -33,4 +33,3 @@ export const mapConfigToSetupObject = ({ moduleOptions, app, additionalPropertie
 };
 
 export const CT_TOKEN_COOKIE_NAME = 'vsf-commercetools-token';
-export const CT_STORE_COOKIE_NAME = defaultConfig.cookies.storeCookieName;
