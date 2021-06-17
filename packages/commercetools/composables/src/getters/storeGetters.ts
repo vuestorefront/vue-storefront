@@ -31,6 +31,13 @@ function mapToAddress(address: Address): AgnosticAddress {
 function mapToLocale <T extends Localized>(localized: T): AgnosticLocale {
   return {
     code: localized.locale,
+
+    /**
+     * TODO
+     * CT GraphQL "LocalizedString" type does not provide locale label value.
+     * The default value is empty string to match the "AgnosticLocale" type.
+     * Maybe AgnosticLocale["label"] property should be optional?
+     */
     label: ''
   };
 }
