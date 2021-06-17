@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.3.4
+
+-  Make `register` params in `useUser` optional ([#5939](https://github.com/vuestorefront/vue-storefront/pull/5939)) - [Filip Sobol](https://github.com/filipsobol)
+,
+-  Make parameters `changePassword` in `useUser` optional ([#5943](https://github.com/vuestorefront/vue-storefront/pull/5943)) - [Filip Sobol](https://github.com/filipsobol)
+,
+-  Add plugin for creating locale, currency and country cookies ([#5953](https://github.com/vuestorefront/vue-storefront/pull/5953)) - [Filip Sobol](https://github.com/filipsobol)
+
+
 ## 2.3.3
 
 -  Add args parameter to custom queries ([#5854](https://github.com/vuestorefront/vue-storefront/issues/5854)) - [andrzejewsky](https://github.com/andrzejewsky)
