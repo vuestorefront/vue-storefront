@@ -36,7 +36,7 @@ describe('[CORE - factories] useForgotPassword', () => {
           throw err;
         });
         await useForgotPasswordMethods.reset('' as any);
-        await expect(useForgotPasswordMethods.error.value.result).toBe(err);
+        await expect(useForgotPasswordMethods.error.value.reset).toBe(err);
       });
 
       it('finally loading go to false', () => {
@@ -56,7 +56,7 @@ describe('[CORE - factories] useForgotPassword', () => {
           throw err;
         });
         await useForgotPasswordMethods.setNew('' as any);
-        expect(useForgotPasswordMethods.error.value.result).toBe(err);
+        expect(useForgotPasswordMethods.error.value.setNew).toBe(err);
       });
       it('finally loading go to false', () => {
         expect(useForgotPasswordMethods.loading.value).toBe(false);
