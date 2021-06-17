@@ -5,7 +5,7 @@
 `useForgotPassword` composable can be used to:
 
 * generate reset password token
-* change user password using token
+* set new password using token
 
 ## API
 
@@ -44,13 +44,14 @@ type CustomQuery = {
 
 - `token: string` - reactive data string containing the created token.
 
-- `loading: boolean` - reactive object containing information about loading state of `change` and `reset` methods.
+- `loading: boolean` - reactive object containing information about loading state of `setNew` and `reset` methods.
 
-- `error: UseForgotPasswordErrors` - reactive object containing the error message, if `change` or `reset` failed for any reason.
+- `error: UseForgotPasswordErrors` - reactive object containing the error message, if `setNew` or `reset` failed for any reason.
 
 ```ts
 interface UseForgotPasswordErrors {
-  result: Error;
+  reset: Error;
+  setNew: Error;
 }
 ```
 

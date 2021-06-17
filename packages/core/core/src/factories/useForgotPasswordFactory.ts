@@ -25,7 +25,8 @@ export function useForgotPasswordFactory<TOKEN, RESULT>(
     const loading = sharedRef(false, 'useProduct-loading');
     const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseForgotPasswordErrors> = sharedRef({
-      result: null
+      reset: null,
+      setNew: null
     }, 'useForgotPassword-error');
 
     const reset = async (resetPasswordParams: ResetPasswordParams) => {
@@ -34,9 +35,9 @@ export function useForgotPasswordFactory<TOKEN, RESULT>(
       try {
         loading.value = true;
         token.value = await _factoryParams.resetPassword(resetPasswordParams);
-        error.value.result = null;
+        error.value.reset = null;
       } catch (err) {
-        error.value.result = err;
+        error.value.reset = err;
         Logger.error('useForgotPassword/reset', err);
       } finally {
         loading.value = false;
@@ -49,9 +50,9 @@ export function useForgotPasswordFactory<TOKEN, RESULT>(
       try {
         loading.value = true;
         result.value = await _factoryParams.setNewPassword(setNewPasswordParams);
-        error.value.result = null;
+        error.value.setNew = null;
       } catch (err) {
-        error.value.result = err;
+        error.value.setNew = err;
         Logger.debug('useForgotPassword/setNew', err);
       } finally {
         loading.value = false;

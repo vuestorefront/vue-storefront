@@ -29,7 +29,8 @@ export interface UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS> {
 }
 
 export interface UseForgotPasswordErrors {
-  result: Error;
+  reset: Error;
+  setNew: Error;
 }
 
 export interface UseForgotPassword<TOKEN, RESULT> {
