@@ -1,6 +1,6 @@
 import { Context, UseForgotPassword, useForgotPasswordFactory, UseForgotPasswordFactoryParams } from '@vue-storefront/core';
 
-const params: UseForgotPasswordFactoryParams<any, any> = {
+const useForgotPasswordFactoryParams: UseForgotPasswordFactoryParams<any, any> = {
   resetPassword: async (context: Context, { email, customQuery }) => {
     const response = await context.$ct.api.customerCreatePasswordResetToken(email, customQuery);
     return response?.data?.customerCreatePasswordResetToken?.value;
@@ -11,6 +11,9 @@ const params: UseForgotPasswordFactoryParams<any, any> = {
   }
 };
 
-const useForgotPassword: () => UseForgotPassword<any, any> = useForgotPasswordFactory<any, any>(params);
+const useForgotPassword: () => UseForgotPassword<any, any> = useForgotPasswordFactory<any, any>(useForgotPasswordFactoryParams);
 
-export default useForgotPassword;
+export {
+  useForgotPassword,
+  useForgotPasswordFactoryParams
+};
