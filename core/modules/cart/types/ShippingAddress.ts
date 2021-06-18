@@ -3,5 +3,6 @@ export default interface ShippingAddress {
   lastname: string,
   city: string,
   postcode: string,
-  street: string[]
+  street: string[],
+  region?: string
 }
