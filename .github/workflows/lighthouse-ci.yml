@@ -8,7 +8,6 @@ jobs:
   lhci:
     name: Lighthouse CI Audit
     runs-on: ubuntu-latest
-    needs: prepare_dependencies
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
