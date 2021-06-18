@@ -55,7 +55,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
-    const register = async ({ user: providedUser }) => {
+    const register = async ({ user: providedUser } = { user: null }) => {
       Logger.debug('useUserFactory.register', providedUser);
       resetErrorValue();
 
@@ -101,7 +101,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
-    const changePassword = async (params) => {
+    const changePassword = async (params = { current: null, new: null }) => {
       Logger.debug('useUserFactory.changePassword', { currentPassword: mask(params.current), newPassword: mask(params.new) });
       resetErrorValue();
 

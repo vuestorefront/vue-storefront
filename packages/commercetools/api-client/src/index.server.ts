@@ -58,6 +58,16 @@ const parseToken = (rawToken) => {
   }
 };
 
+const getI18nConfig = (req, configuration) => {
+  const cookieSettings = configuration.cookies || defaultSettings.cookies;
+  const { currencyCookieName, countryCookieName, localeCookieName } = cookieSettings;
+  const locale = req.cookies[localeCookieName] || configuration.locale || defaultSettings.locale;
+  const currency = req.cookies[currencyCookieName] || configuration.currency || defaultSettings.currency;
+  const country = req.cookies[countryCookieName] || configuration.country || defaultSettings.country;
+
+  return { currency, country, locale };
+};
+
 const tokenExtension: ApiClientExtension = {
   name: 'tokenExtension',
   hooks: (req, res) => {
@@ -67,6 +77,7 @@ const tokenExtension: ApiClientExtension = {
     return {
       beforeCreate: ({ configuration }) => ({
         ...configuration,
+        ...getI18nConfig(req, configuration),
         auth: {
           onTokenChange: (newToken) => {
             if (!currentToken || currentToken.access_token !== newToken.access_token) {

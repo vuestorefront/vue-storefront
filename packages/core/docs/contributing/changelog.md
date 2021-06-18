@@ -1,8 +1,19 @@
 # Changelog
 
+
+## 2.3.4
+
+-  Make `register` params in `useUser` optional ([#5939](https://github.com/vuestorefront/vue-storefront/pull/5939)) - [Filip Sobol](https://github.com/filipsobol)
+,
+-  Make parameters `changePassword` in `useUser` optional ([#5943](https://github.com/vuestorefront/vue-storefront/pull/5943)) - [Filip Sobol](https://github.com/filipsobol)
+,
+-  Add plugin for creating locale, currency and country cookies ([#5953](https://github.com/vuestorefront/vue-storefront/pull/5953)) - [Filip Sobol](https://github.com/filipsobol)
+
+
 ## 2.3.3
 
 -  Fix subtotal prices displayed in CartSidebar.vue ([#5932](https://github.com/vuestorefront/vue-storefront/pull/5932)) - [Filip Sobol](https://github.com/filipsobol)
+
 
 ## 2.3.1
 
@@ -139,6 +150,9 @@ useUserOrders | useUserOrder | Renamed composable 'useUserOrders' to 'useUserOrd
 | Before | After | Comment | Module 
 | ------ | ----- | ------ | ------
 Dedicated composable for whole checkout | Dedicated composable for Shipping, Billing and Provider components | undefined | core,
+
+-  Fix subtotal prices displayed in CartSidebar.vue ([#5932](https://github.com/vuestorefront/vue-storefront/pull/5932)) - [Filip Sobol](https://github.com/filipsobol)
+
 - [BREAKING] fix naming convention for isOnCart and isOnWishlist to isInCart and isInWishlist ([#5592](https://github.com/vuestorefront/vue-storefront/issues/5592)) - [Jakub Andrzejewski](https://github.com/Baroshem)
 
 | Before | After | Comment | Module 

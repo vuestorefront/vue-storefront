@@ -6,6 +6,7 @@ describe('[commercetools-api-client] createCart', () => {
     const givenVariables = {
       acceptLanguage: ['en', 'de'],
       locale: 'en',
+      currency: 'USD',
       draft: {
         currency: 'USD',
         items: [],
@@ -50,7 +51,9 @@ describe('[commercetools-api-client] createCart', () => {
     const givenVariables = {
       acceptLanguage: ['en', 'de'],
       locale: 'en',
+      currency: 'USD',
       draft: {
+        country: 'US',
         currency: 'USD'
       }
     };
