@@ -1,0 +1,21 @@
+{
+  "Should successfully add product to cart - Category grid view": {
+    "product": {
+      "category": "women",
+      "name": "T-Shirt Moschino Cheap And Chic black"
+    }
+  },
+  "Should successfully add product to cart - Category list view": {
+    "product": {
+      "category": "men",
+      "name": "Sweater Polo Ralph Lauren pink"
+    }
+  },
+  "Should successfully add product to cart - Product details page": {
+    "product": {
+      "name": "Lace up shoes Tods dark blue",
+      "id": "eda439df-e655-493d-9fe9-b93c45144374",
+      "slug": "tods-laceupshoes-C20RE0U820-darkblue"
+    }
+  }
+}

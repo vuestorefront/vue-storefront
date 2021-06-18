@@ -74,6 +74,7 @@ export interface CategoryWhereSearch extends BaseSearch {
 
 export interface OrderWhereSearch extends BaseSearch {
   id?: string;
+  orderNumber?: string;
 }
 
 export interface FlowOptions {

@@ -29,7 +29,7 @@ export class Product extends Base {
   }
 
   get path() {
-    return `/p/${this.id}/${this._slug}`;
+    return `/p/${this.id}/${this.slug}`;
   }
 
   get addToCartButton(): Cypress.Chainable {

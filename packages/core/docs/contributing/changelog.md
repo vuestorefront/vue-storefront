@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.3
+
+-  Add args parameter to custom queries ([#5854](https://github.com/vuestorefront/vue-storefront/issues/5854)) - [andrzejewsky](https://github.com/andrzejewsky)
+,
+-  Make useUser `login` parameters optional ([#5868](https://github.com/vuestorefront/vue-storefront/pull/5868)) - [Filip Sobol](https://github.com/filipsobol)
+
+
 ## 2.3.0
 
 -  update Storefront UI version ([#5437](https://github.com/vuestorefront/vue-storefront/pull/5437/files)) - [Justyna Gieracka](https://github.com/justyna-13)
@@ -128,6 +135,9 @@ useUserOrders | useUserOrder | Renamed composable 'useUserOrders' to 'useUserOrd
 | Before | After | Comment | Module 
 | ------ | ----- | ------ | ------
 Dedicated composable for whole checkout | Dedicated composable for Shipping, Billing and Provider components | undefined | core,
+
+-  Fix subtotal prices displayed in CartSidebar.vue ([#5932](https://github.com/vuestorefront/vue-storefront/pull/5932)) - [Filip Sobol](https://github.com/filipsobol)
+
 - [BREAKING] fix naming convention for isOnCart and isOnWishlist to isInCart and isInWishlist ([#5592](https://github.com/vuestorefront/vue-storefront/issues/5592)) - [Jakub Andrzejewski](https://github.com/Baroshem)
 
 | Before | After | Comment | Module 

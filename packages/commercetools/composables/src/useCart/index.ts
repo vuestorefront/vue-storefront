@@ -14,7 +14,7 @@ const getCurrentCartDetails = async (context: Context, currentCart): Promise<Car
   return { id, version };
 };
 
-const params: UseCartFactoryParams<CartDetails, LineItem, ProductVariant, AgnosticCoupon> = {
+const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductVariant, AgnosticCoupon> = {
   load: async (context: Context, { customQuery }) => {
     const { $ct } = context;
 
@@ -66,4 +66,9 @@ const params: UseCartFactoryParams<CartDetails, LineItem, ProductVariant, Agnost
   }
 };
 
-export default useCartFactory<CartDetails, LineItem, ProductVariant, AgnosticCoupon>(params);
+const useCart = useCartFactory<CartDetails, LineItem, ProductVariant, AgnosticCoupon>(useCartFactoryParams);
+
+export {
+  useCart,
+  useCartFactoryParams
+};

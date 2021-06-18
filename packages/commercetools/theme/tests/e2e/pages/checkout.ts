@@ -1,7 +1,11 @@
-import { Customer } from '../types/customer';
+import { Customer } from '../types/types';
 import { el } from './utils/element';
 
 class Shipping {
+
+  get addresses(): Cypress.Chainable {
+    return el('shipping-addresses', '.sf-radio label');
+  }
 
   get firstName(): Cypress.Chainable {
     return el('firstName');

@@ -105,7 +105,7 @@
           :value="$n(totals.total, 'currency')"
           class="sf-property--full-width sf-property--large property summary__property-total"
         />
-        <VsfPaymentProviderMock @status="paymentReady = $event"/>
+        <VsfPaymentProviderMock />
         <SfCheckbox v-e2e="'terms'" v-model="terms" name="terms" class="summary__terms">
           <template #label>
             <div class="sf-checkbox__label">
@@ -145,6 +145,7 @@ import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, ca
 import { onSSR } from '@vue-storefront/core';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 import VsfPaymentProviderMock from '@/components/Checkout/VsfPaymentProviderMock';
+import { usePaymentProviderMock } from '@/composables/usePaymentProviderMock';
 
 export default {
   name: 'ReviewOrder',
@@ -164,8 +165,7 @@ export default {
   },
   setup() {
     const router = useRouter();
-    const paymentReady = ref(false);
-    const terms = ref(false);
+    const { status: paymentReady } = usePaymentProviderMock();
     const { cart, removeItem, load, setCart } = useCart();
     const { shipping: shippingDetails, load: loadShippingDetails } = useShipping();
     const { load: loadShippingProvider, state } = useShippingProvider();
@@ -174,6 +174,8 @@ export default {
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const { order, make, loading } = useMakeOrder();
+
+    const terms = ref(false);
 
     onSSR(async () => {
       await load();
