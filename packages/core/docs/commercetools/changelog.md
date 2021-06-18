@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.4
+
+-  Allow overriding of the `createCart` query ([#5950](https://github.com/vuestorefront/vue-storefront/pull/5950)) - [Filip Sobol](https://github.com/filipsobol)
+,
+-  Fix hardcoded `USD` currency in GraphQL query ([#5953](https://github.com/vuestorefront/vue-storefront/pull/5953)) - [Filip Sobol](https://github.com/filipsobol)
+
+
 ## 1.2.3
 
 -  Use cookies to read information about i18n ([#5919](https://github.com/vuestorefront/vue-storefront/pull/5919)) - [andrzejewsky](https://github.com/andrzejewsky)
