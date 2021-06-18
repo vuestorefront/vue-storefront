@@ -1,5 +1,6 @@
 # Changelog
 
+
 ## 1.2.4
 
 -  Allow overriding of the `createCart` query ([#5950](https://github.com/vuestorefront/vue-storefront/pull/5950)) - [Filip Sobol](https://github.com/filipsobol)

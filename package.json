@@ -5,6 +5,8 @@
     "node": ">=10.x"
   },
   "scripts": {
+    "build:core:docs": "cd packages/core/docs && yarn build:core",
+    "build:ct:docs": "cd packages/core/docs && yarn build:ct",
     "build:docs": "cd packages/core/docs && yarn build",
     "dev:docs": "cd packages/core/docs && yarn dev",
     "build:core": "cd packages/core/core && yarn build",
