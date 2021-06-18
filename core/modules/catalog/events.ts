@@ -56,11 +56,14 @@ export const filterChangedProduct = async (filterOption, store, router) => {
     EventBus.$emit('product-after-configure', { product: newProductConfiguration, configuration: configuration, selectedVariant: selectedVariant })
     routeProp = config.seo.useUrlDispatcher ? 'query' : 'params'
     if (router?.currentRoute?.[routeProp]?.childSku) {
-      router.push({ [routeProp]: {
-        ...router.currentRoute[routeProp],
-        childSku: selectedVariant.sku
-      }
-      })
+      router.push(
+        {
+          [routeProp]: {
+            ...router.currentRoute[routeProp],
+            childSku: selectedVariant.sku
+          }
+        }
+      )
     }
     return selectedVariant
   } else {
