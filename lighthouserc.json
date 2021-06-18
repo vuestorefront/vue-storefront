@@ -2,9 +2,13 @@
   "ci": {
     "upload": {
       "target": "temporary-public-storage"
+    },
+    "assert": {
+      "preset": "lighthouse:recommended"
+    },
+    "collect": {
+      "url": "http://localhost:3000/",
+      "startServerCommand": "cd packages/commercetools/theme && yarn start"
     }
-  },
-  "assert": {
-    "preset": "lighthouse:recommended"
   }
 }
