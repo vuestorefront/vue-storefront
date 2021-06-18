@@ -6,6 +6,8 @@
 -  Allow overriding of the `createCart` query ([#5950](https://github.com/vuestorefront/vue-storefront/pull/5950)) - [Filip Sobol](https://github.com/filipsobol)
 ,
 -  Fix hardcoded `USD` currency in GraphQL query ([#5953](https://github.com/vuestorefront/vue-storefront/pull/5953)) - [Filip Sobol](https://github.com/filipsobol)
+,
+- Phone number validation via awesome-phonenumber ([#5951](https://github.com/vuestorefront/vue-storefront/issues/5951)) - [Fifciu](https://github.com/Fifciu)
 
 
 ## 1.2.3

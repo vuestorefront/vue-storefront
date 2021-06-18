@@ -32,7 +32,13 @@
     "@nuxt/typescript-build": "^2.0.0",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-jest": "^24.1.0",
+    "cypress": "^6.6.0",
+    "cypress-tags": "^0.0.20",
+    "cypress-pipe": "^2.0.0",
     "jest": "^24.1.0",
+    "mochawesome": "^6.2.2",
+    "mochawesome-merge": "^4.2.0",
+    "mochawesome-report-generator": "^5.2.0",
     "vue-jest": "^4.0.0-0"
   }
 }

@@ -64,6 +64,27 @@ describe('[CORE - factories] useUserFactory', () => {
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);
       });
+      it('called with correct arguments', async () => {
+        const params = {
+          user: {key: 'user'}
+        };
+
+        useUserMethods.setUser(params);
+        await useUserMethods.updateUser(params);
+        expect(factoryParams.updateUser).toHaveBeenNthCalledWith(1, {
+          currentUser: params,
+          updatedUserData: params.user,
+          customQuery: undefined
+        });
+
+        useUserMethods.setUser(params);
+        await useUserMethods.updateUser({...params, customQuery: {key: 'customQuery'}});
+        expect(factoryParams.updateUser).toHaveBeenNthCalledWith(2, {
+          currentUser: params,
+          updatedUserData: params.user,
+          customQuery: {key: 'customQuery'}
+        });
+      });
     });
     describe('register', () => {
       it('return registered user', async () => {
@@ -82,6 +103,23 @@ describe('[CORE - factories] useUserFactory', () => {
       });
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);
+      });
+      it('called with correct arguments', async () => {
+        const params = {
+          user: { email: 'John', password: '123456', firstName: 'Diego', lastName: 'Ramirez'}
+        };
+
+        await useUserMethods.register(params);
+        expect(factoryParams.register).toHaveBeenNthCalledWith(1, {
+          ...params.user,
+          customQuery: undefined
+        });
+
+        await useUserMethods.register({...params, customQuery: {key: 'customQuery'}});
+        expect(factoryParams.register).toHaveBeenNthCalledWith(2, {
+          ...params.user,
+          customQuery: {key: 'customQuery'}
+        });
       });
     });
     describe('login', () => {
@@ -104,6 +142,23 @@ describe('[CORE - factories] useUserFactory', () => {
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);
       });
+      it('called with correct arguments', async () => {
+        const params = {
+          user: { username: 'John', password: '123456'}
+        };
+
+        await useUserMethods.login(params);
+        expect(factoryParams.logIn).toHaveBeenNthCalledWith(1, {
+          ...params.user,
+          customQuery: undefined
+        });
+
+        await useUserMethods.login({...params, customQuery: {key: 'customQuery'}});
+        expect(factoryParams.logIn).toHaveBeenNthCalledWith(2, {
+          ...params.user,
+          customQuery: {key: 'customQuery'}
+        });
+      });
     });
     describe('logout', () => {
       it('return logout user', async () => {
@@ -121,6 +176,17 @@ describe('[CORE - factories] useUserFactory', () => {
       });
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);
+      });
+      it('called with correct arguments', async () => {
+        const params = {
+          user: { username: 'John', password: '123456'}
+        };
+
+        useUserMethods.setUser(params.user);
+        await useUserMethods.logout();
+        expect(factoryParams.logOut).toHaveBeenNthCalledWith(1, {
+          currentUser: params.user
+        });
       });
     });
     describe('load', () => {
@@ -142,6 +208,17 @@ describe('[CORE - factories] useUserFactory', () => {
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);
       });
+      it('called with correct arguments', async () => {
+        await useUserMethods.load();
+        expect(factoryParams.load).toHaveBeenNthCalledWith(1, {
+          customQuery: undefined
+        });
+
+        await useUserMethods.load({customQuery: {key: 'customQuery'}});
+        expect(factoryParams.load).toHaveBeenNthCalledWith(2, {
+          customQuery: {key: 'customQuery'}
+        });
+      });
     });
     describe('changePassword', () => {
       it('return logout user', async () => {
@@ -160,6 +237,34 @@ describe('[CORE - factories] useUserFactory', () => {
       });
       it('finally loading go to false', () => {
         expect(useUserMethods.loading.value).toBe(false);
+      });
+      it('called with correct arguments', async () => {
+        const params = {
+          current: '1',
+          new: '2'
+        };
+
+        const user = {
+          name: 'user'
+        };
+
+        useUserMethods.setUser(user);
+        await useUserMethods.changePassword(params);
+        expect(factoryParams.changePassword).toHaveBeenNthCalledWith(1, {
+          currentUser: user,
+          currentPassword: params.current,
+          newPassword: params.new,
+          customQuery: undefined
+        });
+
+        useUserMethods.setUser(user);
+        await useUserMethods.changePassword({...params, customQuery: {key: 'customQuery'}});
+        expect(factoryParams.changePassword).toHaveBeenNthCalledWith(2, {
+          currentUser: user,
+          currentPassword: params.current,
+          newPassword: params.new,
+          customQuery: {key: 'customQuery'}
+        });
       });
     });
   });

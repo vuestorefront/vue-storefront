@@ -1,16 +1,12 @@
-import Category from './category';
 import { Billing, Payment, Shipping, ThankYou } from './checkout';
 import Cart from './components/cart-sidebar';
 import LoginModal from './components/login-modal';
 import Home from './home';
 import { Sidebar } from './my-account';
-import Product from './product';
+import { Product } from './product';
+import { Category } from './category';
 
 const page = {
-  get category() {
-    return Category;
-  },
-
   get checkout() {
     return {
       shipping: new Shipping(),
@@ -37,9 +33,14 @@ const page = {
     };
   },
 
-  get product() {
-    return Product;
+  category(category?: string) {
+    return new Category(category);
+  },
+
+  product(id?: string, slug?: string) {
+    return new Product(id, slug);
   }
+
 };
 
 export default page;

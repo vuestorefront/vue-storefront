@@ -7,42 +7,25 @@
 Vue Storefront is the most popular and most advanced Frontend Platform for eCommerce
 - [Documentation](https://docs.vuestorefront.io/v2/)
 - [Demo](https://vsf-next-demo.storefrontcloud.io/)
+- [Installation](https://docs.vuestorefront.io/v2/general/installation.html)
 
 ![Screenshots](https://blog.vuestorefront.io/wp-content/uploads/2020/03/3-views-Vue-Storefront-.png)
 
 # Supported platforms
 
 - Commercetools
-- Shopify (beta)
-- Spryker (beta)
-- Salesforce Commerce Cloud (beta)
-- Magento 2 (WIP)
+- Shopify [Beta]
+- Spryker [Beta]
+- Salesforce Commerce Cloud [Beta]
+- Magento 2 [Beta]
 
 
 [Learn more about available integrations](https://docs.vuestorefront.io/v2/integrations/)
 
 
-## What you need
-* [yarn](https://yarnpkg.com/getting-started) - Dependency manager
-* [Lerna](https://github.com/lerna/lerna) - Monorepo manager
-* [Typescript](https://www.typescriptlang.org/docs/home.html) - JavaScript superset
-
-## Installation (Commercetools)
-```sh
-$ yarn install
-```
-```sh
-yarn build:ct:tools
-```
-then run the app
-```sh
-yarn dev:ct
-```
-
-
 ## Links
 
--   📘  Documentation:  [docs.vuestorefront.io](https://docs.vuestorefront.io)
+-   📘  Documentation:  [docs.vuestorefront.io](https://docs.vuestorefront.io/v2/)
 -   👥  Discord Community:  [discord.vuestorefront.io](https://discord.vuestorefront.io/)
 -   🐦  Twitter:  [@VueStorefront](https://twitter.com/VueStorefront)
 -   💬  Forum:  [forum.vuestorefront.io](https://forum.vuestorefront.io/)
@@ -51,14 +34,14 @@ yarn dev:ct
 
 ## The business challenges
 
-Vue Storefront was created to solve a set of key business challenges from the world of the shopping experience. Our goal for the application is to provide the solution with:
+Vue Storefront solves a set of key business challenges from the world of the shopping experience. Our goal is to provide the solution with:
 
-- The ultrafast front-end for the store - with the PWA approach we can now render the catalog of products within milliseconds;
-- The endurance for traffic overloads on the store;
-- The off-line shopping capabilities;
-- The smooth shopping experience close to the user experience from the native mobile applications;
-- The all-in-one front-end for desktop and mobile screens with no necessity for maintaining 3 or more applications for different touchpoints (web browser, Android, iOS etc.).
-- Rapid development without architecture limitations.
+- ultrafast front-end for the store - with the PWA approach, we can now render the catalog of products within milliseconds;
+- endurance for traffic overloads on the store;
+- off-line shopping capabilities;
+- smooth shopping experience close to the user experience from the native mobile applications;
+- all-in-one front-end for desktop and mobile screens with no necessity for maintaining 3 or more applications for different touchpoints (web browser, Android, iOS, etc.).
+- rapid development without architecture limitations.
 
 
 ## The headless architecture
@@ -68,9 +51,9 @@ Vue Storefront was created to solve a set of key business challenges from the wo
 
 ## Contributing
 
-If you like the idea behind Vue Storefront and want to become a contributor - do not hesitate and check our [list of the active issues](https://github.com/vuestorefront/vue-storefront/issues) or contact us directly via contributors@vuestorefront.io.
+If you like the ideas behind Vue Storefront and want to become a contributor - join our [Discord server](https://discord.vuestorefront.io), check the [list of the active issues](https://github.com/vuestorefront/vue-storefront/issues) or contact us directly via contributors@vuestorefront.io.
 
-If you have discovered a 🐜 or have a feature suggestion, feel free to create an issue on Github.
+If you have discovered a 🐜 or have feature suggestion, feel free to create an issue on Github.
 
 
 ## Support us!
@@ -80,7 +63,7 @@ If you have discovered a 🐜 or have a feature suggestion, feel free to create 
 You can support us in various ways:
 
 - **Contribute** - this is how the Core Team is supporting the project!
-- **Evangelize** - tweet about us, take some speaking slot at tech conference etc.
+- **Evangelize** - tweet about us, take some speaking slot at a tech conference, etc.
 
 ## Partners
 
@@ -89,7 +72,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
 [**See Vue Storefront partners directory**](https://www.vuestorefront.io/partner-agencies?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
 
 
-Vue Storefront source code is completely free and released under the [MIT License](https://github.com/DivanteLtd/vue-storefront/blob/master/LICENSE).
+Vue Storefront source code is completely free and released under the [MIT License](https://github.com/vuestorefront/vue-storefront/blob/master/LICENSE).
 
 [![analytics](http://www.google-analytics.com/collect?v=1&t=pageview&_s=1&dl=https%3A%2F%2Fgithub.com%2FDivanteLtd%2Fvue-storefront&_u=MAC~&cid=1757014354.1393964045&tid=UA-108235765-10)]()
 
