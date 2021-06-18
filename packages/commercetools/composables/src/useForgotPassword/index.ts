@@ -2,12 +2,23 @@ import { Context, UseForgotPassword, useForgotPasswordFactory, UseForgotPassword
 
 const useForgotPasswordFactoryParams: UseForgotPasswordFactoryParams<any, any> = {
   resetPassword: async (context: Context, { email, customQuery }) => {
-    const response = await context.$ct.api.customerCreatePasswordResetToken(email, customQuery);
-    return response?.data?.customerCreatePasswordResetToken?.value;
+    try {
+      const response = await context.$ct.api.customerCreatePasswordResetToken(email, customQuery);
+      return response?.data?.customerCreatePasswordResetToken?.value;
+    } catch (err) {
+      err.message = err?.graphQLErrors?.[0]?.message || err.message;
+      throw err?.response?.data?.graphQLErrors?.[0] || err;
+    }
+
   },
   setNewPassword: async (context: Context, { tokenValue, newPassword, customQuery }) => {
-    const response = await context.$ct.api.customerResetPassword(tokenValue, newPassword, customQuery);
-    return Boolean(response?.data?.customerResetPassword?.id);
+    try {
+      const response = await context.$ct.api.customerResetPassword(tokenValue, newPassword, customQuery);
+      return Boolean(response?.data?.customerResetPassword?.id);
+    } catch (err) {
+      err.message = err?.graphQLErrors?.[0]?.message || err.message;
+      throw err?.response?.data?.graphQLErrors?.[0] || err;
+    }
   }
 };
 

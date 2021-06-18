@@ -38,8 +38,8 @@
                 class="form__element"
               />
             </ValidationProvider>
-            <div v-if="passwordMatchError || forgotPasswordError.result">
-              {{ passwordMatchError || forgotPasswordError.result }}
+            <div v-if="passwordMatchError || forgotPasswordError.setNew">
+              {{ passwordMatchError || forgotPasswordError.setNew.message }}
             </div>
             <SfButton v-e2e="'reset-password-modal-submit'"
               type="submit"

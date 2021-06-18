@@ -88,8 +88,8 @@
                 class="form__element"
               />
             </ValidationProvider>
-            <div v-if="forgotPasswordError">
-              {{ forgotPasswordError.value }}
+            <div v-if="forgotPasswordError.reset">
+              {{ forgotPasswordError.reset.message }}
             </div>
             <SfButton v-e2e="'login-modal-submit'"
               type="submit"
@@ -298,7 +298,7 @@ export default {
       userEmail.value = form.value.username;
       await reset({ email: userEmail.value });
 
-      if (!forgotPasswordError.value.result) {
+      if (!forgotPasswordError.value.reset) {
         isThankYouAfterForgotten.value = true;
         isForgotten.value = false;
       }
