@@ -5,12 +5,6 @@ on:
       - next
       - release/next
 jobs:
-    prepare_dependencies:
-    name: Prepare dependencies
-    runs-on: ubuntu-latest
-    steps:
-
-
   lhci:
     name: Lighthouse CI Audit
     runs-on: ubuntu-latest
