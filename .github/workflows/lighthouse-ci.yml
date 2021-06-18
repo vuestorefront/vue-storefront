@@ -31,14 +31,14 @@ jobs:
 
       # - name: run Lighthouse CI mobile
       #   run: |
-      #     yarn add -g @lhci/cli@0.7.x
+      #     npm install -g @lhci/cli@0.7.x
       #     lhci autorun
       #   env:
       #     LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
       - name: run Lighthouse CI desktop
         run: |
-          yarn add -g @lhci/cli@0.7.x
+          npm install -g @lhci/cli@0.7.x
           lhci autorun --settings.preset=desktop
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
