@@ -122,4 +122,11 @@ export default {
   'Reset Password': 'Reset Password',
   'Save Password': 'Save Password',
   'Back to home': 'Back to home',
+  'Forgot Password': 'If you can’t remember your password, you can reset it.',
+  'Thank You Inbox': 'If the message is not arriving in your inbox, try another email address you might’ve used to register.',
+  'Sign in': 'Sign in',
+  'Register': 'Register',
+  'Password Changed': 'Password successfuly changed. You can now go back to homepage and sign in.',
+  'Password': 'Password',
+  'Repeat Password': 'Repeat Password'
 };

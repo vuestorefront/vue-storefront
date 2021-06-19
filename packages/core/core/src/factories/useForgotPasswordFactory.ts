@@ -53,7 +53,7 @@ export function useForgotPasswordFactory<TOKEN, RESULT>(
         error.value.setNew = null;
       } catch (err) {
         error.value.setNew = err;
-        Logger.debug('useForgotPassword/setNew', err);
+        Logger.error('useForgotPassword/setNew', err);
       } finally {
         loading.value = false;
       }

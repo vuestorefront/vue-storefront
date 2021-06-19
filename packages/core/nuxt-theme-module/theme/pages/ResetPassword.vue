@@ -1,14 +1,14 @@
 <template>
   <SfModal
     v-e2e="'login-modal'"
-    :visible="true"
+    visible
     class="modal"
     :cross="false"
   >
     <template #modal-bar>
       <SfBar
         class="sf-modal__bar"
-        title="Reset Password"
+        :title="$t('Reset Password')"
       />
     </template>
       <div v-if="!isPasswordChanged">
@@ -54,7 +54,7 @@
         </ValidationObserver>
       </div>
       <div v-else>
-        <p>Password successfuly changed. You can now go back to homepage and sign in.</p>
+        <p>{{ $t('Password Changed') }}</p>
         <SfButton class="sf-button--text" link="/">
           {{ $t('Back to home') }}
         </SfButton>

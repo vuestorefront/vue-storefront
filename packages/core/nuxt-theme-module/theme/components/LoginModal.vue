@@ -9,7 +9,7 @@
       <SfBar
         class="sf-modal__bar smartphone-only"
         :close="true"
-        :title="barTitle"
+        :title="$t(barTitle)"
         @click:close="closeModal"
       />
     </template>
@@ -74,7 +74,7 @@
         </div>
       </div>
       <div v-else-if="isForgotten">
-        <p>If you can't remember your password, you can reset it.</p>
+        <p>{{ $t('Forgot Password') }}</p>
         <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
           <form class="form" @submit.prevent="handleSubmit(handleForgotten)">
             <ValidationProvider rules="required|email" v-slot="{ errors }">
@@ -105,7 +105,7 @@
       </div>
       <div v-else-if="isThankYouAfterForgotten" class="thank-you">
         <p class="thank-you__paragraph">Thanks! If there is an account registered with the <span class="thank-you__paragraph--bold">{{ userEmail }}</span> email, you will find message with a password reset link in your inbox.</p>
-        <p class="thank-you__paragraph">If the message is not arriving in your inbox, try another email address you might've used to register.</p>
+        <p class="thank-you__paragraph">{{ $t('Thank You Inbox') }}</p>
       </div>
       <div v-else class="form">
         <ValidationObserver v-slot="{ handleSubmit }" key="sign-up">

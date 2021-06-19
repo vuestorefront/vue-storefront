@@ -122,4 +122,11 @@ export default {
   'Reset Password': 'Passwort Zurücksetzen',
   'Save Password': 'Passwort Speichern',
   'Back to home': 'Zurück Zur Startseite',
+  'Forgot Password': 'Wenn Sie Ihr Passwort vergessen haben, können Sie es zurücksetzen.',
+  'Thank You Inbox': 'Wenn die Nachricht nicht in Ihrem Posteingang ankommt, versuchen Sie es mit einer anderen E-Mail-Adresse, mit der Sie sich möglicherweise registriert haben.',
+  'Sign in': 'Einloggen',
+  'Register': 'Registrieren',
+  'Password Changed': 'Passwort erfolgreich geändert. Sie können nun zur Startseite zurückkehren und sich anmelden.',
+  'Password': 'Passwort',
+  'Repeat Password': 'Wiederhole das Passwort'
 };
