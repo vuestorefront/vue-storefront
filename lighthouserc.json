@@ -7,7 +7,11 @@
       "preset": "lighthouse:recommended"
     },
     "collect": {
-      "url": "http://localhost:3000/",
+      "url": [
+        "http://localhost:3000/",
+        "http://localhost:3000/c/women",
+        "http://localhost:3000/p/73747f2d-398f-4fa5-b449-4a0f3bb22886/ki6-whoareyou-skirt-GN13888-blue"
+      ],
       "startServerCommand": "cd packages/commercetools/theme && yarn start"
     }
   }

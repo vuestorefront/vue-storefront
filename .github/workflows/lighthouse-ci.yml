@@ -29,12 +29,12 @@ jobs:
       - name: Build
         run: yarn build:ct
 
-      # - name: run Lighthouse CI mobile
-      #   run: |
-      #     npm install -g @lhci/cli@0.7.x
-      #     lhci autorun
-      #   env:
-      #     LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+      - name: run Lighthouse CI mobile
+        run: |
+          npm install -g @lhci/cli@0.7.x
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
       - name: run Lighthouse CI desktop
         run: |
