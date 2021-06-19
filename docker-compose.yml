@@ -29,6 +29,7 @@ services:
       - './src:/var/www/src'
       - './var:/var/www/var'
       - './packages:/var/www/packages'
+      - './yarn.lock:/var/www/yarn.lock'
     tmpfs:
       - /var/www/dist
     networks:
@@ -68,6 +69,7 @@ services:
       - './var:/var/www/var'
       - './packages:/var/www/packages'
       - './node_modules:/var/www/node_modules'
+      - './yarn.lock:/var/www/yarn.lock'
     tmpfs:
       - /var/www/dist
     networks:
