@@ -30,6 +30,7 @@ services:
       - './var:/var/www/var'
       - './packages:/var/www/packages'
       - './yarn.lock:/var/www/yarn.lock'
+      - cache://usr/local/share/.cache
     tmpfs:
       - /var/www/dist
     networks:
@@ -70,6 +71,7 @@ services:
       - './packages:/var/www/packages'
       - './node_modules:/var/www/node_modules'
       - './yarn.lock:/var/www/yarn.lock'
+      - cache://usr/local/share/.cache
     tmpfs:
       - /var/www/dist
     networks:
@@ -78,6 +80,9 @@ services:
       - vue-storefront-api
     expose:
       - ${PETSIES_PORT}
+
+volumes: 
+  cache:
 
 networks:
   reverseproxy:
