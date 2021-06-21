@@ -26,7 +26,7 @@ describe('[CORE - factories] useForgotPassword', () => {
         const mockedResetPasswordToken = '1234';
         factoryParams.resetPassword.mockReturnValueOnce(mockedResetPasswordToken);
         await useForgotPasswordMethods.request({ email: 'john.doe@gmail.com' });
-        expect(useForgotPasswordMethods.result.value.value).toEqual(mockedResetPasswordToken);
+        expect(useForgotPasswordMethods.result.value).toEqual(mockedResetPasswordToken);
       });
 
       it('throws error', async () => {
