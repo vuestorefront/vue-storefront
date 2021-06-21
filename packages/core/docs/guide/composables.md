@@ -1,10 +1,12 @@
 # Composables
 
+> If you are not familiar with Composition APIs, we recommend reading [this article](/guide/composition-api) first.
+
 Composable is a function that uses [Composition API](#composition-api) under the hood. Composables are the main public API of Vue Storefront and, in most cases, the only API except configuration you will work with.
 
 You can treat composables as independent micro-applications. They manage their own state, handle server-side rendering, and rarely interact with each other (except [useUser](/composables/use-user.html) and [useCart](/composables/use-cart.html)). No matter what integration you are using, your application will always have the same set of composables with the same interfaces.
 
-To use a composable, you need to import it from an integration you are using, and call it on the component `setup` option:
+To use a composable, you need to import it from an integration you use, and call it on the component `setup` option:
 
 ```js
 import { useProduct } from '@vue-storefront/commercetools'; // or any other integration package
@@ -27,7 +29,7 @@ export default {
 
 > `onSSR` is used to perform an asynchronous request on the server side and convey the received data to the client. You will learn more about it next section.
 
-For some composables (like `useProduct` ) you will need to pass a unique ID as a parameter (it can be a product ID, category ID etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](../core/api-reference/core).
+For some composables (like `useProduct`) you will need to pass a unique ID as a parameter (it can be a product ID, category ID etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](../core/api-reference/core).
 
 ## Anatomy of a composable
 

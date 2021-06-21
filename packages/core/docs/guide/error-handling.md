@@ -1,8 +1,6 @@
 # Error handling
 
-A flexible way of error handling is essential for a framework like Vue Storefront. We decided to put all errors in reactive objects so they can be easily managed in the template.
-
-Each composable returns an `error` computed property. It is an object which has names of async functions from composable as keys and Error instance or `null` as a value.
+Each [composable](./composables) has a computed property called `errors` which stores errors from all methods within that composable. It's an object with keys matching the names of the methods within the composable, and Error instance or `null` as a value.
 
 ```vue
 <template>
@@ -23,8 +21,7 @@ export default {
 };
 </script>
 ```
-
-There is a dedicated TypeScript interface for every composable. Take a look at this one from `useCart`:
+The `@vue-storefront/core` package exports interfaces for `error` objects for every composable. Let's take a look at the one from the `useCart` composable:
 
 ```ts
 export interface UseCartErrors {
@@ -40,30 +37,29 @@ export interface UseCartErrors {
 
 :::details Where does the error come from?
 
-Inside each async method, we are catching errors when they occur and save them to the reactive property called `error` under the key corresponding to the triggered method:
+Inside each async method, we catch thrown errors and save them in the `error` object under the key corresponding to the called method.
 
 ```ts
 const { addItem, error } = useCart();
 
-addItem({ product: null }); // triggers an error
+addItem({ product: null }); // throws an error
 error.value.addItem; // here you have error raised by addItem function
 ```
 
 :::
 
-:::details Where can I find an interface of the error property from a certain composable?
+:::details Where can I find an interface of the error property for a specific composable?
 
 When you are writing a code inside a script part of the Vue component, your IDE should give you hints on every different type of the composable. That's why you probably do not need to check these interfaces in the core's code.
 
 However, if you still want to check interfaces, you could find them inside [`packages/core/core/src/types.ts`](https://github.com/vuestorefront/vue-storefront/blob/next/packages/core/core/src/types.ts).
 
-[//]: # 'TODO: This should be added to API reference'
-
 :::
 
 ### How to listen for errors?
 
-Let's imagine you have some global component for error notifications. You want to send information about every new error to this component. But how to know when a new error appears? You can observe an error object with a watcher:
+Let's imagine you have some global component for error notifications. You want to send information about every new error to this component. But how do you know when a new error appears?
+You can observe an error object with a watcher:
 
 ```ts
 import { useUiNotification } from '~/composables';
@@ -83,5 +79,3 @@ watch(() => ({...error.value}), (error, prevError) => {
 ```
 
 In this example, we are using `useUiNotification` - a composable that handles notifications state. You can read more about it in the API reference.
-
-[//]: # 'TODO: This should be added to API reference'
