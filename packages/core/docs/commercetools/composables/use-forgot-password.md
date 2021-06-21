@@ -9,7 +9,7 @@
 
 ## API
 
-- `reset` - function used to generate reset password token. When invoked, it requests data from the API and populates `token` property. This method accepts a single params object. The `params` has the following option:
+- `reset` - function to generate reset password token. When invoked, it requests data from the API and populates the `token` property. This method accepts a single `params` object with the following properties:
 
   - `params: ResetPasswordParams`
 
@@ -25,7 +25,7 @@ type CustomQuery = {
 }
 ```
 
-- `setNew` - function used to set new user password after reset. When invoked, it requests data from the API and populates `result` property. This method accepts a single params object. The `params` has the following option:
+- `setNew` - function to set new user password after `reset`. When invoked, it requests data from the API and populates the `result` property. This method accepts a single `params` object with the following properties:
 
   - `params: SetNewPasswordParams`
   
@@ -42,7 +42,7 @@ type CustomQuery = {
 }
 ```
 
-- `token: string` - reactive data string containing the created token.
+- `token: string` - reactive data string containing the reset token.
 
 - `loading: boolean` - reactive object containing information about loading state of `setNew` and `reset` methods.
 
@@ -57,7 +57,7 @@ interface UseForgotPasswordErrors {
 
 ## Getters
 
-We do not provide getters for `useForgotPassword` composable.
+There are no getters for `useForgotPassword` composable.
 
 ## Example
 
