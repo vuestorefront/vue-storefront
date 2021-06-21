@@ -138,7 +138,7 @@ Usually, the process of resetting a user password consists of two steps:
 
 ```vue
 <template>
-  <form @submit.prevent="reset({ email: form.value.email })">
+  <form @submit.prevent="request({ email: form.value.email })">
     <!-- form fields -->
     <button type="submit" :disabled="loading">Reset Password</button>
   </form>
@@ -150,11 +150,11 @@ import { ref } from '@vue/composition-api';
 
 export default {
   setup () {
-    const { reset, loading } = useForgotPassword();
+    const { request, loading } = useForgotPassword();
     const form = ref({});
 
     return {
-      reset,
+      request,
       form,
       loading
     }
