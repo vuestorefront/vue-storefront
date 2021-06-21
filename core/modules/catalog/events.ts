@@ -40,9 +40,9 @@ export const filterChangedProduct = async (filterOption, store, router) => {
     }
   }, { root: true })
   const { configuration, selectedVariant, options, product_option } = newProductVariant
-  let routeProp;
+  const routeProp = config.seo.useUrlDispatcher ? 'query' : 'params';
+
   if (config.products.setFirstVarianAsDefaultInURL && selectedVariant) {
-    routeProp = config.seo.useUrlDispatcher ? 'params' : 'query'
     router.push({ [routeProp]: { childSku: selectedVariant.sku } })
   }
   if (selectedVariant) {
@@ -54,7 +54,7 @@ export const filterChangedProduct = async (filterOption, store, router) => {
     )
     await store.dispatch('product/setCurrent', newProductConfiguration)
     EventBus.$emit('product-after-configure', { product: newProductConfiguration, configuration: configuration, selectedVariant: selectedVariant })
-    routeProp = config.seo.useUrlDispatcher ? 'query' : 'params'
+
     if (router?.currentRoute?.[routeProp]?.childSku) {
       router.push(
         {
