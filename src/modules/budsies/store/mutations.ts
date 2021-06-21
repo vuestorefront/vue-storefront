@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import Addon from '../models/addon.model'
 import { BudsiesState } from '../types/State'
+import * as types from './mutation-types';
 
 export const mutations: MutationTree<BudsiesState> = {
   setAddon (state: BudsiesState, { key, addon }: { key: string, addon: Addon }) {
@@ -16,5 +17,8 @@ export const mutations: MutationTree<BudsiesState> = {
     });
 
     Vue.set(state.printedProductAddons, key, ids);
+  },
+  [types.CURRENT_PLUSHIE_ID_SET] (state: BudsiesState, { id }: { id: string }) {
+    Vue.set(state, 'currentPlushieId', id);
   }
 }

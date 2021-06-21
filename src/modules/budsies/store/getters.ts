@@ -19,6 +19,9 @@ const getters: GetterTree<BudsiesState, RootState> = {
     });
 
     return result;
+  },
+  getCurrentPlushieId: (state: BudsiesState): string | undefined => {
+    return state.currentPlushieId;
   }
 }
 
