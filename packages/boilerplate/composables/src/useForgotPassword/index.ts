@@ -1,6 +1,6 @@
 import { Context, UseForgotPassword, useForgotPasswordFactory, UseForgotPasswordFactoryParams } from '@vue-storefront/core';
 
-const params: UseForgotPasswordFactoryParams<any, any> = {
+const params: UseForgotPasswordFactoryParams<any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   resetPassword: async (context: Context, { email, customQuery }) => {
     console.log('Mocked: resetPassword');
@@ -14,6 +14,6 @@ const params: UseForgotPasswordFactoryParams<any, any> = {
   }
 };
 
-const useForgotPassword: () => UseForgotPassword<any, any> = useForgotPasswordFactory<any, any>(params);
+const useForgotPassword: () => UseForgotPassword<any> = useForgotPasswordFactory<any>(params);
 
 export default useForgotPassword;
