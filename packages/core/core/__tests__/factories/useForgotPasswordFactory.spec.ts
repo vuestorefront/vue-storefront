@@ -15,10 +15,9 @@ describe('[CORE - factories] useForgotPassword', () => {
   describe('initial setup', () => {
     it('should have proper initial properties', () => {
       const useForgotPassword = useForgotPasswordFactory(factoryParams);
-      const { result, token } = useForgotPassword();
+      const { result } = useForgotPassword();
 
-      expect(result.value).toEqual('');
-      expect(token.value).toEqual('');
+      expect(result.value).toEqual({});
     });
   });
   describe('methods', () => {
@@ -26,8 +25,8 @@ describe('[CORE - factories] useForgotPassword', () => {
       it('generates reset password token', async () => {
         const mockedResetPasswordToken = '1234';
         factoryParams.resetPassword.mockReturnValueOnce(mockedResetPasswordToken);
-        await useForgotPasswordMethods.reset({ email: 'john.doe@gmail.com' });
-        expect(useForgotPasswordMethods.token.value).toEqual(mockedResetPasswordToken);
+        await useForgotPasswordMethods.request({ email: 'john.doe@gmail.com' });
+        expect(useForgotPasswordMethods.result.value.value).toEqual(mockedResetPasswordToken);
       });
 
       it('throws error', async () => {
@@ -35,8 +34,8 @@ describe('[CORE - factories] useForgotPassword', () => {
         factoryParams.resetPassword.mockImplementationOnce(() => {
           throw err;
         });
-        await useForgotPasswordMethods.reset('' as any);
-        await expect(useForgotPasswordMethods.error.value.reset).toBe(err);
+        await useForgotPasswordMethods.request('' as any);
+        await expect(useForgotPasswordMethods.error.value.request).toBe(err);
       });
 
       it('finally loading go to false', () => {
