@@ -6,9 +6,6 @@ export default {
     port: 3000,
     host: '0.0.0.0'
   },
-  env: {
-    IS_DEMO: true
-  },
   head: {
     title: process.env.npm_package_name || '',
     meta: [

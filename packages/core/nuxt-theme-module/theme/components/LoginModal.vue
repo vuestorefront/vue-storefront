@@ -88,8 +88,8 @@
                 class="form__element"
               />
             </ValidationProvider>
-            <div v-if="forgotPasswordError.reset">
-              {{ forgotPasswordError.reset.message }}
+            <div v-if="forgotPasswordError.request">
+              {{ forgotPasswordError.request.message }}
             </div>
             <SfButton v-e2e="'login-modal-submit'"
               type="submit"
@@ -232,7 +232,7 @@ export default {
     const createAccount = ref(false);
     const rememberMe = ref(false);
     const { register, login, loading, error: userError } = useUser();
-    const { reset, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
+    const { request, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
 
     const error = reactive({
       login: null,
@@ -296,9 +296,9 @@ export default {
 
     const handleForgotten = async () => {
       userEmail.value = form.value.username;
-      await reset({ email: userEmail.value });
+      await request({ email: userEmail.value });
 
-      if (!forgotPasswordError.value.reset) {
+      if (!forgotPasswordError.value.request) {
         isThankYouAfterForgotten.value = true;
         isForgotten.value = false;
       }

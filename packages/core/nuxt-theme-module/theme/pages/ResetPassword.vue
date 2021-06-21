@@ -64,8 +64,8 @@
 <script>
 
 import { SfModal, SfButton, SfLoader, SfBar, SfInput } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
-import { useForgotPassword } from '<%= options.generate.replace.composables %>';
+import { ref, computed } from '@vue/composition-api';
+import { useForgotPassword, forgotPasswordGetters } from '<%= options.generate.replace.composables %>';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
 
@@ -92,10 +92,10 @@ export default {
     ValidationObserver
   },
   setup(props, context) {
-    const { setNew, result, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
-    const isPasswordChanged = ref(false);
+    const { result, setNew, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
     const passwordMatchError = ref(false);
     const form = ref({});
+    const isPasswordChanged = computed(() => forgotPasswordGetters.isPasswordChanged(result.value));
 
     const token = context.root.$route.query.token;
 
@@ -107,10 +107,6 @@ export default {
       }
 
       await setNew({ tokenValue: token, newPassword: form.value.password });
-
-      if (result.value) {
-        isPasswordChanged.value = true;
-      }
     };
 
     return {

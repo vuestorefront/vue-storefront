@@ -11,34 +11,33 @@ interface ResetPasswordParams {
   email: string;
 }
 
-export interface UseForgotPasswordFactoryParams<TOKEN, RESULT> extends FactoryParams {
-  resetPassword: (context: Context, params: ResetPasswordParams & { customQuery?: CustomQuery }) => Promise<TOKEN>;
+export interface UseForgotPasswordFactoryParams<RESULT> extends FactoryParams {
+  resetPassword: (context: Context, params: ResetPasswordParams & { customQuery?: CustomQuery }) => Promise<RESULT>;
   setNewPassword: (context: Context, params: SetNewPasswordParams & { customQuery?: CustomQuery }) => Promise<RESULT>;
 }
 
-export function useForgotPasswordFactory<TOKEN, RESULT>(
-  factoryParams: UseForgotPasswordFactoryParams<TOKEN, RESULT>
+export function useForgotPasswordFactory<RESULT>(
+  factoryParams: UseForgotPasswordFactoryParams<RESULT>
 ) {
-  return function useForgotPassword(): UseForgotPassword<TOKEN, RESULT> {
-    const result: Ref<RESULT> = sharedRef('', 'useForgotPassword-result');
-    const token: Ref<TOKEN> = sharedRef('', 'useForgotPassword-token');
+  return function useForgotPassword(): UseForgotPassword<RESULT> {
+    const result: Ref<RESULT> = sharedRef({}, 'useForgotPassword-result');
     const loading = sharedRef(false, 'useProduct-loading');
     const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseForgotPasswordErrors> = sharedRef({
-      reset: null,
+      request: null,
       setNew: null
     }, 'useForgotPassword-error');
 
-    const reset = async (resetPasswordParams: ResetPasswordParams) => {
-      Logger.debug('useForgotPassword/reset', resetPasswordParams.email);
+    const request = async (resetPasswordParams: ResetPasswordParams) => {
+      Logger.debug('useForgotPassword/request', resetPasswordParams.email);
 
       try {
         loading.value = true;
-        token.value = await _factoryParams.resetPassword(resetPasswordParams);
-        error.value.reset = null;
+        result.value = await _factoryParams.resetPassword(resetPasswordParams);
+        error.value.request = null;
       } catch (err) {
-        error.value.reset = err;
-        Logger.error('useForgotPassword/reset', err);
+        error.value.request = err;
+        Logger.error('useForgotPassword/request', err);
       } finally {
         loading.value = false;
       }
@@ -60,10 +59,9 @@ export function useForgotPasswordFactory<TOKEN, RESULT>(
     };
 
     return {
-      reset,
+      request,
       setNew,
       result: computed(() => result.value),
-      token: computed(() => token.value),
       loading: computed(() => loading.value),
       error: computed(() => error.value)
     };

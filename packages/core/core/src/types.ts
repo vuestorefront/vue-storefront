@@ -29,17 +29,16 @@ export interface UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS> {
 }
 
 export interface UseForgotPasswordErrors {
-  reset: Error;
+  request: Error;
   setNew: Error;
 }
 
-export interface UseForgotPassword<TOKEN, RESULT> {
+export interface UseForgotPassword<RESULT> {
   result: ComputedProperty<RESULT>;
-  token: ComputedProperty<TOKEN>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseForgotPasswordErrors>;
   setNew(params: ComposableFunctionArgs<{ tokenValue: string, newPassword: string }>): Promise<void>;
-  reset(params: ComposableFunctionArgs<{ email: string }>): Promise<void>;
+  request(params: ComposableFunctionArgs<{ email: string }>): Promise<void>;
 }
 
 export interface UseUserRegisterParams {
@@ -622,6 +621,11 @@ export interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
   getPagination: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticPagination;
   getBreadcrumbs: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticBreadcrumb[];
   [getterName: string]: (element: any, options?: any) => unknown;
+}
+
+export interface ForgotPasswordGetters<CREATE_PASSWORD_RESET_TOKEN_RESPONSE, RESET_PASSWORD_RESPONSE> {
+  getResetPasswordToken: (response: CREATE_PASSWORD_RESET_TOKEN_RESPONSE) => string
+  isPasswordChanged: (response: RESET_PASSWORD_RESPONSE) => boolean
 }
 
 export interface VSFLogger {
