@@ -128,5 +128,6 @@ export default {
   'Register': 'Register',
   'Password Changed': 'Password successfuly changed. You can now go back to homepage and sign in.',
   'Password': 'Password',
-  'Repeat Password': 'Repeat Password'
+  'Repeat Password': 'Repeat Password',
+  forgotPasswordConfirmation: 'Thanks! If there is an account registered with the {0} email, you will find message with a password reset link in your inbox.'
 };

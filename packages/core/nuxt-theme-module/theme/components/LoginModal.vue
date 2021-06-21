@@ -104,7 +104,9 @@
         </ValidationObserver>
       </div>
       <div v-else-if="isThankYouAfterForgotten" class="thank-you">
-        <p class="thank-you__paragraph">Thanks! If there is an account registered with the <span class="thank-you__paragraph--bold">{{ userEmail }}</span> email, you will find message with a password reset link in your inbox.</p>
+        <i18n tag="p" class="thank-you__paragraph" path="forgotPasswordConfirmation">
+          <span class="thank-you__paragraph--bold">{{ userEmail }}</span>
+        </i18n>
         <p class="thank-you__paragraph">{{ $t('Thank You Inbox') }}</p>
       </div>
       <div v-else class="form">

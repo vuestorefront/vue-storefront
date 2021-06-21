@@ -128,5 +128,6 @@ export default {
   'Register': 'Registrieren',
   'Password Changed': 'Passwort erfolgreich geändert. Sie können nun zur Startseite zurückkehren und sich anmelden.',
   'Password': 'Passwort',
-  'Repeat Password': 'Wiederhole das Passwort'
+  'Repeat Password': 'Wiederhole das Passwort',
+  forgotPasswordConfirmation: 'Vielen Dank! Wenn ein Konto mit der E-Mail-Adresse {0} registriert ist, finden Sie in Ihrem Posteingang eine Nachricht mit einem Link zum Zurücksetzen des Passworts.'
 };
