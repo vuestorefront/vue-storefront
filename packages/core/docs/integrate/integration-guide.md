@@ -95,7 +95,7 @@ For the sake of example and simplicity, let's assume our eCommerce platform is c
 - `@example/sloth`.
 
 :::tip
-It's a convention to call `composables` package with just a name of the platform because this is the package that developers mostly interact with when creating a shop. Example of this is `@vue-storefront/commercetools`, `@vue-storefront/magento` and `@vue-storefront/shopify`.
+It's a convention to call `composables` package with just a name of the platform because this is the package that developers use the most with when creating a shop. Example of this is `@vue-storefront/commercetools`, `@vue-storefront/magento` and `@vue-storefront/shopify`.
 :::
 
 Open `packages/composables/nuxt/plugin.js` and change `boilerplate` to the name of your integration. This name should not contain any special characters nor spaces. In our case, it's lowercase `sloth`.
@@ -186,11 +186,21 @@ module.exports = {
 };
 ```
 
-## Implementing `useProduct`
+## Implementing composables and getters
 
-It's impossible to write tutorial explaining how to implement each and every composable, especially because some of them might differ wildly between the platforms. 
+It's impossible to write tutorial explaining how to implement each and every composable, especially because some of them might differ wildly between the platforms. For this reason we will explain how to implement `useProduct` composable and `productGetters` and leave the rest to you.
+
+### Implementing `useProduct` composable
+
+Before implementing any composable, we should know get familiar with it's TypeScript interfaces.
+
+Let's start with the [UseProduct interface](../core/api-reference/core.useproduct) (note the capital `U`). It uses [Typescript generics](https://www.typescriptlang.org/docs/handbook/2/generics.html). Reason for this is that we want to provide great development experience by providing types for the data stored in composables. However, each platform has a unique data structure and we don't want to make any assumptions. That's why it's up to integrators to provide types.
+
+`UseProduct` accepts two generics:
+- `PRODUCTS` representing structure of the products 
 
 
+It has 3 properties and method called `search`. 
 
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------
