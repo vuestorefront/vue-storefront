@@ -4,7 +4,38 @@ This document will show where you should start if you are:
 
 [[toc]]
 
-[comment]: <> (## Considering using Vue Storefront)
+## Considering using Vue Storefront
+
+Vue Storefront is a ***platform-agnostic e-commerce PWA frontend framework*** that can work with any eCommerce backend API. Sounds great, right? But that is not all.
+
+With our product, you can easily solve the most common problems in the eCommerce e.g.
+- [Long time to market](/#long-time-to-market)
+- [Slow, unresponsive online shop](/#slow-unresponsive-online-shop)
+- [Unwieldy architectural decisions](/#unwieldy-architectural-decisions)
+- [Painful or impossible migrations](/#painful-or-impossible-migrations)
+- [Lack of platform-specific competencies](/#lack-of-platform-specific-competencies)
+- [Lack of flexibility](/#lack-of-flexibility)
+
+Also, we are proud of:
+- 300+ [Live Implementations](https://www.vuestorefront.io/live-projects)
+- 100+ [Agency Partners](https://www.vuestorefront.io/partner-agencies)
+- 4500+ [Community members](http://discord.vuestorefront.io/)
+
+You should definitely visit [Introduction](/) or [Key conepts](/general/key-concepts.html) section for more details about Vue Storefront. 
+
+**Introduction** section will guide you through:
+- [What is Vue Storefront?](/#what-is-vue-storefront)
+- [Problems Vue Storefront solves](/#problems-vue-storefront-solves)
+- [eCommerce Integrations](/#ecommerce-integrations)
+- [Tech stack](/#tech-stack)
+- [What's next](/#what-s-next)
+
+**Key concepts** section will guide you through:
+- [Progressive technology](/general/key-concepts.html#progressive-technology)
+- [Reusability](/general/key-concepts.html#reusability)
+- [Extendability and custom integrations](/general/key-concepts.html#extendability-and-custom-integrations)
+- [Easy configuration](/general/key-concepts.html#easy-configuration)
+- [Backend-agnostic](/general/key-concepts.html#backend-agnostic)
 
 [comment]: <> (## Developer creating a shop)
 
