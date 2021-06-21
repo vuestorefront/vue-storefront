@@ -3836,6 +3836,13 @@
   dependencies:
     source-map "^0.6.1"
 
+"@types/vuelidate@^0.7.14":
+  version "0.7.14"
+  resolved "https://registry.yarnpkg.com/@types/vuelidate/-/vuelidate-0.7.14.tgz#5c5e41884f61a7f37660112e98efdcdcb0e7aca2"
+  integrity sha512-6fKq/AYRCZValyTblW3frG9L5JELlHLAnXKg4y6j+OWznEzZroej+jzGv3bLyRnRJ42CImvP0/ylm0LvAmzpNg==
+  dependencies:
+    vue "^2.6.11"
+
 "@types/webpack-dev-server@^3.10":
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/@types/webpack-dev-server/-/webpack-dev-server-3.10.0.tgz#5121ed285357b3b7463cac0d35e9b93819cf2167"
