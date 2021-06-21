@@ -1,4 +1,4 @@
-import useUserOrder from '../../src/useUserOrder';
+import { useUserOrder } from '../../src/useUserOrder';
 
 jest.mock('@vue-storefront/commercetools-api', () => ({
   getOrders: jest.fn(async () => ({

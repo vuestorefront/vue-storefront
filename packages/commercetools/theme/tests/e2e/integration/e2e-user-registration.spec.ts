@@ -2,17 +2,17 @@ import page from '../pages/factory';
 import requests from '../api/requests';
 import generator from '../utils/data-generator';
 
-before(() => {
-  cy.fixture('test-data/e2e-user-registration').then((fixture) => {
-    cy.fixtures = {
-      data: fixture
-    };
-  });
-});
-
 context(['regression'], 'User registration', () => {
+  beforeEach(function () {
+    cy.fixture('test-data/e2e-user-registration').then((fixture) => {
+      this.fixtures = {
+        data: fixture
+      };
+    });
+  });
+
   it('Should successfully register', function () {
-    const data = cy.fixtures.data[this.test.title];
+    const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     page.home.visit();
     page.home.header.openLoginModal();
@@ -25,7 +25,7 @@ context(['regression'], 'User registration', () => {
   });
 
   it('Existing user - should display an error', function () {
-    const data = cy.fixtures.data[this.test.title];
+    const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     requests.customerSignMeUp(data.customer).then(() => {
       cy.clearCookies();

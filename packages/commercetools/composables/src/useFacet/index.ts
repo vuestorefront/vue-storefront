@@ -7,7 +7,7 @@ import { FacetResultsData } from './../types';
 // TODO: move to the config file
 const ITEMS_PER_PAGE = [20, 40, 100];
 
-const factoryParams = {
+const useFacetFactoryParams = {
   search: async (context: Context, params: FacetSearchResult<FacetResultsData>): Promise<FacetResultsData> => {
     const itemsPerPage = params.input.itemsPerPage;
 
@@ -42,4 +42,9 @@ const factoryParams = {
   }
 };
 
-export default useFacetFactory<FacetResultsData>(factoryParams);
+const useFacet = useFacetFactory<FacetResultsData>(useFacetFactoryParams);
+
+export {
+  useFacet,
+  useFacetFactoryParams
+};

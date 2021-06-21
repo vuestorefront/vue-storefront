@@ -13,7 +13,7 @@ const addresses: any[] = [
     state: 'California',
     postalCode: '26-620',
     country: 'US',
-    phone: '560123456',
+    phone: '+48560123456',
     email: '',
     company: null,
     isDefault: true
@@ -29,7 +29,7 @@ const addresses: any[] = [
     state: 'Nevada',
     postalCode: '53-603',
     country: 'US',
-    phone: '560123456',
+    phone: '+48560123456',
     email: '',
     company: null,
     isDefault: true
@@ -56,7 +56,7 @@ const sortDefaultAtTop = (a, b) => {
   return 0;
 };
 
-const params: UseUserShippingFactoryParams<any, any> = {
+const useUserShippingFactoryParams: UseUserShippingFactoryParams<any, any> = {
   addAddress: async (context: Context, params?) => {
     console.log('Mocked: addAddress', params.address);
 
@@ -133,4 +133,9 @@ const params: UseUserShippingFactoryParams<any, any> = {
   }
 };
 
-export default useUserShippingFactory<any, any>(params);
+const useUserShipping = useUserShippingFactory<any, any>(useUserShippingFactoryParams);
+
+export {
+  useUserShipping,
+  useUserShippingFactoryParams
+};

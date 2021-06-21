@@ -41,6 +41,7 @@ describe('[commercetools-getters] utils/createPrice', () => {
     const price = createPrice({
       __typename: 'LineItem',
       discountedPricePerQuantity: [],
+      quantity: 1,
       price: {
         value: { centAmount: 250 },
         discounted: {
@@ -74,6 +75,7 @@ describe('[commercetools-getters] utils/createPrice', () => {
   it('returns regular and special price for line item', () => {
     const price = createPrice({
       __typename: 'LineItem',
+      quantity: 1,
       discountedPricePerQuantity: [{
         discountedPrice: {
           value: { centAmount: 2400 }

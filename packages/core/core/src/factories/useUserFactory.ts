@@ -1,5 +1,5 @@
 import { Ref, computed } from '@vue/composition-api';
-import { UseUser, Context, FactoryParams, UseUserErrors, PlatformApi } from '../types';
+import { UseUser, Context, FactoryParams, UseUserErrors, CustomQuery, PlatformApi } from '../types';
 import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 
 export interface UseUserFactoryParams<
@@ -8,12 +8,12 @@ export interface UseUserFactoryParams<
   REGISTER_USER_PARAMS,
   API extends PlatformApi = any
 > extends FactoryParams<API> {
-  load: (context: Context, params?: any) => Promise<USER>;
-  logOut: (context: Context, params?: {currentUser?: USER}) => Promise<void>;
-  updateUser: (context: Context, params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS}) => Promise<USER>;
-  register: (context: Context, params: REGISTER_USER_PARAMS) => Promise<USER>;
-  logIn: (context: Context, params: { username: string; password: string }) => Promise<USER>;
-  changePassword: (context: Context, params: {currentUser: USER; currentPassword: string; newPassword: string}) => Promise<USER>;
+  load: (context: Context, params?: { customQuery: CustomQuery }) => Promise<USER>;
+  logOut: (context: Context, params: {currentUser: USER}) => Promise<void>;
+  updateUser: (context: Context, params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS; customQuery?: CustomQuery}) => Promise<USER>;
+  register: (context: Context, params: REGISTER_USER_PARAMS & {customQuery?: CustomQuery}) => Promise<USER>;
+  logIn: (context: Context, params: { username: string; password: string; customQuery?: CustomQuery }) => Promise<USER>;
+  changePassword: (context: Context, params: {currentUser: USER; currentPassword: string; newPassword: string; customQuery?: CustomQuery}) => Promise<USER>;
 }
 
 export const useUserFactory = <
@@ -53,13 +53,13 @@ API extends PlatformApi = any
       error.value = errorsFactory();
     };
 
-    const updateUser = async ({ user: providedUser }) => {
+    const updateUser = async ({ user: providedUser, customQuery }) => {
       Logger.debug('useUserFactory.updateUser', providedUser);
       resetErrorValue();
 
       try {
         loading.value = true;
-        user.value = await _factoryParams.updateUser({currentUser: user.value, updatedUserData: providedUser});
+        user.value = await _factoryParams.updateUser({currentUser: user.value, updatedUserData: providedUser, customQuery});
         error.value.updateUser = null;
       } catch (err) {
         error.value.updateUser = err;
@@ -69,13 +69,13 @@ API extends PlatformApi = any
       }
     };
 
-    const register = async ({ user: providedUser }) => {
+    const register = async ({ user: providedUser, customQuery }) => {
       Logger.debug('useUserFactory.register', providedUser);
       resetErrorValue();
 
       try {
         loading.value = true;
-        user.value = await _factoryParams.register(providedUser);
+        user.value = await _factoryParams.register({...providedUser, customQuery});
         error.value.register = null;
       } catch (err) {
         error.value.register = err;
@@ -85,13 +85,13 @@ API extends PlatformApi = any
       }
     };
 
-    const login = async ({ user: providedUser }) => {
+    const login = async ({ user: providedUser, customQuery }) => {
       Logger.debug('useUserFactory.login', providedUser);
       resetErrorValue();
 
       try {
         loading.value = true;
-        user.value = await _factoryParams.logIn(providedUser);
+        user.value = await _factoryParams.logIn({...providedUser, customQuery});
         error.value.login = null;
       } catch (err) {
         error.value.login = err;
@@ -106,7 +106,7 @@ API extends PlatformApi = any
       resetErrorValue();
 
       try {
-        await _factoryParams.logOut();
+        await _factoryParams.logOut({ currentUser: user.value });
         error.value.logout = null;
         user.value = null;
       } catch (err) {
@@ -124,7 +124,8 @@ API extends PlatformApi = any
         user.value = await _factoryParams.changePassword({
           currentUser: user.value,
           currentPassword: params.current,
-          newPassword: params.new
+          newPassword: params.new,
+          customQuery: params.customQuery
         });
         error.value.changePassword = null;
       } catch (err) {
@@ -135,13 +136,13 @@ API extends PlatformApi = any
       }
     };
 
-    const load = async () => {
+    const load = async ({customQuery} = {customQuery: undefined}) => {
       Logger.debug('useUserFactory.load');
       resetErrorValue();
 
       try {
         loading.value = true;
-        user.value = await _factoryParams.load();
+        user.value = await _factoryParams.load({customQuery});
         error.value.load = null;
       } catch (err) {
         error.value.load = err;

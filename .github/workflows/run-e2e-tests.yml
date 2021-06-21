@@ -41,7 +41,7 @@ jobs:
         run: yarn install
 
       - name: Build tools
-        run: yarn build:${{ github.event.inputs.package }}
+        run: yarn build:${{ github.event.inputs.package }}:tools
 
       - name: Run cypress tests
         uses: cypress-io/github-action@v2.8.2
