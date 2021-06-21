@@ -227,7 +227,7 @@ const { products, search, loading, api } = useProduct('<UNIQUE_ID>');
 
 search({ slug: 'super-t-shirt' }); // agnostic access
 
-api.addCartInsurence({ id: 't-shirt-01' }); // platform-specyfic API
+api.addCartInsurence({ id: 't-shirt-01' }); // platform-specific API
 
 return { products, search, loading };
 ```

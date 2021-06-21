@@ -311,11 +311,11 @@ export { useCart }
 
 Each function inside of factory params has the context in the very first argument. The second argument always contains the given parameters to the function (eg. product data in adding to cart function)
 
-### Plarform-specyfic API access
+### Plarform-specific API access
 
 By default, in factory params you are defining only the functions that cover agnostic and common scenarios of certain features and they will be called once you call one of function returned by the created composable.
 
-Sometimes there is a need to share also a platform-specyfic function, that may not present across other platforms you integrate with. To implement them, you can use an optional section `api` and define their an additional methods, which will be available under the `api` field returned by composable.
+Sometimes there is a need to share also a platform-specific function, that may not present across other platforms you integrate with. To implement them, you can use an optional section `api` and define their an additional methods, which will be available under the `api` field returned by composable.
 
 ```ts{21-27}
 import { useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
