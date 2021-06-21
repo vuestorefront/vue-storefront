@@ -16,10 +16,31 @@
 </template>
 
 <script lang="ts">
+import { VueConstructor } from 'vue';
+import { InjectKey } from 'vue/types/options';
 import { Blok } from '..'
+import ComponentWidthCalculator, { ColumnsSpecification } from '../../component-width-calculator.service';
 
-export default Blok.extend({
+interface InjectedServices {
+  componentWidthCalculator: ComponentWidthCalculator
+}
+
+type InjectType<T> = Record<keyof T, InjectKey | { from?: InjectKey, default?: any }>;
+
+export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServices>).extend({
   name: 'GridBlok',
+  inject: {
+    componentWidthCalculator: { default: undefined }
+  } as unknown as InjectType<InjectedServices>,
+  provide () {
+    let widthCalculator = this.componentWidthCalculator.reduceSizes(
+      this.getColumnsSettings()
+    );
+
+    return {
+      'componentWidthCalculator': widthCalculator
+    }
+  },
   computed: {
     extraCssClasses (): string[] {
       const result: string [] = [];
@@ -60,6 +81,30 @@ export default Blok.extend({
     },
     isCardsMode (): boolean {
       return this.item.is_cards_mode === true;
+    }
+  },
+  methods: {
+    getColumnsSettings (): ColumnsSpecification {
+      const fields = [
+        'xsmall',
+        'small',
+        'medium',
+        'large',
+        'xlarge'
+      ];
+
+      const result: ColumnsSpecification = {};
+
+      let columnsCount = 1;
+      for (const field of fields) {
+        if (this.item.columns_count[field]) {
+          columnsCount = this.item.columns_count[field];
+        }
+
+        (result as any)[field] = columnsCount;
+      }
+
+      return result;
     }
   }
 });

@@ -17,10 +17,31 @@
 </template>
 
 <script lang="ts">
+import { VueConstructor } from 'vue';
+import { InjectKey } from 'vue/types/options';
 import { Blok } from '..'
+import ComponentWidthCalculator from '../../component-width-calculator.service';
 
-export default Blok.extend({
+interface InjectedServices {
+  componentWidthCalculator: ComponentWidthCalculator
+}
+
+type InjectType<T> = Record<keyof T, InjectKey | { from?: InjectKey, default?: any }>;
+
+export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServices>).extend({
   name: 'StoryblokPageSection',
+  inject: {
+    componentWidthCalculator: { default: undefined }
+  } as unknown as InjectType<InjectedServices>,
+  provide () {
+    let widthCalculator = this.componentWidthCalculator;
+    if (this.item.width === 'narrow') {
+      widthCalculator = widthCalculator.limitSize(960);
+    }
+    return {
+      'componentWidthCalculator': widthCalculator
+    }
+  },
   computed: {
     extraCssClasses (): string[] {
       const result: string [] = [];
