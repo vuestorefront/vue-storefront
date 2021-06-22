@@ -221,7 +221,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
   },
   clearCurrentUser ({ commit, dispatch }) {
-    commit(types.USER_TOKEN_CHANGED, '')
+    commit(types.USER_TOKEN_CHANGED, { newToken: null })
     commit(types.USER_GROUP_TOKEN_CHANGED, '')
     commit(types.USER_GROUP_CHANGED, null)
     commit(types.USER_INFO_LOADED, null)

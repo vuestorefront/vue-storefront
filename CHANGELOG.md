@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ESLint warnings caused by the double import - @lukaszjedrasik
 - Fix Order History Pagination - @AishwaryShrivastav / @lukaszjedrasik ([#4599](https://github.com/vuestorefront/vue-storefront/issues/4599))
 - Fix: Updating URL's params/query params with proper child SKU if options changes - @lukaszjedrasik ([#5981](https://github.com/vuestorefront/vue-storefront/issues/5981))
+- Fix: Passing `newToken: null` as a payload inside `clearCurrentUser` action - @lukaszjedrasik ([#5565](https://github.com/vuestorefront/vue-storefront/issues/5565))
 
 ### Changed / Improved
 
