@@ -1,20 +1,36 @@
-import { CustomQuery, ProductsSearchParams, UseProduct, Context, FactoryParams, UseProductErrors } from '../types';
+import {
+  CustomQuery,
+  ProductsSearchParams,
+  UseProduct,
+  Context,
+  FactoryParams,
+  UseProductErrors,
+  PlatformApi
+} from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
-export interface UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PARAMS extends ProductsSearchParams> extends FactoryParams {
+export interface UseProductFactoryParams<
+PRODUCTS,
+PRODUCT_SEARCH_PARAMS extends ProductsSearchParams,
+API extends PlatformApi = any
+> extends FactoryParams<API> {
   productsSearch: (context: Context, params: PRODUCT_SEARCH_PARAMS & { customQuery?: CustomQuery }) => Promise<PRODUCTS>;
 }
 
-export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS>(
-  factoryParams: UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PARAMS>
+export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS, API extends PlatformApi = any>(
+  factoryParams: UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PARAMS, API>
 ) {
-  return function useProduct(id: string): UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS> {
+  return function useProduct(id: string): UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS, API> {
     const products: Ref<PRODUCTS> = sharedRef([], `useProduct-products-${id}`);
     const loading = sharedRef(false, `useProduct-loading-${id}`);
-    const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseProductErrors> = sharedRef({
       search: null
     }, `useProduct-error-${id}`);
+
+    const _factoryParams = configureFactoryParams(
+      factoryParams,
+      { mainRef: products, alias: 'currentProducts', loading, error }
+    );
 
     const search = async (searchParams) => {
       Logger.debug(`useProduct/${id}/search`, searchParams);

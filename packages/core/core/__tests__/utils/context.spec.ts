@@ -1,9 +1,9 @@
 import {
   generateContext,
   useVSFContext,
-  configureContext,
-  configureFactoryParams
+  configureContext
 } from '../../src/utils/context';
+
 import { Context } from '../../src/types';
 
 describe('context', () => {
@@ -75,30 +75,6 @@ describe('context', () => {
       a: 1,
       b: 2,
       c: 3
-    });
-  });
-
-  it('configureFactoryParams should return functions', () => {
-    const factoryParams = {
-      provide: () => {
-        return {
-          b: 2,
-          c: 3
-        };
-      },
-      test: () => {
-        return {
-          b: 2,
-          c: 3
-        };
-      }
-    };
-
-    const params = configureFactoryParams(factoryParams);
-
-    expect(params).toEqual({
-      provide: expect.any(Function),
-      test: expect.any(Function)
     });
   });
 });

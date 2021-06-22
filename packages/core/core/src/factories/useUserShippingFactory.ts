@@ -1,8 +1,19 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserShipping, Context, FactoryParams, UseUserShippingErrors, CustomQuery } from '../types';
+import {
+  UseUserShipping,
+  Context,
+  FactoryParams,
+  UseUserShippingErrors,
+  CustomQuery,
+  PlatformApi
+} from '../types';
 import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 
-export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM> extends FactoryParams {
+export interface UseUserShippingFactoryParams<
+  USER_SHIPPING,
+  USER_SHIPPING_ITEM,
+  API extends PlatformApi = any
+> extends FactoryParams<API> {
   addAddress: (
     context: Context,
     params: {
@@ -38,14 +49,13 @@ export interface UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM>
     }) => Promise<USER_SHIPPING>;
 }
 
-export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
-  factoryParams: UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM>
+export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM, API extends PlatformApi = any>(
+  factoryParams: UseUserShippingFactoryParams<USER_SHIPPING, USER_SHIPPING_ITEM, API>
 ) => {
 
-  const useUserShipping = (): UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> => {
+  const useUserShipping = (): UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM, API> => {
     const loading: Ref<boolean> = sharedRef(false, 'useUserShipping-loading');
     const shipping: Ref<USER_SHIPPING> = sharedRef({}, 'useUserShipping-shipping');
-    const _factoryParams = configureFactoryParams(factoryParams);
     const readonlyShipping: Readonly<USER_SHIPPING> = unref(shipping);
     const error: Ref<UseUserShippingErrors> = sharedRef({
       addAddress: null,
@@ -54,6 +64,11 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
       load: null,
       setDefaultAddress: null
     }, 'useUserShipping-error');
+
+    const _factoryParams = configureFactoryParams(
+      factoryParams,
+      { mainRef: shipping, alias: 'currentShipping', loading, error }
+    );
 
     const addAddress = async ({ address, customQuery }) => {
       Logger.debug('useUserShipping.addAddress', mask(address));
@@ -149,6 +164,7 @@ export const useUserShippingFactory = <USER_SHIPPING, USER_SHIPPING_ITEM>(
     };
 
     return {
+      api: _factoryParams.api,
       shipping: computed(() => shipping.value),
       loading: computed(() => loading.value),
       error: computed(() => error.value),

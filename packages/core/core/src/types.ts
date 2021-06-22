@@ -20,7 +20,37 @@ export interface ProductsSearchParams {
 export interface UseProductErrors {
   search: Error;
 }
-export interface UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS> {
+
+export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any> {
+  client: CLIENT;
+  config: CONFIG;
+  api: API;
+  [x: string]: any;
+}
+
+export interface Context {
+  [x: string]: IntegrationContext | any;
+}
+
+export type PlatformApi = {
+  [functionName: string]: (context: Context, ...args: any[]) => Promise<any>
+}
+
+export type ContextedPlatformApi<T extends PlatformApi> = {
+  [P in keyof T]: T[P] extends (context: Context, ...arg: infer X) => Promise<any>
+    ? (...arg: X) => Promise<any>
+    : never
+}
+
+export interface Composable<API extends PlatformApi> {
+  api?: ContextedPlatformApi<API>
+}
+
+export interface UseProduct<
+  PRODUCTS,
+  PRODUCT_SEARCH_PARAMS,
+  API extends PlatformApi = any
+> extends Composable<API> {
   products: ComputedProperty<PRODUCTS>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseProductErrors>;
@@ -49,11 +79,13 @@ export interface UseUserErrors {
   changePassword: Error;
   load: Error;
 }
+
 export interface UseUser
 <
   USER,
-  UPDATE_USER_PARAMS
-> {
+  UPDATE_USER_PARAMS,
+  API extends PlatformApi = any
+> extends Composable<API> {
   user: ComputedProperty<USER>;
   setUser: (user: USER) => void;
   updateUser: (params: { user: UPDATE_USER_PARAMS; customQuery?: CustomQuery }) => Promise<void>;
@@ -76,14 +108,18 @@ export interface UseUserOrderSearchParams {
 export interface UseUserOrderErrors {
   search: Error;
 }
-export interface UseUserOrder<ORDERS, ORDER_SEARCH_PARAMS> {
+export interface UseUserOrder<
+  ORDERS,
+  ORDER_SEARCH_PARAMS,
+  API extends PlatformApi = any
+> extends Composable<API> {
   orders: ComputedProperty<ORDERS>;
   search(params: ComposableFunctionArgs<ORDER_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseUserOrderErrors>;
 }
 
-export interface UseUserAddress<ADDRESS> {
+export interface UseUserAddress<ADDRESS, API extends PlatformApi = any> extends Composable<API> {
   addresses: ComputedProperty<ADDRESS[]>;
   totalAddresses: ComputedProperty<number>;
   addAddress: (address: ADDRESS) => Promise<void>;
@@ -99,7 +135,11 @@ export interface UseUserShippingErrors {
   load: Error;
   setDefaultAddress: Error;
 }
-export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM> {
+export interface UseUserShipping<
+USER_SHIPPING,
+USER_SHIPPING_ITEM,
+API extends PlatformApi = any
+> extends Composable<API> {
   shipping: ComputedProperty<USER_SHIPPING>;
   addAddress: (params: { address: USER_SHIPPING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
   deleteAddress: (params: { address: USER_SHIPPING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
@@ -138,7 +178,11 @@ export interface UseUserBillingErrors {
   load: Error;
   setDefaultAddress: Error;
 }
-export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM> {
+export interface UseUserBilling<
+  USER_BILLING,
+  USER_BILLING_ITEM,
+  API extends PlatformApi = any
+> extends Composable<API> {
   billing: ComputedProperty<USER_BILLING>;
   addAddress: (params: { address: USER_BILLING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
   deleteAddress: (params: { address: USER_BILLING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
@@ -173,7 +217,11 @@ export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
 export interface UseCategoryErrors {
   search: Error;
 }
-export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS> {
+export interface UseCategory<
+  CATEGORY,
+  CATEGORY_SEARCH_PARAMS,
+  API extends PlatformApi = any
+> extends Composable<API> {
   categories: ComputedProperty<CATEGORY[]>;
   search(params: ComposableFunctionArgs<CATEGORY_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
@@ -194,8 +242,9 @@ export interface UseCart
   CART,
   CART_ITEM,
   PRODUCT,
-  COUPON
-  > {
+  COUPON,
+  API extends PlatformApi = any
+> extends Composable<API> {
   cart: ComputedProperty<CART>;
   setCart(cart: CART): void;
   addItem(params: { product: PRODUCT; quantity: number; customQuery?: CustomQuery }): Promise<void>;
@@ -221,7 +270,8 @@ export interface UseWishlist
   WISHLIST,
   WISHLIST_ITEM,
   PRODUCT,
-> {
+  API extends PlatformApi = any
+> extends Composable<API> {
   wishlist: ComputedProperty<WISHLIST>;
   loading: ComputedProperty<boolean>;
   addItem(params: { product: PRODUCT; customQuery?: CustomQuery }): Promise<void>;
@@ -246,7 +296,7 @@ export interface UseMakeOrderErrors {
   make: Error;
 }
 
-export interface UseMakeOrder<ORDER> {
+export interface UseMakeOrder<ORDER, API extends PlatformApi = any> extends Composable<API> {
   order: Ref<ORDER>;
   make(params: { customQuery?: CustomQuery }): Promise<void>;
   error: ComputedProperty<UseMakeOrderErrors>;
@@ -263,7 +313,8 @@ export interface UseCheckout
   CHOOSEN_PAYMENT_METHOD,
   CHOOSEN_SHIPPING_METHOD,
   PLACE_ORDER,
-> {
+  API extends PlatformApi = any
+> extends Composable<API> {
   paymentMethods: Ref<PAYMENT_METHODS>;
   shippingMethods: Ref<SHIPPING_METHODS>;
   personalDetails: PERSONAL_DETAILS;
@@ -278,7 +329,12 @@ export interface UseReviewErrors {
   search: Error;
   addReview: Error;
 }
-export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
+export interface UseReview<
+REVIEW,
+REVIEWS_SEARCH_PARAMS,
+REVIEW_ADD_PARAMS,
+API extends PlatformApi = any
+> extends Composable<API> {
   search(params: ComposableFunctionArgs<REVIEWS_SEARCH_PARAMS>): Promise<void>;
   addReview(params: ComposableFunctionArgs<REVIEW_ADD_PARAMS>): Promise<void>;
   error: ComputedProperty<UseReviewErrors>;
@@ -291,7 +347,11 @@ export interface UseShippingErrors {
   load: Error;
   save: Error;
 }
-export interface UseShipping<SHIPPING, SHIPPING_PARAMS> {
+export interface UseShipping<
+SHIPPING,
+SHIPPING_PARAMS,
+API extends PlatformApi = any
+> extends Composable<API> {
   error: ComputedProperty<UseShippingErrors>;
   loading: ComputedProperty<boolean>;
   shipping: ComputedProperty<SHIPPING>;
@@ -303,7 +363,11 @@ export interface UseShippingProviderErrors {
   load: Error;
   save: Error;
 }
-export interface UseShippingProvider<STATE, SHIPPING_METHOD> {
+export interface UseShippingProvider<
+STATE,
+SHIPPING_METHOD,
+API extends PlatformApi = any
+> extends Composable<API> {
   error: ComputedProperty<UseShippingProviderErrors>;
   loading: ComputedProperty<boolean>;
   state: ComputedProperty<STATE>;
@@ -318,7 +382,11 @@ export interface UseBillingErrors {
   save: Error;
 }
 
-export interface UseBilling<BILLING, BILLING_PARAMS> {
+export interface UseBilling<
+  BILLING,
+  BILLING_PARAMS,
+  API extends PlatformApi = any
+> extends Composable<API> {
   error: ComputedProperty<UseBillingErrors>;
   loading: ComputedProperty<boolean>;
   billing: ComputedProperty<BILLING>;
@@ -355,7 +423,11 @@ export interface UseFacet<SEARCH_DATA> {
 export interface UseContentErrors {
   search: Error;
 }
-export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
+export interface UseContent<
+  CONTENT,
+  CONTENT_SEARCH_PARAMS,
+  API extends PlatformApi = any
+> extends Composable<API> {
   search: (params: CONTENT_SEARCH_PARAMS) => Promise<void>;
   content: ComputedProperty<CONTENT>;
   loading: ComputedProperty<boolean>;
@@ -617,19 +689,9 @@ export interface VSFLogger {
   error(message?: any, ...args: any): void;
 }
 
-export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any> {
-  client: CLIENT;
-  config: CONFIG;
-  api: API;
-  [x: string]: any;
-}
-
-export interface Context {
-  [x: string]: IntegrationContext | any;
-}
-
-export interface FactoryParams {
+export interface FactoryParams<API extends PlatformApi = any> {
   provide?: (context: Context) => any;
+  api?: Partial<API>;
 }
 
 export interface HookParams<C> {
