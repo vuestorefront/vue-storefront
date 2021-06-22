@@ -396,7 +396,7 @@ describe('User actions', () => {
 
       (userActions as any).clearCurrentUser(contextMock)
 
-      expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.USER_TOKEN_CHANGED, '')
+      expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.USER_TOKEN_CHANGED, { newToken: null })
       expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.USER_GROUP_TOKEN_CHANGED, '')
       expect(contextMock.commit).toHaveBeenNthCalledWith(3, types.USER_GROUP_CHANGED, null)
       expect(contextMock.commit).toHaveBeenNthCalledWith(4, types.USER_INFO_LOADED, null)
