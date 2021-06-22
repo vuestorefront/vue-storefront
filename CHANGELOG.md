@@ -54,6 +54,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Awaiting addItem action call inside mergeServerItem action (#5165)
 - Moved `phoneNum` to proper branch - @lukaszjedrasik ([#5730](https://github.com/vuestorefront/vue-storefront/issues/5730))
 - Development hot-reload speed webpack config - ([#5559](https://github.com/vuestorefront/vue-storefront/issues/5559))
+- Set correct type for `productPageVisited` hook - ([#5997](https://github.com/vuestorefront/vue-storefront/issues/5997))
+
 ## [1.12.2] - 2020.07.28
 
 ### Added
