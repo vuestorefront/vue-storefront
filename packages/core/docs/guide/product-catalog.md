@@ -14,8 +14,8 @@ Use the `search` method to fetch the product and its variants. The response is a
 
 ```vue
 <script>
-import { useProduct } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
+import { useProduct } from '{INTEGRATION}';
 
 export default {
   setup () {
@@ -48,13 +48,22 @@ For a full list of available getters, please refer to the [ProductGetters ](../c
 
 Use the `getFiltered` getter without the second parameter to get the list of all products.
 
-```vue
+```vue{3,17-23}
 <script>
-import { productGetters } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
+import { useProduct, productGetters } from '{INTEGRATION}';
 
 export default {
   setup () {
-    // Load products as shown in the first example above
+    const { products, search } = useProduct();
+
+    onSSR(async () => {
+      /**
+       * "searchParams" may vary depending on the integration used.
+       * Please refer to its documentation for more details.
+       */
+      await search(searchParams);
+    })
 
     const productList = computed(() => {
       return productGetters.getFiltered(products.value);
@@ -74,13 +83,22 @@ In most of the eCommerce backends, there is a so-called _master variant_. You ca
 
 Let's use the `getFiltered` getter again, but this time pass `{ master: true }` as a second parameter to only get the master variant.
 
-```vue
+```vue{3,17-23}
 <script>
-import { productGetters } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
+import { useProduct, productGetters } from '{INTEGRATION}';
 
 export default {
   setup () {
-    // Load products as shown in the first example above
+    const { products, search } = useProduct();
+
+    onSSR(async () => {
+      /**
+       * "searchParams" may vary depending on the integration used.
+       * Please refer to its documentation for more details.
+       */
+      await search(searchParams);
+    })
 
     const masterVariant = computed(() => {
       return productGetters.getFiltered(products.value, { master: true })[0];
@@ -102,13 +120,22 @@ Even when `{ master: true }` is passed, the `getFiltered` getter still returns a
 
 To only get the products with specific attributes, pass the `{ attributes }` object as a second parameter.
 
-```vue
+```vue{3,17-28}
 <script>
-import { productGetters } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core';
+import { useProduct, productGetters } from '{INTEGRATION}';
 
 export default {
   setup () {
-    // Load products as shown in the first example above
+    const { products, search } = useProduct();
+
+    onSSR(async () => {
+      /**
+       * "searchParams" may vary depending on the integration used.
+       * Please refer to its documentation for more details.
+       */
+      await search(searchParams);
+    })
 
     const attributes = {
       size: '38',
@@ -137,8 +164,8 @@ Use the `search` method to fetch the products. The response is available in the 
 
 ```vue
 <script>
-import { useFacet } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
+import { useFacet } from '{INTEGRATION}';
 
 export default {
   setup () {
@@ -170,14 +197,26 @@ For a full list of parameters, please refer to the [AgnosticFacetSearchParams](.
 
 Once data is loaded using `useFacet`, access it using `facetGetters`. Get the data such as products, sorting and filtering options, pagination, and much more.
 
-```vue
+```vue{3,21-35}
 <script>
-import { facetGetters } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
+import { useFacet, facetGetters } from '{INTEGRATION}';
 
 export default {
   setup () {
-    // Load products as shown in the first example above
+    const { result, search } = useFacet();
+
+    onSSR(async () => {
+      // This example shows only some of the available parameters.
+      await search({
+        categorySlug: '',
+        rootCatSlug: '',
+        term: '',
+        page: 1,
+        itemsPerPage: 10,
+        sort: ''
+      });
+    })
 
     const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
