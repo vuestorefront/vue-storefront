@@ -48,9 +48,10 @@ For a full list of available getters, please refer to the [ProductGetters ](../c
 
 Use the `getFiltered` getter without the second parameter to get the list of all products.
 
-```vue{3,17-23}
+```vue{4,18-24}
 <script>
 import { onSSR } from '@vue-storefront/core';
+import { computed } from '@vue/composition-api';
 import { useProduct, productGetters } from '{INTEGRATION}';
 
 export default {
@@ -83,9 +84,10 @@ In most of the eCommerce backends, there is a so-called _master variant_. You ca
 
 Let's use the `getFiltered` getter again, but this time pass `{ master: true }` as a second parameter to only get the master variant.
 
-```vue{3,17-23}
+```vue{4,18-24}
 <script>
 import { onSSR } from '@vue-storefront/core';
+import { computed } from '@vue/composition-api';
 import { useProduct, productGetters } from '{INTEGRATION}';
 
 export default {
@@ -120,9 +122,10 @@ Even when `{ master: true }` is passed, the `getFiltered` getter still returns a
 
 To only get the products with specific attributes, pass the `{ attributes }` object as a second parameter.
 
-```vue{3,17-28}
+```vue{4,18-29}
 <script>
 import { onSSR } from '@vue-storefront/core';
+import { computed } from '@vue/composition-api';
 import { useProduct, productGetters } from '{INTEGRATION}';
 
 export default {
@@ -197,9 +200,10 @@ For a full list of parameters, please refer to the [AgnosticFacetSearchParams](.
 
 Once data is loaded using `useFacet`, access it using `facetGetters`. Get the data such as products, sorting and filtering options, pagination, and much more.
 
-```vue{3,21-35}
+```vue{4,22-36}
 <script>
 import { onSSR } from '@vue-storefront/core';
+import { computed } from '@vue/composition-api';
 import { useFacet, facetGetters } from '{INTEGRATION}';
 
 export default {
