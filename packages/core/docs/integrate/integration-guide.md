@@ -1,7 +1,7 @@
 # Integration guide
 
 :::danger Don't forget to reload the application
-Due to the bug, application doesn't automatically reload after saving the changes in Server Middleware. Due to this, you have to restart the application manually. This issue will be fixed in future update.
+Due to the bug, the application doesn't automatically reload after saving the changes in Server Middleware. Due to this, you have to restart the application manually. This issue will be fixed in a future update.
 :::
 
 ::: warning Want to build an integration?
