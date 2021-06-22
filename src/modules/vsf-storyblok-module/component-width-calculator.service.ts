@@ -62,7 +62,19 @@ export default class ComponentWidthCalculator {
         continue;
       }
 
-      newWidths[sizeKey] = newWidths[sizeKey] / columnsCount;
+      newWidths[sizeKey] = Math.round(newWidths[sizeKey] / columnsCount);
+    }
+
+    return new ComponentWidthCalculator(newWidths, this);
+  }
+
+  public limitAllByPercent (percent: number): ComponentWidthCalculator {
+    const newWidths = { ...this.widths };
+
+    for (let size in newWidths) {
+      const sizeKey = size as SizeValue;
+
+      newWidths[sizeKey] = Math.round(newWidths[sizeKey] * percent / 100);
     }
 
     return new ComponentWidthCalculator(newWidths, this);
