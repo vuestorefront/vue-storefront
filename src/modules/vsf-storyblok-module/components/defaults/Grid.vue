@@ -30,7 +30,7 @@ interface InjectedServices {
 export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServices>).extend({
   name: 'GridBlok',
   inject: {
-    componentWidthCalculator: { default: undefined }
+    componentWidthCalculator: {}
   } as unknown as InjectType<InjectedServices>,
   provide () {
     let widthCalculator = this.componentWidthCalculator.reduceSizes(
