@@ -8,7 +8,7 @@
     :style="componentStyles"
     v-on="$listeners"
   >
-    <component :is="'style'" type="text/css" v-if="placeholderPaddings">
+    <component :is="'style'" type="text/css" v-if="placeholderPaddings.length">
       <template v-for="item in placeholderPaddings">
         @media (max-width: {{ item.breakpoint }}px) {
         .base-image.{{ componentClass }} ._placeholder[{{ cssScopeId }}] {
@@ -135,7 +135,7 @@ export default Vue.extend({
       return [...this.srcsets].sort((a, b) => a.breakpoint - b.breakpoint)
     },
     defaultSrcSet (): string[] | undefined {
-      if (!this.srcsets) {
+      if (!this.sortedSources.length) {
         return undefined;
       }
 
@@ -155,11 +155,11 @@ export default Vue.extend({
     optimizedAspectRatiosList (): ImageAspectRatioSpec[] {
       const result: ImageAspectRatioSpec[] = [];
 
-      if (!this.sortedSources && !this.aspectRatio) {
+      if (!this.sortedSources.length && !this.aspectRatio) {
         return result;
       }
 
-      if (!this.sortedSources && this.aspectRatio) {
+      if (!this.sortedSources.length && this.aspectRatio) {
         result.push({
           breakpoint: 9999,
           aspectRatio: this.aspectRatio
