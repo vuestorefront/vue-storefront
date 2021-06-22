@@ -16,16 +16,14 @@
 </template>
 
 <script lang="ts">
+import { InjectType } from 'src/modules/shared';
 import { VueConstructor } from 'vue';
-import { InjectKey } from 'vue/types/options';
 import { Blok } from '..'
 import ComponentWidthCalculator, { ColumnsSpecification } from '../../component-width-calculator.service';
 
 interface InjectedServices {
   componentWidthCalculator: ComponentWidthCalculator
 }
-
-type InjectType<T> = Record<keyof T, InjectKey | { from?: InjectKey, default?: any }>;
 
 export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServices>).extend({
   name: 'GridBlok',
