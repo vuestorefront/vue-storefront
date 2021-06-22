@@ -1,10 +1,4 @@
-export enum SizeValue {
-  xsmall = 'xsmall',
-  small = 'small',
-  medium = 'medium',
-  large = 'large',
-  xlarge = 'xlarge',
-}
+import { SizeValue } from './types/size.value';
 
 type SizeSpecification = {
   [key in SizeValue]: number;
