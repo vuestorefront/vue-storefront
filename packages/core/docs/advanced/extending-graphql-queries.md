@@ -1,5 +1,9 @@
 # Extending GraphQL Queries
 
+:::danger Don't forget to reload the application
+Due to the bug, application doesn't automatically reload after saving the changes in Server Middleware. Due to this, you have to restart the application manually. This issue will be fixed in future update.
+:::
+
 If your integration uses GraphQL API, you may want to change the default query or mutation that is being sent. That's quite a common case for fetching additional or custom fields. Vue Storefront provides the mechanism for this called "custom queries".
 
 Since the communication with the API goes through our middleware, all queries also are defined there. To customize or even entirely override the original (default) queries you need to follow two steps.
