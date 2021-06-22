@@ -26,6 +26,7 @@ const customerResetPassword = async (context, tokenValue: string, newPassword: s
     }) as ResetPasswordResponse;
   } catch (error) {
     Logger.error(`Cannot set new password after reset. Error: ${error}`);
+    throw error;
   }
 };
 
