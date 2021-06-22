@@ -237,10 +237,21 @@ export default Vue.extend({
 
   picture {
    display: block;
+   height: 100%;
+
+      img {
+        height: 100%;
+        object-fit: contain;
+        object-position: top;
+      }
   }
 
   ._placeholder {
     display: none;
+  }
+
+  ._image-wrapper {
+    height: 100%;
   }
 
   &.-with-placeholder {
