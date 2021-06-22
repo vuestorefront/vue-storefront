@@ -121,7 +121,7 @@
     "httpAuth": "",
     "host": "/api/catalog",
     "index": "vue_storefront_catalog",
-    "indices": [
+    "entityTypes": [
       "product",
       "attribute",
       "category",

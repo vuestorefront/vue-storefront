@@ -131,7 +131,7 @@ export class SearchAdapter {
   }
 
   public initBaseTypes () {
-    const baseTypes = config.elasticsearch.indices;
+    const baseTypes = config.elasticsearch.entityTypes;
 
     baseTypes.forEach(type => {
       this.registerEntityType(type, {

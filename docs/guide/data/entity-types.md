@@ -15,12 +15,12 @@ These entity types were hardcoded and there was no ability to easily use another
 
 Now, Vue Storefront has a new logic to work with entities in the data-fetching perspective: Entity Types.
 
-Also, the list of used elastic indices (Entity types) can be customized via `indices` field in the config:
+Also, the list of used elastic indices (Entity types) can be customized via `entityTypes` field in the config:
 ```json
  "elasticsearch": {
     "httpAuth": "",
     "host": "/api/catalog",
-    "indices": [
+    "entityTypes": [
       "product",
       "attribute",
       "category",
