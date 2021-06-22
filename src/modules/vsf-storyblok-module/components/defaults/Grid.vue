@@ -5,7 +5,7 @@
     :style="styles"
   >
     <div
-      v-for="_item in item.items"
+      v-for="_item in itemData.items"
       :key="_item.uuid"
       class="_item"
       :style="itemStyles"
@@ -20,6 +20,8 @@ import { InjectType } from 'src/modules/shared';
 import { VueConstructor } from 'vue';
 import { Blok } from '..'
 import ComponentWidthCalculator, { ColumnsSpecification } from '../../component-width-calculator.service';
+import GridData from '../../types/grid-data.interface';
+import { SizeValue } from '../../types/size.value';
 
 interface InjectedServices {
   componentWidthCalculator: ComponentWidthCalculator
@@ -40,20 +42,24 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     }
   },
   computed: {
+    itemData (): GridData {
+      return this.item as GridData;
+    },
     extraCssClasses (): string[] {
       const result: string [] = [];
       const classPrefix = '-columns-';
-      const sizes: Record<string, string> = {
-        'xsmall': '',
-        'small': 'sm-',
-        'medium': 'md-',
-        'large': 'lg-',
-        'xlarge': 'xlg-'
+      const sizes: Record<SizeValue, string> = {
+        [SizeValue.xsmall]: '',
+        [SizeValue.small]: 'sm-',
+        [SizeValue.medium]: 'md-',
+        [SizeValue.large]: 'lg-',
+        [SizeValue.xlarge]: 'xlg-'
       }
 
       for (const field in sizes) {
-        const prefix = sizes[field];
-        const value = this.item.columns_count[field];
+        const sizeKey = field as SizeValue;
+        const prefix = sizes[sizeKey];
+        const value = this.itemData.columns_count[sizeKey];
 
         if (!value) {
           continue;
@@ -69,37 +75,38 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
       return result;
     },
     itemStyles (): Record<string, string> {
-      if (!this.isCardsMode || !this.item.card_background.color) {
+      if (!this.isCardsMode || !this.itemData.card_background.color) {
         return {};
       }
 
       return {
-        'background-color': this.item.card_background.color
+        'background-color': this.itemData.card_background.color
       }
     },
     isCardsMode (): boolean {
-      return this.item.is_cards_mode === true;
+      return this.itemData.is_cards_mode === true;
     }
   },
   methods: {
     getColumnsSettings (): ColumnsSpecification {
       const fields = [
-        'xsmall',
-        'small',
-        'medium',
-        'large',
-        'xlarge'
+        SizeValue.xsmall,
+        SizeValue.small,
+        SizeValue.medium,
+        SizeValue.large,
+        SizeValue.xlarge
       ];
 
       const result: ColumnsSpecification = {};
 
       let columnsCount = 1;
       for (const field of fields) {
-        if (this.item.columns_count[field]) {
-          columnsCount = this.item.columns_count[field];
+        const value = this.itemData.columns_count[field];
+        if (value && !isNaN(Number(value))) {
+          columnsCount = Number(value);
         }
 
-        (result as any)[field] = columnsCount;
+        result[field] = columnsCount;
       }
 
       return result;
