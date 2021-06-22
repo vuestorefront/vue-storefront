@@ -121,7 +121,16 @@
     "httpAuth": "",
     "host": "/api/catalog",
     "index": "vue_storefront_catalog",
-    "indices": ["product", "attribute", "category", "taxrule", "review", "cms_page", "cms_block", "cms_hierarchy"],
+    "indices": [
+      "product",
+      "attribute",
+      "category",
+      "taxrule",
+      "review",
+      "cms_page",
+      "cms_block",
+      "cms_hierarchy"
+    ],
     "min_score": 0.02,
     "csrTimeout": 5000,
     "ssrTimeout": 1000,

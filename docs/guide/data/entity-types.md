@@ -20,7 +20,16 @@ Also, the list of used elastic indices (Entity types) can be customized via `ind
  "elasticsearch": {
     "httpAuth": "",
     "host": "/api/catalog",
-    "indices": ["product", "attribute", "category", "taxrule", "review", "cms_page", "cms_block", "cms_hierarchy"],
+    "indices": [
+      "product",
+      "attribute",
+      "category",
+      "taxrule",
+      "review",
+      "cms_page",
+      "cms_block",
+      "cms_hierarchy"
+    ],
     ...
  }
 ```
