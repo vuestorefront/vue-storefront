@@ -58,32 +58,22 @@
 </template>
 
 <script lang="ts">
-import Vue, { VueConstructor } from 'vue';
-import { InjectKey, PropType } from 'vue/types/options';
+import Vue from 'vue';
+import { PropType } from 'vue/types/options';
 
-import ComponentWidthCalculator from 'src/modules/vsf-storyblok-module/component-width-calculator.service';
-import ImageAspectRatioSpec from '../interfaces/image-aspect-ratio-spec.interface';
-import ImageSourceItem from '../interfaces/image-source-item.interface';
+import ImageAspectRatioSpec from '../types/image-aspect-ratio-spec.interface';
+import ImageSourceItem from '../types/image-source-item.interface';
 
 interface PaddingSpec {
   breakpoint: number,
   padding: string
 }
 
-interface InjectedServices {
-  componentWidthCalculator: ComponentWidthCalculator
-}
-
-type InjectType<T> = Record<keyof T, InjectKey | { from?: InjectKey, default?: any }>;
-
 let instanceId = 0;
 
-export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
+export default Vue.extend({
   name: 'BaseImage',
   inheritAttrs: false,
-  inject: {
-    componentWidthCalculator: { default: undefined }
-  } as unknown as InjectType<InjectedServices>,
   props: {
     src: {
       type: String as PropType<string | undefined>,

@@ -10,8 +10,8 @@ import ObjectBuilderInterface from './types/object-builder.interface';
 import { ValueCollection } from './types/value.collection';
 import { Value } from './types/value.interface';
 import BaseImage from './components/BaseImage.vue';
-import ImageSourceItem from './interfaces/image-source-item.interface';
-import ImageAspectRatioSpec from './interfaces/image-aspect-ratio-spec.interface';
+import ImageSourceItem from './types/image-source-item.interface';
+import ImageAspectRatioSpec from './types/image-aspect-ratio-spec.interface';
 
 export const BudsiesModule: StorefrontModule = async function ({ store }) {
   store.registerModule('budsies', budsiesStore);
