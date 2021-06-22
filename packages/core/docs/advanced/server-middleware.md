@@ -1,5 +1,9 @@
 # Server middleware
 
+:::danger Don't forget to reload the application
+The application does not reload automatically after saving the changes in Server Middleware. Due to this, you have to restart the application manually. We are working on enabling Hot Reloading in future updates.
+:::
+
 ## What is Vue Storefront Middleware and why we need it?
 
 The Vue Storefront middleware is an Express proxy that takes the requests from the front-end, translates them to a given integration, and calls related API-client.
