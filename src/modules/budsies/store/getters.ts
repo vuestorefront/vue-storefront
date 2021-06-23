@@ -50,6 +50,9 @@ const getters: GetterTree<BudsiesState, RootState> = {
   },
   getCurrentPlushieId: (state: BudsiesState): string | undefined => {
     return state.currentPlushieId;
+  },
+  getCustomerEmail: (state: BudsiesState): string | undefined => {
+    return state.customerEmail;
   }
 }
 

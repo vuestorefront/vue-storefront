@@ -51,5 +51,8 @@ export const mutations: MutationTree<BudsiesState> = {
   },
   [types.CURRENT_PLUSHIE_ID_CLEAR] (state: BudsiesState) {
     Vue.set(state, 'currentPlushieId', undefined);
+  },
+  [types.CUSTOMER_EMAIL_SET] (state: BudsiesState, { email }: { email: string }) {
+    Vue.set(state, 'customerEmail', email);
   }
 }

@@ -126,10 +126,15 @@ export const actions: ActionTree<BudsiesState, RootState> = {
   async synchronize ({ commit }) {
     const budsiesStorage = StorageManager.get(types.SN_BUDSIES);
     const currentPlushieId = await budsiesStorage.getItem('current-plushie-id');
+    const customerEmail = await budsiesStorage.getItem('customer-email');
 
     if (currentPlushieId) {
       commit(types.CURRENT_PLUSHIE_ID_SET, { id: currentPlushieId })
       Logger.info('Current Plushie ID received from cache.', 'cache', currentPlushieId)()
+    }
+    if (customerEmail) {
+      commit(types.CUSTOMER_EMAIL_SET, { email: customerEmail })
+      Logger.info('Customer Email received from cache.', 'cache', customerEmail)()
     }
   }
 }
