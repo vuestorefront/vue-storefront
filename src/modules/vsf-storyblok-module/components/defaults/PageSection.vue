@@ -6,7 +6,7 @@
   >
     <div class="_items_wrapper">
       <div
-        v-for="_item in item.items"
+        v-for="_item in itemData.items"
         :key="_item.uuid"
         class="_item"
       >
@@ -17,19 +17,51 @@
 </template>
 
 <script lang="ts">
-import { Blok } from '..'
+import { VueConstructor } from 'vue';
 
-export default Blok.extend({
+import { InjectType } from 'src/modules/shared';
+import { Blok } from '..'
+import PageSectionData from '../../types/page-section-data.interface';
+import ComponentWidthCalculator from '../../component-width-calculator.service';
+import { SectionWidth } from '../../types/section-width.value';
+
+const MAX_WIDTH = 960;
+
+interface InjectedServices {
+  componentWidthCalculator: ComponentWidthCalculator
+}
+
+export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServices>).extend({
   name: 'StoryblokPageSection',
+  inject: {
+    componentWidthCalculator: {}
+  } as unknown as InjectType<InjectedServices>,
+  provide () {
+    let widthCalculator = this.componentWidthCalculator;
+    if (this.itemData.width === SectionWidth.NARROW) {
+      widthCalculator = widthCalculator.limitSize(MAX_WIDTH);
+    }
+    return {
+      'componentWidthCalculator': widthCalculator
+    }
+  },
   computed: {
+    itemData (): PageSectionData {
+      return this.item as PageSectionData;
+    },
     extraCssClasses (): string[] {
       const result: string [] = [];
 
-      if (this.item.width === 'narrow') {
+      if (this.itemData.width === SectionWidth.NARROW) {
         result.push('-narrow');
       }
 
       return result;
+    },
+    extraStyles (): Record<string, string> {
+      return {
+        '--max-section-width': MAX_WIDTH + 'px'
+      }
     }
   }
 });
@@ -44,7 +76,7 @@ export default Blok.extend({
   padding: $default-grid-gap * 3 $default-grid-gap;
 
   > ._items_wrapper {
-    max-width: 960px;
+    max-width: var(--max-section-width, none);
 
     margin-left: auto;
     margin-right: auto;

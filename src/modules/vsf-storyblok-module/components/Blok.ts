@@ -1,10 +1,13 @@
 import Vue, { PropType } from 'vue';
 import { getStoryblokQueryParams } from '../helpers'
+import { Display } from '../types/display.value';
+import ItemData from '../types/item-data.interface';
+import { SpacingSettingsFieldName } from '../types/spacing-setting-field-name.value';
 
 export default Vue.extend({
   props: {
     item: {
-      type: Object as PropType<Record<string, any>>,
+      type: Object as PropType<ItemData>,
       required: true
     }
   },
@@ -21,11 +24,11 @@ export default Vue.extend({
     cssClasses (): string[] {
       const result: string[] = [];
 
-      if (this.item.display === 'mobile-only') {
+      if (this.item.display === Display.MOBILE_ONLY) {
         result.push('-mobile-only');
       }
 
-      if (this.item.display === 'mobile-hidden') {
+      if (this.item.display === Display.MOBILE_HIDDEN) {
         result.push('-mobile-hidden');
       }
 
@@ -44,7 +47,7 @@ export default Vue.extend({
     styles (): Record<string, string> {
       let result: Record<string, string> = {};
 
-      if ('background' in this.item && this.item.background.color) {
+      if (this.item.background?.color) {
         result['background-color'] = this.item.background.color;
       }
       if (this.item.alignment) {
@@ -52,21 +55,19 @@ export default Vue.extend({
       }
 
       if ('spacing_settings' in this.item) {
-        const spacingSettings: Record<string, string | number | undefined> = this.item.spacing_settings;
-
         const fields = [
-          'margin_top',
-          'margin_left',
-          'margin_right',
-          'margin_bottom',
-          'padding_top',
-          'padding_left',
-          'padding_right',
-          'padding_bottom'
+          SpacingSettingsFieldName.MARGIN_TOP,
+          SpacingSettingsFieldName.MARGIN_LEFT,
+          SpacingSettingsFieldName.MARGIN_RIGHT,
+          SpacingSettingsFieldName.MARGIN_BOTTOM,
+          SpacingSettingsFieldName.PADDING_TOP,
+          SpacingSettingsFieldName.PADDING_LEFT,
+          SpacingSettingsFieldName.PADDING_RIGHT,
+          SpacingSettingsFieldName.PADDING_BOTTOM
         ]
 
         for (const field of fields) {
-          let value = spacingSettings[field];
+          let value = this.item.spacing_settings[field];
 
           if (value === '' || value === undefined) {
             continue;
