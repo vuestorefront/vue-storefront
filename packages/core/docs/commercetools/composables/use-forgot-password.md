@@ -136,18 +136,19 @@ type Customer = Versioned & {
 
 ## Example
 
-Generating reset password token and changing user password.
+Requesting reset password token and setting new user password.
 
 ```vue
 <template>
-  <!-- Generate reset password token -->
+  <!-- Request reset password token -->
   <form @submit.prevent="request({ email: form.value.email })">
     <!-- form fields -->
     <button type="submit" :disabled="loading">Reset Password</button>
   </form>
 
-  <!-- Change user password -->
-  <form @submit.prevent="setNew({ tokenValue: token, newPassword: form.value.password })">
+  <!-- Set new user password -->
+  <form @submit.prevent="setNew({ tokenValue: tokenFromUrl, newPassword: form.value.password })">
+    <!-- Or you can get the token from getter by using tokenFromGetter -->
     <!-- form fields -->
     <button type="submit" :disabled="loading">Save Password</button>
   </form>
@@ -163,14 +164,16 @@ export default {
     const { request, setNew, result, loading } = useForgotPassword();
     const form = ref({});
     const isPasswordChanged = computed(() => forgotPasswordGetters.isPasswordChanged(result.value));
+    const tokenFromGetter = computed(() => forgotPasswordGetters.getResetPasswordToken(result.value))
 
-    const token = context.root.$route.query.token
+    const tokenFromUrl = context.root.$route.query.token
 
     return {
       request,
       setNew,
       isPasswordChanged,
-      token,
+      tokenFromUrl,
+      tokenFromGetter,
       loading,
       form
     };
