@@ -14,6 +14,9 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
 
 const context = {
   $ct: {
+    config: {
+      store: ''
+    },
     api: {
       getProduct: jest.fn(() => ({
         data: {
