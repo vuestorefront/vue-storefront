@@ -3,7 +3,8 @@ import { enhanceProduct, getFiltersFromProductsAttributes } from './../../src/he
 
 jest.mock('./../../src/helpers/internals', () => ({
   enhanceProduct: jest.fn((productResponse) => ({ ...productResponse, _variants: [] })),
-  getFiltersFromProductsAttributes: jest.fn()
+  getFiltersFromProductsAttributes: jest.fn(),
+  getChannelId: jest.fn()
 }));
 
 jest.mock('@vue-storefront/commercetools-api', () => ({
