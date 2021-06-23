@@ -96,7 +96,7 @@ After we returned reactive properties from the `setup`, they become available in
 
 Methods can be also created inside the `setup` option:
 
-```js{5-11}
+```js{6-11}
 export default {
   setup() {
     const username = ref('');
@@ -114,7 +114,7 @@ export default {
 
 Let's disable a button when username or password is empty. In order to do this, we can create a computed property - and this can be also done with the Composition API inside the `setup`:
 
-```html{5,15-17}
+```html{5,15-19}
 <template>
   <form @submit="submitForm">
     <input v-model="username" type="text" placeholder="Username" />
