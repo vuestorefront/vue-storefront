@@ -39,7 +39,7 @@ describe('[commercetools-composables] useForgotPassword', () => {
 
     const response = await resetPassword(context, { email: 'xxx1' });
 
-    expect(response).toEqual({ data: { customerCreatePasswordResetToken: { value: mockedStringValue}}});
+    expect(response).toEqual({ resetPasswordResult: { data: { customerCreatePasswordResetToken: { value: mockedStringValue}}}});
     expect(context.$ct.api.customerCreatePasswordResetToken).toBeCalledWith('xxx1', undefined);
   });
   it('sets new password after reset', async () => {
@@ -47,7 +47,7 @@ describe('[commercetools-composables] useForgotPassword', () => {
 
     const response = await setNewPassword(context, { tokenValue: mockedStringValue, newPassword: mockedStringValue });
 
-    expect(response).toEqual(true);
+    expect(response).toEqual({ setNewPasswordResult: true });
     expect(context.$ct.api.customerResetPassword).toBeCalledWith(mockedStringValue, mockedStringValue, undefined);
   });
 });

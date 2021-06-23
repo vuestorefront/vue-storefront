@@ -17,7 +17,10 @@ describe('[CORE - factories] useForgotPassword', () => {
       const useForgotPassword = useForgotPasswordFactory(factoryParams);
       const { result } = useForgotPassword();
 
-      expect(result.value).toEqual({});
+      expect(result.value).toEqual({
+        resetPasswordResult: null,
+        setNewPasswordResult: null
+      });
     });
   });
   describe('methods', () => {
