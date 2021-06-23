@@ -1,6 +1,6 @@
 import { useFacetFactory, FacetSearchResult, Context } from '@vue-storefront/core';
 import { AttributeType } from '@vue-storefront/commercetools-api';
-import { enhanceProduct, getFiltersFromProductsAttributes } from './../helpers/internals';
+import { enhanceProduct, getFiltersFromProductsAttributes, getChannelId } from './../helpers/internals';
 import { ProductVariant } from './../types/GraphQL';
 import { FacetResultsData } from './../types';
 
@@ -23,7 +23,8 @@ const useFacetFactoryParams = {
       catId: categories[0].id,
       limit: itemsPerPage,
       offset: (params.input.page - 1) * itemsPerPage,
-      filters
+      filters,
+      channelId: getChannelId(context.$ct.config.store)
       // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4857
       // sort: params.sort
     });

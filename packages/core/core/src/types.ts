@@ -767,20 +767,30 @@ export interface UseStoreErrors {
   change: Error | null;
 }
 
-export interface UseStoreFactoryParams<STORES, CHANGE_PARAMS> extends FactoryParams {
-  load(context: Context, params: { customQuery: CustomQuery; }): Promise<STORES>
-  change(context: Context, parmas: { current: STORES; next: CHANGE_PARAMS; customQuery?: CustomQuery; }): Promise<STORES>
+export interface UseStoreFactoryChangeParamArguments {
+  currentStore: AgnosticStore;
+  store: AgnosticStore;
+  customQuery?: CustomQuery;
 }
-export interface UseStoreInterface<STORES, CHANGE_PARAMS> {
-  change(params: CHANGE_PARAMS & { customQuery?: CustomQuery; }): Promise<void>;
-  load(params?: { customQuery: CustomQuery; }): Promise<void>;
+
+export interface UseStoreFactoryLoadParamArguments {
+  customQuery: CustomQuery;
+}
+
+export interface UseStoreFactoryParams<STORES> extends FactoryParams {
+  load(context: Context, params: UseStoreFactoryLoadParamArguments): Promise<STORES>
+  change(context: Context, parmas: UseStoreFactoryChangeParamArguments): Promise<STORES>
+}
+export interface UseStoreInterface<STORES> {
+  change(params: UseStoreFactoryChangeParamArguments): Promise<void>;
+  load(params?: UseStoreFactoryLoadParamArguments): Promise<void>;
   loading: ComputedProperty<boolean>;
   response: ComputedProperty<STORES>;
   error: ComputedProperty<UseStoreErrors>;
 }
 
-export interface UseStore<STORES, CHANGE_PARAMS> {
-  (): UseStoreInterface<STORES, CHANGE_PARAMS>;
+export interface UseStore<STORES> {
+  (): UseStoreInterface<STORES>;
 }
 
 export interface UseStoreGetters<STORES, CRITERIA = any> {

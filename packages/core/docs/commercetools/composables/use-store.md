@@ -21,7 +21,9 @@ type CustomQuery = {
 
 - `change` - function for changing and saving selected store / channel. This method accepts a single params object. The params has the following options:
 
-    - `item: AgnosticStore`
+    - `currentStore: AgnosticStore`
+    - `store: AgnosticStore`
+    - `customQuery?: CustomQuery`
 
 ```ts
 interface AgnosticStore {

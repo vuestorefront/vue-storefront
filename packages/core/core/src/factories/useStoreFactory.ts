@@ -2,9 +2,9 @@ import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, configureFactoryParams, Logger } from '../utils';
 import { UseStoreFactoryParams, UseStore, UseStoreErrors } from '../types';
 
-export function useStoreFactory <STORES, CHANGE_PARAMS>(
-  factoryParams: UseStoreFactoryParams<STORES, CHANGE_PARAMS>
-): UseStore<STORES, CHANGE_PARAMS> {
+export function useStoreFactory <STORES>(
+  factoryParams: UseStoreFactoryParams<STORES>
+): UseStore<STORES> {
 
   return function useStore () {
 
@@ -25,7 +25,9 @@ export function useStoreFactory <STORES, CHANGE_PARAMS>(
       try {
         loading.value = true;
         const { customQuery } = Object(params);
-        response.value = await _factoryParams.load({ customQuery });
+        response.value = await _factoryParams.load({
+          customQuery
+        });
       } catch (err) {
         error.value.load = err;
       } finally {
@@ -40,8 +42,12 @@ export function useStoreFactory <STORES, CHANGE_PARAMS>(
 
       try {
         loading.value = true;
-        const { customQuery, ...next } = Object(params);
-        response.value = await _factoryParams.change({current: response.value, next, customQuery});
+        const { customQuery, currentStore, store } = Object(params);
+        response.value = await _factoryParams.change({
+          currentStore,
+          store,
+          customQuery
+        });
       } catch (err) {
         error.value.change = err;
       } finally {

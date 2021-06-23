@@ -83,8 +83,7 @@ export default {
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
-      i18n: { useNuxtI18nConfig: true },
-      store: '3d636b3c-739c-46d0-9f7d-6c8fa169b4a4/ded919c2-9cb1-4401-b8c7-cac1974ec4d0'
+      i18n: { useNuxtI18nConfig: true }
     }]
   ],
   modules: [

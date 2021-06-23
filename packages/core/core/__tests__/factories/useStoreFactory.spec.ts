@@ -1,11 +1,17 @@
 import { useStoreFactory } from '../../src/factories';
+import { AgnosticStore } from '../../src/types';
 
 const factoryParams = {
   load: jest.fn(),
   change: jest.fn()
 };
 
-const useStore = useStoreFactory<any, any>(factoryParams);
+const stores = {key: 'stores'};
+const currentStore = ({store: 1} as unknown) as AgnosticStore;
+const store = ({store: 2} as unknown) as AgnosticStore;
+const error = {key: 'errors'};
+
+const useStore = useStoreFactory<any>(factoryParams);
 const useStoreMethods = useStore();
 
 describe('[CORE - factories] useStoreFactory', () => {
@@ -61,35 +67,28 @@ describe('[CORE - factories] useStoreFactory', () => {
     describe('change', () => {
 
       it('should return store data on success', async () => {
-        const store = {key: 'store'};
-        factoryParams.change.mockResolvedValue(store);
-        await useStoreMethods.change({});
-        expect(useStoreMethods.response.value).toEqual(store);
+        factoryParams.change.mockResolvedValue(stores);
+        await useStoreMethods.change({ currentStore, store });
+        expect(useStoreMethods.response.value).toEqual(stores);
       });
 
       it('should assign error on fail', async () => {
-        const error = {key: 'change'};
         factoryParams.change.mockRejectedValue(error);
-        await useStoreMethods.change({});
+        await useStoreMethods.change({ currentStore, store });
         expect(useStoreMethods.error.value.change).toEqual(error);
       });
 
       it('should be called with correct arguments', async () => {
-        const store = {key: 'store'};
-        factoryParams.change.mockResolvedValue(store);
+        factoryParams.change.mockResolvedValue(stores);
 
-        await useStoreMethods.change({key: 'test'});
+        await useStoreMethods.change({currentStore, store});
         expect(factoryParams.change).toHaveBeenNthCalledWith(1, {
-          current: {key: 'store'},
-          next: {key: 'test'},
-          customQuery: undefined
+          currentStore, store, customQuery: undefined
         });
 
-        await useStoreMethods.change({key: 'test', customQuery: {key: 'customQuery'}});
+        await useStoreMethods.change({currentStore, store, customQuery: {key: 'customQuery'}});
         expect(factoryParams.change).toHaveBeenNthCalledWith(2, {
-          current: {key: 'store'},
-          next: {key: 'test'},
-          customQuery: {key: 'customQuery'}
+          currentStore, store, customQuery: {key: 'customQuery'}
         });
       });
 

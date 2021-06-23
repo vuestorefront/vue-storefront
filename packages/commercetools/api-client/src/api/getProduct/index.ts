@@ -3,19 +3,21 @@ import { ProductQueryResult } from '../../types/GraphQL';
 import defaultQuery from './defaultQuery';
 import { buildProductWhere } from '../../helpers/search';
 import ApolloClient from 'apollo-client';
-import { CustomQuery } from '@vue-storefront/core';
+import { CustomQuery, Context } from '@vue-storefront/core';
 
 export interface ProductData {
   products: ProductQueryResult;
 }
 
-const getProduct = async (context, params, customQuery?: CustomQuery) => {
+const getProduct = async (context: Context, params, customQuery?: CustomQuery) => {
   const { locale, acceptLanguage, currency, country } = context.config;
+
   const defaultVariables = {
     where: buildProductWhere(context.config, params),
     skus: params.skus,
     limit: params.limit,
     offset: params.offset,
+    channelId: params.channelId,
     locale,
     acceptLanguage,
     currency,

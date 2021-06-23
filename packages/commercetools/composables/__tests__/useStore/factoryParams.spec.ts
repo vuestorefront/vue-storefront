@@ -31,7 +31,7 @@ describe('[commercetools-composables] useStore factoryParams', () => {
       _selected: config.store
     };
 
-    expect(useStoreFactoryParams.load((context as unknown) as Context, {})).resolves.toStrictEqual(expected);
+    expect(useStoreFactoryParams.load((context as unknown) as Context, {} as any)).resolves.toStrictEqual(expected);
     expect(api.getStores).toHaveBeenCalledWith({ customQuery: undefined });
   });
 
@@ -67,8 +67,8 @@ describe('[commercetools-composables] useStore factoryParams', () => {
     };
 
     const params = {
-      next: {
-        item: { id: STORES_ID }
+      store: {
+        id: STORES_ID
       }
     };
 
