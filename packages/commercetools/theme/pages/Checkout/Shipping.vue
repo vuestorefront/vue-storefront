@@ -182,7 +182,7 @@
         </ValidationProvider>
         <ValidationProvider
           name="phone"
-          rules="required|digits:9"
+          rules="required|phone"
           v-slot="{ errors }"
           slim
         >
@@ -220,10 +220,20 @@
           </SfButton>
         </div>
       </div>
-      <VsfShippingProvider
-        v-if="isShippingDetailsStepCompleted && !dirty"
-        @submit="$router.push('/checkout/billing')"
-      />
+      <div v-if="isShippingDetailsStepCompleted && !dirty">
+        <VsfShippingProvider />
+        <div class="form__action">
+          <SfButton
+            v-e2e="'continue-to-billing'"
+            class="form__action-button"
+            type="button"
+            @click.native="$router.push('/checkout/billing')"
+            :disabled="!isShippingMethodStepCompleted || loadingShippingProvider"
+          >
+            {{ $t('Continue to billing') }}
+          </SfButton>
+        </div>
+      </div>
     </form>
   </ValidationObserver>
 </template>
@@ -235,12 +245,13 @@ import {
   SfButton,
   SfSelect
 } from '@storefront-ui/vue';
-import { useUserShipping, userShippingGetters, useUser, useShipping } from '@vue-storefront/commercetools';
+import { useShippingProvider, useUserShipping, userShippingGetters, useUser, useShipping } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
 import { ref, watch, computed, onMounted } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
+import '@/helpers/validators/phone';
 
 const NOT_SELECTED_ADDRESS = '';
 
@@ -284,6 +295,11 @@ export default {
     const isShippingDetailsStepCompleted = ref(false);
 
     const canMoveForward = computed(() => !loading.value && shippingDetails.value && Object.keys(shippingDetails.value).length);
+
+    const {
+      state,
+      loading: loadingShippingProvider
+    } = useShippingProvider();
 
     const hasSavedShippingAddress = computed(() => {
       if (!isAuthenticated.value || !userShipping.value) {
@@ -399,7 +415,10 @@ export default {
       loading,
 
       isShippingDetailsStepCompleted,
-      canMoveForward
+      canMoveForward,
+
+      isShippingMethodStepCompleted: computed(() => state.value && state.value._status),
+      loadingShippingProvider
     };
   }
 };
