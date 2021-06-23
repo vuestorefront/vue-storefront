@@ -134,7 +134,7 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
 
   @for $i from 1 through 12 {
       &.-columns-#{$i} {
-        grid-template-columns: repeat($i, 1fr);
+        grid-template-columns: repeat($i, minmax(0, 1fr));
       }
     }
 
@@ -142,7 +142,7 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
       @media (min-width: $breakpoint) {
         @for $i from 1 through 12 {
           &.-columns-#{$size}-#{$i} {
-            grid-template-columns: repeat($i, 1fr);
+            grid-template-columns: repeat($i, minmax(0, 1fr));
           }
         }
       }
