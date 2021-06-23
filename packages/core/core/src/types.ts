@@ -21,6 +21,10 @@ export interface UseProductErrors {
   search: Error;
 }
 
+export interface UseSearchErrors {
+  search: Error;
+}
+
 export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any> {
   client: CLIENT;
   config: CONFIG;
@@ -56,6 +60,13 @@ export interface UseProduct<
   error: ComputedProperty<UseProductErrors>;
   search(params: ComposableFunctionArgs<PRODUCT_SEARCH_PARAMS>): Promise<void>;
   [x: string]: any;
+}
+
+export interface UseSearch<RESULT, SEARCH_PARAMS> {
+  result: ComputedProperty<RESULT>;
+  loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseSearchErrors>;
+  search(params: ComposableFunctionArgs<SEARCH_PARAMS>): Promise<void>;
 }
 
 export interface UseUserRegisterParams {
@@ -492,6 +503,18 @@ export interface AgnosticCategoryTree {
   [x: string]: unknown;
 }
 
+export interface AgnosticFilter {
+  id: string;
+  label: string;
+  values: {
+    id: string;
+    isSlected?: boolean;
+    count?: number;
+    label: string;
+    value: string;
+  }[]
+}
+
 export interface AgnosticProductReview {
   id: string;
   author: string;
@@ -680,6 +703,20 @@ export interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
   getPagination: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticPagination;
   getBreadcrumbs: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticBreadcrumb[];
   [getterName: string]: (element: any, options?: any) => unknown;
+}
+
+export interface UseSearchGetters<RESULT, ITEM> {
+  getItems: (result: RESULT) => ITEM[];
+  getCategoryTree: (result: RESULT) => AgnosticCategoryTree;
+  getPagination: (result: RESULT) => AgnosticPagination;
+  getItemPrice: (item: ITEM) => AgnosticPrice;
+  getSortOptions: (result: RESULT) => AgnosticSort;
+  getBreadcrumbs: (result: RESULT) => AgnosticBreadcrumb[];
+  getItemImages: (item: ITEM) => AgnosticMediaGalleryItem[]
+  getFilters: (result: RESULT) => AgnosticFilter[];
+  getItemName: (item: ITEM) => string;
+  getItemId: (item: ITEM) => string;
+  getItemSlug: (item: ITEM) => string;
 }
 
 export interface VSFLogger {
