@@ -30,7 +30,6 @@
         >
         <img
           v-show="defaultSrc"
-          ref="image"
           :src="defaultSrc"
           :srcset="defaultSrcSet"
           v-bind="$attrs"
@@ -170,7 +169,6 @@ export default Vue.extend({
       let item: ImageAspectRatioSpec | undefined;
 
       for (const source of this.sortedSources) {
-      // for (const source of this.sortedSources) {
         if (item && item.aspectRatio === source.aspectRatio) {
           item.breakpoint = source.breakpoint;
           continue;
