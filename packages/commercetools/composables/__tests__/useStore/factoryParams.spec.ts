@@ -1,6 +1,5 @@
 import { useStoreFactoryParams } from '../../src/useStore/';
-import { UseStoreFactoryChangeParams } from '../../src/useStore/factoryParams';
-import { Context } from '@vue-storefront/core';
+import { Context, UseStoreFactoryChangeParamArguments } from '@vue-storefront/core';
 
 describe('[commercetools-composables] useStore factoryParams', () => {
   it('loads stores data', async () => {
@@ -67,12 +66,10 @@ describe('[commercetools-composables] useStore factoryParams', () => {
     };
 
     const params = {
-      store: {
-        id: STORES_ID
-      }
+      store: { id: STORES_ID }
     };
 
-    expect(await useStoreFactoryParams.change((context as unknown) as Context, (params as unknown) as UseStoreFactoryChangeParams)).toBe(null);
+    expect(await useStoreFactoryParams.change((context as unknown) as Context, (params as unknown) as UseStoreFactoryChangeParamArguments)).toBe(null);
     expect(storeService.changeCurrentStore).toHaveBeenCalledWith(STORES_ID);
     expect(location.reload).toHaveBeenCalled();
   });
