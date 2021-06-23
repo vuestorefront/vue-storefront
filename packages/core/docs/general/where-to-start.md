@@ -6,7 +6,7 @@ This document will show where you should start if you are:
 
 ## Considering using Vue Storefront
 
-Vue Storefront is a ***platform-agnostic e-commerce PWA frontend framework*** that can work with any eCommerce backend API. Sounds great, right? But that is not all.
+Vue Storefront is a **platform-agnostic e-commerce PWA frontend framework** that can work with any eCommerce backend API. Sounds great, right? But that is not all.
 
 With our product, you can easily solve the most common problems in the eCommerce e.g.
 - [Long time to market](/#long-time-to-market)
@@ -26,7 +26,7 @@ You should definitely visit [Introduction](/) or [Key conepts](/general/key-conc
 **Introduction** section will guide you through:
 - [What is Vue Storefront?](/#what-is-vue-storefront)
 - [Problems Vue Storefront solves](/#problems-vue-storefront-solves)
-- [eCommerce Integrations](/#ecommerce-integrations)
+- [eCommerce integrations](/#ecommerce-integrations)
 - [Tech stack](/#tech-stack)
 - [What's next](/#what-s-next)
 
@@ -37,7 +37,36 @@ You should definitely visit [Introduction](/) or [Key conepts](/general/key-conc
 - [Easy configuration](/general/key-concepts.html#easy-configuration)
 - [Backend-agnostic](/general/key-concepts.html#backend-agnostic)
 
-[comment]: <> (## Developer creating a shop)
+## Developer creating a shop
+
+As a developer, you will be creating a shop from scratch to ready for production. Vue Storefront aims to meet the expectations of developers and guide you helping smoothly through all these steps.
+
+At the start, you should familiarize yourself with our **Guides** section. Includes all that you need to know for successful shop implementation. Also, we have a section with the most advanced topics.
+
+**Guides** section will guide you through:
+- [Theme](../guide/theme.html)
+- [Configuration](../guide/configuration.html)
+- [Composables](../guide/composables.html)
+- [Getters](../guide/getters.html)
+- [Product catalog](../guide/product-catalog.html)
+- [Authentication](../guide/authentication.html)
+- [User profile](../guide/user-profile.html)
+- [Cart and Wishlist](../guide/cart-and-wishlist.html)
+- [Checkout](../guide/checkout.html)
+
+**Advanced** section will guide you through:
+- [Architecture](../advanced/architecture.html)
+- [Application context](../advanced/context.html)
+- [Calling platform API](../advanced/calling-platform-api.html)
+- [Extending GraphQL Queries](../advanced/extending-graphql-queries.html)
+- [Server Middleware](../advanced/server-middleware.html)
+- [Internationalization](../advanced/internationalization.html)
+- [Performance](../advanced/performance.html)
+- [SSR Cache](../advanced/ssr-cache.html)
+- [Logging](../advanced/logging.html)
+- [API Reference](../core/api-reference/)
+
+To be up to date, we recommend to following [Migration guide](../migrate) and Vue Storefront 2 [Roadmap](https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437) .
 
 ## Integrator
 
@@ -48,13 +77,13 @@ Vue Storefront integrates with a wide range of technologies and each has its own
 However, depending on the kind of integrations you want to build, you should familiarize yourself with **Building Integration** section. Especially integration guide for [eCommerce](../integrate/integration-guide.html) and [CMS](../integrate/cms.html) platforms.
 
 **eCommerce** section will guide you through: 
-- [introduction](../integrate/integration-guide.html#introduction)
-- [scope](../integrate/integration-guide.html#scope)
-- [getting started](../integrate/integration-guide.html#getting-started)
-- [creating an api-client](../integrate/integration-guide.html#creating-an-api-client)
-- [creating composables](../integrate/integration-guide.html#creating-composables)
-- [creating getters](../integrate/integration-guide.html#creating-getters)
-- [creating a theme](../integrate/integration-guide.html#creating-a-theme)
+- [Introduction](../integrate/integration-guide.html#introduction)
+- [Scope](../integrate/integration-guide.html#scope)
+- [Getting started](../integrate/integration-guide.html#getting-started)
+- [Creating an api-client](../integrate/integration-guide.html#creating-an-api-client)
+- [Creating composables](../integrate/integration-guide.html#creating-composables)
+- [Creating getters](../integrate/integration-guide.html#creating-getters)
+- [Creating a theme](../integrate/integration-guide.html#creating-a-theme)
 
 **CMS** section will guide you through:
 - [configuration / content fetching / content rendering](../integrate/cms.html#what-is-needed)
@@ -69,9 +98,9 @@ If you don't want to use [Storefront UI](https://www.storefrontui.io/) (it's jus
 At the start you should familiarize yourself with the specially prepared [theme](../guide/theme.html) guide.
 
 **Theme** section will guide you through:
-- [directory structure](../guide/theme.html#directory-structure)
+- [Directory structure](../guide/theme.html#directory-structure)
 - [Storefront UI](../guide/theme.html#directory-structure)
-- [how to customizing the theme](../guide/theme.html#customizing-the-theme)
-- [routing](../guide/theme.html#routing)
-- [how to updating styles](../guide/theme.html#updating-styles)
-- [preinstalled modules and libraries](../guide/theme.html#preinstalled-modules-and-libraries)
+- [How to customizing the theme](../guide/theme.html#customizing-the-theme)
+- [Routing](../guide/theme.html#routing)
+- [How to updating styles](../guide/theme.html#updating-styles)
+- [Preinstalled modules and libraries](../guide/theme.html#preinstalled-modules-and-libraries)
