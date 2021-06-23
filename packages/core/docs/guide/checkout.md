@@ -77,12 +77,10 @@ The component is responsible for:
 All you have to do is to import a component and add it to the template.
 
 ```vue
-<VsfShippingProvider
-  @submit="$router.push('/checkout/billing')"
-/>
+<VsfShippingProvider />
 ```
 
-`VsfShippingProvider` emits the `submit` event when a shipping method is selected, configured and a user clicks submit button.
+`VsfShippingProvider` sets `state.value._status` property of `useShippingProvider` to `true` or `false`. The property informs whether a user is ready to go to the next step (`true`) or not (`false`).
 
 ### Extending `VsfShippingProvider` and reacting to its events
 
@@ -294,16 +292,14 @@ export default {
 ### SDK allows externalizing pay method
 
 If the payment provider's SDK handles the process of configuring payment but allows you to decide when to finalize then:
-- VsfPaymentProvider emits `status` event. Use this information to enable/disable a `Place order` button.
 - Composable shares a `pay` method.
+- Composable shares a `status` boolean ref that informs if you are ready to call `pay`.
 
 ```vue
 <template>
   <div>
-    <VsfPaymentProvider
-      @status="readyToPay = $event"
-    />
-    <button @click="makeOrder" :disabled="!readyToPay">
+    <VsfPaymentProvider />
+    <button @click="makeOrder" :disabled="!status">
       {{ $t('Order and Pay') }}
     </button>
   </div>
@@ -317,9 +313,8 @@ import { useMakeOrder } from '{INTEGRATION}';
 export default {
   // ...
   setup () {
-    const readyToPay = ref(false);
     const { make } = useMakeOrder();
-    const { pay } = usePaymentProvider();
+    const { pay, status } = usePaymentProvider();
 
     const makeOrder = () => {
       await make();
@@ -328,7 +323,7 @@ export default {
 
     return {
       makeOrder,
-      readyToPay
+      status
     };
   }
 }

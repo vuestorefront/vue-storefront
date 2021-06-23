@@ -15,3 +15,4 @@ export * from './useUserShippingFactory';
 export * from './useWishlistFactory';
 export * from './useShippingProviderFactory';
 export * from './useStoreFactory';
+export * from './useSearchFactory';

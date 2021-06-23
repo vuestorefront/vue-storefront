@@ -1,5 +1,4 @@
-import { Context, FactoryParams } from './../../types';
-
+import { Context } from './../../types';
 interface ContextConfiguration {
   useVSFContext: () => Context;
 }
@@ -20,30 +19,8 @@ const generateContext = (factoryParams) => {
   return vsfContext.$vsf;
 };
 
-const createFactoryParamsMethod = (fn, fnName, context) => (argObj) => {
-  const blackList = ['provide'];
-
-  if (blackList.includes(fnName)) {
-    return fn(context);
-  }
-
-  return fn(context, argObj);
-};
-
-const createFactoryParamsReducer = (context) => (prev, [fnName, fn]: any) => ({
-  ...prev,
-  [fnName]: createFactoryParamsMethod(fn, fnName, context)
-});
-
-const configureFactoryParams = <T extends FactoryParams>(factoryParams: T): any =>
-  Object.entries(factoryParams)
-    .reduce(
-      createFactoryParamsReducer(generateContext(factoryParams)
-      ), {});
-
 export {
   generateContext,
   useVSFContext,
-  configureContext,
-  configureFactoryParams
+  configureContext
 };

@@ -1,4 +1,4 @@
-import useFacet from '../../src/useFacet';
+import { useFacet } from '../../src/useFacet';
 import { enhanceProduct, getFiltersFromProductsAttributes } from './../../src/helpers/internals';
 
 jest.mock('./../../src/helpers/internals', () => ({

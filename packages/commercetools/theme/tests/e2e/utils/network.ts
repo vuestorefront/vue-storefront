@@ -9,6 +9,10 @@ function _intercept(path: string, alias?: string) {
 const intercept = {
   getProduct(as?: string): string {
     return _intercept('/getProduct', as);
+  },
+
+  updateCartQuantity(as?: string): string {
+    return _intercept('/updateCartQuantity', as);
   }
 };
 
