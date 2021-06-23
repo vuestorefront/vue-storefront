@@ -11,7 +11,7 @@ const factoryParams = {
   refreshUser: jest.fn()
 };
 
-const useUser = useUserFactory(factoryParams) as any;
+const useUser = useUserFactory(factoryParams);
 const useUserMethods = useUser();
 
 describe('[CORE - factories] useUserFactory', () => {

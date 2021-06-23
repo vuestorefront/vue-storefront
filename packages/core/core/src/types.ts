@@ -70,12 +70,12 @@ export interface UseUser
 > {
   user: ComputedProperty<USER>;
   setUser: (user: USER) => void;
-  updateUser: (params: { user: UPDATE_USER_PARAMS }) => Promise<void>;
-  register: (params?: { user: UseUserRegisterParams }) => Promise<void>;
-  login: (params?: { user: UseUserLoginParams }) => Promise<void>;
-  logout: () => Promise<void>;
-  changePassword: (params?: { current: string; new: string }) => Promise<void>;
-  load: () => Promise<void>;
+  updateUser: (params: { user: UPDATE_USER_PARAMS; customQuery?: CustomQuery }) => Promise<void>;
+  register: (params: { user: UseUserRegisterParams; customQuery?: CustomQuery }) => Promise<void>;
+  login: (params: { user: UseUserLoginParams; customQuery?: CustomQuery }) => Promise<void>;
+  logout: (params?: {customQuery: CustomQuery}) => Promise<void>;
+  changePassword: (params: { current: string; new: string, customQuery?: CustomQuery }) => Promise<void>;
+  load: (params?: {customQuery: CustomQuery}) => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseUserErrors>;
