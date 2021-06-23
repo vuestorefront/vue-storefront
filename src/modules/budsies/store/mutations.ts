@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import Addon from '../models/addon.model'
+import BodypartValue from '../models/bodypart-value.model';
+import Bodypart from '../models/bodypart.model';
 import { BudsiesState } from '../types/State'
 import * as types from './mutation-types';
 
@@ -18,7 +20,36 @@ export const mutations: MutationTree<BudsiesState> = {
 
     Vue.set(state.printedProductAddons, key, ids);
   },
+  setBodypart (state: BudsiesState, { key, bodypart }: { key: string, bodypart: Bodypart }) {
+    Vue.set(state.bodyparts, key, bodypart);
+  },
+  setBodypartValue (state: BudsiesState, { key, bodypartValue }: { key: string, bodypartValue: BodypartValue }) {
+    Vue.set(state.bodypartsValues, key, bodypartValue);
+  },
+  setBodypartBodypartsValues (state: BudsiesState, { key, values }: { key: string, values: BodypartValue[] }) {
+    const ids: string[] = [];
+
+    values.forEach((item) => {
+      ids.push(item.id);
+      Vue.set(state.bodypartsValues, item.id, item);
+    });
+
+    Vue.set(state.bodypartBodypartsValues, key, ids);
+  },
+  setProductBodyparts (state: BudsiesState, { key, bodyparts }: { key: string, bodyparts: Bodypart[] }) {
+    const ids: string[] = [];
+
+    bodyparts.forEach((item) => {
+      ids.push(item.id);
+      Vue.set(state.bodyparts, item.id, item);
+    });
+
+    Vue.set(state.productBodyparts, key, ids);
+  },
   [types.CURRENT_PLUSHIE_ID_SET] (state: BudsiesState, { id }: { id: string }) {
     Vue.set(state, 'currentPlushieId', id);
+  },
+  [types.CURRENT_PLUSHIE_ID_CLEAR] (state: BudsiesState) {
+    Vue.set(state, 'currentPlushieId', undefined);
   }
 }

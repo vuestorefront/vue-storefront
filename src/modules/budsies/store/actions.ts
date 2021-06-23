@@ -13,6 +13,14 @@ import Addon from '../models/addon.model'
 import AddonApiResponse from '../models/addon-api-response.interface'
 import isAddonApiResponse from '../models/is-addon-api-response.typeguard'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import Bodypart from '../models/bodypart.model'
+import BodypartValue from '../models/bodypart-value.model'
+import BodypartValueApiResponse from '../models/bodypart-value-api-response.interface'
+import bodypartFactory from '../factories/bodypart.factory'
+import bodypartValueFactory from '../factories/bodypart-value.factory'
+import isBodypartApiResponse from '../models/is-bodypart-api-response.typeguard'
+import isBodypartValueApiResponse from '../models/is-bodypart-value-api-response.typeguard'
+import BodypartApiResponse from '../models/bodypart-api-response.interface'
 
 function parse<T, R> (
   items: unknown[],
@@ -55,6 +63,42 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     const addons = parse<Addon, AddonApiResponse>(result.result, addonFactory, isAddonApiResponse);
 
     commit('setPrintedProductAddons', { key: productId, addons: addons });
+  },
+  async loadProductBodyparts (
+    { commit, state },
+    { productId }
+  ): Promise<void> {
+    const url = processURLAddress(`${config.budsies.endpoint}/plushies/body-parts`);
+
+    const result = await TaskQueue.execute({
+      url: `${url}?productId=${productId}`,
+      payload: {
+        headers: { 'Accept': 'application/json' },
+        mode: 'cors',
+        method: 'GET'
+      },
+      silent: true
+    });
+
+    result.result.forEach((item: any) => {
+      const values = parse<BodypartValue, BodypartValueApiResponse>(
+        item.values,
+        bodypartValueFactory,
+        isBodypartValueApiResponse
+      );
+
+      commit('setBodypartBodypartsValues', { key: item.id + '', values });
+
+      delete item.values;
+    });
+
+    const bodyparts = parse<Bodypart, BodypartApiResponse>(
+      result.result,
+      bodypartFactory,
+      isBodypartApiResponse
+    );
+
+    commit('setProductBodyparts', { key: productId, bodyparts });
   },
   async createNewPlushie (
     { commit, state },

@@ -12,5 +12,10 @@ export function cacheHandlerFactory (Vue) {
         Logger.error(reason)()
       })
     }
+    if (type.endsWith(types.CURRENT_PLUSHIE_ID_CLEAR)) {
+      return StorageManager.get(types.SN_BUDSIES).removeItem('current-plushie-id').catch((reason) => {
+        Logger.error(reason)()
+      })
+    }
   }
 }
