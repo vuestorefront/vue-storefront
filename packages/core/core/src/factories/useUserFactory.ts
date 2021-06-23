@@ -55,7 +55,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
-    const register = async ({ user: providedUser } = { user: null }) => {
+    const register = async ({ user: providedUser, customQuery } = { user: null, customQuery: null }) => {
       Logger.debug('useUserFactory.register', providedUser);
       resetErrorValue();
 
@@ -71,7 +71,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
-    const login = async ({ user: providedUser } = { user: null }) => {
+    const login = async ({ user: providedUser, customQuery } = { user: null, customQuery: null }) => {
       Logger.debug('useUserFactory.login', providedUser);
       resetErrorValue();
 
@@ -101,7 +101,7 @@ export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       }
     };
 
-    const changePassword = async (params = { current: null, new: null }) => {
+    const changePassword = async (params = { current: null, new: null, customQuery: null }) => {
       Logger.debug('useUserFactory.changePassword', { currentPassword: mask(params.current), newPassword: mask(params.new) });
       resetErrorValue();
 
