@@ -167,26 +167,31 @@ export default {
 
 ```vue
 <template>
-  <form @submit.prevent="setNew({ tokenValue: <TOKEN_FROM_URL>, newPassword: form.value.password })">
+  <form @submit.prevent="setNew({ tokenValue: token, newPassword: form.value.password })">
     <!-- form fields -->
     <button type="submit" :disabled="loading">Save Password</button>
   </form>
-  <div>{{ result }} - Boolean confirmation of successful password change</div>
+  <div>{{ isPasswordChanged }} - Boolean confirmation of successful password change</div>
 </template>
 
 <script>
-import { useForgotPassword } from '{INTEGRATION}';
+import { useForgotPassword, forgotPasswordGetters } from '{INTEGRATION}';
 import { ref } from '@vue/composition-api';
 
 export default {
   setup () {
     const { setNew, result, loading } = useForgotPassword();
     const form = ref({});
+    const isPasswordChanged = computed(() => forgotPasswordGetters.isPasswordChanged(result.value));
+
+    const token = context.root.$route.query.token
 
     return {
       setNew,
       form,
-      loading
+      loading,
+      isPasswordChanged,
+      token
     }
   }
 }
