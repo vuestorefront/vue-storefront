@@ -93,7 +93,6 @@ export const createPrice = (product: ProductVariant | LineItem): AgnosticPrice =
   const regularPrice = getPrice(product.price) * quantity;
   const specialPrice = getSpecialPrice(product) * quantity;
 
-
   return {
     regular: regularPrice,
     special: specialPrice
