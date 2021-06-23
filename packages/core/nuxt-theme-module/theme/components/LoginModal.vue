@@ -79,19 +79,20 @@
           <form class="form" @submit.prevent="handleSubmit(handleForgotten)">
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput
-                v-e2e="'login-modal-email'"
+                v-e2e="'forgot-modal-email'"
                 v-model="form.username"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="email"
-                label="Email you are using to sign in:"
+                :label="$t('Forgot Password Modal Email')"
                 class="form__element"
               />
             </ValidationProvider>
             <div v-if="forgotPasswordError.request">
               {{ forgotPasswordError.request.message }}
             </div>
-            <SfButton v-e2e="'login-modal-submit'"
+            <SfButton
+              v-e2e="'forgot-modal-submit'"
               type="submit"
               class="sf-button--full-width form__button"
               :disabled="forgotPasswordLoading"

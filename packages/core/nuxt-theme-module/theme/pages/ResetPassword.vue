@@ -16,24 +16,24 @@
           <form class="form" @submit.prevent="handleSubmit(setNewPassword)">
             <ValidationProvider rules="required" v-slot="{ errors }">
               <SfInput
-                v-e2e="'login-modal-password'"
+                v-e2e="'reset-password-modal-password'"
                 v-model="form.password"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
+                :label="$t('Password')"
                 name="password"
-                label="Password"
                 type="password"
                 class="form__element"
               />
             </ValidationProvider>
             <ValidationProvider rules="required" v-slot="{ errors }">
               <SfInput
-                v-e2e="'login-modal-password'"
+                v-e2e="'reset-password-modal-password-repeat'"
                 v-model="form.repeatPassword"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
+                :label="$t('Repeat Password')"
                 name="repeat-password"
-                label="Repeat Password"
                 type="password"
                 class="form__element"
               />
@@ -41,7 +41,8 @@
             <div v-if="passwordMatchError || forgotPasswordError.setNew">
               {{ passwordMatchError || forgotPasswordError.setNew.message }}
             </div>
-            <SfButton v-e2e="'reset-password-modal-submit'"
+            <SfButton
+              v-e2e="'reset-password-modal-submit'"
               type="submit"
               class="sf-button--full-width form__button"
               :disabled="forgotPasswordLoading"

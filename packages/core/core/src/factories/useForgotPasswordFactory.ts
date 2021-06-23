@@ -44,7 +44,7 @@ export function useForgotPasswordFactory<RESULT>(
     };
 
     const setNew = async (setNewPasswordParams: SetNewPasswordParams) => {
-      Logger.debug('useForgotPassword/setNew');
+      Logger.debug('useForgotPassword/setNew', setNewPasswordParams);
 
       try {
         loading.value = true;

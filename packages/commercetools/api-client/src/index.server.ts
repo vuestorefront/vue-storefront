@@ -5,7 +5,7 @@ import * as api from './api';
 import { Config, ClientInstance } from './types/setup';
 import { createCommerceToolsConnection } from './helpers/commercetoolsLink';
 import { defaultSettings } from './helpers/apiClient/defaultSettings';
-import { apiClientFactory, ApiClientExtension } from '@vue-storefront/core';
+import { apiClientFactory, ApiClientExtension, Logger } from '@vue-storefront/core';
 
 const onCreate = (settings: Config): { config: Config; client: ClientInstance } => {
   const languageMap = settings.languageMap || {};
@@ -121,7 +121,7 @@ const logMailExtension: ApiClientExtension = {
         html: `<a href='/reset-password?token=${token}'>Reset your password by clicking this link</a>`
       };
 
-      console.log(JSON.stringify(emailObject));
+      Logger.info(JSON.stringify(emailObject));
       return response;
     }
   }

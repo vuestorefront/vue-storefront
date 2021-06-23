@@ -3,7 +3,7 @@ import { Context, UseForgotPassword, useForgotPasswordFactory, UseForgotPassword
 const useForgotPasswordFactoryParams: UseForgotPasswordFactoryParams<any> = {
   resetPassword: async (context: Context, { email, customQuery }) => {
     try {
-      return await context.$ct.api.customerCreatePasswordResetToken(email, customQuery);
+      return context.$ct.api.customerCreatePasswordResetToken(email, customQuery);
     } catch (err) {
       err.message = err?.graphQLErrors?.[0]?.message || err.message;
       throw err?.response?.data?.graphQLErrors?.[0] || err;
@@ -12,7 +12,7 @@ const useForgotPasswordFactoryParams: UseForgotPasswordFactoryParams<any> = {
   },
   setNewPassword: async (context: Context, { tokenValue, newPassword, customQuery }) => {
     try {
-      return await context.$ct.api.customerResetPassword(tokenValue, newPassword, customQuery);
+      return context.$ct.api.customerResetPassword(tokenValue, newPassword, customQuery);
     } catch (err) {
       err.message = err?.graphQLErrors?.[0]?.message || err.message;
       throw err?.response?.data?.graphQLErrors?.[0] || err;
