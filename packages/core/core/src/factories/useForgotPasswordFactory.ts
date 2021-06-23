@@ -12,15 +12,18 @@ interface ResetPasswordParams {
 }
 
 export interface UseForgotPasswordFactoryParams<RESULT> extends FactoryParams {
-  resetPassword: (context: Context, params: ResetPasswordParams & { customQuery?: CustomQuery }) => Promise<RESULT>;
-  setNewPassword: (context: Context, params: SetNewPasswordParams & { customQuery?: CustomQuery }) => Promise<RESULT>;
+  resetPassword: (context: Context, params: ResetPasswordParams & { currentResult: RESULT, customQuery?: CustomQuery }) => Promise<RESULT>;
+  setNewPassword: (context: Context, params: SetNewPasswordParams & { currentResult: RESULT, customQuery?: CustomQuery }) => Promise<RESULT>;
 }
 
 export function useForgotPasswordFactory<RESULT>(
   factoryParams: UseForgotPasswordFactoryParams<RESULT>
 ) {
   return function useForgotPassword(): UseForgotPassword<RESULT> {
-    const result: Ref<RESULT> = sharedRef({}, 'useForgotPassword-result');
+    const result: Ref<RESULT> = sharedRef({
+      resetPasswordResult: null,
+      setNewPasswordResult: null
+    }, 'useForgotPassword-result');
     const loading = sharedRef(false, 'useProduct-loading');
     const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseForgotPasswordErrors> = sharedRef({
@@ -33,7 +36,7 @@ export function useForgotPasswordFactory<RESULT>(
 
       try {
         loading.value = true;
-        result.value = await _factoryParams.resetPassword(resetPasswordParams);
+        result.value = await _factoryParams.resetPassword({ currentResult: result.value, ...resetPasswordParams });
         error.value.request = null;
       } catch (err) {
         error.value.request = err;
@@ -48,7 +51,7 @@ export function useForgotPasswordFactory<RESULT>(
 
       try {
         loading.value = true;
-        result.value = await _factoryParams.setNewPassword(setNewPasswordParams);
+        result.value = await _factoryParams.setNewPassword({ currentResult: result.value, ...setNewPasswordParams });
         error.value.setNew = null;
       } catch (err) {
         error.value.setNew = err;

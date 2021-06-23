@@ -623,9 +623,9 @@ export interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
-export interface ForgotPasswordGetters<CREATE_PASSWORD_RESET_TOKEN_RESPONSE, RESET_PASSWORD_RESPONSE> {
-  getResetPasswordToken: (response: CREATE_PASSWORD_RESET_TOKEN_RESPONSE) => string
-  isPasswordChanged: (response: RESET_PASSWORD_RESPONSE) => boolean
+export interface ForgotPasswordGetters<FORGOT_PASSWORD_RESULT> {
+  getResetPasswordToken: (result: FORGOT_PASSWORD_RESULT) => string
+  isPasswordChanged: (result: FORGOT_PASSWORD_RESULT) => boolean
 }
 
 export interface VSFLogger {

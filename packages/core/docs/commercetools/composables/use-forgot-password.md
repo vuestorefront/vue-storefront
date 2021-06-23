@@ -25,7 +25,7 @@ type CustomQuery = {
 }
 ```
 
-- `setNew` - function to set new user password after `request`. When invoked, it requests data from the API and populates the `result` property. This method accepts a single `params` object with the following properties:
+- `setNew` - function to set new user password after `request`. When invoked, it requests data from the API and populates the `result` object. This method accepts a single `params` object with the following properties:
 
   - `params: SetNewPasswordParams`
   
@@ -57,7 +57,82 @@ interface UseForgotPasswordErrors {
 
 ## Getters
 
-There are no getters for `useForgotPassword` composable.
+- `getResetPasswordToken` - returns generated reset password token.
+
+- `isPasswordChanged` - returns a boolean value of a password set status.
+
+```ts
+interface ForgotPasswordGetters<ForgotPasswordResult> {
+  getResetPasswordToken: (result: ForgotPasswordResult) => string
+  isPasswordChanged: (result: ForgotPasswordResult) => boolean
+}
+
+interface ForgotPasswordResult {
+  resetPasswordResult: CreatePasswordResetTokenResponse;
+  setNewPasswordResult: ResetPasswordResponse;
+}
+
+type CreatePasswordResetTokenResponse = QueryResponse<'customerCreatePasswordResetToken', CustomerPasswordToken>;
+
+type ResetPasswordResponse = QueryResponse<'customerResetPassword', Customer>;
+
+type CustomerPasswordToken = {
+  customerId: Scalars["String"];
+  expiresAt: Scalars["DateTime"];
+  value: Scalars["String"];
+  id: Scalars["String"];
+  version: Scalars["Long"];
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+}
+
+type Customer = Versioned & {
+  __typename?: "Customer";
+  customerNumber?: Maybe<Scalars["String"]>;
+  email: Scalars["String"];
+  password: Scalars["String"];
+  addresses: Array<Address>;
+  defaultShippingAddressId?: Maybe<Scalars["String"]>;
+  defaultBillingAddressId?: Maybe<Scalars["String"]>;
+  shippingAddressIds: Array<Scalars["String"]>;
+  billingAddressIds: Array<Scalars["String"]>;
+  isEmailVerified: Scalars["Boolean"];
+  customerGroupRef?: Maybe<Reference>;
+  externalId?: Maybe<Scalars["String"]>;
+  key?: Maybe<Scalars["String"]>;
+  firstName?: Maybe<Scalars["String"]>;
+  lastName?: Maybe<Scalars["String"]>;
+  middleName?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars["String"]>;
+  locale?: Maybe<Scalars["Locale"]>;
+  salutation?: Maybe<Scalars["String"]>;
+  dateOfBirth?: Maybe<Scalars["Date"]>;
+  companyName?: Maybe<Scalars["String"]>;
+  vatId?: Maybe<Scalars["String"]>;
+  customerGroup?: Maybe<CustomerGroup>;
+  defaultShippingAddress?: Maybe<Address>;
+  defaultBillingAddress?: Maybe<Address>;
+  shippingAddresses: Array<Address>;
+  billingAddresses: Array<Address>;
+  storesRef: Array<KeyReference>;
+  stores: Array<Store>;
+  /** This field contains non-typed data. Consider using `customFields` as a typed alternative. */
+  customFieldsRaw?: Maybe<Array<RawCustomField>>;
+  /** This field would contain type data */
+  customFields?: Maybe<Type>;
+  custom?: Maybe<CustomFieldsType>;
+  id: Scalars["String"];
+  version: Scalars["Long"];
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+  /** Custom fields are returned as a list instead of an object structure. */
+  customFieldList?: Maybe<Array<CustomField>>;
+};
+```
 
 ## Example
 
@@ -76,24 +151,25 @@ Generating reset password token and changing user password.
     <!-- form fields -->
     <button type="submit" :disabled="loading">Save Password</button>
   </form>
-  <div>{{ result }} - Boolean confirmation of successful password change</div>
+  <div>{{ isPasswordChanged }} - Boolean confirmation of successful password change</div>
 </template>
 
 <script>
-import { useForgotPassword } from '@vsf-enterprise/commercetools';
-import { ref } from '@vue/composition-api';
+import { useForgotPassword, forgotPasswordGetters } from '@vsf-enterprise/commercetools';
+import { ref, computed } from '@vue/composition-api';
 
 export default {
   setup(_, context) {
     const { request, setNew, result, loading } = useForgotPassword();
     const form = ref({});
+    const isPasswordChanged = computed(() => forgotPasswordGetters.isPasswordChanged(result.value));
 
     const token = context.root.$route.query.token
 
     return {
       request,
       setNew,
-      result,
+      isPasswordChanged,
       token,
       loading,
       form

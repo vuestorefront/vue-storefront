@@ -1,18 +1,27 @@
 import { Context, UseForgotPassword, useForgotPasswordFactory, UseForgotPasswordFactoryParams } from '@vue-storefront/core';
+import { ForgotPasswordResult } from '../types';
 
-const useForgotPasswordFactoryParams: UseForgotPasswordFactoryParams<any> = {
-  resetPassword: async (context: Context, { email, customQuery }) => {
+const useForgotPasswordFactoryParams: UseForgotPasswordFactoryParams<ForgotPasswordResult> = {
+  resetPassword: async (context: Context, { email, currentResult, customQuery }) => {
     try {
-      return context.$ct.api.customerCreatePasswordResetToken(email, customQuery);
+      const resetPasswordResult = await context.$ct.api.customerCreatePasswordResetToken(email, customQuery);
+      return {
+        ...currentResult,
+        resetPasswordResult
+      };
     } catch (err) {
       err.message = err?.graphQLErrors?.[0]?.message || err.message;
       throw err?.response?.data?.graphQLErrors?.[0] || err;
     }
 
   },
-  setNewPassword: async (context: Context, { tokenValue, newPassword, customQuery }) => {
+  setNewPassword: async (context: Context, { tokenValue, newPassword, currentResult, customQuery }) => {
     try {
-      return context.$ct.api.customerResetPassword(tokenValue, newPassword, customQuery);
+      const setNewPasswordResult = await context.$ct.api.customerResetPassword(tokenValue, newPassword, customQuery);
+      return {
+        ...currentResult,
+        setNewPasswordResult
+      };
     } catch (err) {
       err.message = err?.graphQLErrors?.[0]?.message || err.message;
       throw err?.response?.data?.graphQLErrors?.[0] || err;
@@ -20,7 +29,7 @@ const useForgotPasswordFactoryParams: UseForgotPasswordFactoryParams<any> = {
   }
 };
 
-const useForgotPassword: () => UseForgotPassword<any> = useForgotPasswordFactory<any>(useForgotPasswordFactoryParams);
+const useForgotPassword: () => UseForgotPassword<ForgotPasswordResult> = useForgotPasswordFactory<ForgotPasswordResult>(useForgotPasswordFactoryParams);
 
 export {
   useForgotPassword,
