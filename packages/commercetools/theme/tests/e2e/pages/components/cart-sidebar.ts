@@ -4,15 +4,11 @@ class Cart {
 
   product(name?: string): Cypress.Chainable {
     const product = el('collected-product');
-    return name === undefined ? product : product.contains(name);
+    return name === undefined ? product : product.contains(name).parents('[data-e2e="collected-product"]');
   }
 
   get productName(): Cypress.Chainable {
     return this.product().find('.sf-collected-product__title');
-  }
-
-  get quantityInput(): Cypress.Chainable {
-    return this.product().find('input');
   }
 
   get goToCheckoutButton(): Cypress.Chainable {
@@ -27,16 +23,40 @@ class Cart {
     return el('sidebar-cart', '.cart-summary .sf-property__value');
   }
 
-  getPropertyValue(collectedProduct: JQuery<HTMLElement>): Cypress.Chainable {
+  get yourCartIsEmptyHeading(): Cypress.Chainable {
+    return el('sidebar-cart', 'h2').contains('Your cart is empty');
+  }
+
+  propertyValue(collectedProduct: JQuery<HTMLElement>): Cypress.Chainable {
     return cy.wrap(collectedProduct).find('.sf-property__value');
   }
 
-  getProductSizeProperty(collectedProduct: JQuery<HTMLElement>): Cypress.Chainable {
-    return this.getPropertyValue(collectedProduct).eq(0);
+  productSizeProperty(collectedProduct: JQuery<HTMLElement>): Cypress.Chainable {
+    return this.propertyValue(collectedProduct).eq(0);
   }
 
-  getProductColorProperty(collectedProduct: JQuery<HTMLElement>): Cypress.Chainable {
-    return this.getPropertyValue(collectedProduct).eq(1);
+  productColorProperty(collectedProduct: JQuery<HTMLElement>): Cypress.Chainable {
+    return this.propertyValue(collectedProduct).eq(1);
+  }
+
+  removeProductButton(name?: string): Cypress.Chainable {
+    return this.product(name).find('.sf-collected-product__remove');
+  }
+
+  removeProduct(name?: string): Cypress.Chainable {
+    return this.removeProductButton(name).first().click();
+  }
+
+  increaseQtyButton(name?: string): Cypress.Chainable {
+    return this.product(name).find('button').contains('+');
+  }
+
+  decreaseQtyButton(name?: string): Cypress.Chainable {
+    return this.product(name).find('button').contains('−');
+  }
+
+  quantity(name?: string): Cypress.Chainable {
+    return this.product(name).find('input');
   }
 }
 

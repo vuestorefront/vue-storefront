@@ -86,7 +86,6 @@ import {
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
 import { useWishlist, useUser, wishlistGetters } from '<%= options.generate.replace.composables %>';
-import { onSSR } from '@vue-storefront/core';
 import { useUiState } from '~/composables';
 
 export default {
@@ -109,9 +108,7 @@ export default {
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
     const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
 
-    onSSR(async () => {
-      await loadWishlist();
-    });
+    loadWishlist();
 
     return {
       isAuthenticated,
