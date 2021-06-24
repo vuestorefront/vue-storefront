@@ -4,7 +4,7 @@ Vue Storefront gets all of its data from [vue-storefront-api](https://github.com
 
 If you installed the project using `yarn installer`  command,  the database has been set up, data imported from demo-dump, and everything should be just fine.
 
-After more extensive data operations, like custom imports using [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) or [magento1-vsbridge](https://github.com/vuestorefront/magento1-vsbridge), there is a need to reindex the Elasticsearch and set up the proper metadata for fields.
+After more extensive data operations, like custom imports using [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) or [magento1-vsbridge](https://github.com/divanteLtd/magento1-vsbridge), there is a need to reindex the Elasticsearch and set up the proper metadata for fields.
 
 
 The main reason you’ll know you must reindex the database is the following error you get from the `vue-storefront` console:

@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.13.0] - UNRELEASED
+
+### Added
+- Added information about i18n & Unit tests in modules to docs - @lukaszjedrasik (#4991)
+- Updated VSF1 insfrastructure's schema - @lukaszjedrasik ([#5531](https://github.com/vuestorefront/vue-storefront/issues/5531))
+
+### Fixed
+- Fixed some typo in docs (#5071)
 
 ## [1.12.3] - 2020.??.??
 

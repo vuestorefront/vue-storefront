@@ -135,7 +135,7 @@ You will see 4 containers are running, which is :
 4. Now that backend part is done, let's work on frontend part, that is download [**Vue Storefront**](https://github.com/vuestorefront/vue-storefront)
 
 ```bash
-git clone https://github.com/vuestorefront/vue-storefront.git vue-storefront
+git clone --single-branch --branch master https://github.com/vuestorefront/vue-storefront.git vue-storefront
 cd vue-storefront
 ```
 

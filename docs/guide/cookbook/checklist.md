@@ -78,7 +78,7 @@ With setting it `false`, the [Stateful Singletons](https://github.com/vuestorefr
 
 #### 5. Static pages generator
 
-We do have **Static Pages Generator** - currently experimental feature - that can generate the whole site into a set of static HTML files so they could be served even directly from cloud provider/CDN - no memory leaks possible; what you need to take care of in this mode is cache invalidation (not currently supported but easy to add). [Read more on static page generator](https://github.com/DivanteLtd/vue-storefront/pull/3256).
+We do have **Static Pages Generator** - currently experimental feature - that can generate the whole site into a set of static HTML files so they could be served even directly from cloud provider/CDN - no memory leaks possible; what you need to take care of in this mode is cache invalidation (not currently supported but easy to add). [Read more on static page generator](https://github.com/vuestorefront/vue-storefront/pull/3256).
 
 #### 6. Learn from core team
 In case you want to dig deeper any concern related to memory leaks, [find out how core teams have dealt with memory leaks](https://github.com/vuestorefront/vue-storefront/pulls?utf8=%E2%9C%93&q=is%3Apr+memory+is%3Aclosed+leak) in Vue Storefront core - and check if any of those edge cases solved can be an inspiration for your project.
@@ -137,7 +137,7 @@ X-VS-Cache-Tags: P1852 P198 C20
 The tags can be used to invalidate the Varnish cache if you use it. [Read more on that](https://www.drupal.org/docs/8/api/cache-api/cache-tags-varnish).
 
 :::tip NOTE
- All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/vuestorefront/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) support the cache invalidation. 
+ All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/divanteLtd/magento1-vsbridge-indexer) and [magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) support the cache invalidation. 
 
  If the cache is enabled in both API and Vue Storefront frontend app, please make sure you properly use the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (either frontend or backend) and it **should be forwarded** to the other. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
 :::
@@ -204,14 +204,14 @@ Pretty much the same case as with the price can occur with the product stocks. B
  - when the **cart is synced** with the server - eCommerce backend [checks the product availability once again](https://github.com/vuestorefront/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/store/actions/mergeActions.ts#L45) and [notify user](https://github.com/vuestorefront/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/components/AddToCart.ts#L31) if the product can't be added to the cart or restores previous quantity (if changed).
  - when the `filterOutUnavailableVariants` mode is on and the user a) enters the product page, b) browses the category pages.
 
- The `config.products.filterOutUnavailableVariants` mode is pretty important thing because only by having this mode switched on you can be sure we're **not displaying unavailable variants**. When it's set to `true` Vue Storefront takes the stock information out of Magento and updates the `product.stock` info for the whole product list + product page (current product). Then it removes all the `configurable_children` that are not avaialable. [See the detailed implementation](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L121).
+ The `config.products.filterOutUnavailableVariants` mode is pretty important thing because only by having this mode switched on you can be sure we're **not displaying unavailable variants**. When it's set to `true` Vue Storefront takes the stock information out of Magento and updates the `product.stock` info for the whole product list + product page (current product). Then it removes all the `configurable_children` that are not avaialable. [See the detailed implementation](https://github.com/vuestorefront/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L121).
 
 
 #### 2. Additional options
 
 There are two additional settings for this mode on:
  - `config.products.configurableChildrenStockPrefetchStatic` - when this is `true`, Vue Storefront prefetches the stock info for the statically set number of product, it can be configured by `config.products.configurableChildrenStockPrefetchStaticPrefetchCount`.
- - `config.products.configurableChildrenStockPrefetchDynamic` - when this is set to true, Vue Storefront prefetches the stock info for any visible product; it's done in the [`ProductTile.vue`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/src/themes/default/components/core/ProductTile.vue#L108) - Make sure your theme supports this.
+ - `config.products.configurableChildrenStockPrefetchDynamic` - when this is set to true, Vue Storefront prefetches the stock info for any visible product; it's done in the [`ProductTile.vue`](https://github.com/vuestorefront/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/src/themes/default/components/core/ProductTile.vue#L108) - Make sure your theme supports this.
     
 We've got the limited support for Magento MSI in the default implementation. [Make sure you've got it enabled when on Magento 2.3.x](https://github.com/vuestorefront/vue-storefront-api/pull/226).
 
@@ -336,7 +336,7 @@ Vue Storefront provides you with a few mechanisms to control the initial state.
 ### Protip
 
 #### 1. Filter `__INITIAL_STATE__`
-1. Vue Storefront provides you a mechanism to control the `__INITIAL_STATE__` [based on the `config.ssr.initialStateFilter`](https://github.com/DivanteLtd/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/core/scripts/utils/ssr-renderer.js#L40) fields list. So you can remove the fields from `__INITIAL_STATE__` - even using the `.` notation. So you can put `attribute` on the list to remove the whole state for `attribute` Vuex module OR you can specify `attribute.list_by_code` to remove just that. By using this mechanism, you can process much more data in the SSR than are sent to the browser (see point no. 2 which is just about opposite approach to limit the set of processed information).
+1. Vue Storefront provides you a mechanism to control the `__INITIAL_STATE__` [based on the `config.ssr.initialStateFilter`](https://github.com/vuestorefront/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/core/scripts/utils/ssr-renderer.js#L40) fields list. So you can remove the fields from `__INITIAL_STATE__` - even using the `.` notation. So you can put `attribute` on the list to remove the whole state for `attribute` Vuex module OR you can specify `attribute.list_by_code` to remove just that. By using this mechanism, you can process much more data in the SSR than are sent to the browser (see point no. 2 which is just about opposite approach to limit the set of processed information).
 
 2. You might also want to use the [`config.entities.*.includeFields`](https://github.com/vuestorefront/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/config/default.json#L170) filter. These lists of fields are set to limit the number of fields [loaded from Elasticsearch](https://github.com/vuestorefront/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/core/lib/search.ts#L31). If you add any new field to your entity though, please make sure you also include it in the `includeFields` list.
 
@@ -353,7 +353,7 @@ The general rule of thumb is that **when you remove anything from the intial sta
 See how we did it for [`Category.vue`](https://github.com/vuestorefront/vue-storefront/blob/ab27bfbd8abef5f1d37666a38fa0387f50ba6eca/src/themes/default/pages/Category.vue#L70) - where the hydration is manually triggered by the [`loading`](https://github.com/vuestorefront/vue-storefront/blob/ab27bfbd8abef5f1d37666a38fa0387f50ba6eca/src/themes/default/pages/Category.vue#L70) flag.
 
 :::tip TIP
- Please make sure if you're loading your category tree dynamically - as the category trees can be truly heavy with all these subcategories included. By default Vue Storefront offers this [dynamic category prefetching from v1.7](https://docs.vuestorefront.io/guide/basics/configuration.html#dynamic-categories-prefetching).
+ Please make sure if you're loading your category tree dynamically - as the category trees can be truly heavy with all these subcategories included. By default Vue Storefront offers this [dynamic category prefetching from v1.7](/guide/basics/configuration.html#dynamic-categories-prefetching).
 :::
 
 You can save up to 30-40% of the page size which positively improve the Lighthouse/Pagespeed scores. However not always improves the User Experience - as the lazy hydration typically requires you to fetch the required data by another network call (which can be skipped by the initial state mechanism).
@@ -381,7 +381,7 @@ As you've might seen the `url/mapUrl` returns the data in a very similar format 
 This mechanism is pretty flexible as you may add the dynamic routes on the fly. There is even a [community module](https://github.com/kodbruket/vsf-mapping-fallback) letting you map the url routes programmatically.
 
 :::tip NOTE
- The [`processDynamicRoute`](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/helpers/index.ts#L26) does convert the `routeData` from `url/mapUrl` to **real** vue `Route` object. It works like it's searching through all the routes registered by `theme` and `modules`. Example:
+ The [`processDynamicRoute`](https://github.com/vuestorefront/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/helpers/index.ts#L26) does convert the `routeData` from `url/mapUrl` to **real** vue `Route` object. It works like it's searching through all the routes registered by `theme` and `modules`. Example:
 :::
 
 If your route data is (`routeData`):
@@ -418,9 +418,9 @@ then `processDynamicRoute` helper will return the `Route` object created by merg
 
 ## 8. Multistore configuration explained
 
-You can read about the [basic Multistore configuration in the official docs](https://docs.vuestorefront.io/guide/integrations/multistore.html#changing-the-ui-for-specific-store-views). Vue Storefront supports multistore based on the `StoreView` level. 
+You can read about the [basic Multistore configuration in the official docs](/guide/integrations/multistore.html#changing-the-ui-for-specific-store-views). Vue Storefront supports multistore based on the `StoreView` level. 
 
-`StoreView` is a configuration context object, set by the Vue Storefront per each request - accessible via [`currentStoreView()`](https://github.com/DivanteLtd/vue-storefront/blob/9dca392a832ba45e9b1c3589eb84f51fbc2e8d6e/core/lib/multistore.ts#L33) helper from [`multistore.ts`](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/lib/multistore.ts).
+`StoreView` is a configuration context object, set by the Vue Storefront per each request - accessible via [`currentStoreView()`](https://github.com/vuestorefront/vue-storefront/blob/9dca392a832ba45e9b1c3589eb84f51fbc2e8d6e/core/lib/multistore.ts#L33) helper from [`multistore.ts`](https://github.com/vuestorefront/vue-storefront/blob/develop/core/lib/multistore.ts).
 
 One `StoreView` generally means a combination of Language + Currency.
 
@@ -658,7 +658,7 @@ Although many Vue Storefornt projects are being developed using [mage2vuestorefr
 Because of this limitation we created a set of [native indexers](https://medium.com/the-vue-storefront-journal/native-magento-data-indexer-aec3c9ebfb).
 
 The indexers are available for:
-- [Magento 1](https://github.com/vuestorefront/magento1-vsbridge-indexer)
+- [Magento 1](https://github.com/divanteLtd/magento1-vsbridge-indexer)
 - [Magento 2](https://github.com/vuestorefront/magento2-vsbridge-indexer)
 
 The native indexer updates the Elasticsearch index in the very same format as the `mage2vuestorefront`. Our intention was to speed up the indexation process and make it more reliable. With native indexer, we were able to use the Magento 2 ORM and events to optimize the indexation process. Please do use this module instead of `mage2vuestorefront` if you experience any issue regarding indexing performance. Both projects are currently officially supported by the Vue Storefront Core team.
@@ -673,7 +673,7 @@ This URL requires you to pass the invalidation token set in the [config](https:/
 The tags can be used to invalidate the Varnish cache, if you're using it. [Read more on that](https://www.drupal.org/docs/8/api/cache-api/cache-tags-varnish).
 
 :::tip NOTE
-All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/vuestorefront/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (either frontend or backend) and it **should be forwarded** to the other. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
+All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/divanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (either frontend or backend) and it **should be forwarded** to the other. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
 :::
 
 <br />
@@ -760,7 +760,7 @@ Read more on [Elasticsearch deployment best practices](https://medium.com/@abhid
 
 ## 13. .htaccess, server side redirects, HTTP codes and headers, middlewares
 
-We strongly recommend using kind of HTTP server as a proxy in front of Vue Storefront. Let it be `nginx` (suggested in our [production setup docs](https://docs.vuestorefront.io/guide/installation/production-setup.html)) or `Varnish` or even `Apache`. Any of those HTTP servers allows you to add some authorization or redirects layer before Vue Storefront.
+We strongly recommend using kind of HTTP server as a proxy in front of Vue Storefront. Let it be `nginx` (suggested in our [production setup docs](/guide/installation/production-setup.html)) or `Varnish` or even `Apache`. Any of those HTTP servers allows you to add some authorization or redirects layer before Vue Storefront.
 
 This is a recommended way.
 
@@ -768,7 +768,7 @@ This is a recommended way.
 
 #### 1. Advanced Output Processing
 
-However, by using [advanced output processing](https://docs.vuestorefront.io/guide/core-themes/layouts.html#how-it-works) you can easily generate any text data output from your Vue Storefront site you want. Including JSON, XML and others. It's a way to generate sitemaps and other data based documents.
+However, by using [advanced output processing](/guide/core-themes/layouts.html#how-it-works) you can easily generate any text data output from your Vue Storefront site you want. Including JSON, XML and others. It's a way to generate sitemaps and other data based documents.
 
 #### 2. `Express.js` middleware
 

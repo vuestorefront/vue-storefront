@@ -463,7 +463,7 @@ In this recipe we will walk you with **Magento 2** example.
 <br />
 - You need an Elasticsearch instance [running](setup.html#_1-install-with-docker) with mapping is done as in [*Recipe 1 Data Mapping Migration for Elasticsearch*](#_1-data-mapping-migration-for-elasticsearch)
 <br />
-- You need [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) downloaded for data bridge. This instance is backend-dependant (in this case, Magento 2), you may replace it with other data bridges such as [coreshop-vsbridge](https://github.com/vuestorefront/coreshop-vsbridge), [shopware2vuestorefront](https://github.com/vuestorefront/shopware2vuestorefront) to your advantage. 
+- You need [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) downloaded for data bridge. This instance is backend-dependant (in this case, Magento 2), you may replace it with other data bridges such as [coreshop-vsbridge](https://github.com/divanteLtd/coreshop-vsbridge), [shopware2vuestorefront](https://github.com/divanteLtd/shopware2vuestorefront) to your advantage. 
 <br />
 - Finally, you need a Magento 2 instance as a data source to pump your data from. (For [Recipe B](#_2-2-recipe-b-using-on-premise) only)
 
@@ -473,7 +473,7 @@ We are going to import entities as follows :
 - Taxrules
 - Attributes
 - Product-to-categories
-- Reviews (require custom module [Divante/ReviewApi](https://github.com/vuestorefront/magento2-review-api))
+- Reviews (require custom module [Divante/ReviewApi](https://github.com/divanteLtd/magento2-review-api))
 - Cms Blocks & Pages (require custom module [SnowdogApps/magento2-cms-api](https://github.com/SnowdogApps/magento2-cms-api))
 
 ### 2-1. Recipe A (Using Demo)
@@ -713,7 +713,7 @@ node --harmony cli.js products --removeNonExistent=true --partitions=1
 
 6. In order to import `reviews` and `cms`, we need to install additional Magento 2 modules, so that we can expose required API. 
 
-Download and install [Review API module](https://github.com/vuestorefront/magento2-review-api) and run the following : 
+Download and install [Review API module](https://github.com/divanteLtd/magento2-review-api) and run the following : 
 ```bash
 node --harmony cli.js reviews
 ```

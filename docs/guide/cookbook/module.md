@@ -573,13 +573,13 @@ app_1  | This is one way to use moduleConfig
 
 ### 2-7. Recipe G (Setting up server module)
 
-We strongly recommend using kind of HTTP server as a proxy in front of Vue Storefront. Let it be `nginx` (suggested in our [production setup docs](https://docs.vuestorefront.io/guide/installation/production-setup.html)) or `Varnish` or even `Apache`. Any of those HTTP servers allows you to add some authorization or redirects layer before Vue Storefront.
+We strongly recommend using kind of HTTP server as a proxy in front of Vue Storefront. Let it be `nginx` (suggested in our [production setup docs](/guide/installation/production-setup.html)) or `Varnish` or even `Apache`. Any of those HTTP servers allows you to add some authorization or redirects layer before Vue Storefront.
 
 This is a recommended way.
 
 #### 1. Advanced Output Processing
 
-However, by using [advanced output processing](https://docs.vuestorefront.io/guide/core-themes/layouts.html#how-it-works) you can easily generate any text data output from your Vue Storefront site you want. Including JSON, XML and others. It's a way to generate sitemaps and other data based documents.
+However, by using [advanced output processing](/guide/core-themes/layouts.html#how-it-works) you can easily generate any text data output from your Vue Storefront site you want. Including JSON, XML and others. It's a way to generate sitemaps and other data based documents.
 
 #### 2. `Express.js` middleware
 
@@ -831,3 +831,29 @@ Inside `check` we tell the filter to just be applied if the attribute is named e
 Inside `filter` we extend the Elasticsearch query-chain by our desired filters, using the `bodybuilder` library syntax.
 
 That's it, now we are able to filter by a complex query in only one line inside VSF.
+
+## 7. Working with translations in module
+
+Translations are provided in `core/i18n/resource/i18n/{your-locale}.csv` file and can be extended or overridden in `src/modules/{my-module}/resource/i18n/{your-locale}.csv` accordingly, but translations from `src/themes/{my-theme}/resource/i18n` have a bigger priority than translations from `src/module/{my-module}/resource/i18n`.
+
+### Example
+
+Here's an example of `en-US.csv` for `en-US` locale:
+
+```csv
+"customMessage","Here is the core message that can be overwritten in the module"
+```
+
+When you create the `en-US.csv` file within your `src/modules/{my-module}/resource/i18n/` folder and override some messages like:
+
+```csv
+"customMessage","You can define or override translation messages here."
+```
+
+... you may expect that `$t('customMessage')` will return `You can define or override translation messages here.` instead of `Here is the core message. that can be overwritten in the module`.
+
+## 8. Tests in module
+
+Our jest config allows you to write tests for each module which you have created.
+
+To create a test, you have to create a file inside `src/modules/{my-module}/test/unit/`. The file has to end with `.spec.ts` or `.spec.js`. Generally, it has to match this pattern: `src/modules/{my-module}/test/unit/{my-test}.spec.(js|ts)`.

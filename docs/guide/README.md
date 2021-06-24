@@ -38,7 +38,7 @@ The API connector works in two phases:
 
 VueStorefront works seamlessly with your backend platform while two integration phases are managed as above.
 
-Some of the most popular backend platforms already have their integrations ([Magento 2](https://github.com/vuestorefront/mage2vuestorefront), [Magento 1](https://github.com/vuestorefront/magento1-vsbridge), [CoreShop](https://github.com/vuestorefront/coreshop-vsbridge), [BigCommerce](https://github.com/vuestorefront/bigcommerce2vuestorefront), [WooCommerce](https://github.com/vuestorefront/woocommerce2vuestorefront)), but you can easily make your own with the [integration boilerplate](https://github.com/vuestorefront/vue-storefront-integration-boilerplate).
+Some of the most popular backend platforms already have their integrations ([Magento 2](https://github.com/vuestorefront/magento2-vsbridge-indexer), [Magento 1](https://github.com/divanteLtd/magento1-vsbridge-indexer), [CoreShop](https://github.com/divanteLtd/coreshop-vsbridge), [BigCommerce](https://github.com/divanteLtd/bigcommerce2vuestorefront), [WooCommerce](https://github.com/divanteLtd/woocommerce2vuestorefront)), but you can easily make your own with the [integration boilerplate](https://github.com/divanteLtd/vue-storefront-integration-boilerplate).
 
 The blue parts on the diagram are responsible for offline cache and will be explained later in the article.
 
@@ -56,7 +56,7 @@ To summarize: Your shop is basically a Vue Storefront theme that uses features p
 
 Knowing these 3 concepts allows you to confidently work with Vue Storefront and make your own shops.
 
-Useful materials: [Vue Storefront project structure](https://docs.vuestorefront.io/guide/basics/project-structure.html)
+Useful materials: [Vue Storefront project structure](/guide/basics/project-structure.html)
 
 ## Installing Vue Storefront
 When you want to play with Vue Storefront, there are three options:
@@ -72,7 +72,7 @@ To do any of this, simply type `yarn installer` in the root of the project and a
 
 ## Vue Storefront config file
 
-Most of the Vue Storefront configuration (like the active theme, backend API addresses, multistore setup, etc.) is done through its [config](https://docs.vuestorefront.io/guide/basics/configuration.html) file that can be found under the `config` folder. The `default.json` file contains all the default setup.
+Most of the Vue Storefront configuration (like the active theme, backend API addresses, multistore setup, etc.) is done through its [config](/guide/basics/configuration.html) file that can be found under the `config` folder. The `default.json` file contains all the default setup.
 
 For your own implementation you should create a `local.json` file in the same directory and include fields from `default.json` that you want to override. These two files will be merged in favor of `local.json` during the build process. If you use the installer to set up your Vue Storefront instance, it'll generate proper config files.
 
@@ -87,7 +87,7 @@ The mechanism of injecting core business logic into themes is ridiculously simpl
 
 So assume we have a core Microcart component with business logic as above (left side), we can easily inject it into any of our theme components (right side) just by importing it and adding as a mixin `mixins: [Microcart]`. This is all you need to make use of core business logic inside your theme. With this approach, we can easily ship updates to all core components without breaking your shop.
 
-[Check how to create theme based on our official themes](https://docs.vuestorefront.io/guide/installation/theme.html).
+[Check how to create theme based on our official themes](/guide/installation/theme.html).
 
 ## Offline mode and cache
 Vue Storefront still works even while the user is offline.
