@@ -45,25 +45,22 @@ To add the product to the cart you can use `addItem` method:
 </template>
 <script>
 import { ref, computed } from '@vue/composition-api';
-import { useCart, productGetters } from '{INTEGRATION}';
+import { useCart, useFacet, productGetters, facetGetters } from '{INTEGRATION}';
 
-export default {
-  props: {
-    products: {
-      type: Array,
-      required: true
-    }
-  },
+export default {  
   setup() {
     const { addItem } = useCart();
+    const { result } = useFacet();
 
     // load cart if it wasn't loaded before
     const quantity = ref(1);
+    const products = computed(() => facetGetters.getProducts(result.value));
 
     return {
       addItem,
       quantity,
-      productGetters
+      productGetters,
+      products
     };
   }
 };
@@ -79,12 +76,12 @@ To remove an item from the cart use `removeItem` method, and similarly to update
   <!-- ... -->
   <div>
     <ul>
-      <li v-for="product in products" :key="cartGetters.getItemSku(product)">
+      <li v-for="item in cartItems" :key="cartGetters.getItemSku(product)">
         <input type="number" v-model="quantity" />
-        <button @click="updateItemQty({ product, quantity })">
+        <button @click="updateItemQty({ item, quantity })">
           Change quantity
         </button>
-        <button @click="removeItem({ product })">
+        <button @click="removeItem({ item })">
           Remove product
         </button>
       </li>
@@ -109,14 +106,14 @@ export default {
 
     // load cart if it wasn't loaded before
 
-    const products = computed(() => cartGetters.getItems(cart.value));
+    const cartItems = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
 
     const quantity = ref(1);
 
     return {
-      products,
+      cartItems,
       totals,
       totalItems,
       removeItem,
@@ -135,20 +132,18 @@ To check if a specific product configuration is already in the cart, pass it to 
 
 ```vue
 <script>
-import { useCart } from '{INTEGRATION}';
+import { computed } from '@vue/composition-api';
+import { useCart, useFacet, facetGetters } from '{INTEGRATION}';
 
-export default {
-  props: {
-    products: {
-      type: Array,
-      required: true
-    }
-  },
+export default {  
   setup() {
     const { isInCart } = useCart();
+     const { result } = useFacet();
+    const products = computed(() => facetGetters.getProducts(result.value));
 
     return {
-      isInCart
+      isInCart,
+      products
     };
   }
 };
@@ -164,7 +159,7 @@ To clear cart items (not delete the cart itself) use the `clear` method.
   <!-- ... -->
   <div>
     <ul>
-      <li v-for="product in products" :key="cartGetters.getItemSku(product)">
+      <li v-for="item in cartItems" :key="cartGetters.getItemSku(product)">
         <!-- ... -->
       </li>
     </ul>
@@ -181,10 +176,10 @@ import { useCart, cartGetters } from '{INTEGRATION}';
 export default {
   setup() {
     const { cart, clear } = useCart();
-    const products = computed(() => cartGetters.getItems(cart.value));
+    const cartItems = computed(() => cartGetters.getItems(cart.value));
 
     return {
-      products,
+      cartItems,
       clear,
       cartGetters
     };
@@ -275,20 +270,19 @@ To add the product to the wishlist you can use `addItem` method:
   <!-- ... -->
 </template>
 <script>
-import { useWishlist } from '{INTEGRATION}';
+import { computed } from '@vue/composition-api';
+import { useWishlist, useFacet, facetGetters, productGetters } from '{INTEGRATION}';
 
 export default {
-  props: {
-    products: {
-      type: Array,
-      required: true
-    }
-  },
   setup() {
     const { addItem } = useWishlist();
+    const { result } = useFacet();
+    const products = computed(() => facetGetters.getProducts(result.value));
 
     return {
-      addItem
+      products,
+      addItem,
+      productGetters
     };
   }
 };
@@ -304,9 +298,9 @@ To remove an item from the cart use `removeItem` method.
   <!-- ... -->
   <div>
     <ul>
-      <li v-for="product in products" :key="wishlistGetters.getWishlistItemSku(product)">
+      <li v-for="item in wishlistItems" :key="wishlistGetters.getWishlistItemSku(product)">
         <!-- ... -->
-        <button @click="removeItem({ product })">
+        <button @click="removeItem({ item })">
           Remove item
         </button>
       </li>
@@ -325,7 +319,7 @@ export default {
   setup() {
     const { wishlist, removeItem } = useWishlist();
 
-    const products = computed(() => wishlistGetters.getItems(wishlist.value));
+    const wishlistItems = computed(() => wishlistGetters.getItems(wishlist.value));
     const totalItems = computed(() =>
       wishlistGetters.getTotalItems(wishlist.value)
     );
@@ -333,7 +327,7 @@ export default {
     // load wishlist if it's not loaded before
 
     return {
-      products,
+      wishlistItems,
       totalItems,
       removeItem
     };
@@ -342,26 +336,23 @@ export default {
 </script>
 ```
 
-## Checking if single item is on the wishlist
+## Checking if a single item is on the wishlist
 
 To check if a product is already on the wishlist pass it to `isInWishlist` method:
 
 ```vue
 <script>
 import { computed } from '@vue/composition-api';
-import { useWishlist } from '{INTEGRATION}';
+import { useWishlist, useFacet, facetGetters } from '{INTEGRATION}';
 export default {
-  props: {
-    products: {
-      type: Array,
-      required: true
-    }
-  },
   setup() {
+    const { result } = useFacet();
     const { cart, isInWishlist } = useWishlist();
+    const products = computed(() => facetGetters.getProducts(result.value));
 
     return {
-      isInWishlist
+      isInWishlist,
+      products
     };
   }
 };
@@ -377,7 +368,7 @@ Cleaning the wishlist can be achieved by `clear` property.
   <!-- ... -->
   <div>
     <ul>
-      <li v-for="product in products" :key="wishlistGetters.getWishlistItemSku(product)">
+      <li v-for="item in wishlistItems" :key="wishlistGetters.getWishlistItemSku(product)">
         <!-- ... -->
       </li>
     </ul>
@@ -394,11 +385,11 @@ import { useWishlist, wishlistGetters } from '{INTEGRATION}';
 export default {
   setup() {
     const { wishlist, clear } = useWishlist();
-    const products = computed(() => wishlistGetters.getItems(wishlist.value));
+    const wishlistItems = computed(() => wishlistGetters.getItems(wishlist.value));
 
     return {
       wishlist,
-      products,
+      wishlistItems,
       clear
     };
   }
@@ -434,22 +425,20 @@ The product list:
   </ul>
 </template>
 <script>
-import { useCart, useWishlist } from '{INTEGRATION}';
+import { useCart, useWishlist, useFacet, facetGetters } from '{INTEGRATION}';
 
 export default {
-  props: {
-    products: {
-      type: Array,
-      required: true
-    }
-  },
   setup() {
     const { addItem: addToCart, isInCart } = useCart();
     const { addItem: addToWishlist, isInWishlist } = useWishlist();
+    const { result } = useFacet();
+    
+    const products = computed(() => facetGetters.getProducts(result.value));
 
     const quantity = ref(1);
 
     return {
+      products,
       addToCart,
       isInCart,
       addToWishlist,
@@ -467,12 +456,12 @@ The cart component:
 <template>
   <div>
     <ul>
-      <li v-for="product in cartProducts" :key="cartGetters.getItemSku(product)">
+      <li v-for="item in cartItems" :key="cartGetters.getItemSku(product)">
         <input type="number" v-model="quantity" />
-        <button @click="updateItemQty({ product, quantity })">
+        <button @click="updateItemQty({ item, quantity })">
           Change quantity
         </button>
-        <button @click="removeItem({ product })">
+        <button @click="removeItem({ item })">
           Remove from cart
         </button>
       </li>
@@ -493,7 +482,7 @@ export default {
   setup() {
     const { cart, clear, removeItem, updateItemQty, load } = useCart();
 
-    const cartProducts = computed(() => cartGetters.getItems(cart.value));
+    const cartItems = computed(() => cartGetters.getItems(cart.value));
     const cartTotals = computed(() => cartGetters.getTotals(cart.value));
     const cartTotalItems = computed(() =>
       cartGetters.getTotalItems(cart.value)
@@ -506,7 +495,7 @@ export default {
     });
 
     return {
-      cartProducts,
+      cartItems,
       cartTotalItems,
       removeItem,
       cart,
@@ -526,8 +515,8 @@ The wishlist component:
 <template>
   <div>
     <ul>
-      <li v-for="product in wishlistProducts" :key="wishlistGetters.getWishlistItemSku(product)">
-        <button @click="removeItem({ product })">
+      <li v-for="item in wishlistItems" :key="wishlistGetters.getWishlistItemSku(product)">
+        <button @click="removeItem({ item })">
           Remove from wishlist
         </button>
       </li>
@@ -549,7 +538,7 @@ export default {
   setup() {
     const { wishlist, removeItem, clear, load } = useWishlist();
 
-    const wishlistProducts = computed(() =>
+    const wishlistItems = computed(() =>
       wishlistGetters.getItems(wishlist.value)
     );
     const wishlistTotalItems = computed(() =>
@@ -561,7 +550,7 @@ export default {
     });
 
     return {
-      wishlistProducts,
+      wishlistItems,
       wishlistTotalItems,
       wishlist,
       removeItem,
