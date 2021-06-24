@@ -4,7 +4,7 @@ import { CartFragment, CustomerFragment } from './../../fragments';
 const basicProfile = gql`
   ${CartFragment}
 
-  query getBasicProfile($locale: Locale!, $acceptLanguage: [Locale!]) {
+  query getBasicProfile($locale: Locale!, $acceptLanguage: [Locale!], $currency: Currency!) {
     me {
       activeCart {
         ...DefaultCart
@@ -17,7 +17,7 @@ const fullProfile = gql`
   ${CartFragment}
   ${CustomerFragment}
 
-  query getFullProfile($locale: Locale!, $acceptLanguage: [Locale!]) {
+  query getFullProfile($locale: Locale!, $acceptLanguage: [Locale!], $currency: Currency!) {
     me {
       activeCart {
         ...DefaultCart

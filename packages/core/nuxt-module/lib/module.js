@@ -69,6 +69,13 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   this.addPlugin(path.resolve(__dirname, 'plugins/e2e-testing.js'))
   log.success('Installed Vue Storefront E2E testing plugin');
 
+  // i18n-cookies plugin
+  this.addPlugin({
+    src: path.resolve(__dirname, 'plugins/i18n-cookies.js'),
+    options: this.options.i18n
+  });
+  log.success('Installed Internationalization Cookies plugin');
+
   // Composition API plugin
   this.addModule('@nuxtjs/composition-api');
   log.success('Installed nuxt Composition API Module');

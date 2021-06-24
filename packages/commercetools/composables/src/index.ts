@@ -17,5 +17,6 @@ export { useUserBilling, useUserBillingFactoryParams } from './useUserBilling';
 export { useUserOrder, useUserOrderFactoryParams } from './useUserOrder';
 export { useUserShipping, useUserShippingFactoryParams } from './useUserShipping';
 export { useWishlist, useWishlistFactoryParams } from './useWishlist';
+export { useStore, useStoreFactoryParams } from './useStore';
 
 export * from './getters';

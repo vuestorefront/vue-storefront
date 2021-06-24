@@ -6,7 +6,8 @@ describe('[commercetools-api-client] getCart', () => {
     const givenVariables = {
       acceptLanguage: ['en', 'de'],
       locale: 'en',
-      cartId: 'cart id'
+      cartId: 'cart id',
+      currency: 'USD'
     };
 
     const context = {
