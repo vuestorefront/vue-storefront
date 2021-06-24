@@ -7,16 +7,6 @@ export function cacheHandlerFactory (Vue) {
   return (mutation, state) => {
     const type = mutation.type;
 
-    if (type.endsWith(types.CURRENT_PLUSHIE_ID_SET)) {
-      return StorageManager.get(types.SN_BUDSIES).setItem('current-plushie-id', state.budsies.currentPlushieId).catch((reason) => {
-        Logger.error(reason)()
-      })
-    }
-    if (type.endsWith(types.CURRENT_PLUSHIE_ID_CLEAR)) {
-      return StorageManager.get(types.SN_BUDSIES).removeItem('current-plushie-id').catch((reason) => {
-        Logger.error(reason)()
-      })
-    }
     if (type.endsWith(types.CUSTOMER_EMAIL_SET)) {
       return StorageManager.get(types.SN_BUDSIES).setItem('customer-email', state.budsies.customerEmail).catch((reason) => {
         Logger.error(reason)()

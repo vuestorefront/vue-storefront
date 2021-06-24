@@ -21,6 +21,7 @@ import bodypartValueFactory from '../factories/bodypart-value.factory'
 import isBodypartApiResponse from '../models/is-bodypart-api-response.typeguard'
 import isBodypartValueApiResponse from '../models/is-bodypart-value-api-response.typeguard'
 import BodypartApiResponse from '../models/bodypart-api-response.interface'
+import Task from 'core/lib/sync/types/Task'
 
 function parse<T, R> (
   items: unknown[],
@@ -103,10 +104,10 @@ export const actions: ActionTree<BudsiesState, RootState> = {
   async createNewPlushie (
     { commit, state },
     { productId }
-  ): Promise<string> {
+  ): Promise<Task> {
     const url = processURLAddress(`${config.budsies.endpoint}/plushies`);
 
-    const result = await TaskQueue.execute({
+    return TaskQueue.execute({
       url,
       payload: {
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -116,22 +117,29 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       },
       silent: true
     });
+  },
+  async loadPlushieShortcode (
+    { commit, state },
+    { plushieId }
+  ): Promise<void> {
+    const url = processURLAddress(`${config.budsies.endpoint}/plushies/short-codes`);
 
-    const id = result.result;
+    const result = await TaskQueue.execute({
+      url: `${url}?plushieId=${plushieId}`,
+      payload: {
+        headers: { 'Accept': 'application/json' },
+        mode: 'cors',
+        method: 'GET'
+      },
+      silent: true
+    });
 
-    commit(types.CURRENT_PLUSHIE_ID_SET, { id });
-
-    return id;
+    commit('setPlushieShortcode', { key: plushieId, shortcode: result.result });
   },
   async synchronize ({ commit }) {
     const budsiesStorage = StorageManager.get(types.SN_BUDSIES);
-    const currentPlushieId = await budsiesStorage.getItem('current-plushie-id');
     const customerEmail = await budsiesStorage.getItem('customer-email');
 
-    if (currentPlushieId) {
-      commit(types.CURRENT_PLUSHIE_ID_SET, { id: currentPlushieId })
-      Logger.info('Current Plushie ID received from cache.', 'cache', currentPlushieId)()
-    }
     if (customerEmail) {
       commit(types.CUSTOMER_EMAIL_SET, { email: customerEmail })
       Logger.info('Customer Email received from cache.', 'cache', customerEmail)()

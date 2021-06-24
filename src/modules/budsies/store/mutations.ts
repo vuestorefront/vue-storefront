@@ -46,11 +46,8 @@ export const mutations: MutationTree<BudsiesState> = {
 
     Vue.set(state.productBodyparts, key, ids);
   },
-  [types.CURRENT_PLUSHIE_ID_SET] (state: BudsiesState, { id }: { id: string }) {
-    Vue.set(state, 'currentPlushieId', id);
-  },
-  [types.CURRENT_PLUSHIE_ID_CLEAR] (state: BudsiesState) {
-    Vue.set(state, 'currentPlushieId', undefined);
+  setPlushieShortcode (state: BudsiesState, { key, shortcode }: { key: string, shortcode: string }) {
+    Vue.set(state.plushieShortcode, key, shortcode);
   },
   [types.CUSTOMER_EMAIL_SET] (state: BudsiesState, { email }: { email: string }) {
     Vue.set(state, 'customerEmail', email);
