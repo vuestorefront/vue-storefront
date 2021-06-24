@@ -65,7 +65,10 @@ describe('parametrizeRouteData helper', () => {
       params: {
         slug: 'pants-18'
       },
-      path: '/men/bottoms-men/pants-men/pants-18'
+      path: '/men/bottoms-men/pants-men/pants-18',
+      pathToRegexpOptions: {
+        strict: true
+      }
     }
   })
 

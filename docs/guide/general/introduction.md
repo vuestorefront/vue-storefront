@@ -112,10 +112,10 @@ You may not believe me but this is all you need to know to start working with Vu
 
 - [Documentation](/)
 - [Community slack invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtOTUwNjQyNjY5MDI0LWFmYzE4NTYxNDBhZDRlMjM5MDUzY2RiMjU0YTRjYWQ3YzdkY2YzZjZhZDZmMDUwMWQyOWRmZjQ3NDgwZGQ3NTk)
-- [Project structure explained](/guide/basics/project-structure.html)
-- [Configuration file explained](/guide/basics/configuration.html)
-- [Extending Vue Storefront](/guide/extensions/introduction.html)
-- [How to contribute](/guide/basics/contributing.html#how-to-contribute)
+- [Project structure explained](https://docs.vuestorefront.io/guide/basics/project-structure.html)
+- [Configuration file explained](https://docs.vuestorefront.io/guide/basics/configuration.html)
+- [Extending Vue Storefront](https://docs.vuestorefront.io/guide/extensions/introduction.html)
+- [How to contribute](https://docs.vuestorefront.io/guide/basics/contributing.html#how-to-contribute)
 
 ## Video with training
 You can also watch a video recording from 4th Vue Storefront hackathon with free introduction training

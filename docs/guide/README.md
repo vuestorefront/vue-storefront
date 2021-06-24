@@ -38,7 +38,7 @@ The API connector works in two phases:
 
 VueStorefront works seamlessly with your backend platform while two integration phases are managed as above.
 
-Some of the most popular backend platforms already have their integrations ([Magento 2](https://github.com/vuestorefront/mage2vuestorefront), [Magento 1](https://github.com/divanteLtd/magento1-vsbridge), [CoreShop](https://github.com/divanteLtd/coreshop-vsbridge), [BigCommerce](https://github.com/divanteLtd/bigcommerce2vuestorefront), [WooCommerce](https://github.com/divanteLtd/woocommerce2vuestorefront)), but you can easily make your own with the [integration boilerplate](https://github.com/divanteLtd/vue-storefront-integration-boilerplate).
+Some of the most popular backend platforms already have their integrations ([Magento 2](https://github.com/vuestorefront/magento2-vsbridge-indexer), [Magento 1](https://github.com/divanteLtd/magento1-vsbridge-indexer), [CoreShop](https://github.com/divanteLtd/coreshop-vsbridge), [BigCommerce](https://github.com/divanteLtd/bigcommerce2vuestorefront), [WooCommerce](https://github.com/divanteLtd/woocommerce2vuestorefront)), but you can easily make your own with the [integration boilerplate](https://github.com/divanteLtd/vue-storefront-integration-boilerplate).
 
 The blue parts on the diagram are responsible for offline cache and will be explained later in the article.
 
@@ -112,12 +112,12 @@ You may not believe me but this is all you need to know to start working with Vu
 
 ## Useful Links
 
-- [Documentation](/)
+- [Documentation](https://docs.vuestorefront.io/)
 - [Community slack invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtOTUwNjQyNjY5MDI0LWFmYzE4NTYxNDBhZDRlMjM5MDUzY2RiMjU0YTRjYWQ3YzdkY2YzZjZhZDZmMDUwMWQyOWRmZjQ3NDgwZGQ3NTk)
-- [Project structure explained](/guide/basics/project-structure.html)
-- [Configuration file explained](/guide/basics/configuration.html)
-- [Extending Vue Storefront](/guide/extensions/introduction.html)
-- [How to contribute](/guide/basics/contributing.html#branches)
+- [Project structure explained](https://docs.vuestorefront.io/guide/basics/project-structure.html)
+- [Configuration file explained](https://docs.vuestorefront.io/guide/basics/configuration.html)
+- [Extending Vue Storefront](https://docs.vuestorefront.io/guide/extensions/introduction.html)
+- [How to contribute](https://docs.vuestorefront.io/guide/basics/contributing.html#branches)
 
 ## Video with training
 You can also watch a video recording from 4th Vue Storefront hackathon with free introduction training
