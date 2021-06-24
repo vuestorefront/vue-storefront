@@ -54,7 +54,7 @@
 "The product is out of stock and cannot be added to the cart!","Produkt není na skladě a nelze ho přidat do košíku!"
 "The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","Systém si není jistý množstvím zásob (volatilní). Produkt byl přidán do košíku pro předběžnou rezervaci."
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","Připojení k internetu není k dispozici. Stále si však můžete zboží objednat. Budeme vás informovat v případě, že některý z objednaných produktů není k dispozici, protože to v současnosti nelze zkontrolovat."
-"This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Tato funkce zatím nebyla zavedena! Prosíme, podívejte se na https://github.com/DivanteLtd/vue-storefront/issues pro podrobný návod!"
+"This feature is not implemented yet! Please take a look at https://github.com/vuestorefront/vue-storefront/issues for our Roadmap!","Tato funkce zatím nebyla zavedena! Prosíme, podívejte se na https://github.com/vuestorefront/vue-storefront/issues pro podrobný návod!"
 "Thumbnail","Thumbnail"
 "Type what you are looking for...","Zadejte, co hledáte..."
 "Unhandled error, wrong response format!","Neošetřená chyba, nesprávný formát odpovědi!"

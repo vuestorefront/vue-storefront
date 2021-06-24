@@ -1,4 +1,5 @@
-import { cartCacheHandlerFactory } from './cartCacheHandler'
+import { cartCacheHandlerPlugin } from './cartCacheHandler'
+import { totalsCacheHandlerPlugin } from './totalsCacheHandler'
 import optimizeProduct from './optimizeProduct'
 import prepareProductsToAdd from './prepareProductsToAdd'
 import productChecksum from './productChecksum'
@@ -18,7 +19,8 @@ import createShippingInfoData from './createShippingInfoData'
 import * as syncCartWhenLocalStorageChange from './syncCartWhenLocalStorageChange'
 
 export {
-  cartCacheHandlerFactory,
+  cartCacheHandlerPlugin,
+  totalsCacheHandlerPlugin,
   optimizeProduct,
   prepareProductsToAdd,
   productChecksum,

@@ -26,10 +26,11 @@ import { transformCategoryUrl } from '@vue-storefront/core/modules/url/helpers/t
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category, pageSize = 50 } = {}) {
     const searchCategory = category || getters.getCategoryFrom(route.path) || {}
-    const categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
     const areFiltersInQuery = !!Object.keys(route[products.routerFiltersSource]).length
+    let categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
     if (!categoryMappedFilters && areFiltersInQuery) { // loading all filters only when some filters are currently chosen and category has no available filters yet
       await dispatch('loadCategoryFilters', searchCategory)
+      categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
     }
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)

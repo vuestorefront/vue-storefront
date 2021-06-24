@@ -31,6 +31,7 @@
     "invalidateCacheForwarding": false,
     "invalidateCacheForwardUrl": "http://localhost:8080/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": true,
+    "dynamicConfigReloadWithEachRequest": false,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": [
       "entities",
@@ -618,6 +619,10 @@
     "clearPricesBeforePlatformSync": false,
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
+    "omitVariantFields": [
+      "name",
+      "visibility"
+    ],
     "calculateBundlePriceByOptions": true,
     "endpoint": "/api/product",
     "defaultFilters": [
@@ -673,6 +678,10 @@
         { "from": 100, "to": 150 },
         { "from": 150 }
       ]
+    },
+    "aggregate": {
+      "maxPrice": false,
+      "minPrice": false
     }
   },
   "orders": {

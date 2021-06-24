@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DivanteLtd/vue-storefront"
+    "url": "git+https://github.com/vuestorefront/vue-storefront"
   },
   "keywords": [
     "vue",
@@ -22,9 +22,9 @@
   "author": "pkarw <pkarwatka@divante.pl> and contributors",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DivanteLtd/vue-storefront/issues"
+    "url": "https://github.com/vuestorefront/vue-storefront/issues"
   },
-  "homepage": "https://github.com/DivanteLtd/vue-storefront/README.md",
+  "homepage": "https://github.com/vuestorefront/vue-storefront/README.md",
   "scripts": {
     "static-server": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/static-server.ts",
     "generate": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/generate.ts",
@@ -63,6 +63,7 @@
     "dayjs": "^1.8.21",
     "es6-promise": "^4.2.8",
     "express": "^4.14.0",
+    "fork-ts-checker-webpack-plugin": "^6.2.0",
     "fs-extra": "^8.1.0",
     "glob": "^7.1.6",
     "graphql": "^0.13.2",
@@ -79,7 +80,7 @@
     "redis-tag-cache": "^1.2.1",
     "reflect-metadata": "^0.1.12",
     "register-service-worker": "^1.5.2",
-    "storefront-query-builder": "https://github.com/DivanteLtd/storefront-query-builder.git",
+    "storefront-query-builder": "https://github.com/vuestorefront/storefront-query-builder.git",
     "ts-node": "^8.6.2",
     "vue": "^2.6.11",
     "vue-analytics": "^5.16.1",
@@ -93,7 +94,7 @@
     "vue-no-ssr": "^0.2.2",
     "vue-observe-visibility": "^0.4.1",
     "vue-offline": "^1.0.8",
-    "vue-router": "^3.0.1",
+    "vue-router": "3.1.6",
     "vue-server-renderer": "^2.6.11",
     "vuelidate": "^0.7.5",
     "vuex": "^3.1.2",
