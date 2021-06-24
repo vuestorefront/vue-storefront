@@ -3,6 +3,26 @@
 import { Ref } from '@vue/composition-api';
 import type { Request, Response } from 'express';
 
+/**
+ * Default name of the cookie storing active localization code
+ */
+export const VSF_LOCALE_COOKIE = 'vsf-locale';
+
+/**
+ * Default name of the cookie storing active currency code
+ */
+export const VSF_CURRENCY_COOKIE = 'vsf-currency';
+
+/**
+ * Default name of the cookie storing active country code
+ */
+export const VSF_COUNTRY_COOKIE = 'vsf-country';
+
+/**
+ * Default name of the cookie storing active store code
+ */
+export const VSF_STORE_COOKIE = 'vsf-store';
+
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
 export type CustomQuery = Record<string, string>
@@ -608,6 +628,29 @@ export interface AgnosticPagination {
   pageOptions: number[];
 }
 
+export interface AgnosticAddress {
+  addressLine1: string;
+  addressLine2: string;
+  [x: string]: unknown;
+}
+
+export interface AgnosticGeoLocation {
+  type: string;
+  coordinates?: unknown;
+  [x: string]: unknown;
+}
+
+export interface AgnosticStore {
+  name: string;
+  id: string;
+  description?: string;
+  locales?: AgnosticLocale[];
+  currencies?: AgnosticCurrency[]
+  address?: AgnosticAddress;
+  geoLocation?: AgnosticGeoLocation;
+  [x: string]: unknown;
+}
+
 export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
   getName: (product: PRODUCT) => string;
   getSlug: (product: PRODUCT) => string;
@@ -834,4 +877,40 @@ export type ApiClientMethods<T> = {
     T[K] extends (...args: any) => any ?
     (...args: [...Parameters<T[K]>, CustomQuery?]) => ReturnType<T[K]> :
     T[K]
+}
+
+export interface UseStoreErrors {
+  load: Error | null;
+  change: Error | null;
+}
+
+export interface UseStoreFactoryChangeParamArguments {
+  currentStore: AgnosticStore;
+  store: AgnosticStore;
+  customQuery?: CustomQuery;
+}
+
+export interface UseStoreFactoryLoadParamArguments {
+  customQuery: CustomQuery;
+}
+
+export interface UseStoreFactoryParams<STORES> extends FactoryParams {
+  load(context: Context, params: UseStoreFactoryLoadParamArguments): Promise<STORES>
+  change(context: Context, parmas: UseStoreFactoryChangeParamArguments): Promise<STORES>
+}
+export interface UseStoreInterface<STORES> {
+  change(params: UseStoreFactoryChangeParamArguments): Promise<void>;
+  load(params?: UseStoreFactoryLoadParamArguments): Promise<void>;
+  loading: ComputedProperty<boolean>;
+  response: ComputedProperty<STORES>;
+  error: ComputedProperty<UseStoreErrors>;
+}
+
+export interface UseStore<STORES> {
+  (): UseStoreInterface<STORES>;
+}
+
+export interface UseStoreGetters<STORES, CRITERIA = any> {
+  getItems(stores: STORES, criteria?: CRITERIA): AgnosticStore[];
+  getSelected(stores: STORES): AgnosticStore | undefined
 }

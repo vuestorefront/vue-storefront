@@ -5,6 +5,7 @@ import { Token, CustomerCredentials } from './setup';
 import { UpdateCartParams } from '../api/updateCart';
 import { GetMeParams } from '../api/getMe';
 import { ShippingMethodData } from '../api/getShippingMethods';
+import { GetStoresParams } from '../api/getStores';
 import {
   Cart,
   Order,
@@ -23,7 +24,8 @@ import {
   ProductQueryResult,
   Me,
   CartQueryInterface,
-  CustomerPasswordToken
+  CustomerPasswordToken,
+  StoreQueryResult
 } from './GraphQL';
 
 export interface BaseSearch {
@@ -88,6 +90,8 @@ export interface CartData extends Omit<CartDraft, 'currency'> {
   currency?: string;
 }
 
+export type ApiResponseWrapper <KEY extends string, T> = Record<KEY, T>;
+
 export type QueryResponse<K extends string, V> = ApolloQueryResult<Record<K, V>>;
 export type MutationResponse<K extends string, V> = FetchResult<Record<K, V>>;
 export type CartQueryResponse = QueryResponse<'cart', Cart>;
@@ -127,6 +131,7 @@ interface ApiMethods {
   updateCartQuantity ({ id, version }: CartDetails, product: LineItem): Promise<CartResponse>;
   updateShippingDetails (cart: Cart, shippingDetails: Address): Promise<CartResponse>;
   isGuest: () => boolean;
+  getStores(params: GetStoresParams): Promise<StoreQueryResult>;
 }
 
 export type CommercetoolsMethods = ApiClientMethods<ApiMethods>

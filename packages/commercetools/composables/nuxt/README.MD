@@ -83,6 +83,7 @@ export const config = {
   acceptLanguage: ['en', 'de'],
   currency: 'USD',
   country: 'US',
+  store: 'luxury-brand',
   countries: [
     { name: 'US',
       label: 'United States' },
@@ -108,7 +109,8 @@ export const config = {
   cookies: {
     currencyCookieName: 'vsf-currency',
     countryCookieName: 'vsf-country',
-    localeCookieName: 'vsf-locale'
+    localeCookieName: 'vsf-locale',
+    storeCookieName: 'vsf-store'
   }
 };
 ```

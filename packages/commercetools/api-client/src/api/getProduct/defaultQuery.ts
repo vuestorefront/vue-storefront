@@ -12,7 +12,7 @@ export default gql`
   }
 
   fragment Price on ProductVariant {
-    price(currency: $currency, country: $country) {
+    price(currency: $currency, country: $country, channelId: $channelId) {
       ...DefaultProductPrice
     }
   }
@@ -48,6 +48,7 @@ export default gql`
     $acceptLanguage: [Locale!]
     $currency: Currency!
     $country: Country!
+    $channelId: String
   ) {
     products(
       where: $where

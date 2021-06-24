@@ -10,6 +10,7 @@ import orderGetters from './orderGetters';
 import wishlistGetters from './wishlistGetters';
 import facetGetters from './facetGetters';
 import forgotPasswordGetters from './forgotPasswordGetters';
+import storeGetters from './storeGetters';
 
 export {
   cartGetters,
@@ -22,5 +23,6 @@ export {
   orderGetters,
   wishlistGetters,
   facetGetters,
-  forgotPasswordGetters
+  forgotPasswordGetters,
+  storeGetters
 };

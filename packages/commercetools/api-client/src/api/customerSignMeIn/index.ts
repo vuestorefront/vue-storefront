@@ -3,10 +3,11 @@ import CustomerSignMeInMutation from './defaultMutation';
 import { SignInResponse } from './../../types/Api';
 
 const customerSignMeIn = async (context, draft: CustomerSignMeInDraft): Promise<SignInResponse> => {
-  const { locale, acceptLanguage } = context.config;
+  const { locale, acceptLanguage, currency } = context.config;
+
   const loginResponse = await context.client.mutate({
     mutation: CustomerSignMeInMutation,
-    variables: { draft, locale, acceptLanguage },
+    variables: { draft, locale, acceptLanguage, currency },
     fetchPolicy: 'no-cache'
   }) as SignInResponse;
 

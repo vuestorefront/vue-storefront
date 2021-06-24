@@ -7,6 +7,7 @@ const givenVariables = {
   acceptLanguage: ['en', 'de'],
   locale: 'en',
   id: 'cart id',
+  currency: 'USD',
   version: 1,
   actions: [{ addLineItem: {} }]
 };

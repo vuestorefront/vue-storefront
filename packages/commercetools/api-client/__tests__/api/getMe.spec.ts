@@ -5,7 +5,8 @@ describe('[commercetools-api-client] getMe', () => {
   it('fetches current user data', async () => {
     const givenVariables = {
       acceptLanguage: ['en', 'de'],
-      locale: 'en'
+      locale: 'en',
+      currency: 'USD'
     };
 
     const context = {
