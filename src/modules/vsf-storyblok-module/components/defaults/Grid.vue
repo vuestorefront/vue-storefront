@@ -1,7 +1,7 @@
 <template>
   <div
     class="grid"
-    :class="cssClasses"
+    :class="[cssClasses, {'-collapsed': isCollapsed}]"
     :style="styles"
   >
     <div
@@ -85,6 +85,9 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     },
     isCardsMode (): boolean {
       return this.itemData.is_cards_mode === true;
+    },
+    isCollapsed (): boolean {
+      return this.itemData.is_collapsed === true;
     }
   },
   methods: {
@@ -152,6 +155,10 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     > ._item {
       padding: 15px;
     }
+  }
+
+  &.-collapsed {
+    grid-gap: 0;
   }
 
   @include display-property-handling;

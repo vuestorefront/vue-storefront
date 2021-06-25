@@ -9,5 +9,6 @@ export default interface GridData extends ItemData {
   display: Display,
   background: ColorPickerField,
   is_cards_mode?: boolean,
+  is_collapsed?: boolean,
   card_background: ColorPickerField
 }
