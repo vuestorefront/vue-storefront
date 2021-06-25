@@ -1,7 +1,7 @@
 <template>
   <div
     class="grid"
-    :class="[cssClasses, {'-collapsed': isCollapsed}]"
+    :class="cssClasses"
     :style="styles"
   >
     <div
@@ -72,6 +72,10 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
         result.push('-cards-mode');
       }
 
+      if (this.itemData.is_collapsed) {
+        result.push('-collapsed');
+      }
+
       return result;
     },
     itemStyles (): Record<string, string> {
@@ -85,9 +89,6 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     },
     isCardsMode (): boolean {
       return this.itemData.is_cards_mode === true;
-    },
-    isCollapsed (): boolean {
-      return this.itemData.is_collapsed === true;
     }
   },
   methods: {
