@@ -67,7 +67,7 @@ injectDeviceTests({
 })
 ```
 
-Then you will have access to the `this.$device`. However, you cannot access it via `Vue.prototype.$device` anymore. That's why, it is possible you will need to move some parts of asyncData to Vue 2.6's `serverPrefetch`. 
+Then you will have access to the `this.$device`. However, you cannot access it via `Vue.prototype.$device` anymore. That's why, it is possible you will need to move some parts of asyncData to Vue 2.6's `serverPrefetch`.
 
 Another part you should keep in mind is Cache Key. If you render different components based on some data from user agent then you have to build proper cache key based one that. Otherwise, you might end up in situation when mobile SSR Output is being served for desktop users.
 
@@ -79,10 +79,42 @@ I created dedicated hook to resolve this problem. You can find how to use it in 
 ### core/pages/MyAccount.js
 Got rid of `myAccount-before-remainInEditMode`, `myAccount-before-updateUser` events, and `onBeforeUpdateUser` method as a part of this issue [#5315](https://github.com/vuestorefront/vue-storefront/issues/5315). Thanks to that we simplified developer API
 
-### core/modules/user/components/UserAccount.ts 
+### core/modules/user/components/UserAccount.ts
 Changed signature of an `exitSection` method from the `(event, updatedProfile)` to the `(updatedProfile)`
-### core/modules/user/components/UserShippingDetails.ts 
+### core/modules/user/components/UserShippingDetails.ts
 Changed signature of an `exitSection` method from the `(event, updatedShippingDetails)` to the `(updatedShippingDetails)`
+
+### Allow to configure the list of ElasticSearch indices (entityTypes)
+
+For big custom features we might need to add new ElasticSearch indices (entityTypes).
+And to be able to make requests into those new indices, we need to be able to add those indices to the SearchAdapter class.
+Thus it's good to be able to customize them via config file.
+
+#### Changes
+
+Get data in search adapters from config, rather than hardcoded array: <br>
+`core/lib/search/adapter/api/searchAdapter.ts`<br>
+`core/lib/search/adapter/api-search-query/searchAdapter.ts`
+
+
+Add `entityTypes` field to the `config/default.json` config, where elastic search indices can be configured:
+```json
+ "elasticsearch": {
+    "httpAuth": "",
+    "host": "/api/catalog",
+    "entityTypes": [
+      "product",
+      "attribute",
+      "category",
+      "taxrule",
+      "review",
+      "cms_page",
+      "cms_block",
+      "cms_hierarchy"
+    ],
+    ...
+ }
+```
 
 ## 1.11 -> 1.12
 
