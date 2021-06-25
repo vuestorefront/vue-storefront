@@ -1,6 +1,7 @@
 import toString from 'lodash-es/toString'
 import pick from 'lodash-es/pick'
 import config from 'config'
+import { userHooks } from '@vue-storefront/core/modules/user/hooks'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const UserShippingDetails = {
@@ -76,7 +77,7 @@ export const UserShippingDetails = {
     async updateDetails () {
       let updatedShippingDetails
       if (!this.objectsEqual(this.shippingDetails, this.getShippingDetails())) {
-        updatedShippingDetails = pick(JSON.parse(JSON.stringify(this.$store.state.user.current)), config.users.allowModification)
+        updatedShippingDetails = JSON.parse(JSON.stringify(this.$store.state.user.current))
         let updatedShippingDetailsAddress = {
           firstname: this.shippingDetails.firstName,
           lastname: this.shippingDetails.lastName,
@@ -105,30 +106,29 @@ export const UserShippingDetails = {
           })
         }
       }
-      return this.exitSection(updatedShippingDetails)
+      updatedShippingDetails = pick(updatedShippingDetails, config.users.allowModification)
+      this.exitSection(null, updatedShippingDetails)
     },
-    async exitSection (updatedShippingDetails) {
-      try {
-        if (updatedShippingDetails) {
-          const event = await this.$store.dispatch('user/update', { customer: updatedShippingDetails })
-          if (event.code !== 200) {
-            throw event;
+    exitSection (event, updatedShippingDetails) {
+      this.$bus.$emit('myAccount-before-updateUser', updatedShippingDetails)
+      userHooks.afterUserProfileUpdated(event => {
+        if (event.resultCode === 200) {
+          if (!updatedShippingDetails) {
+            this.shippingDetails = this.getShippingDetails()
+            this.useCompanyAddress = false
+            this.remainInEditMode = false
+          }
+          if (!this.remainInEditMode) {
+            this.isEdited = false
           }
         } else {
-          this.shippingDetails = this.getShippingDetails()
-          this.useCompanyAddress = false
+          this.$store.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: this.$t(event.result.errorMessage || 'Something went wrong ...'),
+            action1: { label: this.$t('OK') }
+          }, { root: true })
         }
-        this.remainInEditMode = false
-      } catch (event) {
-        this.remainInEditMode = true
-        this.$store.dispatch('notification/spawnNotification', {
-          type: 'error',
-          message: this.$t(event.result.errorMessage || 'Something went wrong ...'),
-          action1: { label: this.$t('OK') }
-        })
-      } finally {
-        this.isEdited = this.remainInEditMode
-      }
+      })
     },
     fillCompanyAddress () {
       if (this.useCompanyAddress) {

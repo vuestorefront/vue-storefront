@@ -12,12 +12,12 @@ const StorageManager = {
     return this[key]
   },
   clear () {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       resolve()
     })
   }
 };
-const cartCacheHandlerFactory = require('../../../helpers/cartCacheHandler').cartCacheHandlerFactory
+const cartCacheHandlerPlugin = require('../../../helpers/cartCacheHandler').cartCacheHandlerPlugin
 
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({ StorageManager }))
 jest.mock('@vue-storefront/core/helpers', () => ({
@@ -54,7 +54,7 @@ describe('Cart afterRegistration', () => {
 
     StorageManager.get('cart').setItem.mockImplementationOnce(() => Promise.resolve('foo'));
 
-    await cartCacheHandlerFactory(Vue)({ type: mutationType }, stateMock);
+    await cartCacheHandlerPlugin({ type: mutationType }, stateMock);
 
     expect(StorageManager.get('cart').setItem)
       .toBeCalledWith('current-cart', stateMock.cart.cartItems);
@@ -71,7 +71,7 @@ describe('Cart afterRegistration', () => {
 
     StorageManager.get('cart').setItem.mockImplementationOnce(() => Promise.reject('foo'));
 
-    await cartCacheHandlerFactory(Vue)({ type: types.CART_LOAD_CART }, stateMock);
+    await cartCacheHandlerPlugin({ type: types.CART_LOAD_CART }, stateMock);
 
     expect(consoleErrorSpy).toBeCalled();
   });
@@ -85,7 +85,7 @@ describe('Cart afterRegistration', () => {
 
     StorageManager.get('cart').setItem.mockImplementationOnce(() => Promise.resolve('foo'));
 
-    await cartCacheHandlerFactory(Vue)({ type: types.CART_LOAD_CART_SERVER_TOKEN }, stateMock);
+    await cartCacheHandlerPlugin({ type: types.CART_LOAD_CART_SERVER_TOKEN }, stateMock);
 
     expect(StorageManager.get('cart').setItem)
       .toBeCalledWith('current-cart-token', stateMock.cart.cartServerToken);
@@ -102,7 +102,7 @@ describe('Cart afterRegistration', () => {
 
     StorageManager.get('cart').setItem.mockImplementationOnce(() => Promise.reject('foo'));
 
-    await cartCacheHandlerFactory(Vue)({ type: types.CART_LOAD_CART_SERVER_TOKEN }, stateMock);
+    await cartCacheHandlerPlugin({ type: types.CART_LOAD_CART_SERVER_TOKEN }, stateMock);
 
     expect(consoleErrorSpy).toBeCalled();
   });
@@ -118,7 +118,7 @@ describe('Cart afterRegistration', () => {
 
     StorageManager.get('cart').setItem.mockImplementationOnce(() => Promise.reject('foo'));
 
-    await cartCacheHandlerFactory(Vue)({ type: 'bar' }, stateMock);
+    await cartCacheHandlerPlugin({ type: 'bar' }, stateMock);
 
     expect(consoleErrorSpy).not.toBeCalled();
   });
