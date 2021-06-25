@@ -28,7 +28,7 @@ jobs:
           node-version: '10'
 
       - name: Clone default theme
-        run: git clone --quiet --single-branch --branch master https://github.com/DivanteLtd/vsf-default.git ./src/themes/default
+        run: git clone --quiet --single-branch --branch master https://github.com/vuestorefront/vsf-default.git ./src/themes/default
 
       - name: Get cached dependencies
         uses: actions/cache@v2
@@ -97,7 +97,7 @@ jobs:
           node-version: '10'
 
       - name: Clone default theme
-        run: git clone --quiet --single-branch --branch master https://github.com/DivanteLtd/vsf-default.git ./src/themes/default
+        run: git clone --quiet --single-branch --branch master https://github.com/vuestorefront/vsf-default.git ./src/themes/default
 
       - name: Get cached dependencies
         uses: actions/cache@v2

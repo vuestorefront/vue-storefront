@@ -1,5 +1,5 @@
 module.exports = {
-  base: '/',
+  base: '/v1/',
   port: 8081,
   markdown: {
     toc: {

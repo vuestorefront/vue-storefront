@@ -13,6 +13,6 @@ export default function filterOutUnavailableVariants (product, stockItems = []) 
   }
 
   if (product.type_id === 'configurable' && hasConfigurableChildren(product)) {
-    filterChildrenByStockitem(stockItems, product)
+    filterChildrenByStockitem(product, stockItems)
   }
 }

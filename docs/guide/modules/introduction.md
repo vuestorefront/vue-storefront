@@ -50,7 +50,7 @@ This is the modularity and extendability we are looking for in Vue Storefront an
 
 ## What is the purpose of VS modules?
 
-The purpose is well described in [this discussion](https://github.com/DivanteLtd/vue-storefront/issues/1213). It can be summarized to:
+The purpose is well described in [this discussion](https://github.com/vuestorefront/vue-storefront/issues/1213). It can be summarized to:
 
 - **Better extendability**: We can extend each module or replace it completely with the new one. For example, we may want to replace our Cart module with the one that allows to have multiple carts. With module approach, we can just detach the current Cart module and replace it with the new one. Another example can be using different modules for different content CMSes integration etc.
 - **Better developer experience**: Along with the modules we are introducing many features focused on delivering better and easier experience for developers to hop on in a more predictable way. We changed the way you can compose components with features, added unit tests, TypeScript interfaces etc.
@@ -82,7 +82,7 @@ interface VueStorefrontModuleConfig {
 }
 ```
 
-See code [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/index.ts)
+See code [here](https://github.com/vuestorefront/vue-storefront/blob/develop/core/modules/index.ts)
 
 ### `key` (required)
 
@@ -128,7 +128,7 @@ Try to have a similar file structure inside the ones that you create. If all the
 
 Not all of this folders and files should exist in every module. The only mandatory file is `index.ts` which is the entry point. The rest depends on your needs and module functionality.
 
-You can take a look at [module template](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/module-template) with an example implementation of all features listed in config.
+You can take a look at [module template](https://github.com/vuestorefront/vue-storefront/tree/master/core/modules/module-template) with an example implementation of all features listed in config.
 
 - `components` - Components logic related to this module (eg. Microcart for Cart module). Normally it contains `.ts` files but you can also create `.vue` files and provide some baseline markup if it is required for the component to work out of the box.
 - `pages` - If you want to provide full pages with your module, place them here. It's also a good practice to extend router configuration for these pages
@@ -208,10 +208,10 @@ addToCart(product, success, failure) {
 }
 ```
 
-Try to choose a method based on use cases. [This](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28) is a good example of using callbacks.
+Try to choose a method based on use cases. [This](https://github.com/vuestorefront/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28) is a good example of using callbacks.
 
-5. Create pure functions that can be easily called with a different argument. Rely on `data` properties instead of arguments only if it's required (for example, they are validated as [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28))
-6. Make a document for exported components like as follows : [document](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts)
+5. Create pure functions that can be easily called with a different argument. Rely on `data` properties instead of arguments only if it's required (for example, they are validated as [here](https://github.com/vuestorefront/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28))
+6. Make a document for exported components like as follows : [document](https://github.com/vuestorefront/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts)
 7. If your module core functionality is an integration with external service, better name it the same as this service (for example `mailchimp`)
 8. Use named exports and type check.
 
@@ -282,4 +282,4 @@ If you want to create a third party module, just copy the `src/modules/module-te
 
 ## Contributions
 
-Please introduce every new feature as a standalone, encapsulated module. We also need your help in rewriting Vue Storefront to modular approach - [here](https://github.com/DivanteLtd/vue-storefront/issues?q=is%3Aissue+is%3Aopen+label%3A%22API+Module%22) you can find tasks related to this architecture change and [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/refactoring-to-modules.md) is the tutorial on how to approach applying these changes.
+Please introduce every new feature as a standalone, encapsulated module. We also need your help in rewriting Vue Storefront to modular approach - [here](https://github.com/vuestorefront/vue-storefront/issues?q=is%3Aissue+is%3Aopen+label%3A%22API+Module%22) you can find tasks related to this architecture change and [here](https://github.com/vuestorefront/vue-storefront/blob/master/doc/api-modules/refactoring-to-modules.md) is the tutorial on how to approach applying these changes.

@@ -60,7 +60,7 @@
 "The product, category or CMS page is not available in Offline mode. Redirecting to Home.","Das Produkt, die Kategorie oder die CMS Seite ist nicht verfügbar im Offline-Modus. Weiterleitung zur Startseite."
 "The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","Das System konnte den genauen Lagerbestand nicht ermitteln, da dieser sehr volatil ist. Das Produkt wurde zur Vorreservierung in den Warenkorb gelegt."
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","Es besteht aktuell keine Verbindung zum Internet. Sie können ihre Bestellung dennoch aufgeben. Falls eines der bestellten Produkte bei Wiederaufbau der Verbindung nicht mehr verfügbar sein sollte, werden wir Sie umgehend benachrichtigen."
-"This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Diese Funktion wurde noch nicht implementiert. Für weitere Details schauen Sie bitte auf https://github.com/DivanteLtd/vue-storefront/issues unsere Roadmap an!"
+"This feature is not implemented yet! Please take a look at https://github.com/vuestorefront/vue-storefront/issues for our Roadmap!","Diese Funktion wurde noch nicht implementiert. Für weitere Details schauen Sie bitte auf https://github.com/vuestorefront/vue-storefront/issues unsere Roadmap an!"
 "Thumbnail","Thumbnail"
 "Type what you are looking for...","Geben Sie ein, wonach Sie suchen..."
 "Unhandled error, wrong response format!","Unbehandelter Fehler. Die Antwort vom Server ist falsch formatiert!"

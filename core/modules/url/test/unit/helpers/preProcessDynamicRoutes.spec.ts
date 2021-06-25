@@ -62,7 +62,10 @@ describe('preProcessDynamicRoutes helper', () => {
         params: {
           slug: 'all-2'
         },
-        path: '/all-2'
+        path: '/all-2',
+        pathToRegexpOptions: {
+          strict: true
+        }
       }
     ]
   })

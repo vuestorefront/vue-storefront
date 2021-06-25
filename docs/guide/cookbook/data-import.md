@@ -16,7 +16,7 @@ Although all these data stores are basically schema-free, some mappings and meta
 Vue Storefront uses a data-migration mechanism based on [node-migrate](https://github.com/tj/node-migrate). 
 
 ### 1. Preparation
-- You need a [Vue Storefront API](https://github.com/DivanteLtd/vue-storefront-api) instance [installed](setup.html#_1-install-with-docker) on your machine to run the migration. <br />
+- You need a [Vue Storefront API](https://github.com/vuestorefront/vue-storefront-api) instance [installed](setup.html#_1-install-with-docker) on your machine to run the migration. <br />
 - You need an Elasticsearch instance  [running](setup.html#_1-install-with-docker) into which the data will be migrated.
 
 ### 2. Recipe
@@ -370,8 +370,8 @@ We worked in the red rectangle part of the architecture as a preparation for dat
 
 What we did in a simple term, we taught Elasticsearch types and sorts of data(mapping, also known as schema) we will use for Vue Storefront API later on. 
 
-Upon running `yarn migrate`, it runs the pre-configured [migration scripts](https://github.com/DivanteLtd/vue-storefront-api/tree/master/migrations) using [node-migrate](https://github.com/tj/node-migrate). If you take a closer look into the migration scripts, you will notice the ultimate js file which is located at [`./src/lib/elastic.js`](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/lib/elastic.js) that does the actual labor for migration.
- If you take one more closer look in the `elastic.js` file, you will also find all the schema files are located under [`./config`](https://github.com/DivanteLtd/vue-storefront-api/tree/master/config) folder.
+Upon running `yarn migrate`, it runs the pre-configured [migration scripts](https://github.com/vuestorefront/vue-storefront-api/tree/master/migrations) using [node-migrate](https://github.com/tj/node-migrate). If you take a closer look into the migration scripts, you will notice the ultimate js file which is located at [`./src/lib/elastic.js`](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/lib/elastic.js) that does the actual labor for migration.
+ If you take one more closer look in the `elastic.js` file, you will also find all the schema files are located under [`./config`](https://github.com/vuestorefront/vue-storefront-api/tree/master/config) folder.
  What those scripts do can be divided into steps as per the file name.
  It first creates index from index schema, then import schema from `elastic.schema.[types].json` files. It will then reindex them, and delete temporary index. Finally it will work a few workarounds to deal with deprecated process. 
 
@@ -459,11 +459,11 @@ By using Elasticsearch as a data store in the architecture, we could make the pl
 In this recipe we will walk you with **Magento 2** example. 
 
 ### 1. Preparation
-- You need a [Vue Storefront API](https://github.com/DivanteLtd/vue-storefront-api) instance [installed](setup.html#_1-install-with-docker) for backend.
+- You need a [Vue Storefront API](https://github.com/vuestorefront/vue-storefront-api) instance [installed](setup.html#_1-install-with-docker) for backend.
 <br />
 - You need an Elasticsearch instance [running](setup.html#_1-install-with-docker) with mapping is done as in [*Recipe 1 Data Mapping Migration for Elasticsearch*](#_1-data-mapping-migration-for-elasticsearch)
 <br />
-- You need [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) downloaded for data bridge. This instance is backend-dependant (in this case, Magento 2), you may replace it with other data bridges such as [coreshop-vsbridge](https://github.com/DivanteLtd/coreshop-vsbridge), [shopware2vuestorefront](https://github.com/DivanteLtd/shopware2vuestorefront) to your advantage. 
+- You need [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) downloaded for data bridge. This instance is backend-dependant (in this case, Magento 2), you may replace it with other data bridges such as [coreshop-vsbridge](https://github.com/divanteLtd/coreshop-vsbridge), [shopware2vuestorefront](https://github.com/divanteLtd/shopware2vuestorefront) to your advantage. 
 <br />
 - Finally, you need a Magento 2 instance as a data source to pump your data from. (For [Recipe B](#_2-2-recipe-b-using-on-premise) only)
 
@@ -473,7 +473,7 @@ We are going to import entities as follows :
 - Taxrules
 - Attributes
 - Product-to-categories
-- Reviews (require custom module [Divante/ReviewApi](https://github.com/DivanteLtd/magento2-review-api))
+- Reviews (require custom module [Divante/ReviewApi](https://github.com/divanteLtd/magento2-review-api))
 - Cms Blocks & Pages (require custom module [SnowdogApps/magento2-cms-api](https://github.com/SnowdogApps/magento2-cms-api))
 
 ### 2-1. Recipe A (Using Demo)
@@ -713,7 +713,7 @@ node --harmony cli.js products --removeNonExistent=true --partitions=1
 
 6. In order to import `reviews` and `cms`, we need to install additional Magento 2 modules, so that we can expose required API. 
 
-Download and install [Review API module](https://github.com/DivanteLtd/magento2-review-api) and run the following : 
+Download and install [Review API module](https://github.com/divanteLtd/magento2-review-api) and run the following : 
 ```bash
 node --harmony cli.js reviews
 ```
@@ -738,7 +738,7 @@ We started with demo data pump. [Divante Ltd.](https://vuestorefront.io/) prepar
 
 Recipe B started creating an integration entry in Magento 2 Admin in order to grant a permission for data pump. Magento 2 asks you basic information with respect to the integration including ACL(access control list) that deals with permissions by each endpoint. Once you are done, Magento 2 will present you with credentials and tokens. 
 
-Providing those credentials in config file, or in this case we set ENV variables, allows the [`src/cli.js`](https://github.com/DivanteLtd/mage2vuestorefront/blob/master/src/cli.js) script file to run the pumping. In a deeper look into [`src/cli.js`](https://github.com/DivanteLtd/mage2vuestorefront/blob/master/src/cli.js), you will notice functions that handle each entity. Inside the function, there is a [`factory`](https://github.com/DivanteLtd/mage2vuestorefront/blob/master/src/adapters/factory.js) method that takes an `adapter` injected as a parameter - in this recipe, it was `magento` - which represents a backend type of data source, and the other parameter is `driver` which represents entity type you are importing, say, `products`. There is another `adapter` whose name is `nosql` which is Elasticsearch. The ultimate pump logic locates [`abstract`](https://github.com/DivanteLtd/mage2vuestorefront/blob/master/src/adapters/abstract.js) that loads `nosql` as `db` at `constructor` and executes `run` method with individual logic inherited within. You may find individual `drivers` for `magento adapter` in [`magento`](https://github.com/DivanteLtd/mage2vuestorefront/tree/master/src/adapters/magento) folder.
+Providing those credentials in config file, or in this case we set ENV variables, allows the [`src/cli.js`](https://github.com/vuestorefront/mage2vuestorefront/blob/master/src/cli.js) script file to run the pumping. In a deeper look into [`src/cli.js`](https://github.com/vuestorefront/mage2vuestorefront/blob/master/src/cli.js), you will notice functions that handle each entity. Inside the function, there is a [`factory`](https://github.com/vuestorefront/mage2vuestorefront/blob/master/src/adapters/factory.js) method that takes an `adapter` injected as a parameter - in this recipe, it was `magento` - which represents a backend type of data source, and the other parameter is `driver` which represents entity type you are importing, say, `products`. There is another `adapter` whose name is `nosql` which is Elasticsearch. The ultimate pump logic locates [`abstract`](https://github.com/vuestorefront/mage2vuestorefront/blob/master/src/adapters/abstract.js) that loads `nosql` as `db` at `constructor` and executes `run` method with individual logic inherited within. You may find individual `drivers` for `magento adapter` in [`magento`](https://github.com/vuestorefront/mage2vuestorefront/tree/master/src/adapters/magento) folder.
 
 Now, you are ready to serve your **Vue Storefront** instance with your original products! 
 
@@ -750,7 +750,7 @@ When your products are successfully imported, there is another important thing t
 
 Go to **Vue Storefront API** root and find `local.json` under `config` folder. 
 :::tip Info
-`local.json` is the file created during the installation. It contains all the configuration for your Vue Storefront API instance. If you don't have it, you should copy the template from [`default.json`](https://github.com/DivanteLtd/vue-storefront-api/blob/master/config/default.json) from the same directory and populate fields as you need it. 
+`local.json` is the file created during the installation. It contains all the configuration for your Vue Storefront API instance. If you don't have it, you should copy the template from [`default.json`](https://github.com/vuestorefront/vue-storefront-api/blob/master/config/default.json) from the same directory and populate fields as you need it. 
 ::: 
  
 Find `imageable` node and add your source domain under `whitelist/allowedHosts` as follows : 
@@ -839,7 +839,7 @@ node --harmony cli.js productsdelta
 
 #### Secret 3. When you have imported multiple data source
 As Magento is famous for having a powerful multi stores feature, **Vue Storefront** is also ready to take on the feature smoothly. 
-You can have multiple indexes by specifying index name when you import data with [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront). 
+You can have multiple indexes by specifying index name when you import data with [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront). 
 
 Setting the ENV variable for `INDEX_NAME` differently for each store will create corresponding index in Elasticsearch. 
 You may as well need to provide different API base endpoint as per the store name. 
