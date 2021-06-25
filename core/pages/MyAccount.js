@@ -21,6 +21,7 @@ export default {
   },
   beforeMount () {
     this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
+    this.$bus.$on('user-after-logout', this.afterUserIsLogout)
   },
   async mounted () {
     await this.$store.dispatch('user/startSession')
@@ -30,11 +31,26 @@ export default {
     }
   },
   beforeDestroy () {
+    this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)
+    this.$bus.$off('user-after-logout', this.afterUserIsLogout)
   },
   methods: {
     onBeforeChangePassword (passwordData) {
       this.$store.dispatch('user/changePassword', passwordData)
+    },
+    onBeforeUpdateUser (updatedData) {
+      if (updatedData) {
+        try {
+          this.$store.dispatch('user/update', { customer: updatedData })
+        } catch (err) {
+          this.$bus.$emit('myAccount-before-remainInEditMode', this.$props.activeBlock)
+          Logger.error(err)()
+        }
+      }
+    },
+    afterUserIsLogout () {
+      this.$router.push(localizedRoute('/', currentStoreView().storeCode))
     }
   },
   metaInfo () {

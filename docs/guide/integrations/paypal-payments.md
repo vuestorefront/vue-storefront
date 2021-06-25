@@ -1,6 +1,6 @@
 # PayPal payments support
 
-Vue Storefront is supporting PayPal payments with PayPal Payment extension for [vue-storefront](https://github.com/DivanteLtd/vue-storefront), by [Develo Design](https://www.develodesign.co.uk).
+Vue Storefront is supporting PayPal payments with PayPal Payment extension for [vue-storefront](https://github.com/vuestorefront/vue-storefront), by [Develo Design](https://www.develodesign.co.uk).
 
 ## The architecture
 
@@ -59,7 +59,7 @@ export default {
   },
 ```
 
-And to you template add the paypal button before `button-full`:
+And to your template add the paypal button before `button-full`:
 
 ```html
 <paypal-button v-if="payment.paymentMethod === 'paypal_express'"/>

@@ -79,28 +79,28 @@ Cart Store is designed to handle all actions related the shopping cart.
   },
 ```
 
-Cart state is automatically loaded from `localForage` collection after page has been loaded whenever `core/components/blocks/Microcart.vue` is included. The cart state is loaded by dispatching `cart/load` action and [stored automatically by any change to the cart state](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/index.js#L118).
+Cart state is automatically loaded from `localForage` collection after page has been loaded whenever `core/components/blocks/Microcart.vue` is included. The cart state is loaded by dispatching `cart/load` action and [stored automatically by any change to the cart state](https://github.com/vuestorefront/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/index.js#L118).
 
 The cart state data:
 
 - `itemsAfterPlatformTotals` - helper collection, dictionary where the key is Magento cart item `item_id` that stores the totals information per item - received from Magento; it's automatically populated when `config.cart.synchronize_totals` is enabled;
-- `platformTotals` - similarly to above item, here we have the full totals from Magento for the current shopping cart. These collections are populated by [`cart/syncTotals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/actions.js#L49) and the event handler for [`servercart-after-totals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L30)
+- `platformTotals` - similarly to above item, here we have the full totals from Magento for the current shopping cart. These collections are populated by [`cart/syncTotals`](https://github.com/vuestorefront/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/actions.js#L49) and the event handler for [`servercart-after-totals`](https://github.com/vuestorefront/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L30)
 - `cartIsLoaded` (bool) - true after dispatching `cart/load`
 - `shipping` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
 - `payment` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
-- `cartItems` - collection of the cart items; the item format is the same as described in [ElasticSearch Data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md) - the `product` class; the only difference is that the (int) `qty` field is added
+- `cartItems` - collection of the cart items; the item format is the same as described in [ElasticSearch Data formats](https://github.com/vuestorefront/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md) - the `product` class; the only difference is that the (int) `qty` field is added
 
 ### Events
 
 The following events are published from `cart` store:
 
-- `EventBus.$emit('cart-after-itemchanged', { item: cartItem })` - executed after [`servercart-after-itemupdated`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) - after server cart sync, that signalize the specific shopping cart item has been changed; `Microcart/Product.vue` component is subscribed to this event to refresh the shopping cart UI
+- `EventBus.$emit('cart-after-itemchanged', { item: cartItem })` - executed after [`servercart-after-itemupdated`](https://github.com/vuestorefront/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) - after server cart sync, that signalize the specific shopping cart item has been changed; `Microcart/Product.vue` component is subscribed to this event to refresh the shopping cart UI
 - `EventBus.$emit('cart-before-add', { product: item })` - fired after product has been added to the cart,
 - `EventBus.$emit('cart-before-save', { items: state.cartItems })` - fired after the product cart has been saved,
 - `EventBus.$emit('cart-before-delete', { items: state.cartItems })` - the event fired before the cart item is going to be deleted with the current cart state (before item is deleted)
 - `EventBus.$emit('cart-after-delete', { items: state.cartItems })` - the event fired before the cart item has been deleted with the current cart state (after item is deleted)
-- `EventBus.$emit('cart-before-itemchanged', { item: record })` - item called before the specific item properties are going to be changed; for example called when [`servercart-after-itemupdated`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) is going to change the `server_item_id` property
-- `EventBus.$emit('cart-after-itemchanged', { item: record })` - item called after the specific item properites has been changed; for example called when [`servercart-after-itemupdated`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) is going to change the `server_item_id` property
+- `EventBus.$emit('cart-before-itemchanged', { item: record })` - item called before the specific item properties are going to be changed; for example called when [`servercart-after-itemupdated`](https://github.com/vuestorefront/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) is going to change the `server_item_id` property
+- `EventBus.$emit('cart-after-itemchanged', { item: record })` - item called after the specific item properites has been changed; for example called when [`servercart-after-itemupdated`](https://github.com/vuestorefront/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) is going to change the `server_item_id` property
 - `EventBus.$emit('application-after-loaded')` - event called after `cart/load` action has been dispatched to notify that cart is being available,
 - `EventBus.$emit('cart-after-updatetotals', { platformTotals: totals, platformTotalSegments: platformTotalSegments })` - event called after the totals from Magento has been synchronized with current state; it's going to be emitted only when `cart.synchronize_totals` option is enabled.
 

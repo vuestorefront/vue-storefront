@@ -26,7 +26,7 @@ const actions: ActionTree<ProductState, RootState> = {
     return doPlatformPricesSync(products)
   },
   /**
-   * This is fix for https://github.com/DivanteLtd/vue-storefront/issues/508
+   * This is fix for https://github.com/vuestorefront/vue-storefront/issues/508
    * TODO: probably it would be better to have "parent_id" for simple products or to just ensure configurable variants are not visible in categories/search
    */
   checkConfigurableParent ({ commit, dispatch, getters }, { product }) {
