@@ -5,7 +5,6 @@ import { Route } from 'vue-router'
 import store from '@vue-storefront/core/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { LocalizedRoute } from '@vue-storefront/core/lib/types'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { routerHelper } from '@vue-storefront/core/helpers'
@@ -23,14 +22,13 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
   }
   RouterManager.lockRoute()
 
-  const path = normalizeUrlPath(to.path)
+  const path = normalizeUrlPath(to.path, false)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
   const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name && to.name.startsWith('urldispatcher')
   if (!to.matched.length || to.matched[0].name.endsWith('page-not-found') || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
-    const storeCode = currentStoreView().storeCode
     try {
       const routeData = await UrlDispatchMapper(to)
-      if (routeData) {
+      if (routeData && !routeData.name.endsWith('page-not-found')) {
         let dynamicRoute: LocalizedRoute = processDynamicRoute(routeData, path, !isPreviouslyDispatchedDynamicRoute)
         if (dynamicRoute) {
           next({

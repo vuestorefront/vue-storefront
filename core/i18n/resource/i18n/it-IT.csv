@@ -68,7 +68,7 @@
 "The product, category or CMS page is not available in Offline mode. Redirecting to Home.","The product, category or CMS page is not available in Offline mode. Redirecting to Home."
 "The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","Il sistema non è sicuro della disponibilità del prodotto (volatile). Il prodotto è stato aggiunto al carrello per prenotazione"
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","Non sei connesso ad internet ma puoi ugualmente procedere con l'ordine. Non è possibile verificare adesso la disponibilità dei prodotti, se qualcuno dei prodotti ordinati non sarà più disponibile te lo faremo sapere."
-"This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Questa funzionalità non è ancora stata implementata! Dai un'occhiata alla nostra roadmap qui https://github.com/DivanteLtd/vue-storefront/issues!"
+"This feature is not implemented yet! Please take a look at https://github.com/vuestorefront/vue-storefront/issues for our Roadmap!","Questa funzionalità non è ancora stata implementata! Dai un'occhiata alla nostra roadmap qui https://github.com/vuestorefront/vue-storefront/issues!"
 "Thumbnail","Miniatura"
 "Type what you are looking for...","Cerca nel catalogo..."
 "Unexpected authorization error. Check your Network conection.","Errore di autorizzazione inaspettato. Verifica la tua connesione."

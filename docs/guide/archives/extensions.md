@@ -10,9 +10,9 @@ This document is _archived_ and _NOT_ relevant with the latest version which is 
 ### What do Vue Storefront extensions look like?
 
 Depending on your needs, Vue Storefront extensions can have two parts:
-- **Client-side part,** which is just a [Vue Storefront module](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/modules/introduction.md). It covers most of the use cases.
+- **Client-side part,** which is just a [Vue Storefront module](https://github.com/vuestorefront/vue-storefront/blob/master/docs/guide/modules/introduction.md). It covers most of the use cases.
 
-- **Server-side part** which is a [Vue Storefront API extension](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/extensions/extending-api.md) and should be used if you want to add some endpoints to `vue-storefront-api` or interact with Elasticsearch.
+- **Server-side part** which is a [Vue Storefront API extension](https://github.com/vuestorefront/vue-storefront/blob/master/docs/guide/extensions/extending-api.md) and should be used if you want to add some endpoints to `vue-storefront-api` or interact with Elasticsearch.
 
 ### Where extensions are located
 - On the client side, extension modules should be placed in `src/modules` folder of `vue-storefront` or installed via NPM cli and registered in `src/modules/index.ts`
@@ -37,7 +37,7 @@ Some extensions need to have additional API methods to get some data directly fr
 
 You may add new ES collections [using the Migration mechanism](../data/data-migrations.md)
 
-Then you may extend the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) to add your custom API methods. Please take a look at: [mailchimp-subscribe](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/extensions/mailchimp-subscribe/index.js) for reference.
+Then you may extend the [`vue-storefront-api`](https://github.com/vuestorefront/vue-storefront-api) to add your custom API methods. Please take a look at: [mailchimp-subscribe](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/api/extensions/mailchimp-subscribe/index.js) for reference.
 
 To add the API extension to `vue-storefront-api`:
 

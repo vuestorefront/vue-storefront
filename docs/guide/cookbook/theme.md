@@ -404,13 +404,13 @@ This recipe talks about how to do it.
  -->
 
 ## 2. How to upgrade theme from 1.11 to 1.12
-Here comes again! We've got a lot of stuff packed in one package full of gift to you. This time, however, is different from the past in that we came up with the whole new approach to _Vue Storefront_ by building it up from scratch and gave it a new name [_Capybara_](https://github.com/DivanteLtd/vsf-capybara). _Capybara_ is built on [Storefront UI Design System](https://www.storefrontui.io/) which employs modular approach to its smallest chunks. How versatile is that! Now that the former _default_ theme is no more default but the _Capybara_ replaces it taking the role of base theme. 
+Here comes again! We've got a lot of stuff packed in one package full of gift to you. This time, however, is different from the past in that we came up with the whole new approach to _Vue Storefront_ by building it up from scratch and gave it a new name [_Capybara_](https://github.com/vuestorefront/vsf-capybara). _Capybara_ is built on [Storefront UI Design System](https://www.storefrontui.io/) which employs modular approach to its smallest chunks. How versatile is that! Now that the former _default_ theme is no more default but the _Capybara_ replaces it taking the role of base theme. 
 
 In this recipe, we will take a look at how to upgrade from `1.11` to `1.12` seamlessly with respect to themes. Changes made to your theme on `1.11` will not be taken into consideration since we will not use `default` theme but `capybara` for this recipe.
 
 ### 1. Preparation
  - You have a [_Vue Storefront_ `1.11` App installed](#_3-how-to-upgrade-theme-from-1-10-to-1-11) on your machine.
- - You have pulled `1.12` commmits from the [_Vue Storefront_ git repository](https://github.com/DivanteLtd/vue-storefront).
+ - You have pulled `1.12` commmits from the [_Vue Storefront_ git repository](https://github.com/vuestorefront/vue-storefront).
 
 ### 2. Recipe
 1. Pull `v1.12.0` tag to the `1.11` VSF app as follows : 
@@ -429,7 +429,7 @@ mkdir themes && cd themes
 
 3. Add `git` `submodule` into `themes` folder as follows : 
 ```bash
-git submodule add https://github.com/DivanteLtd/vsf-capybara capybara
+git submodule add https://github.com/vuestorefront/vsf-capybara capybara
 ```
 
 Now files are ready.
@@ -464,7 +464,7 @@ That said, you had to say good-bye to your old `1.11` theme. [_Start building yo
 
 ## 3. How to upgrade theme from 1.10 to 1.11
 :::warning REMINDER
-This recipe assumes you will use [`default` theme](https://github.com/DivanteLtd/vsf-default) for your store which is natural because `1.11` has only one _default_ theme whose name is `default`. 
+This recipe assumes you will use [`default` theme](https://github.com/vuestorefront/vsf-default) for your store which is natural because `1.11` has only one _default_ theme whose name is `default`. 
 
 From `1.12` on, however, `default` theme becomes optional while `capybara` is _default_. 
 :::
@@ -478,7 +478,7 @@ This recipe helps you resolve errors you encounter after the upgrade as short a 
 ### 1. Preparation
  - You have a [Vue Storefront App running](/guide/cookbook/setup.html#_0-introduction) by `docker` or `yarn dev` and watch it in your browser.
  - You have a child theme [running](/guide/cookbook/theme.html#_1-start-building-your-own-theme) on top of _Vue Storefront_ app. 
- - In this recipe, we start with _degi_ child theme based on `1.10` version (git hash : [___1b53bd2a___](https://github.com/DivanteLtd/vue-storefront/commit/1b53bd2a829f7cab571dbd3c2a4021ea46857da7)) of `default` theme. This _degi_ theme is an example you might have created for your own. Which means, you can change it to whatever you like. 
+ - In this recipe, we start with _degi_ child theme based on `1.10` version (git hash : [___1b53bd2a___](https://github.com/vuestorefront/vue-storefront/commit/1b53bd2a829f7cab571dbd3c2a4021ea46857da7)) of `default` theme. This _degi_ theme is an example you might have created for your own. Which means, you can change it to whatever you like. 
  - In other words, suppose you have a _Vue Storefront_ shop running on a child theme `degi` that was branched off from _Vue Storefront_ `default` theme version `1.10` and want to upgrade to `1.11`. 
 
 
@@ -620,7 +620,7 @@ git checkout e4959550 # origin/release/v1.11
 #### 3. Now we start hunting down the culprits one by one. 
 
 :::tip TIP
-By the way, you can also compare the changes made between `1.10` to `1.11` in [github link](https://github.com/DivanteLtd/vue-storefront/commit/a42d480aea56d90f7ab65c5caf6ce3f49b00dfec) with a glance too.
+By the way, you can also compare the changes made between `1.10` to `1.11` in [github link](https://github.com/vuestorefront/vue-storefront/commit/a42d480aea56d90f7ab65c5caf6ce3f49b00dfec) with a glance too.
 :::
 
  - First target is located at `./src/themes/degi/components/core/blocks/MyAccount/MyOrders.vue`. Replace it as follows :

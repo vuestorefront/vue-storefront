@@ -63,7 +63,7 @@
 "The product, category or CMS page is not available in Offline mode. Redirecting to Home.","Sivu ei ole saatavilla yhteydettömässä tilassa. Ohjataan etusivulle."
 "The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","Tuotteen saatavuus on epävarma. Tuote on lisätty ostoskoriin ennakkovarauksena."
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","Verkkoyhteys ei ole saatavilla. Voit silti tehdä tilauksen. Saat myöhemmin ilmoituksen, mikäli jokin tilaamistasi tuotteista ei ole saatavilla."
-"This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Tätä ominaisuutta ei ole vielä toteutettu. Järjestelmän kehityssuunnitelma löytyy osoitteesta https://github.com/DivanteLtd/vue-storefront/issues."
+"This feature is not implemented yet! Please take a look at https://github.com/vuestorefront/vue-storefront/issues for our Roadmap!","Tätä ominaisuutta ei ole vielä toteutettu. Järjestelmän kehityssuunnitelma löytyy osoitteesta https://github.com/vuestorefront/vue-storefront/issues."
 "Type what you are looking for...",Hae
 "Unexpected authorization error. Check your Network conection.","Odottamaton virhe oikeuksien tarkistamisessa. Tarkista verkkoyhteys."
 "Unhandled error, wrong response format!","Odottamaton virhe, väärä vastauksen formaatti."
