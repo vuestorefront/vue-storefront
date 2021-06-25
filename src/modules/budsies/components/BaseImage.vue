@@ -229,7 +229,7 @@ export default Vue.extend({
 @import "~@storefront-ui/shared/styles/helpers/breakpoints";
 
 .base-image {
-  display: block;
+  display: inline-block;
   position: relative;
   width: var(--image-width, 100%);
 
