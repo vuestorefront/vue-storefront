@@ -30,6 +30,12 @@ const context = {
       customerUpdateMe: jest.fn(),
       getSettings: jest.fn(() => ({ currentToken: 1 })),
       isGuest: jest.fn()
+    },
+    config: {
+      auth: {
+        onTokenRead: () => true,
+        onTokenRemove: jest.fn()
+      }
     }
   },
   setCart: jest.fn()

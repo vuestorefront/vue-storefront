@@ -6,6 +6,7 @@ import { useCart } from '../useCart';
 type UserContext = UseCart<Cart, LineItem, ProductVariant, AgnosticCoupon> & Context;
 
 const load = async (context: Context, {customQuery}) => {
+  if (!context.$ct.config.auth.onTokenRead()) return null;
 
   const isGuest = await context.$ct.api.isGuest();
 
