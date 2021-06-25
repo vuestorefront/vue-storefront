@@ -90,9 +90,9 @@ Search for all instances of these strings (in this order) and change them to mat
 
 For the sake of example and simplicity, let's assume our eCommerce platform is called **Sloth**. From now on, we will refer to these packages as:
 
-- `@example/theme`,
-- `@example/api`,
-- `@example/sloth`.
+- `@sloth/theme`,
+- `@sloth/api`,
+- `@sloth/sloth`.
 
 :::tip
 It's a convention to call `composables` package with just a name of the platform because this is the package that developers use the most with when creating a shop. Example of this is `@vue-storefront/commercetools`, `@vue-storefront/magento` and `@vue-storefront/shopify`.
@@ -175,7 +175,7 @@ In the example above we passed `settings.api.url` to `axios.create`, but it's no
 module.exports = {
   integrations: {
     sloth: { // name of your integration
-      location: '@example/api/server', // name of your api-client package followed by `/server`
+      location: '@sloth/api/server', // name of your api-client package followed by `/server`
       configuration: {
         api: {
           url: '' // URL of your eCommerce platform
@@ -190,17 +190,88 @@ module.exports = {
 
 It's impossible to write tutorial explaining how to implement each and every composable, especially because some of them might differ wildly between the platforms. For this reason we will explain how to implement `useProduct` composable and `productGetters` and leave the rest to you.
 
-### Implementing `useProduct` composable
+### Understanding composables
 
-Before implementing any composable, we should know get familiar with it's TypeScript interfaces.
+Before implementing any composable, we should get familiar with it's TypeScript interfaces.
 
-Let's start with the [UseProduct interface](../core/api-reference/core.useproduct) (note the capital `U`). It uses [Typescript generics](https://www.typescriptlang.org/docs/handbook/2/generics.html). Reason for this is that we want to provide great development experience by providing types for the data stored in composables. However, each platform has a unique data structure and we don't want to make any assumptions. That's why it's up to integrators to provide types.
+Let's start with the [UseProduct interface](../core/api-reference/core.useproduct) (note the capital `U`). It uses [Typescript generics](https://www.typescriptlang.org/docs/handbook/2/generics.html). The reason is that we want to provide great development experience by providing types for the data stored in and returned from composables. However, each platform has a unique data structure and we don't want to make any assumptions. That's why it's up to integrators to provide types.
 
 `UseProduct` accepts two generics:
-- `PRODUCTS` representing structure of the products 
+- `PRODUCTS` that represents the structure of the products returned by the API,
+- `PRODUCT_SEARCH_PARAMS` that represents parameters accepted by the `search` method.
 
+It also has 3 properties and method called `search`. Fortunately we don't have to create them ourselves for every composable. All composables are created using [factories](https://en.wikipedia.org/wiki/Factory_(object-oriented_programming)), which accept an object that holds logic for composable methods. **Factory will take care of creating all properties, methods and even handling errors and loading state, so you can just focus on integrating it with the API.**
 
-It has 3 properties and method called `search`. 
+### Implementing `useProduct` composable
+
+Now, when we understand how composables are created, let's see what parameters does the `useProduct` factory expect. Because this composable is fairly small and has only one method, the [UseProductFactoryParams interface](../core/api-reference/core.useproductfactoryparams.html) also expects one handler - `productsSearch`.
+
+Open `packages/composables/src/useProduct/index.ts`. This file already calls `useProductFactory` and passes `params` matching above interface. With this done, the only thing left is to implement this method.
+
+Every method in `factoryParams` has at least one argument called [context](../core/api-reference/core.integrationcontext). Second, optional argument is an object holding parameters passed to composable method and `customQuery`.
+
+TODO: Link customQuery
+
+Remove placeholder code from `productsSearch` method and add the following:
+
+```typescript
+// Replace `sloth` with the name of your package in `packages/composables/nuxt/plugin.js`
+const { data } = await context.$sloth.api.getProduct(params);
+
+return data;
+```
+
+This calls API endpoint called `getProduct`. It doesn't exist yet, so let's create it.
+
+:::tip Passing parameters to the API
+An HTTP request is sent to the Server Middleware whenever a method from `context.$sloth.api` is called. Additionally, all parameters passed to them will be included in the payload. Sending too much data may result in poor performance, so try to pass as few parameters as possible.
+:::
+
+### Understanding `api-client`
+
+In the previous section we added a call to `getProduct` endpoint. However, it doesn't exist yet.
+
+Create new file called `getProduct.ts` in `packages/api-client/src/api` folder. Inside of it, add the following function:
+
+```typescript
+export async function getProduct(context, params) {
+
+}
+```
+
+This function has two arguments:
+- `context` which includes:
+  - `config` - integration configuration,
+  - `client` - API client created in `packages/api-client/src/index.server.ts`,
+  - `req` - HTTP request object,
+  - `res` - HTTP response object,
+  - `extensions` - extensions registered within integration,
+  - `customQueries` - custom GraphQL queries registered within integration (used only with GraphQL),
+  - `extendQuery` - helper function for handling custom queries (used only with GraphQL).
+- `params` - parameters passed from composable.
+
+We can call platform API using `config` and `client` properties in `context` and data from `params`.
+
+In the example below we use `axios` instance created below to call `products` API. This is just an example and you should modify it to fit your integration:
+
+```typescript
+export async function getProduct(context, params) {
+  // Create URL object containing full endpoint URL
+  const url = new URL('/v3/852628a5-1dea-4756-b171-978e8b7568ab', context.config.api.url);
+
+  // Add parameters passed from composable as query strings to the URL
+  params.id && url.searchParams.set('id', params.id);
+  params.catId && url.searchParams.set('catId', params.catId);
+  params.limit && url.searchParams.set('limit', params.limit);
+
+  // Use axios to send a GET request
+  const { data } = await context.client.get(url.href);
+
+  // Return data from the API
+  return data;
+}
+```
+
 
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------
