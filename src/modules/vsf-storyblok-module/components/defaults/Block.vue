@@ -1,14 +1,46 @@
 <template>
   <div data-testid="storyblok-block">
-    <sb-render v-for="child in item.body" :item="child" :key="child.uuid" />
+    <sb-render v-for="child in itemData.body" :item="child" :key="child.uuid" />
   </div>
 </template>
 
-<script>
-import { Blok } from '..'
+<script lang="ts">
+import { InjectType } from 'src/modules/shared';
+import { VueConstructor } from 'vue';
 
-export default {
-  extends: Blok,
-  name: 'Block'
+import { Blok } from '..';
+import BlockData from '../../types/block-data.interface';
+import ComponentWidthCalculator from '../../component-width-calculator.service';
+
+interface InjectedServices {
+  componentWidthCalculator?: ComponentWidthCalculator
 }
+
+export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServices>).extend({
+  name: 'Block',
+  inject: {
+    componentWidthCalculator: { default: undefined }
+  } as unknown as InjectType<InjectedServices>,
+  provide () {
+    let widthCalculator = this.componentWidthCalculator;
+    if (!widthCalculator) {
+      widthCalculator = new ComponentWidthCalculator({
+        xsmall: 479,
+        small: 767,
+        medium: 1023,
+        large: 1199,
+        xlarge: 2730
+      });
+    }
+
+    return {
+      'componentWidthCalculator': widthCalculator
+    }
+  },
+  computed: {
+    itemData (): BlockData {
+      return this.item as unknown as BlockData;
+    }
+  }
+});
 </script>
