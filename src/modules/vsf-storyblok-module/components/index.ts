@@ -2,8 +2,10 @@ export const components = {
   debug: () => import('./defaults/Debug.vue'),
   page: () => import('./defaults/Page.vue'),
   block: () => import('./defaults/Block.vue'),
-  blockReference: () => import('./defaults/BlockReference.vue'),
+  block_reference: () => import('./defaults/BlockReference.vue'),
   grid: () => import('./defaults/Grid.vue'),
+  column: () => import('./defaults/Column.vue'),
+  page_section: () => import('./defaults/PageSection.vue'),
   tile: () => import('./defaults/Tile.vue')
 }
 

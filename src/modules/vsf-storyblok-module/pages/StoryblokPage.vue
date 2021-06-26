@@ -9,7 +9,7 @@
     <header class="bg-cl-secondary pl20" v-if="story && story.name">
       <div class="container">
         <div class="row middle-sm">
-          <h2 class="col-sm-9 category-title mb10">
+          <h2 class="col-sm-9 category-title mb10" v-if="shouldDisplayName">
             {{ story.name }}
           </h2>
         </div>
@@ -50,6 +50,11 @@ export default {
           ...this.metaHreflangLinks()
         ]
       }
+    }
+  },
+  computed: {
+    shouldDisplayName () {
+      return this.story.display_name === true;
     }
   },
   methods: {

@@ -14,7 +14,9 @@ export default {
   },
   computed: {
     html () {
-      return this.$storyblokClient.richTextResolver.render(this.text)
+      const html = this.$storyblokClient.richTextResolver.render(this.text)
+      return (html === '<p></p>' || html === '<div></div>') ? ''
+        : html
     }
   }
 }
