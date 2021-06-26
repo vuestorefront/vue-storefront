@@ -32,6 +32,10 @@ export default Vue.extend({
         result.push('-mobile-hidden');
       }
 
+      if (this.isStoryblokPreview) {
+        result.push('-editor-preview-mode');
+      }
+
       if (this.item.css_classes) {
         const classes = this.item.css_classes.split(' ');
         result.push(...classes);
