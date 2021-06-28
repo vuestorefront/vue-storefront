@@ -9,7 +9,7 @@ const quantityActions = {
     if (currentCartItem) {
       const prevQty = currentCartItem.prev_qty || product.prev_qty;
 
-      Logger.log('Restoring qty after error' + product.sku + ' ' + prevQty, 'cart', )()
+      Logger.log('Restoring qty after error ' + product.sku + ' ' + prevQty, 'cart')()
       if (prevQty > 0) {
         await dispatch('updateItem', {
           product: {
