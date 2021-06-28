@@ -5,8 +5,8 @@
       class="banner"
       title="Thank you for your order!"
       :image="{
-        mobile: '/thank-you/bannerM.png',
-        desktop: '/thank-you/bannerD.png',
+        mobile: '/thank-you/bannerM.webp',
+        desktop: '/thank-you/bannerD.webp',
       }"
     >
       <template #description>
