@@ -82,6 +82,19 @@ export interface UseProduct<
   [x: string]: any;
 }
 
+export interface UseForgotPasswordErrors {
+  request: Error;
+  setNew: Error;
+}
+
+export interface UseForgotPassword<RESULT> {
+  result: ComputedProperty<RESULT>;
+  loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseForgotPasswordErrors>;
+  setNew(params: ComposableFunctionArgs<{ tokenValue: string, newPassword: string }>): Promise<void>;
+  request(params: ComposableFunctionArgs<{ email: string }>): Promise<void>;
+}
+
 export interface UseSearch<RESULT, SEARCH_PARAMS> {
   result: ComputedProperty<RESULT>;
   loading: ComputedProperty<boolean>;
@@ -746,6 +759,11 @@ export interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
   getPagination: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticPagination;
   getBreadcrumbs: (searchData: FacetSearchResult<SEARCH_DATA>) => AgnosticBreadcrumb[];
   [getterName: string]: (element: any, options?: any) => unknown;
+}
+
+export interface ForgotPasswordGetters<FORGOT_PASSWORD_RESULT> {
+  getResetPasswordToken: (result: FORGOT_PASSWORD_RESULT) => string
+  isPasswordChanged: (result: FORGOT_PASSWORD_RESULT) => boolean
 }
 
 export interface UseSearchGetters<RESULT, ITEM> {

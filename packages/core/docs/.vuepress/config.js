@@ -103,6 +103,7 @@ module.exports = {
 						['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
 						['/commercetools/composables/use-billing', 'useBilling'],
 						['/commercetools/composables/use-make-order', 'useMakeOrder'],
+						['/commercetools/composables/use-forgot-password', 'useForgotPassword'],
 						['/commercetools/composables/use-store', 'useStore']
 					]
 				},

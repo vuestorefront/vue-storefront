@@ -128,7 +128,75 @@ export default {
   }
 }
 </script>
-```  
+```
+
+## Forgot Password
+
+Usually, the process of resetting a user password consists of two steps:
+
+1. Generating reset password token for a given email address:
+
+```vue
+<template>
+  <form @submit.prevent="request({ email: form.value.email })">
+    <!-- form fields -->
+    <button type="submit" :disabled="loading">Reset Password</button>
+  </form>
+</template>
+
+<script>
+import { useForgotPassword } from '{INTEGRATION}';
+import { ref } from '@vue/composition-api';
+
+export default {
+  setup () {
+    const { request, loading } = useForgotPassword();
+    const form = ref({});
+
+    return {
+      request,
+      form,
+      loading
+    }
+  }
+}
+</script>
+```
+
+2. Setting a new user password using the token and new password.
+
+```vue
+<template>
+  <form @submit.prevent="setNew({ tokenValue: token, newPassword: form.value.password })">
+    <!-- form fields -->
+    <button type="submit" :disabled="loading">Save Password</button>
+  </form>
+  <div>{{ isPasswordChanged }} - Boolean confirmation of successful password change</div>
+</template>
+
+<script>
+import { useForgotPassword, forgotPasswordGetters } from '{INTEGRATION}';
+import { ref } from '@vue/composition-api';
+
+export default {
+  setup () {
+    const { setNew, result, loading } = useForgotPassword();
+    const form = ref({});
+    const isPasswordChanged = computed(() => forgotPasswordGetters.isPasswordChanged(result.value));
+
+    const token = context.root.$route.query.token
+
+    return {
+      setNew,
+      form,
+      loading,
+      isPasswordChanged,
+      token
+    }
+  }
+}
+</script>
+```
 
 ## How does it work in integrations?
 
