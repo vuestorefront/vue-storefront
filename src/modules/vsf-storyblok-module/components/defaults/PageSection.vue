@@ -1,0 +1,87 @@
+<template>
+  <div
+    class="page-section"
+    :class="cssClasses"
+    :style="styles"
+  >
+    <div class="_items_wrapper">
+      <div
+        v-for="_item in itemData.items"
+        :key="_item.uuid"
+        class="_item"
+      >
+        <sb-render class="box" :item="_item" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { VueConstructor } from 'vue';
+
+import { InjectType } from 'src/modules/shared';
+import { Blok } from '..'
+import PageSectionData from '../../types/page-section-data.interface';
+import ComponentWidthCalculator from '../../component-width-calculator.service';
+import { SectionWidth } from '../../types/section-width.value';
+
+const MAX_WIDTH = 960;
+
+interface InjectedServices {
+  componentWidthCalculator: ComponentWidthCalculator
+}
+
+export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServices>).extend({
+  name: 'StoryblokPageSection',
+  inject: {
+    componentWidthCalculator: {}
+  } as unknown as InjectType<InjectedServices>,
+  provide () {
+    let widthCalculator = this.componentWidthCalculator;
+    if (this.itemData.width === SectionWidth.NARROW) {
+      widthCalculator = widthCalculator.limitSize(MAX_WIDTH);
+    }
+    return {
+      'componentWidthCalculator': widthCalculator
+    }
+  },
+  computed: {
+    itemData (): PageSectionData {
+      return this.item as PageSectionData;
+    },
+    extraCssClasses (): string[] {
+      const result: string [] = [];
+
+      if (this.itemData.width === SectionWidth.NARROW) {
+        result.push('-narrow');
+      }
+
+      return result;
+    },
+    extraStyles (): Record<string, string> {
+      return {
+        '--max-section-width': MAX_WIDTH + 'px'
+      }
+    }
+  }
+});
+</script>
+
+<style lang="scss" scoped>
+@import "~@storefront-ui/shared/styles/helpers/breakpoints";
+@import "./mixins";
+
+.page-section {
+  $default-grid-gap: 10px;
+  padding: $default-grid-gap * 3 $default-grid-gap;
+
+  > ._items_wrapper {
+    max-width: var(--max-section-width, none);
+
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @include display-property-handling;
+}
+</style>

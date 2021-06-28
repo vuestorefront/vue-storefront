@@ -1,0 +1,13 @@
+@mixin display-property-handling {
+    @media (min-width: $tablet-min) {
+        &.-mobile-only {
+            display: none !important;
+        }
+    }
+    
+    @media (max-width: $mobile-max) {
+        &.-mobile-hidden {
+            display: none !important;
+        }
+    }
+}
