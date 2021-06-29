@@ -9,7 +9,8 @@ const givenVariables = {
     version: 2
   },
   acceptLanguage: ['en', 'de'],
-  locale: 'en'
+  locale: 'en',
+  currency: 'USD'
 };
 
 describe('[commercetools-api-client] createMyOrderFromCart', () => {

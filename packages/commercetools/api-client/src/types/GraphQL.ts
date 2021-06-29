@@ -1867,6 +1867,18 @@ export type CustomerToken = {
   value: Scalars["String"];
 };
 
+export type CustomerPasswordToken = {
+  customerId: Scalars["String"];
+  expiresAt: Scalars["DateTime"];
+  value: Scalars["String"];
+  id: Scalars["String"];
+  version: Scalars["Long"];
+  createdAt: Scalars["DateTime"];
+  lastModifiedAt: Scalars["DateTime"];
+  createdBy?: Maybe<Initiator>;
+  lastModifiedBy?: Maybe<Initiator>;
+}
+
 export type CustomerUpdateAction = {
   addAddress?: Maybe<AddCustomerAddress>;
   addBillingAddressId?: Maybe<AddCustomerBillingAddressId>;
@@ -3363,7 +3375,7 @@ export type Mutation = {
   /** The token value is used to reset the password of the customer with the given
    * email. The token is valid only for 10 minutes.
    */
-  customerCreatePasswordResetToken?: Maybe<CustomerToken>;
+  customerCreatePasswordResetToken?: Maybe<CustomerPasswordToken>;
   customerCreateEmailVerificationToken: CustomerToken;
   /** If used with an access token for Anonymous Sessions, all orders and carts
    * belonging to the anonymousId will be assigned to the newly created customer.
@@ -6835,6 +6847,8 @@ export type Store = Versioned & {
   lastModifiedAt: Scalars["DateTime"];
   createdBy?: Maybe<Initiator>;
   lastModifiedBy?: Maybe<Initiator>;
+  distributionChannels: Array<Channel>;
+  supplyChannels: Array<Channel>;
 };
 
 /** [BETA] Stores allow defining different contexts for a project. */

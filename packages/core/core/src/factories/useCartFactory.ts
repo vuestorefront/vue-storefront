@@ -1,8 +1,8 @@
-import { CustomQuery, UseCart, Context, FactoryParams, UseCartErrors } from '../types';
+import { CustomQuery, UseCart, Context, FactoryParams, UseCartErrors, PlatformApi } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
-export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends FactoryParams {
+export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, API extends PlatformApi = any> extends FactoryParams<API> {
   load: (context: Context, params: { customQuery?: any }) => Promise<CART>;
   addItem: (
     context: Context,
@@ -27,13 +27,12 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON> extends 
   isInCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
 }
 
-export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
-  factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON>
+export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, API extends PlatformApi = any>(
+  factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, API>
 ) => {
-  return function useCart (): UseCart<CART, CART_ITEM, PRODUCT, COUPON> {
+  return function useCart (): UseCart<CART, CART_ITEM, PRODUCT, COUPON, API> {
     const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
-    const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseCartErrors> = sharedRef({
       addItem: null,
       removeItem: null,
@@ -43,6 +42,11 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
       applyCoupon: null,
       removeCoupon: null
     }, 'useCart-error');
+
+    const _factoryParams = configureFactoryParams(
+      factoryParams,
+      { mainRef: cart, alias: 'currentCart', loading, error }
+    );
 
     const setCart = (newCart: CART) => {
       cart.value = newCart;
@@ -204,6 +208,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON>(
     };
 
     return {
+      api: _factoryParams.api,
       setCart,
       cart: computed(() => cart.value),
       isInCart,

@@ -102,7 +102,9 @@ module.exports = {
 						['/commercetools/composables/use-shipping', 'useShipping'],
 						['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
 						['/commercetools/composables/use-billing', 'useBilling'],
-						['/commercetools/composables/use-make-order', 'useMakeOrder']
+						['/commercetools/composables/use-make-order', 'useMakeOrder'],
+						['/commercetools/composables/use-forgot-password', 'useForgotPassword'],
+						['/commercetools/composables/use-store', 'useStore']
 					]
 				},
 				{
@@ -213,6 +215,7 @@ module.exports = {
 						['/advanced/architecture', 'Architecture'],
 						['/advanced/context', 'Application Context'],
 						['/advanced/calling-platform-api', 'Calling Platform API'],
+						['/advanced/extending-graphql-queries', 'Extending GraphQL Queries'],
 						['/advanced/server-middleware', 'Server Middleware'],
 						['/advanced/internationalization', 'Internationalization'],
 						['/advanced/performance', 'Performance'],

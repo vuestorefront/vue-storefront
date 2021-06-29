@@ -203,7 +203,7 @@
         v-e2e="'shipping-add-new-address'"
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
-        type="submit"
+        type="button"
         @click.native="handleAddNewAddressBtnClick"
       >
         {{ $t('Add new address') }}
