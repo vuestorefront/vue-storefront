@@ -27,8 +27,7 @@ context(['regression'], 'Checkout - Billing', () => {
     page.checkout.payment.heading.should('be.visible');
   });
 
-  // Skipped until #5994 is resolved
-  it.skip('Should successfully save address - registered customer', function () {
+  it('Should successfully save address - registered customer', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     requests.customerSignMeUp(data.customer);
