@@ -3593,6 +3593,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/croppie@^2.5.4":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@types/croppie/-/croppie-2.6.0.tgz#f27fe0313d6ef290827b9e446d09be61194a9454"
+  integrity sha512-WvcszS3A7hUVQqwwGAobJ0TTRqKsfGH8F3AMxuLD8oOPc685juqeFOQnhyF0WOsAQ5rxJGxTgsh3/gPsJ90HDg==
+
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -3707,6 +3712,18 @@
   version "7.0.7"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.7.tgz#98a993516c859eb0d5c4c8f098317a9ea68db9ad"
   integrity sha512-cxWFQVseBm6O9Gbw1IWb8r6OS4OhSt3hPZLkFApLjM8TEXROBuQGLAH2i2gZpcXdLBIrpXuTDhH7Vbm1iXmNGA==
+
+"@types/lodash.throttle@^4.1.6":
+  version "4.1.6"
+  resolved "https://registry.yarnpkg.com/@types/lodash.throttle/-/lodash.throttle-4.1.6.tgz#f5ba2c22244ee42ff6c2c49e614401a870c1009c"
+  integrity sha512-/UIH96i/sIRYGC60NoY72jGkCJtFN5KVPhEMMMTjol65effe1gPn0tycJqV5tlSwMTzX8FqzB5yAj0rfGHTPNg==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*":
+  version "4.14.170"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.170.tgz#0d67711d4bf7f4ca5147e9091b847479b87925d6"
+  integrity sha512-bpcvu/MKHHeYX+qeEN8GE7DIravODWdACVA1ctevD8CN24RhPZIKMn9ntfAsrvLfSX3cR5RrBKAbYm9bGs0A+Q==
 
 "@types/mime@*":
   version "2.0.1"
@@ -7252,6 +7269,11 @@ cron@^1.3:
   dependencies:
     moment-timezone "^0.5.x"
 
+croppie@^2.6.4:
+  version "2.6.5"
+  resolved "https://registry.yarnpkg.com/croppie/-/croppie-2.6.5.tgz#67d76855b2983bdcd8aa348367398b2b8ef277cf"
+  integrity sha512-IlChnVUGG5T3w2gRZIaQgBtlvyuYnlUWs2YZIXXR3H9KrlO1PtBT3j+ykxvy9eZIWhk+V5SpBmhCQz5UXKrEKQ==
+
 cross-env@^3.1.4:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-3.2.4.tgz#9e0585f277864ed421ce756f81a980ff0d698aba"
@@ -8667,6 +8689,11 @@ executable@4.1.1:
   integrity sha512-8iA79xD3uAch729dUG8xaaBBFGaEa0wdD2VkYLFHwlqosEj/jT66AzcreRDSgV7ehnNLBW2WR5jIXwGKjVdTLg==
   dependencies:
     pify "^2.2.0"
+
+exif-js@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/exif-js/-/exif-js-2.3.0.tgz#9d10819bf571f873813e7640241255ab9ce1a814"
+  integrity sha1-nRCBm/Vx+HOBPnZAJBJVq5zhqBQ=
 
 exit-hook@^1.0.0:
   version "1.1.1"
@@ -17873,6 +17900,13 @@ vue-cool-lightbox@^2.7.4:
     body-scroll-lock "^3.1.5"
     plyr "^3.6.7"
     vue "^2.6.10"
+
+vue-croppie@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/vue-croppie/-/vue-croppie-2.0.2.tgz#5a2617cc16d99d1c6bc21ae79bbaa4aebf13b781"
+  integrity sha512-+yiDryp76tkHpYvbFdKSTM2VSU4TTLIikOvWlSaTaomvTky2Fiig7aRr1+AcHdB1mhrtEAZQRrWFbvc7NX0qBQ==
+  dependencies:
+    croppie "^2.6.4"
 
 vue-docgen-api@^3.11.4:
   version "3.26.0"
