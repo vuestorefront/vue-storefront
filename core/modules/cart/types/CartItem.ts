@@ -18,5 +18,6 @@ export default interface CartItem extends Product {
   email?: string,
   plushieName?: string,
   bodyparts?: object,
+  customFields?: object,
   uploadMethod?: string
 }
