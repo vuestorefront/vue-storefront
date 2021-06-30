@@ -179,4 +179,12 @@ Click on the integration tile to read its documentation.
     :from-core="true"
     isWip="true"
   />
+  <IntegrationTile
+    name="Adobe Experience Manager"
+    image="https://www.rackspace.com/sites/default/files/styles/rxt_image/public/2020-11/AEM.png"
+    category="['Analytics, CMS']"
+    :compatibility="[]"
+    :from-core="false"
+    isWip="true"
+  />
 </IntegrationList>
