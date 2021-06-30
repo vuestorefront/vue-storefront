@@ -52,7 +52,7 @@ export default {
     const { addItem } = useCart();
     const { result } = useFacet();
 
-    // load cart if it wasn't loaded before
+    // TODO: load cart if it wasn't loaded before
     const quantity = ref(1);
     const products = computed(() => facetGetters.getProducts(result.value));
 
@@ -104,7 +104,7 @@ export default {
   setup() {
     const { cart, removeItem, updateItemQty } = useCart();
 
-    // load cart if it wasn't loaded before
+    // TODO: load cart if it wasn't loaded before
 
     const cartItems = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
@@ -131,9 +131,22 @@ export default {
 To check if a specific product configuration is already in the cart, pass it to `isInCart` method:
 
 ```vue
+<template>
+  <!-- ... -->
+  <ul>
+    <li v-for="product in products" :key="productGetters.getId(product)">
+      <!-- ... -->
+       <div
+          :isAddedToCart="isInCart({ product })"
+        >
+        </div>
+    </li>
+  </ul>
+  <!-- ... -->
+</template>
 <script>
 import { computed } from '@vue/composition-api';
-import { useCart, useFacet, facetGetters } from '{INTEGRATION}';
+import { useCart, useFacet, facetGetters, productGetters } from '{INTEGRATION}';
 
 export default {  
   setup() {
@@ -143,7 +156,8 @@ export default {
 
     return {
       isInCart,
-      products
+      products,
+      productGetters
     };
   }
 };
@@ -324,10 +338,11 @@ export default {
       wishlistGetters.getTotalItems(wishlist.value)
     );
 
-    // load wishlist if it's not loaded before
+    // TODO: load wishlist if it's not loaded before
 
     return {
       wishlistItems,
+      wishlistGetters,
       totalItems,
       removeItem
     };
@@ -341,9 +356,23 @@ export default {
 To check if a product is already on the wishlist pass it to `isInWishlist` method:
 
 ```vue
+<template>
+  <!-- ... -->
+    <ul>
+      <li
+        v-for="product in products" :key="productGetters.getId(product)"
+      >
+        <div
+          :isAddedToWishlist="isInWishlist({ product })"
+        >
+        </div>
+      </li>
+    </ul>
+  <!-- ... -->
+</template> 
 <script>
 import { computed } from '@vue/composition-api';
-import { useWishlist, useFacet, facetGetters } from '{INTEGRATION}';
+import { useWishlist, useFacet, facetGetters, productGetters } from '{INTEGRATION}';
 export default {
   setup() {
     const { result } = useFacet();
@@ -352,7 +381,8 @@ export default {
 
     return {
       isInWishlist,
-      products
+      products,
+      productGetters,
     };
   }
 };
@@ -388,7 +418,6 @@ export default {
     const wishlistItems = computed(() => wishlistGetters.getItems(wishlist.value));
 
     return {
-      wishlist,
       wishlistItems,
       clear
     };
@@ -498,7 +527,6 @@ export default {
       cartItems,
       cartTotalItems,
       removeItem,
-      cart,
       updateItemQty,
       clear,
       quantity,
@@ -552,7 +580,6 @@ export default {
     return {
       wishlistItems,
       wishlistTotalItems,
-      wishlist,
       removeItem,
       clear,
       wishlistGetters
