@@ -39,7 +39,7 @@ You can visit [Introduction](/) or [Key conepts](/general/key-concepts.html) pag
 
 ## Developer creating a shop
 
-As a developer, you will be creating a shop from scratch to ready for production. Vue Storefront aims to meet the expectations of developers and guide you helping smoothly through all these steps.
+As a developer, you will be creating more or less advanced shops with many amazing features. Vue Storefront meets your expectations and equips you with everything that can solve the problems you will face. This will reduce the time it takes to deliver your store.
 
 You should start by familiarizing yourself with the **Guides** category. It includes all you need to know to create a shop successfully. If you want to dive deeper, check out the **Advanced** category.
 
