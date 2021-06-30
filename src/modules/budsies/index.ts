@@ -24,7 +24,7 @@ export const BudsiesModule: StorefrontModule = async function ({ store }) {
   store.registerModule('budsies', budsiesStore);
 
   if (!isServer) {
-    store.dispatch('budsies/synchronize');
+    await store.dispatch('budsies/synchronize');
   }
 
   store.subscribe(cacheHandlerFactory(Vue));
