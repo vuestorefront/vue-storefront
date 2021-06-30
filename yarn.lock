@@ -7269,10 +7269,9 @@ cron@^1.3:
   dependencies:
     moment-timezone "^0.5.x"
 
-croppie@^2.6.4:
+"croppie@https://github.com/BudsiesApp/Croppie.git#optimuspro":
   version "2.6.5"
-  resolved "https://registry.yarnpkg.com/croppie/-/croppie-2.6.5.tgz#67d76855b2983bdcd8aa348367398b2b8ef277cf"
-  integrity sha512-IlChnVUGG5T3w2gRZIaQgBtlvyuYnlUWs2YZIXXR3H9KrlO1PtBT3j+ykxvy9eZIWhk+V5SpBmhCQz5UXKrEKQ==
+  resolved "https://github.com/BudsiesApp/Croppie.git#e890a2995414c389bcec24208c972759bf409a43"
 
 cross-env@^3.1.4:
   version "3.2.4"
@@ -17901,12 +17900,11 @@ vue-cool-lightbox@^2.7.4:
     plyr "^3.6.7"
     vue "^2.6.10"
 
-vue-croppie@^2.0.2:
+"vue-croppie@https://github.com/BudsiesApp/vue-croppie.git#optimuspro":
   version "2.0.2"
-  resolved "https://registry.yarnpkg.com/vue-croppie/-/vue-croppie-2.0.2.tgz#5a2617cc16d99d1c6bc21ae79bbaa4aebf13b781"
-  integrity sha512-+yiDryp76tkHpYvbFdKSTM2VSU4TTLIikOvWlSaTaomvTky2Fiig7aRr1+AcHdB1mhrtEAZQRrWFbvc7NX0qBQ==
+  resolved "https://github.com/BudsiesApp/vue-croppie.git#1ee441b52c7b8deeaa3ef0db045fb561d15b7a71"
   dependencies:
-    croppie "^2.6.4"
+    croppie "https://github.com/BudsiesApp/Croppie.git#optimuspro"
 
 vue-docgen-api@^3.11.4:
   version "3.26.0"
