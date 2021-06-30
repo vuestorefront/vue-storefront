@@ -101,5 +101,5 @@ At the start you should familiarize yourself with the specially prepared [theme]
 - [Storefront UI](../guide/theme.html#directory-structure)
 - [How to customizing the theme](../guide/theme.html#customizing-the-theme)
 - [Routing](../guide/theme.html#routing)
-- [How to updating styles](../guide/theme.html#updating-styles)
+- [How to update styles](../guide/theme.html#updating-styles)
 - [Preinstalled modules and libraries](../guide/theme.html#preinstalled-modules-and-libraries)
