@@ -19,7 +19,7 @@ With our product, you can easily solve the most common problems in the eCommerce
 Also, we are proud of:
 - 300+ [Live Implementations](https://www.vuestorefront.io/live-projects)
 - 100+ [Agency Partners](https://www.vuestorefront.io/partner-agencies)
-- 4500+ [Community members](http://discord.vuestorefront.io/)
+- active [Discord community](http://discord.vuestorefront.io/)
 
 You can visit [Introduction](/) or [Key conepts](/general/key-concepts.html) pages for more details about Vue Storefront. 
 
