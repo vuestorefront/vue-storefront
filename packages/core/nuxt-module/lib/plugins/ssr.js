@@ -1,17 +1,16 @@
-
-import { configureSSR } from '@vue-storefront/core'
+import { configureSSR } from '@vue-storefront/core';
 import { ssrRef, getCurrentInstance, onServerPrefetch } from '@nuxtjs/composition-api';
 
-const hasRouteChanged = (vm) => {
-  const { from } = vm.$router.app.context;
-  const { current } = vm.$router.history
+const hasRouteChanged = (ctx) => {
+  const { from } = ctx.$router.app.context;
+  const { current } = ctx.$router.history;
 
   if (!from) {
-    return false
+    return false;
   }
 
-  return from.fullPath !== current.fullPath
-}
+  return from.fullPath !== current.fullPath;
+};
 
 const ssrPlugin = () => {
   configureSSR({

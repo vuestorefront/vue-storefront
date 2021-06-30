@@ -1,5 +1,9 @@
 # Integration guide
 
+:::danger Don't forget to reload the application
+The application does not reload automatically after saving the changes in Server Middleware. Due to this, you have to restart the application manually. We are working on enabling Hot Reloading in future updates.
+:::
+
 ::: warning Want to build an integration?
 If you want to integrate with Vue Storefront, please **contact the core team on our [Discord](https://discord.vuestorefront.io) server** first. We are eager to help you with building it and ensuring its high quality! Building the integration with the help of the core team is the best way to keep its quality high and making it officially recommended once completed.
 :::

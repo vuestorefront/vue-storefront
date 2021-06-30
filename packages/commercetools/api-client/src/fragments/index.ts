@@ -92,7 +92,7 @@ export const LineItemFragment = `
     variant {
       id
       sku
-      price(currency: "USD") {
+      price(currency: $currency) {
         tiers {
           value {
             centAmount
