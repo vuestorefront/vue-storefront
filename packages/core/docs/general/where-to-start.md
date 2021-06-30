@@ -21,7 +21,7 @@ Also, we are proud of:
 - 100+ [Agency Partners](https://www.vuestorefront.io/partner-agencies)
 - 4500+ [Community members](http://discord.vuestorefront.io/)
 
-You should definitely visit [Introduction](/) or [Key conepts](/general/key-concepts.html) section for more details about Vue Storefront. 
+You can visit [Introduction](/) or [Key conepts](/general/key-concepts.html) pages for more details about Vue Storefront. 
 
 **Introduction** section will guide you through:
 - [What is Vue Storefront?](/#what-is-vue-storefront)
