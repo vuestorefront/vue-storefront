@@ -93,7 +93,6 @@ However, depending on the kind of integrations you want to build, you should fam
 
 Vue Storefront default theme is mostly based on Single UI components turned into a powerful design system for e-commerce we called [Storefront UI](https://www.storefrontui.io/)
 
-If you don't want to use [Storefront UI](https://www.storefrontui.io/) (it's just a UI layer), the project can work with any other UI library or a custom code. So it totally depends on you - create your own theme, edit the existing one or use our default theme.
 
 At the start you should familiarize yourself with the specially prepared [theme](../guide/theme.html) guide.
 
