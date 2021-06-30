@@ -99,7 +99,7 @@ At the start you should familiarize yourself with the specially prepared [theme]
 **Theme** section will guide you through:
 - [Directory structure](../guide/theme.html#directory-structure)
 - [Storefront UI](../guide/theme.html#directory-structure)
-- [How to customizing the theme](../guide/theme.html#customizing-the-theme)
+- [How to customize the theme](../guide/theme.html#customizing-the-theme)
 - [Routing](../guide/theme.html#routing)
 - [How to update styles](../guide/theme.html#updating-styles)
 - [Preinstalled modules and libraries](../guide/theme.html#preinstalled-modules-and-libraries)
