@@ -76,23 +76,9 @@ Vue Storefront integrates with a wide range of technologies and each has its own
 
 However, depending on the kind of integrations you want to build, you should familiarize yourself with **Building Integration** section. Especially integration guide for [eCommerce](../integrate/integration-guide.html) and [CMS](../integrate/cms.html) platforms.
 
-**eCommerce** section will guide you through: 
-- [Introduction](../integrate/integration-guide.html#introduction)
-- [Scope](../integrate/integration-guide.html#scope)
-- [Getting started](../integrate/integration-guide.html#getting-started)
-- [Creating an api-client](../integrate/integration-guide.html#creating-an-api-client)
-- [Creating composables](../integrate/integration-guide.html#creating-composables)
-- [Creating getters](../integrate/integration-guide.html#creating-getters)
-- [Creating a theme](../integrate/integration-guide.html#creating-a-theme)
-
-**CMS** section will guide you through:
-- [configuration / content fetching / content rendering](../integrate/cms.html#what-is-needed)
-- [usage example in the real application](../integrate/cms.html#usage-example-in-the-real-application)
-
 ## Designer creating a theme
 
 Our default theme is mostly based on a powerful design system for e-commerce called [Storefront UI](https://www.storefrontui.io/). If you don't want to use it, you can replace it with any other UI library or custom components, by changing the templates in Vue files.
-
 
 At the start you should familiarize yourself with the specially prepared [theme](../guide/theme.html) guide.
 
