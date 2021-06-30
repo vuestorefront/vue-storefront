@@ -66,7 +66,7 @@ You should start by familiarizing yourself with the **Guides** category. It incl
 - [Logging](../advanced/logging.html)
 - [API Reference](../core/api-reference/)
 
-To be up to date, we recommend to following [Migration guide](../migrate) and Vue Storefront 2 [Roadmap](https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437) .
+To be up to date, we recommend following our [Roadmap](https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437) and joining our [Discord community](http://discord.vuestorefront.io/).
 
 ## Integrator
 
