@@ -3,8 +3,6 @@ on:
   workflow_run:
     workflows:
       - "Deploy to Storefrontcloud for Test"
-    branches:
-      - feature/lighthouse-env
     types: 
       - completed
 
