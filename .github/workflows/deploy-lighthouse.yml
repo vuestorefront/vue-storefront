@@ -1,5 +1,9 @@
 name: Lighthouse Test
 on:
+  push:
+    branches:
+      - feature/lighthouse-env
+
   workflow_run:
     workflows:
       - "Deploy to Storefrontcloud for Test"
