@@ -152,7 +152,7 @@ export default {
       loading,
       products: computed(() => cartGetters.getItems(cart.value)),
       totals: computed(() => cartGetters.getTotals(cart.value)),
-      tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
+      tableHeaders: ['Description', 'Size', 'Color', 'Quantity', 'Amount'],
       cartGetters,
       processOrder
     };
