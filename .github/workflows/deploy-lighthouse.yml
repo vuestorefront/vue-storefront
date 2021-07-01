@@ -1,18 +1,3 @@
-name: Deploy to Storefrontcloud for Test
-on:
-  push:
-    branches:
-      - feature/lighthouse-env
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-
----
-
 name: Lighthouse Test
 on:
   push:
