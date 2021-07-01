@@ -77,7 +77,10 @@
           "quantity": 1,
 		      "amount": "$372.50"
         }
-      ]
+      ],
+      "discountedPrice": "$1,037.50",
+      "specialPrice": "$897.85",
+      "totalPrice": "$907.85"
     }
   }
 }

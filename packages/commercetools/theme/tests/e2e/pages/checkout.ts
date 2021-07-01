@@ -168,6 +168,18 @@ class Payment extends Base {
   get productPrice(): Cypress.Chainable {
     return el('product-price');
   }
+
+  get discountedPrice(): Cypress.Chainable {
+    return cy.get('.discounted');
+  }
+
+  get specialPrice(): Cypress.Chainable {
+    return cy.get('.special-price');
+  }
+
+  get totalPrice(): Cypress.Chainable {
+    return cy.get('.property-total');
+  }
 }
 
 class ThankYou {
