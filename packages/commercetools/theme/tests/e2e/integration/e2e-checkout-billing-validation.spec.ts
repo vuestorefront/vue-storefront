@@ -52,7 +52,7 @@ context(['regression'], 'Checkout - Billing', () => {
     'Street Name',
     'Apartment',
     'City',
-    'Zipcode',
+    'Postal Code',
     'Phone'
   ];
 
@@ -101,5 +101,23 @@ context(['regression'], 'Checkout - Billing', () => {
         cy.contains(data.errorMessage).should('be.visible');
       });
     });
+  });
+
+  it('Should copy shipping address', function () {
+    const data = this.fixtures.data[this.test.title];
+    requests.createCart().then((response: CreateCartResponse) => {
+      requests.addToCart(response.body.data.cart.id, data.product);
+      requests.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping }});
+    });
+    page.checkout.shipping.visit();
+    page.checkout.shipping.selectShippingButton.click();
+    page.checkout.shipping.shippingMethods.contains(data.shippingMethod).click();
+    page.checkout.shipping.continueToBillingButton.click();
+    page.checkout.billing.heading.should('be.visible');
+    page.checkout.billing.copyAddressLabel.click();
+    for (const field in data.customer.address.shipping) {
+      console.log(field);
+      page.checkout.billing[field].should('have.value', data.customer.address.shipping[field]);
+    }
   });
 });

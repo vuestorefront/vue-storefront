@@ -165,7 +165,7 @@
     },
     "errorMessage": "Please fill out this field." 
   },
-  "Should display an error - Zipcode empty": {
+  "Should display an error - Postal Code empty": {
     "product": {
       "name": "Shirt Aspesi white M",
       "id": 1,
