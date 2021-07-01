@@ -152,7 +152,9 @@
     </LazyHydrate>
 
     <LazyHydrate when-visible>
-      <InstagramFeed />
+      <lazy-component>
+        <InstagramFeed />
+      </lazy-component>
     </LazyHydrate>
 
   </div>
@@ -335,6 +337,7 @@ export default {
 .product {
   @include for-desktop {
     display: flex;
+    min-height: 900px;
   }
   &__info {
     margin: var(--spacer-sm) auto;

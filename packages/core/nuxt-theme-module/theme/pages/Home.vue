@@ -1,35 +1,31 @@
 <template>
   <div id="home">
-    <LazyHydrate when-idle>
-      <SfHero class="hero">
-        <SfHeroItem
-          v-for="(hero, i) in heroes"
-          :key="i"
-          :title="hero.title"
-          :subtitle="hero.subtitle"
-          :background="hero.background"
-          :image="hero.image"
-          :class="hero.className"
-        />
-      </SfHero>
-    </LazyHydrate>
+    <SfHero class="hero">
+      <SfHeroItem
+        v-for="(hero, i) in heroes"
+        :key="i"
+        :title="hero.title"
+        :subtitle="hero.subtitle"
+        :button-text="hero.buttonText"
+        :background="hero.background"
+        :image="hero.image"
+        :class="hero.className"
+      />
+    </SfHero>
 
-    <LazyHydrate when-visible>
-      <SfBannerGrid :banner-grid="1" class="banner-grid">
-        <template v-for="item in banners" v-slot:[item.slot]>
-          <SfBanner
-            :key="item.slot"
-            :title="item.title"
-            :subtitle="item.subtitle"
-            :description="item.description"
-            :button-text="item.buttonText"
-            :link="localePath(item.link)"
-            :image="item.image"
-            :class="item.class"
-          />
-        </template>
-      </SfBannerGrid>
-    </LazyHydrate>
+    <SfBannerGrid :banner-grid="1" class="banner-grid">
+      <template v-for="item in banners" v-slot:[item.slot]>
+        <SfBanner
+          :key="item.slot"
+          :title="item.title"
+          :subtitle="item.subtitle"
+          :description="item.description"
+          :button-text="item.buttonText"
+          :image="item.image"
+          :class="item.class"
+        />
+      </template>
+    </SfBannerGrid>
 
     <LazyHydrate when-visible>
       <div class="similar-products">
@@ -39,6 +35,7 @@
     </LazyHydrate>
 
     <LazyHydrate when-visible>
+      <lazy-component>
         <SfCarousel class="carousel" :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }">
           <template #prev="{go}">
             <SfArrow
@@ -69,20 +66,25 @@
             />
           </SfCarouselItem>
         </SfCarousel>
+      </lazy-component>
     </LazyHydrate>
 
     <LazyHydrate when-visible>
-      <SfCallToAction
-        title="Subscribe to Newsletters"
-        button-text="Subscribe"
-        description="Be aware of upcoming sales and events. Receive gifts and special offers!"
-        image="/homepage/newsletter.webp"
-        class="call-to-action"
-      />
+       <lazy-component>
+        <SfCallToAction
+          title="Subscribe to Newsletters"
+          button-text="Subscribe"
+          description="Be aware of upcoming sales and events. Receive gifts and special offers!"
+          image="/homepage/newsletter.webp"
+          class="call-to-action"
+        />
+       </lazy-component>
     </LazyHydrate>
 
     <LazyHydrate when-visible>
-      <InstagramFeed />
+      <lazy-component>
+        <InstagramFeed />
+      </lazy-component>
     </LazyHydrate>
 
   </div>

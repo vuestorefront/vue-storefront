@@ -1,11 +1,7 @@
 <template>
   <div>
-    <LazyHydrate when-visible>
-      <TopBar class="desktop-only" />
-    </LazyHydrate>
-    <LazyHydrate when-idle>
-      <AppHeader />
-    </LazyHydrate>
+    <TopBar class="desktop-only" />
+    <AppHeader />
 
     <div id="layout">
       <nuxt :key="$route.fullPath"/>
@@ -19,7 +15,9 @@
       <Notification />
     </div>
     <LazyHydrate when-visible>
-      <AppFooter />
+      <lazy-component>
+        <AppFooter />
+      </lazy-component>
     </LazyHydrate>
   </div>
 </template>
@@ -57,6 +55,7 @@ export default {
 
 #layout {
   box-sizing: border-box;
+  min-height: 900px;
   @include for-desktop {
     max-width: 1240px;
     margin: auto;
