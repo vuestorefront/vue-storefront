@@ -4,6 +4,7 @@ import { processURLAddress } from '@vue-storefront/core/helpers'
 import { ActionTree } from 'vuex'
 import config from 'config'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 import { BudsiesState } from '../types/State'
 import * as types from './mutation-types'
@@ -144,5 +145,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       commit(types.CUSTOMER_EMAIL_SET, { email: customerEmail })
       Logger.info('Customer Email received from cache.', 'cache', customerEmail)()
     }
+
+    EventBus.$emit('budsies-store-synchronized');
   }
 }
