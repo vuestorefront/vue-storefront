@@ -80,6 +80,10 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   this.addModule('@nuxtjs/composition-api');
   log.success('Installed nuxt Composition API Module');
 
+  // Lazy Load
+  this.addPlugin(path.resolve(__dirname, 'plugins/lazy-load.js'));
+  log.success('Installed Lazy Load Module')
+
   // StorefrontUI module
   if (fs.existsSync(resolveDependency('@storefront-ui/vue'))) {
     storefrontUiModule.call(this, options);
