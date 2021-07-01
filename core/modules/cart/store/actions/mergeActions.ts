@@ -30,7 +30,7 @@ const mergeActions = {
     }
 
     if (serverItem.plushieId) {
-      product.plushieId = serverItem.plushieId;
+      product.plushieId = typeof serverItem.plushieId === 'number' ? serverItem.plushieId.toString() : serverItem.plushieId;
     }
     if (serverItem.thumbnail) {
       product.thumbnail = serverItem.thumbnail;

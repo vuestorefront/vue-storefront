@@ -784,9 +784,10 @@
   "images": {
     "useExactUrlsNoProxy": false,
     "baseUrl": "https://${VSF_API_DOMAIN}/img/",
-    "useSpecificImagePaths": false,
+    "useSpecificImagePaths": true,
     "paths": {
-      "product": "/catalog/product"
+      "product": "/catalog/product",
+      "bodypart": "/body_part/orig"
     },
     "productPlaceholder": "/assets/placeholder.jpg",
     "fileuploaderUploadUrl": "${FILEUPLOADER_UPLOAD_URL}"

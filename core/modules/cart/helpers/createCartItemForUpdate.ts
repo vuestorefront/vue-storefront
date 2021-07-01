@@ -8,7 +8,12 @@ const createCartItemForUpdate = (clientItem: CartItem, serverItem: any, updateId
     ...((serverItem && serverItem.item_id) ? { item_id: serverItem.item_id } : {}),
     qty: mergeQty ? (clientItem.qty + serverItem.qty) : clientItem.qty,
     product_option: clientItem.product_option,
-    customerImagesIds: clientItem.customerImagesIds ? clientItem.customerImagesIds : undefined
+    customerImagesIds: clientItem.customerImagesIds ? clientItem.customerImagesIds : undefined,
+    plushieId: clientItem.plushieId ? clientItem.plushieId : undefined,
+    email: clientItem.email ? clientItem.email : undefined,
+    plushieName: clientItem.plushieName ? clientItem.plushieName : undefined,
+    bodyparts: clientItem.bodyparts ? clientItem.bodyparts : undefined,
+    uploadMethod: clientItem.uploadMethod ? clientItem.uploadMethod : undefined
   } as any as CartItem
 
   if (updateIds && serverItem.quote_id && serverItem.item_id) {
