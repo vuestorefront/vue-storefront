@@ -38,7 +38,7 @@ class Checkout extends Base {
     return el(`${this.step}-country`, 'select');
   }
 
-  get zipcode(): Cypress.Chainable {
+  get postalCode(): Cypress.Chainable {
     return el(`${this.step}-zipcode`, 'input');
   }
 
@@ -57,7 +57,7 @@ class Checkout extends Base {
     if (address.city !== undefined) this.city.clear().type(address.city);
     if (address.country !== undefined) this.country.select(address.country);
     if (address.state !== undefined) this.state.select(address.state);
-    if (address.postalCode !== undefined) this.zipcode.clear().type(address.postalCode);
+    if (address.postalCode !== undefined) this.postalCode.clear().type(address.postalCode);
     if (address.phone !== undefined) this.phone.clear().type(address.phone);
   }
 }
@@ -127,7 +127,12 @@ class Billing extends Checkout {
   }
 }
 
-class Payment {
+class Payment extends Base {
+
+  get path(): string {
+    return '/checkout/payment';
+  }
+
   get heading(): Cypress.Chainable {
     return el('heading-payment');
   }
@@ -142,6 +147,26 @@ class Payment {
 
   get terms(): Cypress.Chainable {
     return el('terms', 'label');
+  }
+
+  get productRow(): Cypress.Chainable {
+    return el('product-row');
+  }
+
+  get productTitleSku(): Cypress.Chainable {
+    return el('product-title-sku');
+  }
+
+  get productAttributes(): Cypress.Chainable {
+    return el('product-attributes');
+  }
+
+  get productQuantity(): Cypress.Chainable {
+    return el('product-quantity');
+  }
+
+  get productPrice(): Cypress.Chainable {
+    return el('product-price');
   }
 }
 

@@ -118,7 +118,9 @@ const requests = {
 
       if (data.addresses.billing !== undefined) actions.push({
         setBillingAddress: {
-          ...data.addresses.billing
+          address: {
+            ...data.addresses.billing
+          }
         }
       });
     }
