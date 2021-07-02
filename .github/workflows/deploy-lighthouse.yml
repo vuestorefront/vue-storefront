@@ -24,7 +24,7 @@ jobs:
       - name: Deploy on demo-lighthouse.europe-west1.gcp.storefrontcloud.io
         if: github.ref == 'refs/heads/next'
         run: |
-          if curl -s -H 'X-User-Id: ${{ secrets.DOCS_CLOUD_USERNAME }}' -H 'X-Api-Key: ${{ secrets.DOCS_CLOUD_USERNAME }}' -H 'Content-Type: application/json' -X POST -d '{
+          if curl -s -H 'X-User-Id: ${{ secrets.DOCS_CLOUD_USERNAME }}' -H 'X-Api-Key: ${{ secrets.DOCS_CLOUD_PASSWORD }}' -H 'Content-Type: application/json' -X POST -d '{
               "code":"demo-lighthouse",
               "region":"europe-west1.gcp",
               "frontContainerVersion":"${{ github.sha }}"
