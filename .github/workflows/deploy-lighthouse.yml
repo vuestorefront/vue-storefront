@@ -3,7 +3,7 @@ name: Lighthouse Test
 on:
   workflow_run:
     workflows:
-      - Deploy to Storefrontcloud for Test
+      - Preflight
     types: 
       - completed
 

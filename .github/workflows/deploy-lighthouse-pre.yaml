@@ -1,7 +1,9 @@
-name: Deploy to Storefrontcloud for Test
+name: Preflight
 
 on:
-  - push
+  push:
+    branches:
+      - feature/lighthouse-env
 
 jobs:
   build:
