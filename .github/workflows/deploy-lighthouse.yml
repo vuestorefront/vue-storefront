@@ -6,8 +6,6 @@ on:
       - Deploy to Storefrontcloud for Test
     types: 
       - completed
-    branches:
-      - feature/lighthouse-env
 
 jobs:
   build:
