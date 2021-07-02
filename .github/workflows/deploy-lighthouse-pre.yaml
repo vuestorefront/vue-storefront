@@ -1,4 +1,4 @@
-name: Preflight
+name: Deploy to Storefrontcloud for Test
 
 on:
   push:
