@@ -29,7 +29,7 @@ Before we get started, make sure that:
 
 To make it easy to get started, we created an [eCommerce integration boilerplate](https://github.com/vuestorefront/ecommerce-integration-boilerplate).
 
-It is a monorepo, which is a fancy word to describe a single repository containing multiple related projects. Each directory inside `packages` contains one project. There are 3 projects:
+It's a monorepo, which is a single repository containing multiple related projects. Each directory inside `packages` contains one project. There are three projects:
 
 - `api-client`,
 - `composables`,
@@ -45,7 +45,7 @@ Here, you will create new endpoints that accept parameters from the frontend and
 
 This project consists of two parts:
 
-- [Composables](../guide/composables) that manage the state, prepare and send the request to the `api-client`, then save the response. If necessary, they also parse and format the response for getters.
+- [Composables](../guide/composables) manage the state, prepare and send the request to the `api-client`, then save the response. If necessary, they also parse and format the response for getters.
 
 - [Getters](../guide/getters) that extract information from the responses provided by `composables` in formatted and agnostic format.
 
@@ -61,7 +61,7 @@ Here, you will create new components, scripts, and assets to override or extends
 
 ## Scope
 
-The default theme in Vue Storefront comes with support for plenty of functionalities out of the box, which is great if you don't want to deal with the UI or styling. However, this comes at a cost. The fewer functionalities your platform supports, the more overriding it requires.
+The default theme in Vue Storefront comes with support for plenty of functionalities out of the box, which is excellent if you don't want to deal with the UI or styling. However, this comes at a cost. The fewer functionalities your platform supports, the more overriding it requires.
 
 It's hard to list all functionalities your platform should support, but you can get a general idea by browsing individual composables in [`packages/composables/src` folder](https://github.com/vuestorefront/ecommerce-integration-boilerplate/tree/master/packages/composables/src) in boilerplate repository. For example [`useCart` composable](https://github.com/vuestorefront/ecommerce-integration-boilerplate/blob/master/packages/composables/src/useCart/index.ts) has following handlers:
 
