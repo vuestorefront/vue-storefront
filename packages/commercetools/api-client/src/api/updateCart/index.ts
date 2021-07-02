@@ -13,11 +13,12 @@ export interface UpdateCartParams {
 }
 
 const updateCart = async (context, params: UpdateCartParams, customQuery?: CustomQuery) => {
-  const { locale, acceptLanguage } = context.config;
+  const { locale, acceptLanguage, currency } = context.config;
   const defaultVariables = params
     ? {
       locale,
       acceptLanguage,
+      currency,
       ...params
     }
     : { acceptLanguage };

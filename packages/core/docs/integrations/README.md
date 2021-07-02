@@ -142,7 +142,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Bloomreach"
-    image="https://commercetools.com/wp-content/uploads/2018/07/bloomreach_logo.png"
+    image="https://www.bloomreach.com/binaries/content/gallery/logos/blr_logo-primary.svg"
     :category="['CMS', 'search']"
     :compatibility="['commercetools']"
     :from-core="true"
@@ -177,6 +177,14 @@ Click on the integration tile to read its documentation.
     category="['Authentication']"
     :compatibility="['commercetools']"
     :from-core="true"
+    isWip="true"
+  />
+  <IntegrationTile
+    name="Adobe Experience Manager"
+    image="https://www.rackspace.com/sites/default/files/styles/rxt_image/public/2020-11/AEM.png"
+    category="['Analytics, CMS']"
+    :compatibility="[]"
+    :from-core="false"
     isWip="true"
   />
 </IntegrationList>
