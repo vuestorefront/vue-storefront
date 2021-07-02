@@ -4,6 +4,8 @@
 If you want to integrate with Vue Storefront, please **contact the core team on our [Discord](https://discord.vuestorefront.io) server**. We are eager to help you to ensure its high quality and maybe even officially recommended it 😉
 :::
 
+[[toc]]
+
 ## Introduction
 
 Integrating an eCommerce platform with Vue Storefront sounds scary. Luckily, some of our partners and community members with different seniority levels have successfully done it. We are sure that even without prior experience with Vue Storefront, you can too.
@@ -15,7 +17,7 @@ This tutorial will guide you through the process of creating integration and exp
 Before we get started, make sure that:
 
 - platform you want to integrate has REST or GraphQL API,
-- you have installed [Node 10+](https://nodejs.org/en/) and [Yarn 1](https://classic.yarnpkg.com/lang/en/),
+- you have installed [Node 10+](https://nodejs.org/en/), [Yarn 1](https://classic.yarnpkg.com/lang/en/) and [Git](https://git-scm.com/),
 - you are familiar with JavaScript and (optionally) TypeScript,
 - you are familiar with [Composables and Composition API](../guide/composables).
 
@@ -49,7 +51,7 @@ Here, you will create new methods for `composables` to fetch the data and new `g
 
 This project is a template for generating new Vue Storefront shops. It's a [Nuxt.js](https://nuxtjs.org/) application that contains pages, Vue components, and assets. It uses `composables` to interact with the platform and `getters` to display the data to the user. 
 
-Out of the box, the `theme` directory doesn't contain much - just a few configuration files and empty directories. However, this doesn't mean that you have to create the whole theme from scratch. When your integration is ready, you will use our CLI to combine this project with our base theme to create a new Nuxt.js application with all pieces inside.
+Out of the box, the `theme` directory doesn't contain much - just a few configuration files and empty directories. However, this doesn't mean that you have to create the whole theme from scratch. When your integration is ready, you will use our CLI to combine this project with our base theme to create a new Nuxt.js application with all necessary pieces inside.
 
 Here, you will create new components, scripts, and assets to override or extends our base theme.
 
@@ -108,7 +110,7 @@ After renaming all packages, we can safely install dependencies and not worry ab
 
 Open the terminal in the root of the repository and run `yarn install`.
 
-### Test the project
+### Test it
 
 Once dependencies are installed, run `yarn build`, then `yarn dev`. Open the link shown in the terminal and test the page to confirm it's working.
 
@@ -122,7 +124,7 @@ Let's start by creating an API client that will talk to the API. As mentioned ab
 
 ### Structure of the `api-client` project
 
-When you open `packages/api-client/src` folder, you will see only two files and one empty folder. It's not much, considering how much code some Node.js servers require, but this is thanks to abstractions we created. So what are these files for?
+When you open `packages/api-client/src` folder, you will see only two files and one empty folder. TThat's not a lot, considering how much code some Node.js servers need, but thanks to abstractions we created, you don't seen more. So what are these files for?
 
 - `index.ts` is a file that should **not** contain any server-side code but export things that `composables` or `theme` projects might need. Great examples are integration-specific TypeScript types for request and response bodies or helper functions.
 - `index.server.ts` is a file that contains server-side code. Inside of it `apiClientFactory` creates `createApiClient` method and exports it. Server Middleware calls this method on every request to create a fresh API client and to handle integration-specific endpoints.
@@ -132,7 +134,7 @@ When you open `packages/api-client/src` folder, you will see only two files and 
 API client is a library that handles sending requests to and handling responses from the eCommerce platform.
 
 :::warning
-Examples below use `axios` to handle HTTP requests. However, you can use other libraries if your platform uses GraphQL or have its own dedicated clients.
+Examples below use `axios` to handle HTTP requests. However, you can use other libraries if your platform uses GraphQL or has its own dedicated clients.
 :::
 
 In terminal, go to `packages/api-client` and install `axios`:
@@ -166,8 +168,6 @@ const onCreate = (settings) => {
 };
 ```
 
-
-
 In the example above we passed `settings.api.url` to `axios.create`, but it's not defined in `middleware.config.js`. Let's add it:
 
 ```javascript
@@ -186,15 +186,15 @@ module.exports = {
 };
 ```
 
-## Implementing composables and getters
+## Implementing `useProduct` functionality
 
 It's impossible to write tutorial explaining how to implement each and every composable, especially because some of them might differ wildly between the platforms. For this reason we will explain how to implement `useProduct` composable and `productGetters` and leave the rest to you.
 
 ### Understanding composables
 
-Before implementing any composable, we should get familiar with it's TypeScript interfaces.
+Before implementing any composable, you should get familiar with it's TypeScript interfaces.
 
-Let's start with the [UseProduct interface](../core/api-reference/core.useproduct) (note the capital `U`). It uses [Typescript generics](https://www.typescriptlang.org/docs/handbook/2/generics.html). The reason is that we want to provide great development experience by providing types for the data stored in and returned from composables. However, each platform has a unique data structure and we don't want to make any assumptions. That's why it's up to integrators to provide types.
+Let's start with the [UseProduct interface](../core/api-reference/core.useproduct) (note the capital `U`). It uses [Typescript generics](https://www.typescriptlang.org/docs/handbook/2/generics.html). The reason is that we want to provide great development experience by providing types for the data stored in and returned from composables. However, each platform has a unique data structure and we don't want to make any assumptions. That's why it's up to integrators to provide the types.
 
 `UseProduct` accepts two generics:
 - `PRODUCTS` that represents the structure of the products returned by the API,
@@ -208,14 +208,13 @@ Now, when we understand how composables are created, let's see what parameters d
 
 Open `packages/composables/src/useProduct/index.ts`. This file already calls `useProductFactory` and passes `params` matching above interface. With this done, the only thing left is to implement this method.
 
-Every method in `factoryParams` has at least one argument called [context](../core/api-reference/core.integrationcontext). Second, optional argument is an object holding parameters passed to composable method and `customQuery`.
+Every method in `factoryParams` has at least one argument called [context](../core/api-reference/core.integrationcontext). Second, optional argument is an object holding parameters passed to composable method and [customQuery](../core/api-reference/core.customquery).
 
-TODO: Link customQuery
 
 Remove placeholder code from `productsSearch` method and add the following:
 
 ```typescript
-// Replace `sloth` with the name of your package in `packages/composables/nuxt/plugin.js`
+// Replace `sloth` with the name of your package defined in `packages/composables/nuxt/plugin.js`
 const { data } = await context.$sloth.api.getProduct(params);
 
 return data;
@@ -224,12 +223,23 @@ return data;
 This calls API endpoint called `getProduct`. It doesn't exist yet, so let's create it.
 
 :::tip Passing parameters to the API
-An HTTP request is sent to the Server Middleware whenever a method from `context.$sloth.api` is called. Additionally, all parameters passed to them will be included in the payload. Sending too much data may result in poor performance, so try to pass as few parameters as possible.
+An HTTP request is sent to the Server Middleware whenever any method in `context.$sloth.api` object is called. Additionally, all parameters passed to them will be included in the payload. Sending too much data may result in poor performance, so try to pass as few parameters as possible.
 :::
 
 ### Understanding `api-client`
 
-In the previous section we added a call to `getProduct` endpoint. However, it doesn't exist yet.
+In the previous section we added a call to `getProduct` endpoint. Before we implement this endpoint, you should understand why we need `api-client`.
+
+As mentioned in [Project structure](#project-structure) section, `api-client` is a server that acts as a proxy. All requests to and from various APIs pass through it. You might be wondering why we choose this architecture. Theoretically calling APIs directly from the browser would result in a better performance.
+
+While this might be true for simple scenarios, it doesn't scale well. Some of the benefits of using such proxy are:
+
+- **Caching** - selected responses can be cached to signigicantly improve the performance. While it's possible to do caching in the browser, each customer have to make at least one request to a given endpoint.
+- **Lower cost** - when responses are cached, fewer requests are sent to the eCommerce platform. Depending on the provider, it might reduce the cost.
+- **Smaller bundle** - with all the clients installed and configured on the server, the final bundle sent to the browsers can be much smaller. This is especially true for APIs based on GraphQL.
+- **Security** - API configuration, secrets and keys are stored on the server and are not sent to the browser.
+
+### Implementing `getProduct` api endpoint
 
 Create new file called `getProduct.ts` in `packages/api-client/src/api` folder. Inside of it, add the following function:
 
@@ -257,7 +267,7 @@ In the example below we use `axios` instance created below to call `products` AP
 ```typescript
 export async function getProduct(context, params) {
   // Create URL object containing full endpoint URL
-  const url = new URL('/v3/852628a5-1dea-4756-b171-978e8b7568ab', context.config.api.url);
+  const url = new URL('/products', context.config.api.url);
 
   // Add parameters passed from composable as query strings to the URL
   params.id && url.searchParams.set('id', params.id);
@@ -272,231 +282,72 @@ export async function getProduct(context, params) {
 }
 ```
 
+### Understanding getters
 
------------------------------------------------------------------------
------------------------------------------------------------------------
------------------------------------------------------------------------
-TODO: Explain how and why each package uses the `core`
------------------------------------------------------------------------
------------------------------------------------------------------------
------------------------------------------------------------------------
+Now, that we can request and save API data, we need to display it to the user. Every integration can use and extend our base theme for that. However, accessing the data straight from integrations isn't possible, because each of them uses unique data structures. To do that, we need getters.
 
+Getters allow us to take raw response from the API and map or extract data to common format, which then can be used in the template.
 
-## Creating an api-client
+### Implementing `productGetters`
 
-Each integration starts with `api-client`. This is one of the packages which is responsible for communication between the Vue Storefront and external API. That's exactly the place where you have to configure your API connection, write your API functions, and expose generated API client to the users.
+Open `packages/composables/src/getters/productGetters.ts`. There is a bunch of functions returned in a single object. Each of them has at least one argument, which is either a raw response from the API (`products`) or single item extracted from it (`product`).
 
-Our API client always shares two entry points:
+Although types of arguments are unknown and specific to your integration, return types are already define and must match those defined in [ProductGetters interface](../core/api-reference/core.productgetters.html).
 
-- `@vue-storefront/{INTEGRATION}/server` - shares the `createApiClient`.
-- `@vue-storefront/{INTEGRATION}` - shares other library code, such as helpers, types etc.
+You need to implement all of these functions and if necessary add your own.
 
 
-### Configuration
-The creation of an API client starts with the configuration. As we use middleware, this package is split into two bundles, thus you need to create two separate files with the corresponding configuration:
+## Creating a theme
 
-- `index.server.ts` - contains the creation of API client, for direct connection to the integrated platform
-- `index.ts` - main entry point, that contains everything else, such as types, helper functions etc.
+In the default theme, some components used to display or modify integration-specific data, like forms or checkout information are blank. 
 
-```ts
-// index.server.ts
-import * as api from './api';
-import { apiClientFactory } from '@vue-storefront/core';
+You need to create few Vue components and JavaScript files:
 
-const onCreate = (settings) => {
-  const config = { ..setings }
-  const client = new ApiConnection()
+| Component                                    | Props                               | Emits event |
+|----------------------------------------------|-------------------------------------|-------------|
+| components/UserBillingAddress.vue            | { address: Object }                 |             |
+| components/UserShippingAddress.vue           | { address: Object }                 |             |
+| components/Checkout/CartPreview.vue          |                                     |             |
+| components/MyAccount/BillingAddressForm.vue  | { address: Object, isNew: Boolean } | ✔           |
+| components/MyAccount/ShippingAddressForm.vue | { address: Object, isNew: Boolean } | ✔           |
+| components/MyAccount/PasswordResetForm.vue   |                                     | ✔           |
+| components/MyAccount/ProfileUpdateForm.vue   |                                     | ✔           |
+| composables/useUiHelpers/index.ts            |                                     |             |
+| middleware/is-authenticated.js               |                                     |             |
 
-  return { config, client };
-};
+### Creating Vue components
 
-
-
-const { createApiClient } = apiClientFactory({
-  onCreate,
-  api,
-  extensions: []
-});
-
-export {
-  createApiClient
-};
-```
-
-```ts
-// index.ts
-export * from './types/Api';
-```
-
-To create `api-client` instances you have to use the corresponding factory, depending on what API you are creating: proxy or direct one. The creation in both cases is pretty similar, with small differences in the used fields:
-
-- `onCreate` - a function that will be called during creating your API. In this place, you can call everything you need to create a connection to the API, such as creating SDK (eg. axios creation), merge given config with the defaults etc. This function always returns `client` (connection you created) and `config` or (in case it's proxy) just `config`.
-- `api` - this is the section where you need to pass all of the API function you have created (direct) and functions that you don't want to redirect to our middleware (proxy)
-- `extensions` - section available only in the direct connection api-client. It allows you to add an API backend extension for the API that can add additional features to the integrated platform
-
-### API functions
-Once you have your configuration created, you can proceed with API functions:
-
-```ts
-// api-client/src/api/getProduct.js
-const getProduct = async (context, params) => {
-  const productResponse = await context.client.get(`/product/${params.id}`);
-
-  return productResponse.data
-}
-```
-
-Each API function always contains `context` as a first parameter. This is the place where you always have access to the client and config of your API connection. Usually, during the using API client, you will be using these functions without thinking about the context - the VSF core handles this. In the end, you need to provide that function to the API creation logic (section above)
-
-### GraphQL `customQuery` support
-
-Vue Storefront provides an approach to dynamically change the default predefined graphQL queries for each api request out of the box. The `context` parameter of the API method has `extendQuery` function that can be used to modify qraphQL queries using custom modifier functions. Each custom query modifier lives in the `middleware.config.js`.
+Components that emit events are forms. Event should be in the following format:
 
 ```js
-module.exports = {
-  integrations: {
-    ['<INTEGRATION_TAG>']: {
-      location: '@vue-storefront/commercetools-api/server',
-      configuration: { /* ... */ },
-      customQueries: {
-        'custom-query-modifier': ({ query, variables }) => {
-          variables.locale = 'en'
-          return { query, variables }
-        }
-      }
-    }
-  }
-};
+emit('submit', {
+  form: Object,
+  onComplete: (data: any) => {},
+  onError: (error: Error) => {}
+})
 ```
 
-The custom query modifier function always has in the arguments the default query and default variables and must return the query and its variables as well. In the body you can do anything you want with those parameters - you can override them or even change to the new ones. After creating the modifier function, you can use `extendQuery` to change the default query from middleware api method by providing `customQuery` object parameter that contains the query name as key and the identifier of the modifier function as value from client-side api method call. `extendQuery` function will produce modified query using specified modifier function that can be used to fetch required data.
+When such an event is sent, the application will handle communication with the API. If the request is successful, `onComplete` callback will be called with the response from the API. Otherwise, `onError` will be called with the error caught.
 
-```ts
-// api-client/src/api/getProduct
-const getProduct = async (context: Context, params: PARAMS, customQuery: Record<string, string>) => {
-  const { products } = context.extendQuery(
-    customQuery, { products: { query: defaultQuery, variables: defaultVariables } }
-  );
+### Creating a middleware
 
-  return context.client({
-    query: gql`${products.query}`,
-    variables: products.variables,
-  });
-};
-```
+`is-authenticated` middleware is used to prevent access to the page for guest users. It's used on pages such as user profile.
 
-Proxied version of this api method can be used within composable method with `customQuery` support. Now you can modify grapGL queries by providing modifier function identifier to composable method inside component setup function.
-
-```ts
-// composables/src/useProduct
-const productFactoryParams: UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PARAMS> = {
-  async productSearch (context: Context, params: PRODUCT_SEARCH_PARAMS & { customQuery?: CustomQuery }) {
-    const { customQuery, ...searchParams } = params;
-    const product = await context['<INTEGRATION_TAG>'].api.getProduct(searchParams, customQuery)
-    return product
-  }
-}
-```
-
-```ts
-// theme/pages/Product.vue
-import { useProduct } from '{INTEGRATION}';
-import { onSSR } from '@vue-storefront/core`
-
+```js
 export default {
-  setup() {
-    const { products, search} = useProduct('<PRODUCT_ID>');
-
-    onSSR(async () => {
-      await search({ customQuery: { products: 'custom-query-modifier' }})
-    })
-
-    return {
-      products
-    };
-  }
-};
-
-```
-
-This approach gives you the flexibility to manage qraphQL queries from the client side without increasing the bundle size with qraphQL libraries and queries.
-
-## Creating composables
-
-Composables are a major part of the integration. That exactly the place where the business logic comes in. We always serve this package as integration along with the corresponding Nuxt module.
-### Creating nuxt module
-
-Inside of the composables packages you have to create another directory, next to `src` called `nuxt`. In that directory, we need to place our Nuxt module. The Nuxt module is taking care of anything you want during the integration to be launched: adding plugins, injecting into the build process, creating some aliases, and more. The basic implementation of that module will add just a plugin that will configure our application (using a wrapper that you have already exposed)
-
-Example of plugin
-```js
-// composables/nuxt/plugin.js
-import { integrationPlugin } from '@vue-storefront/core'
-
-const moduleOptions = <%= serialize(options) %>;
-
-export default integrationPlugin(({ app, integration }) => {
-  const settings = { api: '/graphql', user: 'root' }
-  integration.configure({ ...moduleOptions, ...settings })
-});
-```
-
-The module:
-```js
-// composables/nuxt/index.js
-export default function (moduleOptions) {
-  this.addPlugin({
-    src: path.resolve(__dirname, './plugin.js'),
-    options: moduleOptions
-  });
+  middleware: [
+    'is-authenticated'
+  ]
 }
 ```
 
-### Writing factory params
-
-Once you have done the essential configuration of the Nuxt module and plugin, you can proceed to write composable. A good thing to know is you don't have to build it from scratch, we do most of the job for you! Instead, you have to fill in the required functions and properties called `factoryParams`.
-
-The `factoryParams` are including functions that you have to implement to provide the functionality of implementing composable, such a fetching something from the API, or triggering other actions.
+Please refer to [Nuxt.js middleware documentation](https://nuxtjs.org/docs/2.x/directory-structure/middleware/) for more information.
 
 
-```ts
-// composables/src/useCart/index.js
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
 
-import { useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
-
-interface Cart { /* ... */ }
-
-interface LineItem { /* ... */}
-
-interface ProductVariant { /* ... */ }
-
-const factoryParams: UseCartFactoryParams<Cart, LineItem, ProductVariant> = {
-  load: async (context: Context) => {
-    const { data } = await context.$ct.api.getCart();
-
-    return data.cart;
-  },
-  addItem: async (context: Context, params) => {
-    const { currentCart, product, quantity } = params;
-    const { data } = await context.$ct.api.addToCart(loadedCart, product, quantity, customQuery);
-
-    return data.cart;
-  },
-};
-
-const useCart = useCartFactory(factoryParams);
-
-export default useCart;
-```
-
-```ts
-// composables/src/index.js
-import useCart from './useCart';
-
-export { useCart }
-```
-
-Each function inside of factory params has the context in the very first argument. The second argument always contains the given parameters to the function (eg. product data in adding to cart function)
 
 ### Composable dependencies
 
@@ -545,93 +396,3 @@ const useCart = () => {
   return { addToCart, cart }
 }
 ```
-
-## Creating getters
-
-Our composables always return the following properties:
-
-- a field containing the API response - when you load or modify the state of the given feature, we generate a new response that is being returned by composable. It always has a proper name that refers to its purpose eg. cart, products, category etc.
-- `loading` - a field indicating loading state
-- `error` - a field containing errors
-
-As you always have a pure response in the first field you need another layer to be agnostic of the platform. We do this by using getters.
-
-Getters are the pure functions that are reading something from the given response and returning an agnostic or primitive type.
-
-```js
-// composables/src/getters/index.js
-import { CartGetters, AgnosticPrice } from '@vue-storefront/core';
-
-interface LineItem { /* ... */}
-
-const getItems = (cartResponse) => cartResponse.results.lineItems;
-
-const getItemPrice = (lineItem: LineItem): AgnosticPrice => ({
-  regular: lineItem.price.amount,
-  special: lineItem.price.discounted ? lineItem.price.discounted : 0
-});
-
-const getItemName = (lineItem: LineItem): string => lineItem.masterVariant.name;
-
-const getItemQty = (lineItem: LineItem): number => lineItem.quantity;
-
-const cartGetters: CartGetters = {
-  getItems,
-  getItemPrice,
-  getItemName,
-  getItemQuantity
-}
-```
-
-```ts
-// composables/src/index.js
-import cartGetters from './getters';
-
-export { cartGetters }
-```
-
-## Creating a theme
-
-In the default theme, components used to display or modify integration-specific data, like forms or checkout information are blank. This is because each integration might use different data formats and properties.
-
-You need to create few Vue components and JavaScript files:
-
-| Component                                    | Props                               | Emits event |
-|----------------------------------------------|-------------------------------------|-------------|
-| components/UserBillingAddress.vue            | { address: Object }                 |             |
-| components/UserShippingAddress.vue           | { address: Object }                 |             |
-| components/Checkout/CartPreview.vue          |                                     |             |
-| components/MyAccount/BillingAddressForm.vue  | { address: Object, isNew: Boolean } | ✔           |
-| components/MyAccount/ShippingAddressForm.vue | { address: Object, isNew: Boolean } | ✔           |
-| components/MyAccount/PasswordResetForm.vue   |                                     | ✔           |
-| components/MyAccount/ProfileUpdateForm.vue   |                                     | ✔           |
-| composables/useUiHelpers/index.ts            |                                     |             |
-| middleware/is-authenticated.js               |                                     |             |
-
-### Creating Vue components
-
-Components that emit events are forms. Event should be in the following format:
-
-```js
-emit('submit', {
-  form: Object,
-  onComplete: (data: any) => {},
-  onError: (error: Error) => {}
-})
-```
-
-When such an event is sent, the application will handle communication with the API. If the request is successful, `onComplete` callback will be called with the response from the API. Otherwise, `onError` will be called with the error caught.
-
-### Creating a middleware
-
-`is-authenticated` middleware is used to prevent access to the page for guest users. It's used on pages such as user profile.
-
-```js
-export default {
-  middleware: [
-    'is-authenticated'
-  ]
-}
-```
-
-Please refer to [Nuxt.js middleware documentation](https://nuxtjs.org/docs/2.x/directory-structure/middleware/) for more information.
