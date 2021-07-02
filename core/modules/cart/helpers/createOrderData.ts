@@ -45,8 +45,8 @@ const createOrderData = ({
       street: [paymentDetails.streetAddress],
       countryId: paymentDetails.country
     },
-    method_code: shipping && shipping.method_code ? shipping.method_code : null,
-    carrier_code: shipping && shipping.carrier_code ? shipping.carrier_code : null,
+    method_code: shippingDetails.shippingMethod || shipping && shipping.method_code ? shipping.method_code : null,
+    carrier_code: shippingDetails.shippingCarrier || shipping && shipping.carrier_code ? shipping.carrier_code : null,
     payment_method: payment && payment.code ? payment.code : null
   }
 }
