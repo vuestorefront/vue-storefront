@@ -51,6 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Device module fix for shared instance. Vue.prototype.$device isn't accessible anymore (#5297)
 - Added `beforeBuildCacheKey` server hook (#5297)
 - Fixed some typo in docs (#5071)
+- Fix bug where adding/removing coupon would not honor the currently selected shipping method when syncing totals. (#6046)
 
 ### Changed / Improved
 
