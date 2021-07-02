@@ -3,9 +3,11 @@ name: Lighthouse Test
 on:
   workflow_run:
     workflows:
-      - Preflight
-    types: 
+      - Deploy to Storefrontcloud for Test
+    types:
       - completed
+    branches:
+      - feature/lighthouse-env
 
 jobs:
   build:
