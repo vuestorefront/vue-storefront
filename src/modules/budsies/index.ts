@@ -17,6 +17,11 @@ import * as types from './store/mutation-types'
 import BaseImage from './components/BaseImage.vue';
 import ImageSourceItem from './types/image-source-item.interface';
 import ImageAspectRatioSpec from './types/image-aspect-ratio-spec.interface';
+import Bodypart from './models/bodypart.model';
+import BodypartValue from './models/bodypart-value.model';
+import isAxiosError from './services/is-axios-error.typeguard';
+import * as vuexTypes from './store/mutation-types';
+import RushAddon from './models/rush-addon.model';
 
 export const BudsiesModule: StorefrontModule = async function ({ store }) {
   StorageManager.init(types.SN_BUDSIES);
@@ -42,5 +47,10 @@ export {
   Value,
   BaseImage,
   ImageSourceItem,
-  ImageAspectRatioSpec
+  ImageAspectRatioSpec,
+  Bodypart,
+  BodypartValue,
+  isAxiosError,
+  vuexTypes,
+  RushAddon
 }

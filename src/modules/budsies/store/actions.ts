@@ -13,6 +13,10 @@ import addonFactory from '../factories/addon.factory'
 import Addon from '../models/addon.model'
 import AddonApiResponse from '../models/addon-api-response.interface'
 import isAddonApiResponse from '../models/is-addon-api-response.typeguard'
+import rushAddonFactory from '../factories/rush-addon.factory'
+import RushAddon from '../models/rush-addon.model'
+import RushAddonApiResponse from '../models/rush-addon-api-response.interface'
+import isRushAddonApiResponse from '../models/is-rush-addon-api-response.typeguard'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import Bodypart from '../models/bodypart.model'
 import BodypartValue from '../models/bodypart-value.model'
@@ -65,6 +69,26 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     const addons = parse<Addon, AddonApiResponse>(result.result, addonFactory, isAddonApiResponse);
 
     commit('setPrintedProductAddons', { key: productId, addons: addons });
+  },
+  async loadProductRushAddons (
+    { commit, state },
+    { productId }
+  ): Promise<void> {
+    const url = processURLAddress(`${config.budsies.endpoint}/plushies/rush-upgrades`);
+
+    const result = await TaskQueue.execute({
+      url: `${url}?productId=${productId}`,
+      payload: {
+        headers: { 'Accept': 'application/json' },
+        mode: 'cors',
+        method: 'GET'
+      },
+      silent: true
+    });
+
+    const addons = parse<RushAddon, RushAddonApiResponse>(result.result, rushAddonFactory, isRushAddonApiResponse);
+
+    commit('setProductRushAddons', { key: productId, addons });
   },
   async loadProductBodyparts (
     { commit, state },
