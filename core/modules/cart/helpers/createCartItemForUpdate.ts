@@ -13,6 +13,7 @@ const createCartItemForUpdate = (clientItem: CartItem, serverItem: any, updateId
     email: clientItem.email ? clientItem.email : undefined,
     plushieName: clientItem.plushieName ? clientItem.plushieName : undefined,
     bodyparts: clientItem.bodyparts ? clientItem.bodyparts : undefined,
+    customFields: clientItem.customFields ? clientItem.customFields : undefined,
     uploadMethod: clientItem.uploadMethod ? clientItem.uploadMethod : undefined
   } as any as CartItem
 

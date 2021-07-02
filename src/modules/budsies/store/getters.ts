@@ -2,6 +2,7 @@ import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import { BudsiesState } from '../types/State'
 import Addon from '../models/addon.model'
+import RushAddon from '../models/rush-addon.model'
 import Bodypart from '../models/bodypart.model'
 import BodypartValue from '../models/bodypart-value.model'
 
@@ -9,7 +10,7 @@ const getters: GetterTree<BudsiesState, RootState> = {
   getAddon: (state: BudsiesState, id: string): Addon | undefined => {
     return state.addons[id];
   },
-  getPrintedProductAddons: (state: BudsiesState) => (id: string) => {
+  getPrintedProductAddons: (state: BudsiesState) => (id: string): Addon[] => {
     const result: Addon[] = [];
 
     if (!state.printedProductAddons[id] || !state.printedProductAddons[id].length) {
@@ -22,7 +23,23 @@ const getters: GetterTree<BudsiesState, RootState> = {
 
     return result;
   },
-  getProductBodyparts: (state: BudsiesState) => (id: string) => {
+  getRushAddon: (state: BudsiesState, id: string): RushAddon | undefined => {
+    return state.rushAddons[id];
+  },
+  getProductRushAddons: (state: BudsiesState) => (id: string): RushAddon[] => {
+    const result: RushAddon[] = [];
+
+    if (!state.productRushAddons[id] || !state.productRushAddons[id].length) {
+      return result;
+    }
+
+    state.productRushAddons[id].forEach((id) => {
+      result.push(state.rushAddons[id]);
+    });
+
+    return result;
+  },
+  getProductBodyparts: (state: BudsiesState) => (id: string): Bodypart[] => {
     const result: Bodypart[] = [];
 
     if (!state.productBodyparts[id] || !state.productBodyparts[id].length) {
@@ -35,7 +52,7 @@ const getters: GetterTree<BudsiesState, RootState> = {
 
     return result;
   },
-  getBodypartBodypartsValues: (state: BudsiesState) => (id: string) => {
+  getBodypartBodypartsValues: (state: BudsiesState) => (id: string): BodypartValue[] => {
     const result: BodypartValue[] = [];
 
     if (!state.bodypartBodypartsValues[id] || !state.bodypartBodypartsValues[id].length) {
@@ -48,7 +65,7 @@ const getters: GetterTree<BudsiesState, RootState> = {
 
     return result;
   },
-  getPlushieShortcode: (state: BudsiesState) => (plushieId: string) => {
+  getPlushieShortcode: (state: BudsiesState) => (plushieId: string): string => {
     return state.plushieShortcode[plushieId];
   },
   getCustomerEmail: (state: BudsiesState): string | undefined => {
