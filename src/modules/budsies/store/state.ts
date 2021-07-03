@@ -1,9 +1,9 @@
 import { BudsiesState } from '../types/State'
 
 export const state: BudsiesState = {
-  addons: {},
+  extraPhotoAddons: {},
   rushAddons: {},
-  printedProductAddons: {},
+  productExtraPhotoAddons: {},
   productRushAddons: {},
   bodyparts: {},
   bodypartsValues: {},

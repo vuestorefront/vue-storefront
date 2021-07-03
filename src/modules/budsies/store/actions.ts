@@ -9,10 +9,10 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { BudsiesState } from '../types/State'
 import * as types from './mutation-types'
 import ObjectBuilderInterface from '../types/object-builder.interface'
-import addonFactory from '../factories/addon.factory'
-import Addon from '../models/addon.model'
-import AddonApiResponse from '../models/addon-api-response.interface'
-import isAddonApiResponse from '../models/is-addon-api-response.typeguard'
+import extraPhotoAddonFactory from '../factories/extra-photo-addon.factory'
+import ExtraPhotoAddon from '../models/extra-photo-addon.model'
+import ExtraPhotoAddonApiResponse from '../models/extra-photo-addon-api-response.interface'
+import isExtraPhotoAddonApiResponse from '../models/is-extra-photo-addon-api-response.typeguard'
 import rushAddonFactory from '../factories/rush-addon.factory'
 import RushAddon from '../models/rush-addon.model'
 import RushAddonApiResponse from '../models/rush-addon-api-response.interface'
@@ -50,7 +50,7 @@ function parse<T, R> (
 }
 
 export const actions: ActionTree<BudsiesState, RootState> = {
-  async loadPrintedProductAddons (
+  async loadExtraPhotosAddons (
     { commit, state },
     { productId }
   ): Promise<void> {
@@ -66,7 +66,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       silent: true
     });
 
-    const addons = parse<Addon, AddonApiResponse>(result.result, addonFactory, isAddonApiResponse);
+    const addons = parse<ExtraPhotoAddon, ExtraPhotoAddonApiResponse>(result.result, extraPhotoAddonFactory, isExtraPhotoAddonApiResponse);
 
     commit('setPrintedProductAddons', { key: productId, addons: addons });
   },

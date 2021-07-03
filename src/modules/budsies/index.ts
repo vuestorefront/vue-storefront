@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
-import addonFactory from './factories/addon.factory';
+import addonFactory from './factories/extra-photo-addon.factory';
 import nl2br from './filters/nl2br';
-import Addon from './models/addon.model';
+import ExtraPhotoAddon from './models/extra-photo-addon.model';
 import { ProductValue } from './models/product.value';
 import ErrorConverterService from './services/error-converter.service';
 import { budsiesStore } from './store'
@@ -36,7 +36,7 @@ export const BudsiesModule: StorefrontModule = async function ({ store }) {
 }
 
 export {
-  Addon,
+  ExtraPhotoAddon,
   addonFactory,
   nl2br,
   Dictionary,
