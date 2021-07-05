@@ -43,7 +43,7 @@ Inside each async method, we catch thrown errors and save them in the `error` ob
 const { addItem, error } = useCart();
 
 addItem({ product: null }); // throws an error
-error.value.addItem; // here you have error raised by addItem function
+error.value.addItem; // here you access error thrown by addItem function
 ```
 
 :::
@@ -52,7 +52,7 @@ error.value.addItem; // here you have error raised by addItem function
 
 When you are writing a code inside a script part of the Vue component, your IDE should give you hints on every different type of the composable. That's why you probably do not need to check these interfaces in the core's code.
 
-However, if you still want to check interfaces, you could find them inside [`packages/core/core/src/types.ts`](https://github.com/vuestorefront/vue-storefront/blob/next/packages/core/core/src/types.ts).
+However, if you still want to check interfaces, you could find them in [core API reference](../core/api-reference/core).
 
 :::
 
