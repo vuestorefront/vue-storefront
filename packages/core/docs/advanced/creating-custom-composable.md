@@ -20,7 +20,7 @@ We recommend following our convention of returning raw data object (`result` in 
 
 :::tip Why `loading` and `error` are `computed` properties?
 You might have noticed that `loading` and `error` are wrapped in the `computed` function in the composable factories.
-This prevents modification from outside, which might result in state mismatch and hard to trace bugs.
+This prevents external modifications that could result in a state mismatch and hard-to-track errors.
 :::
 
 ## Shared composable
@@ -36,7 +36,7 @@ However, some composables are reusable and shared. Two such examples are `useUse
 
 The example below shows how to implement composable bound to a single entity. If your composable is shared, you can remove the `id` parameter and its uses.
 
-:::warning Create `sharedRef` inside composable
+:::warning Only call `sharedRef` inside composable
 Be sure to create variables using `sharedRef` **inside** a wrapper function. Otherwise, you might have issues with reactivity or even leak state between the requests.
 :::
 
