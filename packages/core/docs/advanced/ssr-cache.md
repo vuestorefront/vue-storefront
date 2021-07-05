@@ -5,7 +5,7 @@
 Caching allows saving pages rendered on the server for later use, to avoid computationally expensive rendering from scratch when possible. This is especially useful when the application has pages that require a lot of computation, make many API calls, or change infrequently. It not only reduces the load on the server but also greatly improves performance.
 
 Caching SSR output in Vue Storefront requires two packages:
-* `@vue-storefront/cache` - Nuxt.js module, that does the heavy lifting. It registers required plugins, creates [invalidation endpoint](#invalidating-cache), and hooks into the render cycle. 
+* `@vue-storefront/cache` - Nuxt.js module, that does the heavy lifting. It registers required plugins, creates [invalidation endpoint](#invalidating-tags), and hooks into the render cycle. 
 * **the driver** - thin layer on top of `@vue-storefront/cache` that integrates with specific caching solution, such as [Redis](https://redis.io/) or [Memcached](https://memcached.org/).
 
 ## Installation
@@ -50,7 +50,7 @@ export default {
 
 We can break down package configuration into two pieces:
 
-* `invalidation` (optional object) - contains URL to invalidate cache and array of invalidation functions. Refer to the [Invalidating cache](#invalidating-cache) section for more information.
+* `invalidation` (optional object) - contains URL to invalidate cache and array of invalidation functions. Refer to the [Invalidating cache](#invalidating-tags) section for more information.
 * `driver` (array or string) - contains the path to or name of the driver package and its configuration. If the driver doesn't require any configuration, you can pass a string instead of an array. Refer to the documentation of the driver you use for more information.
 
 ###  Add tags
@@ -79,7 +79,7 @@ A typical category page would have tags for:
 
 ### Why we need tags?
 
-When at least one tag associated with the given page is [invalidated](#invalidating-cache), the whole page is removed from the cache and will be rendered from scratch on the next request. For example, if one of the products is modified or disabled, we should invalidate cache for pages where this product is visible:
+When at least one tag associated with the given page is [invalidated](#invalidating-tags), the whole page is removed from the cache and will be rendered from scratch on the next request. For example, if one of the products is modified or disabled, we should invalidate cache for pages where this product is visible:
 * Product page for this particular product.
 * Other product pages, where this product is listed (upsell or cross-sell).
 * Homepage, if the product is displayed in the carousel or listed as a popular item.
@@ -126,7 +126,7 @@ export default {
 Check the documentation for your e-commerce integration to see if it provides any invalidation handlers.
 :::
 
-As mentioned in [Configuration](#configuration) section, `@vue-storefront/cache` module provides option to create invalidation endpoint.
+As mentioned in [Installation](#installation) section, `@vue-storefront/cache` module provides option to create invalidation endpoint.
 
 Because each integration may pass data in a different format or multiple invalidation strategies may be needed at the same time, we need **invalidation handlers**. Each handler may return tags, which are later combined and passed to the driver for invalidation.
 
@@ -203,5 +203,5 @@ If one of the properties is missing or the validation key is wrong, return an em
 
 # What's next
 
-- Check out ready to use [Redis cache integration](../integrations/redis-cache.md) from Vue Storefront Enterprise
-- Check how you can [build your own cache driver](../integrate/cache-driver.md).
+- Check out ready to use [Redis cache integration](../integrations/redis-cache.html) from Vue Storefront Enterprise
+- Check how you can [build your own cache driver](../integrate/cache-driver.html).
