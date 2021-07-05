@@ -42,7 +42,7 @@ export default {
 
 Once products are loaded using `useProduct`, access them using `productGetters`. Depending on the product, configuration, and integration used, the response might contain one or more products or variants. Use the `getFiltered` getter to access them.
 
-For a full list of available getters, please refer to the [ProductGetters ](../core/api-reference/core.productgetters) interface.
+For a full list of available getters, please refer to the [ProductGetters ](../core/api-reference/core.productgetters.html) interface.
 
 ### Accessing products list
 
@@ -194,7 +194,7 @@ export default {
 </script>
 ```
 
-For a full list of parameters, please refer to the [AgnosticFacetSearchParams](../core/api-reference/core.agnosticfacetsearchparams) interface.
+For a full list of parameters, please refer to the [AgnosticFacetSearchParams](../core/api-reference/core.agnosticfacetsearchparams.html) interface.
 
 ## Accessing catalog data
 
@@ -242,7 +242,7 @@ export default {
 </script>
 ```
 
-For a full list of available getters, please refer to the [FacetsGetters](../core/api-reference/core.facetsgetters) interface.
+For a full list of available getters, please refer to the [FacetsGetters](../core/api-reference/core.facetsgetters.html) interface.
 
 The image below shows where each of these getters fits into a Category page.
 
