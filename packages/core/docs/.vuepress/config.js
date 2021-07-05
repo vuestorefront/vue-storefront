@@ -228,6 +228,7 @@ module.exports = {
             ['/advanced/architecture', 'Architecture'],
             ['/advanced/context', 'Application Context'],
             ['/advanced/calling-platform-api', 'Calling Platform API'],
+            ['/advanced/creating-custom-composable', 'Creating custom composable'],
             ['/advanced/extending-graphql-queries', 'Extending GraphQL Queries'],
             ['/advanced/server-middleware', 'Server Middleware'],
             ['/advanced/internationalization', 'Internationalization'],
