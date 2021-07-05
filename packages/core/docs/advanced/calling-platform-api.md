@@ -15,11 +15,11 @@ const { $ct } = useVSFContext();
 $ct.api.getProduct({ id: 1 })
 ```
 
-In the example above we access the API-client for `commercetools` and call `getProduct` function. Each integration has a dedicated tag name - for more information see [context docs](/advanced/context).
+In the example above we access the API-client for `commercetools` and call `getProduct` function. Each integration has a dedicated tag name - for more information see [context docs](/advanced/context.html).
 
 
 
 ## Extending Integrations
 
 Sometimes, it's necessary to override the original behavior for either API-client or even an entire request that comes from an external platform.
-The Vue Storefront also provides a possibility to do this by using [middleware extensions](/advanced/server-middleware)
+The Vue Storefront also provides a possibility to do this by using [middleware extensions](/advanced/server-middleware.html)
