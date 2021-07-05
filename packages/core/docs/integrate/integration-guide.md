@@ -63,14 +63,14 @@ The default theme in Vue Storefront comes with support for plenty of functionali
 
 It's hard to list all functionalities your platform should support. Still, you can get a general idea by browsing individual composables in the [`packages/composables/src` folder](https://github.com/vuestorefront/ecommerce-integration-boilerplate/tree/master/packages/composables/src) in the boilerplate repository. For example, [`useCart` composable](https://github.com/vuestorefront/ecommerce-integration-boilerplate/blob/master/packages/composables/src/useCart/index.ts) has the following handlers:
 
-- `load`,
-- `addItem`,
-- `removeItem`,
-- `updateItemQty`,
-- `clear`,
-- `applyCoupon`,
-- `removeCoupon`,
-- `isInCart`.
+- `load`
+- `addItem`
+- `removeItem`
+- `updateItemQty`
+- `clear`
+- `applyCoupon`
+- `removeCoupon`
+- `isInCart`
 
 API of your platform should have endpoints for most of these operations unless some can be performed on the frontend. One such example would be `isInCart`, which accepts `currentCart` and `product` as parameters. In most cases, this is enough information to check if the product is already in the cart without calling an API.
 

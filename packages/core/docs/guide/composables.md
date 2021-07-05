@@ -14,7 +14,7 @@ import { onSSR } from '@vue-storefront/core`
 
 export default {
   setup() {
-    const { products, search} = useProduct();
+    const { products, search } = useProduct();
 
     onSSR(async () => {
       await search(searchParams)

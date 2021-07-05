@@ -4,9 +4,13 @@ You can create your own composable if our implementation and interfaces don't co
 
 Before implementing, we recommend getting familiar with our [composables factories](https://github.com/vuestorefront/vue-storefront/tree/next/packages/core/core/src/factories). This will help you understand how they work internally.
 
-## Convention
+## Naming convention
 
-While it's not mandatory, we recommend following our convention of returning raw data object (`result` in the example below) and well as `loading` and `error` properties:
+While not mandatory, we recommend that you follow the industry convention of naming composables using camelCase and prefixing them with the `use` keyword.
+
+## Structure
+
+We recommend following our convention of returning raw data object (`result` in the example below) and well as `loading` and `error` properties:
 
 - Raw data object should contain a response from the API later passed to getters to extract data.
 
