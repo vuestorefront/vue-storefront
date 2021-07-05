@@ -17,8 +17,8 @@ export default {
     const { products, search } = useProduct();
 
     onSSR(async () => {
-      await search(searchParams)
-    })
+      await search(searchParams);
+    });
 
     return {
       products

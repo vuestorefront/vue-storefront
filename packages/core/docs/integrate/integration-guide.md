@@ -21,7 +21,7 @@ Before we get started, make sure that:
 - platform you want to integrate has REST or GraphQL API,
 - you have installed [Node 10+](https://nodejs.org/en/), [Yarn 1](https://classic.yarnpkg.com/lang/en/) and [Git](https://git-scm.com/),
 - you are familiar with JavaScript and (optionally) TypeScript,
-- you are familiar with [Composables and Composition API](../guide/composables).
+- you are familiar with [Composition API](../guide/composition-api) and [Composables](../guide/composables).
 
 ## Project structure
 
@@ -35,15 +35,15 @@ It's a monorepo, which is a single repository containing multiple related projec
 
 ### API client
 
-This project is the **_server layer_** that extends our [Server Middleware](../advanced/server-middleware.html). It creates an API client (like `Apollo` for GraphQL or `Axios` for plain HTTP) that communicates with your eCommerce platform. It acts as a proxy between the users and the platform.
+`api-client` is the **_server layer_** that extends our [Server Middleware](../advanced/server-middleware.html). It creates an API client (like `Apollo` for GraphQL or `Axios` for plain HTTP) that communicates with your eCommerce platform. It acts as a proxy between the users and the platform.
 
-Here, you will create new endpoints that accept parameters from the frontend and use them to fetch data.
+Here, you will create new endpoints that accept parameters sent from the frontend and use them to fetch or submit data to the platform.
 
 ### Composables
 
-This project consists of two parts:
+`composables` consists of two parts:
 
-- [Composables](../guide/composables) manage the state, prepare and send the request to the `api-client`, then save the response. If necessary, they also parse and format the response for getters.
+- [Composables](../guide/composables) manage the state, prepare and send the request to the `api-client`, then save the response. If necessary, they also madify the response to simplify getters.
 
 - [Getters](../guide/getters) extract information from the responses provided by `composables` in formatted and agnostic format.
 
@@ -59,26 +59,26 @@ Here, you will create new components, scripts, and assets to override or extends
 
 ## Scope
 
-The default theme in Vue Storefront comes with support for plenty of functionalities out of the box, which is excellent if you don't want to deal with the UI or styling. However, this comes at a cost. The fewer functionalities your platform supports, the more overriding it requires.
+The default theme in Vue Storefront comes with support for many functionalities out of the box, which is excellent if you don't want to deal with the UI or styling. However, this comes at a cost. The fewer functionalities your platform supports, the more overriding it requires.
 
 It's hard to list all functionalities your platform should support. Still, you can get a general idea by browsing individual composables in the [`packages/composables/src` folder](https://github.com/vuestorefront/ecommerce-integration-boilerplate/tree/master/packages/composables/src) in the boilerplate repository. For example, [`useCart` composable](https://github.com/vuestorefront/ecommerce-integration-boilerplate/blob/master/packages/composables/src/useCart/index.ts) has the following handlers:
 
-- `load`
-- `addItem`
-- `removeItem`
-- `updateItemQty`
-- `clear`
-- `applyCoupon`
-- `removeCoupon`
-- `isInCart`
+- `load`,
+- `addItem`,
+- `removeItem`,
+- `updateItemQty`,
+- `clear`,
+- `applyCoupon`,
+- `removeCoupon`,
+- `isInCart`.
 
-API of your platform should have endpoints for most of these operations unless some can be performed on the frontend. One such example would be `isInCart`, which accepts `currentCart` and `product` as parameters. In most cases, this is enough information to check if the product is already in the cart without calling an API.
+API of your platform should have endpoints for most of these operations unless some can be performed on the frontend. One such example would be `isInCart`, which accepts `currentCart` and `product` as parameters. In most cases, this is enough information to check if the product is already in the cart without calling the API.
 
 ## Getting started
 
 ### Fork boilerplate repository
 
-Now that we explained the basics, let's start creating an integration. Open the [eCommerce integration boilerplate repository](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and click the `Use this template` button to fork it. This creates a copy of a repository and allows you to experiment with changes without affecting the original project.  Enter the name of the new repository and click `Create repository from template`.
+Now that we explained the basics, let's start creating an integration. Open the [eCommerce integration boilerplate repository](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and click the `Use this template` button. This creates a copy of a repository and allows you to make changes without affecting the original project.  Enter the name of the new repository and click `Create repository from template`.
 
 Once the new repository is ready, clone it locally.
 
@@ -99,34 +99,38 @@ For the sake of example and simplicity, let's assume our eCommerce platform is c
 - `@sloth/sloth`.
 
 :::tip
-It's a convention to call a `composables` package with just the platform's name because this is the package that developers use the most when creating a shop. Example of this is `@vue-storefront/commercetools`, `@vue-storefront/magento` and `@vue-storefront/shopify`.
+It's a convention to name a `composables` package using the platform's name because this is the package that developers use the most when creating a shop. Example of this is `@vue-storefront/commercetools`, `@vue-storefront/magento` and `@vue-storefront/shopify`.
 :::
 
 Open `packages/composables/nuxt/plugin.js` and change `boilerplate` to the name of your integration. This name should not contain any special characters nor spaces. In our case, it's lowercase `sloth`.
 
-Open `packages/theme/middleware.config.js` and change `boilerplate` with the same name.
+Open `packages/theme/middleware.config.js` and change `boilerplate` to the same name.
 
 ### Install dependencies
 
 After renaming all packages, we can safely install dependencies and not worry about dependencies linking.
 
-Open the terminal in the root of the repository and run `yarn install`.
+Open the terminal in the root of the repository and run:
+
+```bash
+yarn install
+```
 
 ### Test it
 
 Once dependencies are installed, run `yarn build`, then `yarn dev`. Open the link shown in the terminal and test the page to confirm it's working.
 
-Since we are mocking all functionalities in the boilerplate, different parts of the application might not update properly (e.g., the cart). However, you should not see any errors in the terminal or browser console when you open other pages and various buttons. You might see some warnings about missing translations (starting with `[vue-i18n]`), but you don't have to worry about it now.
+Since we are mocking all functionalities in the boilerplate, different parts of the application might not update properly (e.g., the cart). However, you should not see any errors in the terminal or browser console when you open different pages and click various buttons. You might see some warnings about missing translations (starting with `[vue-i18n]`), but you don't have to worry about them now.
 
-Once you confirmed that everything is working, commit the changes.
+Once you confirmed that everything is working, commit the changes to save your work.
 
 ## Connect to the platform
 
-Let's start by creating an API client that will talk to the API. As mentioned above, the `api-client` project connects to the eCommerce platforms, so this is the project to update.
+Let's start by creating an API client that will talk to the eCommerce platform. As mentioned above, the `api-client` does precisely that, so this is the project to update.
 
 ### Structure of the `api-client` project
 
-You will see only two files and one empty folder when you open the `packages/api-client/src` folder. That's not a lot, considering how much code some Node.js servers need, but thanks to abstractions we created, you don't see more. So what are these files for?
+You will see only two files and one empty folder when you open the `packages/api-client/src` folder. That's not a lot, considering how much code some Node.js servers need, but thanks to abstractions we created, you don't need more. So what are these files for?
 
 - `index.ts` is a file that should **not** contain any server-side code but export things that `composables` or `theme` projects might need. Great examples are integration-specific TypeScript types for request and response bodies or helper functions.
 - `index.server.ts` is a file that contains server-side code. Inside of it `apiClientFactory` creates `createApiClient` method and exports it. Server Middleware calls this method on every request to create a fresh API client and to handle integration-specific endpoints.
@@ -150,7 +154,7 @@ Now in the code editor, open `packages/api-client/src/index.server.ts`. Inside o
 
 `onCreate` accepts the `settings` parameter, which is a configuration provided in `packages/theme/middleware.config.js`. By default, it's an empty object but can by any configuration you need.
 
-`onCreate` returns an object with at least `config` and `client` properties but can have any number of custom properties if needed. This object is later available in API endpoints.
+`onCreate` must return an object with at least `config` and `client` properties but it can have any number of custom properties if needed. This object is later available in API endpoints.
 
 Let's update the `onCreate` method to create and return a new Axios instance.
 
@@ -190,7 +194,7 @@ module.exports = {
 
 ## Implement `useProduct` functionality
 
-It's impossible to write a tutorial explaining how to implement every composable because some might differ wildly between the platforms. For this reason, we will explain how to implement `useProduct` composable and `productGetters` and leave the rest to you.
+It's impossible to write a tutorial explaining how to implement every composable because some might differ wildly between the platforms. For this reason, we will explain how to implement `useProduct` composable, `getProduct` API endpoint, and `productGetters` and leave the rest to you.
 
 ### Understand composables
 
@@ -208,10 +212,9 @@ It also has three properties and a method called `search`. Fortunately, we don't
 
 Now, when we understand how composables are created, let's see what parameters the `useProduct` factory expects. Because this composable is relatively small and has only one method, the [UseProductFactoryParams interface](../core/api-reference/core.useproductfactoryparams.html) also expects one handler - `productsSearch`.
 
-Open `packages/composables/src/useProduct/index.ts`. This file already calls `useProductFactory` and passes `params` matching the above interface. With this done, the only thing left is to implement this method.
+Open `packages/composables/src/useProduct/index.ts`. This file already calls `useProductFactory` and passes `params` matching the above interface. With this done, the only thing left is to implement `productsSearch` method.
 
 Every method in `factoryParams` has at least one argument called [context](../core/api-reference/core.integrationcontext). Second, optional argument is an object holding parameters passed to composable method and [customQuery](../core/api-reference/core.customquery).
-
 
 Remove placeholder code from `productsSearch` method and add the following:
 
@@ -229,7 +232,7 @@ An HTTP request is sent to the Server Middleware whenever you call any method in
 :::
 
 :::tip Composable dependencies
-Sometimes you need to use composable as a dependency inside another one. You can access these composables in the `provide` function in the factory params. This function is called when composable is created, and the return data is available in the `context` object.
+Sometimes you need to use composable as a dependency inside another one. You can access these composables in the `provide` function in the factory params. This function is called when composable is created and returned data is available in the `context` object.
 
 ```ts
 import { useCart } from '@vue-storefront/commercetools';
@@ -256,13 +259,13 @@ const factoryParams: UseUserFactoryParams = {
 
 ### Understand `api-client`
 
-In the previous section, we added a call to the `getProduct` endpoint. Before we implement this endpoint, you should understand why we need `api-client`.
+In the previous section, we added a call to the `getProduct` endpoint. Before we implement this endpoint, you should understand why we need `api-client` in the first place.
 
 As mentioned in [Project structure](#project-structure) section, `api-client` is a server that acts as a proxy. All requests to and from various APIs pass through it. You might be wondering why we choose this architecture. Theoretically, calling APIs directly from the browser would result in a better performance.
 
 While this might be true for simple scenarios, it doesn't scale well. Some of the benefits of using such proxy are:
 
-- **Caching** - selected responses can be cached to improve the performance significantly. While it's possible to do caching in the browser, each customer has to make at least one request to a given endpoint.
+- **Caching** - selected responses can be cached to improve the performance significantly. While it's possible to do caching in the browser, each customer would have to make at least one request to a given endpoint.
 - **Lower cost** - when responses are cached, fewer requests are sent to the eCommerce platform. Depending on the provider, it might reduce the cost.
 - **Smaller bundle** - with all the clients installed and configured on the server, the final bundle sent to the browsers can be much smaller. This is especially true for APIs based on GraphQL.
 - **Security** - API configuration, secrets, and keys are stored on the server and are not sent to the browser.
@@ -290,7 +293,7 @@ This function has two arguments:
 
 We can call platform API using `config` and `client` properties in `context` and data from `params`.
 
-In the example below we use `axios` instance created below to call `products` API. This is just an example and you should modify it to fit your integration:
+In the example below we use `axios` instance created before to call `products` API. This is just an example and you should modify it to fit your integration:
 
 ```typescript
 export async function getProduct(context, params) {
