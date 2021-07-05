@@ -64,7 +64,7 @@ const useCustom = (id: string) => {
 
     try {
       loading.value = true;
-      result.value = await context.$ownAPI.searchCustom(params);
+      result.value = await context.$yourAPI.searchCustom(params);
       error.value.search = null;
     } catch (err) {
       error.value.search = err;
