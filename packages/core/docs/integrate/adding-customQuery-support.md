@@ -20,8 +20,8 @@ const productFactoryParams: UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PAR
     // Extract `customQuery` from the rest of parameters
     const { customQuery, ...searchParams } = params;
 
-    // Pass `customQuery` as second parameter
-    const product = await context.INTEGRATION_TAG.api.getProduct(searchParams, customQuery);
+    // Change "yourIntegration" to the name of the integration
+    const product = await context.$yourIntegration.api.getProduct(searchParams, customQuery);
   }
 }
 ```
