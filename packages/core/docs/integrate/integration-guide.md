@@ -220,7 +220,7 @@ Remove placeholder code from `productsSearch` method and add the following:
 
 ```typescript
 // Replace `sloth` with the name of your package defined in `packages/composables/nuxt/plugin.js`
-const { data } = await context.$sloth.api.getProduct(params);
+const data = await context.$sloth.api.getProduct(params);
 
 return data;
 ```
@@ -313,6 +313,22 @@ export async function getProduct(context, params) {
 }
 ```
 
+Every new API handler must be added to the `apiClientFactory` in `packages/api-client/src/index.server.ts` to be available.
+
+```typescript
+// packages/api-client/src/index.server.ts
+import { getProduct } from './api/getProduct';
+
+// Unrelated code omitted
+
+const { createApiClient } = apiClientFactory<any, any>({
+  onCreate,
+  api: {
+    getProduct
+  }
+});
+```
+
 ### Understand getters
 
 Now that we can request and save API data, we need to display it to the user. Every integration can use and extend our base theme for that. However, accessing the data straight from integrations isn't possible because each uses unique data structures. To do that, we need getters.
@@ -326,6 +342,17 @@ Open `packages/composables/src/getters/productGetters.ts`. There is a bunch of f
 Although types of arguments are unknown and specific to your integration, return types are already defined and must match those defined in [ProductGetters interface](../core/api-reference/core.productgetters.html).
 
 You need to implement all of these functions and, if necessary, add your own.
+
+:::tip What if data is not available?
+We recommend that you always add fallback value in getters. This will prevent errors during Server-Side Rendering and avoid some edge cases if data or nested properties are not available, e.g., still being retrieved from the backend.
+
+```typescript
+export const getProductName = (product: ProductVariant): string => {
+  // Return empty string if "product" object or "name" property are not available
+  return product?.name || '';
+};
+```
+:::
 
 ## Create a theme
 
