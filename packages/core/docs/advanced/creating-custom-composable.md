@@ -41,9 +41,10 @@ Be sure to create variables using `sharedRef` **inside** a wrapper function. Oth
 :::
 
 ```typescript
-import { vsfRef, useVSFContext } from '@vue-storefront/core';
+import { computed } from '@vue/composition-api';
+import { sharedRef, useVSFContext, Logger } from '@vue-storefront/core';
 
-const useCustom = (id: string) => {
+export const useCustom = (id: string) => {
   // Loads context used to call API endpoint
   const context = useVSFContext();
 
@@ -54,7 +55,7 @@ const useCustom = (id: string) => {
   const loading = sharedRef(false, `useCustom-loading-${id}`);
 
   // Shared ref holding errors from the methods
-  const error: Ref<UseProductErrors> = sharedRef({
+  const error = sharedRef({
     search: null
   }, `useCustom-error-${id}`);
 
@@ -64,7 +65,8 @@ const useCustom = (id: string) => {
 
     try {
       loading.value = true;
-      result.value = await context.$yourAPI.searchCustom(params);
+      // Change "yourIntegration" to the name of the integration
+      result.value = await context.$yourIntegration.api.searchCustom(params);
       error.value.search = null;
     } catch (err) {
       error.value.search = err;
@@ -80,5 +82,5 @@ const useCustom = (id: string) => {
     loading: computed(() => loading.value),
     error: computed(() => error.value)
   };
-}
+};
 ```
