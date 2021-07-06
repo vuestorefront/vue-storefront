@@ -53,16 +53,34 @@ jobs:
           state: "failure"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
-  lighthouse:
+  lighthouse_mobile:
     runs-on: ubuntu-latest
     needs: deploy
     steps:
       - uses: actions/checkout@v2
-      - name: Audit URLs using Lighthouse
+      - name: Audit URLs using Lighthouse in Mobile mode
         uses: treosh/lighthouse-ci-action@v7
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         with:
-          urls: |
-            https://demo-lighthouse.europe-west1.gcp.storefrontcloud.io
-          # budgetPath: ./budget.json # test performance budgets
+          configPath: ./lighthouserc_mobile.json
+          runs: 3
+          budgetPath: ./budget.json # test performance budgets
+          uploadArtifacts: true # save results as an action artifacts
+          temporaryPublicStorage: true # upload lighth
+
+  lighthouse_desktop:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - uses: actions/checkout@v2
+      - name: Audit URLs using Lighthouse in Desktop mode
+        uses: treosh/lighthouse-ci-action@v7
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+        with:
+          configPath: ./lighthouserc_desktop.json
+          runs: 3
+          budgetPath: ./budget.json # test performance budgets
           uploadArtifacts: true # save results as an action artifacts
           temporaryPublicStorage: true # upload lighth

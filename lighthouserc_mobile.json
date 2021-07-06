@@ -1,0 +1,14 @@
+{
+  "ci": {
+    "upload": {
+      "target": "temporary-public-storage"
+    },
+    "collect": {
+      "url": [
+        "https://demo-lighthouse.europe-west1.gcp.storefrontcloud.io/",
+        "https://demo-lighthouse.europe-west1.gcp.storefrontcloud.io/c/women",
+        "https://demo-lighthouse.europe-west1.gcp.storefrontcloud.io/p/38143c0c-c9b0-448c-93cd-60eb90d8da57/aspesi-shirt-h805-white"
+      ]
+    }
+  }
+}
