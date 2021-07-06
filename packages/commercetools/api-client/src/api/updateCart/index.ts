@@ -3,7 +3,7 @@ import { Logger, CustomQuery } from '@vue-storefront/core';
 import defaultQuery from './defaultMutation';
 import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL';
 
-const VERSION_MISSMATCH_CODE = 'ConcurrentModification';
+const VERSION_MISMATCH_CODE = 'ConcurrentModification';
 
 export interface UpdateCartParams {
   id: string;
@@ -32,27 +32,23 @@ const updateCart = async (context, params: UpdateCartParams, customQuery?: Custo
   );
 
   try {
-    const request = await context.client.mutate({
+    return await context.client.mutate({
       mutation: gql`${updateCartGql.query}`,
       variables: updateCartGql.variables,
       fetchPolicy: 'no-cache'
     });
-
-    return request;
   } catch (error) {
     const canRetry = params.versionFallback ?? true;
-    const causedByMissmatch = error.graphQLErrors?.[0]?.code?.includes(VERSION_MISSMATCH_CODE);
+    const causedByMismatch = error.graphQLErrors?.[0]?.code?.includes(VERSION_MISMATCH_CODE);
+    const currentVersion = error.graphQLErrors?.[0]?.currentVersion;
 
-    if (!causedByMissmatch || !canRetry) {
+    if (!causedByMismatch || !canRetry || !currentVersion) {
       throw error;
     }
 
-    Logger.debug('Cart version missmatch. Retrying with current version.');
+    Logger.debug('Cart version mismatch. Retrying with current version.');
 
-    return updateCart(context, {
-      ...params,
-      version: error.graphQLErrors[0].currentVersion
-    });
+    return updateCart(context, { ...params, version: currentVersion }, customQuery);
   }
 };
 
