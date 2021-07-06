@@ -12,7 +12,6 @@ The name of the custom query is available within the second argument in composab
 
 ```ts
 // packages/src/composables/src/useProduct
-
 import { ComposableFunctionArgs } from '@vue-storefront/core';
 
 const productFactoryParams: UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PARAMS> = {
@@ -30,7 +29,6 @@ In `api-client` API methods, you can call `context.extendQuery` with `customQuer
 
 ```ts
 // packages/src/api-client/src/api/getProduct
-
 import { CustomQuery } from '@vue-storefront/core';
 
 const getProduct = async (context, params, customQuery: CustomQuery) => {
