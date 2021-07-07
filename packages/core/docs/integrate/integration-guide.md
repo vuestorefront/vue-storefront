@@ -130,7 +130,7 @@ Let's start by creating an API client that will communicate with the eCommerce p
 
 ### Structure of the `api-client` project
 
-You will see only two files and one empty folder when you open the `packages/api-client/src` folder. That's not a lot, considering how much code some Node.js servers need, but thanks to abstractions we created, you don't need more. So what are these files for?
+You will see only two files and one empty directory when you open the `packages/api-client/src` folder. That's not a lot, considering how much code some Node.js servers need, but thanks to abstractions we created, you don't need more. So what are these files for?
 
 - `index.ts` is a file that should **not** contain any server-side code but export things that `composables` or `theme` projects might need. Great examples are integration-specific TypeScript types for request and response bodies or helper functions.
 - `index.server.ts` is a file that contains server-side code. Inside of it `apiClientFactory` creates `createApiClient` method and exports it. Server Middleware calls this method on every request to create a fresh API client and to handle integration-specific endpoints.
