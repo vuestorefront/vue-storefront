@@ -55,7 +55,7 @@ This project is a template for generating new Vue Storefront shops. It's a [Nuxt
 
 Out of the box, the `theme` directory doesn't contain much - just a few configuration files and empty directories. However, this doesn't mean that you have to create the whole theme from scratch. When your integration is ready, you can use our CLI to combine this project with our base theme to generate a new Nuxt.js application with all necessary pieces inside.
 
-Here, you will create new components, scripts, and assets to override or extends our base theme.
+Here, you will create new components, scripts, and assets to override or extend our base theme.
 
 ## Scope
 
