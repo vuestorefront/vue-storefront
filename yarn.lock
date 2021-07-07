@@ -1110,11 +1110,6 @@
     date-fns "^1.27.2"
     figures "^1.7.0"
 
-"@cypress/mount-utils@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@cypress/mount-utils/-/mount-utils-1.0.2.tgz#afbc4f8c350b7cd86edc5ad0db0cbe1e0181edc8"
-  integrity sha512-Fn3fdTiyayHoy8Ol0RSu4MlBH2maQ2ZEXeEVKl/zHHXEQpld5HX3vdNLhK5YLij8cLynA4DxOT/nO9iEnIiOXw==
-
 "@cypress/request@^2.88.5":
   version "2.88.5"
   resolved "https://registry.yarnpkg.com/@cypress/request/-/request-2.88.5.tgz#8d7ecd17b53a849cfd5ab06d5abe7d84976375d7"
@@ -1140,14 +1135,6 @@
     tough-cookie "~2.5.0"
     tunnel-agent "^0.6.0"
     uuid "^3.3.2"
-
-"@cypress/vue@^2.0.1":
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/@cypress/vue/-/vue-2.2.3.tgz#81822914019c47b5a6011652e50c5aad6041c6cc"
-  integrity sha512-KgrUjiLVyoiU5xb5JAhsdFLDzyh7Njhm4TMuINFsoBZkt4PJptGCsMzdaI7lk1XX20NGvg8MPIFbbQi+L0L8qQ==
-  dependencies:
-    "@cypress/mount-utils" "1.0.2"
-    "@vue/test-utils" "^1.1.3"
 
 "@cypress/xvfb@^1.2.4":
   version "1.2.4"
@@ -2728,10 +2715,10 @@
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.4.tgz#f0579e807e43486f45d3b9942b0cb96ce1fe8f7e"
   integrity sha512-luFwpkawD5dnFT9hg40MvX1aZYFXlt1RThcAvpsZjNkxlR4+uGY+9IzFibGE3dOz+zBUvy8RVOT07JKlt4AR0g==
 
-"@storefront-ui/shared@0.10.71":
-  version "0.10.71"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.71.tgz#210665f54f04b62e000c97ce2ce9aa973ce95197"
-  integrity sha512-fLv7iAEk1YEq7yoZkvWkQNGMH6XqpqqJWjrJ5Hcr51gUvzk0vCLGebOp8iOYbSHmMwRhOkCxUVOFK9oo3WKdAQ==
+"@storefront-ui/shared@0.10.8":
+  version "0.10.8"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.8.tgz#1717f528a073dcebbd6115f587c3cf57a94ee86a"
+  integrity sha512-lRVqxs5QAOtXV129uNDSn0BYvjix0VXNZu2ChnQAu8jNKC/Q10cN1XrDiOEiL8hDpx7py+6DUka1WZ5K8dn+jQ==
 
 "@storefront-ui/vue@^0.10.3":
   version "0.10.4"
@@ -2752,22 +2739,21 @@
     vue-fragment "^1.5.1"
     vue2-leaflet "^2.5.2"
 
-"@storefront-ui/vue@^0.10.71":
-  version "0.10.71"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.10.71.tgz#18c512d2234db4ba009e49e4391d5062ec05b63f"
-  integrity sha512-cWdml1ZPx3g1i/kyhktd0cMjQNDgnKi6h3e5+VZS21gJEjmnXyhIilc0gQffRJ852w06fhQ3KXgC3TF6mFEauQ==
+"@storefront-ui/vue@^0.10.8":
+  version "0.10.8"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.10.8.tgz#9d3e999a4beb2188cca397dcb7cc7b3d5d9a6207"
+  integrity sha512-+ePyaXITmGxWfDs4capCoTQoq76a38Q4UA9PEYgcBiCPeSOBXtAQ6NGOKooTK27y4m+2NLOyeh+kdsPSXlFVYg==
   dependencies:
-    "@cypress/vue" "^2.0.1"
     "@glidejs/glide" "^3.3.0"
-    "@storefront-ui/shared" "0.10.71"
+    "@storefront-ui/shared" "0.10.8"
     body-scroll-lock "^3.0.1"
     cloudinary-build-url "^0.1.1"
     core-js "^3.6.5"
     hammerjs "^2.0.8"
     leaflet "^1.5.1"
-    node-sass "^4.13.1"
     nouislider "^15.2.0"
-    sass-loader "^8.0.2"
+    sass "^1.32.13"
+    sass-loader "^10.0.3"
     simplebar-vue "^1.4.0"
     vue "^2.6.12"
     vue2-leaflet "^2.5.2"
@@ -3436,15 +3422,6 @@
     lodash "^4.17.15"
     pretty "^2.0.0"
 
-"@vue/test-utils@^1.1.3":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.2.1.tgz#4671fc8844e09ccddb6801ceedd7b7309ae11d06"
-  integrity sha512-WBRdWNJwWTodJlV9mjunTrhgfsTPI5tMuxsCxqSmQs+vyB3ccZIYixnBrkxpKRsXyah/RtEv6+kUPZhnLd9smA==
-  dependencies:
-    dom-event-types "^1.0.0"
-    lodash "^4.17.15"
-    pretty "^2.0.0"
-
 "@vuepress/core@1.8.2":
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/@vuepress/core/-/core-1.8.2.tgz#4f5bafc894691bfea4146294a582a129483daf2a"
@@ -4067,7 +4044,7 @@ anymatch@^2.0.0:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
 
-anymatch@~3.1.1:
+anymatch@~3.1.1, anymatch@~3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/anymatch/-/anymatch-3.1.2.tgz#c0557c096af32f106198f4f4e2a383537e378716"
   integrity sha512-P43ePfOAIupkguHUycrc4qJ9kz8ZiuOUijaETwX7THt0Y/GNK7v0aa8rY816xWjZ7rJdA5XdMcpVFTKMq+RvWg==
@@ -5430,6 +5407,21 @@ check-types@^8.0.3:
   version "8.0.3"
   resolved "https://registry.yarnpkg.com/check-types/-/check-types-8.0.3.tgz#3356cca19c889544f2d7a95ed49ce508a0ecf552"
   integrity sha512-YpeKZngUmG65rLudJ4taU7VLkOCTMhNl/u4ctNC56LQS/zJTyNH0Lrtwm1tfTsbLlwvlfsA2d1c8vCf/Kh2KwQ==
+
+"chokidar@>=3.0.0 <4.0.0":
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.2.tgz#dba3976fcadb016f66fd365021d91600d01c1e75"
+  integrity sha512-ekGhOnNVPgT77r4K/U3GDhu+FQ2S8TnK/s2KbIGXi0SZWuwkZ2QNyfWdZW+TVfn84DpEP7rLeCt2UI6bJ8GwbQ==
+  dependencies:
+    anymatch "~3.1.2"
+    braces "~3.0.2"
+    glob-parent "~5.1.2"
+    is-binary-path "~2.1.0"
+    is-glob "~4.0.1"
+    normalize-path "~3.0.0"
+    readdirp "~3.6.0"
+  optionalDependencies:
+    fsevents "~2.3.2"
 
 chokidar@^2.0.3, chokidar@^2.0.4, chokidar@^2.1.1, chokidar@^2.1.8:
   version "2.1.8"
@@ -8512,7 +8504,7 @@ fsevents@^1.2.7:
     bindings "^1.5.0"
     nan "^2.12.1"
 
-fsevents@~2.3.1:
+fsevents@~2.3.1, fsevents@~2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
   integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
@@ -8760,7 +8752,7 @@ glob-parent@^3.1.0:
     is-glob "^3.1.0"
     path-dirname "^1.0.0"
 
-glob-parent@^5.0.0, glob-parent@^5.1.0, glob-parent@~5.1.0:
+glob-parent@^5.0.0, glob-parent@^5.1.0, glob-parent@~5.1.0, glob-parent@~5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
   integrity sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==
@@ -15189,6 +15181,13 @@ readdirp@~3.5.0:
   dependencies:
     picomatch "^2.2.1"
 
+readdirp@~3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/readdirp/-/readdirp-3.6.0.tgz#74a370bd857116e245b29cc97340cd431a02a6c7"
+  integrity sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==
+  dependencies:
+    picomatch "^2.2.1"
+
 realpath-native@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/realpath-native/-/realpath-native-1.1.0.tgz#2003294fea23fb0672f2476ebe22fcf498a2d65c"
@@ -15730,6 +15729,17 @@ sass-graph@2.2.5:
     scss-tokenizer "^0.2.3"
     yargs "^13.3.2"
 
+sass-loader@^10.0.3:
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-10.2.0.tgz#3d64c1590f911013b3fa48a0b22a83d5e1494716"
+  integrity sha512-kUceLzC1gIHz0zNJPpqRsJyisWatGYNFRmv2CKZK2/ngMJgLqxTbXwe/hJ85luyvZkgqU3VlJ33UVF2T/0g6mw==
+  dependencies:
+    klona "^2.0.4"
+    loader-utils "^2.0.0"
+    neo-async "^2.6.2"
+    schema-utils "^3.0.0"
+    semver "^7.3.2"
+
 sass-loader@^8.0.2:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-8.0.2.tgz#debecd8c3ce243c76454f2e8290482150380090d"
@@ -15750,6 +15760,13 @@ sass-resources-loader@^2.0.0:
     chalk "^4.1.0"
     glob "^7.1.6"
     loader-utils "^2.0.0"
+
+sass@^1.32.13:
+  version "1.35.1"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.35.1.tgz#90ecf774dfe68f07b6193077e3b42fb154b9e1cd"
+  integrity sha512-oCisuQJstxMcacOPmxLNiLlj4cUyN2+8xJnG7VanRoh2GOLr9RqkvI4AxA4a6LHVg/rsu+PmxXeGhrdSF9jCiQ==
+  dependencies:
+    chokidar ">=3.0.0 <4.0.0"
 
 sax@^1.2.4, sax@~1.2.4:
   version "1.2.4"
