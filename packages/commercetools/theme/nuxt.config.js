@@ -54,7 +54,6 @@ export default {
     // to core
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
-    'nuxt-compress',
     // to core soon
     '@nuxtjs/pwa',
     ['@vue-storefront/nuxt', {
@@ -91,14 +90,7 @@ export default {
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
-    '@vue-storefront/middleware/nuxt',
-    ['nuxt-compress',
-      {
-        brotli: {
-          threshold: 0
-        }
-      }
-    ]
+    '@vue-storefront/middleware/nuxt'
   ],
   i18n: {
     currency: 'USD',

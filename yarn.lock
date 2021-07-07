@@ -1110,6 +1110,11 @@
     date-fns "^1.27.2"
     figures "^1.7.0"
 
+"@cypress/mount-utils@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@cypress/mount-utils/-/mount-utils-1.0.2.tgz#afbc4f8c350b7cd86edc5ad0db0cbe1e0181edc8"
+  integrity sha512-Fn3fdTiyayHoy8Ol0RSu4MlBH2maQ2ZEXeEVKl/zHHXEQpld5HX3vdNLhK5YLij8cLynA4DxOT/nO9iEnIiOXw==
+
 "@cypress/request@^2.88.5":
   version "2.88.5"
   resolved "https://registry.yarnpkg.com/@cypress/request/-/request-2.88.5.tgz#8d7ecd17b53a849cfd5ab06d5abe7d84976375d7"
@@ -1135,6 +1140,14 @@
     tough-cookie "~2.5.0"
     tunnel-agent "^0.6.0"
     uuid "^3.3.2"
+
+"@cypress/vue@^2.0.1":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@cypress/vue/-/vue-2.2.3.tgz#81822914019c47b5a6011652e50c5aad6041c6cc"
+  integrity sha512-KgrUjiLVyoiU5xb5JAhsdFLDzyh7Njhm4TMuINFsoBZkt4PJptGCsMzdaI7lk1XX20NGvg8MPIFbbQi+L0L8qQ==
+  dependencies:
+    "@cypress/mount-utils" "1.0.2"
+    "@vue/test-utils" "^1.1.3"
 
 "@cypress/xvfb@^1.2.4":
   version "1.2.4"
@@ -2710,34 +2723,15 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@storefront-ui/shared@0.10.2":
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.2.tgz#144d3a7d5508563ad97c1882fbd291abb0166349"
-  integrity sha512-EWwct/pMYcXhMKGEE2h7blw0XIvcVokhzdzfl5VROSajtflJkJ11hfaOxFWkB5Zgd6IdS9iwR2ayzVjunVRuEA==
-
 "@storefront-ui/shared@0.10.4":
   version "0.10.4"
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.4.tgz#f0579e807e43486f45d3b9942b0cb96ce1fe8f7e"
   integrity sha512-luFwpkawD5dnFT9hg40MvX1aZYFXlt1RThcAvpsZjNkxlR4+uGY+9IzFibGE3dOz+zBUvy8RVOT07JKlt4AR0g==
 
-"@storefront-ui/vue@0.10.3":
-  version "0.10.3"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.10.3.tgz#949b69a0888f85aa0f17fcdaf396972e5c210016"
-  integrity sha512-IPwlFfuQiNDKcN2OzwKvBWpaKKqwKr7Up2ZhnnE7j1rTqI+fI9rK97fj4ST5CquoKWnRr1or/nuy+x6d0gXtZQ==
-  dependencies:
-    "@glidejs/glide" "^3.3.0"
-    "@storefront-ui/shared" "0.10.2"
-    body-scroll-lock "^3.0.1"
-    cloudinary-build-url "^0.1.1"
-    core-js "^3.6.5"
-    hammerjs "^2.0.8"
-    leaflet "^1.5.1"
-    node-sass "^4.13.1"
-    sass-loader "^8.0.2"
-    simplebar-vue "^1.4.0"
-    vue-drag-drop "^1.1.4"
-    vue-fragment "^1.5.1"
-    vue2-leaflet "^2.5.2"
+"@storefront-ui/shared@0.10.71":
+  version "0.10.71"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.71.tgz#210665f54f04b62e000c97ce2ce9aa973ce95197"
+  integrity sha512-fLv7iAEk1YEq7yoZkvWkQNGMH6XqpqqJWjrJ5Hcr51gUvzk0vCLGebOp8iOYbSHmMwRhOkCxUVOFK9oo3WKdAQ==
 
 "@storefront-ui/vue@^0.10.3":
   version "0.10.4"
@@ -2756,6 +2750,26 @@
     simplebar-vue "^1.4.0"
     vue-drag-drop "^1.1.4"
     vue-fragment "^1.5.1"
+    vue2-leaflet "^2.5.2"
+
+"@storefront-ui/vue@^0.10.71":
+  version "0.10.71"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.10.71.tgz#18c512d2234db4ba009e49e4391d5062ec05b63f"
+  integrity sha512-cWdml1ZPx3g1i/kyhktd0cMjQNDgnKi6h3e5+VZS21gJEjmnXyhIilc0gQffRJ852w06fhQ3KXgC3TF6mFEauQ==
+  dependencies:
+    "@cypress/vue" "^2.0.1"
+    "@glidejs/glide" "^3.3.0"
+    "@storefront-ui/shared" "0.10.71"
+    body-scroll-lock "^3.0.1"
+    cloudinary-build-url "^0.1.1"
+    core-js "^3.6.5"
+    hammerjs "^2.0.8"
+    leaflet "^1.5.1"
+    node-sass "^4.13.1"
+    nouislider "^15.2.0"
+    sass-loader "^8.0.2"
+    simplebar-vue "^1.4.0"
+    vue "^2.6.12"
     vue2-leaflet "^2.5.2"
 
 "@szmarczak/http-timer@^1.1.2":
@@ -3417,6 +3431,15 @@
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.1.4.tgz#a9acb32ea1fa4535b2e1ce5ca100bceb4fade2db"
   integrity sha512-9BeL8IqGvJKy553lq/07rhYURQkpS/k+j19rJ/4eDpGJk7z872M0YrBWFhjS14yMKlvYVYOCfWnVIXyrAx0xNw==
+  dependencies:
+    dom-event-types "^1.0.0"
+    lodash "^4.17.15"
+    pretty "^2.0.0"
+
+"@vue/test-utils@^1.1.3":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.2.1.tgz#4671fc8844e09ccddb6801ceedd7b7309ae11d06"
+  integrity sha512-WBRdWNJwWTodJlV9mjunTrhgfsTPI5tMuxsCxqSmQs+vyB3ccZIYixnBrkxpKRsXyah/RtEv6+kUPZhnLd9smA==
   dependencies:
     dom-event-types "^1.0.0"
     lodash "^4.17.15"
@@ -12736,6 +12759,11 @@ normalize-url@^4.1.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-4.5.0.tgz#453354087e6ca96957bd8f5baf753f5982142129"
   integrity sha512-2s47yzUxdexf1OhyRi4Em83iQk0aPvwTddtFz4hnSSw9dCEsLEGf6SwIO8ss/19S9iBb5sJaOuTvTGDeZI00BQ==
 
+nouislider@^15.2.0:
+  version "15.2.0"
+  resolved "https://registry.yarnpkg.com/nouislider/-/nouislider-15.2.0.tgz#21d6c94b34c70fe8097c3806f5e48eaa97332bd9"
+  integrity sha512-LoZwN+wwU+z/0/UtjQY8VUcVElFJX6GfHkgJ5z1NIt/+KpOsjxEW4EAtBkBWvHNxf9HBzR62K6ft9NpNBkA5/w==
+
 npm-audit-report@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/npm-audit-report/-/npm-audit-report-1.3.3.tgz#8226deeb253b55176ed147592a3995442f2179ed"
@@ -18139,6 +18167,11 @@ vue-lazy-hydration@^2.0.0-beta.4:
   version "2.0.0-beta.4"
   resolved "https://registry.yarnpkg.com/vue-lazy-hydration/-/vue-lazy-hydration-2.0.0-beta.4.tgz#11e7021a9bac003ea6ed74f132dcd0d025fafc1f"
   integrity sha512-bhr7AxzrSEPed4cOawIeCxJmR8pglberR78x1zs0886xR+47/EXE9s0Ezss90CPINo8ApzUfA/r+SbNffn+t9w==
+
+vue-lazyload@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/vue-lazyload/-/vue-lazyload-1.3.3.tgz#4df50a271bde9b74c3caf7a228d6e0af50d5682f"
+  integrity sha512-uHnq0FTEeNmqnbBC2aRKlmtd9LofMZ6Q3mWvgfLa+i9vhxU8fDK+nGs9c1iVT85axSua/AUnMttIq3xPaU9G3A==
 
 vue-loader@^15.7.1, vue-loader@^15.9.6:
   version "15.9.6"
