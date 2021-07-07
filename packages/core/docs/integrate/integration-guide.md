@@ -43,7 +43,7 @@ Here, you will create new endpoints that accept parameters sent from the fronten
 
 `composables` consists of two parts:
 
-- [Composables](../guide/composables.html) manage the state, prepare and send the request to the `api-client`, then save the response. If necessary, they also madify the response to simplify getters.
+- [Composables](../guide/composables.html) manage the state, prepare and send the request to the `api-client`, then save the response. If necessary, they also modify the response to simplify getters.
 
 - [Getters](../guide/getters.html) extract data from API responses provided by `composables` and return them in formatted and agnostic form.
 
@@ -53,9 +53,9 @@ Here, you will create new methods for `composables` to fetch the data and new `g
 
 This project is a template for generating new Vue Storefront shops. It's a [Nuxt.js](https://nuxtjs.org/) application that contains pages, Vue components, and assets. It uses `composables` to interact with the platform and `getters` to display the data to the user. 
 
-Out of the box, the `theme` directory doesn't contain much - just a few configuration files and empty directories. However, this doesn't mean that you have to create the whole theme from scratch. When your integration is ready, you will use our CLI to combine this project with our base theme to create a new Nuxt.js application with all necessary pieces inside.
+Out of the box, the `theme` directory doesn't contain much - just a few configuration files and empty directories. However, this doesn't mean that you have to create the whole theme from scratch. When your integration is ready, you can use our CLI to combine this project with our base theme to generate a new Nuxt.js application with all necessary pieces inside.
 
-Here, you will create new components, scripts, and assets to override or extends our base theme.
+Here, you will create new components, scripts, and assets to override or extend our base theme.
 
 ## Scope
 
@@ -78,7 +78,7 @@ API of your platform should have endpoints for most of these operations unless s
 
 ### Fork boilerplate repository
 
-Now that we explained the basics, let's start creating an integration. Open the [eCommerce integration boilerplate repository](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and click the `Use this template` button. This creates a copy of a repository and allows you to make changes without affecting the original project.  Enter the name of the new repository and click `Create repository from template`.
+Now that we explained the basics, let's start creating an integration. Open the [eCommerce integration boilerplate repository](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and click the `Use this template` button. This creates a copy of a repository and allows you to make changes without affecting the original project. Enter the name of the new repository and click `Create repository from template`.
 
 Once the new repository is ready, clone it locally.
 
@@ -124,18 +124,18 @@ Since we are mocking all functionalities in the boilerplate, different parts of 
 
 ## Connect to the platform
 
-Let's start by creating an API client that will talk to the eCommerce platform. As mentioned above, the `api-client` does precisely that, so this is the project to update.
+Let's start by creating an API client that will communicate with the eCommerce platform. As mentioned above, the `api-client` does precisely that, so this is the project to update.
 
 ### Structure of the `api-client` project
 
-You will see only two files and one empty folder when you open the `packages/api-client/src` folder. That's not a lot, considering how much code some Node.js servers need, but thanks to abstractions we created, you don't need more. So what are these files for?
+You will see only two files and one empty directory when you open the `packages/api-client/src` folder. That's not a lot, considering how much code some Node.js servers need, but thanks to abstractions we created, you don't need more. So what are these files for?
 
 - `index.ts` is a file that should **not** contain any server-side code but export things that `composables` or `theme` projects might need. Great examples are integration-specific TypeScript types for request and response bodies or helper functions.
 - `index.server.ts` is a file that contains server-side code. Inside of it `apiClientFactory` creates `createApiClient` method and exports it. Server Middleware calls this method on every request to create a fresh API client and to handle integration-specific endpoints.
 
 ### Add API client
 
-API client is a library that handles sending requests to and parsing responses from the eCommerce platform.
+API client is a library that handles sending requests to the eCommerce platform and parsing its responses.
 
 :::warning
 Examples below use `axios` to handle HTTP requests. However, you can use other libraries if your platform uses GraphQL or has dedicated clients.
@@ -150,7 +150,7 @@ yarn add axios
 
 Now in the code editor, open `packages/api-client/src/index.server.ts`. Inside of it, there is the `onCreate` method.
 
-`onCreate` accepts the `settings` parameter, which is a configuration provided in `packages/theme/middleware.config.js`. By default, it's an empty object but can by any configuration you need.
+`onCreate` accepts the `settings` parameter, which is a configuration provided in `packages/theme/middleware.config.js`. By default, it's an empty object but can be any configuration you need.
 
 `onCreate` must return an object with at least `config` and `client` properties but it can have any number of custom properties if needed. This object is later available in API endpoints.
 
@@ -354,7 +354,7 @@ export const getProductName = (product: ProductVariant): string => {
 
 ## Create a theme
 
-Some form or checkout components are blank in the default theme because they display or modify integration-specific data. For this reason, you need to create few Vue components and JavaScript files:
+Some forms or checkout components are blank in the default theme because they display or modify integration-specific data. For this reason, you need to create few Vue components and JavaScript files:
 
 | Component                                    | Props                               | Emits event |
 |----------------------------------------------|-------------------------------------|-------------|
