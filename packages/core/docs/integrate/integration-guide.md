@@ -152,7 +152,7 @@ yarn add axios
 
 Now in the code editor, open `packages/api-client/src/index.server.ts`. Inside of it, there is the `onCreate` method.
 
-`onCreate` accepts the `settings` parameter, which is a configuration provided in `packages/theme/middleware.config.js`. By default, it's an empty object but can by any configuration you need.
+`onCreate` accepts the `settings` parameter, which is a configuration provided in `packages/theme/middleware.config.js`. By default, it's an empty object but can be any configuration you need.
 
 `onCreate` must return an object with at least `config` and `client` properties but it can have any number of custom properties if needed. This object is later available in API endpoints.
 
