@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import VueLazyload from 'vue-lazyload';
 
-Vue.use(VueLazyload, {
-  lazyComponent: true
-});
+const lazyloadPlugin = () => {
+  const { lazyload: options } = <%= serialize(options) %>;
+  Vue.use(VueLazyload, options);
+}
+
+export default lazyloadPlugin;

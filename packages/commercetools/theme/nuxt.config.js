@@ -67,6 +67,9 @@ export default {
           '@vue-storefront/commercetools',
           '@vue-storefront/core'
         ]
+      },
+      lazyload: {
+        lazyComponent: true
       }
     }],
     // @core-development-only-start

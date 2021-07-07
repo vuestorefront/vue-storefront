@@ -65,7 +65,7 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   });
   log.success('Installed VSF Logger plugin');
 
-  // Context plugin
+  // E2E testing plugin
   this.addPlugin(path.resolve(__dirname, 'plugins/e2e-testing.js'))
   log.success('Installed Vue Storefront E2E testing plugin');
 
@@ -76,13 +76,16 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   });
   log.success('Installed Internationalization Cookies plugin');
 
+  // Lazy Load
+  this.addPlugin({
+    src: path.resolve(__dirname, 'plugins/lazy-load.js'),
+    options: moduleOptions
+  });
+  log.success('Installed Lazy Load plugin')
+
   // Composition API plugin
   this.addModule('@nuxtjs/composition-api');
   log.success('Installed nuxt Composition API Module');
-
-  // Lazy Load
-  this.addPlugin(path.resolve(__dirname, 'plugins/lazy-load.js'));
-  log.success('Installed Lazy Load Module')
 
   // StorefrontUI module
   if (fs.existsSync(resolveDependency('@storefront-ui/vue'))) {
