@@ -10,7 +10,7 @@ If you want to integrate with Vue Storefront, please **contact the core team on 
 
 ## Introduction
 
-Integrating an eCommerce platform with Vue Storefront sounds scary. Luckily, some of our partners and community members with different seniority levels have successfully done it. We are sure that even without prior experience with Vue Storefront, you can too.
+Integrating an eCommerce platform with Vue Storefront sounds scary. Luckily, many of our partners and community members with different seniority levels have successfully done it. We are sure that even without prior experience with Vue Storefront, you can too.
 
 This document will guide you through the process of creating integration and explain the concepts behind Vue Storefront.
 
