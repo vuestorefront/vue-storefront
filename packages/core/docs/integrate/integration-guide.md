@@ -20,7 +20,7 @@ Before we get started, make sure that:
 
 - platform you want to integrate has REST or GraphQL API,
 - you have installed [Node 10+](https://nodejs.org/en/), [Yarn 1](https://classic.yarnpkg.com/lang/en/) and [Git](https://git-scm.com/),
-- you are familiar with JavaScript and (optionally) TypeScript,
+- you are familiar with JavaScript and TypeScript,
 - you are familiar with [Composition API](../guide/composition-api.html) and [Composables](../guide/composables.html).
 
 ## Project structure
@@ -45,7 +45,7 @@ Here, you will create new endpoints that accept parameters sent from the fronten
 
 - [Composables](../guide/composables.html) manage the state, prepare and send the request to the `api-client`, then save the response. If necessary, they also madify the response to simplify getters.
 
-- [Getters](../guide/getters.html) extract information from the responses provided by `composables` in formatted and agnostic format.
+- [Getters](../guide/getters.html) extract data from API responses provided by `composables` and return them in formatted and agnostic form.
 
 Here, you will create new methods for `composables` to fetch the data and new `getters` to extract different pieces of information from that data.
 
@@ -122,8 +122,6 @@ Once dependencies are installed, run `yarn build`, then `yarn dev`. Open the lin
 
 Since we are mocking all functionalities in the boilerplate, different parts of the application might not update properly (e.g., the cart). However, you should not see any errors in the terminal or browser console when you open different pages and click various buttons. You might see some warnings about missing translations (starting with `[vue-i18n]`), but you don't have to worry about them now.
 
-Once you confirmed that everything is working, commit the changes to save your work.
-
 ## Connect to the platform
 
 Let's start by creating an API client that will talk to the eCommerce platform. As mentioned above, the `api-client` does precisely that, so this is the project to update.
@@ -194,7 +192,7 @@ module.exports = {
 
 ## Implement `useProduct` functionality
 
-It's impossible to write a tutorial explaining how to implement every composable because some might differ wildly between the platforms. For this reason, we will explain how to implement `useProduct` composable, `getProduct` API endpoint, and `productGetters` and leave the rest to you.
+It would be impossible to write a tutorial for implementing every composable because some might differ wildly between the platforms. For this reason, we will explain how they work and show you how to implement them on the example of `useProduct` composable, `getProduct` API endpoint, and `productGetters`.
 
 ### Understand composables
 

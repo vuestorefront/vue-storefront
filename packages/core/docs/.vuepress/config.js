@@ -247,7 +247,7 @@ module.exports = {
             ['/integrate/integration-guide', 'eCommerce'],
             ['/integrate/cms', 'CMS'],
             ['/integrate/cache-driver', 'Cache driver'],
-            ['/integrate/adding-customQuery-support', 'Supporting custom queries']
+            ['/integrate/supporting-custom-queries', 'Supporting custom queries']
           ]
         },
         {
