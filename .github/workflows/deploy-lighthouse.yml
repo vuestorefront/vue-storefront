@@ -8,6 +8,9 @@ on:
       - completed
     branches:
       - next
+  pull_request:
+    branches:
+      - next
 
 jobs:
   deploy:
