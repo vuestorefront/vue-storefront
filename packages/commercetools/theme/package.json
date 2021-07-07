@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.2.2",
-    "@storefront-ui/vue": "^0.10.71",
+    "@storefront-ui/vue": "^0.10.8",
     "@vue-storefront/commercetools": "^1.2.3",
     "@vue-storefront/middleware": "^2.3.3",
     "@vue-storefront/nuxt": "^2.3.3",
