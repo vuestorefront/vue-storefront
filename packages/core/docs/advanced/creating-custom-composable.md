@@ -10,7 +10,7 @@ While not mandatory, we recommend that you follow the industry convention of nam
 
 ## Structure
 
-We recommend following our convention of returning raw data object (`result` in the example below) and well as `loading` and `error` properties:
+We recommend following our convention of returning raw data object (`result` in the example below) as well as `loading` and `error` properties:
 
 - Raw data object should contain a response from the API later passed to getters to extract data.
 
