@@ -126,7 +126,7 @@ Once you confirmed that everything is working, commit the changes to save your w
 
 ## Connect to the platform
 
-Let's start by creating an API client that will talk to the eCommerce platform. As mentioned above, the `api-client` does precisely that, so this is the project to update.
+Let's start by creating an API client that will communicate with the eCommerce platform. As mentioned above, the `api-client` does precisely that, so this is the project to update.
 
 ### Structure of the `api-client` project
 
