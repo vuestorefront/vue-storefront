@@ -78,7 +78,7 @@ API of your platform should have endpoints for most of these operations unless s
 
 ### Fork boilerplate repository
 
-Now that we explained the basics, let's start creating an integration. Open the [eCommerce integration boilerplate repository](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and click the `Use this template` button. This creates a copy of a repository and allows you to make changes without affecting the original project.  Enter the name of the new repository and click `Create repository from template`.
+Now that we explained the basics, let's start creating an integration. Open the [eCommerce integration boilerplate repository](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and click the `Use this template` button. This creates a copy of a repository and allows you to make changes without affecting the original project. Enter the name of the new repository and click `Create repository from template`.
 
 Once the new repository is ready, clone it locally.
 
