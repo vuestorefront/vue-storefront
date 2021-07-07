@@ -137,7 +137,7 @@ You will see only two files and one empty directory when you open the `packages/
 
 ### Add API client
 
-API client is a library that handles sending requests to and parsing responses from the eCommerce platform.
+API client is a library that handles sending requests to the eCommerce platform and parsing its responses.
 
 :::warning
 Examples below use `axios` to handle HTTP requests. However, you can use other libraries if your platform uses GraphQL or has dedicated clients.
