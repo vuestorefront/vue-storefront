@@ -5,10 +5,10 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
 
-    //HubSpot
+    // HubSpot
     ['script', { async: true, defer: true, src: 'https://js.hs-scripts.com/8443671.js', id: 'hs-script-loader' }],
 
-    // Google Analytics
+    // Google Tag Manager
     ['script', {}, [`
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
