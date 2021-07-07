@@ -1,9 +1,11 @@
+import { BodyPartValueContentType } from '../types/body-part-value-content-type.value';
+
 export default class BodypartValue {
   public constructor (
     public readonly id: string,
     public readonly code: string,
     public readonly name: string,
-    public readonly contentTypeId: number,
+    public readonly contentTypeId: BodyPartValueContentType,
     public readonly isDefault: boolean,
     public readonly sn: number,
     public readonly color: string | undefined = undefined,

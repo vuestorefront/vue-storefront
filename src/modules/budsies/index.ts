@@ -22,6 +22,7 @@ import BodypartValue from './models/bodypart-value.model';
 import isAxiosError from './services/is-axios-error.typeguard';
 import * as vuexTypes from './store/mutation-types';
 import RushAddon from './models/rush-addon.model';
+import { BodyPartValueContentType } from './types/body-part-value-content-type.value';
 
 export const BudsiesModule: StorefrontModule = async function ({ store }) {
   StorageManager.init(types.SN_BUDSIES);
@@ -50,6 +51,7 @@ export {
   ImageAspectRatioSpec,
   Bodypart,
   BodypartValue,
+  BodyPartValueContentType,
   isAxiosError,
   vuexTypes,
   RushAddon
