@@ -12,7 +12,7 @@ If you want to integrate with Vue Storefront, please **contact the core team on 
 
 Integrating an eCommerce platform with Vue Storefront sounds scary. Luckily, some of our partners and community members with different seniority levels have successfully done it. We are sure that even without prior experience with Vue Storefront, you can too.
 
-This tutorial will guide you through the process of creating integration and explain the concepts behind Vue Storefront.
+This document will guide you through the process of creating integration and explain the concepts behind Vue Storefront.
 
 ## Requirements
 
@@ -53,7 +53,7 @@ Here, you will create new methods for `composables` to fetch the data and new `g
 
 This project is a template for generating new Vue Storefront shops. It's a [Nuxt.js](https://nuxtjs.org/) application that contains pages, Vue components, and assets. It uses `composables` to interact with the platform and `getters` to display the data to the user. 
 
-Out of the box, the `theme` directory doesn't contain much - just a few configuration files and empty directories. However, this doesn't mean that you have to create the whole theme from scratch. When your integration is ready, you can use our CLI to combine this project with our base theme to generate a new Nuxt.js application with all necessary pieces inside.
+Out of the box, the `theme` project doesn't contain much - just a few configuration files and empty directories. However, this doesn't mean that you have to create the whole theme from scratch. When your integration is ready, you can use our CLI to combine this project with our base theme to generate a new Nuxt.js application with all necessary pieces inside.
 
 Here, you will create new components, scripts, and assets to override or extend our base theme.
 
