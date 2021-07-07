@@ -645,7 +645,7 @@ export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any> {
 }
 
 export interface Context<CLIENT = any, CONFIG = any, API = any> {
-  [x: string]: IntegrationContext<CLIENT, CONFIG, API>;
+  [x: string]: IntegrationContext<CLIENT, CONFIG, API> | any;
 }
 
 export interface FactoryParams {
