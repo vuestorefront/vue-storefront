@@ -43,7 +43,7 @@ Here, you will create new endpoints that accept parameters sent from the fronten
 
 `composables` consists of two parts:
 
-- [Composables](../guide/composables.html) manage the state, prepare and send the request to the `api-client`, then save the response. If necessary, they also madify the response to simplify getters.
+- [Composables](../guide/composables.html) manage the state, prepare and send the request to the `api-client`, then save the response. If necessary, they also modify the response to simplify getters.
 
 - [Getters](../guide/getters.html) extract information from the responses provided by `composables` in formatted and agnostic format.
 
