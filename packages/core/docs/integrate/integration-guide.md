@@ -356,7 +356,7 @@ export const getProductName = (product: ProductVariant): string => {
 
 ## Create a theme
 
-Some form or checkout components are blank in the default theme because they display or modify integration-specific data. For this reason, you need to create few Vue components and JavaScript files:
+Some forms or checkout components are blank in the default theme because they display or modify integration-specific data. For this reason, you need to create few Vue components and JavaScript files:
 
 | Component                                    | Props                               | Emits event |
 |----------------------------------------------|-------------------------------------|-------------|
