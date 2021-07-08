@@ -15,7 +15,7 @@
         <SfHeaderNavigationItem class="nav-item"  v-e2e="'app-header-url_men'" label="MEN" :link="localePath('/c/men')" />
       </template>
       <template #aside>
-        <LocaleSelector class="smartphone-only" />
+        <StoreLocaleSelector class="smartphone-only" />
       </template>
       <template #header-icons>
         <div class="sf-header__icons">
@@ -100,7 +100,7 @@ import { useUiState } from '~/composables';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
 import { useUiHelpers } from '~/composables';
-import LocaleSelector from './LocaleSelector';
+import StoreLocaleSelector from './StoreLocaleSelector';
 import SearchResults from '~/components/SearchResults';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
 import {
@@ -114,7 +114,7 @@ export default {
   components: {
     SfHeader,
     SfImage,
-    LocaleSelector,
+    StoreLocaleSelector,
     SfIcon,
     SfButton,
     SfBadge,
