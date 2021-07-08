@@ -12,7 +12,12 @@
       @click:close="isLangModalOpen = !isLangModalOpen">
       <SfList>
         <SfListItem v-for="store in availableStores" :key="store.id">
-          <a @click="() => change({ store })">
+          <a
+            href="javascript:void(0)"
+            class="container__store--link"
+            :class="selectedStore.id === store.id ? 'container__store--selected' : ''"
+            @click="changeStore(store)"
+          >
             <SfCharacteristic class="language">
               <template #title>
                 <span>{{ store.name }}</span>
@@ -50,13 +55,13 @@
 
 <script>
 import {
-  SfImage,
-  SfSelect,
-  SfButton,
-  SfList,
-  SfHeading,
   SfBottomModal,
-  SfCharacteristic
+  SfButton,
+  SfCharacteristic,
+  SfHeading,
+  SfImage,
+  SfList,
+  SfSelect
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
 import { useStore, storeGetters } from '<%= options.generate.replace.composables %>';
@@ -64,13 +69,13 @@ import { ref, computed } from '@vue/composition-api';
 
 export default {
   components: {
-    SfImage,
-    SfSelect,
-    SfButton,
-    SfList,
     SfBottomModal,
+    SfButton,
     SfCharacteristic,
-    SfHeading
+    SfHeading,
+    SfImage,
+    SfList,
+    SfSelect
   },
   setup(props, context) {
     const { locales, locale } = context.root.$i18n;
@@ -84,10 +89,14 @@ export default {
 
     const availableStores = computed(() => storeGetters.getItems(response.value));
     const selectedStore = computed(() => storeGetters.getSelected(response.value));
+    const changeStore = async (store) => {
+      isLangModalOpen.value = false;
+      await change({store});
+    };
 
     return {
       load,
-      change,
+      changeStore,
       response,
       availableStores,
       selectedStore,
@@ -125,6 +134,13 @@ export default {
       display: flex;
     }
   }
+
+  &__store {
+    &--selected {
+      font-weight: bold;
+    }
+  }
+
   &__lang {
     width: 20px;
     --button-box-shadow: none;
