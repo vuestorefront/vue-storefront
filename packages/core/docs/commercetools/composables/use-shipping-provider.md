@@ -19,7 +19,7 @@ type CustomQuery = {
 }
 ```
 
-- `save` - function for selecting shipping method. This method accepts a single `saveParams` object. The `saveParams` has the following options:
+- `save` - a function for selecting shipping method. This method accepts a single `saveParams` object. The `saveParams` has the following options:
 
     - `shippingMethod: ShippingMethod`
 
@@ -70,7 +70,7 @@ type ShippingInfo = {
 };
 ```
 
-- `loading: boolean` - a reactive object containing information about loading state of your `load` or `save` method.
+- `loading: boolean` - a reactive object containing information about the loading state of your `load` or `save` method.
 
 - `error: UseShippingProviderErrors` - a reactive object containing the error message, if `load` or `save` failed for any reason.
 

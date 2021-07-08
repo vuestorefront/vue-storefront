@@ -38,7 +38,7 @@ export interface ApiConfig {
 
 ### AboutYou tokens handling
 
-AboutYouCloud platform requires tokens to load data from the API. Cart and Wishlist tokens have to be generated on the frontend side and stored to prevent generating them multiple times. The token structure used in the theme is UUID concatenated with timestamp to prevent possible collisions.
+AboutYouCloud platform requires tokens to load data from the API. Cart and Wishlist tokens should be generated on the front-end side and stored to prevent recreating them multiple times. The token structure used in the theme is UUID concatenated with a timestamp to avoid possible collisions.
 
 An example token generator is stored in `packages/about-you/theme/helpers/utils/generateToken.js` and is being used in a following way:
 

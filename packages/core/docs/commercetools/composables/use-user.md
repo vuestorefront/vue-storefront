@@ -60,7 +60,7 @@ type Customer = {
 }
 ```
 
-- `updateUser` - function for updating user data. When invoked, it submits data to the API and populates user property with updated information.  This method accepts a single `params` object. The `params` has the following option:
+- `updateUser` - a function for updating user data. When invoked, it submits data to the API and populates user property with updated information. This method accepts a single `params` object. The `params` has the following option:
 
     - `user: UPDATE_USER_PARAMS`
 
@@ -73,7 +73,7 @@ interface UPDATE_USER_PARAMS {
 }
 ```
 
-- `register: UseUserRegisterParams` - function for creating a new user. When invoked, it submits new user data to the API and saves them. This method accepts a single `params` object. The `params` has the following option:
+- `register: UseUserRegisterParams` - a function for creating a new user. When invoked, it submits new user data to the API and saves them. This method accepts a single `params` object. The `params` has the following option:
 
   - `user: UseUserRegisterParams`
 
@@ -97,19 +97,19 @@ interface UseUserLoginParams {
 }
 ```
 
-- `logout` - function for logout a user.
+- `logout` - a function for logging out the user.
 
-- `changePassword` - function for changing user password. This method accepts a single `params` object. The `params` has the following options:
+- `changePassword` - a function for changing user password. This method accepts a single `params` object. The `params` has the following options:
 
     - `currentPassword: string`
       
     - `newPassword: string`
 
-- `loading: boolean` - reactive object containing information about loading state of `user`.
+- `loading: boolean` - a reactive object containing information about loading state of `user`.
 
-- `isAuthenticated: boolean` - checks if user is authenticated or not.
+- `isAuthenticated: boolean` - checks if the user is authenticated or not.
 
-- `error: UseUserErrors` - reactive object containing the error message, if some properties failed for any reason.
+- `error: UseUserErrors` - a reactive object containing the error message if some properties failed for any reason.
 
 ```ts
 interface UseUserErrors {

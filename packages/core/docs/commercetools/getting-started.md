@@ -33,8 +33,8 @@ Then paste these credentials into `ct` config object inside `integrations` in `m
     }
 ```
 
-There is plenty of other configuration options and you can check them [here](./configuration.md)
+There is plenty of other configuration options, and you can check them [here](./configuration.md)
 
 ## Configuring other integrations
 
-Depending on the configuration and if you're using Enterprise version you could have additional integrations to set up. You will find their configurations in `middleware.config.js`
+Depending on the configuration and VSF version you use, you could have additional integrations to set up. You will find their settings in `middleware.config.js`

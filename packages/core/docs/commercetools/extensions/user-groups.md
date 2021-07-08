@@ -1,10 +1,10 @@
 # `User groups` <Badge text="Enterprise" type="info" />
 
-> This feature is a part of our commercial offering and does not exist in Open Source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/enterprise)
+> This feature is a part of our commercial offering and does not exist in the open-source version of Commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/enterprise)
 
 ## Features
 
-User groups is the feature commonly used to assign dedicated benefits, such as discounts, price rules, special prices to the specific type of customers, instead of each individual customer separately.
+User groups is a feature commonly used to assign dedicated benefits, such as discounts, price rules, and special prices to the specific type of customers, instead of each individual customer separately.
 
 ## API
 
@@ -19,7 +19,7 @@ type UpdateResult = MutationResponse<'customer', Customer>
 
 - `addCustomerToGroup: (customer: CustomerIdentifier, group: ResourceIdentifierInput) => Promise<UpdateResult>` - adds user to the group
 - `removeCustomerFromGroup: (customer: CustomerIdentifier) => Promise<UpdateResult>` - removes user from the group
-- `setup` - it configures the api client within the enterprise package. It expects the fully configured apollo client, so we recommend to configure the original api-client first and pass this configuration to the enterprise package (example below).
+- `setup` - it configures the API client within the enterprise package. It expects the fully configured apollo client, so we recommend to configure the original API-client first and pass this configuration to the enterprise package (example below).
 
 ## Example
 

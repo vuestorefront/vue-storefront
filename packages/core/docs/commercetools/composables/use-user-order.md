@@ -2,11 +2,11 @@
 
 ## Features
 
-`useUserOrder` composable is responsible, as it's name suggests for interactions with user's order history from your eCommerce.
+`useUserOrder` composable is responsible for interactions with user's order history from your eCommerce backend.
 
 ## API
 
-- `searchOrders` - a main querying function that is used to query user's order history from eCommerce platform and populate the `orders` object with the result. This method accepts a single params object. The `params` has the following options:
+- `searchOrders` - the main querying function used to query user's order history from the eCommerce platform and populate the `orders` object with the result. This method accepts a single params object. The `params` has the following options:
 
     - `searchParams: OrderSearchParams`
       
@@ -24,7 +24,7 @@ type CustomQuery = {
 }
 ```
 
-- `orders: Order[]` -  a main data object that contains an array of orders fetched by `searchOrders` method.
+- `orders: Order[]` - the main data object that contains an array of orders fetched by `searchOrders` method.
 
 ```ts
 type Order = {
@@ -82,9 +82,9 @@ type Order = {
 }
 ```
 
-- `loading: boolean` - a reactive object containing information about loading state of your `searchOrders` method.
+- `loading: boolean` - a reactive object containing information about the loading state of your `searchOrders` method.
 
-- `error: UseUserOrderErrors` - reactive object containing the error message, if some properties failed for any reason.
+- `error: UseUserOrderErrors` - reactive object containing the error message if some properties failed for any reason.
 
 ```ts
 interface UseUserOrderErrors {

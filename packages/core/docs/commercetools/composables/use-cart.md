@@ -98,7 +98,7 @@ type CustomQuery = {
 }
 ```
   
-- `updateItemQty` - function for updating quantity of a product that is already in the cart. This method accepts a single `params` object. The `params` has the following options:
+- `updateItemQty` - function for updating a quantity of a product already in the cart. This method accepts a single `params` object. The `params` has the following options:
 
     - `product: LineItem`
     
@@ -207,9 +207,9 @@ type ProductVariant = {
 }
 ```
   
-- `clear` - function for removing all items currently stored in cart.
+- `clear` - a function for removing all items currently stored in the cart.
 
-- `applyCoupon` - function for applying coupon to cart. This method accepts a single `params` object. The `params` has the following options:
+- `applyCoupon` - a function for applying a coupon to the cart. This method accepts a single `params` object. The `params` has the following options:
 
     - `couponCode: string`
     
@@ -221,7 +221,7 @@ type CustomQuery = {
 }
 ```
   
-- `removeCoupon` - function for removing coupon applied to cart. This method accepts a single `params` object. The `params` has the following options:
+- `removeCoupon` - a function for removing a coupon applied to the cart. This method accepts a single `params` object. The `params` has the following options:
 
     - `coupon: AgnosticCoupon`
       
@@ -240,9 +240,9 @@ type CustomQuery = {
 }
 ```
   
-- `loading: boolean` - a reactive object containing information about loading state of the cart.
+- `loading: boolean` - a reactive object containing information about the loading state of the cart.
 
-- `error: UseCartErrors` - reactive object containing the error message, if some properties failed for any reason.
+- `error: UseCartErrors` - reactive object containing the error message if some properties failed for any reason.
 
 ```ts
 interface UseCartErrors {
