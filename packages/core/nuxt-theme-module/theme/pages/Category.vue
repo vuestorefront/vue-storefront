@@ -389,7 +389,7 @@ export default {
 
       const category = items.find(({ isCurrent, items }) => isCurrent || items.find(({ isCurrent }) => isCurrent));
 
-      return category?.label || items[0]?.label;
+      return category?.label || items[0].label;
     });
 
     const selectedFilters = ref({});
