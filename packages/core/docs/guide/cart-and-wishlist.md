@@ -77,10 +77,7 @@ To remove an item from the cart use `removeItem` method, and similarly to update
   <div>
     <ul>
       <li v-for="item in cartItems" :key="cartGetters.getItemSku(product)">
-        <input type="number" v-model="quantity" />
-        <button @click="updateItemQty({ item, quantity })">
-          Change quantity
-        </button>
+        <input type="number" @blur="updateItemQty({item, event})" />
         <button @click="removeItem({ item })">
           Remove product
         </button>
@@ -486,10 +483,7 @@ The cart component:
   <div>
     <ul>
       <li v-for="item in cartItems" :key="cartGetters.getItemSku(product)">
-        <input type="number" v-model="quantity" />
-        <button @click="updateItemQty({ item, quantity })">
-          Change quantity
-        </button>
+        <input type="number" @blur="updateItemQty({item, event})" />
         <button @click="removeItem({ item })">
           Remove from cart
         </button>
