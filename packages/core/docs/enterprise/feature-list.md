@@ -16,11 +16,11 @@ Vue Storefront is just a framework, and you can build your UI in any way you wan
 
 **2. Backend-agnostic**
 
-We have the same interfaces for the same types of vendors (eCommerce/Search/CMS/...). Because of that, you can keep most of your frontend unanware of the backend services. If you decide to change any part of your eCommerce stack in the future, your frontend could remain untouched.
+We have the same interfaces for the same types of vendors (eCommerce/Search/CMS/...). Because of that, you can keep most of your frontend unaware of the backend services. If you decide to change any part of your eCommerce stack in the future, your frontend could remain untouched.
 
 **3. Focus on performance**
 
-We're providing a bulletproof architecture, great defaults, best practices, and tools to make sure your app will perform smoothly. The majority of business logic is handled on the server-side to make sure client bundles are small.
+We're providing a bulletproof architecture, great defaults, best practices, and tools to make sure your app will perform smoothly. The majority of business logic is handled on the server side to make sure client bundles are small.
 
 **4. No vendor lock-in**
 
@@ -153,7 +153,7 @@ Vue Storefront is the only truly open source eCommerce frontend framework with a
   - Display product price
   - Display product discounts
   - Add product to cart
-  - Remove a product from cart
+  - Remove a product from the cart
   - Change product quantity
 - Summary
   - Show the total price
@@ -168,7 +168,7 @@ Vue Storefront is the only truly open source eCommerce frontend framework with a
   - Display product price
   - Display product discounts
   - Add product to wishlist
-  - Remove a product from wishlist
+  - Remove a product from the wishlist
 
 ### Checkout
 
@@ -323,11 +323,11 @@ We perform daily backups. Each user has direct access to the backup drive via st
 
 **3. Multi regions**
 
-Our shop can be deploy at any region of the world, possibly close to your customers.
+Our shop can be deployed at any region of the world, possibly close to your customers.
 
 **4. 24/7 availability monitoring**
 
-Our Cloud team is using internal monitoring systems to provide you with SLA. Moreover, users get access to the New Relic monitoring tool (included in the price, on demand) for monitoring applications and performance on their own.
+Our Cloud team is using internal monitoring systems to provide you with SLA. Moreover, users get access to the New Relic monitoring tool (included in the price, on-demand) for monitoring applications and performance on their own.
 
 **5. Access and errors log**
 
@@ -347,7 +347,7 @@ You can use our CI/CD pipeline to build an environment per each PR.
 
 **9. Staging environment**
 
-Vue Storefront Cloud clients get access to the second (and possibly third, fourth, etc.) environments that are not used for production. These environments are still synchronized with the backend and can be used for development and testing purposes. However, they are not covered by full SLA and are not using CDN (Content Delivery Network) and other optimization features that are enabled for the the production environment by default.
+Vue Storefront Cloud clients get access to the second (and possibly third, fourth, etc.) environments that are not used for production. These environments are still synchronized with the backend and can be used for development and testing purposes. However, they are not covered by full SLA and are not using CDN (Content Delivery Network) and other optimization features that are enabled for the production environment by default.
 
 **10. Production-ready setup**
 
@@ -381,7 +381,7 @@ The Vue Storefront Cloud has a customer dashboard with very useful features, lik
 
 **18. VSF sandboxes**
 
-We can run sandbox/demo instances in a few minutes, with one click.
+We can run sandbox/demo instances in a few minutes with one click.
 
 **19. GEO-Fancing**
 
@@ -389,4 +389,4 @@ We have geo and DDoS protection. You can decide in which country your store is a
 
 **20. Rich Content**
 
-With token access protection, VSF offer selling virtual content with user access management.
+With token access protection, VSF offers selling virtual content with user access management.

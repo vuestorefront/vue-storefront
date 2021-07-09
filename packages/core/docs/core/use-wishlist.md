@@ -2,7 +2,7 @@
 
 `useWishlist` composition API function is responsible, as its name suggests, for interactions with a wishlist in your eCommerce. This function returns the following values:
 
-- `wishlist` - the main data object that contains wishlist structure in platform-specific structure
+- `wishlist` - the main data object that contains wishlist structure in the platform-specific structure
 
 <Content slot-key="wishlist-interface" />
 

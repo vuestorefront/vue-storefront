@@ -39,7 +39,7 @@ $other.client.get('/othet-integration');
 
 ## Context plugin
 
-If for some reason you don't want to use integration Nuxt modules, you have to configure the integration by yourself. For that purpose, each integration exposes an integration plugin:
+If you don't want to use integration Nuxt modules, you have to configure the integration yourself. For that purpose, each integration exposes an integration plugin:
 
 ```js
 // plugins/integration.js

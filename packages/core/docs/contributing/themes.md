@@ -12,7 +12,7 @@ Default theme is located in `packages/core/nuxt-theme-module` folder and recogni
 
 To inherit the default theme from your integration theme, you need to install a `@vue-storefront/nuxt-theme` [package](https://www.npmjs.com/package/@vue-storefront/nuxt-theme).
 
-In `nuxt.config.js` within your integration theme, add `@vue-storefront/nuxt-theme` into `buildModules` key, and as a second value, you can pass options, e.g:
+In `nuxt.config.js` within your integration theme, add `@vue-storefront/nuxt-theme` into `buildModules` key, and as a second value, you can pass options, e.g.:
 
 
 ```json
@@ -52,7 +52,7 @@ import { useProduct, useCart, productGetters, useReview, reviewGetters } from '@
 Under the hood, what this module does is:
 
 1. Compiling lodash templates from `@vue-storefront/nuxt-theme` to `_theme` folder of your integration.
-2. Aliasing components, layouts and pages to `_theme` folder
+2. Aliasing components, layouts, and pages to `_theme` folder
 3. Watching changes in ``@vue-storefront/nuxt-theme` package and rebuilding `theme` folder on each change.
 
 ## Magic comments

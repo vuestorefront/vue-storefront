@@ -19,7 +19,7 @@ type CustomQuery = {
 }
 ```
 
-- `save` - a function for selecting shipping method. This method accepts a single `saveParams` object. The `saveParams` has the following options:
+- `save` - a function for selecting a shipping method. This method accepts a single `saveParams` object. The `saveParams` has the following options:
 
     - `shippingMethod: ShippingMethod`
 

@@ -2,11 +2,11 @@
 
 ## Features
 
-`useUserOrder` composable is responsible for interactions with user's order history from your eCommerce backend.
+`useUserOrder` composable is responsible for interactions with user order history from your eCommerce backend.
 
 ## API
 
-- `searchOrders` - the main querying function used to query user's order history from the eCommerce platform and populate the `orders` object with the result. This method accepts a single params object. The `params` has the following options:
+- `searchOrders` - the main querying function used to query user order history from the eCommerce platform and populate the `orders` object with the result. This method accepts a single params object. The `params` has the following options:
 
     - `searchParams: OrderSearchParams`
       

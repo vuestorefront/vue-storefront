@@ -51,7 +51,7 @@ return { products, search, loading };
 
 ### Using `onSSR` for server-side rendering
 
-By default, Vue Storefront supports conveying server-side data to the client with Nuxt.js 2 where `setup` function is synchronous. Because of that, we can't use asynchronous functions if their results depend on each other (e.g., by loading `products` using `id` of a category that you have to fetch first).
+By default, Vue Storefront supports conveying server-side data to the client with Nuxt.js 2, where `setup` function is synchronous. Because of that, we can't use asynchronous functions if their results depend on each other (e.g., by loading `products` using `id` of a category that you have to fetch first).
 
 To solve this issue, we provide a temporary solution - `onSSR`:
 

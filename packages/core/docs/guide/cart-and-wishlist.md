@@ -32,7 +32,7 @@ export default {
 
 ## Adding item to the cart
 
-To add the product to the cart you can use `addItem` method:
+To add the product to the cart, you can use `addItem` method:
 
 ```vue
 <template>
@@ -78,7 +78,7 @@ To add the product to the cart you can use `addItem` method:
 
 ## Removing items and changing their quantity
 
-To remove an item from the cart use `removeItem` method, and similarly to update quantity use `updateItemQty` method:
+To remove an item from the cart, use `removeItem` method, and similarly to update quantity, use `updateItemQty` method:
 
 ```vue
 <template>
@@ -322,7 +322,7 @@ To add the product to the wishlist, you can use `addItem` method:
 
 ## Removing an item from the wishlist
  
-To remove an item from the cart use `removeItem` method.
+To remove an item from the cart, use `removeItem` method.
 
 ```vue
 <template>

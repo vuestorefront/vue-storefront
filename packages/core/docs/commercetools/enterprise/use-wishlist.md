@@ -17,7 +17,7 @@ platform: Commercetools
 
 ## API
 
-`useWishlist` contains following properties:
+`useWishlist` contains the following properties:
 
 - `load` - a function used to retrieve wishlist products. When invoked, it requests data from the API and populates the `wishlist` property.
 
@@ -41,7 +41,7 @@ Because `wishlist` property is a raw response with some additional properties, i
 
 - `getWishlistItemPrice` - returns product's price from wishlist.
 
-- `getWishlistItemQty` - returns the quantity of a product which is on the wishlist.
+- `getWishlistItemQty` - returns the quantity of a product that is on the wishlist.
 
 - `getWishlistItemAttributes` - returns product variant attribute chosen by its name.
 

@@ -32,7 +32,7 @@ If you can't use HTTP2, you can disable this option. In this case, Nuxt.js will 
 
 `purgeCSS` option (_disabled by default_) uses [`nuxt-purgecss` plugin](https://github.com/Developmint/nuxt-purgecss) to remove unused CSS and accepts the same options, with two differences:
 
-* when `enabled` is set to `false`, plugin will not be registered at all, not only be disabled
+* when `enabled` is set to `false`, the plugin will not be registered at all, not only be disabled
 
 * `**/*.vue` is added to `paths` array to detect all `.vue` files in your project, including those from `_theme` directory. Without this, some styles used on the page would also be removed.
 

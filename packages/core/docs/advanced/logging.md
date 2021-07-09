@@ -38,7 +38,7 @@ You can set the `verbosity` level, which tells the app what do you want to log a
 ];
 ```
 
-If not explicitly changed, logging level depends on the current environment variable `NODE_ENV`:
+If not explicitly changed, the logging level depends on the current environment variable `NODE_ENV`:
 
 - `development` or `dev` defaults to `warn`,
 - `production` or `prod` defaults to `error`,
@@ -76,7 +76,7 @@ To override the default logger, pass a function to the `logger.customLogger` pro
 ```
 
 ::: details Configuring logger outside Vue Storefront Nuxt module
-If for some reason you can't configure logger through `@vue-storefront/nuxt` module you can explicitly use `registerLogger` function:
+If, for some reason, you can't configure logger through `@vue-storefront/nuxt` module, you can explicitly use `registerLogger` function:
 
 ```ts
 import { registerLogger } from '@vue-storefront/core';

@@ -117,7 +117,7 @@ export default {
 
 Managing billing and shipping addresses is done using [useUserBilling](../composables/use-user-billing.md) and [useUserShipping](../composables/use-user-shipping.md) composables.
 
-Both have an almost identical signature (properties, methods, and getters), so examples below will only show usage of `useUserBilling`.
+Both have an almost identical signature (properties, methods, and getters), so the examples below will only show usage of `useUserBilling`.
 
 ### Displaying a list of addresses
 

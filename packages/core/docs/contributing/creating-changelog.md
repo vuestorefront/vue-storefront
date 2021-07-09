@@ -26,7 +26,7 @@ module.exports = {
   linkToGitHubAccount: "link to your github account",
 }
 ```
-3. Save all changes and that's all
+3. Save all changes, and that's all
 
 <!-- For releases:
 1. Check a release version in which your changes should appear. Let's assume it's `2.0.14`

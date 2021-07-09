@@ -7,7 +7,7 @@
 * load cart information,
 * add, update and remove items in the cart,
 * applying and removing coupons,
-* checking if product is already added to the cart.
+* checking if the product is already added to the cart.
 
 ## API
 
@@ -59,7 +59,7 @@ type Cart = {
 }
 ```  
 
-- `load` - function required to fetch cart from a server or create brand new if it doesn't exist. This method accepts a single `params` object. The `params` has the following option:
+- `load` - function required to fetch cart from a server or create a brand new if it doesn't exist. This method accepts a single `params` object. The `params` has the following option:
 
     - `customQuery?: customQuery`
   

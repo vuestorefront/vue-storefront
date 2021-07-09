@@ -19,13 +19,13 @@ type UpdateResult = MutationResponse<'customer', Customer>
 
 - `addCustomerToGroup: (customer: CustomerIdentifier, group: ResourceIdentifierInput) => Promise<UpdateResult>` - adds user to the group
 - `removeCustomerFromGroup: (customer: CustomerIdentifier) => Promise<UpdateResult>` - removes user from the group
-- `setup` - it configures the API client within the enterprise package. It expects the fully configured apollo client, so we recommend to configure the original API-client first and pass this configuration to the enterprise package (example below).
+- `setup` - it configures the API client within the enterprise package. It expects the fully configured apollo client, so we recommend configuring the original API-client first and pass this configuration to the enterprise package (example below).
 
 ## Example
 
-We strongly recommend to use these functions in our middleware as they require wider permissions. Using it purely on the front-end side affects security.
+We strongly recommend using these functions in our middleware as they require wider permissions. Using it purely on the front-end side affects security.
 
-In order to create our middleware, firstly you have to register your middleware in the configuration:
+In order to create our middleware, firstly, you have to register your middleware in the configuration:
 
 ```js
 import customerGroupsMiddleware from './customerGroupsMiddleware'
@@ -76,4 +76,4 @@ export default (app) => {
 };
 ```
 
-Please note that we configure the API client from scratch, because we should use a different one for the server-side communication with the different scopes and permissions.
+Please note that we configure the API client from scratch because we should use a different one for the server-side communication with the different scopes and permissions.

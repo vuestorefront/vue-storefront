@@ -54,7 +54,7 @@ configureSSR({
 
 ## Temporary solution
 
-By default, we do support SSR and shared-state using Nuxt features. Furthermore, we can't use multiple async calls in the setup function that depend on each other (e.g. loading products by id of category that you have to fetch first). To solve this problem, we provide a temporary solution - `onSSR`.
+By default, we do support SSR and shared-state using Nuxt features. Furthermore, we can't use multiple async calls in the setup function that depend on each other (e.g., loading products by the id of the category you have to fetch first). To solve this problem, we provide a temporary solution - `onSSR`.
 
 in your theme:
 

@@ -37,8 +37,7 @@ ___
 ::: tip Writing backend-agnostic code
 In many cases using getters can save you time and contribute to cleaner code, but there is one more thing about getters that makes them very useful. They're always returning agnostic data formats. No matter which platform we're using, `productGetters.getAttributes()` will always return the data in the same, UI-friendly format.
 
-Because interfaces for composables and getters are the same for every platform, the code from example above will work exactly for each one of them. Because of that, you can use getters to keep your frontend code agnostic, regardless of eCommerce platform. This approach can be especially useful when you're considering a migration to a different platform.
+Because interfaces for composables and getters are the same for every platform, the code from the example above will work exactly for each one of them. Because of that, you can use getters to keep your frontend code agnostic, regardless of the eCommerce platform. This approach can be especially useful when you're considering a migration to a different platform.
 :::
 
 <Content slot-key="example-product-search-custom-query" />
-
