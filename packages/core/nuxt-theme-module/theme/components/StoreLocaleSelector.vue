@@ -15,7 +15,7 @@
           <a
             href="javascript:void(0)"
             class="container__store--link"
-            :class="selectedStore.id === store.id ? 'container__store--selected' : ''"
+            :class="isStoreSelected(store) ? 'container__store--selected' : ''"
             @click="changeStore(store)"
           >
             <SfCharacteristic class="language">
@@ -93,6 +93,7 @@ export default {
       isLangModalOpen.value = false;
       await change({store});
     };
+    const isStoreSelected = (store) => selectedStore.value?.id === store.id;
 
     return {
       load,
@@ -100,6 +101,7 @@ export default {
       response,
       availableStores,
       selectedStore,
+      isStoreSelected,
       //
       availableLocales,
       locale,
