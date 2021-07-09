@@ -1,14 +1,14 @@
 # useSearch composable
 
-`useSearch` composition API function is responsible, as it's name suggests for interactions with searching from your eCommerce. This function returns following values:
+`useSearch` composition API function is responsible, as its name suggests, for interactions with searching from your eCommerce. This function returns the following values:
 
-- `search` - a main querying function that is used to search products from eCommerce platform and populate the `products` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object
+- `search` - the main querying function that is used to search products from the eCommerce platform and populate the `products` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object
     - The `params` has the following options:
         - `first` (Int) Returns up to the first `n` elements from the list.
-        - `sortKey` (String) The key to sort results by. Available values are VENDOR, CREATED_AT, ID, PRICE, PRODUCT_TYPE, RELEVANCE, TITLE, UPDATED_AT, BEST_SELLING.
+        - `sortKey` (String) The key to sorting results by. Available values are VENDOR, CREATED_AT, ID, PRICE, PRODUCT_TYPE, RELEVANCE, TITLE, UPDATED_AT, BEST_SELLING.
         - `reverse` (Boolean) Whether or not to reverse the sort order of the results.
         - `query` (String) A query string.
-- `searchResults: Product[]` - a main data object that contains an array of categories fetched by `search` method
+- `searchResults: Product[]` - the main data object that contains an array of categories fetched by `search` method
 
 ```typescript
 export type Maybe<T> = T | null;
@@ -69,7 +69,7 @@ export type Product = {
   vendor: Maybe<string>;
 }
 ```
-- `loading` - a reactive object containing information about loading state of your `search` method
+- `loading` - a reactive object containing information about the loading state of your `search` method
 
 ## Examples
 

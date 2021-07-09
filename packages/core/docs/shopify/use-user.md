@@ -1,8 +1,8 @@
 # useUser composable
 
-`useUser` composition API function is responsible, as its name suggests, for interactions with user in your eCommerce. This function returns following values:
+`useUser` composition API function is responsible, as its name suggests, for interactions with users in your eCommerce. This function returns the following values:
 
-- `user` - a main data object that contains user structure in platform specific structure
+- `user` - the main data object that contains user structure in platform-specific structure
 ```typescript
 export type Maybe<T> = T | null;
 
@@ -16,31 +16,31 @@ export type Customer = {
 }
 ```
 - `updateUser` - function required to update user information like email, first and last name.
-    - This method accept the following parameters.
+    - This method accepts the following parameters.
     - `email` (String) - The customer’s email.
     - `firstName` (String) - The customer’s first name.
     - `lastName`  (String) - The customer’s last name.
-- `register` - function for registering a user with email, name and password.
-    - This method accept the following parameters.
+- `register` - function for registering a user with email, name, and password.
+    - This method accepts the following parameters.
     - `email` (String) - The customer’s email.
     - `password` (String) - The login password used by the customer.
     - `firstName` (String) - The customer’s first name.
     - `lastName`  (String) - The customer’s last name.
-- `login` - function for authenticating user with email and password and retrieve token.
-    - This method accept the following parameters.
-    - `username` (String) - The email associated to the customer.
+- `login` - function for authenticating the user with email and password and retrieve the token.
+    - This method accepts the following parameters.
+    - `username` (String) - The email associated with the customer.
     - `password` (String) - The login password to be used by the customer.
 - `logout` - function for removing user's token.
 - `changePassword` - function for change user's password.
     - This method accept the following parameters.
     - `currentPassword` (String) - The existing password
     - `newPassword` (String) - The login password used by the customer.
-- `refreshUser` - function for retrieve user details by token.
-- `loading` - a reactive object containing information about loading state of the user
+- `refreshUser` - function for retrieve user details by the token.
+- `loading` - a reactive object containing information about the loading state of the user
 
 ## Example
-Creates a customer access token. The access token used to identify the customer and is required to modify the customer object in any way.
-This method accept two parameters, username and password and on success it will return a token. The token is require and mandatory to call other APIs like `updateUser`, `changePassword`, `refreshUser` and `logout`.
+Create customer's access token. The access token is used to identify the customer and is required to modify the customer object in any way.
+This method accepts two parameters, username, and password, and on the success, it will return a token. The token is required and mandatory to call other APIs like `updateUser`, `changePassword`, `refreshUser`, and `logout`.
 
 ```vue
 <template>

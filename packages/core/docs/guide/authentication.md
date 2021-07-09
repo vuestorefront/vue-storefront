@@ -1,6 +1,6 @@
 # Authentication
 
-Authentication is a process of recognizing the user's identity. It allows to associate incoming requests with an account or a person when provided credentials are compared with ones in the database.
+Authentication is a process of recognizing the user's identity. It allows associating incoming requests with an account or a person when provided credentials are compared with ones in the database.
 
 All operations related to this process can be handled with methods exposed by `useUser` composable
 
@@ -36,7 +36,7 @@ export default {
 
 ## Checking if the user is logged in
 
-Many interactions in the application are only available ( `useUser` prefixed functions like `useUserOrder`) or look different if the customer is logged in. To check if user is authenticated, we will use `isAuthenticated` method from `useUser`.
+Many interactions in the application are only available ( `useUser` prefixed functions like `useUserOrder`) or look different if the customer is logged in. To check if the user is authenticated, we will use `isAuthenticated` method from `useUser`.
 
 Like with all other composables, it's important to remember to call `load` before accessing any other property or function of `useUser`. Otherwise, `isAuthenticated` will always return `false`.
 

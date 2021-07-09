@@ -1,8 +1,8 @@
 # useProduct composable
 
-`useProduct` composition API function is responsible, as it's name suggests for interactions with products from your eCommerce. This function returns following values:
+`useProduct` composition API function is responsible, as its name suggests, for interactions with products from your eCommerce. This function returns the following values:
 
-- `search` - a main querying function that is used to query products from eCommerce platform and populate the `products` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object.
+- `search` - the main querying function that is used to query products from the eCommerce platform and populate the `products` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object.
     - The `params` has the following options:
         - `id` (String) The id of the product to fetch.
             ```javascript
@@ -21,10 +21,10 @@
             ```
         - `customQuery` (Object) An object specifying the query data containing zero or more of:
             - `first` (Int) The relay `first` param. This specifies page size.
-            - `sortKey` (String) The key to sort results by. Available values are ID, TITLE, UPDATED_AT
+            - `sortKey` (String) The key to sorting results by. Available values are ID, TITLE, UPDATED_AT
             - `query` (String) A query string.
             - `reverse` (Boolean) Whether or not to reverse the sort order of the results
-- `products: Product[]` - a main data object that contains an array of products fetched by `search` method
+- `products: Product[]` - the main data object that contains an array of products fetched by `search` method
 ```typescript
 export type Maybe<T> = T | null;
 
@@ -85,7 +85,7 @@ export type Product = {
 }
 
 ```
-- `loading` - a reactive object containing information about loading state of your `search` method
+- `loading` - a reactive object containing information about the loading state of your `search` method
 
 ## productGetters
 - `getName` - Get product name

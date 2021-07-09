@@ -5,7 +5,7 @@ Shopify configuration is located in two places:
 
 - nuxt.config.js is a place where you're configuring properties related only to the frontend part of your application.
 
-- middleware.config.js is a place where you're configuring the Shopify SDK and extensions. You will put there API keys, integration configurations, custom GraphQL queries and new API endpoints.
+- middleware.config.js is a place where you're configuring the Shopify SDK and extensions. You will put there API keys, integration configurations, custom GraphQL queries, and new API endpoints.
 
 ## Nuxt Shopify configuration
 
@@ -20,7 +20,7 @@ Shopify configuration is located in two places:
 
 - `useNuxtI18nConfig` - when this property is set to true, `@vue-storefront/shopify/nuxt` package will use `i18n` config object provided in `nuxt.config.js`. When set to false, `i18n` config should be declared directly inside this package configuration. You can read more about `i18n` config in Vue Storefront [here](../advanced/internationalization.md)
 
-## Middleware shopify configuration
+## Middleware Shopify configuration
 
 You can read more about middleware configuration in Vue Storefront [here](../advanced/server-middleware.md#configuration)
 
@@ -59,7 +59,7 @@ acceptLanguage: ['en-gb', 'en-us']
 
 ### `languageMap`
 
-If you supply a `languageMap` during setup this will be used to map a locale to the accepted languages.
+If you supply a `languageMap` during setup, this will be used to map a locale to the accepted languages.
 
 ```js
 languageMap: {

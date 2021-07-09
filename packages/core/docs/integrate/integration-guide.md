@@ -10,11 +10,11 @@ If you want to integrate with Vue Storefront, please **contact the core team on 
 
 ## Introduction
 
-Integrating any eCommerce platform with Vue Storefront is a relatively simple process. The only requirement that the eCommerce platform needs to fulfill to be integrated is having a fully functional REST/GraphQL API.
+Integrating any eCommerce platform with Vue Storefront is a relatively simple process. The only requirement that the eCommerce platform needs to fulfill to be integrated is a fully functional REST/GraphQL API.
 
 This documentation will guide you through integrating your eCommerce platform with Vue Storefront.
 
-During the process you will make use of two tools:
+During the process, you will make use of two tools:
 
 - **Core** - a business logic that is shared between every Vue Storefront integration. It contains utilities and factories for composables that are ensuring common high-level APIs for each platform.
 - **Boilerplate** - boilerplate code of working integration that has hardcoded sample data. It uses core APIs under the hood.
@@ -26,7 +26,7 @@ Integration requires three pieces to work:
 - **Theme** - This is basically a platform-specific part of your theme that is using an agnostic default theme under the hood.
 One of the most important requirements for any Vue Storefront integration is to work with a common default theme. This is our way of ensuring that the quality of UI layer, as well as developer experience, remains the same for every integration. Another reason why we are keeping a single theme is that it's much easier to maintain it and keep high quality. You can read more about the default theme [here](/contributing/themes.html). You shouldn't put there anything except plugins and modifications of `nuxt.config.js`
 
-We recommend starting the integration with the API Client. Once you have the required methods and types to interact with eCommerce logic you will have all the tools needed to start building Composition Functions.
+We recommend starting the integration with the API Client. Once you have the required methods and types to interact with eCommerce logic, you will have all the tools needed to start building Composition Functions.
 
 ## Scope
 
@@ -39,17 +39,17 @@ Vue Storefront will require **at least** the following features from your eComme
 
 **Category**
 
-- fetch single category
-- fetch category tree
+- fetch a single category
+- fetch a category tree
 
 **Cart**
 
-- create cart
-- add to cart
+- create a cart
+- add to the cart
 - remove from the cart
 - change the quantity of an item in the cart
 - change the configuration of the item in the cart
-- clear cart
+- clear the cart
 - add promo coupon
 - remove promo coupon
 
@@ -93,10 +93,10 @@ Vue Storefront will require **at least** the following features from your eComme
 Copy our [integration boilerplate](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and replace all `boilerplate` strings with the name of your platform (for example `commercetools` `about-you`). The strings can be found in imports and `package.json` of every package.
 
 ::: tip Test with the default theme
-The default theme is working out of the box with mocked data from boilerplate so it's a perfect test environment for your integration. Be sure to test it every time you make some changes
+The default theme is working out of the box with mocked data from boilerplate, so it's a perfect test environment for your integration. Be sure to test it every time you make some changes
 :::
 
-Once you copied and renamed the boilerplate run `yarn dev` in your `theme` folder to see if everything works.
+Once you copied and renamed the boilerplate, run `yarn dev` in your `theme` folder to see if everything works.
 
 
 ## Creating an api-client
@@ -106,14 +106,14 @@ Each integration starts with `api-client`. This is one of the packages which is 
 Our API client always shares two entry points:
 
 - `@vue-storefront/{INTEGRATION}/server` - shares the `createApiClient`.
-- `@vue-storefront/{INTEGRATION}` - shares other library code, such as helpers, types etc.
+- `@vue-storefront/{INTEGRATION}` - shares other library code, such as helpers, types, etc.
 
 
 ### Configuration
-The creation of an API client starts with the configuration. As we use middleware, this package is split into two bundles, thus you need to create two separate files with the corresponding configuration:
+The creation of an API client starts with the configuration. As we use middleware, this package is split into two bundles. Thus you need to create two separate files with the corresponding configuration:
 
 - `index.server.ts` - contains the creation of API client, for direct connection to the integrated platform
-- `index.ts` - main entry point, that contains everything else, such as types, helper functions etc.
+- `index.ts` - main entry point that contains everything else, such as types, helper functions, etc.
 
 ```ts
 // index.server.ts
@@ -145,10 +145,10 @@ export {
 export * from './types/Api';
 ```
 
-To create `api-client` instances you have to use the corresponding factory, depending on what API you are creating: proxy or direct one. The creation in both cases is pretty similar, with small differences in the used fields:
+To create `api-client` instances, you have to use the corresponding factory, depending on what API you are creating: proxy or direct one. The creation in both cases is pretty similar, with small differences in the used fields:
 
-- `onCreate` - a function that will be called during creating your API. In this place, you can call everything you need to create a connection to the API, such as creating SDK (eg. axios creation), merge given config with the defaults etc. This function always returns `client` (connection you created) and `config` or (in case it's proxy) just `config`.
-- `api` - this is the section where you need to pass all of the API function you have created (direct) and functions that you don't want to redirect to our middleware (proxy)
+- `onCreate` - a function that will be called while creating your API. In this place, you can call everything you need to create a connection to the API, such as creating SDK (e.g. axios creation), merge given config with the defaults, etc. This function always returns `client` (connection you created) and `config` or (in case it's proxy) just `config`.
+- `api` - this is the section where you need to pass all of the API functions you have created (direct) and functions that you don't want to redirect to our middleware (proxy)
 - `extensions` - section available only in the direct connection api-client. It allows you to add an API backend extension for the API that can add additional features to the integrated platform
 
 ### API functions
@@ -186,7 +186,7 @@ module.exports = {
 };
 ```
 
-The custom query modifier function always has in the arguments the default query and default variables and must return the query and its variables as well. In the body you can do anything you want with those parameters - you can override them or even change to the new ones. After creating the modifier function, you can use `extendQuery` to change the default query from middleware api method by providing `customQuery` object parameter that contains the query name as key and the identifier of the modifier function as value from client-side api method call. `extendQuery` function will produce modified query using specified modifier function that can be used to fetch required data.
+The custom query modifier function always has in the arguments the default query and default variables and must return the query and its variables as well. In the body, you can do anything you want with those parameters - you can override them or even change to the new ones. After creating the modifier function, you can use `extendQuery` to change the default query from the middleware API method by providing `customQuery` object parameter that contains the query name as key and the identifier of the modifier function as a value from the client-side API method call. `extendQuery` function will produce modified query using specified modifier function that can be used to fetch required data.
 
 ```ts
 // api-client/src/api/getProduct
@@ -202,7 +202,7 @@ const getProduct = async (context: Context, params: PARAMS, customQuery: Record<
 };
 ```
 
-Proxied version of this api method can be used within composable method with `customQuery` support. Now you can modify grapGL queries by providing modifier function identifier to composable method inside component setup function.
+A proxied version of this API method can be used within the composable method with `customQuery` support. Now you can modify GraphGL queries by providing modifier function identifier to composable method inside component setup function.
 
 ```ts
 // composables/src/useProduct
@@ -236,14 +236,14 @@ export default {
 
 ```
 
-This approach gives you the flexibility to manage qraphQL queries from the client side without increasing the bundle size with qraphQL libraries and queries.
+This approach gives you the flexibility to manage qraphQL queries from the client-side without increasing the bundle size with GraphQL libraries and queries.
 
 ## Creating composables
 
-Composables are a major part of the integration. That exactly the place where the business logic comes in. We always serve this package as integration along with the corresponding Nuxt module.
-### Creating nuxt module
+Composables are a major part of the integration. That's precisely the place where the business logic comes in. We always serve this package as integration along with the corresponding Nuxt module.
+### Creating Nuxt module
 
-Inside of the composables packages you have to create another directory, next to `src` called `nuxt`. In that directory, we need to place our Nuxt module. The Nuxt module is taking care of anything you want during the integration to be launched: adding plugins, injecting into the build process, creating some aliases, and more. The basic implementation of that module will add just a plugin that will configure our application (using a wrapper that you have already exposed)
+Inside of the composables packages, you have to create another directory, next to `src` called `nuxt`. In that directory, we need to place our Nuxt module. The Nuxt module is taking care of anything you want during the integration to be launched: adding plugins, injecting into the build process, creating some aliases, and more. The basic implementation of that module will add just a plugin that will configure our application (using a wrapper that you have already exposed)
 
 Example of plugin
 ```js
@@ -271,9 +271,9 @@ export default function (moduleOptions) {
 
 ### Writing factory params
 
-Once you have done the essential configuration of the Nuxt module and plugin, you can proceed to write composable. A good thing to know is you don't have to build it from scratch, we do most of the job for you! Instead, you have to fill in the required functions and properties called `factoryParams`.
+Once you have done the essential configuration of the Nuxt module and plugin, you can proceed to write composable. A good thing to know is you don't have to build it from scratch; we do most of the job for you! Instead, you have to fill in the required functions and properties called `factoryParams`.
 
-The `factoryParams` are including functions that you have to implement to provide the functionality of implementing composable, such a fetching something from the API, or triggering other actions.
+The `factoryParams` are including functions that you have to implement to provide the functionality of implementing composable, such a fetching something from the API or triggering other actions.
 
 
 ```ts
@@ -313,11 +313,11 @@ import useCart from './useCart';
 export { useCart }
 ```
 
-Each function inside of factory params has the context in the very first argument. The second argument always contains the given parameters to the function (eg. product data in adding to cart function)
+Each function inside of factory params has the context in the very first argument. The second argument always contains the given parameters to the function (e.g. product data in adding to cart function)
 
 ### Composable dependencies
 
-Sometimes there is a need to use another composable inside of a new one as a dependency. We also allow you to do this by using a special function in the factory params - `provide`. This function is being called inside of the composable and the return values are available in the context:
+Sometimes there is a need to use another composable inside of a new one as a dependency. We also allow you to do this by using a special function in the factory params - `provide`. This function is being called inside of the composable, and the return values are available in the context:
 
 ```ts
 import { useCart } from '@vue-storefront/commercetools';
@@ -343,7 +343,7 @@ const factoryParams: UseUserFactoryParams = {
 
 ### Creating composables without VSF factories
 
-Sometimes you need to omit using VSF factories. You can have a complex integration or decide to follow your way of implementing it. In this case, you can use Vue Storefront architecture and create your own composable, by creating a custom factory, or not using one at all.
+Sometimes you need to omit using VSF factories. You can have a complex integration or decide to follow your way of implementing it. In this case, you can use Vue Storefront architecture and create your own composable by creating a custom factory or not using one at all.
 
 However, you have to keep in mind that you need to handle context and reactive properties as well - of course, there are helpers for that.
 
@@ -367,11 +367,11 @@ const useCart = () => {
 
 Our composables always return the following properties:
 
-- a field containing the API response - when you load or modify the state of the given feature, we generate a new response that is being returned by composable. It always has a proper name that refers to its purpose eg. cart, products, category etc.
+- a field containing the API response - when you load or modify the state of the given feature, we generate a new response that is being returned by composable. It always has a proper name that refers to its purpose, e.g. cart, products, category, etc.
 - `loading` - a field indicating loading state
 - `error` - a field containing errors
 
-As you always have a pure response in the first field you need another layer to be agnostic of the platform. We do this by using getters.
+As you always have a pure response in the first field, you need another layer to be agnostic of the platform. We do this by using getters.
 
 Getters are the pure functions that are reading something from the given response and returning an agnostic or primitive type.
 
@@ -409,7 +409,7 @@ export { cartGetters }
 
 ## Creating a theme
 
-In the default theme, components used to display or modify integration-specific data, like forms or checkout information are blank. This is because each integration might use different data formats and properties.
+In the default theme, components used to display or modify integration-specific data, like forms or checkout information, are blank. This is because each integration might use different data formats and properties.
 
 You need to create few Vue components and JavaScript files:
 
@@ -441,7 +441,7 @@ When such an event is sent, the application will handle communication with the A
 
 ### Creating a middleware
 
-`is-authenticated` middleware is used to prevent access to the page for guest users. It's used on pages such as user profile.
+`is-authenticated` middleware is used to prevent access to the page for guest users. It's used on pages such as the user profile.
 
 ```js
 export default {

@@ -1,17 +1,16 @@
 # Checkout Flow
-This tutorial shows a Shopify integrator how Storefront API are used in the lifecycle of an order, including creating
- cart, preparing for checkout and more order-related tasks. 
+This tutorial shows a Shopify integrator how Storefront API is used in the lifecycle of an order, including creating
+ cart, preparing for checkout, and more order-related tasks. 
 
 #### Before you begin
-Let's know more about the Shopify Storefront API. Storefront API gives you full creative control to add Shopify 
-buying experiences anywhere your customers are, including websites, apps, and video games. Access product 
-information, create customer orders, and check out purchases programmatically. 
+Let's get to know more about the Shopify Storefront API. Storefront API gives you full creative control to add Shopify 
+buying experiences anywhere your customers are, including websites, apps, and video games. Access product information, create customers' orders, and check out purchases programmatically. 
 
 The Storefront API is composed of the following:
 
-**Customers** - Information about customers in Shopify such as their shipping address and display name.
+**Customers** - Information about customers in Shopify, such as their shipping address and display name.
 
-**Nodes** - Set of Shopify Storefront API root nodes, including Checkouts, Collections, Orders, Payments etc. See a 
+**Nodes** - Set of Shopify Storefront API root nodes, including Checkouts, Collections, Orders, Payments, etc. See a 
 complete list of nodes [here.](https://shopify.dev/docs/storefront-api/reference/object)
 
 **Shops** - Shop information such as billing address, currency code, and domain.
@@ -23,11 +22,11 @@ Using the Storefront API, you can:
 * Create new customers or modify existing ones, including address information.
 * Allow customers to select unique product options.
 
-This **5-step** tutorial generally takes 30 minutes to understand complete lifecycle of checkout.
+This **5-step** tutorial generally takes 30 minutes to understand the complete lifecycle of checkout.
 
 ### Step 1: Get Product
-Retrieve the product information from Shopify store. Use the `useProduct` composable method to retrieve product by 
-handle (url key) or product id.
+Retrieve the product information from Shopify store. Use the `useProduct` composable method to retrieve products by 
+handle (URL key) or product id.
 
 This example fetch a single product by handle.
 ```typescript
@@ -108,9 +107,9 @@ export default {
 * [useCart](/shopify/use-cart) provides additional information about the cart.
 
 ### Step 4: Go to Checkout
-In this step, redirect the customer on Shopify checkout page to complete the order. 
+In this step, redirect the customer to Shopify checkout page to complete the order. 
 
-First, obtain the checkout URL from cart object.
+First, obtain the checkout URL from the cart object.
 
 ```javascript
     const { cart, loadCart } = useCart();
@@ -127,12 +126,12 @@ First, obtain the checkout URL from cart object.
     };
 ```
 
-The checkout URL look like the following:
+The checkout URL looks like the following:
 ```javascript
 const checkoutUrl = 'https://vsf-next-pwa.myshopify.com/40719024288/checkouts/9882505fd32f9432c5b72e213ed0d7b8';
 ```
 
-Now, add the following link on cart page.
+Now, add the following link to the cart page.
 
 ```Vue
 <template>
@@ -142,7 +141,7 @@ Now, add the following link on cart page.
 </template>
 ```
 
-When you submit payment information, Shopify creates an order and sends an order confirmation to the customer.
+When you submit payment information, Shopify creates order and sends an order confirmation to the customer.
 
 ### Step 5: Thank you page
 Thank you page appears on placed order successfully but the customer still on Shopify website.
@@ -163,10 +162,10 @@ setTimeout(function(){
   window.location.href="https://vsf-next-pwa.myshopify.com";
 }, 5000);
 ```
-You can edit above code as per your needs.
+You can edit the above code as per your needs.
 
-Shopify have a special section in the admin where you can enter that code so that it'll apply to the Thank You page. 
-It's called, **"Additional Scripts."**
+Shopify has a special section in the admin where you can enter that code so that it'll apply to the Thank You page. 
+It's called **"Additional Scripts."**
 
 If you navigate to **Settings > Checkout** and scroll to the bottom of the Order Processing section, you'll find a 
 text box where you can paste code into. 

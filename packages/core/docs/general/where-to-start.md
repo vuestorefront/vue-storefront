@@ -41,7 +41,7 @@ You can visit [Introduction](/) or [Key conepts](/general/key-concepts.html) pag
 
 As a developer, you will be creating more or less advanced shops with many amazing features. Vue Storefront meets your expectations and equips you with everything that can solve the problems you will face. This will reduce the time it takes to deliver your store.
 
-You should start by familiarizing yourself with the **Guides** category. It includes all you need to know to create a shop successfully. If you want to dive deeper, check out the **Advanced** category.
+You can start by familiarizing yourself with the **Guides** category. It includes all you need to know to create a shop successfully. If you want to dive deeper, check out the **Advanced** category.
 
 **Guides** section will guide you through:
 - [Theme](../guide/theme.html)
@@ -72,15 +72,15 @@ To be up to date, we recommend following our [Roadmap](https://www.notion.so/vue
 
 If you are using a custom backend or want to use platforms or technologies not listed on our [Integrations](../integrations/) page, you likely need to create an integration.
 
-Vue Storefront integrates with a wide range of technologies and each has its own needs, so there is no generic tutorial for all of them.
+Vue Storefront integrates with a wide range of technologies, and each has its own needs, so there is no generic tutorial for all of them.
 
 However, depending on the kind of integrations you want to build, you should familiarize yourself with **Building Integration** section. Especially integration guide for [eCommerce](../integrate/integration-guide.html) and [CMS](../integrate/cms.html) platforms.
 
 ## Designer creating a theme
 
-Our default theme is mostly based on a powerful design system for e-commerce called [Storefront UI](https://www.storefrontui.io/). If you don't want to use it, you can replace it with any other UI library or custom components, by changing the templates in Vue files.
+Our default theme is mostly based on a powerful design system for e-commerce called [Storefront UI](https://www.storefrontui.io/). If you don't want to use it, you can replace it with any other UI library or custom components by changing the templates in Vue files.
 
-At the start you should familiarize yourself with the specially prepared [theme](../guide/theme.html) guide.
+At the start, you should familiarize yourself with the specially prepared [theme](../guide/theme.html) guide.
 
 **Theme** section will guide you through:
 - [Directory structure](../guide/theme.html#directory-structure)

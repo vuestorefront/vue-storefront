@@ -2,7 +2,7 @@
 
 `useCart` composition API function is responsible, as its name suggests, for interactions with cart in your eCommerce. This function returns following values:
 
-- `cart` - a main data object that contains cart structure in platform specific structure
+- `cart` - the main data object that contains cart structure in platform-specific structure
 ```typescript
 export type Maybe<T> = T | null;
 
@@ -51,7 +51,7 @@ export type Cart = {
   userErrors?: Maybe<Scalars['Array']>;
 }
 ```
-- `load` - function required to fetch cart from a server or create brand new if it doesn't exist.
+- `load` - function required to fetch cart from a server or create a brand new if it doesn't exist.
 - `addItem` - Adds cart items to an existing checkout.
     - It takes two parameters:
     - `product` (Object) The identifier of the product variant for the cart item.
@@ -64,28 +64,28 @@ export type Cart = {
     - It takes one parameter:
     - `product` (Object) The identifier of the product variant for the cart item.
 - `isInCart` - function for checking if a product is currently in the cart
-- `clear` - function for removing all items currently stored in cart
+- `clear` - function for removing all items currently stored in the cart
 - `coupon` - reactive data object containing coupon details
-- `applyCoupon` - function for applying coupon to cart
+- `applyCoupon` - function for applying the coupon to cart
     - It takes one parameter:
     - `coupon` (String) The coupon string
 - `removeCoupon` - function for removing coupon applied to cart
-- `loading` - a reactive object containing information about loading state of the cart
+- `loading` - a reactive object containing information about the loading state of the cart
 
 ## cartGetters
 
 - `getTotals` - Return an object cart totals
     - `total` (float) - The value of cart total
-    - `subtotal` (float) - The value of cart sub total.
+    - `subtotal` (float) - The value of cart subtotal.
 - `getShippingPrice` - To retrieve shipping price. 
 - `getItems` - Return list of cart items.
 - `getItemName` - Accept one parameter `product` and return the name of product.
 - `getItemImage` - Accept one parameter `product` and return the image source URL of product.
-- `getItemPrice` - Accept one parameter `product` and return the price of product.
+- `getItemPrice` - Accept one parameter `product` and return the price of the product.
 - `getItemQty` - Accept one parameter `product` and return the quantity of product.
 - `getItemAttributes` - Accept two parameter, `product` and `filterByAttributeName` (Optional). 
 - `getItemSku` - Accept one parameter `product` and return the sku of product.
-- `getFormattedPrice` Accept one parameter `product` and return the price of product with currency symbol.
+- `getFormattedPrice` Accept one parameter `product` and return the product's price with a currency symbol.
 - `getTotalItems` - To get the total numbers of cart items
 - `getCheckoutUrl`- To retrieve the Shopify checkout URL. i.e. `https://vsf-next-pwa.myshopify.com/40719024288/checkouts/9882505fd32f9432c5b72e213ed0d7b8`
 - `hasItemAttributes` - Check if product contains variant or not.
@@ -95,7 +95,7 @@ export type Cart = {
 ## Examples
 Cart composable is a service designed for supporting a single cart and access it everywhere with ease. 
 Initialization of a cart requires using `load()` when calling `useCart()` for the first time. Keep in mind that upon
-execution of `load`, the cart will get loaded only once and if a wishlist has already been loaded, nothing happens. Note that all the composables uses same load method, so you need to use it using alias. load: loadCart  
+execution of `load`, the cart will get loaded only once and if a wishlist has already been loaded, nothing happens. Note that all the composables use the same load method, so you need to use it using an alias. load: loadCart  
 
 ```javascript
 import { onSSR } from '@vue-storefront/core';

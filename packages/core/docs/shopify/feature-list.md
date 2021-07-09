@@ -20,19 +20,19 @@
 - [x] See the product gallery
 - [x] See the prices on the product page.
 - [ ] See the discounts on the product page.
-- [x] Have properties pre-selected (like colour, size) when opening the Variant Product Page.
+- [x] Have properties pre-selected (like color, size) when opening the Variant Product Page.
 
 
 ### Cart
-- [x] Open cart and see the cart item list.
+- [x] Open the cart and see the cart item list.
 - [x] See the totals in the cart.
 - [x] Remove the product from the cart.
-- [x] Edit the quantity of the product in a cart page.
+- [x] Edit the quantity of the product on a cart page.
 - [x] Redirect to Shopify checkout page.
 
 ### User Management
 - [x] Login as a customer.
-- [x] Customer can logout.
+- [x] Customer can log out.
 - [x] Register as a new customer.
 - [x] Reset the password
 - [x] Change the password

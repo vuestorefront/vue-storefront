@@ -1,9 +1,9 @@
 # useUserOrder composable
 
-`useUserOrder` composition API function is responsible, as it's name suggests for interactions with user's order history from your eCommerce. This function returns following values:
+`useUserOrder` composition API function is responsible, as its name suggests, for interactions with the user's order history from your eCommerce. This function returns the following values:
 
-- `searchOrders` - a main querying function that is used to query user's order history from eCommerce platform and populate the `orders` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object.
-- `orders` - a main data object that contains an array of orders fetched by `searchOrders` method
+- `searchOrders` - the main querying function that is used to query a user's order history from the eCommerce platform and populate the `orders` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object.
+- `orders` - the main data object that contains an array of orders fetched by `searchOrders` method
 ```typescript
 export type Maybe<T> = T | null;
 
@@ -27,11 +27,11 @@ export type OrderItem = {
   title?: Maybe<string>;
 }
 ```
-- `loading` - a reactive object containing information about loading state of your `searchOrders` method
+- `loading` - a reactive object containing information about the loading state of your `searchOrders` method
 
 ## Example
 
-The list of orders associated with the customer.
+Fetch a list of orders associated with the customer.
 
 ```javascript
 import { onSSR } from '@vue-storefront/core';
