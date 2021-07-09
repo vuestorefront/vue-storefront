@@ -14,5 +14,6 @@ export interface BudsiesState {
   bodypartBodypartsValues: Dictionary<string[]>,
   productBodyparts: Dictionary<string[]>,
   plushieShortcode: Dictionary<string>,
-  customerEmail: string | undefined
+  customerEmail: string | undefined,
+  breeds: string[]
 }

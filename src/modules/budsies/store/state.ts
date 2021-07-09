@@ -10,5 +10,6 @@ export const state: BudsiesState = {
   bodypartBodypartsValues: {},
   productBodyparts: {},
   plushieShortcode: {},
-  customerEmail: undefined
+  customerEmail: undefined,
+  breeds: []
 }

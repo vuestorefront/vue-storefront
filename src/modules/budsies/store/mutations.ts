@@ -11,6 +11,9 @@ export const mutations: MutationTree<BudsiesState> = {
   setAddon (state: BudsiesState, { key, addon }: { key: string, addon: ExtraPhotoAddon }) {
     Vue.set(state.extraPhotoAddons, key, addon);
   },
+  setPlushieBreeds (state: BudsiesState, items: string[]) {
+    state.breeds = [...items];
+  },
   setRushAddon (state: BudsiesState, { key, addon }: { key: string, addon: RushAddon }) {
     Vue.set(state.rushAddons, key, addon);
   },

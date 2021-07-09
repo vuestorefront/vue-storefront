@@ -50,6 +50,27 @@ function parse<T, R> (
 }
 
 export const actions: ActionTree<BudsiesState, RootState> = {
+  async loadBreeds (
+    { commit, state }
+  ): Promise<void> {
+    if (state.breeds.length > 0) {
+      return;
+    }
+
+    const url = processURLAddress(`${config.budsies.endpoint}/plushies/breeds`);
+
+    const result = await TaskQueue.execute({
+      url,
+      payload: {
+        headers: { 'Accept': 'application/json' },
+        mode: 'cors',
+        method: 'GET'
+      },
+      silent: true
+    });
+
+    commit('setPlushieBreeds', result.result);
+  },
   async loadExtraPhotosAddons (
     { commit, state },
     { productId }

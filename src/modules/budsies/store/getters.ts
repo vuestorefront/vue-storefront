@@ -10,6 +10,9 @@ const getters: GetterTree<BudsiesState, RootState> = {
   getExtraPhotoAddon: (state: BudsiesState, id: string): ExtraPhotoAddon | undefined => {
     return state.extraPhotoAddons[id];
   },
+  getPlushieBreeds: (state: BudsiesState): string[] => {
+    return [...state.breeds];
+  },
   getPrintedProductAddons: (state: BudsiesState) => (id: string): ExtraPhotoAddon[] => {
     const result: ExtraPhotoAddon[] = [];
 
