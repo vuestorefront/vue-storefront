@@ -23,7 +23,7 @@
                 <span>{{ store.name }}</span>
               </template>
               <template #icon>
-                <SfImage :src="`/icons/langs/en.webp`" width="20" alt="Flag" class="language__flag" />
+                <SfImage :src="`/icons/langs/${getStoreLocale(store)}.webp`" width="20" alt="Flag" class="language__flag" />
               </template>
             </SfCharacteristic>
           </a>
@@ -78,7 +78,7 @@ export default {
     SfSelect
   },
   setup(props, context) {
-    const { locales, locale } = context.root.$i18n;
+    const { locales, locale, defaultLocale } = context.root.$i18n;
     const { load, change, response } = useStore();
     const isLangModalOpen = ref(false);
     const availableLocales = computed(() => locales.filter(i => i.code !== locale));
@@ -94,6 +94,7 @@ export default {
       await change({store});
     };
     const isStoreSelected = (store) => selectedStore.value?.id === store.id;
+    const getStoreLocale = (store) => store?.locales[0] ?? defaultLocale;
 
     return {
       load,
@@ -102,6 +103,7 @@ export default {
       availableStores,
       selectedStore,
       isStoreSelected,
+      getStoreLocale,
       //
       availableLocales,
       locale,
