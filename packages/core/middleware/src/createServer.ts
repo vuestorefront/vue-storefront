@@ -42,7 +42,7 @@ function createServer (config: MiddlewareConfig): Express {
 
       res.send(platformResponse);
     } catch (error) {
-      res.status(error.networkError.statusCode);
+      res.status(error.networkError.statusCode || 500);
       res.send(error);
     }
   });
