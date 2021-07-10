@@ -9,7 +9,6 @@ import { Display } from './types/display.value'
 import AssetField from './types/asset-field.interface'
 import ColorPickerField from './types/color-picker-field.interface'
 import LinkField from './types/link-field.interface'
-import { VideoProvider } from './types/video-provider.value'
 import VideoUrlField from './types/video-url-field.interface'
 import { LinkType } from './types/link-type.value'
 import { SizeValue } from './types/size.value'
@@ -32,6 +31,5 @@ export {
   ColorPickerField,
   LinkField,
   LinkType,
-  VideoProvider,
   VideoUrlField
 }
