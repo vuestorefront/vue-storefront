@@ -73,7 +73,9 @@ export default interface Product {
   qty?: number,
   tier_prices?: any[],
   links?: any,
-  parentId?: number | string
+  parentId?: number | string,
+  meta_title: string | null,
+  meta_description: string | null
 }
 
 export interface ProductLink {
