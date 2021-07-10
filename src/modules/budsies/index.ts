@@ -23,6 +23,7 @@ import isAxiosError from './services/is-axios-error.typeguard';
 import * as vuexTypes from './store/mutation-types';
 import RushAddon from './models/rush-addon.model';
 import { BodyPartValueContentType } from './types/body-part-value-content-type.value';
+import { ImageUploadMethod } from './types/image-upload-method.value';
 
 export const BudsiesModule: StorefrontModule = async function ({ store }) {
   StorageManager.init(types.SN_BUDSIES);
@@ -54,5 +55,6 @@ export {
   BodyPartValueContentType,
   isAxiosError,
   vuexTypes,
-  RushAddon
+  RushAddon,
+  ImageUploadMethod
 }
