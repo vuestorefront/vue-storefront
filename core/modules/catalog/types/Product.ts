@@ -16,6 +16,7 @@ export default interface Product {
   custom_attributes?: any,
   custom_options?: CustomOption[],
   description: string,
+  short_description?: string,
   errors?: Record<string, any>,
   final_price?: number,
   finalPrice?: number,
