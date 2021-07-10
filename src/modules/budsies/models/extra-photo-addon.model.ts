@@ -1,4 +1,4 @@
-export default class Addon {
+export default class ExtraPhotoAddon {
   public constructor (
     public readonly id: string,
     public readonly label: string,

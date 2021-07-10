@@ -11709,6 +11709,11 @@ js-tokens@^3.0.2:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
   integrity sha1-mGbfOVECEw449/mWvOtlRDIJwls=
 
+js-video-url-parser@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/js-video-url-parser/-/js-video-url-parser-0.4.3.tgz#f3748b5a358c2e2bc9eaacd55a7c73805daf72f4"
+  integrity sha512-XADFPPbzAfvGiKgEYIcVTqbf2+PCDARiUU6/Js8W5zZhlB2wBbk7t+gVLFvnGLaHKw91CXAcLJfuGLsb8Mdyfg==
+
 js-yaml@^3.11.0, js-yaml@^3.13.0, js-yaml@^3.13.1, js-yaml@^3.9.1:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
@@ -18359,15 +18364,10 @@ vuex-router-sync@^5.0.0:
   resolved "https://registry.yarnpkg.com/vuex-router-sync/-/vuex-router-sync-5.0.0.tgz#1a225c17a1dd9e2f74af0a1b2c62072e9492b305"
   integrity sha512-Mry2sO4kiAG64714X1CFpTA/shUH1DmkZ26DFDtwoM/yyx6OtMrc+MxrU+7vvbNLO9LSpgwkiJ8W+rlmRtsM+w==
 
-vuex@^3.0.1, vuex@^3.1.0:
+vuex@^3.0.1, vuex@^3.1.0, vuex@^3.1.2:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.6.2.tgz#236bc086a870c3ae79946f107f16de59d5895e71"
   integrity sha512-ETW44IqCgBpVomy520DT5jf8n0zoCac+sxWnn+hMe/CzaSejb/eVw2YToiXYX+Ex/AuHHia28vWTq4goAexFbw==
-
-vuex@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.1.2.tgz#a2863f4005aa73f2587e55c3fadf3f01f69c7d4d"
-  integrity sha512-ha3jNLJqNhhrAemDXcmMJMKf1Zu4sybMPr9KxJIuOpVcsDQlTBYLLladav2U+g1AvdYDG5Gs0xBTb0M5pXXYFQ==
 
 vxx@^1.2.0:
   version "1.2.2"

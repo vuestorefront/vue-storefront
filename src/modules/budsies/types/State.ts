@@ -1,18 +1,19 @@
-import Addon from '../models/addon.model'
+import ExtraPhotoAddon from '../models/extra-photo-addon.model'
 import RushAddon from '../models/rush-addon.model'
 import BodypartValue from '../models/bodypart-value.model'
 import Bodypart from '../models/bodypart.model'
 import { Dictionary } from './Dictionary.type'
 
 export interface BudsiesState {
-  addons: Dictionary<Addon>,
+  extraPhotoAddons: Dictionary<ExtraPhotoAddon>,
   rushAddons: Dictionary<RushAddon>,
-  printedProductAddons: Dictionary<string[]>,
+  productExtraPhotoAddons: Dictionary<string[]>,
   productRushAddons: Dictionary<string[]>,
   bodyparts: Dictionary<Bodypart>,
   bodypartsValues: Dictionary<BodypartValue>,
   bodypartBodypartsValues: Dictionary<string[]>,
   productBodyparts: Dictionary<string[]>,
   plushieShortcode: Dictionary<string>,
-  customerEmail: string | undefined
+  customerEmail: string | undefined,
+  breeds: string[]
 }

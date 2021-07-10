@@ -16,6 +16,7 @@ export default interface Product {
   custom_attributes?: any,
   custom_options?: CustomOption[],
   description: string,
+  short_description?: string,
   errors?: Record<string, any>,
   final_price?: number,
   finalPrice?: number,
@@ -72,7 +73,9 @@ export default interface Product {
   qty?: number,
   tier_prices?: any[],
   links?: any,
-  parentId?: number | string
+  parentId?: number | string,
+  meta_title?: string | null,
+  meta_description?: string | null
 }
 
 export interface ProductLink {

@@ -107,6 +107,10 @@ const invokeClientEntry = async () => {
       store.dispatch('url/setCurrentRoute', { to, from })
 
       Promise.all(matched.map((c: any) => { // TODO: update me for mixins support
+        if (typeof c === 'function' && c.prototype instanceof Vue) {
+          c = c.options;
+        }
+
         const components = c.mixins && globalConfig.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
         union(components, [c]).map(SubComponent => {
           if (SubComponent.preAsyncData) {

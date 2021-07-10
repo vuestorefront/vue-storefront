@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import union from 'lodash-es/union'
 import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/helpers/internal'
@@ -80,6 +81,10 @@ export default async context => {
       }
       store.dispatch('url/setCurrentRoute', { to: router.currentRoute })
       Promise.all(matchedComponents.map((Component: any) => {
+        if (typeof Component === 'function' && Component.prototype instanceof Vue) {
+          Component = Component.options;
+        }
+
         const components = Component.mixins ? Array.from(Component.mixins) : []
         union(components, [Component]).map(SubComponent => {
           if (SubComponent.preAsyncData) {

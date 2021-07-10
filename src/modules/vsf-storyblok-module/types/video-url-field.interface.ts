@@ -1,4 +1,4 @@
-import { VideoProvider } from './video-provider.value';
+import { VideoProvider } from 'src/modules/shared';
 
 export default interface VideoUrlField {
   video_id: string,
