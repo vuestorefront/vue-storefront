@@ -1,9 +1,9 @@
 /* eslint-disable valid-typeof */
-import AddonApiResponse from './addon-api-response.interface';
+import ExtraPhotoAddonApiResponse from './extra-photo-addon-api-response.interface';
 
-export default function isAddonApiResponse (
+export default function isExtraPhotoAddonApiResponse (
   arg: unknown
-): arg is AddonApiResponse {
+): arg is ExtraPhotoAddonApiResponse {
   if (typeof arg !== 'object') {
     return false;
   }

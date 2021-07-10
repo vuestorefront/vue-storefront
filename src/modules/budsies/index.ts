@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
-import addonFactory from './factories/addon.factory';
+import addonFactory from './factories/extra-photo-addon.factory';
 import nl2br from './filters/nl2br';
-import Addon from './models/addon.model';
+import ExtraPhotoAddon from './models/extra-photo-addon.model';
 import { ProductValue } from './models/product.value';
 import ErrorConverterService from './services/error-converter.service';
 import { budsiesStore } from './store'
@@ -22,6 +22,8 @@ import BodypartValue from './models/bodypart-value.model';
 import isAxiosError from './services/is-axios-error.typeguard';
 import * as vuexTypes from './store/mutation-types';
 import RushAddon from './models/rush-addon.model';
+import { BodyPartValueContentType } from './types/body-part-value-content-type.value';
+import { ImageUploadMethod } from './types/image-upload-method.value';
 
 export const BudsiesModule: StorefrontModule = async function ({ store }) {
   StorageManager.init(types.SN_BUDSIES);
@@ -36,7 +38,7 @@ export const BudsiesModule: StorefrontModule = async function ({ store }) {
 }
 
 export {
-  Addon,
+  ExtraPhotoAddon,
   addonFactory,
   nl2br,
   Dictionary,
@@ -50,7 +52,9 @@ export {
   ImageAspectRatioSpec,
   Bodypart,
   BodypartValue,
+  BodyPartValueContentType,
   isAxiosError,
   vuexTypes,
-  RushAddon
+  RushAddon,
+  ImageUploadMethod
 }

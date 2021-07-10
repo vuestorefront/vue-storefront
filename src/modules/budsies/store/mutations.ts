@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
-import Addon from '../models/addon.model'
+import ExtraPhotoAddon from '../models/extra-photo-addon.model'
 import RushAddon from '../models/rush-addon.model'
 import BodypartValue from '../models/bodypart-value.model';
 import Bodypart from '../models/bodypart.model';
@@ -8,21 +8,24 @@ import { BudsiesState } from '../types/State'
 import * as types from './mutation-types';
 
 export const mutations: MutationTree<BudsiesState> = {
-  setAddon (state: BudsiesState, { key, addon }: { key: string, addon: Addon }) {
-    Vue.set(state.addons, key, addon);
+  setAddon (state: BudsiesState, { key, addon }: { key: string, addon: ExtraPhotoAddon }) {
+    Vue.set(state.extraPhotoAddons, key, addon);
+  },
+  setPlushieBreeds (state: BudsiesState, items: string[]) {
+    state.breeds = [...items];
   },
   setRushAddon (state: BudsiesState, { key, addon }: { key: string, addon: RushAddon }) {
     Vue.set(state.rushAddons, key, addon);
   },
-  setPrintedProductAddons (state: BudsiesState, { key, addons }: { key: string, addons: Addon[] }) {
+  setPrintedProductAddons (state: BudsiesState, { key, addons }: { key: string, addons: ExtraPhotoAddon[] }) {
     const ids: string[] = [];
 
     addons.forEach((item) => {
       ids.push(item.id);
-      Vue.set(state.addons, item.id, item);
+      Vue.set(state.extraPhotoAddons, item.id, item);
     });
 
-    Vue.set(state.printedProductAddons, key, ids);
+    Vue.set(state.productExtraPhotoAddons, key, ids);
   },
   setProductRushAddons (state: BudsiesState, { key, addons }: { key: string, addons: RushAddon[] }) {
     const ids: string[] = [];

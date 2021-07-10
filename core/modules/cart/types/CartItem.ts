@@ -16,7 +16,9 @@ export default interface CartItem extends Product {
   customerImagesIds?: string[],
   plushieId?: string,
   email?: string,
+  plushieBreed?: string,
   plushieName?: string,
+  plushieDescription?: string,
   bodyparts?: object,
   customFields?: object,
   uploadMethod?: string

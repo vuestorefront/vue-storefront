@@ -1,24 +1,27 @@
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import { BudsiesState } from '../types/State'
-import Addon from '../models/addon.model'
+import ExtraPhotoAddon from '../models/extra-photo-addon.model'
 import RushAddon from '../models/rush-addon.model'
 import Bodypart from '../models/bodypart.model'
 import BodypartValue from '../models/bodypart-value.model'
 
 const getters: GetterTree<BudsiesState, RootState> = {
-  getAddon: (state: BudsiesState, id: string): Addon | undefined => {
-    return state.addons[id];
+  getExtraPhotoAddon: (state: BudsiesState, id: string): ExtraPhotoAddon | undefined => {
+    return state.extraPhotoAddons[id];
   },
-  getPrintedProductAddons: (state: BudsiesState) => (id: string): Addon[] => {
-    const result: Addon[] = [];
+  getPlushieBreeds: (state: BudsiesState): string[] => {
+    return [...state.breeds];
+  },
+  getPrintedProductAddons: (state: BudsiesState) => (id: string): ExtraPhotoAddon[] => {
+    const result: ExtraPhotoAddon[] = [];
 
-    if (!state.printedProductAddons[id] || !state.printedProductAddons[id].length) {
+    if (!state.productExtraPhotoAddons[id] || !state.productExtraPhotoAddons[id].length) {
       return result;
     }
 
-    state.printedProductAddons[id].forEach((id) => {
-      result.push(state.addons[id]);
+    state.productExtraPhotoAddons[id].forEach((id) => {
+      result.push(state.extraPhotoAddons[id]);
     });
 
     return result;
