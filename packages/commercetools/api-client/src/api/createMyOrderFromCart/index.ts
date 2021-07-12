@@ -5,13 +5,14 @@ import gql from 'graphql-tag';
 import { CustomQuery } from '@vue-storefront/core';
 
 const createMyOrderFromCart = async (context, draft: OrderMyCartCommand, customQuery?: CustomQuery): Promise<OrderMutationResponse> => {
-  const { locale, acceptLanguage, currency } = context.config;
+  const { locale, acceptLanguage, currency, store } = context.config;
 
   const defaultVariables = {
     locale,
     acceptLanguage,
     currency,
-    draft
+    draft,
+    storeKey: store
   };
 
   const { createMyOrderFromCart } = context.extendQuery(

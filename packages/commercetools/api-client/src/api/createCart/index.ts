@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { CustomQuery } from '@vue-storefront/core';
 
 const createCart = async (context, cartDraft: CartData = {}, customQuery?: CustomQuery) => {
-  const { locale, acceptLanguage, currency, country } = context.config;
+  const { locale, acceptLanguage, currency, country, store } = context.config;
 
   const defaultVariables = {
     acceptLanguage,
@@ -14,7 +14,8 @@ const createCart = async (context, cartDraft: CartData = {}, customQuery?: Custo
       currency,
       country,
       ...cartDraft
-    }
+    },
+    storeKey: store
   };
 
   const { createCart: createCartGql } = context.extendQuery(

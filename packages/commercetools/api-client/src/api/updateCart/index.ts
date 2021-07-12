@@ -13,11 +13,19 @@ export interface UpdateCartParams {
 }
 
 const updateCart = async (context, params: UpdateCartParams, customQuery?: CustomQuery) => {
-  const { locale, acceptLanguage, currency } = context.config;
+  const { locale, acceptLanguage, currency, store } = context.config;
 
-  const defaultVariables = params
-    ? { locale, acceptLanguage, currency, ...params }
-    : { acceptLanguage };
+  const userVariables = params ? {
+    locale,
+    currency,
+    ...params
+  } : {};
+
+  const defaultVariables = {
+    ...userVariables,
+    acceptLanguage,
+    storeKey: store
+  };
 
   const { updateCart: updateCartGql } = context.extendQuery(
     customQuery, { updateCart: { query: defaultQuery, variables: defaultVariables } }

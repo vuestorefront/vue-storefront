@@ -4,14 +4,18 @@ import { Context, CustomQuery, Logger } from '@vue-storefront/core';
 import gql from 'graphql-tag';
 
 const customerCreatePasswordResetToken = async (context: Context, email: string, customQuery?: CustomQuery): Promise<CreatePasswordResetTokenResponse> => {
-  const { locale, acceptLanguage } = context.config;
-  const defaultVariables = email
-    ? {
-      locale,
-      acceptLanguage,
-      email
-    }
-    : { acceptLanguage };
+  const { locale, acceptLanguage, store } = context.config;
+
+  const userVariables = email ? {
+    locale,
+    email
+  } : {};
+
+  const defaultVariables = {
+    ...userVariables,
+    acceptLanguage,
+    storeKey: store
+  };
 
   const { customerCreatePasswordResetToken } = context.extendQuery(
     customQuery, { customerCreatePasswordResetToken: { query: defaultQuery, variables: defaultVariables } }
