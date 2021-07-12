@@ -141,7 +141,7 @@ Now, add the following link to the cart page.
 </template>
 ```
 
-When you submit payment information, Shopify creates order and sends an order confirmation to the customer.
+When you submit payment information, Shopify creates an order and sends an order confirmation to the customer.
 
 ### Step 5: Thank you page
 Thank you page appears on placed order successfully but the customer still on Shopify website.

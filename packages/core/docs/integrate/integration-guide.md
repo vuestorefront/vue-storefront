@@ -106,7 +106,7 @@ Each integration starts with `api-client`. This is one of the packages which is 
 Our API client always shares two entry points:
 
 - `@vue-storefront/{INTEGRATION}/server` - shares the `createApiClient`.
-- `@vue-storefront/{INTEGRATION}` - shares other library code, such as helpers, types, etc.
+- `@vue-storefront/{INTEGRATION}` - shares another library code, such as helpers, types, etc.
 
 
 ### Configuration
@@ -147,7 +147,7 @@ export * from './types/Api';
 
 To create `api-client` instances, you have to use the corresponding factory, depending on what API you are creating: proxy or direct one. The creation in both cases is pretty similar, with small differences in the used fields:
 
-- `onCreate` - a function that will be called while creating your API. In this place, you can call everything you need to create a connection to the API, such as creating SDK (e.g. axios creation), merge given config with the defaults, etc. This function always returns `client` (connection you created) and `config` or (in case it's proxy) just `config`.
+- `onCreate` - a function that will be called while creating your API. In this place, you can call everything you need to create a connection to the API, such as creating SDK (e.g., axios creation), merge given config with the defaults, etc. This function always returns `client` (connection you created) and `config` or (in case it's proxy) just `config`.
 - `api` - this is the section where you need to pass all of the API functions you have created (direct) and functions that you don't want to redirect to our middleware (proxy)
 - `extensions` - section available only in the direct connection api-client. It allows you to add an API backend extension for the API that can add additional features to the integrated platform
 
@@ -273,7 +273,7 @@ export default function (moduleOptions) {
 
 Once you have done the essential configuration of the Nuxt module and plugin, you can proceed to write composable. A good thing to know is you don't have to build it from scratch; we do most of the job for you! Instead, you have to fill in the required functions and properties called `factoryParams`.
 
-The `factoryParams` are including functions that you have to implement to provide the functionality of implementing composable, such a fetching something from the API or triggering other actions.
+The `factoryParams` include functions that you have to implement to provide the functionality of implementing composable, such a fetching something from the API or triggering other actions.
 
 
 ```ts
@@ -367,7 +367,7 @@ const useCart = () => {
 
 Our composables always return the following properties:
 
-- a field containing the API response - when you load or modify the state of the given feature, we generate a new response that is being returned by composable. It always has a proper name that refers to its purpose, e.g. cart, products, category, etc.
+- a field containing the API response - when you load or modify the state of the given feature, we generate a new response that is being returned by composable. It always has a proper name that refers to its purpose, e.g., cart, products, category, etc.
 - `loading` - a field indicating loading state
 - `error` - a field containing errors
 
