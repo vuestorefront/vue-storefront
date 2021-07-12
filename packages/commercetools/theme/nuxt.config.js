@@ -147,6 +147,32 @@ export default {
           lastCommit: process.env.LAST_COMMIT || ''
         })
       })
-    ]
+    ],
+    extend (config, ctx) {
+      if (ctx && ctx.isClient) {
+        config.optimization = {
+          ...config.optimization,
+          mergeDuplicateChunks: true,
+          splitChunks: {
+            ...config.optimization.splitChunks,
+            chunks: 'all',
+            automaticNameDelimiter: '.',
+            maxSize: 128000,
+            maxInitialRequests: Infinity,
+            minSize: 0,
+            maxAsyncRequests: 10,
+            cacheGroups: {
+              vendor: {
+                test: /[\\/]node_modules[\\/]/,
+                name: (module) => `${module
+                  .context
+                  .match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
+                  .replace(/[@\._]/gm, '')}`
+              }
+            }
+          }
+        };
+      }
+    }
   }
 };
