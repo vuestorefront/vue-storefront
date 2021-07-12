@@ -1,6 +1,7 @@
 <template>
   <div>
     <SfHeading
+      v-e2e="'heading-payment'"
       :level="3"
       :title="$t('Payment')"
       class="sf-heading--left sf-heading--no-underline title"
@@ -58,24 +59,25 @@
       </SfTableHeading>
       <SfTableRow
         v-for="(product, index) in products"
+        v-e2e="'product-row'"
         :key="index"
         class="table__row"
       >
         <SfTableData class="table__image">
           <SfImage :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
         </SfTableData>
-        <SfTableData class="table__data table__description table__data">
+        <SfTableData v-e2e="'product-title-sku'" class="table__data table__description table__data">
           <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
           <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
         </SfTableData>
         <SfTableData
-          class="table__data" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
+          class="table__data" v-e2e="'product-attributes'" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
           :key="key"
         >
           {{ value }}
         </SfTableData>
-        <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
-        <SfTableData class="table__data price">
+        <SfTableData v-e2e="'product-quantity'" class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
+        <SfTableData v-e2e="'product-price'" class="table__data price">
           <SfPrice
             :regular="$n(cartGetters.getItemPrice(product).regular, 'currency')"
             :special="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
