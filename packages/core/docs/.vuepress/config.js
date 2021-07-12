@@ -230,7 +230,8 @@ module.exports = {
             ['/advanced/architecture', 'Architecture'],
             ['/advanced/context', 'Application Context'],
             ['/advanced/calling-platform-api', 'Calling Platform API'],
-            ['/advanced/extending-graphql-queries', 'Extending GraphQL Queries'],
+            ['/advanced/creating-custom-composable', 'Creating custom composable'],
+            ['/advanced/extending-graphql-queries', 'Extending GraphQL queries'],
             ['/advanced/server-middleware', 'Server Middleware'],
             ['/advanced/internationalization', 'Internationalization'],
             ['/advanced/performance', 'Performance'],
@@ -245,7 +246,8 @@ module.exports = {
           children: [
             ['/integrate/integration-guide', 'eCommerce'],
             ['/integrate/cms', 'CMS'],
-            ['/integrate/cache-driver', 'Cache driver']
+            ['/integrate/cache-driver', 'Cache driver'],
+            ['/integrate/supporting-custom-queries', 'Supporting custom queries']
           ]
         },
         {
