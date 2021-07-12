@@ -40,6 +40,9 @@ export default {
     ],
     script: []
   },
+  plugins: [
+    '~/plugins/lazy-load.js'
+  ],
   loading: { color: '#fff' },
   router: {
     middleware: ['checkout'],
