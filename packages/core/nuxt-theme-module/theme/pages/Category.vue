@@ -361,6 +361,7 @@ import Vue from 'vue';
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
+  name: 'Category',
   transition: 'fade',
   setup(props, context) {
     const th = useUiHelpers();
