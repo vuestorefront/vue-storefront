@@ -24,6 +24,7 @@
             :subtitle="item.subtitle"
             :description="item.description"
             :button-text="item.buttonText"
+            :link="item.link"
             :image="item.image"
             :class="item.class"
           />
