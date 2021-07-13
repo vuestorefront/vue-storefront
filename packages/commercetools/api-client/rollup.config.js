@@ -24,12 +24,16 @@ const server = {
     nodeResolve({
       extensions
     }),
-    typescript({ useTsconfigDeclarationDir: true }),
+    typescript({
+      useTsconfigDeclarationDir: true,
+      // eslint-disable-next-line global-require
+      typescript: require('typescript')
+    }),
     graphql()
   ]
 };
 
 export default [
-  generateBaseConfig(pkg),
+  generateBaseConfig(pkg, true),
   server
 ];
