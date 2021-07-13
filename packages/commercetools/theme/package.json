@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/commercetools-theme",
-  "description": "Vue-Storefront CommerceTools - Default Theme",
+  "description": "Vue Storefront - commercetools theme",
   "author": "Filip Rakowski",
   "version": "1.2.3",
   "publishConfig": {
