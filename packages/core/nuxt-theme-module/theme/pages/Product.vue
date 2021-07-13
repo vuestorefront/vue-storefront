@@ -155,10 +155,6 @@
       <InstagramFeed />
     </LazyHydrate>
 
-    <LazyHydrate when-visible>
-      <MobileStoreBanner />
-    </LazyHydrate>
-
   </div>
 </template>
 <script>
@@ -187,7 +183,6 @@ import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
 import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
-import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
@@ -270,7 +265,6 @@ export default {
     SfButton,
     InstagramFeed,
     RelatedProducts,
-    MobileStoreBanner,
     LazyHydrate
   },
   data() {

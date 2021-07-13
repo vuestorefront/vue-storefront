@@ -85,9 +85,6 @@
       <InstagramFeed />
     </LazyHydrate>
 
-    <LazyHydrate when-visible>
-      <MobileStoreBanner/>
-    </LazyHydrate>
   </div>
 </template>
 <script>
@@ -105,7 +102,6 @@ import {
   SfButton
 } from '@storefront-ui/vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
-import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
@@ -123,7 +119,6 @@ export default {
     SfHeading,
     SfArrow,
     SfButton,
-    MobileStoreBanner,
     LazyHydrate
   },
   data() {
