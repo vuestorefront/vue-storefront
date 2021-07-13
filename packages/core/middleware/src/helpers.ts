@@ -5,7 +5,7 @@ export const getAgnosticStatusCode = (obj: unknown, ...keys: string[]) => {
       	return getAgnosticStatusCode(o, ...keys)
       }
     }
-  } else if (typeof obj === 'object') {  
+  } else if (obj && typeof obj === 'object') {  
     for (let key of Object.keys(obj)) {
       if (keys.includes(key)) {
         return obj[key]
