@@ -8,7 +8,11 @@
     </LazyHydrate>
 
     <div id="layout">
-      <nuxt :key="$route.fullPath"/>
+      <nuxt
+        keep-alive
+        :keep-alive-props="{ include: 'Category', max: 1 }"
+        :nuxt-child-key="$route.fullPath"
+      />
 
       <LazyHydrate when-visible>
         <BottomNavigation />
