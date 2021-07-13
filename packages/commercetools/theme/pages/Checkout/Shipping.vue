@@ -110,33 +110,6 @@
           />
         </ValidationProvider>
         <ValidationProvider
-          name="state"
-          :rules="!statesInSelectedCountry ? null : 'required|min:2'"
-          v-slot="{ errors }"
-          slim
-        >
-          <SfSelect
-            v-e2e="'shipping-state'"
-            :value="shippingDetails.state"
-            @input="state => changeShippingDetails('state', state)"
-            label="State/Province"
-            name="state"
-            class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
-            required
-            :valid="!errors[0]"
-            :errorMessage="errors[0]"
-            :disabled="!statesInSelectedCountry"
-          >
-            <SfSelectOption
-              v-for="state in statesInSelectedCountry"
-              :key="state"
-              :value="state"
-            >
-              {{ state }}
-            </SfSelectOption>
-          </SfSelect>
-        </ValidationProvider>
-        <ValidationProvider
           name="country"
           rules="required|min:2"
           v-slot="{ errors }"
@@ -148,7 +121,7 @@
             @input="country => changeShippingDetails('country', country)"
             label="Country"
             name="country"
-            class="form__element form__element--half form__select sf-select--underlined"
+            class="form__element form__element--half form__select sf-select--underlined form__element--half-even "
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -159,6 +132,33 @@
               :value="countryOption.name"
             >
               {{ countryOption.label }}
+            </SfSelectOption>
+          </SfSelect>
+        </ValidationProvider>
+        <ValidationProvider
+          name="state"
+          :rules="!statesInSelectedCountry ? null : 'required|min:2'"
+          v-slot="{ errors }"
+          slim
+        >
+          <SfSelect
+            v-e2e="'shipping-state'"
+            :value="shippingDetails.state"
+            @input="state => changeShippingDetails('state', state)"
+            label="State/Province"
+            name="state"
+            class="form__element form__element--half form__select sf-select--underlined"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+            :disabled="!statesInSelectedCountry"
+          >
+            <SfSelectOption
+              v-for="state in statesInSelectedCountry"
+              :key="state"
+              :value="state"
+            >
+              {{ state }}
             </SfSelectOption>
           </SfSelect>
         </ValidationProvider>
