@@ -202,7 +202,7 @@ export default {
       totals,
       removeItem,
       processOrder,
-      tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
+      tableHeaders: ['Description', 'Size', 'Color', 'Quantity', 'Amount'],
       cartGetters,
       getShippingMethodPrice,
       paymentReady
