@@ -1,3 +1,5 @@
+const GTM_TAG = 'GTM-WMDC3CP';
+
 module.exports = {
   title: 'Vue Storefront 2',
   base: '/v2/',
@@ -14,7 +16,7 @@ module.exports = {
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-WMDC3CP');
+      })(window,document,'script','dataLayer','${GTM_TAG}');
     `]],
   ],
   configureWebpack: (config) => {
@@ -36,6 +38,7 @@ module.exports = {
     }));
   },
   themeConfig: {
+    GTM_TAG,
     logo:
       'https://camo.githubusercontent.com/48c886ac0703e3a46bc0ec963e20f126337229fc/68747470733a2f2f643968687267346d6e767a6f772e636c6f756466726f6e742e6e65742f7777772e76756573746f726566726f6e742e696f2f32383062313964302d6c6f676f2d76735f3062793032633062793032633030303030302e6a7067',
     nav: [

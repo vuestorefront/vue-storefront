@@ -5,6 +5,17 @@
     @touchstart="onTouchStart"
     @touchend="onTouchEnd"
   >
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe
+        :src="`https://www.googletagmanager.com/ns.html?id=${ $site.themeConfig.GTM_TAG }`"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden">
+      </iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <Navbar
       v-if="shouldShowNavbar"
       @toggle-sidebar="toggleSidebar"
@@ -114,21 +125,6 @@ export default {
       ]
     }
   },
-
-  beforeMount() {
-    // Add Google Tag Manager
-    const recaptchaScript = document.createElement('noscript');
-    recaptchaScript.innerHTML = `
-      <iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-WMDC3CP"
-        height="0"
-        width="0"
-        style="display:none;visibility:hidden">
-      </iframe>
-    `;
-
-    document.body.appendChild(recaptchaScript);
-},
 
   mounted () {
     this.$router.afterEach(() => {
