@@ -24,5 +24,5 @@ actionLink: /guide/general/introduction.html
 
 
 <div class="footer">
-    v1.11 optimized |  MIT Licensed | Copyright © Divante
+    v1.12.3 optimized |  MIT Licensed | Copyright © Vue Storefront
   </div>
