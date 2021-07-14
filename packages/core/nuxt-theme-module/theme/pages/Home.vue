@@ -324,6 +324,7 @@ export default {
     margin: var(--spacer-2xl) 0;
     ::v-deep .sf-link {
       --button-width: auto;
+      text-decoration: none;
     }
   }
 }
