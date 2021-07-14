@@ -10,7 +10,7 @@ async function load (context: Context, params: UseStoreFactoryLoadParamArguments
 
 // Change param
 async function change (context: Context, { store }: UseStoreFactoryChangeParamArguments) {
-  context.$ct.config.storeService.changeCurrentStore(store.id);
+  context.$ct.config.storeService.changeCurrentStore(`${store.key}`);
   window.location.reload();
   return null as StoresData;
 }

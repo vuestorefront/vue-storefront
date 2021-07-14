@@ -64,7 +64,7 @@ import {
   SfSelect
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
-import { useStore, storeGetters } from '<%= options.generate.replace.composables %>';
+import { useCart, useStore, storeGetters } from '<%= options.generate.replace.composables %>';
 import { ref, computed } from '@vue/composition-api';
 
 export default {
@@ -80,6 +80,7 @@ export default {
   setup(props, context) {
     const { locales, locale, defaultLocale } = context.root.$i18n;
     const { load, change, response } = useStore();
+    const { clear, cart } = useCart();
     const isLangModalOpen = ref(false);
     const availableLocales = computed(() => locales.filter(i => i.code !== locale));
 
@@ -91,6 +92,7 @@ export default {
     const selectedStore = computed(() => storeGetters.getSelected(response.value));
     const changeStore = async (store) => {
       isLangModalOpen.value = false;
+      if (cart?.value) await clear(cart);
       await change({store});
     };
     const isStoreSelected = (store) => selectedStore.value?.id === store.id;
@@ -104,7 +106,6 @@ export default {
       selectedStore,
       isStoreSelected,
       getStoreLocale,
-      //
       availableLocales,
       locale,
       isLangModalOpen
