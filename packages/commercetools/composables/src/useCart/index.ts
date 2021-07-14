@@ -48,7 +48,10 @@ const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductV
     return data.cart;
   },
   clear: async (context: Context, { currentCart }) => {
-    return currentCart;
+    const cartDetails = await getCurrentCartDetails(context, currentCart);
+
+    const { data } = await context.$ct.api.deleteCart(cartDetails);
+    return data.cart;
   },
   applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
     const cartDetails = await getCurrentCartDetails(context, currentCart);
