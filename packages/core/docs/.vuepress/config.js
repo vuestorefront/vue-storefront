@@ -1,3 +1,5 @@
+const GTM_TAG = 'GTM-WMDC3CP';
+
 module.exports = {
   title: 'Vue Storefront 2',
   base: '/v2/',
@@ -5,12 +7,17 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
 
-    //HubSpot
+    // HubSpot
     ['script', { async: true, defer: true, src: 'https://js.hs-scripts.com/8443671.js', id: 'hs-script-loader' }],
 
-    // Google Analytics
-    ['script', { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-12MM6R3MDK' }],
-    ['script', {}, ['window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-12MM6R3MDK");']],
+    // Google Tag Manager
+    ['script', {}, [`
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','${GTM_TAG}');
+    `]],
   ],
   configureWebpack: (config) => {
     config.module.rules = config.module.rules.map((rule) => ({
@@ -31,6 +38,7 @@ module.exports = {
     }));
   },
   themeConfig: {
+    GTM_TAG,
     logo:
       'https://camo.githubusercontent.com/48c886ac0703e3a46bc0ec963e20f126337229fc/68747470733a2f2f643968687267346d6e767a6f772e636c6f756466726f6e742e6e65742f7777772e76756573746f726566726f6e742e696f2f32383062313964302d6c6f676f2d76735f3062793032633062793032633030303030302e6a7067',
     nav: [
