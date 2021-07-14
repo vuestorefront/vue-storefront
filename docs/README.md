@@ -2,7 +2,7 @@
 home: true
 heroImage: /vuelogo.jpg
 heroText: Documentation
-tagline: Headless PWA for eCommerce
+tagline: Bodiless frontend framework for headless commerce (Magento 2)
 actionText: Introduction →
 actionLink: /guide/general/introduction.html
 
