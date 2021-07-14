@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@microsoft/api-documenter": "^7.13.7",
-    "@microsoft/api-extractor": "^7.15.1",
+    "@microsoft/api-extractor": "^7.18.3",
     "@vue-storefront/commercetools-api": "^1.2.0",
     "concat-md": "^0.3.5",
     "handlebars": "^4.7.7",
