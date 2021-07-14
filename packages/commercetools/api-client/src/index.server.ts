@@ -60,12 +60,13 @@ const parseToken = (rawToken) => {
 
 const getI18nConfig = (req, configuration) => {
   const cookieSettings = configuration.cookies || defaultSettings.cookies;
-  const { currencyCookieName, countryCookieName, localeCookieName } = cookieSettings;
+  const { currencyCookieName, countryCookieName, localeCookieName, storeCookieName } = cookieSettings;
   const locale = req.cookies[localeCookieName] || configuration.locale || defaultSettings.locale;
-  const currency = req.cookies[currencyCookieName] || configuration.currency;
-  const country = req.cookies[countryCookieName] || configuration.country;
+  const currency = req.cookies[currencyCookieName] || configuration.currency || defaultSettings.currency;
+  const country = req.cookies[countryCookieName] || configuration.country || defaultSettings.country;
+  const store = req.cookies[storeCookieName] || configuration.store;
 
-  return { currency, country, locale };
+  return { currency, country, locale, store };
 };
 
 const tokenExtension: ApiClientExtension = {
@@ -107,10 +108,36 @@ const tokenExtension: ApiClientExtension = {
   }
 };
 
+const logMailExtension: ApiClientExtension = {
+  name: 'logMailExtension',
+  extendApiMethods: {
+    customerCreatePasswordResetToken: async (context, email) => {
+      const response = await api.customerCreatePasswordResetToken(context, email);
+      const token = response?.data?.customerCreatePasswordResetToken?.value;
+
+      const emailObject = {
+        to: email,
+        from: 'password-recovery@vue-storefront.io',
+        subject: `Password recovery for ${email}`,
+        html: `<a href='/reset-password?token=${token}'>Reset your password by clicking this link</a>`
+      };
+
+      console.log(JSON.stringify(emailObject));
+      return response;
+    }
+  }
+};
+
+const extensions = [tokenExtension];
+
+if (process.env.NODE_ENV === 'development') {
+  extensions.push(logMailExtension);
+}
+
 const { createApiClient } = apiClientFactory({
   onCreate,
   api,
-  extensions: [tokenExtension]
+  extensions
 });
 
 export {

@@ -17,6 +17,7 @@ const getCurrentCartDetails = async (context: Context, currentCart): Promise<Car
 const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductVariant, AgnosticCoupon> = {
   load: async (context: Context, { customQuery }) => {
     const { $ct } = context;
+    if (!$ct.config.auth.onTokenRead()) return null;
 
     const isGuest = await $ct.api.isGuest();
 

@@ -14,3 +14,6 @@ export * from './useUserOrderFactory';
 export * from './useUserShippingFactory';
 export * from './useWishlistFactory';
 export * from './useShippingProviderFactory';
+export * from './useForgotPasswordFactory';
+export * from './useStoreFactory';
+export * from './useSearchFactory';

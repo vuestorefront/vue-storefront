@@ -1,7 +1,7 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit, reset }">
     <SfHeading
-      v-e2e="'heading-billing'"
+      v-e2e="'billing-heading'"
       :level="3"
       :title="$t('Billing address')"
       class="sf-heading--left sf-heading--no-underline title"
@@ -33,7 +33,7 @@
           slim
         >
           <SfInput
-            v-e2e="'firstName'"
+            v-e2e="'billing-firstName'"
             :value="billingDetails.firstName"
             @input="firstName => changeBillingDetails('firstName', firstName)"
             label="First name"
@@ -51,7 +51,7 @@
           slim
         >
           <SfInput
-            v-e2e="'lastName'"
+            v-e2e="'billing-lastName'"
             :value="billingDetails.lastName"
             @input="lastName => changeBillingDetails('lastName', lastName)"
             label="Last name"
@@ -69,7 +69,7 @@
           slim
         >
           <SfInput
-            v-e2e="'streetName'"
+            v-e2e="'billing-streetName'"
             :value="billingDetails.streetName"
             @input="streetName => changeBillingDetails('streetName', streetName)"
             label="Street name"
@@ -87,7 +87,7 @@
           slim
         >
           <SfInput
-            v-e2e="'apartment'"
+            v-e2e="'billing-apartment'"
             :value="billingDetails.apartment"
             @input="apartment => changeBillingDetails('apartment', apartment)"
             label="House/Apartment number"
@@ -105,7 +105,7 @@
           slim
         >
           <SfInput
-            v-e2e="'city'"
+            v-e2e="'billing-city'"
             :value="billingDetails.city"
             @input="city => changeBillingDetails('city', city)"
             label="City"
@@ -123,7 +123,7 @@
           slim
         >
           <SfSelect
-            v-e2e="'state'"
+            v-e2e="'billing-state'"
             :value="billingDetails.state"
             @input="state => changeBillingDetails('state', state)"
             label="State/Province"
@@ -150,7 +150,7 @@
           slim
         >
           <SfSelect
-            v-e2e="'country'"
+            v-e2e="'billing-country'"
             :value="billingDetails.country"
             @input="country => changeBillingDetails('country', country)"
             label="Country"
@@ -176,7 +176,7 @@
           slim
         >
           <SfInput
-            v-e2e="'zipcode'"
+            v-e2e="'billing-zipcode'"
             :value="billingDetails.postalCode"
             @input="postalCode => changeBillingDetails('postalCode', postalCode)"
             label="Zip-code"
@@ -194,7 +194,7 @@
           slim
         >
           <SfInput
-            v-e2e="'phone'"
+            v-e2e="'billing-phone'"
             :value="billingDetails.phone"
             @input="phone => changeBillingDetails('phone', phone)"
             label="Phone number"
@@ -207,9 +207,10 @@
         </ValidationProvider>
       </div>
       <SfButton
+        v-e2e="'billing-add-new-address'"
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
-        type="submit"
+        type="button"
         @click.native="handleAddNewAddressBtnClick"
       >
         {{ $t('Add new address') }}

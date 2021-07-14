@@ -3,6 +3,26 @@
 import { Ref } from '@vue/composition-api';
 import type { Request, Response } from 'express';
 
+/**
+ * Default name of the cookie storing active localization code
+ */
+export const VSF_LOCALE_COOKIE = 'vsf-locale';
+
+/**
+ * Default name of the cookie storing active currency code
+ */
+export const VSF_CURRENCY_COOKIE = 'vsf-currency';
+
+/**
+ * Default name of the cookie storing active country code
+ */
+export const VSF_COUNTRY_COOKIE = 'vsf-country';
+
+/**
+ * Default name of the cookie storing active store code
+ */
+export const VSF_STORE_COOKIE = 'vsf-store';
+
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
 export type CustomQuery = Record<string, string>
@@ -18,6 +38,10 @@ export interface ProductsSearchParams {
   [x: string]: any;
 }
 export interface UseProductErrors {
+  search: Error;
+}
+
+export interface UseSearchErrors {
   search: Error;
 }
 
@@ -56,6 +80,26 @@ export interface UseProduct<
   error: ComputedProperty<UseProductErrors>;
   search(params: ComposableFunctionArgs<PRODUCT_SEARCH_PARAMS>): Promise<void>;
   [x: string]: any;
+}
+
+export interface UseForgotPasswordErrors {
+  request: Error;
+  setNew: Error;
+}
+
+export interface UseForgotPassword<RESULT> {
+  result: ComputedProperty<RESULT>;
+  loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseForgotPasswordErrors>;
+  setNew(params: ComposableFunctionArgs<{ tokenValue: string, newPassword: string }>): Promise<void>;
+  request(params: ComposableFunctionArgs<{ email: string }>): Promise<void>;
+}
+
+export interface UseSearch<RESULT, SEARCH_PARAMS> {
+  result: ComputedProperty<RESULT>;
+  loading: ComputedProperty<boolean>;
+  error: ComputedProperty<UseSearchErrors>;
+  search(params: ComposableFunctionArgs<SEARCH_PARAMS>): Promise<void>;
 }
 
 export interface UseUserRegisterParams {
@@ -492,6 +536,18 @@ export interface AgnosticCategoryTree {
   [x: string]: unknown;
 }
 
+export interface AgnosticFilter {
+  id: string;
+  label: string;
+  values: {
+    id: string;
+    isSlected?: boolean;
+    count?: number;
+    label: string;
+    value: string;
+  }[]
+}
+
 export interface AgnosticProductReview {
   id: string;
   author: string;
@@ -570,6 +626,29 @@ export interface AgnosticPagination {
   totalItems: number;
   itemsPerPage: number;
   pageOptions: number[];
+}
+
+export interface AgnosticAddress {
+  addressLine1: string;
+  addressLine2: string;
+  [x: string]: unknown;
+}
+
+export interface AgnosticGeoLocation {
+  type: string;
+  coordinates?: unknown;
+  [x: string]: unknown;
+}
+
+export interface AgnosticStore {
+  name: string;
+  id: string;
+  description?: string;
+  locales?: AgnosticLocale[];
+  currencies?: AgnosticCurrency[]
+  address?: AgnosticAddress;
+  geoLocation?: AgnosticGeoLocation;
+  [x: string]: unknown;
 }
 
 export interface ProductGetters<PRODUCT, PRODUCT_FILTER> {
@@ -682,6 +761,25 @@ export interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
+export interface ForgotPasswordGetters<FORGOT_PASSWORD_RESULT> {
+  getResetPasswordToken: (result: FORGOT_PASSWORD_RESULT) => string
+  isPasswordChanged: (result: FORGOT_PASSWORD_RESULT) => boolean
+}
+
+export interface UseSearchGetters<RESULT, ITEM> {
+  getItems: (result: RESULT) => ITEM[];
+  getCategoryTree: (result: RESULT) => AgnosticCategoryTree;
+  getPagination: (result: RESULT) => AgnosticPagination;
+  getItemPrice: (item: ITEM) => AgnosticPrice;
+  getSortOptions: (result: RESULT) => AgnosticSort;
+  getBreadcrumbs: (result: RESULT) => AgnosticBreadcrumb[];
+  getItemImages: (item: ITEM) => AgnosticMediaGalleryItem[]
+  getFilters: (result: RESULT) => AgnosticFilter[];
+  getItemName: (item: ITEM) => string;
+  getItemId: (item: ITEM) => string;
+  getItemSlug: (item: ITEM) => string;
+}
+
 export interface VSFLogger {
   debug(message?: any, ...args: any): void;
   info(message?: any, ...args: any): void;
@@ -779,4 +877,40 @@ export type ApiClientMethods<T> = {
     T[K] extends (...args: any) => any ?
     (...args: [...Parameters<T[K]>, CustomQuery?]) => ReturnType<T[K]> :
     T[K]
+}
+
+export interface UseStoreErrors {
+  load: Error | null;
+  change: Error | null;
+}
+
+export interface UseStoreFactoryChangeParamArguments {
+  currentStore: AgnosticStore;
+  store: AgnosticStore;
+  customQuery?: CustomQuery;
+}
+
+export interface UseStoreFactoryLoadParamArguments {
+  customQuery: CustomQuery;
+}
+
+export interface UseStoreFactoryParams<STORES> extends FactoryParams {
+  load(context: Context, params: UseStoreFactoryLoadParamArguments): Promise<STORES>
+  change(context: Context, parmas: UseStoreFactoryChangeParamArguments): Promise<STORES>
+}
+export interface UseStoreInterface<STORES> {
+  change(params: UseStoreFactoryChangeParamArguments): Promise<void>;
+  load(params?: UseStoreFactoryLoadParamArguments): Promise<void>;
+  loading: ComputedProperty<boolean>;
+  response: ComputedProperty<STORES>;
+  error: ComputedProperty<UseStoreErrors>;
+}
+
+export interface UseStore<STORES> {
+  (): UseStoreInterface<STORES>;
+}
+
+export interface UseStoreGetters<STORES, CRITERIA = any> {
+  getItems(stores: STORES, criteria?: CRITERIA): AgnosticStore[];
+  getSelected(stores: STORES): AgnosticStore | undefined
 }

@@ -35,6 +35,9 @@ jest.mock('@vue-storefront/core', () => ({
 
 const context = {
   $ct: {
+    config: {
+      store: ''
+    },
     api: {
       getProduct: jest.fn(() => Promise.resolve(productResponse))
     }

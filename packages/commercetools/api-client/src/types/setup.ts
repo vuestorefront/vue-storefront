@@ -29,6 +29,7 @@ export interface CookiesConfig {
   currencyCookieName: string;
   countryCookieName: string;
   localeCookieName: string;
+  storeCookieName: string;
 }
 
 export interface LocaleItem {
@@ -42,6 +43,10 @@ export interface Auth {
   onTokenRemove?: () => void;
 }
 
+export interface StoreService {
+  changeCurrentStore: (id: string) => void
+}
+
 export interface SetupConfig<TCacheShape> {
   api?: ApiConfig;
   customOptions?: ApolloClientOptions<TCacheShape>;
@@ -53,8 +58,10 @@ export interface SetupConfig<TCacheShape> {
   locales?: LocaleItem[];
   languageMap?: Record<string, any>;
   acceptLanguage?: string[];
+  store: string;
   cookies?: CookiesConfig;
   auth?: Auth;
+  storeService?: StoreService;
   forceToken?: boolean;
 }
 
@@ -75,8 +82,10 @@ export interface Config<T = any> {
   locales: LocaleItem[];
   languageMap: Record<string, any>;
   acceptLanguage: string[];
+  store: string;
   cookies: CookiesConfig;
   auth?: Auth;
+  storeService?: StoreService;
   forceToken?: boolean;
   handleIsTokenUserSession: (token: Token) => boolean;
 }

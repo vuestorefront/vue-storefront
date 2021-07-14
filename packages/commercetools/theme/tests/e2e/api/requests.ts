@@ -1,4 +1,4 @@
-import { Customer, Product } from '../types/types';
+import { Address, Customer, Product } from '../types/types';
 
 export type CreateCartResponse = {
   body: {
@@ -6,6 +6,17 @@ export type CreateCartResponse = {
       cart: {
         id: string;
       }
+    }
+  }
+}
+
+export type GetShippingMethodsResponse = {
+  body: {
+    data: {
+      shippingMethods: [{
+        id: string;
+        name: string;
+      }]
     }
   }
 }
@@ -73,6 +84,71 @@ const requests = {
       },
       body: [
         {customer: false}, null
+      ]
+    };
+    return cy.request(options);
+  },
+
+  getShippingMethods(cartId: string): Cypress.Chainable {
+    const options = {
+      url: '/api/ct/getShippingMethods',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: [
+        cartId
+      ]
+    };
+    return cy.request(options);
+  },
+
+  updateCart(cartId: string, data?: { addresses?: { shipping?: Address, billing?: Address }, shippingMethodId?: string }): Cypress.Chainable {
+    const actions = [];
+
+    if (data.addresses !== undefined) {
+      if (data.addresses.shipping !== undefined) actions.push({
+        setShippingAddress: {
+          address: {
+            ...data.addresses.shipping
+          }
+        }
+      });
+
+      if (data.addresses.billing !== undefined) actions.push({
+        setBillingAddress: {
+          address: {
+            ...data.addresses.billing
+          }
+        }
+      });
+    }
+
+    if (data.shippingMethodId !== undefined) actions.push({
+      setShippingMethod: {
+        shippingMethod: {
+          id: data.shippingMethodId
+        }
+      }
+    });
+
+    const options = {
+      url: '/api/ct/updateCart',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: [
+        {
+          id: cartId,
+          version: 1,
+          actions: [
+            ...actions
+          ]
+        },
+        null
       ]
     };
     return cy.request(options);
