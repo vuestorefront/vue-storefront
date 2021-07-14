@@ -148,5 +148,11 @@ export default {
         })
       })
     ]
+  },
+  publicRuntimeConfig: {
+    homeBannerA: process.env.HOME_BANNER_A || '/',
+    homeBannerB: process.env.HOME_BANNER_B || '/',
+    homeBannerC: process.env.HOME_BANNER_C || '/',
+    homeBannerD: process.env.HOME_BANNER_D || '/'
   }
 };

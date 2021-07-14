@@ -170,7 +170,7 @@ export default {
             desktop: '/homepage/bannerF.webp'
           },
           class: 'sf-banner--slim desktop-only',
-          link: '/c/women/women-clothing-skirts'
+          link: this.$config.homeBannerA
         },
         {
           slot: 'banner-B',
@@ -181,7 +181,7 @@ export default {
           buttonText: 'Shop now',
           image: '/homepage/bannerE.webp',
           class: 'sf-banner--slim banner-central desktop-only',
-          link: '/c/women/women-clothing-dresses'
+          link: this.$config.homeBannerB
         },
         {
           slot: 'banner-C',
@@ -189,7 +189,7 @@ export default {
           title: 'The Office Life',
           image: '/homepage/bannerC.webp',
           class: 'sf-banner--slim banner__tshirt',
-          link: '/c/women/women-clothing-shirts'
+          link: this.$config.homeBannerC
         },
         {
           slot: 'banner-D',
@@ -197,7 +197,7 @@ export default {
           title: 'Eco Sandals',
           image: '/homepage/bannerG.webp',
           class: 'sf-banner--slim',
-          link: '/c/women/women-shoes-sandals'
+          link: this.$config.homeBannerD
         }
       ],
       products: [
