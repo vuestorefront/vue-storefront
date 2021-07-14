@@ -2,7 +2,7 @@
 home: true
 heroImage: /vuelogo.jpg
 heroText: Documentation
-tagline: Headless PWA for eCommerce
+tagline: Bodiless frontend framework for headless commerce (Magento 2)
 actionText: Introduction →
 actionLink: /guide/general/introduction.html
 
@@ -24,5 +24,5 @@ actionLink: /guide/general/introduction.html
 
 
 <div class="footer">
-    v1.11 optimized |  MIT Licensed | Copyright © Divante
+    v1.12.3 optimized |  MIT Licensed | Copyright © Vue Storefront
   </div>
