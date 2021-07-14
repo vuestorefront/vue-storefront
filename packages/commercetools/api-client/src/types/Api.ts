@@ -119,6 +119,7 @@ interface ApiMethods {
   customerUpdateMe (currentUser, updatedUserData): Promise<any>;
   customerResetPassword (tokenValue: string, newPassword: string): Promise<ResetPasswordResponse>;
   customerCreatePasswordResetToken (email: string): Promise<CreatePasswordResetTokenResponse>;
+  deleteCart ({ id, version }: CartDetails): Promise<CartResponse>;
   getCart (cartId: string): Promise<CartQueryResponse>;
   getCategory (params): Promise<QueryResponse<'categories', CategoryQueryResult>>;
   getMe (params?: GetMeParams): Promise<{ data: { me: Me } }>;
