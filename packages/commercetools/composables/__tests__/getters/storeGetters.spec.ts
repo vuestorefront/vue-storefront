@@ -1,10 +1,10 @@
 import { storeGetters } from '../../src/getters';
 import { StoresData } from '../../src/types';
 
-function makeStore (storeId, storeName, channelID, channelName) {
+function makeStore (storeId, storeName, channelID = null, channelName = null) {
   return {
-    name: `${storeName} - ${channelName}`,
-    id: `${storeId}/${channelID}`,
+    name: `${storeName}${channelName ? ` - ${channelName}` : ''}`,
+    id: `${storeId}${channelID ? `/${channelID}` : ''}`,
     description: '',
     geoLocation: null,
     locales: [],
@@ -29,7 +29,8 @@ const supplyChannels = [
 const results = [
   { id: '1', name: 'store-1', distributionChannels, supplyChannels },
   { id: '2', name: 'store-2', distributionChannels: [], supplyChannels },
-  { id: '3', name: 'store-3', distributionChannels, supplyChannels: [] }
+  { id: '3', name: 'store-3', distributionChannels, supplyChannels: [] },
+  { id: '4', name: 'store-4', distributionChannels: [], supplyChannels: [] }
 ];
 
 const stores = {
@@ -57,7 +58,8 @@ describe('[commercetools-getters] store getters', () => {
         makeStore('2', 'store-2', 's3', 'supply channel 3'),
         makeStore('3', 'store-3', 'd1', 'distribution channel 1'),
         makeStore('3', 'store-3', 'd2', 'distribution channel 2'),
-        makeStore('3', 'store-3', 'd3', 'distribution channel 3')
+        makeStore('3', 'store-3', 'd3', 'distribution channel 3'),
+        makeStore('4', 'store-4'),
       ];
 
       expect(storeGetters.getItems(stores as StoresData)).toStrictEqual(expected);
