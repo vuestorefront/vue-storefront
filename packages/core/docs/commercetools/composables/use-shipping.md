@@ -25,6 +25,8 @@ type CustomQuery = {
 
     - `customQuery?: CustomQuery`
 
+  - `params?: ShippingParams`
+
 ```ts
 type Address = {
   __typename?: "Address";
@@ -57,6 +59,10 @@ type Address = {
 type CustomQuery = {
   updateCart: string
 }
+type ShippingParams = {
+  resetShippingMethods: boolean;
+  [x: string]: any;
+};
 ```
 - `shipping: Address` - a main data object that contains a shipping address.
 

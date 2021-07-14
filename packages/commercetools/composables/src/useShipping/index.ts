@@ -3,7 +3,12 @@ import { useCart } from '../useCart';
 import { cartActions } from '@vue-storefront/commercetools-api';
 import { Address } from './../types/GraphQL';
 
-const useShippingFactoryParams: UseShippingParams<Address, any> = {
+type ShippingParams = {
+  resetShippingMethods: boolean;
+  [x:string]: any
+}
+
+const useShippingFactoryParams: UseShippingParams<Address, ShippingParams> = {
   provide() {
     return {
       cart: useCart()
@@ -15,12 +20,12 @@ const useShippingFactoryParams: UseShippingParams<Address, any> = {
     }
     return context.cart.cart.value.shippingAddress;
   },
-  save: async (context: Context, { shippingDetails, customQuery }) => {
+  save: async (context: Context, { shippingDetails, customQuery, params = { resetShippingMethods: true } }) => {
     const cartResponse = await context.$ct.api.updateCart({
       id: context.cart.cart.value.id,
       version: context.cart.cart.value.version,
       actions: [
-        cartActions.setShippingMethodAction(),
+        ...(params.resetShippingMethods ? [cartActions.setShippingMethodAction()] : []),
         cartActions.setShippingAddressAction(shippingDetails)
       ]
     }, customQuery);
@@ -30,7 +35,7 @@ const useShippingFactoryParams: UseShippingParams<Address, any> = {
   }
 };
 
-const useShipping = useShippingFactory<Address, any>(useShippingFactoryParams);
+const useShipping = useShippingFactory<Address, ShippingParams>(useShippingFactoryParams);
 
 export {
   useShipping,
