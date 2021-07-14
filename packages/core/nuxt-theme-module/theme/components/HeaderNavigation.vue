@@ -31,7 +31,6 @@
 <script>
 import { SfMenuItem, SfModal } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
-import { ref } from '@vue/composition-api';
 
 export default {
   name: 'HeaderNavigation',
@@ -47,7 +46,7 @@ export default {
   },
   setup() {
     const { isMobileMenuOpen, toggleMobileMenu } = useUiState();
-    const categories = ref(['women', 'men']);
+    const categories = ['women', 'men'];
 
     return {
       categories,
