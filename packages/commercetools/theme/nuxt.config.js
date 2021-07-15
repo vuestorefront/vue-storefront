@@ -148,5 +148,8 @@ export default {
         })
       })
     ]
+  },
+  publicRuntimeConfig: {
+    searchResultsCategoryLink: process.env.SEARCH_RESULTS_CATEGORY_LINK || '/'
   }
 };
