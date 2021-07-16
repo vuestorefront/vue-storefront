@@ -1,5 +1,6 @@
 import { storeGetters } from '../../src/getters';
 import { StoresData } from '../../src/types';
+import { AgnosticStore } from '@vue-storefront/core';
 
 function makeStore (storeId, storeName, channelID = null, channelName = null) {
   return {
@@ -8,36 +9,37 @@ function makeStore (storeId, storeName, channelID = null, channelName = null) {
     description: '',
     geoLocation: null,
     locales: [],
+    key: `${storeId}${channelID ? `/${channelID}` : ''}`,
     address: { addressLine1: '', addressLine2: '', _address: null },
     _storeID: storeId,
     _channelID: channelID
-  };
+  } as AgnosticStore;
 }
 
-const distributionChannels = [
-  { id: 'd1', name: 'distribution channel 1' },
-  { id: 'd2', name: 'distribution channel 2' },
-  { id: 'd3', name: 'distribution channel 3' }
-];
+const distributionChannels = (id) => ([
+  { id: 'd1', name: 'distribution channel 1', key: `${id}/d1`},
+  { id: 'd2', name: 'distribution channel 2', key: `${id}/d2`},
+  { id: 'd3', name: 'distribution channel 3', key: `${id}/d3` }
+]);
 
-const supplyChannels = [
-  { id: 's1', name: 'supply channel 1' },
-  { id: 's2', name: 'supply channel 2' },
-  { id: 's3', name: 'supply channel 3' }
-];
+const supplyChannels = (id) => ([
+  { id: 's1', name: 'supply channel 1', key: `${id}/s1` },
+  { id: 's2', name: 'supply channel 2', key: `${id}/s2` },
+  { id: 's3', name: 'supply channel 3', key: `${id}/s3` }
+]);
 
 const results = [
-  { id: '1', name: 'store-1', distributionChannels, supplyChannels },
-  { id: '2', name: 'store-2', distributionChannels: [], supplyChannels },
-  { id: '3', name: 'store-3', distributionChannels, supplyChannels: [] },
-  { id: '4', name: 'store-4', distributionChannels: [], supplyChannels: [] }
+  { id: '1', name: 'store-1', key: '1', distributionChannels: distributionChannels('1'), supplyChannels: supplyChannels('1') },
+  { id: '2', name: 'store-2', key: '2', distributionChannels: [], supplyChannels: supplyChannels('2') },
+  { id: '3', name: 'store-3', key: '3', distributionChannels: distributionChannels('3'), supplyChannels: [] },
+  { id: '4', name: 'store-4', key: '4', distributionChannels: [], supplyChannels: [] }
 ];
 
 const stores = {
   offset: 0,
   count: 0,
   total: 0,
-  _selected: '3/d2',
+  _selected: '3',
   results
 };
 
@@ -164,7 +166,7 @@ describe('[commercetools-getters] store getters', () => {
   describe('getSelected', () => {
 
     it('returns selected store', () => {
-      const expected = makeStore('3', 'store-3', 'd2', 'distribution channel 2');
+      const expected = makeStore('3', 'store-3', 'd1', 'distribution channel 1');
       expect(storeGetters.getSelected(stores as StoresData)).toStrictEqual(expected);
     });
 

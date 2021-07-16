@@ -10,7 +10,8 @@ const context = {
       applyCartCoupon: jest.fn(() => ({ data: { cart: 'some cart' } })),
       removeCartCoupon: jest.fn(() => ({ data: { cart: 'current cart' } })),
       getSettings: jest.fn(() => ({ currentToken: 1 })),
-      isTokenUserSession: jest.fn()
+      isTokenUserSession: jest.fn(),
+      deleteCart: jest.fn(() => ({ data: { cart: 'some cart' } }))
     }
   }
 };
@@ -73,7 +74,7 @@ describe('[commercetools-composables] useCart', () => {
     const currentCart = { id: 1, version: 1 };
     const response = await clear(context, { currentCart });
 
-    expect(response).toEqual(currentCart);
+    expect(response).toEqual('some cart');
   });
 
   it('applies coupon', async () => {
