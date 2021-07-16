@@ -7,7 +7,7 @@
   >
     <template #modal-bar>
       <SfBar
-        class="sf-modal__bar smartphone-only"
+        class="smartphone-only"
         :close="true"
         :title="$t('Subscribe to newsletter')"
         @click:close="closeModal"
@@ -15,21 +15,40 @@
     </template>
     <transition name="sf-fade" mode="out-in">
       <div>
-        <SfInput type="email" placeholder="email address">
-        </SfInput>
-        <SfButton>
-          I confirm subscription
-        </SfButton>
-        <p>
-          Lorem ipsum
-        </p>
+        <SfHeading
+          :level="3"
+          :title="$t('Subscribe to newsletter')"
+          class="desktop-only"
+        />
+        <form  @submit.prevent="">
+          <SfInput type="email" label="Email address"/>
+          <SfButton class="modal-button" type="submit">
+            I confirm subscription
+          </SfButton>
+        </form>
+        <SfHeading
+          description="You can unsubscribe at any time"
+          :level="3"
+        />
+        <SfScrollable :maxContentHeight="isMobile ? '' : '3.75rem'" showText="show more" hideText="hide">
+          <p>
+            After signing up for the newsletter, you will receive special offers and messages from VSF via email.
+            We will not sell or distribute your email to any third party at any time.
+            Please see our <SfLink link="https://www.vuestorefront.io/privacy-policy">Privacy Policy</SfLink>
+          </p>
+        </SfScrollable>
       </div>
     </transition>
   </SfModal>
 </template>
 <script>
 import { ref } from '@vue/composition-api';
-import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfBar } from '@storefront-ui/vue';
+import { SfModal, SfHeading, SfInput, SfButton, SfScrollable, SfBar, SfLink } from '@storefront-ui/vue';
+import {
+  mapMobileObserver,
+  unMapMobileObserver
+} from '@storefront-ui/vue/src/utilities/mobile-observer.js';
+import { computed, onBeforeUnmount } from '@vue/composition-api';
 import { extend } from 'vee-validate';
 import { email } from 'vee-validate/dist/rules';
 import { useUiState } from '~/composables';
@@ -43,11 +62,12 @@ export default {
   name: 'LoginModal',
   components: {
     SfModal,
+    SfHeading,
     SfInput,
     SfButton,
-    SfCheckbox,
-    SfLoader,
-    SfBar
+    SfScrollable,
+    SfBar,
+    SfLink
   },
   setup() {
     const { isNewsletterModalOpen, toggleNewsletterModal } = useUiState();
@@ -57,10 +77,17 @@ export default {
       toggleNewsletterModal();
     };
 
+    const isMobile = computed(() => mapMobileObserver().isMobile.get());
+
+    onBeforeUnmount(() => {
+      unMapMobileObserver();
+    });
+
     return {
       form,
       isNewsletterModalOpen,
       toggleNewsletterModal,
+      isMobile,
       closeModal
     };
   }
@@ -70,50 +97,12 @@ export default {
 <style lang="scss" scoped>
 
 .modal {
+  display: flex;
+  justify-content: center;
   --modal-index: 3;
   --overlay-z-index: 3;
 }
-.form {
-  margin-top: var(--spacer-sm);
-  &__element {
-    margin: 0 0 var(--spacer-xl) 0;
-  }
-}
-.action {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
-  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--secondary);
-  & > * {
-    margin: 0 0 0 var(--spacer-xs);
-  }
-}
-.action {
-  margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
-}
-.checkbox {
-  margin-bottom: var(--spacer-2xl);
-}
-.bottom {
-  text-align: center;
-  margin-bottom: var(--spacer-lg);
-  font-size: var(--h3-font-size);
-  font-weight: var(--font-weight--semibold);
-  font-family: var(--font-family--secondary);
-  &__paragraph {
-    color: var(--c-primary);
-    margin: 0 0 var(--spacer-base) 0;
-    @include for-desktop {
-      margin: 0;
-    }
-  }
-}
-.thank-you {
-  &__paragraph {
-    &--bold {
-      font-weight: var(--font-weight--semibold);
-    }
-  }
+.modal-button {
+  margin: 0 auto;
 }
 </style>
