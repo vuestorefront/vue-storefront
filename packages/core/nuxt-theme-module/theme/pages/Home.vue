@@ -78,7 +78,21 @@
         description="Be aware of upcoming sales and events. Receive gifts and special offers!"
         image="/homepage/newsletter.webp"
         class="call-to-action"
-      />
+      >
+        <template #button>
+          <SfButton
+            class="sf-call-to-action__button"
+            data-testid="cta-button"
+            @click="handleNewsletterClick"
+          >
+            Subscribe
+          </SfButton>
+        </template>
+      </SfCallToAction>
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <NewsletterModal @email="onSubscribe" />
     </LazyHydrate>
 
     <LazyHydrate when-visible>
@@ -106,7 +120,9 @@ import {
 } from '@storefront-ui/vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
+import NewsletterModal from '~/components/NewsletterModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
+import useUiState from '../composables/useUiState';
 
 export default {
   name: 'Home',
@@ -124,6 +140,7 @@ export default {
     SfArrow,
     SfButton,
     MobileStoreBanner,
+    NewsletterModal,
     LazyHydrate
   },
   data() {
@@ -256,12 +273,22 @@ export default {
           rating: { max: 5, score: 4 },
           isInWishlist: false
         }
-      ]
+      ],
+      emailAddressNotification: ''
     };
   },
   methods: {
     toggleWishlist(index) {
       this.products[index].isInWishlist = !this.products[index].isInWishlist;
+    },
+    handleNewsletterClick() {
+      const { toggleNewsletterModal } = useUiState();
+      toggleNewsletterModal();
+    },
+    onSubscribe(emailAddress) {
+      console.log(`Email ${emailAddress} was added to newsletter.`);
+      const { toggleNewsletterModal } = useUiState();
+      toggleNewsletterModal();
     }
   }
 };

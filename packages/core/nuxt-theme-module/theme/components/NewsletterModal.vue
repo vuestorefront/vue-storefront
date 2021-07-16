@@ -20,8 +20,12 @@
           :title="$t('Subscribe to newsletter')"
           class="desktop-only"
         />
-        <form  @submit.prevent="">
-          <SfInput type="email" label="Email address"/>
+        <form  @submit.prevent="$emit('email', emailAddress)">
+          <SfInput
+            type="email"
+            label="Email address"
+            v-model="emailAddress"
+          />
           <SfButton class="modal-button" type="submit">
             I confirm subscription
           </SfButton>
@@ -30,33 +34,34 @@
           description="You can unsubscribe at any time"
           :level="3"
         />
-        <SfScrollable :maxContentHeight="isMobile ? '' : '3.75rem'" showText="show more" hideText="hide">
+        <SfScrollable :maxContentHeight="isMobile ? 'auto' : '3.75rem'" :class="{ 'is-open': !isHidden }">
           <p>
             After signing up for the newsletter, you will receive special offers and messages from VSF via email.
             We will not sell or distribute your email to any third party at any time.
             Please see our <SfLink link="https://www.vuestorefront.io/privacy-policy">Privacy Policy</SfLink>
           </p>
+          <template #view-all>
+            <SfButton
+              class="sf-button--text sf-scrollable__view-all desktop-only"
+              @click="isHidden = !isHidden"
+            >
+              <span v-if="isHidden">show more</span>
+              <span v-else>hide</span>
+            </SfButton>
+          </template>
         </SfScrollable>
       </div>
     </transition>
   </SfModal>
 </template>
 <script>
-import { ref } from '@vue/composition-api';
 import { SfModal, SfHeading, SfInput, SfButton, SfScrollable, SfBar, SfLink } from '@storefront-ui/vue';
 import {
   mapMobileObserver,
   unMapMobileObserver
 } from '@storefront-ui/vue/src/utilities/mobile-observer.js';
-import { computed, onBeforeUnmount } from '@vue/composition-api';
-import { extend } from 'vee-validate';
-import { email } from 'vee-validate/dist/rules';
+import { ref, computed, onBeforeUnmount } from '@vue/composition-api';
 import { useUiState } from '~/composables';
-
-extend('email', {
-  ...email,
-  message: 'Invalid email'
-});
 
 export default {
   name: 'LoginModal',
@@ -71,23 +76,25 @@ export default {
   },
   setup() {
     const { isNewsletterModalOpen, toggleNewsletterModal } = useUiState();
-    const form = ref({});
+
+    const isHidden = ref(true);
+    const emailAddress = ref('');
+    const isMobile = computed(() => mapMobileObserver().isMobile.get());
 
     const closeModal = () => {
       toggleNewsletterModal();
     };
-
-    const isMobile = computed(() => mapMobileObserver().isMobile.get());
 
     onBeforeUnmount(() => {
       unMapMobileObserver();
     });
 
     return {
-      form,
       isNewsletterModalOpen,
       toggleNewsletterModal,
+      isHidden,
       isMobile,
+      emailAddress,
       closeModal
     };
   }
