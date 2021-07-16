@@ -22,7 +22,11 @@ const server = {
     nodeResolve({
       extensions
     }),
-    typescript({ useTsconfigDeclarationDir: true })
+    typescript({
+      // eslint-disable-next-line global-require
+      typescript: require('typescript'),
+      useTsconfigDeclarationDir: true
+    })
   ]
 };
 
