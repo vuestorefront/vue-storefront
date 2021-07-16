@@ -144,7 +144,6 @@ Click on the integration tile to read its documentation.
     name="Algolia"
     image="https://seekvectorlogo.com/wp-content/uploads/2019/07/algolia-vector-logo.png"
     category="Search engine"
-    isEnterprise="false"
     :compatibility="['commercetools', 'contentstack']"
     :from-core="true"
     link="./algolia.html"
