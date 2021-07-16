@@ -141,6 +141,15 @@ Click on the integration tile to read its documentation.
     link="./adyen.html"
   />
   <IntegrationTile
+    name="Algolia"
+    image="https://seekvectorlogo.com/wp-content/uploads/2019/07/algolia-vector-logo.png"
+    category="Search engine"
+    isEnterprise="false"
+    :compatibility="['commercetools', 'contentstack']"
+    :from-core="true"
+    link="./algolia.html"
+  />
+  <IntegrationTile
     name="Bloomreach"
     image="https://commercetools.com/wp-content/uploads/2018/07/bloomreach_logo.png"
     :category="['CMS', 'search']"
