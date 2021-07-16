@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import { VSF_LOCALE_COOKIE } from '@vue-storefront/core';
+import theme from './themeConfig';
 
 export default {
   mode: 'universal',
@@ -150,9 +151,6 @@ export default {
     ]
   },
   publicRuntimeConfig: {
-    homeBannerA: process.env.HOME_BANNER_A || '/',
-    homeBannerB: process.env.HOME_BANNER_B || '/',
-    homeBannerC: process.env.HOME_BANNER_C || '/',
-    homeBannerD: process.env.HOME_BANNER_D || '/'
+    theme
   }
 };

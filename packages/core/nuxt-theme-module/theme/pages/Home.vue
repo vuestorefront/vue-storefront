@@ -166,11 +166,11 @@ export default {
             'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
           buttonText: 'Shop now',
           image: {
-            mobile: '/homepage/bannerB.webp',
-            desktop: '/homepage/bannerF.webp'
+            mobile: this.$config.theme.home.bannerA.image.mobile,
+            desktop: this.$config.theme.home.bannerA.image.desktop
           },
           class: 'sf-banner--slim desktop-only',
-          link: this.$config.homeBannerA
+          link: this.$config.theme.home.bannerA.link
         },
         {
           slot: 'banner-B',
@@ -179,25 +179,25 @@ export default {
           description:
             'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
           buttonText: 'Shop now',
-          image: '/homepage/bannerE.webp',
+          image: this.$config.theme.home.bannerB.image,
           class: 'sf-banner--slim banner-central desktop-only',
-          link: this.$config.homeBannerB
+          link: this.$config.theme.home.bannerB.link
         },
         {
           slot: 'banner-C',
           subtitle: 'T-Shirts',
           title: 'The Office Life',
-          image: '/homepage/bannerC.webp',
+          image: this.$config.theme.home.bannerC.image,
           class: 'sf-banner--slim banner__tshirt',
-          link: this.$config.homeBannerC
+          link: this.$config.theme.home.bannerC.link
         },
         {
           slot: 'banner-D',
           subtitle: 'Summer Sandals',
           title: 'Eco Sandals',
-          image: '/homepage/bannerG.webp',
+          image: this.$config.theme.home.bannerD.image,
           class: 'sf-banner--slim',
-          link: this.$config.homeBannerD
+          link: this.$config.theme.home.bannerD.link
         }
       ],
       products: [
