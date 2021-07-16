@@ -1,13 +1,12 @@
 <template>
   <SfModal
-    v-e2e="'login-modal'"
     :visible="isNewsletterModalOpen"
     class="modal"
     @close="closeModal"
   >
     <template #modal-bar>
       <SfBar
-        class="smartphone-only"
+        class="modal__title smartphone-only"
         :close="true"
         :title="$t('Subscribe to newsletter')"
         @click:close="closeModal"
@@ -18,15 +17,16 @@
         <SfHeading
           :level="3"
           :title="$t('Subscribe to newsletter')"
-          class="desktop-only"
+          class="modal__title desktop-only"
         />
         <form  @submit.prevent="$emit('email', emailAddress)">
           <SfInput
             type="email"
             label="Email address"
             v-model="emailAddress"
+            class="modal__input"
           />
-          <SfButton class="modal-button" type="submit">
+          <SfButton class="modal__button" type="submit">
             I confirm subscription
           </SfButton>
         </form>
@@ -35,7 +35,7 @@
           :level="3"
         />
         <SfScrollable :maxContentHeight="isMobile ? 'auto' : '3.75rem'" :class="{ 'is-open': !isHidden }">
-          <p>
+          <p class="modal__content">
             After signing up for the newsletter, you will receive special offers and messages from VSF via email.
             We will not sell or distribute your email to any third party at any time.
             Please see our <SfLink link="https://www.vuestorefront.io/privacy-policy">Privacy Policy</SfLink>
@@ -108,8 +108,21 @@ export default {
   justify-content: center;
   --modal-index: 3;
   --overlay-z-index: 3;
+  &__input,
+  .sf-input__label {
+    --input-font-size: var(--font-size--base);
+    --input-label-font-size: var(--font-size--base);
+  }
+  &__button {
+    margin: 0 auto;
+  }
+  &__content {
+    font-size: var(--font-size--sm);
+    font-weight: var(--font-weight--light);
+  }
+  .sf-scrollable__view-all.sf-button {
+    font-weight: var(--font-weight--light);
+  }
 }
-.modal-button {
-  margin: 0 auto;
-}
+
 </style>
