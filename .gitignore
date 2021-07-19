@@ -7,6 +7,11 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# yarn / npm cache files
+.yarn/cache/**
+.yarn/build-state.yml
+.yarn/install-state.gz
+
 # NPM config
 .npmrc
 

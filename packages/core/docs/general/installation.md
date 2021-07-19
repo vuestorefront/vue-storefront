@@ -2,7 +2,54 @@
 
 ## Prerequisites
 
-Before proceeding, make sure you have [Node 10+](https://nodejs.org/en/) and [Yarn 1](https://classic.yarnpkg.com/lang/en/) installed.
+### Node.js
+#### All Users
+Before proceeding, make sure you have [Node 12+](https://nodejs.org/en/) and [Yarn 1](https://classic.yarnpkg.com/lang/en/) installed given...
+* Nuxt v2.15.x has a minimum version dependency on node 12
+* Given node 10 reached End of Life (EOL) in April 2021
+
+#### MacBook Pro Users with M1
+Before proceeding, make sure you have [Node 15+](https://nodejs.org/en/) installed, otherwise yarn package manager will fail due to inherent memory issues with node < v15 when using yarn 2.4.x+
+
+##### Recommendation
+Utilize Node Version Manager installation via homebrew [nvm package](https://formulae.brew.sh/formula/nvm#default) as an effective way to set & maintain 1 or more node versions on your local machine
+
+``` bash
+# install nvm using homebrew
+brew install nvm
+```
+
+```bash
+# print a list of available installation options to console
+nvm ls-remote
+```
+```bash
+# install Long Term Support (LTS) version of node v15 via nvm
+nvm install 15
+```
+
+
+###yarn package manager
+#### Default Package Manager
+The vue-storefront framework utilizes the yarn package manager by default
+
+#### yarn v1 End of Life....
+yarn v1 entered "maintenance mode" as of June 2020, therefore the platform has been upgraded to utilize v2.4.x as the default
+
+#### IMPORTANT - Macbook Pro M1 Users !!!
+
+   Utilization of yarn v2.4.x+ will REQUIRE the use of node v15+ due to the inherent memory v8 memory issue which was resolved in node v15+
+
+#### Alternative Approach to installing node v15
+An alternative approach can be to utilize the "Rosetta" feature if a developer chooses, but the recommended approach is to leverage nvm to manage project specific node versions to overcome the issue 
+
+
+### node gyp package
+When the project is built, there are some dependent and /  or transient  packages that may need to be built, and in order to build some of those packages the "gyp" package should be installed
+```bash
+# install gyp package
+npm -i gyp
+```
 
 ## Using Vue Storefront CLI
 
@@ -10,6 +57,7 @@ The easiest way to get started with Vue Storefront is to set up your project usi
 
 ```bash
 # Run Vue Storefront CLI
+
 npx @vue-storefront/cli init
 ```
 Enter the name of the project and select the backend platform you wish to use.

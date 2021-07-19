@@ -2,8 +2,10 @@
   "name": "root",
   "private": true,
   "engines": {
-    "node": ">=10.x"
+    "node": ">=12.x",
+    "npm": ">=6.14.3"
   },
+  "yarn": true,
   "scripts": {
     "build:docs": "cd packages/core/docs && yarn build",
     "dev:docs": "cd packages/core/docs && yarn dev",
