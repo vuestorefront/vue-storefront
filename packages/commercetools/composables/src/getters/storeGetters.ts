@@ -55,7 +55,7 @@ function mapStoreAndChannelToAgnosticStore (store: Store) {
       geoLocation: channel?.geoLocation ?? null,
       locales: (mapToLocales(channel?.descriptionAllLocales) ?? store.languages) ?? [],
       address: mapToAddress(channel?.address),
-      key: (channel?.key ?? store?.key ?? null),
+      key: store?.key ?? null,
       _storeID: store?.id ?? null,
       _channelID: channel?.id ?? null
     };
