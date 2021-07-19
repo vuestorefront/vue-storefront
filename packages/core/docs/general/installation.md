@@ -36,6 +36,25 @@ The vue-storefront framework utilizes the yarn package manager by default
 #### yarn v1 End of Life....
 yarn v1 entered "maintenance mode" as of June 2020, therefore the platform has been upgraded to utilize v2.4.x as the default
 
+### Installing yarn
+It is recommended to install yarn globally and to use the global installation as the secure location to store your registry authorization code via your local yarnrc.yml
+
+1. Install yarn package globally
+
+```bash
+# install yarn globally
+npm i -g yarn
+```
+2. OPTIONAL, but RECOMMENDED:  Navigate to npmjs.com, login and create an authorization token
+
+3. Append the api config token to your global setup by editing the global yarnrc.yml for key "npmAuthToken:" or via the following commands via the cli
+```bash
+# Setting yarn config via command line
+yarn config set npmAuthToken <paste_npm_authToken_here></paste_npm_authToken_here>
+```
+
+
+
 #### IMPORTANT - Macbook Pro M1 Users !!!
 
    Utilization of yarn v2.4.x+ will REQUIRE the use of node v15+ due to the inherent memory v8 memory issue which was resolved in node v15+
