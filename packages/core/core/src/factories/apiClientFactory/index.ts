@@ -11,7 +11,7 @@ import { applyContextToApi } from './context';
 const isFn = (x) => typeof x === 'function';
 
 const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>): ApiClientFactory => {
-  function createApiClient (config: any, customApi: any = {}): ApiInstance {
+  async function createApiClient (config: any, customApi: any = {}): Promise<ApiInstance> {
     const rawExtensions: ApiClientExtension[] = this?.middleware?.extensions || [];
     const lifecycles = Object.values(rawExtensions)
       .filter(ext => isFn(ext.hooks))
@@ -23,7 +23,7 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(f
       .filter(ext => isFn(ext.beforeCreate))
       .reduce((prev, curr) => curr.beforeCreate({ configuration: prev }), config);
 
-    const settings = factoryParams.onCreate ? factoryParams.onCreate(_config) : { config, client: config.client };
+    const settings = factoryParams.onCreate ? await factoryParams.onCreate(_config) : { config, client: config.client };
 
     Logger.debug('apiClientFactory.create', settings);
 

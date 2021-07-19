@@ -27,7 +27,7 @@ const createAuthClient = (config: ApiConfig): SdkAuth => {
 const createTokenProvider = (settings: Config, { sdkAuth, currentToken }) => {
   return new TokenProvider({
     sdkAuth,
-    fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow(),
+    // fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow(),
     onTokenInfoChanged: (tokenInfo) => {
       Logger.debug('TokenProvider.onTokenInfoChanged', getAccessToken(tokenInfo));
       settings.auth.onTokenChange(tokenInfo);
@@ -61,12 +61,20 @@ const createErrorHandler = () => {
   });
 };
 
-const createCommerceToolsConnection = (settings: Config): any => {
+const createCommerceToolsConnection = async (settings: Config) => {
   let currentToken: any = settings.auth.onTokenRead();
   Logger.debug('createCommerceToolsConnection', getAccessToken(currentToken));
 
   const sdkAuth = createAuthClient(settings.api);
-  const tokenProvider = createTokenProvider(settings, { sdkAuth, currentToken });
+  if (!currentToken) {
+    currentToken = await sdkAuth.clientCredentialsFlow();
+    settings.auth.onTokenChange(currentToken);
+  }
+  const tokenProvider = await createTokenProvider(settings, { sdkAuth, currentToken });
+  tokenProvider.setTokenInfo(currentToken);
+
+  // currentToken = await tokenProvider.getTokenInfo();
+  // settings.auth.onTokenChange(currentToken);
   const httpLink = createHttpLink({ uri: settings.api.uri, fetch });
   const onErrorLink = createErrorHandler();
 

@@ -849,7 +849,7 @@ export interface MiddlewareConfig {
 export interface ApiClientFactoryParams<T, F = any> {
   api: F;
   isProxy?: boolean;
-  onCreate: (config: T, headers?: Record<string, string>) => { config: T; client: any };
+  onCreate: (config: T, headers?: Record<string, string>) => Promise<{ config: T; client: any }>;
   extensions?: ApiClientExtension[];
 }
 
@@ -860,7 +860,7 @@ export interface ApiInstance {
 }
 
 export type CreateApiProxyFn = (givenConfig: any, customApi?: any) => ApiInstance;
-export type CreateApiClientFn = (givenConfig: any, customApi?: any) => ApiInstance;
+export type CreateApiClientFn = (givenConfig: any, customApi?: any) => Promise<ApiInstance>;
 
 export interface ApiClientFactory {
   createApiClient: CreateApiClientFn;

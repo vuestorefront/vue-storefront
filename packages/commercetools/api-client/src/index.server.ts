@@ -7,7 +7,7 @@ import { createCommerceToolsConnection } from './helpers/commercetoolsLink';
 import { defaultSettings } from './helpers/apiClient/defaultSettings';
 import { apiClientFactory, ApiClientExtension } from '@vue-storefront/core';
 
-const onCreate = (settings: Config): { config: Config; client: ClientInstance } => {
+const onCreate = async (settings: Config): Promise<{ config: Config; client: ClientInstance }> => {
   const languageMap = settings.languageMap || {};
   const acceptLanguage = settings.acceptLanguage || defaultSettings.acceptLanguage;
   const locale = settings.locale || defaultSettings.locale;
@@ -34,7 +34,7 @@ const onCreate = (settings: Config): { config: Config; client: ClientInstance } 
     };
   }
 
-  const { apolloLink, sdkAuth, tokenProvider } = createCommerceToolsConnection(config);
+  const { apolloLink, sdkAuth, tokenProvider } = await createCommerceToolsConnection(config);
 
   const client = new ApolloClient({
     link: apolloLink,
@@ -91,11 +91,11 @@ const tokenExtension: ApiClientExtension = {
           },
 
           onTokenRead: () => {
-            res.cookie(
-              'vsf-commercetools-token',
-              rawCurrentToken,
-              currentToken?.expires_at ? { expires: new Date(currentToken.expires_at) } : {}
-            );
+            // res.cookie(
+            //   'vsf-commercetools-token',
+            //   rawCurrentToken,
+            //   currentToken?.expires_at ? { expires: new Date(currentToken.expires_at) } : {}
+            // );
             return currentToken;
           },
 
