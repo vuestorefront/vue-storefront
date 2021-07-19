@@ -51,7 +51,8 @@ In order to implement sort, Algolia requires from us to create a replica of main
 8. Click **Review and Save Settings** button. Then confirm by clicking **Save Settings** button.
 9. Go to **Browse** tab and make sure products are sorted in a way they supposed to.
 
-#### gotcha with adding replicas
+#### No synchronization of `attributesForFaceting` in replicas
+Be careful, if you are modifying `attributesForFaceting` in original index - these changes won't be applied automaticaly in replicas - you have to apply there too manually. 
 
 ### Implementing in VSF2
 #### Installation
