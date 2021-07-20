@@ -28,15 +28,24 @@
                 :regular-price="$n(wishlistGetters.getItemPrice(product).regular, 'currency')"
                 :special-price="wishlistGetters.getItemPrice(product).special && $n(wishlistGetters.getItemPrice(product).special, 'currency')"
                 :stock="99999"
+                :link="localePath(wishlistGetters.getItemLink(product))"
                 image-width="180"
                 image-height="200"
-                @click:remove="removeItem({ product })"
+                @click:remove="removeFromWishlist({ product })"
                 class="collected-product"
               >
-               <template #configuration>
+                <template #configuration>
                   <div class="collected-product__properties">
                     <SfProperty v-for="(attribute, key) in wishlistGetters.getItemAttributes(product, ['color', 'size'])" :key="key" :name="key" :value="attribute"/>
                   </div>
+                </template>
+                <template #actions>
+                  <SfButton
+                    class="sf-button--text desktop-only"
+                    @click.native="addToCart(product)"
+                  >
+                    Add to cart
+                  </SfButton>
                 </template>
                 <template #input="{}">&nbsp;</template>
               </SfCollectedProduct>
@@ -66,8 +75,19 @@
         </div>
       </transition>
       <template #content-bottom>
-        <SfButton @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">
+        <SfButton
+          v-if="!products.length"
+          @click="toggleWishlistSidebar"
+          class="sf-button--full-width color-secondary"
+        >
           {{ $t('Start shopping') }}
+        </SfButton>
+        <SfButton
+          v-else
+          @click="addAllToCart"
+          class="sf-button--full-width color-secondary"
+        >
+          {{ $t('Add all to cart') }}
         </SfButton>
       </template>
     </SfSidebar>
@@ -84,8 +104,8 @@ import {
   SfCollectedProduct,
   SfImage
 } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
-import { useWishlist, useUser, wishlistGetters } from '<%= options.generate.replace.composables %>';
+import { computed, watch } from '@vue/composition-api';
+import { useWishlist, useUser, wishlistGetters, useCart } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
 
 export default {
@@ -100,25 +120,50 @@ export default {
     SfCollectedProduct,
     SfImage
   },
-  setup() {
+  setup(props, { root }) {
     const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
-    const { wishlist, removeItem, load: loadWishlist } = useWishlist();
+    const { wishlist, removeItem: removeFromWishlist, load: loadWishlist, clear: clearWishlist } = useWishlist();
     const { isAuthenticated } = useUser();
+    const { addItem } = useCart();
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
     const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
+
+    watch(() => root.$route, () => {
+      if (isWishlistSidebarOpen.value) toggleWishlistSidebar();
+    });
+
+    const addToCart = async (product) => {
+      await addItem({
+        product: { sku: product.variant.sku },
+        quantity: 1
+      });
+      removeFromWishlist({ product });
+    };
+
+    const addAllToCart = async () => {
+      await Promise.all(
+        products.value.map(product => addItem({
+          product: { sku: product.variant.sku },
+          quantity: 1
+        }))
+      );
+      clearWishlist();
+    };
 
     loadWishlist();
 
     return {
       isAuthenticated,
       products,
-      removeItem,
+      removeFromWishlist,
       isWishlistSidebarOpen,
       toggleWishlistSidebar,
       totals,
       totalItems,
-      wishlistGetters
+      wishlistGetters,
+      addToCart,
+      addAllToCart
     };
   }
 };
