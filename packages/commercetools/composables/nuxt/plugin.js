@@ -4,12 +4,12 @@ import { integrationPlugin } from '@vue-storefront/core'
 const moduleOptions = <%= serialize(options) %>;
 
 export default integrationPlugin(({ app, integration }) => {
-  const onTokenChange = (newToken) => {
+  const onTokenChange = (newToken, options) => {
     try {
       const currentToken = app.$cookies.get(CT_TOKEN_COOKIE_NAME);
 
       if (!currentToken || currentToken.access_token !== newToken.access_token) {
-        app.$cookies.set(CT_TOKEN_COOKIE_NAME, newToken);
+        app.$cookies.set(CT_TOKEN_COOKIE_NAME, newToken, options);
       }
     } catch (e) {
       // Cookies on is set after request has sent.
