@@ -41,7 +41,7 @@ export default {
   },
   loading: { color: '#fff' },
   router: {
-    middleware: ['checkout'],
+    middleware: ['checkout', 'token'],
     scrollBehavior (_to, _from, savedPosition) {
       if (savedPosition) {
         return savedPosition;
