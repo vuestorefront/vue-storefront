@@ -1,4 +1,4 @@
-export { default as useCache } from './composables/useCache';
+export { useCache } from './composables/useCache';
 
 export enum CacheTagPrefix {
   Product = 'P',
