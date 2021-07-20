@@ -22,3 +22,4 @@ export { default as updateShippingDetails } from './updateShippingDetails';
 export { default as customerResetPassword } from './customerResetPassword';
 export { default as customerCreatePasswordResetToken } from './customerCreatePasswordResetToken';
 export { default as getStores } from './getStores';
+export { default as requestAuthToken } from './requestAuthToken';
