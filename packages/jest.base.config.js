@@ -3,7 +3,7 @@
 
 module.exports = {
   transform: {
-    '^.+\\.[jt]s$': 'ts-jest'
+    '^.+\\.(ts)$': 'ts-jest'
   },
   coverageDirectory: './coverage/',
   coverageReporters: ['html', 'lcov', 'text'],
