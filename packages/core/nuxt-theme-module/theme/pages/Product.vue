@@ -189,11 +189,17 @@ import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
+import cacheControl from './../helpers/cacheControl';
 
 export default {
   name: 'Product',
   transition: 'fade',
+  middleware: cacheControl({
+    'max-age': 60,
+    'stale-when-revalidate': 5
+  }),
   setup(props, context) {
+
     const qty = ref(1);
     const { id } = context.root.$route.params;
     const { products, search } = useProduct('products');

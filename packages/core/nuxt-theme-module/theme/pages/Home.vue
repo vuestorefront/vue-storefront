@@ -107,9 +107,14 @@ import {
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
+import cacheControl from './../helpers/cacheControl';
 
 export default {
   name: 'Home',
+  middleware: cacheControl({
+    'max-age': 60,
+    'stale-when-revalidate': 5
+  }),
   components: {
     InstagramFeed,
     SfHero,
