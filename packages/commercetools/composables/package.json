@@ -20,6 +20,8 @@
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.30",
+    "jsdom": "^16.6.0",
+    "jsdom-global": "^3.0.2",
     "vue-template-compiler": "^2.6.x"
   },
   "publishConfig": {
