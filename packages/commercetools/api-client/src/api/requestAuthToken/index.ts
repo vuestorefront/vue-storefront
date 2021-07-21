@@ -1,17 +1,17 @@
 import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
-import { ApiConfig } from '../../types/setup';
 import { Logger } from '@vue-storefront/core';
+import { ApiConfig, Token } from '../../types/setup';
 import { isAnonymousSession, isUserSession } from '../../helpers/utils';
 import { isAnonymousOperation, isUserOperation } from '../../helpers/commercetoolsLink/restrictedOperations';
 
-const requestAuthToken = async (context, currentToken) => {
+const requestAuthToken = async (context, currentToken: string) => {
   const { config, req, res, client } = context;
 
   const apiConfig = config.api;
   const url = req.url;
   let token;
 
-  const createAuthClient = (config: ApiConfig): SdkAuth => {
+  const createSdkAuth = (config: ApiConfig): SdkAuth => {
     return new SdkAuth({
       host: config.authHost,
       projectKey: config.projectKey,
@@ -24,23 +24,20 @@ const requestAuthToken = async (context, currentToken) => {
     });
   };
 
-  const createTokenProvider = (sdkAuth: SdkAuth, currentToken) => {
+  const createTokenProvider = (sdkAuth: SdkAuth, currentToken: string): TokenProvider => {
     return new TokenProvider({
       sdkAuth,
-      fetchTokenInfo: async (sdkAuthInstance) => await sdkAuthInstance.clientCredentialsFlow(),
-      onTokenInfoChanged: (tokenInfo) => {
+      fetchTokenInfo: async (sdkAuthInstance: SdkAuth) => await sdkAuthInstance.clientCredentialsFlow(),
+      onTokenInfoChanged: (tokenInfo: Token) => {
         Logger.debug('TokenProvider.onTokenInfoChanged', tokenInfo.access_token);
       },
-      onTokenInfoRefreshed: (tokenInfo) => {
+      onTokenInfoRefreshed: (tokenInfo: Token) => {
         Logger.debug('TokenProvider.onTokenInfoRefreshed', tokenInfo.access_token);
       }
     }, currentToken);
   };
 
-  const sdkAuth = createAuthClient(apiConfig);
-  const tokenProvider = createTokenProvider(sdkAuth, currentToken);
-
-  const getBeforeAuthToken = async ({ sdkAuth, tokenProvider, url, currentToken }) => {
+  const getBeforeAuthToken = async ({ sdkAuth, tokenProvider, url, currentToken }): Token => {
     const isAnonymous = isAnonymousSession(currentToken);
     const isUser = isUserSession(currentToken);
     const isGuest = !isAnonymous && !isUser;
@@ -58,7 +55,7 @@ const requestAuthToken = async (context, currentToken) => {
     return tokenProvider.getTokenInfo();
   };
 
-  const getAfterAuthToken = async ({ sdkAuth, tokenProvider, req, currentToken, res }) => {
+  const getAfterAuthToken = async ({ sdkAuth, tokenProvider, req, currentToken, res }): Token => {
     const { email, password } = req.params.user;
     Logger.debug('Apollo authLinkAfter, customerPasswordFlow', req.url);
 
@@ -72,6 +69,9 @@ const requestAuthToken = async (context, currentToken) => {
 
     return currentToken;
   };
+
+  const sdkAuth = createSdkAuth(apiConfig);
+  const tokenProvider = createTokenProvider(sdkAuth, currentToken);
 
   token = await getBeforeAuthToken({ sdkAuth, tokenProvider, url, currentToken });
 
