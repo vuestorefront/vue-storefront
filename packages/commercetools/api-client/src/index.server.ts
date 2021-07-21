@@ -34,15 +34,13 @@ const onCreate = (settings: Config): { config: Config; client: ClientInstance } 
     };
   }
 
-  const { apolloLink, sdkAuth, tokenProvider } = createCommerceToolsConnection(config);
+  const { apolloLink } = createCommerceToolsConnection(config);
 
   const client = new ApolloClient({
     link: apolloLink,
     cache: new InMemoryCache(),
     ...settings.customOptions
   });
-  (client as ClientInstance).sdkAuth = sdkAuth;
-  (client as ClientInstance).tokenProvider = tokenProvider;
 
   return {
     config,
@@ -80,16 +78,6 @@ const tokenExtension: ApiClientExtension = {
         ...configuration,
         ...getI18nConfig(req, configuration),
         auth: {
-          onTokenChange: (newToken) => {
-            if (!currentToken || currentToken.access_token !== newToken.access_token) {
-              res.cookie(
-                'vsf-commercetools-token',
-                JSON.stringify(newToken),
-                newToken?.expires_at ? { expires: new Date(newToken.expires_at) } : {}
-              );
-            }
-          },
-
           onTokenRead: () => {
             res.cookie(
               'vsf-commercetools-token',

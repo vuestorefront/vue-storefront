@@ -39,14 +39,13 @@ export const handleAfterAuth = async ({ sdkAuth, tokenProvider, apolloReq, curre
   return currentToken;
 };
 
-export const handleRetry = ({ tokenProvider }) => (count, operation, error) => {
+export const handleRetry = () => (count, operation, error) => {
   if (count > 3) {
     return false;
   }
 
   if (error?.result?.message === 'invalid_token') {
     Logger.debug(`Apollo retry-link, the operation (${operation.operationName}) sent with wrong token, creating a new one... (attempt: ${count})`);
-    tokenProvider.invalidateTokenInfo();
     return true;
   }
 

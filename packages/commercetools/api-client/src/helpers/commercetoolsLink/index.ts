@@ -3,40 +3,12 @@ import { setContext } from 'apollo-link-context';
 import { ApolloLink } from 'apollo-link';
 import { RetryLink } from 'apollo-link-retry';
 import fetch from 'isomorphic-fetch';
-import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
 import { asyncMap } from '@apollo/client/utilities';
 import { Logger } from '@vue-storefront/core';
 import { onError } from 'apollo-link-error';
-import { Config, ApiConfig } from '../../types/setup';
-import { handleBeforeAuth, handleAfterAuth, handleRetry } from './linkHandlers';
+import { Config } from '../../types/setup';
+import { handleRetry } from './linkHandlers';
 import { isAnonymousSession, isUserSession, getAccessToken } from '../utils';
-
-const createAuthClient = (config: ApiConfig): SdkAuth => {
-  return new SdkAuth({
-    host: config.authHost,
-    projectKey: config.projectKey,
-    disableRefreshToken: false,
-    credentials: {
-      clientId: config.clientId,
-      clientSecret: config.clientSecret
-    },
-    scopes: config.scopes
-  });
-};
-
-const createTokenProvider = (settings: Config, { sdkAuth, currentToken }) => {
-  return new TokenProvider({
-    sdkAuth,
-    fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow(),
-    onTokenInfoChanged: (tokenInfo) => {
-      Logger.debug('TokenProvider.onTokenInfoChanged', getAccessToken(tokenInfo));
-      settings.auth.onTokenChange(tokenInfo);
-    },
-    onTokenInfoRefreshed: (tokenInfo) => {
-      Logger.debug('TokenProvider.onTokenInfoRefreshed', getAccessToken(tokenInfo));
-    }
-  }, currentToken);
-};
 
 const createErrorHandler = () => {
   return onError(({ graphQLErrors, networkError }) => {
@@ -62,17 +34,14 @@ const createErrorHandler = () => {
 };
 
 const createCommerceToolsConnection = (settings: Config): any => {
-  let currentToken: any = settings.auth.onTokenRead();
+  const currentToken: any = settings.auth.onTokenRead();
   Logger.debug('createCommerceToolsConnection', getAccessToken(currentToken));
 
-  const sdkAuth = createAuthClient(settings.api);
-  const tokenProvider = createTokenProvider(settings, { sdkAuth, currentToken });
   const httpLink = createHttpLink({ uri: settings.api.uri, fetch });
   const onErrorLink = createErrorHandler();
 
   const authLinkBefore = setContext(async (apolloReq, { headers }) => {
     Logger.debug('Apollo authLinkBefore', apolloReq.operationName);
-    currentToken = await handleBeforeAuth({ sdkAuth, tokenProvider, apolloReq, currentToken });
     Logger.debug('Apollo authLinkBefore, finished, generated token: ', getAccessToken(currentToken));
 
     return {
@@ -86,7 +55,6 @@ const createCommerceToolsConnection = (settings: Config): any => {
   const authLinkAfter = new ApolloLink((apolloReq, forward): any => {
     return asyncMap(forward(apolloReq) as any, async (response: any) => {
       Logger.debug('Apollo authLinkAfter', apolloReq.operationName);
-      currentToken = await handleAfterAuth({ sdkAuth, tokenProvider, apolloReq, currentToken, response });
 
       const errors = (response.errors || []).filter(({ message }) =>
         !message.includes('Resource Owner Password Credentials Grant') &&
@@ -98,16 +66,14 @@ const createCommerceToolsConnection = (settings: Config): any => {
   });
 
   const errorRetry = new RetryLink({
-    attempts: handleRetry({ tokenProvider }),
+    attempts: handleRetry(),
     delay: () => 0
   });
 
   const apolloLink = ApolloLink.from([onErrorLink, errorRetry, authLinkBefore, authLinkAfter.concat(httpLink)]);
 
   return {
-    apolloLink,
-    sdkAuth,
-    tokenProvider
+    apolloLink
   };
 };
 
