@@ -377,7 +377,7 @@ export default {
     const { cart, removeItem, updateItemQty, load } = useCart();
 
     onSSR(async () => {
-      await loadCart();
+      await load();
     })
 
     return {
