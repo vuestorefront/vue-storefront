@@ -24,6 +24,7 @@
             :subtitle="item.subtitle"
             :description="item.description"
             :button-text="item.buttonText"
+            :link="item.link"
             :image="item.image"
             :class="item.class"
           />
@@ -170,11 +171,11 @@ export default {
             'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
           buttonText: 'Shop now',
           image: {
-            mobile: '/homepage/bannerB.webp',
-            desktop: '/homepage/bannerF.webp'
+            mobile: this.$config.theme.home.bannerA.image.mobile,
+            desktop: this.$config.theme.home.bannerA.image.desktop
           },
           class: 'sf-banner--slim desktop-only',
-          link: '/c/women/women-clothing-skirts'
+          link: this.$config.theme.home.bannerA.link
         },
         {
           slot: 'banner-B',
@@ -183,25 +184,25 @@ export default {
           description:
             'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
           buttonText: 'Shop now',
-          image: '/homepage/bannerE.webp',
+          image: this.$config.theme.home.bannerB.image,
           class: 'sf-banner--slim banner-central desktop-only',
-          link: '/c/women/women-clothing-dresses'
+          link: this.$config.theme.home.bannerB.link
         },
         {
           slot: 'banner-C',
           subtitle: 'T-Shirts',
           title: 'The Office Life',
-          image: '/homepage/bannerC.webp',
+          image: this.$config.theme.home.bannerC.image,
           class: 'sf-banner--slim banner__tshirt',
-          link: '/c/women/women-clothing-shirts'
+          link: this.$config.theme.home.bannerC.link
         },
         {
           slot: 'banner-D',
           subtitle: 'Summer Sandals',
           title: 'Eco Sandals',
-          image: '/homepage/bannerG.webp',
+          image: this.$config.theme.home.bannerD.image,
           class: 'sf-banner--slim',
-          link: '/c/women/women-shoes-sandals'
+          link: this.$config.theme.home.bannerD.link
         }
       ],
       products: [
@@ -328,6 +329,7 @@ export default {
     margin: var(--spacer-2xl) 0;
     ::v-deep .sf-link {
       --button-width: auto;
+      text-decoration: none;
     }
   }
 }
