@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 import { Logger, CustomQuery } from '@vue-storefront/core';
 import defaultQuery from './defaultMutation';
 import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL';
+import { getStoreKey } from '../../helpers/utils';
 
 const VERSION_MISMATCH_CODE = 'ConcurrentModification';
 
@@ -24,7 +25,7 @@ const updateCart = async (context, params: UpdateCartParams, customQuery?: Custo
   const defaultVariables = {
     ...userVariables,
     acceptLanguage,
-    storeKey: store
+    storeKey: getStoreKey(store)
   };
 
   const { updateCart: updateCartGql } = context.extendQuery(

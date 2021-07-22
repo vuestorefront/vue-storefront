@@ -9,7 +9,7 @@ function makeStore (storeId, storeName, storeKey, channelID = null, channelName 
     description: '',
     geoLocation: null,
     locales: [],
-    key: storeKey,
+    key: `${storeKey}${channelID ? `/${channelID}` : ''}`,
     address: { addressLine1: '', addressLine2: '', _address: null },
     _storeID: storeId,
     _channelID: channelID

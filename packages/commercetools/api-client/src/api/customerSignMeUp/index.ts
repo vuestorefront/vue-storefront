@@ -1,6 +1,7 @@
 import { CustomerSignMeUpDraft } from '../../types/GraphQL';
 import CustomerSignMeUpMutation from './defaultMutation';
 import { SignInResponse } from '../../types/Api';
+import { getStoreKey } from '../../helpers/utils';
 
 const customerSignMeUp = async (context, draft: CustomerSignMeUpDraft): Promise<SignInResponse> => {
   const { locale, acceptLanguage, currency, store } = context.config;
@@ -12,7 +13,7 @@ const customerSignMeUp = async (context, draft: CustomerSignMeUpDraft): Promise<
       locale,
       acceptLanguage,
       currency,
-      storeKey: store
+      storeKey: getStoreKey(store)
     },
     fetchPolicy: 'no-cache'
   }) as SignInResponse;

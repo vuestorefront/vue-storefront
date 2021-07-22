@@ -55,7 +55,7 @@ function mapStoreAndChannelToAgnosticStore (store: Store) {
       geoLocation: channel?.geoLocation ?? null,
       locales: (mapToLocales(channel?.descriptionAllLocales) ?? store.languages) ?? [],
       address: mapToAddress(channel?.address),
-      key: store?.key ?? null,
+      key: `${store?.key ?? ''}${channel?.id ? `/${channel?.id}` : ''}`.trim(),
       _storeID: store?.id ?? null,
       _channelID: channel?.id ?? null
     };
@@ -106,7 +106,16 @@ function getItems (stores: StoresData, criteria: StoreFilterCriteria = {}): Agno
 }
 
 function getSelected (stores: StoresData): AgnosticStore | undefined {
-  return getItems(stores, { store: { key: (stores?._selected ?? '') }})[0];
+  const [storeKey, channelID] = (stores?._selected ?? '').split('/');
+
+  const channel = channelID
+    ? ({ channel: { id: channelID } })
+    : {};
+
+  return getItems(stores, {
+    store: { key: storeKey },
+    ...channel
+  })[0];
 }
 
 /**

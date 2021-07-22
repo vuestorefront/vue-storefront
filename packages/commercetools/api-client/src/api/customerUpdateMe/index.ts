@@ -1,5 +1,6 @@
 import { changeCustomerEmailAction, setCustomerFirstNameAction, setCustomerLastNameAction } from '../../helpers/customer';
 import CustomerUpdateMeMutation from './defaultMutation';
+import { getStoreKey } from '../../helpers/utils';
 
 const customerUpdateMe = async ({ client, config }, currentUser, updatedUserData) => {
   const updateResponse = await client.mutate({
@@ -11,7 +12,7 @@ const customerUpdateMe = async ({ client, config }, currentUser, updatedUserData
         setCustomerFirstNameAction(updatedUserData.firstName),
         setCustomerLastNameAction(updatedUserData.lastName)
       ],
-      storeKey: config.store
+      storeKey: getStoreKey(config.store)
     },
     fetchPolicy: 'no-cache'
   });

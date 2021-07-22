@@ -3,6 +3,7 @@ import defaultMutation from './defaultMutation';
 import { OrderMutationResponse } from '../../types/Api';
 import gql from 'graphql-tag';
 import { CustomQuery } from '@vue-storefront/core';
+import { getStoreKey } from '../../helpers/utils';
 
 const createMyOrderFromCart = async (context, draft: OrderMyCartCommand, customQuery?: CustomQuery): Promise<OrderMutationResponse> => {
   const { locale, acceptLanguage, currency, store } = context.config;
@@ -12,7 +13,7 @@ const createMyOrderFromCart = async (context, draft: OrderMyCartCommand, customQ
     acceptLanguage,
     currency,
     draft,
-    storeKey: store
+    storeKey: getStoreKey(store)
   };
 
   const { createMyOrderFromCart } = context.extendQuery(
