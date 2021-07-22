@@ -9,7 +9,7 @@ Click on the integration tile to read its documentation.
 <IntegrationList>
   <IntegrationTile
     name="Commercetools"
-    image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDv0xv5L7h00af2On5MIbw-ZC9NZ2xR4URUE1KiAtz4ht8i5s5LaiofJhZ-V9uKs85jA&usqp=CAU"
+    image="/integrations-logos/commercetools.svg"
     category="eCommerce"
     isEnterprise="true"
     :from-core="true"
@@ -17,7 +17,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Magento"
-    image="https://www.plentymarkets.co.uk/tpl/blog/2226/Magento_Logo.png"
+    image="https://upload.wikimedia.org/wikipedia/commons/5/55/Magento_Logo.svg"
     category="eCommerce"
     isBeta="true"
     link="https://docs.vuestorefront.io/magento"
@@ -31,14 +31,14 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Spryker"
-    image="https://getlogovector.com/wp-content/uploads/2019/06/spryker-logo-vector.png"
+    image="https://spryker.com/app/themes/spryker-website/dist/Components/NavigationFooter/Assets/logo-340a653dea.svg"
     category="eCommerce"
     isBeta="true"
     link="https://docs.vuestorefront.io/spryker"
   />
   <IntegrationTile
     name="Shopify"
-    image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Shopify_logo_2018.svg/1024px-Shopify_logo_2018.svg.png"
+    image="/integrations-logos/Shopify.svg"
     category="eCommerce"
     isBeta="true"
     link="/v2/shopify"
@@ -51,7 +51,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="BigCommerce"
-    image="https://s3.amazonaws.com/www1.bigcommerce.com/assets/mediakit/downloads/BigCommerce-logo-dark.png"
+    image="/integrations-logos/BigCommerce.svg"
     category="eCommerce"
     isWip="true"
   />
@@ -62,7 +62,7 @@ Click on the integration tile to read its documentation.
 <IntegrationList filterable="true">
   <IntegrationTile
     name="Storyblok"
-    image="//a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png"
+    image="/integrations-logos/Storyblok.svg"
     category="CMS"
     :compatibility="[]"
     isOpenSource="true"
@@ -90,7 +90,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Contentful"
-    image="https://d21buns5ku92am.cloudfront.net/41748/images/347966-contentful-logo-wordmark-dark%20%281%29-4cd185-medium-1582664935.png"
+    image="/integrations-logos/Contentful.svg"
     isEnterprise="true"
     :compatibility="[]"
     category="CMS"
@@ -133,7 +133,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Adyen"
-    image="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Adyen_Corporate_Logo.svg/1280px-Adyen_Corporate_Logo.svg.png"
+    image="/integrations-logos/Adyen.svg"
     category="Payment"
     isEnterprise="true"
     :compatibility="['commercetools']"
@@ -142,7 +142,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Bloomreach"
-    image="https://www.bloomreach.com/binaries/content/gallery/logos/blr_logo-primary.svg"
+    image="/integrations-logos/bloomreach.jpg"
     :category="['CMS', 'search']"
     :compatibility="['commercetools']"
     :from-core="true"
@@ -157,7 +157,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Recurly"
-    image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmB9-ZV9SViKzkOzrKlgPvZPC0nbAbLQoAPA&usqp=CAU"
+    image="/integrations-logos/Recurly.png"
     category="Payment"
     :compatibility="['commercetools']"
     :from-core="true"
@@ -165,7 +165,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Algolia"
-    image="https://seekvectorlogo.com/wp-content/uploads/2019/07/algolia-vector-logo.png"
+    image="/integrations-logos/algolia.svg"
     category="['CMS', 'search']"
     :compatibility="['commercetools']"
     :from-core="true"
@@ -173,7 +173,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Auth0"
-    image="https://cdn.geekwire.com/wp-content/uploads/2015/06/Auth0-300x122.png"
+    image="/integrations-logos/auth0.svg"
     category="['Authentication']"
     :compatibility="['commercetools']"
     :from-core="true"
