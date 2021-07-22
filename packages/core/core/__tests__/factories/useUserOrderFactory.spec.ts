@@ -22,7 +22,7 @@ describe('[CORE - factories] useUserOrderFactory', () => {
     it('should have proper initial props', () => {
       const { loading, orders } = useUserOrder();
       expect(loading.value).toEqual(false);
-      expect(orders.value).toEqual([]);
+      expect(orders.value).toEqual(null);
     });
   });
 
@@ -44,7 +44,7 @@ describe('[CORE - factories] useUserOrderFactory', () => {
         expect(error.value.search).toBe(err);
 
         expect(loading.value).toEqual(false);
-        expect(orders.value).toEqual([]);
+        expect(orders.value).toEqual(null);
       });
     });
   });
