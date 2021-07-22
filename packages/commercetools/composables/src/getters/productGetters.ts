@@ -1,4 +1,4 @@
-import { ProductGetters, AgnosticMediaGalleryItem, AgnosticAttribute, AgnosticPrice } from '@vue-storefront/core';
+import { ProductGetters, AgnosticMediaGalleryItem, AgnosticAttribute, AgnosticPrice, AgnosticBreadcrumb } from '@vue-storefront/core';
 import { ProductVariant, Image } from './../types/GraphQL';
 import { formatAttributeList, getVariantByAttributes, createPrice } from './_utils';
 
@@ -88,6 +88,18 @@ export const getProductId = (product: ProductVariant): string => (product as any
 
 export const getFormattedPrice = (price: number) => price as any as string;
 
+export const getProductBreadcrumbs = (product: Record<string, unknown>): AgnosticBreadcrumb[] => {
+  if (!product) {
+    return [];
+  }
+  const topCategory = product._categories[0];
+  return [
+    { text: 'Home', link: '/' },
+    { text: topCategory.name, link: `/c/${topCategory.slug}` },
+    { text: product._name, link: `/p/${product._id}/${product._slug}` }
+  ];
+};
+
 export const getTotalReviews = (product: ProductVariant): number => (product as any)?._rating?.count || 0;
 
 export const getAverageRating = (product: ProductVariant): number => (product as any)?._rating?.averageRating || 0;
@@ -105,7 +117,8 @@ const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getId: getProductId,
   getFormattedPrice,
   getTotalReviews,
-  getAverageRating
+  getAverageRating,
+  getBreadcrumbs: getProductBreadcrumbs
 };
 
 export default productGetters;
