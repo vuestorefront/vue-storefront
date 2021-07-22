@@ -13,7 +13,7 @@ const createMyOrderFromCart = async (context, draft: OrderMyCartCommand, customQ
     acceptLanguage,
     currency,
     draft,
-    storeKey: getStoreKey(store)
+    ...getStoreKey(store)
   };
 
   const { createMyOrderFromCart } = context.extendQuery(

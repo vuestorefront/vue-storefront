@@ -16,7 +16,7 @@ const createCart = async (context, cartDraft: CartData = {}, customQuery?: Custo
       country,
       ...cartDraft
     },
-    storeKey: getStoreKey(store)
+    ...getStoreKey(store)
   };
 
   const { createCart: createCartGql } = context.extendQuery(

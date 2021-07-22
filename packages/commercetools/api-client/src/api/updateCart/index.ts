@@ -25,7 +25,7 @@ const updateCart = async (context, params: UpdateCartParams, customQuery?: Custo
   const defaultVariables = {
     ...userVariables,
     acceptLanguage,
-    storeKey: getStoreKey(store)
+    ...getStoreKey(store)
   };
 
   const { updateCart: updateCartGql } = context.extendQuery(

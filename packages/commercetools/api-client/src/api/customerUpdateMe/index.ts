@@ -12,7 +12,7 @@ const customerUpdateMe = async ({ client, config }, currentUser, updatedUserData
         setCustomerFirstNameAction(updatedUserData.firstName),
         setCustomerLastNameAction(updatedUserData.lastName)
       ],
-      storeKey: getStoreKey(config.store)
+      ...getStoreKey(config.store)
     },
     fetchPolicy: 'no-cache'
   });

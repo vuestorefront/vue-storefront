@@ -15,7 +15,7 @@ const customerCreatePasswordResetToken = async (context: Context, email: string,
   const defaultVariables = {
     ...userVariables,
     acceptLanguage,
-    storeKey: getStoreKey(store)
+    ...getStoreKey(store)
   };
 
   const { customerCreatePasswordResetToken } = context.extendQuery(

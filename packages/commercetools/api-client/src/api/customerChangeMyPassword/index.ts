@@ -9,7 +9,7 @@ const customerChangeMyPassword = async ({ client, config }, version: any, curren
       version,
       currentPassword,
       newPassword,
-      storeKey: getStoreKey(config.store)
+      ...getStoreKey(config.store)
     },
     fetchPolicy: 'no-cache'
   }) as ChangeMyPasswordResponse;

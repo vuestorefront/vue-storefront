@@ -15,7 +15,7 @@ const customerResetPassword = async (context, tokenValue: string, newPassword: s
   const defaultVariables = {
     ...pwdVariables,
     acceptLanguage,
-    storeKey: getStoreKey(store)
+    ...getStoreKey(store)
   };
 
   const { customerResetPassword } = context.extendQuery(

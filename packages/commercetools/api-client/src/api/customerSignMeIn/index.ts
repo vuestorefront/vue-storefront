@@ -13,7 +13,7 @@ const customerSignMeIn = async (context, draft: CustomerSignMeInDraft): Promise<
       locale,
       acceptLanguage,
       currency,
-      storeKey: getStoreKey(store)
+      ...getStoreKey(store)
     },
     fetchPolicy: 'no-cache'
   }) as SignInResponse;
