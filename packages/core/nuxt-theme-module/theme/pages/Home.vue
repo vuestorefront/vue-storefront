@@ -7,7 +7,6 @@
           :key="i"
           :title="hero.title"
           :subtitle="hero.subtitle"
-          :button-text="hero.buttonText"
           :background="hero.background"
           :image="hero.image"
           :class="hero.className"
@@ -138,28 +137,22 @@ export default {
         {
           title: 'Colorful summer dresses are already in store',
           subtitle: 'SUMMER COLLECTION 2019',
-          buttonText: 'Learn more',
           background: '#eceff1',
-          image: '/homepage/bannerH.webp',
-          link: '/c/women/women-clothing-shirts'
+          image: '/homepage/bannerH.webp'
         },
         {
           title: 'Colorful summer dresses are already in store',
           subtitle: 'SUMMER COLLECTION 2019',
-          buttonText: 'Learn more',
           background: '#efebe9',
           image: '/homepage/bannerA.webp',
-          link: '/c/women/women-shoes-sandals',
           className:
             'sf-hero-item--position-bg-top-left sf-hero-item--align-right'
         },
         {
           title: 'Colorful summer dresses are already in store',
           subtitle: 'SUMMER COLLECTION 2019',
-          buttonText: 'Learn more',
           background: '#fce4ec',
-          image: '/homepage/bannerB.webp',
-          link: '/c/women/women-clothing-dresses'
+          image: '/homepage/bannerB.webp'
         }
       ],
       banners: [
@@ -287,9 +280,6 @@ export default {
 .hero {
   margin: var(--spacer-xl) auto var(--spacer-lg);
   --hero-item-background-position: center;
-  ::v-deep .sf-link:hover {
-    color: var(--c-white);
-  }
   @include for-desktop {
     margin: var(--spacer-xl) auto var(--spacer-2xl);
   }
@@ -298,16 +288,11 @@ export default {
       --hero-item-background-position: left;
       @include for-mobile {
         --hero-item-background-position: 30%;
-       ::v-deep .sf-hero-item__wrapper {
-         &.sf-button {
-            align-items: flex-end;
-            text-align: right;
-            padding: var(--spacer-sm) var(--spacer-sm) var(--spacer-sm) var(--spacer-2xl);
-         }
-        }
         ::v-deep .sf-hero-item__subtitle,
         ::v-deep .sf-hero-item__title {
+          text-align: right;
           width: 100%;
+          padding-left: var(--spacer-sm);
         }
       }
     }
