@@ -15,6 +15,7 @@ const product = (name, slug, id) => ({
         id
       },
       categoriesRef: [{ id: 'aaa' }],
+      categories: [{ id: 'a', name: 'b', slug: 'c' }],
       allVariants: [
         { id: '123', attributesRaw: attributesRaw() },
         { id: '456', attributesRaw: attributesRaw() },
