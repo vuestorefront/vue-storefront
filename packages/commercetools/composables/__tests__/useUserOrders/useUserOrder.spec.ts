@@ -1,10 +1,24 @@
 import { useUserOrder } from '../../src/useUserOrder';
 
+const ordersResponse = {
+  results: ['order1', 'order2', 'order3'],
+  total: 3,
+  offset: 0,
+  count: 3
+};
+
+const emptyOrdersResponse = {
+  results: [],
+  total: 0,
+  offset: 0,
+  count: 0
+};
+
 jest.mock('@vue-storefront/commercetools-api', () => ({
   getOrders: jest.fn(async () => ({
     data: {
       me: {
-        orders: { results: ['order1', 'order2', 'order3'], total: 3 }
+        orders: ordersResponse
       }
     }
   }))
@@ -20,7 +34,7 @@ const context = {
       getOrders: jest.fn(async () => ({
         data: {
           me: {
-            orders: { results: ['order1', 'order2', 'order3'], total: 3 }
+            orders: ordersResponse
           }
         }
       }))
@@ -38,7 +52,7 @@ describe('[commercetools-composables] useUserOrder', () => {
 
     const response = await search(context, { param: 'param1' });
 
-    expect(response).toEqual(['order1', 'order2', 'order3']);
+    expect(response).toEqual(ordersResponse);
     expect(context.$ct.api.getOrders).toBeCalledWith({ param: 'param1' }, undefined);
   });
 
@@ -47,7 +61,7 @@ describe('[commercetools-composables] useUserOrder', () => {
 
     const response = await search(context);
 
-    expect(response).toEqual(['order1', 'order2', 'order3']);
+    expect(response).toEqual(ordersResponse);
     expect(context.$ct.api.getOrders).toBeCalled();
   });
 
@@ -58,7 +72,7 @@ describe('[commercetools-composables] useUserOrder', () => {
 
     const response = await search(context, { param: 'param1' });
 
-    expect(response).toEqual([]);
+    expect(response).toEqual(emptyOrdersResponse);
     expect(context.$ct.api.getOrders).toBeCalledWith({ param: 'param1' }, undefined);
   });
 });
