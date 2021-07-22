@@ -38,7 +38,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Shopify"
-    image="https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopify_logo_2018.svg"
+    image="/integrations-logos/Shopify.svg"
     category="eCommerce"
     isBeta="true"
     link="/v2/shopify"
