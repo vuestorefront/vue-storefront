@@ -78,6 +78,11 @@ export default gql`
             categoriesRef {
               id
             }
+            categories {
+              id
+              name(acceptLanguage: $acceptLanguage)
+              slug(acceptLanguage: $acceptLanguage)
+            }
             allVariants {
               ...DefaultVariant
             }
