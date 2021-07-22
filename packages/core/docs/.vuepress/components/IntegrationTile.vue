@@ -57,6 +57,12 @@ export default {
   box-sizing: border-box;
   position: absolute;
 }
+
+.image img {
+  max-width: 100%;
+  max-height: 100px;
+}
+
 .image:hover {
   box-shadow: 0 0 23px -16px rgba(0,0,0,1);
   transition: 0.3s box-shadow;
