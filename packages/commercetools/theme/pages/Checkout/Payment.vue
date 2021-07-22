@@ -1,9 +1,9 @@
 <template>
   <div>
     <SfHeading
-      v-e2e="'heading-summary'"
+      v-e2e="'heading-payment'"
       :level="3"
-      :title="$t('Summary')"
+      :title="$t('Payment')"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <SfAccordion :open="$t('Shipping address')" class="accordion">
@@ -45,12 +45,6 @@
         </div>
       </SfAccordionItem>
     </SfAccordion>
-    <SfHeading
-      v-e2e="'heading-payment'"
-      :level="3"
-      :title="$t('Payment')"
-      class="sf-heading--left sf-heading--no-underline title"
-    />
     <SfTable class="sf-table--bordered table desktop-only">
       <SfTableHeading class="table__row">
         <SfTableHeader class="table__header table__image">{{ $t('Item') }}</SfTableHeader>
