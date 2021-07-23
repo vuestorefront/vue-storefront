@@ -37,7 +37,7 @@ const requestAuthToken = async (context, currentToken: string) => {
     }, currentToken);
   };
 
-  const getBeforeAuthToken = async ({ sdkAuth, tokenProvider, url, currentToken }): Token => {
+  const getBeforeAuthToken = async ({ sdkAuth, tokenProvider, url, currentToken }): Promise<Token> => {
     const isAnonymous = isAnonymousSession(currentToken);
     const isUser = isUserSession(currentToken);
     const isGuest = !isAnonymous && !isUser;
@@ -55,7 +55,7 @@ const requestAuthToken = async (context, currentToken: string) => {
     return tokenProvider.getTokenInfo();
   };
 
-  const getAfterAuthToken = async ({ sdkAuth, tokenProvider, req, currentToken, res }): Token => {
+  const getAfterAuthToken = async ({ sdkAuth, tokenProvider, req, currentToken, res }): Promise<Token> => {
     const { email, password } = req.params.user;
     Logger.debug('Apollo authLinkAfter, customerPasswordFlow', req.url);
 
@@ -83,10 +83,8 @@ const requestAuthToken = async (context, currentToken: string) => {
     !message.includes('This endpoint requires an access token issued either')
   );
 
-  if (!client.sdkAuth || !client.tokenProvider) {
-    client.sdkAuth = sdkAuth;
-    client.tokenProvider = tokenProvider;
-  }
+  client.sdkAuth = sdkAuth;
+  client.tokenProvider = tokenProvider;
 
   return {
     token,
