@@ -278,7 +278,7 @@ module.exports = {
           title: 'Contributing',
           collapsable: true,
           children: [
-            ['/contributing', 'Contributing'],
+            ['/contributing/', 'Contributing'],
             ['/contributing/api-design-philosophy', 'Rules and conventions'],
             ['/contributing/creating-changelog', 'Creating changelog'],
             ['/contributing/themes', 'Working with themes'],
@@ -286,7 +286,7 @@ module.exports = {
             ['/contributing/changelog', 'Core Changelog']
           ]
         }
-      ],
+      ]
     }
   }
 };
