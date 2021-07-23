@@ -41,7 +41,7 @@ export default {
   },
   loading: { color: '#fff' },
   router: {
-    middleware: ['checkout', 'token'],
+    middleware: ['checkout'],
     scrollBehavior (_to, _from, savedPosition) {
       if (savedPosition) {
         return savedPosition;
@@ -91,6 +91,9 @@ export default {
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
     '@vue-storefront/middleware/nuxt'
+  ],
+  plugins: [
+    '~/plugins/auth-token.js'
   ],
   i18n: {
     currency: 'USD',
