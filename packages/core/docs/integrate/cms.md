@@ -10,7 +10,7 @@ Here are the things that are expected from CMS integration:
 
 ### Configuration
 
-This part is usually either using CMS JavaScript SDK under the hood or calls the API directly. The config should contain at least the API endpoint and credentials.
+This part is usually either using CMS JavaScript SDK under the hood or calls the API directly. The configuration should contain at least the API endpoint and credentials.
 
 - a configuration via `setup` method for non-Nuxt apps
 ```js

@@ -64,7 +64,7 @@ const removeFromCart = async (product: CART_ITEM, customQuery?: CustomQuery) => 
 
 We try to cover each subdomain of the eCommerce domain with a dedicated composable. For example, we have a composable for Users Management domain, inventory domain, product catalog domain, etc. If you have to add a new feature, always think about the business domain it correlates to and, based on that, decide if it should be a new composable or an existing one.
 
-If composables share the same category/prefix it means that they most likely also share the same context, e.g., `useUserOrder` `useUserShipping` `useUserBilling` are all subcomposables of `useUser`, and their content depends on this composable.
+If composables share the same category/prefix, it means that they most likely also share the same context, e.g., `useUserOrder` `useUserShipping` `useUserBilling` are all sub-composables of `useUser`, and their content depends on this composable.
 
 Each composable usually has three pieces:
 - main data object (e.g. `products`)
@@ -78,4 +78,4 @@ const { search, products, loading, erro } = useProduct()
 ### search or load
 As a rule of thumb use
 - `search` when you have to pass some search parameters (e.g., in products search)
-- `load` when you just have to load some content based on cookies/local storage etc. (e.g. cart load)
+- `load` when you just have to load some content based on cookies/local storage etc. (e.g., cart load)

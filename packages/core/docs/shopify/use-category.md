@@ -1,6 +1,6 @@
 # useCategory composable
 
-`useCategory` composition API function is responsible, as its name suggests, for interactions with categories from your eCommerce. This function returns the following values:
+`useCategory` composition API function allows loading the categories. This function returns the following values:
 
 - `search` - a primary querying function that is used to query products from the eCommerce platform and populate the `products` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object.
     - The `params` has the following options:

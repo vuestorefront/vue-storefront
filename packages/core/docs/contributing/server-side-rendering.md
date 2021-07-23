@@ -1,10 +1,6 @@
 # Server-side rendering
 
-In Vue Storefront, we rely on Nuxt.js as a server-side rendering provider, and we highly recommend this as well.
-Although Nuxt.js has everything we need regarding SSR, we had to provide a bit more to this implementation.
-
-As we still wait for full integration of Vue 3 and Nuxt.js, and the current SSR based on
-composition-api didn't cover our needs, we had to temporarily sort it out on our own.
+In Vue Storefront, we rely on Nuxt.js as a server-side rendering provider. Although it is a powerful framework, we needed to extend it to meet our needs.
 
 ## Configurable SSR
 

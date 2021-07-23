@@ -24,9 +24,9 @@ This document will walk you through performance configuration options for the `@
 
 ### HTTP2 Push
 
-`httpPush` option (_enabled by default_) leverages [`http2` option in Nuxt.js](https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-render#http2). It's configured to automatically push all JavaScript files needed for the current page. If you want to override this behavior, you can disable this option and use Nuxt.js configuration instead.
+The `httpPush` option (_enabled by default_) leverages [`http2` option in Nuxt.js](https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-render#http2). It's configured to push all JavaScript files needed for the current page automatically. If you want to override this behavior, you can disable this option and use the Nuxt.js configuration instead.
 
-If you can't use HTTP2, you can disable this option. In this case, Nuxt.js will still `preload` these scripts, which is only slightly slower than HTTP2 push.
+If you can't use HTTP2, you can disable this option. In this case, Nuxt.js will still `preload` these scripts, which is only slightly slower than the HTTP2 push.
 
 ### PurgeCSS
 

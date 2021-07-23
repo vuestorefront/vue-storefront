@@ -6,8 +6,8 @@ There are just a few steps to do in order to create the changelog.
 
 ## Steps
 
-1. Go to folder `/changelog`, create a `.js` file, and give it the same name as a number of your current issue from GitHub. For example, `4523.js`
-2. Copy this code below, paste it inside your `.js` file and fill it in with your data
+1. Go to folder `/changelog`, create a `.js` file, and give it the same name as a number of your current issue from GitHub. For example, `4523.js`.
+2. Copy this code below, paste it inside your `.js` file and fill it in with your data.
 
 ```js
 module.exports = {
@@ -26,7 +26,7 @@ module.exports = {
   linkToGitHubAccount: "link to your github account",
 }
 ```
-3. Save all changes, and that's all
+3. Save all changes.
 
 <!-- For releases:
 1. Check a release version in which your changes should appear. Let's assume it's `2.0.14`

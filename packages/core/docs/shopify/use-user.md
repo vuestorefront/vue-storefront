@@ -1,8 +1,8 @@
 # useUser composable
 
-`useUser` composition API function is responsible, as its name suggests, for interactions with users in your eCommerce. This function returns the following values:
+`useUser` composition API function allows loading the customer data. This function returns the following values:
 
-- `user` - the main data object that contains user structure in platform-specific structure
+- `user` - the main data object that contains user structure in the platform-specific structure
 ```typescript
 export type Maybe<T> = T | null;
 

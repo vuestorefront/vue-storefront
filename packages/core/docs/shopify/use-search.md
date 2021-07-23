@@ -1,6 +1,6 @@
 # useSearch composable
 
-`useSearch` composition API function is responsible, as its name suggests, for interactions with searching from your eCommerce. This function returns the following values:
+`useSearch` composition API function allows searching for products. This function returns the following values:
 
 - `search` - the main querying function that is used to search products from the eCommerce platform and populate the `products` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object
     - The `params` has the following options:

@@ -4,7 +4,7 @@ In Vue Storefront, we're providing all the debugging information, warnings, and 
 
 ## Using logger in your app
 
-To make use of the Vue Storefront logger, import it from the core and use one of 4 available types of messages
+To use Vue Storefront logger, import it from the core and use one of 4 available types of messages.
 
 ```js
 import { Logger } from '@vue-storefront/core';
@@ -47,9 +47,9 @@ If not explicitly changed, the logging level depends on the current environment 
 
 ## Writing custom loggers
 
-By default, we're printing all the events happening in the app in the console, but you can easily write a new logger and use a third-party library (like [consola](https://github.com/nuxt-contrib/consola)) or pass the logs to the external service like [Sentry](https://sentry.io/welcome/)
+By default, we're printing all the events happening in the app in the console, but you can easily write a new logger and use a third-party library (like [consola](https://github.com/nuxt-contrib/consola)) or pass the logs to the external service like [Sentry](https://sentry.io/welcome/).
 
-To override the default logger, pass a function to the `logger.customLogger` property of `@vue-storefront/nuxt` module. This function returns the logger object, and as an argument, you have access to the `verbosity` level:
+To override the default logger, pass a function to the `logger.customLogger` property of the `@vue-storefront/nuxt` module. This function returns the logger object, and as an argument, you have access to the `verbosity` level:
 
 ```js
 [
@@ -76,7 +76,7 @@ To override the default logger, pass a function to the `logger.customLogger` pro
 ```
 
 ::: details Configuring logger outside Vue Storefront Nuxt module
-If, for some reason, you can't configure logger through `@vue-storefront/nuxt` module, you can explicitly use `registerLogger` function:
+If you can't configure logger through the `@vue-storefront/nuxt` module, you can explicitly use the `registerLogger` function:
 
 ```ts
 import { registerLogger } from '@vue-storefront/core';

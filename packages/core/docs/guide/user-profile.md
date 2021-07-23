@@ -2,7 +2,7 @@
 
 ## Loading current user
 
-To access the data of the currently logged-in user, we can use another property of `useUser` called simply `user`.
+To access the data of the currently logged-in user, you can use the `user` property of `useUser` composable.
 
 ```js{8,16}
 import { useUser } from '{INTEGRATION}';

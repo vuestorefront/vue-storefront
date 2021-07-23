@@ -1,10 +1,10 @@
 # `useWishlist` <Badge text="Enterprise" type="info" />
 
-> This feature is a part of our commercial offering and does not exist in the open-source version of Commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/enterprise)
+> This feature is a part of our commercial offering and does not exist in the open-source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/enterprise)
 
 ## Features
 
-`useWishlist` composable is responsible for integrating with a wishlist from Commercetools. It allows to:
+`useWishlist` composable is responsible for integrating with a wishlist from commercetools. It allows to:
 
 - fetch products from the wishlist
 - add products to the wishlist

@@ -2,7 +2,7 @@
 
 ## Features
 
-`useUserOrder` composable is responsible for interactions with user order history from your eCommerce backend.
+`useUserOrder` composable is responsible for interactions with customer order history from your eCommerce backend.
 
 ## API
 

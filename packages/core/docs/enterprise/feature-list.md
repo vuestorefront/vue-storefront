@@ -12,7 +12,7 @@ The following document lists the most important (but not all!) features of [Vue 
 
 **1. No UI/functional limitations**
 
-Vue Storefront is just a framework, and you can build your UI in any way you want. Anything that is possible with Nuxt is also possible with Vue Storefront
+Vue Storefront is just a framework, and you can build your UI in any way you want. Anything possible with Nuxt is also possible with Vue Storefront.
 
 **2. Backend-agnostic**
 
@@ -20,7 +20,7 @@ We have the same interfaces for the same types of vendors (eCommerce/Search/CMS/
 
 **3. Focus on performance**
 
-We're providing a bulletproof architecture, great defaults, best practices, and tools to make sure your app will perform smoothly. The majority of business logic is handled on the server side to make sure client bundles are small.
+We're providing a bulletproof architecture, great defaults, best practices, and tools to make sure your app will perform smoothly. The majority of business logic is handled on the server-side to make sure client bundles are small.
 
 **4. No vendor lock-in**
 
@@ -28,7 +28,7 @@ You own your code, so it's up to you what services you will use for eCommerce or
 
 **5. Focus on quick time to market**
 
-We've built Vue Storefront to make eCommerce frontends development process as enjoyable and smooth as possible. Just like Vue and Nuxt themselves, we're focusing on getting things done, providing good defaults, and giving our users integrations and extensions they can use to speed up their development process.
+We've built Vue Storefront to make the eCommerce frontends development process as enjoyable and smooth as possible. Just like Vue and Nuxt themselves, we're focusing on getting things done, providing good defaults, and giving our users integrations and extensions they can use to speed up their development process.
 
 **6. All-in-one modular solution.**
 
@@ -38,7 +38,7 @@ You can let us take care of all aspects of your eCommerce presence or replace an
 
 **7. Huge and vibrant community**
 
-Vue Storefront is the only truly open source eCommerce frontend framework with an active, and vibrant community of thousands developers all around the world. If you choose Vue Storefront, you're never left on your own.
+Vue Storefront is the only truly open-source eCommerce frontend framework with an active and vibrant community of thousands of developers worldwide. If you choose Vue Storefront, you're never left on your own.
 
 
 ## Integrations

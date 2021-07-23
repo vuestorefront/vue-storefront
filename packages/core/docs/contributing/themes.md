@@ -1,10 +1,10 @@
 # Working with themes
 
-For core development purposes, we aim to have only one default theme. Thanks to that, we have much less code to maintain, can apply changes faster, and maintain the same quality across every platform theme.
+For core development purposes, we aim to have only one default theme. With this approach, we have less code to maintain and are able to apply changes faster to maintain the same quality across every platform theme.
 
-Core Development Theme and Project Themes are different things. Core development Theme is a base for a project (client) theme that is generated through CLI. CLI concatenates the default theme from nuxt module with integration-specific files and outputs a regular Nuxt project containing all of that files. For client projects, there is no inheritance mechanism.
+The core development theme is a base for a project theme generated through CLI. The CLI merges the default theme from the Nuxt.js module with integration-specific files and outputs a regular Nuxt project containing all of that files. For client projects, there is no inheritance mechanism.
 
-Because of that, it's very important to keep the agnostic APIs in the default theme. Clients can do whatever they want in their projects, but we should keep agnosticism for maintenance purposes.
+For this reason, it's important to keep the APIs in the default theme agnostic. Clients can do whatever they need in their projects, but we should keep agnosticism for maintenance purposes.
 
 Default theme is located in `packages/core/nuxt-theme-module` folder and recognized as `@vue-storefront/nuxt-theme`
 
