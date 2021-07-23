@@ -5,7 +5,7 @@ export default async (context) => {
   const currentToken = $vsf.$ct.config.auth.onTokenRead();
   if (!currentToken) {
     const { token, errors } = await $vsf.$ct.api.requestAuthToken(currentToken);
-    $vsf.$ct.config.axios.handleTokenChange(token);
+    $vsf.$ct.config.axios.setConfigCookie(token);
 
     if (errors.length) {
       errors.forEach(error => {

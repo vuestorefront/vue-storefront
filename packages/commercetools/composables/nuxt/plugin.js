@@ -36,16 +36,16 @@ export default integrationPlugin(({ app, integration }) => {
   }
 
 
-  const handleTokenChange = (token) => {
+  const setConfigCookie = (token) => {
     const cookieTokenString = `${CT_TOKEN_COOKIE_NAME}=${JSON.stringify(token)}, Expires=${new Date(token.expires_at)}, Path='/'`;
 
-    const settings = mapConfigToSetupObject({
+    const settings = {
       axios: {
         headers: {
           cookie: cookieTokenString
         }
       }
-    })
+    }
 
     integration.configure('ct', settings)
   }
@@ -63,7 +63,7 @@ export default integrationPlugin(({ app, integration }) => {
         changeCurrentStore
       },
       axios: {
-        handleTokenChange
+        setConfigCookie
       }
     }
   })

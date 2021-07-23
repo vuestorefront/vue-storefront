@@ -1,13 +1,12 @@
 import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
-import { Logger } from '@vue-storefront/core';
+import { Logger, Context } from '@vue-storefront/core';
 import { ApiConfig, Token } from '../../types/setup';
-import { isAnonymousSession, isUserSession } from '../../helpers/utils';
+import { isAnonymousSession, isUserSession, getAccessToken } from '../../helpers/utils';
 import { isAnonymousOperation, isUserOperation } from '../../helpers/commercetoolsLink/restrictedOperations';
 
-const requestAuthToken = async (context, currentToken: string) => {
+const requestAuthToken = async (context: Context, currentToken: string) => {
   const { config, req, res, client } = context;
 
-  const apiConfig = config.api;
   const url = req.url;
   let token;
 
@@ -29,10 +28,10 @@ const requestAuthToken = async (context, currentToken: string) => {
       sdkAuth,
       fetchTokenInfo: async (sdkAuthInstance: SdkAuth) => await sdkAuthInstance.clientCredentialsFlow(),
       onTokenInfoChanged: (tokenInfo: Token) => {
-        Logger.debug('TokenProvider.onTokenInfoChanged', tokenInfo.access_token);
+        Logger.debug('TokenProvider.onTokenInfoChanged', getAccessToken(tokenInfo));
       },
       onTokenInfoRefreshed: (tokenInfo: Token) => {
-        Logger.debug('TokenProvider.onTokenInfoRefreshed', tokenInfo.access_token);
+        Logger.debug('TokenProvider.onTokenInfoRefreshed', getAccessToken(tokenInfo));
       }
     }, currentToken);
   };
@@ -47,7 +46,7 @@ const requestAuthToken = async (context, currentToken: string) => {
 
       const token = await sdkAuth.anonymousFlow();
       tokenProvider.setTokenInfo(token);
-      Logger.debug('Apollo authLinkBefore, anonymousFlow, generated token: ', token.access_token);
+      Logger.debug('Apollo authLinkBefore, anonymousFlow, generated token: ', getAccessToken(token));
 
       return token;
     }
@@ -62,7 +61,7 @@ const requestAuthToken = async (context, currentToken: string) => {
     if (!res.errors?.length) {
       const token = await sdkAuth.customerPasswordFlow({ username: email, password });
       tokenProvider.setTokenInfo(token);
-      Logger.debug('Apollo authLinkAfter, customerPasswordFlow, generated token: ', token.access_token);
+      Logger.debug('Apollo authLinkAfter, customerPasswordFlow, generated token: ', getAccessToken(token));
 
       return token;
     }
@@ -70,7 +69,7 @@ const requestAuthToken = async (context, currentToken: string) => {
     return currentToken;
   };
 
-  const sdkAuth = createSdkAuth(apiConfig);
+  const sdkAuth = createSdkAuth(config.api);
   const tokenProvider = createTokenProvider(sdkAuth, currentToken);
 
   token = await getBeforeAuthToken({ sdkAuth, tokenProvider, url, currentToken });
