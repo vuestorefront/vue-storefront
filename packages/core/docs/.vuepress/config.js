@@ -87,75 +87,6 @@ module.exports = {
       { text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437' }
     ],
     sidebar: {
-      '/': [
-        {
-          title: 'Getting started',
-          collapsable: false,
-          children: [
-            ['/', 'Introduction'],
-            ['/general/where-to-start', 'Where to start?'],
-            ['/general/installation', 'Installation'],
-            ['/general/key-concepts', 'Key concepts'],
-            ['/general/enterprise', 'Enterprise']
-          ]
-        },
-        {
-          title: 'Guides',
-          collapsable: false,
-          children: [
-            ['/guide/theme', 'Theme'],
-            ['/guide/configuration', 'Configuration'],
-            ['/guide/composition-api', 'Composition API'],
-            ['/guide/composables', 'Composables'],
-            ['guide/error-handling', 'Error Handling'],
-            ['/guide/getters', 'Getters'],
-            ['/guide/product-catalog', 'Product Catalog'],
-            ['/guide/authentication', 'Authentication'],
-            ['/guide/user-profile', 'User profile'],
-            ['/guide/cart-and-wishlist', 'Cart and wishlist'],
-            ['/guide/checkout', 'Checkout']
-          ]
-        },
-        {
-          title: 'Advanced',
-          collapsable: false,
-          children: [
-            ['/advanced/architecture', 'Architecture'],
-            ['/advanced/context', 'Application Context'],
-            ['/advanced/calling-platform-api', 'Calling Platform API'],
-            ['/advanced/creating-custom-composable', 'Creating custom composable'],
-            ['/advanced/extending-graphql-queries', 'Extending GraphQL queries'],
-            ['/advanced/server-middleware', 'Server Middleware'],
-            ['/advanced/internationalization', 'Internationalization'],
-            ['/advanced/performance', 'Performance'],
-            ['/advanced/ssr-cache', 'SSR Cache'],
-            ['/advanced/logging', 'Logging'],
-            ['/core/api-reference/', 'API Reference']
-          ]
-        },
-        {
-          title: 'Building integration',
-          collapsable: true,
-          children: [
-            ['/integrate/integration-guide', 'eCommerce'],
-            ['/integrate/cms', 'CMS'],
-            ['/integrate/cache-driver', 'Cache driver'],
-            ['/integrate/supporting-custom-queries', 'Supporting custom queries']
-          ]
-        },
-        {
-          title: 'Contributing',
-          collapsable: true,
-          children: [
-            ['/contributing/', 'Contributing'],
-            ['/contributing/api-design-philosophy', 'Rules and conventions'],
-            ['/contributing/creating-changelog', 'Creating changelog'],
-            ['/contributing/themes', 'Working with themes'],
-            ['/contributing/server-side-rendering', 'Server-side rendering'],
-            ['/contributing/changelog', 'Core Changelog']
-          ]
-        }
-      ],
       '/migrate/': [
         {
           title: 'Migration guide 2.3.0',
@@ -227,10 +158,7 @@ module.exports = {
             ['/commercetools/composables/use-wishlist', 'useWishlist'],
             ['/commercetools/composables/use-category', 'useCategory'],
             ['/commercetools/composables/use-shipping', 'useShipping'],
-            [
-              '/commercetools/composables/use-shipping-provider',
-              'useShippingProvider'
-            ],
+            ['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
             ['/commercetools/composables/use-billing', 'useBilling'],
             ['/commercetools/composables/use-make-order', 'useMakeOrder']
           ]
@@ -245,12 +173,16 @@ module.exports = {
         {
           title: 'Extensions',
           collapsable: false,
-          children: [['/commercetools/extensions/user-groups', 'User groups']]
+          children: [
+            ['/commercetools/extensions/user-groups', 'User groups']
+          ]
         },
         {
           title: 'Theme',
           collapsable: false,
-          children: [['/commercetools/auth-middleware', 'Auth Middleware']]
+          children: [
+            ['/commercetools/auth-middleware', 'Auth Middleware']
+          ]
         }
       ],
       '/shopify/': [
@@ -281,7 +213,78 @@ module.exports = {
         {
           title: 'Other',
           collapsable: false,
-          children: [['/shopify/checkout', 'Checkout']]
+          children: [
+            ['/shopify/checkout', 'Checkout']
+          ]
+        }
+      ],
+      '/': [
+        {
+          title: 'Getting started',
+          collapsable: false,
+          children: [
+            ['/', 'Introduction'],
+            ['/general/where-to-start', 'Where to start?'],
+            ['/general/installation', 'Installation'],
+            ['/general/key-concepts', 'Key concepts'],
+            ['/general/enterprise', 'Enterprise']
+          ]
+        },
+        {
+          title: 'Guides',
+          collapsable: false,
+          children: [
+            ['/guide/theme', 'Theme'],
+            ['/guide/configuration', 'Configuration'],
+            ['/guide/composition-api', 'Composition API'],
+            ['/guide/composables', 'Composables'],
+            ['/guide/error-handling', 'Error Handling'],
+            ['/guide/getters', 'Getters'],
+            ['/guide/product-catalog', 'Product Catalog'],
+            ['/guide/authentication', 'Authentication'],
+            ['/guide/user-profile', 'User profile'],
+            ['/guide/cart-and-wishlist', 'Cart and wishlist'],
+            ['/guide/checkout', 'Checkout']
+          ]
+        },
+        {
+          title: 'Advanced',
+          collapsable: false,
+          children: [
+            ['/advanced/architecture', 'Architecture'],
+            ['/advanced/context', 'Application Context'],
+            ['/advanced/calling-platform-api', 'Calling Platform API'],
+            ['/advanced/creating-custom-composable', 'Creating custom composable'],
+            ['/advanced/extending-graphql-queries', 'Extending GraphQL queries'],
+            ['/advanced/server-middleware', 'Server Middleware'],
+            ['/advanced/internationalization', 'Internationalization'],
+            ['/advanced/performance', 'Performance'],
+            ['/advanced/ssr-cache', 'SSR Cache'],
+            ['/advanced/logging', 'Logging'],
+            ['/core/api-reference/', 'API Reference']
+          ]
+        },
+        {
+          title: 'Building integration',
+          collapsable: true,
+          children: [
+            ['/integrate/integration-guide', 'eCommerce'],
+            ['/integrate/cms', 'CMS'],
+            ['/integrate/cache-driver', 'Cache driver'],
+            ['/integrate/supporting-custom-queries', 'Supporting custom queries']
+          ]
+        },
+        {
+          title: 'Contributing',
+          collapsable: true,
+          children: [
+            ['/contributing', 'Contributing'],
+            ['/contributing/api-design-philosophy', 'Rules and conventions'],
+            ['/contributing/creating-changelog', 'Creating changelog'],
+            ['/contributing/themes', 'Working with themes'],
+            ['/contributing/server-side-rendering', 'Server-side rendering'],
+            ['/contributing/changelog', 'Core Changelog']
+          ]
         }
       ],
     }
