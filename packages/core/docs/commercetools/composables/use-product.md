@@ -23,6 +23,7 @@ interface ProductsSearchParams {
   skus?: string[];
   slug?: string;
   id?: string;
+  ids?: string[]
 }
 
 type CustomQuery = {

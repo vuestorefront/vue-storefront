@@ -18,6 +18,7 @@ export interface ProductsSearchParams {
   skus?: string[];
   slug?: string;
   id?: string;
+  ids?: string[];
 }
 
 export interface FacetResultsData {
