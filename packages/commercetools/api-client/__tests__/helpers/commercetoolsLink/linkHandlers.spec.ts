@@ -139,32 +139,26 @@ describe('[commercetools-helpers] handleRetry', () => {
   });
 
   it('defaults to false', () => {
-    const tokenProvider = getTokenProvider('');
-    const handler = handleRetry({ tokenProvider });
+    const handler = handleRetry();
     const operation = { operationName: 'any' };
     const error = { result: { message: '' } };
 
     expect(handler(1, operation, error)).toBeFalsy();
-    expect(tokenProvider.invalidateTokenInfo).not.toBeCalled();
   });
 
   it('doesnt run more than 3 times', () => {
-    const tokenProvider = getTokenProvider('');
-    const handler = handleRetry({ tokenProvider });
+    const handler = handleRetry();
     const operation = { operationName: 'any' };
     const error = { result: { message: 'invalid_token' } };
 
     expect(handler(4, operation, error)).toBeFalsy();
-    expect(tokenProvider.invalidateTokenInfo).not.toBeCalled();
   });
 
   it('calls "invalidateTokenInfo" on "invalid_token" error', () => {
-    const tokenProvider = getTokenProvider('');
-    const handler = handleRetry({ tokenProvider });
+    const handler = handleRetry();
     const operation = { operationName: 'any' };
     const error = { result: { message: 'invalid_token' } };
 
     expect(handler(1, operation, error)).toBeTruthy();
-    expect(tokenProvider.invalidateTokenInfo).toBeCalled();
   });
 });
