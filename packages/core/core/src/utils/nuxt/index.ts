@@ -11,6 +11,11 @@ export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext
     const injectInContext = createAddIntegrationToCtx({ tag, nuxtCtx, inject });
     const config = getIntegrationConfig(nuxtCtx, configuration);
     const { middlewareUrl } = (nuxtCtx as any).$config;
+    const cookie = configuration?.axios?.headers?.cookie;
+
+    if (cookie) {
+      config.axios.headers.cookie = cookie;
+    }
 
     if (middlewareUrl) {
       config.axios.baseURL = middlewareUrl;
