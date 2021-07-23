@@ -1,7 +1,11 @@
-# Vue Storefront for Commercetools
+# commercetools integration for Vue Storefront
 
-This is a documentation for Vue Storefront integration with Commercetools.
+:::tip There's more
+This page only contains the documentation specific to commercetools integration. For more information, see the [Vue Storefront documentation](https://docs.vuestorefront.io/v2/).
+:::
 
-This Open Source integration is currently a **work in progress** and not ready for production usage.
+[commercetools](https://www.vuestorefront.io/commercetools) integration for Vue Storefront is open-source and maintained by the core team.
 
-If you'd like to use Vue Storefront in production we suggest using the Enterprise version that is production-ready and supported by the core team. [Contact us](https://www.vuestorefront.io/contact/sales) to learn more
+Some of the functionalities are available as part of our [Vue Storefront Enterprise](../general/enterprise.html) offering. We highly recommend it to reduce the development time and cost of your project. Feel free to [contact us](https://www.vuestorefront.io/contact/sales) to learn more.
+
+If you'd like to test it before diving in, see our [Enterprise demo](https://demo-ee.vuestorefront.io/) or [Open-source demo](https://vsf-next-demo.storefrontcloud.io/).
