@@ -9,7 +9,7 @@ Click on the integration tile to read its documentation.
 <IntegrationList>
   <IntegrationTile
     name="Commercetools"
-    image="/integrations-logos/commercetools.svg"
+    image="/v2/integrations-logos/commercetools.svg"
     category="eCommerce"
     isEnterprise="true"
     :from-core="true"
@@ -38,7 +38,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Shopify"
-    image="/integrations-logos/Shopify.svg"
+    image="/v2/integrations-logos/Shopify.svg"
     category="eCommerce"
     isBeta="true"
     link="/v2/shopify"
@@ -51,7 +51,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="BigCommerce"
-    image="/integrations-logos/BigCommerce.svg"
+    image="/v2/integrations-logos/BigCommerce.svg"
     category="eCommerce"
     isWip="true"
   />
@@ -62,7 +62,7 @@ Click on the integration tile to read its documentation.
 <IntegrationList filterable="true">
   <IntegrationTile
     name="Storyblok"
-    image="/integrations-logos/Storyblok.svg"
+    image="/v2/integrations-logos/Storyblok.svg"
     category="CMS"
     :compatibility="[]"
     isOpenSource="true"
@@ -90,7 +90,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Contentful"
-    image="/integrations-logos/Contentful.svg"
+    image="/v2/integrations-logos/Contentful.svg"
     isEnterprise="true"
     :compatibility="[]"
     category="CMS"
@@ -133,7 +133,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Adyen"
-    image="/integrations-logos/Adyen.svg"
+    image="/v2/integrations-logos/Adyen.svg"
     category="Payment"
     isEnterprise="true"
     :compatibility="['commercetools']"
@@ -142,7 +142,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Bloomreach"
-    image="/integrations-logos/bloomreach.jpg"
+    image="/v2/integrations-logos/bloomreach.jpg"
     :category="['CMS', 'search']"
     :compatibility="['commercetools']"
     :from-core="true"
@@ -157,7 +157,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Recurly"
-    image="/integrations-logos/Recurly.png"
+    image="/v2/integrations-logos/Recurly.png"
     category="Payment"
     :compatibility="['commercetools']"
     :from-core="true"
@@ -165,7 +165,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Algolia"
-    image="/integrations-logos/algolia.svg"
+    image="/v2/integrations-logos/algolia.svg"
     category="['CMS', 'search']"
     :compatibility="['commercetools']"
     :from-core="true"
@@ -173,7 +173,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Auth0"
-    image="/integrations-logos/auth0.svg"
+    image="/v2/integrations-logos/auth0.svg"
     category="['Authentication']"
     :compatibility="['commercetools']"
     :from-core="true"
