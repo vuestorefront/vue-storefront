@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "description": "",
-  "main": "index.js",
+  "license": "MIT",
   "scripts": {
     "dev": "vuepress dev",
     "build": "vuepress build",
@@ -14,22 +14,23 @@
     "ct-api-client-tdoc": "node ./scripts/generateCtApiRef && rimraf ./commercetools/api-client-reference/enums ./commercetools/api-client-reference/README.md ./commercetools/api-client-reference/modules/api.md && mv ./commercetools/api-client-reference/modules ./commercetools/api-client-reference/1modules && node typedoc-vsf-theme/removeFiles",
     "ct-api-client-gen": "concat-md --join-string '' ./commercetools/api-client-reference/ > ./commercetools/api-client-reference.md && node typedoc-vsf-theme/removeText && rimraf ./commercetools/api-client-reference"
   },
+  "dependencies": {
+    "sass-loader": "^8.0.2",
+    "vue-multiselect": "^2.1.6"
+  },
   "devDependencies": {
     "@microsoft/api-documenter": "^7.13.7",
     "@microsoft/api-extractor": "^7.18.3",
     "@vue-storefront/commercetools-api": "^1.2.0",
+    "@vuepress/plugin-active-header-links": "^1.8.2",
+    "@vuepress/plugin-back-to-top": "^1.8.2",
+    "@vuepress/plugin-medium-zoom": "^1.8.2",
+    "@vuepress/plugin-search": "^1.8.2",
     "concat-md": "^0.3.5",
     "handlebars": "^4.7.7",
     "typedoc": "^0.20.20",
     "typedoc-plugin-markdown": "^3.4.5",
-    "typescript": "^3.6.4",
-    "vuepress": "^1.2.0"
-  },
-  "author": "DivanteLtd",
-  "license": "MIT",
-  "dependencies": {
-    "sass-loader": "^8.0.2",
-    "vue-multiselect": "^2.1.6"
+    "vuepress": "^1.8.2"
   },
   "workspaces": {
     "nohoist": [
