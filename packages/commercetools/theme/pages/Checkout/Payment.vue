@@ -1,6 +1,7 @@
 <template>
   <div>
     <SfHeading
+      v-e2e="'heading-payment'"
       :level="3"
       :title="$t('Payment')"
       class="sf-heading--left sf-heading--no-underline title"
@@ -44,6 +45,15 @@
         </div>
       </SfAccordionItem>
     </SfAccordion>
+    <div class="promo-code smartphone-only">
+      <SfInput
+        v-model="promoCode"
+        name="promoCode"
+        :label="$t('Enter promo code')"
+        class="sf-input--filled promo-code__input"
+      />
+      <SfButton class="promo-code__button" @click="() => applyCoupon({ couponCode: promoCode })">{{ $t('Apply') }}</SfButton>
+    </div>
     <SfTable class="sf-table--bordered table desktop-only">
       <SfTableHeading class="table__row">
         <SfTableHeader class="table__header table__image">{{ $t('Item') }}</SfTableHeader>
@@ -58,24 +68,25 @@
       </SfTableHeading>
       <SfTableRow
         v-for="(product, index) in products"
+        v-e2e="'product-row'"
         :key="index"
         class="table__row"
       >
         <SfTableData class="table__image">
           <SfImage :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
         </SfTableData>
-        <SfTableData class="table__data table__description table__data">
+        <SfTableData v-e2e="'product-title-sku'" class="table__data table__description table__data">
           <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
           <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
         </SfTableData>
         <SfTableData
-          class="table__data" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
+          class="table__data" v-e2e="'product-attributes'" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
           :key="key"
         >
           {{ value }}
         </SfTableData>
-        <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
-        <SfTableData class="table__data price">
+        <SfTableData v-e2e="'product-quantity'" class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
+        <SfTableData v-e2e="'product-price'" class="table__data price">
           <SfPrice
             :regular="$n(cartGetters.getItemPrice(product).regular, 'currency')"
             :special="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
@@ -138,7 +149,8 @@ import {
   SfPrice,
   SfProperty,
   SfAccordion,
-  SfLink
+  SfLink,
+  SfInput
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
 import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
@@ -161,11 +173,12 @@ export default {
     SfProperty,
     SfAccordion,
     SfLink,
-    VsfPaymentProviderMock
+    VsfPaymentProviderMock,
+    SfInput
   },
   setup(_, context) {
     const { status: paymentReady } = usePaymentProviderMock();
-    const { cart, removeItem, load, setCart } = useCart();
+    const { cart, removeItem, load, setCart, applyCoupon } = useCart();
     const { shipping: shippingDetails, load: loadShippingDetails } = useShipping();
     const { load: loadShippingProvider, state } = useShippingProvider();
     const { billing: billingDetails, load: loadBillingDetails } = useBilling();
@@ -175,6 +188,7 @@ export default {
     const { order, make, loading } = useMakeOrder();
 
     const terms = ref(false);
+    const promoCode = ref('');
 
     onSSR(async () => {
       await load();
@@ -200,10 +214,12 @@ export default {
       totals,
       removeItem,
       processOrder,
-      tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
+      tableHeaders: ['Description', 'Size', 'Color', 'Quantity', 'Amount'],
       cartGetters,
       getShippingMethodPrice,
-      paymentReady
+      paymentReady,
+      promoCode,
+      applyCoupon
     };
   }
 };
@@ -322,5 +338,22 @@ export default {
   --divider-border-color: var(--c-primary);
   --divider-width: 100%;
   --divider-margin: 0 0 var(--spacer-base) 0;
+}
+
+.promo-code {
+  margin-bottom: var(--spacer-base);
+  display: flex;
+  align-items: flex-start;
+  &__button {
+    --button-width: 6.3125rem;
+    --button-height: var(--spacer-lg);
+    &:hover {
+      --button-box-shadow-opacity: 0
+    }
+  }
+  &__input {
+    --input-background: var(--c-light);
+    flex: 1;
+  }
 }
 </style>
