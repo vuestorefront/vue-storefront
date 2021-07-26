@@ -57,13 +57,21 @@ export default {
 
 <style scoped>
 .list {
-  display: flex;
-  justify-content: space-between;
-  align-content: space-evenly;
-  flex-wrap: wrap;
+  display: grid; 
+  grid-auto-columns: 1fr; 
+  grid-auto-rows: 1fr; 
+  grid-template-columns: 1fr 1fr 1fr; 
+  gap: 20px 20px; 
+  margin: 20px 0;
 }
 
 .multiselect {
   margin-bottom: 20px;
+}
+
+@media (max-width: 1023px) {
+  .list {
+    grid-template-columns: 1fr 1fr; 
+  }
 }
 </style>

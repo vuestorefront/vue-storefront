@@ -55,6 +55,12 @@ Click on the integration tile to read its documentation.
     category="eCommerce"
     isWip="true"
   />
+  <IntegrationTile
+    name="AboutYou"
+    image="https://commercesuite.aboutyou.com/storage/assets/images/logo-commerce-suite-footer.svg"
+    category="eCommerce"
+    isWip="true"
+  />
 </IntegrationList>
 
 ## Other integrations
@@ -99,7 +105,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Bazaarvoice"
-    image="https://lever-client-logos.s3.us-west-2.amazonaws.com/714170d1-1117-4943-89d7-fa08f7e6af25-1599041851236.png"
+    image="https://upload.wikimedia.org/wikipedia/en/6/6a/Bazaarvoice_logo.jpg"
     :compatibility="[]"
     category="Reviews"
     isEnterprise="true"
@@ -108,7 +114,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Redis"
-    image="https://download.logo.wine/logo/Redis/Redis-Logo.wine.png"
+    image="https://upload.wikimedia.org/wikipedia/commons/6/6b/Redis_Logo.svg"
     :compatibility="[]"
     category="Cache"
     isEnterprise="true"
@@ -142,7 +148,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Bloomreach"
-    image="/v2/integrations-logos/bloomreach.jpg"
+    image="/v2/integrations-logos/bloomreach.png"
     :category="['CMS', 'search']"
     :compatibility="['commercetools']"
     :from-core="true"

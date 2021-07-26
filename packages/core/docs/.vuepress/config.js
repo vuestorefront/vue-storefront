@@ -62,7 +62,13 @@ module.exports = {
    */
    plugins: [
     '@vuepress/plugin-back-to-top',
-    '@vuepress/plugin-medium-zoom',
+    [
+      '@vuepress/plugin-medium-zoom',
+      {
+        // This selector excludes images from the "Integrations" page
+        selector: 'main :not(a):not(.tile) > img'
+      }
+    ],
     '@vuepress/last-updated',
     '@vuepress/active-header-links',
     '@vuepress/search'
