@@ -36,8 +36,9 @@ export default integrationPlugin(({ app, integration }) => {
   }
 
 
-  const setConfigCookie = (token) => {
-    const cookieTokenString = `${CT_TOKEN_COOKIE_NAME}=${JSON.stringify(token)}, Expires=${new Date(token.expires_at)}, Path='/'`;
+  const setConfigCookie = async (token) => {
+    const tokenValue = encodeURIComponent(JSON.stringify(token))
+    const cookieTokenString = `${CT_TOKEN_COOKIE_NAME}=${tokenValue}`;
 
     const settings = {
       axios: {
