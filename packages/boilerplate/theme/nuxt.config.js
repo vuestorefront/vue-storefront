@@ -101,8 +101,8 @@ export default {
   build: {
     babel: {
       plugins: [
-        ['@babel/plugin-proposal-private-methods', { loose: true }],
-      ],
+        ['@babel/plugin-proposal-private-methods', { loose: true }]
+      ]
     },
     transpile: [
       'vee-validate/dist/rules'
