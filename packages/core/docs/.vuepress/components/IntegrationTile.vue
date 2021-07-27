@@ -1,9 +1,6 @@
 <template>
-  <component
-    v-show="isVisible"
-    :is="link ? 'a' : 'div'"
-    :class="{ wip: isWip }"
-    :href="link"
+  <div
+    :class="{ wip }"
     class="tile"
   >
     <img
@@ -11,30 +8,85 @@
       class="tile-image"
     />
 
-    <span class="badge info" v-if="isEnterprise">Enterprise</span>
-    <span class="badge wip" v-if="isWip">In progress</span>
-    <span class="badge beta" v-if="isBeta">Beta</span>
-    <span class="badge from-core" v-if="fromCore">From Core Team</span>
-  </component>
+    <div class="tile-info">
+      <a
+        v-if="link"
+        :href="link"
+        class="tile-title"
+      >
+        {{ name }}
+      </a>
+
+      <div
+        v-else
+        class="tile-title"
+      >
+        {{ name }}
+      </div>
+
+      <div
+        v-if="description"
+        class="tile-description"
+      >
+        {{ description }}
+      </div>
+
+      <div class="tile-badges">
+        <span
+          v-for="tag in tags"
+          :key="tag"
+          class="tile-badge"
+        >
+          {{ tag }}
+        </span>
+      </div>
+    </div>
+
+    <div class="tile-more">
+      <a
+        v-if="link"
+        :href="link"
+        class="tile-link"
+      >
+        Read more →
+      </a>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'IntegrationTile',
-  props: [
-    'name', 
-    'link', 
-    'category', 
-    'image', 
-    'isWip', 
-    'isBeta',
-    'isEnterprise', 
-    'fromCore',
-    'compatibility'
-  ],
-  data () {
-    return {
-      isVisible: true
+
+  props: {
+    name: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String,
+      required: false
+    },
+    link: {
+      type: String,
+      required: false
+    },
+    image: {
+      type: String,
+      required: true
+    },
+    wip: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    tags: {
+      type: Array,
+      required: true
+    },
+    categories: {
+      type: Array,
+      required: false
     }
   }
 }
@@ -42,21 +94,37 @@ export default {
 
 
 <style scoped>
+* {
+  box-sizing: border-box;
+}
+
+/*********** Tile ***********/
 .tile {
   position: relative;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  height: 180px;
+  flex-direction: column;
+  align-items: flex-start;
   border: 1px solid #E5E7EB;
   border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 0;
+  color: #4B5563;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.tile > * {
+  width: 100%;
+  padding: 10px 20px;
 }
 
 .tile.wip {
   background-color: #F3F4F6;
+}
+/*********** Image ***********/
+.tile-image {
+  padding: 20px 40px;
+  height: 110px;
+  top: calc(50% - 55px);
+  object-fit: contain;
 }
 
 .tile.wip .tile-image {
@@ -64,47 +132,60 @@ export default {
   filter: grayscale(100%);
 }
 
-.tile-image {
-  box-sizing: border-box;
-  padding: 10px 20px 0;
-  height: 110px;
-  object-fit: contain;
+/*********** Information ***********/
+.tile-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #E5E7EB;
 }
 
-.tile:not(.wip):hover {
-  box-shadow:
-    0 0 transparent,
-    0 0 transparent,
-    0 0 transparent,
-    0 0 transparent,
-    0 4px 6px -1px rgba(0,0,0,0.1),
-    0 2px 4px -1px rgba(0,0,0,0.06);
-  transition: 0.15s box-shadow;
+.tile-info > * + * {
+  margin-top: 15px;
 }
 
-.badge {
-  position: absolute;
+.tile-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #4B5563;
+}
+
+.tile-description {
+  flex-grow: 1;
+  margin-bottom: 10px;
+  color: #6B7280;
+}
+
+.tile-badges {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.tile-badge {
   font-size: 14px;
   height: 18px;
-  line-height: 18px;
   border-radius: 3px;
-  padding: 2px 6px;
-  color: #fff;
-  top: 4px;
-  left: 8px;
+  padding: 4px 6px;
+  margin-bottom: 5px;
+  color: #6B7280;
+  background-color: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  box-sizing: initial;
+  margin: 0 5px 5px 0;
 }
 
-.badge.from-core {
-  left: initial;
-  background: #b19cd9;
-  right: 8px;
+.tile-more {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.badge.beta {
-  background: orange;
-}
-
-.badge.wip {
-  background: darkgray;
+.tile-link {
+  padding: 6px 20px;
+  border-radius: 16px;
+  font-weight: 500;
+  color: #3B82F6;
+  background-color: #DBEAFE;
 }
 </style>
