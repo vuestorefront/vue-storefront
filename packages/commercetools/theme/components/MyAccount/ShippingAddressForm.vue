@@ -72,6 +72,31 @@
           />
         </ValidationProvider>
         <ValidationProvider
+          :rules="`required|oneOf:${countries.map(c => c.name).join(',')}`"
+          v-slot="{ errors }"
+          class="form__element"
+        >
+          <SfSelect
+            class="form__select sf-select--underlined"
+            v-model="form.country"
+            name="country"
+            label="Country"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          >
+            <SfSelectOption
+              v-for="{ name, label } in countries"
+              :key="name"
+              :value="name"
+            >
+              {{ label }}
+            </SfSelectOption>
+          </SfSelect>
+        </ValidationProvider>
+      </div>
+      <div class="form__horizontal">
+        <ValidationProvider
           name="state"
           :rules="!statesInSelectedCountry ? null : 'required|min:2'"
           v-slot="{ errors }"
@@ -96,8 +121,6 @@
             </SfSelectOption>
           </SfSelect>
         </ValidationProvider>
-      </div>
-      <div class="form__horizontal">
         <ValidationProvider
           rules="required|min:4"
           v-slot="{ errors }"
@@ -111,29 +134,6 @@
             :valid="!errors[0]"
             :errorMessage="errors[0]"
           />
-        </ValidationProvider>
-        <ValidationProvider
-          :rules="`required|oneOf:${countries.map(c => c.name).join(',')}`"
-          v-slot="{ errors }"
-          class="form__element"
-        >
-          <SfSelect
-            class="form__select sf-select--underlined"
-            v-model="form.country"
-            name="country"
-            label="Country"
-            required
-            :valid="!errors[0]"
-            :errorMessage="errors[0]"
-          >
-            <SfSelectOption
-              v-for="{ name, label } in countries"
-              :key="name"
-              :value="name"
-            >
-              {{ label }}
-            </SfSelectOption>
-          </SfSelect>
         </ValidationProvider>
       </div>
       <ValidationProvider
