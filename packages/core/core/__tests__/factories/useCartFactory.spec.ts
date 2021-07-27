@@ -217,10 +217,10 @@ describe('[CORE - factories] useCartFactory', () => {
     describe('applyCoupon', () => {
       it('should apply provided coupon', async () => {
         const { applyCoupon, cart } = useCart();
-        await applyCoupon({ couponCode: 'qwerty' });
+        await applyCoupon({ coupon: 'qwerty' });
         expect(params.applyCoupon).toHaveBeenCalledWith({
           currentCart: null,
-          couponCode: 'qwerty'
+          coupon: 'qwerty'
         });
         expect(cart.value).toEqual({ id: 'mocked_apply_coupon_cart' });
       });
@@ -232,7 +232,7 @@ describe('[CORE - factories] useCartFactory', () => {
         });
         const { applyCoupon, error } = useCartMock();
 
-        await applyCoupon({ couponCode: 'qwerty' });
+        await applyCoupon({ coupon: 'qwerty' });
 
         expect(error.value.applyCoupon).toBe(err);
       });

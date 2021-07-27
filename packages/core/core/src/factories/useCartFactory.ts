@@ -19,7 +19,7 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, API exte
     params: { currentCart: CART; product: CART_ITEM; quantity: number; customQuery?: CustomQuery }
   ) => Promise<CART>;
   clear: (context: Context, params: { currentCart: CART }) => Promise<CART>;
-  applyCoupon: (context: Context, params: { currentCart: CART; couponCode: string; customQuery?: CustomQuery }) => Promise<{ updatedCart: CART }>;
+  applyCoupon: (context: Context, params: { currentCart: CART; coupon: COUPON; customQuery?: CustomQuery }) => Promise<{ updatedCart: CART }>;
   removeCoupon: (
     context: Context,
     params: { currentCart: CART; coupon: COUPON; customQuery?: CustomQuery }
@@ -166,14 +166,14 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, API extends Pla
       });
     };
 
-    const applyCoupon = async ({ couponCode, customQuery }) => {
+    const applyCoupon = async ({ coupon, customQuery }) => {
       Logger.debug('useCart.applyCoupon');
 
       try {
         loading.value = true;
         const { updatedCart } = await _factoryParams.applyCoupon({
           currentCart: cart.value,
-          couponCode,
+          coupon,
           customQuery
         });
         error.value.applyCoupon = null;
