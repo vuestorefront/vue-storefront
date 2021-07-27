@@ -92,6 +92,8 @@ export const getTotalReviews = (product: ProductVariant): number => (product as 
 
 export const getAverageRating = (product: ProductVariant): number => (product as any)?._rating?.averageRating || 0;
 
+export const getProductSku = (product: ProductVariant): any => (product as any)?.sku || '';
+
 const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
@@ -103,6 +105,7 @@ const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getDescription: getProductDescription,
   getCategoryIds: getProductCategoryIds,
   getId: getProductId,
+  getSku: getProductSku,
   getFormattedPrice,
   getTotalReviews,
   getAverageRating
