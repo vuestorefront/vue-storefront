@@ -50,11 +50,11 @@ const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductV
   clear: async (context: Context, { currentCart }) => {
     return currentCart;
   },
-  applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
+  applyCoupon: async (context: Context, { currentCart, coupon, customQuery }) => {
     const cartDetails = await getCurrentCartDetails(context, currentCart);
 
-    const { data } = await context.$ct.api.applyCartCoupon(cartDetails, couponCode, customQuery);
-    return { updatedCart: data.cart, updatedCoupon: couponCode };
+    const { data } = await context.$ct.api.applyCartCoupon(cartDetails, coupon, customQuery);
+    return { updatedCart: data.cart, updatedCoupon: coupon };
   },
   removeCoupon: async (context: Context, { currentCart, coupon, customQuery }) => {
     const cartDetails = await getCurrentCartDetails(context, currentCart);

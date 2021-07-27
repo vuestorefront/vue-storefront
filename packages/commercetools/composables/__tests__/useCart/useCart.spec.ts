@@ -81,7 +81,7 @@ describe('[commercetools-composables] useCart', () => {
     const currentCart = { id: 1, version: 1 };
     const response = await applyCoupon(context, { currentCart, coupon: 'X123' });
 
-    expect(response).toEqual({ updatedCart: 'some cart' });
+    expect(response).toEqual({ updatedCart: 'some cart', updatedCoupon: 'X123' });
   });
 
   it('removes coupon', async () => {
