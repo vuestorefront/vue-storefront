@@ -39,7 +39,7 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
+  applyCoupon: async (context: Context, { currentCart, coupon, customQuery }) => {
     console.log('Mocked: applyCoupon');
     return {updatedCart: {}, updatedCoupon: {}};
   },
