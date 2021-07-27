@@ -18,4 +18,4 @@ const factoryParams: UseForgotPasswordFactoryParams<any> = {
   }
 };
 
-export const useForgotPasswor = useForgotPasswordFactory<any>(factoryParams);
+export const useForgotPassword = useForgotPasswordFactory<any>(factoryParams);
