@@ -1,49 +1,49 @@
-/* istanbul ignore file */
-
 import {
   Context,
   useUserFactory,
   UseUserFactoryParams
 } from '@vue-storefront/core';
-import { User } from '../types';
+import type { User } from '@vue-storefront/boilerplate-api';
+import type {
+  UseUserUpdateParams as UpdateParams,
+  UseUserRegisterParams as RegisterParams
+} from '../types';
 
-// @todo useUser
-
-const params: UseUserFactoryParams<User, any, any> = {
+const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context) => {
-    console.log('Mocked: loadUser');
+    console.log('Mocked: useUser.load');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logOut: async (context: Context) => {
-    console.log('Mocked: logOut');
+    console.log('Mocked: useUser.logOut');
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateUser: async (context: Context, { currentUser, updatedUserData }) => {
-    console.log('Mocked: updateUser');
+    console.log('Mocked: useUser.updateUser');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   register: async (context: Context, { email, password, firstName, lastName }) => {
-    console.log('Mocked: register');
+    console.log('Mocked: useUser.register');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logIn: async (context: Context, { username, password }) => {
-    console.log('Mocked: logIn');
+    console.log('Mocked: useUser.logIn');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   changePassword: async (context: Context, { currentUser, currentPassword, newPassword }) => {
-    console.log('Mocked: changePassword');
+    console.log('Mocked: useUser.changePassword');
     return {};
   }
 };
 
-export default useUserFactory<User, any, any>(params);
+export const useUser = useUserFactory<User, UpdateParams, RegisterParams>(params);
