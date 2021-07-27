@@ -8,7 +8,7 @@
     </SfButton>
     <SfBottomModal
       :is-open="isLangModalOpen"
-      :title="availableStores.length ? 'Choose store': 'Choose language'"
+      :title="availableStores.length ? 'Choose store': ''"
       @click:close="isLangModalOpen = !isLangModalOpen">
       <SfList>
         <SfListItem v-for="store in availableStores" :key="store.id">
