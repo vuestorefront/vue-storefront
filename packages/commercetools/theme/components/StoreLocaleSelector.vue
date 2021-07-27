@@ -96,7 +96,7 @@ export default {
       await change({store});
     };
     const isStoreSelected = (store) => selectedStore.value?.id === store.id;
-    const getStoreLocale = (store) => store?.locales[0] ?? defaultLocale;
+    const getStoreLocale = (store) => store?.locales[0]?.code ?? store?.locales[0] ?? defaultLocale;
 
     return {
       load,
@@ -108,6 +108,7 @@ export default {
       getStoreLocale,
       availableLocales,
       locale,
+      defaultLocale,
       isLangModalOpen
     };
   }
