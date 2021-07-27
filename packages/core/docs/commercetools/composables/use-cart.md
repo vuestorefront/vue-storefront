@@ -211,7 +211,7 @@ type ProductVariant = {
 
 - `applyCoupon` - function for applying coupon to cart. This method accepts a single `params` object. The `params` has the following options:
 
-    - `couponCode: string`
+    - `coupon: string`
     
     - `customQuery?: CustomQuery`
     
