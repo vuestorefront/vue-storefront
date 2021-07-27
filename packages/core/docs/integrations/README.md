@@ -147,6 +147,14 @@ Click on the integration tile to read its documentation.
     link="./adyen.html"
   />
   <IntegrationTile
+    name="Auth0"
+    image="/v2/integrations-logos/auth0.svg"
+    category="['Authentication']"
+    :compatibility="['commercetools']"
+    :from-core="true"
+    link="https://docs.vuestorefront.io/auth0"
+  />
+  <IntegrationTile
     name="Bloomreach"
     image="/v2/integrations-logos/bloomreach.png"
     :category="['CMS', 'search']"
@@ -173,14 +181,6 @@ Click on the integration tile to read its documentation.
     name="Algolia"
     image="/v2/integrations-logos/algolia.svg"
     category="['CMS', 'search']"
-    :compatibility="['commercetools']"
-    :from-core="true"
-    isWip="true"
-  />
-  <IntegrationTile
-    name="Auth0"
-    image="/v2/integrations-logos/auth0.svg"
-    category="['Authentication']"
     :compatibility="['commercetools']"
     :from-core="true"
     isWip="true"
