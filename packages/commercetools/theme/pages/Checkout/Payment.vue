@@ -52,7 +52,7 @@
         :label="$t('Enter promo code')"
         class="sf-input--filled promo-code__input"
       />
-      <SfButton class="promo-code__button" @click="() => applyCoupon({ coupon: promoCode })">{{ $t('Apply') }}</SfButton>
+      <SfButton class="promo-code__button" @click="() => applyCoupon({ couponCode: promoCode })">{{ $t('Apply') }}</SfButton>
     </div>
     <SfTable class="sf-table--bordered table desktop-only">
       <SfTableHeading class="table__row">
