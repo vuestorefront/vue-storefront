@@ -461,6 +461,7 @@ You need to create few Vue components and JavaScript files:
 | components/MyAccount/PasswordResetForm.vue   |                                     | ✔           |
 | components/MyAccount/ProfileUpdateForm.vue   |                                     | ✔           |
 | composables/useUiHelpers/index.ts            |                                     |             |
+| middleware/checkout.js                       |                                     |             |
 | middleware/is-authenticated.js               |                                     |             |
 
 ### Creating Vue components
@@ -479,14 +480,6 @@ When such an event is sent, the application will handle communication with the A
 
 ### Creating a middleware
 
-`is-authenticated` middleware is used to prevent access to the page for guest users. It's used on pages such as user profile.
-
-```js
-export default {
-  middleware: [
-    'is-authenticated'
-  ]
-}
-```
+`checkout` and `is-authenticated` middlewares are used to prevent access to selected pages.
 
 Please refer to [Nuxt.js middleware documentation](https://nuxtjs.org/docs/2.x/directory-structure/middleware/) for more information.
