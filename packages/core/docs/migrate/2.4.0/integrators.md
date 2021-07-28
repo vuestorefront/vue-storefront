@@ -6,4 +6,4 @@ We have changed a bit the naming and signatures of core factory functions. Below
 
 | Factory | Old method | New method | Old signature | New signature |
 |------------|--------|---------------|---------------|---|
-|      useCartFactory      |   applyCoupon     |  No changes |     context: Context, params: { currentCart: CART, couponCode: string, customQuery?: CustomQuery }     |     context: Context, params: { currentCart: CART, coupon: COUPON, customQuery?: CustomQuery }    |
+|      useCartFactory      |   removeCoupon     |  No changes |     context: Context, params: { currentCart: CART; coupon: COUPON, customQuery?: CustomQuery }   |     context: Context, params: { currentCart: CART; couponCode: string, customQuery?: CustomQuery }   |

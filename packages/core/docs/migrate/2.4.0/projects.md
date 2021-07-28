@@ -6,4 +6,4 @@ We have changed a bit the naming and signatures of composable functions. Below i
 
 | Composable | Method | Old signature | New signature |
 |------------|--------|---------------|---------------|
-|      useCart      |   applyCoupon     |      ({ couponCode: string, customQuery?: CustomQuery })         |        ({ coupon: COUPON, customQuery?: CustomQuery })       |
+|      useCart      |   removeCoupon     |       ({ coupon: COUPON, customQuery?: CustomQuery })        |       ({ couponCode: string, customQuery?: CustomQuery })        |
