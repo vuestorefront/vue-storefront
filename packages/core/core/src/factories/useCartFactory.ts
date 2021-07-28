@@ -19,10 +19,10 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, API exte
     params: { currentCart: CART; product: CART_ITEM; quantity: number; customQuery?: CustomQuery }
   ) => Promise<CART>;
   clear: (context: Context, params: { currentCart: CART }) => Promise<CART>;
-  applyCoupon: (context: Context, params: { currentCart: CART; coupon: COUPON; customQuery?: CustomQuery }) => Promise<{ updatedCart: CART }>;
+  applyCoupon: (context: Context, params: { currentCart: CART; couponCode: string; customQuery?: CustomQuery }) => Promise<{ updatedCart: CART }>;
   removeCoupon: (
     context: Context,
-    params: { currentCart: CART; coupon: COUPON; customQuery?: CustomQuery }
+    params: { currentCart: CART; couponCode: string; customQuery?: CustomQuery }
   ) => Promise<{ updatedCart: CART }>;
   isInCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
 }
@@ -123,9 +123,9 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, API extends Pla
       if (cart.value) {
 
         /**
-          * Triggering change for hydration purpose,
-          * temporary issue related with cpapi plugin
-          */
+         * Triggering change for hydration purpose,
+         * temporary issue related with cpapi plugin
+         */
         loading.value = false;
         error.value.load = null;
         cart.value = { ...cart.value };
@@ -166,14 +166,14 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, API extends Pla
       });
     };
 
-    const applyCoupon = async ({ coupon, customQuery }) => {
+    const applyCoupon = async ({ couponCode, customQuery }) => {
       Logger.debug('useCart.applyCoupon');
 
       try {
         loading.value = true;
         const { updatedCart } = await _factoryParams.applyCoupon({
           currentCart: cart.value,
-          coupon,
+          couponCode,
           customQuery
         });
         error.value.applyCoupon = null;
@@ -186,14 +186,14 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, API extends Pla
       }
     };
 
-    const removeCoupon = async ({ coupon, customQuery }) => {
+    const removeCoupon = async ({ couponCode, customQuery }) => {
       Logger.debug('useCart.removeCoupon');
 
       try {
         loading.value = true;
         const { updatedCart } = await _factoryParams.removeCoupon({
           currentCart: cart.value,
-          coupon,
+          couponCode,
           customQuery
         });
         error.value.removeCoupon = null;
