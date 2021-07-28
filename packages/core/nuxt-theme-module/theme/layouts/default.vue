@@ -53,7 +53,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@storefront-ui/vue/styles";
 
 #layout {
   box-sizing: border-box;
