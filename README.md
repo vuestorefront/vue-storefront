@@ -75,4 +75,3 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
 Vue Storefront source code is completely free and released under the [MIT License](https://github.com/vuestorefront/vue-storefront/blob/master/LICENSE).
 
 [![analytics](http://www.google-analytics.com/collect?v=1&t=pageview&_s=1&dl=https%3A%2F%2Fgithub.com%2FDivanteLtd%2Fvue-storefront&_u=MAC~&cid=1757014354.1393964045&tid=UA-108235765-10)]()
-

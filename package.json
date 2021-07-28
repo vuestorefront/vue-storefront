@@ -11,6 +11,7 @@
     "build:spr:tools": "yarn build:core && yarn build:spr:api-client && yarn build:spr:composables",
     "build:spr:theme": "cd packages/spryker/theme && yarn build",
     "build:spr": "yarn build:spr:tools && yarn build:spr:theme",
+    "commit": "cz",
     "dev:spr": "cd packages/spryker/theme && yarn dev",
     "dev:spr:api-client": "cd packages/spryker/api-client && yarn dev",
     "dev:spr:composables": "cd packages/spryker/composables && yarn dev",
@@ -52,7 +53,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
-    "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@commitlint/config-lerna-scopes": "^13.1.0",
     "@rollup/plugin-babel": "^5.1.0",
@@ -63,6 +63,7 @@
     "@typescript-eslint/parser": "^4.15.2",
     "@vue/eslint-config-typescript": "^7.0.0",
     "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
     "cross-env": "^6.0.3",
     "eslint": "^7.20.0",
     "eslint-config-standard": "^16.0.2",
@@ -95,11 +96,18 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lint-staged",
-      "prepare-commit-msg": "npx exec < /dev/tty && git cz --hook || true"
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
     }
   },
   "lint-staged": {
     "*.{js,ts,vue}": "eslint --fix"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog",
+      "maxHeaderWidth": 100,
+      "maxLineWidth": 100
+    }
   },
   "engines": {
     "node": ">=12.x"
