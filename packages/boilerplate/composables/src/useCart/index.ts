@@ -5,9 +5,9 @@ import {
   useCartFactory,
   UseCartFactoryParams
 } from '@vue-storefront/core';
-import { Cart, CartItem, Coupon, Product } from '../types';
+import { Cart, CartItem, Product } from '../types';
 
-const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
+const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, { customQuery }) => {
     console.log('Mocked: loadCart');
@@ -57,4 +57,4 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
   }
 };
 
-export default useCartFactory<Cart, CartItem, Product, Coupon>(params);
+export default useCartFactory<Cart, CartItem, Product>(params);
