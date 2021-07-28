@@ -1,7 +1,7 @@
 import loadCurrentCart from './currentCart';
 import { ProductVariant, LineItem } from './../types/GraphQL';
 import { Cart, CartDetails } from '@vue-storefront/commercetools-api';
-import { AgnosticCoupon, useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
+import { useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
 
 const getCartItemByProduct = ({ currentCart, product }) => {
   return currentCart.lineItems.find((item) => item.productId === product._id);
@@ -15,7 +15,7 @@ const getCurrentCartDetails = async <COMPLETE_DETAILS = ''>(context: Context, cu
   return completeDetails ? cart : { id: cart.id, version: cart.version };
 };
 
-const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductVariant, AgnosticCoupon> = {
+const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductVariant> = {
   load: async (context: Context, { customQuery }) => {
     const { $ct } = context;
     if (!$ct.config.auth.onTokenRead()) return null;
@@ -70,7 +70,7 @@ const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductV
   }
 };
 
-const useCart = useCartFactory<CartDetails, LineItem, ProductVariant, AgnosticCoupon>(useCartFactoryParams);
+const useCart = useCartFactory<CartDetails, LineItem, ProductVariant>(useCartFactoryParams);
 
 export {
   useCart,

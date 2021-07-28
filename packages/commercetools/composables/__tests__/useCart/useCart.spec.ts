@@ -98,7 +98,7 @@ describe('[commercetools-composables] useCart', () => {
           }
         ]
       },
-      couponCode: 'asdasdas',
+      couponCode: 'asdasdas'
     });
 
     expect(response).toEqual({ updatedCart: 'current cart' });
