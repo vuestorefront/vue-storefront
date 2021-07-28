@@ -217,12 +217,12 @@ You can apply promotional coupons to your cart with `applyCoupon` and remove wit
     <div>
       <input />
       <button 
-        @click="() => applyCoupon({ coupon: promoCode })"
+        @click="() => applyCoupon({ couponCode: promoCode })"
       >
         Use promo code
       </button>
       <button 
-        @click="() => removeCoupon({ coupon: promoCode })"
+        @click="() => removeCoupon({ couponCode: promoCode })"
       >
         Remove promo code
       </button>
