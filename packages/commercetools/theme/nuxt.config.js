@@ -137,7 +137,7 @@ export default {
     scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },
   css: [
-    '@storefront-ui/vue/styles'
+    '@storefront-ui/vue/styles.scss'
   ],
   build: {
     babel: {
