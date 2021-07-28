@@ -136,6 +136,9 @@ export default {
   styleResources: {
     scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },
+  publicRuntimeConfig: {
+    theme
+  },
   build: {
     transpile: [
       'vee-validate/dist/rules'
@@ -149,9 +152,6 @@ export default {
         })
       })
     ],
-    publicRuntimeConfig: {
-      theme
-    },
     extend (config, ctx) {
       if (ctx && ctx.isClient) {
         config.optimization = {
