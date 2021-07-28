@@ -1,6 +1,6 @@
 import loadCurrentCart from './currentCart';
 import { ProductVariant, LineItem } from './../types/GraphQL';
-import { CartDetails } from '@vue-storefront/commercetools-api';
+import { Cart, CartDetails } from '@vue-storefront/commercetools-api';
 import { AgnosticCoupon, useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
 
 const getCartItemByProduct = ({ currentCart, product }) => {
@@ -8,10 +8,11 @@ const getCartItemByProduct = ({ currentCart, product }) => {
 };
 
 /** returns current cart or creates new one **/
-const getCurrentCartDetails = async (context: Context, currentCart): Promise<CartDetails> => {
-  const { id, version } = currentCart || await loadCurrentCart(context);
+const getCurrentCartDetails = async <COMPLETE_DETAILS = ''>(context: Context, currentCart, completeDetails?: COMPLETE_DETAILS):
+  Promise<COMPLETE_DETAILS extends boolean ? Cart : CartDetails> => {
+  const cart = currentCart || await loadCurrentCart(context);
 
-  return { id, version };
+  return completeDetails ? cart : { id: cart.id, version: cart.version };
 };
 
 const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductVariant, AgnosticCoupon> = {
@@ -50,16 +51,18 @@ const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductV
   clear: async (context: Context, { currentCart }) => {
     return currentCart;
   },
-  applyCoupon: async (context: Context, { currentCart, coupon, customQuery }) => {
+  applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
     const cartDetails = await getCurrentCartDetails(context, currentCart);
 
-    const { data } = await context.$ct.api.applyCartCoupon(cartDetails, coupon, customQuery);
-    return { updatedCart: data.cart, updatedCoupon: coupon };
+    const { data } = await context.$ct.api.applyCartCoupon(cartDetails, couponCode, customQuery);
+    return { updatedCart: data.cart, updatedCoupon: couponCode };
   },
-  removeCoupon: async (context: Context, { currentCart, coupon, customQuery }) => {
-    const cartDetails = await getCurrentCartDetails(context, currentCart);
+  removeCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
+    const cartDetails = await getCurrentCartDetails<true>(context, currentCart, true);
 
-    const { data } = await context.$ct.api.removeCartCoupon(cartDetails, { id: coupon.id, typeId: 'discount-code' }, customQuery);
+    const couponId = cartDetails.discountCodes.find((d) => d.discountCode.code === couponCode)?.discountCode?.id;
+
+    const { data } = await context.$ct.api.removeCartCoupon(cartDetails, { id: couponId, typeId: 'discount-code' }, customQuery);
     return { updatedCart: data.cart };
   },
   isInCart: (context: Context, { currentCart, product }) => {
