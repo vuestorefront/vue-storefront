@@ -147,7 +147,8 @@ export default {
     // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
-        return root.$router.push('/my-account');
+        const localeAccountPath = root.localePath('/my-account');
+        return root.$router.push(localeAccountPath);
       }
 
       toggleLoginModal();

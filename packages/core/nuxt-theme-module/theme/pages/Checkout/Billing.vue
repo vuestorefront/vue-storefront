@@ -170,7 +170,7 @@
           <SfButton
             class="sf-button color-secondary form__back-button"
             type="button"
-            @click="$router.push('/checkout/shipping')"
+            @click="$router.push(localePath('/checkout/shipping'))"
           >
             {{ $t('Go back') }}
           </SfButton>
@@ -251,7 +251,7 @@ export default {
 
     const handleFormSubmit = async () => {
       await save({ billingDetails: form.value });
-      context.root.$router.push('/checkout/payment');
+      context.root.$router.push(context.root.localePath('/checkout/payment'));
     };
 
     onSSR(async () => {

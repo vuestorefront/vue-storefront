@@ -228,7 +228,7 @@
             v-e2e="'continue-to-billing'"
             class="form__action-button"
             type="button"
-            @click.native="$router.push('/checkout/billing')"
+            @click.native="$router.push(localePath('/checkout/billing'))"
             :disabled="!isShippingMethodStepCompleted || loadingShippingProvider"
           >
             {{ $t('Continue to billing') }}

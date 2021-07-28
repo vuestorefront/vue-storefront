@@ -226,7 +226,7 @@
             {{ $t('Continue to payment') }}
           </SfButton>
           <nuxt-link
-            to="/checkout/shipping"
+            :to="localePath('/checkout/shipping')"
             class="sf-button sf-button--underlined form__back-button smartphone-only"
             >Go back</nuxt-link>
         </div>
@@ -337,7 +337,7 @@ export default {
         }
       }
       reset();
-      context.root.$router.push('/checkout/payment');
+      context.root.$router.push(context.root.localePath('/checkout/payment'));
     };
 
     const handleAddNewAddressBtnClick = () => {
