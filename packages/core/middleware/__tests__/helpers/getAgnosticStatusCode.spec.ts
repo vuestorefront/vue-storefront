@@ -1,47 +1,51 @@
 import getAgnosticStatusCode from '../../src/helpers/getAgnosticStatusCode';
 
-const testData_1 = {
-  statusCode: 400
-};
-
-const testData_2 = {
-  a: {
-    b: 4,
-    statusCode: 400
-  }
-};
-
-const testData_3 = {
-  a: [
-    {
-      statusCode: 400
-    }
-  ]
-};
-
-const testData_4 = {
-  statusCode: 400,
-  status: 500
-};
-
 describe('[middleware-helpers] getAgnosticStatusCode', () => {
   it('retrieves the status code from simple object', () => {
-    const statusCode = getAgnosticStatusCode(testData_1, 'statusCode');
+    const testData = {
+      statusCode: 400
+    };
+
+    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+
     expect(statusCode).toBe(400);
   });
 
   it('retrieves the status code from nested object', () => {
-    const statusCode = getAgnosticStatusCode(testData_2, 'statusCode');
+    const testData = {
+      a: {
+        b: 4,
+        statusCode: 400
+      }
+    };
+
+    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+
     expect(statusCode).toBe(400);
   });
 
   it('retrieves the status code from nested object inside an array', () => {
-    const statusCode = getAgnosticStatusCode(testData_3, 'statusCode');
+    const testData = {
+      a: [
+        {
+          statusCode: 400
+        }
+      ]
+    };
+
+    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+
     expect(statusCode).toBe(400);
   });
 
   it('returns only the value of the first matched key', () => {
-    const statusCode = getAgnosticStatusCode(testData_4, 'statusCode', 'status');
+    const testData = {
+      statusCode: 400,
+      status: 500
+    };
+
+    const statusCode = getAgnosticStatusCode(testData, 'statusCode', 'status');
+
     expect(statusCode).toBe(400);
   });
 
