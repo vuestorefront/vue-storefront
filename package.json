@@ -1,9 +1,6 @@
 {
   "name": "root",
   "private": true,
-  "engines": {
-    "node": ">=10.x"
-  },
   "scripts": {
     "build:docs": "cd packages/core/docs && yarn build",
     "dev:docs": "cd packages/core/docs && yarn dev",
@@ -55,6 +52,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "@commitlint/config-lerna-scopes": "^13.1.0",
     "@rollup/plugin-babel": "^5.1.0",
     "@rollup/plugin-replace": "^2.3.3",
     "@types/jest": "^24.0.23",
@@ -62,6 +62,7 @@
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
     "@vue/eslint-config-typescript": "^7.0.0",
+    "commitizen": "^4.2.4",
     "cross-env": "^6.0.3",
     "eslint": "^7.20.0",
     "eslint-config-standard": "^16.0.2",
@@ -92,10 +93,15 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged",
+      "prepare-commit-msg": "npx exec < /dev/tty && git cz --hook || true"
     }
   },
   "lint-staged": {
     "*.{js,ts,vue}": "eslint --fix"
+  },
+  "engines": {
+    "node": ">=12.x"
   }
 }
