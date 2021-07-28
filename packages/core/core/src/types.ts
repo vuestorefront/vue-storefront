@@ -286,7 +286,6 @@ export interface UseCart
   CART,
   CART_ITEM,
   PRODUCT,
-  COUPON,
   API extends PlatformApi = any
 > extends Composable<API> {
   cart: ComputedProperty<CART>;

@@ -2,8 +2,8 @@ import { useCartFactory, UseCartFactoryParams } from '../../src/factories';
 import { UseCart } from '../../src/types';
 import { sharedRef } from './../../src/utils';
 
-let useCart: () => UseCart<any, any, any, any>;
-let params: UseCartFactoryParams<any, any, any, any>;
+let useCart: () => UseCart<any, any, any>;
+let params: UseCartFactoryParams<any, any, any>;
 
 function createComposable() {
   params = {
