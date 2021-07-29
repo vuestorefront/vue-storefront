@@ -24,7 +24,7 @@ We're providing a bulletproof architecture, great default, best practices and to
 
 **4. No vendor lock-in**
 
-You own your code so its up to you what services you will use for eCommerce or CMS. It's up to you where and how you will host it and deploy. Vue Storefront will never lock you into its services and you always.
+You own your code so it's up to you what services you will use for eCommerce or CMS. It's up to you where and how you will host it and deploy. Vue Storefront will never lock you into its services.
 
 **5. Focus on quick time to market**
 
