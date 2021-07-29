@@ -4,7 +4,7 @@ This document will walk you through performance configuration options for `@vue-
 
 ## Configuration
 
-`nuxt.config.js` file contains contains few `buildModules`, one of which is `@vue-storefront/nuxt`. It already has some options passed to it, however there are few more, which are not used by default:
+`nuxt.config.js` file contains few `buildModules`, one of which is `@vue-storefront/nuxt`. It already has some options passed to it, however there are few more, which are not used by default:
 
 ```javascript
 // nuxt.config.js
