@@ -6,7 +6,14 @@ This package provides integration with [Algolia](https://www.algolia.com/).
 
 ## Installation
 
+1. Provide data in certain shape to algolia
+2. Configure indices
+3. Configure it in middleware
+
+### Existing adapter
+Depending on platform you want to connect with you will need dedicated adapter. We share an adapter for commercetools out of the box. To work with it, you have 
 ### Indexing products in Algolia
+
 ### Basic Algolia configuration
 Currently, indexer provided by ChangeCX is indexing both categories and products in two separated indices. 
 
