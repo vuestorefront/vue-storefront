@@ -1,56 +1,62 @@
 <template>
   <div
-    :class="{ wip }"
+    :class="[ statusClass ]"
     class="tile"
   >
-    <img
-      :src="image"
-      class="tile-image"
-    />
+    <div class="tile-image">
+      <img :src="image" :alt="name" />
+    </div>
 
     <div class="tile-info">
-      <a
-        v-if="link"
-        :href="link"
-        class="tile-title"
-      >
-        {{ name }}
-      </a>
+      <p class="tile-title">
+        <span>{{ name }}</span>
 
-      <div
-        v-else
-        class="tile-title"
-      >
-        {{ name }}
-      </div>
-
-      <div
-        v-if="description"
-        class="tile-description"
-      >
-        {{ description }}
-      </div>
-
-      <div class="tile-badges">
         <span
-          v-for="tag in tags"
-          :key="tag"
-          class="tile-badge"
+          v-if="status !== $site.themeConfig.STATUSES.STABLE"
+          class="tile-status-badge"
         >
-          {{ tag }}
+          {{ status }}
         </span>
-      </div>
+      </p>
+
+      <p class="tile-tags-title">Availability: <span>{{ availability }}</span></p>
+
+      <p v-if="maintainedBy && maintainedBy.length">
+        <span class="tile-tags-title">Maintained by:</span>
+
+        <a
+          v-for="{ name, link } in maintainedBy"
+          :key="name"
+          :href="link"
+          class="tile-maintained-by"
+        >{{ name }}</a>
+      </p>
+
+      <p v-if="categories && categories.length">
+        <span class="tile-tags-title">Category:</span>
+
+        <span>{{ categories.join(', ') }}</span>
+      </p>
+
+      <p v-if="compatibility && compatibility.length">
+        <span
+          class="tile-tags-title"
+          style="color: #EF4444"
+        >
+          Only available for:
+        </span>
+
+        <span>{{ compatibility.join(', ') }}</span>
+      </p>
     </div>
 
-    <div class="tile-more">
-      <a
-        v-if="link"
-        :href="link"
-        class="tile-link"
-      >
-        Read more →
-      </a>
-    </div>
+    <a
+      v-if="link"
+      :href="link"
+      class="tile-more"
+    >
+      Read the documentation →
+    </a>
   </div>
 </template>
 
@@ -63,10 +69,6 @@ export default {
       type: String,
       required: true
     },
-    description: {
-      type: String,
-      required: false
-    },
     link: {
       type: String,
       required: false
@@ -75,117 +77,176 @@ export default {
       type: String,
       required: true
     },
-    wip: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    tags: {
-      type: Array,
+    status: {
+      type: String,
       required: true
+    },
+    availability: {
+      type: String,
+      required: true
+    },
+    maintainedBy: {
+      type: Array,
+      required: false
     },
     categories: {
       type: Array,
       required: false
+    },
+    compatibility: {
+      type: Array,
+      required: false
+    }
+  },
+
+  computed: {
+    statusClass() {
+      const [ key ] = Object
+        .entries(this.$site.themeConfig.STATUSES)
+        .find(([ _, value ]) => value === this.status);
+
+      return `tile-status-${key.toLowerCase()}`
+    },
+
+    availabilityClass() {
+      const [ key ] = Object
+        .entries(this.$site.themeConfig.AVAILABILITY)
+        .find(([ _, value ]) => value === this.availability);
+
+      return `tile-availability-${key.toLowerCase()}`
     }
   }
 }
 </script>
 
 
-<style scoped>
+<style scoped lang="scss">
 * {
   box-sizing: border-box;
 }
 
-/*********** Tile ***********/
 .tile {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  border: 1px solid #E5E7EB;
   border-radius: 5px;
+  box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
   color: #4B5563;
   font-weight: 400;
+  font-size: 0.9rem;
   text-decoration: none;
-}
+  overflow: hidden;
 
-.tile > * {
-  width: 100%;
-  padding: 10px 20px;
-}
+  & > * {
+    width: 100%;
+  }
 
-.tile.wip {
-  background-color: #F3F4F6;
-}
-/*********** Image ***********/
-.tile-image {
-  padding: 20px 40px;
-  height: 110px;
-  top: calc(50% - 55px);
-  object-fit: contain;
-}
+  /*********** Image ***********/
+  &-image {
+    padding-top: 10px;
+    height: 80px;
+    text-align: center;
+    
+    img {
+      height: 100%;
+      max-width: 180px;
+      object-fit: contain;
+      object-position: center;
+    }
+  }
 
-.tile.wip .tile-image {
-  opacity: 0.6;
-  filter: grayscale(100%);
-}
+  /*********** Information ***********/
+  &-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
 
-/*********** Information ***********/
-.tile-info {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  border-top: 1px solid #E5E7EB;
-}
+    p {
+      line-height: 1.8rem;
+      margin: 0;
+    }
+  }
 
-.tile-info > * + * {
-  margin-top: 15px;
-}
+  &-header > * + * {
+    margin-left: 5px;
+  }
 
-.tile-title {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #4B5563;
-}
+  &-title {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+    min-height: 30px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #4B5563;
+  }
 
-.tile-description {
-  flex-grow: 1;
-  margin-bottom: 10px;
-  color: #6B7280;
-}
+  &-description {
+    flex-grow: 1;
+    margin-bottom: 10px;
+    line-height: 1.4rem;
+    color: #6B7280;
+  }
 
-.tile-badges {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
+  &-tags-title {
+    font-weight: 600;
+    color: #6B7280;
 
-.tile-badge {
-  font-size: 14px;
-  height: 18px;
-  border-radius: 3px;
-  padding: 4px 6px;
-  margin-bottom: 5px;
-  color: #6B7280;
-  background-color: #F9FAFB;
-  border: 1px solid #E5E7EB;
-  box-sizing: initial;
-  margin: 0 5px 5px 0;
-}
+    & > span {
+      font-weight: 400;
+    }
+  }
 
-.tile-more {
-  display: flex;
-  justify-content: flex-end;
-}
+  &-status {
+    &-badge {
+      padding: 0 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 400;
+    }
 
-.tile-link {
-  padding: 6px 20px;
-  border-radius: 16px;
-  font-weight: 500;
-  color: #3B82F6;
-  background-color: #DBEAFE;
+    &-wip {
+      background-color: #F3F4F6;
+
+      .tile-image {
+        opacity: 0.6;
+        filter: grayscale(100%);
+      }
+
+      .tile-status-badge {
+        background-color: #E5E7EB;
+        color: #4B5563;
+      }
+    }
+
+    &-alpha,
+    &-beta {
+      .tile-status-badge {
+        background-color: #FEF3C7;
+        color: #D97706;
+      }
+    }
+  }
+
+  &-maintained-by + &-maintained-by::before {
+    content: ', ';
+  }
+
+  /*********** Link ***********/
+  &-more {
+    display: flex;
+    padding: 20px 20px 20px;
+    background-color: #F9FAFB;
+    cursor: pointer;
+
+    .tile-link {
+      font-weight: 500;
+    }
+  }
 }
 </style>
