@@ -24,6 +24,7 @@
     "dev:bp": "cd packages/boilerplate/theme && yarn dev",
     "build:ct:api-client": "cd packages/commercetools/api-client && yarn build",
     "build:ct:composables": "cd packages/commercetools/composables && yarn build",
+    "build:middleware": "cd packages/core/middleware && yarn build",
     "build:ct:tools": "yarn build:core && yarn build:ct:api-client && yarn build:ct:composables",
     "build:ct:theme": "cd packages/commercetools/theme && yarn build",
     "build:ct": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
