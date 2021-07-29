@@ -11,8 +11,8 @@ RUN cd packages/commercetools/api-client && yarn build && yarn cache clean --all
 RUN cd packages/commercetools/composables && yarn build && yarn cache clean --all
 
 RUN cd ./packages/core/docs \
-    && npm install \
-    && npm run build
+    && yarn install \
+    && yarn build
 
 FROM nginx
 
