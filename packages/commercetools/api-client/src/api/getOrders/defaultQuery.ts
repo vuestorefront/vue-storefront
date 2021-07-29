@@ -10,6 +10,7 @@ export default gql`
         results {
           ...DefaultOrder
         }
+        total
       }
     }
   }
