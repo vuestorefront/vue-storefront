@@ -29,7 +29,7 @@ const INTEGRATIONS = {
       status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ]
     },
     {
@@ -39,7 +39,6 @@ const INTEGRATIONS = {
       status: STATUSES.BETA,
       availability: AVAILABILITY.OPEN_SOURCE,
       maintainedBy: [
-        { name: 'Cyberfuze', link: 'https://cyberfuze.com/' },
         { name: 'Ecritel', link: 'https://www.ecritel.com/' },
         { name: 'Leonex', link: 'https://www.leonex.de/' }
       ]
@@ -51,7 +50,7 @@ const INTEGRATIONS = {
       status: STATUSES.BETA,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ]
     },
     {
@@ -117,7 +116,7 @@ const INTEGRATIONS = {
       status: STATUSES.STABLE,
       availability: AVAILABILITY.OPEN_SOURCE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.CMS ],
       compatibility: []
@@ -129,7 +128,7 @@ const INTEGRATIONS = {
       status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.CMS ],
       compatibility: []
@@ -141,7 +140,7 @@ const INTEGRATIONS = {
       status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.CMS ],
       compatibility: []
@@ -153,7 +152,7 @@ const INTEGRATIONS = {
       status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.CMS ],
       compatibility: []
@@ -165,7 +164,7 @@ const INTEGRATIONS = {
       status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.REVIEWS ],
       compatibility: []
@@ -177,7 +176,7 @@ const INTEGRATIONS = {
       status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.CACHE ],
       compatibility: []
@@ -201,7 +200,7 @@ const INTEGRATIONS = {
       status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.PAYMENT ],
       compatibility: []
@@ -213,7 +212,7 @@ const INTEGRATIONS = {
       status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.PAYMENT ],
       compatibility: [ 'commercetools' ]
@@ -225,7 +224,7 @@ const INTEGRATIONS = {
       status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.AUTH ],
       compatibility: [ 'commercetools' ]
@@ -237,7 +236,7 @@ const INTEGRATIONS = {
       status: STATUSES.WIP,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.AUTH ],
       compatibility: []
@@ -249,7 +248,7 @@ const INTEGRATIONS = {
       status: STATUSES.WIP,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.AUTH ],
       compatibility: []
@@ -261,7 +260,7 @@ const INTEGRATIONS = {
       status: STATUSES.WIP,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.PAYMENT ],
       compatibility: []
@@ -273,7 +272,7 @@ const INTEGRATIONS = {
       status: STATUSES.WIP,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Core Team', link: 'https://vuestorefront.io/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.CMS, CATEGORIES.SEARCH ],
       compatibility: []

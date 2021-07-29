@@ -39,12 +39,7 @@
       </p>
 
       <p v-if="compatibility && compatibility.length">
-        <span
-          class="tile-tags-title"
-          style="color: #EF4444"
-        >
-          Only available for:
-        </span>
+        <span class="tile-tags-title">Compatible with:</span>
 
         <span>{{ compatibility.join(', ') }}</span>
       </p>
