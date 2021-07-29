@@ -39,7 +39,7 @@ If you can't use HTTP2, you can disable this option. In this case, Nuxt.js will 
 If you decide to enable this plugin, we recommend using `enabled: process.env.NODE_ENV === 'production'`, to keep development mode as fast as possible.
 
 ::: warning
-Because PurgeCSS looks for whole class names in files, it may remove styles for dynamic classes. If you're using a dynamic class, please use whole names instead of concatinating variables (eg. `isDev ? 'some-style-dev' : 'some-style-prod'` instead of `some-style-${ isDev ? 'dev' : 'prod' }`. If this can't be avoided, add them to `whitelist` array.
+Because PurgeCSS looks for whole class names in files, it may remove styles for dynamic classes. If you're using a dynamic class, please use whole names instead of concatinating variables (eg. `isDev ? 'some-style-dev' : 'some-style-prod'` instead of `some-style-${ isDev ? 'dev' : 'prod' }`). If this can't be avoided, add them to `whitelist` array.
 :::
 
 ## Best practices
