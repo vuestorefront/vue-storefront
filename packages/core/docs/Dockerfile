@@ -5,10 +5,7 @@ WORKDIR /var/www
 COPY . .
 
 RUN yarn install --network-concurrency 1
-RUN cd packages/core/core && yarn build && yarn cache clean --all
-RUN cd packages/core/middleware && yarn build && yarn cache clean --all
-RUN cd packages/commercetools/api-client && yarn build && yarn cache clean --all
-RUN cd packages/commercetools/composables && yarn build && yarn cache clean --all
+RUN yarn build:ct && yarn cache clean --all
 
 RUN cd ./packages/core/docs \
     && yarn install \
