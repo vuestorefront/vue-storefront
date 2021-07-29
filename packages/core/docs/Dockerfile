@@ -12,7 +12,7 @@ RUN cd packages/commercetools/composables && yarn build && yarn cache clean --al
 
 RUN cd ./packages/core/docs \
     && yarn \
-    && yarn build
+    && yarn run build
 
 FROM nginx
 
