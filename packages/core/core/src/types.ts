@@ -734,7 +734,12 @@ export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   getItemQty: (item: ORDER_ITEM) => number;
   getItemPrice: (item: ORDER_ITEM) => number;
   getFormattedPrice: (price: number) => string;
-  getOrdersTotal: (orders: ORDER) => number;
+  getOrdersTotal: (orders: {
+    offset: number;
+    count: number;
+    total: number;
+    results: Array<ORDER>;
+  }) => number;
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
