@@ -29,8 +29,8 @@ jobs:
           registry: registry.storefrontcloud.io
           username: ${{ secrets.DOCS_CLOUD_USERNAME }}
           password: ${{ secrets.DOCS_CLOUD_PASSWORD }}
-          workdir: packages/core/docs
-          dockerfile: Dockerfile
+          workdir: .
+          dockerfile: ./packages/core/docs/Dockerfile
           buildoptions: "--compress"
 #  deploy:
 #    runs-on: ubuntu-latest
