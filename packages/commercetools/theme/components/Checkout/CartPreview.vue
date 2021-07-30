@@ -100,7 +100,34 @@ export default {
     const products = computed(() => cartGetters.getItems(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
-    const discounts = computed(() => cartGetters.getDiscounts(cart.value));
+    const discounts = computed(() => {
+      const lineItems = cartGetters.getItems(cart.value);
+      return lineItems.reduce((discounts, lineItem) => {
+        lineItem.discountedPricePerQuantity[0].discountedPrice.includedDiscounts.forEach(includedDiscount => {
+          if (!discounts.find(discount => discount.id === includedDiscount.discount.id)) {
+            discounts.push({
+              id: includedDiscount.discount.id,
+              name: includedDiscount.discount.name,
+              isCoupon: includedDiscount.discount.requiresDiscountCode,
+              typeId: 'cart-discount',
+              valueType: includedDiscount.discount.value.type,
+              value: includedDiscount.discountedAmount.centAmount
+            });
+          }
+        });
+        return discounts;
+      }, []);
+      // return cartGetters.getDiscounts(cart.value)
+    });
+
+    // {
+    //   id: String
+    //   name: String;
+    //   type: 'code' | 'cart';
+    //   typeId: String;
+    //   valueType: 'relative' | 'absolute' | 'fixed';
+    //   value: Number;
+    // }
 
     return {
       discounts,
