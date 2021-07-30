@@ -176,7 +176,7 @@ module.exports = {
           title: 'API Client',
           collapsable: false,
           children: [
-            ['/commercetools/api-reference/', 'Methods reference']
+            // ['/commercetools/api-reference/', 'Methods reference']
           ]
         },
         {
