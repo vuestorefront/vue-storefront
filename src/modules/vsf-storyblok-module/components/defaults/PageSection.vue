@@ -59,9 +59,13 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
       return result;
     },
     extraStyles (): Record<string, string> {
-      return {
-        '--max-section-width': MAX_WIDTH + 'px'
+      const result: Record<string, string> = {};
+
+      if (this.itemData.width === SectionWidth.NARROW) {
+        result['--max-section-width'] = MAX_WIDTH + 'px';
       }
+
+      return result;
     }
   }
 });
