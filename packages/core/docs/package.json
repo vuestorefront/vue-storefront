@@ -25,10 +25,6 @@
     "@vuepress/plugin-back-to-top": "^1.8.2",
     "@vuepress/plugin-medium-zoom": "^1.8.2",
     "@vuepress/plugin-search": "^1.8.2",
-    "concat-md": "^0.3.5",
-    "handlebars": "^4.7.7",
-    "typedoc": "^0.20.20",
-    "typedoc-plugin-markdown": "^3.4.5",
     "vuepress": "^1.8.2"
   }
 }
