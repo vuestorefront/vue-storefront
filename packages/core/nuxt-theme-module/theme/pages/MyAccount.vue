@@ -91,7 +91,7 @@ export default {
     const changeActivePage = async (title) => {
       if (title === 'Log out') {
         await logout();
-        $router.push(context.root.localePath('/'));
+        $router.push(context.root.localePath({ name: 'home' }));
         return;
       }
 

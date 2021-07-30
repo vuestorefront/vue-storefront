@@ -7,7 +7,7 @@
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
-        <nuxt-link :to="localePath('/')" class="sf-header__logo">
+        <nuxt-link :to="localePath({ name: 'home' })" class="sf-header__logo">
           <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
         </nuxt-link>
       </template>
@@ -147,7 +147,7 @@ export default {
     // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
-        const localeAccountPath = root.localePath('/my-account');
+        const localeAccountPath = root.localePath({ name: 'my-account' });
         return root.$router.push(localeAccountPath);
       }
 

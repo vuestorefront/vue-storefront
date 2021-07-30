@@ -180,7 +180,7 @@
       </div>
       <VsfShippingProvider
         v-if="isFormSubmitted"
-        @submit="$router.push(localePath('/checkout/billing'))"
+        @submit="$router.push(localePath({ name: 'billing' }))"
       />
     </form>
   </ValidationObserver>

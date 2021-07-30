@@ -226,7 +226,7 @@
             {{ $t('Continue to payment') }}
           </SfButton>
           <nuxt-link
-            :to="localePath('/checkout/shipping')"
+            :to="localePath({ name: 'shipping' })"
             class="sf-button sf-button--underlined form__back-button smartphone-only"
             >Go back</nuxt-link>
         </div>
