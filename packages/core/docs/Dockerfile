@@ -15,4 +15,4 @@ RUN cd packages/core/docs \
 
 FROM nginx
 
-COPY --from=build /var/www/.vuepress/dist /usr/share/nginx/html/v2
+COPY --from=build /var/www/packages/core/docs/.vuepress/dist /usr/share/nginx/html/v2
