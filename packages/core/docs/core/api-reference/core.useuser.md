@@ -14,7 +14,7 @@ export interface UseUser<USER, UPDATE_USER_PARAMS>
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [changePassword](./core.useuser.changepassword.md) | (params: { current: string; new: string; }) =&gt; Promise&lt;void&gt; |  |
+|  [changePassword](./core.useuser.changepassword.md) | (params?: { current: string; new: string; }) =&gt; Promise&lt;void&gt; |  |
 |  [error](./core.useuser.error.md) | [ComputedProperty](./core.computedproperty.md)<!-- -->&lt;[UseUserErrors](./core.useusererrors.md)<!-- -->&gt; |  |
 |  [isAuthenticated](./core.useuser.isauthenticated.md) | Ref&lt;boolean&gt; |  |
 |  [load](./core.useuser.load.md) | () =&gt; Promise&lt;void&gt; |  |

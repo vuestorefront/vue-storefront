@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "yarn build:core && yarn build:ct && vuepress dev",
-    "build": "yarn build:core && yarn ct-api-ref && vuepress build",
+    "build": "yarn build:core && yarn build:ct && vuepress build",
     "build:core": "yarn core-api-ref && yarn core-api-ref-md",
     "build:ct": "yarn ct-api-ref && yarn ct-api-ref-md",
     "core-api-ref": "cd ../core && api-extractor run --local",

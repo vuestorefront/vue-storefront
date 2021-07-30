@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-changePassword: (params: {
+changePassword: (params?: {
         current: string;
         new: string;
     }) => Promise<void>;
