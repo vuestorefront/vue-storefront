@@ -37,6 +37,28 @@ module.exports = {
   ],
 
   /**
+   * Ref：https://v1.vuepress.vuejs.org/config/#configurewebpack
+   */
+   configureWebpack: (config) => {
+    config.module.rules = config.module.rules.map((rule) => ({
+      ...rule,
+      use:
+        rule.use &&
+        rule.use.map((useRule) => ({
+          ...useRule,
+          options:
+            useRule.loader === 'url-loader'
+              ? /**
+					  Hack for loading images properly.
+					  ref: https://github.com/vuejs/vue-loader/issues/1612#issuecomment-559366730
+					 */
+                { ...useRule.options, esModule: false }
+              : useRule.options
+        }))
+    }));
+  },
+
+  /**
    * Ref：https://v1.vuepress.vuejs.org/plugin/
    */
    plugins: [
