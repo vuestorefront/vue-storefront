@@ -5,7 +5,7 @@
   "description": "",
   "license": "MIT",
   "scripts": {
-    "dev": "yarn build:core && yarn build:ct && vuepress dev",
+    "dev": "vuepress dev",
     "build": "yarn build:core && yarn build:ct && NODE_OPTIONS=--max_old_space_size=4096 vuepress build",
     "build:core": "yarn core-api-ref && yarn core-api-ref-md",
     "build:ct": "yarn ct-api-ref && yarn ct-api-ref-md",
