@@ -11,6 +11,8 @@ export default gql`
           ...DefaultOrder
         }
         total
+        offset
+        count
       }
     }
   }
