@@ -1,12 +1,14 @@
 import webpack from 'webpack';
 import { VSF_LOCALE_COOKIE } from '@vue-storefront/core';
+import theme from './themeConfig';
 
 export default {
-  mode: 'universal',
   server: {
     port: 3000,
     host: '0.0.0.0'
   },
+
+  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Vue Storefront',
     meta: [
@@ -15,7 +17,8 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon',
+      {
+        rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico'
       },
@@ -38,8 +41,13 @@ export default {
       }
     ]
   },
+
   loading: { color: '#fff' },
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [],
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // to core
     '@nuxt/typescript-build',
@@ -74,12 +82,15 @@ export default {
     project-only-end */
     ['@vue-storefront/boilerplate/nuxt', {}]
   ],
+
+  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
     '@vue-storefront/middleware/nuxt'
   ],
+
   i18n: {
     currency: 'USD',
     country: 'US',
@@ -120,9 +131,12 @@ export default {
       cookieKey: VSF_LOCALE_COOKIE
     }
   },
+
   styleResources: {
     scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     babel: {
       plugins: [
@@ -142,6 +156,7 @@ export default {
       })
     ]
   },
+
   router: {
     middleware: ['checkout'],
     scrollBehavior (_to, _from, savedPosition) {
@@ -151,5 +166,8 @@ export default {
         return { x: 0, y: 0 };
       }
     }
+  },
+  publicRuntimeConfig: {
+    theme
   }
 };

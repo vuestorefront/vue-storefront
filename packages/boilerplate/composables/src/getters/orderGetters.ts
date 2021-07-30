@@ -1,39 +1,57 @@
-/* istanbul ignore file */
-
 import { UserOrderGetters } from '@vue-storefront/core';
-import { Order, OrderItem } from '../types';
+import type { Order, OrderItem } from '@vue-storefront/boilerplate-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getDate = (order: any): string => order?.date || '123';
+function getDate(order: Order): string {
+  return '';
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getId = (order: any): string => order?.id || Math.floor(Math.random() * 100);
+function getId(order: Order): string {
+  return '1';
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getStatus = (order: any): string => order?.status || 'Failed';
+function getStatus(order: Order): string {
+  return '';
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getPrice = (order: any): number | null => order?.price || 0;
+function getPrice(order: Order): number | null {
+  return 0;
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItems = (order: any): any[] => order?.items || [];
+function getItems(order: Order): OrderItem[] {
+  return [];
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemSku = (item: any): string => item?.sku || 0;
+function getItemSku(item: OrderItem): string {
+  return '';
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemName = (item: any): string => item?.name || 0;
+function getItemName(item: OrderItem): string {
+  return '';
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemQty = (item: any): number => item?.qty || 0;
+function getItemQty(item: OrderItem): number {
+  return 0;
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemPrice = (item: any): number => item?.price?.current || 0;
+function getItemPrice(item: OrderItem): number {
+  return 0;
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getFormattedPrice = (price: number) => String(price);
+function getFormattedPrice(price: number): string {
+  return '';
+}
 
-const orderGetters: UserOrderGetters<Order, OrderItem> = {
+export const orderGetters: UserOrderGetters<Order, OrderItem> = {
   getDate,
   getId,
   getStatus,
@@ -45,5 +63,3 @@ const orderGetters: UserOrderGetters<Order, OrderItem> = {
   getItemPrice,
   getFormattedPrice
 };
-
-export default orderGetters;
