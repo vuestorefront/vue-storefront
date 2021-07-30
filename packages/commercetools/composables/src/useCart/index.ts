@@ -62,6 +62,10 @@ const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductV
 
     const couponId = cartDetails.discountCodes.find((d) => d.discountCode.code === couponCode)?.discountCode?.id;
 
+    if (!couponId) {
+      return { updatedCart: currentCart };
+    }
+
     const { data } = await context.$ct.api.removeCartCoupon(cartDetails, { id: couponId, typeId: 'discount-code' }, customQuery);
     return { updatedCart: data.cart };
   },
