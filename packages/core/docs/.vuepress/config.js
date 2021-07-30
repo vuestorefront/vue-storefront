@@ -1,3 +1,4 @@
+const { STATUSES, AVAILABILITY, CATEGORIES, INTEGRATIONS } = require('./integrations');
 const GTM_TAG = 'GTM-WMDC3CP';
 
 module.exports = {
@@ -36,28 +37,6 @@ module.exports = {
   ],
 
   /**
-   * Ref：https://v1.vuepress.vuejs.org/config/#configurewebpack
-   */
-  configureWebpack: (config) => {
-    config.module.rules = config.module.rules.map((rule) => ({
-      ...rule,
-      use:
-        rule.use &&
-        rule.use.map((useRule) => ({
-          ...useRule,
-          options:
-            useRule.loader === 'url-loader'
-              ? /**
-					  Hack for loading images properly.
-					  ref: https://github.com/vuejs/vue-loader/issues/1612#issuecomment-559366730
-					 */
-                { ...useRule.options, esModule: false }
-              : useRule.options
-        }))
-    }));
-  },
-
-  /**
    * Ref：https://v1.vuepress.vuejs.org/plugin/
    */
    plugins: [
@@ -69,7 +48,6 @@ module.exports = {
         selector: 'main :not(a):not(.tile) > img'
       }
     ],
-    '@vuepress/last-updated',
     '@vuepress/active-header-links',
     '@vuepress/search'
   ],
@@ -79,12 +57,15 @@ module.exports = {
    */
   themeConfig: {
     GTM_TAG,
+    STATUSES,
+    AVAILABILITY,
+    CATEGORIES,
+    INTEGRATIONS,
     repo: 'https://github.com/vuestorefront/vue-storefront/',
     editLinks: true,
     docsDir: 'packages/core/docs',
     docsBranch: 'release/next',
     editLinkText: 'Edit this page',
-    lastUpdated: true,
     logo: 'https://camo.githubusercontent.com/48c886ac0703e3a46bc0ec963e20f126337229fc/68747470733a2f2f643968687267346d6e767a6f772e636c6f756466726f6e742e6e65742f7777772e76756573746f726566726f6e742e696f2f32383062313964302d6c6f676f2d76735f3062793032633062793032633030303030302e6a7067',
     nav: [
       { text: 'Integrations', link: '/integrations/' },
