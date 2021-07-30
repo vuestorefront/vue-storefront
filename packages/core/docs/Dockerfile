@@ -4,12 +4,8 @@ WORKDIR /var/www
 
 COPY . .
 
-RUN yarn install --network-concurrency 1
-RUN yarn build:ct && yarn cache clean --all
-
-RUN cd ./packages/core/docs \
-    && yarn \
-    && yarn build
+RUN npm install \
+    && npm run build
 
 FROM nginx
 
