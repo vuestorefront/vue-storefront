@@ -115,7 +115,7 @@ export default {
 </script>
 
 
-<style scoped lang="scss">
+<style scoped>
 * {
   box-sizing: border-box;
 }
@@ -132,116 +132,117 @@ export default {
   font-size: 0.9rem;
   text-decoration: none;
   overflow: hidden;
+}
 
-  & > * {
-    width: 100%;
-  }
+.tile > * {
+  width: 100%;
+}
 
   /*********** Image ***********/
-  &-image {
-    padding-top: 10px;
-    height: 80px;
-    text-align: center;
-    
-    img {
-      height: 100%;
-      max-width: 180px;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
+.tile-image {
+  padding-top: 10px;
+  height: 80px;
+  text-align: center;
+}
+
+.tile-image img {
+  height: 100%;
+  max-width: 180px;
+  object-fit: contain;
+  object-position: center;
+}
 
   /*********** Information ***********/
-  &-info {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 10px 20px;
+.tile-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+}
 
-    p {
-      line-height: 1.8rem;
-      margin: 0;
-    }
-  }
+.tile-info p {
+  line-height: 1.8rem;
+  margin: 0;
+}
 
-  &-header > * + * {
-    margin-left: 5px;
-  }
+.tile-header > * + * {
+  margin-left: 5px;
+}
 
-  &-title {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: space-between;
-    min-height: 30px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #4B5563;
-  }
+.tile-title {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-between;
+  min-height: 30px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #4B5563;
+}
 
-  &-description {
-    flex-grow: 1;
-    margin-bottom: 10px;
-    line-height: 1.4rem;
-    color: #6B7280;
-  }
+.tile-description {
+  flex-grow: 1;
+  margin-bottom: 10px;
+  line-height: 1.4rem;
+  color: #6B7280;
+}
 
-  &-tags-title {
-    font-weight: 600;
-    color: #6B7280;
+.tile-tags-title {
+  font-weight: 600;
+  color: #6B7280;
+}
 
-    & > span {
-      font-weight: 400;
-    }
-  }
+.tile-tags-title > span {
+  font-weight: 400;
+}
 
-  &-status {
-    &-badge {
-      padding: 0 12px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 400;
-    }
+.tile-status-badge {
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
 
-    &-wip {
-      background-color: #F3F4F6;
+.tile-status-wip {
+  background-color: #F3F4F6;
+}
 
-      .tile-image {
-        opacity: 0.6;
-        filter: grayscale(100%);
-      }
+.tile-status-wip .tile-image {
+  opacity: 0.6;
+  filter: grayscale(100%);
+}
 
-      .tile-status-badge {
-        background-color: #E5E7EB;
-        color: #4B5563;
-      }
-    }
+.tile-status-wip .tile-status-badge {
+  background-color: #E5E7EB;
+  color: #4B5563;
+}
 
-    &-alpha,
-    &-beta {
-      .tile-status-badge {
-        background-color: #FEF3C7;
-        color: #D97706;
-      }
-    }
-  }
+.tile-status-alpha .tile-status-badge {
+  background-color: #FEF3C7;
+  color: #D97706;
+}
 
-  &-maintained-by + &-maintained-by::before {
-    content: ', ';
-  }
+.tile-status-beta .tile-status-badge {
+  background-color: #FEF3C7;
+  color: #D97706;
+}
+
+
+.tile-maintained-by + .tile-maintained-by::before {
+  content: ', ';
+}
 
   /*********** Link ***********/
-  &-more {
-    display: flex;
-    padding: 20px 20px 20px;
-    background-color: #F9FAFB;
-    cursor: pointer;
+.tile-more {
+  display: flex;
+  padding: 20px 20px 20px;
+  background-color: #F9FAFB;
+  cursor: pointer;
+}
 
-    .tile-link {
-      font-weight: 500;
-    }
-  }
+.tile-more .tile-link {
+  font-weight: 500;
 }
 </style>
