@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import { VSF_LOCALE_COOKIE } from '@vue-storefront/core';
+import theme from './themeConfig';
 
 export default {
   server: {
@@ -165,5 +166,8 @@ export default {
         return { x: 0, y: 0 };
       }
     }
+  },
+  publicRuntimeConfig: {
+    theme
   }
 };
