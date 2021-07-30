@@ -4,8 +4,12 @@ WORKDIR /var/www
 
 COPY . .
 
-RUN npm install \
-   && npm run build
+RUN yarn install --network-concurrency 1
+RUN cd packages/core/core && yarn build && yarn cache clean --all
+RUN cd packages/commercetools/api-client && yarn build && yarn cache clean --all
+
+RUN yarn \
+   && yarn build
 
 FROM nginx
 

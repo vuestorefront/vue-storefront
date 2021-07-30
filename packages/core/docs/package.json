@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vuepress dev",
-    "build": "vuepress build",
+    "build": "yarn build:core && vuepress build",
     "build:core": "yarn core-api-ref-gen && yarn core-api-ref-md",
     "core-api-ref-gen": "cd ../core && api-extractor run --local",
     "core-api-ref-md": "api-documenter markdown --i core/api-reference --o core/api-reference",
