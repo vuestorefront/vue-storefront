@@ -8,10 +8,11 @@
     "dev": "vuepress dev",
     "build": "yarn build:core && yarn build:ct && vuepress build",
     "build:core": "yarn core-api-ref && yarn core-api-ref-md",
-    "build:ct": "yarn ct-api-ref",
+    "build:ct": "yarn ct-api-ref && yarn ct-api-ref-md",
     "core-api-ref": "cd ../core && api-extractor run --local",
     "core-api-ref-md": "api-documenter markdown --i core/api-reference --o core/api-reference",
-    "ct-api-ref": "cd ../../commercetools/api-client && api-extractor run --local"
+    "ct-api-ref": "cd ../../commercetools/api-client && api-extractor run --local",
+    "ct-api-ref-md": "api-documenter markdown --i commercetools/api-reference --o commercetools/api-reference"
   },
   "dependencies": {
     "sass-loader": "^8.0.2",
