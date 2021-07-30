@@ -4,12 +4,14 @@ WORKDIR /var/www
 
 COPY . .
 
-RUN yarn install --network-concurrency 1
-RUN cd packages/core/core && yarn build && yarn cache clean --all
-RUN cd packages/commercetools/api-client && yarn build && yarn cache clean --all
+RUN yarn install --network-concurrency 1 \
+    && yarn build:core \
+    && yarn build:ct:api-client \
+    && yarn cache clean --all
 
-RUN yarn \
-   && yarn build
+RUN cd packages/core/docs \
+    && yarn install \
+    && yarn build
 
 FROM nginx
 
