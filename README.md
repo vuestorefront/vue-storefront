@@ -14,7 +14,7 @@ Vue Storefront is the most popular and most advanced Frontend Platform for eComm
 # Supported platforms
 
 - Commercetools
-- Shopify [Beta]
+- Shopify
 - Spryker [Beta]
 - Salesforce Commerce Cloud [Beta]
 - Magento 2 [Beta]
