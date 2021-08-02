@@ -19,6 +19,7 @@ export const LineItemFragment = `
           discount {
             id
             name(acceptLanguage: $acceptLanguage)
+            description(acceptLanguage: $acceptLanguage)
             isActive
             requiresDiscountCode
             value {
