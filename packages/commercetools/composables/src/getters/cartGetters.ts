@@ -95,7 +95,6 @@ export const getCartDiscounts = (cart: Cart): AgnosticDiscount[] => {
           id: discountDetails.id,
           name: discountDetails.name,
           requiresCoupon: discountDetails.requiresDiscountCode,
-          isGiftLineItem: discountDetails.value.type === 'giftLineItem',
           typeId: 'cart-discount',
           valueType: discountDetails.value.type,
           value: discountValue
