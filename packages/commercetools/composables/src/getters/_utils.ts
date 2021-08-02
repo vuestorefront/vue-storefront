@@ -67,14 +67,14 @@ const getDiscount = (product: ProductVariant | LineItem) => product.price?.disco
 const getSpecialPrice = (product: ProductVariant | LineItem) => {
   const discount = getDiscount(product);
 
-  if (isLineItem(product)) {
-    const { discountedPricePerQuantity } = product;
-    const discountsLength = discountedPricePerQuantity.length;
+  // if (isLineItem(product)) {
+  //   const { discountedPricePerQuantity } = product;
+  //   const discountsLength = discountedPricePerQuantity.length;
 
-    if (discountsLength > 0) {
-      return getPrice(discountedPricePerQuantity[discountsLength - 1].discountedPrice);
-    }
-  }
+  //   if (discountsLength > 0) {
+  //     return getPrice(discountedPricePerQuantity[discountsLength - 1].discountedPrice);
+  //   }
+  // }
 
   if (discount?.discount.isActive) {
     return getPrice(discount);
