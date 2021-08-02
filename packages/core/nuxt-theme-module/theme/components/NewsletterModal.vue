@@ -62,7 +62,7 @@ import { ref, computed, onBeforeUnmount } from '@vue/composition-api';
 import { useUiState } from '~/composables';
 
 export default {
-  name: 'LoginModal',
+  name: 'NewsletterModal',
   components: {
     SfModal,
     SfHeading,

@@ -116,7 +116,6 @@ import {
   SfButton
 } from '@storefront-ui/vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
-import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import NewsletterModal from '~/components/NewsletterModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import useUiState from '../composables/useUiState';
@@ -141,7 +140,6 @@ export default {
     SfHeading,
     SfArrow,
     SfButton,
-    MobileStoreBanner,
     NewsletterModal,
     LazyHydrate
   },
