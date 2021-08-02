@@ -522,8 +522,11 @@ export interface AgnosticCoupon {
 export interface AgnosticDiscount {
   id: string;
   name: string;
-  description: string;
   value: number;
+  valueType: 'relative' | 'absolute' | 'fixed';
+  typeId: string;
+  requiresCoupon: boolean;
+  description: string;
   code?: string;
 }
 
