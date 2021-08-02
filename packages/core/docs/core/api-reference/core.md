@@ -155,6 +155,9 @@ The Core API Reference documentation provides detailed information for each of t
 |  [useUserShippingFactory](./core.useusershippingfactory.md) |  |
 |  [useVSFContext](./core.usevsfcontext.md) |  |
 |  [useWishlistFactory](./core.usewishlistfactory.md) |  |
+|  [VSF\_COUNTRY\_COOKIE](./core.vsf_country_cookie.md) | Default name of the cookie storing active country code |
+|  [VSF\_CURRENCY\_COOKIE](./core.vsf_currency_cookie.md) | Default name of the cookie storing active currency code |
+|  [VSF\_LOCALE\_COOKIE](./core.vsf_locale_cookie.md) | Default name of the cookie storing active localization code |
 |  [vsfRef](./core.vsfref.md) |  |
 
 ## Type Aliases

@@ -6,13 +6,13 @@
   "license": "MIT",
   "scripts": {
     "dev": "vuepress dev",
-    "build": "vuepress build",
-    "build:core": "yarn core-api-ref-gen && yarn core-api-ref-md",
-    "core-api-ref-gen": "cd ../core && api-extractor run --local",
+    "build": "yarn build:core && yarn build:ct && NODE_OPTIONS=--max_old_space_size=4096 vuepress build",
+    "build:core": "yarn core-api-ref && yarn core-api-ref-md",
+    "build:ct": "yarn ct-api-ref && yarn ct-api-ref-md",
+    "core-api-ref": "cd ../core && api-extractor run --local",
     "core-api-ref-md": "api-documenter markdown --i core/api-reference --o core/api-reference",
-    "build:ct": "yarn ct-api-client-tdoc && yarn ct-api-client-gen",
-    "ct-api-client-tdoc": "node ./scripts/generateCtApiRef && rimraf ./commercetools/api-client-reference/enums ./commercetools/api-client-reference/README.md ./commercetools/api-client-reference/modules/api.md && mv ./commercetools/api-client-reference/modules ./commercetools/api-client-reference/1modules && node typedoc-vsf-theme/removeFiles",
-    "ct-api-client-gen": "concat-md --join-string '' ./commercetools/api-client-reference/ > ./commercetools/api-client-reference.md && node typedoc-vsf-theme/removeText && rimraf ./commercetools/api-client-reference"
+    "ct-api-ref": "cd ../../commercetools/api-client && api-extractor run --local",
+    "ct-api-ref-md": "api-documenter markdown --i commercetools/api-reference --o commercetools/api-reference"
   },
   "dependencies": {
     "sass-loader": "^8.0.2",
@@ -26,10 +26,6 @@
     "@vuepress/plugin-back-to-top": "^1.8.2",
     "@vuepress/plugin-medium-zoom": "^1.8.2",
     "@vuepress/plugin-search": "^1.8.2",
-    "concat-md": "^0.3.5",
-    "handlebars": "^4.7.7",
-    "typedoc": "^0.20.20",
-    "typedoc-plugin-markdown": "^3.4.5",
     "vuepress": "^1.8.2"
   }
 }
