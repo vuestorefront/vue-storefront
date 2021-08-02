@@ -120,6 +120,7 @@ export default {
   'Product suggestions': 'Product suggestions',
   'Search for items': 'Search for items',
   'Enter promo code': 'Enter promo code',
+  'This promo code is invalid': 'This promo code is invalid',
   'Shipping method': 'Shipping method',
   'Continue to billing': 'Continue to billing',
   'Payment methods': 'Payment methods',
