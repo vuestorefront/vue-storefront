@@ -18,13 +18,15 @@
         :value="$n(totals.special || totals.subtotal, 'currency')"
         :class="['sf-property--full-width', 'sf-property--large property', { discounted: hasSpecialPrice }]"
       />
-      <SfProperty
-        v-for="discount in discounts"
-        :key="discount.id"
-        :name="discount.name"
-        :value="'-' + $n(discount.value, 'currency')"
-        class="sf-property--full-width sf-property--small"
-      />
+      <div class="discounts">
+        <SfProperty
+          v-for="discount in discounts"
+          :key="discount.id"
+          :name="discount.name"
+          :value="'-' + $n(discount.value, 'currency')"
+          class="sf-property--full-width sf-property--small discount"
+        />
+      </div>
      <!-- <SfProperty
         v-if="hasSpecialPrice"
         :value="$n(totals.special, 'currency')"
@@ -42,17 +44,37 @@
         class="sf-property--full-width sf-property--large property-total"
       />
     </div>
-    <div class="highlighted promo-code">
-      <SfInput
-        :value="promoCode"
-        @input="onPromoCodeInput"
-        name="promoCode"
-        :label="$t('Enter promo code')"
-        class="sf-input--filled promo-code__input"
-        :valid="!cartError.applyCoupon"
-        :errorMessage="$t('This promo code is invalid')"
-      />
-      <SfButton class="promo-code__button" @click="applyCartCoupon(promoCode)">{{ $t('Apply') }}</SfButton>
+    <div class="highlighted">
+      <div class="coupons">
+        <SfProperty
+          v-for="coupon in coupons"
+          :key="coupon.id"
+          :name="coupon.name"
+          class="sf-property--full-width sf-property--small coupon"
+        >
+          <template #value>
+            <SfButton
+              class="sf-button--text desktop-only"
+              style="margin: 0 0 1rem auto; display: block;"
+              @click="removeCoupon({ coupon: coupon })"
+            >
+              {{ $t('Remove coupon') }}
+            </SfButton>
+          </template>
+        </SfProperty>
+      </div>
+      <div class="promo-code">
+        <SfInput
+          :value="promoCode"
+          @input="onPromoCodeInput"
+          name="promoCode"
+          :label="$t('Enter promo code')"
+          class="sf-input--filled promo-code__input"
+          :valid="!cartError.applyCoupon"
+          :errorMessage="$t('This promo code is invalid')"
+        />
+        <SfButton class="promo-code__button" @click="applyCartCoupon(promoCode)">{{ $t('Apply') }}</SfButton>
+      </div>
     </div>
     <div class="highlighted">
       <SfCharacteristic
@@ -93,7 +115,7 @@ export default {
     SfCircleIcon
   },
   setup () {
-    const { cart, removeItem, updateItemQty, applyCoupon, error: cartError } = useCart();
+    const { cart, removeItem, updateItemQty, applyCoupon, removeCoupon, error: cartError } = useCart();
     const { state } = useShippingProvider();
 
     const listIsHidden = ref(false);
@@ -102,6 +124,7 @@ export default {
     const products = computed(() => cartGetters.getItems(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
+    const coupons = computed(() => cartGetters.getCoupons(cart.value));
     const discounts = computed(() => {
       const lineItems = cartGetters.getItems(cart.value);
       return lineItems.reduce((discounts, lineItem) => {
@@ -152,11 +175,13 @@ export default {
       listIsHidden,
       products,
       totals,
+      coupons,
       promoCode,
       removeItem,
       updateItemQty,
       cartGetters,
       applyCoupon,
+      removeCoupon,
       characteristics: [
         {
           title: 'Safety',
@@ -212,6 +237,19 @@ export default {
   border-top: var(--c-white) 1px solid;
   --property-name-font-weight: var(--font-weight--semibold);
   --property-name-color: var(--c-text);
+}
+.discounts {
+  margin-bottom: var(--spacer-base);
+}
+
+.discount {
+  margin-bottom: var(--spacer-2xs);
+}
+
+.coupon {
+  .sf-property__name::after {
+    content: none;
+  }
 }
 
 .characteristic {
