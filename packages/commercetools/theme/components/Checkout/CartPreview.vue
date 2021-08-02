@@ -15,21 +15,21 @@
       />
       <SfProperty
         :name="$t('Subtotal')"
-        :value="$n(totals.subtotal, 'currency')"
+        :value="$n(totals.special || totals.subtotal, 'currency')"
         :class="['sf-property--full-width', 'sf-property--large property', { discounted: hasSpecialPrice }]"
       />
       <SfProperty
         v-for="discount in discounts"
         :key="discount.id"
-        :name="discount.name + (discount.code && ` (${discount.code})`)"
+        :name="discount.name"
         :value="'-' + $n(discount.value, 'currency')"
         class="sf-property--full-width sf-property--small"
       />
-     <SfProperty
+     <!-- <SfProperty
         v-if="hasSpecialPrice"
         :value="$n(totals.special, 'currency')"
         class="sf-property--full-width sf-property--small property special-price"
-      />
+      /> -->
       <SfProperty
         :name="$t('Shipping')"
         v-if="selectedShippingMethod && selectedShippingMethod.zoneRates"
@@ -44,12 +44,15 @@
     </div>
     <div class="highlighted promo-code">
       <SfInput
-        v-model="promoCode"
+        :value="promoCode"
+        @input="onPromoCodeInput"
         name="promoCode"
         :label="$t('Enter promo code')"
         class="sf-input--filled promo-code__input"
+        :valid="!cartError.applyCoupon"
+        :errorMessage="$t('This promo code is invalid')"
       />
-      <SfButton class="promo-code__button" @click="() => applyCoupon({ couponCode: promoCode })">{{ $t('Apply') }}</SfButton>
+      <SfButton class="promo-code__button" @click="applyCartCoupon(promoCode)">{{ $t('Apply') }}</SfButton>
     </div>
     <div class="highlighted">
       <SfCharacteristic
@@ -90,12 +93,11 @@ export default {
     SfCircleIcon
   },
   setup () {
-    const { cart, removeItem, updateItemQty, applyCoupon } = useCart();
+    const { cart, removeItem, updateItemQty, applyCoupon, error: cartError } = useCart();
     const { state } = useShippingProvider();
 
     const listIsHidden = ref(false);
     const promoCode = ref('');
-    const showPromoCode = ref(false);
 
     const products = computed(() => cartGetters.getItems(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
@@ -104,15 +106,18 @@ export default {
       const lineItems = cartGetters.getItems(cart.value);
       return lineItems.reduce((discounts, lineItem) => {
         lineItem.discountedPricePerQuantity[0].discountedPrice.includedDiscounts.forEach(includedDiscount => {
-          if (!discounts.find(discount => discount.id === includedDiscount.discount.id)) {
+          const searchedDiscountIndex = discounts.findIndex(discount => discount.id === includedDiscount.discount.id);
+          if (searchedDiscountIndex === -1) {
             discounts.push({
               id: includedDiscount.discount.id,
               name: includedDiscount.discount.name,
               isCoupon: includedDiscount.discount.requiresDiscountCode,
               typeId: 'cart-discount',
               valueType: includedDiscount.discount.value.type,
-              value: includedDiscount.discountedAmount.centAmount
+              value: includedDiscount.discountedAmount.centAmount / 100
             });
+          } else {
+            discounts[searchedDiscountIndex].value += includedDiscount.discountedAmount.centAmount / 100;
           }
         });
         return discounts;
@@ -123,11 +128,23 @@ export default {
     // {
     //   id: String
     //   name: String;
-    //   type: 'code' | 'cart';
+    //   type: 'coupon' | 'cart';
     //   typeId: String;
     //   valueType: 'relative' | 'absolute' | 'fixed';
     //   value: Number;
     // }
+
+    const onPromoCodeInput = (input) => {
+      promoCode.value = input;
+      cartError.value.applyCoupon = null;
+    };
+
+    const applyCartCoupon = async (couponCode) => {
+      await applyCoupon({ couponCode });
+      if (!cartError.value.applyCoupon) {
+        promoCode.value = '';
+      }
+    };
 
     return {
       discounts,
@@ -136,7 +153,6 @@ export default {
       products,
       totals,
       promoCode,
-      showPromoCode,
       removeItem,
       updateItemQty,
       cartGetters,
@@ -159,10 +175,12 @@ export default {
           icon: 'return'
         }
       ],
-
       selectedShippingMethod: computed(() => state.value && state.value.response && state.value.response.shippingMethod),
       hasSpecialPrice: computed(() => totals.value.special > 0 && totals.value.special < totals.value.subtotal),
-      getShippingMethodPrice
+      getShippingMethodPrice,
+      onPromoCodeInput,
+      applyCartCoupon,
+      cartError
     };
   }
 };
