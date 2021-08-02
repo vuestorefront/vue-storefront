@@ -74,11 +74,11 @@ export const getCartTotalItems = (cart: Cart): number => {
 
 export const getFormattedPrice = (price: number) => price as any as string;
 
-export const getCoupons = (cart: Cart): AgnosticCoupon[] => {
+export const getCartCoupons = (cart: Cart): AgnosticCoupon[] => {
   return getCouponsFromCart(cart);
 };
 
-export const getDiscounts = (cart: Cart): AgnosticDiscount[] => {
+export const getCartDiscounts = (cart: Cart): AgnosticDiscount[] => {
   const lineItems = getCartItems(cart);
   return lineItems.reduce((reducedDiscounts, lineItem) => {
     const discounts = lineItem.discountedPricePerQuantity;
@@ -119,8 +119,8 @@ const cartGetters: CartGetters<Cart, LineItem> = {
   getItemSku: getCartItemSku,
   getTotalItems: getCartTotalItems,
   getFormattedPrice,
-  getCoupons,
-  getDiscounts
+  getCoupons: getCartCoupons,
+  getDiscounts: getCartDiscounts
 };
 
 export default cartGetters;
