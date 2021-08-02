@@ -85,7 +85,7 @@
             data-testid="cta-button"
             @click="handleNewsletterClick"
           >
-            Subscribe
+            {{ $t('Subscribe') }}
           </SfButton>
         </template>
       </SfCallToAction>

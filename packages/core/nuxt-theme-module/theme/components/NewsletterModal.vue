@@ -19,34 +19,32 @@
           :title="$t('Subscribe to newsletter')"
           class="modal__title desktop-only"
         />
-        <form  @submit.prevent="$emit('email', emailAddress)">
+        <form @submit.prevent="$emit('email', emailAddress)">
           <SfInput
             type="email"
-            label="Email address"
+            :label="$t('Email address')"
             v-model="emailAddress"
             class="modal__input"
           />
           <SfButton class="modal__button" type="submit">
-            I confirm subscription
+            {{ $t('I confirm subscription') }}
           </SfButton>
         </form>
         <SfHeading
-          description="You can unsubscribe at any time"
+          :description="$t('You can unsubscribe at any time')"
           :level="3"
         />
         <SfScrollable :maxContentHeight="isMobile ? 'auto' : '3.75rem'" :class="{ 'is-open': !isHidden }">
-          <p class="modal__content">
-            After signing up for the newsletter, you will receive special offers and messages from VSF via email.
-            We will not sell or distribute your email to any third party at any time.
-            Please see our <SfLink link="https://www.vuestorefront.io/privacy-policy">Privacy Policy</SfLink>
-          </p>
+          <i18n tag="p" class="modal__content" path="subscribeToNewsletterModalContent">
+            <SfLink link="https://www.vuestorefront.io/privacy-policy">{{ $t('Privacy Policy') }}</SfLink>
+          </i18n>
           <template #view-all>
             <SfButton
               class="sf-button--text sf-scrollable__view-all desktop-only"
               @click="isHidden = !isHidden"
             >
-              <span v-if="isHidden">show more</span>
-              <span v-else>hide</span>
+              <span v-if="isHidden">{{ $t('show more') }}</span>
+              <span v-else>{{ $t('hide') }}</span>
             </SfButton>
           </template>
         </SfScrollable>
@@ -108,6 +106,7 @@ export default {
   justify-content: center;
   --modal-index: 3;
   --overlay-z-index: 3;
+  --modal-content-padding: var(--spacer-xl);
   &__input,
   .sf-input__label {
     --input-font-size: var(--font-size--base);
