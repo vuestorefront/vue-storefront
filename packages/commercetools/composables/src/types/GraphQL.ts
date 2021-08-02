@@ -4781,6 +4781,7 @@ export type ProductVariant = {
   attributes: ProductType;
   /** Product attributes are returned as a list instead of an object structure. */
   attributeList: Array<Attribute>;
+  lineItemMode: LineItemMode
 };
 
 export type ProductVariantPriceArgs = {
