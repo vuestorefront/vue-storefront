@@ -62,6 +62,23 @@ export default class ComponentWidthCalculator {
     return new ComponentWidthCalculator(newWidths, this);
   }
 
+  public multiplySizes (columnsSpec: ColumnsSpecification): ComponentWidthCalculator {
+    const newWidths = { ...this.widths };
+
+    for (let size in columnsSpec) {
+      const sizeKey = size as SizeValue;
+      const columnsCount = columnsSpec[sizeKey];
+
+      if (!columnsCount) {
+        continue;
+      }
+
+      newWidths[sizeKey] = newWidths[sizeKey] * columnsCount;
+    }
+
+    return new ComponentWidthCalculator(newWidths, this);
+  }
+
   public limitAllByPercent (percent: number): ComponentWidthCalculator {
     const newWidths = { ...this.widths };
 
