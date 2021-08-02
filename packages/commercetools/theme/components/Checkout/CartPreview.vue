@@ -15,7 +15,7 @@
       />
       <SfProperty
         :name="$t('Subtotal')"
-        :value="$n(totals.special || totals.subtotal, 'currency')"
+        :value="$n(totals.subtotal, 'currency')"
         :class="['sf-property--full-width', 'sf-property--large property', { discounted: hasSpecialPrice }]"
       />
       <div class="discounts">
@@ -27,11 +27,11 @@
           class="sf-property--full-width sf-property--small discount"
         />
       </div>
-     <!-- <SfProperty
+     <SfProperty
         v-if="hasSpecialPrice"
         :value="$n(totals.special, 'currency')"
         class="sf-property--full-width sf-property--small property special-price"
-      /> -->
+      />
       <SfProperty
         :name="$t('Shipping')"
         v-if="selectedShippingMethod && selectedShippingMethod.zoneRates"
