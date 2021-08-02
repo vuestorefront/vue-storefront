@@ -27,13 +27,12 @@ export const getCartItemSku = (product: LineItem): string => product?.variant?.s
 
 const getCartSubtotalPrice = (cart: Cart, selectSpecialPrices = false): number => {
   return getCartItems(cart).reduce((total, cartItem) => {
-    if (cartItem.lineItemMode === 'Standard') {
-      const { special, regular } = getCartItemPrice(cartItem);
-      const itemPrice = (selectSpecialPrices && special) || regular;
-      return total + itemPrice;
-    } else {
+    if (cartItem.lineItemMode === 'GiftLineItem') {
       return total;
     }
+    const { special, regular } = getCartItemPrice(cartItem);
+    const itemPrice = (selectSpecialPrices && special) || regular;
+    return total + itemPrice;
   }, 0);
 };
 
