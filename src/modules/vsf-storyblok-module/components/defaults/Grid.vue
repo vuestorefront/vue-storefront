@@ -8,6 +8,7 @@
       v-for="_item in itemData.items"
       :key="_item.uuid"
       class="_item"
+      :class="getItemCssClasses(_item)"
       :style="itemStyles"
     >
       <sb-render class="box" :item="_item" />
@@ -16,12 +17,15 @@
 </template>
 
 <script lang="ts">
-import { InjectType } from 'src/modules/shared';
 import { VueConstructor } from 'vue';
+
+import { InjectType } from 'src/modules/shared';
+
 import { Blok } from '..'
 import ComponentWidthCalculator, { ColumnsSpecification } from '../../component-width-calculator.service';
 import GridData from '../../types/grid-data.interface';
 import { SizeValue } from '../../types/size.value';
+import isColumnData from '../../types/is-column-data.typeguard';
 
 interface InjectedServices {
   componentWidthCalculator: ComponentWidthCalculator
@@ -114,6 +118,36 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
       }
 
       return result;
+    },
+    getItemCssClasses (item: unknown): string[] {
+      const result: string [] = [];
+
+      if (!isColumnData(item)) {
+        return result;
+      }
+
+      const classPrefix = '-span-';
+      const sizes: Record<SizeValue, string> = {
+        [SizeValue.xsmall]: '',
+        [SizeValue.small]: 'sm-',
+        [SizeValue.medium]: 'md-',
+        [SizeValue.large]: 'lg-',
+        [SizeValue.xlarge]: 'xlg-'
+      }
+
+      for (const field in sizes) {
+        const sizeKey = field as SizeValue;
+        const prefix = sizes[sizeKey];
+        const value = item.span ? item.span[sizeKey] : undefined;
+
+        if (!value) {
+          continue;
+        }
+
+        result.push(classPrefix + prefix + value);
+      }
+
+      return result;
     }
   }
 });
@@ -137,20 +171,30 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
   grid-gap: $default-grid-gap;
 
   @for $i from 1 through 12 {
-      &.-columns-#{$i} {
-        grid-template-columns: repeat($i, minmax(0, 1fr));
-      }
+    &.-columns-#{$i} {
+      grid-template-columns: repeat($i, minmax(0, 1fr));
     }
 
-    @each $size, $breakpoint in $sizes {
-      @media (min-width: $breakpoint) {
-        @for $i from 1 through 12 {
-          &.-columns-#{$size}-#{$i} {
-            grid-template-columns: repeat($i, minmax(0, 1fr));
-          }
+    ._item.-span-#{$i} {
+      grid-column: span $i;
+    }
+  }
+
+  @each $size, $breakpoint in $sizes {
+    @media (min-width: $breakpoint) {
+      @for $i from 1 through 12 {
+        &.-columns-#{$size}-#{$i} {
+          grid-template-columns: repeat($i, minmax(0, 1fr));
+        }
+      }
+
+      @for $i from 1 through 12 {
+        ._item.-span-#{$size}-#{$i} {
+          grid-column: span $i;
         }
       }
     }
+  }
 
   &.-cards-mode {
     > ._item {
