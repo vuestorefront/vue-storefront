@@ -83,11 +83,12 @@ export const getCartDiscounts = (cart: Cart): AgnosticDiscount[] => {
   return lineItems.reduce((reducedDiscounts, lineItem) => {
     const discounts = lineItem.discountedPricePerQuantity;
     const discountsLength = discounts.length;
+    const quantity = lineItem.quantity;
 
     discounts[discountsLength - 1]?.discountedPrice.includedDiscounts.forEach(includedDiscount => {
       const searchedDiscountIndex = reducedDiscounts.findIndex(discount => discount.id === includedDiscount.discount.id);
       const discountDetails = includedDiscount.discount;
-      const discountAmount = includedDiscount.discountedAmount;
+      const discountValue = includedDiscount.discountedAmount.centAmount * quantity / 100;
 
       if (searchedDiscountIndex === -1) {
         reducedDiscounts.push({
@@ -97,10 +98,10 @@ export const getCartDiscounts = (cart: Cart): AgnosticDiscount[] => {
           isGiftLineItem: discountDetails.value.type === 'giftLineItem',
           typeId: 'cart-discount',
           valueType: discountDetails.value.type,
-          value: discountAmount.centAmount / 100
+          value: discountValue
         });
       } else {
-        reducedDiscounts[searchedDiscountIndex].value += discountAmount.centAmount / 100;
+        reducedDiscounts[searchedDiscountIndex].value += discountValue;
       }
     });
     return reducedDiscounts;
