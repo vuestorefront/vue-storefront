@@ -125,37 +125,7 @@ export default {
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const coupons = computed(() => cartGetters.getCoupons(cart.value));
-    const discounts = computed(() => {
-      const lineItems = cartGetters.getItems(cart.value);
-      return lineItems.reduce((discounts, lineItem) => {
-        lineItem.discountedPricePerQuantity[0].discountedPrice.includedDiscounts.forEach(includedDiscount => {
-          const searchedDiscountIndex = discounts.findIndex(discount => discount.id === includedDiscount.discount.id);
-          if (searchedDiscountIndex === -1) {
-            discounts.push({
-              id: includedDiscount.discount.id,
-              name: includedDiscount.discount.name,
-              isCoupon: includedDiscount.discount.requiresDiscountCode,
-              typeId: 'cart-discount',
-              valueType: includedDiscount.discount.value.type,
-              value: includedDiscount.discountedAmount.centAmount / 100
-            });
-          } else {
-            discounts[searchedDiscountIndex].value += includedDiscount.discountedAmount.centAmount / 100;
-          }
-        });
-        return discounts;
-      }, []);
-      // return cartGetters.getDiscounts(cart.value)
-    });
-
-    // {
-    //   id: String
-    //   name: String;
-    //   type: 'coupon' | 'cart';
-    //   typeId: String;
-    //   valueType: 'relative' | 'absolute' | 'fixed';
-    //   value: Number;
-    // }
+    const discounts = computed(() => cartGetters.getDiscounts(cart.value).filter(discount => !discount.isGiftLineItem));
 
     const onPromoCodeInput = (input) => {
       promoCode.value = input;
