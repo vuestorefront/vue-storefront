@@ -84,7 +84,7 @@ export const getCartDiscounts = (cart: Cart): AgnosticDiscount[] => {
     const discounts = lineItem.discountedPricePerQuantity;
     const discountsLength = discounts.length;
 
-    discounts[discountsLength - 1].discountedPrice.includedDiscounts.forEach(includedDiscount => {
+    discounts[discountsLength - 1]?.discountedPrice.includedDiscounts.forEach(includedDiscount => {
       const searchedDiscountIndex = reducedDiscounts.findIndex(discount => discount.id === includedDiscount.discount.id);
       const discountDetails = includedDiscount.discount;
       const discountAmount = includedDiscount.discountedAmount;
