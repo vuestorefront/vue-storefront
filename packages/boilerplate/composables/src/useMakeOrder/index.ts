@@ -1,16 +1,16 @@
-import { Order } from '../types';
-import { UseMakeOrder, useMakeOrderFactory, Context } from '@vue-storefront/core';
+import {
+  Context,
+  useMakeOrderFactory,
+  UseMakeOrderFactoryParams
+} from '@vue-storefront/core';
+import type { Order } from '@vue-storefront/boilerplate-api';
 
-const factoryParams = {
+const factoryParams: UseMakeOrderFactoryParams<Order> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  make: async (context: Context, { customQuery }): Promise<Order> => {
-    console.log('Mocked: makeOrder');
-    return {
-      id: '123-456-7890'
-    };
+  make: async (context: Context, { customQuery }) => {
+    console.log('Mocked: useMakeOrder.make');
+    return {};
   }
 };
 
-const useMakeOrder: () => UseMakeOrder<Order> = useMakeOrderFactory<Order>(factoryParams);
-
-export default useMakeOrder;
+export const useMakeOrder = useMakeOrderFactory<Order>(factoryParams);

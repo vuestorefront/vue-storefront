@@ -36,7 +36,7 @@
         </ValidationProvider>
       </div>
       <ValidationProvider
-        rules="required|min:5"
+        rules="required"
         v-slot="{ errors }"
         class="form__element"
       >
@@ -49,16 +49,22 @@
           :errorMessage="errors[0]"
         />
       </ValidationProvider>
-      <SfInput
-        v-model="form.apartment"
-        name="apartment"
-        label="House/Apartment number"
-        required
+      <ValidationProvider
+        rules="required"
+        v-slot="{ errors }"
         class="form__element"
-      />
+      >
+        <SfInput
+          v-model="form.apartment"
+          name="apartment"
+          label="House/Apartment number"
+          required
+          class="form__element"
+        />
+      </ValidationProvider>
       <div class="form__horizontal">
         <ValidationProvider
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           class="form__element"
         >
@@ -99,7 +105,7 @@
       </div>
       <div class="form__horizontal">
         <ValidationProvider
-          rules="required|min:4"
+          rules="required|min:2"
           v-slot="{ errors }"
           class="form__element"
         >

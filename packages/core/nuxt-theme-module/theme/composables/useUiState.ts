@@ -10,22 +10,31 @@ const state = reactive({
   isLoginModalOpen: false,
   isNewsletterModalOpen: false,
   isCategoryGridView: true,
-  isFilterSidebarOpen: false
+  isFilterSidebarOpen: false,
+  isMobileMenuOpen: false
 });
 
 const useUiState = () => {
+  const isMobileMenuOpen = computed(() => state.isMobileMenuOpen);
+  const toggleMobileMenu = () => {
+    state.isMobileMenuOpen = !state.isMobileMenuOpen;
+  };
+
   const isCartSidebarOpen = computed(() => state.isCartSidebarOpen);
   const toggleCartSidebar = () => {
+    if (state.isMobileMenuOpen) toggleMobileMenu();
     state.isCartSidebarOpen = !state.isCartSidebarOpen;
   };
 
   const isWishlistSidebarOpen = computed(() => state.isWishlistSidebarOpen);
   const toggleWishlistSidebar = () => {
+    if (state.isMobileMenuOpen) toggleMobileMenu();
     state.isWishlistSidebarOpen = !state.isWishlistSidebarOpen;
   };
 
   const isLoginModalOpen = computed(() => state.isLoginModalOpen);
   const toggleLoginModal = () => {
+    if (state.isMobileMenuOpen) toggleMobileMenu();
     state.isLoginModalOpen = !state.isLoginModalOpen;
   };
 
@@ -54,13 +63,15 @@ const useUiState = () => {
     isNewsletterModalOpen,
     isCategoryGridView,
     isFilterSidebarOpen,
+    isMobileMenuOpen,
     toggleCartSidebar,
     toggleWishlistSidebar,
     toggleLoginModal,
     toggleNewsletterModal,
     changeToCategoryGridView,
     changeToCategoryListView,
-    toggleFilterSidebar
+    toggleFilterSidebar,
+    toggleMobileMenu
   };
 };
 
