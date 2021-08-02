@@ -71,5 +71,6 @@ export const LineItemFragment = `
     price {
       ...DefaultProductPrice
     }
+    lineItemMode
   }
 `;
