@@ -78,9 +78,33 @@ export const getCoupons = (cart: Cart): AgnosticCoupon[] => {
   return getCouponsFromCart(cart);
 };
 
-// eslint-disable-next-line
 export const getDiscounts = (cart: Cart): AgnosticDiscount[] => {
-  return [];
+  const lineItems = getCartItems(cart);
+  return lineItems.reduce((reducedDiscounts, lineItem) => {
+    const discounts = lineItem.discountedPricePerQuantity;
+    const discountsLength = discounts.length;
+
+    discounts[discountsLength - 1].discountedPrice.includedDiscounts.forEach(includedDiscount => {
+      const searchedDiscountIndex = reducedDiscounts.findIndex(discount => discount.id === includedDiscount.discount.id);
+      const discountDetails = includedDiscount.discount;
+      const discountAmount = includedDiscount.discountedAmount;
+
+      if (searchedDiscountIndex === -1) {
+        reducedDiscounts.push({
+          id: discountDetails.id,
+          name: discountDetails.name,
+          requiresCoupon: discountDetails.requiresDiscountCode,
+          isGiftLineItem: discountDetails.value.type === 'giftLineItem',
+          typeId: 'cart-discount',
+          valueType: discountDetails.value.type,
+          value: discountAmount.centAmount / 100
+        });
+      } else {
+        reducedDiscounts[searchedDiscountIndex].value += discountAmount.centAmount / 100;
+      }
+    });
+    return reducedDiscounts;
+  }, []);
 };
 
 const cartGetters: CartGetters<Cart, LineItem> = {
