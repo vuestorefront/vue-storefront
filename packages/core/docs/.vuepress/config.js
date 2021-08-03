@@ -230,7 +230,8 @@ module.exports = {
 						['/integrate/boilerplate', 'Using the boilerplate'],
 						['/integrate/integration-guide', 'eCommerce'],
 						['/integrate/cms', 'CMS'],
-						['/integrate/cache-driver', 'Cache driver']
+						['/integrate/cache-driver', 'Cache driver'],
+						['/integrate/checklist', 'Integration Checklist']
 					]
 				},
 				{
