@@ -1,21 +1,29 @@
-/* istanbul ignore file */
+import { UserGetters } from '@vue-storefront/core';
+import type { User } from '@vue-storefront/boilerplate-api';
 
-import { UserGetters} from '@vue-storefront/core';
-import { User } from '../types';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getFirstName(user: User): string {
+  return '';
+}
 
-export const getUserFirstName = (user: User): string => user?.firstName || '';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getLastName(user: User): string {
+  return '';
+}
 
-export const getUserLastName = (user: User): string => user?.lastName || '';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getFullName(user: User): string {
+  return '';
+}
 
-export const getUserFullName = (user: User): string => user ? `${user.firstName} ${user.lastName}` : '';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getEmailAddress(user: User): string {
+  return '';
+}
 
-export const getUserEmailAddress = (user: User): string => user?.email || '';
-
-const userGetters: UserGetters<User> = {
-  getFirstName: getUserFirstName,
-  getLastName: getUserLastName,
-  getFullName: getUserFullName,
-  getEmailAddress: getUserEmailAddress
+export const userGetters: UserGetters<User> = {
+  getFirstName,
+  getLastName,
+  getFullName,
+  getEmailAddress
 };
-
-export default userGetters;
