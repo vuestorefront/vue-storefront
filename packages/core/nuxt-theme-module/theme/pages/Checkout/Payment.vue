@@ -111,7 +111,7 @@ import {
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
 import { ref, computed } from '@vue/composition-api';
-import { useMakeOrder, useCart, cartGetters } from '<%= options.generate.replace.composables %>';
+import { useMakeOrder, useCart, cartGetters, orderGetters } from '<%= options.generate.replace.composables %>';
 
 export default {
   name: 'ReviewOrder',

@@ -57,7 +57,7 @@
         </ValidationProvider>
         <ValidationProvider
           name="streetName"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
@@ -75,7 +75,7 @@
         </ValidationProvider>
         <ValidationProvider
           name="apartment"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
@@ -93,7 +93,7 @@
         </ValidationProvider>
         <ValidationProvider
           name="city"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >

@@ -1,26 +1,35 @@
-import { CheckoutGetters} from '@vue-storefront/core';
-import { ShippingMethod } from '@vue-storefront/boilerplate-api/src/types';
+import { CheckoutGetters } from '@vue-storefront/core';
+import type { ShippingMethod } from '@vue-storefront/boilerplate-api/src/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getShippingMethodId = (shippingMethod: ShippingMethod): string => '';
+function getShippingMethodId(method: ShippingMethod): string {
+  return '';
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getShippingMethodName = (shippingMethod: ShippingMethod): string => '';
+function getShippingMethodName(method: ShippingMethod): string {
+  return '';
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getShippingMethodDescription = (shippingMethod: ShippingMethod): string => '';
+function getShippingMethodDescription(method: ShippingMethod): string {
+  return '';
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getShippingMethodPrice = (shippingMethod: ShippingMethod): number => 0;
+function getShippingMethodPrice(method: ShippingMethod): number {
+  return 0;
+}
 
-export const getFormattedPrice = (price: number) => String(price);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getFormattedPrice(price: number): string {
+  return '';
+}
 
-const checkoutGetters: CheckoutGetters<ShippingMethod> = {
+export const checkoutGetters: CheckoutGetters<ShippingMethod> = {
   getShippingMethodId,
   getShippingMethodName,
   getShippingMethodDescription,
   getFormattedPrice,
   getShippingMethodPrice
 };
-
-export default checkoutGetters;
