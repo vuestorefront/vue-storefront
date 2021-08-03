@@ -118,8 +118,9 @@ import {
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import NewsletterModal from '~/components/NewsletterModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
-import useUiState from '../composables/useUiState';
+import { useUiState } from '../composables';
 import cacheControl from './../helpers/cacheControl';
+const { toggleNewsletterModal, isNewsletterModalOpen } = useUiState();
 
 export default {
   name: 'Home',
@@ -267,8 +268,7 @@ export default {
           rating: { max: 5, score: 4 },
           isInWishlist: false
         }
-      ],
-      emailAddressNotification: ''
+      ]
     };
   },
   methods: {
@@ -276,12 +276,11 @@ export default {
       this.products[index].isInWishlist = !this.products[index].isInWishlist;
     },
     handleNewsletterClick() {
-      const { toggleNewsletterModal } = useUiState();
       toggleNewsletterModal();
+      console.log(isNewsletterModalOpen);
     },
     onSubscribe(emailAddress) {
       console.log(`Email ${emailAddress} was added to newsletter.`);
-      const { toggleNewsletterModal } = useUiState();
       toggleNewsletterModal();
     }
   }

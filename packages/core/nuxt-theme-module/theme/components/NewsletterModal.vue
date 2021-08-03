@@ -43,8 +43,7 @@
               class="sf-button--text sf-scrollable__view-all desktop-only"
               @click="isHidden = !isHidden"
             >
-              <span v-if="isHidden">{{ $t('show more') }}</span>
-              <span v-else>{{ $t('hide') }}</span>
+              <span>{{ isHidden ? $t('show more') : $t('hide') }}</span>
             </SfButton>
           </template>
         </SfScrollable>
