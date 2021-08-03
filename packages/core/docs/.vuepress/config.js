@@ -236,7 +236,8 @@ module.exports = {
             ['/general/where-to-start', 'Where to start?'],
             ['/general/installation', 'Installation'],
             ['/general/key-concepts', 'Key concepts'],
-            ['/general/enterprise', 'Enterprise']
+            ['/general/enterprise', 'Enterprise'],
+            ['/general/support', 'Support']
           ]
         },
         {
