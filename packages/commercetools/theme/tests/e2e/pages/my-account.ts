@@ -1,4 +1,5 @@
-import { contains } from './utils/element';
+import Base from './base';
+import { contains, el } from './utils/element';
 
 class Sidebar {
   get heading(): Cypress.Chainable {
@@ -6,6 +7,19 @@ class Sidebar {
   }
 }
 
+class OrderHistory extends Base {
+
+  get path(): string {
+    return '/my-account/order-history';
+  }
+
+  get orderNumber(): Cypress.Chainable {
+    return el('order-number');
+  }
+
+}
+
 export {
-  Sidebar
+  Sidebar,
+  OrderHistory
 };
