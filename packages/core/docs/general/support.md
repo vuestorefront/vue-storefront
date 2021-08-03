@@ -8,11 +8,9 @@ To learn more about Vue Storefront, please visit our official [Vue Storefront Do
 
 Check out our [Forum](https://forum.vuestorefront.io/) and [Twitter](https://twitter.com/VueStorefront) to get the latest news and announcements.
 
-## Things to check before you ask your questions
+## How to ask for help?
 
 First, check our docs page - your answer may be already available there. Use the search feature - this will allow you to find specific sections quickly. While submitting a bug or feature request, search for possible duplicates - there is no reason to open a new issue when a similar one already exists.
-
-## How to ask for help?
 
 When possible, try to provide all the necessary information to reproduce the issue. If you encounter difficulties while following docs guides - always add links to specific pages/sections. Attach relevant logs, error messages, or screenshots to make your question easier to answer.
 
