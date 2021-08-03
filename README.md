@@ -1,8 +1,10 @@
 ![Vue Storefront](https://camo.githubusercontent.com/48c886ac0703e3a46bc0ec963e20f126337229fc/68747470733a2f2f643968687267346d6e767a6f772e636c6f756466726f6e742e6e65742f7777772e76756573746f726566726f6e742e696f2f32383062313964302d6c6f676f2d76735f3062793032633062793032633030303030302e6a7067)
-# Vue Storefront 2 (previously known as Next)
+# Vue Storefront 2
 
 
-[![Coverage Status](https://coveralls.io/repos/github/vuestorefront/vue-storefront/badge.svg?branch=next) ](https://coveralls.io/github/vuestorefront/vue-storefront/?branch=next)<a href="https://discord.vuestorefront.io">![Discord](https://img.shields.io/discord/770285988244750366?label=join%20discord&logo=Discord&logoColor=white)</a>
+[![Coverage Status](https://coveralls.io/repos/github/vuestorefront/vue-storefront/badge.svg?branch=next) ](https://coveralls.io/github/vuestorefront/vue-storefront/?branch=next)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Discord](https://img.shields.io/discord/770285988244750366?label=join%20discord&logo=Discord&logoColor=white)](https://discord.vuestorefront.io)
 
 Vue Storefront is the most popular and most advanced Frontend Platform for eCommerce
 - [Documentation](https://docs.vuestorefront.io/v2/)
