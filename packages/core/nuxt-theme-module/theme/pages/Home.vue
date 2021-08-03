@@ -120,7 +120,7 @@ import NewsletterModal from '~/components/NewsletterModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useUiState } from '../composables';
 import cacheControl from './../helpers/cacheControl';
-const { toggleNewsletterModal, isNewsletterModalOpen } = useUiState();
+const { toggleNewsletterModal } = useUiState();
 
 export default {
   name: 'Home',
@@ -277,7 +277,6 @@ export default {
     },
     handleNewsletterClick() {
       toggleNewsletterModal();
-      console.log(isNewsletterModalOpen);
     },
     onSubscribe(emailAddress) {
       console.log(`Email ${emailAddress} was added to newsletter.`);
