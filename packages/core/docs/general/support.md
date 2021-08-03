@@ -6,7 +6,7 @@ Feel invited to join our community at [Discord](http://discord.vuestorefront.io/
 
 To learn more about Vue Storefront, please visit our official [Vue Storefront Documentation](https://docs.vuestorefront.io/) page.
 
-Check out our [forum](https://forum.vuestorefront.io/) and [Twitter](https://twitter.com/VueStorefront) to get the latest news and announcements.
+Check out our [Forum](https://forum.vuestorefront.io/) and [Twitter](https://twitter.com/VueStorefront) to get the latest news and announcements.
 
 ## Things to check before you ask your questions
 
