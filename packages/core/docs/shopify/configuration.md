@@ -18,7 +18,7 @@ Shopify configuration is located in two places:
 }]
 ```
 
-- `useNuxtI18nConfig` - when this property is set to true, `@vue-storefront/shopify/nuxt` package will use `i18n` config object provided in `nuxt.config.js`. When set to false, `i18n` config should be declared directly inside this package configuration. You can read more about `i18n` config in Vue Storefront [here](../advanced/internationalization.md)
+- `useNuxtI18nConfig` - when enabled, `@vue-storefront/shopify/nuxt` package will use `i18n` config object provided in `nuxt.config.js`. Otherwise, the `i18n` config should be declared directly inside this package configuration. You can read more about it on [Internationalization](https://docs.vuestorefront.io/v2/advanced/internationalization.html) page
 
 ## Middleware shopify configuration
 

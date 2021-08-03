@@ -951,7 +951,7 @@ ___
 
 ### `AttributeDefinitionType`
 
-(https://dev.commercetools.com/http-api-projects-productTypes.html#attributetype)[https://dev.commercetools.com/http-api-projects-productTypes.html#attributetype]
+(https://shopify.dev/api/storefront/reference/common-objects/attributeinput)[https://shopify.dev/api/storefront/reference/common-objects/attributeinput]
 
 #### Type declaration:
 
@@ -6769,7 +6769,7 @@ ___
 ### `Order`
 
 An order can be created from a cart, usually after a checkout process has been completed.
-[documentation](https://docs.commercetools.com/http-api-projects-orders.html)
+[documentation](https://shopify.dev/api/storefront/reference/orders/order)
 
 Defined in: [packages/shopify/api-client/src/types/GraphQL.ts:3982](https://github.com/vuestorefront/shopify/blob/master/packages/api-client/src/types/graphQL.ts#L3982)
 
@@ -6790,38 +6790,6 @@ Name | Type |
 `version` | [*Scalars*](#scalars)[*Long*] |
 
 Defined in: [packages/shopify/api-client/src/types/GraphQL.ts:4055](https://github.com/vuestorefront/shopify/blob/master/packages/api-client/src/types/graphQL.ts#L4055)
-
-___
-
-### `OrderCustomFieldListArgs`
-
-An order can be created from a cart, usually after a checkout process has been completed.
-[documentation](https://docs.commercetools.com/http-api-projects-orders.html)
-
-#### Type declaration:
-
-Name | Type |
-:------ | :------ |
-`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-
-Defined in: [packages/shopify/api-client/src/types/GraphQL.ts:4050](https://github.com/vuestorefront/shopify/blob/master/packages/api-client/src/types/graphQL.ts#L4050)
-
-___
-
-### `OrderCustomFieldsRawArgs`
-
-An order can be created from a cart, usually after a checkout process has been completed.
-[documentation](https://docs.commercetools.com/http-api-projects-orders.html)
-
-#### Type declaration:
-
-Name | Type |
-:------ | :------ |
-`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-
-Defined in: [packages/shopify/api-client/src/types/GraphQL.ts:4042](https://github.com/vuestorefront/shopify/blob/master/packages/api-client/src/types/graphQL.ts#L4042)
 
 ___
 
@@ -7003,41 +6971,9 @@ ___
 ### `Payment`
 
 Payments hold information about the current state of receiving and/or refunding money.
-[documentation](https://docs.commercetools.com/http-api-projects-payments)
+[documentation](https://shopify.dev/api/storefront/reference/checkouts/payment)
 
 Defined in: [packages/shopify/api-client/src/types/GraphQL.ts:4177](https://github.com/vuestorefront/shopify/blob/master/packages/api-client/src/types/graphQL.ts#L4177)
-
-___
-
-### `PaymentCustomFieldListArgs`
-
-Payments hold information about the current state of receiving and/or refunding money.
-[documentation](https://docs.commercetools.com/http-api-projects-payments)
-
-#### Type declaration:
-
-Name | Type |
-:------ | :------ |
-`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-
-Defined in: [packages/shopify/api-client/src/types/GraphQL.ts:4227](https://github.com/vuestorefront/shopify/blob/master/packages/api-client/src/types/graphQL.ts#L4227)
-
-___
-
-### `PaymentCustomFieldsRawArgs`
-
-Payments hold information about the current state of receiving and/or refunding money.
-[documentation](https://docs.commercetools.com/http-api-projects-payments)
-
-#### Type declaration:
-
-Name | Type |
-:------ | :------ |
-`excludeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-`includeNames`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*][]\> |
-
-Defined in: [packages/shopify/api-client/src/types/GraphQL.ts:4219](https://github.com/vuestorefront/shopify/blob/master/packages/api-client/src/types/graphQL.ts#L4219)
 
 ___
 
@@ -7052,22 +6988,6 @@ Name | Type |
 `payments` | [*Payment*](#payment)[] |
 
 Defined in: [packages/shopify/api-client/src/types/GraphQL.ts:4232](https://github.com/vuestorefront/shopify/blob/master/packages/api-client/src/types/graphQL.ts#L4232)
-
-___
-
-### `PaymentInterfaceInteractionsRawArgs`
-
-Payments hold information about the current state of receiving and/or refunding money.
-[documentation](https://docs.commercetools.com/http-api-projects-payments)
-
-#### Type declaration:
-
-Name | Type |
-:------ | :------ |
-`limit`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
-`offset`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Int*]\> |
-
-Defined in: [packages/shopify/api-client/src/types/GraphQL.ts:4211](https://github.com/vuestorefront/shopify/blob/master/packages/api-client/src/types/graphQL.ts#L4211)
 
 ___
 
@@ -12215,44 +12135,6 @@ Name | Type |
 `dummy`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*String*]\> |
 
 Defined in: [packages/shopify/api-client/src/types/GraphQL.ts:6758](https://github.com/vuestorefront/shopify/blob/master/packages/api-client/src/types/graphQL.ts#L6758)
-
-___
-
-### `State`
-
-[State](http://dev.commercetools.com/http-api-projects-states.html)
-
-Defined in: [packages/shopify/api-client/src/types/GraphQL.ts:6771](https://github.com/vuestorefront/shopify/blob/master/packages/api-client/src/types/graphQL.ts#L6771)
-
-___
-
-### `StateDescriptionArgs`
-
-[State](http://dev.commercetools.com/http-api-projects-states.html)
-
-#### Type declaration:
-
-Name | Type |
-:------ | :------ |
-`acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
-`locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
-
-Defined in: [packages/shopify/api-client/src/types/GraphQL.ts:6799](https://github.com/vuestorefront/shopify/blob/master/packages/api-client/src/types/graphQL.ts#L6799)
-
-___
-
-### `StateNameArgs`
-
-[State](http://dev.commercetools.com/http-api-projects-states.html)
-
-#### Type declaration:
-
-Name | Type |
-:------ | :------ |
-`acceptLanguage`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*][]\> |
-`locale`? | [*Maybe*](#maybe)<[*Scalars*](#scalars)[*Locale*]\> |
-
-Defined in: [packages/shopify/api-client/src/types/GraphQL.ts:6793](https://github.com/vuestorefront/shopify/blob/master/packages/api-client/src/types/graphQL.ts#L6793)
 
 ___
 
