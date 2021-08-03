@@ -125,7 +125,7 @@ export default {
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const coupons = computed(() => cartGetters.getCoupons(cart.value));
-    const discounts = computed(() => cartGetters.getDiscounts(cart.value).filter(discount => discount.valueType !== 'GiftLineItem'));
+    const discounts = computed(() => cartGetters.getDiscounts(cart.value).filter(discount => discount.valueType !== 'giftLineItem'));
 
     const onPromoCodeInput = (input) => {
       promoCode.value = input;
