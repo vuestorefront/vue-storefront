@@ -82,19 +82,6 @@ Vue Storefront will require **at least** the following features from your eComme
 - facet filtering
 - order notifications
 
-
-## Getting started
-
-
-Copy our [integration boilerplate](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and replace all `boilerplate` strings with the name of your platform (for example `commercetools` `about-you`). The strings can be found in imports and `package.json` of every package.
-
-::: tip Test with the default theme
-The default theme is working out of the box with mocked data from boilerplate so it's a perfect test environment for your integration. Be sure to test it every time you make some changes
-:::
-
-Once you copied and renamed the boilerplate run `yarn dev` in your `theme` folder to see if everything works.
-
-
 ## Creating an api-client
 
 Each integration starts with `api-client`. This is one of the packages which is responsible for communication between the Vue Storefront and external API. That's exactly the place where you have to configure your API connection, write your API functions, and expose generated API client to the users.

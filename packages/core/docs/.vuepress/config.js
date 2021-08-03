@@ -199,11 +199,11 @@ module.exports = {
 					collapsable: false,
 					children: [
 						['/guide/theme', 'Theme'],
-						['/guide/configuration', 'Configuration'],						
+						['/guide/configuration', 'Configuration'],
 						['/guide/composables', 'Composables'],
 						['/guide/product-catalog', 'Product Catalog'],
 						['/guide/authentication', 'Authentication'],
-						['/guide/user-profile', 'User profile'],						
+						['/guide/user-profile', 'User profile'],
 						['/guide/cart-and-wishlist', 'Cart and wishlist'],
             ['/guide/checkout', 'Checkout']
 					]
@@ -227,6 +227,7 @@ module.exports = {
 					title: 'Building integration',
 					collapsable: true,
 					children: [
+						['/integrate/boilerplate', 'Using the boilerplate'],
 						['/integrate/integration-guide', 'eCommerce'],
 						['/integrate/cms', 'CMS'],
 						['/integrate/cache-driver', 'Cache driver']
