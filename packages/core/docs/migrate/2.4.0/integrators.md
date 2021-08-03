@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In 2.4.0, from Integrator point of view, the most important change is a new `checkout.js` middleware - its main goal is to manage access to the checkout steps.
+In 2.4.0, from the Integrator point of view, the most important change is a new `checkout.js` middleware - its main goal is to manage access to the checkout steps.
 
 ## Changes
 
