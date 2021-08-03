@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
+    "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@commitlint/config-lerna-scopes": "^13.1.0",
     "@rollup/plugin-babel": "^5.1.0",
