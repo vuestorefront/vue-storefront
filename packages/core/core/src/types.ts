@@ -52,8 +52,8 @@ export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any> {
   [x: string]: any;
 }
 
-export interface Context {
-  [x: string]: IntegrationContext | any;
+export interface Context<CLIENT = any, CONFIG = any, API = any> {
+  [x: string]: IntegrationContext<CLIENT, CONFIG, API> | any;
 }
 
 export type PlatformApi = {
