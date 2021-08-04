@@ -83,11 +83,9 @@ export const getCartDiscounts = (cart: Cart): AgnosticDiscount[] => {
   return lineItems.reduce((reducedDiscounts, lineItem) => {
     const discounts = lineItem.discountedPricePerQuantity;
     const lastDiscountItemIndex = discounts.length - 1;
-    
-    discounts[lastDiscountItemIndex]?.discountedPrice.includedDiscounts ....
     const quantity = lineItem.quantity;
 
-    discounts[discountsLength - 1]?.discountedPrice.includedDiscounts.forEach(includedDiscount => {
+    discounts[lastDiscountItemIndex]?.discountedPrice.includedDiscounts.forEach(includedDiscount => {
       const searchedDiscountIndex = reducedDiscounts.findIndex(discount => discount.id === includedDiscount.discount.id);
       const discountDetails = includedDiscount.discount;
       const discountValue = includedDiscount.discountedAmount.centAmount * quantity / 100;
