@@ -34,7 +34,7 @@
           :description="$t('You can unsubscribe at any time')"
           :level="3"
         />
-        <SfScrollable :maxContentHeight="isMobile ? 'auto' : '3.75rem'" :class="{ 'is-open': !isHidden }">
+        <SfScrollable maxContentHeight="3.75rem" :class="{ 'is-open': !isHidden }">
           <i18n tag="p" class="modal__content" path="subscribeToNewsletterModalContent">
             <SfLink link="https://www.vuestorefront.io/privacy-policy">{{ $t('Privacy Policy') }}</SfLink>
           </i18n>
@@ -53,11 +53,7 @@
 </template>
 <script>
 import { SfModal, SfHeading, SfInput, SfButton, SfScrollable, SfBar, SfLink } from '@storefront-ui/vue';
-import {
-  mapMobileObserver,
-  unMapMobileObserver
-} from '@storefront-ui/vue/src/utilities/mobile-observer.js';
-import { ref, computed, onBeforeUnmount } from '@vue/composition-api';
+import { ref } from '@vue/composition-api';
 import { useUiState } from '~/composables';
 
 export default {
@@ -76,21 +72,15 @@ export default {
 
     const isHidden = ref(true);
     const emailAddress = ref('');
-    const isMobile = computed(() => mapMobileObserver().isMobile.get());
 
     const closeModal = () => {
       toggleNewsletterModal();
     };
 
-    onBeforeUnmount(() => {
-      unMapMobileObserver();
-    });
-
     return {
       isNewsletterModalOpen,
       toggleNewsletterModal,
       isHidden,
-      isMobile,
       emailAddress,
       closeModal
     };
