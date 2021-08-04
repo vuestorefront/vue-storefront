@@ -64,4 +64,4 @@ const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   }
 };
 
-export default useCartFactory<Cart, CartItem, Product>(params);
+export const useCart = useCartFactory<Cart, CartItem, Product>(params);
