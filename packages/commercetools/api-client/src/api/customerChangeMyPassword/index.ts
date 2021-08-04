@@ -1,15 +1,13 @@
 import CustomerChangeMyPassword from './defaultMutation';
 import { ChangeMyPasswordResponse } from '../../types/Api';
-import { getStoreKey } from '../../helpers/utils';
 
-const customerChangeMyPassword = async ({ client, config }, version: any, currentPassword: string, newPassword: string): Promise<ChangeMyPasswordResponse> => {
+const customerChangeMyPassword = async ({ client }, version: any, currentPassword: string, newPassword: string): Promise<ChangeMyPasswordResponse> => {
   return await client.mutate({
     mutation: CustomerChangeMyPassword,
     variables: {
       version,
       currentPassword,
-      newPassword,
-      ...getStoreKey(config.store)
+      newPassword
     },
     fetchPolicy: 'no-cache'
   }) as ChangeMyPasswordResponse;

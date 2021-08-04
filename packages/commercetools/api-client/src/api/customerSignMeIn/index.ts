@@ -1,10 +1,9 @@
 import { CustomerSignMeInDraft } from '../../types/GraphQL';
 import CustomerSignMeInMutation from './defaultMutation';
 import { SignInResponse } from './../../types/Api';
-import { getStoreKey } from '../../helpers/utils';
 
 const customerSignMeIn = async (context, draft: CustomerSignMeInDraft): Promise<SignInResponse> => {
-  const { locale, acceptLanguage, currency, store } = context.config;
+  const { locale, acceptLanguage, currency } = context.config;
 
   const loginResponse = await context.client.mutate({
     mutation: CustomerSignMeInMutation,
@@ -12,8 +11,7 @@ const customerSignMeIn = async (context, draft: CustomerSignMeInDraft): Promise<
       draft,
       locale,
       acceptLanguage,
-      currency,
-      ...getStoreKey(store)
+      currency
     },
     fetchPolicy: 'no-cache'
   }) as SignInResponse;
