@@ -195,38 +195,53 @@ module.exports = {
         }
       ],
       '/shopify/': [
-        {
-          title: 'Essentials',
-          collapsable: false,
-          children: [
-            ['/shopify/', 'Introduction'],
-            ['/shopify/getting-started', 'Getting Started'],
-            ['/shopify/configuration', 'Configuration'],
-            ['/shopify/feature-list', 'Feature list'],
-            ['/shopify/maintainers', 'Maintainers and support']
-          ]
-        },
-        {
-          title: 'Composables',
-          collapsable: false,
-          children: [
-            ['/shopify/use-cart', 'useCart'],
-            ['/shopify/use-category', 'useCategory'],
-            ['/shopify/use-content', 'useContent'],
-            ['/shopify/use-product', 'useProduct'],
-            ['/shopify/use-search', 'useSearch'],
-            ['/shopify/use-user', 'useUser'],
-            ['/shopify/use-user-order', 'useUserOrders']
-          ]
-        },
-        {
-          title: 'Other',
-          collapsable: false,
-          children: [
-            ['/shopify/checkout', 'Checkout']
-          ]
-        }
-      ],
+                {
+                    title: 'Essentials',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/', 'Introduction'],
+                        ['/shopify/getting-started', 'Getting Started'],
+                        ['/shopify/configuration', 'Configuration'],
+                        ['/shopify/authorization-strategy', 'Authorization'],
+                        ['/shopify/feature-list', 'Feature list'],
+                        ['/shopify/maintainers', 'Maintainers and support']
+                    ]
+                },
+                {
+                    title: 'Composables',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/use-product', 'useProduct'],
+                        ['/shopify/use-user', 'useUser'],
+                        ['/shopify/use-user-order', 'useUserOrder'],
+                        ['/shopify/use-cart', 'useCart'],
+                        ['/shopify/use-category', 'useCategory'],
+                        ['/shopify/use-content', 'useContent'],
+                        ['/shopify/use-search', 'useSearch'],
+                    ]
+                },
+                {
+                    title: 'API Client',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/api-client-reference', 'Methods reference']
+                    ]
+                },
+                {
+                    title: 'Theme',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/auth-middleware', 'Auth Middleware']
+                    ],
+                },
+                {
+                    title: 'Other',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/checkout', 'Checkout']
+                    ],
+                }
+            ],
       '/': [
         {
           title: 'Getting started',
