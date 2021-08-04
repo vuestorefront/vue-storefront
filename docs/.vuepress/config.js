@@ -1,9 +1,7 @@
 const GTM_TAG = 'GTM-WMDC3CP';
 
 module.exports = {
-  title: 'Vue Storefront 1',
   base: '/v1/',
-  description: 'Vue Storefront 1 documentation',
   port: 8081,
   markdown: {
     toc: {
@@ -155,5 +153,7 @@ module.exports = {
         },
       ],
     },
-  }
+  },
+  title: 'Vue Storefront',
+  description: 'Headless PWA for eCommerce',
 };
