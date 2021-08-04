@@ -1,5 +1,9 @@
+const GTM_TAG = 'GTM-WMDC3CP';
+
 module.exports = {
+  title: 'Vue Storefront 1',
   base: '/v1/',
+  description: 'Vue Storefront 1 documentation',
   port: 8081,
   markdown: {
     toc: {
@@ -8,10 +12,21 @@ module.exports = {
   },
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
-    ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.12.1/diff2html.min.js'}]
+    ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.12.1/diff2html.min.js'}],
+    // HubSpot
+    ['script', { async: true, defer: true, src: 'https://js.hs-scripts.com/8443671.js', id: 'hs-script-loader' }],
+    // Google Tag Manager
+    ['script', {}, [`
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','${GTM_TAG}');
+    `]]
   ],
   themeConfig: {
-    repo: 'DivanteLtd/vue-storefront',
+    GTM_TAG,
+    repo: 'vuestorefront/vue-storefront',
     docsDir: 'docs',
     editLinks: true,
     sidebarDepth: 3,
@@ -140,7 +155,5 @@ module.exports = {
         },
       ],
     },
-  },
-  title: 'Vue Storefront',
-  description: 'Headless PWA for eCommerce',
+  }
 };
