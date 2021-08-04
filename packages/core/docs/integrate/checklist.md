@@ -5,6 +5,7 @@ When developing an integration, a good way to find if you have a complete integr
 Fell free to copy this checklist and past it on your repository as a current issue, so you can have a track of what is needed to be done.
 
 ## Developing an integration checklist
+
 ### Repository
 ```md
 - [ ] I've added `ISSUE_TEMPLATES` to my repository 
@@ -21,7 +22,7 @@ Fell free to copy this checklist and past it on your repository as a current iss
 - [ ] I've added information on how to contribute on the integration
 - [ ] I've added information on how to contribute on the documentation
 - [ ] I've added information on how to use the integration in a new project in my documentation
-- [ ] I've create the documentation for the `client-api` methods
+- [ ] I've created the documentation for the `client-api` methods
 - [ ] I've created the documentation for the `composables` composable
 - [ ] I've created the documentation for the `composables` getters
 - [ ] I've created the documentation for the `composables` nuxt module options
@@ -41,23 +42,45 @@ Fell free to copy this checklist and past it on your repository as a current iss
 ```
 
 ### Composables
+```md
 - [ ] I've created the basic composable for the integration
 - [ ] I've created the basic getters for the integration
 - [ ] I've created the **Nuxt** module for the integration
 - [ ] I've created unit testing for the `composables` methods
 - [ ] I've created unit testing for the `composables` getters
 - [ ] I've created integration tests for the `composables` methods
-
+```
 ### Theme
+```md
 - [ ] I've added the information on how to start using the integration on the `README.md` file
 - [ ] My theme follows the principles of Storefront UI
 - [ ] I've created E2E tests for the implementation
 - [ ] I've created unit testing for the `theme` components
 - [ ] I've created integration tests for the `theme` components
+```
 
 ## Publishing an integration checklist
+
 ### Repository
+```md
+- [ ] The packages dependencies and devDependencies are updated
+```
 ### Docs
+```md
+- [ ] The docs have been updated with the latest changes
+```
 ### API-Client
+```md
+- [ ] The packages dependencies and devDependencies are updated
+- [ ] The version of `client-api` follows the SemVer model, and has been bumped
+```
 ### Composables
+```md
+- [ ] The packages dependencies and devDependencies are updated
+- [ ] The version of `composables` follows the SemVer model, and has been bumped
+```
 ### Theme
+```md
+- [ ] The packages dependencies and devDependencies are updated
+- [ ] The version of `theme` follows the SemVer model, and has been bumped
+```
