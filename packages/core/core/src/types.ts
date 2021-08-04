@@ -523,7 +523,7 @@ export interface AgnosticDiscount {
   id: string;
   name: string;
   value: number;
-  valueType: 'relative' | 'absolute' | 'fixed' | 'giftLineItem';
+  valueType: string;
   typeId: string;
   requiresCoupon: boolean;
   description: string;

@@ -797,8 +797,15 @@ export type CartDiscountUpdateAction = {
 };
 
 export type CartDiscountValue = {
-  type: Scalars["String"];
+  type: CartDiscountValueType;
 };
+
+export enum CartDiscountValueType {
+  RELATIVE = 'relative',
+  ABSOLUTE = 'absolute',
+  FIXED = 'fixed',
+  GIFT = 'giftLineItem'
+}
 
 export type CartDiscountValueInput = {
   relative?: Maybe<RelativeDiscountValueInput>;
