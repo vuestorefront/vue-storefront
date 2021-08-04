@@ -56,7 +56,7 @@
             <SfButton
               class="sf-button--text desktop-only"
               style="margin: 0 0 1rem auto; display: block;"
-              @click="removeCoupon({ coupon: coupon })"
+              @click="removeCoupon({ coupon })"
             >
               {{ $t('Remove coupon') }}
             </SfButton>
