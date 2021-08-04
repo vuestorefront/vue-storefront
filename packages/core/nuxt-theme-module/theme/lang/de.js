@@ -120,6 +120,8 @@ export default {
   'Product suggestions': 'Produktvorschläge',
   'Search for items': 'Nach Artikeln suchen',
   'Enter promo code': 'Geben Sie den Promo-Code ein',
+  'This promo code is invalid': 'Dieser Gutscheincode ist ungültig',
+  'Remove coupon': 'Gutschein entfernen',
   'Shipping method': 'Versandart',
   'Continue to billing': 'Weiter zur Abrechnung',
   'Payment methods': 'Zahlungsmethoden',
