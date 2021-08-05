@@ -1,18 +1,20 @@
 import {
   Context,
   useProductFactory,
-  ProductsSearchParams,
   UseProductFactoryParams
 } from '@vue-storefront/core';
-import { ProductsResponse } from '../types';
+import type { Product } from '@vue-storefront/boilerplate-api';
+import type {
+  UseProductSearchParams as SearchParams
+} from '../types';
 
-const params: UseProductFactoryParams<ProductsResponse, any> = {
-  productsSearch: async (context: Context, params: ProductsSearchParams): Promise<ProductsResponse> => {
-    console.log('Mocked: productsSearch');
-    const { customQuery, ...searchParams } = params;
+const params: UseProductFactoryParams<Product, SearchParams> = {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  productsSearch: async (context: Context, params) => {
+    console.log('Mocked: useProduct.productsSearch');
 
-    return await context.$boilerplate.api.getProduct(searchParams, customQuery);
+    return {};
   }
 };
 
-export default useProductFactory<ProductsResponse, any>(params);
+export const useProduct = useProductFactory<Product, SearchParams>(params);

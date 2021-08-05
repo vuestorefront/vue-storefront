@@ -16,7 +16,10 @@ export function useUserOrderFactory<
   API extends PlatformApi = any
 >(factoryParams: UseUserOrderFactoryParams<ORDERS, ORDER_SEARCH_PARAMS, API>) {
   return function useUserOrder(): UseUserOrder<ORDERS, ORDER_SEARCH_PARAMS, API> {
-    const orders: Ref<ORDERS> = sharedRef([], 'useUserOrder-orders');
+    const orders: Ref<ORDERS> = sharedRef({
+      results: [],
+      total: 0
+    }, 'useUserOrder-orders');
     const loading: Ref<boolean> = sharedRef(false, 'useUserOrder-loading');
     const error: Ref<UseUserOrderErrors> = sharedRef({}, 'useUserOrder-error');
 
