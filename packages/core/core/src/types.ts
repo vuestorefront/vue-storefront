@@ -288,7 +288,6 @@ export interface UseCart
   CART,
   CART_ITEM,
   PRODUCT,
-  COUPON,
   API extends PlatformApi = any
 > extends Composable<API> {
   cart: ComputedProperty<CART>;
@@ -299,7 +298,7 @@ export interface UseCart
   updateItemQty(params: { product: CART_ITEM; quantity?: number; customQuery?: CustomQuery }): Promise<void>;
   clear(): Promise<void>;
   applyCoupon(params: { couponCode: string; customQuery?: CustomQuery }): Promise<void>;
-  removeCoupon(params: { coupon: COUPON; customQuery?: CustomQuery }): Promise<void>;
+  removeCoupon(params: { couponCode: string; customQuery?: CustomQuery }): Promise<void>;
   load(): Promise<void>;
   load(params: { customQuery?: CustomQuery }): Promise<void>;
   error: ComputedProperty<UseCartErrors>;
