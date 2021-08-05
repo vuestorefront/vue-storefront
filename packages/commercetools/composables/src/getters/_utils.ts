@@ -89,10 +89,9 @@ export const createPrice = (product: ProductVariant | LineItem): AgnosticPrice =
   }
 
   const quantity = isLineItem(product) ? getCartItemQty(product) : 1;
-  const regularPriceSingleItem = getPrice(product.price);
-  const regularPrice = regularPriceSingleItem ? regularPriceSingleItem * quantity : regularPriceSingleItem;
-  const specialPriceSingleItem = getSpecialPrice(product);
-  const specialPrice = specialPriceSingleItem ? specialPriceSingleItem * quantity : specialPriceSingleItem;
+
+  const regularPrice = getPrice(product.price) * quantity;
+  const specialPrice = getSpecialPrice(product) * quantity;
 
   return {
     regular: regularPrice,
