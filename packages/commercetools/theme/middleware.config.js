@@ -1,3 +1,4 @@
+
 module.exports = {
   integrations: {
     ct: {
@@ -14,7 +15,8 @@ module.exports = {
           ]
         },
         currency: 'USD',
-        country: 'US'
+        country: 'US',
+        inventoryMode: 'None'
       }
     }
   }
