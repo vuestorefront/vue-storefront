@@ -231,7 +231,8 @@ module.exports = {
 						['/integrate/integration-guide', 'eCommerce'],
 						['/integrate/cms', 'CMS'],
 						['/integrate/cache-driver', 'Cache driver'],
-						['/integrate/checklist', 'Integration Checklist']
+						['/integrate/checklist', 'Integration Checklist'],
+						['/integrate/good-practices', 'Good Practices']
 					]
 				},
 				{
