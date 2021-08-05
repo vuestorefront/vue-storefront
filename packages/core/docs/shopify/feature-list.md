@@ -1,6 +1,3 @@
----
-sidebar: false
----
 # Ecommerce and theme features
 
 The following document lists the most important (but not all!) features of [Shopify integration with Vue Storefront 2](https://www.vuestorefront.io/shopify) offering.
