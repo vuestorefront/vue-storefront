@@ -1,6 +1,6 @@
 import customerUpdateMe from '../../src/api/customerUpdateMe';
 
-jest.mock('../../src/api/customerUpdateMe/defaultMutation.ts', () => '');
+jest.unmock('../../src/api/customerUpdateMe/defaultMutation.ts');
 
 const mockContext = {
   client: {
