@@ -358,10 +358,15 @@ import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import Vue from 'vue';
+import cacheControl from './../helpers/cacheControl';
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
   transition: 'fade',
+  middleware: cacheControl({
+    'max-age': 60,
+    'stale-when-revalidate': 5
+  }),
   setup(props, context) {
     const th = useUiHelpers();
     const uiState = useUiState();
@@ -378,7 +383,7 @@ export default {
     const activeCategory = computed(() => {
       const items = categoryTree.value.items;
 
-      if (!items) {
+      if (!items || !items.length) {
         return '';
       }
 

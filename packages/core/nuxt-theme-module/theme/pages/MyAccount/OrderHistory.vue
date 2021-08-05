@@ -83,6 +83,7 @@
             </SfTableData>
           </SfTableRow>
         </SfTable>
+        <p>Total orders - {{ totalOrders }}</p>
       </div>
     </SfTab>
     <SfTab title="Returns">
@@ -165,7 +166,8 @@ export default {
 
     return {
       tableHeaders,
-      orders: computed(() => orders ? orders.value : []),
+      orders: computed(() => orders ? orders.value.results : []),
+      totalOrders: computed(() => orderGetters.getOrdersTotal(orders.value)),
       getStatusTextClass,
       orderGetters,
       downloadOrder,

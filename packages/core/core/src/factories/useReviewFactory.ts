@@ -1,14 +1,19 @@
 import { Ref, computed } from '@vue/composition-api';
-import { CustomQuery, UseReview, Context, FactoryParams, UseReviewErrors } from '../types';
+import { CustomQuery, UseReview, Context, FactoryParams, UseReviewErrors, PlatformApi } from '../types';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
-export interface UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> extends FactoryParams {
+export interface UseReviewFactoryParams<
+  REVIEW,
+  REVIEWS_SEARCH_PARAMS,
+  REVIEW_ADD_PARAMS,
+  API extends PlatformApi = any
+> extends FactoryParams<API> {
   searchReviews: (context: Context, params: REVIEWS_SEARCH_PARAMS & { customQuery?: CustomQuery }) => Promise<REVIEW>;
   addReview: (context: Context, params: REVIEW_ADD_PARAMS & { customQuery?: CustomQuery }) => Promise<REVIEW>;
 }
 
-export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS>(
-  factoryParams: UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS>
+export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS, API extends PlatformApi = any>(
+  factoryParams: UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS, API>
 ) {
   return function useReview(id: string): UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
     const reviews: Ref<REVIEW> = sharedRef([], `useReviews-reviews-${id}`);
@@ -17,7 +22,11 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       search: null,
       addReview: null
     }, `useReviews-error-${id}`);
-    const _factoryParams = configureFactoryParams(factoryParams);
+
+    const _factoryParams = configureFactoryParams(
+      factoryParams,
+      { mainRef: reviews, alias: 'currentReviews', loading, error }
+    );
 
     const search = async (searchParams): Promise<void> => {
       Logger.debug(`useReview/${id}/search`, searchParams);
@@ -50,6 +59,7 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
     };
 
     return {
+      api: _factoryParams.api,
       search,
       addReview,
       reviews: computed(() => reviews.value),

@@ -10,14 +10,16 @@ interface OrdersData {
 }
 
 const getOrders = async (context, params, customQuery?: CustomQuery) => {
-  const { locale, acceptLanguage } = context.config;
+  const { locale, acceptLanguage, currency } = context.config;
+
   const defaultVariables = {
     where: buildOrderWhere(params),
     sort: params.sort,
     limit: params.limit,
     offset: params.offset,
     acceptLanguage,
-    locale
+    locale,
+    currency
   };
 
   const { getMyOrders } = context.extendQuery(

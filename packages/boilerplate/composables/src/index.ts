@@ -1,18 +1,34 @@
-/* istanbul ignore file */
+// Composables
+export { useBilling } from './useBilling';
+export { useCart } from './useCart';
+export { useCategory } from './useCategory';
+export { useContent } from './useContent';
+export { useFacet } from './useFacet';
+export { useForgotPassword } from './useForgotPassword';
+export { useMakeOrder } from './useMakeOrder';
+export { useProduct } from './useProduct';
+export { useReview } from './useReview';
+export { useShipping } from './useShipping';
+export { useShippingProvider } from './useShippingProvider';
+export { useUser } from './useUser';
+export { useUserBilling } from './useUserBilling';
+export { useUserOrder } from './useUserOrder';
+export { useUserShipping } from './useUserShipping';
+export { useWishlist } from './useWishlist';
 
-export { default as useBilling } from './useBilling';
-export { default as useCart } from './useCart';
-export { default as useCategory } from './useCategory';
-export { default as useContent } from './useContent';
-export { default as useFacet } from './useFacet';
-export { default as useMakeOrder } from './useMakeOrder';
-export { default as useProduct } from './useProduct';
-export { default as useReview } from './useReview';
-export { default as useShipping } from './useShipping';
-export { default as useShippingProvider } from './useShippingProvider';
-export { default as useUser } from './useUser';
-export { default as useUserBilling } from './useUserBilling';
-export { default as useUserOrder } from './useUserOrder';
-export { default as useUserShipping } from './useUserShipping';
-export { default as useWishlist } from './useWishlist';
-export * from './getters';
+// Getters
+export { cartGetters } from './getters/cartGetters';
+export { categoryGetters } from './getters/categoryGetters';
+export { checkoutGetters } from './getters/checkoutGetters';
+export { facetGetters } from './getters/facetGetters';
+export { forgotPasswordGetters } from './getters/forgotPasswordGetters';
+export { orderGetters } from './getters/orderGetters';
+export { productGetters } from './getters/productGetters';
+export { reviewGetters } from './getters/reviewGetters';
+export { userBillingGetters } from './getters/userBillingGetters';
+export { userGetters } from './getters/userGetters';
+export { userShippingGetters } from './getters/userShippingGetters';
+export { wishlistGetters } from './getters/wishlistGetters';
+
+// Types
+export * from './types';

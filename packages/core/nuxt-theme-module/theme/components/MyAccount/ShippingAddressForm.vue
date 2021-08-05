@@ -1,5 +1,5 @@
 <template>
-  <b>Please implement vendor specific ShippingAddressForm component in 'components/MyAccount' directory</b>
+  <b>Please implement vendor-specific ShippingAddressForm component in the 'components/MyAccount' directory</b>
 </template>
 
 <script>
