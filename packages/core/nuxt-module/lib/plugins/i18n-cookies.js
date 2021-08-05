@@ -26,7 +26,6 @@ const i18nCookiesPlugin = ({ $cookies }) => {
     sameSite: 'lax',
     expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)) // Year from now
   };
-
   !$cookies.get(VSF_CURRENCY_COOKIE) && $cookies.set(VSF_CURRENCY_COOKIE, settings.currency, cookieOptions);
   !$cookies.get(VSF_COUNTRY_COOKIE) && $cookies.set(VSF_COUNTRY_COOKIE, settings.country, cookieOptions);
 };
