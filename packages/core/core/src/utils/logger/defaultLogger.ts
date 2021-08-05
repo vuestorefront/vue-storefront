@@ -1,10 +1,13 @@
 /* istanbul ignore file */
 
+import { makeMethod } from './makeMethod';
+import { LogName } from './types';
+
 const defaultLogger = {
-  debug: (message: any, ...args) => console.debug('[VSF][debug]', message, ...args),
-  info: (message: any, ...args) => console.info('[VSF][info]', message, ...args),
-  warn: (message: any, ...args) => console.warn('[VSF][warn]', message, ...args),
-  error: (message: any, ...args) => console.error('[VSF][error]', message, ...args)
+  debug: makeMethod(LogName.Debug, console.debug)(),
+  info: makeMethod(LogName.Info, console.info)(),
+  warn: makeMethod(LogName.Warn, console.warn)(),
+  error: makeMethod(LogName.Error, console.error)()
 };
 
 export default defaultLogger;

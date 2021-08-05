@@ -52,8 +52,8 @@ export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any> {
   [x: string]: any;
 }
 
-export interface Context {
-  [x: string]: IntegrationContext | any;
+export interface Context<CLIENT = any, CONFIG = any, API = any> {
+  [x: string]: IntegrationContext<CLIENT, CONFIG, API> | any;
 }
 
 export type PlatformApi = {
@@ -734,6 +734,12 @@ export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   getItemQty: (item: ORDER_ITEM) => number;
   getItemPrice: (item: ORDER_ITEM) => number;
   getFormattedPrice: (price: number) => string;
+  getOrdersTotal: (orders: {
+    offset: number;
+    count: number;
+    total: number;
+    results: Array<ORDER>;
+  }) => number;
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
