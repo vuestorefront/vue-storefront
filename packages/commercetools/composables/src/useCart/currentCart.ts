@@ -1,6 +1,6 @@
 import { Context } from '@vue-storefront/core';
 
-const loadCurrentCart = async (context: Context, customQuery) => {
+const loadCurrentCart = async (context: Context, customQuery?) => {
   const { data: profileData } = await context.$ct.api.getMe({ customer: false }, customQuery);
 
   if (profileData.me.activeCart) {

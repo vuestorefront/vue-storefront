@@ -4514,6 +4514,11 @@ autoprefixer@^9.5.1, autoprefixer@^9.6.1:
     postcss "^7.0.32"
     postcss-value-parser "^4.1.0"
 
+awesome-phonenumber@^2.51.2:
+  version "2.55.0"
+  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-2.55.0.tgz#97459e03ccdcb0c2917046e40af2a66f46b71695"
+  integrity sha512-lSq5t4v6pJR+qzWqnSdac2TX20CD5ggVBD8cNL34rgJ+0hVCx+McPgQNLDxdNjiaGeYWrUxscV3BU4K/Tm/JdQ==
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
