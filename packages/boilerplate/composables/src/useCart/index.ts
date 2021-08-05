@@ -6,11 +6,10 @@ import {
 import type {
   Cart,
   CartItem,
-  Coupon,
   Product
 } from '@vue-storefront/boilerplate-api';
 
-const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
+const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, { customQuery }) => {
     console.log('Mocked: useCart.load');
@@ -51,7 +50,7 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeCoupon: async (context: Context, { currentCart, coupon, customQuery }) => {
+  removeCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
     console.log('Mocked: useCart.removeCoupon');
     return {
       updatedCart: {}
@@ -65,4 +64,4 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
   }
 };
 
-export const useCart = useCartFactory<Cart, CartItem, Product, Coupon>(params);
+export const useCart = useCartFactory<Cart, CartItem, Product>(params);

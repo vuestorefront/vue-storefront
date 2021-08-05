@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/commercetools-theme",
-  "description": "My breathtaking Nuxt.js project",
+  "description": "Vue Storefront - commercetools theme",
   "author": "Filip Rakowski",
   "version": "1.2.4",
   "publishConfig": {

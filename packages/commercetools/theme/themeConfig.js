@@ -46,6 +46,7 @@ const demoConfig = {
     }
   }
 };
+
 export default (() => {
   if (process.env.IS_DEMO) {
     return demoConfig;
