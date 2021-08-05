@@ -5,6 +5,11 @@ import { Ref } from '@vue/composition-api';
 let useUserOrder: () => UseUserOrder<Readonly<Ref<Readonly<any>>>, any>;
 let params: UseUserOrderFactoryParams<any, any>;
 
+const defaultOrdersValue = {
+  results: [],
+  total: 0
+};
+
 function createComposable(): void {
   params = {
     searchOrders: jest.fn().mockResolvedValueOnce(['first', 'second'])
@@ -22,7 +27,7 @@ describe('[CORE - factories] useUserOrderFactory', () => {
     it('should have proper initial props', () => {
       const { loading, orders } = useUserOrder();
       expect(loading.value).toEqual(false);
-      expect(orders.value).toEqual([]);
+      expect(orders.value).toEqual(defaultOrdersValue);
     });
   });
 
@@ -44,7 +49,7 @@ describe('[CORE - factories] useUserOrderFactory', () => {
         expect(error.value.search).toBe(err);
 
         expect(loading.value).toEqual(false);
-        expect(orders.value).toEqual([]);
+        expect(orders.value).toEqual(defaultOrdersValue);
       });
     });
   });

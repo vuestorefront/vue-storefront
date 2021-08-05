@@ -129,7 +129,7 @@ First, obtain the checkout URL from cart object.
 
 The checkout URL look like the following:
 ```javascript
-const checkoutUrl = 'https://vsf-next-pwa.myshopify.com/40719024288/checkouts/9882505fd32f9432c5b72e213ed0d7b8';
+const checkoutUrl = 'https://shopify-pwa.aureatelabs.com/40719024288/checkouts/9882505fd32f9432c5b72e213ed0d7b8';
 ```
 
 Now, add the following link on cart page.
@@ -155,12 +155,12 @@ if (wrapper) {
 	a.title = "Back To Home";  
 	a.classList.add('btn');
 	a.classList.add('back-btn');
-	a.href = "https://vsf-next-pwa.myshopify.com"; 
+	a.href = "https://shopify-pwa.aureatelabs.com/"; 
 	wrapper[0].appendChild(a);	
 }
 
 setTimeout(function(){
-  window.location.href="https://vsf-next-pwa.myshopify.com";
+  window.location.href="https://shopify-pwa.aureatelabs.com/";
 }, 5000);
 ```
 You can edit above code as per your needs.
