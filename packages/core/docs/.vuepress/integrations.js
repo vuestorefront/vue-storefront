@@ -267,14 +267,14 @@ const INTEGRATIONS = {
     },
     {
       name: 'Algolia',
-      link: '',
+      link: 'https://docs.vuestorefront.io/algolia',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed620cebc49f091f5fc7571_logo-algolia-nebula-blue-full.svg',
-      status: STATUSES.WIP,
+      status: STATUSES.BETA,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.CMS, CATEGORIES.SEARCH ],
+      categories: [ CATEGORIES.SEARCH ],
       compatibility: []
     },
     {
