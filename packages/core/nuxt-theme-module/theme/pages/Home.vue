@@ -92,7 +92,7 @@
     </LazyHydrate>
 
     <LazyHydrate when-visible>
-      <NewsletterModal @email="onSubscribe" />
+      <NewsletterModal @email-submitted="onSubscribe" />
     </LazyHydrate>
 
     <LazyHydrate when-visible>

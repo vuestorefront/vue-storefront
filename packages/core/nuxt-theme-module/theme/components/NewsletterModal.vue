@@ -19,7 +19,7 @@
           :title="$t('Subscribe to newsletter')"
           class="modal__title desktop-only"
         />
-        <form @submit.prevent="$emit('email', emailAddress)">
+        <form @submit.prevent="$emit('email-submitted', emailAddress)">
           <SfInput
             type="email"
             :label="$t('Email address')"
