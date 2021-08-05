@@ -13,7 +13,6 @@ jobs:
       - shell: bash
         run: |
           echo "1.0.`date +%s`" > version.txt
-          yarn && yarn build:ct:tools && yarn build:core:docs && yarn build:ct:docs
       - name: Upload version artifact
         uses: actions/upload-artifact@v2
         with:
@@ -29,8 +28,8 @@ jobs:
           registry: registry.storefrontcloud.io
           username: ${{ secrets.DOCS_CLOUD_USERNAME }}
           password: ${{ secrets.DOCS_CLOUD_PASSWORD }}
-          workdir: packages/core/docs
-          dockerfile: Dockerfile
+          workdir: .
+          dockerfile: ./packages/core/docs/Dockerfile
           buildoptions: "--compress"
   deploy:
     runs-on: ubuntu-latest

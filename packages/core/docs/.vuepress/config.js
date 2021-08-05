@@ -1,18 +1,45 @@
+const { STATUSES, AVAILABILITY, CATEGORIES, INTEGRATIONS } = require('./integrations');
+const GTM_TAG = 'GTM-WMDC3CP';
+
 module.exports = {
+  /**
+   * Ref：https://v1.vuepress.vuejs.org/config/#title
+   */
   title: 'Vue Storefront 2',
-  base: '/v2/',
+
+  /**
+   * Ref：https://v1.vuepress.vuejs.org/config/#description
+   */
   description: 'Vue Storefront 2 documentation',
+
+  /**
+   * Ref: https://v1.vuepress.vuejs.org/config/#base
+   */
+  base: '/v2/',
+
+  /**
+   * Ref：https://v1.vuepress.vuejs.org/config/#head
+   */
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
 
-    //HubSpot
+    // HubSpot
     ['script', { async: true, defer: true, src: 'https://js.hs-scripts.com/8443671.js', id: 'hs-script-loader' }],
 
-    // Google Analytics
-    ['script', { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-12MM6R3MDK' }],
-    ['script', {}, ['window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-12MM6R3MDK");']],
+    // Google Tag Manager
+    ['script', {}, [`
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','${GTM_TAG}');
+    `]],
   ],
-  configureWebpack: (config) => {
+
+  /**
+   * Ref：https://v1.vuepress.vuejs.org/config/#configurewebpack
+   */
+   configureWebpack: (config) => {
     config.module.rules = config.module.rules.map((rule) => ({
       ...rule,
       use:
@@ -282,10 +309,7 @@ module.exports = {
             ['/commercetools/composables/use-wishlist', 'useWishlist'],
             ['/commercetools/composables/use-category', 'useCategory'],
             ['/commercetools/composables/use-shipping', 'useShipping'],
-            [
-              '/commercetools/composables/use-shipping-provider',
-              'useShippingProvider'
-            ],
+            ['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
             ['/commercetools/composables/use-billing', 'useBilling'],
             ['/commercetools/composables/use-make-order', 'useMakeOrder']
           ]
@@ -294,82 +318,83 @@ module.exports = {
           title: 'API Client',
           collapsable: false,
           children: [
-            ['/commercetools/api-client-reference', 'Methods reference']
+            ['/commercetools/api-reference/', 'Methods reference']
           ]
         },
         {
           title: 'Extensions',
           collapsable: false,
-          children: [['/commercetools/extensions/user-groups', 'User groups']]
+          children: [
+            ['/commercetools/extensions/user-groups', 'User groups']
+          ]
         },
         {
           title: 'Theme',
           collapsable: false,
-          children: [['/commercetools/auth-middleware', 'Auth Middleware']]
-        }
-      ],
-      '/aboutyou/': [
-        {
-          title: 'Essentials',
-          collapsable: false,
           children: [
-            ['/aboutyou/', 'Introduction'],
-            ['/aboutyou/getting-started', 'Getting Started'],
-            ['/aboutyou/api-client', 'API Client'],
-            ['/aboutyou/composables', 'Composables'],
-            ['/aboutyou/feature-list', 'Feature list']
-          ]
-        },
-        {
-          title: 'Composables',
-          collapsable: false,
-          children: [
-            ['/aboutyou/use-cart', 'useCart'],
-            ['/aboutyou/use-product', 'useProduct'],
-            ['/aboutyou/use-wishlist', 'useWishlist']
+            ['/commercetools/auth-middleware', 'Auth Middleware']
           ]
         }
       ],
       '/shopify/': [
-        {
-          title: 'Essentials',
-          collapsable: false,
-          children: [
-            ['/shopify/', 'Introduction'],
-            ['/shopify/getting-started', 'Getting Started'],
-            ['/shopify/configuration', 'Configuration'],
-            ['/shopify/feature-list', 'Feature list'],
-            ['/shopify/maintainers', 'Maintainers and support']
-          ]
-        },
-        {
-          title: 'Composables',
-          collapsable: false,
-          children: [
-            ['/shopify/use-cart', 'useCart'],
-            ['/shopify/use-category', 'useCategory'],
-            ['/shopify/use-content', 'useContent'],
-            ['/shopify/use-product', 'useProduct'],
-            ['/shopify/use-search', 'useSearch'],
-            ['/shopify/use-user', 'useUser'],
-            ['/shopify/use-user-order', 'useUserOrders']
-          ]
-        },
-        {
-          title: 'Other',
-          collapsable: false,
-          children: [['/shopify/checkout', 'Checkout']]
-        }
-      ],
+                {
+                    title: 'Essentials',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/', 'Introduction'],
+                        ['/shopify/getting-started', 'Getting Started'],
+                        ['/shopify/configuration', 'Configuration'],
+                        ['/shopify/authorization-strategy', 'Authorization'],
+                        ['/shopify/feature-list', 'Feature list'],
+                        ['/shopify/maintainers', 'Maintainers and support']
+                    ]
+                },
+                {
+                    title: 'Composables',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/use-product', 'useProduct'],
+                        ['/shopify/use-user', 'useUser'],
+                        ['/shopify/use-user-order', 'useUserOrder'],
+                        ['/shopify/use-cart', 'useCart'],
+                        ['/shopify/use-category', 'useCategory'],
+                        ['/shopify/use-content', 'useContent'],
+                        ['/shopify/use-search', 'useSearch'],
+                    ]
+                },
+                {
+                    title: 'API Client',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/api-client-reference', 'Methods reference']
+                    ]
+                },
+                {
+                    title: 'Theme',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/auth-middleware', 'Auth Middleware']
+                    ],
+                },
+                {
+                    title: 'Other',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/checkout', 'Checkout']
+                    ],
+                }
+            ],
       '/': [
         {
           title: 'Getting started',
           collapsable: false,
           children: [
             ['/', 'Introduction'],
+            ['/general/where-to-start', 'Where to start?'],
             ['/general/installation', 'Installation'],
             ['/general/key-concepts', 'Key concepts'],
-            ['/general/enterprise', 'Enterprise']
+            ['/general/enterprise', 'Enterprise'],
+            ['/general/support', 'Support']
           ]
         },
         {
@@ -378,7 +403,9 @@ module.exports = {
           children: [
             ['/guide/theme', 'Theme'],
             ['/guide/configuration', 'Configuration'],
+            ['/guide/composition-api', 'Composition API'],
             ['/guide/composables', 'Composables'],
+            ['/guide/error-handling', 'Error Handling'],
             ['/guide/getters', 'Getters'],
             ['/guide/product-catalog', 'Product Catalog'],
             ['/guide/authentication', 'Authentication'],
@@ -394,7 +421,8 @@ module.exports = {
             ['/advanced/architecture', 'Architecture'],
             ['/advanced/context', 'Application Context'],
             ['/advanced/calling-platform-api', 'Calling Platform API'],
-            ['/advanced/extending-graphql-queries', 'Extending GraphQL Queries'],
+            ['/advanced/creating-custom-composable', 'Creating custom composable'],
+            ['/advanced/extending-graphql-queries', 'Extending GraphQL queries'],
             ['/advanced/server-middleware', 'Server Middleware'],
             ['/advanced/internationalization', 'Internationalization'],
             ['/advanced/performance', 'Performance'],
@@ -409,7 +437,8 @@ module.exports = {
           children: [
             ['/integrate/integration-guide', 'eCommerce'],
             ['/integrate/cms', 'CMS'],
-            ['/integrate/cache-driver', 'Cache driver']
+            ['/integrate/cache-driver', 'Cache driver'],
+            ['/integrate/supporting-custom-queries', 'Supporting custom queries']
           ]
         },
         {

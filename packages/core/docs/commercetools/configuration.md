@@ -67,7 +67,7 @@ export default {
 
 ## Middleware Commercetools configuration
 
-You can read more about middleware configuration in Vue Storefront [here](../advanced/server-middleware.md#configuration)
+You can read more about middleware configuration in Vue Storefront [here](../advanced/server-middleware.html#configuration)
 
 ```js
 // middleware.config.js
