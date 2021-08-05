@@ -15,8 +15,7 @@ module.exports = {
           ]
         },
         currency: 'USD',
-        country: 'US',
-        inventoryMode: 'None'
+        country: 'US'
       }
     }
   }
