@@ -3,11 +3,13 @@ import { ProductVariant, Address, LineItem, ReferenceInput, ResourceIdentifierIn
 
 const hasContactInfo = details => Object.keys(details.contactInfo || {}).some(c => ['phone', 'email', 'mobile', 'fax'].includes(c));
 
-export const createAddLineItemAction = (variant: ProductVariant, quantity: number) => ({
+export const createAddLineItemAction = (variant: ProductVariant, quantity: number, channels: any) => ({
   addLineItem: {
     variantId: variant.id,
     quantity: quantity,
-    sku: variant.sku
+    sku: variant.sku,
+    distributionChannels: channels?.distributionChannels,
+    supplyChannels: channels?.supplyChannels
   }
 });
 

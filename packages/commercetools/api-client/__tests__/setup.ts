@@ -17,7 +17,8 @@ export default createApiClient({
     currencyCookieName: 'test-vsf-currency',
     countryCookieName: 'test-vsf-country',
     localeCookieName: 'test-vsf-locale',
-    storeCookieName: 'test-vsf-store'
+    storeCookieName: 'test-vsf-store',
+    channelCookieName: 'test-vsf-channels'
   },
   auth: {
     onTokenChange: jest.fn(),
