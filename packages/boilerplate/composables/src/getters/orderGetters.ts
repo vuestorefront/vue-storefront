@@ -51,6 +51,10 @@ function getFormattedPrice(price: number): string {
   return '';
 }
 
+function getOrdersTotal(orders: any): number {
+  return orders.total;
+}
+
 export const orderGetters: UserOrderGetters<Order, OrderItem> = {
   getDate,
   getId,
@@ -61,5 +65,6 @@ export const orderGetters: UserOrderGetters<Order, OrderItem> = {
   getItemName,
   getItemQty,
   getItemPrice,
-  getFormattedPrice
+  getFormattedPrice,
+  getOrdersTotal
 };

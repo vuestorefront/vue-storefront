@@ -1,9 +1,20 @@
-# useCart composable
+# `useCart`
 
 `useCart` composition API function is responsible, as its name suggests, for interactions with cart in your eCommerce. This function returns following values:
 
-- `cart` - a main data object that contains cart structure in platform specific structure
-```typescript
+## Features
+
+`useCart` composable can be used to:
+
+* load cart information,
+* add, update and remove items in the cart,
+* applying and removing coupons,
+* checking if product is already added to the cart.
+
+## API
+
+- `cart` - a main data object that holds the cart structure in platform specific structure
+```ts
 export type Maybe<T> = T | null;
 
 export type Scalars = {
@@ -21,7 +32,6 @@ export type Cart = {
   ready?: Maybe<Scalars['String']>;
   requiresShipping?: Maybe<Scalars['String']>;
   note?: Maybe<Scalars['String']>;
-  paymentDue?: Maybe<Scalars['String']>;
   paymentDueV2?: Maybe<Scalars['Json']>;
   webUrl?: Maybe<Scalars['String']>;
   orderStatusUrl?: Maybe<Scalars['String']>;
@@ -29,11 +39,9 @@ export type Cart = {
   taxesIncluded?: Maybe<Scalars['String']>;
   currencyCode: Maybe<Scalars['String']>;
   paymentDueV2?: Maybe<Scalars['Json']>;
-  totalTax?: Maybe<Scalars['String']>;
+  totalTaxV2?: Maybe<Scalars['String']>;
   lineItemsSubtotalPrice?: Maybe<Scalars['Json']>;
-  subtotalPrice?: Maybe<Scalars['String']>;
   subtotalPriceV2?: Maybe<Scalars['Json']>;
-  totalPrice?: Maybe<Scalars['String']>;
   totalPriceV2?: Maybe<Scalars['Json']>;
   completedAt: Maybe<Scalars['String']>;
   createdAt: Maybe<Scalars['String']>;
@@ -60,17 +68,17 @@ export type Cart = {
     - It takes two parameters:
     - `product` (Object) The identifier of the product variant for the cart item.
     - `quantity` (Int) The quantity of the cart item.
-- `removeItem` - function for removing a product that currently is in the cart
+- `removeItem` - function for removing a product that currently is in the cart.
     - It takes one parameter:
     - `product` (Object) The identifier of the product variant for the cart item.
-- `isInCart` - function for checking if a product is currently in the cart
-- `clear` - function for removing all items currently stored in cart
+- `isInCart` - function for checking if a product is currently in the cart.
+- `clear` - function for removing all items currently stored in the cart.
 - `coupon` - reactive data object containing coupon details
 - `applyCoupon` - function for applying coupon to cart
     - It takes one parameter:
-    - `coupon` (String) The coupon string
-- `removeCoupon` - function for removing coupon applied to cart
-- `loading` - a reactive object containing information about loading state of the cart
+    - `coupon` (String) The coupon string.
+- `removeCoupon` - function for removing coupon applied to the cart.
+- `loading` - a reactive object containing information about loading state of the cart.
 
 ## cartGetters
 
@@ -87,61 +95,37 @@ export type Cart = {
 - `getItemSku` - Accept one parameter `product` and return the sku of product.
 - `getFormattedPrice` Accept one parameter `product` and return the price of product with currency symbol.
 - `getTotalItems` - To get the total numbers of cart items
-- `getCheckoutUrl`- To retrieve the Shopify checkout URL. i.e. `https://vsf-next-pwa.myshopify.com/40719024288/checkouts/9882505fd32f9432c5b72e213ed0d7b8`
+- `getCheckoutUrl`- To retrieve the Shopify checkout URL. i.e. `https://shopify-pwa.aureatelabs.com/40719024288/checkouts/9882505fd32f9432c5b72e213ed0d7b8`
 - `hasItemAttributes` - Check if product contains variant or not.
 - `getCoupons` - Yet to be implement. Will get applied coupons array.
 - `getDiscounts` - Yet to be implement. Will get applied coupons discounts array.
 
 ## Examples
-Cart composable is a service designed for supporting a single cart and access it everywhere with ease. 
-Initialization of a cart requires using `load()` when calling `useCart()` for the first time. Keep in mind that upon
-execution of `load`, the cart will get loaded only once and if a wishlist has already been loaded, nothing happens. Note that all the composables uses same load method, so you need to use it using alias. load: loadCart  
+Cart composable is a service designed for supporting a single cart and access it everywhere with ease.
+
+Initialization of a cart requires using `load()` when calling `useCart()` for the first time. 
+
+Keep in mind that upon execution of `load`, the cart will get loaded only once. Note that all the composables uses same load method, so you need to use it using alias. load: loadCart.
 
 ```javascript
-import { onSSR } from '@vue-storefront/core';
-import { useCart } from '@vue-storefront/shopify';
+import { useCart, cartGetters } from '@vue-storefront/shopify';
+import { onSSR } from '@vue-storefront/core'
 
 export default {
   setup() {
-    const { cart, load:loadCart } = useCart();
-    
+    const { cart, removeItem, updateItemQty, load } = useCart();
+
     onSSR(async () => {
-      await loadCart();
-    });
+      await load();
+    })
 
     return {
-      cart
-    };
+      removeItem,
+      updateItemQty,
+      products: computed(() => cartGetters.getItems(cart.value)),
+      totals: computed(() => cartGetters.getTotals(cart.value)),
+      totalItems: computed(() => cartGetters.getTotalItems(cart.value))
+    }
   }
-};
-```
-
-Get the list of cart item objects, each one containing information about an item in the checkout.
-
-```javascript
-import { onSSR } from '@vue-storefront/core';
-import { useCart } from '@vue-storefront/shopify';
-
-export default {
-  setup() {
-    const { cart, load:loadCart } = useCart();
-    
-    const products = computed(() => cartGetters.getItems(cart.value));
-    const totals = computed(() => cartGetters.getTotals(cart.value));
-    const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
-    const checkoutUrl = computed(() => cartGetters.getCheckoutUrl(cart.value));
-    
-    onSSR(async () => {
-      await loadCart();
-    });
-
-    return {
-      cart,
-      products,
-      totals,
-      totalItems,
-      checkoutUrl
-    };
-  }
-};
+}
 ```

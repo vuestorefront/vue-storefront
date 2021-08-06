@@ -1,9 +1,9 @@
-import { UseUserFactoryParams, Context, UseCart, AgnosticCoupon } from '@vue-storefront/core';
+import { UseUserFactoryParams, Context, UseCart } from '@vue-storefront/core';
 import { Cart, Customer, LineItem, ProductVariant } from '../types/GraphQL';
 import { authenticate } from './authenticate';
 import { useCart } from '../useCart';
 
-type UserContext = UseCart<Cart, LineItem, ProductVariant, AgnosticCoupon> & Context;
+type UserContext = UseCart<Cart, LineItem, ProductVariant> & Context;
 
 const load = async (context: Context, {customQuery}) => {
   if (!context.$ct.config.auth.onTokenRead()) return null;

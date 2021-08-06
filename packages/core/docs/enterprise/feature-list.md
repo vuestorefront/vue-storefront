@@ -367,7 +367,7 @@ All Vue Storefront Cloud config options are available via API
 
 **14. SLA & Support**
 
-The Storefront Cloud team will guarantee 99,8% SLA for the infrastructure and Vue Storefront base app (modifications and custom integrations created by merchant/agency are excluded). Our clients can use our dedicated Slack support channel to contact the team and check the tickets’ statuses.
+The Storefront Cloud team will guarantee 99,8% SLA for the infrastructure and Vue Storefront base app (modifications and custom integrations created by merchant/agency are excluded). Our clients can use our dedicated Slack support channel to contact the team and check the ticket statuses.
 
 **15. API Integratios with 3rd party services OOTB**
 
