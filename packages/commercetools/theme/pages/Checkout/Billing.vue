@@ -81,17 +81,17 @@
           />
         </ValidationProvider>
         <ValidationProvider
-          name="apartment"
+          name="streetNumber"
           rules="required"
           v-slot="{ errors }"
           slim
         >
           <SfInput
-            v-e2e="'billing-apartment'"
-            :value="billingDetails.apartment"
-            @input="apartment => changeBillingDetails('apartment', apartment)"
-            label="House/Apartment number"
-            name="apartment"
+            v-e2e="'billing-streetNumber'"
+            :value="billingDetails.streetNumber"
+            @input="streetNumber => changeBillingDetails('streetNumber', streetNumber)"
+            label="House number"
+            name="streetNumber"
             class="form__element form__element--half form__element--half-even"
             required
             :valid="!errors[0]"
