@@ -12,6 +12,7 @@ const useFacetFactoryParams = {
     const itemsPerPage = params.input.itemsPerPage;
 
     const categoryResponse = await context.$ct.api.getCategory({ slug: params.input.categorySlug });
+    console.log('useFacet', params, categoryResponse);
     const categories = categoryResponse.data.categories.results;
     const inputFilters = params.input.filters;
     const filters = Object.keys(inputFilters).reduce((prev, curr) => ([

@@ -353,7 +353,8 @@ import {
   SfProperty
 } from '@storefront-ui/vue';
 import { ref, computed, onMounted } from '@vue/composition-api';
-import { useCart, useWishlist, productGetters, useFacet, facetGetters, categoryGetters } from '@vue-storefront/commercetools';
+import { useCart, useWishlist, productGetters, useFacet, facetGetters, useCategory, categoryGetters } from '@vue-storefront/commercetools';
+// import { useCart, useWishlist, productGetters, useFacet, facetGetters } from '@vue-storefront/commercetools';
 import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
@@ -372,16 +373,19 @@ export default {
     const uiState = useUiState();
     const { addItem: addItemToCart, isInCart } = useCart();
     const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist } = useWishlist();
+    const { search: categoriesSearch, categories } = useCategory();
     const { result, search, loading } = useFacet();
 
     const products = computed(() => facetGetters.getProducts(result.value));
-    const categoryTree = computed(() => categoryGetters.getTree(result.value.data.categories[0]));
+    console.log('category', categories);
+    const categoryTree = computed(() => categoryGetters.getTree(categories[0]));
+    // const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
     const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
     const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
     const pagination = computed(() => facetGetters.getPagination(result.value));
     const activeCategory = computed(() => {
-      const items = categoryTree.value.items;
+      const items = categoryTree.items;
 
       if (!items || !items.length) {
         return '';
@@ -404,7 +408,16 @@ export default {
     };
 
     onSSR(async () => {
-      await search(th.getFacetsFromURL());
+      const facets = th.getFacetsFromURL();
+      const facetsWithoutCategory = {
+        page: facets.page,
+        sort: facets.sort,
+        filters: facets.filters,
+        itemsPerPage: facets.itemsPerPage,
+        phrase: facets.phrase
+      };
+      await search(facetsWithoutCategory);
+      await categoriesSearch({ slug: facets.categorySlug});
       setSelectedFilters();
     });
 

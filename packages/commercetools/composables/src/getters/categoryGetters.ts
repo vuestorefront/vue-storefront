@@ -2,6 +2,7 @@ import { CategoryGetters, AgnosticCategoryTree } from '@vue-storefront/core';
 import { Category } from './../types/GraphQL';
 
 export const getCategoryTree = (category: Category): AgnosticCategoryTree | null => {
+  console.log('categoryGetters', category);
   const getRoot = (category: Category): Category => (category.parent ? getRoot(category.parent) : category);
   const buildTree = (rootCategory: Category) => ({
     label: rootCategory.name,
