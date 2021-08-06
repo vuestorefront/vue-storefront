@@ -66,7 +66,7 @@ module.exports = {
     ct: {
       location: '@vue-storefront/commercetools-api/server',
       configuration: {
-        api: { /* ... */}
+        api: { /* ... */},
         currency: 'EUR',
         locale: 'en',
         country: 'US'
@@ -74,6 +74,7 @@ module.exports = {
     }
   }
 };
+```
 
 
 ### `acceptLanguage`
@@ -86,11 +87,19 @@ acceptLanguage: ['en-gb', 'en-us']
 
 ### `languageMap`
 
-If you supply a `languageMap` during setup this will be used to map a locale to the accepted languages.
+If you supply a `languageMap` during the setup, this will be used to map a locale to the accepted languages.
 
 ```js
 languageMap: {
   'en-gb': ['en-gb', 'en-us'],
   'en-us': ['en-us', 'en-gb'],
 }
+```
+
+### `inventoryMode`
+
+If you want to change the way your commercetools inventory is being tracked, you can provide `inventoryMode` option in the middleware configuration. It can be set to one of the following values: `None`, `TrackOnly`, and `ReserveOnOrder`. When not specified, the Inventory Mode is set to `None` by default. You can read more about Inventory Modes in [commercetools documentation](https://docs.commercetools.com/api/projects/carts#inventorymode).
+
+```js
+inventoryMode: 'TrackOnly'
 ```
