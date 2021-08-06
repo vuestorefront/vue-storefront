@@ -14,7 +14,7 @@
           <SfInput
             v-model="form.firstName"
             name="firstName"
-            label="First Name"
+            :label="$t('First Name')"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -28,7 +28,7 @@
           <SfInput
             v-model="form.lastName"
             name="lastName"
-            label="Last Name"
+            :label="$t('Last Name')"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -43,7 +43,7 @@
         <SfInput
           v-model="form.streetName"
           name="streetName"
-          label="Street Name"
+          :label="$t('Street Name')"
           required
           :valid="!errors[0]"
           :errorMessage="errors[0]"
@@ -57,7 +57,7 @@
         <SfInput
           v-model="form.apartment"
           name="apartment"
-          label="House/Apartment number"
+          :label="$t('House/Apartment number')"
           required
           class="form__element"
         />
@@ -71,21 +71,46 @@
           <SfInput
             v-model="form.city"
             name="city"
-            label="City"
+            :label="$t('City')"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
           />
         </ValidationProvider>
         <ValidationProvider
+          :rules="validationRules.country"
+          v-slot="{ errors }"
+          class="form__element"
+        >
+          <SfSelect
+            class="form__select sf-select--underlined"
+            v-model="form.country"
+            name="country"
+            :label="$t('Country')"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          >
+            <SfSelectOption
+              v-for="{ name, label } in countries"
+              :key="name"
+              :value="name"
+            >
+              {{ $t(label) }}
+            </SfSelectOption>
+          </SfSelect>
+        </ValidationProvider>
+      </div>
+      <div class="form__horizontal">
+        <ValidationProvider
           name="state"
-          :rules="!statesInSelectedCountry ? null : 'required|min:2'"
+          :rules="validationRules.state"
           v-slot="{ errors }"
           slim
         >
           <SfSelect
             v-model="form.state"
-            label="State/Province"
+            :label="$t('State/Province')"
             name="state"
             class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
             required
@@ -102,8 +127,6 @@
             </SfSelectOption>
           </SfSelect>
         </ValidationProvider>
-      </div>
-      <div class="form__horizontal">
         <ValidationProvider
           rules="required|min:2"
           v-slot="{ errors }"
@@ -112,34 +135,11 @@
           <SfInput
             v-model="form.postalCode"
             name="zipCode"
-            label="Zip-code"
+            :label="$t('Zip-code')"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
           />
-        </ValidationProvider>
-        <ValidationProvider
-          :rules="`required|oneOf:${countries.map(c => c.name).join(',')}`"
-          v-slot="{ errors }"
-          class="form__element"
-        >
-          <SfSelect
-            class="form__select sf-select--underlined"
-            v-model="form.country"
-            name="country"
-            label="Country"
-            required
-            :valid="!errors[0]"
-            :errorMessage="errors[0]"
-          >
-            <SfSelectOption
-              v-for="{ name, label } in countries"
-              :key="name"
-              :value="name"
-            >
-              {{ label }}
-            </SfSelectOption>
-          </SfSelect>
         </ValidationProvider>
       </div>
       <ValidationProvider
@@ -150,7 +150,7 @@
         <SfInput
           v-model="form.phone"
           name="phone"
-          label="Phone number"
+          :label="$t('Phone number')"
           required
           :valid="!errors[0]"
           :errorMessage="errors[0]"
@@ -159,11 +159,11 @@
       <SfCheckbox
         v-model="form.isDefault"
         name="isDefault"
-        label="Set as default"
+        :label="$t('Set as default')"
         class="form__checkbox-isDefault"
       />
       <SfButton class="form__button">
-        {{ isNew ? "Add the address" : "Update the address" }}
+        {{ isNew ? $t('Add the address') : $t('Update the address') }}
       </SfButton>
     </form>
   </ValidationObserver>
@@ -265,6 +265,11 @@ export default {
       return selectedCountry && selectedCountry.states;
     });
 
+    const validationRules = {
+      contry: `required|oneOf:${config.countries.map(c => c.name).join(',')}`,
+      state: !statesInSelectedCountry ? null : 'required|min:2'
+    };
+
     watch(statesInSelectedCountry, statesInSelectedCountry => {
       const countryHasStates = statesInSelectedCountry && statesInSelectedCountry.length;
       if (!countryHasStates && form.state) {
@@ -274,6 +279,7 @@ export default {
 
     return {
       form,
+      validationRules,
       submitForm,
       countries: config.countries,
       statesInSelectedCountry
