@@ -19,7 +19,7 @@ describe('[commercetools-composables] useCart/currentCart', () => {
 
   it('loads current cart', async () => {
 
-    const response = await loadCurrentCart(context);
+    const response = await loadCurrentCart(context, {});
 
     expect(response).toEqual(cart);
     expect(context.$ct.api.getMe).toBeCalled();
@@ -29,14 +29,14 @@ describe('[commercetools-composables] useCart/currentCart', () => {
   it('creates cart when could not be loaded', async () => {
     (context.$ct.api.getMe as any).mockReturnValue({ data: { me: { activeCart: null } } });
 
-    const response = await loadCurrentCart(context);
+    const response = await loadCurrentCart(context, {});
 
     expect(response).toEqual(cart);
     expect(context.$ct.api.createCart).toBeCalled();
   });
 
   it('creates new cart when there is no id of the current one', async () => {
-    const response = await loadCurrentCart(context);
+    const response = await loadCurrentCart(context, {});
 
     expect(context.$ct.api.createCart).toBeCalled();
     expect(response).toEqual(cart);

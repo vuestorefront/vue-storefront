@@ -18,7 +18,52 @@ Commercetools configuration is located in two places:
 }]
 ```
 
-- `useNuxtI18nConfig` - when this property is set to true, `@vue-storefront/commercetools/nuxt` package will use `i18n` config object provided in `nuxt.config.js`. When set to false, `i18n` config should be declared directly inside this package configuration. You can read more about `i18n` config in Vue Storefront [here](../advanced/internationalization.md)
+- `useNuxtI18nConfig` - when enabled, `@vue-storefront/commercetools/nuxt` package will use `i18n` config object provided in `nuxt.config.js`. Otherwise, the `i18n` config should be passed directly to this package configuration. You can read more about it on [Internationalization](../advanced/internationalization.md) page. There are things specific to commercetools, which you can read more about below.
+
+### Adding available states to the country in Checkout and MyAccount
+In order to add a new state, add `states` field in the desired country inside `i18n.countries` in `nuxt.config.js`:
+```js
+i18n: {
+  countries: [
+    { name: 'US',
+      label: 'United States',
+      states: [
+        'California',
+        'Nevada'
+      ]
+    },
+    // ...
+  ]
+}
+```
+::: warning Each state requires the tax rules
+A state without tax rules cannot work properly. Make sure to add the tax rules for each state in the commercetools as described [here](https://docs.commercetools.com/merchant-center/project-settings#configuring-taxes).
+:::
+
+If you select `United States`, after applying tax rules, there will be 2 states available. You can now select them on Checkout's shipping and billing steps and MyAccount's user shipping and billing address views.
+
+![comercetools states on my account](./../images/ct-states-myaccount.png)
+
+![comercetools states on the checkout](./../images/ct-states-checkout.png)
+
+#### How to access states?
+
+You can access `states` by using `useVSFContext`:
+```js
+import { useVSFContext } from '@vue-storefront/core';
+
+export default {
+  setup () {
+    const { $ct: { config: { countries } } } = useVSFContext();
+    const { states } = countries.find(country => country.name === 'US');
+    
+    return {
+      statesInUS: states // ['California', 'Nevada']
+    }
+  }
+}
+
+```
 
 ## Middleware Commercetools configuration
 
@@ -66,7 +111,7 @@ module.exports = {
     ct: {
       location: '@vue-storefront/commercetools-api/server',
       configuration: {
-        api: { /* ... */}
+        api: { /* ... */},
         currency: 'EUR',
         locale: 'en',
         country: 'US'
@@ -74,6 +119,7 @@ module.exports = {
     }
   }
 };
+```
 
 
 ### `acceptLanguage`
@@ -86,11 +132,19 @@ acceptLanguage: ['en-gb', 'en-us']
 
 ### `languageMap`
 
-If you supply a `languageMap` during setup this will be used to map a locale to the accepted languages.
+If you supply a `languageMap` during the setup, this will be used to map a locale to the accepted languages.
 
 ```js
 languageMap: {
   'en-gb': ['en-gb', 'en-us'],
   'en-us': ['en-us', 'en-gb'],
 }
+```
+
+### `inventoryMode`
+
+If you want to change the way your commercetools inventory is being tracked, you can provide `inventoryMode` option in the middleware configuration. It can be set to one of the following values: `None`, `TrackOnly`, and `ReserveOnOrder`. When not specified, the Inventory Mode is set to `None` by default. You can read more about Inventory Modes in [commercetools documentation](https://docs.commercetools.com/api/projects/carts#inventorymode).
+
+```js
+inventoryMode: 'TrackOnly'
 ```

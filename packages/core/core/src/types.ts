@@ -1,5 +1,4 @@
 /* istanbul ignore file */
-
 import { Ref } from '@vue/composition-api';
 import type { Request, Response } from 'express';
 
@@ -272,6 +271,9 @@ export interface UseCategory<
   error: ComputedProperty<UseCategoryErrors>;
 }
 
+/**
+ * Dedicated error interface for {@link UseCart}
+ */
 export interface UseCartErrors {
   addItem: Error;
   removeItem: Error;
@@ -286,7 +288,6 @@ export interface UseCart
   CART,
   CART_ITEM,
   PRODUCT,
-  COUPON,
   API extends PlatformApi = any
 > extends Composable<API> {
   cart: ComputedProperty<CART>;
@@ -297,7 +298,7 @@ export interface UseCart
   updateItemQty(params: { product: CART_ITEM; quantity?: number; customQuery?: CustomQuery }): Promise<void>;
   clear(): Promise<void>;
   applyCoupon(params: { couponCode: string; customQuery?: CustomQuery }): Promise<void>;
-  removeCoupon(params: { coupon: COUPON; customQuery?: CustomQuery }): Promise<void>;
+  removeCoupon(params: { couponCode: string; customQuery?: CustomQuery }): Promise<void>;
   load(): Promise<void>;
   load(params: { customQuery?: CustomQuery }): Promise<void>;
   error: ComputedProperty<UseCartErrors>;
@@ -478,6 +479,9 @@ export interface UseContent<
   error: ComputedProperty<UseContentErrors>;
 }
 
+/**
+ * @internal
+ */
 export interface RenderComponent {
   componentName: string;
   props?: any;

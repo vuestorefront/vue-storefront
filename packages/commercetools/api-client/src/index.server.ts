@@ -3,7 +3,7 @@ import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import * as api from './api';
 import { Config, ClientInstance } from './types/setup';
-import { createCommerceToolsConnection } from './helpers/commercetoolsLink';
+import { createCommerceToolsConnection } from './helpers/commercetoolsLink/createCommerceToolsConnection';
 import { defaultSettings } from './helpers/apiClient/defaultSettings';
 import { apiClientFactory, ApiClientExtension } from '@vue-storefront/core';
 
