@@ -29,7 +29,7 @@
             v-e2e="'shipping-firstName'"
             :value="shippingDetails.firstName"
             @input="firstName => changeShippingDetails('firstName', firstName)"
-            label="First name"
+            :label="$t('First name')"
             name="firstName"
             class="form__element form__element--half"
             required
@@ -47,7 +47,7 @@
             v-e2e="'shipping-lastName'"
             :value="shippingDetails.lastName"
             @input="lastName => changeShippingDetails('lastName', lastName)"
-            label="Last name"
+            :label="$t('Last name')"
             name="lastName"
             class="form__element form__element--half form__element--half-even"
             required
@@ -57,7 +57,7 @@
         </ValidationProvider>
         <ValidationProvider
           name="streetName"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
@@ -65,7 +65,7 @@
             v-e2e="'shipping-streetName'"
             :value="shippingDetails.streetName"
             @input="streetName => changeShippingDetails('streetName', streetName)"
-            label="Street name"
+            :label="$t('Street name')"
             name="streetName"
             class="form__element form__element--half"
             required
@@ -75,7 +75,7 @@
         </ValidationProvider>
         <ValidationProvider
           name="apartment"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
@@ -83,7 +83,7 @@
             v-e2e="'shipping-apartment'"
             :value="shippingDetails.apartment"
             @input="apartment => changeShippingDetails('apartment', apartment)"
-            label="House/Apartment number"
+            :label="$t('House/Apartment number')"
             name="apartment"
             class="form__element form__element--half form__element--half-even"
             required
@@ -93,7 +93,7 @@
         </ValidationProvider>
         <ValidationProvider
           name="city"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
@@ -101,7 +101,7 @@
             v-e2e="'shipping-city'"
             :value="shippingDetails.city"
             @input="city => changeShippingDetails('city', city)"
-            label="City"
+            :label="$t('City')"
             name="city"
             class="form__element form__element--half"
             required
@@ -119,7 +119,7 @@
             v-e2e="'shipping-country'"
             :value="shippingDetails.country"
             @input="country => changeShippingDetails('country', country)"
-            label="Country"
+            :label="$t('Country')"
             name="country"
             class="form__element form__element--half form__select sf-select--underlined form__element--half-even "
             required
@@ -131,7 +131,7 @@
               :key="countryOption.name"
               :value="countryOption.name"
             >
-              {{ countryOption.label }}
+              {{ $t(countryOption.label) }}
             </SfSelectOption>
           </SfSelect>
         </ValidationProvider>
@@ -145,7 +145,7 @@
             v-e2e="'shipping-state'"
             :value="shippingDetails.state"
             @input="state => changeShippingDetails('state', state)"
-            label="State/Province"
+            :label="$t('State/Province')"
             name="state"
             class="form__element form__element--half form__select sf-select--underlined"
             required
@@ -172,7 +172,7 @@
             v-e2e="'shipping-zipcode'"
             :value="shippingDetails.postalCode"
             @input="postalCode => changeShippingDetails('postalCode', postalCode)"
-            label="Zip-code"
+            :label="$t('Zip-code')"
             name="zipCode"
             class="form__element form__element--half form__element--half-even"
             required
@@ -190,7 +190,7 @@
             v-e2e="'shipping-phone'"
             :value="shippingDetails.phone"
             @input="phone => changeShippingDetails('phone', phone)"
-            label="Phone number"
+            :label="$t('Phone number')"
             name="phone"
             class="form__element form__element--half"
             required

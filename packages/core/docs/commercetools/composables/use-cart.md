@@ -223,7 +223,7 @@ type CustomQuery = {
   
 - `removeCoupon` - function for removing coupon applied to cart. This method accepts a single `params` object. The `params` has the following options:
 
-    - `coupon: AgnosticCoupon`
+    - `couponCode: string`
       
     - `customQuery?: CustomQuery`
     

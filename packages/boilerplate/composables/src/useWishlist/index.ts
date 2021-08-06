@@ -4,41 +4,38 @@ import {
   useWishlistFactory,
   UseWishlistFactoryParams
 } from '@vue-storefront/core';
-import { ref, Ref } from '@vue/composition-api';
-import { Wishlist, WishlistProduct, Product } from '../types';
+import type { Wishlist, WishlistItem, Product } from '@vue-storefront/boilerplate-api';
 
-export const wishlist: Ref<Wishlist> = ref(null);
-
-const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
+const params: UseWishlistFactoryParams<Wishlist, WishlistItem, Product> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context) => {
-    console.log('Mocked: loadWishlist');
+    console.log('Mocked: useWishlist.load');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addItem: async (context: Context, { currentWishlist, product }) => {
-    console.log('Mocked: addToWishlist');
+    console.log('Mocked: useWishlist.addItem');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeItem: async (context: Context, { currentWishlist, product }) => {
-    console.log('Mocked: removeFromWishlist');
+    console.log('Mocked: useWishlist.removeItem');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   clear: async (context: Context, { currentWishlist }) => {
-    console.log('Mocked: clearWishlist');
+    console.log('Mocked: useWishlist.clear');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isInWishlist: (context: Context, { currentWishlist }) => {
-    console.log('Mocked: isInWishlist');
+  isInWishlist: (context: Context, { currentWishlist, product }) => {
+    console.log('Mocked: useWishlist.isInWishlist');
     return false;
   }
 };
 
-export default useWishlistFactory<Wishlist, WishlistProduct, Product>(params);
+export const useWishlist = useWishlistFactory<Wishlist, WishlistItem, Product>(params);

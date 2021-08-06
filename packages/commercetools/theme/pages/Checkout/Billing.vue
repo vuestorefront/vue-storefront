@@ -21,7 +21,7 @@
         v-e2e="'copy-address'"
         :selected="sameAsShipping"
         @change="handleCheckSameAddress"
-        label="Copy address data from shipping"
+        :label="$t('Copy address data from shipping')"
         name="copyShippingAddress"
         class="form__element"
       />
@@ -36,7 +36,7 @@
             v-e2e="'billing-firstName'"
             :value="billingDetails.firstName"
             @input="firstName => changeBillingDetails('firstName', firstName)"
-            label="First name"
+            :label="$t('First name')"
             name="firstName"
             class="form__element form__element--half"
             required
@@ -54,7 +54,7 @@
             v-e2e="'billing-lastName'"
             :value="billingDetails.lastName"
             @input="lastName => changeBillingDetails('lastName', lastName)"
-            label="Last name"
+            :label="$t('Last name')"
             name="lastName"
             class="form__element form__element--half form__element--half-even"
             required
@@ -64,7 +64,7 @@
         </ValidationProvider>
         <ValidationProvider
           name="streetName"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
@@ -72,7 +72,7 @@
             v-e2e="'billing-streetName'"
             :value="billingDetails.streetName"
             @input="streetName => changeBillingDetails('streetName', streetName)"
-            label="Street name"
+            :label="$t('Street name')"
             name="streetName"
             class="form__element form__element--half"
             required
@@ -82,7 +82,7 @@
         </ValidationProvider>
         <ValidationProvider
           name="apartment"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
@@ -90,7 +90,7 @@
             v-e2e="'billing-apartment'"
             :value="billingDetails.apartment"
             @input="apartment => changeBillingDetails('apartment', apartment)"
-            label="House/Apartment number"
+            :label="$t('House/Apartment number')"
             name="apartment"
             class="form__element form__element--half form__element--half-even"
             required
@@ -100,7 +100,7 @@
         </ValidationProvider>
         <ValidationProvider
           name="city"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
@@ -108,7 +108,7 @@
             v-e2e="'billing-city'"
             :value="billingDetails.city"
             @input="city => changeBillingDetails('city', city)"
-            label="City"
+            :label="$t('City')"
             name="city"
             class="form__element form__element--half"
             required
@@ -126,7 +126,7 @@
             v-e2e="'billing-country'"
             :value="billingDetails.country"
             @input="country => changeBillingDetails('country', country)"
-            label="Country"
+            :label="$t('Country')"
             name="country"
             class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
             required
@@ -138,7 +138,7 @@
               :key="countryOption.name"
               :value="countryOption.name"
             >
-              {{ countryOption.label }}
+              {{ $t(countryOption.label) }}
             </SfSelectOption>
           </SfSelect>
         </ValidationProvider>
@@ -152,7 +152,7 @@
             v-e2e="'billing-state'"
             :value="billingDetails.state"
             @input="state => changeBillingDetails('state', state)"
-            label="State/Province"
+            :label="$t('State/Province')"
             name="state"
             class="form__element form__element--half form__select sf-select--underlined"
             required
@@ -179,7 +179,7 @@
             v-e2e="'billing-zipcode'"
             :value="billingDetails.postalCode"
             @input="postalCode => changeBillingDetails('postalCode', postalCode)"
-            label="Zip-code"
+            :label="$t('Zip-code')"
             name="zipCode"
             class="form__element form__element--half form__element--half-even"
             required
@@ -197,7 +197,7 @@
             v-e2e="'billing-phone'"
             :value="billingDetails.phone"
             @input="phone => changeBillingDetails('phone', phone)"
-            label="Phone number"
+            :label="$t('Phone number')"
             name="phone"
             class="form__element form__element--half"
             required

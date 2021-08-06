@@ -16,6 +16,10 @@
     "@vue-storefront/boilerplate-api": "^2.3.3",
     "@vue-storefront/core": "^2.3.3"
   },
+  "devDependencies": {
+    "rollup-plugin-typescript2": "^0.30.0",
+    "@rollup/plugin-node-resolve": "^13.0.0"
+  },
   "peerDependencies": {
     "@vue/composition-api": "1.0.0-beta.21"
   },
