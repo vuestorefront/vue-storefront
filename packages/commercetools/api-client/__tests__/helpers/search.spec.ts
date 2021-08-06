@@ -3,7 +3,7 @@ import {
   buildCategoryWhere,
   buildOrderWhere
 } from './../../src/helpers/search';
-import { AttributeType, ProductWhereSearch } from '../../src/types/Api';
+import { AttributeType, CategoryWhereSearch, OrderWhereSearch, ProductWhereSearch } from '../../src/types/Api';
 
 const settings = {
   locale: 'en',
@@ -173,6 +173,45 @@ describe('[commercetools-api-client] search', () => {
       };
 
       expect(buildProductWhere(settings, search)).toEqual('masterData(current(masterVariant(attributes(name = "whatever" and value = true))))');
+    });
+
+    it('returns product search query with custom \'where\' param appended', () => {
+      const search: ProductWhereSearch = {
+        slug: 'product-slug',
+        where: 'whatever'
+      };
+      expect(buildProductWhere(settings, search)).toBe(`masterData(current(slug(en="product-slug" or de="product-slug"))) and ${search.where}`);
+    });
+
+    it('returns custom \'where\' param as product search query if no other search params present', () => {
+      const search: ProductWhereSearch = { where: 'whatever' };
+      expect(buildProductWhere(settings, search)).toBe(search.where);
+    });
+
+    it('returns category search query with custom \'where\' param appended', () => {
+      const search: CategoryWhereSearch = {
+        catId: 'cat id',
+        where: 'whatever'
+      };
+      expect(buildCategoryWhere(settings, search)).toBe(`id="cat id" and ${search.where}`);
+    });
+
+    it('returns custom \'where\' param as category search query if no other search params present', () => {
+      const search: CategoryWhereSearch = { where: 'whatever' };
+      expect(buildCategoryWhere(settings, search)).toBe(search.where);
+    });
+
+    it('returns order search query with custom \'where\' param appended', () => {
+      const search: OrderWhereSearch = {
+        id: 'orderid',
+        where: 'whatever'
+      };
+      expect(buildOrderWhere(search)).toBe(`id="orderid" and ${search.where}`);
+    });
+
+    it('returns custom \'where\' param as order search query if no other search params present', () => {
+      const search: OrderWhereSearch = { where: 'whatever' };
+      expect(buildOrderWhere(search)).toBe(search.where);
     });
   });
 });
