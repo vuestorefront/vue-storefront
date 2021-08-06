@@ -51,6 +51,7 @@ export interface Filter {
   type: AttributeType;
   name: string;
   value: any;
+  not?: boolean;
 }
 
 export interface ProductWhereSearch extends BaseSearch {

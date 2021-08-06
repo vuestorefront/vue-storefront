@@ -40,6 +40,10 @@ const mapFilterToPredicate = (settings: Config, filter: Filter) => {
       break;
   }
 
+  if (filter.not) {
+    return `masterData(current(masterVariant(not(attributes(name = "${filter.name}" and ${valuePredicate})))))`;
+  }
+
   return `masterData(current(masterVariant(attributes(name = "${filter.name}" and ${valuePredicate}))))`;
 };
 
@@ -76,6 +80,8 @@ const buildProductWhere = (settings: Config, search: ProductWhereSearch) => {
   if (search?.ids) {
     predicates.push(`id in ("${search.ids.join('","')}")`);
   }
+
+  console.log('predicates', predicates.join(' and '));
 
   return predicates.join(' and ');
 };
