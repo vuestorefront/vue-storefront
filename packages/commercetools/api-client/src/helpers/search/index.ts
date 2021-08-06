@@ -39,12 +39,12 @@ const mapFilterToPredicate = (settings: Config, filter: Filter) => {
       valuePredicate = `value = ${filter.value}`;
       break;
   }
-
+  let predicate = `attributes(name = "${filter.name}" and ${valuePredicate})`;
   if (filter.not) {
-    return `masterData(current(masterVariant(not(attributes(name = "${filter.name}" and ${valuePredicate})))))`;
+    predicate = `not(${predicate})`;
   }
 
-  return `masterData(current(masterVariant(attributes(name = "${filter.name}" and ${valuePredicate}))))`;
+  return `masterData(current(masterVariant(${predicate})))`;
 };
 
 const buildProductWhere = (settings: Config, search: ProductWhereSearch) => {
