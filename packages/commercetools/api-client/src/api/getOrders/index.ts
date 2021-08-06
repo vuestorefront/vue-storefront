@@ -13,7 +13,7 @@ const getOrders = async (context, params, customQuery?: CustomQuery) => {
   const { locale, acceptLanguage, currency } = context.config;
 
   const defaultVariables = {
-    where: buildOrderWhere(params),
+    where: params.where || buildOrderWhere(params),
     sort: params.sort,
     limit: params.limit,
     offset: params.offset,
