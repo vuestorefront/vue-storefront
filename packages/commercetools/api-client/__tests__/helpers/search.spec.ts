@@ -213,5 +213,14 @@ describe('[commercetools-api-client] search', () => {
       const search: OrderWhereSearch = { where: 'whatever' };
       expect(buildOrderWhere(search)).toBe(search.where);
     });
+
+    it('returns product query predicate wrapped in not when filter has \'not\' set to true', () => {
+      const search: ProductWhereSearch = {
+        filters: [
+          { type: AttributeType.BOOLEAN, value: true, name: 'whatever', not: true }
+        ]
+      };
+      expect(buildProductWhere(settings, search)).toBe('masterData(current(masterVariant(not(attributes(name = "whatever" and value = true)))))');
+    });
   });
 });
