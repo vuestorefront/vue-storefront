@@ -1,6 +1,6 @@
 # theme
 
-> My breathtaking Nuxt.js project
+> My awesome Vue Storefront project
 
 ## Build Setup
 
