@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/commercetools-theme",
-  "description": "Vue Storefront - commercetools theme",
+  "description": "My awesome Vue Storefront project",
   "author": "Filip Rakowski",
   "version": "1.2.4",
   "publishConfig": {
