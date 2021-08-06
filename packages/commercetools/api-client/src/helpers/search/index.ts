@@ -81,7 +81,9 @@ const buildProductWhere = (settings: Config, search: ProductWhereSearch) => {
     predicates.push(`id in ("${search.ids.join('","')}")`);
   }
 
-  console.log('predicates', predicates.join(' and '));
+  if (search?.where) {
+    predicates.push(search.where);
+  }
 
   return predicates.join(' and ');
 };
@@ -89,32 +91,44 @@ const buildProductWhere = (settings: Config, search: ProductWhereSearch) => {
 const buildCategoryWhere = (settings: Config, search: CategoryWhereSearch) => {
   const { acceptLanguage } = settings;
 
+  const predicates: string[] = [];
+
   if (search?.catId) {
-    return `id="${search.catId}"`;
+    predicates.push(`id="${search.catId}"`);
   }
 
   if (search?.slug) {
     const predicate = acceptLanguage.map(locale => `${locale}="${search.slug}"`).join(' or ');
-    return `slug(${predicate})`;
+    predicates.push(`slug(${predicate})`);
   }
 
   if (search?.key) {
-    return `key="${search.key}"`;
+    predicates.push(`key="${search.key}"`);
   }
 
-  return undefined;
+  if (search?.where) {
+    predicates.push(search.where);
+  }
+
+  return predicates.join(' and ');
 };
 
 const buildOrderWhere = (search: OrderWhereSearch): string => {
+  const predicates: string[] = [];
+
   if (search?.id) {
-    return `id="${search.id}"`;
+    predicates.push(`id="${search.id}"`);
   }
 
   if (search?.orderNumber) {
-    return `orderNumber="${search.orderNumber}"`;
+    predicates.push(`orderNumber="${search.orderNumber}"`);
   }
 
-  return null;
+  if (search?.where) {
+    predicates.push(search.where);
+  }
+
+  return predicates.join(' and ');
 };
 
 export {

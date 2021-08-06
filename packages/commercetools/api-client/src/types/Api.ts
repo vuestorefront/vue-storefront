@@ -62,6 +62,7 @@ export interface ProductWhereSearch extends BaseSearch {
   ids?: string[];
   key?: string;
   filters?: Filter[];
+  where?: string;
 }
 
 export interface FilterOption {
@@ -74,11 +75,13 @@ export interface CategoryWhereSearch extends BaseSearch {
   catId?: string;
   key?: string;
   slug?: string;
+  where?: string;
 }
 
 export interface OrderWhereSearch extends BaseSearch {
   id?: string;
   orderNumber?: string;
+  where?: string;
 }
 
 export interface FlowOptions {
