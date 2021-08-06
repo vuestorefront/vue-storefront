@@ -12,16 +12,16 @@ const settings = {
 } as any;
 
 describe('[commercetools-api-client] search', () => {
-  it('returns undefined when parameters are not supported', () => {
+  it('returns empty when parameters are not supported', () => {
     expect(buildProductWhere(settings, null)).toBe('');
   });
 
-  it('returns undefined string when parameters are not supported', () => {
-    expect(buildCategoryWhere(settings, null)).toBe(undefined);
+  it('returns empty string when parameters are not supported', () => {
+    expect(buildCategoryWhere(settings, null)).toBe('');
   });
 
-  it('returns undefined string when parameters are not supported', () => {
-    expect(buildOrderWhere(null)).toBe(null);
+  it('returns empty string when parameters are not supported', () => {
+    expect(buildOrderWhere(null)).toBe('');
   });
 
   describe('returns product search query by cat id', () => {
