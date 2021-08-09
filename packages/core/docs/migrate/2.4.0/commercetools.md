@@ -6,10 +6,10 @@ In 2.4.0 release, we introduce Forgot Password functionality and basic support f
 
 ## Changes
 
-- Added `useStore` composable and plugin for creating locale, currency, and country cookies
-- Added `forgotPasswordGetters`
-- Added `storeGetters`
+- Added `storeGetters`, `useStore` composable and plugin for creating locale, currency, and country cookies
+- Added `forgotPasswordGetters` and `useForgotPassword` composable
 - Added `getProductSku` getter to `productGetters`
+- Extended `middleware.config.js` with `inventoryMode` optional property - when added to configuration, Inventory Mode is set on cart creation
 - Added smartphone only promo code input
 - Removed hardcoded link to the category in `SearchResults.vue`
 - Replaced mocked email address in MyProfile password change tab to active user email
