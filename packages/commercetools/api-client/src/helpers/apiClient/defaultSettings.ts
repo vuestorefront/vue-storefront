@@ -17,7 +17,8 @@ export const defaultSettings = {
     onTokenRemove: () => {}
   },
   storeService: {
-    changeCurrentStore: () => {}
+    changeCurrentStore: () => {},
+    changeCurrentChannel: () => {}
   },
   cookies: {
     currencyCookieName: VSF_CURRENCY_COOKIE,

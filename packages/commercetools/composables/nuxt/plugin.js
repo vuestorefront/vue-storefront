@@ -27,11 +27,22 @@ export default integrationPlugin(({ app, integration }) => {
   /**
    * changeCurrentStore
    * @param {string} id
-   * @returns {void} 
+   * @returns {void}
    */
   const changeCurrentStore = (id) => {
     app.$cookies.set(
       app.$vsf.$ct.config.cookies.storeCookieName, id
+    );
+  }
+
+  /**
+   * changeCurrentChannel
+   * @param {string} id
+   * @returns {void}
+   */
+  const changeCurrentChannel = (id) => {
+    app.$cookies.set(
+        app.$vsf.$ct.config.cookies.channelCookieName, id
     );
   }
 
@@ -45,7 +56,8 @@ export default integrationPlugin(({ app, integration }) => {
         onTokenRemove
       },
       storeService: {
-        changeCurrentStore
+        changeCurrentStore,
+        changeCurrentChannel
       }
     }
   })

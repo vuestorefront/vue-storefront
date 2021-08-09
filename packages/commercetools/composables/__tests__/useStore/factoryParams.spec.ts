@@ -50,7 +50,8 @@ describe('[commercetools-composables] useStore factoryParams', () => {
     });
 
     const storeService = {
-      changeCurrentStore: jest.fn()
+      changeCurrentStore: jest.fn(),
+      changeCurrentChannel: jest.fn()
     };
 
     const config = {

@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
 import ApolloClient, { ApolloClientOptions } from 'apollo-client';
-import { ResourceIdentifierInput } from './GraphQL';
 
 export interface ClientInstance extends ApolloClient<any> {
   sdkAuth?: SdkAuth;
@@ -45,7 +44,8 @@ export interface Auth {
 }
 
 export interface StoreService {
-  changeCurrentStore: (id: string) => void
+  changeCurrentStore: (id: string) => void,
+  changeCurrentChannel: (id: string) => void
 }
 
 export interface SetupConfig<TCacheShape> {
@@ -60,7 +60,7 @@ export interface SetupConfig<TCacheShape> {
   languageMap?: Record<string, any>;
   acceptLanguage?: string[];
   store: string;
-  channels?: Record<string, ResourceIdentifierInput>;
+  channels?: string;
   cookies?: CookiesConfig;
   auth?: Auth;
   storeService?: StoreService;
@@ -85,7 +85,7 @@ export interface Config<T = any> {
   languageMap: Record<string, any>;
   acceptLanguage: string[];
   store: string;
-  channels?: Record<string, ResourceIdentifierInput>;
+  channels?: string;
   cookies: CookiesConfig;
   auth?: Auth;
   storeService?: StoreService;
