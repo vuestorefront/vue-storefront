@@ -98,11 +98,15 @@ export default {
     const changeActivePage = async (title) => {
       if (title === 'Log out') {
         await logout();
-        $router.push('/');
+        $router.push(context.root.localePath({ name: 'home' }));
         return;
       }
 
-      $router.push(`/my-account/${(title || '').toLowerCase().replace(' ', '-')}`);
+      const slugifiedTitle = (title || '').toLowerCase().replace(' ', '-');
+      const transformedPath = `/my-account/${slugifiedTitle}`;
+      const localeTransformedPath = context.root.localePath(transformedPath);
+
+      $router.push(localeTransformedPath);
     };
 
     onBeforeUnmount(() => {

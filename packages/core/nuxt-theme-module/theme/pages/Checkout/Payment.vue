@@ -142,7 +142,8 @@ export default {
 
     const processOrder = async () => {
       await make();
-      context.root.$router.push(`/checkout/thank-you?order=${orderGetters.getId(order.value)}`);
+      const thankYouPath = { name: 'thank-you', query: { order: orderGetters.getId(order.value) }};
+      context.root.$router.push(context.root.localePath(thankYouPath));
       setCart(null);
     };
 
