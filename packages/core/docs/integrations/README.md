@@ -142,7 +142,7 @@ Click on the integration tile to read its documentation.
   />
   <IntegrationTile
     name="Bloomreach"
-    image="https://www.bloomreach.com/binaries/content/gallery/logos/blr_logo-primary.svg"
+    image="https://commercetools.com/wp-content/uploads/2018/07/bloomreach_logo.png"
     :category="['CMS', 'search']"
     :compatibility="['commercetools']"
     :from-core="true"

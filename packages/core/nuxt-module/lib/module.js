@@ -11,7 +11,7 @@ const rawSourcesModule = require('./modules/raw-sources-loader');
 module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   const defaultOptions = {
     coreDevelopment: false,
-    performance: {
+    performance : {
       httpPush: true,
       purgeCSS: {
         enabled: false,
@@ -51,7 +51,7 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   }
 
   // Context plugin
-  this.addPlugin(path.resolve(__dirname, 'plugins/context.js'));
+  this.addPlugin(path.resolve(__dirname, 'plugins/context.js'))
   log.success('Installed Vue Storefront Context plugin');
 
   // SSR plugin
@@ -66,7 +66,7 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   log.success('Installed VSF Logger plugin');
 
   // Context plugin
-  this.addPlugin(path.resolve(__dirname, 'plugins/e2e-testing.js'));
+  this.addPlugin(path.resolve(__dirname, 'plugins/e2e-testing.js'))
   log.success('Installed Vue Storefront E2E testing plugin');
 
   // i18n-cookies plugin
@@ -92,6 +92,6 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
 
   // Raw sources loader
   rawSourcesModule.call(this, options);
-};
+}
 
-module.exports.meta = require('../package.json');
+module.exports.meta = require('../package.json')

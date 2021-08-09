@@ -1,7 +1,4 @@
 /* istanbul ignore file */
-/**
- * @packageDocumentation The Core API Reference documentation provides detailed information for each of the functions and interfaces in the Vue Storefront.
- */
 
 export * from './utils';
 export * from './factories';
