@@ -102,7 +102,8 @@ export default {
         return;
       }
 
-      const transformedPath = `/my-account/${(title || '').toLowerCase().replace(' ', '-')}`;
+      const slugifiedTitle = (title || '').toLowerCase().replace(' ', '-');
+      const transformedPath = `/my-account/${slugifiedTitle}`;
       const localeTransformedPath = context.root.localePath(transformedPath);
 
       $router.push(localeTransformedPath);

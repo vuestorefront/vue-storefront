@@ -337,7 +337,7 @@ export default {
         }
       }
       reset();
-      context.root.$router.push(context.root.localePath('/checkout/payment'));
+      context.root.$router.push(context.root.localePath({ name: 'payment' }));
     };
 
     const handleAddNewAddressBtnClick = () => {
