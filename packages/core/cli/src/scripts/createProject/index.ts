@@ -15,7 +15,7 @@ async function createProject({
 }: ICreateProjectProps): Promise<void> {
   const templatePath = path.join(targetPath, projectName);
   try {
-    await shell.exec(`git clone ${repositoryLink} ${templatePath}`);
+    await shell.exec(`git clone ${repositoryLink} '${templatePath}'`);
     removeFolder(templatePath, '.git');
     log.success('Project template initialized successfully. ');
     log.info('Check out https://docs.vuestorefront.io/v2');
