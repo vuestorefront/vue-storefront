@@ -45,7 +45,6 @@ export interface Auth {
 
 export interface StoreService {
   changeCurrentStore: (id: string) => void,
-  changeCurrentChannel: (id: string) => void
 }
 
 export interface SetupConfig<TCacheShape> {
@@ -60,7 +59,6 @@ export interface SetupConfig<TCacheShape> {
   languageMap?: Record<string, any>;
   acceptLanguage?: string[];
   store: string;
-  channels?: string;
   cookies?: CookiesConfig;
   auth?: Auth;
   storeService?: StoreService;
@@ -85,7 +83,6 @@ export interface Config<T = any> {
   languageMap: Record<string, any>;
   acceptLanguage: string[];
   store: string;
-  channels?: string;
   cookies: CookiesConfig;
   auth?: Auth;
   storeService?: StoreService;

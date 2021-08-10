@@ -45,7 +45,6 @@ const mapFilterToPredicate = (settings: Config, filter: Filter) => {
 };
 
 const buildInventoryEntriesWhere = (settings: Config, params: GetInventoryParams) => {
-  // if (settings.channels) (...)
   // something like json-to-graphql-query would be better here
   if (params.sku) return `sku="${params.sku}"`;
 };

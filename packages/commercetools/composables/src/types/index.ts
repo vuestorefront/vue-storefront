@@ -45,7 +45,6 @@ export type SearchData = FacetSearchResult<FacetResultsData>
 
 export interface StoresData extends StoreQueryResult {
   _selectedStore: string;
-  _selectedChannel: string;
 }
 
 export interface StoreGetters<STORES, CRITERIA = any> {

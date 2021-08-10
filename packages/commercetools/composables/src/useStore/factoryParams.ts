@@ -23,8 +23,7 @@ async function load (context: Context, params: UseStoreFactoryLoadParamArguments
 
   return {
     ...await api.getStores({ customQuery }),
-    _selectedStore: config.store,
-    _selectedChannel: config.channels
+    _selectedStore: config.store
   };
 }
 

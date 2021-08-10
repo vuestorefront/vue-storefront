@@ -35,17 +35,6 @@ export default integrationPlugin(({ app, integration }) => {
     );
   }
 
-  /**
-   * changeCurrentChannel
-   * @param {string} id
-   * @returns {void}
-   */
-  const changeCurrentChannel = (id) => {
-    app.$cookies.set(
-        app.$vsf.$ct.config.cookies.channelCookieName, id
-    );
-  }
-
   const settings = mapConfigToSetupObject({
     moduleOptions,
     app,
@@ -56,8 +45,7 @@ export default integrationPlugin(({ app, integration }) => {
         onTokenRemove
       },
       storeService: {
-        changeCurrentStore,
-        changeCurrentChannel
+        changeCurrentStore
       }
     }
   })
