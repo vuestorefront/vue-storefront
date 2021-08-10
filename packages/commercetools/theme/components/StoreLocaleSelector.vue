@@ -88,7 +88,7 @@ export default {
       await load();
     });
 
-    const availableStores = computed(() => storeGetters.getItems(response.value));
+    const availableStores = computed(() => response.value?.results ?? []);
     const selectedStore = computed(() => storeGetters.getSelected(response.value));
     const changeStore = async (store) => {
       isLangModalOpen.value = false;
@@ -96,7 +96,7 @@ export default {
       await change({store});
     };
     const isStoreSelected = (store) => selectedStore.value?.id === store.id;
-    const getStoreLocale = (store) => store?.locales ?? defaultLocale;
+    const getStoreLocale = (store) => store?.languages[0] ?? defaultLocale;
 
     return {
       load,

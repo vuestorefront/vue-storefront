@@ -11,13 +11,19 @@ const addToCart = async (
   quantity: number,
   customQuery?: CustomQuery
 ): Promise<CartResponse> => {
-  const { channels } = context.config;
+  const { supplyChannel, distributionChannel } = customQuery;
+
   return await updateCart(
     context,
     {
       id,
       version,
-      actions: [createAddLineItemAction(product, quantity, channels)]
+      actions: [createAddLineItemAction(
+        product,
+        quantity,
+        supplyChannel,
+        distributionChannel
+      )]
     },
     customQuery
   );
