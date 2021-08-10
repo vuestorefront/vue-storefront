@@ -108,7 +108,12 @@ export type CreatePasswordResetTokenResponse = QueryResponse<'customerCreatePass
 export type ResetPasswordResponse = QueryResponse<'customerResetPassword', Customer>;
 
 interface ApiMethods {
-  addToCart ({ id, version }: CartDetails, product: ProductVariant, quantity: number): Promise<CartResponse>;
+  addToCart ({ id, version }: CartDetails, params: {
+    product: ProductVariant;
+    quantity: number;
+    supplyChannel?: string;
+    distributionChannel?: string;
+  }): Promise<CartResponse>;
   applyCartCoupon ({ id, version }: CartDetails, discountCode: string): Promise<CartResponse>;
   createCart (cartDraft?: CartData): Promise<{ data: CartQueryInterface }>;
   createMyOrderFromCart (draft: OrderMyCartCommand): Promise<OrderMutationResponse>;

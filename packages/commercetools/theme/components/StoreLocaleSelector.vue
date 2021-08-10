@@ -8,7 +8,7 @@
     </SfButton>
     <SfBottomModal
       :is-open="isLangModalOpen"
-      :title="availableStores.length ? 'Choose store': ''"
+      :title="availableStores.length > 0 ? 'Choose store': ''"
       @click:close="isLangModalOpen = !isLangModalOpen">
       <SfList>
         <SfListItem v-for="store in availableStores" :key="store.id">
@@ -88,7 +88,7 @@ export default {
       await load();
     });
 
-    const availableStores = computed(() => storeGetters.getItems(response.value));
+    const availableStores = computed(() => response.value?.results ?? []);
     const selectedStore = computed(() => storeGetters.getSelected(response.value));
     const changeStore = async (store) => {
       isLangModalOpen.value = false;
@@ -96,7 +96,7 @@ export default {
       await change({store});
     };
     const isStoreSelected = (store) => selectedStore.value?.id === store.id;
-    const getStoreLocale = (store) => store?.locales[0]?.code ?? store?.locales[0] ?? defaultLocale;
+    const getStoreLocale = (store) => store?.languages[0] ?? defaultLocale;
 
     return {
       load,
