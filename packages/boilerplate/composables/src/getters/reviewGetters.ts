@@ -1,39 +1,57 @@
 import { ReviewGetters, AgnosticRateCount } from '@vue-storefront/core';
-
-type Review = any;
-type ReviewItem = any;
+import type { Review, ReviewItem } from '@vue-storefront/boilerplate-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItems = (review: Review): ReviewItem[] => [];
+function getItems (review: Review): ReviewItem[] {
+  return [];
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewId = (item: ReviewItem): string => '';
+function getReviewId(item: ReviewItem): string {
+  return '';
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewAuthor = (item: ReviewItem): string => '';
+function getReviewAuthor(item: ReviewItem): string {
+  return '';
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewMessage = (item: ReviewItem): string => '';
+function getReviewMessage(item: ReviewItem): string {
+  return '';
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewRating = (item: ReviewItem): number => 0;
+function getReviewRating(item: ReviewItem): number {
+  return 0;
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewDate = (item: ReviewItem): string => '';
+function getReviewDate(item: ReviewItem): string {
+  return '';
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getTotalReviews = (review: Review): number => 0;
+function getTotalReviews(review: Review): number {
+  return 0;
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getAverageRating = (review: Review): number => 0;
+function getAverageRating(review: Review): number {
+  return 0;
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getRatesCount = (review: Review): AgnosticRateCount[] => [];
+function getRatesCount(review: Review): AgnosticRateCount[] {
+  return [];
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewsPage = (review: Review): number => 1;
+function getReviewsPage(review: Review): number {
+  return 0;
+}
 
-const reviewGetters: ReviewGetters<Review, ReviewItem> = {
+export const reviewGetters: ReviewGetters<Review, ReviewItem> = {
   getItems,
   getReviewId,
   getReviewAuthor,
@@ -45,5 +63,3 @@ const reviewGetters: ReviewGetters<Review, ReviewItem> = {
   getRatesCount,
   getReviewsPage
 };
-
-export default reviewGetters;

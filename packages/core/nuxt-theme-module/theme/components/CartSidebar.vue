@@ -86,7 +86,7 @@
                 />
               </template>
             </SfProperty>
-            <nuxt-link to="/checkout/shipping">
+            <nuxt-link :to="localePath({ name: 'shipping' })">
               <SfButton
                 v-e2e="'go-to-checkout-btn'"
                 class="sf-button--full-width color-secondary"
@@ -144,7 +144,6 @@ export default {
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
-
     loadCart();
 
     return {

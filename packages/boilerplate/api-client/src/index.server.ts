@@ -1,22 +1,17 @@
 import { apiClientFactory } from '@vue-storefront/core';
-import getProduct from './api/getProduct';
-import getCategory from './api/getCategory';
+import type { Setttings, Endpoints } from './types';
 
-const defaultSettings = {};
+function onCreate(settings: Setttings) {
+  return {
+    config: settings,
+    client: {}
+  };
+}
 
-const onCreate = (settings) => ({
-  config: {
-    ...defaultSettings,
-    ...settings
-  },
-  client: {}
-});
-
-const { createApiClient } = apiClientFactory<any, any>({
+const { createApiClient } = apiClientFactory<Setttings, Endpoints>({
   onCreate,
   api: {
-    getProduct,
-    getCategory
+
   }
 });
 

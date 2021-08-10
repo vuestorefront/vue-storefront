@@ -23,7 +23,7 @@
             :subtitle="item.subtitle"
             :description="item.description"
             :button-text="item.buttonText"
-            :link="item.link"
+            :link="localePath(item.link)"
             :image="item.image"
             :class="item.class"
           />
@@ -63,7 +63,7 @@
               :score-rating="product.rating.score"
               :show-add-to-cart-button="true"
               :is-on-wishlist="product.isInWishlist"
-              link="/"
+              :link="localePath({ name: 'home' })"
               class="carousel__item__product"
               @click:wishlist="toggleWishlist(i)"
             />

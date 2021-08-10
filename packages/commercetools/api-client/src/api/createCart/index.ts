@@ -5,8 +5,8 @@ import { CustomQuery } from '@vue-storefront/core';
 import { getStoreKey } from '../../helpers/utils';
 
 const createCart = async (context, cartDraft: CartData = {}, customQuery?: CustomQuery) => {
-  const { locale, acceptLanguage, currency, country, store } = context.config;
-
+  const { locale, acceptLanguage, currency, country, store, inventoryMode } = context.config;
+  
   const defaultVariables = {
     acceptLanguage,
     locale,
@@ -14,6 +14,7 @@ const createCart = async (context, cartDraft: CartData = {}, customQuery?: Custo
     draft: {
       currency,
       country,
+      inventoryMode,
       ...cartDraft
     },
     ...getStoreKey(store)
