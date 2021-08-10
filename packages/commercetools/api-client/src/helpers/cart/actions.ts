@@ -8,19 +8,17 @@ export const createAddLineItemAction = (
   quantity: number,
   distributionChannel?: string,
   supplyChannel?: string
-) => ({
-  addLineItem: {
-    variantId: variant.id,
-    quantity: quantity,
-    sku: variant.sku,
-    supplyChannel: supplyChannel ? {
-      id: supplyChannel
-    } : null,
-    distributionChannel: distributionChannel ? {
-      id: distributionChannel
-    } : null
-  }
-});
+) => {
+  return {
+    addLineItem: {
+      variantId: variant.id,
+      quantity: quantity,
+      sku: variant.sku,
+      ...(supplyChannel && { supplyChannel: { id: supplyChannel }}),
+      ...(distributionChannel && { distributionChannel: { id: distributionChannel }})
+    }
+  };
+};
 
 export const createRemoveLineItemAction = (product: LineItem) => ({
   removeLineItem: {

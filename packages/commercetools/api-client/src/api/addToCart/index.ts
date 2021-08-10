@@ -11,7 +11,6 @@ const addToCart = async (
   quantity: number,
   customQuery?: CustomQuery
 ): Promise<CartResponse> => {
-  const { supplyChannel, distributionChannel } = customQuery;
 
   return await updateCart(
     context,
@@ -21,8 +20,8 @@ const addToCart = async (
       actions: [createAddLineItemAction(
         product,
         quantity,
-        supplyChannel,
-        distributionChannel
+        customQuery.supplyChannel,
+        customQuery.distributionChannel
       )]
     },
     customQuery

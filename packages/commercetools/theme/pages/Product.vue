@@ -80,6 +80,7 @@
               Shipping
             </SfTab>
             <SfTab
+              v-if="channels.length > 0"
               title="Click and Collect"
             >
               <SfSelect
@@ -105,7 +106,7 @@
             :disabled="loading"
             :canAddToCart="stock > 0"
             class="product__add-to-cart"
-            @click="addToCart()"
+            @click="addToCart"
           />
         </div>
 
@@ -204,7 +205,15 @@ import {
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
-import { useProduct, useCart, productGetters, useReview, reviewGetters } from '@vue-storefront/commercetools';
+import {
+  useProduct,
+  useCart,
+  productGetters,
+  useReview,
+  reviewGetters,
+  storeGetters,
+  useStore
+} from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import cacheControl from './../helpers/cacheControl';
@@ -223,23 +232,28 @@ export default {
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
     const { addItem, loading } = useCart();
     const { reviews: productReviews, search: searchReviews } = useReview('productReviews');
+    const { response: stores } = useStore();
 
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
     const reviews = computed(() => reviewGetters.getItems(productReviews.value));
+    const selectedStore = computed(() => storeGetters.getSelected(stores.value));
 
     const channelId = ref(null);
-    const channels = computed(() => product.value?.availability?.channels?.results ?? []);
+    const channels = computed(() => {
+      const productChannels = product.value?.availability?.channels?.results ?? [];
+      return productChannels;
+    });
 
     const selectedChannel = computed(() => {
-      const { channel } = channels.value.find((item) => (item.channel.id === channelId.value));
+      const selected = channels.value.find((item) => (item.channel.id === channelId.value));
 
-      return (channel && channel.roles && channel.id) ? {
-        distributtionChannel: (channel.roles.includes('ProductDistribution')) ? channel.id : null,
-        supplyChannel: (channel.roles.includes('InventorySupply')) ? channel.id : null
-      } : {};
+      return (selected?.channel?.roles && selected?.channel?.id) ? {
+        ...(selected.channel.roles.includes('InventorySupply') && { supplyChannel: selected.channel.id }),
+        ...(selected.channel.roles.includes('ProductDistribution') && { distributionChannel: selected.channel.id })
+      } : null;
     });
 
     const addToCart = () => {
@@ -289,7 +303,9 @@ export default {
       productGetters,
       productGallery,
       channels,
-      channelId
+      channelId,
+      selectedChannel,
+      selectedStore
     };
   },
   components: {
