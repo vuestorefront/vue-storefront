@@ -1,6 +1,6 @@
 module.exports = {
   description: 'Enable the purchase of item with selected supply channel and distribution channel',
-  link: 'https://github.com/vuestorefront/vue-storefront/pull/',
+  link: 'https://github.com/vuestorefront/vue-storefront/pull/6161',
   isBreaking: true,
   breakingChanges: [
     {
