@@ -7,8 +7,12 @@ import { createAddLineItemAction } from './../../helpers/cart/actions';
 const addToCart = async (
   context: Context,
   { id, version }: CartDetails,
-  product: ProductVariant,
-  quantity: number,
+  params: {
+    product: ProductVariant;
+    quantity: number;
+    supplyChannel?: string;
+    distributionChannel?: string;
+  },
   customQuery?: CustomQuery
 ): Promise<CartResponse> => {
 
@@ -17,12 +21,7 @@ const addToCart = async (
     {
       id,
       version,
-      actions: [createAddLineItemAction(
-        product,
-        quantity,
-        customQuery.supplyChannel,
-        customQuery.distributionChannel
-      )]
+      actions: [createAddLineItemAction(params)]
     },
     customQuery
   );
