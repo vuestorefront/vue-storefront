@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+
 import { Ref } from '@vue/composition-api';
 import type { Request, Response } from 'express';
 
@@ -271,9 +272,6 @@ export interface UseCategory<
   error: ComputedProperty<UseCategoryErrors>;
 }
 
-/**
- * Dedicated error interface for {@link UseCart}
- */
 export interface UseCartErrors {
   addItem: Error;
   removeItem: Error;
@@ -479,9 +477,6 @@ export interface UseContent<
   error: ComputedProperty<UseContentErrors>;
 }
 
-/**
- * @internal
- */
 export interface RenderComponent {
   componentName: string;
   props?: any;

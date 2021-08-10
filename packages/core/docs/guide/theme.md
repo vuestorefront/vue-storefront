@@ -37,6 +37,18 @@ If you don't want to use Storefront UI, feel free to remove it from your project
 
 ## Customizing the theme
 
+### Learn Nuxt.js
+
+Before starting to customize the base theme, we highly recommend getting familiar with [Nuxt.js](https://nuxtjs.org/) because the majority of UI functionalities in Vue Storefront are handled by it. It will help you understand the mechanisms behind the framework and how to extend it efficiently.
+
+### Install Vue.js Devtools
+
+We also recommend installing [Vue.js Devtools](https://github.com/vuejs/vue-devtools#installation) in your browser. It's an excellent tool for viewing component structure and their current state, inspecting events and routes, and much more.
+
+<center>
+<img src="../images/theme/vue-devtools.jpg" />
+</center>
+
 ### Changing existing pages, components, and layouts
 
 To update the existing components, you need to identify them first. Vue.js Devtools helps us in that. Open the tool and click on the `Select` button above the component tree, then click on the DOM element you want to update. One of the components in the tree should get highlighted. You can look for the component with the same name in the `layout`, `pages`, or `components` directories and update it to your needs. However, there are few exceptions to this rule.
@@ -75,22 +87,7 @@ export default {
 };
 ```
 
-## Routing
-
-Out of the box, some routes are injected via `@vue-storefront/nuxt-theme` module:
-
-- Home Page (`/`);
-- Category Page (`/c/:slug_1/:slug_2?/:slug_3?/:slug_4?/:slug_5?`);
-- Product Page (`/p/:id/:slug/`);
-- User Profile Page (`/my-account/:pageName?`);
-- Checkout (`/checkout`):
-  - Shipping (`/checkout/shipping`);
-  - Billing (`/checkout/billing`);
-  - Payment (`/checkout/payment`);
-  - Thank You page (`/checkout/thank-you`);
-- Custom 404 page;
-
-To override existing routes or adding your own, use [extendRoutes](https://nuxtjs.org/guides/configuration-glossary/configuration-router#extendroutes) in `nuxt.config.js`. Additionally, Nuxt.js automatically registers components created in the `pages` folder as new routes. You can read more about this on the [File System Routing](https://nuxtjs.org/docs/2.x/features/file-system-routing/) page.
+For more information about routes we provide out of the box, refer to [Routing](../general/key-concepts.html#routing) section.
 
 ## Updating styles
 
