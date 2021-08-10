@@ -6,6 +6,7 @@ In 2.4.0 release, we introduce Forgot Password functionality and basic support f
 
 ## Changes
 
+- **[BREAKING]** Enable the purchase of item with selected supply channel and distribution channel
 - Added `storeGetters`, `useStore` composable and plugin for creating locale, currency, and country cookies
 - Added `forgotPasswordGetters` and `useForgotPassword` composable
 - Added `getProductSku` getter to `productGetters`
