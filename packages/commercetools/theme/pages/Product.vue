@@ -231,7 +231,7 @@ export default {
     const reviews = computed(() => reviewGetters.getItems(productReviews.value));
 
     const channelId = ref(null);
-    const channels = computed(() => product.value.availability?.channels?.results ?? []);
+    const channels = computed(() => product.value?.availability?.channels?.results ?? []);
 
     const selectedChannel = computed(() => {
       const { channel } = channels.value.find((item) => (item.channel.id === channelId.value));
