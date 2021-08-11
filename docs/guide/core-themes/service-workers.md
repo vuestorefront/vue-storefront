@@ -5,7 +5,7 @@ We're using Service Workers for two main purposes:
 1. To cache out static and dynamic data feeds, to make them [available offline](https://developers.google.com/web/fundamentals/primers/service-workers/)
 2. To run offline data sync.
 
-To achieve the first point, we're using [sw-precache](https://github.com/GoogleChromeLabs/sw-precache) from Google, and for the second, Vanilla JS with a little help from [sw-toolbox](https://www.google.pl/search?q=sw-toolbox&oq=sw-toolbox&aqs=chrome..69i57j69i60l3j0l2.1529j0j4&sourceid=chrome&ie=UTF-8)
+To achieve the first point, we're using [Google Workbox](https://developers.google.com/web/tools/workbox).
 
 ## Making things happen
 
@@ -20,6 +20,59 @@ After changing anything in `{themename}/service-worker/index.js`, despite you're
 
 
 ![How to work with service-workers in Chrome](../images/chrome-dev-console.png)
+
+## Custom service-worker rules using your theme
+
+You can add your own service-worker rules to your theme using the `theme/service-worker/index.js` file. This file will be imported and extends the core service-worker rules in `@vue-storefront/core/service-worker/core-service-worker`.
+
+```js
+import { registerRoute } from 'workbox-routing'
+import { CacheFirst } from 'workbox-strategies'
+import { ExpirationPlugin } from 'workbox-expiration'
+
+/*
+Service worker extension:
+
+The code will be merged with default Service Worker
+
+Add your own Service worker code here:
+
+import { registerRoute } from 'workbox-routing'
+import { CacheFirst } from 'workbox-strategies'
+import { ExpirationPlugin } from 'workbox-expiration'
+
+const outputCache = new NetworkFirst({
+  cacheName: 'vsf-output',
+  plugins: [
+    new ExpirationPlugin({
+      maxEntries: 50,
+      maxAgeSeconds: 60 * 60 * 24, // 1d
+      purgeOnQuotaError: true
+    })
+  ]
+})
+
+registerRoute(
+  /.+\.html$/,
+  outputCache
+)
+
+registerRoute(
+  ({ request }) => request.destination === 'image',
+  new CacheFirst({
+    cacheName: 'my-image-cache',
+  })
+)
+
+registerRoute(
+  /.+\.(css|js|png)$/,
+  new NetworkFirst({
+    cacheName: 'my-asset-cache',
+  })
+)
+*/
+
+```
 
 ## Communication with the app
 
