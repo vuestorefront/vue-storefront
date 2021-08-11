@@ -177,7 +177,7 @@
     "webpack-dev-middleware": "^3.4.0",
     "webpack-hot-middleware": "^2.24.3",
     "webpack-merge": "^4.2.2",
-    "workbox-webpack-plugin": "^6.0.0-alpha.1"
+    "workbox-webpack-plugin": "^6.2.3"
   },
   "peerDependencies": {
     "vue-template-compiler": "^2.6.11"
