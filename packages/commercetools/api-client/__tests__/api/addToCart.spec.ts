@@ -1,6 +1,4 @@
 import addToCart from '../../src/api/addToCart';
-import { Context, CustomQuery } from '@vue-storefront/core';
-import { CartDetails, ProductVariant } from '../../src';
 
 const cart = {
   id: 1,
