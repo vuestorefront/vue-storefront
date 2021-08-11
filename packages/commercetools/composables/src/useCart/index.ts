@@ -40,11 +40,11 @@ const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductV
       distributionChannel?: string;
     } = {
       product,
-      quantity,
-    }
+      quantity
+    };
 
-    if(customQuery?.distributionChannel) params.distributionChannel = customQuery.distributionChannel;
-    if(customQuery?.supplyChannel) params.supplyChannel = customQuery.supplyChannel;
+    if (customQuery?.distributionChannel) params.distributionChannel = customQuery.distributionChannel;
+    if (customQuery?.supplyChannel) params.supplyChannel = customQuery.supplyChannel;
 
     const { data } = await context.$ct.api.addToCart(cartDetails, params, customQuery);
 
