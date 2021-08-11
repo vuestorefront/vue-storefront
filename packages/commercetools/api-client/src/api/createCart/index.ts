@@ -6,7 +6,7 @@ import { getStoreKey } from '../../helpers/utils';
 
 const createCart = async (context, cartDraft: CartData = {}, customQuery?: CustomQuery) => {
   const { locale, acceptLanguage, currency, country, store, inventoryMode } = context.config;
-  
+
   const defaultVariables = {
     acceptLanguage,
     locale,
