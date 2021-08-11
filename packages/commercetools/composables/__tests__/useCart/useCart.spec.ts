@@ -37,7 +37,10 @@ describe('[commercetools-composables] useCart', () => {
     const response = await addItem(context, { currentCart, product: 'product1', quantity: 3 });
 
     expect(response).toEqual(MOCKED_CART);
-    expect(context.$ct.api.addToCart).toBeCalledWith(currentCart, 'product1', 3, customQuery);
+    expect(context.$ct.api.addToCart).toBeCalledWith(currentCart, {
+      product: 'product1',
+      quantity: 3
+    }, customQuery);
   });
 
   it('creates a new cart and add an item', async () => {
@@ -47,7 +50,10 @@ describe('[commercetools-composables] useCart', () => {
     expect(loadCurrentCart).toBeCalled();
 
     expect(response).toEqual(MOCKED_CART);
-    expect(context.$ct.api.addToCart).toBeCalledWith({ id: undefined, version: undefined }, 'product1', 3, customQuery);
+    expect(context.$ct.api.addToCart).toBeCalledWith({ id: undefined, version: undefined }, {
+      product: 'product1',
+      quantity: 3
+    }, customQuery);
   });
 
   it('removes from cart', async () => {
