@@ -39,7 +39,7 @@ const stores = {
   offset: 0,
   count: 0,
   total: 0,
-  _selected: 'key-3',
+  _selectedStore: 'key-3',
   results
 };
 
@@ -175,7 +175,7 @@ describe('[commercetools-getters] store getters', () => {
     });
 
     it('returns undefined for criteria mismatch', () => {
-      const given = { ...stores, _selected: '5/z1' };
+      const given = { ...stores, _selectedStore: '5/z1' };
       expect(storeGetters.getSelected(given as StoresData)).toBeUndefined();
     });
 

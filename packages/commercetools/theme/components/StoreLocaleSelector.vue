@@ -64,7 +64,7 @@ import {
   SfSelect
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
-import { useStore, storeGetters, useCart } from '@vue-storefront/commercetools';
+import { useStore, useCart } from '@vue-storefront/commercetools';
 import { ref, computed } from '@vue/composition-api';
 
 export default {
@@ -88,13 +88,20 @@ export default {
       await load();
     });
 
+    // to be added on local useStore factory
+    function getSelected(stores) {
+      return stores.results?.find((result) => result.key === stores._selectedStore);
+    }
+
     const availableStores = computed(() => response.value?.results ?? []);
-    const selectedStore = computed(() => storeGetters.getSelected(response.value));
+    const selectedStore = computed(() => getSelected(response.value));
+
     const changeStore = async (store) => {
       isLangModalOpen.value = false;
       if (cart?.value) await clear(cart);
       await change({store});
     };
+
     const isStoreSelected = (store) => selectedStore.value?.id === store.id;
     const getStoreLocale = (store) => store?.languages[0] ?? defaultLocale;
 

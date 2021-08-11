@@ -211,7 +211,6 @@ import {
   productGetters,
   useReview,
   reviewGetters,
-  storeGetters,
   useStore
 } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
@@ -234,12 +233,17 @@ export default {
     const { reviews: productReviews, search: searchReviews } = useReview('productReviews');
     const { response: stores } = useStore();
 
+    // to be added on local useStore factory
+    function getSelected(stores) {
+      return stores.results?.find((result) => result.key === stores._selectedStore);
+    }
+
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
     const reviews = computed(() => reviewGetters.getItems(productReviews.value));
-    const selectedStore = computed(() => storeGetters.getSelected(stores.value));
+    const selectedStore = computed(() => getSelected(stores.value));
 
     const channelId = ref(null);
     const channels = computed(() => {

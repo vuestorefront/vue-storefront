@@ -27,7 +27,7 @@ describe('[commercetools-composables] useStore factoryParams', () => {
 
     const expected = {
       ...storesData,
-      _selected: config.store
+      _selectedStore: config.store
     };
 
     expect(useStoreFactoryParams.load((context as unknown) as Context, {} as any)).resolves.toStrictEqual(expected);

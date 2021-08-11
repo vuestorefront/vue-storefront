@@ -1,6 +1,6 @@
-import { AgnosticAddress, AgnosticLocale, AgnosticStore } from '@vue-storefront/core';
+import { AgnosticAddress, AgnosticLocale, AgnosticStore, UseStoreGetters } from '@vue-storefront/core';
 import { Store, Channel, Address } from '../types/GraphQL';
-import { StoresData, StoreGetters } from '../types';
+import { StoresData } from '../types';
 import { FilterCriteriaRecord, Localized, filterArrayByCriteriaRecord } from '../helpers/internals';
 
 /**
@@ -78,7 +78,6 @@ function mapChannelSetByKey (store: Store,
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function gainAgnosticStoreItems (criteria?: FilterCriteriaRecord<Channel>) {
   return function (acc: AgnosticStore[], store: Store): AgnosticStore[] {
     const mappedStores = [
@@ -99,21 +98,22 @@ function gainAgnosticStoreItems (criteria?: FilterCriteriaRecord<Channel>) {
  * Getters
  */
 
-function getItems (stores: StoresData, criteria: StoreFilterCriteria = {}): Store[] {
+function getItems (stores: StoresData, criteria: StoreFilterCriteria = {}): AgnosticStore[] {
   return filterArrayByCriteriaRecord<Store>(
     stores?.results,
-    criteria?.store) ?? [];
+    criteria?.store)
+    ?.reduce(gainAgnosticStoreItems(criteria.channel), []) ?? [];
 }
 
-function getSelected (stores: StoresData): Store | undefined {
-  return stores.results?.find((result) => result.key === stores._selectedStore);
+function getSelected (stores: StoresData): AgnosticStore | undefined {
+  return getItems(stores, { store: { key: (stores?._selectedStore ?? '') }})[0];
 }
 
 /**
  * Export
  */
 
-const storeGetters: StoreGetters<StoresData, StoreFilterCriteria> = {
+const storeGetters: UseStoreGetters<StoresData, StoreFilterCriteria> = {
   getItems,
   getSelected
 };
