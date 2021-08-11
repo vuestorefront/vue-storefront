@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added information about i18n & Unit tests in modules to docs - @lukaszjedrasik (#4991)
 - Updated VSF1 insfrastructure's schema - @lukaszjedrasik ([#5531](https://github.com/vuestorefront/vue-storefront/issues/5531))
 - Allow to configure the list of ElasticSearch indices (to be able to add custom ones) ([#5978](https://github.com/vuestorefront/vue-storefront/issues/5978))
-- Replace `sw-precache` & `register-service-worker` with latest `workbox` library from Google - @cewald (#2492)
+- Replace `sw-precache` & `register-service-worker` with latest `workbox` library from Google - @cewald (#2492, #6178)
 
 ### Fixed
 
