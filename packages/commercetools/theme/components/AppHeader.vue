@@ -3,6 +3,7 @@
     <SfHeader
       class="sf-header--has-mobile-search"
       :class="{'header-on-top': isSearchOpen}"
+      :isNavVisible="isMobileMenuOpen"
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
@@ -11,8 +12,7 @@
         </nuxt-link>
       </template>
       <template #navigation>
-        <SfHeaderNavigationItem class="nav-item" v-e2e="'app-header-url_women'" label="WOMEN" :link="localePath('/c/women')"/>
-        <SfHeaderNavigationItem class="nav-item"  v-e2e="'app-header-url_men'" label="MEN" :link="localePath('/c/men')" />
+        <HeaderNavigation :isMobile="isMobile" />
       </template>
       <template #aside>
         <StoreLocaleSelector class="smartphone-only" />
@@ -98,10 +98,11 @@
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useUser, cartGetters } from '@vue-storefront/commercetools';
-import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
+import { computed, ref, onBeforeUnmount, watch, onMounted } from '@vue/composition-api';
 import { useUiHelpers } from '~/composables';
 import StoreLocaleSelector from './StoreLocaleSelector';
 import SearchResults from '~/components/SearchResults';
+import HeaderNavigation from './HeaderNavigation';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
 import {
   mapMobileObserver,
@@ -122,11 +123,12 @@ export default {
     SearchResults,
     SfOverlay,
     SfMenuItem,
-    SfLink
+    SfLink,
+    HeaderNavigation
   },
   directives: { clickOutside },
   setup(props, { root }) {
-    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
+    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, isMobileMenuOpen } = useUiState();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load: loadUser } = useUser();
     const { cart } = useCart();
@@ -134,6 +136,7 @@ export default {
     const isSearchOpen = ref(false);
     const searchBarRef = ref(null);
     const result = ref(null);
+    const isMobile = ref(false);
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -170,8 +173,9 @@ export default {
 
     }, 1000);
 
-    const isMobile = computed(() => mapMobileObserver().isMobile.get());
-
+    onMounted(() => {
+      isMobile.value = mapMobileObserver().isMobile.get();
+    });
     const closeOrFocusSearchBar = () => {
       if (isMobile.value) {
         return closeSearch();
@@ -211,6 +215,7 @@ export default {
       closeOrFocusSearchBar,
       searchBarRef,
       isMobile,
+      isMobileMenuOpen,
       removeSearchResults
     };
   }
