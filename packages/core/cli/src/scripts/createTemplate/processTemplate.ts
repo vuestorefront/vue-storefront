@@ -13,15 +13,15 @@ export const processTemplate = async ({
   vsfTuConfigFilePath,
   generatedTemplatePath
 }: IProcessTemplateProps) => {
-  const removeVsfTuConfigFile = () => fs.unlinkSync(vsfTuConfigFilePath);
   try {
     await execa('vsf-tu');
   } catch (error) {
     log.error('Unprocessable template');
-    process.exit(1);
+    process.exitCode = 1;
   }
 
   try {
+    const removeVsfTuConfigFile = () => fs.unlinkSync(vsfTuConfigFilePath);
     removeVsfTuConfigFile();
   } catch (error) {
     log.error('Can\'t remove VSF-TU config file');

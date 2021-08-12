@@ -1,6 +1,7 @@
 <template>
   <div>
     <SfHeading
+      v-e2e="'heading-payment'"
       :level="3"
       :title="$t('Payment')"
       class="sf-heading--left sf-heading--no-underline title"
@@ -44,6 +45,15 @@
         </div>
       </SfAccordionItem>
     </SfAccordion>
+    <div class="promo-code smartphone-only">
+      <SfInput
+        v-model="promoCode"
+        name="promoCode"
+        :label="$t('Enter promo code')"
+        class="sf-input--filled promo-code__input"
+      />
+      <SfButton class="promo-code__button" @click="() => applyCoupon({ couponCode: promoCode })">{{ $t('Apply') }}</SfButton>
+    </div>
     <SfTable class="sf-table--bordered table desktop-only">
       <SfTableHeading class="table__row">
         <SfTableHeader class="table__header table__image">{{ $t('Item') }}</SfTableHeader>
@@ -58,24 +68,25 @@
       </SfTableHeading>
       <SfTableRow
         v-for="(product, index) in products"
+        v-e2e="'product-row'"
         :key="index"
         class="table__row"
       >
         <SfTableData class="table__image">
           <SfImage :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
         </SfTableData>
-        <SfTableData class="table__data table__description table__data">
+        <SfTableData v-e2e="'product-title-sku'" class="table__data table__description table__data">
           <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
           <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
         </SfTableData>
         <SfTableData
-          class="table__data" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
+          class="table__data" v-e2e="'product-attributes'" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
           :key="key"
         >
           {{ value }}
         </SfTableData>
-        <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
-        <SfTableData class="table__data price">
+        <SfTableData v-e2e="'product-quantity'" class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
+        <SfTableData v-e2e="'product-price'" class="table__data price">
           <SfPrice
             :regular="$n(cartGetters.getItemPrice(product).regular, 'currency')"
             :special="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
@@ -105,7 +116,7 @@
           :value="$n(totals.total, 'currency')"
           class="sf-property--full-width sf-property--large property summary__property-total"
         />
-        <VsfPaymentProviderMock @status="paymentReady = $event"/>
+        <VsfPaymentProviderMock />
         <SfCheckbox v-e2e="'terms'" v-model="terms" name="terms" class="summary__terms">
           <template #label>
             <div class="sf-checkbox__label">
@@ -138,13 +149,16 @@ import {
   SfPrice,
   SfProperty,
   SfAccordion,
-  SfLink
+  SfLink,
+  SfInput
 } from '@storefront-ui/vue';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed, watch } from '@vue/composition-api';
 import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 import VsfPaymentProviderMock from '@/components/Checkout/VsfPaymentProviderMock';
+import { usePaymentProviderMock } from '@/composables/usePaymentProviderMock';
+import { useUiNotification } from '~/composables';
 
 export default {
   name: 'ReviewOrder',
@@ -160,19 +174,23 @@ export default {
     SfProperty,
     SfAccordion,
     SfLink,
-    VsfPaymentProviderMock
+    VsfPaymentProviderMock,
+    SfInput
   },
   setup(_, context) {
-    const paymentReady = ref(false);
-    const terms = ref(false);
-    const { cart, removeItem, load, setCart } = useCart();
+    const { status: paymentReady } = usePaymentProviderMock();
+    const { cart, removeItem, load, setCart, applyCoupon } = useCart();
     const { shipping: shippingDetails, load: loadShippingDetails } = useShipping();
     const { load: loadShippingProvider, state } = useShippingProvider();
     const { billing: billingDetails, load: loadBillingDetails } = useBilling();
     const billingSameAsShipping = computed(() => Object.keys(shippingDetails.value).every(shippingDetailsKey => shippingDetails.value[shippingDetailsKey] === billingDetails.value[shippingDetailsKey]));
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
-    const { order, make, loading } = useMakeOrder();
+    const { order, make, loading, error } = useMakeOrder();
+    const { send } = useUiNotification();
+
+    const terms = ref(false);
+    const promoCode = ref('');
 
     onSSR(async () => {
       await load();
@@ -183,9 +201,20 @@ export default {
 
     const processOrder = async () => {
       await make();
-      context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
+
+      if (error.value.make) return;
+
+      const thankYouPath = { name: 'thank-you', query: { order: order.value.id }};
+      context.root.$router.push(context.root.localePath(thankYouPath));
+
       setCart(null);
     };
+
+    watch(() => ({...error.value}), (error, prevError) => {
+      if (error.make !== prevError.make)
+        send({ type: 'danger', message: error.make.message });
+    });
+
     return {
       loading,
       products,
@@ -198,10 +227,12 @@ export default {
       totals,
       removeItem,
       processOrder,
-      tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
+      tableHeaders: ['Description', 'Size', 'Color', 'Quantity', 'Amount'],
       cartGetters,
       getShippingMethodPrice,
-      paymentReady
+      paymentReady,
+      promoCode,
+      applyCoupon
     };
   }
 };
@@ -320,5 +351,22 @@ export default {
   --divider-border-color: var(--c-primary);
   --divider-width: 100%;
   --divider-margin: 0 0 var(--spacer-base) 0;
+}
+
+.promo-code {
+  margin-bottom: var(--spacer-base);
+  display: flex;
+  align-items: flex-start;
+  &__button {
+    --button-width: 6.3125rem;
+    --button-height: var(--spacer-lg);
+    &:hover {
+      --button-box-shadow-opacity: 0
+    }
+  }
+  &__input {
+    --input-background: var(--c-light);
+    flex: 1;
+  }
 }
 </style>

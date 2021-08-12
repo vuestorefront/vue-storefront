@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/boilerplate",
-  "version": "2.3.4",
+  "version": "2.3.3",
   "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
@@ -13,8 +13,12 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/boilerplate-api": "^2.3.4",
-    "@vue-storefront/core": "^2.3.4"
+    "@vue-storefront/boilerplate-api": "^2.3.3",
+    "@vue-storefront/core": "^2.3.3"
+  },
+  "devDependencies": {
+    "rollup-plugin-typescript2": "^0.30.0",
+    "@rollup/plugin-node-resolve": "^13.0.0"
   },
   "peerDependencies": {
     "@vue/composition-api": "1.0.0-beta.21"

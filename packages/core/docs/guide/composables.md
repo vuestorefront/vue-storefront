@@ -194,7 +194,7 @@ import { onSSR } from '@vue-storefront/core`
 
 export default {
   setup() {
-    const { products, search} = useProduct('<UNIQUE_ID>');
+    const { products, search } = useProduct('<UNIQUE_ID>');
 
     onSSR(async () => {
       await search(searchParams)
@@ -218,13 +218,16 @@ Every Vue Storefront composable usually returns three main pieces:
 - **Main data object**. A read-only object that represents data returned by the composable. For example, in `useProduct` it's a `products` object, in `useCategory` it's `category` etc.
 - **Supportive data objects**. These properties depend directly on indirectly on the main data object. For example, `loading`, `error` or `isAuthenticated` from `useUser` depend on a `user`.
 - **Main function that interacts with data object**. This function usually calls the API and updates the main data object. For example in `useProduct` and `useCategory` it's a `search` method,in `useCart` it's a `load` method. The rule of thumb here is to use `search` when you need to pass some search parameters. `load` is usually called when you need to load some content based on cookies or `localStorage`
+- **platform-specific API access**. This is the section where you can reach out to the API functions that are specific to the platform you are using. By default we provide an agnostic approach of using the same API and function calls for each platform, however sometimes there is a need to use something very specific to the certain service, thus you can easily access it over the `api` object.
 
 ```js
 import { useProduct } from '{INTEGRATION}';
 
-const { products, search, loading } = useProduct('<UNIQUE_ID>');
+const { products, search, loading, api } = useProduct('<UNIQUE_ID>');
 
-search({ slug: 'super-t-shirt' });
+search({ slug: 'super-t-shirt' }); // agnostic access
+
+api.addCartInsurence({ id: 't-shirt-01' }); // platform-specific API
 
 return { products, search, loading };
 ```
@@ -391,53 +394,3 @@ watch(() => ({...error.value}), (error, prevError) => {
 In this example, we are using `useUiNotification` - a composable that handles notifications state. You can read more about it in the API reference.
 
 [//]: # 'TODO: This should be added to API reference'
-
-### How to customize graphql queries?
-
-If your integration uses GraphQL API, you may need to change the default query that is being sent to fetch the data. That's quite a common case and Vue Storefront also provides the mechanism for this.
-
-Since the communication with the API goes through our middleware, all queries also are defined there.
-
-To customize or even totally override the original (default) queries you need to follow two steps.
-
-Firstly, you need to use a dedicated parameter: `customQuery` that tells the app, what to do with a query.
-This parameter is an object that has a name of the queries as keys, and the name of the queries function under the values. Additionally, it has a special parameter called `metadata` which allows you to pass optional parameters to your custom query that will be accessible in the custom query function.
-
-
-```ts
-const { search } = useProduct();
-
-search({
-  customQuery: {
-    products: 'my-products-query',
-    metadata: { size: 'xl' }
-  }
-}); 
-```
-
-In the example above, we are changing `products` query, and our function that will take care of this overriding is `my-products-query`. Additionally, we used `metadata` field to send information about the product we seek for. As a second step, we need to define that function.
-
-
-Each custom query lives in the `middleware.config.js`, so it's the place where we should define `my-products-query`:
-
-```js
-module.exports = {
-  integrations: {
-    ct: {
-      location: '@vue-storefront/commercetools-api/server',
-      configuration: { /* ... */ },
-      customQueries: {
-        'my-products-query': ({ query, variables, metadata }) => {
-
-          variables.locale = 'en'
-          variables.size = metadata.size
-
-          return { query, variables }
-        }
-      }
-    }
-  }
-};
-```
-
-The custom query function always has in the arguments the default query (`query`), default variables (`variables`) and additional parameters (`metadata`) sent from the front-end. This function always must return the query and its variables as well, while in the body you can do anything you want with those parameters - you can override them or even change to the new ones.

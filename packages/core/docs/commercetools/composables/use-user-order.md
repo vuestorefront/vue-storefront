@@ -24,7 +24,7 @@ type CustomQuery = {
 }
 ```
 
-- `orders: Order[]` -  a main data object that contains an array of orders fetched by `searchOrders` method.
+- `orders: OrderQueryResult` -  a main data object that contains an array of orders fetched by `searchOrders` method and total number of orders.
 
 ```ts
 type Order = {
@@ -114,6 +114,8 @@ interface UseUserOrderErrors {
 
 - `getFormattedPrice` - returns order price with currency sign.
 
+- `getOrdersTotal` - returns total number of orders (not affected by pgaination limit).
+
 ```ts
 interface UserOrderGetters {
   getDate: (order: Order) => string;
@@ -126,6 +128,7 @@ interface UserOrderGetters {
   getItemQty: (item: LineItem) => number;
   getItemPrice: (item: LineItem) => number;
   getFormattedPrice: (price: number) => string;
+  getOrdersTotal: (orders: OrderQueryResult) => number;
 }
 
 type Order = {

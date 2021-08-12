@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import { VSF_LOCALE_COOKIE } from '@vue-storefront/core';
+import theme from './themeConfig';
 
 export default {
   mode: 'universal',
@@ -83,9 +84,7 @@ export default {
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
-      i18n: {
-        useNuxtI18nConfig: true
-      }
+      i18n: { useNuxtI18nConfig: true }
     }]
   ],
   modules: [
@@ -137,7 +136,15 @@ export default {
   styleResources: {
     scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },
+  publicRuntimeConfig: {
+    theme
+  },
   build: {
+    babel: {
+      plugins: [
+        ['@babel/plugin-proposal-private-methods', { loose: true }]
+      ]
+    },
     transpile: [
       'vee-validate/dist/rules'
     ],
@@ -149,6 +156,32 @@ export default {
           lastCommit: process.env.LAST_COMMIT || ''
         })
       })
-    ]
+    ],
+    extend (config, ctx) {
+      if (ctx && ctx.isClient) {
+        config.optimization = {
+          ...config.optimization,
+          mergeDuplicateChunks: true,
+          splitChunks: {
+            ...config.optimization.splitChunks,
+            chunks: 'all',
+            automaticNameDelimiter: '.',
+            maxSize: 128_000,
+            maxInitialRequests: Number.POSITIVE_INFINITY,
+            minSize: 0,
+            maxAsyncRequests: 10,
+            cacheGroups: {
+              vendor: {
+                test: /[/\\]node_modules[/\\]/,
+                name: (module) => `${module
+                  .context
+                  .match(/[/\\]node_modules[/\\](.*?)([/\\]|$)/)[1]
+                  .replace(/[.@_]/gm, '')}`
+              }
+            }
+          }
+        };
+      }
+    }
   }
 };

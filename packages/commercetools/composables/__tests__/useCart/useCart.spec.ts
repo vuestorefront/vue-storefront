@@ -1,4 +1,4 @@
-import useCart from './../../src/useCart';
+import { useCart } from './../../src/useCart';
 import loadCurrentCart from './../../src/useCart/currentCart';
 
 const context = {
@@ -98,7 +98,7 @@ describe('[commercetools-composables] useCart', () => {
           }
         ]
       },
-      coupon: { id: 'asdasdas' }
+      couponCode: 'XA12345'
     });
 
     expect(response).toEqual({ updatedCart: 'current cart' });

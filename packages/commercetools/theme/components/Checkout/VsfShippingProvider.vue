@@ -45,17 +45,6 @@
             </template>
           </SfRadio>
         </div>
-      <div class="form__action">
-        <SfButton
-          v-e2e="'continue-to-billing'"
-          class="form__action-button"
-          type="button"
-          @click.native="$emit('submit')"
-          :disabled="!isShippingMethodStepCompleted || loading || loadingShippingProvider.save"
-        >
-          {{ $t('Continue to billing') }}
-        </SfButton>
-      </div>
     </div>
   </div>
 </template>
@@ -113,17 +102,17 @@ export default {
     }
   },
   setup (props) {
-    const isShippingMethodStepCompleted = ref(false);
     const loading = ref(false);
     const shippingMethods = ref([]);
     const { $ct } = useVSFContext();
     const { cart } = useCart();
     const {
       state,
-      error: errorShippingProvider,
-      loading: loadingShippingProvider,
+      setState,
       save,
-      load
+      load,
+      error: errorShippingProvider,
+      loading: loadingShippingProvider
     } = useShippingProvider();
     const selectedShippingMethod = computed(() => state.value && state.value.response);
     const totals = computed(() => cartGetters.getTotals(cart.value));
@@ -147,13 +136,16 @@ export default {
     };
 
     const selectShippingMethod = async shippingMethod => {
-      if (loadingShippingProvider.value.save) {
+      if (loadingShippingProvider.value) {
         return;
       }
       const interceptedShippingMethod = await props.beforeSelect(shippingMethod);
       await save({ shippingMethod: interceptedShippingMethod });
       if (errorShippingProvider.value.save) {
-        isShippingMethodStepCompleted.value = false;
+        setState({
+          ...(state.value ? state.value : {}),
+          _status: false
+        });
         await props.onError({
           action: 'selectShippingMethod',
           error: errorShippingProvider.value.save
@@ -161,7 +153,10 @@ export default {
         return;
       }
       await props.afterSelect(selectedShippingMethod.value);
-      isShippingMethodStepCompleted.value = true;
+      setState({
+        ...(state.value ? state.value : {}),
+        _status: true
+      });
     };
 
     onMounted(async () => {
@@ -182,10 +177,8 @@ export default {
       selectShippingMethod,
       getShippingMethodPrice,
       totals,
-      isShippingMethodStepCompleted,
 
       loading,
-      loadingShippingProvider,
 
       error,
       errorShippingProvider,

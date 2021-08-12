@@ -7,6 +7,7 @@ const resolvedPathWithProjectName = '/home/abc/my-project';
 const projectName = 'AwesomeShop';
 import inquirer from 'inquirer';
 import createProject from '@vue-storefront/cli/src/scripts/createProject';
+
 jest.mock('inquirer', () => ({
   prompt: jest.fn(() =>
     Promise.resolve({

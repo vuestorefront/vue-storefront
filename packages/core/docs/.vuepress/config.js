@@ -102,7 +102,9 @@ module.exports = {
 						['/commercetools/composables/use-shipping', 'useShipping'],
 						['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
 						['/commercetools/composables/use-billing', 'useBilling'],
-						['/commercetools/composables/use-make-order', 'useMakeOrder']
+						['/commercetools/composables/use-make-order', 'useMakeOrder'],
+						['/commercetools/composables/use-forgot-password', 'useForgotPassword'],
+						['/commercetools/composables/use-store', 'useStore']
 					]
 				},
 				{
@@ -157,6 +159,7 @@ module.exports = {
 						['/shopify/', 'Introduction'],
 						['/shopify/getting-started', 'Getting Started'],
 						['/shopify/configuration', 'Configuration'],
+						['/shopify/authorization-strategy', 'Authorization'],
 						['/shopify/feature-list', 'Feature list'],
 						['/shopify/maintainers', 'Maintainers and support']
 					]
@@ -165,15 +168,30 @@ module.exports = {
 					title: 'Composables',
 					collapsable: false,
 					children: [
+						['/shopify/use-product', 'useProduct'],
+						['/shopify/use-user', 'useUser'],
+						['/shopify/use-user-order', 'useUserOrder'],
 						['/shopify/use-cart', 'useCart'],
 						['/shopify/use-category', 'useCategory'],
 						['/shopify/use-content', 'useContent'],
-						['/shopify/use-product', 'useProduct'],
 						['/shopify/use-search', 'useSearch'],
-						['/shopify/use-user', 'useUser'],
-						['/shopify/use-user-order', 'useUserOrders'],
 					]
-				}, {
+				},
+				{
+					title: 'API Client',
+					collapsable: false,
+					children: [
+						['/shopify/api-client-reference', 'Methods reference']
+					]
+				},
+				{
+					title: 'Theme',
+					collapsable: false,
+					children: [
+						['/shopify/auth-middleware', 'Auth Middleware']
+					],
+				},
+				{
 					title: 'Other',
 					collapsable: false,
 					children: [
@@ -213,6 +231,7 @@ module.exports = {
 						['/advanced/architecture', 'Architecture'],
 						['/advanced/context', 'Application Context'],
 						['/advanced/calling-platform-api', 'Calling Platform API'],
+						['/advanced/extending-graphql-queries', 'Extending GraphQL Queries'],
 						['/advanced/server-middleware', 'Server Middleware'],
 						['/advanced/internationalization', 'Internationalization'],
 						['/advanced/performance', 'Performance'],

@@ -13,7 +13,7 @@ const addresses: any[] = [
     state: 'California',
     postalCode: '26-620',
     country: 'US',
-    phone: '560123456',
+    phone: '+48560123456',
     email: '',
     company: null,
     isDefault: true
@@ -29,7 +29,7 @@ const addresses: any[] = [
     state: 'Nevada',
     postalCode: '53-603',
     country: 'US',
-    phone: '560123456',
+    phone: '+48560123456',
     email: '',
     company: null,
     isDefault: true

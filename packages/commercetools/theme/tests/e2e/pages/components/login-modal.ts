@@ -1,4 +1,4 @@
-import { Customer } from '../../types/customer';
+import { Customer } from '../../types/types';
 import { el } from '../utils/element';
 
 class LoginModal {

@@ -99,42 +99,17 @@ Once you copied and renamed the boilerplate run `yarn dev` in your `theme` folde
 
 Each integration starts with `api-client`. This is one of the packages which is responsible for communication between the Vue Storefront and external API. That's exactly the place where you have to configure your API connection, write your API functions, and expose generated API client to the users.
 
-Our API client has two parts: the proxy layer (that talks to our middleware) and a direct connection and as result, package of api-client always shares three entry points (tree-shaking reasons):
+Our API client always shares two entry points:
 
-- `@vue-storefront/{INTEGRATION}/client` - shares the `createProxyClient` and `integrationPlugin` for proxy
-- `@vue-storefront/{INTEGRATION}/server` - shares the `createApiClient` and `integrationPlugin` for direct connection
+- `@vue-storefront/{INTEGRATION}/server` - shares the `createApiClient`.
 - `@vue-storefront/{INTEGRATION}` - shares other library code, such as helpers, types etc.
 
 
 ### Configuration
-The creation of an API client starts with the configuration. As we use middleware, this package is split into three bundles, thus you need to create three separate files with the corresponding configuration:
+The creation of an API client starts with the configuration. As we use middleware, this package is split into two bundles, thus you need to create two separate files with the corresponding configuration:
 
-- `index.client.ts` - contains the creation of API client, to be used only on the client-side, this one will redirect the functions you created into our middleware
 - `index.server.ts` - contains the creation of API client, for direct connection to the integrated platform
 - `index.ts` - main entry point, that contains everything else, such as types, helper functions etc.
-
-
-```ts
-// index.client.ts
-import { apiProxyFactory } from '@vue-storefront/core';
-
-const onCreate = (config) => {
-  // ...
-  return { config };
-};
-
-const { createApiProxy, integrationPlugin } = apiProxyFactory({
-  tag: 'ct',
-  onCreate,
-  api: { isGuest }
-});
-
-export {
-  createApiProxy,
-  integrationPlugin
-};
-```
-
 
 ```ts
 // index.server.ts
@@ -150,16 +125,14 @@ const onCreate = (settings) => {
 
 
 
-const { createApiClient, integrationPlugin } = apiClientFactory({
-  tag: 'ct',
+const { createApiClient } = apiClientFactory({
   onCreate,
   api,
   extensions: []
 });
 
 export {
-  createApiClient,
-  integrationPlugin
+  createApiClient
 };
 ```
 
@@ -170,7 +143,6 @@ export * from './types/Api';
 
 To create `api-client` instances you have to use the corresponding factory, depending on what API you are creating: proxy or direct one. The creation in both cases is pretty similar, with small differences in the used fields:
 
-- `tag` - that's the short name of your integration which will be used to distinguish it among others 
 - `onCreate` - a function that will be called during creating your API. In this place, you can call everything you need to create a connection to the API, such as creating SDK (eg. axios creation), merge given config with the defaults etc. This function always returns `client` (connection you created) and `config` or (in case it's proxy) just `config`.
 - `api` - this is the section where you need to pass all of the API function you have created (direct) and functions that you don't want to redirect to our middleware (proxy)
 - `extensions` - section available only in the direct connection api-client. It allows you to add an API backend extension for the API that can add additional features to the integrated platform
@@ -189,6 +161,79 @@ const getProduct = async (context, params) => {
 
 Each API function always contains `context` as a first parameter. This is the place where you always have access to the client and config of your API connection. Usually, during the using API client, you will be using these functions without thinking about the context - the VSF core handles this. In the end, you need to provide that function to the API creation logic (section above)
 
+### GraphQL `customQuery` support
+
+Vue Storefront provides an approach to dynamically change the default predefined graphQL queries for each api request out of the box. The `context` parameter of the API method has `extendQuery` function that can be used to modify qraphQL queries using custom modifier functions. Each custom query modifier lives in the `middleware.config.js`.
+
+```js
+module.exports = {
+  integrations: {
+    ['<INTEGRATION_TAG>']: {
+      location: '@vue-storefront/commercetools-api/server',
+      configuration: { /* ... */ },
+      customQueries: {
+        'custom-query-modifier': ({ query, variables }) => {
+          variables.locale = 'en'
+          return { query, variables }
+        }
+      }
+    }
+  }
+};
+```
+
+The custom query modifier function always has in the arguments the default query and default variables and must return the query and its variables as well. In the body you can do anything you want with those parameters - you can override them or even change to the new ones. After creating the modifier function, you can use `extendQuery` to change the default query from middleware api method by providing `customQuery` object parameter that contains the query name as key and the identifier of the modifier function as value from client-side api method call. `extendQuery` function will produce modified query using specified modifier function that can be used to fetch required data.
+
+```ts
+// api-client/src/api/getProduct
+const getProduct = async (context: Context, params: PARAMS, customQuery: Record<string, string>) => {
+  const { products } = context.extendQuery(
+    customQuery, { products: { query: defaultQuery, variables: defaultVariables } }
+  );
+
+  return context.client({
+    query: gql`${products.query}`,
+    variables: products.variables,
+  });
+};
+```
+
+Proxied version of this api method can be used within composable method with `customQuery` support. Now you can modify grapGL queries by providing modifier function identifier to composable method inside component setup function.
+
+```ts
+// composables/src/useProduct
+const productFactoryParams: UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PARAMS> = {
+  async productSearch (context: Context, params: PRODUCT_SEARCH_PARAMS & { customQuery?: CustomQuery }) {
+    const { customQuery, ...searchParams } = params;
+    const product = await context['<INTEGRATION_TAG>'].api.getProduct(searchParams, customQuery)
+    return product
+  }
+}
+```
+
+```ts
+// theme/pages/Product.vue
+import { useProduct } from '{INTEGRATION}';
+import { onSSR } from '@vue-storefront/core`
+
+export default {
+  setup() {
+    const { products, search} = useProduct('<PRODUCT_ID>');
+
+    onSSR(async () => {
+      await search({ customQuery: { products: 'custom-query-modifier' }})
+    })
+
+    return {
+      products
+    };
+  }
+};
+
+```
+
+This approach gives you the flexibility to manage qraphQL queries from the client side without increasing the bundle size with qraphQL libraries and queries.
+
 ## Creating composables
 
 Composables are a major part of the integration. That exactly the place where the business logic comes in. We always serve this package as integration along with the corresponding Nuxt module.
@@ -199,13 +244,12 @@ Inside of the composables packages you have to create another directory, next to
 Example of plugin
 ```js
 // composables/nuxt/plugin.js
-import { integrationPlugin } from '@vue-storefront/commercetools-api/client'
+import { integrationPlugin } from '@vue-storefront/core'
 
 const moduleOptions = <%= serialize(options) %>;
 
 export default integrationPlugin(({ app, integration }) => {
   const settings = { api: '/graphql', user: 'root' }
-
   integration.configure({ ...moduleOptions, ...settings })
 });
 ```
@@ -220,32 +264,6 @@ export default function (moduleOptions) {
   });
 }
 ```
-
-### Extending an existing integration
-
-Sometimes you don't want to create a new integration, instead, you need to extend an existing one. You can achieve that by using the integration plugin that integrations share for us, but this time `configure` call is being replaced by `extend`.
-
-```js
-// coposables/nuxt/plugin.js
-import { integrationPlugin } from '@vue-storefront/commercetools'
-import { getCart } from '@vue-storefront/your-integration-package';
-
-export default integrationPlugin(({ app, integration }) => {
-  const api = {
-    getCart
-  }
-
-  integration.extend({ api })
-});
-```
-
-The `extend` is a special function that allows you to extend an existing integration. Based on the fields you give as arguments the extending will go in the following way:
-
-- when you pass `api` object - the function you used will be merged to the ones in the current integration with applied context
-- when you pass `config` object - it will be merged with the existing one, so given functions in the `api` section will have access to this
-- when you pass any other key - it will be assigned directly as a subfield in the context (eg. `$ct.yourField`).
-
-After extending, you can use a new API, in the same way as the one configured for the first time.
 
 ### Writing factory params
 
@@ -293,9 +311,51 @@ export { useCart }
 
 Each function inside of factory params has the context in the very first argument. The second argument always contains the given parameters to the function (eg. product data in adding to cart function)
 
+### Plarform-specific API access
+
+By default, in factory params you are defining only the functions that cover agnostic and common scenarios of certain features and they will be called once you call one of function returned by the created composable.
+
+Sometimes there is a need to share also a platform-specific function, that may not present across other platforms you integrate with. To implement them, you can use an optional section `api` and define their an additional methods, which will be available under the `api` field returned by composable.
+
+```ts{21-27}
+import { useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
+
+interface Cart { /* ... */ }
+
+interface LineItem { /* ... */}
+
+interface ProductVariant { /* ... */ }
+
+const factoryParams: UseCartFactoryParams<Cart, LineItem, ProductVariant> = {
+  load: async (context: Context) => {
+    const { data } = await context.$ct.api.getCart();
+
+    return data.cart;
+  },
+  addItem: async (context: Context, params) => {
+    const { currentCart, product, quantity } = params;
+    const { data } = await context.$ct.api.addToCart(loadedCart, product, quantity, customQuery);
+
+    return data.cart;
+  },
+  api: {
+    addCartInsurence: async (context: Context, params) => {
+      const insurence = await await context.$ct.api.setInsurence(params.product.id);
+
+      return { ...params.currentCart, insurence }
+    }
+  }
+};
+
+const useCart = useCartFactory(factoryParams);
+
+export default useCart;
+```
+
+
 ### Composable dependencies
 
-Sometimes there is a need to use another composable inside of a new one as a dependency. We also allow you to do this by using a special function in the factory params - `setup`. This function is being called inside of the composable and the return values are available in the context:
+Sometimes there is a need to use another composable inside of a new one as a dependency. We also allow you to do this by using a special function in the factory params - `provide`. This function is being called inside of the composable and the return values are available in the context:
 
 ```ts
 import { useCart } from '@vue-storefront/commercetools';
@@ -305,7 +365,7 @@ interface UserContext extends Context {
 }
 
 const factoryParams: UseUserFactoryParams = {
-  setup() {
+  provide() {
     return useCart();
   },
   load: async (context: UserContext) => {
@@ -327,11 +387,11 @@ However, you have to keep in mind that you need to handle context and reactive p
 
 ```ts
 // composables/src/useCart/index.js
-import { vsfRef, generateContext } from '@vue-storefront/core';
+import { vsfRef, useVSFContext } from '@vue-storefront/core';
 
 const useCart = () => {
   const cart = vsfRef(null, 'my-own-cart')
-  const context = generateContext(); // we do the job for you
+  const context = useVSFContext();
 
   const addToCart = async ({ product }) => {
     return context.$ownAPI.updateCart(product)
@@ -401,6 +461,7 @@ You need to create few Vue components and JavaScript files:
 | components/MyAccount/PasswordResetForm.vue   |                                     | ✔           |
 | components/MyAccount/ProfileUpdateForm.vue   |                                     | ✔           |
 | composables/useUiHelpers/index.ts            |                                     |             |
+| middleware/checkout.js                       |                                     |             |
 | middleware/is-authenticated.js               |                                     |             |
 
 ### Creating Vue components
@@ -419,14 +480,6 @@ When such an event is sent, the application will handle communication with the A
 
 ### Creating a middleware
 
-`is-authenticated` middleware is used to prevent access to the page for guest users. It's used on pages such as user profile.
-
-```js
-export default {
-  middleware: [
-    'is-authenticated'
-  ]
-}
-```
+`checkout` and `is-authenticated` middlewares are used to prevent access to selected pages.
 
 Please refer to [Nuxt.js middleware documentation](https://nuxtjs.org/docs/2.x/directory-structure/middleware/) for more information.

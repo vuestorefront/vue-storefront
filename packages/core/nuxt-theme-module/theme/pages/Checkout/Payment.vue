@@ -111,7 +111,7 @@ import {
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
 import { ref, computed } from '@vue/composition-api';
-import { useMakeOrder, useCart, cartGetters } from '<%= options.generate.replace.composables %>';
+import { useMakeOrder, useCart, cartGetters, orderGetters } from '<%= options.generate.replace.composables %>';
 
 export default {
   name: 'ReviewOrder',
@@ -142,7 +142,8 @@ export default {
 
     const processOrder = async () => {
       await make();
-      context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
+      const thankYouPath = { name: 'thank-you', query: { order: orderGetters.getId(order.value) }};
+      context.root.$router.push(context.root.localePath(thankYouPath));
       setCart(null);
     };
 
@@ -152,7 +153,7 @@ export default {
       loading,
       products: computed(() => cartGetters.getItems(cart.value)),
       totals: computed(() => cartGetters.getTotals(cart.value)),
-      tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
+      tableHeaders: ['Description', 'Size', 'Color', 'Quantity', 'Amount'],
       cartGetters,
       processOrder
     };

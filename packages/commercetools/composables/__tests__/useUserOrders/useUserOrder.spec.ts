@@ -1,10 +1,14 @@
-import useUserOrder from '../../src/useUserOrder';
+import { useUserOrder } from '../../src/useUserOrder';
+
+const mockedResults = ['order1', 'order2', 'order3'];
+const mockedTotal = 3;
+const mockedEmptyResponse = { count: 0, offset: 0, results: [], total: 0};
 
 jest.mock('@vue-storefront/commercetools-api', () => ({
   getOrders: jest.fn(async () => ({
     data: {
       me: {
-        orders: { results: ['order1', 'order2', 'order3'], total: 3 }
+        orders: { results: mockedResults, total: mockedTotal }
       }
     }
   }))
@@ -20,7 +24,7 @@ const context = {
       getOrders: jest.fn(async () => ({
         data: {
           me: {
-            orders: { results: ['order1', 'order2', 'order3'], total: 3 }
+            orders: { results: mockedResults, total: mockedTotal }
           }
         }
       }))
@@ -38,7 +42,7 @@ describe('[commercetools-composables] useUserOrder', () => {
 
     const response = await search(context, { param: 'param1' });
 
-    expect(response).toEqual(['order1', 'order2', 'order3']);
+    expect(response).toEqual({ results: mockedResults, total: mockedTotal });
     expect(context.$ct.api.getOrders).toBeCalledWith({ param: 'param1' }, undefined);
   });
 
@@ -47,7 +51,7 @@ describe('[commercetools-composables] useUserOrder', () => {
 
     const response = await search(context);
 
-    expect(response).toEqual(['order1', 'order2', 'order3']);
+    expect(response).toEqual({ results: mockedResults, total: mockedTotal });
     expect(context.$ct.api.getOrders).toBeCalled();
   });
 
@@ -58,7 +62,7 @@ describe('[commercetools-composables] useUserOrder', () => {
 
     const response = await search(context, { param: 'param1' });
 
-    expect(response).toEqual([]);
+    expect(response).toEqual(mockedEmptyResponse);
     expect(context.$ct.api.getOrders).toBeCalledWith({ param: 'param1' }, undefined);
   });
 });
