@@ -98,7 +98,7 @@
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
-import { computed, ref, onBeforeUnmount, watch, onMounted } from '@vue/composition-api';
+import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
 import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';
 import SearchResults from '~/components/SearchResults';
@@ -134,7 +134,6 @@ export default {
     const isSearchOpen = ref(false);
     const searchBarRef = ref(null);
     const result = ref(null);
-    const isMobile = ref(false);
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -172,9 +171,7 @@ export default {
 
     }, 1000);
 
-    onMounted(() => {
-      isMobile.value = mapMobileObserver().isMobile.get();
-    });
+    const isMobile = computed(() => mapMobileObserver().isMobile.get());
 
     const closeOrFocusSearchBar = () => {
       if (isMobile.value) {
