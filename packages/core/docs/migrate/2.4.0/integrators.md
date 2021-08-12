@@ -1,9 +1,11 @@
-# Integrators upgrade notes
+# Migration guide 2.4.0 for Integrators
 
-## Factory usage
+## Introduction
 
-We have changed a bit the naming and signatures of core factory functions. Below is the full list of what hs been implemented or changed:
+In 2.4.0, from the Integrator point of view, the most important change is a new `checkout.js` middleware - its main goal is to manage access to the checkout steps.
 
-| Factory | Old method | New method | Old signature | New signature |
-|------------|--------|---------------|---------------|---|
-|      useCartFactory      |   removeCoupon     |  No changes |     context: Context, params: { currentCart: CART; coupon: COUPON, customQuery?: CustomQuery }   |     context: Context, params: { currentCart: CART; couponCode: string, customQuery?: CustomQuery }   |
+## Changes
+
+- Added `checkout.js` middleware that integrators have to implement to prevent access to checkout steps when previous steps were not yet completed.
+- Refactor naming and signatures of some of core factory functions.
+- Refactor boilerplate getters.
