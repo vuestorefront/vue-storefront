@@ -864,7 +864,7 @@
     "id": false
   },
   "googleTagManager": {
-    "id": false,
+    "id": "${GTM_ID}",
     "debug": true,
     "product_attributes": [
       "name",

@@ -14,6 +14,7 @@ services:
       VSF_API_DOMAIN: ${BUDSIES_VSF_API_DOMAIN}
       DEFAULT_STORE_ID: ${BUDSIES_STORE_ID}
       JP_STORE_ID: ${JP_STORE_ID}
+      GTM_ID: ${BUDSIES_GTM_ID}
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       #- './config:/var/www/config'
@@ -54,6 +55,7 @@ services:
       VSF_API_DOMAIN: ${PETSIES_VSF_API_DOMAIN}
       DEFAULT_STORE_ID: ${PETSIES_STORE_ID}
       FILEUPLOADER_UPLOAD_URL: ${FILEUPLOADER_UPLOAD_URL}
+      GTM_ID: ${PETSIES_GTM_ID}
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       #- './config:/var/www/config'
