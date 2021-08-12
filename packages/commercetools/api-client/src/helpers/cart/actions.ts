@@ -3,13 +3,22 @@ import { ProductVariant, Address, LineItem, ReferenceInput, ResourceIdentifierIn
 
 const hasContactInfo = details => Object.keys(details.contactInfo || {}).some(c => ['phone', 'email', 'mobile', 'fax'].includes(c));
 
-export const createAddLineItemAction = (variant: ProductVariant, quantity: number) => ({
-  addLineItem: {
-    variantId: variant.id,
-    quantity: quantity,
-    sku: variant.sku
-  }
-});
+export const createAddLineItemAction = (params: {
+  product: ProductVariant;
+  quantity: number;
+  supplyChannel?: string;
+  distributionChannel?: string;
+}) => {
+  return {
+    addLineItem: {
+      variantId: params.product.id,
+      quantity: params.quantity,
+      sku: params.product.sku,
+      ...(params.supplyChannel && { supplyChannel: { id: params.supplyChannel }}),
+      ...(params.distributionChannel && { distributionChannel: { id: params.distributionChannel }})
+    }
+  };
+};
 
 export const createRemoveLineItemAction = (product: LineItem) => ({
   removeLineItem: {

@@ -33,7 +33,21 @@ const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductV
   addItem: async (context: Context, { currentCart, product, quantity, customQuery }) => {
     const cartDetails = await getCurrentCartDetails(context, currentCart);
 
-    const { data } = await context.$ct.api.addToCart(cartDetails, product, quantity, customQuery);
+    const params: {
+      product: ProductVariant;
+      quantity: number;
+      supplyChannel?: string;
+      distributionChannel?: string;
+    } = {
+      product,
+      quantity
+    };
+
+    if (customQuery?.distributionChannel) params.distributionChannel = customQuery.distributionChannel;
+    if (customQuery?.supplyChannel) params.supplyChannel = customQuery.supplyChannel;
+
+    const { data } = await context.$ct.api.addToCart(cartDetails, params, customQuery);
+
     return data.cart;
   },
   removeItem: async (context: Context, { currentCart, product, customQuery }) => {
@@ -49,7 +63,10 @@ const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductV
     return data.cart;
   },
   clear: async (context: Context, { currentCart }) => {
-    return currentCart;
+    const cartDetails = await getCurrentCartDetails(context, currentCart);
+
+    const { data } = await context.$ct.api.deleteCart(cartDetails);
+    return data.cart;
   },
   applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
     const cartDetails = await getCurrentCartDetails(context, currentCart);

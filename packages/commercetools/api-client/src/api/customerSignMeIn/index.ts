@@ -7,7 +7,12 @@ const customerSignMeIn = async (context, draft: CustomerSignMeInDraft): Promise<
 
   const loginResponse = await context.client.mutate({
     mutation: CustomerSignMeInMutation,
-    variables: { draft, locale, acceptLanguage, currency },
+    variables: {
+      draft,
+      locale,
+      acceptLanguage,
+      currency
+    },
     fetchPolicy: 'no-cache'
   }) as SignInResponse;
 
