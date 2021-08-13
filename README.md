@@ -6,7 +6,7 @@
 
 Vue Storefront is the most popular and most advanced Frontend Platform for eCommerce
 - [Documentation](https://docs.vuestorefront.io/v2/)
-- [Demo](https://vsf-next-demo.storefrontcloud.io/)
+- [Demo](https://demo-ct.vuestorefront.io)
 
 ![Screenshots](https://blog.vuestorefront.io/wp-content/uploads/2020/03/3-views-Vue-Storefront-.png)
 
