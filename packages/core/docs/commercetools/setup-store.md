@@ -1,5 +1,3 @@
-# Getting started
-
 # How to setup commercetools store with Vue Storefront?
 
 This short description is here to guide you all the way to create simple working store based on the commercetools integration.
@@ -22,70 +20,69 @@ In 'Project settings' menu you need to define basic settings:
   <img src="../images/setup-store/currencies.png" alt="Commercetools manage projects menu" />
 </center>
 
-### 'International' tab
+##  International configuration
 
-Choose currencies that are possible to use in your store:
+Open the `Settings > Project settings` menu and select currencies available in your store:
 
 <center>
   <img src="../images/setup-store/currencies.png" alt="Commercetools manage projects menu" />
 </center>
 
-Select languages for your products:
+Then, select supported languages:
 
 <center>
   <img src="../images/setup-store/languages.png" alt="Commercetools languages configuration" />
 </center>
 
-Choose the countries that have separate shipping methods, tax rates, selling channels:
+Next, select the available countries:
 
 <center>
   <img src="../images/setup-store/countries.png" alt="Commercetools countries configuration" />
 </center>
 
-Setting zone is helpful when few countries share the same delivery costs. You need to configure at least one shipping zone to set up shipping methods.
+Finally, set zones. Zones are helpful when few countries share the same delivery costs. You need to configure at least one shipping zone to be able to set up shipping methods later.
 
 <center>
   <img src="../images/setup-store/zones.png" alt="Commercetools zones configuration" />
 </center>
 
-### 'Taxes' tab
+## Taxes configuration
 
-In the taxes tab you should configure the rates that are valid for the countries which you provided in 'International' tab.
+Open the `Settings > Project settings` menu. In the `Taxes` tab, you can configure tax rates for the countries configured in the 'International' tab.
 
 <center>
   <img src="../images/setup-store/taxes.png" alt="Commercetools taxes configuration" />
 </center>
 
-### 'Shipping methods' tab
+## Shipping methods configuration
 
-Next step needed to run your shop is to provide shipping methods. First choose if it will be fixed (one per currency) or tiered (more specified depending on cart value, classification or score). For more details please see [documentation](https://docs.commercetools.com/merchant-center/project-settings#shipping-methods) or help tooltip next to the switch.
-After that you can set specific method for each zone and currency:
+To add a shipping method, open the `Settings > Project settings` menu and select the `Shipping methods` tab. First, select if the price will be fixed (one per currency) or tiered (depending on cart value, classification, or score). For more details, see the [Shipping methods](https://docs.commercetools.com/merchant-center/project-settings#shipping-methods) page in commercetools documentation.
+
+Then, enter specific methods for each zone and currency:
 
 <center>
   <img src="../images/setup-store/shipping-methods_1.png" alt="Commercetools shipping methods configuration" />
 </center>
 
-As we are focused on setting up basic working store other settings can be omitted. But if you want to know more about Channels, Stores, searching features, and more see the [documentation](https://docs.commercetools.com/merchant-center/project-settings#channels).
+## Adding a new category
 
-### Products categories
+Categories allow to organize the products in groups and make them easy to find by the customer. See the [Modeling Categories](https://docs.commercetools.com/tutorials/product-modeling/categories) page to know more about categorizing items in your store.
 
-After setting up basic configuration you need to provide categories. They are main structures to organize the products in groups and make them easy to search for the customer. See [this guide](https://docs.commercetools.com/tutorials/product-modeling/categories#top) to know more about categorizing items in your store.
-In order to create category you need to take few steps.
-
-- choose `add category` from the sidebar menu 
+1. Choose `add category` from the sidebar menu. 
   <center>
     <img src="../images/setup-store/categories-sidebar.png" alt="Commercetools create category first step" />
   </center>
 
-- then enter the name, and category order to decide what will be shown first
+2. Enter the name, and category order.
   <center>
     <img src="../images/setup-store/create-category-0.png" alt="Commercetools create category first step" />
   </center>
-- select the parent category to which it belongs
+3. If applicable, select the parent category to which this category belongs.
   <center>
     <img src="../images/setup-store/create-category-1.png" alt="Commercetools create category second step" />
   </center>
-- write down the slug (short url for the category)
+
+4. Enter the slug. It will be part of the URL for this category.
   <center>
     <img src="../images/setup-store/create-category-2.png" alt="Commercetools create category third step" />
   </center>
@@ -97,9 +94,8 @@ You can see your categories in `categories search` menu:
     <img src="../images/setup-store/categories-search.png" alt="Commercetools create product type first step" />
   </center>
 
-### Product catalog
+## Adding a new product type
 
-Finally you need to add products and assign them to proper category.
 To create any product in commercetools, at least one product type need to be set. It is the sort of template with certain attributes which is used as a base for the product.
 Creating a product type involves changes in `Product types` menu:
 
@@ -119,26 +115,26 @@ For our purposes you don't need to setup product attributes, but when creating r
     <img src="../images/setup-store/product-type-2.png" alt="Commercetools create product type first step" />
   </center> -->
 
-This will let you add product with certain characteristic like so:
+## Adding a new product
 
-- click add product and select the type
+After creating at least one product type, you can add a new product. You can read more about them on the [Modeling Products](https://docs.commercetools.com/tutorials/product-modeling/products) page.
+
+1. Go to the `Products` page. Click the `Add product` button and select the type.
   <center>
     <img src="../images/setup-store/add-product-1.png" alt="Commercetools add product first step" />
   </center>
-- next enter the name, assign tax category (which you previously set) and add to proper category 
+2. Next enter the name, assign tax category (which you previously set) and add to proper category 
   <center>
     <img src="../images/setup-store/add-product-2.png" alt="Commercetools add product second step" />
   </center>
-- add at least one variant of the product with attribute and SKU number
+3. Add at least one variant of the product with attribute and SKU number.
   <center>
     <img src="../images/setup-store/variant.png" alt="Commercetools add product third step - choose variant" />
   </center>
-- in final step you can provide slug, keywords and meta data to optimize searching
+4. Enter a slug, keywords, and metadata to optimize searching.
   <center>
     <img src="../images/setup-store/add-product-3.png" alt="Commercetools add product fourth step - SEO" />
   </center>
-
-Adding few products with at least two level deep categories hierarchy will be enough to create basic VSF Next store implementation.
 
 ### API settings
 
@@ -163,9 +159,7 @@ When you click on create API you will see all the credentials. They are only dis
 
 Now let's move to front-end side.
 
-## Vuestorefront settings
-
-## Configuring your Commercetools integration
+## Configuring commercetools integration in Vue Storefront
 
 All generated credentials should be used in `middleware.config.js` in `ct` config object inside `integrations`:
 
@@ -189,4 +183,4 @@ All generated credentials should be used in `middleware.config.js` in `ct` confi
     }
 ```
 
-There is plenty of other configuration options and you can check them [here](./configuration.md)
+For more information about available configuration options refer to the [Configuration](./configuration.md) page.
