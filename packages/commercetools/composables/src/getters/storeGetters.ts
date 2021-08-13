@@ -1,4 +1,4 @@
-import { UseStoreGetters, AgnosticAddress, AgnosticLocale, AgnosticStore } from '@vue-storefront/core';
+import { AgnosticAddress, AgnosticLocale, AgnosticStore, UseStoreGetters } from '@vue-storefront/core';
 import { Store, Channel, Address } from '../types/GraphQL';
 import { StoresData } from '../types';
 import { FilterCriteriaRecord, Localized, filterArrayByCriteriaRecord } from '../helpers/internals';
@@ -43,42 +43,53 @@ function mapToLocale <T extends Localized>(localized: T): AgnosticLocale {
 }
 
 function mapToLocales(localized: Localized[]): AgnosticLocale[] {
-  return localized?.map(mapToLocale) ?? [];
+  return localized?.map(mapToLocale) ?? null;
 }
 
-function mapChannelToAgnosticStore (store: Store) {
-  return function (channel: Channel): AgnosticStore {
+function mapStoreAndChannelToAgnosticStore (store: Store) {
+  return function (channel?: Channel): AgnosticStore {
     return {
-      name: `${store?.name ?? ''} - ${channel?.name ?? ''}`.trim(),
-      id: `${store?.id ?? ''}/${channel?.id ?? ''}`.trim(),
+      name: `${store?.name ?? ''}${channel?.name ? ` - ${channel?.name}` : ''}`.trim(),
+      id: `${store?.id ?? ''}${channel?.id ? `/${channel?.id}` : ''}`.trim(),
       description: channel?.description ?? '',
       geoLocation: channel?.geoLocation ?? null,
-      locales: mapToLocales(channel?.descriptionAllLocales),
+      locales: (mapToLocales(channel?.descriptionAllLocales) ?? store.languages) ?? [],
       address: mapToAddress(channel?.address),
-      _storeID: store?.id ?? '',
-      _channelID: channel?.id ?? ''
+      key: `${store?.key ?? ''}${channel?.id ? `/${channel?.id}` : ''}`.trim(),
+      _storeID: store?.id ?? null,
+      _channelID: channel?.id ?? null
     };
   };
 }
 
 function mapChannelSet (store: Store, channels: Channel[]): AgnosticStore[] {
-  return channels?.map(mapChannelToAgnosticStore(store)) ?? [];
+  return channels?.map(mapStoreAndChannelToAgnosticStore(store)) ?? [];
 }
 
-function mapChannelSetByKey (store: Store, key: StoreChannelSetKeys, criteria?: FilterCriteriaRecord<Channel>): AgnosticStore[] {
+function mapChannelSetByKey (store: Store,
+  key: StoreChannelSetKeys,
+  criteria?: FilterCriteriaRecord<Channel>): AgnosticStore[] {
   return mapChannelSet(
-    store, filterArrayByCriteriaRecord<Channel>(
-      store?.[key], criteria
+    store,
+    filterArrayByCriteriaRecord<Channel>(
+      store?.[key],
+      criteria
     )
   );
 }
 
 function gainAgnosticStoreItems (criteria?: FilterCriteriaRecord<Channel>) {
   return function (acc: AgnosticStore[], store: Store): AgnosticStore[] {
-    return [
-      ...acc,
+    const mappedStores = [
       ...mapChannelSetByKey(store, 'distributionChannels', criteria),
       ...mapChannelSetByKey(store, 'supplyChannels', criteria)
+    ];
+
+    return [
+      ...acc,
+      ...(!mappedStores.length && !criteria
+        ? [mapStoreAndChannelToAgnosticStore(store)()]
+        : mappedStores)
     ];
   };
 }
@@ -88,12 +99,14 @@ function gainAgnosticStoreItems (criteria?: FilterCriteriaRecord<Channel>) {
  */
 
 function getItems (stores: StoresData, criteria: StoreFilterCriteria = {}): AgnosticStore[] {
-  return filterArrayByCriteriaRecord<Store>(stores?.results, criteria.store)?.reduce(gainAgnosticStoreItems(criteria.channel), []) ?? [];
+  return filterArrayByCriteriaRecord<Store>(
+    stores?.results,
+    criteria?.store)
+    ?.reduce(gainAgnosticStoreItems(criteria.channel), []) ?? [];
 }
 
 function getSelected (stores: StoresData): AgnosticStore | undefined {
-  const [storeID, channelID] = (stores?._selected ?? '').split('/');
-  return getItems(stores, { store: { id: storeID }, channel: { id: channelID } })[0];
+  return getItems(stores, { store: { key: (stores?._selectedStore ?? '') }})[0];
 }
 
 /**

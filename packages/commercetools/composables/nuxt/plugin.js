@@ -27,7 +27,7 @@ export default integrationPlugin(({ app, integration }) => {
   /**
    * changeCurrentStore
    * @param {string} id
-   * @returns {void} 
+   * @returns {void}
    */
   const changeCurrentStore = (id) => {
     app.$cookies.set(

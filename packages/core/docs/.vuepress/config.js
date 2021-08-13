@@ -31,6 +31,14 @@ module.exports = {
 		sidebar: {
 			'/migrate/': [
 				{
+					title: 'Migration guide 2.4.0',
+					children: [
+						['/migrate/2.4.0/overview', 'Overview'],
+						['/migrate/2.4.0/integrators', 'Integrators'],
+						['/migrate/2.4.0/commercetools', 'commercetools']
+					]
+				},
+				{
 					title: 'Migration guide 2.3.0',
 					children: [
 						['/migrate/2.3.0/overview', 'Overview'],
