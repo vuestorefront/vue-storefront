@@ -107,7 +107,7 @@ module.exports = {
           collapsable: false,
           children: [
             ['/commercetools/', 'Introduction'],
-            ['/commercetools/getting-started', 'Getting started'],
+            ['/commercetools/setup-store', 'How to setup a store?'],
             ['/commercetools/configuration', 'Configuration'],
             ['/commercetools/authorization-strategy', 'Authorization'],
             ['/enterprise/feature-list', 'Feature list'],
