@@ -14,9 +14,24 @@ All of your packages must contain a `README.md` file. This file must have some b
 - How I can use this package?
 - How I can contribute? Or link to the `CONTRIBUTING.md`;
 
+### Adding the README to all the Packages
+It's always good to add your `README.md` file to the packages in your integration. 
+So when people are looking on NPM, they can see a more detailed information about the project.
+You can copy and paste the main README.md file from the root folder, or create a new one from each package.
+
 ### Displaying the contributors of the project
 
 In your `README.md` you can use it to display the names of the contributors of the project. You can use the [all-contributors](https://github.com/all-contributors/all-contributors) CLI to help you with this.
+
+If you are using the `ecommerce-integration-boilerplate` in your project, there are some commands already prepared to use in conjunction with `all-contributors` CLI.
+
+#### Adding a new contributor
+
+You can add a new contributor to the project, by running the command `yarn contributors:add` on the root directory of your project. This will bring the `all-contributors` CLI, and there you can fill the information for the new contributor. 
+
+#### Generating the contributors list
+
+You can always refresh the contributors list, you need to execute the command `yarn contributors:generate` on the root directory of your project. Then the `README.md` file on the root directory, will be automatically updated to reflect the changes made to the `.all-contributorsrc` file.
 
 ## Roadmaps
 When creating new integrations, defining a roadmap can take some time and is not easy as people think. But there are some ways to develop essential roadmaps for the community, pointing out your future steps of the integration and help newcomers.
