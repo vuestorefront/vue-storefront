@@ -3,7 +3,6 @@ import { VSF_LOCALE_COOKIE } from '@vue-storefront/core';
 import theme from './themeConfig';
 
 export default {
-  mode: 'universal',
   server: {
     port: 3000,
     host: '0.0.0.0'
