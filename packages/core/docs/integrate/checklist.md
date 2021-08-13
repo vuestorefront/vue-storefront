@@ -22,7 +22,7 @@ Fell free to copy this checklist and past it on your repository as a current iss
 - [ ] I've added information on how to contribute on the integration
 - [ ] I've added information on how to contribute on the documentation
 - [ ] I've added information on how to use the integration in a new project in my documentation
-- [ ] I've created the documentation for the `client-api` methods
+- [ ] I've created the documentation for the `api-client` methods
 - [ ] I've created the documentation for the `composables` composable
 - [ ] I've created the documentation for the `composables` getters
 - [ ] I've created the documentation for the `composables` nuxt module options
@@ -31,7 +31,7 @@ Fell free to copy this checklist and past it on your repository as a current iss
 ### API-Client
 ```md
 - [ ] I've created a `index.server.ts` that exposes the required methods
-- [ ] I've created the `index.ts` that exposes the methods, types and interfaces of the `client-api`
+- [ ] I've created the `index.ts` that exposes the methods, types and interfaces of the `api-client`
 - [ ] I've implemented the required methods for the user to be able to use the integration
 - [ ] I've implemented the required typings for all the **API** methods that are being exposed
 - [ ] My implementation follows the process of GDPR or similar laws
@@ -72,7 +72,7 @@ Fell free to copy this checklist and past it on your repository as a current iss
 ### API-Client
 ```md
 - [ ] The packages dependencies and devDependencies are updated
-- [ ] The version of `client-api` follows the SemVer model, and has been bumped
+- [ ] The version of `api-client` follows the SemVer model, and has been bumped
 ```
 ### Composables
 ```md
