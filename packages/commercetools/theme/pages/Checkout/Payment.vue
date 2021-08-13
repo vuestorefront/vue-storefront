@@ -152,12 +152,13 @@ import {
   SfLink,
   SfInput
 } from '@storefront-ui/vue';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed, watch } from '@vue/composition-api';
 import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 import VsfPaymentProviderMock from '@/components/Checkout/VsfPaymentProviderMock';
 import { usePaymentProviderMock } from '@/composables/usePaymentProviderMock';
+import { useUiNotification } from '~/composables';
 
 export default {
   name: 'ReviewOrder',
@@ -185,7 +186,8 @@ export default {
     const billingSameAsShipping = computed(() => Object.keys(shippingDetails.value).every(shippingDetailsKey => shippingDetails.value[shippingDetailsKey] === billingDetails.value[shippingDetailsKey]));
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
-    const { order, make, loading } = useMakeOrder();
+    const { order, make, loading, error } = useMakeOrder();
+    const { send } = useUiNotification();
 
     const terms = ref(false);
     const promoCode = ref('');
@@ -199,9 +201,20 @@ export default {
 
     const processOrder = async () => {
       await make();
-      context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
+
+      if (error.value.make) return;
+
+      const thankYouPath = { name: 'thank-you', query: { order: order.value.id }};
+      context.root.$router.push(context.root.localePath(thankYouPath));
+
       setCart(null);
     };
+
+    watch(() => ({...error.value}), (error, prevError) => {
+      if (error.make !== prevError.make)
+        send({ type: 'danger', message: error.make.message });
+    });
+
     return {
       loading,
       products,

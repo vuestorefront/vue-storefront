@@ -1,6 +1,9 @@
-import pkg from './package.json';
+import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
+import pkg from './package.json';
 import { generateBaseConfig } from '../../rollup.base.config';
+
+const extensions = ['.ts', '.js'];
 
 const server = {
   input: 'src/index.server.ts',
@@ -16,9 +19,13 @@ const server = {
     ...Object.keys(pkg.peerDependencies || {})
   ],
   plugins: [
+    nodeResolve({
+      extensions
+    }),
     typescript({
       // eslint-disable-next-line global-require
-      typescript: require('typescript')
+      typescript: require('typescript'),
+      useTsconfigDeclarationDir: true
     })
   ]
 };

@@ -1,5 +1,63 @@
 # Changelog
 
+## 2.4.0
+
+-  Fix hydration bug on category page ([#5744](https://github.com/vuestorefront/vue-storefront/issues/5744)) - [Adam Pawliński](https://github.com/AdamPawlinski)
+,
+-  Updates Category.vue in nuxt-theme module; enables wishlist-related actions being triggered depending on current wishlist state ([#5756](https://github.com/vuestorefront/vue-storefront/issues/5756)) - [Igor Wojciechowski](https://github.com/igorwojciechowski)
+,
+-  Added customQuery parameter for useUserFactory methods ([#5883](https://github.com/vuestorefront/vue-storefront/pull/5823)) - [vn-vlad](https://github.com/vn-vlad)
+,
+-  Fix locale links in core and commercetools integration ([#5886](https://github.com/vuestorefront/vue-storefront/issues/5886)) - [Baroshem](https://github.com/Baroshem)
+,
+-  cart item qty selector disabled on loading ([#5924](https://github.com/vuestorefront/vue-storefront/pull/5924)) - [vn-vlad](https://github.com/vn-vlad)
+,
+-  Add "useStoreFactory" function and related type definitions ([#5945](https://github.com/vuestorefront/vue-storefront/pull/5945)) - [vn-vlad](https://github.com/vn-vlad)
+,
+-  Add forgot password functionality ([#5968](https://github.com/vuestorefront/vue-storefront/issues/5968)) - [Baroshem](https://github.com/Baroshem)
+,
+-  fix/my account page not loading content pages list ([#5982](https://github.com/vuestorefront/vue-storefront/pull/5986)) - [Łukasz Śliwa](https://github.com/lsliwaradioluz)
+,
+-  Add useSearchFactory implementation ([#6015](https://github.com/vuestorefront/vue-storefront/pull/6015)) - [vn-vlad](https://github.com/andrzejewsky)
+,
+-  Remove `generate` command from `package.json` ([#6035](https://github.com/vuestorefront/vue-storefront/pull/6035)) - [lukaszjedrasik](https://github.com/lukaszjedrasik)
+,
+-  Export `UseFacetFactoryParams` interface, add generics to the `Context` interface, add minor fixes to base theme ([#6061](https://github.com/vuestorefront/vue-storefront/pull/6061)) - [Filip Sobol](https://github.com/filipsobol)
+,
+-  Removed buttons on hero slider on homepage ([#6068](https://github.com/vuestorefront/vue-storefront/pull/6068)) - [Justyna Gieracka](https://github.com/justyna-13)
+,
+-  Removed "Download app" banner form product and homepage ([#6069](https://github.com/vuestorefront/vue-storefront/pull/6069)) - [Justyna Gieracka](https://github.com/justyna-13)
+,
+-  Linked banner grids buttons on homepage ([#6070](https://github.com/vuestorefront/vue-storefront/pull/6070)) - [Justyna Gieracka](https://github.com/justyna-13)
+,
+-  Switch places between state and country inputs in shipping form ([#6071](https://github.com/vuestorefront/vue-storefront/pull/6071)) - [Łukasz Śliwa](https://github.com/lsliwaradioluz)
+,
+-  Implement mobile menu ([#6077](https://github.com/vuestorefront/vue-storefront/pull/6077)) - [lukaszjedrasik](https://github.com/lukaszjedrasik)
+,
+-  Removed hardcoded link to category in SearchResults.vue ([#6081](https://github.com/vuestorefront/vue-storefront/pull/6081)) - [Justyna Gieracka](https://github.com/justyna-13)
+,
+-  change the core logger behavior to match the console ([#6085](https://github.com/vuestorefront/vue-storefront/pull/6085)) - [bloodf](https://github.com/bloodf)
+,
+-  Cache-control headers for home, product and category page ([#6093](https://github.com/vuestorefront/vue-storefront/pull/6093)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
+,
+-  Add `checkout.js` middleware ([#6121](https://github.com/vuestorefront/vue-storefront/pull/6121)) - [Filip Sobol](https://github.com/filipsobol)
+,
+-  Updates form validation scheme for street, number and city in the checkout and profile editing pages ([#6122](https://github.com/vuestorefront/vue-storefront/pull/6122)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
+,
+-  Fixed Nuxt-CLI spamming babel warning due plugin configuration ([#6123](https://github.com/vuestorefront/vue-storefront/pull/6123)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
+,
+- [BREAKING] updated the removeCoupon interface to match the applyCoupon ([#6126](https://github.com/vuestorefront/vue-storefront/pull/6126)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
+
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+the useCart composable method removeCoupon was using this call signature: ({ coupon: COUPON, customQuery?: CustomQuery })   | the method signature was changed to: ({ couponCode: string, customQuery?: CustomQuery })   | on each removeCoupon composable usage need to change the "coupon" to "couponCode" | composables,
+-  Add new getter for orders total and change return value of searchOrders ([#6132](https://github.com/vuestorefront/vue-storefront/issues/5968)) - [Baroshem](https://github.com/Baroshem)
+,
+-  Removed the beta tag from the Shopify integration ([#6143](https://github.com/vuestorefront/vue-storefront/pull/6143)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
+,
+-  Fixed MyAccount page rendering ([#6171](https://github.com/vuestorefront/vue-storefront/pull/6172)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
+
 ## 2.3.3
 
 -  Add args parameter to custom queries ([#5854](https://github.com/vuestorefront/vue-storefront/issues/5854)) - [andrzejewsky](https://github.com/andrzejewsky)

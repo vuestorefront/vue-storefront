@@ -1,6 +1,47 @@
 # Changelog
 
 ## 1.3.0
+
+-  Added customQuery support for useUser factory params ([#5883](https://github.com/vuestorefront/vue-storefront/pull/5823)) - [vn-vlad](https://github.com/vn-vlad)
+,
+-  Fix locale links in core and commercetools integration ([#5886](https://github.com/vuestorefront/vue-storefront/issues/5886)) - [Baroshem](https://github.com/Baroshem)
+,
+-  Remove SSR from personalized elements ([#5925](https://github.com/vuestorefront/vue-storefront/pull/5925)) - [vn-vlad](https://github.com/vn-vlad)
+,
+-  Add "useStore" implementation and plugin for creating locale, currency and country cookies ([#5945](https://github.com/vuestorefront/vue-storefront/pull/5945)) - [vn-vlad](https://github.com/vn-vlad)
+,
+-  Add forgot password functionality ([#5968](https://github.com/vuestorefront/vue-storefront/issues/5968)) - [Baroshem](https://github.com/Baroshem)
+,
+-  Click "Add New Address" button on the Checkout does not submit the form ([#5994](https://github.com/vuestorefront/vue-storefront/pull/6034)) - [lukaszjedrasik](https://github.com/lukaszjedrasik)
+,
+-  Remove `generate` command from `package.json` ([#6035](https://github.com/vuestorefront/vue-storefront/pull/6035)) - [lukaszjedrasik](https://github.com/lukaszjedrasik)
+,
+-  Refactor updateCart, fix retry logic in case of mismatch of cart ([#6050](https://github.com/vuestorefront/vue-storefront/pull/6054)) - [git-antonyuk](https://github.com/git-antonyuk)
+,
+- [BREAKING] refactor(commercetools): fix the frontend client bundling the commercetools-sdk and apollo client ([#6066](https://github.com/vuestorefront/vue-storefront/pull/6066)) - [bloodf](https://github.com/bloodf)
+
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+the "createCommerceToolsConnection" were being exported by the api-client | the "createCommerceToolsConnection" is not being exported anymore | to use the current connection, you will need to access the context to call the API | api-client,
+-  Linked banner grids buttons on homepage ([#6070](https://github.com/vuestorefront/vue-storefront/pull/6070)) - [Justyna Gieracka](https://github.com/justyna-13)
+,
+-  Replace mocked email address in MyProfile password change tab to active user email ([#6079](https://github.com/vuestorefront/vue-storefront/pull/6079)) - [Adam Pawliński](https://github.com/AdamPawlinski)
+,
+-  Removed hardcoded link to category in SearchResults.vue ([#6081](https://github.com/vuestorefront/vue-storefront/pull/6081)) - [Justyna Gieracka](https://github.com/justyna-13)
+,
+-  Added new product getter `getProductSku` ([#6107](https://github.com/vuestorefront/vue-storefront/pull/6107)) - [Justyna Gieracka](https://github.com/justyna-13)
+,
+-  Smartphone only promo code input added ([#6112](https://github.com/vuestorefront/vue-storefront/pull/6112)) - [vn-vlad](https://github.com/vn-vlad)
+,
+-  Updates form validation scheme for street, number and city in the checkout and profile editing pages ([#6122](https://github.com/vuestorefront/vue-storefront/pull/6122)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
+,
+- [BREAKING] updated the removeCoupon interface to match the applyCoupon ([#6126](https://github.com/vuestorefront/vue-storefront/pull/6126)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
+
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+the useCart composable method removeCoupon was using this call signature: ({ coupon: COUPON, customQuery?: CustomQuery })   | the method signature was changed to: ({ couponCode: string, customQuery?: CustomQuery })   | on each removeCoupon composable usage need to change the "coupon" to "couponCode" | composables,
+-  Add new getter for orders total and change return value of searchOrders ([#6132](https://github.com/vuestorefront/vue-storefront/issues/5968)) - [Baroshem](https://github.com/Baroshem)
+
 - Phone number validation via awesome-phonenumber ([#5951](https://github.com/vuestorefront/vue-storefront/issues/5951)) - [Fifciu](https://github.com/Fifciu)
 
 ## 1.2.3
