@@ -1,12 +1,13 @@
 # How to setup commercetools store with Vue Storefront?
 
-This short description is here to guide you all the way to create simple working store based on the commercetools integration.
-First you need to go prepare commercetools instance in Merchant Center. After signing up following [this guide](https://docs.commercetools.com/merchant-center/accounts) you can start preparing your project.
+This document will guide you through setting up a store based on our commercetools integration.
+:::tip
+Because this document is focused on setting up a basic working store, we omitted some of the settings. If you want to learn more see the [commercetools documentation](https://docs.commercetools.com/merchant-center/).
+:::
 
 ## Commercetools settings
 
-Project is the set of data and store configuration which allows you to manage and provide input for VSF Next to display it in proper way. You can have more than one project with different settings and independent data. One project can provide data for multiple selling channels.
-In order to create one, you need to add it in 'manage projects' menu by setting name, key and organization.
+First, log into your commercetools account and [create a new project](https://docs.commercetools.com/merchant-center/projects#creating-a-project). You can have more than one project with different settings and catalogs. One project can provide data for multiple selling channels.
 
 <center>
   <img src="../images/setup-store/project-settings-sidebar.png" alt="Commercetools manage projects menu" />
@@ -67,6 +68,7 @@ Then, enter specific methods for each zone and currency:
 ## Adding a new category
 
 Categories allow to organize the products in groups and make them easy to find by the customer. See the [Modeling Categories](https://docs.commercetools.com/tutorials/product-modeling/categories) page to know more about categorizing items in your store.
+In order to create a category you need to:
 
 1. Choose `add category` from the sidebar menu. 
   <center>
@@ -97,17 +99,18 @@ You can see your categories in `categories search` menu:
 ## Adding a new product type
 
 To create any product in commercetools, at least one product type need to be set. It is the sort of template with certain attributes which is used as a base for the product.
-Creating a product type involves changes in `Product types` menu:
+Creating a product type involves:
 
   <center>
     <img src="../images/setup-store/project-settings-sidebar.png" alt="Commercetools create product type first step" />
   </center>
 
-- providing name and description
+- entering name and description.
 
   <center>
     <img src="../images/setup-store/product-type-1.png" alt="Commercetools create product type first step" />
   </center>
+
 For our purposes you don't need to setup product attributes, but when creating real life project attributes are necessary to configure products needed for buying process.  
 
 <!-- - and in folowing step clicking on 'add attribute' and filling name, label, constraints, and type
@@ -123,7 +126,7 @@ After creating at least one product type, you can add a new product. You can rea
   <center>
     <img src="../images/setup-store/add-product-1.png" alt="Commercetools add product first step" />
   </center>
-2. Next enter the name, assign tax category (which you previously set) and add to proper category 
+2. Type the name and assign the tax category.
   <center>
     <img src="../images/setup-store/add-product-2.png" alt="Commercetools add product second step" />
   </center>
