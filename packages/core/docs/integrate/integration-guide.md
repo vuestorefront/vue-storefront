@@ -385,18 +385,6 @@ When such an event is sent, the application will handle communication with the A
 
 ### Create a middleware
 
-<<<<<<< HEAD
 `checkout` and `is-authenticated` middlewares are used to prevent access to selected pages.
-=======
-`is-authenticated` middleware prevents access to the page for guest users. It's used on pages such as the user profile page.
-
-```js
-export default {
-  middleware: [
-    'is-authenticated'
-  ]
-}
-```
->>>>>>> d5f3e4e26f3450378d752a83f2ba2586a16bca6d
 
 Please refer to [Nuxt.js middleware documentation](https://nuxtjs.org/docs/2.x/directory-structure/middleware/) for more information.
