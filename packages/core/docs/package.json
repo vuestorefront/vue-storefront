@@ -5,7 +5,7 @@
   "description": "",
   "license": "MIT",
   "scripts": {
-    "dev": "vuepress dev",
+    "dev": "yarn build:core && yarn build:ct && vuepress dev",
     "build": "yarn build:core && yarn build:ct && NODE_OPTIONS=--max_old_space_size=4096 vuepress build",
     "build:core": "yarn core-api-ref && yarn core-api-ref-md",
     "build:ct": "yarn ct-api-ref && yarn ct-api-ref-md",
@@ -14,18 +14,15 @@
     "ct-api-ref": "cd ../../commercetools/api-client && api-extractor run --local",
     "ct-api-ref-md": "api-documenter markdown --i commercetools/api-reference --o commercetools/api-reference"
   },
+  "devDependencies": {
+    "@vue-storefront/commercetools-api": "^1.2.0",
+    "@microsoft/api-documenter": "^7.13.7",
+    "@microsoft/api-extractor": "^7.18.3",
+    "typescript": "^3.6.4",
+    "vuepress": "^1.2.0"
+  },
   "dependencies": {
     "sass-loader": "^8.0.2",
     "vue-multiselect": "^2.1.6"
-  },
-  "devDependencies": {
-    "@microsoft/api-documenter": "^7.13.7",
-    "@microsoft/api-extractor": "^7.18.3",
-    "@vue-storefront/commercetools-api": "^1.2.0",
-    "@vuepress/plugin-active-header-links": "^1.8.2",
-    "@vuepress/plugin-back-to-top": "^1.8.2",
-    "@vuepress/plugin-medium-zoom": "^1.8.2",
-    "@vuepress/plugin-search": "^1.8.2",
-    "vuepress": "^1.8.2"
   }
 }

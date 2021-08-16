@@ -24,8 +24,7 @@ const server = {
     }),
     typescript({
       // eslint-disable-next-line global-require
-      typescript: require('typescript'),
-      useTsconfigDeclarationDir: true
+      typescript: require('typescript')
     })
   ]
 };

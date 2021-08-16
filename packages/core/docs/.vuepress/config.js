@@ -305,8 +305,7 @@ module.exports = {
           children: [
             ['/integrate/integration-guide', 'eCommerce'],
             ['/integrate/cms', 'CMS'],
-            ['/integrate/cache-driver', 'Cache driver'],
-            ['/integrate/supporting-custom-queries', 'Supporting custom queries']
+            ['/integrate/cache-driver', 'Cache driver']
           ]
         },
         {
