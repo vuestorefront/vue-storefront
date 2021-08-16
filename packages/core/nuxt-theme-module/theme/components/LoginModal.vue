@@ -199,7 +199,7 @@ import { ref, watch, reactive, computed } from '@vue/composition-api';
 import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert, SfBar } from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
-import { useUser, useForgotPassword } from '<%= options.generate.replace.composables %>';
+import { useUser, useForgotPassword, useWishlist } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
 
 extend('email', {
@@ -236,6 +236,7 @@ export default {
     const rememberMe = ref(false);
     const { register, login, loading, error: userError } = useUser();
     const { request, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
+    const { load: loadWishlist } = useWishlist();
 
     const error = reactive({
       login: null,
@@ -285,6 +286,7 @@ export default {
         error.register = userError.value.register?.message;
         return;
       }
+      loadWishlist();
       toggleLoginModal();
     };
 

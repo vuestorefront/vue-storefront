@@ -50,7 +50,7 @@
 <script>
 import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
 import { computed, onBeforeUnmount } from '@vue/composition-api';
-import { useUser } from '<%= options.generate.replace.composables %>';
+import { useUser, useWishlist } from '<%= options.generate.replace.composables %>';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
 import BillingDetails from './MyAccount/BillingDetails';
@@ -82,6 +82,7 @@ export default {
   setup(props, context) {
     const { $router, $route } = context.root;
     const { logout } = useUser();
+    const { setWishlist } = useWishlist();
     const isMobile = computed(() => mapMobileObserver().isMobile.get());
     const activePage = computed(() => {
       const { pageName } = $route.params;
@@ -98,6 +99,7 @@ export default {
     const changeActivePage = async (title) => {
       if (title === 'Log out') {
         await logout();
+        setWishlist(null);
         $router.push(context.root.localePath({ name: 'home' }));
         return;
       }
