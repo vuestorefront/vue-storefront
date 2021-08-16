@@ -36,7 +36,6 @@
     "dev:spr:composables": "cd packages/spryker/composables && yarn dev",
     "link-packages": "lerna link --force-local",
     "lint": "eslint . --ext .js,.ts,.vue",
-    "prepare": "[ -d '.husky' ] && (husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks) || true",
     "release": "cd scripts && yarn release",
     "start:ct": "cd packages/commercetools/theme && yarn start",
     "test:cli": "cd packages/core/cli && yarn test",
@@ -74,7 +73,7 @@
     "eslint-plugin-promise": "^4.3.1",
     "eslint-plugin-standard": "^5.0.0",
     "eslint-plugin-vue": "^7.6.0",
-    "husky": "^7.0.1",
+    "husky": "^4.2.3",
     "jest": "^24.9.0",
     "lerna": "^3.15.0",
     "lint-staged": "^10.0.7",
@@ -82,7 +81,6 @@
     "rollup": "^1.25.2",
     "rollup-plugin-terser": "^5.1.2",
     "rollup-plugin-typescript2": "^0.30.0",
-    "shx": "^0.3.3",
     "ts-jest": "^24.2.0",
     "ts-node": "^8.4.1",
     "tslib": "^2.1.0",
@@ -94,6 +92,11 @@
     "packages": [
       "packages/**/*"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.{js,ts,vue}": "eslint --fix"
