@@ -4,10 +4,9 @@ WORKDIR /var/www
 
 COPY . .
 
-RUN yarn install --network-concurrency 1 \
+RUN yarn install \
     && yarn build:core \
-    && yarn build:ct:api-client \
-    && yarn cache clean --all
+    && yarn build:ct:api-client
 
 RUN cd packages/core/docs \
     && yarn install \
