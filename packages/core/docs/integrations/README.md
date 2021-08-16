@@ -41,7 +41,7 @@ Click on the integration tile to read its documentation.
     image="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Shopify_logo_2018.svg/1024px-Shopify_logo_2018.svg.png"
     category="eCommerce"
     isBeta="true"
-    link="/v2/shopify"
+    link="https://docs.vuestorefront.io/shopify"
   />
   <IntegrationTile
     name="Virto Commerce"
