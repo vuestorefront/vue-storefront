@@ -1,15 +1,29 @@
 name: Lighthouse Test
 
 on:
-  workflow_run:
-    workflows:
-      - Deploy to Storefrontcloud
-    types:
-      - completed
+  pull_request:
     branches:
-      - next
+      - next/lighthouse
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Build and publish docker image
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: vsf-next-demo-storefrontcloud-io/vue-storefront:${{ github.sha }}
+          registry: registry.storefrontcloud.io
+          username: ${{ secrets.CLOUD_USERNAME }}
+          password: ${{ secrets.CLOUD_PASSWORD }}
+          dockerfile: dev/docker/Dockerfile
+          buildoptions: "--compress"
   deploy:
     runs-on: ubuntu-latest
     steps:
