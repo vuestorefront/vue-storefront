@@ -30,7 +30,7 @@ When you access an API-client on the front-end side, you are accessing actually 
 
 For example, the following code:
 ```js
-context.$ct.getProduct({ id 1})
+context.$ct.getProduct({ id: 1 })
 ```
 
 Generates the request to our middleware:

@@ -14,11 +14,7 @@ import { onSSR } from '@vue-storefront/core`
 
 export default {
   setup() {
-<<<<<<< HEAD
-    const { products, search } = useProduct('<UNIQUE_ID>');
-=======
     const { products, search } = useProduct();
->>>>>>> d5f3e4e26f3450378d752a83f2ba2586a16bca6d
 
     onSSR(async () => {
       await search(searchParams);
@@ -47,11 +43,7 @@ Every Vue Storefront composable usually returns three main pieces:
 ```js
 import { useProduct } from '{INTEGRATION}';
 
-<<<<<<< HEAD
 const { products, search, loading, api } = useProduct('<UNIQUE_ID>');
-=======
-const { products, search, loading } = useProduct();
->>>>>>> d5f3e4e26f3450378d752a83f2ba2586a16bca6d
 
 search({ slug: 'super-t-shirt' }); // agnostic access
 
