@@ -3,7 +3,7 @@ name: Lighthouse Test
 on:
   pull_request:
     branches:
-      - next/lighthouse
+      - lighthouse/next
 
 jobs:
   build:
