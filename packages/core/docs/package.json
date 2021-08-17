@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "description": "",
-  "main": "index.js",
+  "license": "MIT",
   "scripts": {
     "dev": "yarn build:core && yarn build:ct && vuepress dev",
     "build": "yarn build:core && yarn build:ct && NODE_OPTIONS=--max_old_space_size=4096 vuepress build",
@@ -21,8 +21,6 @@
     "typescript": "^3.6.4",
     "vuepress": "^1.2.0"
   },
-  "author": "DivanteLtd",
-  "license": "MIT",
   "dependencies": {
     "sass-loader": "^8.0.2",
     "vue-multiselect": "^2.1.6"
