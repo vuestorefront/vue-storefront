@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Fix `@vue-storefront/cache` package ',
+  description: 'Fix `@vue-storefront/cache` package',
   link: 'https://github.com/vuestorefront/vue-storefront/pull/6198',
   isBreaking: false,
   breakingChanges: [],
