@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@nuxtjs/composition-api": "0.17.0",
-    "@vue-storefront/core": "^2.4.0"
+    "@vue-storefront/core": "~2.4.0"
   },
   "publishConfig": {
     "access": "public"

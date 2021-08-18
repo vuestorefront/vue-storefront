@@ -15,7 +15,7 @@
     "ct-api-ref-md": "api-documenter markdown --i commercetools/api-reference --o commercetools/api-reference"
   },
   "devDependencies": {
-    "@vue-storefront/commercetools-api": "^1.2.0",
+    "@vue-storefront/commercetools-api": "~1.2.0",
     "@microsoft/api-documenter": "^7.13.7",
     "@microsoft/api-extractor": "^7.18.3",
     "typescript": "^3.6.4",
