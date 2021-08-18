@@ -3,13 +3,13 @@
     <img :src="photo" />
     <div><b> {{ name }} </b></div>
     <div class="gap">{{ company }} </div>
-    <div><b><a href="https://discord.vuestorefront.io">Discord:</a></b> {{ discord }} </div>
+    <div><b><a href="https://slack.vuestorefront.io">Slack:</a></b> @{{ slack }} </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['name', 'company', 'discord', 'photo']
+  props: ['name', 'company', 'slack', 'photo']
 }
 </script>
 

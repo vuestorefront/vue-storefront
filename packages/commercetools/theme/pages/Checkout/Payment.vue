@@ -204,7 +204,9 @@ export default {
 
       if (error.value.make) return;
 
-      context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
+      const thankYouPath = { name: 'thank-you', query: { order: order.value.id }};
+      context.root.$router.push(context.root.localePath(thankYouPath));
+
       setCart(null);
     };
 

@@ -6,17 +6,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "vuepress dev",
-    "build": "vuepress build",
-    "build:core": "yarn core-api-ref-gen && yarn core-api-ref-md",
-    "core-api-ref-gen": "cd ../core && api-extractor run --local",
-    "core-api-ref-md": "api-documenter markdown --i core/api-reference --o core/api-reference",
-    "build:ct": "yarn ct-api-client-tdoc && yarn ct-api-client-gen",
+    "build": "yarn ct-api-client-tdoc && yarn ct-api-client-gen && vuepress build",
     "ct-api-client-tdoc": "node ./scripts/generateCtApiRef && rimraf ./commercetools/api-client-reference/enums ./commercetools/api-client-reference/README.md ./commercetools/api-client-reference/modules/api.md && mv ./commercetools/api-client-reference/modules ./commercetools/api-client-reference/1modules && node typedoc-vsf-theme/removeFiles",
     "ct-api-client-gen": "concat-md --join-string '' ./commercetools/api-client-reference/ > ./commercetools/api-client-reference.md && node typedoc-vsf-theme/removeText && rimraf ./commercetools/api-client-reference"
   },
   "devDependencies": {
-    "@microsoft/api-documenter": "^7.13.7",
-    "@microsoft/api-extractor": "^7.15.1",
     "@vue-storefront/commercetools-api": "^1.2.0",
     "concat-md": "^0.3.5",
     "handlebars": "^4.7.7",

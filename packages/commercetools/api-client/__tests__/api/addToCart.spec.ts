@@ -32,7 +32,10 @@ describe('[commercetools-api-client] addToCart', () => {
     const product = { id: 1,
       sku: '123' } as any;
 
-    const response = await addToCart(context, cart, product, 2);
+    const response = await addToCart(context, cart, {
+      product,
+      quantity: 2
+    });
 
     expect(response).toEqual({
       id: 1,

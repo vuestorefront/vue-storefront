@@ -69,7 +69,7 @@ API extends PlatformApi = any
       }
     };
 
-    const register = async ({ user: providedUser, customQuery } = { user: null, customQuery: null }) => {
+    const register = async ({ user: providedUser, customQuery }) => {
       Logger.debug('useUserFactory.register', providedUser);
       resetErrorValue();
 
@@ -85,7 +85,7 @@ API extends PlatformApi = any
       }
     };
 
-    const login = async ({ user: providedUser, customQuery } = { user: null, customQuery: null }) => {
+    const login = async ({ user: providedUser, customQuery }) => {
       Logger.debug('useUserFactory.login', providedUser);
       resetErrorValue();
 
@@ -115,7 +115,7 @@ API extends PlatformApi = any
       }
     };
 
-    const changePassword = async (params = { current: null, new: null, customQuery: null }) => {
+    const changePassword = async (params) => {
       Logger.debug('useUserFactory.changePassword', { currentPassword: mask(params.current), newPassword: mask(params.new) });
       resetErrorValue();
 
