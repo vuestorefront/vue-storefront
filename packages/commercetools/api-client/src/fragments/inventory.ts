@@ -13,7 +13,7 @@ export const InventoryEntryFragment = `
     availableQuantity
     restockableInDays
     expectedDelivery
-    supplyChannels {
+    supplyChannel {
       id
     }
     createdBy {
