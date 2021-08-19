@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.3.1
+
+- [BREAKING] Enable the purchase of item with selected supply channel and distribution channel ([#6161](https://github.com/vuestorefront/vue-storefront/pull/6161)) - [Alef Barbeli](https://github.com/alefbarbeli)
+
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+the addToCart method has the signature addToCart ({ id, version }: CartDetails, product: ProductVariant, quantity: number): Promise<CartResponse>; | now the addToCart method was change to enable the supply and distribution channels with the signature addToCart ({ id, version }: CartDetails, params: { product: ProductVariant; quantity: number; supplyChannel?: string; distributionChannel?: string;}): Promise<CartResponse>; | The composable was changed to match this signature. The changes from Click & Collect / MultiStore are required to use this feature on Product.vue | api-client,
+-  Added missing mobile menu to CT ([#6184](https://github.com/vuestorefront/vue-storefront/pull/6184)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+,
+-  Revert changes to Webpack configuration and Google font loading ([#6203](https://github.com/vuestorefront/vue-storefront/pull/6203)) - [Filip Sobol](https://github.com/filipsobol)
+
+
 ## 1.3.0
 
 -  Added customQuery support for useUser factory params ([#5883](https://github.com/vuestorefront/vue-storefront/pull/5823)) - [vn-vlad](https://github.com/vn-vlad)
