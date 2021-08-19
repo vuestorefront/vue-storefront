@@ -1,33 +1,31 @@
 import { Context, CustomQuery } from '@vue-storefront/core';
 import ApolloClient from 'apollo-client';
 import gql from 'graphql-tag';
-
-import { ApiResponseWrapper } from '../../types/Api';
 import { InventoryEntryQueryResult } from '../../types/GraphQL';
 import { inventoryEntriesData } from './defaultQuery';
-import { buildInventoryEntriesWhere } from '../../helpers/search';
+import { ApiResponseWrapper } from '../../types/Api';
+// import { buildInventoryEntriesWhere } from '../../helpers/search';
 
-export interface GetInventoryParams {
-  sku: string;
-  customQuery: CustomQuery;
-}
+// export interface InventoryData {
+//   inventory: InventoryEntryQueryResult;
+// }
 
-export default async function getInventory(context: Context, params?: GetInventoryParams): Promise<InventoryEntryQueryResult> {
+const getInventory = async (context: Context, params: Record<string, string>, customQuery?: CustomQuery) => {
   const variables = {
-    where: buildInventoryEntriesWhere(context.config, params)
+    ...(params?.sku && { where: `sku="${params?.sku}"` })
   };
-
-  const { customQuery } = Object(params);
 
   const { getInventoryEntriesData } = context.extendQuery(customQuery, {
     getInventoryEntriesData: { query: inventoryEntriesData, variables }
   });
 
-  const response = await (context.client as ApolloClient<any>).query<ApiResponseWrapper<'inventory', InventoryEntryQueryResult>>({
+  const response = await (context.client as ApolloClient<any>).query<ApiResponseWrapper<'inventoryEntries', InventoryEntryQueryResult>>({
     query: gql`${getInventoryEntriesData.query}`,
     variables: getInventoryEntriesData.variables,
     fetchPolicy: 'no-cache'
   });
 
-  return response.data.inventory;
-}
+  return response.data.inventoryEntries;
+};
+
+export default getInventory;

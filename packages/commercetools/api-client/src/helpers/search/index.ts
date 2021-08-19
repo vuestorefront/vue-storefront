@@ -1,4 +1,3 @@
-import { GetInventoryParams } from 'src/api/getInventory';
 import {
   CategoryWhereSearch,
   ProductWhereSearch,
@@ -7,6 +6,7 @@ import {
   AttributeType
 } from './../../types/Api';
 import { Config } from './../../types/setup';
+import { CustomQuery } from '@vue-storefront/core';
 
 const mapFilterToPredicate = (settings: Config, filter: Filter) => {
   const { locale, currency } = settings;
@@ -44,7 +44,7 @@ const mapFilterToPredicate = (settings: Config, filter: Filter) => {
   return `masterData(current(masterVariant(attributes(name = "${filter.name}" and ${valuePredicate}))))`;
 };
 
-const buildInventoryEntriesWhere = (settings: Config, params: GetInventoryParams) => {
+const buildInventoryEntriesWhere = (settings: Config, params: Record<string, string> & { customQuery: CustomQuery }) => {
   // something like json-to-graphql-query would be better here
   if (params.sku) return `sku="${params.sku}"`;
 };

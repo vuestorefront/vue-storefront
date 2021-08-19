@@ -25,7 +25,7 @@ import {
   Me,
   CartQueryInterface,
   CustomerPasswordToken,
-  StoreQueryResult
+  StoreQueryResult, InventoryEntryQueryResult
 } from './GraphQL';
 
 export interface BaseSearch {
@@ -138,6 +138,7 @@ interface ApiMethods {
   updateShippingDetails (cart: Cart, shippingDetails: Address): Promise<CartResponse>;
   isGuest: () => boolean;
   getStores(params: GetStoresParams): Promise<StoreQueryResult>;
+  getInventory(params: Record<string, string>): Promise<InventoryEntryQueryResult>;
 }
 
 export type CommercetoolsMethods = ApiClientMethods<ApiMethods>
