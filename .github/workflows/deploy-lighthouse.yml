@@ -1,9 +1,9 @@
 name: Lighthouse Test
 
 on:
-  pull_request:
+  push:
     branches:
-      - next/lighthouse
+      - lighthouse/next
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
       - name: Build and publish docker image
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: vsf-next-demo-storefrontcloud-io/vue-storefront:${{ github.sha }}
+          name: demo-lighthouse-storefrontcloud-io/vue-storefront:${{ github.sha }}
           registry: registry.storefrontcloud.io
           username: ${{ secrets.CLOUD_USERNAME }}
           password: ${{ secrets.CLOUD_PASSWORD }}
@@ -26,6 +26,7 @@ jobs:
           buildoptions: "--compress"
   deploy:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - uses: chrnorm/deployment-action@releases/v1
         name: Create GitHub deployment
