@@ -211,7 +211,8 @@ import {
   productGetters,
   useReview,
   reviewGetters,
-  useStore
+  useStore,
+  useInventory
 } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
@@ -228,6 +229,7 @@ export default {
     const qty = ref(1);
     const { id } = context.root.$route.params;
     const { products, search } = useProduct('products');
+    const { entries, search: searchInventory } = useInventory('productInventory');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
     const { addItem, loading } = useCart();
     const { reviews: productReviews, search: searchReviews } = useReview('productReviews');
@@ -277,6 +279,8 @@ export default {
       await search({ id });
       await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });
       await searchReviews({ productId: id });
+      // await searchInventory({ sku: product.value?.sku });
+      await searchInventory({ sku: 'M0E20000000E2WX' });
     });
 
     const updateFilter = (filter) => {
@@ -290,6 +294,8 @@ export default {
     };
 
     return {
+      searchInventory,
+      entries,
       addToCart,
       updateFilter,
       configuration,

@@ -3,7 +3,7 @@ import {
   configureFactoryParams,
   Context, CustomQuery,
   FactoryParams,
-  Logger,
+  Logger, PlatformApi,
   sharedRef
 } from '@vue-storefront/core';
 
@@ -15,7 +15,7 @@ export interface UseInventory<INVENTORY> {
   search: (context: Context, params: Record<string, string> & { customQuery?: CustomQuery }) => Promise<void>;
 }
 
-export interface UseInventoryFactoryParams<INVENTORY> extends FactoryParams{
+export interface UseInventoryFactoryParams<INVENTORY, API extends PlatformApi = any> extends FactoryParams<API>{
   load: (context: Context, params: { id: string }) => Promise<INVENTORY>;
   search: (context: Context, params: Record<string, string>) => Promise<INVENTORY[]>;
 }
@@ -30,23 +30,23 @@ export function useInventoryFactory<INVENTORY>(
     const entries = sharedRef<INVENTORY[]>([], `useInventory-entries-${ssrKey}`);
     const _factoryParams = configureFactoryParams(factoryParams);
 
-    const load = async (params: { id: string }) => {
+    const load = async (context: Context, params: { id: string }) => {
       Logger.debug(`useInventory/${ssrKey}/load`);
       loading.value = true;
 
       try {
-        entry.value = await _factoryParams.load(params);
+        entry.value = await _factoryParams.load({ ...params });
       } finally {
         loading.value = false;
       }
     };
 
-    const search = async (params: Record<string, string>) => {
+    const search = async (context: Context, params: any) => {
       Logger.debug(`useInventory/${ssrKey}/search`);
       loading.value = true;
 
       try {
-        entries.value = await _factoryParams.search(params);
+        entries.value = await _factoryParams.search({ ...params });
       } finally {
         loading.value = false;
       }
