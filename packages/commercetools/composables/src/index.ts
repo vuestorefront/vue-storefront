@@ -30,6 +30,7 @@ export { useUserShipping, useUserShippingFactoryParams } from './useUserShipping
 export { useWishlist, useWishlistFactoryParams } from './useWishlist';
 export { useForgotPassword, useForgotPasswordFactoryParams } from './useForgotPassword';
 export { useStore, useStoreFactoryParams } from './useStore';
+export { useInventory, useInventoryFactoryParams } from './useInventory';
 
 export * from './getters';
 export * from './types';

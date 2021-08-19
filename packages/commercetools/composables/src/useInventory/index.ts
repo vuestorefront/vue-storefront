@@ -1,16 +1,23 @@
-import { useInventoryFactory, UseInventoryFactoryParams } from '../factories/useInventoryFactory';
-import { InventoryEntry } from '@vue-storefront/commercetools-api/lib/src';
+import { UseInventory, useInventoryFactory, UseInventoryFactoryParams } from '../factories/useInventoryFactory';
+import { InventoryEntry } from '@vue-storefront/commercetools-api';
 import { Context } from '@vue-storefront/core';
 
-export const factoryParams: UseInventoryFactoryParams<InventoryEntry> = {
+const useInventoryFactoryParams: UseInventoryFactoryParams<InventoryEntry> = {
   load: async (context: Context, params: { id: string }) => {
     const result = await context.$ct.api.getInventory(params);
-    return result.data.inventoryEntry;
+    return result;
   },
   search: async (context: Context, params: Record<string, string>) => {
-    const result = await context.$ct.api.getInventory(params);
-    return result.data.inventoryEntry;
+    console.log('params', params);
+    const result = await context.$ct.api.getInventory({ sku: 'M0E20000000DPZ0'});
+    console.log(result);
+    return result;
   }
 };
 
-export default useInventoryFactory<InventoryEntry>(factoryParams);
+const useInventory: (cacheId: string) => UseInventory<InventoryEntry> = useInventoryFactory<InventoryEntry>(useInventoryFactoryParams);
+
+export {
+  useInventory,
+  useInventoryFactoryParams
+};
