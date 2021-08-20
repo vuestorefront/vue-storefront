@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.4.1
+
+-  Fix `@vue-storefront/cache` package ([#6198](https://github.com/vuestorefront/vue-storefront/pull/6198)) - [Filip Sobol](https://github.com/filipsobol)
+,
+-  Revert changes to Webpack configuration and Google font loading ([#6203](https://github.com/vuestorefront/vue-storefront/pull/6203)) - [Filip Sobol](https://github.com/filipsobol)
+,
+-  Fix addToCart request body structure in e2e tests ([#6205](https://github.com/vuestorefront/vue-storefront/pull/6207)) - [Igor Wojciechowski](https://github.com/igorwojciechowski)
+
+
 ## 2.4.0
 
 -  Fix hydration bug on category page ([#5744](https://github.com/vuestorefront/vue-storefront/issues/5744)) - [Adam Pawliński](https://github.com/AdamPawlinski)
