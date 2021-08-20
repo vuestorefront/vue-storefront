@@ -362,4 +362,4 @@ Because every payment provider is different, not all of them are present in ever
 
 ### Why some integrations have a mocked `VsfPaymentProvider`?
 
-There are eCommerce backends that do not provide any payment methods out-of-the-box, e.g. commercetools. For these, you provide a mock component that has exactly the same interface like a real integration so you can easily swap it with a payment integration of your choice. You can find available payment integrations [here](/v2/integrations/).
+There are eCommerce backends that do not provide any payment methods out-of-the-box, e.g. commercetools. For these, you provide a mock component that has exactly the same interface like a real integration so you can easily swap it with a payment integration of your choice. You can find available payment integrations [here](/integrations/).

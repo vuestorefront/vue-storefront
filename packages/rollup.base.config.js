@@ -10,7 +10,6 @@ export function generateBaseConfig(pkg, useTerser = false) {
       extensions
     }),
     typescript({
-      useTsconfigDeclarationDir: true,
       // eslint-disable-next-line global-require
       typescript: require('typescript')
     })

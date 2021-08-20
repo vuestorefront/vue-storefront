@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Before proceeding, make sure you have [Node 10+](https://nodejs.org/en/) and [Yarn 1](https://classic.yarnpkg.com/lang/en/) installed.
+Before proceeding, make sure you have [Node 10+](https://nodejs.org/en/), [Yarn 1](https://classic.yarnpkg.com/lang/en/) and [Git](https://git-scm.com/) installed.
 
 ## Using Vue Storefront CLI
 
@@ -36,6 +36,46 @@ yarn dev
 ```
 
 You can read more about available commands and environments on [commands](https://nuxtjs.org/docs/2.x/get-started/commands/) page in Nuxt.js documentation.
+
+## Recommended tools
+
+### Vue.js Devtools
+
+We strongly recommend installing [Vue.js Devtools](https://github.com/vuejs/vue-devtools#installation) in your browser. It's an excellent tool for viewing component structure and their current state, inspecting events and routes, and much more.
+
+<center>
+    <img src="../images/general/vue-js-devtools-install.gif" alt="Process of installing Vue.js Devtools plugin in Chrome browser"/>
+</center>
+
+*(Vue.js Devtools installation in Chrome browser)*
+
+<center>
+    <img src="../images/general/vue-js-devtools.gif" alt="Usage of Vue.js Devtools with Vue Storefront application"/>
+</center>
+
+*(Vue.js Devtools usage example)*
+
+### Vetur for VS Code
+For those using Visual Studio Code as their main code editor, we also recommend using [Vetur extension](https://marketplace.visualstudio.com/items?itemName=octref.vetur).
+It speeds up development of Vue.js-based applications by providing, amongst many others, features like Vue.js code autocompletion and syntax highlighting.
+
+To install Vetur extension:
+1. Open VS Code
+2. Open `Extensions`
+3. Search for `Vetur`
+4. Click `Install`
+
+<center>
+    <img src="../images/general/vs-code-vetur-install.gif" alt="Process of installing of Vetur plugin in Visual Studio Code" />
+</center>
+
+*(Vetur installation in Visual Studio Code marketplace)*
+
+<center>
+    <img src="../images/general/vs-code-vetur.gif" alt="Example of autocompletion provided by Vetur" />
+</center>
+
+*(Example of code autocompletion provided by Vetur)*
 
 ## What's next?
 
