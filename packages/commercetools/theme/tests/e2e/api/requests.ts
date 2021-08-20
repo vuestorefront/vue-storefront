@@ -10,6 +10,20 @@ export type CreateCartResponse = {
   }
 }
 
+export type GetMeResponse = {
+  body: {
+    data: {
+      me: {
+        customer: {
+          firstName: string;
+          lastName: string;
+          email: string;
+        }
+      }
+    }
+  }
+}
+
 export type GetShippingMethodsResponse = {
   body: {
     data: {
@@ -74,7 +88,7 @@ const requests = {
     return cy.request(options);
   },
 
-  getMe(): Cypress.Chainable {
+  getMe(customer?: boolean): Cypress.Chainable {
     const options = {
       url: '/api/ct/getMe',
       method: 'POST',
@@ -83,7 +97,7 @@ const requests = {
         'Content-Type': 'application/json'
       },
       body: [
-        {customer: false}, null
+        {customer: customer ?? false}, null
       ]
     };
     return cy.request(options);

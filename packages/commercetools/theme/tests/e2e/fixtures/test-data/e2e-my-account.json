@@ -1,0 +1,20 @@
+{
+	"Should display correct personal data": {
+		"customer": {
+			"firstName": "Jane",
+			"lastName": "Doe",
+			"password": "vuestorefront2"
+		}
+	},
+	"Should update personal data": {
+		"customer": {
+			"firstName": "Jo",
+			"lastName": "Do",
+			"password": "vuestorefront2"
+		},
+		"updatedCustomer": {
+			"firstName": "Joe",
+			"lastName": "Doe"
+		}
+	}
+}

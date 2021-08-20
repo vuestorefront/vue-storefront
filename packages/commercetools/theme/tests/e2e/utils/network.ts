@@ -7,6 +7,11 @@ function _intercept(path: string, alias?: string) {
 }
 
 const intercept = {
+
+  customerUpdateMe(as?: string): string {
+    return _intercept('/customerUpdateMe', as);
+  },
+
   getProduct(as?: string): string {
     return _intercept('/getProduct', as);
   },
