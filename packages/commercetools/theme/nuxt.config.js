@@ -16,7 +16,8 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon',
+      {
+        rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico'
       },
@@ -26,16 +27,8 @@ export default {
         crossorigin: 'crossorigin'
       },
       {
-        rel: 'preload',
-        href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap',
-        as: 'style'
-      },
-      {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap',
-        media: 'print',
-        onload: 'this.media=\'all\'',
-        once: true
+        href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap'
       }
     ],
     script: []
@@ -156,32 +149,6 @@ export default {
           lastCommit: process.env.LAST_COMMIT || ''
         })
       })
-    ],
-    extend (config, ctx) {
-      if (ctx && ctx.isClient) {
-        config.optimization = {
-          ...config.optimization,
-          mergeDuplicateChunks: true,
-          splitChunks: {
-            ...config.optimization.splitChunks,
-            chunks: 'all',
-            automaticNameDelimiter: '.',
-            maxSize: 128_000,
-            maxInitialRequests: Number.POSITIVE_INFINITY,
-            minSize: 0,
-            maxAsyncRequests: 10,
-            cacheGroups: {
-              vendor: {
-                test: /[/\\]node_modules[/\\]/,
-                name: (module) => `${module
-                  .context
-                  .match(/[/\\]node_modules[/\\](.*?)([/\\]|$)/)[1]
-                  .replace(/[.@_]/gm, '')}`
-              }
-            }
-          }
-        };
-      }
-    }
+    ]
   }
 };

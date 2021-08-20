@@ -51,8 +51,9 @@ function getFormattedPrice(price: number): string {
   return '';
 }
 
+// eslint-disable-next-line
 function getOrdersTotal(orders: any): number {
-  return orders.total;
+  return 1;
 }
 
 export const orderGetters: UserOrderGetters<Order, OrderItem> = {

@@ -1,112 +1,249 @@
 # Product Catalog
 
-In Vue Storefront there are two composables available that you can use to interact with product catalog - `useProduct` and `useFacet`. The former should be used to work with a single product and its variants while the latter is for complex product listings with filtering and sorting.
+There are two composables used to interact with the product catalog - `useProduct` and `useFacet`.
 
+`useProduct` allows loading products and their variants when some parameters like IDs, SKUs, or slugs are already known. 
 
-## Fetching a single product and it's variants with `useProduct`
+`useFacet` allows more complex queries where categories, search terms, filters, and other options can narrow down and sort the results.
 
-`useProduct` composable is meant to be used primarily on Product Details Page to display information about a single product and its variants.
+## Fetching a single product and its variants
 
-You can fetch the product and its variants with `search` method. The response will be saved in `products` object and contain at least an array of product variants.
+`useProduct` composable is used primarily on the Product Details Page to display information about a single product and its variants.
 
-```js
-import { useProduct } from '{INTEGRATION}'
-import { onSSR } from '@vue-storefront/core'
-// ...
+Use the `search` method to fetch the product and its variants. The response is available in the `products` object.
+
+```vue
+<script>
+import { onSSR } from '@vue-storefront/core';
+import { useProduct } from '{INTEGRATION}';
 
 export default {
   setup () {
-    const { products, search } = useProduct()
+    const { products, search } = useProduct();
 
     onSSR(async () => {
-      await search(searchParams) // populates 'products' with the result
+      /**
+       * "searchParams" may vary depending on the integration used.
+       * Please refer to its documentation for more details.
+       */
+      await search(searchParams);
     })
     
     return {
       products
-    }
+    };
   }
 }
+</script>
 
 ```
-### Using `getFiltered` to extract product list
 
-In some platforms `products` object is containing not only a list of products but also some additional metadata like products count. In such cases you can use `getFiltered` getter without parameters to extract only the products list.
+## Accessing product data
 
-```ts
-import { productGetters } from '{INTEGRATION}'
+Once products are loaded using `useProduct`, access them using `productGetters`. Depending on the product, configuration, and integration used, the response might contain one or more products or variants. Use the `getFiltered` getter to access them.
+
+For a full list of available getters, please refer to the [ProductGetters ](../core/api-reference/core.productgetters.html) interface.
+
+### Accessing products list
+
+Use the `getFiltered` getter without the second parameter to get the list of all products.
+
+```vue{4,18-24}
+<script>
+import { onSSR } from '@vue-storefront/core';
+import { computed } from '@vue/composition-api';
+import { useProduct, productGetters } from '{INTEGRATION}';
 
 export default {
   setup () {
-    // ...
+    const { products, search } = useProduct();
 
-    const list = computed(() => productGetters.getFiltered(products.value));
+    onSSR(async () => {
+      /**
+       * "searchParams" may vary depending on the integration used.
+       * Please refer to its documentation for more details.
+       */
+      await search(searchParams);
+    })
+
+    const productList = computed(() => {
+      return productGetters.getFiltered(products.value);
+    });
 
     return {
-      list
-    }
+      productList
+    };
   }
 }
+</script>
 ```
 
-### Using `getFiltered` to select the Master Variant
+### Accessing master variant
 
-Each of Product Variants returned by `getFiltered` is a single product configuration.
+In most of the eCommerce backends, there is a so-called _master variant_. You can think of it as a default configuration for the product displayed to the user if they haven't selected any other configuration.
 
-In most of the eCommerce backends there is so-called _Master Variant_. You can think about this as a default configuration for your product that is displayed to the user if he/she havn't selected any other configuration yet (eg. `red` + `M` for t-shirt ). If platform is not supporting master variants it's either the first one or there is a stub with `null` as configurable attributes.
+Let's use the `getFiltered` getter again, but this time pass `{ master: true }` as a second parameter to only get the master variant.
 
-We will use the `getFiltered` getter to filter out the other variants from the `products` object and keep only the one that we need:
+```vue{4,18-24}
+<script>
+import { onSSR } from '@vue-storefront/core';
+import { computed } from '@vue/composition-api';
+import { useProduct, productGetters } from '{INTEGRATION}';
 
-```ts
-const masterVariant = computed(() => productGetters.getFiltered(products.value, { master: true })[0]);
-```
+export default {
+  setup () {
+    const { products, search } = useProduct();
 
-### Using `getFiltered` to select the product configuration
+    onSSR(async () => {
+      /**
+       * "searchParams" may vary depending on the integration used.
+       * Please refer to its documentation for more details.
+       */
+      await search(searchParams);
+    })
 
-The same way we've used `getFiltered` to select the Master Variant we can use it to select other variants.
+    const masterVariant = computed(() => {
+      return productGetters.getFiltered(products.value, { master: true })[0];
+    });
 
-```js
-const selectedVariant = computed(() => productGetters.getFiltered(products.value, { attributes })[0]);
-```
-
-## Fetching a list of products and filters with `useFacet`
-
-Faceting is the way of searching and classifying records, allowing users to browse the catalog data.
-
-Each facet is the unit that refines the results over multiple dimensions at a time. Considering the clothing shop, we can distinguish multiple dimensions such as brand, size, color and so on. The particular value of that dimension is a facet, for example `color: red`, `size: xl etc`.
-
-![faceting sechema](./../images/faceting.jpg)
-
-
-You can fetch all the data needed for a Product Details Page such as products, sorting options, filters and pagination with a single call of a`search` method. The search result will be saved in `result` object.
-
-You can extract certain information from `result` object using `facetGetters`:
-
-```ts
-setup (props, context) {
-  const { result, search, loading } = useFacet();
-
-  // the products that were found
-  const products = computed(() => facetGetters.getProducts(result.value));
-
-  // corresponding category tree
-  const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
-
-  // related breadcrumbs
-  const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
-
-  // sort options
-  const sortBy = computed(() => facetGetters.getSortOptions(result.value));
-
-  // available facets (grouped)
-  const facets = computed(() => facetGetters.getGrouped(result.value));
-
-  // pagination options
-  const pagination = computed(() => facetGetters.getPagination(result.value));
-
-  onSSR(async () => {
-    // triggering a search based on criteria available in url query eg. ?colo=red&sortBy=latest
-    await search(searchParams);
-  });
+    return {
+      masterVariant
+    };
+  }
 }
+</script>
 ```
+
+:::warning `getFiltered` always returns an array
+Even when `{ master: true }` is passed, the `getFiltered` getter still returns an array of products. In the example above, we used `[0]` to access the first element, but it might differ depending on the integration.
+:::
+
+### Accessing products with specific attributes
+
+To only get the products with specific attributes, pass the `{ attributes }` object as a second parameter.
+
+```vue{4,18-29}
+<script>
+import { onSSR } from '@vue-storefront/core';
+import { computed } from '@vue/composition-api';
+import { useProduct, productGetters } from '{INTEGRATION}';
+
+export default {
+  setup () {
+    const { products, search } = useProduct();
+
+    onSSR(async () => {
+      /**
+       * "searchParams" may vary depending on the integration used.
+       * Please refer to its documentation for more details.
+       */
+      await search(searchParams);
+    })
+
+    const attributes = {
+      size: '38',
+      color: 'gray'
+    };
+
+    const selectedVariant = computed(() => {
+      return productGetters.getFiltered(products.value, { attributes })[0];
+    });
+
+    return {
+      selectedVariant
+    };
+  }
+}
+</script>
+```
+
+## Fetching a list of products and available filters
+
+Faceted search allows users to narrow down search results by applying multiple filters (called dimensions) to the catalog data. In the clothing shop, facet (dimension) would be a brand, size, color, etc.
+
+`useFacet` composable is used primarily on the Category Page to display products matching specified filters.
+
+Use the `search` method to fetch the products. The response is available in the `result` object.
+
+```vue
+<script>
+import { onSSR } from '@vue-storefront/core';
+import { useFacet } from '{INTEGRATION}';
+
+export default {
+  setup () {
+    const { result, search } = useFacet();
+
+    onSSR(async () => {
+      // This example shows only some of the available parameters.
+      await search({
+        categorySlug: '',
+        rootCatSlug: '',
+        term: '',
+        page: 1,
+        itemsPerPage: 10,
+        sort: ''
+      });
+    })
+    
+    return {
+      result
+    };
+  }
+}
+</script>
+```
+
+For a full list of parameters, please refer to the [AgnosticFacetSearchParams](../core/api-reference/core.agnosticfacetsearchparams.html) interface.
+
+## Accessing catalog data
+
+Once data is loaded using `useFacet`, access it using `facetGetters`. Get the data such as products, sorting and filtering options, pagination, and much more.
+
+```vue{4,22-36}
+<script>
+import { onSSR } from '@vue-storefront/core';
+import { computed } from '@vue/composition-api';
+import { useFacet, facetGetters } from '{INTEGRATION}';
+
+export default {
+  setup () {
+    const { result, search } = useFacet();
+
+    onSSR(async () => {
+      // This example shows only some of the available parameters.
+      await search({
+        categorySlug: '',
+        rootCatSlug: '',
+        term: '',
+        page: 1,
+        itemsPerPage: 10,
+        sort: ''
+      });
+    })
+
+    const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
+    const sortBy = computed(() => facetGetters.getSortOptions(result.value));
+    const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
+    const facets = computed(() => facetGetters.getGrouped(result.value));
+    const products = computed(() => facetGetters.getProducts(result.value));
+    const pagination = computed(() => facetGetters.getPagination(result.value));
+    
+    return {
+      breadcrumbs,
+      sortBy,
+      categoryTree,
+      facets,
+      products,
+      pagination
+    };
+  }
+}
+</script>
+```
+
+For a full list of available getters, please refer to the [FacetsGetters](../core/api-reference/core.facetsgetters.html) interface.
+
+The image below shows where each of these getters fits into a Category page.
+
+![An example showing how each getter provides data for different parts of the Category page](./../images/faceting.jpg)

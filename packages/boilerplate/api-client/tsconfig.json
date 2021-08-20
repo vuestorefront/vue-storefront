@@ -6,7 +6,7 @@
     "outDir": "./lib",
     "esModuleInterop": true,
     "target": "ES2017",
-    "module": "ES2017",
+    "module": "ES2015",
     "moduleResolution": "node",
     "importHelpers": true,
     "noEmitHelpers": true,
