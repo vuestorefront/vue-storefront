@@ -1,5 +1,6 @@
 import * as cartActions from './helpers/cart/actions';
 
+export * from './api';
 export * from './fragments';
 export * from './types/Api';
 export * from './types/GraphQL';
