@@ -1,5 +1,6 @@
-import requests, { GetMeResponse } from '../api/requests';
+import requests, { CustomerSignMeInResponse, GetMeResponse } from '../api/requests';
 import page from '../pages/factory';
+import { MyAccountTab } from '../pages/my-account';
 import generator from '../utils/data-generator';
 import intercept from '../utils/network';
 
@@ -16,22 +17,28 @@ context('My Account', () => {
     page.myAccount.myProfile.visit().url().should('eq', `${Cypress.config().baseUrl}${page.home.path}`);
   });
 
-  it(['regression'], 'Should display correct personal data', function () {
+  it(['regression'], 'Should display customer\'s correct personal data', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
+    const getMeRequest = intercept.getMe();
     requests.customerSignMeUp(data.customer);
-    page.home.visit();
+    page.home.visit().then(() => {
+      cy.wait([getMeRequest, getMeRequest]);
+    });
     page.home.header.account.click();
     page.myAccount.myProfile.firstName.should('have.value', data.customer.firstName);
     page.myAccount.myProfile.lastName.should('have.value', data.customer.lastName);
     page.myAccount.myProfile.email.should('have.value', data.customer.email);
   });
 
-  it(['regression'], 'Should update personal data', function () {
+  it(['regression'], 'Should update customer\'s personal data', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
-    requests.customerSignMeUp(data.customer);
-    page.home.visit();
+    const getMeRequest = intercept.getMe();
+    requests.customerSignMeUp(data.customer).its('status').should('eq', 200);
+    page.home.visit().then(() => {
+      cy.wait([getMeRequest, getMeRequest]);
+    });
     page.home.header.account.click();
     data.updatedCustomer.email = generator.email;
     page.myAccount.myProfile.firstName.clear().type(data.updatedCustomer.firstName);
@@ -45,6 +52,28 @@ context('My Account', () => {
       expect(response.body.data.me.customer.firstName).to.equal(data.updatedCustomer.firstName);
       expect(response.body.data.me.customer.lastName).to.equal(data.updatedCustomer.lastName);
       expect(response.body.data.me.customer.email).to.equal(data.updatedCustomer.email);
+    });
+  });
+
+  it(['regression'], 'Should update customer\'s password', function () {
+    const data = this.fixtures.data[this.test.title];
+    data.customer.email = generator.email, data.updatedCustomer.email = data.customer.email;
+    const getMeRequest = intercept.getMe();
+    requests.customerSignMeUp(data.customer).its('status').should('eq', 200);
+    page.home.visit().then(() => {
+      cy.wait([getMeRequest, getMeRequest]);
+    });
+    page.home.header.account.click();
+    page.myAccount.myProfile.switchTab(MyAccountTab.PasswordChange);
+    page.myAccount.myProfile.currentPassword.type(data.customer.password);
+    page.myAccount.myProfile.newPassword.type(data.updatedCustomer.password);
+    page.myAccount.myProfile.repeatPassword.type(data.updatedCustomer.password);
+    const customerChangeMyPasswordRequest = intercept.customerChangeMyPassword();
+    page.myAccount.myProfile.updatePasswordButton.click().then(() => {
+      cy.wait(customerChangeMyPasswordRequest);
+    });
+    requests.customerSignMeIn(data.updatedCustomer).then((response: CustomerSignMeInResponse) => {
+      expect(response.body.data.user.customer.email).to.equal(data.updatedCustomer.email);
     });
   });
 });

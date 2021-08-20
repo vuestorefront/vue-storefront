@@ -1,6 +1,11 @@
 import Base from './base';
 import { contains, el } from './utils/element';
 
+export enum MyAccountTab {
+  PersonalData = 'Personal data',
+  PasswordChange = 'Password change'
+}
+
 class MyAccount extends Base {
 
   get path(): string {
@@ -27,7 +32,32 @@ class MyProfile extends MyAccount {
   }
 
   get updatePersonalDataButton(): Cypress.Chainable {
-    return el('myaccount-update-personal-data-button');
+    return el('myaccount-update-personal-data-btn');
+  }
+
+  get currentPassword(): Cypress.Chainable {
+    return el('myaccount-current-password');
+  }
+
+  get newPassword(): Cypress.Chainable {
+    return el('myaccount-new-password');
+  }
+
+  get repeatPassword(): Cypress.Chainable {
+    return el('myaccount-repeat-password');
+  }
+
+  get updatePasswordButton(): Cypress.Chainable {
+    return el('myaccount-update-password-btn');
+  }
+
+  tab(tab: MyAccountTab): Cypress.Chainable {
+    return cy.contains('.sf-tabs__title', tab);
+  }
+
+  switchTab(tab: MyAccountTab) {
+    const click = $tab => cy.wrap($tab).click();
+    return this.tab(tab).pipe(click).should('have.class', 'is-active');
   }
 
 }

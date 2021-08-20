@@ -37,7 +37,7 @@
           :errorMessage="errors[0]"
         />
       </ValidationProvider>
-      <SfButton v-e2e="'myaccount-update-personal-data-button'" class="form__button">{{ $t('Update personal data') }}</SfButton>
+      <SfButton v-e2e="'myaccount-update-personal-data-btn'" class="form__button">{{ $t('Update personal data') }}</SfButton>
     </form>
   </ValidationObserver>
 </template>

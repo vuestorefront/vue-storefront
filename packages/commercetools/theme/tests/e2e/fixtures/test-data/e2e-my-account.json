@@ -1,12 +1,12 @@
 {
-	"Should display correct personal data": {
+	"Should display customer's correct personal data": {
 		"customer": {
 			"firstName": "Jane",
 			"lastName": "Doe",
 			"password": "vuestorefront2"
 		}
 	},
-	"Should update personal data": {
+	"Should update customer's personal data": {
 		"customer": {
 			"firstName": "Jo",
 			"lastName": "Do",
@@ -16,5 +16,15 @@
 			"firstName": "Joe",
 			"lastName": "Doe"
 		}
+	},
+	"Should update customer's password": {
+		"customer": {
+			"firstName": "Joe",
+			"lastName": "Doe",
+			"password": "vuestorefront2"
+		},
+		"updatedCustomer": {
+			"password": "vuestorefront3"
+		}	
 	}
 }
