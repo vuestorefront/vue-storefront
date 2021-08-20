@@ -27,8 +27,8 @@ jest.mock('@vue-storefront/cli/src/utils/getIntegrations', () => ({
     'and-other': ''
   }
 }));
-jest.mock('shelljs', () => ({
-  exec: jest.fn()
+jest.mock('isomorphic-git', () => ({
+  clone: jest.fn()
 }));
 jest.mock('path', () => ({
   resolve: () => resolvedPathWithProjectName,
