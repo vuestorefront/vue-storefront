@@ -57,6 +57,16 @@ Now:
 
 ### `vue-lazyload` was removed from the core, if you rely on this package make sure to explicitly add it as a theme or module level dependency.
 
+**Check order optimization settings**
+
+Placing order payload size has been optimised by exclude some attributes, Please review the excluded attributes list `orders.excludeFields` in `config/default.json`, and if you have more custom attributes you want to excluded, copy the following fragment to the `config/local.json` and add the required fields:
+```json
+  "orders": {
+    "excludeFields": ["created_at", "updated_at", "attributes_metadata", "stock", "totals","meta_title", "meta_description", "thumbnail_label", "small_image_label", "image_label","thumbnail", "small_image", "image", "swatch_image", "meta_keyword","rates", "rating", "info", "_score", "weight","visibility", "slug", "url_key", "url_path"]
+  }
+```
+
+
 ## 1.11 -> 1.12
 
 Most of the changes added to 1.12 are backward compatible. To enable the new features (mostly the optimization features) please follow the steps described below.
