@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Improve `getCategoryByParams` as it will return the first value of `state.categoriesMap` if no route-params are set - @cewald (#4926)
 - Bugfix for type error in `omitSelectedVariantFields` return value - @cewald (#4926)
+- Improve placing order payload by removing unused product attributes from placing order request - @talalus (#4782)
 
 ### Changed / Improved
 
