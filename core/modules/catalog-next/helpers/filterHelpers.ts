@@ -10,6 +10,7 @@ export const getSystemFilterNames: string[] = config.products.systemFilterNames
 export const changeFilterQuery = ({ currentQuery = {}, filterVariant }: {currentQuery?: any, filterVariant?: FilterVariant} = {}) => {
   const newQuery = JSON.parse(JSON.stringify(currentQuery))
   if (!filterVariant) return newQuery
+  if ('page' in newQuery && newQuery.page !== 1) delete newQuery['page']
   if (getSystemFilterNames.includes(filterVariant.type)) {
     if (newQuery[filterVariant.type] && newQuery[filterVariant.type] === filterVariant.id) {
       delete newQuery[filterVariant.type]

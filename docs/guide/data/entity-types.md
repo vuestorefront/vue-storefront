@@ -6,10 +6,33 @@ Vue Storefront uses multiple data-entity types to cover the whole scope of the s
 - Category
 - Attribute
 - Taxrule
+- Review
+- Cms Page
+- Cms Block
+- Cms Hierarchy
 
 These entity types were hardcoded and there was no ability to easily use another custom entity type required for customization.
 
 Now, Vue Storefront has a new logic to work with entities in the data-fetching perspective: Entity Types.
+
+Also, the list of used elastic indices (Entity types) can be customized via `entityTypes` field in the config:
+```json
+ "elasticsearch": {
+    "httpAuth": "",
+    "host": "/api/catalog",
+    "entityTypes": [
+      "product",
+      "attribute",
+      "category",
+      "taxrule",
+      "review",
+      "cms_page",
+      "cms_block",
+      "cms_hierarchy"
+    ],
+    ...
+ }
+```
 
 Each search adapter should register an entity type to cover a search feature. Default API and new GraphQL search adapters are updated to register all required existing entity types, but developers can also inject custom entity types to work with some other custom entity type data (for example, to get a list of offline stores or something else).
 

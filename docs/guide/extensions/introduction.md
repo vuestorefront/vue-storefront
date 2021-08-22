@@ -3,9 +3,9 @@
 ## What do Vue Storefront extensions look like?
 
 Depending on your needs, Vue Storefront extensions can have two parts:
-- **Client-side part,** which is just a [Vue Storefront module](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/modules/introduction.md). It covers most of the use cases.
+- **Client-side part,** which is just a [Vue Storefront module](https://github.com/vuestorefront/vue-storefront/blob/master/docs/guide/modules/introduction.md). It covers most of the use cases.
 
-- **Server-side part** which is a [Vue Storefront API extension](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/extensions/extending-api.md) and should be used if you want to add some endpoints to `vue-storefront-api` or interact with Elasticsearch.
+- **Server-side part** which is a [Vue Storefront API extension](https://github.com/vuestorefront/vue-storefront/blob/master/docs/guide/extensions/extending-api.md) and should be used if you want to add some endpoints to `vue-storefront-api` or interact with Elasticsearch.
 
 ## Where extensions are located
 - On the client side, extension modules should be placed in `src/modules` folder of `vue-storefront` or installed via NPM cli and registered in `src/modules/index.ts`

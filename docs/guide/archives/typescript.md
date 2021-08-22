@@ -23,7 +23,7 @@ Therefore we're only refactoring:
 
 where it makes sense. The key TypeScript feature we feel is usable are data types.
 
-We're in the middle of [refactoring `core/components` to `core/api` modules](https://github.com/DivanteLtd/vue-storefront/issues/1213). All the modules should be created using TypeScript
+We're in the middle of [refactoring `core/components` to `core/api` modules](https://github.com/vuestorefront/vue-storefront/issues/1213). All the modules should be created using TypeScript
 
 ### The Action Plan:
 

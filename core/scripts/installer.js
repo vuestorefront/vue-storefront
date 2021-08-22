@@ -21,7 +21,7 @@ const SOURCE_FRONTEND_CONFIG_FILE = 'config/default.json'
 const TARGET_BACKEND_CONFIG_FILE = 'config/local.json'
 const SOURCE_BACKEND_CONFIG_FILE = 'config/default.json'
 
-const STOREFRONT_BACKEND_GIT_URL = 'https://github.com/DivanteLtd/vue-storefront-api'
+const STOREFRONT_BACKEND_GIT_URL = 'https://github.com/vuestorefront/vue-storefront-api'
 const MAGENTO_SAMPLE_DATA_GIT_URL = 'https://github.com/magento/magento2-sample-data.git'
 const STOREFRONT_REMOTE_BACKEND_URL = 'https://demo.vuestorefront.io'
 

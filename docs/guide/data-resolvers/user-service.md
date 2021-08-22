@@ -16,7 +16,7 @@ Registering the new user by given user data (`customer`) and `password`.
 
 #### `updateProfile: (userProfile: UserProfile) => Promise<Task>`
 
-It updates the the current logged user profile (`userProfile`).
+It updates the current logged user profile (`userProfile`).
 
 #### `getProfile: () => Promise<Task>`
 

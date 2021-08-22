@@ -1,10 +1,10 @@
-import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
+import { createListenerHook, createMutatorHook, createAsyncMutatorHook } from '@vue-storefront/core/lib/hooks'
 import CartItem from '../types/CartItem';
 
 const {
   hook: beforeSyncHook,
   executor: beforeSyncExecutor
-} = createMutatorHook<{ clientItems: CartItem[], serverItems: CartItem[] }, any>()
+} = createAsyncMutatorHook<{ clientItems: CartItem[], serverItems: CartItem[] }, any>()
 
 const {
   hook: afterSyncHook,
@@ -14,7 +14,7 @@ const {
 const {
   hook: beforeAddToCartHook,
   executor: beforeAddToCartExecutor
-} = createMutatorHook<{ cartItem: CartItem }, any>()
+} = createAsyncMutatorHook<{ cartItem: CartItem }, any>()
 
 const {
   hook: afterAddToCartHook,
@@ -24,7 +24,7 @@ const {
 const {
   hook: beforeRemoveFromCartHook,
   executor: beforeRemoveFromCartExecutor
-} = createMutatorHook<{ cartItem: CartItem }, any>()
+} = createAsyncMutatorHook<{ cartItem: CartItem }, any>()
 
 const {
   hook: afterRemoveFromCartHook,

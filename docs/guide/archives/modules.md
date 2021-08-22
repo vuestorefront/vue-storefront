@@ -56,7 +56,7 @@ This is the modularity and extendability we are looking for in Vue Storefront an
 
 ### What is the purpose of VS modules?
 
-The purpose is well described in [this discussion](https://github.com/DivanteLtd/vue-storefront/issues/1213). It can be summarized to:
+The purpose is well described in [this discussion](https://github.com/vuestorefront/vue-storefront/issues/1213). It can be summarized to:
 
 - **Better extendability**: We can extend each module or replace it completely with the new one. For example, we may want to replace our Cart module with the one that allows to have multiple carts. With module approach, we can just detach the current Cart module and replace it with the new one. Another example can be using different modules for different content CMSes integration etc.
 - **Better developer experience**: Along with the modules we are introducing many features focused on delivering better and easier experience for developers to hop on in a more predictable way. We changed the way you can compose components with features, added unit tests, TypeScript interfaces etc.
@@ -88,7 +88,7 @@ interface VueStorefrontModuleConfig {
 }
 ```
 
-See code [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/index.ts)
+See code [here](https://github.com/vuestorefront/vue-storefront/blob/develop/core/modules/index.ts)
 
 #### `key` (required)
 
@@ -134,7 +134,7 @@ Try to have a similar file structure inside the ones that you create. If all the
 
 Not all of this folders and files should exist in every module. The only mandatory file is `index.ts` which is the entry point. The rest depends on your needs and module functionality.
 
-You can take a look at [module template](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/module-template) with an example implementation of all features listed in config.
+You can take a look at [module template](https://github.com/vuestorefront/vue-storefront/tree/master/core/modules/module-template) with an example implementation of all features listed in config.
 
 - `components` - Components logic related to this module (eg. Microcart for Cart module). Normally it contains `.ts` files but you can also create `.vue` files and provide some baseline markup if it is required for the component to work out of the box.
 - `pages` - If you want to provide full pages with your module, place them here. It's also a good practice to extend router configuration for these pages
@@ -214,10 +214,10 @@ addToCart(product, success, failure) {
 }
 ```
 
-Try to choose a method based on use cases. [This](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28) is a good example of using callbacks.
+Try to choose a method based on use cases. [This](https://github.com/vuestorefront/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28) is a good example of using callbacks.
 
-5. Create pure functions that can be easily called with a different argument. Rely on `data` properties instead of arguments only if it's required (for example, they are validated as [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28))
-6. Make a document for exported components like as follows : [document](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts)
+5. Create pure functions that can be easily called with a different argument. Rely on `data` properties instead of arguments only if it's required (for example, they are validated as [here](https://github.com/vuestorefront/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts#L28))
+6. Make a document for exported components like as follows : [document](https://github.com/vuestorefront/vue-storefront/blob/develop/core/modules/mailchimp/components/Subscribe.ts)
 7. If your module core functionality is an integration with external service, better name it the same as this service (for example `mailchimp`)
 8. Use named exports and type check.
 
@@ -288,7 +288,7 @@ If you want to create a third party module, just copy the `src/modules/module-te
 
 ### Contributions
 
-Please introduce every new feature as a standalone, encapsulated module. We also need your help in rewriting Vue Storefront to modular approach - [here](https://github.com/DivanteLtd/vue-storefront/issues?q=is%3Aissue+is%3Aopen+label%3A%22API+Module%22) you can find tasks related to this architecture change and [here](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/refactoring-to-modules.md) is the tutorial on how to approach applying these changes.
+Please introduce every new feature as a standalone, encapsulated module. We also need your help in rewriting Vue Storefront to modular approach - [here](https://github.com/vuestorefront/vue-storefront/issues?q=is%3Aissue+is%3Aopen+label%3A%22API+Module%22) you can find tasks related to this architecture change and [here](https://github.com/vuestorefront/vue-storefront/blob/master/doc/api-modules/refactoring-to-modules.md) is the tutorial on how to approach applying these changes.
 
 
 ## Cart module
@@ -372,28 +372,28 @@ Cart Store is designed to handle all actions related the shopping cart.
   },
 ```
 
-Cart state is automatically loaded from `localForage` collection after page has been loaded whenever `core/components/blocks/Microcart.vue` is included. The cart state is loaded by dispatching `cart/load` action and [stored automatically by any change to the cart state](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/index.js#L118).
+Cart state is automatically loaded from `localForage` collection after page has been loaded whenever `core/components/blocks/Microcart.vue` is included. The cart state is loaded by dispatching `cart/load` action and [stored automatically by any change to the cart state](https://github.com/vuestorefront/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/index.js#L118).
 
 The cart state data:
 
 - `itemsAfterPlatformTotals` - helper collection, dictionary where the key is Magento cart item `item_id` that stores the totals information per item - received from Magento; it's automatically populated when `config.cart.synchronize_totals` is enabled;
-- `platformTotals` - similarly to above item, here we have the full totals from Magento for the current shopping cart. These collections are populated by [`cart/syncTotals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/actions.js#L49) and the event handler for [`servercart-after-totals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L30)
+- `platformTotals` - similarly to above item, here we have the full totals from Magento for the current shopping cart. These collections are populated by [`cart/syncTotals`](https://github.com/vuestorefront/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/actions.js#L49) and the event handler for [`servercart-after-totals`](https://github.com/vuestorefront/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L30)
 - `cartIsLoaded` (bool) - true after dispatching `cart/load`
 - `shipping` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
 - `payment` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
-- `cartItems` - collection of the cart items; the item format is the same as described in [ElasticSearch Data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md) - the `product` class; the only difference is that the (int) `qty` field is added
+- `cartItems` - collection of the cart items; the item format is the same as described in [ElasticSearch Data formats](https://github.com/vuestorefront/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md) - the `product` class; the only difference is that the (int) `qty` field is added
 
 #### Events
 
 The following events are published from `cart` store:
 
-- `EventBus.$emit('cart-after-itemchanged', { item: cartItem })` - executed after [`servercart-after-itemupdated`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) - after server cart sync, that signalize the specific shopping cart item has been changed; `Microcart/Product.vue` component is subscribed to this event to refresh the shopping cart UI
+- `EventBus.$emit('cart-after-itemchanged', { item: cartItem })` - executed after [`servercart-after-itemupdated`](https://github.com/vuestorefront/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) - after server cart sync, that signalize the specific shopping cart item has been changed; `Microcart/Product.vue` component is subscribed to this event to refresh the shopping cart UI
 - `EventBus.$emit('cart-before-add', { product: item })` - fired after product has been added to the cart,
 - `EventBus.$emit('cart-before-save', { items: state.cartItems })` - fired after the product cart has been saved,
 - `EventBus.$emit('cart-before-delete', { items: state.cartItems })` - the event fired before the cart item is going to be deleted with the current cart state (before item is deleted)
 - `EventBus.$emit('cart-after-delete', { items: state.cartItems })` - the event fired before the cart item has been deleted with the current cart state (after item is deleted)
-- `EventBus.$emit('cart-before-itemchanged', { item: record })` - item called before the specific item properties are going to be changed; for example called when [`servercart-after-itemupdated`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) is going to change the `server_item_id` property
-- `EventBus.$emit('cart-after-itemchanged', { item: record })` - item called after the specific item properites has been changed; for example called when [`servercart-after-itemupdated`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) is going to change the `server_item_id` property
+- `EventBus.$emit('cart-before-itemchanged', { item: record })` - item called before the specific item properties are going to be changed; for example called when [`servercart-after-itemupdated`](https://github.com/vuestorefront/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) is going to change the `server_item_id` property
+- `EventBus.$emit('cart-after-itemchanged', { item: record })` - item called after the specific item properites has been changed; for example called when [`servercart-after-itemupdated`](https://github.com/vuestorefront/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) is going to change the `server_item_id` property
 - `EventBus.$emit('application-after-loaded')` - event called after `cart/load` action has been dispatched to notify that cart is being available,
 - `EventBus.$emit('cart-after-updatetotals', { platformTotals: totals, platformTotalSegments: platformTotalSegments })` - event called after the totals from Magento has been synchronized with current state; it's going to be emitted only when `cart.synchronize_totals` option is enabled.
 
@@ -562,8 +562,8 @@ All user related data is stored in the original eCommerce CMS/Magento and the mo
 
 The user state data:
 
-- `token` - this is the current user token got from the [`user/login`](https://github.com/DivanteLtd/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L64). It's used to authorize all subsequent calls with the current user identity. If this token is not empty it does mean that the user is authorized.
-- `current` - this is the current user object received from [`user/me`](https://github.com/DivanteLtd/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L105) - immediately called after the login action.
+- `token` - this is the current user token got from the [`user/login`](https://github.com/vuestorefront/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L64). It's used to authorize all subsequent calls with the current user identity. If this token is not empty it does mean that the user is authorized.
+- `current` - this is the current user object received from [`user/me`](https://github.com/vuestorefront/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L105) - immediately called after the login action.
 
 The user data format:
 
@@ -632,8 +632,8 @@ The user data format:
 
 The following events are published from `user` store:
 
-- `EventBus.$emit('session-after-started')` - executed just [after the application has been loaded](https://github.com/DivanteLtd/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L22) and the User UI session has started
-- `EventBus.$emit('user-after-loggedin', res)` - executed after the successful [`user/me` action call](https://github.com/DivanteLtd/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L123) - so the user has been authorized and the profile loaded
+- `EventBus.$emit('session-after-started')` - executed just [after the application has been loaded](https://github.com/vuestorefront/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L22) and the User UI session has started
+- `EventBus.$emit('user-after-loggedin', res)` - executed after the successful [`user/me` action call](https://github.com/vuestorefront/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L123) - so the user has been authorized and the profile loaded
 
 #### Actions
 
@@ -661,7 +661,7 @@ Loads the user profile from eCommerce CMS; when `userCache` is set to true the r
 
 ##### `update (context, userData)`
 
-This action is used to update various user profile data. Please check the [user schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/modules/user/userProfile.schema.json) for the data format details.
+This action is used to update various user profile data. Please check the [user schema](https://github.com/vuestorefront/vue-storefront/blob/master/core/store/modules/user/userProfile.schema.json) for the data format details.
 
 ##### `changePassword (context, passwordData)`
 
@@ -926,14 +926,14 @@ The Checkout Store is designed to handle the passage from user's cart to actual 
   }
 ```
 
-The state of the Checkout module contains both the [Order object](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json) and the information given by the user during the checkout process, to be stored for further use in the `localForage`.
+The state of the Checkout module contains both the [Order object](https://github.com/vuestorefront/vue-storefront/blob/master/core/models/order.schema.json) and the information given by the user during the checkout process, to be stored for further use in the `localForage`.
 
-The state is modified by [`placeOrder`](https://github.com/DivanteLtd/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L11) action and [`load`](https://github.com/DivanteLtd/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L41) which loads the state from browser database.
+The state is modified by [`placeOrder`](https://github.com/vuestorefront/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L11) action and [`load`](https://github.com/vuestorefront/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L41) which loads the state from browser database.
 
 The category state data:
 
-- `order` - this is the last order to be placed, the [schema is defined](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json) in Ajv compliant format
-- `shippingDetails`, `paymentDetails` - the address information provided by the user during the [Checkout](https://github.com/DivanteLtd/vue-storefront/blob/master/core/pages/Checkout.vue).
+- `order` - this is the last order to be placed, the [schema is defined](https://github.com/vuestorefront/vue-storefront/blob/master/core/models/order.schema.json) in Ajv compliant format
+- `shippingDetails`, `paymentDetails` - the address information provided by the user during the [Checkout](https://github.com/vuestorefront/vue-storefront/blob/master/core/pages/Checkout.vue).
 
 #### Actions
 
@@ -941,7 +941,7 @@ The cart store provides following public actions:
 
 ##### `placeOrder (context, { order })`
 
-Action called by `Checkout.vue` to complete the order. Data object is validated against the [order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json), stored within the `localForage` collection by subseqent call of [`order/placeOrder`](https://github.com/DivanteLtd/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/order/actions.js#L12)
+Action called by `Checkout.vue` to complete the order. Data object is validated against the [order schema](https://github.com/vuestorefront/vue-storefront/blob/master/core/models/order.schema.json), stored within the `localForage` collection by subseqent call of [`order/placeOrder`](https://github.com/vuestorefront/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/order/actions.js#L12)
 
 ##### `savePersonalDetails ({ commit }, personalDetails)`
 
@@ -1040,7 +1040,7 @@ this.$store.dispatch('attribute/list', {
 });
 ```
 
-This is example from [product compare feature](https://github.com/DivanteLtd/vue-storefront/blob/c954b96f6633a201e10bed1d2e4c0def1aeb3071/core/pages/Compare.vue).
+This is example from [product compare feature](https://github.com/vuestorefront/vue-storefront/blob/c954b96f6633a201e10bed1d2e4c0def1aeb3071/core/pages/Compare.vue).
 
 The attribute state data:
 
@@ -1085,7 +1085,7 @@ const state = {
 };
 ```
 
-Category state is generally populated by just two methods [list](https://github.com/DivanteLtd/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L38) and [single](https://github.com/DivanteLtd/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L70) and cleared to the defaults by [reset](https://github.com/DivanteLtd/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L28)
+Category state is generally populated by just two methods [list](https://github.com/vuestorefront/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L38) and [single](https://github.com/vuestorefront/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L70) and cleared to the defaults by [reset](https://github.com/vuestorefront/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L28)
 
 :::tip Note
 The action `category/single` uses `localForage` cache only - no ElasticSearch data store directly; because of this optimization, please do download the categories list by dispatching `category/list` at first.
@@ -1093,7 +1093,7 @@ The action `category/single` uses `localForage` cache only - no ElasticSearch da
 
 The category state data:
 
-- `breadcrumbs` - this is the list of routes used by the [Breadcrumbs component](https://github.com/DivanteLtd/vue-storefront/blob/master/core/components/Breadcrumbs.js)
+- `breadcrumbs` - this is the list of routes used by the [Breadcrumbs component](https://github.com/vuestorefront/vue-storefront/blob/master/core/components/Breadcrumbs.js)
 - `current` - this is the current category object,
 - `filters` is a current state of the category filters - dictionary of selected variant attributes; for example it contains dictionary of selected product attributes:
 
@@ -1112,7 +1112,7 @@ Please note, that we're using the Magento like EAV attributes structure - so the
 
 The following events are published from `category` store:
 
-- `EventBus.$emit('category-after-single', { category: mainCategory })` - from [category/single](https://github.com/DivanteLtd/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L70) after single category is loaded,
+- `EventBus.$emit('category-after-single', { category: mainCategory })` - from [category/single](https://github.com/vuestorefront/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L70) after single category is loaded,
 - `EventBus.$emit('category-after-current', { category: category })` - after current category has been changed - this is subsequent call of `category/single` action,
 - `EventBus.$emit('category-after-reset', { })` - after category has been reset (for example in the process of moving from one category page to another)
 - `EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })` - this event emits the current category list as it's returned by `category/list`.
@@ -1181,13 +1181,13 @@ const state = {
 };
 ```
 
-Product state is generally populated by just two methods [list](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L395) and [single](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L428) and cleared to the defaults by [reset](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L215)
+Product state is generally populated by just two methods [list](https://github.com/vuestorefront/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L395) and [single](https://github.com/vuestorefront/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L428) and cleared to the defaults by [reset](https://github.com/vuestorefront/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L215)
 
 The product state data:
 
-- `breadcrumbs` - this is the list of routes used by the [Breadcrumbs component](https://github.com/DivanteLtd/vue-storefront/blob/master/core/components/Breadcrumbs.js)
-- `current` - this is the product object with selected `configurable_children` variant - so it's the base product with attributes overridden by the values from selected `configurable_children` variant; it's used on [Product.vue page](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/pages/Product.vue#L203) this is the product which is added to the cart after "Add to cart"
-- `current_options` - it's a list used to populate the variant selector on the [Product.vue page](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/themes/default/pages/Product.vue#L56) it contains dictionary of attributes x possible attribute values and labels and it's populated by [setupVariants](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L344) based on the `configurable_children` property
+- `breadcrumbs` - this is the list of routes used by the [Breadcrumbs component](https://github.com/vuestorefront/vue-storefront/blob/master/core/components/Breadcrumbs.js)
+- `current` - this is the product object with selected `configurable_children` variant - so it's the base product with attributes overridden by the values from selected `configurable_children` variant; it's used on [Product.vue page](https://github.com/vuestorefront/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/pages/Product.vue#L203) this is the product which is added to the cart after "Add to cart"
+- `current_options` - it's a list used to populate the variant selector on the [Product.vue page](https://github.com/vuestorefront/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/themes/default/pages/Product.vue#L56) it contains dictionary of attributes x possible attribute values and labels and it's populated by [setupVariants](https://github.com/vuestorefront/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L344) based on the `configurable_children` property
 - `current_configuration` is a current product configuration - dictionary of selected variant attributes; for example it contains dictionary of selected product attributes:
 
 ```json
@@ -1199,16 +1199,16 @@ The product state data:
 
 Please note, that we're using the Magento like EAV attributes structure - so the values here are an attribute value indexes not the values itself. Please take a look at [Data formats](../data/elasticsearch.md) for a reference
 
-- `parent` - if the current product is a `type_id="single"` then in this variable the parent, `configurable` product is stored. This data is populated only on `Product.vue` by [checkConfigurableParent](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L323)
-- `list` - this is an Array of products loaded by [list](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L395)
+- `parent` - if the current product is a `type_id="single"` then in this variable the parent, `configurable` product is stored. This data is populated only on `Product.vue` by [checkConfigurableParent](https://github.com/vuestorefront/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L323)
+- `list` - this is an Array of products loaded by [list](https://github.com/vuestorefront/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L395)
 - `original` - used only for `configurable` products; this is the base product with no variant selected
-- `related` - this is dictionary of related products; set outside this store (for [example here](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Product/Related.vue)) by calling and [related action](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L528)
+- `related` - this is dictionary of related products; set outside this store (for [example here](https://github.com/vuestorefront/vue-storefront/blob/master/src/themes/default/components/core/blocks/Product/Related.vue)) by calling and [related action](https://github.com/vuestorefront/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L528)
 
 ##### Events
 
 The following events are published from `product` store:
 
-- `EventBus.$emit('product-after-priceupdate', product)` - from [syncProductPrice](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L33) after product price is synced with Magento;
+- `EventBus.$emit('product-after-priceupdate', product)` - from [syncProductPrice](https://github.com/vuestorefront/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L33) after product price is synced with Magento;
 - `EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })` from `configureProductAsync` (called by `product/configure` action after `product/single`). This event provides the information about selected product variant on the product page
 - `EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, result: resp })` - this event emits the current product list as it's returned by `product/list` providing the current filters etc. You can mark specific product list identifier by setting `meta` property; it's important because on single page this event can be executed multiple time for each individual block of products
 - `EventBus.$emit('product-after-single', { key: key, options: options, product: cachedProduct })` - after single product has been loaded (invoked by `product/single` action)
@@ -1237,7 +1237,7 @@ This method is called as a subsequent call of `Product.vue:fetchData` or `produc
 
 **`checkConfigurableParent (context, {product})`**
 
-This method is called by `Product.vue:fetchData` to check if current, simple product has got an configurable parent. If so the redirect is being made to the parent product. It's a fix for [#508](https://github.com/DivanteLtd/vue-storefront/issues/508)
+This method is called by `Product.vue:fetchData` to check if current, simple product has got an configurable parent. If so the redirect is being made to the parent product. It's a fix for [#508](https://github.com/vuestorefront/vue-storefront/issues/508)
 
 **`setupVariants (context, { product })`**
 

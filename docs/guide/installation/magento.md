@@ -1,7 +1,7 @@
 # Integration with Magento 2
 ## Using native Magento 2 module 
-There is a native Magento 2 [module](https://github.com/DivanteLtd/magento2-vsbridge-indexer) that synchronizes Magento 2 source data and **Vue Storefront** data store; *Elasticsearch*.   
-[Magento 2 VSBridge Indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) has a few advantages. More than anything, it's faster and reliable.
+There is a native Magento 2 [module](https://github.com/vuestorefront/magento2-vsbridge-indexer) that synchronizes Magento 2 source data and **Vue Storefront** data store; *Elasticsearch*.   
+[Magento 2 VSBridge Indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) has a few advantages. More than anything, it's faster and reliable.
 
 ## Using Magento 2 API via OAuth authorization
 The tool is using Magento 2 API via OAuth authorization, so you need to prepare Magento Integration access at first. Go to your Magento 2 admin panel and click: System → Integrations.
@@ -31,7 +31,7 @@ In the result, you’ll click _Activate_ and get some OAuth access tokens:
 
 ### Fast integration
 
-The Magento2 data import is now integrated into `vue-storefront-api` for simplicity. It's still managed by the [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront), added as a dependency to `vue-storefront-api`.
+The Magento2 data import is now integrated into `vue-storefront-api` for simplicity. It's still managed by the [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront), added as a dependency to `vue-storefront-api`.
 
 After setting the `config.magento2.api` section using yours Magento 2 OAuth credentials:
 
@@ -68,10 +68,10 @@ yarn mage2vs import
 
 ### Manual integration
 
-First, you need to install [mage2vuestorefront ](https://github.com/DivanteLtd/mage2vuestorefront):
+First, you need to install [mage2vuestorefront ](https://github.com/vuestorefront/mage2vuestorefront):
 
 ```bash
-git clone https://github.com/DivanteLtd/mage2vuestorefront.git mage2vs
+git clone https://github.com/vuestorefront/mage2vuestorefront.git mage2vs
 cd mage2vs/src
 yarn install
 ```
@@ -166,7 +166,7 @@ After setting up Magento access, you just need to run the Order2Magento worker, 
 yarn o2m
 ```
 
-The code of this script is [located here](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/worker/order_to_magento2.js) so you can easily check how it’s working.
+The code of this script is [located here](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/worker/order_to_magento2.js) so you can easily check how it’s working.
 
 Starting from Vue Storefront v1.6, now we have a special switch in `vue-storefront-api`: `config.orders.useServerQueue` which is set to `false` by default. With this option disabled, the `order_2_magento` process  is no longer needed, as the incoming orders are directly send to Magento 2. If it's set to `true`, the old behavior of the server-based Redis queues used to stack the orders first is being used.
 
@@ -182,4 +182,4 @@ We have an option for that! If you have the Magento 2 API configured within the 
 synchronize: true;
 ```
 
-to `cart` section. Please check the [default config for reference](https://github.com/DivanteLtd/vue-storefront/blob/193cf44a6e936136fc19e22b45fe8dbc4b33f844/config/default.json#L8).
+to `cart` section. Please check the [default config for reference](https://github.com/vuestorefront/vue-storefront/blob/193cf44a6e936136fc19e22b45fe8dbc4b33f844/config/default.json#L8).

@@ -6,7 +6,7 @@ This feature can be very useful for non-standard rendering scenarios like:
 
 - Generating the XML output
 - Generating the AMPHTML pages
-- generating widgets without `<head>` section
+- Generating widgets without `<head>` section
 
 ## How it works
 
@@ -188,6 +188,6 @@ Please note that the `context` contains a lot of interesting features you can us
 
 ## Output compression
 
-HTML Minifier has been added to Vue Storefront 1.11. To enable this feature please switch the `config.server.useHtmlMinifier`. You can set the specific configuration of the `htmlMinifier` using the `config.server.htmlMinifierOptions`. Read more on the [available configuration](https://www.npmjs.com/package/html-minifier). The minified output is tthen being cached by `SSR Output cache` mechanism.
+HTML Minifier has been added to Vue Storefront 1.11. To enable this feature please switch the `config.server.useHtmlMinifier`. You can set the specific configuration of the `htmlMinifier` using the `config.server.htmlMinifierOptions`. Read more on the [available configuration](https://www.npmjs.com/package/html-minifier). The minified output is then being cached by `SSR Output cache` mechanism.
 
-Output compression has been also enabled (if the `src/modules/server.ts` contains the `compression` module on the list). By default it works just for produdction builds. It uses the `gzip` compression by default. [Read more about the `compression` module](https://www.npmjs.com/package/compression) that we're using for this implementation.
+Output compression has been also enabled (if the `src/modules/server.ts` contains the `compression` module on the list). By default it works just for production builds. It uses the `gzip` compression by default. [Read more about the `compression` module](https://www.npmjs.com/package/compression) that we're using for this implementation.

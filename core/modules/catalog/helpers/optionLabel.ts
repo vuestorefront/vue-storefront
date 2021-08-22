@@ -7,7 +7,7 @@
 import toString from 'lodash-es/toString'
 import get from 'lodash-es/get'
 
-export function optionLabel (state, { attributeKey, searchBy = 'code', optionId }) {
+export const optionLabel = (state, { attributeKey, searchBy = 'code', optionId }) => {
   if (!state.labels) {
     state.labels = {}
   }
@@ -18,16 +18,16 @@ export function optionLabel (state, { attributeKey, searchBy = 'code', optionId 
     return attrCache
   }
 
-  let attr = state['list_by_' + searchBy][attributeKey]
-  if (attr) {
-    let opt = attr.options.find((op) => toString(op.value) === toString(optionId))
+  const attr = state['list_by_' + searchBy][attributeKey]
+  if (attr && Array.isArray(attr.options)) {
+    const opt = attr.options.find(option => toString(option.value) === toString(optionId));
 
-    if (opt) {
+    if (opt && opt.label) {
       if (!state.labels[attributeKey]) {
         state.labels[attributeKey] = {}
       }
       state.labels[attributeKey][optionId] = opt.label
-      return opt ? opt.label : optionId
+      return opt.label
     } else {
       return optionId
     }

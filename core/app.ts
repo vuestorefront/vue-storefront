@@ -8,7 +8,6 @@ import VueRouter from 'vue-router'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 import { sync } from 'vuex-router-sync'
-import VueObserveVisibility from 'vue-observe-visibility'
 import { getApolloProvider } from './scripts/resolvers/resolveGraphQL'
 // TODO simplify by removing global mixins, plugins and filters - it can be done in normal 'vue' way
 import { registerTheme } from '@vue-storefront/core/lib/themes'
@@ -68,7 +67,6 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     Vue.use(Meta, {
       ssrAppId: 1
     })
-    Vue.use(VueObserveVisibility)
 
     Object.keys(corePlugins).forEach(key => {
       Vue.use(corePlugins[key])

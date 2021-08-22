@@ -2,7 +2,7 @@
 
 In Vue Storefront, we can use CMS Static Blocks and CMS Static Pages from Magento 2.
 
-From version 1.6, thanks to @yuriboyko  we have a better solution for static data—it's added to the Elasticsearch database and is using qraphQL query, displayed on the storefront.
+From version 1.6, thanks to @yuriboyko  we have a better solution for static data—it's added to the Elasticsearch database and is using graphQL query, displayed on the storefront.
 
 ### How it works?
 

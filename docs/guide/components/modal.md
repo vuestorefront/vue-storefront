@@ -38,11 +38,11 @@ Simple modal component. Visibility of modal container is based on internal state
 
 ### Styles
 
-Core component doesn't have CSS styles. If you want to see an example of our implementation please look [here](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/Modal.vue)
+Core component doesn't have CSS styles. If you want to see an example of our implementation please look [here](https://github.com/vuestorefront/vue-storefront/blob/master/src/themes/default/components/core/Modal.vue)
 
 ### Transitions
 
-The default theme defines one transition, `fade-in-down`, which can be seen [here](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/css/animations/_transitions.scss). This is the default value for the `transitionName` prop. Further transitions can be defined in a custom theme by following this example. Vue transitions are explained [here](https://vuejs.org/v2/guide/transitions.html).
+The default theme defines one transition, `fade-in-down`, which can be seen [here](https://github.com/vuestorefront/vue-storefront/blob/master/src/themes/default/css/animations/_transitions.scss). This is the default value for the `transitionName` prop. Further transitions can be defined in a custom theme by following this example. Vue transitions are explained [here](https://vuejs.org/v2/guide/transitions.html).
 
 To have modal content display immediately, without any transition, just supply an empty string for the `transitionName` prop. For example:
 

@@ -42,7 +42,7 @@ const actions: ActionTree<TaxState, RootState> = {
     )
   },
   async calculateTaxes ({ dispatch, getters, rootState }, { products }) {
-    const mutatedProducts = catalogHooksExecutors.beforeTaxesCalculated(products)
+    const mutatedProducts = await catalogHooksExecutors.beforeTaxesCalculated(products)
 
     if (config.tax.calculateServerSide) {
       Logger.debug('Taxes calculated server side, skipping')()

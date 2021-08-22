@@ -4,7 +4,7 @@ Starting with Vue Storefront 1.8, there is a new, experimental API for extending
 
 The server-side rendering feature of Vue Storefront has been designed according to general [Vue.js SSR principles](https://vuejs.org/v2/guide/ssr.html). Each root-level page (which is assigned to a route) consists of a special `asyncData` method which is executed before any component is created, just to fill the Vuex state with all the necessary data.
 
-The pre-fetched Vuex state is then provided within thew `window.__INITIAL_STATE__` object to the client to hydrate the client side data. 
+The pre-fetched Vuex state is then provided within the `window.__INITIAL_STATE__` object to the client to hydrate the client side data.
 
 Because `asyncData` methods are centralized (one per route), it was not possible to inject any data pre-fetching method from within any module / custom code either theme added to Vue Storefront. If you've created your own version of `Product.vue` or `Category.vue` page in the theme, you could have changed `asyncData` but that's all.
 

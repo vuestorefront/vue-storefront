@@ -23,7 +23,7 @@ this.$store.dispatch('attribute/list', {
 });
 ```
 
-This is an example from [product compare feature](https://github.com/DivanteLtd/vue-storefront/blob/c954b96f6633a201e10bed1d2e4c0def1aeb3071/core/pages/Compare.vue).
+This is an example from [product compare feature](https://github.com/vuestorefront/vue-storefront/blob/c954b96f6633a201e10bed1d2e4c0def1aeb3071/core/pages/Compare.vue).
 
 The attribute state data:
 

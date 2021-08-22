@@ -33,7 +33,7 @@ We're introducing TypeScript to Vue Storefront core, so you can use it where it'
 Here’s how to submit a pull request. **Pull requests that don't meet these requirements will not be merged.**
 
 ::: warning
-**ALWAYS** use [Pull Request template](https://github.com/DivanteLtd/vue-storefront/blob/master/PULL_REQUEST_TEMPLATE.md), it's automatically added to each PR.
+**ALWAYS** use [Pull Request template](https://github.com/vuestorefront/vue-storefront/blob/master/PULL_REQUEST_TEMPLATE.md), it's automatically added to each PR.
 :::
 
 1. Fork the repository and clone it locally on the 'develop' branch.
@@ -46,9 +46,9 @@ Here’s how to submit a pull request. **Pull requests that don't meet these req
 
 4. Reference any relevant issues or supporting documentation in your PR (ex. `Issue: 39. Issue title.`).
 
-5. If you are adding a new feature, please provide documentation along with the PR. Also, add it to the [upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Upgrade%20notes.md)
+5. If you are adding a new feature, please provide documentation along with the PR. Also, add it to the [upgrade notes](https://github.com/vuestorefront/vue-storefront/blob/master/doc/Upgrade%20notes.md)
 
-6. If you are removing/renaming something or changing its behavior, please also include it in the [upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Upgrade%20notes.md)
+6. If you are removing/renaming something or changing its behavior, please also include it in the [upgrade notes](https://github.com/vuestorefront/vue-storefront/blob/master/doc/Upgrade%20notes.md)
 
 7. Test your changes! Run your changes against any existing tests and create new ones when needed. Make sure your changes don’t break the existing project. Make sure that your branch is passing the Travis CI build.
 

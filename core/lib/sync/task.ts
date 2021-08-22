@@ -31,19 +31,25 @@ function _sleep (time) {
 }
 
 function getUrl (task, currentToken, currentCartId) {
-  let url = task.url
-    .replace('{{token}}', (currentToken == null) ? '' : currentToken)
-    .replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
+  const parsedUrl = queryString.parseUrl(task.url)
+
+  if (parsedUrl?.query?.token === '{{token}}') {
+    parsedUrl.query.token = (currentToken == null) ? '' : currentToken
+  }
+
+  if (parsedUrl?.query?.cartId === '{{cartId}}') {
+    parsedUrl.query.cartId = (currentCartId == null) ? '' : currentCartId
+  }
+
+  if (config.users.tokenInHeader) {
+    delete parsedUrl['query']['token']
+  }
+
+  let url = queryString.stringifyUrl(parsedUrl)
 
   url = processURLAddress(url); // use relative url paths
   if (config.storeViews.multistore) {
     url = adjustMultistoreApiUrl(url)
-  }
-
-  if (config.users.tokenInHeader) {
-    const parsedUrl = queryString.parseUrl(url)
-    delete parsedUrl['query']['token']
-    url = queryString.stringifyUrl(parsedUrl)
   }
 
   return url
@@ -106,9 +112,6 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
       if (responseCode !== 200) {
         if (responseCode === 401 /** unauthorized */ && currentToken) { // the token is no longer valid, try to invalidate it
           Logger.error('Invalid token - need to be revalidated' + currentToken + task.url + rootStore.state.userTokenInvalidateLock, 'sync')()
-          if (isNaN(rootStore.state.userTokenInvalidateAttemptsCount) || isUndefined(rootStore.state.userTokenInvalidateAttemptsCount)) rootStore.state.userTokenInvalidateAttemptsCount = 0
-          if (isNaN(rootStore.state.userTokenInvalidateLock) || isUndefined(rootStore.state.userTokenInvalidateLock)) rootStore.state.userTokenInvalidateLock = 0
-
           silentMode = true
           if (config.users.autoRefreshTokens) {
             if (!rootStore.state.userTokenInvalidateLock) {

@@ -24,7 +24,7 @@ Let's say we have a small piece of UI and want to style it according to mocks pr
 
 According to mocks the above `<div>`should have 20px padding top and bottom (y-axis), 10px padding left and right (x-axis), a black background, white text color, and display inline-flex.
 
-Let's check the [CSS folder](https://github.com/DivanteLtd/vue-storefront/tree/master/src/themes/default/css) and find the required classes.
+Let's check the [CSS folder](https://github.com/vuestorefront/vue-storefront/tree/master/src/themes/default/css) and find the required classes.
 
 For padding top/bottom there is `py-x` class where `py` means 'padding y-axis' and `x` is a size in px. We will use `py-20` in this case. Same with x-axis - we will use `px-10`.
 
@@ -57,7 +57,7 @@ Now our finished piece of UI should look like this:
 If you can't find a CSS rule that you need, please read the rules below before extending current stylesheets:
 
 1. Don't create new files in `default/css/` folder. If you think something is missing, please contact us on [slack](http://vuestorefront.slack.com) before creating a new file.
-2. Follow the conventions! Usually, you can find arrays in the top of each SCSS file with sizes or colors and loops below them that iterates through these arrays to generate CSS classes. Please see the [margin.scss](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/css/margin.scss) file.
+2. Follow the conventions! Usually, you can find arrays in the top of each SCSS file with sizes or colors and loops below them that iterates through these arrays to generate CSS classes. Please see the [margin.scss](https://github.com/vuestorefront/vue-storefront/blob/master/src/themes/default/css/margin.scss) file.
 
 On the top you can find arrays of sizes (in px and %):
 

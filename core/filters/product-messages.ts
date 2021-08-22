@@ -3,7 +3,7 @@
  */
 export function formatProductMessages (messages: Record<string, any>): string {
   const msgs = []
-  for (const infoKey in messages) {
+  for (const infoKey of Object.keys(messages)) {
     if (messages[infoKey]) {
       msgs.push(messages[infoKey])
     }

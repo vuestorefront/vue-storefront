@@ -56,8 +56,8 @@ Below you can find the list of files that are essential for your theme to work:
 
 ## Official Vue Storefront themes:
 
-- [Capybara](https://github.com/DivanteLtd/vsf-capybara) - Capybara is a Storefront UI based theme for Vue Storefront.
-- [Default](https://github.com/DivanteLtd/vsf-default) - Default VS theme always with the newest features. The easiest way to adopt VS in your shop is taking this one and modifying it to your needs (check [gogetgold.com](https://www.gogetgold.com/) as an example)
+- [Capybara](https://github.com/vuestorefront/vsf-capybara) - Capybara is a Storefront UI based theme for Vue Storefront.
+- [Default](https://github.com/vuestorefront/vsf-default) - Default VS theme always with the newest features. The easiest way to adopt VS in your shop is taking this one and modifying it to your needs (check [gogetgold.com](https://www.gogetgold.com/) as an example)
 
 ## Related
 

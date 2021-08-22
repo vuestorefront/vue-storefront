@@ -16,7 +16,7 @@ const state = {
 };
 ```
 
-The category state is generally populated by just two methods- [list](https://github.com/DivanteLtd/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L38) and [single](https://github.com/DivanteLtd/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L70) - and cleared to the defaults by [reset](https://github.com/DivanteLtd/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L28)
+The category state is generally populated by just two methods- [list](https://github.com/vuestorefront/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L38) and [single](https://github.com/vuestorefront/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L70) - and cleared to the defaults by [reset](https://github.com/vuestorefront/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L28)
 
 :::tip Note
 The action `category/single` uses `localForage` cache only—no Elasticsearch data store directly. Because of this optimization, download the categories list by dispatching the `category/list` at first.
@@ -24,7 +24,7 @@ The action `category/single` uses `localForage` cache only—no Elasticsearch da
 
 The category state data:
 
-- `breadcrumbs` - This is the list of routes used by the [Breadcrumbs component](https://github.com/DivanteLtd/vue-storefront/blob/master/core/components/Breadcrumbs.js)
+- `breadcrumbs` - This is the list of routes used by the [Breadcrumbs component](https://github.com/vuestorefront/vue-storefront/blob/master/core/components/Breadcrumbs.js)
 - `current` - This is the current category object.
 - `filters` is a current state of the category filters, a dictionary of selected variant attributes; for example it contains dictionary of selected product attributes:
 
@@ -43,7 +43,7 @@ Please note, we're using the Magento-like EAV attributes structure so the values
 
 The following events are published from `category` store:
 
-- `EventBus.$emit('category-after-single', { category: mainCategory })` - from [category/single](https://github.com/DivanteLtd/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L70) after single category is loaded.
+- `EventBus.$emit('category-after-single', { category: mainCategory })` - from [category/single](https://github.com/vuestorefront/vue-storefront/blob/06fbb89a5a8bc2c607847f65a7bca9ad54ed7146/core/store/modules/category.js#L70) after single category is loaded.
 - `EventBus.$emit('category-after-current', { category: category })` - After current category has been changed - this is subsequent call of `category/single` action.
 - `EventBus.$emit('category-after-reset', { })` - After the category has been reset (for example, in the process of moving from one category page to another).
 - `EventBus.$emit('category-after-list', { query: qrObj, sort: sort, size: size, start: start, list: resp })` - This event emits the current category list as it's returned by `category/list`.

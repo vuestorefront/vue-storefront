@@ -154,7 +154,8 @@ export class SearchAdapter {
   }
 
   public initBaseTypes () {
-    const baseTypes = ['product', 'attribute', 'category', 'taxrule', 'review', 'cms_page', 'cms_block', 'cms_hierarchy']
+    const baseTypes = config.elasticsearch.entityTypes;
+
     baseTypes.forEach(type => {
       this.registerEntityType(type, {
         queryProcessor: (query) => {

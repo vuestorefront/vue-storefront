@@ -20,7 +20,7 @@ const synchronizeActions = {
 
     cartHooksExecutors.afterLoad(storedItems)
   },
-  syncCartWhenLocalStorageChange ({ commit }, { items }) {
+  updateCart ({ commit }, { items }) {
     commit(types.CART_LOAD_CART, items)
   },
   async synchronizeCart ({ commit, dispatch }, { forceClientState }) {
@@ -53,7 +53,7 @@ const synchronizeActions = {
     if ((!canUpdateMethods || !isSyncRequired) && !forceSync) return createDiffLog()
     commit(types.CART_SET_SYNC)
     const { result, resultCode } = await CartService.getItems()
-    const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
+    const { serverItems, clientItems } = await cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
 
     if (resultCode === 200) {
       const diffLog = await dispatch('merge', {

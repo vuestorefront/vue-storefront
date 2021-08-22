@@ -12,7 +12,7 @@ export default function syncProductPrice (product, backProduct) { // TODO: we pr
 
   product.price_tax = product.price_incl_tax - product.price
   product.special_price_tax = product.special_price_incl_tax - product.special_price
-  product.original_price_tax = product.original_price_incl_tax - product.original_trice
+  product.original_price_tax = product.original_price_incl_tax - product.original_price
 
   if (product.price_incl_tax >= product.original_price_incl_tax) {
     product.special_price_incl_tax = 0

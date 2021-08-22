@@ -3,7 +3,7 @@
 Vue storefront uses two primary data sources:
 
 1. IndexedDb/WebSQL data store in the browser using [localForage](https://github.com/localForage/localForage)
-2. Server data source via [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api), which is compliant with Elasticsearch (regarding product catalog).
+2. Server data source via [vue-storefront-api](https://github.com/vuestorefront/vue-storefront-api), which is compliant with Elasticsearch (regarding product catalog).
 
 ## Local data store
 
@@ -15,7 +15,7 @@ Details on localForage API can be found [here](http://localforage.github.io/loca
 
 Here you have an example of how the _Vuex_ store in a _Vue Storefront Module_ should be constructed. The _VSF Core Module_ itself is nothing more than [_Vuex module_](https://vuex.vuejs.org/guide/modules.html).
 
-Let's take a look at `store` of `core/modules/checkout` module. [`index.ts`](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/checkout/store/checkout/index.ts) file shows as follows : 
+Let's take a look at `store` of `core/modules/checkout` module. [`index.ts`](https://github.com/vuestorefront/vue-storefront/blob/master/core/modules/checkout/store/checkout/index.ts) file shows as follows : 
 
 ```js
 import { Module } from 'vuex'
@@ -85,7 +85,7 @@ The actual parts of the _store_ have been separated into several files as _gette
 
 Data formats for vue-storefront and vue-storefront-api are the same JSON files.
 
-The convention is that schemas are stored under `/core/modules/<module-name>/store/<model-name>.schema.json` - for example [Order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/order/store/order.schema.json).
+The convention is that schemas are stored under `/core/modules/<module-name>/store/<model-name>.schema.json` - for example [Order schema](https://github.com/vuestorefront/vue-storefront/blob/master/core/modules/order/store/order.schema.json).
 
 
 ### Orders
@@ -94,7 +94,7 @@ The convention is that schemas are stored under `/core/modules/<module-name>/sto
 
 ![Orders data format as seen on Developers Tools](../images/orders-localstorage.png)
 
-Here you have a [validation schema for order](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/modules/order/order.schema.json):
+Here you have a [validation schema for order](https://github.com/vuestorefront/vue-storefront/blob/master/core/store/modules/order/order.schema.json):
 
 ```json
 {

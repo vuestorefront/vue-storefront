@@ -1,7 +1,7 @@
 # Introduction
 
 All data processing and remote requests should be managed by Vuex data stores. The core modules generally contain `store` folder inside. 
-You can modify the existing store actions by responding to events. Events are specified in the docs below and can be found in the [core module](https://github.com/DivanteLtd/vue-storefront/tree/master/core), where `EventBus.$emit` has been mostly used for Vuex Actions.
+You can modify the existing store actions by responding to events. Events are specified in the docs below and can be found in the [core module](https://github.com/vuestorefront/vue-storefront/tree/master/core), where `EventBus.$emit` has been mostly used for Vuex Actions.
 
 **You should put all the REST calls, Elasticsearch data queries inside the Vuex Actions.** This is our default design pattern for managing the data.
 
@@ -20,7 +20,7 @@ Before you start working with Vuex, it's recommended to get familiar with our [v
 - [Sync](sync-store.md)
 - [User](User%20Store.md)
 - [Attribute](attribute-store.md)
-- [UI Store](<https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20UI%20Store%20(interface%20state).md>)
+- [UI Store](<https://github.com/vuestorefront/vue-storefront/blob/master/doc/Working%20with%20UI%20Store%20(interface%20state).md>)
 
 ## Override existing core modules
 

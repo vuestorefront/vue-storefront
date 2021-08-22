@@ -51,14 +51,14 @@ In a case of
 }
 ```
 
-See the discussion in [#137](https://github.com/DivanteLtd/vue-storefront/issues/137).
-Please also check the [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/data/database-tool.md)
+See the discussion in [#137](https://github.com/vuestorefront/vue-storefront/issues/137).
+Please also check the [Database tool](https://github.com/vuestorefront/vue-storefront/blob/master/docs/guide/data/database-tool.md)
 
 ## HTTP 400 / CORS errors when trying to retrieve detailed product information from API
 
 If all the other requests work without any issues then it's highly possible that your products have too many attributes. All of them are included in ElasticSearch query sent via GET request which might become too long. Try to limit amount of attributes that are indexed and later used for this product view.
 
-This answer is valid until [this issue is resolved](https://github.com/DivanteLtd/vue-storefront/issues/2167).
+This answer is valid until [this issue is resolved](https://github.com/vuestorefront/vue-storefront/issues/2167).
 
 ## What's the recommended way to use git on custom development
 
@@ -108,9 +108,9 @@ By default, when the user selects any specific product variant on the `Product.v
 
 To correct this behavior you can:
 
-- Modify the [core](https://github.com/DivanteLtd/vue-storefront/blob/6a5a569a7e96703b865f841dabbe3c6a1020b3ab/core/store/modules/product/actions.js#L311) - to filter out the `name` attribute from `Object.assign`, which is responsible for copying the attributes from variant -> current product.
+- Modify the [core](https://github.com/vuestorefront/vue-storefront/blob/6a5a569a7e96703b865f841dabbe3c6a1020b3ab/core/store/modules/product/actions.js#L311) - to filter out the `name` attribute from `Object.assign`, which is responsible for copying the attributes from variant -> current product.
 
-- Modify `mage2vuestorefront` importer to correct the `configurable_children` [product names](https://github.com/DivanteLtd/mage2vuestorefront/blob/ca0c4723530b148cfdfb99784168af529e39d599/src/adapters/magento/product.js#L167).
+- Modify `mage2vuestorefront` importer to correct the `configurable_children` [product names](https://github.com/vuestorefront/mage2vuestorefront/blob/ca0c4723530b148cfdfb99784168af529e39d599/src/adapters/magento/product.js#L167).
 
 - Use bound to the `EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })` event and modify the `product.configurable_children` properties:
 
@@ -125,7 +125,7 @@ To correct this behavior you can:
 
 ## How to get dynamic prices to work (catalog rules)
 
-After following the Tutorial on [how to connect to Magento2](../installation/magento.md) the prices are updated just after manually running [mage2vuestorefront cli command](https://github.com/DivanteLtd/mage2vuestorefront).
+After following the Tutorial on [how to connect to Magento2](../installation/magento.md) the prices are updated just after manually running [mage2vuestorefront cli command](https://github.com/vuestorefront/mage2vuestorefront).
 
 However, there is an option to get the prices dynamically. To do so you must change the config inside `conf/local.json` from the default (`conf/default.json`):
 
@@ -156,7 +156,7 @@ his change means that each time the product list will be displayed, VS will get 
 
 ## No products found! after node --harmony cli.js fullreindex
 
-Take a look at the discussion at [#644](https://github.com/DivanteLtd/vue-storefront/issues/644)
+Take a look at the discussion at [#644](https://github.com/vuestorefront/vue-storefront/issues/644)
 Long story short, you need to run the following command within the `mage2nosql` project:
 
 ```bash
@@ -190,7 +190,7 @@ Yes, I believe it could. You should expose the API accordingly to our [spec](../
 
 ## Is there any documentation on integrating payment gateways?
 
-We're working on kind of a boilerplate for payment modules. Right now, please just take a look at a [live example](https://github.com/develodesign/vue-storefront-stripe) and try to follow the design patterns from there. The task where boilerplate and docs will show up is [https://github.com/DivanteLtd/vue-storefront/issues/923](https://github.com/DivanteLtd/vue-storefront/issues/923).
+We're working on kind of a boilerplate for payment modules. Right now, please just take a look at a [live example](https://github.com/develodesign/vue-storefront-stripe) and try to follow the design patterns from there. The task where boilerplate and docs will show up is [https://github.com/vuestorefront/vue-storefront/issues/923](https://github.com/vuestorefront/vue-storefront/issues/923).
 
 ## Is there any internationalization support?
 
@@ -222,23 +222,23 @@ Please check the [Multistore setup](../integrations/multistore.md) guide for det
 
 ## How to deal with Category filters based on configurable_children
 
-If you would like to have a Category filter working with configurable products, you need to expand the `product.configurable_children.attrName` to `product.attrName_options` array. This is automatically done by [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) for all attributes set as `product.configurable_options` (by default: color, size). If you want to add additional fields like `manufacturer` to the filters, you need to expand `product.manufacturer_options` field. The easiest way to do so is to set `config.product.expandConfigurableFilters` to `['manufacturer']` and re-run the `mage2vuestorefront` indexer.
+If you would like to have a Category filter working with configurable products, you need to expand the `product.configurable_children.attrName` to `product.attrName_options` array. This is automatically done by [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) for all attributes set as `product.configurable_options` (by default: color, size). If you want to add additional fields like `manufacturer` to the filters, you need to expand `product.manufacturer_options` field. The easiest way to do so is to set `config.product.expandConfigurableFilters` to `['manufacturer']` and re-run the `mage2vuestorefront` indexer.
 
 ## How to redirect original Magento2 URLs to Vue Storefront
 
-There is an SEO redirects generator for NGINX -> `https://serverfault.com/a/441517` available within the [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api/commit/2c7e10b4c4294f222f7a1aae96627d6a0e23f30e). Now you can generate an SEO map redirecting users from the original Magento URLs to Vue Storefront URLs by running:
+There is an SEO redirects generator for NGINX -> `https://serverfault.com/a/441517` available within the [vue-storefront-api](https://github.com/vuestorefront/vue-storefront-api/commit/2c7e10b4c4294f222f7a1aae96627d6a0e23f30e). Now you can generate an SEO map redirecting users from the original Magento URLs to Vue Storefront URLs by running:
 
 ```bash
 yarn seo redirects — —oldFormat=true | false
 ```
 
-Please make sure that `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and you have ElasticSearch synchronized with the Magento2 instance using the current version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront).
+Please make sure that `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and you have ElasticSearch synchronized with the Magento2 instance using the current version of [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront).
 
-**Please note:** As `url_key` field must be unique across categories collection. Therefore, we're by default generating its value based on name and category ID. Please [switch this option off](https://github.com/DivanteLtd/mage2vuestorefront/#initial-vue-storefront-import) if you'd like to keep the `url_key` as they come from Magento2.
+**Please note:** As `url_key` field must be unique across categories collection. Therefore, we're by default generating its value based on name and category ID. Please [switch this option off](https://github.com/vuestorefront/mage2vuestorefront/#initial-vue-storefront-import) if you'd like to keep the `url_key` as they come from Magento2.
 
 ## You need to choose options for your item message when hit API for add to cart a configurable product
 
-This is because the demo data dump works on the `demo-magento2.vuestorefront.io` instance attribute ids. Please re-import all product data using [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront)
+This is because the demo data dump works on the `demo-magento2.vuestorefront.io` instance attribute ids. Please re-import all product data using [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront)
 
 ## Adding custom category filters
 
@@ -248,7 +248,7 @@ You need to add the attributes you want to have displayed to the `config/local.j
 "defaultFilters": ["color", "size", "price", "erin_recommends"],
 ```
 
-And then you can use proper controls for each individual filter [here](https://github.com/DivanteLtd/vue-storefront/blob/49dc8a2dc9326e9e83d663cc27f8bb0688525f13/src/themes/default/components/core/blocks/Category/Sidebar.vue).
+And then you can use proper controls for each individual filter [here](https://github.com/vuestorefront/vue-storefront/blob/49dc8a2dc9326e9e83d663cc27f8bb0688525f13/src/themes/default/components/core/blocks/Category/Sidebar.vue).
 
 ## Collecting all VSF i18n phrases into a CSV
 

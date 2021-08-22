@@ -10,15 +10,18 @@ const preparePaymentMethodsToSync = (
   const paymentMethods = [...currentPaymentMethods]
   const uniqueBackendMethods = []
 
-  for (const backendPaymentMethod of backendPaymentMethods) {
-    if (isPaymentMethodNotExist(backendPaymentMethod, currentPaymentMethods)) {
-      const backendMethod = {
-        ...backendPaymentMethod,
-        is_server_method: true
-      }
+  // Check if the variable is iterable before to enter in the for...of loop
+  if (Array.isArray(backendPaymentMethods)) {
+    for (const backendPaymentMethod of backendPaymentMethods) {
+      if (isPaymentMethodNotExist(backendPaymentMethod, currentPaymentMethods)) {
+        const backendMethod = {
+          ...backendPaymentMethod,
+          is_server_method: true
+        }
 
-      paymentMethods.push(backendMethod)
-      uniqueBackendMethods.push(backendMethod)
+        paymentMethods.push(backendMethod)
+        uniqueBackendMethods.push(backendMethod)
+      }
     }
   }
 

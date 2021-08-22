@@ -96,7 +96,7 @@ where the payload equals to JSON object with additional order information. This 
 
 ### The order workflow - server side
 
-To get it right, first we must understand how Vue Storefront processes orders. Vue Storefront sends orders to the server asynchronously because of the offline orders support (orders can be sent immediately after they’replaced, minutes after or even hours).
+To get it right, first we must understand how Vue Storefront processes orders. Vue Storefront sends orders to the server asynchronously because of the offline orders support (orders can be sent immediately after they’re placed, minutes after or even hours).
 
 The order is being sent to the `vue-storefront-api/api/order/create` endpoint. This API endpoint pushes the order to the queue from where it's being transferred to the eCommerce backend by a cron-run process called `order_2_magento2.js` (o2m). You will find the source code of `o2m` in the `vue-storefront-api/worker` folder.
 

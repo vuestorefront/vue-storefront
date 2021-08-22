@@ -4,7 +4,7 @@ Some extensions need to have additional API methods to get some data directly fr
 
 You may add new ES collections [using the Migration mechanism](../data/data-migrations.md)
 
-Then you may extend the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) to add your custom API methods. Please take a look at: [mailchimp-subscribe](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/extensions/mailchimp-subscribe/index.js) for reference.
+Then you may extend the [`vue-storefront-api`](https://github.com/vuestorefront/vue-storefront-api) to add your custom API methods. Please take a look at: [mailchimp-subscribe](https://github.com/vuestorefront/vue-storefront-api/blob/master/src/api/extensions/mailchimp-subscribe/index.js) for reference.
 
 To add the API extension to `vue-storefront-api`:
 

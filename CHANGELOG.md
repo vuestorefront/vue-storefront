@@ -22,12 +22,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lazy loading services - @Fifciu (#5208)
 - Removed redundant request header `Content-Type`, `mode`, `method` and `Accept` while  calling TaskQueue.execute/queue method, added these request headers in task getPayload method. (#5081)
 - Lazy loading async catalog helpers - @Fifciu (#5208)
+- Check if the variable backendPaymentMethods is iterable before the for...of loop - @rozzilla [(#5289)](https://github.com/vuestorefront/vue-storefront/pull/5289)
+- Unit Tests for Core filters - @lukaszjedrasik (#5036)
+- Added information about i18n & Unit tests in modules to docs - @lukaszjedrasik ([#4991](https://github.com/vuestorefront/vue-storefront/issues/4991))
+- Added unit test for async-data-loader.ts - @lukaszjedrasik ([#5051](https://github.com/vuestorefront/vue-storefront/issues/5051))
+- Added `createAsyncMutatorHook` & unit tests for hooks - @lukaszjedrasik ([#4940](https://github.com/vuestorefront/vue-storefront/issues/4940))
+- Added unit test for `phoneNum` validator - @lukaszjedrasik ([#5730](https://github.com/vuestorefront/vue-storefront/issues/5730))
+- Added unit test for `optionLabel` - @lukaszjedrasik ([#5845](https://github.com/vuestorefront/vue-storefront/pull/5845#issuecomment-827705882))
+- Added information about i18n & Unit tests in modules to docs - @lukaszjedrasik (#4991)
+- Updated VSF1 insfrastructure's schema - @lukaszjedrasik ([#5531](https://github.com/vuestorefront/vue-storefront/issues/5531))
+- Allow to configure the list of ElasticSearch indices (to be able to add custom ones) ([#5978](https://github.com/vuestorefront/vue-storefront/issues/5978))
 
 ### Fixed
 
 - Improve `getCategoryByParams` as it will return the first value of `state.categoriesMap` if no route-params are set - @cewald (#4926)
 - Bugfix for type error in `omitSelectedVariantFields` return value - @cewald (#4926)
-- Improve placing order payload by removing unused product attributes from placing order request - @talalus (#4782)
+- Fixed `category-next/loadCategoryProducts` and `category-next/loadMoreCategoryProducts` module actions to respect `config.entities.optimize` config option.- @hcmlopes (#5070)
+- Use `queryString` library in `task/getUrl` - @cewald (#5263)
+- Changing email & password at once - @Fifciu ([#5315](https://github.com/vuestorefront/vue-storefront/issues/5315))
+- Improved: the code to remove the page key from the query before applying a filter - @ymaheshwari1 ([VSF Capybara #561](https://github.com/vuestorefront/vsf-capybara/issues/561))
+- Changing regex responsible for UnicodeAlpha validation and added unit tests - @lukaszjedrasik ([#5340](https://github.com/vuestorefront/vue-storefront/issues/5340))
+- Bugfix for problems with global state in SSR during concurrently requests from different stores - @cewald (#5639)
+- Bugfix: order product list by position - @rozzilla
+- Solves the use of attributes without options as filters in the category pages. - @michael-zangirolami-eleva ([#5845](https://forum.vuestorefront.io/t/category-ids-breaks-on-options-key/2194))
+- Fix wrong prices after coupon code in cart/checkout - @lukaszjedrasik ([#4460](https://github.com/vuestorefront/vue-storefront/issues/4460))
+- Display default placeholder on the Product page (#5088)
+- Removed `visibilitychange` eventlistener on microcart beforeDestroy hook (#5293)
+- Device module fix for shared instance. Vue.prototype.$device isn't accessible anymore (#5297)
+- Added `beforeBuildCacheKey` server hook (#5297)
+- Fixed some typo in docs (#5071)
+- Fix product deletion from cart on logout->login on "out of stock" error - @SergeyDarnopykh ([#5974](https://github.com/vuestorefront/vue-storefront/issues/5974))
+- Improve placing order payload by removing unused product attributes from placing order request - @talalus ([#150](https://github.com/vuestorefront/vue-storefront/issues/150))
 
 ### Changed / Improved
 
@@ -39,16 +64,67 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multistore refactor - more info in upgrade notes `docs/guide/upgrade-notes/README.md` - @gibkigonzo (#5043)
 - Commented depracatedActions in product's actions & catalog-next's actions by default to reduce bundle size
 - Got rid of lodash as we are using lodash-es - @Fifciu
+- Removed `myAccount-before-updateUser` and `myAccount-before-remainInEditMode` - @Fifciu ([#5315](https://github.com/vuestorefront/vue-storefront/issues/5315))
+- Removed `VueObserveVisibility` from core - @lukaszjedrasik ([#4998](https://github.com/vuestorefront/vue-storefront/issues/4998))
+- Removed `vsf-cache-varnish` and `vsf-cache-nginx` from package
+
+## [1.12.3] - 2021.06.24
+
+### Added
+
+- Added states.json in core/i18n/resource (#4531)
+- Added phone validation helper (#4980)
+- Configurable enabling min & max price aggregations
+- Storing totals in localStorage to sync it between tabs ([#4733](https://github.com/vuestorefront/vue-storefront/issues/4733))
+- Support for trailing slashes in the route paths - @tdugue @gibkigonzo @Fifciu ([#5372](https://github.com/vuestorefront/vue-storefront/pull/5372))
 
 ### Fixed
-- Display default placeholder on the Product page (#5088)
+
+- Remove redundant user token invalidation code - TerrorSquad (#4533)
+- configurableChildrenImages helper function incorrect loading images - @RakowskiPrzem (#4575)
+- Fix user/register call by adding storeId - @haelbichalex (#4697)
+- refresh categoryMappedFilters after loading attributes in PLP - @gibkigonzo (#4695)
+- Check module registration for wishlist and compare list - gibkigonzo (#4764)
+- Fix gallery image generation by checking if image exists - simonmaass (#4908)
+- Fix getSelectedOption based on attribute_code check - simonmaass (#4851)
+- add new resetUserInvalidation action to clear invalidation state before login,
+  clear order history and refresh token after logout,
+  add redirection when user is logged out and sees myaccount page - gibkigonzo (#4882)
+- Fix `config.products.filterUnavailableVariants` feature - Ogek (#4923)
+- added 'afterUserProfileUpdated' hook which allows us to take control over update address flow (send notification if something failed)
+  move pick allowed modification just before sending data to task managment
+  add 'beforeUserProfileUpdate' which allows to modify user object before update - gibkigonzo (#4427)
+- replace lodash with lodash-es for client files - gibkigonzo (#5019)
+- add default personal detail loading on shipment step in checkout when user is logged - (#5040)
+- Got rid of inifnity redirect or page-not-found on refresh category/product view
+- Got rid of memory leak related to dynamic config - tomasz-duda (#4768)
+- servercart-after-diff event payload - Fifciu (#5365)
+- Fix Original Price Calculation typo - @akucharczyk / @lukaszjedrasik (#5472)
+- Purge loader works properly with dynamic config reload - @Fifciu
+- Multi-tab cart-sync in multi-store environment - @cewald (#5711, #5732)
+- Incorrect load of default address in checkout - @lukaszjedrasik ([#4682](https://github.com/vuestorefront/vue-storefront/issues/4682))
+- Error with unknown theme/index.js alias - @Fifciuu (https://github.com/vuestorefront/vue-storefront/pull/5813)
+- ESLint warnings caused by the double import - @lukaszjedrasik
+- Fix Order History Pagination - @AishwaryShrivastav / @lukaszjedrasik ([#4599](https://github.com/vuestorefront/vue-storefront/issues/4599))
+- Fix: Updating URL's params/query params with proper child SKU if options changes - @lukaszjedrasik ([#5981](https://github.com/vuestorefront/vue-storefront/issues/5981))
+- Fix: Passing `newToken: null` as a payload inside `clearCurrentUser` action - @lukaszjedrasik ([#5565](https://github.com/vuestorefront/vue-storefront/issues/5565))
+
+### Changed / Improved
+
+- Moved hardcoded fields from omitSelectedVariantFields.ts to config (#4679)
+- Bump dependencies versions (#4715, #4696, #4951)
+- Using dayjs for dates in taxCalc.ts to make it work properly in Safari (#5364)
+- Awaiting addItem action call inside mergeServerItem action (#5165)
+- Moved `phoneNum` to proper branch - @lukaszjedrasik ([#5730](https://github.com/vuestorefront/vue-storefront/issues/5730))
+- Development hot-reload speed webpack config - ([#5559](https://github.com/vuestorefront/vue-storefront/issues/5559))
+- Set correct type for `productPageVisited` hook - @lukaszjedrasik ([#5997](https://github.com/vuestorefront/vue-storefront/issues/5997))
 
 ## [1.12.2] - 2020.07.28
 
 ### Added
 
 - **IMPORTANT** for security reasons we added new config `users.allowModification`.
-  This can help to dissallow modifying fields that shouldn't be changed by user.
+  This can help to dissallow modifying fields that should not be changed by user.
 - Add helmet - enabled by default, you can pass configuration by adding `config.server.helmet.config`.
   More info about helmet configuration https://helmetjs.github.io/docs/
 - Add config `users.tokenInHeader` which allows to send token in header instead in query. Require to set on true same config in vsf-api.
@@ -97,7 +173,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add unified fetch in mappingFallback for all searched entities - @gibkigonzo (#3942)
 - add npm-run-all for parallel build - @gibkigonzo (#3819)
 - Add OutputCaching support for x-vs-store-code - @benjick (#3979)
-- The new search adapter `api-search-query` has been added. When you switch to it, by setting the `config.server.api = "api-search-query"` the ElasticSearch query is being built in the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api/pull/390) which saves around 400kB in the bundle size as `bodybuilder` is no longer needed in the frontend - @pkarw - #2167
+- The new search adapter `api-search-query` has been added. When you switch to it, by setting the `config.server.api = "api-search-query"` the ElasticSearch query is being built in the [`vue-storefront-api`](https://github.com/vuestorefront/vue-storefront-api/pull/390) which saves around 400kB in the bundle size as `bodybuilder` is no longer needed in the frontend - @pkarw - #2167
 - This new `api-search-query` adapter supports the `response_format` query parameter which now is sent to the `/api/catalog` endpoint. Currently there is just one additional format supported: `response_format=compact`. When used, the response format got optimized by: a) remapping the results, removing the `_source` from the `hits.hits`; b) compressing the JSON fields names according to the `config.products.fieldsToCompact`; c) removing the JSON fields from the `product.configurable_children` when their values === parent product values; overall response size reduced over -70% - @pkarw
 - The `amp-renderer` module has been disabled by default to save the bundle size; If you'd like to enable it uncomment the module from the `src/modules` and uncomment the `product-amp` and `category-amp` links that are added to the `<head>` section in the `src/themes/default/Product.vue` and `src/themes/default/Category.vue`
 - Reset Password confirmation page - @Fifciu (#2576)
@@ -158,7 +234,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move 'graphql' search adapter from core to src (deprecated) - @gibkigonzo (#4214)
 - Homepage, new products query, uses now `new` attribute - @mdanilwoicz
 - Refactor product module, more info in upgrade notes- @gibkigonzo (#3952, #4459)
-- Move default theme to separate repository https://github.com/DivanteLtd/vsf-default - @gibkigonzo (#4255)
+- Move default theme to separate repository https://github.com/vuestorefront/vsf-default - @gibkigonzo (#4255)
 - add two numbers after dot to price by default, calculate default price for bundle or grouped main product, update typing, add fallback to attribute options - @gibkigonzo (#4476)
 - udpate yarn and filter shipping methods for instant checkout - @gibkigonzo (#4480)
 - add attribute metadata search query, add parentId - @gibkigonzo (#4491)
@@ -936,7 +1012,7 @@ This is hot-fix release for fixing the payment methods switching issue when both
 
 ## [1.8.0] - 2019-02-07
 
-Additional migration tips are available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/upgrade-notes/README.md).
+Additional migration tips are available [here](https://github.com/vuestorefront/vue-storefront/blob/master/docs/guide/upgrade-notes/README.md).
 
 ### Added
 
@@ -1116,7 +1192,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 
 ### Changed
 
-- There is new config option `config.orders.directBackendSync` that changes the behavior of placing an order. Please do read [more on this change](https://github.com/DivanteLtd/vue-storefront/commit/e73f2ca19a5d33a39f8b0fd6346543eced24167e) and [more on vue-storefront-api change](https://github.com/DivanteLtd/vue-storefront-api/commit/80c497f72362c72983db4fdcac14c8ba6f8729a8)
+- There is new config option `config.orders.directBackendSync` that changes the behavior of placing an order. Please do read [more on this change](https://github.com/vuestorefront/vue-storefront/commit/e73f2ca19a5d33a39f8b0fd6346543eced24167e) and [more on vue-storefront-api change](https://github.com/vuestorefront/vue-storefront-api/commit/80c497f72362c72983db4fdcac14c8ba6f8729a8)
 - ProductSlider, ProductLinks, ProductListing moved to theme.
 - Many theme-related logic moved to theme (+ deleted empty core components just with `name`)
 - Components required for backward compatibility moved to `compatibility` folder. For all this files you just need to add `compatibility` after `core` in import path to make them work like before.
@@ -1141,7 +1217,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 
 ### Changed
 
-- New Modules API, and base modules (cart, wishlist, newsletter ...) refactored [read more...](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/about-modules.md) - Filip Rakowski @filrak
+- New Modules API, and base modules (cart, wishlist, newsletter ...) refactored [read more...](https://github.com/vuestorefront/vue-storefront/blob/master/doc/api-modules/about-modules.md) - Filip Rakowski @filrak
 
 ### Fixed
 
@@ -1168,7 +1244,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 
 ### Changed
 
-- Please check the [Upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Upgrade%20notes.md) for the full list
+- Please check the [Upgrade notes](https://github.com/vuestorefront/vue-storefront/blob/develop/doc/Upgrade%20notes.md) for the full list
 
 ### Fixed
 
@@ -1186,8 +1262,8 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 
 ### Added
 
-- TypeScript support - please check [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/basics/typescript.md) for details
-- New `core/modules` added regarding the [Refactor to modules plan](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/refactoring-to-modules.md)
+- TypeScript support - please check [TypeScript Action Plan](https://github.com/vuestorefront/vue-storefront/blob/master/docs/guide/basics/typescript.md) for details
+- New `core/modules` added regarding the [Refactor to modules plan](https://github.com/vuestorefront/vue-storefront/blob/master/doc/api-modules/refactoring-to-modules.md)
 - Price tier's support #1625
 - Qty field on product page #1617
 - Offline orders confirmation dialog has been added #1430
@@ -1238,7 +1314,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 
 ## [1.1.0] - 2018-07-02
 
-Please keep an eye on the **[UPGRADE NOTES](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Upgrade%20notes.md)**
+Please keep an eye on the **[UPGRADE NOTES](https://github.com/vuestorefront/vue-storefront/blob/master/doc/Upgrade%20notes.md)**
 
 ### Fixed
 

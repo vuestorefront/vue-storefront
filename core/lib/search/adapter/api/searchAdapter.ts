@@ -8,7 +8,8 @@ import { SearchQuery } from 'storefront-query-builder'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
-import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl'
+import rootStore from '@vue-storefront/core/store'
 
 export class SearchAdapter {
   public entities: any
@@ -75,14 +76,36 @@ export class SearchAdapter {
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
     url = url + '?' + queryString.stringify(httpQuery)
 
+    let queryMethod = config.elasticsearch.queryMethod
+    if (Request.type === 'product' && Request.sort) {
+      const [ sortByField, sortOrder ] = Request.sort.split(':', 2)
+      if (sortByField === 'position') {
+        const currentCategoryId = rootStore.getters['category-next/getCurrentCategory'].id
+        if (currentCategoryId) {
+          // It's mandatory to send a POST request, in this case, otherwise, this sorting won't work
+          queryMethod = 'POST'
+          ElasticsearchQueryBody['sort'] = [{
+            'category.position': {
+              order: sortOrder || 'asc',
+              mode: 'min',
+              nested_path: 'category',
+              nested_filter: {
+                term: { category_category_id: currentCategoryId }
+              }
+            }
+          }]
+        }
+      }
+    }
+
     return fetch(url, {
-      method: config.elasticsearch.queryMethod,
+      method: queryMethod,
       mode: 'cors',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
+      body: queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
     })
       .then(resp => { return resp.json() })
       .catch(error => {
@@ -131,81 +154,18 @@ export class SearchAdapter {
   }
 
   public initBaseTypes () {
-    this.registerEntityType('product', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'product', start, size)
-      }
-    })
+    const baseTypes = config.elasticsearch.entityTypes;
 
-    this.registerEntityType('attribute', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'attribute', start, size)
-      }
-    })
-
-    this.registerEntityType('category', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'category', start, size)
-      }
-    })
-
-    this.registerEntityType('taxrule', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'taxrule', start, size)
-      }
-    })
-
-    this.registerEntityType('review', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'review', start, size)
-      }
-    })
-    this.registerEntityType('cms_page', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'cms_page', start, size)
-      }
-    })
-    this.registerEntityType('cms_block', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'cms_block', start, size)
-      }
-    })
-    this.registerEntityType('cms_hierarchy', {
-      queryProcessor: (query) => {
-        // function that can modify the query each time before it's being executed
-        return query
-      },
-      resultProcessor: (resp, start, size) => {
-        return this.handleResult(resp, 'cms_hierarchy', start, size)
-      }
+    baseTypes.forEach(type => {
+      this.registerEntityType(type, {
+        queryProcessor: (query) => {
+          // function that can modify the query each time before it's being executed
+          return query
+        },
+        resultProcessor: (resp, start, size) => {
+          return this.handleResult(resp, type, start, size)
+        }
+      })
     })
   }
 }

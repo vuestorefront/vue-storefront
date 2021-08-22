@@ -20,8 +20,8 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
+    this.$bus.$on('user-after-logout', this.afterUserIsLogout)
   },
   async mounted () {
     await this.$store.dispatch('user/startSession')
@@ -30,9 +30,10 @@ export default {
       this.$router.push(localizedRoute('/', currentStoreView().storeCode))
     }
   },
-  destroyed () {
+  beforeDestroy () {
     this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)
+    this.$bus.$off('user-after-logout', this.afterUserIsLogout)
   },
   methods: {
     onBeforeChangePassword (passwordData) {
@@ -47,6 +48,9 @@ export default {
           Logger.error(err)()
         }
       }
+    },
+    afterUserIsLogout () {
+      this.$router.push(localizedRoute('/', currentStoreView().storeCode))
     }
   },
   metaInfo () {

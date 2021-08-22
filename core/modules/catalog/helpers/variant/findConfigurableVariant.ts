@@ -3,7 +3,7 @@ import getVariantWithLowestPrice from './getVariantWithLowestPrice'
 import config from 'config'
 
 /**
- * This function responsiblity is to find best matching variant for configurable product based on configuration object or stock availability.
+ * The responsibility of this function is to find the best matching variant for a configurable product based on configuration object or stock availability.
  */
 export default function findConfigurableVariant ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
   const selectedVariant = product.configurable_children.reduce((prevVariant, nextVariant) => {
@@ -30,7 +30,7 @@ export default function findConfigurableVariant ({ product, configuration = null
       const prevVariantMatch = getConfigurationMatchLevel(configuration, prevVariant)
       const nextVariantMatch = getConfigurationMatchLevel(configuration, nextVariant)
 
-      // if we have draw between prev variant and current variant then return one that has lowest price
+      // if we have a draw between prev variant and current variant then return one that has lowest price
       if (prevVariantMatch === nextVariantMatch) {
         return getVariantWithLowestPrice(prevVariant, nextVariant)
       }

@@ -26,18 +26,19 @@ import { transformCategoryUrl } from '@vue-storefront/core/modules/url/helpers/t
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch }, { route, category, pageSize = 50 } = {}) {
     const searchCategory = category || getters.getCategoryFrom(route.path) || {}
-    const categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
     const areFiltersInQuery = !!Object.keys(route[products.routerFiltersSource]).length
+    let categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
     if (!categoryMappedFilters && areFiltersInQuery) { // loading all filters only when some filters are currently chosen and category has no available filters yet
       await dispatch('loadCategoryFilters', searchCategory)
+      categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
     }
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
     const { items, perPage, start, total, aggregations, attributeMetadata } = await dispatch('product/findProducts', {
       query: filterQr,
       sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
-      includeFields: entities.productList.includeFields,
-      excludeFields: entities.productList.excludeFields,
+      includeFields: config.entities.optimize ? config.entities.productList.includeFields : null,
+      excludeFields: config.entities.optimize ? config.entities.productList.excludeFields : null,
       size: pageSize,
       configuration: searchQuery.filters,
       options: {
@@ -72,8 +73,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       start: start + perPage,
       size: perPage,
-      includeFields: entities.productList.includeFields,
-      excludeFields: entities.productList.excludeFields,
+      includeFields: config.entities.optimize ? config.entities.productList.includeFields : null,
+      excludeFields: config.entities.optimize ? config.entities.productList.excludeFields : null,
       configuration: searchQuery.filters,
       options: {
         populateRequestCacheTags: true,

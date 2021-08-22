@@ -33,6 +33,7 @@
     "invalidateCacheForwarding": false,
     "invalidateCacheForwardUrl": "http://localhost:8080/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": true,
+    "dynamicConfigReloadWithEachRequest": false,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": [
       "entities",
@@ -121,6 +122,16 @@
     "httpAuth": "",
     "host": "/api/catalog",
     "index": "vue_storefront_catalog",
+    "entityTypes": [
+      "product",
+      "attribute",
+      "category",
+      "taxrule",
+      "review",
+      "cms_page",
+      "cms_block",
+      "cms_hierarchy"
+    ],
     "min_score": 0.02,
     "csrTimeout": 5000,
     "ssrTimeout": 1000,
@@ -586,6 +597,10 @@
     "clearPricesBeforePlatformSync": false,
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
+    "omitVariantFields": [
+      "name",
+      "visibility"
+    ],
     "calculateBundlePriceByOptions": true,
     "endpoint": "/api/product",
     "defaultFilters": [
@@ -612,7 +627,9 @@
     "sortByAttributes": {
       "Latest": "updated_at:desc",
       "Price: Low to high": "final_price",
-      "Price: High to low": "final_price:desc"
+      "Price: High to low": "final_price:desc",
+      "Position: First to last": "position",
+      "Position: Last to first": "position:desc"
     },
     "gallery": {
       "mergeConfigurableChildren": true,
@@ -641,6 +658,10 @@
         { "from": 100, "to": 150 },
         { "from": 150 }
       ]
+    },
+    "aggregate": {
+      "maxPrice": false,
+      "minPrice": false
     }
   },
   "orders": {

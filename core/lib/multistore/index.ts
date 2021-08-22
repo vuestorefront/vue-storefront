@@ -12,7 +12,6 @@ import { LocalizedRoute, StoreView } from './../types'
 import storeCodeFromRoute from './storeCodeFromRoute'
 import cloneDeep from 'lodash-es/cloneDeep'
 import get from 'lodash-es/get'
-import { isServer } from '@vue-storefront/core/helpers'
 import { getNormalizedPath, getPrefixFromUrl } from './helpers'
 import getStoreViewByStoreCode from './getStoreViewByStoreCode'
 import removeLocalization from './removeLocalization'
@@ -55,9 +54,7 @@ function buildBaseStoreView (): StoreView {
 }
 
 export function currentStoreView (): StoreView {
-  const serverStoreView = get(global, 'process.storeView', undefined)
-  const clientStoreView = get(rootStore, 'state.storeView', undefined)
-  return (isServer ? serverStoreView : clientStoreView) || buildBaseStoreView()
+  return get(rootStore, 'state.storeView', undefined) || buildBaseStoreView()
 }
 
 export async function prepareStoreView (storeCode: string): Promise<StoreView> {
@@ -79,12 +76,8 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   }
 
   if (storeViewHasChanged) {
-    storeView = coreHooksExecutors.beforeStoreViewChanged(storeView)
+    storeView = await coreHooksExecutors.beforeStoreViewChanged(storeView)
     rootStore.state.storeView = storeView
-
-    if (global && isServer) {
-      (global.process as any).storeView = storeView
-    }
 
     await loadLanguageAsync(storeView.i18n.defaultLocale)
   }
@@ -179,7 +172,7 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
 
   const storeCode = (forcedStoreCode && getStoreViewByStoreCode(forcedStoreCode))
     ? forcedStoreCode
-    : currentStoreView().storeCode
+    : (currentStoreView() ? currentStoreView().storeCode : false)
 
   if (storeCode) {
     if (typeof routeObj !== 'object') {
