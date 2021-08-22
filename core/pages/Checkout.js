@@ -8,6 +8,7 @@ import Composite from '@vue-storefront/core/mixins/composite'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { isServer } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import omit from 'lodash-es/omit'
 
 export default {
   name: 'Checkout',
@@ -259,10 +260,7 @@ export default {
       return paymentMethod
     },
     prepareOrderProducts () {
-      return this.$store.state.cart.cartItems.map(product => {
-        config.orders.excludeFields.forEach(field => delete product[field]);
-        return product;
-      });
+      return this.$store.state.cart.cartItems.map(product => omit(product, config.orders.excludeFields))
     },
     prepareOrder () {
       this.order = {
