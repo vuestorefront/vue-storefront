@@ -140,6 +140,16 @@ const INTEGRATIONS = {
       status: STATUSES.WIP,
       availability: AVAILABILITY.OPEN_SOURCE,
       maintainedBy: []
+    },
+    {
+      name: 'Odoo',
+      link: '',
+      image: '/v2/integrations-logos/odoo.svg',
+      status: STATUSES.WIP,
+      availability: AVAILABILITY.OPEN_SOURCE,
+      maintainedBy: [
+        { name: 'OdooGap', link: 'https://www.odoogap.com/' }
+      ]
     }
   ],
   other: [
@@ -309,7 +319,7 @@ const INTEGRATIONS = {
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.SEARCH ],
-      compatibility: []
+      compatibility: [ 'commercetools' ]
     },
     
     {
