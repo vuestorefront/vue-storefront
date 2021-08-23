@@ -1,4 +1,4 @@
-# `useStore`
+# `useStore` <Badge text="Added in 1.3" type="info" />
 
 ## Features
 

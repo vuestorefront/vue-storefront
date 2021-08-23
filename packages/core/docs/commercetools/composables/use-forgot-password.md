@@ -1,4 +1,4 @@
-# `useForgotPassword`
+# `useForgotPassword` <Badge text="Added in 1.3" type="info" />
 
 ## Features
 
