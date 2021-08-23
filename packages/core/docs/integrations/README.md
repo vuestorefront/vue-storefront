@@ -1,10 +1,10 @@
 # Integrations
 
-Click on the integration tile to read its documentation.
+This page lists official or recommended Vue Storefront 2 integrations. 
 
 ## eCommerce platforms
 
-> Packages marked as `Enterprise` are part of Vue Storefront Enterprise offering and packages without `From Core Team` badge are created and maintained by our partners.
+> Packages marked as `Enterprise` are part of Vue Storefront Enterprise offering.
 
 <IntegrationList
   :filterable="false"
