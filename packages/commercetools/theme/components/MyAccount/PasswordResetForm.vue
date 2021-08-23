@@ -39,7 +39,12 @@
           />
         </ValidationProvider>
       </div>
-      <SfButton v-e2e="'myaccount-update-password-btn'" class="form__button">{{ $t('Update password') }}</SfButton>
+      <SfButton
+        v-e2e="'myaccount-update-password-btn'"
+        class="form__button"
+      >
+        {{ $t('Update password') }}
+      </SfButton>
     </form>
   </ValidationObserver>
 </template>
