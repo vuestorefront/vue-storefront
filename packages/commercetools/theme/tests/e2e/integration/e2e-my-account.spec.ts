@@ -65,6 +65,7 @@ context('My Account', () => {
     });
     page.home.header.account.click();
     page.myAccount.myProfile.switchTab(MyAccountTab.PasswordChange);
+    page.myAccount.myProfile.messageEmail.should('have.text', data.customer.email);
     page.myAccount.myProfile.currentPassword.type(data.customer.password);
     page.myAccount.myProfile.newPassword.type(data.updatedCustomer.password);
     page.myAccount.myProfile.repeatPassword.type(data.updatedCustomer.password);

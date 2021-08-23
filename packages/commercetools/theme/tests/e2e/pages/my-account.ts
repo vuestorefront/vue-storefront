@@ -35,6 +35,10 @@ class MyProfile extends MyAccount {
     return el('myaccount-update-personal-data-btn');
   }
 
+  get messageEmail(): Cypress.Chainable {
+    return el('myaccount-message-email');
+  }
+
   get currentPassword(): Cypress.Chainable {
     return el('myaccount-current-password');
   }
