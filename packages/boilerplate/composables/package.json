@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/boilerplate",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
@@ -13,8 +13,8 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/boilerplate-api": "^2.4.0",
-    "@vue-storefront/core": "^2.4.0"
+    "@vue-storefront/boilerplate-api": "~2.4.1",
+    "@vue-storefront/core": "~2.4.1"
   },
   "devDependencies": {
     "rollup-plugin-typescript2": "^0.30.0",

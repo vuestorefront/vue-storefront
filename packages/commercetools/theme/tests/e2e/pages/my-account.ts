@@ -63,10 +63,19 @@ class MyProfile extends MyAccount {
     const click = $tab => cy.wrap($tab).click();
     return this.tab(tab).pipe(click).should('have.class', 'is-active');
   }
+}
+class OrderHistory extends Base {
+  get path(): string {
+    return '/my-account/order-history';
+  }
 
+  get orderNumber(): Cypress.Chainable {
+    return el('order-number');
+  }
 }
 
 export {
   MyAccount,
-  MyProfile
+  MyProfile,
+  OrderHistory
 };

@@ -1,6 +1,6 @@
 import createProject from '@vue-storefront/cli/src/scripts/createProject';
 import log from '@vue-storefront/cli/src/utils/log';
-const shelljs = require('shelljs');
+const git = require('isomorphic-git');
 const targetPath = 'vsf-new-project';
 
 jest.mock('@vue-storefront/cli/src/utils/log', () => ({
@@ -14,8 +14,8 @@ jest.mock('path', () => ({
   isAbsolute: jest.fn(() => false)
 }));
 
-jest.mock('shelljs', () => ({
-  exec: jest.fn()
+jest.mock('isomorphic-git', () => ({
+  clone: jest.fn()
 }));
 jest.mock('rimraf', () => ({
   sync: jest.fn()
@@ -23,7 +23,7 @@ jest.mock('rimraf', () => ({
 
 describe('[vsf-next-cli] createProject', () => {
   it('successful repository clone', async () => {
-    shelljs.exec.mockImplementation(() => true);
+    git.clone.mockImplementation(() => true);
     await createProject({
       projectName: 'MyProject',
       targetPath: __dirname,
@@ -33,7 +33,7 @@ describe('[vsf-next-cli] createProject', () => {
   });
 
   it('fail repository clone', async () => {
-    shelljs.exec.mockImplementation(() => {
+    git.clone.mockImplementation(() => {
       throw new Error();
     });
     const testTargetPath = 'test_path';

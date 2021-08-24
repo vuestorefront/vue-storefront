@@ -186,6 +186,10 @@ class ThankYou {
   get heading(): Cypress.Chainable {
     return el('thank-you-banner', 'h2');
   }
+
+  get orderNumber(): Cypress.Chainable {
+    return el('order-number');
+  }
 }
 
 export {
