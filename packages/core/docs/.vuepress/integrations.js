@@ -139,7 +139,9 @@ const INTEGRATIONS = {
       image: '/v2/integrations-logos/vendure.png',
       status: STATUSES.WIP,
       availability: AVAILABILITY.OPEN_SOURCE,
-      maintainedBy: []
+      maintainedBy: [
+        { name: 'Jakub Andrzejewski', link: 'https://www.linkedin.com/in/jakub-andrzejewski/' },
+      ]
     },
     {
       name: 'Odoo',
