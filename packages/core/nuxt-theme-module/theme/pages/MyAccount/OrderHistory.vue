@@ -67,7 +67,7 @@
             </SfTableHeader>
           </SfTableHeading>
           <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
-            <SfTableData>{{ orderGetters.getId(order) }}</SfTableData>
+            <SfTableData v-e2e="'order-number'">{{ orderGetters.getId(order) }}</SfTableData>
             <SfTableData>{{ orderGetters.getDate(order) }}</SfTableData>
             <SfTableData>{{ $n(orderGetters.getPrice(order), 'currency') }}</SfTableData>
             <SfTableData>
