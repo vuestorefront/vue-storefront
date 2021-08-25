@@ -5,7 +5,7 @@ module.exports = {
   breakingChanges: [
     {
       module: '`@vue-storefront/core`',
-      before: 'Using checkoutGetters',
+      before: '`checkoutGetters` was deprecated, but available in the API',
       after: 'Removed `checkoutGetters`',
       comment: '`checkoutGetters are not used anymore.`'
     }
