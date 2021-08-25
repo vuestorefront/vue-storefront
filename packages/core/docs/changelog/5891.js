@@ -4,7 +4,7 @@ module.exports = {
   isBreaking: true,
   breakingChanges: [
     {
-      module: 'core and boilerplate',
+      module: '`@vue-storefront/core`',
       before: 'Using checkoutGetters',
       after: 'Removed `checkoutGetters`',
       comment: '`checkoutGetters are not used anymore.`'
