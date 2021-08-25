@@ -3,10 +3,6 @@ import { Store, Channel, Address } from '../types/GraphQL';
 import { StoresData } from '../types';
 import { FilterCriteriaRecord, Localized, filterArrayByCriteriaRecord } from '../helpers/internals';
 
-/**
- * Types
- */
-
 interface StoreFilterCriteria {
   store?: FilterCriteriaRecord<Store>;
   channel?: FilterCriteriaRecord<Channel>
@@ -15,10 +11,6 @@ interface StoreFilterCriteria {
 type StoreChannelSetKeys =
   'distributionChannels' |
   'supplyChannels';
-
-/**
- * Helpers
- */
 
 function mapToAddress(address: Address): AgnosticAddress {
   return {
@@ -94,10 +86,6 @@ function gainAgnosticStoreItems (criteria?: FilterCriteriaRecord<Channel>) {
   };
 }
 
-/**
- * Getters
- */
-
 function getItems (stores: StoresData, criteria: StoreFilterCriteria = {}): AgnosticStore[] {
   return filterArrayByCriteriaRecord<Store>(
     stores?.results,
@@ -108,10 +96,6 @@ function getItems (stores: StoresData, criteria: StoreFilterCriteria = {}): Agno
 function getSelected (stores: StoresData): AgnosticStore | undefined {
   return getItems(stores, { store: { key: (stores?._selectedStore ?? '') }})[0];
 }
-
-/**
- * Export
- */
 
 const storeGetters: UseStoreGetters<StoresData, StoreFilterCriteria> = {
   getItems,

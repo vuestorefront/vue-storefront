@@ -21,3 +21,4 @@ export { useForgotPassword, useForgotPasswordFactoryParams } from './useForgotPa
 export { useStore, useStoreFactoryParams } from './useStore';
 
 export * from './getters';
+export * from './types';

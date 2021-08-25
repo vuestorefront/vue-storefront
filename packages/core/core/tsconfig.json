@@ -15,5 +15,6 @@
     "lib": ["es6", "es7", "dom"],
     "strict": false,
   },
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts"],
+  "include": ["src"],
 }
