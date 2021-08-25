@@ -2,7 +2,7 @@
   "extends": "../../api-extractor.base.json",
   "mainEntryPointFilePath": "./lib/index.d.ts",
   "dtsRollup": {
-    "untrimmedFilePath": "./lib/src/<unscopedPackageName>.d.ts"
+    "untrimmedFilePath": "./lib/<unscopedPackageName>.d.ts"
   },
   "docModel": {
     "apiJsonFilePath": "<projectFolder>/core/docs/core/api-reference/<unscopedPackageName>.api.json"

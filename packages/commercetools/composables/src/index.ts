@@ -3,6 +3,17 @@ import { track } from '@vue-storefront/core';
 
 track('VSFCommercetools');
 
+/**
+ * `composables` for commercetools integration for Vue Storefront 2.
+ *
+ * @remarks
+ * The `@vue-storefront/commercetools-api` library includes everything needed to fetch data from the
+ * Server Middleware and display them to in agnostic and formatted form. This includes composables
+ * and getters.
+ *
+ * @packageDocumentation
+ */
+
 export { useBilling, useBillingProviderFactoryParams } from './useBilling';
 export { useCart, useCartFactoryParams } from './useCart';
 export { useCategory, useCategoryFactoryParams } from './useCategory';
