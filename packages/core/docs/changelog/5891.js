@@ -7,7 +7,7 @@ module.exports = {
       module: '`@vue-storefront/core`',
       before: '`checkoutGetters` was deprecated, but available in the API',
       after: 'Removed `checkoutGetters`',
-      comment: '`checkoutGetters are not used anymore.`'
+      comment: '`checkoutGetters` was removed'
     }
   ],
   author: 'Łukasz Jędrasik',
