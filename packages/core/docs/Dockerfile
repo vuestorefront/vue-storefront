@@ -5,8 +5,7 @@ WORKDIR /var/www
 COPY . .
 
 RUN yarn install \
-    && yarn build:core \
-    && yarn build:ct:api-client
+    && yarn build:ct:tools
 
 RUN cd packages/core/docs \
     && yarn install \
