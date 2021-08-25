@@ -2,8 +2,7 @@ import {
   Context,
   UseStoreFactoryParams,
   UseStoreFactoryLoadParamArguments,
-  UseStoreFactoryChangeParamArguments,
-  CustomQuery
+  UseStoreFactoryChangeParamArguments, CustomQuery
 } from '@vue-storefront/core';
 import { StoresData } from '../types';
 import { ResourceIdentifierInput } from '../types/GraphQL';
@@ -27,13 +26,13 @@ async function load (context: Context, params: UseStoreFactoryLoadParamArguments
   };
 }
 
-async function change (context: Context, { store }: UseStoreFactoryChangeParamArguments): Promise<StoresData> {
+async function change (context: Context, { store }: UseStoreFactoryChangeParamArguments) {
   context.$ct.config.storeService.changeCurrentStore(`${store.key}`);
   window.location.reload();
   return null as StoresData;
 }
 
-async function changeChannel (context: Context, { channel }: UseStoreFactoryChangeChannelParamArguments): Promise<StoresData> {
+async function changeChannel (context: Context, { channel }: UseStoreFactoryChangeChannelParamArguments) {
   context.$ct.config.storeService.changeCurrentStore(`${(channel.distributtionChannel || 'null')}-${(channel.supplyChannel || 'null')}`);
   window.location.reload();
   return null as StoresData;
