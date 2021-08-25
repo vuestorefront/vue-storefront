@@ -15,79 +15,79 @@
     
     - `customQuery?: CustomQuery` 
     
-```ts
-type CustomQuery = {
-  categories: string
-}
-```
+      ```ts
+      type CustomQuery = {
+        categories: string
+      }
+      ```
 
 - `categories: Category[]` - a main data object that contains an array of categories fetched by `search` method.
 
-```ts
-type Category = {
-  __typename?: "Category";
-  id: Scalars["String"];
-  key?: Maybe<Scalars["String"]>;
-  version: Scalars["Long"];
-  name?: Maybe<Scalars["String"]>;
-  nameAllLocales: Array<LocalizedString>;
-  description?: Maybe<Scalars["String"]>;
-  descriptionAllLocales?: Maybe<Array<LocalizedString>>;
-  slug?: Maybe<Scalars["String"]>;
-  slugAllLocales: Array<LocalizedString>;
-  ancestorsRef: Array<Reference>;
-  ancestors: Array<Category>;
-  parentRef?: Maybe<Reference>;
-  parent?: Maybe<Category>;
-  orderHint: Scalars["String"];
-  externalId?: Maybe<Scalars["String"]>;
-  metaTitle?: Maybe<Scalars["String"]>;
-  metaKeywords?: Maybe<Scalars["String"]>;
-  metaDescription?: Maybe<Scalars["String"]>;
-  productCount: Scalars["Int"];
-  stagedProductCount: Scalars["Int"];
-  childCount: Scalars["Int"];
-  children?: Maybe<Array<Category>>;
-  createdAt: Scalars["DateTime"];
-  lastModifiedAt: Scalars["DateTime"];
-  assets: Array<Asset>;
-  customFieldsRaw?: Maybe<Array<RawCustomField>>;
-  customFields?: Maybe<Type>;
-  custom?: Maybe<CustomFieldsType>;
-  createdBy?: Maybe<Initiator>;
-  lastModifiedBy?: Maybe<Initiator>;
-  customFieldList?: Maybe<Array<CustomField>>;
-}
-```
+  ```ts
+  type Category = {
+    __typename?: "Category";
+    id: Scalars["String"];
+    key?: Maybe<Scalars["String"]>;
+    version: Scalars["Long"];
+    name?: Maybe<Scalars["String"]>;
+    nameAllLocales: Array<LocalizedString>;
+    description?: Maybe<Scalars["String"]>;
+    descriptionAllLocales?: Maybe<Array<LocalizedString>>;
+    slug?: Maybe<Scalars["String"]>;
+    slugAllLocales: Array<LocalizedString>;
+    ancestorsRef: Array<Reference>;
+    ancestors: Array<Category>;
+    parentRef?: Maybe<Reference>;
+    parent?: Maybe<Category>;
+    orderHint: Scalars["String"];
+    externalId?: Maybe<Scalars["String"]>;
+    metaTitle?: Maybe<Scalars["String"]>;
+    metaKeywords?: Maybe<Scalars["String"]>;
+    metaDescription?: Maybe<Scalars["String"]>;
+    productCount: Scalars["Int"];
+    stagedProductCount: Scalars["Int"];
+    childCount: Scalars["Int"];
+    children?: Maybe<Array<Category>>;
+    createdAt: Scalars["DateTime"];
+    lastModifiedAt: Scalars["DateTime"];
+    assets: Array<Asset>;
+    customFieldsRaw?: Maybe<Array<RawCustomField>>;
+    customFields?: Maybe<Type>;
+    custom?: Maybe<CustomFieldsType>;
+    createdBy?: Maybe<Initiator>;
+    lastModifiedBy?: Maybe<Initiator>;
+    customFieldList?: Maybe<Array<CustomField>>;
+  }
+  ```
 
 - `loading: boolean` - a reactive object containing information about loading state of your `search` method.
 
 - `error: UseCategoryErrors` - reactive object containing the error message, if `search` failed for any reason.
 
-```ts
-interface UseCategoryErrors {
-  search: Error;
-}
-```
+  ```ts
+  interface UseCategoryErrors {
+    search: Error;
+  }
+  ```
 
 ## Getters
 
 - `getTree` - returns category tree.
 
-```ts
-interface CategoryGetters {
-  getTree: (category: Category) => AgnosticCategoryTree | null;
-}
+  ```ts
+  interface CategoryGetters {
+    getTree: (category: Category) => AgnosticCategoryTree | null;
+  }
 
-interface AgnosticCategoryTree {
-  label: string;
-  slug?: string;
-  items: AgnosticCategoryTree[];
-  isCurrent: boolean;
-  count?: number;
-  [x: string]: unknown;
-}
-```
+  interface AgnosticCategoryTree {
+    label: string;
+    slug?: string;
+    items: AgnosticCategoryTree[];
+    isCurrent: boolean;
+    count?: number;
+    [x: string]: unknown;
+  }
+  ```
 
 ## Example
 

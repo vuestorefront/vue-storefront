@@ -7,12 +7,17 @@
   "scripts": {
     "dev": "yarn build:core && yarn build:ct && vuepress dev",
     "build": "yarn build:core && yarn build:ct && NODE_OPTIONS=--max_old_space_size=4096 vuepress build",
-    "build:core": "yarn core-api-ref && yarn core-api-ref-md",
-    "build:ct": "yarn ct-api-ref && yarn ct-api-ref-md",
-    "core-api-ref": "cd ../core && api-extractor run --local",
-    "core-api-ref-md": "api-documenter markdown --i core/api-reference --o core/api-reference",
+
+    "core-cache-ref": "cd ../cache && api-extractor run --local",
+    "core-core-ref": "cd ../core && api-extractor run --local",
+    "core-middleware-ref": "cd ../middleware && api-extractor run --local",
+    "core-ref-md": "api-documenter markdown --i core/api-reference --o core/api-reference",
+    "build:core": "yarn core-cache-ref && yarn core-core-ref && yarn core-middleware-ref && yarn core-ref-md",
+
     "ct-api-ref": "cd ../../commercetools/api-client && api-extractor run --local",
-    "ct-api-ref-md": "api-documenter markdown --i commercetools/api-reference --o commercetools/api-reference"
+    "ct-comp-ref": "cd ../../commercetools/composables && api-extractor run --local",
+    "ct-ref-md": "api-documenter markdown --i commercetools/api-reference --o commercetools/api-reference",
+    "build:ct": "yarn ct-api-ref && yarn ct-comp-ref && yarn ct-ref-md"
   },
   "devDependencies": {
     "@vue-storefront/commercetools-api": "~1.2.0",
