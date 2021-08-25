@@ -174,7 +174,7 @@ module.exports = {
             ['/commercetools/composables/use-review', 'useReview'],
             ['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
             ['/commercetools/composables/use-shipping', 'useShipping'],
-						['/commercetools/composables/use-store', 'useStore'],
+            ['/commercetools/composables/use-store', 'useStore'],
             ['/commercetools/composables/use-user-billing', 'useUserBilling'],
             ['/commercetools/composables/use-user-order', 'useUserOrder'],
             ['/commercetools/composables/use-user-shipping', 'useUserShipping'],
