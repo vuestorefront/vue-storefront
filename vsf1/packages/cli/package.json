@@ -1,0 +1,24 @@
+{
+  "name": "@vue-storefront/cli",
+  "version": "0.2.1",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "vsf": "./index.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "preferGlobal": true,
+  "author": "Filip Rakowski (@filrak)",
+  "license": "MIT",
+  "dependencies": {
+    "execa": "^4.0.2",
+    "fs-extra": "^8.1.0",
+    "inquirer": "^6.3.1",
+    "listr": "^0.14.3",
+    "lodash": "^4.17.15",
+    "replace-in-file": "^4.1.1",
+    "semver": "^7.1.3"
+  }
+}

@@ -1,0 +1,95 @@
+{
+    "elasticsearch": {
+        "httpAuth": "",
+        "host": "https://prod.vuestorefront.io/api/catalog",
+        "index": "vue_storefront_catalog"
+    },
+    "storeViews": {
+        "mapStoreUrlsFor": [
+            "de",
+            "it"
+        ],
+        "multistore": true,
+        "de": {
+            "elasticsearch": {
+                "httpAuth": "",
+                "host": "https://prod.vuestorefront.io/api/catalog",
+                "index": "vue_storefront_catalog_de"
+            }
+        },
+        "it": {
+            "elasticsearch": {
+                "httpAuth": "",
+                "host": "https://prod.vuestorefront.io/api/catalog",
+                "index": "vue_storefront_catalog_it"
+            }
+        }
+    },
+    "cart": {
+        "synchronize": true,
+        "synchronize_totals": true,
+        "create_endpoint": "https://prod.vuestorefront.io/api/cart/create?token={{token}}",
+        "updateitem_endpoint": "https://prod.vuestorefront.io/api/cart/update?token={{token}}&cartId={{cartId}}",
+        "deleteitem_endpoint": "https://prod.vuestorefront.io/api/cart/delete?token={{token}}&cartId={{cartId}}",
+        "pull_endpoint": "https://prod.vuestorefront.io/api/cart/pull?token={{token}}&cartId={{cartId}}",
+        "totals_endpoint": "https://prod.vuestorefront.io/api/cart/totals?token={{token}}&cartId={{cartId}}",
+        "paymentmethods_endpoint": "https://prod.vuestorefront.io/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+        "shippingmethods_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+        "shippinginfo_endpoint": "https://prod.vuestorefront.io/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+        "collecttotals_endpoint": "https://prod.vuestorefront.io/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+        "deletecoupon_endpoint": "https://prod.vuestorefront.io/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+        "applycoupon_endpoint": "https://prod.vuestorefront.io/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+    },
+    "products": {
+        "preventConfigurableChildrenDirectAccess": true,
+        "alwaysSyncPlatformPricesOver": true,
+        "clearPricesBeforePlatformSync": true,
+        "waitForPlatformSync": false,
+        "endpoint": "https://prod.vuestorefront.io/api/product",
+        "defaultFilters": [
+            "color",
+            "size",
+            "price"
+        ]
+    },
+    "orders": {
+        "endpoint": "https://prod.vuestorefront.io/api/order"
+    },
+    "images": {
+        "baseUrl": "https://prod.vuestorefront.io/img/"
+    },
+    "users": {
+        "endpoint": "https://prod.vuestorefront.io/api/user",
+        "history_endpoint": "https://prod.vuestorefront.io/api/user/order-history?token={{token}}",
+        "resetPassword_endpoint": "https://prod.vuestorefront.io/api/user/reset-password",
+        "changePassword_endpoint": "https://prod.vuestorefront.io/api/user/change-password?token={{token}}",
+        "login_endpoint": "https://prod.vuestorefront.io/api/user/login",
+        "create_endpoint": "https://prod.vuestorefront.io/api/user/create",
+        "me_endpoint": "https://prod.vuestorefront.io/api/user/me?token={{token}}",
+        "refresh_endpoint": "https://prod.vuestorefront.io/api/user/refresh"
+    },
+    "stock": {
+        "endpoint": "https://prod.vuestorefront.io/api/stock"
+    },
+    "tax": {
+        "defaultCountry": "PL",
+        "defaultRegion": "",
+        "calculateServerSide": true
+    },
+    "i18n": {
+        "defaultCountry": "US",
+        "defaultLanguage": "EN"
+    },
+    "mailchimp": {
+        "endpoint": "https://prod.vuestorefront.io/api/ext/mailchimp-subscribe/subscribe"
+    },
+    "registeredExtensions": [
+        "custom_extension",
+        "mailchimp-subscribe",
+        "google-analytics"
+    ],
+    "demomode": true,
+    "analytics": {
+        "id": "UA-108235765-2"
+    }
+}

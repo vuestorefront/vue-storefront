@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vue-storefront-config
+data:
+  NODE_CONFIG_ENV: docker
+  BIND_HOST: 0.0.0.0
+  PM2_ARGS: --no-daemon
+  VS_ENV: dev

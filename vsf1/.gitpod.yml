@@ -1,0 +1,19 @@
+tasks:
+  - init: |
+      yarn install
+      echo '{ "api": { "url": "https://next.storefrontcloud.io" }}' > config/local.json
+      yarn build
+    command: yarn dev
+
+ports:
+  - port: 3000
+    onOpen: open-preview
+
+vscode:
+  extensions:
+    - octref.vetur@0.23.0:TEzauMObB6f3i2JqlvrOpA==
+    - dbaeumer.vscode-eslint@2.0.15:/v3eRFwBI38JLZJv5ExY5g==
+    - eg2.vscode-npm-script@0.3.11:peDPJqeL8FmmJiabU4fAJQ==
+    - formulahendry.auto-close-tag@0.5.6:oZ/8R2VhZEhkHsoeO57hSw==
+    - formulahendry.auto-rename-tag@0.1.1:lKCmLIZAiCM0M8AjDnwCLQ==
+    - dariofuzinato.vue-peek@1.0.2:oYJg0oZA/6FBnFfW599HRg==

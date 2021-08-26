@@ -1,0 +1,3 @@
+core/build/*.js
+node_modules
+packages/module/*.js

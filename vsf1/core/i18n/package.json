@@ -1,0 +1,16 @@
+{
+  "name": "@vue-storefront/i18n",
+  "version": "1.12.2",
+  "description": "Vue Storefront i18n",
+  "license": "MIT",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "vue-i18n": "^8.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

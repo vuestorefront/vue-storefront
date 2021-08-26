@@ -1,0 +1,60 @@
+name: Deploy Docs
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Build and publish docker image
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: docs-storefrontcloud-io/v1:${{ github.sha }}
+          registry: registry.storefrontcloud.io
+          username: ${{ secrets.DOCS_CLOUD_USERNAME }}
+          password: ${{ secrets.DOCS_CLOUD_PASSWORD }}
+          workdir: docs
+          dockerfile: Dockerfile
+          buildoptions: "--compress"
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: chrnorm/deployment-action@releases/v1
+        name: Create GitHub deployment
+        id: deployment
+        with:
+          token: "${{ github.token }}"
+          target_url: https://docs.europe-west1.gcp.storefrontcloud.io/v1
+          environment: production
+          initial_status: in_progress
+      - name: Deploy on docs.europe-west1.gcp.storefrontcloud.io/v1
+        run: |
+          if curl -s -H 'X-User-Id: ${{ secrets.DOCS_CLOUD_USERNAME }}'  -H 'X-Api-Key: ${{ secrets.DOCS_CLOUD_PASSWORD }}' -H 'Content-Type: application/json' -X POST -d '{"code":"docs","region":"europe-west1.gcp","additionalApps":{"apps":[{"name":"docs-v1","tag":"${{ github.sha }}","image":"registry.storefrontcloud.io/docs-storefrontcloud-io/v1","path":"/v1","port":"80"}]}}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
+            echo "Instance updated"
+          else
+            echo "Something went wrong during the update process..."
+            exit 1
+          fi
+      - name: Update deployment status (success)
+        if: success()
+        uses: chrnorm/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://docs.europe-west1.gcp.storefrontcloud.io/v1
+          state: "success"
+          description: Congratulations! The deploy is done.
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+      - name: Update deployment status (failure)
+        if: failure()
+        uses: chrnorm/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://docs.europe-west1.gcp.storefrontcloud.io/v1
+          description: Unfortunately, the instance hasn't been updated.
+          state: "failure"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}

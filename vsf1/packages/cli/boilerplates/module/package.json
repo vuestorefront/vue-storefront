@@ -1,0 +1,24 @@
+{
+  "name": "vsf-package",
+  "version": "1.0.11",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "webpack --config node_modules/@vue-storefront/core/lib/modules/tools/module-build.config.js",
+    "prePublishOnly": "yarn build"
+  },
+  "keywords": ["vue-storefront"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@vue-storefront/core": "^1.12.2",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.2",
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.11"
+  },
+  "peerDependencies": {
+    "@vue-storefront/core": "^1.12.2"
+  }
+}

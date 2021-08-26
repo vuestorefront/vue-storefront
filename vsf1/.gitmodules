@@ -1,0 +1,8 @@
+[submodule "src/modules/vsf-cache-nginx"]
+	path = src/modules/vsf-cache-nginx
+	url = https://github.com/new-fantastic/vsf-cache-nginx.git
+	branch = master
+[submodule "src/modules/vsf-cache-varnish"]
+	path = src/modules/vsf-cache-varnish
+	url = https://github.com/new-fantastic/vsf-cache-varnish.git
+	branch = master

@@ -1,0 +1,3 @@
+export const SN_CMS_BLOCK = 'cmsBlock'
+export const CMS_BLOCK_UPDATE_CMS_BLOCKS = SN_CMS_BLOCK + '/UPDATE_CMS_BLOCKS'
+export const CMS_BLOCK_ADD_CMS_BLOCK = SN_CMS_BLOCK + '/ADD_CMS_BLOCK'

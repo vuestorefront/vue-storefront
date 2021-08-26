@@ -1,0 +1,14 @@
+query cmsHierarchies ($filter: CmsInput) {
+  cmsHierarchies(
+    filter: $filter
+  )
+  {
+    items {
+      page_id
+      label
+      xpath
+      request_url
+      parent_node_id
+    }
+  }
+}
