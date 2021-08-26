@@ -1,0 +1,17 @@
+{
+  "Should successfully register": {
+    "customer": {
+      "password": "Vu3S70r3fr0n7!",
+      "firstName": "Jane",
+      "lastName": "Doe"
+    }
+  },
+  "Existing user - should display an error": {
+    "customer": {
+      "password": "Vu3S70r3fr0n7!",
+      "firstName": "Jane",
+      "lastName": "Doe"   
+    },
+    "errorMessage": "There is already an existing customer with the email"
+  }
+}

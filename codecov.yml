@@ -1,0 +1,24 @@
+comment: false
+
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+
+  status:
+    patch: no
+    project:
+      default: no
+      commercetools-api-client:
+        flags: commercetools-api-client
+        target: 90%
+      commercetools-composables:
+        flags: commercetools-composables
+        target: 90%
+flags:
+  commercetools-api-client:
+    paths:
+      - packages/commercetools/api-client
+  commercetools-composables:
+    paths:
+      - packages/commercetools/composables

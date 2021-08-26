@@ -1,0 +1,24 @@
+titleOnly: true
+scopes:
+  - core
+  - core-theme
+  - docs
+  - commercetools
+  - commercetools-theme
+  - boilerplate
+  - composables
+  - ci
+types:
+  - feat
+  - fix
+  - improvement
+  - docs
+  - style
+  - refactor
+  - perf
+  - test
+  - build
+  - ci
+  - chore
+  - revert
+  - rfc
