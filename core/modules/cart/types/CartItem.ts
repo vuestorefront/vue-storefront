@@ -1,4 +1,5 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
+import { Item } from 'src/modules/file-storage'
 
 import CartItemOption from './CartItemOption'
 import CartItemTotals from './CartItemTotals'
@@ -21,5 +22,6 @@ export default interface CartItem extends Product {
   plushieDescription?: string,
   bodyparts?: object,
   customFields?: object,
-  uploadMethod?: string
+  uploadMethod?: string,
+  customerImages?: Item[]
 }
