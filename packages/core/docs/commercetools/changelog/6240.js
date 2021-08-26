@@ -1,5 +1,5 @@
 module.exports = {
-  description: '',
+  description: 'Updated SFUI',
   link: 'https://github.com/vuestorefront/vue-storefront/pull/6240',
   isBreaking: false,
   breakingChanges: [],
