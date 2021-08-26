@@ -1,6 +1,0 @@
-{
-  "server": {
-    "host": "BIND_HOST",
-    "port": "BIND_PORT"
-  }
-}
