@@ -192,9 +192,11 @@
               :max-rating="5"
               :score-rating="3"
               :isOnWishlist="isInWishlist({ product })"
+              :qty="1"
+              @input="(value) => qty = value"
               class="products__product-card-horizontal"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeItemFromWishlist({ product })"
-              @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+              @click:add-to-cart="addItemToCart({ product, quantity: Number(qty) })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             >
               <template #configuration>
