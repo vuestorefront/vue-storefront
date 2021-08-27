@@ -7,6 +7,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c",
+    "test": "jest",
     "prepublish": "yarn build"
   },
   "author": "Vue Storefront",
