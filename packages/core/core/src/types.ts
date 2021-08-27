@@ -901,7 +901,7 @@ export interface UseStoreFactoryLoadParamArguments {
 
 export interface UseStoreFactoryParams<STORES> extends FactoryParams {
   load(context: Context, params: UseStoreFactoryLoadParamArguments): Promise<STORES>
-  change(context: Context, parmas: UseStoreFactoryChangeParamArguments): Promise<STORES>
+  change(context: Context, params: UseStoreFactoryChangeParamArguments): Promise<STORES>
 }
 export interface UseStoreInterface<STORES> {
   change(params: UseStoreFactoryChangeParamArguments): Promise<void>;

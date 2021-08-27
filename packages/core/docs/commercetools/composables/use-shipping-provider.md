@@ -13,11 +13,11 @@
 
     - `customQuery?: CustomQuery`
   
-```ts
-type CustomQuery = {
-  getBasicProfile: string
-}
-```
+      ```ts
+      type CustomQuery = {
+        getBasicProfile: string
+      }
+      ```
 
 - `save` - function for selecting shipping method. This method accepts a single `saveParams` object. The `saveParams` has the following options:
 
@@ -25,61 +25,63 @@ type CustomQuery = {
 
     - `customQuery?: CustomQuery`
 
-```ts
-type ShippingMethod = Versioned & {
-  __typename?: "ShippingMethod";
-  id: Scalars["String"];
-  version: Scalars["Long"];
-  name: Scalars["String"];
-  description?: Maybe<Scalars["String"]>;
-  zoneRates: Array<ZoneRate>;
-  isDefault: Scalars["Boolean"];
-  predicate?: Maybe<Scalars["String"]>;
-  createdAt: Scalars["DateTime"];
-  lastModifiedAt: Scalars["DateTime"];
-  key?: Maybe<Scalars["String"]>;
-  lastModifiedBy?: Maybe<Initiator>;
-  createdBy?: Maybe<Initiator>;
-  taxCategoryRef?: Maybe<Reference>;
-  taxCategory?: Maybe<TaxCategory>;
-};
+      ```ts
+      type ShippingMethod = Versioned & {
+        __typename?: "ShippingMethod";
+        id: Scalars["String"];
+        version: Scalars["Long"];
+        name: Scalars["String"];
+        description?: Maybe<Scalars["String"]>;
+        zoneRates: Array<ZoneRate>;
+        isDefault: Scalars["Boolean"];
+        predicate?: Maybe<Scalars["String"]>;
+        createdAt: Scalars["DateTime"];
+        lastModifiedAt: Scalars["DateTime"];
+        key?: Maybe<Scalars["String"]>;
+        lastModifiedBy?: Maybe<Initiator>;
+        createdBy?: Maybe<Initiator>;
+        taxCategoryRef?: Maybe<Reference>;
+        taxCategory?: Maybe<TaxCategory>;
+      };
 
-type CustomQuery = {
-  updateCart: string
-}
-```
+      type CustomQuery = {
+        updateCart: string
+      }
+      ```
+
 - `state: ShippingProviderState` - a main data object that contains a shipping method
-```ts
-interface ShippingProviderState {
-  response: ShippingInfo
-}
 
-type ShippingInfo = {
-  __typename?: "ShippingInfo";
-  shippingMethodName: Scalars["String"];
-  price: Money;
-  shippingRate: ShippingRate;
-  taxRate?: Maybe<TaxRate>;
-  taxCategory?: Maybe<Reference>;
-  deliveries: Array<Delivery>;
-  discountedPrice?: Maybe<DiscountedLineItemPrice>;
-  taxedPrice?: Maybe<TaxedItemPrice>;
-  shippingMethodState: ShippingMethodState;
-  shippingMethod?: Maybe<ShippingMethod>;
-  shippingMethodRef?: Maybe<Reference>;
-};
-```
+  ```ts
+  interface ShippingProviderState {
+    response: ShippingInfo
+  }
+
+  type ShippingInfo = {
+    __typename?: "ShippingInfo";
+    shippingMethodName: Scalars["String"];
+    price: Money;
+    shippingRate: ShippingRate;
+    taxRate?: Maybe<TaxRate>;
+    taxCategory?: Maybe<Reference>;
+    deliveries: Array<Delivery>;
+    discountedPrice?: Maybe<DiscountedLineItemPrice>;
+    taxedPrice?: Maybe<TaxedItemPrice>;
+    shippingMethodState: ShippingMethodState;
+    shippingMethod?: Maybe<ShippingMethod>;
+    shippingMethodRef?: Maybe<Reference>;
+  };
+  ```
 
 - `loading: boolean` - a reactive object containing information about loading state of your `load` or `save` method.
 
 - `error: UseShippingProviderErrors` - a reactive object containing the error message, if `load` or `save` failed for any reason.
 
-```ts
-interface UseShippingProviderErrors {
-  load?: Error;
-  save?: Error;
-}
-```
+  ```ts
+  interface UseShippingProviderErrors {
+    load?: Error;
+    save?: Error;
+  }
+  ```
 
 ## Getters
 

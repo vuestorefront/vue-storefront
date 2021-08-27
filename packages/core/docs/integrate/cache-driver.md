@@ -1,7 +1,7 @@
 # Integrating cache driver
 
 ::: warning Want to build an integration?
-If you want to integrate with Vue Storefront, please **contact the core team on our [Discord](https://discord.vuestorefront.io/)** first. We are eager to help you with building it and ensuring its high quality! Building the integration together with the core team is the best way to keep its quality high and make it officially recommended once it's done.
+If you want to integrate with Vue Storefront, don't hesitate to get in touch with the core team on our [Discord](https://discord.vuestorefront.io/) server. We are eager to help you to ensure its high quality and maybe even officially recommend it 😉
 :::
 
 ## Introduction
