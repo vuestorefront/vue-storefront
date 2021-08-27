@@ -19,7 +19,7 @@ That's a mouthful, so let's break it down:
 
 With Vue Storefront, you're getting a performant frontend connected to headless e-commerce, CMS, and other third-party platforms of your choice, along with hundreds of ready-to-use Vue Storefront and Nuxt.js modules for all standard functionalities. Thanks to them, you will save hundreds (or even thousands) of working hours, so you can focus on creating value for your product while leaving the heavy lifting to us!
 
-### Lightning-Fast online shop
+### Lightning-fast online shop
 
 By some estimates, up to 1% of users will leave your website for every 100ms of delay in page load time. With Vue Storefront, you can create a performant shop thanks to:
 - using modern technologies for small bundle sizes and performance;
