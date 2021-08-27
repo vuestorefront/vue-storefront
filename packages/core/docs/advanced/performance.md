@@ -1,4 +1,4 @@
-# Performance
+# Performance basics
 
 This document will walk you through performance configuration options for `@vue-storefront/nuxt` package and allow you to easily reduce size of your app and improve performance.
 

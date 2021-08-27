@@ -1,7 +1,4 @@
 # Theme
-
-[[toc]]
-
 ## Directory structure
 
 If you followed our [Installation guide](/general/installation.html), you should have a fully functional e-commerce application. As mentioned in previous documents, Vue Storefront extends Nuxt.js, so the structure of both applications is similar. Most directories come from Nuxt.js, and you can read more about them on their [Directory Structure](https://nuxtjs.org/docs/2.x/get-started/directory-structure) page.
@@ -148,5 +145,5 @@ Below you can find a list of the most important Nuxt Modules and libraries that 
 ### Libraries
 
 - [`@storefront-ui/vue`](https://storefrontui.io);
-- [`wee-validate`](https://vee-validate.logaretm.com/v3);
+- [`vee-validate`](https://vee-validate.logaretm.com/v3);
 - [`lodash`](https://lodash.com/);

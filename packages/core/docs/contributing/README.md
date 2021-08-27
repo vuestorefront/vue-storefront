@@ -1,4 +1,4 @@
-# Contributing
+# Contribution basics
 
 If you want to contribute into Vue Storefront Next you should:
 
