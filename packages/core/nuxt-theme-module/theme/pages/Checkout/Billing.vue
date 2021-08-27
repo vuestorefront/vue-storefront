@@ -44,7 +44,7 @@
         </ValidationProvider>
         <ValidationProvider
           name="streetName"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
@@ -61,7 +61,7 @@
         </ValidationProvider>
         <ValidationProvider
           name="apartment"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
@@ -78,7 +78,7 @@
         </ValidationProvider>
         <ValidationProvider
           name="city"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
@@ -170,7 +170,7 @@
           <SfButton
             class="sf-button color-secondary form__back-button"
             type="button"
-            @click="$router.push('/checkout/shipping')"
+            @click="$router.push(localePath({ name: 'shipping' }))"
           >
             {{ $t('Go back') }}
           </SfButton>
@@ -251,7 +251,7 @@ export default {
 
     const handleFormSubmit = async () => {
       await save({ billingDetails: form.value });
-      context.root.$router.push('/checkout/payment');
+      context.root.$router.push(context.root.localePath({ name: 'payment' }));
     };
 
     onSSR(async () => {

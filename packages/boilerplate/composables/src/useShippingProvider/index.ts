@@ -1,22 +1,18 @@
 import { useShippingProviderFactory, UseShippingProviderParams, Context } from '@vue-storefront/core';
-import { Shipping, ShippingMethod } from '../types';
+import type { ShippingProvider, ShippingMethod } from '@vue-storefront/boilerplate-api';
 
-let provider = {};
-
-const params: UseShippingProviderParams<Shipping, ShippingMethod> = {
+const params: UseShippingProviderParams<ShippingProvider, ShippingMethod> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, { customQuery }) => {
     console.log('Mocked: loadShippingProvider');
-
-    return provider;
+    return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   save: async (context: Context, { shippingMethod, customQuery }) => {
     console.log('Mocked: saveShippingProvider');
-    provider = shippingMethod;
-    return provider;
+    return {};
   }
 };
 
-export default useShippingProviderFactory<Shipping, ShippingMethod>(params);
+export const useShippingProvider = useShippingProviderFactory<ShippingProvider, ShippingMethod>(params);

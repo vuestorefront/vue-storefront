@@ -1,33 +1,117 @@
 import { UserShippingGetters } from '@vue-storefront/core';
+import type {
+  UserShippingAddress as Address,
+  UserShippingAddressItem as AddressItem,
+  UserShippingAddressSearchCriteria
+} from '@vue-storefront/boilerplate-api';
 
-const userGetters: UserShippingGetters<any, any> = {
-  getAddresses: (shipping, criteria?: Record<string, any>) => {
-    const { addresses } = shipping;
-    if (!criteria || !Object.keys(criteria).length) {
-      return addresses;
-    }
-    const entries = Object.entries(criteria);
-    return shipping.addresses.filter(
-      address => entries.every(([key, value]) => address[key] === value)
-    );
-  },
-  getDefault: shipping => shipping.addresses.find(address => address.isDefault),
-  getTotal: shipping => shipping.addresses.length,
-  getPostCode: address => address ? address.zipCode : '',
-  getStreetName: address => address ? address.streetName : '',
-  getStreetNumber: address => address ? address.streetNumber : '',
-  getCity: address => address ? address.city : '',
-  getFirstName: address => address ? address.firstName : '',
-  getLastName: address => address ? address.lastName : '',
-  getCountry: address => address ? address.country : '',
-  getPhone: address => address ? address.phoneNumber : '',
-  getEmail: address => address ? address.email : '',
-  getProvince: address => address ? address.state : '',
-  getCompanyName: address => address ? address.company : '',
-  getTaxNumber: address => address ? address.taxId : '',
-  getId: address => address ? address.id : '',
-  getApartmentNumber: address => address ? address.apartment : '',
-  isDefault: address => address ? address.isDefault : false
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getAddresses(shipping: Address, criteria?: UserShippingAddressSearchCriteria): AddressItem[] {
+  return [];
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getDefault(shipping: Address): Address {
+  return {};
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getTotal(shipping: Address): number {
+  return 0;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getPostCode(address: AddressItem): string {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getStreetName(address: AddressItem): string {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getStreetNumber(address: AddressItem): string | number {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getCity(address: AddressItem): string {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getFirstName(address: AddressItem): string {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getLastName(address: AddressItem): string {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getCountry(address: AddressItem): string {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getPhone(address: AddressItem): string {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getEmail(address: AddressItem): string {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getProvince(address: AddressItem): string {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getCompanyName(address: AddressItem): string {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getTaxNumber(address: AddressItem): string {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getId(address: AddressItem): string {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getApartmentNumber(address: AddressItem): string | number {
+  return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function isDefault(address: AddressItem): boolean {
+  return false;
+}
+
+export const userShippingGetters: UserShippingGetters<Address, AddressItem> = {
+  getAddresses,
+  getDefault,
+  getTotal,
+  getPostCode,
+  getStreetName,
+  getStreetNumber,
+  getCity,
+  getFirstName,
+  getLastName,
+  getCountry,
+  getPhone,
+  getEmail,
+  getProvince,
+  getCompanyName,
+  getTaxNumber,
+  getId,
+  getApartmentNumber,
+  isDefault
 };
-
-export default userGetters;

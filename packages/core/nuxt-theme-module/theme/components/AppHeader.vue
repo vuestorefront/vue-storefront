@@ -3,16 +3,16 @@
     <SfHeader
       class="sf-header--has-mobile-search"
       :class="{'header-on-top': isSearchOpen}"
+      :isNavVisible="isMobileMenuOpen"
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
-        <nuxt-link :to="localePath('/')" class="sf-header__logo">
+        <nuxt-link :to="localePath({ name: 'home' })" class="sf-header__logo">
           <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
         </nuxt-link>
       </template>
       <template #navigation>
-        <SfHeaderNavigationItem class="nav-item" v-e2e="'app-header-url_women'" label="WOMEN" :link="localePath('/c/women')"/>
-        <SfHeaderNavigationItem class="nav-item"  v-e2e="'app-header-url_men'" label="MEN" :link="localePath('/c/men')" />
+        <HeaderNavigation :isMobile="isMobile" />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />
@@ -95,13 +95,14 @@
 </template>
 
 <script>
-import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
+import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
 import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';
 import SearchResults from '~/components/SearchResults';
+import HeaderNavigation from './HeaderNavigation';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
 import {
   mapMobileObserver,
@@ -121,12 +122,11 @@ export default {
     SfSearchBar,
     SearchResults,
     SfOverlay,
-    SfMenuItem,
-    SfLink
+    HeaderNavigation
   },
   directives: { clickOutside },
   setup(props, { root }) {
-    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
+    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, isMobileMenuOpen } = useUiState();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load: loadUser } = useUser();
     const { cart } = useCart();
@@ -134,6 +134,7 @@ export default {
     const isSearchOpen = ref(false);
     const searchBarRef = ref(null);
     const result = ref(null);
+    const isMobile = ref(mapMobileObserver().isMobile.get());
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -147,7 +148,8 @@ export default {
     // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
-        return root.$router.push('/my-account');
+        const localeAccountPath = root.localePath({ name: 'my-account' });
+        return root.$router.push(localeAccountPath);
       }
 
       toggleLoginModal();
@@ -169,8 +171,6 @@ export default {
       result.value = mockedSearchProducts;
 
     }, 1000);
-
-    const isMobile = computed(() => mapMobileObserver().isMobile.get());
 
     const closeOrFocusSearchBar = () => {
       if (isMobile.value) {
@@ -211,6 +211,7 @@ export default {
       closeOrFocusSearchBar,
       searchBarRef,
       isMobile,
+      isMobileMenuOpen,
       removeSearchResults
     };
   }
@@ -224,7 +225,7 @@ export default {
     --header-padding: 0;
   }
   &__logo-image {
-      height: 100%;
+    height: 100%;
   }
 }
 .header-on-top {

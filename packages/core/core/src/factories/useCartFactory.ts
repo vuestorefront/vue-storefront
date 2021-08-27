@@ -2,7 +2,7 @@ import { CustomQuery, UseCart, Context, FactoryParams, UseCartErrors, PlatformAp
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
-export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, API extends PlatformApi = any> extends FactoryParams<API> {
+export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, API extends PlatformApi = any> extends FactoryParams<API> {
   load: (context: Context, params: { customQuery?: any }) => Promise<CART>;
   addItem: (
     context: Context,
@@ -22,15 +22,15 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, API exte
   applyCoupon: (context: Context, params: { currentCart: CART; couponCode: string; customQuery?: CustomQuery }) => Promise<{ updatedCart: CART }>;
   removeCoupon: (
     context: Context,
-    params: { currentCart: CART; coupon: COUPON; customQuery?: CustomQuery }
+    params: { currentCart: CART; couponCode: string; customQuery?: CustomQuery }
   ) => Promise<{ updatedCart: CART }>;
   isInCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
 }
 
-export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, API extends PlatformApi = any>(
-  factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, API>
+export const useCartFactory = <CART, CART_ITEM, PRODUCT, API extends PlatformApi = any>(
+  factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, API>
 ) => {
-  return function useCart (): UseCart<CART, CART_ITEM, PRODUCT, COUPON, API> {
+  return function useCart (): UseCart<CART, CART_ITEM, PRODUCT, API> {
     const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
     const error: Ref<UseCartErrors> = sharedRef({
@@ -123,9 +123,9 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, API extends Pla
       if (cart.value) {
 
         /**
-          * Triggering change for hydration purpose,
-          * temporary issue related with cpapi plugin
-          */
+         * Triggering change for hydration purpose,
+         * temporary issue related with cpapi plugin
+         */
         loading.value = false;
         error.value.load = null;
         cart.value = { ...cart.value };
@@ -186,14 +186,14 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, API extends Pla
       }
     };
 
-    const removeCoupon = async ({ coupon, customQuery }) => {
+    const removeCoupon = async ({ couponCode, customQuery }) => {
       Logger.debug('useCart.removeCoupon');
 
       try {
         loading.value = true;
         const { updatedCart } = await _factoryParams.removeCoupon({
           currentCart: cart.value,
-          coupon,
+          couponCode,
           customQuery
         });
         error.value.removeCoupon = null;

@@ -16,8 +16,8 @@
               </SfMenuItem>
             </template>
             <SfList>
-              <SfListItem v-for="(category, key) in categories.items" :key="key">
-                <SfMenuItem :label="category.label" :link="`/c/women/${category.slug}`">
+              <SfListItem v-for="(category, key) in categories" :key="key">
+                <SfMenuItem :label="category.label" :link="localePath(`/c/${category.slug}`)">
                   <template #mobile-nav-icon>
                     &#8203;
                   </template>
@@ -45,7 +45,7 @@
                   :image="productGetters.getCoverImage(product)"
                   :alt="productGetters.getName(product)"
                   :title="productGetters.getName(product)"
-                  :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+                  :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
                 />
               </div>
             </SfScrollable>
@@ -60,7 +60,7 @@
                 :image="productGetters.getCoverImage(product)"
                 :alt="productGetters.getName(product)"
                 :title="productGetters.getName(product)"
-                :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+                :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               />
             </div>
           </SfMegaMenuColumn>

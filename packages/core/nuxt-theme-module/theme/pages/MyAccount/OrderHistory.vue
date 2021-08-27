@@ -67,7 +67,7 @@
             </SfTableHeader>
           </SfTableHeading>
           <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
-            <SfTableData>{{ orderGetters.getId(order) }}</SfTableData>
+            <SfTableData v-e2e="'order-number'">{{ orderGetters.getId(order) }}</SfTableData>
             <SfTableData>{{ orderGetters.getDate(order) }}</SfTableData>
             <SfTableData>{{ $n(orderGetters.getPrice(order), 'currency') }}</SfTableData>
             <SfTableData>
@@ -83,6 +83,7 @@
             </SfTableData>
           </SfTableRow>
         </SfTable>
+        <p>Total orders - {{ totalOrders }}</p>
       </div>
     </SfTab>
     <SfTab title="Returns">
@@ -165,7 +166,8 @@ export default {
 
     return {
       tableHeaders,
-      orders: computed(() => orders ? orders.value : []),
+      orders: computed(() => orders ? orders.value.results : []),
+      totalOrders: computed(() => orderGetters.getOrdersTotal(orders.value)),
       getStatusTextClass,
       orderGetters,
       downloadOrder,
