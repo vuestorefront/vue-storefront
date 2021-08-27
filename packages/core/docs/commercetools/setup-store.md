@@ -151,7 +151,7 @@ Go to the `developer settings` and click `Create new API client` button and choo
 
 
 If you need more information about scopes please see [documentation](https://docs.commercetools.com/api/scopes).
-When you click on create API you will see all the credentials. They are only displayed once, so you need to store them sacurely. You can download them in the format you need.
+When you click on create API you will see all the credentials. They are only displayed once, so you need to store them securely. You can download them in the format you need.
 
 <center>
   <img src="../images/setup-store/api-client-2.png" alt="Commercetools client API credentials" />
@@ -161,26 +161,111 @@ Now let's move to front-end side.
 
 ## Configuring commercetools integration in Vue Storefront
 
-All generated credentials should be used in `middleware.config.js` in `ct` config object inside `integrations`:
+Moving to front-end site of your project, first the new VSF project should be run:
+
+```sh
+npx @vue-storefront/cli init
+```
+During initialization you should choose your project name and integration you use, in these case `Commercetools`.
+
+<center>
+  <img src="../images/setup-store/init-vsf.png" alt="Commercetools client API credentials" />
+</center>
+
+After entering your project catalogue, fetch all dependencies: 
+
+```sh
+yarn install
+```
+
+And you can now run the project with following command: 
+
+```sh
+yarn dev
+```
+
+But what you will see is the default project, because we didn't connect previously prepared Commercetools project with VSF. 
+To do it, let's begin with credentials generated in API settings step above. They should be used in `middleware.config.js` in `ct` config object inside `integrations`. 
 
 ```js
+  integrations: {
     ct: {
       location: '@vue-storefront/commercetools-api/server',
       configuration: {
         api: {
-          uri: 'https://<SHOP_DOMAIN>.com/vsf-ct-dev/graphql',
-          authHost: 'https://auth.sphere.io',
-          projectKey: 'vsf-ct-dev',
+          uri: 'https://<SHOP_DOMAIN>.com/<PROJECT_NAME>/graphql',
+          authHost: 'https://<SHOP_DOMAIN>.com/<PROJECT_NAME>',
+          projectKey: '<PROJECT_NAME>',
           clientId: '<CLIENT_ID>',
           clientSecret: '<CLIENT_SECRET>',
           scopes: [
-            //* scopes */
-          ]
+            'manage_project:<PROJECT_NAME>'
+          ],
         },
         currency: 'USD',
         country: 'US'
       }
     }
+  }
 ```
 
 For more information about available configuration options refer to the [Configuration](./configuration.md) page.
+
+The next step is to setup `nuxt.config.js` file properly. All countries, currencies and locales should be setup simiralry like in Commercetools project, in our case: 
+
+```js
+  i18n: {
+    currency: 'USD',
+    country: 'US',
+    countries: [
+      { name: 'US',
+        label: 'United States'
+      },
+      { name: 'DE',
+        label: 'Germany' },
+    ],
+    currencies: [
+      { name: 'USD',
+        label: 'Dollar' },,
+      { name: 'EUR',
+        label: 'Euro' },
+      
+    ],
+    locales: [
+      {
+        code: 'en',
+        label: 'English',
+        file: 'en.js',
+        iso: 'en'
+      },
+      {
+        code: 'de-DE',
+        label: 'German',
+        file: 'de.js',
+        iso: 'de'
+      },
+    ],
+  ```
+
+  If you follow all the previous steps you should see your project working, filled with data that you setup in Commercetools project:
+
+on home page: 
+
+  <center>
+    <img src="../images/setup-store/home-page.png" alt="Commercetools client API credentials" />
+  </center>
+
+on category page:
+
+<center>
+    <img src="../images/setup-store/category-page.png" alt="Commercetools client API credentials" />
+  </center>
+
+
+and on product detail page:
+
+<center>
+    <img src="../images/setup-store/product-detail-page.png" alt="Commercetools client API credentials" />
+  </center>
+
+So it is just the beginning of your VSF Next store based on Commercetools integration. Now you can customize it according to your needs. 
