@@ -1,4 +1,4 @@
-# Product Catalog
+# Product catalog
 
 There are two composables used to interact with the product catalog - `useProduct` and `useFacet`.
 
