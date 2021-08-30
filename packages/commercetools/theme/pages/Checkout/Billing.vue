@@ -1,7 +1,7 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit, reset }">
     <SfHeading
-      v-e2e="'heading-billing'"
+      v-e2e="'billing-heading'"
       :level="3"
       :title="$t('Billing address')"
       class="sf-heading--left sf-heading--no-underline title"
@@ -21,7 +21,7 @@
         v-e2e="'copy-address'"
         :selected="sameAsShipping"
         @change="handleCheckSameAddress"
-        label="Copy address data from shipping"
+        :label="$t('Copy address data from shipping')"
         name="copyShippingAddress"
         class="form__element"
       />
@@ -33,10 +33,10 @@
           slim
         >
           <SfInput
-            v-e2e="'firstName'"
+            v-e2e="'billing-firstName'"
             :value="billingDetails.firstName"
             @input="firstName => changeBillingDetails('firstName', firstName)"
-            label="First name"
+            :label="$t('First name')"
             name="firstName"
             class="form__element form__element--half"
             required
@@ -51,10 +51,10 @@
           slim
         >
           <SfInput
-            v-e2e="'lastName'"
+            v-e2e="'billing-lastName'"
             :value="billingDetails.lastName"
             @input="lastName => changeBillingDetails('lastName', lastName)"
-            label="Last name"
+            :label="$t('Last name')"
             name="lastName"
             class="form__element form__element--half form__element--half-even"
             required
@@ -64,15 +64,15 @@
         </ValidationProvider>
         <ValidationProvider
           name="streetName"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
           <SfInput
-            v-e2e="'streetName'"
+            v-e2e="'billing-streetName'"
             :value="billingDetails.streetName"
             @input="streetName => changeBillingDetails('streetName', streetName)"
-            label="Street name"
+            :label="$t('Street name')"
             name="streetName"
             class="form__element form__element--half"
             required
@@ -82,15 +82,15 @@
         </ValidationProvider>
         <ValidationProvider
           name="apartment"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
           <SfInput
-            v-e2e="'apartment'"
+            v-e2e="'billing-apartment'"
             :value="billingDetails.apartment"
             @input="apartment => changeBillingDetails('apartment', apartment)"
-            label="House/Apartment number"
+            :label="$t('House/Apartment number')"
             name="apartment"
             class="form__element form__element--half form__element--half-even"
             required
@@ -100,15 +100,15 @@
         </ValidationProvider>
         <ValidationProvider
           name="city"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
           <SfInput
-            v-e2e="'city'"
+            v-e2e="'billing-city'"
             :value="billingDetails.city"
             @input="city => changeBillingDetails('city', city)"
-            label="City"
+            :label="$t('City')"
             name="city"
             class="form__element form__element--half"
             required
@@ -117,18 +117,44 @@
           />
         </ValidationProvider>
         <ValidationProvider
+          name="country"
+          rules="required|min:2"
+          v-slot="{ errors }"
+          slim
+        >
+          <SfSelect
+            v-e2e="'billing-country'"
+            :value="billingDetails.country"
+            @input="country => changeBillingDetails('country', country)"
+            :label="$t('Country')"
+            name="country"
+            class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          >
+            <SfSelectOption
+              v-for="countryOption in countries"
+              :key="countryOption.name"
+              :value="countryOption.name"
+            >
+              {{ $t(countryOption.label) }}
+            </SfSelectOption>
+          </SfSelect>
+        </ValidationProvider>
+        <ValidationProvider
           name="state"
           :rules="!statesInSelectedCountry ? null : 'required|min:2'"
           v-slot="{ errors }"
           slim
         >
           <SfSelect
-            v-e2e="'state'"
+            v-e2e="'billing-state'"
             :value="billingDetails.state"
             @input="state => changeBillingDetails('state', state)"
-            label="State/Province"
+            :label="$t('State/Province')"
             name="state"
-            class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
+            class="form__element form__element--half form__select sf-select--underlined"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -144,42 +170,16 @@
           </SfSelect>
         </ValidationProvider>
         <ValidationProvider
-          name="country"
-          rules="required|min:2"
-          v-slot="{ errors }"
-          slim
-        >
-          <SfSelect
-            v-e2e="'country'"
-            :value="billingDetails.country"
-            @input="country => changeBillingDetails('country', country)"
-            label="Country"
-            name="country"
-            class="form__element form__element--half form__select sf-select--underlined"
-            required
-            :valid="!errors[0]"
-            :errorMessage="errors[0]"
-          >
-            <SfSelectOption
-              v-for="countryOption in countries"
-              :key="countryOption.name"
-              :value="countryOption.name"
-            >
-              {{ countryOption.label }}
-            </SfSelectOption>
-          </SfSelect>
-        </ValidationProvider>
-        <ValidationProvider
           name="zipCode"
           rules="required|min:2"
           v-slot="{ errors }"
           slim
         >
           <SfInput
-            v-e2e="'zipcode'"
+            v-e2e="'billing-zipcode'"
             :value="billingDetails.postalCode"
             @input="postalCode => changeBillingDetails('postalCode', postalCode)"
-            label="Zip-code"
+            :label="$t('Zip-code')"
             name="zipCode"
             class="form__element form__element--half form__element--half-even"
             required
@@ -189,15 +189,15 @@
         </ValidationProvider>
         <ValidationProvider
           name="phone"
-          rules="required|digits:9"
+          rules="required|phone"
           v-slot="{ errors }"
           slim
         >
           <SfInput
-            v-e2e="'phone'"
+            v-e2e="'billing-phone'"
             :value="billingDetails.phone"
             @input="phone => changeBillingDetails('phone', phone)"
-            label="Phone number"
+            :label="$t('Phone number')"
             name="phone"
             class="form__element form__element--half"
             required
@@ -207,9 +207,10 @@
         </ValidationProvider>
       </div>
       <SfButton
+        v-e2e="'billing-add-new-address'"
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
-        type="submit"
+        type="button"
         @click.native="handleAddNewAddressBtnClick"
       >
         {{ $t('Add new address') }}
@@ -225,7 +226,7 @@
             {{ $t('Continue to payment') }}
           </SfButton>
           <nuxt-link
-            to="/checkout/shipping"
+            :to="localePath({ name: 'shipping' })"
             class="sf-button sf-button--underlined form__back-button smartphone-only"
             >Go back</nuxt-link>
         </div>
@@ -249,6 +250,7 @@ import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
 import { ref, watch, computed, onMounted } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
+import '@/helpers/validators/phone';
 
 const NOT_SELECTED_ADDRESS = '';
 
@@ -335,7 +337,7 @@ export default {
         }
       }
       reset();
-      context.root.$router.push('/checkout/payment');
+      context.root.$router.push(context.root.localePath({ name: 'payment' }));
     };
 
     const handleAddNewAddressBtnClick = () => {

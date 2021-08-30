@@ -1,18 +1,45 @@
+const { STATUSES, AVAILABILITY, CATEGORIES, INTEGRATIONS } = require('./integrations');
+const GTM_TAG = 'GTM-WMDC3CP';
+
 module.exports = {
+  /**
+   * Ref：https://v1.vuepress.vuejs.org/config/#title
+   */
   title: 'Vue Storefront 2',
-  base: '/v2/',
+
+  /**
+   * Ref：https://v1.vuepress.vuejs.org/config/#description
+   */
   description: 'Vue Storefront 2 documentation',
+
+  /**
+   * Ref: https://v1.vuepress.vuejs.org/config/#base
+   */
+  base: '/v2/',
+
+  /**
+   * Ref：https://v1.vuepress.vuejs.org/config/#head
+   */
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
 
-    //HubSpot
+    // HubSpot
     ['script', { async: true, defer: true, src: 'https://js.hs-scripts.com/8443671.js', id: 'hs-script-loader' }],
 
-    // Google Analytics
-    ['script', { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-12MM6R3MDK' }],
-    ['script', {}, ['window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag("js", new Date());gtag("config", "G-12MM6R3MDK");']],
+    // Google Tag Manager
+    ['script', {}, [`
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','${GTM_TAG}');
+    `]],
   ],
-  configureWebpack: (config) => {
+
+  /**
+   * Ref：https://v1.vuepress.vuejs.org/config/#configurewebpack
+   */
+   configureWebpack: (config) => {
     config.module.rules = config.module.rules.map((rule) => ({
       ...rule,
       use:
@@ -30,21 +57,54 @@ module.exports = {
         }))
     }));
   },
+
+  /**
+   * Ref：https://v1.vuepress.vuejs.org/plugin/
+   */
+   plugins: [
+    '@vuepress/plugin-back-to-top',
+    [
+      '@vuepress/plugin-medium-zoom',
+      {
+        // This selector excludes images from the "Integrations" page
+        selector: 'main :not(a):not(.tile) > img'
+      }
+    ],
+    '@vuepress/active-header-links',
+    '@vuepress/search'
+  ],
+
+  /**
+   * Ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
+   */
   themeConfig: {
-    logo:
-      'https://camo.githubusercontent.com/48c886ac0703e3a46bc0ec963e20f126337229fc/68747470733a2f2f643968687267346d6e767a6f772e636c6f756466726f6e742e6e65742f7777772e76756573746f726566726f6e742e696f2f32383062313964302d6c6f676f2d76735f3062793032633062793032633030303030302e6a7067',
+    GTM_TAG,
+    STATUSES,
+    AVAILABILITY,
+    CATEGORIES,
+    INTEGRATIONS,
+    repo: 'https://github.com/vuestorefront/vue-storefront/',
+    editLinks: true,
+    docsDir: 'packages/core/docs',
+    docsBranch: 'release/next',
+    editLinkText: 'Edit this page',
+    logo: 'https://camo.githubusercontent.com/48c886ac0703e3a46bc0ec963e20f126337229fc/68747470733a2f2f643968687267346d6e767a6f772e636c6f756466726f6e742e6e65742f7777772e76756573746f726566726f6e742e696f2f32383062313964302d6c6f676f2d76735f3062793032633062793032633030303030302e6a7067',
     nav: [
-      { text: 'Demo', link: 'https://vsf-next-demo.storefrontcloud.io' },
       { text: 'Integrations', link: '/integrations/' },
       { text: 'Migration guide', link: '/migrate/' },
-      {
-        text: 'Roadmap',
-        link:
-          'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437'
-      }
+      { text: 'Demo', link: 'https://demo-ct.vuestorefront.io' },
+      { text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437' }
     ],
     sidebar: {
       '/migrate/': [
+        {
+					title: 'Migration guide 2.4.0',
+					children: [
+						['/migrate/2.4.0/overview', 'Overview'],
+						['/migrate/2.4.0/integrators', 'Integrators'],
+						['/migrate/2.4.0/commercetools', 'commercetools']
+					]
+				},
         {
           title: 'Migration guide 2.3.0',
           children: [
@@ -104,96 +164,94 @@ module.exports = {
           title: 'Composables',
           collapsable: false,
           children: [
+            ['/commercetools/composables/use-billing', 'useBilling'],
+            ['/commercetools/composables/use-cart', 'useCart'],
+            ['/commercetools/composables/use-category', 'useCategory'],
+            ['/commercetools/composables/use-facet', 'useFacet'],
+            ['/commercetools/composables/use-forgot-password', 'useForgotPassword'],
+            ['/commercetools/composables/use-make-order', 'useMakeOrder'],
             ['/commercetools/composables/use-product', 'useProduct'],
-            ['/commercetools/composables/use-review', 'useReview '],
-            ['/commercetools/composables/use-user', 'useUser'],
-            ['/commercetools/composables/use-user-shipping', 'useUserShipping'],
+            ['/commercetools/composables/use-review', 'useReview'],
+            ['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
+            ['/commercetools/composables/use-shipping', 'useShipping'],
+            ['/commercetools/composables/use-store', 'useStore'],
             ['/commercetools/composables/use-user-billing', 'useUserBilling'],
             ['/commercetools/composables/use-user-order', 'useUserOrder'],
-            ['/commercetools/composables/use-facet', 'useFacet'],
-            ['/commercetools/composables/use-cart', 'useCart'],
-            ['/commercetools/composables/use-wishlist', 'useWishlist'],
-            ['/commercetools/composables/use-category', 'useCategory'],
-            ['/commercetools/composables/use-shipping', 'useShipping'],
-            [
-              '/commercetools/composables/use-shipping-provider',
-              'useShippingProvider'
-            ],
-            ['/commercetools/composables/use-billing', 'useBilling'],
-            ['/commercetools/composables/use-make-order', 'useMakeOrder']
+            ['/commercetools/composables/use-user-shipping', 'useUserShipping'],
+            ['/commercetools/composables/use-user', 'useUser'],
+            ['/commercetools/composables/use-wishlist', 'useWishlist']
           ]
         },
         {
-          title: 'API Client',
+          title: 'API Reference',
           collapsable: false,
           children: [
-            ['/commercetools/api-client-reference', 'Methods reference']
+            ['/commercetools/api-reference/', 'API Reference']
           ]
         },
         {
           title: 'Extensions',
           collapsable: false,
-          children: [['/commercetools/extensions/user-groups', 'User groups']]
+          children: [
+            ['/commercetools/extensions/user-groups', 'User groups']
+          ]
         },
         {
           title: 'Theme',
           collapsable: false,
-          children: [['/commercetools/auth-middleware', 'Auth Middleware']]
-        }
-      ],
-      '/aboutyou/': [
-        {
-          title: 'Essentials',
-          collapsable: false,
           children: [
-            ['/aboutyou/', 'Introduction'],
-            ['/aboutyou/getting-started', 'Getting Started'],
-            ['/aboutyou/api-client', 'API Client'],
-            ['/aboutyou/composables', 'Composables'],
-            ['/aboutyou/feature-list', 'Feature list']
-          ]
-        },
-        {
-          title: 'Composables',
-          collapsable: false,
-          children: [
-            ['/aboutyou/use-cart', 'useCart'],
-            ['/aboutyou/use-product', 'useProduct'],
-            ['/aboutyou/use-wishlist', 'useWishlist']
+            ['/commercetools/auth-middleware', 'Auth Middleware']
           ]
         }
       ],
       '/shopify/': [
-        {
-          title: 'Essentials',
-          collapsable: false,
-          children: [
-            ['/shopify/', 'Introduction'],
-            ['/shopify/getting-started', 'Getting Started'],
-            ['/shopify/configuration', 'Configuration'],
-            ['/shopify/feature-list', 'Feature list'],
-            ['/shopify/maintainers', 'Maintainers and support']
-          ]
-        },
-        {
-          title: 'Composables',
-          collapsable: false,
-          children: [
-            ['/shopify/use-cart', 'useCart'],
-            ['/shopify/use-category', 'useCategory'],
-            ['/shopify/use-content', 'useContent'],
-            ['/shopify/use-product', 'useProduct'],
-            ['/shopify/use-search', 'useSearch'],
-            ['/shopify/use-user', 'useUser'],
-            ['/shopify/use-user-order', 'useUserOrders']
-          ]
-        },
-        {
-          title: 'Other',
-          collapsable: false,
-          children: [['/shopify/checkout', 'Checkout']]
-        }
-      ],
+                {
+                    title: 'Essentials',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/', 'Introduction'],
+                        ['/shopify/getting-started', 'Getting Started'],
+                        ['/shopify/configuration', 'Configuration'],
+                        ['/shopify/authorization-strategy', 'Authorization'],
+                        ['/shopify/feature-list', 'Feature list'],
+                        ['/shopify/maintainers', 'Maintainers and support']
+                    ]
+                },
+                {
+                    title: 'Composables',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/use-product', 'useProduct'],
+                        ['/shopify/use-user', 'useUser'],
+                        ['/shopify/use-user-order', 'useUserOrder'],
+                        ['/shopify/use-cart', 'useCart'],
+                        ['/shopify/use-category', 'useCategory'],
+                        ['/shopify/use-content', 'useContent'],
+                        ['/shopify/use-search', 'useSearch'],
+                    ]
+                },
+                {
+                    title: 'API Client',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/api-client-reference', 'Methods reference']
+                    ]
+                },
+                {
+                    title: 'Theme',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/auth-middleware', 'Auth Middleware']
+                    ],
+                },
+                {
+                    title: 'Other',
+                    collapsable: false,
+                    children: [
+                        ['/shopify/checkout', 'Checkout']
+                    ],
+                }
+            ],
       '/': [
         {
           title: 'Getting started',
@@ -203,7 +261,8 @@ module.exports = {
             ['/general/where-to-start', 'Where to start?'],
             ['/general/installation', 'Installation'],
             ['/general/key-concepts', 'Key concepts'],
-            ['/general/enterprise', 'Enterprise']
+            ['/general/enterprise', 'Enterprise'],
+            ['/general/support', 'Support']
           ]
         },
         {
@@ -214,7 +273,7 @@ module.exports = {
             ['/guide/configuration', 'Configuration'],
             ['/guide/composition-api', 'Composition API'],
             ['/guide/composables', 'Composables'],
-            ['guide/error-handling', 'Error Handling'],
+            ['/guide/error-handling', 'Error Handling'],
             ['/guide/getters', 'Getters'],
             ['/guide/product-catalog', 'Product Catalog'],
             ['/guide/authentication', 'Authentication'],
@@ -246,8 +305,7 @@ module.exports = {
           children: [
             ['/integrate/integration-guide', 'eCommerce'],
             ['/integrate/cms', 'CMS'],
-            ['/integrate/cache-driver', 'Cache driver'],
-            ['/integrate/supporting-custom-queries', 'Supporting custom queries']
+            ['/integrate/cache-driver', 'Cache driver']
           ]
         },
         {

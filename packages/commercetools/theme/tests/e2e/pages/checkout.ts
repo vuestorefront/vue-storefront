@@ -1,42 +1,80 @@
-import { Customer } from '../types/customer';
+import { Customer, Address } from '../types/types';
+import Base from './base';
 import { el } from './utils/element';
 
-class Shipping {
+class Checkout extends Base {
+
+  protected step = ''
+
+  get addNewAddressButton(): Cypress.Chainable {
+    return el(`${this.step}-add-new-address`);
+  }
 
   get firstName(): Cypress.Chainable {
-    return el('firstName');
+    return el(`${this.step}-firstName`, 'input');
   }
 
   get lastName(): Cypress.Chainable {
-    return el('lastName');
+    return el(`${this.step}-lastName`, 'input');
   }
 
   get streetName(): Cypress.Chainable {
-    return el('streetName');
+    return el(`${this.step}-streetName`, 'input');
   }
 
   get apartment(): Cypress.Chainable {
-    return el('apartment');
+    return el(`${this.step}-apartment`, 'input');
   }
 
   get city(): Cypress.Chainable {
-    return el('city');
+    return el(`${this.step}-city`, 'input');
   }
 
   get state(): Cypress.Chainable {
-    return el('state', 'select');
+    return el(`${this.step}-state`, 'select');
   }
 
   get country(): Cypress.Chainable {
-    return el('country', 'select');
+    return el(`${this.step}-country`, 'select');
   }
 
-  get zipcode(): Cypress.Chainable {
-    return el('zipcode');
+  get postalCode(): Cypress.Chainable {
+    return el(`${this.step}-zipcode`, 'input');
   }
 
   get phone(): Cypress.Chainable {
-    return el('phone');
+    return el(`${this.step}-phone`, 'input');
+  }
+
+  public fillForm(address: Address) {
+    if (address.firstName !== undefined) this.firstName.clear().type(address.firstName);
+    if (address.lastName !== undefined) this.lastName.clear().type(address.lastName);
+    if (address.streetName !== undefined) this.streetName.clear().type(address.streetName);
+    if (address.apartment !== undefined) {
+      this.apartment.parent().click();
+      this.apartment.clear().type(address.apartment);
+    }
+    if (address.city !== undefined) this.city.clear().type(address.city);
+    if (address.country !== undefined) this.country.select(address.country);
+    if (address.state !== undefined) this.state.select(address.state);
+    if (address.postalCode !== undefined) this.postalCode.clear().type(address.postalCode);
+    if (address.phone !== undefined) this.phone.clear().type(address.phone);
+  }
+}
+
+class Shipping extends Checkout {
+
+  constructor() {
+    super();
+    this.step = 'shipping';
+  }
+
+  get path(): string {
+    return '/checkout/shipping';
+  }
+
+  get addresses(): Cypress.Chainable {
+    return el('shipping-addresses', '.sf-radio label');
   }
 
   get continueToBillingButton(): Cypress.Chainable {
@@ -44,7 +82,7 @@ class Shipping {
   }
 
   get heading(): Cypress.Chainable {
-    return el('heading-shipping');
+    return el(`${this.step}-heading`);
   }
 
   get selectShippingButton(): Cypress.Chainable {
@@ -56,33 +94,49 @@ class Shipping {
   }
 
   public fillForm(customer: Customer) {
-    this.firstName.type(customer.firstName);
-    this.lastName.type(customer.lastName);
-    this.streetName.type(customer.address.shipping.streetName);
-    this.apartment.type(customer.address.shipping.apartment);
-    this.city.type(customer.address.shipping.city);
-    this.country.select(customer.address.shipping.country);
-    this.state.select(customer.address.shipping.state);
-    this.zipcode.type(customer.address.shipping.zipcode);
-    this.phone.type(customer.address.shipping.phone);
+    super.fillForm(customer.address.shipping);
   }
+
 }
 
-class Billing {
+class Billing extends Checkout {
+
+  constructor() {
+    super();
+    this.step = 'billing';
+  }
+
+  get path(): string {
+    return '/checkout/billing';
+  }
+
   get continueToPaymentButton(): Cypress.Chainable {
     return el('continue-to-payment');
   }
 
   get heading(): Cypress.Chainable {
-    return el('heading-billing');
+    return el(`${this.step}-heading`);
   }
 
   get copyAddressLabel(): Cypress.Chainable {
     return el('copy-address', 'label');
   }
+
+  public fillForm(customer: Customer) {
+    super.fillForm(customer.address.billing);
+  }
 }
 
-class Payment {
+class Payment extends Base {
+
+  get path(): string {
+    return '/checkout/payment';
+  }
+
+  get heading(): Cypress.Chainable {
+    return el('heading-payment');
+  }
+
   get makeAnOrderButton(): Cypress.Chainable {
     return el('make-an-order');
   }
@@ -93,6 +147,38 @@ class Payment {
 
   get terms(): Cypress.Chainable {
     return el('terms', 'label');
+  }
+
+  get productRow(): Cypress.Chainable {
+    return el('product-row');
+  }
+
+  get productTitleSku(): Cypress.Chainable {
+    return el('product-title-sku');
+  }
+
+  get productAttributes(): Cypress.Chainable {
+    return el('product-attributes');
+  }
+
+  get productQuantity(): Cypress.Chainable {
+    return el('product-quantity');
+  }
+
+  get productPrice(): Cypress.Chainable {
+    return el('product-price');
+  }
+
+  get discountedPrice(): Cypress.Chainable {
+    return cy.get('.discounted');
+  }
+
+  get specialPrice(): Cypress.Chainable {
+    return cy.get('.special-price');
+  }
+
+  get totalPrice(): Cypress.Chainable {
+    return cy.get('.property-total');
   }
 }
 

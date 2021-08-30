@@ -2,8 +2,8 @@ import { useCartFactory, UseCartFactoryParams } from '../../src/factories';
 import { UseCart } from '../../src/types';
 import { sharedRef } from './../../src/utils';
 
-let useCart: () => UseCart<any, any, any, any>;
-let params: UseCartFactoryParams<any, any, any, any>;
+let useCart: () => UseCart<any, any, any>;
+let params: UseCartFactoryParams<any, any, any>;
 
 function createComposable() {
   params = {
@@ -241,11 +241,11 @@ describe('[CORE - factories] useCartFactory', () => {
     describe('removeCoupon', () => {
       it('should remove existing coupon', async () => {
         const { removeCoupon, cart } = useCart();
-        const coupon = 'some-coupon-code-12321231';
-        await removeCoupon({ coupon });
+        const couponCode = 'some-coupon-code-12321231';
+        await removeCoupon({ couponCode });
         expect(params.removeCoupon).toHaveBeenCalledWith({
           currentCart: null,
-          coupon
+          couponCode
         });
         expect(cart.value).toEqual({ id: 'mocked_removed_coupon_cart' });
       });
@@ -256,9 +256,9 @@ describe('[CORE - factories] useCartFactory', () => {
           throw err;
         });
         const { removeCoupon, error } = useCartMock();
-        const coupon = 'some-coupon-code-12321231';
+        const couponCode = 'some-coupon-code-12321231';
 
-        await removeCoupon({ coupon });
+        await removeCoupon({ couponCode });
 
         expect(error.value.removeCoupon).toBe(err);
       });

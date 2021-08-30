@@ -44,6 +44,7 @@ import {
   SfRadio
 } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
+import { usePaymentProviderMock } from '@/composables/usePaymentProviderMock';
 
 export default {
   name: 'VsfPaymentProviderMock',
@@ -52,7 +53,8 @@ export default {
     SfButton,
     SfRadio
   },
-  setup (_, context) {
+  setup () {
+    const { status } = usePaymentProviderMock();
     const selectedPaymentMethod = ref({});
     const paymentMethods = ref([
       {
@@ -64,7 +66,7 @@ export default {
 
     const selectPaymentMethod = paymentMethod => {
       selectedPaymentMethod.value = paymentMethod;
-      context.emit('status', true);
+      status.value = true;
     };
 
     return {

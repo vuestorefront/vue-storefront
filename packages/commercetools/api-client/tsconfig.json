@@ -8,6 +8,7 @@
     "importHelpers": true,
     "noEmitHelpers": true,
     "sourceMap": true,
+    "declarationMap": true,
     "declaration": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,

@@ -60,6 +60,7 @@
         <div class="navbar__view">
           <span class="navbar__view-label desktop-only">{{ $t('View') }}</span>
           <SfIcon
+            v-e2e="'tiles-icon'"
             class="navbar__view-icon"
             :color="isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="tiles"
@@ -70,6 +71,7 @@
             @click="changeToCategoryGridView"
           />
           <SfIcon
+            v-e2e="'list-icon'"
             class="navbar__view-icon"
             :color="!isCategoryGridView ? 'black' : 'dark-secondary'"
             icon="list"
@@ -162,11 +164,11 @@
               :max-rating="5"
               :score-rating="productGetters.getAverageRating(product)"
               :show-add-to-cart-button="true"
-              :isOnWishlist="false"
+              :isOnWishlist="isInWishlist({ product })"
               :isAddedToCart="isInCart({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="products__product-card"
-              @click:wishlist="addItemToWishlist({ product })"
+              @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeItemFromWishlist({ product })"
               @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
             />
           </transition-group>
@@ -178,6 +180,7 @@
             class="products__list"
           >
             <SfProductCardHorizontal
+              v-e2e="'category-product-card'"
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"
@@ -188,9 +191,9 @@
               :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
               :max-rating="5"
               :score-rating="3"
-              :is-on-wishlist="false"
+              :isOnWishlist="isInWishlist({ product })"
               class="products__product-card-horizontal"
-              @click:wishlist="addItemToWishlist({ product })"
+              @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeItemFromWishlist({ product })"
               @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             >
@@ -355,15 +358,20 @@ import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import Vue from 'vue';
+import cacheControl from './../helpers/cacheControl';
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
   transition: 'fade',
+  middleware: cacheControl({
+    'max-age': 60,
+    'stale-when-revalidate': 5
+  }),
   setup(props, context) {
     const th = useUiHelpers();
     const uiState = useUiState();
     const { addItem: addItemToCart, isInCart } = useCart();
-    const { addItem: addItemToWishlist } = useWishlist();
+    const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist } = useWishlist();
     const { result, search, loading } = useFacet();
 
     const products = computed(() => facetGetters.getProducts(result.value));
@@ -375,7 +383,7 @@ export default {
     const activeCategory = computed(() => {
       const items = categoryTree.value.items;
 
-      if (!items) {
+      if (!items || !items.length) {
         return '';
       }
 
@@ -384,23 +392,28 @@ export default {
       return category?.label || items[0].label;
     });
 
-    onSSR(async () => {
-      await search(th.getFacetsFromURL());
-    });
-
-    const { changeFilters, isFacetColor } = useUiHelpers();
-    const { toggleFilterSidebar } = useUiState();
     const selectedFilters = ref({});
-
-    onMounted(() => {
-      context.root.$scrollTo(context.root.$el, 2000);
-      if (!facets.value.length) return;
+    const setSelectedFilters = () => {
+      if (!facets.value.length || Object.keys(selectedFilters.value).length) return;
       selectedFilters.value = facets.value.reduce((prev, curr) => ({
         ...prev,
         [curr.id]: curr.options
           .filter(o => o.selected)
           .map(o => o.id)
       }), {});
+    };
+
+    onSSR(async () => {
+      await search(th.getFacetsFromURL());
+      setSelectedFilters();
+    });
+
+    const { changeFilters, isFacetColor } = useUiHelpers();
+    const { toggleFilterSidebar } = useUiState();
+
+    onMounted(() => {
+      context.root.$scrollTo(context.root.$el, 2000);
+      setSelectedFilters();
     });
 
     const isFilterSelected = (facet, option) => (selectedFilters.value[facet.id] || []).includes(option.id);
@@ -442,6 +455,8 @@ export default {
       facets,
       breadcrumbs,
       addItemToWishlist,
+      removeItemFromWishlist,
+      isInWishlist,
       addItemToCart,
       isInCart,
       isFacetColor,
@@ -652,7 +667,6 @@ export default {
     &:not(:last-of-type) {
       --list-item-margin: 0 0 var(--spacer-sm) 0;
     }
-
     .nuxt-link-exact-active {
       text-decoration: underline;
     }

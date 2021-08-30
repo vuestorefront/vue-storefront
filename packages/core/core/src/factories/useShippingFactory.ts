@@ -1,23 +1,31 @@
-import { UseShipping, Context, FactoryParams, UseShippingErrors, CustomQuery } from '../types';
+import { UseShipping, Context, FactoryParams, UseShippingErrors, CustomQuery, PlatformApi } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
-export interface UseShippingParams<SHIPPING, SHIPPING_PARAMS> extends FactoryParams {
+export interface UseShippingParams<
+  SHIPPING,
+  SHIPPING_PARAMS,
+  API extends PlatformApi = any
+> extends FactoryParams<API> {
   load: (context: Context, params: { customQuery?: CustomQuery }) => Promise<SHIPPING>;
   save: (context: Context, params: { params: SHIPPING_PARAMS; shippingDetails: SHIPPING; customQuery?: CustomQuery }) => Promise<SHIPPING>;
 }
 
-export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
-  factoryParams: UseShippingParams<SHIPPING, SHIPPING_PARAMS>
+export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS, API extends PlatformApi = any>(
+  factoryParams: UseShippingParams<SHIPPING, SHIPPING_PARAMS, API>
 ) => {
-  return function useShipping (): UseShipping<SHIPPING, SHIPPING_PARAMS> {
+  return function useShipping (): UseShipping<SHIPPING, SHIPPING_PARAMS, API> {
     const loading: Ref<boolean> = sharedRef(false, 'useShipping-loading');
     const shipping: Ref<SHIPPING> = sharedRef(null, 'useShipping-shipping');
-    const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseShippingErrors> = sharedRef({
       load: null,
       save: null
     }, 'useShipping-error');
+
+    const _factoryParams = configureFactoryParams(
+      factoryParams,
+      { mainRef: shipping, alias: 'currentShipping', loading, error }
+    );
 
     const load = async ({ customQuery = null } = {}) => {
       Logger.debug('useShipping.load');
@@ -52,6 +60,7 @@ export const useShippingFactory = <SHIPPING, SHIPPING_PARAMS>(
     };
 
     return {
+      api: _factoryParams.api,
       shipping: computed(() => shipping.value),
       loading: computed(() => loading.value),
       error: computed(() => error.value),

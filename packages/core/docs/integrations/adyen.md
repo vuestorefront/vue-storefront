@@ -1,6 +1,6 @@
 # Adyen <Badge text="Enterprise" type="info" />
 
->This feature is part of the Enterprise version. Please [contact our team](https://www.vuestorefront.io/contact/sales) if you'd like to use it in your project.
+>This feature is part of the Enterprise version. Please [contact our Sales team](https://www.vuestorefront.io/contact/sales) if you'd like to use it in your project.
 
 ## Introduction
 

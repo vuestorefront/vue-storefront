@@ -1,23 +1,34 @@
-import { UseShippingProvider, Context, FactoryParams, UseShippingProviderErrors, CustomQuery } from '../types';
+import {
+  UseShippingProvider,
+  Context,
+  FactoryParams,
+  UseShippingProviderErrors,
+  CustomQuery,
+  PlatformApi
+} from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
-export interface UseShippingProviderParams<STATE, SHIPPING_METHOD> extends FactoryParams {
+export interface UseShippingProviderParams<STATE, SHIPPING_METHOD, API extends PlatformApi = any> extends FactoryParams<API> {
   load: (context: Context, params: { state: Ref<STATE>, customQuery?: CustomQuery }) => Promise<STATE>;
   save: (context: Context, params: { state: Ref<STATE>, shippingMethod: SHIPPING_METHOD, customQuery?: CustomQuery }) => Promise<STATE>;
 }
 
-export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
-  factoryParams: UseShippingProviderParams<STATE, SHIPPING_METHOD>
+export const useShippingProviderFactory = <STATE, SHIPPING_METHOD, API extends PlatformApi = any>(
+  factoryParams: UseShippingProviderParams<STATE, SHIPPING_METHOD, API>
 ) => {
-  return function useShippingProvider (): UseShippingProvider<STATE, SHIPPING_METHOD> {
+  return function useShippingProvider (): UseShippingProvider<STATE, SHIPPING_METHOD, API> {
     const loading: Ref<boolean> = sharedRef(false, 'useShippingProvider-loading');
     const state: Ref<STATE> = sharedRef(null, 'useShippingProvider-response');
-    const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseShippingProviderErrors> = sharedRef({
       load: null,
       save: null
     }, 'useShippingProvider-error');
+
+    const _factoryParams = configureFactoryParams(
+      factoryParams,
+      { mainRef: state, alias: 'currentState', loading, error }
+    );
 
     const setState = (newState: STATE) => {
       state.value = newState;
@@ -55,6 +66,7 @@ export const useShippingProviderFactory = <STATE, SHIPPING_METHOD>(
     };
 
     return {
+      api: _factoryParams.api,
       state,
       loading: computed(() => loading.value),
       error: computed(() => error.value),

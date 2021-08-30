@@ -1,5 +1,13 @@
-import { Filter, ProductVariant, Category } from '@vue-storefront/commercetools-api';
+import {
+  Filter,
+  ProductVariant,
+  Category,
+  ResetPasswordResponse,
+  CreatePasswordResetTokenResponse,
+  Store
+} from '@vue-storefront/commercetools-api';
 import { FacetSearchResult } from '@vue-storefront/core';
+import { StoreQueryResult } from './GraphQL';
 
 export type OrderSearchParams = {
   id?: string;
@@ -28,4 +36,18 @@ export interface FacetResultsData {
   itemsPerPage: number;
 }
 
+export interface ForgotPasswordResult {
+  resetPasswordResult: CreatePasswordResetTokenResponse;
+  setNewPasswordResult: ResetPasswordResponse;
+}
+
 export type SearchData = FacetSearchResult<FacetResultsData>
+
+export interface StoresData extends StoreQueryResult {
+  _selectedStore: string;
+}
+
+export interface StoreGetters<STORES, CRITERIA = any> {
+  getItems(stores: STORES, criteria?: CRITERIA): Store[];
+  getSelected(stores: STORES): Store | undefined;
+}

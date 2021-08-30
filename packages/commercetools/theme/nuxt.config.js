@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import { VSF_LOCALE_COOKIE } from '@vue-storefront/core';
+import theme from './themeConfig';
 
 export default {
   mode: 'universal',
@@ -15,7 +16,8 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon',
+      {
+        rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico'
       },
@@ -25,16 +27,8 @@ export default {
         crossorigin: 'crossorigin'
       },
       {
-        rel: 'preload',
-        href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap',
-        as: 'style'
-      },
-      {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap',
-        media: 'print',
-        onload: 'this.media=\'all\'',
-        once: true
+        href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap'
       }
     ],
     script: []
@@ -83,9 +77,7 @@ export default {
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
-      i18n: {
-        useNuxtI18nConfig: true
-      }
+      i18n: { useNuxtI18nConfig: true }
     }]
   ],
   modules: [
@@ -137,7 +129,15 @@ export default {
   styleResources: {
     scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },
+  publicRuntimeConfig: {
+    theme
+  },
   build: {
+    babel: {
+      plugins: [
+        ['@babel/plugin-proposal-private-methods', { loose: true }]
+      ]
+    },
     transpile: [
       'vee-validate/dist/rules'
     ],

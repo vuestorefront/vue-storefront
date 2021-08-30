@@ -1,3 +1,14 @@
+/**
+ * `composables` for commercetools integration for Vue Storefront 2.
+ *
+ * @remarks
+ * The `@vue-storefront/commercetools` library includes everything needed to fetch data from the
+ * Server Middleware and display them in agnostic and formatted form. This includes composables
+ * and getters.
+ *
+ * @packageDocumentation
+ */
+
 /* istanbul ignore file */
 import { track } from '@vue-storefront/core';
 
@@ -17,5 +28,8 @@ export { useUserBilling, useUserBillingFactoryParams } from './useUserBilling';
 export { useUserOrder, useUserOrderFactoryParams } from './useUserOrder';
 export { useUserShipping, useUserShippingFactoryParams } from './useUserShipping';
 export { useWishlist, useWishlistFactoryParams } from './useWishlist';
+export { useForgotPassword, useForgotPasswordFactoryParams } from './useForgotPassword';
+export { useStore, useStoreFactoryParams } from './useStore';
 
 export * from './getters';
+export * from './types';

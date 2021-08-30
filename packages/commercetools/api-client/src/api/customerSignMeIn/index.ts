@@ -4,6 +4,7 @@ import { SignInResponse } from './../../types/Api';
 
 const customerSignMeIn = async (context, draft: CustomerSignMeInDraft): Promise<SignInResponse> => {
   const { locale, acceptLanguage, currency } = context.config;
+
   const loginResponse = await context.client.mutate({
     mutation: CustomerSignMeInMutation,
     variables: {

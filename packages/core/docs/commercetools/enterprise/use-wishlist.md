@@ -102,7 +102,6 @@ export default {
 
     const wishlistItems = computed(() => wishlistGetters.getItems());
 
-    // If you're using Nuxt or any other framework for Universal Vue apps
     onSSR(async () => {
       await loadWishlist();
     });

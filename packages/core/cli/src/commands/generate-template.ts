@@ -1,13 +1,15 @@
 import { vsfTuConfig } from '../utils/themeUtilsConfigTemplate';
 import { createTemplate } from '../scripts/createTemplate/createTemplate';
+import log from '../utils/log';
 const process = require('process');
 const path = require('path');
 const fs = require('fs');
 
 export default async (args) => {
   if (!args[0]) {
-    console.error('Error: No output folder provided');
-    process.exit(1);
+    log.error('Error: No output folder provided');
+    process.exitCode = 1;
+    return;
   }
 
   const outputPathName: string = args[0].toLowerCase();
@@ -17,6 +19,15 @@ export default async (args) => {
   const vsfTuConfigFileName = 'theme-utils.config.js';
   const vsfTuConfigFilePath = path.join(process.cwd(), vsfTuConfigFileName);
   const generatedTemplatePath = path.join(process.cwd(), outputPathName);
+
+  const crateTemplateCallback = async (err) => {
+    try {
+      if (err) throw err;
+      await createTemplate({ vsfTuConfigFilePath, generatedTemplatePath });
+    } catch (error) {
+      log.error('Error during VSF theme utils config file creation');
+    }
+  };
 
   const createVsfTuConfigFile = () => {
     if (fs.existsSync(vsfTuConfigFilePath)) {
@@ -30,10 +41,7 @@ export default async (args) => {
         themePath: integrationThemePath,
         _themePath: path.join(integrationThemePath, '_theme')
       }),
-      async (err) => {
-        if (err) throw err;
-        await createTemplate({ vsfTuConfigFilePath, generatedTemplatePath });
-      }
+      async (err) => await crateTemplateCallback(err)
     );
   };
 

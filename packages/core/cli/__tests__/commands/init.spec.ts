@@ -7,6 +7,7 @@ const resolvedPathWithProjectName = '/home/abc/my-project';
 const projectName = 'AwesomeShop';
 import inquirer from 'inquirer';
 import createProject from '@vue-storefront/cli/src/scripts/createProject';
+
 jest.mock('inquirer', () => ({
   prompt: jest.fn(() =>
     Promise.resolve({
@@ -26,8 +27,8 @@ jest.mock('@vue-storefront/cli/src/utils/getIntegrations', () => ({
     'and-other': ''
   }
 }));
-jest.mock('shelljs', () => ({
-  exec: jest.fn()
+jest.mock('isomorphic-git', () => ({
+  clone: jest.fn()
 }));
 jest.mock('path', () => ({
   resolve: () => resolvedPathWithProjectName,

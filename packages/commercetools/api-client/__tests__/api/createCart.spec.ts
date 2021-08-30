@@ -62,7 +62,8 @@ describe('[commercetools-api-client] createCart', () => {
       config: {
         locale: 'en',
         acceptLanguage: ['en', 'de'],
-        currency: 'USD'
+        currency: 'USD',
+        country: 'US'
       },
       client: {
         mutate: ({ variables, mutation }) => {

@@ -1,0 +1,166 @@
+{
+  "products": [
+    {
+      "_id": "38143c0c-c9b0-448c-93cd-60eb90d8da57",
+      "_slug": "aspesi-shirt-h805-white",
+      "_name": "Shirt Aspesi white M",
+      "images": [
+        {
+          "url": "https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg"
+        }
+      ],
+      "price": {
+        "value": {
+          "centAmount": 16625
+        }
+      },
+      "_rating": {
+        "averageRating": 4
+      }
+    },
+    {
+      "_id": "9c1881eb-139d-4d29-bbb4-01b1ff51de03",
+      "_slug": "moschino-tshirt-b02033717-black",
+      "_name": "T-Shirt Moschino Cheap And Chic black",
+      "images": [
+        {
+          "url": "https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/072750_1_large.jpg"
+        }
+      ],
+      "price": {
+        "value": {
+          "centAmount": 37250
+        }
+      },
+      "_rating": {
+        "averageRating": 2.5
+      }
+    },
+    {
+      "_id": "38143c0c-c9b0-448c-93cd-60eb90d8da57",
+      "_slug": "aspesi-shirt-h805-white",
+      "_name": "Shirt Aspesi white M",
+      "images": [
+        {
+          "url": "https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg"
+        }
+      ],
+      "price": {
+        "value": {
+          "centAmount": 16625
+        }
+      },
+      "_rating": {
+        "averageRating": 4
+      }
+    },
+    {
+      "_id": "9c1881eb-139d-4d29-bbb4-01b1ff51de03",
+      "_slug": "moschino-tshirt-b02033717-black",
+      "_name": "T-Shirt Moschino Cheap And Chic black",
+      "images": [
+        {
+          "url": "https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/072750_1_large.jpg"
+        }
+      ],
+      "price": {
+        "value": {
+          "centAmount": 37250
+        }
+      },
+      "_rating": {
+        "averageRating": 2.5
+      }
+    },
+    {
+      "_id": "38143c0c-c9b0-448c-93cd-60eb90d8da57",
+      "_slug": "aspesi-shirt-h805-white",
+      "_name": "Shirt Aspesi white M",
+      "images": [
+        {
+          "url": "https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg"
+        }
+      ],
+      "price": {
+        "value": {
+          "centAmount": 16625
+        }
+      },
+      "_rating": {
+        "averageRating": 4
+      }
+    },
+    {
+      "_id": "9c1881eb-139d-4d29-bbb4-01b1ff51de03",
+      "_slug": "moschino-tshirt-b02033717-black",
+      "_name": "T-Shirt Moschino Cheap And Chic black",
+      "images": [
+        {
+          "url": "https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/072750_1_large.jpg"
+        }
+      ],
+      "price": {
+        "value": {
+          "centAmount": 37250
+        }
+      },
+      "_rating": {
+        "averageRating": 2.5
+      }
+    },
+    {
+      "_id": "38143c0c-c9b0-448c-93cd-60eb90d8da57",
+      "_slug": "aspesi-shirt-h805-white",
+      "_name": "Shirt Aspesi white M",
+      "images": [
+        {
+          "url": "https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg"
+        }
+      ],
+      "price": {
+        "value": {
+          "centAmount": 16625
+        }
+      },
+      "_rating": {
+        "averageRating": 4
+      }
+    },
+    {
+      "_id": "9c1881eb-139d-4d29-bbb4-01b1ff51de03",
+      "_slug": "moschino-tshirt-b02033717-black",
+      "_name": "T-Shirt Moschino Cheap And Chic black",
+      "images": [
+        {
+          "url": "https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/072750_1_large.jpg"
+        }
+      ],
+      "price": {
+        "value": {
+          "centAmount": 37250
+        }
+      },
+      "_rating": {
+        "averageRating": 2.5
+      }
+    }
+  ],
+  "categories": [
+    {
+      "label": "Men",
+      "slug": "men"
+    },
+    {
+      "label": "Women",
+      "slug": "women"
+    },
+    {
+      "label": "Sale",
+      "slug": "sale"
+    },
+    {
+      "label": "New",
+      "slug": "new"
+    }
+  ]
+}

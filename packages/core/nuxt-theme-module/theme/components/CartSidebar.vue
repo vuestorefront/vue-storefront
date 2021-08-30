@@ -21,14 +21,13 @@
             <transition-group name="sf-fade" tag="div">
               <SfCollectedProduct
                 v-for="product in products"
+                v-e2e="'collected-product'"
                 :key="cartGetters.getItemSku(product)"
                 :image="cartGetters.getItemImage(product)"
                 :title="cartGetters.getItemName(product)"
                 :regular-price="$n(cartGetters.getItemPrice(product).regular, 'currency')"
                 :special-price="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
                 :stock="99999"
-                :qty="cartGetters.getItemQty(product)"
-                @input="updateItemQty({ product, quantity: $event })"
                 @click:remove="removeItem({ product })"
                 class="collected-product"
               >
@@ -39,6 +38,16 @@
                       :key="key"
                       :name="key"
                       :value="attribute"
+                    />
+                  </div>
+                </template>
+                <template #input>
+                  <div class="sf-collected-product__quantity-wrapper">
+                    <SfQuantitySelector
+                      :disabled="loading"
+                      :qty="cartGetters.getItemQty(product)"
+                      class="sf-collected-product__quantity-selector"
+                      @input="updateItemQty({ product, quantity: $event })"
                     />
                   </div>
                 </template>
@@ -77,7 +86,7 @@
                 />
               </template>
             </SfProperty>
-            <nuxt-link to="/checkout/shipping">
+            <nuxt-link :to="localePath({ name: 'shipping' })">
               <SfButton
                 v-e2e="'go-to-checkout-btn'"
                 class="sf-button--full-width color-secondary"
@@ -108,12 +117,12 @@ import {
   SfProperty,
   SfPrice,
   SfCollectedProduct,
-  SfImage
+  SfImage,
+  SfQuantitySelector
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
-import { onSSR } from '@vue-storefront/core';
 
 export default {
   name: 'Cart',
@@ -125,21 +134,20 @@ export default {
     SfProperty,
     SfPrice,
     SfCollectedProduct,
-    SfImage
+    SfImage,
+    SfQuantitySelector
   },
   setup() {
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
-    const { cart, removeItem, updateItemQty, load: loadCart } = useCart();
+    const { cart, removeItem, updateItemQty, load: loadCart, loading } = useCart();
     const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
-
-    onSSR(async () => {
-      await loadCart();
-    });
+    loadCart();
 
     return {
+      loading,
       isAuthenticated,
       products,
       removeItem,

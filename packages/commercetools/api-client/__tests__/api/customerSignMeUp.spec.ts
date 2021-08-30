@@ -11,7 +11,8 @@ describe('[commercetools-api-client] customerSignMeUp', () => {
         password: 'xxxxx'
       },
       acceptLanguage: ['en', 'de'],
-      locale: 'en'
+      locale: 'en',
+      currency: 'USD'
     };
 
     const context = {

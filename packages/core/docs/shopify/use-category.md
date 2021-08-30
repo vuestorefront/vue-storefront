@@ -3,6 +3,7 @@
 `useCategory` composition API function allows loading the categories. This function returns the following values:
 
 - `search` - a primary querying function that is used to query products from the eCommerce platform and populate the `products` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object.
+
     - The `params` has the following options:
         - `id` (String) The id of the collection to fetch.
         - `slug` (String) The handle of the collection to fetch.
@@ -34,22 +35,23 @@ export type Category = {
 Fetch all collections in the shop, including products.
 
 ```javascript
-import { onSSR } from '@vue-storefront/core';
 import { useCategory } from '@vue-storefront/shopify';
+import { onSSR } from '@vue-storefront/core'
 
 export default {
   setup() {
-    const { categories, search } = useCategory('categories');
+    const { categories, search, loading } = useCategory('menu-categories');
 
     onSSR(async () => {
       await search({});
     });
 
     return {
-      categories
-    };
+      categories,
+      loading
+    }
   }
-};
+}
 ```
 
 Fetch a single collection by slug on the shop, including products.

@@ -16,63 +16,60 @@
 
 - `search` - function for fetching review data. When invoked, it requests data from the API and populates `reviews` property. This method accepts a single params object. The `params` has the following option:
 
-  - `searchParams: ReviewSearchParams`
+  - `productId: string`
+
+  - `limit?: number`
+
+  - `offset?: number`
 
   - `customQuery?: CustomQuery`
 
-```typescript
-interface ReviewSearchParams {
-  productId: string;
-  limit?: number;
-  offset?: number;
-}
-
-type CustomQuery = {
-  reviews: string
-}
-```
+    ```typescript
+    type CustomQuery = {
+      reviews: string
+    }
+    ```
 
 - `addReview` - function for posting new review. When invoked, it submits data to the API and populates `reviews` property with updated information. This method accepts a single params object. The `params` has the following options:
 
-  - `params: ReviewAddParams`
+  - `productId: string`
+
+  - `limit?: number`
+
+  - `offset?: number`
+
+  - `draft: ReviewDraft`
   
   - `customQuery?: CustomQuery`
 
-```typescript
-interface ReviewAddParams {
-  productId: string;
-  limit?: number;
-  offset?: number;
-  draft: ReviewDraft;
-}
+    ```typescript
+    interface ReviewDraft {
+      authorName: string;
+      text: string;
+      rating: number;
+    }
 
-interface ReviewDraft {
-  authorName: string;
-  text: string;
-  rating: number;
-}
-
-type CustomQuery = {
-  addReview: string
-}
-```
+    type CustomQuery = {
+      addReview: string
+    }
+    ```
 
 - `reviews: Review[]` - reactive data object containing the response from the backend.
 
-```ts
-type Review = any;
-```
+  ```ts
+  type Review = any;
+  ```
 
 - `loading: boolean` - reactive object containing information about loading state of `search` and `addReview` methods.
 
 - `error: UseReviewErrors` - reactive object containing the error message, if `search` or `addReview` failed for any reason.
 
-```ts
-interface UseReviewErrors {
-  search: Error;
-  addReview: Error;
-}
-```
+  ```ts
+  interface UseReviewErrors {
+    search: Error;
+    addReview: Error;
+  }
+  ```
 
 ## Getters
 
@@ -96,38 +93,38 @@ interface UseReviewErrors {
 
 - `getReviewDate` - returns creation date from an individual review item.
 
-```typescript
-interface ReviewGetters {
-  getItems: (review: ReviewResponse) => Review[];
-  getTotalReviews: (review: ReviewResponse) => number;
-  getAverageRating: (review: ReviewResponse) => number;
-  getRatesCount: (review: ReviewResponse) => AgnosticRateCount[];
-  getReviewsPage: (review: ReviewResponse) => number;
-  getReviewId: (item: Review) => string;
-  getReviewAuthor: (item: Review) => string;
-  getReviewMessage: (item: Review) => string;
-  getReviewRating: (item: Review) => number;
-  getReviewDate: (item: Review) => string;
-}
+  ```typescript
+  interface ReviewGetters {
+    getItems: (review: ReviewResponse) => Review[];
+    getTotalReviews: (review: ReviewResponse) => number;
+    getAverageRating: (review: ReviewResponse) => number;
+    getRatesCount: (review: ReviewResponse) => AgnosticRateCount[];
+    getReviewsPage: (review: ReviewResponse) => number;
+    getReviewId: (item: Review) => string;
+    getReviewAuthor: (item: Review) => string;
+    getReviewMessage: (item: Review) => string;
+    getReviewRating: (item: Review) => number;
+    getReviewDate: (item: Review) => string;
+  }
 
-type ReviewResponse = {
-  results: Review[],
-  total: number;
-  limit: number;
-  offset: number;
-  averageRating: number;
-  ratingsDistribution: {
-    [rating: number]: number;
-  };
-}
+  type ReviewResponse = {
+    results: Review[],
+    total: number;
+    limit: number;
+    offset: number;
+    averageRating: number;
+    ratingsDistribution: {
+      [rating: number]: number;
+    };
+  }
 
-type Review = any;
+  type Review = any;
 
-interface AgnosticRateCount {
-  rate: number;
-  count: number;
-}
-```
+  interface AgnosticRateCount {
+    rate: number;
+    count: number;
+  }
+  ```
 
 ## Example
 
@@ -144,7 +141,6 @@ export default {
       error
     } = useReview('<CACHE_ID>');
 
-    // If you're using Nuxt or any other framework for Universal Vue apps
     onSSR(async () => {
       await search({ productId: '<PRODUCT_ID>' });
     });

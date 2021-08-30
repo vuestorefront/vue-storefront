@@ -1,8 +1,19 @@
 import { Ref, unref, computed } from '@vue/composition-api';
-import { UseUserBilling, Context, FactoryParams, UseUserBillingErrors, CustomQuery } from '../types';
+import {
+  UseUserBilling,
+  Context,
+  FactoryParams,
+  UseUserBillingErrors,
+  CustomQuery,
+  PlatformApi
+} from '../types';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
-export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> extends FactoryParams{
+export interface UseUserBillingFactoryParams<
+  USER_BILLING,
+  USER_BILLING_ITEM,
+  API extends PlatformApi = any
+> extends FactoryParams<API> {
   addAddress: (
     context: Context,
     params: {
@@ -38,14 +49,13 @@ export interface UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM> ex
     }) => Promise<USER_BILLING>;
 }
 
-export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
-  factoryParams: UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM>
+export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM, API extends PlatformApi = any>(
+  factoryParams: UseUserBillingFactoryParams<USER_BILLING, USER_BILLING_ITEM, API>
 ) => {
 
-  const useUserBilling = (): UseUserBilling<USER_BILLING, USER_BILLING_ITEM> => {
+  const useUserBilling = (): UseUserBilling<USER_BILLING, USER_BILLING_ITEM, API> => {
     const loading: Ref<boolean> = sharedRef(false, 'useUserBilling-loading');
     const billing: Ref<USER_BILLING> = sharedRef({}, 'useUserBilling-billing');
-    const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseUserBillingErrors> = sharedRef({
       addAddress: null,
       deleteAddress: null,
@@ -53,6 +63,11 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
       load: null,
       setDefaultAddress: null
     }, 'useUserBilling-error');
+
+    const _factoryParams = configureFactoryParams(
+      factoryParams,
+      { mainRef: billing, alias: 'currentBilling', loading, error }
+    );
 
     const readonlyBilling: Readonly<USER_BILLING> = unref(billing);
 
@@ -150,6 +165,7 @@ export const useUserBillingFactory = <USER_BILLING, USER_BILLING_ITEM>(
     };
 
     return {
+      api: _factoryParams.api,
       billing: computed(() => billing.value),
       loading: computed(() => loading.value),
       error: computed(() => error.value),

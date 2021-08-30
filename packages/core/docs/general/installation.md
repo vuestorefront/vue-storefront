@@ -14,10 +14,6 @@ npx @vue-storefront/cli init
 ```
 Enter the name of the project and select the backend platform you wish to use.
 
-<center>
-  <img src="../images/cli.jpg" alt="Vue Storefront CLI" />
-</center>
-
 Once selected, the CLI creates the project files in the directory matching your project name. The only thing left is to go to this directory in the terminal and install the dependencies:
 
 ```bash

@@ -1,22 +1,30 @@
 import { Ref, computed } from '@vue/composition-api';
-import { RenderComponent, UseContent, Context, FactoryParams, UseContentErrors } from '../types';
+import { RenderComponent, UseContent, Context, FactoryParams, UseContentErrors, PlatformApi } from '../types';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 import { PropOptions, VNode } from 'vue';
 
-export interface UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS> extends FactoryParams {
+export interface UseContentFactoryParams<
+  CONTENT,
+  CONTENT_SEARCH_PARAMS,
+  API extends PlatformApi = any
+> extends FactoryParams<API> {
   search: (context: Context, params: CONTENT_SEARCH_PARAMS) => Promise<CONTENT>;
 }
 
-export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
-  factoryParams: UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS>
+export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS, API extends PlatformApi = any>(
+  factoryParams: UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS, API>
 ) {
-  return function useContent(id: string): UseContent<CONTENT, CONTENT_SEARCH_PARAMS> {
+  return function useContent(id: string): UseContent<CONTENT, CONTENT_SEARCH_PARAMS, API> {
     const content: Ref<CONTENT> = sharedRef([], `useContent-content-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useContent-loading-${id}`);
     const error: Ref<UseContentErrors> = sharedRef({
       search: null
     }, `useContent-error-${id}`);
-    const _factoryParams = configureFactoryParams(factoryParams);
+
+    const _factoryParams = configureFactoryParams(
+      factoryParams,
+      { mainRef: content, alias: 'currentContent', loading, error }
+    );
 
     const search = async(params: CONTENT_SEARCH_PARAMS): Promise<void> => {
       Logger.debug(`useContent/${id}/search`, params);
@@ -34,6 +42,7 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS>(
     };
 
     return {
+      api: _factoryParams.api,
       search,
       content: computed(() => content.value),
       loading: computed(() => loading.value),
