@@ -51,4 +51,4 @@ versionExists > -1
 fs.writeFileSync(pathOut, changelog.join('\n'));
 
 // Delete files from source directory
-// files.map(el => fs.unlinkSync(`${pathIn}/${el}`));
+files.map(el => fs.unlinkSync(`${pathIn}/${el}`));
