@@ -5,7 +5,7 @@ In Vue Storefront, we rely on Nuxt.js as a server-side rendering provider. Altho
 ## Configurable SSR
 
 As this is a temporary workaround, we have provided a configurable mechanism that can provide your own SSR implementation.
-It's pretty useful for non-Nuxt.js users - if for some reason you don't want to use Nuxt.js, you can still provide your own SSR.
+It's pretty useful for non-Nuxt.js users - if you don't want to use Nuxt.js, you can still provide your own SSR.
 
 The configuration is done by a single function called `configureSSR` that takes two fields:
 
