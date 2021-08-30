@@ -34,7 +34,7 @@ The `load` method will load your cart from the server or create a new one if it 
 
 ## Adding an item to the wishlist
 
-To add the product to the wishlist you can use `addItem` method:
+To add the product to the wishlist, you can use `addItem` method:
 
 ```vue
 <template>
@@ -77,7 +77,7 @@ To add the product to the wishlist you can use `addItem` method:
 
 ## Removing an item from the wishlist
  
-To remove an item from the cart use `removeItem` method.
+To remove an item from the cart, use `removeItem` method.
 
 ```vue
 <template>
@@ -134,7 +134,7 @@ To remove an item from the cart use `removeItem` method.
 
 ## Checking if an item is on the wishlist 
 
-To check if a product is already on the wishlist pass it to `isInWishlist` method:
+To check if a product is already on the wishlist, pass it to `isInWishlist` method:
 
 ```vue
 <template>
