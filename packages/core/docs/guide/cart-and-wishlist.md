@@ -32,7 +32,7 @@ export default {
 
 ## Adding item to the cart
 
-To add the product to the cart you can use `addItem` method:
+To add the product to the cart, you can use `addItem` method:
 
 ```vue
 <template>
@@ -78,7 +78,7 @@ To add the product to the cart you can use `addItem` method:
 
 ## Removing items and changing their quantity
 
-To remove an item from the cart use `removeItem` method, and similarly to update quantity use `updateItemQty` method:
+To remove an item from the cart, use `removeItem` method, and similarly to update quantity, use `updateItemQty` method:
 
 ```vue
 <template>
@@ -164,7 +164,7 @@ export default {
 
 ## Removing all cart items at once
 
-To clear cart items (not delete it) use `clear` method.
+To clear cart items (without deleting the cart itself), use `clear` method.
 
 ```vue
 <template>
@@ -209,7 +209,7 @@ To clear cart items (not delete it) use `clear` method.
 
 ## Applying and removing discount coupons
 
-You can apply promotional coupons to your cart with `applyCoupon` and remove with `removeCoupon` method:
+You can apply promotional coupons to your cart with `applyCoupon` and remove them with `removeCoupon` method:
 
 ```vue
 <template>
@@ -279,7 +279,7 @@ The `load` method will load your cart from the server or create a new one if it 
 
 ## Adding an item to the wishlist
 
-To add the product to the wishlist you can use `addItem` method:
+To add the product to the wishlist, you can use `addItem` method:
 
 ```vue
 <template>
@@ -322,7 +322,7 @@ To add the product to the wishlist you can use `addItem` method:
 
 ## Removing an item from the wishlist
  
-To remove an item from the cart use `removeItem` method.
+To remove an item from the cart, use `removeItem` method.
 
 ```vue
 <template>
@@ -379,7 +379,7 @@ To remove an item from the cart use `removeItem` method.
 
 ## Checking if an item is on the wishlist 
 
-To check if a product is already on the wishlist pass it to `isInWishlist` method:
+To check if a product is already on the wishlist, pass it to `isInWishlist` method:
 
 ```vue
 <template>

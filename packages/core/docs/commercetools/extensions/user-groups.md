@@ -1,10 +1,10 @@
 # `User groups` <Badge text="Enterprise" type="info" />
 
-> This feature is a part of our commercial offering and does not exist in Open Source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/enterprise)
+> This feature is a part of our commercial offering and does not exist in the open-source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/enterprise)
 
 ## Features
 
-User groups is the feature commonly used to assign dedicated benefits, such as discounts, price rules, special prices to the specific type of customers, instead of each individual customer separately.
+User groups is a feature commonly used to assign dedicated benefits, such as discounts, price rules, and special prices to the specific type of customers, instead of each individual customer separately.
 
 ## API
 
@@ -19,13 +19,13 @@ type UpdateResult = MutationResponse<'customer', Customer>
 
 - `addCustomerToGroup: (customer: CustomerIdentifier, group: ResourceIdentifierInput) => Promise<UpdateResult>` - adds user to the group
 - `removeCustomerFromGroup: (customer: CustomerIdentifier) => Promise<UpdateResult>` - removes user from the group
-- `setup` - it configures the api client within the enterprise package. It expects the fully configured apollo client, so we recommend to configure the original api-client first and pass this configuration to the enterprise package (example below).
+- `setup` - it configures the API client within the enterprise package. It expects the fully configured apollo client, so we recommend configuring the original API-client first and pass this configuration to the enterprise package (example below).
 
 ## Example
 
-We strongly recommend to use these functions in our middleware as they require wider permissions. Using it purely on the front-end side affects security.
+We strongly recommend using these functions in our middleware as they require wider permissions. Using it purely on the front-end side affects security.
 
-In order to create our middleware, firstly you have to register your middleware in the configuration:
+In order to create our middleware, firstly, you have to register your middleware in the configuration:
 
 ```js
 import customerGroupsMiddleware from './customerGroupsMiddleware'
@@ -76,4 +76,4 @@ export default (app) => {
 };
 ```
 
-Please note that we configure the API client from scratch, because we should use a different one for the server-side communication with the different scopes and permissions.
+Please note that we configure the API client from scratch because we should use a different one for the server-side communication with the different scopes and permissions.

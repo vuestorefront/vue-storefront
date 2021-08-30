@@ -47,7 +47,7 @@ If the name of the component starts with `Sf` (indicating that it comes from Sto
 
 #### `LazyHydrate` and `Anonymous Component` components
 
-These two components come from the `vue-lazy-hydration` library and are wrappers around other components. In Vue Storefront they are used to improve the performance by deferring the hydration process (when components become interactive) and don't affect the look of other components.
+These two components come from the `vue-lazy-hydration` library and are wrappers around other components. In Vue Storefront, they are used to improve the performance by deferring the hydration process (when components become interactive) and don't affect the look of other components.
 
 If you encounter one of these components, you should refer to the direct **child** component. 
 

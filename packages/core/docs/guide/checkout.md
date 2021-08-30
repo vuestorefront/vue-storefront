@@ -1,6 +1,6 @@
 # Checkout
 
-> This document only outlines the general checkout flow. Each eCommerce, Payment provider, and Shipping provider could implement it slightly differently. Please follow the instructions from the documentation of your payment or shipping provider to learn about its caveats
+> This document only outlines the general checkout flow. Each eCommerce platform, Payment provider, or Shipping provider could implement it slightly differently. Please follow the instructions from the documentation of your payment or shipping provider to learn about its caveats
 
 Checkout is a process of providing shipping and billing addresses and selecting shipping and payment methods needed to place an order and pay for it.
 
@@ -32,7 +32,7 @@ export default {
 ```
 `shipping` property returns `null` if the `load` function was not invoked or nothing is saved.    
 
-You can use the `save` method to save shipping details so they are available next time you `load` them.
+You can use the `save` method to save shipping details, so they are available next time you `load` them.
 
 ```vue{2,15,24}
 <template>
@@ -261,7 +261,7 @@ export default {
 </script>
 ```
 
-The next step is making a payment. Each package with a payment provider might use a slightly different approach, but below we described the two most common.
+The next step is making a payment. Each package with a payment provider might use a slightly different approach, but we described the two most common below.
 
 ### SDK takes the full control
 
@@ -362,4 +362,4 @@ Because every payment provider is different, not all of them are present in ever
 
 ### Why some integrations have a mocked `VsfPaymentProvider`?
 
-There are eCommerce backends that do not provide any payment methods out-of-the-box, e.g. commercetools. For these, you provide a mock component that has exactly the same interface like a real integration so you can easily swap it with a payment integration of your choice. You can find available payment integrations [here](/integrations/).
+There are eCommerce backends that do not provide any payment methods out-of-the-box, e.g., commercetools. For these, you provide a mock component with the same interface as a real integration, so you can easily swap it with a payment integration of your choice. You can find available payment integrations [here](/v2/integrations/).

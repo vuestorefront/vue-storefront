@@ -1,6 +1,6 @@
 # `useUserBilling` <Badge text="Enterprise" type="info" />
 
-> This feature is a part of our commercial offering and does not exist in Open Source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/enterprise)
+> This feature is a part of our commercial offering and does not exist in the open-source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/enterprise)
 
 ## Features
 
@@ -40,7 +40,7 @@
       }
       ```
 
-- `deleteAddress` - function for deleting existing billing address. This method accepts a single `params` object. The `params` has the following options:
+- `deleteAddress` - a function for deleting existing billing address. This method accepts a single `params` object. The `params` has the following options:
 
     - `address: BillingAddressDeleteParams`
 
@@ -57,7 +57,7 @@
       }
       ```
 
-- `updateAddress` - function for updating existing billing address. This method accepts a single `params` object. The `params` has the following options:
+- `updateAddress` - a function for updating existing billing address. This method accepts a single `params` object. The `params` has the following options:
 
     - `address: BillingAddressUpdateParams`
 
@@ -84,7 +84,7 @@
       }
       ```
 
-- `setDefaultAddress` - function for settings an existing billing address as default. This method accepts a single `params` object. The `params` has the following options:
+- `setDefaultAddress` - a function for settings an existing billing address as default. This method accepts a single `params` object. The `params` has the following options:
 
     - `address: BillingAddressSetDefaultParams`
 
@@ -101,7 +101,7 @@
       }
       ```
 
-- `billing: User` - reactive data object containing response from the backend.
+- `billing: User` - a reactive data object containing response from the backend.
 
   ```ts
   type Customer = {
@@ -149,9 +149,9 @@
   type User = Customer;
   ```
 
-- `loading: boolean` - reactive object containing information about loading state of `load`, `addAddress`, `deleteAddress`, `updateAddress` and `setDefaultAddress` methods.
+- `loading: boolean` - a reactive object containing information about loading state of `load`, `addAddress`, `deleteAddress`, `updateAddress` and `setDefaultAddress` methods.
 
-- `error: UseUserBillingErrors` - reactive object containing the error message, if some properties failed for any reason.
+- `error: UseUserBillingErrors` - a reactive object containing the error message if some properties failed for any reason.
 
 ## Getters
 
@@ -159,7 +159,7 @@
 
 - `getDefault` - returns a default billing address.
 
-- `getTotal` - returns total number of billing addresses user has.
+- `getTotal` - returns a total number of billing addresses the user has.
 
 - `getId` - returns id from an individual address.
 
