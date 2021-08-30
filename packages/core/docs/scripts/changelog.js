@@ -39,9 +39,9 @@ const finalData = prNumbers
 
     if (isBreaking) {
       breakingChangesText = `
-        | Before | After | Comment | Module 
-        | ------ | ----- | ------ | ------
-      `;
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------
+`;
 
       breakingChangesText += breakingChanges.map(breakingChange => {
         const module = replaceComponentLinkTags(breakingChange.module);
@@ -49,14 +49,14 @@ const finalData = prNumbers
         const after = replaceComponentLinkTags(breakingChange.after);
         const comment = replaceComponentLinkTags(breakingChange.comment);
 
-        return `${ before } | ${ after } | ${ comment } | ${ module }`;
+        return `| ${ before } | ${ after } | ${ comment } | ${ module }\n`;
       });
     }
 
     return `
-      - ${ isBreaking ? '[BREAKING]' : '' } ${ description } ([#${ numberOfPR[i] }](${ link })) - [${ author }](${ linkToGitHubAccount })
-      ${ breakingChangesText }
-    `;
+- ${ isBreaking ? '[BREAKING]' : '' } ${ description } ([#${ numberOfPR[i] }](${ link })) - [${ author }](${ linkToGitHubAccount })
+${ breakingChangesText }
+`;
   });
 
 const changelogData = fs.readFileSync(pathOut).toString().split('\n');
