@@ -3,8 +3,8 @@ const { readFileSync, writeFileSync, unlinkSync, readdirSync } = require('fs');
 
 // Load changelog template files
 const templates = {
-  version: readFileSync('./templates/version.md', 'utf8'),
-  change: readFileSync('./templates/change.md', 'utf8')
+  version: readFileSync('./templates/version.hbs', 'utf8'),
+  change: readFileSync('./templates/change.hbs', 'utf8')
 };
 
 // Get arguments passed to the script
