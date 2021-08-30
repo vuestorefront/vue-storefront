@@ -107,8 +107,6 @@ module.exports = {
             ['/commercetools/authorization-strategy', 'Authorization'],
             ['/enterprise/feature-list', 'Feature list'],
             ['/commercetools/maintainers', 'Maintainers and support'],
-            ['/commercetools/api-reference/', 'API Reference'],
-            ['/commercetools/changelog', 'Changelog']
           ]
         },
         {
@@ -150,6 +148,15 @@ module.exports = {
           collapsable: true,
           children: [
             ['/commercetools/auth-middleware', 'Auth Middleware']
+          ]
+        },
+        {
+          title: 'Reference',
+          collapsable: true,
+          children: [
+            ['/commercetools/api-reference/', 'API Reference'],
+            ['/commercetools/migrate/', 'Migration guide'],
+            ['/commercetools/changelog', 'Changelog']
           ]
         }
       ],
