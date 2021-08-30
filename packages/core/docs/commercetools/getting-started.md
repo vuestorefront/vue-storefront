@@ -37,4 +37,4 @@ There is plenty of other configuration options, and you can check them [here](./
 
 ## Configuring other integrations
 
-Depending on the configuration and version of Vue Storefront you use, you could have additional integrations to set up. You will find their settings in `middleware.config.js`
+Depending on the configuration and version of Vue Storefront used, you could have additional integrations to set up. You will find their settings in `middleware.config.js`
