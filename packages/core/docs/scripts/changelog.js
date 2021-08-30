@@ -1,57 +1,54 @@
 const fs = require('fs');
 const ejs = require('ejs');
 
+// Load changelog template files
 const templates = {
   version: fs.readFileSync('./templates/version.md', 'utf8').trim(),
-  change: fs.readFileSync('./templates/change.md', 'utf8')
+  change: fs.readFileSync('./templates/change.md', 'utf8').trim()
 };
 
+// Get arguments passed to the script
 const commandArgs = process.argv.slice(2);
+const getCliArgument = name => commandArgs[commandArgs.findIndex(arg => arg === name) + 1];
+const version = getCliArgument('--v');
+const pathIn = getCliArgument('--in');
+const pathOut = getCliArgument('--out');
 
-const getCliArgument = (name, number) => {
-  return commandArgs[commandArgs.findIndex(arg => arg === name) + number];
-};
+// Read files from source directory
+const files = fs.readdirSync(pathIn);
 
-const replaceComponentLinkTags = (text) => {
-  return text
-    .replace('<', '&lt;')
-    .replace('>', '&gt;');
-};
+// Extract PR ids from file names
+const pullRequestIds = files.map(el => el.substr(0, el.lastIndexOf('.')));
 
-const releaseVersion = getCliArgument('--v', 1);
-const pathIn = getCliArgument('--in', 0) ? getCliArgument('--in', 1) : '../changelog';
-const pathOut = getCliArgument('--out', 0) ? getCliArgument('--out', 1) : '../contributing/changelog.md';
-const prNumbers = fs.readdirSync(pathIn);
-const numberOfPR = prNumbers.map(el => el.substr(0, el.lastIndexOf('.')));
-
-const finalData = prNumbers
+// Map PRs into Markdown templates
+const changes = files
   // eslint-disable-next-line global-require
   .map(el => require(`${pathIn}/${el}`))
-  .map((pr, index) => {
+  .map((pullRequest, index) => {
     return ejs.render(templates.change, {
-      ...pr,
-      prNumber: numberOfPR[index],
-      breakingChanges: pr.breakingChanges.map(breakingChange => ({
-        module: replaceComponentLinkTags(breakingChange.module),
-        before: replaceComponentLinkTags(breakingChange.before),
-        after: replaceComponentLinkTags(breakingChange.after),
-        comment: replaceComponentLinkTags(breakingChange.comment)
-      }))
+      ...pullRequest,
+      prNumber: pullRequestIds[index]
     });
   })
-  .join('');
+  .join('')
+  .replace('<', '&lt;')
+  .replace('>', '&gt;');
 
-const changelogData = fs.readFileSync(pathOut, 'utf8').split('\n');
+// Load changelog file
+const changelog = fs.readFileSync(pathOut, 'utf8').split('\n');
 
-const versionExists = changelogData
-  .map(el => el.indexOf(releaseVersion))
+// Check if version already exists
+const versionExists = changelog
+  .map(el => el.indexOf(version))
   .findIndex(el => el > -1);
 
-changelogData.splice(
-  versionExists > -1 ? versionExists + 1 : 2,
-  0,
-  versionExists > -1 ? finalData : ejs.render(templates.version, { version: releaseVersion, changes: finalData })
-);
+// Update changelog file
+versionExists > -1
+  ? changelog.splice(versionExists + 2, 0, changes)
+  : changelog.splice(2, 0, ejs.render(templates.version, { version, changes }));
 
-fs.writeFileSync(pathOut, changelogData.join('\n'));
-prNumbers.map(el => fs.unlinkSync(`${pathIn}/${el}`));
+// Write updated changelog file
+fs.writeFileSync(pathOut, changelog.join('\n'));
+
+// Delete files from source directory
+// files.map(el => fs.unlinkSync(`${pathIn}/${el}`));

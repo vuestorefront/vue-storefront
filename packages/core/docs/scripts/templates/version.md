@@ -1,4 +1,3 @@
-
 ## <%= version %>
 
 <%= changes %>
