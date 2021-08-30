@@ -10,7 +10,7 @@
 
   | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
-  the addToCart method has the signature addToCart ({ id, version }: CartDetails, product: ProductVariant, quantity: number): Promise&lt;CartResponse&gt;; | now the addToCart method was change to enable the supply and distribution channels with the signature addToCart ({ id, version }: CartDetails, params: { product: ProductVariant; quantity: number; supplyChannel?: string; distributionChannel?: string;}): Promise&lt;CartResponse&gt;; | The composable was changed to match this signature. The changes from Click & Collect / MultiStore are required to use this feature on Product.vue | api-client
+  | the addToCart method has the signature addToCart ({ id, version }: CartDetails, product: ProductVariant, quantity: number): Promise&lt;CartResponse&gt;; | now the addToCart method was change to enable the supply and distribution channels with the signature addToCart ({ id, version }: CartDetails, params: { product: ProductVariant; quantity: number; supplyChannel?: string; distributionChannel?: string;}): Promise&lt;CartResponse&gt;; | The composable was changed to match this signature. The changes from Click & Collect / MultiStore are required to use this feature on Product.vue | api-client
 
 -  Added missing mobile menu to CT ([#6184](https://github.com/vuestorefront/vue-storefront/pull/6184)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
 
@@ -34,7 +34,7 @@
 
   | Before | After | Comment | Module 
   | ------ | ----- | ------ | ------
-  the "createCommerceToolsConnection" were being exported by the api-client | the "createCommerceToolsConnection" is not being exported anymore | to use the current connection, you will need to access the context to call the API | api-client
+  | the "createCommerceToolsConnection" were being exported by the api-client | the "createCommerceToolsConnection" is not being exported anymore | to use the current connection, you will need to access the context to call the API | api-client
 
 -  Linked banner grids buttons on homepage ([#6070](https://github.com/vuestorefront/vue-storefront/pull/6070)) - [Justyna Gieracka](https://github.com/justyna-13)
 
@@ -52,7 +52,7 @@
 
   | Before | After | Comment | Module 
   | ------ | ----- | ------ | ------
-  the useCart composable method removeCoupon was using this call signature: ({ coupon: COUPON, customQuery?: CustomQuery })   | the method signature was changed to: ({ couponCode: string, customQuery?: CustomQuery })   | on each removeCoupon composable usage need to change the "coupon" to "couponCode" | composables
+  | the useCart composable method removeCoupon was using this call signature: ({ coupon: COUPON, customQuery?: CustomQuery })   | the method signature was changed to: ({ couponCode: string, customQuery?: CustomQuery })   | on each removeCoupon composable usage need to change the "coupon" to "couponCode" | composables
 
 -  Add new getter for orders total and change return value of searchOrders ([#6132](https://github.com/vuestorefront/vue-storefront/issues/5968)) - [Baroshem](https://github.com/Baroshem)
 
@@ -100,7 +100,7 @@
 
   | Before | After | Comment | Module 
   | ------ | ----- | ------ | ------
-  one entrypoint | multiple entrypoints | We expose multiple entrypoints for server and client side interaction | commercetools
+  | one entrypoint | multiple entrypoints | We expose multiple entrypoints for server and client side interaction | commercetools
 
 -  New part of checkout - shipping details, inside core and commercetools ([#5419](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
 
@@ -112,13 +112,13 @@
 
   | Before | After | Comment | Module 
   | ------ | ----- | ------ | ------
-  UserBillingAddress works properly | New API inside Checkout/UserBillingAddress.vue | Customized components to work with new checkout | commercetools-theme
+  | UserBillingAddress works properly | New API inside Checkout/UserBillingAddress.vue | Customized components to work with new checkout | commercetools-theme
 
 - **[BREAKING]** Quick search ([#5566](https://github.com/vuestorefront/vue-storefront/issues/5566)) - [Justyna Gieracka](https://github.com/justyna-13)
 
   | Before | After | Comment | Module 
   | ------ | ----- | ------ | ------
-  { changeSearchTerm } = useUiHelpers() | { setTermForUrl } = useUiHelpers(); | Changed changeSearchTerm name to setTermForUrl | useUiHelpers/index.ts,
+  | { changeSearchTerm } = useUiHelpers() | { setTermForUrl } = useUiHelpers(); | Changed changeSearchTerm name to setTermForUrl | useUiHelpers/index.ts,
   | { getSearchTermFromUrl } = useUiHelpers(); | Created new function | useUiHelpers/index.ts
 
 - **[BREAKING]** Implementation of api middleware ([#5577](https://github.com/vuestorefront/vue-storefront/pull/5577)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
@@ -130,7 +130,7 @@ customQuery was used as a function | customQuery is a key-value object | The key
 
   | Before | After | Comment | Module 
   | ------ | ----- | ------ | ------
-  Dedicated composable for whole checkout | Dedicated composable for Shipping, Billing and Provider components | undefined | commercetools
+  | Dedicated composable for whole checkout | Dedicated composable for Shipping, Billing and Provider components | undefined | commercetools
 
 -  State as a select field at both Checkout and MyAccount (shipping & billing). Support for freeAbove in shipping methods ([#5628](https://github.com/vuestorefront/vue-storefront/pull/5628)) - [Fifciu](https://github.com/Fifciu)
 
