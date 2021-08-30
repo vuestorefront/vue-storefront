@@ -1,9 +1,10 @@
-- <%= isBreaking ? '**[BREAKING]** ' : '' %><%= description %> ([#<%= prNumber %>](<%= link %>)) - [<%= author %>](<%= linkToGitHubAccount %>)
+- {{#if isBreaking}}**[BREAKING]** {{/if}}{{ description }} ([{{ prNumber }}]({{ link }})) - [{{ author }}]({{ linkToGitHubAccount }})
 
-<% if(breakingChanges.length) { -%>
+{{#if breakingChanges.length}}
   | Before | After | Comment | Module 
   | ------ | ----- | ------- | ------
-  <% breakingChanges.forEach(function(bc) { -%>
-| <%= bc.before %> | <%= bc.after %> | <%= bc.comment %> | <%= bc.module %>
-  <% }); %>
-<% } %>
+  {{#each breakingChanges}}
+  | {{ before }} | {{ after }} | {{ comment }} | {{ module }}
+  {{/each}}
+
+{{/if}}

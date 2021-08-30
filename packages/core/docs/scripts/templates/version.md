@@ -1,3 +1,3 @@
-## <%= version %>
+## {{ version }}
 
-<%= changes %>
+{{ changes }}

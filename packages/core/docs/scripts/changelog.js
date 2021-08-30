@@ -1,10 +1,10 @@
-const fs = require('fs');
-const ejs = require('ejs');
+const { compile } = require('handlebars');
+const { readFileSync, writeFileSync, unlinkSync, readdirSync } = require('fs');
 
 // Load changelog template files
 const templates = {
-  version: fs.readFileSync('./templates/version.md', 'utf8').trim(),
-  change: fs.readFileSync('./templates/change.md', 'utf8').trim()
+  version: readFileSync('./templates/version.md', 'utf8'),
+  change: readFileSync('./templates/change.md', 'utf8')
 };
 
 // Get arguments passed to the script
@@ -14,41 +14,40 @@ const version = getCliArgument('--v');
 const pathIn = getCliArgument('--in');
 const pathOut = getCliArgument('--out');
 
-// Read files from source directory
-const files = fs.readdirSync(pathIn);
+// Get names of all files in the source directory
+const fileName = readdirSync(pathIn);
 
-// Extract PR ids from file names
-const pullRequestIds = files.map(el => el.substr(0, el.lastIndexOf('.')));
+// Extract IDs of the pull requests from file names
+const pullRequestIds = fileName.map(el => el.substr(0, el.lastIndexOf('.')));
 
 // Map PRs into Markdown templates
-const changes = files
+const changes = fileName
   // eslint-disable-next-line global-require
   .map(el => require(`${pathIn}/${el}`))
   .map((pullRequest, index) => {
-    return ejs.render(templates.change, {
+    return compile(templates.change)({
       ...pullRequest,
       prNumber: pullRequestIds[index]
     });
   })
   .join('')
-  .replace('<', '&lt;')
-  .replace('>', '&gt;');
+  .trim();
 
 // Load changelog file
-const changelog = fs.readFileSync(pathOut, 'utf8').split('\n');
+const changelog = readFileSync(pathOut, 'utf8').split('\n');
 
 // Check if version already exists
-const versionExists = changelog
+const versionLineNumber = changelog
   .map(el => el.indexOf(version))
   .findIndex(el => el > -1);
 
 // Update changelog file
-versionExists > -1
-  ? changelog.splice(versionExists + 2, 0, changes)
-  : changelog.splice(2, 0, ejs.render(templates.version, { version, changes }));
+versionLineNumber > -1
+  ? changelog.splice(versionLineNumber + 2, 0, changes)
+  : changelog.splice(2, 0, compile(templates.version)({ version, changes }));
 
 // Write updated changelog file
-fs.writeFileSync(pathOut, changelog.join('\n'));
+writeFileSync(pathOut, changelog.join('\n'));
 
 // Delete files from source directory
-files.map(el => fs.unlinkSync(`${pathIn}/${el}`));
+fileName.map(el => unlinkSync(`${pathIn}/${el}`));
