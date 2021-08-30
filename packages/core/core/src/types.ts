@@ -713,15 +713,6 @@ export interface UserGetters<USER> {
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
-export interface CheckoutGetters<SHIPPING_METHOD> {
-  getShippingMethodId: (shippingMethod: SHIPPING_METHOD) => string;
-  getShippingMethodName: (shippingMethod: SHIPPING_METHOD) => string;
-  getShippingMethodDescription: (shippingMethod: SHIPPING_METHOD) => string;
-  getShippingMethodPrice: (shippingMethod: SHIPPING_METHOD) => number;
-  getFormattedPrice: (price: number) => string;
-  [getterName: string]: (element: any, options?: any) => unknown;
-}
-
 export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   getDate: (order: ORDER) => string;
   getId: (order: ORDER) => string;
@@ -901,7 +892,7 @@ export interface UseStoreFactoryLoadParamArguments {
 
 export interface UseStoreFactoryParams<STORES> extends FactoryParams {
   load(context: Context, params: UseStoreFactoryLoadParamArguments): Promise<STORES>
-  change(context: Context, parmas: UseStoreFactoryChangeParamArguments): Promise<STORES>
+  change(context: Context, params: UseStoreFactoryChangeParamArguments): Promise<STORES>
 }
 export interface UseStoreInterface<STORES> {
   change(params: UseStoreFactoryChangeParamArguments): Promise<void>;

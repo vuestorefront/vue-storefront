@@ -164,29 +164,29 @@ module.exports = {
           title: 'Composables',
           collapsable: false,
           children: [
+            ['/commercetools/composables/use-billing', 'useBilling'],
+            ['/commercetools/composables/use-cart', 'useCart'],
+            ['/commercetools/composables/use-category', 'useCategory'],
+            ['/commercetools/composables/use-facet', 'useFacet'],
+            ['/commercetools/composables/use-forgot-password', 'useForgotPassword'],
+            ['/commercetools/composables/use-make-order', 'useMakeOrder'],
             ['/commercetools/composables/use-product', 'useProduct'],
-            ['/commercetools/composables/use-review', 'useReview '],
-            ['/commercetools/composables/use-user', 'useUser'],
-            ['/commercetools/composables/use-user-shipping', 'useUserShipping'],
+            ['/commercetools/composables/use-review', 'useReview'],
+            ['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
+            ['/commercetools/composables/use-shipping', 'useShipping'],
+            ['/commercetools/composables/use-store', 'useStore'],
             ['/commercetools/composables/use-user-billing', 'useUserBilling'],
             ['/commercetools/composables/use-user-order', 'useUserOrder'],
-            ['/commercetools/composables/use-facet', 'useFacet'],
-            ['/commercetools/composables/use-cart', 'useCart'],
-            ['/commercetools/composables/use-wishlist', 'useWishlist'],
-            ['/commercetools/composables/use-category', 'useCategory'],
-            ['/commercetools/composables/use-shipping', 'useShipping'],
-            ['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
-            ['/commercetools/composables/use-billing', 'useBilling'],
-            ['/commercetools/composables/use-make-order', 'useMakeOrder'],
-            ['/commercetools/composables/use-forgot-password', 'useForgotPassword'],
-						['/commercetools/composables/use-store', 'useStore']
+            ['/commercetools/composables/use-user-shipping', 'useUserShipping'],
+            ['/commercetools/composables/use-user', 'useUser'],
+            ['/commercetools/composables/use-wishlist', 'useWishlist']
           ]
         },
         {
-          title: 'API Client',
+          title: 'API Reference',
           collapsable: false,
           children: [
-            ['/commercetools/api-reference/', 'Methods reference']
+            ['/commercetools/api-reference/', 'API Reference']
           ]
         },
         {

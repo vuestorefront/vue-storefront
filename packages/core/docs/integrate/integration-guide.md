@@ -5,7 +5,7 @@ The application does not reload automatically after saving the changes in Server
 :::
 
 ::: warning Want to build an integration?
-If you want to integrate with Vue Storefront, please **contact the core team on our [Discord](https://discord.vuestorefront.io) server**. We are eager to help you to ensure its high quality and maybe even officially recommend it 😉
+If you want to integrate with Vue Storefront, don't hesitate to get in touch with the core team on our [Discord](https://discord.vuestorefront.io/) server. We are eager to help you to ensure its high quality and maybe even officially recommend it 😉
 :::
 
 ## Introduction
@@ -86,25 +86,7 @@ Once the new repository is ready, clone it locally.
 
 **Before you start making changes and installing dependencies**, let's update the name of the packages and integrations. Doing it now prevents issues with linking dependencies later.
 
-Search for all instances of these strings (in this order) and change them to match your integration:
-
-- `@vue-storefront/boilerplate-theme`,
-- `@vue-storefront/boilerplate-api`,
-- `@vue-storefront/boilerplate`.
-
-For the sake of example and simplicity, let's assume our eCommerce platform is called **Sloth**. From now on, we will refer to these packages as:
-
-- `@sloth/theme`,
-- `@sloth/api`,
-- `@sloth/sloth`.
-
-:::tip
-It's a convention to name a `composables` package using the platform's name because this is the package that developers use the most when creating a shop. Example of this is `@vue-storefront/commercetools`, `@vue-storefront/magento` and `@vue-storefront/shopify`.
-:::
-
-Open `packages/composables/nuxt/plugin.js` and change `boilerplate` to the name of your integration. This name should not contain any special characters nor spaces. In our case, it's lowercase `sloth`.
-
-Open `packages/theme/middleware.config.js` and change `boilerplate` to the same name.
+Open the "Search and Replace" tool inside your code editor and replace all instances of `<% INTEGRATION %>` with the name of your project or platform. The name must be in lowercase, without spaces or any special characters.
 
 ### Install dependencies
 

@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Before proceeding, make sure you have [Node 10+](https://nodejs.org/en/), [Yarn 1](https://classic.yarnpkg.com/lang/en/) and [Git](https://git-scm.com/) installed.
+Before proceeding, make sure you have [Node 10+](https://nodejs.org/en/) and [Yarn 1](https://classic.yarnpkg.com/lang/en/) installed.
 
 ## Using Vue Storefront CLI
 
@@ -13,10 +13,6 @@ The easiest way to get started with Vue Storefront is to set up your project usi
 npx @vue-storefront/cli init
 ```
 Enter the name of the project and select the backend platform you wish to use.
-
-<center>
-  <img src="../images/cli.jpg" alt="Vue Storefront CLI" />
-</center>
 
 Once selected, the CLI creates the project files in the directory matching your project name. The only thing left is to go to this directory in the terminal and install the dependencies:
 

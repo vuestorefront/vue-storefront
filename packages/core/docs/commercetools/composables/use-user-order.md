@@ -8,89 +8,81 @@
 
 - `searchOrders` - a main querying function that is used to query user's order history from eCommerce platform and populate the `orders` object with the result. This method accepts a single params object. The `params` has the following options:
 
-    - `searchParams: OrderSearchParams`
+    - `id?: string`
+
+    - `page?: number`
+
+    - `perPage?: number`
       
     - `customQuery?: customQuery`
-    
-```ts
-type OrderSearchParams = {
-  id?: string;
-  page?: number;
-  perPage?: number;
-}
-
-type CustomQuery = {
-  getMyOrders: string
-}
-```
 
 - `orders: OrderQueryResult` -  a main data object that contains an array of orders fetched by `searchOrders` method and total number of orders.
 
-```ts
-type Order = {
-  __typename?: "Order";
-  customerId?: Maybe<Scalars["String"]>;
-  customer?: Maybe<Customer>;
-  customerEmail?: Maybe<Scalars["String"]>;
-  anonymousId?: Maybe<Scalars["String"]>;
-  lineItems: Array<LineItem>;
-  customLineItems: Array<CustomLineItem>;
-  totalPrice: Money;
-  taxedPrice?: Maybe<TaxedPrice>;
-  shippingAddress?: Maybe<Address>;
-  billingAddress?: Maybe<Address>;
-  inventoryMode: InventoryMode;
-  taxMode: TaxMode;
-  taxRoundingMode: RoundingMode;
-  taxCalculationMode: TaxCalculationMode;
-  customerGroup?: Maybe<CustomerGroup>;
-  customerGroupRef?: Maybe<Reference>;
-  country?: Maybe<Scalars["Country"]>;
-  shippingInfo?: Maybe<ShippingInfo>;
-  discountCodes: Array<DiscountCodeInfo>;
-  refusedGifts: Array<CartDiscount>;
-  refusedGiftsRefs: Array<Reference>;
-  paymentInfo?: Maybe<PaymentInfo>;
-  locale?: Maybe<Scalars["Locale"]>;
-  shippingRateInput?: Maybe<ShippingRateInput>;
-  origin: CartOrigin;
-  storeRef?: Maybe<KeyReference>;
-  store?: Maybe<Store>;
-  itemShippingAddresses: Array<Address>;
-  completedAt?: Maybe<Scalars["DateTime"]>;
-  orderNumber?: Maybe<Scalars["String"]>;
-  orderState: OrderState;
-  stateRef?: Maybe<Reference>;
-  state?: Maybe<State>;
-  shipmentState?: Maybe<ShipmentState>;
-  paymentState?: Maybe<PaymentState>;
-  syncInfo: Array<SyncInfo>;
-  returnInfo: Array<ReturnInfo>;
-  lastMessageSequenceNumber: Scalars["Long"];
-  cartRef?: Maybe<Reference>;
-  cart?: Maybe<Cart>;
-  customFieldsRaw?: Maybe<Array<RawCustomField>>;
-  customFields?: Maybe<Type>;
-  custom?: Maybe<CustomFieldsType>;
-  id: Scalars["String"];
-  version: Scalars["Long"];
-  createdAt: Scalars["DateTime"];
-  lastModifiedAt: Scalars["DateTime"];
-  createdBy?: Maybe<Initiator>;
-  lastModifiedBy?: Maybe<Initiator>;
-  customFieldList?: Maybe<Array<CustomField>>;
-}
-```
+  ```ts
+  type Order = {
+    __typename?: "Order";
+    customerId?: Maybe<Scalars["String"]>;
+    customer?: Maybe<Customer>;
+    customerEmail?: Maybe<Scalars["String"]>;
+    anonymousId?: Maybe<Scalars["String"]>;
+    lineItems: Array<LineItem>;
+    customLineItems: Array<CustomLineItem>;
+    totalPrice: Money;
+    taxedPrice?: Maybe<TaxedPrice>;
+    shippingAddress?: Maybe<Address>;
+    billingAddress?: Maybe<Address>;
+    inventoryMode: InventoryMode;
+    taxMode: TaxMode;
+    taxRoundingMode: RoundingMode;
+    taxCalculationMode: TaxCalculationMode;
+    customerGroup?: Maybe<CustomerGroup>;
+    customerGroupRef?: Maybe<Reference>;
+    country?: Maybe<Scalars["Country"]>;
+    shippingInfo?: Maybe<ShippingInfo>;
+    discountCodes: Array<DiscountCodeInfo>;
+    refusedGifts: Array<CartDiscount>;
+    refusedGiftsRefs: Array<Reference>;
+    paymentInfo?: Maybe<PaymentInfo>;
+    locale?: Maybe<Scalars["Locale"]>;
+    shippingRateInput?: Maybe<ShippingRateInput>;
+    origin: CartOrigin;
+    storeRef?: Maybe<KeyReference>;
+    store?: Maybe<Store>;
+    itemShippingAddresses: Array<Address>;
+    completedAt?: Maybe<Scalars["DateTime"]>;
+    orderNumber?: Maybe<Scalars["String"]>;
+    orderState: OrderState;
+    stateRef?: Maybe<Reference>;
+    state?: Maybe<State>;
+    shipmentState?: Maybe<ShipmentState>;
+    paymentState?: Maybe<PaymentState>;
+    syncInfo: Array<SyncInfo>;
+    returnInfo: Array<ReturnInfo>;
+    lastMessageSequenceNumber: Scalars["Long"];
+    cartRef?: Maybe<Reference>;
+    cart?: Maybe<Cart>;
+    customFieldsRaw?: Maybe<Array<RawCustomField>>;
+    customFields?: Maybe<Type>;
+    custom?: Maybe<CustomFieldsType>;
+    id: Scalars["String"];
+    version: Scalars["Long"];
+    createdAt: Scalars["DateTime"];
+    lastModifiedAt: Scalars["DateTime"];
+    createdBy?: Maybe<Initiator>;
+    lastModifiedBy?: Maybe<Initiator>;
+    customFieldList?: Maybe<Array<CustomField>>;
+  }
+  ```
 
 - `loading: boolean` - a reactive object containing information about loading state of your `searchOrders` method.
 
 - `error: UseUserOrderErrors` - reactive object containing the error message, if some properties failed for any reason.
 
-```ts
-interface UseUserOrderErrors {
-  search: Error;
-}
-```
+  ```ts
+  interface UseUserOrderErrors {
+    search: Error;
+  }
+  ```
 
 ## Getters
 
@@ -116,116 +108,116 @@ interface UseUserOrderErrors {
 
 - `getOrdersTotal` - returns total number of orders (not affected by pgaination limit).
 
-```ts
-interface UserOrderGetters {
-  getDate: (order: Order) => string;
-  getId: (order: Order) => string;
-  getStatus: (order: Order) => AgnosticOrderStatus;
-  getPrice: (order: Order) => number;
-  getItems: (order: Order) => LineItem[];
-  getItemSku: (item: LineItem) => string;
-  getItemName: (item: LineItem) => string;
-  getItemQty: (item: LineItem) => number;
-  getItemPrice: (item: LineItem) => number;
-  getFormattedPrice: (price: number) => string;
-  getOrdersTotal: (orders: OrderQueryResult) => number;
-}
+  ```ts
+  interface UserOrderGetters {
+    getDate: (order: Order) => string;
+    getId: (order: Order) => string;
+    getStatus: (order: Order) => AgnosticOrderStatus;
+    getPrice: (order: Order) => number;
+    getItems: (order: Order) => LineItem[];
+    getItemSku: (item: LineItem) => string;
+    getItemName: (item: LineItem) => string;
+    getItemQty: (item: LineItem) => number;
+    getItemPrice: (item: LineItem) => number;
+    getFormattedPrice: (price: number) => string;
+    getOrdersTotal: (orders: OrderQueryResult) => number;
+  }
 
-type Order = {
-  __typename?: "Order";
-  customerId?: Maybe<Scalars["String"]>;
-  customer?: Maybe<Customer>;
-  customerEmail?: Maybe<Scalars["String"]>;
-  anonymousId?: Maybe<Scalars["String"]>;
-  lineItems: Array<LineItem>;
-  customLineItems: Array<CustomLineItem>;
-  totalPrice: Money;
-  taxedPrice?: Maybe<TaxedPrice>;
-  shippingAddress?: Maybe<Address>;
-  billingAddress?: Maybe<Address>;
-  inventoryMode: InventoryMode;
-  taxMode: TaxMode;
-  taxRoundingMode: RoundingMode;
-  taxCalculationMode: TaxCalculationMode;
-  customerGroup?: Maybe<CustomerGroup>;
-  customerGroupRef?: Maybe<Reference>;
-  country?: Maybe<Scalars["Country"]>;
-  shippingInfo?: Maybe<ShippingInfo>;
-  discountCodes: Array<DiscountCodeInfo>;
-  refusedGifts: Array<CartDiscount>;
-  refusedGiftsRefs: Array<Reference>;
-  paymentInfo?: Maybe<PaymentInfo>;
-  locale?: Maybe<Scalars["Locale"]>;
-  shippingRateInput?: Maybe<ShippingRateInput>;
-  origin: CartOrigin;
-  storeRef?: Maybe<KeyReference>;
-  store?: Maybe<Store>;
-  itemShippingAddresses: Array<Address>;
-  completedAt?: Maybe<Scalars["DateTime"]>;
-  orderNumber?: Maybe<Scalars["String"]>;
-  orderState: OrderState;
-  stateRef?: Maybe<Reference>;
-  state?: Maybe<State>;
-  shipmentState?: Maybe<ShipmentState>;
-  paymentState?: Maybe<PaymentState>;
-  syncInfo: Array<SyncInfo>;
-  returnInfo: Array<ReturnInfo>;
-  lastMessageSequenceNumber: Scalars["Long"];
-  cartRef?: Maybe<Reference>;
-  cart?: Maybe<Cart>;
-  customFieldsRaw?: Maybe<Array<RawCustomField>>;
-  customFields?: Maybe<Type>;
-  custom?: Maybe<CustomFieldsType>;
-  id: Scalars["String"];
-  version: Scalars["Long"];
-  createdAt: Scalars["DateTime"];
-  lastModifiedAt: Scalars["DateTime"];
-  createdBy?: Maybe<Initiator>;
-  lastModifiedBy?: Maybe<Initiator>;
-  customFieldList?: Maybe<Array<CustomField>>;
-}
+  type Order = {
+    __typename?: "Order";
+    customerId?: Maybe<Scalars["String"]>;
+    customer?: Maybe<Customer>;
+    customerEmail?: Maybe<Scalars["String"]>;
+    anonymousId?: Maybe<Scalars["String"]>;
+    lineItems: Array<LineItem>;
+    customLineItems: Array<CustomLineItem>;
+    totalPrice: Money;
+    taxedPrice?: Maybe<TaxedPrice>;
+    shippingAddress?: Maybe<Address>;
+    billingAddress?: Maybe<Address>;
+    inventoryMode: InventoryMode;
+    taxMode: TaxMode;
+    taxRoundingMode: RoundingMode;
+    taxCalculationMode: TaxCalculationMode;
+    customerGroup?: Maybe<CustomerGroup>;
+    customerGroupRef?: Maybe<Reference>;
+    country?: Maybe<Scalars["Country"]>;
+    shippingInfo?: Maybe<ShippingInfo>;
+    discountCodes: Array<DiscountCodeInfo>;
+    refusedGifts: Array<CartDiscount>;
+    refusedGiftsRefs: Array<Reference>;
+    paymentInfo?: Maybe<PaymentInfo>;
+    locale?: Maybe<Scalars["Locale"]>;
+    shippingRateInput?: Maybe<ShippingRateInput>;
+    origin: CartOrigin;
+    storeRef?: Maybe<KeyReference>;
+    store?: Maybe<Store>;
+    itemShippingAddresses: Array<Address>;
+    completedAt?: Maybe<Scalars["DateTime"]>;
+    orderNumber?: Maybe<Scalars["String"]>;
+    orderState: OrderState;
+    stateRef?: Maybe<Reference>;
+    state?: Maybe<State>;
+    shipmentState?: Maybe<ShipmentState>;
+    paymentState?: Maybe<PaymentState>;
+    syncInfo: Array<SyncInfo>;
+    returnInfo: Array<ReturnInfo>;
+    lastMessageSequenceNumber: Scalars["Long"];
+    cartRef?: Maybe<Reference>;
+    cart?: Maybe<Cart>;
+    customFieldsRaw?: Maybe<Array<RawCustomField>>;
+    customFields?: Maybe<Type>;
+    custom?: Maybe<CustomFieldsType>;
+    id: Scalars["String"];
+    version: Scalars["Long"];
+    createdAt: Scalars["DateTime"];
+    lastModifiedAt: Scalars["DateTime"];
+    createdBy?: Maybe<Initiator>;
+    lastModifiedBy?: Maybe<Initiator>;
+    customFieldList?: Maybe<Array<CustomField>>;
+  }
 
-enum AgnosticOrderStatus {
-  Open = 'Open',
-  Pending = 'Pending',
-  Confirmed = 'Confirmed',
-  Shipped = 'Shipped',
-  Complete = 'Complete',
-  Cancelled = 'Cancelled',
-  Refunded = 'Refunded'
-}
+  enum AgnosticOrderStatus {
+    Open = 'Open',
+    Pending = 'Pending',
+    Confirmed = 'Confirmed',
+    Shipped = 'Shipped',
+    Complete = 'Complete',
+    Cancelled = 'Cancelled',
+    Refunded = 'Refunded'
+  }
 
-type LineItem = {
-  __typename?: "LineItem";
-  id: Scalars["String"];
-  productId: Scalars["String"];
-  name?: Maybe<Scalars["String"]>;
-  nameAllLocales: Array<LocalizedString>;
-  productSlug?: Maybe<Scalars["String"]>;
-  productType?: Maybe<ProductTypeDefinition>;
-  productTypeRef?: Maybe<Reference>;
-  variant?: Maybe<ProductVariant>;
-  price: ProductPrice;
-  taxedPrice?: Maybe<TaxedItemPrice>;
-  totalPrice?: Maybe<Money>;
-  quantity: Scalars["Long"];
-  state: Array<ItemState>;
-  taxRate?: Maybe<TaxRate>;
-  supplyChannel?: Maybe<Channel>;
-  supplyChannelRef?: Maybe<Reference>;
-  distributionChannel?: Maybe<Channel>;
-  distributionChannelRef?: Maybe<Reference>;
-  discountedPricePerQuantity: Array<DiscountedLineItemPriceForQuantity>;
-  lineItemMode: LineItemMode;
-  priceMode: LineItemPriceMode;
-  customFieldsRaw?: Maybe<Array<RawCustomField>>;
-  customFields?: Maybe<Type>;
-  custom?: Maybe<CustomFieldsType>;
-  shippingDetails?: Maybe<ItemShippingDetails>;
-  inventoryMode?: Maybe<ItemShippingDetails>;
-  customFieldList?: Maybe<Array<CustomField>>;
-}
-```
+  type LineItem = {
+    __typename?: "LineItem";
+    id: Scalars["String"];
+    productId: Scalars["String"];
+    name?: Maybe<Scalars["String"]>;
+    nameAllLocales: Array<LocalizedString>;
+    productSlug?: Maybe<Scalars["String"]>;
+    productType?: Maybe<ProductTypeDefinition>;
+    productTypeRef?: Maybe<Reference>;
+    variant?: Maybe<ProductVariant>;
+    price: ProductPrice;
+    taxedPrice?: Maybe<TaxedItemPrice>;
+    totalPrice?: Maybe<Money>;
+    quantity: Scalars["Long"];
+    state: Array<ItemState>;
+    taxRate?: Maybe<TaxRate>;
+    supplyChannel?: Maybe<Channel>;
+    supplyChannelRef?: Maybe<Reference>;
+    distributionChannel?: Maybe<Channel>;
+    distributionChannelRef?: Maybe<Reference>;
+    discountedPricePerQuantity: Array<DiscountedLineItemPriceForQuantity>;
+    lineItemMode: LineItemMode;
+    priceMode: LineItemPriceMode;
+    customFieldsRaw?: Maybe<Array<RawCustomField>>;
+    customFields?: Maybe<Type>;
+    custom?: Maybe<CustomFieldsType>;
+    shippingDetails?: Maybe<ItemShippingDetails>;
+    inventoryMode?: Maybe<ItemShippingDetails>;
+    customFieldList?: Maybe<Array<CustomField>>;
+  }
+  ```
 
 ## Example
 
