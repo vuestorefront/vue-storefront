@@ -1,13 +1,12 @@
 # Configuration
 
-
-Commercetools configuration is located in two places:
+The commercetools configuration is located in two places:
 
 - nuxt.config.js is a place where you're configuring properties related only to the frontend part of your application.
 
-- middleware.config.js is a place where you're configuring the Commercetools SDK, Apollo, and extensions. You will put there API keys, integration configurations, custom GraphQL queries, and new API endpoints.
+- middleware.config.js is a place where you're configuring the commercetools SDK, Apollo, and extensions. You will put there API keys, integration configurations, custom GraphQL queries, and new API endpoints.
 
-## Nuxt Commercetools configuration
+## Nuxt commercetools configuration
 
 ```js
 // nuxt.config.js
@@ -79,7 +78,7 @@ module.exports = {
 
 ### `acceptLanguage`
 
-An array of possible locales commercetools will use. You can read more about Commercetools internationalization configuration [here](https://docs.commercetools.com/api/projects/orders-import#language-filtering)
+An array of possible locales commercetools will use. You can read more about the commercetools internationalization configuration [here](https://docs.commercetools.com/api/projects/orders-import#language-filtering)
 
 ```js
 acceptLanguage: ['en-gb', 'en-us']

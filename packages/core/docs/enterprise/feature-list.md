@@ -44,7 +44,7 @@ Vue Storefront is the only truly open-source eCommerce frontend framework with a
 ## Integrations
 
 ### eCommerce
-- Commercetools (standard eCommerce scope [listed below](#ecommerce-integration-theme))
+- commercetools (standard eCommerce scope [listed below](#ecommerce-integration-theme))
 ### Content Management System (CMS)
 - Storyblok (standard CMS scope [listed below](#content-management-system))
 - Contentstack (standard CMS scope [listed below](#content-management-system))
@@ -357,9 +357,9 @@ The infrastructure is optimized for performance and safety. After signing up, yo
 
 The platform is accessible and can be managed via the storefrontcloud-cli tool. It’s a dedicated tool to manage the Kubernetes cluster and Vue Storefront deployments, backups, and logs. Please find more information in our knowledge base, available here: https://help.storefrontcloud.io 
 
-**12. All of the Commercetools OOTB Features ready on enviroment**
+**12. All of the commercetools OOTB Features ready on enviroment**
 
-By default, Vue Storefront Cloud is integrated with Commercetools. This service is included in the price. All you need are Commercetools API access details to get the products, categories, and user accounts in sync with your instance.
+By default, Vue Storefront Cloud is integrated with commercetools. This service is included in the price. All you need are commercetools API access details to get the products, categories, and user accounts in sync with your instance.
 
 **13. Access via API**
 

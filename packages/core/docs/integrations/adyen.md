@@ -124,7 +124,7 @@ type PaymentAndOrder = Payment & { order: Order }
 6. commercetools shares [Adyen integration](https://github.com/commercetools/commercetools-adyen-integration). We recommend deploying it as a Google Function or an AWS Lambda. Make sure to configure and deploy both [extension](https://github.com/commercetools/commercetools-adyen-integration/tree/master/extension) and [notification](https://github.com/commercetools/commercetools-adyen-integration/tree/master/notification) module. Check readme of [the repository](https://github.com/commercetools/commercetools-adyen-integration) for details.
 
 :::warning Bigger permissions for extensions
-As you can see in `commercetools-adyen-integration` repository, Commercetools recommends using `manage_project` scope for both notification and extension module.
+As you can see in `commercetools-adyen-integration` repository, commercetools recommends using `manage_project` scope for both notification and extension module.
 :::
 
 7. Use `PaymentAdyenProvider.vue` as a last step of the checkout process. This component will mount Adyen's Web Drop-In and handle payment process for you.
@@ -197,7 +197,7 @@ interface AdyenError {
 * `createContext` - Loads a cart, then fetching available payment methods for the loaded cart. In the end, a method stores a response inside `paymentObject`.
 * `buildDropinConfiguration` - `(config: AdyenConfigBuilder): any` - Builds a configuration object for Adyen's Web Drop-In.
 * `payAndOrder` - Setting value of the custom field called `makePaymentRequest` in the commercetools' payment object. commercetools will send it to the Adyen and give you the response. As the last step, a method is storing a response inside the `paymentObject`.
-* `submitAdditionalPaymentDetails` - Setting value of the custom field `submitAdditionalPaymentDetailsRequest` in the commercetools' payment. Commercetools will send it to the Adyen and give you the response. As the last step, a method is storing a response inside the `paymentObject`.
+* `submitAdditionalPaymentDetails` - Setting value of the custom field `submitAdditionalPaymentDetailsRequest` in the commercetools' payment. The commercetools servers will send it to the Adyen and give you the response. As the last step, a method is storing a response inside the `paymentObject`.
 
 ```ts
 interface AdyenConfigBuilder {
@@ -218,7 +218,7 @@ interface AdyenConfigBuilder {
 * `onError` - `(data: { action: string, error: Error | string }) => void` - Called after we got an error from either Adyen or our API.
 
 ## Placing an order
-If the transaction is authorized, the server's controller for `payAndOrder`/`submitAdditionalPaymentDetails` will place an order in Commercetools and apply the `order` object to the response. Thanks to that, we have only one request from the client to both finalize/authorize the payment and make an order.
+If the transaction is authorized, the server's controller for `payAndOrder`/`submitAdditionalPaymentDetails` will place an order in commercetools and apply the `order` object to the response. Thanks to that, we have only one request from the client to both finalize/authorize the payment and make an order.
 
 ## Checkout.com
 Adyen's module isn't compatible with [Checkout.com's module](https://github.com/vuestorefront/checkout-com).

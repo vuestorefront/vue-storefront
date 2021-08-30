@@ -1,5 +1,5 @@
 ---
-platform: Commercetools
+platform: commercetools
 ---
 
 # Wishlist
@@ -8,7 +8,7 @@ platform: Commercetools
 
 ## Features
 
-`useWishlist` composition API function is responsible for integrating with the wishlist from Commercetools. It allows to:
+`useWishlist` composition API function is responsible for integrating with the wishlist from commercetools. It allows to:
 
 - fetch products from the wishlist
 - add products to the wishlist
