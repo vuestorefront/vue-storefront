@@ -12,51 +12,52 @@
 
     - `customQuery?: CustomQuery`
 
-```ts
-interface ProductsSearchParams {
-  perPage?: number;
-  page?: number;
-  sort?: any;
-  term?: any;
-  filters?: Record<string, Filter>;
-  catId?: string | string[];
-  skus?: string[];
-  slug?: string;
-  id?: string;
-}
+      ```ts
+      interface ProductsSearchParams {
+        perPage?: number;
+        page?: number;
+        sort?: any;
+        term?: any;
+        filters?: Record<string, Filter>;
+        catId?: string | string[];
+        skus?: string[];
+        slug?: string;
+        id?: string;
+      }
 
-type CustomQuery = {
-  products: string
-}
-```
+      type CustomQuery = {
+        products: string
+      }
+      ```
+
 - `products: ProductVariant[]` - a main data object that contains an array of products fetched by `search` method.
 
-```ts
-type ProductVariant = {
-  __typename?: "ProductVariant";
-  id: Scalars["Int"];
-  key?: Maybe<Scalars["String"]>;
-  sku?: Maybe<Scalars["String"]>;
-  prices?: Maybe<Array<ProductPrice>>;
-  price?: Maybe<ProductPrice>;
-  images: Array<Image>;
-  assets: Array<Asset>;
-  availability?: Maybe<ProductVariantAvailabilityWithChannels>;
-  attributesRaw: Array<RawProductAttribute>;
-  attributes: ProductType;
-  attributeList: Array<Attribute>;
-}
-```
+  ```ts
+  type ProductVariant = {
+    __typename?: "ProductVariant";
+    id: Scalars["Int"];
+    key?: Maybe<Scalars["String"]>;
+    sku?: Maybe<Scalars["String"]>;
+    prices?: Maybe<Array<ProductPrice>>;
+    price?: Maybe<ProductPrice>;
+    images: Array<Image>;
+    assets: Array<Asset>;
+    availability?: Maybe<ProductVariantAvailabilityWithChannels>;
+    attributesRaw: Array<RawProductAttribute>;
+    attributes: ProductType;
+    attributeList: Array<Attribute>;
+  }
+  ```
 
 - `loading: boolean` - a reactive object containing information about loading state of your `search` method.
 
 - `error: UseProductErrors` - reactive object containing the error message, if `search` failed for any reason.
 
-```ts
-interface UseProductErrors {
-  search: Error;
-}
-```
+  ```ts
+  interface UseProductErrors {
+    search: Error;
+  }
+  ```
 
 ## Getters
 
@@ -86,60 +87,60 @@ interface UseProductErrors {
 
 - `getAverageRating` - returns average rating from all reviews.
 
-```ts
-interface ProductGetters {
-  getName: (product: ProductVariant | Readonly<ProductVariant>) => string;
-  getSlug: (product: ProductVariant | Readonly<ProductVariant>) => string;
-  getPrice: (product: ProductVariant | Readonly<ProductVariant>) => AgnosticPrice;
-  getGallery: (product: ProductVariant) => AgnosticMediaGalleryItem[];
-  getCoverImage: (product: ProductVariant) => string;
-  getFiltered: (products: ProductVariant[], filters: ProductVariantFilters | any = {}) => ProductVariant[];
-  getAttributes: (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]) => Record<string, AgnosticAttribute | string>;
-  getDescription: (product: ProductVariant) => string;
-  getCategoryIds: (product: ProductVariant) => string[];
-  getId: (product: ProductVariant) => string;
-  getFormattedPrice: (price: number) => string;
-  getTotalReviews: (product: ProductVariant) => number;
-  getAverageRating: (product: ProductVariant) => number;
-}
+  ```ts
+  interface ProductGetters {
+    getName: (product: ProductVariant | Readonly<ProductVariant>) => string;
+    getSlug: (product: ProductVariant | Readonly<ProductVariant>) => string;
+    getPrice: (product: ProductVariant | Readonly<ProductVariant>) => AgnosticPrice;
+    getGallery: (product: ProductVariant) => AgnosticMediaGalleryItem[];
+    getCoverImage: (product: ProductVariant) => string;
+    getFiltered: (products: ProductVariant[], filters: ProductVariantFilters | any = {}) => ProductVariant[];
+    getAttributes: (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]) => Record<string, AgnosticAttribute | string>;
+    getDescription: (product: ProductVariant) => string;
+    getCategoryIds: (product: ProductVariant) => string[];
+    getId: (product: ProductVariant) => string;
+    getFormattedPrice: (price: number) => string;
+    getTotalReviews: (product: ProductVariant) => number;
+    getAverageRating: (product: ProductVariant) => number;
+  }
 
-interface AgnosticPrice {
-  regular: number | null;
-  special?: number | null;
-}
+  interface AgnosticPrice {
+    regular: number | null;
+    special?: number | null;
+  }
 
-interface AgnosticMediaGalleryItem {
-  small: string;
-  normal: string;
-  big: string;
-}
+  interface AgnosticMediaGalleryItem {
+    small: string;
+    normal: string;
+    big: string;
+  }
 
-interface AgnosticAttribute {
-  name?: string;
-  value: string | Record<string, any>;
-  label: string;
-}
+  interface AgnosticAttribute {
+    name?: string;
+    value: string | Record<string, any>;
+    label: string;
+  }
 
-type ProductVariant = {
-  __typename?: "ProductVariant";
-  id: Scalars["Int"];
-  key?: Maybe<Scalars["String"]>;
-  sku?: Maybe<Scalars["String"]>;
-  prices?: Maybe<Array<ProductPrice>>;
-  price?: Maybe<ProductPrice>;
-  images: Array<Image>;
-  assets: Array<Asset>;
-  availability?: Maybe<ProductVariantAvailabilityWithChannels>;
-  attributesRaw: Array<RawProductAttribute>;
-  attributes: ProductType;
-  attributeList: Array<Attribute>;
-}
+  type ProductVariant = {
+    __typename?: "ProductVariant";
+    id: Scalars["Int"];
+    key?: Maybe<Scalars["String"]>;
+    sku?: Maybe<Scalars["String"]>;
+    prices?: Maybe<Array<ProductPrice>>;
+    price?: Maybe<ProductPrice>;
+    images: Array<Image>;
+    assets: Array<Asset>;
+    availability?: Maybe<ProductVariantAvailabilityWithChannels>;
+    attributesRaw: Array<RawProductAttribute>;
+    attributes: ProductType;
+    attributeList: Array<Attribute>;
+  }
 
-interface ProductVariantFilters {
-  master?: boolean;
-  attributes?: Record<string, string>;
-}
-```
+  interface ProductVariantFilters {
+    master?: boolean;
+    attributes?: Record<string, string>;
+  }
+  ```
 
 ## Examples
 
