@@ -25,6 +25,7 @@
     "@vuepress/plugin-back-to-top": "^1.8.2",
     "@vuepress/plugin-medium-zoom": "^1.8.2",
     "@vuepress/plugin-search": "^1.8.2",
+    "ejs": "^3.1.6",
     "typescript": "^3.6.4",
     "vuepress": "^1.2.0"
   },

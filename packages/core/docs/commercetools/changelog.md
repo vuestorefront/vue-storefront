@@ -4,10 +4,9 @@
 
 -  Revert changes to Webpack configuration and Google font loading ([#6203](https://github.com/vuestorefront/vue-storefront/pull/6203)) - [Filip Sobol](https://github.com/filipsobol)
 
-
 ## 1.3.0
 
-- [BREAKING] Enable the purchase of item with selected supply channel and distribution channel ([#6161](https://github.com/vuestorefront/vue-storefront/pull/6161)) - [Alef Barbeli](https://github.com/alefbarbeli)
+- **[BREAKING]** Enable the purchase of item with selected supply channel and distribution channel ([#6161](https://github.com/vuestorefront/vue-storefront/pull/6161)) - [Alef Barbeli](https://github.com/alefbarbeli)
 
 | Before | After | Comment | Module
 | ------ | ----- | ------ | ------
@@ -30,7 +29,7 @@ the addToCart method has the signature addToCart ({ id, version }: CartDetails, 
 
 -  Refactor updateCart, fix retry logic in case of mismatch of cart ([#6050](https://github.com/vuestorefront/vue-storefront/pull/6054)) - [git-antonyuk](https://github.com/git-antonyuk)
 
-- [BREAKING] refactor(commercetools): fix the frontend client bundling the commercetools-sdk and apollo client ([#6066](https://github.com/vuestorefront/vue-storefront/pull/6066)) - [bloodf](https://github.com/bloodf)
+- **[BREAKING]** refactor(commercetools): fix the frontend client bundling the commercetools-sdk and apollo client ([#6066](https://github.com/vuestorefront/vue-storefront/pull/6066)) - [bloodf](https://github.com/bloodf)
 
 | Before | After | Comment | Module 
 | ------ | ----- | ------ | ------
@@ -47,7 +46,7 @@ the "createCommerceToolsConnection" were being exported by the api-client | the 
 
 -  Updates form validation scheme for street, number and city in the checkout and profile editing pages ([#6122](https://github.com/vuestorefront/vue-storefront/pull/6122)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
 
-- [BREAKING] updated the removeCoupon interface to match the applyCoupon ([#6126](https://github.com/vuestorefront/vue-storefront/pull/6126)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
+- **[BREAKING]** updated the removeCoupon interface to match the applyCoupon ([#6126](https://github.com/vuestorefront/vue-storefront/pull/6126)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
 
 | Before | After | Comment | Module 
 | ------ | ----- | ------ | ------
@@ -64,11 +63,9 @@ the useCart composable method removeCoupon was using this call signature: ({ cou
 
 -  Fix calculation of cart totals ([#5932](https://github.com/vuestorefront/vue-storefront/pull/5932)) - [Filip Sobol](https://github.com/filipsobol)
 
-
 ## 1.2.2
 
 -  Allow searching by orderNumber ([#5858](https://github.com/vuestorefront/vue-storefront/pull/5858)) - [samriley](https://github.com/samriley)
-
 
 ## 1.2.1
 
@@ -78,13 +75,11 @@ the useCart composable method removeCoupon was using this call signature: ({ cou
 
 -  Export helper Apollo Link functions for easier overriding ([#5873](https://github.com/vuestorefront/vue-storefront/pull/5873)) - [Filip Sobol](https://github.com/filipsobol)
 
-
 ## 1.2.0
 
 -  Set 'vsf-commercetools-token' cookie expiration time to match token expiration time. ([#5774](https://github.com/vuestorefront/vue-storefront/pull/5774)) - [Filip Sobol](https://github.com/filipsobol)
 
 -  Reduce payload size for cart methods ([#5836](https://github.com/vuestorefront/vue-storefront/pull/5836)) - [Filip Sobol](https://github.com/filipsobol)
-
 
 ## 1.2.0-rc.3
 
@@ -94,12 +89,11 @@ the useCart composable method removeCoupon was using this call signature: ({ cou
 
 -  Fixed CT wishlist throwing CAPI error ([#5716](https://github.com/vuestorefront/vue-storefront/pull/5716)) - [Filip Sobol](https://github.com/filipsobol)
 
-
 ## 1.2.0-rc.2
 
 -  Adjust Checkout UI ([#5343](https://github.com/vuestorefront/vue-storefront/issues/5343)) - [Justyna Gieracka](https://github.com/justyna-13)
 
-- [BREAKING] Usage of api middleware ([#5361](https://github.com/vuestorefront/vue-storefront/pull/5361)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
+- **[BREAKING]** Usage of api middleware ([#5361](https://github.com/vuestorefront/vue-storefront/pull/5361)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
 
 | Before | After | Comment | Module 
 | ------ | ----- | ------ | ------
@@ -110,29 +104,28 @@ one entrypoint | multiple entrypoints | We expose multiple entrypoints for serve
 
 -  Improvements for api middleware ([#5500](https://github.com/vuestorefront/vue-storefront/pull/5500)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
 
-- [BREAKING] New part of checkout - Billing details, inside core and commercetools ([#5552](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
+- **[BREAKING]** New part of checkout - Billing details, inside core and commercetools ([#5552](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
 
 | Before | After | Comment | Module 
 | ------ | ----- | ------ | ------
 UserBillingAddress works properly | New API inside Checkout/UserBillingAddress.vue | Customized components to work with new checkout | commercetools-theme,
-- [BREAKING] Quick search ([#5566](https://github.com/vuestorefront/vue-storefront/issues/5566)) - [Justyna Gieracka](https://github.com/justyna-13)
+- **[BREAKING]** Quick search ([#5566](https://github.com/vuestorefront/vue-storefront/issues/5566)) - [Justyna Gieracka](https://github.com/justyna-13)
 
 | Before | After | Comment | Module 
 | ------ | ----- | ------ | ------
 { changeSearchTerm } = useUiHelpers() | { setTermForUrl } = useUiHelpers(); | Changed changeSearchTerm name to setTermForUrl | useUiHelpers/index.ts,
  | { getSearchTermFromUrl } = useUiHelpers(); | Created new function | useUiHelpers/index.ts,
-- [BREAKING] Implementation of api middleware ([#5577](https://github.com/vuestorefront/vue-storefront/pull/5577)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
+- **[BREAKING]** Implementation of api middleware ([#5577](https://github.com/vuestorefront/vue-storefront/pull/5577)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
 
 | Before | After | Comment | Module 
 | ------ | ----- | ------ | ------
 customQuery was used as a function | customQuery is a key-value object | The key is a query name, value is the name of a new query function, defined in the middleware config | commercetools,
-- [BREAKING] New Payment API for Checkout ([#5587](https://github.com/vuestorefront/vue-storefront/pull/5587)) - [Fifciu](https://github.com/Fifciu)
+- **[BREAKING]** New Payment API for Checkout ([#5587](https://github.com/vuestorefront/vue-storefront/pull/5587)) - [Fifciu](https://github.com/Fifciu)
 
 | Before | After | Comment | Module 
 | ------ | ----- | ------ | ------
 Dedicated composable for whole checkout | Dedicated composable for Shipping, Billing and Provider components | undefined | commercetools,
 -  State as a select field at both Checkout and MyAccount (shipping & billing). Support for freeAbove in shipping methods ([#5628](https://github.com/vuestorefront/vue-storefront/pull/5628)) - [Fifciu](https://github.com/Fifciu)
-
 
 # 1.1.7
 - fixed error with login to the account ([#5613](https://github.com/vuestorefront/vue-storefront/issues/5613))
@@ -162,9 +155,9 @@ Dedicated composable for whole checkout | Dedicated composable for Shipping, Bil
 ## 1.1.0
 - fix getOrders api ([#5328](https://github.com/DivanteLtd/vue-storefront/issues/5328))
 - added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
-- [BREAKING] refactored names of many factory methods and composable methods, details in linked PR ([#5299](https://github.com/DivanteLtd/vue-storefront/pull/5299))
-- [BREAKING] changed signatures of factory methods to always 2 arguments, details in linked PR ([#5299](https://github.com/DivanteLtd/vue-storefront/pull/5299))
-- [BREAKING] removed `totalOrders` and `totalProducts` ([#5330](https://github.com/vuestorefront/vue-storefront/pull/5330))
+- **[BREAKING]** refactored names of many factory methods and composable methods, details in linked PR ([#5299](https://github.com/DivanteLtd/vue-storefront/pull/5299))
+- **[BREAKING]** changed signatures of factory methods to always 2 arguments, details in linked PR ([#5299](https://github.com/DivanteLtd/vue-storefront/pull/5299))
+- **[BREAKING]** removed `totalOrders` and `totalProducts` ([#5330](https://github.com/vuestorefront/vue-storefront/pull/5330))
 - removed `formatPrice` from `useUiHelpers`, replaced by vue18n `$n` function ([#5339](https://github.com/vuestorefront/vue-storefront/pull/5339))
 - added missing `i18n` tags ([#5337](https://github.com/vuestorefront/vue-storefront/issues/5337))
 - use updated factories `useUserBillingFactory`, `useUserShippingFactory` and `useWishlistFactory` ([5350](https://github.com/vuestorefront/vue-storefront/pull/5350))
