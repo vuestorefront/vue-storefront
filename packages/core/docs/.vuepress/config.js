@@ -106,12 +106,13 @@ module.exports = {
             ['/commercetools/authorization-strategy', 'Authorization'],
             ['/enterprise/feature-list', 'Feature list'],
             ['/commercetools/maintainers', 'Maintainers and support'],
+            ['/commercetools/api-reference/', 'API Reference'],
             ['/commercetools/changelog', 'Changelog']
           ]
         },
         {
           title: 'Composables',
-          collapsable: false,
+          collapsable: true,
           children: [
             ['/commercetools/composables/use-billing', 'useBilling'],
             ['/commercetools/composables/use-cart', 'useCart'],
@@ -132,22 +133,20 @@ module.exports = {
           ]
         },
         {
-          title: 'API Reference',
-          collapsable: false,
+          title: 'How-to guides',
+          collapsable: true,
           children: [
-            ['/commercetools/api-reference/', 'API Reference']
-          ]
-        },
-        {
-          title: 'Extensions',
-          collapsable: false,
-          children: [
-            ['/commercetools/extensions/user-groups', 'User groups']
+            ['/commercetools/guide/product-catalog', 'Product Catalog'],
+            ['/commercetools/guide/authentication', 'Authentication'],
+            ['/commercetools/guide/user-profile', 'User profile'],
+            ['/commercetools/guide/cart', 'Cart'],
+            ['/commercetools/guide/wishlist', 'Wishlist'],
+            ['/commercetools/guide/checkout', 'Checkout']
           ]
         },
         {
           title: 'Theme',
-          collapsable: false,
+          collapsable: true,
           children: [
             ['/commercetools/auth-middleware', 'Auth Middleware']
           ]
@@ -236,18 +235,6 @@ module.exports = {
             ['/guide/error-handling', 'Error Handling'],
             ['/advanced/creating-custom-composables', 'Creating custom composables'],
             ['/advanced/extending-graphql-queries', 'Extending GraphQL queries']
-          ]
-        },
-        {
-          title: 'How-to guides',
-          collapsable: true,
-          children: [
-            ['/guide/product-catalog', 'Product Catalog'],
-            ['/guide/authentication', 'Authentication'],
-            ['/guide/user-profile', 'User profile'],
-            ['/guide/cart', 'Cart'],
-            ['/guide/wishlist', 'Wishlist'],
-            ['/guide/checkout', 'Checkout']
           ]
         },
         {

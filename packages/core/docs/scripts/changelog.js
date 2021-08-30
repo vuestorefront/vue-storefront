@@ -6,6 +6,12 @@ const getCliArgument = (name, number) => {
   return commandArgs[commandArgs.findIndex(arg => arg === name) + number];
 };
 
+const replaceComponentLinkTags = (text) => {
+  return text
+    .replace('<', '&lt;')
+    .replace('>', '&gt;');
+};
+
 const releaseVersion = getCliArgument('--v', 1);
 
 const pathIn = getCliArgument('--in', 0) ? getCliArgument('--in', 1) : '../changelog';
@@ -16,12 +22,42 @@ const prNumbers = fs.readdirSync(pathIn);
 
 const numberOfPR = prNumbers.map(el => el.substr(0, el.lastIndexOf('.')));
 
-const finalData = prNumbers.map(el => require(`${pathIn}/${el}`)).map((el, i) => `
-- ${el.isBreaking ? '[BREAKING]' : ''} ${el.description} ([#${numberOfPR[i]}](${el.link})) - [${el.author}](${el.linkToGitHubAccount})
-${el.isBreaking ? `
-| Before | After | Comment | Module 
-| ------ | ----- | ------ | ------` +
-el.breakingChanges.map(br => '\n' + br.before + ' | ' + br.after + ' | ' + br.comment + ' | ' + br.module) : ''}`);
+const finalData = prNumbers
+  // eslint-disable-next-line global-require
+  .map(el => require(`${pathIn}/${el}`))
+  .map((pr, i) => {
+    const {
+      description,
+      link,
+      isBreaking,
+      breakingChanges,
+      author,
+      linkToGitHubAccount
+    } = pr;
+
+    let breakingChangesText = '';
+
+    if (isBreaking) {
+      breakingChangesText = `
+        | Before | After | Comment | Module 
+        | ------ | ----- | ------ | ------
+      `;
+
+      breakingChangesText += breakingChanges.map(breakingChange => {
+        const module = replaceComponentLinkTags(breakingChange.module);
+        const before = replaceComponentLinkTags(breakingChange.before);
+        const after = replaceComponentLinkTags(breakingChange.after);
+        const comment = replaceComponentLinkTags(breakingChange.comment);
+
+        return `${ before } | ${ after } | ${ comment } | ${ module }`;
+      });
+    }
+
+    return `
+      - ${ isBreaking ? '[BREAKING]' : '' } ${ description } ([#${ numberOfPR[i] }](${ link })) - [${ author }](${ linkToGitHubAccount })
+      ${ breakingChangesText }
+    `;
+  });
 
 const changelogData = fs.readFileSync(pathOut).toString().split('\n');
 

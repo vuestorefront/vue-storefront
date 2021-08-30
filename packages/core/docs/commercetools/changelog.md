@@ -11,7 +11,7 @@
 
 | Before | After | Comment | Module
 | ------ | ----- | ------ | ------
-the addToCart method has the signature addToCart ({ id, version }: CartDetails, product: ProductVariant, quantity: number): Promise<CartResponse>; | now the addToCart method was change to enable the supply and distribution channels with the signature addToCart ({ id, version }: CartDetails, params: { product: ProductVariant; quantity: number; supplyChannel?: string; distributionChannel?: string;}): Promise<CartResponse>; | The composable was changed to match this signature. The changes from Click & Collect / MultiStore are required to use this feature on Product.vue | api-client,
+the addToCart method has the signature addToCart ({ id, version }: CartDetails, product: ProductVariant, quantity: number): Promise&lt;CartResponse&gt;; | now the addToCart method was change to enable the supply and distribution channels with the signature addToCart ({ id, version }: CartDetails, params: { product: ProductVariant; quantity: number; supplyChannel?: string; distributionChannel?: string;}): Promise&lt;CartResponse&gt;; | The composable was changed to match this signature. The changes from Click & Collect / MultiStore are required to use this feature on Product.vue | api-client,
 -  Added missing mobile menu to CT ([#6184](https://github.com/vuestorefront/vue-storefront/pull/6184)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
    ,
 -  Added customQuery support for useUser factory params ([#5883](https://github.com/vuestorefront/vue-storefront/pull/5823)) - [vn-vlad](https://github.com/vn-vlad)
