@@ -218,7 +218,6 @@ module.exports = {
           collapsable: false,
           children: [
             ['/general/key-concepts', 'Key concepts'],
-            ['/general/where-to-start', 'Where to start?'],
             ['/guide/theme', 'Theme'],
             ['/guide/configuration', 'Configuration'],
             ['/advanced/internationalization', 'Internationalization'],
