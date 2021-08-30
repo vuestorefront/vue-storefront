@@ -8,9 +8,10 @@
 
 - **[BREAKING]** Enable the purchase of item with selected supply channel and distribution channel ([#6161](https://github.com/vuestorefront/vue-storefront/pull/6161)) - [Alef Barbeli](https://github.com/alefbarbeli)
 
-| Before | After | Comment | Module
-| ------ | ----- | ------ | ------
-the addToCart method has the signature addToCart ({ id, version }: CartDetails, product: ProductVariant, quantity: number): Promise&lt;CartResponse&gt;; | now the addToCart method was change to enable the supply and distribution channels with the signature addToCart ({ id, version }: CartDetails, params: { product: ProductVariant; quantity: number; supplyChannel?: string; distributionChannel?: string;}): Promise&lt;CartResponse&gt;; | The composable was changed to match this signature. The changes from Click & Collect / MultiStore are required to use this feature on Product.vue | api-client,
+  | Before | After | Comment | Module
+  | ------ | ----- | ------ | ------
+  the addToCart method has the signature addToCart ({ id, version }: CartDetails, product: ProductVariant, quantity: number): Promise&lt;CartResponse&gt;; | now the addToCart method was change to enable the supply and distribution channels with the signature addToCart ({ id, version }: CartDetails, params: { product: ProductVariant; quantity: number; supplyChannel?: string; distributionChannel?: string;}): Promise&lt;CartResponse&gt;; | The composable was changed to match this signature. The changes from Click & Collect / MultiStore are required to use this feature on Product.vue | api-client
+
 -  Added missing mobile menu to CT ([#6184](https://github.com/vuestorefront/vue-storefront/pull/6184)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
 
 -  Added customQuery support for useUser factory params ([#5883](https://github.com/vuestorefront/vue-storefront/pull/5823)) - [vn-vlad](https://github.com/vn-vlad)
@@ -31,9 +32,10 @@ the addToCart method has the signature addToCart ({ id, version }: CartDetails, 
 
 - **[BREAKING]** refactor(commercetools): fix the frontend client bundling the commercetools-sdk and apollo client ([#6066](https://github.com/vuestorefront/vue-storefront/pull/6066)) - [bloodf](https://github.com/bloodf)
 
-| Before | After | Comment | Module 
-| ------ | ----- | ------ | ------
-the "createCommerceToolsConnection" were being exported by the api-client | the "createCommerceToolsConnection" is not being exported anymore | to use the current connection, you will need to access the context to call the API | api-client,
+  | Before | After | Comment | Module 
+  | ------ | ----- | ------ | ------
+  the "createCommerceToolsConnection" were being exported by the api-client | the "createCommerceToolsConnection" is not being exported anymore | to use the current connection, you will need to access the context to call the API | api-client
+
 -  Linked banner grids buttons on homepage ([#6070](https://github.com/vuestorefront/vue-storefront/pull/6070)) - [Justyna Gieracka](https://github.com/justyna-13)
 
 -  Replace mocked email address in MyProfile password change tab to active user email ([#6079](https://github.com/vuestorefront/vue-storefront/pull/6079)) - [Adam Pawliński](https://github.com/AdamPawlinski)
@@ -48,9 +50,10 @@ the "createCommerceToolsConnection" were being exported by the api-client | the 
 
 - **[BREAKING]** updated the removeCoupon interface to match the applyCoupon ([#6126](https://github.com/vuestorefront/vue-storefront/pull/6126)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
 
-| Before | After | Comment | Module 
-| ------ | ----- | ------ | ------
-the useCart composable method removeCoupon was using this call signature: ({ coupon: COUPON, customQuery?: CustomQuery })   | the method signature was changed to: ({ couponCode: string, customQuery?: CustomQuery })   | on each removeCoupon composable usage need to change the "coupon" to "couponCode" | composables,
+  | Before | After | Comment | Module 
+  | ------ | ----- | ------ | ------
+  the useCart composable method removeCoupon was using this call signature: ({ coupon: COUPON, customQuery?: CustomQuery })   | the method signature was changed to: ({ couponCode: string, customQuery?: CustomQuery })   | on each removeCoupon composable usage need to change the "coupon" to "couponCode" | composables
+
 -  Add new getter for orders total and change return value of searchOrders ([#6132](https://github.com/vuestorefront/vue-storefront/issues/5968)) - [Baroshem](https://github.com/Baroshem)
 
 - Phone number validation via awesome-phonenumber ([#5951](https://github.com/vuestorefront/vue-storefront/issues/5951)) - [Fifciu](https://github.com/Fifciu)
@@ -95,9 +98,10 @@ the useCart composable method removeCoupon was using this call signature: ({ cou
 
 - **[BREAKING]** Usage of api middleware ([#5361](https://github.com/vuestorefront/vue-storefront/pull/5361)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
 
-| Before | After | Comment | Module 
-| ------ | ----- | ------ | ------
-one entrypoint | multiple entrypoints | We expose multiple entrypoints for server and client side interaction | commercetools,
+  | Before | After | Comment | Module 
+  | ------ | ----- | ------ | ------
+  one entrypoint | multiple entrypoints | We expose multiple entrypoints for server and client side interaction | commercetools
+
 -  New part of checkout - shipping details, inside core and commercetools ([#5419](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
 
 -  Added `is-authenticated` middleware to protect user profile routes from guest access ([#5442](https://github.com/vuestorefront/vue-storefront/pull/5442)) - [Filip Sobol](https://github.com/filipsobol)
@@ -106,15 +110,17 @@ one entrypoint | multiple entrypoints | We expose multiple entrypoints for serve
 
 - **[BREAKING]** New part of checkout - Billing details, inside core and commercetools ([#5552](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
 
-| Before | After | Comment | Module 
-| ------ | ----- | ------ | ------
-UserBillingAddress works properly | New API inside Checkout/UserBillingAddress.vue | Customized components to work with new checkout | commercetools-theme,
+  | Before | After | Comment | Module 
+  | ------ | ----- | ------ | ------
+  UserBillingAddress works properly | New API inside Checkout/UserBillingAddress.vue | Customized components to work with new checkout | commercetools-theme
+
 - **[BREAKING]** Quick search ([#5566](https://github.com/vuestorefront/vue-storefront/issues/5566)) - [Justyna Gieracka](https://github.com/justyna-13)
 
-| Before | After | Comment | Module 
-| ------ | ----- | ------ | ------
-{ changeSearchTerm } = useUiHelpers() | { setTermForUrl } = useUiHelpers(); | Changed changeSearchTerm name to setTermForUrl | useUiHelpers/index.ts,
- | { getSearchTermFromUrl } = useUiHelpers(); | Created new function | useUiHelpers/index.ts,
+  | Before | After | Comment | Module 
+  | ------ | ----- | ------ | ------
+  { changeSearchTerm } = useUiHelpers() | { setTermForUrl } = useUiHelpers(); | Changed changeSearchTerm name to setTermForUrl | useUiHelpers/index.ts,
+  | { getSearchTermFromUrl } = useUiHelpers(); | Created new function | useUiHelpers/index.ts
+
 - **[BREAKING]** Implementation of api middleware ([#5577](https://github.com/vuestorefront/vue-storefront/pull/5577)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
 
 | Before | After | Comment | Module 
@@ -122,30 +128,31 @@ UserBillingAddress works properly | New API inside Checkout/UserBillingAddress.v
 customQuery was used as a function | customQuery is a key-value object | The key is a query name, value is the name of a new query function, defined in the middleware config | commercetools,
 - **[BREAKING]** New Payment API for Checkout ([#5587](https://github.com/vuestorefront/vue-storefront/pull/5587)) - [Fifciu](https://github.com/Fifciu)
 
-| Before | After | Comment | Module 
-| ------ | ----- | ------ | ------
-Dedicated composable for whole checkout | Dedicated composable for Shipping, Billing and Provider components | undefined | commercetools,
+  | Before | After | Comment | Module 
+  | ------ | ----- | ------ | ------
+  Dedicated composable for whole checkout | Dedicated composable for Shipping, Billing and Provider components | undefined | commercetools
+
 -  State as a select field at both Checkout and MyAccount (shipping & billing). Support for freeAbove in shipping methods ([#5628](https://github.com/vuestorefront/vue-storefront/pull/5628)) - [Fifciu](https://github.com/Fifciu)
 
-# 1.1.7
+## 1.1.7
 - fixed error with login to the account ([#5613](https://github.com/vuestorefront/vue-storefront/issues/5613))
 
-# 1.1.6
+## 1.1.6
 - fix register function from CT useUser composable allows user to log in [#5613](https://github.com/vuestorefront/vue-storefront/issues/5613)
 
-# 1.1.5
+## 1.1.5
 - remove deprecated field `description` from shipping methods query [#5614](https://github.com/vuestorefront/vue-storefront/issues/5614)
 
-# 1.1.6
+## 1.1.6
 - fix register function from CT useUser composable allows user to log in [#5613](https://github.com/vuestorefront/vue-storefront/issues/5613)
 
-# 1.1.5
+## 1.1.5
 - remove deprecated field `description` from shipping methods query [#5614](https://github.com/vuestorefront/vue-storefront/issues/5614)
 
-# 1.1.3
+## 1.1.3
 - cover errors in re-try apollo-link that are not comming from graphql ([#5548](https://github.com/vuestorefront/vue-storefront/pull/5548))
 
-# 1.1.2
+## 1.1.2
 - moved from using `attributesList` to `attributesRaw`
 - add 'once' to prevent font reload on each reactivity event ([#5513](https://github.com/DivanteLtd/vue-storefront/issues/5534))
 

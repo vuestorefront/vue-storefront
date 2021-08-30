@@ -53,16 +53,5 @@ changelogData.splice(
   versionExists > -1 ? finalData : ejs.render(templates.version, { version: releaseVersion, changes: finalData })
 );
 
-// Remove excessive new lines
-const data = changelogData.reduce((carry, line) => {
-  const isEmptyLine = (line) => !line || line === '\n';
-
-  console.log(isEmptyLine(line) && isEmptyLine(carry[carry.length - 1]));
-
-  return isEmptyLine(line) && isEmptyLine(carry[carry.length - 1])
-    ? carry
-    : carry.concat(line);
-}, []);
-
-fs.writeFileSync(pathOut, data.join('\n'));
+fs.writeFileSync(pathOut, changelogData.join('\n'));
 prNumbers.map(el => fs.unlinkSync(`${pathIn}/${el}`));
