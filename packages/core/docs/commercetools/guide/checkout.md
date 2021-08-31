@@ -10,7 +10,7 @@ Shipping details are information about the recipient's address required to ship 
 
 You can load shipping details by calling the `load` method in `useShipping` composable and accessing the `shipping` property after loading is done.
 ```js{8,16}
-import { useShipping } from '{INTEGRATION}';
+import { useShipping } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -43,7 +43,7 @@ You can use the `save` method to save shipping details, so they are available ne
 </template>
 
 <script>
-import { useShipping } from '{INTEGRATION}';
+import { useShipping } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -115,7 +115,7 @@ Sometimes you have to show the information about a selected shipping method in a
 For such cases, you can use `useShippingProvider` composable. It has been made for loading and saving a current shipping method. After loading the data via the `load` method, it stores the information in some property of a `state` object, so you can access it from many places.
 
 ```ts
-import { useShippingProvider } from '{INTEGRATION}';
+import { useShippingProvider } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import { computed } from '@vue/composition-api';
 
@@ -141,7 +141,7 @@ Billing details are information about the payer's address used by store owners t
 You can load billing details by calling the `load` method in `useBilling` composable and accessing the `billing` property after loading is done.
 
 ```js{8,16}
-import { useBilling } from '{INTEGRATION}';
+import { useBilling } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -174,7 +174,7 @@ You can use the `save` method to save billing details.
 </template>
 
 <script>
-import { useBilling } from '{INTEGRATION}';
+import { useBilling } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -200,7 +200,7 @@ export default {
 
 After the user has provided all the information required by your eCommerce, you are ready to *make an order*. To do that, you have to call a `make` method from the `useMakeOrder` composable.
 ```js
-import { useMakeOrder } from '{INTEGRATION}';
+import { useMakeOrder } from '@vue-storefront/commercetools';
 
 export default {
   setup () {
@@ -216,7 +216,7 @@ export default {
 When the order is created, you can redirect the user to the page thanking them for making an order and refresh the cart.
 
 ```js
-import { useMakeOrder, useCart } from '{INTEGRATION}';
+import { useMakeOrder, useCart } from '@vue-storefront/commercetools';
 
 export default {
   setup (_, context) {
@@ -307,7 +307,7 @@ If the payment provider's SDK handles the process of configuring payment but all
 
 <script>
 import { usePaymentProvider } from '{PAYMENT_PROVIDER_INTEGRATION}';
-import { useMakeOrder } from '{INTEGRATION}';
+import { useMakeOrder } from '@vue-storefront/commercetools';
 // ...
 
 export default {

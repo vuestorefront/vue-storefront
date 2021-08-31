@@ -8,7 +8,7 @@ The `load` method will load your cart from the server or create a new one if it 
 
 
 ```js
-import { useCart } from '{INTEGRATION}';
+import { useCart } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 export default {
   setup() {
@@ -53,7 +53,7 @@ To add the product to the cart you can use `addItem` method:
 </template>    
 <script>     
   import { computed } from '@vue/composition-api';
-  import { useCart } from '{INTEGRATION}';
+  import { useCart } from '@vue-storefront/commercetools';
   export default {
     props: {
       products: {
@@ -105,7 +105,7 @@ To remove an item from the cart use `removeItem` method, and similarly to update
 
 <script>
   import { computed } from '@vue/composition-api';
-  import { useCart, cartGetters } from '{INTEGRATION}';
+  import { useCart, cartGetters } from '@vue-storefront/commercetools';
   import { onSSR } from '@vue-storefront/core';
 
   export default {
@@ -142,7 +142,7 @@ To check if a specific product configuration is already in the cart, pass it to 
 
 ```js
 import { computed } from '@vue/composition-api';
-import { useCart } from '{INTEGRATION}';
+import { useCart } from '@vue-storefront/commercetools';
 
 export default {
   props: {
@@ -187,7 +187,7 @@ To clear cart items (not delete it) use `clear` method.
 </template>   
 <script>      
   import { computed } from '@vue/composition-api';
-  import { useCart, cartGetters } from '{INTEGRATION}';
+  import { useCart, cartGetters } from '@vue-storefront/commercetools';
 
   export default {
     setup() {
@@ -230,7 +230,7 @@ You can apply promotional coupons to your cart with `applyCoupon` and remove wit
   // ...
 </template>   
 <script>      
-  import { useCart } from '{INTEGRATION}';
+  import { useCart } from '@vue-storefront/commercetools';
   export default {
     setup() {
       const {

@@ -8,7 +8,7 @@ The `load` method will load your cart from the server or create a new one if it 
 
 ```vue
 <script>
-  import { useWishlist } from '{INTEGRATION}'
+  import { useWishlist } from '@vue-storefront/commercetools'
   import { onSSR } from '@vue-storefront/core'
 
   export default {
@@ -55,7 +55,7 @@ To add the product to the wishlist, you can use `addItem` method:
 </template>
 <script>
   import { computed } from '@vue/composition-api';
-  import { useWishlist } from '{INTEGRATION}'
+  import { useWishlist } from '@vue-storefront/commercetools'
 
   export default {
     props: {
@@ -106,7 +106,7 @@ To remove an item from the cart, use `removeItem` method.
 </template>   
 <script>
   import { computed } from '@vue/composition-api';
-  import { useWishlist, wishlistGetters } from '{INTEGRATION}';
+  import { useWishlist, wishlistGetters } from '@vue-storefront/commercetools';
   import { onSSR } from '@vue-storefront/core';
   export default {
     setup() {
@@ -153,7 +153,7 @@ To check if a product is already on the wishlist, pass it to `isInWishlist` meth
 </template>    
 <script>
   import { computed } from '@vue/composition-api';
-  import { useWishlist} from '{INTEGRATION}';
+  import { useWishlist} from '@vue-storefront/commercetools';
   export default {
     props: {
       products: {
@@ -200,7 +200,7 @@ Cleaning the wishlist can be achieved by `clear` property.
 </template>   
 <script>      
   import { computed } from '@vue/composition-api';
-  import { useWishlist, wishlistGetters } from '{INTEGRATION}';
+  import { useWishlist, wishlistGetters } from '@vue-storefront/commercetools';
 
   export default {
     setup() {
@@ -256,7 +256,7 @@ The product list:
     </ul>
 </template>    
 <script>     
-  import { useCart, useWishlist } from '{INTEGRATION}';
+  import { useCart, useWishlist } from '@vue-storefront/commercetools';
 
   export default {
     props: {
@@ -329,7 +329,7 @@ The cart component:
 </template> 
 <script> 
   import { computed, ref } from '@vue/composition-api';
-  import { useCart, cartGetters } from '{INTEGRATION}';
+  import { useCart, cartGetters } from '@vue-storefront/commercetools';
   import { onSSR } from '@vue-storefront/core';
   export default {
     setup() {
@@ -397,7 +397,7 @@ The wishlist component:
 </template>   
 <script> 
   import { computed } from '@vue/composition-api';
-  import { useWishlist, wishlistGetters } from '{INTEGRATION}';
+  import { useWishlist, wishlistGetters } from '@vue-storefront/commercetools';
   import { onSSR } from '@vue-storefront/core';
   export default {
     setup() {
