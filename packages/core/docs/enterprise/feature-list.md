@@ -5,9 +5,6 @@ sidebar: false
 
 The following document lists the most important (but not all!) features of [Vue Storefront Cloud](https://www.vuestorefront.io/enterprise) offering.
 
-
-[[toc]]
-
 ## Key Platform Features
 
 **1. No UI/functional limitations**

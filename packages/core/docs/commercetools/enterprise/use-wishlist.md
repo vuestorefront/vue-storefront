@@ -1,11 +1,4 @@
----
-platform: commercetools
----
-
 # Wishlist
-
-[[toc]]
-
 ## Features
 
 `useWishlist` composition API function is responsible for integrating with the wishlist from commercetools. It allows to:

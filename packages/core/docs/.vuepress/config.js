@@ -110,6 +110,18 @@ module.exports = {
           ]
         },
         {
+          title: 'How-to guides',
+          collapsable: true,
+          children: [
+            ['/commercetools/guide/authentication', 'Authentication'],
+            ['/commercetools/guide/cart', 'Cart'],
+            ['/commercetools/guide/checkout', 'Checkout'],
+            ['/commercetools/guide/product-catalog', 'Product catalog'],
+            ['/commercetools/guide/user-profile', 'User profile'],
+            ['/commercetools/guide/wishlist', 'Wishlist'],
+          ]
+        },
+        {
           title: 'Composables',
           collapsable: true,
           children: [
@@ -129,18 +141,6 @@ module.exports = {
             ['/commercetools/composables/use-user-shipping', 'useUserShipping'],
             ['/commercetools/composables/use-user', 'useUser'],
             ['/commercetools/composables/use-wishlist', 'useWishlist']
-          ]
-        },
-        {
-          title: 'How-to guides',
-          collapsable: true,
-          children: [
-            ['/commercetools/guide/authentication', 'Authentication'],
-            ['/commercetools/guide/cart', 'Cart'],
-            ['/commercetools/guide/checkout', 'Checkout'],
-            ['/commercetools/guide/product-catalog', 'Product catalog'],
-            ['/commercetools/guide/user-profile', 'User profile'],
-            ['/commercetools/guide/wishlist', 'Wishlist'],
           ]
         },
         {
@@ -258,10 +258,10 @@ module.exports = {
           title: 'Extending Vue Storefront',
           collapsable: true,
           children: [
-            // ['/', 'Extensions basics'],
-            ['/integrate/integration-guide', 'eCommerce integration'],
-            ['/integrate/cms', 'CMS integration'],
-            ['/integrate/cache-driver', 'Cache driver integration']
+            // ['/integrate/extending-vue-storefront', 'Extending Vue Storefront'],
+            ['/integrate/integration-guide', 'Integrating eCommerce platform'],
+            ['/integrate/cms', 'Integrating CMS platform'],
+            ['/integrate/cache-driver', 'Integrating cache driver']
           ]
         },
         {
