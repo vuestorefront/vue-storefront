@@ -59,7 +59,7 @@ issues:
   daysUntilStale: 30
   daysUntilClose: 7
   markComment: >
-    This pull request has been automatically marked as stale.
+    This issue has been automatically marked as stale.
     It will be closed if no further activity occurs.
     Thank you for your contributions.
  exemptLabels:
