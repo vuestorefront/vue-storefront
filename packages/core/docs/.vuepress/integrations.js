@@ -137,7 +137,7 @@ const INTEGRATIONS = {
       name: 'Vendure',
       link: '',
       image: '/v2/integrations-logos/vendure.png',
-      status: STATUSES.WIP,
+      status: STATUSES.BETA,
       availability: AVAILABILITY.OPEN_SOURCE,
       maintainedBy: [
         { name: 'Jakub Andrzejewski', link: 'https://www.linkedin.com/in/jakub-andrzejewski/' },
@@ -311,7 +311,7 @@ const INTEGRATIONS = {
       categories: [ CATEGORIES.SEARCH ],
       compatibility: [ 'commercetools' ]
     },
-    
+
     {
       name: 'Constructor.io',
       link: '',
