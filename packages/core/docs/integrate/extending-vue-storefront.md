@@ -72,7 +72,7 @@ You can use them to:
 - create a sitemap, generate `robots.txt` file or meta tags for social media platforms;
 - registering various HTTP clients, such as axios or Apollo;
 - add Google Tag Manager, Google GTag;
-- integrate with CSM's, payment providers, error monitoring software;
+- integrate with CMSs, payment providers, error monitoring software;
 
 See the [Modules](https://nuxtjs.org/docs/2.x/directory-structure/modules) page in Nuxt.js documentation to learn more and [Explore Nuxt Modules](https://modules.nuxtjs.org/) page to see a list of available modules.
 
