@@ -18,6 +18,11 @@ module.exports = {
   base: '/v2/',
 
   /**
+   * Ref: https://vuepress.vuejs.org/config/#shouldprefetch
+   */
+  shouldPrefetch: () => false,
+
+  /**
    * Ref：https://v1.vuepress.vuejs.org/config/#head
    */
   head: [
