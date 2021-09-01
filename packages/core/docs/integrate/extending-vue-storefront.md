@@ -36,7 +36,7 @@ For a list of Vue.js UI plugins, see the [UI Utilities](https://github.com/vuejs
 
 ### Vue.js non-UI plugins
 
-Non-UI plugins extend how the application works under the hook or handles state and storage. They include plugins that add support for:
+Non-UI plugins extend how the application works under the hood or handles state and storage. They include plugins that add support for:
 
 - making HTTP requests;
 - internationalization (i18n);
