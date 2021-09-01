@@ -1,16 +1,14 @@
-# Server middleware
+# Server Middleware
 
 :::danger Don't forget to reload the application
 The application does not reload automatically after saving the changes in Server Middleware. Due to this, you have to restart the application manually. We are working on enabling Hot Reloading in future updates.
 :::
 
-## What is Vue Storefront Middleware, and why we need it?
+## What is Server Middleware
 
-The Vue Storefront middleware is an Express proxy that takes the requests from the front end, translates them to a given integration, and calls related API-client.
+The Server Middleware in Vue Storefront application is an Express proxy that takes the requests from the front end, translates them to a given integration, and calls related API-client.
 
-We have implemented it for a variety of reasons.
-
-First of all, it allows us to provide a proven way of extensibility. As a developer, you have control of the requests and responses in the given platform with [extensions](/advanced/server-middleware.html#extending-integrations))
+We have implemented it for a variety of reasons. First of all, it allows us to provide a proven way of extensibility. As a developer, you have control of the requests and responses in the given platform with [extensions](/advanced/server-middleware.html#extending-integrations)).
 
 All platform credentials are stored only on the server side and not exposed to the front-end part of your application.
 

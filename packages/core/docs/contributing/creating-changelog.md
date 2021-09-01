@@ -11,20 +11,20 @@ There are just a few steps to do in order to create the changelog.
 
 ```js
 module.exports = {
-  description: "description of your changes",
-  link: "link to your issue",
+  description: 'description of your changes',
+  link: 'link to your issue',
   isBreaking: true or false, //(depends if you applied some breaking changes),
   breakingChanges: [ //leave it empty if there aren't any breaking changes
     {
-      module: "affected module",
-      before: "how it was",
-      after: "how it is",
-      comment: "quick migration guide"
+      module: 'affected module',
+      before: 'how it was',
+      after: 'how it is',
+      comment: 'quick migration guide'
     }
   ],
-  author: "your name",
-  linkToGitHubAccount: "link to your github account",
-}
+  author: 'your name',
+  linkToGitHubAccount: 'link to your github account'
+};
 ```
 3. Save all changes.
 

@@ -1,4 +1,4 @@
-# Integrating CMS
+# Integrating CMS platform
 
 ::: warning Want to build an integration?
 If you want to integrate with Vue Storefront, don't hesitate to get in touch with the core team on our [Discord](https://discord.vuestorefront.io/) server. We are eager to help you to ensure its high quality and maybe even officially recommend it 😉

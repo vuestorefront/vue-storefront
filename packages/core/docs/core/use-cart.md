@@ -1,7 +1,5 @@
 # Cart
 
-[[toc]]
-
 ## Features
 
 `useCart` composition function can be used to:

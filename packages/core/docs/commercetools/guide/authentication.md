@@ -16,7 +16,7 @@ Registering a new user can be done using `register` method.
 </template>
 
 <script>
-import { useUser } from '{INTEGRATION}';
+import { useUser } from '@vue-storefront/commercetools';
 import { ref } from '@vue/composition-api';
 
 export default {
@@ -41,7 +41,7 @@ Many interactions in the application are only available ( `useUser` prefixed fun
 Like with all other composables, it's important to remember to call `load` before accessing any other property or function of `useUser`. Otherwise, `isAuthenticated` will always return `false`.
 
 ```js{8,16}
-import { useUser } from '{INTEGRATION}';
+import { useUser } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -77,7 +77,7 @@ Signing in can be done using `login` method.
 </template>
 
 <script>
-import { useUser } from '{INTEGRATION}';
+import { useUser } from '@vue-storefront/commercetools';
 import { ref } from '@vue/composition-api';
 
 export default {
@@ -113,7 +113,7 @@ Signing out can be done using `logout` method.
 </template>
 
 <script>
-import { useUser } from '{INTEGRATION}';
+import { useUser } from '@vue-storefront/commercetools';
 import { ref } from '@vue/composition-api';
 
 export default {
@@ -145,7 +145,7 @@ Usually, the process of resetting a user password consists of two steps:
 </template>
 
 <script>
-import { useForgotPassword } from '{INTEGRATION}';
+import { useForgotPassword } from '@vue-storefront/commercetools';
 import { ref } from '@vue/composition-api';
 
 export default {
@@ -175,7 +175,7 @@ export default {
 </template>
 
 <script>
-import { useForgotPassword, forgotPasswordGetters } from '{INTEGRATION}';
+import { useForgotPassword, forgotPasswordGetters } from '@vue-storefront/commercetools';
 import { ref } from '@vue/composition-api';
 
 export default {
