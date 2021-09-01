@@ -30,16 +30,16 @@ const extension = {
 }
 ```
 
-- `name` - defines the unique name of an extension
+- `name` - defines the unique name of the extension
 - `extendApiMethods` - overrides the original functions from API-client
 - `extendApp` - a function that gives you access to the express.js app
 - `hooks` - defines lifecycle hooks of API-client
-- `hooks:beforeCreate` - called before API-client creates a connection, takes the given configuration as an argument, and must return the configuration. Here you can attach something else to the configuration or even change it.
-- `hooks:afterCreate` - Similar to the previous one, but called after the connection has been created. It also returns a configuration, and you can change it.
+- `hooks:beforeCreate` - called before API-client creates a connection. It accepts configuration as an argument, and must return it as well. You can use it to modify the configuration or merge with the default values.
+- `hooks:afterCreate` - similar to the previous function, but called after the connection has been created. It accepts configuration as an argument, and must return it as well.
 - `hooks:beforeCall` - called before each API-client function. We have access to the configuration, function name, and its arguments. This function must return the arguments, and based on the input parameters we can change it.
 - `hooks:afterCall` - called after each API-client function. We have access to the configuration, function name, and its arguments. This function must return the response, and based on the input parameters we can attach something to it.
 
-See the [ApiClientExtension interface](core/api-reference/core.apiclientextension.html) for more information.
+See the [ApiClientExtension interface](/core/api-reference/core.apiclientextension.html) for more information.
 
 ## Registering an extension
 

@@ -83,7 +83,7 @@ As you might have read on a page dedicated to the [Server Middleware](/advanced/
 - register integrations;
 - extend existing integrations using extensions;
 
-Integrations and extensions for Server Middleware are only run on the server.
+Integrations and extensions for Server Middleware are run only on the server.
 
 ### Server Middleware integrations
 
