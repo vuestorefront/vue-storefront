@@ -1,6 +1,8 @@
 const { STATUSES, AVAILABILITY, CATEGORIES, INTEGRATIONS } = require('./integrations');
 const GTM_TAG = 'GTM-WMDC3CP';
 
+console.log('TEST');
+
 module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
