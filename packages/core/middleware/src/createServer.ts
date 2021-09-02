@@ -25,7 +25,7 @@ interface RequestParams {
 
 function createServer (config: MiddlewareConfig): Express {
   consola.info('Middleware starting....');
-  consola.info('Loading integartions...');
+  consola.info('Loading integrations...');
 
   const integrations = registerIntegrations(app, config.integrations);
 
