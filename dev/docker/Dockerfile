@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:12.22.4
 
 # ENV NODE_CONFIG_ENV=docker PM2_ARGS=--no-daemon BIND_HOST=0.0.0.0 VS_ENV=prod
 
