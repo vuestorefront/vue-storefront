@@ -1,4 +1,5 @@
 import { Billing, Payment, Shipping, ThankYou } from './checkout';
+import Breadcrumbs from './components/breadcrumbs';
 import Cart from './components/cart-sidebar';
 import LoginModal from './components/login-modal';
 import Home from './home';
@@ -19,7 +20,8 @@ const page = {
   get components() {
     return {
       cart: Cart,
-      loginModal: LoginModal
+      loginModal: LoginModal,
+      breadcrumbs: Breadcrumbs
     };
   },
 
@@ -34,8 +36,8 @@ const page = {
     };
   },
 
-  category(category?: string) {
-    return new Category(category);
+  category(category?: string, subcategory?: string) {
+    return new Category(category, subcategory);
   },
 
   product(id?: string, slug?: string) {
