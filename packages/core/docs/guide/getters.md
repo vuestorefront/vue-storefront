@@ -4,8 +4,8 @@
 
 ## What are getters?
 
-Getters are functions that are used to get the data from the raw API responses. They return an agnostic or a primitive types and allow you to write the same code regardless of the backend used.
-Each composable has its own dedicated getter, e.g. `useCart` and `cartGetters`. **You should only use getters dedicated to specific composable**.
+Getters are functions that are used to get the data from the raw API responses. They return agnostic or primitive types and allow you to write the same code regardless of the backend used.
+Each composable has its own dedicated getter, e.g., `useCart` and `cartGetters`. **You should only use getters dedicated to specific composable**.
 
 ## When should I use them?
 
@@ -14,7 +14,7 @@ Each composable has its own dedicated getter, e.g. `useCart` and `cartGetters`. 
 ## How can I use getters?
 
 The getters accept arguments to get the data. As an example, we will use cart functionalities.
-Most functions in `cartGetters` accept whole `cart` object or individual cart items. This data needs to be extracted from `useCart` composable first.
+Most functions in `cartGetters` accept whole `cart` objects or individual cart items. This data needs to be extracted from `useCart` composable first.
 As the first example, we will use `getTotalItems` from `cartGetters` to get the total number of items in the cart.
 
 ```vue

@@ -1,4 +1,4 @@
-# Migration guide 2.4.0
+# Migrating projects to 2.4.0
 
 ## Introduction
 
@@ -8,8 +8,16 @@ We had to proceed with this in order to keep the convention and unify the naming
 We changed the composables and our factories according to the following rules:
 - each composable always return one field with the response from the api
 - each composable function takes one argument which is an object of given parameters
-- each factory param function takes two arguments, first one is context (as it was before) and second one contains a function parmeters along with other options (such as customQuery
-## Changes
+- each factory param function takes two arguments, first one is context (as it was before) and second one contains a function parameters along with other options (such as customQuery)
+
+## Changes in `useCart` composable
+
+We introduced a breaking change in a signature of the `removeCoupon` function in the `useCart` composable. The intention is to make is consistent with the `applyCoupon` function in the same composable.
+
+| Composable | Method | Old signature | New signature |
+|------------|--------|---------------|---------------|
+| useCart | removeCoupon | ({ coupon: COUPON, customQuery?: CustomQuery }) | ({ couponCode: string, customQuery?: CustomQuery })
+## Other changes
 
 - Added `useForgotPasswordFactory`.
 - Added `useSearchFactory`.
