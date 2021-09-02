@@ -56,15 +56,7 @@
               v-for="tableHeader in tableHeaders"
               :key="tableHeader"
               >{{ tableHeader }}</SfTableHeader>
-            <SfTableHeader class="orders__element--right">
-              <span class="smartphone-only">{{ $t('Download') }}</span>
-              <SfButton
-                class="desktop-only sf-button--text orders__download-all"
-                @click="downloadOrders()"
-              >
-                {{ $t('Download all') }}
-              </SfButton>
-            </SfTableHeader>
+            <SfTableHeader class="orders__element--right" />
           </SfTableHeading>
           <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
             <SfTableData v-e2e="'order-number'">{{ orderGetters.getId(order) }}</SfTableData>
@@ -74,9 +66,6 @@
               <span :class="getStatusTextClass(order)">{{ orderGetters.getStatus(order) }}</span>
             </SfTableData>
             <SfTableData class="orders__view orders__element--right">
-              <SfButton class="sf-button--text smartphone-only" @click="downloadOrder(order)">
-                {{ $t('Download') }}
-              </SfButton>
               <SfButton class="sf-button--text desktop-only" @click="currentOrder = order">
                 {{ $t('View details') }}
               </SfButton>
@@ -102,7 +91,8 @@ import {
   SfTabs,
   SfTable,
   SfButton,
-  SfProperty
+  SfProperty,
+  SfLink
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
 import { useUserOrder, orderGetters } from '<%= options.generate.replace.composables %>';
@@ -115,7 +105,8 @@ export default {
     SfTabs,
     SfTable,
     SfButton,
-    SfProperty
+    SfProperty,
+    SfLink
   },
   setup() {
     const { orders, search } = useUserOrder();
@@ -195,7 +186,7 @@ export default {
   @include for-desktop {
     &__element {
       &--right {
-        --table-column-flex: 0;
+        --table-column-flex: 1;
         text-align: right;
       }
     }
