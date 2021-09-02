@@ -263,7 +263,8 @@ module.exports = {
           title: 'Extending Vue Storefront',
           collapsable: true,
           children: [
-            // ['/integrate/extending-vue-storefront', 'Extending Vue Storefront'],
+            ['/integrate/extending-vue-storefront', 'Extending Vue Storefront'],
+            ['/integrate/extending-integrations', 'Extending integrations'],
             ['/integrate/integration-guide', 'Integrating eCommerce platform'],
             ['/integrate/cms', 'Integrating CMS platform'],
             ['/integrate/cache-driver', 'Integrating cache driver']
