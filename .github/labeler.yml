@@ -14,9 +14,10 @@ commercetools:
 boilerplate:
 - packages/boilerplate/**/*
 
-# Add 'docs' label to any change to packages/core/docs files EXCEPT for the changelog
+# Add 'docs' label to any change to packages/core/docs files
 docs:
-- any: ['packages/core/docs/**/*', '!packages/core/docs/changelog/**/*']
+- packages/core/docs/**/*
+- packages/core/docs/.vuepress/**/*
 
 # Add 'ci' label to any change to continuous integration files inside .github folder
 ci:

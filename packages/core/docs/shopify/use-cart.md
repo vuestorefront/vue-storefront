@@ -13,7 +13,8 @@
 
 ## API
 
-- `cart` - a main data object that holds the cart structure in platform specific structure
+- `cart` - the main data object that holds the cart structure in platform specific structure
+
 ```ts
 export type Maybe<T> = T | null;
 
@@ -59,7 +60,7 @@ export type Cart = {
   userErrors?: Maybe<Scalars['Array']>;
 }
 ```
-- `load` - function required to fetch cart from a server or create brand new if it doesn't exist.
+- `load` - function required to fetch cart from a server or create a brand new if it doesn't exist.
 - `addItem` - Adds cart items to an existing checkout.
     - It takes two parameters:
     - `product` (Object) The identifier of the product variant for the cart item.
@@ -74,7 +75,7 @@ export type Cart = {
 - `isInCart` - function for checking if a product is currently in the cart.
 - `clear` - function for removing all items currently stored in the cart.
 - `coupon` - reactive data object containing coupon details
-- `applyCoupon` - function for applying coupon to cart
+- `applyCoupon` - function for applying the coupon to cart
     - It takes one parameter:
     - `coupon` (String) The coupon string.
 - `removeCoupon` - function for removing coupon applied to the cart.
@@ -84,16 +85,16 @@ export type Cart = {
 
 - `getTotals` - Return an object cart totals
     - `total` (float) - The value of cart total
-    - `subtotal` (float) - The value of cart sub total.
+    - `subtotal` (float) - The value of cart subtotal.
 - `getShippingPrice` - To retrieve shipping price. 
 - `getItems` - Return list of cart items.
 - `getItemName` - Accept one parameter `product` and return the name of product.
 - `getItemImage` - Accept one parameter `product` and return the image source URL of product.
-- `getItemPrice` - Accept one parameter `product` and return the price of product.
+- `getItemPrice` - Accept one parameter `product` and return the price of the product.
 - `getItemQty` - Accept one parameter `product` and return the quantity of product.
 - `getItemAttributes` - Accept two parameter, `product` and `filterByAttributeName` (Optional). 
 - `getItemSku` - Accept one parameter `product` and return the sku of product.
-- `getFormattedPrice` Accept one parameter `product` and return the price of product with currency symbol.
+- `getFormattedPrice` Accept one parameter `product` and return the product's price with a currency symbol.
 - `getTotalItems` - To get the total numbers of cart items
 - `getCheckoutUrl`- To retrieve the Shopify checkout URL. i.e. `https://shopify-pwa.aureatelabs.com/40719024288/checkouts/9882505fd32f9432c5b72e213ed0d7b8`
 - `hasItemAttributes` - Check if product contains variant or not.

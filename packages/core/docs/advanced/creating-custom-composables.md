@@ -1,4 +1,4 @@
-# Creating custom composable
+# Creating custom composables
 
 You can create your own composable if our implementation and interfaces don't cover your use case. However, there are few things you need to consider and handle, like context and reactivity.
 

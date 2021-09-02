@@ -1,4 +1,4 @@
-# Migration guide 2.3.0 for commercetools
+# Upgrading to 1.2.0
 
 ## Introduction
 

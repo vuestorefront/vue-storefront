@@ -1,4 +1,4 @@
-# Product Catalog
+# Product catalog
 
 There are two composables used to interact with the product catalog - `useProduct` and `useFacet`.
 
@@ -15,7 +15,7 @@ Use the `search` method to fetch the product and its variants. The response is a
 ```vue
 <script>
 import { onSSR } from '@vue-storefront/core';
-import { useProduct } from '{INTEGRATION}';
+import { useProduct } from '@vue-storefront/commercetools';
 
 export default {
   setup () {
@@ -52,7 +52,7 @@ Use the `getFiltered` getter without the second parameter to get the list of all
 <script>
 import { onSSR } from '@vue-storefront/core';
 import { computed } from '@vue/composition-api';
-import { useProduct, productGetters } from '{INTEGRATION}';
+import { useProduct, productGetters } from '@vue-storefront/commercetools';
 
 export default {
   setup () {
@@ -88,7 +88,7 @@ Let's use the `getFiltered` getter again, but this time pass `{ master: true }` 
 <script>
 import { onSSR } from '@vue-storefront/core';
 import { computed } from '@vue/composition-api';
-import { useProduct, productGetters } from '{INTEGRATION}';
+import { useProduct, productGetters } from '@vue-storefront/commercetools';
 
 export default {
   setup () {
@@ -126,7 +126,7 @@ To only get the products with specific attributes, pass the `{ attributes }` obj
 <script>
 import { onSSR } from '@vue-storefront/core';
 import { computed } from '@vue/composition-api';
-import { useProduct, productGetters } from '{INTEGRATION}';
+import { useProduct, productGetters } from '@vue-storefront/commercetools';
 
 export default {
   setup () {
@@ -168,7 +168,7 @@ Use the `search` method to fetch the products. The response is available in the 
 ```vue
 <script>
 import { onSSR } from '@vue-storefront/core';
-import { useFacet } from '{INTEGRATION}';
+import { useFacet } from '@vue-storefront/commercetools';
 
 export default {
   setup () {
@@ -204,7 +204,7 @@ Once data is loaded using `useFacet`, access it using `facetGetters`. Get the da
 <script>
 import { onSSR } from '@vue-storefront/core';
 import { computed } from '@vue/composition-api';
-import { useFacet, facetGetters } from '{INTEGRATION}';
+import { useFacet, facetGetters } from '@vue-storefront/commercetools';
 
 export default {
   setup () {

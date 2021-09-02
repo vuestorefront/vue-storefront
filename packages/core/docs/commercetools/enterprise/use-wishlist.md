@@ -1,37 +1,30 @@
----
-platform: Commercetools
----
-
 # Wishlist
-
-[[toc]]
-
 ## Features
 
-`useWishlist` composition API function is responsible, for integrating with wishlist from Commercetools. It allows to:
+`useWishlist` composition API function is responsible for integrating with the wishlist from commercetools. It allows to:
 
-- fetch products from wishlist
-- add products to wishlist
-- remove products from wishlist
-- check if product is on wishlist
+- fetch products from the wishlist
+- add products to the wishlist
+- remove products from the wishlist
+- check if a product is on the wishlist
 
 ## API
 
-`useWishlist` contains following properties:
+`useWishlist` contains the following properties:
 
-- `load` - function used to retrieve wishlist products. When invoked, it requests data from the API and populates `wishlist` property.
+- `load` - a function used to retrieve wishlist products. When invoked, it requests data from the API and populates the `wishlist` property.
 
-- `addToWishlist` - function used to add new product to wishlist. When invoked, it submits data to the API and populates `wishlist` property with updated information.
+- `addToWishlist` - a function used to add new product to wishlist. When invoked, it submits data to the API and populates the `wishlist` property with updated information.
 
-- `removeFromWishlist` - function that removes products from the wishlist. It submits data to the API and populates updated `wishlist` property.
+- `removeFromWishlist` - a function that removes products from the wishlist. It submits data to the API and populates the updated `wishlist` property.
 
-- `clearWishlist` - function that removes all products from the wishlist and populates clear `wishlist` property.
+- `clearWishlist` - a function that removes all products from the wishlist and populates clear `wishlist` property.
 
-- `isInWishlist` - function that checks if product is on the wishlist. It returns boolean value.
+- `isInWishlist` - a function that checks if a product is on the wishlist. It returns a boolean value.
 
 ## Getters
 
-Because `wishlist` property is a raw response with some additional properties, it's recommended to use `wishlistGetters` for accessing any data from it. It includes following helper functions:
+Because `wishlist` property is a raw response with some additional properties, it's recommended to use `wishlistGetters` for accessing any data from it. It includes the following helper functions:
 
 - `getWishlistItems` - returns list of products on wishlist
 
@@ -41,17 +34,17 @@ Because `wishlist` property is a raw response with some additional properties, i
 
 - `getWishlistItemPrice` - returns product's price from wishlist.
 
-- `getWishlistItemQty` - returns quantity of product which is on wishlist.
+- `getWishlistItemQty` - returns the quantity of a product that is on the wishlist.
 
 - `getWishlistItemAttributes` - returns product variant attribute chosen by its name.
 
 - `getWishlistItemSku` - returns product's SKU code.
 
-- `getWishlistShippingPrice` - returns price of products.
+- `getWishlistShippingPrice` - returns a price of products.
 
-- `getWishlistTotalItems` - returns amount of all items that are currently on wishlist.
+- `getWishlistTotalItems` - returns an amount of all items that are currently on the wishlist.
 
-- `getFormattedPrice` - returns price in formatted manner taking into account local specifics.
+- `getFormattedPrice` - returns price in a formatted manner, taking into account local specifics.
 
 Interface for the above getter looks like this:
 
