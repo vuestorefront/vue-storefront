@@ -11,9 +11,9 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: "12.22.4"
+          node-version: "12.x"
       - name: Build and publish docker image
-        uses: elgohr/Publish-Docker-Github-Action@master
+        uses: elgohr/Publish-Docker-Github-Action@latest
         with:
           name: vsf-next-demo-storefrontcloud-io/vue-storefront:${{ github.sha }}
           registry: registry.storefrontcloud.io
