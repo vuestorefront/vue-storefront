@@ -1,9 +1,0 @@
-query customAttributeMetadata ($attributes: AttributeInput!, $_sourceInclude: [String]) {
-  customAttributeMetadata(
-    attributes: $attributes
-    _sourceInclude: $_sourceInclude
-  )
-  {
-    hits
-  }
-}

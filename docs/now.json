@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "name": "vuepress",
-  "builds": [
-    { "src": "package.json", "use": "@now/static-build"}
-  ]
-}

@@ -1,10 +1,6 @@
 {
-  "baseUrl": "http://localhost:3000",
-  "projectId": "xrqwrm",
-  "fixturesFolder": "test/e2e/fixtures",
-  "integrationFolder": "test/e2e/integration",
-  "pluginsFile": "test/e2e/plugins/index.js",
-  "supportFile": "test/e2e/support/index.js",
-  "viewportWidth": 1280,
-  "viewportHeight": 1024
-}
+    "baseUrl": "https://lovecrafts-demo.storefrontcloud.io/",
+    "viewportWidth": 1280,
+    "viewportHeight": 1024
+  }
+  

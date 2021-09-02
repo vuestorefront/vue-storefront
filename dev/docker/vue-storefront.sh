@@ -2,7 +2,7 @@
 set -e
 
 if [ "$VS_ENV" = 'dev' ]; then
-  yarn dev
+  yarn start:ct
 else
-  yarn start
+  yarn start:ct
 fi

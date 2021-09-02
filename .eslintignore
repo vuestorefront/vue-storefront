@@ -1,3 +1,7 @@
-core/build/*.js
-node_modules
-packages/module/*.js
+**/node_modules/**/*
+**/lib/*
+**/GraphQL.ts
+!**/.vuepress/**/*
+packages/boilerplate/composables/nuxt/plugin.js
+packages/commercetools/composables/nuxt/plugin.js
+packages/core/cache/nuxt/plugin.js

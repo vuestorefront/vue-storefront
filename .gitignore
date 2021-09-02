@@ -1,36 +1,27 @@
-.DS_Store
-node_modules/
-dist/
-*.icloud
-npm-debug.log
-.vscode/
-.idea/
-config/local.json
-var
-build/config.json
-core/build/config.json
-core/build/cache-version.json
-theme.js
-desktop.ini
-src/themes/catalog/resource/i18n.json
-src/themes/default/resource/i18n.json
-yarn-error.log
-package-lock.json
-cypress/videos
-cypress/screenshots
-core/resource/i18n/de-DE.json
-core/resource/i18n/en-US.json
-core/resource/i18n/es-ES.json
-core/resource/i18n/fr-FR.json
-core/resource/i18n/it-IT.json
-core/resource/i18n/ja-JP.json
-core/resource/i18n/multistoreLanguages.json
-core/resource/i18n/nl-NL.json
-core/resource/i18n/pl-PL.json
-core/resource/i18n/pt-BR.json
-core/resource/i18n/ru-RU.json
-*.iml
+# Dependency directories
+node_modules
 
-#unit testing
-/test/unit/coverage
-/static
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# NPM config
+.npmrc
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Rollup generate output
+lib
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Editor directories and files
+.idea
+.vscode
+
+# OS generated files
+.DS_STORE
