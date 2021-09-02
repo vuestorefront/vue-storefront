@@ -1,7 +1,7 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit, dirty, reset }">
     <SfHeading
-      v-e2e="'heading-shipping'"
+      v-e2e="'shipping-heading'"
       :level="3"
       :title="$t('Shipping details')"
       class="sf-heading--left sf-heading--no-underline title"
@@ -12,6 +12,7 @@
       "
     >
       <UserShippingAddresses
+        v-e2e="'shipping-addresses'"
         v-if="isAuthenticated && hasSavedShippingAddress"
         v-model="setAsDefault"
         :currentAddressId="currentAddressId || NOT_SELECTED_ADDRESS"
@@ -25,7 +26,7 @@
           slim
         >
           <SfInput
-            v-e2e="'firstName'"
+            v-e2e="'shipping-firstName'"
             :value="shippingDetails.firstName"
             @input="firstName => changeShippingDetails('firstName', firstName)"
             label="First name"
@@ -43,7 +44,7 @@
           slim
         >
           <SfInput
-            v-e2e="'lastName'"
+            v-e2e="'shipping-lastName'"
             :value="shippingDetails.lastName"
             @input="lastName => changeShippingDetails('lastName', lastName)"
             label="Last name"
@@ -56,12 +57,12 @@
         </ValidationProvider>
         <ValidationProvider
           name="streetName"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
           <SfInput
-            v-e2e="'streetName'"
+            v-e2e="'shipping-streetName'"
             :value="shippingDetails.streetName"
             @input="streetName => changeShippingDetails('streetName', streetName)"
             label="Street name"
@@ -74,12 +75,12 @@
         </ValidationProvider>
         <ValidationProvider
           name="apartment"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
           <SfInput
-            v-e2e="'apartment'"
+            v-e2e="'shipping-apartment'"
             :value="shippingDetails.apartment"
             @input="apartment => changeShippingDetails('apartment', apartment)"
             label="House/Apartment number"
@@ -92,12 +93,12 @@
         </ValidationProvider>
         <ValidationProvider
           name="city"
-          rules="required|min:2"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
           <SfInput
-            v-e2e="'city'"
+            v-e2e="'shipping-city'"
             :value="shippingDetails.city"
             @input="city => changeShippingDetails('city', city)"
             label="City"
@@ -115,7 +116,7 @@
           slim
         >
           <SfSelect
-            v-e2e="'state'"
+            v-e2e="'shipping-state'"
             :value="shippingDetails.state"
             @input="state => changeShippingDetails('state', state)"
             label="State/Province"
@@ -142,7 +143,7 @@
           slim
         >
           <SfSelect
-            v-e2e="'country'"
+            v-e2e="'shipping-country'"
             :value="shippingDetails.country"
             @input="country => changeShippingDetails('country', country)"
             label="Country"
@@ -168,7 +169,7 @@
           slim
         >
           <SfInput
-            v-e2e="'zipcode'"
+            v-e2e="'shipping-zipcode'"
             :value="shippingDetails.postalCode"
             @input="postalCode => changeShippingDetails('postalCode', postalCode)"
             label="Zip-code"
@@ -181,12 +182,12 @@
         </ValidationProvider>
         <ValidationProvider
           name="phone"
-          rules="required|digits:9"
+          rules="required|phone"
           v-slot="{ errors }"
           slim
         >
           <SfInput
-            v-e2e="'phone'"
+            v-e2e="'shipping-phone'"
             :value="shippingDetails.phone"
             @input="phone => changeShippingDetails('phone', phone)"
             label="Phone number"
@@ -199,9 +200,10 @@
         </ValidationProvider>
       </div>
       <SfButton
+        v-e2e="'shipping-add-new-address'"
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
-        type="submit"
+        type="button"
         @click.native="handleAddNewAddressBtnClick"
       >
         {{ $t('Add new address') }}
@@ -219,10 +221,20 @@
           </SfButton>
         </div>
       </div>
-      <VsfShippingProvider
-        v-if="isShippingDetailsStepCompleted && !dirty"
-        @submit="$router.push('/checkout/billing')"
-      />
+      <div v-if="isShippingDetailsStepCompleted && !dirty">
+        <VsfShippingProvider />
+        <div class="form__action">
+          <SfButton
+            v-e2e="'continue-to-billing'"
+            class="form__action-button"
+            type="button"
+            @click.native="$router.push('/checkout/billing')"
+            :disabled="!isShippingMethodStepCompleted || loadingShippingProvider"
+          >
+            {{ $t('Continue to billing') }}
+          </SfButton>
+        </div>
+      </div>
     </form>
   </ValidationObserver>
 </template>
@@ -234,12 +246,13 @@ import {
   SfButton,
   SfSelect
 } from '@storefront-ui/vue';
-import { useUserShipping, userShippingGetters, useUser, useShipping } from '@vue-storefront/commercetools';
+import { useShippingProvider, useUserShipping, userShippingGetters, useUser, useShipping } from '@vue-storefront/commercetools';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
 import { ref, watch, computed, onMounted } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
+import '@/helpers/validators/phone';
 
 const NOT_SELECTED_ADDRESS = '';
 
@@ -283,6 +296,11 @@ export default {
     const isShippingDetailsStepCompleted = ref(false);
 
     const canMoveForward = computed(() => !loading.value && shippingDetails.value && Object.keys(shippingDetails.value).length);
+
+    const {
+      state,
+      loading: loadingShippingProvider
+    } = useShippingProvider();
 
     const hasSavedShippingAddress = computed(() => {
       if (!isAuthenticated.value || !userShipping.value) {
@@ -398,7 +416,10 @@ export default {
       loading,
 
       isShippingDetailsStepCompleted,
-      canMoveForward
+      canMoveForward,
+
+      isShippingMethodStepCompleted: computed(() => state.value && state.value._status),
+      loadingShippingProvider
     };
   }
 };

@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import { VSF_LOCALE_COOKIE } from '@vue-storefront/core';
+import theme from './themeConfig';
 
 export default {
   mode: 'universal',
@@ -83,9 +84,7 @@ export default {
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
-      i18n: {
-        useNuxtI18nConfig: true
-      }
+      i18n: { useNuxtI18nConfig: true }
     }]
   ],
   modules: [
@@ -138,6 +137,11 @@ export default {
     scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
   },
   build: {
+    babel: {
+      plugins: [
+        ['@babel/plugin-proposal-private-methods', { loose: true }]
+      ]
+    },
     transpile: [
       'vee-validate/dist/rules'
     ],
@@ -150,5 +154,8 @@ export default {
         })
       })
     ]
+  },
+  publicRuntimeConfig: {
+    theme
   }
 };

@@ -1,21 +1,25 @@
 import { computed, Ref } from '@vue/composition-api';
-import { CustomQuery, Context, FactoryParams, UseMakeOrder, UseMakeOrderErrors } from '../types';
+import { CustomQuery, Context, FactoryParams, UseMakeOrder, UseMakeOrderErrors, PlatformApi } from '../types';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
-export interface UseMakeOrderFactoryParams<ORDER> extends FactoryParams {
+export interface UseMakeOrderFactoryParams<ORDER, API extends PlatformApi = any> extends FactoryParams<API> {
   make: (context: Context, params: { customQuery?: CustomQuery }) => Promise<ORDER>;
 }
 
-export const useMakeOrderFactory = <ORDER>(
-  factoryParams: UseMakeOrderFactoryParams<ORDER>
+export const useMakeOrderFactory = <ORDER, API extends PlatformApi = any>(
+  factoryParams: UseMakeOrderFactoryParams<ORDER, API>
 ) => {
-  return function useMakeOrder(): UseMakeOrder<ORDER> {
+  return function useMakeOrder(): UseMakeOrder<ORDER, API> {
     const order: Ref<ORDER> = sharedRef(null, 'useMakeOrder-order');
     const loading: Ref<boolean> = sharedRef(false, 'useMakeOrder-loading');
     const error: Ref<UseMakeOrderErrors> = sharedRef({
       make: null
     }, 'useMakeOrder-error');
-    const _factoryParams = configureFactoryParams(factoryParams);
+
+    const _factoryParams = configureFactoryParams(
+      factoryParams,
+      { mainRef: order, alias: 'currentOrder', loading, error }
+    );
 
     const make = async (params = { customQuery: null }) => {
       Logger.debug('useMakeOrder.make');
@@ -34,6 +38,7 @@ export const useMakeOrderFactory = <ORDER>(
     };
 
     return {
+      api: _factoryParams.api,
       order,
       make,
       loading: computed(() => loading.value),

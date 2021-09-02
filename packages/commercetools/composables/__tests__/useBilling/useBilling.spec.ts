@@ -1,5 +1,5 @@
-import useBilling from '../../src/useBilling';
-import useCart from '../../src/useCart';
+import { useBilling } from '../../src/useBilling';
+import { useCart } from '../../src/useCart';
 
 jest.mock('@vue-storefront/commercetools-api', () => ({
   cartActions: {
@@ -7,7 +7,9 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
   }
 }));
 
-jest.mock('../../src/useCart', () => jest.fn(() => {}));
+jest.mock('../../src/useCart', () => ({
+  useCart: jest.fn()
+}));
 
 jest.mock('@vue-storefront/core', () => ({
   useBillingFactory: (params) => () => params

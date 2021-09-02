@@ -5,7 +5,8 @@ import { useCart } from '../useCart';
 
 type UserContext = UseCart<Cart, LineItem, ProductVariant, AgnosticCoupon> & Context;
 
-const load = async (context: Context) => {
+const load = async (context: Context, {customQuery}) => {
+  if (!context.$ct.config.auth.onTokenRead()) return null;
 
   const isGuest = await context.$ct.api.isGuest();
 
@@ -13,13 +14,13 @@ const load = async (context: Context) => {
     return null;
   }
 
-  const profile = await context.$ct.api.getMe({ customer: true });
+  const profile = await context.$ct.api.getMe({ customer: true }, customQuery);
   return profile.data.me.customer;
 };
 
-const getCurrentUser = async (context: Context, currentUser) => {
+const getCurrentUser = async (context: Context, currentUser, customQuery) => {
   if (!currentUser) {
-    return load(context);
+    return load(context, {customQuery});
   }
 
   return currentUser;
@@ -36,8 +37,8 @@ export const useUserFactoryParams: UseUserFactoryParams<Customer, any, any> = {
 
     context.setCart(null);
   },
-  updateUser: async (context: UserContext, { currentUser, updatedUserData }) => {
-    const loadedUser = await getCurrentUser(context, currentUser);
+  updateUser: async (context: UserContext, { currentUser, updatedUserData, customQuery }) => {
+    const loadedUser = await getCurrentUser(context, currentUser, customQuery);
     const { user } = await context.$ct.api.customerUpdateMe(loadedUser, updatedUserData);
 
     return user;
@@ -55,8 +56,8 @@ export const useUserFactoryParams: UseUserFactoryParams<Customer, any, any> = {
 
     return customer;
   },
-  changePassword: async function changePassword(context: UserContext, { currentUser, currentPassword, newPassword }) {
-    const loadedUser = await getCurrentUser(context, currentUser);
+  changePassword: async function changePassword(context: UserContext, { currentUser, currentPassword, newPassword, customQuery }) {
+    const loadedUser = await getCurrentUser(context, currentUser, customQuery);
     const userResponse = await context.$ct.api.customerChangeMyPassword(loadedUser.version, currentPassword, newPassword);
     // we do need to re-authenticate user to acquire new token - otherwise all subsequent requests will fail as unauthorized
     await this.logOut(context);

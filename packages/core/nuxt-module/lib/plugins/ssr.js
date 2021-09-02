@@ -1,9 +1,9 @@
-import { configureSSR } from '@vue-storefront/core';
+import { configureSSR } from '@vue-storefront/core'
 import { ssrRef, getCurrentInstance, onServerPrefetch } from '@nuxtjs/composition-api';
 
 const hasRouteChanged = (ctx) => {
   const { from } = ctx.$router.app.context;
-  const { current } = ctx.$router.history;
+  const { current } = ctx.$router.history
 
   if (!from) {
     return false;

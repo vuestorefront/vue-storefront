@@ -5,6 +5,7 @@ import { Token, CustomerCredentials } from './setup';
 import { UpdateCartParams } from '../api/updateCart';
 import { GetMeParams } from '../api/getMe';
 import { ShippingMethodData } from '../api/getShippingMethods';
+import { GetStoresParams } from '../api/getStores';
 import {
   Cart,
   Order,
@@ -22,7 +23,9 @@ import {
   CategoryQueryResult,
   ProductQueryResult,
   Me,
-  CartQueryInterface
+  CartQueryInterface,
+  CustomerPasswordToken,
+  StoreQueryResult
 } from './GraphQL';
 
 export interface BaseSearch {
@@ -87,6 +90,8 @@ export interface CartData extends Omit<CartDraft, 'currency'> {
   currency?: string;
 }
 
+export type ApiResponseWrapper <KEY extends string, T> = Record<KEY, T>;
+
 export type QueryResponse<K extends string, V> = ApolloQueryResult<Record<K, V>>;
 export type MutationResponse<K extends string, V> = FetchResult<Record<K, V>>;
 export type CartQueryResponse = QueryResponse<'cart', Cart>;
@@ -99,6 +104,8 @@ export type ShippingMethodsResponse = QueryResponse<'shippingMethods', ShippingM
 export type SignInResponse = QueryResponse<'user', CustomerSignInResult>;
 export type ChangeMyPasswordResponse = QueryResponse<'user', Customer>;
 export type CartDetails = Pick<Cart, 'id' | 'version'>;
+export type CreatePasswordResetTokenResponse = QueryResponse<'customerCreatePasswordResetToken', CustomerPasswordToken>;
+export type ResetPasswordResponse = QueryResponse<'customerResetPassword', Customer>;
 
 interface ApiMethods {
   addToCart ({ id, version }: CartDetails, product: ProductVariant, quantity: number): Promise<CartResponse>;
@@ -110,6 +117,8 @@ interface ApiMethods {
   customerSignMeUp (draft: CustomerSignMeUpDraft): Promise<SignInResponse>;
   customerSignOut (): Promise<void>;
   customerUpdateMe (currentUser, updatedUserData): Promise<any>;
+  customerResetPassword (tokenValue: string, newPassword: string): Promise<ResetPasswordResponse>;
+  customerCreatePasswordResetToken (email: string): Promise<CreatePasswordResetTokenResponse>;
   getCart (cartId: string): Promise<CartQueryResponse>;
   getCategory (params): Promise<QueryResponse<'categories', CategoryQueryResult>>;
   getMe (params?: GetMeParams): Promise<{ data: { me: Me } }>;
@@ -122,6 +131,7 @@ interface ApiMethods {
   updateCartQuantity ({ id, version }: CartDetails, product: LineItem): Promise<CartResponse>;
   updateShippingDetails (cart: Cart, shippingDetails: Address): Promise<CartResponse>;
   isGuest: () => boolean;
+  getStores(params: GetStoresParams): Promise<StoreQueryResult>;
 }
 
 export type CommercetoolsMethods = ApiClientMethods<ApiMethods>

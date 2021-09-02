@@ -16,10 +16,14 @@ export default createApiClient({
   cookies: {
     currencyCookieName: 'test-vsf-currency',
     countryCookieName: 'test-vsf-country',
-    localeCookieName: 'test-vsf-locale'
+    localeCookieName: 'test-vsf-locale',
+    storeCookieName: 'test-vsf-store'
   },
   auth: {
     onTokenChange: jest.fn(),
     onTokenRemove: jest.fn()
+  },
+  storeService: {
+    changeCurrentStore: jest.fn()
   }
 } as any);

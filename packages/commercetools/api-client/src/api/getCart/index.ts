@@ -6,12 +6,7 @@ const getCart = async ({ config, client }, cartId: string): Promise<CartQueryRes
 
   return await client.query({
     query: defaultQuery,
-    variables: {
-      cartId,
-      locale,
-      acceptLanguage,
-      currency
-    },
+    variables: { cartId, locale, acceptLanguage, currency },
     fetchPolicy: 'no-cache'
   });
 };

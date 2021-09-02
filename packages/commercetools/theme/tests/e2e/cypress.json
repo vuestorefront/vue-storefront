@@ -6,6 +6,7 @@
   "supportFile": "tests/e2e/support/index.js",
   "viewportHeight": 1080,
   "viewportWidth": 1920,
+  "pageLoadTimeout": 180000,
   "screenshotOnRunFailure": true,
   "screenshotsFolder": "tests/e2e/report/assets/screenshots",
   "video": false,
@@ -15,5 +16,9 @@
       "reportFilename": "report",
       "overwrite": false,
       "html": false
+  },
+  "retries": {
+    "runMode": 2,
+    "openMode": 0
   }
 }

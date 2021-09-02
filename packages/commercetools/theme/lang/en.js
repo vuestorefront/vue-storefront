@@ -130,5 +130,17 @@ export default {
   'Payment': 'Payment',
   'Order summary': 'Order summary',
   'Products': 'Products',
-  'Total': 'Total'
+  'Total': 'Total',
+  'Reset Password': 'Reset Password',
+  'Save Password': 'Save Password',
+  'Back to home': 'Back to home',
+  'Forgot Password': 'If you can’t remember your password, you can reset it.',
+  'Thank You Inbox': 'If the message is not arriving in your inbox, try another email address you might’ve used to register.',
+  'Sign in': 'Sign in',
+  'Register': 'Register',
+  'Password Changed': 'Password successfuly changed. You can now go back to homepage and sign in.',
+  'Password': 'Password',
+  'Repeat Password': 'Repeat Password',
+  'Forgot Password Modal Email': 'Email you are using to sign in:',
+  forgotPasswordConfirmation: 'Thanks! If there is an account registered with the {0} email, you will find message with a password reset link in your inbox.'
 };

@@ -225,9 +225,49 @@ return data;
 
 This method calls an API endpoint called `getProduct`. It doesn't exist yet, so let's create it.
 
-:::tip Passing parameters to the API
-An HTTP request is sent to the Server Middleware whenever you call any method in the `context.$sloth.api` object. Additionally, all parameters passed to them will be included in the payload. Sending too much data may result in poor performance, so try to pass as few parameters as possible.
-:::
+### Plarform-specific API access
+
+By default, in factory params you are defining only the functions that cover agnostic and common scenarios of certain features and they will be called once you call one of function returned by the created composable.
+
+Sometimes there is a need to share also a platform-specific function, that may not present across other platforms you integrate with. To implement them, you can use an optional section `api` and define their an additional methods, which will be available under the `api` field returned by composable.
+
+```ts{21-27}
+import { useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
+
+interface Cart { /* ... */ }
+
+interface LineItem { /* ... */}
+
+interface ProductVariant { /* ... */ }
+
+const factoryParams: UseCartFactoryParams<Cart, LineItem, ProductVariant> = {
+  load: async (context: Context) => {
+    const { data } = await context.$ct.api.getCart();
+
+    return data.cart;
+  },
+  addItem: async (context: Context, params) => {
+    const { currentCart, product, quantity } = params;
+    const { data } = await context.$ct.api.addToCart(loadedCart, product, quantity, customQuery);
+
+    return data.cart;
+  },
+  api: {
+    addCartInsurence: async (context: Context, params) => {
+      const insurence = await await context.$ct.api.setInsurence(params.product.id);
+
+      return { ...params.currentCart, insurence }
+    }
+  }
+};
+
+const useCart = useCartFactory(factoryParams);
+
+export default useCart;
+```
+
+
+### Composable dependencies
 
 :::tip Composable dependencies
 Sometimes you need to use composable as a dependency inside another one. You can access these composables in the `provide` function in the factory params. This function is called when composable is created and returned data is available in the `context` object.
@@ -366,6 +406,7 @@ Some forms or checkout components are blank in the default theme because they di
 | components/MyAccount/PasswordResetForm.vue   |                                     | ✔           |
 | components/MyAccount/ProfileUpdateForm.vue   |                                     | ✔           |
 | composables/useUiHelpers/index.ts            |                                     |             |
+| middleware/checkout.js                       |                                     |             |
 | middleware/is-authenticated.js               |                                     |             |
 
 ### Create Vue components
@@ -384,14 +425,6 @@ When such an event is sent, the application will handle communication with the A
 
 ### Create a middleware
 
-`is-authenticated` middleware prevents access to the page for guest users. It's used on pages such as the user profile page.
-
-```js
-export default {
-  middleware: [
-    'is-authenticated'
-  ]
-}
-```
+`checkout` and `is-authenticated` middlewares are used to prevent access to selected pages.
 
 Please refer to [Nuxt.js middleware documentation](https://nuxtjs.org/docs/2.x/directory-structure/middleware/) for more information.

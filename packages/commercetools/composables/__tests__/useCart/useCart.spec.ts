@@ -1,4 +1,4 @@
-import useCart from './../../src/useCart';
+import { useCart } from './../../src/useCart';
 import loadCurrentCart from './../../src/useCart/currentCart';
 
 const context = {

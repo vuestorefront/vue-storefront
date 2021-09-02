@@ -47,6 +47,11 @@ module.exports = function getRoutes(themeDir = __dirname) {
         component: path.resolve(themeDir, 'pages/Checkout/ThankYou.vue')
       }
     ]
+  },
+  {
+    name: 'reset-password',
+    path: '/reset-password',
+    component: path.resolve(themeDir, 'pages/ResetPassword.vue')
   }
   ];
 };

@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <b>Please implement vendor specific VsfPaymentProvider component in 'components/Checkout' directory</b>
+      <b>Please implement vendor-specific VsfPaymentProvider component in the 'components/Checkout' directory</b>
     </p>
 
     <SfRadio

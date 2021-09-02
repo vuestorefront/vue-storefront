@@ -1,8 +1,13 @@
-import { UseWishlist, CustomQuery, Context, FactoryParams, UseWishlistErrors } from '../types';
+import { UseWishlist, CustomQuery, Context, FactoryParams, UseWishlistErrors, PlatformApi } from '../types';
 import { Ref, computed } from '@vue/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
-export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> extends FactoryParams {
+export interface UseWishlistFactoryParams<
+  WISHLIST,
+  WISHLIST_ITEM,
+  PRODUCT,
+  API extends PlatformApi = any
+> extends FactoryParams<API> {
   load: (context: Context, params: { customQuery?: CustomQuery }) => Promise<WISHLIST>;
   addItem: (
     context: Context,
@@ -22,19 +27,23 @@ export interface UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT> exte
   isInWishlist: (context: Context, params: { currentWishlist: WISHLIST; product: PRODUCT }) => boolean;
 }
 
-export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
-  factoryParams: UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT>
+export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT, API extends PlatformApi = any>(
+  factoryParams: UseWishlistFactoryParams<WISHLIST, WISHLIST_ITEM, PRODUCT, API>
 ) => {
-  const useWishlist = (): UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT> => {
+  const useWishlist = (): UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT, API> => {
     const loading: Ref<boolean> = sharedRef<boolean>(false, 'useWishlist-loading');
     const wishlist: Ref<WISHLIST> = sharedRef(null, 'useWishlist-wishlist');
-    const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseWishlistErrors> = sharedRef({
       addItem: null,
       removeItem: null,
       load: null,
       clear: null
     }, 'useWishlist-error');
+
+    const _factoryParams = configureFactoryParams(
+      factoryParams,
+      { mainRef: wishlist, alias: 'currentWishlist', loading, error }
+    );
 
     const setWishlist = (newWishlist: WISHLIST) => {
       wishlist.value = newWishlist;
@@ -125,6 +134,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT>(
     };
 
     return {
+      api: _factoryParams.api,
       wishlist: computed(() => wishlist.value),
       isInWishlist,
       addItem,

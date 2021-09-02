@@ -24,6 +24,17 @@ export default integrationPlugin(({ app, integration }) => {
     return app.$cookies.get(CT_TOKEN_COOKIE_NAME);
   };
 
+  /**
+   * changeCurrentStore
+   * @param {string} id
+   * @returns {void} 
+   */
+  const changeCurrentStore = (id) => {
+    app.$cookies.set(
+      app.$vsf.$ct.config.cookies.storeCookieName, id
+    );
+  }
+
   const settings = mapConfigToSetupObject({
     moduleOptions,
     app,
@@ -32,6 +43,9 @@ export default integrationPlugin(({ app, integration }) => {
         onTokenChange,
         onTokenRead,
         onTokenRemove
+      },
+      storeService: {
+        changeCurrentStore
       }
     }
   })

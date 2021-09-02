@@ -1,0 +1,86 @@
+{
+  "Should contain correct data in Order Summary": {
+    "products": [{
+        "name": "Shirt Aspesi white M",
+        "id": 1,
+        "sku": "M0E20000000ED0W",
+        "size": 34,
+        "quantity": 3
+      },
+      {
+        "name": "Shirt Aspesi white M",
+        "id": 1,
+        "sku": "M0E20000000ED0X",
+        "size": 36,
+        "quantity": 1
+      },
+      {
+        "name": "T-Shirt Moschino Cheap And Chic black",
+        "id": 1,
+        "sku": "M0E20000000DLPH",
+        "size": 34,
+        "quantity": 1
+      }
+    ],
+    "customer": {
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "apartment": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "shippingMethod": "Express US",
+    "expectedCartSummary": {
+      "products": [{
+          "name": "Shirt Aspesi white M",
+          "id": 1,
+          "sku": "M0E20000000ED0W",
+          "size": 34,
+          "color": "white",
+          "quantity": 3,
+          "amount": "$359.10"
+        },
+        {
+          "name": "Shirt Aspesi white M",
+          "id": 1,
+          "sku": "M0E20000000ED0X",
+          "size": 36,
+          "color": "white",
+          "quantity": 1,
+		    "amount": "$166.25"
+        },
+        {
+          "name": "T-Shirt Moschino Cheap And Chic black",
+          "id": 1,
+          "sku": "M0E20000000DLPH",
+          "size": 34,
+          "color": "black",
+          "quantity": 1,
+		      "amount": "$372.50"
+        }
+      ],
+      "discountedPrice": "$1,037.50",
+      "specialPrice": "$897.85",
+      "totalPrice": "$907.85"
+    }
+  }
+}

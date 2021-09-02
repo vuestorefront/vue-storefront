@@ -10,10 +10,11 @@ on:
         required: false
       package:
         description: "Package"
+        required: true
         default: "ct"
       browser:
         description: "Browser"
-        require: false
+        required: true
         default: "chrome"
 jobs:
   run_e2e_tests:
@@ -40,13 +41,14 @@ jobs:
         run: yarn install
 
       - name: Build tools
-        run: yarn build:${{ github.event.inputs.package }}
+        run: yarn build:${{ github.event.inputs.package }}:tools
 
       - name: Run cypress tests
         uses: cypress-io/github-action@v2.8.2
         with:
           start: yarn dev:${{ github.event.inputs.package }}
           wait-on: 'http://localhost:3000'
+          wait-on-timeout: 180
           command: yarn run test:e2e:${{ github.event.inputs.package }}:hl
           browser: ${{ github.event.inputs.browser }}
           headless: true
@@ -57,14 +59,20 @@ jobs:
 
       - name: Generate report
         if: ${{ always() }}
-        run: yarn test:e2e:${{ github.event.inputs.tags_exclude }}:generate:report
+        run: yarn test:e2e:${{ github.event.inputs.package }}:generate:report
 
-      - name: Upload report artifact
-        uses: actions/upload-artifact@v2
+      - name: Upload bp report artifact
         if: ${{ always() }}
+        uses: actions/upload-artifact@v2
         with:
-          name: report
-          path: "packages/$${{ github.event.inputs.package }}/theme/tests/e2e/report"
-        env:
-          bp: boilerplate
-          ct: commercetools
+          name: report-bp
+          path: "packages/boilerplate/theme/tests/e2e/report"
+          if-no-files-found: ignore
+
+      - name: Upload ct report artifact
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: report-ct
+          path: "packages/commercetools/theme/tests/e2e/report"
+          if-no-files-found: ignore
