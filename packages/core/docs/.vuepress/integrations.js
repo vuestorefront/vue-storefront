@@ -50,7 +50,7 @@ const INTEGRATIONS = {
       status: STATUSES.BETA,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
-        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+        { name: 'Forkpoint', link: 'https://forkpoint.com/' },
       ]
     },
     {
