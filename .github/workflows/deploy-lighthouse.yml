@@ -8,6 +8,7 @@ on:
       - completed
     branches:
       - master
+      - main
 
 jobs:
   deploy:
