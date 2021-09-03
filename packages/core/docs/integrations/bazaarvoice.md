@@ -8,7 +8,7 @@ This feature is part of the Enterprise version. Please [contact our Sales team](
 
 This package provides integration with [Bazaarvoice](https://www.bazaarvoice.com/).
 
-Bazaarvoice (BV) provides two SDKs to integrate with their platform - `bvapi.js` and `bv.js`. The latter is recommended because of the performance improvements and this is what is package uses under the hood.
+Bazaarvoice (BV) provides two SDKs to integrate with their platform - `bvapi.js` and `bv.js`. The latter is recommended because of the performance improvements, and this is what is package uses under the hood.
 
 We recommend reading [this documentation page](https://knowledge.bazaarvoice.com/wp-content/conversations-prr/en_US/display/integrating_content_bv_js.html) before using the package.
 
@@ -53,12 +53,12 @@ export default {
 ```
 
 * `clientName` - the lowercase name of the client provided by Bazaarvoice.
-* `siteId` - the ID of the zone coming from Bazaarvoice configuration hub. Defaults to `main_site`.
+* `siteId` - the ID of the zone coming from the Bazaarvoice configuration hub. Defaults to `main_site`.
 * `environment` - the deployment environment. Valid values are `production` and `staging`. Defaults to `staging`.
-* `locale` - the locale used by the library, eg. `en_US`.
+* `locale` - the locale used by the library, e.g. `en_US`.
 
-::: warning Domain white list
-For security reasons, Bazaarvoice uses a white list of allowed domains.
+::: warning Domain allowlist
+For security reasons, Bazaarvoice uses an allowlist of allowed domains.
 :::
 
 ::: tip Use localhost
@@ -101,7 +101,7 @@ Questions component displays questions and answers provided by the customers reg
 
 #### `BvRatingSummary`
 
-The rating summary component (also called "fast stars") displays average rating, the total number of reviews, and rating distribution when hovered.
+The rating summary component (also called "fast stars") displays the average rating, the total number of reviews, and rating distribution when hovered.
 
 ```html
 <BvRatingSummary
@@ -113,7 +113,7 @@ When the component is clicked, it will scroll to `BvReviews` component. However,
 
 #### `BvReviewHighlights`
 
-Reviews highlights component shows a high-level summary of ratings and reviews.
+The reviews highlights component shows a high-level summary of ratings and reviews.
 
 ```html
 <BvReviewHighlights productId="PRODUCT_ID" />
