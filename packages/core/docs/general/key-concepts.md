@@ -15,7 +15,7 @@ before starting development in Vue Storefront.
 
 To provide customizable and easy to maintain applications, Vue
 Storefront offers composables. 
-**Composables are the main public API of Vue Storefront** and in many cases the only API you'll work with. They are functions that implement most of the business logic of the application. You can treat each composable as an independent micro-application.
+**Composables are the main public API of Vue Storefront** and, in many cases, the only API you'll work with. They are functions that implement most of the business logic of the application. You can treat each composable as an independent micro-application.
 
 ```js
 const { search, product, loading, error } = useProduct();
@@ -32,7 +32,7 @@ page.
 
 ## Easy configuration
 
-We did our best to keep configuration as simple and intuitive as possible. Therefore, Vue Storefront
+We did our best to keep the configuration as simple and intuitive as possible. Therefore, Vue Storefront
 applications can be configured by modifying just two files:
 
 - `nuxt.config.js` - main Nuxt.js configuration file used to control your Nuxt App and frontend-related features of Vue Storefront;
@@ -44,9 +44,9 @@ You can read more about it on the [Configuration](/guide/configuration.html) pag
 
 One of the main goals of Vue Storefront is to work with almost any platform while using the same API.
 No matter which service you configure as a backend, you will always use the same getters and composables.
-This makes it easy to work with VSF projects on different tech stacks or trying new services without making any heavy investments.
+This makes it easy to work with VSF projects on different tech stacks or to try new services without making any heavy investments.
 
-Some things are different for each platform though. The main data object of each composable
+Some things are different for each platform, though. The main data object of each composable
 (like `products` in `useProduct`) is **always** a plain response from your platform. However, if you use these objects with their dedicated getters (like `productGetters` for `useProduct`), they will always return the data in the same format.
 
 ```js

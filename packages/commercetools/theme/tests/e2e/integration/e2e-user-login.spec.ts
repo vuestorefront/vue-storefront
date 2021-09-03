@@ -25,7 +25,7 @@ context(['regression'], 'User login', () => {
     page.components.loginModal.loginBtn.click();
     page.components.loginModal.container.should('not.exist');
     page.home.header.account.click();
-    page.myAccount.sidebar.heading.should('be.visible');
+    page.myAccount.myProfile.heading.should('be.visible');
   });
 
   it('Incorrect credentials - should display an error', function () {

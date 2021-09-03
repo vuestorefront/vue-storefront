@@ -6,9 +6,6 @@ class Home extends Base {
     return Header;
   }
 
-  visit(): Cypress.Chainable {
-    return cy.visit('/');
-  }
 }
 
 export default new Home();

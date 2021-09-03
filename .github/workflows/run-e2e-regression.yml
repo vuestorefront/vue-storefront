@@ -30,8 +30,10 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build tools
-        run: yarn build:${{ matrix.package }}:tools
+      - name: Build package
+        run: yarn build:${{ matrix.package }}
+        env:
+          NUXT_ENV_E2E: true
 
       - name: Run cypress tests
         uses: cypress-io/github-action@v2.8.2
