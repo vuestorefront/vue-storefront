@@ -44,7 +44,7 @@ export interface Auth {
 }
 
 export interface StoreService {
-  changeCurrentStore: (id: string) => void
+  changeCurrentStore: (id: string) => void,
 }
 
 export interface SetupConfig<TCacheShape> {

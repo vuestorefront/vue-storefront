@@ -1,15 +1,15 @@
 export interface StoreCredentials {
-  storeId?: string;
+  storeKey?: string;
   channelId?: string;
 }
 
 export function getStoreCredentials (store: string | undefined): StoreCredentials {
-  const [storeId, channelId] = store?.split('/') ?? [];
-  return { storeId, channelId };
+  const [storeKey, channelId] = store?.split('/') ?? [];
+  return { storeKey, channelId };
 }
 
-export function getStoreId (store: string | undefined): StoreCredentials['storeId'] {
-  return getStoreCredentials(store).storeId;
+export function getStoreKey (store: string | undefined): StoreCredentials['storeKey'] {
+  return getStoreCredentials(store).storeKey;
 }
 
 export function getChannelId (store: string | undefined): StoreCredentials['channelId'] {

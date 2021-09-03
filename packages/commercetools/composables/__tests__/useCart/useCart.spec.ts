@@ -1,16 +1,20 @@
 import { useCart } from './../../src/useCart';
 import loadCurrentCart from './../../src/useCart/currentCart';
 
+const MOCKED_CART = 'some cart';
+// @TODO: add more complete mocks to test cart
+
 const context = {
   $ct: {
     api: {
-      addToCart: jest.fn(() => ({ data: { cart: 'some cart' } })),
-      removeFromCart: jest.fn(() => ({ data: { cart: 'some cart' } })),
-      updateCartQuantity: jest.fn(() => ({ data: { cart: 'some cart' } })),
-      applyCartCoupon: jest.fn(() => ({ data: { cart: 'some cart' } })),
+      addToCart: jest.fn(() => ({ data: { cart: MOCKED_CART } })),
+      removeFromCart: jest.fn(() => ({ data: { cart: MOCKED_CART } })),
+      updateCartQuantity: jest.fn(() => ({ data: { cart: MOCKED_CART } })),
+      applyCartCoupon: jest.fn(() => ({ data: { cart: MOCKED_CART } })),
       removeCartCoupon: jest.fn(() => ({ data: { cart: 'current cart' } })),
       getSettings: jest.fn(() => ({ currentToken: 1 })),
-      isTokenUserSession: jest.fn()
+      isTokenUserSession: jest.fn(),
+      deleteCart: jest.fn(() => ({ data: { cart: MOCKED_CART } }))
     }
   }
 };
@@ -32,18 +36,24 @@ describe('[commercetools-composables] useCart', () => {
     const currentCart = { id: 1, version: 1 };
     const response = await addItem(context, { currentCart, product: 'product1', quantity: 3 });
 
-    expect(response).toEqual('some cart');
-    expect(context.$ct.api.addToCart).toBeCalledWith(currentCart, 'product1', 3, customQuery);
+    expect(response).toEqual(MOCKED_CART);
+    expect(context.$ct.api.addToCart).toBeCalledWith(currentCart, {
+      product: 'product1',
+      quantity: 3
+    }, customQuery);
   });
 
   it('creates a new cart and add an item', async () => {
     const { addItem } = useCart() as any;
-    (loadCurrentCart as any).mockReturnValue('some cart');
+    (loadCurrentCart as any).mockReturnValue(MOCKED_CART);
     const response = await addItem(context, { currentCart: null, product: 'product1', quantity: 3 });
     expect(loadCurrentCart).toBeCalled();
 
-    expect(response).toEqual('some cart');
-    expect(context.$ct.api.addToCart).toBeCalledWith({ id: undefined, version: undefined }, 'product1', 3, customQuery);
+    expect(response).toEqual(MOCKED_CART);
+    expect(context.$ct.api.addToCart).toBeCalledWith({ id: undefined, version: undefined }, {
+      product: 'product1',
+      quantity: 3
+    }, customQuery);
   });
 
   it('removes from cart', async () => {
@@ -51,7 +61,7 @@ describe('[commercetools-composables] useCart', () => {
     const currentCart = { id: 1, version: 1 };
     const response = await removeItem(context, { currentCart, product: 'product1' });
 
-    expect(response).toEqual('some cart');
+    expect(response).toEqual(MOCKED_CART);
     expect(context.$ct.api.removeFromCart).toBeCalledWith(currentCart, 'product1', customQuery);
   });
 
@@ -64,7 +74,7 @@ describe('[commercetools-composables] useCart', () => {
       quantity: 5
     });
 
-    expect(response).toEqual('some cart');
+    expect(response).toEqual(MOCKED_CART);
     expect(context.$ct.api.updateCartQuantity).toBeCalledWith(currentCart, { name: 'product1', quantity: 5 }, customQuery);
   });
 
@@ -73,7 +83,7 @@ describe('[commercetools-composables] useCart', () => {
     const currentCart = { id: 1, version: 1 };
     const response = await clear(context, { currentCart });
 
-    expect(response).toEqual(currentCart);
+    expect(response).toEqual(MOCKED_CART);
   });
 
   it('applies coupon', async () => {
@@ -81,7 +91,7 @@ describe('[commercetools-composables] useCart', () => {
     const currentCart = { id: 1, version: 1 };
     const response = await applyCoupon(context, { currentCart, coupon: 'X123' });
 
-    expect(response).toEqual({ updatedCart: 'some cart' });
+    expect(response).toEqual({ updatedCart: MOCKED_CART });
   });
 
   it('removes coupon', async () => {

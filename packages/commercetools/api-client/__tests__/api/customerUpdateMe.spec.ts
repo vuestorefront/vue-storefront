@@ -5,7 +5,8 @@ jest.mock('../../src/api/customerUpdateMe/defaultMutation.ts', () => '');
 const mockContext = {
   client: {
     mutate: jest.fn().mockImplementation(() => ({ data: 'MOCK_DATA' }))
-  }
+  },
+  config: {}
 };
 
 describe('[commercetools-api-client] customerUpdateMe', () => {
