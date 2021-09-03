@@ -6,6 +6,7 @@ import Home from './home';
 import { MyProfile, OrderHistory } from './my-account';
 import { Product } from './product';
 import { Category } from './category';
+import CategoryAccordion from './components/category-accordion';
 
 const page = {
   get checkout() {
@@ -21,7 +22,8 @@ const page = {
     return {
       cart: Cart,
       loginModal: LoginModal,
-      breadcrumbs: Breadcrumbs
+      breadcrumbs: Breadcrumbs,
+      categoryAccordion: CategoryAccordion
     };
   },
 

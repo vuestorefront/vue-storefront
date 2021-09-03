@@ -93,6 +93,7 @@
           :class="{ 'loading--categories': loading }"
           :loading="loading">
             <SfAccordion
+              v-e2e="'categories-accordion'"
               :open="activeCategory"
               :show-chevron="true"
             >
