@@ -133,6 +133,8 @@ export default {
     theme
   },
   build: {
+    analyze: true,
+    extractCSS: true,
     babel: {
       plugins: [
         ['@babel/plugin-proposal-private-methods', { loose: true }]
