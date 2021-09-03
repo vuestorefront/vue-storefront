@@ -1,4 +1,4 @@
-# Integration guide
+# Integrating eCommerce platform
 
 :::danger Don't forget to reload the application
 The application does not reload automatically after saving the changes in Server Middleware. Due to this, you have to restart the application manually. We are working on enabling Hot Reloading in future updates.

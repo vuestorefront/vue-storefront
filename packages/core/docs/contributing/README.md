@@ -1,4 +1,4 @@
-# Contributing
+# Contribution basics
 
 We are delighted that you want to contribute to Vue Storefront. But first, you need to know that we use some standards to maintain a good community and have an aligned code history.
 
