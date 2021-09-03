@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Fixes useProduct search by skus',
+  description: 'Fix error thrown by the `search` method in `useProduct` composable when searching by product SKUs',
   link: 'https://github.com/vuestorefront/vue-storefront/issues/6181',
   isBreaking: false,
   breakingChanges: [],
