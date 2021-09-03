@@ -121,6 +121,7 @@ import {
   SfQuantitySelector
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
+import { onSSR } from '@vue-storefront/core';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
 
@@ -144,7 +145,10 @@ export default {
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
-    loadCart();
+
+    onSSR(async () => {
+      await loadCart();
+    });
 
     return {
       loading,
