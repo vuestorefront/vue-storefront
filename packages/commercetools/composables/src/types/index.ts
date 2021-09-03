@@ -2,6 +2,7 @@ import {
   Filter,
   ProductVariant,
   Category,
+  CategorySearch,
   ResetPasswordResponse,
   CreatePasswordResetTokenResponse,
   Store
@@ -29,7 +30,7 @@ export interface ProductsSearchParams {
 
 export interface FacetResultsData {
   products: ProductVariant[];
-  categories: Category[];
+  categories: Category[]|CategorySearch[];
   facets: Record<string, Filter>;
   total: number;
   perPageOptions: number[];
