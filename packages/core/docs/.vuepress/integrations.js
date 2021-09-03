@@ -64,16 +64,6 @@ const INTEGRATIONS = {
       ]
     },
     {
-      name: 'SAP Commerce Cloud',
-      link: '',
-      image: '/v2/integrations-logos/sap.svg',
-      status: STATUSES.WIP,
-      availability: AVAILABILITY.ENTERPRISE,
-      maintainedBy: [
-        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
-      ]
-    },
-    {
       name: 'Spryker',
       link: 'https://docs.vuestorefront.io/spryker',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed62750bc49f087fcfc9fd1_spryker_logo.svg',
