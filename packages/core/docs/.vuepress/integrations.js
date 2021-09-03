@@ -50,6 +50,16 @@ const INTEGRATIONS = {
       status: STATUSES.BETA,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
+        { name: 'Forkpoint', link: 'https://forkpoint.com/' },
+      ]
+    },
+    {
+      name: 'SAP Commerce Cloud',
+      link: '',
+      image: '/v2/integrations-logos/sap.svg',
+      status: STATUSES.WIP,
+      availability: AVAILABILITY.ENTERPRISE,
+      maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ]
     },
@@ -137,7 +147,7 @@ const INTEGRATIONS = {
       name: 'Vendure',
       link: '',
       image: '/v2/integrations-logos/vendure.png',
-      status: STATUSES.WIP,
+      status: STATUSES.BETA,
       availability: AVAILABILITY.OPEN_SOURCE,
       maintainedBy: [
         { name: 'Jakub Andrzejewski', link: 'https://www.linkedin.com/in/jakub-andrzejewski/' },
@@ -323,18 +333,17 @@ const INTEGRATIONS = {
       categories: [ CATEGORIES.SEARCH ],
       compatibility: [ 'commercetools' ]
     },
-    
     {
       name: 'Constructor.io',
       link: '',
       image: '/v2/integrations-logos/constructor-io.svg',
-      status: STATUSES.BETA,
+      status: STATUSES.WIP,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.SEARCH ],
-      compatibility: []
+      compatibility: [ 'commercetools' ]
     },
     {
       name: 'Adobe Experience Manager',
@@ -342,7 +351,9 @@ const INTEGRATIONS = {
       image: 'https://www.rackspace.com/sites/default/files/styles/rxt_image/public/2020-11/AEM.png',
       status: STATUSES.WIP,
       availability: AVAILABILITY.ENTERPRISE,
-      maintainedBy: [],
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
       categories: [ CATEGORIES.CMS, CATEGORIES.ANALYTICS ],
       compatibility: []
     }

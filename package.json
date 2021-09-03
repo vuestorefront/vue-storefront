@@ -53,7 +53,7 @@
     "test:e2e:ct": "cd packages/commercetools/theme && yarn run test:e2e",
     "test:e2e:ct:hl": "cd packages/commercetools/theme && yarn run test:e2e:hl",
     "test:e2e:ct:generate:report": "cd packages/commercetools/theme && yarn run test:e2e:generate:report",
-    "core:changelog": "cd packages/core/docs/scripts && node changelog",
+    "core:changelog": "cd packages/core/docs/scripts && node changelog --in ../changelog --out ../contributing/changelog.md",
     "ct:changelog": "cd packages/core/docs/scripts && node changelog --in ../commercetools/changelog --out ../commercetools/changelog.md"
   },
   "devDependencies": {
