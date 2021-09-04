@@ -50,7 +50,6 @@
     "@babel/core": "^7.10.5",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
-    "@commitlint/config-lerna-scopes": "^13.1.0",
     "@rollup/plugin-babel": "^5.1.0",
     "@rollup/plugin-replace": "^2.3.3",
     "@types/jest": "^26.0.24",
