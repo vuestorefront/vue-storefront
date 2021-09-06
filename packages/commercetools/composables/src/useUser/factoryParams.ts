@@ -60,7 +60,7 @@ export const useUserFactoryParams: UseUserFactoryParams<Customer, any, any> = {
     const loadedUser = await getCurrentUser(context, currentUser, customQuery);
     const userResponse = await context.$ct.api.customerChangeMyPassword(loadedUser.version, currentPassword, newPassword);
     // we do need to re-authenticate user to acquire new token - otherwise all subsequent requests will fail as unauthorized
-    await this.logOut(context);
+    await useUserFactoryParams.logOut(context);
     return await useUserFactoryParams.logIn(context, { username: userResponse.data.user.email, password: newPassword });
   }
 };

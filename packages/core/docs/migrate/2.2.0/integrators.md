@@ -1,4 +1,4 @@
-# Integrators upgrade notes
+# Migrating eCommerce integrations to 2.2.0
 
 ## Factory usage
 

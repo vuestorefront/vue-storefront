@@ -2,10 +2,10 @@
 
 ## Loading current user
 
-To access data of the currently logged-in user, we can use another property of `useUser` called simply `user`.
+To access the data of the currently logged-in user, you can use the `user` property of `useUser` composable.
 
 ```js{8,16}
-import { useUser } from '{INTEGRATION}';
+import { useUser } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -26,7 +26,7 @@ export default {
 }
 ```
 
-`user` property will return `null` if the user is not logged-in. `userGetters` should handle such cases and return empty data like `''`, `[]` etc. depending on the expected return data type. To prevent empty elements in the template, it's a good practice to check if the user is logged-in before using getters.
+`user` property will return `null` if the user is not logged in. `userGetters` should handle such cases and return empty data like `''`, `[]` etc., depending on the expected return data type. To prevent empty elements in the template, it's a good practice to check if the user is logged in before using getters.
 
 ```vue{3-5}
 <template>
@@ -38,7 +38,7 @@ export default {
 </template>
 
 <script>
-import { useUser, userGetters } from '{INTEGRATION}';
+import { useUser, userGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -69,7 +69,7 @@ export default {
 Updating user data (except for the current password, which is described in the [Changing password](#changing-password) section) can be done using `updateUser` method in `useUser` composable.
 
 ```js
-import { useUser } from '{INTEGRATION}';
+import { useUser } from '@vue-storefront/commercetools';
 
 export default {
   setup () {
@@ -89,10 +89,10 @@ export default {
 
 ## Changing password
 
-Updating user password can be done using `changePassword` method in `useUser` composable. It requires the current and new password, to confirm user identity.
+Updating user password can be done using `changePassword` method in `useUser` composable. It requires the current and new password to confirm user identity.
 
 ```js
-import { useUser } from '{INTEGRATION}';
+import { useUser } from '@vue-storefront/commercetools';
 
 export default {
   setup () {
@@ -117,11 +117,11 @@ export default {
 
 Managing billing and shipping addresses is done using [useUserBilling](/core/api-reference/core.useuserbilling.html) and [useUserShipping](/core/api-reference/core.useusershipping.html) composables.
 
-Both have almost identical signature (properties, methods and getters), so examples below will only show usage of `useUserBilling`.
+Both have an almost identical signature (properties, methods, and getters), so the examples below will only show usage of `useUserBilling`.
 
 ### Displaying a list of addresses
 
-To get a list of addresses, use `load` and `billing` or `shipping` properties and `getAddresses` method on corresponding getter.
+To get a list of addresses, use `load` and `billing` or `shipping` properties and `getAddresses` method on the corresponding getter.
 
 ```vue
 <template>
@@ -136,7 +136,7 @@ To get a list of addresses, use `load` and `billing` or `shipping` properties an
 </template>
 
 <script>
-import { useUserBilling, userBillingGetters } from '{INTEGRATION}';
+import { useUserBilling, userBillingGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -185,7 +185,7 @@ Below is the example of using `deleteAddress` method.
 </template>
 
 <script>
-import { useUserBilling, userBillingGetters } from '{INTEGRATION}';
+import { useUserBilling, userBillingGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
@@ -229,7 +229,7 @@ To get a list of orders, use `search` and `orders` properties and `getItems` met
 </template>
 
 <script>
-import { useUserOrders, orderGetters } from '{INTEGRATION}';
+import { useUserOrders, orderGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 
 export default {

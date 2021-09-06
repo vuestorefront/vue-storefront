@@ -1,4 +1,4 @@
-# Migration guide 2.3.0
+# Migrating projects to 2.3.0
 
 ## Introduction
 

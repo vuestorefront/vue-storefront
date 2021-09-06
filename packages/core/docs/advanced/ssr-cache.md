@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Caching allows saving pages rendered on the server for later use, to avoid computationally expensive rendering from scratch when possible. This is especially useful when the application has pages that require a lot of computation, make many API calls, or change infrequently. It not only reduces the load on the server but also greatly improves performance.
+Caching allows saving pages rendered on the server for later use to avoid computationally expensive rendering from scratch when possible. This is especially useful when the application has pages that require a lot of computation, make many API calls, or change infrequently. It not only reduces the load on the server but also significantly improves performance.
 
 Caching SSR output in Vue Storefront requires two packages:
 * `@vue-storefront/cache` - Nuxt.js module, that does the heavy lifting. It registers required plugins, creates [invalidation endpoint](#invalidating-tags), and hooks into the render cycle. 
@@ -61,7 +61,7 @@ Refer to the [Tags](#tags) section for more information.
 
 ## How it works?
 
-When the page is requested, the cache driver checks if there is an already rendered page in the cache matching the current route. If there is, it will serve the cached version. Otherwise, the current page will be rendered on the server and served to the user, but if it contains tags, the result will be saved in the cache and used for subsequent requests.
+When the page is requested, the cache driver checks if there is an already rendered page in the cache matching the current route. If the rendered page exists, the cache driver will serve the cached version. Otherwise, the current page will be rendered on the server and served to the user, but if it contains tags, the result will be saved in the cache and used for subsequent requests.
 
 <center>
  <img src="../images/ssr-flow.jpg" alt="Server Side Rendering request flow" />
@@ -81,12 +81,12 @@ A typical category page would have tags for:
 
 When at least one tag associated with the given page is [invalidated](#invalidating-tags), the whole page is removed from the cache and will be rendered from scratch on the next request. For example, if one of the products is modified or disabled, we should invalidate cache for pages where this product is visible:
 * Product page for this particular product.
-* Other product pages, where this product is listed (upsell or cross-sell).
+* Other product pages where this product is listed (upsell or cross-sell).
 * Homepage, if the product is displayed in the carousel or listed as a popular item.
 * Category page, where this product is listed.
-* Search page, where this product is part of the results.
+* Search page where this product is part of the results.
 
-Additionally, all modifiers changing what is displayed on the page, such as pagination, filtering, and sorting options should be added as URL queries (for example `?sort=price-up&size=36&page=3`). This will cause different modifier combinations to be treated as different routes, and thus, cached separately.
+Additionally, all modifiers changing what is displayed on the page, such as pagination, filtering, and sorting options, should be added as URL queries (for example, `?sort=price-up&size=36&page=3`). This will cause different modifier combinations to be treated as different routes, and thus, cached separately.
 
 ::: warning
 Don't use tags on pages, components, or composables specific to the current user, such as user profile pages or cart components.
