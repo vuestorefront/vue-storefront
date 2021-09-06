@@ -19,19 +19,13 @@ export default gql`
           ...DefaultCategorySearch
           parent {
             ...DefaultCategorySearch
-            __typename
           }
-          __typename
         }
-        __typename
       }
       children {
         ...DefaultCategorySearch
-        __typename
       }
-      __typename
     }
-    __typename
   }
 }
 
@@ -47,13 +41,9 @@ fragment DefaultCategorySearch on CategorySearch {
       ...CategorySearchChildren
       children {
         ...CategorySearchChildren
-        __typename
       }
-      __typename
     }
-    __typename
   }
-  __typename
 }
 
 fragment CategorySearchChildren on CategorySearch {
@@ -62,6 +52,5 @@ fragment CategorySearchChildren on CategorySearch {
   name(acceptLanguage: $acceptLanguage)
   childCount
   stagedProductCount
-  __typename
 }
 `;

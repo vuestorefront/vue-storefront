@@ -4,12 +4,19 @@ import { CategorySearchResult } from '../../types/GraphQL';
 import { buildCategoryFilter } from '../../helpers/search';
 import ApolloClient from 'apollo-client';
 import { CustomQuery } from '@vue-storefront/core';
+import { CategoryWhereSearch } from '@vue-storefront/commercetools-api';
 
 export interface CategoryData {
   categorySearch: CategorySearchResult;
 }
 
-const categorySearch = async (context, params, customQuery?: CustomQuery) => {
+export interface CategorySearchParams {
+  filter?: CategoryWhereSearch;
+  limit?: number;
+  offset?: number;
+}
+
+const categorySearch = async (context, params?: CategorySearchParams, customQuery?: CustomQuery) => {
   const { acceptLanguage } = context.config;
   const defaultVariables = params ? {
     filter: buildCategoryFilter(context.config, params),
