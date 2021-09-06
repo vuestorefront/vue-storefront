@@ -6,16 +6,16 @@ The Shopify integration is developed and maintained by the core partner **[Aurea
 
 ## Support
 
-In case of any questions, reach out to the maintainers in the `#shopify` channel on our [Discord](https://discord.vuestorefront.io) server. You can also [hire the core team](https://www.vuestorefront.io/support) to support you in delivering your project.
+In case of any questions don't hesitate reaching out to the maintainers on [Discord](https://discord.vuestorefront.io) and visiting `#shopify` channel. You can also [hire the core team](https://www.vuestorefront.io/support) to support you in delivering your project.
 
 <PersonTile 
-  photo="https://avatars.githubusercontent.com/u/1814821?v=4"
+  photo="https://user-images.githubusercontent.com/65275444/128293865-f05143c3-8c42-491a-b90e-aa99724c2eae.png"
   name="Piyush Lathiya"
   company="Aureate Labs"
   discord="Piyush Lathiya#1282"
 />
 <PersonTile 
-  photo="https://user-images.githubusercontent.com/65275444/127654906-5f7d5c81-01e4-4b87-b700-3645d3a435dd.jpg"
+  photo="https://user-images.githubusercontent.com/65275444/128293610-cd95c83f-6d7f-4314-9f46-02f22adb612d.png"
   name="Viral Rana"
   company="Aureate Labs"
   discord="viralr07#1995"

@@ -26,7 +26,6 @@ export function generateBaseConfig(pkg) {
         typescript: require('typescript')
       }),
       replace({
-        preventAssignment: true,
         __DEV__: process.env.NODE_ENV === 'development',
         delimiters: ['', '']
       })

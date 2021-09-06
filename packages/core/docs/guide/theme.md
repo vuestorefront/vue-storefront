@@ -1,10 +1,7 @@
 # Theme
-
-[[toc]]
-
 ## Directory structure
 
-If you followed our [Installation guide](/general/installation), you should have a fully functional e-commerce application. As mentioned in previous documents, Vue Storefront extends Nuxt.js, so the structure of both applications is similar. Most directories come from Nuxt.js, and you can read more about them on their [Directory Structure](https://nuxtjs.org/docs/2.x/get-started/directory-structure) page.
+If you followed our [Installation guide](/general/installation.html), you should have a fully functional e-commerce application. As mentioned in previous documents, Vue Storefront extends Nuxt.js, so the structure of both applications is similar. Most directories come from Nuxt.js, and you can read more about them on their [Directory Structure](https://nuxtjs.org/docs/2.x/get-started/directory-structure) page.
 
 * [.nuxt](https://nuxtjs.org/docs/2.x/directory-structure/nuxt);
 * [components](https://nuxtjs.org/docs/2.x/directory-structure/components);
@@ -15,7 +12,7 @@ If you followed our [Installation guide](/general/installation), you should have
 * [middleware](https://nuxtjs.org/docs/2.x/directory-structure/middleware);
 * [pages](https://nuxtjs.org/docs/2.x/directory-structure/pages);
 * [static](https://nuxtjs.org/docs/2.x/directory-structure/static);
-* `middleware.config.js` - configuration file for the [Server Middleware](/advanced/server-middleware);
+* `middleware.config.js` - configuration file for the [Server Middleware](/advanced/server-middleware.html);
 * [nuxt.config.js](https://nuxtjs.org/docs/2.x/directory-structure/nuxt-config);
 
 ## Storefront UI
@@ -47,7 +44,7 @@ If the name of the component starts with `Sf` (indicating that it comes from Sto
 
 #### `LazyHydrate` and `Anonymous Component` components
 
-These two components come from the `vue-lazy-hydration` library and are wrappers around other components. In Vue Storefront they are used to improve the performance by deferring the hydration process (when components become interactive) and don't affect the look of other components.
+These two components come from the `vue-lazy-hydration` library and are wrappers around other components. In Vue Storefront, they are used to improve the performance by deferring the hydration process (when components become interactive) and don't affect the look of other components.
 
 If you encounter one of these components, you should refer to the direct **child** component. 
 
@@ -148,5 +145,5 @@ Below you can find a list of the most important Nuxt Modules and libraries that 
 ### Libraries
 
 - [`@storefront-ui/vue`](https://storefrontui.io);
-- [`wee-validate`](https://vee-validate.logaretm.com/v3);
+- [`vee-validate`](https://vee-validate.logaretm.com/v3);
 - [`lodash`](https://lodash.com/);

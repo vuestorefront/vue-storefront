@@ -22,6 +22,8 @@ export type Order = TODO;
 
 export type OrderItem = TODO;
 
+export type PasswordResetResult = TODO;
+
 export type Product = TODO;
 
 export type ProductFilter = TODO;

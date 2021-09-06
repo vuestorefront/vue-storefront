@@ -6,11 +6,11 @@ const hasRouteChanged = (ctx) => {
   const { current } = ctx.$router.history
 
   if (!from) {
-    return false;
+    return false
   }
 
-  return from.fullPath !== current.fullPath;
-};
+  return from.fullPath !== current.fullPath
+}
 
 const ssrPlugin = () => {
   configureSSR({

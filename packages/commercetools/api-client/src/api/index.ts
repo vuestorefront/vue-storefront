@@ -7,6 +7,7 @@ export { default as customerSignMeIn } from './customerSignMeIn';
 export { default as customerSignMeUp } from './customerSignMeUp';
 export { default as customerSignOut } from './customerSignOut';
 export { default as customerUpdateMe } from './customerUpdateMe';
+export { default as deleteCart } from './deleteCart';
 export { default as getCart } from './getCart';
 export { default as getCategory } from './getCategory';
 export { default as getMe } from './getMe';

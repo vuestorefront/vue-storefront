@@ -5,11 +5,12 @@
     "node": ">=10.x"
   },
   "scripts": {
-    "build:core:docs": "cd packages/core/docs && yarn build:core",
-    "build:ct:docs": "cd packages/core/docs && yarn build:ct",
     "build:docs": "cd packages/core/docs && yarn build",
     "dev:docs": "cd packages/core/docs && yarn dev",
-    "build:core": "cd packages/core/core && yarn build && cd ../middleware && yarn build",
+    "build:core": "yarn build:core:core && yarn build:core:cache && yarn build:core:middleware",
+    "build:core:core": "cd packages/core/core && yarn build",
+    "build:core:cache": "cd packages/core/cache && yarn build",
+    "build:core:middleware": "cd packages/core/middleware && yarn build",
     "build:spr:api-client": "cd packages/spryker/api-client && yarn build",
     "build:spr:composables": "cd packages/spryker/composables && yarn build",
     "build:spr:tools": "yarn build:core && yarn build:spr:api-client && yarn build:spr:composables",
@@ -52,7 +53,7 @@
     "test:e2e:ct": "cd packages/commercetools/theme && yarn run test:e2e",
     "test:e2e:ct:hl": "cd packages/commercetools/theme && yarn run test:e2e:hl",
     "test:e2e:ct:generate:report": "cd packages/commercetools/theme && yarn run test:e2e:generate:report",
-    "core:changelog": "cd packages/core/docs/scripts && node changelog",
+    "core:changelog": "cd packages/core/docs/scripts && node changelog --in ../changelog --out ../contributing/changelog.md",
     "ct:changelog": "cd packages/core/docs/scripts && node changelog --in ../commercetools/changelog --out ../commercetools/changelog.md"
   },
   "devDependencies": {

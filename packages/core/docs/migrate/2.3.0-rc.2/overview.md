@@ -1,4 +1,4 @@
-# Migration guide 2.3.0-rc.2
+# Migrating projects to 2.3.0-rc.2
 
 ## Introduction
 

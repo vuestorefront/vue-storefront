@@ -5,7 +5,7 @@ const e2eTestingPlugin = (ctx) => {
     bind: (element, binding) => {
       const enabled = ctx.isDev || ctx.env.NUXT_ENV_E2E === true.toString();
 
-      return enabled && element.setAttribute('data-e2e', binding.value);
+      return enabled && element.setAttribute(`data-e2e`, binding.value);
     }
   });
 };
