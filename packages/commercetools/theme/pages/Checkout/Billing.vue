@@ -87,7 +87,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-apartment'"
+            v-e2e="'billing-streetNumber'"
             :value="billingDetails.streetNumber"
             @input="streetNumber => changeBillingDetails('streetNumber', streetNumber)"
             :label="$t('House/Apartment number')"

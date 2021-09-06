@@ -80,7 +80,7 @@
           slim
         >
           <SfInput
-            v-e2e="'shipping-apartment'"
+            v-e2e="'shipping-streetNumber'"
             :value="shippingDetails.streetNumber"
             @input="streetNumber => changeShippingDetails('streetNumber', streetNumber)"
             label="House number"
