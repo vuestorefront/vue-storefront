@@ -204,7 +204,7 @@
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
         type="button"
-        @click.native="handleAddNewAddressBtnClick"
+        @click="handleAddNewAddressBtnClick"
       >
         {{ $t('Add new address') }}
       </SfButton>
@@ -228,7 +228,7 @@
             v-e2e="'continue-to-billing'"
             class="form__action-button"
             type="button"
-            @click.native="$router.push(localePath({ name: 'billing' }))"
+            @click="$router.push(localePath({ name: 'billing' }))"
             :disabled="!isShippingMethodStepCompleted || loadingShippingProvider"
           >
             {{ $t('Continue to billing') }}
