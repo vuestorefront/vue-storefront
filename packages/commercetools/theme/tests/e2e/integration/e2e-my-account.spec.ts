@@ -20,11 +20,8 @@ context('My Account', () => {
   it(['regression'], 'Should display customer\'s correct personal data', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
-    const getMeRequest = intercept.getMe();
     requests.customerSignMeUp(data.customer);
-    page.home.visit().then(() => {
-      cy.wait([getMeRequest, getMeRequest]);
-    });
+    page.home.visit();
     page.home.header.account.click();
     page.myAccount.myProfile.firstName.should('have.value', data.customer.firstName);
     page.myAccount.myProfile.lastName.should('have.value', data.customer.lastName);
@@ -34,11 +31,8 @@ context('My Account', () => {
   it(['regression'], 'Should update customer\'s personal data', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
-    const getMeRequest = intercept.getMe();
     requests.customerSignMeUp(data.customer).its('status').should('eq', 200);
-    page.home.visit().then(() => {
-      cy.wait([getMeRequest, getMeRequest]);
-    });
+    page.home.visit();
     page.home.header.account.click();
     data.updatedCustomer.email = generator.email;
     page.myAccount.myProfile.firstName.clear().type(data.updatedCustomer.firstName);
@@ -58,11 +52,8 @@ context('My Account', () => {
   it(['regression'], 'Should update customer\'s password', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email, data.updatedCustomer.email = data.customer.email;
-    const getMeRequest = intercept.getMe();
     requests.customerSignMeUp(data.customer).its('status').should('eq', 200);
-    page.home.visit().then(() => {
-      cy.wait([getMeRequest, getMeRequest]);
-    });
+    page.home.visit();
     page.home.header.account.click();
     page.myAccount.myProfile.switchTab(MyAccountTab.PasswordChange);
     page.myAccount.myProfile.messageEmail.should('contain.text', data.customer.email);
