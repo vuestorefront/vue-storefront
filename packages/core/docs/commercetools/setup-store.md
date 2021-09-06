@@ -1,57 +1,58 @@
 # How to setup commercetools store with Vue Storefront?
 
-This short description is here to guide you all the way to create simple working store based on the commercetools integration.
-First you need to go prepare commercetools instance in Merchant Center. After signing up following [this guide](https://docs.commercetools.com/merchant-center/accounts) you can start preparing your project.
+This document will guide you through setting up a store based on our commercetools integration.
+
+:::tip
+Because this document is focused on setting up a basic working store, we omitted some of the settings. If you want to learn more see the [commercetools documentation](https://docs.commercetools.com/merchant-center/).
+:::
 
 ## Commercetools settings
 
-Project is the set of data and store configuration which allows you to manage and provide input for VSF Next to display it in proper way. You can have more than one project with different settings and independent data. One project can provide data for multiple selling channels.
-In order to create one, you need to add it in 'manage projects' menu by setting name, key and organization.
+First, log into your commercetools account and [create a new project](https://docs.commercetools.com/merchant-center/projects#creating-a-project). You can have more than one project with different settings and catalogs. One project can provide data for multiple selling channels.
 
-<center>
-  <img src="../images/setup-store/project-settings-sidebar.png" alt="Commercetools manage projects menu" />
-</center>
+
 
 For further information please see the [following guide](https://docs.commercetools.com/merchant-center/projects#creating-a-project)
 
 Preparing configuration for your store consist of few steps to make it ready to use with VSF Next  
-In 'Project settings' menu you need to define basic settings:
+In `Project settings` menu you need to define basic settings:
+
 <center>
-  <img src="../images/setup-store/currencies.png" alt="Commercetools manage projects menu" />
+  <img src="./images/setup-store/project-settings-sidebar-signed.png" alt="Commercetools manage projects menu" />
 </center>
 
 ##  International configuration
 
-Open the `Settings > Project settings` menu and select currencies available in your store:
+Select currencies available in your store:
 
 <center>
-  <img src="../images/setup-store/currencies.png" alt="Commercetools manage projects menu" />
+  <img src="./images/setup-store/currencies.png" alt="Commercetools manage projects menu" class="markdown-preview-view" />
 </center>
 
 Then, select supported languages:
 
 <center>
-  <img src="../images/setup-store/languages.png" alt="Commercetools languages configuration" />
+  <img src="./images/setup-store/languages.png" alt="Commercetools languages configuration" class="markdown-preview-view" />
 </center>
 
 Next, select the available countries:
 
 <center>
-  <img src="../images/setup-store/countries.png" alt="Commercetools countries configuration" />
+  <img src="./images/setup-store/countries.png" alt="Commercetools countries configuration" class="markdown-preview-view" />
 </center>
 
 Finally, set zones. Zones are helpful when few countries share the same delivery costs. You need to configure at least one shipping zone to be able to set up shipping methods later.
 
 <center>
-  <img src="../images/setup-store/zones.png" alt="Commercetools zones configuration" />
+  <img src="./images/setup-store/zones.png" alt="Commercetools zones configuration" class="markdown-preview-view" />
 </center>
 
 ## Taxes configuration
 
-Open the `Settings > Project settings` menu. In the `Taxes` tab, you can configure tax rates for the countries configured in the 'International' tab.
+Open the `Settings > Project settings` menu. In the `Taxes` tab, you can configure tax rates for the countries configured in the `International` tab.
 
 <center>
-  <img src="../images/setup-store/taxes.png" alt="Commercetools taxes configuration" />
+  <img src="./images/setup-store/taxes.png" alt="Commercetools taxes configuration" class="markdown-preview-view" />
 </center>
 
 ## Shipping methods configuration
@@ -61,79 +62,88 @@ To add a shipping method, open the `Settings > Project settings` menu and select
 Then, enter specific methods for each zone and currency:
 
 <center>
-  <img src="../images/setup-store/shipping-methods_1.png" alt="Commercetools shipping methods configuration" />
+  <img src="./images/setup-store/shipping-methods_1.png" alt="Commercetools shipping methods configuration" class="markdown-preview-view" />
 </center>
 
 ## Adding a new category
 
 Categories allow to organize the products in groups and make them easy to find by the customer. See the [Modeling Categories](https://docs.commercetools.com/tutorials/product-modeling/categories) page to know more about categorizing items in your store.
+In order to create a category you need to:
 
 1. Choose `add category` from the sidebar menu. 
   <center>
-    <img src="../images/setup-store/categories-sidebar.png" alt="Commercetools create category first step" />
+    <img src="./images/setup-store/categories-sidebar-signed.png" alt="Commercetools create category first step" />
   </center>
 
 2. Enter the name, and category order.
   <center>
-    <img src="../images/setup-store/create-category-0.png" alt="Commercetools create category first step" />
+    <img src="./images/setup-store/create-category-0.png" alt="Commercetools create category first step" class="markdown-preview-view" />
   </center>
 3. If applicable, select the parent category to which this category belongs.
   <center>
-    <img src="../images/setup-store/create-category-1.png" alt="Commercetools create category second step" />
+    <img src="./images/setup-store/create-category-1.png" alt="Commercetools create category second step" class="markdown-preview-view" />
   </center>
 
 4. Enter the slug. It will be part of the URL for this category.
   <center>
-    <img src="../images/setup-store/create-category-2.png" alt="Commercetools create category third step" />
+    <img src="./images/setup-store/create-category-2.png" alt="Commercetools create category third step" class="markdown-preview-view" />
   </center>
 
-Please provide category structure with at least two levels, in order to show category page properly (one is on top, inside main menu and second level categories are shown in menu on the left).
+Please provide category structure with at least two levels, in order to show category page properly in VSF 2 project (one is on top, inside main menu and second level categories are shown in menu on the left).
 
 You can see your categories in `categories search` menu:
   <center>
-    <img src="../images/setup-store/categories-search.png" alt="Commercetools create product type first step" />
+    <img src="./images/setup-store/categories-search.png" alt="Commercetools create product type first step" class="markdown-preview-view" />
   </center>
 
 ## Adding a new product type
 
-To create any product in commercetools, at least one product type need to be set. It is the sort of template with certain attributes which is used as a base for the product.
-Creating a product type involves changes in `Product types` menu:
+To create any product in commercetools, at least one product type needs to be set. It is a template with specific attributes for products of the same type. You can read more about them on the [Modeling Product Types and Attributes](https://docs.commercetools.com/tutorials/product-modeling/product-types) page. Creating a product type involves changes in `Product types` menu:
+
 
   <center>
-    <img src="../images/setup-store/project-settings-sidebar.png" alt="Commercetools create product type first step" />
+    <img src="./images/setup-store/product-types-sidebar-signed.png" alt="Commercetools create product type first step" />
   </center>
 
-- providing name and description
+1. Enter name and description.
 
   <center>
-    <img src="../images/setup-store/product-type-1.png" alt="Commercetools create product type first step" />
+    <img src="./images/setup-store/product-type-1.png" alt="Commercetools create product type first step" class="markdown-preview-view" />
   </center>
-For our purposes you don't need to setup product attributes, but when creating real life project attributes are necessary to configure products needed for buying process.  
 
-<!-- - and in folowing step clicking on 'add attribute' and filling name, label, constraints, and type
+
+2. Click the 'Add an attribute' button and enter the name, label, constraints, and type fields.
+
   <center>
-    <img src="../images/setup-store/product-type-2.png" alt="Commercetools create product type first step" />
-  </center> -->
+    <img src="./images/setup-store/product-type-3.png" alt="Commercetools create product type first step" class="markdown-preview-view" />
+  </center>
 
 ## Adding a new product
 
 After creating at least one product type, you can add a new product. You can read more about them on the [Modeling Products](https://docs.commercetools.com/tutorials/product-modeling/products) page.
 
 1. Go to the `Products` page. Click the `Add product` button and select the type.
+
   <center>
-    <img src="../images/setup-store/add-product-1.png" alt="Commercetools add product first step" />
+    <img src="./images/setup-store/add-product-1.png" alt="Commercetools add product first step" class="markdown-preview-view" />
   </center>
-2. Next enter the name, assign tax category (which you previously set) and add to proper category 
+
+2. Type the name and assign the tax category.
+
   <center>
-    <img src="../images/setup-store/add-product-2.png" alt="Commercetools add product second step" />
+    <img src="./images/setup-store/add-product-2.png" alt="Commercetools add product second step" class="markdown-preview-view" />
   </center>
+
 3. Add at least one variant of the product with attribute and SKU number.
+
   <center>
-    <img src="../images/setup-store/variant.png" alt="Commercetools add product third step - choose variant" />
+    <img src="./images/setup-store/variant.png" alt="Commercetools add product third step - choose variant" class="markdown-preview-view" />
   </center>
+
 4. Enter a slug, keywords, and metadata to optimize searching.
+
   <center>
-    <img src="../images/setup-store/add-product-3.png" alt="Commercetools add product fourth step - SEO" />
+    <img src="./images/setup-store/add-product-3.png" alt="Commercetools add product fourth step - SEO" class="markdown-preview-view" />
   </center>
 
 ### API settings
@@ -141,12 +151,12 @@ After creating at least one product type, you can add a new product. You can rea
 The Last important step is to generate credentials for your project to connect both tools.
 Go to the `developer settings` and click `Create new API client` button and choose manage -> Project scope, but please keep in mind that it use entire API for the project, so it is not recommended for production use. In that case, select only scopes that are needed.
 <center>
-  <img src="../images/setup-store/project-settings-sidebar.png" alt="Commercetools set scope for client API" />
+  <img src="./images/setup-store/developer-settings-sidebar-signed.png" alt="Commercetools set scope for client API" />
 </center>
 
 
 <center>
-  <img src="../images/setup-store/api-client-1.png" alt="Commercetools set scope for client API" />
+  <img src="./images/setup-store/api-client-1.png" alt="Commercetools set scope for client API" class="markdown-preview-view" />
 </center>
 
 
@@ -154,7 +164,7 @@ If you need more information about scopes please see [documentation](https://doc
 When you click on create API you will see all the credentials. They are only displayed once, so you need to store them securely. You can download them in the format you need.
 
 <center>
-  <img src="../images/setup-store/api-client-2.png" alt="Commercetools client API credentials" />
+  <img src="./images/setup-store/api-client-2.png" alt="Commercetools client API credentials" class="markdown-preview-view" />
 </center>
 
 Now let's move to front-end side.
@@ -169,7 +179,7 @@ npx @vue-storefront/cli init
 During initialization you should choose your project name and integration you use, in these case `Commercetools`.
 
 <center>
-  <img src="../images/setup-store/init-vsf.png" alt="Commercetools client API credentials" />
+  <img src="./images/setup-store/init-vsf.png" alt="Commercetools client API credentials" />
 </center>
 
 After entering your project catalogue, fetch all dependencies: 
@@ -184,8 +194,8 @@ And you can now run the project with following command:
 yarn dev
 ```
 
-But what you will see is the default project, because we didn't connect previously prepared Commercetools project with VSF. 
-To do it, let's begin with credentials generated in API settings step above. They should be used in `middleware.config.js` in `ct` config object inside `integrations`. 
+But what you will see is the default project, because we didn't previously connect prepared Commercetools project with VSF. 
+To do it, begin with credentials generated in API settings step above. They should replace default ones in `middleware.config.js` file in `ct` config object inside `integrations` property. 
 
 ```js
   integrations: {
@@ -211,7 +221,7 @@ To do it, let's begin with credentials generated in API settings step above. The
 
 For more information about available configuration options refer to the [Configuration](./configuration.md) page.
 
-The next step is to setup `nuxt.config.js` file properly. All countries, currencies and locales should be setup simiralry like in Commercetools project, in our case: 
+The next step is to setup `nuxt.config.js` file properly. The countries, currencies and locales should be setup simiralry like in Commercetools project, in our case: 
 
 ```js
   i18n: {
@@ -247,25 +257,25 @@ The next step is to setup `nuxt.config.js` file properly. All countries, currenc
     ],
   ```
 
-  If you follow all the previous steps you should see your project working, filled with data that you setup in Commercetools project:
+  If you follow all the previous steps you should see your project working, filled with data that you prevously setup in Commercetools project:
 
-on home page: 
+- on home page: 
 
   <center>
-    <img src="../images/setup-store/home-page.png" alt="Commercetools client API credentials" />
+    <img src="./images/setup-store/home-page.png" alt="Commercetools client API credentials" />
   </center>
 
-on category page:
+- on category page:
 
 <center>
-    <img src="../images/setup-store/category-page.png" alt="Commercetools client API credentials" />
+    <img src="./images/setup-store/category-page.png" alt="Commercetools client API credentials" />
   </center>
 
 
-and on product detail page:
+- and on product detail page:
 
 <center>
-    <img src="../images/setup-store/product-detail-page.png" alt="Commercetools client API credentials" />
+    <img src="./images/setup-store/product-detail-page.png" alt="Commercetools client API credentials" />
   </center>
 
 So it is just the beginning of your VSF Next store based on Commercetools integration. Now you can customize it according to your needs. 
