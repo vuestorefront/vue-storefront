@@ -83,9 +83,7 @@
             <SfRadio
               v-e2e="'delivery-option'"
               name="Delivery"
-              label="Delivery to your house"
-              details="Delivery from 4-6 business days"
-              description="Novelty! From now on you have the option of picking up an order in the selected InPack parceler. Just remember that in the case of orders paid on delivery, only the card payment will be accepted."
+              label="Delivery"
               value="delivery"
               :selected="selectedDelivery"
               @input="selectDelivery('delivery')"
