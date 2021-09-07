@@ -12,11 +12,12 @@
           <div class="accordion__content">
             <p class="content">
               <span class="content__label" v-if="chosenShippingMethod">{{ chosenShippingMethod.name }}</span><br />
-              {{ shippingDetails.streetName }} {{ shippingDetails.streetNumber }},
-              {{ shippingDetails.zipCode }}<br />
-              {{ shippingDetails.city }}, {{ shippingDetails.country }}
+              {{ shippingDetails.firstName }} {{ shippingDetails.lastName }}<br />
+              {{ shippingDetails.streetName }} {{ shippingDetails.streetNumber }}<br />
+              {{ shippingDetails.city }}, {{ shippingDetails.state }} {{ shippingDetails.postalCode }}<br />
+              {{ shippingDetails.country }}
             </p>
-            <p class="content">{{ shippingDetails.phoneNumber }}</p>
+            <p class="content">{{ shippingDetails.phone }}</p>
           </div>
           <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 1)">
             {{ $t('Edit') }}
@@ -32,11 +33,12 @@
             <template v-else>
               <p class="content">
                 <span class="content__label">{{ chosenPaymentMethod.label }}</span><br />
-                {{ billingDetails.streetName }} {{ billingDetails.streetNumber }},
-                {{ billingDetails.zipCode }}<br />
-                {{ billingDetails.city }}, {{ billingDetails.country }}
+                {{ billingDetails.firstName }} {{ billingDetails.lastName }}<br />
+                {{ billingDetails.streetName }} {{ billingDetails.streetNumber }}<br />
+                {{ billingDetails.city }}, {{ billingDetails.state }} {{ billingDetails.postalCode }}<br />
+                {{ billingDetails.country }}
               </p>
-              <p class="content">{{ billingDetails.phoneNumber }}</p>
+              <p class="content">{{ billingDetails.phone }}</p>
             </template>
           </div>
           <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 2)">
