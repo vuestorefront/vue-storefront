@@ -13,7 +13,7 @@ const breadcrumbsNames = [
   'Jackets'
 ];
 
-context(['regression], 'Breadcrumbs', () => {
+context(['regression'], 'Breadcrumbs', () => {
   beforeEach(function () {
     cy.fixture('test-data/e2e-breadcrumbs').then((fixture) => {
       this.fixtures = {
