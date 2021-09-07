@@ -1,0 +1,10 @@
+- {{#if isBreaking}}**[BREAKING]** {{/if}}{{ description }} ([{{ prNumber }}]({{ link }})) - [{{ author }}]({{ linkToGitHubAccount }})
+
+{{#if breakingChanges.length}}
+  | Before | After | Comment | Module |
+  | ------ | ----- | ------- | ------ |
+  {{#each breakingChanges}}
+  | {{ before }} | {{ after }} | {{ comment }} | {{ module }} |
+  {{/each}}
+
+{{/if}}

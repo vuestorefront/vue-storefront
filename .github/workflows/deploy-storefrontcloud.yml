@@ -16,7 +16,9 @@ jobs:
         with:
           node-version: "12.x"
       - name: Build and publish docker image
-        uses: elgohr/Publish-Docker-Github-Action@master
+        # uses: elgohr/Publish-Docker-Github-Action@master
+        # 3.04 is hardcoded as a workaround for https://github.com/elgohr/Publish-Docker-Github-Action/issues/134
+        uses: elgohr/Publish-Docker-Github-Action@3.04
         with:
           name: vsf-next-demo-storefrontcloud-io/vue-storefront:${{ github.sha }}
           registry: registry.storefrontcloud.io

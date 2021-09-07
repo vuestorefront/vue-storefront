@@ -12,7 +12,7 @@
           <div class="accordion__content">
             <p class="content">
               <span class="content__label" v-if="chosenShippingMethod">{{ chosenShippingMethod.name }}</span><br />
-              {{ shippingDetails.streetName }} {{ shippingDetails.apartment }},
+              {{ shippingDetails.streetName }} {{ shippingDetails.streetNumber }},
               {{ shippingDetails.zipCode }}<br />
               {{ shippingDetails.city }}, {{ shippingDetails.country }}
             </p>
@@ -32,7 +32,7 @@
             <template v-else>
               <p class="content">
                 <span class="content__label">{{ chosenPaymentMethod.label }}</span><br />
-                {{ billingDetails.streetName }} {{ billingDetails.apartment }},
+                {{ billingDetails.streetName }} {{ billingDetails.streetNumber }},
                 {{ billingDetails.zipCode }}<br />
                 {{ billingDetails.city }}, {{ billingDetails.country }}
               </p>
