@@ -4,7 +4,7 @@
       "category": "men"
     }
   },
-  "Should successfully exists category items": {
+  "Should successfully display category items": {
     "header": {
       "category": "women"
     },

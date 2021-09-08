@@ -1,6 +1,6 @@
 import page from '../pages/factory';
 
-context('Category page accordion', () => {
+context(['regression'], 'Category page accordion', () => {
   beforeEach(function () {
     cy.fixture('test-data/e2e-category-accordion').then((fixture) => {
       this.fixtures = {
@@ -16,7 +16,7 @@ context('Category page accordion', () => {
     page.components.categoryAccordion.container.should('be.visible');
   });
 
-  it('Should successfully exists category items', function () {
+  it('Should successfully display category items', function () {
     const data = this.fixtures.data[this.test.title];
     const category = page.category(data.header.category);
     category.visit();
@@ -32,7 +32,6 @@ context('Category page accordion', () => {
     page.components.categoryAccordion.categories.first().click();
     data.categories.forEach(category => {
       page.components.categoryAccordion.category(category.name).click().then(() => {
-        cy.wait(2000);
         category.subCategories.forEach(subCategory => {
           page.components.categoryAccordion.subCategoryName(subCategory).should('be.visible');
         });
