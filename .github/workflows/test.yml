@@ -88,7 +88,7 @@ jobs:
         run: yarn test:core --coverage
 
       - name: Test middleware
-        run: yarn test:core --coverage
+        run: yarn test:middleware --coverage
 
   validate_integrations:
     name: Validate ${{ matrix.integration }}
