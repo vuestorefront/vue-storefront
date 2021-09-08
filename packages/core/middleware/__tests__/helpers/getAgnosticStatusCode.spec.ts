@@ -1,4 +1,5 @@
 import getAgnosticStatusCode from '../../src/helpers/getAgnosticStatusCode';
+import bigObject from '../test-data/getAgnosticStatusCode';
 const expectedStatusCode = 400;
 
 describe('[middleware-helpers] getAgnosticStatusCode', () => {
@@ -20,6 +21,13 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
       }
     };
 
+    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+
+    expect(statusCode).toBe(expectedStatusCode);
+  });
+
+  it('retrieves the status code from big object', () => {
+    const testData = {...bigObject, ...{statusCode: expectedStatusCode}};
     const statusCode = getAgnosticStatusCode(testData, 'statusCode');
 
     expect(statusCode).toBe(expectedStatusCode);
@@ -55,5 +63,23 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
     expect(getAgnosticStatusCode(null, 'statusCode')).toBeUndefined;
     expect(getAgnosticStatusCode(undefined, 'statusCode')).toBeUndefined;
     expect(getAgnosticStatusCode(300, 'statusCode')).toBeUndefined;
+  });
+
+  it('not check deeper than 3 levels down', () => {
+    const testData = {
+      level1: {
+        level2: {
+          level3: {
+            level4: {
+              statusCode: expectedStatusCode
+            }
+          }
+        }
+      }
+    };
+
+    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+
+    expect(statusCode).toBe(undefined);
   });
 });
