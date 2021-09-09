@@ -146,7 +146,7 @@ class Payment extends Base {
   }
 
   get billingAddress(): Cypress.Chainable {
-    return el('payment-billing-address', '.content');
+    return el('payment-billing-address');
   }
 
   get makeAnOrderButton(): Cypress.Chainable {
@@ -165,33 +165,14 @@ class Payment extends Base {
     return el('product-row');
   }
 
-  get productTitleSku(): Cypress.Chainable {
-    return el('product-title-sku');
+  get summaryValues(): Cypress.Chainable {
+    return el('payment-summary', '.sf-property__value');
   }
 
-  get productAttributes(): Cypress.Chainable {
-    return el('product-attributes');
+  get cartPreviewValues(): Cypress.Chainable {
+    return el('cart-preview-summary', '.sf-property__value');
   }
 
-  get productQuantity(): Cypress.Chainable {
-    return el('product-quantity');
-  }
-
-  get productPrice(): Cypress.Chainable {
-    return el('product-price');
-  }
-
-  get discountedPrice(): Cypress.Chainable {
-    return cy.get('.discounted');
-  }
-
-  get specialPrice(): Cypress.Chainable {
-    return cy.get('.special-price');
-  }
-
-  get totalPrice(): Cypress.Chainable {
-    return cy.get('.property-total');
-  }
 }
 
 class ThankYou {

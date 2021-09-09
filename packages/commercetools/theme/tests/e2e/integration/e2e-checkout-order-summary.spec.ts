@@ -1,6 +1,39 @@
 import requests, { CreateCartResponse, GetShippingMethodsResponse } from '../api/requests';
 import page from '../pages/factory';
 
+const assertDataInProductRow = (productData, expectedData) => {
+  const data = productData.text().split('\n').map(e => e.trim()).filter(e => e);
+  data.forEach((line, index) => {
+    expect(line).to.be.equal(expectedData[index]);
+  });
+};
+
+const assertPrices = (data) => {
+  page.checkout.payment.summaryValues.each((price, index) => {
+    expect(price.text().trim()).to.be.equal(data.expected.prices[index]);
+  });
+};
+
+const assertCartPreview = (data) => {
+  page.checkout.payment.cartPreviewValues.each((property, index) => {
+    expect(property.text().trim()).to.be.equal(data.expected.cartPreview[index]);
+  });
+};
+
+const assertAddresses = (data) => {
+  page.checkout.payment.shippingAddress.then((address) => {
+    address.text().split('\n').map(e => e.trim()).filter(e => e).forEach((line, index) => {
+      expect(line).to.be.equal(data.expected.shippingAddress[index]);
+    });
+  });
+  page.checkout.payment.billingAddressHeader.click();
+  page.checkout.payment.billingAddress.then((address) => {
+    address.text().split('\n').map(e => e.trim()).filter(e => e).forEach((line, index) => {
+      expect(line).to.be.equal(data.expected.billingAddress[index]);
+    });
+  });
+};
+
 context(['regression'], 'Checkout - Order Summary', () => {
   beforeEach(function () {
     cy.fixture('test-data/e2e-checkout-order-summary').then((fixture) => {
@@ -29,51 +62,21 @@ context(['regression'], 'Checkout - Order Summary', () => {
     const data = this.fixtures.data[this.test.title];
     page.checkout.payment.visit();
     page.checkout.payment.productRow.each((row, index) => {
-      cy.wrap(row).within(() => {
-        page.checkout.payment.productTitleSku.within(() => {
-          cy.contains(data.expectedCartSummary.products[index].name).should('be.visible');
-        });
-        page.checkout.payment.productTitleSku.within(() => {
-          cy.contains(data.expectedCartSummary.products[index].sku).should('be.visible');
-        });
-        page.checkout.payment.productAttributes.within(() => {
-          cy.contains(data.expectedCartSummary.products[index].size).should('be.visible');
-        });
-        page.checkout.payment.productAttributes.within(() => {
-          cy.contains(data.expectedCartSummary.products[index].color).should('be.visible');
-        });
-        page.checkout.payment.productQuantity.within(() => {
-          cy.contains(data.expectedCartSummary.products[index].quantity).should('be.visible');
-        });
-        page.checkout.payment.productPrice.within(() => {
-          cy.contains(data.expectedCartSummary.products[index].amount).should('be.visible');
-        });
-      });
-    });
-    page.checkout.payment.discountedPrice.within(() => {
-      cy.contains(data.expectedCartSummary.discountedPrice).should('be.visible');
-    });
-    page.checkout.payment.specialPrice.within(() => {
-      cy.contains(data.expectedCartSummary.specialPrice).should('be.visible');
-    });
-    page.checkout.payment.totalPrice.within(() => {
-      cy.contains(data.expectedCartSummary.totalPrice).should('be.visible');
+      assertDataInProductRow(row, data.expected.products[index]);
     });
   });
 
-  const assertAddresses = (data) => {
-    page.checkout.payment.shippingAddress.then((address) => {
-      address.text().split('\n').forEach((line, index) => {
-        expect(line.trim()).to.be.equal(data.expected.shippingAddress[index]);
-      });
-    });
-    page.checkout.payment.billingAddressHeader.click();
-    page.checkout.payment.billingAddress.then((address) => {
-      address.text().split('\n').forEach((line, index) => {
-        expect(line.trim()).to.be.equal(data.expected.billingAddress[index]);
-      });
-    });
-  };
+  it('Should display correct prices - bottom summary', function () {
+    const data = this.fixtures.data[this.test.title];
+    page.checkout.payment.visit();
+    assertPrices(data);
+  });
+
+  it('Should display correct data - cart preview summary', function () {
+    const data = this.fixtures.data[this.test.title];
+    page.checkout.payment.visit();
+    assertCartPreview(data);
+  });
 
   it('Should display correct addresses', function () {
     const data = this.fixtures.data[this.test.title];

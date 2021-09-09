@@ -77,18 +77,18 @@
         <SfTableData class="table__image">
           <SfImage :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
         </SfTableData>
-        <SfTableData v-e2e="'product-title-sku'" class="table__data table__description table__data">
+        <SfTableData class="table__data table__description table__data">
           <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
           <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
         </SfTableData>
         <SfTableData
-          class="table__data" v-e2e="'product-attributes'" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
+          class="table__data" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
           :key="key"
         >
           {{ value }}
         </SfTableData>
-        <SfTableData v-e2e="'product-quantity'" class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
-        <SfTableData v-e2e="'product-price'" class="table__data price">
+        <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
+        <SfTableData class="table__data price">
           <SfPrice
             :regular="$n(cartGetters.getItemPrice(product).regular, 'currency')"
             :special="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
@@ -97,7 +97,7 @@
         </SfTableData>
       </SfTableRow>
     </SfTable>
-    <div class="summary">
+    <div v-e2e="'payment-summary'" class="summary">
       <div class="summary__group">
         <div class="summary__total">
           <SfProperty
