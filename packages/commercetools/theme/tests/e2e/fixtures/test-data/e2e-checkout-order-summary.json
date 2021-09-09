@@ -1,5 +1,5 @@
 {
-  "Should contain correct data in Order Summary": {
+  "Should contain correct product data in Order Summary": {
     "products": [{
         "name": "Shirt Aspesi white M",
         "id": 1,
@@ -82,5 +82,112 @@
       "specialPrice": "$897.85",
       "totalPrice": "$907.85"
     }
-  }
+  },
+  "Should display correct addresses": {
+    "products": [{
+        "name": "Shirt Aspesi white M",
+        "id": 1,
+        "sku": "M0E20000000ED0W",
+        "size": 34,
+        "quantity": 1
+      }
+    ],
+    "customer": {
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "streetNumber": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "John",
+          "lastName": "Smith",
+          "streetName": "Nuxt Rd.",
+          "streetNumber": "1",
+          "city": "Las Vegas",
+          "state": "Nevada",
+          "country": "US",
+          "postalCode": "80001",
+          "phone": "+3133731337"
+        }
+      }
+    },
+    "shippingMethod": "Express US",
+    "expected": {
+      "shippingAddress": [
+        "Express US",
+        "Jane Doe",
+        "Vuestorefront Rd. 13/37",
+        "Los Angeles, California 90001",
+        "US",
+        "+12345678910"
+      ],
+      "billingAddress": [
+        "",
+        "John Smith",
+        "Nuxt Rd. 1",
+        "Las Vegas, Nevada 80001",
+        "US",
+        "+3133731337"
+      ]
+    }
+  },
+  "Should display \"Same as shipping address\" for billing address": {
+    "products": [{
+        "name": "Shirt Aspesi white M",
+        "id": 1,
+        "sku": "M0E20000000ED0W",
+        "size": 34,
+        "quantity": 1
+      }
+    ],
+    "customer": {
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "streetNumber": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "streetNumber": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "shippingMethod": "Express US",
+    "expected": {
+      "shippingAddress": [
+        "Express US",
+        "Jane Doe",
+        "Vuestorefront Rd. 13/37",
+        "Los Angeles, California 90001",
+        "US",
+        "+12345678910"
+      ],
+      "billingAddress": [
+        "",
+        "Same as shipping address",
+        ""
+      ]
+    }
+  }  
 }

@@ -137,6 +137,18 @@ class Payment extends Base {
     return el('heading-payment');
   }
 
+  get shippingAddress(): Cypress.Chainable {
+    return el('payment-shipping-address');
+  }
+
+  get billingAddressHeader(): Cypress.Chainable {
+    return el('payment-billing-address-header');
+  }
+
+  get billingAddress(): Cypress.Chainable {
+    return el('payment-billing-address', '.content');
+  }
+
   get makeAnOrderButton(): Cypress.Chainable {
     return el('make-an-order');
   }

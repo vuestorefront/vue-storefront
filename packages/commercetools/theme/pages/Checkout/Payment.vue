@@ -9,7 +9,7 @@
     <SfAccordion :open="$t('Shipping address')" class="accordion">
       <SfAccordionItem :header="$t('Shipping address')">
         <div class="accordion__item">
-          <div class="accordion__content">
+          <div v-e2e="'payment-shipping-address'" class="accordion__content">
             <p class="content">
               <span class="content__label" v-if="chosenShippingMethod">{{ chosenShippingMethod.name }}</span><br />
               {{ shippingDetails.firstName }} {{ shippingDetails.lastName }}<br />
@@ -24,9 +24,9 @@
           </SfButton>
         </div>
       </SfAccordionItem>
-      <SfAccordionItem :header="$t('Billing address')">
+      <SfAccordionItem v-e2e="'payment-billing-address-header'" :header="$t('Billing address')">
         <div class="accordion__item">
-          <div class="accordion__content">
+          <div v-e2e="'payment-billing-address'" class="accordion__content">
             <p v-if="billingSameAsShipping" class="content">
               {{ $t('Same as shipping address') }}
             </p>
