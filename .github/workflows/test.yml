@@ -3,12 +3,14 @@ name: Run tests
 on:
   push:
     branches:
-      - master
       - main
+      - develop
+      - release-**
   pull_request:
     branches:
-      - master
       - main
+      - develop
+      - release-**
 
 jobs:
   prepare_dependencies:
@@ -86,7 +88,7 @@ jobs:
         run: yarn test:core --coverage
 
       - name: Test middleware
-        run: yarn test:core --coverage
+        run: yarn test:middleware --coverage
 
   validate_integrations:
     name: Validate ${{ matrix.integration }}
