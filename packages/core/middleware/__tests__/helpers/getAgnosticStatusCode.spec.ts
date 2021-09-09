@@ -1,6 +1,7 @@
 import getAgnosticStatusCode from '../../src/helpers/getAgnosticStatusCode';
 import bigObject from '../test-data/getAgnosticStatusCode';
 const expectedStatusCode = 400;
+const defaultCode = 500;
 
 describe('[middleware-helpers] getAgnosticStatusCode', () => {
   it('retrieves the status code from simple object', () => {
@@ -59,10 +60,10 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
   });
 
   it('handles values of type other than \'object\' correctly', () => {
-    expect(getAgnosticStatusCode('string', 'statusCode')).toBeUndefined;
-    expect(getAgnosticStatusCode(null, 'statusCode')).toBeUndefined;
-    expect(getAgnosticStatusCode(undefined, 'statusCode')).toBeUndefined;
-    expect(getAgnosticStatusCode(300, 'statusCode')).toBeUndefined;
+    expect(getAgnosticStatusCode('string', 'statusCode')).toBe(defaultCode);
+    expect(getAgnosticStatusCode(null, 'statusCode')).toBe(defaultCode);
+    expect(getAgnosticStatusCode(undefined, 'statusCode')).toBe(defaultCode);
+    expect(getAgnosticStatusCode(300, 'statusCode')).toBe(defaultCode);
   });
 
   it('not check deeper than 3 levels down', () => {
@@ -80,6 +81,49 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
 
     const statusCode = getAgnosticStatusCode(testData, 'statusCode');
 
-    expect(statusCode).toBe(undefined);
+    expect(statusCode).toBe(defaultCode);
+  });
+
+  it('retrieves status code for axios', () => {
+    const testData = {
+      isAxiosError: true,
+      response: {
+        status: expectedStatusCode
+      }
+    };
+
+    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+
+    expect(statusCode).toBe(expectedStatusCode);
+  });
+
+  it('retrieves status code for apollo when code is a string', () => {
+    const testData = {
+      code: 'someString'
+    };
+
+    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+
+    expect(statusCode).toBe(expectedStatusCode);
+  });
+
+  it('retrieves status code for apollo when code is a number', () => {
+    const testData = {
+      code: expectedStatusCode
+    };
+
+    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+
+    expect(statusCode).toBe(expectedStatusCode);
+  });
+
+  it('retrieves status code for apollo when network error occurs', () => {
+    const testData = {
+      networkError: expectedStatusCode
+    };
+
+    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+
+    expect(statusCode).toBe(defaultCode);
   });
 });
