@@ -5,7 +5,7 @@
 Use `useWishlist` to:
 - fetch current wishlist
 - add/remove/change quantity of wishlist items
-- check if a product is already in the wishlist
+- check if a product is already on the wishlist
 
 ## How to use it in your project?
 

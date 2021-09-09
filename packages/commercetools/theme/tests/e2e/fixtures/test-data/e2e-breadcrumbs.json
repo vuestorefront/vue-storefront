@@ -1,0 +1,16 @@
+{
+  "Should display breadcrumbs list properly - category": {
+    "category": "women",
+    "expectedLength": 2
+  },
+  "Should display breadcrumbs list properly - subcategory": {
+    "category": "women",
+    "subcategory": "women-clothing",
+    "expectedLength": 3
+  },
+  "Should display breadcrumbs list properly - nested subcategory": {
+    "category": "women",
+    "subcategory": "women-clothing-jackets",
+    "expectedLength": 4
+  }
+}

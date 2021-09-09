@@ -1,3 +1,4 @@
+import { GetInventoryParams } from 'src/api/getInventory';
 import {
   CategoryWhereSearch,
   ProductWhereSearch,
@@ -43,6 +44,11 @@ const mapFilterToPredicate = (settings: Config, filter: Filter) => {
   return `masterData(current(masterVariant(attributes(name = "${filter.name}" and ${valuePredicate}))))`;
 };
 
+const buildInventoryEntriesWhere = (settings: Config, params: GetInventoryParams) => {
+  // something like json-to-graphql-query would be better here
+  if (params.sku) return `sku="${params.sku}"`;
+};
+
 const buildProductWhere = (settings: Config, search: ProductWhereSearch) => {
   const { acceptLanguage } = settings;
 
@@ -77,7 +83,7 @@ const buildProductWhere = (settings: Config, search: ProductWhereSearch) => {
     predicates.push(`id in ("${search.ids.join('","')}")`);
   }
 
-  return predicates.join(' and ');
+  return predicates.join(' and ') || null;
 };
 
 const buildCategoryWhere = (settings: Config, search: CategoryWhereSearch) => {
@@ -114,5 +120,6 @@ const buildOrderWhere = (search: OrderWhereSearch): string => {
 export {
   buildProductWhere,
   buildCategoryWhere,
-  buildOrderWhere
+  buildOrderWhere,
+  buildInventoryEntriesWhere
 };

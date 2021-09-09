@@ -23,7 +23,7 @@
             :subtitle="item.subtitle"
             :description="item.description"
             :button-text="item.buttonText"
-            :link="item.link"
+            :link="localePath(item.link)"
             :image="item.image"
             :class="item.class"
           />
@@ -63,7 +63,7 @@
               :score-rating="product.rating.score"
               :show-add-to-cart-button="true"
               :is-on-wishlist="product.isInWishlist"
-              link="/"
+              :link="localePath({ name: 'home' })"
               class="carousel__item__product"
               @click:wishlist="toggleWishlist(i)"
             />
@@ -78,7 +78,21 @@
         description="Be aware of upcoming sales and events. Receive gifts and special offers!"
         image="/homepage/newsletter.webp"
         class="call-to-action"
-      />
+      >
+        <template #button>
+          <SfButton
+            class="sf-call-to-action__button"
+            data-testid="cta-button"
+            @click="handleNewsletterClick"
+          >
+            {{ $t('Subscribe') }}
+          </SfButton>
+        </template>
+      </SfCallToAction>
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <NewsletterModal @email-submitted="onSubscribe" />
     </LazyHydrate>
 
     <LazyHydrate when-visible>
@@ -102,8 +116,11 @@ import {
   SfButton
 } from '@storefront-ui/vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
+import NewsletterModal from '~/components/NewsletterModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
+import { useUiState } from '../composables';
 import cacheControl from './../helpers/cacheControl';
+const { toggleNewsletterModal } = useUiState();
 
 export default {
   name: 'Home',
@@ -124,6 +141,7 @@ export default {
     SfHeading,
     SfArrow,
     SfButton,
+    NewsletterModal,
     LazyHydrate
   },
   data() {
@@ -256,6 +274,13 @@ export default {
   methods: {
     toggleWishlist(index) {
       this.products[index].isInWishlist = !this.products[index].isInWishlist;
+    },
+    handleNewsletterClick() {
+      toggleNewsletterModal();
+    },
+    onSubscribe(emailAddress) {
+      console.log(`Email ${emailAddress} was added to newsletter.`);
+      toggleNewsletterModal();
     }
   }
 };

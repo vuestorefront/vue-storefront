@@ -53,8 +53,9 @@ function getItemSku(item: CartItem): string {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getTotals(cart: Cart): AgnosticTotals {
   return {
-    total: 10,
-    subtotal: 10
+    total: 12,
+    subtotal: 12,
+    special: 10
   };
 }
 

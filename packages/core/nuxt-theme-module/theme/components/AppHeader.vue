@@ -7,7 +7,7 @@
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
-        <nuxt-link :to="localePath('/')" class="sf-header__logo">
+        <nuxt-link :to="localePath({ name: 'home' })" class="sf-header__logo">
           <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
         </nuxt-link>
       </template>
@@ -134,6 +134,7 @@ export default {
     const isSearchOpen = ref(false);
     const searchBarRef = ref(null);
     const result = ref(null);
+    const isMobile = ref(mapMobileObserver().isMobile.get());
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -147,7 +148,8 @@ export default {
     // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
-        return root.$router.push('/my-account');
+        const localeAccountPath = root.localePath({ name: 'my-account' });
+        return root.$router.push(localeAccountPath);
       }
 
       toggleLoginModal();
@@ -169,8 +171,6 @@ export default {
       result.value = mockedSearchProducts;
 
     }, 1000);
-
-    const isMobile = computed(() => mapMobileObserver().isMobile.get());
 
     const closeOrFocusSearchBar = () => {
       if (isMobile.value) {
@@ -225,7 +225,7 @@ export default {
     --header-padding: 0;
   }
   &__logo-image {
-      height: 100%;
+    height: 100%;
   }
 }
 .header-on-top {

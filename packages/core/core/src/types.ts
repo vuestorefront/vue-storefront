@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+
 import { Ref } from '@vue/composition-api';
 import type { Request, Response } from 'express';
 
@@ -271,9 +272,6 @@ export interface UseCategory<
   error: ComputedProperty<UseCategoryErrors>;
 }
 
-/**
- * Dedicated error interface for {@link UseCart}
- */
 export interface UseCartErrors {
   addItem: Error;
   removeItem: Error;
@@ -479,9 +477,6 @@ export interface UseContent<
   error: ComputedProperty<UseContentErrors>;
 }
 
-/**
- * @internal
- */
 export interface RenderComponent {
   componentName: string;
   props?: any;
@@ -718,15 +713,6 @@ export interface UserGetters<USER> {
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
-export interface CheckoutGetters<SHIPPING_METHOD> {
-  getShippingMethodId: (shippingMethod: SHIPPING_METHOD) => string;
-  getShippingMethodName: (shippingMethod: SHIPPING_METHOD) => string;
-  getShippingMethodDescription: (shippingMethod: SHIPPING_METHOD) => string;
-  getShippingMethodPrice: (shippingMethod: SHIPPING_METHOD) => number;
-  getFormattedPrice: (price: number) => string;
-  [getterName: string]: (element: any, options?: any) => unknown;
-}
-
 export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   getDate: (order: ORDER) => string;
   getId: (order: ORDER) => string;
@@ -906,7 +892,7 @@ export interface UseStoreFactoryLoadParamArguments {
 
 export interface UseStoreFactoryParams<STORES> extends FactoryParams {
   load(context: Context, params: UseStoreFactoryLoadParamArguments): Promise<STORES>
-  change(context: Context, parmas: UseStoreFactoryChangeParamArguments): Promise<STORES>
+  change(context: Context, params: UseStoreFactoryChangeParamArguments): Promise<STORES>
 }
 export interface UseStoreInterface<STORES> {
   change(params: UseStoreFactoryChangeParamArguments): Promise<void>;

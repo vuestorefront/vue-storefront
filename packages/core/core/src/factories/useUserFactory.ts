@@ -9,7 +9,7 @@ export interface UseUserFactoryParams<
   API extends PlatformApi = any
 > extends FactoryParams<API> {
   load: (context: Context, params?: { customQuery: CustomQuery }) => Promise<USER>;
-  logOut: (context: Context, params: {currentUser: USER}) => Promise<void>;
+  logOut: (context: Context, params?: {currentUser: USER}) => Promise<void>;
   updateUser: (context: Context, params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS; customQuery?: CustomQuery}) => Promise<USER>;
   register: (context: Context, params: REGISTER_USER_PARAMS & {customQuery?: CustomQuery}) => Promise<USER>;
   logIn: (context: Context, params: { username: string; password: string; customQuery?: CustomQuery }) => Promise<USER>;
@@ -69,7 +69,7 @@ API extends PlatformApi = any
       }
     };
 
-    const register = async ({ user: providedUser, customQuery } = { user: null, customQuery: null }) => {
+    const register = async ({ user: providedUser, customQuery }) => {
       Logger.debug('useUserFactory.register', providedUser);
       resetErrorValue();
 
@@ -85,7 +85,7 @@ API extends PlatformApi = any
       }
     };
 
-    const login = async ({ user: providedUser, customQuery } = { user: null, customQuery: null }) => {
+    const login = async ({ user: providedUser, customQuery }) => {
       Logger.debug('useUserFactory.login', providedUser);
       resetErrorValue();
 
@@ -115,7 +115,7 @@ API extends PlatformApi = any
       }
     };
 
-    const changePassword = async (params = { current: null, new: null, customQuery: null }) => {
+    const changePassword = async (params) => {
       Logger.debug('useUserFactory.changePassword', { currentPassword: mask(params.current), newPassword: mask(params.new) });
       resetErrorValue();
 

@@ -14,10 +14,6 @@ npx @vue-storefront/cli init
 ```
 Enter the name of the project and select the backend platform you wish to use.
 
-<center>
-  <img src="../images/cli.jpg" alt="Vue Storefront CLI" />
-</center>
-
 Once selected, the CLI creates the project files in the directory matching your project name. The only thing left is to go to this directory in the terminal and install the dependencies:
 
 ```bash
@@ -57,7 +53,7 @@ We strongly recommend installing [Vue.js Devtools](https://github.com/vuejs/vue-
 
 ### Vetur for VS Code
 For those using Visual Studio Code as their main code editor, we also recommend using [Vetur extension](https://marketplace.visualstudio.com/items?itemName=octref.vetur).
-It speeds up development of Vue.js-based applications by providing, amongst many others, features like Vue.js code autocompletion and syntax highlighting.
+It speeds up the development of Vue.js-based applications by providing, amongst many others, features like Vue.js code autocompletion and syntax highlighting.
 
 To install Vetur extension:
 1. Open VS Code

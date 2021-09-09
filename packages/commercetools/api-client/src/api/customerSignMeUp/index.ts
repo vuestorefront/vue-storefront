@@ -6,7 +6,7 @@ import { SignInResponse } from '../../types/Api';
 const customerSignMeUp = async (context, draft: CustomerSignMeUpDraft): Promise<SignInResponse> => {
   const { locale, acceptLanguage, currency } = context.config;
 
-  const registerResponse = await context.client.mutate({
+  return await context.client.mutate({
     mutation: gql`${CustomerSignMeUpMutation}`,
     variables: {
       draft,
@@ -16,8 +16,6 @@ const customerSignMeUp = async (context, draft: CustomerSignMeUpDraft): Promise<
     },
     fetchPolicy: 'no-cache'
   }) as SignInResponse;
-
-  return registerResponse;
 };
 
 export default customerSignMeUp;

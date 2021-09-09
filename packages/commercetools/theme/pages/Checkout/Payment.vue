@@ -6,17 +6,18 @@
       :title="$t('Payment')"
       class="sf-heading--left sf-heading--no-underline title"
     />
-    <SfAccordion :open="$t('Shipping address')" class="accordion smartphone-only">
+    <SfAccordion :open="$t('Shipping address')" class="accordion">
       <SfAccordionItem :header="$t('Shipping address')">
         <div class="accordion__item">
           <div class="accordion__content">
             <p class="content">
               <span class="content__label" v-if="chosenShippingMethod">{{ chosenShippingMethod.name }}</span><br />
-              {{ shippingDetails.streetName }} {{ shippingDetails.apartment }},
-              {{ shippingDetails.zipCode }}<br />
-              {{ shippingDetails.city }}, {{ shippingDetails.country }}
+              {{ shippingDetails.firstName }} {{ shippingDetails.lastName }}<br />
+              {{ shippingDetails.streetName }} {{ shippingDetails.streetNumber }}<br />
+              {{ shippingDetails.city }}, {{ shippingDetails.state }} {{ shippingDetails.postalCode }}<br />
+              {{ shippingDetails.country }}
             </p>
-            <p class="content">{{ shippingDetails.phoneNumber }}</p>
+            <p class="content">{{ shippingDetails.phone }}</p>
           </div>
           <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 1)">
             {{ $t('Edit') }}
@@ -32,11 +33,12 @@
             <template v-else>
               <p class="content">
                 <span class="content__label">{{ chosenPaymentMethod.label }}</span><br />
-                {{ billingDetails.streetName }} {{ billingDetails.apartment }},
-                {{ billingDetails.zipCode }}<br />
-                {{ billingDetails.city }}, {{ billingDetails.country }}
+                {{ billingDetails.firstName }} {{ billingDetails.lastName }}<br />
+                {{ billingDetails.streetName }} {{ billingDetails.streetNumber }}<br />
+                {{ billingDetails.city }}, {{ billingDetails.state }} {{ billingDetails.postalCode }}<br />
+                {{ billingDetails.country }}
               </p>
-              <p class="content">{{ billingDetails.phoneNumber }}</p>
+              <p class="content">{{ billingDetails.phone }}</p>
             </template>
           </div>
           <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 2)">
@@ -204,7 +206,9 @@ export default {
 
       if (error.value.make) return;
 
-      context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
+      const thankYouPath = { name: 'thank-you', query: { order: order.value.id }};
+      context.root.$router.push(context.root.localePath(thankYouPath));
+
       setCart(null);
     };
 

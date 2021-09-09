@@ -27,7 +27,7 @@ describe('[commercetools-composables] useStore factoryParams', () => {
 
     const expected = {
       ...storesData,
-      _selected: config.store
+      _selectedStore: config.store
     };
 
     expect(useStoreFactoryParams.load((context as unknown) as Context, {} as any)).resolves.toStrictEqual(expected);
@@ -37,16 +37,9 @@ describe('[commercetools-composables] useStore factoryParams', () => {
   it('changes selected store and reloads page', async () => {
     const STORES_ID = 'stores id';
 
-    const location = {
-      reload: jest.fn()
-    };
-
-    const _window = jest.spyOn(
-      global, 'window', 'get'
-    );
-
-    _window.mockImplementation(function () {
-      return ({ location } as unknown) as Window & typeof globalThis;
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { reload: jest.fn() }
     });
 
     const storeService = {
@@ -66,11 +59,11 @@ describe('[commercetools-composables] useStore factoryParams', () => {
     };
 
     const params = {
-      store: { id: STORES_ID }
+      store: { key: STORES_ID }
     };
 
     expect(await useStoreFactoryParams.change((context as unknown) as Context, (params as unknown) as UseStoreFactoryChangeParamArguments)).toBe(null);
     expect(storeService.changeCurrentStore).toHaveBeenCalledWith(STORES_ID);
-    expect(location.reload).toHaveBeenCalled();
+    expect(window.location.reload).toHaveBeenCalled();
   });
 });
