@@ -1,12 +1,5 @@
-import {
-  CategoryWhereSearch,
-  ProductWhereSearch,
-  OrderWhereSearch,
-  Filter,
-  AttributeType
-} from './../../types/Api';
+import { AttributeType, CategoryWhereSearch, Filter, OrderWhereSearch, ProductWhereSearch } from './../../types/Api';
 import { Config } from './../../types/setup';
-import { CustomQuery } from '@vue-storefront/core';
 
 const mapFilterToPredicate = (settings: Config, filter: Filter) => {
   const { locale, currency } = settings;
@@ -44,9 +37,15 @@ const mapFilterToPredicate = (settings: Config, filter: Filter) => {
   return `masterData(current(masterVariant(attributes(name = "${filter.name}" and ${valuePredicate}))))`;
 };
 
-const buildInventoryEntriesWhere = (settings: Config, params: Record<string, string> & { customQuery: CustomQuery }) => {
-  // something like json-to-graphql-query would be better here
-  if (params.sku) return `sku="${params.sku}"`;
+const buildInventoryEntriesWhere = (params: Record<string, string>) => {
+  if (!params || typeof params !== 'object') return;
+
+  const predicates: string[] = [];
+  for (const [key, value] of Object.entries(params)) {
+    if (key === 'supplyChannel') predicates.push(`supplyChannel(id="${value}")`);
+    else predicates.push(`${key}="${value}"`);
+  }
+  return predicates.join(' and ') || null;
 };
 
 const buildProductWhere = (settings: Config, search: ProductWhereSearch) => {

@@ -279,8 +279,10 @@ export default {
       await search({ id });
       await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });
       await searchReviews({ productId: id });
-      // await searchInventory({ sku: product.value?.sku });
-      await searchInventory({ sku: 'M0E20000000E2WX' });
+      await searchInventory({
+        sku: product.value?.sku,
+        ...(selectedChannel.value && {supplyChannel: selectedChannel.value.id})
+      });
     });
 
     const updateFilter = (filter) => {

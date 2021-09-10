@@ -17,7 +17,7 @@ export interface UseInventory<INVENTORY> {
 
 export interface UseInventoryFactoryParams<INVENTORY, API extends PlatformApi = any> extends FactoryParams<API>{
   load: (context: Context, params: { id: string }) => Promise<INVENTORY>;
-  search: (context: Context, params: Record<string, string>) => Promise<INVENTORY[]>;
+  search: (context: Context, params: Record<any, any>) => Promise<INVENTORY>;
 }
 
 export function useInventoryFactory<INVENTORY>(
@@ -41,12 +41,12 @@ export function useInventoryFactory<INVENTORY>(
       }
     };
 
-    const search = async (context: Context, params: any) => {
+    const search = async (searchParams: Record<any, any>) => {
       Logger.debug(`useInventory/${ssrKey}/search`);
       loading.value = true;
 
       try {
-        entries.value = await _factoryParams.search({ ...params });
+        entries.value = await _factoryParams.search({ ...searchParams });
       } finally {
         loading.value = false;
       }

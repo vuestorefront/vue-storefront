@@ -4,15 +4,11 @@ import gql from 'graphql-tag';
 import { InventoryEntryQueryResult } from '../../types/GraphQL';
 import { inventoryEntriesData } from './defaultQuery';
 import { ApiResponseWrapper } from '../../types/Api';
-// import { buildInventoryEntriesWhere } from '../../helpers/search';
-
-// export interface InventoryData {
-//   inventory: InventoryEntryQueryResult;
-// }
+import { buildInventoryEntriesWhere } from '../../helpers/search';
 
 const getInventory = async (context: Context, params: Record<string, string>, customQuery?: CustomQuery) => {
   const variables = {
-    ...(params?.sku && { where: `sku="${params?.sku}"` })
+    ...(params && { where: buildInventoryEntriesWhere(params) })
   };
 
   const { getInventoryEntriesData } = context.extendQuery(customQuery, {
