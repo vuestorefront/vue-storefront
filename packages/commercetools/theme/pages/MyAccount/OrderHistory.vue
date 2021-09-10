@@ -133,15 +133,15 @@ export default {
     const currentOrder = ref(null);
 
     onSSR(async () => {
-      await search({ limit, offset: 0 });
+      await search({ limit, offset: 0, sort: 'createdAt desc' });
     });
 
     const goNext = (offset) => {
-      search({ offset: offset + limit, limit });
+      search({ limit, offset: offset + limit, sort: 'createdAt desc' });
     };
 
     const goPrev = (offset) => {
-      search({ offset: offset - limit, limit });
+      search({ limit, offset: offset - limit, sort: 'createdAt desc' });
     };
 
     const tableHeaders = [
