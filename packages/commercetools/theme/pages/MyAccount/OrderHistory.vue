@@ -34,11 +34,11 @@
           <SfTableRow v-for="(item, i) in orderGetters.getItems(currentOrder)" :key="i">
             <SfTableData class="products__name">
               <nuxt-link :to="'/p/'+orderGetters.getItemSku(item)+'/'+orderGetters.getItemSku(item)">
-                {{orderGetters.getItemName(item)}}
+                {{ orderGetters.getItemName(item) }}
               </nuxt-link>
             </SfTableData>
-            <SfTableData>{{orderGetters.getItemQty(item)}}</SfTableData>
-            <SfTableData>{{$n(orderGetters.getItemPrice(item), 'currency')}}</SfTableData>
+            <SfTableData>{{ orderGetters.getItemQty(item) }}</SfTableData>
+            <SfTableData>{{ $n(orderGetters.getItemPrice(item), 'currency') }}</SfTableData>
           </SfTableRow>
         </SfTable>
       </div>
@@ -55,7 +55,7 @@
             <SfTableHeader
               v-for="tableHeader in tableHeaders"
               :key="tableHeader"
-              >{{ tableHeader }}</SfTableHeader>
+            >{{ tableHeader }}</SfTableHeader>
             <SfTableHeader class="orders__element--right" />
           </SfTableHeading>
           <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
@@ -72,7 +72,24 @@
             </SfTableData>
           </SfTableRow>
         </SfTable>
-        <p>Total orders - {{ totalOrders }}</p>
+        <div class="pagination" v-if="orders.length < totalOrders">
+          <SfArrow
+            aria-label="prev"
+            class="sf-arrow--left sf-arrow--transparent"
+            :disabled="offset === 0"
+            @click="goPrev(offset)"
+          />
+          <div class="pagination-count">
+            {{ orders.length > 1 ? `${offset + 1} - ` : "" }} {{ offset + orders.length }}
+            <strong>of</strong> {{ totalOrders }}
+          </div>
+          <SfArrow
+            aria-label="next"
+            class="sf-arrow--right sf-arrow--transparent"
+            :disabled="(offset + orders.length) === totalOrders"
+            @click="goNext(offset)"
+          />
+        </div>
       </div>
     </SfTab>
     <SfTab title="Returns">
@@ -92,10 +109,11 @@ import {
   SfTable,
   SfButton,
   SfProperty,
-  SfLink
+  SfLink,
+  SfArrow
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useUserOrder, orderGetters } from '<%= options.generate.replace.composables %>';
+import { useUserOrder, orderGetters } from '@vue-storefront/commercetools';
 import { AgnosticOrderStatus } from '@vue-storefront/core';
 import { onSSR } from '@vue-storefront/core';
 
@@ -106,15 +124,25 @@ export default {
     SfTable,
     SfButton,
     SfProperty,
-    SfLink
+    SfLink,
+    SfArrow
   },
   setup() {
+    const limit = 10;
     const { orders, search } = useUserOrder();
     const currentOrder = ref(null);
 
     onSSR(async () => {
-      await search();
+      await search({ limit, offset: 0, sort: 'createdAt desc' });
     });
+
+    const goNext = (offset) => {
+      search({ limit, offset: offset + limit, sort: 'createdAt desc' });
+    };
+
+    const goPrev = (offset) => {
+      search({ limit, offset: offset - limit, sort: 'createdAt desc' });
+    };
 
     const tableHeaders = [
       'Order ID',
@@ -137,9 +165,12 @@ export default {
 
     return {
       tableHeaders,
-      orders: computed(() => orders ? orders.value.results : []),
+      orders: computed(() => orders.value?.results ?? []),
+      offset: computed(() => orders.value?.offset ?? 0),
       totalOrders: computed(() => orderGetters.getOrdersTotal(orders.value)),
       getStatusTextClass,
+      goNext,
+      goPrev,
       orderGetters,
       currentOrder
     };
@@ -148,6 +179,15 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.pagination {
+  padding-top: var(--spacer-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pagination-count {
+  padding: 0 var(--spacer-base);
+}
 .no-orders {
   &__title {
     margin: 0 0 var(--spacer-lg) 0;
