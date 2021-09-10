@@ -7,7 +7,7 @@
         class="sf-heading--left sf-heading--no-underline title"
       />
     </div>
-    <div class="highlighted">
+    <div v-e2e="'cart-preview-summary'" class="highlighted">
       <SfProperty
         :name="$t('Products')"
         :value="totalItems"

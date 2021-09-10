@@ -4,7 +4,7 @@ import { MyAccountTab } from '../pages/my-account';
 import generator from '../utils/data-generator';
 import intercept from '../utils/network';
 
-context('My Account', () => {
+context(['regression'], 'My Account', () => {
   beforeEach(function () {
     cy.fixture('test-data/e2e-my-account').then((fixture) => {
       this.fixtures = {
@@ -13,11 +13,11 @@ context('My Account', () => {
     });
   });
 
-  it(['regression'], 'Should redirect anonymous customer to home page', function () {
+  it('Should redirect anonymous customer to home page', function () {
     page.myAccount.myProfile.visit().url().should('eq', `${Cypress.config().baseUrl}${page.home.path}`);
   });
 
-  it(['regression'], 'Should display customer\'s correct personal data', function () {
+  it('Should display customer\'s correct personal data', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     requests.customerSignMeUp(data.customer);
@@ -28,7 +28,7 @@ context('My Account', () => {
     page.myAccount.myProfile.email.should('have.value', data.customer.email);
   });
 
-  it(['regression'], 'Should update customer\'s personal data', function () {
+  it('Should update customer\'s personal data', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
     requests.customerSignMeUp(data.customer).its('status').should('eq', 200);
@@ -49,7 +49,7 @@ context('My Account', () => {
     });
   });
 
-  it(['regression'], 'Should update customer\'s password', function () {
+  it('Should update customer\'s password', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email, data.updatedCustomer.email = data.customer.email;
     requests.customerSignMeUp(data.customer).its('status').should('eq', 200);
