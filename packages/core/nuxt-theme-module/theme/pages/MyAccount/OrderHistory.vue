@@ -135,34 +135,12 @@ export default {
       }
     };
 
-    const downloadFile = (file, name) => {
-      const a = document.createElement('a');
-      document.body.appendChild(a);
-      a.style = 'display: none';
-
-      const url = window.URL.createObjectURL(file);
-      a.href = url;
-      a.download = name;
-      a.click();
-      window.URL.revokeObjectURL(url);
-    };
-
-    const downloadOrders = async () => {
-      downloadFile(new Blob([JSON.stringify(orders.value)], {type: 'application/json'}), 'orders.json');
-    };
-
-    const downloadOrder = async (order) => {
-      downloadFile(new Blob([JSON.stringify(order)], {type: 'application/json'}), 'order ' + orderGetters.getId(order) + '.json');
-    };
-
     return {
       tableHeaders,
       orders: computed(() => orders ? orders.value.results : []),
       totalOrders: computed(() => orderGetters.getOrdersTotal(orders.value)),
       getStatusTextClass,
       orderGetters,
-      downloadOrder,
-      downloadOrders,
       currentOrder
     };
   }
