@@ -62,7 +62,7 @@ function getAgnosticStatusCode(error: AxiosError | ApolloError | UnknownError): 
   return getAxiosStatusCode(error as AxiosError) ||
     getApolloStatusCode(error as ApolloError) ||
     obtainStatusCode(error as UnknownError) ||
-    500;
+    200;
 }
 
 export default getAgnosticStatusCode;

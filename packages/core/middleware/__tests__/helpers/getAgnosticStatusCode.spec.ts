@@ -1,7 +1,9 @@
 import getAgnosticStatusCode, { ApolloError, AxiosError, UnknownError } from '../../src/helpers/getAgnosticStatusCode';
 import bigObject from '../test-data/getAgnosticStatusCode';
+
 const expectedStatusCode = 400;
-const defaultCode = 500;
+const defaultCode = 200;
+const networkErrorCode = 500;
 
 describe('[middleware-helpers] getAgnosticStatusCode', () => {
   it('retrieves the status code from simple object', () => {
@@ -124,6 +126,6 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
 
     const statusCode = getAgnosticStatusCode(testData);
 
-    expect(statusCode).toBe(defaultCode);
+    expect(statusCode).toBe(networkErrorCode);
   });
 });
