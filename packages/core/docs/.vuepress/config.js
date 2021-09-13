@@ -106,8 +106,7 @@ module.exports = {
           title: 'Essentials',
           collapsable: false,
           children: [
-            ['/commercetools/', 'Introduction'],
-            ['/commercetools/setup-store', 'How to setup a store?'],
+            ['/commercetools/', 'Introduction'],            
             ['/commercetools/configuration', 'Configuration'],
             ['/commercetools/authorization-strategy', 'Authorization'],
             ['/enterprise/feature-list', 'Feature list'],
@@ -118,6 +117,7 @@ module.exports = {
           title: 'How-to guides',
           collapsable: true,
           children: [
+            ['/commercetools/setup-store', 'How to setup a store?'],
             ['/commercetools/guide/authentication', 'Authentication'],
             ['/commercetools/guide/cart', 'Cart'],
             ['/commercetools/guide/checkout', 'Checkout'],
