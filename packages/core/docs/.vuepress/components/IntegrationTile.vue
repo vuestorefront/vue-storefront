@@ -4,7 +4,10 @@
     class="tile"
   >
     <div class="tile-image">
-      <img :src="image" :alt="name" />
+      <img
+        :src="image"
+        :alt="name"
+      />
     </div>
 
     <div class="tile-info">
