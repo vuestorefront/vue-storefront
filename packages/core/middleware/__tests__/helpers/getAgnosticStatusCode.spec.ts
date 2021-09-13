@@ -9,7 +9,7 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
       statusCode: expectedStatusCode
     };
 
-    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+    const statusCode = getAgnosticStatusCode(testData);
 
     expect(statusCode).toBe(expectedStatusCode);
   });
@@ -22,14 +22,14 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
       }
     };
 
-    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+    const statusCode = getAgnosticStatusCode(testData);
 
     expect(statusCode).toBe(expectedStatusCode);
   });
 
   it('retrieves the status code from big object', () => {
     const testData = {...bigObject, ...{statusCode: expectedStatusCode}};
-    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+    const statusCode = getAgnosticStatusCode(testData);
 
     expect(statusCode).toBe(expectedStatusCode);
   });
@@ -43,7 +43,7 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
       ]
     };
 
-    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+    const statusCode = getAgnosticStatusCode(testData);
 
     expect(statusCode).toBe(expectedStatusCode);
   });
@@ -54,16 +54,16 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
       status: 500
     };
 
-    const statusCode = getAgnosticStatusCode(testData, 'statusCode', 'status');
+    const statusCode = getAgnosticStatusCode(testData);
 
     expect(statusCode).toBe(expectedStatusCode);
   });
 
   it('handles values of type other than \'object\' correctly', () => {
-    expect(getAgnosticStatusCode('string', 'statusCode')).toBe(defaultCode);
-    expect(getAgnosticStatusCode(null, 'statusCode')).toBe(defaultCode);
-    expect(getAgnosticStatusCode(undefined, 'statusCode')).toBe(defaultCode);
-    expect(getAgnosticStatusCode(300, 'statusCode')).toBe(defaultCode);
+    expect(getAgnosticStatusCode('string')).toBe(defaultCode);
+    expect(getAgnosticStatusCode(null)).toBe(defaultCode);
+    expect(getAgnosticStatusCode(undefined)).toBe(defaultCode);
+    expect(getAgnosticStatusCode(300)).toBe(defaultCode);
   });
 
   it('not check deeper than 3 levels down', () => {
@@ -79,7 +79,7 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
       }
     };
 
-    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+    const statusCode = getAgnosticStatusCode(testData);
 
     expect(statusCode).toBe(defaultCode);
   });
@@ -92,7 +92,7 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
       }
     };
 
-    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+    const statusCode = getAgnosticStatusCode(testData);
 
     expect(statusCode).toBe(expectedStatusCode);
   });
@@ -102,7 +102,7 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
       code: 'someString'
     };
 
-    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+    const statusCode = getAgnosticStatusCode(testData);
 
     expect(statusCode).toBe(expectedStatusCode);
   });
@@ -112,7 +112,7 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
       code: expectedStatusCode
     };
 
-    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+    const statusCode = getAgnosticStatusCode(testData);
 
     expect(statusCode).toBe(expectedStatusCode);
   });
@@ -122,7 +122,7 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
       networkError: expectedStatusCode
     };
 
-    const statusCode = getAgnosticStatusCode(testData, 'statusCode');
+    const statusCode = getAgnosticStatusCode(testData);
 
     expect(statusCode).toBe(defaultCode);
   });

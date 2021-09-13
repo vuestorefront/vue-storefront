@@ -1,52 +1,67 @@
-const getAgnosticStatusCode = (obj: unknown, ...searchedKeys: string[]) => {
-  const getAxiosStatus = () => {
-    if ((obj as any)?.isAxiosError) {
-      return (obj as any)?.response?.status;
+const STATUS_FIELDS = ['status', 'statusCode'] as const;
+
+type AxiosError = {
+  isAxiosError: boolean;
+  response: {
+    status: number
+  }
+}
+type ApolloError = {
+  networkError?: number
+  code: string | number
+}
+
+type Status = typeof STATUS_FIELDS[number]
+
+type StatusCode = number | null
+
+type UnknownError = unknown;
+
+function reduceStatus(narrowObject: UnknownError, depth: number) {
+  return function(statusCode: StatusCode, c: string): StatusCode {
+    if (statusCode) {
+      return statusCode;
     }
+
+    if (STATUS_FIELDS.includes(c as Status)) {
+      return narrowObject[c as Status];
+    }
+    const newDepth = depth + 1;
+
+    return obtainStatusCode(narrowObject[c], newDepth);
   };
+}
 
-  const getApolloStatus = () => {
-    if ((obj as any)?.networkError) {
-      return 500;
-    }
-    return typeof (obj as any)?.code === 'string' ? 400 : (obj as any)?.code;
-  };
+function obtainStatusCode(givenObject: UnknownError, depth = 1): StatusCode {
+  const obj = givenObject || {};
 
-  const findKey = (currentObj: unknown, searchedKeys: string[], depth = 1) => {
-    if (!currentObj || typeof currentObj !== 'object') return;
+  if (depth > 3) {
+    return;
+  }
+  return Object.keys(obj).reduce(reduceStatus(obj, depth), null) as unknown as number;
+}
 
-    for (const key of Object.keys(currentObj)) {
-      if (searchedKeys.includes(key)) {
-        return currentObj[key];
-      }
+function getAxiosStatusCode(error: AxiosError) {
+  if (error?.isAxiosError) {
+    return error.response.status;
+  }
+}
 
-      if (depth > 3) return;
+function getApolloStatusCode(error: ApolloError) {
+  if (error?.networkError) {
+    return 500;
+  }
 
-      const nextDepth = depth + 1;
-      const statusCode = findKey(currentObj[key], searchedKeys, nextDepth);
+  if (error?.code) {
+    return typeof error.code === 'string' ? 400 : error.code;
+  }
+}
 
-      if (statusCode) {
-        return statusCode;
-      }
-    }
-  };
-
-  const getCode = () => {
-    const axiosStatus = getAxiosStatus();
-    const apolloStatus = getApolloStatus();
-
-    if (axiosStatus) {
-      return axiosStatus;
-    }
-
-    if (apolloStatus) {
-      return apolloStatus;
-    }
-
-    return findKey(obj, [...searchedKeys]) || 500;
-  };
-
-  return getCode();
-};
+function getAgnosticStatusCode(error: AxiosError | ApolloError | UnknownError): number {
+  return getAxiosStatusCode(error as AxiosError) ||
+    getApolloStatusCode(error as ApolloError) ||
+    obtainStatusCode(error as UnknownError) ||
+    500;
+}
 
 export default getAgnosticStatusCode;

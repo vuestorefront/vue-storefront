@@ -43,7 +43,7 @@ function createServer (config: MiddlewareConfig): Express {
 
       res.send(platformResponse);
     } catch (error) {
-      res.status(getAgnosticStatusCode(error, 'status', 'statusCode'));
+      res.status(getAgnosticStatusCode(error));
       res.send(error);
     }
   });
