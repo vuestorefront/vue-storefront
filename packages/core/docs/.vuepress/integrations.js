@@ -50,6 +50,16 @@ const INTEGRATIONS = {
       status: STATUSES.BETA,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
+        { name: 'Forkpoint', link: 'https://forkpoint.com/' },
+      ]
+    },
+    {
+      name: 'SAP Commerce Cloud',
+      link: '',
+      image: '/v2/integrations-logos/sap.svg',
+      status: STATUSES.WIP,
+      availability: AVAILABILITY.ENTERPRISE,
+      maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ]
     },
@@ -107,6 +117,42 @@ const INTEGRATIONS = {
         { name: 'BitBag', link: 'https://bitbag.io/' },
       ]
     },
+    {
+      name: 'WooCommerce',
+      link: '',
+      image: '/v2/integrations-logos/woocommerce.svg',
+      status: STATUSES.WIP,
+      availability: AVAILABILITY.OPEN_SOURCE,
+      maintainedBy: []
+    },
+    {
+      name: 'OpenCart',
+      link: '',
+      image: '/v2/integrations-logos/opencart.svg',
+      status: STATUSES.WIP,
+      availability: AVAILABILITY.OPEN_SOURCE,
+      maintainedBy: []
+    },
+    {
+      name: 'Vendure',
+      link: '',
+      image: '/v2/integrations-logos/vendure.png',
+      status: STATUSES.BETA,
+      availability: AVAILABILITY.OPEN_SOURCE,
+      maintainedBy: [
+        { name: 'Jakub Andrzejewski', link: 'https://www.linkedin.com/in/jakub-andrzejewski/' },
+      ]
+    },
+    {
+      name: 'Odoo',
+      link: '',
+      image: '/v2/integrations-logos/odoo.svg',
+      status: STATUSES.WIP,
+      availability: AVAILABILITY.OPEN_SOURCE,
+      maintainedBy: [
+        { name: 'OdooGap', link: 'https://www.odoogap.com/' }
+      ]
+    }
   ],
   other: [
     {
@@ -238,19 +284,7 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.AUTH ],
-      compatibility: []
-    },
-    {
-      name: 'Magnolia',
-      link: '',
-      image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/60c349629772875c3f75ec50_Magnolia-CMS-logo.svg',
-      status: STATUSES.WIP,
-      availability: AVAILABILITY.ENTERPRISE,
-      maintainedBy: [
-        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
-      ],
-      categories: [ CATEGORIES.AUTH ],
+      categories: [ CATEGORIES.CMS ],
       compatibility: []
     },
     {
@@ -275,7 +309,19 @@ const INTEGRATIONS = {
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.SEARCH ],
-      compatibility: []
+      compatibility: [ 'commercetools' ]
+    },
+    {
+      name: 'Constructor.io',
+      link: '',
+      image: '/v2/integrations-logos/constructor-io.svg',
+      status: STATUSES.WIP,
+      availability: AVAILABILITY.ENTERPRISE,
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
+      categories: [ CATEGORIES.SEARCH ],
+      compatibility: [ 'commercetools' ]
     },
     {
       name: 'Adobe Experience Manager',
@@ -283,7 +329,9 @@ const INTEGRATIONS = {
       image: 'https://www.rackspace.com/sites/default/files/styles/rxt_image/public/2020-11/AEM.png',
       status: STATUSES.WIP,
       availability: AVAILABILITY.ENTERPRISE,
-      maintainedBy: [],
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
       categories: [ CATEGORIES.CMS, CATEGORIES.ANALYTICS ],
       compatibility: []
     }

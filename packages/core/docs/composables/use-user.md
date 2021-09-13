@@ -4,7 +4,7 @@
 
 Use `useUser` to:
 - manage user authentication
-- manage authentication data like email address, login or password.
+- manage authentication data like email address, login, or password.
 
 If you want to fetch/save other user data you should use the following composables:
 - [`useUserBilling`](./use-user-billing.md)

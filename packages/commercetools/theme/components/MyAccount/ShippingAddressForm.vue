@@ -55,11 +55,12 @@
         class="form__element"
       >
         <SfInput
-          v-model="form.apartment"
+          v-model="form.streetNumber"
           name="apartment"
           :label="$t('House/Apartment number')"
           required
-          class="form__element"
+          :valid="!errors[0]"
+          :errorMessage="errors[0]"
         />
       </ValidationProvider>
       <div class="form__horizontal">
@@ -217,7 +218,7 @@ export default {
         firstName: '',
         lastName: '',
         streetName: '',
-        apartment: '',
+        streetNumber: '',
         city: '',
         state: '',
         postalCode: '',
@@ -239,7 +240,7 @@ export default {
       firstName: props.address.firstName,
       lastName: props.address.lastName,
       streetName: props.address.streetName,
-      apartment: props.address.apartment,
+      streetNumber: props.address.streetNumber,
       city: props.address.city,
       state: props.address.state,
       postalCode: props.address.postalCode,

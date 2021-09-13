@@ -8,6 +8,7 @@ const state = reactive({
   isCartSidebarOpen: false,
   isWishlistSidebarOpen: false,
   isLoginModalOpen: false,
+  isNewsletterModalOpen: false,
   isCategoryGridView: true,
   isFilterSidebarOpen: false,
   isMobileMenuOpen: false
@@ -37,6 +38,11 @@ const useUiState = () => {
     state.isLoginModalOpen = !state.isLoginModalOpen;
   };
 
+  const isNewsletterModalOpen = computed(() => state.isNewsletterModalOpen);
+  const toggleNewsletterModal = () => {
+    state.isNewsletterModalOpen = !state.isNewsletterModalOpen;
+  };
+
   const isCategoryGridView = computed(() => state.isCategoryGridView);
   const changeToCategoryGridView = () => {
     state.isCategoryGridView = true;
@@ -54,12 +60,14 @@ const useUiState = () => {
     isCartSidebarOpen,
     isWishlistSidebarOpen,
     isLoginModalOpen,
+    isNewsletterModalOpen,
     isCategoryGridView,
     isFilterSidebarOpen,
     isMobileMenuOpen,
     toggleCartSidebar,
     toggleWishlistSidebar,
     toggleLoginModal,
+    toggleNewsletterModal,
     changeToCategoryGridView,
     changeToCategoryListView,
     toggleFilterSidebar,
