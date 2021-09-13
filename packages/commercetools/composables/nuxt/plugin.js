@@ -1,25 +1,11 @@
 import { mapConfigToSetupObject, CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers'
 import { integrationPlugin } from '@vue-storefront/core'
+import { accessToken } from '@vue-storefront/commercetools/nuxt/accessToken'
+import Middleware from './middleware'
 
 const moduleOptions = <%= serialize(options) %>;
 
 export default integrationPlugin(({ app, integration }) => {
-  const onTokenChange = (newToken) => {
-    try {
-      const currentToken = app.$cookies.get(CT_TOKEN_COOKIE_NAME);
-
-      if (!currentToken || currentToken.access_token !== newToken.access_token) {
-        app.$cookies.set(CT_TOKEN_COOKIE_NAME, newToken);
-      }
-    } catch (e) {
-      // Cookies on is set after request has sent.
-    }
-  };
-
-  const onTokenRemove = () => {
-    app.$cookies.remove(CT_TOKEN_COOKIE_NAME);
-  }
-
   const onTokenRead = () => {
     return app.$cookies.get(CT_TOKEN_COOKIE_NAME);
   };
@@ -39,11 +25,7 @@ export default integrationPlugin(({ app, integration }) => {
     moduleOptions,
     app,
     additionalProperties: {
-      auth: {
-        onTokenChange,
-        onTokenRead,
-        onTokenRemove
-      },
+      auth: { onTokenRead },
       storeService: {
         changeCurrentStore
       }
@@ -52,3 +34,5 @@ export default integrationPlugin(({ app, integration }) => {
 
   integration.configure('ct', settings)
 });
+
+Middleware.accessToken = accessToken

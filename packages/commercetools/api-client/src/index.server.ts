@@ -34,15 +34,13 @@ const onCreate = (settings: Config): { config: Config; client: ClientInstance } 
     };
   }
 
-  const { apolloLink, sdkAuth, tokenProvider } = createCommerceToolsConnection(config);
+  const { apolloLink } = createCommerceToolsConnection(config);
 
   const client = new ApolloClient({
     link: apolloLink,
     cache: new InMemoryCache(),
     ...settings.customOptions
   });
-  (client as ClientInstance).sdkAuth = sdkAuth;
-  (client as ClientInstance).tokenProvider = tokenProvider;
 
   return {
     config,
@@ -69,6 +67,15 @@ const getI18nConfig = (req, configuration) => {
   return { currency, country, locale, store };
 };
 
+const tokenCookieOptions = (newToken) => {
+
+  return ({
+    ...(newToken?.expires_at && { expires: new Date(newToken.expires_at) }),
+    httpOnly: true,
+    secure: true
+  });
+};
+
 const tokenExtension: ApiClientExtension = {
   name: 'tokenExtension',
   hooks: (req, res) => {
@@ -85,20 +92,11 @@ const tokenExtension: ApiClientExtension = {
               res.cookie(
                 'vsf-commercetools-token',
                 JSON.stringify(newToken),
-                newToken?.expires_at ? { expires: new Date(newToken.expires_at) } : {}
+                tokenCookieOptions(newToken)
               );
             }
           },
-
-          onTokenRead: () => {
-            res.cookie(
-              'vsf-commercetools-token',
-              rawCurrentToken,
-              currentToken?.expires_at ? { expires: new Date(currentToken.expires_at) } : {}
-            );
-            return currentToken;
-          },
-
+          onTokenRead: () => currentToken,
           onTokenRemove: () => {
             delete req.cookies['vsf-commercetools-token'];
           }

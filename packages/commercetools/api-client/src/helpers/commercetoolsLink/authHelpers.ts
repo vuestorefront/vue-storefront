@@ -35,6 +35,12 @@ export const createTokenProvider = (settings: Config, {
   }, currentToken);
 };
 
+export const createBasicTokenProvider = (sdkAuth) =>
+  new TokenProvider({
+    sdkAuth,
+    fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow()
+  }, null);
+
 export {
   isAnonymousSession,
   isUserSession

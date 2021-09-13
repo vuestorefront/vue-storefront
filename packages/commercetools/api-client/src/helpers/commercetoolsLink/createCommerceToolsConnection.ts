@@ -1,41 +1,60 @@
 import { Config } from '../../types/setup';
 import { Logger } from '@vue-storefront/core';
-import { getAccessToken } from '../utils';
+import { getAccessToken, isUserSession, isAnonymousSession } from '../utils';
+import { isAnonymousOperation, isUserOperation } from './restrictedOperations';
 import { createHttpLink } from 'apollo-link-http';
 import { createErrorHandler } from './graphqlError';
 import { setContext } from 'apollo-link-context';
-import { handleAfterAuth, handleBeforeAuth, handleRetry } from './linkHandlers';
+import { createAuthHandlers } from './linkHandlers';
 import { ApolloLink } from 'apollo-link';
 import { asyncMap } from '@apollo/client/utilities';
-import { RetryLink } from 'apollo-link-retry';
-import { createAuthClient, createTokenProvider } from './authHelpers';
+
+const applyAuthorizationHeader = (headers, currentToken) => ({
+  headers: {
+    ...headers,
+    authorization: `Bearer ${currentToken.access_token}`
+  }
+});
 
 export const createCommerceToolsConnection = (settings: Config): any => {
-  let currentToken: any = settings.auth.onTokenRead();
+  const currentToken: any = settings.auth.onTokenRead();
+  const isAnonymous = isAnonymousSession(currentToken);
+  const isUser = isUserSession(currentToken);
+  const isGuest = !isAnonymous && !isUser;
   Logger.debug('createCommerceToolsConnection', getAccessToken(currentToken));
 
-  const sdkAuth = createAuthClient(settings.api);
-  const tokenProvider = createTokenProvider(settings, { sdkAuth, currentToken });
   const httpLink = createHttpLink({ uri: settings.api.uri, fetch });
   const onErrorLink = createErrorHandler();
 
   const authLinkBefore = setContext(async (apolloReq, { headers }) => {
     Logger.debug('Apollo authLinkBefore', apolloReq.operationName);
-    currentToken = await handleBeforeAuth({ sdkAuth, tokenProvider, apolloReq, currentToken });
-    Logger.debug('Apollo authLinkBefore, finished, generated token: ', getAccessToken(currentToken));
 
-    return {
-      headers: {
-        ...headers,
-        authorization: `Bearer ${currentToken.access_token}`
-      }
-    };
+    if (isGuest && isAnonymousOperation(apolloReq.operationName)) {
+      const { obtainAnonymousToken } = createAuthHandlers({ settings, currentToken });
+      const anonymousToken = await obtainAnonymousToken({ apolloReq });
+      Logger.debug('Apollo authLinkBefore, finished, generated token: ', getAccessToken(anonymousToken));
+
+      return applyAuthorizationHeader(headers, anonymousToken);
+    }
+
+    if (!currentToken) {
+      const { obtainBasicToken } = createAuthHandlers({ settings, currentToken });
+      const basicToken = await obtainBasicToken();
+
+      return applyAuthorizationHeader(headers, basicToken);
+    }
+
+    return applyAuthorizationHeader(headers, currentToken);
   });
 
   const authLinkAfter = new ApolloLink((apolloReq, forward): any => {
     return asyncMap(forward(apolloReq) as any, async (response: any) => {
       Logger.debug('Apollo authLinkAfter', apolloReq.operationName);
-      currentToken = await handleAfterAuth({ sdkAuth, tokenProvider, apolloReq, currentToken, response });
+
+      if (!isUserSession(currentToken) && isUserOperation(apolloReq.operationName)) {
+        const { obtainUserToken } = createAuthHandlers({ settings, currentToken });
+        await obtainUserToken({ apolloReq, response });
+      }
 
       const errors = (response.errors || []).filter(({ message }) =>
         !message.includes('Resource Owner Password Credentials Grant') &&
@@ -46,16 +65,11 @@ export const createCommerceToolsConnection = (settings: Config): any => {
     });
   });
 
-  const errorRetry = new RetryLink({
-    attempts: handleRetry({ tokenProvider }),
-    delay: () => 0
-  });
+  const apolloLink = ApolloLink.from([
+    onErrorLink,
+    authLinkBefore,
+    authLinkAfter.concat(httpLink)
+  ]);
 
-  const apolloLink = ApolloLink.from([onErrorLink, errorRetry, authLinkBefore, authLinkAfter.concat(httpLink)]);
-
-  return {
-    apolloLink,
-    sdkAuth,
-    tokenProvider
-  };
+  return { apolloLink };
 };

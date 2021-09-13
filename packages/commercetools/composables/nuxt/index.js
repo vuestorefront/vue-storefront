@@ -36,4 +36,5 @@ export default function (moduleOptions) {
     options
   });
 
+  this.options.router.middleware.push('accessToken');
 }

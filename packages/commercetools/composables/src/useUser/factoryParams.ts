@@ -6,15 +6,8 @@ import { useCart } from '../useCart';
 type UserContext = UseCart<Cart, LineItem, ProductVariant> & Context;
 
 const load = async (context: Context, {customQuery}) => {
-  if (!context.$ct.config.auth.onTokenRead()) return null;
-
-  const isGuest = await context.$ct.api.isGuest();
-
-  if (isGuest) {
-    return null;
-  }
-
   const profile = await context.$ct.api.getMe({ customer: true }, customQuery);
+
   return profile.data.me.customer;
 };
 
