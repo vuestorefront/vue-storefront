@@ -112,7 +112,7 @@ To create any product in commercetools, at least one product type needs to be se
   </center>
 
 
-2. Click the 'Add an attribute' button and enter the name, label, constraints, and type fields.
+2. Click the `Add an attribute` button and enter the name, label, constraints, and type fields.
 
   <center>
     <img src="./images/setup-store/add-attribute.png" alt="Commercetools create product type first step" class="image-shadow preview-view" />
