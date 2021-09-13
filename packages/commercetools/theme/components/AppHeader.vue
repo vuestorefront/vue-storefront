@@ -49,7 +49,9 @@
               icon="empty_cart"
               size="1.25rem"
             />
-            <SfBadge v-if="cartTotalItems" class="sf-badge--number cart-badge">{{cartTotalItems}}</SfBadge>
+            <div v-show="cartTotalItems > 0">
+              <SfBadge class="sf-badge--number cart-badge">{{cartTotalItems}}</SfBadge>
+            </div>
           </SfButton>
         </div>
       </template>
