@@ -1,12 +1,13 @@
 const STATUS_FIELDS = ['status', 'statusCode'] as const;
 
-type AxiosError = {
+export type AxiosError = {
   isAxiosError: boolean;
   response: {
     status: number
   }
 }
-type ApolloError = {
+
+export type ApolloError = {
   networkError?: number
   code: string | number
 }
@@ -15,7 +16,7 @@ type Status = typeof STATUS_FIELDS[number]
 
 type StatusCode = number | null
 
-type UnknownError = unknown;
+export type UnknownError = { [K in Status]?: number; } & { [x: string]: UnknownError };
 
 function reduceStatus(narrowObject: UnknownError, depth: number) {
   return function(statusCode: StatusCode, c: string): StatusCode {
