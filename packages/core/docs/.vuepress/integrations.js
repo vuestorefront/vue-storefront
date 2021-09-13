@@ -135,7 +135,7 @@ const INTEGRATIONS = {
     },
     {
       name: 'Vendure',
-      link: '',
+      link: 'https://docs.vuestorefront.io/vendure',
       image: '/v2/integrations-logos/vendure.png',
       status: STATUSES.BETA,
       availability: AVAILABILITY.OPEN_SOURCE,
