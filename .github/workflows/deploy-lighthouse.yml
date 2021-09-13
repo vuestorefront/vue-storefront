@@ -20,8 +20,8 @@ jobs:
         with:
           name: demo-lighthouse-storefrontcloud-io/vue-storefront:${{ github.sha }}
           registry: registry.storefrontcloud.io
-          username: ${{ secrets.CLOUD_USERNAME }}
-          password: ${{ secrets.CLOUD_PASSWORD }}
+          username: ${{ secrets.DOCS_CLOUD_USERNAME }}
+          password: ${{ secrets.DOCS_CLOUD_PASSWORD }}
           dockerfile: dev/docker/Dockerfile
           buildoptions: "--compress"
   deploy:
