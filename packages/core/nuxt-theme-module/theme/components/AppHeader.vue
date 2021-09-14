@@ -22,7 +22,7 @@
           <SfButton
             v-e2e="'app-header-account'"
             class="sf-button--pure sf-header__action"
-            aria-label="open-account-button"
+            aria-label="Open account button"
             @click="handleAccountClick"
           >
             <SfIcon
@@ -32,7 +32,7 @@
           </SfButton>
           <SfButton
             class="sf-button--pure sf-header__action"
-            aria-label="toggle-wishlist-sidebar"
+            aria-label="Toggle wishlist sidebar"
             @click="toggleWishlistSidebar"
           >
             <SfIcon
@@ -44,7 +44,7 @@
           <SfButton
             v-e2e="'app-header-cart'"
             class="sf-button--pure sf-header__action"
-            aria-label="toggle-cart-sidebar"
+            aria-label="Toggle cart sidebar"
             @click="toggleCartSidebar"
           >
             <SfIcon
@@ -72,7 +72,7 @@
           <template #icon>
             <SfButton
               v-if="!!term"
-              aria-label="search-bar-button"
+              aria-label="Close search"
               class="sf-search-bar__button sf-button--pure"
               @click="closeOrFocusSearchBar"
             >
@@ -82,7 +82,7 @@
             </SfButton>
             <SfButton
               v-else
-              aria-label="search-bar-button"
+              aria-label="Open search"
               class="sf-search-bar__button sf-button--pure"
               @click="isSearchOpen ? isSearchOpen = false : isSearchOpen = true"
             >
