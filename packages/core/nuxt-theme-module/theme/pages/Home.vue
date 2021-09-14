@@ -33,7 +33,7 @@
 
     <LazyHydrate when-visible>
       <div class="similar-products">
-        <SfHeading title="Match with it" :level="3"/>
+        <SfHeading title="Match with it" :level="2"/>
         <nuxt-link :to="localePath('/c/women')" class="smartphone-only">See all</nuxt-link>
       </div>
     </LazyHydrate>
