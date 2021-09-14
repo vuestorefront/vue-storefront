@@ -1,5 +1,6 @@
 .vuepress/dist
-api.json
 .vuepress/public/commercetools
+.vuepress/public/open-graph
 commercetools/api-reference
 core/api-reference
+api.json

@@ -25,11 +25,13 @@
     "@vuepress/plugin-back-to-top": "^1.8.2",
     "@vuepress/plugin-medium-zoom": "^1.8.2",
     "@vuepress/plugin-search": "^1.8.2",
+    "dom-to-image": "^2.6.0",
     "handlebars": "^4.7.7",
     "typescript": "^3.6.4",
     "vuepress": "^1.2.0"
   },
   "dependencies": {
+    "node-html-to-image": "^3.2.0",
     "sass-loader": "^8.0.2",
     "vue-multiselect": "^2.1.6"
   }
