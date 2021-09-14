@@ -72,14 +72,14 @@
             </SfTableData>
           </SfTableRow>
         </SfTable>
-        <div class="pagination" v-if="orders.length < totalOrders">
+        <div v-e2e="'order-history-pagination'" class="pagination" v-if="orders.length < totalOrders">
           <SfArrow
             aria-label="prev"
             class="sf-arrow--left sf-arrow--transparent"
             :disabled="offset === 0"
             @click="goPrev(offset)"
           />
-          <div class="pagination-count">
+          <div v-e2e="'order-history-pagination-count'" class="pagination-count">
             {{ orders.length > 1 ? `${offset + 1} - ` : "" }} {{ offset + orders.length }}
             <strong>of</strong> {{ totalOrders }}
           </div>

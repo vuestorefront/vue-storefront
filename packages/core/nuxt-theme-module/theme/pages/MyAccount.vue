@@ -33,7 +33,7 @@
         </SfContentPage>
       </SfContentCategory>
 
-      <SfContentCategory title="Order details">
+      <SfContentCategory v-e2e="'test'" title="Order details">
         <SfContentPage title="Order history">
           <OrderHistory />
         </SfContentPage>

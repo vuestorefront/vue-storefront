@@ -1,6 +1,8 @@
 import requests, { CreateCartResponse, CreateMyOrderFromCartResponse, GetShippingMethodsResponse } from '../api/requests';
 import page from '../pages/factory';
+import { MenuItems } from '../pages/my-account';
 import generator from '../utils/data-generator';
+import intercept from '../utils/network';
 
 context(['regression'], '[MyAccount] Order History', () => {
   beforeEach(function () {
@@ -63,6 +65,19 @@ context(['regression'], '[MyAccount] Order History', () => {
           page.myAccount.orderHistory.orderDetailsTotal.should('contain', data.expected.order.amount);
         });
       });
+    });
+  });
+
+  it('Should change page', function () {
+    const data = this.fixtures.data[this.test.title];
+    const getOrdersRequest = intercept.getOrders({ fixture: 'responses/getOrders.json'});
+    data.customer.email = generator.email;
+    requests.customerSignMeUp(data.customer);
+    page.myAccount.myProfile.visit();
+    page.myAccount.myProfile.menu.navigateTo(MenuItems.ORDER_HISTORY);
+    page.myAccount.orderHistory.paginationCount.scrollIntoView().should('be.visible');
+    page.myAccount.orderHistory.paginationNext.click().then(() => {
+      cy.wait(getOrdersRequest).its('request.body').its('0').should('deep.equal', data.expected.payload);
     });
   });
 

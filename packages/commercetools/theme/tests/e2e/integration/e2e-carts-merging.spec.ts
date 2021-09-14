@@ -54,7 +54,7 @@ context(['regression'], 'Carts merging', () => {
     page.home.header.openLoginModal();
     page.components.loginModal.loginToAccountButton.click();
     page.components.loginModal.fillForm(data.customer);
-    page.components.loginModal.loginBtn.click();
+    page.components.loginModal.loginButton.click();
     page.home.header.openCart();
     page.components.cart.totalItems.should($ti => {
       const totalItems: number = data.expectedCart.reduce((total, product) => {

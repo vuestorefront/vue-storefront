@@ -35,7 +35,7 @@ class LoginModal {
     return el('login-modal-login-to-your-account');
   }
 
-  get loginBtn(): Cypress.Chainable {
+  get loginButton(): Cypress.Chainable {
     return el('login-modal-submit');
   }
 

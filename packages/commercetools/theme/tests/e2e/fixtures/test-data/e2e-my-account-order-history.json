@@ -6,7 +6,7 @@
       "sku": "M0E20000000ED0W"
     },
     "customer": {
-	  "password": "password1",
+      "password": "password1",
       "address": {
         "shipping": {
           "firstName": "Jane",
@@ -47,7 +47,7 @@
       "sku": "M0E20000000ED0W"
     },
     "customer": {
-	  "password": "password1",
+      "password": "password1",
       "address": {
         "shipping": {
           "firstName": "Jane",
@@ -78,6 +78,18 @@
       "order": {
         "amount": "$169.25",
         "status": "Open"
+      }
+    }
+  },
+  "Should change page": {
+    "customer": {
+      "password": "password1"
+    },
+    "expected": {
+      "payload": {
+        "limit": 10,
+        "offset": 10,
+        "sort": "createdAt desc"
       }
     }
   }
