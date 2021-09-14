@@ -72,6 +72,42 @@ class OrderHistory extends Base {
   get orderNumber(): Cypress.Chainable {
     return el('order-number');
   }
+
+  get orderDate(): Cypress.Chainable {
+    return el('order-date');
+  }
+
+  get orderAmount(): Cypress.Chainable {
+    return el('order-amount');
+  }
+
+  get orderStatus(): Cypress.Chainable {
+    return el('order-status');
+  }
+
+  get viewDetails(): Cypress.Chainable {
+    return el('order-view-details');
+  }
+
+  get orderDetailsId(): Cypress.Chainable {
+    return this.orderDetails.eq(0);
+  }
+
+  get orderDetailsDate(): Cypress.Chainable {
+    return this.orderDetails.eq(1);
+  }
+
+  get orderDetailsStatus(): Cypress.Chainable {
+    return this.orderDetails.eq(2);
+  }
+
+  get orderDetailsTotal(): Cypress.Chainable {
+    return this.orderDetails.eq(3);
+  }
+
+  private get orderDetails() {
+    return el('order-details', '.sf-property__value');
+  }
 }
 
 export {

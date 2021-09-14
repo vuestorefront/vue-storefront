@@ -10,6 +10,16 @@ export type CreateCartResponse = {
   }
 }
 
+export type CreateMyOrderFromCartResponse = {
+   body: {
+     data: {
+       order: {
+         id: string;
+       }
+     }
+   }
+}
+
 export type CustomerSignMeInResponse = {
   body: {
     data: {
@@ -80,6 +90,25 @@ const requests = {
         'Content-Type': 'application/json'
       },
       body: [{}, null]
+    };
+    return cy.request(options);
+  },
+
+  createMyOrderFromCart(id, version?): Cypress.Chainable {
+    const options = {
+      url: '/api/ct/createMyOrderFromCart',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: [
+        {
+          id: id,
+          version: version ?? 1
+        },
+        null
+      ]
     };
     return cy.request(options);
   },
