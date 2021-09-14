@@ -150,5 +150,10 @@ export default {
         })
       })
     ]
+  },
+  pwa: {
+    meta: {
+      theme_color: '#5ECE7B'
+    }
   }
 };
