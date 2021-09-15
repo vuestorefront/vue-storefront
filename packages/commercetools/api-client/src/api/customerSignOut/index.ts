@@ -1,10 +1,6 @@
-const customerSignOut = async ({ config, client }) => {
+const customerSignOut = async ({ config }) => {
   if (config.auth.onTokenRemove) {
     config.auth.onTokenRemove();
-  }
-
-  if (client.tokenProvider) {
-    client.tokenProvider.invalidateTokenInfo();
   }
 };
 

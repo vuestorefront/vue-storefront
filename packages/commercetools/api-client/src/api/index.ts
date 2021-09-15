@@ -1,3 +1,4 @@
+export { default as accessToken } from './accessToken';
 export { default as addToCart } from './addToCart';
 export { default as applyCartCoupon } from './applyCartCoupon';
 export { default as createCart } from './createCart';
@@ -23,5 +24,3 @@ export { default as updateShippingDetails } from './updateShippingDetails';
 export { default as customerResetPassword } from './customerResetPassword';
 export { default as customerCreatePasswordResetToken } from './customerCreatePasswordResetToken';
 export { default as getStores } from './getStores';
-export { default as accessToken } from './accessToken';
-

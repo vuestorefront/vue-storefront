@@ -26,7 +26,6 @@ export const useUserFactoryParams: UseUserFactoryParams<Customer, any, any> = {
   load,
   logOut: async (context: UserContext) => {
     await context.$ct.api.customerSignOut();
-    await context.$ct.config?.auth?.onTokenRemove();
 
     context.setCart(null);
   },

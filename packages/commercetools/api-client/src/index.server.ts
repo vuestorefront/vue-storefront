@@ -67,17 +67,17 @@ const getI18nConfig = (req, configuration) => {
   return { currency, country, locale, store };
 };
 
-const tokenCookieOptions = (newToken) => ({
-  ...(newToken?.expires_at && { expires: new Date(newToken.expires_at) }),
-  httpOnly: true,
-  secure: true
-});
-
 const tokenExtension: ApiClientExtension = {
   name: 'tokenExtension',
   hooks: (req, res) => {
     const rawCurrentToken = req.cookies['vsf-commercetools-token'];
     const currentToken = parseToken(rawCurrentToken);
+
+    const tokenCookieOptions = (newToken) => ({
+      ...(newToken?.expires_at ? { expires: new Date(newToken.expires_at) } : {}),
+      httpOnly: true,
+      secure: req.secure
+    });
 
     return {
       beforeCreate: ({ configuration }) => ({
@@ -94,9 +94,7 @@ const tokenExtension: ApiClientExtension = {
             }
           },
           onTokenRead: () => currentToken,
-          onTokenRemove: () => {
-            delete req.cookies['vsf-commercetools-token'];
-          }
+          onTokenRemove: () => res.clearCookie('vsf-commercetools-token')
         }
       })
     };
