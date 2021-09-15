@@ -161,5 +161,10 @@ export default {
   },
   publicRuntimeConfig: {
     theme
+  },
+  pwa: {
+    meta: {
+      theme_color: '#5ECE7B'
+    }
   }
 };
