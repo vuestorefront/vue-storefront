@@ -5,6 +5,7 @@
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "mainServer": "server/index.js",
+  "license": "MIT",
   "types": "lib/src/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c rollup.config.js",
