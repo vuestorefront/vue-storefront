@@ -183,6 +183,10 @@ class ThankYou {
   get orderNumber(): Cypress.Chainable {
     return el('order-number');
   }
+
+  get path(): string {
+    return '/checkout/thank-you';
+  }
 }
 
 export {
