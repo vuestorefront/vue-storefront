@@ -4,11 +4,11 @@ Next:
 
 # Add 'core' label to any change to packages/core files within the source dir EXCEPT for the docs sub-folder
 core:
-- any: ['packages/core/**/*', '!packages/core/docs/**/*']
+- any: ['packages/**/*', '!packages/docs/**/*', '!packages/boilerplate/**/*']
 
 # Add 'commercetools' label to any change to packages/commercetools files
-commercetools:
-- packages/commercetools/**/*
+# commercetools:
+# - packages/commercetools/**/*
 
 # Add 'boilerplate' label to any change to packages/boilerplate files
 boilerplate:
@@ -16,8 +16,8 @@ boilerplate:
 
 # Add 'docs' label to any change to packages/core/docs files
 docs:
-- packages/core/docs/**/*
-- packages/core/docs/.vuepress/**/*
+- packages/docs/**/*
+- packages/docs/.vuepress/**/*
 
 # Add 'ci' label to any change to continuous integration files inside .github folder
 ci:

@@ -3,8 +3,8 @@ scopes:
   - core
   - core-theme
   - docs
-  - commercetools
-  - commercetools-theme
+  # - commercetools
+  # - commercetools-theme
   - boilerplate
   - composables
   - ci

@@ -60,10 +60,10 @@ jobs:
           path: "packages/boilerplate/theme/tests/e2e/report"
           if-no-files-found: ignore
 
-      - name: Upload ct report artifact
-        uses: actions/upload-artifact@v2
-        if: ${{ always() }}
-        with:
-          name: report-ct
-          path: "packages/commercetools/theme/tests/e2e/report"
-          if-no-files-found: ignore
+      #- name: Upload ct report artifact
+      #  uses: actions/upload-artifact@v2
+      #  if: ${{ always() }}
+      #  with:
+      #    name: report-ct
+      #    path: "packages/commercetools/theme/tests/e2e/report"
+      #    if-no-files-found: ignore
