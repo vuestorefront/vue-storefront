@@ -83,25 +83,25 @@
             <SfRadio
               v-e2e="'delivery-option'"
               name="Delivery"
-              label="Delivery"
+              :label="$t('Delivery')"
               value="delivery"
               :selected="selectedDelivery"
-              @input="selectDelivery('delivery')"
+              @input="setSelectedDelivery('delivery')"
             />
             <SfRadio
               v-e2e="'click-collect-option'"
               name="Click & Collect"
-              label="Pickup in the store"
-              details="Free!"
+              :label="$t('Pickup in the store')"
+              :details="$t('Free')"
               value="collect"
               :selected="selectedDelivery"
-              @input="selectDelivery('collect')"
+              @input="setSelectedDelivery('collect')"
             />
             <SfSelect
               v-if="selectedDelivery === 'collect'"
               v-e2e="'channel-select'"
               v-model="channelId"
-              label="Select Channel"
+              :label="$t('Select Channel')"
               class="sf-select--underlined product__select-size"
             >
               <SfSelectOption
@@ -267,7 +267,7 @@ export default {
       return productChannels;
     });
     const selectedDelivery = ref(null);
-    const selectDelivery = option => selectedDelivery.value = option;
+    const setSelectedDelivery = option => selectedDelivery.value = option;
 
     const selectedChannel = computed(() => {
       if (selectedDelivery.value !== 'collect') return null;
@@ -330,7 +330,7 @@ export default {
       selectedChannel,
       selectedStore,
       selectedDelivery,
-      selectDelivery
+      setSelectedDelivery
     };
   },
   components: {
