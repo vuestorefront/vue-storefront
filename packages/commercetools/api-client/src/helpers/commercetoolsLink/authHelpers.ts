@@ -1,7 +1,6 @@
 import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
-import { Logger } from '@vue-storefront/core';
 import { Config, ApiConfig } from '../../types/setup';
-import { isAnonymousSession, isUserSession, getAccessToken } from '../utils';
+import { isAnonymousSession, isUserSession } from '../utils';
 import fetch from 'isomorphic-fetch';
 
 export const createAuthClient = (config: ApiConfig): SdkAuth => {
@@ -25,13 +24,8 @@ export const createTokenProvider = (settings: Config, {
   return new TokenProvider({
     sdkAuth,
     fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow(),
-    onTokenInfoChanged: (tokenInfo) => {
-      Logger.debug('TokenProvider.onTokenInfoChanged', getAccessToken(tokenInfo));
-      settings.auth.onTokenChange(tokenInfo);
-    },
-    onTokenInfoRefreshed: (tokenInfo) => {
-      Logger.debug('TokenProvider.onTokenInfoRefreshed', getAccessToken(tokenInfo));
-    }
+    onTokenInfoChanged: (tokenInfo) => settings.auth.onTokenChange(tokenInfo),
+    onTokenInfoRefreshed: (tokenInfo) => settings.auth.onTokenChange(tokenInfo)
   }, currentToken);
 };
 
