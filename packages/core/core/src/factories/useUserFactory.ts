@@ -1,4 +1,4 @@
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, computed } from '@nuxtjs/composition-api';
 import { UseUser, Context, FactoryParams, UseUserErrors, CustomQuery, PlatformApi } from '../types';
 import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 

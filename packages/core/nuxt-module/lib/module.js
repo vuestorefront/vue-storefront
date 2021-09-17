@@ -76,10 +76,6 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   });
   log.success('Installed Internationalization Cookies plugin');
 
-  // Composition API plugin
-  this.addModule('@nuxtjs/composition-api');
-  log.success('Installed nuxt Composition API Module');
-
   // StorefrontUI module
   if (fs.existsSync(resolveDependency('@storefront-ui/vue'))) {
     storefrontUiModule.call(this, options);

@@ -245,7 +245,7 @@ import { useUserBilling, userBillingGetters, useUser, useBilling, useShipping } 
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
-import { ref, watch, computed, onMounted } from '@vue/composition-api';
+import { ref, watch, computed, onMounted } from '@nuxtjs/composition-api';
 import '@/helpers/validators/phone';
 
 const NOT_SELECTED_ADDRESS = '';

@@ -65,7 +65,7 @@
 <script>
 
 import { SfModal, SfButton, SfLoader, SfBar, SfInput } from '@storefront-ui/vue';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed } from '@nuxtjs/composition-api';
 import { useForgotPassword, forgotPasswordGetters } from '<%= options.generate.replace.composables %>';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';

@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { ref, watch } from '@vue/composition-api';
+import { ref, watch } from '@nuxtjs/composition-api';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { useUser, userGetters } from '@vue-storefront/commercetools';
 import { SfInput, SfButton } from '@storefront-ui/vue';

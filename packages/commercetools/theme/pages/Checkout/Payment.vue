@@ -154,7 +154,7 @@ import {
   SfLink,
   SfInput
 } from '@storefront-ui/vue';
-import { ref, computed, watch } from '@vue/composition-api';
+import { ref, computed, watch } from '@nuxtjs/composition-api';
 import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';

@@ -72,7 +72,9 @@ export default {
     /* project-only-start
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
-    ['@vue-storefront/boilerplate/nuxt', {}]
+    ['@vue-storefront/boilerplate/nuxt', {}],
+    // register @nuxtjs/composition-api
+    '@nuxtjs/composition-api/module'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

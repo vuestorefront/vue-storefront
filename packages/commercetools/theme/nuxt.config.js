@@ -70,7 +70,9 @@ export default {
     project-only-end */
     ['@vue-storefront/commercetools/nuxt', {
       i18n: { useNuxtI18nConfig: true }
-    }]
+    }],
+    // register @nuxtjs/composition-api
+    '@nuxtjs/composition-api/module'
   ],
   modules: [
     ['nuxt-i18n', {

@@ -1,4 +1,4 @@
-import { getCurrentInstance } from '@vue/composition-api';
+import { getCurrentInstance } from '@nuxtjs/composition-api';
 import { Category } from '@vue-storefront/commercetools-api';
 import { AgnosticFacet } from '@vue-storefront/core';
 
@@ -6,7 +6,7 @@ const nonFilters = ['page', 'sort', 'phrase', 'itemsPerPage'];
 
 const getInstance = () => {
   const vm = getCurrentInstance();
-  return vm.$root as any;
+  return vm.root.proxy as any;
 };
 
 const reduceFilters = (query) => (prev, curr) => {
@@ -28,7 +28,6 @@ const getFiltersDataFromUrl = (context, onlyFilters) => {
 
 const useUiHelpers = () => {
   const instance = getInstance();
-
   const getFacetsFromURL = () => {
     const { query, params } = instance.$router.history.current;
     const categorySlug = Object.keys(params).reduce((prev, curr) => params[curr] || prev, params.slug_1);

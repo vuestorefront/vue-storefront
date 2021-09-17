@@ -9,7 +9,6 @@
   "author": "Vue Storefront",
   "license": "MIT",
   "devDependencies": {
-    "@vue/composition-api": "1.0.0-beta.21",
     "chalk": "^2.4.2",
     "chokidar": "^3.3.1",
     "consola": "^2.10.1",
@@ -22,8 +21,11 @@
   },
   "dependencies": {
     "ejs": "^3.0.2",
-    "lodash.merge": "^4.6.2",
     "lodash.debounce": "^4.0.8",
+    "lodash.merge": "^4.6.2",
     "vue-lazy-hydration": "^2.0.0-beta.4"
+  },
+  "peerDependencies": {
+    "@nuxtjs/composition-api": "^0.29.0"
   }
 }

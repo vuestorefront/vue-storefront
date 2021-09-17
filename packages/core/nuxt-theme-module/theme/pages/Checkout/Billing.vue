@@ -196,7 +196,7 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useBilling } from '<%= options.generate.replace.composables %>';
 import { required, min, digits } from 'vee-validate/dist/rules';

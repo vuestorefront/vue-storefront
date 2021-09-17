@@ -109,7 +109,7 @@
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useUser, cartGetters } from '@vue-storefront/commercetools';
-import { computed, ref, watch, onBeforeUnmount } from '@vue/composition-api';
+import { computed, ref, onBeforeUnmount, watch } from '@nuxtjs/composition-api';
 import { useUiHelpers } from '~/composables';
 import StoreLocaleSelector from './StoreLocaleSelector';
 import SearchResults from '~/components/SearchResults';

@@ -51,7 +51,7 @@ Use the `getFiltered` getter without the second parameter to get the list of all
 ```vue{4,18-24}
 <script>
 import { onSSR } from '@vue-storefront/core';
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import { useProduct, productGetters } from '@vue-storefront/commercetools';
 
 export default {
@@ -87,7 +87,7 @@ Let's use the `getFiltered` getter again, but this time pass `{ master: true }` 
 ```vue{4,18-24}
 <script>
 import { onSSR } from '@vue-storefront/core';
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import { useProduct, productGetters } from '@vue-storefront/commercetools';
 
 export default {
@@ -125,7 +125,7 @@ To only get the products with specific attributes, pass the `{ attributes }` obj
 ```vue{4,18-29}
 <script>
 import { onSSR } from '@vue-storefront/core';
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import { useProduct, productGetters } from '@vue-storefront/commercetools';
 
 export default {
@@ -203,7 +203,7 @@ Once data is loaded using `useFacet`, access it using `facetGetters`. Get the da
 ```vue{4,22-36}
 <script>
 import { onSSR } from '@vue-storefront/core';
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import { useFacet, facetGetters } from '@vue-storefront/commercetools';
 
 export default {

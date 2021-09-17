@@ -28,7 +28,7 @@ As the first example, we will use `getTotalItems` from `cartGetters` to get the 
 </template>
 
 <script>
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import { useCart, cartGetters } from '{INTEGRATION}';
 import { onSSR } from '@vue-storefront/core';
 

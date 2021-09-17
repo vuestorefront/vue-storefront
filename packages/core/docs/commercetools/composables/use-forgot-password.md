@@ -157,7 +157,7 @@ Requesting reset password token and setting new user password.
 
 <script>
 import { useForgotPassword, forgotPasswordGetters } from '@vsf-enterprise/commercetools';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed } from '@nuxtjs/composition-api';
 
 export default {
   setup(_, context) {

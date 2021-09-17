@@ -41,7 +41,7 @@
 </template>
 <script>
 import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
-import { computed, onBeforeUnmount } from '@vue/composition-api';
+import { computed, onBeforeUnmount } from '@nuxtjs/composition-api';
 import { useUser } from '<%= options.generate.replace.composables %>';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';

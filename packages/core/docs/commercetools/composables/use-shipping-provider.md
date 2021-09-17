@@ -92,7 +92,7 @@ We do not provide getters for checkout and its parts.
 ```js
 import { useShippingProvider } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 
 export default {
   setup () {
