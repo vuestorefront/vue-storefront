@@ -100,9 +100,9 @@ export const handleBeforeAuth = async ({
 };
 
 /**
- * The handler that generates an access token for the user if all three requirements are met:
- *  - customer is not already logged in;
- *  - customer performed one of the user-specific operations;
+ * The handler that generates an access token for the user if all three conditions are met:
+ *  - the customer is not already logged in;
+ *  - the customer performed one of the user-specific operations;
  *  - response from the commercetools doesn't contain any errors, meaning that the given credentials are valid;
  */
 export const handleAfterAuth = async ({ sdkAuth, tokenProvider, apolloReq, currentToken, response }) => {
