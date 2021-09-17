@@ -76,5 +76,6 @@ export const CartFragment = `
     }
     cartState
     version
+    inventoryMode
   }
 `;

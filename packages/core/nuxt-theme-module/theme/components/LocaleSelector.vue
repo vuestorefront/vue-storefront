@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <SfButton
-      class="container__lang container__lang--selected"
-      @click="isLangModalOpen = !isLangModalOpen"
+        class="container__lang container__lang--selected"
+        @click="isLangModalOpen = !isLangModalOpen"
     >
       <SfImage :src="`/icons/langs/${locale}.webp`" width="20" alt="Flag" />
     </SfButton>
@@ -35,7 +35,6 @@ import {
   SfCharacteristic
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
-
 export default {
   components: {
     SfImage,
@@ -49,7 +48,6 @@ export default {
     const { locales, locale } = context.root.$i18n;
     const isLangModalOpen = ref(false);
     const availableLocales = computed(() => locales.filter(i => i.code !== locale));
-
     return {
       availableLocales,
       locale,

@@ -13,7 +13,7 @@ const settings = {
 
 describe('[commercetools-api-client] search', () => {
   it('returns undefined when parameters are not supported', () => {
-    expect(buildProductWhere(settings, null)).toBe('');
+    expect(buildProductWhere(settings, null)).toBe(null);
   });
 
   it('returns undefined string when parameters are not supported', () => {
@@ -63,7 +63,7 @@ describe('[commercetools-api-client] search', () => {
 
   describe('using filters', () => {
     it('returns empty string for empty filters', () => {
-      expect(buildProductWhere(settings, { filters: [] })).toEqual('');
+      expect(buildProductWhere(settings, { filters: [] })).toEqual(null);
     });
 
     it(`returns product search query by ${AttributeType.STRING}`, () => {

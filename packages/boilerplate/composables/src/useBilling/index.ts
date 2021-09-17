@@ -1,21 +1,25 @@
-import { useBillingFactory, UseBillingParams, Context } from '@vue-storefront/core';
-import { Address } from '../types';
+import {
+  Context,
+  useBillingFactory,
+  UseBillingParams
+} from '@vue-storefront/core';
+import type { BillingAddress } from '@vue-storefront/boilerplate-api';
+import type {
+  UseBillingAddParams as AddParams
+} from '../types';
 
-let details = {};
-
-const params: UseBillingParams<Address, any> = {
+const params: UseBillingParams<BillingAddress, AddParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, { customQuery }) => {
-    console.log('Mocked: loadBilling');
-    return details;
+    console.log('Mocked: useBilling.load');
+    return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  save: async (context: Context, { billingDetails, customQuery }) => {
-    console.log('Mocked: saveBilling');
-    details = billingDetails;
-    return details;
+  save: async (context: Context, { params, billingDetails, customQuery }) => {
+    console.log('Mocked: useBilling.save');
+    return {};
   }
 };
 
-export default useBillingFactory<Address, any>(params);
+export const useBilling = useBillingFactory<BillingAddress, AddParams>(params);

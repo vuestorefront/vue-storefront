@@ -1,6 +1,7 @@
 <template>
   <div id="category">
     <SfBreadcrumbs
+      v-e2e="'breadcrumbs'"
       class="breadcrumbs desktop-only"
       :breadcrumbs="breadcrumbs"
     />
@@ -92,6 +93,7 @@
           :class="{ 'loading--categories': loading }"
           :loading="loading">
             <SfAccordion
+              v-e2e="'categories-accordion'"
               :open="activeCategory"
               :show-chevron="true"
             >
@@ -236,7 +238,7 @@
             <span class="products__show-on-page__label">{{ $t('Show on page') }}</span>
             <LazyHydrate on-interaction>
               <SfSelect
-                :value="pagination.itemsPerPage.toString()"
+                :value="pagination && pagination.itemsPerPage ? pagination.itemsPerPage.toString() : ''"
                 class="products__items-per-page"
                 @input="th.changeItemsPerPage"
               >
@@ -372,7 +374,7 @@ export default {
     const uiState = useUiState();
     const { addItem: addItemToCart, isInCart } = useCart();
     const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist } = useWishlist();
-    const { result, search, loading } = useFacet();
+    const { result, search, loading, error } = useFacet();
 
     const products = computed(() => facetGetters.getProducts(result.value));
     const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
@@ -383,7 +385,7 @@ export default {
     const activeCategory = computed(() => {
       const items = categoryTree.value.items;
 
-      if (!items) {
+      if (!items || !items.length) {
         return '';
       }
 
@@ -405,6 +407,7 @@ export default {
 
     onSSR(async () => {
       await search(th.getFacetsFromURL());
+      if (error?.value?.search) context.root.$nuxt.error({ statusCode: 404 });
       setSelectedFilters();
     });
 

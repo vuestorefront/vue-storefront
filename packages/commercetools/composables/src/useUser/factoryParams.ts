@@ -1,9 +1,9 @@
-import { UseUserFactoryParams, Context, UseCart, AgnosticCoupon } from '@vue-storefront/core';
+import { UseUserFactoryParams, Context, UseCart } from '@vue-storefront/core';
 import { Cart, Customer, LineItem, ProductVariant } from '../types/GraphQL';
 import { authenticate } from './authenticate';
 import { useCart } from '../useCart';
 
-type UserContext = UseCart<Cart, LineItem, ProductVariant, AgnosticCoupon> & Context;
+type UserContext = UseCart<Cart, LineItem, ProductVariant> & Context;
 
 const load = async (context: Context, {customQuery}) => {
   if (!context.$ct.config.auth.onTokenRead()) return null;
@@ -15,6 +15,7 @@ const load = async (context: Context, {customQuery}) => {
   }
 
   const profile = await context.$ct.api.getMe({ customer: true }, customQuery);
+  context.setCart(profile.data.me.activeCart);
   return profile.data.me.customer;
 };
 
@@ -60,7 +61,7 @@ export const useUserFactoryParams: UseUserFactoryParams<Customer, any, any> = {
     const loadedUser = await getCurrentUser(context, currentUser, customQuery);
     const userResponse = await context.$ct.api.customerChangeMyPassword(loadedUser.version, currentPassword, newPassword);
     // we do need to re-authenticate user to acquire new token - otherwise all subsequent requests will fail as unauthorized
-    await this.logOut(context);
+    await useUserFactoryParams.logOut(context);
     return await useUserFactoryParams.logIn(context, { username: userResponse.data.user.email, password: newPassword });
   }
 };

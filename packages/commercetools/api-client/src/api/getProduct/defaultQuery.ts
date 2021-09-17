@@ -1,8 +1,9 @@
 import gql from 'graphql-tag';
-import { ProductPriceFragment } from './../../fragments';
+import { ChannelFragment, ProductPriceFragment } from './../../fragments';
 
 export default gql`
   ${ProductPriceFragment}
+  ${ChannelFragment}
 
   fragment Images on ProductVariant {
     images {
@@ -29,13 +30,47 @@ export default gql`
       }
     }
   }
-
+  
+  fragment Availability on ProductVariant {
+    availability {
+      noChannel {
+        isOnStock
+        restockableInDays
+        availableQuantity
+      }
+      channels(
+        includeChannelIds: $includeChannelIds 
+        excludeChannelIds: $excludeChannelIds 
+        limit: $channelLimit
+        offset: $channelOffset
+      ) {
+        limit
+        offset
+        total
+        results {
+          channelRef {
+            id
+          }
+          availability {
+            isOnStock
+            restockableInDays
+            availableQuantity
+          }
+          channel {
+            ...ChannelFragment
+          }
+        }
+      }
+    }
+  }
+  
   fragment DefaultVariant on ProductVariant {
     id
     sku
     ...Images
     ...Price
     ...Attributes
+    ...Availability
   }
 
   query products(
@@ -49,6 +84,10 @@ export default gql`
     $currency: Currency!
     $country: Country!
     $channelId: String
+    $includeChannelIds: [String!]
+    $excludeChannelIds: [String!]
+    $channelLimit: Int
+    $channelOffset: Int
   ) {
     products(
       where: $where

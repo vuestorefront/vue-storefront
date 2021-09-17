@@ -1,3 +1,4 @@
+import gql from 'graphql-tag';
 import { CustomerSignMeInDraft } from '../../types/GraphQL';
 import CustomerSignMeInMutation from './defaultMutation';
 import { SignInResponse } from './../../types/Api';
@@ -6,8 +7,13 @@ const customerSignMeIn = async (context, draft: CustomerSignMeInDraft): Promise<
   const { locale, acceptLanguage, currency } = context.config;
 
   const loginResponse = await context.client.mutate({
-    mutation: CustomerSignMeInMutation,
-    variables: { draft, locale, acceptLanguage, currency },
+    mutation: gql`${CustomerSignMeInMutation}`,
+    variables: {
+      draft,
+      locale,
+      acceptLanguage,
+      currency
+    },
     fetchPolicy: 'no-cache'
   }) as SignInResponse;
 
