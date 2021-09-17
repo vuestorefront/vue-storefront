@@ -78,6 +78,7 @@ export interface CustomerCredentials {
 export interface Config<T = any> {
   client?: ApolloClient<T>;
   api: ApiConfig;
+  serverApi?: Pick<ApiConfig, 'clientId' | 'clientSecret' | 'scopes'>;
   customOptions?: ApolloClientOptions<any>;
   currency: string;
   locale: string;
