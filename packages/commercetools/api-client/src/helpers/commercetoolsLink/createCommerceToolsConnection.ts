@@ -50,7 +50,7 @@ export const createCommerceToolsConnection = (settings: Config): any => {
   });
 
   const errorRetry = new RetryLink({
-    attempts: handleRetry({ tokenProvider }),
+    attempts: handleRetry({ settings, tokenProvider }),
     delay: () => 0
   });
 

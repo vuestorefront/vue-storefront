@@ -76,11 +76,24 @@ export const handleBeforeAuth = async ({
   apolloReq,
   currentToken
 }) => {
-  const isAnonymous = isAnonymousSession(currentToken);
-  const isUser = isUserSession(currentToken);
-  const isGuest = !isAnonymous && !isUser;
+  const isGuest = !isAnonymousSession(currentToken) && !isUserSession(currentToken) && isAnonymousOperation(apolloReq.operationName);
+  const isServer = isServerOperation(apolloReq.operationName);
 
-  if (isServerOperation(apolloReq.operationName)) {
+  const customToken = await settings.customToken?.({
+    settings,
+    isGuest,
+    isServer,
+    sdkAuth,
+    tokenProvider,
+    apolloReq,
+    currentToken
+  });
+
+  if (customToken) {
+    return customToken;
+  }
+
+  if (isServer) {
     return await generateServerAccessToken({
       settings,
       apolloReq,
@@ -88,7 +101,7 @@ export const handleBeforeAuth = async ({
     });
   }
 
-  if (isGuest && isAnonymousOperation(apolloReq.operationName)) {
+  if (isGuest) {
     return await generateAnonymousAccessToken({
       apolloReq,
       sdkAuth,
@@ -120,9 +133,19 @@ export const handleAfterAuth = async ({ sdkAuth, tokenProvider, apolloReq, curre
 /**
  * The handler that retries requests to the commercetools server if specific conditions are met.
  */
-export const handleRetry = ({ tokenProvider }) => (count, operation, error) => {
+export const handleRetry = ({ settings, tokenProvider }) => (count, operation, error) => {
   if (count > 3) {
     return false;
+  }
+
+  const customRetry = settings.customRetry?.({
+    count,
+    operation,
+    error
+  });
+
+  if (customRetry) {
+    return true;
   }
 
   if (error?.result?.message === 'invalid_token') {
