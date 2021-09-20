@@ -194,9 +194,11 @@
               :max-rating="5"
               :score-rating="3"
               :isOnWishlist="isInWishlist({ product })"
+              :qty="1"
+              @input="productsQuantity[product._id] = $event"
               class="products__product-card-horizontal"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeItemFromWishlist({ product })"
-              @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+              @click:add-to-cart="addItemToCart({ product, quantity: Number(productsQuantity[product._id]) })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             >
               <template #configuration>
@@ -445,6 +447,8 @@ export default {
       changeFilters(selectedFilters.value);
     };
 
+    const productsQuantity = ref({});
+
     return {
       ...uiState,
       th,
@@ -467,7 +471,8 @@ export default {
       isFilterSelected,
       selectedFilters,
       clearFilters,
-      applyFilters
+      applyFilters,
+      productsQuantity
     };
   },
   components: {
