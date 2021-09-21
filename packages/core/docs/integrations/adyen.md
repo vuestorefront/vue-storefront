@@ -169,15 +169,15 @@ export default {
 Read [Adyen's document about the Klarna](https://docs.adyen.com/payment-methods/klarna#supported-countries) to check which Klarna payment methods are available for individual countries.
 
 :::warning Email Address
-Klarna requires shopper's email address to work correctly. It will be read from `cart.customerEmail` with fallback to the `cart.customer.email` field. Make sure to put it in one of these.
+Klarna requires the customer's email addresses. It will be read from `cart.customerEmail` with fallback to the `cart.customer.email` field. Make sure the e-mail address is available in one of these properties.
 :::
 
 :::warning Phone number
-If your users can provide a phone number then make sure it is with **area code**. Otherwise, Klarna will throw an error because of an improper phone number format.
+If your users provide a phone number, make sure it includes the **area code**. Otherwise, Klarna will throw an error because of the improper phone number format.
 :::
 
 ## Afterpay configuration
-To enable Afterpay, you have to add a new payment method in Adyen's dashboard. Then you should add `afterpaytouch` to the `availablePaymentMethods` array in `nuxt.config.js`:
+To enable Afterpay, you have to add a new payment method in Adyen's dashboard. Then add `afterpaytouch` to the `availablePaymentMethods` array in `nuxt.config.js`:
 ```js
 // nuxt.config.js
 
@@ -194,10 +194,10 @@ export default {
 };
 ```
 
-Read [Adyen's document about the Afterpay](https://docs.adyen.com/payment-methods/afterpaytouch) to check which countries and currencies are supported.
+Read [Adyen's document about the Afterpay](https://docs.adyen.com/payment-methods/afterpaytouch) to check supported countries and currencies.
 
 :::warning Email Address
-Afterpay requires shopper's email address to work correctly. It will be read from `cart.customerEmail` with fallback to the `cart.customer.email` field. Make sure to put it in one of these.
+Afterpay requires the customer's email addresses. It will be read from `cart.customerEmail` with fallback to the `cart.customer.email` field. Make sure the e-mail address is available in one of these properties.
 :::
 
 
