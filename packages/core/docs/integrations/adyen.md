@@ -168,8 +168,36 @@ export default {
 
 Read [Adyen's document about the Klarna](https://docs.adyen.com/payment-methods/klarna#supported-countries) to check which Klarna payment methods are available for individual countries.
 
+:::warning Email Address
+Klarna requires shopper's email address to work correctly. It will be read from `cart.customerEmail` with fallback to the `cart.customer.email` field. Make sure to put it in one of these.
+:::
+
 :::warning Phone number
-If your users can provide a phone number, then make sure it is with **area code**. Otherwise, Klarna will throw an error because of an improper phone number format.
+If your users can provide a phone number then make sure it is with **area code**. Otherwise, Klarna will throw an error because of an improper phone number format.
+:::
+
+## Afterpay configuration
+To enable Afterpay, you have to add a new payment method in Adyen's dashboard. Then you should add `afterpaytouch` to the `availablePaymentMethods` array in `nuxt.config.js`:
+```js
+// nuxt.config.js
+
+export default {
+  modules: [
+    ['@vsf-enterprise/adyen/nuxt', {
+      availablePaymentMethods: [
+        'scheme',
+        'afterpaytouch'
+      ],
+      // ...
+    }]
+  ]
+};
+```
+
+Read [Adyen's document about the Afterpay](https://docs.adyen.com/payment-methods/afterpaytouch) to check which countries and currencies are supported.
+
+:::warning Email Address
+Afterpay requires shopper's email address to work correctly. It will be read from `cart.customerEmail` with fallback to the `cart.customer.email` field. Make sure to put it in one of these.
 :::
 
 
