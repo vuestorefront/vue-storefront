@@ -51,7 +51,7 @@
         icon="tiles"
         size="12px"
         role="button"
-        aria-label="Change to grid view"
+        :aria-label="$t('Change to grid view')"
         :aria-pressed="isCategoryGridView"
         @click="changeToCategoryGridView"
       />
