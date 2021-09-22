@@ -5,6 +5,6 @@ const applyCookies = (token) => `${CT_TOKEN_COOKIE_NAME}=${encodeURIComponent(JS
 export const accessToken = async ({ app }) => {
   if (!process.server) return;
 
-  const token = await app.$vsf.$ct.api.accessToken(app.$cookies.get(CT_TOKEN_COOKIE_NAME));
+  const token = await app.$vsf.$ct.api.accessToken();
   app.$vsf.$ct.config.axios.headers.cookie = applyCookies(token);
 };

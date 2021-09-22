@@ -1,3 +1,4 @@
+export { default as accessToken } from './accessToken';
 export { default as addToCart } from './addToCart';
 export { default as applyCartCoupon } from './applyCartCoupon';
 export { default as createCart } from './createCart';
