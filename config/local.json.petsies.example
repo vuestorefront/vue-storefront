@@ -864,6 +864,13 @@
   "analytics": {
     "id": false
   },
+  "braintree" : {
+    "endpoint": "https://${VSF_API_DOMAIN}/api/ext/braintree",
+    "applePay": {
+      "displayName": "My Petsies",
+      "label": "Budsies Co LLC"
+    }
+  },
   "googleTagManager": {
     "id": false,
     "debug": true,

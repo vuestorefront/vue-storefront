@@ -18,3 +18,7 @@
 	path = src/themes/petsies-capybara
 	url = git@github.com:BudsiesApp/vsf-capybara.git
 	branch = 24251-petsies-demo
+[submodule "src/modules/payment-braintree"]
+    path = src/modules/payment-braintree
+    url = git@github.com:BudsiesApp/vsf-payment-braintree.git
+    branch = optimuspro
