@@ -3,16 +3,13 @@
     <LazyHydrate when-visible>
       <TopBar class="desktop-only" />
     </LazyHydrate>
-    <LazyHydrate when-idle>
-      <AppHeader />
-    </LazyHydrate>
+
+    <AppHeader />
 
     <div id="layout">
       <nuxt :key="$route.fullPath"/>
 
-      <LazyHydrate when-visible>
-        <BottomNavigation />
-      </LazyHydrate>
+      <BottomNavigation />
       <CartSidebar />
       <WishlistSidebar />
       <LoginModal />

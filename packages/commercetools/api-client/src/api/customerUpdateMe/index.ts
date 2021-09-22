@@ -1,4 +1,4 @@
-import { changeCustomerEmailAction, setCustomerFirstNameAction, setCustomerLastNameAction } from '../../helpers/customer';
+import { changeCustomerEmailAction, setCustomerFirstNameAction, setCustomerLastNameAction } from '../../helpers/actions/customer';
 import CustomerUpdateMeMutation from './defaultMutation';
 
 const customerUpdateMe = async ({ client }, currentUser, updatedUserData) => {

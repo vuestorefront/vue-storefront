@@ -2,7 +2,7 @@ import { CustomQuery } from '@vue-storefront/core';
 import updateCart from '../updateCart';
 import { CartDetails, CartResponse } from '../../types/Api';
 import { ReferenceInput } from '../../types/GraphQL';
-import { removeDiscountCodeAction } from '../../helpers/cart/actions';
+import { removeDiscountCodeAction } from '../../helpers/actions/cart';
 
 const removeCartCoupon = async (
   context,

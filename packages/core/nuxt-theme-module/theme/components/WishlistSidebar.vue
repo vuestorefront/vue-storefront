@@ -84,7 +84,7 @@ import {
   SfCollectedProduct,
   SfImage
 } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
+import { computed, onMounted } from '@vue/composition-api';
 import { useWishlist, useUser, wishlistGetters } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
 
@@ -108,7 +108,10 @@ export default {
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
     const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
 
-    loadWishlist();
+    onMounted(() => {
+      // Load only in the browser
+      loadWishlist();
+    });
 
     return {
       isAuthenticated,
