@@ -3,7 +3,7 @@ name: Lighthouse Test
 on:
   push:
     branches:
-      - lighthouse/next
+      - lighthouse/develop
 
 jobs:
   build:
