@@ -7,8 +7,7 @@ on:
     types:
       - completed
     branches:
-      - master
-      - main
+      - lighthouse/next
 
 jobs:
   deploy:
@@ -54,9 +53,16 @@ jobs:
           state: "failure"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
-  lighthouse:
+  sleep:
     runs-on: ubuntu-latest
     needs: deploy
+    steps:
+      - name: Sleep 5 min (waiting for deployment)
+        run: sleep 300
+
+  lighthouse:
+    runs-on: ubuntu-latest
+    needs: sleep
     steps:
       - uses: actions/checkout@v2
       - name: Audit URLs using Lighthouse
