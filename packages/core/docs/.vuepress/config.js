@@ -40,6 +40,9 @@ module.exports = {
       })(window,document,'script','dataLayer','${GTM_TAG}');
     `]],
   ],
+  markdown: {
+    lineNumbers: true
+  },
 
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#configurewebpack
@@ -276,6 +279,13 @@ module.exports = {
           children: [
             ['/advanced/performance', 'Performance basics'],
             ['/advanced/ssr-cache', 'SSR cache']
+          ]
+        },
+        {
+          title: 'Development and Testing',
+          collapsable: true,
+          children: [
+            ['/development-and-testing/debugging-ssr-requests', 'Intercepting SSR requests']
           ]
         },
         // {
