@@ -3,7 +3,7 @@
     <LazyHydrate on-interaction>
       <SfButton
         class="sf-button--text navbar__filters-button"
-        aria-label="Filters"
+        :aria-label="$t('Filters')"
         @click="toggleFilterSidebar"
       >
         <SfIcon
