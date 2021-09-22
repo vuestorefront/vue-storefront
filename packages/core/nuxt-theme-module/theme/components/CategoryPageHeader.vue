@@ -21,7 +21,7 @@
       <LazyHydrate on-interaction>
         <SfSelect
           :value="sortBy.selected"
-          placeholder="Select sorting"
+          :placeholder="$t('Select sorting')"
           class="navbar__select"
           @input="th.changeSorting"
         >
