@@ -58,6 +58,7 @@
     "apollo-link-http": "^1.5.16",
     "body-scroll-lock": "^2.6.4",
     "bodybuilder": "2.2.21",
+    "braintree": "^3.6.0",
     "config": "^1.30.0",
     "cross-env": "^3.1.4",
     "dayjs": "^1.8.21",
