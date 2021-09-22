@@ -62,7 +62,7 @@
         icon="list"
         size="12px"
         role="button"
-        aria-label="Change to list view"
+        :aria-label="$t('Change to list view')"
         :aria-pressed="!isCategoryGridView"
         @click="changeToCategoryListView"
       />
