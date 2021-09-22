@@ -25,7 +25,7 @@ interface RequestParams {
 
 function createServer (config: MiddlewareConfig): Express {
   consola.info('Middleware starting....');
-  consola.info('Loading integartions...');
+  consola.info('Loading integrations...');
 
   const integrations = registerIntegrations(app, config.integrations);
 
@@ -43,7 +43,7 @@ function createServer (config: MiddlewareConfig): Express {
 
       res.send(platformResponse);
     } catch (error) {
-      res.status(getAgnosticStatusCode(error, 'status', 'statusCode') || 500);
+      res.status(getAgnosticStatusCode(error));
       res.send(error);
     }
   });

@@ -1,6 +1,7 @@
 <template>
   <div id="category">
     <SfBreadcrumbs
+      v-e2e="'breadcrumbs'"
       class="breadcrumbs desktop-only"
       :breadcrumbs="breadcrumbs"
     />
@@ -92,6 +93,7 @@
           :class="{ 'loading--categories': loading }"
           :loading="loading">
             <SfAccordion
+              v-e2e="'categories-accordion'"
               :open="activeCategory"
               :show-chevron="true"
             >
@@ -192,9 +194,11 @@
               :max-rating="5"
               :score-rating="3"
               :isOnWishlist="isInWishlist({ product })"
+              :qty="1"
+              @input="productsQuantity[product._id] = $event"
               class="products__product-card-horizontal"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeItemFromWishlist({ product })"
-              @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+              @click:add-to-cart="addItemToCart({ product, quantity: Number(productsQuantity[product._id]) })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             >
               <template #configuration>
@@ -236,7 +240,7 @@
             <span class="products__show-on-page__label">{{ $t('Show on page') }}</span>
             <LazyHydrate on-interaction>
               <SfSelect
-                :value="pagination.itemsPerPage.toString()"
+                :value="pagination && pagination.itemsPerPage ? pagination.itemsPerPage.toString() : ''"
                 class="products__items-per-page"
                 @input="th.changeItemsPerPage"
               >
@@ -372,7 +376,7 @@ export default {
     const uiState = useUiState();
     const { addItem: addItemToCart, isInCart } = useCart();
     const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist } = useWishlist();
-    const { result, search, loading } = useFacet();
+    const { result, search, loading, error } = useFacet();
 
     const products = computed(() => facetGetters.getProducts(result.value));
     const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
@@ -405,6 +409,7 @@ export default {
 
     onSSR(async () => {
       await search(th.getFacetsFromURL());
+      if (error?.value?.search) context.root.$nuxt.error({ statusCode: 404 });
       setSelectedFilters();
     });
 
@@ -442,6 +447,8 @@ export default {
       changeFilters(selectedFilters.value);
     };
 
+    const productsQuantity = ref({});
+
     return {
       ...uiState,
       th,
@@ -464,7 +471,8 @@ export default {
       isFilterSelected,
       selectedFilters,
       clearFilters,
-      applyFilters
+      applyFilters,
+      productsQuantity
     };
   },
   components: {

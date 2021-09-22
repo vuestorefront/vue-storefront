@@ -9,7 +9,11 @@ export default async ({ app, $vsf }) => {
 
   const { data } = await $vsf.$ct.api.getMe();
 
-  if (!data || !data.me.activeCart) return;
+  if (!data || !data.me.activeCart) {
+    app.context.redirect('/');
+    return;
+  }
+
   const { activeCart } = data.me;
 
   switch (currentPath) {

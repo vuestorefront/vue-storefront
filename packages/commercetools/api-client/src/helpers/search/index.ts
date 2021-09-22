@@ -83,7 +83,7 @@ const buildProductWhere = (settings: Config, search: ProductWhereSearch) => {
     predicates.push(`id in ("${search.ids.join('","')}")`);
   }
 
-  return predicates.join(' and ');
+  return predicates.join(' and ') || null;
 };
 
 const buildCategoryWhere = (settings: Config, search: CategoryWhereSearch) => {

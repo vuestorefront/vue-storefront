@@ -1,6 +1,10 @@
 /* eslint-disable */
+require('jsdom-global')();
 import Vue from 'vue';
 import VueCompositionApi, { ref } from '@vue/composition-api';
+
+Vue.config.productionTip = false;
+Vue.config.devtools = false;
 
 Vue.use(VueCompositionApi);
 jest.mock('lodash-es/merge', () => (arg1, arg2) => ({ ...arg1, ...arg2 }));
