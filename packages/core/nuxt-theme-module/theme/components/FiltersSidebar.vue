@@ -63,12 +63,16 @@
           <SfButton
             class="sf-button--full-width"
             @click="applyFilters"
-          >{{ $t('Done') }}</SfButton
+          >
+            {{ $t('Done') }}
+          </SfButton
           >
           <SfButton
             class="sf-button--full-width filters__button-clear"
             @click="clearFilters"
-          >{{ $t('Clear all') }}</SfButton
+          >
+            {{ $t('Clear all') }}
+          </SfButton
           >
         </div>
       </template>

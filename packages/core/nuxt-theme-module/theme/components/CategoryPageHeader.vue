@@ -30,7 +30,9 @@
             :key="option.id"
             :value="option.id"
             class="sort-by__option"
-          >{{ option.value }}</SfSelectOption
+          >
+            {{ option.value }}
+          </SfSelectOption
           >
         </SfSelect>
       </LazyHydrate>
