@@ -2,6 +2,11 @@
 import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
 import ApolloClient, { ApolloClientOptions } from 'apollo-client';
 
+/**
+ * Name of the cookie storing the commercetools access token.
+ */
+export const CT_COOKIE_NAME = 'vsf-commercetools-token';
+
 export interface ClientInstance extends ApolloClient<any> {
   sdkAuth?: SdkAuth;
   tokenProvider?: TokenProvider;
@@ -73,6 +78,7 @@ export interface CustomerCredentials {
 export interface Config<T = any> {
   client?: ApolloClient<T>;
   api: ApiConfig;
+  serverApi?: Pick<ApiConfig, 'clientId' | 'clientSecret' | 'scopes'>;
   customOptions?: ApolloClientOptions<any>;
   currency: string;
   locale: string;
