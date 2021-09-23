@@ -9,6 +9,10 @@ export interface ProductData {
   products: ProductQueryResult;
 }
 
+/**
+ * @remarks References:
+ * {@link ProductData}
+ */
 const getProduct = async (context: Context, params, customQuery?: CustomQuery) => {
   const { locale, acceptLanguage, currency, country } = context.config;
 

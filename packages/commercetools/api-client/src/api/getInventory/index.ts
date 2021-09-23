@@ -12,6 +12,10 @@ export interface GetInventoryParams {
   customQuery: CustomQuery;
 }
 
+/**
+ * @remarks References:
+ * {@link GetInventoryParams}, {@link InventoryEntryQueryResult}
+ */
 export default async function getInventory(context: Context, params?: GetInventoryParams): Promise<InventoryEntryQueryResult> {
   const variables = {
     where: buildInventoryEntriesWhere(context.config, params)
