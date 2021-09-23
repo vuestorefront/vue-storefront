@@ -2,9 +2,17 @@ import { CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers
 
 const applyCookies = (token) => `${CT_TOKEN_COOKIE_NAME}=${encodeURIComponent(JSON.stringify(token))}`;
 
-export const accessToken = async ({ app }) => {
-  if (!process.server) return;
+export default async function accessTokenPlugin({ app }) {
+  const isServer = typeof window === 'undefined';
+  const token = await app.$vsf.$ct.api.accessToken(isServer);
 
-  const token = await app.$vsf.$ct.api.accessToken();
-  app.$vsf.$ct.config.axios.headers.cookie = applyCookies(token);
-};
+  if (isServer) {
+
+    /**
+     * `accessToken` endpoint doesn't create access token cookie if it was called during SSR.
+     * For this reason, it's required to add access token to axios during SSR, so that new
+     * access token is not requested every time we call an API.
+     */
+    app.$vsf.$ct.config.axios.headers.cookie = applyCookies(token);
+  }
+}

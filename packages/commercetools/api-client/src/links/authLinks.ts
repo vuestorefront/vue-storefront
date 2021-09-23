@@ -109,7 +109,7 @@ export async function handleBeforeAuth({
     });
   }
 
-  return tokenProvider.getTokenInfo();
+  return currentToken;
 }
 
 /**

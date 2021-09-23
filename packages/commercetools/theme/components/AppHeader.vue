@@ -100,7 +100,7 @@
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useUser, cartGetters } from '@vue-storefront/commercetools';
-import { computed, ref, watch, onMounted, onBeforeUnmount } from '@vue/composition-api';
+import { computed, ref, watch, onBeforeUnmount } from '@vue/composition-api';
 import { useUiHelpers } from '~/composables';
 import StoreLocaleSelector from './StoreLocaleSelector';
 import SearchResults from '~/components/SearchResults';
@@ -132,8 +132,8 @@ export default {
   setup(props, { root }) {
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, isMobileMenuOpen } = useUiState();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
-    const { isAuthenticated, load: loadUser } = useUser();
-    const { cart, load: loadCart } = useCart();
+    const { isAuthenticated } = useUser();
+    const { cart } = useCart();
     const term = ref(getFacetsFromURL().phrase);
     const isSearchOpen = ref(false);
     const searchBarRef = ref(null);
@@ -146,12 +146,6 @@ export default {
     });
 
     const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
-
-    onMounted(() => {
-      // Load only in the browser
-      loadUser();
-      loadCart();
-    });
 
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {

@@ -34,8 +34,7 @@ function createTokenProvider({ configuration, sdkAuth }) {
     {
       sdkAuth,
       fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow(),
-      onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo),
-      onTokenInfoRefreshed: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
+      onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
     },
     configuration.auth.onTokenRead()
   );
