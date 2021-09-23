@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4.2
+
+- **[BREAKING]** Fix loading user and cart information ([6265](https://github.com/vuestorefront/vue-storefront/pull/6265/)) - [Filip Sobol](https://github.com/filipsobol)
+
+  | Before | After | Comment | Module |
+  | ------ | ----- | ------- | ------ |
+  | &amp;#x60;loadCart&amp;#x60; was called directly inside &amp;#x60;setup&amp;#x60; method in &amp;#x60;CartSidebar.vue&amp;#x60; component | &amp;#x60;loadCart&amp;#x60; is called inside &amp;#x60;onSSR&amp;#x60; callback in &amp;#x60;CartSidebar.vue&amp;#x60; component | Calling &amp;#x60;loadCart&amp;#x60; directly inside &amp;#x60;setup&amp;#x60; method caused hydration issues, since cart information was not properly loaded during SSR | Base theme |
+
 ## 2.4.1
 
 - Fix `@vue-storefront/cache` package ([#6198](https://github.com/vuestorefront/vue-storefront/pull/6198)) - [Filip Sobol](https://github.com/filipsobol)
