@@ -14,12 +14,14 @@ export const tokenExtension: ApiClientExtension = {
   name: 'tokenExtension',
 
   hooks(request, response) {
-    const currentToken = parseToken(request.cookies[CT_TOKEN_COOKIE_NAME]);
+    let currentToken = parseToken(request.cookies[CT_TOKEN_COOKIE_NAME]);
 
     /**
      * Updates token cookie.
      */
     function onTokenChange(token) {
+      currentToken = token;
+
       const options = {
         ...(token?.expires_at && { expires: new Date(token.expires_at) }),
         httpOnly: true,
@@ -44,6 +46,8 @@ export const tokenExtension: ApiClientExtension = {
      * Removes token cookie.
      */
     function onTokenRemove() {
+      currentToken = null;
+
       return response.clearCookie(CT_TOKEN_COOKIE_NAME);
     }
 
