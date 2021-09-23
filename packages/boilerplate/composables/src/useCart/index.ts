@@ -17,6 +17,12 @@ const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  addLineItems: async (context: Context, { currentCart, products, customQuery }) => {
+    console.log('Mocked: useCart.addLineItems');
+    return {};
+  },
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addItem: async (context: Context, { currentCart, product, quantity, customQuery }) => {
     console.log('Mocked: useCart.addItem');
     return {};

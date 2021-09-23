@@ -35,6 +35,12 @@ const params: UseWishlistFactoryParams<Wishlist, WishlistItem, Product> = {
   isInWishlist: (context: Context, { currentWishlist, product }) => {
     console.log('Mocked: useWishlist.isInWishlist');
     return false;
+  },
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  addAllToCart: async (context: Context, { currentWishlist }) => {
+    console.log('Mocked: useWishlist.addAllToCart');
+    return null;
   }
 };
 
