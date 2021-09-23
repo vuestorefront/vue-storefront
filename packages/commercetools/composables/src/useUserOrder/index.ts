@@ -2,6 +2,10 @@ import { useUserOrderFactory, UseUserOrderFactoryParams, Context } from '@vue-st
 import { OrderQueryResult } from '../types/GraphQL';
 import { OrderSearchParams } from '../types';
 
+/**
+ * @remarks References:
+ * {@link OrderQueryResult}, {@link OrderSearchParams}
+ */
 const useUserOrderFactoryParams: UseUserOrderFactoryParams<OrderQueryResult, OrderSearchParams> = {
   searchOrders: async (context: Context, { customQuery, ...searchParams } = {}): Promise<OrderQueryResult> => {
     const result = await context.$ct.api.getOrders(searchParams, customQuery);
@@ -10,6 +14,10 @@ const useUserOrderFactoryParams: UseUserOrderFactoryParams<OrderQueryResult, Ord
   }
 };
 
+/**
+ * @remarks References:
+ * {@link OrderQueryResult}, {@link OrderSearchParams}
+ */
 const useUserOrder = useUserOrderFactory<OrderQueryResult, OrderSearchParams>(useUserOrderFactoryParams);
 
 export {

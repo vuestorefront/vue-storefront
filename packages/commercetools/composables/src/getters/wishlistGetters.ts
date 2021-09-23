@@ -7,7 +7,7 @@ import {
 } from '@vue-storefront/core';
 import { LineItem } from './../types/GraphQL';
 
-type Wishlist = any;
+export type Wishlist = any;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getWishlistItems = (wishlist: Wishlist): LineItem[] => [];
@@ -42,6 +42,10 @@ export const getWishlistTotalItems = (wishlist: Wishlist): number => 0;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getFormattedPrice = (price: number): string => '';
 
+/**
+ * @remarks References:
+ * {@link Wishlist}, {@link LineItem}
+ */
 const wishlistGetters: WishlistGetters<Wishlist, LineItem> = {
   getTotals: getWishlistTotals,
   getShippingPrice: getWishlistShippingPrice,

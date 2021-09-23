@@ -15,6 +15,10 @@ const getCurrentCartDetails = async <COMPLETE_DETAILS = ''>(context: Context, cu
   return completeDetails ? cart : { id: cart.id, version: cart.version };
 };
 
+/**
+ * @remarks References:
+ * {@link CartDetails}, {@link LineItem}, {@link ProductVariant}
+ */
 const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductVariant> = {
   load: async (context: Context, { customQuery }) => {
     const { $ct } = context;
@@ -91,6 +95,10 @@ const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductV
   }
 };
 
+/**
+ * @remarks References:
+ * {@link CartDetails}, {@link LineItem}, {@link ProductVariant}
+ */
 const useCart = useCartFactory<CartDetails, LineItem, ProductVariant>(useCartFactoryParams);
 
 export {

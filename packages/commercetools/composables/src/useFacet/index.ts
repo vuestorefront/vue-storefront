@@ -7,6 +7,10 @@ import { FacetResultsData } from './../types';
 // TODO: move to the config file
 const ITEMS_PER_PAGE = [20, 40, 100];
 
+/**
+ * @remarks References:
+ * {@link FacetResultsData}
+ */
 const useFacetFactoryParams = {
   search: async (context: Context, params: FacetSearchResult<FacetResultsData>): Promise<FacetResultsData> => {
     const itemsPerPage = params.input.itemsPerPage;
@@ -42,6 +46,10 @@ const useFacetFactoryParams = {
   }
 };
 
+/**
+ * @remarks References:
+ * {@link FacetResultsData}
+ */
 const useFacet = useFacetFactory<FacetResultsData>(useFacetFactoryParams);
 
 export {

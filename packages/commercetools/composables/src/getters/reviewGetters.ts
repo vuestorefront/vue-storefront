@@ -3,8 +3,8 @@
 import { ReviewGetters, AgnosticRateCount } from '@vue-storefront/core';
 
 // TODO: Replace with GraphQL types when they get updated
-type Review = any;
-type ReviewItem = any;
+export type Review = any;
+export type ReviewItem = any;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getItems = (review: Review): ReviewItem[] => [];
@@ -36,6 +36,10 @@ export const getRatesCount = (review: Review): AgnosticRateCount[] => [];
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getReviewsPage = (review: Review): number => 1;
 
+/**
+ * @remarks References:
+ * {@link Review}, {@link ReviewItem}
+ */
 const reviewGetters: ReviewGetters<Review, ReviewItem> = {
   getItems,
   getReviewId,
