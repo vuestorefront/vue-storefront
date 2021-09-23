@@ -50,6 +50,12 @@ const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductV
 
     return data.cart;
   },
+  addLineItems: async (context: Context, { currentCart, products, customQuery }) => {
+    const cartDetails = await getCurrentCartDetails(context, currentCart);
+    const { data } = await context.$ct.api.addMultipleToCart(cartDetails, products, customQuery);
+
+    return data.cart;
+  },
   removeItem: async (context: Context, { currentCart, product, customQuery }) => {
     const cartDetails = await getCurrentCartDetails(context, currentCart);
 

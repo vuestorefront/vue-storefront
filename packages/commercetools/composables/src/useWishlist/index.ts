@@ -28,6 +28,10 @@ const useWishlistFactoryParams: UseWishlistFactoryParams<Wishlist, LineItem, Pro
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isInWishlist: (context: Context, { currentWishlist }) => {
     return false;
+  },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  addAllToCart: async (context: Context, { currentWishlist }) => {
+    return null;
   }
 };
 

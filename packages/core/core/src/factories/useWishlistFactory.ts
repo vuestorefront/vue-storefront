@@ -25,6 +25,7 @@ export interface UseWishlistFactoryParams<
     }) => Promise<WISHLIST>;
   clear: (context: Context, params: { currentWishlist: WISHLIST }) => Promise<WISHLIST>;
   isInWishlist: (context: Context, params: { currentWishlist: WISHLIST; product: PRODUCT }) => boolean;
+  addAllToCart: (context: Context, params: { currentWishlist: WISHLIST }) => Promise<void>;
 }
 
 export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT, API extends PlatformApi = any>(
@@ -37,7 +38,8 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT, API extends
       addItem: null,
       removeItem: null,
       load: null,
-      clear: null
+      clear: null,
+      addAllToCart: null
     }, 'useWishlist-error');
 
     const _factoryParams = configureFactoryParams(
@@ -133,6 +135,25 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT, API extends
       });
     };
 
+    const addAllToCart = async () => {
+      Logger.debug('useWishlist.addAllToCart');
+
+      try {
+        loading.value = true;
+
+        await _factoryParams.addAllToCart({
+          currentWishlist: wishlist.value
+        });
+
+        error.value.addAllToCart = null;
+      } catch (err) {
+        error.value.addAllToCart = err;
+        Logger.error('useWishlist/addAllToCart', err);
+      } finally {
+        loading.value = false;
+      }
+    };
+
     return {
       api: _factoryParams.api,
       wishlist: computed(() => wishlist.value),
@@ -142,6 +163,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT, API extends
       removeItem,
       clear,
       setWishlist,
+      addAllToCart,
       loading: computed(() => loading.value),
       error: computed(() => error.value)
     };

@@ -114,6 +114,7 @@ interface ApiMethods {
     supplyChannel?: string;
     distributionChannel?: string;
   }): Promise<CartResponse>;
+  addMultipleToCart ({ id, version }: CartDetails, products: LineItem[]): Promise<CartResponse>;
   applyCartCoupon ({ id, version }: CartDetails, discountCode: string): Promise<CartResponse>;
   createCart (cartDraft?: CartData): Promise<{ data: CartQueryInterface }>;
   createMyOrderFromCart (draft: OrderMyCartCommand): Promise<OrderMutationResponse>;

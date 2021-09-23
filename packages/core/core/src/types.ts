@@ -274,6 +274,7 @@ export interface UseCategory<
 
 export interface UseCartErrors {
   addItem: Error;
+  addLineItems: Error;
   removeItem: Error;
   updateItemQty: Error;
   load: Error;
@@ -291,6 +292,7 @@ export interface UseCart
   cart: ComputedProperty<CART>;
   setCart(cart: CART): void;
   addItem(params: { product: PRODUCT; quantity: number; customQuery?: CustomQuery }): Promise<void>;
+  addLineItems(params: { products: CART_ITEM[]; customQuery?: CustomQuery }): Promise<void>;
   isInCart: ({ product: PRODUCT }) => boolean;
   removeItem(params: { product: CART_ITEM; customQuery?: CustomQuery }): Promise<void>;
   updateItemQty(params: { product: CART_ITEM; quantity?: number; customQuery?: CustomQuery }): Promise<void>;
@@ -307,6 +309,7 @@ export interface UseWishlistErrors {
   removeItem: Error;
   load: Error;
   clear: Error;
+  addAllToCart: Error;
 }
 export interface UseWishlist
 <
@@ -324,6 +327,7 @@ export interface UseWishlist
   clear(): Promise<void>;
   setWishlist: (wishlist: WISHLIST) => void;
   isInWishlist({ product: PRODUCT }): boolean;
+  addAllToCart(): Promise<void>;
   error: ComputedProperty<UseWishlistErrors>;
 }
 

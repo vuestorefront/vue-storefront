@@ -20,6 +20,17 @@ export const createAddLineItemAction = (params: {
   };
 };
 
+export const createMultipleAddLineItemAction = (products: LineItem[]) => {
+  return products.map((product) => ({
+    addLineItem: {
+      variantId: product.variant.id,
+      quantity: product.quantity,
+      sku: product.variant.sku
+    }
+  })
+  );
+};
+
 export const createRemoveLineItemAction = (product: LineItem) => ({
   removeLineItem: {
     lineItemId: product.id,

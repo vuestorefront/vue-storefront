@@ -13,6 +13,14 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, API extends Plat
       customQuery?: CustomQuery;
     }
   ) => Promise<CART>;
+  addLineItems: (
+    context: Context,
+    params: {
+      currentCart: CART;
+      products: CART_ITEM[];
+      customQuery?: CustomQuery;
+    }
+  ) => Promise<CART>;
   removeItem: (context: Context, params: { currentCart: CART; product: CART_ITEM; customQuery?: CustomQuery }) => Promise<CART>;
   updateItemQty: (
     context: Context,
@@ -35,6 +43,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, API extends PlatformApi
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
     const error: Ref<UseCartErrors> = sharedRef({
       addItem: null,
+      addLineItems: null,
       removeItem: null,
       updateItemQty: null,
       load: null,
@@ -69,6 +78,28 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, API extends PlatformApi
       } catch (err) {
         error.value.addItem = err;
         Logger.error('useCart/addItem', err);
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    const addLineItems = async ({ products, customQuery }) => {
+      Logger.debug('useCart.addLineItems', { products });
+
+      try {
+        loading.value = true;
+
+        const updatedCart = await _factoryParams.addLineItems({
+          currentCart: cart.value,
+          products,
+          customQuery
+        });
+
+        error.value.addLineItems = null;
+        cart.value = updatedCart;
+      } catch (err) {
+        error.value.addLineItems = err;
+        Logger.error('useCart/addLineItems', err);
       } finally {
         loading.value = false;
       }
@@ -213,6 +244,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, API extends PlatformApi
       cart: computed(() => cart.value),
       isInCart,
       addItem,
+      addLineItems,
       load,
       removeItem,
       clear,

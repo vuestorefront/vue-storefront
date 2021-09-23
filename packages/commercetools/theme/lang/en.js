@@ -26,6 +26,8 @@ export default {
   'Additional Information': 'Additional Information',
   'Save for later': 'Save for later',
   'Add to compare': 'Add to compare',
+  'Add to cart': 'Add to cart',
+  'Add all to cart': 'Add all to cart',
   'Match it with': 'Match it with',
   'Share your look': 'Share your look',
   'Product description': `The Karissa V-Neck Tee features a semi-fitted shape that's flattering for every figure. You can hit the gym with confidence while it hugs curves and hides common "problem" areas. Find stunning women's cocktail dresses and party dresses.`,

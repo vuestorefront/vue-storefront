@@ -9,6 +9,7 @@ function createComposable() {
   params = {
     load: jest.fn().mockResolvedValueOnce({ id: 'mocked_cart' }),
     addItem: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_cart' }),
+    addLineItems: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_cart' }),
     removeItem: jest
       .fn()
       .mockResolvedValueOnce({ id: 'mocked_removed_cart' }),
@@ -30,6 +31,7 @@ function createComposable() {
 
 const factoryParams = {
   addItem: jest.fn(() => null),
+  addLineItems: jest.fn(() => null),
   removeItem: jest.fn(),
   updateItemQty: jest.fn(),
   load: jest.fn(),

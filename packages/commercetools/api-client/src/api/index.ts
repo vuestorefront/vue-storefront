@@ -1,4 +1,5 @@
 export { default as addToCart } from './addToCart';
+export { default as addMultipleToCart } from './addMultipleToCart';
 export { default as applyCartCoupon } from './applyCartCoupon';
 export { default as createCart } from './createCart';
 export { default as createMyOrderFromCart } from './createMyOrderFromCart';

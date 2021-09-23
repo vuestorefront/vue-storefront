@@ -26,6 +26,8 @@ export default {
   'Additional Information': 'Zusätzliche Information',
   'Save for later': 'Für später speichern',
   'Add to compare': 'Hinzufügen zum vergleichen',
+  'Add to cart': 'In den Warenkorb legen',
+  'Add all to cart': 'Alles in den Warenkorb legen',
   'Match it with': 'Kombiniere es mit',
   'Share your look': 'Teile deinen Look',
   'Product description': 'Das Karissa V-Neck Tee hat eine halb taillierte Form schmeichelhaft für jede Figur. Sie können mit ins Fitnessstudio gehen Vertrauen, während es Kurven umarmt und häufiges "Problem" verbirgt Bereiche. Finden Sie atemberaubende Cocktailkleider für Frauen und feiern Sie Kleider.',

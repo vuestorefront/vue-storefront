@@ -14,7 +14,8 @@ function createComposable() {
     clear: jest.fn().mockResolvedValueOnce({ id: 'mocked_cleared_wishlist' }),
     removeItem: jest
       .fn()
-      .mockResolvedValueOnce({ id: 'mocked_removed_wishlist' })
+      .mockResolvedValueOnce({ id: 'mocked_removed_wishlist' }),
+    addAllToCart: jest.fn()
   };
   useWishlist = useWishlistFactory<any, any, any>(params);
 }
@@ -24,7 +25,8 @@ const factoryParams = {
   removeItem: jest.fn(),
   load: jest.fn(),
   clear: jest.fn(),
-  isInWishlist: jest.fn()
+  isInWishlist: jest.fn(),
+  addAllToCart: jest.fn()
 };
 
 const useWishlistMock = useWishlistFactory<any, any, any>(factoryParams);

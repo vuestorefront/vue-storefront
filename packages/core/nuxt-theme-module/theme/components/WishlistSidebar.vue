@@ -44,7 +44,7 @@
                     class="sf-button--text desktop-only"
                     @click.native="addToCart(product)"
                   >
-                    Add to cart
+                    {{ $t('Add to cart') }}
                   </SfButton>
                 </template>
                 <template #input="{}">&nbsp;</template>
@@ -122,7 +122,13 @@ export default {
   },
   setup(props, { root }) {
     const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
-    const { wishlist, removeItem: removeFromWishlist, load: loadWishlist, clear: clearWishlist } = useWishlist();
+    const {
+      wishlist,
+      removeItem: removeFromWishlist,
+      load: loadWishlist,
+      clear: clearWishlist,
+      addAllToCart: addAllToCartFromWishlist
+    } = useWishlist();
     const { isAuthenticated } = useUser();
     const { addItem } = useCart();
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
@@ -142,12 +148,7 @@ export default {
     };
 
     const addAllToCart = async () => {
-      await Promise.all(
-        products.value.map(product => addItem({
-          product: { sku: product.variant.sku },
-          quantity: 1
-        }))
-      );
+      addAllToCartFromWishlist();
       clearWishlist();
     };
 
