@@ -98,3 +98,32 @@ Proxy server started at http://localhost:3030
 
 {"data":{ ... }}
 ```
+
+## Intercepting with [HTTP Toolkit](https://httptoolkit.tech/)
+
+For users prefering GUI tools, we suggest using HTTP Toolkit. It's an easy to setup application that enables intercepting network traffic both on client- and server-side.
+
+### Setting up HTTP Toolkit
+
+HTTP Toolkit can be downloaded from https://httptoolkit.tech/. It's available for Windows, Linux and MacOS.
+
+However, please keep in mind that setting backend interception on Windows might be significantly harder.
+
+Once downloaded (and installed), we can run httptoolkit binary/exec file and configure our app to send the traffic via httptoolkit as a proxy. To do so, let's open HTTP Toolkit "Intercept" tab, and select "Existing Terminal" option. Selecting this option will enable downloading script file that will configure our terminal session and instruct node app to send its traffic via proxy.
+
+<center>
+    <img src="../images/development-and-testing/httptoolkit.gif" alt="Selecting Existing Terminal interception option"/>
+</center>
+
+```shell
+$ . <(curl -sS localhost:8001/setup)
+HTTP Toolkit interception enabled
+```
+
+Then, we can run our application in the same terminal window.
+
+```shell
+$ yarn dev
+```
+
+If everything has worked properly, requests should be now intercepted and visible in "View" tab in HTTP Toolkit.
