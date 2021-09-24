@@ -12,6 +12,8 @@
             :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
             :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+            :is-in-wishlist="isInWishlist({ product })"
+            @click:wishlist="!isInWishlist({ product }) ? addProductToWishlist({ product }) : removeProductFromWishlist(product)"
           />
         </SfCarouselItem>
       </SfCarousel>
@@ -27,13 +29,21 @@ import {
   SfSection,
   SfLoader
 } from '@storefront-ui/vue';
-
-import { productGetters } from '<%= options.generate.replace.composables %>';
+import { computed } from '@vue/composition-api';
+import { useWishlist, productGetters, wishlistGetters } from '<%= options.generate.replace.composables %>';
 
 export default {
   name: 'RelatedProducts',
   setup() {
-    return { productGetters };
+    const { wishlist, addItem: addProductToWishlist, removeItem: removeItemFromWishlist, isInWishlist } = useWishlist();
+    const removeProductFromWishlist = (productItem) => {
+      const productsInWhishlist = computed(() => wishlistGetters.getItems(wishlist.value));
+      if (productsInWhishlist.value) {
+        const product = productsInWhishlist.value.find(wishlistProduct => wishlistProduct.variant.sku === productItem.sku);
+        removeItemFromWishlist({ product });
+      }
+    };
+    return { productGetters, wishlistGetters, addProductToWishlist, removeProductFromWishlist, isInWishlist };
   },
   components: {
     SfCarousel,
