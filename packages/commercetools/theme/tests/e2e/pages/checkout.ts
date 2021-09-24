@@ -22,8 +22,8 @@ class Checkout extends Base {
     return el(`${this.step}-streetName`, 'input');
   }
 
-  get apartment(): Cypress.Chainable {
-    return el(`${this.step}-apartment`, 'input');
+  get streetNumber(): Cypress.Chainable {
+    return el(`${this.step}-streetNumber`, 'input');
   }
 
   get city(): Cypress.Chainable {
@@ -50,9 +50,9 @@ class Checkout extends Base {
     if (address.firstName !== undefined) this.firstName.clear().type(address.firstName);
     if (address.lastName !== undefined) this.lastName.clear().type(address.lastName);
     if (address.streetName !== undefined) this.streetName.clear().type(address.streetName);
-    if (address.apartment !== undefined) {
-      this.apartment.parent().click();
-      this.apartment.clear().type(address.apartment);
+    if (address.streetNumber !== undefined) {
+      this.streetNumber.parent().click();
+      this.streetNumber.clear().type(address.streetNumber);
     }
     if (address.city !== undefined) this.city.clear().type(address.city);
     if (address.country !== undefined) this.country.select(address.country);
@@ -185,10 +185,6 @@ class Payment extends Base {
 class ThankYou {
   get heading(): Cypress.Chainable {
     return el('thank-you-banner', 'h2');
-  }
-
-  get orderNumber(): Cypress.Chainable {
-    return el('order-number');
   }
 }
 

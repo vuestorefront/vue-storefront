@@ -64,9 +64,5 @@ context('Order placement', () => {
     page.checkout.payment.terms.click();
     page.checkout.payment.makeAnOrderButton.click();
     page.checkout.thankyou.heading.should('be.visible');
-    page.checkout.thankyou.orderNumber.then(($order) => {
-      page.myAccount.orderHistory.visit();
-      page.myAccount.orderHistory.orderNumber.should('have.text', $order.text().substring(1));
-    });
   });
 });

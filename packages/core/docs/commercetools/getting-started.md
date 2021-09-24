@@ -1,13 +1,13 @@
 # Getting started
 
 
-## Configuring your Commercetools integration
+## Configuring your commercetools integration
 
-If you [generated your project from our CLI](/general/getting-started.html) your shop will be connected to our demo Commercetools instance.
+If you [generated your project from our CLI](/general/getting-started.html) your shop will be connected to our demo commercetools instance.
 
 If you haven't generated your project just to play with Vue Storefront and understand its capabilities the first thing you should do after setting it up is changing the credentials to point into your instance.
 
-You can generate credentials for Commercetools API in Commercetools Merchant Center by going into:
+You can generate credentials for commercetools API in commercetools Merchant Center by going into:
 
 _Settings > API clients > "Create new api Client"_ and picking _"Mobile & single-page application client"_ template.
 
@@ -27,14 +27,21 @@ Then paste these credentials into `ct` config object inside `integrations` in `m
             //* scopes */
           ]
         },
+        serverApi: {
+          clientId: '<CLIENT_ID>',
+          clientSecret: '<CLIENT_SECRET>',
+          scopes: [
+            //* scopes */
+          ]
+        },
         currency: 'USD',
         country: 'US'
       }
     }
 ```
 
-There is plenty of other configuration options and you can check them [here](./configuration.md)
+There is plenty of other configuration options, and you can check them [here](./configuration.md)
 
 ## Configuring other integrations
 
-Depending on the configuration and if you're using Enterprise version you could have additional integrations to set up. You will find their configurations in `middleware.config.js`
+Depending on the configuration and version of Vue Storefront used, you could have additional integrations to set up. You will find their settings in `middleware.config.js`

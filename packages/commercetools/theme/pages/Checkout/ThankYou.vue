@@ -12,7 +12,7 @@
       <template #description>
         <div class="banner__order-number">
           <span>{{ $t('Order No.') }}</span>
-          <strong v-e2e="'order-number'">{{ order.number }}</strong>
+          <strong>{{ order.number }}</strong>
         </div>
       </template>
     </SfCallToAction>

@@ -10,34 +10,6 @@ export type CreateCartResponse = {
   }
 }
 
-export type CustomerSignMeInResponse = {
-  body: {
-    data: {
-      user: {
-        customer: {
-          firstName: string;
-          lastName: string;
-          email: string;
-        }
-      }
-    }
-  }
-}
-
-export type GetMeResponse = {
-  body: {
-    data: {
-      me: {
-        customer: {
-          firstName: string;
-          lastName: string;
-          email: string;
-        }
-      }
-    }
-  }
-}
-
 export type GetShippingMethodsResponse = {
   body: {
     data: {
@@ -84,24 +56,6 @@ const requests = {
     return cy.request(options);
   },
 
-  customerSignMeIn(customer: Customer): Cypress.Chainable {
-    const options = {
-      url: '/api/ct/customerSignMeIn',
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: [
-        {
-          email: customer.email,
-          password: customer.password
-        }
-      ]
-    };
-    return cy.request(options);
-  },
-
   customerSignMeUp(customer: Customer): Cypress.Chainable {
     const options = {
       url: '/api/ct/customerSignMeUp',
@@ -122,7 +76,7 @@ const requests = {
     return cy.request(options);
   },
 
-  getMe(customer?: boolean): Cypress.Chainable {
+  getMe(): Cypress.Chainable {
     const options = {
       url: '/api/ct/getMe',
       method: 'POST',
@@ -131,7 +85,7 @@ const requests = {
         'Content-Type': 'application/json'
       },
       body: [
-        {customer: customer ?? false}, null
+        {customer: false}, null
       ]
     };
     return cy.request(options);

@@ -2,7 +2,7 @@ import { Billing, Payment, Shipping, ThankYou } from './checkout';
 import Cart from './components/cart-sidebar';
 import LoginModal from './components/login-modal';
 import Home from './home';
-import { MyProfile, OrderHistory } from './my-account';
+import { Sidebar } from './my-account';
 import { Product } from './product';
 import { Category } from './category';
 
@@ -29,8 +29,7 @@ const page = {
 
   get myAccount() {
     return {
-      myProfile: new MyProfile(),
-      orderHistory: new OrderHistory()
+      sidebar: new Sidebar()
     };
   },
 

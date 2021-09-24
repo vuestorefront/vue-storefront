@@ -4,7 +4,6 @@
       <div class="form__horizontal">
         <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
           <SfInput
-            v-e2e="'myaccount-firstName'"
             v-model="form.firstName"
             name="firstName"
             label="First Name"
@@ -15,7 +14,6 @@
         </ValidationProvider>
         <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
           <SfInput
-            v-e2e="'myaccount-lastName'"
             v-model="form.lastName"
             name="lastName"
             label="Last Name"
@@ -27,7 +25,6 @@
       </div>
       <ValidationProvider rules="required|email" v-slot="{ errors }" class="form__element">
         <SfInput
-          v-e2e="'myaccount-email'"
           v-model="form.email"
           type="email"
           name="email"
@@ -37,12 +34,7 @@
           :errorMessage="errors[0]"
         />
       </ValidationProvider>
-      <SfButton
-        v-e2e="'myaccount-update-personal-data-btn'"
-        class="form__button"
-      >
-        {{ $t('Update personal data') }}
-      </SfButton>
+      <SfButton class="form__button">{{ $t('Update personal data') }}</SfButton>
     </form>
   </ValidationObserver>
 </template>

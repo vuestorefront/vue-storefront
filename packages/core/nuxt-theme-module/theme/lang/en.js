@@ -142,14 +142,5 @@ export default {
   'Password': 'Password',
   'Repeat Password': 'Repeat Password',
   'Forgot Password Modal Email': 'Email you are using to sign in:',
-  forgotPasswordConfirmation: 'Thanks! If there is an account registered with the {0} email, you will find message with a password reset link in your inbox.',
-  subscribeToNewsletterModalContent:
-    'After signing up for the newsletter, you will receive special offers and messages from VSF via email. We will not sell or distribute your email to any third party at any time. Please see our {0}.',
-  'Subscribe': 'Subscribe',
-  'Subscribe to newsletter': 'Subscribe to newsletter',
-  'Email address': 'Email address',
-  'I confirm subscription': 'I confirm subscription',
-  'You can unsubscribe at any time': 'You can unsubscribe at any time',
-  'show more': 'show more',
-  'hide': 'hide'
+  forgotPasswordConfirmation: 'Thanks! If there is an account registered with the {0} email, you will find message with a password reset link in your inbox.'
 };

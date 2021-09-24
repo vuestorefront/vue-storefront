@@ -21,6 +21,7 @@ import {
   Address,
   LineItem,
   CategoryQueryResult,
+  CategorySearchResult,
   ProductQueryResult,
   Me,
   CartQueryInterface,
@@ -127,6 +128,7 @@ interface ApiMethods {
   deleteCart ({ id, version }: CartDetails): Promise<CartResponse>;
   getCart (cartId: string): Promise<CartQueryResponse>;
   getCategory (params): Promise<QueryResponse<'categories', CategoryQueryResult>>;
+  categorySearch (params): Promise<QueryResponse<'categorySearch', CategorySearchResult>>;
   getMe (params?: GetMeParams): Promise<{ data: { me: Me } }>;
   getOrders (params): Promise<{ data: { me: Me } }>;
   getProduct (params): Promise<QueryResponse<'products', ProductQueryResult>>;

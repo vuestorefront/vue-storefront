@@ -21,7 +21,7 @@ context(['regression'], 'User registration', () => {
     page.components.loginModal.submitButton.click();
     page.components.loginModal.container.should('not.exist');
     page.home.header.account.click();
-    page.myAccount.myProfile.heading.should('be.visible');
+    page.myAccount.sidebar.heading.should('be.visible');
   });
 
   it('Existing user - should display an error', function () {

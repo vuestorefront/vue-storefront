@@ -9,7 +9,7 @@
  * @packageDocumentation
  */
 
-export { useCache } from './composables/useCache';
+export { default as useCache } from './composables/useCache';
 
 export enum CacheTagPrefix {
   Product = 'P',

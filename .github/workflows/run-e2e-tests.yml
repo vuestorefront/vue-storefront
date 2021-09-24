@@ -40,15 +40,13 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build package
-        run: yarn build:${{ github.event.inputs.package }}
-        env:
-          NUXT_ENV_E2E: true
+      - name: Build tools
+        run: yarn build:${{ github.event.inputs.package }}:tools
 
       - name: Run cypress tests
         uses: cypress-io/github-action@v2.8.2
         with:
-          start: yarn start:${{ github.event.inputs.package }}
+          start: yarn dev:${{ github.event.inputs.package }}
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 180
           command: yarn run test:e2e:${{ github.event.inputs.package }}:hl
