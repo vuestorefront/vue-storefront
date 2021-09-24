@@ -74,16 +74,16 @@
           />
         </ValidationProvider>
         <ValidationProvider
-          name="apartment"
+          name="streetNumber"
           rules="required"
           v-slot="{ errors }"
           slim
         >
           <SfInput
-            v-e2e="'shipping-apartment'"
-            :value="shippingDetails.apartment"
-            @input="apartment => changeShippingDetails('apartment', apartment)"
-            :label="$t('House/Apartment number')"
+            v-e2e="'shipping-streetNumber'"
+            :value="shippingDetails.streetNumber"
+            @input="streetNumber => changeShippingDetails('streetNumber', streetNumber)"
+            label="House number"
             name="apartment"
             class="form__element form__element--half form__element--half-even"
             required
@@ -204,7 +204,7 @@
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
         type="button"
-        @click.native="handleAddNewAddressBtnClick"
+        @click="handleAddNewAddressBtnClick"
       >
         {{ $t('Add new address') }}
       </SfButton>
@@ -228,7 +228,7 @@
             v-e2e="'continue-to-billing'"
             class="form__action-button"
             type="button"
-            @click.native="$router.push(localePath({ name: 'billing' }))"
+            @click="$router.push(localePath({ name: 'billing' }))"
             :disabled="!isShippingMethodStepCompleted || loadingShippingProvider"
           >
             {{ $t('Continue to billing') }}

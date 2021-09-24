@@ -27,9 +27,9 @@ export default {
 };
 ```
 
-> `onSSR` is used to perform an asynchronous request on the server side and convey the received data to the client. You will learn more about it next section.
+> `onSSR` is used to perform an asynchronous request on the server-side and convey the received data to the client. You will learn more about it next section.
 
-For some composables (like `useProduct`) you will need to pass a unique ID as a parameter (it can be a product ID, category ID etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](../core/api-reference/core.html).
+For some composables (like `useProduct`), you will need to pass a unique ID as a parameter (it can be a product ID, category ID, etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](../core/api-reference/core.html).
 
 ## Anatomy of a composable
 
@@ -54,7 +54,7 @@ return { products, search, loading };
 
 ### Using `onSSR` for server-side rendering
 
-By default, Vue Storefront supports conveying server-side data to the client with Nuxt.js 2 where `setup` function is synchronous. Because of that, we can't use asynchronous functions if their results depend on each other (e.g. by loading `products` using `id` of a category that you have to fetch first).
+By default, Vue Storefront supports conveying server-side data to the client with Nuxt.js 2, where `setup` function is synchronous. Because of that, we can't use asynchronous functions if their results depend on each other (e.g., by loading `products` using `id` of a category that you have to fetch first).
 
 To solve this issue, we provide a temporary solution - `onSSR`:
 
@@ -80,9 +80,9 @@ export default {
 };
 ```
 
-`onSSR` accepts a callback where we should call our `search` or `load` method asynchronously. This will change `loading` state to `true`. Once the API call is done, main data object (`products` in this case) will be populated with the result, and `loading` will become `false` again.
+`onSSR` accepts a callback where we should call our `search` or `load` method asynchronously. This will change `loading` state to `true`. Once the API call is done, the main data object (`products` in this case) will be populated with the result, and `loading` will become `false` again.
 
-In the future, Vue 3 will provide an async setup and `onSSR` won't be needed anymore.
+In the future, Vue 3 will provide an async setup, and `onSSR` won't be needed anymore.
 
 ## What composables I can use
 

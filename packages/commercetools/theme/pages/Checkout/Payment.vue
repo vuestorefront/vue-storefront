@@ -9,34 +9,36 @@
     <SfAccordion :open="$t('Shipping address')" class="accordion">
       <SfAccordionItem :header="$t('Shipping address')">
         <div class="accordion__item">
-          <div class="accordion__content">
+          <div v-e2e="'payment-shipping-address'" class="accordion__content">
             <p class="content">
               <span class="content__label" v-if="chosenShippingMethod">{{ chosenShippingMethod.name }}</span><br />
-              {{ shippingDetails.streetName }} {{ shippingDetails.apartment }},
-              {{ shippingDetails.zipCode }}<br />
-              {{ shippingDetails.city }}, {{ shippingDetails.country }}
+              {{ shippingDetails.firstName }} {{ shippingDetails.lastName }}<br />
+              {{ shippingDetails.streetName }} {{ shippingDetails.streetNumber }}<br />
+              {{ shippingDetails.city }}, {{ shippingDetails.state }} {{ shippingDetails.postalCode }}<br />
+              {{ shippingDetails.country }}
             </p>
-            <p class="content">{{ shippingDetails.phoneNumber }}</p>
+            <p class="content">{{ shippingDetails.phone }}</p>
           </div>
           <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 1)">
             {{ $t('Edit') }}
           </SfButton>
         </div>
       </SfAccordionItem>
-      <SfAccordionItem :header="$t('Billing address')">
+      <SfAccordionItem v-e2e="'payment-billing-address-header'" :header="$t('Billing address')">
         <div class="accordion__item">
-          <div class="accordion__content">
+          <div v-e2e="'payment-billing-address'" class="accordion__content">
             <p v-if="billingSameAsShipping" class="content">
               {{ $t('Same as shipping address') }}
             </p>
             <template v-else>
               <p class="content">
                 <span class="content__label">{{ chosenPaymentMethod.label }}</span><br />
-                {{ billingDetails.streetName }} {{ billingDetails.apartment }},
-                {{ billingDetails.zipCode }}<br />
-                {{ billingDetails.city }}, {{ billingDetails.country }}
+                {{ billingDetails.firstName }} {{ billingDetails.lastName }}<br />
+                {{ billingDetails.streetName }} {{ billingDetails.streetNumber }}<br />
+                {{ billingDetails.city }}, {{ billingDetails.state }} {{ billingDetails.postalCode }}<br />
+                {{ billingDetails.country }}
               </p>
-              <p class="content">{{ billingDetails.phoneNumber }}</p>
+              <p class="content">{{ billingDetails.phone }}</p>
             </template>
           </div>
           <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 2)">
@@ -75,18 +77,18 @@
         <SfTableData class="table__image">
           <SfImage :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
         </SfTableData>
-        <SfTableData v-e2e="'product-title-sku'" class="table__data table__description table__data">
+        <SfTableData class="table__data table__description table__data">
           <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
           <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
         </SfTableData>
         <SfTableData
-          class="table__data" v-e2e="'product-attributes'" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
+          class="table__data" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
           :key="key"
         >
           {{ value }}
         </SfTableData>
-        <SfTableData v-e2e="'product-quantity'" class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
-        <SfTableData v-e2e="'product-price'" class="table__data price">
+        <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
+        <SfTableData class="table__data price">
           <SfPrice
             :regular="$n(cartGetters.getItemPrice(product).regular, 'currency')"
             :special="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
@@ -95,7 +97,7 @@
         </SfTableData>
       </SfTableRow>
     </SfTable>
-    <div class="summary">
+    <div v-e2e="'payment-summary'" class="summary">
       <div class="summary__group">
         <div class="summary__total">
           <SfProperty

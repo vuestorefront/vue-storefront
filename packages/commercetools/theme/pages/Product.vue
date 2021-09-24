@@ -72,7 +72,7 @@
               :key="i"
               :color="color.value"
               class="product__color"
-              @click="updateFilter({color})"
+              @click="updateFilter({ color: color.value })"
             />
           </div>
           <SfTabs :open-tab="1" class="product__tabs">

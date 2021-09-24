@@ -1,7 +1,7 @@
 # `useFacet` <Badge text="Enterprise" type="info" />
 
 :::warning
-This feature is a part of our commercial offering but also exists in the Open Source version of our commercetools integration.
+This feature is a part of our commercial offering but also exists in the open-source version of our commercetools integration.
 
 Open Source implementation relies on GraphQL API (internally using `getProduct` and `getCategory` composables), which doesn't provide full faceting capabilities as does the dedicated REST-based faceting API offered in our Enterprise version. Please [contact our Sales team](https://www.vuestorefront.io/contact/sales) if you'd like to get access to it.
 :::
@@ -42,7 +42,7 @@ interface AgnosticFacetSearchParams {
 
 - `loading` - reactive object containing information about the loading state of `search`.
 
-- `error` - reactive object containing the error message, if `search` failed for any reason.
+- `error` - reactive object containing the error message if `search` failed for any reason.
 
 ```ts
 interface UseFacetErrors {

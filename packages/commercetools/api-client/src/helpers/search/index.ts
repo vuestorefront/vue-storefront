@@ -83,7 +83,7 @@ const buildProductWhere = (settings: Config, search: ProductWhereSearch) => {
     predicates.push(`id in ("${search.ids.join('","')}")`);
   }
 
-  return predicates.join(' and ');
+  return predicates.join(' and ') || null;
 };
 
 const buildCategoryWhere = (settings: Config, search: CategoryWhereSearch) => {
@@ -105,6 +105,24 @@ const buildCategoryWhere = (settings: Config, search: CategoryWhereSearch) => {
   return undefined;
 };
 
+const buildCategoryFilter = (settings: Config, filter: CategoryWhereSearch) => {
+  const { acceptLanguage } = settings;
+
+  if (filter?.catId) {
+    return [`id:"${filter.catId}"`];
+  }
+
+  if (filter?.slug) {
+    return [`slug.${acceptLanguage[0]}:"${filter.slug}"`];
+  }
+
+  if (filter?.key) {
+    return [`key:"${filter.key}"`];
+  }
+
+  return undefined;
+};
+
 const buildOrderWhere = (search: OrderWhereSearch): string => {
   if (search?.id) {
     return `id="${search.id}"`;
@@ -120,6 +138,7 @@ const buildOrderWhere = (search: OrderWhereSearch): string => {
 export {
   buildProductWhere,
   buildCategoryWhere,
+  buildCategoryFilter,
   buildOrderWhere,
   buildInventoryEntriesWhere
 };
