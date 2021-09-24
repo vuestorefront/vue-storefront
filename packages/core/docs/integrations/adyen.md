@@ -173,6 +173,7 @@ Klarna requires the customer's email addresses. It will be read from `cart.custo
 :::
 
 :::warning Phone number
+
 If your users provide a phone number, make sure it includes the **area code**. Otherwise, Klarna will throw an error because of the improper phone number format.
 :::
 

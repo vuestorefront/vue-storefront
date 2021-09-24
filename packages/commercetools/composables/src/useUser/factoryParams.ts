@@ -15,6 +15,7 @@ const load = async (context: Context, {customQuery}) => {
   }
 
   const profile = await context.$ct.api.getMe({ customer: true }, customQuery);
+  context.setCart(profile.data.me.activeCart);
   return profile.data.me.customer;
 };
 

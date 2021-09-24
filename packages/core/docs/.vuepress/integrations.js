@@ -311,7 +311,6 @@ const INTEGRATIONS = {
       categories: [ CATEGORIES.SEARCH ],
       compatibility: [ 'commercetools' ]
     },
-
     {
       name: 'Constructor.io',
       link: '',

@@ -50,7 +50,7 @@ context(['regression'], 'Checkout - Billing', () => {
     'First Name',
     'Last Name',
     'Street Name',
-    'Apartment',
+    'Street Number',
     'City',
     'Postal Code',
     'Phone'
