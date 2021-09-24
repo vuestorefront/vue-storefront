@@ -44,7 +44,7 @@ context(['regression'], 'Checkout - Shipping', () => {
     'First Name',
     'Last Name',
     'Street Name',
-    'Street Number',
+    'Apartment',
     'City',
     'Postal Code',
     'Phone'

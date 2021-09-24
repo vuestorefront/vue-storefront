@@ -1,4 +1,4 @@
-# Migrating eCommerce integrations to 2.1.0-rc.1
+# Integrators upgrade notes
 
 
 ## API client functions

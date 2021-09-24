@@ -1,4 +1,4 @@
-# Migrating eCommerce integrations to 2.4.0
+# Migration guide 2.4.0 for Integrators
 
 ## Introduction
 

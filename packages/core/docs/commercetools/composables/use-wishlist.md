@@ -1,15 +1,15 @@
 # `useWishlist` <Badge text="Enterprise" type="info" />
 
-> This feature is a part of our commercial offering and does not exist in the open-source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/enterprise)
+> This feature is a part of our commercial offering and does not exist in Open Source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/enterprise)
 
 ## Features
 
-`useWishlist` composable is responsible for integrating with a wishlist from commercetools. It allows to:
+`useWishlist` composable is responsible, for integrating with wishlist from Commercetools. It allows to:
 
-- fetch products from the wishlist
-- add products to the wishlist
-- remove products from the wishlist
-- check if a product is on the wishlist
+- fetch products from wishlist
+- add products to wishlist
+- remove products from wishlist
+- check if product is on wishlist
 
 ## API
 
@@ -43,7 +43,7 @@
   type Wishlist = ShoppingList;
   ```
 
-- `load` - a function used to retrieve wishlist products. When invoked, it requests data from the API and populates `wishlist` property. This method accepts a single `params` object. The `params` has the following option:
+- `load` - function used to retrieve wishlist products. When invoked, it requests data from the API and populates `wishlist` property. This method accepts a single `params` object. The `params` has the following option:
 
     - `customQuery?: CustomQuery`
     
@@ -53,7 +53,7 @@
       }
       ```
 
-- `addItem` - a function used to add a new product to the wishlist. When invoked, it submits data to the API and populates `wishlist` property with updated information. This method accepts a single `params` object. The `params` has the following options:
+- `addItem` - function used to add new product to wishlist. When invoked, it submits data to the API and populates `wishlist` property with updated information. This method accepts a single `params` object. The `params` has the following options:
 
     - `product: ProductVariant`
     
@@ -80,7 +80,7 @@
       }
       ```
 
-- `removeItem` - a function that removes products from the wishlist. It submits data to the API and populates the updated `wishlist` property. This method accepts a single `params` object. The `params` has the following options:
+- `removeItem` - function that removes products from the wishlist. It submits data to the API and populates updated `wishlist` property. This method accepts a single `params` object. The `params` has the following options:
 
   - `product: LineItem`
 
@@ -123,9 +123,9 @@
     }
     ```
 
-- `clear` - a function that removes all products from the wishlist and populates clear `wishlist` property.
+- `clear` - function that removes all products from the wishlist and populates clear `wishlist` property.
 
-- `isInWishlist` - a function that checks if a product is on the wishlist. It returns boolean value. This method accepts a single `params` object. The `params` has the following option:
+- `isInWishlist` - function that checks if product is on the wishlist. It returns boolean value. This method accepts a single `params` object. The `params` has the following option:
 
   - `product: ProductVariant`
   
@@ -161,15 +161,15 @@
 
 ## Getters
 
-- `getItems` - returns list of products on the wishlist
+- `getItems` - returns list of products on wishlist
 
-- `getItemName` - returns product's name from the wishlist.
+- `getItemName` - returns product's name from wishlist.
 
-- `getItemImage` - returns product's image from the wishlist.
+- `getItemImage` - returns product's image from wishlist.
 
-- `getItemPrice` - returns product's price from the wishlist.
+- `getItemPrice` - returns product's price from wishlist.
 
-- `getItemQty` - returns a quantity of product which is on the wishlist.
+- `getItemQty` - returns quantity of product which is on wishlist.
 
 - `getItemAttributes` - returns product variant attribute chosen by its name.
 
@@ -177,9 +177,9 @@
 
 - `getTotals` - returns price of products.
 
-- `getTotalItems` - returns an amount of all items that are currently on the wishlist.
+- `getTotalItems` - returns amount of all items that are currently on wishlist.
 
-- `getFormattedPrice` - returns price in a formatted manner, taking into account local specifics.
+- `getFormattedPrice` - returns price in formatted manner taking into account local specifics.
 
   ```typescript
   interface WishlistGetters {

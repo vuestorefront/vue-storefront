@@ -1,53 +1,39 @@
-const { compile } = require('handlebars');
-const { readFileSync, writeFileSync, unlinkSync, readdirSync } = require('fs');
+const fs = require('fs');
 
-// Load changelog template files
-const templates = {
-  version: readFileSync('./templates/version.hbs', 'utf8'),
-  change: readFileSync('./templates/change.hbs', 'utf8')
+const commandArgs = process.argv.slice(2);
+
+const getCliArgument = (name, number) => {
+  return commandArgs[commandArgs.findIndex(arg => arg === name) + number];
 };
 
-// Get arguments passed to the script
-const commandArgs = process.argv.slice(2);
-const getCliArgument = name => commandArgs[commandArgs.findIndex(arg => arg === name) + 1];
-const version = getCliArgument('--v');
-const pathIn = getCliArgument('--in');
-const pathOut = getCliArgument('--out');
+const releaseVersion = getCliArgument('--v', 1);
 
-// Get names of all files in the source directory
-const fileName = readdirSync(pathIn);
+const pathIn = getCliArgument('--in', 0) ? getCliArgument('--in', 1) : '../changelog';
 
-// Extract IDs of the pull requests from file names
-const pullRequestIds = fileName.map(el => el.substr(0, el.lastIndexOf('.')));
+const pathOut = getCliArgument('--out', 0) ? getCliArgument('--out', 1) : '../contributing/changelog.md';
 
-// Map PRs into Markdown templates
-const changes = fileName
-  // eslint-disable-next-line global-require
-  .map(el => require(`${pathIn}/${el}`))
-  .map((pullRequest, index) => {
-    return compile(templates.change)({
-      ...pullRequest,
-      prNumber: pullRequestIds[index]
-    });
-  })
-  .join('')
-  .trim();
+const prNumbers = fs.readdirSync(pathIn);
 
-// Load changelog file
-const changelog = readFileSync(pathOut, 'utf8').split('\n');
+const numberOfPR = prNumbers.map(el => el.substr(0, el.lastIndexOf('.')));
 
-// Check if version already exists
-const versionLineNumber = changelog
-  .map(el => el.indexOf(version))
+const finalData = prNumbers.map(el => require(`${pathIn}/${el}`)).map((el, i) => `
+- ${el.isBreaking ? '[BREAKING]' : ''} ${el.description} ([#${numberOfPR[i]}](${el.link})) - [${el.author}](${el.linkToGitHubAccount})
+${el.isBreaking ? `
+| Before | After | Comment | Module 
+| ------ | ----- | ------ | ------` +
+el.breakingChanges.map(br => '\n' + br.before + ' | ' + br.after + ' | ' + br.comment + ' | ' + br.module) : ''}`);
+
+const changelogData = fs.readFileSync(pathOut).toString().split('\n');
+
+const versionExists = changelogData
+  .map(el => el.indexOf(releaseVersion))
   .findIndex(el => el > -1);
 
-// Update changelog file
-versionLineNumber > -1
-  ? changelog.splice(versionLineNumber + 2, 0, changes)
-  : changelog.splice(2, 0, compile(templates.version)({ version, changes }));
+changelogData.splice(versionExists > -1 ? versionExists + 1 : 1, 0, versionExists > -1 ? finalData : '\n## ' + releaseVersion + '\n' + finalData);
+const text = changelogData.join('\n');
 
-// Write updated changelog file
-writeFileSync(pathOut, changelog.join('\n'));
+fs.writeFile(pathOut, text, (err) => {
+  if (err) return err;
+});
 
-// Delete files from source directory
-fileName.map(el => unlinkSync(`${pathIn}/${el}`));
+prNumbers.map(el => fs.unlinkSync(`${pathIn}/${el}`));

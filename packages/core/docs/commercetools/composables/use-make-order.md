@@ -77,7 +77,7 @@
   };
   ```
 
-- `loading: boolean` - a reactive object containing information about the loading state of your `make` method.
+- `loading: boolean` - a reactive object containing information about loading state of your `make` method.
 
 - `error: UseMakeOrderErrors` - a reactive object containing the error message, if `load` or `save` failed for any reason.
 

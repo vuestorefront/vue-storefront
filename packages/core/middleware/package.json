@@ -1,12 +1,13 @@
 {
   "name": "@vue-storefront/middleware",
-  "version": "2.4.2",
+  "version": "2.4.1",
   "description": "",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c",
+    "test": "jest",
     "prepublish": "yarn build"
   },
   "author": "Vue Storefront",

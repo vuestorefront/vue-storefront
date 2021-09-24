@@ -1,8 +1,8 @@
 # Context API
 
-The application context is essential when it comes to sharing data across the app. It stores a runtime config, current connection to the API, API tokens, user session, and everything else related to the current request.
+The application context is essential when it comes to sharing something across the app. A runtime config, current connection to the API, API tokens, user session, and everything else that's related to the current request should be stored within the context.
 
-The common solution that may come to your mind is using one global object to store everything. However, by doing this, you would share data across all incoming requests. That would cause issues such as session leaks.
+The common solution that may come to your mind in such a case is using one global object to store everything you need in the app. However, by doing this you would be sharing data not only over the app but also across all of the incoming requests. That would cause lots of issues and your app won't be able to handle ordinary traffic.
 
 ## Context data structure
 
@@ -39,7 +39,7 @@ $other.client.get('/othet-integration');
 
 ## Context plugin
 
-If you don't want to use integration Nuxt modules, you have to configure the integration yourself. For that purpose, each integration exposes an integration plugin:
+If for some reason you don't want to use integration Nuxt modules, you have to configure the integration by yourself. For that purpose, each integration exposes an integration plugin:
 
 ```js
 // plugins/integration.js
@@ -52,7 +52,7 @@ export default integrationPlugin(({ app, integration }) => {
 });
 ```
 
-Each integration has a predefined set of API functions that sometimes you may want to override. A `configure` function gives you that ability as well. When you pass your new API function or use the name of an existing one, the Vue Storefront will automatically apply it to the app.
+Each integration has a predefined set of API functions, that sometimes you may want to override. A `configure` function gives you that ability as well. When you pass your new API function, or use a name of the existing one, the Vue Storefront will automatically apply it to the app.
 
 ```js
 // plugins/integration.js

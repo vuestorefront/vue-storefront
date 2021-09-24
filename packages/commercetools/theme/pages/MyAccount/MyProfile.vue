@@ -19,7 +19,12 @@
       <p class="message">
         {{ $t('Change password your account') }}:<br />
         {{ $t('Your current email address is') }}
-        <span class="message__label">{{currentEmail}}</span>
+        <span
+          v-e2e="'myaccount-message-email'"
+          class="message__label"
+        >
+          {{currentEmail}}
+        </span>
       </p>
 
       <PasswordResetForm @submit="updatePassword" />

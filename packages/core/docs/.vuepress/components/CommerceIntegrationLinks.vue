@@ -4,7 +4,7 @@
       <CommerceIntegrationLink 
         :url="commercetools"
         :wipValue="WIP"
-        label="commercetools"
+        label="Commercetools"
       />
     </li>
     <li>

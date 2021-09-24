@@ -1,4 +1,4 @@
-# Integrating CMS platform
+# Integrating CMS
 
 ::: warning Want to build an integration?
 If you want to integrate with Vue Storefront, don't hesitate to get in touch with the core team on our [Discord](https://discord.vuestorefront.io/) server. We are eager to help you to ensure its high quality and maybe even officially recommend it 😉
@@ -10,7 +10,7 @@ Here are the things that are expected from CMS integration:
 
 ### Configuration
 
-This part is usually either using CMS JavaScript SDK under the hood or calls the API directly. The configuration should contain at least the API endpoint and credentials.
+This part is usually either using CMS JavaScript SDK under the hood or calls the API directly. Config should contain at least the API endpoint and credentials.
 
 - a configuration via `setup` method for non-Nuxt apps
 ```js
@@ -32,7 +32,7 @@ Another (and the most important) thing that we need is a composable to fetch the
 const { search, content, loading, error } = useContent()
 ```
 
-To create this composable, you should use `useContentFactory` from Vue Storefront core.
+To create this composable you should use `useContentFactory` from Vue Storefront core.
 
 ```ts
 // integration
@@ -51,13 +51,13 @@ The factory will output a composable fulfilling our interfaces. That's all you h
 
 ### Content rendering (optional)
 
-Many CMS systems allow controlling the page layout by returning a list of components as a JSON file. These components are then rendered in the application. The component that is mapping the `content` object into Vue components and renders them is called `RenderContent`.
+Many CMS systems allow to control the page layout by returning a list of components as a JSON file. These components are then rendered in the application. The component that is mapping the `content` object into Vue components and renders them is called `RenderContent`.
 
 ```html
 <RenderContent :content="content">
 ```
 
-Now you need to prepare the particular structure for your components. Create the `extractComponents` function that will filter or modify all the metadata and return the component name along with props. Follow the example.   
+Now you need to prepare special structure for your components. Create the `extractComponents` function that will filter or modify all the metadata and return component name along with props. Follow the exampole.   
 
 ```typescript
 function extractComponents(response: ResponseFromYourCMS) {
@@ -69,7 +69,7 @@ function extractComponents(response: ResponseFromYourCMS) {
 }
 ```
 
-Pass it to the `RenderContent` component as a `content` prop. To register components, use computed value.
+Pass it to the `RenderContent` component as a `content` prop. To register components use computed value.
 
 ```vue
 <!-- inside the RenderContent.vue component -->
@@ -92,8 +92,7 @@ export default ({
 </script>
 ```
 
-Inside your application, you'll also need to register the UI components 
-to render.
+Inside your application you'll also need to register your UI components that willing to render.
 
 ## Usage example in the real application
 

@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          ref: develop
 
       - name: Setup node
         uses: actions/setup-node@v2
@@ -30,13 +32,15 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build tools
-        run: yarn build:${{ matrix.package }}:tools
+      - name: Build package
+        run: yarn build:${{ matrix.package }}
+        env:
+          NUXT_ENV_E2E: true
 
       - name: Run cypress tests
         uses: cypress-io/github-action@v2.8.2
         with:
-          start: yarn dev:${{ matrix.package }}
+          start: yarn start:${{ matrix.package }}
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 180
           command: yarn run test:e2e:${{ matrix.package }}:hl

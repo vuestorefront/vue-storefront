@@ -16,7 +16,7 @@
         >
         <span
           >{{ userBillingGetters.getStreetName(billingAddress) }}
-          {{ userBillingGetters.getStreetNumber(billingAddress) }}</span
+          {{ userBillingGetters.getApartmentNumber(billingAddress) }}</span
         >
         <span>{{ userBillingGetters.getPostCode(billingAddress) }}</span>
         <span
