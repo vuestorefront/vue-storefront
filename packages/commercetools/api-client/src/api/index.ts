@@ -10,7 +10,6 @@ export { default as customerUpdateMe } from './customerUpdateMe';
 export { default as deleteCart } from './deleteCart';
 export { default as getCart } from './getCart';
 export { default as getCategory } from './getCategory';
-export { default as categorySearch } from './categorySearch';
 export { default as getMe } from './getMe';
 export { default as getOrders } from './getOrders';
 export { default as getProduct } from './getProduct';

@@ -27,13 +27,6 @@ Then paste these credentials into `ct` config object inside `integrations` in `m
             //* scopes */
           ]
         },
-        serverApi: {
-          clientId: '<CLIENT_ID>',
-          clientSecret: '<CLIENT_SECRET>',
-          scopes: [
-            //* scopes */
-          ]
-        },
         currency: 'USD',
         country: 'US'
       }

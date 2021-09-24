@@ -1,15 +1,5 @@
 # Changelog
 
-## 1.3.2
-
-- **[BREAKING]** Fix loading user and cart information ([6265](https://github.com/vuestorefront/vue-storefront/pull/6265/)) - [Filip Sobol](https://github.com/filipsobol)
-
-  | Before | After | Comment | Module |
-  | ------ | ----- | ------- | ------ |
-  | &amp;#x60;loadUser&amp;#x60; was called directly inside &amp;#x60;setup&amp;#x60; method in &amp;#x60;CartSidebar.vue&amp;#x60; component | &amp;#x60;loadUser&amp;#x60; is called inside &amp;#x60;onSSR&amp;#x60; callback in &amp;#x60;CartSidebar.vue&amp;#x60; component | Calling &amp;#x60;loadUser&amp;#x60; directly inside &amp;#x60;setup&amp;#x60; method caused hydration issues, since cart information was not properly loaded during SSR. Additionally cart will now be automatically updated after calling &amp;#x60;load&amp;#x60; from the &amp;#x60;useUser&amp;#x60; composable, the same way as it happens when calling &amp;#x60;logIn&amp;#x60;, &amp;#x60;logOut&amp;#x60; and &amp;#x60;register&amp;#x60;. | commercetools theme |
-
-- Add server-specific API client ([6321](https://github.com/vuestorefront/vue-storefront/pull/6321)) - [Filip Sobol](https://github.com/filipsobol)
-
 ## 1.3.1
 
 -  Revert changes to Webpack configuration and Google font loading ([#6203](https://github.com/vuestorefront/vue-storefront/pull/6203)) - [Filip Sobol](https://github.com/filipsobol)
