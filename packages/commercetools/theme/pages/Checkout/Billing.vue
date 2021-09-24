@@ -211,7 +211,7 @@
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
         type="button"
-        @click.native="handleAddNewAddressBtnClick"
+        @click="handleAddNewAddressBtnClick"
       >
         {{ $t('Add new address') }}
       </SfButton>

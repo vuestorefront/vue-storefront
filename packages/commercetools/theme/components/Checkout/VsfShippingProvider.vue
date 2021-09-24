@@ -25,7 +25,7 @@
             :label="method.name"
             :value="method.id"
             :selected="selectedShippingMethod && selectedShippingMethod.shippingMethod && selectedShippingMethod.shippingMethod.id"
-            @input="selectShippingMethod(method)"
+            @change="selectShippingMethod(method)"
             name="shippingMethod"
             :description="method.localizedDescription"
             class="form__radio shipping"

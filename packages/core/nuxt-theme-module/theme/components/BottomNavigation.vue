@@ -1,13 +1,11 @@
 <template>
 <!-- TODO: create logic with isActive prop for BottomNavigationItems -->
   <SfBottomNavigation class="navigation-bottom smartphone-only">
-    <nuxt-link to="/">
       <SfBottomNavigationItem
         :class="$route.path == '/' ? 'sf-bottom-navigation__item--active' : ''"
         icon="home" size="20px" label="Home"
-        @click="isMobileMenuOpen ? toggleMobileMenu() : false"
+        @click="handleHomeClick"
       />
-    </nuxt-link>
     <SfBottomNavigationItem icon="menu" size="20px" label="Menu" @click="toggleMobileMenu"/>
     <SfBottomNavigationItem icon="heart" size="20px" label="Wishlist" @click="toggleWishlistSidebar"/>
     <SfBottomNavigationItem icon="profile" size="20px" label="Account" @click="handleAccountClick"/>
@@ -53,12 +51,18 @@ export default {
       toggleLoginModal();
     };
 
+    const handleHomeClick = () => {
+      isMobileMenuOpen.value ? toggleMobileMenu() : false;
+      root.$router.push('/');
+    };
+
     return {
       isMobileMenuOpen,
       toggleWishlistSidebar,
       toggleCartSidebar,
       toggleMobileMenu,
-      handleAccountClick
+      handleAccountClick,
+      handleHomeClick
     };
   }
 };
