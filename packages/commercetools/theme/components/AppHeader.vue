@@ -97,7 +97,6 @@
 <script>
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
-import { onSSR } from '@vue-storefront/core';
 import { useCart, useUser, cartGetters } from '@vue-storefront/commercetools';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
 import { useUiHelpers } from '~/composables';
@@ -132,7 +131,7 @@ export default {
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, isMobileMenuOpen } = useUiState();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load: loadUser } = useUser();
-    const { cart, load: loadCart } = useCart();
+    const { cart } = useCart();
     const term = ref(getFacetsFromURL().phrase);
     const isSearchOpen = ref(false);
     const searchBarRef = ref(null);
@@ -146,10 +145,7 @@ export default {
 
     const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
 
-    onSSR(async () => {
-      await loadUser();
-      await loadCart();
-    });
+    loadUser();
 
     // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
     const handleAccountClick = async () => {

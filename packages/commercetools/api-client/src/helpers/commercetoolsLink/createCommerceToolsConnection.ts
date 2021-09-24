@@ -1,5 +1,6 @@
 import { Config } from '../../types/setup';
 import { Logger } from '@vue-storefront/core';
+import { getAccessToken } from '../utils';
 import { createHttpLink } from 'apollo-link-http';
 import { createErrorHandler } from './graphqlError';
 import { setContext } from 'apollo-link-context';
@@ -11,6 +12,8 @@ import { createAuthClient, createTokenProvider } from './authHelpers';
 
 export const createCommerceToolsConnection = (settings: Config): any => {
   let currentToken: any = settings.auth.onTokenRead();
+  Logger.debug('createCommerceToolsConnection', getAccessToken(currentToken));
+
   const sdkAuth = createAuthClient(settings.api);
   const tokenProvider = createTokenProvider(settings, { sdkAuth, currentToken });
   const httpLink = createHttpLink({ uri: settings.api.uri, fetch });
@@ -18,14 +21,8 @@ export const createCommerceToolsConnection = (settings: Config): any => {
 
   const authLinkBefore = setContext(async (apolloReq, { headers }) => {
     Logger.debug('Apollo authLinkBefore', apolloReq.operationName);
-
-    currentToken = await handleBeforeAuth({
-      settings,
-      sdkAuth,
-      tokenProvider,
-      apolloReq,
-      currentToken
-    });
+    currentToken = await handleBeforeAuth({ sdkAuth, tokenProvider, apolloReq, currentToken });
+    Logger.debug('Apollo authLinkBefore, finished, generated token: ', getAccessToken(currentToken));
 
     return {
       headers: {
@@ -50,16 +47,11 @@ export const createCommerceToolsConnection = (settings: Config): any => {
   });
 
   const errorRetry = new RetryLink({
-    attempts: handleRetry({ settings, tokenProvider }),
+    attempts: handleRetry({ tokenProvider }),
     delay: () => 0
   });
 
-  const apolloLink = ApolloLink.from([
-    onErrorLink,
-    errorRetry,
-    authLinkBefore,
-    authLinkAfter.concat(httpLink)
-  ]);
+  const apolloLink = ApolloLink.from([onErrorLink, errorRetry, authLinkBefore, authLinkAfter.concat(httpLink)]);
 
   return {
     apolloLink,

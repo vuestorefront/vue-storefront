@@ -6,7 +6,7 @@
 
 ## API
 
-- `search` - the main querying function used to query categories from the eCommerce platform and populate the `categories` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object. The `params` has the following options:
+- `search` - a main querying function that is used to query categories from eCommerce platform and populate the `categories` object with the result. Every time you invoke this function API request is made. This method accepts a single `params` object. The `params` has the following options:
 
     - `searchParams`
       
@@ -21,7 +21,7 @@
       }
       ```
 
-- `categories: Category[]` - the main data object that contains an array of categories fetched by `search` method.
+- `categories: Category[]` - a main data object that contains an array of categories fetched by `search` method.
 
   ```ts
   type Category = {
@@ -60,7 +60,7 @@
   }
   ```
 
-- `loading: boolean` - a reactive object containing information about the loading state of your `search` method.
+- `loading: boolean` - a reactive object containing information about loading state of your `search` method.
 
 - `error: UseCategoryErrors` - reactive object containing the error message, if `search` failed for any reason.
 

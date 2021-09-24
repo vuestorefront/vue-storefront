@@ -2,11 +2,11 @@
 
 > Vue Storefront Enterprise is currently available only for commercetools
 
-Vue Storefront Enterprise is a commercial offering from the Vue Storefront core team built on top of the open-source product. Its goal is to give you all the tools you need to launch your shop and provide you with ready-to-use integrations that will reduce your project's development time and cost.
+Vue Storefront Enterprise is a commercial offering from the Vue Storefront core team built on top of the Open Source product. Its goal is to give you all the tools you need to launch your shop and provide you with ready-to-use integrations that will reduce the development time and cost of your project.
 
 ## Differences between Open Source and Enterprise versions
 
-In Enterprise Edition you're getting everything that's in our open-source version. On top of that, we also provide:
+In Enterprise Edition you're getting everything that's in our Open Source. On top of that we also provide:
 
 - access to [Vue Storefront Cloud](https://www.vuestorefront.io/cloud);
 - additional [integrations](./integrations/) with third-party services;

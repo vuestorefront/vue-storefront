@@ -18,11 +18,6 @@ module.exports = {
   base: '/v2/',
 
   /**
-   * Ref: https://vuepress.vuejs.org/config/#shouldprefetch
-   */
-  shouldPrefetch: () => false,
-
-  /**
    * Ref：https://v1.vuepress.vuejs.org/config/#head
    */
   head: [
@@ -94,13 +89,63 @@ module.exports = {
     docsBranch: 'release/next',
     editLinkText: 'Edit this page',
     logo: 'https://camo.githubusercontent.com/48c886ac0703e3a46bc0ec963e20f126337229fc/68747470733a2f2f643968687267346d6e767a6f772e636c6f756466726f6e742e6e65742f7777772e76756573746f726566726f6e742e696f2f32383062313964302d6c6f676f2d76735f3062793032633062793032633030303030302e6a7067',
-    sidebarDepth: 0,
     nav: [
-      { text: 'Home', link: '/' },
+      { text: 'Integrations', link: '/integrations/' },
+      { text: 'Migration guide', link: '/migrate/' },
       { text: 'Demo', link: 'https://demo-ct.vuestorefront.io' },
       { text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437' }
     ],
     sidebar: {
+      '/migrate/': [
+        {
+					title: 'Migration guide 2.4.0',
+					children: [
+						['/migrate/2.4.0/overview', 'Overview'],
+						['/migrate/2.4.0/integrators', 'Integrators'],
+						['/migrate/2.4.0/commercetools', 'commercetools']
+					]
+				},
+        {
+          title: 'Migration guide 2.3.0',
+          children: [
+            ['/migrate/2.3.0/overview', 'Overview'],
+            ['/migrate/2.3.0/integrators', 'Integrators'],
+            ['/migrate/2.3.0/commercetools', 'commercetools']
+          ]
+        },
+        {
+          title: 'Migration guide 2.3.0-rc.3',
+          children: [
+            ['/migrate/2.3.0-rc.3/overview', 'Overview'],
+            ['/migrate/2.3.0-rc.3/integrators', 'Integrators'],
+            ['/migrate/2.3.0-rc.3/commercetools', 'commercetools']
+          ]
+        },
+        {
+          title: 'Migration guide 2.3.0-rc.2',
+          children: [
+            ['/migrate/2.3.0-rc.2/overview', 'Overview'],
+            ['/migrate/2.3.0-rc.2/integrators', 'Integrators'],
+            ['/migrate/2.3.0-rc.2/commercetools', 'commercetools']
+          ]
+        },
+        {
+          title: 'Migration guide 2.2.0',
+          children: [
+            ['/migrate/2.2.0/overview', 'Overview'],
+            ['/migrate/2.2.0/integrators', 'Integrators'],
+            ['/migrate/2.2.0/projects', 'Projects']
+          ]
+        },
+        {
+          title: 'Migration guide 2.1.0-rc.1',
+          children: [
+            ['/migrate/2.1.0-rc.1/overview', 'Overview'],
+            ['/migrate/2.1.0-rc.1/integrators', 'Integrators'],
+            ['/migrate/2.1.0-rc.1/projects', 'Projects']
+          ]
+        }
+      ],
       '/commercetools/': [
         {
           title: 'Essentials',
@@ -112,23 +157,12 @@ module.exports = {
             ['/commercetools/authorization-strategy', 'Authorization'],
             ['/enterprise/feature-list', 'Feature list'],
             ['/commercetools/maintainers', 'Maintainers and support'],
-          ]
-        },
-        {
-          title: 'How-to guides',
-          collapsable: true,
-          children: [
-            ['/commercetools/guide/authentication', 'Authentication'],
-            ['/commercetools/guide/cart', 'Cart'],
-            ['/commercetools/guide/checkout', 'Checkout'],
-            ['/commercetools/guide/product-catalog', 'Product catalog'],
-            ['/commercetools/guide/user-profile', 'User profile'],
-            ['/commercetools/guide/wishlist', 'Wishlist'],
+            ['/commercetools/changelog', 'Changelog']
           ]
         },
         {
           title: 'Composables',
-          collapsable: true,
+          collapsable: false,
           children: [
             ['/commercetools/composables/use-billing', 'useBilling'],
             ['/commercetools/composables/use-cart', 'useCart'],
@@ -149,162 +183,96 @@ module.exports = {
           ]
         },
         {
+          title: 'API Reference',
+          collapsable: false,
+          children: [
+            ['/commercetools/api-reference/', 'API Reference']
+          ]
+        },
+        {
+          title: 'Extensions',
+          collapsable: false,
+          children: [
+            ['/commercetools/extensions/user-groups', 'User groups']
+          ]
+        },
+        {
           title: 'Theme',
-          collapsable: true,
+          collapsable: false,
           children: [
             ['/commercetools/auth-middleware', 'Auth Middleware']
           ]
-        },
-        {
-          title: 'Reference',
-          collapsable: true,
-          children: [
-            ['/commercetools/api-reference/', 'API Reference'],
-            ['/commercetools/migrate/', 'Migration guide'],
-            ['/commercetools/changelog', 'Changelog']
-          ]
-        }
-      ],
-      '/shopify/': [
-        {
-            title: 'Essentials',
-            collapsable: false,
-            children: [
-                ['/shopify/', 'Introduction'],
-                ['/shopify/getting-started', 'Getting Started'],
-                ['/shopify/configuration', 'Configuration'],
-                ['/shopify/authorization-strategy', 'Authorization'],
-                ['/shopify/feature-list', 'Feature list'],
-                ['/shopify/maintainers', 'Maintainers and support']
-            ]
-        },
-        {
-            title: 'Composables',
-            collapsable: false,
-            children: [
-                ['/shopify/use-product', 'useProduct'],
-                ['/shopify/use-user', 'useUser'],
-                ['/shopify/use-user-order', 'useUserOrder'],
-                ['/shopify/use-cart', 'useCart'],
-                ['/shopify/use-category', 'useCategory'],
-                ['/shopify/use-content', 'useContent'],
-                ['/shopify/use-search', 'useSearch'],
-            ]
-        },
-        {
-            title: 'API Client',
-            collapsable: false,
-            children: [
-                ['/shopify/api-client-reference', 'Methods reference']
-            ]
-        },
-        {
-            title: 'Theme',
-            collapsable: false,
-            children: [
-                ['/shopify/auth-middleware', 'Auth Middleware']
-            ],
-        },
-        {
-            title: 'Other',
-            collapsable: false,
-            children: [
-                ['/shopify/checkout', 'Checkout']
-            ],
         }
       ],
       '/': [
         {
-          title: '',
-          collapsable: false,
-          children: [
-            ['/', '👋 Meet Vue Storefront'],
-            ['/general/installation', '💻 Installation'],
-            ['/integrations/', '🔌 Integrations'],
-            ['/general/enterprise', '🚀 Enterprise'],
-            ['/general/support', '🙋 Support'],
-          ]
-        },
-        {
           title: 'Getting started',
           collapsable: false,
           children: [
+            ['/', 'Introduction'],
+            ['/general/where-to-start', 'Where to start?'],
+            ['/general/installation', 'Installation'],
             ['/general/key-concepts', 'Key concepts'],
+            ['/general/enterprise', 'Enterprise'],
+            ['/general/support', 'Support']
+          ]
+        },
+        {
+          title: 'Guides',
+          collapsable: false,
+          children: [
             ['/guide/theme', 'Theme'],
             ['/guide/configuration', 'Configuration'],
-            ['/advanced/internationalization', 'Internationalization'],
-            ['/advanced/logging', 'Logging'],
-            // ['/', 'Glossary']
-          ]
-        },
-        {
-          title: 'Composition',
-          collapsable: true,
-          children: [
             ['/guide/composition-api', 'Composition API'],
             ['/guide/composables', 'Composables'],
-            ['/guide/getters', 'Getters'],
             ['/guide/error-handling', 'Error Handling'],
-            ['/advanced/creating-custom-composables', 'Creating custom composables'],
-            ['/advanced/extending-graphql-queries', 'Extending GraphQL queries']
+            ['/guide/getters', 'Getters'],
+            ['/guide/product-catalog', 'Product Catalog'],
+            ['/guide/authentication', 'Authentication'],
+            ['/guide/user-profile', 'User profile'],
+            ['/guide/cart-and-wishlist', 'Cart and wishlist'],
+            ['/guide/checkout', 'Checkout']
           ]
         },
         {
-          title: 'Architecture',
-          collapsable: true,
+          title: 'Advanced',
+          collapsable: false,
           children: [
-            ['/advanced/architecture', 'Architecture basics'],
+            ['/advanced/architecture', 'Architecture'],
             ['/advanced/context', 'Application Context'],
             ['/advanced/calling-platform-api', 'Calling Platform API'],
-            ['/advanced/server-middleware', 'Server Middleware']
+            ['/advanced/creating-custom-composable', 'Creating custom composable'],
+            ['/advanced/extending-graphql-queries', 'Extending GraphQL queries'],
+            ['/advanced/server-middleware', 'Server Middleware'],
+            ['/advanced/internationalization', 'Internationalization'],
+            ['/advanced/performance', 'Performance'],
+            ['/advanced/ssr-cache', 'SSR Cache'],
+            ['/advanced/logging', 'Logging'],
+            ['/core/api-reference/', 'API Reference']
           ]
         },
         {
-          title: 'Extending Vue Storefront',
+          title: 'Building integration',
           collapsable: true,
           children: [
-            ['/integrate/extending-vue-storefront', 'Extending Vue Storefront'],
-            ['/integrate/extending-integrations', 'Extending integrations'],
-            ['/integrate/integration-guide', 'Integrating eCommerce platform'],
-            ['/integrate/cms', 'Integrating CMS platform'],
-            ['/integrate/cache-driver', 'Integrating cache driver']
-          ]
-        },
-        {
-          title: 'Performance',
-          collapsable: true,
-          children: [
-            ['/advanced/performance', 'Performance basics'],
-            ['/advanced/ssr-cache', 'SSR cache']
-          ]
-        },
-        // {
-        //   title: 'Deployment',
-        //   collapsable: true,
-        //   children: [
-        //     ['/', 'Deyploment basics'],
-        //     ['/', 'Continuous Integration (CI)'],
-        //     ['/', 'End-to-End testing (E2E)']
-        //   ]
-        // },
-        {
-          title: 'Reference',
-          collapsable: true,
-          children: [
-            ['/core/api-reference/', 'API Reference'],
-            ['/migrate/', 'Migration guide'],
-            ['/contributing/changelog', 'Changelog']
+						['/integrate/boilerplate', 'Using the boilerplate'],
+						['/integrate/integration-guide', 'eCommerce'],
+						['/integrate/cms', 'CMS'],
+						['/integrate/cache-driver', 'Cache driver'],
+						['/integrate/checklist', 'Integration Checklist'],
+						['/integrate/good-practices', 'Good Practices']
           ]
         },
         {
           title: 'Contributing',
           collapsable: true,
           children: [
-            ['/contributing/', 'Contribution basics'],
+            ['/contributing/', 'Contributing'],
             ['/contributing/api-design-philosophy', 'Rules and conventions'],
             ['/contributing/creating-changelog', 'Creating changelog'],
             ['/contributing/themes', 'Working with themes'],
-            ['/contributing/server-side-rendering', 'Server-side rendering']
+            ['/contributing/server-side-rendering', 'Server-side rendering'],
+            ['/contributing/changelog', 'Core Changelog']
           ]
         }
       ]

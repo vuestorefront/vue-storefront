@@ -4,11 +4,11 @@
 The application does not reload automatically after saving the changes in Server Middleware. Due to this, you have to restart the application manually. We are working on enabling Hot Reloading in future updates.
 :::
 
-If your integration uses GraphQL API, you may want to change the default query or mutation sent. That's quite a common case for fetching additional or custom fields. Vue Storefront provides the mechanism for this called "custom queries".
+If your integration uses GraphQL API, you may want to change the default query or mutation that is being sent. That's quite a common case for fetching additional or custom fields. Vue Storefront provides the mechanism for this called "custom queries".
 
-Since the communication with the API goes through our middleware, all queries also are defined there. To customize or even entirely override the original (default) queries, you need to follow two steps.
+Since the communication with the API goes through our middleware, all queries also are defined there. To customize or even entirely override the original (default) queries you need to follow two steps.
 
-Firstly, you need to pass a `customQuery` parameter to the method that triggers the call to the API. It's an object where the keys are the name of the default queries and values are the name of the custom query that overrides them. Additionally, a special parameter called `metadata` allows you to optionally pass additional parameters to your custom query that will be accessible in the custom query function.
+Firstly, you need to pass a `customQuery` parameter to the method that triggers the call to the API. It's an object where the keys are the name of the default queries and values are the name of the custom query that overrides them. Additionally, there is a special parameter called `metadata` which allows you to optionally pass additional parameters to your custom query that will be accessible in the custom query function.
 
 ```ts
 const { search } = useProduct();
@@ -31,7 +31,7 @@ Custom query functions have the arguments:
 - default variables (`variables`) passed to the query,
 - additional parameters passed from the front-end (`metadata`).
 
-This function must always return an object with `query` and `variables` keys, while in the body, you can do anything you want with those parameters - you can modify them or change to the new ones.
+This function must always return an object with `query` and `variables` keys, while in the body you can do anything you want with those parameters - you can modify them or change to the new ones.
 
 Every custom query is registered in the `middleware.config.js` file:
 
@@ -57,7 +57,7 @@ module.exports = {
 };
 ```
 
-In the example above, we only modified some `variables` passed to the custom query. However, we can also change the default GraphQL query:
+In the example above we only modified some `variables` that are passed to the custom query. However, we can also change the default GraphQL query:
 
 ```js
 // middleware.config.js

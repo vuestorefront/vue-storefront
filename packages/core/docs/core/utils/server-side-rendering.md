@@ -1,12 +1,12 @@
 # Server-side rendering
 
-Sometimes our composables need to load some data and share that state between the client and the server-side.
+Sometimes our composables needs to load some data and share that state between client and the server side.
 We provide our custom mechanism to create server-side rendered pages used with composables functions.
 
 ## Usage
 
-In most cases, the composable functions provide SSR support (it is always transparent for the developer).
-To build that composable, you have to create a new composable factory using `useSSR` function.
+In the most cases, the composable functions provide SSR support (it is always transparent for developer).
+To build that composable you have to create a new composable-factory with using `useSSR` function.
 
 ```js
 import { useSSR } from '@vue-storefront/core';
@@ -27,11 +27,11 @@ const useCategory = (cacheId) => {
 };
 ```
 
-The `useSSR` returns `initialState` field that keeps the shared state between client-side and server-side under the key you provided as an argument to the created composable (`cacheId`). `saveToInitialState` function populates loaded data into the cache. Now created factory supports SSR.
+The `useSSR` returns `initialState` field that keeps shared state between client-side and server-side under the key you provided as an argument to the created composable (`cacheId`) and `saveToInitialState` function to populate loaded data into the cache. Now created factory supports SSR.
 
 ## Your own SSR implementation
 
-It's possible to create your own implementation of shared-state. In that case, you have to provide a custom implementation of the `useSSR`.
+It's possible to create your own implementation of shared-state. In that case you have to provide implementation of the `useSSR`.
 
 ```js
 import { configureSSR } from '@vue-storefront/core';
@@ -54,7 +54,7 @@ configureSSR({
 
 ## Temporary solution
 
-By default, we do support SSR and shared-state using Nuxt features. Furthermore, we can't use multiple async calls in the setup function that depend on each other (e.g., loading products by the id of the category you have to fetch first). To solve this problem, we provide a temporary solution - `onSSR`.
+By default we do support SSR and shared-state using nuxt features. Furthermore, we can't use multiple async calls in the setup function that depend on each other (eg. loading products by id of category that you have to fetch first). To solve this problem we provide a temporary solution - `onSSR`.
 
 in your theme:
 

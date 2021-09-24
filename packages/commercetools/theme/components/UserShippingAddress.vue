@@ -31,18 +31,17 @@ export default {
     const address = toRef(props, 'address');
 
     const street = computed(() => {
-      const { streetName, streetNumber, apartment } = address.value;
       const parts = [
-        streetName,
-        streetNumber && ` ${ streetNumber }`,
-        apartment && `, Apartment ${ apartment }`
+        address.streetName,
+        address.streetNumber && ` ${ address.streetNumber }`,
+        address.apartment && `, Apartment ${ address.apartment }`
       ];
 
       return parts.filter(Boolean).join('');
     });
 
     const country = computed(() => {
-      const { country } = address.value;
+      const country = address.country;
       return config.countries.find(c => c.name === country)?.label || country;
     });
 

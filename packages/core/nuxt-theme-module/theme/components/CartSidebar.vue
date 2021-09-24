@@ -47,7 +47,7 @@
                       :disabled="loading"
                       :qty="cartGetters.getItemQty(product)"
                       class="sf-collected-product__quantity-selector"
-                      @input="updateItemQty({ product, quantity: $event })"
+                      @input="updateQuantity({ product, quantity: $event })"
                     />
                   </div>
                 </template>
@@ -121,9 +121,9 @@ import {
   SfQuantitySelector
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
-import { onSSR } from '@vue-storefront/core';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
+import debounce from 'lodash.debounce';
 
 export default {
   name: 'Cart',
@@ -145,17 +145,18 @@ export default {
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
+    loadCart();
 
-    onSSR(async () => {
-      await loadCart();
-    });
+    const updateQuantity = debounce(async ({ product, quantity }) => {
+      await updateItemQty({ product, quantity });
+    }, 500);
 
     return {
+      updateQuantity,
       loading,
       isAuthenticated,
       products,
       removeItem,
-      updateItemQty,
       isCartSidebarOpen,
       toggleCartSidebar,
       totals,

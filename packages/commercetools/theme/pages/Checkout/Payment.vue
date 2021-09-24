@@ -6,13 +6,13 @@
       :title="$t('Payment')"
       class="sf-heading--left sf-heading--no-underline title"
     />
-    <SfAccordion :open="$t('Shipping address')" class="accordion smartphone-only">
+    <SfAccordion :open="$t('Shipping address')" class="accordion">
       <SfAccordionItem :header="$t('Shipping address')">
         <div class="accordion__item">
           <div class="accordion__content">
             <p class="content">
               <span class="content__label" v-if="chosenShippingMethod">{{ chosenShippingMethod.name }}</span><br />
-              {{ shippingDetails.streetName }} {{ shippingDetails.streetNumber }},
+              {{ shippingDetails.streetName }} {{ shippingDetails.apartment }},
               {{ shippingDetails.zipCode }}<br />
               {{ shippingDetails.city }}, {{ shippingDetails.country }}
             </p>
@@ -32,7 +32,7 @@
             <template v-else>
               <p class="content">
                 <span class="content__label">{{ chosenPaymentMethod.label }}</span><br />
-                {{ billingDetails.streetName }} {{ billingDetails.streetNumber }},
+                {{ billingDetails.streetName }} {{ billingDetails.apartment }},
                 {{ billingDetails.zipCode }}<br />
                 {{ billingDetails.city }}, {{ billingDetails.country }}
               </p>

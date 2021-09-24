@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/commercetools",
-  "version": "1.3.2",
+  "version": "1.3.1",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -13,13 +13,15 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/commercetools-api": "~1.3.2",
-    "@vue-storefront/core": "~2.4.2",
+    "@vue-storefront/commercetools-api": "~1.3.1",
+    "@vue-storefront/core": "~2.4.1",
     "js-cookie": "^2.2.1",
     "vue": "^2.6.x"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.30",
+    "jsdom": "^16.6.0",
+    "jsdom-global": "^3.0.2",
     "vue-template-compiler": "^2.6.x"
   },
   "publishConfig": {

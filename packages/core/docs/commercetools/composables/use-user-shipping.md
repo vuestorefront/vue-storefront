@@ -1,6 +1,6 @@
 # `useUserShipping` <Badge text="Enterprise" type="info" />
 
-> This feature is a part of our commercial offering and does not exist in the open-source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/enterprise)
+> This feature is a part of our commercial offering and does not exist in Open Source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/enterprise)
 
 ## Features
 
@@ -101,7 +101,7 @@
       }
       ```
 
-- `shipping: User` - a reactive data object containing a response from the backend.
+- `shipping: User` - reactive data object containing response from the backend.
 
   ```ts
   type Customer = {
@@ -149,9 +149,9 @@
   type User = Customer;
   ```
 
-- `loading: boolean` - a reactive object containing information about loading state of `load`, `addAddress`, `deleteAddress`, `updateAddress` and `setDefaultAddress` methods.
+- `loading: boolean` - reactive object containing information about loading state of `load`, `addAddress`, `deleteAddress`, `updateAddress` and `setDefaultAddress` methods.
 
-- `error: UseUserShippingErrors` - a reactive object containing the error message if some properties failed for any reason.
+- `error: UseUserShippingErrors` - reactive object containing the error message, if some properties failed for any reason.
 
   ```ts
   interface UseUserShippingErrors {
@@ -169,7 +169,7 @@
 
 - `getDefault` - returns a default shipping address.
 
-- `getTotal` - returns the total number of shipping addresses the user has.
+- `getTotal` - returns total number of shipping addresses user has.
 
 - `getId` - returns id from an individual address.
 

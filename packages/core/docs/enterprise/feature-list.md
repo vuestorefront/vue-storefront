@@ -5,57 +5,60 @@ sidebar: false
 
 The following document lists the most important (but not all!) features of [Vue Storefront Cloud](https://www.vuestorefront.io/enterprise) offering.
 
+
+[[toc]]
+
 ## Key Platform Features
 
 **1. No UI/functional limitations**
 
-Vue Storefront is just a framework, and you can build your UI in any way you want. Anything possible with Nuxt is also possible with Vue Storefront.
+Vue Storefront is just a framework and you can build your UI in any way you want. anything that is possible with Nuxt is also possible with Vue Storefront
 
 **2. Backend-agnostic**
 
-We have the same interfaces for the same types of vendors (eCommerce/Search/CMS/...). Because of that, you can keep most of your frontend unaware of the backend services. If you decide to change any part of your eCommerce stack in the future, your frontend could remain untouched.
+We have the same interfaces for the same types of vendors (eCommerce/Search/CMS/...). Because of that you can keep most of your frontend uanware of the backend services. If you decide to change any part of your eCommerce stack in the future your frontend could remain untouched.
 
 **3. Focus on performance**
 
-We're providing a bulletproof architecture, great defaults, best practices, and tools to make sure your app will perform smoothly. The majority of business logic is handled on the server-side to make sure client bundles are small.
+We're providing a bulletproof architecture, great default, best practices and tools to make sure your app will perform smooth. Majority of business logic is handled on the server side to make sure client bundles are small.
 
 **4. No vendor lock-in**
 
-You own your code, so it's up to you what services you will use for eCommerce or CMS. You decide where and how you will host it and deploy - Vue Storefront will never lock you into its services.
+You own your code so its up to you what services you will use for eCommerce or CMS. It's up to you where and how you will host it and deploy. Vue Storefront will never lock you into its services and you always.
 
 **5. Focus on quick time to market**
 
-We've built Vue Storefront to make the eCommerce frontends development process as enjoyable and smooth as possible. Just like Vue and Nuxt themselves, we're focusing on getting things done, providing good defaults, and giving our users integrations and extensions they can use to speed up their development process.
+We've built Vue Storefront to make eCommerce frontends development process as enjoyable and smooth as possible. Just like Vue and Nuxt themselves we're focusing on getting things done, providing good defaults and giving our users integrations and extensions they they can use to speed up their development process.
 
 **6. All-in-one modular solution.**
 
-Vue Storefront is a set of tools that can work together (or independently) to support you in all areas of development. We provide out-of-the-box integrations, a framework for connecting all of them, a library of UI components, and a cloud hosting service.
+Vue Storefront is a set of tools that can work together (or independently) to support you in all areas of development. We provide out of the box integrations, framework for connecting all of them, library of UI components and a cloud hosting service.
 
 You can let us take care of all aspects of your eCommerce presence or replace any of those parts with your own, custom services.
 
 **7. Huge and vibrant community**
 
-Vue Storefront is the only truly open-source eCommerce frontend framework with an active and vibrant community of thousands of developers worldwide. If you choose Vue Storefront, you're never left on your own.
+Vue Storefront is the only truly Open Source eCommerce frontend framework with an active and vibrant community of thousands developers all around the world. If you choose Vue Storefront You're never left on your own.
 
 
 ## Integrations
 
 ### eCommerce
-- commercetools (standard eCommerce scope [listed below](#ecommerce-integration-theme))
+- Commercetools (standard eCommerce scope [listed below](#ecommerce-integration-theme))
 ### Content Management System (CMS)
 - Storyblok (standard CMS scope [listed below](#content-management-system))
 - Contentstack (standard CMS scope [listed below](#content-management-system))
 - Amplience (standard CMS scope [listed below](#content-management-system))
 ### Payments
 - Checkout.com
-    1. Credit Card, Klarna, Paypal, and Sofort payment methods
+    1. Credit Card, Klarna, Paypal and Sofort payment methods
     2. Saving Card and paying with a stored card if not-guest
-    3. Possible to request CVC/CVV during a saved card payment 
+    3. Possible to request CVC/CVV during saved card payment 
     4. Loading available payment methods for the provided cart
     5. Redirect to finalize payment support (e.g. 3ds for cards redirect for PayPal or Sofort)
     6. Possible to provide both success and error URL (redirect after a redirect)
     7. Choosing whether to save a payment method or not
-    8. Customizing Frames (credit card SDK from CKO)
+    8. Customizing Frames (credit card sdk from CKO)
     9. Customizing Klarna
     10. Removing saved payment instruments
     11. Support for channels
@@ -127,15 +130,15 @@ Vue Storefront is the only truly open-source eCommerce frontend framework with a
 3. Product Gallery
    1. Show all product images as thumbnails
    2. Show one big product image
-   3. Change big product image with one of the thumbnails
+   3. Change big product image with one of thumbnails
 4. Reviews
    1. Display average rating
-   2. Display the total number of reviews
-   3. Add a review as logged in user (no UI)
-   4. Add a review as logged out user (no UI)
+   2. Display total number of reviews
+   3. Add review as logged in user (no UI)
+   4. Add review as logged out user (no UI)
 5. Add to cart
    1. Add product variant to cart 
-   2. Change the quantity
+   2. Change quantity
 6. Suggested products
    1. Display a list of suggested products from the same category
 7. Other
@@ -150,10 +153,10 @@ Vue Storefront is the only truly open-source eCommerce frontend framework with a
   - Display product price
   - Display product discounts
   - Add product to cart
-  - Remove a product from the cart
-  - Change product quantity
+  - Remove product from cart
+  - Change product Quantity
 - Summary
-  - Show the total price
+  - Show total price
 
 
 ### Wishlist
@@ -165,7 +168,7 @@ Vue Storefront is the only truly open-source eCommerce frontend framework with a
   - Display product price
   - Display product discounts
   - Add product to wishlist
-  - Remove a product from the wishlist
+  - Remove product from wishlist
 
 ### Checkout
 
@@ -176,7 +179,7 @@ Vue Storefront is the only truly open-source eCommerce frontend framework with a
   - Guest
 - Shipping
   - Choose from saved shipping addresses (logged in)
-  - Add a new shipping address (logged in)
+  - Add new shipping address (logged in)
   - Change default shipping address (logged in)
   - Provide Shipping Details
     - Fill in First and Last Name
@@ -193,7 +196,7 @@ Vue Storefront is the only truly open-source eCommerce frontend framework with a
 - Payment
   - Choose Payment Method
 - Coupons
-  - Add a discount coupon
+  - Add discount coupon
 - Order summary
   - Display total price
   - Display shipping price
@@ -297,7 +300,7 @@ Vue Storefront is the only truly open-source eCommerce frontend framework with a
    - Legacy mode for old browsers (minority)
 - Server-Side Rendering
 - Server-Side Tag-based Cache
-- Majority of JS code is executed on the server-side to keep small bundles
+- Majority of JS code is executed on the server side to keep small bundles
 - Automatic route-based code splitting (incl. CSS)
 - Static assets client-side caching via Service Worker
 - CSS Purging
@@ -318,17 +321,17 @@ Our tech team will manage your instance backups and the infrastructure based on 
 
 We perform daily backups. Each user has direct access to the backup drive via storefrontcloud-cli tool or via the support line.
 
-**3. Multi regions**
+**3. Multiregions**
 
-Our shop can be deployed at any region of the world, possibly close to your customers.
+Our shop can be deploy at any region of the World, possibly close to you customers.
 
-**4. 24/7 availability monitoring**
+**4. 24/7 aviability monitoring**
 
-Our Cloud team is using internal monitoring systems to provide you with SLA. Moreover, users get access to the New Relic monitoring tool (included in the price, on-demand) for monitoring applications and performance on their own.
+Our Cloud team is using internal monitoring systems to provide you with SLA. Moreover, users get access to the New Relic monitoring tool (included in the price, on demand) for monitoring applications and performance on their own.
 
 **5. Access and errors log**
 
-We can insert access and error logs in any system that you prefer.
+We can insert access and error logs in any systems that you prefer.
 
 **6. Gitlab / Github source-code management**
 
@@ -336,31 +339,31 @@ Part of the service is Git repository hosting and Git-based deployment process. 
 
 **7. Automatic deployments**
 
-Each deployment is managed via storefrontcloud-cli and the Gitlab repository. We’re using fully automated deployment flow with the evidence of changes (gitlog) and easy restore process in case of failed deploy.
+Each deployment is managed via storefrontcloud-cli and the Gitlab repository. We’re using fully automatic deployment flow with the evidence of changes (gitlog) and easy restore process in case of failed deploy.
 
 **8. As many environments as you need**
 
-You can use our CI/CD pipeline to build an environment per each PR.
+You can use our CI/CD pipeline to build environment per each PR.
 
-**9. Staging environment**
+**9. Staging enviroment**
 
-Vue Storefront Cloud clients get access to the second (and possibly third, fourth, etc.) environments that are not used for production. These environments are still synchronized with the backend and can be used for development and testing purposes. However, they are not covered by full SLA and are not using CDN (Content Delivery Network) and other optimization features that are enabled for the production environment by default.
+Vue Storefront Cloud clients are getting access to the second (and possible third, fourth, etc.) environments that are not used for production. These environments are still synchronized with the backend and can be used for development and testing purposes, however, are not covered by full SLA and are not using CDN (Content Delivery Network) and other optimization features that are enabled for the the production environment by default.
 
-**10. Production-ready setup**
+**10. Production ready setup**
 
-The infrastructure is optimized for performance and safety. After signing up, you will get access to a production-grade environment with a deployed default version of Vue Storefront. All your team/agency will need to customize it, and apply custom features and layouts.
+The infrastructure is optimized for performance and safety. After signing up, you will get access to a production-grade environment with a deployed default version of Vue Storefront. All your team/agency will need to do is customize it, and apply custom features and a layout.
 
 **11. CLI access to env (via kubect)**
 
 The platform is accessible and can be managed via the storefrontcloud-cli tool. It’s a dedicated tool to manage the Kubernetes cluster and Vue Storefront deployments, backups, and logs. Please find more information in our knowledge base, available here: https://help.storefrontcloud.io 
 
-**12. All of the commercetools OOTB Features ready on enviroment**
+**12. All of the Commercetools OOTB Features ready on enviroment**
 
 By default, Vue Storefront Cloud is integrated with commercetools. This service is included in the price. All you need are commercetools API access details to get the products, categories, and user accounts in sync with your instance.
 
 **13. Access via API**
 
-All Vue Storefront Cloud config options are available via API.
+All Vue Storefront Cloud config options are available via API
 
 **14. SLA & Support**
 
@@ -372,18 +375,18 @@ The Vue Storefront list of integrations is growing every day. It offers a range 
 
 **16. Customer Dashboard**
 
-The Vue Storefront Cloud has a customer dashboard with very useful features, like: traffic, instances, environments.
+The Vue Storefront Cloud has a customer dasboard with very usefull features, like: traffic, instances, environments
 
 **17. CDN**
 
 **18. VSF sandboxes**
 
-We can run sandbox/demo instances in a few minutes with one click.
+We can run sandbox/demo instances in a few mintues, with one click.
 
 **19. GEO-Fancing**
 
-We have geo and DDoS protection. You can decide in which country your store is available.
+We have geo and ddos protection. You can decide, in which country your store is available.
 
 **20. Rich Content**
 
-With token access protection, VSF offers selling virtual content with user access management.
+With token access protection, VSF offer selling virtual content with user access managment.

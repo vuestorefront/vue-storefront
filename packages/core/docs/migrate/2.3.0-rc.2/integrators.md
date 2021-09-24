@@ -1,4 +1,4 @@
-# Migrating eCommerce integrations to 2.3.0-rc.2
+# Migration guide 2.3.0-rc.2 for Integrators
 
 ## Introduction
 

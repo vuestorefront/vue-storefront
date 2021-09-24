@@ -59,11 +59,11 @@
       }
       ```
 
-- `shipping: Address` - the main data object that contains a shipping address.
+- `shipping: Address` - a main data object that contains a shipping address.
 
-- `loading: boolean` - a reactive object containing information about the loading state of your `load` or `save` method.
+- `loading: boolean` - a reactive object containing information about loading state of your `load` or `save` method.
 
-- `error: UseShippingErrors` - a reactive object containing the error message if `load` or `save` failed for any reason.
+- `error: UseShippingErrors` - a reactive object containing the error message, if `load` or `save` failed for any reason.
 
   ```ts
   interface UseShippingErrors {
