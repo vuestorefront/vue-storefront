@@ -61,7 +61,6 @@ export default {
     });
 
     onMounted(() => {
-      console.log('onMounted called');
       // Load only in the browser
       loadUser();
       loadCart();

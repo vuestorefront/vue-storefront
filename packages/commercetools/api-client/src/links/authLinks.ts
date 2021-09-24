@@ -8,13 +8,13 @@ import { isServerOperation, isAnonymousOperation, isUserOperation } from './rest
  * If the configuration doesn't specify server-specific API client configuration, it will fallback to customer access tokens configuration.
  */
 async function generateServerAccessToken({
-  settings,
+  configuration,
   apolloReq,
   sdkAuth
 }): Promise<string> {
   Logger.debug(`Generating server access token for operation "${ apolloReq.operationName }"`);
 
-  const { clientId, clientSecret, scopes } = settings.serverApi || settings.api;
+  const { clientId, clientSecret, scopes } = configuration.serverApi || configuration.api;
 
   const token = await sdkAuth.clientCredentialsFlow({
     credentials: {
@@ -70,7 +70,7 @@ async function generateUserAccessToken({
  * Handler for checking if it's necessary to generate a server or anonymous access token.
  */
 export async function handleBeforeAuth({
-  settings,
+  configuration,
   sdkAuth,
   tokenProvider,
   apolloReq
@@ -79,8 +79,8 @@ export async function handleBeforeAuth({
   const isGuest = !isAnonymousSession(currentToken) && !isUserSession(currentToken) && isAnonymousOperation(apolloReq.operationName);
   const isServer = isServerOperation(apolloReq.operationName);
 
-  const customToken = await settings.customToken?.({
-    settings,
+  const customToken = await configuration.customToken?.({
+    configuration,
     isGuest,
     isServer,
     sdkAuth,
@@ -95,7 +95,7 @@ export async function handleBeforeAuth({
 
   if (isServer) {
     return await generateServerAccessToken({
-      settings,
+      configuration,
       apolloReq,
       sdkAuth
     });

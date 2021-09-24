@@ -6,8 +6,8 @@ import { createHttpLink } from 'apollo-link-http';
 import { asyncMap } from '@apollo/client/utilities';
 import { ApolloLink, FetchResult } from 'apollo-link';
 import { Config } from '../types/setup';
-import { createSdkHelpers } from './sdkHelpers';
 import { handleAfterAuth, handleBeforeAuth } from './authLinks';
+import { createSdkHelpers } from './sdkHelpers';
 
 /**
  * Creates handler for logging certain GraphQL and network errors.
@@ -38,14 +38,14 @@ export function createErrorHandler(): ApolloLink {
 /**
  * Creates handler for retrying requests to the commercetools server if specific conditions are met.
  */
-export function createRetryHandler({ settings, tokenProvider }): ApolloLink {
+export function createRetryHandler({ configuration, tokenProvider }): ApolloLink {
   return new RetryLink({
     attempts: (count, operation, error) => {
       if (count > 3) {
         return false;
       }
 
-      const customRetry = settings.customRetry?.({
+      const customRetry = configuration.customRetry?.({
         count,
         operation,
         error
@@ -70,14 +70,14 @@ export function createRetryHandler({ settings, tokenProvider }): ApolloLink {
 /**
  * Creates ApolloLink for Apollo GraphQL client.
  */
-export function createLinks(settings: Config): ApolloLink {
-  const { sdkAuth, tokenProvider } = createSdkHelpers(settings);
+export function createLinks(configuration: Config): ApolloLink {
+  const { sdkAuth, tokenProvider } = createSdkHelpers(configuration);
 
   const tokenLink = setContext(async (apolloReq, { headers }) => {
     Logger.debug('Apollo authLinkBefore', apolloReq.operationName);
 
     const currentToken = await handleBeforeAuth({
-      settings,
+      configuration,
       sdkAuth,
       tokenProvider,
       apolloReq
@@ -114,11 +114,11 @@ export function createLinks(settings: Config): ApolloLink {
     });
   });
 
-  const httpLink = createHttpLink({ uri: settings.api.uri, fetch });
+  const httpLink = createHttpLink({ uri: configuration.api.uri, fetch });
 
   return ApolloLink.from([
     createErrorHandler(),
-    createRetryHandler({ settings, tokenProvider }),
+    createRetryHandler({ configuration, tokenProvider }),
     tokenLink,
     authLink.concat(httpLink)
   ]);
