@@ -2,7 +2,7 @@ name: Deploy to Storefrontcloud
 on:
   push:
     branches:
-      - next
+      - main
       - release/next
       - test/next
 jobs:
