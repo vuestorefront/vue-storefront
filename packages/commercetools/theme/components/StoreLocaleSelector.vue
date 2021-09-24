@@ -13,7 +13,7 @@
       <SfList>
         <SfListItem v-for="store in availableStores" :key="store.id">
           <a
-            href="javascript:void(0)"
+            href="/"
             class="container__store--link"
             :class="isStoreSelected(store) ? 'container__store--selected' : ''"
             @click="changeStore(store)"

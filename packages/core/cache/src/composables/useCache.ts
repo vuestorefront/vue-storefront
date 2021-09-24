@@ -1,7 +1,7 @@
 import { CacheTag, UseCache, SetTagsFn } from '..';
 import { useContext } from '@nuxtjs/composition-api';
 
-const useCache = (): UseCache => {
+export const useCache = (): UseCache => {
   const { req }: any = useContext();
 
   if (!req) {
@@ -31,5 +31,3 @@ const useCache = (): UseCache => {
     setTags
   };
 };
-
-export default useCache;

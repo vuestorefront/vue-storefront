@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://docs.vuestorefront.io/
+    about: Find more information about the project and how to implement in our documentation.
+  - name: Discord Chat
+    url: https://discord.vuestorefront.io/
+    about: Ask questions and discuss with other Vue Storefront users in real time.

@@ -1,7 +1,7 @@
 import requests, { CreateCartResponse } from '../api/requests';
 import page from '../pages/factory';
 
-context('Remove from cart', () => {
+context(['regression'], 'Remove from cart', () => {
   beforeEach(function () {
     cy.fixture('test-data/e2e-remove-from-cart').then((fixture) => {
       this.fixtures = {
