@@ -10,8 +10,9 @@ const ITEMS_PER_PAGE = [20, 40, 100];
 const useFacetFactoryParams = {
   search: async (context: Context, params: FacetSearchResult<FacetResultsData>): Promise<FacetResultsData> => {
     const itemsPerPage = params.input.itemsPerPage;
-    const categoryResponse = await context.$ct.api.categorySearch({ slug: params.input.categorySlug });
-    const categories = categoryResponse.data.categorySearch.results;
+
+    const categoryResponse = await context.$ct.api.getCategory({ slug: params.input.categorySlug });
+    const categories = categoryResponse.data.categories.results;
     const inputFilters = params.input.filters;
     const filters = Object.keys(inputFilters).reduce((prev, curr) => ([
       ...prev,
