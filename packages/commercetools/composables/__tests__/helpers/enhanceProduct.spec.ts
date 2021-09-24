@@ -7,6 +7,9 @@ const attributesRaw = () => [
 ];
 
 const product = (name, slug, id) => ({
+  productType: {
+    name: 'type'
+  },
   masterData: {
     current: {
       name,
