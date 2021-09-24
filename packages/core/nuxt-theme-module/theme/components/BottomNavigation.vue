@@ -67,4 +67,8 @@ export default {
 .navigation-bottom {
   --bottom-navigation-z-index: 3;
 }
+
+.sf-bottom-navigation-item {
+  flex: 0 1 auto;
+}
 </style>
