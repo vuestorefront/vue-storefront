@@ -1,6 +1,5 @@
 import { ApiClientExtension } from '@vue-storefront/core';
-import { CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers';
-import { Token } from '../types/setup';
+import { CT_COOKIE_NAME, Token } from '../types/setup';
 
 function parseToken(rawToken: string): Token {
   try {
@@ -14,7 +13,7 @@ export const tokenExtension: ApiClientExtension = {
   name: 'tokenExtension',
 
   hooks(request, response) {
-    let currentToken = parseToken(request.cookies[CT_TOKEN_COOKIE_NAME]);
+    let currentToken = parseToken(request.cookies[CT_COOKIE_NAME]);
 
     /**
      * Updates token cookie.
@@ -29,7 +28,7 @@ export const tokenExtension: ApiClientExtension = {
       };
 
       return response.cookie(
-        CT_TOKEN_COOKIE_NAME,
+        CT_COOKIE_NAME,
         JSON.stringify(token),
         options
       );
@@ -48,7 +47,7 @@ export const tokenExtension: ApiClientExtension = {
     function onTokenRemove() {
       currentToken = null;
 
-      return response.clearCookie(CT_TOKEN_COOKIE_NAME);
+      return response.clearCookie(CT_COOKIE_NAME);
     }
 
     return {

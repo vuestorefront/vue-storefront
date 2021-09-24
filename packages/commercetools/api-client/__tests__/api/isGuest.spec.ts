@@ -17,11 +17,11 @@ describe('[commercetools-api-client] isGuest', () => {
     jest.clearAllMocks();
   });
 
-  it('defaults to false', () => {
+  it('defaults to true', () => {
     const context = getMockContext();
-    context.client.tokenProvider = false;
+    context.config.auth.onTokenRead = jest.fn();
 
-    expect(isGuest(context)).toBeFalsy();
+    expect(isGuest(context)).toBeTruthy();
   });
 
   it('calls "handleIsGuest" from config', () => {
@@ -40,17 +40,17 @@ describe('[commercetools-api-client] isGuest', () => {
     expect(context.config.auth.onTokenRead).toBeCalled();
   });
 
-  it('returns false if visitor has user session', () => {
+  it('returns true if visitor has anonymous session', () => {
     const context = getMockContext();
-    context.config.auth.onTokenRead = jest.fn().mockImplementation(() => ({ scope: 'customer_id' }));
+    context.config.auth.onTokenRead = jest.fn().mockImplementation(() => ({ scope: 'anonymous_id' }));
 
-    expect(isGuest(context)).toBeFalsy();
+    expect(isGuest(context)).toBeTruthy();
     expect(context.config.auth.onTokenRead).toBeCalled();
   });
 
-  it('returns false if visitor has anonymous session', () => {
+  it('returns false if visitor has user session', () => {
     const context = getMockContext();
-    context.config.auth.onTokenRead = jest.fn().mockImplementation(() => ({ scope: 'anonymous_id' }));
+    context.config.auth.onTokenRead = jest.fn().mockImplementation(() => ({ scope: 'customer_id' }));
 
     expect(isGuest(context)).toBeFalsy();
     expect(context.config.auth.onTokenRead).toBeCalled();

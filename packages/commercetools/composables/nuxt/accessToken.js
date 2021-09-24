@@ -1,6 +1,6 @@
-import { CT_TOKEN_COOKIE_NAME } from '@vue-storefront/commercetools/nuxt/helpers';
+import { CT_COOKIE_NAME } from '@vue-storefront/commercetools-api';
 
-const applyCookies = (token) => `${CT_TOKEN_COOKIE_NAME}=${encodeURIComponent(JSON.stringify(token))}`;
+const applyCookies = (token) => `${CT_COOKIE_NAME}=${encodeURIComponent(JSON.stringify(token))}`;
 
 export default async function accessTokenPlugin({ app }) {
   const isServer = typeof window === 'undefined';
