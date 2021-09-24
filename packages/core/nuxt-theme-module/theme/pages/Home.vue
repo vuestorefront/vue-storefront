@@ -62,7 +62,7 @@
               :max-rating="product.rating.max"
               :score-rating="product.rating.score"
               :show-add-to-cart-button="true"
-              :is-on-wishlist="product.isInWishlist"
+              :is-in-wishlist="product.isInWishlist"
               :link="localePath({ name: 'home' })"
               class="carousel__item__product"
               @click:wishlist="toggleWishlist(i)"
