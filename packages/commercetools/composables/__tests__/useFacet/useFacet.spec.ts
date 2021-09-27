@@ -26,9 +26,9 @@ const context = {
           }
         }
       })),
-      getCategory: jest.fn(() => ({
+      categorySearch: jest.fn(() => ({
         data: {
-          categories: {
+          categorySearch: {
             results: [{ id: 1, name: 'cat1' }]
           }
         }
@@ -61,7 +61,7 @@ describe('[commercetools-composables] useFacet', () => {
       }
     } as any);
 
-    expect(context.$ct.api.getCategory).toBeCalled();
+    expect(context.$ct.api.categorySearch).toBeCalled();
     expect(context.$ct.api.getProduct).toBeCalled();
     expect(enhanceProduct).toBeCalled();
     expect(getFiltersFromProductsAttributes).toBeCalled();
