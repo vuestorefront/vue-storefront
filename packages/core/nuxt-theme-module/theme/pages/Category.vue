@@ -233,6 +233,7 @@ export default {
     const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist } = useWishlist();
     const { result, search, loading, error } = useFacet();
 
+    const productsQuantity = ref({});
     const products = computed(() => facetGetters.getProducts(result.value));
     const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
     const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
@@ -253,8 +254,6 @@ export default {
       await search(th.getFacetsFromURL());
       if (error?.value?.search) context.root.$nuxt.error({ statusCode: 404 });
     });
-
-    const productsQuantity = ref({});
 
     return {
       ...uiState,
