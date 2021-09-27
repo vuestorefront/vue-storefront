@@ -211,7 +211,7 @@ import {
   SfColor,
   SfProperty
 } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
+import { computed, ref } from '@vue/composition-api';
 import { useCart, useWishlist, productGetters, useFacet, facetGetters } from '<%= options.generate.replace.composables %>';
 import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
@@ -254,6 +254,8 @@ export default {
       if (error?.value?.search) context.root.$nuxt.error({ statusCode: 404 });
     });
 
+    const productsQuantity = ref({});
+
     return {
       ...uiState,
       th,
@@ -268,7 +270,8 @@ export default {
       removeItemFromWishlist,
       isInWishlist,
       addItemToCart,
-      isInCart
+      isInCart,
+      productsQuantity
     };
   },
   components: {
