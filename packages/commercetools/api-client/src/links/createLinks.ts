@@ -114,7 +114,10 @@ export function createLinks(configuration: Config): ApolloLink {
     });
   });
 
-  const httpLink = createHttpLink({ uri: configuration.api.uri, fetch });
+  const httpLink = createHttpLink({
+    uri: configuration.api.uri,
+    fetch
+  });
 
   return ApolloLink.from([
     createErrorHandler(),
