@@ -40,17 +40,17 @@ describe('[commercetools-api-client] isGuest', () => {
     expect(context.config.auth.onTokenRead).toBeCalled();
   });
 
-  it('returns false if visitor has anonymous session', () => {
+  it('returns false if visitor has user session', () => {
     const context = getMockContext();
-    context.config.auth.onTokenRead = jest.fn().mockImplementation(() => ({ scope: 'anonymous_id' }));
+    context.config.auth.onTokenRead = jest.fn().mockImplementation(() => ({ scope: 'customer_id' }));
 
     expect(isGuest(context)).toBeFalsy();
     expect(context.config.auth.onTokenRead).toBeCalled();
   });
 
-  it('returns false if visitor has user session', () => {
+  it('returns false if visitor has anonymous session', () => {
     const context = getMockContext();
-    context.config.auth.onTokenRead = jest.fn().mockImplementation(() => ({ scope: 'customer_id' }));
+    context.config.auth.onTokenRead = jest.fn().mockImplementation(() => ({ scope: 'anonymous_id' }));
 
     expect(isGuest(context)).toBeFalsy();
     expect(context.config.auth.onTokenRead).toBeCalled();
