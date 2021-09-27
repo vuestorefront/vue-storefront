@@ -2,9 +2,9 @@ import { Logger } from '@vue-storefront/core';
 
 export default async ({ $vsf, route, redirect }) => {
   try {
-    const isGuest = await $vsf.$ct.api.isGuest();
+    const isLoggedIn = await $vsf.$ct.api.isLoggedIn();
 
-    if (isGuest) {
+    if (!isLoggedIn) {
       throw new Error(`"${ route.fullPath }" route is only available to logged-in customers`);
     }
   } catch (error) {

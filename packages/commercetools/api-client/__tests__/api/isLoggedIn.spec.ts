@@ -1,42 +1,42 @@
-import isGuest from '../../src/api/isGuest';
+import isLoggedIn from '../../src/api/isLoggedIn';
 
 const getMockContext = () => ({
   client: {
     tokenProvider: true
   },
   config: {
-    handleIsGuest: null,
+    handleIsLoggedIn: null,
     auth: {
       onTokenRead: null
     }
   }
 });
 
-describe('[commercetools-api-client] isGuest', () => {
+describe('[commercetools-api-client] isLoggedIn', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('defaults to true', () => {
+  it('defaults to false', () => {
     const context = getMockContext();
     context.config.auth.onTokenRead = jest.fn();
 
-    expect(isGuest(context)).toBeTruthy();
+    expect(isLoggedIn(context)).toBeFalsy();
   });
 
-  it('calls "handleIsGuest" from config', () => {
+  it('calls "handleIsLoggedIn" from config', () => {
     const context = getMockContext();
-    context.config.handleIsGuest = jest.fn().mockImplementation(() => true);
+    context.config.handleIsLoggedIn = jest.fn().mockImplementation(() => true);
 
-    expect(isGuest(context)).toBeTruthy();
-    expect(context.config.handleIsGuest).toBeCalled();
+    expect(isLoggedIn(context)).toBeTruthy();
+    expect(context.config.handleIsLoggedIn).toBeCalled();
   });
 
-  it('returns true if visitor is a guest', () => {
+  it('returns false if visitor is a guest', () => {
     const context = getMockContext();
     context.config.auth.onTokenRead = jest.fn().mockImplementation(() => ({ scope: '' }));
 
-    expect(isGuest(context)).toBeTruthy();
+    expect(isLoggedIn(context)).toBeFalsy();
     expect(context.config.auth.onTokenRead).toBeCalled();
   });
 
@@ -44,15 +44,15 @@ describe('[commercetools-api-client] isGuest', () => {
     const context = getMockContext();
     context.config.auth.onTokenRead = jest.fn().mockImplementation(() => ({ scope: 'anonymous_id' }));
 
-    expect(isGuest(context)).toBeFalsy();
+    expect(isLoggedIn(context)).toBeFalsy();
     expect(context.config.auth.onTokenRead).toBeCalled();
   });
 
-  it('returns false if visitor has user session', () => {
+  it('returns true if visitor has user session', () => {
     const context = getMockContext();
     context.config.auth.onTokenRead = jest.fn().mockImplementation(() => ({ scope: 'customer_id' }));
 
-    expect(isGuest(context)).toBeFalsy();
+    expect(isLoggedIn(context)).toBeTruthy();
     expect(context.config.auth.onTokenRead).toBeCalled();
   });
 });
