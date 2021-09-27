@@ -3,7 +3,7 @@
 
 ## Configuring your commercetools integration
 
-If you [generated your project from our CLI](/general/getting-started.html) your shop will be connected to our demo commercetools instance.
+If you [generated your project from our CLI](/general/installation.html) your shop will be connected to our demo commercetools instance.
 
 If you haven't generated your project just to play with Vue Storefront and understand its capabilities the first thing you should do after setting it up is changing the credentials to point into your instance.
 
