@@ -8,17 +8,17 @@ import { defaultSettings } from './helpers/apiClient/defaultSettings';
 /**
  * Merges integration configuration with defaults and creates GraphQL client.
  */
-function onCreate(configuration: Partial<Config>) {
-  const languageMap = configuration.languageMap || {};
-  const acceptLanguage = configuration.acceptLanguage || defaultSettings.acceptLanguage;
-  const locale = configuration.locale || defaultSettings.locale;
+function onCreate(projectSettings: Partial<Config>) {
+  const languageMap = projectSettings.languageMap || {};
+  const acceptLanguage = projectSettings.acceptLanguage || defaultSettings.acceptLanguage;
+  const locale = projectSettings.locale || defaultSettings.locale;
 
   const config = {
     ...defaultSettings,
-    ...configuration,
+    ...projectSettings,
     languageMap,
     acceptLanguage: languageMap[locale] || acceptLanguage,
-    auth: configuration.auth || defaultSettings.auth
+    auth: projectSettings.auth || defaultSettings.auth
   } as Config;
 
   return {
