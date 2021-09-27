@@ -28,17 +28,16 @@ function createInvalidationEndpoint (driver, options) {
         tags: Array.from(new Set(tags))
       });
 
-      response.status(200).send('Cache invalidated successfully!');
+      response
+        .status(200)
+        .send('Cache invalidated successfully!');
     } catch (error) {
       Logger.error('Cache driver thrown an error when invalidating cache! Operation skipped.');
       Logger.error(error);
 
       response
         .status(500)
-        .send(
-          'Cache driver thrown an error when invalidating cache! Operation skipped. ' +
-          error
-        );
+        .send(`Cache driver thrown an error when invalidating cache! Operation skipped. ${error}`);
     }
   };
 
