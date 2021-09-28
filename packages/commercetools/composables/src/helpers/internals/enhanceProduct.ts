@@ -37,7 +37,8 @@ const enhanceProduct = (productResponse: ApolloQueryResult<ProductData>, context
         _master: current.masterVariant.id === variant.id,
         _description: current.description,
         _categoriesRef: current.categoriesRef.map((cr) => cr.id),
-        _rating: (product as any).reviewRatingStatistics
+        _rating: (product as any).reviewRatingStatistics,
+        ...(product.productType && { _productType: product.productType })
       }));
     })
     .reduce((prev, curr) => [...prev, ...curr], []);
