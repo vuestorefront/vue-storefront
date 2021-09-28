@@ -5,7 +5,7 @@
     },
     "collect": {
       "settings": {
-        "emulatedFormFactor": "desktop"
+        "preset": "desktop"
       }
     }
   },
