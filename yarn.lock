@@ -3648,15 +3648,15 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@storefront-ui/shared@0.10.2":
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.2.tgz#144d3a7d5508563ad97c1882fbd291abb0166349"
-  integrity sha512-EWwct/pMYcXhMKGEE2h7blw0XIvcVokhzdzfl5VROSajtflJkJ11hfaOxFWkB5Zgd6IdS9iwR2ayzVjunVRuEA==
-
 "@storefront-ui/shared@0.10.71":
   version "0.10.71"
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.10.71.tgz#210665f54f04b62e000c97ce2ce9aa973ce95197"
   integrity sha512-fLv7iAEk1YEq7yoZkvWkQNGMH6XqpqqJWjrJ5Hcr51gUvzk0vCLGebOp8iOYbSHmMwRhOkCxUVOFK9oo3WKdAQ==
+
+"@storefront-ui/shared@0.11.0-rc.1":
+  version "0.11.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.11.0-rc.1.tgz#7f6dcd3ef7a0422e9c8b890e9bbe6253fec574b6"
+  integrity sha512-B5C+6DRp4sMnsZCT1D6n5hEIs5mC/HDC1mxc0/f2hbVmldSWm/IK3sLbzqPVdbGVq019w6BjatlDdPyG+AOYgw==
 
 "@storefront-ui/vue@0.11.0-rc.1":
   version "0.11.0-rc.1"
@@ -6674,21 +6674,6 @@ chokidar@^2.0.3, chokidar@^2.0.4, chokidar@^2.1.1, chokidar@^2.1.8:
     upath "^1.1.1"
   optionalDependencies:
     fsevents "^1.2.7"
-
-chokidar@^3.3.1, chokidar@^3.4.1, chokidar@^3.4.2, chokidar@^3.4.3, chokidar@^3.5.1, chokidar@^3.5.2:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.2.tgz#dba3976fcadb016f66fd365021d91600d01c1e75"
-  integrity sha512-ekGhOnNVPgT77r4K/U3GDhu+FQ2S8TnK/s2KbIGXi0SZWuwkZ2QNyfWdZW+TVfn84DpEP7rLeCt2UI6bJ8GwbQ==
-  dependencies:
-    anymatch "~3.1.2"
-    braces "~3.0.2"
-    glob-parent "~5.1.2"
-    is-binary-path "~2.1.0"
-    is-glob "~4.0.1"
-    normalize-path "~3.0.0"
-    readdirp "~3.6.0"
-  optionalDependencies:
-    fsevents "~2.3.2"
 
 chownr@^1.1.1, chownr@^1.1.2, chownr@^1.1.4:
   version "1.1.4"
@@ -17207,6 +17192,17 @@ sass-loader@10.1.1:
     schema-utils "^3.0.0"
     semver "^7.3.2"
 
+sass-loader@^10.0.3:
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-10.2.0.tgz#3d64c1590f911013b3fa48a0b22a83d5e1494716"
+  integrity sha512-kUceLzC1gIHz0zNJPpqRsJyisWatGYNFRmv2CKZK2/ngMJgLqxTbXwe/hJ85luyvZkgqU3VlJ33UVF2T/0g6mw==
+  dependencies:
+    klona "^2.0.4"
+    loader-utils "^2.0.0"
+    neo-async "^2.6.2"
+    schema-utils "^3.0.0"
+    semver "^7.3.2"
+
 sass-loader@^8.0.2:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-8.0.2.tgz#debecd8c3ce243c76454f2e8290482150380090d"
@@ -17229,9 +17225,9 @@ sass-resources-loader@^2.2.4:
     loader-utils "^2.0.0"
 
 sass@^1.32.13:
-  version "1.38.1"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.38.1.tgz#54dfb17fb168846b5850324b82fc62dc68f51bad"
-  integrity sha512-Lj8nPaSYOuRhgqdyShV50fY5jKnvaRmikUNalMPmbH+tKMGgEKVkltI/lP30PEfO2T1t6R9yc2QIBLgOc3uaFw==
+  version "1.42.1"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.42.1.tgz#5ab17bebc1cb1881ad2e0c9a932c66ad64e441e2"
+  integrity sha512-/zvGoN8B7dspKc5mC6HlaygyCBRvnyzzgD5khiaCfglWztY99cYoiTUksVx11NlnemrcfH5CEaCpsUKoW0cQqg==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
 
@@ -19028,20 +19024,15 @@ typescript@^3.6.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.10.tgz#70f3910ac7a51ed6bef79da7800690b19bf778b8"
   integrity sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==
 
-typescript@^4.2.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.4.2.tgz#6d618640d430e3569a1dfb44f7d7e600ced3ee86"
-  integrity sha512-gzP+t5W4hdy4c+68bfcv0t400HVJMMd2+H9B7gae1nQlBzCqvrXX+6GL/b3GAgyTH966pzrZ70/fRjwAtZksSQ==
+typescript@^4.2.2, typescript@~4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
+  integrity sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
 
 typescript@~4.2:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.4.tgz#8610b59747de028fda898a8aef0e103f156d0961"
   integrity sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==
-
-typescript@^4.2.2, typescript@~4.3.5:
-  version "4.3.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
-  integrity sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
 
 ua-parser-js@^0.7.18, ua-parser-js@^0.7.28:
   version "0.7.28"
@@ -19495,13 +19486,6 @@ vue-client-only@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.1.0.tgz#1a67a47b8ecacfa86d75830173fffee3bf8a4ee3"
   integrity sha512-vKl1skEKn8EK9f8P2ZzhRnuaRHLHrlt1sbRmazlvsx6EiC3A8oWF8YCBrMJzoN+W3OnElwIGbVjsx6/xelY1AA==
 
-vue-drag-drop@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/vue-drag-drop/-/vue-drag-drop-1.1.4.tgz#6e94aeb10304b91d651614b7307d0b90f0227e89"
-  integrity sha512-zrpvKcD5LPVbht7cJ7ZBY0poS8GDLibRck18Zx0polkoSSpTPNMAv/m/b98xtZ3I1jdWGyiPybfPgKFFkygjhQ==
-  dependencies:
-    core-js "^2.5.3"
-
 vue-eslint-parser@^7.0.0, vue-eslint-parser@^7.10.0:
   version "7.10.0"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.10.0.tgz#ea4e4b10fd10aa35c8a79ac783488d8abcd29be8"
@@ -19514,11 +19498,6 @@ vue-eslint-parser@^7.0.0, vue-eslint-parser@^7.10.0:
     esquery "^1.4.0"
     lodash "^4.17.21"
     semver "^6.3.0"
-
-vue-fragment@^1.5.1:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/vue-fragment/-/vue-fragment-1.5.2.tgz#310017170c564c4aad95da14c185c92c6784fd3c"
-  integrity sha512-KEW0gkeNOLJjtXN4jqJhTazez5jtrwimHkE5Few/VxblH4F9EcvJiEsahrV5kg5uKd5U8du4ORKS6QjGE0piYA==
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
