@@ -201,6 +201,47 @@ Read [Adyen's document about the Afterpay](https://docs.adyen.com/payment-method
 Afterpay requires the customer's email addresses. It will be read from `cart.customerEmail` with fallback to the `cart.customer.email` field. Make sure the e-mail address is available in one of these properties.
 :::
 
+## Google Pay configuration
+To enable Google Pay, you have to add a new payment method in Adyen's dashboard. Then add `paywithgoogle` to the `availablePaymentMethods` array in `nuxt.config.js`:
+```js
+// nuxt.config.js
+
+export default {
+  modules: [
+    ['@vsf-enterprise/adyen/nuxt', {
+      availablePaymentMethods: [
+        'scheme',
+        'paywithgoogle'
+      ],
+      // ...
+    }]
+  ]
+};
+```
+
+Read [Adyen's document about the Google Pay](https://docs.adyen.com/payment-methods/google-pay/web-drop-in?tab=version_3_13_0_and_later_1#configure) to check available configuration options and learn how to test this payment method.
+
+If you want to pass aditional configuration options for the Google Pay then use `methods.paywithgoogle`. E.g:
+```js
+// nuxt.config.js
+
+export default {
+  modules: [
+    ['@vsf-enterprise/adyen/nuxt', {
+      availablePaymentMethods: [
+        'scheme',
+        'paywithgoogle'
+      ],
+      methods: {
+        paywithgoogle: {
+          buttonColor: 'white'
+        }
+      }
+      // ...
+    }]
+  ]
+};
+```
 
 ## API
 `@vsf-enterprise/adyen` exports a *useAdyen* composable.   
