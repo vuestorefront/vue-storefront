@@ -2,6 +2,11 @@
   "ci": {
     "upload": {
       "target": "temporary-public-storage"
+    },
+    "collect": {
+      "settings": {
+        "emulatedFormFactor": "desktop"
+      }
     }
   },
   "assert": {

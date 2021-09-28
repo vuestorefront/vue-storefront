@@ -76,16 +76,35 @@ jobs:
       - name: Sleep 5 min (waiting for deployment)
         run: sleep 300
 
-  lighthouse:
+  lighthouse_mobile:
     runs-on: ubuntu-latest
     needs: [deploy, sleep]
     steps:
       - uses: actions/checkout@v2
-      - name: Audit URLs using Lighthouse
+      - name: Audit URLs using Lighthouse - Mobile
         uses: treosh/lighthouse-ci-action@v7
         with:
           urls: |
             https://demo-lighthouse.europe-west1.gcp.storefrontcloud.io
+            https://demo-lighthouse.europe-west1.gcp.storefrontcloud.io/c/women
+            https://demo-lighthouse.europe-west1.gcp.storefrontcloud.io/p/38143c0c-c9b0-448c-93cd-60eb90d8da57/aspesi-shirt-h805-white
           # budgetPath: ./budget.json # test performance budgets
           uploadArtifacts: true # save results as an action artifacts
           temporaryPublicStorage: true # upload lighth
+
+  lighthouse_desktop:
+    runs-on: ubuntu-latest
+    needs: [deploy, sleep, lighthouse_mobile]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Audit URLs using Lighthouse - Desktop
+        uses: treosh/lighthouse-ci-action@v7
+        with:
+          urls: |
+            https://demo-lighthouse.europe-west1.gcp.storefrontcloud.io
+            https://demo-lighthouse.europe-west1.gcp.storefrontcloud.io/c/women
+            https://demo-lighthouse.europe-west1.gcp.storefrontcloud.io/p/38143c0c-c9b0-448c-93cd-60eb90d8da57/aspesi-shirt-h805-white
+          # budgetPath: ./budget.json # test performance budgets
+          uploadArtifacts: true # save results as an action artifacts
+          temporaryPublicStorage: true # upload lighth
+          configPath: '.github/configs/lighthouserc.json'
