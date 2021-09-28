@@ -475,6 +475,7 @@ export interface UseContent<
   content: ComputedProperty<CONTENT>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseContentErrors>;
+  cacheTimestamp: ComputedProperty<number>;
 }
 
 export interface RenderComponent {
