@@ -121,7 +121,8 @@ import {
   SfQuantitySelector
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
-import { useCart, cartGetters } from '<%= options.generate.replace.composables %>';
+import { onSSR } from '@vue-storefront/core';
+import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
 import debounce from 'lodash.debounce';
 
@@ -140,10 +141,15 @@ export default {
   },
   setup() {
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
-    const { cart, removeItem, updateItemQty, loading } = useCart();
+    const { cart, removeItem, updateItemQty, load: loadCart, loading } = useCart();
+    const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
+
+    onSSR(async () => {
+      await loadCart();
+    });
 
     const updateQuantity = debounce(async ({ product, quantity }) => {
       await updateItemQty({ product, quantity });
@@ -152,6 +158,7 @@ export default {
     return {
       updateQuantity,
       loading,
+      isAuthenticated,
       products,
       removeItem,
       isCartSidebarOpen,

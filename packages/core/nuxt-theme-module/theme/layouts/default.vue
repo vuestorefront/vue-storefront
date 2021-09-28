@@ -3,13 +3,16 @@
     <LazyHydrate when-visible>
       <TopBar class="desktop-only" />
     </LazyHydrate>
-
-    <AppHeader />
+    <LazyHydrate when-idle>
+      <AppHeader />
+    </LazyHydrate>
 
     <div id="layout">
       <nuxt :key="$route.fullPath"/>
 
-      <BottomNavigation />
+      <LazyHydrate when-visible>
+        <BottomNavigation />
+      </LazyHydrate>
       <CartSidebar />
       <WishlistSidebar />
       <LoginModal />
@@ -32,7 +35,6 @@ import LoginModal from '~/components/LoginModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import Notification from '~/components/Notification';
 import { onSSR } from '@vue-storefront/core';
-import { onMounted } from '@vue/composition-api';
 import { useCart, useStore, useUser, useWishlist } from '<%= options.generate.replace.composables %>';
 
 export default {
@@ -57,14 +59,12 @@ export default {
     const { load: loadWishlist } = useWishlist();
 
     onSSR(async () => {
-      await loadStores();
-    });
-
-    onMounted(() => {
-      // Load only in the browser
-      loadUser();
-      loadCart();
-      loadWishlist();
+      await Promise.all([
+        loadStores(),
+        loadUser(),
+        loadCart(),
+        loadWishlist()
+      ]);
     });
   }
 };

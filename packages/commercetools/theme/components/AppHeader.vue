@@ -52,9 +52,7 @@
               icon="empty_cart"
               size="1.25rem"
             />
-            <template v-if="cartTotalItems > 0">
-              <SfBadge class="sf-badge--number cart-badge">{{ cartTotalItems }}</SfBadge>
-            </template>
+            <SfBadge v-if="cartTotalItems" class="sf-badge--number cart-badge">{{cartTotalItems}}</SfBadge>
           </SfButton>
         </div>
       </template>
@@ -105,7 +103,7 @@
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useUser, cartGetters } from '@vue-storefront/commercetools';
-import { computed, ref, watch, onBeforeUnmount } from '@vue/composition-api';
+import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
 import { useUiHelpers } from '~/composables';
 import StoreLocaleSelector from './StoreLocaleSelector';
 import SearchResults from '~/components/SearchResults';
