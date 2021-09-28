@@ -117,7 +117,7 @@ adyen: {
   * `buildRedirectUrlAfter3ds1Auth` - deprecated in favor of `buildRedirectUrlAfterAuth`
   * `buildRedirectUrlAfterError` - `(err: Error) => string` - A method that tells the server where to redirect the user if error has been thrown inside `cardAuthAfterRedirect` controller.
   * `buildRedirectUrlAfter3ds1Error` - deprecated in favor of `buildRedirectUrlAfterError`
-  * `buildRedirectUrlIfMalformedPrice` - `(err: Error) => string` - A method that tells the server where to redirect the user if the total price of the cart has changed during the 3DS1 Flow. In this case, you should rediect a user to the payment's view and ask to provide payment data once again (now price should be updated).
+  * `buildRedirectUrlIfMalformedPrice` - `(err: Error) => string` - A method that tells the server where to redirect the user if the total price of the cart has changed during the 3DS1 Flow. In this case, you should redirect a user to the payment's view and ask to provide payment data once again with the updated price.
 
 ```ts
 type PaymentAndOrder = Payment & { order: Order }
@@ -125,10 +125,10 @@ type PaymentAndOrder = Payment & { order: Order }
 
 5. Add an `origin` to the allowed origins in Adyen's dashboard. You can do it in the same place where you looked for the `clientKey`.
 
-6. Commercetools shares [Adyen integration](https://github.com/commercetools/commercetools-adyen-integration). We recommend to deploy it as a Google Function or an AWS Lambda. Make sure to configure and deploy both [extension](https://github.com/commercetools/commercetools-adyen-integration/tree/master/extension) and [notification](https://github.com/commercetools/commercetools-adyen-integration/tree/master/notification) module. Check readme of [the repository](https://github.com/commercetools/commercetools-adyen-integration) for details.
+6. Commercetools shares [Adyen integration](https://github.com/commercetools/commercetools-adyen-integration). We recommend deploying it as a Google Function or an AWS Lambda. Make sure to configure and deploy both [extension](https://github.com/commercetools/commercetools-adyen-integration/tree/master/extension) and [notification](https://github.com/commercetools/commercetools-adyen-integration/tree/master/notification) module. Check readme of [the repository](https://github.com/commercetools/commercetools-adyen-integration) for details.
 
-:::warning Bigger permissions for extensions
-As you can see in `commercetools-adyen-integration` repository, commercetools recommends to use `manage_project` scope for both notification and extension module.
+:::warning Extensions need higher permissions
+As you can see in the `commercetools-adyen-integration` repository, commercetools recommends using the `manage_project` scope for both notification and extension modules.
 :::
 
 7. Use `PaymentAdyenProvider.vue` as a last step of the checkout process. This component will mount Adyen's Web Drop In and handle payment process for you.
@@ -173,11 +173,11 @@ export default {
 Read [Adyen's document about the Klarna](https://docs.adyen.com/payment-methods/klarna#supported-countries) to check which Klarna payment methods are available for individual countries.
 
 :::warning Email Address
-Klarna requires shopper's email address to work correctly. It will be read from `cart.customerEmail` with fallback to the `cart.customer.email` field. Make sure to put it in one of these.
+Klarna requires the shopper's email address to work correctly. It will be read from `cart.customerEmail` with fallback to the `cart.customer.email` field. Make sure to put it in one of these.
 :::
 
 :::warning Phone number
-If your users can provide a phone number then make sure it is with **area code**. Otherwise, Klarna will throw an error because of an improper phone number format.
+If your users can provide a phone number, make sure it includes the **area code**. Otherwise, Klarna will throw an error because of an improper phone number format.
 :::
 
 ## Afterpay configuration
@@ -201,7 +201,7 @@ export default {
 Read [Adyen's document about the Afterpay](https://docs.adyen.com/payment-methods/afterpaytouch) to check which countries and currencies are supported.
 
 :::warning Email Address
-Afterpay requires shopper's email address to work correctly. It will be read from `cart.customerEmail` with fallback to the `cart.customer.email` field. Make sure to put it in one of these.
+Afterpay requires the shopper's email address to work correctly. It will be read from `cart.customerEmail` with fallback to the `cart.customer.email` field. Make sure to put it in one of these.
 :::
 
 
@@ -228,8 +228,8 @@ interface AdyenError {
 #### Methods
 * `createContext` - Loads a cart, then fetching available payment methods for the loaded cart. At the end, a method stores a response inside `paymentObject`.
 * `buildDropinConfiguration` - `(config: AdyenConfigBuilder): any` - Builds a configuration object for Adyen's Web Drop-In.
-* `payAndOrder` - Setting value of the custom field called `makePaymentRequest` in the commercetools' payment object. Commercetools will send it to the Adyen and give you the response. As a last step, a method is storing a response inside the `paymentObject`.
-* `submitAdditionalPaymentDetails` - Setting value of the custom field `submitAdditionalPaymentDetailsRequest` in the commercetools' payment. Commercetools will send it to the Adyen and give you the response. As a last step, a method is storing a response inside the `paymentObject`.
+* `payAndOrder` - Setting value of the custom field called `makePaymentRequest` in the commercetools' payment object. Commercetools will send it to the Adyen and give you the response. As the last step, a method is storing a response inside the `paymentObject`.
+* `submitAdditionalPaymentDetails` - Setting value of the custom field `submitAdditionalPaymentDetailsRequest` in the commercetools' payment. Commercetools will send it to the Adyen and give you the response. As the last step, a method is storing a response inside the `paymentObject`.
 
 ```ts
 interface AdyenConfigBuilder {
@@ -250,7 +250,7 @@ interface AdyenConfigBuilder {
 * `onError` - `(data: { action: string, error: Error | string }) => void` - Called after we got an error from either Adyen or our API.
 
 ## Placing an order
-If the transaction is authorized, the server's controller for `payAndOrder`/`submitAdditionalPaymentDetails` will place an order in Commercetools and apply the `order` object to the response. Thanks to that, we have only one request from the client to both finalize/authorize a payment and make an order.
+If the transaction is authorized, the server's controller for `payAndOrder`/`submitAdditionalPaymentDetails` will place an order in commercetools and apply the `order` object to the response. Thanks to that, we have only one request from the client to both finalize/authorize payment and make an order.
 
 ## Checkout.com
 Adyen's module isn't compatible with [Checkout.com's module](https://github.com/vuestorefront/checkout-com).
@@ -281,14 +281,14 @@ There might be a situation when you can finish 3DS2 Auth in the local environmen
 Update extension and notification modules to the [newest available version](https://github.com/commercetools/commercetools-adyen-integration/releases) by updating the tag in `extension.Dockerfile` and `notification.Dockerfile`.
 
 ### What if a user modifies the cart's total price during the payment flow?
-We check if the cart's total price equals payment's amount in every step of the payment flow. If it doesn't match we are:
+We check if the cart's total price equals the payment's amount in every step of the payment flow. If it doesn't match we are:
 1. stopping the process immediately,
 2. removing a payment object from the commercetools,
 3. redirecting back a user to the payment step.
 4. showing an announcement about the mismatch.
 
 ### How will the component recognize if a user had a price mismatch during the 3DS1 flow?
-The component looks for route's query parameter called `adyen-err`. If it's value equals `malformed-price` - user had a price mismatch.
+The component looks for the route's query parameter called `adyen-err`. If its value equals `malformed-price` - the user had a price mismatch.
 
 Examples:
 ```sh
