@@ -3,7 +3,7 @@ import { isUserSession } from '../../helpers/utils';
 const isLoggedIn = (context) => {
   const { config } = context;
 
-  if (config.handleIsLoggedIn) {
+  if (typeof config.handleIsLoggedIn === 'function') {
     return config.handleIsLoggedIn(context);
   }
 

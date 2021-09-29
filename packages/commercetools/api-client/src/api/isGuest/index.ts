@@ -3,7 +3,7 @@ import { isAnonymousSession, isUserSession } from '../../helpers/utils';
 const isGuest = (context) => {
   const { config } = context;
 
-  if (config.handleIsGuest) {
+  if (typeof config.handleIsGuest === 'function') {
     return config.handleIsGuest(context);
   }
 
