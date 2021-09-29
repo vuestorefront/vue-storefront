@@ -194,13 +194,10 @@
 
 <script>
 import {
-  SfSidebar,
   SfButton,
   SfList,
-  SfIcon,
   SfHeading,
   SfMenuItem,
-  SfFilter,
   SfProductCard,
   SfProductCardHorizontal,
   SfPagination,
@@ -208,7 +205,6 @@ import {
   SfSelect,
   SfBreadcrumbs,
   SfLoader,
-  SfColor,
   SfProperty
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
@@ -276,10 +272,7 @@ export default {
   components: {
     CategoryPageHeader,
     SfButton,
-    SfSidebar,
-    SfIcon,
     SfList,
-    SfFilter,
     SfProductCard,
     SfProductCardHorizontal,
     SfPagination,
@@ -288,7 +281,6 @@ export default {
     SfSelect,
     SfBreadcrumbs,
     SfLoader,
-    SfColor,
     SfHeading,
     SfProperty,
     LazyHydrate

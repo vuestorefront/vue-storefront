@@ -28,7 +28,6 @@
 <script>
 import {
   SfImage,
-  SfSelect,
   SfButton,
   SfList,
   SfBottomModal,
@@ -38,7 +37,6 @@ import { ref, computed } from '@vue/composition-api';
 export default {
   components: {
     SfImage,
-    SfSelect,
     SfButton,
     SfList,
     SfBottomModal,

@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
+import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import { useCart, useUser, cartGetters } from '@vue-storefront/commercetools';
@@ -128,8 +128,6 @@ export default {
     SfSearchBar,
     SearchResults,
     SfOverlay,
-    SfMenuItem,
-    SfLink,
     HeaderNavigation
   },
   directives: { clickOutside },

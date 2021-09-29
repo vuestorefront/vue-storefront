@@ -37,17 +37,13 @@
 <script>
 import { useUiHelpers, useUiState } from '~/composables';
 import {
-  SfButton,
-  SfIcon,
-  SfSelect
+  SfIcon
 } from '@storefront-ui/vue';
 
 export default {
   name: 'CategoryPageHeader',
   components: {
-    SfButton,
-    SfIcon,
-    SfSelect
+    SfIcon
   },
   props: {
     pagination: {

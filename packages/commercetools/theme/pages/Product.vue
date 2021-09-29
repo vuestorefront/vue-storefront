@@ -6,7 +6,7 @@
     />
     <div class="product">
       <LazyHydrate when-idle>
-        <SfGallery :images="productGallery" class="product__gallery" />
+        <!-- <SfGallery :images="productGallery" class="product__gallery" /> -->
       </LazyHydrate>
 
       <div class="product__info">
@@ -192,10 +192,6 @@ import {
   SfTabs,
   SfGallery,
   SfIcon,
-  SfImage,
-  SfBanner,
-  SfAlert,
-  SfSticky,
   SfReview,
   SfBreadcrumbs,
   SfButton,
@@ -266,12 +262,20 @@ export default {
 
     // TODO: Breadcrumbs are temporary disabled because productGetters return undefined. We have a mocks in data
     // const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
-    const productGallery = computed(() => productGetters.getGallery(product.value).map(img => ({
-      mobile: { url: img.small },
-      desktop: { url: img.normal },
-      big: { url: img.big },
-      alt: product.value._name || product.value.name
-    })));
+    // const productGallery = computed(() => productGetters.getGallery(product.value).map(img => ({
+    //   mobile: { url: img.small },
+    //   desktop: { url: img.normal },
+    //   big: { url: img.big },
+    //   alt: product.value._name || product.value.name
+    // })));
+    // console.log(productGallery);
+    const productGallery = ref([{
+      mobile: { url: '/homepage/productB.webp' },
+      desktop: { url: '/homepage/productB.webp' },
+      big: { url: '/homepage/productB.webp' },
+      alt: 'dupa'
+    }]);
+    // console.log(copyProductGallery);
 
     onSSR(async () => {
       await search({ id });
@@ -313,7 +317,6 @@ export default {
     };
   },
   components: {
-    SfAlert,
     SfColor,
     SfProperty,
     SfHeading,
@@ -324,9 +327,6 @@ export default {
     SfTabs,
     SfGallery,
     SfIcon,
-    SfImage,
-    SfBanner,
-    SfSticky,
     SfReview,
     SfBreadcrumbs,
     SfButton,
@@ -379,8 +379,12 @@ export default {
             link: '#'
           }
         }
-      ]
+      ],
+      isCreated: false
     };
+  },
+  created() {
+    this.isCreated = true;
   }
 };
 </script>
@@ -535,6 +539,7 @@ export default {
     }
   }
   &__gallery {
+    min-height: 600px;
     flex: 1;
   }
 }
