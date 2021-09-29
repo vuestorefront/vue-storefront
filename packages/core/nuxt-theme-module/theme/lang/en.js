@@ -2,7 +2,7 @@
 
 export default {
   'Categories': 'Categories',
-  'Filters': 'Filter',
+  'Filters': 'Filters',
   'Sort by': 'Sort by',
   'Products found': 'Products found',
   'About us': 'About us',
@@ -151,5 +151,7 @@ export default {
   'I confirm subscription': 'I confirm subscription',
   'You can unsubscribe at any time': 'You can unsubscribe at any time',
   'show more': 'show more',
-  'hide': 'hide'
+  'hide': 'hide',
+  'Change to grid view': 'Change to grid view',
+  'Change to list view': 'Change to list view'
 };
