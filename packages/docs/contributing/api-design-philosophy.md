@@ -33,7 +33,7 @@ cacheManager.setTags((tags) => {
 ~ Dan Abramov
 ```
 8. Composables should be independent and rely on each other only if they are from the same group (`useUser` `useUserOrder`). The only exception is `useUser` that has to be used in many other composables.
-9. If you introduce a new feature shared across all/many composables (like Logging/cache) users should be able to configure this feature from core/ nuxt module.
+9. If you introduce a new feature shared across all/many composables (like Logging/cache) users should be able to configure this feature from core/core nuxt module.
 ```ts
 // every function in composables is using logger
 const removeFromCart = async (product: CART_ITEM, customQuery?: CustomQuery) => {
