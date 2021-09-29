@@ -173,7 +173,6 @@
               {{ error.register }}
             </div>
             <SfButton
-              v-e2e="'login-modal-submit'"
               type="submit"
               class="sf-button--full-width form__button"
               :disabled="loading"
@@ -186,7 +185,7 @@
         </ValidationObserver>
         <div class="action">
           {{ $t('or') }}
-          <SfButton v-e2e="'login-modal-login-to-your-account'" class="sf-button--text" @click="setIsLoginValue(true)">
+          <SfButton class="sf-button--text" @click="setIsLoginValue(true)">
             {{ $t('login in to your account') }}
           </SfButton>
         </div>

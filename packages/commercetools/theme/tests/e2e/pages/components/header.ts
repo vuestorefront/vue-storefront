@@ -3,11 +3,11 @@ import { el } from '../utils/element';
 class Header {
 
   get account(): Cypress.Chainable {
-    return el('app-header-account');
+    return this.icons.eq(0);
   }
 
   get cart(): Cypress.Chainable {
-    return el('app-header-cart');
+    return this.icons.eq(2);
   }
 
   get categories(): Cypress.Chainable {
@@ -19,6 +19,10 @@ class Header {
       women: () => el('app-header-url_women'),
       men: () => el('app-header-url_men')
     };
+  }
+
+  private get icons(): Cypress.Chainable {
+    return el('header-icons').children();
   }
 
   openCart(): Cypress.Chainable {
