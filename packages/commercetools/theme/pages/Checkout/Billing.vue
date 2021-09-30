@@ -1,7 +1,6 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit, reset }">
     <SfHeading
-      v-e2e="'billing-heading'"
       :level="3"
       :title="$t('Billing address')"
       class="sf-heading--left sf-heading--no-underline title"
@@ -207,7 +206,6 @@
         </ValidationProvider>
       </div>
       <SfButton
-        v-e2e="'billing-add-new-address'"
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
         type="button"
@@ -218,7 +216,6 @@
       <div class="form">
         <div class="form__action">
           <SfButton
-            v-e2e="'continue-to-payment'"
             class="form__action-button"
             type="submit"
             :disabled="!canMoveForward"
