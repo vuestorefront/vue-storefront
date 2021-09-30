@@ -1,6 +1,6 @@
 module.exports = {
   description: 'add min-height to improve CLS',
-  link: 'https://github.com/vuestorefront/vue-storefront/pull/6392',
+  link: 'https://github.com/vuestorefront/vue-storefront/issues/6392',
   isBreaking: false,
   breakingChanges: [],
   author: 'Baroshem',
