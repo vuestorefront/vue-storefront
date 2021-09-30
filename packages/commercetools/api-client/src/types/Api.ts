@@ -27,7 +27,8 @@ import {
   CartQueryInterface,
   CustomerPasswordToken,
   StoreQueryResult,
-  InventoryEntryQueryResult
+  InventoryEntryQueryResult,
+  ChannelQueryResult
 } from './GraphQL';
 
 export interface BaseSearch {
@@ -117,31 +118,32 @@ interface ApiMethods {
     distributionChannel?: string;
   }): Promise<CartResponse>;
   applyCartCoupon ({ id, version }: CartDetails, discountCode: string): Promise<CartResponse>;
+  categorySearch (params): Promise<QueryResponse<'categorySearch', CategorySearchResult>>;
   createCart (cartDraft?: CartData): Promise<{ data: CartQueryInterface }>;
   createMyOrderFromCart (draft: OrderMyCartCommand): Promise<OrderMutationResponse>;
   customerChangeMyPassword (version: any, currentPassword: string, newPassword: string): Promise<ChangeMyPasswordResponse>;
+  customerCreatePasswordResetToken (email: string): Promise<CreatePasswordResetTokenResponse>;
+  customerResetPassword (tokenValue: string, newPassword: string): Promise<ResetPasswordResponse>;
   customerSignMeIn (draft: CustomerSignMeInDraft): Promise<SignInResponse>;
   customerSignMeUp (draft: CustomerSignMeUpDraft): Promise<SignInResponse>;
   customerSignOut (): Promise<void>;
   customerUpdateMe (currentUser, updatedUserData): Promise<any>;
-  customerResetPassword (tokenValue: string, newPassword: string): Promise<ResetPasswordResponse>;
-  customerCreatePasswordResetToken (email: string): Promise<CreatePasswordResetTokenResponse>;
   deleteCart ({ id, version }: CartDetails): Promise<CartResponse>;
   getCart (cartId: string): Promise<CartQueryResponse>;
   getCategory (params): Promise<QueryResponse<'categories', CategoryQueryResult>>;
-  categorySearch (params): Promise<QueryResponse<'categorySearch', CategorySearchResult>>;
+  getChannel(params: Record<string, string>): Promise<ChannelQueryResult>;
+  getInventory(params: Record<string, string>): Promise<InventoryEntryQueryResult>;
   getMe (params?: GetMeParams): Promise<{ data: { me: Me } }>;
   getOrders (params): Promise<{ data: { me: Me } }>;
   getProduct (params): Promise<QueryResponse<'products', ProductQueryResult>>;
   getShippingMethods (cartId?: string): Promise<ShippingMethodData>;
+  getStores(params: GetStoresParams): Promise<StoreQueryResult>;
+  isGuest: () => boolean;
   removeCartCoupon ({ id, version }: CartDetails, discountCode: ReferenceInput): Promise<CartResponse>;
   removeFromCart ({ id, version }: CartDetails, product: LineItem): Promise<CartResponse>;
   updateCart (params: UpdateCartParams): Promise<CartResponse>;
   updateCartQuantity ({ id, version }: CartDetails, product: LineItem): Promise<CartResponse>;
   updateShippingDetails (cart: Cart, shippingDetails: Address): Promise<CartResponse>;
-  isGuest: () => boolean;
-  getStores(params: GetStoresParams): Promise<StoreQueryResult>;
-  getInventory(params: Record<string, string>): Promise<InventoryEntryQueryResult>;
 }
 
 export type CommercetoolsMethods = ApiClientMethods<ApiMethods>
