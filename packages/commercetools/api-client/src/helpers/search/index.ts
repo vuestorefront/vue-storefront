@@ -48,6 +48,17 @@ const buildInventoryEntriesWhere = (params: Record<string, string>) => {
   return predicates.join(' and ') || null;
 };
 
+const buildChannelWhere = (params: Record<string, string>) => {
+  if (!params || typeof params !== 'object') return;
+
+  const predicates: string[] = [];
+  for (const [key, value] of Object.entries(params)) {
+    if (key === 'supplyChannel') predicates.push(`supplyChannel(id="${value}")`);
+    else predicates.push(`${key}="${value}"`);
+  }
+  return predicates.join(' and ') || null;
+};
+
 const buildProductWhere = (settings: Config, search: ProductWhereSearch) => {
   const { acceptLanguage } = settings;
 
@@ -139,5 +150,6 @@ export {
   buildCategoryWhere,
   buildCategoryFilter,
   buildOrderWhere,
-  buildInventoryEntriesWhere
+  buildInventoryEntriesWhere,
+  buildChannelWhere
 };

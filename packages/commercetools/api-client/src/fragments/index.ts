@@ -1,6 +1,7 @@
 export * from './address';
 export * from './cart';
 export * from './channel';
+export * from './channel-query-result';
 export * from './customer';
 export * from './inventory';
 export * from './inventory-entries-query-result';

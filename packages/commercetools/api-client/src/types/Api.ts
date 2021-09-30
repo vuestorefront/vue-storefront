@@ -26,7 +26,8 @@ import {
   Me,
   CartQueryInterface,
   CustomerPasswordToken,
-  StoreQueryResult, InventoryEntryQueryResult
+  StoreQueryResult,
+  InventoryEntryQueryResult
 } from './GraphQL';
 
 export interface BaseSearch {
