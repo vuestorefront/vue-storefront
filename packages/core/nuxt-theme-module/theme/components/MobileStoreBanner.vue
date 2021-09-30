@@ -1,6 +1,6 @@
 <template>
   <SfBanner
-    image="/homepage/bannerD.png"
+    image="/homepage/bannerD.webp"
     subtitle="Fashon to take away"
     title="Download our application to your mobile"
     class="sf-banner--left desktop-only banner-app"
@@ -13,7 +13,7 @@
           @click="() => {}"
         >
           <SfImage
-            src="/homepage/apple.png"
+            src="/homepage/apple.webp"
             alt="App store"
           />
         </SfButton>
@@ -23,7 +23,7 @@
           @click="() => {}"
         >
           <SfImage
-            src="/homepage/google.png"
+            src="/homepage/google.webp"
             alt="Google play"
           />
         </SfButton>
