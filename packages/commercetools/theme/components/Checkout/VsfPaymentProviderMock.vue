@@ -14,7 +14,7 @@
             :label="method.name"
             :value="method.id"
             :selected="selectedPaymentMethod.id"
-            @input="selectPaymentMethod(method)"
+            @change="selectPaymentMethod(method)"
             name="paymentMethod"
             :description="method.description"
             class="form__radio payment__method"

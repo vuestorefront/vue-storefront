@@ -33,7 +33,7 @@
 
     <LazyHydrate when-visible>
       <div class="similar-products">
-        <SfHeading title="Match with it" :level="3"/>
+        <SfHeading title="Match with it" :level="2"/>
         <nuxt-link :to="localePath('/c/women')" class="smartphone-only">See all</nuxt-link>
       </div>
     </LazyHydrate>
@@ -373,7 +373,7 @@ export default {
 }
 
 .carousel {
-    margin: 0 calc(var(--spacer-sm) * -1) 0 0;
+    margin: 0 calc(0 - var(--spacer-sm)) 0 0;
   @include for-desktop {
     margin: 0;
   }

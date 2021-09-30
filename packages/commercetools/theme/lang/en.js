@@ -2,7 +2,7 @@
 
 export default {
   'Categories': 'Categories',
-  'Filters': 'Filter',
+  'Filters': 'Filters',
   'Sort by': 'Sort by',
   'Products found': 'Products found',
   'About us': 'About us',

@@ -7,7 +7,8 @@ const mapI18nSettings = (i18n) => ({
   acceptLanguage: i18n.locales.map(({ code }) => code),
   countries: i18n.countries,
   currencies: i18n.currencies,
-  locales: i18n.locales.map(({ label, code }) => ({ name: code, label }))
+  locales: i18n.locales.map(({ label, code }) => ({ name: code, label })),
+  ...(i18n.cookies && { cookies: i18n.cookies })
 });
 
 const isNuxtI18nUsed = (moduleOptions) => moduleOptions.i18n && moduleOptions.i18n.useNuxtI18nConfig;
@@ -16,7 +17,7 @@ const getMissingFields = (options) =>
   ['locale', 'currency', 'country', 'acceptLanguage', 'countries', 'currencies', 'locales']
     .filter(o => options[o] === undefined);
 
-export default function (moduleOptions) {
+export default function(moduleOptions) {
   const options = isNuxtI18nUsed(moduleOptions)
     ? { ...moduleOptions, ...mapI18nSettings(this.options.i18n) }
     : moduleOptions;
