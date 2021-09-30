@@ -57,6 +57,7 @@ export default {
 
 #layout {
   box-sizing: border-box;
+  min-height: 900px;
   @include for-desktop {
     max-width: 1240px;
     margin: auto;
