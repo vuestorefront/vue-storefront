@@ -148,3 +148,15 @@ jobs:
       - name: composables coverage file
         id: composables-coverage
         run: echo "::set-output name=exists::$((test -s packages/${{ matrix.integration }}/composables/coverage/lcov.info && echo 'true') || echo 'false')"
+
+      - name: Install Lighthouse CI
+        id: install-lhci
+        run: npm install -g @lhci/cli
+
+      - name: Test with Lighthouse - mobile
+        id: lhci-mobile
+        run: lhci autorun --collect.startServerCommand="yarn start:ct" --collect.url=http://localhost:3000 --collect.url=http://localhost:3000/c/women --collect.url=http://localhost:3000/p/38143c0c-c9b0-448c-93cd-60eb90d8da57/aspesi-shirt-h805-white
+
+      - name: Test with Lighthouse - desktop
+        id: lhci-desktop
+        run: lhci autorun --collect.startServerCommand="yarn start:ct"  --collect.settings.preset="desktop" --collect.url=http://localhost:3000 --collect.url=http://localhost:3000/c/women --collect.url=http://localhost:3000/p/38143c0c-c9b0-448c-93cd-60eb90d8da57/aspesi-shirt-h805-white
