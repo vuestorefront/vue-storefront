@@ -151,5 +151,11 @@ export default {
   'I confirm subscription': 'I confirm subscription',
   'You can unsubscribe at any time': 'You can unsubscribe at any time',
   'show more': 'show more',
-  'hide': 'hide'
+  'hide': 'hide',
+  'Change to grid view': 'Change to grid view',
+  'Change to list view': 'Change to list view',
+  'Delivery': 'Delivery',
+  'Pickup in store': 'Pickup in store',
+  'Free': 'Free',
+  'Select Channel': 'Select Channel'
 };

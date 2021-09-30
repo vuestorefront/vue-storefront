@@ -151,5 +151,11 @@ export default {
   'I confirm subscription': 'Ich bestätige das Abonnement',
   'You can unsubscribe at any time': 'Sie können sich jederzeit abmelden',
   'show more': 'mehr anzeigen',
-  'hide': 'ausblenden'
+  'hide': 'ausblenden',
+  'Change to grid view': 'Zur Rasteransicht wechseln',
+  'Change to list view': 'Zur Listenansicht wechseln',
+  'Delivery': 'Lieferung',
+  'Pickup in store': 'Abholung im Laden',
+  'Free': 'Kostenlos',
+  'Select Channel': 'Kanal auswählen'
 };
