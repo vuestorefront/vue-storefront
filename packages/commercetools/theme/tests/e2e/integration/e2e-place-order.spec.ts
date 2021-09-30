@@ -44,7 +44,7 @@ context(['happypath', 'regression'], 'Order placement', () => {
     page.home.header.openLoginModal();
     page.components.loginModal.fillForm(data.customer);
     page.components.loginModal.iWantToCreateAccountCheckbox.click();
-    page.components.loginModal.submitButton.click();
+    page.components.loginModal.createAccountButton.click();
     page.home.header.categories.first().click();
     page.category().products.first().click().then(() => {
       cy.wait([getProductReq, getProductReq]);
