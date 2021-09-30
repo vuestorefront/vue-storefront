@@ -73,7 +73,7 @@
           </template>
         </SfCheckbox>
 
-        <div class="summary__action">
+        <div v-e2e="'payment-summary-buttons'" class="summary__action">
           <SfButton
             type="button"
             class="sf-button color-secondary summary__back-button"
@@ -82,7 +82,6 @@
             {{ $t('Go back') }}
           </SfButton>
           <SfButton
-            v-e2e="'make-an-order'"
             :disabled="loading || !isPaymentReady || !terms"
             class="summary__action-button"
             @click="processOrder"
