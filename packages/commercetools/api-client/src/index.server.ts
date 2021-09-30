@@ -2,7 +2,7 @@
 import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import * as api from './api';
-import { Config, ClientInstance } from './types/setup';
+import { Config, ClientInstance, CT_COOKIE_NAME } from './types/setup';
 import { createCommerceToolsConnection } from './helpers/commercetoolsLink/createCommerceToolsConnection';
 import { defaultSettings } from './helpers/apiClient/defaultSettings';
 import { apiClientFactory, ApiClientExtension } from '@vue-storefront/core';
@@ -80,28 +80,15 @@ const tokenExtension: ApiClientExtension = {
         ...configuration,
         ...getI18nConfig(req, configuration),
         auth: {
-          onTokenChange: (newToken) => {
-            if (!currentToken || currentToken.access_token !== newToken.access_token) {
-              res.cookie(
-                'vsf-commercetools-token',
-                JSON.stringify(newToken),
-                newToken?.expires_at ? { expires: new Date(newToken.expires_at) } : {}
-              );
-            }
-          },
+          onTokenChange: (token) => res.cookie(
+            CT_COOKIE_NAME,
+            JSON.stringify(token),
+            token?.expires_at ? { expires: new Date(token.expires_at) } : {}
+          ),
 
-          onTokenRead: () => {
-            res.cookie(
-              'vsf-commercetools-token',
-              rawCurrentToken,
-              currentToken?.expires_at ? { expires: new Date(currentToken.expires_at) } : {}
-            );
-            return currentToken;
-          },
+          onTokenRead: () => currentToken,
 
-          onTokenRemove: () => {
-            delete req.cookies['vsf-commercetools-token'];
-          }
+          onTokenRemove: () => res.clearCookie(CT_COOKIE_NAME)
         }
       })
     };

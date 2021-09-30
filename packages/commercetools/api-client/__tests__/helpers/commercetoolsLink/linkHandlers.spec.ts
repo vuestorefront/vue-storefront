@@ -19,6 +19,7 @@ describe('[commercetools-helpers] handleBeforeAuth', () => {
   it('doesnt generate access token for guest on users related operations', async () => {
     const scope = '';
     const result = await handleBeforeAuth({
+      settings: {},
       sdkAuth: getSdkAuth(scope),
       tokenProvider: getTokenProvider(scope),
       apolloReq: { operationName: 'customerSignMeIn' },
@@ -31,6 +32,7 @@ describe('[commercetools-helpers] handleBeforeAuth', () => {
   it('generates access token for guest on anonymous-session allowed operations', async () => {
     const scope = '';
     const result = await handleBeforeAuth({
+      settings: {},
       sdkAuth: getSdkAuth(scope),
       tokenProvider: getTokenProvider(scope),
       apolloReq: { operationName: 'createCart' },
@@ -43,6 +45,7 @@ describe('[commercetools-helpers] handleBeforeAuth', () => {
   it('returns current token for anonymous user', async () => {
     const scope = 'anonymous_id';
     const result = await handleBeforeAuth({
+      settings: {},
       sdkAuth: getSdkAuth(scope),
       tokenProvider: getTokenProvider(scope),
       apolloReq: { operationName: 'customerSignMeIn' },
@@ -55,6 +58,7 @@ describe('[commercetools-helpers] handleBeforeAuth', () => {
   it('returns current token for logged in user', async () => {
     const scope = 'customer_id';
     const result = await handleBeforeAuth({
+      settings: {},
       sdkAuth: getSdkAuth(scope),
       tokenProvider: getTokenProvider(scope),
       apolloReq: { operationName: 'customerSignMeIn' },
@@ -140,7 +144,7 @@ describe('[commercetools-helpers] handleRetry', () => {
 
   it('defaults to false', () => {
     const tokenProvider = getTokenProvider('');
-    const handler = handleRetry({ tokenProvider });
+    const handler = handleRetry({ settings: {}, tokenProvider });
     const operation = { operationName: 'any' };
     const error = { result: { message: '' } };
 
@@ -150,7 +154,7 @@ describe('[commercetools-helpers] handleRetry', () => {
 
   it('doesnt run more than 3 times', () => {
     const tokenProvider = getTokenProvider('');
-    const handler = handleRetry({ tokenProvider });
+    const handler = handleRetry({ settings: {}, tokenProvider });
     const operation = { operationName: 'any' };
     const error = { result: { message: 'invalid_token' } };
 
@@ -160,7 +164,7 @@ describe('[commercetools-helpers] handleRetry', () => {
 
   it('calls "invalidateTokenInfo" on "invalid_token" error', () => {
     const tokenProvider = getTokenProvider('');
-    const handler = handleRetry({ tokenProvider });
+    const handler = handleRetry({ settings: {}, tokenProvider });
     const operation = { operationName: 'any' };
     const error = { result: { message: 'invalid_token' } };
 

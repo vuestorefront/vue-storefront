@@ -2,7 +2,7 @@ import page from '../pages/factory';
 import generator from '../utils/data-generator';
 import intercept from '../utils/network';
 
-context('Order placement', () => {
+context(['happypath', 'regression'], 'Order placement', () => {
   beforeEach(function () {
     cy.fixture('test-data/e2e-place-order').then((fixture) => {
       this.fixtures = {
@@ -11,7 +11,7 @@ context('Order placement', () => {
     });
   });
 
-  it(['happypath', 'regression'], 'Should successfully place an order as a guest', function() {
+  it('Should successfully place an order as a guest', function() {
     const data = this.fixtures.data[this.test.title];
     const getProductReq = intercept.getProduct();
     page.home.visit();
@@ -36,7 +36,7 @@ context('Order placement', () => {
     page.checkout.thankyou.heading.should('be.visible');
   });
 
-  it(['happypath', 'regression'], 'Should successfully place an order as a registered customer', function() {
+  it('Should successfully place an order as a registered customer', function() {
     const data = this.fixtures.data[this.test.title];
     const getProductReq = intercept.getProduct();
     data.customer.email = generator.email;

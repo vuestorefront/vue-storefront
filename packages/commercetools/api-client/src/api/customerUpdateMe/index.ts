@@ -1,9 +1,10 @@
+import gql from 'graphql-tag';
 import { changeCustomerEmailAction, setCustomerFirstNameAction, setCustomerLastNameAction } from '../../helpers/customer';
 import CustomerUpdateMeMutation from './defaultMutation';
 
 const customerUpdateMe = async ({ client }, currentUser, updatedUserData) => {
   const updateResponse = await client.mutate({
-    mutation: CustomerUpdateMeMutation,
+    mutation: gql`${CustomerUpdateMeMutation}`,
     variables: {
       version: currentUser.version,
       actions: [
