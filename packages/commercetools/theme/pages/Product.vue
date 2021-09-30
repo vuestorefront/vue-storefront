@@ -535,6 +535,7 @@ export default {
     }
   }
   &__gallery {
+    min-height: 600px;
     flex: 1;
   }
 }
