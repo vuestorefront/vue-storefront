@@ -53,7 +53,12 @@ export class Category extends Base {
   }
 
   viewIcon(view: View): Cypress.Chainable {
-    return el(`${view}-icon`);
+    const views = el('category-header-views').get('[role="button"]');
+    const buttons = {
+      titles: () => views.eq(0),
+      list: () => views.eq(1)
+    };
+    return buttons[view]();
   }
 
   changeView(view: View): Cypress.Chainable {

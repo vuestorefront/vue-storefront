@@ -4,7 +4,7 @@ import page from '../pages/factory';
 const assertDataInProductRow = (productData, expectedData) => {
   const data = productData.text().split('\n').map(e => e.trim()).filter(e => e);
   data.forEach((line, index) => {
-    expect(line).to.be.equal(expectedData[index]);
+    expect(line).to.contain(expectedData[index]);
   });
 };
 
