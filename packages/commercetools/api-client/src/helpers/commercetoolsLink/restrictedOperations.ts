@@ -20,7 +20,7 @@ const restrictedOperations = {
 export function isServerOperation(settings: Config, operationName: string): boolean {
   const operations = [
     ...restrictedOperations.server,
-    ...(settings.serverApi.operations || [])
+    ...(settings?.serverApi?.operations || [])
   ];
 
   return operations.includes(operationName);
