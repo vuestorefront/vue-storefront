@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In 2.4.0 release, we introduce Forgot Password functionality and basic support for Stores and Channels in commercetools - you can now select a specific store and its corresponding channel, e.g., to display prices for a selected channel. We also fix some bugs related to Checkout forms and add new getters.
+In 1.3.0 release, we introduce Forgot Password functionality and basic support for Stores and Channels in commercetools - you can now select a specific store and its corresponding channel, e.g., to display prices for a selected channel. We also fix some bugs related to Checkout forms and add new getters.
 
 ## Changes
 
