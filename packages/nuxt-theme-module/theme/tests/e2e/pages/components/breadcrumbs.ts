@@ -1,13 +1,11 @@
-import { el } from '../utils/element';
-
 class Breadcrumbs {
 
   get container(): Cypress.Chainable {
-    return el('breadcrumbs');
+    return cy.get('.breadcrumbs');
   }
 
   get listItems(): Cypress.Chainable {
-    return el('breadcrumbs', '.sf-breadcrumbs__list-item');
+    return this.container.get('.sf-breadcrumbs__list-item');
   }
 }
 

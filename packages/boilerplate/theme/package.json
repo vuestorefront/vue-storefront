@@ -13,7 +13,7 @@
     "test:e2e:generate:report": "yarn -s mochawesome-merge \"tests/e2e/report/*.json\" > \"tests/e2e/report.json\" && yarn -s marge tests/e2e/report.json -o \"tests/e2e/report\""
   },
   "dependencies": {
-    "@storefront-ui/vue": "^0.10.3",
+    "@storefront-ui/vue": "0.11.0-rc.1",
     "@vue-storefront/boilerplate": "~2.4.2",
     "@vue-storefront/middleware": "~2.4.2",
     "@vue-storefront/nuxt": "~2.4.2",
