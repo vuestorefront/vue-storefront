@@ -58,9 +58,17 @@ export const setShippingAddressAction = (shippingDetails: Address): { setShippin
         building: shippingDetails.building,
         apartment: shippingDetails.apartment,
         pOBox: shippingDetails.pOBox,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         phone: shippingDetails.phone || shippingDetails.contactInfo?.phone,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         mobile: shippingDetails.mobile || shippingDetails.contactInfo?.mobile,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         email: shippingDetails.email || shippingDetails.contactInfo?.email,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         fax: shippingDetails.fax || shippingDetails.contactInfo?.fax,
         additionalAddressInfo: shippingDetails.additionalAddressInfo
       }
