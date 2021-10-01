@@ -77,7 +77,7 @@ export const handleBeforeAuth = async ({
   currentToken
 }) => {
   const isGuest = !isAnonymousSession(currentToken) && !isUserSession(currentToken) && isAnonymousOperation(apolloReq.operationName);
-  const isServer = isServerOperation(apolloReq.operationName);
+  const isServer = isServerOperation(settings, apolloReq.operationName);
 
   const customToken = await settings.customToken?.({
     settings,
