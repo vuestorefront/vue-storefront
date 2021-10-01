@@ -6,16 +6,16 @@ In the 1.3.2 release, we focused on improving security by limiting permissions g
 
 ## Changes
 
-In the past, call requests sent to the commercetools included customer's access token created with scopes defined in the `middleware.config.js` file. If the customer didn't have permission to access a given resource, commercetools would return an error. It sounds logical - you can't access or operate the data if you don't have permission.
+In the past, all requests sent to the commercetools included customer's access token created with scopes defined in the `middleware.config.js` file. If the customer didn't have permission to access a given resource, commercetools would return an error. It sounds logical - you can't access or operate the data if you don't have permission.
 
 Unfortunately, some operations require `manage_*` scopes. For example:
 
 - resetting user password requires `manage_customers` scope,
 - adding product reviews requires `manage_products` scope.
 
-Giving these permissions to the customer would allow them to access and modify customers and products in your commercetools project.
+Giving these permissions to the customer would allow them to access and modify all customers and products in your commercetools project.
 
-For this reason, we introduced a new key named `serverApi` in commercetools middleware configuration. You can use it to pass new server-specific API client credentials that middleware will use instead of those for customers for selected operations that require `manage_*` permissions.
+For this reason, we introduced a new key named `serverApi` to the commercetools middleware configuration. You can use it to pass new server-specific API client credentials that middleware will use instead of customers API client for selected operations that require `manage_*` permissions.
 
 ```javascript{11-22,25-30}
 // middleware.config.js
@@ -64,12 +64,12 @@ While it's possible to use the same API client in `api` and `serverApi`, but wil
 
 ### Recommended customer scopes
 
-Image below show a list of recommended scopes for the API client configured in the `api` section should have.
+The image below shows a list of recommended scopes for the API client configured in the `api` section should have.
 
 ![Image showing list of recommended scopes for the customers](./customer_scopes.jpg)
 
 ### Recommended server scopes
 
-Image below show a list of recommended scopes for the API client configured in the `serverApi` section should have.
+The image below shows a list of recommended scopes for the API client configured in the `serverApi` section should have.
 
 ![Image showing list of recommended scopes for the server](./server_scopes.jpg)
