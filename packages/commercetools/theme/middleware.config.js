@@ -22,10 +22,11 @@ module.exports = {
           ]
         },
         serverApi: {
-          clientId: 'kuFT95wdTP4uH_hVOKjqfGEo',
-          clientSecret: 'tklIDic86mgWrFy0oBHRQQmwX7ZC5wIP',
+          clientId: 'XPVdGFHqZwAaR2rQQEu0cXU-',
+          clientSecret: 'bpDi7aApbmeQjSnCJT_KL-YymzEjxrUq',
           scopes: [
-            'manage_project:vsf-ct-dev'
+            'manage_customers:vsf-ct-dev',
+            'manage_products:vsf-ct-dev'
           ]
         },
         currency: 'USD',
