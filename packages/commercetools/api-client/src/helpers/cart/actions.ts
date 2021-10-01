@@ -110,9 +110,17 @@ export const setBillingAddressAction = (billingDetails: Address): { setBillingAd
         building: billingDetails.building,
         apartment: billingDetails.apartment,
         pOBox: billingDetails.pOBox,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         phone: billingDetails.phone || billingDetails.contactInfo?.phone,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         mobile: billingDetails.mobile || billingDetails.contactInfo?.mobile,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         email: billingDetails.email || billingDetails.contactInfo?.email,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         fax: billingDetails.fax || billingDetails.contactInfo?.fax,
         additionalAddressInfo: billingDetails.additionalAddressInfo
       }
