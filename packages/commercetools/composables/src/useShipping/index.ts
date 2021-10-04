@@ -1,7 +1,6 @@
 import { useShippingFactory, UseShippingParams, Context } from '@vue-storefront/core';
+import { cartActions, Address } from '@vue-storefront/commercetools-api';
 import { useCart } from '../useCart';
-import { cartActions } from '@vue-storefront/commercetools-api';
-import { Address } from './../types/GraphQL';
 
 const useShippingFactoryParams: UseShippingParams<Address, any> = {
   provide() {

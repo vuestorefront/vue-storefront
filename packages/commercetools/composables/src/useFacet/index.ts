@@ -1,7 +1,6 @@
 import { useFacetFactory, FacetSearchResult, Context } from '@vue-storefront/core';
-import { AttributeType } from '@vue-storefront/commercetools-api';
+import { AttributeType, ProductVariant } from '@vue-storefront/commercetools-api';
 import { enhanceProduct, getFiltersFromProductsAttributes, getChannelId } from './../helpers/internals';
-import { ProductVariant } from './../types/GraphQL';
 import { FacetResultsData } from './../types';
 
 // TODO: move to the config file

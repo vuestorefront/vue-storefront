@@ -1,42 +1,39 @@
 /* istanbul ignore file */
 
 import { ReviewGetters, AgnosticRateCount } from '@vue-storefront/core';
-
-// TODO: Replace with GraphQL types when they get updated
-type Review = any;
-type ReviewItem = any;
+import { ReviewQueryResult, Review } from '@vue-storefront/commercetools-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItems = (review: Review): ReviewItem[] => [];
+export const getItems = (review: ReviewQueryResult): Review[] => [];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewId = (item: ReviewItem): string => '';
+export const getReviewId = (item: Review): string => '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewAuthor = (item: ReviewItem): string => '';
+export const getReviewAuthor = (item: Review): string => '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewMessage = (item: ReviewItem): string => '';
+export const getReviewMessage = (item: Review): string => '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewRating = (item: ReviewItem): number => 0;
+export const getReviewRating = (item: Review): number => 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewDate = (item: ReviewItem): string => '';
+export const getReviewDate = (item: Review): string => '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getTotalReviews = (review: Review): number => 0;
+export const getTotalReviews = (review: ReviewQueryResult): number => 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getAverageRating = (review: Review): number => 0;
+export const getAverageRating = (review: ReviewQueryResult): number => 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getRatesCount = (review: Review): AgnosticRateCount[] => [];
+export const getRatesCount = (review: ReviewQueryResult): AgnosticRateCount[] => [];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewsPage = (review: Review): number => 1;
+export const getReviewsPage = (review: ReviewQueryResult): number => 1;
 
-const reviewGetters: ReviewGetters<Review, ReviewItem> = {
+const reviewGetters: ReviewGetters<ReviewQueryResult, Review> = {
   getItems,
   getReviewId,
   getReviewAuthor,

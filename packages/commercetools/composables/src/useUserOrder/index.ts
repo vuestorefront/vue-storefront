@@ -1,5 +1,5 @@
 import { useUserOrderFactory, UseUserOrderFactoryParams, Context } from '@vue-storefront/core';
-import { OrderQueryResult } from '../types/GraphQL';
+import { OrderQueryResult } from '@vue-storefront/commercetools-api';
 import { OrderSearchParams } from '../types';
 
 const useUserOrderFactoryParams: UseUserOrderFactoryParams<OrderQueryResult, OrderSearchParams> = {

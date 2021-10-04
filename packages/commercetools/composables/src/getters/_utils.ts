@@ -1,6 +1,11 @@
 import { AgnosticAttribute, AgnosticPrice } from '@vue-storefront/core';
-import { ProductVariant, ProductPrice, DiscountedProductPriceValue, LineItem } from './../types/GraphQL';
-import { DiscountedLineItemPrice } from '../types/GraphQL';
+import {
+  ProductVariant,
+  ProductPrice,
+  DiscountedProductPriceValue,
+  LineItem,
+  DiscountedLineItemPrice
+} from '@vue-storefront/commercetools-api';
 import { getCartItemQty } from './cartGetters';
 
 export const getAttributeValue = (attribute) => {
