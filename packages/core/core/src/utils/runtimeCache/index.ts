@@ -24,9 +24,7 @@ export const isCacheValid = (
   if (_isContentCached(content.value)) {
     const now = Date.now();
     const cacheLife = (now - timestamp.value) / 1000;
-    if (cacheLife < cacheTimeToLive) {
-      return true;
-    }
+    return cacheLife < cacheTimeToLive;
   } else {
     return false;
   }
