@@ -1,8 +1,9 @@
-import { setCacheTimestamp } from '../../src/utils/runtimeCache';
+import { setCacheTimestamp, isCacheValid } from '../../src/utils/runtimeCache';
 import { useVSFContext, sharedRef } from '../../src/utils';
+import { ref } from '@vue/composition-api';
 
 describe('runtimeCacheHelpers', () => {
-  describe('>setCacheTimestamp', () => {
+  describe('setCacheTimestamp', () => {
     let $sharedRefsMap;
     let mockedDateValue;
 
@@ -12,7 +13,7 @@ describe('runtimeCacheHelpers', () => {
     };
     const mockDateNow = () => {
       mockedDateValue = 12345;
-      Date.now = jest.fn(() => mockedDateValue);
+      jest.spyOn(Date, 'now').mockImplementation(() => mockedDateValue);
     };
     const mockSharedRef = () => {
       (sharedRef as any).mockImplementation((value, key) => {
@@ -22,7 +23,6 @@ describe('runtimeCacheHelpers', () => {
     };
 
     beforeEach(() => {
-      jest.clearAllMocks();
       mockVSFContext();
       mockDateNow();
       mockSharedRef();
@@ -49,16 +49,46 @@ describe('runtimeCacheHelpers', () => {
     });
   });
 
-  describe('>isCacheValid', () => {
+  describe('isCacheValid', () => {
     describe('returns false', () => {
-      it('when content is falsy', () => {});
-      it('when content is an empty array', () => {});
-      it('when content is an empty object', () => {});
-      it('when cacheLife is greater than cacheTimeToLive', () => {});
+      beforeEach(() => {
+        jest.restoreAllMocks();
+      });
+      it('when content is falsy', () => {
+        const content = ref(null);
+        const timestamp = ref(1);
+        expect(isCacheValid(content, timestamp)).toBe(false);
+      });
+      it('when content is an empty array', () => {
+        const content = ref([]);
+        const timestamp = ref(1);
+        expect(isCacheValid(content, timestamp)).toBe(false);
+      });
+      it('when content is an empty object', () => {
+        const content = ref({});
+        const timestamp = ref(1);
+        expect(isCacheValid(content, timestamp)).toBe(false);
+      });
+      it('when cacheLife is greater than cacheTimeToLive', () => {
+        const timestamp = ref(Date.now());
+        const content = ref(['non-empty', 'content']);
+        const cacheTimeToLive = 300;
+        jest.spyOn(Date, 'now').mockImplementation(() => timestamp.value + (301 * 1000));
+        expect(isCacheValid(content, timestamp, cacheTimeToLive)).toBe(false);
+      });
     });
 
     describe('returns true', () => {
-      it('when cacheLife is less than cacheTimeToLive', () => {});
+      beforeEach(() => {
+        jest.restoreAllMocks();
+      });
+      it('when cacheLife is less than cacheTimeToLive', () => {
+        const timestamp = ref(Date.now());
+        const content = ref(['non-empty', 'content']);
+        const cacheTimeToLive = 300;
+        jest.spyOn(Date, 'now').mockImplementation(() => timestamp.value + (299 * 1000));
+        expect(isCacheValid(content, timestamp, cacheTimeToLive)).toBe(true);
+      });
     });
   });
 });
