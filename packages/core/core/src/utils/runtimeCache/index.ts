@@ -21,8 +21,7 @@ export const isCacheValid = (
   timestamp: Ref<number>,
   cacheTimeToLive = 300
 ) => {
-  const isContentCached = _isContentCached(content.value);
-  if (isContentCached) {
+  if (_isContentCached(content.value)) {
     const now = Date.now();
     const cacheLife = (now - timestamp.value) / 1000;
     if (cacheLife < cacheTimeToLive) {
