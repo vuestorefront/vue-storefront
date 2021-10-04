@@ -1,5 +1,37 @@
 # Changelog
 
+## 2.4.3
+
+- Extract &amp;#x60;CategoryPageHeader&amp;#x60; and &amp;#x60;FiltersSidebar&amp;#x60; to separate components ([5684](https://github.com/vuestorefront/vue-storefront/issues/5684)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
+- Color filter param set correct color value ([5787](https://github.com/vuestorefront/vue-storefront/issues/5787)) - [Andrzej Kurek](https://github.com/Razz21)
+
+- Redirect to 404 page when category page does not exist ([5871](https://github.com/vuestorefront/vue-storefront/issues/5871)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
+- **[BREAKING]** Remove unused &amp;#x60;checkoutGetters&amp;#x60;. ([5891](https://github.com/vuestorefront/vue-storefront/issues/5891)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
+  | Before | After | Comment | Module |
+  | ------ | ----- | ------- | ------ |
+  | &amp;#x60;checkoutGetters&amp;#x60; was deprecated, but available in the API | Removed &amp;#x60;checkoutGetters&amp;#x60; | &amp;#x60;checkoutGetters&amp;#x60; was removed | &amp;#x60;@vue-storefront/core&amp;#x60; |
+
+- Add subscribe to the newsletter modal on home page ([6082](https://github.com/vuestorefront/vue-storefront/issues/5744)) - [Adam Pawliński](https://github.com/AdamPawlinski)
+
+- Remediated missing dependency&amp;#x60; ([6099](https://github.com/vuestorefront/vue-storefront/issues/6099)) - [jaydubb12](https://github.com/jaydubb12/vue-storefront)
+
+- Fix quantity input being immediately disabled after inserting single digit ([6226](https://github.com/vuestorefront/vue-storefront/issues/6226)) - [Igor Wojciechowski](https://github.com/igorwojciechowski)
+
+- Updated SFUI ([6240](https://github.com/vuestorefront/vue-storefront/pull/6240)) - [Justyna Gieracka](https://github.com/justyna-13)
+
+- Remove &amp;quot;download all&amp;quot; button from the order list in my account ([6246](https://github.com/vuestorefront/vue-storefront/pull/6246)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
+- Changed how &amp;#x60;getAgnosticStatusCode&amp;#x60; is retrieving error code. It first looks at axios model, then on apollo, then custom with recursion protected to 3 levels down in depth. ([6287](https://github.com/vuestorefront/vue-storefront/pull/6287)) - [Dawid Ziobro](https://github.com/dawid-ziobro)
+
+- allow to customize currency &amp;amp; country cookie names in i18nCookiesPlugin ([6296](https://github.com/vuestorefront/vue-storefront/issues/6296)) - [Marcin Sulowski](https://github.com/MarcinSulowski)
+
+- Improve A11Y in Core Web Vitals ([6304](https://github.com/vuestorefront/vue-storefront/pull/6304)) - [Baroshem](https://github.com/Baroshem)
+
+- fix(cache): cache package invalidation bug ([6355](https://github.com/vuestorefront/vue-storefront/pull/6355)) - [Łukasz Śliwa](https://github.com/lsliwaradioluz)
+
 ## 2.4.2
 
 - **[BREAKING]** Fix loading user and cart information ([6265](https://github.com/vuestorefront/vue-storefront/pull/6265/)) - [Filip Sobol](https://github.com/filipsobol)
