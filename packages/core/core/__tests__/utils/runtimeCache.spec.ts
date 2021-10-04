@@ -48,4 +48,17 @@ describe('runtimeCacheHelpers', () => {
       expect(timestamp).toBe(mockedDateValue);
     });
   });
+
+  describe('>isCacheValid', () => {
+    describe('returns false', () => {
+      it('when content is falsy', () => {});
+      it('when content is an empty array', () => {});
+      it('when content is an empty object', () => {});
+      it('when cacheLife is greater than cacheTimeToLive', () => {});
+    });
+
+    describe('returns true', () => {
+      it('when cacheLife is less than cacheTimeToLive', () => {});
+    });
+  });
 });
