@@ -8,7 +8,7 @@ import {
   PlatformApi
 } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, configureFactoryParams } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, setCacheTimestamp, isCacheValid } from '../utils';
 export interface UseProductFactoryParams<
 PRODUCTS,
 PRODUCT_SEARCH_PARAMS extends ProductsSearchParams,
@@ -20,25 +20,27 @@ API extends PlatformApi = any
 export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS, API extends PlatformApi = any>(
   factoryParams: UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PARAMS, API>
 ) {
-  return function useProduct(id: string): UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS, API> {
+  return function useProduct(id: string, cacheTimeToLive: number): UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS, API> {
     const products: Ref<PRODUCTS> = sharedRef([], `useProduct-products-${id}`);
     const loading = sharedRef(false, `useProduct-loading-${id}`);
     const error: Ref<UseProductErrors> = sharedRef({
       search: null
     }, `useProduct-error-${id}`);
+    const cacheTimestamp: Ref<number> = setCacheTimestamp(`useProduct-cache-${id}`);
 
     const _factoryParams = configureFactoryParams(
       factoryParams,
       { mainRef: products, alias: 'currentProducts', loading, error }
     );
 
-    const search = async (searchParams) => {
+    const search = async (searchParams, force = false) => {
       Logger.debug(`useProduct/${id}/search`, searchParams);
-
+      if (isCacheValid(products, `useProduct-cache-${id}`, cacheTimeToLive) && !force) return;
       try {
         loading.value = true;
         products.value = await _factoryParams.productsSearch(searchParams);
         error.value.search = null;
+        cacheTimestamp.value = Date.now();
       } catch (err) {
         error.value.search = err;
         Logger.error(`useProduct/${id}/search`, err);
@@ -51,7 +53,8 @@ export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS, API extends P
       search,
       products: computed(() => products.value),
       loading: computed(() => loading.value),
-      error: computed(() => error.value)
+      error: computed(() => error.value),
+      cacheTimestamp: computed(() => cacheTimestamp.value)
     };
   };
 }
