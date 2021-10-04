@@ -10,7 +10,7 @@ import {
   getFormattedPrice,
   getOrdersTotal
 } from './../../src/getters/orderGetters';
-import { OrderState, Order } from './../../src/types/GraphQL';
+import { OrderState, Order } from '@vue-storefront/commercetools-api';
 
 const order: Order = {
   createdAt: 123456789,
