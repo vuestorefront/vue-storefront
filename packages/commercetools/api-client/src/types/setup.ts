@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
 import ApolloClient, { ApolloClientOptions } from 'apollo-client';
+import { GraphQLRequest, Operation } from 'apollo-link';
 
 /**
  * Name of the cookie storing the commercetools access token.
@@ -84,6 +85,20 @@ export interface Config<T = any> {
   api: ApiConfig;
   serverApi?: ServerApiConfiguration;
   customOptions?: ApolloClientOptions<any>;
+  customRetry?: (options: {
+    count: number;
+    operation: Operation;
+    error: any;
+  }) => boolean;
+  customToken?: (options: {
+    configuration: Config<T>;
+    isGuest: boolean;
+    isServer: boolean;
+    sdkAuth: SdkAuth;
+    tokenProvider: TokenProvider;
+    apolloReq: GraphQLRequest;
+    currentToken: any;
+  }) => any;
   currency: string;
   locale: string;
   country: string;
@@ -98,4 +113,6 @@ export interface Config<T = any> {
   storeService?: StoreService;
   forceToken?: boolean;
   handleIsTokenUserSession: (token: Token) => boolean;
+  handleIsGuest: (context: any) => boolean;
+  handleIsLoggedIn: (context: any) => boolean;
 }

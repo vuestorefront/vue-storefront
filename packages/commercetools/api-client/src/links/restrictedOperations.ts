@@ -1,4 +1,4 @@
-import { Config } from '../../types/setup';
+import { Config } from '../types/setup';
 
 const restrictedOperations = {
   server: [
@@ -17,10 +17,10 @@ const restrictedOperations = {
   ]
 };
 
-export function isServerOperation(settings: Config, operationName: string): boolean {
+export function isServerOperation(configuration: Config, operationName: string): boolean {
   const operations = [
     ...restrictedOperations.server,
-    ...(settings?.serverApi?.operations || [])
+    ...(configuration?.serverApi?.operations || [])
   ];
 
   return operations.includes(operationName);

@@ -1,5 +1,5 @@
 import { Logger } from '@vue-storefront/core';
-import { isAnonymousSession, isUserSession } from '../utils';
+import { isAnonymousSession, isUserSession } from '../helpers/utils';
 import { isServerOperation, isAnonymousOperation, isUserOperation } from './restrictedOperations';
 
 /**
@@ -8,13 +8,13 @@ import { isServerOperation, isAnonymousOperation, isUserOperation } from './rest
  * If the configuration doesn't specify server-specific API client configuration, it will fallback to customer access tokens configuration.
  */
 async function generateServerAccessToken({
-  settings,
+  configuration,
   apolloReq,
   sdkAuth
 }): Promise<string> {
   Logger.debug(`Generating server access token for operation "${ apolloReq.operationName }"`);
 
-  const { clientId, clientSecret, scopes } = settings.serverApi || settings.api;
+  const { clientId, clientSecret, scopes } = configuration.serverApi || configuration.api;
 
   const token = await sdkAuth.clientCredentialsFlow({
     credentials: {
@@ -67,20 +67,20 @@ async function generateUserAccessToken({
 }
 
 /**
- * The handler that checks if it's necessary to generate a server or anonymous access token.
+ * Handler for checking if it's necessary to generate a server or anonymous access token.
  */
-export const handleBeforeAuth = async ({
-  settings,
+export async function handleBeforeAuth({
+  configuration,
   sdkAuth,
   tokenProvider,
-  apolloReq,
-  currentToken
-}) => {
+  apolloReq
+}) {
+  const currentToken = tokenProvider.getTokenInfo();
   const isGuest = !isAnonymousSession(currentToken) && !isUserSession(currentToken) && isAnonymousOperation(apolloReq.operationName);
-  const isServer = isServerOperation(settings, apolloReq.operationName);
+  const isServer = isServerOperation(configuration, apolloReq.operationName);
 
-  const customToken = await settings.customToken?.({
-    settings,
+  const customToken = await configuration.customToken?.({
+    configuration,
     isGuest,
     isServer,
     sdkAuth,
@@ -95,7 +95,7 @@ export const handleBeforeAuth = async ({
 
   if (isServer) {
     return await generateServerAccessToken({
-      settings,
+      configuration,
       apolloReq,
       sdkAuth
     });
@@ -109,8 +109,8 @@ export const handleBeforeAuth = async ({
     });
   }
 
-  return tokenProvider.getTokenInfo();
-};
+  return currentToken;
+}
 
 /**
  * The handler that generates an access token for the user if all three conditions are met:
@@ -118,7 +118,14 @@ export const handleBeforeAuth = async ({
  *  - the customer performed one of the user-specific operations;
  *  - response from the commercetools doesn't contain any errors, meaning that the given credentials are valid;
  */
-export const handleAfterAuth = async ({ sdkAuth, tokenProvider, apolloReq, currentToken, response }) => {
+export async function handleAfterAuth({
+  sdkAuth,
+  tokenProvider,
+  apolloReq,
+  response
+}) {
+  const currentToken = tokenProvider.getTokenInfo();
+
   if (!isUserSession(currentToken) && isUserOperation(apolloReq.operationName) && !response.errors?.length) {
     return generateUserAccessToken({
       apolloReq,
@@ -128,31 +135,4 @@ export const handleAfterAuth = async ({ sdkAuth, tokenProvider, apolloReq, curre
   }
 
   return currentToken;
-};
-
-/**
- * The handler that retries requests to the commercetools server if specific conditions are met.
- */
-export const handleRetry = ({ settings, tokenProvider }) => (count, operation, error) => {
-  if (count > 3) {
-    return false;
-  }
-
-  const customRetry = settings.customRetry?.({
-    count,
-    operation,
-    error
-  });
-
-  if (customRetry) {
-    return true;
-  }
-
-  if (error?.result?.message === 'invalid_token') {
-    Logger.debug(`Apollo retry-link, the operation (${operation.operationName}) sent with wrong token, creating a new one... (attempt: ${count})`);
-    tokenProvider.invalidateTokenInfo();
-    return true;
-  }
-
-  return false;
-};
+}

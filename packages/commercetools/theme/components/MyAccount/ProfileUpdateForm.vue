@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { ref } from '@vue/composition-api';
+import { ref, watch } from '@vue/composition-api';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { useUser, userGetters } from '@vue-storefront/commercetools';
 import { SfInput, SfButton } from '@storefront-ui/vue';
@@ -72,6 +72,10 @@ export default {
     });
 
     const form = ref(resetForm());
+
+    watch(user, () => {
+      form.value = resetForm();
+    });
 
     const submitForm = (resetValidationFn) => {
       return () => {
