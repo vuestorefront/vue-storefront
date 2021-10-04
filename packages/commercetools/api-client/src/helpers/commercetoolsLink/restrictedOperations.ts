@@ -1,6 +1,8 @@
-/* istanbul ignore file */
+import { Config } from '../../types/setup';
+
 const restrictedOperations = {
   server: [
+    'customerResetPassword',
     'customerCreatePasswordResetToken',
     'createReview',
     'reviews'
@@ -15,8 +17,13 @@ const restrictedOperations = {
   ]
 };
 
-export function isServerOperation(operationName: string): boolean {
-  return restrictedOperations.server.includes(operationName);
+export function isServerOperation(settings: Config, operationName: string): boolean {
+  const operations = [
+    ...restrictedOperations.server,
+    ...(settings?.serverApi?.operations || [])
+  ];
+
+  return operations.includes(operationName);
 }
 
 export function isAnonymousOperation(operationName: string): boolean {
