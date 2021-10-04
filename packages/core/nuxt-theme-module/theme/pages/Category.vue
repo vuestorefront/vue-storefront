@@ -1,7 +1,6 @@
 <template>
   <div id="category">
     <SfBreadcrumbs
-      v-e2e="'breadcrumbs'"
       class="breadcrumbs desktop-only"
       :breadcrumbs="breadcrumbs"
     />
@@ -211,7 +210,7 @@ import {
   SfColor,
   SfProperty
 } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
+import { computed, ref } from '@vue/composition-api';
 import { useCart, useWishlist, productGetters, useFacet, facetGetters } from '<%= options.generate.replace.composables %>';
 import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
@@ -233,6 +232,7 @@ export default {
     const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist } = useWishlist();
     const { result, search, loading, error } = useFacet();
 
+    const productsQuantity = ref({});
     const products = computed(() => facetGetters.getProducts(result.value));
     const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
     const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
@@ -268,7 +268,8 @@ export default {
       removeItemFromWishlist,
       isInWishlist,
       addItemToCart,
-      isInCart
+      isInCart,
+      productsQuantity
     };
   },
   components: {

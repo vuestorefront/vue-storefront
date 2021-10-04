@@ -153,5 +153,9 @@ export default {
   'show more': 'mehr anzeigen',
   'hide': 'ausblenden',
   'Change to grid view': 'Zur Rasteransicht wechseln',
-  'Change to list view': 'Zur Listenansicht wechseln'
+  'Change to list view': 'Zur Listenansicht wechseln',
+  'Delivery': 'Lieferung',
+  'Pickup in store': 'Abholung im Laden',
+  'Free': 'Kostenlos',
+  'Select Channel': 'Kanal auswählen'
 };

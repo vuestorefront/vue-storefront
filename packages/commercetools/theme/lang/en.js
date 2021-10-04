@@ -153,5 +153,9 @@ export default {
   'show more': 'show more',
   'hide': 'hide',
   'Change to grid view': 'Change to grid view',
-  'Change to list view': 'Change to list view'
+  'Change to list view': 'Change to list view',
+  'Delivery': 'Delivery',
+  'Pickup in store': 'Pickup in store',
+  'Free': 'Free',
+  'Select Channel': 'Select Channel'
 };

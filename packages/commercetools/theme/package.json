@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.2.2",
-    "@storefront-ui/vue": "0.10.3",
+    "@nuxtjs/google-fonts": "1.3.0",
+    "@storefront-ui/vue": "0.11.0-rc.1",
     "@vue-storefront/commercetools": "~1.3.2",
     "@vue-storefront/middleware": "~2.4.2",
     "@vue-storefront/nuxt": "~2.4.2",

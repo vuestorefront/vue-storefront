@@ -200,7 +200,6 @@
         </ValidationProvider>
       </div>
       <SfButton
-        v-e2e="'shipping-add-new-address'"
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
         type="button"
@@ -211,7 +210,6 @@
       <div class="form">
         <div class="form__action">
           <SfButton
-            v-e2e="'select-shipping'"
             class="form__action-button"
             type="submit"
             :disabled="!canMoveForward"
@@ -225,7 +223,6 @@
         <VsfShippingProvider />
         <div class="form__action">
           <SfButton
-            v-e2e="'continue-to-billing'"
             class="form__action-button"
             type="button"
             @click="$router.push(localePath({ name: 'billing' }))"

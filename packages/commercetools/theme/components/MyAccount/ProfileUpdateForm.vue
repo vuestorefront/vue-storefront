@@ -38,7 +38,6 @@
         />
       </ValidationProvider>
       <SfButton
-        v-e2e="'myaccount-update-personal-data-btn'"
         class="form__button"
       >
         {{ $t('Update personal data') }}
