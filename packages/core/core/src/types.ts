@@ -270,6 +270,7 @@ export interface UseCategory<
   search(params: ComposableFunctionArgs<CATEGORY_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseCategoryErrors>;
+  cacheTimestamp: ComputedProperty<number>;
 }
 
 export interface UseCartErrors {
