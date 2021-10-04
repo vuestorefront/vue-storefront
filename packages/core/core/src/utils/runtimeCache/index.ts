@@ -4,7 +4,7 @@ import { Ref } from '@vue/composition-api';
 const _isContentCached = (content) => {
   if (!content) return false;
   if (Array.isArray(content)) return content.length;
-  if (typeof content === 'object') return Object.keys(content.value).length;
+  if (typeof content === 'object') return Object.keys(content).length;
   return true;
 };
 
