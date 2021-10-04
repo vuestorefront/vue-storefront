@@ -100,6 +100,7 @@ export interface UseSearch<RESULT, SEARCH_PARAMS> {
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseSearchErrors>;
   search(params: ComposableFunctionArgs<SEARCH_PARAMS>): Promise<void>;
+  cacheTimestamp: ComputedProperty<number>;
 }
 
 export interface UseUserRegisterParams {
