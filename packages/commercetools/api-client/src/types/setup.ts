@@ -76,10 +76,14 @@ export interface CustomerCredentials {
   password: string;
 }
 
+export interface ServerApiConfiguration extends Pick<ApiConfig, 'clientId' | 'clientSecret' | 'scopes'> {
+  operations?: string[];
+}
+
 export interface Config<T = any> {
   client?: ApolloClient<T>;
   api: ApiConfig;
-  serverApi?: Pick<ApiConfig, 'clientId' | 'clientSecret' | 'scopes'>;
+  serverApi?: ServerApiConfiguration;
   customOptions?: ApolloClientOptions<any>;
   customRetry?: (options: {
     count: number;
