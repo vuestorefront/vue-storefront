@@ -29,7 +29,7 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS, API extends Pl
 
     const search = async(params: CONTENT_SEARCH_PARAMS, force = false): Promise<void> => {
       Logger.debug(`useContent/${id}/search`, params);
-      if (isCacheValid(content, `useContent-cache-${id}`, cacheTimeToLive) && !force) return;
+      if (!force && isCacheValid(content, cacheTimestamp, cacheTimeToLive)) return;
       try {
         loading.value = true;
         content.value = await _factoryParams.search(params);

@@ -1,4 +1,5 @@
 import { useVSFContext, sharedRef } from '../';
+import { Ref } from '@vue/composition-api';
 
 export const setCacheTimestamp = (key: string) => {
   const { $sharedRefsMap } = useVSFContext();
@@ -10,13 +11,11 @@ export const setCacheTimestamp = (key: string) => {
 
 export const isCacheValid = (
   content: any,
-  key: string,
+  timestamp: Ref<number>,
   cacheTimeToLive = 300
 ) => {
-  const { $sharedRefsMap } = useVSFContext();
   const isContentCached = content.value.length;
   if (isContentCached) {
-    const timestamp = $sharedRefsMap.get(key);
     const now = Date.now();
     const cacheLife = (now - timestamp.value) / 1000;
     if (cacheLife < cacheTimeToLive) {

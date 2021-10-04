@@ -20,7 +20,7 @@ export function useSearchFactory<RESULT, SEARCH_PARAMS>(
 
     const search = async (searchParams, force = false) => {
       Logger.debug(`useSearch/${id}/search`, searchParams);
-      if (isCacheValid(result, `useSearch-cache-${id}`, cacheTimeToLive) && !force) return;
+      if (!force && isCacheValid(result, cacheTimestamp, cacheTimeToLive)) return;
       try {
         loading.value = true;
         result.value = await _factoryParams.search(searchParams);

@@ -35,7 +35,7 @@ export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS, API extends P
 
     const search = async (searchParams, force = false) => {
       Logger.debug(`useProduct/${id}/search`, searchParams);
-      if (isCacheValid(products, `useProduct-cache-${id}`, cacheTimeToLive) && !force) return;
+      if (!force && isCacheValid(products, cacheTimestamp, cacheTimeToLive)) return;
       try {
         loading.value = true;
         products.value = await _factoryParams.productsSearch(searchParams);
