@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { CustomQuery, UseReview, Context, FactoryParams, UseReviewErrors, PlatformApi } from '../types';
-import { sharedRef, Logger, configureFactoryParams } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, setCacheTimestamp, isCacheValid } from '../utils';
 
 export interface UseReviewFactoryParams<
   REVIEW,
@@ -15,26 +15,28 @@ export interface UseReviewFactoryParams<
 export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS, API extends PlatformApi = any>(
   factoryParams: UseReviewFactoryParams<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS, API>
 ) {
-  return function useReview(id: string): UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
+  return function useReview(id: string, cacheTimeToLive: number): UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS> {
     const reviews: Ref<REVIEW> = sharedRef([], `useReviews-reviews-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useReviews-loading-${id}`);
     const error: Ref<UseReviewErrors> = sharedRef({
       search: null,
       addReview: null
     }, `useReviews-error-${id}`);
+    const cacheTimestamp: Ref<number> = setCacheTimestamp(`useReviews-cache-${id}`);
 
     const _factoryParams = configureFactoryParams(
       factoryParams,
       { mainRef: reviews, alias: 'currentReviews', loading, error }
     );
 
-    const search = async (searchParams): Promise<void> => {
+    const search = async (searchParams, force = false): Promise<void> => {
       Logger.debug(`useReview/${id}/search`, searchParams);
-
+      if (isCacheValid(reviews, `useReviews-cache-${id}`, cacheTimeToLive) && !force) return;
       try {
         loading.value = true;
         reviews.value = await _factoryParams.searchReviews(searchParams);
         error.value.search = null;
+        cacheTimestamp.value = Date.now();
       } catch (err) {
         error.value.search = err;
         Logger.error(`useReview/${id}/search`, err);
@@ -64,7 +66,8 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       addReview,
       reviews: computed(() => reviews.value),
       loading: computed(() => loading.value),
-      error: computed(() => error.value)
+      error: computed(() => error.value),
+      cacheTimestamp: computed(() => cacheTimestamp.value)
     };
   };
 }
