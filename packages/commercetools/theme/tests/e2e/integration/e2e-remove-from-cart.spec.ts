@@ -1,4 +1,4 @@
-import requests, { CreateCartResponse } from '../api/requests';
+import vsfClient, { CreateCartResponse } from '../api-clients/vsf';
 import page from '../pages/factory';
 
 context(['regression'], 'Remove from cart', () => {
@@ -12,8 +12,8 @@ context(['regression'], 'Remove from cart', () => {
 
   it('Should remove all products from cart', function () {
     const data = this.fixtures.data[this.test.title];
-    requests.createCart().then((response: CreateCartResponse) => {
-      requests.addToCart(response.body.data.cart.id, data.product, data.product.quantity);
+    vsfClient.createCart().then((response: CreateCartResponse) => {
+      vsfClient.addToCart(response.body.data.cart.id, data.product, data.product.quantity);
     });
     page.home.visit();
     page.home.header.openCart();
@@ -25,9 +25,9 @@ context(['regression'], 'Remove from cart', () => {
 
   it('Should remove single product from cart', function () {
     const data = this.fixtures.data[this.test.title];
-    requests.createCart().then((response: CreateCartResponse) => {
+    vsfClient.createCart().then((response: CreateCartResponse) => {
       data.products.forEach(product => {
-        requests.addToCart(response.body.data.cart.id, product, product.quantity);
+        vsfClient.addToCart(response.body.data.cart.id, product, product.quantity);
       });
     });
     page.home.visit();

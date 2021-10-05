@@ -1,4 +1,4 @@
-import requests, { CreateCartResponse } from '../api/requests';
+import vsfClient, { CreateCartResponse } from '../api-clients/vsf';
 import page from '../pages/factory';
 
 context(['regression'], 'Checkout - Access quard', () => {
@@ -17,9 +17,9 @@ context(['regression'], 'Checkout - Access quard', () => {
 
   it('Should successfully visit payment page - shipping and billing address are set', function () {
     const data = this.fixtures.data[this.test.title];
-    requests.createCart().then((response: CreateCartResponse) => {
-      requests.addToCart(response.body.data.cart.id, data.product);
-      requests.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping, billing: data.customer.address.billing }});
+    vsfClient.createCart().then((response: CreateCartResponse) => {
+      vsfClient.addToCart(response.body.data.cart.id, data.product);
+      vsfClient.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping, billing: data.customer.address.billing }});
     });
     page.checkout.payment.visit();
     cy.url().should('contain', page.checkout.payment.path);
@@ -27,9 +27,9 @@ context(['regression'], 'Checkout - Access quard', () => {
 
   it('Should successfully visit thank you page - after successful order placement', function () {
     const data = this.fixtures.data[this.test.title];
-    requests.createCart().then((response: CreateCartResponse) => {
-      requests.addToCart(response.body.data.cart.id, data.product);
-      requests.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping, billing: data.customer.address.billing }});
+    vsfClient.createCart().then((response: CreateCartResponse) => {
+      vsfClient.addToCart(response.body.data.cart.id, data.product);
+      vsfClient.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping, billing: data.customer.address.billing }});
     });
     page.checkout.payment.visit();
     page.checkout.payment.paymentMethods.first().click();

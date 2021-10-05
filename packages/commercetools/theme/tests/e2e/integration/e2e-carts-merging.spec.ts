@@ -1,4 +1,5 @@
-import requests, { CreateCartResponse } from '../api/requests';
+import ctApiClient, { GetCustomerResponse, OauthTokenResponse } from '../api-clients/ct';
+import vsfApiClient, { CreateCartResponse } from '../api-clients/vsf';
 import page from '../pages/factory';
 import generator from '../utils/data-generator';
 
@@ -11,16 +12,26 @@ context(['regression'], 'Carts merging', () => {
     });
   });
 
+  afterEach(function () {
+    const data = this.fixtures.data[this.currentTest.title];
+    ctApiClient.oauthToken().then((oauthTokenResponse: OauthTokenResponse) => {
+      ctApiClient.queryCustomerByEmail(oauthTokenResponse.body.access_token, data.customer.email).then((getCustomerResponse: GetCustomerResponse) => {
+        ctApiClient.deleteCustomerById(oauthTokenResponse.body.access_token, getCustomerResponse.body.results[0].id);
+      });
+    });
+  });
+
   it('Should merge guest cart with registered customer cart', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
-    requests.getMe();
-    requests.createCart().then((response: CreateCartResponse) => {
+    console.log(this.fixtures.data[this.test.title]);
+    vsfApiClient.getMe();
+    vsfApiClient.createCart().then((response: CreateCartResponse) => {
       data.products.forEach(product => {
-        requests.addToCart(response.body.data.cart.id, product, product.quantity);
+        vsfApiClient.addToCart(response.body.data.cart.id, product, product.quantity);
       });
     });
-    requests.customerSignMeUp(data.customer);
+    vsfApiClient.customerSignMeUp(data.customer);
     page.home.visit();
     page.home.header.openCart();
     page.components.cart.productName.each((name, index) => {
@@ -33,21 +44,21 @@ context(['regression'], 'Carts merging', () => {
       page.components.cart.productSizeProperty(product).should('contain', data.expectedCart[index].size);
       page.components.cart.productColorProperty(product).should('contain', data.expectedCart[index].color);
     });
-
   });
+
   it('Should merge guest cart with registered customer cart - products already in cart', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
-    requests.customerSignMeUp(data.customer);
-    requests.createCart().then((response: CreateCartResponse) => {
+    vsfApiClient.customerSignMeUp(data.customer);
+    vsfApiClient.createCart().then((response: CreateCartResponse) => {
       data.products.customer.forEach(product => {
-        requests.addToCart(response.body.data.cart.id, product, product.quantity);
+        vsfApiClient.addToCart(response.body.data.cart.id, product, product.quantity);
       });
       cy.clearCookies();
     });
-    requests.createCart().then((response: CreateCartResponse) => {
+    vsfApiClient.createCart().then((response: CreateCartResponse) => {
       data.products.guest.forEach(product => {
-        requests.addToCart(response.body.data.cart.id, product, product.quantity);
+        vsfApiClient.addToCart(response.body.data.cart.id, product, product.quantity);
       });
     });
     page.home.visit();

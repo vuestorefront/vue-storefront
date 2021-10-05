@@ -1,3 +1,4 @@
+import ctApiClient, { GetCustomerResponse, OauthTokenResponse } from '../api-clients/ct';
 import page from '../pages/factory';
 import generator from '../utils/data-generator';
 import intercept from '../utils/network';
@@ -9,6 +10,17 @@ context(['happypath', 'regression'], 'Order placement', () => {
         data: fixture
       };
     });
+  });
+
+  afterEach(function () {
+    const data = this.fixtures.data[this.currentTest.title];
+    if (data.customer.email !== undefined) {
+      ctApiClient.oauthToken().then((oauthTokenResponse: OauthTokenResponse) => {
+        ctApiClient.queryCustomerByEmail(oauthTokenResponse.body.access_token, data.customer.email).then((getCustomerResponse: GetCustomerResponse) => {
+          ctApiClient.deleteCustomerById(oauthTokenResponse.body.access_token, getCustomerResponse.body.results[0].id);
+        });
+      });
+    }
   });
 
   it('Should successfully place an order as a guest', function() {

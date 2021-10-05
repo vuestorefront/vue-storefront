@@ -1,4 +1,5 @@
-import requests, { CreateCartResponse } from '../api/requests';
+import ctApiClient, { GetCustomerResponse, OauthTokenResponse } from '../api-clients/ct';
+import vsfClient, { CreateCartResponse } from '../api-clients/vsf';
 import page from '../pages/factory';
 import generator from '../utils/data-generator';
 
@@ -11,11 +12,22 @@ context(['regression'], 'Checkout - Billing', () => {
     });
   });
 
+  afterEach(function () {
+    const data = this.fixtures.data[this.currentTest.title];
+    if (data.customer.email !== undefined) {
+      ctApiClient.oauthToken().then((oauthTokenResponse: OauthTokenResponse) => {
+        ctApiClient.queryCustomerByEmail(oauthTokenResponse.body.access_token, data.customer.email).then((getCustomerResponse: GetCustomerResponse) => {
+          ctApiClient.deleteCustomerById(oauthTokenResponse.body.access_token, getCustomerResponse.body.results[0].id);
+        });
+      });
+    }
+  });
+
   it('Should successfully save address - guest customer', function () {
     const data = this.fixtures.data[this.test.title];
-    requests.createCart().then((response: CreateCartResponse) => {
-      requests.addToCart(response.body.data.cart.id, data.product);
-      requests.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping }});
+    vsfClient.createCart().then((response: CreateCartResponse) => {
+      vsfClient.addToCart(response.body.data.cart.id, data.product);
+      vsfClient.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping }});
     });
     page.checkout.shipping.visit();
     page.checkout.shipping.selectShippingButton.click();
@@ -30,10 +42,10 @@ context(['regression'], 'Checkout - Billing', () => {
   it('Should successfully save address - registered customer', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
-    requests.customerSignMeUp(data.customer);
-    requests.createCart().then((response: CreateCartResponse) => {
-      requests.addToCart(response.body.data.cart.id, data.product);
-      requests.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping }});
+    vsfClient.customerSignMeUp(data.customer);
+    vsfClient.createCart().then((response: CreateCartResponse) => {
+      vsfClient.addToCart(response.body.data.cart.id, data.product);
+      vsfClient.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping }});
     });
     page.checkout.shipping.visit();
     page.checkout.shipping.selectShippingButton.click();
@@ -59,9 +71,9 @@ context(['regression'], 'Checkout - Billing', () => {
   requiredFields.forEach(requiredField => {
     it(`Should display an error - ${requiredField} empty`, function () {
       const data = this.fixtures.data[this.test.title];
-      requests.createCart().then((response: CreateCartResponse) => {
-        requests.addToCart(response.body.data.cart.id, data.product);
-        requests.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping }});
+      vsfClient.createCart().then((response: CreateCartResponse) => {
+        vsfClient.addToCart(response.body.data.cart.id, data.product);
+        vsfClient.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping }});
       });
       page.checkout.shipping.visit();
       page.checkout.shipping.selectShippingButton.click();
@@ -86,9 +98,9 @@ context(['regression'], 'Checkout - Billing', () => {
   requiredSelects.forEach(requiredSelect => {
     it(`Should display an error - ${requiredSelect} empty`, function () {
       const data = this.fixtures.data[this.test.title];
-      requests.createCart().then((response: CreateCartResponse) => {
-        requests.addToCart(response.body.data.cart.id, data.product);
-        requests.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping }});
+      vsfClient.createCart().then((response: CreateCartResponse) => {
+        vsfClient.addToCart(response.body.data.cart.id, data.product);
+        vsfClient.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping }});
       });
       page.checkout.shipping.visit();
       page.checkout.shipping.selectShippingButton.click();
@@ -105,9 +117,9 @@ context(['regression'], 'Checkout - Billing', () => {
 
   it('Should copy shipping address', function () {
     const data = this.fixtures.data[this.test.title];
-    requests.createCart().then((response: CreateCartResponse) => {
-      requests.addToCart(response.body.data.cart.id, data.product);
-      requests.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping }});
+    vsfClient.createCart().then((response: CreateCartResponse) => {
+      vsfClient.addToCart(response.body.data.cart.id, data.product);
+      vsfClient.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping }});
     });
     page.checkout.shipping.visit();
     page.checkout.shipping.selectShippingButton.click();

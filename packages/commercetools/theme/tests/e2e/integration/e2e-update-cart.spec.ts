@@ -1,4 +1,4 @@
-import requests, { CreateCartResponse } from '../api/requests';
+import vsfClient, { CreateCartResponse } from '../api-clients/vsf';
 import page from '../pages/factory';
 import intercept from '../utils/network';
 
@@ -13,9 +13,9 @@ context(['regression'], 'Update cart', () => {
 
   it('Should increase product quantity', function () {
     const data = this.fixtures.data[this.test.title];
-    requests.createCart().then((response: CreateCartResponse) => {
+    vsfClient.createCart().then((response: CreateCartResponse) => {
       data.products.forEach(product => {
-        requests.addToCart(response.body.data.cart.id, product, product.quantity);
+        vsfClient.addToCart(response.body.data.cart.id, product, product.quantity);
       });
     });
     page.home.visit();
@@ -35,9 +35,9 @@ context(['regression'], 'Update cart', () => {
 
   it('Should decrease product quantity', function () {
     const data = this.fixtures.data[this.test.title];
-    requests.createCart().then((response: CreateCartResponse) => {
+    vsfClient.createCart().then((response: CreateCartResponse) => {
       data.products.forEach(product => {
-        requests.addToCart(response.body.data.cart.id, product, product.quantity);
+        vsfClient.addToCart(response.body.data.cart.id, product, product.quantity);
       });
     });
     page.home.visit();

@@ -1,4 +1,5 @@
-import requests from '../api/requests';
+import ctApiClient, { GetCustomerResponse, OauthTokenResponse } from '../api-clients/ct';
+import vsfClient from '../api-clients/vsf';
 import page from '../pages/factory';
 import generator from '../utils/data-generator';
 
@@ -12,10 +13,21 @@ context(['regression'], 'User login', () => {
     cy.clearLocalStorage();
   });
 
+  afterEach(function () {
+    const data = this.fixtures.data[this.currentTest.title];
+    if (data.customer.email !== undefined) {
+      ctApiClient.oauthToken().then((oauthTokenResponse: OauthTokenResponse) => {
+        ctApiClient.queryCustomerByEmail(oauthTokenResponse.body.access_token, data.customer.email).then((getCustomerResponse: GetCustomerResponse) => {
+          ctApiClient.deleteCustomerById(oauthTokenResponse.body.access_token, getCustomerResponse.body.results[0].id);
+        });
+      });
+    }
+  });
+
   it('Should successfully login', function() {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
-    requests.customerSignMeUp(data.customer).then(() => {
+    vsfClient.customerSignMeUp(data.customer).then(() => {
       cy.clearCookies();
     });
     page.home.visit();

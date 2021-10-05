@@ -1,4 +1,5 @@
-import requests, { CreateCartResponse } from '../api/requests';
+import ctApiClient, { GetCustomerResponse, OauthTokenResponse } from '../api-clients/ct';
+import vsfClient, { CreateCartResponse } from '../api-clients/vsf';
 import page from '../pages/factory';
 import generator from '../utils/data-generator';
 
@@ -11,10 +12,21 @@ context(['regression'], 'Checkout - Shipping', () => {
     });
   });
 
+  afterEach(function () {
+    const data = this.fixtures.data[this.currentTest.title];
+    if (data.customer.email !== undefined) {
+      ctApiClient.oauthToken().then((oauthTokenResponse: OauthTokenResponse) => {
+        ctApiClient.queryCustomerByEmail(oauthTokenResponse.body.access_token, data.customer.email).then((getCustomerResponse: GetCustomerResponse) => {
+          ctApiClient.deleteCustomerById(oauthTokenResponse.body.access_token, getCustomerResponse.body.results[0].id);
+        });
+      });
+    }
+  });
+
   it('Should successfully save address - guest customer', function () {
     const data = this.fixtures.data[this.test.title];
-    requests.createCart().then((response: CreateCartResponse) => {
-      requests.addToCart(response.body.data.cart.id, data.product);
+    vsfClient.createCart().then((response: CreateCartResponse) => {
+      vsfClient.addToCart(response.body.data.cart.id, data.product);
     });
     page.checkout.shipping.visit();
     page.checkout.shipping.fillForm(data.customer);
@@ -27,9 +39,9 @@ context(['regression'], 'Checkout - Shipping', () => {
   it('Should successfully save address - registered customer', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
-    requests.customerSignMeUp(data.customer);
-    requests.createCart().then((response: CreateCartResponse) => {
-      requests.addToCart(response.body.data.cart.id, data.product);
+    vsfClient.customerSignMeUp(data.customer);
+    vsfClient.createCart().then((response: CreateCartResponse) => {
+      vsfClient.addToCart(response.body.data.cart.id, data.product);
     });
     page.checkout.shipping.visit();
     page.checkout.shipping.addNewAddressButton.click();
@@ -53,8 +65,8 @@ context(['regression'], 'Checkout - Shipping', () => {
   requiredFields.forEach(requiredField => {
     it(`Should display an error - ${requiredField} empty`, function () {
       const data = this.fixtures.data[this.test.title];
-      requests.createCart().then((response: CreateCartResponse) => {
-        requests.addToCart(response.body.data.cart.id, data.product);
+      vsfClient.createCart().then((response: CreateCartResponse) => {
+        vsfClient.addToCart(response.body.data.cart.id, data.product);
       });
       page.checkout.shipping.visit();
       page.checkout.shipping.fillForm(data.customer);
@@ -75,8 +87,8 @@ context(['regression'], 'Checkout - Shipping', () => {
   requiredSelects.forEach(requiredSelect => {
     it(`Should display an error - ${requiredSelect} empty`, function () {
       const data = this.fixtures.data[this.test.title];
-      requests.createCart().then((response: CreateCartResponse) => {
-        requests.addToCart(response.body.data.cart.id, data.product);
+      vsfClient.createCart().then((response: CreateCartResponse) => {
+        vsfClient.addToCart(response.body.data.cart.id, data.product);
       });
       page.checkout.shipping.visit();
       page.checkout.shipping.fillForm(data.customer);

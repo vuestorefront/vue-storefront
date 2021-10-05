@@ -49,7 +49,7 @@ export type GetShippingMethodsResponse = {
   }
 }
 
-const requests = {
+const vsfClient = {
 
   addToCart(cartId: string, product: Product, quantity?: number): Cypress.Chainable {
     const options = {
@@ -203,4 +203,4 @@ const requests = {
   }
 };
 
-export default requests;
+export default vsfClient;

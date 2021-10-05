@@ -1,4 +1,4 @@
-import requests, { CreateCartResponse, GetShippingMethodsResponse } from '../api/requests';
+import vsfClient, { CreateCartResponse, GetShippingMethodsResponse } from '../api-clients/vsf';
 import page from '../pages/factory';
 
 const assertDataInProductRow = (productData, expectedData) => {
@@ -42,18 +42,18 @@ context(['regression'], 'Checkout - Order Summary', () => {
       };
     }).then(() => {
       const data = this.fixtures.data[this.currentTest.title];
-      requests.createCart().then((response: CreateCartResponse) => {
+      vsfClient.createCart().then((response: CreateCartResponse) => {
         data.products.forEach((product) => {
-          requests.addToCart(response.body.data.cart.id, product, product.quantity);
+          vsfClient.addToCart(response.body.data.cart.id, product, product.quantity);
         });
-        requests.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping }});
-        requests.getShippingMethods(response.body.data.cart.id).then((res: GetShippingMethodsResponse) => {
+        vsfClient.updateCart(response.body.data.cart.id, { addresses: { shipping: data.customer.address.shipping }});
+        vsfClient.getShippingMethods(response.body.data.cart.id).then((res: GetShippingMethodsResponse) => {
           const shippingMethod = res.body.data.shippingMethods.find((method) => {
             return method.name === data.shippingMethod;
           });
-          requests.updateCart(response.body.data.cart.id, { shippingMethodId: shippingMethod.id });
+          vsfClient.updateCart(response.body.data.cart.id, { shippingMethodId: shippingMethod.id });
         });
-        requests.updateCart(response.body.data.cart.id, { addresses: { billing: data.customer.address.billing }});
+        vsfClient.updateCart(response.body.data.cart.id, { addresses: { billing: data.customer.address.billing }});
       });
     });
   });
