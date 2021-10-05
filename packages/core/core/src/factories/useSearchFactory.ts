@@ -9,7 +9,7 @@ export interface UseSearchFactoryParams<RESULT, SEARCH_PARAMS> extends FactoryPa
 export function useSearchFactory<RESULT, SEARCH_PARAMS>(
   factoryParams: UseSearchFactoryParams<RESULT, SEARCH_PARAMS>
 ) {
-  return function useSearch(id: string, cacheTimeToLive: number): UseSearch<RESULT, SEARCH_PARAMS> {
+  return function useSearch(id: string, cacheTimeToLive?: number): UseSearch<RESULT, SEARCH_PARAMS> {
     const result: Ref<RESULT> = sharedRef([], `useSearch-products-${id}`);
     const loading = sharedRef(false, `useSearch-loading-${id}`);
     const _factoryParams = configureFactoryParams(factoryParams);

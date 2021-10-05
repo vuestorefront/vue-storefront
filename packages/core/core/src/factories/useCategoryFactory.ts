@@ -13,7 +13,7 @@ export interface UseCategoryFactoryParams<
 export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS, API extends PlatformApi = any>(
   factoryParams: UseCategoryFactoryParams<CATEGORY, CATEGORY_SEARCH_PARAMS, API>
 ) {
-  return function useCategory(id: string, cacheTimeToLive: number): UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS, API> {
+  return function useCategory(id: string, cacheTimeToLive?: number): UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS, API> {
     const categories: Ref<CATEGORY[]> = sharedRef([], `useCategory-categories-${id}`);
     const loading = sharedRef(false, `useCategory-loading-${id}`);
     const error: Ref<UseCategoryErrors> = sharedRef({

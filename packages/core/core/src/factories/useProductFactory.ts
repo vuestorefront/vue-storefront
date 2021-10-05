@@ -20,7 +20,7 @@ API extends PlatformApi = any
 export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS, API extends PlatformApi = any>(
   factoryParams: UseProductFactoryParams<PRODUCTS, PRODUCT_SEARCH_PARAMS, API>
 ) {
-  return function useProduct(id: string, cacheTimeToLive: number): UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS, API> {
+  return function useProduct(id: string, cacheTimeToLive?: number): UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS, API> {
     const products: Ref<PRODUCTS> = sharedRef([], `useProduct-products-${id}`);
     const loading = sharedRef(false, `useProduct-loading-${id}`);
     const error: Ref<UseProductErrors> = sharedRef({

@@ -14,7 +14,7 @@ export interface UseContentFactoryParams<
 export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS, API extends PlatformApi = any>(
   factoryParams: UseContentFactoryParams<CONTENT, CONTENT_SEARCH_PARAMS, API>
 ) {
-  return function useContent(id: string, cacheTimeToLive: number): UseContent<CONTENT, CONTENT_SEARCH_PARAMS, API> {
+  return function useContent(id: string, cacheTimeToLive?: number): UseContent<CONTENT, CONTENT_SEARCH_PARAMS, API> {
     const content: Ref<CONTENT> = sharedRef([], `useContent-content-${id}`);
     const loading: Ref<boolean> = sharedRef(false, `useContent-loading-${id}`);
     const error: Ref<UseContentErrors> = sharedRef({

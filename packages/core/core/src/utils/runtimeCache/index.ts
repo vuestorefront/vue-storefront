@@ -19,9 +19,10 @@ export const setCacheTimestamp = (key: string) => {
 export const isCacheValid = (
   content: any,
   timestamp: Ref<number>,
-  cacheTimeToLive = 300
+  cacheTimeToLive?: number
 ) => {
   if (_isContentCached(content.value)) {
+    if (!cacheTimeToLive) return true;
     const now = Date.now();
     const cacheLife = (now - timestamp.value) / 1000;
     return cacheLife < cacheTimeToLive;
