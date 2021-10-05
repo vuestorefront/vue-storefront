@@ -22,7 +22,9 @@ jest.mock('../src/utils', () => ({
   vsfRef: jest.fn(ref),
   generateContext: jest.fn(() => ({ context: null })),
   configureFactoryParams: jest.fn((fParams) => fParams),
-  useVSFContext: jest.fn()
+  useVSFContext: jest.fn(),
+  setCacheTimestamp: jest.fn(() => ref(1)),
+  isCacheValid: jest.fn()
 }));
 
 // @ts-ignore
