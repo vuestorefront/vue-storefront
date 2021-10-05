@@ -72,8 +72,8 @@ describe('runtimeCacheHelpers', () => {
       it('when cacheLife is greater than cacheTimeToLive', () => {
         const timestamp = ref(Date.now());
         const content = ref(['non-empty', 'content']);
-        const cacheTimeToLive = 300;
-        jest.spyOn(Date, 'now').mockImplementation(() => timestamp.value + (301 * 1000));
+        const cacheTimeToLive = 300000000;
+        jest.spyOn(Date, 'now').mockImplementation(() => timestamp.value + (301 * 1000000));
         expect(isCacheValid(content, timestamp, cacheTimeToLive)).toBe(false);
       });
     });
@@ -90,8 +90,8 @@ describe('runtimeCacheHelpers', () => {
       it('when cacheLife is less than cacheTimeToLive', () => {
         const timestamp = ref(Date.now());
         const content = ref(['non-empty', 'content']);
-        const cacheTimeToLive = 300;
-        jest.spyOn(Date, 'now').mockImplementation(() => timestamp.value + (299 * 1000));
+        const cacheTimeToLive = 300000000;
+        jest.spyOn(Date, 'now').mockImplementation(() => timestamp.value + (299 * 1000000));
         expect(isCacheValid(content, timestamp, cacheTimeToLive)).toBe(true);
       });
     });
