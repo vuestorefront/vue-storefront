@@ -62,7 +62,7 @@ describe('[CORE - factories] useContentFactory', () => {
     (isCacheValid as any).mockReturnValue(true);
     const { search } = useContent('test-id');
     const searchParams = { contentId: 'test-id', contentUrl: 'test-url' };
-    await search(searchParams, true);
+    await search({ ...searchParams, force: true });
     expect(params.search).toBeCalledWith(searchParams);
     expect(params.search).toBeCalledTimes(1);
   });

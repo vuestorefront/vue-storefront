@@ -51,8 +51,8 @@ describe('[CORE - factories] useProductFactory', () => {
   it('invokes content search when isCacheValid returns true and force param is true', async () => {
     (isCacheValid as any).mockReturnValue(true);
     const { search, products } = useProduct('test-use-product');
-    const searchParams = { slug: 'product-slug' };
-    await search(searchParams, true);
+    const searchParams = { slug: 'product-slug', force: true };
+    await search(searchParams);
     expect(products.value).toEqual([{name: 'product product-slug' }]);
   });
 

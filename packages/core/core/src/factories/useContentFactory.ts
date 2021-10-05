@@ -27,7 +27,7 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS, API extends Pl
       { mainRef: content, alias: 'currentContent', loading, error }
     );
 
-    const search = async(params: CONTENT_SEARCH_PARAMS, force = false): Promise<void> => {
+    const search = async({ force = false, ...params }): Promise<void> => {
       Logger.debug(`useContent/${id}/search`, params);
       if (!force && isCacheValid(content, cacheTimestamp, cacheTimeToLive)) return;
       try {

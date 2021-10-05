@@ -26,7 +26,7 @@ export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS, API extends
       { mainRef: categories, alias: 'currentCategories', loading, error }
     );
 
-    const search = async (searchParams, force = false) => {
+    const search = async ({ force = false, ...searchParams }) => {
       Logger.debug(`useCategory/${id}/search`, searchParams);
       if (!force && isCacheValid(categories, cacheTimestamp, cacheTimeToLive)) return;
       try {

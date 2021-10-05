@@ -124,7 +124,7 @@ describe('[CORE - factories] useReviews', () => {
   it('invokes content search when isCacheValid returns true and force param is true', async () => {
     (isCacheValid as any).mockReturnValue(true);
     const { search } = useReviews('test-reviews');
-    await search({}, true);
+    await search({ force: true });
     expect(params.searchReviews).toBeCalledTimes(1);
   });
 

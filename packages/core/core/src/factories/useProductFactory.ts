@@ -33,7 +33,7 @@ export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS, API extends P
       { mainRef: products, alias: 'currentProducts', loading, error }
     );
 
-    const search = async (searchParams, force = false) => {
+    const search = async ({ force = false, ...searchParams }) => {
       Logger.debug(`useProduct/${id}/search`, searchParams);
       if (!force && isCacheValid(products, cacheTimestamp, cacheTimeToLive)) return;
       try {

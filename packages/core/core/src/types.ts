@@ -78,7 +78,7 @@ export interface UseProduct<
   products: ComputedProperty<PRODUCTS>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseProductErrors>;
-  search(params: ComposableFunctionArgs<PRODUCT_SEARCH_PARAMS>, force?: boolean): Promise<void>;
+  search(params: ComposableFunctionArgs<PRODUCT_SEARCH_PARAMS>): Promise<void>;
   cacheTimestamp: ComputedProperty<number>;
   [x: string]: any;
 }
@@ -270,7 +270,7 @@ export interface UseCategory<
   API extends PlatformApi = any
 > extends Composable<API> {
   categories: ComputedProperty<CATEGORY[]>;
-  search(params: ComposableFunctionArgs<CATEGORY_SEARCH_PARAMS>, force?: boolean): Promise<void>;
+  search(params: ComposableFunctionArgs<CATEGORY_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseCategoryErrors>;
   cacheTimestamp: ComputedProperty<number>;
@@ -383,7 +383,7 @@ REVIEWS_SEARCH_PARAMS,
 REVIEW_ADD_PARAMS,
 API extends PlatformApi = any
 > extends Composable<API> {
-  search(params: ComposableFunctionArgs<REVIEWS_SEARCH_PARAMS>, force?: boolean): Promise<void>;
+  search(params: ComposableFunctionArgs<REVIEWS_SEARCH_PARAMS>): Promise<void>;
   addReview(params: ComposableFunctionArgs<REVIEW_ADD_PARAMS>): Promise<void>;
   error: ComputedProperty<UseReviewErrors>;
   reviews: ComputedProperty<REVIEW>;
@@ -477,7 +477,7 @@ export interface UseContent<
   CONTENT_SEARCH_PARAMS,
   API extends PlatformApi = any
 > extends Composable<API> {
-  search: (params: CONTENT_SEARCH_PARAMS, force?: boolean) => Promise<void>;
+  search: (params: CONTENT_SEARCH_PARAMS) => Promise<void>;
   content: ComputedProperty<CONTENT>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseContentErrors>;

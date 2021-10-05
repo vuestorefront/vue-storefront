@@ -18,7 +18,7 @@ export function useSearchFactory<RESULT, SEARCH_PARAMS>(
     }, `useSearch-error-${id}`);
     const cacheTimestamp: Ref<number> = setCacheTimestamp(`useSearch-cache-${id}`);
 
-    const search = async (searchParams, force = false) => {
+    const search = async ({ force = false, ...searchParams }) => {
       Logger.debug(`useSearch/${id}/search`, searchParams);
       if (!force && isCacheValid(result, cacheTimestamp, cacheTimeToLive)) return;
       try {

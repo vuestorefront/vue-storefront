@@ -29,7 +29,7 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       { mainRef: reviews, alias: 'currentReviews', loading, error }
     );
 
-    const search = async (searchParams, force = false): Promise<void> => {
+    const search = async ({ force = false, ...searchParams }): Promise<void> => {
       Logger.debug(`useReview/${id}/search`, searchParams);
       if (!force && isCacheValid(reviews, cacheTimestamp, cacheTimeToLive)) return;
       try {
