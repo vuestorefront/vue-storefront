@@ -25,7 +25,12 @@ const changes = fileName
   // eslint-disable-next-line global-require
   .map(el => require(`${pathIn}/${el}`))
   .map((pullRequest, index) => {
-    return compile(templates.change)({
+    const template = compile(
+      templates.change,
+      { noEscape: true }
+    );
+
+    return template({
       ...pullRequest,
       prNumber: pullRequestIds[index]
     });
@@ -41,10 +46,15 @@ const versionLineNumber = changelog
   .map(el => el.indexOf(version))
   .findIndex(el => el > -1);
 
+const template = compile(
+  templates.version,
+  { noEscape: true }
+);
+
 // Update changelog file
 versionLineNumber > -1
   ? changelog.splice(versionLineNumber + 2, 0, changes)
-  : changelog.splice(2, 0, compile(templates.version)({ version, changes }));
+  : changelog.splice(2, 0, template({ version, changes }));
 
 // Write updated changelog file
 writeFileSync(pathOut, changelog.join('\n'));
