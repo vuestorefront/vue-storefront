@@ -82,6 +82,11 @@ describe('runtimeCacheHelpers', () => {
       beforeEach(() => {
         jest.restoreAllMocks();
       });
+      it('when content is truthy and cacheTimeToLive param hasn\'t been passed', () => {
+        const timestamp = ref(1);
+        const content = ref(['non-empty', 'content']);
+        expect(isCacheValid(content, timestamp)).toBe(true);
+      });
       it('when cacheLife is less than cacheTimeToLive', () => {
         const timestamp = ref(Date.now());
         const content = ref(['non-empty', 'content']);
