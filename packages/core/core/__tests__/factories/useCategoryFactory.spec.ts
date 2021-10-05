@@ -1,5 +1,6 @@
 import { useCategoryFactory, UseCategoryFactoryParams } from '../../src/factories';
 import { UseCategory } from '../../src/types';
+import { isCacheValid } from '../../src/utils';
 
 let useCategory: (cacheId?: string) => UseCategory<any, any>;
 let params: UseCategoryFactoryParams<any, any>;
@@ -35,6 +36,9 @@ describe('[CORE - factories] useCategoryFactory', () => {
   });
 
   describe('methods', () => {
+    beforeEach(() => {
+      (isCacheValid as any).mockReturnValue(false);
+    });
     describe('search', () => {
       it('should invoke search', async () => {
         const { categories, search } = useCategory();
@@ -42,6 +46,22 @@ describe('[CORE - factories] useCategoryFactory', () => {
         await search({ someparam: 'qwerty' });
         expect(params.categorySearch).toBeCalledWith({ someparam: 'qwerty' });
         expect(categories.value).toEqual({ id: 'mocked_removed_cart' });
+      });
+
+      it('should not invoke content search when isCacheValid returns true', async () => {
+        (isCacheValid as any).mockReturnValue(true);
+        const { search } = useCategory();
+        const searchParams = { someparam: 'qwerty' };
+        await search(searchParams);
+        expect(params.categorySearch).toBeCalledTimes(0);
+      });
+
+      it('should invoke content search when isCacheValid returns true and force param is true', async () => {
+        (isCacheValid as any).mockReturnValue(true);
+        const { search } = useCategory();
+        const searchParams = { someparam: 'qwerty' };
+        await search(searchParams, true);
+        expect(params.categorySearch).toBeCalledTimes(1);
       });
 
       it('should set error if factory method throwed', async () => {

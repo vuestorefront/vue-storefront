@@ -268,7 +268,7 @@ export interface UseCategory<
   API extends PlatformApi = any
 > extends Composable<API> {
   categories: ComputedProperty<CATEGORY[]>;
-  search(params: ComposableFunctionArgs<CATEGORY_SEARCH_PARAMS>): Promise<void>;
+  search(params: ComposableFunctionArgs<CATEGORY_SEARCH_PARAMS>, force?: boolean): Promise<void>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseCategoryErrors>;
   cacheTimestamp: ComputedProperty<number>;
