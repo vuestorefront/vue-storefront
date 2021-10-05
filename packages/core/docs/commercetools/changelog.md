@@ -1,12 +1,52 @@
 # Changelog
 
+## 1.3.3
+
+- Overwrite `CategoryPageHeader` component and remove filters from OS ([5684](https://github.com/vuestorefront/vue-storefront/issues/5684)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
+- Fix bug with raising exception when visiting /checkout/payment page directly from url ([5983](https://github.com/vuestorefront/vue-storefront/issues/5983)) - [Rafał Dobrowolski](https://github.com/RafalDobrowolski)
+
+- Implemented pagination for orders history ([6032](https://github.com/vuestorefront/vue-storefront/issues/6032)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
+- Enable payment summary section for desktop view ([6104](https://github.com/vuestorefront/vue-storefront/pull/6104)) - [vn-vlad](https://github.com/vn-vlad)
+
+- Fix error thrown by the `search` method in `useProduct` composable when searching by product SKUs ([6181](https://github.com/vuestorefront/vue-storefront/issues/6181)) - [Andrzej Kurek](https://github.com/Razz21)
+
+- Fix no property error in changePassword function in useUser composable ([6231](https://github.com/vuestorefront/vue-storefront/issues/6231)) - [Igor Wojciechowski](https://github.com/igorwojciechowski)
+
+- Updated SFUI ([6240](https://github.com/vuestorefront/vue-storefront/pull/6240)) - [Justyna Gieracka](https://github.com/justyna-13)
+
+- Fix missing addresses data in order summary ([6282](https://github.com/vuestorefront/vue-storefront/pull/6283/)) - [Igor Wojciechowski](https://github.com/igorwojciechowski)
+
+- pass cookies obj with cookie names to mapI18nSettings ([6296](https://github.com/vuestorefront/vue-storefront/issues/6296)) - [Marcin Sulowski](https://github.com/MarcinSulowski)
+
+- Improve A11Y in Core Web Vitals ([6304](https://github.com/vuestorefront/vue-storefront/pull/6304)) - [Baroshem](https://github.com/Baroshem)
+
+- Improve SEO Core Web Vitals ([6306](https://github.com/vuestorefront/vue-storefront/pull/6306)) - [Baroshem](https://github.com/Baroshem)
+
+- Make VSF PWA again ([6307](https://github.com/vuestorefront/vue-storefront/pull/6307)) - [Baroshem](https://github.com/Baroshem)
+
+- Fix bug with redirect to home page after successful order placement ([6309](https://github.com/vuestorefront/vue-storefront/issues/6309)) - [Rafał Dobrowolski](https://github.com/RafalDobrowolski)
+
+- Fix for unsuccessful login or register message ([6311](https://github.com/vuestorefront/vue-storefront/pull/6311)) - [Dawid Ziobro](https://github.com/dawid-ziobro)
+
+- getProduct custom query - productType doesnt get mapped to product response in enhanceProduct helper ([6347](https://github.com/vuestorefront/vue-storefront/issues/6347)) - [Marcin Sulowski](https://github.com/MarcinSulowski)
+
+- Fix bug with wrong version UI and resolve problems with parse negative number for css calc method(after upgrading SFUI to 0.11.0-rc.1) ([6354](https://github.com/vuestorefront/vue-storefront/issues/6354)) - [Rafał Dobrowolski](https://github.com/RafalDobrowolski)
+
+- Fix `Insufficient scope` error when resetting customer's password ([6403_1](https://github.com/vuestorefront/vue-storefront/pull/6403)) - [Filip Sobol](https://github.com/filipsobol)
+
+- Allow defining custom GraphQL operations that will be called with server API client ([6403_2](https://github.com/vuestorefront/vue-storefront/pull/6403)) - [Filip Sobol](https://github.com/filipsobol)
+
+- include a copy of the product object in productResponse returned by the enhanceProduct helper ([6405](https://github.com/vuestorefront/vue-storefront/issues/6405)) - [Marcin Sulowski](https://github.com/MarcinSulowski)
+
 ## 1.3.2
 
 - **[BREAKING]** Fix loading user and cart information ([6265](https://github.com/vuestorefront/vue-storefront/pull/6265/)) - [Filip Sobol](https://github.com/filipsobol)
 
   | Before | After | Comment | Module |
   | ------ | ----- | ------- | ------ |
-  | &amp;#x60;loadUser&amp;#x60; was called directly inside &amp;#x60;setup&amp;#x60; method in &amp;#x60;CartSidebar.vue&amp;#x60; component | &amp;#x60;loadUser&amp;#x60; is called inside &amp;#x60;onSSR&amp;#x60; callback in &amp;#x60;CartSidebar.vue&amp;#x60; component | Calling &amp;#x60;loadUser&amp;#x60; directly inside &amp;#x60;setup&amp;#x60; method caused hydration issues, since cart information was not properly loaded during SSR. Additionally cart will now be automatically updated after calling &amp;#x60;load&amp;#x60; from the &amp;#x60;useUser&amp;#x60; composable, the same way as it happens when calling &amp;#x60;logIn&amp;#x60;, &amp;#x60;logOut&amp;#x60; and &amp;#x60;register&amp;#x60;. | commercetools theme |
+  | `loadUser` was called directly inside `setup` method in `CartSidebar.vue` component | `loadUser` is called inside `onSSR` callback in `CartSidebar.vue` component | Calling `loadUser` directly inside `setup` method caused hydration issues, since cart information was not properly loaded during SSR. Additionally cart will now be automatically updated after calling `load` from the `useUser` composable, the same way as it happens when calling `logIn`, `logOut` and `register`. | commercetools theme |
 
 - Add server-specific API client ([6321](https://github.com/vuestorefront/vue-storefront/pull/6321)) - [Filip Sobol](https://github.com/filipsobol)
 
