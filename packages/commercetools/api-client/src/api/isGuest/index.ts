@@ -1,18 +1,14 @@
 import { isAnonymousSession, isUserSession } from '../../helpers/utils';
 
 const isGuest = (context) => {
-  const { client, config } = context;
+  const { config } = context;
 
-  if (config.handleIsGuest) {
+  if (typeof config.handleIsGuest === 'function') {
     return config.handleIsGuest(context);
   }
 
-  if (client.tokenProvider || context.isProxy) {
-    const token = config.auth.onTokenRead();
-    return !isAnonymousSession(token) && !isUserSession(token);
-  }
-
-  return false;
+  const token = context.config.auth.onTokenRead();
+  return !isAnonymousSession(token) && !isUserSession(token);
 };
 
 export default isGuest;

@@ -31,5 +31,3 @@ export const mapConfigToSetupObject = ({ moduleOptions, app, additionalPropertie
     ...getLocaleSettings(moduleOptions, app)
   };
 };
-
-export const CT_TOKEN_COOKIE_NAME = 'vsf-commercetools-token';

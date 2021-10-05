@@ -1,4 +1,4 @@
-import { handleBeforeAuth, handleAfterAuth, handleRetry } from '../../../src/helpers/commercetoolsLink/linkHandlers';
+import { handleBeforeAuth, handleAfterAuth } from '../../src/links/authLinks';
 
 const getSdkAuth = (scope) => ({
   anonymousFlow: jest.fn().mockImplementation(() => ({ scope, access_token: 'GUEST_TOKEN' })),
@@ -19,11 +19,10 @@ describe('[commercetools-helpers] handleBeforeAuth', () => {
   it('doesnt generate access token for guest on users related operations', async () => {
     const scope = '';
     const result = await handleBeforeAuth({
-      settings: {},
+      configuration: {},
       sdkAuth: getSdkAuth(scope),
       tokenProvider: getTokenProvider(scope),
-      apolloReq: { operationName: 'customerSignMeIn' },
-      currentToken: { scope }
+      apolloReq: { operationName: 'customerSignMeIn' }
     });
 
     expect(result).toMatchObject({ access_token: 'ACCESS_TOKEN' });
@@ -32,11 +31,10 @@ describe('[commercetools-helpers] handleBeforeAuth', () => {
   it('generates access token for guest on anonymous-session allowed operations', async () => {
     const scope = '';
     const result = await handleBeforeAuth({
-      settings: {},
+      configuration: {},
       sdkAuth: getSdkAuth(scope),
       tokenProvider: getTokenProvider(scope),
-      apolloReq: { operationName: 'createCart' },
-      currentToken: { scope }
+      apolloReq: { operationName: 'createCart' }
     });
 
     expect(result).toMatchObject({ access_token: 'GUEST_TOKEN' });
@@ -45,11 +43,10 @@ describe('[commercetools-helpers] handleBeforeAuth', () => {
   it('returns current token for anonymous user', async () => {
     const scope = 'anonymous_id';
     const result = await handleBeforeAuth({
-      settings: {},
+      configuration: {},
       sdkAuth: getSdkAuth(scope),
       tokenProvider: getTokenProvider(scope),
-      apolloReq: { operationName: 'customerSignMeIn' },
-      currentToken: { scope }
+      apolloReq: { operationName: 'customerSignMeIn' }
     });
 
     expect(result).toMatchObject({ scope, access_token: 'ACCESS_TOKEN' });
@@ -58,15 +55,34 @@ describe('[commercetools-helpers] handleBeforeAuth', () => {
   it('returns current token for logged in user', async () => {
     const scope = 'customer_id';
     const result = await handleBeforeAuth({
-      settings: {},
+      configuration: {},
       sdkAuth: getSdkAuth(scope),
       tokenProvider: getTokenProvider(scope),
-      apolloReq: { operationName: 'customerSignMeIn' },
-      currentToken: { scope }
+      apolloReq: { operationName: 'customerSignMeIn' }
     });
 
     expect(result).toMatchObject({ scope, access_token: 'ACCESS_TOKEN' });
   });
+});
+
+it('returns token from customToken handler', async () => {
+  const token = {
+    access_token: 'CUSTOM_TOKEN',
+    scope: 'CUSTOM_SCOPE'
+  };
+  const customToken = jest.fn().mockImplementation(() => token);
+
+  const result = await handleBeforeAuth({
+    configuration: {
+      customToken
+    },
+    sdkAuth: getSdkAuth(token.scope),
+    tokenProvider: getTokenProvider(token.scope),
+    apolloReq: { operationName: 'customerSignMeIn' }
+  });
+
+  expect(customToken).toBeCalled();
+  expect(result).toMatchObject(token);
 });
 
 describe('[commercetools-helpers] handleAfterAuth', () => {
@@ -80,7 +96,6 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
       sdkAuth: getSdkAuth(scope),
       tokenProvider: getTokenProvider(scope),
       apolloReq: { operationName: 'createCart' },
-      currentToken: { scope },
       response: { errors: [] }
     });
 
@@ -93,7 +108,6 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
       sdkAuth: getSdkAuth(scope),
       tokenProvider: getTokenProvider(scope),
       apolloReq: { operationName: 'customerSignMeIn' },
-      currentToken: { scope },
       response: { errors: [] }
     });
 
@@ -110,7 +124,6 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
         operationName: 'customerSignMeIn',
         variables: { draft: { email: 'EMAIL', password: 'PASSWORD' } }
       },
-      currentToken: { scope },
       response: { errors: [] }
     });
 
@@ -128,47 +141,10 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
         operationName: 'customerSignMeIn',
         variables: { draft: { email: 'EMAIL', password: 'PASSWORD' } }
       },
-      currentToken: { scope },
       response: { errors: [] }
     });
 
     expect(result).toMatchObject({ scope, access_token: 'LOGIN_TOKEN' });
     expect(sdkAuth.customerPasswordFlow).toBeCalledWith({ username: 'EMAIL', password: 'PASSWORD' });
-  });
-});
-
-describe('[commercetools-helpers] handleRetry', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('defaults to false', () => {
-    const tokenProvider = getTokenProvider('');
-    const handler = handleRetry({ settings: {}, tokenProvider });
-    const operation = { operationName: 'any' };
-    const error = { result: { message: '' } };
-
-    expect(handler(1, operation, error)).toBeFalsy();
-    expect(tokenProvider.invalidateTokenInfo).not.toBeCalled();
-  });
-
-  it('doesnt run more than 3 times', () => {
-    const tokenProvider = getTokenProvider('');
-    const handler = handleRetry({ settings: {}, tokenProvider });
-    const operation = { operationName: 'any' };
-    const error = { result: { message: 'invalid_token' } };
-
-    expect(handler(4, operation, error)).toBeFalsy();
-    expect(tokenProvider.invalidateTokenInfo).not.toBeCalled();
-  });
-
-  it('calls "invalidateTokenInfo" on "invalid_token" error', () => {
-    const tokenProvider = getTokenProvider('');
-    const handler = handleRetry({ settings: {}, tokenProvider });
-    const operation = { operationName: 'any' };
-    const error = { result: { message: 'invalid_token' } };
-
-    expect(handler(1, operation, error)).toBeTruthy();
-    expect(tokenProvider.invalidateTokenInfo).toBeCalled();
   });
 });

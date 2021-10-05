@@ -168,7 +168,6 @@
       <div class="form">
         <div class="form__action">
           <SfButton
-            v-e2e="'select-shipping'"
             v-if="!isFormSubmitted"
             :disabled="loading"
             class="form__action-button"

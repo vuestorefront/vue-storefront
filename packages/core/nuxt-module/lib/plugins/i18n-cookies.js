@@ -27,8 +27,13 @@ const i18nCookiesPlugin = ({ $cookies }) => {
     expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)) // Year from now
   };
 
-  !$cookies.get(VSF_CURRENCY_COOKIE) && $cookies.set(VSF_CURRENCY_COOKIE, settings.currency, cookieOptions);
-  !$cookies.get(VSF_COUNTRY_COOKIE) && $cookies.set(VSF_COUNTRY_COOKIE, settings.country, cookieOptions);
+  const cookieNames = {
+    currency: i18n.cookies?.currencyCookieName || VSF_CURRENCY_COOKIE,
+    country: i18n.cookies?.countryCookieName || VSF_COUNTRY_COOKIE
+  }
+
+  !$cookies.get(cookieNames.currency) && $cookies.set(cookieNames.currency, settings.currency, cookieOptions);
+  !$cookies.get(cookieNames.country) && $cookies.set(cookieNames.country, settings.country, cookieOptions);
 };
 
 export default i18nCookiesPlugin;

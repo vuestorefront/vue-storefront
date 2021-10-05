@@ -126,8 +126,8 @@
             </div>
           </template>
         </SfCheckbox>
-          <div class="summary__action">
-          <SfButton v-e2e="'make-an-order'" class="summary__action-button" @click="processOrder" :disabled="loading || !paymentReady || !terms">
+          <div v-e2e="'payment-summary-buttons'" class="summary__action">
+          <SfButton class="summary__action-button" @click="processOrder" :disabled="loading || !paymentReady || !terms">
             {{ $t('Make an order') }}
           </SfButton>
           <nuxt-link to="/checkout/billing" class="sf-button sf-button--underlined summary__back-button smartphone-only">
