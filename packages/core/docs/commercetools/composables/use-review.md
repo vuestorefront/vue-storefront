@@ -130,7 +130,7 @@
 
 ```typescript
 import { onSSR } from '@vue-storefront/core';
-import { useReview, reviewGetters } from '@vsf-enterprise/commercetoolss';
+import { useReview, reviewGetters } from '@vsf-enterprise/commercetools';
 
 export default {
   setup() {
