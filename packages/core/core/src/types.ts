@@ -473,7 +473,7 @@ export interface UseContent<
   CONTENT_SEARCH_PARAMS,
   API extends PlatformApi = any
 > extends Composable<API> {
-  search: (params: CONTENT_SEARCH_PARAMS) => Promise<void>;
+  search: (params: CONTENT_SEARCH_PARAMS, force?: boolean) => Promise<void>;
   content: ComputedProperty<CONTENT>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseContentErrors>;

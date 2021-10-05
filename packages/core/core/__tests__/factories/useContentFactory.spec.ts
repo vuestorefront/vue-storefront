@@ -6,10 +6,11 @@ import {
 } from '../../src/factories';
 import { UseContent } from '../../src/types';
 import { shallowMount } from '@vue/test-utils';
+import { isCacheValid } from '../../src/utils';
 
 describe('[CORE - factories] useContentFactory', () => {
   let params: UseContentFactoryParams<any, any>;
-  let useContent: (cacheId: string) => UseContent<any, any>;
+  let useContent: (cacheId: string, cacheTimestamp?: number) => UseContent<any, any>;
   const createContentFactoryMock = () => {
     params = {
       search: jest.fn().mockResolvedValueOnce({ id: 'test-id' })
@@ -25,24 +26,43 @@ describe('[CORE - factories] useContentFactory', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    (isCacheValid as any).mockReturnValue(false);
     createContentFactoryMock();
   });
 
   it('returns content initial values', () => {
-    const { loading, content, error } = useContent('test-id');
+    const { loading, content, error, cacheTimestamp } = useContent('test-id');
 
     expect(content.value).toEqual([]);
     expect(loading.value).toEqual(false);
     expect(error.value).toEqual({
       search: null
     });
+    expect(cacheTimestamp.value).toEqual(1);
   });
 
-  it('invokes content search', async () => {
+  it('invokes content search when content is empty', async () => {
     const { search } = useContent('test-id');
     const searchParams = { contentId: 'test-id', contentUrl: 'test-url' };
     await search(searchParams);
 
+    expect(params.search).toBeCalledWith(searchParams);
+    expect(params.search).toBeCalledTimes(1);
+  });
+
+  it('does not invoke content search when isCacheValid returns true', async () => {
+    (isCacheValid as any).mockReturnValue(true);
+    const { search } = useContent('test-id');
+    const searchParams = { contentId: 'test-id', contentUrl: 'test-url' };
+    await search(searchParams);
+    expect(params.search).toBeCalledTimes(0);
+  });
+
+  it('invokes content search when isCacheValid returns true and force param is true', async () => {
+    (isCacheValid as any).mockReturnValue(true);
+    const { search } = useContent('test-id');
+    const searchParams = { contentId: 'test-id', contentUrl: 'test-url' };
+    await search(searchParams, true);
     expect(params.search).toBeCalledWith(searchParams);
     expect(params.search).toBeCalledTimes(1);
   });
