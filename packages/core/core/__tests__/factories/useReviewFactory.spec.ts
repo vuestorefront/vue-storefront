@@ -1,5 +1,6 @@
 import { useReviewFactory } from '../../src/factories';
 import { UseReview } from '../../src/types';
+import { isCacheValid } from '../../src/utils';
 
 const searchReviewResponse = {
   offset: 0,
@@ -27,7 +28,7 @@ const searchReviewResponse = {
   ]
 };
 
-const useReviews: (cacheId: string) => UseReview<any, any, any> = useReviewFactory<any, any, any>({
+const params = {
   searchReviews: jest.fn().mockResolvedValue(searchReviewResponse),
   addReview: jest.fn().mockResolvedValue({
     offset: 0,
@@ -63,7 +64,9 @@ const useReviews: (cacheId: string) => UseReview<any, any, any> = useReviewFacto
       }
     ]
   })
-});
+};
+
+const useReviews: (cacheId: string) => UseReview<any, any, any> = useReviewFactory<any, any, any>(params);
 
 const useReviesError: (cacheId: string) => UseReview<any, any, any> = useReviewFactory<any, any, any>({
   searchReviews: jest.fn().mockImplementation(() => {
@@ -75,6 +78,10 @@ const useReviesError: (cacheId: string) => UseReview<any, any, any> = useReviewF
 });
 
 describe('[CORE - factories] useReviews', () => {
+  beforeEach(() => {
+    (isCacheValid as any).mockReturnValue(false);
+    jest.clearAllMocks();
+  });
   it('returns proper initial values', () => {
     const { reviews, loading, error } = useReviews('test-reviews');
 
@@ -105,6 +112,20 @@ describe('[CORE - factories] useReviews', () => {
     await addReview({});
 
     expect(reviews.value.total).toEqual(2);
+  });
+
+  it('does not invoke content search when isCacheValid returns true', async () => {
+    (isCacheValid as any).mockReturnValue(true);
+    const { search } = useReviews('test-reviews');
+    await search({});
+    expect(params.searchReviews).toBeCalledTimes(0);
+  });
+
+  it('invokes content search when isCacheValid returns true and force param is true', async () => {
+    (isCacheValid as any).mockReturnValue(true);
+    const { search } = useReviews('test-reviews');
+    await search({}, true);
+    expect(params.searchReviews).toBeCalledTimes(1);
   });
 
   it('returns error when search fails', async () => {

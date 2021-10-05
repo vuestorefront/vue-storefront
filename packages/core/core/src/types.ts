@@ -380,7 +380,7 @@ REVIEWS_SEARCH_PARAMS,
 REVIEW_ADD_PARAMS,
 API extends PlatformApi = any
 > extends Composable<API> {
-  search(params: ComposableFunctionArgs<REVIEWS_SEARCH_PARAMS>): Promise<void>;
+  search(params: ComposableFunctionArgs<REVIEWS_SEARCH_PARAMS>, force?: boolean): Promise<void>;
   addReview(params: ComposableFunctionArgs<REVIEW_ADD_PARAMS>): Promise<void>;
   error: ComputedProperty<UseReviewErrors>;
   reviews: ComputedProperty<REVIEW>;
