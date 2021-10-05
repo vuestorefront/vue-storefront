@@ -79,6 +79,7 @@ export interface UseProduct<
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseProductErrors>;
   search(params: ComposableFunctionArgs<PRODUCT_SEARCH_PARAMS>, force?: boolean): Promise<void>;
+  cacheTimestamp: ComputedProperty<number>;
   [x: string]: any;
 }
 
@@ -101,6 +102,7 @@ export interface UseSearch<RESULT, SEARCH_PARAMS> {
   error: ComputedProperty<UseSearchErrors>;
   search(params: ComposableFunctionArgs<SEARCH_PARAMS>): Promise<void>;
   cacheTimestamp: ComputedProperty<number>;
+  [x: string]: any;
 }
 
 export interface UseUserRegisterParams {
@@ -272,6 +274,7 @@ export interface UseCategory<
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseCategoryErrors>;
   cacheTimestamp: ComputedProperty<number>;
+  [x: string]: any;
 }
 
 export interface UseCartErrors {
@@ -385,6 +388,7 @@ API extends PlatformApi = any
   error: ComputedProperty<UseReviewErrors>;
   reviews: ComputedProperty<REVIEW>;
   loading: ComputedProperty<boolean>;
+  cacheTimestamp: ComputedProperty<number>;
   [x: string]: any;
 }
 
@@ -478,6 +482,7 @@ export interface UseContent<
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseContentErrors>;
   cacheTimestamp: ComputedProperty<number>;
+  [x: string]: any;
 }
 
 export interface RenderComponent {
