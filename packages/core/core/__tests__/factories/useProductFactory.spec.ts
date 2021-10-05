@@ -1,5 +1,6 @@
 import { useProductFactory } from '../../src/factories';
 import { UseProduct } from '../../src/types';
+import { isCacheValid } from '../../src/utils';
 
 const useProduct: (cacheId: string) => UseProduct<any, any> = useProductFactory<any, any>({
   productsSearch: (searchParams) => Promise.resolve([{ name: 'product ' + searchParams.slug }])
@@ -12,6 +13,10 @@ const factoryParams = {
 const useProductMock = useProductFactory<any, any>(factoryParams);
 
 describe('[CORE - factories] useProductFactory', () => {
+  beforeEach(() => {
+    (isCacheValid as any).mockReturnValue(false);
+  });
+
   it('creates properties', () => {
     const { products, loading } = useProduct('test-product');
 
@@ -32,6 +37,22 @@ describe('[CORE - factories] useProductFactory', () => {
 
     await search({ slug: 'product-slug' });
 
+    expect(products.value).toEqual([{name: 'product product-slug' }]);
+  });
+
+  it('does not invoke content search when isCacheValid returns true', async () => {
+    (isCacheValid as any).mockReturnValue(true);
+    const { search, products } = useProduct('test-use-product');
+    await search({ slug: 'product-slug' });
+    expect(products.value).toEqual([]);
+
+  });
+
+  it('invokes content search when isCacheValid returns true and force param is true', async () => {
+    (isCacheValid as any).mockReturnValue(true);
+    const { search, products } = useProduct('test-use-product');
+    const searchParams = { slug: 'product-slug' };
+    await search(searchParams, true);
     expect(products.value).toEqual([{name: 'product product-slug' }]);
   });
 

@@ -78,7 +78,7 @@ export interface UseProduct<
   products: ComputedProperty<PRODUCTS>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseProductErrors>;
-  search(params: ComposableFunctionArgs<PRODUCT_SEARCH_PARAMS>): Promise<void>;
+  search(params: ComposableFunctionArgs<PRODUCT_SEARCH_PARAMS>, force?: boolean): Promise<void>;
   [x: string]: any;
 }
 
