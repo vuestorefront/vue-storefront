@@ -14,7 +14,7 @@ const useProductMock = useProductFactory<any, any>(factoryParams);
 
 describe('[CORE - factories] useProductFactory', () => {
   beforeEach(() => {
-    (isCacheValid as any).mockReturnValue(false);
+    (isCacheValid as jest.Mock).mockReturnValue(false);
   });
 
   it('creates properties', () => {
@@ -41,7 +41,7 @@ describe('[CORE - factories] useProductFactory', () => {
   });
 
   it('does not invoke content search when isCacheValid returns true', async () => {
-    (isCacheValid as any).mockReturnValue(true);
+    (isCacheValid as jest.Mock).mockReturnValue(true);
     const { search, products } = useProduct('test-use-product');
     await search({ slug: 'product-slug' });
     expect(products.value).toEqual([]);
@@ -49,7 +49,7 @@ describe('[CORE - factories] useProductFactory', () => {
   });
 
   it('invokes content search when isCacheValid returns true and force param is true', async () => {
-    (isCacheValid as any).mockReturnValue(true);
+    (isCacheValid as jest.Mock).mockReturnValue(true);
     const { search, products } = useProduct('test-use-product');
     const searchParams = { slug: 'product-slug', force: true };
     await search(searchParams);

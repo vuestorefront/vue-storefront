@@ -26,7 +26,7 @@ describe('[CORE - factories] useContentFactory', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    (isCacheValid as any).mockReturnValue(false);
+    (isCacheValid as jest.Mock).mockReturnValue(false);
     createContentFactoryMock();
   });
 
@@ -51,7 +51,7 @@ describe('[CORE - factories] useContentFactory', () => {
   });
 
   it('does not invoke content search when isCacheValid returns true', async () => {
-    (isCacheValid as any).mockReturnValue(true);
+    (isCacheValid as jest.Mock).mockReturnValue(true);
     const { search } = useContent('test-id');
     const searchParams = { contentId: 'test-id', contentUrl: 'test-url' };
     await search(searchParams);
@@ -59,7 +59,7 @@ describe('[CORE - factories] useContentFactory', () => {
   });
 
   it('invokes content search when isCacheValid returns true and force param is true', async () => {
-    (isCacheValid as any).mockReturnValue(true);
+    (isCacheValid as jest.Mock).mockReturnValue(true);
     const { search } = useContent('test-id');
     const searchParams = { contentId: 'test-id', contentUrl: 'test-url' };
     await search({ ...searchParams, force: true });

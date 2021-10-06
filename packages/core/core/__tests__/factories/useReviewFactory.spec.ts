@@ -79,7 +79,7 @@ const useReviesError: (cacheId: string) => UseReview<any, any, any> = useReviewF
 
 describe('[CORE - factories] useReviews', () => {
   beforeEach(() => {
-    (isCacheValid as any).mockReturnValue(false);
+    (isCacheValid as jest.Mock).mockReturnValue(false);
     jest.clearAllMocks();
   });
   it('returns proper initial values', () => {
@@ -115,14 +115,14 @@ describe('[CORE - factories] useReviews', () => {
   });
 
   it('does not invoke content search when isCacheValid returns true', async () => {
-    (isCacheValid as any).mockReturnValue(true);
+    (isCacheValid as jest.Mock).mockReturnValue(true);
     const { search } = useReviews('test-reviews');
     await search({});
     expect(params.searchReviews).toBeCalledTimes(0);
   });
 
   it('invokes content search when isCacheValid returns true and force param is true', async () => {
-    (isCacheValid as any).mockReturnValue(true);
+    (isCacheValid as jest.Mock).mockReturnValue(true);
     const { search } = useReviews('test-reviews');
     await search({ force: true });
     expect(params.searchReviews).toBeCalledTimes(1);

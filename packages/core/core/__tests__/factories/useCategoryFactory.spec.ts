@@ -37,7 +37,7 @@ describe('[CORE - factories] useCategoryFactory', () => {
 
   describe('methods', () => {
     beforeEach(() => {
-      (isCacheValid as any).mockReturnValue(false);
+      (isCacheValid as jest.Mock).mockReturnValue(false);
     });
     describe('search', () => {
       it('should invoke search', async () => {
@@ -49,7 +49,7 @@ describe('[CORE - factories] useCategoryFactory', () => {
       });
 
       it('should not invoke content search when isCacheValid returns true', async () => {
-        (isCacheValid as any).mockReturnValue(true);
+        (isCacheValid as jest.Mock).mockReturnValue(true);
         const { search } = useCategory();
         const searchParams = { someparam: 'qwerty' };
         await search(searchParams);
@@ -57,7 +57,7 @@ describe('[CORE - factories] useCategoryFactory', () => {
       });
 
       it('should invoke content search when isCacheValid returns true and force param is true', async () => {
-        (isCacheValid as any).mockReturnValue(true);
+        (isCacheValid as jest.Mock).mockReturnValue(true);
         const { search } = useCategory();
         const searchParams = { someparam: 'qwerty', force: true };
         await search(searchParams);
