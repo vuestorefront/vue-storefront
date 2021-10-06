@@ -31,8 +31,8 @@ describe('[CORE - factories] useContentFactory', () => {
   });
 
   it('returns content initial values', () => {
+    jest.spyOn(Date, 'now').mockImplementationOnce(() => 1);
     const { loading, content, error, cacheTimestamp } = useContent('test-id');
-
     expect(content.value).toEqual([]);
     expect(loading.value).toEqual(false);
     expect(error.value).toEqual({

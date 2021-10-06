@@ -1,6 +1,6 @@
 import { CustomQuery, UseCategory, Context, FactoryParams, UseCategoryErrors, PlatformApi } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, configureFactoryParams, setCacheTimestamp, isCacheValid } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, isCacheValid } from '../utils';
 
 export interface UseCategoryFactoryParams<
   CATEGORY,
@@ -19,7 +19,7 @@ export function useCategoryFactory<CATEGORY, CATEGORY_SEARCH_PARAMS, API extends
     const error: Ref<UseCategoryErrors> = sharedRef({
       search: null
     }, `useCategory-error-${id}`);
-    const cacheTimestamp: Ref<number> = setCacheTimestamp(`useCategory-cache-${id}`);
+    const cacheTimestamp: Ref<number> = sharedRef(Date.now(), `useCategory-cache-${id}`);
 
     const _factoryParams = configureFactoryParams(
       factoryParams,

@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { RenderComponent, UseContent, Context, FactoryParams, UseContentErrors, PlatformApi } from '../types';
-import { sharedRef, Logger, configureFactoryParams, setCacheTimestamp, isCacheValid } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, isCacheValid } from '../utils';
 import { PropOptions, VNode } from 'vue';
 
 export interface UseContentFactoryParams<
@@ -20,7 +20,7 @@ export function useContentFactory<CONTENT, CONTENT_SEARCH_PARAMS, API extends Pl
     const error: Ref<UseContentErrors> = sharedRef({
       search: null
     }, `useContent-error-${id}`);
-    const cacheTimestamp: Ref<number> = setCacheTimestamp(`useContent-cache-${id}`);
+    const cacheTimestamp: Ref<number> = sharedRef(Date.now(), `useContent-cache-${id}`);
 
     const _factoryParams = configureFactoryParams(
       factoryParams,

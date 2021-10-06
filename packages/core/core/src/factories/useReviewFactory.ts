@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import { CustomQuery, UseReview, Context, FactoryParams, UseReviewErrors, PlatformApi } from '../types';
-import { sharedRef, Logger, configureFactoryParams, setCacheTimestamp, isCacheValid } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, isCacheValid } from '../utils';
 
 export interface UseReviewFactoryParams<
   REVIEW,
@@ -22,7 +22,7 @@ export function useReviewFactory<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAM
       search: null,
       addReview: null
     }, `useReviews-error-${id}`);
-    const cacheTimestamp: Ref<number> = setCacheTimestamp(`useReviews-cache-${id}`);
+    const cacheTimestamp: Ref<number> = sharedRef(Date.now(), `useReviews-cache-${id}`);
 
     const _factoryParams = configureFactoryParams(
       factoryParams,

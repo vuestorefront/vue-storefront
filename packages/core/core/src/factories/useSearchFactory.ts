@@ -1,6 +1,6 @@
 import { CustomQuery, UseSearch, Context, FactoryParams, UseSearchErrors } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, configureFactoryParams, setCacheTimestamp, isCacheValid } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, isCacheValid } from '../utils';
 
 export interface UseSearchFactoryParams<RESULT, SEARCH_PARAMS> extends FactoryParams {
   search: (context: Context, params: SEARCH_PARAMS & { customQuery?: CustomQuery }) => Promise<RESULT>;
@@ -16,7 +16,7 @@ export function useSearchFactory<RESULT, SEARCH_PARAMS>(
     const error: Ref<UseSearchErrors> = sharedRef({
       search: null
     }, `useSearch-error-${id}`);
-    const cacheTimestamp: Ref<number> = setCacheTimestamp(`useSearch-cache-${id}`);
+    const cacheTimestamp: Ref<number> = sharedRef(Date.now(), `useSearch-cache-${id}`);
 
     const search = async ({ force = false, ...searchParams }) => {
       Logger.debug(`useSearch/${id}/search`, searchParams);

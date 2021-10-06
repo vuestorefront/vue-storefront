@@ -8,7 +8,7 @@ import {
   PlatformApi
 } from '../types';
 import { Ref, computed } from '@vue/composition-api';
-import { sharedRef, Logger, configureFactoryParams, setCacheTimestamp, isCacheValid } from '../utils';
+import { sharedRef, Logger, configureFactoryParams, isCacheValid } from '../utils';
 export interface UseProductFactoryParams<
 PRODUCTS,
 PRODUCT_SEARCH_PARAMS extends ProductsSearchParams,
@@ -26,7 +26,7 @@ export function useProductFactory<PRODUCTS, PRODUCT_SEARCH_PARAMS, API extends P
     const error: Ref<UseProductErrors> = sharedRef({
       search: null
     }, `useProduct-error-${id}`);
-    const cacheTimestamp: Ref<number> = setCacheTimestamp(`useProduct-cache-${id}`);
+    const cacheTimestamp: Ref<number> = sharedRef(Date.now(), `useProduct-cache-${id}`);
 
     const _factoryParams = configureFactoryParams(
       factoryParams,
