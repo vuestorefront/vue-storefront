@@ -1,3 +1,6 @@
+# Docs require puppeteer / chromium to generate OpenGraph images.
+# https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#running-on-alpine
+
 FROM node:12-alpine AS build
 
 WORKDIR /var/www
@@ -10,7 +13,6 @@ RUN apk add --no-cache \
       harfbuzz \
       ca-certificates \
       ttf-freefont \
-      nodejs \
       yarn
 
 COPY . .
