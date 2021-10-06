@@ -49,8 +49,9 @@ module.exports = (options, context) => {
         .map(page => pageToContent({
           outDir,
           title: page.title,
-          fileName: page.key
-        }));
+          fileName: `${ page.key }.jpg`
+        }))
+        .concat(fallback);
 
       if (!existsSync(outDir)) {
         mkdirSync(outDir, { recursive: true });
@@ -58,9 +59,8 @@ module.exports = (options, context) => {
 
       await nodeHtmlToImage({
         html: readFileSync(resolve(__dirname, './template.html'), 'utf8'),
-        content: pages.concat(fallback),
+        content: pages,
         puppeteerArgs: {
-          dumpio: true,
           args: [
             '--autoplay-policy=user-gesture-required',
             '--disable-background-networking',
