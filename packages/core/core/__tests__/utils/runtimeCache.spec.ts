@@ -18,7 +18,7 @@ describe('isCacheValid', () => {
       const timestamp = ref(1);
       expect(isCacheValid(content, timestamp)).toBe(false);
     });
-    it('when cacheLife is greater than cacheTimeToLive', () => {
+    it('when cacheLife is equal or greater than cacheTimeToLive', () => {
       const timestamp = ref(Date.now());
       const content = ref(['non-empty', 'content']);
       const cacheTimeToLive = 300;
