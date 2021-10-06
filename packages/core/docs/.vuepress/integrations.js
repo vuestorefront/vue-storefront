@@ -75,7 +75,7 @@ const INTEGRATIONS = {
     },
     {
       name: 'Shopify',
-      link: '/v2/shopify',
+      link: 'https://docs.vuestorefront.io/shopify',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed627658b992c5c98014d1c_Shopify_logo_2018%201.svg',
       status: STATUSES.STABLE,
       availability: AVAILABILITY.OPEN_SOURCE,
