@@ -83,7 +83,8 @@ describe('[CORE - factories] useReviews', () => {
     jest.clearAllMocks();
   });
   it('returns proper initial values', () => {
-    const { reviews, loading, error } = useReviews('test-reviews');
+    jest.spyOn(Date, 'now').mockImplementationOnce(() => 1);
+    const { reviews, loading, error, cacheTimestamp } = useReviews('test-reviews');
 
     expect(reviews.value).toEqual([]);
     expect(loading.value).toEqual(false);
@@ -91,11 +92,11 @@ describe('[CORE - factories] useReviews', () => {
       search: null,
       addReview: null
     });
+    expect(cacheTimestamp.value).toEqual(1);
   });
 
   it('returns reviews response', async () => {
     const { search, reviews, error } = useReviews('test-reviews');
-
     await search({});
 
     expect(reviews.value).toEqual(searchReviewResponse);

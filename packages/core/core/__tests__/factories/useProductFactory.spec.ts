@@ -18,10 +18,12 @@ describe('[CORE - factories] useProductFactory', () => {
   });
 
   it('creates properties', () => {
-    const { products, loading } = useProduct('test-product');
+    jest.spyOn(Date, 'now').mockImplementationOnce(() => 1);
+    const { products, loading, cacheTimestamp } = useProduct('test-product');
 
     expect(products.value).toEqual([]);
     expect(loading.value).toEqual(false);
+    expect(cacheTimestamp.value).toEqual(1);
   });
 
   it('returns product response', async () => {

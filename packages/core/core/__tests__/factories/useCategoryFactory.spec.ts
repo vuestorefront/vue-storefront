@@ -28,10 +28,12 @@ describe('[CORE - factories] useCategoryFactory', () => {
 
   describe('initial setup', () => {
     it('should have proper initial properties when no persisted state set', () => {
-      const { loading, categories } = useCategory();
+      jest.spyOn(Date, 'now').mockImplementationOnce(() => 1);
+      const { loading, categories, cacheTimestamp } = useCategory();
 
       expect(categories.value).toEqual([]);
       expect(loading.value).toEqual(false);
+      expect(cacheTimestamp.value).toEqual(1);
     });
   });
 
