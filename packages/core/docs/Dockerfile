@@ -7,13 +7,13 @@ WORKDIR /var/www
 
 # Installs latest Chromium (92) package.
 RUN apk add --no-cache \
-      chromium \
-      nss \
-      freetype \
-      harfbuzz \
-      ca-certificates \
-      ttf-freefont \
-      yarn
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont \
+    yarn
 
 COPY . .
 
