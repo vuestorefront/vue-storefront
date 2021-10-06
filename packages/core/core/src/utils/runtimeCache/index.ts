@@ -10,10 +10,7 @@ const _isContentCached = (content) => {
 
 export const setCacheTimestamp = (key: string) => {
   const { $sharedRefsMap } = useVSFContext();
-  const existingTimestamp = $sharedRefsMap.get(key);
-  if (existingTimestamp) return existingTimestamp;
-  const timestamp = sharedRef(Date.now(), key);
-  return timestamp;
+  return $sharedRefsMap.get(key) || sharedRef(Date.now(), key);
 };
 
 export const isCacheValid = (
