@@ -1,3 +1,4 @@
+const { resolve } = require('path');
 const { STATUSES, AVAILABILITY, CATEGORIES, INTEGRATIONS } = require('./integrations');
 const GTM_TAG = 'GTM-WMDC3CP';
 
@@ -76,7 +77,8 @@ module.exports = {
       }
     ],
     '@vuepress/active-header-links',
-    '@vuepress/search'
+    '@vuepress/search',
+    resolve(__dirname, './plugins/meta/index.js')
   ],
 
   /**
