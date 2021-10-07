@@ -204,6 +204,53 @@ Read [Adyen's document about the Afterpay](https://docs.adyen.com/payment-method
 Afterpay requires the shopper's email address to work correctly. It will be read from `cart.customerEmail` with fallback to the `cart.customer.email` field. Make sure to put it in one of these.
 :::
 
+## Apple Pay configuration
+
+To enable Apple Pay, you have to add a new payment method in Adyen's dashboard. Then, in the `nuxt.config.js` file add `applepay` to the `availablePaymentMethods` array:
+
+```js
+// nuxt.config.js
+export default {
+  modules: [
+    ['@vsf-enterprise/adyen/nuxt', {
+      availablePaymentMethods: [
+        'scheme',
+        'applepay'
+      ],
+      // ...
+    }]
+  ]
+};
+```
+
+:::warning
+Currently, we support only Adyen's Apple Pay certificate approach.
+:::
+
+Read [Adyen's document about Apple Pay](https://docs.adyen.com/payment-methods/apple-pay/web-drop-in?tab=adyen-certificate-config_1#configure) to check available configuration options, learn how to test this payment method, and learn how to use Adyen's certificate in live environment.
+
+To pass additional configuration options for Apple Pay, use the `methods.applepay` property. E.g:
+
+```js
+// nuxt.config.js
+export default {
+  modules: [
+    ['@vsf-enterprise/adyen/nuxt', {
+      availablePaymentMethods: [
+        'scheme',
+        'applepay'
+      ],
+      methods: {
+        applepay: {
+          buttonColor: 'white-with-line'
+        }
+      }
+      // ...
+    }]
+  ]
+};
+```
+
 ## Google Pay configuration
 
 To enable Google Pay, you have to add a new payment method in Adyen's dashboard. Then, in the `nuxt.config.js` file add `paywithgoogle` to the `availablePaymentMethods` array:
@@ -226,6 +273,51 @@ export default {
 Read [Adyen's document about Google Pay](https://docs.adyen.com/payment-methods/google-pay/web-drop-in?tab=version_3_13_0_and_later_1#configure) to check available configuration options and learn how to test this payment method.
 
 To pass additional configuration options for Google Pay, use the `methods.paywithgoogle` property. E.g:
+
+```js
+// nuxt.config.js
+export default {
+  modules: [
+    ['@vsf-enterprise/adyen/nuxt', {
+      availablePaymentMethods: [
+        'scheme',
+        'paywithgoogle'
+      ],
+      methods: {
+        paywithgoogle: {
+          buttonColor: 'white'
+        }
+      }
+      // ...
+    }]
+  ]
+};
+```
+
+## ZIP configuration
+
+To enable ZIP, you have to add a new payment method in Adyen's dashboard. Then, in the `nuxt.config.js` file add `zip` to the `availablePaymentMethods` array:
+
+```js
+// nuxt.config.js
+export default {
+  modules: [
+    ['@vsf-enterprise/adyen/nuxt', {
+      availablePaymentMethods: [
+        'scheme',
+        'zip'
+      ],
+      // ...
+    }]
+  ]
+};
+```
+
+:::warning
+Conditions to make ZIP work correctly:
+- User is from Australia
+- Currency is AUD
+:::
 
 ```js
 // nuxt.config.js
