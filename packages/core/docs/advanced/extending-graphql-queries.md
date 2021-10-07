@@ -68,14 +68,14 @@ module.exports = {
       location: '@vue-storefront/commercetools-api/server',
       configuration: { /* ... */ },
       customQueries: {
-        'my-products-query': ({ variables }) => {
+        'my-products-query': ({ variables }) => ({
           query: `
             query products($where: String) {
               products(where: $where) { /* ... */ }
             }
           `,
           variables,
-        }
+        })
       }
     }
   }
@@ -91,14 +91,14 @@ You can create a new file (or files) that exports the queries. Then, you can imp
 // customQueries/index.js
 
 module.exports = {
-  'my-products-query': ({ variables }) => {
+  'my-products-query': ({ variables }) => ({
     query: `
       query products($where: String) {
         products(where: $where) { /* ... */ }
       }
     `,
     variables,
-  },
+  }),
   ... // other custom queries
 };
 ```
