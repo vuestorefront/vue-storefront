@@ -113,6 +113,7 @@ export default {
   'Create an account': 'Konto erstellen',
   'Your bag is empty': 'Ihre Tasche ist leer',
   'Cancel': 'Abbrechen',
+  'See all': 'Alle anzeigen',
   'See all results': 'Alle Ergebnisse anzeigen',
   'You haven’t searched for items yet': 'Sie haben noch nicht nach Artikeln gesucht.',
   'Let’s start now – we’ll help you': 'Fangen wir jetzt an - wir helfen Ihnen.',

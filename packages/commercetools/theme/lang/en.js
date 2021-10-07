@@ -113,6 +113,7 @@ export default {
   'Create an account': 'Create an account',
   'Your bag is empty': 'Your bag is empty',
   'Cancel': 'Cancel',
+  'See all': 'See all',
   'See all results': 'See all results',
   'You haven’t searched for items yet': 'You haven’t searched for items yet.',
   'Let’s start now – we’ll help you': 'Let’s start now – we’ll help you.',
