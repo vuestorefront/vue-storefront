@@ -206,7 +206,7 @@ Afterpay requires the shopper's email address to work correctly. It will be read
 
 ## Apple Pay configuration
 
-To enable Apple Pay, you have to add a new payment method in Adyen's dashboard. Then, in the `nuxt.config.js` file add `applepay` to the `availablePaymentMethods` array:
+To enable Apple Pay, you have to add it as a payment method in Adyen's dashboard. Then, in the `nuxt.config.js` file add `applepay` to the `availablePaymentMethods` array:
 
 ```js
 // nuxt.config.js
@@ -227,9 +227,9 @@ export default {
 Currently, we support only Adyen's Apple Pay certificate approach.
 :::
 
-Read [Adyen's document about Apple Pay](https://docs.adyen.com/payment-methods/apple-pay/web-drop-in?tab=adyen-certificate-config_1#configure) to check available configuration options, learn how to test this payment method, and learn how to use Adyen's certificate in live environment.
+Read [Adyen's document about Apple Pay](https://docs.adyen.com/payment-methods/apple-pay/web-drop-in?tab=adyen-certificate-config_1#configure) to check available configuration options, learn how to test this payment method and how to use Adyen's certificate in a live environment.
 
-To pass additional configuration options for Apple Pay, use the `methods.applepay` property. E.g:
+To pass additional configuration options for Apple Pay, use the `methods.applepay` property. E.g.:
 
 ```js
 // nuxt.config.js
@@ -253,7 +253,7 @@ export default {
 
 ## Google Pay configuration
 
-To enable Google Pay, you have to add a new payment method in Adyen's dashboard. Then, in the `nuxt.config.js` file add `paywithgoogle` to the `availablePaymentMethods` array:
+To enable Google Pay, you have to add it as a payment method in Adyen's dashboard. Then, in the `nuxt.config.js` file add `paywithgoogle` to the `availablePaymentMethods` array:
 
 ```js
 // nuxt.config.js
@@ -272,7 +272,7 @@ export default {
 
 Read [Adyen's document about Google Pay](https://docs.adyen.com/payment-methods/google-pay/web-drop-in?tab=version_3_13_0_and_later_1#configure) to check available configuration options and learn how to test this payment method.
 
-To pass additional configuration options for Google Pay, use the `methods.paywithgoogle` property. E.g:
+To pass additional configuration options for Google Pay, use the `methods.paywithgoogle` property. E.g.:
 
 ```js
 // nuxt.config.js
@@ -296,7 +296,7 @@ export default {
 
 ## ZIP configuration
 
-To enable ZIP, you have to add a new payment method in Adyen's dashboard. Then, in the `nuxt.config.js` file add `zip` to the `availablePaymentMethods` array:
+To enable ZIP, you have to add it as a payment method in Adyen's dashboard. Then, in the `nuxt.config.js` file add `zip` to the `availablePaymentMethods` array:
 
 ```js
 // nuxt.config.js
@@ -384,7 +384,7 @@ interface AdyenConfigBuilder {
 * `onError` - `(data: { action: string, error: Error | string }) => void` - Called after we got an error from either Adyen or our API.
 
 ## Placing an order
-If the transaction is authorized, the server's controller for `payAndOrder`/`submitAdditionalPaymentDetails` will place an order in commercetools and apply the `order` object to the response. Thanks to that, we have only one request from the client to both finalize/authorize payment and make an order.
+If the transaction is authorized, the server's controller for `payAndOrder`/`submitAdditionalPaymentDetails` will place an order in commercetools and apply the `order` object to the response. Thanks to that, we have only one client request to finalize/authorize payment and make an order.
 
 ## Checkout.com
 Adyen's module isn't compatible with [Checkout.com's module](https://github.com/vuestorefront/checkout-com).
@@ -415,14 +415,15 @@ There might be a situation when you can finish 3DS2 Auth in the local environmen
 Update extension and notification modules to the [newest available version](https://github.com/commercetools/commercetools-adyen-integration/releases) by updating the tag in `extension.Dockerfile` and `notification.Dockerfile`.
 
 ### What if a user modifies the cart's total price during the payment flow?
-We check if the cart's total price equals the payment's amount in every step of the payment flow. If it doesn't match we are:
-1. stopping the process immediately,
-2. removing a payment object from the commercetools,
-3. redirecting back a user to the payment step.
-4. showing an announcement about the mismatch.
+
+The cart's total price is compared to the payment's amount in every step of the payment flow. If it doesn't match:
+1. process is immediately stopped,
+2. payment object is removed from the commercetools,
+3. user is redirected back to the payment step,
+4. notification about the mismatch is displayed to the user.
 
 ### How will the component recognize if a user had a price mismatch during the 3DS1 flow?
-The component looks for the route's query parameter called `adyen-err`. If its value equals `malformed-price` - the user had a price mismatch.
+The component looks for the route's query parameter called `adyen-err`. If its value equals `malformed-price`, the user had a price mismatch.
 
 Examples:
 ```sh
@@ -433,7 +434,7 @@ http://localhost/checkout/payment?adyen-err=something-diff
 http://localhost/checkout/payment
 ```
 
-### Using own component if the total price has been malformed during the payment flow
+### Using custom component if the total price has been malformed during the payment flow
 You can replace a default container with a slot named `price-mismatch`.
 ```vue
 <PaymentAdyenProvider
