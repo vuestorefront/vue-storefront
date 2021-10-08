@@ -150,7 +150,7 @@ const afterPayAndOrder = async ({ order }) => {
 Configuration of PayPal is well-described in [Adyen's documentation](https://docs.adyen.com/payment-methods/paypal/web-drop-in).
 
 ### Klarna configuration
-To enable Klarna, you have to add a new payment method in Adyen's dashboard. Then you should add specified methods to the `availablePaymentMethods` array in `nuxt.config.js`:
+To use Klarna, you have to enable it in Adyen's dashboard. Then you should add specified methods to the `availablePaymentMethods` array in `nuxt.config.js`:
 ```js
 // nuxt.config.js
 
@@ -181,7 +181,7 @@ If your users can provide a phone number, make sure it includes the **area code*
 :::
 
 ## Afterpay configuration
-To enable Afterpay, you have to add a new payment method in Adyen's dashboard. Then you should add `afterpaytouch` to the `availablePaymentMethods` array in `nuxt.config.js`:
+To use Afterpay, you have to enable it in Adyen's dashboard. Then you should add `afterpaytouch` to the `availablePaymentMethods` array in `nuxt.config.js`:
 ```js
 // nuxt.config.js
 
@@ -206,7 +206,7 @@ Afterpay requires the shopper's email address to work correctly. It will be read
 
 ## Apple Pay configuration
 
-To enable Apple Pay, you have to add it as a payment method in Adyen's dashboard. Then, in the `nuxt.config.js` file add `applepay` to the `availablePaymentMethods` array:
+To use Apple Pay, you have to enable it in Adyen's dashboard. Then, in the `nuxt.config.js` file add `applepay` to the `availablePaymentMethods` array:
 
 ```js
 // nuxt.config.js
@@ -224,7 +224,10 @@ export default {
 ```
 
 :::warning
-Currently, we support only Adyen's Apple Pay certificate approach.
+For Apple Pay via Adyen there are two approaches.
+
+1. Adyen's Apple Pay certificate approach (supported): where developer can reuse certificate obtained by Adyen for Apple Pay
+2. Own Apple Pay certificate approach (not supported yet): where developer has to gain dedicated certificate from Apple's in order to use it for Apple Pay 
 :::
 
 Read [Adyen's document about Apple Pay](https://docs.adyen.com/payment-methods/apple-pay/web-drop-in?tab=adyen-certificate-config_1#configure) to check available configuration options, learn how to test this payment method and how to use Adyen's certificate in a live environment.
@@ -253,7 +256,7 @@ export default {
 
 ## Google Pay configuration
 
-To enable Google Pay, you have to add it as a payment method in Adyen's dashboard. Then, in the `nuxt.config.js` file add `paywithgoogle` to the `availablePaymentMethods` array:
+To use Google Pay, you have to enable it in Adyen's dashboard. Then, in the `nuxt.config.js` file add `paywithgoogle` to the `availablePaymentMethods` array:
 
 ```js
 // nuxt.config.js
@@ -296,7 +299,7 @@ export default {
 
 ## ZIP configuration
 
-To enable ZIP, you have to add it as a payment method in Adyen's dashboard. Then, in the `nuxt.config.js` file add `zip` to the `availablePaymentMethods` array:
+To use ZIP, you have to enable it in Adyen's dashboard. Then, in the `nuxt.config.js` file add `zip` to the `availablePaymentMethods` array:
 
 ```js
 // nuxt.config.js
