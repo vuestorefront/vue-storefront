@@ -114,6 +114,7 @@ export default {
   'Your bag is empty': 'Ihre Tasche ist leer',
   'Cancel': 'Abbrechen',
   'See all results': 'Alle Ergebnisse anzeigen',
+  'We haven’t found any results for given phrase': 'Wir haben keine Ergebnisse für die angegebene Phrase gefunden',
   'You haven’t searched for items yet': 'Sie haben noch nicht nach Artikeln gesucht.',
   'Let’s start now – we’ll help you': 'Fangen wir jetzt an - wir helfen Ihnen.',
   'Search results': 'Suchergebnisse',
