@@ -56,7 +56,7 @@ jobs:
             exit 1
           fi
       - name: Deploy on vsf-next-demo.europe-west1.gcp.storefrontcloud.io
-        if: github.ref == 'refs/heads/release/next'
+        if: github.ref == 'refs/heads/test/next'
         run: |
           if curl -s -H 'X-User-Id: ${{ secrets.DEMO_CLOUD_USERNAME }}' -H 'X-Api-Key: ${{ secrets.DEMO_CLOUD_PASSWORD }}' -H 'Content-Type: application/json' -X POST -d '{"code":"vsf-next-demo","region":"europe-west1.gcp","frontContainerVersion":"${{ github.sha }}"}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
             echo "Instance updated"
