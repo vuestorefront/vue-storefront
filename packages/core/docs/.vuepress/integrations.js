@@ -84,14 +84,6 @@ const INTEGRATIONS = {
       ]
     },
     {
-      name: 'Virto Commerce',
-      link: '',
-      image: 'https://tadviser.ru/images/3/3d/Virto_Commerce_logo.png',
-      status: STATUSES.WIP,
-      availability: AVAILABILITY.OPEN_SOURCE,
-      maintainedBy: []
-    },
-    {
       name: 'BigCommerce',
       link: '',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/6023aa663109a7a8f995f095_BigCommerce-logo-dark.svg',
@@ -104,7 +96,7 @@ const INTEGRATIONS = {
       link: '',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/60c62f5a2d9aaf32e2f47a20_logo-commercesuite-vertical-default.svg',
       status: STATUSES.WIP,
-      availability: AVAILABILITY.OPEN_SOURCE,
+      availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: []
     },
     {
