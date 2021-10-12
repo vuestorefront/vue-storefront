@@ -24,10 +24,6 @@
           <BillingDetails />
         </SfContentPage>
 
-        <SfContentPage title="Loyalty card">
-          <LoyaltyCard />
-        </SfContentPage>
-
         <SfContentPage title="My newsletter">
           <MyNewsletter />
         </SfContentPage>
@@ -36,10 +32,6 @@
       <SfContentCategory title="Order details">
         <SfContentPage title="Order history">
           <OrderHistory />
-        </SfContentPage>
-
-        <SfContentPage title="My reviews">
-          <MyReviews />
         </SfContentPage>
       </SfContentCategory>
 
@@ -54,10 +46,8 @@ import { useUser } from '<%= options.generate.replace.composables %>';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
 import BillingDetails from './MyAccount/BillingDetails';
-import LoyaltyCard from './MyAccount/LoyaltyCard';
 import MyNewsletter from './MyAccount/MyNewsletter';
 import OrderHistory from './MyAccount/OrderHistory';
-import MyReviews from './MyAccount/MyReviews';
 import {
   mapMobileObserver,
   unMapMobileObserver
@@ -71,10 +61,8 @@ export default {
     MyProfile,
     ShippingDetails,
     BillingDetails,
-    LoyaltyCard,
     MyNewsletter,
-    OrderHistory,
-    MyReviews
+    OrderHistory
   },
   middleware: [
     'is-authenticated'
