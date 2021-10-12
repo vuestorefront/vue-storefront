@@ -94,7 +94,13 @@
         </SfSearchBar>
       </template>
     </SfHeader>
-    <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" @removeSearchResults="removeSearchResults" />
+    <SearchResults
+      :visible="isSearchOpen"
+      :result="result"
+      :term="term"
+      @close="closeSearch"
+      @removeSearchResults="removeSearchResults"
+    />
     <SfOverlay :visible="isSearchOpen" />
   </div>
 </template>
