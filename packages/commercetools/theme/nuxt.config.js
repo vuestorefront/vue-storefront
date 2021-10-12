@@ -1,5 +1,4 @@
 import webpack from 'webpack';
-import { VSF_LOCALE_COOKIE } from '@vue-storefront/core';
 import theme from './themeConfig';
 
 export default {
@@ -42,6 +41,9 @@ export default {
     '@nuxtjs/google-fonts',
     // to core soon
     '@nuxtjs/pwa',
+    ['@vue-storefront/commercetools/nuxt', {
+      i18n: { useNuxtI18nConfig: true }
+    }],
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
       useRawSource: {
@@ -63,14 +65,11 @@ export default {
           composables: '@vue-storefront/commercetools'
         }
       }
-    }],
+    }]
     // @core-development-only-end
     /* project-only-start
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
-    ['@vue-storefront/commercetools/nuxt', {
-      i18n: { useNuxtI18nConfig: true }
-    }]
   ],
   modules: [
     ['nuxt-i18n', {
@@ -116,9 +115,7 @@ export default {
         }
       }
     },
-    detectBrowserLanguage: {
-      cookieKey: VSF_LOCALE_COOKIE
-    }
+    detectBrowserLanguage: false
   },
   styleResources: {
     scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]

@@ -6,6 +6,22 @@ import axios from 'axios';
 type InjectFn = (key: string, value: any) => void;
 export type IntegrationPlugin = (pluginFn: NuxtPlugin) => NuxtPlugin
 
+const setCookieValues = (cookieValues, cookieString = '') => {
+  for (const [name, value] of Object.entries(cookieValues)) {
+    const regExp = new RegExp(`${name}=[^;]*`);
+
+    if (cookieString.includes(name)) {
+      cookieString.replace(regExp, `${name}=${value}`);
+    } else {
+      const parts = cookieString.split(';').filter(String);
+      parts.push(`${name}=${value}`);
+      cookieString = parts.join(';');
+    }
+  }
+
+  return cookieString;
+};
+
 export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext, inject: InjectFn) => {
   const configure = (tag, configuration) => {
     const injectInContext = createAddIntegrationToCtx({ tag, nuxtCtx, inject });
@@ -18,6 +34,10 @@ export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext
 
     const client = axios.create(config.axios);
     const api = createProxiedApi({ givenApi: configuration.api || {}, client, tag });
+
+    if (nuxtCtx.app.i18n.cookieValues) {
+      client.defaults.headers.cookie = setCookieValues(nuxtCtx.app.i18n.cookieValues, client.defaults.headers.cookie);
+    }
 
     injectInContext({ api, client, config });
   };
