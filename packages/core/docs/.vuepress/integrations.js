@@ -144,6 +144,26 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'OdooGap', link: 'https://www.odoogap.com/' }
       ]
+    },
+    {
+      name: 'PrestaShop',
+      link: '',
+      image: '/v2/integrations-logos/prestashop.svg',
+      status: STATUSES.WIP,
+      availability: AVAILABILITY.OPEN_SOURCE,
+      maintainedBy: [
+        { name: 'Binshops', link: 'https://www.binshops.com/' }
+      ]
+    },
+    {
+      name: 'SpreeCommerce',
+      link: '',
+      image: '/v2/integrations-logos/spree.svg',
+      status: STATUSES.WIP,
+      availability: AVAILABILITY.OPEN_SOURCE,
+      maintainedBy: [
+        { name: 'Upside Lab', link: 'https://upsidelab.io/' }
+      ]
     }
   ],
   other: [
