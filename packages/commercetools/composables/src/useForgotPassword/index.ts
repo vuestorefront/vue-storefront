@@ -1,6 +1,11 @@
 import { Context, UseForgotPassword, useForgotPasswordFactory, UseForgotPasswordFactoryParams } from '@vue-storefront/core';
 import { ForgotPasswordResult } from '../types';
 
+const handleGraphQLError = (error: any) => {
+  error.message = error?.graphQLErrors?.[0]?.message || error.message;
+  throw error?.response?.data?.graphQLErrors?.[0] || error;
+};
+
 const useForgotPasswordFactoryParams: UseForgotPasswordFactoryParams<ForgotPasswordResult> = {
   resetPassword: async (context: Context, { email, currentResult, customQuery }) => {
     try {
@@ -10,8 +15,7 @@ const useForgotPasswordFactoryParams: UseForgotPasswordFactoryParams<ForgotPassw
         resetPasswordResult
       };
     } catch (err) {
-      err.message = err?.graphQLErrors?.[0]?.message || err.message;
-      throw err?.response?.data?.graphQLErrors?.[0] || err;
+      handleGraphQLError(err);
     }
 
   },
@@ -23,8 +27,7 @@ const useForgotPasswordFactoryParams: UseForgotPasswordFactoryParams<ForgotPassw
         setNewPasswordResult
       };
     } catch (err) {
-      err.message = err?.graphQLErrors?.[0]?.message || err.message;
-      throw err?.response?.data?.graphQLErrors?.[0] || err;
+      handleGraphQLError(err);
     }
   }
 };
