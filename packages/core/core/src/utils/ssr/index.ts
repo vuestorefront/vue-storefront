@@ -11,7 +11,7 @@ let onSSR = onServerPrefetch;
 let vsfRef: VsfRef = ref;
 
 const configureSSR = (config: SSRConfiguration) => {
-  onSSR = config.onSSR || onSSR;
+  onSSR = config.onSSR || onSSR as any;
   vsfRef = config.vsfRef || vsfRef as any;
 };
 

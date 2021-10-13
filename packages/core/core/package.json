@@ -13,7 +13,7 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue/composition-api": "1.0.0-beta.21",
+    "@vue/composition-api": "^1.2.4",
     "axios": "0.21.1",
     "express": "^4.17.1",
     "is-https": "^3.0.2",

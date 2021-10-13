@@ -18,7 +18,7 @@ const ssrPlugin = () => {
     onSSR: (fn) => {
       onServerPrefetch(fn);
       if (typeof window !== 'undefined') {
-        const vm = getCurrentInstance();
+        const vm = getCurrentInstance().proxy;
 
         if (hasRouteChanged(vm)) {
           fn();

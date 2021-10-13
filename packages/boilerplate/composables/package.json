@@ -21,7 +21,7 @@
     "@rollup/plugin-node-resolve": "^13.0.0"
   },
   "peerDependencies": {
-    "@vue/composition-api": "1.0.0-beta.21"
+    "@vue/composition-api": "^1.2.4"
   },
   "files": [
     "lib/**/*"
