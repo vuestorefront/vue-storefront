@@ -1,0 +1,5 @@
+coverage
+lib
+node_modules
+templates
+test

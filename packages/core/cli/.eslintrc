@@ -1,0 +1,7 @@
+{
+  "extends": [
+    "../../../.eslintrc.json",
+    "oclif",
+    "oclif-typescript"
+  ]
+}

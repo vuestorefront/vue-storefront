@@ -1,47 +1,96 @@
-import integrations from '../utils/getIntegrations';
-import inquirer from 'inquirer';
-import createProject from '../scripts/createProject';
-import { customTemplateStrategy } from '../scripts/initStrategy/customTemplateStrategy';
-export const CUSTOM_TEMPLATE = 'Custom template from Github';
-export default async (args) => {
-  const cwd = process.cwd();
-  const integrationsNames = Object.keys(integrations);
-  let projectName = args.join('-') || args[0];
+import {Command, flags} from '@oclif/command'
+import inquirer from 'inquirer'
+import {getLanguage} from '../lang'
+import {fetchIntegrations} from '../helpers/fetch-integrations'
+import {createProject} from '../exec/create-project'
+import {validateGitString} from '../helpers/validations/git'
 
-  if (!projectName) {
-    const { typedProjectName } = await inquirer.prompt([
-      {
-        type: 'input',
-        name: 'typedProjectName',
-        message: 'What\'s your project name?',
-        validate(value) {
-          if (value.trim().length > 0) {
-            return true;
-          }
-          return 'Please provide longer name';
-        }
-      }
-    ]);
-    projectName = typedProjectName.split(' ').join('-') || typedProjectName;
+const lang = getLanguage()
+
+export default class Init extends Command {
+  static description = 'describe the command here'
+
+  static flags = {
+    help: flags.help({char: 'h'}),
+    name: flags.string({char: 'n', description: lang.flags.name}),
+    integration: flags.string({char: 'i', description: lang.flags.integration}),
   }
 
-  const { chosenIntegration } = await inquirer.prompt([
+  static args = [
     {
-      type: 'list',
-      name: 'chosenIntegration',
-      message: 'Choose integration',
-      choices: [...integrationsNames, CUSTOM_TEMPLATE]
+      name: 'name',
+      required: false,
+      description: lang.args.name,
+      hidden: false,
+    },
+    {
+      name: 'integration',
+      required: false,
+      description: lang.args.integration,
+      hidden: false,
+    },
+  ]
+
+  async run() {
+    const {
+      args,
+      flags,
+    } = this.parse(Init)
+
+    const configs = {
+      name: args?.name || flags?.name || '',
+      git: args?.integration || flags?.integration || '',
     }
-  ]);
 
-  if (chosenIntegration !== CUSTOM_TEMPLATE) {
-    await createProject({
-      projectName: projectName,
-      targetPath: cwd,
-      repositoryLink: integrations[chosenIntegration]
-    });
-    return;
+    if (!args?.name) {
+      const {typedProjectName} = await inquirer.prompt([
+        {
+          type: 'input',
+          name: 'typedProjectName',
+          message: lang.inputs.project_name,
+          validate: (value: string) => {
+            if (value.trim().length > 0) {
+              return true
+            }
+
+            return lang.error.longer_name
+          },
+        },
+      ])
+
+      configs.name = typedProjectName.split(' ').join('-') || typedProjectName
+    }
+
+    if (configs.name && !configs.git) {
+      const availableIntegrations = await fetchIntegrations()
+
+      const {chosenIntegration} = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'chosenIntegration',
+          message: lang.inputs.choose_integration,
+          choices: [...Object.keys(availableIntegrations), lang.custom_template],
+        },
+      ])
+
+      configs.git = availableIntegrations[chosenIntegration]
+
+      if (chosenIntegration === lang.custom_template) {
+        const {otherIntegrationGitLink} = await inquirer.prompt([
+          {
+            type: 'input',
+            name: 'otherIntegrationGitLink',
+            message: lang.inputs.choose_integration,
+            validate: validateGitString,
+          },
+        ])
+
+        configs.git = otherIntegrationGitLink
+      }
+    }
+
+    if (configs.name && configs.git) {
+      await createProject(configs.name, configs.git)
+    }
   }
-
-  await customTemplateStrategy({ projectName, targetPath: cwd });
-};
+}

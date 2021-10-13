@@ -1,0 +1,20 @@
+{
+  "flags": {
+    "name": "project name",
+    "integration": "integration to be used in project, please use repository git link via https:"
+  },
+  "args": {
+    "name": "Define the project name to be used",
+    "integration": "Define the integration to be used, please use repository git link via https:"
+  },
+  "inputs": {
+    "choose_integration": "Choose integration",
+    "project_name": "What's your project name?",
+    "custom_git": "Provide integration repository git link via https:"
+  },
+  "error": {
+    "longer_name": "Please provide longer name",
+    "git_link": "Please provide git repository https link"
+  },
+  "custom_template": "Custom template from Github"
+}
