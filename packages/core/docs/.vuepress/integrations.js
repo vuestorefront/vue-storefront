@@ -265,7 +265,7 @@ const INTEGRATIONS = {
     },
     {
       name: 'Adyen',
-      link: './adyen.html',
+      link: 'https://docs.vuestorefront.io/adyen',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed621cc6456318210a7d22b_Adyen_Corporate_Logo.svg',
       status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,
