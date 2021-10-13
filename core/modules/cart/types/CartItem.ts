@@ -14,7 +14,6 @@ export default interface CartItem extends Product {
   item_id?: number | string,
   checksum?: string,
   quoteId?: string,
-  customerImagesIds?: string[],
   plushieId?: string,
   email?: string,
   plushieBreed?: string,

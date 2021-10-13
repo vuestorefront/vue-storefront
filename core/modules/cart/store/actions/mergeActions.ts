@@ -35,8 +35,8 @@ const mergeActions = {
     if (serverItem.thumbnail) {
       product.thumbnail = serverItem.thumbnail;
     }
-    if (serverItem.customerImagesIds) {
-      product.customerImagesIds = serverItem.customerImagesIds;
+    if (serverItem.customerImages) {
+      product.customerImages = serverItem.customerImages;
     }
 
     const productWithChecksum = { ...product, checksum: productChecksum(product) };
