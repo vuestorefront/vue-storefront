@@ -16,6 +16,7 @@ const i18nRedirectsUtil = ({
 } => {
   const getArrayFromPath = (): string[] => path.split('/').filter(String);
   const isLocaleAvailable = (locale): boolean => availableLocales.includes(locale);
+  const removeTailingSlash = (path) => path.replace(/\/$/, '');
 
   const stripLocaleFromPath = (): string => {
     const parts = getArrayFromPath();
@@ -57,7 +58,7 @@ const i18nRedirectsUtil = ({
     const isTargetInPath = targetLocale === localeFromPath;
 
     if (!localeFromPath && !isTargetInPath && !isTargetDefaultLocale) {
-      return `/${targetLocale}${stripLocaleFromPath()}`;
+      return removeTailingSlash(`/${targetLocale}${stripLocaleFromPath()}`);
     }
 
     return '';

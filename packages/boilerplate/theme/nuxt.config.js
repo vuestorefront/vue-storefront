@@ -43,6 +43,7 @@ export default {
     // to core
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
+    ['@vue-storefront/boilerplate/nuxt', {}],
     ['@vue-storefront/nuxt', {
       // @core-development-only-start
       coreDevelopment: true,
@@ -66,12 +67,11 @@ export default {
           composables: '@vue-storefront/boilerplate'
         }
       }
-    }],
+    }]
     // @core-development-only-end
     /* project-only-start
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
-    ['@vue-storefront/boilerplate/nuxt', {}]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
