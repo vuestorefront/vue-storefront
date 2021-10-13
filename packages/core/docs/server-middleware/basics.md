@@ -1,4 +1,4 @@
-# Server Middleware
+# Server Middleware basics
 
 :::danger Don't forget to reload the application
 The application does not reload automatically after saving the changes in Server Middleware. Due to this, you have to restart the application manually. We are working on enabling Hot Reloading in future updates.
@@ -8,7 +8,7 @@ The application does not reload automatically after saving the changes in Server
 
 The Server Middleware in Vue Storefront application is an Express proxy that takes the requests from the front end, translates them to a given integration, and calls related API-client.
 
-We have implemented it for a variety of reasons. First of all, it allows us to provide a proven way of extensibility. As a developer, you have control of the requests and responses in the given platform with [extensions](/advanced/server-middleware.html#extending-integrations)).
+We have implemented it for a variety of reasons. First of all, it allows us to provide a proven way of extensibility. As a developer, you have control of the requests and responses in the given platform with [extensions](/integrate/extending-integrations.html)).
 
 All platform credentials are stored only on the server side and not exposed to the front-end part of your application.
 
@@ -60,10 +60,6 @@ Each entry under the `integrations` section starts with a tag name of given inte
 - `configuration` - contains a configuration of given integration, such as credentials and others
 - `extensions` - a function that returns a extensions (jump to the next section)
 - `customQueries` - a section that contains custom queries (GraphQL only)
-
-## Extending Integrations
-
-Refer to the [Extending integrations](/integrate/extending-integrations.html) page to learn how to extend existing integrations.
 
 ## Separating middleware from Nuxt
 

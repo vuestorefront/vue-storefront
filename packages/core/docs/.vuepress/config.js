@@ -188,6 +188,7 @@ module.exports = {
             ['/guide/configuration', 'Configuration'],
             ['/advanced/internationalization', 'Internationalization'],
             ['/advanced/logging', 'Logging'],
+            ['/advanced/architecture', 'Architecture basics'],
             // ['/', 'Glossary']
           ]
         },
@@ -204,13 +205,12 @@ module.exports = {
           ]
         },
         {
-          title: 'Architecture',
+          title: 'Server Middleware',
           collapsable: true,
           children: [
-            ['/advanced/architecture', 'Architecture basics'],
-            ['/advanced/context', 'Application Context'],
-            ['/advanced/calling-platform-api', 'Calling Platform API'],
-            ['/advanced/server-middleware', 'Server Middleware']
+            ['/server-middleware/basics', 'Server Middleware basics'],
+            ['/server-middleware/context', 'Application context'],
+            ['/server-middleware/calling-integration-api', 'Calling integration API'],
           ]
         },
         {

@@ -1,6 +1,6 @@
 # Context API
 
-The application context is essential when it comes to sharing data across the app. It stores a runtime config, current connection to the API, API tokens, user session, and everything else related to the current request.
+The application context is essential for sharing data across the application. It stores a runtime configuration, client for making request to the Server Middleware and endpoints that be called.
 
 The common solution that may come to your mind is using one global object to store everything. However, by doing this, you would share data across all incoming requests. That would cause issues such as session leaks.
 
@@ -34,7 +34,7 @@ To use the context or access your integration API, you can leverage a dedicated 
 const { $ct, $other } = useVSFContext();
 
 $ct.api.getProduct({ id: 1 });
-$other.client.get('/othet-integration');
+$other.client.get('/other-integration');
 ```
 
 ## Context plugin
