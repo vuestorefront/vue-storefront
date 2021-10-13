@@ -162,7 +162,7 @@ After creating at least one product type, you can add a new product. You can rea
 ### API settings
 
 The last important step is to generate credentials for your project to connect both tools.
-Go to the `developer settings` and click `Create new API client` button. After filling the `name` field choose `Project` scope in `manage` column, but please keep in mind that it use entire API for the project, so it is not recommended for production use. In that case, select only scopes that are needed.
+Go to the `developer settings` and click `Create new API client` button. After filling the `name` field choose `Mobile & single-page application client` in scopes.
 
 <center>
   <img src="./images/setup-store/developer-settings-sidebar-signed.png" alt="Commercetools set scope for client API" class="image-shadow" />
@@ -210,7 +210,7 @@ yarn dev
 ```
 
 But what you will see is the default project, because we didn't previously connect prepared Commercetools project with VSF. 
-To do it, begin with credentials generated in API settings step above. They should replace default ones in `middleware.config.js` file in `ct` config object inside `integrations` property. 
+To do it, begin with credentials generated in API settings step above. They should replace default ones in `middleware.config.js` file in `ct` config object inside `integrations` and `serverApi` properties. 
 
 ```js
   integrations: {
@@ -224,8 +224,27 @@ To do it, begin with credentials generated in API settings step above. They shou
           clientId: '<CLIENT_ID>',
           clientSecret: '<CLIENT_SECRET>',
           scopes: [
-            'manage_project:<PROJECT_NAME>'
+            'create_anonymous_token:<PROJECT_NAME>',
+            'view_categories:<PROJECT_NAME>', 
+            'manage_my_payments:<PROJECT_NAME>', 
+            'view_published_products:<PROJECT_NAME>',
+            'manage_my_shopping_lists:<PROJECT_NAME>', 
+            'manage_my_orders:<PROJECT_NAME>',
+            'manage_my_profile:<PROJECT_NAME>'
           ],
+        },
+        serverApi: {
+          clientId: '<CLIENT_ID>',
+          clientSecret: '<CLIENT_SECRET>',
+          scopes: [
+            'create_anonymous_token:<PROJECT_NAME>',
+            'view_categories:<PROJECT_NAME>', 
+            'manage_my_payments:<PROJECT_NAME>', 
+            'view_published_products:<PROJECT_NAME>',
+            'manage_my_shopping_lists:<PROJECT_NAME>', 
+            'manage_my_orders:<PROJECT_NAME>',
+            'manage_my_profile:<PROJECT_NAME>'
+          ]
         },
         currency: 'USD',
         country: 'US'
@@ -307,3 +326,88 @@ yarn dev
   </center>
 
 It is just the beginning of your VSF Next store based on Commercetools integration. Now you can customize it according to your needs. 
+
+## Configuring commercetools integration with enterprise version of Vue Storefront
+
+Using enterprise version of commercetools integration requires changes in `middleware.config.js`. Add properties regarding extesions and separate configuration for faceting: 
+
+```js
+  integrations: {
+    ct: {
+      location: '@vue-storefront/commercetools-api/server',
+      // extensions property to add in enterprise version
+      extensions: existing => existing.concat('@vsf-enterprise/commercetools/extensions'),
+      configuration: {
+        api: {
+          uri: 'https://<SHOP_DOMAIN>.com/<PROJECT_NAME>/graphql',
+          authHost: 'https://<SHOP_DOMAIN>.com/<PROJECT_NAME>',
+          projectKey: '<PROJECT_NAME>',
+          clientId: '<CLIENT_ID>',
+          clientSecret: '<CLIENT_SECRET>',
+          scopes: [
+            // like in open source configuration
+          ],
+        },
+        serverApi: {
+          clientId: '<CLIENT_ID>',
+          clientSecret: '<CLIENT_SECRET>',
+          scopes: [
+            // like in open source configuration
+          ]
+        },
+        currency: 'USD',
+        country: 'US'
+      }
+    }
+    // faceting configuration for enterprise version
+    ctf: {
+      location: '@vsf-enterprise/ct-faceting/server',
+      configuration: {
+        api: {
+          authHost: 'https://<SHOP_DOMAIN>.com/<PROJECT_NAME',
+          projectKey: '<PROJECT_NAME>',
+          clientId: '<CLIENT_ID>',
+          clientSecret: '<CLIENT_SECRET>',
+          scopes: [
+            // the same like above
+          ]
+        },
+        faceting: {
+          host: 'https://api.commercetools.com'
+        },
+      }
+    },
+  }
+```
+And one more change needed is adding `faceting` to `buildModules` in `nuxt.config.js`, like this: 
+
+```js 
+buildModules: [
+    '@nuxt/typescript-build',
+    '@nuxtjs/style-resources',
+    '@nuxtjs/pwa',
+    ['@vue-storefront/nuxt', {
+      coreDevelopment: true,
+      useRawSource: {
+        dev: [
+          '@vue-storefront/commercetools',
+          '@vue-storefront/core'
+        ],
+        prod: [
+          '@vue-storefront/commercetools',
+          '@vue-storefront/core'
+        ]
+      }
+    }],
+    ['@vue-storefront/nuxt-theme'],
+    ['@vue-storefront/commercetools/nuxt', {
+      i18n: { useNuxtI18nConfig: true }
+    }],
+    // adding faceting feature from enterprise package
+    ['@vsf-enterprise/ct-faceting/nuxt', {
+      apiConfigModule: '@vsf-enterprise/commercetools/nuxt'
+    }],
+  ]
+  ```
+
+   Other configuration changes depend on what integrations you use along with commercetools.  
