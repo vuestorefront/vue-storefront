@@ -8,10 +8,18 @@
         <SfCarouselItem class="carousel__item" v-for="(product, i) in products" :key="i">
           <SfProductCard
             :title="productGetters.getName(product)"
-            :image="productGetters.getCoverImage(product)"
-            :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
+            :image="product.images[0].url"
+            :regular-price="$n(productGetters.getFormattedPrice(productGetters.getPrice(product).regular), 'currency')"
             :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
+            :max-rating="5"
+            :score-rating="productGetters.getAverageRating(product)"
+            :show-add-to-cart-button="true"
+            :is-in-wishlist="isInWishlist({ product })"
+            :is-added-to-cart="isInCart({ product })"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+            class="product-card"
+            @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
+            @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
           />
         </SfCarouselItem>
       </SfCarousel>
@@ -20,21 +28,17 @@
 </template>
 
 <script lang="ts">
-
 import {
   SfCarousel,
   SfProductCard,
   SfSection,
   SfLoader
 } from '@storefront-ui/vue';
-
-import { productGetters } from '<%= options.generate.replace.composables %>';
+import { productGetters, useWishlist, wishlistGetters, useCart } from '<%= options.generate.replace.composables %>';
+import { computed } from '@vue/composition-api';
 
 export default {
   name: 'RelatedProducts',
-  setup() {
-    return { productGetters };
-  },
   components: {
     SfCarousel,
     SfProductCard,
@@ -45,6 +49,23 @@ export default {
     title: String,
     products: Array,
     loading: Boolean
+  },
+  setup() {
+    const { addItem: addItemToCart, isInCart } = useCart();
+    const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist, wishlist } = useWishlist();
+    const removeProductFromWishlist = (productItem) => {
+      const productsInWhishlist = computed(() => wishlistGetters.getItems(wishlist.value));
+      const product = productsInWhishlist.value.find(wishlistProduct => wishlistProduct.variant.sku === productItem.sku);
+      removeItemFromWishlist({ product });
+    };
+    return {
+      productGetters,
+      addItemToWishlist,
+      isInWishlist,
+      removeProductFromWishlist,
+      addItemToCart,
+      isInCart
+    };
   }
 };
 </script>
