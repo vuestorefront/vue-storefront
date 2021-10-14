@@ -13,9 +13,7 @@ const reduceFilters = (query) => (prev, curr) => {
   };
 };
 
-const getQuery = (query, name): string => {
-  const item = query[name];
-
+const getQueryParameter = (item): string => {
   return Array.isArray(item)
     ? item[0]
     : item;
@@ -38,10 +36,10 @@ const useUiHelpers = () => {
     return {
       rootCatSlug: params.slug_1,
       categorySlug,
-      page: parseInt(getQuery(query, 'page'), 10) || 1,
+      page: parseInt(getQueryParameter(query.page), 10) || 1,
       sort: query.sort || 'latest',
       filters: getFiltersDataFromUrl(query, true),
-      itemsPerPage: parseInt(getQuery(query, 'itemsPerPage'), 10) || 20,
+      itemsPerPage: parseInt(getQueryParameter(query.itemsPerPage), 10) || 20,
       phrase: query.phrase
     };
   };
@@ -53,10 +51,10 @@ const useUiHelpers = () => {
     return {
       rootCatSlug: params.slug_1,
       categorySlug,
-      page: parseInt(getQuery(query, 'page'), 10) || 1,
+      page: parseInt(getQueryParameter(query.page), 10) || 1,
       sort: query.sort || 'latest',
       filters: getFiltersDataFromUrl(query, true),
-      itemsPerPage: parseInt(getQuery(query, 'itemsPerPage'), 10) || 20,
+      itemsPerPage: parseInt(getQueryParameter(query.itemsPerPage), 10) || 20,
       phrase: query.phrase
     };
   };
