@@ -1,1 +1,1 @@
-export const createProject = async (name, integration) => {}
+export const createProject = async (name: string, integration: string) => {};
