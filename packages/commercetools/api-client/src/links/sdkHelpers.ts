@@ -52,7 +52,8 @@ function createTokenProvider({ configuration, sdkAuth, tokenType }) {
       return new TokenProvider(
         {
           sdkAuth,
-          fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.anonymousFlow()
+          fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.anonymousFlow(),
+          onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
         },
         configuration.auth.onTokenRead()
       );

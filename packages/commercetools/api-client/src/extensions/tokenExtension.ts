@@ -25,17 +25,17 @@ export const tokenExtension: ApiClientExtension = {
      */
     function onTokenChange(token) {
       currentToken = token;
-      // const options = {
-      //   ...(token?.expires_at && { expires: new Date(token.expires_at) }),
-      //   httpOnly: true,
-      //   secure: app.request.secure
-      // };
+      const options = {
+        ...(token?.expires_at && { expires: new Date(token.expires_at) }),
+        httpOnly: true,
+        secure: app.request.secure
+      };
 
-      // return app.response.cookie(
-      //   CT_COOKIE_NAME,
-      //   JSON.stringify(token),
-      //   options
-      // );
+      return app.response.cookie(
+        CT_COOKIE_NAME,
+        JSON.stringify(token),
+        options
+      );
     }
 
     /**
