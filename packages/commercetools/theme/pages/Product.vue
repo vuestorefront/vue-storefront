@@ -255,7 +255,6 @@ export default {
       return stores.results?.find((result) => result.key === stores._selectedStore);
     }
 
-    const id = computed(() => route.value.params.id);
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: route.value.query })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
@@ -295,9 +294,9 @@ export default {
     })));
 
     onSSR(async () => {
-      await search({ id: id.value });
+      await search({ id: route.value.params.id });
       await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });
-      await searchReviews({ productId: id.value });
+      await searchReviews({ productId: route.value.params.id });
     });
 
     const updateFilter = (filter) => {

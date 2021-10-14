@@ -98,7 +98,6 @@ export default {
     const passwordMatchError = ref(false);
     const form = ref({});
     const isPasswordChanged = computed(() => forgotPasswordGetters.isPasswordChanged(result.value));
-    const token = computed(() => route.value.query.token);
 
     const setNewPassword = async () => {
       passwordMatchError.value = false;
@@ -107,7 +106,10 @@ export default {
         return;
       }
 
-      await setNew({ tokenValue: token.value, newPassword: form.value.password });
+      await setNew({
+        tokenValue: route.value.query.token,
+        newPassword: form.value.password
+      });
     };
 
     return {
