@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { onMouted, useRouter } from '@nuxtjs/composition-api';
 import Home from '@theme/components/Home.vue'
 import Navbar from '@theme/components/Navbar.vue'
 import Page from '@theme/components/Page.vue'
@@ -126,12 +127,6 @@ export default {
     }
   },
 
-  mounted () {
-    this.$router.afterEach(() => {
-      this.isSidebarOpen = false
-    })
-  },
-
   methods: {
     toggleSidebar (to) {
       this.isSidebarOpen = typeof to === 'boolean' ? to : !this.isSidebarOpen
@@ -157,6 +152,16 @@ export default {
         }
       }
     }
+  },
+
+  setup() {
+    const router = useRouter();
+
+    onMounted(() => {
+      router.afterEach(() => {
+        this.isSidebarOpen = false
+      });
+    });
   }
 }
 </script>

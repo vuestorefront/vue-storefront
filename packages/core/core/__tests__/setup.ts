@@ -1,7 +1,7 @@
 /* eslint-disable */
 require('jsdom-global')();
 import Vue from 'vue';
-import VueCompositionApi, { ref } from '@vue/composition-api';
+import VueCompositionApi, { ref } from '@nuxtjs/composition-api';
 
 Vue.config.productionTip = false;
 Vue.config.devtools = false;

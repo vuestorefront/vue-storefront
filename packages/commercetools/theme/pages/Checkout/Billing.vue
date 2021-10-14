@@ -245,7 +245,7 @@ import { useUserBilling, userBillingGetters, useUser, useBilling, useShipping } 
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
-import { ref, watch, computed, onMounted } from '@vue/composition-api';
+import { ref, watch, computed, onMounted, useRouter } from '@nuxtjs/composition-api';
 import '@/helpers/validators/phone';
 
 const NOT_SELECTED_ADDRESS = '';
@@ -277,6 +277,7 @@ export default {
     UserBillingAddresses: () => import('@/components/Checkout/UserBillingAddresses')
   },
   setup(_, context) {
+    const router = useRouter();
     const { $ct: { config } } = useVSFContext();
     const { shipping: shippingDetails, load: loadShipping } = useShipping();
     const { billing: address, loading, load: loadBillingAddress, save } = useBilling();
@@ -333,7 +334,7 @@ export default {
         }
       }
       reset();
-      context.root.$router.push(context.root.localePath({ name: 'payment' }));
+      router.push(context.root.localePath({ name: 'payment' }));
     };
 
     const handleAddNewAddressBtnClick = () => {

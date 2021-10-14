@@ -17,11 +17,11 @@
     "@vue-storefront/core": "~2.4.2"
   },
   "devDependencies": {
-    "rollup-plugin-typescript2": "^0.30.0",
-    "@rollup/plugin-node-resolve": "^13.0.0"
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "rollup-plugin-typescript2": "^0.30.0"
   },
   "peerDependencies": {
-    "@vue/composition-api": "1.0.0-beta.21"
+    "@nuxtjs/composition-api": "^0.29.0"
   },
   "files": [
     "lib/**/*"

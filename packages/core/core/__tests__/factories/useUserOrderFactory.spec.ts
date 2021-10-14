@@ -1,6 +1,6 @@
 import { UseUserOrder } from '../../src/types';
 import { UseUserOrderFactoryParams, useUserOrderFactory } from '../../src/factories';
-import { Ref } from '@vue/composition-api';
+import { Ref } from '@nuxtjs/composition-api';
 
 let useUserOrder: () => UseUserOrder<Readonly<Ref<Readonly<any>>>, any>;
 let params: UseUserOrderFactoryParams<any, any>;

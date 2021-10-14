@@ -64,7 +64,7 @@ import {
   SfSelect
 } from '@storefront-ui/vue';
 import { useStore, useCart } from '@vue-storefront/commercetools';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed } from '@nuxtjs/composition-api';
 
 export default {
   components: {

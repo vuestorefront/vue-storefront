@@ -54,7 +54,7 @@ To add the product to the wishlist, you can use `addItem` method:
   // ...
 </template>
 <script>
-  import { computed } from '@vue/composition-api';
+  import { computed } from '@nuxtjs/composition-api';
   import { useWishlist } from '@vue-storefront/commercetools'
 
   export default {
@@ -105,7 +105,7 @@ To remove an item from the cart, use `removeItem` method.
   // ...
 </template>   
 <script>
-  import { computed } from '@vue/composition-api';
+  import { computed } from '@nuxtjs/composition-api';
   import { useWishlist, wishlistGetters } from '@vue-storefront/commercetools';
   import { onSSR } from '@vue-storefront/core';
   export default {
@@ -152,7 +152,7 @@ To check if a product is already on the wishlist, pass it to `isInWishlist` meth
   // ...
 </template>    
 <script>
-  import { computed } from '@vue/composition-api';
+  import { computed } from '@nuxtjs/composition-api';
   import { useWishlist} from '@vue-storefront/commercetools';
   export default {
     props: {
@@ -199,7 +199,7 @@ Cleaning the wishlist can be achieved by `clear` property.
   // ...
 </template>   
 <script>      
-  import { computed } from '@vue/composition-api';
+  import { computed } from '@nuxtjs/composition-api';
   import { useWishlist, wishlistGetters } from '@vue-storefront/commercetools';
 
   export default {
@@ -328,7 +328,7 @@ The cart component:
     </div>
 </template> 
 <script> 
-  import { computed, ref } from '@vue/composition-api';
+  import { computed, ref } from '@nuxtjs/composition-api';
   import { useCart, cartGetters } from '@vue-storefront/commercetools';
   import { onSSR } from '@vue-storefront/core';
   export default {
@@ -396,7 +396,7 @@ The wishlist component:
     </div>
 </template>   
 <script> 
-  import { computed } from '@vue/composition-api';
+  import { computed } from '@nuxtjs/composition-api';
   import { useWishlist, wishlistGetters } from '@vue-storefront/commercetools';
   import { onSSR } from '@vue-storefront/core';
   export default {

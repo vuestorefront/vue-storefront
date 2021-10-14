@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import { shallowMount, VueClass } from '@vue/test-utils';
-import { createComponent } from '@vue/composition-api';
+import { createComponent } from '@nuxtjs/composition-api';
 
 const mountComposable: any = (composableFn: Function) => {
   const component = createComponent({

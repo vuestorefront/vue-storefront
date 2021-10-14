@@ -38,7 +38,7 @@
 
 <script>
 import { SfButton, SfRadio } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 
 const SHIPPING_METHODS = [
   { label: 'Express US', value: 'express', description: 'Same day delivery' },

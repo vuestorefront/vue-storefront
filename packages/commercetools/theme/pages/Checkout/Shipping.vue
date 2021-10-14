@@ -225,7 +225,7 @@
           <SfButton
             class="form__action-button"
             type="button"
-            @click="$router.push(localePath({ name: 'billing' }))"
+            @click="router.push(localePath({ name: 'billing' }))"
             :disabled="!isShippingMethodStepCompleted || loadingShippingProvider"
           >
             {{ $t('Continue to billing') }}
@@ -247,7 +247,7 @@ import { useShippingProvider, useUserShipping, userShippingGetters, useUser, use
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
-import { ref, watch, computed, onMounted } from '@vue/composition-api';
+import { ref, watch, computed, onMounted, useRouter } from '@nuxtjs/composition-api';
 import '@/helpers/validators/phone';
 
 const NOT_SELECTED_ADDRESS = '';
@@ -278,6 +278,7 @@ export default {
     VsfShippingProvider: () => import('@/components/Checkout/VsfShippingProvider')
   },
   setup () {
+    const router = useRouter();
     const { $ct: { config } } = useVSFContext();
     const { shipping: address, loading, load: loadCartShippingAddress, save } = useShipping();
     const { isAuthenticated } = useUser();
@@ -393,6 +394,7 @@ export default {
     return {
       NOT_SELECTED_ADDRESS,
 
+      router,
       isAuthenticated,
       shippingDetails,
       address,
