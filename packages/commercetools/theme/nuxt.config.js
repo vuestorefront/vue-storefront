@@ -37,6 +37,7 @@ export default {
   },
   buildModules: [
     // to core
+    '@nuxtjs/composition-api/module',
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
     '@nuxtjs/google-fonts',

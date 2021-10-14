@@ -121,7 +121,7 @@ import {
   SfImage,
   SfQuantitySelector
 } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import { useCart, cartGetters } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
 import debounce from 'lodash.debounce';

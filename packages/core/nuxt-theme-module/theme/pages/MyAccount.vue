@@ -41,7 +41,7 @@
 </template>
 <script>
 import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
-import { computed, onBeforeUnmount } from '@vue/composition-api';
+import { computed, onBeforeUnmount, useRoute, useRouter } from '@nuxtjs/composition-api';
 import { useUser } from '<%= options.generate.replace.composables %>';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
@@ -68,11 +68,13 @@ export default {
     'is-authenticated'
   ],
   setup(props, context) {
-    const { $router, $route } = context.root;
+    const route = useRoute();
+    const router = useRouter();
+
     const { logout } = useUser();
     const isMobile = computed(() => mapMobileObserver().isMobile.get());
     const activePage = computed(() => {
-      const { pageName } = $route.params;
+      const { pageName } = route.value.params;
 
       if (pageName) {
         return (pageName.charAt(0).toUpperCase() + pageName.slice(1)).replace('-', ' ');
@@ -86,7 +88,7 @@ export default {
     const changeActivePage = async (title) => {
       if (title === 'Log out') {
         await logout();
-        $router.push(context.root.localePath({ name: 'home' }));
+        router.push(context.root.localePath({ name: 'home' }));
         return;
       }
 
@@ -94,7 +96,7 @@ export default {
       const transformedPath = `/my-account/${slugifiedTitle}`;
       const localeTransformedPath = context.root.localePath(transformedPath);
 
-      $router.push(localeTransformedPath);
+      router.push(localeTransformedPath);
     };
 
     onBeforeUnmount(() => {

@@ -1,4 +1,4 @@
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 import wrap from '../../src/utils/wrap';
 
 describe('[CORE utils] wrap', () => {
