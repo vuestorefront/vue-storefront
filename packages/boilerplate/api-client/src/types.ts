@@ -55,5 +55,3 @@ export type ShippingProvider = TODO;
 export type Wishlist = TODO;
 
 export type WishlistItem = TODO;
-
-export type StoresData = TODO;
