@@ -1,4 +1,4 @@
-import { setBillingAddressAction } from './../../../src/helpers/cart/actions';
+import { setBillingAddressAction } from './../../../src/helpers/actions/cart';
 
 describe('[commercetools-api-client] setBillingAddressAction', () => {
   beforeEach(() => {

@@ -6,14 +6,6 @@ import { useCart } from '../useCart';
 type UserContext = UseCart<Cart, LineItem, ProductVariant> & Context;
 
 const load = async (context: Context, {customQuery}) => {
-  if (!context.$ct.config.auth.onTokenRead()) return null;
-
-  const isGuest = await context.$ct.api.isGuest();
-
-  if (isGuest) {
-    return null;
-  }
-
   const profile = await context.$ct.api.getMe({ customer: true }, customQuery);
   context.setCart(profile.data.me.activeCart);
   return profile.data.me.customer;
@@ -34,7 +26,6 @@ export const useUserFactoryParams: UseUserFactoryParams<Customer, any, any> = {
   load,
   logOut: async (context: UserContext) => {
     await context.$ct.api.customerSignOut();
-    await context.$ct.config?.auth?.onTokenRemove();
 
     context.setCart(null);
   },

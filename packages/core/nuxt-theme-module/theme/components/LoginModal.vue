@@ -14,7 +14,7 @@
       />
     </template>
     <transition name="sf-fade" mode="out-in">
-      <div v-if="isLogin">
+      <div v-if="currentScreen === SCREEN_LOGIN">
         <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
           <form class="form" @submit.prevent="handleSubmit(handleLogin)">
             <ValidationProvider rules="required|email" v-slot="{ errors }">
@@ -62,18 +62,18 @@
           </form>
         </ValidationObserver>
         <div class="action">
-          <SfButton class="sf-button--text" @click="setIsForgottenValue(true)">
+          <SfButton class="sf-button--text" @click="setCurrentScreen(SCREEN_FORGOTTEN)">
             {{ $t('Forgotten password?') }}
           </SfButton>
         </div>
         <div class="bottom">
           <p class="bottom__paragraph">{{ $t('No account') }}</p>
-          <SfButton class="sf-button--text" @click="setIsLoginValue(false)">
+          <SfButton class="sf-button--text" @click="setCurrentScreen(SCREEN_REGISTER)">
             {{ $t('Register today') }}
           </SfButton>
         </div>
       </div>
-      <div v-else-if="isForgotten">
+      <div v-else-if="currentScreen === SCREEN_FORGOTTEN">
         <p>{{ $t('Forgot Password') }}</p>
         <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
           <form class="form" @submit.prevent="handleSubmit(handleForgotten)">
@@ -104,7 +104,7 @@
           </form>
         </ValidationObserver>
       </div>
-      <div v-else-if="isThankYouAfterForgotten" class="thank-you">
+      <div v-else-if="currentScreen === SCREEN_THANK_YOU" class="thank-you">
         <i18n tag="p" class="thank-you__paragraph" path="forgotPasswordConfirmation">
           <span class="thank-you__paragraph--bold">{{ userEmail }}</span>
         </i18n>
@@ -185,7 +185,7 @@
         </ValidationObserver>
         <div class="action">
           {{ $t('or') }}
-          <SfButton class="sf-button--text" @click="setIsLoginValue(true)">
+          <SfButton class="sf-button--text" @click="setCurrentScreen(SCREEN_LOGIN)">
             {{ $t('login in to your account') }}
           </SfButton>
         </div>
@@ -225,16 +225,19 @@ export default {
     SfBar
   },
   setup() {
+    const SCREEN_LOGIN = 'login';
+    const SCREEN_REGISTER = 'register';
+    const SCREEN_THANK_YOU = 'thankYouAfterForgotten';
+    const SCREEN_FORGOTTEN = 'forgottenPassword';
+
     const { isLoginModalOpen, toggleLoginModal } = useUiState();
     const form = ref({});
-    const isLogin = ref(false);
-    const isForgotten = ref(false);
-    const isThankYouAfterForgotten = ref(false);
     const userEmail = ref('');
     const createAccount = ref(false);
     const rememberMe = ref(false);
     const { register, login, loading, error: userError } = useUser();
     const { request, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
+    const currentScreen = ref(SCREEN_REGISTER);
 
     const error = reactive({
       login: null,
@@ -247,12 +250,13 @@ export default {
     };
 
     const barTitle = computed(() => {
-      if (isLogin.value) {
-        return 'Sign in';
-      } else if (isForgotten.value || isThankYouAfterForgotten.value) {
-        return 'Reset Password';
-      } else {
-        return 'Register';
+      switch (currentScreen.value) {
+        case SCREEN_LOGIN:
+          return 'Sign in';
+        case SCREEN_REGISTER:
+          return 'Register';
+        default:
+          return 'Reset Password';
       }
     });
 
@@ -263,15 +267,9 @@ export default {
       }
     });
 
-    const setIsLoginValue = (value) => {
+    const setCurrentScreen = (screenName) => {
       resetErrorValues();
-      isLogin.value = value;
-    };
-
-    const setIsForgottenValue = (value) => {
-      resetErrorValues();
-      isForgotten.value = value;
-      isLogin.value = !value;
+      currentScreen.value = screenName;
     };
 
     const handleForm = (fn) => async () => {
@@ -279,6 +277,7 @@ export default {
       await fn({ user: form.value });
 
       const hasUserErrors = userError.value.register || userError.value.login;
+
       if (hasUserErrors) {
         error.login = userError.value.login?.message;
         error.register = userError.value.register?.message;
@@ -288,7 +287,8 @@ export default {
     };
 
     const closeModal = () => {
-      setIsForgottenValue(false);
+      resetErrorValues();
+      setCurrentScreen(SCREEN_LOGIN);
       toggleLoginModal();
     };
 
@@ -301,8 +301,7 @@ export default {
       await request({ email: userEmail.value });
 
       if (!forgotPasswordError.value.request) {
-        isThankYouAfterForgotten.value = true;
-        isForgotten.value = false;
+        setCurrentScreen(SCREEN_THANK_YOU);
       }
     };
 
@@ -311,23 +310,24 @@ export default {
       error,
       userError,
       loading,
-      isLogin,
       createAccount,
       rememberMe,
       isLoginModalOpen,
       toggleLoginModal,
       handleLogin,
       handleRegister,
-      setIsLoginValue,
-      isForgotten,
-      setIsForgottenValue,
       forgotPasswordError,
       forgotPasswordLoading,
       handleForgotten,
       closeModal,
-      isThankYouAfterForgotten,
       userEmail,
-      barTitle
+      barTitle,
+      currentScreen,
+      setCurrentScreen,
+      SCREEN_LOGIN,
+      SCREEN_REGISTER,
+      SCREEN_THANK_YOU,
+      SCREEN_FORGOTTEN
     };
   }
 };

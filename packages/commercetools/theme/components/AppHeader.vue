@@ -50,7 +50,9 @@
               icon="empty_cart"
               size="1.25rem"
             />
-            <SfBadge v-if="cartTotalItems" class="sf-badge--number cart-badge">{{cartTotalItems}}</SfBadge>
+            <template v-if="cartTotalItems > 0">
+              <SfBadge class="sf-badge--number cart-badge">{{ cartTotalItems }}</SfBadge>
+            </template>
           </SfButton>
         </div>
       </template>
@@ -92,7 +94,13 @@
         </SfSearchBar>
       </template>
     </SfHeader>
-    <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" @removeSearchResults="removeSearchResults" />
+    <SearchResults
+      :visible="isSearchOpen"
+      :result="result"
+      :term="term"
+      @close="closeSearch"
+      @removeSearchResults="removeSearchResults"
+    />
     <SfOverlay :visible="isSearchOpen" />
   </div>
 </template>
@@ -100,9 +108,8 @@
 <script>
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
-import { onSSR } from '@vue-storefront/core';
 import { useCart, useUser, cartGetters } from '@vue-storefront/commercetools';
-import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
+import { computed, ref, watch, onBeforeUnmount } from '@vue/composition-api';
 import { useUiHelpers } from '~/composables';
 import StoreLocaleSelector from './StoreLocaleSelector';
 import SearchResults from '~/components/SearchResults';
@@ -134,8 +141,8 @@ export default {
   setup(props, { root }) {
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, isMobileMenuOpen } = useUiState();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
-    const { isAuthenticated, load: loadUser } = useUser();
-    const { cart, load: loadCart } = useCart();
+    const { isAuthenticated } = useUser();
+    const { cart } = useCart();
     const term = ref(getFacetsFromURL().phrase);
     const isSearchOpen = ref(false);
     const searchBarRef = ref(null);
@@ -149,12 +156,6 @@ export default {
 
     const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
 
-    onSSR(async () => {
-      await loadUser();
-      await loadCart();
-    });
-
-    // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
         return root.$router.push('/my-account');

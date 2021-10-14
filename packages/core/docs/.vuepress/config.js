@@ -72,7 +72,7 @@ module.exports = {
       '@vuepress/plugin-medium-zoom',
       {
         // This selector excludes images from the "Integrations" page
-        selector: 'main :not(a):not(.tile) > img'
+        selector: 'main :not(.tile-image) > img'
       }
     ],
     '@vuepress/active-header-links',

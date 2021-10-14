@@ -17,11 +17,11 @@ describe('[commercetools-api-client] isGuest', () => {
     jest.clearAllMocks();
   });
 
-  it('defaults to false', () => {
+  it('defaults to true', () => {
     const context = getMockContext();
-    context.client.tokenProvider = false;
+    context.config.auth.onTokenRead = jest.fn();
 
-    expect(isGuest(context)).toBeFalsy();
+    expect(isGuest(context)).toBeTruthy();
   });
 
   it('calls "handleIsGuest" from config', () => {
