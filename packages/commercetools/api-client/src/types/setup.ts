@@ -114,5 +114,12 @@ export interface Config<T = any> {
   forceToken?: boolean;
   handleIsTokenUserSession: (token: Token) => boolean;
   handleIsGuest: (context: any) => boolean;
-  handleIsLoggedIn: (context: any) => boolean;
+  handleIsLoggedIn: (context: any) => boolean
+}
+
+export enum TokenType {
+  ServerAccessToken = 'ServerAccessToken',
+  QuestAccessToken = 'QuestAccessToken',
+  AnonymousAccesToken = 'AnonymousAccesToken',
+  ExistingAccessToken = 'ExistingAccessToken'
 }

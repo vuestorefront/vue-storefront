@@ -9,7 +9,7 @@ const accessToken = (context: Context, isServer: boolean) => {
     configuration.auth.onTokenChange = () => {};
   }
 
-  const { tokenProvider } = createSdkHelpers(context.config);
+  const { tokenProvider } = createSdkHelpers(context.config, null);
 
   return tokenProvider.getTokenInfo();
 };

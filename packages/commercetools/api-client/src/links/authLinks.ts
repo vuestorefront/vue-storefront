@@ -1,50 +1,87 @@
 import { Logger } from '@vue-storefront/core';
-import { isAnonymousSession, isUserSession } from '../helpers/utils';
-import { isServerOperation, isAnonymousOperation, isUserOperation } from './restrictedOperations';
+import { TokenType } from 'src';
+import { isUserSession, isAnonymousSession } from '../helpers/utils';
+import { isServerOperation, isUserOperation, isAnonymousOperation } from './restrictedOperations';
+import { createSdkHelpers } from './sdkHelpers';
 
 /**
  * Returns access token for the Server Middleware. It usually has more permissions than anonymous / user access token.
  *
  * If the configuration doesn't specify server-specific API client configuration, it will fallback to customer access tokens configuration.
  */
-async function generateServerAccessToken({
+async function getServerAccessToken({
   configuration,
-  apolloReq,
-  sdkAuth
-}): Promise<string> {
-  Logger.debug(`Generating server access token for operation "${ apolloReq.operationName }"`);
+  apolloReq
+}): Promise<any> {
+  Logger.debug(`Get server access token for operation "${ apolloReq.operationName }"`);
 
-  const { clientId, clientSecret, scopes } = configuration.serverApi || configuration.api;
+  const currentToken = await configuration.serverTokenProvider.getTokenInfo();
 
-  const token = await sdkAuth.clientCredentialsFlow({
-    credentials: {
-      clientId,
-      clientSecret
-    },
-    scopes
-  });
+  Logger.debug(`Successfully get server access token for operation "${ apolloReq.operationName }"`);
 
-  Logger.debug(`Successfully generated server access token for operation "${ apolloReq.operationName }"`);
+  return {
+    currentToken,
+    authLinkSdkAuth: configuration.serverTokenProvider.sdkAuth,
+    authLinkTokenProvider: configuration.serverTokenProvider
+  };
+}
 
-  return token;
+/**
+ * Returns guest access token.
+ */
+async function getGuestAccessToken({
+  configuration
+}): Promise<any> {
+  Logger.debug('Get guest access token from provider');
+
+  const currentToken = await configuration.questTokenProvider.getTokenInfo();
+  console.log('guestToken', currentToken);
+  return {
+    currentToken,
+    authLinkSdkAuth: configuration.questTokenProvider.sdkAuth,
+    authLinkTokenProvider: configuration.questTokenProvider
+  };
+}
+
+/**
+ * Returns existing access token.
+ */
+async function getTokenProviderForExistingToken({
+  configuration
+}): Promise<any> {
+  Logger.debug('Generating provider token for existing token');
+
+  const { tokenProvider } = createSdkHelpers(configuration, TokenType.ExistingAccessToken);
+  const currentToken = await tokenProvider.getTokenInfo();
+  console.log('existingToken', currentToken);
+  Logger.debug('Successfully generated provider token for existing token');
+
+  return {
+    currentToken,
+    authLinkSdkAuth: tokenProvider.sdkAuth,
+    authLinkTokenProvider: tokenProvider
+  };
 }
 
 /**
  * Returns access token for the anonymous session.
  */
 async function generateAnonymousAccessToken({
-  apolloReq,
-  sdkAuth,
-  tokenProvider
-}): Promise<string> {
+  configuration,
+  apolloReq
+}): Promise<any> {
   Logger.debug(`Generating anonymous access token for operation "${ apolloReq.operationName }"`);
 
-  const token = await sdkAuth.anonymousFlow();
-  tokenProvider.setTokenInfo(token);
+  const { tokenProvider } = createSdkHelpers(configuration, TokenType.AnonymousAccesToken);
+  const currentToken = await tokenProvider.getTokenInfo();
 
   Logger.debug(`Successfully generated anonymous access token for operation "${ apolloReq.operationName }"`);
 
-  return token;
+  return {
+    currentToken,
+    authLinkSdkAuth: tokenProvider.sdkAuth,
+    authLinkTokenProvider: tokenProvider
+  };
 }
 
 /**
@@ -71,22 +108,16 @@ async function generateUserAccessToken({
  */
 export async function handleBeforeAuth({
   configuration,
-  sdkAuth,
-  tokenProvider,
   apolloReq
 }) {
-  const currentToken = tokenProvider.getTokenInfo();
-  const isGuest = !isAnonymousSession(currentToken) && !isUserSession(currentToken) && isAnonymousOperation(apolloReq.operationName);
+  const existingToken = configuration.auth.onTokenRead();
+  const isAnonymousRequestToken = !isAnonymousSession(existingToken) && !isUserSession(existingToken) && isAnonymousOperation(apolloReq.operationName);
   const isServer = isServerOperation(configuration, apolloReq.operationName);
 
   const customToken = await configuration.customToken?.({
     configuration,
-    isGuest,
     isServer,
-    sdkAuth,
-    tokenProvider,
-    apolloReq,
-    currentToken
+    apolloReq
   });
 
   if (customToken) {
@@ -94,22 +125,29 @@ export async function handleBeforeAuth({
   }
 
   if (isServer) {
-    return await generateServerAccessToken({
+    return await getServerAccessToken({
       configuration,
-      apolloReq,
-      sdkAuth
+      apolloReq
     });
   }
 
-  if (isGuest) {
+  if (existingToken && !isAnonymousRequestToken) {
+    return await getTokenProviderForExistingToken({
+      configuration
+    });
+  }
+  console.log('anymousSession', isAnonymousRequestToken);
+  const sss = false;
+  if (sss) {
     return await generateAnonymousAccessToken({
-      apolloReq,
-      sdkAuth,
-      tokenProvider
+      configuration,
+      apolloReq
     });
   }
 
-  return currentToken;
+  return await getGuestAccessToken({
+    configuration
+  });
 }
 
 /**
