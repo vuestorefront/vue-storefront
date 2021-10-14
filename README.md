@@ -53,8 +53,7 @@ Vue Storefront solves a set of key business challenges from the world of the sho
 
 ## The headless architecture
 
-![Vue Storefront - Headless Architecture](https://uploads-ssl.webflow.com/5e7cf661c23ac9df156d9c3d/5eff4a2497a1546ca057dcca_github_headless_architecture.png)
-
+![Vue Storefront - Headless Architecture](https://user-images.githubusercontent.com/1626923/137323687-c63cd6fa-a018-4491-bea7-1802649499ca.jpg)
 
 ## Contributing
 
