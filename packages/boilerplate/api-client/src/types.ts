@@ -32,6 +32,14 @@ export type Review = TODO;
 
 export type ReviewItem = TODO;
 
+export type Store = TODO;
+
+export type ShippingAddress = TODO;
+
+export type ShippingMethod = TODO;
+
+export type ShippingProvider = TODO;
+
 export type User = TODO;
 
 export type UserBillingAddress = TODO;
@@ -45,12 +53,6 @@ export type UserShippingAddress = TODO;
 export type UserShippingAddressItem = TODO;
 
 export type UserShippingAddressSearchCriteria = TODO;
-
-export type ShippingAddress = TODO;
-
-export type ShippingMethod = TODO;
-
-export type ShippingProvider = TODO;
 
 export type Wishlist = TODO;
 
