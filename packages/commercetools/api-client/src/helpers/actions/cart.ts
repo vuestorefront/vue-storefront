@@ -1,5 +1,5 @@
 import { Logger } from '@vue-storefront/core';
-import { ProductVariant, Address, LineItem, ReferenceInput, ResourceIdentifierInput, AddressInput } from './../../types/GraphQL';
+import { ProductVariant, Address, LineItem, ReferenceInput, ResourceIdentifierInput, AddressInput } from '../../types/GraphQL';
 
 const hasContactInfo = details => Object.keys(details.contactInfo || {}).some(c => ['phone', 'email', 'mobile', 'fax'].includes(c));
 

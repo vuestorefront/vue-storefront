@@ -17,15 +17,6 @@ const getCurrentCartDetails = async <COMPLETE_DETAILS = ''>(context: Context, cu
 
 const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductVariant> = {
   load: async (context: Context, { customQuery }) => {
-    const { $ct } = context;
-    if (!$ct.config.auth.onTokenRead()) return null;
-
-    const isGuest = await $ct.api.isGuest();
-
-    if (isGuest) {
-      return null;
-    }
-
     const { data: profileData } = await context.$ct.api.getMe({ customer: false }, customQuery);
 
     return profileData.me.activeCart;

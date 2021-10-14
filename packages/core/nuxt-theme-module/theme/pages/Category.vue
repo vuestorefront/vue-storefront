@@ -1,7 +1,6 @@
 <template>
   <div id="category">
     <SfBreadcrumbs
-      v-e2e="'breadcrumbs'"
       class="breadcrumbs desktop-only"
       :breadcrumbs="breadcrumbs"
     />

@@ -1,7 +1,6 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit, reset }">
     <SfHeading
-      v-e2e="'billing-heading'"
       :level="3"
       :title="$t('Billing address')"
       class="sf-heading--left sf-heading--no-underline title"
@@ -207,7 +206,6 @@
         </ValidationProvider>
       </div>
       <SfButton
-        v-e2e="'billing-add-new-address'"
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
         type="button"
@@ -218,7 +216,6 @@
       <div class="form">
         <div class="form__action">
           <SfButton
-            v-e2e="'continue-to-payment'"
             class="form__action-button"
             type="submit"
             :disabled="!canMoveForward"
@@ -249,7 +246,6 @@ import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
 import { ref, watch, computed, onMounted } from '@vue/composition-api';
-import { onSSR } from '@vue-storefront/core';
 import '@/helpers/validators/phone';
 
 const NOT_SELECTED_ADDRESS = '';
@@ -283,7 +279,7 @@ export default {
   setup(_, context) {
     const { $ct: { config } } = useVSFContext();
     const { shipping: shippingDetails, load: loadShipping } = useShipping();
-    const { billing: address, loading, load, save } = useBilling();
+    const { billing: address, loading, load: loadBillingAddress, save } = useBilling();
     const { isAuthenticated } = useUser();
     const { billing: userBilling, load: loadUserBilling, setDefaultAddress } = useUserBilling();
     const billingDetails = ref(address.value || {});
@@ -379,26 +375,26 @@ export default {
       }
     });
 
-    onSSR(async () => {
-      await load();
+    onMounted(async () => {
+      await loadBillingAddress();
+
       if (isAuthenticated.value) {
         await loadUserBilling();
       }
-    });
 
-    onMounted(async () => {
-      if (!userBilling.value?.addresses && isAuthenticated.value) {
-        await loadUserBilling();
-      }
       const billingAddresses = userBillingGetters.getAddresses(userBilling.value);
+
       if (!billingAddresses || !billingAddresses.length) {
         return;
       }
+
       const hasEmptyBillingDetails = !billingDetails.value || Object.keys(billingDetails.value).length === 0;
+
       if (hasEmptyBillingDetails) {
         selectDefaultAddress();
         return;
       }
+
       canAddNewAddress.value = false;
     });
 

@@ -78,8 +78,7 @@ import {
 import UserBillingAddress from '~/components/UserBillingAddress';
 import BillingAddressForm from '~/components/MyAccount/BillingAddressForm';
 import { useUserBilling, userBillingGetters } from '<%= options.generate.replace.composables %>';
-import { ref, computed } from '@vue/composition-api';
-import { onSSR } from '@vue-storefront/core';
+import { ref, computed, onMounted } from '@vue/composition-api';
 
 export default {
   name: 'BillingDetails',
@@ -116,8 +115,9 @@ export default {
       }
     };
 
-    onSSR(async () => {
-      await loadUserBilling();
+    onMounted(() => {
+      // Load only in the browser
+      loadUserBilling();
     });
 
     return {

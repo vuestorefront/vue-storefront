@@ -74,27 +74,3 @@ To override the default logger, pass a function to the `logger.customLogger` pro
   }
 ];
 ```
-
-::: details Configuring logger outside Vue Storefront Nuxt module
-If you can't configure logger through the `@vue-storefront/nuxt` module, you can explicitly use the `registerLogger` function:
-
-```ts
-import { registerLogger } from '@vue-storefront/core';
-
-const myLogger = {
-  debug: (message: any, ...args) =>
-    console.debug('[VSF][debug]', message, ...args),
-  info: (message: any, ...args) =>
-    console.info('[VSF][info]', message, ...args),
-  warn: (message: any, ...args) =>
-    console.warn('[VSF][warn]', message, ...args),
-  error: (message: any, ...args) =>
-    console.error('[VSF][error]', message, ...args)
-};
-
-const verbosity = 'error';
-
-registerLogger(myLogger, verbosity);
-```
-
-:::

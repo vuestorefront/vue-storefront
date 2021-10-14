@@ -19,7 +19,8 @@
     "paths": {
       "@vue-storefront/core": ["core/core/src"],
     },
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowJs": true
   },
   "exclude": ["node_modules", "**/*.spec.ts", "lib"],
   "include": ["src"],

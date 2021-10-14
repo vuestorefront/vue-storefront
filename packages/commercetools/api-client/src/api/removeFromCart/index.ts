@@ -2,7 +2,7 @@ import { CustomQuery } from '@vue-storefront/core';
 import updateCart from './../updateCart';
 import { CartDetails, CartResponse } from './../../types/Api';
 import { LineItem } from './../../types/GraphQL';
-import { createRemoveLineItemAction } from './../../helpers/cart/actions';
+import { createRemoveLineItemAction } from '../../helpers/actions/cart';
 
 const removeFromCart = async (
   context,
