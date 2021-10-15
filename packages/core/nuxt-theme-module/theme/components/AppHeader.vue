@@ -164,7 +164,9 @@ export default {
     };
 
     const closeSearch = () => {
-      if (!isSearchOpen.value) return;
+      const wishlistIconTag = ['path', 'svg'];
+      const isWishlistIconClicked = event.path.find(p => wishlistIconTag.indexOf(p.tagName) !== -1);
+      if (isWishlistIconClicked || !isSearchOpen.value) return;
 
       term.value = '';
       isSearchOpen.value = false;
