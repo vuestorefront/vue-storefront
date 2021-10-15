@@ -5,44 +5,42 @@ import {
   AgnosticPrice,
   AgnosticTotals
 } from '@vue-storefront/core';
-import { LineItem } from './../types/GraphQL';
-
-type Wishlist = any;
+import { ShoppingList, ShoppingListQueryResult } from '@vue-storefront/commercetools-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistItems = (wishlist: Wishlist): LineItem[] => [];
+export const getWishlistItems = (wishlist: ShoppingListQueryResult): ShoppingList[] => [];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistItemName = (product: LineItem): string => '';
+export const getWishlistItemName = (product: ShoppingList): string => '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistItemImage = (product: LineItem): string => '';
+export const getWishlistItemImage = (product: ShoppingList): string => '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistItemPrice = (product: LineItem): AgnosticPrice => ({ regular: 0, special: 0 });
+export const getWishlistItemPrice = (product: ShoppingList): AgnosticPrice => ({ regular: 0, special: 0 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistItemQty = (product: LineItem): number => 1;
+export const getWishlistItemQty = (product: ShoppingList): number => 1;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistItemAttributes = (product: LineItem, filterByAttributeName?: string[]) => ({'': ''});
+export const getWishlistItemAttributes = (product: ShoppingList, filterByAttributeName?: string[]) => ({'': ''});
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistItemSku = (product: LineItem): string => '';
+export const getWishlistItemSku = (product: ShoppingList): string => '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistTotals = (wishlist: Wishlist): AgnosticTotals => ({ total: 0, subtotal: 0 });
+export const getWishlistTotals = (wishlist: ShoppingListQueryResult): AgnosticTotals => ({ total: 0, subtotal: 0 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistShippingPrice = (wishlist: Wishlist): number => 0;
+export const getWishlistShippingPrice = (wishlist: ShoppingListQueryResult): number => 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getWishlistTotalItems = (wishlist: Wishlist): number => 0;
+export const getWishlistTotalItems = (wishlist: ShoppingListQueryResult): number => 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getFormattedPrice = (price: number): string => '';
 
-const wishlistGetters: WishlistGetters<Wishlist, LineItem> = {
+const wishlistGetters: WishlistGetters<ShoppingListQueryResult, ShoppingList> = {
   getTotals: getWishlistTotals,
   getShippingPrice: getWishlistShippingPrice,
   getItems: getWishlistItems,

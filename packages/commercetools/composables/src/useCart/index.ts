@@ -1,6 +1,5 @@
 import loadCurrentCart from './currentCart';
-import { ProductVariant, LineItem } from './../types/GraphQL';
-import { Cart, CartDetails } from '@vue-storefront/commercetools-api';
+import { ProductVariant, LineItem, Cart, CartDetails } from '@vue-storefront/commercetools-api';
 import { useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
 
 const getCartItemByProduct = ({ currentCart, product }) => {

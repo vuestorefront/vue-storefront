@@ -1,5 +1,5 @@
 import { useCart } from '../useCart';
-import { Order } from './../types/GraphQL';
+import { Order } from '@vue-storefront/commercetools-api';
 import { UseMakeOrder, useMakeOrderFactory, Context } from '@vue-storefront/core';
 
 const useMakeOrderFactoryParams = {

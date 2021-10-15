@@ -2,7 +2,7 @@ import { useUserOrder } from '../../src/useUserOrder';
 
 const mockedResults = ['order1', 'order2', 'order3'];
 const mockedTotal = 3;
-const mockedEmptyResponse = { count: 0, offset: 0, results: [], total: 0};
+const mockedEmptyResponse = { count: 0, offset: 0, results: [], total: 0, exists: false};
 
 jest.mock('@vue-storefront/commercetools-api', () => ({
   getOrders: jest.fn(async () => ({

@@ -10,7 +10,7 @@ import {
   getFormattedPrice,
   getOrdersTotal
 } from './../../src/getters/orderGetters';
-import { OrderState, Order } from './../../src/types/GraphQL';
+import { OrderState, Order } from '@vue-storefront/commercetools-api';
 
 const order: Order = {
   createdAt: 123456789,
@@ -40,7 +40,8 @@ const orders = {
   results: mockedResults,
   total: mockedResults.length,
   offset: 0,
-  count: 0
+  count: 0,
+  exists: true
 };
 
 describe('[commercetools-getters] order getters', () => {
@@ -54,7 +55,7 @@ describe('[commercetools-getters] order getters', () => {
     expect(getOrderItemName(null)).toBe('');
     expect(getOrderItemQty(null)).toBe(0);
     expect(getFormattedPrice(null)).toBe(null);
-    expect(getOrdersTotal({ results: [], total: 0, offset: 0, count: 0 })).toBe(0);
+    expect(getOrdersTotal({ results: [], total: 0, offset: 0, count: 0, exists: false })).toBe(0);
   });
 
   it('returns date', () => {
