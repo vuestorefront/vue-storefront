@@ -1,4 +1,6 @@
+import CampaignContent from './CampaignContent.model';
+
 export default interface CampaignsGetAPIResponse {
-  campaignContent: string,
+  campaignContent: CampaignContent,
   campaignToken: string
 }
