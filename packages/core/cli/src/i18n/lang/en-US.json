@@ -1,10 +1,11 @@
 {
   "commands": {
-    "init": {
-      "description": "Initialize your new Vue Storefront project.",
+    "store": {
+      "description": "Create a new Vue Storefront store.",
       "flags": {
-        "name": "project name",
-        "integration": "integration to be used in project, please use repository git link via https:"
+        "name": "Project name",
+        "dryRun": "Run the command as a dry run, without cloning the project",
+        "integration": "Integration to be used in project, please use repository git link via https:"
       },
       "args": {
         "name": "Define the project name to be used",
@@ -19,7 +20,14 @@
         "longer_name": "Please provide longer name",
         "git_link": "Please provide git repository https link"
       },
-      "custom_template": "Custom template from Github"
+      "custom_template": "Custom template from Github",
+      "success": {
+        "docs": "Documentation",
+        "dir": "Directory",
+        "title": "Success",
+        "msg": "Your new project is ready!",
+        "docsMsg": "Please go to the documentation to find more information about the selected integration."
+      }
     }
   }
 }

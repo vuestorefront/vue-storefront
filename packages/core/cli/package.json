@@ -29,6 +29,7 @@
   "dependencies": {
     "axios": "^0.23.0",
     "@oclif/command": "^1.8.0",
+    "cli-ux": "^5.6.3",
     "@oclif/config": "^1.17.0",
     "@oclif/plugin-help": "^3.2.3",
     "@oclif/plugin-update": "^1.5.0",
@@ -36,6 +37,7 @@
     "@vue-storefront/theme-utilities": "^0.1.6",
     "chokidar": "^3.5.2",
     "consola": "^2.15.3",
+    "chalk": "^4.1.2",
     "execa": "^5.1.1",
     "inquirer": "^8.2.0",
     "os-locale": "^5.0.0",
