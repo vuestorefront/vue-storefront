@@ -1,12 +1,14 @@
-# Upgrading to 2.5.0
+# Migrating eCommerce integrations to 2.5.0
 
 ## Introduction
 
-In the 2.5.0 release, we changed the way of handling cookies on server side. Instead of generating them server side, now cookies are generated client side.
+This migration guide helps Integrators make their integrations and plugins compatible with version 2.5.0.
+
+It only contains code examples. For more information about this version, refer to the [Overview](./overview.md) page.
 
 ## Changes
 
-In the 2.5.0 release, we've removed generating cookies for currency, locale and country on server side. Now those cookies are generated client side.
+- Removed cookies fpr currency, locale and country generated on server side. Now they are generated client side.
 
 To make this work some changes in configuration are needed.
 1. Disable i18n's detecting browser language.
@@ -34,7 +36,7 @@ buildModules: [
 ```
 
 3. Change in layouts way of changing locales. As default it is an anchor (`<a>`), it needs to be changed to `<nuxt-link>`. As default it\'s located in `StoreLocaleSelector.vue` file.
-For example:
+   For example:
 ```vue
 <nuxt-link :to="switchLocalePath(lang.code)">
 ```
