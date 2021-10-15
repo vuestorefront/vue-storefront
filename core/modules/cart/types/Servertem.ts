@@ -1,6 +1,6 @@
 import { ProductOptions } from 'core/modules/catalog/types/Product';
 
-import { Item } from 'src/modules/file-storage';
+import CustomerImage from 'theme/components/interfaces/customer-image.interface';
 
 export default interface ServerItem {
   server_item_id: number | string,
@@ -11,5 +11,6 @@ export default interface ServerItem {
   type_id: any,
   plushieId?: string,
   thumbnail?: string,
-  customerImages?: Item[]
+  customerImages?: CustomerImage[],
+  customerImagesIds?: string[]
 }

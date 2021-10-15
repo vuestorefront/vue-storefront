@@ -36,8 +36,8 @@ const getDataToHash = (product: CartItem | ServerItem): any => {
     return typeof product.plushieId === 'number' ? (product.plushieId as number).toString() : product.plushieId;
   }
 
-  if (product.customerImages && product.customerImages.length) {
-    return product.customerImages;
+  if (product.customerImagesIds && product.customerImagesIds.length) {
+    return product.customerImagesIds;
   }
 
   const supportedProductOptions = ['bundle_options', 'custom_options', 'configurable_item_options']
