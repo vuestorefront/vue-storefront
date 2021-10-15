@@ -6,5 +6,8 @@ import PromotionPlatformState from '../types/PromotionPlatformState';
 export const getters: GetterTree<PromotionPlatformState, any> = {
   campaignContent (state): CampaignContent | undefined {
     return state.campaignContent;
+  },
+  campaignToken (state): string | undefined {
+    return state.campaignToken;
   }
 }

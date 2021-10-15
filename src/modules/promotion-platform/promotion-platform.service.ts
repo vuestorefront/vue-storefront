@@ -5,8 +5,12 @@ import CampaignsGetAPIResponse from './types/CampaignsGetAPIResponse';
 import CampaignContent from './types/CampaignContent.model';
 
 export const PromotionPlatformService = {
-  async fetchCampaignContent (): Promise<CampaignsGetAPIResponse> {
-    const url = processURLAddress(`${config.budsies.endpoint}/promotion-platform/campaigns`);
+  async fetchCampaignContent (query?: string): Promise<CampaignsGetAPIResponse> {
+    let url = processURLAddress(`${config.budsies.endpoint}/promotion-platform/campaigns`);
+
+    if (query) {
+      url += `?${query}`;
+    }
 
     const response = await fetch(url, {
       method: 'GET',
