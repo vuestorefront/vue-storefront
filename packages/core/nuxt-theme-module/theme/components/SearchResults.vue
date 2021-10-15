@@ -46,6 +46,8 @@
                   :alt="productGetters.getName(product)"
                   :title="productGetters.getName(product)"
                   :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+                  :is-in-wishlist="isInWishlist({ product })"
+                  @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
                 />
               </div>
             </SfScrollable>
@@ -61,6 +63,8 @@
                 :alt="productGetters.getName(product)"
                 :title="productGetters.getName(product)"
                 :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+                :is-in-wishlist="isInWishlist({ product })"
+                @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
               />
             </div>
           </SfMegaMenuColumn>
@@ -95,7 +99,7 @@ import {
   SfImage
 } from '@storefront-ui/vue';
 import { ref, watch, computed } from '@vue/composition-api';
-import { productGetters } from '<%= options.generate.replace.composables %>';
+import { useWishlist, wishlistGetters, productGetters } from '<%= options.generate.replace.composables %>';
 
 export default {
   name: 'SearchResults',
@@ -126,6 +130,7 @@ export default {
     const isSearchOpen = ref(props.visible);
     const products = computed(() => props.result?.products);
     const categories = computed(() => props.result?.categories);
+    const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist, wishlist } = useWishlist();
 
     watch(() => props.visible, (newVal) => {
       isSearchOpen.value = newVal;
@@ -137,11 +142,20 @@ export default {
       }
     });
 
+    const removeProductFromWishlist = (productItem) => {
+      const productsInWhishlist = computed(() => wishlistGetters.getItems(wishlist.value));
+      const product = productsInWhishlist.value.find(wishlistProduct => wishlistProduct.variant.sku === productItem.sku);
+      removeItemFromWishlist({ product });
+    };
+
     return {
       isSearchOpen,
       productGetters,
       products,
-      categories
+      categories,
+      addItemToWishlist,
+      isInWishlist,
+      removeProductFromWishlist
     };
   }
 };
