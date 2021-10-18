@@ -87,9 +87,9 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-apartment'"
-            :value="billingDetails.apartment"
-            @input="apartment => changeBillingDetails('apartment', apartment)"
+            v-e2e="'billing-streetNumber'"
+            :value="billingDetails.streetNumber"
+            @input="streetNumber => changeBillingDetails('streetNumber', streetNumber)"
             :label="$t('House/Apartment number')"
             name="apartment"
             class="form__element form__element--half form__element--half-even"
