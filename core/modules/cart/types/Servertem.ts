@@ -11,6 +11,5 @@ export default interface ServerItem {
   type_id: any,
   plushieId?: string,
   thumbnail?: string,
-  customerImages?: CustomerImage[],
-  customerImagesIds?: string[]
+  customerImages?: CustomerImage[]
 }
