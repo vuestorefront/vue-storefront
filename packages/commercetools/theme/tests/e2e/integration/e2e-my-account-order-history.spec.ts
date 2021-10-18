@@ -15,6 +15,7 @@ context(['regression'], '[MyAccount] Order History', () => {
 
   it('Should display correct order data - list view', function () {
     const data = this.fixtures.data[this.test.title];
+    const customerSignMeIn = intercept.customerSignMeIn();
     data.customer.email = generator.email;
     requests.customerSignMeUp(data.customer);
     requests.createCart().then((createCartResponse: CreateCartResponse) => {
@@ -28,8 +29,15 @@ context(['regression'], '[MyAccount] Order History', () => {
           createCartResponse.body.data.cart.id,
           { addresses: { billing: data.customer.address.billing }, shippingMethodId: shippingMethodId}
         );
-        requests.createMyOrderFromCart(createCartResponse.body.data.cart.id, 9).then((createMyOrderFromCartResponse: CreateMyOrderFromCartResponse) => {
+        requests.createMyOrderFromCart(createCartResponse.body.data.cart.id, 14).then((createMyOrderFromCartResponse: CreateMyOrderFromCartResponse) => {
           data.expected.order.id = createMyOrderFromCartResponse.body.data.order.id;
+          page.home.visit();
+          page.home.header.openLoginModal();
+          page.components.loginModal.loginToAccountButton.click();
+          page.components.loginModal.fillForm(data.customer);
+          page.components.loginModal.loginButton.click().then(() => {
+            cy.wait(customerSignMeIn);
+          });
           page.myAccount.orderHistory.visit();
           page.myAccount.orderHistory.orderNumber.should('have.text', data.expected.order.id);
           page.myAccount.orderHistory.orderDate.should('not.have.text', '');
@@ -42,6 +50,7 @@ context(['regression'], '[MyAccount] Order History', () => {
 
   it('Should display correct order data - details view', function () {
     const data = this.fixtures.data[this.test.title];
+    const customerSignMeIn = intercept.customerSignMeIn();
     data.customer.email = generator.email;
     requests.customerSignMeUp(data.customer);
     requests.createCart().then((createCartResponse: CreateCartResponse) => {
@@ -55,8 +64,15 @@ context(['regression'], '[MyAccount] Order History', () => {
           createCartResponse.body.data.cart.id,
           { addresses: { billing: data.customer.address.billing }, shippingMethodId: shippingMethodId}
         );
-        requests.createMyOrderFromCart(createCartResponse.body.data.cart.id, 9).then((createMyOrderFromCartResponse: CreateMyOrderFromCartResponse) => {
+        requests.createMyOrderFromCart(createCartResponse.body.data.cart.id, 14).then((createMyOrderFromCartResponse: CreateMyOrderFromCartResponse) => {
           data.expected.order.id = createMyOrderFromCartResponse.body.data.order.id;
+          page.home.visit();
+          page.home.header.openLoginModal();
+          page.components.loginModal.loginToAccountButton.click();
+          page.components.loginModal.fillForm(data.customer);
+          page.components.loginModal.loginButton.click().then(() => {
+            cy.wait(customerSignMeIn);
+          });
           page.myAccount.orderHistory.visit();
           page.myAccount.orderHistory.viewDetails.click();
           page.myAccount.orderHistory.orderDetailsId.should('contain', data.expected.order.id);

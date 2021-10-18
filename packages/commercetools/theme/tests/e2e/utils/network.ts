@@ -21,6 +21,10 @@ const intercept = {
     return _intercept('/customerUpdateMe', options);
   },
 
+  customerSignMeIn(options?: Options): string {
+    return _intercept('/customerSignMeIn', options);
+  },
+
   getMe(options?: Options): string {
     return _intercept('/getMe', options);
   },
