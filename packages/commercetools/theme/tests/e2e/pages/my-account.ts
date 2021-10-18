@@ -58,7 +58,7 @@ class MyProfile extends MyAccount {
   }
 
   get updatePersonalDataButton(): Cypress.Chainable {
-    return el('myaccount-update-personal-data-btn');
+    return cy.contains('Update personal data');
   }
 
   get messageEmail(): Cypress.Chainable {
@@ -78,7 +78,7 @@ class MyProfile extends MyAccount {
   }
 
   get updatePasswordButton(): Cypress.Chainable {
-    return el('myaccount-update-password-btn');
+    return cy.contains('Update password');
   }
 
   tab(tab: MyAccountTab): Cypress.Chainable {

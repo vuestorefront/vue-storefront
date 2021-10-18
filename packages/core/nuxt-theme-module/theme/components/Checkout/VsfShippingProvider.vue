@@ -14,7 +14,7 @@
       :selected ="selectedMethod"
       name="shippingMethod"
       class="form__radio shipping"
-      @input="selectMethod(method.value)"
+      @change="selectMethod(method.value)"
     >
       <div class="shipping__label">
         {{ method.label }}
@@ -38,7 +38,7 @@
 
 <script>
 import { SfButton, SfRadio } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 
 const SHIPPING_METHODS = [
   { label: 'Express US', value: 'express', description: 'Same day delivery' },

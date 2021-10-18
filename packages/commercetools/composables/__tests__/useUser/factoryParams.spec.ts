@@ -52,11 +52,6 @@ describe('[commercetools-composables] factoryParams', () => {
     expect(context.$ct.api.getMe).toHaveBeenNthCalledWith(2, {customer: true}, {key: 'customQuery'});
   });
 
-  it('does not loading the user without user session', async () => {
-    (context.$ct.api.isGuest as any).mockReturnValue(true);
-    expect(await useUserFactoryParams.load(context as any, {} as any)).toEqual(null);
-  });
-
   it('logOut method calls API log out method', async () => {
     (context.$ct.api.createCart as jest.Mock).mockReturnValueOnce({ data: { cart: {} }});
     (useCart as jest.Mock).mockReturnValueOnce({refreshCart: refreshCartMock});

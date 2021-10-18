@@ -20,15 +20,6 @@ export default {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico'
-      },
-      {
-        rel: 'preconnect',
-        href: 'https://fonts.gstatic.com',
-        crossorigin: 'crossorigin'
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap'
       }
     ],
     script: []
@@ -46,8 +37,10 @@ export default {
   },
   buildModules: [
     // to core
+    '@nuxtjs/composition-api/module',
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
+    '@nuxtjs/google-fonts',
     // to core soon
     '@nuxtjs/pwa',
     ['@vue-storefront/nuxt', {
@@ -81,7 +74,9 @@ export default {
     }]
   ],
   modules: [
-    'nuxt-i18n',
+    ['nuxt-i18n', {
+      baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+    }],
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
     '@vue-storefront/middleware/nuxt'
@@ -133,6 +128,7 @@ export default {
     theme
   },
   build: {
+    extractCSS: true,
     babel: {
       plugins: [
         ['@babel/plugin-proposal-private-methods', { loose: true }]
@@ -150,5 +146,24 @@ export default {
         })
       })
     ]
+  },
+  pwa: {
+    meta: {
+      theme_color: '#5ECE7B'
+    }
+  },
+
+  googleFonts: {
+    families: {
+      Raleway: {
+        wght: [300, 400, 500, 600, 700],
+        ital: [400]
+      },
+      Roboto: {
+        wght: [300, 400, 500, 700],
+        ital: [300, 400]
+      }
+    },
+    display: 'swap'
   }
 };

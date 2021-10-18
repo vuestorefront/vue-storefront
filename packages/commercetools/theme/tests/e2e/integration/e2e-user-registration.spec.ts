@@ -18,7 +18,7 @@ context(['regression'], 'User registration', () => {
     page.home.header.openLoginModal();
     page.components.loginModal.fillForm(data.customer);
     page.components.loginModal.iWantToCreateAccountCheckbox.click();
-    page.components.loginModal.submitButton.click();
+    page.components.loginModal.createAccountButton.click();
     page.components.loginModal.container.should('not.exist');
     page.home.header.account.click();
     page.myAccount.myProfile.heading.should('be.visible');
@@ -34,7 +34,7 @@ context(['regression'], 'User registration', () => {
     page.home.header.openLoginModal();
     page.components.loginModal.fillForm(data.customer);
     page.components.loginModal.iWantToCreateAccountCheckbox.click();
-    page.components.loginModal.submitButton.click();
+    page.components.loginModal.createAccountButton.click();
     page.components.loginModal.container.contains(`${data.errorMessage} '"${data.customer.email}"'`).should('be.visible');
   });
 });

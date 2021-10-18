@@ -2,7 +2,7 @@
 
 export default {
   'Categories': 'Categories',
-  'Filters': 'Filter',
+  'Filters': 'Filters',
   'Sort by': 'Sort by',
   'Products found': 'Products found',
   'About us': 'About us',
@@ -114,6 +114,7 @@ export default {
   'Your bag is empty': 'Your bag is empty',
   'Cancel': 'Cancel',
   'See all results': 'See all results',
+  'We haven’t found any results for given phrase': 'We haven’t found any results for given phrase',
   'You haven’t searched for items yet': 'You haven’t searched for items yet.',
   'Let’s start now – we’ll help you': 'Let’s start now – we’ll help you.',
   'Search results': 'Search results',
@@ -151,5 +152,7 @@ export default {
   'I confirm subscription': 'I confirm subscription',
   'You can unsubscribe at any time': 'You can unsubscribe at any time',
   'show more': 'show more',
-  'hide': 'hide'
+  'hide': 'hide',
+  'Change to grid view': 'Change to grid view',
+  'Change to list view': 'Change to list view'
 };

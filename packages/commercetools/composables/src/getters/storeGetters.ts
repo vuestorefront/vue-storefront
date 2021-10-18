@@ -1,5 +1,5 @@
 import { AgnosticAddress, AgnosticLocale, AgnosticStore, UseStoreGetters } from '@vue-storefront/core';
-import { Store, Channel, Address } from '../types/GraphQL';
+import { Store, Channel, Address } from '@vue-storefront/commercetools-api';
 import { StoresData } from '../types';
 import { FilterCriteriaRecord, Localized, filterArrayByCriteriaRecord } from '../helpers/internals';
 

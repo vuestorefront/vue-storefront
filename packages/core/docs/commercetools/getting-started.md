@@ -3,7 +3,7 @@
 
 ## Configuring your commercetools integration
 
-If you [generated your project from our CLI](/general/getting-started.html) your shop will be connected to our demo commercetools instance.
+If you [generated your project from our CLI](/general/installation.html) your shop will be connected to our demo commercetools instance.
 
 If you haven't generated your project just to play with Vue Storefront and understand its capabilities the first thing you should do after setting it up is changing the credentials to point into your instance.
 
@@ -21,6 +21,13 @@ Then paste these credentials into `ct` config object inside `integrations` in `m
           uri: 'https://<SHOP_DOMAIN>.com/vsf-ct-dev/graphql',
           authHost: 'https://auth.sphere.io',
           projectKey: 'vsf-ct-dev',
+          clientId: '<CLIENT_ID>',
+          clientSecret: '<CLIENT_SECRET>',
+          scopes: [
+            //* scopes */
+          ]
+        },
+        serverApi: {
           clientId: '<CLIENT_ID>',
           clientSecret: '<CLIENT_SECRET>',
           scopes: [

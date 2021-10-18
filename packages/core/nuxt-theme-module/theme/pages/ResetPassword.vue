@@ -65,7 +65,7 @@
 <script>
 
 import { SfModal, SfButton, SfLoader, SfBar, SfInput } from '@storefront-ui/vue';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed, useRoute } from '@nuxtjs/composition-api';
 import { useForgotPassword, forgotPasswordGetters } from '<%= options.generate.replace.composables %>';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
@@ -92,13 +92,12 @@ export default {
     ValidationProvider,
     ValidationObserver
   },
-  setup(props, context) {
+  setup() {
+    const route = useRoute();
     const { result, setNew, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
     const passwordMatchError = ref(false);
     const form = ref({});
     const isPasswordChanged = computed(() => forgotPasswordGetters.isPasswordChanged(result.value));
-
-    const token = context.root.$route.query.token;
 
     const setNewPassword = async () => {
       passwordMatchError.value = false;
@@ -107,7 +106,10 @@ export default {
         return;
       }
 
-      await setNew({ tokenValue: token, newPassword: form.value.password });
+      await setNew({
+        tokenValue: route.value.query.token,
+        newPassword: form.value.password
+      });
     };
 
     return {

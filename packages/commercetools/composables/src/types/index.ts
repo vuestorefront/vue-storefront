@@ -2,12 +2,13 @@ import {
   Filter,
   ProductVariant,
   Category,
+  CategorySearch,
   ResetPasswordResponse,
   CreatePasswordResetTokenResponse,
-  Store
+  Store,
+  StoreQueryResult
 } from '@vue-storefront/commercetools-api';
 import { FacetSearchResult } from '@vue-storefront/core';
-import { StoreQueryResult } from './GraphQL';
 
 export type OrderSearchParams = {
   id?: string;
@@ -29,7 +30,7 @@ export interface ProductsSearchParams {
 
 export interface FacetResultsData {
   products: ProductVariant[];
-  categories: Category[];
+  categories: Category[]|CategorySearch[];
   facets: Record<string, Filter>;
   total: number;
   perPageOptions: number[];

@@ -1,7 +1,7 @@
 import { CustomQuery } from '@vue-storefront/core';
 import updateCart from '../updateCart';
 import { CartDetails, CartResponse } from '../../types/Api';
-import { addDiscountCodeAction } from '../../helpers/cart/actions';
+import { addDiscountCodeAction } from '../../helpers/actions/cart';
 
 const applyCartCoupon = async (
   settings,

@@ -112,7 +112,7 @@ import {
   SfLink,
   SfArrow
 } from '@storefront-ui/vue';
-import { computed, ref } from '@vue/composition-api';
+import { computed, ref } from '@nuxtjs/composition-api';
 import { useUserOrder, orderGetters } from '@vue-storefront/commercetools';
 import { AgnosticOrderStatus } from '@vue-storefront/core';
 import { onSSR } from '@vue-storefront/core';

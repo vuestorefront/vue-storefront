@@ -168,7 +168,6 @@
       <div class="form">
         <div class="form__action">
           <SfButton
-            v-e2e="'select-shipping'"
             v-if="!isFormSubmitted"
             :disabled="loading"
             class="form__action-button"
@@ -180,7 +179,7 @@
       </div>
       <VsfShippingProvider
         v-if="isFormSubmitted"
-        @submit="$router.push(localePath({ name: 'billing' }))"
+        @submit="router.push(localePath({ name: 'billing' }))"
       />
     </form>
   </ValidationObserver>
@@ -193,7 +192,7 @@ import {
   SfButton,
   SfSelect
 } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref, useRouter } from '@nuxtjs/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useShipping } from '<%= options.generate.replace.composables %>';
 import { required, min, digits } from 'vee-validate/dist/rules';
@@ -231,6 +230,7 @@ export default {
     VsfShippingProvider: () => import('~/components/Checkout/VsfShippingProvider')
   },
   setup () {
+    const router = useRouter();
     const isFormSubmitted = ref(false);
     const { load, save, loading } = useShipping();
 
@@ -256,6 +256,7 @@ export default {
     });
 
     return {
+      router,
       loading,
       isFormSubmitted,
       form,

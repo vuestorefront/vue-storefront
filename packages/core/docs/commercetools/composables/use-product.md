@@ -148,7 +148,7 @@
 // search single product
 import { useProduct, productGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core'
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 
 export default {
   setup () {
@@ -173,7 +173,7 @@ export default {
 // search products by ids
 import { useProduct, productGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 
 export defaut {
   setup () {

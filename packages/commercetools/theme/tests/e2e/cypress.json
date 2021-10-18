@@ -7,15 +7,16 @@
   "viewportHeight": 1080,
   "viewportWidth": 1920,
   "pageLoadTimeout": 180000,
+  "defaultCommandTimeout": 10000,
   "screenshotOnRunFailure": true,
   "screenshotsFolder": "tests/e2e/report/assets/screenshots",
   "video": false,
   "reporter": "../../../../node_modules/mochawesome",
   "reporterOptions": {
-      "reportDir": "tests/e2e/report",
-      "reportFilename": "report",
-      "overwrite": false,
-      "html": false
+    "reportDir": "tests/e2e/report",
+    "reportFilename": "report",
+    "overwrite": false,
+    "html": false
   },
   "retries": {
     "runMode": 2,
