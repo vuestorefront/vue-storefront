@@ -2,6 +2,7 @@
   <div class="promotion-platform-countdown-banner-wrapper">
     <div
       class="promotion-platform-countdown-banner-container"
+      v-show="showBanner"
       :style="bannerStyle"
       ref="container"
       v-html="bannerContent"
@@ -31,7 +32,7 @@ import Timer from './Timer.vue';
 export default Vue.extend({
   computed: {
     showBanner (): boolean {
-      if (!this.countdownDate || this.countdownDate <= new Date()) {
+      if (this.getCountdownTime() <= 0) {
         return false;
       }
 
@@ -41,7 +42,7 @@ export default Vue.extend({
       return this.$store.getters['promotionPlatform/lastClosedByUserBannerVersion'] === this.version;
     },
     bannerContent (): string {
-      return `<div data-countdown-date='2021-10-15 03:59:00' data-background-color='f7acb7' data-numbers-color='535353' data-text-color='FFFFFF' data-version='2021-09-13 09:39:58' data-id='29' class='promotion-platform-countdown-banner'>
+      return `<div data-countdown-date='2021-10-20 03:59:00' data-background-color='f7acb7' data-numbers-color='535353' data-text-color='FFFFFF' data-version='2021-09-13 09:39:58' data-id='29' class='promotion-platform-countdown-banner'>
   <div class='_container'>
     <div class='_left-column'>
       <h2 class='_title'>
@@ -120,6 +121,9 @@ export default Vue.extend({
       this.textColor = bannerElement.dataset.textColor;
 
       this.version = bannerElement.dataset.version;
+      if (bannerElement.dataset.countdownDate) {
+        this.countdownDate = new Date(bannerElement.dataset.countdownDate);
+      }
     },
     getBannerContainer (): HTMLElement | undefined {
       return this.$refs.container as HTMLElement | undefined;
@@ -134,8 +138,6 @@ export default Vue.extend({
       return bannerContainer.querySelector('.promotion-platform-countdown-banner');
     },
     initTimer (): void {
-      console.log('init');
-
       const bannerElement = this.getBannerElement();
       if (!bannerElement) {
         return;
@@ -148,8 +150,15 @@ export default Vue.extend({
 
       this.timerInstance = new Vue({
         el: timer,
-        render: (h) => h(Timer)
+        render: (h) => h(Timer, { props: { countdownTime: this.getCountdownTime() } })
       })
+    },
+    getCountdownTime (): number {
+      if (!this.countdownDate) {
+        return 0;
+      }
+
+      return this.countdownDate.getTime() - Date.now();
     }
   }
 })
