@@ -6,7 +6,7 @@ module.exports = {
       configuration: {
         api: {
           uri: 'https://api.commercetools.com/vsf-generic-ent-demo/graphql',
-          authHost: 'https://auth.sphere.io',
+          authHost: 'https://auth.europe-west1.gcp.commercetools.com',
           projectKey: 'vsf-generic-ent-demo',
           clientId: 'w3HqE0p55rhxCWinIjFiq26L',
           clientSecret: '8ThyrROTeD73Uc9rzfiwSgNpVIku8bOE',
