@@ -39,8 +39,7 @@ const INTEGRATIONS = {
       status: STATUSES.BETA,
       availability: AVAILABILITY.OPEN_SOURCE,
       maintainedBy: [
-        { name: 'Ecritel', link: 'https://www.ecritel.com/' },
-        { name: 'Leonex', link: 'https://www.leonex.de/' }
+        { name: 'Caravel', link: 'https://www.caravelx.com/' }
       ]
     },
     {
@@ -139,7 +138,7 @@ const INTEGRATIONS = {
       name: 'Odoo',
       link: '',
       image: '/v2/integrations-logos/odoo.svg',
-      status: STATUSES.WIP,
+      status: STATUSES.BETA,
       availability: AVAILABILITY.OPEN_SOURCE,
       maintainedBy: [
         { name: 'OdooGap', link: 'https://www.odoogap.com/' }
@@ -157,9 +156,9 @@ const INTEGRATIONS = {
     },
     {
       name: 'SpreeCommerce',
-      link: '',
+      link: 'https://docs.vuestorefront.io/spree/',
       image: '/v2/integrations-logos/spree.svg',
-      status: STATUSES.WIP,
+      status: STATUSES.BETA,
       availability: AVAILABILITY.OPEN_SOURCE,
       maintainedBy: [
         { name: 'Upside Lab', link: 'https://upsidelab.io/' }
