@@ -247,7 +247,12 @@ import { useShippingProvider, useUserShipping, userShippingGetters, useUser, use
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
+<<<<<<< HEAD
 import { ref, watch, computed, onMounted, useRouter } from '@nuxtjs/composition-api';
+=======
+import { ref, watch, computed, onMounted } from '@vue/composition-api';
+import { onSSR } from '@vue-storefront/core';
+>>>>>>> 9baa3f7af (feat(os-6365): revert changes related to removing onSSR compontent)
 import '@/helpers/validators/phone';
 
 const NOT_SELECTED_ADDRESS = '';
@@ -280,7 +285,7 @@ export default {
   setup () {
     const router = useRouter();
     const { $ct: { config } } = useVSFContext();
-    const { shipping: address, loading, load: loadCartShippingAddress, save } = useShipping();
+    const { shipping: address, loading, load, save } = useShipping();
     const { isAuthenticated } = useUser();
     const { shipping: userShipping, load: loadUserShipping, setDefaultAddress } = useUserShipping();
 
@@ -368,10 +373,15 @@ export default {
       }
     });
 
-    onMounted(async () => {
-      await loadCartShippingAddress();
-
+    onSSR(async () => {
+      await load();
       if (isAuthenticated.value) {
+        await loadUserShipping();
+      }
+    });
+
+    onMounted(async () => {
+      if (!userShipping.value?.addresses && isAuthenticated.value) {
         await loadUserShipping();
       }
 

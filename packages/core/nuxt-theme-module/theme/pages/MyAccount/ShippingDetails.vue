@@ -78,7 +78,12 @@ import {
 import UserShippingAddress from '~/components/UserShippingAddress';
 import ShippingAddressForm from '~/components/MyAccount/ShippingAddressForm';
 import { useUserShipping, userShippingGetters } from '<%= options.generate.replace.composables %>';
+<<<<<<< HEAD
 import { ref, computed, onMounted } from '@nuxtjs/composition-api';
+=======
+import { ref, computed } from '@vue/composition-api';
+import { onSSR } from '@vue-storefront/core';
+>>>>>>> 9baa3f7af (feat(os-6365): revert changes related to removing onSSR compontent)
 
 export default {
   name: 'ShippingDetails',
@@ -115,9 +120,8 @@ export default {
       }
     };
 
-    onMounted(() => {
-      // Load only in the browser
-      loadUserShipping();
+    onSSR(async () => {
+      await loadUserShipping();
     });
 
     return {

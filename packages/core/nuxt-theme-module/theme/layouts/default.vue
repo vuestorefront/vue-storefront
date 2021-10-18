@@ -32,7 +32,10 @@ import LoginModal from '~/components/LoginModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import Notification from '~/components/Notification';
 import { onSSR } from '@vue-storefront/core';
+<<<<<<< HEAD
 import { onMounted, useRoute } from '@nuxtjs/composition-api';
+=======
+>>>>>>> 9baa3f7af (feat(os-6365): revert changes related to removing onSSR compontent)
 import { useCart, useStore, useUser, useWishlist } from '<%= options.generate.replace.composables %>';
 
 export default {
@@ -59,13 +62,9 @@ export default {
 
     onSSR(async () => {
       await loadStores();
-    });
-
-    onMounted(() => {
-      // Load only in the browser
-      loadUser();
-      loadCart();
-      loadWishlist();
+      await loadUser();
+      await loadCart();
+      await loadWishlist();
     });
 
     return {
