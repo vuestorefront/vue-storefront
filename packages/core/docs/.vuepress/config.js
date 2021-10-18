@@ -108,9 +108,9 @@ module.exports = {
           title: 'Essentials',
           collapsable: false,
           children: [
-            ['/commercetools/', 'Introduction'],            
+            ['/commercetools/', 'Introduction'],
+            ['/commercetools/store-setup', 'Store setup'],
             ['/commercetools/configuration', 'Configuration'],
-            ['/commercetools/setup-store', 'How to setup a store?'],
             ['/commercetools/authorization-strategy', 'Authorization'],
             ['/enterprise/feature-list', 'Feature list'],
             ['/commercetools/maintainers', 'Maintainers and support'],
