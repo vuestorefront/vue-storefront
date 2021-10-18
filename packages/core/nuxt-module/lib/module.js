@@ -71,19 +71,10 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
 
   // i18n-cookies plugin
   this.addPlugin({
-    src: path.resolve(__dirname, 'plugins/i18n-cookies.client.js'),
-    options: this.options.i18n,
-    mode: 'client'
+    src: path.resolve(__dirname, 'plugins/i18n-cookies.js'),
+    options: this.options.i18n
   });
   log.success('Installed Internationalization Cookies plugin');
-
-  // i18n-redirects plugin
-  this.addPlugin({
-    src: path.resolve(__dirname, 'plugins/i18n-redirects.server.js'),
-    options: this.options.i18n,
-    mode: 'server'
-  });
-  log.success('Installed Internationalization Redirects plugin');
 
   // Composition API plugin
   this.addModule('@nuxtjs/composition-api');
