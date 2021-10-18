@@ -35,7 +35,7 @@ async function getGuestAccessToken({
   Logger.debug('Get guest access token from provider');
 
   const currentToken = await configuration.questTokenProvider.getTokenInfo();
-  console.log('guestToken', currentToken);
+
   return {
     currentToken,
     authLinkSdkAuth: configuration.questTokenProvider.sdkAuth,
@@ -53,7 +53,7 @@ async function getTokenProviderForExistingToken({
 
   const { tokenProvider } = createSdkHelpers(configuration, TokenType.ExistingAccessToken);
   const currentToken = await tokenProvider.getTokenInfo();
-  console.log('existingToken', currentToken);
+
   Logger.debug('Successfully generated provider token for existing token');
 
   return {
@@ -136,9 +136,8 @@ export async function handleBeforeAuth({
       configuration
     });
   }
-  console.log('anymousSession', isAnonymousRequestToken);
-  const sss = false;
-  if (sss) {
+
+  if (isAnonymousRequestToken) {
     return await generateAnonymousAccessToken({
       configuration,
       apolloReq

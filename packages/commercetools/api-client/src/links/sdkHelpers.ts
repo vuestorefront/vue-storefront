@@ -31,14 +31,14 @@ function createAuthClient({
  */
 function createTokenProvider({ configuration, sdkAuth, tokenType }) {
   const { clientId, clientSecret, scopes } = configuration.serverApi || configuration.api;
+
   switch (tokenType) {
     case TokenType.ServerAccessToken:
       return new TokenProvider(
         {
           sdkAuth,
           fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow({ credentials: { clientId, clientSecret }, scopes })
-        },
-        null
+        }
       );
     case TokenType.QuestAccessToken:
       return new TokenProvider(
@@ -54,8 +54,7 @@ function createTokenProvider({ configuration, sdkAuth, tokenType }) {
           sdkAuth,
           fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.anonymousFlow(),
           onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
-        },
-        configuration.auth.onTokenRead()
+        }
       );
     case TokenType.ExistingAccessToken:
       return new TokenProvider(
