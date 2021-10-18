@@ -34,21 +34,14 @@ const i18nRedirectsUtil = ({
 
   const getTargetLocale = (): string => {
     const localeFromPath = getLocaleFromPath();
-    let target = defaultLocale;
+    const languagesOrderedByPriority = [
+      localeFromPath,
+      cookieLocale,
+      ...acceptedLanguages,
+      defaultLocale
+    ];
 
-    if (localeFromPath && isLocaleAvailable(localeFromPath)) {
-      target = localeFromPath;
-    } else if (cookieLocale && isLocaleAvailable(cookieLocale)) {
-      target = cookieLocale;
-    } else {
-      const acceptedLocale = acceptedLanguages.find((code) => isLocaleAvailable(code));
-
-      if (acceptedLocale) {
-        target = acceptedLocale;
-      }
-    }
-
-    return target;
+    return languagesOrderedByPriority.find(code => isLocaleAvailable(code));
   };
 
   const getRedirectPath = (): string => {

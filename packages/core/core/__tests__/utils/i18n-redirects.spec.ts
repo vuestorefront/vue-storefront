@@ -37,7 +37,7 @@ describe('i18n redirects util', () => {
     const util = i18nRedirectsUtil({
       ...defaultParams,
       path: '/de',
-      cookieLocale: 'es'
+      cookieLocale: 'en'
     });
 
     expect(util.getRedirectPath()).toEqual('');

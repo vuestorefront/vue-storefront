@@ -6,20 +6,25 @@ import axios from 'axios';
 type InjectFn = (key: string, value: any) => void;
 export type IntegrationPlugin = (pluginFn: NuxtPlugin) => NuxtPlugin
 
-const setCookieValues = (cookieValues, cookieString = '') => {
-  for (const [name, value] of Object.entries(cookieValues)) {
-    const regExp = new RegExp(`${name}=[^;]*`);
+const parseCookies = (cookieString: string): Record<string, string> =>
+  cookieString
+    .split(';')
+    .reduce((obj, item) => {
+      if (item) {
+        const [name, value] = item.split('=');
 
-    if (cookieString.includes(name)) {
-      cookieString.replace(regExp, `${name}=${value}`);
-    } else {
-      const parts = cookieString.split(';').filter(String);
-      parts.push(`${name}=${value}`);
-      cookieString = parts.join(';');
-    }
-  }
+        obj[name.trim()] = value.trim();
+      }
 
-  return cookieString;
+      return obj;
+    }, {});
+
+const setCookieValues = (cookieValues: Record<string, string>, cookieString = '') => {
+  const parsed = parseCookies(cookieString);
+
+  Object.entries(cookieValues).forEach(([name, value]) => parsed[name] = value);
+
+  return Object.entries(parsed).map(([name, value]) => `${name}=${value}`).join('; ');
 };
 
 export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext, inject: InjectFn) => {
