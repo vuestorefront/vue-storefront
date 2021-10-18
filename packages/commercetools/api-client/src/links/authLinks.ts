@@ -1,5 +1,5 @@
 import { Logger } from '@vue-storefront/core';
-import { TokenType } from 'src';
+import { AccessTokenResult, TokenType } from '../types/setup';
 import { isUserSession, isAnonymousSession } from '../helpers/utils';
 import { isServerOperation, isUserOperation, isAnonymousOperation } from './restrictedOperations';
 import { createSdkHelpers } from './sdkHelpers';
@@ -12,7 +12,7 @@ import { createSdkHelpers } from './sdkHelpers';
 async function getServerAccessToken({
   configuration,
   apolloReq
-}): Promise<any> {
+}): Promise<AccessTokenResult> {
   Logger.debug(`Get server access token for operation "${ apolloReq.operationName }"`);
 
   const currentToken = await configuration.serverTokenProvider.getTokenInfo();
@@ -69,7 +69,7 @@ async function getTokenProviderForExistingToken({
 async function generateAnonymousAccessToken({
   configuration,
   apolloReq
-}): Promise<any> {
+}): Promise<AccessTokenResult> {
   Logger.debug(`Generating anonymous access token for operation "${ apolloReq.operationName }"`);
 
   const { tokenProvider } = createSdkHelpers(configuration, TokenType.AnonymousAccesToken);

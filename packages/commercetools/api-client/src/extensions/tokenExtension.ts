@@ -14,7 +14,6 @@ function parseToken(rawToken: string): Token {
 export const tokenExtension: ApiClientExtension = {
   name: 'tokenExtension',
   extendApp: ({ configuration }) => {
-    console.log('tokenExtension');
     configuration.auth = {
       onTokenChange: () => {},
       onTokenRead: () => '',

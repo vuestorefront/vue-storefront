@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
+import SdkAuth, { TokenInfo, TokenProvider } from '@commercetools/sdk-auth';
 import ApolloClient, { ApolloClientOptions } from 'apollo-client';
 import { GraphQLRequest, Operation } from 'apollo-link';
 
@@ -122,4 +122,10 @@ export enum TokenType {
   QuestAccessToken = 'QuestAccessToken',
   AnonymousAccesToken = 'AnonymousAccesToken',
   ExistingAccessToken = 'ExistingAccessToken'
+}
+
+export type AccessTokenResult = {
+  currentToken: TokenInfo,
+  authLinkSdkAuth: SdkAuth,
+  authLinkTokenProvider: TokenProvider
 }

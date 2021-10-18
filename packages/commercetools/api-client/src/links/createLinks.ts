@@ -7,6 +7,7 @@ import { asyncMap } from '@apollo/client/utilities';
 import { ApolloLink, FetchResult } from 'apollo-link';
 import { Config } from '../types/setup';
 import { handleAfterAuth, handleBeforeAuth } from './authLinks';
+import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
 
 /**
  * Creates handler for logging certain GraphQL and network errors.
@@ -70,8 +71,8 @@ export function createRetryHandler({ configuration, tokenProvider }): ApolloLink
  * Creates ApolloLink for Apollo GraphQL client.
  */
 export function createLinks(configuration: Config): ApolloLink {
-  let sdkAuth: any = {};
-  let tokenProvider: any = {};
+  let sdkAuth: SdkAuth = {};
+  let tokenProvider: TokenProvider = {};
   const tokenLink = setContext(async (apolloReq, { headers }) => {
     Logger.debug('Apollo authLinkBefore', apolloReq.operationName);
     const { currentToken, authLinkSdkAuth, authLinkTokenProvider } = await handleBeforeAuth({
