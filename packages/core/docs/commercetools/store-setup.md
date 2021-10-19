@@ -6,13 +6,13 @@ This document will guide you through the process of setting up a store based on 
 This document is focused on setting up a basic working store using Vue Storefront and commercetools. If you want to learn more see the [commercetools documentation](https://docs.commercetools.com/merchant-center/).
 :::
 
-## Create a new commercetools projects
+## Create a new commercetools project
 
 Log into your commercetools account and [create a new project](https://docs.commercetools.com/merchant-center/projects#creating-a-project). One project can provide data for multiple selling channels, but you can have more than one project with different settings and catalogs if you need. 
 
 For further information on creating and managing commercetools projects, see the [Projects](https://docs.commercetools.com/merchant-center/projects) guide in the commercetools documentation.
 
-## Project settings
+## Configuring commercetools project
 
 When you already have a project in commercetools, you can configure your store in few steps described below.
 
@@ -26,9 +26,11 @@ Let's start by defining a basic store configuration in the `Project settings` me
   />
 </center>
 
-### International configuration
+### Configuring `International` tab
 
-Select currencies available in your store:
+First step in configuring a commercetools store is to configure options in the `International` tab.
+
+Start by selecting currencies available in your store:
 
 <center>
   <img
@@ -56,7 +58,7 @@ Next, select the available countries:
   />
 </center>
 
-Finally, set zones. Zones are helpful when few countries share the same delivery costs. You need to configure at least one shipping zone to be able to set up shipping methods later.
+Finally, set zones which are helpful when few countries share the same delivery costs. You need to configure at least one shipping zone to be able to set up shipping methods later.
 
 <center>
   <img
@@ -66,7 +68,7 @@ Finally, set zones. Zones are helpful when few countries share the same delivery
   />
 </center>
 
-### Taxes configuration
+### Configuring `Taxes` tab
 
 Open the `Settings > Project settings` menu. In the `Taxes` tab, you can configure tax rates for the countries configured in the `International` tab.
 
@@ -78,11 +80,11 @@ Open the `Settings > Project settings` menu. In the `Taxes` tab, you can configu
   />
 </center>
 
-### Shipping methods configuration
+### Configuring `Shipping methods` tab
 
-To add a shipping method, open the `Settings > Project settings` menu and select the `Shipping methods` tab. First, select if the price will be fixed (one per currency) or tiered (depending on cart value, classification, or score). For more details, see the [Shipping methods](https://docs.commercetools.com/merchant-center/project-settings#shipping-methods) page in commercetools documentation.
+To add a shipping method, open the `Settings > Project settings` menu and select the `Shipping methods` tab. First, select if the price will be fixed or tiered. Then, enter specific methods for each zone and currency.
 
-Then, enter specific methods for each zone and currency:
+For more details, see the [Shipping methods](https://docs.commercetools.com/merchant-center/project-settings#shipping-methods) page in commercetools documentation.
 
 <center>
   <img
@@ -94,10 +96,9 @@ Then, enter specific methods for each zone and currency:
 
 ## Adding a new category
 
-Categories allow to organize the products in groups and make them easy to find by the customer. See the [Modeling Categories](https://docs.commercetools.com/tutorials/product-modeling/categories) page to know more about categorizing items in your store.
-In order to create a category you need to:
+Categories allow you to organize the products in groups and make them easy to find by the customer. See the [Modeling Categories](https://docs.commercetools.com/tutorials/product-modeling/categories) page to learn more about categorizing items in your store.
 
-1. Choose `add category` from the sidebar menu. 
+To create a category , go to the `Add category` page from the sidebar menu. 
 
   <center>
     <img
@@ -107,7 +108,7 @@ In order to create a category you need to:
     />
   </center>
 
-2. Enter the name, and category order.
+1. Enter the name, and category order.
 
   <center>
     <img
@@ -117,7 +118,7 @@ In order to create a category you need to:
     />
   </center>
 
-3. If applicable, select the parent category to which this category belongs.
+2. If applicable, select the parent category to which this category belongs to.
 
   <center>
     <img
@@ -127,7 +128,7 @@ In order to create a category you need to:
     />
   </center>
 
-4. Enter the slug. It will be part of the URL for this category.
+3. Enter the category slug. It will be part of the URL for this category.
 
   <center>
     <img
@@ -137,7 +138,9 @@ In order to create a category you need to:
     />
   </center>
 
-Please provide category structure with at least two levels, in order to show category page properly in VSF 2 project (one is on top, inside main menu and second level categories are shown in menu on the left).
+:::warning 
+You have to create category structure with at least two levels, in order to properly display category page in Vue Storefront 2 project.
+:::
 
 You can see your categories in `categories search` menu:
   <center>
@@ -150,7 +153,9 @@ You can see your categories in `categories search` menu:
 
 ## Adding a new product type
 
-To create any product in commercetools, at least one product type needs to be set. It is a template with specific attributes for products of the same type. You can read more about them on the [Modeling Product Types and Attributes](https://docs.commercetools.com/tutorials/product-modeling/product-types) page. Creating a product type involves changes in `Product types` menu:
+Before we can add any new product in commercetools, we need at least one product type. Product types are templates with specific attributes for products of the same type. You can read more about them on the [Modeling Product Types and Attributes](https://docs.commercetools.com/tutorials/product-modeling/product-types) page.
+
+To create a product type, go to the `Product types` page from the sidebar menu. 
 
 <center>
   <img
@@ -195,7 +200,7 @@ After creating at least one product type, you can add a new product. You can rea
     />
   </center>
 
-2. Click the `Add product` button and select the type.
+2. Click the `Add product` button and select the product type.
 
   <center>
     <img
@@ -215,7 +220,7 @@ After creating at least one product type, you can add a new product. You can rea
     />
   </center>
 
-4. Add at least one variant of the product with attribute and SKU number.
+4. Add at least one variant of the product with attributes and SKU number.
 
   <center>
     <img
@@ -245,11 +250,11 @@ After creating at least one product type, you can add a new product. You can rea
     />
   </center>
 
+### Creating an API client
 
-### API settings
+Now, when we have basic configuration in commercetools, we can start connecting it to the Vue Storefront application. To do so we need to generate two API clients.
 
-The last important step is to generate credentials for your project to connect both tools.
-Go to the `developer settings` and click `Create new API client` button. After filling the `name` field choose `Mobile & single-page application client` in scopes.
+Go to the `developer settings` page.
 
 <center>
   <img
@@ -259,18 +264,19 @@ Go to the `developer settings` and click `Create new API client` button. After f
   />
 </center>
 
+Click the `Create new API client` button and enter the `name` for the first API client. This API client will be used to generate access token for guests and customers visiting your shop. Then in the `Scopes` section, select the `Mobile & single-page application client` option from the list of available templates. Additionally select the `Stores` checkbox in the `View` column. Image below shows which permissions should be selected.
+
+For more information, see the [Scopes](https://docs.commercetools.com/api/scopes) page in the commercetools documentation.
 
 <center>
   <img
-    src="./images/setup-store/api-client-1.png"
+    src="./images/setup-store/customer_scopes.jpg"
     alt="Commercetools set scope for client API"
     class="image-shadow preview-view"
   />
 </center>
 
-
-If you need more information about scopes please see [documentation](https://docs.commercetools.com/api/scopes).
-When you click on create API you will see all the credentials. They are only displayed once, so you need to store them securely. You can download them in the format you need.
+When you click on the `Create API client` button you will see all the credentials. **They are only displayed once, so you need to store them securely.** You can also download them in the format you need.
 
 <center>
   <img
@@ -280,249 +286,125 @@ When you click on create API you will see all the credentials. They are only dis
   />
 </center>
 
-Now let's move to front-end side.
-
-## Configuring commercetools integration in Vue Storefront
-
-Moving to front-end site of your project, first the new VSF project should be run:
-
-```sh
-npx @vue-storefront/cli init
-```
-During initialization you should choose your project name and integration you use, in these case `Commercetools`.
+Repeat the same process, but this time only select the `Customers` and `Products` permissions from the `Manage` column. This API client will be used to generate access tokens used by the Server Middleware to perform operations that require higher permissions, that what regular guests and customers should have access to.
 
 <center>
   <img
-    src="./images/setup-store/init-vsf.png"
-    alt="Commercetools client API credentials"
-    class="image-shadow"
+    src="./images/setup-store/server_scopes.jpg"
+    alt="Commercetools set scope for server API"
+    class="image-shadow preview-view"
   />
 </center>
 
-After entering your project catalogue, fetch all dependencies: 
+## Configuring commercetools integration in Vue Storefront
 
-```sh
-cd <PROJECT_NAME>
-yarn install
-```
+:::warning You need a Vue Storefront project
+This section asumes that you already generated Vue Storefront project. If you didn't, refer to our [Installation](/general/installation.html) guide.
+:::
 
-And you can now run the project with following command: 
+Open the `middleware.config.js` file in your Vue Storefront project. Inside of the `ct` and `ctf` configuration objects you will find objects named `api` and `serverApi`. Replace the values in all of them with the values displayed after creating an API clients, where `api` should hold values from the first API client (customer) and `serverApi` from the second API client (server).
 
-```sh
-yarn dev
-```
+Make sure to replace all parts starting with `<` and endpoint with `>`, like `<PROJECT_NAME>`, etc.
 
-But what you will see is the default project, because we didn't previously connect prepared Commercetools project with VSF. 
-To do it, begin with credentials generated in API settings step above. They should replace default ones in `middleware.config.js` file in `ct` config object inside `integrations` and `serverApi` properties. 
+For more information about available configuration options refer to the [Configuration](./configuration.md) page.
 
-```js
+```js{8-25,27-35,42-57}
+// middleware.config.js
+
+module.exports = {
   integrations: {
     ct: {
       location: '@vue-storefront/commercetools-api/server',
       configuration: {
+        // Customer API-client
         api: {
-          uri: 'https://<SHOP_DOMAIN>.com/<PROJECT_NAME>/graphql',
-          authHost: 'https://<SHOP_DOMAIN>.com/<PROJECT_NAME>',
+          uri: 'https://api.commercetools.com/<PROJECT_NAME>/graphql',
+          authHost: 'https://auth.<REGION>.<PROVIDER>.commercetools.com/',
           projectKey: '<PROJECT_NAME>',
           clientId: '<CLIENT_ID>',
           clientSecret: '<CLIENT_SECRET>',
           scopes: [
             'create_anonymous_token:<PROJECT_NAME>',
-            'view_categories:<PROJECT_NAME>', 
-            'manage_my_payments:<PROJECT_NAME>', 
-            'view_published_products:<PROJECT_NAME>',
-            'manage_my_shopping_lists:<PROJECT_NAME>', 
+            'manage_my_profile:<PROJECT_NAME>',
+            'view_categories:<PROJECT_NAME>',
+            'manage_my_payments:<PROJECT_NAME>',
             'manage_my_orders:<PROJECT_NAME>',
-            'manage_my_profile:<PROJECT_NAME>'
+            'manage_my_shopping_lists:<PROJECT_NAME>',
+            'view_published_products:<PROJECT_NAME>',
+            'view_stores:<PROJECT_NAME>'
           ],
         },
+
+        // Server API-client
         serverApi: {
           clientId: '<CLIENT_ID>',
           clientSecret: '<CLIENT_SECRET>',
           scopes: [
-            'create_anonymous_token:<PROJECT_NAME>',
-            'view_categories:<PROJECT_NAME>', 
-            'manage_my_payments:<PROJECT_NAME>', 
-            'view_published_products:<PROJECT_NAME>',
-            'manage_my_shopping_lists:<PROJECT_NAME>', 
-            'manage_my_orders:<PROJECT_NAME>',
-            'manage_my_profile:<PROJECT_NAME>'
+            'manage_customers:<PROJECT_NAME>',
+            'manage_products:<PROJECT_NAME>'
           ]
-        },
-        currency: 'USD',
-        country: 'US'
+        }
+      }
+    },
+
+    ctf: {
+      location: '@vsf-enterprise/ct-faceting/server',
+      configuration: {
+        // Customer API-client
+        api: {
+          authHost: 'https://auth.<REGION>.<PROVIDER>.commercetools.com/',
+          projectKey: '<PROJECT_NAME>',
+          clientId: '<CLIENT_ID>',
+          clientSecret: '<CLIENT_SECRET>',
+          scopes: [
+            'create_anonymous_token:<PROJECT_NAME>',
+            'manage_my_profile:<PROJECT_NAME>',
+            'view_categories:<PROJECT_NAME>',
+            'manage_my_payments:<PROJECT_NAME>',
+            'manage_my_orders:<PROJECT_NAME>',
+            'manage_my_shopping_lists:<PROJECT_NAME>',
+            'view_published_products:<PROJECT_NAME>',
+            'view_stores:<PROJECT_NAME>'
+          ]
+        }
+        faceting: {
+          host: 'https://api.commercetools.com'
+        }
       }
     }
   }
+};
 ```
 
-For more information about available configuration options refer to the [Configuration](./configuration.md) page.
+The next step is to setup the internationalization options in the `nuxt.config.js` file. The countries, currencies and locales should be setup exactly the same as in your commercetools project. It's common mistake to forgot e.g. that `en` is not the same as `en-US`. 
 
-The next step is to setup `nuxt.config.js` file properly. The countries, currencies and locales should be setup simiralry like in Commercetools project, in our case: 
 
 ```js
+// nuxt.config.js
+{
   i18n: {
     currency: 'USD',
     country: 'US',
     countries: [
-      { name: 'US',
-        label: 'United States'
-      },
-      { name: 'DE',
-        label: 'Germany' },
+      { name: 'US', label: 'United States' },
+      { name: 'DE', label: 'Germany' }
     ],
     currencies: [
-      { name: 'USD',
-        label: 'Dollar' },,
-      { name: 'EUR',
-        label: 'Euro' },
-      
+      { name: 'USD', label: 'Dollar' },
+      { name: 'EUR', label: 'Euro' }
     ],
     locales: [
-      {
-        code: 'en',
-        label: 'English',
-        file: 'en.js',
-        iso: 'en'
-      },
-      {
-        code: 'de-DE',
-        label: 'German',
-        file: 'de.js',
-        iso: 'de'
-      },
-    ],
-  ```
+      { code: 'en', label: 'English', file: 'en.js', iso: 'en' },
+      { code: 'de-DE', label: 'German', file: 'de.js', iso: 'de' },
+    ]
+  }
+}
+```
 
-
-:::tip
-Take a closer look at above configuration and make sure all locales are set exactly like in Commercetools Merchant Center, because it's common mistake to forgot e.g. that `en` is not the same as `en-US`. 
-:::
-
-
-Now you can rebuild your project and run again:
+Now in the terminal go to the Vue Storefront project directory and start the application:
 
 ```sh
-yarn build
 yarn dev
 ```
 
-  If you follow all the previous steps you should see your project working, filled with data that you prevously setup in Commercetools project:
-
-- on home page: 
-
-  <center>
-    <img
-      src="./images/setup-store/home-page.png"
-      alt="Commercetools client API credentials"
-      class="image-shadow"
-    />
-  </center>
-
-- on category page:
-
-  <center>
-    <img
-      src="./images/setup-store/category-page.png"
-      alt="Commercetools client API credentials"
-      class="image-shadow"
-    />
-  </center>
-
-
-- and on product detail page:
-
-  <center>
-    <img
-      src="./images/setup-store/product-detail-page.png"
-      alt="Commercetools client API credentials"
-      class="image-shadow"
-    />
-  </center>
-
-It is just the beginning of your VSF Next store based on Commercetools integration. Now you can customize it according to your needs. 
-
-## Configuring commercetools integration with enterprise version of Vue Storefront
-
-Using enterprise version of commercetools integration requires changes in `middleware.config.js`. Add properties regarding extesions and separate configuration for faceting: 
-
-```js
-  integrations: {
-    ct: {
-      location: '@vue-storefront/commercetools-api/server',
-      // extensions property to add in enterprise version
-      extensions: existing => existing.concat('@vsf-enterprise/commercetools/extensions'),
-      configuration: {
-        api: {
-          uri: 'https://<SHOP_DOMAIN>.com/<PROJECT_NAME>/graphql',
-          authHost: 'https://<SHOP_DOMAIN>.com/<PROJECT_NAME>',
-          projectKey: '<PROJECT_NAME>',
-          clientId: '<CLIENT_ID>',
-          clientSecret: '<CLIENT_SECRET>',
-          scopes: [
-            // like in open source configuration
-          ],
-        },
-        serverApi: {
-          clientId: '<CLIENT_ID>',
-          clientSecret: '<CLIENT_SECRET>',
-          scopes: [
-            // like in open source configuration
-          ]
-        },
-        currency: 'USD',
-        country: 'US'
-      }
-    }
-    // faceting configuration for enterprise version
-    ctf: {
-      location: '@vsf-enterprise/ct-faceting/server',
-      configuration: {
-        api: {
-          authHost: 'https://<SHOP_DOMAIN>.com/<PROJECT_NAME',
-          projectKey: '<PROJECT_NAME>',
-          clientId: '<CLIENT_ID>',
-          clientSecret: '<CLIENT_SECRET>',
-          scopes: [
-            // the same like above
-          ]
-        },
-        faceting: {
-          host: 'https://api.commercetools.com'
-        },
-      }
-    },
-  }
-```
-And one more change needed is adding `faceting` to `buildModules` in `nuxt.config.js`, like this: 
-
-```js 
-buildModules: [
-    '@nuxt/typescript-build',
-    '@nuxtjs/style-resources',
-    '@nuxtjs/pwa',
-    ['@vue-storefront/nuxt', {
-      coreDevelopment: true,
-      useRawSource: {
-        dev: [
-          '@vue-storefront/commercetools',
-          '@vue-storefront/core'
-        ],
-        prod: [
-          '@vue-storefront/commercetools',
-          '@vue-storefront/core'
-        ]
-      }
-    }],
-    ['@vue-storefront/nuxt-theme'],
-    ['@vue-storefront/commercetools/nuxt', {
-      i18n: { useNuxtI18nConfig: true }
-    }],
-    // adding faceting feature from enterprise package
-    ['@vsf-enterprise/ct-faceting/nuxt', {
-      apiConfigModule: '@vsf-enterprise/commercetools/nuxt'
-    }],
-  ]
-  ```
-
-Other configuration changes depend on what integrations you use along with commercetools.  
+If you follow all the previous steps you should see your project working, filled with data that you prevously setup in your commercetools project.
