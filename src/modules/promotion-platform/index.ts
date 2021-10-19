@@ -1,18 +1,20 @@
-import { coreHooks } from '@vue-storefront/core/hooks';
-import { StorefrontModule } from 'core/lib/modules';
+import { isServer } from '@vue-storefront/core/helpers';
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
-import Banner from './components/Banner.vue';
-
+import { cacheHandlerFactory } from './helpers/cacheHandler.factory';
 import { module } from './store';
+import { SN_PROMOTION_PLATFORM } from './types/StoreMutations';
 
-export const PromotionPlatformModule: StorefrontModule = function ({ store }) {
+export const PromotionPlatformModule: StorefrontModule = async function ({ app, store }) {
+  StorageManager.init(SN_PROMOTION_PLATFORM);
+
   store.registerModule('promotionPlatform', module);
 
-  coreHooks.afterAppInit(() => {
-    store.dispatch('promotionPlatform/fetchCampaignContent');
-  })
-}
+  if (!isServer) {
+    await store.dispatch('promotionPlatform/synchronize');
+    store.dispatch('promotionPlatform/fetchCampaignContent', app.$route.query.data);
+  }
 
-export {
-  Banner
+  store.subscribe(cacheHandlerFactory());
 }

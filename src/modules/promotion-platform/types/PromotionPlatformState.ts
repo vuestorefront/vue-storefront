@@ -1,4 +1,6 @@
+import CampaignContent from './CampaignContent.model';
+
 export default interface PromotionPlatformState {
-  campaignContent: string,
-  lastClosedByUserBannerVersion: string
+  campaignContent?: CampaignContent,
+  campaignToken?: string
 }

@@ -1,12 +1,13 @@
 import { GetterTree } from 'vuex';
+import CampaignContent from '../types/CampaignContent.model';
 
 import PromotionPlatformState from '../types/PromotionPlatformState';
 
 export const getters: GetterTree<PromotionPlatformState, any> = {
-  campaignContent (state): string {
+  campaignContent (state): CampaignContent | undefined {
     return state.campaignContent;
   },
-  lastClosedByUserBannerVersion (state): string {
-    return state.lastClosedByUserBannerVersion;
+  campaignToken (state): string | undefined {
+    return state.campaignToken;
   }
 }
