@@ -16,5 +16,5 @@
     "strict": false,
     "preserveSymlinks": true
   },
-  "exclude": ["node_modules", "**/*.spec.ts", "*.js"]
+  "exclude": ["node_modules", "**/*.spec.ts", "*.js", "server", "lib"]
 }

@@ -29,19 +29,19 @@ const server = {
     {
       file: pkg.server,
       format: 'cjs',
-      sourcemap: true
-    }
+      sourcemap: true,
+    },
   ],
   external: [
     ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.peerDependencies || {})
+    ...Object.keys(pkg.peerDependencies || {}),
   ],
   plugins: [
     typescript({
       // eslint-disable-next-line global-require
-      typescript: require('typescript')
+      typescript: require('typescript'),
     }),
-  ]
-};
+  ],
+}
 
 export default [config, server]

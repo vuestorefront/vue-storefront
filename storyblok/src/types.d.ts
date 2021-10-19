@@ -2,14 +2,38 @@ import { StoryblokCache } from 'storyblok-js-client'
 
 export interface ContentSearchParams {
   token: string
-  cacheProvider: string
-  cache?: StoryblokCache
-  slug?: string
+  cacheProvider: StoryblokCache
+  cache?: boolean
+  version?: 'draft' | 'published'
+  id?: string
+  url?: string
+  custom?: {} | CustomSearch
+  locale?: string
+  relations?: string
+}
+export interface CustomSearch {
+  field: string
+  value: string
 }
 export interface ApiContext {
   client: any
   config: ContentSearchParams
 }
-export interface Component {
+export interface Content {
+  content: any
   component: string
+}
+export interface ApiResponse {
+  story?: Content
+  stories?: Content[]
+  cv: string
+  rels: {}[]
+  links: {}[]
+}
+export interface Component {
+  _editable?: {}
+  component: string
+}
+export interface Image {
+  image: string
 }

@@ -7,11 +7,7 @@ const search = async (
 ): Promise<any> => {
   return context.$sb.api.getContent(params)
 }
-const useContent: (
-  cacheId: string,
-) => UseContent<any, ContentSearchParams> = useContentFactory<
-  any,
-  ContentSearchParams
->({ search })
+const useContent: (cacheId: string) => UseContent<any, ContentSearchParams> =
+  useContentFactory<any, ContentSearchParams>({ search })
 
 export { useContent }

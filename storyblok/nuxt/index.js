@@ -1,7 +1,7 @@
 import path from 'path'
 
 // eslint-disable-next-line
-export default function storyblok (moduleOptions) {
+export default function storyblok(moduleOptions) {
   const { storyblok, head } = this.options
   const options = {
     ...storyblok,
