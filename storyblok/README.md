@@ -19,28 +19,3 @@ or
 ```bash
 yarn add @vue-storefront/storyblok
 ```
-
-### Setup
-
----
-
-Register the module in the `nuxt.config` file.
-
-```javascript
-modules: [
-  ['@vue-storefront/storyblok/nuxt', {
-    token: 'CONTENT_DELIVERY_TOKEN',
-    cacheProvider: 'memory'
-  }],
-]
-```
-
-### Content Rendering 
-
----
-
-Copy the `RenderContent.vue` component from the integration package.
-
-```bash
-cp node_modules/@vue-storefront/storyblok/components/RenderContent.vue cms/
-```
