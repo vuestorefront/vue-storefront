@@ -23,32 +23,10 @@ import { SET_LAST_BANNER_VERSION_CLOSED_BY_USER } from '../types/StoreMutations'
 
 import Timer from './Timer.vue';
 
+const millisecondsInHour = 60000;
+
 export default Vue.extend({
   computed: {
-    blackListUrls (): string[] {
-      if (
-        !this.campaignContent ||
-        !this.campaignContent.countdownBannerBlacklistUrls
-      ) {
-        return [];
-      }
-
-      return this.campaignContent.countdownBannerBlacklistUrls;
-    },
-    showBanner (): boolean {
-      if (this.getCountdownTime() <= 0) {
-        return false;
-      }
-
-      return !this.isBannerWasClosedByUser && this.getShouldShowOnPage();
-    },
-    isBannerWasClosedByUser (): boolean {
-      return (
-        this.$store.getters[
-          'promotionPlatform/lastClosedBannerVersionByUser'
-        ] === this.version
-      );
-    },
     bannerContent (): string | undefined {
       if (
         !this.campaignContent ||
@@ -58,9 +36,6 @@ export default Vue.extend({
       }
 
       return this.campaignContent.countdownBannerContent;
-    },
-    campaignContent (): CampaignContent | undefined {
-      return this.$store.getters['promotionPlatform/campaignContent'];
     },
     bannerStyle (): Dictionary<string> {
       const style: Dictionary<string> = {};
@@ -78,6 +53,32 @@ export default Vue.extend({
       }
 
       return style;
+    },
+    blackListUrls (): string[] {
+      if (
+        !this.campaignContent ||
+        !this.campaignContent.countdownBannerBlacklistUrls
+      ) {
+        return [];
+      }
+
+      return this.campaignContent.countdownBannerBlacklistUrls;
+    },
+    campaignContent (): CampaignContent | undefined {
+      return this.$store.getters['promotionPlatform/campaignContent'];
+    },
+    isBannerWasClosedByUser (): boolean {
+      return (
+        this.$store.getters['promotionPlatform/lastClosedBannerVersionByUser'] ===
+         this.version
+      );
+    },
+    showBanner (): boolean {
+      if (this.getCountdownTime() <= 0) {
+        return false;
+      }
+
+      return !this.isBannerWasClosedByUser && this.getShouldShowOnPage();
     }
   },
   data () {
@@ -144,8 +145,35 @@ export default Vue.extend({
         '.promotion-platform-countdown-banner'
       );
     },
+    getCloseButtonElement (): HTMLElement | null {
+      const bannerElement = this.getBannerElement();
+
+      if (!bannerElement) {
+        return null;
+      }
+
+      return bannerElement.querySelector('._timer-btn._close-btn');
+    },
+    getCountdownTime (): number {
+      if (!this.countdownDate) {
+        return 0;
+      }
+
+      const currentDate = new Date();
+
+      return this.countdownDate.getTime() - currentDate.getTime() - currentDate.getTimezoneOffset() * millisecondsInHour;
+    },
     getShouldShowOnPage (): boolean {
       return this.blackListUrls.every((url) => !this.$route.path.includes(url));
+    },
+    getToggleViewButtonElement (): HTMLElement | null {
+      const bannerElement = this.getBannerElement();
+
+      if (!bannerElement) {
+        return null;
+      }
+
+      return bannerElement.querySelector('._timer-btn._view-toggle-btn');
     },
     initTimer (): void {
       const bannerElement = this.getBannerElement();
@@ -164,31 +192,7 @@ export default Vue.extend({
           h(Timer, { props: { countdownTime: this.getCountdownTime() } })
       });
     },
-    getCloseButtonElement (): HTMLElement | null {
-      const bannerElement = this.getBannerElement();
 
-      if (!bannerElement) {
-        return null;
-      }
-
-      return bannerElement.querySelector('._timer-btn._close-btn');
-    },
-    getToggleViewButtonElement (): HTMLElement | null {
-      const bannerElement = this.getBannerElement();
-
-      if (!bannerElement) {
-        return null;
-      }
-
-      return bannerElement.querySelector('._timer-btn._view-toggle-btn');
-    },
-    getCountdownTime (): number {
-      if (!this.countdownDate) {
-        return 0;
-      }
-
-      return this.countdownDate.getTime() - Date.now();
-    },
     onCloseButtonClickHandler (): void {
       if (!this.version) {
         return;

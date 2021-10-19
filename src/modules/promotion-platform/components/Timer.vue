@@ -91,6 +91,43 @@ export default Vue.extend({
     this.stopTimer();
   },
   methods: {
+    getArrayOfNumbers (value: number): number[] {
+      const array = value.toString(10).split('');
+
+      if (array.length < 2) {
+        return [0, Number.parseInt(array[0], 10)];
+      }
+
+      return array.map((number) => Number.parseInt(number, 10))
+    },
+    getDays (): number {
+      if (!this.time) {
+        return 0;
+      }
+
+      return Math.floor(this.time / days);
+    },
+    getHours (daysCount: number): number {
+      if (!this.time) {
+        return 0;
+      }
+
+      return Math.floor((this.time - daysCount * days) / hours);
+    },
+    getMinutes (daysCount: number, hoursCount: number): number {
+      if (!this.time) {
+        return 0;
+      }
+
+      return Math.floor((this.time - daysCount * days - hoursCount * hours) / minutes);
+    },
+    getSeconds (daysCount: number, hoursCount: number, minutesCount: number): number {
+      if (!this.time) {
+        return 0;
+      }
+
+      return Math.round(((this.time - daysCount * days - hoursCount * hours - minutesCount * minutes) / _seconds))
+    },
     startTimer (): void {
       if (this.intervalId) {
         return;
@@ -128,43 +165,6 @@ export default Vue.extend({
       if (this.time <= 0) {
         this.stopTimer();
       }
-    },
-    getDays (): number {
-      if (!this.time) {
-        return 0;
-      }
-
-      return Math.floor(this.time / days);
-    },
-    getHours (daysCount: number): number {
-      if (!this.time) {
-        return 0;
-      }
-
-      return Math.floor((this.time - daysCount * days) / hours);
-    },
-    getMinutes (daysCount: number, hoursCount: number): number {
-      if (!this.time) {
-        return 0;
-      }
-
-      return Math.floor((this.time - daysCount * days - hoursCount * hours) / minutes);
-    },
-    getSeconds (daysCount: number, hoursCount: number, minutesCount: number): number {
-      if (!this.time) {
-        return 0;
-      }
-
-      return Math.round(((this.time - daysCount * days - hoursCount * hours - minutesCount * minutes) / _seconds))
-    },
-    getArrayOfNumbers (value: number): number[] {
-      const array = value.toString(10).split('');
-
-      if (array.length < 2) {
-        return [0, Number.parseInt(array[0], 10)];
-      }
-
-      return array.map((number) => Number.parseInt(number, 10))
     }
   }
 })
