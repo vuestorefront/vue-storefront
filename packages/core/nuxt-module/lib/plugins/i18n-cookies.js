@@ -57,9 +57,10 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
     const missingFields = Object
       .entries(settings)
       .reduce((carry, [name, value]) => {
-        !value && carry.push(name);
-
-        return carry;
+        return [
+          ...carry,
+          ...(!value ? [name] : [])
+        ]
       }, []);
 
     if (missingFields.length) {

@@ -11,9 +11,12 @@ const parseCookies = (cookieString: string): Record<string, string> =>
     .split(';')
     .reduce((obj, item) => {
       if (item) {
-        const [name, value] = item.split('=');
+        const [name, value = ''] = item.split('=');
 
-        obj[name.trim()] = value.trim();
+        return {
+          ...obj,
+          [name.trim()]: value.trim()
+        };
       }
 
       return obj;

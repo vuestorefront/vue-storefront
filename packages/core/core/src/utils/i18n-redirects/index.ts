@@ -14,26 +14,14 @@ const i18nRedirectsUtil = ({
   getRedirectPath: () => string;
   getTargetLocale: () => string;
 } => {
-  const getArrayFromPath = (): string[] => path.split('/').filter(String);
-  const isLocaleAvailable = (locale): boolean => availableLocales.includes(locale);
-  const removeTailingSlash = (path) => path.replace(/\/$/, '');
-
-  const stripLocaleFromPath = (): string => {
-    const parts = getArrayFromPath();
-    const localeCandidate = parts[0];
-
-    return isLocaleAvailable(localeCandidate) ? `/${parts.slice(1).join('/')}` : path;
-  };
-
-  const getLocaleFromPath = (): string => {
-    const parts = getArrayFromPath();
-    const localeCandidate = parts[0];
-
-    return isLocaleAvailable(localeCandidate) ? localeCandidate : '';
-  };
+  const arrayFromPath = path.split('/').filter(String);
+  const localeCandidate = arrayFromPath[0];
+  const isLocaleAvailable = (locale: string): boolean => availableLocales.includes(locale);
+  const strippedLocaleFromPath = isLocaleAvailable(localeCandidate) ? `/${arrayFromPath.slice(1).join('/')}` : path;
+  const localeFromPath = isLocaleAvailable(localeCandidate) ? localeCandidate : '';
+  const removeTailingSlash = (path: string): string => path.replace(/\/$/, '');
 
   const getTargetLocale = (): string => {
-    const localeFromPath = getLocaleFromPath();
     const languagesOrderedByPriority = [
       localeFromPath,
       cookieLocale,
@@ -46,12 +34,11 @@ const i18nRedirectsUtil = ({
 
   const getRedirectPath = (): string => {
     const targetLocale = getTargetLocale();
-    const localeFromPath = getLocaleFromPath();
     const isTargetDefaultLocale = targetLocale === defaultLocale;
     const isTargetInPath = targetLocale === localeFromPath;
 
     if (!localeFromPath && !isTargetInPath && !isTargetDefaultLocale) {
-      return removeTailingSlash(`/${targetLocale}${stripLocaleFromPath()}`);
+      return removeTailingSlash(`/${targetLocale}${strippedLocaleFromPath}`);
     }
 
     return '';
