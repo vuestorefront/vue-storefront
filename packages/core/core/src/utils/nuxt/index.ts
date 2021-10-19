@@ -9,18 +9,9 @@ export type IntegrationPlugin = (pluginFn: NuxtPlugin) => NuxtPlugin
 const parseCookies = (cookieString: string): Record<string, string> =>
   cookieString
     .split(';')
-    .reduce((obj, item) => {
-      if (item) {
-        const [name, value = ''] = item.split('=');
-
-        return {
-          ...obj,
-          [name.trim()]: value.trim()
-        };
-      }
-
-      return obj;
-    }, {});
+    .filter(String)
+    .map(item => item.split('=').map(part => part.trim()))
+    .reduce((obj, [name, value]) => ({ ...obj, [name]: value }), {});
 
 const setCookieValues = (cookieValues: Record<string, string>, cookieString = '') => {
   const parsed = parseCookies(cookieString);
