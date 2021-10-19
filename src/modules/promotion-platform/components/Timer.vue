@@ -7,7 +7,7 @@
       </div>
 
       <div class="_caption">
-        Days
+        days
       </div>
     </div>
 
@@ -18,7 +18,7 @@
       </div>
 
       <div class="_caption">
-        Hours
+        hours
       </div>
     </div>
 
@@ -31,7 +31,7 @@
       </div>
 
       <div class="_caption">
-        Minutes
+        minutes
       </div>
     </div>
 
@@ -44,7 +44,7 @@
       </div>
 
       <div class="_caption">
-        Seconds
+        seconds
       </div>
     </div>
   </div>
@@ -174,7 +174,7 @@ export default Vue.extend({
 .promotion-platform-banner-timer {
   display: flex;
   font-family: Tahoma, Verdana, Aial, sans-serif;
-  font-size: 28px;
+  font-size: 32px;
   line-height: 108%;
   font-weight: bold;
   height: 32px;
@@ -185,12 +185,13 @@ export default Vue.extend({
 
     ._number-group {
       display: inline-flex;
+      margin-bottom: 6px;
 
       ._group-value {
         position: relative;
         display: inline-block;
-        width: 25px;
-        height: 30px;
+        width: 30px;
+        height: 33px;
         border-top: 1px solid silver;
         border-right: 1px solid silver;
         border-bottom: 1px solid silver;
