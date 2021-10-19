@@ -66,7 +66,7 @@
               <span :class="getStatusTextClass(order)">{{ orderGetters.getStatus(order) }}</span>
             </SfTableData>
             <SfTableData class="orders__view orders__element--right">
-              <SfButton v-e2e="'order-view-details'" class="sf-button--text desktop-only" @click="currentOrder = order">
+              <SfButton class="sf-button--text desktop-only" @click="currentOrder = order">
                 {{ $t('View details') }}
               </SfButton>
             </SfTableData>

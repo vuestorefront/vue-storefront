@@ -102,8 +102,18 @@
           "id": "10",
           "createdAt": "2021-09-13T09:12:19.177Z",
           "__typename": "Order"
+        }, {
+          "lineItems": [],
+          "totalPrice": {
+            "centAmount": 1000,
+            "__typename": "Money"
+          },
+          "orderState": "Open",
+          "id": "11",
+          "createdAt": "2021-09-13T09:12:19.177Z",
+          "__typename": "Order"
         }],
-        "total": 40,
+        "total": 21,
         "offset": 0,
         "count": 10,
         "__typename": "OrderQueryResult"

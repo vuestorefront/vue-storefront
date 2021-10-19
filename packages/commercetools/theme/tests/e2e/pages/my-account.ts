@@ -15,16 +15,11 @@ export enum MenuItems {
   ORDER_HISTORY = 'Order history',
   MY_REVIEWS = 'My reviews',
   LOG_OUT = 'Log out'
-
 }
 
 class Menu {
-  get menuItems(): Cypress.Chainable {
-    return cy.get('.sf-menu-item');
-  }
-
-  navigateTo(item: MenuItems) {
-    return this.menuItems.contains(item).click();
+  navigateTo(item: MenuItems): Cypress.Chainable {
+    return cy.get('.sf-content-pages__list').contains(item).click();
   }
 }
 
@@ -112,7 +107,7 @@ class OrderHistory extends Base {
   }
 
   get viewDetails(): Cypress.Chainable {
-    return el('order-view-details');
+    return cy.contains('View details');
   }
 
   get orderDetailsId(): Cypress.Chainable {
@@ -137,6 +132,10 @@ class OrderHistory extends Base {
 
   get paginationNext(): Cypress.Chainable {
     return el('order-history-pagination', 'button.sf-arrow--right');
+  }
+
+  get paginationPrevious(): Cypress.Chainable {
+    return el('order-history-pagination', 'button.sf-arrow--left');
   }
 
   private get orderDetails() {

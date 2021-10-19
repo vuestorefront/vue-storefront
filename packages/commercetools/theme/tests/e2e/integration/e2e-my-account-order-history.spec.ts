@@ -84,15 +84,30 @@ context(['regression'], '[MyAccount] Order History', () => {
     });
   });
 
-  it('Should change page', function () {
+  it('Should change page - next', function () {
     const data = this.fixtures.data[this.test.title];
-    const getOrdersRequest = intercept.getOrders({ fixture: 'responses/getOrders.json'});
+    intercept.getOrders({ fixture: 'responses/getOrders.json'});
     data.customer.email = generator.email;
     requests.customerSignMeUp(data.customer);
     page.myAccount.myProfile.visit();
     page.myAccount.myProfile.menu.navigateTo(MenuItems.ORDER_HISTORY);
     page.myAccount.orderHistory.paginationCount.scrollIntoView().should('be.visible');
+    const getOrdersRequest = intercept.getOrders();
     page.myAccount.orderHistory.paginationNext.click().then(() => {
+      cy.wait(getOrdersRequest).its('request.body').its('0').should('deep.equal', data.expected.payload);
+    });
+  });
+
+  it('Should change page - previous', function () {
+    const data = this.fixtures.data[this.test.title];
+    intercept.getOrders({ fixture: 'responses/getOrdersWithOffset.json'});
+    data.customer.email = generator.email;
+    requests.customerSignMeUp(data.customer);
+    page.myAccount.myProfile.visit();
+    page.myAccount.myProfile.menu.navigateTo(MenuItems.ORDER_HISTORY);
+    page.myAccount.orderHistory.paginationCount.scrollIntoView().should('be.visible');
+    const getOrdersRequest = intercept.getOrders();
+    page.myAccount.orderHistory.paginationPrevious.click().then(() => {
       cy.wait(getOrdersRequest).its('request.body').its('0').should('deep.equal', data.expected.payload);
     });
   });

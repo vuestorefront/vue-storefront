@@ -81,7 +81,7 @@
       }
     }
   },
-  "Should change page": {
+  "Should change page - next": {
     "customer": {
       "password": "password1"
     },
@@ -89,6 +89,18 @@
       "payload": {
         "limit": 10,
         "offset": 10,
+        "sort": "createdAt desc"
+      }
+    }
+  },
+  "Should change page - previous": {
+    "customer": {
+      "password": "password1"
+    },
+    "expected": {
+      "payload": {
+        "limit": 10,
+        "offset": 0,
         "sort": "createdAt desc"
       }
     }

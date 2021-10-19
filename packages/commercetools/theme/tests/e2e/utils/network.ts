@@ -14,31 +14,31 @@ function _intercept(path: string, options?: Options) {
 const intercept = {
 
   customerChangeMyPassword(options?: Options): string {
-    return _intercept('/customerChangeMyPassword', options);
+    return _intercept('**/customerChangeMyPassword', options);
   },
 
   customerUpdateMe(options?: Options): string {
-    return _intercept('/customerUpdateMe', options);
+    return _intercept('**/customerUpdateMe', options);
   },
 
   customerSignMeIn(options?: Options): string {
-    return _intercept('/customerSignMeIn', options);
+    return _intercept('**/customerSignMeIn', options);
   },
 
   getMe(options?: Options): string {
-    return _intercept('/getMe', options);
+    return _intercept('**/getMe', options);
   },
 
   getOrders(options?: Options) {
-    return _intercept('/getOrders', options);
+    return _intercept('**/getOrders', options);
   },
 
   getProduct(options?: Options): string {
-    return _intercept('/getProduct', options);
+    return _intercept('**/getProduct', options);
   },
 
   updateCartQuantity(options?: Options): string {
-    return _intercept('/updateCartQuantity', options);
+    return _intercept('**/updateCartQuantity', options);
   }
 };
 
