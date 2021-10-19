@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div v-editable="content || ''">
     <component
       v-for="(component, index) in components"
+      v-editable="content[index] ? content[index] : ''"
       :is="component.componentName"
       :key="index"
       v-bind="component.props"

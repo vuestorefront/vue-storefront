@@ -22,4 +22,3 @@ const { createApiClient } = apiClientFactory({
 } as any)
 
 export { createApiClient }
-

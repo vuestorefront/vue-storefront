@@ -20,3 +20,6 @@ yarn-error.log*
 lib
 module
 plugin.js
+lib
+server
+*.js
