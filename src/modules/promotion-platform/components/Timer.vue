@@ -55,10 +55,10 @@ import Vue from 'vue';
 
 import TimerNumbersGroup from './TimerNumbersGroup.vue';
 
-const _seconds = 1000;
-const minutes = _seconds * 60;
-const hours = minutes * 60;
-const days = hours * 24;
+const millisecondsInSecond = 1000;
+const millisecondsInMinute = millisecondsInSecond * 60;
+const millisecondsInHour = millisecondsInMinute * 60;
+const millisecondsInDay = millisecondsInHour * 24;
 
 export default Vue.extend({
   components: {
@@ -72,10 +72,10 @@ export default Vue.extend({
   },
   data () {
     return {
-      days: [0, 0],
-      hours: [0, 0],
-      minutes: [0, 0],
-      seconds: [0, 0],
+      days: ['0', '0'],
+      hours: ['0', '0'],
+      minutes: ['0', '0'],
+      seconds: ['0', '0'],
       intervalId: undefined as undefined | number,
       time: undefined as undefined | number,
       fUpdateTimerData: undefined as (() => void) | undefined
@@ -91,42 +91,42 @@ export default Vue.extend({
     this.stopTimer();
   },
   methods: {
-    getArrayOfNumbers (value: number): number[] {
+    getArrayOfString (value: number): string[] {
       const array = value.toString(10).split('');
 
       if (array.length < 2) {
-        return [0, Number.parseInt(array[0], 10)];
+        return ['0', array[0]];
       }
 
-      return array.map((number) => Number.parseInt(number, 10))
+      return array;
     },
     getDays (): number {
       if (!this.time) {
         return 0;
       }
 
-      return Math.floor(this.time / days);
+      return Math.floor(this.time / millisecondsInDay);
     },
     getHours (daysCount: number): number {
       if (!this.time) {
         return 0;
       }
 
-      return Math.floor((this.time - daysCount * days) / hours);
+      return Math.floor((this.time - daysCount * millisecondsInDay) / millisecondsInHour);
     },
     getMinutes (daysCount: number, hoursCount: number): number {
       if (!this.time) {
         return 0;
       }
 
-      return Math.floor((this.time - daysCount * days - hoursCount * hours) / minutes);
+      return Math.floor((this.time - daysCount * millisecondsInDay - hoursCount * millisecondsInHour) / millisecondsInMinute);
     },
     getSeconds (daysCount: number, hoursCount: number, minutesCount: number): number {
       if (!this.time) {
         return 0;
       }
 
-      return Math.round(((this.time - daysCount * days - hoursCount * hours - minutesCount * minutes) / _seconds))
+      return Math.round(((this.time - daysCount * millisecondsInDay - hoursCount * millisecondsInHour - minutesCount * millisecondsInMinute) / millisecondsInSecond))
     },
     startTimer (): void {
       if (this.intervalId) {
@@ -139,7 +139,7 @@ export default Vue.extend({
       this.intervalId = window.setInterval(this.fUpdateTimerData, 1000);
     },
     stopTimer (): void {
-      if (!this.intervalId || !this.fUpdateTimerData) {
+      if (!this.intervalId) {
         return;
       }
 
@@ -150,21 +150,22 @@ export default Vue.extend({
         return;
       }
 
-      this.time -= _seconds;
+      this.time -= millisecondsInSecond;
+
+      if (this.time <= 0) {
+        this.stopTimer();
+        return;
+      }
 
       const days = this.getDays();
       const hours = this.getHours(days);
       const minutes = this.getMinutes(days, hours);
       const seconds = this.getSeconds(days, hours, minutes);
 
-      this.days = this.getArrayOfNumbers(days);
-      this.hours = this.getArrayOfNumbers(hours);
-      this.minutes = this.getArrayOfNumbers(minutes);
-      this.seconds = this.getArrayOfNumbers(seconds);
-
-      if (this.time <= 0) {
-        this.stopTimer();
-      }
+      this.days = this.getArrayOfString(days);
+      this.hours = this.getArrayOfString(hours);
+      this.minutes = this.getArrayOfString(minutes);
+      this.seconds = this.getArrayOfString(seconds);
     }
   }
 })

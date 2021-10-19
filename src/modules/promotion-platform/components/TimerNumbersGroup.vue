@@ -3,8 +3,8 @@
     <div class="timer-numbers-group">
       <ul
         class="_numbers"
-        :class="{transitioned: isTransitioned}"
-        @animationend="onTransitionEnd"
+        :class="{animated: isAnimated}"
+        @animationend="onAnimationEnd"
       >
         <li class="_number-item">
           {{ value }}
@@ -22,19 +22,19 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     value: {
-      type: Number,
+      type: String,
       required: true
     }
   },
   data () {
     return {
-      oldValue: 0,
-      isTransitioned: false
+      oldValue: '0',
+      isAnimated: false
     }
   },
   methods: {
-    onTransitionEnd () {
-      this.isTransitioned = false
+    onAnimationEnd () {
+      this.isAnimated = false
       this.oldValue = this.value;
     }
   },
@@ -42,7 +42,7 @@ export default Vue.extend({
     value (val, oldVal): void {
       if (val !== oldVal) {
         this.oldValue = oldVal;
-        this.isTransitioned = true;
+        this.isAnimated = true;
       }
     }
   }
@@ -78,7 +78,7 @@ export default Vue.extend({
       text-align: center;
     }
 
-    &.transitioned {
+    &.animated {
       animation: slide 400ms linear;
     }
   }
