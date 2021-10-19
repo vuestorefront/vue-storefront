@@ -4,13 +4,14 @@ export interface ContentSearchParams {
   token: string
   cacheProvider: StoryblokCache
   cache?: boolean
-  version?: 'draft' | 'published'
+  version?: Version
   id?: string
   url?: string
   custom?: {} | CustomSearch
   locale?: string
   relations?: string
 }
+export type Version = 'draft' | 'published'
 export interface CustomSearch {
   field: string
   value: string
