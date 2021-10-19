@@ -5,11 +5,23 @@ import CampaignsGetAPIResponse from './types/CampaignsGetAPIResponse';
 import CampaignContent from './types/CampaignContent.model';
 
 export const PromotionPlatformService = {
-  async fetchCampaignContent (query?: string): Promise<CampaignsGetAPIResponse> {
+  async fetchCampaignContent (campaignToken?: string, dataParam?: string): Promise<CampaignsGetAPIResponse> {
     let url = processURLAddress(`${config.budsies.endpoint}/promotion-platform/campaigns`);
 
-    if (query) {
-      url += `?${query}`;
+    let query = new URLSearchParams();
+
+    if (campaignToken) {
+      query.append('campaignToken', campaignToken)
+    }
+
+    if (dataParam) {
+      query.append('data', dataParam);
+    }
+
+    const queryString = query.toString();
+
+    if (queryString) {
+      url += `?${queryString}`;
     }
 
     const response = await fetch(url, {
