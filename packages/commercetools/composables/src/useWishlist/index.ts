@@ -3,11 +3,15 @@
 import { useWishlistFactory, UseWishlistFactoryParams, Context } from '@vue-storefront/core';
 import { ProductVariant, LineItem } from './../types/GraphQL';
 
-type Wishlist = any;
+export type Wishlist = any;
 
 // @todo: implement wishlist
 // https://github.com/DivanteLtd/vue-storefront/issues/4420
 
+/**
+ * @remarks References:
+ * {@link LineItem}, {@link ProductVariant}
+ */
 const useWishlistFactoryParams: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context) => {
@@ -31,6 +35,10 @@ const useWishlistFactoryParams: UseWishlistFactoryParams<Wishlist, LineItem, Pro
   }
 };
 
+/**
+ * @remarks References:
+ * {@link LineItem}, {@link ProductVariant}
+ */
 const useWishlist = useWishlistFactory<Wishlist, LineItem, ProductVariant>(useWishlistFactoryParams);
 
 export {

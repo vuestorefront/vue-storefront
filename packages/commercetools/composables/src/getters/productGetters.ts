@@ -2,7 +2,7 @@ import { ProductGetters, AgnosticMediaGalleryItem, AgnosticAttribute, AgnosticPr
 import { ProductVariant, Image } from './../types/GraphQL';
 import { formatAttributeList, getVariantByAttributes, createPrice } from './_utils';
 
-interface ProductVariantFilters {
+export interface ProductVariantFilters {
   master?: boolean;
   attributes?: Record<string, string>;
 }
@@ -94,6 +94,10 @@ export const getAverageRating = (product: ProductVariant): number => (product as
 
 export const getProductSku = (product: ProductVariant): any => (product as any)?.sku || '';
 
+/**
+ * @remarks References:
+ * {@link ProductVariant}, {@link ProductVariantFilters}
+ */
 const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,

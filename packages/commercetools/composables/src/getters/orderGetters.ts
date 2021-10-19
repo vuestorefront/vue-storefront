@@ -30,6 +30,10 @@ export const getFormattedPrice = (price: number) => price as any as string;
 
 export const getOrdersTotal = (orders: OrderQueryResult) => orders.total;
 
+/**
+ * @remarks References:
+ * {@link Order}, {@link LineItem}
+ */
 const orderGetters: UserOrderGetters<Order, LineItem> = {
   getDate: getOrderDate,
   getId: getOrderId,

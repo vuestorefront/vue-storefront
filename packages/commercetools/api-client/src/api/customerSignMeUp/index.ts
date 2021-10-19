@@ -2,6 +2,10 @@ import { CustomerSignMeUpDraft } from '../../types/GraphQL';
 import CustomerSignMeUpMutation from './defaultMutation';
 import { SignInResponse } from '../../types/Api';
 
+/**
+ * @remarks References:
+ * {@link CustomerSignMeUpDraft}, {@link SignInResponse}
+ */
 const customerSignMeUp = async (context, draft: CustomerSignMeUpDraft): Promise<SignInResponse> => {
   const { locale, acceptLanguage, currency } = context.config;
 

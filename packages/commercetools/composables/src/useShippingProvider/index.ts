@@ -3,10 +3,14 @@ import { useCart } from '../useCart';
 import { ShippingInfo, ShippingMethod } from './../types/GraphQL';
 import { cartActions } from '@vue-storefront/commercetools-api';
 
-interface ShippingProviderState {
+export interface ShippingProviderState {
   response: ShippingInfo
 }
 
+/**
+ * @remarks References:
+ * {@link ShippingProviderState}, {@link ShippingMethod}
+ */
 const useShippingProviderFactoryParams: UseShippingProviderParams<ShippingProviderState, ShippingMethod> = {
   provide() {
     return {
@@ -39,6 +43,10 @@ const useShippingProviderFactoryParams: UseShippingProviderParams<ShippingProvid
   }
 };
 
+/**
+ * @remarks References:
+ * {@link ShippingProviderState}, {@link ShippingMethod}
+ */
 const useShippingProvider = useShippingProviderFactory<ShippingProviderState, ShippingMethod>(useShippingProviderFactoryParams);
 
 export {

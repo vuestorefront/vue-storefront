@@ -3,6 +3,10 @@ import { useCart } from '../useCart';
 import { cartActions } from '@vue-storefront/commercetools-api';
 import { Address } from './../types/GraphQL';
 
+/**
+ * @remarks References:
+ * {@link Address}
+ */
 const useShippingFactoryParams: UseShippingParams<Address, any> = {
   provide() {
     return {
@@ -30,6 +34,10 @@ const useShippingFactoryParams: UseShippingParams<Address, any> = {
   }
 };
 
+/**
+ * @remarks References:
+ * {@link Address}
+ */
 const useShipping = useShippingFactory<Address, any>(useShippingFactoryParams);
 
 export {

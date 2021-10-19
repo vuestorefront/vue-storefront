@@ -1,6 +1,10 @@
 import { Context, UseForgotPassword, useForgotPasswordFactory, UseForgotPasswordFactoryParams } from '@vue-storefront/core';
 import { ForgotPasswordResult } from '../types';
 
+/**
+ * @remarks References:
+ * {@link ForgotPasswordResult}
+ */
 const useForgotPasswordFactoryParams: UseForgotPasswordFactoryParams<ForgotPasswordResult> = {
   resetPassword: async (context: Context, { email, currentResult, customQuery }) => {
     try {
@@ -29,6 +33,10 @@ const useForgotPasswordFactoryParams: UseForgotPasswordFactoryParams<ForgotPassw
   }
 };
 
+/**
+ * @remarks References:
+ * {@link ForgotPasswordResult}
+ */
 const useForgotPassword: () => UseForgotPassword<ForgotPasswordResult> = useForgotPasswordFactory<ForgotPasswordResult>(useForgotPasswordFactoryParams);
 
 export {

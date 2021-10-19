@@ -67,6 +67,10 @@ const getBreadcrumbs = (searchData: SearchData): AgnosticBreadcrumb[] => {
   ];
 };
 
+/**
+ * @remarks References:
+ * {@link FacetResultsData}, {@link ProductVariant}
+ */
 const facetGetters: FacetsGetters<FacetResultsData, ProductVariant[]> = {
   getSortOptions,
   getGrouped,

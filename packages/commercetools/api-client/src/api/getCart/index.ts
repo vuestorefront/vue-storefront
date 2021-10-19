@@ -1,6 +1,10 @@
 import { CartQueryResponse } from '../../types/Api';
 import defaultQuery from './defaultQuery';
 
+/**
+ * @remarks References:
+ * {@link CartQueryResponse}
+ */
 const getCart = async ({ config, client }, cartId: string): Promise<CartQueryResponse> => {
   const { locale, acceptLanguage, currency } = config;
 

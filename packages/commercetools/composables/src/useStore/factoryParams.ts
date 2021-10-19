@@ -38,6 +38,10 @@ async function changeChannel (context: Context, { channel }: UseStoreFactoryChan
   return null as StoresData;
 }
 
+/**
+ * @remarks References:
+ * {@link StoresData}
+ */
 const factoryParams: CtUseStoreFactoryParams<StoresData> = { load, change, changeChannel };
 
 export default factoryParams;
