@@ -70,9 +70,13 @@ const requests = {
         'Content-Type': 'application/json'
       },
       body: [
-        {id: cartId, version: 1},
         {
-          product: {id: product.id, sku: product.sku },
+          id: cartId, version: 1
+        },
+        {
+          product: {
+            id: product.id, sku: product.sku
+          },
           quantity: quantity ?? 1
         },
         null

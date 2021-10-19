@@ -8,6 +8,7 @@ context(['regression'], 'Add product to cart', () => {
       };
     });
   });
+
   it('Should successfully add product to cart - Category grid view', function() {
     const data = this.fixtures.data[this.test.title];
     const category = page.category(data.product.category);

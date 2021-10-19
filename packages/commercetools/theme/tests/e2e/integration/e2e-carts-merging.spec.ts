@@ -40,21 +40,13 @@ context(['regression'], 'Carts merging', () => {
     data.customer.email = generator.email;
     requests.customerSignMeUp(data.customer);
     requests.createCart().then((response: CreateCartResponse) => {
-      data.products.customer.forEach(product => {
-        requests.addToCart(response.body.data.cart.id, product, product.quantity);
-      });
-      cy.clearCookies();
-    });
-    requests.createCart().then((response: CreateCartResponse) => {
       data.products.guest.forEach(product => {
         requests.addToCart(response.body.data.cart.id, product, product.quantity);
       });
     });
+    requests.customerSignMeIn(data.customer);
     page.home.visit();
-    page.home.header.openLoginModal();
-    page.components.loginModal.loginToAccountButton.click();
-    page.components.loginModal.fillForm(data.customer);
-    page.components.loginModal.loginButton.click();
+    cy.wait(3000);
     page.home.header.openCart();
     page.components.cart.totalItems.should($ti => {
       const totalItems: number = data.expectedCart.reduce((total, product) => {
