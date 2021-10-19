@@ -1,22 +1,14 @@
 # How to setup commercetools store with Vue Storefront?
 
-This document will guide you through the process of setting up a store based on our commercetools integration.
-
-:::tip There's more
-This document is focused on setting up a basic working store using Vue Storefront and commercetools. If you want to learn more see the [commercetools documentation](https://docs.commercetools.com/merchant-center/).
-:::
+This document will guide you through the process of setting up a store based on our commercetools integration. This guide is only focused on setting up a basic working store using Vue Storefront and commercetools. If you want to learn about the commercetools itself, see the [commercetools documentation](https://docs.commercetools.com/merchant-center/).
 
 ## Create a new commercetools project
 
-Log into your commercetools account and [create a new project](https://docs.commercetools.com/merchant-center/projects#creating-a-project). One project can provide data for multiple selling channels, but you can have more than one project with different settings and catalogs if you need. 
-
-For further information on creating and managing commercetools projects, see the [Projects](https://docs.commercetools.com/merchant-center/projects) guide in the commercetools documentation.
+Log into your commercetools account and create a new project following the [Create a project](https://docs.commercetools.com/merchant-center/projects#creating-a-project) guide from commercetools. One project can provide data for multiple selling channels, but you can have more than one project with different settings and catalogs if you need. 
 
 ## Configuring commercetools project
 
-When you already have a project in commercetools, you can configure your store in few steps described below.
-
-Let's start by defining a basic store configuration in the `Project settings` menu in commercetools Merchant Center.
+When you already have a project in commercetools, you can start defining a basic store configuration in the `Project settings` menu in commercetools Merchant Center.
 
 <center>
   <img
@@ -381,7 +373,8 @@ The next step is to setup the internationalization options in the `nuxt.config.j
 
 ```js
 // nuxt.config.js
-{
+
+module.exports = {
   i18n: {
     currency: 'USD',
     country: 'US',
@@ -398,7 +391,7 @@ The next step is to setup the internationalization options in the `nuxt.config.j
       { code: 'de-DE', label: 'German', file: 'de.js', iso: 'de' },
     ]
   }
-}
+};
 ```
 
 Now in the terminal go to the Vue Storefront project directory and start the application:
