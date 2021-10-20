@@ -24,7 +24,7 @@ For more information about the project set up in commercetools, see the [Project
 
 <center>
   <img
-    src="./images/setup-store/project-settings-sidebar-signed.webp"
+    src="./images/setup-store/menu-project-settings.webp"
     alt="Position of the 'Projects settings' page in the menu in commercetools"
     class="image-shadow"
   />
@@ -38,7 +38,7 @@ Start by selecting currencies available in your store:
 
 <center>
   <img
-    src="./images/setup-store/currencies.webp"
+    src="./images/setup-store/international-currencies.webp"
     alt="Input to modify currencies available in the store"
     class="image-shadow"
   />
@@ -48,7 +48,7 @@ Then, select supported languages:
 
 <center>
   <img
-    src="./images/setup-store/languages.webp"
+    src="./images/setup-store/international-languages.webp"
     alt="Input to modify languages available in the store"
     class="image-shadow"
   />
@@ -58,7 +58,7 @@ Next, select the available countries:
 
 <center>
   <img
-    src="./images/setup-store/countries.webp"
+    src="./images/setup-store/international-countries.webp"
     alt="Input to modify countries available in the store"
     class="image-shadow"
   />
@@ -68,7 +68,7 @@ Finally, set zones. They are helpful when few countries share the same delivery 
 
 <center>
   <img
-    src="./images/setup-store/zones.webp"
+    src="./images/setup-store/international-zones.webp"
     alt="Page to modify currencies available in the store"
     class="image-shadow"
   />
@@ -92,7 +92,7 @@ You can add a shipping method in the `Shipping methods` tab on the `Project sett
 
 <center>
   <img
-    src="./images/setup-store/shipping-methods_1.webp"
+    src="./images/setup-store/shipping-methods.webp"
     alt="Page to enter shipping methods and their prices for each zone in the store"
     class="image-shadow"
   />
@@ -110,7 +110,7 @@ To create a category, go to the `Add category` page from the sidebar menu.
 
 <center>
   <img
-    src="./images/setup-store/categories-sidebar-signed.webp"
+    src="./images/setup-store/menu-add-category.webp"
     alt="Position of the 'Add category' page in the menu in commercetools"
     class="image-shadow"
   />
@@ -120,7 +120,7 @@ Enter the name and category order.
 
 <center>
   <img
-    src="./images/setup-store/create-category-0.webp"
+    src="./images/setup-store/create-category-1.webp"
     alt="Page to enter basic information about the product category, such as name, descrioption and unique key"
     class="image-shadow"
   />
@@ -130,7 +130,7 @@ If applicable, select the parent category to which this category belongs.
 
 <center>
   <img
-    src="./images/setup-store/create-category-1.webp"
+    src="./images/setup-store/create-category-2.webp"
     alt="Page to select parent categories"
     class="image-shadow"
   />
@@ -140,7 +140,7 @@ Enter the category slug. It will be part of the URL for this category.
 
 <center>
   <img
-    src="./images/setup-store/create-category-2.webp"
+    src="./images/setup-store/create-category-3.webp"
     alt="Page to enter search engine related attributes, such as short slug, meta title and description"
     class="image-shadow"
   />
@@ -168,17 +168,17 @@ Before we can add any new product in commercetools, we need at least one product
 For more information about product types, see the [Modeling Product Types and Attributes](https://docs.commercetools.com/tutorials/product-modeling/product-types) page in commercetools documentation.
 :::
 
-To create a product type, go to the `Product types` page from the sidebar menu. 
+To create a product type, go to the `Product types` page from the sidebar menu and click the `Add product type` button.
 
 <center>
   <img
-    src="./images/setup-store/product-types-sidebar-signed.webp"
-    alt="Position of the 'Product type' page in the menu in commercetools"
+    src="./images/setup-store/menu-product-types.webp"
+    alt="Position of the 'Product types' page in the menu in commercetools"
     class="image-shadow"
   />
 </center>
 
-Enter name and description.
+Enter name and description and click the `Save` button. Without saving, you won't be able to add attributes in the next step.
 
 <center>
   <img
@@ -193,7 +193,7 @@ Click the `Add an attribute` button and enter the name, label, constraints, and 
 
 <center>
   <img
-    src="./images/setup-store/add-attribute.webp"
+    src="./images/setup-store/product-type-2.webp"
     alt="Page to enter attributes of the product type"
     class="image-shadow"
   />
@@ -207,17 +207,17 @@ After creating at least one product type, you can add a new product.
 For more information about products, see the [Modeling Products](https://docs.commercetools.com/tutorials/product-modeling/products) page in the commercetools documentation.
 :::
 
-Go to the `Products` page. 
+To create a product, go to the `Add product` page.
 
 <center>
   <img
-    src="./images/setup-store/products-sidebar-signed.webp"
+    src="./images/setup-store/menu-add-product.webp"
     alt="Position of the 'Add product' page in the menu in commercetools"
     class="image-shadow"
   />
 </center>
 
-Click the `Add product` button and select the product type.
+Start by selecting the product type.
 
 <center>
   <img
@@ -237,31 +237,31 @@ Type the name and assign the tax category.
   />
 </center>
 
-Add at least one variant of the product with attributes and SKU number.
+Click the `Add variant` button and add at least one variant of the product with attributes and SKU number.
 
 <center>
   <img
-    src="./images/setup-store/variant.webp"
+    src="./images/setup-store/add-product-3.webp"
     alt="Page to enter product SKU and additional variant attributes"
     class="image-shadow"
   />
 </center>
 
-Enter a slug, keywords, and metadata to optimize searching.
+Enter a slug, keywords, and metadata to optimize searching. Once you are finished, click the `Save` button.
 
 <center>
   <img
-    src="./images/setup-store/add-product-3.webp"
+    src="./images/setup-store/add-product-4.webp"
     alt="Page to enter search engine related information, such as keywords, short slug, meta title and description"
     class="image-shadow"
   />
 </center>
 
-Change product status to `Published` in the top right part of the product screen.
+Once the product is saved and you are redirected to the product summary page, change product status to `Published` in the top right part of the product screen.
 
 <center>
   <img
-    src="./images/setup-store/product-status.webp"
+    src="./images/setup-store/add-product-5.webp"
     alt="Page showing a summary of the newly created product and 'Published' status of the product"
     class="image-shadow"
   />
@@ -271,11 +271,11 @@ Change product status to `Published` in the top right part of the product screen
 
 With the commercetools already configured, we can connect it to the Vue Storefront application. To do so, we need to generate two API clients.
 
-Go to the `developer settings` page.
+Go to the `Developer settings` page.
 
 <center>
   <img
-    src="./images/setup-store/developer-settings-sidebar-signed.webp"
+    src="./images/setup-store/menu-developer-settings.webp"
     alt="Position of the 'Developer settings' page in the menu in commercetools"
     class="image-shadow"
   />
