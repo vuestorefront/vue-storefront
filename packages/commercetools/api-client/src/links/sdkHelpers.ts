@@ -38,7 +38,8 @@ function createTokenProvider({ configuration, sdkAuth, tokenType }) {
         {
           sdkAuth,
           fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow({ credentials: { clientId, clientSecret }, scopes })
-        }
+        },
+        configuration.auth.onTokenRead()
       );
     case TokenType.QuestAccessToken:
       return new TokenProvider(
