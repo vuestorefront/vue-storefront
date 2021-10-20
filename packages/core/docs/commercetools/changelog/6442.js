@@ -6,7 +6,7 @@ module.exports = {
       module: 'core',
       before: 'Cookies for currency, locale and country were included in SSR response',
       after: 'Cookies for currency, locale and country are generated on client side',
-      comment: 'To make possible to remove cookies generation server side, change in `nuxt.config.js` is required. 1. Inside section `i18n` option `detectBrowserLanguage` should be set to `false`. 2. Next step is to change order of loaded modules in `nuxt.config.js`. In `buildModules` section, `@vue-storefront/commercetools/nuxt` should be moved before `@vue-storefront/nuxt`. 3. Last step is to change in layouts way of changing locales. As default it is an anchor (`a`), it needs to be changed to `nuxt-link`. As default it\'s located in `StoreLocaleSelector.vue` file.'
+      comment: 'To prevent generating cookies during SSR (server-side rendering) and allowing caching, change in the `nuxt.config.js` file is required. Inside the `i18n` configuration, you should set the `detectBrowserLanguage` options to `false`. Then change the order of loaded modules. In the `buildModules` configuration, move the `@vue-storefront/commercetools/nuxt` module before `@vue-storefront/nuxt`. Lastly, update the Vue components used to switch locales to use the `nuxt-link` component instead of the `a` tag. By default it\'s located in the `StoreLocaleSelector.vue` file.
     }
   ],
   author: 'Dawid Ziobro',
