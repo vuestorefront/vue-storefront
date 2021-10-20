@@ -40,7 +40,7 @@ Start by selecting currencies available in your store:
   <img
     src="./images/setup-store/currencies.webp"
     alt="Input to modify currencies available in the store"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -50,7 +50,7 @@ Then, select supported languages:
   <img
     src="./images/setup-store/languages.webp"
     alt="Input to modify languages available in the store"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -60,7 +60,7 @@ Next, select the available countries:
   <img
     src="./images/setup-store/countries.webp"
     alt="Input to modify countries available in the store"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -70,7 +70,7 @@ Finally, set zones. They are helpful when few countries share the same delivery 
   <img
     src="./images/setup-store/zones.webp"
     alt="Page to modify currencies available in the store"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -82,7 +82,7 @@ In the `Taxes` tab on the `Project settings` page, you can configure tax rates f
   <img
     src="./images/setup-store/taxes.webp"
     alt="Page to enter tax information for each country in the store"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -94,7 +94,7 @@ You can add a shipping method in the `Shipping methods` tab on the `Project sett
   <img
     src="./images/setup-store/shipping-methods_1.webp"
     alt="Page to enter shipping methods and their prices for each zone in the store"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -122,7 +122,7 @@ Enter the name and category order.
   <img
     src="./images/setup-store/create-category-0.webp"
     alt="Page to enter basic information about the product category, such as name, descrioption and unique key"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -132,7 +132,7 @@ If applicable, select the parent category to which this category belongs.
   <img
     src="./images/setup-store/create-category-1.webp"
     alt="Page to select parent categories"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -142,7 +142,7 @@ Enter the category slug. It will be part of the URL for this category.
   <img
     src="./images/setup-store/create-category-2.webp"
     alt="Page to enter search engine related attributes, such as short slug, meta title and description"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -156,7 +156,7 @@ You can see your categories in the `categories search` menu:
   <img
     src="./images/setup-store/categories-search.webp"
     alt="Page listing all categories available in the store"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -184,7 +184,7 @@ Enter name and description.
   <img
     src="./images/setup-store/product-type-1.webp"
     alt="Page to enter basic information about the product type, such as name, description and unique key"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -195,7 +195,7 @@ Click the `Add an attribute` button and enter the name, label, constraints, and 
   <img
     src="./images/setup-store/add-attribute.webp"
     alt="Page to enter attributes of the product type"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -213,7 +213,7 @@ Go to the `Products` page.
   <img
     src="./images/setup-store/products-sidebar-signed.webp"
     alt="Position of the 'Add product' page in the menu in commercetools"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -223,7 +223,7 @@ Click the `Add product` button and select the product type.
   <img
     src="./images/setup-store/add-product-1.webp"
     alt="Page to select type of the product"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -233,7 +233,7 @@ Type the name and assign the tax category.
   <img
     src="./images/setup-store/add-product-2.webp"
     alt="Page to enter basic information about the product, such as name, description, unique key and category"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -243,7 +243,7 @@ Add at least one variant of the product with attributes and SKU number.
   <img
     src="./images/setup-store/variant.webp"
     alt="Page to enter product SKU and additional variant attributes"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -253,7 +253,7 @@ Enter a slug, keywords, and metadata to optimize searching.
   <img
     src="./images/setup-store/add-product-3.webp"
     alt="Page to enter search engine related information, such as keywords, short slug, meta title and description"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -263,7 +263,7 @@ Change product status to `Published` in the top right part of the product screen
   <img
     src="./images/setup-store/product-status.webp"
     alt="Page showing a summary of the newly created product and 'Published' status of the product"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -291,7 +291,7 @@ For more information about scopes, see the [Scopes](https://docs.commercetools.c
   <img
     src="./images/setup-store/customer_scopes.webp"
     alt="List of checkboxes indicating which scopes were selected for the customer API client"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -301,7 +301,7 @@ When you click on the `Create API client` button, you will see all the credentia
   <img
     src="./images/setup-store/api-client-2.webp"
     alt="Modal showing credentials for the newly created API client"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
@@ -311,7 +311,7 @@ Repeat the same process, but this time only select the `Customers` and `Products
   <img
     src="./images/setup-store/server_scopes.webp"
     alt="List of checkboxes indicating which scopes were selected for the server API client"
-    class="image-shadow preview-view"
+    class="image-shadow"
   />
 </center>
 
