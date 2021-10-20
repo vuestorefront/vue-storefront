@@ -54,7 +54,7 @@ function createServer (config: MiddlewareConfig): Server {
   const server = http.createServer(app);
 
   // Setting keepAlive values to be higher than defaults of loadbalancer ones
-  // ref: https://cloud.google.com/load-balancing/docs/https#regional-connections
+  // ref: https://cloud.google.com/load-balancing/docs/l7-internal
   server.keepAliveTimeout = 610 * 1000;
   server.headersTimeout = 650 * 1000;
 
