@@ -11,57 +11,64 @@ const getTokenProvider = (scope) => ({
   invalidateTokenInfo: jest.fn().mockImplementation(() => {})
 });
 
+jest.mock('../../src/links/sdkHelpers', () => ({
+  createSdkHelpers: () => ({
+    tokenProvider: getTokenProvider('')
+  })
+}));
+
+const auth = {
+  onTokenChange: () => {},
+  onTokenRead: () => '',
+  onTokenRemove: () => {}
+};
+
 describe('[commercetools-helpers] handleBeforeAuth', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('doesnt generate access token for guest on users related operations', async () => {
+  it('generates access token for guest session', async () => {
     const scope = '';
-    const result = await handleBeforeAuth({
-      configuration: {},
-      sdkAuth: getSdkAuth(scope),
-      tokenProvider: getTokenProvider(scope),
-      apolloReq: { operationName: 'customerSignMeIn' }
+    const questTokenProvider = getTokenProvider(scope);
+    const { currentToken } = await handleBeforeAuth({
+      configuration: { questTokenProvider, auth},
+      apolloReq: { operationName: '' }
     });
 
-    expect(result).toMatchObject({ access_token: 'ACCESS_TOKEN' });
+    expect(currentToken).toMatchObject({ scope, access_token: 'ACCESS_TOKEN' });
+  });
+
+  it('generates server access token for users related operations', async () => {
+    const scope = '';
+    const serverTokenProvider = getTokenProvider(scope);
+    const { currentToken } = await handleBeforeAuth({
+      configuration: { serverTokenProvider, auth},
+      apolloReq: { operationName: 'createReview' }
+    });
+
+    expect(currentToken).toMatchObject({ scope, access_token: 'ACCESS_TOKEN' });
   });
 
   it('generates access token for guest on anonymous-session allowed operations', async () => {
     const scope = '';
-    const result = await handleBeforeAuth({
-      configuration: {},
-      sdkAuth: getSdkAuth(scope),
-      tokenProvider: getTokenProvider(scope),
+    const { currentToken } = await handleBeforeAuth({
+      configuration: { auth },
       apolloReq: { operationName: 'createCart' }
     });
 
-    expect(result).toMatchObject({ access_token: 'GUEST_TOKEN' });
+    expect(currentToken).toMatchObject({ scope, access_token: 'ACCESS_TOKEN' });
   });
 
-  it('returns current token for anonymous user', async () => {
-    const scope = 'anonymous_id';
-    const result = await handleBeforeAuth({
-      configuration: {},
-      sdkAuth: getSdkAuth(scope),
-      tokenProvider: getTokenProvider(scope),
+  it('returns exiting token for users related operations', async () => {
+    const scope = '';
+    auth.onTokenRead = () => 'ACCESS_TOKEN';
+    const { currentToken } = await handleBeforeAuth({
+      configuration: { auth },
       apolloReq: { operationName: 'customerSignMeIn' }
     });
 
-    expect(result).toMatchObject({ scope, access_token: 'ACCESS_TOKEN' });
-  });
-
-  it('returns current token for logged in user', async () => {
-    const scope = 'customer_id';
-    const result = await handleBeforeAuth({
-      configuration: {},
-      sdkAuth: getSdkAuth(scope),
-      tokenProvider: getTokenProvider(scope),
-      apolloReq: { operationName: 'customerSignMeIn' }
-    });
-
-    expect(result).toMatchObject({ scope, access_token: 'ACCESS_TOKEN' });
+    expect(currentToken).toMatchObject({ scope, access_token: 'ACCESS_TOKEN' });
   });
 });
 
@@ -74,10 +81,9 @@ it('returns token from customToken handler', async () => {
 
   const result = await handleBeforeAuth({
     configuration: {
-      customToken
+      customToken,
+      auth
     },
-    sdkAuth: getSdkAuth(token.scope),
-    tokenProvider: getTokenProvider(token.scope),
     apolloReq: { operationName: 'customerSignMeIn' }
   });
 

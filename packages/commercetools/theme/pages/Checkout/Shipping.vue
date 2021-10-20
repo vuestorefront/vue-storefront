@@ -247,12 +247,8 @@ import { useShippingProvider, useUserShipping, userShippingGetters, useUser, use
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
-<<<<<<< HEAD
 import { ref, watch, computed, onMounted, useRouter } from '@nuxtjs/composition-api';
-=======
-import { ref, watch, computed, onMounted } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
->>>>>>> 9baa3f7af (feat(os-6365): revert changes related to removing onSSR compontent)
 import '@/helpers/validators/phone';
 
 const NOT_SELECTED_ADDRESS = '';

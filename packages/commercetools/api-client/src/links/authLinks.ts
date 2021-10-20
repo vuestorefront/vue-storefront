@@ -66,7 +66,7 @@ async function getTokenProviderForExistingToken({
 /**
  * Returns access token for the anonymous session.
  */
-async function generateAnonymousAccessToken({
+export async function generateAnonymousAccessToken({
   configuration,
   apolloReq
 }): Promise<AccessTokenResult> {

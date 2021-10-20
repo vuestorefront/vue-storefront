@@ -56,7 +56,6 @@ export const tokenExtension: ApiClientExtension = {
      * Returns current access token.
      */
     function onTokenRead() {
-      console.log('currentToken', currentToken);
       return currentToken;
     }
 

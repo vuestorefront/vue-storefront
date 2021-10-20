@@ -32,10 +32,6 @@ export default function(moduleOptions) {
     config.resolve.alias['@vue-storefront/commercetools-api$'] = require.resolve('@vue-storefront/commercetools-api');
   });
 
-  // this.addPlugin({
-  //   src: path.resolve(__dirname, './accessToken.js')
-  // });
-
   this.addPlugin({
     src: path.resolve(__dirname, './plugin.js'),
     options

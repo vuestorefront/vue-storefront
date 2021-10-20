@@ -67,24 +67,6 @@ function createTokenProvider({ configuration, sdkAuth, tokenType }) {
     default:
       return null;
   }
-  // return tokenInfo
-  //   ? new TokenProvider(
-  //     {
-  //       sdkAuth,
-  //       onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
-  //     },
-  //     configuration.auth.onTokenRead()
-  //   )
-  //   : new TokenProvider(
-  //     {
-  //       sdkAuth,
-  //       fetchTokenInfo: accessTokenServer
-  //         ? (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow({ credentials: { clientId, clientSecret }, scopes })
-  //         : (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow()
-  //       // onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
-  //     },
-  //     accessTokenServer ? null : configuration.auth.onTokenRead()
-  //   );
 }
 
 /**
