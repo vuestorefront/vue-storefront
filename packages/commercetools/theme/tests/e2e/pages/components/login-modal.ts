@@ -21,7 +21,7 @@ class LoginModal {
 
   get password(): Cypress.Chainable {
     return el('login-modal-password');
-  }1
+  }
 
   get iWantToCreateAccountCheckbox(): Cypress.Chainable {
     return el('login-modal-create-account');
