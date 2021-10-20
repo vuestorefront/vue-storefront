@@ -113,6 +113,11 @@ const itemActions = {
       .pushClientParty({ status: 'no-item', sku: product.sku })
     cartHooksExecutors.afterRemoveFromCart(diffLog)
     return diffLog
+  },
+  async updateClientAndServerItem ({ dispatch }, { product, forceClientState = false, forceUpdateServerItem = false }) {
+    await dispatch('updateItem', { product });
+
+    await dispatch('sync', { forceClientState, forceUpdateServerItem });
   }
 }
 
