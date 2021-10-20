@@ -1,33 +1,46 @@
-# How to setup commercetools store with Vue Storefront?
+# Setting up a Vue Storefront store with commercetools
 
-This document will guide you through the process of setting up a store based on our commercetools integration. This guide is only focused on setting up a basic working store using Vue Storefront and commercetools. If you want to learn about the commercetools itself, see the [commercetools documentation](https://docs.commercetools.com/merchant-center/).
+This document will guide you through the process of setting up a Vue Storefront store with commercetools. This guide intentionally only describes the basic working configuration to get you up and running as fast as possible. To learn more about commercetools, see the [commercetools documentation](https://docs.commercetools.com/merchant-center/).
+
+## Prerequisites
+
+This guide assumes you already have access to the commercetools Merchant Center and generated the Vue Storefront project.
+
+Refer to our [Installation](/general/installation.html) guide if you don't have the Vue Storefront project yet.
 
 ## Create a new commercetools project
 
-Log into your commercetools account and create a new project following the [Create a project](https://docs.commercetools.com/merchant-center/projects#creating-a-project) guide from commercetools. One project can provide data for multiple selling channels, but you can have more than one project with different settings and catalogs if you need. 
+Log into your commercetools account and create a new project following the [Create a project](https://docs.commercetools.com/merchant-center/projects#creating-a-project) guide from commercetools. One project can provide data for multiple selling channels, but you can have more than one project with different settings and catalogs if you need it.
+
+By default, Vue Storefront project can only be connected to one commercetools project.
 
 ## Configuring commercetools project
 
-When you already have a project in commercetools, you can start defining a basic store configuration in the `Project settings` menu in commercetools Merchant Center.
+When you already have a project in commercetools, you can start configuring the store in the `Project settings` page in commercetools Merchant Center.
+
+:::tip More information
+For more information about the project set up in commercetools, see the [Project settings](https://docs.commercetools.com/merchant-center/project-settings) page in commercetools documentation.
+:::
 
 <center>
   <img
-    src="./images/setup-store/project-settings-sidebar-signed.png"
-    alt="Image indicating position of the Projects settings page in the menu"
+    src="./images/setup-store/project-settings-sidebar-signed.webp"
+    alt="Position of the 'Projects settings' page in the menu in commercetools"
     class="image-shadow"
   />
 </center>
 
 ### Configuring `International` tab
 
-First step in configuring a commercetools store is to configure options in the `International` tab.
+When you open the `Project settings` page from the menu, you will see a few tabs at the top. The first step in configuring a commercetools store is to configure options in the `International` tab.
 
 Start by selecting currencies available in your store:
 
 <center>
   <img
-    src="./images/setup-store/currencies.png"
-    alt="Commercetools manage projects menu" class="image-shadow preview-view"
+    src="./images/setup-store/currencies.webp"
+    alt="Input to modify currencies available in the store"
+    class="image-shadow preview-view"
   />
 </center>
 
@@ -35,8 +48,9 @@ Then, select supported languages:
 
 <center>
   <img
-    src="./images/setup-store/languages.png"
-    alt="Commercetools languages configuration" class="image-shadow preview-view"
+    src="./images/setup-store/languages.webp"
+    alt="Input to modify languages available in the store"
+    class="image-shadow preview-view"
   />
 </center>
 
@@ -44,257 +58,266 @@ Next, select the available countries:
 
 <center>
   <img
-    src="./images/setup-store/countries.png"
-    alt="Commercetools countries configuration"
+    src="./images/setup-store/countries.webp"
+    alt="Input to modify countries available in the store"
     class="image-shadow preview-view"
   />
 </center>
 
-Finally, set zones which are helpful when few countries share the same delivery costs. You need to configure at least one shipping zone to be able to set up shipping methods later.
+Finally, set zones. They are helpful when few countries share the same delivery costs. You need to configure at least one shipping zone to be able to set up shipping methods later.
 
 <center>
   <img
-    src="./images/setup-store/zones.png"
-    alt="Commercetools zones configuration"
+    src="./images/setup-store/zones.webp"
+    alt="Page to modify currencies available in the store"
     class="image-shadow preview-view"
   />
 </center>
 
 ### Configuring `Taxes` tab
 
-Open the `Settings > Project settings` menu. In the `Taxes` tab, you can configure tax rates for the countries configured in the `International` tab.
+In the `Taxes` tab on the `Project settings` page, you can configure tax rates for the countries configured in the `International` tab.
 
 <center>
   <img
-    src="./images/setup-store/taxes.png"
-    alt="Commercetools taxes configuration"
+    src="./images/setup-store/taxes.webp"
+    alt="Page to enter tax information for each country in the store"
     class="image-shadow preview-view"
   />
 </center>
 
 ### Configuring `Shipping methods` tab
 
-To add a shipping method, open the `Settings > Project settings` menu and select the `Shipping methods` tab. First, select if the price will be fixed or tiered. Then, enter specific methods for each zone and currency.
-
-For more details, see the [Shipping methods](https://docs.commercetools.com/merchant-center/project-settings#shipping-methods) page in commercetools documentation.
+You can add a shipping method in the `Shipping methods` tab on the `Project settings` page. First, select if the price will be fixed or tiered. Then, enter specific methods for each zone and currency.
 
 <center>
   <img
-    src="./images/setup-store/shipping-methods_1.png"
-    alt="Commercetools shipping methods configuration"
+    src="./images/setup-store/shipping-methods_1.webp"
+    alt="Page to enter shipping methods and their prices for each zone in the store"
     class="image-shadow preview-view"
   />
 </center>
 
 ## Adding a new category
 
-Categories allow you to organize the products in groups and make them easy to find by the customer. See the [Modeling Categories](https://docs.commercetools.com/tutorials/product-modeling/categories) page to learn more about categorizing items in your store.
+Categories allow you to organize the products in groups and make them easy to find by the customer.
 
-To create a category , go to the `Add category` page from the sidebar menu. 
-
-  <center>
-    <img
-      src="./images/setup-store/categories-sidebar-signed.png"
-      alt="Commercetools create category first step"
-      class="image-shadow"
-    />
-  </center>
-
-1. Enter the name, and category order.
-
-  <center>
-    <img
-      src="./images/setup-store/create-category-0.png"
-      alt="Commercetools create category first step"
-      class="image-shadow preview-view"
-    />
-  </center>
-
-2. If applicable, select the parent category to which this category belongs to.
-
-  <center>
-    <img
-      src="./images/setup-store/create-category-1.png"
-      alt="Commercetools create category second step"
-      class="image-shadow preview-view"
-    />
-  </center>
-
-3. Enter the category slug. It will be part of the URL for this category.
-
-  <center>
-    <img
-      src="./images/setup-store/create-category-2.png"
-      alt="Commercetools create category third step"
-      class="image-shadow preview-view"
-    />
-  </center>
-
-:::warning 
-You have to create category structure with at least two levels, in order to properly display category page in Vue Storefront 2 project.
+:::tip More information
+For more information about categories, see the [Modeling Categories](https://docs.commercetools.com/tutorials/product-modeling/categories) page in commercetools documentation.
 :::
 
-You can see your categories in `categories search` menu:
-  <center>
-    <img
-      src="./images/setup-store/categories-search.png"
-      alt="Commercetools create product type first step"
-      class="image-shadow preview-view"
-    />
-  </center>
+To create a category, go to the `Add category` page from the sidebar menu. 
+
+<center>
+  <img
+    src="./images/setup-store/categories-sidebar-signed.webp"
+    alt="Position of the 'Add category' page in the menu in commercetools"
+    class="image-shadow"
+  />
+</center>
+
+Enter the name and category order.
+
+<center>
+  <img
+    src="./images/setup-store/create-category-0.webp"
+    alt="Page to enter basic information about the product category, such as name, descrioption and unique key"
+    class="image-shadow preview-view"
+  />
+</center>
+
+If applicable, select the parent category to which this category belongs.
+
+<center>
+  <img
+    src="./images/setup-store/create-category-1.webp"
+    alt="Page to select parent categories"
+    class="image-shadow preview-view"
+  />
+</center>
+
+Enter the category slug. It will be part of the URL for this category.
+
+<center>
+  <img
+    src="./images/setup-store/create-category-2.webp"
+    alt="Page to enter search engine related attributes, such as short slug, meta title and description"
+    class="image-shadow preview-view"
+  />
+</center>
+
+:::warning 
+You have to create a category structure with at least two levels to display the category page in the Vue Storefront project correctly.
+:::
+
+You can see your categories in the `categories search` menu:
+
+<center>
+  <img
+    src="./images/setup-store/categories-search.webp"
+    alt="Page listing all categories available in the store"
+    class="image-shadow preview-view"
+  />
+</center>
 
 ## Adding a new product type
 
-Before we can add any new product in commercetools, we need at least one product type. Product types are templates with specific attributes for products of the same type. You can read more about them on the [Modeling Product Types and Attributes](https://docs.commercetools.com/tutorials/product-modeling/product-types) page.
+Before we can add any new product in commercetools, we need at least one product type. Product types are templates with specific attributes for products of the same type.
+
+:::tip More information
+For more information about product types, see the [Modeling Product Types and Attributes](https://docs.commercetools.com/tutorials/product-modeling/product-types) page in commercetools documentation.
+:::
 
 To create a product type, go to the `Product types` page from the sidebar menu. 
 
 <center>
   <img
-    src="./images/setup-store/product-types-sidebar-signed.png"
-    alt="Commercetools create product type first step"
+    src="./images/setup-store/product-types-sidebar-signed.webp"
+    alt="Position of the 'Product type' page in the menu in commercetools"
     class="image-shadow"
   />
 </center>
 
-1. Enter name and description.
+Enter name and description.
 
-  <center>
-    <img
-      src="./images/setup-store/product-type-1.png"
-      alt="Commercetools create product type first step"
-      class="image-shadow preview-view"
-    />
-  </center>
+<center>
+  <img
+    src="./images/setup-store/product-type-1.webp"
+    alt="Page to enter basic information about the product type, such as name, description and unique key"
+    class="image-shadow preview-view"
+  />
+</center>
 
 
-2. Click the `Add an attribute` button and enter the name, label, constraints, and type fields.
+Click the `Add an attribute` button and enter the name, label, constraints, and type fields.
 
-  <center>
-    <img
-      src="./images/setup-store/add-attribute.png"
-      alt="Commercetools create product type first step"
-      class="image-shadow preview-view"
-    />
-  </center>
+<center>
+  <img
+    src="./images/setup-store/add-attribute.webp"
+    alt="Page to enter attributes of the product type"
+    class="image-shadow preview-view"
+  />
+</center>
 
 ## Adding a new product
 
-After creating at least one product type, you can add a new product. You can read more about them on the [Modeling Products](https://docs.commercetools.com/tutorials/product-modeling/products) page.
+After creating at least one product type, you can add a new product.
 
-1. Go to the `Products` page. 
+:::tip More information
+For more information about products, see the [Modeling Products](https://docs.commercetools.com/tutorials/product-modeling/products) page in the commercetools documentation.
+:::
 
-  <center>
-    <img
-      src="./images/setup-store/products-sidebar-signed.png"
-      alt="Commercetools add product first step"
-      class="image-shadow preview-view"
-    />
-  </center>
+Go to the `Products` page. 
 
-2. Click the `Add product` button and select the product type.
+<center>
+  <img
+    src="./images/setup-store/products-sidebar-signed.webp"
+    alt="Position of the 'Add product' page in the menu in commercetools"
+    class="image-shadow preview-view"
+  />
+</center>
 
-  <center>
-    <img
-      src="./images/setup-store/add-product-1.png"
-      alt="Commercetools add product first step"
-      class="image-shadow preview-view"
-    />
-  </center>
+Click the `Add product` button and select the product type.
 
-3. Type the name and assign the tax category.
+<center>
+  <img
+    src="./images/setup-store/add-product-1.webp"
+    alt="Page to select type of the product"
+    class="image-shadow preview-view"
+  />
+</center>
 
-  <center>
-    <img
-      src="./images/setup-store/add-product-2.png"
-      alt="Commercetools add product second step"
-      class="image-shadow preview-view"
-    />
-  </center>
+Type the name and assign the tax category.
 
-4. Add at least one variant of the product with attributes and SKU number.
+<center>
+  <img
+    src="./images/setup-store/add-product-2.webp"
+    alt="Page to enter basic information about the product, such as name, description, unique key and category"
+    class="image-shadow preview-view"
+  />
+</center>
 
-  <center>
-    <img
-      src="./images/setup-store/variant.png"
-      alt="Commercetools add product third step - choose variant"
-      class="image-shadow preview-view"
-    />
-  </center>
+Add at least one variant of the product with attributes and SKU number.
 
-5. Enter a slug, keywords, and metadata to optimize searching.
+<center>
+  <img
+    src="./images/setup-store/variant.webp"
+    alt="Page to enter product SKU and additional variant attributes"
+    class="image-shadow preview-view"
+  />
+</center>
 
-  <center>
-    <img
-      src="./images/setup-store/add-product-3.png"
-      alt="Commercetools add product fourth step - SEO"
-      class="image-shadow preview-view"
-    />
-  </center>
+Enter a slug, keywords, and metadata to optimize searching.
 
-6. Change product status to `Published` in the top right part of the product screen.
+<center>
+  <img
+    src="./images/setup-store/add-product-3.webp"
+    alt="Page to enter search engine related information, such as keywords, short slug, meta title and description"
+    class="image-shadow preview-view"
+  />
+</center>
 
-  <center>
-    <img
-      src="./images/setup-store/product-status.png"
-      alt="Commercetools add product fourth step - SEO"
-      class="image-shadow preview-view"
-    />
-  </center>
+Change product status to `Published` in the top right part of the product screen.
+
+<center>
+  <img
+    src="./images/setup-store/product-status.webp"
+    alt="Page showing a summary of the newly created product and 'Published' status of the product"
+    class="image-shadow preview-view"
+  />
+</center>
 
 ### Creating an API client
 
-Now, when we have basic configuration in commercetools, we can start connecting it to the Vue Storefront application. To do so we need to generate two API clients.
+With the commercetools already configured, we can connect it to the Vue Storefront application. To do so, we need to generate two API clients.
 
 Go to the `developer settings` page.
 
 <center>
   <img
-    src="./images/setup-store/developer-settings-sidebar-signed.png"
-    alt="Commercetools set scope for client API"
+    src="./images/setup-store/developer-settings-sidebar-signed.webp"
+    alt="Position of the 'Developer settings' page in the menu in commercetools"
     class="image-shadow"
   />
 </center>
 
-Click the `Create new API client` button and enter the `name` for the first API client. This API client will be used to generate access token for guests and customers visiting your shop. Then in the `Scopes` section, select the `Mobile & single-page application client` option from the list of available templates. Additionally select the `Stores` checkbox in the `View` column. Image below shows which permissions should be selected.
+Click the `Create new API client` button and enter the `name` for the first API client. The application will use this API client to generate an access token for guests and customers visiting your shop. Then in the `Scopes` section, select the `Mobile & single-page application client` option from the list of available templates. Additionally, select the `Stores` checkbox in the `View` column. The image below shows which permissions you should select.
 
-For more information, see the [Scopes](https://docs.commercetools.com/api/scopes) page in the commercetools documentation.
+:::tip More information
+For more information about scopes, see the [Scopes](https://docs.commercetools.com/api/scopes) page in the commercetools documentation.
+:::
 
 <center>
   <img
-    src="./images/setup-store/customer_scopes.jpg"
-    alt="Commercetools set scope for client API"
+    src="./images/setup-store/customer_scopes.webp"
+    alt="List of checkboxes indicating which scopes were selected for the customer API client"
     class="image-shadow preview-view"
   />
 </center>
 
-When you click on the `Create API client` button you will see all the credentials. **They are only displayed once, so you need to store them securely.** You can also download them in the format you need.
+When you click on the `Create API client` button, you will see all the credentials. **They are only displayed once, so you need to store them securely.** You can also download them in the format you need.
 
 <center>
   <img
-    src="./images/setup-store/api-client-2.png"
-    alt="Commercetools client API credentials"
+    src="./images/setup-store/api-client-2.webp"
+    alt="Modal showing credentials for the newly created API client"
     class="image-shadow preview-view"
   />
 </center>
 
-Repeat the same process, but this time only select the `Customers` and `Products` permissions from the `Manage` column. This API client will be used to generate access tokens used by the Server Middleware to perform operations that require higher permissions, that what regular guests and customers should have access to.
+Repeat the same process, but this time only select the `Customers` and `Products` permissions from the `Manage` column. The application will use this API client to generate access tokens used by the Server Middleware to perform operations that require higher permissions than what regular guests and customers should have access to.
 
 <center>
   <img
-    src="./images/setup-store/server_scopes.jpg"
-    alt="Commercetools set scope for server API"
+    src="./images/setup-store/server_scopes.webp"
+    alt="List of checkboxes indicating which scopes were selected for the server API client"
     class="image-shadow preview-view"
   />
 </center>
 
 ## Configuring commercetools integration in Vue Storefront
 
-:::warning You need a Vue Storefront project
-This section asumes that you already generated Vue Storefront project. If you didn't, refer to our [Installation](/general/installation.html) guide.
-:::
-
-Open the `middleware.config.js` file in your Vue Storefront project. Inside of the `ct` and `ctf` configuration objects you will find objects named `api` and `serverApi`. Replace the values in all of them with the values displayed after creating an API clients, where `api` should hold values from the first API client (customer) and `serverApi` from the second API client (server).
+Open the `middleware.config.js` file in your Vue Storefront project. Inside of the `ct` and `ctf` configuration objects, you will find objects named `api` and `serverApi`. Replace the values in all of them with the values displayed after creating an API client, where `api` should hold values from the first API client (customer) and `serverApi` from the second API client (server).
 
 Make sure to replace all parts starting with `<` and endpoint with `>`, like `<PROJECT_NAME>`, etc.
 
@@ -368,7 +391,7 @@ module.exports = {
 };
 ```
 
-The next step is to setup the internationalization options in the `nuxt.config.js` file. The countries, currencies and locales should be setup exactly the same as in your commercetools project. It's common mistake to forgot e.g. that `en` is not the same as `en-US`. 
+The next step is to set up the internationalization options in the `nuxt.config.js` file. You should set up the countries, currencies, and locales precisely the same as in your commercetools project. It's common to forget, e.g., that `en` is not the same as `en-US`. 
 
 
 ```js
@@ -394,10 +417,10 @@ module.exports = {
 };
 ```
 
-Now in the terminal go to the Vue Storefront project directory and start the application:
+Now in the terminal, go to the Vue Storefront project directory and start the application:
 
 ```sh
 yarn dev
 ```
 
-If you follow all the previous steps you should see your project working, filled with data that you prevously setup in your commercetools project.
+If you followed all the previous steps, you should see your project working, filled with data you previously set up in your commercetools project.
