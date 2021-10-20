@@ -13,7 +13,7 @@ function getInternationalizationConfiguration(request, configuration) {
 }
 
 export const internationalizationExtension: ApiClientExtension = {
-  name: 'tokenExtension',
+  name: 'internationalizationExtension',
 
   hooks(request) {
     return {

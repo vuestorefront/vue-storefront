@@ -1,14 +1,24 @@
 <template>
   <div>
     <div id="layout">
-      <nuxt :key="$route.fullPath"/>
+      <nuxt :key="route.fullPath"/>
     </div>
   </div>
 </template>
 
 <script>
+import { useRoute } from '@nuxtjs/composition-api';
+
 export default {
-  name: 'BlankLayout'
+  name: 'BlankLayout',
+
+  setup() {
+    const route = useRoute();
+
+    return {
+      route
+    };
+  }
 };
 </script>
 

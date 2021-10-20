@@ -78,7 +78,7 @@ import {
 import UserShippingAddress from '~/components/UserShippingAddress';
 import ShippingAddressForm from '~/components/MyAccount/ShippingAddressForm';
 import { useUserShipping, userShippingGetters } from '<%= options.generate.replace.composables %>';
-import { ref, computed, onMounted } from '@vue/composition-api';
+import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 
 export default {
   name: 'ShippingDetails',

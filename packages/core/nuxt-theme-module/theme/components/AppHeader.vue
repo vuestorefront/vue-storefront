@@ -107,7 +107,7 @@
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
-import { computed, ref, watch, onBeforeUnmount } from '@vue/composition-api';
+import { computed, ref, watch, onBeforeUnmount, useRouter } from '@nuxtjs/composition-api';
 import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';
 import SearchResults from '~/components/SearchResults';
@@ -135,6 +135,7 @@ export default {
   },
   directives: { clickOutside },
   setup(props, { root }) {
+    const router = useRouter();
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, isMobileMenuOpen } = useUiState();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated } = useUser();
@@ -156,14 +157,16 @@ export default {
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
         const localeAccountPath = root.localePath({ name: 'my-account' });
-        return root.$router.push(localeAccountPath);
+        return router.push(localeAccountPath);
       }
 
       toggleLoginModal();
     };
 
     const closeSearch = () => {
-      if (!isSearchOpen.value) return;
+      const wishlistClassName = 'sf-product-card__wishlist-icon';
+      const isWishlistIconClicked = event.path.find(p => wishlistClassName.search(p.className) > 0);
+      if (isWishlistIconClicked || !isSearchOpen.value) return;
 
       term.value = '';
       isSearchOpen.value = false;

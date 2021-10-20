@@ -1,5 +1,5 @@
 import { ProductGetters, AgnosticMediaGalleryItem, AgnosticAttribute, AgnosticPrice } from '@vue-storefront/core';
-import { ProductVariant, Image } from './../types/GraphQL';
+import { ProductVariant, Image } from '@vue-storefront/commercetools-api';
 import { formatAttributeList, getVariantByAttributes, createPrice } from './_utils';
 
 interface ProductVariantFilters {

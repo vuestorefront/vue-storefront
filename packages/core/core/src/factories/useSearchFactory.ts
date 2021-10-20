@@ -1,5 +1,5 @@
 import { CustomQuery, UseSearch, Context, FactoryParams, UseSearchErrors } from '../types';
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, computed } from '@nuxtjs/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 export interface UseSearchFactoryParams<RESULT, SEARCH_PARAMS> extends FactoryParams {

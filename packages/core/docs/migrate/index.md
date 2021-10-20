@@ -2,7 +2,6 @@
 
 ## 2.5.0
 - [Overview](./2.5.0/overview.md)
-- [Integrators](./2.5.0/integrators.md)
 
 ## 2.4.0
 

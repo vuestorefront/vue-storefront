@@ -12,8 +12,10 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@nuxtjs/composition-api": "0.17.0",
     "@vue-storefront/core": "~2.4.2"
+  },
+  "peerDependencies": {
+    "@nuxtjs/composition-api": "^0.29.3"
   },
   "publishConfig": {
     "access": "public"

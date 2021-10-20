@@ -1,5 +1,5 @@
 import { UseUserFactoryParams, Context, UseCart } from '@vue-storefront/core';
-import { Cart, Customer, LineItem, ProductVariant } from '../types/GraphQL';
+import { Cart, Customer, LineItem, ProductVariant } from '@vue-storefront/commercetools-api';
 import { authenticate } from './authenticate';
 import { useCart } from '../useCart';
 
