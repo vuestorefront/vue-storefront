@@ -1,10 +1,11 @@
-import express, { Request, Response, Express } from 'express';
+import express, { Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import consola from 'consola';
 import { MiddlewareConfig, ApiClientExtension, CustomQuery } from '@vue-storefront/core';
 import { registerIntegrations } from './integrations';
 import getAgnosticStatusCode from './helpers/getAgnosticStatusCode';
+import http, { Server } from 'http';
 
 const app = express();
 app.use(express.json());
@@ -23,7 +24,7 @@ interface RequestParams {
   functionName: string;
 }
 
-function createServer (config: MiddlewareConfig): Express {
+function createServer (config: MiddlewareConfig): Server {
   consola.info('Middleware starting....');
   consola.info('Loading integrations...');
 
@@ -50,7 +51,14 @@ function createServer (config: MiddlewareConfig): Express {
 
   consola.success('Middleware created!');
 
-  return app;
+  const server = http.createServer(app);
+
+  // Setting keepAlive values to be higher than defaults of loadbalancer ones
+  // ref: https://cloud.google.com/load-balancing/docs/https#regional-connections
+  server.keepAliveTimeout = 610 * 1000;
+  server.headersTimeout = 650 * 1000;
+
+  return server;
 }
 
 export { createServer };
