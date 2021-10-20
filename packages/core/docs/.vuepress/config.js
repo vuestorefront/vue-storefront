@@ -129,7 +129,7 @@ module.exports = {
         {
           title: 'How-to guides',
           collapsable: true,
-          children: [            
+          children: [
             ['/commercetools/guide/authentication', 'Authentication'],
             ['/commercetools/guide/cart', 'Cart'],
             ['/commercetools/guide/checkout', 'Checkout'],
