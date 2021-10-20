@@ -8,35 +8,32 @@ It only contains code examples. For more information about this version, refer t
 
 ## Changes
 
-- Removed cookies fpr currency, locale and country generated on server side. Now they are generated client side.
+- Prevented generating cookies for currency, locale, and country during SSR (server-side rendering) to enable caching. Now the cookies are generated only client-side (in the browser).
 
-To make this work some changes in configuration are needed.
-1. Disable i18n's detecting browser language.
+Configuration changes are required in the existing projects:
 
-```javascript{5}
-// nuxt.config.js
-i18n: {
-  // other coniiguration options
-  ...
-  detectBrowserLanguage: false
-}
-```
-2. Change order of build modules. Put integration specific nuxt module before core nuxt module:
-```javascript
-buildModules: [
-  ...
-  ['@vue-storefront/__INTEGRATION__/nuxt', {
-    // OPTIONS
-  }],
-  ['@vue-storefront/nuxt', {
-    // OPTIONS
-  }],
-  ...
-]
-```
+1. Disable automatic detection of the browser language in the `i18n` configuration.
 
-3. Change in layouts way of changing locales. As default it is an anchor (`<a>`), it needs to be changed to `<nuxt-link>`. As default it\'s located in `StoreLocaleSelector.vue` file.
-   For example:
-```vue
-<nuxt-link :to="switchLocalePath(lang.code)">
-```
+    ```javascript
+    // nuxt.config.js
+    i18n: {
+      detectBrowserLanguage: false
+    }
+    ```
+2. Change the order of `buildModules`. Make sure that the integration-specific module is before the core nuxt module:
+
+    ```javascript
+    buildModules: [
+      ['@vue-storefront/__INTEGRATION__/nuxt', {
+        // OPTIONS
+      }],
+      ['@vue-storefront/nuxt', {
+        // OPTIONS
+      }],
+    ]
+    ```
+
+3. Update the Vue components used to switch locales to use the `nuxt-link` component instead of the `a` tag. By default it\'s located in the `StoreLocaleSelector.vue` file.
+    ```vue
+    <nuxt-link :to="switchLocalePath(lang.code)">
+    ```
