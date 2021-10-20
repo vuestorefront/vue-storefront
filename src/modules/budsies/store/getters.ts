@@ -1,10 +1,11 @@
-import { GetterTree } from 'vuex'
+import { Getter, GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import { BudsiesState } from '../types/State'
 import ExtraPhotoAddon from '../models/extra-photo-addon.model'
 import RushAddon from '../models/rush-addon.model'
 import Bodypart from '../models/bodypart.model'
 import BodypartValue from '../models/bodypart-value.model'
+import BodypartOption from 'theme/components/interfaces/bodypart-option'
 
 const getters: GetterTree<BudsiesState, RootState> = {
   getExtraPhotoAddon: (state: BudsiesState, id: string): ExtraPhotoAddon | undefined => {
@@ -65,6 +66,29 @@ const getters: GetterTree<BudsiesState, RootState> = {
     state.bodypartBodypartsValues[id].forEach((id) => {
       result.push(state.bodypartsValues[id]);
     });
+
+    return result;
+  },
+  getBodypartOptions: (state: BudsiesState, getters: any) => (id: string): BodypartOption[] => {
+    const bodypartsValues: BodypartValue[] = getters['getBodypartBodypartsValues'](id);
+
+    if (!bodypartsValues.length) {
+      return [];
+    }
+
+    const result: BodypartOption[] = [];
+
+    for (const bodypartValue of bodypartsValues) {
+      result.push({
+        id: bodypartValue.id,
+        label: bodypartValue.name,
+        value: bodypartValue.code,
+        isSelected: false,
+        contentTypeId: bodypartValue.contentTypeId,
+        color: bodypartValue.color,
+        image: bodypartValue.image
+      });
+    }
 
     return result;
   },

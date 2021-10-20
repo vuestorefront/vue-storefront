@@ -32,12 +32,12 @@ const getDataToHash = (product: CartItem | ServerItem): any => {
     return null
   }
 
-  if (product.customerImagesIds && product.customerImagesIds.length) {
-    return product.customerImagesIds;
+  if (product.plushieId) {
+    return typeof product.plushieId === 'number' ? (product.plushieId as number).toString() : product.plushieId;
   }
 
-  if (product.plushieId) {
-    return product.plushieId;
+  if (product.customerImages && product.customerImages.length) {
+    return product.customerImages;
   }
 
   const supportedProductOptions = ['bundle_options', 'custom_options', 'configurable_item_options']
