@@ -54,6 +54,7 @@ services:
       VSF_API_DOMAIN: ${PETSIES_VSF_API_DOMAIN}
       DEFAULT_STORE_ID: ${PETSIES_STORE_ID}
       FILEUPLOADER_UPLOAD_URL: ${FILEUPLOADER_UPLOAD_URL}
+      IMAGE_HANDLER_SERVICE_URL: ${IMAGE_HANDLER_SERVICE_URL}
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       #- './config:/var/www/config'

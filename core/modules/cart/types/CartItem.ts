@@ -1,5 +1,7 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
 
+import CustomerImage from 'theme/components/interfaces/customer-image.interface'
+
 import CartItemOption from './CartItemOption'
 import CartItemTotals from './CartItemTotals'
 
@@ -13,7 +15,6 @@ export default interface CartItem extends Product {
   item_id?: number | string,
   checksum?: string,
   quoteId?: string,
-  customerImagesIds?: string[],
   plushieId?: string,
   email?: string,
   plushieBreed?: string,
@@ -21,5 +22,6 @@ export default interface CartItem extends Product {
   plushieDescription?: string,
   bodyparts?: object,
   customFields?: object,
-  uploadMethod?: string
+  uploadMethod?: string,
+  customerImages?: CustomerImage[],
 }
