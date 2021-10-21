@@ -1,5 +1,4 @@
 import webpack from 'webpack';
-import { VSF_LOCALE_COOKIE } from '@vue-storefront/core';
 import theme from './themeConfig';
 
 export default {
@@ -45,6 +44,7 @@ export default {
     '@nuxtjs/composition-api/module',
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
+    ['@vue-storefront/boilerplate/nuxt', {}],
     ['@vue-storefront/nuxt', {
       // @core-development-only-start
       coreDevelopment: true,
@@ -68,12 +68,11 @@ export default {
           composables: '@vue-storefront/boilerplate'
         }
       }
-    }],
+    }]
     // @core-development-only-end
     /* project-only-start
-    ['@vue-storefront/nuxt-theme'],
+    ,['@vue-storefront/nuxt-theme'],
     project-only-end */
-    ['@vue-storefront/boilerplate/nuxt', {}]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -122,9 +121,7 @@ export default {
         }
       }
     },
-    detectBrowserLanguage: {
-      cookieKey: VSF_LOCALE_COOKIE
-    }
+    detectBrowserLanguage: false
   },
 
   styleResources: {

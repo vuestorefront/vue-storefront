@@ -37,7 +37,7 @@
       />
       <SfList>
         <SfListItem v-for="lang in availableLocales" :key="lang.code">
-          <a :href="switchLocalePath(lang.code)">
+          <nuxt-link :to="switchLocalePath(lang.code)">
             <SfCharacteristic class="language">
               <template #title>
                 <span>{{ lang.label }}</span>
@@ -46,7 +46,7 @@
                 <SfImage :src="`/icons/langs/${lang.code}.webp`" width="20" alt="Flag" class="language__flag" />
               </template>
             </SfCharacteristic>
-          </a>
+          </nuxt-link>
         </SfListItem>
       </SfList>
     </SfBottomModal>

@@ -8,6 +8,7 @@ import mask from './logger/mask';
 import { useVSFContext, configureContext, generateContext } from './context';
 import { integrationPlugin } from './nuxt';
 import { configureFactoryParams } from './factoryParams';
+import i18nRedirectsUtil from './i18n-redirects';
 
 export {
   wrap,
@@ -22,5 +23,6 @@ export {
   useVSFContext,
   configureFactoryParams,
   generateContext,
-  integrationPlugin
+  integrationPlugin,
+  i18nRedirectsUtil
 };
