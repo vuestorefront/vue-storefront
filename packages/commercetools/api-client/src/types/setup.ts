@@ -47,6 +47,8 @@ export interface Auth {
   onTokenChange?: (token: Token) => void;
   onTokenRead?: () => string;
   onTokenRemove?: () => void;
+  onTokenProviderSet?: (token: Token) => void;
+  onTokenProviderRead?: () => TokenProvider;
 }
 
 export interface StoreService {
@@ -121,11 +123,11 @@ export enum TokenType {
   ServerAccessToken = 'ServerAccessToken',
   QuestAccessToken = 'QuestAccessToken',
   AnonymousAccesToken = 'AnonymousAccesToken',
-  ExistingAccessToken = 'ExistingAccessToken'
+  ExistingAccessToken = 'ExistingAccessToken',
+  UserAccessToken = 'UserAccessToken'
 }
 
 export type AccessTokenResult = {
   currentToken: TokenInfo,
-  authLinkSdkAuth: SdkAuth,
   authLinkTokenProvider: TokenProvider
 }

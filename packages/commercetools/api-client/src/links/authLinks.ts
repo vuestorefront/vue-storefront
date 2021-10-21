@@ -15,13 +15,13 @@ async function getServerAccessToken({
 }): Promise<AccessTokenResult> {
   Logger.debug(`Get server access token for operation "${ apolloReq.operationName }"`);
 
+  configuration.auth.onTokenProviderSet(configuration.serverTokenProvider);
   const currentToken = await configuration.serverTokenProvider.getTokenInfo();
 
   Logger.debug(`Successfully get server access token for operation "${ apolloReq.operationName }"`);
 
   return {
     currentToken,
-    authLinkSdkAuth: configuration.serverTokenProvider.sdkAuth,
     authLinkTokenProvider: configuration.serverTokenProvider
   };
 }
@@ -31,14 +31,14 @@ async function getServerAccessToken({
  */
 async function getGuestAccessToken({
   configuration
-}): Promise<any> {
+}): Promise<AccessTokenResult> {
   Logger.debug('Get guest access token from provider');
 
+  configuration.auth.onTokenProviderSet(configuration.questTokenProvider);
   const currentToken = await configuration.questTokenProvider.getTokenInfo();
 
   return {
     currentToken,
-    authLinkSdkAuth: configuration.questTokenProvider.sdkAuth,
     authLinkTokenProvider: configuration.questTokenProvider
   };
 }
@@ -48,17 +48,17 @@ async function getGuestAccessToken({
  */
 async function getTokenProviderForExistingToken({
   configuration
-}): Promise<any> {
+}): Promise<AccessTokenResult> {
   Logger.debug('Generating provider token for existing token');
 
   const { tokenProvider } = createSdkHelpers(configuration, TokenType.ExistingAccessToken);
+  configuration.auth.onTokenProviderSet(tokenProvider);
   const currentToken = await tokenProvider.getTokenInfo();
 
   Logger.debug('Successfully generated provider token for existing token');
 
   return {
     currentToken,
-    authLinkSdkAuth: tokenProvider.sdkAuth,
     authLinkTokenProvider: tokenProvider
   };
 }
@@ -73,13 +73,13 @@ export async function generateAnonymousAccessToken({
   Logger.debug(`Generating anonymous access token for operation "${ apolloReq.operationName }"`);
 
   const { tokenProvider } = createSdkHelpers(configuration, TokenType.AnonymousAccesToken);
+  configuration.auth.onTokenProviderSet(tokenProvider);
   const currentToken = await tokenProvider.getTokenInfo();
 
   Logger.debug(`Successfully generated anonymous access token for operation "${ apolloReq.operationName }"`);
 
   return {
     currentToken,
-    authLinkSdkAuth: tokenProvider.sdkAuth,
     authLinkTokenProvider: tokenProvider
   };
 }
@@ -89,18 +89,17 @@ export async function generateAnonymousAccessToken({
  */
 async function generateUserAccessToken({
   apolloReq,
-  sdkAuth,
-  tokenProvider
+  configuration
 }): Promise<string> {
   Logger.debug(`Generating user access token for operation "${ apolloReq.operationName }"`);
 
-  const { email, password } = apolloReq.variables.draft;
-  const token = await sdkAuth.customerPasswordFlow({ username: email, password });
-  tokenProvider.setTokenInfo(token);
+  const { tokenProvider } = createSdkHelpers(configuration, TokenType.UserAccessToken, apolloReq);
+  configuration.auth.onTokenProviderSet(tokenProvider);
+  const currentToken = await tokenProvider.getTokenInfo();
 
   Logger.debug(`Successfully generated user access token for operation "${ apolloReq.operationName }"`);
 
-  return token;
+  return currentToken;
 }
 
 /**
@@ -156,18 +155,17 @@ export async function handleBeforeAuth({
  *  - response from the commercetools doesn't contain any errors, meaning that the given credentials are valid;
  */
 export async function handleAfterAuth({
-  sdkAuth,
   tokenProvider,
   apolloReq,
-  response
+  response,
+  configuration
 }) {
   const currentToken = tokenProvider.getTokenInfo();
 
   if (!isUserSession(currentToken) && isUserOperation(apolloReq.operationName) && !response.errors?.length) {
     return generateUserAccessToken({
       apolloReq,
-      sdkAuth,
-      tokenProvider
+      configuration
     });
   }
 

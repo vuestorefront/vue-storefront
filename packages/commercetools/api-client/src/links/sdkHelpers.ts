@@ -29,7 +29,7 @@ function createAuthClient({
 /**
  * Creates a token provider from the commercetools package.
  */
-function createTokenProvider({ configuration, sdkAuth, tokenType }) {
+function createTokenProvider({ configuration, sdkAuth, tokenType, apolloReq }) {
   const { clientId, clientSecret, scopes } = configuration.serverApi || configuration.api;
 
   switch (tokenType) {
@@ -38,16 +38,14 @@ function createTokenProvider({ configuration, sdkAuth, tokenType }) {
         {
           sdkAuth,
           fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow({ credentials: { clientId, clientSecret }, scopes })
-        },
-        configuration.auth.onTokenRead()
+        }
       );
     case TokenType.QuestAccessToken:
       return new TokenProvider(
         {
           sdkAuth,
           fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow()
-        },
-        configuration.auth.onTokenRead()
+        }
       );
     case TokenType.AnonymousAccesToken:
       return new TokenProvider(
@@ -65,6 +63,15 @@ function createTokenProvider({ configuration, sdkAuth, tokenType }) {
         },
         configuration.auth.onTokenRead()
       );
+    case TokenType.UserAccessToken:
+      const { email, password } = apolloReq.variables.draft;
+      return new TokenProvider(
+        {
+          sdkAuth,
+          fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.customerPasswordFlow({ username: email, password }),
+          onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
+        }
+      );
     default:
       return null;
   }
@@ -73,12 +80,13 @@ function createTokenProvider({ configuration, sdkAuth, tokenType }) {
 /**
  * Create helpers from the commercetools SDK package.
  */
-export function createSdkHelpers(configuration: Config, tokenType: TokenType) {
+export function createSdkHelpers(configuration: Config, tokenType: TokenType, apolloReq?: any) {
   const sdkAuth = createAuthClient(configuration.api);
   const tokenProvider = createTokenProvider({
     configuration,
     sdkAuth,
-    tokenType
+    tokenType,
+    apolloReq
   });
 
   return {

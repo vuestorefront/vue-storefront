@@ -17,7 +17,9 @@ export const tokenExtension: ApiClientExtension = {
     configuration.auth = {
       onTokenChange: () => {},
       onTokenRead: () => '',
-      onTokenRemove: () => {}
+      onTokenRemove: () => {},
+      onTokenProviderSet: () => {},
+      onTokenProviderRead: () => {}
     };
 
     Logger.debug('Generating server access token');
@@ -34,6 +36,21 @@ export const tokenExtension: ApiClientExtension = {
   },
   hooks(request, response) {
     let currentToken = parseToken(request.cookies[CT_COOKIE_NAME]);
+    let currentTokenProvider = {};
+
+    /**
+     * Set token provider.
+     */
+    function onTokenProviderSet(tokenProvider) {
+      currentTokenProvider = tokenProvider;
+    }
+
+    /**
+     * Read token provider.
+     */
+    function onTokenProviderRead() {
+      return currentTokenProvider;
+    }
 
     /**
      * Updates token cookie.
@@ -72,7 +89,9 @@ export const tokenExtension: ApiClientExtension = {
         auth: {
           onTokenChange,
           onTokenRead,
-          onTokenRemove
+          onTokenRemove,
+          onTokenProviderSet,
+          onTokenProviderRead
         }
       })
     };
