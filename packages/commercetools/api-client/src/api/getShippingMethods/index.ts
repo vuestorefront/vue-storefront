@@ -8,6 +8,10 @@ export interface ShippingMethodData {
   shippingMethods: ShippingMethod[];
 }
 
+/**
+ * @remarks References:
+ * {@link ShippingMethodData}
+ */
 const getShippingMethods = async (context, cartId?: string, customQuery?: CustomQuery) => {
   const { acceptLanguage } = context.config;
   const defaultVariables = {

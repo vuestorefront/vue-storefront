@@ -3,6 +3,10 @@ import { ProductVariant, Address, LineItem, ReferenceInput, ResourceIdentifierIn
 
 const hasContactInfo = details => Object.keys(details.contactInfo || {}).some(c => ['phone', 'email', 'mobile', 'fax'].includes(c));
 
+/**
+ * @remarks References:
+ * {@link ProductVariant}
+ */
 export const createAddLineItemAction = (params: {
   product: ProductVariant;
   quantity: number;
@@ -20,6 +24,10 @@ export const createAddLineItemAction = (params: {
   };
 };
 
+/**
+ * @remarks References:
+ * {@link LineItem}
+ */
 export const createRemoveLineItemAction = (product: LineItem) => ({
   removeLineItem: {
     lineItemId: product.id,
@@ -27,6 +35,10 @@ export const createRemoveLineItemAction = (product: LineItem) => ({
   }
 });
 
+/**
+ * @remarks References:
+ * {@link LineItem}
+ */
 export const createChangeLineItemQuantityAction = (product: LineItem) => ({
   changeLineItemQuantity: {
     lineItemId: product.id,
@@ -34,6 +46,10 @@ export const createChangeLineItemQuantityAction = (product: LineItem) => ({
   }
 });
 
+/**
+ * @remarks References:
+ * {@link Address}, {@link AddressInput}
+ */
 export const setShippingAddressAction = (shippingDetails: Address): { setShippingAddress: { address: AddressInput } } => {
   if (hasContactInfo(shippingDetails)) {
     Logger.warn('Using `contactInfo` on Address is being deprecated in the CT API, use `email` `phone` `mobile` and `fax` fields directly.');
@@ -74,10 +90,18 @@ export const setShippingMethodAction = (shippingMethodId?: string) => ({
   }
 });
 
+/**
+ * @remarks References:
+ * {@link ResourceIdentifierInput}
+ */
 export const addPayment = (payment: ResourceIdentifierInput) => ({
   addPayment: { payment }
 });
 
+/**
+ * @remarks References:
+ * {@link Address}, {@link AddressInput}
+ */
 export const setBillingAddressAction = (billingDetails: Address): { setBillingAddress: { address: AddressInput } } => {
   if (hasContactInfo(billingDetails)) {
     Logger.warn('Using `contactInfo` on Address is being deprecated in the CT API, use `email` `phone` `mobile` and `fax` fields directly.');
@@ -124,6 +148,10 @@ export const addDiscountCodeAction = (code: string) => ({
   addDiscountCode: { code }
 });
 
+/**
+ * @remarks References:
+ * {@link ReferenceInput}
+ */
 export const removeDiscountCodeAction = (discountCode: ReferenceInput) => ({
   removeDiscountCode: { discountCode }
 });

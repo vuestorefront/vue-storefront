@@ -4,6 +4,10 @@ import { CartDetails, CartResponse } from './../../types/Api';
 import { LineItem } from './../../types/GraphQL';
 import { createRemoveLineItemAction } from './../../helpers/cart/actions';
 
+/**
+ * @remarks References:
+ * {@link CartDetails}, {@link LineItem}, {@link CartResponse}
+ */
 const removeFromCart = async (
   context,
   { id, version }: CartDetails,

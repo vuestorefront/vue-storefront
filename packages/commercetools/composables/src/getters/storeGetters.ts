@@ -3,7 +3,7 @@ import { Store, Channel, Address } from '../types/GraphQL';
 import { StoresData } from '../types';
 import { FilterCriteriaRecord, Localized, filterArrayByCriteriaRecord } from '../helpers/internals';
 
-interface StoreFilterCriteria {
+export interface StoreFilterCriteria {
   store?: FilterCriteriaRecord<Store>;
   channel?: FilterCriteriaRecord<Channel>
 }
@@ -97,6 +97,10 @@ function getSelected (stores: StoresData): AgnosticStore | undefined {
   return getItems(stores, { store: { key: (stores?._selectedStore ?? '') }})[0];
 }
 
+/**
+ * @remarks References:
+ * {@link StoresData}, {@link StoreFilterCriteria}
+ */
 const storeGetters: UseStoreGetters<StoresData, StoreFilterCriteria> = {
   getItems,
   getSelected

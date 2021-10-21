@@ -9,6 +9,10 @@ export const getUserFullName = (user: Customer): string => user ? `${user.firstN
 
 export const getUserEmailAddress = (user: Customer): string => user?.email || '';
 
+/**
+ * @remarks References:
+ * {@link Customer}
+ */
 const userGetters: UserGetters<Customer> = {
   getFirstName: getUserFirstName,
   getLastName: getUserLastName,

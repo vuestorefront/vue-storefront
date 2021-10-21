@@ -4,6 +4,10 @@ import gql from 'graphql-tag';
 import { CustomQuery } from '@vue-storefront/core';
 import { getStoreKey } from '../../helpers/utils';
 
+/**
+ * @remarks References:
+ * {@link CartData}
+ */
 const createCart = async (context, cartDraft: CartData = {}, customQuery?: CustomQuery) => {
   const { locale, acceptLanguage, currency, country, store, inventoryMode } = context.config;
 

@@ -4,6 +4,10 @@ import { CartDetails, CartResponse } from './../../types/Api';
 import { ProductVariant } from './../../types/GraphQL';
 import { createAddLineItemAction } from './../../helpers/cart/actions';
 
+/**
+ * @remarks References:
+ * {@link CartDetails}, {@link ProductVariant}, {@link CartResponse}
+ */
 const addToCart = async (
   context: Context,
   { id, version }: CartDetails,

@@ -7,20 +7,12 @@ const nodeHtmlToImage = require('node-html-to-image');
  */
 const FALLBACK_PATH = 'fallback.jpg';
 
-/**
- * Vue Storefront logo buffer
- */
-const VSF_LOGO_BUFFER = new Buffer
-  .from(readFileSync(resolve(__dirname,'./logo-horizontal.png')))
-  .toString('base64');
-
  /**
   * Helper function to fill PAGES array
   */
 function pageToContent({ outDir, title, fileName }) {
   return {
     title,
-    image: `data:image/jpeg;base64,${ VSF_LOGO_BUFFER }`,
     output: resolve(outDir, fileName),
     type: 'jpeg',
     selector: '.banner'
