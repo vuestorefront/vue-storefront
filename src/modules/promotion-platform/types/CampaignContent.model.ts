@@ -3,7 +3,7 @@ import { Dictionary } from 'src/modules/budsies';
 export default class CampaignContent {
   public constructor (
     private fCountdownBannerContent?: string,
-    private fDiscountsContent?: Dictionary<string>,
+    private fDiscountsContent?: Dictionary<number>,
     private fImageBannerContent?: string,
     private fCountdownBannerBlacklistUrls: string[] = []
   ) {}
@@ -16,7 +16,7 @@ export default class CampaignContent {
     return this.fCountdownBannerBlacklistUrls;
   }
 
-  public get discountsContent (): Dictionary<string> | undefined {
+  public get discountsContent (): Dictionary<number> | undefined {
     return this.fDiscountsContent;
   }
 

@@ -3,6 +3,7 @@ import { processURLAddress } from '@vue-storefront/core/helpers';
 
 import CampaignsGetAPIResponse from './types/CampaignsGetAPIResponse';
 import CampaignContent from './types/CampaignContent.model';
+import { Dictionary } from '../budsies';
 
 export const PromotionPlatformService = {
   async fetchCampaignContent (campaignToken?: string, dataParam?: string): Promise<CampaignsGetAPIResponse> {
@@ -34,7 +35,7 @@ export const PromotionPlatformService = {
 
     const campaignData = responseData.result.campaignContent;
     let countdownBannerContent;
-    let discountsContent;
+    let discountsContent: Dictionary<number> | undefined;
     let imagesBannerContent;
     let countdownBannerBlacklistUrls: string[] = [];
 
@@ -60,7 +61,10 @@ export const PromotionPlatformService = {
     }
 
     if (campaignData.discounts && campaignData.discounts.content) {
-      discountsContent = campaignData.discounts.content;
+      discountsContent = {};
+      for (const [key, value] of Object.entries(campaignData.discounts.content) as [string, string][]) {
+        discountsContent[key] = Number.parseInt(value.split('$')[1])
+      }
     }
 
     const campaignContent = new CampaignContent(

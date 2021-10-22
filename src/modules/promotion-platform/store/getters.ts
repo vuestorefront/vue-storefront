@@ -25,10 +25,10 @@ export const getters: GetterTree<PromotionPlatformState, any> = {
       }
 
       if (format) {
-        return discount;
+        return `$${discount}`;
       }
 
-      return Number.parseInt(discount.split('$')[1], 10);
+      return discount;
     }
   }
 }
