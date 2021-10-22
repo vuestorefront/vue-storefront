@@ -101,7 +101,7 @@
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="products__product-card"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
-              @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+              @click:add-to-cart="addToCart({ product, quantity: 1 })"
             />
           </transition-group>
           <transition-group
@@ -129,7 +129,7 @@
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               @input="productsQuantity[product._id] = $event"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
-              @click:add-to-cart="addItemToCart({ product, quantity: Number(productsQuantity[product._id]) })"
+              @click:add-to-cart="addToCart({ product, quantity: Number(productsQuantity[product._id]) })"
             >
               <template #configuration>
                 <SfProperty
@@ -255,6 +255,14 @@ export default {
       removeItemFromWishlist({ product });
     };
 
+    const addToCart = ({ product, quantity }) => {
+      const { id, sku } = product;
+      addItemToCart({
+        product: { id, sku },
+        quantity
+      });
+    };
+
     onSSR(async () => {
       await search(th.getFacetsFromURL());
       if (error?.value?.search) context.root.$nuxt.error({ statusCode: 404 });
@@ -273,7 +281,7 @@ export default {
       addItemToWishlist,
       removeProductFromWishlist,
       isInWishlist,
-      addItemToCart,
+      addToCart,
       isInCart,
       productsQuantity
     };
