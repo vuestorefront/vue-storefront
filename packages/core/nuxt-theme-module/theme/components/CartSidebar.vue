@@ -28,7 +28,7 @@
                 :regular-price="$n(cartGetters.getItemPrice(product).regular, 'currency')"
                 :special-price="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
                 :stock="99999"
-                @click:remove="removeItem({ product })"
+                @click:remove="removeItem({ product: { id: product.id } })"
                 class="collected-product"
               >
                 <template #configuration>
