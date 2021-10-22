@@ -12,7 +12,7 @@ Refer to our [Installation](/general/installation.html) guide if you don't have 
 
 Log into your commercetools account and create a new project following the [Create a project](https://docs.commercetools.com/merchant-center/projects#creating-a-project) guide from commercetools. One project can provide data for multiple selling channels, but you can have more than one project with different settings and catalogs if you need it.
 
-By default, Vue Storefront project can only be connected to one commercetools project.
+By default, you can only connect the Vue Storefront project to one commercetools project. However, you can modify the `middleware.config.js` and `nuxt.config.js` files to export different configurations based on environment variables. This way, you can use one Vue Storefront project for multiple commercetools projects.
 
 ## Configuring commercetools project
 
