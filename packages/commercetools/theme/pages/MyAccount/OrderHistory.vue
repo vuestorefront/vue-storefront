@@ -3,7 +3,10 @@
     <SfTab title="My orders">
       <div v-if="currentOrder">
         <SfButton class="sf-button--text all-orders" @click="currentOrder = null">All Orders</SfButton>
-        <div class="highlighted highlighted--total">
+        <div
+          v-e2e="'order-details'"
+          class="highlighted highlighted--total"
+        >
           <SfProperty
             name="Order ID"
             :value="orderGetters.getId(currentOrder)"
@@ -60,9 +63,9 @@
           </SfTableHeading>
           <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
             <SfTableData v-e2e="'order-number'">{{ orderGetters.getId(order) }}</SfTableData>
-            <SfTableData>{{ orderGetters.getDate(order) }}</SfTableData>
-            <SfTableData>{{ $n(orderGetters.getPrice(order), 'currency') }}</SfTableData>
-            <SfTableData>
+            <SfTableData v-e2e="'order-date'">{{ orderGetters.getDate(order) }}</SfTableData>
+            <SfTableData v-e2e="'order-amount'">{{ $n(orderGetters.getPrice(order), 'currency') }}</SfTableData>
+            <SfTableData v-e2e="'order-status'">
               <span :class="getStatusTextClass(order)">{{ orderGetters.getStatus(order) }}</span>
             </SfTableData>
             <SfTableData class="orders__view orders__element--right">
@@ -72,14 +75,21 @@
             </SfTableData>
           </SfTableRow>
         </SfTable>
-        <div class="pagination" v-if="orders.length < totalOrders">
+        <div
+          v-e2e="'order-history-pagination'"
+          class="pagination"
+          v-if="orders.length < totalOrders"
+        >
           <SfArrow
             aria-label="prev"
             class="sf-arrow--left sf-arrow--transparent"
             :disabled="offset === 0"
             @click="goPrev(offset)"
           />
-          <div class="pagination-count">
+          <div
+            v-e2e="'order-history-pagination-count'"
+            class="pagination-count"
+          >
             {{ orders.length > 1 ? `${offset + 1} - ` : "" }} {{ offset + orders.length }}
             <strong>of</strong> {{ totalOrders }}
           </div>

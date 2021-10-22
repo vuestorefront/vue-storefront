@@ -1,31 +1,44 @@
 import generator from '../utils/data-generator';
 
-function _intercept(path: string, alias?: string) {
-  const as = alias ?? generator.uuid;
-  cy.intercept(path).as(as);
+type Options = {
+  as?: string;
+  fixture?: any
+}
+
+function _intercept(path: string, options?: Options) {
+  const as = options?.as ?? generator.uuid;
+  options?.fixture ? cy.intercept(path, { fixture: options?.fixture }).as(as) : cy.intercept(path).as(as);
   return `@${as}`;
 }
 
 const intercept = {
 
-  customerChangeMyPassword(as?: string): string {
-    return _intercept('/customerChangeMyPassword', as);
+  customerChangeMyPassword(options?: Options): string {
+    return _intercept('**/customerChangeMyPassword', options);
   },
 
-  customerUpdateMe(as?: string): string {
-    return _intercept('/customerUpdateMe', as);
+  customerUpdateMe(options?: Options): string {
+    return _intercept('**/customerUpdateMe', options);
   },
 
-  getMe(as?: string): string {
-    return _intercept('/getMe', as);
+  customerSignMeIn(options?: Options): string {
+    return _intercept('**/customerSignMeIn', options);
   },
 
-  getProduct(as?: string): string {
-    return _intercept('/getProduct', as);
+  getMe(options?: Options): string {
+    return _intercept('**/getMe', options);
   },
 
-  updateCartQuantity(as?: string): string {
-    return _intercept('/updateCartQuantity', as);
+  getOrders(options?: Options) {
+    return _intercept('**/getOrders', options);
+  },
+
+  getProduct(options?: Options): string {
+    return _intercept('**/getProduct', options);
+  },
+
+  updateCartQuantity(options?: Options): string {
+    return _intercept('**/updateCartQuantity', options);
   }
 };
 
