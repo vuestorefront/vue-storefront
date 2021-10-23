@@ -1,4 +1,7 @@
 {
+  "general": {
+    "target_dir": "Target director: "
+  },
   "commands": {
     "store": {
       "description": "Create a new Vue Storefront store.",
@@ -16,9 +19,15 @@
         "project_name": "What's your project name?",
         "custom_git": "Provide integration repository git link via https:"
       },
+      "prompt": {
+        "generate_in_current": "Generate project in current directory?",
+        "overwrite_files": "The files on the specified folder will be removed to create the new project."
+      },
       "error": {
         "longer_name": "Please provide longer name",
-        "git_link": "Please provide git repository https link"
+        "git_link": "Please provide git repository https link",
+        "directory_exists": "Target directory exists. Continue?",
+        "new_name": "Directory already exists, please provide a new name to continue."
       },
       "custom_template": "Custom template from Github",
       "success": {
@@ -27,6 +36,11 @@
         "title": "Success",
         "msg": "Your new project is ready!",
         "docsMsg": "Please go to the documentation to find more information about the selected integration."
+      }
+    },
+    "dependencies": {
+      "prompt": {
+        "install": "Install the dependencies on the project?"
       }
     }
   }
