@@ -1,11 +1,16 @@
 import { Command, flags } from '@oclif/command';
 import * as inquirer from 'inquirer';
+import * as fs from 'fs';
+import * as path from 'path';
 import consola from 'consola';
-import chalk from 'chalk';
+import rimraf from 'rimraf';
+import tildify from 'tildify';
 import { getLanguage } from '../i18n/getLanguage';
 import { fetchIntegrations } from '../helpers/fetch-integrations';
 import { cloneProject } from '../exec/clone-project';
 import { validateGitString } from '../helpers/validations/git';
+import { successClone } from '../msg/sucess-clone';
+import { fatalError } from '../helpers/consola';
 
 const clearName = (name: string) => name.split(' ').join('-');
 
@@ -121,21 +126,52 @@ export default class Store extends Command {
     }
 
     if (configs.name && configs.git) {
-      const clonedDir = await cloneProject({
-        name: configs.name,
-        gitLink: configs.git,
-        dryRun: flags.dryRun || false
-      });
+      const targetFolder = path.join(process.cwd(), configs.name);
+      const folderExists = fs.existsSync(targetFolder);
 
-      console.clear();
+      console.log(lang.general.target_dir, tildify(targetFolder));
 
-      console.log(chalk.bgGreen.whiteBright(lang.commands.store.success.title), chalk.green(lang.commands.store.success.msg));
+      const { ok } = await inquirer.prompt([{
+        type: 'confirm',
+        message: folderExists
+          ? lang.commands.store.error.directory_exists
+          : lang.commands.store.prompt.generate_in_current,
+        name: 'ok'
+      }]);
 
-      if (docsResultMsgs.length > 0) {
-        docsResultMsgs.forEach(msg => console.log(msg));
+      if (ok) {
+        if (folderExists) {
+          const { remove } = await inquirer.prompt([{
+            type: 'confirm',
+            message: lang.commands.store.prompt.overwrite_files,
+            name: 'remove'
+          }]);
+
+          // eslint-disable-next-line max-depth
+          if (remove) {
+            // eslint-disable-next-line max-depth
+            try {
+              rimraf.sync(targetFolder);
+            } catch (e) {
+              fatalError(e);
+            }
+          }
+        }
+
+        const clonedDir = await cloneProject({
+          name: configs.name,
+          gitLink: configs.git,
+          dryRun: flags.dryRun || false
+        });
+
+        successClone({
+          dir: tildify(clonedDir),
+          dryRun: flags.dryRun || false,
+          resultMsgs: docsResultMsgs
+        });
+      } else {
+        fatalError(lang.commands.store.error.new_name);
       }
-
-      console.log(`${lang.commands.store.success.dir}: ${clonedDir}`);
 
       if (flags.dryRun) {
         process.exit(0);
