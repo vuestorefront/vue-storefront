@@ -151,8 +151,9 @@ export const handleRetry = ({ settings, tokenProvider }) => (count, operation, e
   if (error?.result?.message === 'invalid_token') {
     Logger.debug(`Apollo retry-link, the operation (${operation.operationName}) sent with wrong token, creating a new one... (attempt: ${count})`);
     tokenProvider.invalidateTokenInfo();
-    return true;
   }
 
-  return false;
+  Logger.debug(`Apollo retry-link, the operation (${operation.operationName})(attempt: ${count})`);
+
+  return true;
 };
