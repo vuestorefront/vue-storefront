@@ -1,6 +1,6 @@
 import * as inquirer from 'inquirer';
 import { getLanguage } from '../i18n/getLanguage';
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
 import { fatalError } from '../helpers/consola';
 
 const lang = getLanguage();
@@ -25,13 +25,14 @@ export const installDependencies = async ({
       choices: ['NPM', 'yarn']
     });
     if (!dryRun) {
-      await exec(`cd ${dir} && ${manager.toLowerCase()} install`, (err, stdout, stderr) => {
-        if (err) {
-          fatalError(err);
-          return;
-        }
+      const exec = spawn(dir, [manager.toLowerCase(), 'install']);
 
-        console.log(stdout);
+      exec.stdout.on('data', (data) => {
+        console.log(data.toString());
+      });
+
+      exec.stderr.on('data', (data) => {
+        fatalError(data);
       });
     }
   }

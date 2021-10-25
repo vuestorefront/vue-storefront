@@ -11,6 +11,7 @@ import { cloneProject } from '../exec/clone-project';
 import { validateGitString } from '../helpers/validations/git';
 import { successClone } from '../msg/sucess-clone';
 import { fatalError } from '../helpers/consola';
+import { installDependencies } from '../exec/install-dependencies';
 
 const clearName = (name: string) => name.split(' ').join('-');
 
@@ -161,6 +162,11 @@ export default class Store extends Command {
         const clonedDir = await cloneProject({
           name: configs.name,
           gitLink: configs.git,
+          dryRun: flags.dryRun || false
+        });
+
+        await installDependencies({
+          dir: clonedDir,
           dryRun: flags.dryRun || false
         });
 
