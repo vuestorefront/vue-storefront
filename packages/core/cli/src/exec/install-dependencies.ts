@@ -1,7 +1,6 @@
 import * as inquirer from 'inquirer';
 import { getLanguage } from '../i18n/getLanguage';
-import { spawn } from 'child_process';
-import { fatalError } from '../helpers/consola';
+import { execSync } from 'child_process';
 
 const lang = getLanguage();
 
@@ -25,14 +24,9 @@ export const installDependencies = async ({
       choices: ['NPM', 'yarn']
     });
     if (!dryRun) {
-      const exec = spawn(dir, [manager.toLowerCase(), 'install']);
-
-      exec.stdout.on('data', (data) => {
-        console.log(data.toString());
-      });
-
-      exec.stderr.on('data', (data) => {
-        fatalError(data);
+      execSync(`${manager.toLowerCase()} install`, {
+        cwd: dir,
+        stdio: 'inherit'
       });
     }
   }
