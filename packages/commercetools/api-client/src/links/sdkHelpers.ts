@@ -52,14 +52,16 @@ function createTokenProvider({ configuration, sdkAuth, tokenType, apolloReq }) {
         {
           sdkAuth,
           fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.anonymousFlow(),
-          onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
+          onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo),
+          onTokenInfoRefreshed: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
         }
       );
     case TokenType.ExistingAccessToken:
       return new TokenProvider(
         {
           sdkAuth,
-          onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
+          onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo),
+          onTokenInfoRefreshed: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
         },
         configuration.auth.onTokenRead()
       );
@@ -69,7 +71,8 @@ function createTokenProvider({ configuration, sdkAuth, tokenType, apolloReq }) {
         {
           sdkAuth,
           fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.customerPasswordFlow({ username: email, password }),
-          onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
+          onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo),
+          onTokenInfoRefreshed: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
         }
       );
     default:
