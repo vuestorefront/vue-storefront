@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { Ref } from '@vue/composition-api';
+import { Ref } from '@nuxtjs/composition-api';
 import type { Request, Response } from 'express';
 
 /**

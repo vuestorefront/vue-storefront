@@ -1,39 +1,89 @@
-const { VSF_CURRENCY_COOKIE, VSF_COUNTRY_COOKIE } = require('@vue-storefront/core');
+import { i18nRedirectsUtil, VSF_COUNTRY_COOKIE, VSF_CURRENCY_COOKIE, VSF_LOCALE_COOKIE } from '@vue-storefront/core';
 
-const i18nCookiesPlugin = ({ $cookies }) => {
-  const i18n = <%= serialize(options) %>;
+const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
+  const i18nOptions = <%= serialize(options) %>;
+  const isServer = typeof window === 'undefined';
+  const acceptedLanguage = app.context.req?.headers?.['accept-language'] || navigator?.languages || '';
+  const isRouteValid = !!app.context.route.name;
+  const cookieNames = {
+    currency: i18nOptions.cookies?.currencyCookieName || VSF_CURRENCY_COOKIE,
+    country: i18nOptions.cookies?.countryCookieName || VSF_COUNTRY_COOKIE,
+    locale: i18nOptions.cookies?.localeCookieName || VSF_LOCALE_COOKIE
+  }
+  const cookieLocale = $cookies.get(cookieNames.locale);
+  const cookieCurrency = $cookies.get(cookieNames.currency);
 
-  const settings = {
-    defaultLocale: i18n.defaultLocale || (i18n.locales.length && i18n.locales[0].code),
-    currency: i18n.currency || (i18n.currencies.length && i18n.currencies[0].name),
-    country: i18n.country || (i18n.countries.length && i18n.countries[0].name)
-  };
+  const getCurrencyByLocale = (locale) =>
+    i18n.numberFormats?.[locale]?.currency?.currency
+    || i18nOptions.currency
+    || (i18nOptions.currencies.length && i18nOptions.currencies[0].name);
 
-  const missingFields = Object
-    .entries(settings)
-    .reduce((carry, [name, value]) => {
-      !value && carry.push(name);
+  const utils = i18nRedirectsUtil({
+    path: app.context.route.path,
+    defaultLocale: i18nOptions.defaultLocale,
+    availableLocales: i18nOptions.locales.map((item) => item.code),
+    acceptedLanguages: isServer ? acceptedLanguage.split(',').map((item) => item.split(';')[0]) : acceptedLanguage,
+    cookieLocale
+  });
 
-      return carry;
-    }, []);
+  const targetLocale = utils.getTargetLocale();
+  const redirectPath = utils.getRedirectPath();
 
-  if (missingFields.length) {
-    throw new Error(`Following fields are missing in the i18n configuration: ${ missingFields.join(', ') }`);
+  if (!isRouteValid) {
+    app.i18n.setLocale(targetLocale);
   }
 
+  if (isServer) {
+    app.i18n.cookieValues = {
+      [cookieNames.locale]: targetLocale,
+      [cookieNames.currency]: getCurrencyByLocale(targetLocale)
+    };
+
+    if (redirectPath) {
+      redirect(redirectPath);
+    }
+
+    return;
+  }
   const cookieOptions = {
     path: '/',
     sameSite: 'lax',
     expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)) // Year from now
   };
+  const settings = {
+    locale: targetLocale,
+    currency: getCurrencyByLocale(targetLocale),
+    country: i18nOptions.country || (i18nOptions.countries.length && i18nOptions.countries[0].name)
+  };
 
-  const cookieNames = {
-    currency: i18n.cookies?.currencyCookieName || VSF_CURRENCY_COOKIE,
-    country: i18n.cookies?.countryCookieName || VSF_COUNTRY_COOKIE
+  const missingFields = Object
+    .entries(settings)
+    .reduce((carry, [name, value]) => {
+      return [
+        ...carry,
+        ...(!value ? [name] : [])
+      ]
+    }, []);
+
+  if (missingFields.length) {
+    throw new Error(`Following fields are missing in the i18n configuration: ${missingFields.join(', ')}`);
   }
 
-  !$cookies.get(cookieNames.currency) && $cookies.set(cookieNames.currency, settings.currency, cookieOptions);
+  if (cookieLocale !== settings.locale) {
+    $cookies.set(cookieNames.locale, settings.locale, cookieOptions);
+  }
+
+  if (cookieCurrency !== settings.currency) {
+    $cookies.set(cookieNames.currency, settings.currency, cookieOptions);
+  }
+
   !$cookies.get(cookieNames.country) && $cookies.set(cookieNames.country, settings.country, cookieOptions);
-};
+
+  i18n.onBeforeLanguageSwitch = (oldLocale, newLocale, isInitialSetup, context) => {
+    $cookies.set(cookieNames.locale, newLocale, cookieOptions);
+    $cookies.set(cookieNames.currency, getCurrencyByLocale(newLocale), cookieOptions);
+    window.location.href = context.route.fullPath;
+  }
+}
 
 export default i18nCookiesPlugin;

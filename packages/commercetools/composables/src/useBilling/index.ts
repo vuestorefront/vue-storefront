@@ -1,7 +1,6 @@
 import { useBillingFactory, UseBillingParams, Context } from '@vue-storefront/core';
 import { useCart } from '../useCart';
-import { cartActions } from '@vue-storefront/commercetools-api';
-import { Address } from './../types/GraphQL';
+import { cartActions, Address } from '@vue-storefront/commercetools-api';
 
 const useBillingProviderFactoryParams: UseBillingParams<Address, any> = {
   provide() {

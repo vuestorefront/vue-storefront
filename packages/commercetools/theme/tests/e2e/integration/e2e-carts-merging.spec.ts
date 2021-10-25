@@ -54,6 +54,7 @@ context(['regression'], 'Carts merging', () => {
       data.products.customer.forEach(product => {
         vsfApiClient.addToCart(response.body.data.cart.id, product, product.quantity);
       });
+    }).then(() => {
       cy.clearCookies();
     });
     vsfApiClient.createCart().then((response: CreateCartResponse) => {
@@ -61,11 +62,8 @@ context(['regression'], 'Carts merging', () => {
         vsfApiClient.addToCart(response.body.data.cart.id, product, product.quantity);
       });
     });
+    requests.customerSignMeIn(data.customer);
     page.home.visit();
-    page.home.header.openLoginModal();
-    page.components.loginModal.loginToAccountButton.click();
-    page.components.loginModal.fillForm(data.customer);
-    page.components.loginModal.loginBtn.click();
     page.home.header.openCart();
     page.components.cart.totalItems.should($ti => {
       const totalItems: number = data.expectedCart.reduce((total, product) => {

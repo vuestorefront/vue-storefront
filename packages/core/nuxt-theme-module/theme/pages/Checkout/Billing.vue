@@ -170,7 +170,7 @@
           <SfButton
             class="sf-button color-secondary form__back-button"
             type="button"
-            @click="$router.push(localePath({ name: 'shipping' }))"
+            @click="router.push(localePath({ name: 'shipping' }))"
           >
             {{ $t('Go back') }}
           </SfButton>
@@ -196,7 +196,7 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref, useRouter } from '@nuxtjs/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useBilling } from '<%= options.generate.replace.composables %>';
 import { required, min, digits } from 'vee-validate/dist/rules';
@@ -235,6 +235,7 @@ export default {
     ValidationObserver
   },
   setup(props, context) {
+    const router = useRouter();
     const { load, save } = useBilling();
 
     const form = ref({
@@ -251,7 +252,7 @@ export default {
 
     const handleFormSubmit = async () => {
       await save({ billingDetails: form.value });
-      context.root.$router.push(context.root.localePath({ name: 'payment' }));
+      router.push(context.root.localePath({ name: 'payment' }));
     };
 
     onSSR(async () => {
@@ -259,6 +260,7 @@ export default {
     });
 
     return {
+      router,
       form,
       countries: COUNTRIES,
       handleFormSubmit

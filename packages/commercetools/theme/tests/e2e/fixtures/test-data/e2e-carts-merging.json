@@ -4,14 +4,14 @@
       "password": "Vu3S70r3fr0n7!"
     },
     "products": [{
-        "name": "Shirt Aspesi white M",
+        "name": "Shirt Aspesi white",
         "id": 1,
         "sku": "M0E20000000ED0W",
         "quantity": 1,
         "size": 34
       },
       {
-        "name": "Shirt Aspesi white M",
+        "name": "Shirt Aspesi white",
         "id": 2,
         "sku": "M0E20000000ED0X",
         "quantity": 1,
@@ -26,13 +26,13 @@
       }
     ],
     "expectedCart": [{
-        "name": "Shirt Aspesi white M",
+        "name": "Shirt Aspesi white",
         "quantity": 1,
         "size": 34,
         "color": "white"
       },
       {
-        "name": "Shirt Aspesi white M",
+        "name": "Shirt Aspesi white",
         "quantity": 1,
         "size": 36,
         "color": "white"
@@ -52,14 +52,14 @@
     },
     "products": {
       "guest": [{
-          "name": "Shirt Aspesi white M",
+          "name": "Shirt Aspesi white",
           "id": 1,
           "sku": "M0E20000000ED0W",
           "quantity": 1,
           "size": 34
         },
         {
-          "name": "Shirt Aspesi white M",
+          "name": "Shirt Aspesi white",
           "id": 2,
           "sku": "M0E20000000ED0X",
           "quantity": 1,
@@ -87,13 +87,13 @@
         "size": "M",
         "color": "pink"
       }, {
-        "name": "Shirt Aspesi white M",
+        "name": "Shirt Aspesi white",
         "quantity": 1,
         "size": 34,
         "color": "white"
       },
       {
-        "name": "Shirt Aspesi white M",
+        "name": "Shirt Aspesi white",
         "quantity": 1,
         "size": 36,
         "color": "white"

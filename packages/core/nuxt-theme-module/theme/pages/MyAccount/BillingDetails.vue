@@ -78,7 +78,7 @@ import {
 import UserBillingAddress from '~/components/UserBillingAddress';
 import BillingAddressForm from '~/components/MyAccount/BillingAddressForm';
 import { useUserBilling, userBillingGetters } from '<%= options.generate.replace.composables %>';
-import { ref, computed, onMounted } from '@vue/composition-api';
+import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 
 export default {
   name: 'BillingDetails',

@@ -1,9 +1,9 @@
-import { onServerPrefetch, ref, Ref } from '@vue/composition-api';
+import { onServerPrefetch, ref, Ref } from '@nuxtjs/composition-api';
 
 type VsfRef = <T>(data?: T, key?: string) => Ref<T>;
 
 interface SSRConfiguration {
-  onSSR: (fn: () => void) => void;
+  onSSR: (fn: () => void) => any;
   vsfRef: VsfRef;
 }
 

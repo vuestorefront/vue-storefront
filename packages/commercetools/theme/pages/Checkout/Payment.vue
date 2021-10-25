@@ -154,7 +154,7 @@ import {
   SfLink,
   SfInput
 } from '@storefront-ui/vue';
-import { ref, computed, watch } from '@vue/composition-api';
+import { ref, computed, watch, useRouter } from '@nuxtjs/composition-api';
 import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
@@ -180,6 +180,7 @@ export default {
     SfInput
   },
   setup(_, context) {
+    const router = useRouter();
     const { status: paymentReady } = usePaymentProviderMock();
     const { cart, removeItem, load, setCart, applyCoupon } = useCart();
     const { shipping: shippingDetails, load: loadShippingDetails } = useShipping();
@@ -207,7 +208,7 @@ export default {
       if (error.value.make) return;
 
       const thankYouPath = { name: 'thank-you', query: { order: order.value.id }};
-      context.root.$router.push(context.root.localePath(thankYouPath));
+      router.push(context.root.localePath(thankYouPath));
 
       setCart(null);
     };

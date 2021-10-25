@@ -41,7 +41,7 @@ Be sure to create variables using `sharedRef` **inside** a wrapper function. Oth
 :::
 
 ```typescript
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import { sharedRef, useVSFContext, Logger } from '@vue-storefront/core';
 
 export const useCustom = (id: string) => {

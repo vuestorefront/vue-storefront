@@ -1,5 +1,8 @@
 # Migration guides
 
+## 2.5.0
+- [Overview](./2.5.0/overview.md)
+
 ## 2.4.0
 
 - [Overview](./2.4.0/overview.md)

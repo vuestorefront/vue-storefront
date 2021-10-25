@@ -43,7 +43,7 @@ import {
   SfButton,
   SfRadio
 } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 import { usePaymentProviderMock } from '@/composables/usePaymentProviderMock';
 
 export default {

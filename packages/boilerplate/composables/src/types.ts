@@ -16,6 +16,8 @@ export type UseReviewSearchParams = TODO;
 
 export type UseReviewAddParams = TODO;
 
+export type UseStoreFilterParams = TODO;
+
 export type UseShippingAddParams = TODO;
 
 export type UseUserUpdateParams = TODO;

@@ -94,7 +94,13 @@
         </SfSearchBar>
       </template>
     </SfHeader>
-    <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" @removeSearchResults="removeSearchResults" />
+    <SearchResults
+      :visible="isSearchOpen"
+      :result="result"
+      :term="term"
+      @close="closeSearch"
+      @removeSearchResults="removeSearchResults"
+    />
     <SfOverlay :visible="isSearchOpen" />
   </div>
 </template>
@@ -103,7 +109,7 @@
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useUser, cartGetters } from '@vue-storefront/commercetools';
-import { computed, ref, watch, onBeforeUnmount } from '@vue/composition-api';
+import { computed, ref, watch, onBeforeUnmount, useRouter } from '@nuxtjs/composition-api';
 import { useUiHelpers } from '~/composables';
 import StoreLocaleSelector from './StoreLocaleSelector';
 import SearchResults from '~/components/SearchResults';
@@ -132,7 +138,8 @@ export default {
     HeaderNavigation
   },
   directives: { clickOutside },
-  setup(props, { root }) {
+  setup() {
+    const router = useRouter();
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, isMobileMenuOpen } = useUiState();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated } = useUser();
@@ -152,14 +159,16 @@ export default {
 
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
-        return root.$router.push('/my-account');
+        return router.push('/my-account');
       }
 
       toggleLoginModal();
     };
 
     const closeSearch = () => {
-      if (!isSearchOpen.value) return;
+      const wishlistClassName = 'sf-product-card__wishlist-icon';
+      const isWishlistIconClicked = event.path.find(p => wishlistClassName.search(p.className) > 0);
+      if (isWishlistIconClicked || !isSearchOpen.value) return;
 
       term.value = '';
       isSearchOpen.value = false;
