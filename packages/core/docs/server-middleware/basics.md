@@ -1,6 +1,6 @@
 # Server Middleware basics
 
-The Server Middleware is an Express.js proxy that sits between the users and the integration platform. We implemented it for a variety of reasons, such as to:
+The Server Middleware is an Express.js application that sits between the users and the integration platform. We implemented it for a variety of reasons, such as to:
 
 - connect multiple services using different technologies and libraries,
 - allow you to create and [extend](/integrate/extending-integrations.html) integrations to add new capabilities or modify their behavior,
@@ -33,7 +33,7 @@ In most cases, requests are sent from the Nuxt.js application to Server Middlewa
 
 ### Nuxt.js
 
-Most integrations in Vue Storefront ask you to register a Nuxt.js plugin or module in the `nuxt.config.js` file. These extend the [Application context](./context.html) object, adding their **client, configuration, and the API methods** to an object under a unique key, starting with `$` sign, e.g. `$ct` (for commercetools), `$magento`, `$sb` (for storyblok), etc.
+Most integrations in Vue Storefront ask you to register a Nuxt.js plugin or module in the `nuxt.config.js` file. These extend the [Application context](./context.html) object, adding HTTP client, configuration, and the handler for making API requests to an object under a unique key, starting with `$` sign, e.g. `$ct` (for commercetools), `$magento`, `$sb` (for storyblok), etc.
 When you call any of these API methods, the client uses the configuration and passed parameters to make an API call to the Server Middleware. It includes all parameters in the request body.
 
 [Composables](/guide/composables.html) use the exact mechanism to communicate with their corresponding platforms when you call their methods.

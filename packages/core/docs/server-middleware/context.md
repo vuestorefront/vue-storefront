@@ -1,40 +1,92 @@
-# Context API
+# Application context
 
-The application context is essential for sharing data across the application. It stores a runtime configuration, client for making request to the Server Middleware and endpoints that be called.
+As described on the [Server Middleware basics](./basics.html) page, Application context is an object available in the Nuxt.js application. This object is populated by plugins and modules registered in the `nuxt.config.js` file. Some of them add their **client, configuration and API methods** to that object under a unique key. The Nuxt.js application later uses the Application context to exchange data with the Service providers.
 
-The common solution that may come to your mind is using one global object to store everything. However, by doing this, you would share data across all incoming requests. That would cause issues such as session leaks.
+## Structure of the context
 
-## Context data structure
+Context is an object with unique keys, starting with `$` sign and followed by the name or abbreviation of the service name, e.g. `$ct` (for commercetools), `$magento`, `$sb` (for storyblok), etc.
 
-In Vue Storefront, each integration has a common structure of the context object. A root of the context starts with the `$vsf` key. Everything that's under this key is the integration keys which are storing the data for corresponding integration using the specific, predefined format.
+Each of the keys contains an object with three properties:
 
-```js
-$vsf {
-  $ct: {
+- `api` - a [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) for sending requests to the Server Middleware.
+- `client` - an `axios` HTTP client used for communication with the Server Middleware.
+- `config` - an integration configuration.
+
+For example, application with Magento and Storyblok plugins installed might have a context like this:
+
+```javascript
+{
+  $magento: {
+    api: {},
+    client: {},
+    config: {}
+  },
+  $sb: {
     api: {},
     client: {},
     config: {}
   }
-  ...
 }
 ```
 
-- `$vsf` - a general key that keeps Vue Storefront context
-- `$ct` - an integration key
-- `api` - integration API functions
-- `client` - integration API client/connection
-- `config` - integration configuration
-- others - you can define custom context fields by yourself
+## Accessing context
 
-## Context composable
+In most cases you don't need to access the context directly. Instead, you can call methods in the [Composables](/guide/composables.html) available in the integration, which internally call API methods with proper parameters.
 
-To use the context or access your integration API, you can leverage a dedicated composable `useVSFContext`. It returns integration keys of all of the integrations you have registered in the Vue Storefront (prefixed by `$` sign).
+However, there are cases when composables are not sufficient or you need to access integration configuration. For this reason we have a dedicated composable named `useVSFContext` to easy access the whole context object.
 
-```js
-const { $ct, $other } = useVSFContext();
+For example, you can call `products` API endpoint in Magento integration like so:
 
-$ct.api.getProduct({ id: 1 });
-$other.client.get('/other-integration');
+```javascript
+import { useVSFContext } from '@vue-storefront/core';
+
+export default {
+  setup() {
+    const { $magento } = useVSFContext();
+
+    function getProducts(searchParams, customQuery = {}) {
+      return $magento.api.products(searchParams, customQuery);
+    }
+  }
+};
+```
+
+See the integration API reference for a list of available API methods.
+
+## `api` handler
+
+In the previous section we showed how to call an `api` method. 
+
+## Extending context
+
+The best and most straigh forward way of extending Application context it to use `integrationPlugin` helper. It give you access to the [Nuxt.js context](https://nuxtjs.org/docs/concepts/context-helpers/), which includes runtime configuration, route informartion, environment variables, cookie helpers and much more.
+
+```javascript
+// plugins/custom-context.js
+
+import { integrationPlugin } from '@vue-storefront/core';
+
+export default integrationPlugin(({
+  integration
+  // Other properties from Nuxt.js context like `app`, `route`, `res`, `req`, etc.
+}) => {
+  const settings = {};
+
+  // Replace `<INTEGRATION_NAME>` with unique name or abbreviation
+  integration.configure('<INTEGRATION_NAME>', settings);
+});
+```
+
+When your plugin is ready, you need to register it in `nuxt.config.js`:
+
+```javascript
+// nuxt.config.js
+
+export default {
+  plugins: [
+    '~/plugins/custom-context.js'
+  ]
+};
 ```
 
 ## Context plugin
