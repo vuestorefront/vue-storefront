@@ -2,9 +2,7 @@
   <img src="https://user-images.githubusercontent.com/1626923/137092657-fb398d20-b592-4661-a1f9-4135db0b61d5.png" alt="Vue Storefront" height="80px" />
 </div>
 
-
 # Vue Storefront 2
-
 
 [![Coverage Status](https://coveralls.io/repos/github/vuestorefront/vue-storefront/badge.svg?branch=next) ](https://coveralls.io/github/vuestorefront/vue-storefront/?branch=next)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
@@ -15,20 +13,20 @@ Vue Storefront is the most popular and most advanced Frontend Platform for eComm
 - [Demo](https://demo-ct.vuestorefront.io)
 - [Installation](https://docs.vuestorefront.io/v2/general/installation.html)
 
-
 ![Screenshots](https://blog.vuestorefront.io/wp-content/uploads/2020/03/3-views-Vue-Storefront-.png)
 
 # Supported platforms
 
-- [Commercetools](https://github.com/vuestorefront/commercetools)
+- [commercetools](https://github.com/vuestorefront/commercetools)
 - [Shopify](https://github.com/vuestorefront/shopify)
 - [Magento 2](https://github.com/vuestorefront/magento2) [Beta]
-- Spryker [Beta]
 - [Salesforce Commerce Cloud](https://github.com/vuestorefront/salesforce-commerce-cloud) [Beta]
-
+- [Spryker](https://github.com/vuestorefront/spryker) [Beta]
+- [Vendure](https://github.com/vuestorefront/vendure) [Beta]
+- [Odoo](https://github.com/vuestorefront/odoo) [Beta]
+- [Spree](https://github.com/vuestorefront/spree) [Beta]
 
 [Learn more about available integrations](https://docs.vuestorefront.io/v2/integrations/)
-
 
 ## Links
 
@@ -37,7 +35,6 @@ Vue Storefront is the most popular and most advanced Frontend Platform for eComm
 -   🐦  Twitter:  [@VueStorefront](https://twitter.com/VueStorefront)
 -   💬  Forum:  [forum.vuestorefront.io](https://forum.vuestorefront.io/)
 -   🌟  [Live Projects List](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
-
 
 ## The business challenges
 
@@ -50,7 +47,6 @@ Vue Storefront solves a set of key business challenges from the world of the sho
 - all-in-one front-end for desktop and mobile screens with no necessity for maintaining 3 or more applications for different touchpoints (web browser, Android, iOS, etc.).
 - rapid development without architecture limitations.
 
-
 ## The headless architecture
 
 ![Vue Storefront - Headless Architecture](https://user-images.githubusercontent.com/1626923/137323687-c63cd6fa-a018-4491-bea7-1802649499ca.jpg)
@@ -60,7 +56,6 @@ Vue Storefront solves a set of key business challenges from the world of the sho
 If you like the ideas behind Vue Storefront and want to become a contributor - join our [Discord server](https://discord.vuestorefront.io), check the [list of the active issues](https://github.com/vuestorefront/vue-storefront/issues) or contact us directly via contributors@vuestorefront.io.
 
 If you have discovered a 🐜 or have feature suggestion, feel free to create an issue on Github.
-
 
 ## Support us!
 
@@ -76,7 +71,6 @@ You can support us in various ways:
 Vue Storefront is a Community effort brought to You by our great Core Team and supported by the following companies. 
 
 [**See Vue Storefront partners directory**](https://www.vuestorefront.io/partner-agencies?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
-
 
 Vue Storefront source code is completely free and released under the [MIT License](https://github.com/vuestorefront/vue-storefront/blob/master/LICENSE).
 
