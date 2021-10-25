@@ -9,11 +9,13 @@ import { asyncMap } from '@apollo/client/utilities';
 import { RetryLink } from 'apollo-link-retry';
 import { createAuthClient, createTokenProvider } from './authHelpers';
 
+const customFetch = (uri, options) => fetch(uri, { ...options, keepalive: true });
+
 export const createCommerceToolsConnection = (settings: Config): any => {
   let currentToken: any = settings.auth.onTokenRead();
   const sdkAuth = createAuthClient(settings.api);
   const tokenProvider = createTokenProvider(settings, { sdkAuth, currentToken });
-  const httpLink = createHttpLink({ uri: settings.api.uri, fetch });
+  const httpLink = createHttpLink({ uri: settings.api.uri, fetch: customFetch });
   const onErrorLink = createErrorHandler();
 
   const authLinkBefore = setContext(async (apolloReq, { headers }) => {
@@ -51,7 +53,11 @@ export const createCommerceToolsConnection = (settings: Config): any => {
 
   const errorRetry = new RetryLink({
     attempts: handleRetry({ settings, tokenProvider }),
-    delay: () => 0
+    delay: {
+      initial: 300,
+      max: 1000,
+      jitter: true
+    }
   });
 
   const apolloLink = ApolloLink.from([

@@ -148,7 +148,7 @@ describe('[commercetools-helpers] handleRetry', () => {
     const operation = { operationName: 'any' };
     const error = { result: { message: '' } };
 
-    expect(handler(1, operation, error)).toBeFalsy();
+    expect(handler(1, operation, error)).toBeTruthy();
     expect(tokenProvider.invalidateTokenInfo).not.toBeCalled();
   });
 
