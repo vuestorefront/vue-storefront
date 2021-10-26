@@ -4,7 +4,7 @@ import ImageBanner from './ImageBanner.model';
 export default class CampaignContent {
   public constructor (
     private fCountdownBannerContent?: string,
-    private fDiscountsContent?: Dictionary<number>,
+    private fProductDiscountPriceDictionary?: Dictionary<number>,
     private fImageBanner?: ImageBanner,
     private fCountdownBannerBlacklistUrls: string[] = []
   ) {}
@@ -17,8 +17,8 @@ export default class CampaignContent {
     return this.fCountdownBannerBlacklistUrls;
   }
 
-  public get discountsContent (): Dictionary<number> | undefined {
-    return this.fDiscountsContent;
+  public get productDiscountPriceDictionary (): Dictionary<number> | undefined {
+    return this.fProductDiscountPriceDictionary;
   }
 
   public get imageBanner (): ImageBanner | undefined {

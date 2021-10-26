@@ -7,7 +7,7 @@ import UpdateProductDiscountPriceDataEvent from 'theme/interfaces/update-product
 export default function initEventBusListeners (store: Store<RootState>) {
   EventBus.$on('updateProductDiscountPriceData', (updateProductDiscountPriceDataEvent: UpdateProductDiscountPriceDataEvent) => {
     updateProductDiscountPriceDataEvent.value =
-     store.getters['promotionPlatform/getProductCampaignDiscount'](
+     store.getters['promotionPlatform/getProductCampaignDiscountPrice'](
        updateProductDiscountPriceDataEvent.product
      );
   })

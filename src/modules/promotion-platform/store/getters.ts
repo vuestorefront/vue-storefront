@@ -10,21 +10,21 @@ export const getters: GetterTree<PromotionPlatformState, any> = {
   campaignToken (state): string | undefined {
     return state.campaignToken;
   },
-  getProductCampaignDiscount (state): (product: any) => number | undefined {
+  getProductCampaignDiscountPrice (state): (product: any) => number | undefined {
     return (product) => {
       const campaignContent = state.campaignContent;
 
-      if (!campaignContent || !campaignContent.discountsContent) {
+      if (!campaignContent || !campaignContent.productDiscountPriceDictionary) {
         return;
       }
 
-      const discount = campaignContent.discountsContent[product.id];
+      const discountPrice = campaignContent.productDiscountPriceDictionary[product.id];
 
-      if (!discount) {
-        return 0;
+      if (!discountPrice) {
+        return;
       }
 
-      return discount;
+      return discountPrice;
     }
   }
 }
