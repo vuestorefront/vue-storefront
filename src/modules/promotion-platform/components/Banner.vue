@@ -317,6 +317,7 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
 $countdown-banner-background-color: #77b834;
 $countdown-banner-text-color: #fff;
 $countdown-banner-numbers-color: #000;
+$mobile-s: 640px;
 
 .promotion-platform-countdown-banner-wrapper {
   .promotion-platform-countdown-banner-container {
@@ -340,6 +341,7 @@ $countdown-banner-numbers-color: #000;
         position: relative;
         vertical-align: middle;
         width: 100%;
+        box-sizing: border-box;
 
         ._left-column {
           display: flex;
@@ -354,7 +356,7 @@ $countdown-banner-numbers-color: #000;
         ._title {
           color: $countdown-banner-text-color;
           color: var(--text-color);
-          font-size: 1.2em;
+          font-size: 1.05em;
           line-height: 1.2em;
           margin-bottom: 0.3em;
           margin-top: 0.5em;
@@ -375,10 +377,11 @@ $countdown-banner-numbers-color: #000;
         ._content {
           color: $countdown-banner-text-color;
           color: var(--text-color);
-          font-size: 0.9em;
+          font-size: 0.79em;
           margin-top: 0.25em;
           padding: 0.75em;
           text-align: center;
+          box-sizing: border-box;
 
           * {
             margin: 0;
@@ -388,6 +391,7 @@ $countdown-banner-numbers-color: #000;
           ul {
             text-align: left;
             display: inline-block;
+            padding: 0 0 0 22px;
 
             li {
               line-height: 1;
@@ -483,6 +487,8 @@ $countdown-banner-numbers-color: #000;
   &.-narrow {
     ::v-deep {
       ._container {
+        padding-right: 6em;
+
         ._left-column {
           flex-direction: row;
         }
@@ -506,7 +512,7 @@ $countdown-banner-numbers-color: #000;
     }
   }
 
-  @media (min-width: $tablet-min) {
+  @media (min-width: $mobile-s) {
     ::v-deep {
       .promotion-platform-countdown-banner {
         ._container {
@@ -515,10 +521,15 @@ $countdown-banner-numbers-color: #000;
           align-items: center;
           padding: 0.5em 0;
 
+          ._title {
+            font-size: 1.2em;
+          }
+
           ._content {
             max-width: 50%;
             padding: 0 2.5em 0 1em;
             text-align: left;
+            font-size: 0.9em;
           }
 
           ._timer-btn {
@@ -534,10 +545,6 @@ $countdown-banner-numbers-color: #000;
           ._timer-container {
             display: block;
             padding-left: 1em;
-          }
-
-          ._content {
-            display: block;
           }
         }
       }
@@ -575,6 +582,21 @@ $countdown-banner-numbers-color: #000;
         }
       }
     }
+
+    &.-narrow {
+      ::v-deep {
+        ._container {
+          ._timer-container {
+            display: block;
+            padding-left: 1em;
+          }
+
+          ._content {
+            display: block;
+          }
+        }
+      }
+    }
   }
 
   @include for-desktop {
@@ -588,7 +610,6 @@ $countdown-banner-numbers-color: #000;
           ._timer-container {
             margin-top: -10px;
             transform: scale(1);
-            margin-right: 15px;
           }
 
           ._content {

@@ -50,6 +50,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+$default-numbers-color: #535353;
 
 .timer-numbers-group_container {
   height: 100%;
@@ -58,10 +59,13 @@ export default Vue.extend({
   display: inline-block;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 
   .timer-numbers-group {
     position: relative;
     height: 100%;
+    color: $default-numbers-color;
+    color: var(--numbers-color);
   }
 
   ._numbers {
@@ -76,6 +80,9 @@ export default Vue.extend({
       padding: 0;
       list-style: none;
       text-align: center;
+      width: 100%;
+      height: 100%;
+      line-height: 100%;
     }
 
     &.animated {
