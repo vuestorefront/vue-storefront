@@ -63,11 +63,8 @@ export const PromotionPlatformService = {
       imagesBannerContent = new ImageBanner(imageBanner.campaign_id, imageBanner.content);
     }
 
-    if (campaignData.discounts && campaignData.discounts.content) {
-      discountsContent = {};
-      for (const [key, value] of Object.entries(campaignData.discounts.content) as [string, string][]) {
-        discountsContent[key] = Number.parseInt(value.split('$')[1])
-      }
+    if (campaignData.discounts && campaignData.discounts.prices) {
+      discountsContent = campaignData.discounts.prices; // TODO check field name after API changes
     }
 
     const campaignContent = new CampaignContent(
