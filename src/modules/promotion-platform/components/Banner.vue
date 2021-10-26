@@ -14,9 +14,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import throttle from 'lodash.throttle';
+import Vue, { VueConstructor } from 'vue';
+import { isServer } from '@vue-storefront/core/helpers'
 
 import { Dictionary } from 'src/modules/budsies';
+import { InjectType } from 'src/modules/shared';
 
 import CampaignContent from '../types/CampaignContent.model';
 import { SET_LAST_BANNER_VERSION_CLOSED_BY_USER } from '../types/StoreMutations';
@@ -25,7 +28,14 @@ import Timer from './Timer.vue';
 
 const millisecondsInHour = 60000;
 
-export default Vue.extend({
+interface InjectedServices {
+  window: Window
+}
+
+export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
+  inject: {
+    window: { from: 'WindowObject' }
+  } as unknown as InjectType<InjectedServices>,
   computed: {
     bannerContent (): string | undefined {
       if (
@@ -50,6 +60,10 @@ export default Vue.extend({
 
       if (this.numbersColor) {
         style['--numbers-color'] = `#${this.numbersColor}`;
+      }
+
+      if (this.height) {
+        style['--banner-height'] = `${this.height}px`
       }
 
       return style;
@@ -91,8 +105,13 @@ export default Vue.extend({
       textColor: undefined as undefined | string,
       fOnCloseButtonClickHandler: undefined as (() => void) | undefined,
       fOnToggleViewButtonClickHandler: undefined as (() => void) | undefined,
-      isNarrow: false
+      isNarrow: false,
+      height: 0,
+      resizeHandler: undefined as (() => void) | undefined
     };
+  },
+  beforeDestroy (): void {
+    this.removeResizeHandler();
   },
   methods: {
     addButtonsClickListeners (): void {
@@ -175,6 +194,34 @@ export default Vue.extend({
 
       return bannerElement.querySelector('._timer-btn._view-toggle-btn');
     },
+    async initBanner (): Promise<void> {
+      await this.$nextTick();
+
+      this.fillData();
+      this.initResizeHandler();
+      this.addButtonsClickListeners();
+      this.initTimer();
+
+      await this.$nextTick();
+
+      this.updateBannerHeight();
+    },
+    initResizeHandler (): void {
+      if (isServer) {
+        return;
+      }
+
+      if (this.resizeHandler) {
+        this.removeResizeHandler();
+      }
+
+      this.resizeHandler = throttle(
+        () => this.updateBannerHeight(),
+        100
+      );
+
+      this.window.addEventListener('resize', this.resizeHandler);
+    },
     initTimer (): void {
       const bannerElement = this.getBannerElement();
       if (!bannerElement) {
@@ -192,7 +239,6 @@ export default Vue.extend({
           h(Timer, { props: { countdownTime: this.getCountdownTime() } })
       });
     },
-
     onCloseButtonClickHandler (): void {
       if (!this.version) {
         return;
@@ -203,6 +249,7 @@ export default Vue.extend({
     },
     onToggleViewButtonClickHandler (): void {
       this.isNarrow = !this.isNarrow;
+      this.$nextTick().then(this.updateBannerHeight);
     },
     removeButtonsClickHandlers (): void {
       const closeButton = this.getCloseButtonElement();
@@ -222,26 +269,45 @@ export default Vue.extend({
         );
       }
     },
+    removeResizeHandler (): void {
+      if (isServer || !this.resizeHandler) {
+        return;
+      }
+
+      this.window.removeEventListener('resize', this.resizeHandler);
+    },
     setlastClosedBannerVersionByUser (version: string): void {
       this.$store.commit(
         `promotionPlatform/${SET_LAST_BANNER_VERSION_CLOSED_BY_USER}`,
         version
       );
-    }
-  },
-  watch: {
-    async bannerContent (val) {
-      if (!val) {
+    },
+    updateBannerHeight (): void {
+      const bannerContainer = this.getBannerContainer();
+      if (isServer || !bannerContainer) {
         return;
       }
 
-      await this.$nextTick();
+      const container = bannerContainer.querySelector('._container');
 
-      this.fillData();
-      this.addButtonsClickListeners();
-      this.initTimer();
+      if (!container) {
+        return;
+      }
+
+      this.height = container.clientHeight;
     }
-  }
+  },
+  watch: {
+    bannerContent: {
+      immediate: true,
+      handler (val) {
+        if (!val) {
+          return;
+        }
+
+        this.initBanner();
+      }
+    } }
 });
 </script>
 
@@ -253,13 +319,18 @@ $countdown-banner-text-color: #fff;
 $countdown-banner-numbers-color: #000;
 
 .promotion-platform-countdown-banner-wrapper {
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  .promotion-platform-countdown-banner-container {
+    height: var(--banner-height);
+    position: relative;
+  }
 
   ::v-deep {
     .promotion-platform-countdown-banner {
       min-width: 320px;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 201;
 
       ._container {
         background-color: $countdown-banner-background-color;
@@ -455,12 +526,18 @@ $countdown-banner-numbers-color: #000;
           }
         }
       }
+    }
 
-      &.-narrow {
+    &.-narrow {
+      ::v-deep {
         ._container {
           ._timer-container {
             display: block;
             padding-left: 1em;
+          }
+
+          ._content {
+            display: block;
           }
         }
       }
