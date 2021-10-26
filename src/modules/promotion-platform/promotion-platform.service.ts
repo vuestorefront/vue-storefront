@@ -64,7 +64,7 @@ export const PromotionPlatformService = {
     }
 
     if (campaignData.discounts && campaignData.discounts.prices) {
-      discountsContent = campaignData.discounts.prices; // TODO check field name after API changes
+      discountsContent = campaignData.discounts.prices;
     }
 
     const campaignContent = new CampaignContent(
