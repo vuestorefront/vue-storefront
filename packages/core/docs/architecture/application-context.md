@@ -55,11 +55,28 @@ See the integration API reference for a list of available API methods.
 
 ## `api` handler
 
-In the previous section we showed how to call an `api` method. 
+In the previous section we showed how to call an `api` method. You might be wondering how it's transformed into a network request to the Server Middleware.
+
+Server Middleware **[URL paths](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_is_a_URL#path_to_resource)** always consists of three parts:
+
+- `/api` - endpoints in Server Middleware are prefixed with `/api` to avoid conflicts with Nuxt.js routes,
+- name of the integration,
+- name of the endpoint.
+
+Following this rule, calling the `$magento.api.products` method will send a request to the `/api/magento/products` endpoint.
+
+**Request body** is an array including all parameters passed to the method.
+
+<center>
+  <img
+    src="./images/api-request.jpg"
+    alt="Mapping of the `api` method call to the Server Middleware request"
+  />
+</center>
 
 ## Extending context
 
-The best and most straigh forward way of extending Application context it to use `integrationPlugin` helper. It give you access to the [Nuxt.js context](https://nuxtjs.org/docs/concepts/context-helpers/), which includes runtime configuration, route informartion, environment variables, cookie helpers and much more.
+The best and most straightforward way of extending Application context it to use `integrationPlugin` helper. It give you access to the [Nuxt.js context](https://nuxtjs.org/docs/concepts/context-helpers/), which includes runtime configuration, route informartion, environment variables, cookie helpers and much more.
 
 ```javascript
 // plugins/custom-context.js
@@ -77,7 +94,12 @@ export default integrationPlugin(({
 });
 ```
 
-When your plugin is ready, you need to register it in `nuxt.config.js`:
+The `settings` object can have two properties:
+
+- `axios` - object passed to the [axios.create](https://github.com/axios/axios#axioscreateconfig) method when creating a HTTP client for this specific integration (doesn't affect other integrations),
+- `api` - object containing functions that can be called on the integration's [`api` handler](#api-handler). The exception is that the function will be executed in Nuxt.js, not Server Middleware. Object keys must match the method called on the [`api` handler](#api-handler).
+
+When your plugin is ready, you need to register it in the `nuxt.config.js` file:
 
 ```javascript
 // nuxt.config.js
@@ -89,31 +111,6 @@ export default {
 };
 ```
 
-## Context plugin
+## What's next
 
-If you don't want to use integration Nuxt modules, you have to configure the integration yourself. For that purpose, each integration exposes an integration plugin:
 
-```js
-// plugins/integration.js
-import { integrationPlugin } from '@vue-storefront/commercetools';
-
-export default integrationPlugin(({ app, integration }) => {
-  const settings = { api: '/graphql', user: 'root' };
-
-  integration.configure({ ...settings });
-});
-```
-
-Each integration has a predefined set of API functions that sometimes you may want to override. A `configure` function gives you that ability as well. When you pass your new API function or use the name of an existing one, the Vue Storefront will automatically apply it to the app.
-
-```js
-// plugins/integration.js
-import { integrationPlugin } from '@vue-storefront/commercetools';
-import { getMe } from '@vue-storefeont/your-integration';
-
-export default integrationPlugin(({ app, integration }) => {
-  const settings = { api: '/graphql', user: 'root' };
-
-  integration.configure({ ...settings }, { getMe });
-});
-```

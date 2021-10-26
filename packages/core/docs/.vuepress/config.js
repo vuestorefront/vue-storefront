@@ -205,12 +205,12 @@ module.exports = {
           ]
         },
         {
-          title: 'Server Middleware',
+          title: 'Architecture',
           collapsable: true,
           children: [
-            ['/server-middleware/basics', 'Server Middleware basics'],
-            ['/server-middleware/context', 'Application context'],
-            ['/server-middleware/calling-integration-api', 'Calling integration API'],
+            ['/architecture/basics', 'Architecture basics'],
+            ['/architecture/application-context', 'Application context'],
+            ['/architecture/server-middleware', 'Server Middleware']
           ]
         },
         {

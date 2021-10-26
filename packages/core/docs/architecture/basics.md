@@ -1,4 +1,4 @@
-# Server Middleware basics
+# Architecture basics
 
 The Server Middleware is an Express.js application that sits between the users and the integration platform. We implemented it for a variety of reasons, such as to:
 
@@ -14,7 +14,7 @@ As shown later in this chapter, Server Middleware can be an extension to the Exp
 
 Before we can understand Server Middleware, we need to discuss data flow from the user's browser to the service provider. In summary, data goes through three applications:
 
-* **Nuxt.js** - requests data from the Server Middleware when specific methods in the [Application context](./context.html) or [Composables](/guide/composables.html) are called.
+* **Nuxt.js application** - requests data from the Server Middleware when specific methods in the [Application context](./application-context.html) or [Composables](/guide/composables.html) are called.
 * **Server Middleware** - accepts requests from the Nuxt.js application, converts them, and sends them to the given platform into the expected format.
 * **Service provider** - exposes API endpoints to fetch, add and remove data.
 
@@ -26,14 +26,14 @@ In most cases, requests are sent from the Nuxt.js application to Server Middlewa
 
 <center>
   <img
-    src="../images/middleware-diagram.jpg"
+    src="./images/server-middleware-overview.webp"
     alt="Data flow between the browser, Server Middleware, it's extensions and integration platforms"
   />
 </center>
 
 ### Nuxt.js
 
-Most integrations in Vue Storefront ask you to register a Nuxt.js plugin or module in the `nuxt.config.js` file. These extend the [Application context](./context.html) object, adding HTTP client, configuration, and the handler for making API requests to an object under a unique key, starting with `$` sign, e.g. `$ct` (for commercetools), `$magento`, `$sb` (for storyblok), etc.
+Most integrations in Vue Storefront ask you to register a Nuxt.js plugin or module in the `nuxt.config.js` file. These extend the [Application context](./application-context.html) object, adding HTTP client, configuration, and the handler for making API requests to an object under a unique key, starting with `$` sign, e.g. `$ct` (for commercetools), `$magento`, `$sb` (for storyblok), etc.
 When you call any of these API methods, the client uses the configuration and passed parameters to make an API call to the Server Middleware. It includes all parameters in the request body.
 
 [Composables](/guide/composables.html) use the exact mechanism to communicate with their corresponding platforms when you call their methods.
@@ -54,4 +54,4 @@ In some scenarios, when the traffic should not go through the Server Middleware,
 
 ## What's next
 
-Now that we have a high-level overview of the Server Middleware and how it exchanges the data between the Nuxt.js application and Service providers, we can dive deeper. On the next page, we will learn about the [Application context](./context.html) and its use.
+Now that we have a high-level overview of the architecture and how data is exchanged between the Nuxt.js application, Server Middleware and Service providers, we can dive deeper. On the next page, we will learn about the [Application context](./application-context.html) and its use.
