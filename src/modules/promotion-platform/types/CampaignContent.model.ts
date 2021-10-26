@@ -1,10 +1,11 @@
 import { Dictionary } from 'src/modules/budsies';
+import ImageBanner from './ImageBanner.model';
 
 export default class CampaignContent {
   public constructor (
     private fCountdownBannerContent?: string,
     private fDiscountsContent?: Dictionary<number>,
-    private fImageBannerContent?: string,
+    private fImageBanner?: ImageBanner,
     private fCountdownBannerBlacklistUrls: string[] = []
   ) {}
 
@@ -20,7 +21,7 @@ export default class CampaignContent {
     return this.fDiscountsContent;
   }
 
-  public get imagesBannerContent (): string | undefined {
-    return this.fImageBannerContent;
+  public get imageBanner (): ImageBanner | undefined {
+    return this.fImageBanner;
   }
 }

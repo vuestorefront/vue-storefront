@@ -790,7 +790,8 @@
       "bodypart": "/body_part/orig"
     },
     "productPlaceholder": "/assets/placeholder.jpg",
-    "fileuploaderUploadUrl": "${FILEUPLOADER_UPLOAD_URL}"
+    "fileuploaderUploadUrl": "${FILEUPLOADER_UPLOAD_URL}",
+    "imageHandlerServiceUrl": "${IMAGE_HANDLER_SERVICE_URL}"
   },
   "install": {
     "is_local_backend": true,
