@@ -46,22 +46,32 @@ module.exports = {
    * Ref：https://v1.vuepress.vuejs.org/config/#configurewebpack
    */
    configureWebpack: (config) => {
-    config.module.rules = config.module.rules.map((rule) => ({
-      ...rule,
-      use:
-        rule.use &&
-        rule.use.map((useRule) => ({
-          ...useRule,
-          options:
-            useRule.loader === 'url-loader'
-              ? /**
-					  Hack for loading images properly.
-					  ref: https://github.com/vuejs/vue-loader/issues/1612#issuecomment-559366730
-					 */
-                { ...useRule.options, esModule: false }
-              : useRule.options
-        }))
-    }));
+     // Add support for webp images
+     config.module.rules.push({
+       test: /\.(webp)(\?.*)?$/,
+       use: [
+         {
+           loader: 'url-loader',
+           options: {
+             limit: 10000,
+             name: 'assets/img/[name].[hash:8].[ext]'
+          }
+         }
+       ]
+     });
+  
+    // Fix image loading. Ref: https://github.com/vuejs/vue-loader/issues/1612#issuecomment-559366730
+    config.module.rules = config.module.rules.map((rule) => {
+      rule.use = rule.use && rule.use.map((useRule) => {
+        if (useRule.loader === 'url-loader') {
+          useRule.options.esModule = false;
+        }
+
+        return useRule;
+      });
+
+      return rule;
+    });
   },
 
   /**
@@ -109,7 +119,7 @@ module.exports = {
           collapsable: false,
           children: [
             ['/commercetools/', 'Introduction'],
-            ['/commercetools/getting-started', 'Getting started'],
+            ['/commercetools/store-setup', 'Store setup'],
             ['/commercetools/configuration', 'Configuration'],
             ['/commercetools/authorization-strategy', 'Authorization'],
             ['/enterprise/feature-list', 'Feature list'],
