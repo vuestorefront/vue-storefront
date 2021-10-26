@@ -3,7 +3,8 @@ import { i18nRedirectsUtil, VSF_COUNTRY_COOKIE, VSF_CURRENCY_COOKIE, VSF_LOCALE_
 const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
   const i18nOptions = <%= serialize(options) %>;
   const isServer = typeof window === 'undefined';
-  const acceptedLanguage = app.context.req?.headers?.['accept-language'] || '';
+  const navigator = isServer ? undefined : window.navigator;
+  const acceptedLanguage = app.context.req?.headers?.['accept-language'] || navigator?.languages || '';
   const isRouteValid = !!app.context.route.name;
   const cookieNames = {
     currency: i18nOptions.cookies?.currencyCookieName || VSF_CURRENCY_COOKIE,
