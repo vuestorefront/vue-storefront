@@ -2,13 +2,18 @@ import { Store } from 'vuex'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import RootState from '@vue-storefront/core/types/RootState'
 
-import UpdateProductDiscountPriceDataEvent from 'theme/interfaces/update-product-discount-price-data-event.interface';
+import UpdateProductDiscountPriceEventData, { UPDATE_PRODUCT_DISCOUNT_PRICE_DATA_EVENT_ID } from 'src/modules/shared/types/update-product-discount-price.event';
 
 export default function initEventBusListeners (store: Store<RootState>) {
-  EventBus.$on('updateProductDiscountPriceData', (updateProductDiscountPriceDataEvent: UpdateProductDiscountPriceDataEvent) => {
-    updateProductDiscountPriceDataEvent.value =
-     store.getters['promotionPlatform/getProductCampaignDiscountPrice'](
-       updateProductDiscountPriceDataEvent.product
-     );
+  EventBus.$on(UPDATE_PRODUCT_DISCOUNT_PRICE_DATA_EVENT_ID, (productPriceData: UpdateProductDiscountPriceEventData) => {
+    const discountedPrice = store.getters['promotionPlatform/getProductCampaignDiscountPrice'](
+      productPriceData.product
+    );
+
+    if (discountedPrice === undefined) {
+      return;
+    }
+
+    productPriceData.value = discountedPrice;
   })
 }
