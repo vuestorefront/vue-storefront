@@ -1,6 +1,6 @@
 module.exports = {
-  description: 'Implemented pagination for orders history',
-  link: 'https://github.com/vuestorefront/vue-storefront/issues/6032',
+  description: 'Fixed closes search modal after clicking Add To Wishlist icon.',
+  link: 'https://github.com/vuestorefront/vue-storefront/pull/6456',
   isBreaking: false,
   breakingChanges: [],
   author: 'Łukasz Jędrasik',
