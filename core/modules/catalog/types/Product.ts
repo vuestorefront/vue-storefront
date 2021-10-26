@@ -75,8 +75,7 @@ export default interface Product {
   links?: any,
   parentId?: number | string,
   meta_title?: string | null,
-  meta_description?: string | null,
-  landing_page_url?: string | null
+  meta_description?: string | null
 }
 
 export interface ProductLink {
