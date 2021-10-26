@@ -3,6 +3,7 @@ import { processURLAddress } from '@vue-storefront/core/helpers';
 
 import CampaignsGetAPIResponse from './types/CampaignsGetAPIResponse';
 import CampaignContent from './types/CampaignContent.model';
+import ImageBanner from './types/ImageBanner.model';
 
 export const PromotionPlatformService = {
   async fetchCampaignContent (campaignToken?: string, dataParam?: string): Promise<CampaignsGetAPIResponse> {
@@ -35,7 +36,7 @@ export const PromotionPlatformService = {
     const campaignData = responseData.result.campaignContent;
     let countdownBannerContent;
     let discountsContent;
-    let imagesBannerContent;
+    let imagesBannerContent: ImageBanner | undefined;
     let countdownBannerBlacklistUrls: string[] = [];
 
     if (!campaignData || campaignData.length === 0) {
@@ -55,8 +56,10 @@ export const PromotionPlatformService = {
       countdownBannerBlacklistUrls = campaignData.countdown_banner_blacklist_urls;
     }
 
-    if (campaignData.image_banner && campaignData.image_banner.content) {
-      imagesBannerContent = campaignData.image_banner.content;
+    const imageBanner = campaignData.image_banner;
+
+    if (imageBanner && imageBanner.content && imageBanner.campaign_id) {
+      imagesBannerContent = new ImageBanner(imageBanner.campaign_id, imageBanner.content);
     }
 
     if (campaignData.discounts && campaignData.discounts.content) {
