@@ -15,7 +15,8 @@ const auth = {
   onTokenChange: () => {},
   onTokenRead: () => '',
   onTokenRemove: () => {},
-  onTokenProviderSet: () => {}
+  setTokenProvider: () => {},
+  getTokenProvider: jest.fn()
 };
 
 const configuration = {
@@ -114,8 +115,8 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
 
   it('doesnt fetch access token for non-user related operations', async () => {
     const scope = '';
+    auth.getTokenProvider = jest.fn().mockImplementation(() => getTokenProvider(scope));
     const result = await handleAfterAuth({
-      tokenProvider: getTokenProvider(scope),
       apolloReq: { operationName: 'createCart' },
       response: { errors: [] },
       configuration
@@ -126,8 +127,8 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
 
   it('doesnt fetch access token for logged in user', async () => {
     const scope = 'customer_id';
+    auth.getTokenProvider = jest.fn().mockImplementation(() => getTokenProvider(scope));
     const result = await handleAfterAuth({
-      tokenProvider: getTokenProvider(scope),
       apolloReq: { operationName: 'customerSignMeIn' },
       response: { errors: [] },
       configuration
@@ -138,10 +139,11 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
 
   it('fetches access token for anonymous session', async () => {
     const scope = 'anonymous_id';
+    const tokenProvider = getTokenProvider(scope);
+    auth.getTokenProvider = jest.fn().mockImplementation(() => tokenProvider);
     const createSdkHelpersMock = createSdkHelpers as jest.Mock;
-    createSdkHelpersMock.mockImplementation(() => ({ tokenProvider: getTokenProvider(scope)}));
+    createSdkHelpersMock.mockImplementation(() => ({ tokenProvider: tokenProvider }));
     const result = await handleAfterAuth({
-      tokenProvider: getTokenProvider(scope),
       apolloReq: {
         operationName: 'customerSignMeIn',
         variables: { draft: { email: 'EMAIL', password: 'PASSWORD' } }
@@ -155,10 +157,11 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
 
   it('fetches access token for guest', async () => {
     const scope = '';
+    const tokenProvider = getTokenProvider(scope);
+    auth.getTokenProvider = jest.fn().mockImplementation(() => tokenProvider);
     const createSdkHelpersMock = createSdkHelpers as jest.Mock;
-    createSdkHelpersMock.mockImplementation(() => ({ tokenProvider: getTokenProvider(scope)}));
+    createSdkHelpersMock.mockImplementation(() => ({ tokenProvider: tokenProvider}));
     const result = await handleAfterAuth({
-      tokenProvider: getTokenProvider(scope),
       apolloReq: {
         operationName: 'customerSignMeIn',
         variables: { draft: { email: 'EMAIL', password: 'PASSWORD' } }

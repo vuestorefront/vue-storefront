@@ -13,12 +13,12 @@ async function getServerAccessToken({
   configuration,
   apolloReq
 }): Promise<string> {
-  Logger.debug(`Get server access token for operation "${ apolloReq.operationName }"`);
+  Logger.debug(`Retrieving server access token for operation "${ apolloReq.operationName }"`);
 
-  configuration.auth.onTokenProviderSet(configuration.serverTokenProvider);
+  configuration.auth.setTokenProvider(configuration.serverTokenProvider);
   const currentToken = await configuration.serverTokenProvider.getTokenInfo();
 
-  Logger.debug(`Successfully get server access token for operation "${ apolloReq.operationName }"`);
+  Logger.debug(`Successfully retrieved server access token for operation "${ apolloReq.operationName }"`);
 
   return currentToken;
 }
@@ -29,10 +29,12 @@ async function getServerAccessToken({
 async function getGuestAccessToken({
   configuration
 }): Promise<string> {
-  Logger.debug('Get guest access token from provider');
+  Logger.debug('Retrieving guest access token from token provider for guest operation');
 
-  configuration.auth.onTokenProviderSet(configuration.guestTokenProvider);
+  configuration.auth.setTokenProvider(configuration.guestTokenProvider);
   const currentToken = await configuration.guestTokenProvider.getTokenInfo();
+
+  Logger.debug('Successfully retrieved guest access token from token provider');
 
   return currentToken;
 }
@@ -43,13 +45,13 @@ async function getGuestAccessToken({
 async function getTokenProviderForExistingToken({
   configuration
 }): Promise<string> {
-  Logger.debug('Generating provider token for existing token');
+  Logger.debug('Generating token provider for token from the cookie');
 
   const { tokenProvider } = createSdkHelpers(configuration, TokenType.ExistingAccessToken);
-  configuration.auth.onTokenProviderSet(tokenProvider);
+  configuration.auth.setTokenProvider(tokenProvider);
   const currentToken = await tokenProvider.getTokenInfo();
 
-  Logger.debug('Successfully generated provider token for existing token');
+  Logger.debug('Successfully generated provider token from the cookie');
 
   return currentToken;
 }
@@ -64,7 +66,7 @@ async function generateAnonymousAccessToken({
   Logger.debug(`Generating anonymous access token for operation "${ apolloReq.operationName }"`);
 
   const { tokenProvider } = createSdkHelpers(configuration, TokenType.AnonymousAccessToken);
-  configuration.auth.onTokenProviderSet(tokenProvider);
+  configuration.auth.setTokenProvider(tokenProvider);
   const currentToken = await tokenProvider.getTokenInfo();
 
   Logger.debug(`Successfully generated anonymous access token for operation "${ apolloReq.operationName }"`);
@@ -82,7 +84,7 @@ async function generateUserAccessToken({
   Logger.debug(`Generating user access token for operation "${ apolloReq.operationName }"`);
 
   const { tokenProvider } = createSdkHelpers(configuration, TokenType.UserAccessToken, apolloReq);
-  configuration.auth.onTokenProviderSet(tokenProvider);
+  configuration.auth.setTokenProvider(tokenProvider);
   const currentToken = await tokenProvider.getTokenInfo();
 
   Logger.debug(`Successfully generated user access token for operation "${ apolloReq.operationName }"`);
@@ -143,11 +145,12 @@ export async function handleBeforeAuth({
  *  - response from the commercetools doesn't contain any errors, meaning that the given credentials are valid;
  */
 export async function handleAfterAuth({
-  tokenProvider,
   apolloReq,
   response,
   configuration
 }) {
+
+  const tokenProvider = configuration.auth.getTokenProvider();
   const currentToken = tokenProvider.getTokenInfo();
 
   if (!isUserSession(currentToken) && isUserOperation(apolloReq.operationName) && !response.errors?.length) {

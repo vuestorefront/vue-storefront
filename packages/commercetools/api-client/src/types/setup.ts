@@ -47,8 +47,8 @@ export interface Auth {
   onTokenChange?: (token: Token) => void;
   onTokenRead?: () => string;
   onTokenRemove?: () => void;
-  onTokenProviderSet?: (token: Token) => void;
-  onTokenProviderGet?: () => TokenProvider;
+  setTokenProvider?: (token: Token) => void;
+  getTokenProvider?: () => TokenProvider;
 }
 
 export interface StoreService {

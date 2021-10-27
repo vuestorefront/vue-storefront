@@ -31,78 +31,70 @@ function createAuthClient({
  */
 function createTokenProvider({ configuration, sdkAuth, tokenType, apolloReq }) {
   const { clientId, clientSecret, scopes } = configuration.serverApi || configuration.api;
+  let parameters: any = { sdkAuth };
+  let currentToken: string = null;
 
   switch (tokenType) {
 
     /**
-      * Creates server access token for operations that require high permissions.
-      * This token is not saved in the cookie.
+      * Creates server access token for operations that require elevated permissions. This token is not saved in the cookie.
     */
     case TokenType.ServerAccessToken:
-      return new TokenProvider(
-        {
-          sdkAuth,
-          fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow({ credentials: { clientId, clientSecret }, scopes })
-        }
-      );
+      parameters = {
+        ...parameters,
+        fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow({ credentials: { clientId, clientSecret }, scopes })
+      };
+      break;
 
     /**
-      * Creates guest access token for all guest requests and not saved in the cookie.
-      * This token is requested on the server and used for all guest requests.
+      * Creates guest access token for all guest requests. This token is only stored on the server and not in the cookies.
     */
     case TokenType.GuestAccessToken:
-      return new TokenProvider(
-        {
-          sdkAuth,
-          fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow()
-        }
-      );
+      parameters = {
+        ...parameters,
+        fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow()
+      };
+      break;
 
     /**
-      * Creates anonymous access token for quest who adds items to the cart/wishlist.
-      * This token is saved in the cookie and used for anonymous session.
+      * Creates anonymous access token for guests who just added the items to the cart/wishlist. This token is saved in the cookie.
     */
     case TokenType.AnonymousAccessToken:
-      return new TokenProvider(
-        {
-          sdkAuth,
-          fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.anonymousFlow(),
-          onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo),
-          onTokenInfoRefreshed: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
-        }
-      );
+      parameters = {
+        ...parameters,
+        fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.anonymousFlow(),
+        onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo),
+        onTokenInfoRefreshed: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
+      };
+      break;
 
     /**
-      * Creates new token provider for existing token
-      * This token is taken from the request’s cookie and used for the next anonymous and user sessions.
+      * Creates a new token provider for the anonymous or user token from the request’s cookie.
     */
     case TokenType.ExistingAccessToken:
-      return new TokenProvider(
-        {
-          sdkAuth,
-          onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo),
-          onTokenInfoRefreshed: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
-        },
-        configuration.auth.onTokenRead()
-      );
+      currentToken = configuration.auth.onTokenRead();
+      parameters = {
+        ...parameters,
+        onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo),
+        onTokenInfoRefreshed: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
+      };
+      break;
 
     /**
-      * Creates user access token for user who is logged in.
-      * This token is saved in the cookie and used for user session.
+      * Creates user access token for the user who just logged in or registered a new account. This token is saved in the cookie.
     */
     case TokenType.UserAccessToken:
       const { email, password } = apolloReq.variables.draft;
-      return new TokenProvider(
-        {
-          sdkAuth,
-          fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.customerPasswordFlow({ username: email, password }),
-          onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo),
-          onTokenInfoRefreshed: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
-        }
-      );
-    default:
-      return null;
+      parameters = {
+        ...parameters,
+        fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.customerPasswordFlow({ username: email, password }),
+        onTokenInfoChanged: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo),
+        onTokenInfoRefreshed: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
+      };
+      break;
   }
+
+  return new TokenProvider(parameters, currentToken);
 }
 
 /**

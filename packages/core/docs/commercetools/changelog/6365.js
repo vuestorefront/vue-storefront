@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Add server access token',
+  description: 'Added server access token',
   link: 'https://github.com/vuestorefront/vue-storefront/issues/6365',
   isBreaking: false,
   breakingChanges: [],

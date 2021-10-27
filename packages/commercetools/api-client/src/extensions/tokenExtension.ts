@@ -21,7 +21,6 @@ export const tokenExtension: ApiClientExtension = {
 
     Logger.debug('Generating guest access token');
     const { tokenProvider } = createSdkHelpers(configuration, TokenType.GuestAccessToken);
-
     Logger.debug('Successfully generated guest access token');
 
     configuration.serverTokenProvider = serverTokenProvider;
@@ -34,14 +33,14 @@ export const tokenExtension: ApiClientExtension = {
     /**
      * Set token provider.
      */
-    function onTokenProviderSet(tokenProvider) {
+    function setTokenProvider(tokenProvider) {
       currentTokenProvider = tokenProvider;
     }
 
     /**
      * Get token provider.
      */
-    function onTokenProviderGet() {
+    function getTokenProvider() {
       return currentTokenProvider;
     }
 
@@ -83,8 +82,8 @@ export const tokenExtension: ApiClientExtension = {
           onTokenChange,
           onTokenRead,
           onTokenRemove,
-          onTokenProviderSet,
-          onTokenProviderGet
+          setTokenProvider,
+          getTokenProvider
         }
       })
     };

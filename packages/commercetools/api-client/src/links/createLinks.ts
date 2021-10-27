@@ -5,7 +5,6 @@ import { setContext } from 'apollo-link-context';
 import { createHttpLink } from 'apollo-link-http';
 import { asyncMap } from '@apollo/client/utilities';
 import { ApolloLink, FetchResult } from 'apollo-link';
-import { TokenProvider } from '@commercetools/sdk-auth';
 import { Config } from '../types/setup';
 import { handleAfterAuth, handleBeforeAuth } from './authLinks';
 
@@ -54,7 +53,7 @@ export function createRetryHandler({ configuration }): ApolloLink {
       if (customRetry) {
         return true;
       }
-      const tokenProvider = configuration.auth.onTokenProviderGet();
+      const tokenProvider = configuration.auth.getTokenProvider();
 
       if (error?.result?.message === 'invalid_token') {
         Logger.debug(`Apollo retry-link, the operation (${operation.operationName}) sent with wrong token, creating a new one... (attempt: ${count})`);
@@ -72,15 +71,12 @@ export function createRetryHandler({ configuration }): ApolloLink {
  * Creates ApolloLink for Apollo GraphQL client.
  */
 export function createLinks(configuration: Config): ApolloLink {
-  let tokenProvider: TokenProvider = {};
   const tokenLink = setContext(async (apolloReq, { headers }) => {
     Logger.debug('Apollo authLinkBefore', apolloReq.operationName);
     const currentToken = await handleBeforeAuth({
       configuration,
       apolloReq
     });
-
-    tokenProvider = configuration.auth.onTokenProviderGet();
 
     return {
       headers: {
@@ -95,7 +91,6 @@ export function createLinks(configuration: Config): ApolloLink {
       Logger.debug('Apollo authLinkAfter', apolloReq.operationName);
 
       await handleAfterAuth({
-        tokenProvider,
         apolloReq,
         response,
         configuration
