@@ -9,5 +9,8 @@ export const getters: GetterTree<PromotionPlatformState, any> = {
   },
   campaignToken (state): string | undefined {
     return state.campaignToken;
+  },
+  lastClosedBannerVersionByUser (state): string | undefined {
+    return state.lastClosedBannerVersionByUser;
   }
 }

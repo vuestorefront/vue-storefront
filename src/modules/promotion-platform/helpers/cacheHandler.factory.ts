@@ -16,5 +16,14 @@ export function cacheHandlerFactory () {
           Logger.error(reason)()
         })
     }
+
+    if (type.endsWith(types.SET_LAST_BANNER_VERSION_CLOSED_BY_USER)) {
+      return StorageManager
+        .get(types.SN_PROMOTION_PLATFORM)
+        .setItem('last-closed-by-user-version', (state.promotionPlatform as PromotionPlatformState).lastClosedBannerVersionByUser)
+        .catch((reason) => {
+          Logger.error(reason)()
+        })
+    }
   }
 }
