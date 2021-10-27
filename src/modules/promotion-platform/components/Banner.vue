@@ -14,12 +14,9 @@
 </template>
 
 <script lang="ts">
-import throttle from 'lodash.throttle';
-import Vue, { VueConstructor } from 'vue';
-import { isServer } from '@vue-storefront/core/helpers'
+import Vue from 'vue';
 
 import { Dictionary } from 'src/modules/budsies';
-import { InjectType } from 'src/modules/shared';
 
 import CampaignContent from '../types/CampaignContent.model';
 import { SET_LAST_BANNER_VERSION_CLOSED_BY_USER } from '../types/StoreMutations';
@@ -28,14 +25,7 @@ import Timer from './Timer.vue';
 
 const millisecondsInHour = 60000;
 
-interface InjectedServices {
-  window: Window
-}
-
-export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
-  inject: {
-    window: { from: 'WindowObject' }
-  } as unknown as InjectType<InjectedServices>,
+export default Vue.extend({
   computed: {
     bannerContent (): string | undefined {
       if (
@@ -60,10 +50,6 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
 
       if (this.numbersColor) {
         style['--numbers-color'] = `#${this.numbersColor}`;
-      }
-
-      if (this.height) {
-        style['--banner-height'] = `${this.height}px`
       }
 
       return style;
@@ -105,13 +91,8 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
       textColor: undefined as undefined | string,
       fOnCloseButtonClickHandler: undefined as (() => void) | undefined,
       fOnToggleViewButtonClickHandler: undefined as (() => void) | undefined,
-      isNarrow: false,
-      height: 0,
-      resizeHandler: undefined as (() => void) | undefined
+      isNarrow: false
     };
-  },
-  beforeDestroy (): void {
-    this.removeResizeHandler();
   },
   methods: {
     addButtonsClickListeners (): void {
@@ -198,29 +179,8 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
       await this.$nextTick();
 
       this.fillData();
-      this.initResizeHandler();
       this.addButtonsClickListeners();
       this.initTimer();
-
-      await this.$nextTick();
-
-      this.updateBannerHeight();
-    },
-    initResizeHandler (): void {
-      if (isServer) {
-        return;
-      }
-
-      if (this.resizeHandler) {
-        this.removeResizeHandler();
-      }
-
-      this.resizeHandler = throttle(
-        () => this.updateBannerHeight(),
-        100
-      );
-
-      this.window.addEventListener('resize', this.resizeHandler);
     },
     initTimer (): void {
       const bannerElement = this.getBannerElement();
@@ -249,7 +209,6 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
     },
     onToggleViewButtonClickHandler (): void {
       this.isNarrow = !this.isNarrow;
-      this.$nextTick().then(this.updateBannerHeight);
     },
     removeButtonsClickHandlers (): void {
       const closeButton = this.getCloseButtonElement();
@@ -269,32 +228,11 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
         );
       }
     },
-    removeResizeHandler (): void {
-      if (isServer || !this.resizeHandler) {
-        return;
-      }
-
-      this.window.removeEventListener('resize', this.resizeHandler);
-    },
     setlastClosedBannerVersionByUser (version: string): void {
       this.$store.commit(
         `promotionPlatform/${SET_LAST_BANNER_VERSION_CLOSED_BY_USER}`,
         version
       );
-    },
-    updateBannerHeight (): void {
-      const bannerContainer = this.getBannerContainer();
-      if (isServer || !bannerContainer) {
-        return;
-      }
-
-      const container = bannerContainer.querySelector('._container');
-
-      if (!container) {
-        return;
-      }
-
-      this.height = container.clientHeight;
     }
   },
   watch: {
