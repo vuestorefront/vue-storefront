@@ -1,5 +1,5 @@
 import { Ref, computed } from '@nuxtjs/composition-api';
-import { sharedRef, vsfRef, Logger, configureFactoryParams } from '../utils';
+import { sharedRef, Logger, configureFactoryParams } from '../utils';
 import { UseFacet, FacetSearchResult, AgnosticFacetSearchParams, Context, FactoryParams, UseFacetErrors } from '../types';
 
 export interface UseFacetFactoryParams<SEARCH_DATA> extends FactoryParams {
@@ -10,8 +10,8 @@ const useFacetFactory = <SEARCH_DATA>(factoryParams: UseFacetFactoryParams<SEARC
 
   const useFacet = (id?: string): UseFacet<SEARCH_DATA> => {
     const ssrKey = id || 'useFacet';
-    const loading: Ref<boolean> = vsfRef(false, `${ssrKey}-loading`);
-    const result: Ref<FacetSearchResult<SEARCH_DATA>> = vsfRef({ data: null, input: null }, `${ssrKey}-facets`);
+    const loading: Ref<boolean> = sharedRef(false, `${ssrKey}-loading`);
+    const result: Ref<FacetSearchResult<SEARCH_DATA>> = sharedRef({ data: null, input: null }, `${ssrKey}-facets`);
     const _factoryParams = configureFactoryParams(factoryParams);
     const error: Ref<UseFacetErrors> = sharedRef({
       search: null
