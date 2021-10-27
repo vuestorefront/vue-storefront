@@ -1,10 +1,12 @@
 # Application context
 
-As described on the [Server Middleware basics](./basics.html) page, Application context is an object available in the Nuxt.js application. This object is populated by plugins and modules registered in the `nuxt.config.js` file. Some of them add their **client, configuration and API methods** to that object under a unique key. The Nuxt.js application later uses the Application context to exchange data with the Service providers.
+Application context is an object available in the Nuxt.js application. This object is populated by plugins and modules registered in the `nuxt.config.js` file.
+
+Plugins and modules add integration-specific data to the Application context under a unique key. The Nuxt.js application later uses this information to send requests to the Server Middleware.
 
 ## Structure of the context
 
-Context is an object with unique keys, starting with `$` sign and followed by the name or abbreviation of the service name, e.g. `$ct` (for commercetools), `$magento`, `$sb` (for storyblok), etc.
+Context is an object with unique keys, starting with the `$` sign and followed by the name or abbreviation of the installed integrations, e.g. `$ct` (for commercetools), `$magento`, `$sb` (for storyblok), etc.
 
 Each of the keys contains an object with three properties:
 
@@ -33,7 +35,7 @@ For example, application with Magento and Storyblok plugins installed might have
 
 In most cases you don't need to access the context directly. Instead, you can call methods in the [Composables](/guide/composables.html) available in the integration, which internally call API methods with proper parameters.
 
-However, there are cases when composables are not sufficient or you need to access integration configuration. For this reason we have a dedicated composable named `useVSFContext` to easy access the whole context object.
+However, there are cases when composables are not sufficient or you need to access integration configuration. For this reason we have a dedicated composable named `useVSFContext` to easily access the whole context object.
 
 For example, you can call `products` API endpoint in Magento integration like so:
 
@@ -63,47 +65,47 @@ Server Middleware **[URL paths](https://developer.mozilla.org/en-US/docs/Learn/C
 - name of the integration,
 - name of the endpoint.
 
-Following this rule, calling the `$magento.api.products` method will send a request to the `/api/magento/products` endpoint.
-
 **Request body** is an array including all parameters passed to the method.
+
+Following this rule, calling the `$magento.api.products` method will send a request to the `/api/magento/products` endpoint.
 
 <center>
   <img
-    src="./images/api-request.jpg"
+    src="./images/api-request.webp"
     alt="Mapping of the `api` method call to the Server Middleware request"
   />
 </center>
 
 ## Extending context
 
-The best and most straightforward way of extending Application context it to use `integrationPlugin` helper. It give you access to the [Nuxt.js context](https://nuxtjs.org/docs/concepts/context-helpers/), which includes runtime configuration, route informartion, environment variables, cookie helpers and much more.
+The best and most straightforward way of extending Application context it to use `integrationPlugin` helper. It give you access to the `integration` helper as well as [Nuxt.js context](https://nuxtjs.org/docs/concepts/context-helpers/), which includes runtime configuration, route informartion, environment variables, cookie helpers and much more.
+
+You can call `integration.configure` method to add new integration to the context. This method accepts two parameters:
+
+- **(string)** - unique name of the integration,
+- **(object)** - configuration with any properties you need. Two properties described below can be used to change the default behavior of the integration:
+  - `axios` **(object)** - passed to the [axios.create](https://github.com/axios/axios#axioscreateconfig) method when creating a HTTP client for this specific integration (doesn't affect other integrations),
+  - `api` **(object)** - contains functions that can be called on the integration's [`api` handler](#api-handler). The exception is that the function will be executed in Nuxt.js, not Server Middleware. Object keys must match the method called on the [`api` handler](#api-handler).
 
 ```javascript
 // plugins/custom-context.js
-
 import { integrationPlugin } from '@vue-storefront/core';
 
 export default integrationPlugin(({
   integration
   // Other properties from Nuxt.js context like `app`, `route`, `res`, `req`, etc.
 }) => {
-  const settings = {};
+  const configuration = {};
 
   // Replace `<INTEGRATION_NAME>` with unique name or abbreviation
-  integration.configure('<INTEGRATION_NAME>', settings);
+  integration.configure('<INTEGRATION_NAME>', configuration);
 });
 ```
-
-The `settings` object can have two properties:
-
-- `axios` - object passed to the [axios.create](https://github.com/axios/axios#axioscreateconfig) method when creating a HTTP client for this specific integration (doesn't affect other integrations),
-- `api` - object containing functions that can be called on the integration's [`api` handler](#api-handler). The exception is that the function will be executed in Nuxt.js, not Server Middleware. Object keys must match the method called on the [`api` handler](#api-handler).
 
 When your plugin is ready, you need to register it in the `nuxt.config.js` file:
 
 ```javascript
 // nuxt.config.js
-
 export default {
   plugins: [
     '~/plugins/custom-context.js'
@@ -113,4 +115,4 @@ export default {
 
 ## What's next
 
-
+Now that we understand how Nuxt.js application creates Application context and sends requests to the Server Middleware, it's time to dive deeper into the [Server Middleware](./server-middleware.html) itself.

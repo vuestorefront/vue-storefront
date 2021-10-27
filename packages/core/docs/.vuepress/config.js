@@ -198,7 +198,6 @@ module.exports = {
             ['/guide/configuration', 'Configuration'],
             ['/advanced/internationalization', 'Internationalization'],
             ['/advanced/logging', 'Logging'],
-            ['/advanced/architecture', 'Architecture basics'],
             // ['/', 'Glossary']
           ]
         },
@@ -218,7 +217,7 @@ module.exports = {
           title: 'Architecture',
           collapsable: true,
           children: [
-            ['/architecture/basics', 'Architecture basics'],
+            ['/architecture/networking', 'Networking'],
             ['/architecture/application-context', 'Application context'],
             ['/architecture/server-middleware', 'Server Middleware']
           ]
