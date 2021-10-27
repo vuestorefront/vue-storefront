@@ -1,11 +1,11 @@
 # Networking
 
-Vue Storefront differs slightly from most frontends in the way it handles API communication. The most common way is for frontend applications to directly communicate with the API platforms (Service providers). However, In Vue storefront there is a "proxy" between them called Server Middleware.
+Vue Storefront differs slightly from most applications in the way it handles API communication. The most common way is for front-end applications to communicate directly with the API platforms (Service providers). However, In the Vue Storefront, there is a "proxy" between them called Server Middleware.
 
 
 ## Data flow
 
-Before we can understand Server Middleware, we need to discuss data flow from the user's browser all the way to the service providers. In Vue Storefront, there are three applications that exchange the data:
+Before we can understand Server Middleware, we need to discuss data flow from the user's browser all the way to the service providers. In Vue Storefront, three applications exchange the data:
 
 * **Nuxt.js application** - requests data from the Server Middleware when specific methods in the [Application context](./application-context.html) or [Composables](/guide/composables.html) are called.
 * **Server Middleware** - accepts requests from the Nuxt.js application, converts them, and sends them to the given platform in the proper format and communication technology.
@@ -14,7 +14,7 @@ Before we can understand Server Middleware, we need to discuss data flow from th
 We describe each of them in more detail in the following sections.
 
 :::tip There are exceptions
-For security reasons, data is sometimes sent directly from the user's browser to the Service providers. For example, the payment and authentication integrations communicate directly with or redirect to the third party websites so that the sensitive customer information does not go through our servers.
+For security reasons, data is sometimes sent directly from the user's browser to the Service providers. For example, the payment and authentication integrations communicate directly with or redirect to the third-party websites so that the sensitive customer information does not go through our servers.
 :::
 
 <figure style="text-align: center">
@@ -47,4 +47,4 @@ In some scenarios, when the traffic should not go through the Server Middleware,
 
 ## What's next
 
-Now that we have a high-level overview of the architecture and how data is exchanged between the Nuxt.js application, Server Middleware and Service providers, we can dive deeper. On the next page, we will learn about the [Application context](./application-context.html) and its use.
+Now that we have a high-level overview of the architecture and how the Nuxt.js application, Server Middleware, and Service providers exchange the data, we can dive deeper. On the next page, we will learn about the [Application context](./application-context.html) and its use.

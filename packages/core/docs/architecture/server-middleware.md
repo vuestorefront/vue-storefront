@@ -10,7 +10,7 @@ The Server Middleware is an Express.js application implemented for a variety of 
 
 ## Configuration
 
-Every Vue Storefront application comes with the `middleware.config.js` file located in the root of the project.  Inside of this file, you can register packages that extend the Server Middleware, by adding new API endpoints or even modifying Express.js application itself.
+Every Vue Storefront application comes with the `middleware.config.js` file located at the root of the project.  Inside this file, you can register packages that extend the Server Middleware by adding new API endpoints or modifying the Express.js application itself.
 
 ```javascript
 // middleware.config.js
@@ -21,9 +21,9 @@ module.exports = {
 };
 ```
 
-Every integration must be registered under an unique key, which should be provided in the installation guide of said extension. Name of the key must match the key in the [Application context](../architecture/application-context.html) and changing it will likely cause the integration to malfunction.
+Every integration you register inside of this file must have a unique key provided in the installation guide of said extension. The name of the key must match the key in the [Application context](../architecture/application-context.html), and changing it will likely cause the integration to malfunction.
 
-Registered integration must have a configuration matching the [Integration interface](/core/api-reference/core.integration.html). This is how the configuration for an extension might look like:
+Registered integration must have a configuration matching the [Integration interface](/core/api-reference/core.integration.html). This configuration might look like this:
 
 ```javascript
 // middleware.config.js
@@ -44,7 +44,7 @@ module.exports = {
 
 ## Creating an integration
 
-To create Server Middleware integration, you can follow our [Integrating eCommerce platform](/integrate/integration-guide.html) guide. Some integrations don't need custom theme. In such case, you can delete the `theme` folder from our integration boilerplate project and skip parts of the guide concerning it.
+To create Server Middleware integration, you can follow our [Integrating eCommerce platform](/integrate/integration-guide.html) guide. Some integrations don't need a custom theme. In such a case, you can delete the `theme` folder from our integration boilerplate project and skip parts of the guide concerning it.
 
 ## Extending an integrations
 
@@ -66,7 +66,7 @@ app.listen(8181, () => {
 });
 ```
 
-Now, when you run this file using Node.js, the middleware will work start as it's own process, without relying on the Nuxt.js.
+When you run this file using Node.js, the middleware will start its server without relying on Nuxt.js.
 
 You need to remove the Server Middleware module from the `nuxt.config.js` and configure the domain your middleware is using.
 

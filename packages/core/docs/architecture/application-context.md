@@ -1,8 +1,7 @@
 # Application context
 
-Application context is an object available in the Nuxt.js application. This object is populated by plugins and modules registered in the `nuxt.config.js` file.
-
-Plugins and modules add integration-specific data to the Application context under a unique key. The Nuxt.js application later uses this information to send requests to the Server Middleware.
+An application context is an object available in the Nuxt.js application. 
+Plugins and modules registered in the `nuxt.config.js` file populate this object and add integration-specific data under a unique key. The Nuxt.js application later uses this information to send requests to the Server Middleware.
 
 ## Structure of the context
 
@@ -14,7 +13,7 @@ Each of the keys contains an object with three properties:
 - `client` - an `axios` HTTP client used for communication with the Server Middleware.
 - `config` - an integration configuration.
 
-For example, application with Magento and Storyblok plugins installed might have a context like this:
+For example, an application with Magento and Storyblok plugins installed might have a context like this:
 
 ```javascript
 {
@@ -33,9 +32,9 @@ For example, application with Magento and Storyblok plugins installed might have
 
 ## Accessing context
 
-In most cases you don't need to access the context directly. Instead, you can call methods in the [Composables](/guide/composables.html) available in the integration, which internally call API methods with proper parameters.
+In most cases, you don't need to access the context directly. Instead, you can call methods in the [Composables](/guide/composables.html) available in the integration, which internally calls API methods with proper parameters.
 
-However, there are cases when composables are not sufficient or you need to access integration configuration. For this reason we have a dedicated composable named `useVSFContext` to easily access the whole context object.
+However, there are cases when composables are not sufficient, or you need to access integration configuration. For this reason, we have a dedicated composable named `useVSFContext` to easily access the whole context object.
 
 For example, you can call `products` API endpoint in Magento integration like so:
 
@@ -57,7 +56,7 @@ See the integration API reference for a list of available API methods.
 
 ## `api` handler
 
-In the previous section we showed how to call an `api` method. You might be wondering how it's transformed into a network request to the Server Middleware.
+In the previous section, we showed how to call the `api` method. You might be wondering how it's transformed into a network request to the Server Middleware.
 
 Server Middleware **[URL paths](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_is_a_URL#path_to_resource)** always consists of three parts:
 
@@ -67,7 +66,7 @@ Server Middleware **[URL paths](https://developer.mozilla.org/en-US/docs/Learn/C
 
 **Request body** is an array including all parameters passed to the method.
 
-Following this rule, calling the `$magento.api.products` method will send a request to the `/api/magento/products` endpoint.
+Following this rule, when you call the `$magento.api.products`, it sends the request to the `/api/magento/products` endpoint.
 
 <center>
   <img
@@ -78,14 +77,14 @@ Following this rule, calling the `$magento.api.products` method will send a requ
 
 ## Extending context
 
-The best and most straightforward way of extending Application context it to use `integrationPlugin` helper. It give you access to the `integration` helper as well as [Nuxt.js context](https://nuxtjs.org/docs/concepts/context-helpers/), which includes runtime configuration, route informartion, environment variables, cookie helpers and much more.
+The best and most straightforward way of extending the Application context is to use the `integrationPlugin` helper. It gives access to the `integration` helper and [Nuxt.js context](https://nuxtjs.org/docs/concepts/context-helpers/), which includes runtime configuration, route information, environment variables, cookie helpers, and much more.
 
-You can call `integration.configure` method to add new integration to the context. This method accepts two parameters:
+You can call the `integration.configure` method to add new integration to the context. This method accepts two parameters:
 
 - **(string)** - unique name of the integration,
-- **(object)** - configuration with any properties you need. Two properties described below can be used to change the default behavior of the integration:
-  - `axios` **(object)** - passed to the [axios.create](https://github.com/axios/axios#axioscreateconfig) method when creating a HTTP client for this specific integration (doesn't affect other integrations),
-  - `api` **(object)** - contains functions that can be called on the integration's [`api` handler](#api-handler). The exception is that the function will be executed in Nuxt.js, not Server Middleware. Object keys must match the method called on the [`api` handler](#api-handler).
+- **(object)** - configuration with any properties you need. You can use two properties described below to change the default behavior of the integration:
+  - `axios` **(object)** - passed to the [axios.create](https://github.com/axios/axios#axioscreateconfig) method when creating an HTTP client for this specific integration (doesn't affect other integrations),
+  - `api` **(object)** - contains functions that can be called on the integration's [`api` handler](#api-handler). The exception is that these functions execute in Nuxt.js, not Server Middleware. Object keys must match the method called on the [`api` handler](#api-handler).
 
 ```javascript
 // plugins/custom-context.js
@@ -115,4 +114,4 @@ export default {
 
 ## What's next
 
-Now that we understand how Nuxt.js application creates Application context and sends requests to the Server Middleware, it's time to dive deeper into the [Server Middleware](./server-middleware.html) itself.
+Now that we understand how the Nuxt.js application creates Application context and sends requests to the Server Middleware, it's time to dive deeper into the [Server Middleware](./server-middleware.html) itself.
