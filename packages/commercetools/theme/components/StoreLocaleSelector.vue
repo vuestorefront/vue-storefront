@@ -37,7 +37,7 @@
       />
       <SfList>
         <SfListItem v-for="lang in availableLocales" :key="lang.code">
-          <a :href="switchLocalePath(lang.code)" @click="setLocaleCookie(lang.code)">
+          <a :href="switchLocalePath(lang.code)">
             <SfCharacteristic class="language">
               <template #title>
                 <span>{{ lang.label }}</span>
@@ -106,7 +106,6 @@ export default {
     const getStoreLocale = (store) => store?.languages[0] ?? defaultLocale;
 
     return {
-      setLocaleCookie: context.root.$i18n.setLocaleCookie,
       load,
       changeStore,
       response,
