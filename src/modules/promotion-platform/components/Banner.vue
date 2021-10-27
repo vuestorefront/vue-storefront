@@ -320,18 +320,13 @@ $countdown-banner-numbers-color: #000;
 $mobile-s: 640px;
 
 .promotion-platform-countdown-banner-wrapper {
-  .promotion-platform-countdown-banner-container {
-    height: var(--banner-height);
-    position: relative;
-  }
+  position: sticky;
+  top: 0;
+  z-index: 201;
 
   ::v-deep {
     .promotion-platform-countdown-banner {
       min-width: 320px;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 201;
 
       ._container {
         background-color: $countdown-banner-background-color;
