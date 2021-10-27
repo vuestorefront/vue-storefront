@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Update `vsf-locale` cookie client-side on language switch',
+  description: 'Add language map to the middleware config',
   link: 'https://github.com/vuestorefront/vue-storefront/pull/6491',
   isBreaking: false,
   breakingChanges: [],
