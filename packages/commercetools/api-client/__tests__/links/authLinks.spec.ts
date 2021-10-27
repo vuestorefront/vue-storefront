@@ -1,17 +1,14 @@
 import { handleBeforeAuth, handleAfterAuth } from '../../src/links/authLinks';
+import { createSdkHelpers } from '../../src/links/sdkHelpers';
 
-let scope = '';
-
-const getTokenProvider = () => ({
+const getTokenProvider = (scope) => ({
   setTokenInfo: jest.fn().mockImplementation(() => {}),
   getTokenInfo: jest.fn().mockImplementation(() => ({ scope, access_token: 'ACCESS_TOKEN' })),
   invalidateTokenInfo: jest.fn().mockImplementation(() => {})
 });
 
 jest.mock('../../src/links/sdkHelpers', () => ({
-  createSdkHelpers: () => ({
-    tokenProvider: getTokenProvider()
-  })
+  createSdkHelpers: jest.fn()
 }));
 
 const auth = {
@@ -31,9 +28,10 @@ describe('[commercetools-helpers] handleBeforeAuth', () => {
   });
 
   it('generates access token for guest session', async () => {
-    const questTokenProvider = getTokenProvider();
-    const { currentToken } = await handleBeforeAuth({
-      configuration: { questTokenProvider, auth},
+    const scope = '';
+    const guestTokenProvider = getTokenProvider(scope);
+    const currentToken = await handleBeforeAuth({
+      configuration: { guestTokenProvider, auth},
       apolloReq: { operationName: '' }
     });
 
@@ -41,8 +39,9 @@ describe('[commercetools-helpers] handleBeforeAuth', () => {
   });
 
   it('generates server access token for users related operations', async () => {
-    const serverTokenProvider = getTokenProvider();
-    const { currentToken } = await handleBeforeAuth({
+    const scope = '';
+    const serverTokenProvider = getTokenProvider(scope);
+    const currentToken = await handleBeforeAuth({
       configuration: { serverTokenProvider, auth},
       apolloReq: { operationName: 'createReview' }
     });
@@ -51,7 +50,10 @@ describe('[commercetools-helpers] handleBeforeAuth', () => {
   });
 
   it('generates access token for guest on anonymous-session allowed operations', async () => {
-    const { currentToken } = await handleBeforeAuth({
+    const scope = '';
+    const createSdkHelpersMock = createSdkHelpers as jest.Mock;
+    createSdkHelpersMock.mockImplementation(() => ({ tokenProvider: getTokenProvider(scope)}));
+    const currentToken = await handleBeforeAuth({
       configuration,
       apolloReq: { operationName: 'createCart' }
     });
@@ -59,9 +61,25 @@ describe('[commercetools-helpers] handleBeforeAuth', () => {
     expect(currentToken).toMatchObject({ scope, access_token: 'ACCESS_TOKEN' });
   });
 
-  it('returns exiting token for users related operations', async () => {
+  it('returns existing token for anonymous user', async () => {
+    const scope = 'anonymous_id';
     auth.onTokenRead = () => 'ACCESS_TOKEN';
-    const { currentToken } = await handleBeforeAuth({
+    const createSdkHelpersMock = createSdkHelpers as jest.Mock;
+    createSdkHelpersMock.mockImplementation(() => ({ tokenProvider: getTokenProvider(scope)}));
+    const currentToken = await handleBeforeAuth({
+      configuration,
+      apolloReq: { operationName: 'customerSignMeIn' }
+    });
+
+    expect(currentToken).toMatchObject({ scope, access_token: 'ACCESS_TOKEN' });
+  });
+
+  it('returns existing token for logged in user', async () => {
+    const scope = 'customer_id';
+    auth.onTokenRead = () => 'ACCESS_TOKEN';
+    const createSdkHelpersMock = createSdkHelpers as jest.Mock;
+    createSdkHelpersMock.mockImplementation(() => ({ tokenProvider: getTokenProvider(scope)}));
+    const currentToken = await handleBeforeAuth({
       configuration,
       apolloReq: { operationName: 'customerSignMeIn' }
     });
@@ -95,8 +113,9 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
   });
 
   it('doesnt fetch access token for non-user related operations', async () => {
+    const scope = '';
     const result = await handleAfterAuth({
-      tokenProvider: getTokenProvider(),
+      tokenProvider: getTokenProvider(scope),
       apolloReq: { operationName: 'createCart' },
       response: { errors: [] },
       configuration
@@ -106,9 +125,9 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
   });
 
   it('doesnt fetch access token for logged in user', async () => {
-    scope = 'customer_id';
+    const scope = 'customer_id';
     const result = await handleAfterAuth({
-      tokenProvider: getTokenProvider(),
+      tokenProvider: getTokenProvider(scope),
       apolloReq: { operationName: 'customerSignMeIn' },
       response: { errors: [] },
       configuration
@@ -118,9 +137,11 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
   });
 
   it('fetches access token for anonymous session', async () => {
-    scope = 'anonymous_id';
+    const scope = 'anonymous_id';
+    const createSdkHelpersMock = createSdkHelpers as jest.Mock;
+    createSdkHelpersMock.mockImplementation(() => ({ tokenProvider: getTokenProvider(scope)}));
     const result = await handleAfterAuth({
-      tokenProvider: getTokenProvider(),
+      tokenProvider: getTokenProvider(scope),
       apolloReq: {
         operationName: 'customerSignMeIn',
         variables: { draft: { email: 'EMAIL', password: 'PASSWORD' } }
@@ -133,8 +154,11 @@ describe('[commercetools-helpers] handleAfterAuth', () => {
   });
 
   it('fetches access token for guest', async () => {
+    const scope = '';
+    const createSdkHelpersMock = createSdkHelpers as jest.Mock;
+    createSdkHelpersMock.mockImplementation(() => ({ tokenProvider: getTokenProvider(scope)}));
     const result = await handleAfterAuth({
-      tokenProvider: getTokenProvider(),
+      tokenProvider: getTokenProvider(scope),
       apolloReq: {
         operationName: 'customerSignMeIn',
         variables: { draft: { email: 'EMAIL', password: 'PASSWORD' } }

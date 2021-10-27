@@ -377,10 +377,6 @@ export default {
     });
 
     onMounted(async () => {
-      if (!userShipping.value?.addresses && isAuthenticated.value) {
-        await loadUserShipping();
-      }
-
       const shippingAddresses = userShippingGetters.getAddresses(userShipping.value);
 
       if (!shippingAddresses || !shippingAddresses.length) {

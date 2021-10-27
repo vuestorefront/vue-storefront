@@ -33,6 +33,11 @@ function createTokenProvider({ configuration, sdkAuth, tokenType, apolloReq }) {
   const { clientId, clientSecret, scopes } = configuration.serverApi || configuration.api;
 
   switch (tokenType) {
+
+    /**
+      * Creates server access token for operations that require high permissions.
+      * This token is not saved in the cookie.
+    */
     case TokenType.ServerAccessToken:
       return new TokenProvider(
         {
@@ -40,14 +45,24 @@ function createTokenProvider({ configuration, sdkAuth, tokenType, apolloReq }) {
           fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow({ credentials: { clientId, clientSecret }, scopes })
         }
       );
-    case TokenType.QuestAccessToken:
+
+    /**
+      * Creates guest access token for all guest requests and not saved in the cookie.
+      * This token is requested on the server and used for all guest requests.
+    */
+    case TokenType.GuestAccessToken:
       return new TokenProvider(
         {
           sdkAuth,
           fetchTokenInfo: (sdkAuthInstance) => sdkAuthInstance.clientCredentialsFlow()
         }
       );
-    case TokenType.AnonymousAccesToken:
+
+    /**
+      * Creates anonymous access token for quest who adds items to the cart/wishlist.
+      * This token is saved in the cookie and used for anonymous session.
+    */
+    case TokenType.AnonymousAccessToken:
       return new TokenProvider(
         {
           sdkAuth,
@@ -56,6 +71,11 @@ function createTokenProvider({ configuration, sdkAuth, tokenType, apolloReq }) {
           onTokenInfoRefreshed: (tokenInfo) => configuration.auth.onTokenChange(tokenInfo)
         }
       );
+
+    /**
+      * Creates new token provider for existing token
+      * This token is taken from the request’s cookie and used for the next anonymous and user sessions.
+    */
     case TokenType.ExistingAccessToken:
       return new TokenProvider(
         {
@@ -65,6 +85,11 @@ function createTokenProvider({ configuration, sdkAuth, tokenType, apolloReq }) {
         },
         configuration.auth.onTokenRead()
       );
+
+    /**
+      * Creates user access token for user who is logged in.
+      * This token is saved in the cookie and used for user session.
+    */
     case TokenType.UserAccessToken:
       const { email, password } = apolloReq.variables.draft;
       return new TokenProvider(

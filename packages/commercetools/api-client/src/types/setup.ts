@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import SdkAuth, { TokenInfo, TokenProvider } from '@commercetools/sdk-auth';
+import SdkAuth, { TokenProvider } from '@commercetools/sdk-auth';
 import ApolloClient, { ApolloClientOptions } from 'apollo-client';
 import { GraphQLRequest, Operation } from 'apollo-link';
 
@@ -48,7 +48,7 @@ export interface Auth {
   onTokenRead?: () => string;
   onTokenRemove?: () => void;
   onTokenProviderSet?: (token: Token) => void;
-  onTokenProviderRead?: () => TokenProvider;
+  onTokenProviderGet?: () => TokenProvider;
 }
 
 export interface StoreService {
@@ -121,13 +121,8 @@ export interface Config<T = any> {
 
 export enum TokenType {
   ServerAccessToken = 'ServerAccessToken',
-  QuestAccessToken = 'QuestAccessToken',
-  AnonymousAccesToken = 'AnonymousAccesToken',
+  GuestAccessToken = 'GuestAccessToken',
+  AnonymousAccessToken = 'AnonymousAccessToken',
   ExistingAccessToken = 'ExistingAccessToken',
   UserAccessToken = 'UserAccessToken'
-}
-
-export type AccessTokenResult = {
-  currentToken: TokenInfo,
-  authLinkTokenProvider: TokenProvider
 }

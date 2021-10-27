@@ -14,25 +14,18 @@ function parseToken(rawToken: string): Token {
 export const tokenExtension: ApiClientExtension = {
   name: 'tokenExtension',
   extendApp: ({ configuration }) => {
-    configuration.auth = {
-      onTokenChange: () => {},
-      onTokenRead: () => '',
-      onTokenRemove: () => {},
-      onTokenProviderSet: () => {},
-      onTokenProviderRead: () => {}
-    };
 
     Logger.debug('Generating server access token');
     const { tokenProvider: serverTokenProvider } = createSdkHelpers(configuration, TokenType.ServerAccessToken);
     Logger.debug('Successfully generated server access token');
 
-    Logger.debug('Generating quest access token');
-    const { tokenProvider } = createSdkHelpers(configuration, TokenType.QuestAccessToken);
+    Logger.debug('Generating guest access token');
+    const { tokenProvider } = createSdkHelpers(configuration, TokenType.GuestAccessToken);
 
     Logger.debug('Successfully generated guest access token');
 
     configuration.serverTokenProvider = serverTokenProvider;
-    configuration.questTokenProvider = tokenProvider;
+    configuration.guestTokenProvider = tokenProvider;
   },
   hooks(request, response) {
     let currentToken = parseToken(request.cookies[CT_COOKIE_NAME]);
@@ -46,9 +39,9 @@ export const tokenExtension: ApiClientExtension = {
     }
 
     /**
-     * Read token provider.
+     * Get token provider.
      */
-    function onTokenProviderRead() {
+    function onTokenProviderGet() {
       return currentTokenProvider;
     }
 
@@ -91,7 +84,7 @@ export const tokenExtension: ApiClientExtension = {
           onTokenRead,
           onTokenRemove,
           onTokenProviderSet,
-          onTokenProviderRead
+          onTokenProviderGet
         }
       })
     };

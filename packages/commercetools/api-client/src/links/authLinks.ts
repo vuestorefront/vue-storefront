@@ -1,5 +1,5 @@
 import { Logger } from '@vue-storefront/core';
-import { AccessTokenResult, TokenType } from '../types/setup';
+import { TokenType } from '../types/setup';
 import { isUserSession, isAnonymousSession } from '../helpers/utils';
 import { isServerOperation, isUserOperation, isAnonymousOperation } from './restrictedOperations';
 import { createSdkHelpers } from './sdkHelpers';
@@ -12,7 +12,7 @@ import { createSdkHelpers } from './sdkHelpers';
 async function getServerAccessToken({
   configuration,
   apolloReq
-}): Promise<AccessTokenResult> {
+}): Promise<string> {
   Logger.debug(`Get server access token for operation "${ apolloReq.operationName }"`);
 
   configuration.auth.onTokenProviderSet(configuration.serverTokenProvider);
@@ -20,10 +20,7 @@ async function getServerAccessToken({
 
   Logger.debug(`Successfully get server access token for operation "${ apolloReq.operationName }"`);
 
-  return {
-    currentToken,
-    authLinkTokenProvider: configuration.serverTokenProvider
-  };
+  return currentToken;
 }
 
 /**
@@ -31,16 +28,13 @@ async function getServerAccessToken({
  */
 async function getGuestAccessToken({
   configuration
-}): Promise<AccessTokenResult> {
+}): Promise<string> {
   Logger.debug('Get guest access token from provider');
 
-  configuration.auth.onTokenProviderSet(configuration.questTokenProvider);
-  const currentToken = await configuration.questTokenProvider.getTokenInfo();
+  configuration.auth.onTokenProviderSet(configuration.guestTokenProvider);
+  const currentToken = await configuration.guestTokenProvider.getTokenInfo();
 
-  return {
-    currentToken,
-    authLinkTokenProvider: configuration.questTokenProvider
-  };
+  return currentToken;
 }
 
 /**
@@ -48,7 +42,7 @@ async function getGuestAccessToken({
  */
 async function getTokenProviderForExistingToken({
   configuration
-}): Promise<AccessTokenResult> {
+}): Promise<string> {
   Logger.debug('Generating provider token for existing token');
 
   const { tokenProvider } = createSdkHelpers(configuration, TokenType.ExistingAccessToken);
@@ -57,31 +51,25 @@ async function getTokenProviderForExistingToken({
 
   Logger.debug('Successfully generated provider token for existing token');
 
-  return {
-    currentToken,
-    authLinkTokenProvider: tokenProvider
-  };
+  return currentToken;
 }
 
 /**
  * Returns access token for the anonymous session.
  */
-export async function generateAnonymousAccessToken({
+async function generateAnonymousAccessToken({
   configuration,
   apolloReq
-}): Promise<AccessTokenResult> {
+}): Promise<string> {
   Logger.debug(`Generating anonymous access token for operation "${ apolloReq.operationName }"`);
 
-  const { tokenProvider } = createSdkHelpers(configuration, TokenType.AnonymousAccesToken);
+  const { tokenProvider } = createSdkHelpers(configuration, TokenType.AnonymousAccessToken);
   configuration.auth.onTokenProviderSet(tokenProvider);
   const currentToken = await tokenProvider.getTokenInfo();
 
   Logger.debug(`Successfully generated anonymous access token for operation "${ apolloReq.operationName }"`);
 
-  return {
-    currentToken,
-    authLinkTokenProvider: tokenProvider
-  };
+  return currentToken;
 }
 
 /**

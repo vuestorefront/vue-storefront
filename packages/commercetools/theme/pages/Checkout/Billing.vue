@@ -385,10 +385,6 @@ export default {
     });
 
     onMounted(async () => {
-      if (!userBilling.value?.addresses && isAuthenticated.value) {
-        await loadUserBilling();
-      }
-
       const billingAddresses = userBillingGetters.getAddresses(userBilling.value);
 
       if (!billingAddresses || !billingAddresses.length) {
