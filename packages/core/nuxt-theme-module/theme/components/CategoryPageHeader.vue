@@ -85,7 +85,6 @@ import {
   SfIcon,
   SfSelect
 } from '@storefront-ui/vue';
-import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
@@ -105,14 +104,10 @@ export default {
   setup() {
     const th = useUiHelpers();
     const { toggleFilterSidebar, isCategoryGridView, changeToCategoryGridView, changeToCategoryListView } = useUiState();
-    const { result, search } = useFacet();
+    const { result } = useFacet();
 
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
     const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
-
-    onSSR(async () => {
-      await search(th.getFacetsFromURL());
-    });
 
     return {
       th,
