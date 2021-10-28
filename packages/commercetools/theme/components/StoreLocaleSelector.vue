@@ -9,7 +9,7 @@
     <SfBottomModal
       :is-open="isLangModalOpen"
       :title="availableStores.length > 0 ? 'Choose store': ''"
-      @click:close="isLangModalOpen = !isLangModalOpen">
+    >
       <SfList>
         <SfListItem v-for="store in availableStores" :key="store.id">
           <a
@@ -49,6 +49,14 @@
           </a>
         </SfListItem>
       </SfList>
+      <template #close-desktop>
+        <SfCircleIcon
+          class="sf-circle-icon--small sf-bottom-modal__close"
+          aria-label="Close"
+          icon="cross"
+          @click="isLangModalOpen = !isLangModalOpen"
+        />
+      </template>
     </SfBottomModal>
   </div>
 </template>
@@ -61,7 +69,8 @@ import {
   SfHeading,
   SfImage,
   SfList,
-  SfSelect
+  SfSelect,
+  SfCircleIcon
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
 import { useStore, useCart } from '@vue-storefront/commercetools';
@@ -75,7 +84,8 @@ export default {
     SfHeading,
     SfImage,
     SfList,
-    SfSelect
+    SfSelect,
+    SfCircleIcon
   },
   setup(props, context) {
     const { locales, locale, defaultLocale } = context.root.$i18n;
@@ -134,6 +144,11 @@ export default {
     left: 0;
     @include for-desktop {
       --bottom-modal-height: 100vh;
+      &__close {
+        position: var(--circle-icon-position, absolute);
+        top: var(--spacer-xs);
+        right: var(--spacer-xs);
+      }
     }
   }
   .sf-list {
