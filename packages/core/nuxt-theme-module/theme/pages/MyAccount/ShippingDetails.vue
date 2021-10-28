@@ -78,7 +78,8 @@ import {
 import UserShippingAddress from '~/components/UserShippingAddress';
 import ShippingAddressForm from '~/components/MyAccount/ShippingAddressForm';
 import { useUserShipping, userShippingGetters } from '<%= options.generate.replace.composables %>';
-import { ref, computed, onMounted } from '@nuxtjs/composition-api';
+import { ref, computed } from '@nuxtjs/composition-api';
+import { onSSR } from '@vue-storefront/core';
 
 export default {
   name: 'ShippingDetails',
@@ -115,9 +116,8 @@ export default {
       }
     };
 
-    onMounted(() => {
-      // Load only in the browser
-      loadUserShipping();
+    onSSR(async () => {
+      await loadUserShipping();
     });
 
     return {

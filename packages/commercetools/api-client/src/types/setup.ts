@@ -47,6 +47,8 @@ export interface Auth {
   onTokenChange?: (token: Token) => void;
   onTokenRead?: () => string;
   onTokenRemove?: () => void;
+  setTokenProvider?: (token: Token) => void;
+  getTokenProvider?: () => TokenProvider;
 }
 
 export interface StoreService {
@@ -114,5 +116,13 @@ export interface Config<T = any> {
   forceToken?: boolean;
   handleIsTokenUserSession: (token: Token) => boolean;
   handleIsGuest: (context: any) => boolean;
-  handleIsLoggedIn: (context: any) => boolean;
+  handleIsLoggedIn: (context: any) => boolean
+}
+
+export enum TokenType {
+  ServerAccessToken = 'ServerAccessToken',
+  GuestAccessToken = 'GuestAccessToken',
+  AnonymousAccessToken = 'AnonymousAccessToken',
+  ExistingAccessToken = 'ExistingAccessToken',
+  UserAccessToken = 'UserAccessToken'
 }

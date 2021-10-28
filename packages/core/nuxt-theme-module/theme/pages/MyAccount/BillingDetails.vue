@@ -78,7 +78,8 @@ import {
 import UserBillingAddress from '~/components/UserBillingAddress';
 import BillingAddressForm from '~/components/MyAccount/BillingAddressForm';
 import { useUserBilling, userBillingGetters } from '<%= options.generate.replace.composables %>';
-import { ref, computed, onMounted } from '@nuxtjs/composition-api';
+import { ref, computed } from '@nuxtjs/composition-api';
+import { onSSR } from '@vue-storefront/core';
 
 export default {
   name: 'BillingDetails',
@@ -115,9 +116,8 @@ export default {
       }
     };
 
-    onMounted(() => {
-      // Load only in the browser
-      loadUserBilling();
+    onSSR(async () => {
+      await loadUserBilling();
     });
 
     return {

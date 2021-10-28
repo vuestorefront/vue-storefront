@@ -246,6 +246,7 @@ import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
 import { ref, watch, computed, onMounted, useRouter } from '@nuxtjs/composition-api';
+import { onSSR } from '@vue-storefront/core';
 import '@/helpers/validators/phone';
 
 const NOT_SELECTED_ADDRESS = '';
@@ -280,7 +281,7 @@ export default {
     const router = useRouter();
     const { $ct: { config } } = useVSFContext();
     const { shipping: shippingDetails, load: loadShipping } = useShipping();
-    const { billing: address, loading, load: loadBillingAddress, save } = useBilling();
+    const { billing: address, loading, load, save } = useBilling();
     const { isAuthenticated } = useUser();
     const { billing: userBilling, load: loadUserBilling, setDefaultAddress } = useUserBilling();
     const billingDetails = ref(address.value || {});
@@ -376,13 +377,14 @@ export default {
       }
     });
 
-    onMounted(async () => {
-      await loadBillingAddress();
-
+    onSSR(async () => {
+      await load();
       if (isAuthenticated.value) {
         await loadUserBilling();
       }
+    });
 
+    onMounted(async () => {
       const billingAddresses = userBillingGetters.getAddresses(userBilling.value);
 
       if (!billingAddresses || !billingAddresses.length) {
