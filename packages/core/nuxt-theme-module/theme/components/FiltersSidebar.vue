@@ -93,7 +93,6 @@ import {
 import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 import { useFacet, facetGetters } from '<%= options.generate.replace.composables %>';
 import { useUiHelpers, useUiState } from '~/composables';
-import { onSSR } from '@vue-storefront/core';
 import Vue from 'vue';
 
 export default {
@@ -107,9 +106,9 @@ export default {
     SfHeading
   },
   setup(props, context) {
-    const { changeFilters, isFacetColor, getFacetsFromURL } = useUiHelpers();
+    const { changeFilters, isFacetColor } = useUiHelpers();
     const { toggleFilterSidebar, isFilterSidebarOpen } = useUiState();
-    const { search, result, loading } = useFacet();
+    const { result } = useFacet();
 
     const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
     const selectedFilters = ref({});
@@ -150,25 +149,18 @@ export default {
       changeFilters(selectedFilters.value);
     };
 
-    onSSR(async () => {
-      await search(getFacetsFromURL());
-      setSelectedFilters();
-    });
-
     onMounted(() => {
       context.root.$scrollTo(context.root.$el, 2000);
       setSelectedFilters();
     });
 
     return {
-      loading,
       facets,
       isFacetColor,
       selectFilter,
       isFilterSelected,
       isFilterSidebarOpen,
       toggleFilterSidebar,
-      selectedFilters,
       clearFilters,
       applyFilters
     };
