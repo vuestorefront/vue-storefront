@@ -1,0 +1,2 @@
+export const SN_GIFT_CARD = 'gift-card';
+export const UPDATE_GIFT_CARD_TEMPLATE = SN_GIFT_CARD + '/UPDATE_GIFT_CARD_TEMPLATE';
