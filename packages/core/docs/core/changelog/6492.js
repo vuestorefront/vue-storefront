@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Fixed sharing data between components in useFaceting composable',
+  description: 'Fixed data sharing between components in the `useFacet` composable',
   link: 'https://github.com/vuestorefront/vue-storefront/issues/6492',
   isBreaking: false,
   breakingChanges: [],
