@@ -217,10 +217,9 @@ module.exports = {
           title: 'Architecture',
           collapsable: true,
           children: [
-            ['/advanced/architecture', 'Architecture basics'],
-            ['/advanced/context', 'Application Context'],
-            ['/advanced/calling-platform-api', 'Calling Platform API'],
-            ['/advanced/server-middleware', 'Server Middleware']
+            ['/architecture/networking', 'Networking'],
+            ['/architecture/application-context', 'Application context'],
+            ['/architecture/server-middleware', 'Server Middleware']
           ]
         },
         {
