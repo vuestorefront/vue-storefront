@@ -9,7 +9,8 @@
     <SfBottomModal
       :is-open="isLangModalOpen"
       :title="availableStores.length > 0 ? 'Choose store': ''"
-      @click:close="isLangModalOpen = !isLangModalOpen">
+      @click:close="isLangModalOpen = !isLangModalOpen"
+    >
       <SfList>
         <SfListItem v-for="store in availableStores" :key="store.id">
           <a
@@ -135,6 +136,11 @@ export default {
     @include for-desktop {
       --bottom-modal-height: 100vh;
     }
+  }
+  .sf-bottom-modal::v-deep .sf-bottom-modal__close {
+    position: var(--circle-icon-position, absolute);
+    top: var(--spacer-xs);
+    right: var(--spacer-xs);
   }
   .sf-list {
     .language {
