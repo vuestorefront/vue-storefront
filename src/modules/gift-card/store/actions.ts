@@ -1,3 +1,4 @@
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { Dictionary } from 'src/modules/budsies';
 import { ActionTree } from 'vuex';
 
@@ -8,7 +9,8 @@ import { UPDATE_GIFT_CARD_TEMPLATE } from '../types/StoreMutations';
 
 export const actions: ActionTree<GiftCardState, any> = {
   async loadGiftCardsTemplates ({ commit }): Promise<Dictionary<GiftCardTemplate>> {
-    const giftCardTemplates = await GiftCardService.loadGiftCardsTemplates();
+    const { storeId } = currentStoreView();
+    const giftCardTemplates = await GiftCardService.loadGiftCardsTemplates(storeId);
 
     const dictionary: Dictionary<GiftCardTemplate> = {};
 
