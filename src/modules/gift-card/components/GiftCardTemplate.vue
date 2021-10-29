@@ -51,32 +51,38 @@ import GiftCardTemplate from '../types/GiftCardTemplate.interface';
 
 const templateWidth = 900;
 const templateHeight = 402;
-const templateRatio = templateWidth / templateHeight;
 
 export default Vue.extend({
   props: {
     giftCardTemplate: {
       type: Object as PropType<GiftCardTemplate>,
       default: undefined
+    },
+    recipientName: {
+      type: String,
+      default: ''
+    },
+    senderName: {
+      type: String,
+      default: ''
+    },
+    priceAmount: {
+      type: Number,
+      required: true
+    },
+    customMessage: {
+      type: String,
+      default: ''
     }
   },
   computed: {
-    recipientName (): string {
-      return 'Recipient'; // todo
-    },
     textColor (): string | undefined {
       return this.giftCardTemplate
         ? this.giftCardTemplate.textColor
         : undefined;
     },
-    senderName (): string {
-      return 'test'; // todo
-    },
     giftValue (): string {
-      return '$250.00';
-    },
-    customMessage (): string {
-      return 'message'; // todo
+      return `$${this.priceAmount}`;
     }
   },
   data () {
