@@ -25,14 +25,6 @@
           </a>
         </SfListItem>
       </SfList>
-      <template #close-desktop>
-        <SfCircleIcon
-          class="sf-circle-icon--small sf-bottom-modal__close"
-          aria-label="Close"
-          icon="cross"
-          @click="isLangModalOpen = !isLangModalOpen"
-        />
-      </template>
     </SfBottomModal>
   </div>
 </template>
@@ -44,8 +36,7 @@ import {
   SfButton,
   SfList,
   SfBottomModal,
-  SfCharacteristic,
-  SfCircleIcon
+  SfCharacteristic
 } from '@storefront-ui/vue';
 import { ref, computed } from '@nuxtjs/composition-api';
 export default {
@@ -55,8 +46,7 @@ export default {
     SfButton,
     SfList,
     SfBottomModal,
-    SfCharacteristic,
-    SfCircleIcon
+    SfCharacteristic
   },
   setup(props, context) {
     const { locales, locale } = context.root.$i18n;
@@ -83,12 +73,12 @@ export default {
     left: 0;
     @include for-desktop {
       --bottom-modal-height: 100vh;
-      &__close {
-        position: var(--circle-icon-position, absolute);
-        top: var(--spacer-xs);
-        right: var(--spacer-xs);
-      }
     }
+  }
+  .sf-bottom-modal::v-deep .sf-bottom-modal__close {
+    position: var(--circle-icon-position, absolute);
+    top: var(--spacer-xs);
+    right: var(--spacer-xs);
   }
   .sf-list {
     .language {
