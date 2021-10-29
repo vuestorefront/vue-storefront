@@ -6,7 +6,10 @@
     >
       <SfImage :src="`/icons/langs/${locale}.webp`" width="20" alt="Flag" />
     </SfButton>
-    <SfBottomModal :is-open="isLangModalOpen" title="Choose language" @click:close="isLangModalOpen = !isLangModalOpen">
+    <SfBottomModal
+      :is-open="isLangModalOpen"
+      title="Choose language"
+    >
       <SfList>
         <SfListItem v-for="lang in availableLocales" :key="lang.code">
           <a :href="switchLocalePath(lang.code)">
@@ -21,6 +24,14 @@
           </a>
         </SfListItem>
       </SfList>
+      <template #close-desktop>
+        <SfCircleIcon
+          class="sf-circle-icon--small sf-bottom-modal__close"
+          aria-label="Close"
+          icon="cross"
+          @click="isLangModalOpen = !isLangModalOpen"
+        />
+      </template>
     </SfBottomModal>
   </div>
 </template>
@@ -32,7 +43,8 @@ import {
   SfButton,
   SfList,
   SfBottomModal,
-  SfCharacteristic
+  SfCharacteristic,
+  SfCircleIcon
 } from '@storefront-ui/vue';
 import { ref, computed } from '@nuxtjs/composition-api';
 export default {
@@ -42,7 +54,8 @@ export default {
     SfButton,
     SfList,
     SfBottomModal,
-    SfCharacteristic
+    SfCharacteristic,
+    SfCircleIcon
   },
   setup(props, context) {
     const { locales, locale } = context.root.$i18n;
@@ -69,6 +82,11 @@ export default {
     left: 0;
     @include for-desktop {
       --bottom-modal-height: 100vh;
+      &__close {
+        position: var(--circle-icon-position, absolute);
+        top: var(--spacer-xs);
+        right: var(--spacer-xs);
+      }
     }
   }
   .sf-list {
