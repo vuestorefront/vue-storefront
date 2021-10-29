@@ -9,6 +9,7 @@
     <SfBottomModal
       :is-open="isLangModalOpen"
       title="Choose language"
+      @click:close="isLangModalOpen = !isLangModalOpen"
     >
       <SfList>
         <SfListItem v-for="lang in availableLocales" :key="lang.code">
