@@ -24,4 +24,20 @@ export default interface CartItem extends Product {
   customFields?: object,
   uploadMethod?: string,
   customerImages?: CustomerImage[],
+  giftcard_options: {
+    product: number,
+    related_product: string, // empty
+    price_amount: number,
+    giftcard_template_id: number,
+    amount: number,
+    send_friend: 0 | 1, // 0
+    customer_name: string,
+    recipient_name: string,
+    recipient_email: string, // - should be empty if recipient_ship
+    recipient_ship: 'yes' | 'no',
+    recipient_address: string, // - always empty
+    message: string, // - max 240 chars
+    notify_success: 0,
+    qty: number
+  }
 }
