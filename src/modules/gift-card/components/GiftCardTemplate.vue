@@ -94,7 +94,8 @@ export default Vue.extend({
   },
   mounted (): void {
     this.initResizeHandler();
-    this.updateScale();
+    this.$nextTick()
+      .then(this.updateScale);
   },
   beforeDestroy (): void {
     this.removeResizeHandler();
