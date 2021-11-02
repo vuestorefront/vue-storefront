@@ -3,6 +3,7 @@ import { processURLAddress } from '@vue-storefront/core/helpers';
 
 import CampaignsGetAPIResponse from './types/CampaignsGetAPIResponse';
 import CampaignContent from './types/CampaignContent.model';
+import { Dictionary } from '../budsies';
 import ImageBanner from './types/ImageBanner.model';
 
 export const PromotionPlatformService = {
@@ -35,7 +36,7 @@ export const PromotionPlatformService = {
 
     const campaignData = responseData.result.campaignContent;
     let countdownBannerContent;
-    let discountsContent;
+    let discountsContent: Dictionary<number> | undefined;
     let imagesBannerContent: ImageBanner | undefined;
     let countdownBannerBlacklistUrls: string[] = [];
 
@@ -62,8 +63,8 @@ export const PromotionPlatformService = {
       imagesBannerContent = new ImageBanner(imageBanner.campaign_id, imageBanner.content);
     }
 
-    if (campaignData.discounts && campaignData.discounts.content) {
-      discountsContent = campaignData.discounts.content;
+    if (campaignData.discounts && campaignData.discounts.prices) {
+      discountsContent = campaignData.discounts.prices;
     }
 
     const campaignContent = new CampaignContent(
