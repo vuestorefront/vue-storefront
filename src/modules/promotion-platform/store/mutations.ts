@@ -7,9 +7,12 @@ import * as types from '../types/StoreMutations';
 
 export const mutations: MutationTree<PromotionPlatformState> = {
   [types.SET_CAMPAIGN_CONTENT] (state, payload: CampaignContent) {
-    Vue.set(state, 'campaignContent', payload);
+    Vue.set(state, 'campaignContent', payload)
   },
   [types.SET_CAMPAIGN_TOKEN] (state, payload: string) {
-    Vue.set(state, 'campaignToken', payload);
+    Vue.set(state, 'campaignToken', payload)
+  },
+  [types.SET_LAST_BANNER_VERSION_CLOSED_BY_USER] (state, payload: string) {
+    Vue.set(state, 'lastClosedBannerVersionByUser', payload)
   }
 }

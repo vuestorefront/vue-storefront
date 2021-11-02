@@ -26,5 +26,8 @@ export const getters: GetterTree<PromotionPlatformState, any> = {
 
       return discountPrice;
     }
+  },
+  lastClosedBannerVersionByUser (state): string | undefined {
+    return state.lastClosedBannerVersionByUser;
   }
 }

@@ -6,14 +6,6 @@
 	path = src/modules/vsf-cache-varnish
 	url = https://github.com/new-fantastic/vsf-cache-varnish.git
 	branch = master
-[submodule "src/themes/budsies"]
-	path = src/themes/budsies
-	url = git@github.com:BudsiesApp/vsf-default.git
-	branch = optimuspro
-[submodule "src/themes/petsies"]
-	path = src/themes/petsies
-	url = git@github.com:BudsiesApp/vsf-default.git
-	branch = optimuspro-petsies
 [submodule "src/themes/petsies-capybara"]
 	path = src/themes/petsies-capybara
 	url = git@github.com:BudsiesApp/vsf-capybara.git
