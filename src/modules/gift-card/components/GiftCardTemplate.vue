@@ -47,10 +47,13 @@
 <script lang="ts">
 import { isServer } from '@vue-storefront/core/helpers';
 import Vue, { PropType } from 'vue';
-import GiftCardTemplate from '../types/GiftCardTemplate.interface';
+import throttle from 'lodash.throttle';
 
-const templateWidth = 900;
-const templateHeight = 402;
+import GiftCardTemplate from '../types/GiftCardTemplate.interface';
+import GiftCardTemplateSize from '../GiftCardTemplateSize';
+
+const templateWidth = GiftCardTemplateSize.width;
+const templateHeight = GiftCardTemplateSize.height;
 
 export default Vue.extend({
   props: {
@@ -113,7 +116,11 @@ export default Vue.extend({
         this.removeResizeHandler();
       }
 
-      this.resizeHandler = this.updateScale.bind(this);
+      this.resizeHandler = throttle(
+        () => this.updateScale(),
+        200
+      );
+
       window.addEventListener('resize', this.resizeHandler);
     },
     removeResizeHandler (): void {
