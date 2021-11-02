@@ -18,11 +18,20 @@ export const actions: ActionTree<PromotionPlatformState, any> = {
   },
   async synchronize ({ commit }): Promise<void> {
     const promotionPlatformStorage = StorageManager.get(types.SN_PROMOTION_PLATFORM);
-    const campaignToken = await promotionPlatformStorage.getItem('campaign-token');
+
+    const [campaignToken, lastClosedBannerVersionByUser] = await Promise.all([
+      promotionPlatformStorage.getItem('campaign-token'),
+      promotionPlatformStorage.getItem('last-closed-by-user-version')
+    ]);
 
     if (campaignToken) {
       commit(types.SET_CAMPAIGN_TOKEN, campaignToken);
       Logger.info('Campaign Token received from cache.', 'cache', campaignToken)()
+    }
+
+    if (lastClosedBannerVersionByUser) {
+      commit(types.SET_LAST_BANNER_VERSION_CLOSED_BY_USER, lastClosedBannerVersionByUser);
+      Logger.info('Last Version Closed By User received from cache.', 'cache', lastClosedBannerVersionByUser)()
     }
 
     EventBus.$emit('promotion-platform-store-synchronized')
