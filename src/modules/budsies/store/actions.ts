@@ -192,5 +192,21 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     }
 
     EventBus.$emit('budsies-store-synchronized');
+  },
+  async loadRecoverableCart (
+    { commit, state },
+    { recoveryId, recoveryCode }
+  ): Promise<Task> {
+    const url = processURLAddress(`${config.budsies.endpoint}/carts/recovery-requests`);
+
+    return TaskQueue.execute({
+      url: `${url}?recoveryId=${recoveryId}&recoveryCode=${recoveryCode}`,
+      payload: {
+        headers: { 'Accept': 'application/json' },
+        mode: 'cors',
+        method: 'POST'
+      },
+      silent: true
+    });
   }
 }
