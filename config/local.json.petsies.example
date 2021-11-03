@@ -787,7 +787,8 @@
     "useSpecificImagePaths": true,
     "paths": {
       "product": "/catalog/product",
-      "bodypart": "/body_part/orig"
+      "bodypart": "/body_part/orig",
+      "giftcard": "/giftvoucher/template/background/images"
     },
     "productPlaceholder": "/assets/placeholder.jpg",
     "fileuploaderUploadUrl": "${FILEUPLOADER_UPLOAD_URL}",
