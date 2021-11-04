@@ -4,7 +4,7 @@ import { OrderSearchParams } from '../types';
 
 /**
  * @remarks References:
- * {@link OrderQueryResult}, {@link OrderSearchParams}
+ * {@link @vue-storefront/commercetools-api#OrderQueryResult}, {@link OrderSearchParams}
  */
 const useUserOrderFactoryParams: UseUserOrderFactoryParams<OrderQueryResult, OrderSearchParams> = {
   searchOrders: async (context: Context, { customQuery, ...searchParams } = {}): Promise<OrderQueryResult> => {
@@ -16,7 +16,7 @@ const useUserOrderFactoryParams: UseUserOrderFactoryParams<OrderQueryResult, Ord
 
 /**
  * @remarks References:
- * {@link OrderQueryResult}, {@link OrderSearchParams}
+ * {@link @vue-storefront/commercetools-api#OrderQueryResult}, {@link OrderSearchParams}
  */
 const useUserOrder = useUserOrderFactory<OrderQueryResult, OrderSearchParams>(useUserOrderFactoryParams);
 

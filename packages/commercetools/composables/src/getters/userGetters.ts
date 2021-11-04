@@ -11,7 +11,7 @@ export const getUserEmailAddress = (user: Customer): string => user?.email || ''
 
 /**
  * @remarks References:
- * {@link Customer}
+ * {@link @vue-storefront/commercetools-api#Customer}
  */
 const userGetters: UserGetters<Customer> = {
   getFirstName: getUserFirstName,

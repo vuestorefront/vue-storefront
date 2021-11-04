@@ -5,7 +5,7 @@ import { enhanceProduct, mapPaginationParams, getChannelId } from './../helpers/
 
 /**
  * @remarks References:
- * {@link ProductVariant}
+ * {@link @vue-storefront/commercetools-api#ProductVariant}
  */
 const useProductFactoryParams = {
   productsSearch: async (context: Context, { customQuery, ...searchParams }): Promise<ProductVariant[]> => {
@@ -26,7 +26,7 @@ const useProductFactoryParams = {
 
 /**
  * @remarks References:
- * {@link ProductVariant}, {@link ProductsSearchParams}
+ * {@link @vue-storefront/commercetools-api#ProductVariant}, {@link ProductsSearchParams}
  */
 const useProduct: (cacheId: string) => UseProduct<ProductVariant[], ProductsSearchParams> = useProductFactory<ProductVariant[], ProductsSearchParams>(useProductFactoryParams);
 

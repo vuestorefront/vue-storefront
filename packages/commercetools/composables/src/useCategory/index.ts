@@ -8,7 +8,7 @@ import { Category } from '@vue-storefront/commercetools-api';
 
 /**
  * @remarks References:
- * {@link Category}
+ * {@link @vue-storefront/commercetools-api#Category}
  */
 const useCategoryFactoryParams: UseCategoryFactoryParams<Category, any> = {
   categorySearch: async (context: Context, { customQuery, ...searchParams }) => {
@@ -19,7 +19,7 @@ const useCategoryFactoryParams: UseCategoryFactoryParams<Category, any> = {
 
 /**
  * @remarks References:
- * {@link Category}
+ * {@link @vue-storefront/commercetools-api#Category}
  */
 const useCategory: (id: string) => UseCategory<Category, any> = useCategoryFactory<Category, any>(useCategoryFactoryParams);
 

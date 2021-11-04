@@ -21,7 +21,7 @@ export const getCategoryTree = (category: Category | CategorySearch): AgnosticCa
 
 /**
  * @remarks References:
- * {@link Category}
+ * {@link @vue-storefront/commercetools-api#Category}
  */
 const categoryGetters: CategoryGetters<Category> = {
   getTree: getCategoryTree

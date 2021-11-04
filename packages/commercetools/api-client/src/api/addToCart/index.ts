@@ -6,7 +6,7 @@ import { createAddLineItemAction } from '../../helpers/actions/cart';
 
 /**
  * @remarks References:
- * {@link CartDetails}, {@link ProductVariant}, {@link CartResponse}
+ * {@link CartDetails}, {@link @vue-storefront/commercetools-api#ProductVariant}, {@link CartResponse}
  */
 const addToCart = async (
   context: Context,

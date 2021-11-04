@@ -8,7 +8,7 @@ export interface ShippingProviderState {
 
 /**
  * @remarks References:
- * {@link ShippingProviderState}, {@link ShippingMethod}
+ * {@link ShippingProviderState}, {@link @vue-storefront/commercetools-api#ShippingMethod}
  */
 const useShippingProviderFactoryParams: UseShippingProviderParams<ShippingProviderState, ShippingMethod> = {
   provide() {
@@ -44,7 +44,7 @@ const useShippingProviderFactoryParams: UseShippingProviderParams<ShippingProvid
 
 /**
  * @remarks References:
- * {@link ShippingProviderState}, {@link ShippingMethod}
+ * {@link ShippingProviderState}, {@link @vue-storefront/commercetools-api#ShippingMethod}
  */
 const useShippingProvider = useShippingProviderFactory<ShippingProviderState, ShippingMethod>(useShippingProviderFactoryParams);
 

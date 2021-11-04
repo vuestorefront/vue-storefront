@@ -16,7 +16,7 @@ const getCurrentCartDetails = async <COMPLETE_DETAILS = ''>(context: Context, cu
 
 /**
  * @remarks References:
- * {@link CartDetails}, {@link LineItem}, {@link ProductVariant}
+ * {@link CartDetails}, {@link @vue-storefront/commercetools-api#LineItem}, {@link @vue-storefront/commercetools-api#ProductVariant}
  */
 const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductVariant> = {
   load: async (context: Context, { customQuery }) => {
@@ -87,7 +87,7 @@ const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductV
 
 /**
  * @remarks References:
- * {@link CartDetails}, {@link LineItem}, {@link ProductVariant}
+ * {@link CartDetails}, {@link @vue-storefront/commercetools-api#LineItem}, {@link @vue-storefront/commercetools-api#ProductVariant}
  */
 const useCart = useCartFactory<CartDetails, LineItem, ProductVariant>(useCartFactoryParams);
 

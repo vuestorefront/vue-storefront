@@ -6,7 +6,7 @@ import { createChangeLineItemQuantityAction } from '../../helpers/actions/cart';
 
 /**
  * @remarks References:
- * {@link CartDetails}, {@link LineItem}, {@link CartResponse}
+ * {@link CartDetails}, {@link @vue-storefront/commercetools-api#LineItem}, {@link CartResponse}
  */
 const updateCartQuantity = async (
   context,

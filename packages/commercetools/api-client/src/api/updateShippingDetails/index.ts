@@ -6,7 +6,7 @@ import { setShippingAddressAction } from '../../helpers/actions/cart';
 
 /**
  * @remarks References:
- * {@link Cart}, {@link Address}, {@link CartResponse}
+ * {@link @vue-storefront/commercetools-api#Cart}, {@link @vue-storefront/commercetools-api#Address}, {@link CartResponse}
  */
 const updateShippingDetails = async (context, cart: Cart, shippingDetails: Address, customQuery?: CustomQuery): Promise<CartResponse> => {
   const cartResponse = await updateCart(context, {

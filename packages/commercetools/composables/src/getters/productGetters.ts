@@ -96,7 +96,7 @@ export const getProductSku = (product: ProductVariant): any => (product as any)?
 
 /**
  * @remarks References:
- * {@link ProductVariant}, {@link ProductVariantFilters}
+ * {@link @vue-storefront/commercetools-api#ProductVariant}, {@link ProductVariantFilters}
  */
 const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getName: getProductName,

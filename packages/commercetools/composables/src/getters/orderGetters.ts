@@ -32,7 +32,7 @@ export const getOrdersTotal = (orders: OrderQueryResult) => orders.total;
 
 /**
  * @remarks References:
- * {@link Order}, {@link LineItem}
+ * {@link @vue-storefront/commercetools-api#Order}, {@link @vue-storefront/commercetools-api#LineItem}
  */
 const orderGetters: UserOrderGetters<Order, LineItem> = {
   getDate: getOrderDate,

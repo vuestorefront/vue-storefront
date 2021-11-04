@@ -4,7 +4,7 @@ import { useUserFactoryParams } from './factoryParams';
 
 /**
  * @remarks References:
- * {@link Customer}
+ * {@link @vue-storefront/commercetools-api#Customer}
  */
 const useUser = useUserFactory<Customer, any, any>(useUserFactoryParams);
 
