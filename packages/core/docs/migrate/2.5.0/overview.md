@@ -131,4 +131,31 @@ Follow the steps below to upgrade your existing projects:
 
 ## Other changes
 
-
+- packages/core/nuxt-theme-module/theme/components/AppHeader.vue
+- packages/core/nuxt-theme-module/theme/components/BottomNavigation.vue
+- packages/core/nuxt-theme-module/theme/components/CartSidebar.vue
+- packages/core/nuxt-theme-module/theme/components/CategoryPageHeader.vue
+- packages/core/nuxt-theme-module/theme/components/FiltersSidebar.vue
+- packages/core/nuxt-theme-module/theme/components/LocaleSelector.vue
+- packages/core/nuxt-theme-module/theme/components/LoginModal.vue
+- packages/core/nuxt-theme-module/theme/components/RelatedProducts.vue
+- packages/core/nuxt-theme-module/theme/components/SearchResults.vue
+- packages/core/nuxt-theme-module/theme/components/WishlistSidebar.vue
+- packages/core/nuxt-theme-module/theme/composables/useUiState.ts
+- packages/core/nuxt-theme-module/theme/lang/de.js
+- packages/core/nuxt-theme-module/theme/lang/en.js
+- packages/core/nuxt-theme-module/theme/layouts/blank.vue
+- packages/core/nuxt-theme-module/theme/layouts/default.vue
+- packages/core/nuxt-theme-module/theme/layouts/error.vue
+- packages/core/nuxt-theme-module/theme/pages/Category.vue
+- packages/core/nuxt-theme-module/theme/pages/Checkout.vue
+- packages/core/nuxt-theme-module/theme/pages/Checkout/Billing.vue
+- packages/core/nuxt-theme-module/theme/pages/Checkout/Payment.vue
+- packages/core/nuxt-theme-module/theme/pages/Checkout/Shipping.vue
+- packages/core/nuxt-theme-module/theme/pages/Home.vue
+- packages/core/nuxt-theme-module/theme/pages/MyAccount.vue
+- (deleted) packages/core/nuxt-theme-module/theme/pages/MyAccount/LoyaltyCard.vue
+- (deleted) packages/core/nuxt-theme-module/theme/pages/MyAccount/MyReviews.vue
+- packages/core/nuxt-theme-module/theme/pages/Product.vue
+- packages/core/nuxt-theme-module/theme/pages/ResetPassword.vue
+- 
