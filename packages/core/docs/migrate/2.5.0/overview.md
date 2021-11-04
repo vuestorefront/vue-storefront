@@ -2,11 +2,17 @@
 
 ## Introduction
 
-<!-- TBD -->
+In this release, besides usual bugfixes and UI improvements we focused on:
+
+* updating Storefront UI,
+* upgrading Composition API,
+* improved caching by preventing cookie creation during Server-Side Rendering.
+
+Unfortunately, both of these are breaking changes. However, adjusting your projects shouldn't take too long and only requires few minor changes.
 
 ## Upgrade of the Composition API
 
-We upgraded the `@nuxtjs/composition-api` and `@vue/composition-api` packages to the latest versions (`0.29.3` and `1.2.4` respectively). While this introduced some breaking changes, adjusting your projects shouldn't take too long.
+We upgraded the `@nuxtjs/composition-api` and `@vue/composition-api` packages to the latest versions (`0.29.3` and `1.2.4` respectively). Follow the steps below to upgrade your project to make use of it. While some steps are optional, they are highly recomended. Implementing them will make it easier to upgrade to Vue.js 3 and Nuxt.js 3 in the future.
 
 ### Add Composition API build module
 
@@ -28,9 +34,10 @@ import { ref, computed } from '@nuxtjs/composition-api';
 
 ### Use `useRoute` and `useRouter`
 
-**This step is not required but highly recommended:** Change components and function that use `route` information and `router` to use [`useRoute` and `useRouter`](https://composition-api.nuxtjs.org/packages/routes) from `@nuxtjs/composition-api'` instead of from `context.root` property in components. This will make it easier to upgrade to Nuxt.js 3 in the future.
+**This step is not required but highly recommended:** Update components and function that use `route` information and `router`. Instead of using the `context.root` property (which is deprecated in Vue.js 3), use the [`useRoute` and `useRouter`](https://composition-api.nuxtjs.org/packages/routes) composables from the `@nuxtjs/composition-api'` package.
 
 Before:
+
 ```vue{9,13,18}
 <script>
 import { useProduct } from '{INTEGRATION}';
@@ -57,6 +64,7 @@ export default {
 ```
 
 After:
+
 ```vue{3,10-11,15,20}
 <script>
 import { useProduct } from '{INTEGRATION}';
@@ -88,11 +96,11 @@ export default {
 Note that `useRoute` is a computed object, and you have to use `.value` to access its properties inside a `setup` function, like in the example above.
 :::
 
-## Prevent generating cookies during SSR
+## Prevent generating cookies during Server-Side Rendering
 
-Prevented generating cookies for currency, locale, and country during SSR (server-side rendering) to enable caching. Now the cookies are generated only client-side (in the browser).
+We made changes to the internationalization that prevent generation of the currency, locale, and country cookies during Server-Side Rendering. This will allow better caching of the responses. Internationalization cookies are now generated only in the browser.
 
-Configuration changes are required in the existing projects:
+Follow the steps below to upgrade your existing projects:
 
 1. Disable automatic detection of the browser language in the `i18n` configuration.
 
@@ -102,7 +110,7 @@ Configuration changes are required in the existing projects:
       detectBrowserLanguage: false
     }
     ```
-2. Change the order of `buildModules`. Make sure that the integration-specific module is before the core nuxt module:
+2. Change the order of `buildModules`. Make sure that the integration-specific module is before the `@vue-storefront/nuxt` module:
 
     ```javascript
     buildModules: [
@@ -116,6 +124,11 @@ Configuration changes are required in the existing projects:
     ```
 
 3. Update the Vue components used to switch locales to use the `nuxt-link` component instead of the `a` tag. By default it\'s located in the `StoreLocaleSelector.vue` file.
+
     ```vue
     <nuxt-link :to="switchLocalePath(lang.code)">
     ```
+
+## Other changes
+
+
