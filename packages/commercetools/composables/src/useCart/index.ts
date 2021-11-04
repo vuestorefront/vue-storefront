@@ -14,6 +14,10 @@ const getCurrentCartDetails = async <COMPLETE_DETAILS = ''>(context: Context, cu
   return completeDetails ? cart : { id: cart.id, version: cart.version };
 };
 
+/**
+ * @remarks References:
+ * {@link CartDetails}, {@link @vue-storefront/commercetools-api#LineItem}, {@link @vue-storefront/commercetools-api#ProductVariant}
+ */
 const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductVariant> = {
   load: async (context: Context, { customQuery }) => {
     const { data: profileData } = await context.$ct.api.getMe({ customer: false }, customQuery);
@@ -81,6 +85,10 @@ const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductV
   }
 };
 
+/**
+ * @remarks References:
+ * {@link CartDetails}, {@link @vue-storefront/commercetools-api#LineItem}, {@link @vue-storefront/commercetools-api#ProductVariant}
+ */
 const useCart = useCartFactory<CartDetails, LineItem, ProductVariant>(useCartFactoryParams);
 
 export {

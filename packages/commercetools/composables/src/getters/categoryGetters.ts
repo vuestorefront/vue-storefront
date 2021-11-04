@@ -19,6 +19,10 @@ export const getCategoryTree = (category: Category | CategorySearch): AgnosticCa
   return buildTree(getRoot(category));
 };
 
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#Category}
+ */
 const categoryGetters: CategoryGetters<Category> = {
   getTree: getCategoryTree
 };

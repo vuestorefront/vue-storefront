@@ -24,7 +24,8 @@ const server = {
     }),
     typescript({
       // eslint-disable-next-line global-require
-      typescript: require('typescript')
+      typescript: require('typescript'),
+      objectHashIgnoreUnknownHack: false
     })
   ]
 };

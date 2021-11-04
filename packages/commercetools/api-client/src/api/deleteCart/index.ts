@@ -3,6 +3,10 @@ import { CartDetails } from './../../types/Api';
 import gql from 'graphql-tag';
 import { CustomQuery } from '@vue-storefront/core';
 
+/**
+ * @remarks References:
+ * {@link CartDetails}
+ */
 const deleteCart = async (context, { id, version }: CartDetails, customQuery?: CustomQuery) => {
   const { locale, acceptLanguage, currency } = context.config;
 

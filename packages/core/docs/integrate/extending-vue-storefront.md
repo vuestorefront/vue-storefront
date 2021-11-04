@@ -78,7 +78,7 @@ See the [Modules](https://nuxtjs.org/docs/2.x/directory-structure/modules) page 
 
 ## Extending Server Middleware
 
-As you might have read on a page dedicated to the [Server Middleware](/advanced/server-middleware.html), it's an Express proxy that handles traffic between your application and external services, such as eCommerce or CMS platforms. Server Middleware configuration allows to:
+As you might have read on a page dedicated to the [Server Middleware](/architecture/server-middleware.html), it's an Express proxy that handles traffic between your application and external services, such as eCommerce or CMS platforms. Server Middleware configuration allows to:
 
 - register integrations;
 - extend existing integrations using extensions;
@@ -89,7 +89,7 @@ Integrations and extensions for Server Middleware are run only on the server.
 
 Server Middleware integrations connect Vue Storefront applications with other external services. For example, all eCommerce and CMS integrations listed on the [Integrations](/integrations/) page are Server Middleware integrations.
 
-See the [Server Middleware](/advanced/server-middleware.html) page to learn more and [Integrating eCommerce platform](/integrate/integration-guide.html) page if you want to create your integration.
+See the [Server Middleware](/architecture/server-middleware.html) page to learn more and [Integrating eCommerce platform](/integrate/integration-guide.html) page if you want to create your integration.
 
 ### Server Middleware extensions
 

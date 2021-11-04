@@ -3,7 +3,7 @@ import { Store, Channel, Address } from '@vue-storefront/commercetools-api';
 import { StoresData } from '../types';
 import { FilterCriteriaRecord, Localized, filterArrayByCriteriaRecord } from '../helpers/internals';
 
-interface StoreFilterCriteria {
+export interface StoreFilterCriteria {
   store?: FilterCriteriaRecord<Store>;
   channel?: FilterCriteriaRecord<Channel>
 }

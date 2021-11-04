@@ -4,6 +4,10 @@ import { CartDetails, CartResponse } from '../../types/Api';
 import { ReferenceInput } from '../../types/GraphQL';
 import { removeDiscountCodeAction } from '../../helpers/actions/cart';
 
+/**
+ * @remarks References:
+ * {@link CartDetails}, {@link ReferenceInput}, {@link CartResponse}
+ */
 const removeCartCoupon = async (
   context,
   { id, version }: CartDetails,

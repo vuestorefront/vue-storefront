@@ -2,6 +2,10 @@ import { useBillingFactory, UseBillingParams, Context } from '@vue-storefront/co
 import { useCart } from '../useCart';
 import { cartActions, Address } from '@vue-storefront/commercetools-api';
 
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#Address}
+ */
 const useBillingProviderFactoryParams: UseBillingParams<Address, any> = {
   provide() {
     return {
@@ -28,6 +32,10 @@ const useBillingProviderFactoryParams: UseBillingParams<Address, any> = {
   }
 };
 
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#Address}
+ */
 const useBilling = useBillingFactory<Address, any>(useBillingProviderFactoryParams);
 
 export {

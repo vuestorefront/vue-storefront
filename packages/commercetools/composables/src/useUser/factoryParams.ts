@@ -19,6 +19,10 @@ const getCurrentUser = async (context: Context, currentUser, customQuery) => {
   return currentUser;
 };
 
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#Customer}
+ */
 export const useUserFactoryParams: UseUserFactoryParams<Customer, any, any> = {
   provide() {
     return useCart();

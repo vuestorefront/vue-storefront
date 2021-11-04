@@ -35,7 +35,7 @@ It's a monorepo, which is a single repository containing multiple related projec
 
 ### API client
 
-`api-client` is the **_server layer_** that extends our [Server Middleware](../advanced/server-middleware.html). It creates an API client (like `Apollo` for GraphQL or `Axios` for plain HTTP) that communicates with your eCommerce platform. It acts as a proxy between the users and the platform.
+`api-client` is the **_server layer_** that extends our [Server Middleware](../architecture/server-middleware.html). It creates an API client (like `Apollo` for GraphQL or `Axios` for plain HTTP) that communicates with your eCommerce platform. It acts as a proxy between the users and the platform.
 
 Here, you will create new endpoints that accept parameters sent from the frontend and use them to fetch or submit data to the platform.
 

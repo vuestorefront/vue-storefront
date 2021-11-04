@@ -81,6 +81,10 @@ export const getDiscounts = (cart: Cart): AgnosticDiscount[] => {
   return [];
 };
 
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#Cart}, {@link @vue-storefront/commercetools-api#LineItem}
+ */
 const cartGetters: CartGetters<Cart, LineItem> = {
   getTotals: getCartTotals,
   getShippingPrice: getCartShippingPrice,
