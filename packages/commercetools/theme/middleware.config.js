@@ -30,7 +30,11 @@ module.exports = {
           ]
         },
         currency: 'USD',
-        country: 'US'
+        country: 'US',
+        languageMap: {
+          en: ['en', 'de'],
+          de: ['de', 'en']
+        }
       }
     }
   }

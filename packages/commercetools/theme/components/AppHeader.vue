@@ -138,7 +138,7 @@ export default {
     HeaderNavigation
   },
   directives: { clickOutside },
-  setup() {
+  setup(_, { root }) {
     const router = useRouter();
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, isMobileMenuOpen } = useUiState();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
@@ -159,7 +159,8 @@ export default {
 
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
-        return router.push('/my-account');
+        const localeAccountPath = root.localePath({ name: 'my-account' });
+        return router.push(localeAccountPath);
       }
 
       toggleLoginModal();
@@ -237,7 +238,7 @@ export default {
     --header-padding: 0;
   }
   &__logo-image {
-      height: 100%;
+    height: 100%;
   }
 }
 .header-on-top {

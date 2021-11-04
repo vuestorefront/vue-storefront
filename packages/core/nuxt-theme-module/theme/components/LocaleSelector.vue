@@ -6,7 +6,11 @@
     >
       <SfImage :src="`/icons/langs/${locale}.webp`" width="20" alt="Flag" />
     </SfButton>
-    <SfBottomModal :is-open="isLangModalOpen" title="Choose language" @click:close="isLangModalOpen = !isLangModalOpen">
+    <SfBottomModal
+      :is-open="isLangModalOpen"
+      title="Choose language"
+      @click:close="isLangModalOpen = !isLangModalOpen"
+    >
       <SfList>
         <SfListItem v-for="lang in availableLocales" :key="lang.code">
           <a :href="switchLocalePath(lang.code)">
@@ -70,6 +74,11 @@ export default {
     @include for-desktop {
       --bottom-modal-height: 100vh;
     }
+  }
+  .sf-bottom-modal::v-deep .sf-bottom-modal__close {
+    position: var(--circle-icon-position, absolute);
+    top: var(--spacer-xs);
+    right: var(--spacer-xs);
   }
   .sf-list {
     .language {
