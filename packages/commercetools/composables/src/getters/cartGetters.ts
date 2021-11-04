@@ -81,6 +81,10 @@ export const getDiscounts = (cart: Cart): AgnosticDiscount[] => {
   return [];
 };
 
+/**
+ * @remarks References:
+ * {@link Cart}, {@link LineItem}
+ */
 const cartGetters: CartGetters<Cart, LineItem> = {
   getTotals: getCartTotals,
   getShippingPrice: getCartShippingPrice,

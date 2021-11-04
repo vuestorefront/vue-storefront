@@ -13,6 +13,10 @@ export interface UpdateCartParams {
   versionFallback?: boolean;
 }
 
+/**
+ * @remarks References:
+ * {@link UpdateCartParams}
+ */
 const updateCart = async (context, params: UpdateCartParams, customQuery?: CustomQuery) => {
   const { locale, acceptLanguage, currency, store } = context.config;
 

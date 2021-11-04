@@ -2,6 +2,10 @@ import { useShippingFactory, UseShippingParams, Context } from '@vue-storefront/
 import { cartActions, Address } from '@vue-storefront/commercetools-api';
 import { useCart } from '../useCart';
 
+/**
+ * @remarks References:
+ * {@link Address}
+ */
 const useShippingFactoryParams: UseShippingParams<Address, any> = {
   provide() {
     return {
@@ -29,6 +33,10 @@ const useShippingFactoryParams: UseShippingParams<Address, any> = {
   }
 };
 
+/**
+ * @remarks References:
+ * {@link Address}
+ */
 const useShipping = useShippingFactory<Address, any>(useShippingFactoryParams);
 
 export {

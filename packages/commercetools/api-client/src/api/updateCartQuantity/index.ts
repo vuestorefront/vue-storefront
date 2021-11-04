@@ -4,6 +4,10 @@ import { CartDetails, CartResponse } from '../../types/Api';
 import { LineItem } from '../../types/GraphQL';
 import { createChangeLineItemQuantityAction } from '../../helpers/actions/cart';
 
+/**
+ * @remarks References:
+ * {@link CartDetails}, {@link LineItem}, {@link CartResponse}
+ */
 const updateCartQuantity = async (
   context,
   { id, version }: CartDetails,

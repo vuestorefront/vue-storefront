@@ -27,7 +27,7 @@ You can read more about them on the [Composables](/guide/composables.html) page.
 
 Although some integrations are already provided by the Vue Storefront team, we enable developers to create their own integrations with any platform by extending the Server Middleware. It's the key component that works as a bridge between the frontend and your backend of choice.
 
-You can read more about Vue Storefront Middleware and its configuration on the [Server Middleware](/advanced/server-middleware.html)
+You can read more about Vue Storefront Middleware and its configuration on the [Server Middleware](/architecture/server-middleware.html)
 page.
 
 ## Easy configuration
@@ -36,7 +36,7 @@ We did our best to keep the configuration as simple and intuitive as possible. T
 applications can be configured by modifying just two files:
 
 - `nuxt.config.js` - main Nuxt.js configuration file used to control your Nuxt App and frontend-related features of Vue Storefront;
-- `middleware.config.js` - VSF-specific configuration file used to add, configure and extend the [Server Middleware](/advanced/server-middleware.html);
+- `middleware.config.js` - VSF-specific configuration file used to add, configure and extend the [Server Middleware](/architecture/server-middleware.html);
 
 You can read more about it on the [Configuration](/guide/configuration.html) page.
 

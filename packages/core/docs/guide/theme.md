@@ -12,7 +12,7 @@ If you followed our [Installation guide](/general/installation.html), you should
 * [middleware](https://nuxtjs.org/docs/2.x/directory-structure/middleware);
 * [pages](https://nuxtjs.org/docs/2.x/directory-structure/pages);
 * [static](https://nuxtjs.org/docs/2.x/directory-structure/static);
-* `middleware.config.js` - configuration file for the [Server Middleware](/advanced/server-middleware.html);
+* `middleware.config.js` - configuration file for the [Server Middleware](/architecture/server-middleware.html);
 * [nuxt.config.js](https://nuxtjs.org/docs/2.x/directory-structure/nuxt-config);
 
 ## Storefront UI
