@@ -8,11 +8,6 @@ import { GraphQLRequest, Operation } from 'apollo-link';
  */
 export const CT_COOKIE_NAME = 'vsf-commercetools-token';
 
-/**
- * Name of the cookie storing the commercetools access token.
- */
-export const CT_COOKIE_NAME = 'vsf-commercetools-token';
-
 export interface ClientInstance extends ApolloClient<any> {
   sdkAuth?: SdkAuth;
   tokenProvider?: TokenProvider;
