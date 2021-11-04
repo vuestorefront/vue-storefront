@@ -1,11 +1,11 @@
 <template>
-<!-- TODO: create logic with isActive prop for BottomNavigationItems -->
+  <!-- TODO: create logic with isActive prop for BottomNavigationItems -->
   <SfBottomNavigation class="navigation-bottom smartphone-only">
-      <SfBottomNavigationItem
-        :class="route.path == '/' ? 'sf-bottom-navigation__item--active' : ''"
-        icon="home" size="20px" label="Home"
-        @click="handleHomeClick"
-      />
+    <SfBottomNavigationItem
+      :class="route.path == '/' ? 'sf-bottom-navigation__item--active' : ''"
+      icon="home" size="20px" label="Home"
+      @click="handleHomeClick"
+    />
     <SfBottomNavigationItem icon="menu" size="20px" label="Menu" @click="toggleMobileMenu"/>
     <SfBottomNavigationItem icon="heart" size="20px" label="Wishlist" @click="toggleWishlistSidebar"/>
     <SfBottomNavigationItem icon="profile" size="20px" label="Account" @click="handleAccountClick"/>
