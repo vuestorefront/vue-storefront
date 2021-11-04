@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Homepage refactor to Vue 3',
+  description: 'Refactor Homepage to use Composition API',
   link: 'https://github.com/vuestorefront/vue-storefront/pull/6432',
   isBreaking: false,
   breakingChanges: [],
