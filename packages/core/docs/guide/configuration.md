@@ -9,7 +9,7 @@ Your Vue Storefront-related configuration is located in two places:
 
 ## Configuring Integrations
 
-Most of the integrations business logic is placed in the [Integration Middleware](/v2/advanced/server-middleware). Therefore they're configurable through the `integrations` field in `middleware.config.js`. 
+Most of the integrations business logic is placed in the [Integration Middleware](/v2/architecture/server-middleware). Therefore they're configurable through the `integrations` field in `middleware.config.js`. 
 
 ```js
 // middleware.config.js
@@ -77,7 +77,7 @@ It's unsafe and not recommended to remove `@vue-storefront/nuxt` from your proje
 
 ## Configuring Server Middleware
 
-You can read more about the Server Middleware and its configuration on the [Server Middleware](/v2/advanced/server-middleware) page.
+You can read more about the Server Middleware and its configuration on the [Server Middleware](/v2/architecture/server-middleware) page.
 
 ## Integration References
 

@@ -248,6 +248,7 @@ import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
 import { ref, watch, computed, onMounted, useRouter } from '@nuxtjs/composition-api';
+import { onSSR } from '@vue-storefront/core';
 import '@/helpers/validators/phone';
 
 const NOT_SELECTED_ADDRESS = '';
@@ -280,7 +281,7 @@ export default {
   setup () {
     const router = useRouter();
     const { $ct: { config } } = useVSFContext();
-    const { shipping: address, loading, load: loadCartShippingAddress, save } = useShipping();
+    const { shipping: address, loading, load, save } = useShipping();
     const { isAuthenticated } = useUser();
     const { shipping: userShipping, load: loadUserShipping, setDefaultAddress } = useUserShipping();
 
@@ -368,13 +369,14 @@ export default {
       }
     });
 
-    onMounted(async () => {
-      await loadCartShippingAddress();
-
+    onSSR(async () => {
+      await load();
       if (isAuthenticated.value) {
         await loadUserShipping();
       }
+    });
 
+    onMounted(async () => {
       const shippingAddresses = userShippingGetters.getAddresses(userShipping.value);
 
       if (!shippingAddresses || !shippingAddresses.length) {

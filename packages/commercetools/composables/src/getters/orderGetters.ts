@@ -30,6 +30,10 @@ export const getFormattedPrice = (price: number) => price as any as string;
 
 export const getOrdersTotal = (orders: OrderQueryResult) => orders.total;
 
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#Order}, {@link @vue-storefront/commercetools-api#LineItem}
+ */
 const orderGetters: UserOrderGetters<Order, LineItem> = {
   getDate: getOrderDate,
   getId: getOrderId,

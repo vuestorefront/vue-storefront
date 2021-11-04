@@ -7,7 +7,6 @@ import { asyncMap } from '@apollo/client/utilities';
 import { ApolloLink, FetchResult } from 'apollo-link';
 import { Config } from '../types/setup';
 import { handleAfterAuth, handleBeforeAuth } from './authLinks';
-import { createSdkHelpers } from './sdkHelpers';
 
 /**
  * Creates handler for logging certain GraphQL and network errors.
@@ -38,7 +37,7 @@ export function createErrorHandler(): ApolloLink {
 /**
  * Creates handler for retrying requests to the commercetools server if specific conditions are met.
  */
-export function createRetryHandler({ configuration, tokenProvider }): ApolloLink {
+export function createRetryHandler({ configuration }): ApolloLink {
   return new RetryLink({
     attempts: (count, operation, error) => {
       if (count > 3) {
@@ -54,6 +53,7 @@ export function createRetryHandler({ configuration, tokenProvider }): ApolloLink
       if (customRetry) {
         return true;
       }
+      const tokenProvider = configuration.auth.getTokenProvider();
 
       if (error?.result?.message === 'invalid_token') {
         Logger.debug(`Apollo retry-link, the operation (${operation.operationName}) sent with wrong token, creating a new one... (attempt: ${count})`);
@@ -71,15 +71,10 @@ export function createRetryHandler({ configuration, tokenProvider }): ApolloLink
  * Creates ApolloLink for Apollo GraphQL client.
  */
 export function createLinks(configuration: Config): ApolloLink {
-  const { sdkAuth, tokenProvider } = createSdkHelpers(configuration);
-
   const tokenLink = setContext(async (apolloReq, { headers }) => {
     Logger.debug('Apollo authLinkBefore', apolloReq.operationName);
-
     const currentToken = await handleBeforeAuth({
       configuration,
-      sdkAuth,
-      tokenProvider,
       apolloReq
     });
 
@@ -96,10 +91,9 @@ export function createLinks(configuration: Config): ApolloLink {
       Logger.debug('Apollo authLinkAfter', apolloReq.operationName);
 
       await handleAfterAuth({
-        sdkAuth,
-        tokenProvider,
         apolloReq,
-        response
+        response,
+        configuration
       });
 
       const errors = (response.errors || []).filter(({ message }) =>
@@ -121,7 +115,7 @@ export function createLinks(configuration: Config): ApolloLink {
 
   return ApolloLink.from([
     createErrorHandler(),
-    createRetryHandler({ configuration, tokenProvider }),
+    createRetryHandler({ configuration }),
     tokenLink,
     authLink.concat(httpLink)
   ]);

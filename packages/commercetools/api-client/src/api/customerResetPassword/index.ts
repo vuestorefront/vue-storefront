@@ -3,6 +3,10 @@ import { ResetPasswordResponse } from 'src/types/Api';
 import { CustomQuery, Logger } from '@vue-storefront/core';
 import gql from 'graphql-tag';
 
+/**
+ * @remarks References:
+ * {@link ResetPasswordResponse}
+ */
 const customerResetPassword = async (context, tokenValue: string, newPassword: string, customQuery?: CustomQuery): Promise<ResetPasswordResponse> => {
   const { locale, acceptLanguage } = context.config;
   const defaultVariables = tokenValue && newPassword

@@ -2,10 +2,14 @@ import { useShippingProviderFactory, UseShippingProviderParams, Context } from '
 import { useCart } from '../useCart';
 import { ShippingInfo, ShippingMethod, cartActions } from '@vue-storefront/commercetools-api';
 
-interface ShippingProviderState {
+export interface ShippingProviderState {
   response: ShippingInfo
 }
 
+/**
+ * @remarks References:
+ * {@link ShippingProviderState}, {@link @vue-storefront/commercetools-api#ShippingMethod}
+ */
 const useShippingProviderFactoryParams: UseShippingProviderParams<ShippingProviderState, ShippingMethod> = {
   provide() {
     return {
@@ -38,6 +42,10 @@ const useShippingProviderFactoryParams: UseShippingProviderParams<ShippingProvid
   }
 };
 
+/**
+ * @remarks References:
+ * {@link ShippingProviderState}, {@link @vue-storefront/commercetools-api#ShippingMethod}
+ */
 const useShippingProvider = useShippingProviderFactory<ShippingProviderState, ShippingMethod>(useShippingProviderFactoryParams);
 
 export {
