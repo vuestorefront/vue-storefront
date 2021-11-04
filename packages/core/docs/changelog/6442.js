@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Removed cookies from SSR',
+  description: 'Prevent cookie creation during SSR',
   link: 'https://github.com/vuestorefront/vue-storefront/pull/6442',
   breakingChanges: [
     {
