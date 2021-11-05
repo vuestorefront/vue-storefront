@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Before proceeding, make sure you have [Node 10+](https://nodejs.org/en/) and [Yarn 1](https://classic.yarnpkg.com/lang/en/) installed.
+Before proceeding, make sure you have [Node 12](https://nodejs.org/en/) and [Yarn 1](https://classic.yarnpkg.com/lang/en/) installed.
 
 ## Using Vue Storefront CLI
 
