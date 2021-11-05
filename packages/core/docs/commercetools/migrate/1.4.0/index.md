@@ -67,7 +67,7 @@ export default {
     const { $ct } = useVSFContext();
 
     async function isLoggedIn() {
-      return await $vsf.$ct.api.isLoggedIn();
+      return await $ct.api.isLoggedIn();
     }
   }
 };
