@@ -2,17 +2,17 @@
 
 ## Introduction
 
-In this release, besides usual bugfixes and UI improvements we focused on:
+In this release, besides usual bugfixes and UI improvements, we focused on:
 
 * updating Storefront UI,
 * upgrading Composition API,
-* allowing caching by not creating cookie during Server-Side Rendering.
+* allowing caching by not creating cookies during Server-Side Rendering.
 
-This release includes some breaking changes. However, adjusting your projects shouldn't take too long and only requires few minor changes.
+This release includes some breaking changes. However, adjusting your projects shouldn't take too long and only requires a few minor changes.
 
 ## Upgrade of the Composition API
 
-We upgraded the `@nuxtjs/composition-api` and `@vue/composition-api` packages to the latest versions (`0.29.3` and `1.2.4` respectively). Follow the steps below to upgrade your project to make use of it. While some steps are optional, they are highly recomended. Implementing them will make it easier to upgrade to Vue.js 3 and Nuxt.js 3 in the future.
+We upgraded the `@nuxtjs/composition-api` and `@vue/composition-api` packages to the latest versions (`0.29.3` and `1.2.4` respectively). Follow the steps below to upgrade your project to make use of it. While some of them are optional, we highly recommend applying them to your projects. These changes will make it easier to upgrade to Vue.js 3 and Nuxt.js 3 in the future.
 
 ### Add Composition API build module
 
@@ -43,7 +43,7 @@ import { ref, computed } from '@nuxtjs/composition-api';
 
 ### Use `useRoute` and `useRouter`
 
-**This step is not required but highly recommended:** Update components and function that use `route` information and `router`. Instead of using the `context.root` property which is deprecated in Vue.js 3, use the [`useRoute` and `useRouter`](https://composition-api.nuxtjs.org/packages/routes) composables from the `@nuxtjs/composition-api` package.
+**This step is not required but highly recommended:** Update components and functions that use `route` information and `router`. Instead of using the `context.root` property which is deprecated in Vue.js 3, use the [`useRoute` and `useRouter`](https://composition-api.nuxtjs.org/packages/routes) composables from the `@nuxtjs/composition-api` package.
 
 :::warning `useRoute` is a computed object
 Note that `useRoute` is a computed object, and you have to call `.value` property to access its value inside the `setup` function, like in the example below.
@@ -107,7 +107,7 @@ export default {
 
 ## Prevent generating cookies during Server-Side Rendering
 
-We made changes to the internationalization that prevents generation of the currency, locale, and country cookies during Server-Side Rendering. This will allow better caching of the responses. Internationalization cookies are now generated only in the browser.
+We changed the internationalization to prevent the generation of currency, locale, and country cookies during Server-Side Rendering. These changes will allow for better caching of the responses. Internationalization cookies are now generated only in the browser.
 
 Follow the steps below to upgrade your existing projects:
 
@@ -121,7 +121,7 @@ Follow the steps below to upgrade your existing projects:
       }
     };
     ```
-2. Change the order of `buildModules`, so that the integration-specific module is before the `@vue-storefront/nuxt` module:
+2. Change the order of `buildModules` so that the integration-specific module is before the `@vue-storefront/nuxt` module:
 
     ```javascript
     //nuxt.config.js
@@ -146,7 +146,7 @@ Follow the steps below to upgrade your existing projects:
 
 ## Other changes
 
-Below is the list of the template files that we updated since the last release. You can generate new project using our CLI and compare the files listed below with your existing project to see if they need updating.
+Below is the list of the template files that we updated since the last release. You can generate a new project using our CLI and compare the files listed below with your existing project to see if they need updating.
 
 - `components/AppHeader.vue`,
 - `components/BottomNavigation.vue`,
