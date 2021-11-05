@@ -281,7 +281,14 @@ export default {
     });
 
     const addToCart = () => {
-      addItem({ product: product.value, quantity: parseInt(qty.value), customQuery: selectedChannel.value });
+      addItem({
+        product: {
+          id: product.value.id,
+          sku: product.value.sku
+        },
+        quantity: parseInt(qty.value),
+        customQuery: selectedChannel.value
+      });
     };
 
     // TODO: Breadcrumbs are temporary disabled because productGetters return undefined. We have a mocks in data

@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'feat: update Composition API to 1.2.4',
+  description: 'Update Composition API to 1.2.4',
   link: 'https://github.com/vuestorefront/vue-storefront/pull/6452',
   isBreaking: true,
   breakingChanges: [

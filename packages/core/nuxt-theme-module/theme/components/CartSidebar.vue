@@ -28,7 +28,7 @@
                 :regular-price="$n(cartGetters.getItemPrice(product).regular, 'currency')"
                 :special-price="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
                 :stock="99999"
-                @click:remove="removeItem({ product })"
+                @click:remove="removeItem({ product: { id: product.id } })"
                 class="collected-product"
               >
                 <template #configuration>
@@ -47,7 +47,7 @@
                       :disabled="loading"
                       :qty="cartGetters.getItemQty(product)"
                       class="sf-collected-product__quantity-selector"
-                      @input="updateQuantity({ product, quantity: Number($event) })"
+                      @input="updateQuantity({ product: { id: product.id }, quantity: Number($event) })"
                     />
                   </div>
                 </template>
