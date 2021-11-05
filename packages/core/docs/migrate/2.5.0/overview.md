@@ -6,9 +6,9 @@ In this release, besides usual bugfixes and UI improvements we focused on:
 
 * updating Storefront UI,
 * upgrading Composition API,
-* improved caching by preventing cookie creation during Server-Side Rendering.
+* allowing caching by not creating cookie during Server-Side Rendering.
 
-Unfortunately, both of these are breaking changes. However, adjusting your projects shouldn't take too long and only requires few minor changes.
+This release includes some breaking changes. However, adjusting your projects shouldn't take too long and only requires few minor changes.
 
 ## Upgrade of the Composition API
 
@@ -16,11 +16,20 @@ We upgraded the `@nuxtjs/composition-api` and `@vue/composition-api` packages to
 
 ### Add Composition API build module
 
-Add `'@nuxtjs/composition-api/module'` to the very top of `buildModules` in the `nuxt.config.js` file.
+Add `'@nuxtjs/composition-api/module'` at the very top of `buildModules` in the `nuxt.config.js` file.
+
+```javascript
+//nuxt.config.js
+export default {
+  buildModules: [
+    '@nuxtjs/composition-api/module', // Add at the very top of `buildModules`
+  ]
+};
+```
 
 ### Update imports
 
-**This step is not required but highly recommended:** Change all imports of the Composition API functions from `@vue/composition-api` to `@nuxtjs/composition-api'`.
+**This step is not required but highly recommended:** Update all files that import the Composition API functions to use `@nuxtjs/composition-api` instead of `@vue/composition-api`.
 
 Before:
 ```javascript
@@ -34,7 +43,11 @@ import { ref, computed } from '@nuxtjs/composition-api';
 
 ### Use `useRoute` and `useRouter`
 
-**This step is not required but highly recommended:** Update components and function that use `route` information and `router`. Instead of using the `context.root` property (which is deprecated in Vue.js 3), use the [`useRoute` and `useRouter`](https://composition-api.nuxtjs.org/packages/routes) composables from the `@nuxtjs/composition-api'` package.
+**This step is not required but highly recommended:** Update components and function that use `route` information and `router`. Instead of using the `context.root` property which is deprecated in Vue.js 3, use the [`useRoute` and `useRouter`](https://composition-api.nuxtjs.org/packages/routes) composables from the `@nuxtjs/composition-api` package.
+
+:::warning `useRoute` is a computed object
+Note that `useRoute` is a computed object, and you have to call `.value` property to access its value inside the `setup` function, like in the example below.
+:::
 
 Before:
 
@@ -92,70 +105,73 @@ export default {
 </script>
 ```
 
-:::warning `useRoute` is a computed object
-Note that `useRoute` is a computed object, and you have to use `.value` to access its properties inside a `setup` function, like in the example above.
-:::
-
 ## Prevent generating cookies during Server-Side Rendering
 
-We made changes to the internationalization that prevent generation of the currency, locale, and country cookies during Server-Side Rendering. This will allow better caching of the responses. Internationalization cookies are now generated only in the browser.
+We made changes to the internationalization that prevents generation of the currency, locale, and country cookies during Server-Side Rendering. This will allow better caching of the responses. Internationalization cookies are now generated only in the browser.
 
 Follow the steps below to upgrade your existing projects:
 
 1. Disable automatic detection of the browser language in the `i18n` configuration.
 
     ```javascript
-    // nuxt.config.js
-    i18n: {
-      detectBrowserLanguage: false
-    }
+    //nuxt.config.js
+    export default {
+      i18n: {
+        detectBrowserLanguage: false
+      }
+    };
     ```
-2. Change the order of `buildModules`. Make sure that the integration-specific module is before the `@vue-storefront/nuxt` module:
+2. Change the order of `buildModules`, so that the integration-specific module is before the `@vue-storefront/nuxt` module:
 
     ```javascript
-    buildModules: [
-      ['@vue-storefront/__INTEGRATION__/nuxt', {
-        // OPTIONS
-      }],
-      ['@vue-storefront/nuxt', {
-        // OPTIONS
-      }],
-    ]
+    //nuxt.config.js
+    export default {
+      buildModules: [
+        // Integration-specific module must be above the `@vue-storefront/nuxt` module
+        ['@vue-storefront/__INTEGRATION__/nuxt', {
+          // Options
+        }],
+        ['@vue-storefront/nuxt', {
+          // Options
+        }],
+      ]
+    };
     ```
 
-3. Update the Vue components used to switch locales to use the `nuxt-link` component instead of the `a` tag. By default it\'s located in the `StoreLocaleSelector.vue` file.
+3. Update the Vue components used to switch locales to use the `nuxt-link` component instead of the `a` tag. One such example is the `components/StoreLocaleSelector.vue` file.
 
-    ```vue
+    ```html
     <nuxt-link :to="switchLocalePath(lang.code)">
     ```
 
 ## Other changes
 
-- packages/core/nuxt-theme-module/theme/components/AppHeader.vue
-- packages/core/nuxt-theme-module/theme/components/BottomNavigation.vue
-- packages/core/nuxt-theme-module/theme/components/CartSidebar.vue
-- packages/core/nuxt-theme-module/theme/components/CategoryPageHeader.vue
-- packages/core/nuxt-theme-module/theme/components/FiltersSidebar.vue
-- packages/core/nuxt-theme-module/theme/components/LocaleSelector.vue
-- packages/core/nuxt-theme-module/theme/components/LoginModal.vue
-- packages/core/nuxt-theme-module/theme/components/RelatedProducts.vue
-- packages/core/nuxt-theme-module/theme/components/SearchResults.vue
-- packages/core/nuxt-theme-module/theme/components/WishlistSidebar.vue
-- packages/core/nuxt-theme-module/theme/composables/useUiState.ts
-- packages/core/nuxt-theme-module/theme/lang/de.js
-- packages/core/nuxt-theme-module/theme/lang/en.js
-- packages/core/nuxt-theme-module/theme/layouts/blank.vue
-- packages/core/nuxt-theme-module/theme/layouts/default.vue
-- packages/core/nuxt-theme-module/theme/layouts/error.vue
-- packages/core/nuxt-theme-module/theme/pages/Category.vue
-- packages/core/nuxt-theme-module/theme/pages/Checkout.vue
-- packages/core/nuxt-theme-module/theme/pages/Checkout/Billing.vue
-- packages/core/nuxt-theme-module/theme/pages/Checkout/Payment.vue
-- packages/core/nuxt-theme-module/theme/pages/Checkout/Shipping.vue
-- packages/core/nuxt-theme-module/theme/pages/Home.vue
-- packages/core/nuxt-theme-module/theme/pages/MyAccount.vue
-- (deleted) packages/core/nuxt-theme-module/theme/pages/MyAccount/LoyaltyCard.vue
-- (deleted) packages/core/nuxt-theme-module/theme/pages/MyAccount/MyReviews.vue
-- packages/core/nuxt-theme-module/theme/pages/Product.vue
-- packages/core/nuxt-theme-module/theme/pages/ResetPassword.vue
-- 
+Below is the list of the template files that we updated since the last release. You can generate new project using our CLI and compare the files listed below with your existing project to see if they need updating.
+
+- `components/AppHeader.vue`,
+- `components/BottomNavigation.vue`,
+- `components/CartSidebar.vue`,
+- `components/CategoryPageHeader.vue`,
+- `components/FiltersSidebar.vue`,
+- `components/LocaleSelector.vue`,
+- `components/LoginModal.vue`,
+- `components/RelatedProducts.vue`,
+- `components/SearchResults.vue`,
+- `components/WishlistSidebar.vue`,
+- `composables/useUiState.ts`,
+- `lang/de.js`,
+- `lang/en.js`,
+- `layouts/blank.vue`,
+- `layouts/default.vue`,
+- `layouts/error.vue`,
+- `pages/Category.vue`,
+- `pages/Checkout.vue`,
+- `pages/Checkout/Billing.vue`,
+- `pages/Checkout/Payment.vue`,
+- `pages/Checkout/Shipping.vue`,
+- `pages/Home.vue`,
+- `pages/MyAccount.vue`,
+- `pages/MyAccount/LoyaltyCard.vue` (deleted),
+- `pages/MyAccount/MyReviews.vue` (deleted),
+- `pages/Product.vue`,
+- `pages/ResetPassword.vue`.
