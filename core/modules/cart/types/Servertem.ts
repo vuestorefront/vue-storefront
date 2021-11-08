@@ -1,4 +1,5 @@
 import { ProductOptions } from 'core/modules/catalog/types/Product';
+import { GiftCardOptions } from 'src/modules/gift-card';
 
 import CustomerImage from 'theme/components/interfaces/customer-image.interface';
 
@@ -11,5 +12,6 @@ export default interface ServerItem {
   type_id: any,
   plushieId?: string,
   thumbnail?: string,
-  customerImages?: CustomerImage[]
+  customerImages?: CustomerImage[],
+  giftcard_options?: GiftCardOptions
 }

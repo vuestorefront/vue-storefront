@@ -32,6 +32,10 @@ const getDataToHash = (product: CartItem | ServerItem): any => {
     return null
   }
 
+  if (product.giftcard_options) {
+    return { ...product.giftcard_options, qty: undefined };
+  }
+
   if (product.plushieId) {
     return typeof product.plushieId === 'number' ? (product.plushieId as number).toString() : product.plushieId;
   }

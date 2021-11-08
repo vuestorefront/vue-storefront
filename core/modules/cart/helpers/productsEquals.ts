@@ -1,4 +1,5 @@
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
+import { product } from 'core/modules/url/test/unit/helpers/data';
 import productChecksum, { getProductOptions } from './productChecksum';
 
 type ProductEqualCheckFn = (product1: CartItem, product2: CartItem) => boolean
@@ -69,6 +70,10 @@ const productsEquals = (product1: CartItem, product2: CartItem): boolean => {
   }
 
   const check = makeCheck.bind(null, product1, product2)
+
+  if (product1.giftcard_options || product2.giftcard_options) {
+    return check(['id', 'checksum']);
+  }
 
   if (getProductOptions(product1, 'bundle_options').length || getProductOptions(product2, 'bundle_options').length) {
     // bundle options skus are merged into one sku so we can't rely on 'sku'
