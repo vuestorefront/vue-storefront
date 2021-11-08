@@ -20,18 +20,23 @@
   "devDependencies": {
     "@microsoft/api-documenter": "^7.13.7",
     "@microsoft/api-extractor": "^7.18.3",
-    "@vue-storefront/commercetools-api": "~1.2.0",
-    "@vuepress/plugin-active-header-links": "^1.8.2",
-    "@vuepress/plugin-back-to-top": "^1.8.2",
-    "@vuepress/plugin-medium-zoom": "^1.8.2",
-    "@vuepress/plugin-search": "^1.8.2",
+    "@types/node": "^16.11.6",
+    "@vue-storefront/commercetools-api": "latest",
+    "@vuepress/bundler-vite": "^2.0.0-beta.27",
+    "@vuepress/plugin-active-header-links": "^2.0.0-beta.27",
+    "@vuepress/plugin-back-to-top": "^2.0.0-beta.27",
+    "@vuepress/plugin-container": "^2.0.0-beta.27",
+    "@vuepress/plugin-medium-zoom": "^2.0.0-beta.27",
+    "@vuepress/plugin-nprogress": "^2.0.0-beta.27",
+    "@vuepress/plugin-register-components": "^2.0.0-beta.27",
+    "@vuepress/plugin-search": "^2.0.0-beta.27",
+    "@vuepress/plugin-toc": "^2.0.0-beta.27",
     "handlebars": "^4.7.7",
     "node-html-to-image": "^3.2.0",
-    "typescript": "^3.6.4",
-    "vuepress": "^1.2.0"
+    "vuepress": "^2.0.0-beta.27"
   },
   "dependencies": {
-    "sass-loader": "^8.0.2",
-    "vue-multiselect": "^2.1.6"
+    "sass": "^1.43.4",
+    "vue-multiselect": "^3.0.0-alpha.2"
   }
 }

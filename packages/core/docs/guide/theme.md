@@ -18,7 +18,7 @@ If you followed our [Installation guide](/general/installation.html), you should
 ## Storefront UI
 
 <center>
-<img src="../images/theme/storefront-ui.jpg" />
+  <img :src="$withBase('/images/theme/storefront-ui.jpg')" />
 </center>
 
 Almost every component in our default theme uses components whose names start with `Sf`. These come from [Storefront UI](http://storefrontui.io/) - a design system and library of Vue.js components dedicated to e-commerce, maintained by the Vue Storefront core team. It comes with [Storybook](https://storybook.storefrontui.io/) to help you customize and test the components.

@@ -19,7 +19,7 @@ For security reasons, data is sometimes sent directly from the user's browser to
 
 <figure style="text-align: center">
   <img
-    src="./images/server-middleware-overview.webp"
+    :src="$withBase('/images/server-middleware-overview.webp')"
     alt="Data flow between the browser, Server Middleware, it's extensions and integration platforms"
   />
   <figcaption style="font-size: 0.9rem">(Click to zoom)</figcaption>

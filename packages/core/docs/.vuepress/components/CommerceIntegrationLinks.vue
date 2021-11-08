@@ -19,10 +19,6 @@
 </template>
 
 <script>
-// this component will yell if you forgot to put a link for some specific integration
-// this way it's harder to forget ;)
-import CommerceIntegrationLink from './CommerceIntegrationLink';
-
 const props = {
   commercetools: {
     required: true
@@ -40,9 +36,6 @@ export default {
       WIP
     }
   },
-  props,
-  components: {
-    CommerceIntegrationLink
-  }
+  props
 }
 </script>

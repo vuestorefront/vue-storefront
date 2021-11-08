@@ -5,7 +5,7 @@
 Server Middleware extensions allow to extend Express.js server, register additional API endpoints, or inject into the lifecycle of a request sent to a given Server Middleware integration from the application.
 
 <center>
-  <img src="../images/middleware-extensions.jpg" alt="Middleware Extensions" />
+  <img :src="$withBase('/images/middleware-extensions.jpg')" alt="Middleware Extensions" />
 </center>
 
 ## Creating an extension

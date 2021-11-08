@@ -4,7 +4,7 @@ _Vue Storefront_ is a ___platform-agnostic e-commerce PWA frontend framework___ 
 
 <figure style="text-align: center">
   <img
-    src="./images/high-level-architecture.webp"
+    :src="$withBase('/images/high-level-architecture.webp')"
     alt="Vue Storefront architecture consisting of two main layers called 'Unified frontend' and 'API Middleware' communicating with external services"
   />
   <figcaption style="font-size: 0.9rem">(Click to zoom)</figcaption>

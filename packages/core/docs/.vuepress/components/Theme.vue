@@ -20,7 +20,7 @@
     <p>
       In <code>nuxt.config.js</code> of your integration theme set <code>apiClient/composables/helpers</code> options to be named as your integration packages.
       For example under <code>composables</code> you can put <code>@vue-storefront/comemrcetools-composables</code>.
-      It will be used in lodash templates inside <code>@vue-storefront/nuxt-theme-module</code> as a replacement for variables (like here <code>import { useProduct, useCart } from '<%= options.composables %>'</code> - <code>options.composables</code> is a palceholder for value passed to <code>composables</code> option in <code>nuxt.config.js</code>)
+      It will be used in lodash templates inside <code>@vue-storefront/nuxt-theme-module</code> as a replacement for variables (like here <code>import { useProduct, useCart } from '&lt;%= options.composables %&gt;'</code> - <code>options.composables</code> is a palceholder for value passed to <code>composables</code> option in <code>nuxt.config.js</code>)
     </p>
     <h2>Overriding default theme files</h2>
     <p>

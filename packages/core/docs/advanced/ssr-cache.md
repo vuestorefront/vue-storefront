@@ -64,7 +64,10 @@ Refer to the [Tags](#tags) section for more information.
 When the page is requested, the cache driver checks if there is an already rendered page in the cache matching the current route. If the rendered page exists, the cache driver will serve the cached version. Otherwise, the current page will be rendered on the server and served to the user, but if it contains tags, the result will be saved in the cache and used for subsequent requests.
 
 <center>
- <img src="../images/ssr-flow.jpg" alt="Server Side Rendering request flow" />
+ <img
+    :src="$withBase('/images/ssr-flow.jpg')"
+    alt="Server Side Rendering request flow"
+  />
 </center>
 
 ## Tags

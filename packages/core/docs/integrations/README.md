@@ -13,8 +13,7 @@ Below you can find a list of integrations with eCommerce platforms. These integr
 <IntegrationList
   :filterable="false"
   type="eCommerce"
->
-</IntegrationList>
+/>
 
 ## Other integrations
 
@@ -27,5 +26,4 @@ Some integrations are available only for selected eCommerce platforms. Use the d
 <IntegrationList
   :filterable="true"
   type="other"
->
-</IntegrationList>
+/>

@@ -1,3 +1,23 @@
+interface Integrations {
+  [key: string]: IntegrationItem[];
+}
+
+interface IntegrationItem {
+  name: string;
+  link?: string;
+  image: string;
+  status: string;
+  availability: string;
+  maintainedBy: IntegrationMaintainer[];
+  categories?: string[];
+  compatibility?: string[];
+}
+
+interface IntegrationMaintainer {
+  name: string;
+  link: string;
+}
+
 const STATUSES = {
   WIP: 'In progress',
   ALPHA: 'Alpha',
@@ -20,7 +40,7 @@ const CATEGORIES = {
   SEARCH: 'Search'
 };
 
-const INTEGRATIONS = {
+const INTEGRATIONS: Integrations = {
   eCommerce: [
     {
       name: 'commercetools',
@@ -349,7 +369,7 @@ const INTEGRATIONS = {
   ]
 };
 
-module.exports = {
+export {
   STATUSES,
   AVAILABILITY,
   CATEGORIES,

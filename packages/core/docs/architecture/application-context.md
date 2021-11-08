@@ -70,7 +70,7 @@ Following this rule, when you call the `$magento.api.products`, it sends the req
 
 <center>
   <img
-    src="./images/api-request.webp"
+    :src="$withBase('/images/api-request.webp')"
     alt="Mapping of the `api` method call to the Server Middleware request"
   />
 </center>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <multiselect
+    <VueMultiselect
       v-if="filterable"
       v-model="selected"
       :options="options"
@@ -16,7 +16,7 @@
         slot-scope="{ option }">
         {{ option.name }}
       </template>
-    </multiselect>
+    </VueMultiselect>
 
     <div class="list">
       <IntegrationTile
@@ -29,8 +29,7 @@
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect';
-import IntegrationTile from './IntegrationTile.vue';
+import VueMultiselect from 'vue-multiselect';
 
 export default {
   name: 'IntegrationList',
@@ -49,8 +48,7 @@ export default {
   },
 
   components: {
-    Multiselect,
-    IntegrationTile
+    VueMultiselect
   },
 
   data () {
@@ -113,7 +111,7 @@ export default {
 }
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
 
 <style scoped>
 .list {
