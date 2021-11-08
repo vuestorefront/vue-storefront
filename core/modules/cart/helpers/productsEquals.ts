@@ -1,5 +1,4 @@
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
-import { product } from 'core/modules/url/test/unit/helpers/data';
 import productChecksum, { getProductOptions } from './productChecksum';
 
 type ProductEqualCheckFn = (product1: CartItem, product2: CartItem) => boolean

@@ -220,7 +220,7 @@ export default Vue.extend({
       ._custom-message {
         max-height: 85px;
         overflow: hidden;
-        color: #000;
+        color: var(--c-black);
         font-size: 0.8em;
         line-height: 1.2;
         padding: 0;
