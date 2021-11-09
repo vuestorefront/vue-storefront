@@ -9,6 +9,8 @@
 
 <script>
 export default {
+  name: 'CommerceIntegrationLink',
+
   props: {
     url: {
       required: true
@@ -20,7 +22,7 @@ export default {
       required: true
     },
     badge: String
-  },
+  }
 };
 </script>
 

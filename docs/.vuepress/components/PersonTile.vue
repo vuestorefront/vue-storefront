@@ -9,7 +9,14 @@
 
 <script>
 export default {
-  props: ['name', 'company', 'discord', 'photo']
+  name: 'PersonTile',
+
+  props: [
+    'name',
+    'company',
+    'discord',
+    'photo'
+  ]
 }
 </script>
 

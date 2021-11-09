@@ -56,9 +56,6 @@ export default defineUserConfig<DefaultThemeOptions, ViteBundlerOptions>({
    * Ref：https://v1.vuepress.vuejs.org/plugin/
    */
    plugins: [
-    '@vuepress/active-header-links',
-    '@vuepress/plugin-back-to-top',
-    '@vuepress/plugin-container',
     ['@vuepress/plugin-git', {
       createdTime: false,
       updatedTime: false,
@@ -71,15 +68,13 @@ export default defineUserConfig<DefaultThemeOptions, ViteBundlerOptions>({
         selector: 'main :not(.tile-image) > img'
       }
     ],
-    '@vuepress/plugin-nprogress',
     [
-      '@vuepress/register-components',
+      '@vuepress/plugin-register-components',
       {
         componentsDir: resolve(__dirname, './components'),
       },
     ],
-    '@vuepress/search',
-    '@vuepress/plugin-toc',
+    '@vuepress/plugin-search',
     // resolve(__dirname, './plugins/meta/index.js')
   ],
 
@@ -99,6 +94,10 @@ export default defineUserConfig<DefaultThemeOptions, ViteBundlerOptions>({
     editLinkText: 'Edit this page',
     logo: '/vsf-full.svg',
     sidebarDepth: 0,
+    themePlugins: {
+      git: false,
+      mediumZoom: false
+    },
     navbar: [
       { text: 'Home', link: '/' },
       { text: 'Demo', link: 'https://demo-ct.vuestorefront.io' },

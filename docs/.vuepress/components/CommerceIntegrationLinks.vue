@@ -3,7 +3,7 @@
     <li>
       <CommerceIntegrationLink 
         :url="commercetools"
-        :wipValue="WIP"
+        wipValue="WIP"
         label="commercetools"
       />
     </li>
@@ -19,23 +19,16 @@
 </template>
 
 <script>
-const props = {
-  commercetools: {
-    required: true
-  },
-  shopify: {
-    required: true
-  }
-};
-
-const WIP = 'WIP';
-
 export default {
-  data () {
-    return {
-      WIP
+  name: 'CommerceIntegrationLinks',
+
+  props: {
+    commercetools: {
+      required: true
+    },
+    shopify: {
+      required: true
     }
-  },
-  props
+  }
 }
 </script>
