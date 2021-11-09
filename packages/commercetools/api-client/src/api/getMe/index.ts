@@ -12,6 +12,10 @@ export interface OrdersData {
   me: any;
 }
 
+/**
+ * @remarks References:
+ * {@link GetMeParams}, {@link OrdersData}
+ */
 const getMe = async (context, params: GetMeParams = {}, customQuery?: CustomQuery) => {
   const { locale, acceptLanguage, currency } = context.config;
   const { customer }: GetMeParams = params;

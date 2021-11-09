@@ -1,5 +1,4 @@
 import webpack from 'webpack';
-import { VSF_LOCALE_COOKIE } from '@vue-storefront/core';
 import theme from './themeConfig';
 
 export default {
@@ -20,15 +19,6 @@ export default {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico'
-      },
-      {
-        rel: 'preconnect',
-        href: 'https://fonts.gstatic.com',
-        crossorigin: 'crossorigin'
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap'
       }
     ],
     script: []
@@ -46,10 +36,15 @@ export default {
   },
   buildModules: [
     // to core
+    '@nuxtjs/composition-api/module',
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
+    '@nuxtjs/google-fonts',
     // to core soon
     '@nuxtjs/pwa',
+    ['@vue-storefront/commercetools/nuxt', {
+      i18n: { useNuxtI18nConfig: true }
+    }],
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
       useRawSource: {
@@ -71,14 +66,11 @@ export default {
           composables: '@vue-storefront/commercetools'
         }
       }
-    }],
+    }]
     // @core-development-only-end
     /* project-only-start
-    ['@vue-storefront/nuxt-theme'],
+    ,['@vue-storefront/nuxt-theme'],
     project-only-end */
-    ['@vue-storefront/commercetools/nuxt', {
-      i18n: { useNuxtI18nConfig: true }
-    }]
   ],
   modules: [
     ['nuxt-i18n', {
@@ -124,9 +116,7 @@ export default {
         }
       }
     },
-    detectBrowserLanguage: {
-      cookieKey: VSF_LOCALE_COOKIE
-    }
+    detectBrowserLanguage: false
   },
   styleResources: {
     scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
@@ -135,6 +125,7 @@ export default {
     theme
   },
   build: {
+    extractCSS: true,
     babel: {
       plugins: [
         ['@babel/plugin-proposal-private-methods', { loose: true }]
@@ -157,5 +148,19 @@ export default {
     meta: {
       theme_color: '#5ECE7B'
     }
+  },
+
+  googleFonts: {
+    families: {
+      Raleway: {
+        wght: [300, 400, 500, 600, 700],
+        ital: [400]
+      },
+      Roboto: {
+        wght: [300, 400, 500, 700],
+        ital: [300, 400]
+      }
+    },
+    display: 'swap'
   }
 };

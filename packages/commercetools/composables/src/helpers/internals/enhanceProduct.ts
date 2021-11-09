@@ -1,6 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { Context } from '@vue-storefront/core';
-import { ProductQueryResult } from './../../types/GraphQL';
+import { ProductQueryResult } from '@vue-storefront/commercetools-api';
 
 interface ProductData {
   products: ProductQueryResult;

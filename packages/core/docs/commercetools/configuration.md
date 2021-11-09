@@ -21,7 +21,7 @@ The commercetools configuration is located in two places:
 
 ## Middleware commercetools configuration
 
-You can read more about middleware configuration in Vue Storefront [here](../advanced/server-middleware.html#configuration)
+You can read more about middleware configuration in Vue Storefront [here](../architecture/server-middleware.html#configuration)
 
 ```js
 // middleware.config.js

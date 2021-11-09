@@ -1,5 +1,5 @@
 import { CartGetters, AgnosticCoupon, AgnosticPrice, AgnosticTotals, AgnosticDiscount } from '@vue-storefront/core';
-import { Cart, LineItem } from './../types/GraphQL';
+import { Cart, LineItem } from '@vue-storefront/commercetools-api';
 import { getProductAttributes } from './productGetters';
 import { createPrice } from './_utils';
 import { getCouponsFromCart } from '../helpers/internals';
@@ -81,6 +81,10 @@ export const getDiscounts = (cart: Cart): AgnosticDiscount[] => {
   return [];
 };
 
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#Cart}, {@link @vue-storefront/commercetools-api#LineItem}
+ */
 const cartGetters: CartGetters<Cart, LineItem> = {
   getTotals: getCartTotals,
   getShippingPrice: getCartShippingPrice,

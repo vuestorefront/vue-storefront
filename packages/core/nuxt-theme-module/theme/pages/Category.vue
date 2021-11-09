@@ -210,7 +210,7 @@ import {
   SfColor,
   SfProperty
 } from '@storefront-ui/vue';
-import { computed, ref } from '@vue/composition-api';
+import { computed, ref } from '@nuxtjs/composition-api';
 import { useCart, useWishlist, productGetters, useFacet, facetGetters, wishlistGetters } from '<%= options.generate.replace.composables %>';
 import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
@@ -342,13 +342,10 @@ export default {
       padding: 0;
     }
   }
-  &__aside,
-  {
+  &__aside {
     display: flex;
     align-items: center;
     padding: var(--spacer-sm) 0;
-  }
-  &__aside {
     flex: 0 0 15%;
     padding: var(--spacer-sm) var(--spacer-sm);
     border: 1px solid var(--c-light);

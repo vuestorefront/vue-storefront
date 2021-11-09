@@ -1,0 +1,108 @@
+{
+  "Should display correct order data - list view": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W"
+    },
+    "customer": {
+      "password": "password1",
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "streetNumber": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "streetNumber": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "shippingMethod": "Standard US",
+    "expected": {
+      "order": {
+        "amount": "$169.25",
+        "status": "Open"
+      }
+    }
+  },
+  "Should display correct order data - details view": {
+    "product": {
+      "name": "Shirt Aspesi white M",
+      "id": 1,
+      "sku": "M0E20000000ED0W"
+    },
+    "customer": {
+      "password": "password1",
+      "address": {
+        "shipping": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "streetNumber": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        },
+        "billing": {
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "streetName": "Vuestorefront Rd.",
+          "streetNumber": "13/37",
+          "city": "Los Angeles",
+          "state": "California",
+          "country": "US",
+          "postalCode": "90001",
+          "phone": "+12345678910"
+        }
+      }
+    },
+    "shippingMethod": "Standard US",
+    "expected": {
+      "order": {
+        "amount": "$169.25",
+        "status": "Open"
+      }
+    }
+  },
+  "Should change page - next": {
+    "customer": {
+      "password": "password1"
+    },
+    "expected": {
+      "payload": {
+        "limit": 10,
+        "offset": 10,
+        "sort": "createdAt desc"
+      }
+    }
+  },
+  "Should change page - previous": {
+    "customer": {
+      "password": "password1"
+    },
+    "expected": {
+      "payload": {
+        "limit": 10,
+        "offset": 0,
+        "sort": "createdAt desc"
+      }
+    }
+  }
+}

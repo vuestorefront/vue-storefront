@@ -5,6 +5,10 @@ import gql from 'graphql-tag';
 import { CustomQuery } from '@vue-storefront/core';
 import { getStoreKey } from '../../helpers/utils';
 
+/**
+ * @remarks References:
+ * {@link OrderMyCartCommand}, {@link OrderMutationResponse}
+ */
 const createMyOrderFromCart = async (context, draft: OrderMyCartCommand, customQuery?: CustomQuery): Promise<OrderMutationResponse> => {
   const { locale, acceptLanguage, currency, store } = context.config;
 

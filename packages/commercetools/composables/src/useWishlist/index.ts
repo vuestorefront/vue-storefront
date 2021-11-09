@@ -1,29 +1,27 @@
 /* istanbul ignore file */
 
 import { useWishlistFactory, UseWishlistFactoryParams, Context } from '@vue-storefront/core';
-import { ProductVariant, LineItem } from './../types/GraphQL';
-
-type Wishlist = any;
+import { ProductVariant, ShoppingList, ShoppingListQueryResult } from '@vue-storefront/commercetools-api';
 
 // @todo: implement wishlist
 // https://github.com/DivanteLtd/vue-storefront/issues/4420
 
-const useWishlistFactoryParams: UseWishlistFactoryParams<Wishlist, LineItem, ProductVariant> = {
+const useWishlistFactoryParams: UseWishlistFactoryParams<ShoppingListQueryResult, ShoppingList, ProductVariant> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context) => {
-    return {};
+    return { offset: 0, count: 0, total: 0, results: [], exists: false };
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addItem: async (context: Context, { currentWishlist, product }) => {
-    return {};
+    return { offset: 0, count: 0, total: 0, results: [], exists: false };
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeItem: async (context: Context, { currentWishlist, product }) => {
-    return {};
+    return { offset: 0, count: 0, total: 0, results: [], exists: false };
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   clear: async (context: Context, { currentWishlist }) => {
-    return {};
+    return { offset: 0, count: 0, total: 0, results: [], exists: false };
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isInWishlist: (context: Context, { currentWishlist }) => {
@@ -31,7 +29,7 @@ const useWishlistFactoryParams: UseWishlistFactoryParams<Wishlist, LineItem, Pro
   }
 };
 
-const useWishlist = useWishlistFactory<Wishlist, LineItem, ProductVariant>(useWishlistFactoryParams);
+const useWishlist = useWishlistFactory<ShoppingListQueryResult, ShoppingList, ProductVariant>(useWishlistFactoryParams);
 
 export {
   useWishlist,

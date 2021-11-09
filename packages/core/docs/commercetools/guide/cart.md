@@ -52,7 +52,7 @@ To add the product to the cart you can use `addItem` method:
   // ...
 </template>    
 <script>     
-  import { computed } from '@vue/composition-api';
+  import { computed } from '@nuxtjs/composition-api';
   import { useCart } from '@vue-storefront/commercetools';
   export default {
     props: {
@@ -104,7 +104,7 @@ To remove an item from the cart use `removeItem` method, and similarly to update
 </template>   
 
 <script>
-  import { computed } from '@vue/composition-api';
+  import { computed } from '@nuxtjs/composition-api';
   import { useCart, cartGetters } from '@vue-storefront/commercetools';
   import { onSSR } from '@vue-storefront/core';
 
@@ -141,7 +141,7 @@ To remove an item from the cart use `removeItem` method, and similarly to update
 To check if a specific product configuration is already in the cart, pass it to `isInCart` method:
 
 ```js
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import { useCart } from '@vue-storefront/commercetools';
 
 export default {
@@ -186,7 +186,7 @@ To clear cart items (not delete it) use `clear` method.
   // ...
 </template>   
 <script>      
-  import { computed } from '@vue/composition-api';
+  import { computed } from '@nuxtjs/composition-api';
   import { useCart, cartGetters } from '@vue-storefront/commercetools';
 
   export default {

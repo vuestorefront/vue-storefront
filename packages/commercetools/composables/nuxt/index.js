@@ -36,5 +36,4 @@ export default function(moduleOptions) {
     src: path.resolve(__dirname, './plugin.js'),
     options
   });
-
 }

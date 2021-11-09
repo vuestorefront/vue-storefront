@@ -53,7 +53,7 @@
 </template>
 <script>
 import { SfModal, SfHeading, SfInput, SfButton, SfScrollable, SfBar, SfLink } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 import { useUiState } from '~/composables';
 
 export default {

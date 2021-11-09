@@ -1,7 +1,11 @@
 import { useCart } from '../useCart';
-import { Order } from './../types/GraphQL';
+import { Order } from '@vue-storefront/commercetools-api';
 import { UseMakeOrder, useMakeOrderFactory, Context } from '@vue-storefront/core';
 
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#Order}
+ */
 const useMakeOrderFactoryParams = {
   provide() {
     return {
@@ -16,6 +20,10 @@ const useMakeOrderFactoryParams = {
   }
 };
 
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#Order}
+ */
 const useMakeOrder: () => UseMakeOrder<Order> = useMakeOrderFactory<Order>(useMakeOrderFactoryParams);
 
 export {

@@ -9,6 +9,10 @@ export interface CategoryData {
   categories: CategoryQueryResult;
 }
 
+/**
+ * @remarks References:
+ * {@link CategoryData}
+ */
 const getCategory = async (context, params, customQuery?: CustomQuery) => {
   const { acceptLanguage } = context.config;
   const defaultVariables = params ? {

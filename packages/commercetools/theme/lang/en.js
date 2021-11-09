@@ -113,6 +113,7 @@ export default {
   'Create an account': 'Create an account',
   'Your bag is empty': 'Your bag is empty',
   'Cancel': 'Cancel',
+  'See all': 'See all',
   'See all results': 'See all results',
   'We haven’t found any results for given phrase': 'We haven’t found any results for given phrase',
   'You haven’t searched for items yet': 'You haven’t searched for items yet.',
@@ -154,5 +155,9 @@ export default {
   'show more': 'show more',
   'hide': 'hide',
   'Change to grid view': 'Change to grid view',
-  'Change to list view': 'Change to list view'
+  'Change to list view': 'Change to list view',
+  'Delivery': 'Delivery',
+  'Pickup in store': 'Pickup in store',
+  'Free': 'Free',
+  'Select Channel': 'Select Channel'
 };

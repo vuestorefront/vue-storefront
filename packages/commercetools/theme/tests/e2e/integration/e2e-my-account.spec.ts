@@ -55,7 +55,7 @@ context(['regression'], 'My Account', () => {
     requests.customerSignMeUp(data.customer).its('status').should('eq', 200);
     page.home.visit();
     page.home.header.account.click();
-    page.myAccount.myProfile.switchTab(MyAccountTab.PasswordChange);
+    page.myAccount.myProfile.switchTab(MyAccountTab.PASSWORD_CHANGE);
     page.myAccount.myProfile.messageEmail.should('contain.text', data.customer.email);
     page.myAccount.myProfile.currentPassword.type(data.customer.password);
     page.myAccount.myProfile.newPassword.type(data.updatedCustomer.password);
