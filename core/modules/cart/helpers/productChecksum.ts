@@ -33,7 +33,15 @@ const getDataToHash = (product: CartItem | ServerItem): any => {
   }
 
   if (product.giftcard_options) {
-    return { ...product.giftcard_options, qty: undefined };
+    return {
+      amount: product.giftcard_options.amount,
+      giftcard_template_id: product.giftcard_options.giftcard_template_id,
+      send_friend: product.giftcard_options.send_friend,
+      customer_name: product.giftcard_options.customer_name,
+      recipient_name: product.giftcard_options.recipient_name,
+      recipient_email: product.giftcard_options.recipient_email,
+      message: product.giftcard_options.message
+    }
   }
 
   if (product.plushieId) {

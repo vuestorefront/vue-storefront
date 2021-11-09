@@ -38,6 +38,9 @@ const mergeActions = {
     if (serverItem.customerImages) {
       product.customerImages = serverItem.customerImages;
     }
+    if (serverItem.giftcard_options) {
+      product.giftcard_options = serverItem.giftcard_options;
+    }
 
     const productWithChecksum = { ...product, checksum: productChecksum(product) };
 
