@@ -18,13 +18,15 @@
         :value="$n(totals.subtotal, 'currency')"
         :class="['sf-property--full-width', 'sf-property--large property', { discounted: hasSpecialPrice }]"
       />
-      <SfProperty
-        v-for="discount in discounts"
-        :key="discount.id"
-        :name="discount.name + (discount.code && ` (${discount.code})`)"
-        :value="'-' + $n(discount.value, 'currency')"
-        class="sf-property--full-width sf-property--small"
-      />
+      <div class="discounts">
+        <SfProperty
+          v-for="discount in discounts"
+          :key="discount.id"
+          :name="discount.name"
+          :value="'-' + $n(discount.value, 'currency')"
+          class="sf-property--full-width sf-property--small discount"
+        />
+      </div>
      <SfProperty
         v-if="hasSpecialPrice"
         :value="$n(totals.special, 'currency')"
@@ -42,14 +44,37 @@
         class="sf-property--full-width sf-property--large property-total"
       />
     </div>
-    <div class="highlighted promo-code">
-      <SfInput
-        v-model="promoCode"
-        name="promoCode"
-        :label="$t('Enter promo code')"
-        class="sf-input--filled promo-code__input"
-      />
-      <SfButton class="promo-code__button" @click="() => applyCoupon({ couponCode: promoCode })">{{ $t('Apply') }}</SfButton>
+    <div class="highlighted">
+      <div class="coupons">
+        <SfProperty
+          v-for="coupon in coupons"
+          :key="coupon.id"
+          :name="coupon.name"
+          class="sf-property--full-width sf-property--small coupon"
+        >
+          <template #value>
+            <SfButton
+              class="sf-button--text desktop-only"
+              style="margin: 0 0 1rem auto; display: block;"
+              @click="removeCoupon({ couponCode: coupon.code })"
+            >
+              {{ $t('Remove coupon') }}
+            </SfButton>
+          </template>
+        </SfProperty>
+      </div>
+      <div class="promo-code">
+        <SfInput
+          :value="promoCode"
+          @input="onPromoCodeInput"
+          name="promoCode"
+          :label="$t('Enter promo code')"
+          class="sf-input--filled promo-code__input"
+          :valid="!cartError.applyCoupon"
+          :errorMessage="$t('This promo code is invalid')"
+        />
+        <SfButton class="promo-code__button" @click="applyCartCoupon(promoCode)">{{ $t('Apply') }}</SfButton>
+      </div>
     </div>
     <div class="highlighted">
       <SfCharacteristic
@@ -74,7 +99,7 @@ import {
   SfInput,
   SfCircleIcon
 } from '@storefront-ui/vue';
-import { computed, ref } from '@nuxtjs/composition-api';
+import { computed, ref } from '@vue/composition-api';
 import { useCart, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 
@@ -90,7 +115,7 @@ export default {
     SfCircleIcon
   },
   setup () {
-    const { cart, removeItem, updateItemQty, applyCoupon } = useCart();
+    const { cart, removeItem, updateItemQty, applyCoupon, removeCoupon, error: cartError } = useCart();
     const { state } = useShippingProvider();
 
     const listIsHidden = ref(false);
@@ -101,9 +126,23 @@ export default {
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const discounts = computed(() => cartGetters.getDiscounts(cart.value));
+    const coupons = computed(() => cartGetters.getCoupons(cart.value));
+
+    const onPromoCodeInput = (input) => {
+      promoCode.value = input;
+      cartError.value.applyCoupon = null;
+    };
+
+    const applyCartCoupon = async (couponCode) => {
+      await applyCoupon({ couponCode });
+      if (!cartError.value.applyCoupon) {
+        promoCode.value = '';
+      }
+    };
 
     return {
       discounts,
+      coupons,
       totalItems,
       listIsHidden,
       products,
@@ -113,7 +152,9 @@ export default {
       removeItem,
       updateItemQty,
       cartGetters,
-      applyCoupon,
+      onPromoCodeInput,
+      applyCartCoupon,
+      removeCoupon,
       characteristics: [
         {
           title: 'Safety',
@@ -135,7 +176,8 @@ export default {
 
       selectedShippingMethod: computed(() => state.value && state.value.response && state.value.response.shippingMethod),
       hasSpecialPrice: computed(() => totals.value.special > 0 && totals.value.special < totals.value.subtotal),
-      getShippingMethodPrice
+      getShippingMethodPrice,
+      cartError
     };
   }
 };
@@ -167,6 +209,18 @@ export default {
   border-top: var(--c-white) 1px solid;
   --property-name-font-weight: var(--font-weight--semibold);
   --property-name-color: var(--c-text);
+}
+
+.discounts {
+  margin-bottom: var(--spacer-base);
+}
+.discount {
+  margin-bottom: var(--spacer-2xs);
+}
+.coupon {
+  .sf-property__name::after {
+    content: none;
+  }
 }
 
 .characteristic {
