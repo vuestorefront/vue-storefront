@@ -199,7 +199,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
   ): Promise<Task> {
     const url = processURLAddress(`${config.budsies.endpoint}/carts/recovery-requests`);
 
-    return TaskQueue.execute({
+    const result = TaskQueue.execute({
       url: `${url}?recoveryId=${recoveryId}&recoveryCode=${recoveryCode}`,
       payload: {
         headers: { 'Accept': 'application/json' },
@@ -208,5 +208,11 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       },
       silent: true
     });
+
+    if ((await result).resultCode !== 200) {
+      throw Error('Error while recovering cart. ' + (await result).result)
+    }
+
+    return result;
   }
 }
