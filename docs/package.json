@@ -31,7 +31,6 @@
     "vuepress": "^2.0.0-beta.27"
   },
   "dependencies": {
-    "sass": "^1.43.4",
     "vue-multiselect": "^3.0.0-alpha.2"
   }
 }
