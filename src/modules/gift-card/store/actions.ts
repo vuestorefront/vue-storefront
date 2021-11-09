@@ -8,9 +8,10 @@ import GiftCardTemplate from '../types/GiftCardTemplate.interface';
 import { UPDATE_GIFT_CARD_TEMPLATE } from '../types/StoreMutations';
 
 export const actions: ActionTree<GiftCardState, any> = {
-  async loadGiftCardsTemplates ({ commit }): Promise<Dictionary<GiftCardTemplate>> {
+  async loadGiftCardsTemplates ({ commit, rootGetters }): Promise<Dictionary<GiftCardTemplate>> {
     const { storeId } = currentStoreView();
-    const giftCardTemplates = await GiftCardService.loadGiftCardsTemplates(storeId);
+    const token = rootGetters['user/getToken'];
+    const giftCardTemplates = await GiftCardService.loadGiftCardsTemplates(storeId, token);
 
     const dictionary: Dictionary<GiftCardTemplate> = {};
 
