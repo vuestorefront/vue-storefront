@@ -39,8 +39,7 @@ const INTEGRATIONS = {
       status: STATUSES.BETA,
       availability: AVAILABILITY.OPEN_SOURCE,
       maintainedBy: [
-        { name: 'Ecritel', link: 'https://www.ecritel.com/' },
-        { name: 'Leonex', link: 'https://www.leonex.de/' }
+        { name: 'Caravel', link: 'https://www.caravelx.com/' }
       ]
     },
     {
@@ -84,14 +83,6 @@ const INTEGRATIONS = {
       ]
     },
     {
-      name: 'Virto Commerce',
-      link: '',
-      image: 'https://tadviser.ru/images/3/3d/Virto_Commerce_logo.png',
-      status: STATUSES.WIP,
-      availability: AVAILABILITY.OPEN_SOURCE,
-      maintainedBy: []
-    },
-    {
       name: 'BigCommerce',
       link: '',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/6023aa663109a7a8f995f095_BigCommerce-logo-dark.svg',
@@ -104,7 +95,7 @@ const INTEGRATIONS = {
       link: '',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/60c62f5a2d9aaf32e2f47a20_logo-commercesuite-vertical-default.svg',
       status: STATUSES.WIP,
-      availability: AVAILABILITY.OPEN_SOURCE,
+      availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: []
     },
     {
@@ -147,10 +138,30 @@ const INTEGRATIONS = {
       name: 'Odoo',
       link: '',
       image: '/v2/integrations-logos/odoo.svg',
-      status: STATUSES.WIP,
+      status: STATUSES.BETA,
       availability: AVAILABILITY.OPEN_SOURCE,
       maintainedBy: [
         { name: 'OdooGap', link: 'https://www.odoogap.com/' }
+      ]
+    },
+    {
+      name: 'PrestaShop',
+      link: '',
+      image: '/v2/integrations-logos/prestashop.svg',
+      status: STATUSES.WIP,
+      availability: AVAILABILITY.OPEN_SOURCE,
+      maintainedBy: [
+        { name: 'Binshops', link: 'https://www.binshops.com/' }
+      ]
+    },
+    {
+      name: 'SpreeCommerce',
+      link: 'https://docs.vuestorefront.io/spree/',
+      image: '/v2/integrations-logos/spree.svg',
+      status: STATUSES.BETA,
+      availability: AVAILABILITY.OPEN_SOURCE,
+      maintainedBy: [
+        { name: 'Upside Lab', link: 'https://upsidelab.io/' }
       ]
     }
   ],
@@ -253,7 +264,7 @@ const INTEGRATIONS = {
     },
     {
       name: 'Adyen',
-      link: './adyen.html',
+      link: 'https://docs.vuestorefront.io/adyen',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed621cc6456318210a7d22b_Adyen_Corporate_Logo.svg',
       status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,

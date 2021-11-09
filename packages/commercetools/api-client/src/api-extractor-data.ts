@@ -13,3 +13,10 @@ import * as apiMethods from './api';
 
 export * from './index';
 export { apiMethods };
+export { GetStoresParams } from './api/getStores';
+export { CategoryData } from './api/getCategory';
+export { GetInventoryParams } from './api/getInventory';
+export { GetMeParams, OrdersData } from './api/getMe';
+export { ProductData } from './api/getProduct';
+export { ShippingMethodData } from './api/getShippingMethods';
+export { UpdateCartParams } from './api/updateCart';

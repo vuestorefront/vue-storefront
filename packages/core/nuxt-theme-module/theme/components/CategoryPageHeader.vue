@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import { useUiHelpers, useUiState } from '~/composables';
 import { useFacet, facetGetters } from '<%= options.generate.replace.composables %>';
 import FiltersSidebar from '~/components/FiltersSidebar';

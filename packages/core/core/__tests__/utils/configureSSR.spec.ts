@@ -1,6 +1,6 @@
 
 import { vsfRef, onSSR, configureSSR } from '../../src/utils/ssr';
-import { ref, onServerPrefetch } from '@vue/composition-api';
+import { ref, onServerPrefetch } from '@nuxtjs/composition-api';
 
 describe('[CORE - utils] configureSSR', () => {
   beforeEach(() => {

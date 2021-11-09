@@ -28,12 +28,12 @@
     "isomorphic-fetch": "^3.0.0"
   },
   "devDependencies": {
+    "@rollup/plugin-graphql": "^1.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
     "apollo-link-schema": "^1.2.5",
     "graphql-tools": "^7.0.5",
     "jest-transform-graphql": "^2.1.0",
-    "@rollup/plugin-graphql": "^1.0.0",
-    "rollup-plugin-typescript2": "^0.30.0",
-    "@rollup/plugin-node-resolve": "^13.0.0"
+    "rollup-plugin-typescript2": "^0.30.0"
   },
   "publishConfig": {
     "access": "public"

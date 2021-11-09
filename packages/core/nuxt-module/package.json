@@ -10,8 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "@nuxt/typescript-build": "^2.0.0",
-    "@vue/composition-api": "1.0.0-beta.21",
-    "@nuxtjs/composition-api": "0.17.0",
+    "@nuxtjs/composition-api": "^0.29.3",
     "@nuxtjs/style-resources": "^1.0.0",
     "chalk": "^2.4.2",
     "chokidar": "^3.3.1",
@@ -20,7 +19,7 @@
     "nuxt-purgecss": "^1.0.0"
   },
   "devDependencies": {
-    "@nuxt/types": "^0.7.9"
+    "@nuxt/types": "^2.15.8"
   },
   "publishConfig": {
     "access": "public"

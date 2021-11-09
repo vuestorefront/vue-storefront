@@ -1,11 +1,11 @@
 <template>
-<!-- TODO: create logic with isActive prop for BottomNavigationItems -->
+  <!-- TODO: create logic with isActive prop for BottomNavigationItems -->
   <SfBottomNavigation class="navigation-bottom smartphone-only">
-      <SfBottomNavigationItem
-        :class="$route.path == '/' ? 'sf-bottom-navigation__item--active' : ''"
-        icon="home" size="20px" label="Home"
-        @click="handleHomeClick"
-      />
+    <SfBottomNavigationItem
+      :class="route.path == '/' ? 'sf-bottom-navigation__item--active' : ''"
+      icon="home" size="20px" label="Home"
+      @click="handleHomeClick"
+    />
     <SfBottomNavigationItem icon="menu" size="20px" label="Menu" @click="toggleMobileMenu"/>
     <SfBottomNavigationItem icon="heart" size="20px" label="Wishlist" @click="toggleWishlistSidebar"/>
     <SfBottomNavigationItem icon="profile" size="20px" label="Account" @click="handleAccountClick"/>
@@ -34,7 +34,7 @@
 import { SfBottomNavigation, SfIcon, SfCircleIcon, SfBadge } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useUser, useCart, cartGetters } from '<%= options.generate.replace.composables %>';
-import { computed } from '@vue/composition-api';
+import { computed, useRoute, useRouter } from '@nuxtjs/composition-api';
 
 export default {
   components: {
@@ -43,21 +43,23 @@ export default {
     SfCircleIcon,
     SfBadge
   },
-  setup(props, { root }) {
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, toggleMobileMenu, isMobileMenuOpen } = useUiState();
     const { isAuthenticated } = useUser();
     const { cart } = useCart();
 
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
-        return root.$router.push('/my-account');
+        return router.push('/my-account');
       }
       toggleLoginModal();
     };
 
     const handleHomeClick = () => {
       isMobileMenuOpen.value ? toggleMobileMenu() : false;
-      root.$router.push('/');
+      router.push('/');
     };
 
     const cartTotalItems = computed(() => {
@@ -67,6 +69,7 @@ export default {
     });
 
     return {
+      route,
       isMobileMenuOpen,
       toggleWishlistSidebar,
       toggleCartSidebar,

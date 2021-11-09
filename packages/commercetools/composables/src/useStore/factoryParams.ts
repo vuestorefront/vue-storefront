@@ -4,8 +4,8 @@ import {
   UseStoreFactoryLoadParamArguments,
   UseStoreFactoryChangeParamArguments, CustomQuery
 } from '@vue-storefront/core';
+import { ResourceIdentifierInput } from '@vue-storefront/commercetools-api';
 import { StoresData } from '../types';
-import { ResourceIdentifierInput } from '../types/GraphQL';
 
 export interface UseStoreFactoryChangeChannelParamArguments {
   channel: Record<string, ResourceIdentifierInput>;
@@ -38,6 +38,10 @@ async function changeChannel (context: Context, { channel }: UseStoreFactoryChan
   return null as StoresData;
 }
 
+/**
+ * @remarks References:
+ * {@link StoresData}
+ */
 const factoryParams: CtUseStoreFactoryParams<StoresData> = { load, change, changeChannel };
 
 export default factoryParams;

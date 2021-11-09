@@ -1,5 +1,5 @@
 import { CustomQuery, UseCart, Context, FactoryParams, UseCartErrors, PlatformApi } from '../types';
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, computed } from '@nuxtjs/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, API extends PlatformApi = any> extends FactoryParams<API> {

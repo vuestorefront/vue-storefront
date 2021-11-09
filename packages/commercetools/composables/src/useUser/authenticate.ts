@@ -1,5 +1,5 @@
 import { Logger } from '@vue-storefront/core';
-import { CustomerSignMeInDraft, CustomerSignMeUpDraft } from '../types/GraphQL';
+import { CustomerSignMeInDraft, CustomerSignMeUpDraft } from '@vue-storefront/commercetools-api';
 
 type UserData = CustomerSignMeUpDraft | CustomerSignMeInDraft;
 

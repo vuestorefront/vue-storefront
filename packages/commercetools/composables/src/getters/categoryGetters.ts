@@ -1,5 +1,5 @@
 import { CategoryGetters, AgnosticCategoryTree } from '@vue-storefront/core';
-import { Category, CategorySearch } from './../types/GraphQL';
+import { Category, CategorySearch } from '@vue-storefront/commercetools-api';
 
 export const getCategoryTree = (category: Category | CategorySearch): AgnosticCategoryTree | null => {
   const getRoot = (category: Category | CategorySearch): Category => (category.parent ? getRoot(category.parent) : category) as Category;
@@ -19,6 +19,10 @@ export const getCategoryTree = (category: Category | CategorySearch): AgnosticCa
   return buildTree(getRoot(category));
 };
 
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#Category}
+ */
 const categoryGetters: CategoryGetters<Category> = {
   getTree: getCategoryTree
 };
