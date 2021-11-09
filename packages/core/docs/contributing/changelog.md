@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.4.6
+
+- Fixed close button placement (LocaleSelector). ([6202](https://github.com/vuestorefront/vue-storefront/issues/6202)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
+- Add language map to the middleware config ([6491](https://github.com/vuestorefront/vue-storefront/pull/6491)) - [Łukasz Śliwa](https://github.com/lsliwaradioluz)
+
+- Fixed data sharing between components in the `useFacet` composable ([6492](https://github.com/vuestorefront/vue-storefront/issues/6492)) - [Dawid Ziobro](https://github.com/dawid-ziobro)
+
+- Fixed duplicated search requests ([6495](https://github.com/vuestorefront/vue-storefront/pull/6495)) - [Dawid Ziobro](https://github.com/dawid-ziobro)
+
 ## 2.4.3
 
 - Extract `CategoryPageHeader` and `FiltersSidebar` to separate components ([5684](https://github.com/vuestorefront/vue-storefront/issues/5684)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)

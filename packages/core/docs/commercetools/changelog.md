@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.6
+
+- Fixed close button placement (StoreLocaleSelector). ([6202](https://github.com/vuestorefront/vue-storefront/issues/6202)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
+- Fixed redirect to localized My Account page. ([6474](https://github.com/vuestorefront/vue-storefront/issues/6474)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
 ## 1.3.3
 
 - Overwrite `CategoryPageHeader` component and remove filters from OS ([5684](https://github.com/vuestorefront/vue-storefront/issues/5684)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
