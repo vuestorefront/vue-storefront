@@ -159,5 +159,7 @@ export default {
   'Delivery': 'Delivery',
   'Pickup in store': 'Pickup in store',
   'Free': 'Free',
-  'Select Channel': 'Select Channel'
+  'Select Channel': 'Select Channel',
+  'Remove coupon': 'Remove coupon',
+  'This promo code is invalid': 'This promo code is invalid'
 };

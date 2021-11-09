@@ -159,5 +159,7 @@ export default {
   'Delivery': 'Lieferung',
   'Pickup in store': 'Abholung im Laden',
   'Free': 'Kostenlos',
-  'Select Channel': 'Kanal auswählen'
+  'Select Channel': 'Kanal auswählen',
+  'Remove coupon': 'Gutschein entfernen',
+  'This promo code is invalid': 'Dieser Gutscheincode ist ungültig'
 };
