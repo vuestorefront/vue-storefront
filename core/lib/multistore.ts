@@ -37,12 +37,22 @@ function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
  * Returns base storeView object that can be created without storeCode
  */
 function buildBaseStoreView (): StoreView {
+  let storeId = 1
+
+  if (config.defaultStoreId) {
+    storeId = config.defaultStoreId
+  }
+
+  if (config.defaultStoreCode && config.defaultStoreCode !== '' && config.storeViews[config.defaultStoreCode]) {
+    storeId = config.storeViews[config.defaultStoreCode].storeId
+  }
+
   return cloneDeep({
     tax: config.tax,
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
     storeCode: null,
-    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
+    storeId,
     seo: config.seo
   })
 }
