@@ -1,7 +1,11 @@
 <template>
   <div
     class="gift-card-template-container"
-    :style="{ '--height': `${height}px` }"
+    :style="{
+      '--height': `${height}px`,
+      '--template-height': `${templateHeight}px`,
+      '--template-width': `${templateWidth}px`,
+    }"
   >
     <div
       class="gift-card-template"
@@ -46,16 +50,18 @@
 
 <script lang="ts">
 import { isServer } from '@vue-storefront/core/helpers';
-import Vue, { PropType } from 'vue';
+import Vue, { PropType, VueConstructor } from 'vue';
 import throttle from 'lodash.throttle';
 
 import GiftCardTemplate from '../types/GiftCardTemplate.interface';
 import GiftCardTemplateSize from '../GiftCardTemplateSize';
 
-const templateWidth = GiftCardTemplateSize.width;
-const templateHeight = GiftCardTemplateSize.height;
+interface TemplateSize {
+  templateHeight: number,
+  templateWidth: number
+}
 
-export default Vue.extend({
+export default (Vue as VueConstructor<Vue & TemplateSize>).extend({
   props: {
     giftCardTemplate: {
       type: Object as PropType<GiftCardTemplate>,
@@ -92,13 +98,16 @@ export default Vue.extend({
     return {
       resizeHandler: undefined as undefined | (() => void),
       scale: 1,
-      height: templateHeight
+      height: GiftCardTemplateSize.height
     };
+  },
+  created (): void {
+    this.templateHeight = GiftCardTemplateSize.height;
+    this.templateWidth = GiftCardTemplateSize.width;
   },
   mounted (): void {
     this.initResizeHandler();
-    this.$nextTick()
-      .then(this.updateScale);
+    this.$nextTick().then(this.updateScale);
   },
   beforeDestroy (): void {
     this.removeResizeHandler();
@@ -116,10 +125,7 @@ export default Vue.extend({
         this.removeResizeHandler();
       }
 
-      this.resizeHandler = throttle(
-        () => this.updateScale(),
-        200
-      );
+      this.resizeHandler = throttle(() => this.updateScale(), 200);
 
       window.addEventListener('resize', this.resizeHandler);
     },
@@ -149,8 +155,8 @@ export default Vue.extend({
         parseFloat(computedStyles.paddingLeft) -
         parseFloat(computedStyles.paddingRight);
 
-      this.scale = parentWidth / templateWidth;
-      this.height = templateHeight * this.scale;
+      this.scale = parentWidth / this.templateWidth;
+      this.height = this.templateHeight * this.scale;
     }
   }
 });
@@ -162,8 +168,8 @@ export default Vue.extend({
 
   .gift-card-template {
     position: relative;
-    width: 900px;
-    height: 402px;
+    height: var(--template-height);
+    width: var(--template-width);
     transform: scale(var(--scale));
     transform-origin: 0 0;
 
