@@ -342,13 +342,10 @@ export default {
       padding: 0;
     }
   }
-  &__aside,
-  {
+  &__aside {
     display: flex;
     align-items: center;
     padding: var(--spacer-sm) 0;
-  }
-  &__aside {
     flex: 0 0 15%;
     padding: var(--spacer-sm) var(--spacer-sm);
     border: 1px solid var(--c-light);
