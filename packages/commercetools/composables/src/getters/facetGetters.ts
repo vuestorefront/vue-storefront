@@ -7,7 +7,7 @@ import {
   AgnosticBreadcrumb,
   AgnosticFacet
 } from '@vue-storefront/core';
-import { ProductVariant } from './../types/GraphQL';
+import { ProductVariant } from '@vue-storefront/commercetools-api';
 import { getProductFiltered } from './productGetters';
 import { getCategoryTree as buildCategoryTree } from './categoryGetters';
 import { buildBreadcrumbs, buildFacets, reduceForGroupedFacets, reduceForFacets } from './../useFacet/_utils';
@@ -69,7 +69,7 @@ const getBreadcrumbs = (searchData: SearchData): AgnosticBreadcrumb[] => {
 
 /**
  * @remarks References:
- * {@link FacetResultsData}, {@link ProductVariant}
+ * {@link FacetResultsData}, {@link @vue-storefront/commercetools-api#ProductVariant}
  */
 const facetGetters: FacetsGetters<FacetResultsData, ProductVariant[]> = {
   getSortOptions,

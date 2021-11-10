@@ -1,5 +1,5 @@
 import { AgnosticAddress, AgnosticLocale, AgnosticStore, UseStoreGetters } from '@vue-storefront/core';
-import { Store, Channel, Address } from '../types/GraphQL';
+import { Store, Channel, Address } from '@vue-storefront/commercetools-api';
 import { StoresData } from '../types';
 import { FilterCriteriaRecord, Localized, filterArrayByCriteriaRecord } from '../helpers/internals';
 
@@ -97,10 +97,6 @@ function getSelected (stores: StoresData): AgnosticStore | undefined {
   return getItems(stores, { store: { key: (stores?._selectedStore ?? '') }})[0];
 }
 
-/**
- * @remarks References:
- * {@link StoresData}, {@link StoreFilterCriteria}
- */
 const storeGetters: UseStoreGetters<StoresData, StoreFilterCriteria> = {
   getItems,
   getSelected

@@ -25,7 +25,7 @@
             :label="method.name"
             :value="method.id"
             :selected="selectedShippingMethod && selectedShippingMethod.shippingMethod && selectedShippingMethod.shippingMethod.id"
-            @input="selectShippingMethod(method)"
+            @change="selectShippingMethod(method)"
             name="shippingMethod"
             :description="method.localizedDescription"
             class="form__radio shipping"
@@ -57,7 +57,7 @@ import {
   SfRadio,
   SfLoader
 } from '@storefront-ui/vue';
-import { ref, reactive, onMounted, computed } from '@vue/composition-api';
+import { ref, reactive, onMounted, computed } from '@nuxtjs/composition-api';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 import { useVSFContext } from '@vue-storefront/core';
 

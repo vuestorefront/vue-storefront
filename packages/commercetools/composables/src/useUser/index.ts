@@ -1,13 +1,10 @@
-import {
-  Customer
-} from '../types/GraphQL';
-
-import { useUserFactoryParams } from './factoryParams';
+import { Customer } from '@vue-storefront/commercetools-api';
 import { useUserFactory } from '@vue-storefront/core';
+import { useUserFactoryParams } from './factoryParams';
 
 /**
  * @remarks References:
- * {@link Customer}
+ * {@link @vue-storefront/commercetools-api#Customer}
  */
 const useUser = useUserFactory<Customer, any, any>(useUserFactoryParams);
 

@@ -7,7 +7,7 @@
         class="sf-heading--left sf-heading--no-underline title"
       />
     </div>
-    <div class="highlighted">
+    <div v-e2e="'cart-preview-summary'" class="highlighted">
       <SfProperty
         :name="$t('Products')"
         :value="totalItems"
@@ -74,7 +74,7 @@ import {
   SfInput,
   SfCircleIcon
 } from '@storefront-ui/vue';
-import { computed, ref } from '@vue/composition-api';
+import { computed, ref } from '@nuxtjs/composition-api';
 import { useCart, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 

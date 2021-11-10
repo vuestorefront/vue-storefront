@@ -16,6 +16,7 @@ export { default as getOrders } from './getOrders';
 export { default as getProduct } from './getProduct';
 export { default as getShippingMethods } from './getShippingMethods';
 export { default as isGuest } from './isGuest';
+export { default as isLoggedIn } from './isLoggedIn';
 export { default as removeCartCoupon } from './removeCartCoupon';
 export { default as removeFromCart } from './removeFromCart';
 export { default as updateCart } from './updateCart';

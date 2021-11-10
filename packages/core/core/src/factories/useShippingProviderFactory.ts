@@ -6,7 +6,7 @@ import {
   CustomQuery,
   PlatformApi
 } from '../types';
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, computed } from '@nuxtjs/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 export interface UseShippingProviderParams<STATE, SHIPPING_METHOD, API extends PlatformApi = any> extends FactoryParams<API> {

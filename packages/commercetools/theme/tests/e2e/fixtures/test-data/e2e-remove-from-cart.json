@@ -1,7 +1,7 @@
 {
   "Should remove all products from cart": {
     "product": {
-      "name": "Shirt Aspesi white M",
+      "name": "Shirt Aspesi white",
       "id": 1,
       "sku": "M0E20000000ED0W",
       "quantity": 2,
@@ -10,7 +10,7 @@
   },
   "Should remove single product from cart": {
     "products": [{
-        "name": "Shirt Aspesi white M",
+        "name": "Shirt Aspesi white",
         "id": 1,
         "sku": "M0E20000000ED0W",
         "quantity": 1,
@@ -25,7 +25,7 @@
       }
     ],
     "productToRemove": {
-      "name": "Shirt Aspesi white M"
+      "name": "Shirt Aspesi white"
     },
     "expectedCart": [{
       "name": "Shirt ”David” MU light blue"

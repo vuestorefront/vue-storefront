@@ -13,7 +13,7 @@ There are two composables used to interact with the product catalog - `useProduc
 Use the `search` method to fetch the product and its variants. The response is available in the `products` object.
 
 ```vue
-<script>
+<script lang="ts">
 import { onSSR, AgnosticFacetSearchParams } from '@vue-storefront/core';
 import { useProduct } from '@vue-storefront/commercetools';
 
@@ -44,8 +44,8 @@ Once products are loaded using `useProduct`, access them using `productGetters`.
 
 Use the `getFiltered` getter without the second parameter to get the list of all products.
 
-```vue{4,15-21}
-<script>
+```vue
+<script lang="ts">
 import { onSSR, AgnosticFacetSearchParams } from '@vue-storefront/core';
 import { computed } from '@vue/composition-api';
 import { useProduct, productGetters } from '@vue-storefront/commercetools';
@@ -81,8 +81,8 @@ In most of the eCommerce backends, there is a so-called _master variant_. You ca
 
 Let's use the `getFiltered` getter again, but this time pass `{ master: true }` as a second parameter to only get the master variant.
 
-```vue{4,18-24}
-<script>
+```vue
+<script lang="ts">
 import { onSSR, AgnosticFacetSearchParams } from '@vue-storefront/core';
 import { computed } from '@vue/composition-api';
 import { useProduct, productGetters } from '@vue-storefront/commercetools';
@@ -120,8 +120,8 @@ Even when `{ master: true }` is passed, the `getFiltered` getter still returns a
 
 To only get the products with specific attributes, pass the `{ attributes }` object as a second parameter.
 
-```vue{4,18-29}
-<script>
+```vue
+<script lang="ts">
 import { onSSR, AgnosticFacetSearchParams } from '@vue-storefront/core';
 import { computed } from '@vue/composition-api';
 import { useProduct, productGetters } from '@vue-storefront/commercetools';
@@ -165,7 +165,7 @@ Faceted search allows users to narrow down search results by applying multiple f
 Use the `search` method to fetch the products. The response is available in the `result` object.
 
 ```vue
-<script>
+<script lang="ts">
 import { onSSR, AgnosticFacetSearchParams } from '@vue-storefront/core';
 import { useFacet } from '@vue-storefront/commercetools';
 
@@ -192,8 +192,8 @@ For a full list of parameters, please refer to the [AgnosticFacetSearchParams](/
 
 Once data is loaded using `useFacet`, access it using `facetGetters`. Get the data such as products, sorting and filtering options, pagination, and much more.
 
-```vue{4,22-36}
-<script>
+```vue
+<script lang="ts">
 import { onSSR, AgnosticFacetSearchParams } from '@vue-storefront/core';
 import { computed } from '@vue/composition-api';
 import { useFacet, facetGetters } from '@vue-storefront/commercetools';

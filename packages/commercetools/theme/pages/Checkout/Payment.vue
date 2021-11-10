@@ -6,37 +6,39 @@
       :title="$t('Payment')"
       class="sf-heading--left sf-heading--no-underline title"
     />
-    <SfAccordion :open="$t('Shipping address')" class="accordion smartphone-only">
+    <SfAccordion :open="$t('Shipping address')" class="accordion">
       <SfAccordionItem :header="$t('Shipping address')">
         <div class="accordion__item">
-          <div class="accordion__content">
+          <div v-e2e="'payment-shipping-address'" class="accordion__content">
             <p class="content">
               <span class="content__label" v-if="chosenShippingMethod">{{ chosenShippingMethod.name }}</span><br />
-              {{ shippingDetails.streetName }} {{ shippingDetails.streetNumber }},
-              {{ shippingDetails.zipCode }}<br />
-              {{ shippingDetails.city }}, {{ shippingDetails.country }}
+              {{ shippingDetails.firstName }} {{ shippingDetails.lastName }}<br />
+              {{ shippingDetails.streetName }} {{ shippingDetails.streetNumber }}<br />
+              {{ shippingDetails.city }}, {{ shippingDetails.state }} {{ shippingDetails.postalCode }}<br />
+              {{ shippingDetails.country }}
             </p>
-            <p class="content">{{ shippingDetails.phoneNumber }}</p>
+            <p class="content">{{ shippingDetails.phone }}</p>
           </div>
           <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 1)">
             {{ $t('Edit') }}
           </SfButton>
         </div>
       </SfAccordionItem>
-      <SfAccordionItem :header="$t('Billing address')">
+      <SfAccordionItem v-e2e="'payment-billing-address-header'" :header="$t('Billing address')">
         <div class="accordion__item">
-          <div class="accordion__content">
+          <div v-e2e="'payment-billing-address'" class="accordion__content">
             <p v-if="billingSameAsShipping" class="content">
               {{ $t('Same as shipping address') }}
             </p>
             <template v-else>
               <p class="content">
                 <span class="content__label">{{ chosenPaymentMethod.label }}</span><br />
-                {{ billingDetails.streetName }} {{ billingDetails.streetNumber }},
-                {{ billingDetails.zipCode }}<br />
-                {{ billingDetails.city }}, {{ billingDetails.country }}
+                {{ billingDetails.firstName }} {{ billingDetails.lastName }}<br />
+                {{ billingDetails.streetName }} {{ billingDetails.streetNumber }}<br />
+                {{ billingDetails.city }}, {{ billingDetails.state }} {{ billingDetails.postalCode }}<br />
+                {{ billingDetails.country }}
               </p>
-              <p class="content">{{ billingDetails.phoneNumber }}</p>
+              <p class="content">{{ billingDetails.phone }}</p>
             </template>
           </div>
           <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 2)">
@@ -75,18 +77,18 @@
         <SfTableData class="table__image">
           <SfImage :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
         </SfTableData>
-        <SfTableData v-e2e="'product-title-sku'" class="table__data table__description table__data">
+        <SfTableData class="table__data table__description table__data">
           <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
           <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
         </SfTableData>
         <SfTableData
-          class="table__data" v-e2e="'product-attributes'" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
+          class="table__data" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
           :key="key"
         >
           {{ value }}
         </SfTableData>
-        <SfTableData v-e2e="'product-quantity'" class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
-        <SfTableData v-e2e="'product-price'" class="table__data price">
+        <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
+        <SfTableData class="table__data price">
           <SfPrice
             :regular="$n(cartGetters.getItemPrice(product).regular, 'currency')"
             :special="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
@@ -95,7 +97,7 @@
         </SfTableData>
       </SfTableRow>
     </SfTable>
-    <div class="summary">
+    <div v-e2e="'payment-summary'" class="summary">
       <div class="summary__group">
         <div class="summary__total">
           <SfProperty
@@ -124,8 +126,8 @@
             </div>
           </template>
         </SfCheckbox>
-          <div class="summary__action">
-          <SfButton v-e2e="'make-an-order'" class="summary__action-button" @click="processOrder" :disabled="loading || !paymentReady || !terms">
+          <div v-e2e="'payment-summary-buttons'" class="summary__action">
+          <SfButton class="summary__action-button" @click="processOrder" :disabled="loading || !paymentReady || !terms">
             {{ $t('Make an order') }}
           </SfButton>
           <nuxt-link to="/checkout/billing" class="sf-button sf-button--underlined summary__back-button smartphone-only">
@@ -152,7 +154,7 @@ import {
   SfLink,
   SfInput
 } from '@storefront-ui/vue';
-import { ref, computed, watch } from '@vue/composition-api';
+import { ref, computed, watch, useRouter } from '@nuxtjs/composition-api';
 import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, cartGetters } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
@@ -178,6 +180,7 @@ export default {
     SfInput
   },
   setup(_, context) {
+    const router = useRouter();
     const { status: paymentReady } = usePaymentProviderMock();
     const { cart, removeItem, load, setCart, applyCoupon } = useCart();
     const { shipping: shippingDetails, load: loadShippingDetails } = useShipping();
@@ -205,7 +208,7 @@ export default {
       if (error.value.make) return;
 
       const thankYouPath = { name: 'thank-you', query: { order: order.value.id }};
-      context.root.$router.push(context.root.localePath(thankYouPath));
+      router.push(context.root.localePath(thankYouPath));
 
       setCart(null);
     };

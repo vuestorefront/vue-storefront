@@ -2,11 +2,11 @@ import { Context, CustomQuery } from '@vue-storefront/core';
 import updateCart from './../updateCart';
 import { CartDetails, CartResponse } from './../../types/Api';
 import { ProductVariant } from './../../types/GraphQL';
-import { createAddLineItemAction } from './../../helpers/cart/actions';
+import { createAddLineItemAction } from '../../helpers/actions/cart';
 
 /**
  * @remarks References:
- * {@link CartDetails}, {@link ProductVariant}, {@link CartResponse}
+ * {@link CartDetails}, {@link @vue-storefront/commercetools-api#ProductVariant}, {@link CartResponse}
  */
 const addToCart = async (
   context: Context,

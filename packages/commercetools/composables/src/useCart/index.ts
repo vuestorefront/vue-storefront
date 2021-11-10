@@ -1,6 +1,5 @@
 import loadCurrentCart from './currentCart';
-import { ProductVariant, LineItem } from './../types/GraphQL';
-import { Cart, CartDetails } from '@vue-storefront/commercetools-api';
+import { ProductVariant, LineItem, Cart, CartDetails } from '@vue-storefront/commercetools-api';
 import { useCartFactory, UseCartFactoryParams, Context } from '@vue-storefront/core';
 
 const getCartItemByProduct = ({ currentCart, product }) => {
@@ -17,19 +16,10 @@ const getCurrentCartDetails = async <COMPLETE_DETAILS = ''>(context: Context, cu
 
 /**
  * @remarks References:
- * {@link CartDetails}, {@link LineItem}, {@link ProductVariant}
+ * {@link CartDetails}, {@link @vue-storefront/commercetools-api#LineItem}, {@link @vue-storefront/commercetools-api#ProductVariant}
  */
 const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductVariant> = {
   load: async (context: Context, { customQuery }) => {
-    const { $ct } = context;
-    if (!$ct.config.auth.onTokenRead()) return null;
-
-    const isGuest = await $ct.api.isGuest();
-
-    if (isGuest) {
-      return null;
-    }
-
     const { data: profileData } = await context.$ct.api.getMe({ customer: false }, customQuery);
 
     return profileData.me.activeCart;
@@ -97,7 +87,7 @@ const useCartFactoryParams: UseCartFactoryParams<CartDetails, LineItem, ProductV
 
 /**
  * @remarks References:
- * {@link CartDetails}, {@link LineItem}, {@link ProductVariant}
+ * {@link CartDetails}, {@link @vue-storefront/commercetools-api#LineItem}, {@link @vue-storefront/commercetools-api#ProductVariant}
  */
 const useCart = useCartFactory<CartDetails, LineItem, ProductVariant>(useCartFactoryParams);
 

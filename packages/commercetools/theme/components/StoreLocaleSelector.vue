@@ -9,11 +9,12 @@
     <SfBottomModal
       :is-open="isLangModalOpen"
       :title="availableStores.length > 0 ? 'Choose store': ''"
-      @click:close="isLangModalOpen = !isLangModalOpen">
+      @click:close="isLangModalOpen = !isLangModalOpen"
+    >
       <SfList>
         <SfListItem v-for="store in availableStores" :key="store.id">
           <a
-            href="javascript:void(0)"
+            href="/"
             class="container__store--link"
             :class="isStoreSelected(store) ? 'container__store--selected' : ''"
             @click="changeStore(store)"
@@ -37,7 +38,7 @@
       />
       <SfList>
         <SfListItem v-for="lang in availableLocales" :key="lang.code">
-          <a :href="switchLocalePath(lang.code)">
+          <nuxt-link :to="switchLocalePath(lang.code)">
             <SfCharacteristic class="language">
               <template #title>
                 <span>{{ lang.label }}</span>
@@ -46,7 +47,7 @@
                 <SfImage :src="`/icons/langs/${lang.code}.webp`" width="20" alt="Flag" class="language__flag" />
               </template>
             </SfCharacteristic>
-          </a>
+          </nuxt-link>
         </SfListItem>
       </SfList>
     </SfBottomModal>
@@ -63,9 +64,8 @@ import {
   SfList,
   SfSelect
 } from '@storefront-ui/vue';
-import { onSSR } from '@vue-storefront/core';
 import { useStore, useCart } from '@vue-storefront/commercetools';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed } from '@nuxtjs/composition-api';
 
 export default {
   components: {
@@ -79,14 +79,10 @@ export default {
   },
   setup(props, context) {
     const { locales, locale, defaultLocale } = context.root.$i18n;
-    const { load, change, response } = useStore();
+    const { change, response } = useStore();
     const { clear, cart } = useCart();
     const isLangModalOpen = ref(false);
     const availableLocales = computed(() => locales.filter(i => i.code !== locale));
-
-    onSSR(async () => {
-      await load();
-    });
 
     // to be added on local useStore factory
     function getSelected(stores) {
@@ -106,7 +102,6 @@ export default {
     const getStoreLocale = (store) => store?.languages[0] ?? defaultLocale;
 
     return {
-      load,
       changeStore,
       response,
       availableStores,
@@ -135,6 +130,11 @@ export default {
     @include for-desktop {
       --bottom-modal-height: 100vh;
     }
+  }
+  .sf-bottom-modal::v-deep .sf-bottom-modal__close {
+    position: var(--circle-icon-position, absolute);
+    top: var(--spacer-xs);
+    right: var(--spacer-xs);
   }
   .sf-list {
     .language {

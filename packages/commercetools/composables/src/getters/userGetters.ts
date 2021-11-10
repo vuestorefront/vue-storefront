@@ -1,5 +1,5 @@
 import { UserGetters } from '@vue-storefront/core';
-import { Customer } from './../types/GraphQL';
+import { Customer } from '@vue-storefront/commercetools-api';
 
 export const getUserFirstName = (user: Customer): string => user?.firstName || '';
 
@@ -11,7 +11,7 @@ export const getUserEmailAddress = (user: Customer): string => user?.email || ''
 
 /**
  * @remarks References:
- * {@link Customer}
+ * {@link @vue-storefront/commercetools-api#Customer}
  */
 const userGetters: UserGetters<Customer> = {
   getFirstName: getUserFirstName,
