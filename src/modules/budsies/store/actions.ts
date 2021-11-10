@@ -196,10 +196,10 @@ export const actions: ActionTree<BudsiesState, RootState> = {
   async loadRecoverableCart (
     { commit, state },
     { recoveryId, recoveryCode }
-  ): Promise<Task> {
+  ): Promise<any> {
     const url = processURLAddress(`${config.budsies.endpoint}/carts/recovery-requests`);
 
-    const result = TaskQueue.execute({
+    const { result, resultCode } = await TaskQueue.execute({
       url: `${url}?recoveryId=${recoveryId}&recoveryCode=${recoveryCode}`,
       payload: {
         headers: { 'Accept': 'application/json' },
@@ -209,8 +209,8 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       silent: true
     });
 
-    if ((await result).resultCode !== 200) {
-      throw Error('Error while recovering cart. ' + (await result).result)
+    if (resultCode !== 200) {
+      throw Error('Error while recovering cart. ' + result)
     }
 
     return result;
