@@ -192,5 +192,27 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     }
 
     EventBus.$emit('budsies-store-synchronized');
+  },
+  async loadRecoverableCart (
+    { commit, state },
+    { recoveryId, recoveryCode }
+  ): Promise<any> {
+    const url = processURLAddress(`${config.budsies.endpoint}/carts/recovery-requests`);
+
+    const { result, resultCode } = await TaskQueue.execute({
+      url: `${url}?recoveryId=${recoveryId}&recoveryCode=${recoveryCode}`,
+      payload: {
+        headers: { 'Accept': 'application/json' },
+        mode: 'cors',
+        method: 'POST'
+      },
+      silent: true
+    });
+
+    if (resultCode !== 200) {
+      throw Error('Error while recovering cart. ' + result)
+    }
+
+    return result;
   }
 }
