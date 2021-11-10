@@ -1,4 +1,4 @@
-import { Cart } from './../../types/GraphQL';
+import { Cart } from '@vue-storefront/commercetools-api';
 import { AgnosticCoupon } from '@vue-storefront/core';
 
 export default (cart: Cart): AgnosticCoupon[] => {

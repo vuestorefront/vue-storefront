@@ -17,7 +17,7 @@ Registering a new user can be done using `register` method.
 
 <script>
 import { useUser } from '@vue-storefront/commercetools';
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 
 export default {
   setup () {
@@ -78,7 +78,7 @@ Signing in can be done using `login` method.
 
 <script>
 import { useUser } from '@vue-storefront/commercetools';
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 
 export default {
   setup () {
@@ -114,7 +114,7 @@ Signing out can be done using `logout` method.
 
 <script>
 import { useUser } from '@vue-storefront/commercetools';
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 
 export default {
   setup () {
@@ -146,7 +146,7 @@ Usually, the process of resetting a user password consists of two steps:
 
 <script>
 import { useForgotPassword } from '@vue-storefront/commercetools';
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 
 export default {
   setup () {
@@ -176,7 +176,7 @@ export default {
 
 <script>
 import { useForgotPassword, forgotPasswordGetters } from '@vue-storefront/commercetools';
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 
 export default {
   setup () {

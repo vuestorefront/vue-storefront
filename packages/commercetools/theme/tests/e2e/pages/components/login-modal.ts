@@ -27,16 +27,16 @@ class LoginModal {
     return el('login-modal-create-account');
   }
 
-  get submitButton(): Cypress.Chainable {
-    return el('login-modal-submit');
+  get createAccountButton(): Cypress.Chainable {
+    return cy.get('button:contains("Create an account")');
   }
 
   get loginToAccountButton(): Cypress.Chainable {
-    return el('login-modal-login-to-your-account');
+    return cy.contains('login in to your account');
   }
 
-  get loginBtn(): Cypress.Chainable {
-    return el('login-modal-submit');
+  get loginButton(): Cypress.Chainable {
+    return cy.get('[type="submit"]');
   }
 
   fillForm(customer: Customer): void {

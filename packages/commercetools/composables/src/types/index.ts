@@ -5,10 +5,10 @@ import {
   CategorySearch,
   ResetPasswordResponse,
   CreatePasswordResetTokenResponse,
-  Store
+  Store,
+  StoreQueryResult
 } from '@vue-storefront/commercetools-api';
 import { FacetSearchResult } from '@vue-storefront/core';
-import { StoreQueryResult } from './GraphQL';
 
 export type OrderSearchParams = {
   id?: string;

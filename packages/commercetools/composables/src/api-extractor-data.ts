@@ -10,10 +10,6 @@
  */
 
 export * from './index';
-export * from './types/GraphQL';
 export { StoreFilterCriteria } from './getters/storeGetters';
 export { ProductVariantFilters } from './getters/productGetters';
-export { Review, ReviewItem} from './getters/reviewGetters';
-export { Wishlist } from './getters/wishlistGetters';
-export { CartDetails } from '../../api-client';
 export { ShippingProviderState } from './useShippingProvider';

@@ -1,4 +1,4 @@
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, computed } from '@nuxtjs/composition-api';
 import { UseUser, Context, FactoryParams, UseUserErrors, CustomQuery, PlatformApi } from '../types';
 import { sharedRef, Logger, mask, configureFactoryParams } from '../utils';
 
@@ -9,7 +9,7 @@ export interface UseUserFactoryParams<
   API extends PlatformApi = any
 > extends FactoryParams<API> {
   load: (context: Context, params?: { customQuery: CustomQuery }) => Promise<USER>;
-  logOut: (context: Context, params: {currentUser: USER}) => Promise<void>;
+  logOut: (context: Context, params?: {currentUser: USER}) => Promise<void>;
   updateUser: (context: Context, params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS; customQuery?: CustomQuery}) => Promise<USER>;
   register: (context: Context, params: REGISTER_USER_PARAMS & {customQuery?: CustomQuery}) => Promise<USER>;
   logIn: (context: Context, params: { username: string; password: string; customQuery?: CustomQuery }) => Promise<USER>;

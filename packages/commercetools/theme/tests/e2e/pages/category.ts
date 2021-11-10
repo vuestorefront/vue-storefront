@@ -6,11 +6,13 @@ type View = 'tiles' | 'list'
 export class Category extends Base {
 
   private readonly _category: string;
+  private readonly _subcategory: string;
   private _view: View = 'tiles';
 
-  constructor(category?: string) {
+  constructor(category?: string, subcategory?: string) {
     super();
     if (category) this._category = category;
+    if (subcategory) this._subcategory = subcategory;
   }
 
   set view(view: View) {
@@ -25,8 +27,12 @@ export class Category extends Base {
     return this._category;
   }
 
+  get subcategory(): string {
+    return this._subcategory;
+  }
+
   get path(): string {
-    return `/c/${this.category}`;
+    return `/c/${this.category}${this.subcategory ? `/${this.subcategory}` : ''}`;
   }
 
   get products(): Cypress.Chainable {
@@ -47,7 +53,12 @@ export class Category extends Base {
   }
 
   viewIcon(view: View): Cypress.Chainable {
-    return el(`${view}-icon`);
+    const views = el('category-header-views').get('[role="button"]');
+    const buttons = {
+      titles: () => views.eq(0),
+      list: () => views.eq(1)
+    };
+    return buttons[view]();
   }
 
   changeView(view: View): Cypress.Chainable {

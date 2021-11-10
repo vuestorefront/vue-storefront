@@ -4,8 +4,8 @@ import {
   UseStoreFactoryLoadParamArguments,
   UseStoreFactoryChangeParamArguments, CustomQuery
 } from '@vue-storefront/core';
+import { ResourceIdentifierInput } from '@vue-storefront/commercetools-api';
 import { StoresData } from '../types';
-import { ResourceIdentifierInput } from '../types/GraphQL';
 
 export interface UseStoreFactoryChangeChannelParamArguments {
   channel: Record<string, ResourceIdentifierInput>;

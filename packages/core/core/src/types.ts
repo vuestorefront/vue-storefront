@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { Ref } from '@vue/composition-api';
+import { Ref } from '@nuxtjs/composition-api';
 import type { Request, Response } from 'express';
 
 /**
@@ -710,15 +710,6 @@ export interface UserGetters<USER> {
   getLastName: (customer: USER) => string;
   getFullName: (customer: USER) => string;
   getEmailAddress: (customer: USER) => string;
-  [getterName: string]: (element: any, options?: any) => unknown;
-}
-
-export interface CheckoutGetters<SHIPPING_METHOD> {
-  getShippingMethodId: (shippingMethod: SHIPPING_METHOD) => string;
-  getShippingMethodName: (shippingMethod: SHIPPING_METHOD) => string;
-  getShippingMethodDescription: (shippingMethod: SHIPPING_METHOD) => string;
-  getShippingMethodPrice: (shippingMethod: SHIPPING_METHOD) => number;
-  getFormattedPrice: (price: number) => string;
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 

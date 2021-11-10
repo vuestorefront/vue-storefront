@@ -1,10 +1,12 @@
 import { Billing, Payment, Shipping, ThankYou } from './checkout';
+import Breadcrumbs from './components/breadcrumbs';
 import Cart from './components/cart-sidebar';
 import LoginModal from './components/login-modal';
 import Home from './home';
-import { Sidebar } from './my-account';
+import { MyProfile, OrderHistory } from './my-account';
 import { Product } from './product';
 import { Category } from './category';
+import CategoryAccordion from './components/category-accordion';
 
 const page = {
   get checkout() {
@@ -19,7 +21,9 @@ const page = {
   get components() {
     return {
       cart: Cart,
-      loginModal: LoginModal
+      loginModal: LoginModal,
+      breadcrumbs: Breadcrumbs,
+      categoryAccordion: CategoryAccordion
     };
   },
 
@@ -29,12 +33,13 @@ const page = {
 
   get myAccount() {
     return {
-      sidebar: new Sidebar()
+      myProfile: new MyProfile(),
+      orderHistory: new OrderHistory()
     };
   },
 
-  category(category?: string) {
-    return new Category(category);
+  category(category?: string, subcategory?: string) {
+    return new Category(category, subcategory);
   },
 
   product(id?: string, slug?: string) {

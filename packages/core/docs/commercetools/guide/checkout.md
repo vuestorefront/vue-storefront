@@ -117,7 +117,7 @@ For such cases, you can use `useShippingProvider` composable. It has been made f
 ```ts
 import { useShippingProvider } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 
 export default {
   setup () {

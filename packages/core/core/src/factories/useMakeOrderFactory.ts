@@ -1,4 +1,4 @@
-import { computed, Ref } from '@vue/composition-api';
+import { computed, Ref } from '@nuxtjs/composition-api';
 import { CustomQuery, Context, FactoryParams, UseMakeOrder, UseMakeOrderErrors, PlatformApi } from '../types';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 

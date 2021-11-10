@@ -200,18 +200,16 @@
         </ValidationProvider>
       </div>
       <SfButton
-        v-e2e="'shipping-add-new-address'"
         v-if="!canAddNewAddress"
         class="color-light form__action-button form__action-button--add-address"
         type="button"
-        @click.native="handleAddNewAddressBtnClick"
+        @click="handleAddNewAddressBtnClick"
       >
         {{ $t('Add new address') }}
       </SfButton>
       <div class="form">
         <div class="form__action">
           <SfButton
-            v-e2e="'select-shipping'"
             class="form__action-button"
             type="submit"
             :disabled="!canMoveForward"
@@ -225,10 +223,9 @@
         <VsfShippingProvider />
         <div class="form__action">
           <SfButton
-            v-e2e="'continue-to-billing'"
             class="form__action-button"
             type="button"
-            @click.native="$router.push(localePath({ name: 'billing' }))"
+            @click="router.push(localePath({ name: 'billing' }))"
             :disabled="!isShippingMethodStepCompleted || loadingShippingProvider"
           >
             {{ $t('Continue to billing') }}
@@ -250,7 +247,7 @@ import { useShippingProvider, useUserShipping, userShippingGetters, useUser, use
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
-import { ref, watch, computed, onMounted } from '@vue/composition-api';
+import { ref, watch, computed, onMounted, useRouter } from '@nuxtjs/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import '@/helpers/validators/phone';
 
@@ -282,6 +279,7 @@ export default {
     VsfShippingProvider: () => import('@/components/Checkout/VsfShippingProvider')
   },
   setup () {
+    const router = useRouter();
     const { $ct: { config } } = useVSFContext();
     const { shipping: address, loading, load, save } = useShipping();
     const { isAuthenticated } = useUser();
@@ -379,24 +377,26 @@ export default {
     });
 
     onMounted(async () => {
-      if (!userShipping.value?.addresses && isAuthenticated.value) {
-        await loadUserShipping();
-      }
       const shippingAddresses = userShippingGetters.getAddresses(userShipping.value);
+
       if (!shippingAddresses || !shippingAddresses.length) {
         return;
       }
+
       const hasEmptyShippingDetails = !shippingDetails.value || Object.keys(shippingDetails.value).length === 0;
+
       if (hasEmptyShippingDetails) {
         selectDefaultAddress();
         return;
       }
+
       canAddNewAddress.value = false;
     });
 
     return {
       NOT_SELECTED_ADDRESS,
 
+      router,
       isAuthenticated,
       shippingDetails,
       address,

@@ -7,7 +7,7 @@ class Checkout extends Base {
   protected step = ''
 
   get addNewAddressButton(): Cypress.Chainable {
-    return el(`${this.step}-add-new-address`);
+    return cy.contains('Add new address');
   }
 
   get firstName(): Cypress.Chainable {
@@ -78,15 +78,15 @@ class Shipping extends Checkout {
   }
 
   get continueToBillingButton(): Cypress.Chainable {
-    return el('continue-to-billing');
+    return cy.contains('Continue to billing');
   }
 
   get heading(): Cypress.Chainable {
-    return el(`${this.step}-heading`);
+    return cy.contains('Shipping details');
   }
 
   get selectShippingButton(): Cypress.Chainable {
-    return el('select-shipping');
+    return cy.contains('Select shipping method');
   }
 
   get shippingMethods(): Cypress.Chainable {
@@ -111,11 +111,11 @@ class Billing extends Checkout {
   }
 
   get continueToPaymentButton(): Cypress.Chainable {
-    return el('continue-to-payment');
+    return cy.contains('Continue to payment');
   }
 
   get heading(): Cypress.Chainable {
-    return el(`${this.step}-heading`);
+    return cy.contains('Billing address');
   }
 
   get copyAddressLabel(): Cypress.Chainable {
@@ -134,11 +134,23 @@ class Payment extends Base {
   }
 
   get heading(): Cypress.Chainable {
-    return el('heading-payment');
+    return cy.get('h3:contains("Payment")');
+  }
+
+  get shippingAddress(): Cypress.Chainable {
+    return el('payment-shipping-address');
+  }
+
+  get billingAddressHeader(): Cypress.Chainable {
+    return el('payment-billing-address-header');
+  }
+
+  get billingAddress(): Cypress.Chainable {
+    return el('payment-billing-address');
   }
 
   get makeAnOrderButton(): Cypress.Chainable {
-    return el('make-an-order');
+    return el('payment-summary-buttons').contains('Make an order');
   }
 
   get paymentMethods(): Cypress.Chainable {
@@ -153,38 +165,27 @@ class Payment extends Base {
     return el('product-row');
   }
 
-  get productTitleSku(): Cypress.Chainable {
-    return el('product-title-sku');
+  get summaryValues(): Cypress.Chainable {
+    return el('payment-summary', '.sf-property__value');
   }
 
-  get productAttributes(): Cypress.Chainable {
-    return el('product-attributes');
+  get cartPreviewValues(): Cypress.Chainable {
+    return el('cart-preview-summary', '.sf-property__value');
   }
 
-  get productQuantity(): Cypress.Chainable {
-    return el('product-quantity');
-  }
-
-  get productPrice(): Cypress.Chainable {
-    return el('product-price');
-  }
-
-  get discountedPrice(): Cypress.Chainable {
-    return cy.get('.discounted');
-  }
-
-  get specialPrice(): Cypress.Chainable {
-    return cy.get('.special-price');
-  }
-
-  get totalPrice(): Cypress.Chainable {
-    return cy.get('.property-total');
-  }
 }
 
 class ThankYou {
   get heading(): Cypress.Chainable {
     return el('thank-you-banner', 'h2');
+  }
+
+  get orderNumber(): Cypress.Chainable {
+    return el('order-number');
+  }
+
+  get path(): string {
+    return '/checkout/thank-you';
   }
 }
 

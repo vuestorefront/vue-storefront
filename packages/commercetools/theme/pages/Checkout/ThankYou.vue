@@ -12,7 +12,7 @@
       <template #description>
         <div class="banner__order-number">
           <span>{{ $t('Order No.') }}</span>
-          <strong>{{ order.number }}</strong>
+          <strong v-e2e="'order-number'">{{ orderNumber }}</strong>
         </div>
       </template>
     </SfCallToAction>
@@ -75,14 +75,19 @@
 </template>
 
 <script>
+import { computed, useRoute } from '@nuxtjs/composition-api';
 import { SfHeading, SfButton, SfCallToAction } from '@storefront-ui/vue';
+
 export default {
   components: {
     SfHeading,
     SfButton,
     SfCallToAction
   },
-  setup(props, context) {
+  setup() {
+    const route = useRoute();
+    const orderNumber = computed(() => `#${ route.value.query.order }`);
+
     return {
       address: {
         name: 'Company Headquarter',
@@ -90,9 +95,7 @@ export default {
         city: 'Wroclaw, Poland',
         email: 'demo@vuestorefront.io'
       },
-      order: {
-        number: `#${context.root.$route.query.order}`
-      }
+      orderNumber
     };
   }
 };

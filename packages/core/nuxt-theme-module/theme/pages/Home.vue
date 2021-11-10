@@ -33,8 +33,10 @@
 
     <LazyHydrate when-visible>
       <div class="similar-products">
-        <SfHeading title="Match with it" :level="3"/>
-        <nuxt-link :to="localePath('/c/women')" class="smartphone-only">See all</nuxt-link>
+        <SfHeading title="Match with it" :level="2"/>
+        <nuxt-link :to="localePath('/c/women')" class="smartphone-only">
+          {{ $t('See all') }}
+        </nuxt-link>
       </div>
     </LazyHydrate>
 
@@ -78,7 +80,21 @@
         description="Be aware of upcoming sales and events. Receive gifts and special offers!"
         image="/homepage/newsletter.webp"
         class="call-to-action"
-      />
+      >
+        <template #button>
+          <SfButton
+            class="sf-call-to-action__button"
+            data-testid="cta-button"
+            @click="toggleNewsletterModal"
+          >
+            {{ $t('Subscribe') }}
+          </SfButton>
+        </template>
+      </SfCallToAction>
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
+      <NewsletterModal @email-submitted="onSubscribe" />
     </LazyHydrate>
 
     <LazyHydrate when-visible>
@@ -101,8 +117,11 @@ import {
   SfArrow,
   SfButton
 } from '@storefront-ui/vue';
+import { ref, useContext } from '@nuxtjs/composition-api';
 import InstagramFeed from '~/components/InstagramFeed.vue';
+import NewsletterModal from '~/components/NewsletterModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
+import { useUiState } from '../composables';
 import cacheControl from './../helpers/cacheControl';
 
 export default {
@@ -124,139 +143,153 @@ export default {
     SfHeading,
     SfArrow,
     SfButton,
+    NewsletterModal,
     LazyHydrate
   },
-  data() {
-    return {
-      heroes: [
-        {
-          title: 'Colorful summer dresses are already in store',
-          subtitle: 'SUMMER COLLECTION 2019',
-          background: '#eceff1',
-          image: '/homepage/bannerH.webp'
+  setup() {
+    const { $config } = useContext();
+    const { toggleNewsletterModal } = useUiState();
+    const products = ref([
+      {
+        title: 'Cream Beach Bag',
+        image: '/homepage/productA.webp',
+        price: { regular: '50.00 $' },
+        rating: { max: 5, score: 4 },
+        isInWishlist: true
+      },
+      {
+        title: 'Cream Beach Bag',
+        image: '/homepage/productB.webp',
+        price: { regular: '50.00 $' },
+        rating: { max: 5, score: 4 },
+        isInWishlist: false
+      },
+      {
+        title: 'Cream Beach Bag',
+        image: '/homepage/productC.webp',
+        price: { regular: '50.00 $' },
+        rating: { max: 5, score: 4 },
+        isInWishlist: false
+      },
+      {
+        title: 'Cream Beach Bag',
+        image: '/homepage/productA.webp',
+        price: { regular: '50.00 $' },
+        rating: { max: 5, score: 4 },
+        isInWishlist: false
+      },
+      {
+        title: 'Cream Beach Bag',
+        image: '/homepage/productB.webp',
+        price: { regular: '50.00 $' },
+        rating: { max: 5, score: 4 },
+        isInWishlist: false
+      },
+      {
+        title: 'Cream Beach Bag',
+        image: '/homepage/productC.webp',
+        price: { regular: '50.00 $' },
+        rating: { max: 5, score: 4 },
+        isInWishlist: false
+      },
+      {
+        title: 'Cream Beach Bag',
+        image: '/homepage/productA.webp',
+        price: { regular: '50.00 $' },
+        rating: { max: 5, score: 4 },
+        isInWishlist: false
+      },
+      {
+        title: 'Cream Beach Bag',
+        image: '/homepage/productB.webp',
+        price: { regular: '50.00 $' },
+        rating: { max: 5, score: 4 },
+        isInWishlist: false
+      }
+    ]);
+    const heroes = [
+      {
+        title: 'Colorful summer dresses are already in store',
+        subtitle: 'SUMMER COLLECTION 2019',
+        background: '#eceff1',
+        image: '/homepage/bannerH.webp'
+      },
+      {
+        title: 'Colorful summer dresses are already in store',
+        subtitle: 'SUMMER COLLECTION 2019',
+        background: '#efebe9',
+        image: '/homepage/bannerA.webp',
+        className:
+          'sf-hero-item--position-bg-top-left sf-hero-item--align-right'
+      },
+      {
+        title: 'Colorful summer dresses are already in store',
+        subtitle: 'SUMMER COLLECTION 2019',
+        background: '#fce4ec',
+        image: '/homepage/bannerB.webp'
+      }
+    ];
+    const banners = [
+      {
+        slot: 'banner-A',
+        subtitle: 'Dresses',
+        title: 'Cocktail & Party',
+        description:
+          'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
+        buttonText: 'Shop now',
+        image: {
+          mobile: $config.theme.home.bannerA.image.mobile,
+          desktop: $config.theme.home.bannerA.image.desktop
         },
-        {
-          title: 'Colorful summer dresses are already in store',
-          subtitle: 'SUMMER COLLECTION 2019',
-          background: '#efebe9',
-          image: '/homepage/bannerA.webp',
-          className:
-            'sf-hero-item--position-bg-top-left sf-hero-item--align-right'
-        },
-        {
-          title: 'Colorful summer dresses are already in store',
-          subtitle: 'SUMMER COLLECTION 2019',
-          background: '#fce4ec',
-          image: '/homepage/bannerB.webp'
-        }
-      ],
-      banners: [
-        {
-          slot: 'banner-A',
-          subtitle: 'Dresses',
-          title: 'Cocktail & Party',
-          description:
-            'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
-          buttonText: 'Shop now',
-          image: {
-            mobile: this.$config.theme.home.bannerA.image.mobile,
-            desktop: this.$config.theme.home.bannerA.image.desktop
-          },
-          class: 'sf-banner--slim desktop-only',
-          link: this.$config.theme.home.bannerA.link
-        },
-        {
-          slot: 'banner-B',
-          subtitle: 'Dresses',
-          title: 'Linen Dresses',
-          description:
-            'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
-          buttonText: 'Shop now',
-          image: this.$config.theme.home.bannerB.image,
-          class: 'sf-banner--slim banner-central desktop-only',
-          link: this.$config.theme.home.bannerB.link
-        },
-        {
-          slot: 'banner-C',
-          subtitle: 'T-Shirts',
-          title: 'The Office Life',
-          image: this.$config.theme.home.bannerC.image,
-          class: 'sf-banner--slim banner__tshirt',
-          link: this.$config.theme.home.bannerC.link
-        },
-        {
-          slot: 'banner-D',
-          subtitle: 'Summer Sandals',
-          title: 'Eco Sandals',
-          image: this.$config.theme.home.bannerD.image,
-          class: 'sf-banner--slim',
-          link: this.$config.theme.home.bannerD.link
-        }
-      ],
-      products: [
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productA.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: true
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productB.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productC.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productA.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productB.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productC.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productA.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productB.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        }
-      ]
+        class: 'sf-banner--slim desktop-only',
+        link: $config.theme.home.bannerA.link
+      },
+      {
+        slot: 'banner-B',
+        subtitle: 'Dresses',
+        title: 'Linen Dresses',
+        description:
+          'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
+        buttonText: 'Shop now',
+        image: $config.theme.home.bannerB.image,
+        class: 'sf-banner--slim banner-central desktop-only',
+        link: $config.theme.home.bannerB.link
+      },
+      {
+        slot: 'banner-C',
+        subtitle: 'T-Shirts',
+        title: 'The Office Life',
+        image: $config.theme.home.bannerC.image,
+        class: 'sf-banner--slim banner__tshirt',
+        link: $config.theme.home.bannerC.link
+      },
+      {
+        slot: 'banner-D',
+        subtitle: 'Summer Sandals',
+        title: 'Eco Sandals',
+        image: $config.theme.home.bannerD.image,
+        class: 'sf-banner--slim',
+        link: $config.theme.home.bannerD.link
+      }
+    ];
+
+    const onSubscribe = (emailAddress) => {
+      console.log(`Email ${emailAddress} was added to newsletter.`);
+      toggleNewsletterModal();
     };
-  },
-  methods: {
-    toggleWishlist(index) {
-      this.products[index].isInWishlist = !this.products[index].isInWishlist;
-    }
+
+    const toggleWishlist = (index) => {
+      products.value[index].isInWishlist = !products.value[index].isInWishlist;
+    };
+
+    return {
+      toggleWishlist,
+      toggleNewsletterModal,
+      onSubscribe,
+      banners,
+      heroes,
+      products
+    };
   }
 };
 </script>
@@ -348,7 +381,7 @@ export default {
 }
 
 .carousel {
-    margin: 0 calc(var(--spacer-sm) * -1) 0 0;
+    margin: 0 calc(0 - var(--spacer-sm)) 0 0;
   @include for-desktop {
     margin: 0;
   }

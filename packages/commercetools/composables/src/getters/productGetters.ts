@@ -1,5 +1,5 @@
 import { ProductGetters, AgnosticMediaGalleryItem, AgnosticAttribute, AgnosticPrice } from '@vue-storefront/core';
-import { ProductVariant, Image } from './../types/GraphQL';
+import { ProductVariant, Image } from '@vue-storefront/commercetools-api';
 import { formatAttributeList, getVariantByAttributes, createPrice } from './_utils';
 
 export interface ProductVariantFilters {
@@ -96,7 +96,7 @@ export const getProductSku = (product: ProductVariant): any => (product as any)?
 
 /**
  * @remarks References:
- * {@link ProductVariant}, {@link ProductVariantFilters}
+ * {@link @vue-storefront/commercetools-api#ProductVariant}, {@link ProductVariantFilters}
  */
 const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getName: getProductName,

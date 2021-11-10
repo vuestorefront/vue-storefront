@@ -10,6 +10,7 @@ export { useProduct } from './useProduct';
 export { useReview } from './useReview';
 export { useShipping } from './useShipping';
 export { useShippingProvider } from './useShippingProvider';
+export { useStore } from './useStore';
 export { useUser } from './useUser';
 export { useUserBilling } from './useUserBilling';
 export { useUserOrder } from './useUserOrder';
@@ -19,7 +20,6 @@ export { useWishlist } from './useWishlist';
 // Getters
 export { cartGetters } from './getters/cartGetters';
 export { categoryGetters } from './getters/categoryGetters';
-export { checkoutGetters } from './getters/checkoutGetters';
 export { facetGetters } from './getters/facetGetters';
 export { forgotPasswordGetters } from './getters/forgotPasswordGetters';
 export { orderGetters } from './getters/orderGetters';

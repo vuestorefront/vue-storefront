@@ -23,11 +23,13 @@ export function generateBaseConfig(pkg) {
     plugins: [
       typescript({
         // eslint-disable-next-line global-require
-        typescript: require('typescript')
+        typescript: require('typescript'),
+        objectHashIgnoreUnknownHack: false
       }),
       replace({
         __DEV__: process.env.NODE_ENV === 'development',
-        delimiters: ['', '']
+        delimiters: ['', ''],
+        preventAssignment: true
       })
     ]
   };

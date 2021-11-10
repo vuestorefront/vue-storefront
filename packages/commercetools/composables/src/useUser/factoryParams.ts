@@ -1,19 +1,11 @@
 import { UseUserFactoryParams, Context, UseCart } from '@vue-storefront/core';
-import { Cart, Customer, LineItem, ProductVariant } from '../types/GraphQL';
+import { Cart, Customer, LineItem, ProductVariant } from '@vue-storefront/commercetools-api';
 import { authenticate } from './authenticate';
 import { useCart } from '../useCart';
 
 type UserContext = UseCart<Cart, LineItem, ProductVariant> & Context;
 
 const load = async (context: Context, {customQuery}) => {
-  if (!context.$ct.config.auth.onTokenRead()) return null;
-
-  const isGuest = await context.$ct.api.isGuest();
-
-  if (isGuest) {
-    return null;
-  }
-
   const profile = await context.$ct.api.getMe({ customer: true }, customQuery);
   context.setCart(profile.data.me.activeCart);
   return profile.data.me.customer;
@@ -29,7 +21,7 @@ const getCurrentUser = async (context: Context, currentUser, customQuery) => {
 
 /**
  * @remarks References:
- * {@link Customer}
+ * {@link @vue-storefront/commercetools-api#Customer}
  */
 export const useUserFactoryParams: UseUserFactoryParams<Customer, any, any> = {
   provide() {
@@ -38,7 +30,6 @@ export const useUserFactoryParams: UseUserFactoryParams<Customer, any, any> = {
   load,
   logOut: async (context: UserContext) => {
     await context.$ct.api.customerSignOut();
-    await context.$ct.config?.auth?.onTokenRemove();
 
     context.setCart(null);
   },
@@ -65,7 +56,7 @@ export const useUserFactoryParams: UseUserFactoryParams<Customer, any, any> = {
     const loadedUser = await getCurrentUser(context, currentUser, customQuery);
     const userResponse = await context.$ct.api.customerChangeMyPassword(loadedUser.version, currentPassword, newPassword);
     // we do need to re-authenticate user to acquire new token - otherwise all subsequent requests will fail as unauthorized
-    await this.logOut(context);
+    await useUserFactoryParams.logOut(context);
     return await useUserFactoryParams.logIn(context, { username: userResponse.data.user.email, password: newPassword });
   }
 };

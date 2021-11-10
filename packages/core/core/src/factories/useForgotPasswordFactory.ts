@@ -1,5 +1,5 @@
 import { CustomQuery, Context, FactoryParams, UseForgotPasswordErrors, UseForgotPassword } from '../types';
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, computed } from '@nuxtjs/composition-api';
 import { sharedRef, Logger, configureFactoryParams } from '../utils';
 
 interface SetNewPasswordParams {

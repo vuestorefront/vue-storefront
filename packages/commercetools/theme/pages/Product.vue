@@ -72,33 +72,48 @@
               :key="i"
               :color="color.value"
               class="product__color"
-              @click="updateFilter({color})"
+              @click="updateFilter({ color: color.value })"
             />
           </div>
-          <SfTabs :open-tab="1" class="product__tabs">
-            <SfTab title="Shipping">
-              Shipping
-            </SfTab>
-            <SfTab
-              v-if="channels.length > 0"
-              title="Click and Collect"
+
+          <div
+            class="product__delivery"
+            v-if="channels.length > 0"
+          >
+            <SfRadio
+              v-e2e="'delivery-option'"
+              name="Delivery"
+              :label="$t('Delivery')"
+              value="delivery"
+              :selected="selectedDelivery"
+              @input="setSelectedDelivery('delivery')"
+            />
+            <SfRadio
+              v-e2e="'click-collect-option'"
+              name="Click & Collect"
+              :label="$t('Pickup in the store')"
+              :details="$t('Free')"
+              value="collect"
+              :selected="selectedDelivery"
+              @input="setSelectedDelivery('collect')"
+            />
+            <SfSelect
+              v-if="selectedDelivery === 'collect'"
+              v-e2e="'channel-select'"
+              v-model="channelId"
+              :label="$t('Select Channel')"
+              class="sf-select--underlined product__select-size"
             >
-              <SfSelect
-                v-e2e="'channel-select'"
-                v-model="channelId"
-                label="Select Channel"
-                class="sf-select--underlined product__select-size"
+              <SfSelectOption
+                v-for="{ channel } in channels"
+                :key="channel.id"
+                :value="channel.id"
               >
-                <SfSelectOption
-                  v-for="{ channel } in channels"
-                  :key="channel.id"
-                  :value="channel.id"
-                >
-                  {{channel.name}}
-                </SfSelectOption>
-              </SfSelect>
-            </SfTab>
-          </SfTabs>
+                {{channel.name}}
+              </SfSelectOption>
+            </SfSelect>
+          </div>
+
           <SfAddToCart
             v-e2e="'product_add-to-cart'"
             :stock="stock"
@@ -187,6 +202,7 @@ import {
   SfHeading,
   SfPrice,
   SfRating,
+  SfRadio,
   SfSelect,
   SfAddToCart,
   SfTabs,
@@ -204,7 +220,7 @@ import {
 
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed, useRoute, useRouter } from '@nuxtjs/composition-api';
 import {
   useProduct,
   useCart,
@@ -224,9 +240,10 @@ export default {
     'max-age': 60,
     'stale-when-revalidate': 5
   }),
-  setup(props, context) {
+  setup() {
     const qty = ref(1);
-    const { id } = context.root.$route.params;
+    const route = useRoute();
+    const router = useRouter();
     const { products, search } = useProduct('products');
     const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
     const { addItem, loading } = useCart();
@@ -238,7 +255,7 @@ export default {
       return stores.results?.find((result) => result.key === stores._selectedStore);
     }
 
-    const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
+    const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: route.value.query })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
     const categories = computed(() => productGetters.getCategoryIds(product.value));
@@ -250,8 +267,11 @@ export default {
       const productChannels = product.value?.availability?.channels?.results ?? [];
       return productChannels;
     });
+    const selectedDelivery = ref(null);
+    const setSelectedDelivery = option => selectedDelivery.value = option;
 
     const selectedChannel = computed(() => {
+      if (selectedDelivery.value !== 'collect') return null;
       const selected = channels.value.find((item) => (item.channel.id === channelId.value));
 
       return (selected?.channel?.roles && selected?.channel?.id) ? {
@@ -261,7 +281,14 @@ export default {
     });
 
     const addToCart = () => {
-      addItem({ product: product.value, quantity: parseInt(qty.value), customQuery: selectedChannel.value });
+      addItem({
+        product: {
+          id: product.value.id,
+          sku: product.value.sku
+        },
+        quantity: parseInt(qty.value),
+        customQuery: selectedChannel.value
+      });
     };
 
     // TODO: Breadcrumbs are temporary disabled because productGetters return undefined. We have a mocks in data
@@ -274,14 +301,14 @@ export default {
     })));
 
     onSSR(async () => {
-      await search({ id });
+      await search({ id: route.value.params.id });
       await searchRelatedProducts({ catId: [categories.value[0]], limit: 8 });
-      await searchReviews({ productId: id });
+      await searchReviews({ productId: route.value.params.id });
     });
 
     const updateFilter = (filter) => {
-      context.root.$router.push({
-        path: context.root.$route.path,
+      router.push({
+        path: route.value.path,
         query: {
           ...configuration.value,
           ...filter
@@ -309,7 +336,9 @@ export default {
       channels,
       channelId,
       selectedChannel,
-      selectedStore
+      selectedStore,
+      selectedDelivery,
+      setSelectedDelivery
     };
   },
   components: {
@@ -319,6 +348,7 @@ export default {
     SfHeading,
     SfPrice,
     SfRating,
+    SfRadio,
     SfSelect,
     SfAddToCart,
     SfTabs,

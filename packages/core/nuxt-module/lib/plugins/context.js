@@ -1,5 +1,5 @@
 
-import { configureContext } from '@vue-storefront/core'
+import { configureContext } from '@vue-storefront/core';
 import { useContext as useBaseContext } from '@nuxtjs/composition-api';
 
 const contextPlugin = (ctx, inject) => {
@@ -8,11 +8,11 @@ const contextPlugin = (ctx, inject) => {
   const useVSFContext = () => {
     const { $vsf, ...context } = useBaseContext();
 
-    return { $vsf, ...context, ...$vsf }
-  }
+    return { $vsf, ...context, ...$vsf };
+  };
 
   configureContext({ useVSFContext });
-  inject('sharedRefsMap', sharedMap)
+  inject('sharedRefsMap', sharedMap);
 };
 
 export default contextPlugin;
