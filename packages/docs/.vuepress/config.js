@@ -59,7 +59,7 @@ module.exports = {
          }
        ]
      });
-  
+
     // Fix image loading. Ref: https://github.com/vuejs/vue-loader/issues/1612#issuecomment-559366730
     config.module.rules = config.module.rules.map((rule) => {
       rule.use = rule.use && rule.use.map((useRule) => {
@@ -102,7 +102,7 @@ module.exports = {
     INTEGRATIONS,
     repo: 'https://github.com/vuestorefront/vue-storefront/',
     editLinks: true,
-    docsDir: 'packages/core/docs',
+    docsDir: 'packages/docs',
     docsBranch: 'release/next',
     editLinkText: 'Edit this page',
     logo: '/vsf-full.svg',

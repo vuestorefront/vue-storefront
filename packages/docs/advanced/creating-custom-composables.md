@@ -2,7 +2,7 @@
 
 You can create your own composable if our implementation and interfaces don't cover your use case. However, there are few things you need to consider and handle, like context and reactivity.
 
-Before implementing, we recommend getting familiar with our [composables factories](https://github.com/vuestorefront/vue-storefront/tree/next/packages/core/core/src/factories). This will help you understand how they work internally.
+Before implementing, we recommend getting familiar with our [composables factories](https://github.com/vuestorefront/vue-storefront/tree/next/packages/core/src/factories). This will help you understand how they work internally.
 
 ## Naming convention
 

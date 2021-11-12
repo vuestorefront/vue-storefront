@@ -24,10 +24,10 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 RUN yarn install \
     && yarn build:ct:tools
 
-RUN cd packages/core/docs \
+RUN cd packages/docs \
     && yarn install \
     && yarn build
 
 FROM nginx
 
-COPY --from=build /var/www/packages/core/docs/.vuepress/dist /usr/share/nginx/html/v2
+COPY --from=build /var/www/packages/docs/.vuepress/dist /usr/share/nginx/html/v2
