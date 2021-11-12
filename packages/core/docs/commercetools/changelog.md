@@ -1,5 +1,43 @@
 # Changelog
 
+## 1.4.0
+
+- Fix UI for Click and Collect ([6276](https://github.com/vuestorefront/vue-storefront/pull/6276)) - [Alef Barbeli](https://github.com/alefbarbeli)
+
+- **[BREAKING]** Refactor token handling ([6329](https://github.com/vuestorefront/vue-storefront/pull/6329)) - [Filip Sobol](https://github.com/filipsobol)
+
+- Fix bug with wrong version UI and resolve problems with parse negative number for css calc method(after upgrading SFUI to 0.11.0-rc.1) ([6354](https://github.com/vuestorefront/vue-storefront/issues/6354)) - [Rafał Dobrowolski](https://github.com/RafalDobrowolski)
+
+- Added server access token ([6365](https://github.com/vuestorefront/vue-storefront/issues/6365)) - [Rafał Dobrowolski](https://github.com/RafalDobrowolski)
+
+- Add @nuxtjs/google-fonts to improve performance ([6374](https://github.com/vuestorefront/vue-storefront/pull/6374)) - [Baroshem](https://github.com/Baroshem)
+
+- use extractCSS rule in build to make the bundle smaller ([6375](https://github.com/vuestorefront/vue-storefront/pull/6375)) - [Baroshem](https://github.com/Baroshem)
+
+- **[BREAKING]** Update GraphQL API types ([6410](https://github.com/vuestorefront/vue-storefront/pull/6410)) - [Filip Sobol](https://github.com/filipsobol)
+
+  | Before | After | Comment | Module |
+  | ------ | ----- | ------- | ------ |
+  | Shipping address could contain `contactInfo` object with `phone`, `mobile`, `email` and `tax` properties | `phone`, `mobile`, `email` and `tax` properties should be used directly on the address object, not nested in the `contactInfo` object | In the past, the application logged a warning when `contactInfo` was present on the address object. Now we are deprecating it to match commercetools API | @vue-storefront/commercetools-api |
+
+- Prevent cookie creation during SSR ([6442](https://github.com/vuestorefront/vue-storefront/pull/6442)) - [Dawid Ziobro](https://github.com/dawid-ziobro)
+
+  | Before | After | Comment | Module |
+  | ------ | ----- | ------- | ------ |
+  | Cookies for currency, locale and country were included in SSR response | Cookies for currency, locale and country are generated on client side | To prevent generating cookies during SSR (server-side rendering) and allowing caching, change in the `nuxt.config.js` file is required. Inside the `i18n` configuration, you should set the `detectBrowserLanguage` options to `false`. Then change the order of loaded modules. In the `buildModules` configuration, move the `@vue-storefront/commercetools/nuxt` module before `@vue-storefront/nuxt`. Lastly, update the Vue components used to switch locales to use the `nuxt-link` component instead of the `a` tag. By default it's located in the `StoreLocaleSelector.vue` file. | core |
+
+- **[BREAKING]** Update Composition API to 1.2.4 ([6452](https://github.com/vuestorefront/vue-storefront/pull/6452)) - [Filip Sobol](https://github.com/filipsobol)
+
+  | Before | After | Comment | Module |
+  | ------ | ----- | ------- | ------ |
+  | Composition API module was registered internally by Vue Storefront modules | Composition API module must be registered inside projects | Please refer to the migration guide for more information | Theme |
+
+## 1.3.6
+
+- Fixed close button placement (StoreLocaleSelector). ([6202](https://github.com/vuestorefront/vue-storefront/issues/6202)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
+- Fixed redirect to localized My Account page. ([6474](https://github.com/vuestorefront/vue-storefront/issues/6474)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
 ## 1.3.3
 
 - Overwrite `CategoryPageHeader` component and remove filters from OS ([5684](https://github.com/vuestorefront/vue-storefront/issues/5684)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
@@ -82,7 +120,7 @@
 
 - **[BREAKING]** refactor(commercetools): fix the frontend client bundling the commercetools-sdk and apollo client ([#6066](https://github.com/vuestorefront/vue-storefront/pull/6066)) - [bloodf](https://github.com/bloodf)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | the "createCommerceToolsConnection" were being exported by the api-client | the "createCommerceToolsConnection" is not being exported anymore | to use the current connection, you will need to access the context to call the API | api-client
 
@@ -100,7 +138,7 @@
 
 - **[BREAKING]** updated the removeCoupon interface to match the applyCoupon ([#6126](https://github.com/vuestorefront/vue-storefront/pull/6126)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | the useCart composable method removeCoupon was using this call signature: ({ coupon: COUPON, customQuery?: CustomQuery })   | the method signature was changed to: ({ couponCode: string, customQuery?: CustomQuery })   | on each removeCoupon composable usage need to change the "coupon" to "couponCode" | composables
 
@@ -148,7 +186,7 @@
 
 - **[BREAKING]** Usage of api middleware ([#5361](https://github.com/vuestorefront/vue-storefront/pull/5361)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | one entrypoint | multiple entrypoints | We expose multiple entrypoints for server and client side interaction | commercetools
 
@@ -160,25 +198,25 @@
 
 - **[BREAKING]** New part of checkout - Billing details, inside core and commercetools ([#5552](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | UserBillingAddress works properly | New API inside Checkout/UserBillingAddress.vue | Customized components to work with new checkout | commercetools-theme
 
 - **[BREAKING]** Quick search ([#5566](https://github.com/vuestorefront/vue-storefront/issues/5566)) - [Justyna Gieracka](https://github.com/justyna-13)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | { changeSearchTerm } = useUiHelpers() | { setTermForUrl } = useUiHelpers(); | Changed changeSearchTerm name to setTermForUrl | useUiHelpers/index.ts,
   | { getSearchTermFromUrl } = useUiHelpers(); | Created new function | useUiHelpers/index.ts
 
 - **[BREAKING]** Implementation of api middleware ([#5577](https://github.com/vuestorefront/vue-storefront/pull/5577)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
 
-| Before | After | Comment | Module 
+| Before | After | Comment | Module
 | ------ | ----- | ------ | ------
 customQuery was used as a function | customQuery is a key-value object | The key is a query name, value is the name of a new query function, defined in the middleware config | commercetools,
 - **[BREAKING]** New Payment API for Checkout ([#5587](https://github.com/vuestorefront/vue-storefront/pull/5587)) - [Fifciu](https://github.com/Fifciu)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | Dedicated composable for whole checkout | Dedicated composable for Shipping, Billing and Provider components | undefined | commercetools
 
