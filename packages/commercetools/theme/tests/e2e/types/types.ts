@@ -2,7 +2,7 @@ export type Address = {
   firstName?: string;
   lastName?: string;
   streetName?: string;
-  apartment?: string;
+  streetNumber?: string;
   city?: string;
   state?: string;
   country?: string;
@@ -16,8 +16,8 @@ export type Customer = {
   email?: string;
   password?: string;
   address?: {
-    shipping: Address,
-    billing: Address
+    shipping?: Address,
+    billing?: Address
   }
 }
 

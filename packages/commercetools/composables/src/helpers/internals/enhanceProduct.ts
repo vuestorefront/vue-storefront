@@ -1,6 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { Context } from '@vue-storefront/core';
-import { ProductQueryResult } from './../../types/GraphQL';
+import { ProductQueryResult } from '@vue-storefront/commercetools-api';
 
 interface ProductData {
   products: ProductQueryResult;
@@ -38,7 +38,8 @@ const enhanceProduct = (productResponse: ApolloQueryResult<ProductData>, context
         _description: current.description,
         _categoriesRef: current.categoriesRef.map((cr) => cr.id),
         _categories: current.categories.map(category => ({ id: category.id, name: category.name, slug: category.slug })),
-        _rating: (product as any).reviewRatingStatistics
+        _rating: (product as any).reviewRatingStatistics,
+        _original: product
       }));
     })
     .reduce((prev, curr) => [...prev, ...curr], []);

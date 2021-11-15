@@ -1,16 +1,24 @@
 import { useUserOrderFactory, UseUserOrderFactoryParams, Context } from '@vue-storefront/core';
-import { Order } from '../types/GraphQL';
+import { OrderQueryResult } from '@vue-storefront/commercetools-api';
 import { OrderSearchParams } from '../types';
 
-const useUserOrderFactoryParams: UseUserOrderFactoryParams<Order[], OrderSearchParams> = {
-  searchOrders: async (context: Context, { customQuery, ...searchParams } = {}): Promise<Order[]> => {
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#OrderQueryResult}, {@link OrderSearchParams}
+ */
+const useUserOrderFactoryParams: UseUserOrderFactoryParams<OrderQueryResult, OrderSearchParams> = {
+  searchOrders: async (context: Context, { customQuery, ...searchParams } = {}): Promise<OrderQueryResult> => {
     const result = await context.$ct.api.getOrders(searchParams, customQuery);
-    const { results: data } = result.data?.me.orders || { results: [], total: 0 };
-    return data;
+    const orders = result.data?.me.orders || { results: [], total: 0, offset: 0, count: 0, exists: false };
+    return orders;
   }
 };
 
-const useUserOrder = useUserOrderFactory<Order[], OrderSearchParams>(useUserOrderFactoryParams);
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#OrderQueryResult}, {@link OrderSearchParams}
+ */
+const useUserOrder = useUserOrderFactory<OrderQueryResult, OrderSearchParams>(useUserOrderFactoryParams);
 
 export {
   useUserOrder,

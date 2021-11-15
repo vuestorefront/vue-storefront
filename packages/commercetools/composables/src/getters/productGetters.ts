@@ -1,8 +1,8 @@
 import { ProductGetters, AgnosticMediaGalleryItem, AgnosticAttribute, AgnosticPrice, AgnosticBreadcrumb } from '@vue-storefront/core';
-import { ProductVariant, Image } from './../types/GraphQL';
+import { ProductVariant, Image } from '@vue-storefront/commercetools-api';
 import { formatAttributeList, getVariantByAttributes, createPrice } from './_utils';
 
-interface ProductVariantFilters {
+export interface ProductVariantFilters {
   master?: boolean;
   attributes?: Record<string, string>;
 }
@@ -104,6 +104,12 @@ export const getTotalReviews = (product: ProductVariant): number => (product as 
 
 export const getAverageRating = (product: ProductVariant): number => (product as any)?._rating?.averageRating || 0;
 
+export const getProductSku = (product: ProductVariant): any => (product as any)?.sku || '';
+
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#ProductVariant}, {@link ProductVariantFilters}
+ */
 const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
@@ -115,6 +121,7 @@ const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getDescription: getProductDescription,
   getCategoryIds: getProductCategoryIds,
   getId: getProductId,
+  getSku: getProductSku,
   getFormattedPrice,
   getTotalReviews,
   getAverageRating,

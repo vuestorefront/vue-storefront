@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { toRef, computed } from '@vue/composition-api';
+import { toRef, computed } from '@nuxtjs/composition-api';
 import { useVSFContext } from '@vue-storefront/core';
 
 export default {
@@ -31,17 +31,18 @@ export default {
     const address = toRef(props, 'address');
 
     const street = computed(() => {
+      const { streetName, streetNumber, apartment } = address.value;
       const parts = [
-        address.streetName,
-        address.streetNumber && ` ${ address.streetNumber }`,
-        address.apartment && `, Apartment ${ address.apartment }`
+        streetName,
+        streetNumber && ` ${ streetNumber }`,
+        apartment && `, Apartment ${ apartment }`
       ];
 
       return parts.filter(Boolean).join('');
     });
 
     const country = computed(() => {
-      const country = address.country;
+      const { country } = address.value;
       return config.countries.find(c => c.name === country)?.label || country;
     });
 

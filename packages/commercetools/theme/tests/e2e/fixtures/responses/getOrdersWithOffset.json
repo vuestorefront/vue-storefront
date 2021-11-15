@@ -1,0 +1,17 @@
+{
+  "data": {
+    "me": {
+      "orders": {
+        "results": [],
+        "total": 21,
+        "offset": 10,
+        "count": 10,
+        "__typename": "OrderQueryResult"
+      },
+      "__typename": "Me"
+    }
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false
+}

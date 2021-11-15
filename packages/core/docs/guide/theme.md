@@ -1,10 +1,7 @@
 # Theme
-
-[[toc]]
-
 ## Directory structure
 
-If you followed our [Installation guide](/general/installation), you should have a fully functional e-commerce application. As mentioned in previous documents, Vue Storefront extends Nuxt.js, so the structure of both applications is similar. Most directories come from Nuxt.js, and you can read more about them on their [Directory Structure](https://nuxtjs.org/docs/2.x/get-started/directory-structure) page.
+If you followed our [Installation guide](/general/installation.html), you should have a fully functional e-commerce application. As mentioned in previous documents, Vue Storefront extends Nuxt.js, so the structure of both applications is similar. Most directories come from Nuxt.js, and you can read more about them on their [Directory Structure](https://nuxtjs.org/docs/2.x/get-started/directory-structure) page.
 
 * [.nuxt](https://nuxtjs.org/docs/2.x/directory-structure/nuxt);
 * [components](https://nuxtjs.org/docs/2.x/directory-structure/components);
@@ -15,7 +12,7 @@ If you followed our [Installation guide](/general/installation), you should have
 * [middleware](https://nuxtjs.org/docs/2.x/directory-structure/middleware);
 * [pages](https://nuxtjs.org/docs/2.x/directory-structure/pages);
 * [static](https://nuxtjs.org/docs/2.x/directory-structure/static);
-* `middleware.config.js` - configuration file for the [Server Middleware](/advanced/server-middleware);
+* `middleware.config.js` - configuration file for the [Server Middleware](/architecture/server-middleware.html);
 * [nuxt.config.js](https://nuxtjs.org/docs/2.x/directory-structure/nuxt-config);
 
 ## Storefront UI
@@ -37,18 +34,6 @@ If you don't want to use Storefront UI, feel free to remove it from your project
 
 ## Customizing the theme
 
-### Learn Nuxt.js
-
-Before starting to customize the base theme, we highly recommend getting familiar with [Nuxt.js](https://nuxtjs.org/) because the majority of UI functionalities in Vue Storefront are handled by it. It will help you understand the mechanisms behind the framework and how to extend it efficiently.
-
-### Install Vue.js Devtools
-
-We also recommend installing [Vue.js Devtools](https://github.com/vuejs/vue-devtools#installation) in your browser. It's an excellent tool for viewing component structure and their current state, inspecting events and routes, and much more.
-
-<center>
-<img src="../images/theme/vue-devtools.jpg" />
-</center>
-
 ### Changing existing pages, components, and layouts
 
 To update the existing components, you need to identify them first. Vue.js Devtools helps us in that. Open the tool and click on the `Select` button above the component tree, then click on the DOM element you want to update. One of the components in the tree should get highlighted. You can look for the component with the same name in the `layout`, `pages`, or `components` directories and update it to your needs. However, there are few exceptions to this rule.
@@ -59,7 +44,7 @@ If the name of the component starts with `Sf` (indicating that it comes from Sto
 
 #### `LazyHydrate` and `Anonymous Component` components
 
-These two components come from the `vue-lazy-hydration` library and are wrappers around other components. In Vue Storefront they are used to improve the performance by deferring the hydration process (when components become interactive) and don't affect the look of other components.
+These two components come from the `vue-lazy-hydration` library and are wrappers around other components. In Vue Storefront, they are used to improve the performance by deferring the hydration process (when components become interactive) and don't affect the look of other components.
 
 If you encounter one of these components, you should refer to the direct **child** component. 
 
@@ -87,7 +72,22 @@ export default {
 };
 ```
 
-For more information about routes we provide out of the box, refer to [Routing](../general/key-concepts.html#routing) section.
+## Routing
+
+Out of the box, some routes are injected via `@vue-storefront/nuxt-theme` module:
+
+- Home Page (`/`);
+- Category Page (`/c/:slug_1/:slug_2?/:slug_3?/:slug_4?/:slug_5?`);
+- Product Page (`/p/:id/:slug/`);
+- User Profile Page (`/my-account/:pageName?`);
+- Checkout (`/checkout`):
+  - Shipping (`/checkout/shipping`);
+  - Billing (`/checkout/billing`);
+  - Payment (`/checkout/payment`);
+  - Thank You page (`/checkout/thank-you`);
+- Custom 404 page;
+
+To override existing routes or adding your own, use [extendRoutes](https://nuxtjs.org/guides/configuration-glossary/configuration-router#extendroutes) in `nuxt.config.js`. Additionally, Nuxt.js automatically registers components created in the `pages` folder as new routes. You can read more about this on the [File System Routing](https://nuxtjs.org/docs/2.x/features/file-system-routing/) page.
 
 ## Updating styles
 
@@ -145,5 +145,5 @@ Below you can find a list of the most important Nuxt Modules and libraries that 
 ### Libraries
 
 - [`@storefront-ui/vue`](https://storefrontui.io);
-- [`wee-validate`](https://vee-validate.logaretm.com/v3);
+- [`vee-validate`](https://vee-validate.logaretm.com/v3);
 - [`lodash`](https://lodash.com/);

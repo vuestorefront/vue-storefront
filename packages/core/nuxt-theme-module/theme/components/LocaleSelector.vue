@@ -1,12 +1,16 @@
 <template>
   <div class="container">
     <SfButton
-      class="container__lang container__lang--selected"
-      @click="isLangModalOpen = !isLangModalOpen"
+        class="container__lang container__lang--selected"
+        @click="isLangModalOpen = !isLangModalOpen"
     >
       <SfImage :src="`/icons/langs/${locale}.webp`" width="20" alt="Flag" />
     </SfButton>
-    <SfBottomModal :is-open="isLangModalOpen" title="Choose language" @click:close="isLangModalOpen = !isLangModalOpen">
+    <SfBottomModal
+      :is-open="isLangModalOpen"
+      title="Choose language"
+      @click:close="isLangModalOpen = !isLangModalOpen"
+    >
       <SfList>
         <SfListItem v-for="lang in availableLocales" :key="lang.code">
           <a :href="switchLocalePath(lang.code)">
@@ -34,8 +38,7 @@ import {
   SfBottomModal,
   SfCharacteristic
 } from '@storefront-ui/vue';
-import { ref, computed } from '@vue/composition-api';
-
+import { ref, computed } from '@nuxtjs/composition-api';
 export default {
   components: {
     SfImage,
@@ -49,7 +52,6 @@ export default {
     const { locales, locale } = context.root.$i18n;
     const isLangModalOpen = ref(false);
     const availableLocales = computed(() => locales.filter(i => i.code !== locale));
-
     return {
       availableLocales,
       locale,
@@ -72,6 +74,11 @@ export default {
     @include for-desktop {
       --bottom-modal-height: 100vh;
     }
+  }
+  .sf-bottom-modal::v-deep .sf-bottom-modal__close {
+    position: var(--circle-icon-position, absolute);
+    top: var(--spacer-xs);
+    right: var(--spacer-xs);
   }
   .sf-list {
     .language {

@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import { createComponent } from '@vue/composition-api';
+import { createComponent } from '@nuxtjs/composition-api';
 
 const mountComposable = (composableFn) => {
   const component = createComponent({

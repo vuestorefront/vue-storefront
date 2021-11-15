@@ -4,6 +4,7 @@ import cors from 'cors';
 import consola from 'consola';
 import { MiddlewareConfig, ApiClientExtension, CustomQuery } from '@vue-storefront/core';
 import { registerIntegrations } from './integrations';
+import getAgnosticStatusCode from './helpers/getAgnosticStatusCode';
 
 const app = express();
 app.use(express.json());
@@ -24,7 +25,7 @@ interface RequestParams {
 
 function createServer (config: MiddlewareConfig): Express {
   consola.info('Middleware starting....');
-  consola.info('Loading integartions...');
+  consola.info('Loading integrations...');
 
   const integrations = registerIntegrations(app, config.integrations);
 
@@ -42,8 +43,7 @@ function createServer (config: MiddlewareConfig): Express {
 
       res.send(platformResponse);
     } catch (error) {
-      res.status(500);
-
+      res.status(getAgnosticStatusCode(error));
       res.send(error);
     }
   });

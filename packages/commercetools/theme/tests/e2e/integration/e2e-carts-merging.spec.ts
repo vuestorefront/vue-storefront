@@ -33,8 +33,8 @@ context(['regression'], 'Carts merging', () => {
       page.components.cart.productSizeProperty(product).should('contain', data.expectedCart[index].size);
       page.components.cart.productColorProperty(product).should('contain', data.expectedCart[index].color);
     });
-
   });
+
   it('Should merge guest cart with registered customer cart - products already in cart', function () {
     const data = this.fixtures.data[this.test.title];
     data.customer.email = generator.email;
@@ -43,6 +43,7 @@ context(['regression'], 'Carts merging', () => {
       data.products.customer.forEach(product => {
         requests.addToCart(response.body.data.cart.id, product, product.quantity);
       });
+    }).then(() => {
       cy.clearCookies();
     });
     requests.createCart().then((response: CreateCartResponse) => {
@@ -50,11 +51,8 @@ context(['regression'], 'Carts merging', () => {
         requests.addToCart(response.body.data.cart.id, product, product.quantity);
       });
     });
+    requests.customerSignMeIn(data.customer);
     page.home.visit();
-    page.home.header.openLoginModal();
-    page.components.loginModal.loginToAccountButton.click();
-    page.components.loginModal.fillForm(data.customer);
-    page.components.loginModal.loginBtn.click();
     page.home.header.openCart();
     page.components.cart.totalItems.should($ti => {
       const totalItems: number = data.expectedCart.reduce((total, product) => {

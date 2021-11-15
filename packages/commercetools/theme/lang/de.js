@@ -113,7 +113,9 @@ export default {
   'Create an account': 'Konto erstellen',
   'Your bag is empty': 'Ihre Tasche ist leer',
   'Cancel': 'Abbrechen',
+  'See all': 'Alle anzeigen',
   'See all results': 'Alle Ergebnisse anzeigen',
+  'We haven’t found any results for given phrase': 'Wir haben keine Ergebnisse für die angegebene Phrase gefunden',
   'You haven’t searched for items yet': 'Sie haben noch nicht nach Artikeln gesucht.',
   'Let’s start now – we’ll help you': 'Fangen wir jetzt an - wir helfen Ihnen.',
   'Search results': 'Suchergebnisse',
@@ -142,5 +144,20 @@ export default {
   'Password': 'Passwort',
   'Repeat Password': 'Wiederhole das Passwort',
   'Forgot Password Modal Email': 'E-Mail, mit der Sie sich anmelden:',
-  forgotPasswordConfirmation: 'Vielen Dank! Wenn ein Konto mit der E-Mail-Adresse {0} registriert ist, finden Sie in Ihrem Posteingang eine Nachricht mit einem Link zum Zurücksetzen des Passworts.'
+  forgotPasswordConfirmation: 'Vielen Dank! Wenn ein Konto mit der E-Mail-Adresse {0} registriert ist, finden Sie in Ihrem Posteingang eine Nachricht mit einem Link zum Zurücksetzen des Passworts.',
+  subscribeToNewsletterModalContent:
+    'Wenn Sie sich für den Newsletter angemeldet haben, erhalten Sie spezielle Angebote und Nachrichten von VSF per E-Mail. Wir werden Ihre E-Mail zu keinem Zeitpunkt an Dritte verkaufen oder weitergeben. Bitte beachten Sie unsere {0}.',
+  'Subscribe': 'Abonnieren',
+  'Subscribe to newsletter': 'Anmeldung zum Newsletter',
+  'Email address': 'E-Mail Adresse',
+  'I confirm subscription': 'Ich bestätige das Abonnement',
+  'You can unsubscribe at any time': 'Sie können sich jederzeit abmelden',
+  'show more': 'mehr anzeigen',
+  'hide': 'ausblenden',
+  'Change to grid view': 'Zur Rasteransicht wechseln',
+  'Change to list view': 'Zur Listenansicht wechseln',
+  'Delivery': 'Lieferung',
+  'Pickup in store': 'Abholung im Laden',
+  'Free': 'Kostenlos',
+  'Select Channel': 'Kanal auswählen'
 };

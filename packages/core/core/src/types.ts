@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { Ref } from '@vue/composition-api';
+import { Ref } from '@nuxtjs/composition-api';
 import type { Request, Response } from 'express';
 
 /**
@@ -52,8 +52,8 @@ export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any> {
   [x: string]: any;
 }
 
-export interface Context {
-  [x: string]: IntegrationContext | any;
+export interface Context<CLIENT = any, CONFIG = any, API = any> {
+  [x: string]: IntegrationContext<CLIENT, CONFIG, API> | any;
 }
 
 export type PlatformApi = {
@@ -286,7 +286,6 @@ export interface UseCart
   CART,
   CART_ITEM,
   PRODUCT,
-  COUPON,
   API extends PlatformApi = any
 > extends Composable<API> {
   cart: ComputedProperty<CART>;
@@ -297,7 +296,7 @@ export interface UseCart
   updateItemQty(params: { product: CART_ITEM; quantity?: number; customQuery?: CustomQuery }): Promise<void>;
   clear(): Promise<void>;
   applyCoupon(params: { couponCode: string; customQuery?: CustomQuery }): Promise<void>;
-  removeCoupon(params: { coupon: COUPON; customQuery?: CustomQuery }): Promise<void>;
+  removeCoupon(params: { couponCode: string; customQuery?: CustomQuery }): Promise<void>;
   load(): Promise<void>;
   load(params: { customQuery?: CustomQuery }): Promise<void>;
   error: ComputedProperty<UseCartErrors>;
@@ -714,15 +713,6 @@ export interface UserGetters<USER> {
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
-export interface CheckoutGetters<SHIPPING_METHOD> {
-  getShippingMethodId: (shippingMethod: SHIPPING_METHOD) => string;
-  getShippingMethodName: (shippingMethod: SHIPPING_METHOD) => string;
-  getShippingMethodDescription: (shippingMethod: SHIPPING_METHOD) => string;
-  getShippingMethodPrice: (shippingMethod: SHIPPING_METHOD) => number;
-  getFormattedPrice: (price: number) => string;
-  [getterName: string]: (element: any, options?: any) => unknown;
-}
-
 export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   getDate: (order: ORDER) => string;
   getId: (order: ORDER) => string;
@@ -734,6 +724,12 @@ export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   getItemQty: (item: ORDER_ITEM) => number;
   getItemPrice: (item: ORDER_ITEM) => number;
   getFormattedPrice: (price: number) => string;
+  getOrdersTotal: (orders: {
+    offset: number;
+    count: number;
+    total: number;
+    results: Array<ORDER>;
+  }) => number;
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -896,7 +892,7 @@ export interface UseStoreFactoryLoadParamArguments {
 
 export interface UseStoreFactoryParams<STORES> extends FactoryParams {
   load(context: Context, params: UseStoreFactoryLoadParamArguments): Promise<STORES>
-  change(context: Context, parmas: UseStoreFactoryChangeParamArguments): Promise<STORES>
+  change(context: Context, params: UseStoreFactoryChangeParamArguments): Promise<STORES>
 }
 export interface UseStoreInterface<STORES> {
   change(params: UseStoreFactoryChangeParamArguments): Promise<void>;

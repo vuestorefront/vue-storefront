@@ -1,22 +1,31 @@
-import { CustomQuery } from '@vue-storefront/core';
+import { Context, CustomQuery } from '@vue-storefront/core';
 import updateCart from './../updateCart';
 import { CartDetails, CartResponse } from './../../types/Api';
 import { ProductVariant } from './../../types/GraphQL';
-import { createAddLineItemAction } from './../../helpers/cart/actions';
+import { createAddLineItemAction } from '../../helpers/actions/cart';
 
+/**
+ * @remarks References:
+ * {@link CartDetails}, {@link @vue-storefront/commercetools-api#ProductVariant}, {@link CartResponse}
+ */
 const addToCart = async (
-  settings,
+  context: Context,
   { id, version }: CartDetails,
-  product: ProductVariant,
-  quantity: number,
+  params: {
+    product: ProductVariant;
+    quantity: number;
+    supplyChannel?: string;
+    distributionChannel?: string;
+  },
   customQuery?: CustomQuery
 ): Promise<CartResponse> => {
+
   return await updateCart(
-    settings,
+    context,
     {
       id,
       version,
-      actions: [createAddLineItemAction(product, quantity)]
+      actions: [createAddLineItemAction(params)]
     },
     customQuery
   );

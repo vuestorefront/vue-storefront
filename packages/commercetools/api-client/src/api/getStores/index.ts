@@ -10,6 +10,10 @@ export interface GetStoresParams {
   customQuery: CustomQuery;
 }
 
+/**
+ * @remarks References:
+ * {@link GetStoresParams}, {@link StoreQueryResult}
+ */
 export default async function getStores(context: Context, params?: GetStoresParams): Promise<StoreQueryResult> {
   const variables = { locale: context.config.locale };
   const { customQuery } = Object(params);

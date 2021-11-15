@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <b>Please implement vendor specific VsfPaymentProvider component in 'components/Checkout' directory</b>
+      <b>Please implement vendor-specific VsfPaymentProvider component in the 'components/Checkout' directory</b>
     </p>
 
     <SfRadio
@@ -14,7 +14,7 @@
       :selected ="selectedMethod"
       name="shippingMethod"
       class="form__radio shipping"
-      @input="selectMethod(method.value)"
+      @change="selectMethod(method.value)"
     >
       <div class="shipping__label">
         {{ method.label }}
@@ -25,7 +25,7 @@
 
 <script>
 import { SfButton, SfRadio } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 
 const SHIPPING_METHODS = [
   { label: 'Visa Debit', value: 'visa_debit' },

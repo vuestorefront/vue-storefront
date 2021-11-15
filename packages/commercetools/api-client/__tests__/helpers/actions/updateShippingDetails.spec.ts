@@ -1,4 +1,4 @@
-import { setBillingAddressAction } from './../../../src/helpers/cart/actions';
+import { setBillingAddressAction } from './../../../src/helpers/actions/cart';
 
 describe('[commercetools-api-client] setBillingAddressAction', () => {
   beforeEach(() => {
@@ -7,30 +7,35 @@ describe('[commercetools-api-client] setBillingAddressAction', () => {
 
   it('creates action for setting billing address', () => {
     const billingDetails = {
+      title: '',
+      salutation: 'Mr.',
       firstName: 'John',
       lastName: 'Doe',
-      country: 'US',
-      city: 'New York',
-      contactInfo: { phone: '123' },
-      postalCode: '11-111',
       streetName: 'Street 1',
-      streetNumber: ''
+      streetNumber: '',
+      additionalAddressInfo: null,
+      postalCode: '11-111',
+      city: 'New York',
+      region: null,
+      state: 'New York',
+      country: 'US',
+      company: null,
+      department: null,
+      building: '2',
+      apartment: '1',
+      pOBox: null,
+      phone: '1234567890',
+      mobile: '1234567890',
+      email: 'test@example.com',
+      fax: null,
+      additionalStreetInfo: null
     } as any;
 
     const actionPayload = setBillingAddressAction(billingDetails);
 
     expect(actionPayload).toEqual({
       setBillingAddress: {
-        address: {
-          firstName: 'John',
-          lastName: 'Doe',
-          country: 'US',
-          city: 'New York',
-          phone: '123',
-          postalCode: '11-111',
-          streetName: 'Street 1',
-          streetNumber: ''
-        }
+        address: billingDetails
       }
     });
   });
