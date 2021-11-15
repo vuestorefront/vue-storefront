@@ -3,6 +3,7 @@ import { processURLAddress } from '@vue-storefront/core/helpers'
 import { TaskQueue } from '@vue-storefront/core/lib/sync';
 
 import GiftCard from './types/GiftCard';
+import GiftCardTemplate from './types/GiftCardTemplate.interface';
 
 function getQueryString (cartId?: string, userToken?: string) {
   const query = new URLSearchParams();
@@ -43,25 +44,6 @@ export const GiftCardService = {
       value: result.result // todo check
     }
   },
-  async removeAppliedGiftCard (code: string, cartId?: string, userToken?: string): Promise<void> {
-    let url = processURLAddress(`${config.budsies.endpoint}/giftcards/remove`);
-    const queryString = getQueryString(cartId, userToken);
-
-    if (queryString) {
-      url += `?${queryString}`;
-    }
-
-    await TaskQueue.execute({
-      url,
-      payload: {
-        headers: { 'Accept': 'application/json' },
-        mode: 'cors',
-        method: 'POST',
-        body: JSON.stringify({ code })
-      },
-      silent: true
-    });
-  },
   async changeAppliedGiftCardValue (
     code: string,
     value: number,
@@ -90,5 +72,48 @@ export const GiftCardService = {
       code,
       value: result.result // todo check
     }
+  },
+  async loadGiftCardsTemplates (storeId: number, userToken?: string): Promise<GiftCardTemplate[]> {
+    let url = processURLAddress(`${config.budsies.endpoint}/giftcards/templates`);
+    const query = new URLSearchParams();
+
+    query.append('storeId', storeId.toString(10));
+
+    if (userToken) {
+      query.append('token', userToken)
+    }
+
+    url += `?${query.toString()}`;
+
+    const result = await TaskQueue.execute({
+      url,
+      payload: {
+        headers: { 'Accept': 'application/json' },
+        mode: 'cors',
+        method: 'GET'
+      },
+      silent: true
+    });
+
+    return result.result;
+  },
+  async removeAppliedGiftCard (code: string, cartId?: string, userToken?: string): Promise<void> {
+    let url = processURLAddress(`${config.budsies.endpoint}/giftcards/remove`);
+    const queryString = getQueryString(cartId, userToken);
+
+    if (queryString) {
+      url += `?${queryString}`;
+    }
+
+    await TaskQueue.execute({
+      url,
+      payload: {
+        headers: { 'Accept': 'application/json' },
+        mode: 'cors',
+        method: 'POST',
+        body: JSON.stringify({ code })
+      },
+      silent: true
+    });
   }
 }

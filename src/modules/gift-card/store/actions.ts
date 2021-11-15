@@ -1,8 +1,11 @@
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { Dictionary } from 'src/modules/budsies';
 import { ActionTree } from 'vuex';
 
 import { GiftCardService } from '../gift-card.service';
 import GiftCardState from '../types/GiftCardState';
-import { SET_APPLIED_GIFT_CARD } from '../types/StoreMutations';
+import GiftCardTemplate from '../types/GiftCardTemplate.interface';
+import { SET_APPLIED_GIFT_CARD, UPDATE_GIFT_CARD_TEMPLATE } from '../types/StoreMutations';
 
 export const actions: ActionTree<GiftCardState, any> = {
   async applyGiftCardCode ({ commit, rootGetters }, payload: string): Promise<void> {
@@ -28,6 +31,20 @@ export const actions: ActionTree<GiftCardState, any> = {
     );
 
     commit(SET_APPLIED_GIFT_CARD, giftCard);
+  },
+  async loadGiftCardsTemplates ({ commit, rootGetters }): Promise<Dictionary<GiftCardTemplate>> {
+    const { storeId } = currentStoreView();
+    const token = rootGetters['user/getToken'];
+    const giftCardTemplates = await GiftCardService.loadGiftCardsTemplates(storeId, token);
+
+    const dictionary: Dictionary<GiftCardTemplate> = {};
+
+    giftCardTemplates.forEach((template) => {
+      dictionary[template.id] = template;
+      commit(UPDATE_GIFT_CARD_TEMPLATE, template);
+    });
+
+    return dictionary;
   },
   async removeAppliedGiftCard ({ commit, getters, rootGetters }): Promise<void> {
     const cartId = rootGetters['cart/getCartToken'];

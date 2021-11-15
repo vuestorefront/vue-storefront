@@ -1,4 +1,5 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
+import { GiftCardOptions } from 'src/modules/gift-card'
 
 import CustomerImage from 'theme/components/interfaces/customer-image.interface'
 
@@ -24,4 +25,5 @@ export default interface CartItem extends Product {
   customFields?: object,
   uploadMethod?: string,
   customerImages?: CustomerImage[],
+  giftcard_options?: GiftCardOptions
 }
