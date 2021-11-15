@@ -2,7 +2,8 @@ import {
   AgnosticMediaGalleryItem,
   AgnosticAttribute,
   AgnosticPrice,
-  ProductGetters
+  ProductGetters,
+  AgnosticBreadcrumb
 } from '@vue-storefront/core';
 import type { Product, ProductFilter } from '@vue-storefront/boilerplate-api';
 
@@ -89,6 +90,11 @@ function getFormattedPrice(price: number): string {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getProductBreadcrumbs(product: Record<string, unknown>): AgnosticBreadcrumb[] {
+  return [];
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getTotalReviews(product: Product): number {
   return 0;
 }
@@ -110,6 +116,7 @@ export const productGetters: ProductGetters<Product, ProductFilter> = {
   getCategoryIds,
   getId,
   getFormattedPrice,
+  getProductBreadcrumbs,
   getTotalReviews,
   getAverageRating
 };
