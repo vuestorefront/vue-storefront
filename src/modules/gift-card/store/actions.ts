@@ -3,12 +3,13 @@ import { Dictionary } from 'src/modules/budsies';
 import { ActionTree } from 'vuex';
 
 import { GiftCardService } from '../gift-card.service';
+import GiftCard from '../types/GiftCard';
 import GiftCardState from '../types/GiftCardState';
 import GiftCardTemplate from '../types/GiftCardTemplate.interface';
 import { SET_APPLIED_GIFT_CARD, UPDATE_GIFT_CARD_TEMPLATE } from '../types/StoreMutations';
 
 export const actions: ActionTree<GiftCardState, any> = {
-  async applyGiftCardCode ({ commit, rootGetters }, payload: string): Promise<void> {
+  async applyGiftCardCode ({ commit, rootGetters }, payload: string): Promise<GiftCard> {
     const cartId = rootGetters['cart/getCartToken'];
     const userToken = rootGetters['user/getToken'];
     const giftCard = await GiftCardService.applyGiftCardCode(payload, cartId, userToken);
@@ -16,6 +17,8 @@ export const actions: ActionTree<GiftCardState, any> = {
     if (giftCard) {
       commit(SET_APPLIED_GIFT_CARD, giftCard);
     }
+
+    return giftCard;
   },
   async changeAppliedGiftCardValue (
     { commit, rootGetters },

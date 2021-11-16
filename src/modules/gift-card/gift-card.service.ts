@@ -31,7 +31,7 @@ export const GiftCardService = {
     const result = await TaskQueue.execute({
       url,
       payload: {
-        headers: { 'Accept': 'application/json' },
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         mode: 'cors',
         method: 'POST',
         body: JSON.stringify({ code })

@@ -13,6 +13,37 @@
         </template>
       </SfCheckbox>
 
+      <div class="_applied-code">
+        <div class="_code -open">
+          GIFT-XXXX-XXXXXX (
+        </div>
+
+        <div class="_code-actions">
+          <div class="_code-amount" v-show="!isAmountEditing">
+            ${{ appliedCodeAmount }}
+          </div>
+
+          <SfInput
+            class="_code-amount-input"
+            name="codeAmount"
+            v-model="codeAmount"
+            v-show="isAmountEditing"
+          />
+
+          <div class="_amount-edit" @click="onEditAmountClick">
+            <SfIcon :icon="editIcon" size="xxs" :aria-label="editLabel" />
+          </div>
+
+          <div class="_code -close">
+            )
+          </div>
+
+          <div class="_code-remove" @click="removeAppliedGiftCard">
+            <SfIcon icon="cross" size="xxs" aria-label="Remove" />
+          </div>
+        </div>
+      </div>
+
       <div class="_form" v-if="showForm">
         <validation-observer v-slot="{ passes }" slim>
           <validation-provider
@@ -54,7 +85,13 @@
 <script lang="ts">
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 import Vue, { PropType } from 'vue';
-import { SfInput, SfButton, SfCheckbox, SfHeading } from '@storefront-ui/vue';
+import {
+  SfInput,
+  SfButton,
+  SfCheckbox,
+  SfIcon,
+  SfHeading
+} from '@storefront-ui/vue';
 import { ValidationObserver, ValidationProvider, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
 
@@ -73,6 +110,7 @@ export default Vue.extend({
     SfInput,
     SfButton,
     SfCheckbox,
+    SfIcon,
     ValidationObserver,
     ValidationProvider
   },
@@ -85,6 +123,12 @@ export default Vue.extend({
   computed: {
     appliedGiftCard (): GiftCard | undefined {
       return this.$store.getters['giftCard/appliedGiftCard'];
+    },
+    editIcon (): string {
+      return this.isAmountEditing ? 'check' : 'filter2';
+    },
+    editLabel (): string {
+      return this.isAmountEditing ? 'Apply' : 'Edit';
     },
     hasGiftCardsInOrder (): boolean {
       return this.cartItems.some((item) => item.sku === 'GiftCard');
@@ -103,6 +147,13 @@ export default Vue.extend({
     },
     showNoticeMessage (): boolean {
       return this.hasGiftCardsInOrder;
+    },
+    appliedCodeAmount (): number {
+      if (!this.appliedGiftCard) {
+        return 0;
+      }
+
+      return this.appliedGiftCard.value;
     }
   },
   data () {
@@ -113,7 +164,9 @@ export default Vue.extend({
       codeError: '',
       isRemoving: false,
       isChangingValue: false,
-      giftCardValue: 0
+      giftCardValue: 0,
+      isAmountEditing: false,
+      codeAmount: 0
     };
   },
   methods: {
@@ -125,7 +178,13 @@ export default Vue.extend({
       this.codeError = '';
       this.isSubmitting = true;
       try {
-        await this.$store.dispatch('giftCard/applyGiftCardCode', this.giftCardCode);
+        const response = await this.$store.dispatch(
+          'giftCard/applyGiftCardCode',
+          this.giftCardCode
+        );
+        console.log(response);
+
+        this.codeAmount = this.appliedCodeAmount;
       } catch (err) {
         this.codeError = err as string;
       } finally {
@@ -147,11 +206,20 @@ export default Vue.extend({
       }
 
       this.isChangingValue = true;
-      await this.$store.dispatch(
-        'giftCard/changeAppliedGiftCardValue',
-        { code: this.appliedGiftCard.code, value: this.giftCardValue }
-      )
+      await this.$store.dispatch('giftCard/changeAppliedGiftCardValue', {
+        code: this.appliedGiftCard.code,
+        value: this.giftCardValue
+      });
       this.isChangingValue = false;
+    },
+    async onEditAmountClick (): Promise<void> {
+      if (this.isAmountEditing) {
+        await this.changeAppliedGiftCardValue();
+        this.isAmountEditing = false;
+        return;
+      }
+
+      this.isAmountEditing = true;
     }
   }
 });
@@ -183,9 +251,48 @@ export default Vue.extend({
     margin-bottom: var(--spacer-base);
   }
 
+  ._applied-code {
+    font-size: var(--font-lg);
+    height: 1.4em;
+  }
+
+  ._code-amount {
+    color: var(--c-primary);
+    font-weight: var(--font-bold);
+  }
+
   ._code-error {
     background-color: var(--c-warning-darken);
     margin-bottom: var(--spacer-sm);
+    padding: var(--spacer-xs) var(--spacer-sm);
+  }
+
+  ._code {
+    color: var(--c-success-variant);
+    margin: 0 var(--spacer-xs);
+    font-weight: var(--font-bold);
+
+    &.-open {
+      margin-left: 0;
+    }
+  }
+
+  ._code-remove,
+  ._amount-edit,
+  ._code-amount {
+    cursor: pointer;
+  }
+
+  ._applied-code,
+  ._code-actions {
+    display: flex;
+    align-items: center;
+  }
+
+  ._code-amount-input {
+    --input-padding: var(--spacer-2xs);
+    --input-height: 1.4em;
+    --input-width: 5em;
   }
 }
 </style>
