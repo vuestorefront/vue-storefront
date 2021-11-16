@@ -195,6 +195,8 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
 export function execute (task: Task, currentToken = null, currentCartId = null): Promise<Task> {
   const taskId = task.task_id
 
+  EventBus.$emit('before_task_execute',  task)
+
   return new Promise((resolve, reject) => {
     _internalExecute(resolve, reject, task, currentToken, currentCartId)
   })

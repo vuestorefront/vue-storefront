@@ -8,6 +8,7 @@ export interface Order {
   state?: string,
   user_id?: string,
   cart_id?: string,
+  campaign_token?: string,
   store_code?: string,
   store_id?: number | string,
   /**
