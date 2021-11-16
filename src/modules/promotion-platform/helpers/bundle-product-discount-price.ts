@@ -15,6 +15,8 @@ export default function getBundleProductDiscountPrice (product: Product, store: 
 }
 
 function getBundleOptionDiscountPrice (bundleOptionValues: BundleOptionsProductLink[], store: Store<RootState>): number | undefined {
+  let isDiscounted = false;
+
   const price = bundleOptionValues.map((optionValue) => {
     const product = optionValue.product;
 
@@ -24,8 +26,16 @@ function getBundleOptionDiscountPrice (bundleOptionValues: BundleOptionsProductL
 
     const productPrice = store.getters['promotionPlatform/getProductCampaignDiscountPrice'](product);
 
+    if (productPrice) {
+      isDiscounted = true;
+    }
+
     return productPrice || product.special_price_incl_tax || product.priceInclTax || product.price_incl_tax || 0;
   }).reduce((productPrice, totalPrice) => (totalPrice + productPrice), 0);
 
-  return price || undefined;
+  if (!isDiscounted || !price) {
+    return;
+  }
+
+  return price;
 }
