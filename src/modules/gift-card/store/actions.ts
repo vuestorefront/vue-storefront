@@ -9,7 +9,7 @@ import GiftCardTemplate from '../types/GiftCardTemplate.interface';
 import { SET_APPLIED_GIFT_CARD, UPDATE_GIFT_CARD_TEMPLATE } from '../types/StoreMutations';
 
 export const actions: ActionTree<GiftCardState, any> = {
-  async applyGiftCardCode ({ commit, rootGetters }, payload: string): Promise<GiftCard> {
+  async applyGiftCardCode ({ commit, dispatch, rootGetters }, payload: string): Promise<GiftCard> {
     const cartId = rootGetters['cart/getCartToken'];
     const userToken = rootGetters['user/getToken'];
     const giftCard = await GiftCardService.applyGiftCardCode(payload, cartId, userToken);
@@ -18,10 +18,12 @@ export const actions: ActionTree<GiftCardState, any> = {
       commit(SET_APPLIED_GIFT_CARD, giftCard);
     }
 
+    await dispatch('cart/syncTotals', { forceServerSync: true }, { root: true });
+
     return giftCard;
   },
   async changeAppliedGiftCardValue (
-    { commit, rootGetters },
+    { commit, dispatch, rootGetters },
     { code, value }: { code: string, value: number }
   ): Promise<void> {
     const cartId = rootGetters['cart/getCartToken'];
@@ -32,6 +34,8 @@ export const actions: ActionTree<GiftCardState, any> = {
       cartId,
       userToken
     );
+
+    await dispatch('cart/syncTotals', { forceServerSync: true }, { root: true });
 
     commit(SET_APPLIED_GIFT_CARD, giftCard);
   },
@@ -49,12 +53,14 @@ export const actions: ActionTree<GiftCardState, any> = {
 
     return dictionary;
   },
-  async removeAppliedGiftCard ({ commit, getters, rootGetters }): Promise<void> {
+  async removeAppliedGiftCard ({ commit, dispatch, getters, rootGetters }): Promise<void> {
     const cartId = rootGetters['cart/getCartToken'];
     const userToken = rootGetters['user/getToken'];
     const appliedGiftCard = getters['appliedGiftCard'];
 
     await GiftCardService.removeAppliedGiftCard(appliedGiftCard ? appliedGiftCard.code : '', cartId, userToken);
+
+    await dispatch('cart/syncTotals', { forceServerSync: true }, { root: true });
 
     commit(SET_APPLIED_GIFT_CARD, undefined);
   }

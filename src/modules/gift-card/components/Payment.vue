@@ -13,7 +13,7 @@
         </template>
       </SfCheckbox>
 
-      <div class="_applied-code">
+      <div class="_applied-code" v-if="showAppliedGiftCard">
         <div class="_code -open">
           GIFT-XXXX-XXXXXX (
         </div>
@@ -25,8 +25,8 @@
 
           <SfInput
             class="_code-amount-input"
-            name="codeAmount"
-            v-model="codeAmount"
+            name="giftCardValue"
+            v-model="giftCardValue"
             v-show="isAmountEditing"
           />
 
@@ -136,6 +136,9 @@ export default Vue.extend({
     isOnlyGiftCardsInOrder (): boolean {
       return this.cartItems.every((item) => item.sku === 'GiftCard');
     },
+    showAppliedGiftCard (): boolean {
+      return !!(this.showForm && this.appliedGiftCard);
+    },
     showCodeError (): boolean {
       return !!this.codeError;
     },
@@ -165,8 +168,7 @@ export default Vue.extend({
       isRemoving: false,
       isChangingValue: false,
       giftCardValue: 0,
-      isAmountEditing: false,
-      codeAmount: 0
+      isAmountEditing: false
     };
   },
   methods: {
@@ -178,15 +180,14 @@ export default Vue.extend({
       this.codeError = '';
       this.isSubmitting = true;
       try {
-        const response = await this.$store.dispatch(
+        await this.$store.dispatch(
           'giftCard/applyGiftCardCode',
           this.giftCardCode
         );
-        console.log(response);
 
-        this.codeAmount = this.appliedCodeAmount;
+        this.giftCardValue = this.appliedCodeAmount;
       } catch (err) {
-        this.codeError = err as string;
+        this.codeError = (err as Error).message;
       } finally {
         this.isSubmitting = false;
       }
@@ -254,6 +255,7 @@ export default Vue.extend({
   ._applied-code {
     font-size: var(--font-lg);
     height: 1.4em;
+    margin-bottom: var(--spacer-xs);
   }
 
   ._code-amount {
@@ -265,6 +267,7 @@ export default Vue.extend({
     background-color: var(--c-warning-darken);
     margin-bottom: var(--spacer-sm);
     padding: var(--spacer-xs) var(--spacer-sm);
+    text-align: center;
   }
 
   ._code {

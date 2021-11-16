@@ -39,6 +39,11 @@ export const GiftCardService = {
       silent: true
     });
 
+    // TODO check why request errors not throwing
+    if (Number.isNaN(Number.parseFloat(result.result))) {
+      throw new Error(result.result);
+    }
+
     return {
       code,
       value: result.result // todo check
@@ -50,7 +55,7 @@ export const GiftCardService = {
     cartId?: string,
     userToken?: string
   ): Promise<GiftCard> {
-    let url = processURLAddress(`${config.budsies.endpoint}/giftcards/changeValue`);
+    let url = processURLAddress(`${config.budsies.endpoint}/giftcards/change-value`);
     const queryString = getQueryString(cartId, userToken);
 
     if (queryString) {
@@ -60,7 +65,7 @@ export const GiftCardService = {
     const result = await TaskQueue.execute({
       url,
       payload: {
-        headers: { 'Accept': 'application/json' },
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         mode: 'cors',
         method: 'POST',
         body: JSON.stringify({ code, value })
@@ -108,7 +113,7 @@ export const GiftCardService = {
     await TaskQueue.execute({
       url,
       payload: {
-        headers: { 'Accept': 'application/json' },
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         mode: 'cors',
         method: 'POST',
         body: JSON.stringify({ code })
