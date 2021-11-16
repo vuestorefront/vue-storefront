@@ -10,13 +10,20 @@ export const getBundleOptionsValues = (selectedBundleOptions: SelectedBundleOpti
     const {
       product_links: productLinks = []
     } = allBundeOptions.find(bundleOption => bundleOption.option_id === selectedBundleOption.option_id) || {}
-    const values = productLinks.filter(
+    const selectedBundleOptionProductLinks = productLinks.filter(
       productLink => selectedBundleOption.option_selections
         .some((item) => String(productLink.id) === String(item))
     )
 
-    return values.map((value) => ({ ...value, qty: selectedBundleOption.option_qty }))
-  }).reduce((acc, val) => acc.concat(val), []);
+    return selectedBundleOptionProductLinks.map((selectedBundleOptionProductLink) => ({
+      ...selectedBundleOptionProductLink,
+      qty: selectedBundleOption.option_qty
+    }))
+  }).reduce(
+    (selectedBundleOptionsProductLinksFlattedArray, selectedBundleOptionProductLinks) =>
+    selectedBundleOptionsProductLinksFlattedArray.concat(selectedBundleOptionProductLinks),
+    []
+  );
 
 export const getSelectedBundleOptions = (product: Product): SelectedBundleOption[] => {
   const selectedBundleOptions = Object.values(get(product, 'product_option.extension_attributes.bundle_options', {}))

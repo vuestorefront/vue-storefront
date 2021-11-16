@@ -24,20 +24,19 @@ export const calculateProductLinkPrice = ({ price = 0, priceInclTax = 0, origina
 
 export const getProductLinkPrice = (productLinks: BaseProductLink[]) => productLinks
   .map((productLink) => {
-    const product = productLink.product ||
-    {
+    const defaultProductPrices: Partial<Product> = {
       price: 0,
-      price_incl_tax: 0,
       priceInclTax: 0,
       originalPriceInclTax: 0,
-      specialPrice: 0
+      specialPrice: 0,
     }
+    const product = productLink.product || defaultProductPrices;
 
     return calculateProductLinkPrice({
       price: product.price,
       priceInclTax: product.price_incl_tax || product.priceInclTax,
-      originalPriceInclTax: (product as any).original_price_incl_tax || (product as any).originalPriceInclTax,
-      specialPrice: (product as any).special_price || (product as any).specialPrice,
+      originalPriceInclTax: product.original_price_incl_tax || product.originalPriceInclTax,
+      specialPrice: product.special_price || product.specialPrice,
       qty: productLink.qty
     })
   })
