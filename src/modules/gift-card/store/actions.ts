@@ -14,11 +14,11 @@ export const actions: ActionTree<GiftCardState, any> = {
     const userToken = rootGetters['user/getToken'];
     const giftCard = await GiftCardService.applyGiftCardCode(payload, cartId, userToken);
 
+    await dispatch('cart/syncTotals', { forceServerSync: true }, { root: true });
+
     if (giftCard) {
       commit(SET_APPLIED_GIFT_CARD, giftCard);
     }
-
-    await dispatch('cart/syncTotals', { forceServerSync: true }, { root: true });
 
     return giftCard;
   },

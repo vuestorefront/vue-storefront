@@ -73,6 +73,10 @@ export const GiftCardService = {
       silent: true
     });
 
+    if (result.code === 500) {
+      throw new Error('Gift Card value was not changed');
+    }
+
     return {
       code,
       value: result.result // todo check
