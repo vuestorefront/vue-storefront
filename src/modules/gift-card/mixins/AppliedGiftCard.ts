@@ -46,10 +46,8 @@ export default Vue.extend({
       try {
         await this.$store.dispatch('giftCard/changeAppliedGiftCardValue', {
           code: this.giftCardCode,
-          value: this.giftCardValue
+          value: this.giftCardValueModel
         });
-
-        this.giftCardValueModel = this.giftCardValue;
       } catch (e) {
       } finally {
         this.isChangingValue = false;
@@ -72,6 +70,11 @@ export default Vue.extend({
       this.isRemoving = true;
       await this.$store.dispatch('giftCard/removeAppliedGiftCard', [this.giftCardCode]);
       this.isRemoving = false;
+    }
+  },
+  watch: {
+    giftCardValue (val) {
+      this.giftCardValueModel = val;
     }
   }
 });
