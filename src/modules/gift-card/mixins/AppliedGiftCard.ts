@@ -31,6 +31,9 @@ export default Vue.extend({
 
     }
   },
+  created () {
+    this.giftCardValueModel = this.giftCardValue;
+  },
   computed: {
     editLabel (): string {
       return this.isAmountEditing ? 'Apply' : 'Edit';

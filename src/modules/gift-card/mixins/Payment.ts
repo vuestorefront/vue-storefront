@@ -67,7 +67,9 @@ export default Vue.extend({
       useGiftCard: false
     };
   },
-  mounted () {
+  async created (): Promise<void> {
+    await this.$store.dispatch('giftCard/pullAppliedGiftCards');
+
     if (this.appliedGiftCards.length) {
       this.useGiftCard = true;
     }

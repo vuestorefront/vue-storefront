@@ -53,6 +53,16 @@ export const actions: ActionTree<GiftCardState, any> = {
 
     return dictionary;
   },
+  async pullAppliedGiftCards ({ commit, rootGetters }): Promise<void> {
+    const cartId = rootGetters['cart/getCartToken'];
+    const userToken = rootGetters['user/getToken'];
+
+    const giftCards = await GiftCardService.pullAppliedGiftCards(cartId, userToken);
+
+    giftCards.forEach((giftCard) => {
+      commit(SET_APPLIED_GIFT_CARD, giftCard);
+    })
+  },
   async removeAppliedGiftCard ({ commit, dispatch, rootGetters }, giftCardCodes: string[]): Promise<void> {
     const cartId = rootGetters['cart/getCartToken'];
     const userToken = rootGetters['user/getToken'];

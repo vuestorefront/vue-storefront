@@ -106,6 +106,26 @@ export const GiftCardService = {
 
     return result.result;
   },
+  async pullAppliedGiftCards (cartId?: string, userToken?: string): Promise<GiftCard[]> {
+    let url = processURLAddress(`${config.budsies.endpoint}/giftcards/pull`);
+    const queryString = getQueryString(cartId, userToken);
+
+    if (queryString) {
+      url += `?${queryString}`;
+    }
+
+    const result = await TaskQueue.execute({
+      url,
+      payload: {
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        mode: 'cors',
+        method: 'GET'
+      },
+      silent: true
+    });
+
+    return result.result;
+  },
   async removeAppliedGiftCards (codes: string[], cartId?: string, userToken?: string): Promise<void> {
     let url = processURLAddress(`${config.budsies.endpoint}/giftcards/remove`);
     const queryString = getQueryString(cartId, userToken);
