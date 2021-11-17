@@ -4,6 +4,6 @@ import GiftCard from './GiftCard';
 import GiftCardTemplate from './GiftCardTemplate.interface';
 
 export default interface GiftCardState {
-  appliedGiftCard?: GiftCard,
+  appliedGiftCard: Dictionary<GiftCard>,
   giftCardTemplate: Dictionary<GiftCardTemplate>
 }

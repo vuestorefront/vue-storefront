@@ -6,7 +6,7 @@ import { GiftCardService } from '../gift-card.service';
 import GiftCard from '../types/GiftCard';
 import GiftCardState from '../types/GiftCardState';
 import GiftCardTemplate from '../types/GiftCardTemplate.interface';
-import { SET_APPLIED_GIFT_CARD, UPDATE_GIFT_CARD_TEMPLATE } from '../types/StoreMutations';
+import { REMOVE_APPLIED_GIFT_CARD, SET_APPLIED_GIFT_CARD, UPDATE_GIFT_CARD_TEMPLATE } from '../types/StoreMutations';
 
 export const actions: ActionTree<GiftCardState, any> = {
   async applyGiftCardCode ({ commit, dispatch, rootGetters }, payload: string): Promise<GiftCard> {
@@ -53,15 +53,14 @@ export const actions: ActionTree<GiftCardState, any> = {
 
     return dictionary;
   },
-  async removeAppliedGiftCard ({ commit, dispatch, getters, rootGetters }): Promise<void> {
+  async removeAppliedGiftCard ({ commit, dispatch, getters, rootGetters }, giftCardCode): Promise<void> {
     const cartId = rootGetters['cart/getCartToken'];
     const userToken = rootGetters['user/getToken'];
-    const appliedGiftCard = getters['appliedGiftCard'];
 
-    await GiftCardService.removeAppliedGiftCard(appliedGiftCard ? appliedGiftCard.code : '', cartId, userToken);
+    await GiftCardService.removeAppliedGiftCard(giftCardCode, cartId, userToken);
 
     await dispatch('cart/syncTotals', { forceServerSync: true }, { root: true });
 
-    commit(SET_APPLIED_GIFT_CARD, undefined);
+    commit(REMOVE_APPLIED_GIFT_CARD, giftCardCode);
   }
 }

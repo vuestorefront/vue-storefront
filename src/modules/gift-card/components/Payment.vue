@@ -13,52 +13,14 @@
         </template>
       </SfCheckbox>
 
-      <div class="_applied-code" v-if="showAppliedGiftCard">
-        <div class="_code -open">
-          GIFT-XXXX-XXXXXX (
-        </div>
-
-        <div class="_code-actions">
-          <div
-            class="_code-amount"
-            v-show="!isAmountEditing"
-            @click="onEditAmountClick"
-          >
-            ${{ appliedCodeAmount }}
-          </div>
-
-          <SfInput
-            class="_code-amount-input"
-            name="giftCardValue"
-            :disabled="isChangingValue"
-            v-model="giftCardValue"
-            v-show="isAmountEditing"
-          />
-
-          <div class="_amount-edit" @click="onEditAmountClick" :disabled="isChangingValue">
-            <SfIcon icon="check" size="xxs" :title="editLabel" v-show="!isChangingValue && isAmountEditing" />
-
-            <SfIcon size="xxs" :title="editLabel" v-show="!isChangingValue && !isAmountEditing">
-              <div class="_edit-icon" />
-            </SfIcon>
-
-            <div class="_loader" v-show="isChangingValue">
-              <SfLoader class="_sf-loader -sm" :loading="true" />
-            </div>
-          </div>
-
-          <div class="_code -close">
-            )
-          </div>
-
-          <div class="_code-remove" @click="removeAppliedGiftCard" :disabled="isRemoving">
-            <SfIcon icon="cross" size="xxs" title="Remove" v-show="!isRemoving" />
-
-            <div class="_loader" v-show="isRemoving">
-              <SfLoader class="_sf-loader -sm" :loading="true" />
-            </div>
-          </div>
-        </div>
+      <div class="_applied-gift-cards" v-if="showAppliedGiftCard">
+        <AppliedGiftCard
+          class="_applied-gift-card"
+          v-for="giftCard in appliedGiftCards"
+          :key="giftCard.code"
+          :gift-card-code="giftCard.code"
+          :gift-card-value="giftCard.value"
+        />
       </div>
 
       <validation-observer
@@ -76,8 +38,6 @@
           slim
         >
           <div class="_form-field">
-            <!-- <label class="_label"> Use your Gift card(s) to pay for this order </label> -->
-
             <div class="_code-error" v-show="showCodeError">
               {{ codeError }}
             </div>
@@ -119,17 +79,13 @@
 <script lang="ts">
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 import Vue, { PropType } from 'vue';
-import {
-  SfInput,
-  SfButton,
-  SfCheckbox,
-  SfIcon,
-  SfLoader
-} from '@storefront-ui/vue';
+import { SfInput, SfButton, SfCheckbox, SfLoader } from '@storefront-ui/vue';
 import { ValidationObserver, ValidationProvider, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
 
 import GiftCard from '../types/GiftCard';
+
+import AppliedGiftCard from './AppliedGiftCard.vue';
 
 extend('required', {
   ...required,
@@ -139,9 +95,9 @@ extend('required', {
 export default Vue.extend({
   name: 'GiftCardPayment',
   components: {
+    AppliedGiftCard,
     SfButton,
     SfCheckbox,
-    SfIcon,
     SfInput,
     SfLoader,
     ValidationObserver,
@@ -154,28 +110,19 @@ export default Vue.extend({
     }
   },
   computed: {
-    appliedCodeAmount (): number {
-      if (!this.appliedGiftCard) {
-        return 0;
-      }
-
-      return this.appliedGiftCard.value;
-    },
-    appliedGiftCard (): GiftCard | undefined {
-      return this.$store.getters['giftCard/appliedGiftCard'];
-    },
-    editLabel (): string {
-      return this.isAmountEditing ? 'Apply' : 'Edit';
+    appliedGiftCards (): GiftCard[] {
+      return this.$store.getters['giftCard/appliedGiftCards'];
     },
     grandTotal (): number | undefined {
-      // return 0;
       const totals = this.$store.getters['cart/getTotals'];
 
-      if (!totals || !totals.grand_total) {
+      if (!totals || !totals.length) {
         return;
       }
 
-      return totals.grand_total;
+      const grandTotal = totals.find((totalsItem) => totalsItem.code === 'grand_total');
+
+      return grandTotal ? grandTotal.value : undefined;
     },
     hasGiftCardsInOrder (): boolean {
       return this.cartItems.some((item) => item.sku === 'GiftCard');
@@ -184,7 +131,7 @@ export default Vue.extend({
       return this.cartItems.every((item) => item.sku === 'GiftCard');
     },
     showAppliedGiftCard (): boolean {
-      return !!(this.showForm && this.appliedGiftCard);
+      return this.useGiftCard && this.appliedGiftCards.length > 0;
     },
     showCodeError (): boolean {
       return !!this.codeError;
@@ -207,11 +154,7 @@ export default Vue.extend({
       useGiftCard: false,
       giftCardCode: '',
       isSubmitting: false,
-      codeError: '',
-      isRemoving: false,
-      isChangingValue: false,
-      giftCardValue: 0,
-      isAmountEditing: false
+      codeError: ''
     };
   },
   methods: {
@@ -235,7 +178,6 @@ export default Vue.extend({
           this.giftCardCode
         );
 
-        this.giftCardValue = this.appliedCodeAmount;
         this.giftCardCode = '';
       } catch (err) {
         this.codeError = (err as Error).message;
@@ -244,46 +186,9 @@ export default Vue.extend({
       }
     },
     onGiftCardCodeChangeHandler (value: string): void {
-      console.log(value);
-
       this.giftCardCode = value;
 
       this.getGiftCardCodeValidator()?.reset();
-    },
-    async removeAppliedGiftCard (): Promise<void> {
-      if (this.isRemoving) {
-        return;
-      }
-
-      this.isRemoving = true;
-      await this.$store.dispatch('giftCard/removeAppliedGiftCard');
-      this.isRemoving = false;
-    },
-    async changeAppliedGiftCardValue (): Promise<void> {
-      if (this.isChangingValue || !this.appliedGiftCard) {
-        return;
-      }
-
-      this.isChangingValue = true;
-      try {
-        await this.$store.dispatch('giftCard/changeAppliedGiftCardValue', {
-          code: this.appliedGiftCard.code,
-          value: this.giftCardValue
-        });
-
-        this.giftCardValue = this.appliedCodeAmount;
-      } catch (e) {} finally {
-        this.isChangingValue = false;
-      }
-    },
-    async onEditAmountClick (): Promise<void> {
-      if (this.isAmountEditing) {
-        await this.changeAppliedGiftCardValue();
-        this.isAmountEditing = false;
-        return;
-      }
-
-      this.isAmountEditing = true;
     }
   }
 });
@@ -315,16 +220,8 @@ export default Vue.extend({
     margin-bottom: var(--spacer-base);
   }
 
-  ._applied-code {
-    font-size: var(--font-lg);
+  ._applied-gift-card {
     margin-bottom: var(--spacer-xs);
-  }
-
-  ._code-amount {
-    color: var(--c-primary);
-    font-weight: var(--font-bold);
-    height: 1.4em;
-    line-height: 155%;
   }
 
   ._code-error {
@@ -332,40 +229,6 @@ export default Vue.extend({
     margin-bottom: var(--spacer-sm);
     padding: var(--spacer-xs) var(--spacer-sm);
     text-align: center;
-  }
-
-  ._code {
-    color: var(--c-success-variant);
-    margin: 0 var(--spacer-xs);
-    font-weight: var(--font-bold);
-    height: 1.4em;
-    line-height: 155%;
-
-    &.-open {
-      margin-left: 0;
-    }
-  }
-
-  ._code-remove,
-  ._amount-edit,
-  ._code-amount {
-    cursor: pointer;
-  }
-
-  ._applied-code,
-  ._code-actions {
-    display: flex;
-    align-items: center;
-  }
-
-  ._code-amount-input {
-    --input-padding: var(--spacer-2xs);
-    --input-height: 1.4em;
-    --input-width: 5em;
-  }
-
-  ._amount-edit {
-    margin-left: var(--spacer-xs);
   }
 
   ._grand-total-notification {
@@ -379,12 +242,6 @@ export default Vue.extend({
     }
   }
 
-  ._edit-icon {
-    width: 100%;
-    height: 100%;
-    background: url('../../../themes/petsies-capybara/assets/images/edit.svg');
-  }
-
   ._loader {
     display: flex;
     align-items: center;
@@ -392,11 +249,6 @@ export default Vue.extend({
     ._sf-loader {
       width: 2em;
       height: 2em;
-
-      &.-sm {
-        width: 1em;
-        height: 1em;
-      }
     }
 
     ._loader-text {
