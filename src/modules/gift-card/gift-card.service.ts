@@ -4,6 +4,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync';
 
 import GiftCard from './types/GiftCard';
 import GiftCardTemplate from './types/GiftCardTemplate.interface';
+import { Dictionary } from '../budsies';
 
 function getQueryString (cartId?: string, userToken?: string) {
   const query = new URLSearchParams();
@@ -124,7 +125,10 @@ export const GiftCardService = {
       silent: true
     });
 
-    return result.result;
+    return Object.entries(result.result as Dictionary<number>).map(([key, value]) => ({
+      code: key,
+      value: value
+    }))
   },
   async removeAppliedGiftCards (codes: string[], cartId?: string, userToken?: string): Promise<void> {
     let url = processURLAddress(`${config.budsies.endpoint}/giftcards/remove`);

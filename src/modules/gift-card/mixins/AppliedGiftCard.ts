@@ -5,6 +5,8 @@ import {
   SfLoader
 } from '@storefront-ui/vue';
 
+import getHiddenCode from '../helpers/get-hidden-code.function';
+
 export default Vue.extend({
   name: 'AppliedGiftCard',
   components: {
@@ -37,6 +39,9 @@ export default Vue.extend({
   computed: {
     editLabel (): string {
       return this.isAmountEditing ? 'Apply' : 'Edit';
+    },
+    hiddenGiftCardCode (): string {
+      return getHiddenCode(this.giftCardCode);
     }
   },
   methods: {
