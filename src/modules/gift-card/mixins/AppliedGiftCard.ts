@@ -70,7 +70,7 @@ export default Vue.extend({
       }
 
       this.isRemoving = true;
-      await this.$store.dispatch('giftCard/removeAppliedGiftCard', this.giftCardCode);
+      await this.$store.dispatch('giftCard/removeAppliedGiftCard', [this.giftCardCode]);
       this.isRemoving = false;
     }
   }

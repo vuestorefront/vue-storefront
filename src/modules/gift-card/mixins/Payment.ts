@@ -60,11 +60,17 @@ export default Vue.extend({
   },
   data () {
     return {
-      useGiftCard: false,
+      codeError: '',
       giftCardCode: '',
+      isAllAppliedGiftCardsRemoving: false,
       isSubmitting: false,
-      codeError: ''
+      useGiftCard: false
     };
+  },
+  mounted () {
+    if (this.appliedGiftCards.length) {
+      this.useGiftCard = true;
+    }
   },
   methods: {
     getGiftCardCodeValidator ():
@@ -98,6 +104,25 @@ export default Vue.extend({
       this.giftCardCode = value;
 
       this.getGiftCardCodeValidator()?.reset();
+    },
+    async removeAllAppliedGiftCards (): Promise<void> {
+      if (!this.appliedGiftCards.length || this.isAllAppliedGiftCardsRemoving) {
+        return;
+      }
+
+      this.isAllAppliedGiftCardsRemoving = true;
+      await this.$store.dispatch(
+        'giftCard/removeAppliedGiftCard',
+        this.appliedGiftCards.map((giftCard) => giftCard.code)
+      )
+      this.isAllAppliedGiftCardsRemoving = false;
+    }
+  },
+  watch: {
+    useGiftCard (val) {
+      if (!val) {
+        this.removeAllAppliedGiftCards();
+      }
     }
   }
 });

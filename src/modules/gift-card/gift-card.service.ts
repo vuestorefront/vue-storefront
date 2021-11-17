@@ -106,7 +106,7 @@ export const GiftCardService = {
 
     return result.result;
   },
-  async removeAppliedGiftCard (code: string, cartId?: string, userToken?: string): Promise<void> {
+  async removeAppliedGiftCards (codes: string[], cartId?: string, userToken?: string): Promise<void> {
     let url = processURLAddress(`${config.budsies.endpoint}/giftcards/remove`);
     const queryString = getQueryString(cartId, userToken);
 
@@ -120,7 +120,7 @@ export const GiftCardService = {
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         mode: 'cors',
         method: 'POST',
-        body: JSON.stringify({ code })
+        body: JSON.stringify({ codes })
       },
       silent: true
     });
