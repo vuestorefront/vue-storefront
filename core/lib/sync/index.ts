@@ -33,8 +33,6 @@ async function execute (task): Promise<Task> { // not offline task
     if (isServer) {
       taskExecute(task, null, null).then((result) => {
         resolve(result)
-        console.log(result);
-        
       }).catch(err => {
         reject(err)
       })

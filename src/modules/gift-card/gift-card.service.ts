@@ -47,7 +47,7 @@ export const GiftCardService = {
 
     return {
       code,
-      value: result.result // todo check
+      value: result.result
     }
   },
   async changeAppliedGiftCardValue (
@@ -80,7 +80,7 @@ export const GiftCardService = {
 
     return {
       code,
-      value: result.result // todo check
+      value: result.result
     }
   },
   async loadGiftCardsTemplates (storeId: number, userToken?: string): Promise<GiftCardTemplate[]> {
