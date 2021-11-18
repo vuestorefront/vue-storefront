@@ -78,7 +78,7 @@
         title="Subscribe to Newsletters"
         button-text="Subscribe"
         description="Be aware of upcoming sales and events. Receive gifts and special offers!"
-        image="/homepage/newsletter.webp"
+        :image="addBasePath('/homepage/newsletter.webp')"
         class="call-to-action"
       >
         <template #button>
@@ -123,6 +123,7 @@ import NewsletterModal from '~/components/NewsletterModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useUiState } from '../composables';
 import cacheControl from './../helpers/cacheControl';
+import { addBasePath } from '@vue-storefront/core';
 
 export default {
   name: 'Home',
@@ -152,56 +153,56 @@ export default {
     const products = ref([
       {
         title: 'Cream Beach Bag',
-        image: '/homepage/productA.webp',
+        image: addBasePath('/homepage/productA.webp'),
         price: { regular: '50.00 $' },
         rating: { max: 5, score: 4 },
         isInWishlist: true
       },
       {
-        title: 'Cream Beach Bag',
-        image: '/homepage/productB.webp',
+        title: 'Cream Beach Bag 2',
+        image: addBasePath('/homepage/productB.webp'),
+        price: { regular: '50.00 $' },
+        rating: { max: 5, score: 4 },
+        isInWishlist: false
+      },
+      {
+        title: 'Cream Beach Bag 3',
+        image: addBasePath('/homepage/productC.webp'),
+        price: { regular: '50.00 $' },
+        rating: { max: 5, score: 4 },
+        isInWishlist: false
+      },
+      {
+        title: 'Cream Beach Bag RR',
+        image: addBasePath('/homepage/productA.webp'),
         price: { regular: '50.00 $' },
         rating: { max: 5, score: 4 },
         isInWishlist: false
       },
       {
         title: 'Cream Beach Bag',
-        image: '/homepage/productC.webp',
+        image: addBasePath('/homepage/productB.webp'),
         price: { regular: '50.00 $' },
         rating: { max: 5, score: 4 },
         isInWishlist: false
       },
       {
         title: 'Cream Beach Bag',
-        image: '/homepage/productA.webp',
+        image: addBasePath('/homepage/productC.webp'),
         price: { regular: '50.00 $' },
         rating: { max: 5, score: 4 },
         isInWishlist: false
       },
       {
         title: 'Cream Beach Bag',
-        image: '/homepage/productB.webp',
+        image: addBasePath('/homepage/productA.webp'),
         price: { regular: '50.00 $' },
         rating: { max: 5, score: 4 },
         isInWishlist: false
       },
       {
         title: 'Cream Beach Bag',
-        image: '/homepage/productC.webp',
-        price: { regular: '50.00 $' },
-        rating: { max: 5, score: 4 },
-        isInWishlist: false
-      },
-      {
-        title: 'Cream Beach Bag',
-        image: '/homepage/productA.webp',
-        price: { regular: '50.00 $' },
-        rating: { max: 5, score: 4 },
-        isInWishlist: false
-      },
-      {
-        title: 'Cream Beach Bag',
-        image: '/homepage/productB.webp',
+        image: addBasePath('/homepage/productB.webp'),
         price: { regular: '50.00 $' },
         rating: { max: 5, score: 4 },
         isInWishlist: false
@@ -212,13 +213,13 @@ export default {
         title: 'Colorful summer dresses are already in store',
         subtitle: 'SUMMER COLLECTION 2019',
         background: '#eceff1',
-        image: '/homepage/bannerH.webp'
+        image: addBasePath('/homepage/bannerH.webp')
       },
       {
         title: 'Colorful summer dresses are already in store',
         subtitle: 'SUMMER COLLECTION 2019',
         background: '#efebe9',
-        image: '/homepage/bannerA.webp',
+        image: addBasePath('/homepage/bannerA.webp'),
         className:
           'sf-hero-item--position-bg-top-left sf-hero-item--align-right'
       },
@@ -226,7 +227,7 @@ export default {
         title: 'Colorful summer dresses are already in store',
         subtitle: 'SUMMER COLLECTION 2019',
         background: '#fce4ec',
-        image: '/homepage/bannerB.webp'
+        image: addBasePath('/homepage/bannerB.webp')
       }
     ];
     const banners = [
@@ -238,8 +239,8 @@ export default {
           'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
         buttonText: 'Shop now',
         image: {
-          mobile: $config.theme.home.bannerA.image.mobile,
-          desktop: $config.theme.home.bannerA.image.desktop
+          mobile: addBasePath($config.theme.home.bannerA.image.mobile),
+          desktop: addBasePath($config.theme.home.bannerA.image.desktop)
         },
         class: 'sf-banner--slim desktop-only',
         link: $config.theme.home.bannerA.link
@@ -251,7 +252,7 @@ export default {
         description:
           'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
         buttonText: 'Shop now',
-        image: $config.theme.home.bannerB.image,
+        image: addBasePath($config.theme.home.bannerB.image),
         class: 'sf-banner--slim banner-central desktop-only',
         link: $config.theme.home.bannerB.link
       },
@@ -259,7 +260,7 @@ export default {
         slot: 'banner-C',
         subtitle: 'T-Shirts',
         title: 'The Office Life',
-        image: $config.theme.home.bannerC.image,
+        image: addBasePath($config.theme.home.bannerC.image),
         class: 'sf-banner--slim banner__tshirt',
         link: $config.theme.home.bannerC.link
       },
@@ -267,7 +268,7 @@ export default {
         slot: 'banner-D',
         subtitle: 'Summer Sandals',
         title: 'Eco Sandals',
-        image: $config.theme.home.bannerD.image,
+        image: addBasePath($config.theme.home.bannerD.image),
         class: 'sf-banner--slim',
         link: $config.theme.home.bannerD.link
       }
@@ -286,6 +287,7 @@ export default {
       toggleWishlist,
       toggleNewsletterModal,
       onSubscribe,
+      addBasePath,
       banners,
       heroes,
       products

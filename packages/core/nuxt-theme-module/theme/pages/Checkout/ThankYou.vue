@@ -5,8 +5,8 @@
       class="banner"
       title="Thank you for your order!"
       :image="{
-        mobile: '/thankyou/bannerM.png',
-        desktop: '/thankyou/bannerD.png',
+        mobile: addBasePath('/thankyou/bannerM.png'),
+        desktop: addBasePath('/thankyou/bannerD.png'),
       }"
     >
       <template #description>
@@ -79,6 +79,7 @@
 <script>
 import { SfHeading, SfButton, SfCallToAction } from '@storefront-ui/vue';
 import { ref } from '@nuxtjs/composition-api';
+import { addBasePath } from '@vue-storefront/core';
 
 export default {
   components: {
@@ -98,6 +99,7 @@ export default {
     const orderNumber = ref('80932031-030-00');
 
     return {
+      addBasePath,
       companyDetails,
       orderNumber
     };
