@@ -56,6 +56,18 @@ export default Vue.extend({
     },
     showNoticeMessage (): boolean {
       return this.hasGiftCardsInOrder;
+    },
+    useGiftCard: {
+      get (): boolean {
+        return this.fUseGiftCard;
+      },
+      set (value: boolean): void {
+        this.fUseGiftCard = value;
+
+        if (!value) {
+          this.removeAllAppliedGiftCards();
+        }
+      }
     }
   },
   data () {
@@ -64,7 +76,7 @@ export default Vue.extend({
       giftCardCode: '',
       isAllAppliedGiftCardsRemoving: false,
       isSubmitting: false,
-      useGiftCard: false
+      fUseGiftCard: false
     };
   },
   async created (): Promise<void> {
@@ -118,13 +130,6 @@ export default Vue.extend({
         this.appliedGiftCards.map((giftCard) => giftCard.code)
       )
       this.isAllAppliedGiftCardsRemoving = false;
-    }
-  },
-  watch: {
-    useGiftCard (val) {
-      if (!val) {
-        this.removeAllAppliedGiftCards();
-      }
     }
   }
 });

@@ -1,19 +1,9 @@
 import Vue from 'vue';
-import {
-  SfInput,
-  SfIcon,
-  SfLoader
-} from '@storefront-ui/vue';
 
-import getHiddenCode from '../helpers/get-hidden-code.function';
+import getMaskedCode from '../helpers/get-masked-code.function';
 
 export default Vue.extend({
   name: 'AppliedGiftCard',
-  components: {
-    SfIcon,
-    SfInput,
-    SfLoader
-  },
   props: {
     giftCardCode: {
       type: String,
@@ -26,63 +16,63 @@ export default Vue.extend({
   },
   data () {
     return {
-      giftCardValueModel: 0,
+      newGiftCardValue: 0,
       isAmountEditing: false,
-      isChangingValue: false,
+      isSubmittingNewValue: false,
       isRemoving: false
-
     }
   },
   created () {
-    this.giftCardValueModel = this.giftCardValue;
+    this.newGiftCardValue = this.giftCardValue;
   },
   computed: {
     editLabel (): string {
       return this.isAmountEditing ? 'Apply' : 'Edit';
     },
     hiddenGiftCardCode (): string {
-      return getHiddenCode(this.giftCardCode);
+      return getMaskedCode(this.giftCardCode);
+    },
+    isSubmitting (): boolean {
+      return this.isSubmittingNewValue || this.isRemoving;
     }
   },
   methods: {
     async changeAppliedGiftCardValue (): Promise<void> {
-      if (this.isChangingValue) {
+      if (this.isSubmitting || !this.isAmountEditing) {
         return;
       }
 
-      this.isChangingValue = true;
+      this.isSubmittingNewValue = true;
       try {
         await this.$store.dispatch('giftCard/changeAppliedGiftCardValue', {
           code: this.giftCardCode,
-          value: this.giftCardValueModel
+          value: this.newGiftCardValue
         });
-      } catch (e) {
-      } finally {
-        this.isChangingValue = false;
-      }
-    },
-    async onEditAmountClick (): Promise<void> {
-      if (this.isAmountEditing) {
-        await this.changeAppliedGiftCardValue();
-        this.isAmountEditing = false;
-        return;
-      }
 
-      this.isAmountEditing = true;
+        this.isAmountEditing = false;
+      } finally {
+        this.isSubmittingNewValue = false;
+      }
     },
     async removeAppliedGiftCard (): Promise<void> {
-      if (this.isRemoving) {
+      if (this.isSubmitting) {
         return;
       }
 
       this.isRemoving = true;
-      await this.$store.dispatch('giftCard/removeAppliedGiftCard', [this.giftCardCode]);
-      this.isRemoving = false;
+      try {
+        await this.$store.dispatch('giftCard/removeAppliedGiftCard', [this.giftCardCode]);
+      } finally {
+        this.isRemoving = false;
+      }
+    },
+    startEdit (): void {
+      this.isAmountEditing = true;
     }
   },
   watch: {
     giftCardValue (val) {
-      this.giftCardValueModel = val;
+      this.newGiftCardValue = val;
     }
   }
 });
