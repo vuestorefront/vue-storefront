@@ -33,7 +33,8 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
     }
   })).then(() => {
     AsyncDataLoader.flush({ store, route: router.currentRoute, context } /* AsyncDataLoaderActionContext */).then((r) => {
-      context.state = store.state
+      context.state = {componentsState: context.componentsState, ...store.state}
+
       if (buildTimeConfig.server.dynamicConfigReload) {
         const excludeFromConfig = buildTimeConfig.server.dynamicConfigExclude
         const includeFromConfig = buildTimeConfig.server.dynamicConfigInclude
@@ -74,6 +75,7 @@ export default async context => {
     const meta = (app as any).$meta()
     router.push(context.url)
     context.meta = meta
+    context.componentsState = {}
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
       if (!matchedComponents.length || !matchedComponents[0]) {
@@ -93,6 +95,16 @@ export default async context => {
         })
         if (Component.asyncData) {
           Component.asyncData({ store, route: router.currentRoute, context: context }).then((result) => { // always execute the asyncData() from the top most component first
+            if (result) {
+              context.componentsState[Component.name] = result;
+              const ComponentData = Component._Ctor[0].options.data;
+
+              Component._Ctor[0].options.data = function() {
+                const originalData = ComponentData.call(this, this);
+                return {...originalData, ...result};
+              }
+            }
+
             Logger.debug('Top-most asyncData executed')()
             _ssrHydrateSubcomponents(components, store, router, resolve, reject, app, context)
           }).catch((err) => {
