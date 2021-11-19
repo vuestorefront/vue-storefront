@@ -35,6 +35,8 @@ export default interface Product {
   name: string,
   new?: string,
   options?: Record<string, any>[],
+  original_price_incl_tax?: number,
+  originalPriceInclTax?: number,
   parentSku?: string,
   pattern?: string,
   price: number,
