@@ -29,7 +29,7 @@ export default Vue.extend({
     editLabel (): string {
       return this.isAmountEditing ? 'Apply' : 'Edit';
     },
-    hiddenGiftCardCode (): string {
+    maskedGiftCardCode (): string {
       return getMaskedCode(this.giftCardCode);
     },
     isSubmitting (): boolean {
