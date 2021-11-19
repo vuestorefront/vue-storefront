@@ -5,6 +5,7 @@ import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { processLocalizedURLAddress } from '@vue-storefront/core/helpers'
 import config from 'config';
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 const setShippingInfo = async (addressInformation: any): Promise<Task> =>
   TaskQueue.execute({
@@ -30,9 +31,11 @@ const getTotals = async (): Promise<Task> =>
   });
 
 const getCartToken = async (guestCart: boolean = false, forceClientState: boolean = false): Promise<Task> => {
-  const url = processLocalizedURLAddress(guestCart
+  let url = processLocalizedURLAddress(guestCart
     ? getApiEndpointUrl(config.cart, 'create_endpoint').replace('{{token}}', '')
     : getApiEndpointUrl(config.cart, 'create_endpoint'))
+
+  EventBus.$emit('before_execute_cart_create_task', url)
 
   return TaskQueue.execute({
     url,
