@@ -42,6 +42,23 @@ module.exports = {
 };
 ```
 
+## Enabling keepAlive on connections to integration API
+There is an option to enable keepAlive on Vue Storefront API Middleware to reduce latency when connecting to integration host.
+
+Below example of System Environment Variables that should to be provided:
+```bash
+AXIOS_KEEP_ALIVE_ENABLED=true #default false
+AXIOS_KEEP_ALIVE_MSECS=36000 #default 1000
+AXIOS_MAX_FREE_SOCKETS=100 #default 256
+```
+
+Of course AXIOS_KEEP_ALIVE_MSECS, and AXIOS_MAX_FREE_SOCKETS values should be set to best suit your needs,
+eg. if you have load balancer AXIOS_KEEP_ALIVE_MSECS should be set higher then one on load balancer.
+
+:::tip Performance Hint
+Did you know using persistent connections can reduce latency, and help to improve TTFB (time to first byte.
+:::
+
 ## Creating an integration
 
 To create Server Middleware integration, you can follow our [Integrating eCommerce platform](/integrate/integration-guide.html) guide. Some integrations don't need a custom theme. In such a case, you can delete the `theme` folder from our integration boilerplate project and skip parts of the guide concerning it.

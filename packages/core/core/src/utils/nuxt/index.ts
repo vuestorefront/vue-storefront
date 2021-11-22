@@ -2,6 +2,8 @@ import { createExtendIntegrationInCtx, createAddIntegrationToCtx } from './conte
 import { getIntegrationConfig, createProxiedApi } from './_proxyUtils';
 import { Context as NuxtContext, Plugin as NuxtPlugin } from '@nuxt/types';
 import axios from 'axios';
+import http from 'http';
+import https from 'https';
 
 type InjectFn = (key: string, value: any) => void;
 export type IntegrationPlugin = (pluginFn: NuxtPlugin) => NuxtPlugin
@@ -31,7 +33,18 @@ export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext
       config.axios.baseURL = process.server ? ssrMiddlewareUrl || middlewareUrl : middlewareUrl;
     }
 
-    const client = axios.create(config.axios);
+    const keepAliveConfig = {
+      keepAlive: process.env.AXIOS_KEEP_ALIVE_ENABLED === 'true',
+      keepAliveMsecs: parseInt(process.env.AXIOS_KEEP_ALIVE_MSECS) || 1000,
+      maxFreeSockets: parseInt(process.env.AXIOS_MAX_FREE_SOCKETS) || 256
+    };
+
+    const client = axios.create({
+      ...config.axios,
+      httpAgent: new http.Agent(keepAliveConfig),
+      httpsAgent: new https.Agent(keepAliveConfig)
+    });
+
     const api = createProxiedApi({ givenApi: configuration.api || {}, client, tag });
 
     if (nuxtCtx.app.i18n.cookieValues) {
