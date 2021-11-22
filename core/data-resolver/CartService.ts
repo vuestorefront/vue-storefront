@@ -35,7 +35,13 @@ const getCartToken = async (guestCart: boolean = false, forceClientState: boolea
     ? getApiEndpointUrl(config.cart, 'create_endpoint').replace('{{token}}', '')
     : getApiEndpointUrl(config.cart, 'create_endpoint'))
 
-  EventBus.$emit('before_execute_cart_create_task', url)
+  let eventData = {
+    url
+  }
+
+  EventBus.$emit('before_execute_cart_create_task', eventData)
+
+  url = eventData.url
 
   return TaskQueue.execute({
     url,

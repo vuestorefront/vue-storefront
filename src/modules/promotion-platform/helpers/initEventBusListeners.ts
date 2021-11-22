@@ -26,17 +26,17 @@ export default function initEventBusListeners (store: Store<RootState>) {
     productPriceData.value = discountedPrice;
   })
 
-  EventBus.$on('before_execute_cart_create_task', (url: string) => {
+  EventBus.$on('before_execute_cart_create_task', (data: { url: string }) => {
     var campaignToken = store.getters['promotionPlatform/campaignToken']
 
     if (!campaignToken) {
       return
     }
 
-    let parsedUrl = queryString.parseUrl(url)
+    let parsedUrl = queryString.parseUrl(data.url)
 
     parsedUrl['query']['campaignToken'] = campaignToken
 
-    url = queryString.stringifyUrl(parsedUrl, { strict: false, encode: false })
+    data.url = queryString.stringifyUrl(parsedUrl, { strict: false, encode: false })
   })
 }

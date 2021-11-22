@@ -4,6 +4,7 @@ import config from 'config'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { CartService } from '@vue-storefront/core/data-resolver'
 import { createDiffLog } from '@vue-storefront/core/modules/cart/helpers'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 const connectActions = {
   toggleMicrocart ({ commit }) {
@@ -70,6 +71,8 @@ const connectActions = {
     if (storedItems.length && !cartToken) {
       Logger.info('Creating server cart token', 'cart')()
       return dispatch('connect', { guestCart: false })
+    } else if (!cartToken) {
+      EventBus.$emit('empty-cart-without-token-created')
     }
   }
 }
