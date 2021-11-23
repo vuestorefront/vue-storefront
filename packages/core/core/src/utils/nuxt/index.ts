@@ -40,8 +40,8 @@ export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext
     let axiosConfig;
 
     if (process.server) {
-      const http = await import('http');
-      const https = await import('https');
+      const http = require('http');
+      const https = require('https');
 
       axiosConfig = {
         ...config.axios,
