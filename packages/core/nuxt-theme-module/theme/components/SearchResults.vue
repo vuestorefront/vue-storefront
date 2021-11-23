@@ -42,7 +42,7 @@
                   :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
                   :score-rating="productGetters.getAverageRating(product)"
                   :reviews-count="7"
-                  :image="productGetters.getCoverImage(product)"
+                  :image="addBasePath(productGetters.getCoverImage(product))"
                   :alt="productGetters.getName(product)"
                   :title="productGetters.getName(product)"
                   :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
@@ -59,7 +59,7 @@
                 :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
                 :score-rating="productGetters.getAverageRating(product)"
                 :reviews-count="7"
-                :image="productGetters.getCoverImage(product)"
+                :image="addBasePath(productGetters.getCoverImage(product))"
                 :alt="productGetters.getName(product)"
                 :title="productGetters.getName(product)"
                 :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
@@ -73,7 +73,7 @@
           </div>
         </div>
         <div v-else key="no-results" class="before-results">
-          <SfImage src="/error/error.svg" class="before-results__picture" alt="error" loading="lazy"/>
+          <SfImage :src="addBasePath('/error/error.svg')" class="before-results__picture" alt="error" loading="lazy"/>
           <template v-if="term">
             <p class="before-results__paragraph">{{ $t('We haven’t found any results for given phrase') }}</p>
           </template>
@@ -100,6 +100,7 @@ import {
 } from '@storefront-ui/vue';
 import { ref, watch, computed } from '@nuxtjs/composition-api';
 import { useWishlist, wishlistGetters, productGetters } from '<%= options.generate.replace.composables %>';
+import { addBasePath } from '@vue-storefront/core';
 
 export default {
   name: 'SearchResults',
@@ -155,7 +156,8 @@ export default {
       categories,
       addItemToWishlist,
       isInWishlist,
-      removeProductFromWishlist
+      removeProductFromWishlist,
+      addBasePath
     };
   }
 };

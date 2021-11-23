@@ -185,6 +185,7 @@ import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import cacheControl from './../helpers/cacheControl';
+import { addBasePath } from '@vue-storefront/core';
 
 export default {
   name: 'Product',
@@ -212,9 +213,9 @@ export default {
     // TODO: Breadcrumbs are temporary disabled because productGetters return undefined. We have a mocks in data
     // const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
     const productGallery = computed(() => productGetters.getGallery(product.value).map(img => ({
-      mobile: { url: img.small },
-      desktop: { url: img.normal },
-      big: { url: img.big },
+      mobile: { url: addBasePath(img.small) },
+      desktop: { url: addBasePath(img.normal) },
+      big: { url: addBasePath(img.big) },
       alt: product.value._name || product.value.name
     })));
 
