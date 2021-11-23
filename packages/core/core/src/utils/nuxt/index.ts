@@ -2,8 +2,6 @@ import { createExtendIntegrationInCtx, createAddIntegrationToCtx } from './conte
 import { getIntegrationConfig, createProxiedApi } from './_proxyUtils';
 import { Context as NuxtContext, Plugin as NuxtPlugin } from '@nuxt/types';
 import axios from 'axios';
-import http from 'http';
-import https from 'https';
 
 type InjectFn = (key: string, value: any) => void;
 export type IntegrationPlugin = (pluginFn: NuxtPlugin) => NuxtPlugin
@@ -24,7 +22,7 @@ const setCookieValues = (cookieValues: Record<string, string>, cookieString = ''
 };
 
 export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext, inject: InjectFn) => {
-  const configure = (tag, configuration) => {
+  const configure = async (tag, configuration) => {
     const injectInContext = createAddIntegrationToCtx({ tag, nuxtCtx, inject });
     const config = getIntegrationConfig(nuxtCtx, configuration);
     const { middlewareUrl, ssrMiddlewareUrl } = (nuxtCtx as any).$config;
@@ -39,11 +37,22 @@ export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext
       maxFreeSockets: parseInt(process.env.AXIOS_MAX_FREE_SOCKETS) || 256
     };
 
-    const client = axios.create({
-      ...config.axios,
-      httpAgent: new http.Agent(keepAliveConfig),
-      httpsAgent: new https.Agent(keepAliveConfig)
-    });
+    let axiosConfig;
+
+    if (process.server) {
+      const http = await import('http');
+      const https = await import('https');
+
+      axiosConfig = {
+        ...config.axios,
+        httpAgent: new http.Agent(keepAliveConfig),
+        httpsAgent: new https.Agent(keepAliveConfig)
+      };
+    } else {
+      axiosConfig = config.axios;
+    }
+
+    const client = axios.create(axiosConfig);
 
     const api = createProxiedApi({ givenApi: configuration.api || {}, client, tag });
 
