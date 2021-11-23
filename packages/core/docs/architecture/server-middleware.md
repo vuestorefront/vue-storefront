@@ -55,8 +55,15 @@ AXIOS_MAX_FREE_SOCKETS=100 #default 256
 Of course AXIOS_KEEP_ALIVE_MSECS, and AXIOS_MAX_FREE_SOCKETS values should be set to best suit your needs,
 eg. if you have load balancer AXIOS_KEEP_ALIVE_MSECS should be set higher then one on load balancer.
 
+To test it in local environment just add system variable definition before command you wan to run eg.:
+```bash
+AXIOS_KEEP_ALIVE_ENABLED=true yarn dev:ct
+```
+
+To run it on production you should consider a bash script that will add them automatically or adding .env file.
+
 :::tip Performance Hint
-Did you know using persistent connections can reduce latency, and help to improve TTFB (time to first byte.
+Did you know using persistent connections can reduce latency, and help to improve TTFB (time to first byte).
 :::
 
 ## Creating an integration
