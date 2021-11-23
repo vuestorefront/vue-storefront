@@ -90,7 +90,7 @@
               :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"
               :title="productGetters.getName(product)"
-              :image="productGetters.getCoverImage(product)"
+              :image="addBasePath(productGetters.getCoverImage(product))"
               :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
               :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
               :max-rating="5"
@@ -119,7 +119,7 @@
               :style="{ '--index': i }"
               :title="productGetters.getName(product)"
               :description="productGetters.getDescription(product)"
-              :image="productGetters.getCoverImage(product)"
+              :image="addBasePath(productGetters.getCoverImage(product))"
               :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
               :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
               :max-rating="5"
@@ -217,6 +217,7 @@ import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import cacheControl from './../helpers/cacheControl';
 import CategoryPageHeader from '~/components/CategoryPageHeader';
+import { addBasePath } from '@vue-storefront/core';
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
@@ -283,7 +284,8 @@ export default {
       isInWishlist,
       addToCart,
       isInCart,
-      productsQuantity
+      productsQuantity,
+      addBasePath
     };
   },
   components: {
