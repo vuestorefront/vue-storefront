@@ -1,61 +1,21 @@
 version: '2.0'
 services:
-  vsf-app-budsies:
+  app:
     build:
       context: .
       dockerfile: docker/vue-storefront/Dockerfile
     environment:
-      BIND_PORT: ${BUDSIES_PORT}
-      STORE: ${BUDSIES_STORE}
+      BIND_PORT: 3001
+      STORE: ${STORE_CODE}
       VS_ENV: ${VS_ENV}
-      VIRTUAL_HOST: ${BUDSIES_DOMAIN}
-      LETSENCRYPT_HOST: ${BUDSIES_DOMAIN}
+      VIRTUAL_HOST: ${DOMAIN}
+      LETSENCRYPT_HOST: ${DOMAIN}
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
-      VSF_API_DOMAIN: ${BUDSIES_VSF_API_DOMAIN}
-      DEFAULT_STORE_ID: ${BUDSIES_STORE_ID}
-      JP_STORE_ID: ${JP_STORE_ID}
-      GTM_ID: ${BUDSIES_GTM_ID}
-    volumes:
-      - './babel.config.js:/var/www/babel.config.js'
-      #- './config:/var/www/config'
-      - './core:/var/www/core'
-      - './ecosystem.json:/var/www/ecosystem.json'
-      - './.eslintignore:/var/www/.eslintignore'
-      - './.eslintrc.js:/var/www/.eslintrc.js'
-      - './lerna.json:/var/www/lerna.json'
-      #- './tsconfig.json:/var/www/tsconfig.json'
-      - './tsconfig-build.json:/var/www/tsconfig-build.json'
-      - './shims.d.ts:/var/www/shims.d.ts'
-      - './package.json:/var/www/package.json'
-      - './src:/var/www/src'
-      - './var:/var/www/var'
-      - './packages:/var/www/packages'
-      - './yarn.lock:/var/www/yarn.lock'
-      - cache://usr/local/share/.cache
-    tmpfs:
-      - /var/www/dist
-    networks:
-      - default
-      - reverseproxy
-      - vue-storefront-api
-    expose:
-      - ${BUDSIES_PORT}
-
-  vsf-app-petsies:
-    build:
-      context: .
-      dockerfile: docker/vue-storefront/Dockerfile
-    environment:
-      BIND_PORT: ${PETSIES_PORT}
-      STORE: ${PETSIES_STORE}
-      VS_ENV: ${VS_ENV}
-      VIRTUAL_HOST: ${PETSIES_DOMAIN}
-      LETSENCRYPT_HOST: ${PETSIES_DOMAIN}
-      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
-      VSF_API_DOMAIN: ${PETSIES_VSF_API_DOMAIN}
-      DEFAULT_STORE_ID: ${PETSIES_STORE_ID}
+      VSF_API_DOMAIN: ${VSF_API_DOMAIN}
+      DEFAULT_STORE_ID: ${STORE_ID}
       FILEUPLOADER_UPLOAD_URL: ${FILEUPLOADER_UPLOAD_URL}
-      GTM_ID: ${PETSIES_GTM_ID}
+      IMAGE_HANDLER_SERVICE_URL: ${IMAGE_HANDLER_SERVICE_URL}
+      GTM_ID: ${BUDSIES_GTM_ID}
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       #- './config:/var/www/config'
@@ -79,9 +39,9 @@ services:
     networks:
       - default
       - reverseproxy
-      - vue-storefront-api
+      # - vue-storefront-api
     expose:
-      - ${PETSIES_PORT}
+      - 3001
 
 volumes: 
   cache:
@@ -90,6 +50,6 @@ networks:
   reverseproxy:
     external:
       name: webdevelopmentreverseproxy_default
-  vue-storefront-api:
-    external:
-      name: vue-storefront-api_default
+#  vue-storefront-api:
+#    external:
+#      name: vue-storefront-api_default

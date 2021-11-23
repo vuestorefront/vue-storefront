@@ -210,6 +210,7 @@
     "maxCartBypassAttempts": 1
   },
   "defaultStoreCode": "",
+  "defaultStoreId": ${DEFAULT_STORE_ID},
   "storeViews": {
     "multistore": false,
     "commonCache": false,
@@ -787,10 +788,12 @@
     "useSpecificImagePaths": true,
     "paths": {
       "product": "/catalog/product",
-      "bodypart": "/body_part/orig"
+      "bodypart": "/body_part/orig",
+      "giftcard": "/giftvoucher/template/background/images"
     },
     "productPlaceholder": "/assets/placeholder.jpg",
-    "fileuploaderUploadUrl": "${FILEUPLOADER_UPLOAD_URL}"
+    "fileuploaderUploadUrl": "${FILEUPLOADER_UPLOAD_URL}",
+    "imageHandlerServiceUrl": "${IMAGE_HANDLER_SERVICE_URL}"
   },
   "install": {
     "is_local_backend": true,
@@ -862,6 +865,13 @@
   "theme": "@vue-storefront/theme-${STORE}-capybara",
   "analytics": {
     "id": false
+  },
+  "braintree" : {
+    "endpoint": "https://${VSF_API_DOMAIN}/api/ext/braintree",
+    "applePay": {
+      "displayName": "My Petsies",
+      "label": "Budsies Co LLC"
+    }
   },
   "googleTagManager": {
     "id": "${GTM_ID}",

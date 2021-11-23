@@ -35,6 +35,8 @@ export default interface Product {
   name: string,
   new?: string,
   options?: Record<string, any>[],
+  original_price_incl_tax?: number,
+  originalPriceInclTax?: number,
   parentSku?: string,
   pattern?: string,
   price: number,
@@ -75,7 +77,8 @@ export default interface Product {
   links?: any,
   parentId?: number | string,
   meta_title?: string | null,
-  meta_description?: string | null
+  meta_description?: string | null,
+  landing_page_url?: string | null
 }
 
 export interface ProductLink {

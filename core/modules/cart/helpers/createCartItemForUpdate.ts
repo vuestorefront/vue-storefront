@@ -3,12 +3,18 @@ import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 
 const createCartItemForUpdate = (clientItem: CartItem, serverItem: any, updateIds: boolean = false, mergeQty: boolean = false): CartItem => {
   const sku = clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku
+  const qty = mergeQty ? (clientItem.qty + serverItem.qty) : clientItem.qty
+
+  if (clientItem.giftcard_options) {
+    clientItem.giftcard_options.qty = qty;
+  }
+
   const cartItem = {
     sku,
     ...((serverItem && serverItem.item_id) ? { item_id: serverItem.item_id } : {}),
-    qty: mergeQty ? (clientItem.qty + serverItem.qty) : clientItem.qty,
+    qty,
     product_option: clientItem.product_option,
-    customerImagesIds: clientItem.customerImagesIds ? clientItem.customerImagesIds : undefined,
+    customerImages: clientItem.customerImages ? clientItem.customerImages : undefined,
     plushieId: clientItem.plushieId ? clientItem.plushieId : undefined,
     email: clientItem.email ? clientItem.email : undefined,
     plushieBreed: clientItem.plushieBreed ? clientItem.plushieBreed : undefined,
@@ -16,7 +22,8 @@ const createCartItemForUpdate = (clientItem: CartItem, serverItem: any, updateId
     plushieDescription: clientItem.plushieDescription ? clientItem.plushieDescription : undefined,
     bodyparts: clientItem.bodyparts ? clientItem.bodyparts : undefined,
     customFields: clientItem.customFields ? clientItem.customFields : undefined,
-    uploadMethod: clientItem.uploadMethod ? clientItem.uploadMethod : undefined
+    uploadMethod: clientItem.uploadMethod ? clientItem.uploadMethod : undefined,
+    giftcard_options: clientItem.giftcard_options ? clientItem.giftcard_options : undefined
   } as any as CartItem
 
   if (updateIds && serverItem.quote_id && serverItem.item_id) {
