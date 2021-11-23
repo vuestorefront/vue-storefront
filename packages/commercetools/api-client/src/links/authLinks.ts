@@ -149,8 +149,12 @@ export async function handleAfterAuth({
   response,
   configuration
 }) {
-
   const tokenProvider = configuration.auth.getTokenProvider();
+
+  if (!Object.keys(tokenProvider).length) {
+    return;
+  }
+
   const currentToken = tokenProvider.getTokenInfo();
 
   if (!isUserSession(currentToken) && isUserOperation(apolloReq.operationName) && !response.errors?.length) {
