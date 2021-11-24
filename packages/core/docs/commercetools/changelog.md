@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1
+
+- Fixed handleAfterAuth method to handle customToken scenario correctly ([6533](https://github.com/vuestorefront/vue-storefront/pull/6533)) - [Rafał Dobrowolski](https://github.com/RafalDobrowolski)
+
 ## 1.4.0
 
 - Fix UI for Click and Collect ([6276](https://github.com/vuestorefront/vue-storefront/pull/6276)) - [Alef Barbeli](https://github.com/alefbarbeli)
@@ -120,7 +124,7 @@
 
 - **[BREAKING]** refactor(commercetools): fix the frontend client bundling the commercetools-sdk and apollo client ([#6066](https://github.com/vuestorefront/vue-storefront/pull/6066)) - [bloodf](https://github.com/bloodf)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | the "createCommerceToolsConnection" were being exported by the api-client | the "createCommerceToolsConnection" is not being exported anymore | to use the current connection, you will need to access the context to call the API | api-client
 
@@ -138,7 +142,7 @@
 
 - **[BREAKING]** updated the removeCoupon interface to match the applyCoupon ([#6126](https://github.com/vuestorefront/vue-storefront/pull/6126)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | the useCart composable method removeCoupon was using this call signature: ({ coupon: COUPON, customQuery?: CustomQuery })   | the method signature was changed to: ({ couponCode: string, customQuery?: CustomQuery })   | on each removeCoupon composable usage need to change the "coupon" to "couponCode" | composables
 
@@ -186,7 +190,7 @@
 
 - **[BREAKING]** Usage of api middleware ([#5361](https://github.com/vuestorefront/vue-storefront/pull/5361)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | one entrypoint | multiple entrypoints | We expose multiple entrypoints for server and client side interaction | commercetools
 
@@ -198,25 +202,25 @@
 
 - **[BREAKING]** New part of checkout - Billing details, inside core and commercetools ([#5552](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | UserBillingAddress works properly | New API inside Checkout/UserBillingAddress.vue | Customized components to work with new checkout | commercetools-theme
 
 - **[BREAKING]** Quick search ([#5566](https://github.com/vuestorefront/vue-storefront/issues/5566)) - [Justyna Gieracka](https://github.com/justyna-13)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | { changeSearchTerm } = useUiHelpers() | { setTermForUrl } = useUiHelpers(); | Changed changeSearchTerm name to setTermForUrl | useUiHelpers/index.ts,
   | { getSearchTermFromUrl } = useUiHelpers(); | Created new function | useUiHelpers/index.ts
 
 - **[BREAKING]** Implementation of api middleware ([#5577](https://github.com/vuestorefront/vue-storefront/pull/5577)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
 
-| Before | After | Comment | Module 
+| Before | After | Comment | Module
 | ------ | ----- | ------ | ------
 customQuery was used as a function | customQuery is a key-value object | The key is a query name, value is the name of a new query function, defined in the middleware config | commercetools,
 - **[BREAKING]** New Payment API for Checkout ([#5587](https://github.com/vuestorefront/vue-storefront/pull/5587)) - [Fifciu](https://github.com/Fifciu)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | Dedicated composable for whole checkout | Dedicated composable for Shipping, Billing and Provider components | undefined | commercetools
 
