@@ -3,13 +3,14 @@ import { Store } from 'vuex'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { isBundleProduct } from '@vue-storefront/core/modules/catalog/helpers';
 import RootState from '@vue-storefront/core/types/RootState'
-import queryString from 'query-string'
+import { ParsedUrl } from 'query-string'
+import Vue from 'vue';
 
 import UpdateProductDiscountPriceEventData, { UPDATE_PRODUCT_DISCOUNT_PRICE_DATA_EVENT_ID } from 'src/modules/shared/types/update-product-discount-price.event';
 
 import getBundleProductDiscountPrice from './bundle-product-discount-price';
 
-export default function initEventBusListeners (store: Store<RootState>) {
+export default function initEventBusListeners (store: Store<RootState>, app: Vue) {
   EventBus.$on(UPDATE_PRODUCT_DISCOUNT_PRICE_DATA_EVENT_ID, (productPriceData: UpdateProductDiscountPriceEventData) => {
     let discountedPrice;
 
@@ -26,17 +27,17 @@ export default function initEventBusListeners (store: Store<RootState>) {
     productPriceData.value = discountedPrice;
   })
 
-  EventBus.$on('before_execute_cart_create_task', (data: { url: string }) => {
+  EventBus.$on('before-execute-cart-create-task', (parsedUrl: ParsedUrl) => {
     var campaignToken = store.getters['promotionPlatform/campaignToken']
 
     if (!campaignToken) {
       return
     }
 
-    let parsedUrl = queryString.parseUrl(data.url)
+    parsedUrl.query['campaignToken'] = campaignToken
+  })
 
-    parsedUrl['query']['campaignToken'] = campaignToken
-
-    data.url = queryString.stringifyUrl(parsedUrl, { strict: false, encode: false })
+  EventBus.$on('after-cart-recovery', (cartToken: string) => {
+    store.dispatch('promotionPlatform/fetchCampaignContent', { dataParam: app.$route.query.data, cartId: cartToken });
   })
 }

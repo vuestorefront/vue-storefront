@@ -71,9 +71,9 @@ const connectActions = {
     if (storedItems.length && !cartToken) {
       Logger.info('Creating server cart token', 'cart')()
       return dispatch('connect', { guestCart: false })
-    } else if (!cartToken) {
-      EventBus.$emit('empty-cart-without-token-created')
     }
+
+    EventBus.$emit('cart-created', cartToken)
   }
 }
 
