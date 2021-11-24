@@ -1,0 +1,136 @@
+# How to submit a Pull Request
+
+:::tip Having troubles?
+Want to contribute to our codebase, but face any issues following this guide? Reach out to the Vue Storefront team on our [Discord](https://discord.vuestorefront.io) server. We are happy to help you get started 😊
+:::
+
+This document will show you how to submit a Pull Request to any of our [repositories](https://github.com/vuestorefront). These steps are required to ensure high quality and ease of updating for depending projects and integrations.
+
+## Check your tools
+
+Like every other artisan, we need to ensure we have all the tools necessary to do our work. In our case we need [Yarn 1](https://classic.yarnpkg.com/en/docs/install) and [Git](https://git-scm.com/downloads). To verify that you have these tools installed, open the terminal and run both commands:
+
+```bash
+git --version
+yarn --version
+```
+
+## Pick a target branch
+
+Before starting to code, you need to **fork our repository** and decide which branch you need to base from. Our branching model follows the [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow). In short, we have two primary branches: `main` and `develop`.
+
+The `main` branch contains the latest released and (hopefully) stable version of our package (or packages, if it's a monorepo). The `develop` branch, on the other hand, contains the next, not yet released version and might be unstable.
+
+If you are unsure which branch to base from, ask yourself these questions:
+
+- Do you want to fix a bug present in the latest release version?
+- Is the fix possible without introducing any breaking changes?
+
+**If your answer to both questions is "yes", create a new branch from the `main` branch. Otherwise, make it from the `develop` branch.**
+
+## Start coding
+
+Before you start coding, make sure to run the following command to install all necessary dependencies:
+
+```bash
+yarn install
+```
+
+This command will install tools like `eslint`, `husky`, and a few others that will ensure that your code follows our rules and conventions.
+
+Whenever possible, make sure to **use TypeScript and provide typings** for your code while avoiding the `any` type.
+
+If you need to add external dependencies to our codebase, **we favor micro-libraries over swiss army knives**. However, if possible, we try to avoid adding new dependencies if they can be replaced by few lines of code.
+
+## Manually test the changes
+
+Once your changes are ready, manually test them in `development` and `production` modes.
+
+If the repository contains a Vue Storefront project (often called `theme`), run all the `build` commands defined in the `package.json` file and start the project to test it. If everything works as expected, you can go to the next section.
+
+If there is no Vue Storefront project, create a new project using our [Installation](/v2/general/installation.html) guide. Then, open its `package.json` file and look for the name of the package you modified in the `dependencies` or `devDependencies`.
+
+If it's there, change the version to the `link` like so:
+
+```json
+// package.json
+{
+  "dependencies": {
+    // before
+    "@vue-storefront/some-package": "^2.5.0",
+
+    // after
+    "@vue-storefront/some-package": "link:/absolute/path/to/modified/package"
+  }
+}
+```
+
+If it's an indirect dependency (dependency of another package) and not present in the `package.json`, use the [Selective dependency resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/), like so:
+
+```json
+// package.json
+{
+  "resolutions": {
+    "@vue-storefront/some-package": "link:/absolute/path/to/modified/package"
+  }
+}
+```
+
+The steps above will tell Yarn to use your locally modified package instead of pulling it from the npm.
+
+Then, run the following commands to update the dependencies and run your application:
+
+```bash
+yarn install
+yarn dev
+```
+
+## Update unit and E2E tests
+
+When you confirm that the application works as expected, it's time to see if the tests are still passing. If possible, it's a good practice to add new tests if the old ones don't cover your changes.
+
+Open the `package.json` file and see if there are one or more `test` commands. If so, run them to see if there are no errors. If there are some, fix them before committing your changes.
+
+## Update documentation
+
+Now it's time to update the documentation. If your change is a bug fix, it likely doesn't require any updates to the documentation. However, it might be needed if you add new functionality or change the behavior of the existing one. Open the official documentation for the package and see which documents need updating. Then, look for the `docs` folder in the project and find the document you want to update - the path inside this folder will match the documentation URL.
+
+## Push your changes and create a Pull Request
+
+It's time to create a Pull Request. When doing so, try to fill in the form, including the description, related issues, etc.
+
+One additional requirement is the proper title. It must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. See the [Examples](https://www.conventionalcommits.org/en/v1.0.0/#examples) section for more details.
+
+Use the present tense and don't exceed 100 characters.
+
+**If your branch was created the `main` branch, make a Pull Request for both `main` and `develop` branches.** This way, your changes will be released as a hotfix to the current released version but will also be present in the next versions.
+
+**If it was created from the `develop` branch, make a Pull Request only to the `develop` branch.**
+
+Wait to see if all GitHub Actions completed successfully. If not, go into the details to see what caused an issue.
+
+## Create a changelog
+
+Last but not least is the changelog. We create changelog files to generate a list of changes after every release to inform the community and our partners about what changed with the given release.
+
+Open the `docs` folder and see if it contains a `changelog` folder inside. If it doesn't, create one. Then, inside the `changelog` folder, create a new file with the ID of the GitHub Issue or your Pull Request followed by `.js`, for example: `1337.js`. Paste the template below to that file and describe the changes.
+
+```javascript
+module.exports = {
+  description: '', // Short description of the changes
+  link: '', // Link to the GitHub Issue or Pull Request
+  isBreaking: true, // `true` or `false` depending on if your Pull Request contains any breaking changes
+  breakingChanges: [ // Array should be empty if there aren't any breaking changes
+    {
+      module: '', // Name of the affected module, for example `@vue-storefront/core`
+      before: '', // Describe how given functionality worked before
+      after: '', // Describe how given functionality works after the changes
+      comment: '' // Add any other useful information, eg. how to update the codebase
+    }
+  ],
+  author: '', // Your name
+  linkToGitHubAccount: '' // Link to your GitHub account
+};
+```
+
+Commit your changes. That's it :tada:
