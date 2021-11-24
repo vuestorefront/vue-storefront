@@ -36,11 +36,25 @@ const getCartToken = async (guestCart: boolean = false, forceClientState: boolea
     ? getApiEndpointUrl(config.cart, 'create_endpoint').replace('{{token}}', '')
     : getApiEndpointUrl(config.cart, 'create_endpoint'))
 
-  let parsedUrl = queryString.parseUrl(url)
+  let additionalParams: { [key: string]: string } = {}
 
-  EventBus.$emit('before-execute-cart-create-task', parsedUrl)
+  EventBus.$emit('before-execute-cart-create-task', additionalParams)
 
-  url = queryString.stringifyUrl(parsedUrl, { strict: false, encode: false })
+  const additionalParamsKeys = Object.keys(additionalParams)
+
+  if (additionalParamsKeys.length) {
+    let parsedUrl = queryString.parseUrl(url)
+
+    additionalParamsKeys.forEach(key => {
+      if (key in parsedUrl.query) {
+        return
+      }
+
+      parsedUrl.query[key] = additionalParams[key]
+    });
+
+    url = queryString.stringifyUrl(parsedUrl, { strict: false, encode: false })
+  }
 
   return TaskQueue.execute({
     url,

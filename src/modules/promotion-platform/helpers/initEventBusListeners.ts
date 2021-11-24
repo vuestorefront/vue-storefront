@@ -27,14 +27,14 @@ export default function initEventBusListeners (store: Store<RootState>, app: Vue
     productPriceData.value = discountedPrice;
   })
 
-  EventBus.$on('before-execute-cart-create-task', (parsedUrl: ParsedUrl) => {
+  EventBus.$on('before-execute-cart-create-task', (additionalParams: { [key: string]: string }) => {
     var campaignToken = store.getters['promotionPlatform/campaignToken']
 
     if (!campaignToken) {
       return
     }
 
-    parsedUrl.query['campaignToken'] = campaignToken
+    additionalParams['campaignToken'] = campaignToken
   })
 
   EventBus.$on('after-cart-recovery', (cartToken: string) => {
