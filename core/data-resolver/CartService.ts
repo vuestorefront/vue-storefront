@@ -4,7 +4,9 @@ import Task from '@vue-storefront/core/lib/sync/types/Task'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { processLocalizedURLAddress } from '@vue-storefront/core/helpers'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import config from 'config';
+import queryString from 'query-string'
 
 const setShippingInfo = async (addressInformation: any): Promise<Task> =>
   TaskQueue.execute({
@@ -30,9 +32,29 @@ const getTotals = async (): Promise<Task> =>
   });
 
 const getCartToken = async (guestCart: boolean = false, forceClientState: boolean = false): Promise<Task> => {
-  const url = processLocalizedURLAddress(guestCart
+  let url = processLocalizedURLAddress(guestCart
     ? getApiEndpointUrl(config.cart, 'create_endpoint').replace('{{token}}', '')
     : getApiEndpointUrl(config.cart, 'create_endpoint'))
+
+  let additionalParams: { [key: string]: string } = {}
+
+  EventBus.$emit('before-execute-cart-create-task', additionalParams)
+
+  const additionalParamsKeys = Object.keys(additionalParams)
+
+  if (additionalParamsKeys.length) {
+    let parsedUrl = queryString.parseUrl(url)
+
+    additionalParamsKeys.forEach(key => {
+      if (key in parsedUrl.query) {
+        return
+      }
+
+      parsedUrl.query[key] = additionalParams[key]
+    });
+
+    url = queryString.stringifyUrl(parsedUrl, { strict: false, encode: false })
+  }
 
   return TaskQueue.execute({
     url,
