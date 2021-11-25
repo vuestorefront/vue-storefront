@@ -17,16 +17,7 @@ yarn --version
 
 ## Pick a target branch
 
-Before starting to code, you need to **fork our repository** and decide which branch you need to base from. Our branching model follows the [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow). In short, we have two primary branches: `main` and `develop`.
-
-The `main` branch contains the latest released and (hopefully) stable version of our package (or packages, if it's a monorepo). The `develop` branch, on the other hand, contains the next, not yet released version and might be unstable.
-
-If you are unsure which branch to base from, ask yourself these questions:
-
-- Do you want to fix a bug present in the latest release version?
-- Is the fix possible without introducing any breaking changes?
-
-**If your answer to both questions is "yes", create a new branch from the `main` branch. Otherwise, make it from the `develop` branch.**
+Before starting to code, you need to **fork our repository** and decide which branch you need to base from. We recommend getting familiar with our [Branching model](./branching-model.html).
 
 ## Start coding
 
@@ -40,7 +31,7 @@ This command will install tools like `eslint`, `husky`, and a few others that wi
 
 Whenever possible, make sure to **use TypeScript and provide typings** for your code while avoiding the `any` type.
 
-If you need to add external dependencies to our codebase, **we favor micro-libraries over swiss army knives**. However, if possible, we try to avoid adding new dependencies if they can be replaced by few lines of code.
+If you need to add external dependencies to our codebase, **we favor micro-libraries over swiss army knives**. However, if possible, we try to avoid adding new dependencies if a few lines of code can replace them.
 
 ## Manually test the changes
 
@@ -97,15 +88,11 @@ Now it's time to update the documentation. If your change is a bug fix, it likel
 
 ## Push your changes and create a Pull Request
 
-It's time to create a Pull Request. When doing so, try to fill in the form, including the description, related issues, etc.
+It's time to create a Pull Request. Refer to the [Branching model](./branching-model.html) document to correctly pick the target branch.
 
-One additional requirement is the proper title. It must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. See the [Examples](https://www.conventionalcommits.org/en/v1.0.0/#examples) section for more details.
+When creating a Pull Request, try to fill in the form, including the description, related issues, etc.
 
-Use the present tense and don't exceed 100 characters.
-
-**If your branch was created the `main` branch, make a Pull Request for both `main` and `develop` branches.** This way, your changes will be released as a hotfix to the current released version but will also be present in the next versions.
-
-**If it was created from the `develop` branch, make a Pull Request only to the `develop` branch.**
+One additional requirement is the proper title. It must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. See the [Examples](https://www.conventionalcommits.org/en/v1.0.0/#examples) section for more details. **Use the present tense and don't exceed 100 characters.**
 
 Wait to see if all GitHub Actions completed successfully. If not, go into the details to see what caused an issue.
 

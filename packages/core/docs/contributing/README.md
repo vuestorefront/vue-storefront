@@ -9,4 +9,4 @@ We are delighted that you want to contribute to Vue Storefront. To start, you ca
 
 If you found a bug that's not reported yet and know how to fix it, you can create an issue alongside the pull request.
 
-Once you have something to work on, see the [How to submit a Pull Request](./how-to-submit-pull-request.html) page to learn how to contribute.
+Once you have something to work on, see our [Branching model](./branching-model.html) and [How to submit a Pull Request](./how-to-submit-pull-request.html) pages to learn how to contribute.
