@@ -38,7 +38,7 @@ Let's go over a few common scenarios to get a better understanding of how this w
 1. Create a new branch from the `main` branch.
 2. Fix the bug. 🔨
 3. Create a Pull Request targeted at the `main` branch following our [How to submit a Pull Request](./how-to-submit-pull-request.html) guide.
-4. If the bug is also present in the `develop` branch, create an additional Pull Request targeted at this branch. However, this Pull Request should not contain a changelog.
+4. If the bug is also present in the `develop` branch, create an additional Pull Request targeted at this branch.
 
 ### Fixing a bug present only on the `develop` branch
 
@@ -51,6 +51,6 @@ Let's go over a few common scenarios to get a better understanding of how this w
 1. Create a new **feature branch** from the `develop` branch. While it's not a hard requirement, we suggest that its name starts with `feature/`.
 2. Create a new branch from the **feature branch**.
 3. Work on the feature. 🔨
-4. Create a Pull Request targeted at the **feature branch** following our [How to submit a Pull Request](./how-to-submit-pull-request.html) guide. At this stage, you don't have to create a changelog.
+4. Create a Pull Request targeted at the **feature branch** following our [How to submit a Pull Request](./how-to-submit-pull-request.html) guide.
 5. Repeat steps 2-4 until the whole feature is complete.
 6. Create a Pull Request targeted at the `develop` branch following our [How to submit a Pull Request](./how-to-submit-pull-request.html) guide.

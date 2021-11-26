@@ -95,29 +95,3 @@ When creating a Pull Request, try to fill in the form, including the description
 One additional requirement is the proper title. It must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. See the [Examples](https://www.conventionalcommits.org/en/v1.0.0/#examples) section for more details. **Use the present tense and don't exceed 100 characters.**
 
 Wait to see if all GitHub Actions completed successfully. If not, go into the details to see what caused an issue.
-
-## Create a changelog
-
-Last but not least is the changelog. We create changelog files to generate a list of changes after every release to inform the community and our partners about what changed with the given release.
-
-Open the `docs` folder and see if it contains a `changelog` folder inside. If it doesn't, create one. Then, inside the `changelog` folder, create a new file with the ID of the GitHub Issue or your Pull Request followed by `.js`, for example: `1337.js`. Paste the template below to that file and describe the changes.
-
-```javascript
-module.exports = {
-  description: '', // Short description of the changes
-  link: '', // Link to the GitHub Issue or Pull Request
-  isBreaking: true, // `true` or `false` depending on if your Pull Request contains any breaking changes
-  breakingChanges: [ // Array should be empty if there aren't any breaking changes
-    {
-      module: '', // Name of the affected module, for example `@vue-storefront/core`
-      before: '', // Describe how given functionality worked before
-      after: '', // Describe how given functionality works after the changes
-      comment: '' // Add any other useful information, eg. how to update the codebase
-    }
-  ],
-  author: '', // Your name
-  linkToGitHubAccount: '' // Link to your GitHub account
-};
-```
-
-Commit your changes. That's it :tada:
