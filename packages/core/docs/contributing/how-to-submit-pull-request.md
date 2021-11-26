@@ -86,12 +86,31 @@ Open the `package.json` file and see if there are one or more `test` commands. I
 
 Now it's time to update the documentation. If your change is a bug fix, it likely doesn't require any updates to the documentation. However, it might be needed if you add new functionality or change the behavior of the existing one. Open the official documentation for the package and see which documents need updating. Then, look for the `docs` folder in the project and find the document you want to update - the path inside this folder will match the documentation URL.
 
-## Push your changes and create a Pull Request
+## Commit and push your changes
 
-It's time to create a Pull Request. Refer to the [Branching model](./branching-model.html) document to correctly pick the target branch.
+We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), which requires specific commit messages and Pull Request title formats. Later these messages are used to automate the changelog generation using the [Angular changelog preset](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular) to inform the community and our partners about what changed with the given release.
 
-When creating a Pull Request, try to fill in the form, including the description, related issues, etc.
+A commit message consists of a header, body, and footer. The header has a type, scope, and subject:
 
-One additional requirement is the proper title. It must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. See the [Examples](https://www.conventionalcommits.org/en/v1.0.0/#examples) section for more details. **Use the present tense and don't exceed 100 characters.**
+```
+<type>(<scope>): <subject>
+<BLANK LINE>
+<body>
+<BLANK LINE>
+<footer>
+```
+
+**The header is mandatory, and the scope of the header is optional.** The subject contains a short description of the change:
+
+* use the imperative, present tense: "change" not "changed" nor "changes",
+* don't capitalize the first letter,
+* no dot (.) at the end,
+* don't exceed 100 characters.
+
+See the [Examples](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular#examples) section for more details.
+
+## Create a Pull Request
+
+It's time to create a Pull Request. When doing so, try to fill in the form, including the description, related issues, etc. Refer to the [Branching model](./branching-model.html) document to correctly pick the target branch.
 
 Wait to see if all GitHub Actions completed successfully. If not, go into the details to see what caused an issue.
