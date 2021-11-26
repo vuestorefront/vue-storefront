@@ -13,7 +13,7 @@ The `main` branch contains the code for the **latest released version**. We upda
 * fix a bug present in the current version,
 * release new minor- or patch-level version.
 
-This means that we **don't add new features to the `main` branch**. The only exception is when we identify a serious security or performance bug that must be patched as soon as possible. 
+This means that we **don't add new features or introduce breaking changes** to this branch. The only time breaking change is allowed is when we identify a serious bug (especially security- or performance-related) that must be patched as soon as possible.
 
 We treat this branch as "production", so it should be stable, tested, and documented. It's also the default branch shown in our GitHub repositories, so it's also the showpiece of what we offer.
 
@@ -40,8 +40,17 @@ Let's go over a few common scenarios to get a better understanding of how this w
 3. Create a Pull Request targeted at the `main` branch following our [How to submit a Pull Request](./how-to-submit-pull-request.html) guide.
 4. If the bug is also present in the `develop` branch, create an additional Pull Request targeted at this branch. However, this Pull Request should not contain a changelog.
 
-## Fixing a bug present on the `develop` branch
+### Fixing a bug present only on the `develop` branch
 
 1. Create a new branch from the `develop` branch.
 2. Fix the bug. 🔨
 3. Create a Pull Request targeted at the `develop` branch following our [How to submit a Pull Request](./how-to-submit-pull-request.html) guide.
+
+### Adding a big feature in a few Pull Requests
+
+1. Create a new **feature branch** from the `develop` branch. While it's not a hard requirement, we suggest that its name starts with `feature/`.
+2. Create a new branch from the **feature branch**.
+3. Work on the feature. 🔨
+4. Create a Pull Request targeted at the **feature branch** following our [How to submit a Pull Request](./how-to-submit-pull-request.html) guide. At this stage, you don't have to create a changelog.
+5. Repeat steps 2-4 until the whole feature is complete.
+6. Create a Pull Request targeted at the `develop` branch following our [How to submit a Pull Request](./how-to-submit-pull-request.html) guide.
