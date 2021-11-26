@@ -44,12 +44,8 @@ const getDataToHash = (product: CartItem | ServerItem): any => {
     }
   }
 
-  if (product.plushieId) {
-    return typeof product.plushieId === 'number' ? (product.plushieId as number).toString() : product.plushieId;
-  }
-
   if (product.customerImages && product.customerImages.length) {
-    return product.customerImages;
+    return product.customerImages.map(item => item.id);
   }
 
   const supportedProductOptions = ['bundle_options', 'custom_options', 'configurable_item_options']
