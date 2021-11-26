@@ -17,7 +17,7 @@ yarn --version
 
 ## Pick a target branch
 
-Before starting to code, you need to **fork our repository** and decide which branch you need to base from. We recommend getting familiar with our [Branching model](./branching-model.html).
+Before starting to code, you need to **fork our repository** and find out which branch to base from. We recommend getting familiar with our [Branching model](./branching-model.html).
 
 ## Start coding
 
@@ -31,7 +31,7 @@ This command will install tools like `eslint`, `husky`, and a few others that wi
 
 Whenever possible, make sure to **use TypeScript and provide typings** for your code while avoiding the `any` type.
 
-If you need to add external dependencies to our codebase, **we favor micro-libraries over swiss army knives**. However, if possible, we try to avoid adding new dependencies if a few lines of code can replace them.
+If you need to add external dependencies to our codebase, **favor micro-libraries over swiss army knives**. However, if possible, we try to avoid adding new dependencies if a few lines of code can replace them.
 
 ## Manually test the changes
 
