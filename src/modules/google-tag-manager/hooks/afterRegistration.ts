@@ -45,12 +45,8 @@ export function afterRegistration (config, store: Store<any>) {
       if (type === 'cart/cart/ADD') {
         GTM.trackEvent({
           event: 'addToCart',
-          ecommerce: {
-            currencyCode: currencyCode,
-            add: {
-              products: [getProduct(payload.product)]
-            }
-          }
+          'addToCart.productID': payload.product.id,
+          'addToCart.productSKU': payload.product.sku
         });
       }
 
@@ -64,46 +60,6 @@ export function afterRegistration (config, store: Store<any>) {
             }
           }
         });
-      }
-
-      // Measuring Views of Product Details
-      if (type === 'product/product/SET_PRODUCT_CURRENT') {
-        GTM.trackEvent({
-          ecommerce: {
-            detail: {
-              'actionField': { 'list': '' }, // 'detail' actions have an optional list property.
-              'products': [getProduct(payload)]
-            }
-          }
-        });
-      }
-
-      // Measuring Purchases
-      if (type === 'order/orders/LAST_ORDER_CONFIRMATION') {
-        const orderId = payload.confirmation.backendOrderId
-        const products = payload.order.products.map(product => getProduct(product))
-        store.dispatch(
-          'user/getOrdersHistory',
-          { refresh: true, useCache: false }
-        ).then(() => {
-          const orderHistory = state.user.orders_history
-          const order = state.user.orders_history ? orderHistory.items.find((order) => order['entity_id'].toString() === orderId) : null
-          GTM.trackEvent({
-            'ecommerce': {
-              'purchase': {
-                'actionField': {
-                  'id': orderId,
-                  'affiliation': order ? order.store_name : '',
-                  'revenue': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_grand_total ? state.cart.platformTotals.base_grand_total : '',
-                  'tax': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_tax_amount ? state.cart.platformTotals.base_tax_amount : '',
-                  'shipping': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_shipping_amount ? state.cart.platformTotals.base_shipping_amount : '',
-                  'coupon': ''
-                },
-                'products': products
-              }
-            }
-          })
-        })
       }
     })
   }

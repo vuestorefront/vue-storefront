@@ -211,6 +211,7 @@
   },
   "defaultStoreCode": "",
   "defaultStoreId": ${DEFAULT_STORE_ID},
+  "defaultStoreName": "${DEFAULT_STORE_NAME}",
   "storeViews": {
     "multistore": false,
     "commonCache": false,
@@ -253,7 +254,6 @@
     "twoStageCaching": true,
     "optimizeShoppingCart": true,
     "optimizeShoppingCartOmitFields": [
-      "category",
       "category_ids",
       "configurable_children",
       "configurable_options",

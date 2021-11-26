@@ -15,6 +15,8 @@ services:
       DEFAULT_STORE_ID: ${STORE_ID}
       FILEUPLOADER_UPLOAD_URL: ${FILEUPLOADER_UPLOAD_URL}
       IMAGE_HANDLER_SERVICE_URL: ${IMAGE_HANDLER_SERVICE_URL}
+      GTM_ID: ${GTM_ID}
+      DEFAULT_STORE_NAME: ${STORE_NAME}
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       #- './config:/var/www/config'
