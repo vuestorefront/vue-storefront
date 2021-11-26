@@ -10,7 +10,7 @@ export const isEnabled = (gtmId: string | null) => {
 
 export function afterRegistration (config, store: Store<any>) {
   if (isEnabled(config.googleTagManager.id)) {
-    const GTM: VueGtm = (Vue as any).gtm
+    const GTM: typeof VueGtm = (Vue as any).gtm
 
     const storeView = currentStoreView()
     const currencyCode = storeView.i18n.currencyCode
