@@ -25,7 +25,7 @@ const invokeClientEntry = async () => {
   if (window.__INITIAL_STATE__) {
     // skip fields that were set by createApp
     const initialState = coreHooksExecutors.beforeHydrated(
-      omit(window.__INITIAL_STATE__, ['componentsState', 'storeView', 'config', 'version', 'route'])
+      omit(window.__INITIAL_STATE__, ['storeView', 'config', 'version', 'route'])
     )
     store.replaceState(Object.assign({}, store.state, initialState, { config: globalConfig }))
   }
@@ -79,23 +79,6 @@ const invokeClientEntry = async () => {
       app.$mount('#app')
     }
     router.beforeResolve((to, from, next) => {
-      const matched = router.getMatchedComponents(to);
-
-      matched.forEach((component: any) => {
-        const initialComponentState = window.__INITIAL_STATE__.componentsState[component.name];
-
-        if (!initialComponentState) {
-          return;
-        }
-
-        const ComponentData = component._Ctor[0].options.data
-
-        component._Ctor[0].options.data = function() {
-          const originalData = ComponentData.call(this, this)
-          return { ...originalData, ...initialComponentState }
-        }
-      });
-
       if (!from.name) {
         next()
         if (canBeMounted()) {
