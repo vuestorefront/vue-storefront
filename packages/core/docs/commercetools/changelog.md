@@ -94,7 +94,7 @@
 
 ## 1.3.1
 
--  Revert changes to Webpack configuration and Google font loading ([#6203](https://github.com/vuestorefront/vue-storefront/pull/6203)) - [Filip Sobol](https://github.com/filipsobol)
+- Revert changes to Webpack configuration and Google font loading ([#6203](https://github.com/vuestorefront/vue-storefront/pull/6203)) - [Filip Sobol](https://github.com/filipsobol)
 
 ## 1.3.0
 
@@ -104,23 +104,23 @@
   | ------ | ----- | ------ | ------
   | the addToCart method has the signature addToCart ({ id, version }: CartDetails, product: ProductVariant, quantity: number): Promise&lt;CartResponse&gt;; | now the addToCart method was change to enable the supply and distribution channels with the signature addToCart ({ id, version }: CartDetails, params: { product: ProductVariant; quantity: number; supplyChannel?: string; distributionChannel?: string;}): Promise&lt;CartResponse&gt;; | The composable was changed to match this signature. The changes from Click & Collect / MultiStore are required to use this feature on Product.vue | api-client
 
--  Added missing mobile menu to CT ([#6184](https://github.com/vuestorefront/vue-storefront/pull/6184)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+- Added missing mobile menu to CT ([#6184](https://github.com/vuestorefront/vue-storefront/pull/6184)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
 
--  Added customQuery support for useUser factory params ([#5883](https://github.com/vuestorefront/vue-storefront/pull/5823)) - [vn-vlad](https://github.com/vn-vlad)
+- Added customQuery support for useUser factory params ([#5883](https://github.com/vuestorefront/vue-storefront/pull/5823)) - [vn-vlad](https://github.com/vn-vlad)
 
--  Fix locale links in core and commercetools integration ([#5886](https://github.com/vuestorefront/vue-storefront/issues/5886)) - [Baroshem](https://github.com/Baroshem)
+- Fix locale links in core and commercetools integration ([#5886](https://github.com/vuestorefront/vue-storefront/issues/5886)) - [Baroshem](https://github.com/Baroshem)
 
--  Remove SSR from personalized elements ([#5925](https://github.com/vuestorefront/vue-storefront/pull/5925)) - [vn-vlad](https://github.com/vn-vlad)
+- Remove SSR from personalized elements ([#5925](https://github.com/vuestorefront/vue-storefront/pull/5925)) - [vn-vlad](https://github.com/vn-vlad)
 
--  Add "useStore" implementation and plugin for creating locale, currency and country cookies ([#5945](https://github.com/vuestorefront/vue-storefront/pull/5945)) - [vn-vlad](https://github.com/vn-vlad)
+- Add "useStore" implementation and plugin for creating locale, currency and country cookies ([#5945](https://github.com/vuestorefront/vue-storefront/pull/5945)) - [vn-vlad](https://github.com/vn-vlad)
 
--  Add forgot password functionality ([#5968](https://github.com/vuestorefront/vue-storefront/issues/5968)) - [Baroshem](https://github.com/Baroshem)
+- Add forgot password functionality ([#5968](https://github.com/vuestorefront/vue-storefront/issues/5968)) - [Baroshem](https://github.com/Baroshem)
 
--  Click "Add New Address" button on the Checkout does not submit the form ([#5994](https://github.com/vuestorefront/vue-storefront/pull/6034)) - [lukaszjedrasik](https://github.com/lukaszjedrasik)
+- Click "Add New Address" button on the Checkout does not submit the form ([#5994](https://github.com/vuestorefront/vue-storefront/pull/6034)) - [lukaszjedrasik](https://github.com/lukaszjedrasik)
 
--  Remove `generate` command from `package.json` ([#6035](https://github.com/vuestorefront/vue-storefront/pull/6035)) - [lukaszjedrasik](https://github.com/lukaszjedrasik)
+- Remove `generate` command from `package.json` ([#6035](https://github.com/vuestorefront/vue-storefront/pull/6035)) - [lukaszjedrasik](https://github.com/lukaszjedrasik)
 
--  Refactor updateCart, fix retry logic in case of mismatch of cart ([#6050](https://github.com/vuestorefront/vue-storefront/pull/6054)) - [git-antonyuk](https://github.com/git-antonyuk)
+- Refactor updateCart, fix retry logic in case of mismatch of cart ([#6050](https://github.com/vuestorefront/vue-storefront/pull/6054)) - [git-antonyuk](https://github.com/git-antonyuk)
 
 - **[BREAKING]** refactor(commercetools): fix the frontend client bundling the commercetools-sdk and apollo client ([#6066](https://github.com/vuestorefront/vue-storefront/pull/6066)) - [bloodf](https://github.com/bloodf)
 
@@ -128,17 +128,17 @@
   | ------ | ----- | ------ | ------
   | the "createCommerceToolsConnection" were being exported by the api-client | the "createCommerceToolsConnection" is not being exported anymore | to use the current connection, you will need to access the context to call the API | api-client
 
--  Linked banner grids buttons on homepage ([#6070](https://github.com/vuestorefront/vue-storefront/pull/6070)) - [Justyna Gieracka](https://github.com/justyna-13)
+- Linked banner grids buttons on homepage ([#6070](https://github.com/vuestorefront/vue-storefront/pull/6070)) - [Justyna Gieracka](https://github.com/justyna-13)
 
--  Replace mocked email address in MyProfile password change tab to active user email ([#6079](https://github.com/vuestorefront/vue-storefront/pull/6079)) - [Adam Pawliński](https://github.com/AdamPawlinski)
+- Replace mocked email address in MyProfile password change tab to active user email ([#6079](https://github.com/vuestorefront/vue-storefront/pull/6079)) - [Adam Pawliński](https://github.com/AdamPawlinski)
 
--  Removed hardcoded link to category in SearchResults.vue ([#6081](https://github.com/vuestorefront/vue-storefront/pull/6081)) - [Justyna Gieracka](https://github.com/justyna-13)
+- Removed hardcoded link to category in SearchResults.vue ([#6081](https://github.com/vuestorefront/vue-storefront/pull/6081)) - [Justyna Gieracka](https://github.com/justyna-13)
 
--  Added new product getter `getProductSku` ([#6107](https://github.com/vuestorefront/vue-storefront/pull/6107)) - [Justyna Gieracka](https://github.com/justyna-13)
+- Added new product getter `getProductSku` ([#6107](https://github.com/vuestorefront/vue-storefront/pull/6107)) - [Justyna Gieracka](https://github.com/justyna-13)
 
--  Smartphone only promo code input added ([#6112](https://github.com/vuestorefront/vue-storefront/pull/6112)) - [vn-vlad](https://github.com/vn-vlad)
+- Smartphone only promo code input added ([#6112](https://github.com/vuestorefront/vue-storefront/pull/6112)) - [vn-vlad](https://github.com/vn-vlad)
 
--  Updates form validation scheme for street, number and city in the checkout and profile editing pages ([#6122](https://github.com/vuestorefront/vue-storefront/pull/6122)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
+- Updates form validation scheme for street, number and city in the checkout and profile editing pages ([#6122](https://github.com/vuestorefront/vue-storefront/pull/6122)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
 
 - **[BREAKING]** updated the removeCoupon interface to match the applyCoupon ([#6126](https://github.com/vuestorefront/vue-storefront/pull/6126)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
 
@@ -146,47 +146,47 @@
   | ------ | ----- | ------ | ------
   | the useCart composable method removeCoupon was using this call signature: ({ coupon: COUPON, customQuery?: CustomQuery })   | the method signature was changed to: ({ couponCode: string, customQuery?: CustomQuery })   | on each removeCoupon composable usage need to change the "coupon" to "couponCode" | composables
 
--  Add new getter for orders total and change return value of searchOrders ([#6132](https://github.com/vuestorefront/vue-storefront/issues/5968)) - [Baroshem](https://github.com/Baroshem)
+- Add new getter for orders total and change return value of searchOrders ([#6132](https://github.com/vuestorefront/vue-storefront/issues/5968)) - [Baroshem](https://github.com/Baroshem)
 
 - Phone number validation via awesome-phonenumber ([#5951](https://github.com/vuestorefront/vue-storefront/issues/5951)) - [Fifciu](https://github.com/Fifciu)
 
 ## 1.2.3
 
--  Use cookies to read information about i18n ([#5919](https://github.com/vuestorefront/vue-storefront/pull/5919)) - [andrzejewsky](https://github.com/andrzejewsky)
+- Use cookies to read information about i18n ([#5919](https://github.com/vuestorefront/vue-storefront/pull/5919)) - [andrzejewsky](https://github.com/andrzejewsky)
 
--  Resetting commercetools token when clearing user session ([#5920](https://github.com/vuestorefront/vue-storefront/pull/5920)) - [andrzejewsky](https://github.com/andrzejewsky)
+- Resetting commercetools token when clearing user session ([#5920](https://github.com/vuestorefront/vue-storefront/pull/5920)) - [andrzejewsky](https://github.com/andrzejewsky)
 
--  Fix calculation of cart totals ([#5932](https://github.com/vuestorefront/vue-storefront/pull/5932)) - [Filip Sobol](https://github.com/filipsobol)
+- Fix calculation of cart totals ([#5932](https://github.com/vuestorefront/vue-storefront/pull/5932)) - [Filip Sobol](https://github.com/filipsobol)
 
 ## 1.2.2
 
--  Allow searching by orderNumber ([#5858](https://github.com/vuestorefront/vue-storefront/pull/5858)) - [samriley](https://github.com/samriley)
+- Allow searching by orderNumber ([#5858](https://github.com/vuestorefront/vue-storefront/pull/5858)) - [samriley](https://github.com/samriley)
 
 ## 1.2.1
 
--  Add args parameter to custom queries ([#5854](https://github.com/vuestorefront/vue-storefront/issues/5854)) - [andrzejewsky](https://github.com/andrzejewsky)
+- Add args parameter to custom queries ([#5854](https://github.com/vuestorefront/vue-storefront/issues/5854)) - [andrzejewsky](https://github.com/andrzejewsky)
 
--  Export factory params for all composables to allow overriding ([#5862](https://github.com/vuestorefront/vue-storefront/pull/5862)) - [Filip Sobol](https://github.com/filipsobol)
+- Export factory params for all composables to allow overriding ([#5862](https://github.com/vuestorefront/vue-storefront/pull/5862)) - [Filip Sobol](https://github.com/filipsobol)
 
--  Export helper Apollo Link functions for easier overriding ([#5873](https://github.com/vuestorefront/vue-storefront/pull/5873)) - [Filip Sobol](https://github.com/filipsobol)
+- Export helper Apollo Link functions for easier overriding ([#5873](https://github.com/vuestorefront/vue-storefront/pull/5873)) - [Filip Sobol](https://github.com/filipsobol)
 
 ## 1.2.0
 
--  Set 'vsf-commercetools-token' cookie expiration time to match token expiration time. ([#5774](https://github.com/vuestorefront/vue-storefront/pull/5774)) - [Filip Sobol](https://github.com/filipsobol)
+- Set 'vsf-commercetools-token' cookie expiration time to match token expiration time. ([#5774](https://github.com/vuestorefront/vue-storefront/pull/5774)) - [Filip Sobol](https://github.com/filipsobol)
 
--  Reduce payload size for cart methods ([#5836](https://github.com/vuestorefront/vue-storefront/pull/5836)) - [Filip Sobol](https://github.com/filipsobol)
+- Reduce payload size for cart methods ([#5836](https://github.com/vuestorefront/vue-storefront/pull/5836)) - [Filip Sobol](https://github.com/filipsobol)
 
 ## 1.2.0-rc.3
 
--  Fix getters in `cartGetters` to not throw errors when some properties don't exist ([#5699](https://github.com/vuestorefront/vue-storefront/pull/5699)) - [Filip Sobol](https://github.com/filipsobol)
+- Fix getters in `cartGetters` to not throw errors when some properties don't exist ([#5699](https://github.com/vuestorefront/vue-storefront/pull/5699)) - [Filip Sobol](https://github.com/filipsobol)
 
--  Fixed mapping for product attributes with type `set` ([#5708](https://github.com/vuestorefront/vue-storefront/pull/5708)) - [Filip Sobol](https://github.com/filipsobol)
+- Fixed mapping for product attributes with type `set` ([#5708](https://github.com/vuestorefront/vue-storefront/pull/5708)) - [Filip Sobol](https://github.com/filipsobol)
 
--  Fixed CT wishlist throwing CAPI error ([#5716](https://github.com/vuestorefront/vue-storefront/pull/5716)) - [Filip Sobol](https://github.com/filipsobol)
+- Fixed CT wishlist throwing CAPI error ([#5716](https://github.com/vuestorefront/vue-storefront/pull/5716)) - [Filip Sobol](https://github.com/filipsobol)
 
 ## 1.2.0-rc.2
 
--  Adjust Checkout UI ([#5343](https://github.com/vuestorefront/vue-storefront/issues/5343)) - [Justyna Gieracka](https://github.com/justyna-13)
+- Adjust Checkout UI ([#5343](https://github.com/vuestorefront/vue-storefront/issues/5343)) - [Justyna Gieracka](https://github.com/justyna-13)
 
 - **[BREAKING]** Usage of api middleware ([#5361](https://github.com/vuestorefront/vue-storefront/pull/5361)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
 
@@ -194,11 +194,11 @@
   | ------ | ----- | ------ | ------
   | one entrypoint | multiple entrypoints | We expose multiple entrypoints for server and client side interaction | commercetools
 
--  New part of checkout - shipping details, inside core and commercetools ([#5419](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
+- New part of checkout - shipping details, inside core and commercetools ([#5419](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
 
--  Added `is-authenticated` middleware to protect user profile routes from guest access ([#5442](https://github.com/vuestorefront/vue-storefront/pull/5442)) - [Filip Sobol](https://github.com/filipsobol)
+- Added `is-authenticated` middleware to protect user profile routes from guest access ([#5442](https://github.com/vuestorefront/vue-storefront/pull/5442)) - [Filip Sobol](https://github.com/filipsobol)
 
--  Improvements for api middleware ([#5500](https://github.com/vuestorefront/vue-storefront/pull/5500)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
+- Improvements for api middleware ([#5500](https://github.com/vuestorefront/vue-storefront/pull/5500)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
 
 - **[BREAKING]** New part of checkout - Billing details, inside core and commercetools ([#5552](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
 
@@ -217,41 +217,51 @@
 
 | Before | After | Comment | Module
 | ------ | ----- | ------ | ------
-customQuery was used as a function | customQuery is a key-value object | The key is a query name, value is the name of a new query function, defined in the middleware config | commercetools,
+customQuery was used as a function | customQuery is a key-value object | The key is a query name, value is the name of a new query function, defined in the middleware config | commercetools
+
 - **[BREAKING]** New Payment API for Checkout ([#5587](https://github.com/vuestorefront/vue-storefront/pull/5587)) - [Fifciu](https://github.com/Fifciu)
 
   | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | Dedicated composable for whole checkout | Dedicated composable for Shipping, Billing and Provider components | undefined | commercetools
 
--  State as a select field at both Checkout and MyAccount (shipping & billing). Support for freeAbove in shipping methods ([#5628](https://github.com/vuestorefront/vue-storefront/pull/5628)) - [Fifciu](https://github.com/Fifciu)
+- State as a select field at both Checkout and MyAccount (shipping & billing). Support for freeAbove in shipping methods ([#5628](https://github.com/vuestorefront/vue-storefront/pull/5628)) - [Fifciu](https://github.com/Fifciu)
 
 ## 1.1.7
+
 - fixed error with login to the account ([#5613](https://github.com/vuestorefront/vue-storefront/issues/5613))
 
 ## 1.1.6
+
 - fix register function from CT useUser composable allows user to log in [#5613](https://github.com/vuestorefront/vue-storefront/issues/5613)
 
 ## 1.1.5
+
 - remove deprecated field `description` from shipping methods query [#5614](https://github.com/vuestorefront/vue-storefront/issues/5614)
 
 ## 1.1.6
+
 - fix register function from CT useUser composable allows user to log in [#5613](https://github.com/vuestorefront/vue-storefront/issues/5613)
 
 ## 1.1.5
+
 - remove deprecated field `description` from shipping methods query [#5614](https://github.com/vuestorefront/vue-storefront/issues/5614)
 
 ## 1.1.3
+
 - cover errors in re-try apollo-link that are not comming from graphql ([#5548](https://github.com/vuestorefront/vue-storefront/pull/5548))
 
 ## 1.1.2
+
 - moved from using `attributesList` to `attributesRaw`
 - add 'once' to prevent font reload on each reactivity event ([#5513](https://github.com/DivanteLtd/vue-storefront/issues/5534))
 
 ## 1.1.1
+
 - fixed `vue-lazy-hydration` dependency in `nuxt-theme-module` ([#5406](https://github.com/DivanteLtd/vue-storefront/issues/5406))
 
 ## 1.1.0
+
 - fix getOrders api ([#5328](https://github.com/DivanteLtd/vue-storefront/issues/5328))
 - added bottom margin to fix visibility of last footer category ([#5253](https://github.com/DivanteLtd/vue-storefront/issues/5253))
 - **[BREAKING]** refactored names of many factory methods and composable methods, details in linked PR ([#5299](https://github.com/DivanteLtd/vue-storefront/pull/5299))
@@ -265,9 +275,11 @@ customQuery was used as a function | customQuery is a key-value object | The key
 - `createMyShoppingList` as a restricted anonymous operation
 
 ## 1.0.1-rc.1
+
 - updated version of core
 
 ## 1.0.0-rc.1
+
 - removed `availableFilters` and `availableSortingOptions` from `useProduct` ([#4856](https://github.com/DivanteLtd/vue-storefront/issues/4856))
 - removed `@import "~@storefront-ui/vue/styles";` from all components, because SFUI variables and mixins are now available globally and imports will drastically increase bundle size ([#5195](https://github.com/DivanteLtd/vue-storefront/issues/5195))
 - enabled "modern mode" in `yarn build` command ([#5203](https://github.com/DivanteLtd/vue-storefront/issues/5203))

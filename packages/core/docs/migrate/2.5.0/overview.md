@@ -32,11 +32,13 @@ export default {
 **This step is not required but highly recommended:** Update all files that import the Composition API functions to use `@nuxtjs/composition-api` instead of `@vue/composition-api`.
 
 Before:
+
 ```javascript
 import { ref, computed } from '@vue/composition-api';
 ```
 
 After:
+
 ```javascript
 import { ref, computed } from '@nuxtjs/composition-api';
 ```
@@ -121,6 +123,7 @@ Follow the steps below to upgrade your existing projects:
       }
     };
     ```
+
 2. Change the order of `buildModules` so that the integration-specific module is before the `@vue-storefront/nuxt` module:
 
     ```javascript
@@ -144,34 +147,68 @@ Follow the steps below to upgrade your existing projects:
     <nuxt-link :to="switchLocalePath(lang.code)">
     ```
 
+## Changes in the internal internationalization logic
+
+Changes in the cookies described in the previous section forced us to update the internal logic for internationalization. Due to them, it's required for all Vue Storefront integrations registered in the `modules` array (not in `buildModules`) in the `nuxt.config.js` file to be above the `nuxt-i18n` module.
+
+Before:
+
+```javascript
+export default {
+  modules: [
+    ['nuxt-i18n', {
+      baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+    }],
+    '@vsf-enterprise/algolia/nuxt',
+    ['@vsf-enterprise/adyen/nuxt', {}]
+    // other non-integration modules
+  ]
+};
+```
+
+After:
+
+```javascript
+export default {
+  modules: [
+    '@vsf-enterprise/algolia/nuxt',
+    ['@vsf-enterprise/adyen/nuxt', {}],
+    ['nuxt-i18n', {
+      baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+    }],
+    // other non-integration modules
+  ]
+};
+```
+
 ## Other changes
 
 Below is the list of the template files that we updated since the last release. You can generate a new project using our CLI and compare the files listed below with your existing project to see if they need updating.
 
-- `components/AppHeader.vue`,
-- `components/BottomNavigation.vue`,
-- `components/CartSidebar.vue`,
-- `components/CategoryPageHeader.vue`,
-- `components/FiltersSidebar.vue`,
-- `components/LocaleSelector.vue`,
-- `components/LoginModal.vue`,
-- `components/RelatedProducts.vue`,
-- `components/SearchResults.vue`,
-- `components/WishlistSidebar.vue`,
-- `composables/useUiState.ts`,
-- `lang/de.js`,
-- `lang/en.js`,
-- `layouts/blank.vue`,
-- `layouts/default.vue`,
-- `layouts/error.vue`,
-- `pages/Category.vue`,
-- `pages/Checkout.vue`,
-- `pages/Checkout/Billing.vue`,
-- `pages/Checkout/Payment.vue`,
-- `pages/Checkout/Shipping.vue`,
-- `pages/Home.vue`,
-- `pages/MyAccount.vue`,
-- `pages/MyAccount/LoyaltyCard.vue` (deleted),
-- `pages/MyAccount/MyReviews.vue` (deleted),
-- `pages/Product.vue`,
-- `pages/ResetPassword.vue`.
+* `components/AppHeader.vue`,
+* `components/BottomNavigation.vue`,
+* `components/CartSidebar.vue`,
+* `components/CategoryPageHeader.vue`,
+* `components/FiltersSidebar.vue`,
+* `components/LocaleSelector.vue`,
+* `components/LoginModal.vue`,
+* `components/RelatedProducts.vue`,
+* `components/SearchResults.vue`,
+* `components/WishlistSidebar.vue`,
+* `composables/useUiState.ts`,
+* `lang/de.js`,
+* `lang/en.js`,
+* `layouts/blank.vue`,
+* `layouts/default.vue`,
+* `layouts/error.vue`,
+* `pages/Category.vue`,
+* `pages/Checkout.vue`,
+* `pages/Checkout/Billing.vue`,
+* `pages/Checkout/Payment.vue`,
+* `pages/Checkout/Shipping.vue`,
+* `pages/Home.vue`,
+* `pages/MyAccount.vue`,
+* `pages/MyAccount/LoyaltyCard.vue` (deleted),
+* `pages/MyAccount/MyReviews.vue` (deleted),
+* `pages/Product.vue`,
+* `pages/ResetPassword.vue`.

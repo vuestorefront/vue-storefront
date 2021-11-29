@@ -17,11 +17,11 @@ The commercetools configuration is located in two places:
 }]
 ```
 
-- `useNuxtI18nConfig` - when this property is set to true, `@vue-storefront/commercetools/nuxt` package will use `i18n` config object provided in `nuxt.config.js`. When set to false, `i18n` config should be declared directly inside this package configuration. You can read more about `i18n` config in Vue Storefront [here](../advanced/internationalization.md)
+- `useNuxtI18nConfig` - when this property is set to true, `@vue-storefront/commercetools/nuxt` package will use `i18n` config object provided in `nuxt.config.js`. When set to false, `i18n` config should be declared directly inside this package configuration. You can read more about `i18n` configuration on the [internationalization](/advanced/internationalization.md) page.
 
 ## Middleware commercetools configuration
 
-You can read more about middleware configuration in Vue Storefront [here](../architecture/server-middleware.html#configuration)
+You can read more about middleware configuration on the [Server Middleware](/architecture/server-middleware.html#configuration) page.
 
 ```js
 // middleware.config.js
