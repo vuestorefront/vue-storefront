@@ -16,7 +16,10 @@ const useMakeOrderFactoryParams = {
   make: async (context: Context, { customQuery }): Promise<Order> => {
     const { id, version } = context.cart.cart.value;
     const response = await context.$ct.api.createMyOrderFromCart({ id, version }, customQuery);
-    return response.data.order;
+    if (response?.data?.order) {
+      return response.data.order;
+    }
+    throw response?.errors?.[0] || response;
   }
 };
 
