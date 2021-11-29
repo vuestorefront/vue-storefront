@@ -87,6 +87,7 @@ const invokeClientEntry = async () => {
         return // do not resolve asyncData on server render - already been done
       }
       if (!Vue.prototype.$cacheTags) Vue.prototype.$cacheTags = new Set<string>()
+      const matched = router.getMatchedComponents(to)
       if (to) { // this is from url
         if (globalConfig.storeViews.multistore === true) {
           const currentRoute = Object.assign({}, to, { host: window.location.host })
