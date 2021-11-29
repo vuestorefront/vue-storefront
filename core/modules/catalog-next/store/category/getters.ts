@@ -143,7 +143,8 @@ const getters: GetterTree<CategoryState, RootState> = {
   },
   getMenuCategories (state, getters, rootState, rootGetters) {
     return state.menuCategories || rootGetters['category/getCategories']
-  }
+  },
+  getCurrentPageProducts: (state) => state.currentPageProducts
 }
 
 export default getters

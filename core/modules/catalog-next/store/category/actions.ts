@@ -261,6 +261,36 @@ const actions: ActionTree<CategoryState, RootState> = {
       }
     }
   },
+  async fetchPageProducts({ commit, dispatch, getters }, { page, pageSize }: { page: number, pageSize: number }) {
+    const { includeFields, excludeFields } = config.entities.productList;
+    const { filters } = getters['getCurrentSearchQuery'];
+    const filterQuery = buildFilterProductsQuery(
+      getters['getCurrentCategory'],
+      filters
+    );
+    const sortOrder = getters['getCurrentSearchQuery'].sort ||
+      `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`
+    const start = (page - 1) * pageSize;
+
+    const searchResult = await quickSearchByQuery({
+      query: filterQuery,
+      sort: sortOrder,
+      start: start,
+      size: pageSize,
+      includeFields: includeFields,
+      excludeFields: excludeFields
+    });
+
+    const currentPageProducts = await dispatch(
+      'processCategoryProducts',
+      {
+        products: searchResult.items,
+        filters: filters
+      }
+    );
+
+    commit(types.CATEGORY_SET_CURRENT_PAGE_PRODUCTS, currentPageProducts);
+  },
   /** Below actions are not used from 1.12 and can be removed to reduce bundle */
   ...require('./deprecatedActions').default
 }
