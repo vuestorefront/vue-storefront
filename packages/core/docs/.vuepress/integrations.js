@@ -121,7 +121,7 @@ const INTEGRATIONS = {
       link: '',
       image: '/v2/integrations-logos/opencart.svg',
       status: STATUSES.WIP,
-      availability: AVAILABILITY.ENTERPRISE,
+      availability: AVAILABILITY.OPEN_SOURCE,
       maintainedBy: []
     },
     {
