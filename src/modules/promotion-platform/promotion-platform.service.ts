@@ -7,7 +7,7 @@ import { Dictionary } from '../budsies';
 import ImageBanner from './types/ImageBanner.model';
 
 export const PromotionPlatformService = {
-  async fetchCampaignContent (campaignToken?: string, dataParam?: string): Promise<CampaignsGetAPIResponse> {
+  async fetchCampaignContent (campaignToken?: string, dataParam?: string, cartId?: string): Promise<CampaignsGetAPIResponse> {
     let url = processURLAddress(`${config.budsies.endpoint}/promotion-platform/campaigns`);
 
     let query = new URLSearchParams();
@@ -18,6 +18,10 @@ export const PromotionPlatformService = {
 
     if (dataParam) {
       query.append('data', dataParam);
+    }
+
+    if (cartId) {
+      query.append('cartId', cartId);
     }
 
     const queryString = query.toString();

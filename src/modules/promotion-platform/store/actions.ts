@@ -8,10 +8,10 @@ import PromotionPlatformState from '../types/PromotionPlatformState';
 import * as types from '../types/StoreMutations';
 
 export const actions: ActionTree<PromotionPlatformState, any> = {
-  async fetchCampaignContent ({ commit, getters }, dataParam?: string): Promise<void> {
+  async fetchCampaignContent ({ commit, getters }, data: { dataParam?: string, cartId?: string }): Promise<void> {
     const campaignToken = getters['campaignToken'];
 
-    const content = await PromotionPlatformService.fetchCampaignContent(campaignToken, dataParam);
+    const content = await PromotionPlatformService.fetchCampaignContent(campaignToken, data.dataParam, data.cartId);
 
     commit(types.SET_CAMPAIGN_CONTENT, content.campaignContent);
     commit(types.SET_CAMPAIGN_TOKEN, content.campaignToken);
