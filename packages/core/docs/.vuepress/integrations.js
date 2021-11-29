@@ -288,10 +288,32 @@ const INTEGRATIONS = {
       categories: [ CATEGORIES.AUTH ]
     },
     {
-      name: 'Bloomreach',
-      link: '',
+      name: 'Bloomreach Content',
+      link: 'https://docs.vuestorefront.io/bloomreach/',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/609a7a69e04df518abce7c13_bloomreach-logo-horizontal.png',
-      status: STATUSES.WIP,
+      status: STATUSES.STABLE,
+      availability: AVAILABILITY.ENTERPRISE,
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
+      categories: [ CATEGORIES.CMS ]
+    },
+    {
+      name: 'Bloomreach Discovery',
+      link: 'https://docs.vuestorefront.io/bloomreach-search/',
+      image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/609a7a69e04df518abce7c13_bloomreach-logo-horizontal.png',
+      status: STATUSES.STABLE,
+      availability: AVAILABILITY.ENTERPRISE,
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
+      categories: [ CATEGORIES.SEARCH ]
+    },
+    {
+      name: 'Sanity',
+      link: 'https://docs.vuestorefront.io/sanity/',
+      image: '/v2/integrations-logos/sanity.svg',
+      status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
