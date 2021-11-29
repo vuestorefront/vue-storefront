@@ -1,8 +1,11 @@
 name: Deploy Docs
+
 on:
   push:
     branches:
-      - release/next
+      - main
+    paths:
+      - packages/core/docs/**
 
 jobs:
   build:
