@@ -16,8 +16,6 @@ Open Source implementation relies on GraphQL API (internally using `getProduct` 
 
 What makes it powerful is the ability to accept multiple filters, allowing to narrow down the results to a specific category, search term, etc.
 
-For more information about faceting, please refer to [this page](../composables/use-facet.md).
-
 ## API
 
 `useFacet` contains the following properties:

@@ -264,10 +264,8 @@ module.exports = {
           collapsable: true,
           children: [
             ['/contributing/', 'Contribution basics'],
-            ['/contributing/api-design-philosophy', 'Rules and conventions'],
-            ['/contributing/creating-changelog', 'Creating changelog'],
-            ['/contributing/themes', 'Working with themes'],
-            ['/contributing/server-side-rendering', 'Server-side rendering']
+            ['/contributing/branching-model', 'Branching model'],
+            ['/contributing/how-to-submit-pull-request', 'How to submit a Pull Request']
           ]
         }
       ]

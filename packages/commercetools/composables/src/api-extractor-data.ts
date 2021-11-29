@@ -12,5 +12,4 @@
 export * from './index';
 export { StoreFilterCriteria } from './getters/storeGetters';
 export { ProductVariantFilters } from './getters/productGetters';
-export { CartDetails } from '../../api-client';
 export { ShippingProviderState } from './useShippingProvider';

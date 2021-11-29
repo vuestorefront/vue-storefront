@@ -40,12 +40,6 @@
 
         <span>{{ categories.join(', ') }}</span>
       </p>
-
-      <p v-if="compatibility && compatibility.length">
-        <span class="tile-tags-title">Compatible with:</span>
-
-        <span>{{ compatibility.join(', ') }}</span>
-      </p>
     </div>
 
     <a
@@ -88,10 +82,6 @@ export default {
       required: false
     },
     categories: {
-      type: Array,
-      required: false
-    },
-    compatibility: {
       type: Array,
       required: false
     }
