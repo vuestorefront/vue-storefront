@@ -62,9 +62,9 @@ export const actions: ActionTree<StoryblokState, RootState> = {
     return story
   },
   async loadStory ({ commit, state }, { fullSlug: key }) {
-    if (state.stories[key] && state.stories[key].loading) {
+    if (state.stories[key]?.loading) {
       // Already fetching this story
-      return
+      return state.stories[key].loadingPromise;
     }
 
     const cachedStory = state.stories[key]?.story
@@ -72,13 +72,16 @@ export const actions: ActionTree<StoryblokState, RootState> = {
       return cachedStory
     }
 
-    commit('loadingStory', { key })
-
     const url = processURLAddress(`${config.storyblok.endpoint}/story/${key}`.replace(/([^:]\/)\/+/g, '$1'))
-    const story = await fetchStory(url)
 
-    commit('setStory', { key, story })
+    const loadingPromise = fetchStory(url).then((story: Record<string, any>) => {
+      commit('setStory', { key, story });
 
     return story
+    })
+
+    commit('loadingStory', { key, loadingPromise })
+
+    return loadingPromise;
   }
 }
