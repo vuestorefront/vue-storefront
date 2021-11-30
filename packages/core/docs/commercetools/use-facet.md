@@ -1,10 +1,4 @@
-# `useFacet` <Badge text="Enterprise" type="info" />
-
-:::warning
-This feature is a part of our commercial offering but also exists in the open-source version of our commercetools integration.
-
-Open Source implementation relies on GraphQL API (internally using `getProduct` and `getCategory` composables), which doesn't provide full faceting capabilities as does the dedicated REST-based faceting API offered in our Enterprise version. Please [contact our Sales team](https://www.vuestorefront.io/contact/sales) if you'd like to get access to it.
-:::
+# `useFacet`
 
 ## Features
 
@@ -166,10 +160,6 @@ type ProductVariant = {
 ```
 
 ## Configuration
-
-::: warning
-Configuration can be changed only for the Enterprise version of this package.
-:::
 
 Faceting configuration can be modified to change available sorting options, filters, etc.
 

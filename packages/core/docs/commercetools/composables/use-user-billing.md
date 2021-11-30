@@ -1,6 +1,4 @@
-# `useUserBilling` <Badge text="Enterprise" type="info" />
-
-> This feature is a part of our commercial offering and does not exist in the open-source version of commercetools integration. Read more about a Vue Storefront Enterprise Cloud [here](https://www.vuestorefront.io/enterprise)
+# `useUserBilling`
 
 ## Features
 
