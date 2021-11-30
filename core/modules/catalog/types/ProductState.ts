@@ -25,5 +25,6 @@ export default interface ProductState {
   custom_options_validators: any,
   productLoadStart: number,
   productLoadPromise: Promise<any> | null,
-  productGallery: any
+  productGallery: any,
+  productBySku: Record<string, Product>
 }

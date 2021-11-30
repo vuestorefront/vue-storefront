@@ -314,6 +314,21 @@ const actions: ActionTree<ProductState, RootState> = {
 
     return { ...selectedVariant, options, product_option }
   },
+  async loadProductAndSetToProductBySku ({commit, dispatch}, {
+    options = {},
+    key = 'sku',
+    skipCache = false
+  }) {
+    const product = await dispatch('single', {
+      options,
+      key,
+      skipCache
+    });
+
+    commit(types.PRODUCT_SET_PRODUCT_BY_SKU, product);
+
+    return product;
+  },
   /** Below actions are not used from 1.12 and can be removed to reduce bundle */
   ...require('./deprecatedActions').default
 }
