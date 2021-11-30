@@ -66,12 +66,13 @@ export const actions: ActionTree<StoryblokState, RootState> = {
       // Already fetching this story
       return
     }
-    commit('loadingStory', { key })
 
-    const cachedStory = state.stories[key].story
+    const cachedStory = state.stories[key]?.story
     if (cachedStory) {
       return cachedStory
     }
+
+    commit('loadingStory', { key })
 
     const url = processURLAddress(`${config.storyblok.endpoint}/story/${key}`.replace(/([^:]\/)\/+/g, '$1'))
     const story = await fetchStory(url)
