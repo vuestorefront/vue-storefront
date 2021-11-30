@@ -1,6 +1,6 @@
 # commercetools integration for Vue Storefront
 
-::: tip There's more
+:::tip There's more
 This page only contains the documentation specific to commercetools integration. For more information, see the [Vue Storefront documentation](https://docs.vuestorefront.io/v2/).
 :::
 
