@@ -1,3 +1,5 @@
+import StoryblokClient from 'storyblok-js-client'
+
 import { StoryblokState } from '../types/State'
 import { ActionTree, ActionContext } from 'vuex'
 import config from 'config'
@@ -48,18 +50,28 @@ export const actions: ActionTree<StoryblokState, RootState> = {
     commit('setPreviewToken', { previewToken })
     return previewToken
   },
-  async loadDraftStory ({ commit }: ActionContext<StoryblokState, RootState>, { id, previewToken, lang }) {
-    commit('loadingStory', { key: id })
+  async loadDraftStory ({ commit, state }: ActionContext<StoryblokState, RootState>, { id, previewToken, lang }) {
+    if (state.stories[id]?.loading) {
+      // Already fetching this story
+      return state.stories[id].loadingPromise;
+    }
 
-    const { data: { story } } = await this['$storyblokClient'].get(`cdn/stories/${id}`, {
+    const loadingPromise = (this['$storyblokClient'] as StoryblokClient).get(`cdn/stories/${id}`, {
       token: previewToken,
       language: lang,
       resolve_relations: 'block_reference.reference',
       version: 'draft'
-    })
+    }).then((result) => {
+      const story: Record<string, any> = result.data?.story;
 
-    commit('setStory', { key: id, story })
-    return story
+      commit('setStory', { key: id, story })
+
+      return story;
+    });
+
+    commit('loadingStory', { key: id, loadingPromise })
+
+    return loadingPromise;
   },
   async loadStory ({ commit, state }, { fullSlug: key }) {
     if (state.stories[key]?.loading) {
@@ -77,7 +89,7 @@ export const actions: ActionTree<StoryblokState, RootState> = {
     const loadingPromise = fetchStory(url).then((story: Record<string, any>) => {
       commit('setStory', { key, story });
 
-    return story
+      return story
     })
 
     commit('loadingStory', { key, loadingPromise })
