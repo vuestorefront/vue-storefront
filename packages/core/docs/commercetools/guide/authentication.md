@@ -197,11 +197,3 @@ export default {
 }
 </script>
 ```
-
-## How does it work in integrations?
-
-Below you can find detailed information on how we're handling authentication in different integrations.
-<CommerceIntegrationLinks 
- commercetools="/commercetools/authorization-strategy.html"
- shopify="WIP"
-/>

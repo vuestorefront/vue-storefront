@@ -14,7 +14,7 @@
     "build:core": "yarn core-cache-ref && yarn core-core-ref && yarn core-middleware-ref && yarn core-ref-md",
     "ct-api-ref": "cd ../../commercetools/api-client && api-extractor run --local",
     "ct-comp-ref": "cd ../../commercetools/composables && api-extractor run --local",
-    "ct-ref-md": "api-documenter markdown --i commercetools/api-reference --o commercetools/api-reference",
+    "ct-ref-md": "api-documenter markdown --i commercetools/reference/api --o commercetools/reference/api",
     "build:ct": "yarn ct-api-ref && yarn ct-comp-ref && yarn ct-ref-md"
   },
   "devDependencies": {

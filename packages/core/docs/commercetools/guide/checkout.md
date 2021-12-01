@@ -1,7 +1,5 @@
 # Checkout
 
-> This document only outlines the general checkout flow. Each eCommerce platform, Payment provider, or Shipping provider could implement it slightly differently. Please follow the instructions from the documentation of your payment or shipping provider to learn about its caveats
-
 Checkout is a process of providing shipping and billing addresses and selecting shipping and payment methods needed to place an order and pay for it.
 
 ## Collecting and saving shipping details
@@ -9,6 +7,7 @@ Checkout is a process of providing shipping and billing addresses and selecting 
 Shipping details are information about the recipient's address required to ship the order.
 
 You can load shipping details by calling the `load` method in `useShipping` composable and accessing the `shipping` property after loading is done.
+
 ```js{8,16}
 import { useShipping } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
@@ -30,7 +29,8 @@ export default {
   }
 }
 ```
-`shipping` property returns `null` if the `load` function was not invoked or nothing is saved.    
+
+`shipping` property returns `null` if the `load` function was not invoked or nothing is saved.
 
 You can use the `save` method to save shipping details, so they are available next time you `load` them.
 
@@ -70,6 +70,7 @@ export default {
 `VsfShippingProvider` is a component that aggregates one or more shipping methods from a single provider like FedEx or DHL. This component is usually the only thing that you need to integrate a particular vendor into your project and is always delivered as third-party integration.
 
 The component is responsible for:
+
 - Loading and displaying available shipping methods.
 - Loading selected shipping method.
 - Selecting and configuring shipping method.
@@ -161,7 +162,8 @@ export default {
   }
 }
 ```
-`billing` property returns `null` if the `load` function was not invoked or nothing is saved.   
+
+`billing` property returns `null` if the `load` function was not invoked or nothing is saved.
 
 You can use the `save` method to save billing details.
 
@@ -199,6 +201,7 @@ export default {
 ## Making an order
 
 After the user has provided all the information required by your eCommerce, you are ready to *make an order*. To do that, you have to call a `make` method from the `useMakeOrder` composable.
+
 ```js
 import { useMakeOrder } from '@vue-storefront/commercetools';
 
@@ -234,9 +237,10 @@ export default {
 
 ## Payment providers
 
-A `VsfPaymentProvider` is a component that provides one or more payment methods. One such component integrates one third-party provider of payments like Checkout.com or Adyen. This component is usually the only thing that you need to integrate a particular vendor into your project and is always delivered as third-party integration.   
+A `VsfPaymentProvider` is a component that provides one or more payment methods. One such component integrates one third-party provider of payments like Checkout.com or Adyen. This component is usually the only thing that you need to integrate a particular vendor into your project and is always delivered as third-party integration.
 
 The component is responsible for:
+
 - Loading and displaying available payment methods.
 - Loading selected payment method.
 - Picking and configuring payment method.
@@ -266,6 +270,7 @@ The next step is making a payment. Each package with a payment provider might us
 ### SDK takes the full control
 
 If the payment provider's SDK handles the whole payment and you can only provide your own callbacks for certain events. You want to make an order in the `beforePay` async hook.
+
 ```vue
 <template>
   <div>
@@ -292,6 +297,7 @@ export default {
 ### SDK allows externalizing pay method
 
 If the payment provider's SDK handles the process of configuring payment but allows you to decide when to finalize then:
+
 - Composable shares a `pay` method.
 - Composable shares a `status` boolean ref that informs if you are ready to call `pay`.
 
@@ -344,7 +350,7 @@ Because every payment provider is different, not all of them are present in ever
 - **afterPay** `(paymentResponse => void)` - Called after pay.
 - **beforeSelectedDetailsChange** `(details => details)` - Called before modifying currently picked payment method, e.g. changing credit card's details.
 - **afterSelectedDetailsChange** `(details => void)` - Called after modifying currently picked payment method, e.g. changing credit card's details.
-- **onError** `(({ action, error }) => void)` - Called when some operation throws an error. 
+- **onError** `(({ action, error }) => void)` - Called when some operation throws an error.
 
 ```vue
 <VsfPaymentProvider
@@ -359,7 +365,3 @@ Because every payment provider is different, not all of them are present in ever
   :onError="onError"
 />
 ```
-
-### Why some integrations have a mocked `VsfPaymentProvider`?
-
-There are eCommerce backends that do not provide any payment methods out-of-the-box, e.g., commercetools. For these, you provide a mock component with the same interface as a real integration, so you can easily swap it with a payment integration of your choice. You can find available payment integrations [here](/v2/integrations/).
