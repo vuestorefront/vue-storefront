@@ -64,9 +64,9 @@ export default {
       return htmlWithFilledDirectivesValues;
     },
     getDirectiveData (directive) {
+      directiveDataRegexp.lastIndex = 0;
       const directiveDataString = directive.replace(/\{|\}|&quot|"/g, '').trim();
       const match = directiveDataRegexp.exec(directiveDataString);
-
       const directiveName = match[1].trim();
       const directiveParams = match[2].split(',');
 
