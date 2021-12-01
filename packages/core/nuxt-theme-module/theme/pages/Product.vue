@@ -202,7 +202,7 @@ export default {
     const { addItem, loading } = useCart();
     const { reviews: productReviews, search: searchReviews } = useReview('productReviews');
 
-    const id = computed(() => route.query.params.id);
+    const id = computed(() => route.value.params.id);
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: route.value.query })[0]);
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
     const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
