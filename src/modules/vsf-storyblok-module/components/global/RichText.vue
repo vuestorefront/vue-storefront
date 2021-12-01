@@ -167,6 +167,13 @@ export default {
 
       return price[priceType];
     }
+  },
+  watch: {
+    html (val, oldVal) {
+      if (val.trim() !== oldVal.trim()) {
+        this.parseDirectivesInHtml(val);
+      }
+    }
   }
 }
 </script>
