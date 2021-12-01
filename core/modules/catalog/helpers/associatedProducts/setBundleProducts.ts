@@ -37,7 +37,10 @@ export default async function setBundleProducts (product: Product, { includeFiel
     for (const bundleOption of product.bundle_options) {
       for (const productLink of bundleOption.product_links) {
         const associatedProduct = items.find((associatedProduct) => associatedProduct.sku === productLink.sku)
-        setProductLink(productLink, associatedProduct)
+
+        if (associatedProduct) {
+          setProductLink(productLink, associatedProduct)
+        }
       }
     }
 
