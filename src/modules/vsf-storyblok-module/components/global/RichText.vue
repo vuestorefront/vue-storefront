@@ -127,6 +127,7 @@ export default {
       const { productPriceDirectives } = this.getDirectivesFromHtml(html);
 
       if (!productPriceDirectives.length) {
+        this.parsedHtml = html;
         this.isDirectivesParsed = true;
         return;
       }
