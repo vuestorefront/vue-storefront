@@ -9,7 +9,8 @@ import { isServer } from '@vue-storefront/core/helpers';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { SearchQuery } from 'storefront-query-builder'
 
-const directivesRegexp = /\{\{(.*?)\}\}/gi
+const directivesRegexp = /\{\{(.*?)\}\}/gi;
+const directiveDataRegexp = /(.*)\((.*)\)/gi;
 
 export default {
   name: 'RichText',
@@ -64,7 +65,6 @@ export default {
     },
     getDirectiveData (directive) {
       const directiveDataString = directive.replace(/\{|\}|&quot|"/g, '').trim();
-      const directiveDataRegexp = /(.*)\((.*)\)/gi;
       const match = directiveDataRegexp.exec(directiveDataString);
 
       const directiveName = match[1].trim();
