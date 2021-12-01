@@ -119,11 +119,8 @@ module.exports = {
           collapsable: false,
           children: [
             ['/commercetools/', 'Introduction'],
-            ['/commercetools/store-setup', 'Store setup'],
-            ['/commercetools/configuration', 'Configuration'],
-            ['/commercetools/authorization-strategy', 'Authorization'],
-            ['/enterprise/feature-list', 'Feature list'],
-            ['/commercetools/maintainers', 'Maintainers and support'],
+            ['/commercetools/essentials/store-setup', 'Store setup'],
+            ['/commercetools/essentials/configuration', 'Configuration']
           ]
         },
         {
@@ -161,19 +158,12 @@ module.exports = {
           ]
         },
         {
-          title: 'Theme',
-          collapsable: true,
-          children: [
-            ['/commercetools/auth-middleware', 'Auth Middleware']
-          ]
-        },
-        {
           title: 'Reference',
           collapsable: true,
           children: [
-            ['/commercetools/api-reference/', 'API Reference'],
-            ['/commercetools/migrate/', 'Migration guide'],
-            ['/commercetools/changelog', 'Changelog']
+            ['/commercetools/reference/api/', 'API Reference'],
+            ['/commercetools/reference/migrate/', 'Migration guide'],
+            ['/commercetools/reference/changelog', 'Changelog']
           ]
         }
       ],

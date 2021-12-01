@@ -24,7 +24,7 @@ For more information about the project set up in commercetools, see the [Project
 
 <center>
   <img
-    src="./images/setup-store/menu-project-settings.webp"
+    src="../images/setup-store/menu-project-settings.webp"
     alt="Position of the 'Projects settings' page in the menu in commercetools"
     class="image-shadow"
   />
@@ -38,7 +38,7 @@ Start by selecting currencies available in your store:
 
 <center>
   <img
-    src="./images/setup-store/international-currencies.webp"
+    src="../images/setup-store/international-currencies.webp"
     alt="Input to modify currencies available in the store"
     class="image-shadow"
   />
@@ -48,7 +48,7 @@ Then, select supported languages:
 
 <center>
   <img
-    src="./images/setup-store/international-languages.webp"
+    src="../images/setup-store/international-languages.webp"
     alt="Input to modify languages available in the store"
     class="image-shadow"
   />
@@ -58,7 +58,7 @@ Next, select the available countries:
 
 <center>
   <img
-    src="./images/setup-store/international-countries.webp"
+    src="../images/setup-store/international-countries.webp"
     alt="Input to modify countries available in the store"
     class="image-shadow"
   />
@@ -68,7 +68,7 @@ Finally, set zones. They are helpful when few countries share the same delivery 
 
 <center>
   <img
-    src="./images/setup-store/international-zones.webp"
+    src="../images/setup-store/international-zones.webp"
     alt="Page to modify currencies available in the store"
     class="image-shadow"
   />
@@ -80,7 +80,7 @@ In the `Taxes` tab on the `Project settings` page, you can configure tax rates f
 
 <center>
   <img
-    src="./images/setup-store/taxes.webp"
+    src="../images/setup-store/taxes.webp"
     alt="Page to enter tax information for each country in the store"
     class="image-shadow"
   />
@@ -92,7 +92,7 @@ You can add a shipping method in the `Shipping methods` tab on the `Project sett
 
 <center>
   <img
-    src="./images/setup-store/shipping-methods.webp"
+    src="../images/setup-store/shipping-methods.webp"
     alt="Page to enter shipping methods and their prices for each zone in the store"
     class="image-shadow"
   />
@@ -110,7 +110,7 @@ To create a category, go to the `Add category` page from the sidebar menu.
 
 <center>
   <img
-    src="./images/setup-store/menu-add-category.webp"
+    src="../images/setup-store/menu-add-category.webp"
     alt="Position of the 'Add category' page in the menu in commercetools"
     class="image-shadow"
   />
@@ -120,7 +120,7 @@ Enter the name and category order.
 
 <center>
   <img
-    src="./images/setup-store/create-category-1.webp"
+    src="../images/setup-store/create-category-1.webp"
     alt="Page to enter basic information about the product category, such as name, descrioption and unique key"
     class="image-shadow"
   />
@@ -130,7 +130,7 @@ If applicable, select the parent category to which this category belongs.
 
 <center>
   <img
-    src="./images/setup-store/create-category-2.webp"
+    src="../images/setup-store/create-category-2.webp"
     alt="Page to select parent categories"
     class="image-shadow"
   />
@@ -140,7 +140,7 @@ Enter the category slug. It will be part of the URL for this category.
 
 <center>
   <img
-    src="./images/setup-store/create-category-3.webp"
+    src="../images/setup-store/create-category-3.webp"
     alt="Page to enter search engine related attributes, such as short slug, meta title and description"
     class="image-shadow"
   />
@@ -154,7 +154,7 @@ You can see your categories in the `categories search` menu:
 
 <center>
   <img
-    src="./images/setup-store/categories-search.webp"
+    src="../images/setup-store/categories-search.webp"
     alt="Page listing all categories available in the store"
     class="image-shadow"
   />
@@ -172,7 +172,7 @@ To create a product type, go to the `Product types` page from the sidebar menu a
 
 <center>
   <img
-    src="./images/setup-store/menu-product-types.webp"
+    src="../images/setup-store/menu-product-types.webp"
     alt="Position of the 'Product types' page in the menu in commercetools"
     class="image-shadow"
   />
@@ -182,7 +182,7 @@ Enter name and description and click the `Save` button. Without saving, you won'
 
 <center>
   <img
-    src="./images/setup-store/product-type-1.webp"
+    src="../images/setup-store/product-type-1.webp"
     alt="Page to enter basic information about the product type, such as name, description and unique key"
     class="image-shadow"
   />
@@ -193,7 +193,7 @@ Click the `Add an attribute` button and enter the name, label, constraints, and 
 
 <center>
   <img
-    src="./images/setup-store/product-type-2.webp"
+    src="../images/setup-store/product-type-2.webp"
     alt="Page to enter attributes of the product type"
     class="image-shadow"
   />
@@ -211,7 +211,7 @@ To create a product, go to the `Add product` page.
 
 <center>
   <img
-    src="./images/setup-store/menu-add-product.webp"
+    src="../images/setup-store/menu-add-product.webp"
     alt="Position of the 'Add product' page in the menu in commercetools"
     class="image-shadow"
   />
@@ -221,7 +221,7 @@ Start by selecting the product type.
 
 <center>
   <img
-    src="./images/setup-store/add-product-1.webp"
+    src="../images/setup-store/add-product-1.webp"
     alt="Page to select type of the product"
     class="image-shadow"
   />
@@ -231,7 +231,7 @@ Type the name and assign the tax category.
 
 <center>
   <img
-    src="./images/setup-store/add-product-2.webp"
+    src="../images/setup-store/add-product-2.webp"
     alt="Page to enter basic information about the product, such as name, description, unique key and category"
     class="image-shadow"
   />
@@ -241,7 +241,7 @@ Click the `Add variant` button and add at least one variant of the product with 
 
 <center>
   <img
-    src="./images/setup-store/add-product-3.webp"
+    src="../images/setup-store/add-product-3.webp"
     alt="Page to enter product SKU and additional variant attributes"
     class="image-shadow"
   />
@@ -251,7 +251,7 @@ Enter a slug, keywords, and metadata to optimize searching. Once you are finishe
 
 <center>
   <img
-    src="./images/setup-store/add-product-4.webp"
+    src="../images/setup-store/add-product-4.webp"
     alt="Page to enter search engine related information, such as keywords, short slug, meta title and description"
     class="image-shadow"
   />
@@ -261,7 +261,7 @@ Once the product is saved and you are redirected to the product summary page, ch
 
 <center>
   <img
-    src="./images/setup-store/add-product-5.webp"
+    src="../images/setup-store/add-product-5.webp"
     alt="Page showing a summary of the newly created product and 'Published' status of the product"
     class="image-shadow"
   />
@@ -275,7 +275,7 @@ Go to the `Developer settings` page.
 
 <center>
   <img
-    src="./images/setup-store/menu-developer-settings.webp"
+    src="../images/setup-store/menu-developer-settings.webp"
     alt="Position of the 'Developer settings' page in the menu in commercetools"
     class="image-shadow"
   />
@@ -289,7 +289,7 @@ For more information about scopes, see the [Scopes](https://docs.commercetools.c
 
 <center>
   <img
-    src="./images/setup-store/customer_scopes.webp"
+    src="../images/setup-store/customer_scopes.webp"
     alt="List of checkboxes indicating which scopes were selected for the customer API client"
     class="image-shadow"
   />
@@ -299,7 +299,7 @@ When you click on the `Create API client` button, you will see all the credentia
 
 <center>
   <img
-    src="./images/setup-store/api-client-2.webp"
+    src="../images/setup-store/api-client-2.webp"
     alt="Modal showing credentials for the newly created API client"
     class="image-shadow"
   />
@@ -309,7 +309,7 @@ Repeat the same process, but this time only select the `Customers` and `Products
 
 <center>
   <img
-    src="./images/setup-store/server_scopes.webp"
+    src="../images/setup-store/server_scopes.webp"
     alt="List of checkboxes indicating which scopes were selected for the server API client"
     class="image-shadow"
   />
