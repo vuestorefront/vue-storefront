@@ -3,10 +3,11 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import { getProductPrice } from 'theme/helpers';
 import { mapGetters } from 'vuex';
 import { isServer } from '@vue-storefront/core/helpers';
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { SearchQuery } from 'storefront-query-builder'
 
 const directivesRegexp = /\{\{(.*?)\}\}/gi
 
@@ -21,7 +22,6 @@ export default {
   data () {
     return {
       isDirectivesParsed: false,
-      parsedDirectives: {},
       parsedHtml: ''
     }
   },
@@ -35,19 +35,35 @@ export default {
         : html
     }
   },
+  serverPrefetch () {
+    return this.parseDirectivesInHtml(this.html);
+  },
   created () {
     if (isServer) {
       return;
     }
 
-    this.parseHtml();
+    this.parseDirectivesInHtml(this.html);
+    EventBus.$on('promotion-platform-store-synchronized', this.parseDirectivesInHtml);
   },
-  serverPrefetch () {
-    return this.parseHtml();
+  beforeDestroy () {
+    EventBus.$off('promotion-platform-store-synchronized', this.parseDirectivesInHtml);
   },
   methods: {
+    fillDirectivesValuesIntoHtml ({ html, productPriceDirectives, productsBySkuDictionary }) {
+      let htmlWithFilledDirectivesValues = html;
+
+      productPriceDirectives.forEach((directive) => {
+        htmlWithFilledDirectivesValues = htmlWithFilledDirectivesValues.replace(
+          directive.directive,
+          this.getProductPrice(productsBySkuDictionary[directive.productSku], directive.priceType)
+        );
+      });
+
+      return htmlWithFilledDirectivesValues;
+    },
     getDirectiveData (directive) {
-      const directiveDataString = directive.replace(/\{|\}/g, '').trim();
+      const directiveDataString = directive.replace(/\{|\}|&quot|"/g, '').trim();
       const directiveDataRegexp = /(.*)\((.*)\)/gi;
       const match = directiveDataRegexp.exec(directiveDataString);
 
@@ -56,70 +72,90 @@ export default {
 
       return {
         directiveName,
-        directiveParams: directiveParams.map((param) => param.replace(/"|&quot/g, '').trim())
+        directiveParams: directiveParams.map((param) => param.trim())
       }
     },
-    async loadProduct (productSku) {
-      if (this.productBySkuDictionary[productSku]) {
-        return;
-      }
+    async loadProducts (productsSkus) {
+      let searchQuery = new SearchQuery();
+      searchQuery = searchQuery.applyFilter({ key: 'sku', value: { 'in': productsSkus } })
 
       await this.$store.dispatch(
-        'product/loadProductAndSetToProductBySku',
+        'product/findProducts',
         {
-          options: {
-            sku: productSku
-          }
+          query: searchQuery,
+          size: productsSkus.length
         }
       )
     },
-    async parseDirectives (html) {
+    getDirectivesFromHtml (html) {
+      const productPriceDirectives = [];
+
       if (!html) {
-        return;
+        return { productPriceDirectives };
       }
 
       const directivesList = html.match(directivesRegexp);
 
       if (!directivesList) {
-        return;
+        return { productPriceDirectives };
       }
-
-      const productPriceDirectivesLoaders = []
 
       directivesList.forEach((directive) => {
         const { directiveName, directiveParams } = this.getDirectiveData(directive);
 
         if (directiveName && directiveName === 'productPrice') {
-          productPriceDirectivesLoaders.push(new Promise((resolve) => {
-            this.getProductPrice(directiveParams[0], directiveParams[1])
-              .then((price) => {
-                Vue.set(this.parsedDirectives, directive, price);
-                resolve(price);
-              });
-          }))
+          productPriceDirectives.push({
+            directive: directive,
+            productSku: directiveParams[0],
+            priceType: directiveParams[1]
+          })
         }
       });
 
-      if (productPriceDirectivesLoaders.length) {
-        await Promise.all(productPriceDirectivesLoaders);
+      return { productPriceDirectives };
+    },
+    getProductSkusUsedInDirectives (directives) {
+      const productSkusSet = new Set();
+      directives.forEach((directive) => {
+        if (directive.productSku) {
+          productSkusSet.add(directive.productSku)
+        }
+      });
+      return Array.from(productSkusSet);
+    },
+    parseDirectivesInHtml (html) {
+      const { productPriceDirectives } = this.getDirectivesFromHtml(html);
+      const productSkusUsedInDirectives = this.getProductSkusUsedInDirectives(productPriceDirectives);
+      const productsToLoadSkus = [];
+
+      productSkusUsedInDirectives.forEach((sku) => {
+        if (!this.productBySkuDictionary[sku]) {
+          productsToLoadSkus.push(sku);
+        }
+      })
+
+      if (!productsToLoadSkus.length) {
+        this.parsedHtml = this.fillDirectivesValuesIntoHtml({
+          html,
+          productsBySkuDictionary: this.productBySkuDictionary,
+          productPriceDirectives
+        });
+
+        this.isDirectivesParsed = true;
+        return;
       }
 
-      this.isDirectivesParsed = true;
+      return this.loadProducts(productsToLoadSkus).then(() => {
+        this.parsedHtml = this.fillDirectivesValuesIntoHtml({
+          html,
+          productsBySkuDictionary: this.productBySkuDictionary,
+          productPriceDirectives
+        });
+
+        this.isDirectivesParsed = true;
+      })
     },
-    async parseHtml () {
-      await this.parseDirectives(this.html);
-
-      let parsedHtml = this.html;
-
-      Object.entries(this.parsedDirectives).forEach(([key, value]) => {
-        parsedHtml = parsedHtml.replace(key, value);
-      });
-
-      this.parsedHtml = parsedHtml;
-    },
-    async getProductPrice (productSku, priceType) {
-      await this.loadProduct(productSku);
-      const product = this.productBySkuDictionary[productSku];
+    getProductPrice (product, priceType) {
       const price = getProductPrice(product);
 
       return price[priceType];

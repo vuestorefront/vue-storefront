@@ -136,6 +136,10 @@ const actions: ActionTree<ProductState, RootState> = {
 
     await context.dispatch('tax/calculateTaxes', { products: items }, { root: true })
 
+    items.forEach((product) => {
+      context.commit(types.PRODUCT_SET_PRODUCT_BY_SKU, product);
+    })
+
     return { ...restResponseData, items }
   },
   async findConfigurableParent (context, { product, configuration }) {
@@ -170,6 +174,8 @@ const actions: ActionTree<ProductState, RootState> = {
 
     if (setCurrentProduct) await context.dispatch('setCurrent', product)
     EventBus.$emitFilter('product-after-single', { key, options, product })
+
+    context.commit(types.PRODUCT_SET_PRODUCT_BY_SKU, product);
 
     return product
   },
@@ -313,21 +319,6 @@ const actions: ActionTree<ProductState, RootState> = {
     const { selectedVariant = {}, options, product_option } = newProductVariant
 
     return { ...selectedVariant, options, product_option }
-  },
-  async loadProductAndSetToProductBySku ({commit, dispatch}, {
-    options = {},
-    key = 'sku',
-    skipCache = false
-  }) {
-    const product = await dispatch('single', {
-      options,
-      key,
-      skipCache
-    });
-
-    commit(types.PRODUCT_SET_PRODUCT_BY_SKU, product);
-
-    return product;
   },
   /** Below actions are not used from 1.12 and can be removed to reduce bundle */
   ...require('./deprecatedActions').default
