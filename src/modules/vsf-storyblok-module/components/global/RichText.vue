@@ -125,6 +125,12 @@ export default {
     },
     parseDirectivesInHtml (html) {
       const { productPriceDirectives } = this.getDirectivesFromHtml(html);
+
+      if (!productPriceDirectives.length) {
+        this.isDirectivesParsed = true;
+        return;
+      }
+
       const productSkusUsedInDirectives = this.getProductSkusUsedInDirectives(productPriceDirectives);
       const productsToLoadSkus = [];
 
