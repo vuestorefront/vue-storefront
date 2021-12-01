@@ -34,7 +34,9 @@ export default async function setGroupedProduct (product: Product, { includeFiel
 
     for (const productLink of productLinks) {
       const associatedProduct = items.find((associatedProduct) => associatedProduct.sku === productLink.linked_product_sku)
-      setProductLink(productLink, associatedProduct)
+      if (associatedProduct) {
+        setProductLink(productLink, associatedProduct)
+      }
     }
 
     const { price, priceInclTax } = getGroupedProductPrice(product)
