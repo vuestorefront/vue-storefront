@@ -175,7 +175,9 @@ const actions: ActionTree<ProductState, RootState> = {
     if (setCurrentProduct) await context.dispatch('setCurrent', product)
     EventBus.$emitFilter('product-after-single', { key, options, product })
 
-    context.commit(types.PRODUCT_SET_PRODUCT_BY_SKU, product);
+    if (product) {
+      context.commit(types.PRODUCT_SET_PRODUCT_BY_SKU, product);
+    }
 
     return product
   },
