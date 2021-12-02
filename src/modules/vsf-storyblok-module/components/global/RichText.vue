@@ -10,7 +10,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { SearchQuery } from 'storefront-query-builder'
 
 const directivesRegexp = /\{\{(.*?)\}\}/gi;
-const directiveDataRegexp = /(.*)\((.*)\)/gi;
+const directiveDataRegexp = /(.*)\((.*)\)/i;
 
 export default {
   name: 'RichText',
@@ -23,7 +23,8 @@ export default {
   data () {
     return {
       isDirectivesParsed: false,
-      parsedHtml: ''
+      parsedHtml: '',
+      onPromotionPlatformStoreSynchronizedHandler: null
     }
   },
   computed: {
@@ -37,34 +38,37 @@ export default {
     }
   },
   serverPrefetch () {
-    return this.parseDirectivesInHtml(this.html);
+    return this.processDirectivesInHtml(this.html);
   },
   created () {
     if (isServer) {
       return;
     }
 
-    this.parseDirectivesInHtml(this.html);
-    EventBus.$on('promotion-platform-store-synchronized', this.parseDirectivesInHtml);
+    this.processDirectivesInHtml(this.html);
+
+    this.onPromotionPlatformStoreSynchronizedHandler = () => this.processDirectivesInHtml(this.html);
+    EventBus.$on('promotion-platform-store-synchronized', this.onPromotionPlatformStoreSynchronizedHandler);
   },
   beforeDestroy () {
-    EventBus.$off('promotion-platform-store-synchronized', this.parseDirectivesInHtml);
+    if (this.onPromotionPlatformStoreSynchronizedHandler) {
+      EventBus.$off('promotion-platform-store-synchronized', this.onPromotionPlatformStoreSynchronizedHandler);
+    }
   },
   methods: {
-    fillDirectivesValuesIntoHtml ({ html, productPriceDirectives, productsBySkuDictionary }) {
+    fillDirectivesValuesIntoHtml (html, directivesValues) {
       let htmlWithFilledDirectivesValues = html;
 
-      productPriceDirectives.forEach((directive) => {
+      for (const directiveValue of directivesValues) {
         htmlWithFilledDirectivesValues = htmlWithFilledDirectivesValues.replace(
-          directive.directive,
-          this.getProductPrice(productsBySkuDictionary[directive.productSku], directive.priceType)
+          directiveValue.directive,
+          directiveValue.value
         );
-      });
+      }
 
       return htmlWithFilledDirectivesValues;
     },
     getDirectiveData (directive) {
-      directiveDataRegexp.lastIndex = 0;
       const directiveDataString = directive.replace(/\{|\}|&quot|"/g, '').trim();
       const match = directiveDataRegexp.exec(directiveDataString);
       const directiveName = match[1].trim();
@@ -100,19 +104,37 @@ export default {
         return { productPriceDirectives };
       }
 
-      directivesList.forEach((directive) => {
+      for (const directive of directivesList) {
         const { directiveName, directiveParams } = this.getDirectiveData(directive);
 
-        if (directiveName && directiveName === 'productPrice') {
+        if (directiveName === 'productPrice') {
           productPriceDirectives.push({
             directive: directive,
             productSku: directiveParams[0],
             priceType: directiveParams[1]
           })
         }
-      });
+      }
 
       return { productPriceDirectives };
+    },
+    getDirectivesValues ({
+      productPriceDirectives,
+      productsBySkuDictionary
+    }) {
+      const directivesValues = [];
+
+      for (const productPriceDirective of productPriceDirectives) {
+        directivesValues.push({
+          directive: productPriceDirective.directive,
+          value: this.getProductPrice(
+            productsBySkuDictionary[productPriceDirective.productSku],
+            productPriceDirective.priceType
+          )
+        })
+      }
+
+      return directivesValues;
     },
     getProductSkusUsedInDirectives (directives) {
       const productSkusSet = new Set();
@@ -123,7 +145,7 @@ export default {
       });
       return Array.from(productSkusSet);
     },
-    parseDirectivesInHtml (html) {
+    async processDirectivesInHtml (html) {
       const { productPriceDirectives } = this.getDirectivesFromHtml(html);
 
       if (!productPriceDirectives.length) {
@@ -141,26 +163,18 @@ export default {
         }
       })
 
-      if (!productsToLoadSkus.length) {
-        this.parsedHtml = this.fillDirectivesValuesIntoHtml({
-          html,
-          productsBySkuDictionary: this.productBySkuDictionary,
-          productPriceDirectives
-        });
-
-        this.isDirectivesParsed = true;
-        return;
+      if (productsToLoadSkus.length) {
+        await this.loadProducts(productsToLoadSkus);
       }
 
-      return this.loadProducts(productsToLoadSkus).then(() => {
-        this.parsedHtml = this.fillDirectivesValuesIntoHtml({
-          html,
-          productsBySkuDictionary: this.productBySkuDictionary,
-          productPriceDirectives
-        });
-
-        this.isDirectivesParsed = true;
+      const directivesValues = this.getDirectivesValues({
+        productPriceDirectives,
+        productsBySkuDictionary: this.productBySkuDictionary
       })
+
+      this.parsedHtml = this.fillDirectivesValuesIntoHtml(html, directivesValues);
+
+      this.isDirectivesParsed = true;
     },
     getProductPrice (product, priceType) {
       const price = getProductPrice(product);
@@ -171,7 +185,7 @@ export default {
   watch: {
     html (val, oldVal) {
       if (val.trim() !== oldVal.trim()) {
-        this.parseDirectivesInHtml(val);
+        this.processDirectivesInHtml(val);
       }
     }
   }
