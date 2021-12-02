@@ -1,4 +1,5 @@
 name: Commitlint PR Title
+
 on:
   pull_request:
     types: ['opened', 'edited', 'reopened', 'synchronize']
@@ -8,7 +9,6 @@ jobs:
     name: Validate PR Title (conventional-commit)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Install Dependencies
-        run: npm install @commitlint/config-conventional
+        run: npm install @commitlint/config-conventional --no-package-lock --no-save
       - uses: JulienKode/pull-request-name-linter-action@v0.1.2
