@@ -8,7 +8,21 @@ jobs:
     name: Validate PR Title (conventional-commit)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install Dependencies
-        run: npm install @commitlint/config-conventional
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
+      - name: Get cached dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn --network-concurrency 1 --frozen-lockfile
+
       - uses: JulienKode/pull-request-name-linter-action@v0.1.2
