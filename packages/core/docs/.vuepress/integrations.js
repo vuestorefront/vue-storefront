@@ -158,7 +158,7 @@ const INTEGRATIONS = {
       name: 'SpreeCommerce',
       link: 'https://docs.vuestorefront.io/spree/',
       image: '/v2/integrations-logos/spree.svg',
-      status: STATUSES.BETA,
+      status: STATUSES.STABLE,
       availability: AVAILABILITY.OPEN_SOURCE,
       maintainedBy: [
         { name: 'Upside Lab', link: 'https://upsidelab.io/' }
