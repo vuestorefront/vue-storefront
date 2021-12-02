@@ -11,4 +11,5 @@ jobs:
     steps:
       - name: Install Dependencies
         run: npm install @commitlint/config-conventional --no-package-lock --no-save
+      - uses: actions/checkout@v2
       - uses: JulienKode/pull-request-name-linter-action@v0.1.2
