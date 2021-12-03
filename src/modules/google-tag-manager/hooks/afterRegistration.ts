@@ -45,27 +45,6 @@ export function afterRegistration (config, store: Store<any>, router: VueRouter)
       return product
     }
 
-    const prepareProductCategories = (product: Product) => {
-      return product.category.map((category) => category.name).join('|');
-    }
-
-    const preparePurchaseProduct = (product: Product) => ({
-      category: prepareProductCategories(product),
-      coupon: '',
-      name: product.name,
-      price: product.price,
-      quantity: product.qty,
-      id: product.sku
-    })
-
-    const prepareTransactionProduct = (product: Product) => ({
-      category: prepareProductCategories(product),
-      name: product.name,
-      price: product.price,
-      quantity: product.qty,
-      sku: product.sku
-    })
-
     router.afterEach(() => {
       const loggedUser = store.state.user.current;
 

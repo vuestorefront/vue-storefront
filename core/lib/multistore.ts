@@ -40,14 +40,6 @@ function buildBaseStoreView (): StoreView {
   let storeId = 1
   let storeName = ''
 
-  if (config.defaultStoreName) {
-    storeName = config.defaultStoreName;
-  }
-
-  if (config.defaultStoreId) {
-    storeId = config.defaultStoreId
-  }
-
   if (config.defaultStoreCode && config.defaultStoreCode !== '' && config.storeViews[config.defaultStoreCode]) {
     storeId = config.storeViews[config.defaultStoreCode].storeId
     storeName = config.storeViews[config.defaultStoreCode].name
@@ -75,7 +67,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   if (config.storeViews.multistore === true) {
     storeView.storeCode = storeCode || config.defaultStoreCode || ''
   } else {
-    storeView.storeCode = storeCode || ''
+    storeView.storeCode = storeCode || storeView.storeCode || '' 
   }
 
   const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
@@ -104,7 +96,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   }
 
   coreHooksExecutors.afterStoreViewChanged(storeView)
-
+  
   return storeView
 }
 
