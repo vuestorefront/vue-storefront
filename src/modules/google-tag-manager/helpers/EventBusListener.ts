@@ -4,6 +4,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { Order } from '@vue-storefront/core/modules/order/types/Order';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { SearchQuery } from 'storefront-query-builder';
 
 import ForeversWizardEvents from 'src/modules/shared/types/forevers-wizard-events';
 import getCookieByName from 'src/modules/shared/helpers/get-cookie-by-name.function';
@@ -26,6 +27,19 @@ export default class EventBusListener {
     EventBus.$on(CartEvents.GO_TO_CHECKOUT_FROM_CART, this.onGoToCheckoutFromCartEventHandler.bind(this))
     EventBus.$on(CartEvents.MAKE_ANOTHER_FROM_CART, this.onMakeAnotherFromCartEventHandler.bind(this))
     EventBus.$on(PRODUCT_PAGE_VIEWED, this.onProductPageViewedEventHandler.bind(this))
+  }
+
+  private async loadProducts (productsSkus: string[]): Promise<void> {
+    let searchQuery = new SearchQuery();
+    searchQuery = searchQuery.applyFilter({ key: 'sku', value: { 'in': productsSkus } })
+
+    await this.store.dispatch(
+      'product/findProducts',
+      {
+        query: searchQuery,
+        size: productsSkus.length
+      }
+    )
   }
 
   private onCheckoutAfterPaymentDetailsEventHandler () {
@@ -96,22 +110,41 @@ export default class EventBusListener {
     })
   }
 
-  private onOrderAfterPlacedEventHandler ({ order, confirmation }: {order: Order, confirmation?: any}) {
+  private async onOrderAfterPlacedEventHandler ({ order, confirmation }: {order: Order, confirmation?: any}) {
     if (!confirmation) {
       return;
     }
+
     const ordersHistory = this.store.getters['user/getOrdersHistory'];
     const sessionOrderHashes = this.store.getters['order/getSessionOrderHashes'];
     const currentUser = this.store.state.user.current;
-
     const orderPaymentDetails = order.paymentDetails;
     const orderPersonalDetails = order.personalDetails;
-    const transactionProductsData = order.products.map((product) => this.prepareTransactionProduct(product as Product));
-    const purchaseProductsData = order.products.map((product) => this.preparePurchaseProduct(product as Product))
     const couponCode = orderPaymentDetails.coupon_code ? orderPaymentDetails.coupon_code : '';
     const isNewCustomer = ordersHistory.length <= 1 || sessionOrderHashes <= 1;
     const storeView = currentStoreView();
     const storeName = storeView.name ? storeView.name : '';
+
+    const productsToLoadSkus: string[] = [];
+    const productBySkuDictionary = this.store.getters['product/getProductBySkuDictionary'];
+
+    for (const product of order.products) {
+      if (!productBySkuDictionary[product.sku]) {
+        productsToLoadSkus.push(product.sku);
+      }
+    }
+
+    if (productsToLoadSkus.length) {
+      await this.loadProducts(productsToLoadSkus);
+    }
+
+    const productsWithCategories = order.products.map((product) => ({
+      ...product,
+      category: productBySkuDictionary[product.sku].category
+    }))
+
+    const transactionProductsData = productsWithCategories.map((product) => this.prepareTransactionProduct(product as Product));
+    const purchaseProductsData = productsWithCategories.map((product) => this.preparePurchaseProduct(product as Product));
 
     this.gtm.trackEvent({
       pageCategory: 'order-success'

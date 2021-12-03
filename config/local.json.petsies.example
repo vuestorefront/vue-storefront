@@ -254,6 +254,7 @@
     "twoStageCaching": true,
     "optimizeShoppingCart": true,
     "optimizeShoppingCartOmitFields": [
+      "category",
       "category_ids",
       "configurable_children",
       "configurable_options",
