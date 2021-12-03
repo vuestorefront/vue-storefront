@@ -288,16 +288,16 @@ export default {
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
         },
-        additionalData: {
+        paymentDetails: {
           base_grand_total: this.platformTotals.base_grand_total,
           base_tax_amount: this.platformTotals.base_tax_amount,
           base_shipping_amount: this.platformTotals.base_shipping_amount,
           base_subtotal: this.platformTotals.base_subtotal,
           base_discount_amount: this.platformTotals.base_discount_amount,
           order_currency_code: this.platformTotals.quote_currency_code,
-          coupon_code: this.platformTotals.coupon_code,
-          personalDetails: this.personalDetails
-        }
+          coupon_code: this.platformTotals.coupon_code
+        },
+        personalDetails: this.personalDetails
       }
       if (!this.isVirtualCart) {
         this.order.addressInformation.shippingAddress = {

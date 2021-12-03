@@ -27,5 +27,5 @@ export const GoogleTagManagerModule: StorefrontModule = function ({ store, route
 
   store.registerModule(KEY, googleTagManagerModule)
 
-  afterRegistration(appConfig, store)
+  afterRegistration(appConfig, store, router)
 }
