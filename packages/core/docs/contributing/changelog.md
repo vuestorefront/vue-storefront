@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.2
+
+- Fix errors in the `Product` and `OrderHistory` components ([6545](https://github.com/vuestorefront/vue-storefront/pull/6545)) - [Filip Sobol](https://github.com/filipsobol)
+
 ## 2.5.0
 
 - Refactor Homepage to use Composition API ([6432](https://github.com/vuestorefront/vue-storefront/pull/6432)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)

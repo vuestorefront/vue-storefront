@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/boilerplate-api",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "private": true,
   "sideEffects": false,
   "server": "server/index.js",
