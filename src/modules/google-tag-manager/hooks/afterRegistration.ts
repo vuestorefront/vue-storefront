@@ -8,6 +8,7 @@ import VueRouter from 'vue-router'
 import Product from 'core/modules/catalog/types/Product'
 
 import EventBusListener from '../helpers/EventBusListener'
+import StoreMutationsListener from '../helpers/StoreMutationsListener'
 
 export const isEnabled = (gtmId: string | null) => {
   return typeof gtmId === 'string' && gtmId.length > 0 && !isServer
@@ -62,27 +63,7 @@ export function afterRegistration (config, store: Store<any>, router: VueRouter)
     const eventBusListener = new EventBusListener(store, GTM);
     eventBusListener.initEventBusListeners();
 
-    store.subscribe(({ type, payload }, state) => {
-      // Adding a Product to a Shopping Cart
-      if (type === 'cart/cart/ADD') {
-        GTM.trackEvent({
-          event: 'addToCart',
-          'addToCart.productID': payload.product.id,
-          'addToCart.productSKU': payload.product.sku
-        });
-      }
-
-      // Removing a Product from a Shopping Cart
-      if (type === 'cart/cart/DEL') {
-        GTM.trackEvent({
-          event: 'removeFromCart',
-          ecommerce: {
-            remove: {
-              products: [getProduct(payload.product)]
-            }
-          }
-        });
-      }
-    })
+    const storeMutationsListener = new StoreMutationsListener(store, GTM);
+    storeMutationsListener.initStoreMutationsListener();
   }
 }

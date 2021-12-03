@@ -9,7 +9,6 @@ import { SearchQuery } from 'storefront-query-builder';
 import ForeversWizardEvents from 'src/modules/shared/types/forevers-wizard-events';
 import getCookieByName from 'src/modules/shared/helpers/get-cookie-by-name.function';
 import CartEvents from 'src/modules/shared/types/cart-events';
-import { PRODUCT_PAGE_VIEWED } from 'src/modules/shared/types/product-page-viewed.event';
 
 const shareasaleSSCIDCookieName = 'shareasaleMagentoSSCID';
 
@@ -26,7 +25,6 @@ export default class EventBusListener {
     EventBus.$on('checkout-after-shippingDetails', this.onCheckoutAfterShippingDetailsEventHandler.bind(this));
     EventBus.$on(CartEvents.GO_TO_CHECKOUT_FROM_CART, this.onGoToCheckoutFromCartEventHandler.bind(this))
     EventBus.$on(CartEvents.MAKE_ANOTHER_FROM_CART, this.onMakeAnotherFromCartEventHandler.bind(this))
-    EventBus.$on(PRODUCT_PAGE_VIEWED, this.onProductPageViewedEventHandler.bind(this))
   }
 
   private async loadProducts (productsSkus: string[]): Promise<void> {
@@ -187,30 +185,6 @@ export default class EventBusListener {
       customerEmail: orderPersonalDetails.emailAddress,
       customerFullName: `${orderPersonalDetails.firstName} ${orderPersonalDetails.lastName}`,
       customerId: currentUser ? currentUser.id : ''
-    });
-  }
-
-  private onProductPageViewedEventHandler (product: Product) {
-    const productCategoriesNames = product.category.map((category) => category.name).join('|');
-
-    this.gtm.trackEvent({
-      pageCategory: 'product-detail'
-    });
-
-    this.gtm.trackEvent({
-      ecommerce: {
-        detail: {
-          actionField: {
-            list: 'Catalog'
-          },
-          products: {
-            name: product.name,
-            id: product.parentSku,
-            price: product.final_price,
-            category: productCategoriesNames
-          }
-        }
-      }
     });
   }
 
