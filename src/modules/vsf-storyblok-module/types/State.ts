@@ -1,6 +1,7 @@
 export interface StoryblokStories {
   [key: string]: {
     loading: boolean,
+    loadingPromise?: Promise<Record<string, any>>,
     story: Record<string, any>
   }
 }

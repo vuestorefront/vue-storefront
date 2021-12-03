@@ -5,12 +5,16 @@ export const mutations: MutationTree<StoryblokState> = {
   setStoreCode (state: StoryblokState, storeCode) {
     state.storeCode = storeCode
   },
-  loadingStory (state: StoryblokState, { key }) {
+  loadingStory (
+    state: StoryblokState,
+    { key, loadingPromise }: {key: string, loadingPromise: Promise<Record<string, any>>}
+  ) {
     state.stories = {
       ...state.stories,
       [key]: {
         ...state.stories[key],
-        loading: true
+        loading: true,
+        loadingPromise
       }
     }
   },
@@ -20,6 +24,7 @@ export const mutations: MutationTree<StoryblokState> = {
       [key]: {
         ...state.stories[key],
         loading: false,
+        loadingPromise: undefined,
         story
       }
     }
