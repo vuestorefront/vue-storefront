@@ -34,7 +34,8 @@ export const productModule: Module<ProductState, RootState> = {
     custom_options_validators: {},
     productLoadStart: 0,
     productLoadPromise: null,
-    productGallery: []
+    productGallery: [],
+    productBySku: {}
   },
   getters,
   actions,

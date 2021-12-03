@@ -92,6 +92,9 @@ const mutations: MutationTree<ProductState> = {
   [types.CATALOG_SET_BREADCRUMBS] (state, payload) {
     state.breadcrumbs = payload
   },
+  [types.PRODUCT_SET_PRODUCT_BY_SKU] (state, product) {
+    Vue.set(state.productBySku, product.sku, product);
+  },
   [types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR] (state, { validationRule, validatorFunction }) {
     Logger.error('Deprecated mutation CATALOG_ADD_CUSTOM_OPTION_VALIDATOR - use PRODUCT_SET_CUSTOM_OPTION_VALIDATOR instead')()
   },

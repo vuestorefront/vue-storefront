@@ -29,6 +29,19 @@ const isChecksumEquals = (product1: CartItem, product2: CartItem): boolean =>
 const isSkuEqual = (product1: CartItem, product2: CartItem): boolean =>
   String(product1.sku) === String(product2.sku)
 
+// 'plushieId' check
+const isPlushieIdsEquals = (product1: CartItem, product2: CartItem): boolean => {
+  let product1PlushieId = product1.plushieId ? product1.plushieId : undefined
+  let product2PlushieId = product2.plushieId ? product2.plushieId : undefined
+
+  product1PlushieId = typeof product1PlushieId === 'number' ? (product1PlushieId as number).toString() : product1PlushieId;
+  product2PlushieId = typeof product2PlushieId === 'number' ? (product2PlushieId as number).toString() : product2PlushieId;
+
+  const areIdsDefined = product1PlushieId !== undefined && product2PlushieId !== undefined
+
+  return areIdsDefined && product1PlushieId === product2PlushieId
+}
+
 /**
  * Returns product equality check function
  * @param checkName - determines what type of check we want to do
@@ -40,6 +53,9 @@ const getCheckFn = (checkName: string): ProductEqualCheckFn => {
     }
     case 'checksum': {
       return isChecksumEquals
+    }
+    case 'plushieId': {
+      return isPlushieIdsEquals
     }
     case 'sku': {
       return isSkuEqual
@@ -77,24 +93,24 @@ const productsEquals = (product1: CartItem, product2: CartItem): boolean => {
   if (getProductOptions(product1, 'bundle_options').length || getProductOptions(product2, 'bundle_options').length) {
     // bundle options skus are merged into one sku so we can't rely on 'sku'
     // by default we want to check server_item_id ('id'), we can also use 'checksum'
-    return check(['id', 'checksum'])
+    return check(['id', 'checksum', 'plushieId'])
   }
 
   if (getProductOptions(product1, 'custom_options').length || getProductOptions(product2, 'custom_options').length) {
     // in admin panel we can add different sku for specific custom option so we can't rely on 'sku'
     // by default we want to check server_item_id ('id'), we can also use 'checksum'
-    return check(['id', 'checksum'])
+    return check(['id', 'checksum', 'plushieId'])
   }
 
   if (getProductOptions(product1, 'configurable_item_options').length || getProductOptions(product2, 'configurable_item_options').length) {
     // 'sku' should be uniq for configurable products
     // we can't check 'id' because it is the same when user edit product in microcart, so it can give wrong result
-    return check(['sku'])
+    return check(['sku', 'plushieId'])
   }
 
   // by default we want to check if server_item_id is equal and check sku as fallback
   // this is for 'simple' and 'group' products
-  return check(['id', 'sku'])
+  return check(['id', 'sku', 'plushieId'])
 }
 
 export default productsEquals
