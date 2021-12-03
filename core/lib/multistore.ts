@@ -39,17 +39,19 @@ function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
 function buildBaseStoreView (): StoreView {
   let storeId = 1
   let storeName = ''
-
+  let storeCode = null
+  
   if (config.defaultStoreCode && config.defaultStoreCode !== '' && config.storeViews[config.defaultStoreCode]) {
     storeId = config.storeViews[config.defaultStoreCode].storeId
     storeName = config.storeViews[config.defaultStoreCode].name
+    storeCode = config.storeViews[config.defaultStoreCode].storeCode
   }
 
   return cloneDeep({
     tax: config.tax,
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
-    storeCode: null,
+    storeCode,
     storeId,
     seo: config.seo,
     name: storeName

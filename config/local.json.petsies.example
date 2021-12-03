@@ -209,17 +209,17 @@
     "maxNetworkTaskAttempts": 1,
     "maxCartBypassAttempts": 1
   },
-  "defaultStoreCode": "${STORE_CODE}",
+  "defaultStoreCode": "${STORE}",
   "storeViews": {
     "multistore": false,
     "commonCache": false,
     "mapStoreUrlsFor": [
       "jp"
     ],
-    "${STORE_CODE}": {
-      "storeCode": "${STORE_CODE}",
+    "${STORE}": {
+      "storeCode": "${STORE}",
       "name": "Petsies",
-      "storeId": "3"
+      "storeId": ${DEFAULT_STORE_ID}
     },
     "jp": {
       "storeCode": "jp",
