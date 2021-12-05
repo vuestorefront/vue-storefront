@@ -119,7 +119,9 @@ Follow the steps below to upgrade your existing projects:
     //nuxt.config.js
     export default {
       i18n: {
-        detectBrowserLanguage: false
+        detectBrowserLanguage: {
+          useCookie: false
+        }
       }
     };
     ```
