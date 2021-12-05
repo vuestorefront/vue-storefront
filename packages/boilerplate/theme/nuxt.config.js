@@ -121,7 +121,9 @@ export default {
         }
       }
     },
-    detectBrowserLanguage: false
+    detectBrowserLanguage: {
+      useCookie: false
+    }
   },
 
   styleResources: {

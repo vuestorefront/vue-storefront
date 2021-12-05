@@ -116,7 +116,9 @@ export default {
         }
       }
     },
-    detectBrowserLanguage: false
+    detectBrowserLanguage: {
+      useCookie: false
+    }
   },
   styleResources: {
     scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
