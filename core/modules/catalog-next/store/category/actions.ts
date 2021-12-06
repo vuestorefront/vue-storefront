@@ -22,6 +22,7 @@ import config from 'config'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
 import createCategoryListQuery from '@vue-storefront/core/modules/catalog/helpers/createCategoryListQuery'
 import { transformCategoryUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
+import { Route } from 'vue-router'
 
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category, pageSize = 50 } = {}) {
@@ -261,25 +262,30 @@ const actions: ActionTree<CategoryState, RootState> = {
       }
     }
   },
-  async fetchPageProducts({ commit, dispatch, getters }, { page, pageSize }: { page: number, pageSize: number }) {
+  async fetchPageProducts({ commit, dispatch, getters }, { page, pageSize, route }: { page: number, pageSize: number, route: Route }) {
     const { includeFields, excludeFields } = config.entities.productList;
-    const { filters } = getters['getCurrentSearchQuery'];
+    const { filters, sort } = getters.getCurrentFiltersFrom(route[products.routerFiltersSource as 'query' | 'params']);
+    const currentCategory = getters.getCategoryByParams({ ...route.params })
     const filterQuery = buildFilterProductsQuery(
-      getters['getCurrentCategory'],
+      currentCategory,
       filters
     );
-    const sortOrder = getters['getCurrentSearchQuery'].sort ||
+    const sortOrder = sort ||
       `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`
     const start = (page - 1) * pageSize;
 
-    const searchResult = await quickSearchByQuery({
-      query: filterQuery,
-      sort: sortOrder,
-      start: start,
-      size: pageSize,
-      includeFields: includeFields,
-      excludeFields: excludeFields
-    });
+    const searchResult = await dispatch(
+      'product/findProducts',
+      {
+        query: filterQuery,
+        sort: sortOrder,
+        start: start,
+        size: pageSize,
+        includeFields: includeFields,
+        excludeFields: excludeFields
+      },
+      { root: true }
+    );
 
     const currentPageProducts = await dispatch(
       'processCategoryProducts',
