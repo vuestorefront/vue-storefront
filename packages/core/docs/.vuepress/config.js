@@ -183,11 +183,11 @@ module.exports = {
           title: 'Getting started',
           collapsable: false,
           children: [
-            ['/general/key-concepts', 'Key concepts'],
-            ['/guide/theme', 'Theme'],
-            ['/guide/configuration', 'Configuration'],
-            ['/advanced/internationalization', 'Internationalization'],
-            ['/advanced/logging', 'Logging'],
+            ['/getting-started/key-concepts', 'Key concepts'],
+            ['/getting-started/theme', 'Theme'],
+            ['/getting-started/configuration', 'Configuration'],
+            ['/getting-started/internationalization', 'Internationalization'],
+            ['/getting-started/logging', 'Logging'],
             // ['/', 'Glossary']
           ]
         },
@@ -195,12 +195,12 @@ module.exports = {
           title: 'Composition',
           collapsable: true,
           children: [
-            ['/guide/composition-api', 'Composition API'],
-            ['/guide/composables', 'Composables'],
-            ['/guide/getters', 'Getters'],
-            ['/guide/error-handling', 'Error Handling'],
-            ['/advanced/creating-custom-composables', 'Creating custom composables'],
-            ['/advanced/extending-graphql-queries', 'Extending GraphQL queries']
+            ['/composition/composition-api', 'Composition API'],
+            ['/composition/composables', 'Composables'],
+            ['/composition/getters', 'Getters'],
+            ['/composition/error-handling', 'Error Handling'],
+            ['/composition/creating-custom-composables', 'Creating custom composables'],
+            ['/composition/extending-graphql-queries', 'Extending GraphQL queries']
           ]
         },
         {
@@ -227,8 +227,8 @@ module.exports = {
           title: 'Performance',
           collapsable: true,
           children: [
-            ['/advanced/performance', 'Performance basics'],
-            ['/advanced/ssr-cache', 'SSR cache']
+            ['/performance/performance', 'Performance basics'],
+            ['/performance/ssr-cache', 'SSR cache']
           ]
         },
         // {
@@ -244,9 +244,9 @@ module.exports = {
           title: 'Reference',
           collapsable: true,
           children: [
-            ['/core/api-reference/', 'API Reference'],
-            ['/migrate/', 'Migration guide'],
-            ['/contributing/changelog', 'Changelog']
+            ['/reference/api/', 'API Reference'],
+            ['/reference/migrate/', 'Migration guide'],
+            ['/reference/changelog', 'Changelog']
           ]
         },
         {
