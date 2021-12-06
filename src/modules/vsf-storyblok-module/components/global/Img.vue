@@ -23,10 +23,10 @@ export default {
       return this.filters
     },
     image () {
-      if (!this.src.includes('//a.storyblok.com')) {
+      if (!this.src.includes('/a.storyblok.com')) {
         return this.src
       }
-      const [, resource] = this.src.split('//a.storyblok.com')
+      const [, resource] = this.src.split('/a.storyblok.com')
       let mod = ''
       if (this.height > 0 || this.width > 0) {
         if (this.fitIn) {
