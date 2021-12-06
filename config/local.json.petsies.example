@@ -193,7 +193,6 @@
       "amp": "dist/index.amp.html"
     },
     "lazyHydrateFor": [
-      "category-next.products",
       "homepage.new_collection"
     ],
     "executeMixedinAsyncData": true,
