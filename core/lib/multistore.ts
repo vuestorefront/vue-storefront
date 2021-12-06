@@ -38,22 +38,23 @@ function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
  */
 function buildBaseStoreView (): StoreView {
   let storeId = 1
-
-  if (config.defaultStoreId) {
-    storeId = config.defaultStoreId
-  }
-
+  let storeName = ''
+  let storeCode = null
+  
   if (config.defaultStoreCode && config.defaultStoreCode !== '' && config.storeViews[config.defaultStoreCode]) {
     storeId = config.storeViews[config.defaultStoreCode].storeId
+    storeName = config.storeViews[config.defaultStoreCode].name
+    storeCode = config.storeViews[config.defaultStoreCode].storeCode
   }
 
   return cloneDeep({
     tax: config.tax,
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
-    storeCode: null,
+    storeCode,
     storeId,
-    seo: config.seo
+    seo: config.seo,
+    name: storeName
   })
 }
 
@@ -68,7 +69,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   if (config.storeViews.multistore === true) {
     storeView.storeCode = storeCode || config.defaultStoreCode || ''
   } else {
-    storeView.storeCode = storeCode || ''
+    storeView.storeCode = storeCode || storeView.storeCode || '' 
   }
 
   const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
@@ -97,7 +98,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   }
 
   coreHooksExecutors.afterStoreViewChanged(storeView)
-
+  
   return storeView
 }
 

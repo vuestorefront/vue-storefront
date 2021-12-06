@@ -2,7 +2,7 @@ import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
 import config from 'config'
 import VueOfflineMixin from 'vue-offline/mixin'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
@@ -42,6 +42,9 @@ export default {
     ...mapGetters({
       isVirtualCart: 'cart/isVirtualCart',
       isThankYouPage: 'checkout/isThankYouPage'
+    }),
+    ...mapState({
+      platformTotals: state => state.cart.platformTotals
     })
   },
   async beforeMount () {
@@ -284,7 +287,17 @@ export default {
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
-        }
+        },
+        paymentDetails: {
+          base_grand_total: this.platformTotals.base_grand_total,
+          base_tax_amount: this.platformTotals.base_tax_amount,
+          base_shipping_amount: this.platformTotals.base_shipping_amount,
+          base_subtotal: this.platformTotals.base_subtotal,
+          base_discount_amount: this.platformTotals.base_discount_amount,
+          order_currency_code: this.platformTotals.quote_currency_code,
+          coupon_code: this.platformTotals.coupon_code
+        },
+        personalDetails: this.personalDetails
       }
       if (!this.isVirtualCart) {
         this.order.addressInformation.shippingAddress = {

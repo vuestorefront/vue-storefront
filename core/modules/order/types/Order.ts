@@ -59,5 +59,19 @@ export interface Order {
     payment_method_code?: string,
     payment_method_additional?: any,
     [k: string]: any
+  },
+  paymentDetails: {
+    base_grand_total: number,
+    base_tax_amount: number,
+    base_shipping_amount: number,
+    base_subtotal: number,
+    base_discount_amount: number,
+    order_currency_code: string,
+    coupon_code: string,
+  },
+  personalDetails: {
+    emailAddress: string,
+    firstName: string,
+    lastName: string
   }
 }
