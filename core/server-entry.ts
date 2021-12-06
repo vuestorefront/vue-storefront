@@ -33,6 +33,7 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
     }
   })).then(() => {
     AsyncDataLoader.flush({ store, route: router.currentRoute, context } /* AsyncDataLoaderActionContext */).then((r) => {
+      context.state = store.state
       if (buildTimeConfig.server.dynamicConfigReload) {
         const excludeFromConfig = buildTimeConfig.server.dynamicConfigExclude
         const includeFromConfig = buildTimeConfig.server.dynamicConfigInclude
