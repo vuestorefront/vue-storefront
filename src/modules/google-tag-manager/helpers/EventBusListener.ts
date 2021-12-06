@@ -77,14 +77,6 @@ export default class EventBusListener {
     });
   }
 
-  private onForeversWizardAccessoriesPassEventHandler (action: string) {
-    const event = GoogleTagManagerEvents.FOREVERS_WIZARD_ACCESSORIES_PASS;
-    this.gtm.trackEvent({
-      event,
-      [`${event}.action`]: action
-    })
-  }
-
   private onForeversWizardPhotosProvideEventHandler (uploadMethodName: string) {
     const event = GoogleTagManagerEvents.FOREVERS_WIZARD_PHOTOS_PROVIDE;
     this.gtm.trackEvent({

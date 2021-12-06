@@ -5,8 +5,7 @@ enum GoogleTagManagerEvents {
   MAKE_ANOTHER_FROM_CART = 'makeAnotherFromCart',
   FOREVERS_WIZARD_PHOTOS_PROVIDE = 'foreversWizardPhotosProvide',
   FOREVERS_WIZARD_INFO_FILL = 'foreversWizardInfoFill',
-  FOREVERS_WIZARD_TYPE_CHANGE = 'foreversWizardTypeChange',
-  FOREVERS_WIZARD_ACCESSORIES_PASS = 'foreversWizardAccessoriesPass'
+  FOREVERS_WIZARD_TYPE_CHANGE = 'foreversWizardTypeChange'
 }
 
 export default GoogleTagManagerEvents;
