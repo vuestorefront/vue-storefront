@@ -20,7 +20,7 @@
     "build:middleware": "cd packages/core/middleware && yarn build",
     "cli": "cd packages/core/cli && yarn cli",
     "commit": "cz",
-    "core:changelog": "cd packages/core/docs/scripts && node changelog --in ../changelog --out ../contributing/changelog.md",
+    "core:changelog": "cd packages/core/docs/scripts && node changelog --in ../changelog --out ../reference/changelog.md",
     "ct:changelog": "cd packages/core/docs/scripts && node changelog --in ../commercetools/changelog --out ../commercetools/changelog.md",
     "dev:bp": "cd packages/boilerplate/theme && yarn dev",
     "dev:ct": "cd packages/commercetools/theme && yarn dev",

@@ -2,4 +2,4 @@
 api.json
 .vuepress/public/commercetools
 commercetools/reference/api
-core/api-reference
+reference/api
