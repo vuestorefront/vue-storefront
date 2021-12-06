@@ -18,34 +18,6 @@ export function afterRegistration (config, store: Store<any>, router: VueRouter)
   if (isEnabled(config.googleTagManager.id)) {
     const GTM: typeof VueGtm = (Vue as any).gtm
 
-    const storeView = currentStoreView()
-    const currencyCode = storeView.i18n.currencyCode
-
-    const getProduct = (item) => {
-      let product = {}
-
-      const attributeMap: string[]|Record<string, any>[] = config.googleTagManager.product_attributes
-      attributeMap.forEach(attribute => {
-        const isObject = typeof attribute === 'object'
-        let attributeField = isObject ? Object.keys(attribute)[0] : attribute
-        let attributeName = isObject ? Object.values(attribute)[0] : attribute
-
-        if (item.hasOwnProperty(attributeField) || product.hasOwnProperty(attributeName)) {
-          const value = item[attributeField] || product[attributeName]
-          if (value) {
-            product[attributeName] = value
-          }
-        }
-      })
-
-      const { category } = item
-      if (category && category.length > 0) {
-        product['category'] = category.slice(-1)[0].name
-      }
-
-      return product
-    }
-
     router.afterEach(() => {
       const loggedUser = store.state.user.current;
 

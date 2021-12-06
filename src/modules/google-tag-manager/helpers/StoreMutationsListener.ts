@@ -4,6 +4,8 @@ import Product from 'core/modules/catalog/types/Product';
 import { PRODUCT_SET_CURRENT } from '@vue-storefront/core/modules/catalog/store/product/mutation-types';
 import { CART_ADD_ITEM } from '@vue-storefront/core/modules/cart/store/mutation-types';
 
+import GoogleTagManagerEvents from '../types/GoogleTagManagerEvents';
+
 export default class StoreMutationsListener {
   public constructor (private store: Store<any>, private gtm: typeof VueGtm) {}
 
@@ -22,7 +24,7 @@ export default class StoreMutationsListener {
 
   private onCartAddMutationListener (payload: {product: Product}): void {
     this.gtm.trackEvent({
-      event: 'addToCart',
+      event: GoogleTagManagerEvents.ADD_TO_CART,
       'addToCart.productID': payload.product.id,
       'addToCart.productSKU': payload.product.sku
     });

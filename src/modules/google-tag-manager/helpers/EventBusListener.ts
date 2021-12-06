@@ -6,9 +6,11 @@ import { Order } from '@vue-storefront/core/modules/order/types/Order';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { SearchQuery } from 'storefront-query-builder';
 
-import ForeversWizardEvents from 'src/modules/shared/types/forevers-wizard-events';
 import getCookieByName from 'src/modules/shared/helpers/get-cookie-by-name.function';
 import CartEvents from 'src/modules/shared/types/cart-events';
+import ForeversWizardEvents from 'src/modules/shared/types/forevers-wizard-events';
+
+import GoogleTagManagerEvents from '../types/GoogleTagManagerEvents';
 
 const shareasaleSSCIDCookieName = 'shareasaleMagentoSSCID';
 
@@ -41,7 +43,7 @@ export default class EventBusListener {
   }
 
   private onCheckoutAfterPaymentDetailsEventHandler () {
-    const event = CartEvents.CHECKOUT_SECTION_CHANGE;
+    const event = GoogleTagManagerEvents.CHECKOUT_SECTION_CHANGE;
     const eventParamName = `${event}.sectionName`;
 
     this.gtm.trackEvent({
@@ -56,13 +58,13 @@ export default class EventBusListener {
 
   private onCheckoutAfterPersonalDetailsEventHandler () {
     this.gtm.trackEvent({
-      event: CartEvents.CHECKOUT_SECTION_CHANGE,
-      [`${CartEvents.CHECKOUT_SECTION_CHANGE}.sectionName`]: 'opcLogin'
+      event: GoogleTagManagerEvents.CHECKOUT_SECTION_CHANGE,
+      [`${GoogleTagManagerEvents.CHECKOUT_SECTION_CHANGE}.sectionName`]: 'opcLogin'
     });
   }
 
   private onCheckoutAfterShippingDetailsEventHandler () {
-    const event = CartEvents.CHECKOUT_SECTION_CHANGE;
+    const event = GoogleTagManagerEvents.CHECKOUT_SECTION_CHANGE;
     const eventParamName = `${event}.sectionName`;
 
     this.gtm.trackEvent({
@@ -75,36 +77,47 @@ export default class EventBusListener {
     });
   }
 
-  private onForeversWizardPhotosProvideEventHandler (uploadMethodName: string) {
+  private onForeversWizardAccessoriesPassEventHandler (action: string) {
+    const event = GoogleTagManagerEvents.FOREVERS_WIZARD_ACCESSORIES_PASS;
     this.gtm.trackEvent({
-      event: ForeversWizardEvents.PHOTOS_PROVIDE,
-      [`${ForeversWizardEvents.PHOTOS_PROVIDE}.methodName`]: uploadMethodName
+      event,
+      [`${event}.action`]: action
+    })
+  }
+
+  private onForeversWizardPhotosProvideEventHandler (uploadMethodName: string) {
+    const event = GoogleTagManagerEvents.FOREVERS_WIZARD_PHOTOS_PROVIDE;
+    this.gtm.trackEvent({
+      event,
+      [`${event}.methodName`]: uploadMethodName
     });
   }
 
   private onForeversWizardInfoFillEventHandler () {
     this.gtm.trackEvent({
-      event: ForeversWizardEvents.INFO_FILL
+      event: GoogleTagManagerEvents.FOREVERS_WIZARD_INFO_FILL
     });
   }
 
   private onForeversWizardTypeChangeEventHandler (type: string) {
+    const event = GoogleTagManagerEvents.FOREVERS_WIZARD_TYPE_CHANGE;
     this.gtm.trackEvent({
-      event: ForeversWizardEvents.TYPE_CHANGE,
-      [`${ForeversWizardEvents.TYPE_CHANGE}.typeName`]: type
+      event,
+      [`${event}.typeName`]: type
     })
   }
 
   private onGoToCheckoutFromCartEventHandler () {
     this.gtm.trackEvent({
-      event: CartEvents.GO_TO_CHECKOUT_FROM_CART
+      event: GoogleTagManagerEvents.GO_TO_CHECKOUT_FROM_CART
     })
   }
 
   private onMakeAnotherFromCartEventHandler (productName: string) {
+    const event = GoogleTagManagerEvents.MAKE_ANOTHER_FROM_CART
     this.gtm.trackEvent({
-      event: CartEvents.MAKE_ANOTHER_FROM_CART,
-      [`${CartEvents.MAKE_ANOTHER_FROM_CART}.product`]: productName
+      event,
+      [`${event}.product`]: productName
     })
   }
 
