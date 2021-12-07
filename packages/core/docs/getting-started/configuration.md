@@ -50,7 +50,7 @@ Below you can find its default configuration:
     // adds theme inheritance mechanism
     coreDevelopment: false,
     logger: {
-      // read about this part in `getting-started/logging` section
+      // read about this part in `Getting Started > Logging` section
     },
     performance: {
       httpPush: true,
