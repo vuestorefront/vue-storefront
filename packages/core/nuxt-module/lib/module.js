@@ -7,7 +7,6 @@ const resolveDependency = require('./helpers/resolveDependency');
 const performanceModule = require('./modules/performance');
 const storefrontUiModule = require('./modules/storefront-ui');
 const rawSourcesModule = require('./modules/raw-sources-loader');
-const healthCheckModule = require('./modules/health-check');
 
 module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   const defaultOptions = {
@@ -76,10 +75,6 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
     options: this.options.i18n
   });
   log.success('Installed Internationalization Cookies plugin');
-
-  // Health Check module
-  healthCheckModule.call(this);
-  log.success('Installed Health Check Module');
 
   // StorefrontUI module
   if (fs.existsSync(resolveDependency('@storefront-ui/vue'))) {
