@@ -21,7 +21,7 @@ Before we get started, make sure that:
 - platform you want to integrate has REST or GraphQL API,
 - you have installed [Node 10+](https://nodejs.org/en/), [Yarn 1](https://classic.yarnpkg.com/lang/en/) and [Git](https://git-scm.com/),
 - you are familiar with JavaScript and TypeScript,
-- you are familiar with [Composition API](../guide/composition-api.html) and [Composables](../guide/composables.html).
+- you are familiar with [Composition API](../composition/composition-api.html) and [Composables](../composition/composables.html).
 
 ## Project structure
 
@@ -43,9 +43,9 @@ Here, you will create new endpoints that accept parameters sent from the fronten
 
 `composables` consists of two parts:
 
-- [Composables](../guide/composables.html) manage the state, prepare and send the request to the `api-client`, then save the response. If necessary, they also modify the response to simplify getters.
+- [Composables](../composition/composables.html) manage the state, prepare and send the request to the `api-client`, then save the response. If necessary, they also modify the response to simplify getters.
 
-- [Getters](../guide/getters.html) extract data from API responses provided by `composables` and return them in formatted and agnostic form.
+- [Getters](../composition/getters.html) extract data from API responses provided by `composables` and return them in formatted and agnostic form.
 
 Here, you will create new methods for `composables` to fetch the data and new `getters` to extract different pieces of information from that data.
 
@@ -180,7 +180,7 @@ It would be impossible to write a tutorial for implementing every composable bec
 
 Before implementing any composable, you should get familiar with its TypeScript interfaces.
 
-Let's start with the [UseProduct interface](../core/api-reference/core.useproduct.html) (note the capital `U`). It uses [Typescript generics](https://www.typescriptlang.org/docs/handbook/2/generics.html). The reason is that we want to provide an excellent development experience by providing types for the data stored in and returned from composables. However, each platform has a unique data structure, and we don't want to make any assumptions. That's why it's up to integrators to provide the types.
+Let's start with the [UseProduct interface](../reference/api/core.useproduct.html) (note the capital `U`). It uses [Typescript generics](https://www.typescriptlang.org/docs/handbook/2/generics.html). The reason is that we want to provide an excellent development experience by providing types for the data stored in and returned from composables. However, each platform has a unique data structure, and we don't want to make any assumptions. That's why it's up to integrators to provide the types.
 
 `UseProduct` accepts two generics:
 - `PRODUCTS` represents the structure of the products returned by the API,
@@ -190,11 +190,11 @@ It also has three properties and a method called `search`. Fortunately, we don't
 
 ### Implement `useProduct` composable
 
-Now, when we understand how composables are created, let's see what parameters the `useProduct` factory expects. Because this composable is relatively small and has only one method, the [UseProductFactoryParams interface](../core/api-reference/core.useproductfactoryparams.html) also expects one handler - `productsSearch`.
+Now, when we understand how composables are created, let's see what parameters the `useProduct` factory expects. Because this composable is relatively small and has only one method, the [UseProductFactoryParams interface](../reference/api/core.useproductfactoryparams.html) also expects one handler - `productsSearch`.
 
 Open `packages/composables/src/useProduct/index.ts`. This file already calls `useProductFactory` and passes `params` matching the above interface. With this done, the only thing left is to implement `productsSearch` method.
 
-Every method in `factoryParams` has at least one argument called [context](../core/api-reference/core.integrationcontext.html). Second, optional argument is an object holding parameters passed to composable method and [customQuery](../core/api-reference/core.customquery.html).
+Every method in `factoryParams` has at least one argument called [context](../reference/api/core.integrationcontext.html). Second, optional argument is an object holding parameters passed to composable method and [customQuery](../reference/api/core.customquery.html).
 
 Remove placeholder code from `productsSearch` method and add the following:
 
@@ -319,7 +319,7 @@ Getters allow us to take raw responses from the API and map or extract data to a
 
 Open `packages/composables/src/getters/productGetters.ts`. There is a bunch of functions returned in a single object. Each of them has at least one argument: either a raw response from the API (`products`) or a single item extracted from it (`product`).
 
-Although types of arguments are unknown and specific to your integration, return types are already defined and must match those defined in [ProductGetters interface](../core/api-reference/core.productgetters.html).
+Although types of arguments are unknown and specific to your integration, return types are already defined and must match those defined in [ProductGetters interface](../reference/api/core.productgetters.html).
 
 You need to implement all of these functions and, if necessary, add your own.
 

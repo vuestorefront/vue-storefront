@@ -39,7 +39,7 @@ const extension = {
 - `hooks:beforeCall` - called before each API-client function. We have access to the configuration, function name, and its arguments. This function must return the arguments, and based on the input parameters we can change it.
 - `hooks:afterCall` - called after each API-client function. We have access to the configuration, function name, and its arguments. This function must return the response, and based on the input parameters we can attach something to it.
 
-See the [ApiClientExtension interface](/core/api-reference/core.apiclientextension.html) for more information.
+See the [ApiClientExtension interface](/reference/api/core.apiclientextension.html) for more information.
 
 ## Registering an extension
 

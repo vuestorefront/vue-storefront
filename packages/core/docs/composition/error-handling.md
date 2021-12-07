@@ -1,6 +1,6 @@
 # Error handling
 
-Each [composable](/guide/composables.html) has a computed property called `errors` which stores errors from all methods within that composable. It's an object with keys matching the names of the methods within the composable, and Error instance or `null` as a value.
+Each [composable](/composition/composables.html) has a computed property called `errors` which stores errors from all methods within that composable. It's an object with keys matching the names of the methods within the composable, and Error instance or `null` as a value.
 
 ```vue
 <template>
@@ -52,7 +52,7 @@ error.value.addItem; // here you access error thrown by addItem function
 
 When you are writing a code inside a script part of the Vue component, your IDE should give you hints on every different type of the composable. That's why you probably do not need to check these interfaces in the core's code.
 
-However, if you still want to check interfaces, you could find them in [core API reference](../core/api-reference/core.html).
+However, if you still want to check interfaces, you could find them in [core API reference](../reference/api/core.html).
 
 :::
 
