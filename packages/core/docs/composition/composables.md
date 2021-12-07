@@ -1,10 +1,10 @@
 # Composables
 
-> If you are not familiar with Composition APIs, we recommend reading [this article](/guide/composition-api.html) first.
+> If you are not familiar with Composition APIs, we recommend reading [this article](/composition/composition-api.html) first.
 
-Composable is a function that uses [Composition API](/guide/composition-api.html) under the hood. Composables are the main public API of Vue Storefront and, in most cases, the only API except configuration you will work with.
+Composable is a function that uses [Composition API](/composition/composition-api.html) under the hood. Composables are the main public API of Vue Storefront and, in most cases, the only API except configuration you will work with.
 
-You can treat composables as independent micro-applications. They manage their own state, handle server-side rendering, and rarely interact with each other (except [useUser](/composables/use-user.html) and [useCart](/composables/use-cart.html)). No matter what integration you are using, your application will always have the same set of composables with the same interfaces.
+You can treat composables as independent micro-applications. They manage their own state, handle server-side rendering, and rarely interact with each other. No matter what integration you are using, your application will always have the same set of composables with the same interfaces.
 
 To use a composable, you need to import it from an integration you use, and call it on the component `setup` option:
 
@@ -29,7 +29,7 @@ export default {
 
 > `onSSR` is used to perform an asynchronous request on the server-side and convey the received data to the client. You will learn more about it next section.
 
-For some composables (like `useProduct`), you will need to pass a unique ID as a parameter (it can be a product ID, category ID, etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](../core/api-reference/core.html).
+For some composables (like `useProduct`), you will need to pass a unique ID as a parameter (it can be a product ID, category ID, etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](../reference/api/core.html).
 
 ## Anatomy of a composable
 
@@ -90,39 +90,39 @@ Vue Storefront integrations are exposing the following composables:
 
 #### Product Catalog
 
-- [`useProduct`](../core/api-reference/core.useproduct.html) - Managing a single product with variants (or a list).
-- [`useCategory`](../core/api-reference/core.usecategory.html) - Managing category lists (but not category products).
-- [`useFacet`](../core/api-reference/core.usefacet.html) - Complex catalog search with filtering.
-- [`useReview`](../core/api-reference/core.usereview.html) - Product reviews.
+- [`useProduct`](../reference/api/core.useproduct.html) - Managing a single product with variants (or a list).
+- [`useCategory`](../reference/api/core.usecategory.html) - Managing category lists (but not category products).
+- [`useFacet`](../reference/api/core.usefacet.html) - Complex catalog search with filtering.
+- [`useReview`](../reference/api/core.usereview.html) - Product reviews.
 
 #### User Profile and Authorization
 
-- [`useUser`](../core/api-reference/core.useuser.html) - Managing user sessions, credentials and registration.
-- [`useUserShipping`](../core/api-reference/core.useusershipping.html) - Managing shipping addresses.
-- [`useUserBilling`](../core/api-reference/core.useuserbilling.html) - Managing billing addresses.
-- [`useUserOrder`](../core/api-reference/core.useuserorder.html) - Managing past and active user orders.
+- [`useUser`](../reference/api/core.useuser.html) - Managing user sessions, credentials and registration.
+- [`useUserShipping`](../reference/api/core.useusershipping.html) - Managing shipping addresses.
+- [`useUserBilling`](../reference/api/core.useuserbilling.html) - Managing billing addresses.
+- [`useUserOrder`](../reference/api/core.useuserorder.html) - Managing past and active user orders.
 
 #### Shopping Cart
 
-- [`useCart`](../core/api-reference/core.usecart.html) - Loading the cart, adding/removing products and discounts.
+- [`useCart`](../reference/api/core.usecart.html) - Loading the cart, adding/removing products and discounts.
 
 #### Wishlist/Favourite
 
-- [`useWishlist`](../core/api-reference/core.usewishlist.html) - Loading the wishlist, adding/removing products.
+- [`useWishlist`](../reference/api/core.usewishlist.html) - Loading the wishlist, adding/removing products.
 
 #### CMS Content
 
-- [`useContent`](../core/api-reference/core.usecontent.html) - Fetching the CMS content. It is usually used in combination with `<RenderContent>`component.
+- [`useContent`](../reference/api/core.usecontent.html) - Fetching the CMS content. It is usually used in combination with `<RenderContent>`component.
 
 #### Checkout
 
-- [`useShipping`](../core/api-reference/core.useshipping.html) - Saving the shipping address for a current order.
-- [`useShippingProvider`](../core/api-reference/core.useshippingprovider.html) - Choosing a shipping method for a current order. Shares data with `VsfShippingProvider` component.
-- [`useBilling`](../core/api-reference/core.usebilling.html) - Saving the billing address for a current order.
+- [`useShipping`](../reference/api/core.useshipping.html) - Saving the shipping address for a current order.
+- [`useShippingProvider`](../reference/api/core.useshippingprovider.html) - Choosing a shipping method for a current order. Shares data with `VsfShippingProvider` component.
+- [`useBilling`](../reference/api/core.usebilling.html) - Saving the billing address for a current order.
 - `usePaymentProvider` - Choosing a payment method for a current order. Shares data with `VsfPaymentProvider` component
-- [`useMakeOrder`](../core/api-reference/core.usemakeorder.html) - Placing the order.
+- [`useMakeOrder`](../reference/api/core.usemakeorder.html) - Placing the order.
 
 #### Other
 
-- [`useVSFContext`](../core/api-reference/core.usevsfcontext.html) - Accessing the integration API methods and client instances.
+- [`useVSFContext`](../reference/api/core.usevsfcontext.html) - Accessing the integration API methods and client instances.
 In a real-world application, these composables will most likely use different backend services under the hood yet still leverage the same frontend API. For instance within the same application `useProduct` and `useCategory` could use `commercetools`, `useCart` some ERP system, `useFacet` - Algolia etc.

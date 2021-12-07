@@ -20,7 +20,7 @@ module.exports = {
 };
 ```
 
-Sometimes integrations also expose a Nuxt module to configure frontend-related properties and [i18n](/advanced/internationalization.html).
+Sometimes integrations also expose a Nuxt module to configure frontend-related properties and [i18n](/getting-started/internationalization.html).
 
 ```js
 // nuxt.config.js
@@ -50,7 +50,7 @@ Below you can find its default configuration:
     // adds theme inheritance mechanism
     coreDevelopment: false,
     logger: {
-      // read about this part in `Advanced/Logging` section
+      // read about this part in `Getting Started > Logging` section
     },
     performance: {
       httpPush: true,

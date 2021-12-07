@@ -34,7 +34,7 @@ export default {
 </script>
 ```
 
-For a full list of parameters that can be passed to the `search` method, refer to the [AgnosticFacetSearchParams](/core/api-reference/core.agnosticfacetsearchparams.html) interface.
+For a full list of parameters that can be passed to the `search` method, refer to the [AgnosticFacetSearchParams](/reference/api/core.agnosticfacetsearchparams.html) interface.
 
 ## Accessing product data
 
@@ -71,9 +71,9 @@ export default {
 </script>
 ```
 
-For a full list of parameters that can be passed to the `search` method, refer to the [AgnosticFacetSearchParams](/core/api-reference/core.agnosticfacetsearchparams.html) interface.
+For a full list of parameters that can be passed to the `search` method, refer to the [AgnosticFacetSearchParams](/reference/api/core.agnosticfacetsearchparams.html) interface.
 
-For a full list of available getters, please refer to the [ProductGetters](/core/api-reference/core.productgetters.html) interface.
+For a full list of available getters, please refer to the [ProductGetters](/reference/api/core.productgetters.html) interface.
 
 ### Accessing master variant
 
@@ -108,9 +108,9 @@ export default {
 </script>
 ```
 
-For a full list of parameters that can be passed to the `search` method, refer to the [AgnosticFacetSearchParams](/core/api-reference/core.agnosticfacetsearchparams.html) interface.
+For a full list of parameters that can be passed to the `search` method, refer to the [AgnosticFacetSearchParams](/reference/api/core.agnosticfacetsearchparams.html) interface.
 
-For a full list of available getters, please refer to the [ProductGetters](/core/api-reference/core.productgetters.html) interface.
+For a full list of available getters, please refer to the [ProductGetters](/reference/api/core.productgetters.html) interface.
 
 :::warning `getFiltered` always returns an array
 Even when `{ master: true }` is passed, the `getFiltered` getter still returns an array of products. In the example above, we used `[0]` to access the first element.
@@ -152,9 +152,9 @@ export default {
 </script>
 ```
 
-For a full list of parameters that can be passed to the `search` method, refer to the [AgnosticFacetSearchParams](/core/api-reference/core.agnosticfacetsearchparams.html) interface.
+For a full list of parameters that can be passed to the `search` method, refer to the [AgnosticFacetSearchParams](/reference/api/core.agnosticfacetsearchparams.html) interface.
 
-For a full list of available getters, please refer to the [ProductGetters](/core/api-reference/core.productgetters.html) interface.
+For a full list of available getters, please refer to the [ProductGetters](/reference/api/core.productgetters.html) interface.
 
 ## Fetching a list of products and available filters
 
@@ -186,7 +186,7 @@ export default {
 </script>
 ```
 
-For a full list of parameters, please refer to the [AgnosticFacetSearchParams](/core/api-reference/core.agnosticfacetsearchparams.html) interface.
+For a full list of parameters, please refer to the [AgnosticFacetSearchParams](/reference/api/core.agnosticfacetsearchparams.html) interface.
 
 ## Accessing catalog data
 
@@ -227,9 +227,9 @@ export default {
 </script>
 ```
 
-For a full list of parameters that can be passed to the `search` method, refer to the [AgnosticFacetSearchParams](/core/api-reference/core.agnosticfacetsearchparams.html) interface.
+For a full list of parameters that can be passed to the `search` method, refer to the [AgnosticFacetSearchParams](/reference/api/core.agnosticfacetsearchparams.html) interface.
 
-For a full list of available getters, please refer to the [FacetsGetters](/core/api-reference/core.facetsgetters.html) interface.
+For a full list of available getters, please refer to the [FacetsGetters](/reference/api/core.facetsgetters.html) interface.
 
 The image below shows where each of these getters fits into a Category page.
 

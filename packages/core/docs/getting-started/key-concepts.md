@@ -21,7 +21,7 @@ Storefront offers composables.
 const { search, product, loading, error } = useProduct();
 ```
 
-You can read more about them on the [Composables](/guide/composables.html) page.
+You can read more about them on the [Composables](/composition/composables.html) page.
 
 ## Extendability and custom integrations
 
@@ -38,7 +38,7 @@ applications can be configured by modifying just two files:
 - `nuxt.config.js` - main Nuxt.js configuration file used to control your Nuxt App and frontend-related features of Vue Storefront;
 - `middleware.config.js` - VSF-specific configuration file used to add, configure and extend the [Server Middleware](/architecture/server-middleware.html);
 
-You can read more about it on the [Configuration](/guide/configuration.html) page.
+You can read more about it on the [Configuration](/getting-started/configuration.html) page.
 
 ## Backend-agnostic
 
