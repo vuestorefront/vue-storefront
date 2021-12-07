@@ -78,8 +78,7 @@ export default {
     }],
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
-    '@vue-storefront/middleware/nuxt',
-    '/Users/ljedrasik/Desktop/work/vue-storefront/packages/core/health-check'
+    '@vue-storefront/middleware/nuxt'
   ],
   i18n: {
     currency: 'USD',
