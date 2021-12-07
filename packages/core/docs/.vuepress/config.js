@@ -183,6 +183,7 @@ module.exports = {
           title: 'Getting started',
           collapsable: false,
           children: [
+            ['/getting-started/introduction', 'Introduction'],
             ['/getting-started/key-concepts', 'Key concepts'],
             ['/getting-started/theme', 'Theme'],
             ['/getting-started/configuration', 'Configuration'],
