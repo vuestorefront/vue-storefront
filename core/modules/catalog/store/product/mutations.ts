@@ -95,7 +95,7 @@ const mutations: MutationTree<ProductState> = {
   [types.PRODUCT_SET_PRODUCT_BY_SKU] (state, product) {
     Vue.set(state.productBySku, product.sku, product);
   },
-  [types.PRODUCT_HARD_RESET_CURRENT] (state) {
+  [types.PRODUCT_UNSET_CURRENT] (state) {
     state.current = null;
     state.current_configuration = {};
     state.offlineImage = null;
