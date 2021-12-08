@@ -1,34 +1,37 @@
 # Introduction to Vue Storefront
 
-If you followed our [Installation](/general/installation.html) guide, you should have a Vue Storefront project with some eCommerce platform already integrated. It has a bunch of folders, Vue components and files, but what does what?
-
-In this section we will discribe how to navigate around the Vue Storefront project and how to get start development.
+Without a proper understanding of the framework you're using, you might waste weeks or even months doing something that someone else has already done. That's why before we can dive deep into the project itself, we need to understand what powers it all under the hood.
 
 ## It's all Nuxt.js
 
-Before we can dive deep into the project itself, we need to understand what powers it all. **Vue Storefront is essentially a [Nuxt.js](https://nuxtjs.org/) project with some plugins and modules preinstalled, as well as ready-to-use e-commerce theme.**
+We didn't want to reinvent the wheel and introduce yet another framework that solves the same issues as its predecessors, which took them years to mature. That's why...
 
-Some of the plugins and modules that come with the fresh installation are created by the Nuxt.js community, some are created by our core team and are created specifically for Vue Storefront project.
+<q>
 
-The default theme mainly consists of components from the [Storefront UI](http://storefrontui.io/) — e-commerce focused UI library maintained by the Vue Storefront team.
+Vue Storefront is essentially a [Nuxt.js](https://nuxtjs.org/) project with some plugins and modules preinstalled, as well as a ready-to-use e-commerce theme. Nuxt.js handles most of the front-end work and [Server Side Rendering](https://nuxtjs.org/docs/concepts/server-side-rendering/), while Vue Storefront adds the e-commerce specific bits and integrations to various platforms.
 
-Plugins, modules and the theme are described in detail in following sections.
+</q>
 
-## But why?
+Some of the plugins and modules that come with the fresh installation were created by the Nuxt.js community, and others come from our core team specifically for Vue Storefront projects.
 
-You might be wondering why we choose Nuxt.js as our foundation. After all, it was not created with e-commerce in mind.
+The default theme mainly consists of components from the [Storefront UI](http://storefrontui.io/) — an e-commerce focused UI library maintained by the Vue Storefront team.
 
-When you start using any new framework, you expect it to have **plugins that solve common issue**, such as:
+We described plugins, modules, and the theme in more detail on the following pages.
 
-* analytics,
-* SEO,
-* PWA,
-* internationalization,
-* CSS frameworks such as Tailwind or Bootstrap,
-* and many, many more.
+### But why?
 
-Additionally you expect it to be **versatile and flexible** enough to allow extending it and creating custom integrations.
+You might be wondering why we choose Nuxt.js as our foundation. After all, it wasn't created with e-commerce in mind.
 
-Big plus is also an **active and diverse community**, which helps when you get stuck.
+When you start using any new framework, you expect it to have **plugins that solve common issues**, such as analytics, SEO, internationalization, and many more. Additionally, it should be **versatile and flexible** enough to allow extending it and creating custom integrations. Not to mention an **active and diverse community**, which answers questions, writes articles, and promotes the framework.
 
-Nuxt.js is the biggest Vue.js framework and has all of the above — it has a big library of [ready-to-use modules](https://modules.nuxtjs.org/), can be easily extended and has tens of thousands of people on [Nuxt.js Discord server](https://discord.com/invite/ps2h6QT).
+Creating such an ecosystem from scratch takes years. But we based Vue Storefront on Nuxt.js — the biggest Vue.js framework — it ticks all the boxes. Nuxt.js has a vast library of [ready-to-use modules](https://modules.nuxtjs.org/) and an active community of thousands of developers on the [Nuxt.js Discord server](https://discord.com/invite/ps2h6QT). It's also flexible enough to make it e-commerce ready with just a few plugins and modules.
+
+<q>
+
+Combining general-purpose modules from Nuxt.js and e-commerce specific modules from Vue Storefront significantly shortens the time-to-market. It allows you to focus on what's specific to your project.
+
+</q>
+
+## What's next
+
+With fundamentals out of our way, let's start making our [First steps with Vue Storefront project](./first-steps.html) and learn how to navigate it and which files do what.
