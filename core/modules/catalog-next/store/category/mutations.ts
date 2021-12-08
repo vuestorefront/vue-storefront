@@ -57,6 +57,12 @@ const mutations: MutationTree<CategoryState> = {
       }
       return 0
     })
+  },
+  [types.CATEGORY_SET_CURRENT_PAGE_PRODUCTS] (state, products) {
+    state.currentPageProducts = products;
+  },
+  [types.CATEGORY_RESET_CURRENT_PAGE_PRODUCTS] (state) {
+    state.currentPageProducts = [];
   }
 }
 
