@@ -184,7 +184,8 @@ module.exports = {
           collapsable: false,
           children: [
             ['/getting-started/introduction', 'Introduction'],
-            ['/getting-started/first-steps', 'First steps with Vue Storefront'],
+            ['/getting-started/project-structure', 'Project structure'],
+            ['/getting-started/layout-and-routing', 'Layout and Routing'],
             ['/getting-started/key-concepts', 'Key concepts'],
             ['/getting-started/theme', 'Theme'],
             ['/getting-started/configuration', 'Configuration'],
