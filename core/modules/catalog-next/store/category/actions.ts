@@ -263,6 +263,17 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
   },
   async fetchPageProducts({ commit, dispatch, getters }, { page, pageSize, route }: { page: number, pageSize: number, route: Route }) {
+    const start = (page - 1) * pageSize;
+    const categoryProductsTotal = getters['getCategoryProductsTotal'];
+
+    if (
+      start < 0 ||
+      start >= categoryProductsTotal ||
+      categoryProductsTotal < pageSize
+    ) {
+      return;
+    }
+
     const { includeFields, excludeFields } = config.entities.productList;
     const { filters, sort } = getters.getCurrentFiltersFrom(route[products.routerFiltersSource as 'query' | 'params']);
     const currentCategory = getters.getCategoryByParams({ ...route.params })
@@ -272,7 +283,6 @@ const actions: ActionTree<CategoryState, RootState> = {
     );
     const sortOrder = sort ||
       `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`
-    const start = (page - 1) * pageSize;
 
     const searchResult = await dispatch(
       'product/findProducts',
@@ -296,6 +306,11 @@ const actions: ActionTree<CategoryState, RootState> = {
     );
 
     commit(types.CATEGORY_SET_CURRENT_PAGE_PRODUCTS, currentPageProducts);
+  },
+  async resetCurrentCategoryData ({ commit }): Promise<void> {
+    commit(types.CATEGORY_RESET_CURRENT_PAGE_PRODUCTS);
+    commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, {});
+    commit(types.CATEGORY_SET_PRODUCTS, []);
   },
   /** Below actions are not used from 1.12 and can be removed to reduce bundle */
   ...require('./deprecatedActions').default
