@@ -113,6 +113,17 @@ export default {
 };
 ```
 
+## Navigating between pages
+
+To navigate between pages within your application, use the [NuxtLink](https://nuxtjs.org/docs/features/nuxt-components/#the-nuxtlink-component) component, instead of the traditional `<a>` tag. While you can use the `<a>` tag for external links, using the `<NuxtLink />` for internal links will ensure that you make use of the Single-Page Navigation capabilities that Nuxt.js provides.
+
+Single-Page Navigation (SPA) provides many benefits, such as:
+
+* much faster and more responsive navigation compared to the traditional server navigation,
+* framework is initialized only once,
+* components shared between the pages are rendered only once (if they use the same layout),
+* fewer requests and data sent over the network.
+
 ## What's next
 
 Layouts and pages are one thing, but in the end, they must display components and styles. Otherwise, the pages would be empty.
