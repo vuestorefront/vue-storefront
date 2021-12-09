@@ -22,6 +22,7 @@ import config from 'config'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
 import createCategoryListQuery from '@vue-storefront/core/modules/catalog/helpers/createCategoryListQuery'
 import { transformCategoryUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
+import { Route } from 'vue-router'
 
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category, pageSize = 50 } = {}) {
@@ -260,6 +261,56 @@ const actions: ActionTree<CategoryState, RootState> = {
         }, { root: true })
       }
     }
+  },
+  async fetchPageProducts({ commit, dispatch, getters }, { page, pageSize, route }: { page: number, pageSize: number, route: Route }) {
+    const start = (page - 1) * pageSize;
+    const categoryProductsTotal = getters['getCategoryProductsTotal'];
+
+    if (
+      start < 0 ||
+      start >= categoryProductsTotal ||
+      categoryProductsTotal < pageSize
+    ) {
+      return;
+    }
+
+    const { includeFields, excludeFields } = config.entities.productList;
+    const { filters, sort } = getters.getCurrentFiltersFrom(route[products.routerFiltersSource as 'query' | 'params']);
+    const currentCategory = getters.getCategoryByParams({ ...route.params })
+    const filterQuery = buildFilterProductsQuery(
+      currentCategory,
+      filters
+    );
+    const sortOrder = sort ||
+      `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`
+
+    const searchResult = await dispatch(
+      'product/findProducts',
+      {
+        query: filterQuery,
+        sort: sortOrder,
+        start: start,
+        size: pageSize,
+        includeFields: includeFields,
+        excludeFields: excludeFields
+      },
+      { root: true }
+    );
+
+    const currentPageProducts = await dispatch(
+      'processCategoryProducts',
+      {
+        products: searchResult.items,
+        filters: filters
+      }
+    );
+
+    commit(types.CATEGORY_SET_CURRENT_PAGE_PRODUCTS, currentPageProducts);
+  },
+  async resetCurrentCategoryData ({ commit }): Promise<void> {
+    commit(types.CATEGORY_RESET_CURRENT_PAGE_PRODUCTS);
+    commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, {});
+    commit(types.CATEGORY_SET_PRODUCTS, []);
   },
   /** Below actions are not used from 1.12 and can be removed to reduce bundle */
   ...require('./deprecatedActions').default
