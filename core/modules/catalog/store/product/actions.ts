@@ -242,31 +242,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
     await dispatch('setCurrent', product)
 
-    if (product.status >= 2) {
-      throw new Error(`Product query returned empty result product status = ${product.status}`)
-    }
-    if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
-      if (config.products.preventConfigurableChildrenDirectAccess) {
-        const parentProduct = await dispatch('findConfigurableParent', { product })
-        checkParentRedirection(product, parentProduct)
-      } else {
-        throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
-      }
-    }
-
-    if (config.entities.attribute.loadByAttributeMetadata) {
-      await dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
-    } else {
-      await dispatch('loadProductAttributes', { product })
-    }
-
-    const syncPromises = []
-    const gallerySetup = dispatch('setProductGallery', { product })
-    if (isServer) {
-      syncPromises.push(gallerySetup)
-    }
-    await Promise.all(syncPromises)
-    await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
+    await dispatch('loadProductData', { product, route });
     return product
   },
   /**
@@ -300,6 +276,8 @@ const actions: ActionTree<ProductState, RootState> = {
         breadcrumbCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
       }
       await dispatch('category-next/loadCategoryBreadcrumbs', { category: breadcrumbCategory, currentRouteName: product.name }, { root: true })
+    } else {
+      await dispatch('breadcrumbs/set', { current: null, routes: [] }, { root: true });
     }
   },
   async getProductVariant (context, { product, configuration } = {}) {
@@ -321,6 +299,33 @@ const actions: ActionTree<ProductState, RootState> = {
     const { selectedVariant = {}, options, product_option } = newProductVariant
 
     return { ...selectedVariant, options, product_option }
+  },
+  async loadProductData ({dispatch}, { product, route = null }) {
+    if (product.status >= 2) {
+      throw new Error(`Product query returned empty result product status = ${product.status}`)
+    }
+    if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
+      if (config.products.preventConfigurableChildrenDirectAccess) {
+        const parentProduct = await dispatch('findConfigurableParent', { product })
+        checkParentRedirection(product, parentProduct)
+      } else {
+        throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
+      }
+    }
+
+    if (config.entities.attribute.loadByAttributeMetadata) {
+      await dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
+    } else {
+      await dispatch('loadProductAttributes', { product })
+    }
+
+    const syncPromises = []
+    const gallerySetup = dispatch('setProductGallery', { product })
+    if (isServer) {
+      syncPromises.push(gallerySetup)
+    }
+    await Promise.all(syncPromises)
+    await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
   },
   /** Below actions are not used from 1.12 and can be removed to reduce bundle */
   ...require('./deprecatedActions').default
