@@ -34,4 +34,4 @@ Combining general-purpose modules from Nuxt.js and e-commerce specific modules f
 
 ## What's next
 
-With fundamentals out of our way, let's start making our [First steps with Vue Storefront project](./first-steps.html) and learn how to navigate it and which files do what.
+With fundamentals out of our way, it's time to undestand the [Project structure](./project-structure.html) and learn how to navigate it and which files do what.
