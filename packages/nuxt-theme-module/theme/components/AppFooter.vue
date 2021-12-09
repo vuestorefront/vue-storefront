@@ -50,7 +50,7 @@
     </SfFooterColumn>
     <SfFooterColumn title="Social">
       <div class="footer__socials">
-        <SfImage class="footer__social-image" v-for="item in social" :key="item" :src="'/icons/'+item+'.svg'" :alt="item" width="32" height="32" />
+        <SfImage class="footer__social-image" v-for="item in social" :key="item" :src="addBasePath('/icons/'+item+'.svg')" :alt="item" width="32" height="32" />
       </div>
     </SfFooterColumn>
   </SfFooter>
@@ -58,6 +58,7 @@
 
 <script>
 import { SfFooter, SfList, SfImage, SfMenuItem } from '@storefront-ui/vue';
+import { addBasePath } from '@vue-storefront/core';
 
 export default {
   components: {
@@ -65,6 +66,11 @@ export default {
     SfList,
     SfImage,
     SfMenuItem
+  },
+  setup() {
+    return {
+      addBasePath
+    };
   },
   data() {
     return {

@@ -89,6 +89,45 @@ Out of the box, some routes are injected via `@vue-storefront/nuxt-theme` module
 
 To override existing routes or adding your own, use [extendRoutes](https://nuxtjs.org/guides/configuration-glossary/configuration-router#extendroutes) in `nuxt.config.js`. Additionally, Nuxt.js automatically registers components created in the `pages` folder as new routes. You can read more about this on the [File System Routing](https://nuxtjs.org/docs/2.x/features/file-system-routing/) page.
 
+### Router base property
+
+There is an option to set base URL for your store.
+
+This can be useful if you need to serve your store as a different context root, from within a bigger Web site.
+
+Add following configuration to `nuxt.config.js`
+```javascript
+// nuxt.config.js
+
+export default {
+  router: {
+    base: "/myShop/"
+  }
+};
+```
+
+:::warning Be careful
+When using base router property you need to wrap all assets relative links in addBasePath(), this will automatically add base path to them and prevent redirects. (example below)
+:::
+
+
+
+```javascript
+//use addBasePath on relative url
+<SfImage :src="addBasePath(`/homepage/imageA.webp`)" />
+<SfBanner :image="addBasePath('/homepage/bannerA.png')" />
+
+//In theme file import addBasePath from vue-storefront core
+import { addBasePath } from '@vue-storefront/core';
+
+setup() {
+  return {
+    // if you want to use it in template you need to exprt it
+    addBasePath
+  }
+}
+```
+
 ## Updating styles
 
 There are few ways of updating the default styles. Below we describe the most optimal ways for the most common cases.

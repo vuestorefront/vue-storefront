@@ -23,7 +23,7 @@
               <SfCollectedProduct
                 v-for="product in products"
                 :key="wishlistGetters.getItemSku(product)"
-                :image="wishlistGetters.getItemImage(product)"
+                :image="addBasePath(wishlistGetters.getItemImage(product))"
                 :title="wishlistGetters.getItemName(product)"
                 :regular-price="$n(wishlistGetters.getItemPrice(product).regular, 'currency')"
                 :special-price="wishlistGetters.getItemPrice(product).special && $n(wishlistGetters.getItemPrice(product).special, 'currency')"
@@ -55,7 +55,7 @@
         </div>
         <div v-else class="empty-wishlist" key="empty-wishlist">
           <div class="empty-wishlist__banner">
-            <SfImage src="/icons/empty-cart.svg" alt="Empty bag" class="empty-wishlist__icon" />
+            <SfImage :src="addBasePath('/icons/empty-cart.svg')" alt="Empty bag" class="empty-wishlist__icon" />
             <SfHeading
               title="Your bag is empty"
               description="Looks like you haven’t added any items to the bag yet. Start
@@ -87,6 +87,7 @@ import {
 import { computed } from '@nuxtjs/composition-api';
 import { useWishlist, useUser, wishlistGetters } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
+import { addBasePath } from '@vue-storefront/core';
 
 export default {
   name: 'Wishlist',
@@ -109,6 +110,7 @@ export default {
     const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
 
     return {
+      addBasePath,
       isAuthenticated,
       products,
       removeItem,
