@@ -32,7 +32,11 @@ Some integrations can have slightly different structures, with more or fewer fil
 
 ## Start with the `nuxt.config.js` file
 
+<q>
+
 Whenever starting a new project or jumping into an existing one, the first place you should look into is the `nuxt.config.js` file. It contains general configuration for the whole project, including routes, global middlewares, internationalization, or build information.
+
+</q>
 
 In the `nuxt.config.js` file, we also define modules and plugins we want to use to add or extend framework features. Because almost every Vue Storefront integration has them, you can identify which integrations are used by looking at this file.
 
