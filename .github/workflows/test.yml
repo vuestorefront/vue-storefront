@@ -99,7 +99,7 @@ jobs:
       matrix:
         integration:
           - boilerplate
-          - commercetools
+          # - commercetools
           # - shopify
 
     steps:

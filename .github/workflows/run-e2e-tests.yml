@@ -11,7 +11,7 @@ on:
       package:
         description: "Package"
         required: true
-        default: "ct"
+        default: "bp"
       browser:
         description: "Browser"
         required: true

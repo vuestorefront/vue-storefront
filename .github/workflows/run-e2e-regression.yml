@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: ["ct", "bp"]
+        package: ["bp"]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
