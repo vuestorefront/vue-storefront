@@ -59,7 +59,7 @@ module.exports = {
          }
        ]
      });
-  
+
     // Fix image loading. Ref: https://github.com/vuejs/vue-loader/issues/1612#issuecomment-559366730
     config.module.rules = config.module.rules.map((rule) => {
       rule.use = rule.use && rule.use.map((useRule) => {
@@ -113,60 +113,6 @@ module.exports = {
       { text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437' }
     ],
     sidebar: {
-      '/commercetools/': [
-        {
-          title: 'Essentials',
-          collapsable: false,
-          children: [
-            ['/commercetools/', 'Introduction'],
-            ['/commercetools/essentials/store-setup', 'Store setup'],
-            ['/commercetools/essentials/configuration', 'Configuration']
-          ]
-        },
-        {
-          title: 'How-to guides',
-          collapsable: true,
-          children: [
-            ['/commercetools/guide/authentication', 'Authentication'],
-            ['/commercetools/guide/cart', 'Cart'],
-            ['/commercetools/guide/checkout', 'Checkout'],
-            ['/commercetools/guide/product-catalog', 'Product catalog'],
-            ['/commercetools/guide/user-profile', 'User profile'],
-            ['/commercetools/guide/wishlist', 'Wishlist'],
-          ]
-        },
-        {
-          title: 'Composables',
-          collapsable: true,
-          children: [
-            ['/commercetools/composables/use-billing', 'useBilling'],
-            ['/commercetools/composables/use-cart', 'useCart'],
-            ['/commercetools/composables/use-category', 'useCategory'],
-            ['/commercetools/composables/use-facet', 'useFacet'],
-            ['/commercetools/composables/use-forgot-password', 'useForgotPassword'],
-            ['/commercetools/composables/use-make-order', 'useMakeOrder'],
-            ['/commercetools/composables/use-product', 'useProduct'],
-            ['/commercetools/composables/use-review', 'useReview'],
-            ['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
-            ['/commercetools/composables/use-shipping', 'useShipping'],
-            ['/commercetools/composables/use-store', 'useStore'],
-            ['/commercetools/composables/use-user-billing', 'useUserBilling'],
-            ['/commercetools/composables/use-user-order', 'useUserOrder'],
-            ['/commercetools/composables/use-user-shipping', 'useUserShipping'],
-            ['/commercetools/composables/use-user', 'useUser'],
-            ['/commercetools/composables/use-wishlist', 'useWishlist']
-          ]
-        },
-        {
-          title: 'Reference',
-          collapsable: true,
-          children: [
-            ['/commercetools/reference/api/', 'API Reference'],
-            ['/commercetools/reference/migrate/', 'Migration guide'],
-            ['/commercetools/reference/changelog', 'Changelog']
-          ]
-        }
-      ],
       '/': [
         {
           title: '',

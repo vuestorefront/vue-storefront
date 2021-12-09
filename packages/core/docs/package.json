@@ -6,21 +6,16 @@
   "license": "MIT",
   "scripts": {
     "dev": "vuepress dev",
-    "build": "yarn build:core && yarn build:ct && NODE_OPTIONS=--max_old_space_size=8192 vuepress build",
+    "build": "yarn build:core && NODE_OPTIONS=--max_old_space_size=8192 vuepress build",
     "core-cache-ref": "cd ../cache && api-extractor run --local",
     "core-core-ref": "cd ../core && api-extractor run --local",
     "core-middleware-ref": "cd ../middleware && api-extractor run --local",
     "core-ref-md": "api-documenter markdown --i reference/api --o reference/api",
-    "build:core": "yarn core-cache-ref && yarn core-core-ref && yarn core-middleware-ref && yarn core-ref-md",
-    "ct-api-ref": "cd ../../commercetools/api-client && api-extractor run --local",
-    "ct-comp-ref": "cd ../../commercetools/composables && api-extractor run --local",
-    "ct-ref-md": "api-documenter markdown --i commercetools/reference/api --o commercetools/reference/api",
-    "build:ct": "yarn ct-api-ref && yarn ct-comp-ref && yarn ct-ref-md"
+    "build:core": "yarn core-cache-ref && yarn core-core-ref && yarn core-middleware-ref && yarn core-ref-md"
   },
   "devDependencies": {
     "@microsoft/api-documenter": "^7.13.7",
     "@microsoft/api-extractor": "^7.18.3",
-    "@vue-storefront/commercetools-api": "~1.2.0",
     "@vuepress/plugin-active-header-links": "^1.8.2",
     "@vuepress/plugin-back-to-top": "^1.8.2",
     "@vuepress/plugin-medium-zoom": "^1.8.2",
