@@ -50,6 +50,7 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
     });
   }
 
+  // Health Check plugin
   this.options.router.middleware.push('health-check')
   this.addPlugin({
     src: path.resolve(__dirname, 'plugins/health-check.js')
