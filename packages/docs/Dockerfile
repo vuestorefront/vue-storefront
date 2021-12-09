@@ -21,8 +21,7 @@ COPY . .
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-RUN yarn install \
-    && yarn build:ct:tools
+RUN yarn install
 
 RUN cd packages/docs \
     && yarn install \
