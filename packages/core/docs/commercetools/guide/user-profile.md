@@ -115,7 +115,7 @@ export default {
 
 ## Managing addresses (billing and shipping)
 
-Managing billing and shipping addresses is done using [useUserBilling](/core/api-reference/core.useuserbilling.html) and [useUserShipping](/core/api-reference/core.useusershipping.html) composables.
+Managing billing and shipping addresses is done using [useUserBilling](/reference/api/core.useuserbilling.html) and [useUserShipping](/reference/api/core.useusershipping.html) composables.
 
 Both have an almost identical signature (properties, methods, and getters), so the examples below will only show usage of `useUserBilling`.
 
@@ -210,7 +210,7 @@ export default {
 </script>
 ```
 
-For more information, please refer to documentation for [useUserBilling](/core/api-reference/core.useuserbilling.html) and [useUserShipping](/core/api-reference/core.useusershipping.html) composables.
+For more information, please refer to documentation for [useUserBilling](/reference/api/core.useuserbilling.html) and [useUserShipping](/reference/api/core.useusershipping.html) composables.
 
 ## Displaying user orders
 
@@ -252,7 +252,7 @@ export default {
 </script>
 ```
 
-For more information, please refer to documentation for [useUserOrder](/core/api-reference/core.useuserorder.html) composable.
+For more information, please refer to documentation for [useUserOrder](/reference/api/core.useuserorder.html) composable.
 
 ## Protecting user profile routes
 

@@ -88,7 +88,7 @@
 
 Related references:
   - [storeGetter](/commercetools/api-reference/commercetools.storegetters.html)
-  - [UseStoreGetters](/core/api-reference/core.usestoregetters.html)
+  - [UseStoreGetters](/reference/api/core.usestoregetters.html)
   - [StoresData](/commercetools/api-reference/commercetools.storesdata.html)
 
   ```typescript

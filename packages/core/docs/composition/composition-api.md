@@ -1,6 +1,6 @@
 # Composition API
 
-> If you already have an experience with Vue Composition API, you can skip this section and start using [Vue Storefront Composables](/guide/composables.html)
+> If you already have an experience with Vue Composition API, you can skip this section and start using [Vue Storefront Composables](/composition/composables.html)
 
 Composition API is a new way of abstracting and reusing the logic added in Vue 3.0. It allows you to create and observe a reactive state both inside the Vue component and outside of it as a standalone function.
 
@@ -186,4 +186,4 @@ export default {
 </script>
 ```
 
-Vue Storefront uses composables as its main API. We will take a look over them in the next [article](/guide/composables.html).
+Vue Storefront uses composables as its main API. We will take a look over them in the next [article](/composition/composables.html).

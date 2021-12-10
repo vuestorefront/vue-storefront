@@ -119,7 +119,7 @@ These changes affected multiple Vue components. Please refer to [UI section](#ui
 
 We updated `@vue-storefront/cache` library which previously was only experimental. It contains some breaking changes, but mostly related to naming in the configuration.
 
-Please refer to [SSR Cache](../../advanced/ssr-cache.md) documentation for more information.
+Please refer to [SSR Cache](../../performance/ssr-cache.md) documentation for more information.
 
 ## UI
 

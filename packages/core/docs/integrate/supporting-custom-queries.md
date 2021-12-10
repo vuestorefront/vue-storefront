@@ -6,7 +6,7 @@ This functionality is only available to integrations using GraphQL to communicat
 
 Unlike REST APIs, which return most or all available data on every request, GraphQL allows us to specify what information we want to get. It's great for performance, but developers will likely need data that you didn't include in the default GraphQL query.
 
-Vue Storefront provides a way to dynamically change the default GraphQL queries for selected API requests as described in the [Extending GraphQL Queries](../advanced/extending-graphql-queries.html) document.
+Vue Storefront provides a way to dynamically change the default GraphQL queries for selected API requests as described in the [Extending GraphQL Queries](../composition/extending-graphql-queries.html) document.
 
 The name of the custom query is available within the second argument in composable factory methods. It must be passed as the last parameter when calling an API method.
 
