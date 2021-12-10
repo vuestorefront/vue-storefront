@@ -233,9 +233,7 @@ export default {
   padding: 20px 20px 20px;
   background-color: #F9FAFB;
   cursor: pointer;
-}
-
-.tile-more .tile-link {
+  text-decoration: none;
   font-weight: 500;
 }
 </style>

@@ -1,19 +1,4 @@
 # Theme
-## Directory structure
-
-If you followed our [Installation guide](/general/installation.html), you should have a fully functional e-commerce application. As mentioned in previous documents, Vue Storefront extends Nuxt.js, so the structure of both applications is similar. Most directories come from Nuxt.js, and you can read more about them on their [Directory Structure](https://nuxtjs.org/docs/2.x/get-started/directory-structure) page.
-
-* [.nuxt](https://nuxtjs.org/docs/2.x/directory-structure/nuxt);
-* [components](https://nuxtjs.org/docs/2.x/directory-structure/components);
-* `composables` - contains custom composables that override your integration or are not part of the Vue Storefront core. It may include composables specific to your theme;
-* `helpers` - contains helper functions. It is a good place to store methods used in the multiples places of the application;
-* `lang` - contains translations for your application. Available locales are configured in the `nuxt.config.js` file;
-* [layouts](https://nuxtjs.org/docs/2.x/directory-structure/layouts);
-* [middleware](https://nuxtjs.org/docs/2.x/directory-structure/middleware);
-* [pages](https://nuxtjs.org/docs/2.x/directory-structure/pages);
-* [static](https://nuxtjs.org/docs/2.x/directory-structure/static);
-* `middleware.config.js` - configuration file for the [Server Middleware](/architecture/server-middleware.html);
-* [nuxt.config.js](https://nuxtjs.org/docs/2.x/directory-structure/nuxt-config);
 
 ## Storefront UI
 
@@ -46,48 +31,7 @@ If the name of the component starts with `Sf` (indicating that it comes from Sto
 
 These two components come from the `vue-lazy-hydration` library and are wrappers around other components. In Vue Storefront, they are used to improve the performance by deferring the hydration process (when components become interactive) and don't affect the look of other components.
 
-If you encounter one of these components, you should refer to the direct **child** component. 
-
-### Adding new page
-
-To add a new page, create a new component in the `pages` folder and name it the same as your route using `PascalCase`.
-
-As an example, let's create the `AboutUs.vue` component. This by itself creates a new route named `/aboutus` (thanks to [File System Routing](https://nuxtjs.org/docs/2.x/features/file-system-routing/) in Nuxt.js) and in some cases might be enough. However, to follow the convention of using `kebab-case` in URLs, let's use [extendRoutes](https://nuxtjs.org/guides/configuration-glossary/configuration-router#extendroutes) in `nuxt.config.js` to have more control over the route.
-
-Add following configuration to `nuxt.config.js` to create new route `/about-us`:
-
-```javascript
-// nuxt.config.js
-
-export default {
-  router: {
-    extendRoutes(routes, resolve) {
-      routes.push({
-        name: 'AboutUs',
-        path: '/about-us',
-        component: resolve(__dirname, 'pages/AboutUs.vue')
-      });
-    }
-  }
-};
-```
-
-## Routing
-
-Out of the box, some routes are injected via `@vue-storefront/nuxt-theme` module:
-
-- Home Page (`/`);
-- Category Page (`/c/:slug_1/:slug_2?/:slug_3?/:slug_4?/:slug_5?`);
-- Product Page (`/p/:id/:slug/`);
-- User Profile Page (`/my-account/:pageName?`);
-- Checkout (`/checkout`):
-  - Shipping (`/checkout/shipping`);
-  - Billing (`/checkout/billing`);
-  - Payment (`/checkout/payment`);
-  - Thank You page (`/checkout/thank-you`);
-- Custom 404 page;
-
-To override existing routes or adding your own, use [extendRoutes](https://nuxtjs.org/guides/configuration-glossary/configuration-router#extendroutes) in `nuxt.config.js`. Additionally, Nuxt.js automatically registers components created in the `pages` folder as new routes. You can read more about this on the [File System Routing](https://nuxtjs.org/docs/2.x/features/file-system-routing/) page.
+If you encounter one of these components, you should refer to the direct **child** component.
 
 ## Updating styles
 
