@@ -126,6 +126,6 @@ Single-Page Navigation (SPA) provides many benefits, such as:
 
 ## What's next
 
-Layouts and pages are one thing, but in the end, they must display components and styles. Otherwise, the pages would be empty.
+Layouts and pages are one thing, but in the end, they must display components and styles. Otherwise, we would only serve blank pages.
 
 New projects come with a default [Theme](./theme.html), so the next step is to understand what makes it look like this.
