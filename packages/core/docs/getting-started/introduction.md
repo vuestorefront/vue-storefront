@@ -24,7 +24,7 @@ You might be wondering why we choose Nuxt.js as our foundation. After all, it wa
 
 When you start using any new framework, you expect it to have **plugins that solve common issues**, such as analytics, SEO, internationalization, and many more. Additionally, it should be **versatile and flexible** enough to allow extending it and creating custom integrations. Not to mention an **active and diverse community**, which answers questions, writes articles, and promotes the framework.
 
-Creating such an ecosystem from scratch takes years. But we based Vue Storefront on Nuxt.js — the biggest Vue.js framework — it ticks all the boxes. Nuxt.js has a vast library of [ready-to-use modules](https://modules.nuxtjs.org/) and an active community of thousands of developers on the [Nuxt.js Discord server](https://discord.com/invite/ps2h6QT). It's also flexible enough to make it e-commerce ready with just a few plugins and modules.
+Creating such an ecosystem from scratch takes years. But because we based Vue Storefront on Nuxt.js — the biggest Vue.js framework — it ticks all the boxes. Nuxt.js has a vast library of [ready-to-use modules](https://modules.nuxtjs.org/) and an active community of thousands of developers on the [Nuxt.js Discord server](https://discord.com/invite/ps2h6QT). It's also flexible enough to make it e-commerce ready with just a few plugins and modules.
 
 <q>
 
@@ -34,7 +34,7 @@ Combining general-purpose modules from Nuxt.js and e-commerce specific modules f
 
 ## Start with Vue.js
 
-If you are new to the Vue.js ecosystem, the best place to start learning is the [Vue.js documentation](https://vuejs.org/). **In our documentation (with some exceptions), we assume prior knowledge of Vue.js**. While we do our best to explain each topic in detail, a lack of this knowledge might cause you to get lost.
+If you are new to the Vue.js ecosystem, the best place to start learning is the [Vue.js documentation](https://vuejs.org/). **In our documentation, we assume prior knowledge of Vue.js (with some exceptions)**. While we do our best to explain each topic in detail, a lack of this knowledge might cause you to get lost.
 
 The next step in the learning process is reading [Nuxt.js documentation](https://nuxtjs.org/docs/). In most places, we don't assume this knowledge and add links to related documents, but having it will make you more confident and let you work faster and more efficiently.
 

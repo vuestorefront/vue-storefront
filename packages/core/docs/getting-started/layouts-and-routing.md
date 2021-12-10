@@ -26,7 +26,7 @@ At the root of the hierarchy is the HTML document. By default, the framework pro
 
 Nuxt.js automatically registers all `.vue` files inside of the `layouts` directory as layouts. Unless configured otherwise, pages use the `default.vue` component as their layout. Open the `layouts/default.vue` component to get the general idea of how the page looks like, what components it imports and what data it loads within the `setup` function.
 
-Layout components include a special `<Nuxt />` component that displays the page's content based on the current URL. Those pages are Vue.js components, too, registered in the `pages` directory.
+Layout components include a special `<Nuxt />` component that displays the page's content based on the current URL. Those pages are Vue.js components, too, explained in the next section.
 
 There is also an `error.vue` layout — used when an error occurs. It doesn't use the `<Nuxt />` component but receives the `error` prop, which you can use to get an error code or message.
 
@@ -38,7 +38,7 @@ Nuxt.js automatically registers all `.vue` files inside the `pages` directory as
 
 Pages can define a custom [layout](https://nuxtjs.org/docs/directory-structure/pages#layout) property to change the default used for this view.
 
-The convention is to use `PascalCase` when naming components inside of the `layouts` directory, e.g., `MyAccount.vue`.
+The convention is to use `PascalCase` when naming components inside of the `pages` directory, e.g., `MyAccount.vue`.
 
 ## Predefined routes
 
