@@ -1,14 +1,14 @@
 # Layouts and Routing
 
-Layouts and Routing in Vue Storefront is entirely powered by the Nuxt.js. On this page we will only give a brief overview of these features, but you can learn more on the [Views](https://nuxtjs.org/docs/concepts/views/) page in the Nuxt.js documentation.
+Layouts and Routing in Vue Storefront are entirely powered by Nuxt.js. We will only give a brief overview of these features on this page, but you can learn more on the [Views](https://nuxtjs.org/docs/concepts/views/) page in the Nuxt.js documentation.
 
 ## View hierarchy
 
-Every page consists of layers — some layers are shared between many views, others are specific to a give route. Each layer is described in detail in the sections below.
+Every page consists of layers — some layers are shared between many routes, others are used in one specific route. We described each layer in detail in the sections below.
 
 ### HTML document
 
-At the root of hierarchy is the HTML document. By default it's provided by the framework, but you can customize it by creating a `app.html` file in the root directory of your project. It has a special tags that are used to insert parts of the documents, and by default looks like this:
+At the root of the hierarchy is the HTML document. By default, the framework provides one, but you can customize it by creating an `app.html` file in the root directory of your project. It has special tags used to insert parts of the documents, and by default, looks like this:
 
 ```html
 <!DOCTYPE html>
@@ -24,27 +24,27 @@ At the root of hierarchy is the HTML document. By default it's provided by the f
 
 ### Layouts
 
-All `.vue` files inside of the `layouts` directory are automatically registered as layouts. Unless configured otherwise, pages use the `default.vue` component as their layout. Open the `layouts/default.vue` component to get the general idea on how the page looks like, what component are used and what data is loaded within the `setup` function.
+Nuxt.js automatically registers all `.vue` files inside of the `layouts` directory as layouts. Unless configured otherwise, pages use the `default.vue` component as their layout. Open the `layouts/default.vue` component to get the general idea of how the page looks like, what components it imports and what data it loads within the `setup` function.
 
-Layout components include a special `<Nuxt />` component that displays the content of the page, based on the current URL. Those pages are Vue.js components too, registered in the `pages` directory.
+Layout components include a special `<Nuxt />` component that displays the page's content based on the current URL. Those pages are Vue.js components, too, registered in the `pages` directory.
 
-There is also `error.vue` layout — used when an error occurred. It doesn't use the `<Nuxt />` component, but receives the `error` prop, which you can use to get an error code or message.
+There is also an `error.vue` layout — used when an error occurs. It doesn't use the `<Nuxt />` component but receives the `error` prop, which you can use to get an error code or message.
 
-The convention is to use `lowercase` when naming components inside of the `layouts` directory, eg. `blog.vue`.
+The convention is to use `lowercase` when naming components inside of the `layouts` directory, e.g., `blog.vue`.
 
 ### Pages
 
-All `.vue` files inside of the `pages` directory will be automatically registered as application routes. For example creating an `AboutUs.vue` component will create an `/aboutus` route. The same way, creating the same component inside a nested directory called `company` will create `/company/aboutus` route. This is thanks to the thanks to [File System Routing](https://nuxtjs.org/docs/2.x/features/file-system-routing/) feature available in Nuxt.js. In the sections below we describe how to manually modify routes.
+Nuxt.js automatically registers all `.vue` files inside the `pages` directory as application routes. For example, creating an `AboutUs.vue` component will create an `/aboutus` route. In the same way, creating this component inside a nested directory called `company` will create the `/company/aboutus` route. It's all thanks to the [File System Routing](https://nuxtjs.org/docs/2.x/features/file-system-routing/) feature available in Nuxt.js. In the sections below, we describe how to modify routes manually.
 
 Pages can define a custom [layout](https://nuxtjs.org/docs/directory-structure/pages#layout) property to change the default used for this view.
 
-The convention is to use `PascalCase` when naming components inside of the `layouts` directory, eg. `MyAccount.vue`.
+The convention is to use `PascalCase` when naming components inside of the `layouts` directory, e.g., `MyAccount.vue`.
 
 ## Predefined routes
 
-Every Vue Storefront project comes with a predefined list of routes injected by the `@vue-storefront/nuxt-theme` module. However, if you navigate around the page, you might notice that the page routes don't match the name of the components inside the `pages` directory.
+Every Vue Storefront project has a predefined list of routes injected by the `@vue-storefront/nuxt-theme` module. However, if you navigate the page, you might notice that the page routes don't match the name of the components inside the `pages` directory.
 
-This is because we use the [extendRoutes](https://nuxtjs.org/guides/configuration-glossary/configuration-router#extendroutes) function to create a custom routes for some of the components that come out of the box.
+This is because internally, we use the [extendRoutes](https://nuxtjs.org/guides/configuration-glossary/configuration-router#extendroutes) function to create custom routes for some of the components that come out of the box.
 
 Here's the map of routes and their corresponding components:
 
@@ -61,16 +61,16 @@ Here's the map of routes and their corresponding components:
 | `/checkout/thank-you`                               | `Checkout/ThankYou.vue`              | `thank-you`      |
 | `/reset-password`                                   | `ResetPassword.vue`                  | `reset-password` |
 
-## Manually adding and modyfing routes
+## Manually adding and modifying routes
 
-If you want to manually add your own custom routes or modify some that we provided, use the `extendRoutes` function in the `nuxt.config.js`. This function has two properties:
+If you want to manually add your custom routes or modify some already provided, use the `extendRoutes` function in the `nuxt.config.js`. This function has two properties:
 
-* `routes` — array of already registered routes. You can `push` or delete entries from it.
+* `routes` — an array of already registered routes. You can `push` or delete entries from it.
 * `resolve` — helper function for resolving Vue.js components based on their paths in the project.
 
 For the sake of example, let's assume that we created a `pages/AboutUs.vue` component, but we want to use the `/company/about-us` route instead of auto-registered `/aboutus`. There are two approaches we could take.
 
-The first apparoch is to **delete existing route** and **register new route** with a different path.
+The first approach is to **delete existing route** and **register new route** with a different path.
 
 ```javascript
 // nuxt.config.js
@@ -95,7 +95,7 @@ export default {
 };
 ```
 
-Alternatively we can **modify `path` property of the existing entry** like so:
+Alternatively, we can **modify the `path` property of the existing entry** like so:
 
 ```javascript
 // nuxt.config.js
