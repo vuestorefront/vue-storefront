@@ -320,6 +320,11 @@ $mobile-s: 640px;
             padding: 0;
           }
 
+          a {
+            color: var(--c-white);
+            text-decoration: underline;
+          }
+
           ul {
             text-align: left;
             display: inline-block;
