@@ -321,7 +321,7 @@ $mobile-s: 640px;
           }
 
           a {
-            color: var(--c-white);
+            color: inherit;
             text-decoration: underline;
           }
 
