@@ -3,7 +3,7 @@ import { ImageHandlerOutputFormat } from './image-handler-output-format';
 
 export default class ImageHandlerService {
   public constructor (private fApiHost: string) {
-    if (this.fApiHost.endsWith('/')) {
+    if (!this.fApiHost.endsWith('/')) {
       this.fApiHost += '/';
     }
   }
