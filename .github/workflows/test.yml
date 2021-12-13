@@ -13,7 +13,7 @@ on:
       - release-**
 
 jobs:
-  run_linter_and_tests:
+  run_linter:
     name: Prepare dependencies
     runs-on: ubuntu-latest
     steps:
@@ -32,17 +32,31 @@ jobs:
       - name: Run linter
         run: yarn lint
 
-      - name: Build core
-        run: yarn build:core
+  build_and_test:
+    name: Test ${{ matrix.package }}
+    needs: validate_core
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - cache
+          - cli
+          - core
+          - middleware
 
-      - name: Test cache
-        run: yarn test:cache --coverage
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Test CLI
-        run: yarn test:cli --coverage
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          cache: 'yarn'
 
-      - name: Test core
-        run: yarn test:core --coverage
-
-      - name: Test middleware
-        run: yarn test:middleware --coverage
+      - name: Install dependencies
+        run: yarn install
+      
+      - name: Build and test ${{ matrix.package }}
+        run: cd packages/core/${{ matrix.integration }} && yarn build && yarn test --coverage
