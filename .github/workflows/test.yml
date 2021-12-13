@@ -13,8 +13,7 @@ on:
       - release-**
 
 jobs:
-  run_linter:
-    name: Prepare dependencies
+  test_repository:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
