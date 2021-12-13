@@ -31,6 +31,9 @@ jobs:
 
       - name: Run linter
         run: yarn lint
+      
+      - name: Build packages
+        run: yarn build:core
 
   build_and_test:
     name: Test ${{ matrix.package }}
