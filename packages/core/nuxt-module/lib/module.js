@@ -50,6 +50,13 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
     });
   }
 
+  // Health Check plugin
+  this.options.router.middleware.push('health-check')
+  this.addPlugin({
+    src: path.resolve(__dirname, 'plugins/health-check.js')
+  })
+  log.success('Installed Vue Storefront Health Check plugin');
+
   // Context plugin
   this.addPlugin(path.resolve(__dirname, 'plugins/context.js'))
   log.success('Installed Vue Storefront Context plugin');
