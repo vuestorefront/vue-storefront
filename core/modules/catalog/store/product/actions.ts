@@ -225,9 +225,12 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Load the product data and sets current product
    */
-  async loadProduct ({ dispatch, state }, { parentSku, childSku = null, route = null, skipCache = false }) {
+  async loadProduct ({ dispatch, state }, { parentSku, childSku = null, route = null, skipCache = false, setCurrent = true }) {
     Logger.info('Fetching product data asynchronously', 'product', { parentSku, childSku })()
-    EventBus.$emit('product-before-load', { store: rootStore, route: route })
+
+    if (setCurrent) {
+      EventBus.$emit('product-before-load', { store: rootStore, route: route })
+    }
 
     const product = await dispatch('single', {
       options: {
@@ -240,9 +243,16 @@ const actions: ActionTree<ProductState, RootState> = {
 
     setRequestCacheTags({ products: [product] })
 
-    await dispatch('setCurrent', product)
+    if (setCurrent) {
+      await dispatch('setCurrent', product)
+    }
 
     await dispatch('loadProductData', { product, route });
+
+    if (setCurrent) {
+      await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
+    }
+
     return product
   },
   /**
@@ -300,7 +310,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
     return { ...selectedVariant, options, product_option }
   },
-  async loadProductData ({dispatch}, { product, route = null }) {
+  async loadProductData ({dispatch}, { product }) {
     if (product.status >= 2) {
       throw new Error(`Product query returned empty result product status = ${product.status}`)
     }
@@ -325,7 +335,6 @@ const actions: ActionTree<ProductState, RootState> = {
       syncPromises.push(gallerySetup)
     }
     await Promise.all(syncPromises)
-    await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
   },
   /** Below actions are not used from 1.12 and can be removed to reduce bundle */
   ...require('./deprecatedActions').default
