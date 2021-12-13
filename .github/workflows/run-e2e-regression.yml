@@ -18,17 +18,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '12'
-
-      - name: Get cached dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/Cypress
-            **/node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       - name: Build package
         run: yarn build:${{ matrix.package }}
