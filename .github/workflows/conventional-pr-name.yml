@@ -15,12 +15,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12'
-
-      - name: Get cached dependencies
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          cache: 'yarn'
 
       - name: Install dependencies
         run: yarn --network-concurrency 1 --frozen-lockfile
