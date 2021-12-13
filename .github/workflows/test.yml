@@ -59,4 +59,4 @@ jobs:
         run: yarn install
       
       - name: Build and test ${{ matrix.package }}
-        run: cd packages/core/${{ matrix.integration }} && yarn build && yarn test --coverage
+        run: cd packages/core/${{ matrix.package }} && yarn build && yarn test --coverage
