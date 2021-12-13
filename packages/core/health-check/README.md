@@ -7,7 +7,9 @@
 ```js
 module.exports = {
   // ...,
-  '@vue-storefront/health-check'
+  modules: [
+    '@vue-storefront/health-check'
+  ]
 }
 ```
 
