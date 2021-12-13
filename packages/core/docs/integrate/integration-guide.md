@@ -86,7 +86,7 @@ Once the new repository is ready, clone it locally.
 
 **Before you start making changes and installing dependencies**, let's update the name of the packages and integrations. Doing it now prevents issues with linking dependencies later.
 
-Open the "Search and Replace" tool inside your code editor and replace all instances of `<% INTEGRATION %>` with the name of your project or platform. The name must be in lowercase, without spaces or any special characters.
+Open the "Search and Replace" tool inside your code editor and replace all instances of `__replace_me__` with the name of your project or platform. The name must be in lowercase, without spaces or any special characters.
 
 ### Install dependencies
 
