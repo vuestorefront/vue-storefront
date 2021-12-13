@@ -27,7 +27,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn --network-concurrency 1 --frozen-lockfile
+        run: yarn install
 
   lint:
     name: Lint
