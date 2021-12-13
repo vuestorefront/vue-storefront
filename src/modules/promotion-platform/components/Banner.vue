@@ -258,8 +258,7 @@ $countdown-banner-numbers-color: #000;
 $mobile-s: 640px;
 
 .promotion-platform-countdown-banner-wrapper {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 201;
 
   ::v-deep {
@@ -319,6 +318,11 @@ $mobile-s: 640px;
           * {
             margin: 0;
             padding: 0;
+          }
+
+          a {
+            color: inherit;
+            text-decoration: underline;
           }
 
           ul {
