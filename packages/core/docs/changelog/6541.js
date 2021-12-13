@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Add health check under /healthz',
+  description: 'Add `@vue-storefront/health-check` module ',
   link: 'https://github.com/vuestorefront/vue-storefront/issues/6541',
   isBreaking: false,
   breakingChanges: [],
