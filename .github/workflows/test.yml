@@ -34,7 +34,7 @@ jobs:
 
   build_and_test:
     name: Test ${{ matrix.package }}
-    needs: validate_core
+    needs: run_linter
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
