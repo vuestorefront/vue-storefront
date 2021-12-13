@@ -14,6 +14,7 @@ on:
 
 jobs:
   test_repository:
+    name: Run linter, build and test all packages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
