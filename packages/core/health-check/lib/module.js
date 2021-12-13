@@ -1,4 +1,4 @@
-function handler (req, res, next) {
+function handler (req, res) {
   res.end('ok')
 };
 
