@@ -2,6 +2,14 @@
 
 ## Setup
 
+### Install with yarn:
+
+`yarn add @vue-storefront/health-check`
+
+### Install with npm:
+
+`npm install @vue-storefront/health-check`
+
 ### Add `@vue-storefront/health-check` module to nuxt.config.js
 
 ```js
