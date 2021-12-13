@@ -18,6 +18,6 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       - uses: JulienKode/pull-request-name-linter-action@v0.1.2
