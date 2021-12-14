@@ -247,7 +247,30 @@ const actions: ActionTree<ProductState, RootState> = {
       await dispatch('setCurrent', product)
     }
 
-    await dispatch('loadProductData', { product, route });
+    if (product.status >= 2) {
+      throw new Error(`Product query returned empty result product status = ${product.status}`)
+    }
+    if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
+      if (config.products.preventConfigurableChildrenDirectAccess) {
+        const parentProduct = await dispatch('findConfigurableParent', { product })
+        checkParentRedirection(product, parentProduct)
+      } else {
+        throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
+      }
+    }
+
+    if (config.entities.attribute.loadByAttributeMetadata) {
+      await dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
+    } else {
+      await dispatch('loadProductAttributes', { product })
+    }
+
+    const syncPromises = []
+    const gallerySetup = dispatch('setProductGallery', { product })
+    if (isServer) {
+      syncPromises.push(gallerySetup)
+    }
+    await Promise.all(syncPromises)
 
     if (setCurrent) {
       await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
@@ -309,32 +332,6 @@ const actions: ActionTree<ProductState, RootState> = {
     const { selectedVariant = {}, options, product_option } = newProductVariant
 
     return { ...selectedVariant, options, product_option }
-  },
-  async loadProductData ({dispatch}, { product }) {
-    if (product.status >= 2) {
-      throw new Error(`Product query returned empty result product status = ${product.status}`)
-    }
-    if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
-      if (config.products.preventConfigurableChildrenDirectAccess) {
-        const parentProduct = await dispatch('findConfigurableParent', { product })
-        checkParentRedirection(product, parentProduct)
-      } else {
-        throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
-      }
-    }
-
-    if (config.entities.attribute.loadByAttributeMetadata) {
-      await dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
-    } else {
-      await dispatch('loadProductAttributes', { product })
-    }
-
-    const syncPromises = []
-    const gallerySetup = dispatch('setProductGallery', { product })
-    if (isServer) {
-      syncPromises.push(gallerySetup)
-    }
-    await Promise.all(syncPromises)
   },
   /** Below actions are not used from 1.12 and can be removed to reduce bundle */
   ...require('./deprecatedActions').default
