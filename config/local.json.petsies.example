@@ -876,6 +876,9 @@
       "label": "Budsies Co LLC"
     }
   },
+  "affirm": {
+    "publicKey": "${AFFIRM_PUBLIC_KEY}
+  },
   "googleTagManager": {
     "id": "${GTM_ID}",
     "debug": true,
