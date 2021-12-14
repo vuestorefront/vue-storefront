@@ -1,0 +1,22 @@
+{
+  "name": "@vue-storefront/health-check",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/module.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vue Storefront",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuestorefront/vue-storefront.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vuestorefront/vue-storefront/issues"
+  },
+  "homepage": "https://github.com/vuestorefront/vue-storefront#readme"
+}
