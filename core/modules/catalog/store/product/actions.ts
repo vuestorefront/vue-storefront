@@ -225,9 +225,12 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Load the product data and sets current product
    */
-  async loadProduct ({ dispatch, state }, { parentSku, childSku = null, route = null, skipCache = false }) {
+  async loadProduct ({ dispatch, state }, { parentSku, childSku = null, route = null, skipCache = false, setCurrent = true }) {
     Logger.info('Fetching product data asynchronously', 'product', { parentSku, childSku })()
-    EventBus.$emit('product-before-load', { store: rootStore, route: route })
+
+    if (setCurrent) {
+      EventBus.$emit('product-before-load', { store: rootStore, route: route })
+    }
 
     const product = await dispatch('single', {
       options: {
@@ -240,7 +243,9 @@ const actions: ActionTree<ProductState, RootState> = {
 
     setRequestCacheTags({ products: [product] })
 
-    await dispatch('setCurrent', product)
+    if (setCurrent) {
+      await dispatch('setCurrent', product)
+    }
 
     if (product.status >= 2) {
       throw new Error(`Product query returned empty result product status = ${product.status}`)
@@ -266,7 +271,11 @@ const actions: ActionTree<ProductState, RootState> = {
       syncPromises.push(gallerySetup)
     }
     await Promise.all(syncPromises)
-    await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
+
+    if (setCurrent) {
+      await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
+    }
+
     return product
   },
   /**
@@ -300,6 +309,8 @@ const actions: ActionTree<ProductState, RootState> = {
         breadcrumbCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
       }
       await dispatch('category-next/loadCategoryBreadcrumbs', { category: breadcrumbCategory, currentRouteName: product.name }, { root: true })
+    } else {
+      await dispatch('breadcrumbs/set', { current: null, routes: [] }, { root: true });
     }
   },
   async getProductVariant (context, { product, configuration } = {}) {

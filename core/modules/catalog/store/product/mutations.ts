@@ -95,6 +95,15 @@ const mutations: MutationTree<ProductState> = {
   [types.PRODUCT_SET_PRODUCT_BY_SKU] (state, product) {
     Vue.set(state.productBySku, product.sku, product);
   },
+  [types.PRODUCT_UNSET_CURRENT] (state) {
+    state.current = null;
+    state.current_configuration = {};
+    state.offlineImage = null;
+    state.parent = null;
+    state.current_options = { color: [], size: [] };
+    state.current_bundle_options = {};
+    state.current_custom_options = {};
+  },
   [types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR] (state, { validationRule, validatorFunction }) {
     Logger.error('Deprecated mutation CATALOG_ADD_CUSTOM_OPTION_VALIDATOR - use PRODUCT_SET_CUSTOM_OPTION_VALIDATOR instead')()
   },
