@@ -14,7 +14,6 @@
 
 ```js
 module.exports = {
-  // ...,
   modules: [
     '@vue-storefront/health-check'
   ]
