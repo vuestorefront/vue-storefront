@@ -161,7 +161,7 @@ export default Vue.extend({
 
       const currentDate = new Date();
 
-      return this.countdownDate.getTime() - currentDate.getTime() - currentDate.getTimezoneOffset() * millisecondsInHour;
+      return this.countdownDate.getTime() - currentDate.getTime();
     },
     getShouldShowOnPage (): boolean {
       return this.blackListUrls.every((url) => !this.$route.path.includes(url));
