@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.5.3
+
+- Add `@vue-storefront/health-check` module  ([6541](https://github.com/vuestorefront/vue-storefront/issues/6541)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
+
+- Add possibility to disable useCache mechanism via nuxt.config.js ([6555](https://github.com/vuestorefront/vue-storefront/issues/6555)) - [Kamil Nogala](https://github.com/kamnog)
+
+- Fix loading integrations in Server Middleware ([6567](https://github.com/vuestorefront/vue-storefront/pull/6567)) - [Filip Sobol](https://github.com/filipsobol)
+
 ## 2.5.2
 
 - Fix errors in the `Product` and `OrderHistory` components ([6545](https://github.com/vuestorefront/vue-storefront/pull/6545)) - [Filip Sobol](https://github.com/filipsobol)
@@ -127,7 +135,7 @@
 
 - [BREAKING] updated the removeCoupon interface to match the applyCoupon ([#6126](https://github.com/vuestorefront/vue-storefront/pull/6126)) - [Heitor Ramon Ribeiro](https://github.com/bloodf)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | the useCart composable method removeCoupon was using this call signature: ({ coupon: COUPON, customQuery?: CustomQuery })   | the method signature was changed to: ({ couponCode: string, customQuery?: CustomQuery })   | on each removeCoupon composable usage need to change the "coupon" to "couponCode" | composables
 
@@ -151,13 +159,13 @@
 
 - [BREAKING] update Storefront UI version ([#5691](https://github.com/vuestorefront/vue-storefront/issues/5691)) - [Justyna Gieracka](https://github.com/justyna-13)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | toggleCategoryGridView | changeToCategoryGridView, changeToCategoryListView | toggleCategoryGridView has been divided into two functions: changeToCategoryGridView and changeToCategoryListView | /composables/useUiState.ts
 
 - [BREAKING] mocked results for search ([#5709](https://github.com/vuestorefront/vue-storefront/pull/5709/files)) - [Justyna Gieracka](https://github.com/justyna-13)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | term | phrase | term is changed to phrase | acomposables/useUiHelpers/index.ts
 
@@ -169,7 +177,7 @@
 
 - [BREAKING] Pass integration configuration to 'extendApp' ([#5774](https://github.com/vuestorefront/vue-storefront/pull/5774)) - [Filip Sobol](https://github.com/filipsobol)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | `extendApp` accepted only Express.js app as a parameter: `extendApp(app)` | `extendApp` accepts object containing `app` and `configuration` properties: `extendApp({ app, configuration })` | Allow access to integration configuration when extending application. | @vue-storefront/middleware
 
@@ -186,7 +194,7 @@
 
 - [BREAKING] Fix infinite loading for login and register by implementing error handling in core module and in LoginModal ([#5508](https://github.com/vuestorefront/vue-storefront/issues/5508)) - [Baroshem](https://github.com/Baroshem)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | There was no error handling and thats why the infinite loading was appearing | Errors are handled immediately | add try/catch to middleware, set more appriopriate value to err.value in useUserFactory, and implement error handling in LoginModal | core/middleware, LoginModal
 
@@ -207,7 +215,7 @@
 
 - [BREAKING] Implementation of api middleware ([#5361](https://github.com/vuestorefront/vue-storefront/pull/5361)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | apiClientFactory | apiClientFactory | Api client factory is being called only on our middleware. It is no longer supported in the borwser. For client-side interaction please use proxied version | core
 
@@ -217,14 +225,14 @@
 
 - [BREAKING] New part of checkout - shipping details, inside core and commercetools ([#5419](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | Using checkoutGetters | Removed checkoutGetters | Accesing checkout-related properties directly | core,
   CartPreview.vue uses checkoutGetters | CartPreview.vue is implemented per integration as we do not use getters for checkout-related stuff | We have to implement CartPreview component per integration | nuxt-theme-module
 
 - [BREAKING] Added `is-authenticated` middleware to protect user profile routes from guest access. By default it emits an error message asking to implement vendor-specific validation. ([#5442_1](https://github.com/vuestorefront/vue-storefront/pull/5442)) - [Filip Sobol](https://github.com/filipsobol)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | - | [Link](https://docs.vuestorefront.io/v2/integrate/integration-guide.html#creating-a-middleware) | Create new middleware that checks if customer is logged in, and if not, redirects to homepage. | middleware/is-authenticated.js
 
@@ -236,7 +244,7 @@
 
 - [BREAKING] Unify case of theme's directories ([#5511](https://github.com/vuestorefront/vue-storefront/issues/5511)) - [Fifciu](https://github.com/Fifciu)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | pages/Checkout.vue imported components from ~/components/checkout | pages/Checkout.vue imports components from ~/components/Checkout | Nested directories should be in PascalCase. Remember to update imports | nuxt-theme-module,
   pages/Checkout.vue imported components from ~/components/checkout | pages/Checkout.vue imports components from ~/components/Checkout | Nested directories should be in PascalCase. Remember to update imports | commercetools-theme
@@ -245,7 +253,7 @@
 
 - [BREAKING] Update Cache library ([#5524](https://github.com/vuestorefront/vue-storefront/pull/5524)) - [Filip Sobol](https://github.com/filipsobol)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | - | - | Please see "Advanced > SSR Cache" and "Build integration > Cache drive" pages in the documentation for more information. | @vue-storefront/cache
 
@@ -253,7 +261,7 @@
 
 - [BREAKING] New part of checkout - useBillingFactory, inside core ([#5552](https://github.com/vuestorefront/vue-storefront/pull/5552)) - [Fifciu](https://github.com/Fifciu)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | Integrations implement useCheckout | Integrations implement useBilling | New factories dedicated for the checkout | core
 
@@ -261,7 +269,7 @@
 
 - [BREAKING] Quick search ([#5566](https://github.com/vuestorefront/vue-storefront/issues/5566)) - [Justyna Gieracka](https://github.com/justyna-13)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | { changeSearchTerm } = useUiHelpers() | { setTermForUrl } = useUiHelpers(); | Changed changeSearchTerm name to setTermForUrl | useUiHelpers/index.ts,
   | { getSearchTermFromUrl } = useUiHelpers(); | Created new function | useUiHelpers/index.ts,
@@ -270,20 +278,20 @@
 
 - [BREAKING] Implementation of api middleware ([#5577](https://github.com/vuestorefront/vue-storefront/pull/5577)) - [Patryk Andrzejewski](https://github.com/andrzejewsky)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | customQuery was used as a function | customQuery is a key-value object | The key is a query name, value is the name of a new query function, defined in the middleware config | core
 
 - [BREAKING] Add 'useMakeOrder' and rename composable 'useUserOrders' to 'useUserOrder' ([#5584](https://github.com/vuestorefront/vue-storefront/pull/5584)) - [Filip Sobol](https://github.com/filipsobol)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | useUserOrders | useUserOrder | Renamed composable 'useUserOrders' to 'useUserOrder'. | core and commercetools,
   'placeOrder' from 'useCheckout' composable was used to place new orders. | Added new 'useMakeOrder' composable and used it's 'make' function to place new orders. | Use new 'useMakeOrder' composable to place orders. | core and commercetools
 
 - [BREAKING] New Payment API for Checkout ([#5587](https://github.com/vuestorefront/vue-storefront/pull/5587)) - [Fifciu](https://github.com/Fifciu)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | Dedicated composable for whole checkout | Dedicated composable for Shipping, Billing and Provider components | undefined | core
 
@@ -291,7 +299,7 @@
 
 - [BREAKING] fix naming convention for isOnCart and isOnWishlist to isInCart and isInWishlist ([#5592](https://github.com/vuestorefront/vue-storefront/issues/5592)) - [Jakub Andrzejewski](https://github.com/Baroshem)
 
-  | Before | After | Comment | Module 
+  | Before | After | Comment | Module
   | ------ | ----- | ------ | ------
   | variables and methods had names isOnCart and isOnWishlist | variables and methods have names isInCart and isInWishlist | fix naming convention for isOnCart and isOnWishlist to isInCart and isInWishlist | useCart/useWishlist
 
