@@ -23,7 +23,7 @@ import { SET_LAST_BANNER_VERSION_CLOSED_BY_USER } from '../types/StoreMutations'
 
 import Timer from './Timer.vue';
 
-const millisecondsInHour = 60000;
+const startTimeThreshold = 1;
 
 export default Vue.extend({
   computed: {
@@ -74,16 +74,15 @@ export default Vue.extend({
       );
     },
     showBanner (): boolean {
-      if (this.getCountdownTime() <= 0) {
-        return false;
-      }
-
-      return !this.isBannerWasClosedByUser && this.getShouldShowOnPage();
+      return this.showOnCurrentPage && !this.isBannerWasClosedByUser && !this.isTimeOver;
+    },
+    showOnCurrentPage (): boolean {
+      return this.blackListUrls.every((url) => !this.$route.path.includes(url));
     }
   },
   data () {
     return {
-      timerInstance: undefined as undefined | Vue,
+      timerParentInstance: undefined as undefined | Vue,
       countdownDate: undefined as undefined | Date,
       version: undefined as undefined | string,
       backgroundColor: undefined as undefined | string,
@@ -91,7 +90,8 @@ export default Vue.extend({
       textColor: undefined as undefined | string,
       fOnCloseButtonClickHandler: undefined as (() => void) | undefined,
       fOnToggleViewButtonClickHandler: undefined as (() => void) | undefined,
-      isNarrow: false
+      isNarrow: false,
+      isTimeOver: false
     };
   },
   methods: {
@@ -116,6 +116,23 @@ export default Vue.extend({
         );
       }
     },
+    addTimerInstanceEventListeners (): void {
+      const timerInstance = this.getTimerInstance();
+      if (!timerInstance) {
+        return;
+      }
+
+      timerInstance.$on('timer-stopped', this.onTimerStopped);
+    },
+    destroyTimerParentInstance (): void {
+      if (!this.timerParentInstance) {
+        return;
+      }
+
+      this.removeTimerInstanceEventListeners();
+      this.timerParentInstance.$destroy();
+      this.timerParentInstance = undefined;
+    },
     fillData () {
       const bannerElement = this.getBannerElement();
       if (!bannerElement) {
@@ -130,6 +147,8 @@ export default Vue.extend({
       if (bannerElement.dataset.countdownDate) {
         this.countdownDate = new Date(bannerElement.dataset.countdownDate);
       }
+
+      this.isTimeOver = this.getCountdownTime() <= 1000 * startTimeThreshold;
     },
     getBannerContainer (): HTMLElement | undefined {
       return this.$refs.container as HTMLElement | undefined;
@@ -163,8 +182,12 @@ export default Vue.extend({
 
       return this.countdownDate.getTime() - currentDate.getTime();
     },
-    getShouldShowOnPage (): boolean {
-      return this.blackListUrls.every((url) => !this.$route.path.includes(url));
+    getTimerInstance (): InstanceType<typeof Timer> | undefined {
+      if (!this.timerParentInstance) {
+        return;
+      }
+
+      return (this.timerParentInstance.$children[0] as InstanceType<typeof Timer> | undefined);
     },
     getToggleViewButtonElement (): HTMLElement | null {
       const bannerElement = this.getBannerElement();
@@ -179,6 +202,11 @@ export default Vue.extend({
       await this.$nextTick();
 
       this.fillData();
+
+      if (this.isBannerWasClosedByUser || this.isTimeOver) {
+        return;
+      }
+
       this.addButtonsClickListeners();
       this.initTimer();
     },
@@ -193,19 +221,27 @@ export default Vue.extend({
         return;
       }
 
-      this.timerInstance = new Vue({
+      this.timerParentInstance = new Vue({
         el: timer,
         render: (h) =>
           h(Timer, { props: { countdownTime: this.getCountdownTime() } })
       });
+
+      this.addTimerInstanceEventListeners();
     },
     onCloseButtonClickHandler (): void {
       if (!this.version) {
         return;
       }
 
-      this.setlastClosedBannerVersionByUser(this.version);
+      this.setLastClosedBannerVersionByUser(this.version);
       this.removeButtonsClickHandlers();
+      this.destroyTimerParentInstance();
+    },
+    onTimerStopped (): void {
+      this.isTimeOver = true;
+      this.removeButtonsClickHandlers();
+      this.destroyTimerParentInstance();
     },
     onToggleViewButtonClickHandler (): void {
       this.isNarrow = !this.isNarrow;
@@ -228,7 +264,15 @@ export default Vue.extend({
         );
       }
     },
-    setlastClosedBannerVersionByUser (version: string): void {
+    removeTimerInstanceEventListeners (): void {
+      const timerInstance = this.getTimerInstance();
+      if (!timerInstance) {
+        return;
+      }
+
+      timerInstance.$off('timer-stopped', this.onTimerStopped);
+    },
+    setLastClosedBannerVersionByUser (version: string): void {
       this.$store.commit(
         `promotionPlatform/${SET_LAST_BANNER_VERSION_CLOSED_BY_USER}`,
         version

@@ -144,6 +144,9 @@ export default Vue.extend({
       }
 
       window.clearInterval(this.intervalId);
+      this.intervalId = undefined;
+
+      this.$emit('timer-stopped');
     },
     updateTimerData (): void {
       if (!this.time) {
