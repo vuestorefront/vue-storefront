@@ -112,155 +112,99 @@ module.exports = {
       { text: 'Demo', link: 'https://demo-ct.vuestorefront.io' },
       { text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437' }
     ],
-    sidebar: {
-      '/commercetools/': [
-        {
-          title: 'Essentials',
-          collapsable: false,
-          children: [
-            ['/commercetools/', 'Introduction'],
-            ['/commercetools/essentials/store-setup', 'Store setup'],
-            ['/commercetools/essentials/configuration', 'Configuration']
-          ]
-        },
-        {
-          title: 'How-to guides',
-          collapsable: true,
-          children: [
-            ['/commercetools/guide/authentication', 'Authentication'],
-            ['/commercetools/guide/cart', 'Cart'],
-            ['/commercetools/guide/checkout', 'Checkout'],
-            ['/commercetools/guide/product-catalog', 'Product catalog'],
-            ['/commercetools/guide/user-profile', 'User profile'],
-            ['/commercetools/guide/wishlist', 'Wishlist'],
-          ]
-        },
-        {
-          title: 'Composables',
-          collapsable: true,
-          children: [
-            ['/commercetools/composables/use-billing', 'useBilling'],
-            ['/commercetools/composables/use-cart', 'useCart'],
-            ['/commercetools/composables/use-category', 'useCategory'],
-            ['/commercetools/composables/use-facet', 'useFacet'],
-            ['/commercetools/composables/use-forgot-password', 'useForgotPassword'],
-            ['/commercetools/composables/use-make-order', 'useMakeOrder'],
-            ['/commercetools/composables/use-product', 'useProduct'],
-            ['/commercetools/composables/use-review', 'useReview'],
-            ['/commercetools/composables/use-shipping-provider', 'useShippingProvider'],
-            ['/commercetools/composables/use-shipping', 'useShipping'],
-            ['/commercetools/composables/use-store', 'useStore'],
-            ['/commercetools/composables/use-user-billing', 'useUserBilling'],
-            ['/commercetools/composables/use-user-order', 'useUserOrder'],
-            ['/commercetools/composables/use-user-shipping', 'useUserShipping'],
-            ['/commercetools/composables/use-user', 'useUser'],
-            ['/commercetools/composables/use-wishlist', 'useWishlist']
-          ]
-        },
-        {
-          title: 'Reference',
-          collapsable: true,
-          children: [
-            ['/commercetools/reference/api/', 'API Reference'],
-            ['/commercetools/reference/migrate/', 'Migration guide'],
-            ['/commercetools/reference/changelog', 'Changelog']
-          ]
-        }
-      ],
-      '/': [
-        {
-          title: '',
-          collapsable: false,
-          children: [
-            ['/', '👋 Meet Vue Storefront'],
-            ['/general/installation', '💻 Installation'],
-            ['/integrations/', '🔌 Integrations'],
-            ['/general/enterprise', '🚀 Enterprise'],
-            ['/general/support', '🙋 Support'],
-          ]
-        },
-        {
-          title: 'Getting started',
-          collapsable: false,
-          children: [
-            ['/getting-started/introduction', 'Introduction'],
-            ['/getting-started/project-structure', 'Project structure'],
-            ['/getting-started/layouts-and-routing', 'Layouts and Routing'],
-            ['/getting-started/theme', 'Theme'],
-            ['/getting-started/configuration', 'Configuration'],
-            ['/getting-started/internationalization', 'Internationalization'],
-            ['/getting-started/logging', 'Logging'],
-            // ['/', 'Glossary']
-          ]
-        },
-        {
-          title: 'Composition',
-          collapsable: true,
-          children: [
-            ['/composition/composition-api', 'Composition API'],
-            ['/composition/composables', 'Composables'],
-            ['/composition/getters', 'Getters'],
-            ['/composition/error-handling', 'Error Handling'],
-            ['/composition/creating-custom-composables', 'Creating custom composables'],
-            ['/composition/extending-graphql-queries', 'Extending GraphQL queries']
-          ]
-        },
-        {
-          title: 'Architecture',
-          collapsable: true,
-          children: [
-            ['/architecture/networking', 'Networking'],
-            ['/architecture/application-context', 'Application context'],
-            ['/architecture/server-middleware', 'Server Middleware']
-          ]
-        },
-        {
-          title: 'Extending Vue Storefront',
-          collapsable: true,
-          children: [
-            ['/integrate/extending-vue-storefront', 'Extending Vue Storefront'],
-            ['/integrate/extending-integrations', 'Extending integrations'],
-            ['/integrate/integration-guide', 'Integrating eCommerce platform'],
-            ['/integrate/cms', 'Integrating CMS platform'],
-            ['/integrate/cache-driver', 'Integrating cache driver']
-          ]
-        },
-        {
-          title: 'Performance',
-          collapsable: true,
-          children: [
-            ['/performance/performance', 'Performance basics'],
-            ['/performance/ssr-cache', 'SSR cache']
-          ]
-        },
-        // {
-        //   title: 'Deployment',
-        //   collapsable: true,
-        //   children: [
-        //     ['/', 'Deyploment basics'],
-        //     ['/', 'Continuous Integration (CI)'],
-        //     ['/', 'End-to-End testing (E2E)']
-        //   ]
-        // },
-        {
-          title: 'Reference',
-          collapsable: true,
-          children: [
-            ['/reference/api/', 'API Reference'],
-            ['/reference/migrate/', 'Migration guide'],
-            ['/reference/changelog', 'Changelog']
-          ]
-        },
-        {
-          title: 'Contributing',
-          collapsable: true,
-          children: [
-            ['/contributing/', 'Contribution basics'],
-            ['/contributing/branching-model', 'Branching model'],
-            ['/contributing/how-to-submit-pull-request', 'How to submit a Pull Request']
-          ]
-        }
-      ]
-    }
+    sidebar: [
+      {
+        title: '',
+        collapsable: false,
+        children: [
+          ['/', '👋 Meet Vue Storefront'],
+          ['/general/installation', '💻 Installation'],
+          ['/integrations/', '🔌 Integrations'],
+          ['/general/enterprise', '🚀 Enterprise'],
+          ['/general/support', '🙋 Support'],
+        ]
+      },
+      {
+        title: 'Getting started',
+        collapsable: false,
+        children: [
+          ['/getting-started/introduction', 'Introduction'],
+          ['/getting-started/project-structure', 'Project structure'],
+          ['/getting-started/layouts-and-routing', 'Layouts and Routing'],
+          ['/getting-started/theme', 'Theme'],
+          ['/getting-started/configuration', 'Configuration'],
+          ['/getting-started/internationalization', 'Internationalization'],
+          ['/getting-started/logging', 'Logging'],
+          // ['/', 'Glossary']
+        ]
+      },
+      {
+        title: 'Composition',
+        collapsable: true,
+        children: [
+          ['/composition/composition-api', 'Composition API'],
+          ['/composition/composables', 'Composables'],
+          ['/composition/getters', 'Getters'],
+          ['/composition/error-handling', 'Error Handling'],
+          ['/composition/creating-custom-composables', 'Creating custom composables'],
+          ['/composition/extending-graphql-queries', 'Extending GraphQL queries']
+        ]
+      },
+      {
+        title: 'Architecture',
+        collapsable: true,
+        children: [
+          ['/architecture/networking', 'Networking'],
+          ['/architecture/application-context', 'Application context'],
+          ['/architecture/server-middleware', 'Server Middleware']
+        ]
+      },
+      {
+        title: 'Extending Vue Storefront',
+        collapsable: true,
+        children: [
+          ['/integrate/extending-vue-storefront', 'Extending Vue Storefront'],
+          ['/integrate/extending-integrations', 'Extending integrations'],
+          ['/integrate/integration-guide', 'Integrating eCommerce platform'],
+          ['/integrate/cms', 'Integrating CMS platform'],
+          ['/integrate/cache-driver', 'Integrating cache driver']
+        ]
+      },
+      {
+        title: 'Performance',
+        collapsable: true,
+        children: [
+          ['/performance/performance', 'Performance basics'],
+          ['/performance/ssr-cache', 'SSR cache']
+        ]
+      },
+      // {
+      //   title: 'Deployment',
+      //   collapsable: true,
+      //   children: [
+      //     ['/', 'Deyploment basics'],
+      //     ['/', 'Continuous Integration (CI)'],
+      //     ['/', 'End-to-End testing (E2E)']
+      //   ]
+      // },
+      {
+        title: 'Reference',
+        collapsable: true,
+        children: [
+          ['/reference/api/', 'API Reference'],
+          ['/reference/migrate/', 'Migration guide'],
+          ['/reference/changelog', 'Changelog']
+        ]
+      },
+      {
+        title: 'Contributing',
+        collapsable: true,
+        children: [
+          ['/contributing/', 'Contribution basics'],
+          ['/contributing/branching-model', 'Branching model'],
+          ['/contributing/how-to-submit-pull-request', 'How to submit a Pull Request']
+        ]
+      }
+    ]
   }
 };
