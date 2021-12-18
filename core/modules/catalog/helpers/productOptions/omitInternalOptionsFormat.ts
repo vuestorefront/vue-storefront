@@ -1,4 +1,4 @@
-import omit from 'lodash/omit'
+import omit from 'lodash-es/omit'
 
 /**
  * Omit props that is not needed for product_option

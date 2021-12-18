@@ -20,8 +20,14 @@ function prepareDynamicRoute (routeData: LocalizedRoute, path: string): RouteCon
   const userRoute = RouterManager.findByName(routeData.name)
   if (userRoute) {
     const normalizedPath = `${path.startsWith('/') ? '' : '/'}${path}`
-    const dynamicRoute = Object.assign({}, userRoute, routeData, { path: normalizedPath, name: `urldispatcher-${normalizedPath}` })
-    return dynamicRoute
+
+    return {
+      ...userRoute,
+      ...routeData,
+      path: normalizedPath,
+      name: `urldispatcher-${normalizedPath}`,
+      pathToRegexpOptions: { strict: true }
+    }
   } else {
     Logger.error('Route not found ' + routeData['name'], 'dispatcher')()
     return null
@@ -54,10 +60,10 @@ export function findRouteByPath (path: string): RouteConfig {
   return RouterManager.findByPath(path)
 }
 
-export function normalizeUrlPath (url: string): string {
+export function normalizeUrlPath (url: string, clearTrailingSlash: boolean = true): string {
   if (url && url.length > 0) {
     if (url.length > 0 && !url.startsWith('/')) url = `/${url}`
-    if (url.endsWith('/')) url = url.slice(0, -1)
+    if (url.endsWith('/') && clearTrailingSlash) url = url.slice(0, -1)
     const queryPos = url.indexOf('?')
     if (queryPos > 0) url = url.slice(0, queryPos)
   }

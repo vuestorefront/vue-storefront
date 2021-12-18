@@ -1,10 +1,13 @@
+import { PathToRegexpOptions } from 'vue-router/types/router';
+
 export interface LocalizedRoute {
   path?: string,
   name?: string,
   hash?: string,
   params?: { [key: string]: unknown },
   fullPath?: string,
-  host?: string
+  host?: string,
+  pathToRegexpOptions?: PathToRegexpOptions
 }
 
 export interface StoreView {

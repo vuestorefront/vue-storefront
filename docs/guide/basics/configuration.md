@@ -17,7 +17,7 @@ Please take a look at the `node-config` docs as the library is open for some oth
 :::
 
 :::tip NOTE
-Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes, you shall rebuild the app, even when using the `yarn dev` mode. This limitation can be solved with the VS 1.4 special config variable. Now the config can be reloaded on the fly with each server request if `config.server.dynamicConfigReload`is set to true. However, in that case, the config is added to `window.INITIAL_STATE` with the responses.
+Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes, you shall rebuild the app, even when using the `yarn dev` mode. This limitation can be solved with the VS 1.4 special config variable. Now the config can be reloaded on the fly with each server request if `config.server.dynamicConfigReload` and `config.server.dynamicConfigReloadWithEachRequest` are set to true. However, in that case, the config is added to `window.INITIAL_STATE` with the responses.
 
 When you are using the `config.server.dynamicConfigReload` please remember about `config.server.dynamicConfigExclude` and `config.server.dynamicConfigInclude`.
 :::
@@ -533,6 +533,15 @@ Product attributes representing the images. We'll see it in the Product page gal
 ```
 
 The dimensions of the images in the gallery.
+
+If you want to use max/min aggregations for prices you can enable them with this setting. It is being used by [Storefront Query Builder](https://github.com/vuestorefront/storefront-query-builder) so it requires it. Depending on other part of your config you might want to apply this setting in PWA or VSF-API's config. New returned aggregations might by used by some custom modules like [VSF Price Slider](https://github.com/Fifciu/vsf-price-slider).
+
+```json
+  "aggregate": {
+      "minPrice": false,
+      "maxPrice": false
+   }
+```
 
 ## Orders
 

@@ -135,7 +135,7 @@ You will see 4 containers are running, which is :
 4. Now that backend part is done, let's work on frontend part, that is download [**Vue Storefront**](https://github.com/vuestorefront/vue-storefront)
 
 ```bash
-git clone https://github.com/vuestorefront/vue-storefront.git vue-storefront
+git clone --single-branch --branch master https://github.com/vuestorefront/vue-storefront.git vue-storefront
 cd vue-storefront
 ```
 
@@ -854,6 +854,7 @@ At [`vue-storefront/config/default.json`](https://github.com/vuestorefront/vue-s
     :::
 
   - `dynamicConfigReload` enables to reload `config.json` on the fly with each server request.  [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/server.js#L232)
+  - `dynamicConfigReloadWithEachRequest` enables to reload `config.json` on the fly with each server request.  [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/server.js#L313)
   - `dynamicConfigContinueOnError` allows to skip errors during configuration merge on the fly. [jump to code](https://github.com/vuestorefront/vue-storefront/blob/master/core/scripts/server.js#L240)
   - `dynamicConfigExclude`
   - `dynamicConfigInclude`
