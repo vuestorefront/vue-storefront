@@ -46,7 +46,7 @@
         <p class="message">
           {{ $t('Details and status orders') }}
         </p>
-        <div v-if="orders.length === 0" class="no-orders">
+        <div v-if="totalOrders === 0" class="no-orders">
           <p class="no-orders__title">{{ $t('You currently have no orders') }}</p>
           <SfButton class="no-orders__button">{{ $t('Start shopping') }}</SfButton>
         </div>
@@ -58,7 +58,7 @@
               >{{ tableHeader }}</SfTableHeader>
             <SfTableHeader class="orders__element--right" />
           </SfTableHeading>
-          <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
+          <SfTableRow v-for="order in orderGetters.getItems(orders)" :key="orderGetters.getId(order)">
             <SfTableData v-e2e="'order-number'">{{ orderGetters.getId(order) }}</SfTableData>
             <SfTableData>{{ orderGetters.getDate(order) }}</SfTableData>
             <SfTableData>{{ $n(orderGetters.getPrice(order), 'currency') }}</SfTableData>
@@ -137,7 +137,7 @@ export default {
 
     return {
       tableHeaders,
-      orders: computed(() => orders ? orders.value.results : []),
+      orders,
       totalOrders: computed(() => orderGetters.getOrdersTotal(orders.value)),
       getStatusTextClass,
       orderGetters,
