@@ -2,7 +2,7 @@
   "name": "@vue-storefront/commercetools-theme",
   "description": "My awesome Vue Storefront project",
   "author": "Filip Rakowski",
-  "version": "1.4.0",
+  "version": "1.4.3",
   "publishConfig": {
     "access": "public"
   },
@@ -20,10 +20,10 @@
     "@nuxtjs/google-fonts": "1.3.0",
     "@nuxtjs/pwa": "^3.2.2",
     "@storefront-ui/vue": "0.11.0-rc.1",
-    "@vue-storefront/commercetools": "~1.4.0",
-    "@vue-storefront/middleware": "~2.5.0",
-    "@vue-storefront/nuxt": "~2.5.0",
-    "@vue-storefront/nuxt-theme": "~2.5.0",
+    "@vue-storefront/commercetools": "~1.4.3",
+    "@vue-storefront/middleware": "~2.5.3",
+    "@vue-storefront/nuxt": "~2.5.3",
+    "@vue-storefront/nuxt-theme": "~2.5.3",
     "awesome-phonenumber": "^2.51.2",
     "cookie-universal-nuxt": "^2.1.3",
     "core-js": "^2.6.5",

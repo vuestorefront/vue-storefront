@@ -73,7 +73,7 @@ export default function cacheModule (options) {
     options
   });
 
-  if (!this.nuxt || !this.nuxt.renderer) {
+  if (!this.nuxt || !this.nuxt.renderer || !options.enabled) {
     return;
   }
 

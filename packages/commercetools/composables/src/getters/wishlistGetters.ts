@@ -40,6 +40,10 @@ export const getWishlistTotalItems = (wishlist: ShoppingListQueryResult): number
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getFormattedPrice = (price: number): string => '';
 
+/**
+ * @remarks References:
+ * {@link @vue-storefront/commercetools-api#ShoppingListQueryResult}, {@link @vue-storefront/commercetools-api#ShoppingList}
+ */
 const wishlistGetters: WishlistGetters<ShoppingListQueryResult, ShoppingList> = {
   getTotals: getWishlistTotals,
   getShippingPrice: getWishlistShippingPrice,
