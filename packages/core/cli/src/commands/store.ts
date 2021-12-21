@@ -1,6 +1,5 @@
 import { Command, flags } from '@oclif/command';
 import * as inquirer from 'inquirer';
-import * as fs from 'fs';
 import * as path from 'path';
 import consola from 'consola';
 import rimraf from 'rimraf';
@@ -12,6 +11,7 @@ import { validateGitString } from '../helpers/validations/git';
 import { successClone } from '../msg/sucess-clone';
 import { fatalError } from '../helpers/consola';
 import { installDependencies } from '../exec/install-dependencies';
+import { fileFolderExists } from '../helpers/file-folder-exists';
 
 const clearName = (name: string) => name.split(' ').join('-');
 
@@ -128,7 +128,7 @@ export default class Store extends Command {
 
     if (configs.name && configs.git) {
       const targetFolder = path.join(process.cwd(), configs.name);
-      const folderExists = fs.existsSync(targetFolder);
+      const folderExists = fileFolderExists(targetFolder);
 
       console.log(lang.general.target_dir, tildify(targetFolder));
 
