@@ -84,3 +84,42 @@ You can provide your own i18n configuration just for a specific module by settin
   },
 ];
 ```
+
+## Configuring the Auto Cookie Change
+You can control how the `@vue-storefront/nuxt` module will handle the cookies under the hood. This configuration will allow you to manage the fine control on the cookie changes after each locale changes.
+
+The `autoChangeCookie` object holds three new properties, that are direct linked to `currency`, `locale`, and `country`. Those properties control how the module will handle the cookie changes. If set to `false`, the module won't change automatically any cookie based on configurations or browser locale, so the `{INTEGARTION}` will handle that.
+
+```js
+[
+  '@vue-storefront/{INTEGRATION}/nuxt',
+  {
+    api: {
+      // api client configuration
+    },
+    i18n: {
+      useNuxtI18nModule: false,
+      locales: [
+        {
+          code: 'en',
+          label: 'English',
+          file: 'en.js',
+          iso: 'en',
+        },
+        {
+          code: 'de',
+          label: 'German',
+          file: 'de.js',
+          iso: 'de',
+        },
+      ],
+      defaultLocale: 'en',
+      autoChangeCookie: {
+        currency: false,
+        locale: false,
+        country: false,
+      },
+    },
+  },
+];
+```
