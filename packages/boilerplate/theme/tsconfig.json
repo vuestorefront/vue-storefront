@@ -25,7 +25,8 @@
     "types": [
       "@types/node",
       "@nuxt/types",
-      "nuxt-i18n"
+      "nuxt-i18n",
+      "@nuxt/image"
     ]
   },
   "exclude": [

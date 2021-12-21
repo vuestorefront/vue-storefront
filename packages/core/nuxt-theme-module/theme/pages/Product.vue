@@ -6,7 +6,7 @@
     />
     <div class="product">
       <LazyHydrate when-idle>
-        <SfGallery :images="productGallery" class="product__gallery" />
+        <SfGallery :images="productGallery" class="product__gallery" image-tag="nuxt-img"/>
       </LazyHydrate>
 
       <div class="product__info">

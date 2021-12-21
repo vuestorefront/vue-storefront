@@ -47,6 +47,9 @@
                   :title="productGetters.getName(product)"
                   :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
                   :is-in-wishlist="isInWishlist({ product })"
+                  image-tag="nuxt-img"
+                  :image-width="216"
+                  :image-height="326"
                   @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
                 />
               </div>
@@ -64,6 +67,9 @@
                 :title="productGetters.getName(product)"
                 :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
                 :is-in-wishlist="isInWishlist({ product })"
+                image-tag="nuxt-img"
+                :image-width="216"
+                :image-height="326"
                 @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
               />
             </div>

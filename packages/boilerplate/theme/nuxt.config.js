@@ -82,7 +82,8 @@ export default {
     }],
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
-    '@vue-storefront/middleware/nuxt'
+    '@vue-storefront/middleware/nuxt',
+    '@nuxt/image'
   ],
 
   i18n: {
@@ -166,5 +167,8 @@ export default {
     meta: {
       theme_color: '#5ECE7B'
     }
+  },
+  image: {
+    domains: ['https://s3-eu-west-1.amazonaws.com']
   }
 };
