@@ -75,6 +75,7 @@ export default {
       'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss'))
     }),
     new ForkTsCheckerWebpackPlugin({
+      async: false,
       typescript: {
         extensions: {
           vue: true
