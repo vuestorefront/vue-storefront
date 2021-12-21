@@ -20,7 +20,6 @@
     ],
     "paths": {
       "core/*": ["core/*"],
-      "theme/*": ["src/themes/${STORE}/*"], //needs testing with non-default theme!
       "core/modules/*": ["./core/modules/*"],
       "@vue-storefront/*": ["./"]
     },
