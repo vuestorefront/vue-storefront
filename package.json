@@ -47,7 +47,8 @@
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
     "lint": "cross-env NODE_ENV=production  eslint --ext .js,.vue,.ts core src --fix",
-    "lerna": "lerna"
+    "lerna": "lerna",
+    "deduplicate-lock": "yarn-deduplicate"
   },
   "dependencies": {
     "@types/webpack": "^4.41",
@@ -169,6 +170,7 @@
     "vue-loader": "^15.4.2",
     "vue-ssr-webpack-plugin": "^3.0.0",
     "vue-template-compiler": "^2.6.11",
+    "yarn-deduplicate": "^3.1.0",
     "webpack": "^4.25.1",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.11",
