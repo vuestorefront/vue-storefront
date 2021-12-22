@@ -13,7 +13,6 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
   }
   const cookieLocale = $cookies.get(cookieNames.locale);
   const cookieCurrency = $cookies.get(cookieNames.currency);
-  const cookieCountry = $cookies.get(cookieNames.country);
 
   const getCurrencyByLocale = (locale) =>
     i18n.numberFormats?.[locale]?.currency?.currency
@@ -70,24 +69,20 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
   if (missingFields.length) {
     throw new Error(`Following fields are missing in the i18n configuration: ${missingFields.join(', ')}`);
   }
-  if (cookieLocale !== settings.locale && !!i18nOptions.autoChangeCookie?.locale || !$cookies.get(cookieNames.locale)) {
+
+  if (cookieLocale !== settings.locale) {
     $cookies.set(cookieNames.locale, settings.locale, cookieOptions);
   }
 
-  if (cookieCurrency !== settings.currency && !!i18nOptions.autoChangeCookie?.currency || !$cookies.get(cookieNames.currency)) {
+  if (cookieCurrency !== settings.currency) {
     $cookies.set(cookieNames.currency, settings.currency, cookieOptions);
   }
 
-  if(cookieCountry !== settings.country && !!i18nOptions.autoChangeCookie?.country || !$cookies.get(cookieNames.country)){
-    $cookies.set(cookieNames.country, settings.country, cookieOptions);
-  }
+  !$cookies.get(cookieNames.country) && $cookies.set(cookieNames.country, settings.country, cookieOptions);
+
   i18n.onBeforeLanguageSwitch = (oldLocale, newLocale, isInitialSetup, context) => {
-    if(!!i18nOptions.autoChangeCookie?.locale){
-      $cookies.set(cookieNames.locale, newLocale, cookieOptions);
-    }
-    if(!!i18nOptions.autoChangeCookie?.currency){
-      $cookies.set(cookieNames.currency, getCurrencyByLocale(newLocale), cookieOptions);
-    }
+    $cookies.set(cookieNames.locale, newLocale, cookieOptions);
+    $cookies.set(cookieNames.currency, getCurrencyByLocale(newLocale), cookieOptions);
     window.location.href = context.route.fullPath;
   }
 }
