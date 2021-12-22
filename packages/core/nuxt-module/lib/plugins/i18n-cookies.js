@@ -85,16 +85,16 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
     $cookies.set(cookieNames.currency, settings.currency, cookieOptions);
   }
 
-  if((cookieCountry !== settings.country && autoChangeCookie.country) || !cookieCountry){
+  if ((cookieCountry !== settings.country && autoChangeCookie.country) || !cookieCountry){
     $cookies.set(cookieNames.country, settings.country, cookieOptions);
   }
 
   i18n.onBeforeLanguageSwitch = (oldLocale, newLocale, isInitialSetup, context) => {
-    if(autoChangeCookie.locale){
+    if (autoChangeCookie.locale){
       $cookies.set(cookieNames.locale, newLocale, cookieOptions);
     }
 
-    if(autoChangeCookie.currency){
+    if (autoChangeCookie.currency){
       $cookies.set(cookieNames.currency, getCurrencyByLocale(newLocale), cookieOptions);
     }
 
