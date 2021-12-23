@@ -97,6 +97,15 @@ const getters: GetterTree<BudsiesState, RootState> = {
   },
   getCustomerEmail: (state: BudsiesState): string | undefined => {
     return state.customerEmail;
+  },
+  getPrefilledCustomerEmail: (state: BudsiesState, getters: any, rootState: any, rootGetters: any): string | undefined => {
+    let customerEmail = getters.getCustomerEmail;
+
+    if (!customerEmail) {
+      customerEmail = rootGetters['user/getUserEmail'];
+    }
+
+    return customerEmail;
   }
 }
 
