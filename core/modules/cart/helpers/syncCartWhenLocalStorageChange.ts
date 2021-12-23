@@ -4,8 +4,9 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 function checkMultistoreKey (key: string, path: string): boolean {
   const { multistore, commonCache } = storeViews
-  if (!multistore || (multistore && commonCache)) return key === path
-  return key === `${currentStoreView().storeCode}-${path}`
+  const storeView = currentStoreView();
+  if ((!multistore && !storeView.storeCode) || (multistore && commonCache)) return key === path
+  return key === `${storeView.storeCode}-${path}`
 }
 
 function getItemsFromStorage ({ key }) {
