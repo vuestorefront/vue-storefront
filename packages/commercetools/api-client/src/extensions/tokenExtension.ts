@@ -2,6 +2,7 @@ import { ApiClientExtension } from '@vue-storefront/core';
 import { CT_COOKIE_NAME, Token, TokenType } from '../types/setup';
 import { createSdkHelpers } from '../links/sdkHelpers';
 import { Logger } from '@vue-storefront/core';
+import { CookieOptions } from 'express';
 
 function parseToken(rawToken: string): Token {
   try {
@@ -52,8 +53,10 @@ export const tokenExtension: ApiClientExtension = {
       const options = {
         ...(token?.expires_at && { expires: new Date(token.expires_at) }),
         httpOnly: true,
-        secure: request.secure
-      };
+        secure: request.secure,
+        sameSite: 'strict'
+      } as CookieOptions;
+
       return response.cookie(
         CT_COOKIE_NAME,
         JSON.stringify(token),
