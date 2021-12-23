@@ -250,7 +250,7 @@ Dynamic Categories prefetching (#2076). Starting with Vue Storefront 1.7, we add
 
 **NOTE:** Since we're no longer generating `category.slug` client-side, we need to have `category.url_key` field unique. If Your Magento2 url_keys are unique it will work without any changes. If not - please do use [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) to re-import the categories. There is a new `categories` importer option `--generateUniqueUrlKeys` which is set to true by default.
 
-With the new modules architecture available from 1.6 we've [updated the payment modules guide](https://github.com/vuestorefront/vue-storefront/pull/2135). If You've used the custom payment (and basically any other) extensions please make sure You've already ported them to [new modules architecture](/guide/modules/introduction.html).
+With the new modules architecture available from 1.6 we've [updated the payment modules guide](https://github.com/vuestorefront/vue-storefront/pull/2135). If You've used the custom payment (and basically any other) extensions please make sure You've already ported them to [new modules architecture](https://docs.vuestorefront.io/guide/modules/introduction.html).
 
 
 ## 1.5 -> 1.6

@@ -11,6 +11,9 @@ import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { userHooksExecutors, userHooks } from '../hooks'
+import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
+import Task from '@vue-storefront/core/lib/sync/types/Task'
+import uniqBy from 'lodash-es/uniqBy'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {
@@ -57,12 +60,13 @@ const actions: ActionTree<UserState, RootState> = {
    * Login user and return user profile and current token
    */
   async login ({ commit, dispatch }, { username, password }) {
+    await dispatch('resetUserInvalidation', {}, { root: true })
+
     const resp = await UserService.login(username, password)
     userHooksExecutors.afterUserAuthorize(resp)
 
     if (resp.code === 200) {
       try {
-        await dispatch('resetUserInvalidateLock', {}, { root: true })
         commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
         await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
       } catch (err) {
@@ -165,9 +169,10 @@ const actions: ActionTree<UserState, RootState> = {
    * Update user profile with data from My Account page
    */
   async update (_, profile: UserProfile) {
+    profile = userHooksExecutors.beforeUserProfileUpdate(profile)
     await UserService.updateProfile(profile, 'user/handleUpdateProfile')
   },
-  async handleUpdateProfile ({ dispatch }, event) {
+  async handleUpdateProfile ({ dispatch }, event: Task) {
     if (event.resultCode === 200) {
       dispatch('notification/spawnNotification', {
         type: 'success',
@@ -176,6 +181,7 @@ const actions: ActionTree<UserState, RootState> = {
       }, { root: true })
       dispatch('user/setCurrentUser', event.result, { root: true })
     }
+    userHooksExecutors.afterUserProfileUpdated(event)
   },
   setCurrentUser ({ commit }, userData) {
     commit(types.USER_INFO_LOADED, userData)
@@ -199,7 +205,7 @@ const actions: ActionTree<UserState, RootState> = {
     if (resp.code === 200) {
       await dispatch('notification/spawnNotification', {
         type: 'success',
-        message: 'Password has successfully been changed',
+        message: i18n.t('Password has successfully been changed'),
         action1: { label: i18n.t('OK') }
       }, { root: true })
       await dispatch('login', {
@@ -215,15 +221,22 @@ const actions: ActionTree<UserState, RootState> = {
     }
   },
   clearCurrentUser ({ commit, dispatch }) {
-    commit(types.USER_TOKEN_CHANGED, '')
+    commit(types.USER_TOKEN_CHANGED, { newToken: null })
     commit(types.USER_GROUP_TOKEN_CHANGED, '')
     commit(types.USER_GROUP_CHANGED, null)
     commit(types.USER_INFO_LOADED, null)
-    dispatch('wishlist/clear', null, { root: true })
-    dispatch('compare/clear', null, { root: true })
+    if (isModuleRegistered('WishlistModule')) dispatch('wishlist/clear', null, { root: true })
+    if (isModuleRegistered('CompareModule')) dispatch('compare/clear', null, { root: true })
     dispatch('checkout/savePersonalDetails', {}, { root: true })
     dispatch('checkout/saveShippingDetails', {}, { root: true })
     dispatch('checkout/savePaymentDetails', {}, { root: true })
+    commit(types.USER_ORDERS_HISTORY_LOADED, {})
+    StorageManager
+      .get('user')
+      .setItem('current-refresh-token', null)
+      .catch((reason) => {
+        Logger.error(reason)()
+      })
   },
   /**
    * Logout user
@@ -255,6 +268,19 @@ const actions: ActionTree<UserState, RootState> = {
       EventBus.$emit('user-after-loaded-orders', ordersHistory)
 
       return ordersHistory
+    }
+  },
+  async appendOrdersHistory ({ commit, getters }, { pageSize = 20, currentPage = 1 }) {
+    const resp = await UserService.getOrdersHistory(pageSize, currentPage)
+
+    if (resp.code === 200) {
+      const oldOrders = getters.getOrdersHistory;
+      let orders = resp.result;
+      if (oldOrders && orders.items) orders.items = uniqBy([...oldOrders, ...orders.items], 'increment_id')
+
+      commit(types.USER_ORDERS_HISTORY_LOADED, orders)
+      EventBus.$emit('user-after-loaded-orders', orders)
+      return orders
     }
   },
   async refreshOrdersHistory ({ commit }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {

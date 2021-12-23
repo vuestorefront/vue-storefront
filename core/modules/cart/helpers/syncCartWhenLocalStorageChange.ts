@@ -1,4 +1,3 @@
-
 import rootStore from '@vue-storefront/core/store'
 import { storeViews } from 'config'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
@@ -13,7 +12,10 @@ function checkMultistoreKey (key: string, path: string): boolean {
 function getItemsFromStorage ({ key }) {
   if (checkMultistoreKey(key, 'shop/cart/current-cart')) {
     const value = JSON.parse(localStorage[key])
-    rootStore.dispatch('cart/syncCartWhenLocalStorageChange', { items: value })
+    rootStore.dispatch('cart/updateCart', { items: value })
+  } else if (checkMultistoreKey(key, 'shop/cart/current-totals')) {
+    const value = JSON.parse(localStorage[key])
+    rootStore.dispatch('cart/updateTotals', value)
   }
 }
 

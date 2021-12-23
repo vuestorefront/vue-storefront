@@ -42,7 +42,7 @@
 "The product is out of stock and cannot be added to the cart!","Produkt jest niedostępny!"
 "The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation."
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","Brak połączenia z Internetem. Możesz nadal złożyć zamówienie. Poinformujemy Cię jeśli któryś z produktów nie będzie dostępny."
-"This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Wybrana opcja jest niedostępna!"
+"This feature is not implemented yet! Please take a look at https://github.com/vuestorefront/vue-storefront/issues for our Roadmap!","Wybrana opcja jest niedostępna!"
 "Thumbnail","Miniaturka"
 "Type what you are looking for...","Znajdź..."
 "Unhandled error, wrong response format!","Nieobsługiwany błąd, nieprawidłowy format odpowiedzi!"

@@ -1,5 +1,6 @@
-import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
+import { createListenerHook } from '@vue-storefront/core/lib/hooks'
 import { Category } from './types/Category';
+import Product from 'core/modules/catalog/types/Product';
 
 const {
   hook: categoryPageVisitedHook,
@@ -9,7 +10,7 @@ const {
 const {
   hook: productPageVisitedHook,
   executor: productPageVisitedExecutor
-} = createListenerHook<Category>()
+} = createListenerHook<Product>()
 
 /** Only for internal usage */
 const catalogHooksExecutors = {
