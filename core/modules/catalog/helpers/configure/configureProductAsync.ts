@@ -1,5 +1,5 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
-import cloneDeep from 'lodash/cloneDeep'
+import cloneDeep from 'lodash-es/cloneDeep'
 import { getSelectedVariant, omitSelectedVariantFields } from '../variant';
 import { getProductConfiguration, setProductConfigurableOptions } from '../productOptions';
 import { filterOutUnavailableVariants } from '../stock';

@@ -1,6 +1,7 @@
 import toString from 'lodash-es/toString'
 import pick from 'lodash-es/pick'
 import config from 'config'
+import { userHooks } from '@vue-storefront/core/modules/user/hooks'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const UserShippingDetails = {
@@ -82,7 +83,7 @@ export const UserShippingDetails = {
     updateDetails () {
       let updatedShippingDetails
       if (!this.objectsEqual(this.shippingDetails, this.getShippingDetails())) {
-        updatedShippingDetails = pick(JSON.parse(JSON.stringify(this.$store.state.user.current)), config.users.allowModification)
+        updatedShippingDetails = JSON.parse(JSON.stringify(this.$store.state.user.current))
         let updatedShippingDetailsAddress = {
           firstname: this.shippingDetails.firstName,
           lastname: this.shippingDetails.lastName,
@@ -111,18 +112,29 @@ export const UserShippingDetails = {
           })
         }
       }
+      updatedShippingDetails = pick(updatedShippingDetails, config.users.allowModification)
       this.exitSection(null, updatedShippingDetails)
     },
     exitSection (event, updatedShippingDetails) {
       this.$bus.$emit('myAccount-before-updateUser', updatedShippingDetails)
-      if (!updatedShippingDetails) {
-        this.shippingDetails = this.getShippingDetails()
-        this.useCompanyAddress = false
-        this.remainInEditMode = false
-      }
-      if (!this.remainInEditMode) {
-        this.isEdited = false
-      }
+      userHooks.afterUserProfileUpdated(event => {
+        if (event.resultCode === 200) {
+          if (!updatedShippingDetails) {
+            this.shippingDetails = this.getShippingDetails()
+            this.useCompanyAddress = false
+            this.remainInEditMode = false
+          }
+          if (!this.remainInEditMode) {
+            this.isEdited = false
+          }
+        } else {
+          this.$store.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: this.$t(event.result.errorMessage || 'Something went wrong ...'),
+            action1: { label: this.$t('OK') }
+          }, { root: true })
+        }
+      })
     },
     fillCompanyAddress () {
       if (this.useCompanyAddress) {

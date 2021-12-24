@@ -35,7 +35,7 @@ module.exports = {
     '@typescript-eslint/no-useless-constructor': 1,
     'handle-callback-err': 1,
     'prefer-promise-reject-errors': 0,
-    'import/no-duplicates': ['warning'],
+    'import/no-duplicates': 1,
     'vue/return-in-computed-property': 1,
     'vue/no-use-v-if-with-v-for': 0,
     'vue/no-unused-components': 1,
