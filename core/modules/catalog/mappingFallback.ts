@@ -1,8 +1,15 @@
+import { ActionContext } from 'vuex';
+
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { LocalizedRoute } from '@vue-storefront/core/lib/types';
+import RootState from '@vue-storefront/core/types/RootState';
+import { UrlState } from '@vue-storefront/core/modules/url/types/UrlState';
 
-export const mappingFallbackForProduct = async ({ dispatch }, { url }: { url: string }): Promise<LocalizedRoute | undefined> => {
+export const mappingFallbackForProduct = async (
+  { dispatch }: ActionContext<UrlState, RootState>,
+  { url }: { url: string }
+): Promise<LocalizedRoute | undefined> => {
   if (!url) return;
 
   if (url.startsWith('/')) {
@@ -26,21 +33,6 @@ export const mappingFallbackForProduct = async ({ dispatch }, { url }: { url: st
   });
 
   if (!product) return;
-
-  const isConfigurable = product.type_id === 'configurable';
-
-  const params: {
-    parentSku: string,
-    slug: string,
-    childSku?: string
-  } = {
-    parentSku: product.sku,
-    slug: product.slug
-  }
-
-  if (isConfigurable) {
-    params.childSku = product.configurable_children[0].sku;
-  }
 
   return formatProductLink(product, currentStoreView().storeCode) as LocalizedRoute;
 }
