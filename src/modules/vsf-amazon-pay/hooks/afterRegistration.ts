@@ -56,78 +56,39 @@ export function afterRegistration({ Vue, config, store, isServer }) {
 
       const placeOrder = async () => {
         if (correctPaymentMethod) {
-          if (store.state[KEY].orderState == states.NEW) {
-            store.commit(KEY + '/' + types.SET_ORDER_STATE, states.DRAFT)
-          }
-
           try {
-            if (store.state[KEY].orderState == states.DRAFT) {
+            if (store.state[KEY].orderState === states.NEW) {
+              store.commit(KEY + '/' + types.SET_ORDER_STATE, states.DRAFT)
+            }
+
+            if (store.state[KEY].orderState === states.DRAFT) {
               let finalizeResponse = await store.dispatch(KEY + '/submitFinalOrderReference')
 
               if (finalizeResponse.result.Constraints) {
-                let constraints = Array.isArray(finalizeResponse.result.Constraints) ?
-                  finalizeResponse.result.Constraints :
-                  [finalizeResponse.result.Constraints]
+                let constraints = Array.isArray(finalizeResponse.result.Constraints)
+                  ? finalizeResponse.result.Constraints
+                  : [finalizeResponse.result.Constraints]
+
+                for (let i = 0; i < constraints.length; i++) {
+                  const constraint = constraints[i].Constraint
+
+                  store.dispatch('notification/spawnNotification', {
+                    type: 'error',
+                    message: i18n.t(constraint.Description),
+                    action1: { label: i18n.t('OK') }
+                  })
+                }
 
                 Vue.prototype.$bus.$emit('amazon-order-constraints', constraints)
+
                 return
               }
             }
 
-            await store.dispatch(KEY + '/confirmOrderReference')
-            store.commit(KEY + '/' + types.SET_ORDER_STATE, states.OPEN)
-
-            let authorizeResponse = await store.dispatch(KEY + '/authorizeOrder')
-
-            if (authorizeResponse.result.AuthorizationStatus.State === 'Declined') {
-              if (authorizeResponse.result.AuthorizationStatus.ReasonCode === 'InvalidPaymentMethod') {
-                store.commit(KEY + '/' + types.SET_ORDER_STATE, states.SUSPENDED)
-                // Show Wallet Widget again
-                Vue.prototype.$bus.$emit('amazon-invalid-payment-method')
-                return
-              } else {
-                if (authorizeResponse.result.AuthorizationStatus.ReasonCode === 'TransactionTimedOut') {
-                  if (config.amazonPay.authorization.asynchronous) {
-                    // Asynchronous authorization
-                    // Show Thank You Page Including a note that payment was not confirmed yet,
-                    // in case of decline, an email-notification will be sent.
-                    let AmazonAuthorizationId = authorizeResponse.result.AmazonAuthorizationId
-                    Vue.prototype.$bus.$emit('checkout-do-placeOrder', {
-                      AmazonAuthorizationId,
-                      AuthorizationState: authorizeResponse.result.AuthorizationStatus.ReasonCode
-                    })
-                    Vue.prototype.$bus.$emit('amazon-authorization-asynchronous')
-                    store.commit(KEY + '/' + types.RESET_ORDER)
-                    return
-                  }
-                }
-
-                // The following other potential ReasonCodes are handled equally:
-                // - AmazonRejected
-                // - Processin Failure
-                // - TransactionTimedOut (for synchronous authorization)
-
-                if (store.state[KEY].orderState == states.OPEN) {
-                  store.dispatch(KEY + '/cancelOrderReference')
-                }
-
-                // 1. Logout from Amazon Pay
-                // 2. Redirect buyer back to Cart Page
-                // 3. Show info to buyer about failed payment
-
-                amazonLogout()
-                Vue.prototype.$bus.$emit('amazon-authorization-declined', authorizeResponse.result.AuthorizationStatus.ReasonCode)
-                return
-              }
-            } else {
-              let AmazonAuthorizationId = authorizeResponse.result.AmazonAuthorizationId
-              Vue.prototype.$bus.$emit('checkout-do-placeOrder', {
-                AmazonAuthorizationId,
-                AuthorizationState: authorizeResponse.result.AuthorizationStatus.ReasonCode
-              })
-              store.commit(KEY + '/' + types.RESET_ORDER)
-              return
-            }
+            Vue.prototype.$bus.$emit('checkout-do-placeOrder', {
+              amazon_order_reference_id: store.state[KEY].orderReferenceId,
+              sandbox: config.amazonPay.sandbox
+            })
           } catch (err) {
             if (err.hasOwnProperty('json')) {
               err.json().then(json => {
@@ -143,6 +104,10 @@ export function afterRegistration({ Vue, config, store, isServer }) {
       }
 
       Vue.prototype.$bus.$on('checkout-before-placeOrder', placeOrder)
+
+      Vue.prototype.$bus.$on('order-after-placed', () => {
+        store.commit(KEY + '/' + types.RESET_ORDER)
+      })
     }
   }
 }

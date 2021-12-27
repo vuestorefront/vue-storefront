@@ -107,18 +107,6 @@ export default {
         // TODO: session expired - render button component
       }
     },
-    onOrderConstraints (constraints) {
-      this.setupWidget(true)
-      for (let i = 0; i < constraints.length; i++) {
-        const constraint = constraints[i].Constraint
-
-        this.$store.dispatch('notification/spawnNotification', {
-          type: 'error',
-          message: i18n.t(constraint.Description),
-          action1: { label: i18n.t('OK') }
-        })
-      }
-    },
     onInvalidPaymentMethod () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
