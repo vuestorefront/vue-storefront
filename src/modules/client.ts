@@ -28,11 +28,12 @@ const extendUrlVuex = {
   actions: {
     async mappingFallback (context, payload: any) {
       const result = await forStoryblok(context, payload);
-      const productResult = await mappingFallbackForProduct(context, payload);
 
       if (result) {
         return result
       }
+
+      const productResult = await mappingFallbackForProduct(context, payload);
 
       if (productResult) {
         return productResult;

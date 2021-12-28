@@ -164,6 +164,19 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       silent: true
     });
   },
+  async fetchPlushieById (context, { plushieId }): Promise<Task> {
+    const url = processURLAddress(`${config.budsies.endpoint}/plushies`);
+
+    return TaskQueue.execute({
+      url: `${url}/${plushieId}`,
+      payload: {
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        mode: 'cors',
+        method: 'GET'
+      },
+      silent: true
+    })
+  },
   async loadPlushieShortcode (
     { commit, state },
     { plushieId }

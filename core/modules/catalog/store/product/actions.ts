@@ -225,23 +225,19 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Load the product data and sets current product
    */
-  async loadProduct ({ dispatch, state }, { parentSku, childSku = null, route = null, skipCache = false, setCurrent = true, key = 'sku', options = null }) {
+  async loadProduct ({ dispatch, state }, { parentSku, childSku = null, route = null, skipCache = false, setCurrent = true }) {
     Logger.info('Fetching product data asynchronously', 'product', { parentSku, childSku })()
 
     if (setCurrent) {
       EventBus.$emit('product-before-load', { store: rootStore, route: route })
     }
 
-    if (!options) {
-      options = {
+    const product = await dispatch('single', {
+      options: {
         sku: parentSku,
         childSku: childSku
-      }
-    }
-
-    const product = await dispatch('single', {
-      options,
-      key,
+      },
+      key: 'sku',
       skipCache
     })
 
