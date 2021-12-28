@@ -6,7 +6,13 @@
     />
     <div class="product">
       <LazyHydrate when-idle>
-        <SfGallery :images="productGallery" class="product__gallery" image-tag="nuxt-img"/>
+        <SfGallery 
+          :images="productGallery" 
+          class="product__gallery" 
+          image-tag="nuxt-img" 
+          format="webp"
+          fit="cover"
+        />
       </LazyHydrate>
 
       <div class="product__info">

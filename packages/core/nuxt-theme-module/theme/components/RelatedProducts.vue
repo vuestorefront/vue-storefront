@@ -18,6 +18,8 @@
             :is-added-to-cart="isInCart({ product })"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             image-tag="nuxt-img"
+            format="webp"
+            fit="cover"
             class="product-card"
             @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
             @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
