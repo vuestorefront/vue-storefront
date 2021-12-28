@@ -19,7 +19,6 @@ import { StoryblokModule } from './vsf-storyblok-module';
 import { extendStore } from '@vue-storefront/core/helpers'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { forStoryblok } from './vsf-storyblok-module/mappingFallback'
-import { mappingFallbackForProduct } from '@vue-storefront/core/modules/catalog/mappingFallback'
 
 // import { DeviceModule } from './device/index';
 import { registerModule } from '@vue-storefront/core/lib/modules'
@@ -31,12 +30,6 @@ const extendUrlVuex = {
 
       if (result) {
         return result
-      }
-
-      const productResult = await mappingFallbackForProduct(context, payload);
-
-      if (productResult) {
-        return productResult;
       }
     }
   }
