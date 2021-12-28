@@ -1,6 +1,7 @@
 import { KEY, METHOD_CODE } from '../index'
 import * as types from '../store/mutation-types'
 import * as states from '../store/order-states'
+import i18n from '@vue-storefront/i18n'
 
 export function afterRegistration({ Vue, config, store, isServer }) {
   if (config.amazonPay) { 
