@@ -137,7 +137,7 @@ X-VS-Cache-Tags: P1852 P198 C20
 The tags can be used to invalidate the Varnish cache if you use it. [Read more on that](https://www.drupal.org/docs/8/api/cache-api/cache-tags-varnish).
 
 :::tip NOTE
- All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/divanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) support the cache invalidation. 
+ All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/divanteLtd/magento1-vsbridge-indexer) and [magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) support the cache invalidation. 
 
  If the cache is enabled in both API and Vue Storefront frontend app, please make sure you properly use the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (either frontend or backend) and it **should be forwarded** to the other. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
 :::
@@ -169,7 +169,7 @@ When the `config.products.alwaysSyncPlatformPricesOver` option is on, Vue Storef
 This mode works whenever the price is calculated in either server or client's side (`config.tax.calculateServerSide` option).
 :::
 
-Check if the way [Vue Storefront syncs the price](https://github.com/vuestorefront/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L216) is exactly what you need, and not [override this action](/guide/cookbook/module.html#_2-2-recipe-b-override-vuex-store-with-extendstore).
+Check if the way [Vue Storefront syncs the price](https://github.com/vuestorefront/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L216) is exactly what you need, and not [override this action](https://docs.vuestorefront.io/guide/cookbook/module.html#_2-2-recipe-b-override-vuex-store-with-extendstore).
 
 
 #### 2. _alwaysSyncPlatformPricesOver_ has 2 options 
@@ -364,7 +364,7 @@ Of course, in the end please make sure that you compress (gzip + minify) the SSR
 
 ## 7. Url Dispatcher explained 
 
-Starting with Vue Storefront 1.9 we support [custom url structure](/guide/basics/url.html). `UrlDispatcher` is enabled by default in the [`config.seo.useUrlDispatcher`](https://github.com/vuestorefront/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/config/default.json#L29). 
+Starting with Vue Storefront 1.9 we support [custom url structure](https://docs.vuestorefront.io/guide/basics/url.html). `UrlDispatcher` is enabled by default in the [`config.seo.useUrlDispatcher`](https://github.com/vuestorefront/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/config/default.json#L29). 
 
 The business logic of the dispatcher has been implemented as a [Vue router guard](https://router.vuejs.org/guide/advanced/navigation-guards.html) - [`beforeEach`](https://github.com/vuestorefront/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/router/beforeEach.ts#L41).
 
@@ -673,7 +673,7 @@ This URL requires you to pass the invalidation token set in the [config](https:/
 The tags can be used to invalidate the Varnish cache, if you're using it. [Read more on that](https://www.drupal.org/docs/8/api/cache-api/cache-tags-varnish).
 
 :::tip NOTE
-All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/divanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/vuestorefront/mage2vuestorefront) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (either frontend or backend) and it **should be forwarded** to the other. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
+All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/divanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/vuestorefront/magento2-vsbridge-indexer) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (either frontend or backend) and it **should be forwarded** to the other. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
 :::
 
 <br />

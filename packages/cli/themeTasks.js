@@ -21,7 +21,7 @@ const createThemeTasks = (installationDir = 'vue-storefront') => ({
     task: answers => {
       const _installationDir = answers.vsf_dir || installationDir
       return execa.command([
-        `git clone --quiet --single-branch --branch ${answers.themeBranch} https://github.com/DivanteLtd/vsf-${answers.themeName}.git ${_installationDir}/src/themes/${answers.themeName}`,
+        `git clone --quiet --single-branch --branch ${answers.themeBranch} https://github.com/vuestorefront/vsf-${answers.themeName}.git ${_installationDir}/src/themes/${answers.themeName}`,
         `cd ${_installationDir}/src/themes/${answers.themeName}`,
         `git remote rm origin`
       ].join(' && '), { shell: true })

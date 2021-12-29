@@ -247,7 +247,7 @@ You need to clone the `vue-storefront` and the `vue-storefront-api` repos accord
 ```bash
 su vuestorefront
 cd /home/www/vuestorefront
-git clone https://github.com/vuestorefront/vue-storefront.git
+git clone --single-branch --branch master https://github.com/vuestorefront/vue-storefront.git
 git clone https://github.com/vuestorefront/vue-storefront-api.git
 ```
 

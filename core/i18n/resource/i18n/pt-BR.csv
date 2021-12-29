@@ -37,7 +37,7 @@
 "The product is out of stock and cannot be added to the cart!","Produto não possui estoque e não pode ser adicionado ao carrinho!"
 "The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","O sistema não tem certeza sobre a quantidade em estoque (volátil). O produto foi adicionado ao carrinho em pré-reserva."
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","Sem conexão de Internet. Você ainda pode finalizar seu pedido. Assim que possível o notificaremos se os produtos solicitados não estiverem disponíveis."
-"This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Essa funcionalidade não foi implementada ainda! Por favor verifique nosso planejamento em https://github.com/DivanteLtd/vue-storefront/issues"
+"This feature is not implemented yet! Please take a look at https://github.com/vuestorefront/vue-storefront/issues for our Roadmap!","Essa funcionalidade não foi implementada ainda! Por favor verifique nosso planejamento em https://github.com/vuestorefront/vue-storefront/issues"
 "Thumbnail","Thumbnail"
 "Type what you are looking for...","Digite o que você está buscando..."
 "Unhandled error, wrong response format!","Erro desconhecido, formato de retorno errado!"

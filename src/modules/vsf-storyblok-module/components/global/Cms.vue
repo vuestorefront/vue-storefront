@@ -45,8 +45,7 @@ export default {
     }
   },
   async serverPrefetch () {
-    const story = await this.fetchStory()
-    return { story }
+    return this.fetchStory()
   },
   async mounted () {
     if (!this.story) {

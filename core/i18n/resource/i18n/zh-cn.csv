@@ -55,7 +55,7 @@
 "The product, category or CMS page is not available in Offline mode. Redirecting to Home.","在离线模式下，商品，类别或CMS页面不可用。 请返回主页."
 "The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.","系统不确定库存量（不稳定）。 产品已添加到购物车中进行预订."
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","网络连接不上 我们现在无法确认库存。但是您仍然可以下订单， 如果订购的产品有问题，我们会通知您。"
-"This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","此功能尚未实现！ 请查看我们的开发路线图https://github.com/DivanteLtd/vue-storefront/issues!"
+"This feature is not implemented yet! Please take a look at https://github.com/vuestorefront/vue-storefront/issues for our Roadmap!","此功能尚未实现！ 请查看我们的开发路线图https://github.com/vuestorefront/vue-storefront/issues!"
 "Thumbnail","Thumbnail"
 "Type what you are looking for...","请输入你想要查找的关键词..."
 "Unhandled error, wrong response format!","未处理的错误，错误的响应格式!"
