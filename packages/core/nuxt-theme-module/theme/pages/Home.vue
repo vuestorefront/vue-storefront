@@ -67,8 +67,10 @@
               :is-on-wishlist="product.isInWishlist"
               :link="localePath({ name: 'home' })"
               image-tag="nuxt-img"
-              format="webp"
-              fit="cover"
+              :nuxtImgConfig="{
+                format: 'webp',
+                fit: 'cover',
+              }"
               class="carousel__item__product"
               @click:wishlist="toggleWishlist(i)"
             />

@@ -100,8 +100,10 @@
               :is-added-to-cart="isInCart({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               image-tag="nuxt-img"
-              format="webp"
-              fit="cover"
+              :nuxtImgConfig="{
+                format: 'webp',
+                fit: 'cover',
+              }"
               class="products__product-card"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
               @click:add-to-cart="addToCart({ product, quantity: 1 })"
@@ -131,8 +133,10 @@
               :is-in-wishlist="isInWishlist({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               image-tag="nuxt-img"
-              format="webp"
-              fit="cover"
+              :nuxtImgConfig="{
+                format: 'webp',
+                fit: 'cover',
+              }"
               @input="productsQuantity[product._id] = $event"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
               @click:add-to-cart="addToCart({ product, quantity: Number(productsQuantity[product._id]) })"

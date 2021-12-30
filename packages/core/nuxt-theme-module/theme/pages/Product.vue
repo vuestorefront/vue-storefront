@@ -10,8 +10,10 @@
           :images="productGallery" 
           class="product__gallery" 
           image-tag="nuxt-img" 
-          format="webp"
-          fit="cover"
+          :nuxtImgConfig="{
+            format: 'webp',
+            fit: 'cover',
+          }"
         />
       </LazyHydrate>
 
