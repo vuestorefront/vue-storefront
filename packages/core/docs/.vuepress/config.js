@@ -103,7 +103,7 @@ module.exports = {
     repo: 'https://github.com/vuestorefront/vue-storefront/',
     editLinks: true,
     docsDir: 'packages/core/docs',
-    docsBranch: 'release/next',
+    docsBranch: 'main',
     editLinkText: 'Edit this page',
     logo: '/vsf-full.svg',
     sidebarDepth: 0,
