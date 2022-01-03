@@ -46,4 +46,4 @@ After the `nuxt.config.js` file, the next step is the `middleware.config.js` fil
 
 ## What's next
 
-With a basic understanding of the project structure, we can learn about [Layouts and Routing](./layout-and-routing.html). We will show what routes come predefined in every Vue Storefront project and how to register custom ones.
+With a basic understanding of the project structure, we can learn about [Layouts and Routing](./layouts-and-routing.html). We will show what routes come predefined in every Vue Storefront project and how to register custom ones.
