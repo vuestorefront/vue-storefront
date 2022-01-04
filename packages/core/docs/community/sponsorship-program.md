@@ -1,0 +1,45 @@
+# Sponsorship Program
+
+The Vue Storefront community sponsorship program is to embrace our community and valorize our best contributors.
+
+Our main idea with this program is to create an ecosystem where developers could embrace the open-source and dedicate more time to open-source development.
+
+## So, how does this program will work?
+
+We will select developers from the community who contribute the most to the Vue Storefront development or create new integrations, extensions, or plugins for the Vue Storefront ecosystem. After the selection, we will provide an initial financial sponsorship to the developer, encouraging the development and continuing the excellent work.
+
+## I want to be part of the sponsorship program. How do I sign up for it?
+
+Currently, we are creating a queue for the available sponsorship spots. You can join the line by filling up this form [https://forms.gle/K9QgyktrJBNQsKoM8](https://forms.gle/K9QgyktrJBNQsKoM8), and as soon as we have an available spot, we will contact you.
+
+## How long will the sponsorship be offered for the developer?
+
+The developer will continuously offer the sponsorship program as long as he is actively working on the selected sponsored projects.
+
+## How is the sponsorship being paid?
+
+The sponsorship will be paid via the GitHub Sponsorship program or Patreon. There is no other form currently available.
+
+## The project has more than one developer maintaining it. How will the sponsorship work?
+
+In this case, we will evaluate the project to see the currently active developers and conduct an interview with all the project developers.
+
+## How I can be selected for this program?
+
+We want to give back to the community as much as possible, but it's not possible at this moment. So to be more democratic, we are creating some rules that will help select the projects and developers to be sponsored.
+
+**For Projects**
+
+- The project must be active in the Vue Storefront ecosystem or be used by any project on the Vue Storefront ecosystem;
+- At least three months of the existing project, before applying for a sponsorship;
+- The project must be significant for the ecosystem, providing a solution or tool that helps the developer, and have active users of the project.
+
+**For Developers:**
+
+- If it's a developer, he must be active in the Vue Storefront Discord server and active in the development of the current Vue Storefront ecosystem;
+- The developer must be active in the Vue Storefront ecosystem, or Vue ecosystem, creating issues, PRs, or helping the development of the same;
+- The developer cannot be part of the Vue Storefront team, or doing any paid work for Vue Storefront;
+
+After this initial validation, the Open-Source team of Vue Storefront will analyze your appliance form and give you feedback on the application.
+
+To participate in the program, please fill the form at this link [https://forms.gle/K9QgyktrJBNQsKoM8](https://forms.gle/K9QgyktrJBNQsKoM8), and we will contact you :)
