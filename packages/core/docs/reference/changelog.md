@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.4
+
+- Fixed adding custom router.base property breaks api calls ([6526](https://github.com/vuestorefront/vue-storefront/issues/6505)) - [Piotr Grzywa](https://github.com/PiotrGrzywa)
+
+- Add the `autoChangeCookie` option on nuxt-i18n configuration to handle fine control on cookie ([6595]()) - [Heitor Ramon](https://github.com/bloodf)
+
 ## 2.5.3
 
 - Add `@vue-storefront/health-check` module  ([6541](https://github.com/vuestorefront/vue-storefront/issues/6541)) - [Łukasz Jędrasik](https://github.com/lukaszjedrasik)
