@@ -33,6 +33,45 @@ These two components come from the `vue-lazy-hydration` library and are wrappers
 
 If you encounter one of these components, you should refer to the direct **child** component.
 
+### Router base property
+
+There is an option to set base URL for your store.
+
+This can be useful if you need to serve your store as a different context root, from within a bigger Web site.
+
+Add following configuration to `nuxt.config.js`
+```javascript
+// nuxt.config.js
+
+export default {
+  router: {
+    base: "/myShop/"
+  }
+};
+```
+
+:::warning Be careful
+When using base router property you need to wrap all assets relative links in addBasePath(), this will automatically add base path to them and prevent redirects. (example below)
+:::
+
+
+
+```javascript
+//use addBasePath on relative url
+<SfImage :src="addBasePath(`/homepage/imageA.webp`)" />
+<SfBanner :image="addBasePath('/homepage/bannerA.png')" />
+
+//In theme file import addBasePath from vue-storefront core
+import { addBasePath } from '@vue-storefront/core';
+
+setup() {
+  return {
+    // if you want to use it in template you need to exprt it
+    addBasePath
+  }
+}
+```
+
 ## Updating styles
 
 There are few ways of updating the default styles. Below we describe the most optimal ways for the most common cases.
