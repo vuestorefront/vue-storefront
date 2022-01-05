@@ -125,13 +125,6 @@ module.exports = {
         ]
       },
       {
-        title: 'Community',
-        collapsable: false,
-        children: [
-          ['/community/sponsorship-program', '✍️ Sponsorship Program'],
-        ]
-      },
-      {
         title: 'Getting started',
         collapsable: false,
         children: [
@@ -201,6 +194,13 @@ module.exports = {
           ['/reference/api/', 'API Reference'],
           ['/reference/migrate/', 'Migration guide'],
           ['/reference/changelog', 'Changelog']
+        ]
+      },
+      {
+        title: 'Community',
+        collapsable: true,
+        children: [
+          ['/community/sponsorship-program', '✍️ Sponsorship Program'],
         ]
       },
       {
