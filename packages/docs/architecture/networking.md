@@ -7,7 +7,7 @@ Vue Storefront differs slightly from most applications in the way it handles API
 
 Before we can understand Server Middleware, we need to discuss data flow from the user's browser all the way to the service providers. In Vue Storefront, three applications exchange the data:
 
-* **Nuxt.js application** - requests data from the Server Middleware when specific methods in the [Application context](./application-context.html) or [Composables](/guide/composables.html) are called.
+* **Nuxt.js application** - requests data from the Server Middleware when specific methods in the [Application context](./application-context.html) or [Composables](/composition/composables.html) are called.
 * **Server Middleware** - accepts requests from the Nuxt.js application, converts them, and sends them to the given platform in the proper format and communication technology.
 * **Service providers** - expose API endpoints to fetch, add and remove data.
 
@@ -29,7 +29,7 @@ For security reasons, data is sometimes sent directly from the user's browser to
 
 Most integrations in Vue Storefront ask you to register a Nuxt.js plugin or module in the `nuxt.config.js` file. These extend the [Application context](./application-context.html) and add special handlers that allow you to make API calls to the Server Middleware.
 
-[Composables](/guide/composables.html) use the exact mechanism to communicate with their corresponding platforms when you call their methods.
+[Composables](/composition/composables.html) use the exact mechanism to communicate with their corresponding platforms when you call their methods.
 
 ### Server Middleware
 

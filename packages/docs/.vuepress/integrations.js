@@ -24,7 +24,7 @@ const INTEGRATIONS = {
   eCommerce: [
     {
       name: 'commercetools',
-      link: '/v2/commercetools',
+      link: 'https://docs.vuestorefront.io/v2/commercetools/',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed627806456312e2aa80da9_1.commercetools_primary-logo_horizontal_RGB.svg',
       status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,
@@ -91,9 +91,9 @@ const INTEGRATIONS = {
       maintainedBy: []
     },
     {
-      name: 'AboutYou',
+      name: 'Scayle',
       link: '',
-      image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/60c62f5a2d9aaf32e2f47a20_logo-commercesuite-vertical-default.svg',
+      image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/619388ed301d2921cba6a2ed_scayle%20logo-p-500.png',
       status: STATUSES.WIP,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: []
@@ -158,7 +158,7 @@ const INTEGRATIONS = {
       name: 'SpreeCommerce',
       link: 'https://docs.vuestorefront.io/spree/',
       image: '/v2/integrations-logos/spree.svg',
-      status: STATUSES.BETA,
+      status: STATUSES.STABLE,
       availability: AVAILABILITY.OPEN_SOURCE,
       maintainedBy: [
         { name: 'Upside Lab', link: 'https://upsidelab.io/' }
@@ -175,8 +175,7 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.CMS ],
-      compatibility: []
+      categories: [ CATEGORIES.CMS ]
     },
     {
       name: 'Amplience',
@@ -187,8 +186,7 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.CMS ],
-      compatibility: []
+      categories: [ CATEGORIES.CMS ]
     },
     {
       name: 'Contentstack',
@@ -199,8 +197,7 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.CMS ],
-      compatibility: []
+      categories: [ CATEGORIES.CMS ]
     },
     {
       name: 'Contentful',
@@ -211,8 +208,7 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.CMS ],
-      compatibility: []
+      categories: [ CATEGORIES.CMS ]
     },
     {
       name: 'Bazaarvoice',
@@ -223,8 +219,7 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.REVIEWS ],
-      compatibility: []
+      categories: [ CATEGORIES.REVIEWS ]
     },
     {
       name: 'Redis',
@@ -235,8 +230,7 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.CACHE ],
-      compatibility: []
+      categories: [ CATEGORIES.CACHE ]
     },
     {
       name: 'LexasCMS',
@@ -247,8 +241,7 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'LexasCMS', link: 'https://www.lexascms.com/' },
       ],
-      categories: [ CATEGORIES.CMS ],
-      compatibility: []
+      categories: [ CATEGORIES.CMS ]
     },
     {
       name: 'Checkout.com',
@@ -259,11 +252,10 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.PAYMENT ],
-      compatibility: []
+      categories: [ CATEGORIES.PAYMENT ]
     },
     {
-      name: 'Adyen',
+      name: 'Adyen for commercetools',
       link: 'https://docs.vuestorefront.io/adyen',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed621cc6456318210a7d22b_Adyen_Corporate_Logo.svg',
       status: STATUSES.STABLE,
@@ -271,11 +263,21 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.PAYMENT ],
-      compatibility: [ 'commercetools' ]
+      categories: [ CATEGORIES.PAYMENT ]
     },
     {
-      name: 'Auth0',
+      name: 'Adyen for Magento 2',
+      link: 'https://docs.vuestorefront.io/adyen/magento2/',
+      image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed621cc6456318210a7d22b_Adyen_Corporate_Logo.svg',
+      status: STATUSES.STABLE,
+      availability: AVAILABILITY.ENTERPRISE,
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
+      categories: [ CATEGORIES.PAYMENT ]
+    },
+    {
+      name: 'Auth0 for commercetools',
       link: 'https://docs.vuestorefront.io/auth0',
       image: '/v2/integrations-logos/auth0.svg',
       status: STATUSES.STABLE,
@@ -283,20 +285,40 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.AUTH ],
-      compatibility: [ 'commercetools' ]
+      categories: [ CATEGORIES.AUTH ]
     },
     {
-      name: 'Bloomreach',
-      link: '',
+      name: 'Bloomreach Content',
+      link: 'https://docs.vuestorefront.io/bloomreach/',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/609a7a69e04df518abce7c13_bloomreach-logo-horizontal.png',
-      status: STATUSES.WIP,
+      status: STATUSES.STABLE,
       availability: AVAILABILITY.ENTERPRISE,
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.CMS ],
-      compatibility: []
+      categories: [ CATEGORIES.CMS ]
+    },
+    {
+      name: 'Bloomreach Discovery',
+      link: 'https://docs.vuestorefront.io/bloomreach-search/',
+      image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/609a7a69e04df518abce7c13_bloomreach-logo-horizontal.png',
+      status: STATUSES.STABLE,
+      availability: AVAILABILITY.ENTERPRISE,
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
+      categories: [ CATEGORIES.SEARCH ]
+    },
+    {
+      name: 'Sanity',
+      link: 'https://docs.vuestorefront.io/sanity/',
+      image: '/v2/integrations-logos/sanity.svg',
+      status: STATUSES.STABLE,
+      availability: AVAILABILITY.ENTERPRISE,
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
+      categories: [ CATEGORIES.CMS ]
     },
     {
       name: 'Recurly',
@@ -307,11 +329,10 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.PAYMENT ],
-      compatibility: []
+      categories: [ CATEGORIES.PAYMENT ]
     },
     {
-      name: 'Algolia',
+      name: 'Algolia for commercetools',
       link: 'https://docs.vuestorefront.io/algolia',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed620cebc49f091f5fc7571_logo-algolia-nebula-blue-full.svg',
       status: STATUSES.BETA,
@@ -320,10 +341,9 @@ const INTEGRATIONS = {
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORIES.SEARCH ],
-      compatibility: [ 'commercetools' ]
     },
     {
-      name: 'Constructor.io',
+      name: 'Constructor.io for commercetools',
       link: '',
       image: '/v2/integrations-logos/constructor-io.svg',
       status: STATUSES.WIP,
@@ -331,8 +351,7 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.SEARCH ],
-      compatibility: [ 'commercetools' ]
+      categories: [ CATEGORIES.SEARCH ]
     },
     {
       name: 'Adobe Experience Manager',
@@ -343,8 +362,7 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
-      categories: [ CATEGORIES.CMS, CATEGORIES.ANALYTICS ],
-      compatibility: []
+      categories: [ CATEGORIES.CMS, CATEGORIES.ANALYTICS ]
     }
   ]
 };

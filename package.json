@@ -14,7 +14,7 @@
     "build:middleware": "cd packages/middleware && yarn build",
     "cli": "cd packages/cli && yarn cli",
     "commit": "cz",
-    "core:changelog": "cd packages/docs/scripts && node changelog --in ../changelog --out ../contributing/changelog.md",
+    "core:changelog": "cd packages/docs/scripts && node changelog --in ../changelog --out ../reference/changelog.md",
     "dev:bp": "cd packages/boilerplate/theme && yarn dev",
     "dev:docs": "cd packages/docs && yarn dev",
     "link-packages": "lerna link --force-local",

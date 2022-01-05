@@ -7,7 +7,7 @@ If you want to integrate with Vue Storefront, don't hesitate to get in touch wit
 ## Introduction
 
 ::: warning Before you get started
-This page assumes you are familiar with caching in Vue Storefront. Please [see this page](../advanced/ssr-cache.md) for more information.
+This page assumes you are familiar with caching in Vue Storefront. Please [see this page](../performance/ssr-cache.md) for more information.
 :::
 
 Cache driver is not a standalone plugin but an extension depending on `@vue-storefront/cache` module that does the heavy lifting.

@@ -39,6 +39,7 @@ jest.mock('../nuxt/helpers.js', () => ({
 describe('nuxtModule', () => {
   it('registers plugin and calls driver methods', () => {
     const options = {
+      enabled: true,
       invalidation: {
         endpoint: '/endpoint',
         handlers: [
