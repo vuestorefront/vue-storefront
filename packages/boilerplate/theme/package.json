@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/boilerplate-theme",
-  "version": "2.5.3",
+  "version": "2.5.4",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -14,10 +14,10 @@
   },
   "dependencies": {
     "@storefront-ui/vue": "0.11.0-rc.1",
-    "@vue-storefront/boilerplate": "~2.5.3",
-    "@vue-storefront/middleware": "~2.5.3",
-    "@vue-storefront/nuxt": "~2.5.3",
-    "@vue-storefront/nuxt-theme": "~2.5.3",
+    "@vue-storefront/boilerplate": "~2.5.4",
+    "@vue-storefront/middleware": "~2.5.4",
+    "@vue-storefront/nuxt": "~2.5.4",
+    "@vue-storefront/nuxt-theme": "~2.5.4",
     "cookie-universal-nuxt": "^2.1.3",
     "core-js": "^2.6.5",
     "nuxt": "^2.13.3",
