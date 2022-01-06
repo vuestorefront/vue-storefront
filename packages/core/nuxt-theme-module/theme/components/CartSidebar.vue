@@ -23,7 +23,7 @@
                 v-for="product in products"
                 v-e2e="'collected-product'"
                 :key="cartGetters.getItemSku(product)"
-                :image="cartGetters.getItemImage(product)"
+                :image="addBasePath(cartGetters.getItemImage(product))"
                 :title="cartGetters.getItemName(product)"
                 :regular-price="$n(cartGetters.getItemPrice(product).regular, 'currency')"
                 :special-price="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
@@ -62,7 +62,7 @@
             <SfImage
               alt="Empty bag"
               class="empty-cart__image"
-              src="/icons/empty-cart.svg"
+              :src="addBasePath('/icons/empty-cart.svg')"
             />
             <SfHeading
               title="Your cart is empty"
@@ -125,6 +125,7 @@ import { computed } from '@nuxtjs/composition-api';
 import { useCart, cartGetters } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
 import debounce from 'lodash.debounce';
+import { addBasePath } from '@vue-storefront/core';
 
 export default {
   name: 'Cart',
@@ -151,6 +152,7 @@ export default {
     }, 500);
 
     return {
+      addBasePath,
       updateQuantity,
       loading,
       products,

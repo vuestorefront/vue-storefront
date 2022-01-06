@@ -2,7 +2,7 @@
   <div id="error">
     <SfImage
       class="image"
-      src="/error/error.svg"
+      :src="addBasePath('/error/error.svg')"
       alt="leaves"
     />
     <SfHeading
@@ -24,6 +24,7 @@
 <script>
 import { useRouter } from '@nuxtjs/composition-api';
 import { SfButton, SfImage, SfHeading } from '@storefront-ui/vue';
+import { addBasePath } from '@vue-storefront/core';
 
 export default {
   name: 'ErrorLayout',
@@ -36,7 +37,8 @@ export default {
     const router = useRouter();
 
     return {
-      router
+      router,
+      addBasePath
     };
   }
 };

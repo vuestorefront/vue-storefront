@@ -32,7 +32,7 @@ For example, an application with Magento and Storyblok plugins installed might h
 
 ## Accessing context
 
-In most cases, you don't need to access the context directly. Instead, you can call methods in the [Composables](/guide/composables.html) available in the integration, which internally calls API methods with proper parameters.
+In most cases, you don't need to access the context directly. Instead, you can call methods in the [Composables](/composition/composables.html) available in the integration, which internally calls API methods with proper parameters.
 
 However, there are cases when composables are not sufficient, or you need to access integration configuration. For this reason, we have a dedicated composable named `useVSFContext` to easily access the whole context object.
 

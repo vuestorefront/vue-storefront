@@ -1,4 +1,4 @@
-name: Run tests
+name: Lint, build, test
 
 on:
   push:
@@ -13,70 +13,30 @@ on:
       - release-**
 
 jobs:
-  prepare_dependencies:
-    name: Prepare dependencies
+  test_repository:
+    name: Run linter, build and test all packages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: '12'
-
-      - name: Get cached dependencies
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn --network-concurrency 1 --frozen-lockfile
-
-  lint:
-    name: Lint
-    needs: prepare_dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12'
-
-      - name: Get cached dependencies
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        run: yarn install --frozen-lockfile
 
       - name: Run linter
         run: yarn lint
-
-  validate_core:
-    name: Validate core
-    needs: prepare_dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12'
-
-      - name: Get cached dependencies
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-
+      
       - name: Build core
         run: yarn build:core
+
+      - name: Test core
+        run: yarn test:core --coverage
 
       - name: Test cache
         run: yarn test:cache --coverage
@@ -84,67 +44,5 @@ jobs:
       - name: Test CLI
         run: yarn test:cli --coverage
 
-      - name: Test core
-        run: yarn test:core --coverage
-
       - name: Test middleware
         run: yarn test:middleware --coverage
-
-  validate_integrations:
-    name: Validate ${{ matrix.integration }}
-    needs: validate_core
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        integration:
-          - boilerplate
-          - commercetools
-          # - shopify
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12'
-
-      - name: Get cached dependencies
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Build core
-        run: yarn build:core
-
-      - name: Build middleware
-        run: yarn build:middleware
-
-      - name: Build api-client
-        run: cd packages/${{ matrix.integration }}/api-client && yarn build
-
-      - name: Test api-client
-        run: cd packages/${{ matrix.integration }}/api-client && yarn test --passWithNoTests --coverage
-
-      - name: Build composables
-        run: cd packages/${{ matrix.integration }}/composables && yarn build
-
-      - name: Test composables
-        run: cd packages/${{ matrix.integration }}/composables && yarn test --passWithNoTests --coverage
-
-      - name: Build theme
-        run: cd packages/${{ matrix.integration }}/theme && yarn build
-
-      - name: Test theme
-        run: cd packages/${{ matrix.integration }}/theme && yarn test --passWithNoTests
-
-      - name: api-client coverage file
-        id: api-coverage
-        run: echo "::set-output name=exists::$((test -s packages/${{ matrix.integration }}/api-client/coverage/lcov.info && echo 'true') || echo 'false')"
-
-      - name: composables coverage file
-        id: composables-coverage
-        run: echo "::set-output name=exists::$((test -s packages/${{ matrix.integration }}/composables/coverage/lcov.info && echo 'true') || echo 'false')"

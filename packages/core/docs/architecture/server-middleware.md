@@ -23,7 +23,7 @@ module.exports = {
 
 Every integration you register inside of this file must have a unique key provided in the installation guide of said extension. The name of the key must match the key in the [Application context](../architecture/application-context.html), and changing it will likely cause the integration to malfunction.
 
-Registered integration must have a configuration matching the [Integration interface](/core/api-reference/core.integration.html). This configuration might look like this:
+Registered integration must have a configuration matching the [Integration interface](/reference/api/core.integration.html). This configuration might look like this:
 
 ```javascript
 // middleware.config.js

@@ -8,7 +8,7 @@
         <SfCarouselItem class="carousel__item" v-for="(product, i) in products" :key="i">
           <SfProductCard
             :title="productGetters.getName(product)"
-            :image="product.images[0].url"
+            :image="addBasePath(product.images[0].url)"
             :regular-price="$n(productGetters.getFormattedPrice(productGetters.getPrice(product).regular), 'currency')"
             :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
             :max-rating="5"
@@ -36,6 +36,7 @@ import {
 } from '@storefront-ui/vue';
 import { productGetters, useWishlist, wishlistGetters, useCart } from '<%= options.generate.replace.composables %>';
 import { computed } from '@vue/composition-api';
+import { addBasePath } from '@vue-storefront/core';
 
 export default {
   name: 'RelatedProducts',
@@ -64,7 +65,8 @@ export default {
       isInWishlist,
       removeProductFromWishlist,
       addItemToCart,
-      isInCart
+      isInCart,
+      addBasePath
     };
   }
 };
