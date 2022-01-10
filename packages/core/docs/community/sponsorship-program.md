@@ -24,7 +24,7 @@ In this case, we will evaluate the project to see the currently active developer
 
 ## How I can be selected for this program?
 
-We want to give back to the community as much as possible, but it's not possible at this moment. So to be more democratic, we are creating some rules that will help select the projects and developers to be sponsored.
+We want to give back to the community as much as possible, but we can't sponsor every project. That's why we created rules that will help select the projects and developers to be sponsored.
 
 **For Projects**
 
