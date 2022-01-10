@@ -22,7 +22,7 @@ The sponsorship is paid using the GitHub Sponsorship program or Patreon. There i
 
 In this case, we will evaluate the project to see the currently active developers and conduct an interview with all the project developers.
 
-## How I can be selected for this program?
+## How can I be selected for this program?
 
 We want to give back to the community as much as possible, but we can't sponsor every project. That's why we created rules that will help select the projects and developers to be sponsored.
 
