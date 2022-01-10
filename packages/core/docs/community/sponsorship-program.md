@@ -16,7 +16,7 @@ We will continuously offer the sponsorship program to the developers as long as 
 
 ## How is the sponsorship being paid?
 
-The sponsorship will be paid via the GitHub Sponsorship program or Patreon. There is no other form currently available.
+The sponsorship is paid using the GitHub Sponsorship program or Patreon. There is no other form currently available.
 
 ## The project has more than one developer maintaining it. How will the sponsorship work?
 
