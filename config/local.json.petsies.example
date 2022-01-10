@@ -886,7 +886,7 @@
     }
   },
   "affirm": {
-    "publicKey": "${AFFIRM_PUBLIC_KEY}
+    "publicKey": "${AFFIRM_PUBLIC_KEY}"
   },
   "googleTagManager": {
     "id": "${GTM_ID}",

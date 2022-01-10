@@ -1,4 +1,5 @@
 export interface Order {
+  checkout_token?: string,
   order_id?: string,
   created_at?: string,
   updated_at?: string,
@@ -67,7 +68,7 @@ export interface Order {
     base_subtotal: number,
     base_discount_amount: number,
     order_currency_code: string,
-    coupon_code: string,
+    coupon_code: string
   },
   personalDetails: {
     emailAddress: string,
