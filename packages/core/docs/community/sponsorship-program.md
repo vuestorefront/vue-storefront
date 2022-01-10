@@ -36,7 +36,7 @@ We want to give back to the community as much as possible, but it's not possible
 
 -  must be active in the Vue Storefront Discord server;
 - The developer must be active in the Vue Storefront or Vue ecosystem, creating issues, PRs, or helping the development in one of these projects;
-- The developer cannot be part of the Vue Storefront team, or doing any paid work for Vue Storefront;
+- cannot be part of the Vue Storefront team or do any paid work for Vue Storefront;
 
 After this initial validation, the Open-Source team of Vue Storefront will analyze your appliance form and give you feedback on the application.
 
