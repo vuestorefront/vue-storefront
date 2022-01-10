@@ -12,7 +12,7 @@ We have a list of available sponsorship spots. You can join the list by [filling
 
 ## How long will the sponsorship be offered for the developer?
 
-The developer will continuously offer the sponsorship program as long as he is actively working on the selected sponsored projects.
+We will continuously offer the sponsorship program to the developers as long as they actively work on the selected sponsored projects.
 
 ## How is the sponsorship being paid?
 
