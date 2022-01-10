@@ -28,7 +28,7 @@ We want to give back to the community as much as possible, but it's not possible
 
 **For Projects**
 
-- The project must be active in the Vue Storefront ecosystem or be used by any project on the Vue Storefront ecosystem;
+- must be active in the Vue Storefront ecosystem or be used by any project on the Vue Storefront ecosystem;
 - At least three months of the existing project, before applying for a sponsorship;
 - The project must be significant for the ecosystem, providing a solution or tool that helps the developer, and have active users of the project.
 
