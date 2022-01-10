@@ -34,7 +34,7 @@ We want to give back to the community as much as possible, but it's not possible
 
 **For Developers:**
 
-- If it's a developer, he must be active in the Vue Storefront Discord server and active in the development of the current Vue Storefront ecosystem;
+-  must be active in the Vue Storefront Discord server;
 - The developer must be active in the Vue Storefront ecosystem, or Vue ecosystem, creating issues, PRs, or helping the development of the same;
 - The developer cannot be part of the Vue Storefront team, or doing any paid work for Vue Storefront;
 
