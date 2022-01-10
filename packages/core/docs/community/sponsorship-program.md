@@ -8,7 +8,7 @@ We select developers from the community who contribute the most to the Vue Store
 
 ## How do I join the program?
 
-Currently, we are creating a queue for the available sponsorship spots. You can join the line by filling up this form [https://forms.gle/K9QgyktrJBNQsKoM8](https://forms.gle/K9QgyktrJBNQsKoM8), and as soon as we have an available spot, we will contact you.
+We have a list of available sponsorship spots. You can join the list by [filling up this form](https://forms.gle/K9QgyktrJBNQsKoM8), and we will contact you as soon as we have an available spot.
 
 ## How long will the sponsorship be offered for the developer?
 
