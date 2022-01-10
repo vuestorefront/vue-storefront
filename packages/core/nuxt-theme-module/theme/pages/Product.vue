@@ -6,13 +6,22 @@
     />
     <div class="product">
       <LazyHydrate when-idle>
-        <SfGallery 
-          :images="productGallery" 
-          class="product__gallery" 
-          image-tag="nuxt-img" 
-          :nuxtImgConfig="{
+        <SfGallery
+          :images="productGallery"
+          class="product__gallery"
+          image-tag="nuxt-img"
+          :nuxt-img-config="{
             format: 'webp',
             fit: 'cover',
+            height: 664,
+            width: 422,
+          }"
+          thumb-image-tag="nuxt-img"
+          :thumb-nuxt-img-config="{
+            format: 'webp',
+            fit: 'cover',
+            height: 160,
+            width: 160,
           }"
         />
       </LazyHydrate>

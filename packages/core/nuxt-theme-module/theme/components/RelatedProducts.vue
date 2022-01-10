@@ -18,7 +18,7 @@
             :is-added-to-cart="isInCart({ product })"
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             image-tag="nuxt-img"
-            :nuxtImgConfig="{
+            :nuxt-img-config="{
               format: 'webp',
               fit: 'cover',
             }"

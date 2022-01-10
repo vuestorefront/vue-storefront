@@ -136,6 +136,8 @@
               :nuxtImgConfig="{
                 format: 'webp',
                 fit: 'cover',
+                height: 200,
+                width: 140,
               }"
               @input="productsQuantity[product._id] = $event"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
@@ -410,12 +412,6 @@ export default {
   }
   &__product-card-horizontal {
     flex: 0 0 100%;
-    @include for-mobile {
-      ::v-deep .sf-image {
-        --image-width: 5.3125rem;
-        --image-height: 7.0625rem;
-      }
-    }
   }
   &__slide-enter {
     opacity: 0;
