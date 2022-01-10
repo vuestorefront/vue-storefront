@@ -2,7 +2,7 @@
 
 We created the Vue Storefront community sponsorship program to embrace our community and valorize our best contributors. We want to create an ecosystem where developers can embrace the open-source and dedicate more time to open-source development.
 
-## So, how does this program will work?
+## How does this program work?
 
 We will select developers from the community who contribute the most to the Vue Storefront development or create new integrations, extensions, or plugins for the Vue Storefront ecosystem. After the selection, we will provide an initial financial sponsorship to the developer, encouraging the development and continuing the excellent work.
 
