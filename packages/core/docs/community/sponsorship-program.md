@@ -6,7 +6,7 @@ We created the Vue Storefront community sponsorship program to embrace our commu
 
 We select developers from the community who contribute the most to the Vue Storefront ecosystem by creating new integrations, extensions, or plugins. We provide them with financial sponsorship, encouraging the development and continuing the excellent work.
 
-## I want to be part of the sponsorship program. How do I sign up for it?
+## How do I join the program?
 
 Currently, we are creating a queue for the available sponsorship spots. You can join the line by filling up this form [https://forms.gle/K9QgyktrJBNQsKoM8](https://forms.gle/K9QgyktrJBNQsKoM8), and as soon as we have an available spot, we will contact you.
 
