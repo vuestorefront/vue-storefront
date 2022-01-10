@@ -40,4 +40,4 @@ We want to give back to the community as much as possible, but it's not possible
 
 After this initial validation, the Open-Source team of Vue Storefront will analyze your appliance form and give you feedback on the application.
 
-To participate in the program, please fill the form at this link [https://forms.gle/K9QgyktrJBNQsKoM8](https://forms.gle/K9QgyktrJBNQsKoM8), and we will contact you :)
+To participate in the program, please [fill the form](https://forms.gle/K9QgyktrJBNQsKoM8), and we will contact you :)
