@@ -30,7 +30,7 @@ We want to give back to the community as much as possible, but we can't sponsor 
 
 - must be active in the Vue Storefront ecosystem or be used by any project on the Vue Storefront ecosystem;
 - must exist and be actively maintained for at least three months;
-- The project must be significant for the ecosystem, providing a solution or tool that helps the developer, and have active users of the project.
+- must be significant for the ecosystem, provide a solution or tools that help the developers, and have active users.
 
 **For Developers:**
 
