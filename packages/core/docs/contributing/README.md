@@ -1,12 +1,12 @@
-# Contributing
+# Contribution basics
 
-If you want to contribute into Vue Storefront Next you should:
+We are delighted that you want to contribute to Vue Storefront. To start, you can pick an issue from one of our [GitHub repositories](https://github.com/vuestorefront/) that has one of the following labels:
 
-1. Pick an issue from [our GitHub](https://github.com/DivanteLtd/vue-storefront/) with a `Next` label
-2. Comment on the issues that you'd like to work on it.
-3. Fork our repository and create a new branch where you will develop the issue.
-4. When you finish work on your issue, follow this [instruction](/contributing/creating-changelog) to create information regarding this issue for our changelog. 
-5. Propose a Pull Request with title following [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
-6. Wait for review of a core team member. We will write down our suggestions to your Pull Request or just merge it.
+* [`bug`](https://github.com/vuestorefront/vue-storefront/issues?q=is%3Aopen+is%3Aissue+label%3Abug),
+* [`feature request`](https://github.com/vuestorefront/vue-storefront/issues?q=is%3Aopen+is%3Aissue+label%3A%22feature+request%22),
+* [`docs`](https://github.com/vuestorefront/vue-storefront/issues?q=is%3Aopen+is%3Aissue+label%3Adocs),
+* [`good first issue`](https://github.com/vuestorefront/vue-storefront/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22).
 
-Thank you for your involvement!
+If you found a bug that's not reported yet and know how to fix it, you can create an issue alongside the pull request.
+
+Once you have something to work on, see our [Branching model](./branching-model.html) and [How to submit a Pull Request](./how-to-submit-pull-request.html) pages to learn how to contribute.

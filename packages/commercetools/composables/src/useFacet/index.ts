@@ -1,18 +1,20 @@
 import { useFacetFactory, FacetSearchResult, Context } from '@vue-storefront/core';
-import { AttributeType } from '@vue-storefront/commercetools-api';
+import { AttributeType, ProductVariant } from '@vue-storefront/commercetools-api';
 import { enhanceProduct, getFiltersFromProductsAttributes, getChannelId } from './../helpers/internals';
-import { ProductVariant } from './../types/GraphQL';
 import { FacetResultsData } from './../types';
 
 // TODO: move to the config file
 const ITEMS_PER_PAGE = [20, 40, 100];
 
+/**
+ * @remarks References:
+ * {@link FacetResultsData}
+ */
 const useFacetFactoryParams = {
   search: async (context: Context, params: FacetSearchResult<FacetResultsData>): Promise<FacetResultsData> => {
     const itemsPerPage = params.input.itemsPerPage;
-
-    const categoryResponse = await context.$ct.api.getCategory({ slug: params.input.categorySlug });
-    const categories = categoryResponse.data.categories.results;
+    const categoryResponse = await context.$ct.api.categorySearch({ slug: params.input.categorySlug });
+    const categories = categoryResponse.data.categorySearch.results;
     const inputFilters = params.input.filters;
     const filters = Object.keys(inputFilters).reduce((prev, curr) => ([
       ...prev,
@@ -43,6 +45,10 @@ const useFacetFactoryParams = {
   }
 };
 
+/**
+ * @remarks References:
+ * {@link FacetResultsData}
+ */
 const useFacet = useFacetFactory<FacetResultsData>(useFacetFactoryParams);
 
 export {

@@ -3,6 +3,7 @@
     <form class="form" @submit.prevent="handleSubmit(submitForm(reset))">
       <ValidationProvider rules="required" v-slot="{ errors }" class="form__element">
         <SfInput
+          v-e2e="'myaccount-current-password'"
           v-model="form.currentPassword"
           type="password"
           name="currentPassword"
@@ -15,6 +16,7 @@
       <div class="form__horizontal">
         <ValidationProvider rules="required|password" v-slot="{ errors }" vid="password" class="form__element">
           <SfInput
+            v-e2e="'myaccount-new-password'"
             v-model="form.newPassword"
             type="password"
             name="newPassword"
@@ -26,6 +28,7 @@
         </ValidationProvider>
         <ValidationProvider rules="required|confirmed:password" v-slot="{ errors }" class="form__element">
           <SfInput
+            v-e2e="'myaccount-repeat-password'"
             v-model="form.repeatPassword"
             type="password"
             name="repeatPassword"
@@ -36,13 +39,18 @@
           />
         </ValidationProvider>
       </div>
-      <SfButton class="form__button">{{ $t('Update password') }}</SfButton>
+      <SfButton
+        v-e2e="'myaccount-update-password-btn'"
+        class="form__button"
+      >
+        {{ $t('Update password') }}
+      </SfButton>
     </form>
   </ValidationObserver>
 </template>
 
 <script>
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { SfInput, SfButton } from '@storefront-ui/vue';
 

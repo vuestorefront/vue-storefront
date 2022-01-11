@@ -7,9 +7,10 @@ import {
   getOrderItemSku,
   getOrderItemName,
   getOrderItemQty,
-  getFormattedPrice
+  getFormattedPrice,
+  getOrdersTotal
 } from './../../src/getters/orderGetters';
-import { OrderState, Order } from './../../src/types/GraphQL';
+import { OrderState, Order } from '@vue-storefront/commercetools-api';
 
 const order: Order = {
   createdAt: 123456789,
@@ -33,6 +34,16 @@ const order: Order = {
   ]
 } as any;
 
+const mockedResults = [order, order, order];
+
+const orders = {
+  results: mockedResults,
+  total: mockedResults.length,
+  offset: 0,
+  count: 0,
+  exists: true
+};
+
 describe('[commercetools-getters] order getters', () => {
   it('returns default values', () => {
     expect(getOrderDate(null)).toBe('');
@@ -44,6 +55,7 @@ describe('[commercetools-getters] order getters', () => {
     expect(getOrderItemName(null)).toBe('');
     expect(getOrderItemQty(null)).toBe(0);
     expect(getFormattedPrice(null)).toBe(null);
+    expect(getOrdersTotal({ results: [], total: 0, offset: 0, count: 0, exists: false })).toBe(0);
   });
 
   it('returns date', () => {
@@ -60,6 +72,10 @@ describe('[commercetools-getters] order getters', () => {
 
   it('returns total gross', () => {
     expect(getOrderPrice(order)).toEqual(123.45);
+  });
+
+  it('returns orders total', () => {
+    expect(getOrdersTotal(orders)).toEqual(3);
   });
 
   describe('order items', () => {

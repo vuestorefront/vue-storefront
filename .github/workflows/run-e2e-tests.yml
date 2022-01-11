@@ -28,25 +28,20 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '12'
-
-      - name: Get cached dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/Cypress
-            **/node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
-      - name: Build tools
-        run: yarn build:${{ github.event.inputs.package }}:tools
+      - name: Build package
+        run: yarn build:${{ github.event.inputs.package }}
+        env:
+          NUXT_ENV_E2E: true
 
       - name: Run cypress tests
         uses: cypress-io/github-action@v2.8.2
         with:
-          start: yarn dev:${{ github.event.inputs.package }}
+          start: yarn start:${{ github.event.inputs.package }}
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 180
           command: yarn run test:e2e:${{ github.event.inputs.package }}:hl

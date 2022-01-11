@@ -1,7 +1,7 @@
 {
   "Should increase product quantity": {
     "products": [{
-        "name": "Shirt Aspesi white M",
+        "name": "Shirt Aspesi white",
         "id": 1,
         "sku": "M0E20000000ED0W",
         "quantity": 2,
@@ -19,7 +19,7 @@
       "name": "Shirt ”David” MU light blue"
     },
     "expectedCart": [{
-        "name": "Shirt Aspesi white M",
+        "name": "Shirt Aspesi white",
         "quantity": 2
       },
       {
@@ -30,7 +30,7 @@
   },
   "Should decrease product quantity": {
     "products": [{
-        "name": "Shirt Aspesi white M",
+        "name": "Shirt Aspesi white",
         "id": 1,
         "sku": "M0E20000000ED0W",
         "quantity": 2,
@@ -48,7 +48,7 @@
       "name": "Shirt ”David” MU light blue"
     },
     "expectedCart": [{
-        "name": "Shirt Aspesi white M",
+        "name": "Shirt Aspesi white",
         "quantity": 2
       },
       {

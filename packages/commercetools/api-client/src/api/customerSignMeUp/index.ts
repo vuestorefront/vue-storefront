@@ -1,17 +1,25 @@
+import gql from 'graphql-tag';
 import { CustomerSignMeUpDraft } from '../../types/GraphQL';
 import CustomerSignMeUpMutation from './defaultMutation';
 import { SignInResponse } from '../../types/Api';
 
+/**
+ * @remarks References:
+ * {@link CustomerSignMeUpDraft}, {@link SignInResponse}
+ */
 const customerSignMeUp = async (context, draft: CustomerSignMeUpDraft): Promise<SignInResponse> => {
   const { locale, acceptLanguage, currency } = context.config;
 
-  const registerResponse = await context.client.mutate({
-    mutation: CustomerSignMeUpMutation,
-    variables: { draft, locale, acceptLanguage, currency },
+  return await context.client.mutate({
+    mutation: gql`${CustomerSignMeUpMutation}`,
+    variables: {
+      draft,
+      locale,
+      acceptLanguage,
+      currency
+    },
     fetchPolicy: 'no-cache'
   }) as SignInResponse;
-
-  return registerResponse;
 };
 
 export default customerSignMeUp;

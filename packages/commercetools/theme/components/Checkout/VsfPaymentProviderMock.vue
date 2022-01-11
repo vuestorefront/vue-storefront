@@ -14,7 +14,7 @@
             :label="method.name"
             :value="method.id"
             :selected="selectedPaymentMethod.id"
-            @input="selectPaymentMethod(method)"
+            @change="selectPaymentMethod(method)"
             name="paymentMethod"
             :description="method.description"
             class="form__radio payment__method"
@@ -43,7 +43,7 @@ import {
   SfButton,
   SfRadio
 } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 import { usePaymentProviderMock } from '@/composables/usePaymentProviderMock';
 
 export default {

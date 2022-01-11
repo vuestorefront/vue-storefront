@@ -2,7 +2,7 @@ import page from '../pages/factory';
 import generator from '../utils/data-generator';
 import intercept from '../utils/network';
 
-context('Order placement', () => {
+context(['happypath', 'regression'], 'Order placement', () => {
   beforeEach(function () {
     cy.fixture('test-data/e2e-place-order').then((fixture) => {
       this.fixtures = {
@@ -11,7 +11,7 @@ context('Order placement', () => {
     });
   });
 
-  it(['happypath', 'regression'], 'Should successfully place an order as a guest', function() {
+  it('Should successfully place an order as a guest', function() {
     const data = this.fixtures.data[this.test.title];
     const getProductReq = intercept.getProduct();
     page.home.visit();
@@ -36,7 +36,7 @@ context('Order placement', () => {
     page.checkout.thankyou.heading.should('be.visible');
   });
 
-  it(['happypath', 'regression'], 'Should successfully place an order as a registered customer', function() {
+  it('Should successfully place an order as a registered customer', function() {
     const data = this.fixtures.data[this.test.title];
     const getProductReq = intercept.getProduct();
     data.customer.email = generator.email;
@@ -44,7 +44,7 @@ context('Order placement', () => {
     page.home.header.openLoginModal();
     page.components.loginModal.fillForm(data.customer);
     page.components.loginModal.iWantToCreateAccountCheckbox.click();
-    page.components.loginModal.submitButton.click();
+    page.components.loginModal.createAccountButton.click();
     page.home.header.categories.first().click();
     page.category().products.first().click().then(() => {
       cy.wait([getProductReq, getProductReq]);
@@ -64,5 +64,9 @@ context('Order placement', () => {
     page.checkout.payment.terms.click();
     page.checkout.payment.makeAnOrderButton.click();
     page.checkout.thankyou.heading.should('be.visible');
+    page.checkout.thankyou.orderNumber.then(($order) => {
+      page.myAccount.orderHistory.visit();
+      page.myAccount.orderHistory.orderNumber.should('have.text', $order.text().substring(1));
+    });
   });
 });

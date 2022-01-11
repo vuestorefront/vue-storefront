@@ -4,10 +4,12 @@ import { onSSR, vsfRef, configureSSR } from './ssr';
 import { sharedRef } from './shared';
 import wrap from './wrap';
 import { Logger, registerLogger } from './logger';
+import { addBasePath } from './helpers';
 import mask from './logger/mask';
 import { useVSFContext, configureContext, generateContext } from './context';
 import { integrationPlugin } from './nuxt';
 import { configureFactoryParams } from './factoryParams';
+import i18nRedirectsUtil from './i18n-redirects';
 
 export {
   wrap,
@@ -22,5 +24,7 @@ export {
   useVSFContext,
   configureFactoryParams,
   generateContext,
-  integrationPlugin
+  integrationPlugin,
+  i18nRedirectsUtil,
+  addBasePath
 };

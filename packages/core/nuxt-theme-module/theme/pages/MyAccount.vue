@@ -24,10 +24,6 @@
           <BillingDetails />
         </SfContentPage>
 
-        <SfContentPage title="Loyalty card">
-          <LoyaltyCard />
-        </SfContentPage>
-
         <SfContentPage title="My newsletter">
           <MyNewsletter />
         </SfContentPage>
@@ -37,10 +33,6 @@
         <SfContentPage title="Order history">
           <OrderHistory />
         </SfContentPage>
-
-        <SfContentPage title="My reviews">
-          <MyReviews />
-        </SfContentPage>
       </SfContentCategory>
 
       <SfContentPage title="Log out" />
@@ -49,15 +41,17 @@
 </template>
 <script>
 import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
+import { computed, onBeforeUnmount, useRoute, useRouter } from '@nuxtjs/composition-api';
 import { useUser } from '<%= options.generate.replace.composables %>';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
 import BillingDetails from './MyAccount/BillingDetails';
-import LoyaltyCard from './MyAccount/LoyaltyCard';
 import MyNewsletter from './MyAccount/MyNewsletter';
 import OrderHistory from './MyAccount/OrderHistory';
-import MyReviews from './MyAccount/MyReviews';
+import {
+  mapMobileObserver,
+  unMapMobileObserver
+} from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 
 export default {
   name: 'MyAccount',
@@ -67,36 +61,47 @@ export default {
     MyProfile,
     ShippingDetails,
     BillingDetails,
-    LoyaltyCard,
     MyNewsletter,
-    OrderHistory,
-    MyReviews
+    OrderHistory
   },
   middleware: [
     'is-authenticated'
   ],
   setup(props, context) {
-    const { $router, $route } = context.root;
+    const route = useRoute();
+    const router = useRouter();
+
     const { logout } = useUser();
+    const isMobile = computed(() => mapMobileObserver().isMobile.get());
     const activePage = computed(() => {
-      const { pageName } = $route.params;
+      const { pageName } = route.value.params;
 
       if (pageName) {
         return (pageName.charAt(0).toUpperCase() + pageName.slice(1)).replace('-', ' ');
+      } else if (!isMobile.value) {
+        return 'My profile';
+      } else {
+        return '';
       }
-
-      return 'My profile';
     });
 
     const changeActivePage = async (title) => {
       if (title === 'Log out') {
         await logout();
-        $router.push('/');
+        router.push(context.root.localePath({ name: 'home' }));
         return;
       }
 
-      $router.push(`/my-account/${(title || '').toLowerCase().replace(' ', '-')}`);
+      const slugifiedTitle = (title || '').toLowerCase().replace(' ', '-');
+      const transformedPath = `/my-account/${slugifiedTitle}`;
+      const localeTransformedPath = context.root.localePath(transformedPath);
+
+      router.push(localeTransformedPath);
     };
+
+    onBeforeUnmount(() => {
+      unMapMobileObserver();
+    });
 
     return { changeActivePage, activePage };
   },

@@ -12,10 +12,10 @@
   "video": false,
   "reporter": "../../../../node_modules/mochawesome",
   "reporterOptions": {
-      "reportDir": "tests/e2e/report",
-      "reportFilename": "report",
-      "overwrite": false,
-      "html": false
+    "reportDir": "tests/e2e/report",
+    "reportFilename": "report",
+    "overwrite": false,
+    "html": false
   },
   "retries": {
     "runMode": 2,

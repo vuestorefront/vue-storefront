@@ -1,0 +1,127 @@
+{
+  "data": {
+    "me": {
+      "orders": {
+        "results": [{
+          "lineItems": [],
+          "totalPrice": {
+            "centAmount": 1000,
+            "__typename": "Money"
+          },
+          "orderState": "Open",
+          "id": "1",
+          "createdAt": "2021-09-13T09:12:19.177Z",
+          "__typename": "Order"
+        }, {
+          "lineItems": [],
+          "totalPrice": {
+            "centAmount": 1000,
+            "__typename": "Money"
+          },
+          "orderState": "Open",
+          "id": "2",
+          "createdAt": "2021-09-13T09:12:19.177Z",
+          "__typename": "Order"
+        }, {
+          "lineItems": [],
+          "totalPrice": {
+            "centAmount": 1000,
+            "__typename": "Money"
+          },
+          "orderState": "Open",
+          "id": "3",
+          "createdAt": "2021-09-13T09:12:19.177Z",
+          "__typename": "Order"
+        }, {
+          "lineItems": [],
+          "totalPrice": {
+            "centAmount": 1000,
+            "__typename": "Money"
+          },
+          "orderState": "Open",
+          "id": "4",
+          "createdAt": "2021-09-13T09:12:19.177Z",
+          "__typename": "Order"
+        }, {
+          "lineItems": [],
+          "totalPrice": {
+            "centAmount": 1000,
+            "__typename": "Money"
+          },
+          "orderState": "Open",
+          "id": "5",
+          "createdAt": "2021-09-13T09:12:19.177Z",
+          "__typename": "Order"
+        }, {
+          "lineItems": [],
+          "totalPrice": {
+            "centAmount": 1000,
+            "__typename": "Money"
+          },
+          "orderState": "Open",
+          "id": "6",
+          "createdAt": "2021-09-13T09:12:19.177Z",
+          "__typename": "Order"
+        }, {
+          "lineItems": [],
+          "totalPrice": {
+            "centAmount": 1000,
+            "__typename": "Money"
+          },
+          "orderState": "Open",
+          "id": "7",
+          "createdAt": "2021-09-13T09:12:19.177Z",
+          "__typename": "Order"
+        }, {
+          "lineItems": [],
+          "totalPrice": {
+            "centAmount": 1000,
+            "__typename": "Money"
+          },
+          "orderState": "Open",
+          "id": "8",
+          "createdAt": "2021-09-13T09:12:19.177Z",
+          "__typename": "Order"
+        }, {
+          "lineItems": [],
+          "totalPrice": {
+            "centAmount": 1000,
+            "__typename": "Money"
+          },
+          "orderState": "Open",
+          "id": "9",
+          "createdAt": "2021-09-13T09:12:19.177Z",
+          "__typename": "Order"
+        }, {
+          "lineItems": [],
+          "totalPrice": {
+            "centAmount": 1000,
+            "__typename": "Money"
+          },
+          "orderState": "Open",
+          "id": "10",
+          "createdAt": "2021-09-13T09:12:19.177Z",
+          "__typename": "Order"
+        }, {
+          "lineItems": [],
+          "totalPrice": {
+            "centAmount": 1000,
+            "__typename": "Money"
+          },
+          "orderState": "Open",
+          "id": "11",
+          "createdAt": "2021-09-13T09:12:19.177Z",
+          "__typename": "Order"
+        }],
+        "total": 21,
+        "offset": 0,
+        "count": 10,
+        "__typename": "OrderQueryResult"
+      },
+      "__typename": "Me"
+    }
+  },
+  "loading": false,
+  "networkStatus": 7,
+  "stale": false
+}

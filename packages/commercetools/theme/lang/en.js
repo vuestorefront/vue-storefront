@@ -2,7 +2,7 @@
 
 export default {
   'Categories': 'Categories',
-  'Filters': 'Filter',
+  'Filters': 'Filters',
   'Sort by': 'Sort by',
   'Products found': 'Products found',
   'About us': 'About us',
@@ -113,7 +113,9 @@ export default {
   'Create an account': 'Create an account',
   'Your bag is empty': 'Your bag is empty',
   'Cancel': 'Cancel',
+  'See all': 'See all',
   'See all results': 'See all results',
+  'We haven’t found any results for given phrase': 'We haven’t found any results for given phrase',
   'You haven’t searched for items yet': 'You haven’t searched for items yet.',
   'Let’s start now – we’ll help you': 'Let’s start now – we’ll help you.',
   'Search results': 'Search results',
@@ -142,5 +144,20 @@ export default {
   'Password': 'Password',
   'Repeat Password': 'Repeat Password',
   'Forgot Password Modal Email': 'Email you are using to sign in:',
-  forgotPasswordConfirmation: 'Thanks! If there is an account registered with the {0} email, you will find message with a password reset link in your inbox.'
+  forgotPasswordConfirmation: 'Thanks! If there is an account registered with the {0} email, you will find message with a password reset link in your inbox.',
+  subscribeToNewsletterModalContent:
+    'After signing up for the newsletter, you will receive special offers and messages from VSF via email. We will not sell or distribute your email to any third party at any time. Please see our {0}.',
+  'Subscribe': 'Subscribe',
+  'Subscribe to newsletter': 'Subscribe to newsletter',
+  'Email address': 'Email address',
+  'I confirm subscription': 'I confirm subscription',
+  'You can unsubscribe at any time': 'You can unsubscribe at any time',
+  'show more': 'show more',
+  'hide': 'hide',
+  'Change to grid view': 'Change to grid view',
+  'Change to list view': 'Change to list view',
+  'Delivery': 'Delivery',
+  'Pickup in store': 'Pickup in store',
+  'Free': 'Free',
+  'Select Channel': 'Select Channel'
 };

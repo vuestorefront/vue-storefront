@@ -1,7 +1,7 @@
-# Vue Storefront Next x Commerctools Module
+# Vue Storefront Next x Commercetools Module
 ## How to install
 1. Open `nuxt.config.js`
-2. At the bottom of `buildModules` add:
+2. Inside `buildModules`, line before `@vue-storefront/nuxt` add:
 ```js
 ['@vue-storefront/commercetools/nuxt', {
     api: {
@@ -50,7 +50,7 @@
 }]
 ```
 
-## Generate token middleware 
+## Generate token middleware
 Commercetools nuxt module injects [middleware](https://github.com/DivanteLtd/vue-storefront/blob/next/packages/commercetools/composables/nuxt/token-middleware.js) that is responsible for createing/refreshing token if needed - when user refreshes page. In some rare case, you might want to disable [this middleware](https://github.com/DivanteLtd/vue-storefront/blob/next/packages/commercetools/composables/nuxt/token-middleware.js). If so, add `disableGenerateTokenMiddleware` to the `@vue-storefront/commercetools/nuxt`'s options module in `buildModules`:
 ```js
 ['@vue-storefront/commercetools/nuxt', {

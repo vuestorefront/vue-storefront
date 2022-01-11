@@ -23,7 +23,7 @@
         class="table__row"
       >
         <SfTableData class="table__image">
-          <SfImage :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
+          <SfImage :src="addBasePath(cartGetters.getItemImage(product))" :alt="cartGetters.getItemName(product)" />
         </SfTableData>
         <SfTableData class="table__data table__description table__data">
           <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
@@ -73,16 +73,15 @@
           </template>
         </SfCheckbox>
 
-        <div class="summary__action">
+        <div v-e2e="'payment-summary-buttons'" class="summary__action">
           <SfButton
             type="button"
             class="sf-button color-secondary summary__back-button"
-            @click="$router.push('/checkout/billing')"
+            @click="router.push('/checkout/billing')"
           >
             {{ $t('Go back') }}
           </SfButton>
           <SfButton
-            v-e2e="'make-an-order'"
             :disabled="loading || !isPaymentReady || !terms"
             class="summary__action-button"
             @click="processOrder"
@@ -110,8 +109,9 @@ import {
   SfLink
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
-import { ref, computed } from '@vue/composition-api';
-import { useMakeOrder, useCart, cartGetters } from '<%= options.generate.replace.composables %>';
+import { ref, computed, useRouter } from '@nuxtjs/composition-api';
+import { useMakeOrder, useCart, cartGetters, orderGetters } from '<%= options.generate.replace.composables %>';
+import { addBasePath } from '@vue-storefront/core';
 
 export default {
   name: 'ReviewOrder',
@@ -130,6 +130,7 @@ export default {
     VsfPaymentProvider: () => import('~/components/Checkout/VsfPaymentProvider')
   },
   setup(props, context) {
+    const router = useRouter();
     const { cart, load, setCart } = useCart();
     const { order, make, loading } = useMakeOrder();
 
@@ -142,11 +143,14 @@ export default {
 
     const processOrder = async () => {
       await make();
-      context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
+      const thankYouPath = { name: 'thank-you', query: { order: orderGetters.getId(order.value) }};
+      router.push(context.root.localePath(thankYouPath));
       setCart(null);
     };
 
     return {
+      addBasePath,
+      router,
       isPaymentReady,
       terms,
       loading,

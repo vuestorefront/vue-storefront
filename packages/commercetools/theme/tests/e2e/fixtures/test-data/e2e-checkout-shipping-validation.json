@@ -12,7 +12,7 @@
           "firstName": "Jane",
           "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
-          "apartment": "13/37",
+          "streetNumber": "13/37",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
@@ -39,7 +39,7 @@
           "firstName": "Jane",
           "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
-          "apartment": "13/37",
+          "streetNumber": "13/37",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
@@ -62,7 +62,7 @@
         "shipping": {
           "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
-          "apartment": "13/37",
+          "streetNumber": "13/37",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
@@ -85,7 +85,7 @@
         "shipping": {
           "firstName": "Jane",
           "streetName": "Vuestorefront Rd.",
-          "apartment": "13/37",
+          "streetNumber": "13/37",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
@@ -108,7 +108,7 @@
         "shipping": {
           "firstName": "Jane",
           "lastName": "Doe",
-          "apartment": "13/37",
+          "streetNumber": "13/37",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
@@ -119,7 +119,7 @@
     },
     "errorMessage": "Please fill out this field." 
   },
-  "Should display an error - Apartment empty": {
+  "Should display an error - Street Number empty": {
     "product": {
       "name": "Shirt Aspesi white M",
       "id": 1,
@@ -155,7 +155,7 @@
           "firstName": "Jane",
           "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
-          "apartment": "13/37",
+          "streetNumber": "13/37",
           "state": "California",
           "country": "United States",
           "postalCode": "90001",
@@ -178,7 +178,7 @@
           "firstName": "Jane",
           "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
-          "apartment": "13/37",
+          "streetNumber": "13/37",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
@@ -201,7 +201,7 @@
           "firstName": "Jane",
           "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
-          "apartment": "13/37",
+          "streetNumber": "13/37",
           "city": "Los Angeles",
           "state": "California",
           "country": "United States",
@@ -224,7 +224,7 @@
           "firstName": "Jane",
           "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
-          "apartment": "13/37",
+          "streetNumber": "13/37",
           "city": "Los Angeles",
           "postalCode": "90001",
           "phone": "+12345678910"
@@ -246,7 +246,7 @@
           "firstName": "Jane",
           "lastName": "Doe",
           "streetName": "Vuestorefront Rd.",
-          "apartment": "13/37",
+          "streetNumber": "13/37",
           "city": "Los Angeles",
           "country": "United States",
           "postalCode": "90001",

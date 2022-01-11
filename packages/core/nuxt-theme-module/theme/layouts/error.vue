@@ -2,7 +2,7 @@
   <div id="error">
     <SfImage
       class="image"
-      src="/error/error.svg"
+      :src="addBasePath('/error/error.svg')"
       alt="leaves"
     />
     <SfHeading
@@ -15,20 +15,32 @@
       <SfButton link="/" class="sf-button--full-width actions__button">
         Return home
       </SfButton>
-      <SfButton class="sf-button--full-width sf-button--text actions__button" @click="$router.go(-1)">
+      <SfButton class="sf-button--full-width sf-button--text actions__button" @click="router.go(-1)">
         Back
       </SfButton>
     </div>
   </div>
 </template>
 <script>
+import { useRouter } from '@nuxtjs/composition-api';
 import { SfButton, SfImage, SfHeading } from '@storefront-ui/vue';
+import { addBasePath } from '@vue-storefront/core';
+
 export default {
   name: 'ErrorLayout',
 
   props: ['error'],
 
-  components: { SfButton, SfImage, SfHeading }
+  components: { SfButton, SfImage, SfHeading },
+
+  setup() {
+    const router = useRouter();
+
+    return {
+      router,
+      addBasePath
+    };
+  }
 };
 </script>
 <style lang="scss" scoped>

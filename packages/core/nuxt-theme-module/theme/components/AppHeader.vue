@@ -7,8 +7,8 @@
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
-        <nuxt-link :to="localePath('/')" class="sf-header__logo">
-          <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
+        <nuxt-link :to="localePath({ name: 'home' })" class="sf-header__logo">
+          <SfImage :src="addBasePath('/icons/logo.svg')" alt="Vue Storefront Next" class="sf-header__logo-image"/>
         </nuxt-link>
       </template>
       <template #navigation>
@@ -18,10 +18,10 @@
         <LocaleSelector class="smartphone-only" />
       </template>
       <template #header-icons>
-        <div class="sf-header__icons">
+        <div v-e2e="'header-icons'" class="sf-header__icons">
           <SfButton
-            v-e2e="'app-header-account'"
             class="sf-button--pure sf-header__action"
+            aria-label="Open account button"
             @click="handleAccountClick"
           >
             <SfIcon
@@ -31,6 +31,7 @@
           </SfButton>
           <SfButton
             class="sf-button--pure sf-header__action"
+            aria-label="Toggle wishlist sidebar"
             @click="toggleWishlistSidebar"
           >
             <SfIcon
@@ -40,8 +41,8 @@
             />
           </SfButton>
           <SfButton
-            v-e2e="'app-header-cart'"
             class="sf-button--pure sf-header__action"
+            aria-label="Toggle cart sidebar"
             @click="toggleCartSidebar"
           >
             <SfIcon
@@ -69,6 +70,7 @@
           <template #icon>
             <SfButton
               v-if="!!term"
+              aria-label="Close search"
               class="sf-search-bar__button sf-button--pure"
               @click="closeOrFocusSearchBar"
             >
@@ -78,6 +80,7 @@
             </SfButton>
             <SfButton
               v-else
+              aria-label="Open search"
               class="sf-search-bar__button sf-button--pure"
               @click="isSearchOpen ? isSearchOpen = false : isSearchOpen = true"
             >
@@ -89,7 +92,13 @@
         </SfSearchBar>
       </template>
     </SfHeader>
-    <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" @removeSearchResults="removeSearchResults" />
+    <SearchResults
+      :visible="isSearchOpen"
+      :result="result"
+      :term="term"
+      @close="closeSearch"
+      @removeSearchResults="removeSearchResults"
+    />
     <SfOverlay :visible="isSearchOpen" />
   </div>
 </template>
@@ -98,7 +107,7 @@
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
-import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
+import { computed, ref, watch, onBeforeUnmount, useRouter } from '@nuxtjs/composition-api';
 import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';
 import SearchResults from '~/components/SearchResults';
@@ -110,6 +119,7 @@ import {
 } from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 import debounce from 'lodash.debounce';
 import mockedSearchProducts from '../mockedSearchProducts.json';
+import { addBasePath } from '@vue-storefront/core';
 
 export default {
   components: {
@@ -126,14 +136,16 @@ export default {
   },
   directives: { clickOutside },
   setup(props, { root }) {
+    const router = useRouter();
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, isMobileMenuOpen } = useUiState();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
-    const { isAuthenticated, load: loadUser } = useUser();
+    const { isAuthenticated } = useUser();
     const { cart } = useCart();
     const term = ref(getFacetsFromURL().phrase);
     const isSearchOpen = ref(false);
     const searchBarRef = ref(null);
     const result = ref(null);
+    const isMobile = ref(mapMobileObserver().isMobile.get());
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -142,19 +154,20 @@ export default {
 
     const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
 
-    loadUser();
-
     // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
-        return root.$router.push('/my-account');
+        const localeAccountPath = root.localePath({ name: 'my-account' });
+        return router.push(localeAccountPath);
       }
 
       toggleLoginModal();
     };
 
     const closeSearch = () => {
-      if (!isSearchOpen.value) return;
+      const wishlistClassName = 'sf-product-card__wishlist-icon';
+      const isWishlistIconClicked = event.path.find(p => wishlistClassName.search(p.className) > 0);
+      if (isWishlistIconClicked || !isSearchOpen.value) return;
 
       term.value = '';
       isSearchOpen.value = false;
@@ -169,8 +182,6 @@ export default {
       result.value = mockedSearchProducts;
 
     }, 1000);
-
-    const isMobile = computed(() => mapMobileObserver().isMobile.get());
 
     const closeOrFocusSearchBar = () => {
       if (isMobile.value) {
@@ -212,7 +223,8 @@ export default {
       searchBarRef,
       isMobile,
       isMobileMenuOpen,
-      removeSearchResults
+      removeSearchResults,
+      addBasePath
     };
   }
 };
@@ -225,7 +237,7 @@ export default {
     --header-padding: 0;
   }
   &__logo-image {
-      height: 100%;
+    height: 100%;
   }
 }
 .header-on-top {

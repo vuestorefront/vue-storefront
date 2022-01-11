@@ -23,12 +23,12 @@
                 v-for="product in products"
                 v-e2e="'collected-product'"
                 :key="cartGetters.getItemSku(product)"
-                :image="cartGetters.getItemImage(product)"
+                :image="addBasePath(cartGetters.getItemImage(product))"
                 :title="cartGetters.getItemName(product)"
                 :regular-price="$n(cartGetters.getItemPrice(product).regular, 'currency')"
                 :special-price="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
                 :stock="99999"
-                @click:remove="removeItem({ product })"
+                @click:remove="removeItem({ product: { id: product.id } })"
                 class="collected-product"
               >
                 <template #configuration>
@@ -47,10 +47,12 @@
                       :disabled="loading"
                       :qty="cartGetters.getItemQty(product)"
                       class="sf-collected-product__quantity-selector"
-                      @input="updateItemQty({ product, quantity: $event })"
+                      @input="updateQuantity({ product: { id: product.id }, quantity: Number($event) })"
                     />
                   </div>
                 </template>
+                <!-- @TODO: remove if https://github.com/vuestorefront/storefront-ui/issues/2022 is done -->
+                <template #more-actions>{{  }}</template>
               </SfCollectedProduct>
             </transition-group>
           </div>
@@ -60,7 +62,7 @@
             <SfImage
               alt="Empty bag"
               class="empty-cart__image"
-              src="/icons/empty-cart.svg"
+              :src="addBasePath('/icons/empty-cart.svg')"
             />
             <SfHeading
               title="Your cart is empty"
@@ -86,9 +88,8 @@
                 />
               </template>
             </SfProperty>
-            <nuxt-link to="/checkout/shipping">
+            <nuxt-link :to="localePath({ name: 'shipping' })">
               <SfButton
-                v-e2e="'go-to-checkout-btn'"
                 class="sf-button--full-width color-secondary"
                 @click="toggleCartSidebar"
               >
@@ -120,9 +121,11 @@ import {
   SfImage,
   SfQuantitySelector
 } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
-import { useCart, useUser, cartGetters } from '<%= options.generate.replace.composables %>';
+import { computed } from '@nuxtjs/composition-api';
+import { useCart, cartGetters } from '<%= options.generate.replace.composables %>';
 import { useUiState } from '~/composables';
+import debounce from 'lodash.debounce';
+import { addBasePath } from '@vue-storefront/core';
 
 export default {
   name: 'Cart',
@@ -139,20 +142,21 @@ export default {
   },
   setup() {
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
-    const { cart, removeItem, updateItemQty, load: loadCart, loading } = useCart();
-    const { isAuthenticated } = useUser();
+    const { cart, removeItem, updateItemQty, loading } = useCart();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
 
-    loadCart();
+    const updateQuantity = debounce(async ({ product, quantity }) => {
+      await updateItemQty({ product, quantity });
+    }, 500);
 
     return {
+      addBasePath,
+      updateQuantity,
       loading,
-      isAuthenticated,
       products,
       removeItem,
-      updateItemQty,
       isCartSidebarOpen,
       toggleCartSidebar,
       totals,

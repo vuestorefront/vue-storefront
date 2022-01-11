@@ -22,10 +22,10 @@ context(['regression'], 'User login', () => {
     page.home.header.openLoginModal();
     page.components.loginModal.loginToAccountButton.click();
     page.components.loginModal.fillForm(data.customer);
-    page.components.loginModal.loginBtn.click();
+    page.components.loginModal.loginButton.click();
     page.components.loginModal.container.should('not.exist');
     page.home.header.account.click();
-    page.myAccount.sidebar.heading.should('be.visible');
+    page.myAccount.myProfile.heading.should('be.visible');
   });
 
   it('Incorrect credentials - should display an error', function () {
@@ -35,7 +35,7 @@ context(['regression'], 'User login', () => {
     page.home.header.openLoginModal();
     page.components.loginModal.loginToAccountButton.click();
     page.components.loginModal.fillForm(data.customer);
-    page.components.loginModal.loginBtn.click();
+    page.components.loginModal.loginButton.click();
     page.components.loginModal.container.contains(data.errorMessage).should('be.visible');
   });
 });

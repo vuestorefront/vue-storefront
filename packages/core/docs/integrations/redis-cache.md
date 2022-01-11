@@ -1,12 +1,12 @@
 # Redis cache <Badge text="Enterprise" type="info" />
 
 ::: warning Paid feature
-This feature is part of the Enterprise version. Please [contact our team](https://www.vuestorefront.io/contact/sales) if you'd like to use it in your project.
+This feature is part of the Enterprise version. Please [contact our Sales team](https://www.vuestorefront.io/contact/sales) if you'd like to use it in your project.
 :::
 
 ## Introduction
 
-This package provides integration with [Redis](https://redis.io/). For more information about this topic, please refer to [SSR Cache](../advanced/ssr-cache.md) page.
+This package provides integration with [Redis](https://redis.io/). For more information about this topic, please refer to [SSR Cache](../performance/ssr-cache.md) page.
 
 ## Installation
 
@@ -46,7 +46,7 @@ export default {
 
 We can break down package configuration into two pieces:
 
-* `invalidation` - please refer to [SSR Cache configuration](../advanced/ssr-cache.md) page.
+* `invalidation` - please refer to [SSR Cache configuration](../performance/ssr-cache.md) page.
 * `driver` - object containing:
   * `defaultTimeout` - number of seconds until records expire, even if not invalidated;
   * `redis` - object directly passed to [ioredis](https://github.com/luin/ioredis/blob/master/API.md#new-redisport-host-options);

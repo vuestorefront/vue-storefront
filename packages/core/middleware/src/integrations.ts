@@ -17,25 +17,47 @@ interface IntegrationLoaded {
 
 type IntegrationsLoaded = Record<string, IntegrationLoaded>
 
-const createRawExtensions = (apiClient: ApiClientFactory, integration: Integration): ApiClientExtension[] => {
-  const extensionsCreateFn = integration.extensions;
-  const predefinedExtensions = (apiClient.createApiClient as any)._predefinedExtensions;
-  return extensionsCreateFn ? extensionsCreateFn(predefinedExtensions) : predefinedExtensions;
-};
-
-const lookUpExternal = (curr: string | ApiClientExtension): ApiClientExtension[] =>
-  // eslint-disable-next-line global-require
-  typeof curr === 'string' ? require(curr) : [curr];
-
-const createExtensions = (rawExtensions: ApiClientExtension[]): ApiClientExtension[] => rawExtensions
-  .reduce((prev, curr) => [...prev, ...lookUpExternal(curr)], []);
-
-const registerIntegrations = (app: Express, integrations: IntegrationsSection): IntegrationsLoaded =>
-  Object.entries<Integration>(integrations).reduce((prev, [tag, integration]) => {
-    consola.info(`- Loading: ${tag} ${integration.location}`);
+/**
+ * Resolves dependencies based on the current working directory, not relative to this package.
+ */
+function resolveDependency<T>(name: string): T {
+  try {
+    const path = require.resolve(name, { paths: [process.cwd()] });
 
     // eslint-disable-next-line global-require
-    const apiClient: ApiClientFactory = require(integration.location);
+    return require(path);
+  } catch (error) {
+    throw new Error(`Could not resolve integration :${name}"`);
+  }
+}
+
+function createRawExtensions(apiClient: ApiClientFactory, integration: Integration): ApiClientExtension[] {
+  const extensionsCreateFn = integration.extensions;
+  const predefinedExtensions = (apiClient.createApiClient as any)._predefinedExtensions;
+
+  return extensionsCreateFn
+    ? extensionsCreateFn(predefinedExtensions)
+    : predefinedExtensions;
+}
+
+function lookUpExternal(extension: string | ApiClientExtension): ApiClientExtension[] {
+  return typeof extension === 'string'
+    ? resolveDependency<ApiClientExtension[]>(extension)
+    : [extension];
+}
+
+function createExtensions(rawExtensions: ApiClientExtension[]): ApiClientExtension[] {
+  return rawExtensions.reduce((prev, curr) => [
+    ...prev,
+    ...lookUpExternal(curr)
+  ], []);
+}
+
+function registerIntegrations(app: Express, integrations: IntegrationsSection): IntegrationsLoaded {
+  return Object.entries<Integration>(integrations).reduce((prev, [tag, integration]) => {
+    consola.info(`- Loading: ${tag} ${integration.location}`);
+
+    const apiClient: ApiClientFactory = resolveDependency<ApiClientFactory>(integration.location);
     const rawExtensions: ApiClientExtension[] = createRawExtensions(apiClient, integration);
     const extensions: ApiClientExtension[] = createExtensions(rawExtensions);
 
@@ -59,5 +81,6 @@ const registerIntegrations = (app: Express, integrations: IntegrationsSection): 
       }
     };
   }, {});
+}
 
 export { registerIntegrations };
