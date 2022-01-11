@@ -46,6 +46,10 @@
     "test:e2e:ct:generate:report": "cd packages/commercetools/theme && yarn run test:e2e:generate:report",
     "test:e2e:ct:hl": "cd packages/commercetools/theme && yarn run test:e2e:hl"
   },
+  "dependencies": {
+    "glob-parent": "5.1.2",
+    "trim-newlines": "3.0.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@commitlint/cli": "^13.1.0",
@@ -71,6 +75,7 @@
     "jest": "^27.0.6",
     "lerna": "^3.15.0",
     "lint-staged": "^10.0.7",
+    "node-gyp": "^8.4.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.59.0",
     "rollup-plugin-terser": "^7.0.2",
@@ -105,8 +110,16 @@
   "engines": {
     "node": ">=12.x"
   },
-  "resoutions": {
-    "glob-parent": "^>=5.1.2",
-    "trim-newlines": "^>=3.0.1"
+  "resolutions": {
+    "chokidar": "^3.5.2",
+    "consola": "^2.15.3",
+    "core-js": "^3.15.1",
+    "fsevents": "^2.3.2",
+    "glob-parent": "5.1.2",
+    "trim-newlines": "3.0.1"
+  },
+  "installConfig": {
+    "hoistingLimits": "none",
+    "selfReferences": true
   }
 }
