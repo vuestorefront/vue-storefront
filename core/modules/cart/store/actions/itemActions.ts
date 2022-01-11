@@ -9,6 +9,8 @@ import {
 } from '@vue-storefront/core/modules/cart/helpers'
 import { cartHooksExecutors } from './../../hooks'
 import config from 'config'
+import { ServerResponse } from '../../types/DiffLog'
+import ServerError from 'src/modules/shared/types/server-error'
 
 const itemActions = {
   async configureItem (context, { product, configuration }) {
@@ -44,6 +46,13 @@ const itemActions = {
     const result = await dispatch('addItems', { productsToAdd: prepareProductsToAdd(cartItem), forceServerSilence })
     commit(types.CART_ADDING_ITEM, { isAdding: false })
     cartHooksExecutors.afterAddToCart(result)
+
+    result.serverResponses.forEach((response: ServerResponse) => {
+      if (response.status.toString() !== '200') {
+        throw new ServerError(response.result.result);
+      }
+    })
+
     return result
   },
   async checkProductStatus ({ dispatch, getters }, { product }) {
