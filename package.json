@@ -104,5 +104,9 @@
   },
   "engines": {
     "node": ">=12.x"
+  },
+  "resoutions": {
+    "glob-parent": "^>=5.1.2",
+    "trim-newlines": "^>=3.0.1"
   }
 }
