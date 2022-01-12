@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/boilerplate",
-  "version": "2.5.3",
+  "version": "2.5.4",
   "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
@@ -13,8 +13,8 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/boilerplate-api": "~2.5.3",
-    "@vue-storefront/core": "~2.5.3"
+    "@vue-storefront/boilerplate-api": "~2.5.4",
+    "@vue-storefront/core": "~2.5.4"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.0.6",

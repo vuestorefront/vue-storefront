@@ -59,7 +59,7 @@ module.exports = {
          }
        ]
      });
-  
+
     // Fix image loading. Ref: https://github.com/vuejs/vue-loader/issues/1612#issuecomment-559366730
     config.module.rules = config.module.rules.map((rule) => {
       rule.use = rule.use && rule.use.map((useRule) => {
@@ -194,6 +194,13 @@ module.exports = {
           ['/reference/api/', 'API Reference'],
           ['/reference/migrate/', 'Migration guide'],
           ['/reference/changelog', 'Changelog']
+        ]
+      },
+      {
+        title: 'Community',
+        collapsable: true,
+        children: [
+          ['/community/sponsorship-program', '✍️ Sponsorship Program'],
         ]
       },
       {
