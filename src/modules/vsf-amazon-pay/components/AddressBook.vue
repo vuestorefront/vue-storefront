@@ -4,7 +4,7 @@
 
 <script>
 import config from 'config'
-import { KEY } from '../index'
+import { KEY, METHOD_CODE } from '../index'
 import * as types from '../store/mutation-types'
 import * as states from '../store/order-states'
 
@@ -125,9 +125,12 @@ export default {
 
           if (response.result.Destination.DestinationType === 'Physical') {
             let name = response.result.Destination.PhysicalDestination.Name.split(' ', 2)
+            let firstName = name[0]
+            let lastName = name.length > 1 ? name[1] : ''
+
             let address = {
-              firstName: name[0],
-              lastName: name.length > 1 ? name[1] : '',
+              firstName: firstName,
+              lastName: lastName,
               country: response.result.Destination.PhysicalDestination.CountryCode,
               state: response.result.Destination.PhysicalDestination.StateOrRegion,
               city: response.result.Destination.PhysicalDestination.City,
@@ -140,7 +143,7 @@ export default {
             if (this.savePaymentDetails) {
               let payment = {
                 ...address,
-                paymentMethod: this.checkoutPaymentDetails.paymentMethod,
+                paymentMethod: METHOD_CODE,
                 paymentMethodAdditional: this.checkoutPaymentDetails.paymentMethodAdditional
               }
               this.$store.dispatch('checkout/savePaymentDetails', payment)
@@ -154,6 +157,13 @@ export default {
               }
               this.$store.dispatch('checkout/saveShippingDetails', shipping)
             }
+
+            let personalDetails = {
+              firstName: firstName,
+              lastName: lastName,
+              emailAddress: this.$store.getters['budsies/getPrefilledCustomerEmail']
+            }
+            this.$store.dispatch('checkout/savePersonalDetails', personalDetails);
           }
         })
       }
