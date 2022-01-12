@@ -78,5 +78,4 @@ To install Vetur extension:
 
 ## What's next?
 
-- Learn about [key concepts in Vue Storefront](../getting-started/key-concepts.html) to confidently work with your newly created Vue Storefront project.
-- Check out the platform-specific docs in the `eCommerce platforms` category to learn more about your integration.
+If you want to learn more, check out the [Introduction to Vue Storefront](/getting-started/introduction.html). You can also check the platform-specific documentation on the [Integrations](../integrations) page.
