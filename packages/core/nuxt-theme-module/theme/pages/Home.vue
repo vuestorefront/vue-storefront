@@ -10,6 +10,11 @@
           :background="hero.background"
           :image="hero.image"
           :class="hero.className"
+          image-tag="nuxt-img"
+          :nuxtImgConfig="{
+            format: 'webp',
+            fit: 'cover',
+          }"
         />
       </SfHero>
     </LazyHydrate>
@@ -26,6 +31,11 @@
             :link="localePath(item.link)"
             :image="item.image"
             :class="item.class"
+            image-tag="nuxt-img"
+            :nuxtImgConfig="{
+              format: 'webp',
+              fit: 'cover',
+            }"
           />
         </template>
       </SfBannerGrid>
@@ -243,10 +253,7 @@ export default {
         description:
           'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
         buttonText: 'Shop now',
-        image: {
-          mobile: addBasePath($config.theme.home.bannerA.image.mobile),
-          desktop: addBasePath($config.theme.home.bannerA.image.desktop)
-        },
+        image: addBasePath($config.theme.home.bannerA.image.desktop),
         class: 'sf-banner--slim desktop-only',
         link: $config.theme.home.bannerA.link
       },
