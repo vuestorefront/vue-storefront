@@ -113,7 +113,7 @@ export default {
 };
 ```
 
-## Changing router base property
+## Changing base path
 
 There are cases when your store is served under a specific path, eg. `example.com/shop/`. To make Vue.js router aware of this, you need to update the configuration in the `nuxt.config.js`:
 
