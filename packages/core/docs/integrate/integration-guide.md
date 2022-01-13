@@ -1,4 +1,4 @@
-# Integrating eCommerce platform
+# Integrating e-commerce platform
 
 :::danger Don't forget to reload the application
 The application does not reload automatically after saving the changes in Server Middleware. Due to this, you have to restart the application manually. We are working on enabling Hot Reloading in future updates.
@@ -10,7 +10,7 @@ If you want to integrate with Vue Storefront, don't hesitate to get in touch wit
 
 ## Introduction
 
-Integrating an eCommerce platform with Vue Storefront sounds scary. Luckily, many of our partners and community members with different seniority levels have successfully done it. We are sure that even without prior experience with Vue Storefront, you can too.
+Integrating an e-commerce platform with Vue Storefront sounds scary. Luckily, many of our partners and community members with different seniority levels have successfully done it. We are sure that even without prior experience with Vue Storefront, you can too.
 
 This document will guide you through the process of creating integration and explain the concepts behind Vue Storefront.
 
@@ -25,7 +25,7 @@ Before we get started, make sure that:
 
 ## Project structure
 
-To make it easy to get started, we created an [eCommerce integration boilerplate](https://github.com/vuestorefront/ecommerce-integration-boilerplate).
+To make it easy to get started, we created an [e-commerce integration boilerplate](https://github.com/vuestorefront/ecommerce-integration-boilerplate).
 
 It's a monorepo, which is a single repository containing multiple related projects. Each directory inside `packages` contains one project. There are three projects:
 
@@ -35,7 +35,7 @@ It's a monorepo, which is a single repository containing multiple related projec
 
 ### API client
 
-`api-client` is the **_server layer_** that extends our [Server Middleware](../architecture/server-middleware.html). It creates an API client (like `Apollo` for GraphQL or `Axios` for plain HTTP) that communicates with your eCommerce platform. It acts as a proxy between the users and the platform.
+`api-client` is the **_server layer_** that extends our [Server Middleware](../architecture/server-middleware.html). It creates an API client (like `Apollo` for GraphQL or `Axios` for plain HTTP) that communicates with your e-commerce platform. It acts as a proxy between the users and the platform.
 
 Here, you will create new endpoints that accept parameters sent from the frontend and use them to fetch or submit data to the platform.
 
@@ -78,7 +78,7 @@ API of your platform should have endpoints for most of these operations unless s
 
 ### Fork boilerplate repository
 
-Now that we explained the basics, let's start creating an integration. Open the [eCommerce integration boilerplate repository](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and click the `Use this template` button. This creates a copy of a repository and allows you to make changes without affecting the original project. Enter the name of the new repository and click `Create repository from template`.
+Now that we explained the basics, let's start creating an integration. Open the [e-commerce integration boilerplate repository](https://github.com/vuestorefront/ecommerce-integration-boilerplate) and click the `Use this template` button. This creates a copy of a repository and allows you to make changes without affecting the original project. Enter the name of the new repository and click `Create repository from template`.
 
 Once the new repository is ready, clone it locally.
 
@@ -106,7 +106,7 @@ Since we are mocking all functionalities in the boilerplate, different parts of 
 
 ## Connect to the platform
 
-Let's start by creating an API client that will communicate with the eCommerce platform. As mentioned above, the `api-client` does precisely that, so this is the project to update.
+Let's start by creating an API client that will communicate with the e-commerce platform. As mentioned above, the `api-client` does precisely that, so this is the project to update.
 
 ### Structure of the `api-client` project
 
@@ -117,7 +117,7 @@ You will see only two files and one empty directory when you open the `packages/
 
 ### Add API client
 
-API client is a library that handles sending requests to the eCommerce platform and parsing its responses.
+API client is a library that handles sending requests to the e-commerce platform and parsing its responses.
 
 :::warning
 Examples below use `axios` to handle HTTP requests. However, you can use other libraries if your platform uses GraphQL or has dedicated clients.
@@ -164,7 +164,7 @@ module.exports = {
       location: '@sloth/api/server', // name of your api-client package followed by `/server`
       configuration: {
         api: {
-          url: '' // URL of your eCommerce platform
+          url: '' // URL of your e-commerce platform
         }
       }
     }
@@ -246,7 +246,7 @@ As mentioned in [Project structure](#project-structure) section, `api-client` is
 While this might be true for simple scenarios, it doesn't scale well. Some of the benefits of using such proxy are:
 
 - **Caching** - selected responses can be cached to improve the performance significantly. While it's possible to do caching in the browser, each customer would have to make at least one request to a given endpoint.
-- **Lower cost** - when responses are cached, fewer requests are sent to the eCommerce platform. Depending on the provider, it might reduce the cost.
+- **Lower cost** - when responses are cached, fewer requests are sent to the e-commerce platform. Depending on the provider, it might reduce the cost.
 - **Smaller bundle** - with all the clients installed and configured on the server, the final bundle sent to the browsers can be much smaller. This is especially true for APIs based on GraphQL.
 - **Security** - API configuration, secrets, and keys are stored on the server and are not sent to the browser.
 
