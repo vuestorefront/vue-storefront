@@ -113,6 +113,41 @@ export default {
 };
 ```
 
+## Changing base path
+
+There are cases when your store is served under a specific path, eg. `example.com/shop/`. To make Vue.js router aware of this, you need to update the configuration in the `nuxt.config.js`:
+
+```javascript
+// nuxt.config.js
+
+export default {
+  router: {
+    base: "/shop/"
+  }
+};
+```
+
+Unfortunately not all links in your application will detect this. You can fix it, by wrap all relative links and paths to assets in `addBasePath` helper.
+
+```vue
+<template>
+  <SfImage :src="addBasePath('/imageA.webp')" />
+  <SfBanner :image="addBasePath('/bannerB.png')" />
+</template>
+
+<script>
+import { addBasePath } from '@vue-storefront/core';
+
+export default {
+  setup() {
+    return {
+      addBasePath
+    };
+  }
+};
+</script>
+```
+
 ## Navigating between pages
 
 To navigate between pages within your application, use the [NuxtLink](https://nuxtjs.org/docs/features/nuxt-components/#the-nuxtlink-component) component, instead of the traditional `<a>` tag. While you can use the `<a>` tag for external links, using the `<NuxtLink />` for internal links will ensure that you make use of the Single-Page Navigation capabilities that Nuxt.js provides.
