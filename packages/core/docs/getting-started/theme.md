@@ -17,17 +17,25 @@ Every new Vue Storefront project comes with a set of preinstalled Nuxt.js module
 #### Nuxt.js modules and plugins
 
 - [`@nuxt/typescript-build`](https://typescript.nuxtjs.org/) - for TypeScript support,
+
 - [`@nuxtjs/pwa`](https://pwa.nuxtjs.org/) - for PWA functionalities,
+
 - [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/) - for Composition API support,
+
 - [`@nuxtjs/style-resources`](https://www.npmjs.com/package/@nuxtjs/style-resources) - for importing SASS variables globally,
+
 - [`nuxt-i18n`](https://i18n-legacy.nuxtjs.org/) - for internationalization (translations and price formatting),
+
 - [`nuxt-purgecss`](https://purgecss.com/guides/nuxt.html) - for removing unused CSS from the final build,
+
 - [`cookie-universal-nuxt`](https://www.npmjs.com/package/cookie-universal-nuxt) - for handling cookies on the server (SSR) and client (browser).
 
 #### Vue.js libraries
 
 - [`vee-validate`](https://vee-validate.logaretm.com/v3) - for frontend form validation,
+
 - [`vue-scrollto/nuxt`](https://www.npmjs.com/package/vue-scrollto) - for smooth scrolling to HTML elements,
+
 - [`vue-lazy-hydration`](https://www.npmjs.com/package/vue-lazy-hydration) - for delaying hydration and improving performance.
 
 ### Storefront UI

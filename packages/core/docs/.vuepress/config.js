@@ -130,9 +130,9 @@ module.exports = {
         children: [
           ['/getting-started/introduction', 'Introduction'],
           ['/getting-started/project-structure', 'Project structure'],
+          ['/getting-started/configuration', 'Configuration'],
           ['/getting-started/layouts-and-routing', 'Layouts and Routing'],
           ['/getting-started/theme', 'Theme'],
-          ['/getting-started/configuration', 'Configuration'],
           ['/getting-started/internationalization', 'Internationalization'],
           ['/getting-started/logging', 'Logging'],
           // ['/', 'Glossary']

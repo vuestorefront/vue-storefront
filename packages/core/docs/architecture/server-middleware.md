@@ -36,7 +36,7 @@ module.exports = {
         // other extensions
       ],
       configuration: {},
-      customQueryes: {}
+      customQueries: {}
     }
   }
 };
