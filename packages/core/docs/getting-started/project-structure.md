@@ -24,26 +24,10 @@ To learn about it in-depth, you can refer to the [Directory Structure in Nuxt.js
 
 * [**static**](https://nuxtjs.org/docs/2.x/directory-structure/static) contains files that likely won't change, such as favicon, `robots.txt`, sitemap, or company logos.
 
-* [**middleware.config.js**](/architecture/server-middleware.html#configuration) configuration file for the [Server Middleware](/architecture/server-middleware.html). It defines and configures most of the platform integrations in your application.
-
-* [**nuxt.config.js**](https://nuxtjs.org/docs/2.x/directory-structure/nuxt-config) configuration file for the whole Nuxt.js application.
+* **middleware.config.js** and **nuxt.config.js** configurations file are described in detail in the [Configuration](./configuration.html) document.
 
 Some integrations can have slightly different structures, with more or fewer files and directories. For more information, refer to the Nuxt.js documentation linked above and integration documentation.
 
-## Start with the `nuxt.config.js` file
-
-<q>
-
-Whenever starting a new project or jumping into an existing one, the first place you should look into is the `nuxt.config.js` file. It contains general configuration for the whole project, including routes, global middlewares, internationalization, or build information.
-
-</q>
-
-In the `nuxt.config.js` file, we also define modules and plugins we want to use to add or extend framework features. Because almost every Vue Storefront integration has them, you can identify which integrations are used by looking at this file.
-
-## Then move to the `middleware.config.js` file
-
-After the `nuxt.config.js` file, the next step is the `middleware.config.js` file. It's a much simpler and likely smaller file than the previous one. It configures the [Server Middleware](/architecture/server-middleware.html) and has a configuration including sensitive credentials for most integrations as well as custom endpoints, queries, etc.
-
 ## What's next
 
-With a basic understanding of the project structure, we can learn about [Layouts and Routing](./layouts-and-routing.html). We will show what routes come predefined in every Vue Storefront project and how to register custom ones.
+With a basic understanding of the project structure, it's time to learn about the [Configuration](./configuration.html) files that control the application and installed integrations. They are a crucial part of every Vue Storefront application.
