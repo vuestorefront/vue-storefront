@@ -40,4 +40,4 @@ The next step in the learning process is reading [Nuxt.js documentation](https:/
 
 ## What's next
 
-With fundamentals out of our way, it's time to undestand the [Project structure](./project-structure.html) and learn how to navigate it and which files do what.
+Now that we understand what Vue Storefront is, it's time to understand the [Project structure](./project-structure.html) and learn how to navigate it and which files do what.
