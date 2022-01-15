@@ -21,7 +21,7 @@ export const actions: ActionTree<PaymentAffirmState, RootState> = {
       silent: true
     });
 
-    return task.result;
+    return JSON.parse(task.result);
   },
   async checkIsPaymentMethodAvailable ({ dispatch }): Promise<boolean> {
     let url = processURLAddress(`${config.budsies.endpoint}/affirm/is-payment-method-available?token={{token}}&cartId={{cartId}}`);
@@ -67,6 +67,6 @@ export const actions: ActionTree<PaymentAffirmState, RootState> = {
     }
 
     paymentMethods.splice(affirmMethodIndex, 1);
-    dispatch('checkout/setPaymentMethods', paymentMethods, { root: true });
+    dispatch('checkout/replacePaymentMethods', paymentMethods, { root: true });
   }
 }

@@ -48,8 +48,8 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store }) {
         order.checkout_token = checkoutToken;
       }
 
-      const onCountryUpdateHandler = () => {
-        store.dispatch('affirm/checkIsPaymentMethodAvailable')
+      const onCountryUpdateHandler = async () => {
+        await store.dispatch('affirm/checkIsPaymentMethodAvailable')
       }
 
       EventBus.$on('checkout-before-placeOrder', invokePlaceOrder);
