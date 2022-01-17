@@ -15,7 +15,14 @@ const useMakeOrderFactoryParams = {
 
   make: async (context: Context, { customQuery }): Promise<Order> => {
     const { id, version } = context.cart.cart.value;
-    const response = await context.$ct.api.createMyOrderFromCart({ id, version }, customQuery);
+    // TODO fix type in @vue-storefront/core after update apollo-client
+    const response: any = await context.$ct.api.createMyOrderFromCart({ id, version }, customQuery);
+    if (response.graphQLErrors) {
+      throw response.graphQLErrors[0];
+    }
+    if (response.networkError) {
+      throw response.networkError;
+    }
     return response.data.order;
   }
 };
