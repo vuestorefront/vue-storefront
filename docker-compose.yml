@@ -17,6 +17,7 @@ services:
       IMAGE_HANDLER_SERVICE_URL: ${IMAGE_HANDLER_SERVICE_URL}
       GTM_ID: ${GTM_ID}
       AFFIRM_PUBLIC_KEY: ${AFFIRM_PUBLIC_KEY}
+      AFFIRM_CDN: ${AFFIRM_CDN}
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       #- './config:/var/www/config'

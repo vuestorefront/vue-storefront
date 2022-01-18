@@ -2,17 +2,20 @@ import { coreHooks } from '@vue-storefront/core/hooks';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { Order } from '@vue-storefront/core/modules/order/types/Order';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import addPromoMessagingScript from './helpers/add-promo-messaging-script.function';
 
 import { module } from './store';
 import { SET_CHECKOUT_TOKEN } from './types/StoreMutations';
 import { AFFIRM_METHOD_CODE } from './types/AffirmPaymentMethod';
 import { AFFIRM_BEFORE_PLACE_ORDER, AFFIRM_MODAL_CLOSED, AFFIRM_CHECKOUT_ERROR } from './types/AffirmCheckoutEvents';
 
-export const PaymentAffirm: StorefrontModule = function ({ app, store }) {
+export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig }) {
   store.registerModule('affirm', module);
 
   coreHooks.afterAppInit(() => {
     if (!app.$isServer) {
+      addPromoMessagingScript(appConfig);
+
       let isCurrentPaymentMethod = false;
       store.watch((state) => state.checkout.paymentDetails, (_, newMethodCode) => {
         isCurrentPaymentMethod = newMethodCode.paymentMethod === AFFIRM_METHOD_CODE;
@@ -32,8 +35,18 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store }) {
           return;
         }
 
-        (window as any).affirm.checkout(checkoutObject);
-        (window as any).affirm.checkout.open({
+        const affirm = (window as any).affirm;
+
+        affirm.ui.ready(
+          () => {
+            affirm.ui.error.on('close', () => {
+              EventBus.$emit(AFFIRM_MODAL_CLOSED);
+            });
+          }
+        );
+
+        affirm.checkout(checkoutObject);
+        affirm.checkout.open({
           onSuccess: (event) => {
             EventBus.$emit(AFFIRM_MODAL_CLOSED);
             store.commit(`affirm/${SET_CHECKOUT_TOKEN}`, event.checkout_token);

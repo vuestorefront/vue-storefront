@@ -886,7 +886,10 @@
     }
   },
   "affirm": {
-    "publicKey": "${AFFIRM_PUBLIC_KEY}"
+    "publicKey": "${AFFIRM_PUBLIC_KEY}",
+    "promoMessaging": {
+      "script": "https://${AFFIRM_CDN}/js/v2/affirm.js"
+    }
   },
   "googleTagManager": {
     "id": "${GTM_ID}",
