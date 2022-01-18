@@ -2,7 +2,7 @@ import { coreHooks } from '@vue-storefront/core/hooks';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { Order } from '@vue-storefront/core/modules/order/types/Order';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import addPromoMessagingScript from './helpers/add-promo-messaging-script.function';
+import addAffirmScript from './helpers/add-affirm-script.function';
 
 import { module } from './store';
 import { SET_CHECKOUT_TOKEN } from './types/StoreMutations';
@@ -14,7 +14,7 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
 
   coreHooks.afterAppInit(() => {
     if (!app.$isServer) {
-      addPromoMessagingScript(appConfig);
+      addAffirmScript(appConfig);
 
       let isCurrentPaymentMethod = false;
       store.watch((state) => state.checkout.paymentDetails, (_, newMethodCode) => {

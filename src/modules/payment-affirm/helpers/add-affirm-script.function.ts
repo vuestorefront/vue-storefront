@@ -1,4 +1,4 @@
-export default function addPromoMessagingScript (appConfig: any): void {
+export default function addAffirmScript (appConfig: any): void {
   const doc: Document = document;
   const script: HTMLScriptElement = doc.createElement('script');
 
