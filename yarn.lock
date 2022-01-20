@@ -16907,6 +16907,11 @@ vue-carousel@^0.18:
     regenerator-runtime "^0.12.1"
     vue "^2.5.17"
 
+vue-cookies@^1.7.4:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/vue-cookies/-/vue-cookies-1.7.4.tgz#d241d0a0431da0795837651d10b4d73e7c8d3e8d"
+  integrity sha512-mOS5Btr8V9zvAtkmQ7/TfqJIropOx7etDAgBywPCmHjvfJl2gFbH2XgoMghleLoyyMTi5eaJss0mPN7arMoslA==
+
 vue-cool-lightbox@^2.7.4:
   version "2.7.4"
   resolved "https://registry.yarnpkg.com/vue-cool-lightbox/-/vue-cool-lightbox-2.7.4.tgz#a199ec840357e895966c682e46a884b1a2a7aa21"
