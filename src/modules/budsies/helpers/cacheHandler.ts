@@ -1,7 +1,7 @@
 
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { CART_LOAD_CART_SERVER_TOKEN } from 'core/modules/cart/store/mutation-types';
+import { CART_LOAD_CART_SERVER_TOKEN } from '@vue-storefront/core/modules/cart/store/mutation-types';
 
 import * as types from '../store/mutation-types'
 import getCartTokenCookieKey from './get-cart-token-cookie-key.function';
