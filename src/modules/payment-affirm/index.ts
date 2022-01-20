@@ -3,11 +3,12 @@ import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { Order } from '@vue-storefront/core/modules/order/types/Order';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import registerStoryblokComponents from './components/storyblok'
-import addPromoMessagingScript from './helpers/add-promo-messaging-script.function';
+import addAffirmScript from './helpers/add-affirm-script.function';
 
 import { module } from './store';
 import { SET_CHECKOUT_TOKEN } from './types/StoreMutations';
 import { AFFIRM_METHOD_CODE } from './types/AffirmPaymentMethod';
+import { AFFIRM_BEFORE_PLACE_ORDER, AFFIRM_MODAL_CLOSED, AFFIRM_CHECKOUT_ERROR } from './types/AffirmCheckoutEvents';
 
 export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig }) {
   store.registerModule('affirm', module);
@@ -15,10 +16,8 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
   registerStoryblokComponents();
 
   coreHooks.afterAppInit(() => {
-    store.dispatch('affirm/checkIsPaymentMethodAvailable');
-
     if (!app.$isServer) {
-      addPromoMessagingScript(appConfig);
+      addAffirmScript(appConfig);
 
       let isCurrentPaymentMethod = false;
       store.watch((state) => state.checkout.paymentDetails, (_, newMethodCode) => {
@@ -30,17 +29,34 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
           return;
         }
 
+        EventBus.$emit(AFFIRM_BEFORE_PLACE_ORDER);
+
         const checkoutObject = await store.dispatch('affirm/getCheckoutObject');
 
         if (!checkoutObject) {
-          return; // TODO throw error?
+          EventBus.$emit(AFFIRM_CHECKOUT_ERROR);
+          return;
         }
 
-        (window as any).affirm.checkout(checkoutObject);
-        (window as any).affirm.checkout.open({
+        const affirm = (window as any).affirm;
+
+        affirm.ui.ready(
+          () => {
+            affirm.ui.error.on('close', () => {
+              EventBus.$emit(AFFIRM_MODAL_CLOSED);
+            });
+          }
+        );
+
+        affirm.checkout(checkoutObject);
+        affirm.checkout.open({
           onSuccess: (event) => {
+            EventBus.$emit(AFFIRM_MODAL_CLOSED);
             store.commit(`affirm/${SET_CHECKOUT_TOKEN}`, event.checkout_token);
             EventBus.$emit('checkout-do-placeOrder', {});
+          },
+          onFail: () => {
+            EventBus.$emit(AFFIRM_MODAL_CLOSED);
           }
         });
       }
@@ -48,6 +64,7 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
       const orderBeforePlacedHandler = (order: Order) => {
         const checkoutToken = store.getters['affirm/getCheckoutToken'];
         if (!isCurrentPaymentMethod || !checkoutToken) {
+          EventBus.$emit(AFFIRM_CHECKOUT_ERROR);
           return;
         }
 
