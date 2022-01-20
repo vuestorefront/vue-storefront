@@ -27,7 +27,7 @@ function resolveDependency<T>(name: string): T {
     // eslint-disable-next-line global-require
     return require(path);
   } catch (error) {
-    throw new Error(`Could not resolve integration :${name}"`);
+    throw new Error(`Couldn't resolve integration "${name}"`);
   }
 }
 

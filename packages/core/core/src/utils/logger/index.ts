@@ -1,74 +1,42 @@
+import {
+  Consola,
+  ConsolaOptions,
+  LogLevel
+} from 'consola';
 import { VSFLogger } from './../../types';
-import defaultLogger from './defaultLogger';
 
 const defaultModes = {
   // Test
-  test: 'none',
-
-  // Development
-  dev: 'warn',
-  development: 'warn',
+  test: LogLevel.Error,
 
   // Production
-  prod: 'error',
-  production: 'error',
+  prod: LogLevel.Error,
+  production: LogLevel.Error,
+
+  // Development
+  dev: LogLevel.Warn,
+  development: LogLevel.Warn,
 
   // Fallback
-  default: 'warn'
+  default: LogLevel.Warn
 };
 
-let Logger: VSFLogger = defaultLogger;
+let Logger = registerLogger();
 
-type LoggerImplementation = VSFLogger | ((verbosity: string) => VSFLogger);
+type LoggerImplementation = VSFLogger | ((options) => VSFLogger);
 
-const registerLogger = (loggerImplementation: LoggerImplementation, verbosity: string) => {
-  if (typeof loggerImplementation === 'function') {
-    Logger = loggerImplementation(verbosity);
-    return;
-  }
+function registerLogger(
+  options?: ConsolaOptions,
+  customLogger?: LoggerImplementation
+) {
+  options ??= {
+    level: defaultModes[process.env.NODE_ENV] || defaultModes.default
+  };
 
-  switch (verbosity) {
-    case 'info':
-      Logger = {
-        ...defaultLogger,
-        ...loggerImplementation,
-        debug: () => {}
-      };
-      break;
-    case 'warn':
-      Logger = {
-        ...defaultLogger,
-        ...loggerImplementation,
-        info: () => {},
-        debug: () => {}
-      };
-      break;
-    case 'error':
-      Logger = {
-        ...defaultLogger,
-        ...loggerImplementation,
-        info: () => {},
-        warn: () => {},
-        debug: () => {}
-      };
-      break;
-    case 'none':
-      Logger = {
-        debug: () => {},
-        info: () => {},
-        warn: () => {},
-        error: () => {}
-      };
-      break;
-    default:
-      Logger = {
-        ...defaultLogger,
-        ...loggerImplementation
-      };
-  }
-};
-
-registerLogger(defaultLogger, defaultModes[process.env.NODE_ENV] || defaultModes.default);
+  return Logger = typeof customLogger === 'function'
+    ? customLogger(options)
+    : new Consola(options);
+}
 
 export {
   Logger,

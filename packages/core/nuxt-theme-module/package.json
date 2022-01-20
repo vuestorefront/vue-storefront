@@ -20,7 +20,7 @@
   "devDependencies": {
     "chalk": "^2.4.2",
     "chokidar": "^3.3.1",
-    "consola": "^2.10.1",
+    "consola": "^2.15.3",
     "loglevel": "^1.6.7",
     "ts-loader": "^8.0.3",
     "vue": "^2.6.11"
