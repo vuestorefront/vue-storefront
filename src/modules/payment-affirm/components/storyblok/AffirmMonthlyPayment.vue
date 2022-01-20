@@ -59,6 +59,13 @@ export default Blok.extend({
   watch: {
     item: async function () {
       await this.loadData()
+    },
+    productPriceInCents () {
+      this.$nextTick(() => {
+        const affirm = (window as any).affirm;
+
+        affirm.ui.refresh();
+      })
     }
   }
 })
