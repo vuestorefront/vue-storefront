@@ -36,14 +36,14 @@ export default Blok.extend({
     }
   },
   created: async function (): Promise<void> {
-    if (this.product) {
-      return
-    }
-
     await this.loadData()
   },
   methods: {
     async loadData () {
+      if (!this.itemData.product) {
+        return;
+      }
+
       this.product = await this.$store.dispatch(
         'product/single',
         {
@@ -51,7 +51,7 @@ export default Blok.extend({
             id: this.itemData.product
           },
           key: 'id',
-          skipCache: true
+          skipCache: false
         }
       )
     }
@@ -60,12 +60,15 @@ export default Blok.extend({
     item: async function () {
       await this.loadData()
     },
-    productPriceInCents () {
-      this.$nextTick(() => {
-        const affirm = (window as any).affirm;
+    productPriceInCents: {
+      handler () {
+        this.$nextTick(() => {
+          const affirm = (window as any).affirm;
 
-        affirm.ui.refresh();
-      })
+          affirm.ui.refresh();
+        })
+      },
+      immediate: true
     }
   }
 })
