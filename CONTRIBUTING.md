@@ -24,4 +24,4 @@ Please follow these guidelines when reporting issues:
 
 We very much appreciate every contribution and do our best to review them in a reasonable time.
 
-To create a Pull Request, please follow our [Branching model](https://docs.vuestorefront.io/v2/contributing/branching-model.html) and [How to submit a Pull Request](https://docs.vuestorefront.io/v2/contributing/how-to-submit-pull-request.html) documents. 
+To create a Pull Request, please follow our [Branching model](https://docs.vuestorefront.io/v2/contributing/branching-model.html) and [How to submit a Pull Request](https://docs.vuestorefront.io/v2/contributing/how-to-submit-pull-request.html) documents.
