@@ -17,7 +17,7 @@ export function cacheHandlerFactory (Vue) {
     }
 
     if (type.endsWith(CART_LOAD_CART_SERVER_TOKEN)) {
-      return Vue.$cookies.set(getCartTokenCookieKey(), mutation.payload, '1m', null, null, null, 'Strict')
+      return Vue.$cookies.set(getCartTokenCookieKey(), mutation.payload, '3m', null, null, null, 'Strict')
     }
   }
 }
