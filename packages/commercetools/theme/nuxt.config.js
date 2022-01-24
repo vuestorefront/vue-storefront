@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import theme from './themeConfig';
+import { LogLevel } from 'consola';
 
 export default {
   server: {
@@ -34,17 +35,18 @@ export default {
     }
   },
   buildModules: [
-    // to core
     '@nuxtjs/composition-api/module',
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
     '@nuxtjs/google-fonts',
-    // to core soon
     '@nuxtjs/pwa',
     ['@vue-storefront/commercetools/nuxt', {
       i18n: { useNuxtI18nConfig: true }
     }],
     ['@vue-storefront/nuxt', {
+      logger: {
+        level: LogLevel.Debug
+      },
       coreDevelopment: true,
       useRawSource: {
         dev: [

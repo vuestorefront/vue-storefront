@@ -21,14 +21,10 @@ type IntegrationsLoaded = Record<string, IntegrationLoaded>
  * Resolves dependencies based on the current working directory, not relative to this package.
  */
 function resolveDependency<T>(name: string): T {
-  try {
-    const path = require.resolve(name, { paths: [process.cwd()] });
+  const path = require.resolve(name, { paths: [process.cwd()] });
 
-    // eslint-disable-next-line global-require
-    return require(path);
-  } catch (error) {
-    throw new Error(`Couldn't resolve integration "${name}"`);
-  }
+  // eslint-disable-next-line global-require
+  return require(path);
 }
 
 function createRawExtensions(apiClient: ApiClientFactory, integration: Integration): ApiClientExtension[] {

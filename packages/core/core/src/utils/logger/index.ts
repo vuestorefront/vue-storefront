@@ -29,13 +29,15 @@ function registerLogger(
   options?: ConsolaOptions,
   customLogger?: LoggerImplementation
 ) {
+  if (typeof customLogger === 'function') {
+    return customLogger(options);
+  }
+
   options ??= {
     level: defaultModes[process.env.NODE_ENV] || defaultModes.default
   };
 
-  return Logger = typeof customLogger === 'function'
-    ? customLogger(options)
-    : new Consola(options);
+  return Logger = new Consola(options);
 }
 
 export {

@@ -51,7 +51,7 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   }
 
   // Context plugin
-  this.addPlugin(path.resolve(__dirname, 'plugins/context.js'))
+  this.addPlugin(path.resolve(__dirname, 'plugins/context.js'));
   log.success('Installed Vue Storefront Context plugin');
 
   // SSR plugin
@@ -66,7 +66,7 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   log.success('Installed VSF Logger plugin');
 
   // Context plugin
-  this.addPlugin(path.resolve(__dirname, 'plugins/e2e-testing.js'))
+  this.addPlugin(path.resolve(__dirname, 'plugins/e2e-testing.js'));
   log.success('Installed Vue Storefront E2E testing plugin');
 
   // i18n-cookies plugin
