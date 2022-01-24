@@ -1,5 +1,9 @@
 import Vue from 'vue'
+import VueCookies from 'vue-cookies';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
+import { once, isServer } from '@vue-storefront/core/helpers'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+
 import addonFactory from './factories/extra-photo-addon.factory';
 import nl2br from './filters/nl2br';
 import ExtraPhotoAddon from './models/extra-photo-addon.model';
@@ -11,8 +15,6 @@ import ObjectBuilderInterface from './types/object-builder.interface';
 import { ValueCollection } from './types/value.collection';
 import { Value } from './types/value.interface';
 import { cacheHandlerFactory } from './helpers/cacheHandler';
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { isServer } from '@vue-storefront/core/helpers'
 import * as types from './store/mutation-types'
 import BaseImage from './components/BaseImage.vue';
 import ImageSourceItem from './types/image-source-item.interface';
@@ -32,6 +34,10 @@ export const BudsiesModule: StorefrontModule = async function ({ store }) {
   store.registerModule('budsies', budsiesStore);
 
   if (!isServer) {
+    once('__VUE_BUDSIES__', () => {
+      Vue.use(VueCookies);
+    })
+
     await store.dispatch('budsies/synchronize');
   }
 
