@@ -2,6 +2,7 @@ import { coreHooks } from '@vue-storefront/core/hooks';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { Order } from '@vue-storefront/core/modules/order/types/Order';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import registerStoryblokComponents from './components/storyblok'
 import addAffirmScript from './helpers/add-affirm-script.function';
 
 import { module } from './store';
@@ -11,6 +12,8 @@ import { AFFIRM_BEFORE_PLACE_ORDER, AFFIRM_MODAL_CLOSED, AFFIRM_CHECKOUT_ERROR }
 
 export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig }) {
   store.registerModule('affirm', module);
+
+  registerStoryblokComponents();
 
   coreHooks.afterAppInit(() => {
     if (!app.$isServer) {
