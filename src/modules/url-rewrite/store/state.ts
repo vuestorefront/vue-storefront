@@ -1,5 +1,1 @@
-import { UrlRewriteState } from './types/State'
-
-export const state: UrlRewriteState = {
-  urlRewriteForRequestPath: {}
-}
+export const state = {}

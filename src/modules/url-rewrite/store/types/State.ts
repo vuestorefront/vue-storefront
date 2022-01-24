@@ -10,11 +10,3 @@ export interface UrlRewrite {
   category_id?: number,
   product_id?: number
 }
-
-export interface UrlRewriteForRequestPath {
-  [key: string]: UrlRewrite | null
-}
-
-export interface UrlRewriteState {
-  urlRewriteForRequestPath: UrlRewriteForRequestPath
-}

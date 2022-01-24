@@ -2,12 +2,16 @@ import { ActionContext } from 'vuex';
 import { LocalizedRoute } from '@vue-storefront/core/lib/types';
 import RootState from '@vue-storefront/core/types/RootState';
 import { UrlState } from '@vue-storefront/core/modules/url/types/UrlState';
+import { AsyncDataLoader } from '@vue-storefront/core/lib/async-data-loader';
+import { isServer } from '@vue-storefront/core/helpers';
 
 export const mappingFallbackForUrlRewrite = async (
   { dispatch, rootGetters }: ActionContext<UrlState, RootState>,
   { url }: { url: string }
 ): Promise<LocalizedRoute | undefined> => {
-  if (!url) return;
+  if (!isServer || !url) {
+    return;
+  }
 
   url = url.replace(/^[/]+|[/]+$/g, '');
 
@@ -15,19 +19,20 @@ export const mappingFallbackForUrlRewrite = async (
     return;
   }
 
-  let urlRewriteForRequestPath = rootGetters['urlRewrite/getUrlRewriteForRequestPath'](url);
-
-  if (urlRewriteForRequestPath === undefined) {
-    urlRewriteForRequestPath = await dispatch('urlRewrite/loadUrlRewrite', { requestPath: url }, { root: true });
-  }
+  let urlRewriteForRequestPath = await dispatch('urlRewrite/loadUrlRewrite', { requestPath: url }, { root: true });
 
   if (!urlRewriteForRequestPath) {
     return;
   }
 
-  let targetPath = urlRewriteForRequestPath.target_path;
+  const targetPath = '/' + urlRewriteForRequestPath.target_path.replace(/^[/]+|[/]+$/g, '');
+  const redirectCode = urlRewriteForRequestPath.rewrite_options === 'RP' ? 301 : 302;
 
-  targetPath = targetPath.replace(/^[/]+|[/]+$/g, '');
-
-  return { name: 'url-rewrite', params: { targetPath: `/${targetPath}` } };
+  AsyncDataLoader.push({
+    execute: async ({ context }) => {
+      if (context && !context.url.includes(targetPath)) {
+        context.server.response.redirect(redirectCode, targetPath);
+      }
+    }
+  })
 }
