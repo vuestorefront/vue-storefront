@@ -25,13 +25,18 @@ export const mappingFallbackForUrlRewrite = async (
     return;
   }
 
-  const targetPath = '/' + urlRewriteForRequestPath.target_path.replace(/^[/]+|[/]+$/g, '');
+  const targetPath = urlRewriteForRequestPath.target_path.replace(/^[/]+|[/]+$/g, '');
+
+  if (url === targetPath) {
+    return;
+  }
+
   const redirectCode = urlRewriteForRequestPath.rewrite_options === 'RP' ? 301 : 302;
 
   AsyncDataLoader.push({
     execute: async ({ context }) => {
-      if (context && !context.url.includes(targetPath)) {
-        context.server.response.redirect(redirectCode, targetPath);
+      if (context) {
+        context.server.response.redirect(redirectCode, '/' + targetPath);
       }
     }
   })
