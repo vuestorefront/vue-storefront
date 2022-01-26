@@ -79,6 +79,9 @@
       "addRoutes": true
     }
   },
+  "urlRewrite": {
+    "endpoint": "https://${VSF_API_DOMAIN}/api/ext/url-rewrite"
+  },
   "budsies": {
     "endpoint": "https://${VSF_API_DOMAIN}/api/ext/budsies"
   },
