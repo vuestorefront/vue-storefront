@@ -5,7 +5,7 @@ import config from 'config';
 
 const proceedToCheckoutAction = () => ({
   label: i18n.t('Proceed to checkout'),
-  action: () => router.push(localizedRoute('/checkout', currentStoreView().storeCode))
+  action: () => router.push(localizedRoute({ name: 'checkout' }, currentStoreView().storeCode))
 });
 const checkoutAction = () => !config.externalCheckout ? proceedToCheckoutAction() : null;
 

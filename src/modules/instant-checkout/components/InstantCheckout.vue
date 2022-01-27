@@ -145,7 +145,7 @@ export default {
               response.complete()
               this.$store.dispatch('checkout/setThankYouPage', true)
               this.$store.commit('ui/setMicrocart', false)
-              this.$router.push(this.localizedRoute('/checkout'))
+              this.$router.push(this.localizedRoute({ name: 'checkout' }))
               // clear cart without sync, because after order cart will be already cleared on backend
               this.$store.dispatch('cart/clear', { sync: false }, { root: true })
             }

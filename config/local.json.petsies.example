@@ -79,6 +79,9 @@
       "addRoutes": true
     }
   },
+  "urlRewrite": {
+    "endpoint": "https://${VSF_API_DOMAIN}/api/ext/url-rewrite"
+  },
   "budsies": {
     "endpoint": "https://${VSF_API_DOMAIN}/api/ext/budsies"
   },
@@ -884,6 +887,10 @@
       "displayName": "My Petsies",
       "label": "Budsies Co LLC"
     }
+  },
+  "affirm": {
+    "publicKey": "${AFFIRM_PUBLIC_KEY}",
+    "script": "https://${AFFIRM_CDN}/js/v2/affirm.js"
   },
   "googleTagManager": {
     "id": "${GTM_ID}",
