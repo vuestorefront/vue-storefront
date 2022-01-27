@@ -69,7 +69,7 @@ export const actions: ActionTree<AmazonPayState, any> = {
           'Accept': 'application/json'
         }
       }).then(resp => {
-        if(resp.ok) {
+        if (resp.ok) {
           resolve(resp.json())
         } else {
           reject(resp)
@@ -92,7 +92,7 @@ export const actions: ActionTree<AmazonPayState, any> = {
         },
         body: JSON.stringify({ orderReferenceAttributes })
       }).then(resp => {
-        if(resp.ok) {
+        if (resp.ok) {
           resolve(resp.json())
         } else {
           reject(resp)
@@ -102,7 +102,7 @@ export const actions: ActionTree<AmazonPayState, any> = {
       })
     })
   },
-  submitFinalOrderReference({ commit, dispatch }): Promise<Response> {
+  submitFinalOrderReference ({ commit, dispatch }): Promise<Response> {
     commit(types.SET_ORDER_STATE, states.DRAFT)
 
     let CurrencyCode = rootStore.state.cart.platformTotals.base_currency_code
@@ -121,13 +121,13 @@ export const actions: ActionTree<AmazonPayState, any> = {
         CurrencyCode
       },
       SellerOrderAttributes: {
-        StoreName: config.amazonPay.StoreName
+        StoreName: config.amazonPay.storeName
       }
     }
 
     return dispatch('setOrderReferenceDetails', orderReferenceAttributes)
   },
-  confirmOrderReference({ state, commit }): Promise<Response> {
+  confirmOrderReference ({ state, commit }): Promise<Response> {
     commit(types.SET_ORDER_STATE, states.OPEN)
 
     let url = `${config.amazonPay.endpoint.ConfirmOrderReference}?orderReferenceId=${state.orderReferenceId}`
@@ -140,7 +140,7 @@ export const actions: ActionTree<AmazonPayState, any> = {
           'Accept': 'application/json'
         }
       }).then(resp => {
-        if(resp.ok) {
+        if (resp.ok) {
           resolve(resp.json())
         } else {
           reject(resp)
@@ -150,7 +150,7 @@ export const actions: ActionTree<AmazonPayState, any> = {
       })
     })
   },
-  authorizeOrder({ state }): Promise<Response> {
+  authorizeOrder ({ state }): Promise<Response> {
     let CurrencyCode = rootStore.state.cart.platformTotals.base_currency_code
     let totals = rootStore.getters['cart/getTotals']
     let Amount = 0.00
@@ -178,7 +178,7 @@ export const actions: ActionTree<AmazonPayState, any> = {
           }
         })
       }).then(resp => {
-        if(resp.ok) {
+        if (resp.ok) {
           resolve(resp.json())
         } else {
           reject(resp)
@@ -188,7 +188,7 @@ export const actions: ActionTree<AmazonPayState, any> = {
       })
     })
   },
-  cancelOrderReference({ state, commit }): Promise<Response> {
+  cancelOrderReference ({ state, commit }): Promise<Response> {
     commit(types.SET_ORDER_STATE, states.CANCELED)
     let url = `${config.amazonPay.endpoint.CancelOrderReference}?orderReferenceId=${state.orderReferenceId}`
 
@@ -200,7 +200,7 @@ export const actions: ActionTree<AmazonPayState, any> = {
           'Accept': 'application/json'
         }
       }).then(resp => {
-        if(resp.ok) {
+        if (resp.ok) {
           resolve(resp.json())
         } else {
           reject(resp)
@@ -210,8 +210,8 @@ export const actions: ActionTree<AmazonPayState, any> = {
       })
     })
   },
-  loadUserToken ({ commit }): Promise<Object> {
-    return new Promise ((resolve, reject) => {
+  loadUserToken ({ commit }): Promise<Record<string, any>> {
+    return new Promise((resolve, reject) => {
       cacheStorage.getItem('userToken').then(token => {
         if (token.expire_at > Date.now()) {
           commit(types.SET_USER_TOKEN, token)
@@ -224,15 +224,15 @@ export const actions: ActionTree<AmazonPayState, any> = {
       }).catch(() => reject())
     })
   },
-  setUserToken ({ commit }, { token, useCache = true }): Promise<Object> {
-    return new Promise ((resolve, reject) => {
+  setUserToken ({ commit }, { token, useCache = true }): Promise<Record<string, any>> {
+    return new Promise((resolve, reject) => {
       commit(types.SET_USER_TOKEN, token)
       if (useCache) cacheStorage.setItem('userToken', token)
       resolve(token)
     })
   },
-  clearUserToken ({ commit }): Promise<Object> {
-    return new Promise ((resolve, reject) => {
+  clearUserToken ({ commit }): Promise<Record<string, any>> {
+    return new Promise((resolve, reject) => {
       commit(types.SET_USER_TOKEN, null)
       cacheStorage.removeItem('userToken')
       resolve()
