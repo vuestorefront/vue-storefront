@@ -29,18 +29,7 @@ const mergeActions = {
       type_id: serverItem.product_type
     }
 
-    if (serverItem.plushieId) {
-      product.plushieId = typeof serverItem.plushieId === 'number' ? serverItem.plushieId.toString() : serverItem.plushieId;
-    }
-    if (serverItem.thumbnail) {
-      product.thumbnail = serverItem.thumbnail;
-    }
-    if (serverItem.customerImages) {
-      product.customerImages = serverItem.customerImages;
-    }
-    if (serverItem.giftcard_options) {
-      product.giftcard_options = serverItem.giftcard_options;
-    }
+    EventBus.$emit('cart-prepare-item-product', { product, serverItem });
 
     const productWithChecksum = { ...product, checksum: productChecksum(product) };
 
@@ -179,6 +168,8 @@ const mergeActions = {
     const productToAdd = await dispatch('getProductVariant', { serverItem })
 
     if (productToAdd) {
+      EventBus.$emit('cart-prepare-item-product', { product: productToAdd, serverItem });
+
       await dispatch('addItem', { productToAdd, forceServerSilence: true })
       Logger.debug('Product variant for given serverItem has not found', 'cart', serverItem)()
     }

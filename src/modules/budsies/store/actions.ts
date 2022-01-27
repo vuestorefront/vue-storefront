@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import RootState from '@vue-storefront/core/types/RootState'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { processURLAddress } from '@vue-storefront/core/helpers'
@@ -27,6 +28,7 @@ import isBodypartApiResponse from '../models/is-bodypart-api-response.typeguard'
 import isBodypartValueApiResponse from '../models/is-bodypart-value-api-response.typeguard'
 import BodypartApiResponse from '../models/bodypart-api-response.interface'
 import Task from 'core/lib/sync/types/Task'
+import getCartTokenCookieKey from '../helpers/get-cart-token-cookie-key.function'
 
 function parse<T, R> (
   items: unknown[],
@@ -195,9 +197,25 @@ export const actions: ActionTree<BudsiesState, RootState> = {
 
     commit('setPlushieShortcode', { key: plushieId, shortcode: result.result });
   },
-  async synchronize ({ commit }) {
+  async synchronize ({ commit, dispatch }) {
     const budsiesStorage = StorageManager.get(types.SN_BUDSIES);
+    const cartStorage = StorageManager.get('cart');
     const customerEmail = await budsiesStorage.getItem('customer-email');
+    const cartTokenFromLocalStorage = await cartStorage.getItem('current-cart-token');
+    const cartTokenFromCookies = Vue.$cookies.get(getCartTokenCookieKey());
+
+    if (!cartTokenFromLocalStorage && cartTokenFromCookies) {
+      await cartStorage.setItem('current-cart-token', cartTokenFromCookies);
+
+      dispatch(
+        'cart/synchronizeCart',
+        {
+          forceClientState: false,
+          forceSync: true
+        },
+        { root: true }
+      )
+    }
 
     if (customerEmail) {
       commit(types.CUSTOMER_EMAIL_SET, { email: customerEmail })

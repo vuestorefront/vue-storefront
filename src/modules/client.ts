@@ -19,6 +19,7 @@ import { StoryblokModule } from './vsf-storyblok-module';
 import { extendStore } from '@vue-storefront/core/helpers'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { forStoryblok } from './vsf-storyblok-module/mappingFallback'
+import { PaymentAffirm } from 'src/modules/payment-affirm';
 
 // import { DeviceModule } from './device/index';
 import { registerModule } from '@vue-storefront/core/lib/modules'
@@ -59,6 +60,7 @@ export function registerClientModules () {
   // registerModule(DeviceModule)
   registerModule(StoryblokModule)
   registerModule(extendUrlModule)
+  registerModule(PaymentAffirm)
 }
 
 // Deprecated API, will be removed in 2.0
