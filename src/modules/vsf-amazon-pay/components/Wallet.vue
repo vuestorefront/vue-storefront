@@ -52,11 +52,9 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('amazon-order-constraints', this.onOrderConstraints)
     this.$bus.$on('amazon-invalid-payment-method', this.onInvalidPaymentMethod)
   },
   beforeDestroy () {
-    this.$bus.$off('amazon-order-constraints', this.onOrderConstraints)
     this.$bus.$off('amazon-invalid-payment-method', this.onInvalidPaymentMethod)
   },
   mounted () {
