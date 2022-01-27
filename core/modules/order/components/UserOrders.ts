@@ -26,7 +26,7 @@ export const UserOrders = {
       await this.$store.dispatch('cart/addItems', { productsToAdd })
       this.$bus.$emit('notification-progress-stop', {})
       // Redirect to the cart straight away.
-      this.$router.push(this.localizedRoute('/checkout'))
+      this.$router.push(this.localizedRoute({ name: 'checkout' }))
     },
     skipGrouped (items) {
       return items.filter((item) => {

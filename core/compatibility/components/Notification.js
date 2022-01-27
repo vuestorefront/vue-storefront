@@ -29,7 +29,7 @@ export default {
       this.$bus.$emit('notification-after-' + action, notification)
       switch (action) {
         case 'goToCheckout':
-          this.$router.push(this.localizedRoute('/checkout'))
+          this.$router.push(this.localizedRoute({ name: 'checkout' }))
           this.notifications.splice(id, 1)
           break
         default:

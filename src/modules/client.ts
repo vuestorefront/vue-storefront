@@ -28,6 +28,7 @@ const extendUrlVuex = {
   actions: {
     async mappingFallback (context, payload: any) {
       const result = await forStoryblok(context, payload);
+
       if (result) {
         return result
       }
