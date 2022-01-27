@@ -3,6 +3,7 @@ import VueCookies from 'vue-cookies';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { once, isServer } from '@vue-storefront/core/helpers'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 import addonFactory from './factories/extra-photo-addon.factory';
 import nl2br from './filters/nl2br';
@@ -27,6 +28,7 @@ import RushAddon from './models/rush-addon.model';
 import { BodyPartValueContentType } from './types/body-part-value-content-type.value';
 import { ImageUploadMethod } from './types/image-upload-method.value';
 import { ProductId } from './models/product.id';
+import fillProductWithAdditionalFields from './helpers/fill-product-with-additional-fields.function';
 
 export const BudsiesModule: StorefrontModule = async function ({ store }) {
   StorageManager.init(types.SN_BUDSIES);
@@ -42,6 +44,8 @@ export const BudsiesModule: StorefrontModule = async function ({ store }) {
   }
 
   store.subscribe(cacheHandlerFactory(Vue));
+
+  EventBus.$on('cart-prepare-item-product', fillProductWithAdditionalFields);
 }
 
 export {
