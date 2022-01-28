@@ -30,20 +30,12 @@ export default {
     }
   },
   computed: {
-    amazonPaymentsReady () {
-      return this.$store.state[KEY].amazonPaymentsReady
-    },
-    orderReferenceId () {
-      return this.$store.state[KEY].orderReferenceId
-    },
-    orderState () {
-      return this.$store.state[KEY].orderState
-    },
     readOnly () {
-      return !!this.orderState &&
-        this.orderState !== states.NEW &&
-        this.orderState !== states.DRAFT &&
-        this.orderState !== states.SUSPENDED
+      const orderState = this.orderState();
+      return !!orderState &&
+        orderState !== states.NEW &&
+        orderState !== states.DRAFT &&
+        orderState !== states.SUSPENDED
     }
   },
   watch: {
@@ -59,7 +51,7 @@ export default {
   },
   mounted () {
     if (config.amazonPay) {
-      if (this.amazonPaymentsReady && this.orderReferenceId) {
+      if (this.amazonPaymentsReady() && this.orderReferenceId()) {
         this.setupWidget()
       } else {
         this.$bus.$on('amazon-order-reference-created', this.setupWidget)
@@ -67,6 +59,15 @@ export default {
     }
   },
   methods: {
+    amazonPaymentsReady () {
+      return this.$store.state[KEY].amazonPaymentsReady
+    },
+    orderReferenceId () {
+      return this.$store.state[KEY].orderReferenceId
+    },
+    orderState () {
+      return this.$store.state[KEY].orderState
+    },
     setupWidget (force = false) {
       if (force || !this.isSet) {
         this.isSet = true
@@ -76,7 +77,7 @@ export default {
           design: {
             designMode: this.designMode
           },
-          amazonOrderReferenceId: this.orderReferenceId,
+          amazonOrderReferenceId: this.orderReferenceId(),
           onPaymentSelect: this.onPaymentSelect,
           onReady: this.onReady,
           onError: this.onError,

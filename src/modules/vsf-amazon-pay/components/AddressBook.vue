@@ -44,22 +44,11 @@ export default {
     checkoutShippingDetails () {
       return this.$store.state.checkout.shippingDetails
     },
-    amazonPaymentsReady () {
-      return this.$store.state[KEY].amazonPaymentsReady
-    },
-    userToken () {
-      return this.$store.state[KEY].userToken
-    },
-    orderReferenceId () {
-      return this.$store.state[KEY].orderReferenceId
-    },
-    orderState () {
-      return this.$store.state[KEY].orderState
-    },
     readOnly () {
-      return !!this.orderState &&
-        this.orderState !== states.NEW &&
-        this.orderState !== states.DRAFT
+      const orderState = this.orderState();
+      return orderState &&
+        orderState !== states.NEW &&
+        orderState !== states.DRAFT
     }
   },
   watch: {
@@ -75,8 +64,8 @@ export default {
   },
   mounted () {
     if (config.amazonPay) {
-      if (this.amazonPaymentsReady) {
-        if (this.userToken) {
+      if (this.amazonPaymentsReady()) {
+        if (this.userToken()) {
           this.setupWidget()
         } else {
           this.$store.dispatch(KEY + '/loadUserToken').then(token => {
@@ -92,6 +81,18 @@ export default {
     }
   },
   methods: {
+    amazonPaymentsReady () {
+      return this.$store.state[KEY].amazonPaymentsReady
+    },
+    userToken () {
+      return this.$store.state[KEY].userToken
+    },
+    orderReferenceId () {
+      return this.$store.state[KEY].orderReferenceId
+    },
+    orderState () {
+      return this.$store.state[KEY].orderState
+    },
     setupWidget (force = false) {
       if (force || !this.isSet) {
         this.isSet = true
@@ -101,7 +102,7 @@ export default {
           design: {
             designMode: this.designMode
           },
-          amazonOrderReferenceId: this.orderReferenceId,
+          amazonOrderReferenceId: this.orderReferenceId(),
           onOrderReferenceCreate: this.onOrderReferenceCreate,
           onAddressSelect: this.onAddressSelect,
           onReady: this.onReady,
@@ -158,10 +159,12 @@ export default {
               this.$store.dispatch('checkout/saveShippingDetails', shipping)
             }
 
+            let buyerEmail = response.result.Buyer?.Email;
+
             let personalDetails = {
               firstName: firstName,
               lastName: lastName,
-              emailAddress: this.$store.getters['budsies/getPrefilledCustomerEmail']
+              emailAddress: this.$store.getters['budsies/getPrefilledCustomerEmail'] || buyerEmail
             }
             this.$store.dispatch('checkout/savePersonalDetails', personalDetails);
           }

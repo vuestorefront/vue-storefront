@@ -3,10 +3,10 @@ import * as types from '../store/mutation-types'
 import * as states from '../store/order-states'
 import i18n from '@vue-storefront/i18n'
 
-export function afterRegistration({ Vue, config, store, isServer }) {
-  if (config.amazonPay) { 
+export function afterRegistration ({ Vue, config, store, isServer }) {
+  if (config.amazonPay) {
     // Update the methods
-    store.dispatch('payment/addMethod', {
+    store.dispatch('checkout/addPaymentMethod', {
       'title': 'Amazon Pay',
       'code': METHOD_CODE,
       'cost': 0,
@@ -20,8 +20,8 @@ export function afterRegistration({ Vue, config, store, isServer }) {
     if (!isServer) {
       let w = window as any
 
-      w.onAmazonLoginReady = function() {
-        w.amazon.Login.setClientId(config.amazonPay.clientId); 
+      w.onAmazonLoginReady = function () {
+        w.amazon.Login.setClientId(config.amazonPay.clientId);
       }
       w.onAmazonPaymentsReady = () => {
         store.commit(KEY + '/' + types.SET_AMAZON_PAYMENTS_READY, true)
@@ -36,7 +36,7 @@ export function afterRegistration({ Vue, config, store, isServer }) {
 
       Vue.prototype.$bus.$on('user-before-logout', amazonLogout)
 
-      let jsUrl = `https://static-na.payments-amazon.com/OffAmazonPayments/us/${ config.amazonPay.sandbox ? 'sandbox/' : '' }js/Widgets.js`
+      let jsUrl = `https://static-na.payments-amazon.com/OffAmazonPayments/us/${config.amazonPay.sandbox ? 'sandbox/' : ''}js/Widgets.js`
       let docHead = document.getElementsByTagName('head')[0]
       let docScript = document.createElement('script')
 
