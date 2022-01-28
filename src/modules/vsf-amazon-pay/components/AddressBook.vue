@@ -98,7 +98,7 @@ export default {
         this.isSet = true
         this.loaded = false
         new window.OffAmazonPayments.Widgets.AddressBook({
-          sellerId: config.amazonPay.merchantId,
+          sellerId: config.amazonPay.sellerId,
           design: {
             designMode: this.designMode
           },

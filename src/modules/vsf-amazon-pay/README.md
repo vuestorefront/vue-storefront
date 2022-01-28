@@ -28,7 +28,7 @@ Read more about Asynchronous Authorization at [developer.amazon.com](https://dev
 ```json
   "amazonPay": {
       "sandbox": true,
-      "merchantId": "__MERCHANT_ID__",
+      "sellerId": "__MERCHANT_ID__",
       "clientId": "__CLIENT_ID__",
       "endpoint": {
         "GetOrderReferenceDetails": "http://localhost:8080/api/ext/amazon-pay/GetOrderReferenceDetails",

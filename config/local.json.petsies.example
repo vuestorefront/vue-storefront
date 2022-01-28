@@ -908,9 +908,9 @@
     ]
   },
   "amazonPay": {
-    "sandbox": true,
-    "merchantId": "A33FOQC8JB5NBP",
-    "clientId": "amzn1.application-oa2-client.a083b35544e749dc8a7360326fefb4e0",
+    "sandbox": ${AMAZONPAY_SANDBOX},
+    "sellerId": "${AMAZONPAY_SELLER_ID}",
+    "clientId": "${AMAZONPAY_CLIENT_ID}",
     "endpoint": {
         "GetOrderReferenceDetails": "https://${VSF_API_DOMAIN}/api/ext/amazon-pay/GetOrderReferenceDetails",
         "SetOrderReferenceDetails": "https://${VSF_API_DOMAIN}/api/ext/amazon-pay/SetOrderReferenceDetails",

@@ -62,7 +62,7 @@ export default {
     setupWidget () {
       if (!this.isSet) {
         this.isSet = true
-        window.OffAmazonPayments.Button(this.id, config.amazonPay.merchantId, {
+        window.OffAmazonPayments.Button(this.id, config.amazonPay.sellerId, {
           type: this.type,
           color: this.color,
           size: this.size,
