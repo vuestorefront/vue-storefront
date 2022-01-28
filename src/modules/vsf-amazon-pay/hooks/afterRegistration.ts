@@ -6,16 +6,38 @@ import i18n from '@vue-storefront/i18n'
 export function afterRegistration ({ Vue, config, store, isServer }) {
   if (config.amazonPay) {
     // Update the methods
-    store.dispatch('checkout/addPaymentMethod', {
-      'title': 'Amazon Pay',
-      'code': METHOD_CODE,
-      'cost': 0,
-      'costInclTax': 0,
-      'default': false,
-      'offline': false,
-      'is_server_method': false,
-      'hidden': true
-    })
+    store.subscribe((mutation) => {
+      const type = mutation.type;
+
+      if (type.endsWith(types.SET_ORDER_REFERENCE_ID)) {
+        let methods = store.getters['checkout/getPaymentMethods'].filter(method => method.code === METHOD_CODE);
+
+        if (methods.length) {
+          store.dispatch('checkout/updatePaymentDetails', { paymentMethod: METHOD_CODE });
+
+          return;
+        }
+
+        store.dispatch('checkout/addPaymentMethod', {
+          'title': 'Amazon Pay',
+          'code': METHOD_CODE,
+          'cost': 0,
+          'costInclTax': 0,
+          'default': false,
+          'offline': false,
+          'is_server_method': false,
+          'hidden': true
+        });
+        store.dispatch('checkout/updatePaymentDetails', { paymentMethod: METHOD_CODE });
+      }
+
+      if (type.endsWith(types.RESET_ORDER)) {
+        let methods = store.getters['checkout/getPaymentMethods'];
+
+        store.dispatch('checkout/replacePaymentMethods', methods.filter(method => method.code !== METHOD_CODE));
+        store.dispatch('checkout/updatePaymentDetails', { paymentMethod: '' });
+      }
+    });
 
     if (!isServer) {
       let w = window as any

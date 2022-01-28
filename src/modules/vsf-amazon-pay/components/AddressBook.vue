@@ -4,7 +4,7 @@
 
 <script>
 import config from 'config'
-import { KEY, METHOD_CODE } from '../index'
+import { KEY } from '../index'
 import * as types from '../store/mutation-types'
 import * as states from '../store/order-states'
 
@@ -144,7 +144,7 @@ export default {
             if (this.savePaymentDetails) {
               let payment = {
                 ...address,
-                paymentMethod: METHOD_CODE,
+                paymentMethod: this.checkoutPaymentDetails.paymentMethod,
                 paymentMethodAdditional: this.checkoutPaymentDetails.paymentMethodAdditional
               }
               this.$store.dispatch('checkout/savePaymentDetails', payment)
