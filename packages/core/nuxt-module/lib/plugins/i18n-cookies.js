@@ -43,8 +43,8 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
 
   if (isServer) {
     app.i18n.cookieValues = {
-      [cookieNames.locale]: targetLocale,
-      [cookieNames.currency]: getCurrencyByLocale(targetLocale)
+      ...(autoChangeCookie.locale && { [cookieNames.locale]: targetLocale }),
+      ...(autoChangeCookie.currency && { [cookieNames.currency]: getCurrencyByLocale(targetLocale) })
     };
 
     if (redirectPath) {
