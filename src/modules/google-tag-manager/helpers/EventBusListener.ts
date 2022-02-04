@@ -194,6 +194,10 @@ export default class EventBusListener {
   }
 
   private prepareProductCategories (product: Product) {
+    if (!product.category || product.category.length === 0) {
+      return '';
+    }
+
     return product.category.map((category) => category.name).join('|');
   }
 

@@ -7,7 +7,7 @@ import { CustomOption } from './CustomOption';
 export default interface Product {
   attributes_metadata?: AttributesMetadata[],
   bundle_options?: BundleOption[],
-  category: Record<string, any>[],
+  category?: Record<string, any>[],
   category_ids: string[] | number[],
   color?: string,
   color_options?: number[] | string[],
