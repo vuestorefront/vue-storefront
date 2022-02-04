@@ -77,7 +77,7 @@ const actions: ActionTree<OrderState, RootState> = {
     throw new Error('Unhandled place order request error')
   },
   handlePlacingOrderFailed ({ commit, dispatch }, { newOrder, currentOrderHash }) {
-    const order = { newOrder, transmited: false }
+    const order = { ...newOrder, transmited: false }
     commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash)
     dispatch('notification/spawnNotification', notifications.orderCannotTransfered(), { root: true })
     dispatch('enqueueOrder', { newOrder: order })
