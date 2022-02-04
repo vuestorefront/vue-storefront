@@ -1,15 +1,24 @@
 import get from 'lodash-es/get'
 import { Store } from 'vuex'
-import { BundleOptionsProductLink, SelectedBundleOption } from '@vue-storefront/core/modules/catalog/types/BundleOption';
+import { BundleOption, BundleOptionsProductLink, SelectedBundleOption } from '@vue-storefront/core/modules/catalog/types/BundleOption';
 import { getBundleOptionsValues } from '@vue-storefront/core/modules/catalog/helpers/bundleOptions';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import RootState from '@vue-storefront/core/types/RootState'
 
-export default function getBundleProductDiscountPrice (product: Product, store: Store<RootState>): number | undefined {
+export function getBundleCartItemDiscountPrice (product: Product, store: Store<RootState>): number | undefined {
   const allBundleOptions = product.bundle_options || [];
 
   const selectedBundleOptions = Object.values(get(product, 'product_option.extension_attributes.bundle_options', {}));
   const bundleOptionsValues = getBundleOptionsValues(selectedBundleOptions as SelectedBundleOption[], allBundleOptions);
+
+  return getBundleOptionDiscountPrice(bundleOptionsValues, store);
+}
+
+export function getBundleDefaultProductDiscountPrice (product: Product, store: Store<RootState>): number | undefined {
+  const allBundleOptions = product.bundle_options || [];
+
+  const requiredBundleOptions = allBundleOptions.filter((option) => option.required);
+  const bundleOptionsValues = getBundleOptionsValues(requiredBundleOptions as any[], allBundleOptions);
 
   return getBundleOptionDiscountPrice(bundleOptionsValues, store);
 }

@@ -1,0 +1,2 @@
+export const UPDATE_CART_ITEM_DISCOUNT_PRICE_DATA_EVENT_ID = 'UpdateCartItemDiscountPriceEvent';
+export const UPDATE_DEFAULT_PRODUCT_DISCOUNT_PRICE_DATA_EVENT_ID = 'UpdateDefaultProductDiscountPriceEvent';
