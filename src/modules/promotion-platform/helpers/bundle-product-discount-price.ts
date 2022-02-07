@@ -1,6 +1,6 @@
 import get from 'lodash-es/get'
 import { Store } from 'vuex'
-import { BundleOption, BundleOptionsProductLink, SelectedBundleOption } from '@vue-storefront/core/modules/catalog/types/BundleOption';
+import { BundleOptionsProductLink, SelectedBundleOption } from '@vue-storefront/core/modules/catalog/types/BundleOption';
 import { getBundleOptionsValues, getDefaultBundleOptions } from '@vue-storefront/core/modules/catalog/helpers/bundleOptions';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import RootState from '@vue-storefront/core/types/RootState'

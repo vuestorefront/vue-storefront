@@ -31,7 +31,7 @@ export default function initEventBusListeners (store: Store<RootState>, app: Vue
     let discountedPrice;
 
     if (config.products.calculateBundlePriceByOptions && isBundleProduct(productPriceData.product)) {
-      discountedPrice = getBundleDefaultProductDiscountPrice(productPriceData.product, store); // TODO Change function
+      discountedPrice = getBundleDefaultProductDiscountPrice(productPriceData.product, store);
       productPriceData.value = discountedPrice;
       return;
     }

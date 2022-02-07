@@ -127,7 +127,7 @@ export default {
       for (const productPriceDirective of productPriceDirectives) {
         directivesValues.push({
           directive: productPriceDirective.directive,
-          value: this.getProductPrice(
+          value: this.getDefaultProductPrice(
             productsBySkuDictionary[productPriceDirective.productSku],
             productPriceDirective.priceType
           )
@@ -176,7 +176,7 @@ export default {
 
       this.isDirectivesParsed = true;
     },
-    getProductPrice (product, priceType) {
+    getDefaultProductPrice (product, priceType) {
       const price = getDefaultProductPrice(product);
 
       return price[priceType];
