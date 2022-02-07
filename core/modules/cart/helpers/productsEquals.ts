@@ -86,6 +86,10 @@ const productsEquals = (product1: CartItem, product2: CartItem): boolean => {
 
   const check = makeCheck.bind(null, product1, product2)
 
+  if (product1.plushieId && product2.plushieId) {
+    return check(['plushieId']);
+  }
+
   if (product1.giftcard_options || product2.giftcard_options) {
     return check(['id', 'checksum']);
   }
@@ -93,24 +97,24 @@ const productsEquals = (product1: CartItem, product2: CartItem): boolean => {
   if (getProductOptions(product1, 'bundle_options').length || getProductOptions(product2, 'bundle_options').length) {
     // bundle options skus are merged into one sku so we can't rely on 'sku'
     // by default we want to check server_item_id ('id'), we can also use 'checksum'
-    return check(['id', 'checksum', 'plushieId'])
+    return check(['id', 'checksum'])
   }
 
   if (getProductOptions(product1, 'custom_options').length || getProductOptions(product2, 'custom_options').length) {
     // in admin panel we can add different sku for specific custom option so we can't rely on 'sku'
     // by default we want to check server_item_id ('id'), we can also use 'checksum'
-    return check(['id', 'checksum', 'plushieId'])
+    return check(['id', 'checksum'])
   }
 
   if (getProductOptions(product1, 'configurable_item_options').length || getProductOptions(product2, 'configurable_item_options').length) {
     // 'sku' should be uniq for configurable products
     // we can't check 'id' because it is the same when user edit product in microcart, so it can give wrong result
-    return check(['sku', 'plushieId'])
+    return check(['sku'])
   }
 
   // by default we want to check if server_item_id is equal and check sku as fallback
   // this is for 'simple' and 'group' products
-  return check(['id', 'sku', 'plushieId'])
+  return check(['id', 'sku'])
 }
 
 export default productsEquals
