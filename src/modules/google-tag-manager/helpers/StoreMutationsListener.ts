@@ -12,11 +12,11 @@ export default class StoreMutationsListener {
   public initStoreMutationsListener (): void {
     this.store.subscribe(({ type, payload }) => {
       // Adding a Product to a Shopping Cart
-      if (type === CART_ADD_ITEM) {
+      if (type === `cart/${CART_ADD_ITEM}`) {
         this.onCartAddMutationListener(payload)
       }
 
-      if (type === PRODUCT_SET_CURRENT) {
+      if (type === `product/${PRODUCT_SET_CURRENT}`) {
         this.onSetCurrentProductMutationListener(payload);
       }
     })
@@ -31,7 +31,9 @@ export default class StoreMutationsListener {
   }
 
   private onSetCurrentProductMutationListener (product: Product) {
-    const productCategoriesNames = product.category.map((category) => category.name).join('|');
+    const productCategoriesNames = product.category
+      ? product.category.map((category) => category.name).join('|')
+      : '';
 
     this.gtm.trackEvent({
       pageCategory: 'product-detail'
