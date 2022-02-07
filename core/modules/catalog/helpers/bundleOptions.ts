@@ -21,7 +21,7 @@ export const getBundleOptionsValues = (selectedBundleOptions: SelectedBundleOpti
     }))
   }).reduce(
     (selectedBundleOptionsProductLinksFlattedArray, selectedBundleOptionProductLinks) =>
-    selectedBundleOptionsProductLinksFlattedArray.concat(selectedBundleOptionProductLinks),
+      selectedBundleOptionsProductLinksFlattedArray.concat(selectedBundleOptionProductLinks),
     []
   );
 
@@ -43,4 +43,21 @@ export const getSelectedBundleOptions = (product: Product): SelectedBundleOption
       option_selections: [Number(defaultLink.id)]
     }
   })
+}
+
+export const getDefaultBundleOptions = (product: Product): SelectedBundleOption[] => {
+  const allBundleOptions: BundleOption[] = product.bundle_options || [];
+
+  const requiredBundleOptions = allBundleOptions.filter((option) => option.required);
+
+  return requiredBundleOptions.map((bundleOption) => {
+    const productLinks = bundleOption.product_links || []
+    const defaultLink = productLinks.find((productLink) => productLink.is_default) || productLinks[0]
+    const qty = (typeof defaultLink.qty === 'string' ? parseInt(defaultLink.qty) : defaultLink.qty) || 1
+    return {
+      option_id: bundleOption.option_id,
+      option_qty: qty,
+      option_selections: [Number(defaultLink.id)]
+    }
+  });
 }

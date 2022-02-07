@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { getProductPrice } from 'theme/helpers';
+import { getDefaultProductPrice } from 'theme/helpers';
 import { mapGetters } from 'vuex';
 import { isServer } from '@vue-storefront/core/helpers';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
@@ -177,7 +177,7 @@ export default {
       this.isDirectivesParsed = true;
     },
     getProductPrice (product, priceType) {
-      const price = getProductPrice(product);
+      const price = getDefaultProductPrice(product);
 
       return price[priceType];
     }
