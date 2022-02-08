@@ -34,9 +34,9 @@ Combining general-purpose modules from Nuxt.js and e-commerce specific modules f
 
 ## Start with Vue.js
 
-If you are new to the Vue.js ecosystem, the best place to start learning is the [Vue.js documentation](https://vuejs.org/). **In our documentation, we assume prior knowledge of Vue.js (with some exceptions)**. While we do our best to explain each topic in detail, a lack of this knowledge might cause you to get lost.
+If you are new to the Vue.js ecosystem, the best place to start learning is the [Vue.js 2 documentation](https://v2.vuejs.org/). **In our documentation, we assume prior knowledge of Vue.js (with some exceptions)**. While we do our best to explain each topic in detail, a lack of this knowledge might cause you to get lost.
 
-The next step in the learning process is reading [Nuxt.js documentation](https://nuxtjs.org/docs/). In most places, we don't assume this knowledge and add links to related documents, but having it will make you more confident and let you work faster and more efficiently.
+The next step in the learning process is reading [Nuxt.js 2 documentation](https://nuxtjs.org/docs/). In most places, we don't assume this knowledge and add links to related documents, but having it will make you more confident and let you work faster and more efficiently.
 
 ## What's next
 
