@@ -175,7 +175,8 @@ module.exports = {
         collapsable: true,
         children: [
           ['/performance/performance', 'Performance basics'],
-          ['/performance/ssr-cache', 'SSR cache']
+          ['/performance/ssr-cache', 'SSR cache'],
+          ['/performance/good-practices', 'Good practices']
         ]
       },
       // {
