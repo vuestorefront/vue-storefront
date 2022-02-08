@@ -40,7 +40,7 @@ export function getBundleCartItemDiscountPrice (product: Product, store: Store<R
   return getBundleOptionDiscountPrice(bundleOptionsValues, store);
 }
 
-export function getBundleDefaultProductDiscountPrice (product: Product, store: Store<RootState>): number | undefined {
+export function getBundleProductDefaultDiscountPrice (product: Product, store: Store<RootState>): number | undefined {
   const allBundleOptions = product.bundle_options || [];
 
   const defaultBundleOptions = getDefaultBundleOptions(product);
