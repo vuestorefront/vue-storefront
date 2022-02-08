@@ -54,16 +54,21 @@ When you are building a big application, you will get to a place where your proj
 - To eliminate unused css use a tool like PurgeCSS, or CSS Minification.
 - Vue Storefront uses PurgeCSS out of the box, you just need to setup it in config:
 ```javascript
-{
-  buildModules: [ // if you are using nuxt < 2.9.0, use modules property instead.
-    'nuxt-purgecss',
-  ],
+// nuxt.config.js
 
-  purgeCSS: {
-   // your settings here
+['@vue-storefront/nuxt', {
+  // other options
+  performance: {
+    purgeCSS: {
+      enabled: true,
+      paths: [
+        '**/*.vue'
+      ]
+    }
   }
-}
+}]
 ```
+You can read more about purgecss in [our documentation](https://docs.vuestorefront.io/v2/performance/performance.html#purgecss).
 :::
 
 ### Avoid extensive DOM size ⚫⚫⚪
@@ -157,6 +162,7 @@ Remember don't lazy load image that is potential candidate for Largest Contentfu
 <img loading=lazy>
 ```
  or eg. nuxt-lazy-load library (depending on your needs and browser support).
+- If you want to use lazy loading in Nuxt 2 go with this [vue-lazyload module](https://www.npmjs.com/package/vue-lazyload).
 - If you want to use lazy loading in Nuxt 3 go with this [lazy-load module](https://github.com/nuxt-modules/lazy-load).
 :::
 
