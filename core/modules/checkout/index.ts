@@ -33,7 +33,7 @@ export const CheckoutModule: StorefrontModule = function ({ store }) {
     }
 
     if (
-      type.endsWith(types.CHECKOUT_SAVE_PAYMENT_DETAILS)
+      type.endsWith(types.CHECKOUT_SAVE_PAYMENT_DETAILS) || type.endsWith(types.CHECKOUT_UPDATE_PAYMENT_DETAILS)
     ) {
       StorageManager.get('checkout').setItem('payment-details', state.checkout.paymentDetails).catch((reason) => {
         Logger.error(reason)() // it doesn't work on SSR
