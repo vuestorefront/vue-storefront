@@ -105,9 +105,15 @@ export default {
       })
     }
     const storeView = currentStoreView()
-    let country = this.$store.state.checkout.shippingDetails.country
-    if (!country) country = storeView.i18n.defaultCountry
-    this.$bus.$emit('checkout-before-shippingMethods', country)
+    let shippingCountry = this.$store.state.checkout.shippingDetails.country
+    let paymentCountry = this.$store.state.checkout.paymentDetails.country
+
+    if (!shippingCountry) shippingCountry = storeView.i18n.defaultCountry
+    if (!paymentCountry) paymentCountry = storeView.i18n.defaultCountry
+
+    await this.$store.dispatch('checkout/updatePaymentDetails', { country: paymentCountry });
+
+    this.$bus.$emit('checkout-before-shippingMethods', shippingCountry)
   },
   beforeDestroy () {
     this.$store.dispatch('checkout/setModifiedAt', 0) // exit checkout
