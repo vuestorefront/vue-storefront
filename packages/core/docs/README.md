@@ -39,9 +39,9 @@ Our list of supported and planned integrations on the [Integrations](./integrati
 
 The speed and flexibility of Vue Storefront wouldn't be possible without the great technologies that power it:
 
-- [Vue.js](https://vuejs.org/v2/guide/)
-- [Nuxt.js](https://nuxtjs.org/guide)
-- [SCSS](https://sass-lang.com/)
+- [Vue.js 2](https://v2.vuejs.org/v2/guide)
+- [Nuxt.js 2](https://nuxtjs.org/docs/get-started)
+- [SCSS](https://sass-lang.com/) (optional)
 - [Storefront UI](https://www.storefrontui.io/) (optional)
 - [TypeScript](https://www.typescriptlang.org/docs/home) (optional)
 - [Cypress](https://www.cypress.io/) (optional)
