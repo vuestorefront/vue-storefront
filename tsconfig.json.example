@@ -21,7 +21,8 @@
     "paths": {
       "core/*": ["core/*"],
       "core/modules/*": ["./core/modules/*"],
-      "@vue-storefront/*": ["./"]
+      "@vue-storefront/*": ["./"],
+      "@vue-storefront/core/helpers/initCacheStorage": ["./core/lib/storage-manager.ts"]
     },
     "lib": ["es2017", "dom"]
   },

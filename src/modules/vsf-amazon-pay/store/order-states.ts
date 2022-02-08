@@ -1,0 +1,5 @@
+export const NEW = 'New'
+export const DRAFT = 'Draft'
+export const OPEN = 'Open'
+export const SUSPENDED = 'Suspended'
+export const CANCELED = 'Canceled'

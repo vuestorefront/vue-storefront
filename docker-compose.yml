@@ -18,6 +18,9 @@ services:
       GTM_ID: ${GTM_ID}
       AFFIRM_PUBLIC_KEY: ${AFFIRM_PUBLIC_KEY}
       AFFIRM_CDN: ${AFFIRM_CDN}
+      AMAZONPAY_SANDBOX: ${AMAZONPAY_SANDBOX}
+      AMAZONPAY_SELLER_ID: ${AMAZONPAY_SELLER_ID}
+      AMAZONPAY_CLIENT_ID: ${AMAZONPAY_CLIENT_ID}
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       #- './config:/var/www/config'

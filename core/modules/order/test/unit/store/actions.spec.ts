@@ -1222,7 +1222,7 @@ describe('Order actions', () => {
           payment_method_additional: 'four'
         }
       }
-      const expectedOrder = { newOrder, transmited: false }
+      const expectedOrder = { ...newOrder, transmited: false }
 
       const wrapper = (orderActions: any) => orderActions.handlePlacingOrderFailed(contextMock, { newOrder, currentOrderHash });
 

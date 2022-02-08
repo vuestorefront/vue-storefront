@@ -1,0 +1,8 @@
+export const SET_AMAZON_PAYMENTS_READY = 'SET_AMAZON_PAYMENTS_READY'
+export const SET_ORDER_REFERENCE_ID = 'SET_ORDER_REFERENCE_ID'
+export const SET_ORDER_STATE = 'SET_ORDER_STATE'
+// export const SET_USER_ID = 'SET_USER_ID'
+export const SET_USER_TOKEN = 'SET_USER_TOKEN'
+export const RESET_ORDER = 'RESET_ORDER'
+export const RESET_USER = 'RESET_USER'
+export const RESET = 'RESET'
