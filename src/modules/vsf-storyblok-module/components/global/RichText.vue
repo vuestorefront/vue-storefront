@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { getProductPrice } from 'theme/helpers';
+import { getProductDefaultPrice } from 'theme/helpers';
 import { mapGetters } from 'vuex';
 import { isServer } from '@vue-storefront/core/helpers';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
@@ -127,7 +127,7 @@ export default {
       for (const productPriceDirective of productPriceDirectives) {
         directivesValues.push({
           directive: productPriceDirective.directive,
-          value: this.getProductPrice(
+          value: this.getProductDefaultPrice(
             productsBySkuDictionary[productPriceDirective.productSku],
             productPriceDirective.priceType
           )
@@ -176,8 +176,8 @@ export default {
 
       this.isDirectivesParsed = true;
     },
-    getProductPrice (product, priceType) {
-      const price = getProductPrice(product);
+    getProductDefaultPrice (product, priceType) {
+      const price = getProductDefaultPrice(product);
 
       return price[priceType];
     }

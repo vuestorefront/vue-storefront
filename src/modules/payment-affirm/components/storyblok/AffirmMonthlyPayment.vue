@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { Blok } from 'src/modules/vsf-storyblok-module/components'
-import { getProductPrice } from 'theme/helpers';
+import { getProductDefaultPrice } from 'theme/helpers';
 import Product from 'core/modules/catalog/types/Product';
 import AffirmMonthlyPaymentData from './interfaces/affirm-monthly-payment-data.interface';
 
@@ -30,7 +30,7 @@ export default Blok.extend({
         return 0
       }
 
-      const price = getProductPrice(this.product, {}, false);
+      const price = getProductDefaultPrice(this.product, {}, false);
 
       return (price.special ? price.special : price.regular) * 100;
     }
