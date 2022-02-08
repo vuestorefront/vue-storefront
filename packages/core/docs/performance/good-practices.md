@@ -75,12 +75,9 @@ A large DOM will increase memory usage, cause longer style calculations, and pro
 - Check if the library that you use doesn't create complex html structures, there are cases when a simple button generates 1000 lines of code.
 :::
 
-
 ### Do not load specific print stylesheets ⚫⚪⚪
 
 Loading a specific stylesheet for printing slows down the page, even though it is not used. You can include the print styles inside your other CSS file(s) just by using an @media query targeting type print.
-
-
 
 ### Optimizing JavaScript
 
@@ -94,7 +91,6 @@ When you are building a big application, you will get to a place where your proj
 - To eliminate unnecessary JavaScript you can use Terser mentioned previously or utilize - Tree Shaking to allow Dead Code Elimination. You can also use Code Splitting which will split code into bundles that can be loaded on demand.
 Vue Storefront provides code-splitting out of the box
 :::
-
 
 ### Avoid Serving legacy JavaScript to modern browsers ⚫⚫⚪
 Polyfills and transforms enable legacy browsers to use new JavaScript features. However, many aren't necessary for modern browsers.
@@ -164,7 +160,6 @@ Remember don't lazy load image that is potential candidate for Largest Contentfu
 - If you want to use lazy loading in Nuxt 3 go with this [lazy-load module](https://github.com/nuxt-modules/lazy-load).
 :::
 
-
 ### Favicon should be small and cacheable ⚫⚪⚪
 
 It is easy to make the favicon big but please avoid doing that, because every browser will then perform an unnecessarily large download. And make sure the cache headers are set for a long time for the favicon. It is easy to miss since it's another content type.
@@ -178,7 +173,6 @@ If you need a 300x300 image (e.g. on mobile) don't download 1000x1000 and scale 
 - In vue/nuxt applications you can use the nux-image library that will help you to resize and optimize images. 
 - You can use picture and srcset to load images depending on device resolution.
 :::
-
 ## Other optimizations
 
 ### Avoid render blocking resources ⚫⚫⚫
@@ -192,11 +186,9 @@ Consider delivering critical JS/CSS inline and deferring all non-critical JS/sty
 - Inline critical styles required for the first paint inside a style block at the head of the HTML page and load the rest of the styles asynchronously using the preload link.
 :::
 
-
 ### Total page size shouldn't be too big ⚫⚫⚫
 
 Avoid having pages that have a transfer size more than 2 MB (desktop) and 1 MB (mobile) because it will hurt performance and will make the page expensive for the user if she/he pays for the bandwidth.
-
 
 ### Avoid too many fonts ⚫⚫⚪
 
@@ -205,7 +197,6 @@ How many fonts do you need on a page for the user to get the message? Fonts can 
 ::: tip HINTS
 - If you are using Google fonts and need it for eg. logo or header text you can set text value in your request url, this can reduce the size of the font file by up to 90%.
 :::
-
 
 ### All text remains visible during webfont loads ⚫⚫⚪
 Leverage the font-display CSS feature to ensure text is user-visible while webfonts are loading.
@@ -241,7 +232,6 @@ In Nuxt you can cache whole pages that are rendered on the server side that will
 ::: tip HINTS
 - To cache server side rendered pages you can use Redis. Using the Redis node app directly can be slow, so you should consider using e.g. Lua Cache.
 :::
-
 
 ### Avoid document.write ⚫⚫⚪
 
@@ -279,10 +269,6 @@ Connection: keep-alive
 Keep-Alive: timeout=5, max=100
 ```
 :::
-
-
-
-
 
 ### Preconnect with external domains like your CDN or fonts gstatic ⚫⚫⚪
 
@@ -329,8 +315,6 @@ module.exports = {
 }
 ```
 :::
-
-
 
 ### Avoid Multiple page redirects ⚫⚫⚫
 Redirects introduce additional delays before the page can be loaded.
