@@ -907,6 +907,23 @@
       }
     ]
   },
+  "amazonPay": {
+    "sandbox": ${AMAZONPAY_SANDBOX},
+    "sellerId": "${AMAZONPAY_SELLER_ID}",
+    "clientId": "${AMAZONPAY_CLIENT_ID}",
+    "endpoint": {
+        "GetOrderReferenceDetails": "https://${VSF_API_DOMAIN}/api/ext/amazon-pay/GetOrderReferenceDetails",
+        "SetOrderReferenceDetails": "https://${VSF_API_DOMAIN}/api/ext/amazon-pay/SetOrderReferenceDetails",
+        "ConfirmOrderReference": "https://${VSF_API_DOMAIN}/api/ext/amazon-pay/ConfirmOrderReference",
+        "CancelOrderReference": "https://${VSF_API_DOMAIN}/api/ext/amazon-pay/CancelOrderReference",
+        "Authorize": "https://${VSF_API_DOMAIN}/api/ext/amazon-pay/Authorize"
+    },
+      "storeName": "Petsies",
+      "authorization": {
+          "asynchronous": true
+      },
+      "backend_method_code": "amazon_payments"
+  },
   "hotjar": {
     "id": false
   },
