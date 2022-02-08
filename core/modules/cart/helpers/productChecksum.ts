@@ -28,8 +28,8 @@ export const getProductOptions = (product, optionsName) => {
 }
 
 const getDataToHash = (product: CartItem | ServerItem): any => {
-  if (!product.product_option) {
-    return null
+  if (product.customerImages && product.customerImages.length) {
+    return product.customerImages.map(item => item.id);
   }
 
   if (product.giftcard_options) {
@@ -44,8 +44,8 @@ const getDataToHash = (product: CartItem | ServerItem): any => {
     }
   }
 
-  if (product.customerImages && product.customerImages.length) {
-    return product.customerImages.map(item => item.id);
+  if (!product.product_option) {
+    return null
   }
 
   const supportedProductOptions = ['bundle_options', 'custom_options', 'configurable_item_options']
