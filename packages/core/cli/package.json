@@ -2,9 +2,7 @@
   "name": "@vue-storefront/cli",
   "version": "0.0.0",
   "description": "Vue Storefront's CLI.",
-  "bin": {
-    "@vue-storefront/cli": "./bin/run"
-  },
+  "bin": "./bin/run",
   "homepage": "https://github.com/vuestorefront/vue-storefront",
   "license": "MIT",
   "main": "dist/index.js",
@@ -18,11 +16,15 @@
   "dependencies": {
     "@oclif/core": "^1.3.2",
     "@oclif/plugin-help": "^5.1.11",
-    "@oclif/plugin-plugins": "^2.1.0"
+    "@oclif/plugin-plugins": "^2.1.0",
+    "i18next": "^21.6.11",
+    "i18next-fs-backend": "^1.1.4",
+    "os-locale": "^5.0.0"
   },
   "devDependencies": {
     "@oclif/test": "^2.0.3",
     "@types/chai": "^4.3.0",
+    "@types/i18next-fs-backend": "^1.1.2",
     "@types/mocha": "^9.1.0",
     "@types/node": "^16.11.7",
     "chai": "^4.3.6",
@@ -39,21 +41,19 @@
   },
   "oclif": {
     "bin": "@vue-storefront/cli",
+    "hooks": {
+      "init": "./dist/hooks/init"
+    },
     "dirname": "@vue-storefront/cli",
-    "commands": "./dist/commands",
     "plugins": [
       "@oclif/plugin-help",
       "@oclif/plugin-plugins"
     ],
-    "topicSeparator": " ",
-    "topics": {
-      "hello": {
-        "description": "Say hello to the world and others"
-      }
-    }
+    "commands": "./dist/commands",
+    "topicSeparator": " "
   },
   "scripts": {
-    "build": "shx rm -rf dist && tsc -b",
+    "build": "shx rm -rf dist && shx rm tsconfig.tsbuildinfo && tsc -b",
     "lint": "eslint . --ext .ts --config .eslintrc",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "yarn lint",

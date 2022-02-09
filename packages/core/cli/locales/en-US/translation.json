@@ -1,0 +1,7 @@
+{
+  "command": {
+    "store_create": {
+      "description": "Create a new Vue Storefront store."
+    }
+  }
+}

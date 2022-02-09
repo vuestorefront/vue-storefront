@@ -36,6 +36,7 @@ USAGE
 * [`@vue-storefront/cli plugins:link PLUGIN`](#vue-storefrontcli-pluginslink-plugin)
 * [`@vue-storefront/cli plugins:uninstall PLUGIN...`](#vue-storefrontcli-pluginsuninstall-plugin)
 * [`@vue-storefront/cli plugins update`](#vue-storefrontcli-plugins-update)
+* [`@vue-storefront/cli store create [FILE]`](#vue-storefrontcli-store-create-file)
 
 ## `@vue-storefront/cli help [COMMAND]`
 
@@ -201,5 +202,22 @@ FLAGS
 
 DESCRIPTION
   Update installed plugins.
+```
+
+## `@vue-storefront/cli store create [FILE]`
+
+```
+USAGE
+  $ @vue-storefront/cli store create [FILE] [-n <value>] [-f]
+
+FLAGS
+  -f, --force
+  -n, --name=<value>  name to print
+
+ALIASES
+  $ @vue-storefront/cli init
+
+EXAMPLES
+  $ @vue-storefront/cli store create
 ```
 <!-- commandsstop -->
