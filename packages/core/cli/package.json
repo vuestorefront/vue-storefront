@@ -41,9 +41,6 @@
   },
   "oclif": {
     "bin": "@vue-storefront/cli",
-    "hooks": {
-      "init": "./dist/hooks/init"
-    },
     "dirname": "@vue-storefront/cli",
     "plugins": [
       "@oclif/plugin-help",
