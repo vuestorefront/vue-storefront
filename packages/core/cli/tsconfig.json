@@ -9,7 +9,8 @@
     "rootDir": "src",
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2019"
+    "target": "es2019",
+    "types": ["jest"]
   },
   "include": [
     "src/**/*"
