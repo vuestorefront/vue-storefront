@@ -25,8 +25,6 @@
     "@types/i18next-fs-backend": "^1.1.2",
     "@types/node": "^16.11.7",
     "eslint": "^7.32.0",
-    "eslint-config-oclif": "^4.0.0",
-    "eslint-config-oclif-typescript": "^1.0.2",
     "globby": "^11.1.0",
     "oclif": "^2.4.3",
     "shx": "^0.3.4",
