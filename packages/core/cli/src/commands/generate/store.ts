@@ -6,6 +6,7 @@ import git from 'isomorphic-git';
 import http from 'isomorphic-git/http/node';
 import * as path from 'path';
 import isValidFolderName from 'reasonable-filename';
+import { fetchIntegrations, Integration } from '../../domains/integration';
 
 const existsFolder = async (path: string): Promise<boolean> => {
   try {
@@ -16,48 +17,10 @@ const existsFolder = async (path: string): Promise<boolean> => {
   }
 };
 
-type Integration = {
-  name: string;
-  gitRepositoryURL: string;
-};
-
 type CustomIntegration = {
   name: string;
   gitRepositoryURL: null;
 };
-
-// git@github.com:vuestorefront/template-commercetools.git
-
-const integrations: Integration[] = [
-  {
-    name: 'Commercetools',
-    gitRepositoryURL: 'https://github.com/vuestorefront/template-commercetools.git'
-  },
-  {
-    name: 'Salesforce Commerce Cloud (beta)',
-    gitRepositoryURL: 'https://github.com/ForkPoint/vsf-sfcc-template.git'
-  },
-  {
-    name: 'Shopify',
-    gitRepositoryURL: 'https://github.com/vuestorefront/template-shopify.git'
-  },
-  {
-    name: 'Spryker (beta)',
-    gitRepositoryURL: 'https://github.com/spryker/vsf-theme.git'
-  },
-  {
-    name: 'Magento 2 (beta)',
-    gitRepositoryURL: 'https://github.com/vuestorefront/template-magento.git'
-  },
-  {
-    name: 'Vendure',
-    gitRepositoryURL: 'https://github.com/vuestorefront/template-vendure.git'
-  },
-  {
-    name: 'Kibo Commerce (beta)',
-    gitRepositoryURL: 'https://github.com/vuestorefront/template-kibocommerce.git'
-  }
-];
 
 const CUSTOM_INTEGRATION: CustomIntegration = {
   name: 'Custom integration',
@@ -73,18 +36,20 @@ type Answers = {
 };
 
 export default class GenerateStore extends Command {
-  static description = 'describe the command here';
+  static override description = 'describe the command here';
 
-  static examples = ['<%= config.bin %> <%= command.id %>'];
+  static override examples = ['<%= config.bin %> <%= command.id %>'];
 
-  static flags = {};
+  static override flags = {};
 
-  static args = [];
+  static override args = [];
 
-  public async run(): Promise<void> {
+  async run(): Promise<void> {
     // const {args, flags} = await this.parse(GenerateStore)
 
     let suggestion: null | string = null;
+
+    const integrations = await fetchIntegrations();
 
     const answers = await inquirer.prompt<Answers>([
       {
