@@ -29,6 +29,8 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`@vue-storefront/cli generate integration`](#vue-storefrontcli-generate-integration)
+* [`@vue-storefront/cli generate store`](#vue-storefrontcli-generate-store)
 * [`@vue-storefront/cli help [COMMAND]`](#vue-storefrontcli-help-command)
 * [`@vue-storefront/cli plugins`](#vue-storefrontcli-plugins)
 * [`@vue-storefront/cli plugins:inspect PLUGIN...`](#vue-storefrontcli-pluginsinspect-plugin)
@@ -36,7 +38,36 @@ USAGE
 * [`@vue-storefront/cli plugins:link PLUGIN`](#vue-storefrontcli-pluginslink-plugin)
 * [`@vue-storefront/cli plugins:uninstall PLUGIN...`](#vue-storefrontcli-pluginsuninstall-plugin)
 * [`@vue-storefront/cli plugins update`](#vue-storefrontcli-plugins-update)
-* [`@vue-storefront/cli store create [FILE]`](#vue-storefrontcli-store-create-file)
+
+## `@vue-storefront/cli generate integration`
+
+describe the command here
+
+```
+USAGE
+  $ @vue-storefront/cli generate integration
+
+DESCRIPTION
+  describe the command here
+
+EXAMPLES
+  $ @vue-storefront/cli generate integration
+```
+
+## `@vue-storefront/cli generate store`
+
+describe the command here
+
+```
+USAGE
+  $ @vue-storefront/cli generate store
+
+DESCRIPTION
+  describe the command here
+
+EXAMPLES
+  $ @vue-storefront/cli generate store
+```
 
 ## `@vue-storefront/cli help [COMMAND]`
 
@@ -202,22 +233,5 @@ FLAGS
 
 DESCRIPTION
   Update installed plugins.
-```
-
-## `@vue-storefront/cli store create [FILE]`
-
-```
-USAGE
-  $ @vue-storefront/cli store create [FILE] [-n <value>] [-f]
-
-FLAGS
-  -f, --force
-  -n, --name=<value>  name to print
-
-ALIASES
-  $ @vue-storefront/cli init
-
-EXAMPLES
-  $ @vue-storefront/cli store create
 ```
 <!-- commandsstop -->
