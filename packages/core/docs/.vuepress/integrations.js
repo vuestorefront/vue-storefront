@@ -147,7 +147,7 @@ const INTEGRATIONS = {
       name: 'PrestaShop',
       link: '',
       image: '/v2/integrations-logos/prestashop.svg',
-      status: STATUS.WIP,
+      status: STATUS.BETA,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
         { name: 'Binshops', link: 'https://www.binshops.com/' }
