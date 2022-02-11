@@ -1,5 +1,5 @@
 const { resolve } = require('path');
-const { STATUSES, AVAILABILITY, CATEGORIES, INTEGRATIONS } = require('./integrations');
+const { STATUS, LICENSE, CATEGORY, INTEGRATIONS } = require('./integrations');
 const GTM_TAG = 'GTM-WMDC3CP';
 
 module.exports = {
@@ -96,9 +96,9 @@ module.exports = {
    */
   themeConfig: {
     GTM_TAG,
-    STATUSES,
-    AVAILABILITY,
-    CATEGORIES,
+    STATUS,
+    LICENSE,
+    CATEGORY,
     INTEGRATIONS,
     repo: 'https://github.com/vuestorefront/vue-storefront/',
     editLinks: true,
