@@ -127,7 +127,7 @@ const INTEGRATIONS = {
       name: 'Vendure',
       link: 'https://docs.vuestorefront.io/vendure',
       image: '/v2/integrations-logos/vendure.svg',
-      status: STATUS.BETA,
+      status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
         { name: 'Jakub Andrzejewski', link: 'https://www.linkedin.com/in/jakub-andrzejewski/' },
@@ -154,7 +154,7 @@ const INTEGRATIONS = {
       ]
     },
     {
-      name: 'SpreeCommerce',
+      name: 'Spree',
       link: 'https://docs.vuestorefront.io/spree/',
       image: '/v2/integrations-logos/spree.svg',
       status: STATUS.STABLE,

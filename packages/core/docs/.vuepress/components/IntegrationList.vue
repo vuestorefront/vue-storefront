@@ -9,7 +9,7 @@
       deselect-label="Can't remove this value"
       track-by="name"
       label="name"
-      placeholder="Select your eCommerce platform"
+      placeholder="Select your e-commerce platform"
     >
       <template
         slot="singleLabel"
