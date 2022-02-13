@@ -1,18 +1,28 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "composite": true,
-    "declaration": true,
-    "esModuleInterop": true,
-    "importHelpers": true,
+    "lib": ["es2019"],
     "module": "commonjs",
-    "outDir": "dist",
-    "rootDir": "src",
-    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "types": ["node", "jest"],
+
+    // Strictness and code quality options
+    "alwaysStrict": true,
     "strict": true,
-    "target": "es2019",
-    "types": ["jest"]
+    "forceConsistentCasingInFileNames": true,
+    "importsNotUsedAsValues": "error",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
+  "exclude": [],
   "include": [
-    "src/**/*"
+    "./src/**/*.ts",
+    "./src/**/*.json",
+    "./__tests__/**/*.ts"
   ]
 }

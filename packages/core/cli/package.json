@@ -25,7 +25,8 @@
     "inquirer": "^8.2.0",
     "isomorphic-git": "^1.11.2",
     "os-locale": "^5.0.0",
-    "reasonable-filename": "^1.2.0"
+    "reasonable-filename": "^1.2.0",
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@types/i18next-fs-backend": "^1.1.2",
@@ -36,7 +37,6 @@
     "oclif": "^2.4.3",
     "shx": "^0.3.4",
     "ts-node": "^10.5.0",
-    "tslib": "^2.3.1",
     "typescript": "^4.5.5"
   },
   "oclif": {
@@ -50,7 +50,7 @@
     "topicSeparator": " "
   },
   "scripts": {
-    "build": "shx rm -rf dist && shx rm tsconfig.tsbuildinfo && tsc -b",
+    "build": "shx rm -rf ./dist && tsc --project ./tsconfig.build.json",
     "lint": "eslint . --ext .ts --config .eslintrc",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "yarn lint",

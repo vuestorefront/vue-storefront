@@ -28,13 +28,13 @@ type Answers = {
 };
 
 export default class GenerateIntegration extends Command {
-  static description = 'describe the command here';
+  static override description = 'describe the command here';
 
-  static examples = ['<%= config.bin %> <%= command.id %>'];
+  static override examples = ['<%= config.bin %> <%= command.id %>'];
 
-  static flags = {};
+  static override flags = {};
 
-  static args = [];
+  static override args = [];
 
   public async run(): Promise<void> {
     // const { args, flags } = await this.parse(GenerateIntegration);
