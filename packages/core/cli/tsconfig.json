@@ -6,6 +6,9 @@
     "resolveJsonModule": true,
     "types": ["node", "jest"],
 
+    // https://github.com/microsoft/TypeScript/issues/40328
+    "noEmitHelpers": false,
+
     // Strictness and code quality options
     "alwaysStrict": true,
     "strict": true,

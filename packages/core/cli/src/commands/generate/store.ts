@@ -2,11 +2,10 @@ import { cloneGitRepository, terminateGitRepository } from '../../domains/git-re
 import { Command } from '@oclif/core';
 import { access } from 'fs/promises';
 import inquirer from 'inquirer';
-import git from 'isomorphic-git';
-import http from 'isomorphic-git/http/node';
 import * as path from 'path';
 import isValidFolderName from 'reasonable-filename';
 import { fetchIntegrations, Integration } from '../../domains/integration';
+import { getGitRepositoryURL } from '../../domains/git-repository-url';
 
 const existsFolder = async (path: string): Promise<boolean> => {
   try {
@@ -45,10 +44,6 @@ export default class GenerateStore extends Command {
   static override args = [];
 
   async run(): Promise<void> {
-    // const {args, flags} = await this.parse(GenerateStore)
-
-    let suggestion: null | string = null;
-
     const integrations = await fetchIntegrations();
 
     const answers = await inquirer.prompt<Answers>([
@@ -81,55 +76,11 @@ export default class GenerateStore extends Command {
           name: integration.name,
           value: integration
         }))
-      },
-      {
-        type: 'input',
-        name: 'customIntegrationGitRepositoryURL',
-        when(answers) {
-          return !answers.integration.gitRepositoryURL;
-        },
-        message: 'What\'s the URL of the custom integration\'s git repository?',
-        validate: async (url: string): Promise<true | string> => {
-          suggestion = null;
-
-          try {
-            await git.getRemoteInfo2({
-              url,
-              http
-            });
-
-            return true;
-          } catch (error: unknown) {
-            if (error instanceof git.Errors.UnknownTransportError) {
-              if (error.data.suggestion) {
-                // eslint-disable-next-line max-depth
-                try {
-                  await git.getRemoteInfo2({
-                    url: error.data.suggestion,
-                    http
-                  });
-
-                  suggestion = error.data.suggestion;
-                  // eslint-disable-next-line no-empty
-                } catch {}
-              }
-            }
-
-            if (suggestion) return true;
-
-            return error instanceof git.Errors.UrlParseError
-              ? 'Please type in a valid git repository URL.'
-              : 'Couldn\'t locate git repository with the received URL.';
-          }
-        }
-      },
-      {
-        type: 'confirm',
-        name: 'acceptSuggestionAsCustomIntegrationGitRepositoryURL',
-        when: () => Boolean(suggestion),
-        message: () => `The protocol isn't supported. Use "${suggestion}" instead?`
       }
     ]);
+
+    const gitRepositoryURL =
+      answers.integration.gitRepositoryURL ?? (await getGitRepositoryURL('What\'s the URL of the custom integration\'s git repository?'));
 
     const dir = path.resolve(process.cwd(), answers.projectName);
 
@@ -150,12 +101,8 @@ export default class GenerateStore extends Command {
       }
     }
 
-    const url =
-      answers.integration.gitRepositoryURL ??
-      ((answers.acceptSuggestionAsCustomIntegrationGitRepositoryURL ? suggestion : /* Should never happen */ null) as unknown as string);
-
     await cloneGitRepository({
-      gitRepositoryURL: url,
+      gitRepositoryURL,
       projectDir: dir
     });
 
