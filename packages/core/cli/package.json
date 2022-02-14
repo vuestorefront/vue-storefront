@@ -51,7 +51,7 @@
   },
   "scripts": {
     "build": "shx rm -rf ./dist && tsc --project ./tsconfig.build.json",
-    "lint": "eslint . --ext .ts --config .eslintrc",
+    "lint": "eslint . --ext .ts --config .eslintrc.js",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "yarn lint",
     "prepack": "yarn build && oclif manifest && oclif readme",
