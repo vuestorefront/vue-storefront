@@ -1,9 +1,8 @@
 import { Command } from '@oclif/core';
 import * as fs from 'fs/promises';
-import inquirer from 'inquirer';
 import * as path from 'path';
 import execa from 'execa';
-import isValidFolderName from 'reasonable-filename';
+import { getProjectName } from '../../domains/project-name';
 
 const VSF_TU_CONFIG_FILENAME = 'theme-utils.config.js';
 
@@ -23,10 +22,6 @@ const processMagicComments = async (filePath: string): Promise<void> => {
   await fs.writeFile(filePath, removeDevCommentBlocks(uncommentProjectOnlyBlocks(contents)));
 };
 
-type Answers = {
-  projectName: string;
-};
-
 export default class GenerateIntegration extends Command {
   static override description = 'describe the command here';
 
@@ -39,30 +34,7 @@ export default class GenerateIntegration extends Command {
   public async run(): Promise<void> {
     // const { args, flags } = await this.parse(GenerateIntegration);
 
-    const { projectName } = await inquirer.prompt<Answers>([
-      {
-        type: 'input',
-        name: 'projectName',
-        message: 'What is the project name?',
-        filter(value: string): string {
-          return value.trim().toLowerCase().replace(/\s+/g, '-');
-        },
-        transformer(value: string): string {
-          return value.trimStart().toLowerCase().replace(/\s+/g, '-');
-        },
-        validate(value?: string): true | string {
-          if (!value?.trim()) {
-            return 'Please type in the project name.';
-          }
-
-          if (!isValidFolderName(value)) {
-            return 'The project name can\'t be invalid directory name.';
-          }
-
-          return true;
-        }
-      }
-    ]);
+    const projectName = await getProjectName();
 
     const projectPath = path.join(process.cwd(), projectName);
 

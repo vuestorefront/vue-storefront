@@ -5,62 +5,102 @@ import { getGitRepositoryURL, validateGitRepositoryURL } from '../../../src/doma
 jest.mock('../../../src/domains/git-repository-url/validateGitRepositoryURL');
 
 const ENTER_KEY = '\x0D';
+const BACKSPACE_KEY = '\x08';
 
 type MockValidate = jest.MockedFunction<typeof validateGitRepositoryURL>;
 
-const wait = (time: number): Promise<void> =>
-  new Promise((resolve) => {
+const wait = (time: number): Promise<void> => {
+  return new Promise((resolve) => {
     setTimeout(resolve, time);
   });
+};
 
 describe('getGitRepositoryURL', () => {
   let io: MockSTDIN;
+  let output = '';
 
   beforeEach(() => {
     io = stdin();
-  });
-
-  it('gets git repository URL from user', async () => {
-    const answer = async () => {
-      io.send('https://github.com/vuestorefront/test-store.git');
-
-      await wait(100);
-
-      io.send(ENTER_KEY);
-    };
-
-    wait(100).then(answer);
-
-    (validateGitRepositoryURL as MockValidate).mockResolvedValueOnce([true, null]);
-
-    let output = '';
+    output = '';
 
     jest.spyOn(process.stdout, 'write').mockImplementation((message) => {
       output += message as string;
       return true;
     });
+  });
+
+  it('gets git repository URL from user', async () => {
+    const answer = async () => {
+      expect(output).toContain('What\'s your git repository URL?');
+
+      io.send(' ');
+      io.send(ENTER_KEY);
+
+      await wait(100);
+
+      expect(output).toContain('Please type in a valid git repository URL.');
+
+      io.send(BACKSPACE_KEY);
+      io.send('https://github.com/x/x.git');
+      io.send(ENTER_KEY);
+
+      await wait(100);
+
+      expect(output).toContain('Couldn\'t locate git repository with the received URL.');
+
+      io.send(BACKSPACE_KEY.repeat(5));
+      io.send('y.git');
+      io.send(ENTER_KEY);
+    };
+
+    wait(100).then(answer);
+
+    (validateGitRepositoryURL as MockValidate)
+      .mockResolvedValueOnce([
+        false,
+        new git.Errors.UrlParseError(' ')
+      ])
+      .mockResolvedValueOnce([
+        false,
+        new git.Errors.NotFoundError('https://github.com/x/x.git')
+      ])
+      .mockResolvedValueOnce([true, null]);
 
     const gitRepositoryURL = await getGitRepositoryURL('What\'s your git repository URL?');
 
-    expect(output).toContain('What\'s your git repository URL?');
-    expect(gitRepositoryURL).toBe('https://github.com/vuestorefront/test-store.git');
+    expect(gitRepositoryURL).toBe('https://github.com/x/y.git');
   });
 
-  describe('when user answers non supported git repository URL', () => {
-    it('allow user to use suggestion as answer', async () => {
+  describe('when user input unsupported git repository URL', () => {
+    it('allow user to select suggestion as answer', async () => {
       const answer = async () => {
-        io.send('git@git.io:vsf/test-store.git');
+        expect(output).toContain('What\'s your git repository URL?');
 
-        await wait(100);
-
+        io.send('git@github.com:x/x.git');
         io.send(ENTER_KEY);
 
         await wait(100);
 
-        io.send('Y');
+        expect(output).toContain('Use "https://github.com/x/x.git" instead?');
+
+        // Cleanup the output.
+        output = '';
+
+        io.send('N');
+        io.send(ENTER_KEY);
 
         await wait(100);
 
+        expect(output).toContain('What\'s your git repository URL?');
+
+        io.send('git@github.com:x/y.git');
+        io.send(ENTER_KEY);
+
+        await wait(100);
+
+        expect(output).toContain('Use "https://github.com/x/y.git" instead?');
+
+        io.send('Y');
         io.send(ENTER_KEY);
       };
 
@@ -70,24 +110,25 @@ describe('getGitRepositoryURL', () => {
         .mockResolvedValueOnce([
           false,
           new git.Errors.UnknownTransportError(
-            'git@git.io:vsf/test-store.git',
+            'git@github.com:x/x.git',
             'ssh',
-            'https://git.io/vsf/test-store.git'
+            'https://github.com/x/x.git'
+          )
+        ])
+        .mockResolvedValueOnce([true, null])
+        .mockResolvedValueOnce([
+          false,
+          new git.Errors.UnknownTransportError(
+            'git@github.com:x/y.git',
+            'ssh',
+            'https://github.com/x/y.git'
           )
         ])
         .mockResolvedValueOnce([true, null]);
 
-      let output = '';
+      const result = await getGitRepositoryURL('What\'s your git repository URL?');
 
-      jest.spyOn(process.stdout, 'write').mockImplementation((message) => {
-        output += message as string;
-        return true;
-      });
-
-      const result = await getGitRepositoryURL('Whats your git repository URL?');
-
-      expect(result).toBe('https://git.io/vsf/test-store.git');
-      expect(output).toContain('Use "https://git.io/vsf/test-store.git" instead?');
+      expect(result).toBe('https://github.com/x/y.git');
     });
   });
 });

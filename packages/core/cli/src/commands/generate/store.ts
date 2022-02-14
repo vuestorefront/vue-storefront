@@ -3,9 +3,9 @@ import { Command } from '@oclif/core';
 import { access } from 'fs/promises';
 import inquirer from 'inquirer';
 import * as path from 'path';
-import isValidFolderName from 'reasonable-filename';
 import { fetchIntegrations, Integration } from '../../domains/integration';
 import { getGitRepositoryURL } from '../../domains/git-repository-url';
+import { getProjectName } from '../../domains/project-name';
 
 const existsFolder = async (path: string): Promise<boolean> => {
   try {
@@ -26,14 +26,6 @@ const CUSTOM_INTEGRATION: CustomIntegration = {
   gitRepositoryURL: null
 };
 
-type Answers = {
-  projectName: string;
-  integration: Integration | CustomIntegration;
-  customIntegrationGitRepositoryURL: null | string;
-  acceptSuggestionAsCustomIntegrationGitRepositoryURL: boolean;
-  overwrite: boolean;
-};
-
 export default class GenerateStore extends Command {
   static override description = 'describe the command here';
 
@@ -46,43 +38,23 @@ export default class GenerateStore extends Command {
   async run(): Promise<void> {
     const integrations = await fetchIntegrations();
 
-    const answers = await inquirer.prompt<Answers>([
-      {
-        type: 'input',
-        name: 'projectName',
-        message: 'What is the project name?',
-        filter(value: string): string {
-          return value.trim().replace(/\s+/g, '-');
-        },
-        transformer(value: string): string {
-          return value.trimStart().replace(/\s+/g, '-');
-        },
-        validate(value?: string): true | string {
-          if (!value?.trim()) {
-            return 'Please type in the project name.';
-          }
+    const projectName = await getProjectName();
 
-          if (!isValidFolderName(value)) {
-            return 'The project name can\'t be invalid directory name.';
-          }
+    const projectDir = path.join(process.cwd(), projectName);
 
-          return true;
-        }
-      },
-      {
-        type: 'list',
-        name: 'integration',
-        choices: [...integrations, CUSTOM_INTEGRATION].map((integration) => ({
-          name: integration.name,
-          value: integration
-        }))
-      }
-    ]);
+    const answers = await inquirer.prompt<{ integration: Integration | CustomIntegration }>({
+      type: 'list',
+      name: 'integration',
+      choices: [...integrations, CUSTOM_INTEGRATION].map((integration) => ({
+        name: integration.name,
+        value: integration
+      }))
+    });
 
     const gitRepositoryURL =
       answers.integration.gitRepositoryURL ?? (await getGitRepositoryURL('What\'s the URL of the custom integration\'s git repository?'));
 
-    const dir = path.resolve(process.cwd(), answers.projectName);
+    const dir = path.resolve(process.cwd(), projectName);
 
     const alreadyExistsFolder = await existsFolder(dir);
 
@@ -91,7 +63,7 @@ export default class GenerateStore extends Command {
         {
           type: 'confirm',
           name: 'overwrite',
-          message: () => `"./${answers.projectName}" already exists. Overwrite?`
+          message: () => `"./${projectName}" already exists. Overwrite?`
         }
       ]);
 
@@ -103,12 +75,12 @@ export default class GenerateStore extends Command {
 
     await cloneGitRepository({
       gitRepositoryURL,
-      projectDir: dir
+      projectDir
     });
 
     await terminateGitRepository(dir);
 
-    console.log(`Sucessfully created your project at "./${answers.projectName}".`);
+    console.log(`Sucessfully created your project at "./${projectName}".`);
     process.exit(0);
   }
 }
