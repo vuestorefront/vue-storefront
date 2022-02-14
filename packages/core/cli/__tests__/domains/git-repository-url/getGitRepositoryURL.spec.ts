@@ -49,7 +49,7 @@ describe('getGitRepositoryURL', () => {
   describe('when user answers non supported git repository URL', () => {
     it('allow user to use suggestion as answer', async () => {
       const answer = async () => {
-        io.send('git@github.com:vuestorefront/test-store.git');
+        io.send('git@git.io:vsf/test-store.git');
 
         await wait(100);
 
@@ -70,9 +70,9 @@ describe('getGitRepositoryURL', () => {
         .mockResolvedValueOnce([
           false,
           new git.Errors.UnknownTransportError(
-            'git@github.com:vuestorefront/test-store.git',
+            'git@git.io:vsf/test-store.git',
             'ssh',
-            'https://github.com/vuestorefront/test-store.git'
+            'https://git.io/vsf/test-store.git'
           )
         ])
         .mockResolvedValueOnce([true, null]);
@@ -86,8 +86,8 @@ describe('getGitRepositoryURL', () => {
 
       const result = await getGitRepositoryURL('Whats your git repository URL?');
 
-      expect(result).toBe('https://github.com/vuestorefront/test-store.git');
-      expect(output).toContain('Use "https://github.com/vuestorefront/test-store.git" instead?');
+      expect(result).toBe('https://git.io/vsf/test-store.git');
+      expect(output).toContain('Use "https://git.io/vsf/test-store.git" instead?');
     });
   });
 });
