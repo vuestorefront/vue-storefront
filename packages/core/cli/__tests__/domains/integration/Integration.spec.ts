@@ -2,7 +2,7 @@ import type { Integration } from '../../../src/domains/integration';
 
 type Assert<A, B> = [B] extends [A] ? true : false;
 
-describe('Integration | type test', () => {
+describe('Integration | type tests', () => {
   it('defines an object with name and git repository URL', () => {
     expect<
       Assert<

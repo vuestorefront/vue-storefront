@@ -1,6 +1,6 @@
-import { CliUx, Command } from '@oclif/core';
-import * as fs from 'fs';
-import { access, rm } from 'fs/promises';
+import { cloneGitRepository, terminateGitRepository } from '../../domains/git-repository';
+import { Command } from '@oclif/core';
+import { access } from 'fs/promises';
 import inquirer from 'inquirer';
 import git from 'isomorphic-git';
 import http from 'isomorphic-git/http/node';
@@ -150,37 +150,16 @@ export default class GenerateStore extends Command {
       }
     }
 
-    const bar = CliUx.ux.progress({
-      fps: 64,
-      format: '||{bar} || {percentage}% ',
-      barCompleteChar: '\u2588',
-      barIncompleteChar: '\u2591'
-    });
-
-    bar.start();
-
     const url =
       answers.integration.gitRepositoryURL ??
       ((answers.acceptSuggestionAsCustomIntegrationGitRepositoryURL ? suggestion : /* Should never happen */ null) as unknown as string);
 
-    await git.clone({
-      fs,
-      dir,
-      url,
-      http,
-      onProgress(progress) {
-        if (progress.loaded < progress.total) {
-          bar.update(progress.loaded);
-        } else {
-          bar.stop();
-        }
-      }
+    await cloneGitRepository({
+      gitRepositoryURL: url,
+      projectDir: dir
     });
 
-    await rm(path.resolve(dir, '.git'), {
-      force: true,
-      recursive: true
-    });
+    await terminateGitRepository(dir);
 
     console.log(`Sucessfully created your project at "./${answers.projectName}".`);
     process.exit(0);
