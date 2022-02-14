@@ -3,8 +3,7 @@ import { Command } from '@oclif/core';
 import { access } from 'fs/promises';
 import inquirer from 'inquirer';
 import * as path from 'path';
-import { fetchIntegrations, Integration } from '../../domains/integration';
-import { getGitRepositoryURL } from '../../domains/git-repository-url';
+import { getIntegration } from '../../domains/integration';
 import { getProjectName } from '../../domains/project-name';
 
 const existsFolder = async (path: string): Promise<boolean> => {
@@ -14,16 +13,6 @@ const existsFolder = async (path: string): Promise<boolean> => {
   } catch {
     return false;
   }
-};
-
-type CustomIntegration = {
-  name: string;
-  gitRepositoryURL: null;
-};
-
-const CUSTOM_INTEGRATION: CustomIntegration = {
-  name: 'Custom integration',
-  gitRepositoryURL: null
 };
 
 export default class GenerateStore extends Command {
@@ -36,36 +25,18 @@ export default class GenerateStore extends Command {
   static override args = [];
 
   async run(): Promise<void> {
-    const integrations = await fetchIntegrations();
-
     const projectName = await getProjectName();
+
+    const integration = await getIntegration();
 
     const projectDir = path.join(process.cwd(), projectName);
 
-    const answers = await inquirer.prompt<{ integration: Integration | CustomIntegration }>({
-      type: 'list',
-      name: 'integration',
-      choices: [...integrations, CUSTOM_INTEGRATION].map((integration) => ({
-        name: integration.name,
-        value: integration
-      }))
-    });
-
-    const gitRepositoryURL =
-      answers.integration.gitRepositoryURL ?? (await getGitRepositoryURL('What\'s the URL of the custom integration\'s git repository?'));
-
-    const dir = path.resolve(process.cwd(), projectName);
-
-    const alreadyExistsFolder = await existsFolder(dir);
-
-    if (alreadyExistsFolder) {
-      const { overwrite } = await inquirer.prompt<{ overwrite: boolean }>([
-        {
-          type: 'confirm',
-          name: 'overwrite',
-          message: () => `"./${projectName}" already exists. Overwrite?`
-        }
-      ]);
+    if (await existsFolder(projectDir)) {
+      const { overwrite } = await inquirer.prompt<{ overwrite: boolean }>({
+        type: 'confirm',
+        name: 'overwrite',
+        message: () => `"./${projectName}" already exists. Overwrite?`
+      });
 
       if (!overwrite) {
         console.log('Skipping the installation…');
@@ -74,11 +45,11 @@ export default class GenerateStore extends Command {
     }
 
     await cloneGitRepository({
-      gitRepositoryURL,
-      projectDir
+      projectDir,
+      gitRepositoryURL: integration.gitRepositoryURL
     });
 
-    await terminateGitRepository(dir);
+    await terminateGitRepository(projectDir);
 
     console.log(`Sucessfully created your project at "./${projectName}".`);
     process.exit(0);
