@@ -16,7 +16,7 @@ const existsFolder = async (path: string): Promise<boolean> => {
 };
 
 export default class GenerateStore extends Command {
-  static override description = 'describe the command here';
+  static override description = 'Generates a new Vue Storefront store';
 
   static override examples = ['<%= config.bin %> <%= command.id %>'];
 

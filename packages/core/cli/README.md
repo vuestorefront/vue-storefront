@@ -20,7 +20,7 @@ $ npm install -g @vue-storefront/cli
 $ @vue-storefront/cli COMMAND
 running command...
 $ @vue-storefront/cli (--version)
-@vue-storefront/cli/0.0.0 darwin-arm64 node-v16.13.1
+@vue-storefront/cli/0.0.0 linux-x64 node-v16.14.0
 $ @vue-storefront/cli --help [COMMAND]
 USAGE
   $ @vue-storefront/cli COMMAND
@@ -29,8 +29,8 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`@vue-storefront/cli generate integration`](#vue-storefrontcli-generate-integration)
 * [`@vue-storefront/cli generate store`](#vue-storefrontcli-generate-store)
+* [`@vue-storefront/cli generate template`](#vue-storefrontcli-generate-template)
 * [`@vue-storefront/cli help [COMMAND]`](#vue-storefrontcli-help-command)
 * [`@vue-storefront/cli plugins`](#vue-storefrontcli-plugins)
 * [`@vue-storefront/cli plugins:inspect PLUGIN...`](#vue-storefrontcli-pluginsinspect-plugin)
@@ -39,34 +39,37 @@ USAGE
 * [`@vue-storefront/cli plugins:uninstall PLUGIN...`](#vue-storefrontcli-pluginsuninstall-plugin)
 * [`@vue-storefront/cli plugins update`](#vue-storefrontcli-plugins-update)
 
-## `@vue-storefront/cli generate integration`
-
-describe the command here
-
-```
-USAGE
-  $ @vue-storefront/cli generate integration
-
-DESCRIPTION
-  describe the command here
-
-EXAMPLES
-  $ @vue-storefront/cli generate integration
-```
-
 ## `@vue-storefront/cli generate store`
 
-describe the command here
+Generates a new Vue Storefront store
 
 ```
 USAGE
   $ @vue-storefront/cli generate store
 
 DESCRIPTION
-  describe the command here
+  Generates a new Vue Storefront store
 
 EXAMPLES
   $ @vue-storefront/cli generate store
+```
+
+## `@vue-storefront/cli generate template`
+
+Generates a template of your integration's for VSF
+
+```
+USAGE
+  $ @vue-storefront/cli generate template [-i <value>]
+
+FLAGS
+  -i, --integration=<value>  [default: ./] Relative path to the integration directory
+
+DESCRIPTION
+  Generates a template of your integration's for VSF
+
+EXAMPLES
+  $ @vue-storefront/cli generate template
 ```
 
 ## `@vue-storefront/cli help [COMMAND]`
