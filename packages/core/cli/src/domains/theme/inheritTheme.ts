@@ -8,13 +8,12 @@ const VSF_TU_CONFIG_FILENAME = 'theme-utils.config.js';
 const NUXT_CONFIG_FILENAME = 'nuxt.config.js';
 
 type Options = {
-  projectName: string;
   projectPath: string;
   integrationPath: string;
 };
 
 const inheritTheme = async (options: Options) => {
-  const { integrationPath, projectName, projectPath } = options;
+  const { integrationPath, projectPath } = options;
 
   const configPath = path.join(integrationPath, VSF_TU_CONFIG_FILENAME);
 
@@ -22,7 +21,7 @@ const inheritTheme = async (options: Options) => {
     configPath,
     `module.exports = {
   copy: {
-    to: '${projectName}',
+    to: '${projectPath}',
     from: [
       {
         path: '${path.join(integrationPath, '_theme')}',

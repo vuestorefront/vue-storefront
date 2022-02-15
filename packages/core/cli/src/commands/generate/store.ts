@@ -5,6 +5,7 @@ import inquirer from 'inquirer';
 import * as path from 'path';
 import { getIntegration } from '../../domains/integration';
 import { getProjectName } from '../../domains/project-name';
+import { t } from 'i18next';
 
 const existsFolder = async (path: string): Promise<boolean> => {
   try {
@@ -16,7 +17,7 @@ const existsFolder = async (path: string): Promise<boolean> => {
 };
 
 export default class GenerateStore extends Command {
-  static override description = 'Generates a new Vue Storefront store';
+  static override description = t('command.generate_store.description');
 
   static override examples = ['<%= config.bin %> <%= command.id %>'];
 
@@ -25,9 +26,12 @@ export default class GenerateStore extends Command {
   static override args = [];
 
   async run(): Promise<void> {
-    const projectName = await getProjectName();
+    const projectName = await getProjectName(t('command.generate_store.input.project_name'));
 
-    const integration = await getIntegration();
+    const integration = await getIntegration({
+      message: t('command.generate_store.input.integration'),
+      customIntegrationRepositoryMessage: t('command.generate_store.input.custom_integration_repository')
+    });
 
     const projectDir = path.join(process.cwd(), projectName);
 
@@ -35,12 +39,12 @@ export default class GenerateStore extends Command {
       const { overwrite } = await inquirer.prompt<{ overwrite: boolean }>({
         type: 'confirm',
         name: 'overwrite',
-        message: () => `"./${projectName}" already exists. Overwrite?`
+        message: () => t('command.generate_store.input.overwrite', { projectName })
       });
 
       if (!overwrite) {
-        console.log('Skipping the installation…');
-        process.exit(0);
+        this.log(t('command.generate_store.message.skipping'));
+        this.exit(0);
       }
     }
 
@@ -51,7 +55,7 @@ export default class GenerateStore extends Command {
 
     await terminateGitRepository(projectDir);
 
-    console.log(`Sucessfully created your project at "./${projectName}".`);
-    process.exit(0);
+    this.log(t('command.generate_store.message.success', { projectName }));
+    this.exit(0);
   }
 }

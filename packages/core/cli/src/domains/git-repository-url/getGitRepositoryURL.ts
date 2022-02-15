@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import inquirer from 'inquirer';
 import git from 'isomorphic-git';
 import extractSuggestionFromError from './extractSuggestionFromError';
@@ -30,15 +31,15 @@ const getGitRepositoryURL = async (message: string): Promise<string> => {
         if (suggestion) return true;
 
         return error instanceof git.Errors.UrlParseError
-          ? 'Please type in a valid git repository URL.'
-          : 'Couldn\'t locate git repository with the received URL.';
+          ? t<string>('domain.git_repository_url.is_invalid')
+          : t<string>('domain.git_repository_url.was_not_found');
       }
     },
     {
       type: 'confirm',
       name: 'acceptSuggestionAsGitRepositoryURL',
       when: () => Boolean(suggestion),
-      message: () => `The protocol isn't supported. Use "${suggestion}" instead?`
+      message: () => t('domain.git_repository_url.suggestion', { suggestion })
     }
   ]);
 

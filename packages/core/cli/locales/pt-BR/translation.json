@@ -1,7 +1,40 @@
 {
   "command": {
-    "store_create": {
-      "description": "Cria uma nova loja com Vue Storefront."
+    "generate_store": {
+      "description": "Gera uma loja com Vue Storefront.",
+      "input": {
+        "project_name": "Qual o nome do seu projeto?",
+        "integration": "Escolha um template de integração:",
+        "custom_integration_repository": "Qual a URL do repositório git da integração customizada?",
+        "overwrite": "\"./{{projectName}}\" já existe. Sobrescrever?"
+      },
+      "message": {
+        "skipping": "Não é possível gerar a loja. Pulando…",
+        "success": "Loja gerada com sucesso em \"./{{projectName}}\"!"
+      }
+    },
+    "generate_template": {
+      "description": "Gera um template para sua integração com o Vue Storefront",
+      "flag": {
+        "integration": "Caminho relativo do diretório com a integração"
+      },
+      "input": {
+        "project_name": "Qual o nome do seu projeto?"
+      },
+      "message": {
+        "success": "Template gerado com sucesso em \"./{{projectName}}\"!"
+      }
+    }
+  },
+  "domain": {
+    "project_name": {
+      "is_empty": "Por favor, insira o nome do projeto.",
+      "is_not_directory": "Por favor, insira um nome que possa ser usado como diretório."
+    },
+    "git_repository_url": {
+      "is_invalid": "Por favor, insira uma URL de repositório git válida.",
+      "was_not_found": "Não foi possível localizar o repositório git com a URL fornecida.",
+      "suggestion": "Procoloco não suportado. Usar \"{{suggestion}}\" como alternativa?"
     }
   }
 }

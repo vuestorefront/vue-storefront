@@ -1,10 +1,13 @@
 import { Command, Flags } from '@oclif/core';
+import { t } from 'i18next';
 import * as path from 'path';
 import { getProjectName } from '../../domains/project-name';
 import { inheritTheme } from '../../domains/theme';
 
+console.log(t('command.generate_template.flag.integration'));
+
 export default class GenerateTemplate extends Command {
-  static override description = 'Generates a template of your integration\'s for VSF';
+  static override description = t('command.generate_template.description');
 
   static override examples = ['<%= config.bin %> <%= command.id %>'];
 
@@ -12,7 +15,7 @@ export default class GenerateTemplate extends Command {
     integration: Flags.string({
       name: 'integration',
       char: 'i',
-      description: 'Relative path to the integration directory',
+      description: t('command.generate_template.flag.integration') ?? t('command.generate_template.description'),
       default: './',
       required: false,
       multiple: false,
@@ -27,14 +30,18 @@ export default class GenerateTemplate extends Command {
   public async run(): Promise<void> {
     const { flags } = await this.parse(GenerateTemplate);
 
-    const projectName = await getProjectName();
+    const projectName = await getProjectName(t('command.generate_template.input.project_name'));
+
+    const projectPath = path.join(process.cwd(), projectName);
 
     const integrationPath = flags.integration;
 
     await inheritTheme({
-      projectName,
-      integrationPath,
-      projectPath: path.join(process.cwd(), projectName)
+      projectPath,
+      integrationPath
     });
+
+    this.log('');
+    this.exit(0);
   }
 }

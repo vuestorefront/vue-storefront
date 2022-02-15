@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import inquirer from 'inquirer';
 import isReasonableFilename from 'reasonable-filename';
 import formatToProjectName from './formatToProjectName';
@@ -8,11 +9,11 @@ type Answers = {
 };
 
 /** Gets a git repository URL from user's input. */
-const getProjectName = async (): Promise<string> => {
+const getProjectName = async (message: string): Promise<string> => {
   const { projectName } = await inquirer.prompt<Answers>({
     type: 'input',
     name: 'projectName',
-    message: 'What is the project name?',
+    message,
     filter: (value: string): string => {
       return formatToProjectName(value.trim());
     },
@@ -21,11 +22,11 @@ const getProjectName = async (): Promise<string> => {
     },
     validate: (value?: string): true | string => {
       if (!value?.trim()) {
-        return 'Please type in the project name.';
+        return t<string>('domain.project_name.is_empty');
       }
 
       if (!isReasonableFilename(value)) {
-        return 'The project name can\'t be invalid directory name.';
+        return t<string>('domain.project_name.is_not_directory');
       }
 
       return true;

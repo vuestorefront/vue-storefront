@@ -13,8 +13,15 @@ type Answers = {
   integration: Integration | CustomIntegration;
 };
 
+type Options = {
+  message: string;
+  customIntegrationRepositoryMessage: string;
+};
+
 /** Gets the integration from user's input. */
-const getIntegration = async (): Promise<Integration> => {
+const getIntegration = async (options: Options): Promise<Integration> => {
+  const { message, customIntegrationRepositoryMessage } = options;
+
   const integrations = await fetchIntegrations();
 
   const customIntegration: CustomIntegration = {
@@ -29,6 +36,7 @@ const getIntegration = async (): Promise<Integration> => {
 
   const answers = await inquirer.prompt<Answers>({
     choices,
+    message,
     type: 'list',
     name: 'integration'
   });
@@ -37,7 +45,7 @@ const getIntegration = async (): Promise<Integration> => {
 
   return {
     ...answers.integration,
-    gitRepositoryURL: await getGitRepositoryURL('What\'s the URL of the custom integration\'s git repository?')
+    gitRepositoryURL: await getGitRepositoryURL(customIntegrationRepositoryMessage)
   };
 };
 

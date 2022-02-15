@@ -1,7 +1,40 @@
 {
   "command": {
-    "store_create": {
-      "description": "Create a new Vue Storefront store."
+    "generate_store": {
+      "description": "Generates a Vue Storefront store.",
+      "input": {
+        "project_name": "What's your project name?",
+        "integration": "Choose an integration template:",
+        "custom_integration_repository": "What's the URL of the custom integration's git repository?",
+        "overwrite": "\"./{{projectName}}\" already exists. Overwrite?"
+      },
+      "message": {
+        "skipping": "Can't generate the store. Skipping…",
+        "success": "Sucessfully generated your store at \"./{{projectName}}\"!"
+      }
+    },
+    "generate_template": {
+      "description": "Generates a template of your integration's for VSF",
+      "flag": {
+        "integration": "Relative path to the integration directory"
+      },
+      "input": {
+        "project_name": "What's your project name?"
+      },
+      "message": {
+        "success": "Sucessfully created your template at \"./{{projectName}}\"!"
+      }
+    }
+  },
+  "domain": {
+    "project_name": {
+      "is_empty": "Please input a project name.",
+      "is_not_directory": "Please input a name that can be used as directory."
+    },
+    "git_repository_url": {
+      "is_invalid": "Please input a valid git repository URL.",
+      "was_not_found": "Couldn't locate git repository with the received URL.",
+      "suggestion": "The protocol isn't supported. Use \"{{suggestion}}\" instead?"
     }
   }
 }
