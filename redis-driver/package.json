@@ -1,0 +1,13 @@
+{
+  "name": "@vue-storefront/redis-cache",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "redis-tag-cache": "^1.2.1"
+  },
+  "files": [
+    "index.js"
+  ]
+}
