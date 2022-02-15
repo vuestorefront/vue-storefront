@@ -1,7 +1,9 @@
 import git from 'isomorphic-git';
+import { t, TFunction } from 'i18next';
 import { stdin, MockSTDIN } from 'mock-stdin';
 import { getGitRepositoryURL, validateGitRepositoryURL } from '../../../src/domains/git-repository-url';
 
+jest.mock('i18next');
 jest.mock('../../../src/domains/git-repository-url/validateGitRepositoryURL');
 
 const ENTER_KEY = '\x0D';
@@ -18,6 +20,8 @@ const wait = (time: number): Promise<void> => {
 describe('getGitRepositoryURL', () => {
   let io: MockSTDIN;
   let output = '';
+
+  (t as jest.MockedFunction<TFunction>).mockImplementation(key => key);
 
   beforeEach(() => {
     io = stdin();
@@ -38,7 +42,7 @@ describe('getGitRepositoryURL', () => {
 
       await wait(100);
 
-      expect(output).toContain('Please type in a valid git repository URL.');
+      expect(output).toContain('domain.git_repository_url.is_invalid');
 
       io.send(BACKSPACE_KEY);
       io.send('https://github.com/x/x.git');
@@ -46,7 +50,7 @@ describe('getGitRepositoryURL', () => {
 
       await wait(100);
 
-      expect(output).toContain('Couldn\'t locate git repository with the received URL.');
+      expect(output).toContain('domain.git_repository_url.was_not_found');
 
       io.send(BACKSPACE_KEY.repeat(5));
       io.send('y.git');
@@ -81,7 +85,7 @@ describe('getGitRepositoryURL', () => {
 
         await wait(100);
 
-        expect(output).toContain('Use "https://github.com/x/x.git" instead?');
+        expect(output).toContain('domain.git_repository_url.suggestion');
 
         // Cleanup the output.
         output = '';
@@ -98,7 +102,7 @@ describe('getGitRepositoryURL', () => {
 
         await wait(100);
 
-        expect(output).toContain('Use "https://github.com/x/y.git" instead?');
+        expect(output).toContain('domain.git_repository_url.suggestion');
 
         io.send('Y');
         io.send(ENTER_KEY);

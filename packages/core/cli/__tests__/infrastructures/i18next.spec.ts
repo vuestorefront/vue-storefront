@@ -36,8 +36,8 @@ describe('infrastructures/i18next | integration tests', () => {
 
     await setupI18Next();
 
-    const text = t('command.store_create.description');
+    const text = t('command.generate_store.description');
 
-    expect(text).toBe('Cria uma nova loja com Vue Storefront.');
+    expect(text).toBe('Gera uma loja com Vue Storefront.');
   });
 });

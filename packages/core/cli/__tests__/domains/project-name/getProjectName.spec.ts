@@ -1,5 +1,8 @@
-import { getProjectName } from '../../../src/domains/project-name';
+import { t, TFunction } from 'i18next';
 import { stdin, MockSTDIN } from 'mock-stdin';
+import { getProjectName } from '../../../src/domains/project-name';
+
+jest.mock('i18next');
 
 const ENTER_KEY = '\x0D';
 const BACKSPACE_KEY = '\x08';
@@ -18,6 +21,8 @@ describe('getProjectName | integration tests', () => {
     io = stdin();
     output = '';
 
+    (t as jest.MockedFunction<TFunction>).mockImplementation(key => key);
+
     jest.spyOn(process.stdout, 'write').mockImplementation((message) => {
       output += message;
       return true;
@@ -33,14 +38,14 @@ describe('getProjectName | integration tests', () => {
 
       await wait(100);
 
-      expect(output).toContain('Please type in the project name.');
+      expect(output).toContain('domain.project_name.is_empty');
 
       io.send('PROJECT  \t NAME.');
       io.send(ENTER_KEY);
 
       await wait(100);
 
-      expect(output).toContain('The project name can\'t be invalid directory name.');
+      expect(output).toContain('domain.project_name.is_not_directory');
 
       io.send(BACKSPACE_KEY);
       io.send(ENTER_KEY);
@@ -54,7 +59,7 @@ describe('getProjectName | integration tests', () => {
 
     wait(100).then(answer);
 
-    const projectName = await getProjectName();
+    const projectName = await getProjectName('What is the project name?');
 
     expect(projectName).toBe('project-name');
   });
