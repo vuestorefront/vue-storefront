@@ -38,17 +38,18 @@ USAGE
 * [`@vue-storefront/cli plugins:link PLUGIN`](#vue-storefrontcli-pluginslink-plugin)
 * [`@vue-storefront/cli plugins:uninstall PLUGIN...`](#vue-storefrontcli-pluginsuninstall-plugin)
 * [`@vue-storefront/cli plugins update`](#vue-storefrontcli-plugins-update)
+* [`@vue-storefront/cli update [CHANNEL]`](#vue-storefrontcli-update-channel)
 
 ## `@vue-storefront/cli generate store`
 
-Generates a new Vue Storefront store
+Generates a Vue Storefront store.
 
 ```
 USAGE
   $ @vue-storefront/cli generate store
 
 DESCRIPTION
-  Generates a new Vue Storefront store
+  Generates a Vue Storefront store.
 
 EXAMPLES
   $ @vue-storefront/cli generate store
@@ -165,7 +166,7 @@ ALIASES
   $ @vue-storefront/cli plugins add
 
 EXAMPLES
-  $ @vue-storefront/cli plugins:install myplugin 
+  $ @vue-storefront/cli plugins:install myplugin
 
   $ @vue-storefront/cli plugins:install https://github.com/someuser/someplugin
 
@@ -237,4 +238,41 @@ FLAGS
 DESCRIPTION
   Update installed plugins.
 ```
+
+## `@vue-storefront/cli update [CHANNEL]`
+
+update the @vue-storefront/cli CLI
+
+```
+USAGE
+  $ @vue-storefront/cli update [CHANNEL] [-a] [-v <value> | -i] [--force]
+
+FLAGS
+  -a, --available        Install a specific version.
+  -i, --interactive      Interactively select version to install. This is ignored if a channel is provided.
+  -v, --version=<value>  Install a specific version.
+  --force                Force a re-download of the requested version.
+
+DESCRIPTION
+  update the @vue-storefront/cli CLI
+
+EXAMPLES
+  Update to the stable channel:
+
+    $ @vue-storefront/cli update stable
+
+  Update to a specific version:
+
+    $ @vue-storefront/cli update --version 1.0.0
+
+  Interactively select version:
+
+    $ @vue-storefront/cli update --interactive
+
+  See available versions:
+
+    $ @vue-storefront/cli update --available
+```
+
+_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.0.0/src/commands/update.ts)_
 <!-- commandsstop -->

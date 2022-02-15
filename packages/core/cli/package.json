@@ -18,6 +18,8 @@
     "@oclif/core": "^1.3.2",
     "@oclif/plugin-help": "^5.1.11",
     "@oclif/plugin-plugins": "^2.1.0",
+    "@oclif/plugin-update": "^3.0.0",
+    "@oclif/plugin-warn-if-update-available": "^2.0.4",
     "@vue-storefront/theme-utilities": "^0.1.7",
     "execa": "^5.1.1",
     "i18next": "^21.6.11",
@@ -45,7 +47,9 @@
     "dirname": "@vue-storefront/cli",
     "plugins": [
       "@oclif/plugin-help",
-      "@oclif/plugin-plugins"
+      "@oclif/plugin-update",
+      "@oclif/plugin-plugins",
+      "@oclif/plugin-warn-if-update-available"
     ],
     "commands": "./dist/commands",
     "topicSeparator": " "
