@@ -248,10 +248,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
   },
   async createNewsletterSubscription (
     { commit, state },
-    { email, storeId }: {
-      email: string,
-      storeId: number
-    }
+    { email }: { email: string }
   ): Promise<Task> {
     const url = processURLAddress(`${config.budsies.endpoint}/newsletter/subscriptions?token={{token}}`);
 
@@ -261,7 +258,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         mode: 'cors',
         method: 'POST',
-        body: JSON.stringify({ email, storeId })
+        body: JSON.stringify({ email })
       },
       silent: false
     });
