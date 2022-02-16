@@ -4,10 +4,23 @@
   "description": "Redis driver for the SSR cache in Vue Storefront 2",
   "license": "MIT",
   "main": "index.js",
+  "scripts": {
+    "publish:driver": "node ./scripts/publishDriver.js"
+  },
   "dependencies": {
     "redis-tag-cache": "^1.2.1"
   },
+  "devDependencies": {
+    "@commitlint/cli": "^16.1.0",
+    "@commitlint/config-conventional": "^16.0.0",
+    "@commitlint/config-lerna-scopes": "^16.0.0"
+  },
   "files": [
-    "index.js"
-  ]
+    "src/index.js"
+  ],
+  "engines": {
+    "node": ">=12.x.x",
+    "yarn": "1.x.x||>=3.x.x"
+  },
+  "packageManager": "yarn@1.22.15"
 }
