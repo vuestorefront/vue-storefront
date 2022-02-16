@@ -27,13 +27,11 @@ const cloneGitRepository = async (options: Options): Promise<void> => {
     dir: projectDir,
     url: gitRepositoryURL,
     onProgress(progress) {
-      if (progress.total === undefined) {
-        bar.reset();
-        return;
-      }
-
       bar.update(progress.loaded);
-      bar.setTotal(progress.total);
+
+      if (progress.total !== undefined) {
+        bar.setTotal(progress.total);
+      }
     }
   });
 

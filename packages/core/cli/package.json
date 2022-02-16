@@ -28,12 +28,14 @@
     "isomorphic-git": "^1.11.2",
     "os-locale": "^5.0.0",
     "reasonable-filename": "^1.2.0",
+    "rimraf": "^3.0.2",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@types/i18next-fs-backend": "^1.1.2",
     "@types/inquirer": "^8.2.0",
-    "@types/node": "^16.11.7",
+    "@types/node": "^12.20.46",
+    "@types/rimraf": "^3.0.2",
     "eslint": "^7.32.0",
     "globby": "^11.1.0",
     "mock-stdin": "^1.0.0",

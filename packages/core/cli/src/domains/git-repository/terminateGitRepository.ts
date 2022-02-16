@@ -1,13 +1,9 @@
-
-import * as fs from 'fs/promises';
 import * as path from 'path';
+import { removeFileOrDirectory } from '../directory';
 
 /** Terminates git repository by removing its '.git' folder. */
-const terminateGitRepository = async (projectDir: string): Promise<void> => {
-  await fs.rm(path.join(projectDir, '.git'), {
-    force: true,
-    recursive: true
-  });
+const terminateGitRepository = (projectDir: string): Promise<void> => {
+  return removeFileOrDirectory(path.join(projectDir, '.git'));
 };
 
 export default terminateGitRepository;

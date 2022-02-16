@@ -1,7 +1,8 @@
-import * as fs from 'fs/promises';
+import * as fs from 'fs';
 import * as path from 'path';
 import execa from 'execa';
 import processMagicComments from './processMagicComments';
+import { removeFileOrDirectory } from '../directory';
 
 const VSF_TU_CONFIG_FILENAME = 'theme-utils.config.js';
 
@@ -17,7 +18,7 @@ const inheritTheme = async (options: Options) => {
 
   const configPath = path.join(integrationPath, VSF_TU_CONFIG_FILENAME);
 
-  await fs.writeFile(
+  await fs.promises.writeFile(
     configPath,
     `module.exports = {
   copy: {
@@ -41,14 +42,11 @@ const inheritTheme = async (options: Options) => {
 
   await execa('vsf-tu', ['--config', configPath, '--output', projectPath]);
 
-  await fs.rm(configPath);
+  await removeFileOrDirectory(configPath);
 
   await processMagicComments(path.join(projectPath, NUXT_CONFIG_FILENAME));
 
-  await fs.rm(path.join(projectPath, '_theme'), {
-    force: true,
-    recursive: true
-  });
+  await removeFileOrDirectory(path.join(projectPath, '_theme'));
 };
 
 export default inheritTheme;

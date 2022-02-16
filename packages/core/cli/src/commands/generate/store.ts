@@ -1,20 +1,11 @@
-import { cloneGitRepository, terminateGitRepository } from '../../domains/git-repository';
 import { Command } from '@oclif/core';
-import { access } from 'fs/promises';
+import { t } from 'i18next';
 import inquirer from 'inquirer';
 import * as path from 'path';
 import { getIntegration } from '../../domains/integration';
 import { getProjectName } from '../../domains/project-name';
-import { t } from 'i18next';
-
-const existsFolder = async (path: string): Promise<boolean> => {
-  try {
-    await access(path);
-    return true;
-  } catch {
-    return false;
-  }
-};
+import { cloneGitRepository, terminateGitRepository } from '../../domains/git-repository';
+import { existsDirectory } from '../../domains/directory';
 
 export default class GenerateStore extends Command {
   static override description = t('command.generate_store.description');
@@ -35,7 +26,7 @@ export default class GenerateStore extends Command {
 
     const projectDir = path.join(process.cwd(), projectName);
 
-    if (await existsFolder(projectDir)) {
+    if (await existsDirectory(projectDir)) {
       const { overwrite } = await inquirer.prompt<{ overwrite: boolean }>({
         type: 'confirm',
         name: 'overwrite',
