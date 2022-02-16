@@ -1,17 +1,16 @@
+import { removeFileOrDirectory } from '../../../src/domains/directory';
 import { terminateGitRepository } from '../../../src/domains/git-repository';
-import * as fs from 'fs/promises';
 
-jest.mock('fs/promises');
+jest.mock('../../../src/domains/directory');
+
+type Mock = jest.MockedFunction<typeof removeFileOrDirectory>;
 
 describe('terminateGitRepository | unit tests', () => {
   it('removes \'.git\' folder', async () => {
-    (fs.rm as jest.MockedFunction<typeof fs.rm>).mockResolvedValueOnce();
+    (removeFileOrDirectory as Mock).mockResolvedValueOnce();
 
     await terminateGitRepository('~/Projects/test-store');
 
-    expect(fs.rm).toHaveBeenCalledWith('~/Projects/test-store/.git', {
-      force: true,
-      recursive: true
-    });
+    expect(removeFileOrDirectory).toHaveBeenCalledWith('~/Projects/test-store/.git');
   });
 });
