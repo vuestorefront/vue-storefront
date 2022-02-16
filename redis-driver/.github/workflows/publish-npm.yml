@@ -1,0 +1,29 @@
+name: Publish Packages on NPM
+on:
+  workflow_dispatch:
+    inputs:
+      npmTag:
+        description: 'NPM Tag'
+        required: true
+        default: 'latest'
+
+jobs:
+  publishing:
+    name: Package Publishing
+    runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          registry-url: "https://registry.npmjs.org/"
+          scope: "@vue-storefront"
+      - run: echo "" >> .npmrc && echo "@vue-storefront:registry=https://registry.npmjs.org/" >> .npmrc
+      - run: yarn publish:driver "${{ github.event.inputs.npmTag }}" "$NODE_AUTH_TOKEN"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
