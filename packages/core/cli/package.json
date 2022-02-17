@@ -1,15 +1,23 @@
 {
   "name": "@vue-storefront/cli",
   "version": "2.4.1",
-  "description": "",
-  "main": "./lib/index.js",
+  "license": "MIT",
+  "type": "module",
+  "main": "./lib/index.mjs",
+  "exports": "./lib/index.mjs",
+  "types": "./lib/index.d.ts",
   "bin": {
-    "vsf": "./lib/index.js"
+    "vsf": "./lib/index.mjs"
+  },
+  "engines": {
+    "node": ">=16.x"
   },
   "scripts": {
+    "build": "yarn build:package && yarn build:types",
+    "build:package": "node ../../../scripts/build",
+    "build:types": "tsc --emitDeclarationOnly",
+    "dev": "yarn build && node ./lib/index.mjs",
     "test": "cross-env APP_ENV=test jest --rootDir .",
-    "build": "rm -rf ./lib; tsc",
-    "cli": "ts-node ./src/index.ts",
     "prepublish": "yarn build"
   },
   "dependencies": {
@@ -20,7 +28,5 @@
     "inquirer": "^7.3.3",
     "isomorphic-git": "^1.9.2",
     "rimraf": "^3.0.2"
-  },
-  "author": "Filip Jędrasik",
-  "license": "MIT"
+  }
 }

@@ -1,17 +1,25 @@
 {
   "name": "@vue-storefront/middleware",
   "version": "2.5.4",
-  "description": "",
-  "main": "lib/index.cjs.js",
-  "module": "lib/index.es.js",
-  "types": "lib/src/index.d.ts",
+  "license": "MIT",
+  "type": "module",
+  "main": "./lib/index.mjs",
+  "exports": {
+    ".": "./lib/index.mjs",
+    "./nuxt": "./nuxt/index.js",
+    "./package.json": "./package.json"
+  },
+  "types": "./lib/index.d.ts",
+  "engines": {
+    "node": ">=16.x"
+  },
   "scripts": {
-    "build": "rimraf lib && rollup -c",
+    "build": "yarn build:package && yarn build:types",
+    "build:package": "node ../../../scripts/build",
+    "build:types": "tsc --emitDeclarationOnly",
     "test": "jest",
     "prepublish": "yarn build"
   },
-  "author": "Vue Storefront",
-  "license": "MIT",
   "dependencies": {
     "consola": "2.15.3",
     "express": "^4.17.1",

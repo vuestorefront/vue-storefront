@@ -4,8 +4,21 @@ const resolveDependency = require('../helpers/resolveDependency');
 
 module.exports = function VueStorefrontPerformanceModule (options) {
   const useRawSource = (package) => {
+    console.log({
+      package
+    });
+    
     const pkgPath = resolveDependency(`${package}/package.json`);
+    
+    console.log({
+      pkgPath
+    });
+
     const pkg = require(pkgPath);
+
+    console.log({
+      pkg
+    });
 
     if (pkg.module) {
       this.extendBuild(config => {

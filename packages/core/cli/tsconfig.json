@@ -1,24 +1,16 @@
 {
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "target": "ES2019",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "importHelpers": true,
-    "noEmitHelpers": true,
-    "sourceMap": true,
-    "declaration": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "lib",
-    "lib": [
-      "ES2019",
-      "ES2020"
-    ],
-    "strict": false,
-    "preserveSymlinks": true,
-    "allowJs": true
+    "outDir": "./lib",
+    "rootDir": "./src",
+    "baseUrl": "./",
   },
-  "exclude": ["node_modules", "**/*.spec.ts"],
-  "include": ["src"],
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "__tests__",
+    "lib",
+    "node_modules"
+  ],
 }

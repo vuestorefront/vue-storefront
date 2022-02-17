@@ -1,14 +1,23 @@
 {
   "name": "@vue-storefront/core",
   "version": "2.5.4",
+  "license": "MIT",
   "sideEffects": false,
-  "main": "lib/index.cjs.js",
-  "module": "lib/index.es.js",
-  "mainServer": "server/index.js",
-  "types": "lib/src/index.d.ts",
+  "type": "module",
+  "main": "./lib/index.mjs",
+  "exports": {
+    ".": "./lib/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "types": "./lib/index.d.ts",
+  "engines": {
+    "node": ">=16.x"
+  },
   "scripts": {
-    "build": "rimraf lib && rollup -c rollup.config.js",
-    "dev": "rimraf lib && rollup -c rollup.config.js -w",
+    "build": "yarn build:package && yarn build:types",
+    "build:package": "node ../../../scripts/build",
+    "build:types": "tsc --emitDeclarationOnly",
+    "dev": "node ../../../scripts/build --watch",
     "test": "jest",
     "prepublish": "yarn build"
   },
@@ -24,8 +33,7 @@
     "@types/express": "^4.11.1",
     "@vue/test-utils": "^1.0.0-beta.30",
     "jsdom": "^16.6.0",
-    "jsdom-global": "^3.0.2",
-    "vue-template-compiler": "^2.6.x"
+    "jsdom-global": "^3.0.2"
   },
   "peerDependencies": {
     "@nuxtjs/composition-api": "^0.29.3"

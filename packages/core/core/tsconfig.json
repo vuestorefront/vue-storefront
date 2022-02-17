@@ -1,23 +1,19 @@
 {
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./lib",
-    "esModuleInterop": true,
-    "target": "ES2019",
-    "module": "ES2015",
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "noEmitHelpers": true,
-    "sourceMap": true,
-    "declaration": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "rootDir": "./src",
     "baseUrl": "./",
     "lib": [
-      "ES2019",
-      "ES2020",
       "DOM"
-    ],
-    "strict": false
+    ]
   },
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "__tests__",
+    "lib",
+    "node_modules"
+  ],
 }

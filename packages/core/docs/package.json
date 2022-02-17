@@ -22,7 +22,7 @@
     "@vuepress/plugin-search": "^1.8.2",
     "handlebars": "^4.7.7",
     "node-html-to-image": "^3.2.0",
-    "typescript": "^3.6.4",
+    "typescript": "^4.5.5",
     "vuepress": "^1.2.0"
   },
   "dependencies": {
