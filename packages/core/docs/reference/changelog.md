@@ -2,7 +2,7 @@
 
 ## 2.5.5
 
-- Fix for disabling cookie generation on server side with `autoChangeCookie` option disabled ([6623]()) - [Alef Barbeli](https://github.com/alefbarbeli)
+- Fix for disabling cookie generation on server side with `autoChangeCookie` option disabled ([6633](https://github.com/vuestorefront/vue-storefront/pull/6633)) - [Alef Barbeli](https://github.com/alefbarbeli)
 
 ## 2.5.4
 
