@@ -57,7 +57,7 @@ export default {
 };
 ```
 
-The `httpPush` option (_enabled by default_) leverages [`http2` option in Nuxt.js](https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-render#http2). It's configured to automatically push all JavaScript files needed for the current page. If you want to override this behavior, you can disable this option and use the Nuxt.js configuration instead.
+The `httpPush` option (_enabled by default_) leverages [http2](https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-render#http2) option in Nuxt.js. It's configured to automatically push all JavaScript files needed for the current page. If you want to override this behavior, you can disable this option and use the Nuxt.js configuration instead.
 
 If you can't use HTTP2, you can disable this option. In this case, Nuxt.js will still `preload` these scripts, which is only slightly slower than the HTTP2 push.
 
@@ -73,4 +73,4 @@ TODO: Add an example
 
 ## Don't import SCSS files from StorefrontUI
 
-`@vue-storefront/nuxt` module automatically detects if you have the `@storefront-ui/vue` package installed and, registers [`@nuxtjs/style-resources` module](https://github.com/nuxt-community/style-resources-module). It automatically registers all variables, mixins, and functions from StorefrontUI, which means you don't have to import them. Importing SCSS files from StorefrontUI might duplicate some styles, significantly increasing your bundle size and impacting performance.
+`@vue-storefront/nuxt` module automatically detects if you have the `@storefront-ui/vue` package installed and, registers [@nuxtjs/style-resources](https://github.com/nuxt-community/style-resources-module) module. It automatically registers all variables, mixins, and functions from StorefrontUI, which means you don't have to import them. Importing SCSS files from StorefrontUI might duplicate some styles, significantly increasing your bundle size and impacting performance.
