@@ -1,0 +1,28 @@
+name: "❓ Question / Basic Issue"
+description: |
+  Do you have a question on the implementation or a basic issue
+labels:
+  - triage-needed
+body:
+  - type: markdown
+    attributes:
+      value: If you are not sure how something works or want discuss something just describe your doubts.
+  - type: textarea
+    attributes:
+      label: What is your question / Please describe your issue
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: What version of Magento 2 Integration are you using?
+      description: 'For example: 1.0.0'
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/vuestorefront/vue-storefront/blob/master/CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
