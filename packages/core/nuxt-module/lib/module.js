@@ -53,12 +53,12 @@ module.exports = function VueStorefrontNuxtModule(moduleOptions) {
       },
     });
   }
-  if (option.context) {
+  if (options.context) {
     // Context plugin
     this.addPlugin(path.resolve(__dirname, 'plugins/context.js'));
     log.success('Installed Vue Storefront Context plugin');
   }
-  if (option.ssr) {
+  if (options.ssr) {
     // SSR plugin
     this.addPlugin(path.resolve(__dirname, 'plugins/ssr.js'));
     log.success('Installed Vue Storefront SSR plugin');
