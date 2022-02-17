@@ -59,7 +59,7 @@ module.exports = {
          }
        ]
      });
-  
+
     // Fix image loading. Ref: https://github.com/vuejs/vue-loader/issues/1612#issuecomment-559366730
     config.module.rules = config.module.rules.map((rule) => {
       rule.use = rule.use && rule.use.map((useRule) => {
@@ -130,9 +130,9 @@ module.exports = {
         children: [
           ['/getting-started/introduction', 'Introduction'],
           ['/getting-started/project-structure', 'Project structure'],
+          ['/getting-started/configuration', 'Configuration'],
           ['/getting-started/layouts-and-routing', 'Layouts and Routing'],
           ['/getting-started/theme', 'Theme'],
-          ['/getting-started/configuration', 'Configuration'],
           ['/getting-started/internationalization', 'Internationalization'],
           ['/getting-started/logging', 'Logging'],
           // ['/', 'Glossary']
@@ -165,7 +165,7 @@ module.exports = {
         children: [
           ['/integrate/extending-vue-storefront', 'Extending Vue Storefront'],
           ['/integrate/extending-integrations', 'Extending integrations'],
-          ['/integrate/integration-guide', 'Integrating eCommerce platform'],
+          ['/integrate/integration-guide', 'Integrating e-commerce platform'],
           ['/integrate/cms', 'Integrating CMS platform'],
           ['/integrate/cache-driver', 'Integrating cache driver']
         ]
@@ -194,6 +194,13 @@ module.exports = {
           ['/reference/api/', 'API Reference'],
           ['/reference/migrate/', 'Migration guide'],
           ['/reference/changelog', 'Changelog']
+        ]
+      },
+      {
+        title: 'Community',
+        collapsable: true,
+        children: [
+          ['/community/sponsorship-program', '✍️ Sponsorship Program'],
         ]
       },
       {

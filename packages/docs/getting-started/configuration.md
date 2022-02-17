@@ -1,97 +1,37 @@
 # Configuration
 
-Usually, the first thing to do after setting up a fresh Vue Storefront project is configuring it. The bare minimum is to provide the API credentials for your integrations.
+Whenever starting a new project or jumping into an existing one, you should look into the configuration files first. They control almost every aspect of the application, including installed integrations.
 
-Your Vue Storefront-related configuration is located in two places:
+## Mandatory configuration files
 
-- `nuxt.config.js` is a place where you're configuring properties related only to the frontend part of your application.
-- `middleware.config.js` is a place where you're configuring your integration middleware. You will put there API keys, integration configurations, custom GraphQL queries, and new API endpoints.
+Every Vue Storefront project must contain two configuration files described below. They control both client and server parts of the application.
 
-## Configuring Integrations
+### `nuxt.config.js`
 
-Most of the integrations business logic is placed in the [Integration Middleware](/architecture/server-middleware.html). Therefore they're configurable through the `integrations` field in `middleware.config.js`. 
+**The `nuxt.config.js` file is the starting point of every project.** It contains general configuration, including routes, global middlewares, internationalization, or build information. This file also registers modules and plugins to add or extend framework features. Because almost every Vue Storefront integration has a module or plugin, you can identify which integrations are used by looking at this file.
 
-```js
-// middleware.config.js
-module.exports = {
-  integrations: {
-   // integration configs
-  }
-};
-```
+You can learn more about this file and available configuration options on the [Nuxt configuration file](https://nuxtjs.org/docs/directory-structure/nuxt-config/) page.
 
-Sometimes integrations also expose a Nuxt module to configure frontend-related properties and [i18n](/getting-started/internationalization.html).
+### `middleware.config.js`
 
-```js
-// nuxt.config.js
-[`@vue-storefront/{INTEGRATION}/nuxt` {
-  i18n: {
-    // i18n config
-  }
-}]
-```
+The `middleware.config.js` file is as essential as `nuxt.confis.js`, but much simpler and likely smaller. It configures the Server Middleware used for communication with e-commerce platforms and contains sensitive credentials, custom endpoints, queries, etc.
 
-## Configuring Nuxt
+You can learn more about Server Middleware and available configuration options on the [Server Middleware](/architecture/server-middleware.html) page.
 
-We try to use the most common modules from Nuxt Community whenever it's possible. For example, we use the `nuxt-i18n` package for internationalization and the `@nuxtjs/pwa` package PWA capabilities. You can find a list of the Nuxt modules used in the default theme [here](theme.html#preinstalled-modules-and-libraries). Each of them is configured in a way that works best for the majority of users.
+## Optional configuration files
 
-There are some features and behaviors that are specific to Vue Storefront only yet not specific to a certain integration. You can configure such things through `@vue-storefront/nuxt` module.
+Depending on the integrations used, your project might include some additional configuration files not described above. Let's walk through the most common ones.
 
-[//]: # 'TODO: Add documentation for VSF/NUXT module'
+- [`tsconfig.json`](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) configures compiler used to strongly type the project using TypeScript language. It defines a list of files and directories to be included and excluded from analysis and compiling.
 
-Below you can find its default configuration:
+- [`.babelrc`](https://babeljs.io/docs/en/config-files) configures Babel compiler used to make the code backward compatible with older browsers and environments.
 
-```js
-// nuxt.config.js
-[
-  `@vue-storefront/nuxt`,
-  {
-    // use only if you're developing an integration
-    // adds theme inheritance mechanism
-    coreDevelopment: false,
-    logger: {
-      // read about this part in `Getting Started > Logging` section
-    },
-    performance: {
-      httpPush: true,
-      // installs https://purgecss.com/guides/nuxt.html
-      // CAUTION: Could break classess generated dynamically (eg variable + '-secondary')
-      purgeCSS: {
-        enabled: false,
-        paths: ['**/*.vue'],
-      },
-    },
-    // use `module` field from `package.json` for included packages
-    // custom configuration will be merged with the default one
-    // this property is used mainly to process ESM and benefit the most from treeshaking
-    useRawSource: {
-      dev: ['@storefront-ui/vue', '@storefront-ui/shared'],
-      prod: ['@storefront-ui/vue', '@storefront-ui/shared'],
-    },
-  },
-];
-```
+- [`jest.config.js`](https://jestjs.io/docs/configuration) configures Jest testing framework, used for writing and running unit tests.
 
-::: danger
-It's unsafe and not recommended to remove `@vue-storefront/nuxt` from your project. Integrations and other modules rely on it.
-:::
+- [`.eslintrc.js`](https://eslint.org/docs/user-guide/configuring/) configures ESLint static code analyzer. It enforces code style by identifying and reporting patterns that make code inconsistent or prone to bugs.
 
-## Configuring Server Middleware
+- [`.lintstagedrc`](https://github.com/okonet/lint-staged#configuration) configures lint runner that enforces code style before every Git commit. By default, it runs ESLint described above.
 
-You can read more about the Server Middleware and its configuration on the [Server Middleware](/architecture/server-middleware.html) page.
+## What's next
 
-## Integration References
-
-### Setting up official eCommerce integrations
-
-<CommerceIntegrationLinks 
- commercetools="/commercetools/getting-started.html"
- shopify="/shopify/api-client.html"
-/>
-
-### Configuration references of official eCommerce integrations
-
-<CommerceIntegrationLinks 
- commercetools="/commercetools/configuration.html"
- shopify="/shopify/api-client.html"
-/>
+As the next step, we will learn about [Layouts and Routing](./layouts-and-routing.html) and show what routes come predefined in every Vue Storefront project and how to register custom ones.
