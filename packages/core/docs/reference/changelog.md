@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.5
+
+- Fix for disabling cookie generation on server side with `autoChangeCookie` option disabled ([6623]()) - [Alef Barbeli](https://github.com/alefbarbeli)
+
 ## 2.5.4
 
 - Fixed adding custom router.base property breaks api calls ([6526](https://github.com/vuestorefront/vue-storefront/issues/6505)) - [Piotr Grzywa](https://github.com/PiotrGrzywa)
