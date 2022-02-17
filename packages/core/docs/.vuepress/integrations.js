@@ -225,7 +225,7 @@ const INTEGRATIONS = {
       link: './redis-cache.html',
       image: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/Redis_Logo.svg',
       status: STATUS.STABLE,
-      license: LICENSE.ENTERPRISE,
+      license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
