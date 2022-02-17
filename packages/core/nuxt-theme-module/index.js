@@ -1,4 +1,3 @@
-
 const consola = require('consola');
 const merge = require('lodash.merge');
 const defaultConfig = require('./defaultConfig').default;
