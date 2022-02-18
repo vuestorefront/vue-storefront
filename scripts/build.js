@@ -1,4 +1,4 @@
-
+const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
 const esbuild = require('esbuild');
@@ -9,13 +9,19 @@ function cwdResolve(name) {
 
 const pkg = require(cwdResolve('package.json'));
 
+const entryPoints = [
+  cwdResolve('src/index.ts')
+];
+
+if (fs.existsSync(cwdResolve('src/index.server.ts'))) {
+  entryPoints.push(cwdResolve('src/index.server.ts'));
+}
+
 // Remove old build
 rimraf.sync(cwdResolve('lib'));
 
 esbuild.build({
-  entryPoints: [
-    cwdResolve('src/index.ts')
-  ],
+  entryPoints,
   outdir: 'lib',
   format: 'esm',
   outExtension: {
@@ -24,7 +30,7 @@ esbuild.build({
   bundle: true,
   sourcemap: true,
   platform: 'node',
-  target: 'node16',
+  target: 'node14',
   watch: process.argv.includes('--watch'),
   logLevel: 'warning',
   external: [

@@ -5,6 +5,8 @@
     "target": "es5",
     "module": "ES2015",
     "moduleResolution": "node",
+    "importHelpers": true,
+    "noEmitHelpers": true,
     "sourceMap": true,
     "declaration": true,
     "skipLibCheck": true,

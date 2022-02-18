@@ -1,23 +1,19 @@
 {
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./lib",
-    "esModuleInterop": true,
-    "target": "es5",
-    "module": "ES2015",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "declaration": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "rootDir": "./src",
     "baseUrl": "./",
-    "lib": ["es6", "es7", "ES2017", "ES2018", "ES2019", "dom"],
-    "strict": false,
-    "preserveSymlinks": true,
-    "paths": {
-      "@vue-storefront/core": ["core/core/src"],
-    },
+    "lib": [
+      "DOM"
+    ]
   },
-  "exclude": ["node_modules", "**/*.spec.ts", "lib"],
-  "include": ["src"],
-  "references": [{ "path": "apollo-client" }]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "__tests__",
+    "lib",
+    "node_modules"
+  ]
 }

@@ -1,10 +1,10 @@
 import gql from 'graphql-tag';
 import defaultQuery from './defaultQuery';
+import { CategoryWhereSearch } from '../../types/Api';
 import { CategorySearchResult } from '../../types/GraphQL';
 import { buildCategoryFilter } from '../../helpers/search';
 import ApolloClient from 'apollo-client';
 import { CustomQuery } from '@vue-storefront/core';
-import { CategoryWhereSearch } from '@vue-storefront/commercetools-api';
 
 export interface CategoryData {
   categorySearch: CategorySearchResult;
