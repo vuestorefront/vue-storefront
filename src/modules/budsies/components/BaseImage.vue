@@ -232,6 +232,7 @@ export default Vue.extend({
   display: inline-block;
   position: relative;
   width: var(--image-width, 100%);
+  max-width: 100%;
 
   picture {
    display: block;
