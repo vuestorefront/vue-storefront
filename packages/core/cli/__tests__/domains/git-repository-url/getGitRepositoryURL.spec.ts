@@ -2,6 +2,8 @@ import git from 'isomorphic-git';
 import { t, TFunction } from 'i18next';
 import { stdin, MockSTDIN } from 'mock-stdin';
 import { getGitRepositoryURL, validateGitRepositoryURL } from '../../../src/domains/git-repository-url';
+import { wait } from '../../../src/domains/async';
+import { identity } from '../../../src/domains/math';
 
 jest.mock('i18next');
 jest.mock('../../../src/domains/git-repository-url/validateGitRepositoryURL');
@@ -11,17 +13,11 @@ const BACKSPACE_KEY = '\x08';
 
 type MockValidate = jest.MockedFunction<typeof validateGitRepositoryURL>;
 
-const wait = (time: number): Promise<void> => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, time);
-  });
-};
-
 describe('getGitRepositoryURL', () => {
   let io: MockSTDIN;
   let output = '';
 
-  (t as jest.MockedFunction<TFunction>).mockImplementation(key => key);
+  (t as jest.MockedFunction<TFunction>).mockImplementation(identity);
 
   beforeEach(() => {
     io = stdin();

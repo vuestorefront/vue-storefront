@@ -1,9 +1,21 @@
 import git from 'isomorphic-git';
+import { wait } from '../../../src/domains/async';
 import { cloneGitRepository } from '../../../src/domains/git-repository';
 
 jest.mock('isomorphic-git');
 
 describe('cloneGitRepository | unit tests', () => {
+  let output = '';
+
+  beforeEach(() => {
+    output = '';
+
+    jest.spyOn(process.stderr, 'write').mockImplementation((message) => {
+      output += message as string;
+      return true;
+    });
+  });
+
   it('clones git repository to the project directory', async () => {
     const projectDir = '~/Projects/test-store';
 
@@ -26,7 +38,7 @@ describe('cloneGitRepository | unit tests', () => {
 
   it('displays progress bar that reflects cloned files', async () => {
     jest.spyOn(git, 'clone').mockImplementationOnce(async (options) => {
-      await new Promise((resolve) => setTimeout(resolve, 250));
+      await wait(100);
 
       options.onProgress?.({
         phase: 'Counting objects',
@@ -34,20 +46,13 @@ describe('cloneGitRepository | unit tests', () => {
         loaded: 1
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 250));
+      await wait(100);
 
       options.onProgress?.({
         phase: 'Counting objects',
         total: 2,
         loaded: 2
       });
-    });
-
-    let output = '';
-
-    jest.spyOn(process.stderr, 'write').mockImplementation((message) => {
-      output += message as string;
-      return true;
     });
 
     await cloneGitRepository({

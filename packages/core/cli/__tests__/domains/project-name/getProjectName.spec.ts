@@ -1,17 +1,13 @@
 import { t, TFunction } from 'i18next';
 import { stdin, MockSTDIN } from 'mock-stdin';
+import { wait } from '../../../src/domains/async';
+import { identity } from '../../../src/domains/math';
 import { getProjectName } from '../../../src/domains/project-name';
 
 jest.mock('i18next');
 
 const ENTER_KEY = '\x0D';
 const BACKSPACE_KEY = '\x08';
-
-const wait = (time: number): Promise<void> => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, time);
-  });
-};
 
 describe('getProjectName | integration tests', () => {
   let io: MockSTDIN;
@@ -21,7 +17,7 @@ describe('getProjectName | integration tests', () => {
     io = stdin();
     output = '';
 
-    (t as jest.MockedFunction<TFunction>).mockImplementation(key => key);
+    (t as jest.MockedFunction<TFunction>).mockImplementation(identity);
 
     jest.spyOn(process.stdout, 'write').mockImplementation((message) => {
       output += message;
