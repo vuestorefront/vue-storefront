@@ -9,7 +9,7 @@
       deselect-label="Can't remove this value"
       track-by="name"
       label="name"
-      placeholder="Select your eCommerce platform"
+      placeholder="Select your e-commerce platform"
     >
       <template
         slot="singleLabel"
@@ -61,7 +61,7 @@ export default {
 
   computed: {
     categories() {
-      return this.$site.themeConfig.CATEGORIES;
+      return this.$site.themeConfig.CATEGORY;
     },
 
     options() {
@@ -89,24 +89,28 @@ export default {
         return allIntegrations;
       }
 
-      // Return integrations without specific compabilities or including currently selected eCommerce platform
-      return allIntegrations.filter(({ compatibility }) => {
-        return !compatibility
-          || !compatibility.length
-          || compatibility.includes(this.selected.value);
+      return allIntegrations.filter(({ link }) => {
+        // If link is a string, the integration can be used for all e-commerce platforms
+        if (typeof link === 'string') {
+          return true;
+        }
+
+        // If link is an array, it only works with specified e-commerce platforms
+        return link.map(({ name }) => name).includes(this.selected.value);
       });
     },
 
     sortedIntegrations() {
       return this.availableIntegrations.sort((a, b) => {
-        const getIndex = (s) => {
-          return Object
-            .values(this.$site.themeConfig.STATUSES)
-            .findIndex(status => status === s);
-        }
+        const getStatusIndex = (s) => s !== this.$site.themeConfig.STATUS.WIP;
 
-        // Order integrations in reversed order of available STATUSES
-        return getIndex(b.status) - getIndex(a.status);
+        /**
+         * Order integrations by:
+         *   - status (WIP integrations at the end)
+         *   - name
+         */
+        return getStatusIndex(b.status) - getStatusIndex(a.status)
+          || a.name.localeCompare(b.name);
       })
     }
   }
@@ -117,11 +121,10 @@ export default {
 
 <style scoped>
 .list {
-  display: grid; 
-  grid-auto-columns: 1fr; 
-  grid-auto-rows: 1fr; 
-  grid-template-columns: 1fr 1fr; 
-  gap: 20px 20px; 
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-template-columns: 1fr;
+  gap: 20px 20px;
   margin: 20px 0;
 }
 
@@ -129,9 +132,4 @@ export default {
   margin-bottom: 20px;
 }
 
-@media (max-width: 1023px) {
-  .list {
-    grid-template-columns: 1fr; 
-  }
-}
 </style>

@@ -1,5 +1,5 @@
 const { resolve } = require('path');
-const { STATUSES, AVAILABILITY, CATEGORIES, INTEGRATIONS } = require('./integrations');
+const { STATUS, LICENSE, CATEGORY, INTEGRATIONS } = require('./integrations');
 const GTM_TAG = 'GTM-WMDC3CP';
 
 module.exports = {
@@ -96,12 +96,13 @@ module.exports = {
    */
   themeConfig: {
     GTM_TAG,
-    STATUSES,
-    AVAILABILITY,
-    CATEGORIES,
+    STATUS,
+    LICENSE,
+    CATEGORY,
     INTEGRATIONS,
-    repo: 'https://github.com/vuestorefront/vue-storefront/',
+    repo: 'https://github.com/vuestorefront/',
     editLinks: true,
+    docsRepo: 'https://github.com/vuestorefront/vue-storefront/',
     docsDir: 'packages/core/docs',
     docsBranch: 'main',
     editLinkText: 'Edit this page',
@@ -109,8 +110,7 @@ module.exports = {
     sidebarDepth: 0,
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Demo', link: 'https://demo-ct.vuestorefront.io' },
-      { text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437' }
+      { text: 'Demo', link: 'https://demo-ct.vuestorefront.io' }
     ],
     sidebar: [
       {
