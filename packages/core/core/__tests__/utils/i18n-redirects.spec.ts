@@ -3,16 +3,16 @@ import i18nRedirectsUtil from '../../src/utils/i18n-redirects';
 const defaultParams = {
   path: '/',
   defaultLocale: 'en',
-  availableLocales: ['en', 'de'],
+  availableLocales: ['ch/de', 'en', 'de'],
   cookieLocale: '',
-  acceptedLanguages: ['de', 'en']
+  acceptedLanguages: ['ch/de', 'en', 'de']
 };
 
 describe('i18n redirects util', () => {
   it('returns redirect path for the first visit with not default locale accepted', async () => {
     const util = i18nRedirectsUtil(defaultParams);
 
-    expect(util.getRedirectPath()).toEqual('/de');
+    expect(util.getRedirectPath()).toEqual('/ch/de');
   });
 
   it('returns redirect path for the first visit with default locale accepted', async () => {
@@ -27,10 +27,10 @@ describe('i18n redirects util', () => {
   it('returns redirect path for page with default locale and with cookie set to other locale', async () => {
     const util = i18nRedirectsUtil({
       ...defaultParams,
-      cookieLocale: 'de'
+      cookieLocale: 'ch/de'
     });
 
-    expect(util.getRedirectPath()).toEqual('/de');
+    expect(util.getRedirectPath()).toEqual('/ch/de');
   });
 
   it('returns no redirect path for page with locale and with cookie set to other locale', async () => {
@@ -46,7 +46,7 @@ describe('i18n redirects util', () => {
   it('returns no redirect for page with locale and without cookie with locale', async () => {
     const util = i18nRedirectsUtil({
       ...defaultParams,
-      path: '/de'
+      path: '/ch/de'
     });
 
     expect(util.getRedirectPath()).toEqual('');
@@ -54,7 +54,7 @@ describe('i18n redirects util', () => {
 
   it('returns full redirect path properly', async () => {
     const path = '/c/men?foo=bar#foo';
-    const cookieLocale = 'de';
+    const cookieLocale = 'ch/de';
     const util = i18nRedirectsUtil({
       ...defaultParams,
       path,
@@ -76,10 +76,10 @@ describe('i18n redirects util', () => {
   it('returns target locale based on cookie', async () => {
     const util = i18nRedirectsUtil({
       ...defaultParams,
-      cookieLocale: 'de'
+      cookieLocale: 'ch/de'
     });
 
-    expect(util.getTargetLocale()).toEqual('de');
+    expect(util.getTargetLocale()).toEqual('ch/de');
   });
 
   it('returns target locale based on accepted languages', async () => {
@@ -87,7 +87,7 @@ describe('i18n redirects util', () => {
       ...defaultParams
     });
 
-    expect(util.getTargetLocale()).toEqual('de');
+    expect(util.getTargetLocale()).toEqual('ch/de');
   });
 
   it('returns default target locale', async () => {
@@ -97,5 +97,14 @@ describe('i18n redirects util', () => {
     });
 
     expect(util.getTargetLocale()).toEqual('en');
+  });
+
+  it('returns a precise locale match from path', async () => {
+    const util = i18nRedirectsUtil({
+      ...defaultParams,
+      path: '/endangered'
+    });
+
+    expect(util.getTargetLocale()).toEqual('ch/de');
   });
 });
