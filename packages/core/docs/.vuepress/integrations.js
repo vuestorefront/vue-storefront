@@ -87,7 +87,9 @@ const INTEGRATIONS = {
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/6023aa663109a7a8f995f095_BigCommerce-logo-dark.svg',
       status: STATUS.WIP,
       license: LICENSE.OPEN_SOURCE,
-      maintainedBy: []
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' }
+      ]
     },
     {
       name: 'Scayle',
