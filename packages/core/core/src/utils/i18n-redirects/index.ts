@@ -14,8 +14,8 @@ const i18nRedirectsUtil = ({
   getRedirectPath: () => string;
   getTargetLocale: () => string;
 } => {
-  const localeRegexp = new RegExp(`(?<=/)(${availableLocales.join('|')})(?=(/|$))`, 'g');
-  const localeFromPath = path.match(localeRegexp) && path.match(localeRegexp)[0];
+  const localeRegexp = new RegExp(`^/(?<locale>${availableLocales.join('|')})(?=(/|$))`, 'g');
+  const localeFromPath = localeRegexp.exec(path)?.groups.locale;
   const strippedLocaleFromPath = path.replace(`/${localeFromPath}`, '');
   const removeTailingSlash = (path: string): string => path.replace(/\/$/, '');
   const getTargetLocale = (): string => {
