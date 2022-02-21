@@ -6,20 +6,20 @@ const chosenIntegration = 'my-super-new-backend-ecommerce-system';
 const resolvedPathWithProjectName = '/home/abc/my-project';
 const projectName = 'AwesomeShop';
 import inquirer from 'inquirer';
-import createProject from '@vue-storefront/cli/src/scripts/createProject';
+import createProject from '@vue-storefront/cli/src/scripts/createProject/index';
 
-jest.mock('inquirer', () => ({
-  prompt: jest.fn(() =>
+vi.mock('inquirer', () => ({
+  prompt: vi.fn(() =>
     Promise.resolve({
       chosenIntegration,
       typedProjectName: projectName
     })
   )
 }));
-jest.mock('@vue-storefront/cli/src/scripts/createProject', () =>
-  jest.fn((data) => data)
+vi.mock('@vue-storefront/cli/src/scripts/createProject', () =>
+  vi.fn((data) => data)
 );
-jest.mock('@vue-storefront/cli/src/utils/getIntegrations', () => ({
+vi.mock('@vue-storefront/cli/src/utils/getIntegrations', () => ({
   __esModule: true,
   default: {
     'my-super-new-backend-ecommerce-system': '',
@@ -27,13 +27,13 @@ jest.mock('@vue-storefront/cli/src/utils/getIntegrations', () => ({
     'and-other': ''
   }
 }));
-jest.mock('isomorphic-git', () => ({
-  clone: jest.fn()
+vi.mock('isomorphic-git', () => ({
+  clone: vi.fn()
 }));
-jest.mock('path', () => ({
+vi.mock('path', () => ({
   resolve: () => resolvedPathWithProjectName,
-  join: jest.fn(),
-  isAbsolute: jest.fn()
+  join: vi.fn(),
+  isAbsolute: vi.fn()
 }));
 
 describe('Command: init <projectName>', () => {
@@ -49,9 +49,9 @@ describe('Command: init <projectName>', () => {
   });
 
   it('init with project name && choose integration && run createProject with proper arguments', async () => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     const testTargetPath = 'test_path';
-    const spy = jest.spyOn(process, 'cwd');
+    const spy = vi.spyOn(process, 'cwd');
     spy.mockReturnValue(testTargetPath);
 
     await initCommand([projectName]);
@@ -65,13 +65,13 @@ describe('Command: init <projectName>', () => {
   });
 
   it('init with project name && choose custom integration && run createProject with proper arguments', async () => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     const testTargetPath = 'test_path';
-    const spy = jest.spyOn(process, 'cwd');
+    const spy = vi.spyOn(process, 'cwd');
     spy.mockReturnValue(testTargetPath);
 
     inquirer.prompt.mockImplementation(
-      jest.fn(() =>
+      vi.fn(() =>
         Promise.resolve({
           chosenIntegration: CUSTOM_TEMPLATE,
           otherIntegrationGitLink: 'http://test.com',
@@ -94,7 +94,7 @@ describe('Command: init <projectName>', () => {
     let validatorForNotEmptyString = null;
 
     inquirer.prompt.mockImplementation(
-      jest.fn((arg) => {
+      vi.fn((arg) => {
         if (arg[0].validate) {
           validatorForEmptyString = arg[0].validate('');
           validatorForNotEmptyString = arg[0].validate('abc');

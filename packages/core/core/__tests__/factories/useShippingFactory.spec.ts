@@ -1,8 +1,8 @@
 import { useShippingFactory } from '../../src/factories';
 
 const factoryParams = {
-  load: jest.fn(() => null),
-  save: jest.fn()
+  load: vi.fn(() => null),
+  save: vi.fn()
 };
 
 const useShipping = useShippingFactory(factoryParams);
@@ -10,7 +10,7 @@ const useShippingMethods = useShipping();
 
 describe('[CORE - factories] useShippingFactory', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
   describe('initial setup', () => {
     it('should have proper initial properties', () => {

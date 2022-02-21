@@ -12,14 +12,14 @@ const defaultOrdersValue = {
 
 function createComposable(): void {
   params = {
-    searchOrders: jest.fn().mockResolvedValueOnce(['first', 'second'])
+    searchOrders: vi.fn().mockResolvedValueOnce(['first', 'second'])
   };
   useUserOrder = useUserOrderFactory<any, any>(params);
 }
 
 describe('[CORE - factories] useUserOrderFactory', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     createComposable();
   });
 
@@ -41,7 +41,7 @@ describe('[CORE - factories] useUserOrderFactory', () => {
 
       it('should disable loading flag on error', async () => {
         const err = new Error('some-error');
-        params.searchOrders = jest.fn().mockImplementationOnce(() => {
+        params.searchOrders = vi.fn().mockImplementationOnce(() => {
           throw err;
         });
         const { search, loading, orders, error } = useUserOrder();

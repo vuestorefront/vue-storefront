@@ -2,8 +2,12 @@
   "name": "@vue-storefront/cli",
   "version": "2.4.1",
   "license": "MIT",
+  "type": "module",
   "main": "./lib/index.mjs",
-  "exports": "./lib/index.mjs",
+  "exports": {
+    ".": "./lib/index.mjs",
+    "./src/*": "./lib/*.js"
+  },
   "types": "./lib/index.d.ts",
   "bin": {
     "vsf": "./lib/index.mjs"
@@ -12,11 +16,9 @@
     "node": ">=16.x"
   },
   "scripts": {
-    "build": "yarn build:package && yarn build:types",
-    "build:package": "node ../../../scripts/build",
-    "build:types": "tsc --emitDeclarationOnly",
-    "dev": "yarn build && node ./lib/index.mjs",
-    "test": "cross-env APP_ENV=test jest --rootDir .",
+    "test": "vitest run",
+    "build": "rm -rf ./lib; tsc",
+    "cli": "ts-node ./src/index.ts",
     "prepublish": "yarn build"
   },
   "dependencies": {

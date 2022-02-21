@@ -1,14 +1,14 @@
 import { useMakeOrderFactory } from '../../src';
 
 const factoryParams = {
-  make: jest.fn()
+  make: vi.fn()
 };
 
 const useMakeOrderMock = useMakeOrderFactory(factoryParams);
 
 describe('[CORE - factories] useMakeOrderFactory', () => {
   it('creates properties', () => {
-    const factoryMakeOrder = () => jest.fn();
+    const factoryMakeOrder = () => vi.fn();
 
     const useMakeOrder = useMakeOrderFactory({ make: factoryMakeOrder } as any);
     const { order, loading } = useMakeOrder();
@@ -18,7 +18,7 @@ describe('[CORE - factories] useMakeOrderFactory', () => {
   });
 
   it('triggers make', () => {
-    const factoryMakeOrder = () => jest.fn();
+    const factoryMakeOrder = () => vi.fn();
     const useMakeOrder = useMakeOrderFactory({ make: factoryMakeOrder } as any);
     const { order, loading, make } = useMakeOrder();
 

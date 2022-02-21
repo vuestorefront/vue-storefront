@@ -5,28 +5,28 @@ import { processTemplate } from '@vue-storefront/cli/src/scripts/createTemplate/
 const execa = require('execa');
 const fs = require('fs');
 
-jest.mock('@vue-storefront/cli/src/utils/log', () => ({
+vi.mock('@vue-storefront/cli/src/utils/log', () => ({
   __esModule: true,
   default: {
-    error: jest.fn((text: string) => text)
+    error: vi.fn((text: string) => text)
   }
 }));
 
-jest.mock(
+vi.mock(
   '@vue-storefront/cli/src/scripts/createTemplate/processMagicCommentsInNuxtConfig',
   () => ({
-    processMagicCommentsInNuxtConfig: jest.fn()
+    processMagicCommentsInNuxtConfig: vi.fn()
   })
 );
 
-jest.mock('fs', () => ({
-  unlinkSync: jest.fn()
+vi.mock('fs', () => ({
+  unlinkSync: vi.fn()
 }));
 
-jest.mock('execa', () => jest.fn());
+vi.mock('execa', () => vi.fn());
 
-jest.mock('@vue-storefront/cli/src/utils/removeFolder', () => ({
-  removeFolder: jest.fn()
+vi.mock('@vue-storefront/cli/src/utils/removeFolder', () => ({
+  removeFolder: vi.fn()
 }));
 
 describe('[@core/cli/scripts] Process Template', () => {
@@ -44,7 +44,7 @@ describe('[@core/cli/scripts] Process Template', () => {
   });
 
   it('should log when vsf-tu script fail', async () => {
-    const exacaMock = execa as jest.Mock;
+    const exacaMock = execa as vi.Mock;
     exacaMock.mockImplementation(() => {
       throw new Error();
     });
@@ -57,7 +57,7 @@ describe('[@core/cli/scripts] Process Template', () => {
   });
 
   it('should log when removing config file fail', async () => {
-    const removeFile = fs.unlinkSync as jest.Mock;
+    const removeFile = fs.unlinkSync as vi.Mock;
     removeFile.mockImplementation(() => {
       throw new Error();
     });
@@ -70,7 +70,7 @@ describe('[@core/cli/scripts] Process Template', () => {
   });
 
   it('should log when removeFolder function fail', async () => {
-    const removeFolderMock = removeFolder as jest.Mock;
+    const removeFolderMock = removeFolder as vi.Mock;
     removeFolderMock.mockImplementation(() => {
       throw new Error();
     });

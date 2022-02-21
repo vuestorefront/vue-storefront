@@ -1,11 +1,11 @@
 import { useUserShippingFactory } from '../../src/factories';
 
 const factoryParams = {
-  addAddress: jest.fn(() => null),
-  deleteAddress: jest.fn(),
-  updateAddress: jest.fn(),
-  load: jest.fn(),
-  setDefaultAddress: jest.fn()
+  addAddress: vi.fn(() => null),
+  deleteAddress: vi.fn(),
+  updateAddress: vi.fn(),
+  load: vi.fn(),
+  setDefaultAddress: vi.fn()
 };
 
 const useUserShipping = useUserShippingFactory(factoryParams);
@@ -14,7 +14,7 @@ const useUserShippingMethods = useUserShipping();
 describe('[CORE - factories] useUserShippingFactory', () => {
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should have proper initial properties', () => {

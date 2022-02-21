@@ -4,7 +4,7 @@ import { ref, onServerPrefetch } from '@nuxtjs/composition-api';
 
 describe('[CORE - utils] configureSSR', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('returns default implementation', () => {

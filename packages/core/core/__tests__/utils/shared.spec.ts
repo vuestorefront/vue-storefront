@@ -4,7 +4,7 @@ import { vsfRef, useVSFContext } from '../../src/utils';
 
 describe('[CORE - utils] shared', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     const $sharedRefsMap = new Map();
     (useVSFContext as any).mockImplementation(() => ({ $sharedRefsMap }));
   });

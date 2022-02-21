@@ -1,5 +1,3 @@
-/* eslint-disable */
-require('jsdom-global')();
 import Vue from 'vue';
 import VueCompositionApi, { ref } from '@vue/composition-api';
 
@@ -7,23 +5,24 @@ Vue.config.productionTip = false;
 Vue.config.devtools = false;
 
 Vue.use(VueCompositionApi);
-jest.mock('lodash-es/merge', () => (arg1, arg2) => ({ ...arg1, ...arg2 }));
+vi.mock('lodash-es/merge', () => (arg1, arg2) => ({ ...arg1, ...arg2 }));
 
-jest.mock('../src/utils', () => ({
+vi.mock('../src/utils', () => ({
   Logger: {
     debug: () => {},
     info: () => {},
     warn: () => {},
     error: () => {}
   },
-  mask: jest.fn((s) => s),
-  onSSR: jest.fn(fn => fn()),
-  sharedRef: jest.fn(ref),
-  vsfRef: jest.fn(ref),
-  generateContext: jest.fn(() => ({ context: null })),
-  configureFactoryParams: jest.fn((fParams) => fParams),
-  useVSFContext: jest.fn()
+  mask: vi.fn((s) => s),
+  onSSR: vi.fn(fn => fn()),
+  sharedRef: vi.fn(ref),
+  vsfRef: vi.fn(ref),
+  generateContext: vi.fn(() => ({ context: null })),
+  configureFactoryParams: vi.fn((fParams) => fParams),
+  useVSFContext: vi.fn()
 }));
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 global.__DEV__ = false;

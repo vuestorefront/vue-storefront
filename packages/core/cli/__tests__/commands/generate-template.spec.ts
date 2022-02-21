@@ -4,32 +4,32 @@ import * as fs from 'fs';
 import { createTemplate } from '../../src/scripts/createTemplate/createTemplate';
 import { vsfTuConfig } from '../../src/utils/themeUtilsConfigTemplate';
 
-jest.mock('fs', () => ({
-  existsSync: jest.fn(),
-  unlinkSync: jest.fn(),
-  appendFile: jest.fn()
+vi.mock('fs', () => ({
+  existsSync: vi.fn(),
+  unlinkSync: vi.fn(),
+  appendFile: vi.fn()
 }));
 
-jest.mock('@vue-storefront/cli/src/utils/log', () => ({
-  info: jest.fn(),
-  success: jest.fn(),
-  error: jest.fn()
+vi.mock('@vue-storefront/cli/src/utils/log', () => ({
+  info: vi.fn(),
+  success: vi.fn(),
+  error: vi.fn()
 }));
 
-jest.mock('path', () => ({
-  resolve: jest.fn((path) => path),
-  join: jest.fn((path, file) => `${path}/${file}`)
+vi.mock('path', () => ({
+  resolve: vi.fn((path) => path),
+  join: vi.fn((path, file) => `${path}/${file}`)
 }));
 
-jest.mock(
+vi.mock(
   '@vue-storefront/cli/src/scripts/createTemplate/createTemplate',
   () => ({
-    createTemplate: jest.fn()
+    createTemplate: vi.fn()
   })
 );
 
-jest.mock('@vue-storefront/cli/src/utils/themeUtilsConfigTemplate', () => ({
-  vsfTuConfig: jest.fn()
+vi.mock('@vue-storefront/cli/src/utils/themeUtilsConfigTemplate', () => ({
+  vsfTuConfig: vi.fn()
 }));
 
 describe('[@core/cli/src/commands] generate template', () => {
@@ -40,10 +40,10 @@ describe('[@core/cli/src/commands] generate template', () => {
 
   it('should remove vsfTuConfig if exist', async () => {
     const templateName = 'Test';
-    const existSyncMock = fs.existsSync as jest.Mock;
+    const existSyncMock = fs.existsSync as vi.Mock;
     existSyncMock.mockImplementation(() => true);
     const testTargetPath = 'test_path';
-    const spy = jest.spyOn(process, 'cwd');
+    const spy = vi.spyOn(process, 'cwd');
     spy.mockReturnValue(testTargetPath);
 
     await generateTemplate([templateName]);
@@ -54,12 +54,12 @@ describe('[@core/cli/src/commands] generate template', () => {
 
   it('should run createTemplate function with parameters', async () => {
     const templateName = 'Test';
-    const existSyncMock = fs.existsSync as jest.Mock;
+    const existSyncMock = fs.existsSync as vi.Mock;
     existSyncMock.mockImplementation(() => false);
-    const appendFileMock = (fs.appendFile as unknown) as jest.Mock;
+    const appendFileMock = (fs.appendFile as unknown) as vi.Mock;
     appendFileMock.mockImplementation((path, data, callback) => callback());
     const testTargetPath = 'test_path';
-    const spy = jest.spyOn(process, 'cwd');
+    const spy = vi.spyOn(process, 'cwd');
     spy.mockReturnValue(testTargetPath);
 
     await generateTemplate([templateName]);
@@ -73,14 +73,14 @@ describe('[@core/cli/src/commands] generate template', () => {
 
   it('should throw error on callback', async () => {
     const templateName = 'Test';
-    const existSyncMock = fs.existsSync as jest.Mock;
+    const existSyncMock = fs.existsSync as vi.Mock;
     existSyncMock.mockImplementation(() => false);
-    const appendFileMock = (fs.appendFile as unknown) as jest.Mock;
+    const appendFileMock = (fs.appendFile as unknown) as vi.Mock;
     appendFileMock.mockImplementation((path, data, callback) =>
       callback(new Error())
     );
     const testTargetPath = 'test_path';
-    const spy = jest.spyOn(process, 'cwd');
+    const spy = vi.spyOn(process, 'cwd');
     spy.mockReturnValue(testTargetPath);
 
     await generateTemplate([templateName]);
@@ -92,12 +92,12 @@ describe('[@core/cli/src/commands] generate template', () => {
   it('should run createTemplate function with provided path', async () => {
     const templateName = 'Test';
     const templatePath = '/home/test';
-    const existSyncMock = fs.existsSync as jest.Mock;
+    const existSyncMock = fs.existsSync as vi.Mock;
     existSyncMock.mockImplementation(() => false);
-    const appendFileMock = (fs.appendFile as unknown) as jest.Mock;
+    const appendFileMock = (fs.appendFile as unknown) as vi.Mock;
     appendFileMock.mockImplementation((path, data, callback) => callback());
     const testTargetPath = 'test_path';
-    const spy = jest.spyOn(process, 'cwd');
+    const spy = vi.spyOn(process, 'cwd');
     spy.mockReturnValue(testTargetPath);
 
     await generateTemplate([templateName, templatePath]);

@@ -1,13 +1,13 @@
 import { useShippingProviderFactory } from '../../src';
 
 const factoryParams = {
-  load: jest.fn(() => null),
-  save: jest.fn()
+  load: vi.fn(() => null),
+  save: vi.fn()
 };
 
 describe('[CORE - factories] useShippingProviderFactory', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
   it('should have proper initial properties', () => {
     const useShippingProvider = useShippingProviderFactory(factoryParams);

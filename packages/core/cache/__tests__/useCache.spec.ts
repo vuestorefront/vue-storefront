@@ -4,8 +4,8 @@ import { useContext } from '@nuxtjs/composition-api';
 /**
  * Mocks
  */
-jest.mock('@nuxtjs/composition-api', () => ({
-  useContext: jest.fn()
+vi.mock('@nuxtjs/composition-api', () => ({
+  useContext: vi.fn()
 }));
 
 /**
@@ -30,10 +30,8 @@ const tags = [
  * Tests
  */
 describe('useCache', () => {
-  beforeEach(() => jest.resetModules());
-
   it('returns empty array by default', () => {
-    const useContextMock = useContext as jest.Mock;
+    const useContextMock = useContext as vi.Mock;
     useContextMock.mockImplementation(() => {
       return {
         req: {
@@ -49,7 +47,7 @@ describe('useCache', () => {
   });
 
   it('can add tags', () => {
-    const useContextMock = useContext as jest.Mock;
+    const useContextMock = useContext as vi.Mock;
     useContextMock.mockImplementation(() => ({
       req: {
         $vsfCache: {
@@ -65,7 +63,7 @@ describe('useCache', () => {
   });
 
   it('can set / override tags', () => {
-    const useContextMock = useContext as jest.Mock;
+    const useContextMock = useContext as vi.Mock;
     useContextMock.mockImplementation(() => ({
       req: {
         $vsfCache: {
@@ -82,7 +80,7 @@ describe('useCache', () => {
   });
 
   it('can clear tags', () => {
-    const useContextMock = useContext as jest.Mock;
+    const useContextMock = useContext as vi.Mock;
     useContextMock.mockImplementation(() => ({
       req: {
         $vsfCache: {
@@ -99,7 +97,7 @@ describe('useCache', () => {
   });
 
   it('runs when req in context is undefined', () => {
-    const useContextMock = useContext as jest.Mock;
+    const useContextMock = useContext as vi.Mock;
     useContextMock.mockImplementation(() => ({
       req: undefined
     }));

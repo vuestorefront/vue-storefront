@@ -10,7 +10,7 @@ const testLogger = {
 
 describe('[CORE - utils] registerLogger', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('registers logger with info verbosity', () => {

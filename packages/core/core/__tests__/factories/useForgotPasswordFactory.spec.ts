@@ -1,8 +1,8 @@
 import { useForgotPasswordFactory } from '../../src/factories';
 
 const factoryParams = {
-  resetPassword: jest.fn(),
-  setNewPassword: jest.fn()
+  resetPassword: vi.fn(),
+  setNewPassword: vi.fn()
 };
 
 const useForgotPassword = useForgotPasswordFactory(factoryParams);
@@ -10,7 +10,7 @@ const useForgotPasswordMethods = useForgotPassword();
 
 describe('[CORE - factories] useForgotPassword', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
   describe('initial setup', () => {
     it('should have proper initial properties', () => {

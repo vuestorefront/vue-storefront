@@ -1,13 +1,11 @@
 {
   "name": "@vue-storefront/health-check",
-  "version": "2.5.4",
-  "description": "",
+  "version": "2.5.5",
+  "license": "MIT",
   "main": "lib/module.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Vue Storefront",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

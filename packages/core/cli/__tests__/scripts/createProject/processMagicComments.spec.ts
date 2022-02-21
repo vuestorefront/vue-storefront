@@ -103,9 +103,9 @@ const projectOnlyCommmentsFile = `
 
 import { writeFileSync, readFileSync } from 'fs';
 
-jest.mock('fs', () => ({
-  readFileSync: jest.fn(() => magicCommentsFile),
-  writeFileSync: jest.fn()
+vi.mock('fs', () => ({
+  readFileSync: vi.fn(() => magicCommentsFile),
+  writeFileSync: vi.fn()
 }));
 
 describe('[vsf-next-cli] processMagicComments', () => {
@@ -208,8 +208,8 @@ export default {
   it('uncomments parts inside "project only" comments', async () => {
 
     const absoluteFilePath = 'nuxt.config.js';
-    (readFileSync as jest.Mock).mockClear();
-    (readFileSync as jest.Mock).mockImplementation(() => projectOnlyCommmentsFile);
+    (readFileSync as vi.Mock).mockClear();
+    (readFileSync as vi.Mock).mockImplementation(() => projectOnlyCommmentsFile);
 
     // I removed magic comments in the const below
     const expectedFileContent = `

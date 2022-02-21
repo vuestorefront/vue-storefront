@@ -2,13 +2,13 @@ import { useUserFactory } from '../../src/factories';
 import { sharedRef } from './../../src/utils';
 
 const factoryParams = {
-  load: jest.fn(() => null),
-  logOut: jest.fn(),
-  updateUser: jest.fn(),
-  register: jest.fn(),
-  logIn: jest.fn(),
-  changePassword: jest.fn(),
-  refreshUser: jest.fn()
+  load: vi.fn(() => null),
+  logOut: vi.fn(),
+  updateUser: vi.fn(),
+  register: vi.fn(),
+  logIn: vi.fn(),
+  changePassword: vi.fn(),
+  refreshUser: vi.fn()
 };
 
 const useUser = useUserFactory(factoryParams);
@@ -16,7 +16,7 @@ const useUserMethods = useUser();
 
 describe('[CORE - factories] useUserFactory', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
   describe('initial setup', () => {
     it('should have proper initial properties', () => {
