@@ -110,7 +110,7 @@ module.exports = {
     sidebarDepth: 0,
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Demo', link: 'https://demo-ee.vuestorefront.io' }
+      { text: 'Demo', link: 'https://demo-ct.vuestorefront.io' }
     ],
     sidebar: [
       {
