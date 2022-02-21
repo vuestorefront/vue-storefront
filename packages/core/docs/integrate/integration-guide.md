@@ -19,7 +19,7 @@ This document will guide you through the process of creating integration and exp
 Before we get started, make sure that:
 
 - platform you want to integrate has REST or GraphQL API,
-- you have installed [Node 10+](https://nodejs.org/en/), [Yarn 1](https://classic.yarnpkg.com/lang/en/) and [Git](https://git-scm.com/),
+- you have installed [Node 12](https://nodejs.org/en/), [Yarn 1](https://classic.yarnpkg.com/lang/en/) and [Git](https://git-scm.com/),
 - you are familiar with JavaScript and TypeScript,
 - you are familiar with [Composition API](../composition/composition-api.html) and [Composables](../composition/composables.html).
 

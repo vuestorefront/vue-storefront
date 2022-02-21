@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["es2019"],
+    "lib": ["es2020"],
     "module": "commonjs",
     "resolveJsonModule": true,
     "types": ["node", "jest"],

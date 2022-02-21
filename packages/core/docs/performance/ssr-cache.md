@@ -14,7 +14,7 @@ Caching SSR output in Vue Storefront requires two packages:
 
 ```sh
 yarn add @vue-storefront/cache
-yarn add <DRIVER-NAME> # eg. @vsf-enterprise/redis-cache
+yarn add <DRIVER-NAME> # eg. @vue-storefront/redis-cache
 ```
 
 ### Configure Nuxt
@@ -203,5 +203,5 @@ If one of the properties is missing or the validation key is wrong, return an em
 
 # What's next
 
-- Check out ready to use [Redis cache integration](../integrations/redis-cache.html) from Vue Storefront Enterprise
+- Check out ready to use [Redis cache integration](../integrations/redis-cache.html).
 - Check how you can [build your own cache driver](../integrate/cache-driver.html).

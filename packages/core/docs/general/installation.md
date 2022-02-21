@@ -2,79 +2,62 @@
 
 ## Prerequisites
 
-Before proceeding, make sure you have [Node 12](https://nodejs.org/en/) and [Yarn 1](https://classic.yarnpkg.com/lang/en/) installed.
-
-## Using Vue Storefront CLI
-
-The easiest way to get started with Vue Storefront is to set up your project using our CLI. You can run it using the `npx` command:
+Before proceeding, make sure you have [Node 12 or 14](https://nodejs.org/en/) installed. You can check this by running the following command:
 
 ```bash
-# Run Vue Storefront CLI
+node -v
+```
+
+## Installation steps
+
+### Step 1: Generate a new project
+
+The easiest way to get started with Vue Storefront is to set up your project using our CLI. You can run it using the following command:
+
+```bash
 npx @vue-storefront/cli init
 ```
 
-Enter the name of the project and select the backend platform you wish to use.
+It will ask you to enter the project's name and select the e-commerce platform you wish to use. Once selected, the CLI will create project files in the directory matching your project name.
 
-Once selected, the CLI creates the project files in the directory matching your project name. The only thing left is to go to this directory in the terminal and install the dependencies:
+::: warning
+CLI will use the project name you enter to create a new directory, so **avoid using special characters and spaces**.
+:::
+
+### Step 2: Install dependencies
+
+Go to the newly created directory and install the required dependencies:
 
 ```bash
-# Go to project folder
 cd <project_name>
 
-# Install required dependencies
-yarn install
+npm install
 ```
 
-Now the project is ready. To start the application in development mode, use the `yarn dev` command:
+### Step 3: Configure the project
+
+The next step is to configure your project, and it's different for every e-commerce integration. Go to the [Integrations](/integrations/) page, open the documentation for the integration you selected in our CLI, and look for the page describing the configuration steps.
+
+### Step 4: Start the project
+
+The project is now ready. You can start the application in development mode using the command below. You can read more about available commands and environments on the [Commands and deployment](https://nuxtjs.org/docs/2.x/get-started/commands/) page in Nuxt.js documentation.
 
 ```bash
-# Start the project in development mode
 yarn dev
 ```
 
-You can read more about available commands and environments on [commands](https://nuxtjs.org/docs/2.x/get-started/commands/) page in Nuxt.js documentation.
-
 ## Recommended tools
+
+Below are the tools we use to make the development and debugging easier, and we recommend you use them too.
 
 ### Vue.js Devtools
 
-We strongly recommend installing [Vue.js Devtools](https://github.com/vuejs/vue-devtools#installation) in your browser. It's an excellent tool for viewing component structure and their current state, inspecting events and routes, and much more.
-
-<center>
-    <img src="../images/general/vue-js-devtools-install.gif" alt="Process of installing Vue.js Devtools plugin in Chrome browser"/>
-</center>
-
-*(Vue.js Devtools installation in Chrome browser)*
-
-<center>
-    <img src="../images/general/vue-js-devtools.gif" alt="Usage of Vue.js Devtools with Vue Storefront application"/>
-</center>
-
-*(Vue.js Devtools usage example)*
+We strongly recommend installing [Vue.js Devtools](https://devtools.vuejs.org/guide/installation.html) in your browser. It's an excellent tool for viewing component structures and their current state, inspecting events, routes, and much more.
 
 ### Vetur for VS Code
 
-For those using Visual Studio Code as their main code editor, we also recommend using [Vetur extension](https://marketplace.visualstudio.com/items?itemName=octref.vetur).
-It speeds up the development of Vue.js-based applications by providing, amongst many others, features like Vue.js code autocompletion and syntax highlighting.
-
-To install Vetur extension:
-
-1. Open VS Code
-2. Open `Extensions`
-3. Search for `Vetur`
-4. Click `Install`
-
-<center>
-    <img src="../images/general/vs-code-vetur-install.gif" alt="Process of installing of Vetur plugin in Visual Studio Code" />
-</center>
-
-*(Vetur installation in Visual Studio Code marketplace)*
-
-<center>
-    <img src="../images/general/vs-code-vetur.gif" alt="Example of autocompletion provided by Vetur" />
-</center>
-
-*(Example of code autocompletion provided by Vetur)*
+For those using Visual Studio Code as their primary code editor, we also recommend using [Vetur extension](https://marketplace.visualstudio.com/items?itemName=octref.vetur).
+It speeds up the development of Vue.js-based applications by providing features like Vue.js code autocompletion and syntax highlighting.
 
 ## What's next?
 
