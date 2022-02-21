@@ -3,7 +3,6 @@
   "version": "2.5.4",
   "license": "MIT",
   "sideEffects": false,
-  "type": "module",
   "main": "./lib/index.mjs",
   "exports": {
     ".": "./lib/index.mjs",
