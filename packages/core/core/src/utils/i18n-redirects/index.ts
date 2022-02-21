@@ -14,7 +14,7 @@ const i18nRedirectsUtil = ({
   getRedirectPath: () => string;
   getTargetLocale: () => string;
 } => {
-  const localeRegexp = new RegExp(`(${availableLocales.join('|')})(?=(/|$))`, 'g');
+  const localeRegexp = new RegExp(`(?<=/)(${availableLocales.join('|')})(?=(/|$))`, 'g');
   const localeFromPath = path.match(localeRegexp) && path.match(localeRegexp)[0];
   const strippedLocaleFromPath = path.replace(`/${localeFromPath}`, '');
   const removeTailingSlash = (path: string): string => path.replace(/\/$/, '');
