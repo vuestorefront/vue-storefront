@@ -14,13 +14,9 @@ const i18nRedirectsUtil = ({
   getRedirectPath: () => string;
   getTargetLocale: () => string;
 } => {
-  const arrayFromPath = path.split('/').filter(String);
-  const localeCandidate = arrayFromPath[0];
-  const isLocaleAvailable = (locale: string): boolean => availableLocales.includes(locale);
-  const strippedLocaleFromPath = isLocaleAvailable(localeCandidate) ? `/${arrayFromPath.slice(1).join('/')}` : path;
-  const localeFromPath = isLocaleAvailable(localeCandidate) ? localeCandidate : '';
+  const localeFromPath = availableLocales.find(locale => path.includes('/' + locale));
+  const strippedLocaleFromPath = path.replace(localeFromPath, '');
   const removeTailingSlash = (path: string): string => path.replace(/\/$/, '');
-
   const getTargetLocale = (): string => {
     const languagesOrderedByPriority = [
       localeFromPath,
@@ -29,7 +25,7 @@ const i18nRedirectsUtil = ({
       defaultLocale
     ];
 
-    return languagesOrderedByPriority.find(code => isLocaleAvailable(code));
+    return languagesOrderedByPriority.find(code => availableLocales.includes(code));
   };
 
   const getRedirectPath = (): string => {
