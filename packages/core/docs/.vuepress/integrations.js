@@ -162,7 +162,17 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Upside Lab', link: 'https://upsidelab.io/' }
       ]
-    }
+    },
+    {
+      name: 'Elastic Path',
+      link: '',
+      image: '/v2/integrations-logos/elasticpath.svg',
+      status: STATUS.WIP,
+      license: LICENSE.ENTERPRISE,
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' }
+      ]
+    },
   ],
   other: [
     {

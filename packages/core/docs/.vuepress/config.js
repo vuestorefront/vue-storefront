@@ -109,8 +109,7 @@ module.exports = {
     sidebarDepth: 0,
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Demo', link: 'https://demo-ct.vuestorefront.io' },
-      { text: 'Roadmap', link: 'https://www.notion.so/vuestorefront/Vue-Storefront-2-Next-High-level-Roadmap-201cf06abb314b84ad01b7b8463c0437' }
+      { text: 'Demo', link: 'https://demo-ee.vuestorefront.io' }
     ],
     sidebar: [
       {
