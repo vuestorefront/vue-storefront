@@ -3,7 +3,7 @@ import mask from '../../src/utils/logger/mask';
 
 describe('[CORE - utils] mask', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   it('mask string', () => {

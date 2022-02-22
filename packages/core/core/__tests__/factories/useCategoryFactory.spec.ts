@@ -5,14 +5,14 @@ let useCategory: (cacheId?: string) => UseCategory<any, any>;
 let params: UseCategoryFactoryParams<any, any>;
 
 const factoryParams = {
-  categorySearch: vi.fn()
+  categorySearch: jest.fn()
 };
 
 const useCategoryMock = useCategoryFactory(factoryParams);
 
 function createComposable() {
   params = {
-    categorySearch: vi
+    categorySearch: jest
       .fn()
       .mockResolvedValueOnce({ id: 'mocked_removed_cart' })
   };
@@ -21,7 +21,7 @@ function createComposable() {
 
 describe('[CORE - factories] useCategoryFactory', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     createComposable();
   });
 

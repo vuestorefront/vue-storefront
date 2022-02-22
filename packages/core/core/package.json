@@ -3,7 +3,6 @@
   "version": "2.5.4",
   "license": "MIT",
   "sideEffects": false,
-  "type": "module",
   "main": "./lib/index.mjs",
   "exports": {
     ".": "./lib/index.mjs",
@@ -18,7 +17,7 @@
     "build:package": "node ../../../scripts/build",
     "build:types": "tsc --emitDeclarationOnly",
     "dev": "node ../../../scripts/build --watch",
-    "test": "vitest run",
+    "test": "jest",
     "prepublish": "yarn build"
   },
   "dependencies": {

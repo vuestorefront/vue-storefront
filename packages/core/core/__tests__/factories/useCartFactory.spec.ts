@@ -7,43 +7,43 @@ let params: UseCartFactoryParams<any, any, any>;
 
 function createComposable() {
   params = {
-    load: vi.fn().mockResolvedValueOnce({ id: 'mocked_cart' }),
-    addItem: vi.fn().mockResolvedValueOnce({ id: 'mocked_added_cart' }),
-    removeItem: vi
+    load: jest.fn().mockResolvedValueOnce({ id: 'mocked_cart' }),
+    addItem: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_cart' }),
+    removeItem: jest
       .fn()
       .mockResolvedValueOnce({ id: 'mocked_removed_cart' }),
-    updateItemQty: vi
+    updateItemQty: jest
       .fn()
       .mockResolvedValueOnce({ id: 'mocked_updated_quantity_cart' }),
-    clear: vi.fn().mockResolvedValueOnce({ id: 'mocked_cleared_cart' }),
-    applyCoupon: vi.fn().mockResolvedValueOnce({
+    clear: jest.fn().mockResolvedValueOnce({ id: 'mocked_cleared_cart' }),
+    applyCoupon: jest.fn().mockResolvedValueOnce({
       updatedCart: { id: 'mocked_apply_coupon_cart' },
       updatedCoupon: 'appliedCouponMock'
     }),
-    removeCoupon: vi.fn().mockResolvedValueOnce({
+    removeCoupon: jest.fn().mockResolvedValueOnce({
       updatedCart: { id: 'mocked_removed_coupon_cart' }
     }),
-    isInCart: vi.fn().mockReturnValueOnce(true)
+    isInCart: jest.fn().mockReturnValueOnce(true)
   };
   useCart = useCartFactory<any, any, any, any>(params);
 }
 
 const factoryParams = {
-  addItem: vi.fn(() => null),
-  removeItem: vi.fn(),
-  updateItemQty: vi.fn(),
-  load: vi.fn(),
-  clear: vi.fn(),
-  applyCoupon: vi.fn(),
-  removeCoupon: vi.fn(),
-  isInCart: vi.fn()
+  addItem: jest.fn(() => null),
+  removeItem: jest.fn(),
+  updateItemQty: jest.fn(),
+  load: jest.fn(),
+  clear: jest.fn(),
+  applyCoupon: jest.fn(),
+  removeCoupon: jest.fn(),
+  isInCart: jest.fn()
 };
 
 const useCartMock = useCartFactory(factoryParams);
 
 describe('[CORE - factories] useCartFactory', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     createComposable();
   });
 

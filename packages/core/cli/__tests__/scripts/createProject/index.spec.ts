@@ -1,24 +1,24 @@
-import createProject from '@vue-storefront/cli/src/scripts/createProject/index';
+import createProject from '@vue-storefront/cli/src/scripts/createProject';
 import log from '@vue-storefront/cli/src/utils/log';
 const git = require('isomorphic-git');
 const targetPath = 'vsf-new-project';
 
-vi.mock('@vue-storefront/cli/src/utils/log', () => ({
-  info: vi.fn(),
-  success: vi.fn(),
-  error: vi.fn()
+jest.mock('@vue-storefront/cli/src/utils/log', () => ({
+  info: jest.fn(),
+  success: jest.fn(),
+  error: jest.fn()
 }));
 
-vi.mock('path', () => ({
-  join: vi.fn(() => targetPath),
-  isAbsolute: vi.fn(() => false)
+jest.mock('path', () => ({
+  join: jest.fn(() => targetPath),
+  isAbsolute: jest.fn(() => false)
 }));
 
-vi.mock('isomorphic-git', () => ({
-  clone: vi.fn()
+jest.mock('isomorphic-git', () => ({
+  clone: jest.fn()
 }));
-vi.mock('rimraf', () => ({
-  sync: vi.fn()
+jest.mock('rimraf', () => ({
+  sync: jest.fn()
 }));
 
 describe('[vsf-next-cli] createProject', () => {
@@ -37,7 +37,7 @@ describe('[vsf-next-cli] createProject', () => {
       throw new Error();
     });
     const testTargetPath = 'test_path';
-    const spy = vi.spyOn(process, 'cwd');
+    const spy = jest.spyOn(process, 'cwd');
     spy.mockReturnValue(testTargetPath);
 
     await createProject({

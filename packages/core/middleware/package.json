@@ -2,7 +2,6 @@
   "name": "@vue-storefront/middleware",
   "version": "2.5.5",
   "license": "MIT",
-  "type": "module",
   "main": "./lib/index.mjs",
   "exports": {
     ".": "./lib/index.mjs",

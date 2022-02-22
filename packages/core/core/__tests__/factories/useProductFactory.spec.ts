@@ -6,7 +6,7 @@ const useProduct: (cacheId: string) => UseProduct<any, any> = useProductFactory<
 });
 
 const factoryParams = {
-  productsSearch: vi.fn()
+  productsSearch: jest.fn()
 };
 
 const useProductMock = useProductFactory<any, any>(factoryParams);

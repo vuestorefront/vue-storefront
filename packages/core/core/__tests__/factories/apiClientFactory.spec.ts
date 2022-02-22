@@ -1,17 +1,17 @@
 import { apiClientFactory } from '../../src/factories/apiClientFactory';
 import { applyContextToApi } from '../../src/factories/apiClientFactory/context';
 
-vi.mock('../../src/utils', () => ({
-  integrationPluginFactory: vi.fn(),
+jest.mock('../../src/utils', () => ({
+  integrationPluginFactory: jest.fn(),
   Logger: {
-    debug: vi.fn()
+    debug: jest.fn()
   }
 }));
 
 describe('[CORE - factories] apiClientFactory', () => {
   it('Should return passed config with overrides property', () => {
     const params = {
-      onCreate: vi.fn((config) => ({ config })),
+      onCreate: jest.fn((config) => ({ config })),
       defaultSettings: { option: 'option' }
     };
 
@@ -22,7 +22,7 @@ describe('[CORE - factories] apiClientFactory', () => {
 
   it('Should merge with default settings when setup is called', () => {
     const params = {
-      onCreate: vi.fn((config) => ({ config })),
+      onCreate: jest.fn((config) => ({ config })),
       defaultSettings: { option: 'option' }
     };
 
@@ -37,7 +37,7 @@ describe('[CORE - factories] apiClientFactory', () => {
 
   it('Should run onCreate when setup is invoked', () => {
     const params = {
-      onCreate: vi.fn((config) => ({ config })),
+      onCreate: jest.fn((config) => ({ config })),
       defaultSettings: {}
     };
 
@@ -49,15 +49,15 @@ describe('[CORE - factories] apiClientFactory', () => {
   });
 
   it('Should run given extensions', () => {
-    const beforeCreate = vi.fn(a => a);
-    const afterCreate = vi.fn(a => a);
+    const beforeCreate = jest.fn(a => a);
+    const afterCreate = jest.fn(a => a);
     const extension = {
       name: 'extTest',
       hooks: () => ({ beforeCreate, afterCreate })
     };
 
     const params = {
-      onCreate: vi.fn((config) => ({ config })),
+      onCreate: jest.fn((config) => ({ config })),
       defaultSettings: {},
       extensions: [extension]
     };
@@ -73,12 +73,12 @@ describe('[CORE - factories] apiClientFactory', () => {
 
   it('applyContextToApi adds context as first argument to api functions', () => {
     const api = {
-      firstFunc: vi.fn(),
-      secondFunc: vi.fn(),
-      thirdFunc: vi.fn()
+      firstFunc: jest.fn(),
+      secondFunc: jest.fn(),
+      thirdFunc: jest.fn()
     };
     const context = {
-      extendQuery: vi.fn()
+      extendQuery: jest.fn()
     };
 
     const apiWithContext: any = applyContextToApi(api, context);

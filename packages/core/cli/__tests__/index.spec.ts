@@ -2,11 +2,11 @@ import { cli } from '@vue-storefront/cli/src/index';
 import log from '@vue-storefront/cli/src/utils/log';
 import init from '../src/commands/init';
 
-vi.mock('@vue-storefront/cli/src/utils/log', () => ({
-  error: vi.fn()
+jest.mock('@vue-storefront/cli/src/utils/log', () => ({
+  error: jest.fn()
 }));
-vi.mock('../src/commands/init.ts', () => ({
-  default: vi.fn()
+jest.mock('../src/commands/init.ts', () => ({
+  default: jest.fn()
 }));
 
 describe('CLI', () => {

@@ -2,8 +2,8 @@ import { useStoreFactory } from '../../src/factories';
 import { AgnosticStore } from '../../src/types';
 
 const factoryParams = {
-  load: vi.fn(),
-  change: vi.fn()
+  load: jest.fn(),
+  change: jest.fn()
 };
 
 const stores = {key: 'stores'};
@@ -16,7 +16,7 @@ const useStoreMethods = useStore();
 
 describe('[CORE - factories] useStoreFactory', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   describe('initial setup', () => {

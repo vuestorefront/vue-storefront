@@ -2,7 +2,6 @@
   "name": "@vue-storefront/cli",
   "version": "2.4.1",
   "license": "MIT",
-  "type": "module",
   "main": "./lib/index.mjs",
   "exports": {
     ".": "./lib/index.mjs",
@@ -16,7 +15,7 @@
     "node": ">=16.x"
   },
   "scripts": {
-    "test": "vitest run",
+    "test": "jest",
     "build": "rm -rf ./lib; tsc",
     "cli": "ts-node ./src/index.ts",
     "prepublish": "yarn build"

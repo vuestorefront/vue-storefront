@@ -1,8 +1,8 @@
 import { useBillingFactory } from '../../src/factories';
 
 const factoryParams = {
-  load: vi.fn(() => null),
-  save: vi.fn()
+  load: jest.fn(() => null),
+  save: jest.fn()
 };
 
 const useBilling = useBillingFactory(factoryParams);
@@ -10,7 +10,7 @@ const useBillingMethods = useBilling();
 
 describe('[CORE - factories] useBillingFactory', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
   describe('initial setup', () => {
     it('should have proper initial properties', () => {

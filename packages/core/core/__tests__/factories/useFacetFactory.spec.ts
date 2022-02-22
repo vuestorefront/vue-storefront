@@ -1,14 +1,14 @@
 import { useFacetFactory } from '../../src/factories';
 
 const factoryParams = {
-  search: vi.fn()
+  search: jest.fn()
 };
 
 const useFacetMock = useFacetFactory(factoryParams);
 
 describe('[CORE - factories] useFacetFactory', () => {
   it('creates properties', () => {
-    const factorySearch = () => vi.fn();
+    const factorySearch = () => jest.fn();
 
     const useFacet = useFacetFactory({ search: factorySearch } as any);
     const { result, loading } = useFacet();
@@ -18,7 +18,7 @@ describe('[CORE - factories] useFacetFactory', () => {
   });
 
   it('triggers search', () => {
-    const factorySearch = () => vi.fn();
+    const factorySearch = () => jest.fn();
 
     const useFacet = useFacetFactory({ search: factorySearch } as any);
     const { result, loading, search } = useFacet();

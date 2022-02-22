@@ -16,15 +16,18 @@ const expectedFile = `{
 
 import { writeFileSync } from 'fs';
 
-vi.mock('fs', () => ({
-  readFileSync: vi.fn(() => defaultFile),
-  writeFileSync: vi.fn()
+jest.mock('fs', () => ({
+  readFileSync: jest.fn(() => defaultFile),
+  writeFileSync: jest.fn()
 }));
 
 describe('[vsf-next-cli] updatePackageJson', () => {
   it('updates name in the JSON file and removes keys that start with _', async () => {
+
     const absoluteFilePath = 'package.json';
     await updatePackageJson(absoluteFilePath, projectName);
     expect(writeFileSync).toHaveBeenCalledWith(absoluteFilePath, expectedFile);
+
   });
+
 });

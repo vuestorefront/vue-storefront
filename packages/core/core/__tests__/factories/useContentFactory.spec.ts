@@ -12,19 +12,19 @@ describe('[CORE - factories] useContentFactory', () => {
   let useContent: (cacheId: string) => UseContent<any, any>;
   const createContentFactoryMock = () => {
     params = {
-      search: vi.fn().mockResolvedValueOnce({ id: 'test-id' })
+      search: jest.fn().mockResolvedValueOnce({ id: 'test-id' })
     };
     useContent = useContentFactory<any, any>(params);
   };
 
   const factoryParams = {
-    search: vi.fn()
+    search: jest.fn()
   };
 
   const useContentMock = useContentFactory(factoryParams);
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     createContentFactoryMock();
   });
 
@@ -69,7 +69,7 @@ describe('[CORE - factories] renderContentFactory', () => {
   };
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     renderContentFactoryMock();
   });
 

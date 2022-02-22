@@ -6,7 +6,7 @@ describe('createExtendIntegrationInCtx', () => {
     const nuxtCtx = {
       $vsf: {}
     };
-    const inject = vi.fn();
+    const inject = jest.fn();
 
     const extendContext = createExtendIntegrationInCtx({
       tag,
@@ -35,7 +35,7 @@ describe('createExtendIntegrationInCtx', () => {
         }
       }
     };
-    const inject = vi.fn();
+    const inject = jest.fn();
 
     const extendContext = createExtendIntegrationInCtx({
       tag,
@@ -60,7 +60,7 @@ describe('createExtendIntegrationInCtx', () => {
         }
       }
     };
-    const inject = vi.fn();
+    const inject = jest.fn();
 
     const extendContext = createExtendIntegrationInCtx({
       tag,

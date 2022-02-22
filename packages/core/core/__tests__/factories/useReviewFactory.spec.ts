@@ -28,8 +28,8 @@ const searchReviewResponse = {
 };
 
 const useReviews: (cacheId: string) => UseReview<any, any, any> = useReviewFactory<any, any, any>({
-  searchReviews: vi.fn().mockResolvedValue(searchReviewResponse),
-  addReview: vi.fn().mockResolvedValue({
+  searchReviews: jest.fn().mockResolvedValue(searchReviewResponse),
+  addReview: jest.fn().mockResolvedValue({
     offset: 0,
     limit: 5,
     count: 2,
@@ -66,10 +66,10 @@ const useReviews: (cacheId: string) => UseReview<any, any, any> = useReviewFacto
 });
 
 const useReviesError: (cacheId: string) => UseReview<any, any, any> = useReviewFactory<any, any, any>({
-  searchReviews: vi.fn().mockImplementation(() => {
+  searchReviews: jest.fn().mockImplementation(() => {
     throw new Error('Couldn\'t retrieve reviews');
   }),
-  addReview: vi.fn().mockImplementation(() => {
+  addReview: jest.fn().mockImplementation(() => {
     throw new Error('Couldn\'t submit review');
   })
 });

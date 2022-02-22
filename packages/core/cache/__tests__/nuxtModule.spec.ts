@@ -1,12 +1,49 @@
 import nuxtModule from '../nuxt';
+import path from 'path';
 
-const mockInvoke = vi.fn();
-const mockInvalidate = vi.fn();
+/**
+ * Variables
+ */
+const mockNuxt = {
+  nuxt: {
+    renderer: {
+      renderRoute: jest.fn()
+    }
+  },
 
-vi.mock('@vue-storefront/core');
-vi.mock('../nuxt/helpers.js', () => ({
-  requirePackage: vi.fn(() => ({})),
-  requireDriver: vi.fn(() => ({
+  addPlugin: jest.fn(),
+
+  addServerMiddleware: jest.fn(({ handler }) => {
+    // Simulate request to invalidation endpoint
+    handler(
+      {},
+      {
+        status() {
+          return {
+            send: jest.fn()
+          };
+        }
+      });
+  })
+};
+
+const mockInvoke = jest.fn();
+const mockInvalidate = jest.fn();
+const mockHandler = jest.fn(() => ['a', 'b', 'c', 'a', 'b', 'c']);
+
+/**
+ * Mocks
+ */
+jest.mock('@vue-storefront/core', () => ({
+  Logger: {
+    info: jest.fn(),
+    error: jest.fn()
+  }
+}));
+jest.mock('path');
+jest.mock('../nuxt/helpers.js', () => ({
+  requirePackage: jest.fn(() => ({})),
+  requireDriver: jest.fn(() => ({
     invoke: mockInvoke,
     invalidate: mockInvalidate
   }))
@@ -14,23 +51,6 @@ vi.mock('../nuxt/helpers.js', () => ({
 
 describe('nuxtModule', () => {
   it('registers plugin and calls driver methods', () => {
-    const mockNuxt = {
-      nuxt: {
-        renderer: {
-          renderRoute: vi.fn()
-        }
-      },
-
-      addPlugin: vi.fn(),
-
-      addServerMiddleware: vi.fn(({ handler }) => {
-        // Simulate request to invalidation endpoint
-        handler({}, { writeHead: vi.fn(), end: vi.fn() });
-      })
-    };
-
-    const mockHandler = vi.fn(() => ['a', 'b', 'c', 'a', 'b', 'c']);
-
     const options = {
       enabled: true,
       invalidation: {
@@ -51,20 +71,24 @@ describe('nuxtModule', () => {
     nuxtModule.call(mockNuxt, options);
 
     // Nuxt.js plugin should be called
-    expect(mockNuxt.addPlugin).toHaveBeenCalled();
+    expect(mockNuxt.addPlugin).toHaveBeenCalledWith({
+      src: path.resolve(__dirname, '../nuxt/plugin.js'),
+      mode: 'server',
+      options
+    });
 
-    // // Simulate route render
-    // mockNuxt.nuxt.renderer.renderRoute('/', {}, vi.fn());
+    // Simulate route render
+    mockNuxt.nuxt.renderer.renderRoute('/', {}, jest.fn());
 
-    // // Driver's "invoke" should be called
-    // expect(mockInvoke).toBeCalled();
+    // Driver's "invoke" should be called
+    expect(mockInvoke).toBeCalled();
 
-    // // Driver's "invalidate" should be called without duplicate tags
-    // expect(mockInvalidate).toHaveBeenCalledWith(
-    //   expect.objectContaining({ tags: ['a', 'b', 'c'] })
-    // );
+    // Driver's "invalidate" should be called without duplicate tags
+    expect(mockInvalidate).toHaveBeenCalledWith(
+      expect.objectContaining({ tags: ['a', 'b', 'c'] })
+    );
 
-    // // Handler passed to options should be called
-    // expect(mockHandler).toBeCalled();
+    // Handler passed to options should be called
+    expect(mockHandler).toBeCalled();
   });
 });

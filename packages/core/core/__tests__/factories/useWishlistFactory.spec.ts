@@ -8,11 +8,11 @@ const customQuery = undefined;
 
 function createComposable() {
   params = {
-    load: vi.fn().mockResolvedValueOnce({ id: 'mocked_wishlist' }),
-    addItem: vi.fn().mockResolvedValueOnce({ id: 'mocked_added_wishlist' }),
-    isInWishlist: vi.fn().mockReturnValueOnce(true),
-    clear: vi.fn().mockResolvedValueOnce({ id: 'mocked_cleared_wishlist' }),
-    removeItem: vi
+    load: jest.fn().mockResolvedValueOnce({ id: 'mocked_wishlist' }),
+    addItem: jest.fn().mockResolvedValueOnce({ id: 'mocked_added_wishlist' }),
+    isInWishlist: jest.fn().mockReturnValueOnce(true),
+    clear: jest.fn().mockResolvedValueOnce({ id: 'mocked_cleared_wishlist' }),
+    removeItem: jest
       .fn()
       .mockResolvedValueOnce({ id: 'mocked_removed_wishlist' })
   };
@@ -20,18 +20,18 @@ function createComposable() {
 }
 
 const factoryParams = {
-  addItem: vi.fn(() => null),
-  removeItem: vi.fn(),
-  load: vi.fn(),
-  clear: vi.fn(),
-  isInWishlist: vi.fn()
+  addItem: jest.fn(() => null),
+  removeItem: jest.fn(),
+  load: jest.fn(),
+  clear: jest.fn(),
+  isInWishlist: jest.fn()
 };
 
 const useWishlistMock = useWishlistFactory<any, any, any>(factoryParams);
 
 describe('[CORE - factories] useWishlistFactory', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     createComposable();
   });
 

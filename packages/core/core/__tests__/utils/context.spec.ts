@@ -12,7 +12,7 @@ describe('context', () => {
   });
 
   it('is possible to set useVSFContext with configureContext', () => {
-    const myFn = vi.fn((): Context => ({}));
+    const myFn = jest.fn((): Context => ({}));
     configureContext({
       useVSFContext: myFn
     });
@@ -21,7 +21,7 @@ describe('context', () => {
   });
 
   it('configureContext uses fallback to current useVSFContext if not provided', () => {
-    const myFn = vi.fn((): Context => ({}));
+    const myFn = jest.fn((): Context => ({}));
 
     configureContext({
       useVSFContext: myFn
@@ -34,7 +34,7 @@ describe('context', () => {
   });
 
   it('generateContext returns useVSFContext().$vsf if setup not provided', () => {
-    const myFn = vi.fn(
+    const myFn = jest.fn(
       (): Context => ({
         $vsf: 12345
       })
@@ -60,7 +60,7 @@ describe('context', () => {
         };
       }
     };
-    const myFn = vi.fn(
+    const myFn = jest.fn(
       (): Context => ({
         $vsf: vsfObject
       })

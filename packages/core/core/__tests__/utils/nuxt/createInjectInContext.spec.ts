@@ -1,13 +1,13 @@
 import { createAddIntegrationToCtx } from '../../../src/utils/nuxt/context';
-vi.mock('../../../src/utils/context', () => ({
-  applyContextToApi: vi.fn()
+jest.mock('../../../src/utils/context', () => ({
+  applyContextToApi: jest.fn()
 }));
 
 describe('createAddIntegrationToCtx', () => {
   it('injectInContext uses inject if nuxtCtx.$vsf does not exist', () => {
     const tag = 'myIntegration';
     const nuxtCtx = {};
-    const inject = vi.fn();
+    const inject = jest.fn();
 
     const injectInContext = createAddIntegrationToCtx({
       tag,
@@ -27,7 +27,7 @@ describe('createAddIntegrationToCtx', () => {
     const nuxtCtx = {
       $vsf: {}
     };
-    const inject = vi.fn();
+    const inject = jest.fn();
 
     const injectInContext = createAddIntegrationToCtx({
       tag,
