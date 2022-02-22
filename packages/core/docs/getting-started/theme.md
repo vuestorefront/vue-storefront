@@ -48,7 +48,7 @@ Every new Vue Storefront project comes with a set of preinstalled Nuxt.js module
   <figcaption style="font-size: 0.9rem">(Click to zoom)</figcaption>
 </figure>
 
-Almost every page in our default theme uses components whose names start with `Sf`. These come from the [Storefront UI](http://storefrontui.io/) — a design system and library of Vue.js components dedicated to e-commerce, maintained by the Vue Storefront team. Every component can be heavily customized using [props](https://vuejs.org/v2/guide/components-props.html) and [slots](https://vuejs.org/v2/guide/components-slots.html).
+Almost every page in our default theme uses components whose names start with `Sf`. These come from the [Storefront UI](http://storefrontui.io/) — a design system and library of Vue.js components dedicated to e-commerce, maintained by the Vue Storefront team. Every component can be heavily customized using [props](https://v2.vuejs.org/v2/guide/components-props.html) and [slots](https://v2.vuejs.org/v2/guide/components-slots.html).
 
 Please check [Storefront UI documentation](https://docs.storefrontui.io/) to learn more and interactively customize and test the components.
 

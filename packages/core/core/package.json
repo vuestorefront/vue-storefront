@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/core",
-  "version": "2.5.4",
+  "version": "2.5.5",
   "license": "MIT",
   "sideEffects": false,
   "main": "./lib/index.mjs",

@@ -1,8 +1,4 @@
-# Redis cache <Badge text="Enterprise" type="info" />
-
-::: warning Paid feature
-This feature is part of the Enterprise version. Please [contact our Sales team](https://www.vuestorefront.io/contact/sales) if you'd like to use it in your project.
-:::
+# Redis cache
 
 ## Introduction
 
@@ -14,7 +10,7 @@ Install required packages:
 
 ```sh
 yarn add @vue-storefront/cache
-yarn add @vsf-enterprise/redis-cache
+yarn add @vue-storefront/redis-cache
 ```
 
 Register `@vue-storefront/cache` module with following configuration:
@@ -29,7 +25,7 @@ export default {
         // Invalidation options
       },
       driver: [
-        '@vsf-enterprise/redis-cache',
+        '@vue-storefront/redis-cache',
         {
           defaultTimeout: 86400,
           redis: {
