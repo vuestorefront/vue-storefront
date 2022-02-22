@@ -48,7 +48,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
-    "@babel/plugin-transform-modules-commonjs": "^7.16.8",
     "@babel/preset-env": "^7.16.11",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
@@ -107,6 +106,6 @@
     }
   },
   "engines": {
-    "node": ">=14.x"
+    "node": ">=16.x"
   }
 }
