@@ -2,7 +2,6 @@
 require('jsdom-global')();
 import Vue from 'vue';
 import VueCompositionApi, { ref } from '@vue/composition-api';
-import { jest } from '@jest/globals'
 
 Vue.config.productionTip = false;
 Vue.config.devtools = false;
