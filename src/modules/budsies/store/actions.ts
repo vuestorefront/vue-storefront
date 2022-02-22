@@ -245,5 +245,22 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     }
 
     return result;
+  },
+  async createNewsletterSubscription (
+    { commit, state },
+    { email }: { email: string }
+  ): Promise<Task> {
+    const url = processURLAddress(`${config.budsies.endpoint}/newsletter/subscriptions?token={{token}}`);
+
+    return TaskQueue.execute({
+      url,
+      payload: {
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        mode: 'cors',
+        method: 'POST',
+        body: JSON.stringify({ email })
+      },
+      silent: false
+    });
   }
 }
