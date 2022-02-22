@@ -13,5 +13,6 @@ module.exports = {
   ],
   moduleFileExtensions: ['ts', 'js', 'json'],
   watchPathIgnorePatterns: ['**/node_modules'],
-  testMatch: ['<rootDir>/**/__tests__/**/*spec.[jt]s?(x)']
+  testMatch: ['<rootDir>/**/__tests__/**/*spec.[jt]s?(x)'],
+  collectCoverage: true
 };

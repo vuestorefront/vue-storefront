@@ -28,6 +28,7 @@ esbuild.build({
     '.js': '.mjs'
   },
   bundle: true,
+  minify: true,
   sourcemap: true,
   platform: 'node',
   target: 'node14',
