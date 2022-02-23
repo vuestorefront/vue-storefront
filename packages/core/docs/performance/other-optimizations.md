@@ -32,8 +32,6 @@ Consider delivering critical JavaScript/CSS inline and deferring all non-critica
 
 Once you've identified critical code, move that code from the render-blocking URL to an inline `<script>` tag. Do the same for the styles required for the first paint inside a `<style>` block at the `<head>` of the HTML page and load the rest of the styles asynchronously using the `preload` link.
 
-TODO: Add Nuxt.js example or libraries that can do that in Nuxt.js
-
 ## Swap fonts :ledger:
 
 Leverage the `font-display` CSS feature to ensure that the text is visible to the user while web fonts are loading.
