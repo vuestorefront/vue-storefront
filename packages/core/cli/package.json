@@ -2,14 +2,14 @@
   "name": "@vue-storefront/cli",
   "version": "2.4.1",
   "license": "MIT",
-  "main": "./lib/index.mjs",
+  "main": "./lib/index.js",
   "exports": {
-    ".": "./lib/index.mjs",
+    ".": "./lib/index.js",
     "./src/*": "./lib/*.js"
   },
   "types": "./lib/index.d.ts",
   "bin": {
-    "vsf": "./lib/index.mjs"
+    "vsf": "./lib/index.js"
   },
   "engines": {
     "node": ">=16.x"

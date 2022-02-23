@@ -2,9 +2,9 @@
   "name": "@vue-storefront/commercetools",
   "version": "1.4.4",
   "sideEffects": false,
-  "main": "./lib/index.mjs",
+  "main": "./lib/index.js",
   "exports": {
-    ".": "./lib/index.mjs",
+    ".": "./lib/index.js",
     "./nuxt": "./nuxt/index.js",
     "./package.json": "./package.json"
   },

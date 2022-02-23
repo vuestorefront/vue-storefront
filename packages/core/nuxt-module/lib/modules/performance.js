@@ -1,4 +1,4 @@
-const { merge } = require('lodash');
+const merge = require('lodash.merge');
 
 function pushScripts() {
   this.options.render = merge(this.options.render, {

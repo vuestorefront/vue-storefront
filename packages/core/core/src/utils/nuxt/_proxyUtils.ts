@@ -1,7 +1,7 @@
 import { IncomingMessage } from 'http';
-import isHttps from 'is-https';
-import merge from 'lodash-es/merge';
 import { Context as NuxtContext } from '@nuxt/types';
+import isHttps from 'is-https';
+import merge from 'lodash.merge';
 import { ApiClientMethod } from './../../types';
 
 interface CreateProxiedApiParams {

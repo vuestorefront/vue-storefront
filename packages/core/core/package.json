@@ -13,10 +13,11 @@
     "node": ">=16.x"
   },
   "scripts": {
-    "build": "yarn build:package && yarn build:types",
-    "build:package": "node ../../../scripts/build",
+    "build": "yarn build:clear && yarn build:package && yarn build:types",
+    "build:clear": "rimraf lib",
+    "build:package": "node ../../../scripts/build --file=src/index.ts",
     "build:types": "tsc --emitDeclarationOnly",
-    "dev": "node ../../../scripts/build --watch",
+    "dev": "yarn build:package --watch",
     "test": "jest",
     "prepublish": "yarn build"
   },
@@ -24,7 +25,7 @@
     "axios": "0.21.1",
     "express": "^4.17.1",
     "is-https": "^3.0.2",
-    "lodash-es": "^4.17.15",
+    "lodash.merge": "^4.6.2",
     "vue": "^2.6.11"
   },
   "devDependencies": {

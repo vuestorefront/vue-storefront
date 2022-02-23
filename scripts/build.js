@@ -1,7 +1,8 @@
-const fs = require('fs');
 const path = require('path');
-const rimraf = require('rimraf');
 const esbuild = require('esbuild');
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
+const argv = yargs(hideBin(process.argv)).argv;
 
 function cwdResolve(name) {
   return path.resolve(process.cwd(), name);
@@ -9,30 +10,21 @@ function cwdResolve(name) {
 
 const pkg = require(cwdResolve('package.json'));
 
-const entryPoints = [
-  cwdResolve('src/index.ts')
-];
-
-if (fs.existsSync(cwdResolve('src/index.server.ts'))) {
-  entryPoints.push(cwdResolve('src/index.server.ts'));
-}
-
-// Remove old build
-rimraf.sync(cwdResolve('lib'));
-
 esbuild.build({
-  entryPoints,
+  entryPoints: [
+    cwdResolve(argv.file)
+  ],
   outdir: 'lib',
-  format: 'esm',
   outExtension: {
     '.js': '.mjs'
   },
+  format: 'esm',
   bundle: true,
   minify: true,
   sourcemap: true,
   platform: 'node',
-  target: 'node14',
-  watch: process.argv.includes('--watch'),
+  target: 'node16',
+  watch: Boolean(argv.watch),
   logLevel: 'warning',
   external: [
     ...Object.keys(pkg.dependencies || {}),
