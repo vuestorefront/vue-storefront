@@ -6,5 +6,5 @@ export default {
   'Magento 2 (beta)': 'https://github.com/vuestorefront/template-magento.git',
   Vendure: 'https://github.com/vuestorefront/template-vendure.git',
   'Kibo Commerce (beta)': 'https://github.com/vuestorefront/template-kibocommerce.git',
-  'BigCommerce': 'https://github.com/vuestorefront/template-bigcommerce.git'
+  BigCommerce: 'https://github.com/vuestorefront/template-bigcommerce.git'
 };
