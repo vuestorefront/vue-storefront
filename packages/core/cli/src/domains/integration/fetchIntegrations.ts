@@ -1,9 +1,11 @@
 import type Integration from './Integration';
+import fetch from 'node-fetch';
+
+const API_URL = 'https://raw.githubusercontent.com/vuestorefront/integrations/main/data.json';
 
 const fetchIntegrations = async (): Promise<Integration[]> => {
-  const { default: integrations } = await import('./integrations.json');
-
-  return integrations;
+  const response = await fetch(API_URL);
+  return response.json() as Promise<Integration[]>;
 };
 
 export default fetchIntegrations;
