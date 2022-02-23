@@ -52,7 +52,7 @@ export default {
 
 More info about code splitting in Nuxt can be found in [official documentation](https://nuxtjs.org/docs/configuration-glossary/configuration-build/#splitchunks).
 
-## Avoid serving polyfills to modern browsers :blue_book: :ledger: :orange_book:
+## Avoid serving polyfills to modern browsers :ledger:
 
 Polyfills and transforms enable you to use new JavaScript features in a legacy browser. However, they are unnecessary in modern browsers, making the bundle bigger and impacting the performance.
 

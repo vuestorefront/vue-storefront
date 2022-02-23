@@ -59,11 +59,11 @@ If you are using the `@nuxtjs/google-fonts` package, you can use the [display](h
 
 Check if your website doesn't use multiple versions of the same library. This will make the user download unnecessary data and slow down your page. Clean up the code and make sure you only use one version by running the following command. It will generate a report of what's in the final bundle.
 
-"`bash
+```bash
 yarn nuxt build --analyze
 ```
 
-## Compress text content
+## Compress text content :ledger:
 
 Ensure you compress HTML, JSON, JavaScript, CSS, and SVG. It will save bandwidth for you and the user and make the page load faster.
 
@@ -72,7 +72,7 @@ There are two ways you can do that:
 * (Recommended) Enable GZIP or Brotli compression on the server.
 * To enable compression in Nuxt.js using the [nuxt compression](https://github.com/nuxt-modules/compression) or [nuxt-compress](https://www.npmjs.com/package/nuxt-compress) modules.
 
-## Don't close connection used multiple times
+## Don't close connection used multiple times :blue_book:
 
 Use `keep-alive` headers and don't close the connection when multiple requests are sent to the same domain.
 
@@ -82,7 +82,7 @@ It will speed up page load times and even reduce CPU/memory usage on your server
 * In HTTP/1.1, all connections are considered persistent unless declared otherwise.
 * In HTTP/2 connection and Keep-Alive headers are not allowed. Chrome and Firefox ignore them, but Safari will not load the web page if the server returns these headers in error.
 
-"`javascript
+```javascript
 Example:
 GET /echo HTTP/1.0
 Host: vuestorefront.io
