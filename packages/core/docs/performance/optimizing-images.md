@@ -4,7 +4,7 @@ Images are likely the most straightforward resource to optimize. Yet if you forg
 
 On this page, we will share some tips on how you can prevent that.
 
-## Use the `@nuxt/image` package
+## Use the `@nuxt/image` package :orange_book:
 
 Using the [`<nuxt-img>`](https://image.nuxtjs.org/components/nuxt-img) component from the [@nuxt/image](https://image.nuxtjs.org/) package is likely the single best thing you can do to stop worrying about images. It offers features for most of the things mentioned in the following sections. Using most of them only requires you to pass a single attribute.
 
@@ -21,13 +21,13 @@ It offers image resizing, converting formats, preloading, and integrations with 
 />
 ```
 
-## Compress images using next-generation formats
+## Compress images using next-generation formats :orange_book:
 
 The most common performance bottlenecks are images that are not compressed and weigh multiple times more than they should. For this reason, you should always compress images, and luckily nowadays, there are plenty of lossless and lossy file types supported in modern browsers.
 
 If you have just a few static images on your website, you can manually compress them using a website like [Squoosh.app](https://squoosh.app/). However, if you have more images or want it to happen automatically, you can use the `@nuxt/image` package mentioned above.
 
-## Don't declare images in CSS
+## Don't declare images in CSS :ledger:
 
 Images declared in the CSS files are often downloaded much later than those in HTML because the browser has to download and parse the CSS file before knowing that it has to load and display an image.
 
@@ -45,7 +45,7 @@ If the image is also the biggest element visible to the user within the initial 
 + </div>
 ```
 
-## Lazy load offscreen images
+## Lazy load offscreen images :orange_book:
 
 Lazy loading is a technique used to prevent or delay the loading of non-critical resources until they are needed. You can use this mechanism for different types of resources, but in the case of images, our goal is to lazily load everything that is not visible to the user within the initial viewport. All other images can be loaded when the user scrolls down the page.
 
@@ -58,7 +58,7 @@ Use the `loading="lazy"` attribute to load an image lazily. It also works for th
 
 If you want to load resources other than images lazily, check out the [vue-lazyload](https://www.npmjs.com/package/vue-lazyload) package.
 
-## Scale images on the server, not browser
+## Scale images on the server, not browser :orange_book:
 
 Don't download big images to scale them down in the browser because it results in downloading data and processing that you could have avoided. Instead, use a tool or service that creates multiple versions of the same image server-side and serves the appropriate one depending on the size.
 

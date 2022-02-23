@@ -4,13 +4,18 @@ Loading too much JavaScript increases the time the browser parses, compiles, and
 
 On this page, we will share some tips on how you can prevent that and serve only the scripts needed.
 
-## Remove unused scripts
+## Remove unused scripts :orange_book:
 
 Removing unused scripts reduces the amount of data sent through the network and time required to make the page interactive because the browser has fewer scripts to process.
 
 ### Tree-shaking
 
-TODO: Explain what is the tree-shaking
+Tree shaking it's a technique of dead code elimination.
+That means any not imported/used parts of our code will not get in to final bundle.
+
+Smaller bundles means better performance.
+
+To help  three shaking work properly, you should not import everything, just get what you really need.
 
 ```diff
 - import * as arrayUtils from 'array-utils';
@@ -19,11 +24,35 @@ TODO: Explain what is the tree-shaking
 
 ### Code splitting
 
-TODO: Explain code-splitting and mention that pages are automatically code split in Nuxt.js
+When your application is bundled, often big chunks are created, all js code can get into one big file. 
 
-TODO: Show how to do code splitting in Nuxt.js / Vue.js
+Using code splitting we are creating more smaller files, that contains javascript needed for eg. only home page, scripts used for product page are in separate bundle.
 
-## Avoid serving polyfills to modern browsers
+There is also a vendor bundle where all shared scripts go. If home page and product page use a top menu, it's component scripts will go to the vendor, so it can be downloaded only once.
+
+This technique helps to speed up a page because we don't need to download and parse unused javascript.
+
+
+Nuxt uses code splitting out of the box, it is creating bundles based on pages. So everything needed for home page (that is not shared with other pages) gets to one bundle and eg product page to another.
+
+
+It's default configuration is in nuxt.config.js
+
+```javascript
+export default {
+  build: {
+    splitChunks: {
+      layouts: false,
+      pages: true,
+      commons: true
+    }
+  }
+}
+```
+
+More info about code splitting in Nuxt can be found in [official documentation](https://nuxtjs.org/docs/configuration-glossary/configuration-build/#splitchunks).
+
+## Avoid serving polyfills to modern browsers :blue_book: :ledger: :orange_book:
 
 Polyfills and transforms enable you to use new JavaScript features in a legacy browser. However, they are unnecessary in modern browsers, making the bundle bigger and impacting the performance.
 
@@ -38,11 +67,25 @@ Browsers will load only one of them, depending on whether it supports ES modules
 
 ### Configure Babel
 
-TODO: Describe what is Babel
+Babel is a toolchain that is mainly used to convert ECMAScript 2015+ code into a backwards compatible version of JavaScript in current and older browsers or environments. 
 
-TODO: Show how to configure it
 
-## Avoid adding third-party scripts
+Babel in nuxt can be easily configured, default configuration is:
+
+```javascript
+{
+  babelrc: false,
+  cacheDirectory: undefined,
+  presets: ['@nuxt/babel-preset-app']
+}
+```
+
+The default targets of @nuxt/babel-preset-app are ie: '9' in the client build, and node: 'current' in the server build.
+
+
+More information about babel in nuxt can be found in [official documentation](https://nuxtjs.org/docs/configuration-glossary/configuration-build/#babel).
+
+## Avoid adding third-party scripts :ledger:
 
 Third-party code can significantly impact the performance, and the best thing you can do is not to add them to your page at all. However, if you have to, there are some tricks to reduce the performance impact on your application.
 
@@ -57,4 +100,4 @@ Third-party code can significantly impact the performance, and the best thing yo
 
 Google Tag Manager allows non-tech users to add scripts to your page that might downgrade performance.
 
-TODO: Add some more information
+It is often use to add additional scripts, add some styling and elements or hide/show content on web page, this can lead to Cumulate Layout Shifts, additional Total Blocking Time, bigger number of requests and their weight or even rerender whole page (by using document.write).

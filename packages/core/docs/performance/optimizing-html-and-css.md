@@ -1,8 +1,10 @@
 # Optimizing HTML and CSS
 
-TODO: Add intro
+Big, render blocking css files and extensive DOM is always badly impacting web performance.
 
-## Remove unused styles
+We will share with you some tips how to make things work better
+
+## Remove unused styles :ledger:
 
 Removing unused styles reduces the amount of data needed to be sent through the network and the rendering time because the browser has fewer styles to process.
 
@@ -39,9 +41,13 @@ If you decide to enable this plugin, we recommend using `enabled: process.env.NO
 Because PurgeCSS looks for whole class names in files, it may remove styles for dynamic classes. If you're using a dynamic class, make sure you use whole names instead of concatinating variables (eg. `isDev ? 'some-style-dev' : 'some-style-prod'` instead of `some-style-${ isDev ? 'dev' : 'prod' }`. If this can't be avoided, add them to `whitelist` array.
 :::
 
-## Use HTTP2 Push
+## Use HTTP2 Push :blue_book:
 
-TODO: Add intro
+Http2 Push is a performance technique aimed at reducing latency by loading resources even before clients browser know it will need them.
+
+Consider website with 3 resources: index.html, styles.css, scripts.js. 
+Browser will firstly load and parse index.html, while parsing it will find information about styles.css and script.sj so it will send a request to the server to get them.
+Developers know that index.html will need those 2 files so they can use HTTP2 Push to send them to the client immediately without waiting for the client to request them.
 
 ```javascript{6-8}
 // nuxt.config.js
@@ -61,16 +67,19 @@ The `httpPush` option (_enabled by default_) leverages [http2](https://nuxtjs.or
 
 If you can't use HTTP2, you can disable this option. In this case, Nuxt.js will still `preload` these scripts, which is only slightly slower than the HTTP2 push.
 
-## Avoid extensive DOM size
+## Avoid extensive DOM size :ledger:
 
 Large DOM will increase memory usage, cause longer style calculations, and produce costly layout reflows. In your components, try to make as flat structure as possible and avoid nesting HTML elements. Check if the library you use doesn't create complex HTML structures. There are cases when a simple button generates 1000 lines of code.
 
-## Don't load print stylesheets
+## Don't load print stylesheets :blue_book:
 
 Loading a specific stylesheet for printing slows down the page, even when not used. You can include the print styles inside your other CSS file(s) by using an `@media` query targeting type print.
 
-TODO: Add an example
 
-## Don't import SCSS files from StorefrontUI
+```css
+@import url("fineprint.css") print;
+```
+
+## Don't import SCSS files from StorefrontUI :ledger:
 
 `@vue-storefront/nuxt` module automatically detects if you have the `@storefront-ui/vue` package installed and, registers [@nuxtjs/style-resources](https://github.com/nuxt-community/style-resources-module) module. It automatically registers all variables, mixins, and functions from StorefrontUI, which means you don't have to import them. Importing SCSS files from StorefrontUI might duplicate some styles, significantly increasing your bundle size and impacting performance.

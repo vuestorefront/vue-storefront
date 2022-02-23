@@ -1,17 +1,32 @@
 # Other optimizations
 
-TODO: Add intro
+There is lot of additional things you can do to improve performance, we have listed some of them bellow.
 
-## Avoid render-blocking resources
+## Avoid render-blocking resources :orange_book:
 
 Render-blocking resources are scripts, stylesheets, and other imports in the `<head>` that delay the browser from rendering page content to the screen until they are downloaded and parsed. Such resources delay the First Paint - time needed for the browser to render something (i.e., background colors, borders, text, or images) for the first time. To prevent that:
 
 * add the `defer` or `async` attribute to the `<script>`,
 * use `disabled` or `media` attributes for the stylesheets.
 
-TODO: AFAIK, Nuxt.js already adds `defer` or `async` to some scripts. Explain what Nuxt.js already does and how to do the above in Nuxt.js
+Nuxt is deferring every bundle script it generates.
+If you want to deffer any third party, just add it in nuxt.config as shown in the example below. 
 
-## Inline critical assets
+```javascript 
+script: [
+  {
+    src: `https://maps.googleapis.com/maps/api/js?key=${mapApiKey}&v=3&libraries=places`, defer: true
+  }
+]
+```
+
+as for css you can add use [media-dependent](https://developer.mozilla.org/en-US/docs/Web/CSS/@import) import, like:
+```css
+//main.scss
+@import '@/assets/main.scss' print;
+```
+
+## Inline critical assets :ledger:
 
 Consider delivering critical JavaScript/CSS inline and deferring all non-critical assets. You can reduce the size of your pages by only shipping the code and styles that you need at the given time.
 
@@ -19,7 +34,7 @@ Once you've identified critical code, move that code from the render-blocking UR
 
 TODO: Add Nuxt.js example or libraries that can do that in Nuxt.js
 
-## Swap fonts
+## Swap fonts :ledger:
 
 Leverage the `font-display` CSS feature to ensure that the text is visible to the user while web fonts are loading.
 
@@ -40,7 +55,7 @@ If you are using Google Fonts, add the `&display=swap` parameter to the end to t
 
 If you are using the `@nuxtjs/google-fonts` package, you can use the [display](https://google-fonts.nuxtjs.org/options#display) property.
 
-## Avoid using more than one library version per page
+## Avoid using more than one library version per page :ledger:
 
 Check if your website doesn't use multiple versions of the same library. This will make the user download unnecessary data and slow down your page. Clean up the code and make sure you only use one version by running the following command. It will generate a report of what's in the final bundle.
 
@@ -61,7 +76,7 @@ There are two ways you can do that:
 
 Use `keep-alive` headers and don't close the connection when multiple requests are sent to the same domain.
 
-TODO: Why?
+It will speed up page load times and even reduce CPU/memory usage on your server.
 
 * The HTTP/1.0 clients request persistent connection by sending the `Connection: keep-alive` request header to the server.
 * In HTTP/1.1, all connections are considered persistent unless declared otherwise.
@@ -75,7 +90,7 @@ Connection: keep-alive
 Keep-Alive: timeout=5, max=100
 ```
 
-## Preconnect with external domains like your CDN or fonts provider
+## Preconnect with external domains like your CDN or fonts provider :ledger:
 
 If a critical resource needed to render a page is not on your domain, you can consider preconnecting to that domain. The browser will create the connections, so it's ready when the resource is needed.
 
@@ -86,11 +101,11 @@ Consider adding `preconnect` or `dns-prefetch` resource hints to establish early
 <link rel="dns-prefetch" href="https://example.com">
 ```
 
-## Avoid multiple redirects
+## Avoid multiple redirects :blue_book:
 
 Redirects introduce additional delays before the browser can load the page. If you can't avoid redirects, it's better to do them on the server side.
 
-## Avoid large network payloads
+## Avoid large network payloads :ledger:
 
 Large network payloads cost users real money and increase the loading times.
 
@@ -99,7 +114,3 @@ Large network payloads cost users real money and increase the loading times.
 * Optimize requests to be as small as possible, minimize and compress them.
 * Cache requests, so the page doesn't re-download the resources on repeat visits.
 
-## Additional resources
-
-Below you can find some great resources that helped us to write those suggestions:
-[web.dev](https://web.dev/), [sitesped.io](https://www.sitespeed.io/), Lighthouse and [Jakub Andrzejewski blog post](https://dev.to/theandrewsky/performance-checklist-for-vue-and-nuxt-cog).

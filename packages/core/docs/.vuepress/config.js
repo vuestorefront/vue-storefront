@@ -174,6 +174,7 @@ module.exports = {
         title: 'Performance',
         collapsable: true,
         children: [
+          ['/performance/intro', 'Introduction'],
           ['/performance/improving-core-web-vitals', 'Improving Core Web Vitals'],
           ['/performance/optimizing-html-and-css', 'Optimizing HTML and CSS'],
           ['/performance/optimizing-images', 'Optimizing images'],
