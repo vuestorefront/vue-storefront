@@ -26,5 +26,9 @@
   {
     "name": "Kibo Commerce (beta)",
     "gitRepositoryURL": "https://github.com/vuestorefront/template-kibocommerce.git"
+  },
+  {
+    "name": "BigCommerce (beta)",
+    "gitRepositoryURL": "https://github.com/vuestorefront/template-bigcommerce.git"
   }
 ]
