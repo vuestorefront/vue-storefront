@@ -15,7 +15,7 @@ export default class GenerateTemplate extends Command {
     integration: Flags.string({
       name: 'integration',
       char: 'i',
-      description: t('command.generate_template.flag.integration') ?? t('command.generate_template.description'),
+      description: t('command.generate_template.flag.integration'),
       default: './',
       required: false,
       multiple: false,
@@ -41,7 +41,7 @@ export default class GenerateTemplate extends Command {
       integrationPath
     });
 
-    this.log('');
+    this.log(t('command.generate_template.message.success', { projectName }));
     this.exit(0);
   }
 }
