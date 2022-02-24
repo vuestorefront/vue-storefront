@@ -1,0 +1,38 @@
+{
+  "name": "@vue-storefront/middleware",
+  "version": "2.5.5",
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "./lib/index.mjs",
+  "exports": {
+    ".": "./lib/index.mjs",
+    "./nuxt": "./nuxt/index.js",
+    "./package.json": "./package.json"
+  },
+  "types": "./lib/index.d.ts",
+  "engines": {
+    "node": ">=16.x"
+  },
+  "scripts": {
+    "build": "yarn build:clear && yarn build:package && yarn build:types",
+    "build:clear": "rimraf lib",
+    "build:package": "node ../../scripts/build --file=src/index.ts",
+    "build:types": "tsc --emitDeclarationOnly",
+    "dev": "yarn build:package --watch",
+    "test": "jest",
+    "prepublish": "yarn build"
+  },
+  "dependencies": {
+    "consola": "2.15.3",
+    "express": "^4.17.1",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.1",
+    "@types/node": "^12.12.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
