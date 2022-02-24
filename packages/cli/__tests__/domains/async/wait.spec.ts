@@ -9,6 +9,7 @@ describe('wait | unit tests', () => {
 
     const after = performance.now();
 
-    expect(after - before).toBeGreaterThanOrEqual(100);
+    // Math.round because of the inaccuracy of the JavaScript floats.
+    expect(Math.round(after - before)).toBeGreaterThanOrEqual(100);
   });
 });
