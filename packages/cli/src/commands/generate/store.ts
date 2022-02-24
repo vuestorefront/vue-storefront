@@ -47,6 +47,15 @@ export default class GenerateStore extends Command {
     await terminateGitRepository(projectDir);
 
     this.log(t('command.generate_store.message.success', { projectName }));
+
+    if (integration.documentationURL) {
+      this.log(
+        t('command.generate_store.message.check_docs', {
+          documentationURL: integration.documentationURL
+        })
+      );
+    }
+
     this.exit(0);
   }
 }

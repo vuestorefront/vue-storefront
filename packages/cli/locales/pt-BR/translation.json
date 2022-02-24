@@ -10,7 +10,8 @@
       },
       "message": {
         "skipping": "Não é possível gerar a loja. Pulando…",
-        "success": "Loja gerada com sucesso em \"./{{projectName}}\"!"
+        "success": "Loja gerada com sucesso em \"./{{projectName}}\"!",
+        "check_docs": "Para mais informações confira a documentação da integração escolhida em: {{documentationURL}}."
       }
     },
     "generate_template": {

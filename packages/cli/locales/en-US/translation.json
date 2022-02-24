@@ -10,7 +10,8 @@
       },
       "message": {
         "skipping": "Can't generate the store. Skipping…",
-        "success": "Sucessfully generated your store at \"./{{projectName}}\"!"
+        "success": "Sucessfully generated your store at \"./{{projectName}}\"!",
+        "check_docs": "For more information, check the documentation of the chosen integration at: {{documentationURL}}."
       }
     },
     "generate_template": {
