@@ -36,13 +36,13 @@ jobs:
         run: yarn build
 
       - name: Test core
-        run: yarn test:core --coverage
+        run: yarn test:core
 
       - name: Test cache
-        run: yarn test:cache --coverage
+        run: yarn test:cache
 
       - name: Test CLI
-        run: yarn test:cli --coverage
+        run: yarn test:cli
 
       - name: Test middleware
-        run: yarn test:middleware --coverage
+        run: yarn test:middleware
