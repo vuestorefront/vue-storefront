@@ -48,9 +48,9 @@ Nuxt.js includes it out of the box. You can control its behavior using the [buil
 
 The default targets are:
 
-* `ie: '9'` for legacy bundle.
+* `ie: '9'` for the legacy bundle.
 * `esmodules:true` for the modern bundle.
-* `node: 'current'` for server bundle.
+* `node: 'current'` for the server bundle.
 
 ## Avoid adding third-party scripts :ledger:
 
