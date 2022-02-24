@@ -1,8 +1,6 @@
 # Optimizing HTML and CSS
 
-Big, render blocking css files and extensive DOM is always badly impacting web performance.
-
-We will share with you some tips how to make things work better
+Large render-blocking CSS files and extensive DOM can significantly impact page performance. Below we share some tips on how to prevent that.
 
 ## Remove unused styles :ledger:
 
@@ -43,11 +41,15 @@ Because PurgeCSS looks for whole class names in files, it may remove styles for 
 
 ## Use HTTP2 Push :blue_book:
 
-Http2 Push is a performance technique aimed at reducing latency by loading resources even before clients browser know it will need them.
+HTTP2 Push is a performance technique to reduce latency by loading resources even before the browser knows it will need them.
 
-Consider website with 3 resources: index.html, styles.css, scripts.js. 
-Browser will firstly load and parse index.html, while parsing it will find information about styles.css and script.sj so it will send a request to the server to get them.
-Developers know that index.html will need those 2 files so they can use HTTP2 Push to send them to the client immediately without waiting for the client to request them.
+Consider a website with three resources:
+
+* index.html,
+* styles.css,
+* scripts.js.
+
+First, the browser will load and parse index.html. While parsing, it will find information about styles.css and script.js, sending a request to the server to get them. Because we know that the page needs those two files, we can use HTTP2 Push to send them to the client immediately without waiting for the client to request them.
 
 ```javascript{6-8}
 // nuxt.config.js

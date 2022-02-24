@@ -1,21 +1,16 @@
 # Improving Core Web Vitals
 
-Web Vitals was cerated by google to help site owners understand the quality of experience they are delivering to their users. 
+Web Vitals are unified and simplified metrics created by Google to help site owners understand the quality of experience they are delivering to their users. Core Web Vitals are the subset of Web Vitals focused on three aspects of the user experience - loading (LCP), interactivity (FID), and visual stability (CLS).
 
-They are unified and simplified metrics so anyone can check their site and understand the results.
-
-Core Web Vitals are the subset of Web Vitals focused on three aspects of the user experience - loading (LCP), interactivity (FID), and visual stability (CLS)
-
-[Read more about Web Vitals](https://web.dev/vitals/)
+[Read more about Web Vitals](https://web.dev/vitals/).
 
 ## Largest Contentful Paint (LCP) :orange_book:
 
 The Largest Contentful Paint (LCP) represents the time needed to display the biggest element visible to the user within the initial viewport. To improve LCP, we need to start loading given resources as fast as possible. We can do that using "preloading".
 
-Preloading is a technique that give us possibility to tell the browser to download the resource before it actually needs it. 
-For example, we have a font file that can be discovered late (browser first need to download and parse css file) but we know that it's critical to our website. In this case we can preload it so if browser will parse css and find out that the font file is needed it will already have it downloaded. 
+Preloading is a technique for telling a browser to download resource before it actually needs it. For example, you might have a font that browser can be discover late (because it first needs to download and parse the CSS file) but you know that it's critical to your website. You can preload it so once the browser parses the CSS and finds out that the font is needed it will already have it downloaded.
 
-[Read more about preloading critical assets](https://web.dev/preload-critical-assets/)
+[Read more about preloading critical assets](https://web.dev/preload-critical-assets/).
 
 Below we describe two ways of preloading resources in Nuxt.js, depending on your needs.
 
@@ -77,9 +72,7 @@ export default {
 
 ## Cumulative Layout Shift (CLS) :orange_book:
 
-Cumulate Layout Shift is an important user-centric metric for measuring visual stability. 
-
-It shows us if any unexpected movement on our page ocurred. 
+Cumulate Layout Shift is an important user-centric metric for measuring visual stability, which shows if page had any unexpected movement.
 
 [Read more about CLS](https://web.dev/cls/)
 

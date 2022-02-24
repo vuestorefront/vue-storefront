@@ -1,6 +1,6 @@
 # Other optimizations
 
-There is lot of additional things you can do to improve performance, we have listed some of them bellow.
+There are plenty of general optimizations that didn't fit the previous categories or improve multiple areas of the application.
 
 ## Avoid render-blocking resources :orange_book:
 
@@ -9,18 +9,25 @@ Render-blocking resources are scripts, stylesheets, and other imports in the `<h
 * add the `defer` or `async` attribute to the `<script>`,
 * use `disabled` or `media` attributes for the stylesheets.
 
-Nuxt is deferring every bundle script it generates.
-If you want to deffer any third party, just add it in nuxt.config as shown in the example below. 
+Nuxt is deferring every bundle script it generates. If you want to deffer third party scripts, just add them in the `nuxt.config` as shown in the example below:
 
-```javascript 
-script: [
-  {
-    src: `https://maps.googleapis.com/maps/api/js?key=${mapApiKey}&v=3&libraries=places`, defer: true
+```javascript
+// nuxt.config.js
+
+export default {
+  head: {
+    script: [
+      {
+        src: `<SCRIPT_URL>`,
+        defer: true
+      }
+    ]
   }
-]
+};
 ```
 
-as for css you can add use [media-dependent](https://developer.mozilla.org/en-US/docs/Web/CSS/@import) import, like:
+Additionally, you can add use [media-dependent](https://developer.mozilla.org/en-US/docs/Web/CSS/@import) import in your CSS:
+
 ```css
 //main.scss
 @import '@/assets/main.scss' print;
