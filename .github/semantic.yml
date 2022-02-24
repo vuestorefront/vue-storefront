@@ -1,10 +1,14 @@
 titleOnly: true
 scopes:
-  - core
-  - core-theme
-  - docs
-  - composables
   - ci
+  - cache
+  - cli
+  - core
+  - docs
+  - health-check
+  - middleware
+  - nuxt-module
+  - nuxt-theme-module
 types:
   - feat
   - fix
