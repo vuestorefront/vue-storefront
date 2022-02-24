@@ -31,9 +31,9 @@ jobs:
 
       - name: Run linter
         run: yarn lint
-      
-      - name: Build core
-        run: yarn build:core
+
+      - name: Build
+        run: yarn build
 
       - name: Test core
         run: yarn test:core --coverage
