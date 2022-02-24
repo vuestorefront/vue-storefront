@@ -13,7 +13,7 @@ lerna-debug.log*
 # Yarn Integrity file
 .yarn-integrity
 
-# Rollup generate output
+# esbuild generate output
 lib
 
 # Coverage directory used by tools like istanbul
