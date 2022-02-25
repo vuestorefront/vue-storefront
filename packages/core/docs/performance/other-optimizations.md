@@ -79,11 +79,9 @@ There are two ways you can do that:
 
 ## Don't close connection used multiple times :blue_book:
 
-Use `keep-alive` headers and don't close the connection when multiple requests are sent to the same domain.
+By default, HTTP connections close after each request. When the user enters your website, the browser needs to create a new connection for every resource that makes up your web pages (JavaScript, CSS, images, etc.).
 
-By default, when user enters your website, browser needs to create new connection for every resource request (JS, CSS, images etc). This requires performing three-way handshake every time. 
-
-Using keep-alive helps us reduce this process to minimum, improving our round trip time (RTT) and page load time.
+To prevent this, use the HTTP `keep-alive` header to maintain a connection between the user browser and your server, reducing the time needed to serve these assets. This will reduce the number of TCP and SSL/TLS connection requests, leading to a drop in round trip time (RTT).
 
 * The HTTP/1.0 clients request persistent connection by sending the `Connection: keep-alive` request header to the server.
 * In HTTP/1.1, all connections are considered persistent unless declared otherwise.
