@@ -81,7 +81,9 @@ There are two ways you can do that:
 
 Use `keep-alive` headers and don't close the connection when multiple requests are sent to the same domain.
 
-It will speed up page load times and even reduce CPU/memory usage on your server.
+By default, when user enters your website, browser needs to create new connection for every resource request (JS, CSS, images etc). This requires performing three-way handshake every time. 
+
+Using keep-alive helps us reduce this process to minimum, improving our round trip time (RTT) and page load time.
 
 * The HTTP/1.0 clients request persistent connection by sending the `Connection: keep-alive` request header to the server.
 * In HTTP/1.1, all connections are considered persistent unless declared otherwise.
