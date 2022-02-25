@@ -11,7 +11,7 @@ const rawSourcesModule = require('./modules/raw-sources-loader');
 module.exports = function VueStorefrontNuxtModule(moduleOptions) {
   const defaultOptions = {
     coreDevelopment: false,
-    i18n: true,
+    i18nExtension: true,
     e2e: true,
     logger: true,
     ssr: true,
@@ -80,7 +80,7 @@ module.exports = function VueStorefrontNuxtModule(moduleOptions) {
   }
 
   // i18n-cookies plugin
-  if (options.i18n) {
+  if (options.i18nExtension) {
     this.addPlugin({
       src: path.resolve(__dirname, 'plugins/i18n-cookies.js'),
       options: this.options.i18n,
