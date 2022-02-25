@@ -8,7 +8,7 @@ Web Vitals are unified and simplified metrics created by Google to help site own
 
 The Largest Contentful Paint (LCP) represents the time needed to display the biggest element visible to the user within the initial viewport. To improve LCP, we need to start loading given resources as fast as possible. We can do that using "preloading".
 
-Preloading is a technique for telling a browser to download resource before it actually needs it. For example, you might have a font that browser can be discover late (because it first needs to download and parse the CSS file) but you know that it's critical to your website. You can preload it so once the browser parses the CSS and finds out that the font is needed it will already have it downloaded.
+Preloading is a technique for telling a browser to download resources before it needs them. For example, you might have a font that the browser can discover late (because it first needs to download and parse the CSS file), but you know that it's critical to your website. You can preload it, so once the browser parses the CSS and finds out that the font is needed, it will already have it downloaded.
 
 [Read more about preloading critical assets](https://web.dev/preload-critical-assets/).
 
