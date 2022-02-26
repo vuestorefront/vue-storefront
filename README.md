@@ -15,7 +15,7 @@
     <td>
       <h2><strong>Ongoing tensions on Ukrainian territory close the space for civil society.</strong></h2>
       <h3>How can you support Ukrainian civil society?</h3>
-      All the help is valid, and if you are not able to help locally, by giving shelter to a fellow Ukraine, there are some ways that you can help also:
+      All help is needed. If you are not able to help locally, by sheltering a fellow Ukrainian, you can also:
       <ul>
         <li>
           Support the Ukraine Armed forces directly by sending funding to the open special accounts.<br />
