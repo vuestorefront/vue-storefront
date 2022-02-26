@@ -14,11 +14,11 @@
     </td>
     <td>
       <h2><strong>Ongoing tensions on Ukrainian territory close the space for civil society.</strong></h2>
-      <h3>How can you support Ukrainian civil society</h3>
-      All the help is valid, and if you are not able to help locally, by giving a shelter to a fellow Ukrain, there are some ways that you can help also:
+      <h3>How can you support Ukrainian civil society?</h3>
+      All the help is valid, and if you are not able to help locally, by giving shelter to a fellow Ukraine, there are some ways that you can help also:
       <ul>
         <li>
-          Support by the Ukraine Armed forces directly by sending fundings to the open special accounts.<br />
+          Support the Ukraine Armed forces directly by sending funding to the open special accounts.<br />
           <a href="https://bank.gov.ua/en/news/all/natsionalniy-bank-vidkriv-spetsrahunok-dlya-zboru-koshtiv-na-potrebi-armiyi" target="_blank">NBU Opens Special Account to Raise Funds for Ukraine’s Armed Forces</a>
         </li>
         <li>
