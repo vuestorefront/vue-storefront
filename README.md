@@ -6,20 +6,18 @@
 ---------
 
 # #TechForUkraine
-
-<table>
-  <tr>
-    <td style="width:40%;">
+<div align="center">
+<p>
        <img src="https://user-images.githubusercontent.com/1626923/155853691-d6d0a541-d3b9-40bf-b8f5-2d38303e9e49.png" />
-    </td>
-    <td>
+</p>
       <h2><strong>Ongoing tensions on Ukrainian territory close the space for civil society.</strong></h2>
+<div align="left">
       <h3>How can you support Ukrainian civil society?</h3>
       All help is needed. If you are not able to help locally, by sheltering a fellow Ukrainian, you can also:
       <ul>
         <li>
-          Support the Ukraine Armed forces directly by sending funding to the open special accounts.<br />
-          <a href="https://bank.gov.ua/en/news/all/natsionalniy-bank-vidkriv-spetsrahunok-dlya-zboru-koshtiv-na-potrebi-armiyi" target="_blank">NBU Opens Special Account to Raise Funds for Ukraine’s Armed Forces</a>
+          Support the Ukraine Armed forces directly by sending funding to the special accounts.<br />
+          <a href="https://bank.gov.ua/en/news/all/natsionalniy-bank-vidkriv-spetsrahunok-dlya-zboru-koshtiv-na-potrebi-armiyi" target="_blank">NBU Special Account to Raise Funds for Ukraine’s Armed Forces</a>
         </li>
         <li>
           Help the ICRC (Red Cross) with donations.<br />
@@ -33,11 +31,18 @@
           Donate to Voices of Children<br />
           <a href="https://voices.org.ua/en/" target="_blank">Voices of Children</a>
         </li>
-    </td>
-  </tr>
-</table>
+        </div>
+          </div>
 
----------
+  ---------
+
+### Stay connected
+
+![GitHub Repo stars](https://img.shields.io/github/stars/vuestorefront/vue-storefront?style=social)
+![Twitter Follow](https://img.shields.io/twitter/follow/vuestorefront?style=social)
+![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/subscribers/UCkm1F3Cglty3CE1QwKQUhhg?style=social)
+[![Discord](https://img.shields.io/discord/770285988244750366?label=join%20discord&logo=Discord&logoColor=white)](https://discord.vuestorefront.io)
+
 
 # Vue Storefront 2
 
@@ -70,7 +75,6 @@ Vue Storefront is the most popular and most advanced Frontend Platform for eComm
 -   📘  Documentation:  [docs.vuestorefront.io](https://docs.vuestorefront.io/v2/)
 -   👥  Discord Community:  [discord.vuestorefront.io](https://discord.vuestorefront.io/)
 -   🐦  Twitter:  [@VueStorefront](https://twitter.com/VueStorefront)
--   💬  Forum:  [forum.vuestorefront.io](https://forum.vuestorefront.io/)
 -   🌟  [Live Projects List](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
 
 ## The business challenges
