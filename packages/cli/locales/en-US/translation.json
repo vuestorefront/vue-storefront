@@ -28,6 +28,9 @@
     }
   },
   "domain": {
+    "directory": {
+      "was_not_found": "The directory \"{{path}}\" was not found."
+    },
     "project_name": {
       "is_empty": "Please input a project name.",
       "is_not_directory": "Please input a name that can be used as directory."
