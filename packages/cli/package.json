@@ -35,11 +35,13 @@
   "devDependencies": {
     "@types/i18next-fs-backend": "^1.1.2",
     "@types/inquirer": "^8.2.0",
+    "@types/mock-fs": "^4.13.1",
     "@types/node": "^12.20.46",
     "@types/node-fetch": "^2.6.1",
     "@types/rimraf": "^3.0.2",
     "eslint": "^7.32.0",
     "globby": "^11.1.0",
+    "mock-fs": "^5.1.2",
     "mock-stdin": "^1.0.0",
     "oclif": "^2.4.5",
     "ts-node": "^10.5.0",
