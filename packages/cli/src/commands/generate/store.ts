@@ -1,6 +1,7 @@
 import { Command } from '@oclif/core';
 import { t } from 'i18next';
 import inquirer from 'inquirer';
+import picocolors from 'picocolors';
 import * as path from 'path';
 import { getIntegration } from '../../domains/integration';
 import { getProjectName } from '../../domains/project-name';
@@ -24,7 +25,7 @@ export default class GenerateStore extends Command {
       customIntegrationRepositoryMessage: t('command.generate_store.input.custom_integration_repository')
     });
 
-    const projectDir = path.join(process.cwd(), projectName);
+    const projectDir = path.resolve(projectName);
 
     if (await existsDirectory(projectDir)) {
       const { overwrite } = await inquirer.prompt<{ overwrite: boolean }>({
@@ -47,14 +48,23 @@ export default class GenerateStore extends Command {
     await terminateGitRepository(projectDir);
 
     this.log(t('command.generate_store.message.success', { projectName }));
+    this.log(t('command.generate_store.message.install'));
+    this.log('');
+    this.log(picocolors.green(t<string>('command.generate_store.message.install_commands.0', { projectName })));
+    this.log(picocolors.green(t<string>('command.generate_store.message.install_commands.1', { projectName })));
+    this.log('');
 
     if (integration.documentationURL) {
       this.log(
-        t('command.generate_store.message.check_docs', {
+        t('command.generate_store.message.configure', {
           documentationURL: integration.documentationURL
         })
       );
     }
+
+    this.log(t('command.generate_store.message.start'));
+    this.log('');
+    this.log(picocolors.green(t<string>('command.generate_store.message.start_command', { projectName })));
 
     this.exit(0);
   }

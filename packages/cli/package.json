@@ -28,6 +28,7 @@
     "isomorphic-git": "^1.12.1",
     "node-fetch": "^2.6.7",
     "os-locale": "^5.0.0",
+    "picocolors": "^1.0.0",
     "reasonable-filename": "^1.2.0",
     "rimraf": "^3.0.2",
     "tslib": "^2.3.1"

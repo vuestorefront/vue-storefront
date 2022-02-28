@@ -11,7 +11,11 @@
       "message": {
         "skipping": "Não é possível gerar a loja. Pulando…",
         "success": "Loja gerada com sucesso em \"./{{projectName}}\"!",
-        "check_docs": "Para mais informações confira a documentação da integração escolhida em: {{documentationURL}}."
+        "install": "Para finalizar a instalação, execute os comandos abaixo:",
+        "install_commands": ["cd {{ projectName }}", "npm install"],
+        "configure": "Depois, acesse {{ documentationURL }} para aprender a configurar o projeto.",
+        "start": "Ao finalizar, você pode inicializar o projeto com o comando:",
+        "start_command": "npm run dev"
       }
     },
     "generate_template": {

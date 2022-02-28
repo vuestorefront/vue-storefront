@@ -11,7 +11,11 @@
       "message": {
         "skipping": "Can't generate the store. Skipping…",
         "success": "Sucessfully generated your store at \"./{{projectName}}\"!",
-        "check_docs": "For more information, check the documentation of the chosen integration at: {{documentationURL}}."
+        "install": "To finish the installation, run the following commands:",
+        "install_commands": ["cd {{ projectName }}", "npm install"],
+        "configure": "Then, go to the {{ documentationURL }} to learn how to configure the project.",
+        "start": "Once finished, you can start the project using this command:",
+        "start_command": "npm run dev"
       }
     },
     "generate_template": {
