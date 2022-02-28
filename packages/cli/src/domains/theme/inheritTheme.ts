@@ -40,7 +40,7 @@ const inheritTheme = async (options: Options) => {
 `
   );
 
-  await execa('vsf-tu', ['--config', configPath, '--output', projectPath]);
+  await execa('npx', ['@vue-storefront/theme-utilities', '--config', configPath, '--output', projectPath]);
 
   await removeFileOrDirectory(configPath);
 
