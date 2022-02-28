@@ -7,7 +7,7 @@ Vue.config.productionTip = false;
 Vue.config.devtools = false;
 
 Vue.use(VueCompositionApi);
-jest.mock('lodash/merge', () => (arg1, arg2) => ({ ...arg1, ...arg2 }));
+jest.mock('lodash.merge', () => (arg1, arg2) => ({ ...arg1, ...arg2 }));
 
 jest.mock('../src/utils', () => ({
   Logger: {
