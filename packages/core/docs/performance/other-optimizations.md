@@ -18,7 +18,7 @@ export default {
   head: {
     script: [
       {
-        src: `<SCRIPT_URL>`,
+        src: `https://www.google-analytics.com/analytics.js`,
         defer: true
       }
     ]
