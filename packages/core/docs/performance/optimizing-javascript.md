@@ -8,6 +8,15 @@ On this page, we will share some tips on how you can prevent that and serve only
 
 Removing unused scripts reduces the amount of data sent through the network and time required to make the page interactive because the browser has fewer scripts to process.
 
+
+### Analyzing you js bundles
+You can check your js bundles with tools like [webpack bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). 
+In Nuxt this functionality is out of the box, you just need [to turn it on in nuxt.config .js](https://nuxtjs.org/docs/configuration-glossary/configuration-build/#analyze) or run you build with --analyze
+
+```javascript 
+yarn nuxt build --analyze
+```
+
 ### Tree-shaking
 
 Tree shaking is a technique for eliminating dead code from the final bundle. "Dead code" is the code that never gets used or called. Smaller bundles mean that the browser has less JavaScript to download and parse.
@@ -46,7 +55,16 @@ Babel is a toolchain used to converting modern JavaScript code into a backwards 
 
 Nuxt.js includes it out of the box. You can control its behavior using the [build.babel](https://nuxtjs.org/docs/configuration-glossary/configuration-build/#babel) property in `nuxt.config.js` file.
 
-The default targets are:
+Default configuration:
+```javascript 
+{
+  babelrc: false,
+  cacheDirectory: undefined,
+  presets: ['@nuxt/babel-preset-app']
+}
+```
+
+In this configuration default targets are:
 
 * `ie: '9'` for the legacy bundle.
 * `esmodules:true` for the modern bundle.
@@ -57,12 +75,47 @@ The default targets are:
 Third-party code can significantly impact the performance, and the best thing you can do is not to add them to your page at all. However, if you have to, there are some tricks to reduce the performance impact on your application.
 
 * Load scripts with the `async` or `defer` attribute to avoid blocking document parsing.
+
+```javascript
+// nuxt.config.js
+
+export default {
+  head: {
+    script: [
+      {
+        src: `<SCRIPT_URL>`,
+        defer: true
+      },
+      { 
+        src: '<SCRIPT_URL>',
+        async: true
+      },
+    ]
+  }
+};
+```
+
 * Self-host the script if the third-party server is slow.
 * Remove the script if it doesn't add clear value to your site.
 * Use the `rel=preconnect` or `rel=dns-prefetch` attributes in `<link>` to do a DNS lookup for domains hosting third-party scripts.
+
+```javascript
+// nuxt.config.js
+
+export default {
+  head: {
+    link: [
+      { rel: 'dns-prefetch', href: 'https://fonts.googleapis.com' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
+    ],
+};
+```
+
 * Lazy load third-party resources [with facades](https://web.dev/third-party-facades/?utm_source=lighthouse&utm_medium=devtools).
 * Move third-party scripts to Web worker using, for example, the [@nuxtjs/partytown](https://github.com/nuxt-community/partytown-module) module.
 
-### Avoid Google Tag Manager
+### Educate people using Google Tag Manager about web perf
 
-Google Tag Manager is often used to add additional scripts, styling, and elements or hide/show content on the page. This can lead to Cumulate Layout Shifts, extra Total Blocking Time, a bigger number of requests and their weight, or even rerendering the whole page.
+Google Tag Manager is often used by non technical users to add additional scripts, styling, and elements or hide/show content on the page. This can lead to Cumulate Layout Shifts, extra Total Blocking Time, a bigger number of requests and their weight, or even rerendering the whole page.
+
+People hat will use GTM should be educated and aware that adding scripts with Google Tag Manager can lead to big performance regression.
