@@ -65,7 +65,8 @@
     "lint": "eslint . --ext .ts --config .eslintrc.js",
     "postpack": "rimraf oclif.manifest.json",
     "posttest": "yarn lint",
-    "prepack": "yarn build && oclif manifest && oclif readme",
+    "prepack": "yarn build && oclif manifest",
+    "docs": "oclif readme",
     "test": "jest --rootDir .",
     "version": "oclif readme && git add README.md"
   },
