@@ -12,7 +12,7 @@
     "vsf": "./lib/index.js"
   },
   "engines": {
-    "node": ">=16.x"
+    "node": ">=12.x"
   },
   "scripts": {
     "test": "jest",

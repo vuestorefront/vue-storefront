@@ -15,15 +15,12 @@ esbuild.build({
     cwdResolve(argv.file)
   ],
   outdir: 'lib',
-  outExtension: {
-    '.js': '.mjs'
-  },
-  format: 'esm',
+  format: 'cjs',
   bundle: true,
   minify: true,
   sourcemap: true,
   platform: 'node',
-  target: 'node16',
+  target: 'node12',
   watch: Boolean(argv.watch),
   logLevel: 'warning',
   external: [

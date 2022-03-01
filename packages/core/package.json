@@ -3,14 +3,14 @@
   "version": "2.5.5",
   "license": "MIT",
   "sideEffects": false,
-  "main": "./lib/index.mjs",
+  "main": "./lib/index.js",
   "exports": {
-    ".": "./lib/index.mjs",
+    ".": "./lib/index.js",
     "./package.json": "./package.json"
   },
   "types": "./lib/index.d.ts",
   "engines": {
-    "node": ">=16.x"
+    "node": ">=12.x"
   },
   "scripts": {
     "build": "yarn build:clear && yarn build:package && yarn build:types",

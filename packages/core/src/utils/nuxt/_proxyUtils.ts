@@ -1,6 +1,5 @@
 import { IncomingMessage } from 'http';
 import { Context as NuxtContext } from '@nuxt/types';
-import isHttps from 'is-https';
 import merge from 'lodash.merge';
 import { ApiClientMethod } from './../../types';
 
@@ -13,7 +12,8 @@ interface CreateProxiedApiParams {
 export const getBaseUrl = (req: IncomingMessage, basePath: string | undefined = '/'): string => {
   if (!req) return `${basePath}api/`;
   const { headers } = req;
-  const scheme = isHttps(req) ? 'https' : 'http';
+  const isHttps = require('is-https')(req);
+  const scheme = isHttps ? 'https' : 'http';
   const host = headers['x-forwarded-host'] || headers.host;
 
   return `${scheme}://${host}${basePath}api/`;

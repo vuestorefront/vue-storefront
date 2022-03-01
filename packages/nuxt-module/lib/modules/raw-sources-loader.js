@@ -5,22 +5,16 @@ const resolveDependency = require('../helpers/resolveDependency');
 module.exports = function VueStorefrontPerformanceModule (options) {
   const useRawSource = (package) => {
     const pkgPath = resolveDependency(`${package}/package.json`);
-    const { module } = require(pkgPath);
+    const pkg = require(pkgPath);
 
-    const modulePath = module
-      ? `${package}/${module}`
-      : package;
-    
-    const path = resolveDependency(modulePath);
-
-    if (path) {
+    if (pkg.module) {
       this.extendBuild(config => {
-        config.resolve.alias[package + '$'] = path;
+        config.resolve.alias[pkg.name + '$'] = resolveDependency(`${package}/${pkg.module}`);
       });
     }
 
     this.options.build.transpile.push(package);
-    log.info(`Using raw source/ESM for ${package}`);
+    log.info(`Using raw source/ESM for ${pkg.name}`);
   };
 
   options.useRawSource[isProduction(options) ? 'prod' : 'dev'].map(package => useRawSource(package));
