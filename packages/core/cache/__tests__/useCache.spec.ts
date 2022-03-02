@@ -38,6 +38,7 @@ describe('useCache', () => {
       return {
         req: {
           $vsfCache: {
+            enabled: true,
             tagsSet: new Set()
           }
         }
@@ -53,6 +54,7 @@ describe('useCache', () => {
     useContextMock.mockImplementation(() => ({
       req: {
         $vsfCache: {
+          enabled: true,
           tagsSet: new Set()
         }
       }
@@ -69,6 +71,7 @@ describe('useCache', () => {
     useContextMock.mockImplementation(() => ({
       req: {
         $vsfCache: {
+          enabled: true,
           tagsSet: new Set()
         }
       }
@@ -86,6 +89,7 @@ describe('useCache', () => {
     useContextMock.mockImplementation(() => ({
       req: {
         $vsfCache: {
+          enabled: true,
           tagsSet: new Set()
         }
       }
