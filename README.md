@@ -10,7 +10,7 @@
 <p>
        <img src="https://user-images.githubusercontent.com/1626923/155853691-d6d0a541-d3b9-40bf-b8f5-2d38303e9e49.png" />
 </p>
-      <h2><strong>Ongoing tensions on Ukrainian territory close the space for civil society.</strong></h2>
+      <h2><strong>Russia’s military aggression against Ukraine.</strong></h2>
 <div align="left">
       <h3>How can you support Ukrainian civil society?</h3>
       All help is needed. If you are not able to help locally, by sheltering a fellow Ukrainian, you can also:
