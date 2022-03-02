@@ -1,4 +1,4 @@
-:::warning #TechForUkraine - We oppose Russia's unprovoked and unjustified Attack on Ukraine
+:::warning #TechForUkraine - We oppose Russia's unprovoked and unjustified attack on Ukraine
 
 <br>
 <center>
