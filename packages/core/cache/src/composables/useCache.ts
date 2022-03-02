@@ -3,13 +3,15 @@ import { useContext } from '@nuxtjs/composition-api';
 
 export const useCache = (): UseCache => {
   const { req }: any = useContext();
+  const isCacheEnabled = req && req.$vsfCache ? req.$vsfCache?.enabled : false;
 
-  if (!req) {
+
+  if (!req || !isCacheEnabled) {
     return {
       addTags: () => {},
       clearTags: () => {},
       getTags: () => [],
-      setTags: () => {}
+      setTags: () => {},
     };
   }
 
