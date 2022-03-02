@@ -1,4 +1,4 @@
-# Migration to Node 14 and 16
+# Supported Node versions
 
 | Status                  | Proposed
 :------------------------ |:----------------------------------------------------
