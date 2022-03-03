@@ -15,7 +15,7 @@
     "/oclif.manifest.json"
   ],
   "dependencies": {
-    "@oclif/core": "^1.3.4",
+    "@oclif/core": "^1.5.0",
     "@oclif/plugin-help": "^5.1.11",
     "@oclif/plugin-plugins": "^2.1.0",
     "@oclif/plugin-update": "^3.0.0",
@@ -44,9 +44,9 @@
     "globby": "^11.1.0",
     "mock-fs": "^5.1.2",
     "mock-stdin": "^1.0.0",
-    "oclif": "^2.4.5",
-    "ts-node": "^10.5.0",
-    "typescript": "^4.5.5"
+    "oclif": "^2.5.0",
+    "ts-node": "^10.6.0",
+    "typescript": "^4.6.2"
   },
   "oclif": {
     "bin": "@vue-storefront/cli",
