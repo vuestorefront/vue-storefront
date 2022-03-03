@@ -8,14 +8,17 @@ On this page, we will share some tips on how you can prevent that and serve only
 
 Removing unused scripts reduces the amount of data sent through the network and time required to make the page interactive because the browser has fewer scripts to process.
 
+### Analyze JavaScript bundles
 
-### Analyzing you js bundles
-You can check your js bundles with tools like [webpack bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). 
-In Nuxt this functionality is out of the box, you just need [to turn it on in nuxt.config .js](https://nuxtjs.org/docs/configuration-glossary/configuration-build/#analyze) or run you build with --analyze
+You can check the JavaScript bundles with tools like [Webpack bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). In Nuxt, this library is available out of the box by [changing the configuration](https://nuxtjs.org/docs/configuration-glossary/configuration-build/#analyze) or running a build with the `--analyze` flag.
 
-```javascript 
+```bash
 yarn nuxt build --analyze
 ```
+
+:::warning
+Remember to never use these options in production.
+:::
 
 ### Tree-shaking
 
@@ -56,15 +59,22 @@ Babel is a toolchain used to converting modern JavaScript code into a backwards 
 Nuxt.js includes it out of the box. You can control its behavior using the [build.babel](https://nuxtjs.org/docs/configuration-glossary/configuration-build/#babel) property in `nuxt.config.js` file.
 
 Default configuration:
-```javascript 
-{
-  babelrc: false,
-  cacheDirectory: undefined,
-  presets: ['@nuxt/babel-preset-app']
-}
+
+```javascript
+// nuxt.config.js
+
+export default {
+  build: {
+    babel: {
+      babelrc: false,
+      cacheDirectory: undefined,
+      presets: ['@nuxt/babel-preset-app']
+    }
+  }
+};
 ```
 
-In this configuration default targets are:
+With this configuration, the default targets are:
 
 * `ie: '9'` for the legacy bundle.
 * `esmodules:true` for the modern bundle.
@@ -116,6 +126,6 @@ export default {
 
 ### Educate people using Google Tag Manager about web perf
 
-Google Tag Manager is often used by non technical users to add additional scripts, styling, and elements or hide/show content on the page. This can lead to Cumulate Layout Shifts, extra Total Blocking Time, a bigger number of requests and their weight, or even rerendering the whole page.
+Non-technical users often use Google Tag Manager to add scripts, styling, and other elements or toggle content visibility on the page. This can lead to Cumulate Layout Shifts, extra Total Blocking Time, an increased number of requests and their weight, or even rerendering the whole page.
 
-People hat will use GTM should be educated and aware that adding scripts with Google Tag Manager can lead to big performance regression.
+Developers should educate them that adding scripts via Google Tag Manager can significantly impact performance.

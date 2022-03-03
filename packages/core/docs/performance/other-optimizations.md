@@ -26,24 +26,20 @@ export default {
 };
 ```
 
-Additionally, you can add use [media-dependent](https://developer.mozilla.org/en-US/docs/Web/CSS/@import) import in your CSS:
+Additionally, you can use [media-dependent](https://developer.mozilla.org/en-US/docs/Web/CSS/@import) import in your CSS if you have stylesheets for specific resolutions or device types. This way browser only loads stylesheets for that particular device, and you can make main stylesheets smaller.
 
 ```css
-//main.scss
-@import '@/assets/main.scss' print;
-```
+/* main.scss */
 
-It is useful when we have different stylesheets for eg. landscape orientation, we could tell the browser to load them only when they are needed. So our main css file will be smaller.
-
-```css
+@import '@/assets/print.scss' print;
 @import '@/assets/landscape.scss' screen and (orientation:landscape);
-``
+```
 
 ## Inline critical CSS :ledger:
 
-Consider delivering critical CSS inline and deferring all non-critical assets. You can reduce the size of your pages by only shipping the styles that you need at the given time.
+Consider delivering critical CSS inline and deferring all non-critical assets. You can reduce the size of your pages by only shipping the styles that the browser needs at the given time.
 
-Move the styles required for the first paint inside a `<style>` block at the `<head>` of the HTML page and load the rest of them asynchronously using the `preload` link.
+Move the styles required for the first paint to a `<style>` block in the `<head>` of the HTML page and load the rest of them asynchronously using the `preload` link.
 
 ## Use font placeholders while others are loading :ledger:
 
@@ -68,35 +64,26 @@ If you are using the `@nuxtjs/google-fonts` package, you can use the [display](h
 
 ## Avoid using more than one library version :ledger:
 
-Check if your website doesn't use multiple versions of the same library. This will make the user download unnecessary data and slow down your page. Clean up the code and make sure you only use one version by running the following command. It will generate a report of what's in the final bundle.
+Check if your website doesn't use multiple versions of the same library. This will make the user download unnecessary data and slow down your page. Clean up the code and make sure you only use one version by running the following command to generate a report of what's in the final bundle.
 
 ```bash
 yarn nuxt build --analyze
 ```
 
-You can also youse [duplicate-package-checker-webpack-plugin](https://www.npmjs.com/package/duplicate-package-checker-webpack-plugin)
+You can also use the [duplicate-package-checker-webpack-plugin](https://www.npmjs.com/package/duplicate-package-checker-webpack-plugin) library to warn you if it detects multiple versions of the same package:
 
 ```javascript
-import DuplicatePackageCheckerPlugin from 'duplicate-package-checker-webpack-plugin'
-
 export default {
   build: {
     plugins: [
-      new webpack.ProvidePlugin({
-        // global modules
-        DuplicatePackageCheckerPlugin: 'DuplicatePackageCheckerPlugin',
-      })
-    ]
-  }
-}
-
-  plugins: [
       new webpack.DefinePlugin({
         'process.VERSION': JSON.stringify({
           DuplicatePackageCheckerPlugin: require('duplicate-package-checker-webpack-plugin'),
         })
       })
     ]
+  }
+} 
 ```
 
 ## Compress your files :ledger:
@@ -130,16 +117,14 @@ Keep-Alive: timeout=5, max=100
 
 If a critical resource needed to render a page is not on your domain, you can consider preconnecting to that domain. The browser will create the connections, so it's ready when the resource is needed.
 
-Consider adding `preconnect` or `dns-prefetch` resource hints to establish early connections to important third-party origins. `dns-prefetch` works similar as `preconnect` but has broader browser support.
+Consider adding `preconnect` or `dns-prefetch` resource hints to establish early connections to important third-party origins. `dns-prefetch` works similarly to `preconnect` but has broader browser support.
 
 ```javascript
 <link rel="preconnect" href="https://example.com">
 <link rel="dns-prefetch" href="https://example.com">
 ```
 
-To many "preconnect" will impact performance negatively, chose wisely what is really needed for quick render above the fold content.
-
-Additionally if you preconnect to domain that is used late, probably connection will need to be established again because browsers are closing connections not used within 10 seconds.
+In many cases, "preconnect" can negatively impact the performance, so you should make an informed decision about whether to use it or not. Additionally, because browsers close connections not used in the last 10 seconds, you should avoid preconnecting to a domain not used immediately.
 
 ## Avoid multiple redirects :blue_book:
 
@@ -147,10 +132,9 @@ Redirects introduce additional delays before the browser can load the page. If y
 
 ## Avoid large network payloads :ledger:
 
-Large network payloads (big, heavy files, js, css, images, movies, json response etc.) cost users real money and increase the loading times.
+Remember that it costs users real money to download large network resources such as images, movies, JSON files, or API responses. For this reason, you should:
 
 * Defer requests until they're needed.
 * Don't fetch unnecessary data. Limit your responses to a minimum.
 * Optimize requests to be as small as possible, minimize and compress them.
 * Cache requests, so the page doesn't re-download the resources on repeat visits.
-
