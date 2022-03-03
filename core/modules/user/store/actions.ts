@@ -5,8 +5,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import UserState from '../types/UserState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { UserProfile } from '../types/UserProfile'
-import { onlineHelper } from '@vue-storefront/core/helpers'
-import { isServer } from '@vue-storefront/core/helpers'
+import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
 import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
@@ -253,7 +252,7 @@ const actions: ActionTree<UserState, RootState> = {
     if (!silent) {
       await dispatch('notification/spawnNotification', {
         type: 'success',
-        message: i18n.t("You're logged out"),
+        message: i18n.t('You\'re logged out'),
         action1: { label: i18n.t('OK') }
       }, { root: true })
     }
