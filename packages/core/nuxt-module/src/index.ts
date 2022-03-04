@@ -1,14 +1,41 @@
 // TODO proper bundling, for now it's just to experiment with nuxt modules api
-const fs = require('fs');
-const path = require('path');
-const log = require('./helpers/log');
-const merge = require('./helpers/merge');
-const resolveDependency = require('./helpers/resolveDependency');
-const performanceModule = require('./modules/performance');
-const storefrontUiModule = require('./modules/storefront-ui');
-const rawSourcesModule = require('./modules/raw-sources-loader');
+import fs from 'fs';
+import path from 'path';
+import log from './helpers/log';
+import merge from './helpers/merge';
+import resolveDependency from './helpers/resolveDependency';
+import performanceModule from './modules/performance';
+import storefrontUiModule from './modules/storefront-ui';
+import rawSourcesModule from './modules/raw-sources-loader';
 
-module.exports = function VueStorefrontNuxtModule(moduleOptions) {
+export { default as meta } from '../package.json';
+
+export interface ModuleOptions {
+  coreDevelopment?: boolean;
+  i18nExtension?: boolean;
+  e2e?: boolean;
+  logger?: boolean;
+  ssr?: boolean;
+  context?: boolean;
+  sfui?: boolean;
+  performance?: {
+    httpPush?: boolean;
+    purgeCSS?: {
+      enabled?: boolean;
+      paths?: string[];
+    };
+  };
+  useRawSource?: {
+    dev: string[];
+    prod: string[];
+  };
+}
+
+/**
+ * VueStorefrontNuxtModule
+ * @param moduleOptions
+ */
+export default function VueStorefrontNuxtModule(moduleOptions: ModuleOptions) {
   const defaultOptions = {
     coreDevelopment: false,
     i18nExtension: true,
@@ -21,13 +48,13 @@ module.exports = function VueStorefrontNuxtModule(moduleOptions) {
       httpPush: true,
       purgeCSS: {
         enabled: false,
-        paths: ['**/*.vue'],
-      },
+        paths: ['**/*.vue']
+      }
     },
     useRawSource: {
       dev: [],
-      prod: [],
-    },
+      prod: []
+    }
   };
 
   const options = merge(defaultOptions, moduleOptions);
@@ -35,7 +62,7 @@ module.exports = function VueStorefrontNuxtModule(moduleOptions) {
   // Add meta data
   this.options.head.meta.push({
     name: 'generator',
-    content: 'Vue Storefront 2',
+    content: 'Vue Storefront 2'
   });
 
   log.info('Starting Vue Storefront Nuxt Module');
@@ -49,41 +76,41 @@ module.exports = function VueStorefrontNuxtModule(moduleOptions) {
           return preloadFiles
             .filter(({ asType }) => asType === 'script')
             .map(({ file, asType }) => `<${publicPath}${file}>; rel=preload; as=${asType}`);
-        },
-      },
+        }
+      }
     });
   }
   if (options.context) {
     // Context plugin
-    this.addPlugin(path.resolve(__dirname, 'plugins/context.js'));
+    this.addPlugin(path.resolve(__dirname, '../plugins/context.js'));
     log.success('Installed Vue Storefront Context plugin');
   }
   if (options.ssr) {
     // SSR plugin
-    this.addPlugin(path.resolve(__dirname, 'plugins/ssr.js'));
+    this.addPlugin(path.resolve(__dirname, '../plugins/ssr.js'));
     log.success('Installed Vue Storefront SSR plugin');
   }
 
   if (options.logger) {
     // Logger plugin
     this.addPlugin({
-      src: path.resolve(__dirname, 'plugins/logger.js'),
-      options: moduleOptions.logger || {},
+      src: path.resolve(__dirname, '../plugins/logger.js'),
+      options: moduleOptions.logger || {}
     });
     log.success('Installed VSF Logger plugin');
   }
 
   if (options.e2e) {
     // Context plugin
-    this.addPlugin(path.resolve(__dirname, 'plugins/e2e-testing.js'));
+    this.addPlugin(path.resolve(__dirname, '../plugins/e2e-testing.js'));
     log.success('Installed Vue Storefront E2E testing plugin');
   }
 
   // i18n-cookies plugin
   if (options.i18nExtension) {
     this.addPlugin({
-      src: path.resolve(__dirname, 'plugins/i18n-cookies.js'),
-      options: this.options.i18n,
+      src: path.resolve(__dirname, '../plugins/i18n-cookies.js'),
+      options: this.options.i18n
     });
     log.success('Installed Internationalization Cookies plugin');
   }
@@ -100,6 +127,4 @@ module.exports = function VueStorefrontNuxtModule(moduleOptions) {
 
   // Raw sources loader
   rawSourcesModule.call(this, options);
-};
-
-module.exports.meta = require('../package.json');
+}

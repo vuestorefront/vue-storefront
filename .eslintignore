@@ -5,3 +5,5 @@
 packages/boilerplate/composables/nuxt/plugin.js
 packages/commercetools/composables/nuxt/plugin.js
 packages/core/cache/nuxt/plugin.js
+packages/core/nuxt-module/plugins/i18n-cookies.js
+packages/core/nuxt-module/plugins/logger.js

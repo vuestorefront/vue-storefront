@@ -1,4 +1,3 @@
-
 import { configureContext } from '@vue-storefront/core';
 import { useContext as useBaseContext } from '@nuxtjs/composition-api';
 

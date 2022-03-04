@@ -1,4 +1,4 @@
-const merge = require('../helpers/merge');
+import merge from '../helpers/merge';
 
 // TODO: Create a separate nuxt module for storefront ui
 function loadStorefrontRawSources (options) {
@@ -13,6 +13,6 @@ function loadStorefrontRawSources (options) {
   });
 }
 
-module.exports = function VueStorefrontPerformanceModule (options) {
+export default function VueStorefrontPerformanceModule (options) {
   loadStorefrontRawSources.call(this, options);
-};
+}
