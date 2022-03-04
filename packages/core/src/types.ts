@@ -23,6 +23,11 @@ export const VSF_COUNTRY_COOKIE = 'vsf-country';
  */
 export const VSF_STORE_COOKIE = 'vsf-store';
 
+/**
+ * Default name of the cookie storing active channel code
+ */
+export const VSF_CHANNEL_COOKIE = 'vsf-channel';
+
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
 export type CustomQuery = Record<string, string>

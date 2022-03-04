@@ -23,6 +23,7 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
+    "@vue-storefront/core": "~2.5.5",
     "consola": "2.15.3",
     "express": "^4.17.1",
     "cookie-parser": "^1.4.5",
