@@ -5,7 +5,8 @@ import {
   ApiClientFactory,
   ApiClientExtension,
   IntegrationsSection,
-  CustomQuery
+  CustomQuery,
+  Logger
 } from '@vue-storefront/core';
 
 interface IntegrationLoaded {
@@ -27,7 +28,8 @@ function resolveDependency<T>(name: string): T {
     // eslint-disable-next-line global-require
     return require(path);
   } catch (error) {
-    throw new Error(`Could not resolve integration :${name}"`);
+    Logger.error(error);
+    throw new Error(`Could not resolve integration "${name}". See the error above for more details.`);
   }
 }
 
