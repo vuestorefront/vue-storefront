@@ -1,6 +1,6 @@
 <br />
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/1626923/156934585-5c585b9f-53ff-4eee-beb3-a3a410c48d47.png" alt="Vue Storefront" height="80px" />
+  <img src="https://user-images.githubusercontent.com/1626923/156934585-5c585b9f-53ff-4eee-beb3-a3a410c48d47.png" alt="Vue Storefront" />
 </p>
 
 <h3 align="center">
