@@ -155,7 +155,7 @@ Vue Storefront solves a set of key business challenges from the world of the sho
 
 ## Contributing
 
-If you like the ideas behind Vue Storefront and want to become a contributor - join our [Discord server](https://discord.vuestorefront.io), check the [list of the active issues](https://github.com/vuestorefront/vue-storefront/issues) or contact us directly via contributors(at))vuestorefront(dot)io.
+If you like the ideas behind Vue Storefront and want to become a contributor - join our [Discord server](https://discord.vuestorefront.io), check the [list of the active issues](https://github.com/vuestorefront/vue-storefront/issues) or contact us directly via contributors(at)vuestorefront(dot)io.
 
 If you have discovered a 🐜 or have feature suggestion, feel free to [create an issue](https://github.com/vuestorefront/vue-storefront/issues/new/choose) on Github.
 
