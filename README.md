@@ -1,6 +1,6 @@
 <br />
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/1626923/137092657-fb398d20-b592-4661-a1f9-4135db0b61d5.png" alt="Vue Storefront" height="80px" />
+  <img src="https://user-images.githubusercontent.com/1626923/156934585-5c585b9f-53ff-4eee-beb3-a3a410c48d47.png" alt="Vue Storefront" height="80px" />
 </p>
 
 <h3 align="center">
@@ -135,7 +135,8 @@
 - 📘  Documentation: https://docs.vuestorefront.io/v2/
 - 👥  Discord Community: https://discord.gg/vuestorefront/
 - 🐦  Twitter: https://twitter.com/VueStorefront
-- 🌟  [Live Projects List](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
+- 🎥  YouTube: https://www.youtube.com/c/VueStorefront
+- 🌟  [Over 1000+ Live Stores, check the list!](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
 
 ## The business challenges
 
