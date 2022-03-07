@@ -38,7 +38,7 @@ const INTEGRATIONS = {
       status: STATUS.BETA,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
-        { name: 'Caravel', link: 'https://www.caravelx.com/' }
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ]
     },
     {
