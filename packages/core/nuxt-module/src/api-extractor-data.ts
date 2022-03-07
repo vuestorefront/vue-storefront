@@ -8,4 +8,4 @@
  */
 
 export { default as VueStorefrontNuxtModule } from './index';
-export { ModuleOptions } from './index';
+export { ModuleOptions } from './types';

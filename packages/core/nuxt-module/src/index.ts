@@ -7,29 +7,9 @@ import resolveDependency from './helpers/resolveDependency';
 import performanceModule from './modules/performance';
 import storefrontUiModule from './modules/storefront-ui';
 import rawSourcesModule from './modules/raw-sources-loader';
+import { ModuleOptions } from './types';
 
 export { default as meta } from '../package.json';
-
-export interface ModuleOptions {
-  coreDevelopment?: boolean;
-  i18nExtension?: boolean;
-  e2e?: boolean;
-  logger?: boolean;
-  ssr?: boolean;
-  context?: boolean;
-  sfui?: boolean;
-  performance?: {
-    httpPush?: boolean;
-    purgeCSS?: {
-      enabled?: boolean;
-      paths?: string[];
-    };
-  };
-  useRawSource?: {
-    dev: string[];
-    prod: string[];
-  };
-}
 
 /**
  * VueStorefrontNuxtModule
