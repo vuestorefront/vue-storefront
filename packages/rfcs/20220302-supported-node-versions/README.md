@@ -61,6 +61,23 @@ If you have a Vue Storefront project, we would like to ask you to test it on Nod
 
 We encourage you to start using Node 14 before 2022-05-02 and be prepared to migrate to Node 16 before 2022-10-25.
 
+To upgrade your project, follow these few steps:
+
+* Update Node version locally. If you use various Node versions in your projects, we recommend tools like [nvm](https://github.com/nvm-sh/nvm) and [n](https://www.npmjs.com/package/n) to quickly switch between them.
+* Update Node version used in deployments (e.g., in `Dockerfile`).
+* Update Node version used in CI/CD scripts (e.g., scripts in `.github/workflows` directory, if you use GitHub Actions).
+* Add `engines` to the `package.json` file to prevent running older versions by mistake:
+
+  ```json
+  {
+    "engines": {
+      "node": ">=14.x"
+    }
+  }
+  ```
+ 
+* Test your project, especially the parts that are heavily customized or that use 3rd party dependencies not present in Vue Storefront by default. We tested new projects and cannot guarantee that anything added to them will also work.
+
 ### an Integrator
 
 If you have a project based on our [Boilerplate](https://github.com/vuestorefront/ecommerce-integration-boilerplate), we recommend:
@@ -68,13 +85,13 @@ If you have a project based on our [Boilerplate](https://github.com/vuestorefron
 * if you are using GitHub Actions, use the `matrix` strategy to test your integration against Node 14 and 16. [See the example](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-running-multiple-versions-of-nodejs).
 * adding this to the `package.json` files in the root of your project and inside `packages/theme`:
 
-```json
-{
-  "engines": {
-    "node": ">=14.x"
+  ```json
+  {
+    "engines": {
+      "node": ">=14.x"
+    }
   }
-}
-```
+  ```
 
 Additionally, if you are creating an integration that was not released yet, we recommend upgrading to Node 16 immediately. This way, you don't have to migrate in the following few months. In this case, change the versions in GitHub Actions and both `package.json` files accordingly.
 
