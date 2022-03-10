@@ -1,6 +1,6 @@
 # Application context
 
-An application context is an object available in the Nuxt.js application. 
+An application context is an object available in the Nuxt.js application.
 Plugins and modules registered in the `nuxt.config.js` file populate this object and add integration-specific data under a unique key. The Nuxt.js application later uses this information to send requests to the Server Middleware.
 
 ## Structure of the context

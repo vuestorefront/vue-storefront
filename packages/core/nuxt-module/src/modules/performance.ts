@@ -1,6 +1,7 @@
-const { merge } = require('lodash');
+import { merge } from 'lodash';
+import { ModuleOptions, PurgeCSSOptions } from '../types';
 
-function pushScripts() {
+function pushScripts(): void {
   this.options.render = merge(this.options.render, {
     http2: {
       push: true,
@@ -13,12 +14,12 @@ function pushScripts() {
   });
 }
 
-function loadPurgeCss(options) {
+function loadPurgeCss(options: PurgeCSSOptions): void {
   // PurgeCSS module should be installed after all other modules
-  this.nuxt.hook('modules:done', moduleContainer => moduleContainer.addModule([ 'nuxt-purgecss', options ]));
+  this.nuxt.hook('modules:done', moduleContainer => moduleContainer.addModule(['nuxt-purgecss', options]));
 }
 
-module.exports = function VueStorefrontPerformanceModule (options) {
+export default function VueStorefrontPerformanceModule(options: ModuleOptions): void {
   const { httpPush, purgeCSS } = options.performance;
 
   if (httpPush) {
@@ -28,4 +29,4 @@ module.exports = function VueStorefrontPerformanceModule (options) {
   if (purgeCSS && purgeCSS.enabled) {
     loadPurgeCss.call(this, purgeCSS);
   }
-};
+}
