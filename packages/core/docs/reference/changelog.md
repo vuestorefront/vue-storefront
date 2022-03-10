@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.6
+
+- Added the ability to select plugins used by @vue-storefront/nuxt ([6641](https://github.com/vuestorefront/vue-storefront/pull/6641)) - [Mateusz Pietrusiński](https://github.com/Mateuszpietrusinski)
+
+- Added the VSF cookie name ([6656](https://github.com/vuestorefront/vue-storefront/pull/6667)) - [Alef Barbeli](https://github.com/vuestorefront)
+
 ## 2.5.5
 
 - Fix for disabling cookie generation on server side with `autoChangeCookie` option disabled ([6633](https://github.com/vuestorefront/vue-storefront/pull/6633)) - [Alef Barbeli](https://github.com/alefbarbeli)
