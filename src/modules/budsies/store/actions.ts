@@ -312,7 +312,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     });
 
     if (resultCode !== 200) {
-      throw Error('Error while sharing pet birthday ' + result)
+      throw Error('Error while sharing customer story ' + result)
     }
 
     return result;
