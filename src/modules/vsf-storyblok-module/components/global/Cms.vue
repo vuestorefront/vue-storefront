@@ -53,11 +53,17 @@ export default {
     }
 
     if (this.previewToken) {
-      const url = `https://app.storyblok.com/f/storyblok-latest.js?t=${this.previewToken}`
+      const url = 'https://app.storyblok.com/f/storyblok-v2-latest.js'
 
       await loadScript(url, 'storyblok-javascript-bridge')
 
-      window['storyblok'].on(['input', 'published', 'change'], (event) => {
+      const StoryblokBridge = window['StoryblokBridge'];
+
+      const storyblokInstance = new StoryblokBridge({
+        resolveRelations: ['block_reference.reference']
+      });
+
+      storyblokInstance.on(['input', 'published', 'change'], (event) => {
         if (event.action === 'input') {
           this.updateValue(event.story)
         }
