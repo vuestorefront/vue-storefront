@@ -353,9 +353,9 @@ const INTEGRATIONS = {
     },
     {
       name: 'Constructor.io',
-      link: '',
+      link: 'https://docs.vuestorefront.io/constructor-io/',
       image: '/v2/integrations-logos/constructor-io.svg',
-      status: STATUS.WIP,
+      status: STATUS.STABLE,
       license: LICENSE.ENTERPRISE,
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
