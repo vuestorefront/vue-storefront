@@ -14,7 +14,7 @@ export const getBaseUrl = (req: IncomingMessage, basePath: string | undefined = 
   const { headers } = req;
   const isHttps = require('is-https')(req);
   const scheme = isHttps ? 'https' : 'http';
-  const host = headers['x-forwarded-host'] || headers.host;
+  const host = process.env.API_BASE_URL || headers['x-forwarded-host'] || headers.host;
 
   return `${scheme}://${host}${basePath}api/`;
 };
