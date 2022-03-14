@@ -32,6 +32,14 @@ Depending on the integrations used, your project might include some additional c
 
 - [`.lintstagedrc`](https://github.com/okonet/lint-staged#configuration) configures lint runner that enforces code style before every Git commit. By default, it runs ESLint described above.
 
+## Environment variables
+
+Every integration might have its own environmental variables described in documentation for specific integration.
+
+Those described here are common for every integration.
+
+- `API_HOST` - a host and port of the server that internal API calls are being made, e.g. `example.com` or `localhost:3000`. It is recommended to not leave it empty for security reasons.
+
 ## What's next
 
 As the next step, we will learn about [Layouts and Routing](./layouts-and-routing.html) and show what routes come predefined in every Vue Storefront project and how to register custom ones.
