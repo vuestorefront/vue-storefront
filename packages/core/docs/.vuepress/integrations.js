@@ -282,6 +282,19 @@ const INTEGRATIONS = {
       categories: [ CATEGORY.PAYMENT ]
     },
     {
+      name: 'PayPal',
+      link: [
+        { name: 'commercetools', link: 'https://docs.vuestorefront.io/paypal/commercetools' }
+      ],
+      image: 'https://uploads-ssl.webflow.com/5e7cf661c23ac9df156d9c3d/5eb01763b8d39cb1427e86f2_PayPal%201.svg',
+      status: STATUS.STABLE,
+      license: LICENSE.ENTERPRISE,
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
+      categories: [ CATEGORY.PAYMENT ]
+    },
+    {
       name: 'Auth0',
       link: [
         { name: 'commercetools', link: 'https://docs.vuestorefront.io/auth0/' },
