@@ -180,7 +180,7 @@ module.exports = {
           ['/integrate/integration-guide', 'Integrating e-commerce platform'],
           ['/integrate/cms', 'Integrating CMS platform'],
           ['/integrate/cache-driver', 'Integrating cache driver'],
-          ['/integrate/payment', 'Integrating payment method']
+          ['/integrate/payment', 'Integrating payment service provider']
         ]
       },
       {

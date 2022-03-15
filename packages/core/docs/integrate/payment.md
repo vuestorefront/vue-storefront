@@ -1,15 +1,42 @@
-# Payment
-Each eCommerce has a different approach to solve payments issue.
+# Integrating payment service provider
+:::danger Don't forget to reload the application
+The application does not reload automatically after saving the changes in Server Middleware. Due to this, you have to restart the application manually. We are working on enabling Hot Reloading in future updates.
+:::
+
+::: warning Want to build an integration?
+If you want to integrate with Vue Storefront, don't hesitate to get in touch with the core team on our [Discord](https://discord.vuestorefront.io/) server. We are eager to help you to ensure its high quality and maybe even officially recommend it 😉
+:::
+
+## Introduction
+
+Integrating an Payment Service Provider with Vue Storefront is a task that requires a wider overview of the theory of payments and your e-commerce platform's approach to them.
+
+This document will guide you through the process of creating integration and explain the concepts behind Vue Storefront.
 
 ## Learn theory
-- PSP - Payment Service Provider
-- You can't process card data if you are not PCI Compilant. And you are probably not - so you should shift liability to the PSP and send only hased data through VSF2 Middleware. Not hashed data can be only sent to the PSP directly from the component provided by PSP.
-- The purpose of PSP is to provide easy way of processing payments. They are PCI Compilant so we shift liability on them and then we benefit from payments in our online shop.
-- Make sure you are not sending plain cart data over the VSF2 Middleware! It would break the law and bring huge financial penalties
-- Saving cards (recurring payments) - PSPs like Adyen allows to store user credit card for next payments. They are storing it on own Database. All we have to do is, create unique user identifier and make sure no one can use other's user identifier. So for example - send customer's token to VSF2 Middleware - inside endpoint fetch User ID based on provide token and use it for reference in the PSP. NEVER send user ID directly from the frontend because it is so easy to put there a different ID.
-- Can someone pay with my card just by having it's details? In EEA, each bank has to perform Strong Customer Authentication - it means it has to perform some 3DS1 or 3DS2 check - which might require to provide SMS Code from our bank, accept it in the bank or something like that. That's why you always have to make sure you are supporting both 3DS1 and 3DS2 Auth when creating PSP integration. It's not that obvious in the sandbox mode. But it's essential for make it work efficiently.
-- Authorization vs Capture: authorization means that money for transaction is reserved on user's account and waiting for capture - mostly capture will happen after some time or manually. Capture means that money has been transferred from user's account to the merchant.
-- Don't try to create universal PSP integration with every eCommerce at once. It's rather impossible.
+
+The first step is to learn the theory behind payments.
+
+### What's PCI Compilance?
+The Payment Card Industry Data Security Standard (PCI DSS) is a set of requirements intended to ensure that all companies that process, store, or transmit credit card information maintain a secure environment. It was launched on September 7, 2006, to manage PCI security standards and improve account security throughout the transaction process. An independent body created by Visa, MasterCard, American Express, Discover, and JCB, the PCI Security Standards Council (PCI SSC) administers and manages the PCI DSS. Interestingly, the payment brands and acquirers are responsible for enforcing compliance, rather than the PCI SSC. (COPIED) Do we have to fulfill PCI DSS for each integration? Mostly payment service providers handle it for us and we use their API and components to integrate!
+
+### What's Payment Service Provider (PSP)?
+It is a third-party company that assists businesses to accept a wide range of online payment methods, such as online banking, credit cards, debit cards, e-wallets, cash cards, and more. (COPIED) Examples of PSPs are Adyen, Checkout.com, MultiSafepay. PSPs fulfill PCI DSS criteria.
+
+### Credit card data
+Mostly, you won't be able to touch Credit Card (or different payment method's) data. But if so, you cannot send it to VSF2 middleware or store in user's browser. The component provided by PSP should be able to comunicate with PSP's API and hash this data. Operating on hashed data it's totally fine.
+
+## Saving cards (recurring payments)
+PSPs like Adyen allows to store user credit card for next payments. They are storing it inside own Database. All we have to do is, create unique user identifier and make sure no one can use other's user identifier. So for example - send customer's token to VSF2 Middleware - inside endpoint fetch User ID based on provide token and use it for reference in the PSP. NEVER send user ID directly from the frontend because it is so easy to put there a different ID.
+
+## Can anyone pay via my card by knowing it's details?
+In European Economic Area, each bank has to perform Strong Customer Authentication - it means it has to perform 3DS1 or 3DS2 check - which might require to provide SMS Code from our bank, accept it in the bank or something like that. That's why you always have to make sure you are supporting both 3DS1 and 3DS2 Auth when creating a PSP integration. It's not that obvious in the sandbox mode. But it's essential to make it work correclty.
+
+## What's the difference between Authorization and Capture?
+Authorization means that money for transaction is reserved on user's account and waiting for capture - mostly capture will happen after some time or manually. Capture means that money has been transferred from user's account to the merchant.
+
+## Universal PSP integration for every eCommerce
+Don't try to create an universal PSP integration with every eCommerce at once. It's rather impossible.
 
 ## Analyze
 ### Learn how your eCommerce approaches payments 
