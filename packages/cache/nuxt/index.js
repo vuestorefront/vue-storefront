@@ -40,7 +40,7 @@ function createInvalidationEndpoint (driver, options) {
         .send(`Cache driver thrown an error when invalidating cache! Operation skipped. ${error}`);
     }
   };
-
+  this.addServerMiddleware(resolve(__dirname, './body-parser.js'));
   this.addServerMiddleware({
     path: options.endpoint,
     handler
