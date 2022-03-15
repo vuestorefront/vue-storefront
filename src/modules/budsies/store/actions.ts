@@ -262,5 +262,59 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       },
       silent: false
     });
+  },
+  async sharePetBirthday (
+    { state },
+    payload: {
+      name: string,
+      birthDay: number,
+      birthMonth: number,
+      email: string
+    }
+  ): Promise<any> {
+    const url = processURLAddress(`${config.budsies.endpoint}/share/artists?token={{token}}`)
+
+    const { result, resultCode } = await TaskQueue.execute({
+      url,
+      payload: {
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        mode: 'cors',
+        method: 'POST',
+        body: JSON.stringify(payload)
+      },
+      silent: false
+    });
+
+    if (resultCode !== 200) {
+      throw Error('Error while sharing pet birthday ' + result)
+    }
+
+    return result;
+  },
+  async shareCustomerStory (
+    { state },
+    payload: {
+      customerStoryText: string,
+      orderId: number
+    }
+  ): Promise<any> {
+    const url = processURLAddress(`${config.budsies.endpoint}/share/customer-stories`);
+
+    const { result, resultCode } = await TaskQueue.execute({
+      url,
+      payload: {
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        mode: 'cors',
+        method: 'POST',
+        body: JSON.stringify(payload)
+      },
+      silent: false
+    });
+
+    if (resultCode !== 200) {
+      throw Error('Error while sharing customer story ' + result)
+    }
+
+    return result;
   }
 }
