@@ -101,11 +101,17 @@ export default {
     }
 
     if (this.previewToken) {
-      const url = `https://app.storyblok.com/f/storyblok-latest.js?t=${this.previewToken}`
+      const url = `https://app.storyblok.com/f/storyblok-v2-latest.js`
 
       await loadScript(url, 'storyblok-javascript-bridge')
 
-      window['storyblok'].on(['input', 'published', 'change'], (event: any) => {
+      const StoryblokBridge = window['StoryblokBridge'];
+
+      const storyblokInstance = new StoryblokBridge({
+        resolveRelations: ['block_reference.reference']
+      });
+
+      storyblokInstance.on(['input', 'published', 'change'], (event: any) => {
         if (event.action === 'input') {
           this.$store.commit(`${KEY}/updateStory`, { key: event.story.id, story: event.story })
         } else if (!(event).slugChanged) {
