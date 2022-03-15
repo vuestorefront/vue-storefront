@@ -26,27 +26,56 @@ It is a third-party company that assists businesses to accept a wide range of on
 ### Credit card data
 Mostly, you won't be able to touch Credit Card (or different payment method's) data. But if so, you cannot send it to VSF2 middleware or store in user's browser. The component provided by PSP should be able to comunicate with PSP's API and hash this data. Operating on hashed data it's totally fine.
 
-## Saving cards (recurring payments)
+### Saving cards (recurring payments)
 PSPs like Adyen allows to store user credit card for next payments. They are storing it inside own Database. All we have to do is, create unique user identifier and make sure no one can use other's user identifier. So for example - send customer's token to VSF2 Middleware - inside endpoint fetch User ID based on provide token and use it for reference in the PSP. NEVER send user ID directly from the frontend because it is so easy to put there a different ID.
 
-## Can anyone pay via my card by knowing it's details?
-In European Economic Area, each bank has to perform Strong Customer Authentication - it means it has to perform 3DS1 or 3DS2 check - which might require to provide SMS Code from our bank, accept it in the bank or something like that. That's why you always have to make sure you are supporting both 3DS1 and 3DS2 Auth when creating a PSP integration. It's not that obvious in the sandbox mode. But it's essential to make it work correclty.
+### Can anyone pay via my card by knowing it's details?
+In European Economic Area, each bank has to perform [Strong Customer Authentication](https://en.wikipedia.org/wiki/Strong_customer_authentication) - it means it has to perform 3DS1 or 3DS2 check - which might require to provide SMS Code from our bank, accept it in the bank or something like that. That's why you always have to make sure you are supporting both 3DS1 and 3DS2 Auth when creating a PSP integration. It's not that obvious in the sandbox mode. But it's essential to make it work correclty.
 
-## What's the difference between Authorization and Capture?
+### What's the difference between Authorization and Capture?
 Authorization means that money for transaction is reserved on user's account and waiting for capture - mostly capture will happen after some time or manually. Capture means that money has been transferred from user's account to the merchant.
 
-## Universal PSP integration for every eCommerce
+### Universal PSP integration for every eCommerce
 Don't try to create an universal PSP integration with every eCommerce at once. It's rather impossible.
 
 ## Analyze
-### Learn how your eCommerce approaches payments 
+After getting theoretical foundations, it's time to analyze.
 
-### Find the best way for integration with your Payment Service Provider
+### Check for already existing solution
+Check if there is a already existing headless-ready integration with your eCommerce and PSP. If you found one, be careful with estimations. Headless-ready is very popular term nowadays. Developers tend to publish not well-tested integrations. You might encounter integrations marked as headless-ready but without key functionalities like 3DS1/3DS2 support or not fully working through API.
+
+If everything is fine, in most cases, you will have to create VSF2 middleware integration to access new eCommerce endpoints. Most integrations don't support accessing directly from the frontend. This is the perfect situation when work to do is lesser.
+
+Examples of already existing eCommerce and PSP integrations:
+- [commercetools and Adyen](https://github.com/commercetools/commercetools-adyen-integration),
+- [Magento2 and Adyen](https://github.com/adyen/adyen-magento2).
+
+### If there isn't already existing integration
+In that particular case, you have to write additional code in VSF2 Middleware to communicate with PSP and eCommerce. In some cases, it is possible to do - commercetools. But in some cases you still need to write code in a different place - e.g. Magento2 Plugin in PHP.
+
+#### Learn how your eCommerce approaches payments 
+Different eCommerces have a different approach for payments. You have to analyze how your one approaches them, make sure you:
+- create a payment object,
+- update a payment object (after authorization, capture, refund),
+- payment object is attached to the order,
+- order status is updated after successful payment,
+- prepared a webhook for async updates.
+
+#### Find the best way for integration with your Payment Service Provider
+Browse possible ways of integrating with the PSP and imagine how you could use it to bring essential data to eCommerce and give the best possible UX to the VSF2 frontend. Plan what user will have on frontend, how will comunication look like, describe requests, responses and their paths. 
+
+You will have to create VSF2 Middleware endpoints to act like the core of communication between VSF2 Frontend, PSP, and eCommerce.
 
 ## Edge cases
+Creating the integration is not all. Now let's have a look at edge cases which should be handled. Otherwise, they would make us troubles!
+
 ### Check for Second tab total price modifiaction during each step (and coupon code too! just any way!)
 
+
 ### Support Payment's status update via webhook
+Creating a payment and an order is not all. PSP will send asynchronous notifications about modifications of payment status. You should prepare an endpoint to receive them and update status of payment and order based on the information.
+
+You can use `ngrok` or `localtunnel` to test them locally.
 
 ### Authorize when you are placing an order or after
 
