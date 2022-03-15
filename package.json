@@ -14,6 +14,7 @@
     "link-packages": "lerna link --force-local",
     "lint": "eslint . --ext .js,.ts,.vue",
     "test:cache": "cd packages/cache && yarn test",
+    "test:cache-control": "cd packages/cache-control && yarn test",
     "test:cli": "cd packages/cli && yarn test",
     "test:core": "cd packages/core && yarn test",
     "test:middleware": "cd packages/middleware && yarn test"
