@@ -21,5 +21,6 @@ export enum ProductValue {
   BUDDY_PILLOW = '20',
   PHRASE_PILLOW = '21',
   PRINTED_MASKS = '22',
-  PRINTED_KEYCHAINS = '23'
+  PRINTED_KEYCHAINS = '23',
+  PRINTED_MAGNETS = '27'
 }
