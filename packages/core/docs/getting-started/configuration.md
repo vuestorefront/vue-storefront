@@ -34,11 +34,11 @@ Depending on the integrations used, your project might include some additional c
 
 ## Environment variables
 
-Every integration might have its own environmental variables described in documentation for specific integration.
+Every integration might have its own environmental variables described in the documentation.
 
 Those described here are common for every integration.
 
-- `API_HOST` - a host and port of the server that internal API calls are being made, e.g. `example.com` or `localhost:3000`. It is recommended to not leave it empty for security reasons.
+- `API_HOST` - a host and port of the server that internal API calls are being made, e.g. `example.com` or `localhost:3000`. It is recommended **to not leave it empty** for security reasons.
 
 ## What's next
 
