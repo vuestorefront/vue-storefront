@@ -33,6 +33,7 @@
     "start:bp": "cd packages/boilerplate/theme && yarn start",
     "start:ct": "cd packages/commercetools/theme && yarn start",
     "test:cache": "cd packages/core/cache && yarn test",
+    "test:cache-control": "cd packages/core/cache-control && yarn test",
     "test:cli": "cd packages/core/cli && yarn test",
     "test:core": "cd packages/core/core && yarn test",
     "test:middleware": "cd packages/core/middleware && yarn test",
