@@ -9,12 +9,12 @@ interface CreateProxiedApiParams {
   tag: string;
 }
 
-export const getBaseUrl = (req: IncomingMessage, basePath: string | undefined = '/', secureApiUrl: string): string => {
+export const getBaseUrl = (req: IncomingMessage, basePath: string | undefined = '/', secureApiHost: string | undefined): string => {
   if (!req) return `${basePath}api/`;
   const { headers } = req;
   const isHttps = require('is-https')(req);
   const scheme = isHttps ? 'https' : 'http';
-  const host = secureApiUrl || headers['x-forwarded-host'] || headers.host;
+  const host = secureApiHost || headers['x-forwarded-host'] || headers.host;
 
   return `${scheme}://${host}${basePath}api/`;
 };
@@ -39,7 +39,7 @@ export const getIntegrationConfig = (context: NuxtContext, configuration: any) =
   const cookie = getCookies(context);
   const initialConfig = merge({
     axios: {
-      baseURL: getBaseUrl(context?.req, context?.base, context.env.API_URL),
+      baseURL: getBaseUrl(context?.req, context?.base, context.env.API_HOST),
       headers: {
         ...(cookie ? { cookie } : {})
       }
