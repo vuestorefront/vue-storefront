@@ -42,13 +42,15 @@ Don't try to create an universal PSP integration with every eCommerce at once. I
 After getting theoretical foundations, it's time to analyze.
 
 ### Check for already existing solution
-Check if there is a already existing headless-ready integration with your eCommerce and PSP. If you found one, be careful with estimations. Headless-ready is very popular term nowadays. Developers tend to publish not well-tested integrations. You might encounter integrations marked as headless-ready but without key functionalities like 3DS1/3DS2 support or not fully working through API.
+Check if there is a already existing headless-ready integration with your eCommerce and PSP. If you found one, be careful with estimations. Headless-ready is very popular term nowadays. Developers tend to publish not well-tested integrations. You might encounter integrations marked as headless-ready but without key functionalities like 3DS1/3DS2 not fully working through API.
 
 If everything is fine, in most cases, you will have to create VSF2 middleware integration to access new eCommerce endpoints. Most integrations don't support accessing directly from the frontend. This is the perfect situation when work to do is lesser.
 
 Examples of already existing eCommerce and PSP integrations:
 - [commercetools and Adyen](https://github.com/commercetools/commercetools-adyen-integration),
 - [Magento2 and Adyen](https://github.com/adyen/adyen-magento2).
+
+In cases above, you have to write only frontend part and VSF2 Middleware part for communication.
 
 ### If there isn't already existing integration
 In that particular case, you have to write additional code in VSF2 Middleware to communicate with PSP and eCommerce. In some cases, it is possible to do - commercetools. But in some cases you still need to write code in a different place - e.g. Magento2 Plugin in PHP.
@@ -70,7 +72,7 @@ You will have to create VSF2 Middleware endpoints to act like the core of commun
 Creating the integration is not all. Now let's have a look at edge cases which should be handled. Otherwise, they would make us troubles!
 
 ### Check for Second tab total price modifiaction during each step (and coupon code too! just any way!)
-
+User can open a second tab and modificate cart's total price during the payment process. To prevent mismatch you should compare current cart's total price with payment amount 
 
 ### Support Payment's status update via webhook
 Creating a payment and an order is not all. PSP will send asynchronous notifications about modifications of payment status. You should prepare an endpoint to receive them and update status of payment and order based on the information.
@@ -78,6 +80,7 @@ Creating a payment and an order is not all. PSP will send asynchronous notificat
 You can use `ngrok` or `localtunnel` to test them locally.
 
 ### Authorize when you are placing an order or after
+Don't authorize or capture to early! It's the best to do it as late as possible. Recommended approach is to create endpoint in VSF2 Middleware that both authorizes a payment and creates an order a line after. Desired situation is to authorize payment and create an order at once.
 
 <!-- ### Gain knowledge about payment handling in your eCommerce
 You need to know what approach selected eCommerce is using:
