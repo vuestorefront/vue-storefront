@@ -1,10 +1,8 @@
 const { resolve } = require('path');
-const dotenv = require('dotenv');
 const webpack = require('webpack');
 const { STATUS, LICENSE, CATEGORY, INTEGRATIONS } = require('./integrations');
 
-dotenv.config();
-
+const COMMUNITY_API_URL = 'http://167.99.58.242:3000/';
 const GTM_TAG = 'GTM-WMDC3CP';
 
 module.exports = {
@@ -78,7 +76,7 @@ module.exports = {
       return rule;
     });
 
-    config.plugins.push(new webpack.EnvironmentPlugin(['COMMUNITY_API_URL']));
+    config.plugins.push(new webpack.EnvironmentPlugin({ COMMUNITY_API_URL }));
   },
 
   /**
