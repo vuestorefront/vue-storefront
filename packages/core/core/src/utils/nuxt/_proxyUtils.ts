@@ -9,7 +9,7 @@ interface CreateProxiedApiParams {
   tag: string;
 }
 
-export const getBaseUrl = (req: IncomingMessage, basePath: string | undefined = '/', secureApiHost: string | undefined): string => {
+export const getBaseUrl = (req: IncomingMessage, basePath: string | undefined = '/', secureApiHost?: string): string => {
   if (!req) return `${basePath}api/`;
   const { headers } = req;
   const isHttps = require('is-https')(req);
@@ -39,7 +39,7 @@ export const getIntegrationConfig = (context: NuxtContext, configuration: any) =
   const cookie = getCookies(context);
   const initialConfig = merge({
     axios: {
-      baseURL: getBaseUrl(context?.req, context?.base, context.env.API_HOST),
+      baseURL: getBaseUrl(context?.req, context?.base, context?.env?.API_HOST),
       headers: {
         ...(cookie ? { cookie } : {})
       }

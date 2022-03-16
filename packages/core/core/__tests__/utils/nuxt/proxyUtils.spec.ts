@@ -1,24 +1,29 @@
-
-import * as utils from './../../src/utils/nuxt/_proxyUtils';
+import * as utils from '../../../src/utils/nuxt/_proxyUtils';
 import isHttps from 'is-https';
 
 jest.mock('is-https');
 
-describe('[CORE - factories] apiFactory/_proxyUtils', () => {
-  it('returns base url based on incomming headers', () => {
-    expect(utils.getBaseUrl(null)).toEqual('/api/')
+describe('[CORE - utils] _proxyUtils', () => {
+  it('returns base url based on incoming headers', () => {
+    expect(utils.getBaseUrl(null)).toEqual('/api/');
 
-    ;(isHttps as jest.Mock).mockReturnValue(true);
-    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } } as any)).toEqual('https://some-domain/api/')
+    (isHttps as jest.Mock).mockReturnValue(true);
+    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } } as any)).toEqual('https://some-domain/api/');
 
-    ;(isHttps as jest.Mock).mockReturnValue(false);
-    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } } as any)).toEqual('http://some-domain/api/')
+    (isHttps as jest.Mock).mockReturnValue(false);
+    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } } as any)).toEqual('http://some-domain/api/');
 
-    ;(isHttps as jest.Mock).mockReturnValue(true);
-    expect(utils.getBaseUrl({ headers: { host: 'some-domain', 'x-forwarded-host': 'forwarded-host' } } as any)).toEqual('https://forwarded-host/api/')
+    (isHttps as jest.Mock).mockReturnValue(true);
+    expect(utils.getBaseUrl({ headers: { host: 'some-domain', 'x-forwarded-host': 'forwarded-host' } } as any)).toEqual('https://forwarded-host/api/');
 
-    ;(isHttps as jest.Mock).mockReturnValue(false);
+    (isHttps as jest.Mock).mockReturnValue(false);
     expect(utils.getBaseUrl({ headers: { host: 'some-domain', 'x-forwarded-host': 'forwarded-host' } } as any)).toEqual('http://forwarded-host/api/');
+
+    (isHttps as jest.Mock).mockReturnValue(false);
+    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } } as any, undefined, '')).toEqual('http://some-domain/api/');
+
+    (isHttps as jest.Mock).mockReturnValue(false);
+    expect(utils.getBaseUrl({ headers: { host: 'some-domain' } } as any, undefined, 'env-domain')).toEqual('http://env-domain/api/');
   });
 
   it('returns proxy for defined api', () => {
@@ -46,7 +51,7 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
     expect(utils.getCookies({ req: { headers: { cookie: { someCookie: 1 } } } } as any)).toEqual({ someCookie: 1 });
   });
 
-  it('it cobines config with the current one', () => {
+  it('it combines config with the current one', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValue('');
     jest.spyOn(utils, 'getBaseUrl').mockReturnValue('some-url');
 
@@ -62,7 +67,7 @@ describe('[CORE - factories] apiFactory/_proxyUtils', () => {
     });
   });
 
-  it('it cobines config with the current one and adds a cookie', () => {
+  it('it combines config with the current one and adds a cookie', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValue('xxx');
     jest.spyOn(utils, 'getBaseUrl').mockReturnValue('some-url');
 
