@@ -1,5 +1,5 @@
 {
-  "name": "@vue-storefront/cache-control",
+  "name": "@vue-storefront/http-cache",
   "version": "2.5.5",
   "license": "MIT",
   "scripts": {
