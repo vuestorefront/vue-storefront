@@ -83,9 +83,9 @@ const INTEGRATIONS = {
     },
     {
       name: 'BigCommerce',
-      link: '',
+      link: 'https://docs.vuestorefront.io/bigcommerce',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/6023aa663109a7a8f995f095_BigCommerce-logo-dark.svg',
-      status: STATUS.WIP,
+      status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' }
