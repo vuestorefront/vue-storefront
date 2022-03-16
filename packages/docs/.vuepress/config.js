@@ -208,6 +208,7 @@ module.exports = {
         collapsable: true,
         children: [
           ['/community/sponsorship-program', '✍️ Sponsorship Program'],
+          ['/community/leaderboards', '👑 Leaderboards'],
         ]
       },
       {
