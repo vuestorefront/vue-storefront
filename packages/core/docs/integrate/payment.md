@@ -11,7 +11,7 @@ If you want to integrate with Vue Storefront, don't hesitate to get in touch wit
 
 Integrating an Payment Service Provider with Vue Storefront is a task that requires a wider overview of the theory of payments and your e-commerce platform's approach to them.
 
-This document will guide you through the process of creating integration and explain the concepts behind Vue Storefront.
+This document will guide you through it.
 
 ## Learn theory
 
@@ -24,13 +24,15 @@ The Payment Card Industry Data Security Standard (PCI DSS) is a set of requireme
 It is a third-party company that assists businesses to accept a wide range of online payment methods, such as online banking, credit cards, debit cards, e-wallets, cash cards, and more. (COPIED) Examples of PSPs are Adyen, Checkout.com, MultiSafepay. PSPs fulfill PCI DSS criteria.
 
 ### Credit card data
-Mostly, you won't be able to touch Credit Card (or different payment method's) data. But if so, you cannot send it to VSF2 middleware or store in user's browser. The component provided by PSP should be able to comunicate with PSP's API and hash this data. Operating on hashed data it's totally fine.
+Payment service providers often share a component that handles payments and allows you to inject into certain events via callback functions. From these, you have access to hashed payment data and you can comunicate with the eCommerce backend. What's important, you don't have an acccess to the plain payment data here.
+
+It's totally fine to send hashed data through your server but it isn't legal to send plain payment data without being PCI Compliant! Also you shouldn't store plain payment data in user's browser storage like localStorage.
 
 ### Saving cards (recurring payments)
 PSPs like Adyen allows to store user credit card for next payments. They are storing it inside own Database. All we have to do is, create unique user identifier and make sure no one can use other's user identifier. So for example - send customer's token to VSF2 Middleware - inside endpoint fetch User ID based on provide token and use it for reference in the PSP. NEVER send user ID directly from the frontend because it is so easy to put there a different ID.
 
 ### Can anyone pay via my card by knowing it's details?
-In European Economic Area, each bank has to perform [Strong Customer Authentication](https://en.wikipedia.org/wiki/Strong_customer_authentication) - it means it has to perform 3DS1 or 3DS2 check - which might require to provide SMS Code from our bank, accept it in the bank or something like that. That's why you always have to make sure you are supporting both 3DS1 and 3DS2 Auth when creating a PSP integration. It's not that obvious in the sandbox mode. But it's essential to make it work correclty.
+In [European Economic Area](https://en.wikipedia.org/wiki/European_Economic_Area), each bank has to perform [Strong Customer Authentication](https://en.wikipedia.org/wiki/Strong_customer_authentication) - it means it has to perform [3DS1 or 3DS2](https://www.tokenex.com/blog/what-is-3-d-secure-authentication-and-why-do-i-need-it) check - which might require to provide SMS Code from our bank, accept it in the bank or something like that. That's why you always have to make sure you are supporting both 3DS1 and 3DS2 Auth when creating a PSP integration. It's not that obvious in the sandbox mode. But it's essential to make it work correclty.
 
 ### What's the difference between Authorization and Capture?
 Authorization means that money for transaction is reserved on user's account and waiting for capture - mostly capture will happen after some time or manually. Capture means that money has been transferred from user's account to the merchant.
@@ -39,7 +41,7 @@ Authorization means that money for transaction is reserved on user's account and
 Don't try to create an universal PSP integration with every eCommerce at once. It's rather impossible.
 
 ## Analyze
-After getting theoretical foundations, it's time to analyze.
+After getting theoretical foundations, it's time to start the analyze.
 
 ### Check for already existing solution
 Check if there is a already existing headless-ready integration with your eCommerce and PSP. If you found one, be careful with estimations. Headless-ready is very popular term nowadays. Developers tend to publish not well-tested integrations. You might encounter integrations marked as headless-ready but without key functionalities like 3DS1/3DS2 not fully working through API.
@@ -112,11 +114,13 @@ You need a PHP plugin for an integration that is Headless-ready. So it shares AP
 Checkout is the iframe so it is all on BigCommerce(?).
 
 # Integration checklist
+Use bullets below to check if your integration has everything what's necessary.
+
 My integration:
 - [ ] handles modifying total price in the second tab/during payment
 - [ ] updates Payment&Transaction status from webhook calls, so it shares some endpoint
-- [ ] webhook authorizes request siganture if available
-- [ ] remember PSP will queue failed request from webhook
+- [ ] webhook validates request siganture if available
+- [ ] PSP will queue failed request from webhook, handle it to prevent duplicates
 - [ ] Use `ngrok` or `localtunnel` to test webhook locally
 - [ ] supports 3DS1 and 3DS2 if it contains Credit Cards because it's required in EEA
 - [ ] write a list of manual tests to make before each release and use it
