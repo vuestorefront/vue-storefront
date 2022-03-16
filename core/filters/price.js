@@ -26,13 +26,18 @@ export function price (value, storeView) {
     return value
   }
   const _storeView = storeView || currentStoreView();
+  const isZeroDecimal = value % Number(value).toFixed(0) === 0;
+
   if (!_storeView.i18n) {
-    return Number(value).toFixed(2)
+    return Number.value(value).toFixed(isZeroDecimal ? 0 : 2);
   }
 
   const { defaultLocale, currencySign, currencyDecimal, currencyGroup, fractionDigits, priceFormat } = _storeView.i18n;
 
-  const options = { minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits };
+  const options = {
+    minimumFractionDigits: isZeroDecimal ? 0 : fractionDigits,
+    maximumFractionDigits: isZeroDecimal ? 0 : fractionDigits
+  };
 
   let localePrice = Math.abs(value).toLocaleString(defaultLocale, options);
 
