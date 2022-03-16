@@ -24,23 +24,13 @@ This property allows you do override default value of `cache-control` header whi
 ```
 
 ### `matchRoute`
-Customize `cache-control` values for selected routes. you can use `*` for a wildcard.
+Customize `cache-control` values for selected routes. you can use `*` for a wildcard. To remove `cache-control` header use `none` value.
 ```js
 ['@vue-storefront/cache-control', {
   matchRoute: {
     '/': 'max-age=240',
-    '/p/*': 'max-age=360'
+    '/p/*': 'max-age=360',
+    '/c/*': 'none'
   }
-}]
-```
-
-### `blacklist`
-Blacklisted routes will have `cache-control` header removed. Here you also can use `*` for a wildcard.
-```js
-['@vue-storefront/cache-control', {
-  blacklist: [
-    '/about/,
-    '/c/*'
-  ]
 }]
 ```

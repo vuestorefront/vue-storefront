@@ -52,12 +52,12 @@ describe('renderRouteCallback', () => {
 
   it('removes cache-control header for blacklisted routes', () => {
     const options = {
-      blacklist: [
-        '/p/*'
-      ]
+      matchRoute: {
+        '/c/*': 'none'
+      }
     };
 
-    renderRouteCallback(options)('/p/123', null, response);
+    renderRouteCallback(options)('/c/123', null, response);
     expect(response.res.removeHeader).toBeCalledWith('Cache-Control');
   });
 });

@@ -3,5 +3,4 @@ export interface CacheControlModuleParams {
   matchRoute?: {
     [key: string]: string
   }
-  blacklist?: string[]
 }
