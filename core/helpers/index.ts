@@ -127,7 +127,8 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
     searchProductQuery = searchProductQuery.addAvailableFilter({ field: attrToFilter, scope: 'catalog' })
   }
 
-  let childCats = [parentCategory.id]
+  let childCats = parentCategory.id ? [parentCategory.id] : [];
+
   if (parentCategory.children_data) {
     let recurCatFinderBuilder = (category) => {
       if (!category) {
