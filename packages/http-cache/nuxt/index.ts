@@ -1,6 +1,6 @@
 import renderRouteCallback from './renderRouteCallback';
-import { CacheControlModuleParams } from './types';
+import { HttpCacheModuleParams } from './types';
 
-export default function cacheControlModule(params: CacheControlModuleParams): void {
+export default function httpCacheModule(params: HttpCacheModuleParams): void {
   this.nuxt.hook('render:route', renderRouteCallback(params));
 }

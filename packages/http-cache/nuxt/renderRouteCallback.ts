@@ -1,7 +1,7 @@
 import isUrlMatchingRule from './isUrlMatchingRule';
-import { CacheControlModuleParams } from './types';
+import { HttpCacheModuleParams } from './types';
 
-const renderRouteCallback = ({ default: defaultHeaderValue = 'max-age=60', matchRoute = {} }: CacheControlModuleParams) => (url, result, { res }): void => {
+const renderRouteCallback = ({ default: defaultHeaderValue = 'max-age=60', matchRoute = {} }: HttpCacheModuleParams) => (url, result, { res }): void => {
   res.setHeader('Cache-Control', defaultHeaderValue);
 
   Object.entries(matchRoute).map(([rule, headerValue]: [string, string]): void => {
