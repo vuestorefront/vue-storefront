@@ -231,15 +231,10 @@ import {
 } from '@vue-storefront/commercetools';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
-import cacheControl from './../helpers/cacheControl';
 
 export default {
   name: 'Product',
   transition: 'fade',
-  middleware: cacheControl({
-    'max-age': 60,
-    'stale-when-revalidate': 5
-  }),
   setup() {
     const qty = ref(1);
     const route = useRoute();

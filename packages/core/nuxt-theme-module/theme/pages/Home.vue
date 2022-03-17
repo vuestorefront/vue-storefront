@@ -122,15 +122,10 @@ import InstagramFeed from '~/components/InstagramFeed.vue';
 import NewsletterModal from '~/components/NewsletterModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useUiState } from '../composables';
-import cacheControl from './../helpers/cacheControl';
 import { addBasePath } from '@vue-storefront/core';
 
 export default {
   name: 'Home',
-  middleware: cacheControl({
-    'max-age': 60,
-    'stale-when-revalidate': 5
-  }),
   components: {
     InstagramFeed,
     SfHero,
