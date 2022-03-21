@@ -34,7 +34,7 @@ The function must always return an object with `query` and `variables` propertie
 
 In this example, we override the default query and pass the custom `size` property to `variables`.
 
-```javascript{7-20}
+```javascript
 // middleware.config.js
 
 module.exports = {
@@ -78,7 +78,7 @@ If you customize query for composable with multiple methods or with state shared
 
 In this example, we change the `products` query. Following the example above, we use a custom query named `my-products-query` and pass the metadata with the `size` property.
 
-```typescript{5-8}
+```typescript
 const { search } = useProduct();
 
 await search({
@@ -108,7 +108,7 @@ module.exports = {
     `,
     variables,
   }),
-  // Other custom queries...
+  // Other custom queries
 };
 ```
 
@@ -121,9 +121,8 @@ const customQueries = require('./customQueries');
 
 module.exports = {
   integrations: {
-    ct: {
-      location: '@vue-storefront/commercetools-api/server',
-      configuration: { /* ... */ },
+    '{INTEGRATION}': {
+      location: '{INTEGRATION}',
       customQueries,
     }
   }
