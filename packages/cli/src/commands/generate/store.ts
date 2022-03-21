@@ -65,6 +65,8 @@ export default class GenerateStore extends Command {
     this.log(t('command.generate_store.message.start'));
     this.log('');
     this.log(picocolors.green(t<string>('command.generate_store.message.start_command', { projectName })));
+    this.log('');
+    this.log('');
 
     this.exit(0);
   }
