@@ -339,6 +339,12 @@ export const getProductName = (product: ProductVariant): string => {
 
 ## Create a theme
 
+:::warning Ignore the `_theme` folder
+You can ignore the `_theme` folder. It's created only during the development and will not show up in the end projects.
+
+You should not modify it because any changes will be lost.
+:::
+
 Some forms or checkout components are blank in the default theme because they display or modify integration-specific data. For this reason, you need to create few Vue components and JavaScript files:
 
 | Component                                    | Props                               | Emits event |
