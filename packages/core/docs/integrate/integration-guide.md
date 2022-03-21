@@ -235,6 +235,7 @@ const factoryParams: UseUserFactoryParams = {
 
 };
 ```
+
 :::
 
 ### Understand `api-client`
@@ -261,6 +262,7 @@ export async function getProduct(context, params) {
 ```
 
 This function has two arguments:
+
 - `context` which includes:
   - `config` - integration configuration,
   - `client` - API client created in `packages/api-client/src/index.server.ts`,
@@ -332,6 +334,7 @@ export const getProductName = (product: ProductVariant): string => {
   return product?.name || '';
 };
 ```
+
 :::
 
 ## Create a theme
