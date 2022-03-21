@@ -1,18 +1,14 @@
 # Migrating projects to 2.5.7
 
-## Extend `nuxt.config.js`
+## Update `nuxt.config.js`
 
-In this release we've removed generating `baseUrl` for api calls, based on request headers.
-Now it has to be configured and proper `middlewareUrl` needs to be passed.
-
-To do it, just extend `nuxt.config.js` and add `middlewareUrl`.
-This field is now required, before it was optional.
+In this release, we made the `middlewareUrl` property required for security reasons. Open the  `nuxt.config.js` file and add the `middlewareUrl` property like shown below:
 
 ```javascript
 // nuxt.config.js
 export default {
   publicRuntimeConfig: {
-    middlewareUrl: 'https://yourdomain.com/api/'
+    middlewareUrl: 'https://yourdomain.com/api/' // For the local development, set it to `http://localhost:3000/api/`.
   }
 }
 ```
@@ -21,9 +17,7 @@ export default {
 Make sure to pass whole url with protocol and/or port and suffix it with `/api/`.
 :::
 
-For development, you can just use `http://localhost:3000/api/`.
-
-If you don't want to hardcode url in config file, you can use environmental variables.
+If you don't want to hardcode the URL in the configuration file, you can use environmental variables.
 
 Example:
 
@@ -36,7 +30,7 @@ export default {
 }
 ```
 
-And then add entry in `.env` file or use any other method for passing environmental variables that suits your needs.
+Then add an entry in the `.env` file or use any other method for passing environmental variables that suits your needs.
 
 Example:
 ```
