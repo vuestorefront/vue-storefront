@@ -819,7 +819,7 @@ export interface ApiClientExtensionHooks<C = any> {
   afterCall?: (params: AfterCallParams<C>) => AfterCallArgs;
 }
 
-export type CustomQueryFn<T = any> = (query: any, variables: T) => {
+export type CustomQueryFn<T = any> = ({ query, variables, metadata }) => {
   query?: any;
   variables?: T;
   metadata: any;
