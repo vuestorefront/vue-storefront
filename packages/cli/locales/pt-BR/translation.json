@@ -36,7 +36,7 @@
   },
   "domain": {
     "directory": {
-      "was_not_found": "O diretório \"{{path}}\" não foi encontrado."
+      "was_not_found": "O diretório \"{{directory}}\" não foi encontrado."
     },
     "project_name": {
       "is_empty": "Por favor, insira o nome do projeto.",

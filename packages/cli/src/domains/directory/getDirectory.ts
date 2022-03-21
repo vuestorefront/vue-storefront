@@ -14,19 +14,20 @@ const getDirectory = async (message: string): Promise<string> => {
     name: 'directory',
     type: 'input',
     default: './',
-    filter: (directory) => path.resolve(directory),
     validate: async (directory): Promise<string | true> => {
       const exists = await existsDirectory(path.resolve(directory));
 
       if (!exists) {
-        return t<string>('domain.directory.was_not_found', { directory });
+        return t<string>('domain.directory.was_not_found', {
+          directory
+        });
       }
 
       return true;
     }
   });
 
-  return answers.directory;
+  return path.resolve(answers.directory);
 };
 
 export default getDirectory;
