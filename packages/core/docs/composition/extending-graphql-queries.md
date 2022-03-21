@@ -6,7 +6,7 @@ The application does not reload automatically after saving the changes in Server
 
 If given e-commerce integration uses GraphQL API, you may want to change the default queries or mutations sent to it from the Vue Storefront application. It's possible for selected requests using "custom queries".
 
-Custom queries allow you to modify or even entirely replace the default GraphQL queries and mutations that the integration uses out of the box. To do this, follow the steps above.
+Custom queries allow you to modify or even entirely replace the default GraphQL queries and mutations that the integration uses out of the box. To do this, follow the steps below.
 
 ## Registering and using custom query
 
