@@ -4,11 +4,11 @@
 The application does not reload automatically after saving the changes in Server Middleware. Due to this, you have to restart the application manually. We are working on enabling Hot Reloading in future updates.
 :::
 
-If given e-commerce integration uses GraphQL API, you may want to change the default queries or mutations sent to it from the Vue Storefront application. It's possible for selected requests using "custom queries".
+If given integration uses GraphQL API, you may want to change the default queries or mutations sent to the platform. It's possible for selected requests using "custom queries".
 
-Custom queries allow you to modify or even entirely replace the default GraphQL queries and mutations that the integration uses out of the box. To do this, follow the steps above.
+Custom queries allow you to modify or even entirely replace the default GraphQL queries and mutations that the integration uses out of the box.
 
-## Registering and using custom query
+## Using custom queries
 
 ### Step 1: Check if the method is extendable
 
@@ -60,19 +60,15 @@ module.exports = {
 };
 ```
 
-### Step 3: Update composable method calls
+### Step 3: Update composable methods
 
-The last step is to add `customQuery` object to composable methods you want to extend.
+The last step is to add the `customQuery` object to the composable method you want to extend where:
 
-Object keys are the names of the default queries. To get them, go to the documentation of the [e-commerce integration](/integrations) of your choice and look for the page describing the composable, then the section for the method you want to override and find the `customQuery` key.
+* key represents the name of the default queries. To get it, go to the documentation of the composable method and find the `customQuery` key associated with it,
+* value represents the name of the custom queries you defined in the `middleware.config.js` file,
+* `metadata` key allows you to optionally pass additional parameters to your custom query, which the given method doesn't support by default.
 
-Object values are the names of the custom queries you defined in the `middleware.config.js` file.
-
-A parameter called `metadata` allows you to optionally pass additional parameters to your custom query, which the given method doesn't support by default.
-
-::: warning Be careful about potential data mismatch
-If you customize query for composable with multiple methods or with state shared across many components and pages (such as `useUser` or `useCart`), make sure to override all method calls. Otherwise, you might cause a data mismatch, where the customized method will return different data than the other methods.
-:::
+You should be aware that even though most composable methods have only one associated query, there are exceptions.
 
 **Example**
 
@@ -89,6 +85,26 @@ await search({
   }
 }); 
 ```
+
+## Preventing data mismatch
+
+You should be careful about two cases where you can cause a data mismatch by using a custom query.
+
+### Composables with multiple methods
+
+Composables with multiple methods share the same data property. If you only change one method, the other will not return the same data.
+
+For example, adding a custom query with additional property to the `useCart.load()` method will make that property available in the `cart` object on the initial page load. Calling unchanged `useCart.addItem()` later will make the property disappear.
+
+In such cases, you need to update all methods in a given composable.
+
+### Methods called across many components
+
+You may call the same composable method across many components and pages. If you only change it in one place, you will not have the same data in other places.
+
+For example, adding a custom query to the `useProduct.load()` method on the Product page will only affect that page. The same method called without a custom query on the Checkout page will use the default query.
+
+In such cases, you need to update all components using that method.
 
 ## Keeping the configuration tidy
 
