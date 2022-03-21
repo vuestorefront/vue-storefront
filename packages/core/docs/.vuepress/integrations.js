@@ -175,6 +175,16 @@ const INTEGRATIONS = {
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' }
       ]
     },
+    {
+      name: 'Swell',
+      link: '',
+      image: '/v2/integrations-logos/swell.svg',
+      status: STATUS.WIP,
+      license: LICENSE.OPEN_SOURCE,
+      maintainedBy: [
+        { name: 'Swell', link: 'https://www.swell.is/' }
+      ]
+    }
   ],
   other: [
     {
