@@ -16,7 +16,8 @@
     "types": [
       "reflect-metadata",
       "node",
-      "jest"
+      "jest",
+      "braintree"
     ],
     "paths": {
       "core/*": ["core/*"],
