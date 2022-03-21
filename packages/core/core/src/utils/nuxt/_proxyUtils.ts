@@ -29,7 +29,7 @@ export const getIntegrationConfig = (context: NuxtContext, configuration: any) =
   const { middlewareUrl } = context.$config;
 
   if (!middlewareUrl) {
-    throw new Error('Missing middlewareUrl');
+    throw new Error('Missing configuration option: middlewareUrl');
   }
 
   const initialConfig = merge({
