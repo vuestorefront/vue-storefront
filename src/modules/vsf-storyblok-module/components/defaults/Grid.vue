@@ -80,6 +80,10 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
         result.push('-collapsed');
       }
 
+      if (this.verticalAlignment) {
+        result.push('-vertically-aligned-to-' + this.verticalAlignment);
+      }
+
       return result;
     },
     itemStyles (): Record<string, string> {
@@ -93,6 +97,9 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     },
     isCardsMode (): boolean {
       return this.itemData.is_cards_mode === true;
+    },
+    verticalAlignment (): string | undefined {
+      return this.itemData.vertical_alignment;
     }
   },
   methods: {
@@ -204,6 +211,18 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
 
   &.-collapsed {
     grid-gap: 0;
+  }
+
+  &.-vertically-aligned-to-top {
+    align-items: start;
+  }
+
+  &.-vertically-aligned-to-center {
+    align-items: center;
+  }
+
+  &.-vertically-aligned-to-bottom {
+    align-items: end;
   }
 
   @include display-property-handling;
