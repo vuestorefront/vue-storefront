@@ -70,14 +70,14 @@ When you run this file using Node.js, the middleware will start its server witho
 
 You need to remove the Server Middleware module from the `nuxt.config.js` and configure the domain your middleware is using.
 
-```javascript
+```diff
 // nuxt.config.js
 export default {
   modules: [
-    '@vue-storefront/middleware/nuxt' // <--- Remove this module
+-    '@vue-storefront/middleware/nuxt'
   ],
-  publicRuntimeConfig: {
-    middlewareUrl: 'https://api.commerce.com'
-  }
++  publicRuntimeConfig: {
++    middlewareUrl: 'https://api.commerce.com'
++  }
 }
 ```

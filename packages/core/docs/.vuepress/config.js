@@ -146,8 +146,8 @@ module.exports = {
           ['/composition/composables', 'Composables'],
           ['/composition/getters', 'Getters'],
           ['/composition/error-handling', 'Error Handling'],
-          ['/composition/creating-custom-composables', 'Creating custom composables'],
-          ['/composition/extending-graphql-queries', 'Extending GraphQL queries']
+          ['/composition/extending-graphql-queries', 'Extending GraphQL queries'],
+          ['/composition/creating-custom-composables', 'Creating custom composables']
         ]
       },
       {

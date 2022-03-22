@@ -9,7 +9,7 @@ Vue Storefront Enterprise is a commercial offering from the Vue Storefront core 
 In Enterprise Edition you're getting everything that's in our open-source version. On top of that, we also provide:
 
 - access to [Vue Storefront Cloud](https://www.vuestorefront.io/cloud);
-- additional [integrations](/v2/integrations) with third-party services;
+- additional [integrations](/integrations) with third-party services;
 - extended integration with eCommerce platform with advanced features.
 
 Everything with <Badge text="Enterprise" type="info" /> badge in the documentation is only available for our Enterprise customers.
@@ -24,7 +24,7 @@ If you'd like to use Vue Storefront Enterprise in your project, please [contact 
 
 Enterprise packages within `@vsf-enterprise` scope are part of our private registry. To make use of them, create a `.npmrc` file in the root of your project with the following content:
 
-```
+```text
 @vsf-enterprise:registry=https://registrynpm.storefrontcloud.io
 ```
 

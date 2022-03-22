@@ -4,52 +4,53 @@
 The application does not reload automatically after saving the changes in Server Middleware. Due to this, you have to restart the application manually. We are working on enabling Hot Reloading in future updates.
 :::
 
-If your integration uses GraphQL API, you may want to change the default query or mutation sent. That's quite a common case for fetching additional or custom fields. Vue Storefront provides the mechanism for this called "custom queries".
+If given integration uses GraphQL API, you may want to change the default queries or mutations sent to the platform. It's possible for selected requests using "custom queries".
 
-Since the communication with the API goes through our middleware, all queries also are defined there. To customize or even entirely override the original (default) queries, you need to follow two steps.
+## Using custom queries
 
-Firstly, you need to pass a `customQuery` parameter to the method that triggers the call to the API. It's an object where the keys are the name of the default queries and values are the name of the custom query that overrides them. Additionally, a special parameter called `metadata` allows you to optionally pass additional parameters to your custom query that will be accessible in the custom query function.
+Custom queries allow you to modify or even entirely replace the default GraphQL queries and mutations that the integration uses out of the box by passing an additional parameter to the methods in the composables. Because not every integration and method supports it, you first need to check if a given composable method is extendable.
 
-```ts
-const { search } = useProduct();
+### Step 1: Check if the method is extendable
 
-search({
-  customQuery: {
-    products: 'my-products-query',
-    metadata: { size: 'xl' }
-  }
-}); 
-```
+Go to the documentation of the [e-commerce integration](/integrations) of your choice. Look for the page describing the composable, then the section for the method you want to override, and see if it mentions `customQuery`. If it does, you can override it.
 
-In the example above, we change the `products` query with our custom query named `my-products-query`. Additionally, the `metadata` field holds additional parameters about the product we seek for. As a second step, we need to define `my-products-query` query.
+If the method doesn't support extending, you can instead replace the whole API endpoint called by it using the `extendApiMethod` described on the [Extending integrations](/integrate/extending-integrations.html) page.
 
-Each custom query lives in the `middleware.config.js`, so it's the place where we should define `my-products-query`.
+### Step 2: Register custom query
 
-Custom query functions have the arguments:
+Custom queries are functions represented by the [CustomQueryFn](/reference/api/core.customqueryfn.html) type and are registered individually for every integration in the `middleware.config.js` file.
 
-- the default query (`query`),
-- default variables (`variables`) passed to the query,
-- additional parameters passed from the front-end (`metadata`).
+These functions accept one object parameter with the following properties:
 
-This function must always return an object with `query` and `variables` keys, while in the body, you can do anything you want with those parameters - you can modify them or change to the new ones.
+* `query` - default GraphQL query or mutation,
+* `variables` - default variables passed to the query or mutation,
+* `metadata` - additional parameters passed from the front-end that a given function may not support by default.
 
-Every custom query is registered in the `middleware.config.js` file:
+The function must always return an object with `query` and `variables` properties.
 
-```js
+**Example**
+
+In this example, we override the default query and pass the custom `size` property to `variables`.
+
+```javascript
 // middleware.config.js
 
 module.exports = {
   integrations: {
-    ct: {
-      location: '@vue-storefront/commercetools-api/server',
-      configuration: { /* ... */ },
+    '{INTEGRATION}': {
+      location: '{INTEGRATION}',
       customQueries: {
         'my-products-query': ({ query, variables, metadata }) => {
+          variables.size = metadata.size;
 
-          variables.locale = 'en'
-          variables.size = metadata.size
-
-          return { query, variables }
+          return {
+            query: `
+              query products($where: String) {
+                products(where: $where) { /* ... */ }
+              }
+            `,
+            variables,
+          };
         }
       }
     }
@@ -57,37 +58,71 @@ module.exports = {
 };
 ```
 
-In the example above, we only modified some `variables` passed to the custom query. However, we can also change the default GraphQL query:
+### Step 3: Update composable methods
 
-```js
-// middleware.config.js
+The last step is to add the `customQuery` object to the composable method you want to change.
 
-module.exports = {
-  integrations: {
-    ct: {
-      location: '@vue-storefront/commercetools-api/server',
-      configuration: { /* ... */ },
-      customQueries: {
-        'my-products-query': ({ variables }) => ({
-          query: `
-            query products($where: String) {
-              products(where: $where) { /* ... */ }
-            }
-          `,
-          variables,
-        })
-      }
-    }
-  }
-};
+```javascript
+await composableMethod({
+  customQuery: {
+    '<KEY>': '<VALUE>',
+    metadata: {}
+  },
+  // Other composable parameters
+}); 
 ```
+
+In the `customQuery` object:
+
+* `<KEY>` represents the name of the default queries. To get it, go to the documentation of the composable method and find the `customQuery` key associated with it,
+* `<VALUE>` represents the name of the custom queries you defined in the `middleware.config.js` file,
+* `metadata` key allows you to optionally pass additional parameters to your custom query, which the given method doesn't support by default.
+
+You should be aware that even though most composable methods have only one associated query, there are exceptions. In such cases, you can add multiple key-value pairs to the `customQuery` object.
+
+**Example**
+
+In this example, we change the `products` query. Following the example from the previous step, we use a custom query named `my-products-query` and pass the metadata with the `size` property.
+
+```typescript
+const { search } = useProduct();
+
+await search({
+  sku: 'product-1',
+  customQuery: {
+    products: 'my-products-query',
+    metadata: { size: 'xl' }
+  }
+}); 
+```
+
+## Preventing data mismatch
+
+You should be careful about two cases where you can cause a data mismatch by using a custom query.
+
+### Composables with multiple methods
+
+Composables with multiple methods share the same data property. If you only change one method, the other will not return the same data.
+
+For example, adding a custom query with additional property to the `useCart.load()` method will make that property available in the `cart` object on the initial page load. Calling unchanged `useCart.addItem()` later will make the property disappear.
+
+In such cases, you need to update all methods in a given composable.
+
+### Methods called across many components
+
+You may call the same composable method across many components and pages. If you only change it in one place, you will not have the same data in other places.
+
+For example, adding a custom query to the `useProduct.load()` method on the Product page will only affect that page. The same method called without a custom query on the Checkout page will use the default query.
+
+In such cases, you need to update all components using that method.
 
 ## Keeping the configuration tidy
 
-Your configuration file can quickly become a mess if you override a lot of queries. We recommend extracting them into a separate folder to not overload `middleware.config.js` with GraphQL queries.
+Your configuration file can quickly become messy if you override a lot of queries. We recommend extracting them into a separate folder to not overload `middleware.config.js` with GraphQL queries.
+
 You can create a new file (or files) that exports the queries. Then, you can import them in the `middleware.config.js`:
 
-```js
+```javascript
 // customQueries/index.js
 
 module.exports = {
@@ -99,22 +134,21 @@ module.exports = {
     `,
     variables,
   }),
-  ... // other custom queries
+  // Other custom queries
 };
 ```
 
-Now let's import it in `middleware.config.js`:
+Now import it in `middleware.config.js`:
 
-```js
+```javascript
 // middleware.config.js
 
 const customQueries = require('./customQueries');
 
 module.exports = {
   integrations: {
-    ct: {
-      location: '@vue-storefront/commercetools-api/server',
-      configuration: { /* ... */ },
+    '{INTEGRATION}': {
+      location: '{INTEGRATION}',
       customQueries,
     }
   }

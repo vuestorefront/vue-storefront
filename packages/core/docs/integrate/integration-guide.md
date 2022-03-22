@@ -235,6 +235,7 @@ const factoryParams: UseUserFactoryParams = {
 
 };
 ```
+
 :::
 
 ### Understand `api-client`
@@ -261,6 +262,7 @@ export async function getProduct(context, params) {
 ```
 
 This function has two arguments:
+
 - `context` which includes:
   - `config` - integration configuration,
   - `client` - API client created in `packages/api-client/src/index.server.ts`,
@@ -332,9 +334,16 @@ export const getProductName = (product: ProductVariant): string => {
   return product?.name || '';
 };
 ```
+
 :::
 
 ## Create a theme
+
+:::warning Ignore the `_theme` folder
+You can ignore the `_theme` folder. It's created only during the development and will not show up in the end projects.
+
+You should not modify it because any changes will be lost.
+:::
 
 Some forms or checkout components are blank in the default theme because they display or modify integration-specific data. For this reason, you need to create few Vue components and JavaScript files:
 
