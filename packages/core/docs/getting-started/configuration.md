@@ -16,6 +16,21 @@ You can learn more about this file and available configuration options on the [N
 
 The `middleware.config.js` file is as essential as `nuxt.confis.js`, but much simpler and likely smaller. It configures the Server Middleware used for communication with e-commerce platforms and contains sensitive credentials, custom endpoints, queries, etc.
 
+What is typical for every integration is the `middlewareUrl` property which defines the URL to the Server Middleware. Usually, it's your application domain followed by the `/api` path.
+
+Example:
+
+```javascript
+// nuxt.config.js
+export default {
+  publicRuntimeConfig: {
+    middlewareUrl: 'https://yourdomain.com/api/'
+  }
+}
+```
+
+For the local development, set it to `http://localhost:3000/api/`.
+
 You can learn more about Server Middleware and available configuration options on the [Server Middleware](/architecture/server-middleware.html) page.
 
 ## Optional configuration files

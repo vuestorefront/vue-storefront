@@ -1,4 +1,3 @@
-import { IncomingMessage } from 'http';
 import { Context as NuxtContext } from '@nuxt/types';
 import merge from 'lodash-es/merge';
 import { ApiClientMethod } from './../../types';
@@ -8,16 +7,6 @@ interface CreateProxiedApiParams {
   client: any;
   tag: string;
 }
-
-export const getBaseUrl = (req: IncomingMessage, basePath: string | undefined = '/'): string => {
-  if (!req) return `${basePath}api/`;
-  const { headers } = req;
-  const isHttps = require('is-https')(req);
-  const scheme = isHttps ? 'https' : 'http';
-  const host = headers['x-forwarded-host'] || headers.host;
-
-  return `${scheme}://${host}${basePath}api/`;
-};
 
 export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiParams) => new Proxy(givenApi, {
   get: (target, prop, receiver) => {
@@ -37,9 +26,15 @@ export const getCookies = (context: NuxtContext) => context?.req?.headers?.cooki
 
 export const getIntegrationConfig = (context: NuxtContext, configuration: any) => {
   const cookie = getCookies(context);
+  const { middlewareUrl } = context.$config;
+
+  if (!middlewareUrl) {
+    throw new Error('Missing configuration option: middlewareUrl');
+  }
+
   const initialConfig = merge({
     axios: {
-      baseURL: getBaseUrl(context?.req, context?.base),
+      baseURL: middlewareUrl,
       headers: {
         ...(cookie ? { cookie } : {})
       }
