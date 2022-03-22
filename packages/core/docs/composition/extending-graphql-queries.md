@@ -6,13 +6,11 @@ The application does not reload automatically after saving the changes in Server
 
 If given integration uses GraphQL API, you may want to change the default queries or mutations sent to the platform. It's possible for selected requests using "custom queries".
 
-Custom queries allow you to modify or even entirely replace the default GraphQL queries and mutations that the integration uses out of the box.
-
 ## Using custom queries
 
-### Step 1: Check if the method is extendable
+Custom queries allow you to modify or even entirely replace the default GraphQL queries and mutations that the integration uses out of the box by passing an additional parameter to the methods in the composables. Because not every integration and method supports it, you first need to check if a given composable method is extendable.
 
-First, you need to check if a given method is extendable because not all integrations and methods allow that.
+### Step 1: Check if the method is extendable
 
 Go to the documentation of the [e-commerce integration](/integrations) of your choice. Look for the page describing the composable, then the section for the method you want to override, and see if it mentions `customQuery`. If it does, you can override it.
 
@@ -20,7 +18,7 @@ If the method doesn't support extending, you can instead replace the whole API e
 
 ### Step 2: Register custom query
 
-Custom queries are registered individually for every integration in the `middleware.config.js` file. They are function represented by the [CustomQueryFn](/reference/api/core.customqueryfn.html) type.
+Custom queries are functions represented by the [CustomQueryFn](/reference/api/core.customqueryfn.html) type and are registered individually for every integration in the `middleware.config.js` file.
 
 These functions accept one object parameter with the following properties:
 
@@ -62,17 +60,29 @@ module.exports = {
 
 ### Step 3: Update composable methods
 
-The last step is to add the `customQuery` object to the composable method you want to extend where:
+The last step is to add the `customQuery` object to the composable method you want to change.
 
-* key represents the name of the default queries. To get it, go to the documentation of the composable method and find the `customQuery` key associated with it,
-* value represents the name of the custom queries you defined in the `middleware.config.js` file,
+```javascript
+await composableMethod({
+  customQuery: {
+    '<KEY>': '<VALUE>',
+    metadata: {}
+  },
+  // Other composable parameters
+}); 
+```
+
+In the `customQuery` object:
+
+* `<KEY>` represents the name of the default queries. To get it, go to the documentation of the composable method and find the `customQuery` key associated with it,
+* `<VALUE>` represents the name of the custom queries you defined in the `middleware.config.js` file,
 * `metadata` key allows you to optionally pass additional parameters to your custom query, which the given method doesn't support by default.
 
-You should be aware that even though most composable methods have only one associated query, there are exceptions.
+You should be aware that even though most composable methods have only one associated query, there are exceptions. In such cases, you can add multiple key-value pairs to the `customQuery` object.
 
 **Example**
 
-In this example, we change the `products` query. Following the example above, we use a custom query named `my-products-query` and pass the metadata with the `size` property.
+In this example, we change the `products` query. Following the example from the previous step, we use a custom query named `my-products-query` and pass the metadata with the `size` property.
 
 ```typescript
 const { search } = useProduct();
