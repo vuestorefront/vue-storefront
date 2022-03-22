@@ -13,19 +13,10 @@ export default class GenerateTemplate extends Command {
   static override flags = {
     output: Flags.string({
       name: 'output',
+      default: '.',
       description: t('command.generate_template.flag.output'),
       required: false,
       multiple: false,
-      parse: async (directory: string): Promise<string> => {
-        return path.resolve(directory);
-      }
-    }),
-    integration: Flags.string({
-      name: 'integration',
-      description: t('command.generate_template.flag.integration'),
-      required: false,
-      multiple: false,
-      helpValue: '<path>',
       parse: async (directory: string): Promise<string> => {
         return path.resolve(directory);
       }
@@ -37,13 +28,11 @@ export default class GenerateTemplate extends Command {
   public async run(): Promise<void> {
     const { flags } = await this.parse(GenerateTemplate);
 
+    const integrationPath = await getDirectory(t('command.generate_template.input.integration_path'));
+
     const projectName = await getProjectName(t('command.generate_template.input.project_name'));
 
-    const outputPath = flags.output ?? (await getDirectory(t('command.generate_template.input.output_path')));
-
-    const projectPath = path.join(outputPath, projectName);
-
-    const integrationPath = flags.integration ?? (await getDirectory(t('command.generate_template.input.integration_path')));
+    const projectPath = path.join(flags.output, projectName);
 
     await inheritTheme({
       projectPath,

@@ -52,11 +52,10 @@ Generates a template of your integration's for VSF
 
 ```
 USAGE
-  $ @vue-storefront/cli generate template [--output <value>] [--integration <value>]
+  $ @vue-storefront/cli generate template [--output <value>]
 
 FLAGS
-  --integration=<path>  A path to the integration theme directory
-  --output=<value>      A path where the template will be generated
+  --output=<value>  [default: ./] A path where the template will be generated
 
 DESCRIPTION
   Generates a template of your integration's for VSF

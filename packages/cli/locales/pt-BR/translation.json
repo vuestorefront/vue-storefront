@@ -21,12 +21,10 @@
     "generate_template": {
       "description": "Gera um template para sua integração com o Vue Storefront",
       "flag": {
-        "integration": "Caminho do diretório tema da integração",
         "output": "Caminho onde será salvo o template"
       },
       "input": {
-        "project_name": "Qual o nome do seu projeto?",
-        "output_path": "Onde quer gerar salvar o diretório com o template gerado?",
+        "project_name": "Qual o nome do diretório onde o template será gerado?",
         "integration_path": "Qual o caminho do diretório tema da integração?"
       },
       "message": {

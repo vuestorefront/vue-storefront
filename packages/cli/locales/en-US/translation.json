@@ -21,12 +21,10 @@
     "generate_template": {
       "description": "Generates a template of your integration's for VSF",
       "flag": {
-        "integration": "A path to the integration theme directory",
         "output": "A path where the template will be generated"
       },
       "input": {
-        "project_name": "What's your project name?",
-        "output_path": "Where do you want to save the generated template directory?",
+        "project_name": "What's the name of the directory that will keep generated template?",
         "integration_path": "What's the path to the integration theme directory?"
       },
       "message": {
