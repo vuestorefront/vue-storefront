@@ -2,6 +2,7 @@ import { coreHooks } from '@vue-storefront/core/hooks';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { Order } from '@vue-storefront/core/modules/order/types/Order';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { CHECKOUT_SAVE_PAYMENT_DETAILS } from '@vue-storefront/core/modules/checkout/store/checkout/mutation-types';
 import registerStoryblokComponents from './components/storyblok'
 import addAffirmScript from './helpers/add-affirm-script.function';
 
@@ -20,8 +21,10 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
       addAffirmScript(appConfig);
 
       let isCurrentPaymentMethod = false;
-      store.watch((state) => state.checkout.paymentDetails, (_, newMethodCode) => {
-        isCurrentPaymentMethod = newMethodCode.paymentMethod === AFFIRM_METHOD_CODE;
+      store.subscribe((mutation) => {
+        if (mutation.type === `checkout/${CHECKOUT_SAVE_PAYMENT_DETAILS}`) {
+          isCurrentPaymentMethod = mutation.payload.paymentMethod === AFFIRM_METHOD_CODE;
+        }
       });
 
       const invokePlaceOrder = async () => {
