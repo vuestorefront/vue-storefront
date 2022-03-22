@@ -24,8 +24,8 @@
         "output": "Caminho onde será salvo o template"
       },
       "input": {
-        "project_name": "Qual o nome do diretório onde o template será gerado?",
-        "integration_path": "Qual o caminho do diretório tema da integração?"
+        "project_name": "Como gostaria de nomear o diretório de saída?",
+        "integration_path": "Qual o caminho do tema da integração?"
       },
       "message": {
         "success": "Template gerado com sucesso em \"./{{projectName}}\"!"

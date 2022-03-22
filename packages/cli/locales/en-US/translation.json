@@ -24,8 +24,8 @@
         "output": "A path where the template will be generated"
       },
       "input": {
-        "project_name": "What's the name of the directory that will keep generated template?",
-        "integration_path": "What's the path to the integration theme directory?"
+        "project_name": "How would you like to name the output folder?",
+        "integration_path": "What's the path to the integration theme?"
       },
       "message": {
         "success": "Sucessfully created your template at \"./{{projectName}}\"!"
