@@ -2,7 +2,6 @@ import { coreHooks } from '@vue-storefront/core/hooks';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { Order } from '@vue-storefront/core/modules/order/types/Order';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { CHECKOUT_SAVE_PAYMENT_DETAILS } from '@vue-storefront/core/modules/checkout/store/checkout/mutation-types';
 import registerStoryblokComponents from './components/storyblok'
 import addAffirmScript from './helpers/add-affirm-script.function';
 
