@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.5.7
+
+- new `@vue-storefront/http-cache` package
+
+- **[BREAKING]** get api host from middleware url ([6680](https://github.com/vuestorefront/vue-storefront/pull/6680)) - [Dawid Ziobro](https://github.com/dawid-ziobro)
+
+  | Before | After | Comment | Module |
+  | ------ | ----- | ------- | ------ |
+  | The `middlewareUrl` property was optional | The `middlewareUrl` is required | The `middlewareUrl` property in the `nuxt.config.js` file is now required. Please follow the instruction in the Migration Guide. | @vue-storefront/core |
+
+- **[BREAKING]** Fix the `CustomQueryFn` type in core ([6681](https://github.com/vuestorefront/vue-storefront/pull/6681)) - [Filip Sobol](https://github.com/filipsobol)
+
+  | Before | After | Comment | Module |
+  | ------ | ----- | ------- | ------ |
+  | The `CustomQueryFn` type had inproper parameters | The `CustomQueryFn` type has parameters as expected by the Server Middleware |  | @vue-storefront/core |
+
 ## 2.5.6
 
 - Added the ability to select plugins used by @vue-storefront/nuxt ([6641](https://github.com/vuestorefront/vue-storefront/pull/6641)) - [Mateusz Pietrusiński](https://github.com/Mateuszpietrusinski)
