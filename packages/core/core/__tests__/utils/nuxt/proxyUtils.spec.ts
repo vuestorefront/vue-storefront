@@ -64,19 +64,4 @@ describe('[CORE - utils] _proxyUtils', () => {
       }
     });
   });
-
-  it('it throws error when no middlewareUrl is passed in config', () => {
-    jest.spyOn(utils, 'getCookies').mockReturnValue('');
-
-    expect(() => {
-      utils.getIntegrationConfig(
-        {
-          $config: {
-            middlewareUrl: ''
-          }
-        } as any,
-        {}
-      );
-    }).toThrowError();
-  });
 });

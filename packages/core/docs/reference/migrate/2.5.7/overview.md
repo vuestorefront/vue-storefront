@@ -2,6 +2,10 @@
 
 ## Update `nuxt.config.js`
 
+:::warning
+From version `2.5.8` the `middlewareUrl` is no longer required from the global config. However, it should be provided to handle integration specific API calls.
+:::
+
 In this release, we made the `middlewareUrl` property required for security reasons. Open the  `nuxt.config.js` file and add the `middlewareUrl` property like shown below:
 
 ```javascript
