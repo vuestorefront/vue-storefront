@@ -26,20 +26,24 @@ export const getCookies = (context: NuxtContext) => context?.req?.headers?.cooki
 
 export const getIntegrationConfig = (context: NuxtContext, configuration: any) => {
   const cookie = getCookies(context);
-  const { middlewareUrl } = context.$config;
 
-  if (!middlewareUrl) {
-    throw new Error('Missing configuration option: middlewareUrl');
+  if (context?.$config?.middlewareUrl) {
+    const { middlewareUrl } = context.$config;
+    return merge({
+      axios: {
+        baseURL: middlewareUrl,
+        headers: {
+          ...(cookie ? { cookie } : {})
+        }
+      }
+    }, configuration);
   }
 
-  const initialConfig = merge({
+  return merge({
     axios: {
-      baseURL: middlewareUrl,
       headers: {
         ...(cookie ? { cookie } : {})
       }
     }
   }, configuration);
-
-  return initialConfig;
 };

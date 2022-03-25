@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.8
+
+- **[BREAKING]** `middlewareUrl` is no longer required, however it should be delivered to handle integration specific API calls
+
 ## 2.5.7
 
 - new `@vue-storefront/http-cache` package
