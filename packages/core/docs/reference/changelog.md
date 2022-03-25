@@ -2,7 +2,7 @@
 
 ## 2.5.8
 
-- **[BREAKING]** `middlewareUrl` is no longer required, however it should be delivered to handle integration specific API calls
+- **[BREAKING]** `middlewareUrl` is no longer required from the global config, however it should be delivered to handle integration specific API calls
 
 ## 2.5.7
 
