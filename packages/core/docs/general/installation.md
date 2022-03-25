@@ -36,7 +36,7 @@ npm install
 
 ### Step 3: Configure the project
 
-The next step is to configure your project, and it's different for every e-commerce integration. Go to the [Integrations](/integrations) page, open the documentation for the integration you selected in our CLI, and look for the page describing the configuration steps.
+The next step is to configure your project, and it's different for every e-commerce integration. Go to the [Integrations](/integrations/) page, open the documentation for the integration you selected in our CLI, and look for the page describing the configuration steps.
 
 ### Step 4: Start the project
 
@@ -61,4 +61,4 @@ It speeds up the development of Vue.js-based applications by providing features 
 
 ## What's next?
 
-If you want to learn more, check out the [Introduction to Vue Storefront](/getting-started/introduction.html). You can also check the platform-specific documentation on the [Integrations](/integrations) page.
+If you want to learn more, check out the [Introduction to Vue Storefront](/getting-started/introduction.html). You can also check the platform-specific documentation on the [Integrations](/integrations/) page.
