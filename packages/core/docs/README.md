@@ -45,7 +45,7 @@ By some estimates, up to 1% of users will leave your website for every 100ms of 
 
 ### Extensibility
 
-Our list of supported and planned integrations on the [Integrations](./integrations) page gets longer every month. Additionally, there are hundreds of Nuxt modules you can use. You can browse them on the [Nuxt Modules](https://modules.nuxtjs.org/) website and [Awesome Nuxt](https://github.com/nuxt-community/awesome-nuxt) repository.
+Our list of supported and planned integrations on the [Integrations](/integrations/) page gets longer every month. Additionally, there are hundreds of Nuxt modules you can use. You can browse them on the [Nuxt Modules](https://modules.nuxtjs.org/) website and [Awesome Nuxt](https://github.com/nuxt-community/awesome-nuxt) repository.
 
 ## Tech stack
 

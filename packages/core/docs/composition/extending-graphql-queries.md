@@ -12,7 +12,7 @@ Custom queries allow you to modify or even entirely replace the default GraphQL 
 
 ### Step 1: Check if the method is extendable
 
-Go to the documentation of the [e-commerce integration](/integrations) of your choice. Look for the page describing the composable, then the section for the method you want to override, and see if it mentions `customQuery`. If it does, you can override it.
+Go to the documentation of the [e-commerce integration](/integrations/) of your choice. Look for the page describing the composable, then the section for the method you want to override, and see if it mentions `customQuery`. If it does, you can override it.
 
 If the method doesn't support extending, you can instead replace the whole API endpoint called by it using the `extendApiMethod` described on the [Extending integrations](/integrate/extending-integrations.html) page.
 
