@@ -13,11 +13,13 @@ const getUrl = (nxtContent: NuxtContext, endpoint: string) => {
   const { base, req } = nxtContent;
   const isServer = process.server;
   const isClient = process.client;
+  const hasApiTag = /\/api\//gi.test(endpoint);
+  const apiEndpoint = hasApiTag ? endpoint : `api/${endpoint}`;
 
   if (!req) {
     return isClient && !isServer
-      ? `${window.location.origin}/${endpoint}`
-      : endpoint;
+      ? `${window.location.origin}/${apiEndpoint}`
+      : apiEndpoint;
   }
 
   const { headers } = req;
@@ -25,19 +27,7 @@ const getUrl = (nxtContent: NuxtContext, endpoint: string) => {
   const scheme = isHttps ? 'https' : 'http';
   const host = headers['x-forwarded-host'] || headers.host;
 
-  return `${scheme}://${host}${base}${endpoint}`;
-};
-
-export const addRequestInterceptor = (client: AxiosInstance, nxtContext: NuxtContext) => {
-  client.interceptors.request.use((config) => {
-    const apiEndpoint = `api${config.url}`;
-    const hasApiPath = /\/api\//gi.test(config.url);
-
-    config.url = hasApiPath ? config.url : getUrl(nxtContext, apiEndpoint);
-    return config;
-  });
-
-  return client;
+  return `${scheme}://${host}${base}${apiEndpoint}`;
 };
 
 export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiParams) => new Proxy(givenApi, {
@@ -58,9 +48,10 @@ export const getCookies = (context: NuxtContext) => context?.req?.headers?.cooki
 
 export const getIntegrationConfig = (context: NuxtContext, configuration: any) => {
   const cookie = getCookies(context);
+
   return merge({
     axios: {
-      baseURL: context?.$config?.middlewareUrl || '',
+      baseURL: getUrl(context, context?.$config?.middlewareUrl || ''),
       headers: {
         ...(cookie ? { cookie } : {})
       }
