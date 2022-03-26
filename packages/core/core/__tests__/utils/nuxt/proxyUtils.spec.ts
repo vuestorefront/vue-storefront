@@ -45,6 +45,21 @@ describe('[CORE - utils] _proxyUtils', () => {
     });
   });
 
+  it('it checks for old URL if no middlewareUrl is provided', () => {
+    jest.spyOn(utils, 'getCookies').mockReturnValue('');
+
+    expect(utils.getIntegrationConfig(
+      { } as any,
+      { someGivenOption: 1 }
+    )).toEqual({
+      axios: {
+        baseURL: '/api/',
+        headers: {}
+      },
+      someGivenOption: 1
+    });
+  });
+
   it('it combines config with the current one and adds a cookie', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValue('xxx');
 
