@@ -1,7 +1,7 @@
-import { IncomingMessage } from 'http';
 import { Context as NuxtContext } from '@nuxt/types';
 import merge from 'lodash-es/merge';
 import { ApiClientMethod } from './../../types';
+import { AxiosInstance } from 'axios';
 
 interface CreateProxiedApiParams {
   givenApi: Record<string, ApiClientMethod>;
@@ -9,14 +9,35 @@ interface CreateProxiedApiParams {
   tag: string;
 }
 
-export const getBaseUrl = (req: IncomingMessage, basePath: string | undefined = '/'): string => {
-  if (!req) return `${basePath}api/`;
+const getUrl = (nxtContent: NuxtContext, endpoint: string) => {
+  const { base, req } = nxtContent;
+  const isServer = process.server;
+  const isClient = process.client;
+
+  if (!req) {
+    return isClient && !isServer
+      ? `${window.location.origin}/${endpoint}`
+      : endpoint;
+  }
+
   const { headers } = req;
   const isHttps = require('is-https')(req);
   const scheme = isHttps ? 'https' : 'http';
   const host = headers['x-forwarded-host'] || headers.host;
 
-  return `${scheme}://${host}${basePath}api/`;
+  return `${scheme}://${host}${base}${endpoint}`;
+};
+
+export const addRequestInterceptor = (client: AxiosInstance, nxtContext: NuxtContext) => {
+  client.interceptors.request.use((config) => {
+    const apiEndpoint = `api${config.url}`;
+    const hasApiPath = /\/api\//gi.test(config.url);
+
+    config.url = hasApiPath ? config.url : getUrl(nxtContext, apiEndpoint);
+    return config;
+  });
+
+  return client;
 };
 
 export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiParams) => new Proxy(givenApi, {
@@ -37,25 +58,13 @@ export const getCookies = (context: NuxtContext) => context?.req?.headers?.cooki
 
 export const getIntegrationConfig = (context: NuxtContext, configuration: any) => {
   const cookie = getCookies(context);
-
-  if (context?.$config?.middlewareUrl) {
-    const { middlewareUrl } = context.$config;
-    return merge({
-      axios: {
-        baseURL: middlewareUrl,
-        headers: {
-          ...(cookie ? { cookie } : {})
-        }
-      }
-    }, configuration);
-  }
-
   return merge({
     axios: {
-      baseURL: getBaseUrl(context?.req, context?.base),
+      baseURL: context?.$config?.middlewareUrl || '',
       headers: {
         ...(cookie ? { cookie } : {})
       }
     }
   }, configuration);
 };
+

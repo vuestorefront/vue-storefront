@@ -1,5 +1,5 @@
 import { createExtendIntegrationInCtx, createAddIntegrationToCtx } from './context';
-import { getIntegrationConfig, createProxiedApi } from './_proxyUtils';
+import { getIntegrationConfig, createProxiedApi, addRequestInterceptor } from './_proxyUtils';
 import { Context as NuxtContext, Plugin as NuxtPlugin } from '@nuxt/types';
 import axios from 'axios';
 
@@ -25,7 +25,8 @@ export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext
   const configure = (tag, configuration) => {
     const injectInContext = createAddIntegrationToCtx({ tag, nuxtCtx, inject });
     const config = getIntegrationConfig(nuxtCtx, configuration);
-    const client = axios.create(config.axios);
+    const client = addRequestInterceptor(axios.create(config.axios), nuxtCtx);
+
     const api = createProxiedApi({ givenApi: configuration.api || {}, client, tag });
 
     const { middlewareUrl, ssrMiddlewareUrl } = (nuxtCtx as any).$config;
