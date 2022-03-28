@@ -65,6 +65,7 @@ export default {
     this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
     this.$bus.$on('checkout-after-validationError', this.focusField)
+    this.$bus.$on('checkout-after-paymentMethodChanged', this.onPaymentMethodChanged)
     if (!this.isThankYouPage) {
       this.$store.dispatch('cart/load', { forceClientState: true }).then(() => {
         if (this.$store.state.cart.cartItems.length === 0) {
@@ -130,6 +131,7 @@ export default {
     this.$bus.$off('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$off('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
     this.$bus.$off('checkout-after-validationError', this.focusField)
+    this.$bus.$off('checkout-after-paymentMethodChanged', this.onPaymentMethodChanged)
   },
   watch: {
     '$route': 'activateHashSection',
@@ -179,6 +181,10 @@ export default {
       this.validationResults.payment = validationResult
       this.activateSection('orderReview')
       this.savePaymentDetails()
+    },
+    onPaymentMethodChanged (paymentData) {
+      this.payment = paymentData;
+      this.savePaymentDetails();
     },
     onAfterShippingDetails (receivedData, validationResult) {
       this.shipping = receivedData

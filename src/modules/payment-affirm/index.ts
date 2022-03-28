@@ -20,9 +20,9 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
       addAffirmScript(appConfig);
 
       let isCurrentPaymentMethod = false;
-      store.watch((state) => state.checkout.paymentDetails, (_, newMethodCode) => {
-        isCurrentPaymentMethod = newMethodCode.paymentMethod === AFFIRM_METHOD_CODE;
-      });
+      EventBus.$on('checkout-payment-method-changed', (paymentMethodCode: string) => {
+        isCurrentPaymentMethod = paymentMethodCode === AFFIRM_METHOD_CODE;
+      })
 
       const invokePlaceOrder = async () => {
         if (!isCurrentPaymentMethod) {

@@ -2618,6 +2618,14 @@
     "@types/connect" "*"
     "@types/node" "*"
 
+"@types/braintree-web@^3.75.19":
+  version "3.75.19"
+  resolved "https://registry.yarnpkg.com/@types/braintree-web/-/braintree-web-3.75.19.tgz#6b5c725f2d20a602246c17f20f316b46408100e6"
+  integrity sha512-tj/WDvjwEI4X+RRPZUbKRBOz67PoGumGNn11lR8v3pBwigry+5d6W9/9tXHnyFVv/pcYne8rmVx/UvOu9+ozwg==
+  dependencies:
+    "@types/googlepay" "*"
+    "@types/paypal-checkout-components" "*"
+
 "@types/color-name@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
@@ -2683,6 +2691,11 @@
     "@types/events" "*"
     "@types/minimatch" "*"
     "@types/node" "*"
+
+"@types/googlepay@*":
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/@types/googlepay/-/googlepay-0.6.4.tgz#e0b06ae1f12496c4fa43e52d35e76411dbbee135"
+  integrity sha512-PTt/UCllzl8z5HmhymPpSj6uENZvVKZvCBYdDVmbBVJnLStitxtWrterAOQZkKGlqVdzxNXYeif5hOAMNMS5mw==
 
 "@types/http-proxy-middleware@*":
   version "0.19.3"
@@ -2781,6 +2794,11 @@
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
+
+"@types/paypal-checkout-components@*":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@types/paypal-checkout-components/-/paypal-checkout-components-4.0.3.tgz#6eb7e090548bf58f2df662a473445ff74540b785"
+  integrity sha512-i4Hmw7lEyThjhMxfrwtaPdtca8e5CaoIZpZrgpFMnszODBz7PDqJxHHJsrVEtmRdRPpknFuUJbSSirUwl6ObyA==
 
 "@types/prop-types@*":
   version "15.7.4"

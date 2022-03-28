@@ -70,17 +70,24 @@ function grepL18nPhrasesFromSources () {
   })
 }
 
-csvParse.parse(i18nContent, { skipEmptyLines: true }, async (err, records) => {
-  if (err) console.error(err);
-  const phrasesFromI18nFile = [];
+csvParse.parse(
+  i18nContent,
+  {
+    skipEmptyLines: true,
+    ltrim: true,
+    rtrim: true
+  },
+  async (err, records) => {
+    if (err) console.error(err);
+    const phrasesFromI18nFile = [];
 
-  records.forEach((record) => {
-    phrasesFromI18nFile.push(`"${record[0]}","${record[1]}"`.replace(/\\'/g, "'"))
+    records.forEach((record) => {
+      phrasesFromI18nFile.push(`"${record[0]}","${record[1]}"`.replace(/\\'/g, "'"))
+    });
+
+    const phrasesFromSources = await grepL18nPhrasesFromSources();
+    const missingPhrases = phrasesFromSources.filter((phrase) => !phrasesFromI18nFile.includes(phrase));
+
+    updateI18nFile(missingPhrases);
+    process.stdout.write(`Added ${missingPhrases.length} phrases \n`);
   });
-
-  const phrasesFromSources = await grepL18nPhrasesFromSources();
-  const missingPhrases = phrasesFromSources.filter((phrase) => !phrasesFromI18nFile.includes(phrase));
-
-  updateI18nFile(missingPhrases);
-  process.stdout.write(`Added ${missingPhrases.length} phrases \n`);
-});
