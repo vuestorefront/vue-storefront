@@ -1,4 +1,4 @@
-# Migrating projects to 2.5.7 or/and 2.5.10
+# Migrating projects to 2.5.7
 
 ## Update `nuxt.config.js`
 
