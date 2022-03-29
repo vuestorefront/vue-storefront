@@ -9,7 +9,7 @@ interface CreateProxiedApiParams {
   tag: string;
 }
 
-const getUrl = (nxtContent: NuxtContext, endpoint: string) => {
+const getUrl = (context: NuxtContext, endpoint: string) => {
   const { base, req } = nxtContent;
   const isServer = process.server;
   const isClient = process.client;
