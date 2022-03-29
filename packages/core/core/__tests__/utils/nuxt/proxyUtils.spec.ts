@@ -38,7 +38,7 @@ describe('[CORE - utils] _proxyUtils', () => {
       { someGivenOption: 1 }
     )).toEqual({
       axios: {
-        baseURL: 'some-url',
+        baseURL: 'some-url/api/',
         headers: {}
       },
       someGivenOption: 1
@@ -57,7 +57,7 @@ describe('[CORE - utils] _proxyUtils', () => {
       {}
     )).toEqual({
       axios: {
-        baseURL: 'some-url',
+        baseURL: 'some-url/api/',
         headers: {
           cookie: 'xxx'
         }
