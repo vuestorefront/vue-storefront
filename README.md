@@ -72,8 +72,9 @@
 
 # Supported platforms
 
+
 <p align="center" valign="middle">
-    <a title="commercetools" target="_blank" href="https://github.com/vuestorefront/commercetools">
+    <a title="commercetools" target="_blank" href="https://docs.vuestorefront.io/v2/commercetools/">
         <img alt="commercetools" width="75" src="https://user-images.githubusercontent.com/1626923/156658926-532f44bd-f178-4bd9-ae72-1ca7d9984f57.png" />
     </a>
     &nbsp;&nbsp;
@@ -89,7 +90,7 @@
         <img alt="Magento" width="75" src="https://user-images.githubusercontent.com/1626923/156659008-edbd2bed-74d5-4f0d-8a4a-eab56c283d24.png" />
     </a>
     &nbsp;&nbsp;
-    <a title="Salesforce Commerce Cloud" target="_blank" href="https://github.com/vuestorefront/salesforce-commerce-cloud">
+    <a title="Salesforce Commerce Cloud" target="_blank" href="https://docs.vuestorefront.io/sfcc/">
         <img alt="Salesforce Commerce Cloud" width="75" src="https://user-images.githubusercontent.com/1626923/156659047-6030014e-6ec7-4dc6-b2ea-a442f7ef8c2d.png" />
     </a>
     &nbsp;&nbsp;
@@ -98,7 +99,7 @@
     </a>
 <br />
     &nbsp;&nbsp;
-    <a title="BigCommerce" target="_blank" href="https://github.com/vuestorefront/bigcommerce">
+    <a title="BigCommerce" target="_blank" href="https://docs.vuestorefront.io/bigcommerce/">
         <img alt="BigCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/156659123-12a987f5-a590-4971-810e-7594defc48f5.png" />
     </a>
     &nbsp;&nbsp;
@@ -132,11 +133,10 @@
     <a title="WooCommerce" target="_blank" href="https://github.com/vuestorefront-community/woocommerce">
         <img alt="WooCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/160184108-b54e8785-d44c-4023-957f-2fd40c286d88.png" />
   </a>
-    &nbsp;&nbsp;
-        <img alt="Scayle" width="75" src="https://user-images.githubusercontent.com/1626923/160184102-6cfe6791-5b0f-45fe-a4a7-deede42b3dbb.png" />
 <br /><br />
   <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/">Learn more about available integrations</a>
 </p>
+
 
 ## Links
 
