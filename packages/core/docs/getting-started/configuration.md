@@ -12,11 +12,7 @@ Every Vue Storefront project must contain two configuration files described belo
 
 You can learn more about this file and available configuration options on the [Nuxt configuration file](https://nuxtjs.org/docs/directory-structure/nuxt-config/) page.
 
-### `middleware.config.js`
-
-The `middleware.config.js` file is as essential as `nuxt.confis.js`, but much simpler and likely smaller. It configures the Server Middleware used for communication with e-commerce platforms and contains sensitive credentials, custom endpoints, queries, etc.
-
-What is typical for every integration is the `middlewareUrl` property which defines the URL to the Server Middleware. Usually, it's your application domain followed by the `/api` path.
+The only thing  you have to configure when setting up a new project is the `middlewareUrl` property which defines the URL to the Server Middleware. Usually, it's your application domain followed by the `/api` path.
 
 Example:
 
@@ -31,7 +27,9 @@ export default {
 
 For the local development, set it to `http://localhost:3000/api/`.
 
-You can learn more about Server Middleware and available configuration options on the [Server Middleware](/architecture/server-middleware.html) page.
+### `middleware.config.js`
+
+The `middleware.config.js` file is as essential as `nuxt.config.js`, but much simpler and likely smaller. It configures the Server Middleware used for communication with e-commerce platforms and contains sensitive credentials, custom endpoints, queries, etc.
 
 ## Optional configuration files
 
