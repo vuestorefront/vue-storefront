@@ -8,14 +8,14 @@ interface CreateProxiedApiParams {
   tag: string;
 }
 
-const getUrl = (context: NuxtContext, endpoint: string = '') => {
+const getUrl = (context: NuxtContext, endpoint = '') => {
   const { base, req } = context;
   const hasApiTag = /\/api\//gi.test(endpoint);
   const apiBaseUrl = hasApiTag ? endpoint : `api/${endpoint}`;
 
   if (!req) {
-    return process.client && !process.server
-      ? `${window.location.origin}/${apiBaseUrl}`
+    return process.client
+      ? new URL(apiBaseUrl, window.location.origin)
       : apiBaseUrl;
   }
 
@@ -24,7 +24,7 @@ const getUrl = (context: NuxtContext, endpoint: string = '') => {
   const scheme = isHttps ? 'https' : 'http';
   const host = headers['x-forwarded-host'] || headers.host;
 
-  return `${scheme}://${host}${base}${apiBaseUrl}`;
+  return new URL(`${apiBaseUrl}`, `${scheme}://${host}${base}`);
 };
 
 export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiParams) => new Proxy(givenApi, {
