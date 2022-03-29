@@ -8,10 +8,6 @@ interface CreateProxiedApiParams {
   tag: string;
 }
 
-const getUrl = (context: NuxtContext, endpoint = '') => {
-  return /\/api\//gi.test(endpoint) ? endpoint : `api/${endpoint}`;
-};
-
 export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiParams) => new Proxy(givenApi, {
   get: (target, prop, receiver) => {
 
@@ -29,14 +25,12 @@ export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiPara
 export const getCookies = (context: NuxtContext) => context?.req?.headers?.cookie ?? '';
 
 export const getIntegrationConfig = (context: NuxtContext, configuration: any) => {
+  const baseURL = context?.$config?.middlewareUrl;
   const cookie = getCookies(context);
 
   return merge({
     axios: {
-      baseURL: getUrl(context, (process.server
-        ? (context?.$config?.ssrMiddlewareUrl || context?.$config?.middlewareUrl)
-        : context?.$config?.middlewareUrl)
-      ),
+      baseURL: /(\/?)api(\/?)/gi.test(baseURL) ? baseURL : `${baseURL}/api/`,
       headers: {
         ...(cookie ? { cookie } : {})
       }
