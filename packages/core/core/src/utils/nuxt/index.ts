@@ -29,12 +29,6 @@ export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext
 
     const api = createProxiedApi({ givenApi: configuration.api || {}, client, tag });
 
-    const { middlewareUrl, ssrMiddlewareUrl } = (nuxtCtx as any).$config;
-
-    if (middlewareUrl) {
-      config.axios.baseURL = process.server ? ssrMiddlewareUrl || middlewareUrl : middlewareUrl;
-    }
-
     if (nuxtCtx.app.i18n.cookieValues) {
       client.defaults.headers.cookie = setCookieValues(nuxtCtx.app.i18n.cookieValues, client.defaults.headers.cookie);
     }

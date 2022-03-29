@@ -1,7 +1,6 @@
 import { Context as NuxtContext } from '@nuxt/types';
 import merge from 'lodash-es/merge';
 import { ApiClientMethod } from './../../types';
-import { AxiosInstance } from 'axios';
 
 interface CreateProxiedApiParams {
   givenApi: Record<string, ApiClientMethod>;
@@ -9,17 +8,15 @@ interface CreateProxiedApiParams {
   tag: string;
 }
 
-const getUrl = (context: NuxtContext, endpoint: string) => {
-  const { base, req } = nxtContent;
-  const isServer = process.server;
-  const isClient = process.client;
+const getUrl = (context: NuxtContext, endpoint: string = '') => {
+  const { base, req } = context;
   const hasApiTag = /\/api\//gi.test(endpoint);
-  const apiEndpoint = hasApiTag ? endpoint : `api/${endpoint}`;
+  const apiBaseUrl = hasApiTag ? endpoint : `api/${endpoint}`;
 
   if (!req) {
-    return isClient && !isServer
-      ? `${window.location.origin}/${apiEndpoint}`
-      : apiEndpoint;
+    return process.client && !process.server
+      ? `${window.location.origin}/${apiBaseUrl}`
+      : apiBaseUrl;
   }
 
   const { headers } = req;
@@ -27,7 +24,7 @@ const getUrl = (context: NuxtContext, endpoint: string) => {
   const scheme = isHttps ? 'https' : 'http';
   const host = headers['x-forwarded-host'] || headers.host;
 
-  return `${scheme}://${host}${base}${apiEndpoint}`;
+  return `${scheme}://${host}${base}${apiBaseUrl}`;
 };
 
 export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiParams) => new Proxy(givenApi, {
@@ -51,7 +48,10 @@ export const getIntegrationConfig = (context: NuxtContext, configuration: any) =
 
   return merge({
     axios: {
-      baseURL: getUrl(context, context?.$config?.middlewareUrl || ''),
+      baseURL: getUrl(context, (process.server ?
+        (context?.$config?.ssrMiddlewareUrl || context?.$config?.middlewareUrl)
+        : context?.$config?.middlewareUrl)
+      ),
       headers: {
         ...(cookie ? { cookie } : {})
       }
