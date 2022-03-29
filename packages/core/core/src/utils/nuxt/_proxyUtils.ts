@@ -9,22 +9,7 @@ interface CreateProxiedApiParams {
 }
 
 const getUrl = (context: NuxtContext, endpoint = '') => {
-  const { base, req } = context;
-  const hasApiTag = /\/api\//gi.test(endpoint);
-  const apiBaseUrl = hasApiTag ? endpoint : `api/${endpoint}`;
-
-  if (!req) {
-    return process.client
-      ? new URL(apiBaseUrl, window.location.origin)
-      : apiBaseUrl;
-  }
-
-  const { headers } = req;
-  const isHttps = require('is-https')(req);
-  const scheme = isHttps ? 'https' : 'http';
-  const host = headers['x-forwarded-host'] || headers.host;
-
-  return new URL(`${apiBaseUrl}`, `${scheme}://${host}${base}`);
+  return /\/api\//gi.test(endpoint) ? endpoint : `api/${endpoint}`;
 };
 
 export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiParams) => new Proxy(givenApi, {
@@ -48,8 +33,8 @@ export const getIntegrationConfig = (context: NuxtContext, configuration: any) =
 
   return merge({
     axios: {
-      baseURL: getUrl(context, (process.server ?
-        (context?.$config?.ssrMiddlewareUrl || context?.$config?.middlewareUrl)
+      baseURL: getUrl(context, (process.server
+        ? (context?.$config?.ssrMiddlewareUrl || context?.$config?.middlewareUrl)
         : context?.$config?.middlewareUrl)
       ),
       headers: {
