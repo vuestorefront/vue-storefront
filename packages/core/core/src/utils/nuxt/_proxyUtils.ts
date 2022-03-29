@@ -30,7 +30,7 @@ export const getIntegrationConfig = (context: NuxtContext, configuration: any) =
 
   return merge({
     axios: {
-      baseURL: /(\/?)api(\/?)/gi.test(baseURL) ? baseURL : `${baseURL}/api/`,
+      baseURL: /\/api\//gi.test(baseURL) ? baseURL : `${baseURL}/api/`,
       headers: {
         ...(cookie ? { cookie } : {})
       }
