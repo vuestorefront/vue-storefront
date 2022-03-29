@@ -7,6 +7,7 @@ import resolveDependency from './helpers/resolveDependency';
 import performanceModule from './modules/performance';
 import storefrontUiModule from './modules/storefront-ui';
 import rawSourcesModule from './modules/raw-sources-loader';
+import serverUrl from './modules/serverUrl';
 import { ModuleOptions } from './types';
 
 export { default as meta } from '../package.json';
@@ -60,6 +61,7 @@ export default function VueStorefrontNuxtModule(moduleOptions: ModuleOptions) {
       }
     });
   }
+
   if (options.context) {
     // Context plugin
     this.addPlugin(path.resolve(__dirname, '../plugins/context.js'));
@@ -104,6 +106,10 @@ export default function VueStorefrontNuxtModule(moduleOptions: ModuleOptions) {
   // Performance module
   performanceModule.call(this, options);
   log.success('Installed Performance Module');
+
+  // Validating Server URL
+  serverUrl.call(this);
+  log.success('Checked server API URL');
 
   // Raw sources loader
   rawSourcesModule.call(this, options);
