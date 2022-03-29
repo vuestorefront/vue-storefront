@@ -21,7 +21,7 @@ Hi, nice to meet you (or see you again) 👋
 
 If you are new to Vue Storefront, you should know that it's an **e-commerce frontend framework** based on [Nuxt.js](https://nuxtjs.org/). It can work with almost any API backend, allowing you to connect not only to e-commerce platforms but also headless CMS, auth providers, payment gateways, and much more.
 
-Don't believe it? See the list of ready-to-use [Integrations](/integrations/) that gets longer every month.
+If you need proof, see the list of ready-to-use [Integrations](/integrations/) that gets longer every month.
 
 ## Why Vue Storefront
 
