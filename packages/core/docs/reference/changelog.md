@@ -1,9 +1,5 @@
 # Changelog
 
-## 2.5.8 (deprecated)
-
-- **[BREAKING]** `middlewareUrl` is no longer required from the global config, however it should be provided to handle integration specific API calls
-
 ## 2.5.7
 
 - new `@vue-storefront/http-cache` package
