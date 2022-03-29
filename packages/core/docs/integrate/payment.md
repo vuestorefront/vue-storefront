@@ -9,7 +9,7 @@ If you want to integrate with Vue Storefront, don't hesitate to get in touch wit
 
 ## Introduction
 
-Integrating an Payment Service Provider with Vue Storefront is a task that requires a wider overview of the theory of payments and your e-commerce platform's approach to them.
+Integrating a Payment Service Provider with Vue Storefront is a task that requires a wider overview of the theory of payments and your e-commerce platform's approach to them.
 
 This document will guide you through it.
 
@@ -17,13 +17,13 @@ This document will guide you through it.
 
 The first step is to learn the theory behind payments.
 
-### What's PCI Compilance?
-The Payment Card Industry Data Security Standard (PCI DSS) is a set of requirements intended to ensure that all companies that process, store, or transmit credit card information maintain a secure environment. It was launched on September 7, 2006, to manage PCI security standards and improve account security throughout the transaction process. An independent body created by Visa, MasterCard, American Express, Discover, and JCB, the PCI Security Standards Council (PCI SSC) administers and manages the PCI DSS. Interestingly, the payment brands and acquirers are responsible for enforcing compliance, rather than the PCI SSC. (COPIED) Do we have to fulfill PCI DSS for each integration? Mostly payment service providers handle it for us and we use their API and components to integrate!
+### What's PCI Compliance?
+[Here](https://docs.adyen.com/development-resources/pci-dss-compliance-guide) you can read more about it.
 
 ### What's Payment Service Provider (PSP)?
-It is a third-party company that assists businesses to accept a wide range of online payment methods, such as online banking, credit cards, debit cards, e-wallets, cash cards, and more. (COPIED) Examples of PSPs are Adyen, Checkout.com, MultiSafepay. PSPs fulfill PCI DSS criteria.
+[Here](https://en.wikipedia.org/wiki/Payment_service_provider) you can read more about it.
 
-### Credit card data
+### Handling credit card data
 Payment service providers often share a component that handles payments and allows you to inject into certain events via callback functions. From these, you have access to hashed payment data and you can comunicate with the eCommerce backend. What's important, you don't have an acccess to the plain payment data here.
 
 It's totally fine to send hashed data through your server but it isn't legal to send plain payment data without being PCI Compliant! Also you shouldn't store plain payment data in user's browser storage like localStorage.
@@ -101,6 +101,7 @@ You need to know what approach selected eCommerce is using:
 - Vue component that uses composable and implements visual part and view's logic
 - Separate build for client (component, composable, types, and constants), and for server (endpoints, types)
 - Nuxt plugin that registers PSP with provided configuration, and Nuxt module that registers the plugin
+- It's worth to use monorepo and separate packages per eCommerce. If you would want to create integration for same PSP with a different eCommerce one day - then you could create additional package with shared things like types or some constants.
 
 ## Integrating PSP with certain eCommerce
 
