@@ -2,8 +2,8 @@
 
 ## Update `nuxt.config.js`
 
-In this release, we've added the `middlewareUrl` and `ssrMiddlewareUrl` optional properties. You should use them to avoid security vulnerability.
-To enable these properties, open the  `nuxt.config.js` file and add the `middlewareUrl`  and `ssrMiddlewareUrl` properties to the `publicRuntimeConfig` object as shown below:
+In this release, we've added the `middlewareUrl` optional property. You should use them to avoid security vulnerability.
+To enable the property, open the  `nuxt.config.js` file and add the `middlewareUrl` property to the `publicRuntimeConfig` object as shown below:
 
 :::warning
 Make sure to pass the whole URL with protocol, port (if applicable), and suffix it with `/api/`.
@@ -14,7 +14,6 @@ Make sure to pass the whole URL with protocol, port (if applicable), and suffix 
 export default {
   publicRuntimeConfig: {
     middlewareUrl: 'https://yourdomain.com/api/' // For the local development, set it to `http://localhost:3000/api/`.
-    ssrMiddlewareUrl: 'https://yourdomain.com/api/' // For the local development, set it to `http://localhost:3000/api/`.
   }
 }
 ```
@@ -28,7 +27,6 @@ Example:
 export default {
   publicRuntimeConfig: {
     middlewareUrl: process.env.API_BASE_URL
-    ssrMiddlewareUrl: process.env.API_BASE_URL
   }
 }
 ```
