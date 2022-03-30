@@ -72,61 +72,71 @@
 
 # Supported platforms
 
+
 <p align="center" valign="middle">
-    <a title="commercetools" target="_blank" href="https://github.com/vuestorefront/commercetools">
-        <img alt="commercetools" width="60" src="https://user-images.githubusercontent.com/1626923/156658926-532f44bd-f178-4bd9-ae72-1ca7d9984f57.png" />
+    <a title="commercetools" target="_blank" href="https://docs.vuestorefront.io/v2/commercetools/">
+        <img alt="commercetools" width="75" src="https://user-images.githubusercontent.com/1626923/156658926-532f44bd-f178-4bd9-ae72-1ca7d9984f57.png" />
     </a>
     &nbsp;&nbsp;
     <a title="Shopware" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
-        <img alt="Shopware" width="60" src="https://user-images.githubusercontent.com/1626923/156659145-d98ea807-872c-42a9-8fdb-4c4f30a68895.png" />
+        <img alt="Shopware" width="75" src="https://user-images.githubusercontent.com/1626923/156659145-d98ea807-872c-42a9-8fdb-4c4f30a68895.png" />
     </a>
     &nbsp;&nbsp;
     <a title="Shopify" target="_blank" href="https://github.com/vuestorefront/shopify">
-        <img alt="Shopify" width="60" src="https://user-images.githubusercontent.com/1626923/156658959-d8da60fd-9904-44f4-9823-11a3e821c155.png" />
+        <img alt="Shopify" width="75" src="https://user-images.githubusercontent.com/1626923/156658959-d8da60fd-9904-44f4-9823-11a3e821c155.png" />
     </a>
     &nbsp;&nbsp;
     <a title="Magento" target="_blank" href="https://github.com/vuestorefront/magento2">
-        <img alt="Magento" width="60" src="https://user-images.githubusercontent.com/1626923/156659008-edbd2bed-74d5-4f0d-8a4a-eab56c283d24.png" />
+        <img alt="Magento" width="75" src="https://user-images.githubusercontent.com/1626923/156659008-edbd2bed-74d5-4f0d-8a4a-eab56c283d24.png" />
     </a>
     &nbsp;&nbsp;
-    <a title="Salesforce Commerce Cloud" target="_blank" href="https://github.com/vuestorefront/salesforce-commerce-cloud">
-        <img alt="Salesforce Commerce Cloud" width="60" src="https://user-images.githubusercontent.com/1626923/156659047-6030014e-6ec7-4dc6-b2ea-a442f7ef8c2d.png" />
+    <a title="Salesforce Commerce Cloud" target="_blank" href="https://docs.vuestorefront.io/sfcc/">
+        <img alt="Salesforce Commerce Cloud" width="75" src="https://user-images.githubusercontent.com/1626923/156659047-6030014e-6ec7-4dc6-b2ea-a442f7ef8c2d.png" />
     </a>
     &nbsp;&nbsp;
     <a title="Spree" target="_blank" href="https://github.com/vuestorefront/spree">
-        <img alt="Spree" width="60" src="https://user-images.githubusercontent.com/1626923/156659147-5576eb2f-4cf8-4610-8631-18d03e3f52de.png" />
+        <img alt="Spree" width="75" src="https://user-images.githubusercontent.com/1626923/156659147-5576eb2f-4cf8-4610-8631-18d03e3f52de.png" />
     </a>
+<br />
     &nbsp;&nbsp;
-    <a title="BigCommerce" target="_blank" href="https://github.com/vuestorefront/bigcommerce">
-        <img alt="BigCommerce" width="60" src="https://user-images.githubusercontent.com/1626923/156659123-12a987f5-a590-4971-810e-7594defc48f5.png" />
+    <a title="BigCommerce" target="_blank" href="https://docs.vuestorefront.io/bigcommerce/">
+        <img alt="BigCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/156659123-12a987f5-a590-4971-810e-7594defc48f5.png" />
     </a>
     &nbsp;&nbsp;
     <a title="Spryker" target="_blank" href="https://github.com/vuestorefront/spryker">
-        <img alt="Spryker" width="60" src="https://user-images.githubusercontent.com/1626923/156659149-63324469-8727-4adb-a651-95370fecf23f.png" />
+        <img alt="Spryker" width="75" src="https://user-images.githubusercontent.com/1626923/156659149-63324469-8727-4adb-a651-95370fecf23f.png" />
     </a>
     &nbsp;&nbsp;
     <a title="Vendure" target="_blank" href="https://github.com/vuestorefront/vendure">
-        <img alt="Vendure" width="60" src="https://user-images.githubusercontent.com/1626923/156659153-fafdeb94-a34e-4e9e-8e8a-0f03afde9741.png" />
+        <img alt="Vendure" width="75" src="https://user-images.githubusercontent.com/1626923/156659153-fafdeb94-a34e-4e9e-8e8a-0f03afde9741.png" />
     </a>
     &nbsp;&nbsp;
     <a title="Odoo" target="_blank" href="https://github.com/vuestorefront-community/odoo">
-        <img alt="Odoo" width="60" src="https://user-images.githubusercontent.com/1626923/156659136-55c8d696-febd-410e-ab72-b217e9e745e6.png" />
+        <img alt="Odoo" width="75" src="https://user-images.githubusercontent.com/1626923/156659136-55c8d696-febd-410e-ab72-b217e9e745e6.png" />
     </a>
     &nbsp;&nbsp;
     <a title="Prestashop" target="_blank" href="https://github.com/vuestorefront-community/prestashop">
-        <img alt="Prestashop" width="60" src="https://user-images.githubusercontent.com/1626923/156659137-d857ad24-f23f-4c80-ac56-4ef6c0721274.png" />
+        <img alt="Prestashop" width="75" src="https://user-images.githubusercontent.com/1626923/156659137-d857ad24-f23f-4c80-ac56-4ef6c0721274.png" />
     </a>
     &nbsp;&nbsp;
     <a title="nopCommerce" target="_blank" href="https://github.com/vuestorefront-community/nopcommerce">
-        <img alt="nopCommerce" width="60" src="https://user-images.githubusercontent.com/1626923/156659133-d047ea68-ec32-4ef1-aa7d-dc5ab88f5230.png" />
+        <img alt="nopCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/156659133-d047ea68-ec32-4ef1-aa7d-dc5ab88f5230.png" />
     </a>
+<br />
     &nbsp;&nbsp;
     <a title="kiboCommerce" target="_blank" href="https://github.com/vuestorefront-community/kibocommerce">
-        <img alt="kiboCommerce" width="60" src="https://user-images.githubusercontent.com/1626923/156659127-68c1442a-de03-46ab-863b-8dce2b5857d5.png" />
+        <img alt="kiboCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/156659127-68c1442a-de03-46ab-863b-8dce2b5857d5.png" />
     </a>
+    &nbsp;&nbsp;
+        <img alt="Swell" width="75" src="https://user-images.githubusercontent.com/1626923/160184104-f4820722-3eff-4c8e-b33b-8134bc1dd78a.png" />
+    &nbsp;&nbsp;
+    <a title="WooCommerce" target="_blank" href="https://github.com/vuestorefront-community/woocommerce">
+        <img alt="WooCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/160184108-b54e8785-d44c-4023-957f-2fd40c286d88.png" />
+  </a>
+<br /><br />
+  <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/">Learn more about available integrations</a>
 </p>
 
-[Learn more about available integrations](https://docs.vuestorefront.io/v2/integrations/)
 
 ## Links
 
