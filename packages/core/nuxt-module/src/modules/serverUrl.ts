@@ -6,6 +6,7 @@ export default function VueStorefrontServerUrl(): void {
       const baseURL = new URL('', `http${https ? 's' : ''}://${host}:${port}`);
 
       this.options = {
+        ...this.options,
         publicRuntimeConfig: {
           ...(this.options.publicRuntimeConfig || {}),
           middlewareUrl: baseURL.origin
