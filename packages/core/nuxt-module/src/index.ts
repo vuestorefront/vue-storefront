@@ -7,7 +7,7 @@ import resolveDependency from './helpers/resolveDependency';
 import performanceModule from './modules/performance';
 import storefrontUiModule from './modules/storefront-ui';
 import rawSourcesModule from './modules/raw-sources-loader';
-import serverUrl from './modules/serverUrl';
+import serverUrl from './modules/server-url';
 import { ModuleOptions } from './types';
 
 export { default as meta } from '../package.json';
