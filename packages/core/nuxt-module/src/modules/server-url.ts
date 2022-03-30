@@ -6,6 +6,8 @@ export default function VueStorefrontServerUrl(): void {
   if (!hasMiddlewareUrl) {
     this.nuxt.hook('listen', (server, { https, host, port }) => {
       try {
+        if (!host || !port) throw new Error('Nuxt was\'t able to fetch your host and port');
+
         const baseURL = new URL('', `http${https ? 's' : ''}://${host}:${port}`);
 
         this.options.publicRuntimeConfig = {
