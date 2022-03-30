@@ -12,7 +12,8 @@ Every Vue Storefront project must contain two configuration files described belo
 
 You can learn more about this file and available configuration options on the [Nuxt configuration file](https://nuxtjs.org/docs/directory-structure/nuxt-config/) page.
 
-Before setting up a new project, the `middlewareUrl` property, which define the URL to the Server Middleware, is required to be defined. Usually, it's your application domain followed by the `/api` path.
+Before setting up a new project, pleas add the `middlewareUrl` property, which define the URL to the Server Middleware, is required to be defined. Usually, it's your application domain followed by the `/api` path. It's
+also very important from the security perspective, that way your application will be not vulnerable to outside attacks.
 
 Example:
 

@@ -1,9 +1,9 @@
-# Migrating projects to 2.5.11
+# Migrating projects to 2.5.12
 
 ## Update `nuxt.config.js`
 
-In this release, we've added the `middlewareUrl` optional property. You should use them to avoid security vulnerability.
-To enable the property, open the  `nuxt.config.js` file and add the `middlewareUrl` property to the `publicRuntimeConfig` object as shown below:
+In this release, we've added the `middlewareUrl` optional property. You should use it to avoid security vulnerability.
+To enable the property, open the `nuxt.config.js` file and add the `middlewareUrl` property to the `publicRuntimeConfig` object as shown below:
 
 :::warning
 Make sure to pass the whole URL with protocol, port (if applicable), and suffix it with `/api/`.
