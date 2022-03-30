@@ -26,7 +26,6 @@ export const getCookies = (context: NuxtContext) => context?.req?.headers?.cooki
 
 export const getIntegrationConfig = (context: NuxtContext, configuration: any) => {
   const baseURL = context?.$config?.middlewareUrl;
-  if (!baseURL) throw new Error('Nuxt wasn\'t able to fetch the middlewareUrl. Please follow the guide at https://docs.vuestorefront.io/v2/getting-started/configuration.html#nuxt-config-js to configure your nuxt.config.js');
   const cookie = getCookies(context);
 
   return merge({
