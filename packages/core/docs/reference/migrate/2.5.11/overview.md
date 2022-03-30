@@ -6,7 +6,7 @@ In this release, we've added the `middlewareUrl` and `ssrMiddlewareUrl` optional
 To enable these properties, open the  `nuxt.config.js` file and add the `middlewareUrl`  and `ssrMiddlewareUrl` properties to the `publicRuntimeConfig` object as shown below:
 
 :::warning
-Make sure to pass whole url with protocol and/or port and suffix it with `/api/`.
+Make sure to pass the whole URL with protocol, port (if applicable), and suffix it with `/api/`.
 :::
 
 ```javascript
