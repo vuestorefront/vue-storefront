@@ -8,7 +8,7 @@ export default interface GiftCardOptions {
   customer_name: string,
   recipient_name: string,
   recipient_email: string,
-  recipient_ship: 'yes' | 'no',
+  recipient_ship?: 'yes',
   recipient_address: string,
   message: string,
   notify_success: 0 | 1,
