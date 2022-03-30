@@ -3,7 +3,7 @@
 ## Update `nuxt.config.js`
 
 In this release, we've added the `middlewareUrl` and `ssrMiddlewareUrl` optional properties. You should use them to avoid security vulnerability.
-To enable this properties open the  `nuxt.config.js` file and add the `middlewareUrl`  and `ssrMiddlewareUrl` property in the `publicRuntimeConfig` object like shown below:
+To enable these properties, open the  `nuxt.config.js` file and add the `middlewareUrl`  and `ssrMiddlewareUrl` properties to the `publicRuntimeConfig` object as shown below:
 
 :::warning
 Make sure to pass whole url with protocol and/or port and suffix it with `/api/`.
