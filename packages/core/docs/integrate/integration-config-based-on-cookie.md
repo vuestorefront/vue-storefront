@@ -50,7 +50,7 @@ module.exports = {
 
 ```
 
-The extension overwrites configuration part with values corresponding to the current store.
+The extension overwrites the configuration part with values corresponding to the current store.
 
 ## Registering an extension
 
@@ -85,7 +85,7 @@ module.exports = {
 };
 ```
 
-Server will be correctly updating configuration based on the store cookie's value since now. Below, I will show you how to approach updating of client-side configuration.
+The server will be correctly updating configuration based on the store cookie's value now. Below, I will show you how to approach updating the client-side configuration.
 
 ## Modifying front-end configuration
 
@@ -93,7 +93,7 @@ Adyen commercetools integration has `clientKey` setting inside `nuxt.config.js`.
 
 ### Method #1: Dedicated property in Vue component
 
-Official payment integrations components share `beforeLoad` property that allows to modify configuration before mounting component provided by payment provider's SDK. We can use it to modify `clientKey` based on the request:
+Official payment integrations components share `beforeLoad` property that allows for modification of configuration before mounting component provided by the payment provider's SDK. We can use it to modify `clientKey` based on the request:
 
 ```vue
 <template>
@@ -148,7 +148,7 @@ export default {
 
 ### Method #2: Nuxt plugin
 
-Not in every situation we are able to use `beforeLoad` component. There might be a case where we want to do it once and globally or where there is no Vue component or `beforeLoad` property. Then we need to create a Nuxt plugin.
+Not in every situation, we are able to use `beforeLoad` component. There might be a case where we want to do it once and globally or where there is no Vue component or `beforeLoad` property. Then we need to create a Nuxt plugin.
 
 Create `plugins` directory in your project and inside it, create `adyen.ts` file:
 ```ts
@@ -193,4 +193,4 @@ export default {
 };
 ```
 
-Client will be correctly updating configuration based on the store cookie's value since now.
+The client will be correctly updating the configuration based on the store cookie's value now.
