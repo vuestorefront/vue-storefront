@@ -127,6 +127,10 @@
     <a title="kiboCommerce" target="_blank" href="https://github.com/vuestorefront-community/kibocommerce">
         <img alt="kiboCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/156659127-68c1442a-de03-46ab-863b-8dce2b5857d5.png" />
     </a>
+  &nbsp;&nbsp;
+    <a title="Sylius" target="_blank" href="https://github.com/vuestorefront-community/sylius">
+        <img alt="Sylius" width="75" src="https://user-images.githubusercontent.com/1626923/161141058-8f6a4a8e-2c6f-402e-b19b-892c7acec77f.png" />
+  </a>
     &nbsp;&nbsp;
         <img alt="Swell" width="75" src="https://user-images.githubusercontent.com/1626923/160184104-f4820722-3eff-4c8e-b33b-8134bc1dd78a.png" />
     &nbsp;&nbsp;
