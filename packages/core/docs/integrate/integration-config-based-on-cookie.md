@@ -1,4 +1,4 @@
-# Integration's config based on request
+# Integration's config based on the cookie
 
 ## Introduction
 
