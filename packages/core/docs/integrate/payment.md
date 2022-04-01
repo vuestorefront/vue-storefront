@@ -15,30 +15,29 @@ This document will guide you through it.
 
 ## Learn theory
 
-The first step is to learn the theory behind payments.
-
-### What's PCI Compliance?
-[Here](https://docs.adyen.com/development-resources/pci-dss-compliance-guide) you can read more about it.
-
-### What's Payment Service Provider (PSP)?
-[Here](https://en.wikipedia.org/wiki/Payment_service_provider) you can read more about it.
+The first step is to learn the theory behind payments:
+- [What's PCI Compliance?](https://docs.adyen.com/development-resources/pci-dss-compliance-guide)
+- [What's Payment Service Provider (PSP)?](https://en.wikipedia.org/wiki/Payment_service_provider)
 
 ### Handling credit card data
-Payment service providers often share a component that handles payments and allows you to inject into certain events via callback functions. From these, you have access to hashed payment data and you can comunicate with the eCommerce backend. What's important, you don't have an acccess to the plain payment data here.
+Payment service providers often share a [component](https://docs.adyen.com/online-payments/prebuilt-ui#drop-in) that handles payments and allows you to inject into certain events via callback functions. From these, you have access to hashed payment data and you can communicate with the eCommerce backend. What's important, you don't have an access to the plain payment data here.
 
-It's totally fine to send hashed data through your server but it isn't legal to send plain payment data without being PCI Compliant! Also you shouldn't store plain payment data in user's browser storage like localStorage.
+It's totally fine to send hashed data through your server (middleware) but it isn't legal to send plain payment data without being PCI compliant!
+
+### Can I store user's payment data in browser storage?
+No, it's a bad practice. You shouldn't use any browser storage for that purpose.
 
 ### Saving cards (recurring payments)
-PSPs like Adyen allows to store user credit card for next payments. They are storing it inside own Database. All we have to do is, create unique user identifier and make sure no one can use other's user identifier. So for example - send customer's token to VSF2 Middleware - inside endpoint fetch User ID based on provide token and use it for reference in the PSP. NEVER send user ID directly from the frontend because it is so easy to put there a different ID.
+Payment service providers like Adyen allows storing user credit card for the next payments. They are storing it inside their own database. All we have to do is, create a unique user identifier and make sure no one can use another's user identifier. So for example - send a customer's token to VSF2 Middleware - inside the endpoint, fetch the User ID based on provided token, and use it for reference in the PSP. NEVER send user ID directly from the frontend because it is so easy to put there a different ID, especially in relational databases. 
 
 ### Can anyone pay via my card by knowing it's details?
-In [European Economic Area](https://en.wikipedia.org/wiki/European_Economic_Area), each bank has to perform [Strong Customer Authentication](https://en.wikipedia.org/wiki/Strong_customer_authentication) - it means it has to perform [3DS1 or 3DS2](https://www.tokenex.com/blog/what-is-3-d-secure-authentication-and-why-do-i-need-it) check - which might require to provide SMS Code from our bank, accept it in the bank or something like that. That's why you always have to make sure you are supporting both 3DS1 and 3DS2 Auth when creating a PSP integration. It's not that obvious in the sandbox mode. But it's essential to make it work correclty.
+In [European Economic Area](https://en.wikipedia.org/wiki/European_Economic_Area), each bank has to perform [Strong Customer Authentication](https://en.wikipedia.org/wiki/Strong_customer_authentication) - which means it has to perform [3DS1 or 3DS2](https://www.tokenex.com/blog/what-is-3-d-secure-authentication-and-why-do-i-need-it) authentication - which might require providing SMS Code from our bank, accepting it in the bank's application, or something like that. That's why you always have to make sure you support both 3DS1 and 3DS2 when creating a PSP integration. It's not that obvious case during testing in the sandbox mode. But it's essential to make it work correctly for the production environment.
 
 ### What's the difference between Authorization and Capture?
-Authorization means that money for transaction is reserved on user's account and waiting for capture - mostly capture will happen after some time or manually. Capture means that money has been transferred from user's account to the merchant.
+Authorization means that money for transaction is reserved on the user's account and waiting for capture - mostly capture will happen after some time or manually. Capture means that money has been transferred from the user's account to the merchant.
 
-### Universal PSP integration for every eCommerce
-Don't try to create an universal PSP integration with every eCommerce at once. It's rather impossible.
+### Can I make an universal PSP integration for every eCommerce?
+It's impossible to have one codebase for the integration of PSP with every eCommerce. It would be very hard for 2-3 eCommerce and really painful in maintenance. 
 
 ## Analyze
 After getting theoretical foundations, it's time to start the analyze.
