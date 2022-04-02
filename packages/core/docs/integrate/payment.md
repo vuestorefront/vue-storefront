@@ -43,7 +43,7 @@ It's impossible to have one codebase for the integration of PSP with every eComm
 After getting theoretical foundations, it's time to start the analysis.
 
 ### Check for already existing solution
-Check if there is a already existing headless-ready integration with your eCommerce and PSP. If you found one, be careful with estsimations. Headless-ready is very popular term nowadays. Developers tend to publish not well-tested integrations. You might encounter integrations marked as headless-ready but without key functionalities like 3DS1/3DS2 fully working through API.
+Check if there is an already existing headless-ready integration with your eCommerce and PSP. If you found one, be careful with estimations. Headless-ready is a very popular term nowadays. Developers tend to publish not well-tested integrations. You might encounter integrations marked as headless-ready but without key functionalities like 3DS1/3DS2 fully working through API.
 
 If everything is fine, in most cases, you will have to create VSF2 middleware integration to access new eCommerce endpoints. This is the easiest scenario because you don't have to write additional code for PSP and eCommerce communication. 
 
@@ -52,45 +52,35 @@ Examples of already existing eCommerce and PSP integrations:
 - [Magento2 and Adyen](https://github.com/adyen/adyen-magento2),
 - [commercetools and mollie](https://github.com/mollie/commercetools).
 
-### If there isn't already existing integration
+### If there is not already existing solution
 In that particular case, you have to write additional code in VSF2 Middleware to communicate with PSP and eCommerce. In some cases, it is possible to do - commercetools. But in some cases you still need to write code in a different place - e.g. Magento2 Plugin in PHP.
 
 #### Learn how your eCommerce approaches payments 
-Different eCommerces have a different approach for payments. You have to analyze how your one approaches them, make sure you:
+Different eCommerce's have different approaches to payments. You have to analyze how your one approaches them, make sure you:
 - create a payment object,
 - update a payment object (after authorization, capture, refund),
 - payment object is attached to the order,
 - order status is updated after successful payment,
-- prepared a webhook for async updates.
+- prepared a webhook for asynchronous updates.
 
 #### Find the best way for integration with your Payment Service Provider
-Browse possible ways of integrating with the PSP and imagine how you could use it to bring essential data to eCommerce and give the best possible UX to the VSF2 frontend. Plan what user will have on frontend, how will comunication look like, describe requests, responses and their paths. 
+Browse possible ways of integrating with the PSP and imagine how you could use it to bring essential data to eCommerce and give the best possible UX to the VSF2 frontend. Plan what users will have on front-end, what will communication look like, and describe requests, responses, and their paths. 
 
-You will have to create VSF2 Middleware endpoints to act like the core of communication between VSF2 Frontend, PSP, and eCommerce.
+You will have to create VSF2 Middleware endpoints to act as the core of communication between VSF2 Frontend, PSP, and eCommerce.
 
 ## Edge cases
-Creating the integration is not all. Now let's have a look at edge cases which should be handled. Otherwise, they would make us troubles!
+Creating the integration is not all. Now let's have a look at edge cases that should be handled. Otherwise, they would make our troubles!
 
-### Check for Second tab total price modifiaction during each step (and coupon code too! just any way!)
-User can open a second tab and modificate cart's total price during the payment process. To prevent mismatch you should compare current cart's total price with payment amount 
+### Check for the Second tab total price modification during each step (and coupon code too! just any way!)
+Users can open a second tab and modify the cart's total price during the payment process by adding or removing products or coupons from the cart. To prevent mismatch you should compare the current cart's total price with the payment amount during each step, especially just before authorization. 
 
 ### Support Payment's status update via webhook
-Creating a payment and an order is not all. PSP will send asynchronous notifications about modifications of payment status. You should prepare an endpoint to receive them and update status of payment and order based on the information.
+Creating a payment and an order is not all. PSP will send asynchronous notifications about modifications of payment status. You should prepare an endpoint to receive them and update the status of payment and order based on the information.
 
-You can use `ngrok` or `localtunnel` to test them locally.
+You can use [`ngrok`](https://ngrok.com/) or [`localtunnel`](https://theboroer.github.io/localtunnel-www/) to test them locally.
 
 ### Authorize when you are placing an order or after
-Don't authorize or capture to early! It's the best to do it as late as possible. Recommended approach is to create endpoint in VSF2 Middleware that both authorizes a payment and creates an order a line after. Desired situation is to authorize payment and create an order at once.
-
-<!-- ### Gain knowledge about payment handling in your eCommerce
-You need to know what approach selected eCommerce is using:
-- Commercetools requires to write some server-side code and operator on it's Payment object
-- Magento2 requires to write PHP plugin and communicate with it from VSF2
-- BigCommerce uses checkout in iframe so probably plugin would do the job
-
-- Check documentation of the payment service provider you want to integrate.
-- You don't want only to put components in the frontend
-- You also need  -->
+Don't authorize or capture too early! It's best to do it as late as possible. The recommended approach is to create an endpoint in VSF2 Middleware that both authorizes a payment and creates an order a line below. The desired situation is to authorize payment and create an order at once.
 
 ## Architecture
 - API Endpoints in VSF2 Middleware for communication with the eCommerce and PSP
