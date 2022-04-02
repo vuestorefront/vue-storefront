@@ -83,13 +83,15 @@ You can use [`ngrok`](https://ngrok.com/) or [`localtunnel`](https://theboroer.g
 Don't authorize or capture too early! It's best to do it as late as possible. The recommended approach is to create an endpoint in VSF2 Middleware that both authorizes a payment and creates an order a line below. The desired situation is to authorize payment and create an order at once.
 
 ## Architecture
-- API Endpoints in VSF2 Middleware for communication with the eCommerce and PSP
-- API Endpoint for PSP's Webhook
-- Composable for comunication with endpoints and storing some data
-- Vue component that uses composable and implements visual part and view's logic
-- Separate build for client (component, composable, types, and constants), and for server (endpoints, types)
-- Nuxt plugin that registers PSP with provided configuration, and Nuxt module that registers the plugin
-- It's worth to use monorepo and separate packages per eCommerce. If you would want to create integration for same PSP with a different eCommerce one day - then you could create additional package with shared things like types or some constants.
+- API Endpoints in VSF2 Middleware for communication with the eCommerce and PSP,
+- API Endpoint for PSP's Webhook,
+- composable for comunication with endpoints and storing some data,
+- Vue component that uses composable and implements visual part and view's logic,
+- separate build for client (component, composable, types, and constants), and for server (endpoints, types),
+- Nuxt plugin that registers PSP with provided configuration, and Nuxt module that registers the plugin,
+- it's worth to use monorepo and separate packages per eCommerce. If you would want to create integration for same PSP with a different eCommerce one day - then you could create additional package with shared things like types or some constants.
+
+Based on our experience, we've created the [**Payment integration template**](https://github.com/vuestorefront/payment-template) which is a perfect starting point for creating a new integration. There you have everything what's mentioned above. Customize what's necessary, remove what's redundand. 
 
 ## Integrating PSP with certain eCommerce
 
@@ -106,9 +108,10 @@ Checkout is the iframe so it is all on BigCommerce(?).
 Use bullets below to check if your integration has everything what's necessary.
 
 My integration:
-- [ ] handles modifying total price in the second tab/during payment
-- [ ] updates Payment&Transaction status from webhook calls, so it shares some endpoint
-- [ ] webhook validates request siganture if available
+- [ ] has a great documentation, examples: [commercetools & PayPal](https://docs.vuestorefront.io/paypal/commercetools/), [commercetools & Adyen](https://docs.vuestorefront.io/adyen/), [Magento2 & Adyen](https://docs.vuestorefront.io/adyen/magento2/),
+- [ ] handles modifying total price in the second tab/during payment,
+- [ ] updates Payment&Transaction status from webhook calls, so it shares some endpoint,
+- [ ] webhook validates request siganture if available,
 - [ ] PSP will queue failed request from webhook, handle it to prevent duplicates
 - [ ] Use `ngrok` or `localtunnel` to test webhook locally
 - [ ] supports 3DS1 and 3DS2 if it contains Credit Cards because it's required in EEA
