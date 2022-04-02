@@ -39,19 +39,18 @@ Authorization means that money for transaction is reserved on the user's account
 ### Can I make an universal PSP integration for every eCommerce?
 It's impossible to have one codebase for the integration of PSP with every eCommerce. It would be very hard for 2-3 eCommerce and really painful in maintenance. 
 
-## Analyze
-After getting theoretical foundations, it's time to start the analyze.
+## Analysis
+After getting theoretical foundations, it's time to start the analysis.
 
 ### Check for already existing solution
-Check if there is a already existing headless-ready integration with your eCommerce and PSP. If you found one, be careful with estimations. Headless-ready is very popular term nowadays. Developers tend to publish not well-tested integrations. You might encounter integrations marked as headless-ready but without key functionalities like 3DS1/3DS2 not fully working through API.
+Check if there is a already existing headless-ready integration with your eCommerce and PSP. If you found one, be careful with estsimations. Headless-ready is very popular term nowadays. Developers tend to publish not well-tested integrations. You might encounter integrations marked as headless-ready but without key functionalities like 3DS1/3DS2 fully working through API.
 
-If everything is fine, in most cases, you will have to create VSF2 middleware integration to access new eCommerce endpoints. Most integrations don't support accessing directly from the frontend. This is the perfect situation when work to do is lesser.
+If everything is fine, in most cases, you will have to create VSF2 middleware integration to access new eCommerce endpoints. This is the easiest scenario because you don't have to write additional code for PSP and eCommerce communication. 
 
 Examples of already existing eCommerce and PSP integrations:
 - [commercetools and Adyen](https://github.com/commercetools/commercetools-adyen-integration),
-- [Magento2 and Adyen](https://github.com/adyen/adyen-magento2).
-
-In cases above, you have to write only frontend part and VSF2 Middleware part for communication.
+- [Magento2 and Adyen](https://github.com/adyen/adyen-magento2),
+- [commercetools and mollie](https://github.com/mollie/commercetools).
 
 ### If there isn't already existing integration
 In that particular case, you have to write additional code in VSF2 Middleware to communicate with PSP and eCommerce. In some cases, it is possible to do - commercetools. But in some cases you still need to write code in a different place - e.g. Magento2 Plugin in PHP.
