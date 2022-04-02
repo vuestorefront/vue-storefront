@@ -2,7 +2,7 @@
 
 ## Update `nuxt.config.js`
 
-In this release, we've added the `middlewareUrl` optional property. You should use it to avoid security vulnerability.
+In this release, we've added the `middlewareUrl` optional property to define your API endpoint (URL to the Server Middleware).
 To enable the property, open the `nuxt.config.js` file and add the `middlewareUrl` property to the `publicRuntimeConfig` object as shown below:
 
 :::warning
