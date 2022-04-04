@@ -3,11 +3,10 @@ const consola = require('consola');
 
 module.exports = function VueStorefrontMiddleware() {
   const apiPath = 'api';
-  // Validating Server URL
+  // validating Server URL
   this.nuxt.hook('listen', (server, { url }) => {
     try {
       if (!url) consola.fatal('Nuxt was\'t able to fetch your url.');
-
       if (!(this.options && this.options.publicRuntimeConfig && this.options.publicRuntimeConfig.middlewareUrl)) {
         Object.assign(this.options.publicRuntimeConfig, {
           ...this.options.publicRuntimeConfig,
