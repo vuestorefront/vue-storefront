@@ -165,7 +165,7 @@ module.exports = {
         children: [
           ['/integrate/extending-vue-storefront', 'Extending Vue Storefront'],
           ['/integrate/extending-integrations', 'Extending integrations'],
-          ['/integrate/integration-config-based-on-cookie', 'Integration\'s config based on cookie'],
+          ['/integrate/cookie-based-config', 'Cookie-based configuration'],
           ['/integrate/integration-guide', 'Integrating e-commerce platform'],
           ['/integrate/cms', 'Integrating CMS platform'],
           ['/integrate/cache-driver', 'Integrating cache driver']
