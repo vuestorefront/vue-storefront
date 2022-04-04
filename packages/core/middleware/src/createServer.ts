@@ -2,6 +2,7 @@ import express, { Request, Response, Express } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import consola from 'consola';
+import helmet from 'helmet';
 import { MiddlewareConfig, ApiClientExtension, CustomQuery } from '@vue-storefront/core';
 import { registerIntegrations } from './integrations';
 import getAgnosticStatusCode from './helpers/getAgnosticStatusCode';
@@ -9,6 +10,7 @@ import getAgnosticStatusCode from './helpers/getAgnosticStatusCode';
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+app.use(helmet());
 app.use(cors());
 
 interface MiddlewareContext {
