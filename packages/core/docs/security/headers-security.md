@@ -21,6 +21,7 @@ This configuration is exclusive to the Nuxt.js communication. Any new options ad
 export default {
     modules: [
     ['@vue-storefront/middleware/nuxt', {
+      enableHelmet: true,
       helmet: {
         // helmet options
         // @see https://helmetjs.github.io/docs/

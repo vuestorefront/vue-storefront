@@ -4,20 +4,23 @@ const consola = require('consola');
 
 module.exports = function VueStorefrontMiddleware(moduleOptions) {
   const apiPath = 'api';
-
   const options = {
     crossOriginOpenerPolicy: false,
     permittedCrossDomainPolicies: {
       permittedPolicies: 'none'
     },
     contentSecurityPolicy: false,
-    ...this.options.helmet || {},
     ...moduleOptions
   };
 
   this.nuxt.hook('render:setupMiddleware', (app) => {
-    app.use(helmet(options));
-    if (!options.silence) consola.success('Nuxt `Helmet` middleware added');
+    const hasHelmetKey = Object.prototype.hasOwnProperty.call(options, 'enableHelmet');
+    const isHelmetEnabled = hasHelmetKey ? options.enableHelmet : true;
+
+    if (isHelmetEnabled) {
+      app.use(helmet(options));
+      consola.success('Nuxt `Helmet` middleware added');
+    }
   });
 
   // Validating Server URL
