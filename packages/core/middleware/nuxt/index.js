@@ -2,7 +2,7 @@ const { createServer } = require('@vue-storefront/middleware');
 const helmet = require('helmet');
 const consola = require('consola');
 
-const logger = consola.withScope('VSF: Nuxt Middleware');
+const logger = consola;
 
 module.exports = function VueStorefrontMiddleware(moduleOptions) {
   const apiPath = 'api';
@@ -23,13 +23,11 @@ module.exports = function VueStorefrontMiddleware(moduleOptions) {
   this.nuxt.hook('listen', (server, { url }) => {
     try {
       if (!url) logger.fatal('Nuxt was\'t able to fetch your url.');
-
       if (!(this.options && this.options.publicRuntimeConfig && this.options.publicRuntimeConfig.middlewareUrl)) {
         Object.assign(this.options.publicRuntimeConfig, {
           ...this.options.publicRuntimeConfig,
           middlewareUrl: new URL(apiPath, url).toString()
         });
-
         logger.success('Applied middlewareUrl as ', this.options.publicRuntimeConfig.middlewareUrl);
       }
     } catch (error) {
