@@ -8,7 +8,10 @@ module.exports = function VueStorefrontMiddleware(moduleOptions) {
   const apiPath = 'api';
 
   const options = {
-    permittedCrossDomainPolicies: 'none',
+    crossOriginOpenerPolicy: false,
+    permittedCrossDomainPolicies: {
+      permittedPolicies: 'none'
+    },
     contentSecurityPolicy: false,
     ...this.options.helmet || {},
     ...moduleOptions

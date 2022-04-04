@@ -10,7 +10,6 @@ import getAgnosticStatusCode from './helpers/getAgnosticStatusCode';
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use(helmet());
 app.use(cors());
 
 interface MiddlewareContext {
@@ -27,6 +26,15 @@ interface RequestParams {
 
 function createServer (config: MiddlewareConfig): Express {
   consola.info('Middleware starting....');
+
+  app.use(helmet({
+    crossOriginOpenerPolicy: false,
+    permittedCrossDomainPolicies: {
+      permittedPolicies: 'none'
+    },
+    contentSecurityPolicy: false,
+    ...config.helmet
+  }));
   consola.info('Loading integrations...');
 
   const integrations = registerIntegrations(app, config.integrations);
