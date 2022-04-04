@@ -8,6 +8,7 @@ import { createDiffLog } from '@vue-storefront/core/modules/cart/helpers'
 import i18n from '@vue-storefront/i18n'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { cartHooksExecutors } from '../../hooks'
+import isCartQuoteError from '../../helpers/isCartQuoteError'
 
 const synchronizeActions = {
   async load (
@@ -69,6 +70,12 @@ const synchronizeActions = {
       })
       cartHooksExecutors.afterSync(diffLog)
       return diffLog
+    }
+
+    if (resultCode !== 200 && isCartQuoteError(result)) {
+      console.log(result);
+      dispatch('clear', { disconnect: true, sync: false });
+      return createDiffLog();
     }
 
     if (bypassCounter < config.queues.maxCartBypassAttempts) {

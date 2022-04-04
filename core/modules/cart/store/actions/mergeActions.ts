@@ -13,6 +13,7 @@ import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 import productChecksum from '@vue-storefront/core/modules/cart/helpers/productChecksum';
 import { cartHooksExecutors } from './../../hooks'
 import ServerItem from '../../types/Servertem'
+import isCartQuoteError from '../../helpers/isCartQuoteError'
 
 const mergeActions = {
   async updateClientItem ({ dispatch }, { clientItem, serverItem }) {
@@ -43,6 +44,11 @@ const mergeActions = {
     const wasUpdatedSuccessfully = event.resultCode === 200
     Logger.debug('Cart item server sync' + event, 'cart')()
     diffLog.pushServerResponse({ status: event.resultCode, sku: clientItem.sku, result: event })
+
+    if (!wasUpdatedSuccessfully && isCartQuoteError(event.result)) {
+      dispatch('clear', { disconnect: true, sync: false });
+      return diffLog;
+    }
 
     if (!wasUpdatedSuccessfully && !serverItem) {
       commit(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })

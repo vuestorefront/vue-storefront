@@ -5,6 +5,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { CartService } from '@vue-storefront/core/data-resolver'
 import { preparePaymentMethodsToSync, createOrderData, createShippingInfoData } from '@vue-storefront/core/modules/cart/helpers'
 import PaymentMethod from '../../types/PaymentMethod'
+import isCartQuoteError from '../../helpers/isCartQuoteError'
 
 const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
@@ -40,12 +41,23 @@ const methodsActions = {
         })
 
         if (shippingMethodsData.country) {
-          const { result } = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData))
+          const { result, resultCode } = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData))
           backendPaymentMethods = result.payment_methods || []
+
+          if (resultCode !== 200 && isCartQuoteError(result)) {
+            dispatch('clear', { disconnect: true, sync: false });
+            return;
+          }
         }
       }
       if (!backendPaymentMethods || backendPaymentMethods.length === 0) {
-        const { result } = await CartService.getPaymentMethods()
+        const { result, resultCode } = await CartService.getPaymentMethods()
+
+        if (resultCode !== 200 && isCartQuoteError(result)) { // todo check new error
+          dispatch('clear', { disconnect: true, sync: false });
+          return;
+        }
+
         backendPaymentMethods = result
       }
 
@@ -82,7 +94,13 @@ const methodsActions = {
         region_code: shippingDetails.region_code ? shippingDetails.region_code : ''
       } : { country_id: storeView.tax.defaultCountry }
 
-      const { result } = await CartService.getShippingMethods(address)
+      const { result, resultCode } = await CartService.getShippingMethods(address)
+
+      if (resultCode !== 200) { // todo check new error
+        dispatch('clear', { disconnect: true, sync: false });
+        return;
+      }
+
       await dispatch('updateShippingMethods', { shippingMethods: result })
     } else {
       Logger.debug('Shipping methods does not need to be updated', 'cart')()
