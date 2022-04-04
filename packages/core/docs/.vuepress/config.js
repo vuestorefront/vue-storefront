@@ -183,6 +183,14 @@ module.exports = {
           ['/performance/ssr-cache', 'SSR cache']
         ]
       },
+      {
+        title: 'Security',
+        collapsable: true,
+        children: [
+          ['/security/headers-security', 'HTTP Headers security'],
+          ['/security/api-url', 'Middleware API URL']
+        ]
+      },
       // {
       //   title: 'Deployment',
       //   collapsable: true,
