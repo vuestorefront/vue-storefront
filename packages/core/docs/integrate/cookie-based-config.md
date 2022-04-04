@@ -2,42 +2,40 @@
 
 This document shows how to dynamically change Server Middleware configuration based on the cookies included in the request.
 
-## Create an extension
+## Create integration extension
 
-Let's create a new JavaScript file and paste the code shown below. For the sake of example, let's assume that the path is `extensions/cookie-config.js`.:
+We will start by creating an extension for the integration in which configuration we want to change dynamically.
+
+Create a new JavaScript file and paste the code shown below. Let's assume that the path is `extensions/cookie-config.js`.
 
 ```js
 // extensions/cookie-config.js
 
-function modifyConfiguration(request, configuration) {
-  const cookie = request.cookies?.['foo'] || 'default';
-  const cookieConfiguration = loadCoookieConfiguration(cookie); // Create a function that loads configuration based on cookie value
-
-  return {
-    ...configuration,
-    ...cookieConfiguration
-  };
-}
-
 module.exports = {
   name: 'cookieBasedConfiguration',
   hooks: (request) => ({
-    beforeCreate: ({ configuration }) => modifyConfiguration(request, configuration)
+    beforeCreate({ configuration }) {
+      const cookie = request.cookies.foo || 'default';
+      const cookieConfiguration = loadCoookieConfiguration(cookie);
+
+      return {
+        ...configuration,
+        ...cookieConfiguration
+      };
+    }
   })
 };
 ```
 
-Let's walk through this code piece by piece.
+Let's walk through this code step by step.
 
-The object that we export (using `module.exports`) is an integration extension, which is explained in detail in the [Extending integrations](/integrate/extending-integrations.html) document. This extension has a `hooks` callback that returns the `beforeCreate` hook called on every request to the Server Middleware before any other hook in the integration itself.
+The exported object is an integration extension explained in detail in the [Extending integrations](/integrate/extending-integrations.html) document. It has a `hooks` callback that returns the `beforeCreate` hook called on every request to the Server Middleware before any other hook in the integration itself.
 
-The `beforeCreate` hook returns the result from the `modifyConfiguration` function, which itself returns a new configuration passed to the integration.
-
-Because in the `modifyConfiguration` function we have access to the `request` object, we can read a cookie from it, which we do in the first line. If the `foo` cookie doesn't exist, we use the string `default` instead. Then we load the configuration based on that value (which you have to implement yourself) and finally return the result of merging the base and the cookie configurations.
+The `beforeCreate` hook returns a new configuration later passed to the integration. Because inside it, we have access to the `request` object, we can read a cookie from it, which we do in the first line. If the `foo` cookie doesn't exist, we use the string `default` instead. Then we load the configuration based on that value using the `loadCoookieConfiguration` function (which you have to implement yourself). Then the function returns the result by merging the base and the cookie configurations.
 
 ## Register the extension
 
-Now let's register our extension in the `middleware.config.js` file. Find the integration you want to override and add the `extensions` property if it doesn't exist already. Then, add the imported extension we created in the previous step to the array returned from it.
+Now let's register our extension in the `middleware.config.js` file. Find the integration you want to override and add the `extensions` property if it doesn't exist already. Then, add the imported extension we created in the previous step to the returned array.
 
 ```js{23}
 // middleware.config.js
