@@ -2,7 +2,7 @@ import express, { Request, Response, Express } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import consola from 'consola';
-import helmet from 'helmet';
+import helmet, { HelmetOptions } from 'helmet';
 import { MiddlewareConfig, ApiClientExtension, CustomQuery } from '@vue-storefront/core';
 import { registerIntegrations } from './integrations';
 import getAgnosticStatusCode from './helpers/getAgnosticStatusCode';
@@ -33,7 +33,7 @@ function createServer (config: MiddlewareConfig): Express {
       permittedPolicies: 'none'
     },
     contentSecurityPolicy: false,
-    ...config.helmet
+    ...(config as MiddlewareConfig & { helmet: HelmetOptions }).helmet
   }));
 
   consola.info('Loading integrations...');

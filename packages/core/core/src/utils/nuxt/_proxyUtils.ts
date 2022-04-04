@@ -29,7 +29,7 @@ export const getIntegrationConfig = (context: NuxtContext, configuration: any) =
   const baseURL = process.server ? context?.$config?.middlewareUrl : window.location.origin;
   const cookie = getCookies(context);
 
-  if (process.server && context?.$config?.middlewareUrl){
+  if (process.server && context?.$config?.middlewareUrl) {
     Logger.info('Applied middlewareUrl as ', context?.$config?.middlewareUrl);
   }
 
