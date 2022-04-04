@@ -28,7 +28,11 @@ export const getCookies = (context: NuxtContext) => context?.req?.headers?.cooki
 export const getIntegrationConfig = (context: NuxtContext, configuration: any) => {
   const baseURL = process.server ? context?.$config?.middlewareUrl : window.location.origin;
   const cookie = getCookies(context);
-  if (process.server && context?.$config?.middlewareUrl) Logger.info('Applied middlewareUrl as ', context?.$config?.middlewareUrl);
+
+  if (process.server && context?.$config?.middlewareUrl){
+    Logger.info('Applied middlewareUrl as ', context?.$config?.middlewareUrl);
+  }
+
   return merge({
     axios: {
       baseURL: new URL(/\/api\//gi.test(baseURL) ? '' : 'api', baseURL).toString(),

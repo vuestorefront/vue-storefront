@@ -35,6 +35,7 @@ function createServer (config: MiddlewareConfig): Express {
     contentSecurityPolicy: false,
     ...config.helmet
   }));
+
   consola.info('Loading integrations...');
 
   const integrations = registerIntegrations(app, config.integrations);
