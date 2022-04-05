@@ -23,13 +23,13 @@ export default {
     ['@vue-storefront/middleware/nuxt', {
       enableHelmet: true,
       helmet: {
-        // helmet options
+        // Helmet options
         // @see https://helmetjs.github.io/docs/
         crossOriginOpenerPolicy: false,
+        contentSecurityPolicy: false,
         permittedCrossDomainPolicies: {
           permittedPolicies: 'none'
         },
-        contentSecurityPolicy: false,
       }
     }]
   ],
@@ -43,15 +43,15 @@ This configuration is exclusive to the middleware communication with the `api-cl
 ```javascript
 // middleware.config.js
 module.exports = {
-  integrations: {...},
+   integrations: {...},
    helmet: {
-    // helmet options
+    // Helmet options
     // @see https://helmetjs.github.io/docs/
     crossOriginOpenerPolicy: false,
+    contentSecurityPolicy: false,
     permittedCrossDomainPolicies: {
       permittedPolicies: 'none'
     },
-    contentSecurityPolicy: false,
   }
 };
 ```
