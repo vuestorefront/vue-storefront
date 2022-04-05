@@ -1,30 +1,21 @@
 # HTTP Headers security
 
-To improve the security of your application, we ship by default in the `middleware` modules, the [Helmet.js](https://helmetjs.github.io/) security extension.
+To improve the security of Vue Storefront applications, we preinstall the [Helmet](https://helmetjs.github.io/) security extension by default for Nuxt application and the [Server Middleware](/architecture/server-middleware.html).
 
-Our architecture provides a layer of API in order to the application communicate with the `api-client`. You can find more information about the architecture in the [Networking](/architecture/networking.html) page.
+In this document we show how to change the default configuration in both applications. For a list of all available options, see the [Helmet documentation](https://helmetjs.github.io/docs/).
 
-# Configuring Helmet.js
+## Configuring Helmet in Nuxt
 
-This configuration is exclusive to the `@vue-storefront/middleware` package, and the communication between the front and the backend (`api-client` communication).
-
-To configure the module, you need to add in the `@vue-storefront/middleware` module, a set of options.
-
-Find all available [Helmet.js](https://helmetjs.github.io/) options in the following link [https://helmetjs.github.io/docs/](https://helmetjs.github.io/docs/)
-
-## Configuring the @vue-storefront/middleware Helmet.js
-
-This configuration is exclusive to the Nuxt.js communication. Any new options added here will be used in the Nuxt.js rendering and SSR process.
+To change the default configuration of Helmet in Nuxt application, use the `helmet` object in the configuration of the `@vue-storefront/middleware/nuxt` module. If you want to disable it, use the `enableHelmet` property instead.
 
 ```javascript
 // nuxt.config.js
+
 export default {
-    modules: [
+  modules: [
     ['@vue-storefront/middleware/nuxt', {
       enableHelmet: true,
       helmet: {
-        // helmet options
-        // @see https://helmetjs.github.io/docs/
         crossOriginOpenerPolicy: false,
         permittedCrossDomainPolicies: {
           permittedPolicies: 'none'
@@ -32,21 +23,19 @@ export default {
         contentSecurityPolicy: false,
       }
     }]
-  ],
+  ]
 }
 ```
 
-## Configuring the Integration Helmet.js
+## Configuring Helmet in Server Middleware
 
-This configuration is exclusive to the middleware communication with the `api-client` of the integration. Any new options added here will be used in the communication process between the application and `api-client` integration.
+To change the default configuration of Helmet in Server Middleware, use the `helmet` object in the `middleware.config.js` file.
 
 ```javascript
 // middleware.config.js
+
 module.exports = {
-  integrations: {...},
-   helmet: {
-    // helmet options
-    // @see https://helmetjs.github.io/docs/
+  helmet: {
     crossOriginOpenerPolicy: false,
     permittedCrossDomainPolicies: {
       permittedPolicies: 'none'

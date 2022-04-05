@@ -2,8 +2,7 @@
 
 ## Update `nuxt.config.js`
 
-In this release, we've added the `middlewareUrl` optional property to define your API endpoint (URL to the Server Middleware).
-To enable the property, open the `nuxt.config.js` file and add the `middlewareUrl` property to the `publicRuntimeConfig` object as shown below:
+In this release, we've added the optional  `middlewareUrl` property to define the URL to the Server Middleware. Open the `nuxt.config.js` file and add the `middlewareUrl` property to the `publicRuntimeConfig` object as shown below.
 
 :::warning
 Make sure to pass the whole URL with protocol, port (if applicable), and suffix it with `/api/`.
@@ -13,7 +12,7 @@ Make sure to pass the whole URL with protocol, port (if applicable), and suffix 
 // nuxt.config.js
 export default {
   publicRuntimeConfig: {
-    middlewareUrl: 'https://yourdomain.com/api/' // For the local development, set it to `http://localhost:3000/api/`.
+    middlewareUrl: 'https://example.com/api/' // For the local development, set it to `http://localhost:3000/api/`.
   }
 }
 ```
@@ -34,7 +33,8 @@ export default {
 Then add an entry in the `.env` file or use any other method for passing environmental variables that suits your needs.
 
 Example:
-```
+
+```text
 // .env
-API_BASE_URL=https://yourdomain.com/api/
+API_BASE_URL=https://example.com/api/
 ```

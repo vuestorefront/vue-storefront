@@ -194,7 +194,7 @@ module.exports = {
         collapsable: true,
         children: [
           ['/security/headers-security', 'HTTP Headers security'],
-          ['/security/api-url', 'Middleware API URL']
+          ['/security/api-url', 'Server Middleware URL']
         ]
       },
       {
