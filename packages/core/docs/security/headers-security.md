@@ -17,10 +17,10 @@ export default {
       enableHelmet: true,
       helmet: {
         crossOriginOpenerPolicy: false,
+        contentSecurityPolicy: false,
         permittedCrossDomainPolicies: {
           permittedPolicies: 'none'
-        },
-        contentSecurityPolicy: false,
+        }
       }
     }]
   ]
@@ -37,10 +37,10 @@ To change the default configuration of Helmet in Server Middleware, use the `hel
 module.exports = {
   helmet: {
     crossOriginOpenerPolicy: false,
+    contentSecurityPolicy: false,
     permittedCrossDomainPolicies: {
       permittedPolicies: 'none'
-    },
-    contentSecurityPolicy: false,
+    }
   }
 };
 ```
