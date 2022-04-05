@@ -72,7 +72,6 @@ const synchronizeActions = {
     }
 
     if (resultCode === 404) {
-      console.log(result);
       dispatch('clear', { disconnect: true, sync: false });
       return createDiffLog();
     }

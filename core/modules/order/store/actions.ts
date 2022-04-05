@@ -55,7 +55,7 @@ const actions: ActionTree<OrderState, RootState> = {
     const task = await OrderService.placeOrder(order)
 
     if (task.resultCode === 404) {
-      dispatch('clear', { disconnect: true, sync: false });
+      EventBus.$emit('order-cart-error');
       return task;
     }
 

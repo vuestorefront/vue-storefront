@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { cartStore } from './store'
 import { cartCacheHandlerPlugin, totalsCacheHandlerPlugin } from './helpers';
@@ -14,5 +15,11 @@ export const CartModule: StorefrontModule = function ({ store, router }) {
   if (!isServer) store.dispatch('cart/load')
   store.subscribe(cartCacheHandlerPlugin);
   store.subscribe(totalsCacheHandlerPlugin);
-  store.subscribe(cartClearHandlerFactory(router))
+  store.subscribe(cartClearHandlerFactory(router));
+
+  const onOrderErrorHandler = () => {
+    store.dispatch('cart/clear', { disconnect: true, sync: false });
+  };
+
+  EventBus.$on('order-cart-error', onOrderErrorHandler);
 }
