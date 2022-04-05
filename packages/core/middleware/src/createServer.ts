@@ -27,19 +27,18 @@ interface RequestParams {
 function createServer (config: MiddlewareConfig): Express {
   consola.info('Middleware starting....');
 
-  app.use(helmet({
+  const options = {
+    contentSecurityPolicy: false,
     crossOriginOpenerPolicy: false,
     permittedCrossDomainPolicies: {
       permittedPolicies: 'none'
     },
-    contentSecurityPolicy: false,
     ...(config as MiddlewareConfig & { helmet: HelmetOptions }).helmet
-  }));
+  };
+  app.use(helmet(options));
 
   consola.info('Loading integrations...');
-
   const integrations = registerIntegrations(app, config.integrations);
-
   consola.success('Integrations loaded!');
 
   app.post('/:integrationName/:functionName', async (req: Request, res: Response) => {
@@ -51,7 +50,6 @@ function createServer (config: MiddlewareConfig): Express {
     const apiFunction = apiClientInstance.api[functionName];
     try {
       const platformResponse = await apiFunction(...req.body);
-
       res.send(platformResponse);
     } catch (error) {
       res.status(getAgnosticStatusCode(error));
@@ -60,7 +58,6 @@ function createServer (config: MiddlewareConfig): Express {
   });
 
   consola.success('Middleware created!');
-
   return app;
 }
 

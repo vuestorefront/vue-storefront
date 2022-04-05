@@ -1,4 +1,5 @@
 const { createServer } = require('@vue-storefront/middleware');
+const cors = require('cors');
 const helmet = require('helmet');
 const consola = require('consola');
 
@@ -14,6 +15,7 @@ module.exports = function VueStorefrontMiddleware(moduleOptions) {
   };
   // validate security setup with Helmet
   this.nuxt.hook('render:setupMiddleware', (app) => {
+    app.use(cors());
     const hasHelmetKey = Object.prototype.hasOwnProperty.call(options, 'enableHelmet');
     const isHelmetEnabled = hasHelmetKey ? options.enableHelmet : true;
     if (isHelmetEnabled) {
@@ -38,8 +40,8 @@ module.exports = function VueStorefrontMiddleware(moduleOptions) {
     }
   });
 
-  const { integrations } = require(this.nuxt.options.rootDir + '/middleware.config.js');
-  const handler = createServer({ integrations });
+  const config = require(this.nuxt.options.rootDir + '/middleware.config.js');
+  const handler = createServer(config);
   const serverMiddleware = { path: `/${apiPath}`, handler };
 
   this.addServerMiddleware(serverMiddleware);
