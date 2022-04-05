@@ -184,6 +184,13 @@ module.exports = {
           ['/performance/ssr-cache', 'SSR cache']
         ]
       },
+      {
+        title: 'Miscellaneous',
+        collapsable: true,
+        children: [
+          ['/miscellaneous/handling-cookies', 'Handling cookies']
+        ]
+      },
       // {
       //   title: 'Deployment',
       //   collapsable: true,

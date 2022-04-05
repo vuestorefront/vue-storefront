@@ -72,30 +72,4 @@ export default ({ $vsf, $cookies }) => {
 
 We read the cookie value using the `$cookies` property. Then using the `loadCoookieConfiguration` function (which you must implement yourself), we load the associated configuration and override the base configuration.
 
-## Handling cookies
-
-Thanks to the preinstalled [cookie-universal-nuxt](https://www.npmjs.com/package/cookie-universal-nuxt) package, we can easily handle cookies from both components and middlewares.
-
-Handling cookies in components:
-
-```vue
-<script>
-import { useContext } from '@nuxtjs/composition-api';
-
-export default {
-  setup () {
-    const { $cookies } = useContext();
-
-    // `$cookies.get()` or `$cookies.set()`
-  }
-};
-</script>
-```
-
-Handling cookies in middlewares:
-
-```ts
-export default ({ $cookies }) => {
-  // `$cookies.get()` or `$cookies.set()`
-};
-```
+See the [Handling cookies](/miscellaneous/handling-cookies.html) document to learn more about cookies.
