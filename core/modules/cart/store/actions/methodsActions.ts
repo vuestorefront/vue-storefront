@@ -95,7 +95,7 @@ const methodsActions = {
 
       const { result, resultCode } = await CartService.getShippingMethods(address)
 
-      if (resultCode !== 200) { // todo check new error
+      if (resultCode === 404) {
         dispatch('clear', { disconnect: true, sync: false });
         return;
       }
