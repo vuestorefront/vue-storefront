@@ -5,7 +5,6 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { CartService } from '@vue-storefront/core/data-resolver'
 import { preparePaymentMethodsToSync, createOrderData, createShippingInfoData } from '@vue-storefront/core/modules/cart/helpers'
 import PaymentMethod from '../../types/PaymentMethod'
-import isCartQuoteError from '../../helpers/isCartQuoteError'
 
 const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
@@ -44,7 +43,7 @@ const methodsActions = {
           const { result, resultCode } = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData))
           backendPaymentMethods = result.payment_methods || []
 
-          if (resultCode !== 200 && isCartQuoteError(result)) {
+          if (resultCode === 404) {
             dispatch('clear', { disconnect: true, sync: false });
             return;
           }
@@ -53,7 +52,7 @@ const methodsActions = {
       if (!backendPaymentMethods || backendPaymentMethods.length === 0) {
         const { result, resultCode } = await CartService.getPaymentMethods()
 
-        if (resultCode !== 200 && isCartQuoteError(result)) { // todo check new error
+        if (resultCode === 404) {
           dispatch('clear', { disconnect: true, sync: false });
           return;
         }

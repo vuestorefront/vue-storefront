@@ -14,7 +14,6 @@ import config from 'config'
 import { orderHooksExecutors } from '../hooks'
 import * as entities from '@vue-storefront/core/lib/store/entities'
 import { prepareOrder, optimizeOrder, notifications } from './../helpers'
-import isCartQuoteError from 'core/modules/cart/helpers/isCartQuoteError'
 
 const actions: ActionTree<OrderState, RootState> = {
   /**
@@ -55,7 +54,7 @@ const actions: ActionTree<OrderState, RootState> = {
     const order = { ...newOrder, transmited: true }
     const task = await OrderService.placeOrder(order)
 
-    if (task.resultCode !== 200 && isCartQuoteError(task.result)) {
+    if (task.resultCode === 404) {
       dispatch('clear', { disconnect: true, sync: false });
       return task;
     }

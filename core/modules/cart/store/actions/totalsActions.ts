@@ -9,8 +9,6 @@ import {
 } from '@vue-storefront/core/modules/cart/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
-import isCartQuoteError from '../../helpers/isCartQuoteError'
-
 const totalsActions = {
   async updateTotals ({ commit }, payload) {
     commit(types.CART_UPD_TOTALS, payload)
@@ -25,7 +23,7 @@ const totalsActions = {
   async overrideServerTotals ({ commit, getters, rootGetters, dispatch }, { addressInformation, hasShippingInformation }) {
     const { resultCode, result } = await dispatch('getTotals', { addressInformation, hasShippingInformation })
 
-    if (resultCode !== 200 && isCartQuoteError(result)) {
+    if (resultCode === 404) {
       dispatch('clear', { disconnect: true, sync: false });
       return;
     }
