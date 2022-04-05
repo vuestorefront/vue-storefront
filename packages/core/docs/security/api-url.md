@@ -36,5 +36,5 @@ Example:
 
 ```text
 // .env
-API_BASE_URL=https://yourdomain.com/api/
+API_BASE_URL=https://example.com/api/
 ```
