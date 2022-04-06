@@ -30,7 +30,14 @@ export const PaymentBackendMethodsModule: StorefrontModule = function ({ store }
   if (!isServer) {
     // Update the methods
     EventBus.$on('set-unique-payment-methods', methods => {
-      store.commit('payment-backend-methods/' + types.SET_BACKEND_PAYMENT_METHODS, methods)
+      const paymentMethodsHandledByOtherModules: string[] = [];
+      EventBus.$emit(
+        'collect-methods-handled-by-other-modules',
+        paymentMethodsHandledByOtherModules
+      );
+
+      const paymentMethodsHandledByThisModule = methods.filter((method) => !paymentMethodsHandledByOtherModules.includes(method.code));
+      store.commit('payment-backend-methods/' + types.SET_BACKEND_PAYMENT_METHODS, paymentMethodsHandledByThisModule);
     })
 
     EventBus.$on('checkout-before-placeOrder', placeOrder)

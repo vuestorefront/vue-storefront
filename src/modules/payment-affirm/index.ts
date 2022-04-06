@@ -76,14 +76,16 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
         order.checkout_token = checkoutToken;
       }
 
-      const onCountryUpdateHandler = () => {
-        store.dispatch('affirm/checkIsPaymentMethodAvailable')
-      }
+      const onCollectSupportedPaymentMethodsEventHandler = (methods: string[]) => {
+        methods.push(AFFIRM_METHOD_CODE);
+      };
 
       EventBus.$on('checkout-before-placeOrder', invokePlaceOrder);
       EventBus.$on('order-before-placed', orderBeforePlacedHandler);
-      EventBus.$on('checkout-before-shippingMethods', onCountryUpdateHandler);
-      EventBus.$on('checkout-payment-country-changed', onCountryUpdateHandler);
+      EventBus.$on(
+        'collect-methods-handled-by-other-modules',
+        onCollectSupportedPaymentMethodsEventHandler
+      )
     }
   })
 }
