@@ -61,7 +61,7 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
         });
       }
 
-      const orderBeforePlacedHandler = (order: Order) => {
+      const orderBeforePlacedHandler = ({ order }: {order: Order}) => {
         if (!isCurrentPaymentMethod) {
           return;
         }
