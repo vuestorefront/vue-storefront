@@ -12,7 +12,9 @@ Make sure to pass the whole URL with protocol, port (if applicable), and suffix 
 // nuxt.config.js
 export default {
   publicRuntimeConfig: {
-    middlewareUrl: 'https://example.com/api/' // For the local development, set it to `http://localhost:3000/api/`.
+    middlewareUrl: process.env.NODE_ENV === 'production'
+      ? 'https://example.com/api/' // Your production URL
+      : 'http://localhost:3000/api/'
   }
 }
 ```
