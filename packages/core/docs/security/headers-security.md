@@ -6,18 +6,35 @@ In this document we show how to change the default configuration in both applica
 
 ## Configuring Helmet in Nuxt
 
-To change the default configuration of Helmet in Nuxt application, use the `helmet` object in the configuration of the `@vue-storefront/middleware/nuxt` module. If you want to disable it, use the `enableHelmet` property instead.
+**Helmet** is disabled by default, you can enable it by passing `helmet` property set to `true` or as a configuration object like this.
 
 ```javascript
 // nuxt.config.js
-
 export default {
   modules: [
     ['@vue-storefront/middleware/nuxt', {
-      enableHelmet: true,
+      helmet: true
+      // or
       helmet: {
+        // ...configuration
+      }
+    }]
+  ]
+}
+```
+
+To change the default configuration of Helmet in Nuxt application, use the `helmet` object in the configuration of the `@vue-storefront/middleware/nuxt` module.
+
+```javascript
+// nuxt.config.js
+export default {
+  modules: [
+    ['@vue-storefront/middleware/nuxt', {
+      helmet: {
+        // default configuration
         crossOriginOpenerPolicy: false,
         contentSecurityPolicy: false,
+        crossOriginEmbedderPolicy: false,
         permittedCrossDomainPolicies: {
           permittedPolicies: 'none'
         }
@@ -27,17 +44,35 @@ export default {
 }
 ```
 
-## Configuring Helmet in Server Middleware
+## Configuring Helmet in VSF Server Middleware
+
+**Helmet** is disabled by default, you can enable it by passing `helmet` property set to `true` or as a configuration object like this.
+
+```javascript
+// nuxt.config.js
+export default {
+  modules: [
+    ['@vue-storefront/middleware/nuxt', {
+      helmet: true
+      // or
+      helmet: {
+        // ...configuration
+      }
+    }]
+  ]
+}
+```
 
 To change the default configuration of Helmet in Server Middleware, use the `helmet` object in the `middleware.config.js` file.
 
 ```javascript
 // middleware.config.js
-
 module.exports = {
   helmet: {
+    // default configuration
     crossOriginOpenerPolicy: false,
     contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
     permittedCrossDomainPolicies: {
       permittedPolicies: 'none'
     }

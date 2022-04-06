@@ -18,24 +18,31 @@ interface MiddlewareContext {
   extensions: ApiClientExtension[];
   customQueries: Record<string, CustomQuery>;
 }
-
 interface RequestParams {
   integrationName: string;
   functionName: string;
+}
+interface Helmet extends HelmetOptions {
+  helmet?: boolean | HelmetOptions
 }
 
 function createServer (config: MiddlewareConfig): Express {
   consola.info('Middleware starting....');
 
-  const options = {
+  const options: Helmet = {
     contentSecurityPolicy: false,
     crossOriginOpenerPolicy: false,
+    crossOriginEmbedderPolicy: false,
     permittedCrossDomainPolicies: {
       permittedPolicies: 'none'
     },
-    ...(config as MiddlewareConfig & { helmet: HelmetOptions }).helmet
+    ...config.helmet || {}
   };
-  app.use(helmet(options));
+  const isHelmetEnabled = config.helmet || (config.helmet && Object.keys(config.helmet).length > 0) || false;
+  if (isHelmetEnabled) {
+    app.use(helmet(options));
+    consola.info('VSF `Helmet` middleware added');
+  }
 
   consola.info('Loading integrations...');
   const integrations = registerIntegrations(app, config.integrations);

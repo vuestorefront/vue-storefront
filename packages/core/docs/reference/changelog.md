@@ -2,6 +2,7 @@
 
 ## 2.5.12
 
+- Middleware and Nuxt Middleware [Helmet](https://github.com/helmetjs/helmet) added. ([6688](https://github.com/vuestorefront/vue-storefront/pull/6688)) [Heitor Ramon](https://github.com/bloodf)
 - Revert the breaking change introduced in `2.5.7`, with the default behavior and the possibility to use Nuxt `middlewareUrl` as the endpoint definition. ([6688](https://github.com/vuestorefront/vue-storefront/pull/6688)) [Heitor Ramon](https://github.com/bloodf)
 
 ## 2.5.7
