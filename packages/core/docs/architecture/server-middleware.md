@@ -5,12 +5,12 @@ The Server Middleware is an Express.js application implemented for a variety of 
 - connect multiple services using different technologies and libraries,
 - allow you to create and [extend](/integrate/extending-integrations.html) integrations to add new capabilities or modify their behavior,
 - give you control of the requests sent to the integration platform and responses sent back to the Nuxt.js application,
-- securely store credentials on the server, without exposing them to the end-users of your application,
+- securely store credentials on the server without exposing them to the end-users of your application,
 - improve the performance by moving all logic of the networking layer to the server, thus shipping less code to the browser.
 
 ## Configuration
 
-Every Vue Storefront application comes with the `middleware.config.js` file located at the root of the project.  Inside this file, you can register packages that extend the Server Middleware by adding new API endpoints or modifying the Express.js application itself.
+Every Vue Storefront application comes with the `middleware.config.js` file located at the project's root. Inside this file, you can register packages that extend the Server Middleware by adding new API endpoints or modifying the Express.js application itself.
 
 ```javascript
 // middleware.config.js
@@ -48,7 +48,7 @@ To create Server Middleware integration, you can follow our [Integrating eCommer
 
 ## Extending an integrations
 
-As shown in the [Configuration](#configuration) section, integrations can be extended. You can follow our [Extending integrations](/integrate/extending-integrations.html) guide to learn more.
+As shown in the [Configuration](#configuration) section, integrations can be extended. To learn more, you can follow our [Extending integrations](/integrate/extending-integrations.html) guide.
 
 ## Separating Server Middleware from Nuxt.js
 
@@ -66,7 +66,7 @@ app.listen(8181, () => {
 });
 ```
 
-When you run this file using Node.js, the middleware will start its server without relying on Nuxt.js.
+When running this file using Node.js, the middleware will start its server without relying on Nuxt.js.
 
 You need to remove the Server Middleware module from the `nuxt.config.js` and configure the domain your middleware is using.
 
@@ -77,7 +77,7 @@ export default {
 -    '@vue-storefront/middleware/nuxt'
   ],
 +  publicRuntimeConfig: {
-+    middlewareUrl: 'https://api.commerce.com'
++    middlewareUrl: 'https://api.example.com'
 +  }
 }
 ```

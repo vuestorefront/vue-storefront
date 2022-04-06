@@ -164,6 +164,7 @@ module.exports = {
         children: [
           ['/integrate/extending-vue-storefront', 'Extending Vue Storefront'],
           ['/integrate/extending-integrations', 'Extending integrations'],
+          ['/integrate/cookie-based-config', 'Cookie-based configuration'],
           ['/integrate/integration-guide', 'Integrating e-commerce platform'],
           ['/integrate/cms', 'Integrating CMS platform'],
           ['/integrate/cache-driver', 'Integrating cache driver']
@@ -187,6 +188,13 @@ module.exports = {
           ['/performance/optimizing-javascript', 'Optimizing JavaScript'],
           ['/performance/other-optimizations', 'Other optimizations'],
           ['/performance/ssr-cache', 'SSR cache']
+        ]
+      },
+      {
+        title: 'Miscellaneous',
+        collapsable: true,
+        children: [
+          ['/miscellaneous/handling-cookies', 'Handling cookies']
         ]
       },
       {
