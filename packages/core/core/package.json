@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/core",
-  "version": "2.5.12-c.3",
+  "version": "2.5.12",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
