@@ -12,13 +12,14 @@ module.exports = function VueStorefrontMiddleware(moduleOptions) {
     permittedCrossDomainPolicies: {
       permittedPolicies: 'none'
     },
-    ...moduleOptions.helmet || {}
+    ...(moduleOptions.helmet || {})
   };
   // validate security setup with Helmet
   this.nuxt.hook('render:setupMiddleware', (app) => {
     app.use(cors());
     const isHelmetEnabled = moduleOptions.helmet || (moduleOptions.helmet && Object.keys(moduleOptions.helmet).length > 0) || false;
     if (isHelmetEnabled) {
+      console.log(options);
       app.use(helmet(options));
       consola.success('Nuxt `Helmet` middleware added');
     }

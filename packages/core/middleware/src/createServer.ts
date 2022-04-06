@@ -36,7 +36,7 @@ function createServer (config: MiddlewareConfig): Express {
     permittedCrossDomainPolicies: {
       permittedPolicies: 'none'
     },
-    ...config.helmet || {}
+    ...(config.helmet || {})
   };
   const isHelmetEnabled = config.helmet || (config.helmet && Object.keys(config.helmet).length > 0) || false;
   if (isHelmetEnabled) {
