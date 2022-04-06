@@ -44,24 +44,7 @@ export default {
 
 ## Configuring Helmet in VSF Server Middleware
 
-**Helmet** is disabled by default, you can enable it by passing `helmet` property set to `true` or as a configuration object like this.
-
-```javascript
-// nuxt.config.js
-export default {
-  modules: [
-    ['@vue-storefront/middleware/nuxt', {
-      helmet: true
-      // or
-      helmet: {
-        // ...configuration
-      }
-    }]
-  ]
-}
-```
-
-To change the default configuration of Helmet in Server Middleware, use the `helmet` object in the `middleware.config.js` file.
+`Helmet` is disabled by default. You can enable it using the `helmet` property in the `middleware.config.js` file. You can either pass `true` to enable it with the default configuration or pass an object to use your custom configuration.
 
 ```javascript
 // middleware.config.js
