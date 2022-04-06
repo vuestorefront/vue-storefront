@@ -23,8 +23,6 @@ export default {
 }
 ```
 
-To change the default configuration of Helmet in Nuxt application, use the `helmet` object in the configuration of the `@vue-storefront/middleware/nuxt` module.
-
 ```javascript
 // nuxt.config.js
 export default {
