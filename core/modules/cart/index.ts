@@ -17,9 +17,9 @@ export const CartModule: StorefrontModule = function ({ store, router }) {
   store.subscribe(totalsCacheHandlerPlugin);
   store.subscribe(cartClearHandlerFactory(router));
 
-  const onOrderErrorHandler = () => {
+  const onCartNotFoundErrorHandler = () => {
     store.dispatch('cart/clear', { disconnect: true, sync: false });
   };
 
-  EventBus.$on('order-cart-error', onOrderErrorHandler);
+  EventBus.$on('cart-not-found-error', onCartNotFoundErrorHandler);
 }
