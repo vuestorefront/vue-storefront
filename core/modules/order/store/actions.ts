@@ -54,7 +54,7 @@ const actions: ActionTree<OrderState, RootState> = {
     const order = { ...newOrder, transmited: true }
     const task = await OrderService.placeOrder(order)
 
-    if (task) {
+    if (task.resultCode === 404) {
       commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash);
       EventBus.$emit('cart-not-found-error');
       EventBus.$emit('notification-progress-stop');
