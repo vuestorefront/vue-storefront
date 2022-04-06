@@ -18,7 +18,7 @@ module.exports = {
   hooks: (request) => ({
     beforeCreate({ configuration }) {
       const cookie = request.cookies.foo || 'default';
-      const cookieConfiguration = loadCoookieConfiguration(cookie);
+      const cookieConfiguration = loadCookieConfiguration(cookie);
 
       return {
         ...configuration,
@@ -31,7 +31,7 @@ module.exports = {
 
 The extension has a `beforeCreate` hook, which gets called on every request to the integration before any other hook.
 
-We read the cookie value from the `request` object. Then using the `loadCoookieConfiguration` function (which you must implement yourself), we load the associated configuration and override the base configuration.
+We read the cookie value from the `request` object. Then using the `loadCookieConfiguration` function (which you must implement yourself), we load the associated configuration and override the base configuration.
 
 ### Register the extension
 
@@ -59,7 +59,7 @@ You can change the integration configuration in Nuxt using middleware.
 ```ts
 export default ({ $vsf, $cookies }) => {
   const cookie = $cookies.get('foo') || 'default';
-  const cookieConfiguration = loadCoookieConfiguration(cookie);
+  const cookieConfiguration = loadCookieConfiguration(cookie);
 
   const integration = $vsf.$integration; // Instead of `$integration`, use the integration key instead
 
@@ -70,6 +70,6 @@ export default ({ $vsf, $cookies }) => {
 };
 ```
 
-We read the cookie value using the `$cookies` property. Then using the `loadCoookieConfiguration` function (which you must implement yourself), we load the associated configuration and override the base configuration.
+We read the cookie value using the `$cookies` property. Then using the `loadCookieConfiguration` function (which you must implement yourself), we load the associated configuration and override the base configuration.
 
 See the [Handling cookies](/miscellaneous/handling-cookies.html) document to learn more about cookies.
