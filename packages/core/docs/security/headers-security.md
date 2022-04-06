@@ -6,7 +6,7 @@ In this document we show how to change the default configuration in both applica
 
 ## Configuring Helmet in Nuxt
 
-**Helmet** is disabled by default, you can enable it by passing `helmet` property set to `true` or as a configuration object like this.
+`Helmet` is disabled by default. You can enable it using the `helmet` property in the `@vue-storefront/middleware/nuxt` module configuration. You can either pass `true` to enable it with the default configuration or pass an object to use your custom configuration.
 
 ```javascript
 // nuxt.config.js
