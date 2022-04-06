@@ -11,7 +11,7 @@ Make sure to pass the whole URL with protocol, port (if applicable), and suffix 
 export default {
   publicRuntimeConfig: {
     middlewareUrl: process.env.NODE_ENV === 'production'
-      ? `https://${process.env.API_BASE_URL}/api/`
+      ? 'https://example.com/api/' // Your production URL
       : 'http://localhost:3000/api/'
   }
 }
