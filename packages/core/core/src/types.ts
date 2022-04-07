@@ -846,7 +846,7 @@ export type IntegrationsSection = Record<string, Integration>
 
 export interface MiddlewareConfig {
   integrations: Record<string, Integration>;
-  helmet: Readonly<HelmetOptions>;
+  helmet?: boolean | Readonly<HelmetOptions>;
 }
 
 export interface ApiClientFactoryParams<T, F = any> {
