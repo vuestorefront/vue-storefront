@@ -95,8 +95,7 @@ Based on our experience, we've created the [**Payment integration template**](ht
 
 ## Integrating PSP with certain eCommerce
 
-### commercetools
-Create `Payment` object. Keep it up-to-date. Add payment to the cart. Create an order. Update payment status (and transactions), and order status based on Webhook calls (you need to create an endpoint for that - and we recommend using VSF2's integrations - middleware.config.js). This is a good reference of desired flow in PSP & commercetools integration: https://github.com/commercetools/commercetools-adyen-integration/blob/master/extension/docs/WebComponentsIntegrationGuide.md
+- [commercetools](https://docs.vuestorefront.io/v2/commercetools/guide/payment-service-provider-integration.html)
 
 ### Magento2
 You need a PHP plugin for an integration that is Headless-ready. So it shares API/GQL endpoints. Then you have to communicate with the plugin from VSF2 frontend or middleware. 
