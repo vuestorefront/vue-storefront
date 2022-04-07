@@ -62,16 +62,6 @@ const INTEGRATIONS = {
       ]
     },
     {
-      name: 'Spryker',
-      link: 'https://docs.vuestorefront.io/spryker',
-      image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed62750bc49f087fcfc9fd1_spryker_logo.svg',
-      status: STATUS.BETA,
-      license: LICENSE.OPEN_SOURCE,
-      maintainedBy: [
-        { name: 'Spryker', link: 'https://spryker.com/en/' },
-      ]
-    },
-    {
       name: 'Shopify',
       link: 'https://docs.vuestorefront.io/shopify',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed627658b992c5c98014d1c_Shopify_logo_2018%201.svg',
