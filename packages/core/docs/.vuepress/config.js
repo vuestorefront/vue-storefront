@@ -191,10 +191,11 @@ module.exports = {
         ]
       },
       {
-        title: 'Miscellaneous',
+        title: 'Security',
         collapsable: true,
         children: [
-          ['/miscellaneous/handling-cookies', 'Handling cookies']
+          ['/security/headers-security', 'HTTP Headers security'],
+          ['/security/api-url', 'Server Middleware URL']
         ]
       },
       {

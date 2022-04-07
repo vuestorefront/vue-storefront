@@ -1,6 +1,8 @@
 import * as utils from '../../../src/utils/nuxt/_proxyUtils';
 
 describe('[CORE - utils] _proxyUtils', () => {
+  process.server = true;
+
   it('returns proxy for defined api', () => {
     const givenApi = {
       getProduct: jest.fn()
@@ -32,13 +34,13 @@ describe('[CORE - utils] _proxyUtils', () => {
     expect(utils.getIntegrationConfig(
       {
         $config: {
-          middlewareUrl: 'some-url'
+          middlewareUrl: 'http://localhost.com'
         }
       } as any,
       { someGivenOption: 1 }
     )).toEqual({
       axios: {
-        baseURL: 'some-url',
+        baseURL: 'http://localhost.com/api',
         headers: {}
       },
       someGivenOption: 1
@@ -51,13 +53,13 @@ describe('[CORE - utils] _proxyUtils', () => {
     expect(utils.getIntegrationConfig(
       {
         $config: {
-          middlewareUrl: 'some-url'
+          middlewareUrl: 'http://localhost.com'
         }
       } as any,
       {}
     )).toEqual({
       axios: {
-        baseURL: 'some-url',
+        baseURL: 'http://localhost.com/api',
         headers: {
           cookie: 'xxx'
         }

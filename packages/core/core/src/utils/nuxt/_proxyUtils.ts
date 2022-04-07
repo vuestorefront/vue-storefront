@@ -1,6 +1,7 @@
 import { Context as NuxtContext } from '@nuxt/types';
 import merge from 'lodash-es/merge';
 import { ApiClientMethod } from './../../types';
+import { Logger } from './../logger';
 
 interface CreateProxiedApiParams {
   givenApi: Record<string, ApiClientMethod>;
@@ -25,25 +26,20 @@ export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiPara
 export const getCookies = (context: NuxtContext) => context?.req?.headers?.cookie ?? '';
 
 export const getIntegrationConfig = (context: NuxtContext, configuration: any) => {
+  const baseURL = process.server ? context?.$config?.middlewareUrl : window.location.origin;
   const cookie = getCookies(context);
 
-  if (context?.$config?.middlewareUrl) {
-    const { middlewareUrl } = context.$config;
-    return merge({
-      axios: {
-        baseURL: middlewareUrl,
-        headers: {
-          ...(cookie ? { cookie } : {})
-        }
-      }
-    }, configuration);
+  if (process.server && context?.$config?.middlewareUrl) {
+    Logger.info('Applied middlewareUrl as ', context.$config.middlewareUrl);
   }
 
   return merge({
     axios: {
+      baseURL: new URL(/\/api\//gi.test(baseURL) ? '' : 'api', baseURL).toString(),
       headers: {
         ...(cookie ? { cookie } : {})
       }
     }
   }, configuration);
 };
+
