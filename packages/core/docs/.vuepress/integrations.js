@@ -235,7 +235,7 @@ const INTEGRATIONS = {
     {
       name: 'Redis',
       link: './redis-cache.html',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/Redis_Logo.svg',
+      image: '/v2/integrations-logos/redis.svg',
       status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
