@@ -17,7 +17,7 @@ module.exports = function VueStorefrontMiddleware(moduleOptions) {
   // validate security setup with Helmet
   this.nuxt.hook('render:setupMiddleware', (app) => {
     app.use(cors());
-    const isHelmetEnabled = moduleOptions.helmet || (moduleOptions.helmet && Object.keys(moduleOptions.helmet).length > 0) || false;
+    const isHelmetEnabled = moduleOptions.helmet === true || (moduleOptions.helmet && Object.keys(moduleOptions.helmet).length > 0);
     if (isHelmetEnabled) {
       app.use(helmet(options));
       consola.success('Nuxt `Helmet` middleware added');

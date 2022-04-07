@@ -38,7 +38,7 @@ function createServer (config: MiddlewareConfig): Express {
     },
     ...(config.helmet || {}) as HelmetOptions
   };
-  const isHelmetEnabled = config.helmet || (config.helmet && Object.keys(config.helmet).length > 0) || false;
+  const isHelmetEnabled = config.helmet === true || (config.helmet && Object.keys(config.helmet).length > 0);
   if (isHelmetEnabled) {
     app.use(helmet(options));
     consola.info('VSF `Helmet` middleware added');
