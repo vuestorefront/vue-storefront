@@ -40,7 +40,7 @@ module.exports = function VueStorefrontMiddleware(moduleOptions) {
     }
   });
 
-  const config = require(this.nuxt.options.rootDir + '/middleware.config.js');
+  const config = require(`${this.nuxt.options.rootDir}/middleware.config.js`);
   const handler = createServer(config);
   const serverMiddleware = { path: `/${apiPath}`, handler };
 
