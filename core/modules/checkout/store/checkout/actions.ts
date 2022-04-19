@@ -4,6 +4,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import CheckoutState from '../../types/CheckoutState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 const actions: ActionTree<CheckoutState, RootState> = {
   async placeOrder ({ dispatch }, { order }) {
@@ -74,6 +75,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
     commit(types.CHECKOUT_ADD_PAYMENT_METHOD, paymentMethod)
   },
   async replacePaymentMethods ({ commit }, paymentMethods) {
+    EventBus.$emit('before-replace-payment-methods', paymentMethods);
     commit(types.CHECKOUT_SET_PAYMENT_METHODS, paymentMethods)
   },
   async addShippingMethod ({ commit }, shippingMethod) {
