@@ -71,6 +71,11 @@ const synchronizeActions = {
       return diffLog
     }
 
+    if (resultCode === 404) {
+      dispatch('clear', { disconnect: true, sync: false });
+      return createDiffLog();
+    }
+
     if (bypassCounter < config.queues.maxCartBypassAttempts) {
       Logger.log('Bypassing with guest cart' + bypassCounter, 'cart')()
       commit(types.CART_UPDATE_BYPASS_COUNTER, { counter: 1 })
