@@ -46,6 +46,7 @@ const createOrderData = ({
       postcode: paymentDetails.zipCode,
       street: [paymentDetails.streetAddress],
       countryId: paymentDetails.country,
+      region: paymentDetails.state ? paymentDetails.state : undefined,
       telephone: paymentDetails.phoneNumber
     },
     method_code: shipping && shipping.method_code ? shipping.method_code : null,
