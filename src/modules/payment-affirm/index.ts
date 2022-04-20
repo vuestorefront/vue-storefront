@@ -2,9 +2,10 @@ import { coreHooks } from '@vue-storefront/core/hooks';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { Order } from '@vue-storefront/core/modules/order/types/Order';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import PaymentMethod from 'core/modules/cart/types/PaymentMethod';
+
 import registerStoryblokComponents from './components/storyblok'
 import addAffirmScript from './helpers/add-affirm-script.function';
-
 import { module } from './store';
 import { SET_CHECKOUT_TOKEN } from './types/StoreMutations';
 import { AFFIRM_METHOD_CODE } from './types/AffirmPaymentMethod';
@@ -80,12 +81,23 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
         methods.push(AFFIRM_METHOD_CODE);
       };
 
+      const onBeforeReplacePaymentMethods = (methods: PaymentMethod[]) => {
+        methods.forEach((method) => {
+          if (method.code !== AFFIRM_METHOD_CODE) {
+            return;
+          }
+
+          method.hint = app.$t('Affirm page will opened in the separate window to securely complete your purchase. Just fill out a few pieces of basic information and get a real-time decision. Checking your eligibility won\'t affect your credit score.').toString();
+        })
+      };
+
       EventBus.$on('checkout-before-placeOrder', invokePlaceOrder);
       EventBus.$on('order-before-placed', orderBeforePlacedHandler);
       EventBus.$on(
         'collect-methods-handled-by-other-modules',
         onCollectSupportedPaymentMethodsEventHandler
-      )
+      );
+      EventBus.$on('before-replace-payment-methods', onBeforeReplacePaymentMethods);
     }
   })
 }
