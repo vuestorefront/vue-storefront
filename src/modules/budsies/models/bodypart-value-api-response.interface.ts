@@ -5,6 +5,7 @@ export default interface BodypartValueApiResponse {
   content_type_id: number,
   color?: string,
   image?: string,
+  group?: string | 'default',
   is_default: number,
   sn: number
 }

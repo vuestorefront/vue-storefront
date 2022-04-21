@@ -12,6 +12,7 @@ const factory: ObjectBuilderInterface<BodypartValue, BodypartValueApiResponse> =
     +data.sn,
     data.color,
     data.image,
+    data.group,
     false
   );
 
