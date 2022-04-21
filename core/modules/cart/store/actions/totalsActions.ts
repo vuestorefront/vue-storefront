@@ -23,6 +23,11 @@ const totalsActions = {
   async overrideServerTotals ({ commit, getters, rootGetters, dispatch }, { addressInformation, hasShippingInformation }) {
     const { resultCode, result } = await dispatch('getTotals', { addressInformation, hasShippingInformation })
 
+    if (resultCode === 404) {
+      dispatch('clear', { disconnect: true, sync: false });
+      return;
+    }
+
     if (resultCode === 200) {
       const totals = result.totals || result
       Logger.info('Overriding server totals. ', 'cart', totals)()

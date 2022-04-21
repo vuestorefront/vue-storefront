@@ -40,12 +40,23 @@ const methodsActions = {
         })
 
         if (shippingMethodsData.country) {
-          const { result } = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData))
+          const { result, resultCode } = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData))
           backendPaymentMethods = result.payment_methods || []
+
+          if (resultCode === 404) {
+            dispatch('clear', { disconnect: true, sync: false });
+            return;
+          }
         }
       }
       if (!backendPaymentMethods || backendPaymentMethods.length === 0) {
-        const { result } = await CartService.getPaymentMethods()
+        const { result, resultCode } = await CartService.getPaymentMethods()
+
+        if (resultCode === 404) {
+          dispatch('clear', { disconnect: true, sync: false });
+          return;
+        }
+
         backendPaymentMethods = result
       }
 
@@ -82,7 +93,13 @@ const methodsActions = {
         region_code: shippingDetails.region_code ? shippingDetails.region_code : ''
       } : { country_id: storeView.tax.defaultCountry }
 
-      const { result } = await CartService.getShippingMethods(address)
+      const { result, resultCode } = await CartService.getShippingMethods(address)
+
+      if (resultCode === 404) {
+        dispatch('clear', { disconnect: true, sync: false });
+        return;
+      }
+
       await dispatch('updateShippingMethods', { shippingMethods: result })
     } else {
       Logger.debug('Shipping methods does not need to be updated', 'cart')()
