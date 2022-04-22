@@ -40,7 +40,7 @@ export default Vue.extend({
     },
     formattedTimerValue (): string {
       const minutes = Math.floor(this.timerValue / 60);
-      let seconds = Math.round(this.timerValue - minutes * 60);
+      let seconds: number | string = Math.round(this.timerValue - minutes * 60);
 
       if (seconds < 10) {
         seconds = `0${seconds}`;
@@ -54,29 +54,35 @@ export default Vue.extend({
       return;
     }
 
-    if (!this.expirationDate) {
-      this.setExpirationDate();
-    }
-
-    this.initTimerData();
-
-    if (this.timerValue <= 0) {
-      return;
-    }
-
-    if (!this.canShow) {
-      this.clearExpirationDate();
-      return;
-    }
-
-    this.startTimer();
+    this.initAndStartTimer();
   },
   beforeDestroy (): void {
     this.stopTimer();
   },
   methods: {
+    getIsExpired (): boolean {
+      return !!this.expirationDate && this.expirationDate <= Date.now();
+    },
     getIsTimerCanStart (): boolean {
       return !!this.expirationMinutesCount && this.canShow;
+    },
+    initAndStartTimer (): void {
+      if (!this.expirationDate) {
+        this.setExpirationDate();
+      }
+
+      if (this.getIsExpired()) {
+        return;
+      }
+
+      this.initTimerData();
+
+      if (!this.canShow) {
+        this.clearExpirationDate();
+        return;
+      }
+
+      this.startTimer();
     },
     initTimerData (): void {
       this.timerValue = (this.expirationDate - Date.now()) / 1000;
@@ -91,7 +97,7 @@ export default Vue.extend({
     startTimer (): void {
       this.showTimer = true;
 
-      this.timerIntervalId = setInterval(() => {
+      this.timerIntervalId = window.setInterval(() => {
         this.timerValue -= 1;
 
         if (this.timerValue <= 0) {
@@ -117,11 +123,19 @@ export default Vue.extend({
   },
   watch: {
     canShow (canShow): void {
-      if (!canShow && this.timerValue > 0) {
-        this.clearExpirationDate();
-      }
+      const isExpired = this.getIsExpired();
 
-      this.showTimer = false;
+      if (!canShow) {
+        this.stopTimer();
+
+        if (!isExpired) {
+          this.clearExpirationDate();
+        }
+      } else {
+        if (!isExpired) {
+          this.initAndStartTimer();
+        }
+      }
     }
   }
 });
