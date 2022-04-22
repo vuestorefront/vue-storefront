@@ -11,19 +11,27 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { InjectType } from 'src/modules/shared';
+import Vue, { VueConstructor } from 'vue';
 import { SET_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE } from '../types/StoreMutations';
 
 const timerInterval = 1000;
 const millisecondsInMinute = 60 * 1000;
 
-export default Vue.extend({
+interface InjectedServices {
+  window: Window
+}
+
+export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
   props: {
     canShow: {
       type: Boolean,
       default: false
     }
   },
+  inject: {
+    window: { from: 'WindowObject' }
+  } as unknown as InjectType<InjectedServices>,
   data () {
     return {
       showTimer: false,
@@ -97,7 +105,7 @@ export default Vue.extend({
     startTimer (): void {
       this.showTimer = true;
 
-      this.timerIntervalId = window.setInterval(() => {
+      this.timerIntervalId = this.window.setInterval(() => {
         this.timerValue -= 1;
 
         if (this.timerValue <= 0) {
