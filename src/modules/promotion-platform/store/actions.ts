@@ -19,9 +19,10 @@ export const actions: ActionTree<PromotionPlatformState, any> = {
   async synchronize ({ commit }): Promise<void> {
     const promotionPlatformStorage = StorageManager.get(types.SN_PROMOTION_PLATFORM);
 
-    const [campaignToken, lastClosedBannerVersionByUser] = await Promise.all([
+    const [campaignToken, lastClosedBannerVersionByUser, productionSpotCountdownExpirationDate] = await Promise.all([
       promotionPlatformStorage.getItem('campaign-token'),
-      promotionPlatformStorage.getItem('last-closed-by-user-version')
+      promotionPlatformStorage.getItem('last-closed-by-user-version'),
+      promotionPlatformStorage.getItem('production-spot-countdown-expiration-date')
     ]);
 
     if (campaignToken) {
@@ -32,6 +33,11 @@ export const actions: ActionTree<PromotionPlatformState, any> = {
     if (lastClosedBannerVersionByUser) {
       commit(types.SET_LAST_BANNER_VERSION_CLOSED_BY_USER, lastClosedBannerVersionByUser);
       Logger.info('Last Version Closed By User received from cache.', 'cache', lastClosedBannerVersionByUser)()
+    }
+
+    if (productionSpotCountdownExpirationDate) {
+      commit(types.SET_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, productionSpotCountdownExpirationDate);
+      Logger.info('Production Spot Countdown Expiration Date received from cache.', 'cache', lastClosedBannerVersionByUser)()
     }
 
     EventBus.$emit('promotion-platform-store-synchronized')

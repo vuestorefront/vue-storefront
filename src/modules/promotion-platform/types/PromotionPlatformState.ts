@@ -3,5 +3,6 @@ import CampaignContent from './CampaignContent.model';
 export default interface PromotionPlatformState {
   campaignContent?: CampaignContent,
   campaignToken?: string,
-  lastClosedBannerVersionByUser?: string
+  lastClosedBannerVersionByUser?: string,
+  productionSpotCountdownExpirationDate?: number
 }

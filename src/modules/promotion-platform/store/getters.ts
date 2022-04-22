@@ -29,5 +29,8 @@ export const getters: GetterTree<PromotionPlatformState, any> = {
   },
   lastClosedBannerVersionByUser (state): string | undefined {
     return state.lastClosedBannerVersionByUser;
+  },
+  productionSpotCountdownExpirationDate (state): number | undefined {
+    return state.productionSpotCountdownExpirationDate;
   }
 }
