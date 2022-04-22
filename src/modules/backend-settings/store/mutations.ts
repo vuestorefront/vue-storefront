@@ -8,8 +8,5 @@ import * as types from '../types/StoreMutations';
 export const mutations: MutationTree<BackendSettingsState> = {
   [types.SET_BACKEND_SETTINGS]: (state, settings: Dictionary<any>) => {
     Vue.set(state, 'settings', settings);
-  },
-  [types.SET_IS_SYNCED]: (state, isSynced: boolean) => {
-    state.isSynced = isSynced;
   }
 }

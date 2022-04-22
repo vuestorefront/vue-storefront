@@ -7,7 +7,6 @@ import { actions } from './actions';
 export const module: Module<BackendSettingsState, any> = {
   namespaced: true,
   state: {
-    isSynced: false,
     settings: {}
   },
   mutations,

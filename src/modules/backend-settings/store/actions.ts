@@ -5,7 +5,7 @@ import { processURLAddress } from '@vue-storefront/core/helpers';
 import config from 'config';
 
 import BackendSettingsState from '../types/BackendSettingsState';
-import { SET_BACKEND_SETTINGS, SET_IS_SYNCED } from '../types/StoreMutations';
+import { SET_BACKEND_SETTINGS } from '../types/StoreMutations';
 
 export const actions: ActionTree<BackendSettingsState, RootState> = {
   async fetchSettings ({ commit }): Promise<void> {
@@ -22,16 +22,7 @@ export const actions: ActionTree<BackendSettingsState, RootState> = {
     });
 
     commit(SET_BACKEND_SETTINGS, task.result);
-    // commit(SET_BACKEND_SETTINGS, { cart: { productionSpotCountdown: { expirationMinutesCount: 20 } } });
 
     return task.result;
-  },
-  async synchronize ({ getters, dispatch, commit }): Promise<any> {
-    if (getters['getIsSynced']) {
-      return;
-    }
-
-    await dispatch('fetchSettings');
-    commit(SET_IS_SYNCED, true);
   }
 }

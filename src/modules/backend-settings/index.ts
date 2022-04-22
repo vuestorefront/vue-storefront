@@ -9,7 +9,7 @@ export const BackendSettings: StorefrontModule = function ({ store, app }) {
 
   coreHooks.afterAppInit(() => {
     if (app.$isServer) {
-      store.dispatch(`${SN_BACKEND_SETTINGS}/synchronize`);
+      store.dispatch(`${SN_BACKEND_SETTINGS}/fetchSettings`);
     }
   });
 }
