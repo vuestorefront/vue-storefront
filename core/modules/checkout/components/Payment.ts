@@ -150,6 +150,10 @@ export const Payment = {
       }
     },
     useShippingAddress () {
+      if (this.isVirtualCart) {
+        this.sendToShippingAddress = false;
+      }
+
       if (this.sendToShippingAddress) {
         this.copyShippingToBillingAddress()
         this.sendToBillingAddress = false
