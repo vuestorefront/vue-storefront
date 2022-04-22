@@ -9,7 +9,7 @@ import { SET_BACKEND_SETTINGS } from '../types/StoreMutations';
 
 export const actions: ActionTree<BackendSettingsState, RootState> = {
   async fetchSettings ({ commit }): Promise<void> {
-    let url = processURLAddress(`${config.budsies.endpoint}/backend-settings`);
+    let url = processURLAddress(`${config.budsies.endpoint}/settings/retrieve`);
 
     const task = await TaskQueue.execute({
       url,
