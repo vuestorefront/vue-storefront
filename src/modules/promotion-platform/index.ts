@@ -6,6 +6,7 @@ import { CART_ADD_ITEM } from '@vue-storefront/core/modules/cart/store/mutation-
 
 import { cacheHandlerFactory } from './helpers/cacheHandler.factory';
 import initEventBusListeners from './helpers/initEventBusListeners';
+import * as syncLocalStorageChange from './helpers/syncLocalStorageChange';
 import { module } from './store';
 import { SET_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, SN_PROMOTION_PLATFORM } from './types/StoreMutations';
 import isCustomProduct from '../shared/helpers/is-custom-product.function';
@@ -32,7 +33,11 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
 
       store.commit(`promotionPlatform/${SET_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE}`, undefined);
     }
-  })
+  });
 
   store.subscribe(cacheHandlerFactory());
+
+  if (!app.$isServer) {
+    syncLocalStorageChange.addEventListener();
+  }
 }
