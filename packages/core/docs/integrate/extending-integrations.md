@@ -50,11 +50,11 @@ module.exports = {
   integrations: {
     <TAG NAME>: {
       location: '@<integration-package>/server',
-      configuration: {}
+      configuration: {},
       extensions: (extensions) => [
         ...extensions,
         {
-          name: 'our-extension'
+          name: 'our-extension',
           hooks: () => { /* ... */}
         }
       ],
