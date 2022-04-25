@@ -69,7 +69,7 @@
       "config": {}
     },
     "helmet": {
-      "enabled": true
+      "enabled": ${HELMET_ENABLED}
     },
     "protocol_ssr": "https"
   },

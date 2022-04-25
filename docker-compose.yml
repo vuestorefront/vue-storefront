@@ -6,6 +6,7 @@ services:
       dockerfile: docker/vue-storefront/Dockerfile
     environment:
       - VS_ENV
+      - HELMET_ENABLED
 
       - REDIS_HOST=redis
       - REDIS_PORT=6379
