@@ -1,8 +1,7 @@
 #!/bin/sh
 set -e
 
-envsubst < config/local.json.${STORE}.example > config/local.json
-envsubst < tsconfig.json.example > tsconfig.json
+envsubst < config/local.json.template > config/local.json
 
 yarn install || exit $?
 

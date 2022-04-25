@@ -847,7 +847,7 @@
     "contactAddress": "contributors@vuestorefront.io",
     "sendConfirmation": true
   },
-  "theme": "@vue-storefront/theme-petsies-capybara",
+  "theme": "${STORE_THEME}",
   "analytics": {
     "id": false
   },

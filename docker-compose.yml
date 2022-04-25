@@ -15,6 +15,7 @@ services:
       - DEFAULT_STORE_CODE
       - DEFAULT_STORE_TITLE=${DEFAULT_STORE_NAME}
       - DEFAULT_STORE_NAME
+      - STORE_THEME
 
       - VSF_API_DOMAIN
       - CACHE_INVALIDATION_KEY
@@ -41,7 +42,7 @@ services:
       - './.eslintignore:/var/www/.eslintignore'
       - './.eslintrc.js:/var/www/.eslintrc.js'
       - './lerna.json:/var/www/lerna.json'
-      #- './tsconfig.json:/var/www/tsconfig.json'
+      - './tsconfig-build-dev.json:/var/www/tsconfig-build-dev.json'
       - './tsconfig-build.json:/var/www/tsconfig-build.json'
       - './shims.d.ts:/var/www/shims.d.ts'
       - './package.json:/var/www/package.json'

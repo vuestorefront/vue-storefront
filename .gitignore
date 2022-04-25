@@ -5,6 +5,8 @@ dist/
 npm-debug.log
 .idea/
 config/local.json
+.env
+tsconfig.json
 var
 build/config.json
 core/build/config.json
@@ -34,4 +36,4 @@ core/resource/i18n/ru-RU.json
 /test/unit/coverage
 /static
 
-.env
+
