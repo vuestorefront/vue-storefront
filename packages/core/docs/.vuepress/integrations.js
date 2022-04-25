@@ -62,16 +62,6 @@ const INTEGRATIONS = {
       ]
     },
     {
-      name: 'Spryker',
-      link: 'https://docs.vuestorefront.io/spryker',
-      image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed62750bc49f087fcfc9fd1_spryker_logo.svg',
-      status: STATUS.BETA,
-      license: LICENSE.OPEN_SOURCE,
-      maintainedBy: [
-        { name: 'Spryker', link: 'https://spryker.com/en/' },
-      ]
-    },
-    {
       name: 'Shopify',
       link: 'https://docs.vuestorefront.io/shopify',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed627658b992c5c98014d1c_Shopify_logo_2018%201.svg',
@@ -86,7 +76,7 @@ const INTEGRATIONS = {
       link: 'https://docs.vuestorefront.io/bigcommerce',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/6023aa663109a7a8f995f095_BigCommerce-logo-dark.svg',
       status: STATUS.STABLE,
-      license: LICENSE.OPEN_SOURCE,
+      license: LICENSE.ENTERPRISE,
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' }
       ]
@@ -103,7 +93,7 @@ const INTEGRATIONS = {
       name: 'Sylius',
       link: '',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed6275b7df0e61000941a54_sylius_logo.svg',
-      status: STATUS.WIP,
+      status: STATUS.BETA,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
         { name: 'BitBag', link: 'https://bitbag.io/' },
@@ -245,7 +235,7 @@ const INTEGRATIONS = {
     {
       name: 'Redis',
       link: './redis-cache.html',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/Redis_Logo.svg',
+      image: '/v2/integrations-logos/redis.svg',
       status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [

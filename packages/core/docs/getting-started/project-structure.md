@@ -14,7 +14,7 @@ To learn about it in-depth, you can refer to the [Directory Structure in Nuxt.js
 
 * [**components**](https://nuxtjs.org/docs/2.x/directory-structure/components) contains Vue.js components used on different pages or parts of your application. You can import these components from pages, layouts, and other components.
 
-* [**lang**](http://localhost:8080/v2/getting-started/internationalization.html) contains translations for your application. Available locales are configured in the `nuxt.config.js` file.
+* [**lang**](https://docs.vuestorefront.io/v2/getting-started/internationalization.html) contains translations for your application. Available locales are configured in the `nuxt.config.js` file.
 
 * [**layouts**](https://nuxtjs.org/docs/2.x/directory-structure/layouts) contains Vue.js components that act as a UI base for the whole application or specific pages.
 

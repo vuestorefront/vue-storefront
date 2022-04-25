@@ -60,6 +60,7 @@ export default function VueStorefrontNuxtModule(moduleOptions: ModuleOptions) {
       }
     });
   }
+
   if (options.context) {
     // Context plugin
     this.addPlugin(path.resolve(__dirname, '../plugins/context.js'));

@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/middleware",
-  "version": "2.5.7",
+  "version": "2.5.12",
   "description": "",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -15,6 +15,7 @@
   "dependencies": {
     "consola": "2.15.3",
     "express": "^4.17.1",
+    "helmet": "^5.0.2",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5"
   },

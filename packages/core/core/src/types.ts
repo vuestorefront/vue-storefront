@@ -2,6 +2,7 @@
 
 import { Ref } from '@nuxtjs/composition-api';
 import type { Request, Response } from 'express';
+import { HelmetOptions } from 'helmet';
 
 /**
  * Default name of the cookie storing active localization code
@@ -845,6 +846,7 @@ export type IntegrationsSection = Record<string, Integration>
 
 export interface MiddlewareConfig {
   integrations: Record<string, Integration>;
+  helmet?: boolean | Readonly<HelmetOptions>;
 }
 
 export interface ApiClientFactoryParams<T, F = any> {

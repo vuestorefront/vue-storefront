@@ -110,7 +110,7 @@ module.exports = {
     sidebarDepth: 0,
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Demo', link: 'https://demo-ct.vuestorefront.io' }
+      { text: 'Demo', link: 'https://demo.vuestorefront.io/' }
     ],
     sidebar: [
       {
@@ -121,7 +121,7 @@ module.exports = {
           ['/general/installation', '💻 Installation'],
           ['/integrations/', '🔌 Integrations'],
           ['/general/enterprise', '🚀 Enterprise'],
-          ['/general/support', '🙋 Support'],
+          ['/general/support', '🙋 Support']
         ]
       },
       {
@@ -134,8 +134,7 @@ module.exports = {
           ['/getting-started/layouts-and-routing', 'Layouts and Routing'],
           ['/getting-started/theme', 'Theme'],
           ['/getting-started/internationalization', 'Internationalization'],
-          ['/getting-started/logging', 'Logging'],
-          // ['/', 'Glossary']
+          ['/getting-started/logging', 'Logging']
         ]
       },
       {
@@ -165,9 +164,17 @@ module.exports = {
         children: [
           ['/integrate/extending-vue-storefront', 'Extending Vue Storefront'],
           ['/integrate/extending-integrations', 'Extending integrations'],
+          ['/integrate/cookie-based-config', 'Cookie-based configuration'],
           ['/integrate/integration-guide', 'Integrating e-commerce platform'],
           ['/integrate/cms', 'Integrating CMS platform'],
           ['/integrate/cache-driver', 'Integrating cache driver']
+        ]
+      },
+      {
+        title: 'Troubleshooting',
+        collapsable: true,
+        children: [
+          ['/troubleshooting/inspecting-network-requests', 'Inspecting network requests']
         ]
       },
       {
@@ -183,15 +190,14 @@ module.exports = {
           ['/performance/ssr-cache', 'SSR cache']
         ]
       },
-      // {
-      //   title: 'Deployment',
-      //   collapsable: true,
-      //   children: [
-      //     ['/', 'Deyploment basics'],
-      //     ['/', 'Continuous Integration (CI)'],
-      //     ['/', 'End-to-End testing (E2E)']
-      //   ]
-      // },
+      {
+        title: 'Security',
+        collapsable: true,
+        children: [
+          ['/security/headers-security', 'HTTP Headers security'],
+          ['/security/api-url', 'Server Middleware URL']
+        ]
+      },
       {
         title: 'Reference',
         collapsable: true,
@@ -205,7 +211,7 @@ module.exports = {
         title: 'Community',
         collapsable: true,
         children: [
-          ['/community/sponsorship-program', '✍️ Sponsorship Program'],
+          ['/community/sponsorship-program', '✍️ Sponsorship Program']
         ]
       },
       {
