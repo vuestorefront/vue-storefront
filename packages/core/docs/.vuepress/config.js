@@ -118,7 +118,6 @@ module.exports = {
         collapsable: false,
         children: [
           ['/', '👋 Meet Vue Storefront'],
-          ['/general/installation', '💻 Installation'],
           ['/integrations/', '🔌 Integrations'],
           ['/general/enterprise', '🚀 Enterprise'],
           ['/general/support', '🙋 Support']
@@ -129,6 +128,7 @@ module.exports = {
         collapsable: false,
         children: [
           ['/getting-started/introduction', 'Introduction'],
+          ['/getting-started/installation', 'Installation'],
           ['/getting-started/project-structure', 'Project structure'],
           ['/getting-started/configuration', 'Configuration'],
           ['/getting-started/layouts-and-routing', 'Layouts and Routing'],
