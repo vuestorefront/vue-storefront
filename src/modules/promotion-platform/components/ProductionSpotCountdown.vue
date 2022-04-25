@@ -41,7 +41,8 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
   },
   computed: {
     expirationMinutesCount (): number {
-      return 10; // TODO use backend setting
+      const expirationMinutesCount = this.$store.getters['backend-settings/getSettingByCompositeKey']('promotions/productionSpotCountdown/expirationMinutesCount');
+      return expirationMinutesCount || 0;
     },
     expirationDate (): number {
       return this.$store.getters['promotionPlatform/productionSpotCountdownExpirationDate'];
