@@ -10,6 +10,7 @@ import { module } from './store';
 import { SET_CHECKOUT_TOKEN } from './types/StoreMutations';
 import { AFFIRM_METHOD_CODE } from './types/AffirmPaymentMethod';
 import { AFFIRM_BEFORE_PLACE_ORDER, AFFIRM_MODAL_CLOSED, AFFIRM_CHECKOUT_ERROR } from './types/AffirmCheckoutEvents';
+import affirmIcon from './assets/affirm-icon.svg';
 
 export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig }) {
   store.registerModule('affirm', module);
@@ -88,6 +89,7 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
           }
 
           method.hint = app.$t('Affirm page will opened in the separate window to securely complete your purchase. Just fill out a few pieces of basic information and get a real-time decision. Checking your eligibility won\'t affect your credit score.').toString();
+          method.icon = affirmIcon;
         })
       };
 
