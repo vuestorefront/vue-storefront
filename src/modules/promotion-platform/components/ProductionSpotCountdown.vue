@@ -13,6 +13,7 @@
 <script lang="ts">
 import { InjectType } from 'src/modules/shared';
 import Vue, { VueConstructor } from 'vue';
+
 import { SET_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE } from '../types/StoreMutations';
 
 const timerInterval = 1000;
