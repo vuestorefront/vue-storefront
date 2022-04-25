@@ -1,7 +1,7 @@
 {
   "server": {
     "host": "0.0.0.0",
-    "port": ${BIND_PORT},
+    "port": 3000,
     "protocol": "http",
     "api": "api-search-query",
     "devServiceWorker": false,
@@ -27,9 +27,9 @@
       "product",
       "taxrule"
     ],
-    "invalidateCacheKey": "aeSu7aip",
+    "invalidateCacheKey": "${CACHE_INVALIDATION_KEY}",
     "invalidateCacheForwarding": false,
-    "invalidateCacheForwardUrl": "https://${VSF_API_DOMAIN}/invalidate?key=aeSu7aip&tag=",
+    "invalidateCacheForwardUrl": "https://${VSF_API_DOMAIN}/invalidate?key=${CACHE_INVALIDATION_KEY}&tag=",
     "dynamicConfigReload": true,
     "dynamicConfigReloadWithEachRequest": false,
     "dynamicConfigContinueOnError": false,
@@ -125,16 +125,16 @@
   "seo": {
     "useUrlDispatcher": false,
     "disableUrlRoutesPersistentCache": true,
-    "defaultTitle": "Vue Storefront"
+    "defaultTitle": "${DEFAULT_STORE_TITLE}"
   },
   "console": {
     "showErrorOnProduction": false,
     "verbosityLevel": "display-everything"
   },
   "redis": {
-    "host": "0.0.0.0",
-    "port": 6379,
-    "db": 0
+    "host": "${REDIS_HOST}",
+    "port": ${REDIS_PORT},
+    "db": ${REDIS_DB}
   },
   "graphql": {
     "host": "vsf-api-app",
@@ -212,47 +212,15 @@
     "maxNetworkTaskAttempts": 1,
     "maxCartBypassAttempts": 1
   },
-  "defaultStoreCode": "${STORE}",
+  "defaultStoreCode": "${DEFAULT_STORE_CODE}",
   "storeViews": {
     "multistore": false,
     "commonCache": false,
-    "mapStoreUrlsFor": [
-      "jp"
-    ],
+    "mapStoreUrlsFor": [],
     "${STORE}": {
-      "storeCode": "${STORE}",
-      "name": "Petsies",
+      "storeCode": "${DEFAULT_STORE_CODE}",
+      "name": "${DEFAULT_STORE_NAME}",
       "storeId": ${DEFAULT_STORE_ID}
-    },
-    "jp": {
-      "storeCode": "jp",
-      "storeId": ${DEFAULT_STORE_ID},
-      "name": "Japanese Store",
-      "url": "/jp",
-      "appendStoreCode": true,
-      "elasticsearch": {
-        "host": "/api/catalog",
-        "index": "vue_storefront_catalog_${DEFAULT_STORE_ID}"
-      },
-      "tax": {
-        "sourcePriceIncludesTax": false,
-        "defaultCountry": "JP",
-        "defaultRegion": "",
-        "calculateServerSide": true
-      },
-      "i18n": {
-        "fullCountryName": "Japan",
-        "fullLanguageName": "Japan",
-        "defaultLanguage": "JP",
-        "defaultCountry": "JP",
-        "defaultLocale": "ja-JP",
-        "currencyCode": "JPY",
-        "currencySign": "JPY",
-        "dateFormat": "HH:mm D-M-YYYY"
-      },
-      "seo": {
-        "defaultTitle": "Vue Storefront"
-      }
     }
   },
   "entities": {
@@ -879,7 +847,7 @@
     "contactAddress": "contributors@vuestorefront.io",
     "sendConfirmation": true
   },
-  "theme": "@vue-storefront/theme-${STORE}-capybara",
+  "theme": "@vue-storefront/theme-petsies-capybara",
   "analytics": {
     "id": false
   },

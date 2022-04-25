@@ -5,25 +5,37 @@ services:
       context: .
       dockerfile: docker/vue-storefront/Dockerfile
     environment:
-      BIND_PORT: 3001
-      STORE: ${STORE_CODE}
-      VS_ENV: ${VS_ENV}
-      VIRTUAL_HOST: ${DOMAIN}
-      LETSENCRYPT_HOST: ${DOMAIN}
-      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
-      VSF_API_DOMAIN: ${VSF_API_DOMAIN}
-      DEFAULT_STORE_ID: ${STORE_ID}
-      FILEUPLOADER_UPLOAD_URL: ${FILEUPLOADER_UPLOAD_URL}
-      IMAGE_HANDLER_SERVICE_URL: ${IMAGE_HANDLER_SERVICE_URL}
-      GTM_ID: ${GTM_ID}
-      AFFIRM_PUBLIC_KEY: ${AFFIRM_PUBLIC_KEY}
-      AFFIRM_CDN: ${AFFIRM_CDN}
-      AMAZONPAY_SANDBOX: ${AMAZONPAY_SANDBOX}
-      AMAZONPAY_SELLER_ID: ${AMAZONPAY_SELLER_ID}
-      AMAZONPAY_CLIENT_ID: ${AMAZONPAY_CLIENT_ID}
+      - VS_ENV
+
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+
+      - DEFAULT_STORE_ID
+      - DEFAULT_STORE_CODE
+      - DEFAULT_STORE_TITLE=${DEFAULT_STORE_NAME}
+      - DEFAULT_STORE_NAME
+
+      - VSF_API_DOMAIN
+      - CACHE_INVALIDATION_KEY
+      - FILEUPLOADER_UPLOAD_URL
+      - IMAGE_HANDLER_SERVICE_URL
+      
+      - GTM_ID
+      
+      - AFFIRM_PUBLIC_KEY
+      - AFFIRM_CDN
+      
+      - AMAZONPAY_SANDBOX
+      - AMAZONPAY_SELLER_ID
+      - AMAZONPAY_CLIENT_ID
+
+      - VIRTUAL_HOST=${DOMAIN}
+      - LETSENCRYPT_HOST=${DOMAIN}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     volumes:
+      - './config/local.json.template:/var/www/config/local.json.template'
       - './babel.config.js:/var/www/babel.config.js'
-      #- './config:/var/www/config'
       - './core:/var/www/core'
       - './ecosystem.json:/var/www/ecosystem.json'
       - './.eslintignore:/var/www/.eslintignore'
@@ -46,14 +58,13 @@ services:
       - reverseproxy
       # - vue-storefront-api
     expose:
-      - 3001
+      - 3000
 
 volumes: 
   cache:
 
 networks:
   reverseproxy:
-    external:
       name: webdevelopmentreverseproxy_default
 #  vue-storefront-api:
 #    external:
