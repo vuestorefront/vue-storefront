@@ -4,7 +4,7 @@
 
 Composable is a function that uses [Composition API](/composition/composition-api.html) under the hood. Composables are the main public API of Vue Storefront and, in most cases, the only API except configuration you will work with.
 
-You can treat composables as independent micro-applications. They manage their own state, handle server-side rendering, and rarely interact with each other. No matter what integration you are using, your application will always have the same set of composables with the same interfaces.
+You can treat composables as independent micro-applications. They manage their own state, handle server-side rendering, and rarely interact with each other.
 
 To use a composable, you need to import it from an integration you use, and call it on the component `setup` option:
 
