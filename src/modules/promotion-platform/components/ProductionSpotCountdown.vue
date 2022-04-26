@@ -14,7 +14,7 @@
 import { InjectType } from 'src/modules/shared';
 import Vue, { VueConstructor } from 'vue';
 
-import { SET_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE } from '../types/StoreMutations';
+import { CLEAR_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, SET_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, SN_PROMOTION_PLATFORM } from '../types/StoreMutations';
 
 const timerInterval = 1000;
 const millisecondsInMinute = 60 * 1000;
@@ -46,7 +46,7 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
       return expirationMinutesCount || 0;
     },
     expirationDate (): number {
-      return this.$store.getters['promotionPlatform/productionSpotCountdownExpirationDate'];
+      return this.$store.getters[`${SN_PROMOTION_PLATFORM}/productionSpotCountdownExpirationDate`];
     },
     formattedTimerValue (): string {
       const minutes = Math.floor(this.timerValue / 60);
@@ -126,8 +126,7 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
     },
     clearExpirationDate (): void {
       this.$store.commit(
-        `promotionPlatform/${SET_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE}`,
-        undefined
+        `${SN_PROMOTION_PLATFORM}/${CLEAR_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE}`
       );
     }
   },
