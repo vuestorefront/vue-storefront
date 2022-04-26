@@ -27,7 +27,7 @@ csvDirectories.push(path.resolve(__dirname, themeResources + '/i18n/'));
 const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
 translationPreprocessor(csvDirectories, config)
 
-const tsconfig = require('../../tsconfig.json');
+const tsconfig = require('../../tsconfig-build-dev.json');
 tsconfig.compilerOptions.paths['theme/*'] = [
   `${themeRoot}/*`
 ];

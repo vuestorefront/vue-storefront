@@ -10,6 +10,7 @@ export default class BodypartValue {
     public readonly sn: number,
     public readonly color: string | undefined = undefined,
     public readonly image: string | undefined = undefined,
+    public readonly group: string = 'default',
     public readonly isNew = true
   ) {
     [id, code, name, contentTypeId, isDefault, sn, isNew].forEach((arg, index) => {

@@ -86,7 +86,8 @@ const getters: GetterTree<BudsiesState, RootState> = {
         isSelected: false,
         contentTypeId: bodypartValue.contentTypeId,
         color: bodypartValue.color,
-        image: bodypartValue.image
+        image: bodypartValue.image,
+        group: bodypartValue.group
       });
     }
 
