@@ -9,9 +9,13 @@ export const getters: GetterTree<BackendSettingsState, RootState> = {
       const keyParts = compositeKey.split('/');
       let result = state.settings;
 
-      keyParts.forEach((key) => {
+      for (const key of keyParts) {
+        if (!result) {
+          break;
+        }
+
         result = result[key];
-      });
+      }
 
       return result;
     }
