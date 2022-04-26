@@ -26,8 +26,12 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
 
   store.subscribe((mutation) => {
     if (mutation.type === `cart/${CART_ADD_ITEM}`) {
+      if (!isCustomProduct(mutation.payload.product.sku)) {
+        return;
+      }
+
       const expirationDate = store.getters['promotionPlatform/productionSpotCountdownExpirationDate'];
-      if (!expirationDate || expirationDate < Date.now() || !isCustomProduct(mutation.payload.product.sku)) {
+      if (!expirationDate || expirationDate < Date.now()) {
         return;
       }
 
