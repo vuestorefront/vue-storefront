@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
-    "strict": true,
+    "strict": false,
     "allowJs": true,
     "importHelpers": false,
     "moduleResolution": "node",
@@ -21,7 +21,6 @@
     ],
     "paths": {
       "core/*": ["core/*"],
-      "theme/*": ["src/themes/petsies-capybara/*"], //needs testing with non-default theme!
       "core/modules/*": ["./core/modules/*"],
       "@vue-storefront/core/helpers/initCacheStorage": ["./core/lib/storage-manager.ts"],
       "@vue-storefront/*": ["./"]
@@ -36,8 +35,7 @@
     "core/**/*.vue",
     "test/**/*.ts",
     "module/**/*.ts",
-    "packages/**/*.ts",
-    "src/themes/petsies-capybara/ts/**/*.ts"
+    "packages/**/*.ts"
   ],
   "exclude": [
     "node_modules",

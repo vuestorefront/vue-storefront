@@ -3,5 +3,6 @@ export default interface PaymentMethod {
   code?: string,
   cost_incl_tax?: number,
   title?: string,
-  hint?: string
+  hint?: string,
+  icon?: string
 }

@@ -18,6 +18,5 @@ RUN apk add --no-cache --upgrade grep
 COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
 
 COPY config /var/www/config
-COPY tsconfig.json.example /var/www/tsconfig.json.example
 
 CMD ["vue-storefront.sh"]
