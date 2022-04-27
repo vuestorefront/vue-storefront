@@ -26,7 +26,7 @@ To learn about it in-depth, you can refer to the [Directory Structure in Nuxt.js
 
 * **middleware.config.js** and **nuxt.config.js** configurations file are described in detail in the [Configuration](./configuration.html) document.
 
-Some integrations can have slightly different structures, with more or fewer files and directories. For more information, refer to the Nuxt.js documentation linked above and integration documentation.
+Some integrations can have slightly different structures, with more or fewer files and directories. For more information, refer to the Nuxt.js documentation linked above and the integration documentation.
 
 ## What's next
 
