@@ -6,6 +6,7 @@ services:
       dockerfile: docker/vue-storefront/Dockerfile
     environment:
       - VS_ENV
+      - NODE_CONFIG_ENV=docker
       - PM2_ARGS=--no-daemon
       - HELMET_ENABLED
 
