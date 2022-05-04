@@ -26,7 +26,7 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
 
   store.subscribe((mutation) => {
     if (mutation.type === `cart/${CART_ADD_ITEM}`) {
-      if (!isCustomProduct(mutation.payload.product.sku)) {
+      if (!isCustomProduct(mutation.payload.product.id)) {
         return;
       }
 
