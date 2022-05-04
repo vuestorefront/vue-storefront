@@ -1,0 +1,2 @@
+export const SN_BACKEND_SETTINGS = 'backend-settings';
+export const SET_BACKEND_SETTINGS = SN_BACKEND_SETTINGS + 'SET_BACKEND_SETTINGS';
