@@ -129,7 +129,7 @@ const INTEGRATIONS = {
       name: 'Odoo',
       link: '',
       image: '/v2/integrations-logos/odoo.svg',
-      status: STATUS.BETA,
+      status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
         { name: 'OdooGap', link: 'https://www.odoogap.com/' }
