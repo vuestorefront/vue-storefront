@@ -1,7 +1,6 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
 import { GiftCardOptions } from 'src/modules/gift-card'
-
-import CustomerImage from 'theme/components/interfaces/customer-image.interface'
+import { CustomerImage } from 'src/modules/shared';
 
 import CartItemOption from './CartItemOption'
 import CartItemTotals from './CartItemTotals'
