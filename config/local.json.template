@@ -125,7 +125,8 @@
   "seo": {
     "useUrlDispatcher": false,
     "disableUrlRoutesPersistentCache": true,
-    "defaultTitle": "${DEFAULT_STORE_TITLE}"
+    "defaultTitle": "${DEFAULT_STORE_TITLE}",
+    "defaultDescription": "${DEFAULT_STORE_DESCRIPTION}"
   },
   "console": {
     "showErrorOnProduction": false,
