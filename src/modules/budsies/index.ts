@@ -29,6 +29,7 @@ import { BodyPartValueContentType } from './types/body-part-value-content-type.v
 import { ImageUploadMethod } from './types/image-upload-method.value';
 import { ProductId } from './models/product.id';
 import fillProductWithAdditionalFields from './helpers/fill-product-with-additional-fields.function';
+import BodypartOption from './types/bodypart-option';
 
 export const BudsiesModule: StorefrontModule = async function ({ store }) {
   StorageManager.init(types.SN_BUDSIES);
@@ -68,5 +69,6 @@ export {
   vuexTypes,
   RushAddon,
   ImageUploadMethod,
-  ProductId
+  ProductId,
+  BodypartOption
 }
