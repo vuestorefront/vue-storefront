@@ -56,7 +56,8 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
   const cookieOptions = {
     path: '/',
     sameSite: 'lax',
-    expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)) // Year from now
+    expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)), // Year from now
+    ...i18nOptions.cookieOptions
   };
   const settings = {
     locale: targetLocale,
