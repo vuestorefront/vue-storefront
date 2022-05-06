@@ -295,6 +295,19 @@ const INTEGRATIONS = {
       categories: [ CATEGORY.PAYMENT ]
     },
     {
+      name: 'Mollie',
+      link: [
+        { name: 'Mollie', link: 'https://docs.vuestorefront.io/mollie/commercetools' }
+      ],
+      image: 'https://camo.githubusercontent.com/2d3af611a4cabedbeebff1194852e39ba120349b41ca13589c8685cff1e0a47b/68747470733a2f2f7365656b766563746f726c6f676f2e636f6d2f77702d636f6e74656e742f75706c6f6164732f323032302f30332f6d6f6c6c69652d766563746f722d6c6f676f2e706e67',
+      status: STATUS.BETA,
+      license: LICENSE.ENTERPRISE,
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
+      categories: [ CATEGORY.PAYMENT ]
+    },
+    {
       name: 'Auth0',
       link: [
         { name: 'commercetools', link: 'https://docs.vuestorefront.io/auth0/' },
