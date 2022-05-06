@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { Blok } from 'src/modules/vsf-storyblok-module/components'
-import { getProductDefaultPrice } from 'theme/helpers';
+import { getProductDefaultPrice } from 'src/modules/shared';
 import Product from 'core/modules/catalog/types/Product';
 import AffirmMonthlyPaymentData from './interfaces/affirm-monthly-payment-data.interface';
 
