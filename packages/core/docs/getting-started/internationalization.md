@@ -125,3 +125,17 @@ modules: [
   },
 }
 ```
+## Configuring cookie attributes
+You can overwrite the default `currency`, `locale`, and `country` cookie attributes set by the `@vue-storefront/nuxt` module and add new ones. Simply create a new `cookieOptions` object for the `i18n` configuration object in the `nuxt.config.js` file and specify the attributes you'd like the cookies to hold.
+
+```js
+// nuxt.config.js
+i18n: {
+  cookieOptions: {
+    // default attributes used by the `@vue-storefront/nuxt` module
+    path: '/',
+    sameSite: 'lax',
+    expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+  }
+}
+```
