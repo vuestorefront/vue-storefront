@@ -131,12 +131,15 @@ You can overwrite the default `currency`, `locale`, and `country` cookie attribu
 
 ```js
 // nuxt.config.js
-i18n: {
-  cookieOptions: {
-    // default attributes used by the `@vue-storefront/nuxt` module
-    path: '/',
-    sameSite: 'lax',
-    expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+
+export default {
+  i18n: {
+    cookieOptions: {
+      // default attributes used by the `@vue-storefront/nuxt` module
+      path: '/',
+      sameSite: 'lax',
+      expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+    }
   }
 }
 ```
