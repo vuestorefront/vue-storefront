@@ -39,7 +39,7 @@ Once your changes are ready, manually test them in `development` and `production
 
 If the repository contains a Vue Storefront project (often called `theme`), run all the `build` commands defined in the `package.json` file and start the project to test it. If everything works as expected, you can go to the next section.
 
-If there is no Vue Storefront project, create a new project using our [Installation](/v2/general/installation.html) guide. Then, open its `package.json` file and look for the name of the package you modified in the `dependencies` or `devDependencies`.
+If there is no Vue Storefront project, create a new project using our [Installation](/getting-started/installation.html) guide. Then, open its `package.json` file and look for the name of the package you modified in the `dependencies` or `devDependencies`.
 
 If it's there, change the version to the `link` like so:
 
