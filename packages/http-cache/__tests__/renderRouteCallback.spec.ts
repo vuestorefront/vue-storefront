@@ -6,7 +6,8 @@ import renderRouteCallback from '../nuxt/renderRouteCallback';
 const response = {
   res: {
     setHeader: jest.fn(),
-    removeHeader: jest.fn()
+    removeHeader: jest.fn(),
+    headersSent: false
   }
 };
 
@@ -16,6 +17,9 @@ const response = {
 jest.mock('../nuxt/isUrlMatchingRule', () => jest.fn(() => true));
 
 describe('renderRouteCallback', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   it('adds default cache-control header', () => {
     const options = {};
 
@@ -59,5 +63,11 @@ describe('renderRouteCallback', () => {
 
     renderRouteCallback(options)('/c/123', null, response);
     expect(response.res.removeHeader).toBeCalledWith('Cache-Control');
+  });
+
+  it('does not set headers if they had been sent already', () => {
+    const options = {};
+    renderRouteCallback(options)('/c/123', null, { res: { ...response.res, headersSent: true }});
+    expect(response.res.setHeader).toHaveBeenCalledTimes(0);
   });
 });
