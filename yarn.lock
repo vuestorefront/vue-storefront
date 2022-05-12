@@ -4379,40 +4379,6 @@
     "@typescript-eslint/types" "4.33.0"
     eslint-visitor-keys "^2.0.0"
 
-"@vue-storefront/core@~2.5.11", "@vue-storefront/core@~2.5.4", "@vue-storefront/core@~2.5.5":
-  version "2.5.11"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.5.11.tgz#c3e29556d98b73ecf045f9e1763d2db73b6c3d64"
-  integrity sha512-6FlmmJTrP7kOCS8ngc+VkRSlLfqaF5orxSnRgvyj9U9kn+iaJlLuqjtp1YAwfh0/pvHYNdULOmbartYNsGA2GQ==
-  dependencies:
-    axios "0.21.1"
-    express "^4.17.1"
-    lodash-es "^4.17.15"
-    vue "^2.6.11"
-
-"@vue-storefront/middleware@~2.5.4", "@vue-storefront/middleware@~2.5.5":
-  version "2.5.7"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/middleware/-/middleware-2.5.7.tgz#eabcb6c0a6b89ac1f62163396478adcacc297d0c"
-  integrity sha512-03bpga+7soADMZLCONqq+N1Rbz7a1G/y++ryKXreiQBYedywnpvt0HNjU3Od/DYlnKIJbVniVrd2n1aZ6qVXcA==
-  dependencies:
-    consola "2.15.3"
-    cookie-parser "^1.4.5"
-    cors "^2.8.5"
-    express "^4.17.1"
-
-"@vue-storefront/nuxt@~2.5.4", "@vue-storefront/nuxt@~2.5.5":
-  version "2.5.11"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/nuxt/-/nuxt-2.5.11.tgz#6e01b96a3f578ecb9dc0caa2bf708bb8e0a9c3cd"
-  integrity sha512-7vbT/fBFhM6bXN589Ld4hbjTe0jUTUqC7Ktf56o21pYTN7rHCczdrrsjVQGFmHeXUIUJ1TQFUNHrFHto02ptYA==
-  dependencies:
-    "@nuxt/typescript-build" "^2.0.0"
-    "@nuxtjs/composition-api" "^0.29.3"
-    "@nuxtjs/style-resources" "^1.0.0"
-    chalk "^2.4.2"
-    chokidar "^3.3.1"
-    consola "^2.10.1"
-    lodash "^4.17.15"
-    nuxt-purgecss "^1.0.0"
-
 "@vue-storefront/theme-utilities@^0.1.3":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@vue-storefront/theme-utilities/-/theme-utilities-0.1.7.tgz#0f54ad97daa27a9c2b674c205d729d27b1d9adbe"
@@ -13788,6 +13754,11 @@ markdown-it-table-of-contents@^0.4.0:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/markdown-it-table-of-contents/-/markdown-it-table-of-contents-0.4.4.tgz#3dc7ce8b8fc17e5981c77cc398d1782319f37fbc"
   integrity sha512-TAIHTHPwa9+ltKvKPWulm/beozQU41Ab+FIefRaQV1NRnpzwcV9QOe6wXQS5WLivm5Q/nlo0rl6laGkMDZE7Gw==
+
+markdown-it-video@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/markdown-it-video/-/markdown-it-video-0.6.3.tgz#ee96a8fce4a262872f8aaf9706c31540d40104c2"
+  integrity sha512-T4th1kwy0OcvyWSN4u3rqPGxvbDclpucnVSSaH3ZacbGsAts964dxokx9s/I3GYsrDCJs4ogtEeEeVP18DQj0Q==
 
 markdown-it@^8.4.1:
   version "8.4.2"
