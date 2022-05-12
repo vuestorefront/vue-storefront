@@ -1,44 +1,269 @@
 # Vue Storefront CLI
-## Commands
-### Init new project
+
+<!-- toc -->
+* [Usage](#usage)
+* [Commands](#commands)
+<!-- tocstop -->
+# Usage
+<!-- usage -->
+```sh-session
+$ npm install -g @vue-storefront/cli
+$ @vue-storefront/cli COMMAND
+running command...
+$ @vue-storefront/cli (--version)
+@vue-storefront/cli/0.0.0 linux-x64 node-v16.14.0
+$ @vue-storefront/cli --help [COMMAND]
+USAGE
+  $ @vue-storefront/cli COMMAND
+...
 ```
-yarn cli init
-yarn cli init <projectName>
+<!-- usagestop -->
+# Commands
+<!-- commands -->
+* [`@vue-storefront/cli generate store`](#vue-storefrontcli-generate-store)
+* [`@vue-storefront/cli generate template`](#vue-storefrontcli-generate-template)
+* [`@vue-storefront/cli help [COMMAND]`](#vue-storefrontcli-help-command)
+* [`@vue-storefront/cli plugins`](#vue-storefrontcli-plugins)
+* [`@vue-storefront/cli plugins:inspect PLUGIN...`](#vue-storefrontcli-pluginsinspect-plugin)
+* [`@vue-storefront/cli plugins:install PLUGIN...`](#vue-storefrontcli-pluginsinstall-plugin)
+* [`@vue-storefront/cli plugins:link PLUGIN`](#vue-storefrontcli-pluginslink-plugin)
+* [`@vue-storefront/cli plugins:uninstall PLUGIN...`](#vue-storefrontcli-pluginsuninstall-plugin)
+* [`@vue-storefront/cli plugins update`](#vue-storefrontcli-plugins-update)
+* [`@vue-storefront/cli update [CHANNEL]`](#vue-storefrontcli-update-channel)
+
+## `@vue-storefront/cli generate store`
+
+Generates a Vue Storefront store.
+
+```
+USAGE
+  $ @vue-storefront/cli generate store
+
+DESCRIPTION
+  Generates a Vue Storefront store.
+
+EXAMPLES
+  $ @vue-storefront/cli generate store
 ```
 
-## Create new commands
-To create a new command you have to create Typescript file in `src/commands` e.g. `src/commands/my-command.ts`. Then inside you should export the default function that takes one argument - an array of strings. Check `src/commands/init.ts` if you need a working example. Signature:
-```ts
-(args: string[]): void
+## `@vue-storefront/cli generate template`
+
+Generates a template of your integration's for VSF
+
+```
+USAGE
+  $ @vue-storefront/cli generate template [--output <value>]
+
+FLAGS
+  --output=<value>  [default: ./] A path where the template will be generated
+
+DESCRIPTION
+  Generates a template of your integration's for VSF
+
+EXAMPLES
+  $ @vue-storefront/cli generate template
 ```
 
-`args` is an array of arguments that begins from the first argument after the command. E.g. for `yarn cli my-command a b c` it would be `['a', 'b', 'c']`.   
-`src/index.ts` always tries to call exported function from `src/commands/<used_command>.ts`.
+## `@vue-storefront/cli help [COMMAND]`
 
-## Module installed globally via yarn does not work
-If you have used `yarn global add @vue-storefront/cli@next` and everything went well. Then while using `vsf` command you are getting `Command 'vsf' not found, did you mean:` - below I will show you solution for this problem.
+Display help for @vue-storefront/cli.
 
-It means you do not have path to yarn global binaries in your `$PATH` system variable. You can check that with this command:
-```sh
-echo $PATH | grep $(yarn global bin);
+```
+USAGE
+  $ @vue-storefront/cli help [COMMAND] [-n]
+
+ARGUMENTS
+  COMMAND  Command to show help for.
+
+FLAGS
+  -n, --nested-commands  Include all nested commands in the output.
+
+DESCRIPTION
+  Display help for @vue-storefront/cli.
 ```
 
-If there is no output - it means that you have to add output of `yarn global bin` command to your `$PATH` variable.
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.11/src/commands/help.ts)_
 
-If you want to make it work only in current terminal session - use:
-```sh
-export PATH="$(yarn global bin):$PATH";
+## `@vue-storefront/cli plugins`
+
+List installed plugins.
+
+```
+USAGE
+  $ @vue-storefront/cli plugins [--core]
+
+FLAGS
+  --core  Show core plugins.
+
+DESCRIPTION
+  List installed plugins.
+
+EXAMPLES
+  $ @vue-storefront/cli plugins
 ```
 
-If you want to make it work permanently, you have to add it to your `~/.profile` or `~/.bashrc` file. More information click [here](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix)
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.1.0/src/commands/plugins/index.ts)_
 
-## How to generate and publish your template of integration?
+## `@vue-storefront/cli plugins:inspect PLUGIN...`
 
-If you want to generate a template of your integration for VSF Next, you need to follow those steps:
+Displays installation properties of a plugin.
 
-1. Install VSF cli globally (`yarn global add @vue-storefront/cli`)
-2. In your terminal `cd` to the folder with your integration theme (it's usually in `packages/theme`). Make sure `_theme` folder is generated inside of it  (you can generate it with `yarn dev`)
-3. Execute command `vsf generate-template <your-template-name>` (e.g.: `vsf generate-template commercetools`) 
-5. Create a new Github repository.
-6. `cd` into `<your-template-name>` and push it to the github repository. 
-7. Test with `cd <your-template-name> && yarn && yarn dev`
+```
+USAGE
+  $ @vue-storefront/cli plugins:inspect PLUGIN...
+
+ARGUMENTS
+  PLUGIN  [default: .] Plugin to inspect.
+
+FLAGS
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Displays installation properties of a plugin.
+
+EXAMPLES
+  $ @vue-storefront/cli plugins:inspect myplugin
+```
+
+## `@vue-storefront/cli plugins:install PLUGIN...`
+
+Installs a plugin into the CLI.
+
+```
+USAGE
+  $ @vue-storefront/cli plugins:install PLUGIN...
+
+ARGUMENTS
+  PLUGIN  Plugin to install.
+
+FLAGS
+  -f, --force    Run yarn install with force flag.
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Installs a plugin into the CLI.
+
+  Can be installed from npm or a git url.
+
+  Installation of a user-installed plugin will override a core plugin.
+
+  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command
+  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in
+  the CLI without the need to patch and update the whole CLI.
+
+ALIASES
+  $ @vue-storefront/cli plugins add
+
+EXAMPLES
+  $ @vue-storefront/cli plugins:install myplugin
+
+  $ @vue-storefront/cli plugins:install https://github.com/someuser/someplugin
+
+  $ @vue-storefront/cli plugins:install someuser/someplugin
+```
+
+## `@vue-storefront/cli plugins:link PLUGIN`
+
+Links a plugin into the CLI for development.
+
+```
+USAGE
+  $ @vue-storefront/cli plugins:link PLUGIN
+
+ARGUMENTS
+  PATH  [default: .] path to plugin
+
+FLAGS
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Links a plugin into the CLI for development.
+
+  Installation of a linked plugin will override a user-installed or core plugin.
+
+  e.g. If you have a user-installed or core plugin that has a 'hello' command, installing a linked plugin with a 'hello'
+  command will override the user-installed or core plugin implementation. This is useful for development work.
+
+EXAMPLES
+  $ @vue-storefront/cli plugins:link myplugin
+```
+
+## `@vue-storefront/cli plugins:uninstall PLUGIN...`
+
+Removes a plugin from the CLI.
+
+```
+USAGE
+  $ @vue-storefront/cli plugins:uninstall PLUGIN...
+
+ARGUMENTS
+  PLUGIN  plugin to uninstall
+
+FLAGS
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Removes a plugin from the CLI.
+
+ALIASES
+  $ @vue-storefront/cli plugins unlink
+  $ @vue-storefront/cli plugins remove
+```
+
+## `@vue-storefront/cli plugins update`
+
+Update installed plugins.
+
+```
+USAGE
+  $ @vue-storefront/cli plugins update [-h] [-v]
+
+FLAGS
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Update installed plugins.
+```
+
+## `@vue-storefront/cli update [CHANNEL]`
+
+update the @vue-storefront/cli CLI
+
+```
+USAGE
+  $ @vue-storefront/cli update [CHANNEL] [-a] [-v <value> | -i] [--force]
+
+FLAGS
+  -a, --available        Install a specific version.
+  -i, --interactive      Interactively select version to install. This is ignored if a channel is provided.
+  -v, --version=<value>  Install a specific version.
+  --force                Force a re-download of the requested version.
+
+DESCRIPTION
+  update the @vue-storefront/cli CLI
+
+EXAMPLES
+  Update to the stable channel:
+
+    $ @vue-storefront/cli update stable
+
+  Update to a specific version:
+
+    $ @vue-storefront/cli update --version 1.0.0
+
+  Interactively select version:
+
+    $ @vue-storefront/cli update --interactive
+
+  See available versions:
+
+    $ @vue-storefront/cli update --available
+```
+
+_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.0.0/src/commands/update.ts)_
+<!-- commandsstop -->

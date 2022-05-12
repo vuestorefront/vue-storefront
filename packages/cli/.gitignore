@@ -1,5 +1,9 @@
-coverage
-lib
+*-debug.log
+*-error.log
+/.nyc_output
+/dist
+/lib
+/package-lock.json
+/tmp
 node_modules
-templates
-test
+oclif.manifest.json

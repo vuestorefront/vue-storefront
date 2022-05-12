@@ -1,3 +1,7 @@
-const baseConfig = require('../jest.base.config');
+// @ts-check
 
-module.exports = baseConfig;
+/**
+ * Jest's configuration object.
+ * @type {import('@jest/types').Config.InitialOptions}
+ */
+module.exports = require('../jest.base.config.js');
