@@ -76,11 +76,11 @@ const mutations: MutationTree<CartState> = {
   [types.CART_LOAD_CART_SERVER_TOKEN] (state, token) {
     state.cartServerToken = token
   },
-  [types.CART_UPD_TOTALS] (state, { itemsAfterTotals, totals, platformTotalSegments }) {
-    state.itemsAfterPlatformTotals = itemsAfterTotals
-    state.platformTotals = totals
+  [types.CART_UPD_TOTALS] (state, { itemsAfterPlatformTotals, platformTotals, platformTotalSegments }) {
+    state.itemsAfterPlatformTotals = itemsAfterPlatformTotals
+    state.platformTotals = platformTotals
     state.platformTotalSegments = platformTotalSegments
-    EventBus.$emit('cart-after-updatetotals', { platformTotals: totals, platformTotalSegments: platformTotalSegments })
+    EventBus.$emit('cart-after-updatetotals', { platformTotals, platformTotalSegments: platformTotalSegments })
   },
   [types.CART_UPD_PAYMENT] (state, paymentMethod) {
     state.payment = paymentMethod
