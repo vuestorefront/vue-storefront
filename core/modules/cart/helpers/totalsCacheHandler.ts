@@ -9,7 +9,8 @@ export const totalsCacheHandlerPlugin = ({ type }, state) => {
   ) {
     return StorageManager.get('cart').setItem('current-totals', {
       platformTotalSegments: state.cart.platformTotalSegments,
-      platformTotals: state.cart.platformTotals
+      platformTotals: state.cart.platformTotals,
+      itemsAfterPlatformTotals: state.cart.itemsAfterPlatformTotals
     }).catch((reason) => {
       Logger.error(reason)()
     })

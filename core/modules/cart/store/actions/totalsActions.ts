@@ -29,17 +29,17 @@ const totalsActions = {
     }
 
     if (resultCode === 200) {
-      const totals = result.totals || result
-      Logger.info('Overriding server totals. ', 'cart', totals)()
-      const itemsAfterTotal = prepareShippingInfoForUpdateTotals(totals.items)
+      const platformTotals = result.totals || result
+      Logger.info('Overriding server totals. ', 'cart', platformTotals)()
+      const itemsAfterPlatformTotals = prepareShippingInfoForUpdateTotals(platformTotals.items)
 
-      for (let key of Object.keys(itemsAfterTotal)) {
-        const item = itemsAfterTotal[key]
+      for (let key of Object.keys(itemsAfterPlatformTotals)) {
+        const item = itemsAfterPlatformTotals[key]
         const product = { server_item_id: item.item_id, totals: item, qty: item.qty }
         await dispatch('updateItem', { product })
       }
 
-      commit(types.CART_UPD_TOTALS, { itemsAfterTotal, totals, platformTotalSegments: totals.total_segments })
+      commit(types.CART_UPD_TOTALS, { itemsAfterPlatformTotals, platformTotals, platformTotalSegments: platformTotals.total_segments })
       commit(types.CART_SET_TOTALS_SYNC)
 
       // we received payment methods as a result of this call, updating state
