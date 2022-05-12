@@ -45,7 +45,7 @@ module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#configurewebpack
    */
-   configureWebpack: (config) => {
+  configureWebpack: (config) => {
      // Add support for webp images
      config.module.rules.push({
        test: /\.(webp)(\?.*)?$/,
@@ -77,7 +77,7 @@ module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/plugin/
    */
-   plugins: [
+  plugins: [
     '@vuepress/plugin-back-to-top',
     [
       '@vuepress/plugin-medium-zoom',
@@ -90,6 +90,17 @@ module.exports = {
     '@vuepress/search',
     resolve(__dirname, './plugins/meta/index.js')
   ],
+
+  /**
+   * Ref: https://v1.vuepress.vuejs.org/config/#markdown
+   */
+  markdown: {
+    extendMarkdown: md => {
+      md.use(require('markdown-it-video'), {
+        youtube: { width: 740, height: 416.25 }, // 16:9 ratio, where 740px is the width of the page content
+      });
+    }
+  },
 
   /**
    * Ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
