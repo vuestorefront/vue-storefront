@@ -152,6 +152,7 @@ You can disable the auto-redirect mechanism of the `@vue-storefront/nuxt` module
 
 export default {
   i18n: {
+    // ...defaultConfig
     autoRedirectByLocale: false
   }
 }
