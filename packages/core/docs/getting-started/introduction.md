@@ -2,6 +2,8 @@
 
 Without a proper understanding of the framework you're using, you might spend weeks or even months doing something that someone else has already done. That's why before we can dive deep into the project itself, we need to understand what powers it all under the hood.
 
+@[youtube](MCN1rRwuIGs)
+
 ## It's all Nuxt.js
 
 We didn't want to reinvent the wheel and introduce yet another framework that solves the same issues as its predecessors, which took them years to mature. That's why...

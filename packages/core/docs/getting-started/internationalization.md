@@ -143,3 +143,17 @@ export default {
   }
 }
 ```
+## Disabling the auto-redirect mechanism
+
+You can disable the auto-redirect mechanism of the `@vue-storefront/nuxt` module. The mechanism performs an automatic server-side redirect to a url created based on the target locale. To disable it set the `autoRedirectByLocale` to `false` in the `i18n` configuration object in your `nuxt.config.js`.
+
+```js
+// nuxt.config.js
+
+export default {
+  i18n: {
+    // ...defaultConfig
+    autoRedirectByLocale: false
+  }
+}
+```
