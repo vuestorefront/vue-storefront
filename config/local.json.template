@@ -707,7 +707,8 @@
         "icon": "/assets/logo.png"
       }
     },
-    "endpoint_ssr": "https://${VSF_API_DOMAIN}/api/order"
+    "endpoint_ssr": "https://${VSF_API_DOMAIN}/api/order",
+    "enqueueOrderOnPlacingFailed": false
   },
   "localForage": {
     "defaultDrivers": {
