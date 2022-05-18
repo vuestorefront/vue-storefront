@@ -10,6 +10,10 @@ services:
       - PM2_ARGS=--no-daemon
       - HELMET_ENABLED
 
+      - NODEJS_INSTANCES_COUNT
+      - NODEJS_INSTANCE_MAX_MEMORY
+      - NODEJS_INSTANCE_MAX_OLD_SPACE
+
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_DB=0
@@ -42,7 +46,7 @@ services:
       - './config/local.json.template:/var/www/config/local.json.template'
       - './babel.config.js:/var/www/babel.config.js'
       - './core:/var/www/core'
-      - './ecosystem.json:/var/www/ecosystem.json'
+      - './ecosystem.json.template:/var/www/ecosystem.json.template'
       - './.eslintignore:/var/www/.eslintignore'
       - './.eslintrc.js:/var/www/.eslintrc.js'
       - './lerna.json:/var/www/lerna.json'
