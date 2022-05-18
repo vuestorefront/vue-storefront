@@ -3,7 +3,7 @@
   <SfBottomNavigation class="navigation-bottom smartphone-only">
     <SfBottomNavigationItem
       :class="route.path == '/' ? 'sf-bottom-navigation__item--active' : ''"
-      icon="home" size="20px" label="Home"
+      icon="home" size="20px" :label="$t('Home')"
       @click="handleHomeClick"
     />
     <SfBottomNavigationItem icon="menu" size="20px" label="Menu" @click="toggleMobileMenu"/>
@@ -11,7 +11,7 @@
     <SfBottomNavigationItem icon="profile" size="20px" label="Account" @click="handleAccountClick"/>
     <!-- TODO: add logic for label - if on Home then Basket, if on PDC then AddToCart etc. -->
     <SfBottomNavigationItem
-      label="Basket"
+      :label="$t('Basket')"
       icon="add_to_cart"
       @click="toggleCartSidebar"
     >

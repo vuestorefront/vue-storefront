@@ -3,7 +3,7 @@
     <SfSidebar
       v-e2e="'sidebar-cart'"
       :visible="isCartSidebarOpen"
-      title="My Cart"
+      :title="$t('My Cart')"
       class="sf-sidebar--right"
       @close="toggleCartSidebar"
     >
@@ -11,7 +11,7 @@
         <SfProperty
           v-if="totalItems"
           class="sf-property--large cart-summary desktop-only"
-          name="Total items"
+          :name="$t('Total items')"
           :value="totalItems"
         />
       </template>
@@ -60,16 +60,15 @@
         <div v-else key="empty-cart" class="empty-cart">
           <div class="empty-cart__banner">
             <SfImage
-              alt="Empty bag"
+              :alt="$t('Empty bag')"
               class="empty-cart__image"
               :src="addBasePath('/icons/empty-cart.svg')"
             />
             <SfHeading
-              title="Your cart is empty"
+              :title="$t('Your cart is empty')"
               :level="2"
               class="empty-cart__heading"
-              description="Looks like you haven’t added any items to the bag yet. Start
-              shopping to fill it in."
+              :description="$t('Empty')"
             />
           </div>
         </div>
@@ -78,7 +77,7 @@
         <transition name="sf-fade">
           <div v-if="totalItems">
             <SfProperty
-              name="Subtotal price"
+              :name="$t('Subtotal price')"
               class="sf-property--full-width sf-property--large my-cart__total-price"
             >
               <template #value>

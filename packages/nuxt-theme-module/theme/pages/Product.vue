@@ -88,7 +88,7 @@
 
         <LazyHydrate when-idle>
           <SfTabs :open-tab="1" class="product__tabs">
-            <SfTab title="Description">
+            <SfTab :title="$t('Description')">
               <div class="product__description">
                   {{ $t('Product description') }}
               </div>
@@ -116,13 +116,13 @@
                 :max-rating="5"
                 :rating="reviewGetters.getReviewRating(review)"
                 :char-limit="250"
-                read-more-text="Read more"
-                hide-full-text="Read less"
+                :read-more-text="$t('Read more')"
+                :hide-full-text="$t('Read less')"
                 class="product__review"
               />
             </SfTab>
             <SfTab
-              title="Additional Information"
+              :title="$t('Additional Information')"
               class="product__additional-info"
             >
             <div class="product__additional-info">
@@ -147,7 +147,7 @@
       <RelatedProducts
         :products="relatedProducts"
         :loading="relatedLoading"
-        title="Match it with"
+        :title="$t('Match it with')"
       />
     </LazyHydrate>
 
