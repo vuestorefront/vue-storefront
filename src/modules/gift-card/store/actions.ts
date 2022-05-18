@@ -51,7 +51,13 @@ export const actions: ActionTree<GiftCardState, any> = {
       commit(UPDATE_GIFT_CARD_TEMPLATE, template);
     });
 
-    commit(UPDATE_GIFT_CARD_TEMPLATE_IDS_BY_STORE_ID, { storeId, giftCardTemplates })
+    commit(
+      UPDATE_GIFT_CARD_TEMPLATE_IDS_BY_STORE_ID,
+      {
+        storeId,
+        giftCardTemplatesIds: giftCardTemplates.map(({ id }) => id)
+      }
+    )
 
     return dictionary;
   },

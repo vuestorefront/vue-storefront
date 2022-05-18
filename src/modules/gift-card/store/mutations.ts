@@ -26,7 +26,7 @@ export const mutations: MutationTree<GiftCardState> = {
   [types.UPDATE_GIFT_CARD_TEMPLATE] (state, giftCardTemplate: GiftCardTemplate) {
     Vue.set(state.giftCardTemplate, giftCardTemplate.id, giftCardTemplate);
   },
-  [types.UPDATE_GIFT_CARD_TEMPLATE_IDS_BY_STORE_ID] (state, { storeId, giftCardTemplates }: { storeId: string, giftCardTemplates: GiftCardTemplate[] }) {
-    state.giftCardTemplateIdsByStoreId[storeId] = giftCardTemplates.map(({ id }) => id);
+  [types.UPDATE_GIFT_CARD_TEMPLATE_IDS_BY_STORE_ID] (state, { storeId, giftCardTemplatesIds }: { storeId: string, giftCardTemplatesIds: number[] }) {
+    Vue.set(state.giftCardTemplateIdsByStoreId, storeId, giftCardTemplatesIds);
   }
 }

@@ -14,9 +14,8 @@ export const getters: GetterTree<GiftCardState, any> = {
   },
   currentStoreGiftCardTemplates (state): GiftCardTemplate[] {
     const { storeId } = currentStoreView();
-    const currentStoreTemplateIds = state.giftCardTemplateIdsByStoreId[storeId];
+    const currentStoreTemplateIds = state.giftCardTemplateIdsByStoreId[storeId] || [];
 
-    return (Object.values(state.giftCardTemplate) as GiftCardTemplate[])
-      .filter((giftCardTemplate) => currentStoreTemplateIds.includes(giftCardTemplate.id));
+    return currentStoreTemplateIds.map((id) => state.giftCardTemplate[id]);
   }
 }
