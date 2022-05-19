@@ -146,7 +146,7 @@
 
 ## Links
 
-- 🖥  Demo: https://demo-ct.vuestorefront.io
+- 🖥  Demo: https://demo.vuestorefront.io/
 - 📦  Installation: https://docs.vuestorefront.io/v2/general/installation.html
 - 📘  Documentation: https://docs.vuestorefront.io/v2/
 - 👥  Discord Community: https://discord.gg/vuestorefront/
