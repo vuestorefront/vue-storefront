@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/nuxt-theme",
-  "version": "2.5.12",
+  "version": "2.5.13",
   "description": "",
   "main": "lib/module.js",
   "scripts": {
