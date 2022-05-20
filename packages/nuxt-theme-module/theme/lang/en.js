@@ -97,7 +97,6 @@ export default {
   'Details and status orders': 'Check the details and status of your orders in the online store. You can also cancel your order or request a return.',
   'You currently have no orders': 'You currently have no orders',
   'Start shopping': 'Start shopping',
-  'Download': 'Download',
   'Download all': 'Download all',
   'View details': 'View details',
   'Manage shipping addresses': 'Manage all the shipping addresses you want (work place, home address...) This way you won"t have to enter the shipping address manually with each order.',
