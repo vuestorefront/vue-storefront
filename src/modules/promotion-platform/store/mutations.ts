@@ -14,5 +14,11 @@ export const mutations: MutationTree<PromotionPlatformState> = {
   },
   [types.SET_LAST_BANNER_VERSION_CLOSED_BY_USER] (state, payload: string) {
     Vue.set(state, 'lastClosedBannerVersionByUser', payload)
+  },
+  [types.SET_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE] (state, payload: number) {
+    Vue.set(state, 'productionSpotCountdownExpirationDate', payload);
+  },
+  [types.CLEAR_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE] (state) {
+    Vue.set(state, 'productionSpotCountdownExpirationDate', undefined);
   }
 }
