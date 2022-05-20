@@ -25,8 +25,13 @@ export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext
   const configure = (tag, configuration) => {
     const injectInContext = createAddIntegrationToCtx({ tag, nuxtCtx, inject });
     const config = getIntegrationConfig(nuxtCtx, configuration);
-    const client = axios.create(config.axios);
 
+    const { middlewareUrl, ssrMiddlewareUrl } = nuxtCtx.$config;
+    if (middlewareUrl) {
+      config.axios.baseURL = process.server ? middlewareUrl || ssrMiddlewareUrl : middlewareUrl;
+    }
+
+    const client = axios.create(config.axios);
     const api = createProxiedApi({ givenApi: configuration.api || {}, client, tag });
 
     if (nuxtCtx.app.i18n.cookieValues) {
