@@ -5,7 +5,7 @@ import ExtraPhotoAddon from '../models/extra-photo-addon.model'
 import RushAddon from '../models/rush-addon.model'
 import Bodypart from '../models/bodypart.model'
 import BodypartValue from '../models/bodypart-value.model'
-import BodypartOption from 'theme/components/interfaces/bodypart-option'
+import BodypartOption from '../types/bodypart-option'
 
 const getters: GetterTree<BudsiesState, RootState> = {
   getExtraPhotoAddon: (state: BudsiesState, id: string): ExtraPhotoAddon | undefined => {

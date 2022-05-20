@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { getProductDefaultPrice } from 'theme/helpers';
+import { getProductDefaultPrice } from 'src/modules/shared';
 import { mapGetters } from 'vuex';
 import { isServer } from '@vue-storefront/core/helpers';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'

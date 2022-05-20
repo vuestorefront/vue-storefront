@@ -2,6 +2,8 @@ import rootStore from '@vue-storefront/core/store'
 import { storeViews } from 'config'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
+import { CART_LOAD_CART_SERVER_TOKEN, CART_SET_ITEMS_HASH } from '../store/mutation-types';
+
 function checkMultistoreKey (key: string, path: string): boolean {
   const { multistore, commonCache } = storeViews
   const storeView = currentStoreView();
@@ -10,12 +12,16 @@ function checkMultistoreKey (key: string, path: string): boolean {
 }
 
 function getItemsFromStorage ({ key }) {
+  const valueFromStorage = localStorage[key] ? JSON.parse(localStorage[key]) : undefined;
+
   if (checkMultistoreKey(key, 'shop/cart/current-cart')) {
-    const value = JSON.parse(localStorage[key])
-    rootStore.dispatch('cart/updateCart', { items: value })
+    rootStore.dispatch('cart/updateCart', { items: valueFromStorage })
   } else if (checkMultistoreKey(key, 'shop/cart/current-totals')) {
-    const value = JSON.parse(localStorage[key])
-    rootStore.dispatch('cart/updateTotals', value)
+    rootStore.dispatch('cart/updateTotals', valueFromStorage)
+  } else if (checkMultistoreKey(key, 'shop/cart/current-cart-token')) {
+    rootStore.commit(`cart/${CART_LOAD_CART_SERVER_TOKEN}`, valueFromStorage);
+  } else if (checkMultistoreKey(key, 'shop/cart/current-cart-hash')) {
+    rootStore.commit(`cart/${CART_SET_ITEMS_HASH}`, valueFromStorage);
   }
 }
 

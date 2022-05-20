@@ -125,7 +125,8 @@
   "seo": {
     "useUrlDispatcher": false,
     "disableUrlRoutesPersistentCache": true,
-    "defaultTitle": "${DEFAULT_STORE_TITLE}"
+    "defaultTitle": "${DEFAULT_STORE_TITLE}",
+    "defaultDescription": "${DEFAULT_STORE_DESCRIPTION}"
   },
   "console": {
     "showErrorOnProduction": false,
@@ -217,7 +218,7 @@
     "multistore": false,
     "commonCache": false,
     "mapStoreUrlsFor": [],
-    "${STORE}": {
+    "${DEFAULT_STORE_CODE}": {
       "storeCode": "${DEFAULT_STORE_CODE}",
       "name": "${DEFAULT_STORE_NAME}",
       "storeId": ${DEFAULT_STORE_ID}
@@ -706,7 +707,8 @@
         "icon": "/assets/logo.png"
       }
     },
-    "endpoint_ssr": "https://${VSF_API_DOMAIN}/api/order"
+    "endpoint_ssr": "https://${VSF_API_DOMAIN}/api/order",
+    "enqueueOrderOnPlacingFailed": false
   },
   "localForage": {
     "defaultDrivers": {

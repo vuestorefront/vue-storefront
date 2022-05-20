@@ -1,4 +1,5 @@
 import { GetterTree } from 'vuex';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 import GiftCard from '../types/GiftCard';
 import GiftCardState from '../types/GiftCardState';
@@ -11,7 +12,10 @@ export const getters: GetterTree<GiftCardState, any> = {
   getGiftCardTemplateById (state): (id: number) => GiftCardTemplate {
     return (id) => state.giftCardTemplate[id];
   },
-  giftCardTemplates (state): GiftCardTemplate[] {
-    return Object.values(state.giftCardTemplate);
+  currentStoreGiftCardTemplates (state): GiftCardTemplate[] {
+    const { storeId } = currentStoreView();
+    const currentStoreTemplateIds = state.giftCardTemplateIdsByStoreId[storeId] || [];
+
+    return currentStoreTemplateIds.map((id) => state.giftCardTemplate[id]);
   }
 }

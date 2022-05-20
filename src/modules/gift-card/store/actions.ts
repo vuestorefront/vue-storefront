@@ -6,7 +6,7 @@ import { GiftCardService } from '../gift-card.service';
 import GiftCard from '../types/GiftCard';
 import GiftCardState from '../types/GiftCardState';
 import GiftCardTemplate from '../types/GiftCardTemplate.interface';
-import { REMOVE_APPLIED_GIFT_CARD, SET_APPLIED_GIFT_CARD, SET_APPLIED_GIFT_CARDS, UPDATE_GIFT_CARD_TEMPLATE } from '../types/StoreMutations';
+import { REMOVE_APPLIED_GIFT_CARD, SET_APPLIED_GIFT_CARD, SET_APPLIED_GIFT_CARDS, UPDATE_GIFT_CARD_TEMPLATE, UPDATE_GIFT_CARD_TEMPLATE_IDS_BY_STORE_ID } from '../types/StoreMutations';
 
 export const actions: ActionTree<GiftCardState, any> = {
   async applyGiftCardCode ({ commit, dispatch, rootGetters }, payload: string): Promise<GiftCard> {
@@ -50,6 +50,14 @@ export const actions: ActionTree<GiftCardState, any> = {
       dictionary[template.id] = template;
       commit(UPDATE_GIFT_CARD_TEMPLATE, template);
     });
+
+    commit(
+      UPDATE_GIFT_CARD_TEMPLATE_IDS_BY_STORE_ID,
+      {
+        storeId,
+        giftCardTemplatesIds: giftCardTemplates.map(({ id }) => id)
+      }
+    )
 
     return dictionary;
   },

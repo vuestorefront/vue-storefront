@@ -38,10 +38,16 @@ export default {
   metaInfo () {
     if (this.story) {
       return {
-        title: get(this.story, 'content.seo.title', this.story.name),
-        meta: [
-          { description: get(this.story, 'content.seo.description') ? { vmid: 'description', name: 'description', content: this.story.content.seo.description } : {} }
-        ],
+        title: get(this.story, 'content.metatags.title', this.story.name),
+        meta: this.story.content?.metatags?.description
+          ? [
+            {
+              vmid: 'description',
+              name: 'description',
+              content: this.story.content.metatags.description
+            }
+          ]
+          : [],
         link: [
           {
             rel: 'canonical',
