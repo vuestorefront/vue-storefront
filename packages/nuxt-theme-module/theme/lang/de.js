@@ -196,6 +196,7 @@ export default {
   'Kids': 'Kids',
   'Personal data': 'Personal data',
   'Password change': 'Password change',
+  'All Orders': 'All Orders',
   'My orders': 'My orders',
   'Order ID': 'Order ID',
   'Date': 'Date',
