@@ -42,7 +42,7 @@ export const GiftCardService = {
 
     // TODO check why request errors not throwing
     if (Number.isNaN(Number.parseFloat(result.result))) {
-      throw new Error(result.result);
+      throw new Error(result.result.errorMessage);
     }
 
     return {
