@@ -97,7 +97,6 @@ export default {
   'Details and status orders': 'Überprüfen Sie die Details und den Status Ihrer Bestellungen im Online-Shop. Sie können Ihre Bestellung auch stornieren oder eine Rücksendung anfordern. ',
   'You currently have no orders': 'Sie haben derzeit keine Bestellungen',
   'Start shopping': 'Einkaufen starten',
-  'Download': 'Herunterladen',
   'Download all': 'Alle herunterladen',
   'View details': 'Details anzeigen',
   'Manage shipping addresses': 'Alle gewünschten Versandadressen verwalten (Arbeitsplatz, Privatadresse ...) Auf diese Weise müssen Sie die Versandadresse nicht bei jeder Bestellung manuell eingeben.',
