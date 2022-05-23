@@ -5,7 +5,8 @@ const defaultParams = {
   defaultLocale: 'en',
   availableLocales: ['en', 'de'],
   cookieLocale: '',
-  acceptedLanguages: ['de', 'en']
+  acceptedLanguages: ['de', 'en'],
+  autoRedirectByLocale: true
 };
 
 describe('i18n redirects util', () => {
@@ -97,5 +98,28 @@ describe('i18n redirects util', () => {
     });
 
     expect(util.getTargetLocale()).toEqual('en');
+  });
+
+  it('should return default language with autoRedirectByLocale set to false', async () => {
+    const util = i18nRedirectsUtil({
+      ...defaultParams,
+      cookieLocale: 'de',
+      acceptedLanguages: ['de', 'es'],
+      autoRedirectByLocale: false
+    });
+
+    expect(util.getTargetLocale()).toEqual('en');
+  });
+
+  it('should return language from path with autoRedirectByLocale set to false', async () => {
+    const util = i18nRedirectsUtil({
+      ...defaultParams,
+      path: '/de',
+      cookieLocale: 'en',
+      acceptedLanguages: ['en', 'es'],
+      autoRedirectByLocale: false
+    });
+
+    expect(util.getTargetLocale()).toEqual('de');
   });
 });

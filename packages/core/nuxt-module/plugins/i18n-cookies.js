@@ -32,7 +32,8 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
     defaultLocale: i18nOptions.defaultLocale,
     availableLocales: i18nOptions.locales.map((item) => item.code),
     acceptedLanguages: isServer ? acceptedLanguage.split(',').map((item) => item.split(';')[0]) : acceptedLanguage,
-    cookieLocale
+    cookieLocale,
+    autoRedirectByLocale
   });
 
   const targetLocale = utils.getTargetLocale();
