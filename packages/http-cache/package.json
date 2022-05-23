@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/http-cache",
-  "version": "2.5.12",
+  "version": "2.5.13",
   "license": "MIT",
   "scripts": {
     "test": "jest"
