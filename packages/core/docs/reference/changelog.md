@@ -2,7 +2,7 @@
 
 ## 2.5.13
 
-- Allow using external Middleware URL ([6702](https://github.com/vuestorefront/vue-storefront/pull/6702)) - [Heitor Ramon Ribeiro | Lukas Borawski](https://github.com/vuestorefront/vue-storefront)
+- Allow using external Middleware URL ([6702](https://github.com/vuestorefront/vue-storefront/pull/6702)) - Heitor Ramon Ribeiro / Lukas Borawski
 
 - Add option to configure locale, currency and country cookie attributes for the i18nCookiesPlugin ([6715](https://github.com/vuestorefront/vue-storefront/pull/6715)) - [Marcin Sulowski](https://github.com/MarcinSulowski)
 
