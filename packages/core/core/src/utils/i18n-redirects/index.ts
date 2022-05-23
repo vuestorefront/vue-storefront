@@ -3,13 +3,15 @@ const i18nRedirectsUtil = ({
   defaultLocale,
   availableLocales,
   cookieLocale,
-  acceptedLanguages
+  acceptedLanguages,
+  autoRedirectByLocale
 }: {
   path: string;
   defaultLocale: string;
   cookieLocale: string;
   availableLocales: string[];
   acceptedLanguages: string[];
+  autoRedirectByLocale: boolean;
 }): {
   getRedirectPath: () => string;
   getTargetLocale: () => string;
@@ -24,8 +26,8 @@ const i18nRedirectsUtil = ({
   const getTargetLocale = (): string => {
     const languagesOrderedByPriority = [
       localeFromPath,
-      cookieLocale,
-      ...acceptedLanguages,
+      ...(autoRedirectByLocale && [cookieLocale]),
+      ...(autoRedirectByLocale && acceptedLanguages),
       defaultLocale
     ];
 
