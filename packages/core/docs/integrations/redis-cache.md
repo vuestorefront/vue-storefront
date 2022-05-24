@@ -51,5 +51,5 @@ We can break down package configuration into three pieces:
 
 
 ::: warning
-If you are using VSF cloud, please make sure that the redis host is set to `redis`, otherwise, your VSF app will no connect to the Redis server!
+If you are using VSF cloud, please make sure that the redis host is set to `redis` for the production mode/ENV variable, otherwise, your VSF app will no connect to the Redis server!
 :::
