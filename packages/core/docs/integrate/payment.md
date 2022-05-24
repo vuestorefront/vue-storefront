@@ -57,9 +57,7 @@ After getting theoretical foundations, it's time to start the analysis.
 
 Check if there is an already existing headless-ready integration with your eCommerce and PSP. If you found one, be careful with estimations. Headless-ready is a very popular term nowadays. Developers tend to publish not well-tested integrations. You might encounter integrations marked as headless-ready but without key functionalities like 3DS1/3DS2 fully working through API.
 
-If everything is fine, you have to create VSF2 nuxt module for frontend part and middleware integration to access new eCommerce endpoints. This is the easiest scenario because you don't have to write additional code for PSP and eCommerce communication.
-
-TODO: PUT HERE LINK TO BOILERPLATE
+Already existing solution is the easiest scenario because you don't have to write additional code for PSP and eCommerce communication. If everything is fine, you can use [this repository](https://github.com/vuestorefront/payment-template) as a boilerplate for the integration.
 
 Examples of already existing eCommerce and PSP integrations:
 
@@ -75,11 +73,11 @@ In some cases, it is possible to write additional code in VSF2 Middleware to com
 
 Different eCommerce's have different approaches to payments. You have to analyze how your one approaches them, make sure you support:
 
-- creating a payment object,
-- updating a payment object (after authorization, capture, refund),
-- attaching payment object to the order,
+- creating a payment,
+- updating a payment (after authorization, capture, refund),
+- attaching payment to the order,
 - updating order status after successful payment,
-- updating based on asynchronous messages (webhook).
+- updating status based on asynchronous messages (webhook).
 
 #### Find the best way for integration with your Payment Service Provider
 
@@ -127,24 +125,21 @@ BigCommerce integration uses [embedded checkout](https://developer.bigcommerce.c
 
 ## Integration checklist
 
-Use bullets below to check if your integration has everything what's necessary.
+Use bullets below to check if your integration has everything what's necessary:
 
-My integration:
-
-- [ ] has a great documentation, examples: [commercetools & PayPal](https://docs.vuestorefront.io/paypal/commercetools/), [commercetools & Adyen](https://docs.vuestorefront.io/adyen/), [Magento2 & Adyen](https://docs.vuestorefront.io/adyen/magento2/),
-- [ ] handles modifying total price in the second tab/during payment,
-- [ ] updates Payment&Transaction status from webhook calls, so it shares some endpoint,
-- [ ] webhook validates request siganture if available,
-- [ ] PSP will queue failed request from webhook, handle it to prevent duplicates
-- [ ] Use `ngrok` or `localtunnel` to test webhook locally
-- [ ] supports 3DS1 and 3DS2 if it contains Credit Cards because it's required in EEA
+- has a great documentation, examples: [commercetools & PayPal](https://docs.vuestorefront.io/paypal/commercetools/), [commercetools & Adyen](https://docs.vuestorefront.io/adyen/), [Magento2 & Adyen](https://docs.vuestorefront.io/adyen/magento2/),
+- handles [modifying total price](./payment.html#second-tab-total-price-modification) in the second tab/during payment,
+- shares endpoint for PSP's webhook and updates payment inside,
+- webhook validates request siganture if available,
+- PSP could queue failed request from webhook - handle it to prevent duplicates
+- supports 3DS1 and 3DS2 if it contains Credit Cards because it's required in EEA
 - [ ] write a list of manual tests to make before each release and use it
-- [ ] do not assume that currency has 2 decimals. Respect other values too: https://docs.adyen.com/development-resources/currency-codes
-- [ ] delay authorization of payment as far as possible. Probably you should make it together with placing an order https://github.com/commercetools/commercetools-adyen-integration/blob/master/docs/FAQ.md#when-i-should-create-commercetools-order-
-- [ ] describe how to capture and refund in the documentation or put a link to how2
+- do not assume that currency has 2 decimals. Respect other values too: https://docs.adyen.com/development-resources/currency-codes
+- delay authorization of payment as far as possible. Probably you should make it together with placing an order https://github.com/commercetools/commercetools-adyen-integration/blob/master/docs/FAQ.md#when-i-should-create-commercetools-order-
+- describe how to capture and refund in the documentation
 
 Additional for Express Flow:
 
-- [ ] if shipping & billing information are being brought from PSP then you have to put them in your eCommerce and fetch available shipping methods based on that. Then force user to pick one and update the total price. What's more, there is a possibility that merchant doesn't ship to provided shipping address - handle it.
-- [ ] during shipping methods check, you could also check for price modification (from the second tab) and update it to improve UX
-- [ ] keep in mind that after Express checkout but before click on "CONFIRM AND PLACE AN ORDER" user could modify shipping/billing address and then you have to either update everything in PSP or switch him to standard flow and force to recreate a payment
+- if shipping & billing information are being brought from PSP then you have to put them in your eCommerce and fetch available shipping methods based on that. Then force user to pick one and update the total price. What's more, there is a possibility that merchant doesn't ship to provided shipping address - handle it.
+- during shipping methods check, you could also check for price modification (from the second tab) and update it to improve UX
+- keep in mind that after Express checkout but before click on "CONFIRM AND PLACE AN ORDER" (if shop uses confirmation-before-order page) user could modify shipping/billing address and then you have to either update everything in PSP or switch him to standard flow and force to recreate a payment
