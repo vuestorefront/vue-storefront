@@ -21,6 +21,7 @@ Register `@vue-storefront/cache` module with following configuration:
 export default {
   modules: [
     ['@vue-storefront/cache/nuxt', {
+      enabled: true,
       invalidation: {
         // Invalidation options
       },
@@ -40,9 +41,15 @@ export default {
 };
 ```
 
-We can break down package configuration into two pieces:
+We can break down package configuration into three pieces:
 
+* `enabled` (required boolean) - contains boolean value, that is responsible for the package's running status.
 * `invalidation` - please refer to [SSR Cache configuration](../performance/ssr-cache.md) page.
 * `driver` - object containing:
   * `defaultTimeout` - number of seconds until records expire, even if not invalidated;
   * `redis` - object directly passed to [ioredis](https://github.com/luin/ioredis/blob/master/API.md#new-redisport-host-options);
+
+
+::: warning
+If you are using VSF cloud, please make sure that the redis host is set to `redis`, otherwise, your VSF app will no connect to the Redis server!
+:::
