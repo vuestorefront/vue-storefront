@@ -127,7 +127,7 @@ const INTEGRATIONS = {
     },
     {
       name: 'Odoo',
-      link: '',
+      link: 'https://docs.vuestorefront.io/odoo/',
       image: '/v2/integrations-logos/odoo.svg',
       status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
@@ -137,9 +137,9 @@ const INTEGRATIONS = {
     },
     {
       name: 'PrestaShop',
-      link: '',
+      link: 'https://docs.vuestorefront.io/prestashop/',
       image: '/v2/integrations-logos/prestashop.svg',
-      status: STATUS.BETA,
+      status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
         { name: 'Binshops', link: 'https://www.binshops.com/' }
