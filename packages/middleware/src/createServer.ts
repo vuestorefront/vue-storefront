@@ -26,7 +26,7 @@ interface Helmet extends HelmetOptions {
   helmet?: boolean | HelmetOptions
 }
 
-function createServer (config: MiddlewareConfig): Express {
+async function createServer(config: MiddlewareConfig): Promise<Express> {
   consola.info('Middleware starting....');
 
   const options: Helmet = {
@@ -45,15 +45,15 @@ function createServer (config: MiddlewareConfig): Express {
   }
 
   consola.info('Loading integrations...');
-  const integrations = registerIntegrations(app, config.integrations);
+  const integrations = await registerIntegrations(app, config.integrations);
   consola.success('Integrations loaded!');
 
   app.post('/:integrationName/:functionName', async (req: Request, res: Response) => {
     const { integrationName, functionName } = req.params as any as RequestParams;
-    const { apiClient, configuration, extensions, customQueries } = integrations[integrationName];
+    const { apiClient, configuration, extensions, customQueries, initConfig } = integrations[integrationName];
     const middlewareContext: MiddlewareContext = { req, res, extensions, customQueries };
     const createApiClient = apiClient.createApiClient.bind({ middleware: middlewareContext });
-    const apiClientInstance = createApiClient(configuration);
+    const apiClientInstance = createApiClient({ ...configuration, ...initConfig });
     const apiFunction = apiClientInstance.api[functionName];
     try {
       const platformResponse = await apiFunction(...req.body);
