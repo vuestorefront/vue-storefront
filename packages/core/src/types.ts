@@ -867,6 +867,11 @@ export type CreateApiClientFn = (givenConfig: any, customApi?: any) => ApiInstan
 
 export interface ApiClientFactory {
   createApiClient: CreateApiClientFn;
+
+  /**
+   * function responsible for setting up integration config, runs ones.
+   */
+  init?: () => Record<string, any>;
 }
 
 export interface ApiClientConfig {
