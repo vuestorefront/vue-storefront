@@ -9,13 +9,23 @@
 </template>
 
 <script lang="ts">
+import { VueConstructor } from 'vue';
+import { isServer } from '@vue-storefront/core/helpers';
+import { InjectType, getProductDefaultPrice } from 'src/modules/shared';
 import { Blok } from 'src/modules/vsf-storyblok-module/components'
-import { getProductDefaultPrice } from 'src/modules/shared';
+
 import Product from 'core/modules/catalog/types/Product';
 import AffirmMonthlyPaymentData from './interfaces/affirm-monthly-payment-data.interface';
 
-export default Blok.extend({
+interface InjectedServices {
+  window: Window
+}
+
+export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServices>).extend({
   name: 'StoryblokAffirmMonthlyPayment',
+  inject: {
+    window: { from: 'WindowObject' }
+  } as unknown as InjectType<InjectedServices>,
   data: function () {
     return {
       product: undefined as Product | undefined
@@ -62,8 +72,12 @@ export default Blok.extend({
     },
     productPriceInCents: {
       handler () {
+        if (isServer) {
+          return;
+        }
+
         this.$nextTick(() => {
-          const affirm = (window as any).affirm;
+          const affirm = (this.window as any).affirm;
 
           affirm.ui.refresh();
         })
