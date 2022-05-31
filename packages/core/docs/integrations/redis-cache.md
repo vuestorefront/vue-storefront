@@ -27,6 +27,7 @@ export default {
       driver: [
         '@vue-storefront/redis-cache',
         {
+          version: "1.0.0", // Your versionning strategy
           defaultTimeout: 86400,
           redis: {
             host: 'localhost',
@@ -44,5 +45,9 @@ We can break down package configuration into two pieces:
 
 * `invalidation` - please refer to [SSR Cache configuration](../performance/ssr-cache.md) page.
 * `driver` - object containing:
+  * `version` - Providing a version will permit to share to cache betweent all instance of NodeJS across your architecture.
   * `defaultTimeout` - number of seconds until records expire, even if not invalidated;
   * `redis` - object directly passed to [ioredis](https://github.com/luin/ioredis/blob/master/API.md#new-redisport-host-options);
+
+:::warning if `version` is not provided a fallback version will be generated on *each* instance of NodeJS.
+:::
