@@ -871,7 +871,7 @@ export interface ApiClientFactory {
   /**
    * function responsible for setting up integration config, runs ones.
    */
-  init?: () => Record<string, any>;
+  init?: (configuration: Record<string, any>) => Record<string, any>;
 }
 
 export interface ApiClientConfig {
