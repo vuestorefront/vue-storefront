@@ -1,6 +1,6 @@
 # Networking
 
-Vue Storefront differs slightly from most applications in the way it handles API communication. The most common way is for front-end applications to communicate directly with the API platforms (Service providers). However, In the Vue Storefront, there is a "proxy" between them called Server Middleware.
+Vue Storefront differs slightly from most applications in how it handles API communication. The most common way is for frontend applications to communicate directly with the API platforms (Service providers). However, in Vue Storefront, there is a "proxy" between them called Server Middleware.
 
 
 ## Data flow
@@ -14,7 +14,7 @@ Before we can understand Server Middleware, we need to discuss data flow from th
 We describe each of them in more detail in the following sections.
 
 :::tip There are exceptions
-For security reasons, data is sometimes sent directly from the user's browser to the Service providers. For example, the payment and authentication integrations communicate directly with or redirect to the third-party websites so that the sensitive customer information does not go through our servers.
+For security reasons, data is sometimes sent directly from the user's browser to the Service providers. For example, the payment and authentication integrations communicate directly with or redirect to the third-party websites so that sensitive customer information does not go through our servers.
 :::
 
 <figure style="text-align: center">
@@ -33,7 +33,7 @@ Most integrations in Vue Storefront ask you to register a Nuxt.js plugin or modu
 
 ### Server Middleware
 
-Server Middleware is an Express.js server that exposes API endpoints defined in the extensions registered in the `middleware.config.js` file. 
+Server Middleware is an Express.js server that exposes API endpoints defined in the extensions registered in the `middleware.config.js` file.
 
 Extensions can prepare and send the requests to the service provider using available lifecycle hooks and data available in the request's body. When the response is received, it can be modified and sent back to the application. If necessary, extensions can also retry the request or make other subsequent requests to collect more data.
 
@@ -41,7 +41,7 @@ Server Middleware doesn't make any assumptions about the technologies used for t
 
 ### Service providers
 
-Server Middleware can communicate with a variety of service providers as long as they expose an API. It can use industry-standard libraries like `axios` or `Apollo` or platform-specific JavaScript SDKs.
+Server Middleware can communicate with various service providers as long as they expose an API. It can use industry-standard libraries like `axios` or `Apollo` or platform-specific JavaScript SDKs.
 
 In some scenarios, when the traffic should not go through the Server Middleware, it's possible to communicate directly between the browser and platforms. However, keep in mind that adding necessary libraries to your frontend can negatively impact the performance.
 

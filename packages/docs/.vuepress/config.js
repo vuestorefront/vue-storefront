@@ -45,7 +45,7 @@ module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#configurewebpack
    */
-   configureWebpack: (config) => {
+  configureWebpack: (config) => {
      // Add support for webp images
      config.module.rules.push({
        test: /\.(webp)(\?.*)?$/,
@@ -77,7 +77,7 @@ module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/plugin/
    */
-   plugins: [
+  plugins: [
     '@vuepress/plugin-back-to-top',
     [
       '@vuepress/plugin-medium-zoom',
@@ -90,6 +90,17 @@ module.exports = {
     '@vuepress/search',
     resolve(__dirname, './plugins/meta/index.js')
   ],
+
+  /**
+   * Ref: https://v1.vuepress.vuejs.org/config/#markdown
+   */
+  markdown: {
+    extendMarkdown: md => {
+      md.use(require('markdown-it-video'), {
+        youtube: { width: 740, height: 416.25 }, // 16:9 ratio, where 740px is the width of the page content
+      });
+    }
+  },
 
   /**
    * Ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
@@ -110,7 +121,8 @@ module.exports = {
     sidebarDepth: 0,
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Demo', link: 'https://demo-ct.vuestorefront.io' }
+      { text: 'Demo', link: 'https://demo.vuestorefront.io/' },
+      { text: 'Discord', link: 'https://discord.vuestorefront.io/' }
     ],
     sidebar: [
       {
@@ -118,10 +130,9 @@ module.exports = {
         collapsable: false,
         children: [
           ['/', '👋 Meet Vue Storefront'],
-          ['/general/installation', '💻 Installation'],
           ['/integrations/', '🔌 Integrations'],
           ['/general/enterprise', '🚀 Enterprise'],
-          ['/general/support', '🙋 Support'],
+          ['/general/support', '🙋 Support']
         ]
       },
       {
@@ -129,13 +140,13 @@ module.exports = {
         collapsable: false,
         children: [
           ['/getting-started/introduction', 'Introduction'],
+          ['/getting-started/installation', 'Installation'],
           ['/getting-started/project-structure', 'Project structure'],
           ['/getting-started/configuration', 'Configuration'],
           ['/getting-started/layouts-and-routing', 'Layouts and Routing'],
           ['/getting-started/theme', 'Theme'],
           ['/getting-started/internationalization', 'Internationalization'],
-          ['/getting-started/logging', 'Logging'],
-          // ['/', 'Glossary']
+          ['/getting-started/logging', 'Logging']
         ]
       },
       {
@@ -146,8 +157,8 @@ module.exports = {
           ['/composition/composables', 'Composables'],
           ['/composition/getters', 'Getters'],
           ['/composition/error-handling', 'Error Handling'],
-          ['/composition/creating-custom-composables', 'Creating custom composables'],
-          ['/composition/extending-graphql-queries', 'Extending GraphQL queries']
+          ['/composition/extending-graphql-queries', 'Extending GraphQL queries'],
+          ['/composition/creating-custom-composables', 'Creating custom composables']
         ]
       },
       {
@@ -165,28 +176,40 @@ module.exports = {
         children: [
           ['/integrate/extending-vue-storefront', 'Extending Vue Storefront'],
           ['/integrate/extending-integrations', 'Extending integrations'],
+          ['/integrate/cookie-based-config', 'Cookie-based configuration'],
           ['/integrate/integration-guide', 'Integrating e-commerce platform'],
           ['/integrate/cms', 'Integrating CMS platform'],
           ['/integrate/cache-driver', 'Integrating cache driver']
         ]
       },
       {
+        title: 'Troubleshooting',
+        collapsable: true,
+        children: [
+          ['/troubleshooting/inspecting-network-requests', 'Inspecting network requests']
+        ]
+      },
+      {
         title: 'Performance',
         collapsable: true,
         children: [
-          ['/performance/performance', 'Performance basics'],
+          ['/performance/intro', 'Introduction'],
+          ['/performance/improving-core-web-vitals', 'Improving Core Web Vitals'],
+          ['/performance/optimizing-html-and-css', 'Optimizing HTML and CSS'],
+          ['/performance/optimizing-images', 'Optimizing images'],
+          ['/performance/optimizing-javascript', 'Optimizing JavaScript'],
+          ['/performance/other-optimizations', 'Other optimizations'],
           ['/performance/ssr-cache', 'SSR cache']
         ]
       },
-      // {
-      //   title: 'Deployment',
-      //   collapsable: true,
-      //   children: [
-      //     ['/', 'Deyploment basics'],
-      //     ['/', 'Continuous Integration (CI)'],
-      //     ['/', 'End-to-End testing (E2E)']
-      //   ]
-      // },
+      {
+        title: 'Security',
+        collapsable: true,
+        children: [
+          ['/security/headers-security', 'HTTP Headers security'],
+          ['/security/api-url', 'Server Middleware URL']
+        ]
+      },
       {
         title: 'Reference',
         collapsable: true,
@@ -200,7 +223,7 @@ module.exports = {
         title: 'Community',
         collapsable: true,
         children: [
-          ['/community/sponsorship-program', '✍️ Sponsorship Program'],
+          ['/community/sponsorship-program', '✍️ Sponsorship Program']
         ]
       },
       {

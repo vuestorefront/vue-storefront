@@ -15,9 +15,9 @@ All of your packages must contain a `README.md` file. This file must have some b
 - How I can contribute? Or link to the `CONTRIBUTING.md`;
 
 ### Adding the README to all the Packages
-It's always good to add your `README.md` file to the packages in your integration. 
-So when people are looking on NPM, they can see a more detailed information about the project.
-You can copy and paste the main README.md file from the root folder, or create a new one from each package.
+It's always good to add your README.md file to the packages in your integration. 
+So when people are looking at NPM, they can see a piece of more detailed information about the project. 
+You can copy and paste the main README.md file from the root folder or create a new one from each package.
 
 ### Displaying the contributors of the project
 
@@ -31,13 +31,13 @@ You can add a new contributor to the project, by running the command `yarn contr
 
 #### Generating the contributors list
 
-You can always refresh the contributors list, you need to execute the command `yarn contributors:generate` on the root directory of your project. Then the `README.md` file on the root directory, will be automatically updated to reflect the changes made to the `.all-contributorsrc` file.
+You can always refresh the contributors list, you need to execute the command `yarn contributors:generate` on the root directory of your project. Then the `README.md` file on the root directory will be automatically updated to reflect the changes made to the `.all-contributorsrc` file.
 
 ## Roadmaps
-When creating new integrations, defining a roadmap can take some time and is not easy as people think. But there are some ways to develop essential roadmaps for the community, pointing out your future steps of the integration and help newcomers.
+When creating new integrations, defining a roadmap can take some time and is not easy as people think. But there are some ways to develop essential roadmaps for the community, pointing out your future steps of the integration and helping newcomers.
 
 ### Creating a roadmap
-There are two ways of developing a roadmap inside your repository. You can create a pinned issue for each planned roadmap, or create a GitHub Projects for the roadmap. Here we will teach you how to create both of the implementation.
+There are two ways of developing a roadmap inside your repository. You can create a pinned issue for each planned roadmap, or create a GitHub Project for the roadmap. Here we will teach you how to create both of the implementations.
 
 #### GitHub Projects
 On your repository, enable the **Projects** feature. Then go to the **Projects** tab and create a new **Project** with the title `Roadmap`, and your can add the description you want. Choose the **Template** as `None`, and create your new **Project** board.

@@ -1,23 +1,13 @@
-import { IncomingMessage } from 'http';
 import { Context as NuxtContext } from '@nuxt/types';
 import merge from 'lodash-es/merge';
-import { ApiClientMethod } from '../../types';
+import { ApiClientMethod } from './../../types';
+import { Logger } from './../logger';
 
 interface CreateProxiedApiParams {
   givenApi: Record<string, ApiClientMethod>;
   client: any;
   tag: string;
 }
-
-export const getBaseUrl = (req: IncomingMessage, basePath: string | undefined = '/'): string => {
-  if (!req) return `${basePath}api/`;
-  const { headers } = req;
-  const isHttps = require('is-https')(req);
-  const scheme = isHttps ? 'https' : 'http';
-  const host = headers['x-forwarded-host'] || headers.host;
-
-  return `${scheme}://${host}${basePath}api/`;
-};
 
 export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiParams) => new Proxy(givenApi, {
   get: (target, prop, receiver) => {
@@ -36,15 +26,20 @@ export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiPara
 export const getCookies = (context: NuxtContext) => context?.req?.headers?.cookie ?? '';
 
 export const getIntegrationConfig = (context: NuxtContext, configuration: any) => {
+  const baseURL = process.server ? context?.$config?.middlewareUrl : window.location.origin;
   const cookie = getCookies(context);
-  const initialConfig = merge({
+
+  if (process.server && context?.$config?.middlewareUrl) {
+    Logger.info('Applied middlewareUrl as ', context.$config.middlewareUrl);
+  }
+
+  return merge({
     axios: {
-      baseURL: getBaseUrl(context?.req, context?.base),
+      baseURL: new URL(/\/api\//gi.test(baseURL) ? '' : 'api', baseURL).toString(),
       headers: {
         ...(cookie ? { cookie } : {})
       }
     }
   }, configuration);
-
-  return initialConfig;
 };
+

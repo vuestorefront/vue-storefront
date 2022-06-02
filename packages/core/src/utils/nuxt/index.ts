@@ -25,10 +25,10 @@ export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext
   const configure = (tag, configuration) => {
     const injectInContext = createAddIntegrationToCtx({ tag, nuxtCtx, inject });
     const config = getIntegrationConfig(nuxtCtx, configuration);
-    const { middlewareUrl, ssrMiddlewareUrl } = (nuxtCtx as any).$config;
 
+    const { middlewareUrl, ssrMiddlewareUrl } = nuxtCtx.$config;
     if (middlewareUrl) {
-      config.axios.baseURL = process.server ? ssrMiddlewareUrl || middlewareUrl : middlewareUrl;
+      config.axios.baseURL = process.server ? middlewareUrl || ssrMiddlewareUrl : middlewareUrl;
     }
 
     const client = axios.create(config.axios);

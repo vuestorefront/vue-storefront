@@ -14,9 +14,7 @@ You can learn more about this file and available configuration options on the [N
 
 ### `middleware.config.js`
 
-The `middleware.config.js` file is as essential as `nuxt.confis.js`, but much simpler and likely smaller. It configures the Server Middleware used for communication with e-commerce platforms and contains sensitive credentials, custom endpoints, queries, etc.
-
-You can learn more about Server Middleware and available configuration options on the [Server Middleware](/architecture/server-middleware.html) page.
+The `middleware.config.js` file is as essential as `nuxt.config.js`, but much simpler and likely smaller. It configures the Server Middleware used for communication with e-commerce platforms and contains sensitive credentials, custom endpoints, queries, etc.
 
 ## Optional configuration files
 

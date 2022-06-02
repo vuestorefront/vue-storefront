@@ -10,8 +10,9 @@
     "core-cache-ref": "cd ../cache && api-extractor run --local",
     "core-core-ref": "cd ../core && api-extractor run --local",
     "core-middleware-ref": "cd ../middleware && api-extractor run --local",
+    "core-nuxt-module-ref": "cd ../nuxt-module && api-extractor run --local",
     "core-ref-md": "api-documenter markdown --i reference/api --o reference/api",
-    "build:core": "yarn core-cache-ref && yarn core-core-ref && yarn core-middleware-ref && yarn core-ref-md"
+    "build:core": "yarn core-cache-ref && yarn core-core-ref && yarn core-middleware-ref && yarn core-nuxt-module-ref && yarn core-ref-md"
   },
   "devDependencies": {
     "@microsoft/api-documenter": "^7.13.7",
@@ -21,6 +22,7 @@
     "@vuepress/plugin-medium-zoom": "^1.8.2",
     "@vuepress/plugin-search": "^1.8.2",
     "handlebars": "^4.7.7",
+    "markdown-it-video": "^0.6.3",
     "node-html-to-image": "^3.2.0",
     "typescript": "^3.6.4",
     "vuepress": "^1.2.0"
