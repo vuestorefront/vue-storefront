@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "build": "yarn build:core && yarn build:cache && yarn build:middleware && yarn build:core:nuxt-module",
+    "build": "yarn build:core && yarn build:cache && yarn build:middleware && yarn build:nuxt-module",
     "build:core": "cd packages/core && yarn build",
     "build:cache": "cd packages/cache && yarn build",
     "build:docs": "cd packages/docs && yarn build",
