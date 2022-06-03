@@ -300,7 +300,7 @@ const INTEGRATIONS = {
         { name: 'Mollie', link: 'https://docs.vuestorefront.io/mollie/commercetools' }
       ],
       image: '/v2/integrations-logos/mollie.svg',
-      status: STATUS.BETA,
+      status: STATUS.STABLE,
       license: LICENSE.ENTERPRISE,
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
