@@ -16,12 +16,15 @@ This document aims to help you understand some laws around implementing payment 
 
 ## Understand the basics
 
-// TODO
+The very first step is to learn the theory behind payments.
 
-The first step is to learn the theory behind payments:
+### What's Payment Service Provider (PSP)?
 
-- [What's PCI Compliance?](https://docs.adyen.com/development-resources/pci-dss-compliance-guide)
-- [What's Payment Service Provider (PSP)?](https://en.wikipedia.org/wiki/Payment_service_provider)
+Payment service provider is a company that handles transactions with variety of payment methods securely and safely. Examples of these companies are: Adyen, Checkout.com, Przelewy24, etc. You can learn more about it [here](https://en.wikipedia.org/wiki/Payment_service_provider).
+
+### What's Payment Card Industry (PCI) compliance?
+
+It's compliance with PCI Data Security Standards. It helps ensure the security of credit card during transactions. You can learn more about it [here](https://docs.adyen.com/development-resources/pci-dss-compliance-guide).
 
 ### Handling credit card data
 
