@@ -16,7 +16,7 @@ This document aims to help you understand some laws around implementing payment 
 
 ## Understand the basics
 
-//TODO: This needs more explanation
+// TODO
 
 The first step is to learn the theory behind payments:
 
@@ -30,7 +30,7 @@ Before starting, you must know that you should **not** implement custom forms fo
 However, most payment service providers offer components that handle payments and allow you to hook into certain events via callback functions. Using these callbacks, you can access hashed payment data and, if necessary, communicate with the e-commerce backend. Because they give you already hashed data, all you need is [SAQ A](https://docs.adyen.com/development-resources/pci-dss-compliance-guide?tab=drop_in_or_components_2#online-payments).
 
 ::: warning
-You should always check documentation of PSP provider to make sure what are the PCI-related requirements of the offered solution.
+You should always check documentation of Payment Service Provider to make sure what are the PCI-related requirements of the offered solution.
 :::
 
 ### Saving cards for recurring payments
@@ -85,7 +85,7 @@ If there is no existing solution and you have to write your own, you first have 
 
 Depending on the platform, you'll have to write:
 either an integration for Server Middleware in Vue Storefront to communicate with PSP and the e-commerce platform,
-or an extension for an e-commerce platform, e.g., Magento2 Plugin in PHP.
+or an extension for an e-commerce platform, e.g., Magento2 Plugin in PHP. There is a possibility you'll need to do both.
 
 #### Find the best way to integrate with your Payment Service Provider
 
@@ -144,15 +144,15 @@ Use the bullets below to check if your integration has everything that's necessa
 - handles [modifying total price](./payment.html#second-tab-total-price-modification) in the second tab/during payment,
 - shares endpoint for PSP's webhook and updates payment inside,
 - webhook validates request signature if available,
-- PSP could queue failed requests from webhook - handle it to prevent duplicates
-- supports 3DS1 and 3DS2 if it contains Credit Cards because it's required in EEA
-- [ ] write a list of manual tests to make before each release and use it
-- do not assume that currency has 2 decimals. Respect other values, too: https://docs.adyen.com/development-resources/currency-codes
-- delay authorization of payment as far as possible. Probably you should make it together with placing an order https://github.com/commercetools/commercetools-adyen-integration/blob/master/docs/FAQ.md#when-i-should-create-commercetools-order-
-- describe how to capture and refund in the documentation
+- PSP could queue failed requests from webhook - handle it to prevent duplicates,
+- supports 3DS1 and 3DS2 if it contains Credit Cards because it's required in EEA,
+- write a list of manual tests to make before each release and use it,
+- do not assume that currency has 2 decimals. Respect other values, too. [Read more](https://docs.adyen.com/development-resources/currency-codes),
+- delay authorization of payment as far as possible. Probably you should make it together with placing an order. [Read more](https://github.com/commercetools/commercetools-adyen-integration/blob/master/docs/FAQ.md#when-i-should-create-commercetools-order-),
+- describe how to capture and refund in the documentation.
 
 Additional for Express Flow:
 
-- if shipping & billing information is being brought from PSP, you have to put them in your eCommerce and fetch available shipping methods based on that. Then force the user to pick one and update the total price. What's more, there is a possibility that the merchant doesn't ship to provided shipping address - handle it.
-- during the shipping methods check, you could also check for price modification (from the second tab) and update it to improve UX
-- keep in mind that after Express checkout but before clicking on "CONFIRM AND PLACE AN ORDER" (if shop uses the confirmation-before-order page) user could modify the shipping/billing address, and then you have to either update everything in PSP or switch him to standard flow and forced to recreate a payment
+- if shipping & billing information is being brought from PSP, you have to put them in your eCommerce and fetch available shipping methods based on that. Then force the user to pick one and update the total price. What's more, there is a possibility that the merchant doesn't ship to provided shipping address - handle it,
+- during the shipping methods check, you could also check for price modification (from the second tab) and update it to improve UX,
+- keep in mind that after Express checkout but before clicking on "CONFIRM AND PLACE AN ORDER" (if shop uses the confirmation-before-order page) user could modify the shipping/billing address, and then you have to either update everything in PSP or switch him to standard flow and force to recreate a payment.
