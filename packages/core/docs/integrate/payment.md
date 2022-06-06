@@ -45,7 +45,7 @@ Instead, you should use data that identifies if the user is who they say they ar
 
 In [European Economic Area](https://en.wikipedia.org/wiki/European_Economic_Area), each bank has to perform [Strong Customer Authentication](https://en.wikipedia.org/wiki/Strong_customer_authentication) such as [3DS1 or 3DS2](https://www.tokenex.com/blog/what-is-3-d-secure-authentication-and-why-do-i-need-it). This requirement means that users have to verify the payment by entering an SMS Code from the bank, in the bank's application, or a similar authorization mechanism.
 
-This verification is sometimes skipped in PSPs sandbox mode to make development faster. Before going into production, make sure to test both 3DS1 and 3DS2.
+Before using your integration in production, make sure to test both 3DS1 and 3DS2.
 
 ### The difference between Authorization and Capture
 
