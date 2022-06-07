@@ -184,16 +184,11 @@ import { ref, computed, useRoute, useRouter } from '@nuxtjs/composition-api';
 import { useProduct, useCart, productGetters, useReview, reviewGetters } from '<%= options.generate.replace.composables %>';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
-import cacheControl from '../helpers/cacheControl';
 import { addBasePath } from '@vue-storefront/core';
 
 export default {
   name: 'Product',
   transition: 'fade',
-  middleware: cacheControl({
-    'max-age': 60,
-    'stale-when-revalidate': 5
-  }),
   setup() {
     const qty = ref(1);
     const route = useRoute();

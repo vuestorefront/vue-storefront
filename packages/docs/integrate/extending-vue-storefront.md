@@ -65,6 +65,7 @@ See the [Plugins directory](https://nuxtjs.org/docs/2.x/directory-structure/plug
 Nuxt.js modules can customize almost any aspect of your project. They are functions called sequentially on the server when the Nuxt.js application is booting.
 
 You can use them to:
+
 - register Nuxt.js plugins;
 - add support for various UI frameworks;
 - enable PWA or AMP;

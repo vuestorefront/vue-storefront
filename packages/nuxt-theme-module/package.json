@@ -1,8 +1,8 @@
 {
   "name": "@vue-storefront/nuxt-theme",
-  "version": "2.5.5",
+  "version": "2.5.13",
   "description": "",
-  "main": "index.js",
+  "main": "lib/module.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

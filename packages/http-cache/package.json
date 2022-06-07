@@ -1,0 +1,22 @@
+{
+  "name": "@vue-storefront/http-cache",
+  "version": "2.5.13",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "nuxt/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuestorefront/vue-storefront.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vuestorefront/vue-storefront/issues"
+  },
+  "homepage": "https://github.com/vuestorefront/vue-storefront#readme"
+}

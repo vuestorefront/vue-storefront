@@ -2,11 +2,12 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "build": "yarn build:core && yarn build:cache && yarn build:middleware",
+    "build": "yarn build:core && yarn build:cache && yarn build:middleware && yarn build:nuxt-module",
     "build:core": "cd packages/core && yarn build",
     "build:cache": "cd packages/cache && yarn build",
     "build:docs": "cd packages/docs && yarn build",
     "build:middleware": "cd packages/middleware && yarn build",
+    "build:nuxt-module": "cd packages/nuxt-module && yarn build",
     "cli": "cd packages/cli && yarn cli",
     "commit": "cz",
     "core:changelog": "cd packages/docs/scripts && node changelog --in ../changelog --out ../reference/changelog.md",
@@ -14,6 +15,7 @@
     "link-packages": "lerna link --force-local",
     "lint": "eslint . --ext .js,.ts,.vue",
     "test:cache": "cd packages/cache && yarn test",
+    "test:http-cache": "cd packages/http-cache && yarn test",
     "test:cli": "cd packages/cli && yarn test",
     "test:core": "cd packages/core && yarn test",
     "test:middleware": "cd packages/middleware && yarn test"

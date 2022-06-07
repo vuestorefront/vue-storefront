@@ -1,5 +1,43 @@
 # Changelog
 
+## 2.5.13
+
+- Allow using external Middleware URL ([6702](https://github.com/vuestorefront/vue-storefront/pull/6702)) - Heitor Ramon Ribeiro / Lukas Borawski
+
+- Add option to configure locale, currency and country cookie attributes for the i18nCookiesPlugin ([6715](https://github.com/vuestorefront/vue-storefront/pull/6715)) - [Marcin Sulowski](https://github.com/MarcinSulowski)
+
+- Add option to disable the automatic locale redirect of the i18nCookiesPlugin ([6717](https://github.com/vuestorefront/vue-storefront/pull/6717)) - [Marcin Sulowski](https://github.com/MarcinSulowski)
+
+- Prevent HTTP cache module from setting headers after they had been sent ([6720](https://github.com/vuestorefront/vue-storefront/pull/6720)) - [Łukasz Śliwa](https://github.com/lsliwaradioluz)
+
+## 2.5.12
+
+- Middleware and Nuxt Middleware [Helmet](https://github.com/helmetjs/helmet) added. ([6688](https://github.com/vuestorefront/vue-storefront/pull/6688)) [Heitor Ramon](https://github.com/bloodf)
+
+- Revert the breaking change introduced in `2.5.7`, with the default behavior and the possibility to use Nuxt `middlewareUrl` as the endpoint definition. ([6688](https://github.com/vuestorefront/vue-storefront/pull/6688)) [Heitor Ramon](https://github.com/bloodf)
+
+## 2.5.7
+
+- new `@vue-storefront/http-cache` package
+
+- **[BREAKING]** get api host from middleware url ([6680](https://github.com/vuestorefront/vue-storefront/pull/6680)) - [Dawid Ziobro](https://github.com/dawid-ziobro)
+
+  | Before | After | Comment | Module |
+  | ------ | ----- | ------- | ------ |
+  | The `middlewareUrl` property was optional | The `middlewareUrl` is required | The `middlewareUrl` property in the `nuxt.config.js` file is now required. Please follow the instruction in the Migration Guide. | @vue-storefront/core |
+
+- **[BREAKING]** Fix the `CustomQueryFn` type in core ([6681](https://github.com/vuestorefront/vue-storefront/pull/6681)) - [Filip Sobol](https://github.com/filipsobol)
+
+  | Before | After | Comment | Module |
+  | ------ | ----- | ------- | ------ |
+  | The `CustomQueryFn` type had inproper parameters | The `CustomQueryFn` type has parameters as expected by the Server Middleware |  | @vue-storefront/core |
+
+## 2.5.6
+
+- Added the ability to select plugins used by @vue-storefront/nuxt ([6641](https://github.com/vuestorefront/vue-storefront/pull/6641)) - [Mateusz Pietrusiński](https://github.com/Mateuszpietrusinski)
+
+- Added the VSF cookie name ([6656](https://github.com/vuestorefront/vue-storefront/pull/6667)) - [Alef Barbeli](https://github.com/vuestorefront)
+
 ## 2.5.5
 
 - Fix for disabling cookie generation on server side with `autoChangeCookie` option disabled ([6633](https://github.com/vuestorefront/vue-storefront/pull/6633)) - [Alef Barbeli](https://github.com/alefbarbeli)

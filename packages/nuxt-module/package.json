@@ -1,10 +1,13 @@
 {
   "name": "@vue-storefront/nuxt",
-  "version": "2.5.5",
-  "description": "",
-  "main": "lib/module.js",
+  "version": "2.5.13",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "types": "lib/src/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf lib && rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "yarn build"
   },
   "author": "Vue Storefront",
   "license": "MIT",
@@ -19,9 +22,14 @@
     "nuxt-purgecss": "^1.0.0"
   },
   "devDependencies": {
-    "@nuxt/types": "^2.15.8"
+    "@nuxt/types": "^2.15.8",
+    "@rollup/plugin-json": "~4.1.0"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "files": [
+    "lib/**/*",
+    "plugins/**/*"
+  ]
 }

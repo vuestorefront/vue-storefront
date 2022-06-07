@@ -1,6 +1,6 @@
 # Project structure
 
-If you followed our [Installation](/general/installation.html) guide, you should have a Vue Storefront project with some eCommerce platform already integrated. This project has a bunch of directories, Vue components, and files, but what does what?
+If you followed our [Installation](/getting-started/installation.html) guide, you should have a Vue Storefront project with some eCommerce platform already integrated. This project has a bunch of directories, Vue components, and files, but what does what?
 
 In this section, you will learn how to navigate the Vue Storefront project and where to start developing.
 
@@ -14,7 +14,7 @@ To learn about it in-depth, you can refer to the [Directory Structure in Nuxt.js
 
 * [**components**](https://nuxtjs.org/docs/2.x/directory-structure/components) contains Vue.js components used on different pages or parts of your application. You can import these components from pages, layouts, and other components.
 
-* [**lang**](http://localhost:8080/v2/getting-started/internationalization.html) contains translations for your application. Available locales are configured in the `nuxt.config.js` file.
+* [**lang**](https://docs.vuestorefront.io/v2/getting-started/internationalization.html) contains translations for your application. Available locales are configured in the `nuxt.config.js` file.
 
 * [**layouts**](https://nuxtjs.org/docs/2.x/directory-structure/layouts) contains Vue.js components that act as a UI base for the whole application or specific pages.
 
@@ -26,7 +26,7 @@ To learn about it in-depth, you can refer to the [Directory Structure in Nuxt.js
 
 * **middleware.config.js** and **nuxt.config.js** configurations file are described in detail in the [Configuration](./configuration.html) document.
 
-Some integrations can have slightly different structures, with more or fewer files and directories. For more information, refer to the Nuxt.js documentation linked above and integration documentation.
+Some integrations can have slightly different structures, with more or fewer files and directories. For more information, refer to the Nuxt.js documentation linked above and the integration documentation.
 
 ## What's next
 

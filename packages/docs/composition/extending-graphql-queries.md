@@ -18,7 +18,7 @@ search({
     products: 'my-products-query',
     metadata: { size: 'xl' }
   }
-}); 
+});
 ```
 
 In the example above, we change the `products` query with our custom query named `my-products-query`. Additionally, the `metadata` field holds additional parameters about the product we seek for. As a second step, we need to define `my-products-query` query.

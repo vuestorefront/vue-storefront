@@ -2,6 +2,7 @@
 
 import { Ref } from '@nuxtjs/composition-api';
 import type { Request, Response } from 'express';
+import { HelmetOptions } from 'helmet';
 
 /**
  * Default name of the cookie storing active localization code
@@ -819,7 +820,7 @@ export interface ApiClientExtensionHooks<C = any> {
   afterCall?: (params: AfterCallParams<C>) => AfterCallArgs;
 }
 
-export type CustomQueryFn<T = any> = (query: any, variables: T) => {
+export type CustomQueryFn<T = any> = ({ query, variables, metadata }) => {
   query?: any;
   variables?: T;
   metadata: any;
@@ -845,6 +846,7 @@ export type IntegrationsSection = Record<string, Integration>
 
 export interface MiddlewareConfig {
   integrations: Record<string, Integration>;
+  helmet?: boolean | Readonly<HelmetOptions>;
 }
 
 export interface ApiClientFactoryParams<T, F = any> {

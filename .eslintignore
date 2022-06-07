@@ -3,3 +3,5 @@
 **/GraphQL.ts
 !**/.vuepress/**/*
 packages/cache/nuxt/plugin.js
+packages/nuxt-module/plugins/i18n-cookies.js
+packages/nuxt-module/plugins/logger.js

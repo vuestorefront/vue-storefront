@@ -125,3 +125,35 @@ modules: [
   },
 }
 ```
+## Configuring cookie attributes
+
+You can overwrite the default `currency`, `locale`, and `country` cookie attributes set by the `@vue-storefront/nuxt` module or add new ones. Create a new `cookieOptions` object for the `i18n` configuration object in the `nuxt.config.js` file and specify the attributes you'd like the cookies to have.
+
+```js
+// nuxt.config.js
+
+export default {
+  i18n: {
+    cookieOptions: {
+      // default attributes used by the `@vue-storefront/nuxt` module
+      path: '/',
+      sameSite: 'lax',
+      expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+    }
+  }
+}
+```
+## Disabling the auto-redirect mechanism
+
+You can disable the auto-redirect mechanism of the `@vue-storefront/nuxt` module. The mechanism performs an automatic server-side redirect to a url created based on the target locale. To disable it set the `autoRedirectByLocale` to `false` in the `i18n` configuration object in your `nuxt.config.js`.
+
+```js
+// nuxt.config.js
+
+export default {
+  i18n: {
+    // ...defaultConfig
+    autoRedirectByLocale: false
+  }
+}
+```

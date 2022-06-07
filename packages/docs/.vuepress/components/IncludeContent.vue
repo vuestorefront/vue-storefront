@@ -1,5 +1,5 @@
 <template>
-<Content :page-key="$site.pages.find(p => p.path === '/' + contentKey + '.html').key" />
+  <Content :page-key="$site.pages.find(p => p.path === '/' + contentKey + '.html').key" />
 </template>
 
 <script>

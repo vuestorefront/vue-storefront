@@ -38,7 +38,7 @@ const INTEGRATIONS = {
       status: STATUS.BETA,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
-        { name: 'Caravel', link: 'https://www.caravelx.com/' }
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ]
     },
     {
@@ -62,16 +62,6 @@ const INTEGRATIONS = {
       ]
     },
     {
-      name: 'Spryker',
-      link: 'https://docs.vuestorefront.io/spryker',
-      image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed62750bc49f087fcfc9fd1_spryker_logo.svg',
-      status: STATUS.BETA,
-      license: LICENSE.OPEN_SOURCE,
-      maintainedBy: [
-        { name: 'Spryker', link: 'https://spryker.com/en/' },
-      ]
-    },
-    {
       name: 'Shopify',
       link: 'https://docs.vuestorefront.io/shopify',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed627658b992c5c98014d1c_Shopify_logo_2018%201.svg',
@@ -83,10 +73,10 @@ const INTEGRATIONS = {
     },
     {
       name: 'BigCommerce',
-      link: '',
+      link: 'https://docs.vuestorefront.io/bigcommerce',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/6023aa663109a7a8f995f095_BigCommerce-logo-dark.svg',
-      status: STATUS.WIP,
-      license: LICENSE.OPEN_SOURCE,
+      status: STATUS.STABLE,
+      license: LICENSE.ENTERPRISE,
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' }
       ]
@@ -103,7 +93,7 @@ const INTEGRATIONS = {
       name: 'Sylius',
       link: '',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed6275b7df0e61000941a54_sylius_logo.svg',
-      status: STATUS.WIP,
+      status: STATUS.BETA,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
         { name: 'BitBag', link: 'https://bitbag.io/' },
@@ -137,9 +127,9 @@ const INTEGRATIONS = {
     },
     {
       name: 'Odoo',
-      link: '',
+      link: 'https://docs.vuestorefront.io/odoo/',
       image: '/v2/integrations-logos/odoo.svg',
-      status: STATUS.BETA,
+      status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
         { name: 'OdooGap', link: 'https://www.odoogap.com/' }
@@ -147,9 +137,9 @@ const INTEGRATIONS = {
     },
     {
       name: 'PrestaShop',
-      link: '',
+      link: 'https://docs.vuestorefront.io/prestashop/',
       image: '/v2/integrations-logos/prestashop.svg',
-      status: STATUS.BETA,
+      status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
         { name: 'Binshops', link: 'https://www.binshops.com/' }
@@ -175,6 +165,16 @@ const INTEGRATIONS = {
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' }
       ]
     },
+    {
+      name: 'Swell',
+      link: '',
+      image: '/v2/integrations-logos/swell.svg',
+      status: STATUS.WIP,
+      license: LICENSE.OPEN_SOURCE,
+      maintainedBy: [
+        { name: 'Swell', link: 'https://www.swell.is/' }
+      ]
+    }
   ],
   other: [
     {
@@ -235,7 +235,7 @@ const INTEGRATIONS = {
     {
       name: 'Redis',
       link: './redis-cache.html',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/Redis_Logo.svg',
+      image: '/v2/integrations-logos/redis.svg',
       status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
@@ -275,6 +275,32 @@ const INTEGRATIONS = {
       ],
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed621cc6456318210a7d22b_Adyen_Corporate_Logo.svg',
       status: STATUS.STABLE,
+      license: LICENSE.ENTERPRISE,
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
+      categories: [ CATEGORY.PAYMENT ]
+    },
+    {
+      name: 'PayPal',
+      link: [
+        { name: 'commercetools', link: 'https://docs.vuestorefront.io/paypal/commercetools' }
+      ],
+      image: 'https://uploads-ssl.webflow.com/5e7cf661c23ac9df156d9c3d/5eb01763b8d39cb1427e86f2_PayPal%201.svg',
+      status: STATUS.STABLE,
+      license: LICENSE.ENTERPRISE,
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
+      categories: [ CATEGORY.PAYMENT ]
+    },
+    {
+      name: 'Mollie',
+      link: [
+        { name: 'Mollie', link: 'https://docs.vuestorefront.io/mollie/commercetools' }
+      ],
+      image: '/v2/integrations-logos/mollie.svg',
+      status: STATUS.BETA,
       license: LICENSE.ENTERPRISE,
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
@@ -328,17 +354,6 @@ const INTEGRATIONS = {
       categories: [ CATEGORY.CMS ]
     },
     {
-      name: 'Recurly',
-      link: '',
-      image: '/v2/integrations-logos/Recurly.png',
-      status: STATUS.WIP,
-      license: LICENSE.ENTERPRISE,
-      maintainedBy: [
-        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
-      ],
-      categories: [ CATEGORY.PAYMENT ]
-    },
-    {
       name: 'Algolia',
       link: [
         { name: 'commercetools', link: 'https://docs.vuestorefront.io/algolia' }
@@ -353,9 +368,9 @@ const INTEGRATIONS = {
     },
     {
       name: 'Constructor.io',
-      link: '',
+      link: 'https://docs.vuestorefront.io/constructor-io/',
       image: '/v2/integrations-logos/constructor-io.svg',
-      status: STATUS.WIP,
+      status: STATUS.STABLE,
       license: LICENSE.ENTERPRISE,
       maintainedBy: [
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
