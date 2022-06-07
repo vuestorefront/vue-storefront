@@ -246,10 +246,7 @@ app.get('*', async (req, res, next) => {
         res.end(output)
       }
 
-      if (!isProd) {
-        console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
-      }
-
+      console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
       next()
     }).catch(errorHandler)
       .finally(() => {

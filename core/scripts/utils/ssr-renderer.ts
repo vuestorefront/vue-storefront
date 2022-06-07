@@ -83,10 +83,7 @@ function applyAdvancedOutputProcessing (context, output, templatesCache, isProd 
   }
 
   if (config.server.useHtmlMinifier) {
-    if (!isProd) {
-      console.debug('HTML Minifier is enabled')
-    }
-
+    console.debug('HTML Minifier is enabled')
     output = minify(output, config.server.htmlMinifierOptions)
   }
 
