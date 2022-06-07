@@ -4,9 +4,9 @@
 
 Composables use the Composition API introduced in Vue 3 but are also made available via plugins in Vue 2. If you are not familiar with it, see the [Composition API guide](/composition/composition-api.html).
 
-## What are composable?
+## What are composables?
 
-Composables are functions with an **internal state** that changes over time and **methods** that modify this state. You cannot directly modify the state but only by calling these methods. However, because the state is reactive — thanks to the Compositions API available in Vue applications — you can watch and react to these changes when necessary to update the UI or perform other operations.
+Composables are functions with an **internal state** that changes over time and **methods** that modify this state. You cannot directly modify the state. The only way to change the state is by calling one of the composable's methods. However, because the state is reactive — thanks to Vue's Composition API — you can watch and react to these changes when necessary to update the UI or perform other operations.
 
 This pattern encapsulates the state and business logic and exposes it through easy-to-use methods.
 
@@ -14,13 +14,13 @@ This pattern encapsulates the state and business logic and exposes it through ea
 
 Most composables consist of one or more of the following:
 
-- **Primary state** - read-only state of the composable. You cannot update it directly but only by calling composable **methods**.
+- **Primary state** - read-only state of the composable, which you cannot update directly.
 - **Supportive state** - additional read-only state for values such as the status of the requests or errors.
 - **Methods** - functions that update the primary and supportive states. These methods usually call API endpoints but can also manage cookies or call methods from other composables.
 
 To make composables easily distinguishable from standard methods, we follow the popular convention of names starting with "use".
 
-### How does it look like in practice?
+### What does it look like in practice?
 
 Let's take a closer look at how it might look like using the [useUser](/reference/api/core.useuser.html) composable as an example:
 
@@ -66,10 +66,10 @@ Let's go step by step through this example to understand what's going on:
 2. Next, we call the asynchronous `load` method within the `useFetch` hook to load user data.
 3. Finally, we return the `user` object from the `setup` method to make it available in the components `<template>`.
 
-While it's okay to destructure composable like we did in step 1, you should **not** destructure read-only state, such as the `user` or `error` properties, because resulting variables will not be reactive and won't update.
+While it's okay to destructure a composable as we did in step 1, you should **not** destructure read-only states, such as the `user` or `error` properties. Doing it this way will create variables that are not reactive and don't update.
 
 ```javascript
-// ❌ Destructuring `user` will create variables that aren't reactivity and don't update
+// ❌ Destructuring `user` will create variables that aren't reactive and don't update
 const { user: { value: { firstname } } } = useUser();
 
 // ✔️ Using `computed` will make the variable react to changes in the `user` object
@@ -94,7 +94,7 @@ You can use one or more hooks simultaneously, even in the same component.
 
 ### Internals of the `load` method
 
-You might be wondering what happened within the composable when we called the `load` method in the example above. The behavior of methods is different between composables, but in the case of the `useUser` composable, the `load` method updated the `loading`, `error`, and `user` properties to reflect the current state, and later the result of the API call corresponding to this method.
+You might be wondering what happened within the composable when we called the `load` method in the example above. The behavior of methods is different between composables. Still, in the case of the `useUser` composable, the `load` method updated the `loading`, `error`, and `user` properties to reflect the current state, made an API call, and then updated the state with the API's response.
 
 <img
   src="../images/useUser-load-flow.png"
