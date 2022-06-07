@@ -1,128 +1,108 @@
 # Composables
 
-> If you are not familiar with Composition APIs, we recommend reading [this article](/composition/composition-api.html) first.
+## Prerequisites
 
-Composable is a function that uses [Composition API](/composition/composition-api.html) under the hood. Composables are the main public API of Vue Storefront and, in most cases, the only API except configuration you will work with.
+Composables use the Composition API introduced in Vue 3 but are also made available via plugins in Vue 2. If you are not familiar with it, see the [Composition API guide](/composition/composition-api.html).
 
-You can treat composables as independent micro-applications. They manage their own state, handle server-side rendering, and rarely interact with each other.
+## What are composables?
 
-To use a composable, you need to import it from an integration you use, and call it on the component `setup` option:
+Composables are functions with an **internal state** that changes over time and **methods** that modify this state. You cannot directly modify the state. The only way to change the state is by calling one of the composable's methods. However, because the state is reactive — thanks to Vue's Composition API — you can watch and react to these changes when necessary to update the UI or perform other operations.
 
-```js
-import { useProduct } from '{INTEGRATION}';
-import { onSSR } from '@vue-storefront/core`
-
-export default {
-  setup() {
-    const { products, search } = useProduct();
-
-    onSSR(async () => {
-      await search(searchParams);
-    });
-
-    return {
-      products
-    };
-  }
-};
-```
-
-> `onSSR` is used to perform an asynchronous request on the server-side and convey the received data to the client. You will learn more about it next section.
-
-For some composables (like `useProduct`), you will need to pass a unique ID as a parameter (it can be a product ID, category ID, etc.). Others (like `useCart`) do not require an ID passed. You can always check a composable signature in the [API Reference](../reference/api/core.html).
+This pattern encapsulates the state and business logic and exposes it through easy-to-use methods.
 
 ## Anatomy of a composable
 
-Every Vue Storefront composable usually returns three main pieces:
+Most composables consist of one or more of the following:
 
-- **Main data object**. A read-only object that represents data returned by the composable. For example, in `useProduct` it's a `products` object, in `useCategory` it's `categories` etc.
-- **Supportive data objects**. These properties depend directly or indirectly on the main data object. For example, `loading`, `error` or `isAuthenticated` from `useUser` depend on a `user`.
-- **Main function that interacts with data object**. This function usually calls the API and updates the main data object. For example in `useProduct` and `useCategory` it's a `search` method,in `useCart` it's a `load` method. The rule of thumb here is to use `search` when you need to pass some search parameters. `load` is usually called when you need to load some content based on cookies or `localStorage`
-- **platform-specific API access**. This is the section where you can reach out to the API functions that are specific to the platform you are using. By default we provide an agnostic approach of using the same API and function calls for each platform, however sometimes there is a need to use something very specific to the certain service, thus you can easily access it over the `api` object.
+- **Primary state** - read-only state of the composable, which you cannot update directly.
+- **Supportive state** - additional read-only state for values such as the status of the requests or errors.
+- **Methods** - functions that update the primary and supportive states. These methods usually call API endpoints but can also manage cookies or call methods from other composables.
 
-```js
-import { useProduct } from '{INTEGRATION}';
+To make composables easily distinguishable from standard methods, we follow the popular convention of names starting with "use".
 
-const { products, search, loading, api } = useProduct('<UNIQUE_ID>');
+### What does it look like in practice?
 
-search({ slug: 'super-t-shirt' }); // agnostic access
+Let's take a closer look at how it might look like using the [useUser](/reference/api/core.useuser.html) composable as an example:
 
-api.addCartInsurence({ id: 't-shirt-01' }); // platform-specific API
+<img
+  src="../images/useUser-composable-anatomy.png"
+  alt="Anatomy of the useUser composable"
+  style="display: block; margin: 0 auto;">
 
-return { products, search, loading };
-```
+In this example:
 
-### Using `onSSR` for server-side rendering
+- the `user` property is the primary state,
+- the `loading` and `error` properties represent the supportive state,
+- the `load`, `register`, `login`, `logout`, and `changePassword` are methods.
 
-By default, Vue Storefront supports conveying server-side data to the client with Nuxt.js 2, where `setup` function is synchronous. Because of that, we can't use asynchronous functions if their results depend on each other (e.g., by loading `products` using `id` of a category that you have to fetch first).
+## Usage
 
-To solve this issue, we provide a temporary solution - `onSSR`:
+Let's see how you can use the [useUser](/reference/api/core.useuser.html) composable to load the current user's data:
 
-```js
-import { useProduct, useCategory } from '{INTEGRATION}';
-import { onSSR } from '@vue-storefront/core';
+```vue
+<script>
+import { useUser } from '{INTEGRATION}';
+import { useFetch } from '@nuxtjs/composition-api';
 
 export default {
   setup() {
-    const { categories, search: searchCategory } = useCategory();
-    const { products, search: searchProduct, loading } = useProduct();
+    const { load, user } = useUser();
 
-    onSSR(async () => {
-      await searchCategory({ slug: 'my-category' });
-      await searchProduct({ catId: categories.value[0].id });
+    useFetch(async () => {
+      await load();
     });
 
     return {
-      products,
-      loading
+      user
     };
   }
 };
+</script>
 ```
 
-`onSSR` accepts a callback where we should call our `search` or `load` method asynchronously. This will change `loading` state to `true`. Once the API call is done, the main data object (`products` in this case) will be populated with the result, and `loading` will become `false` again.
+Let's go step by step through this example to understand what's going on:
 
-In the future, Vue 3 will provide an async setup, and `onSSR` won't be needed anymore.
+1. We begin by extracting needed methods and state variables from the composable.
+2. Next, we call the asynchronous `load` method within the `useFetch` hook to load user data.
+3. Finally, we return the `user` object from the `setup` method to make it available in the components `<template>`.
 
-## What composables I can use
+While it's okay to destructure a composable as we did in step 1, you should **not** destructure read-only states, such as the `user` or `error` properties. Doing it this way will create variables that are not reactive and don't update.
 
-Vue Storefront integrations are exposing the following composables:
+```javascript
+// ❌ Destructuring `user` will create variables that aren't reactive and don't update
+const { user: { value: { firstname } } } = useUser();
 
-#### Product Catalog
+// ✔️ Using `computed` will make the variable react to changes in the `user` object
+const { user } = useUser();
+const firstname = computed(() => user.value.firstname);
+```
 
-- [`useProduct`](../reference/api/core.useproduct.html) - Managing a single product with variants (or a list).
-- [`useCategory`](../reference/api/core.usecategory.html) - Managing category lists (but not category products).
-- [`useFacet`](../reference/api/core.usefacet.html) - Complex catalog search with filtering.
-- [`useReview`](../reference/api/core.usereview.html) - Product reviews.
+This raises two questions:
 
-#### User Profile and Authorization
+1. What is the `useFetch`, and what does it do?
+2. What happened when we called the `load` method?
 
-- [`useUser`](../reference/api/core.useuser.html) - Managing user sessions, credentials and registration.
-- [`useUserShipping`](../reference/api/core.useusershipping.html) - Managing shipping addresses.
-- [`useUserBilling`](../reference/api/core.useuserbilling.html) - Managing billing addresses.
-- [`useUserOrder`](../reference/api/core.useuserorder.html) - Managing past and active user orders.
+### `useFetch` and other hooks for fetching data
 
-#### Shopping Cart
+There are many hooks available in Composition API, but let's only focus on the most common ones used for fetching data:
 
-- [`useCart`](../reference/api/core.usecart.html) - Loading the cart, adding/removing products and discounts.
+- The [useFetch](https://composition-api.nuxtjs.org/lifecycle/usefetch/) and [useAsync](https://composition-api.nuxtjs.org/API/useAsync) are Nuxt-specific hooks called on the server-side when rendering the route and on the client-side when navigating between pages.
+- The `onMounted` is a lifecycle hook called **only on the client-side** after the browser loads the page.
+- The `onServerPrefetch` is a lifecycle hook called **only on the server-side** when rendering the route.
 
-#### Wishlist/Favourite
+You can use one or more hooks simultaneously, even in the same component.
 
-- [`useWishlist`](../reference/api/core.usewishlist.html) - Loading the wishlist, adding/removing products.
+### Internals of the `load` method
 
-#### CMS Content
+You might be wondering what happened within the composable when we called the `load` method in the example above. The behavior of methods is different between composables. Still, in the case of the `useUser` composable, the `load` method updated the `loading`, `error`, and `user` properties to reflect the current state, made an API call, and then updated the state with the API's response.
 
-- [`useContent`](../reference/api/core.usecontent.html) - Fetching the CMS content. It is usually used in combination with `<RenderContent>`component.
+<img
+  src="../images/useUser-load-flow.png"
+  alt="Flow of the load method from the useUser composable"
+  style="display: block; margin: 0 auto;">
 
-#### Checkout
-
-- [`useShipping`](../reference/api/core.useshipping.html) - Saving the shipping address for a current order.
-- [`useShippingProvider`](../reference/api/core.useshippingprovider.html) - Choosing a shipping method for a current order. Shares data with `VsfShippingProvider` component.
-- [`useBilling`](../reference/api/core.usebilling.html) - Saving the billing address for a current order.
-- `usePaymentProvider` - Choosing a payment method for a current order. Shares data with `VsfPaymentProvider` component
-- [`useMakeOrder`](../reference/api/core.usemakeorder.html) - Placing the order.
-
-#### Other
-
-- [`useVSFContext`](../reference/api/core.usevsfcontext.html) - Accessing the integration API methods and client instances.
-In a real-world application, these composables will most likely use different backend services under the hood yet still leverage the same frontend API. For instance within the same application `useProduct` and `useCategory` could use `commercetools`, `useCart` some ERP system, `useFacet` - Algolia etc.
+1. It set the `loading` property to `true`.
+2. It called the corresponding API endpoint to load the current user's data.
+   - if the request succeeded, it updated the `user` property,
+   - otherwise, it added the error message to the `error` property.
+3. It set the `loading` property to `false`.
