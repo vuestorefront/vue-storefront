@@ -33,7 +33,6 @@ import BodypartOption from './types/bodypart-option';
 
 export const BudsiesModule: StorefrontModule = async function ({ store }) {
   StorageManager.init(types.SN_BUDSIES);
-
   store.registerModule('budsies', budsiesStore);
 
   if (!isServer) {
@@ -42,11 +41,11 @@ export const BudsiesModule: StorefrontModule = async function ({ store }) {
     })
 
     await store.dispatch('budsies/synchronize');
+
+    store.subscribe(cacheHandlerFactory(Vue));
+
+    EventBus.$on('cart-prepare-item-product', fillProductWithAdditionalFields);
   }
-
-  store.subscribe(cacheHandlerFactory(Vue));
-
-  EventBus.$on('cart-prepare-item-product', fillProductWithAdditionalFields);
 }
 
 export {
