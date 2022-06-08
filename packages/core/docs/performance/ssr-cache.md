@@ -32,6 +32,7 @@ Make sure this package is added to the `modules` array, not `buildModules`.
 export default {
   modules: [
     ['@vue-storefront/cache/nuxt', {
+      enabled: true,
       invalidation: {
         endpoint: '/cache-invalidate',
         handlers: [
@@ -49,8 +50,9 @@ export default {
 };
 ```
 
-We can break down package configuration into two pieces:
+We can break down package configuration into three pieces:
 
+* `enabled` (required boolean) - contains boolean value, that is responsible for the package's running status.
 * `invalidation` (optional object) - contains URL to invalidate cache and array of invalidation functions. Refer to the [Invalidating cache](#invalidating-tags) section for more information.
 * `driver` (array or string) - contains the path to or name of the driver package and its configuration. If the driver doesn't require any configuration, you can pass a string instead of an array. Refer to the documentation of the driver you use for more information.
 
@@ -127,6 +129,10 @@ export default {
 
 ::: tip
 Check the documentation for your e-commerce integration to see if it provides any invalidation handlers.
+:::
+
+::: warning WARNING
+The `@vue-storefront/cache/nuxt` module doesn't automatically invalidate tags. You must configure your CMS and e-commerce platforms to call the invalidation endpoint whenever content changes.
 :::
 
 As mentioned in [Installation](#installation) section, `@vue-storefront/cache` module provides option to create invalidation endpoint.
