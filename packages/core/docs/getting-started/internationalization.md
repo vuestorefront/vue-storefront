@@ -10,7 +10,7 @@ This document only explains how to make a single shop instance available for mul
 
 By default, we are using the [`nuxt-i18n`](https://i18n.nuxtjs.org/) module for handling both translations and currencies. It's preinstalled in the [default theme](/getting-started/theme.html#what-s-makes-a-default-theme) and is configured for English and German translations out of the box.
 
-In the theme, `nuxt-i18n` is using `$t('key')` to translate strings and `$n(number)` to add the currency sign.
+The `nuxt-i18n` module adds the `$t('key')` and `$n(number)` helpers to translate strings and format the currencies.
 
 You can find the translation keys in the `lang` directory of your project and configuration for currencies in `nuxt.config.js`.
 
@@ -18,7 +18,7 @@ You can find the translation keys in the `lang` directory of your project and co
 Even though the module is included in the default theme, it's not required. You can [disable it](#configuring-modules-separately) and handle internationalization yourself.
 :::
 
-To provide a unified way to configure i18n across the application for different modules and integrations, we have introduced the `i18n` field in each module's configuration. It has the same format as the `nuxt-i18n` options. You can add any configuration there, and it will be propagated to all other Vue Storefront modules.
+To provide a unified way to configure internationalization across the application for different modules and integrations, we have introduced the `i18n` field in each module's configuration. It has the same format as the `nuxt-i18n` options. You can add any configuration there, and it will be propagated to all other Vue Storefront modules.
 
 All Vue Storefront integrations have the `useNuxtI18nConfig` property set to `true`. It means that they will use the same configuration as you provided for `nuxt-i18n` in the `i18n` field of your `nuxt.config.js`.
 
@@ -93,13 +93,9 @@ export default {
 
 ## CDN and cookies
 
-To make CDN to work correctly, it cannot return `Set-Cookie` header in response.
+The server's response cannot contain the `Set-Cookie` header to make CDNs cache the website correctly.
 
-To achieve that, we've made our own mechanism for handling cookies responsible for
-storing `locale`, `currency` and `country`.
-
-This mechanism also handles language detection and redirects for proper locale versions.
-This is why `@nuxtjs/i18n` language detection is disabled by default.
+To achieve that, we've made our own mechanism for handling cookies responsible for storing `locale`, `currency`, and `country`. This mechanism also handles language detection and redirecting to the proper locale. For this reason, `@nuxtjs/i18n` language detection is disabled by default.
 
 ```js
 // nuxt.config.js
@@ -110,7 +106,7 @@ export default {
 };
 ```
 
-If you don't want to redirect users, you can disable this mechanism, as described in the [section below](#disabling-the-auto-redirect-mechanism).
+If you don't want to redirect users, you can disable this mechanism, as described in the section below.
 
 ## Disabling the auto-redirect mechanism
 
@@ -132,7 +128,7 @@ export default {
 
 In addition to language detection, we also set currency based on locale. You can configure it in `nuxt.config.js` with the `vueI18n.numberFormats` property.
 
-For more configuration options of `numberFormats` entries, please check [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/web/javascript/reference/global_objects/intl/numberformat) documentation.
+For more configuration options of `numberFormats` entries, check the [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/web/javascript/reference/global_objects/intl/numberformat) documentation.
 
 ```js
 // nuxt.config.js
@@ -159,15 +155,15 @@ export default {
 
 If this is a limitation for you, or if you don't want to have currencies tied to locales, you can disable this mechanism and provide your own.
 
-To disable it, set `autoChangeCookie.currency` to `false` as described in the [section below](#configuring-the-auto-cookie-change).
+To disable it, set `autoChangeCookie.currency` to `false` as described in the section below.
 
 ## Configuring the Auto Cookie Change
 
-You can configure how `@vue-storefront/nuxt` handles cookie cookie changes when the locale changes with the `autoChangeCookie` object.
+You can configure how `@vue-storefront/nuxt` handles cookie changes when the locale changes with the `autoChangeCookie` object.
 
-The `autoChangeCookie` object holds three properties that are direct linked to `currency`, `locale` and `country`. These properties control how the module will handle cookie changes.
+The `autoChangeCookie` object holds three properties directly linked to `currency`, `locale`, and `country`. These properties control how the module handles changing cookies.
 
-If set to `false`, the module won't change any cookie based on configurations or browser locale, so the `{INTEGRATION}` will handle that.
+If set to `false`, the module won't change any cookies based on configurations or browser locale, and the integration will have to handle it.
 
 ```js
 // nuxt.config.js
@@ -210,9 +206,9 @@ export default {
 
 ## Configuring cookie attributes
 
-You can overwrite the default `locale`, `currency` and `country` cookie attributes set by `@vue-storefront/nuxt` or add custom attributes.
+You can overwrite the default `locale`, `currency`, and `country` cookie attributes set by `@vue-storefront/nuxt` or add custom attributes.
 
-Just create a `cookieOptions` object for the `i18n` configuration object in the `nuxt.config.js` file and specify the attributes you'd like the cookies to have.
+To do so, add the `cookieOptions` object to the `i18n` configuration object in the `nuxt.config.js` file and specify the attributes you'd like the cookies to have.
 
 ```js
 // nuxt.config.js
