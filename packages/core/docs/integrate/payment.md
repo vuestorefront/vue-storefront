@@ -90,7 +90,7 @@ If there is no existing solution and you have to write your own, you first have 
 - updating order status after successful payment,
 - updating status based on asynchronous messages (webhook).
 
-Depending on the platform, you'll either to create one or both of the following:
+Depending on the platform, you'll either have to create one or both of the following:
 
 - an integration for Server Middleware in Vue Storefront to communicate with PSP and the e-commerce platform,
 - or an extension for an e-commerce platform, e.g., Magento2 Plugin in PHP.
