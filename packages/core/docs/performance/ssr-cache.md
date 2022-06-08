@@ -131,6 +131,10 @@ export default {
 Check the documentation for your e-commerce integration to see if it provides any invalidation handlers.
 :::
 
+::: warning WARNING
+The `@vue-storefront/cache/nuxt` cache module does not automatically invalidate tags, therefore, it is necessary to use or setup specific webhook for triggering invalidation end-point. Otherwise the content would be still cached after any change in the source (CMS/Ecommerce dashboard).
+:::
+
 As mentioned in [Installation](#installation) section, `@vue-storefront/cache` module provides option to create invalidation endpoint.
 
 Because each integration may pass data in a different format or multiple invalidation strategies may be needed at the same time, we need **invalidation handlers**. Each handler may return tags, which are later combined and passed to the driver for invalidation.
