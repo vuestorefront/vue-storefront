@@ -132,7 +132,7 @@ Check the documentation for your e-commerce integration to see if it provides an
 :::
 
 ::: warning WARNING
-The `@vue-storefront/cache/nuxt` cache module does not automatically invalidate tags, therefore, it is necessary to use or setup specific webhook for triggering invalidation end-point. Otherwise the content would be still cached after any change in the source (CMS/Ecommerce dashboard).
+The `@vue-storefront/cache/nuxt` module doesn't automatically invalidate tags. You must configure your CMS and e-commerce platforms to call the invalidation endpoint whenever content changes.
 :::
 
 As mentioned in [Installation](#installation) section, `@vue-storefront/cache` module provides option to create invalidation endpoint.
