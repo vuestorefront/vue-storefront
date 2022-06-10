@@ -14,6 +14,8 @@ services:
       - NODEJS_INSTANCE_MAX_MEMORY
       - NODEJS_INSTANCE_MAX_OLD_SPACE
 
+      - SSR_USE_HTML_MINIFIER
+
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_DB=0
