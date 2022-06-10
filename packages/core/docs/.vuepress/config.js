@@ -152,8 +152,7 @@ module.exports = {
           ['/getting-started/configuration', 'Configuration'],
           ['/getting-started/layouts-and-routing', 'Layouts and Routing'],
           ['/getting-started/theme', 'Theme'],
-          ['/getting-started/internationalization', 'Internationalization'],
-          ['/getting-started/logging', 'Logging']
+          ['/getting-started/internationalization', 'Internationalization']
         ]
       },
       {
