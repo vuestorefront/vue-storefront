@@ -42,6 +42,8 @@ services:
       - VIRTUAL_HOST=${DOMAIN}
       - LETSENCRYPT_HOST=${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+
+      - USE_HTML_MINIFIER_ON_SSR
     volumes:
       - './config/local.json.template:/var/www/config/local.json.template'
       - './babel.config.js:/var/www/babel.config.js'
