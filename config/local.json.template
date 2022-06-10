@@ -5,7 +5,7 @@
     "protocol": "http",
     "api": "api-search-query",
     "devServiceWorker": false,
-    "useHtmlMinifier": ${USE_HTML_MINIFIER_ON_SSR},
+    "useHtmlMinifier": ${SSR_USE_HTML_MINIFIER},
     "htmlMinifierOptions": {
       "minifyJS": true,
       "minifyCSS": true

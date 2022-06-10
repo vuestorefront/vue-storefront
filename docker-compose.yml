@@ -14,6 +14,8 @@ services:
       - NODEJS_INSTANCE_MAX_MEMORY
       - NODEJS_INSTANCE_MAX_OLD_SPACE
 
+      - SSR_USE_HTML_MINIFIER
+
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_DB=0
@@ -42,8 +44,6 @@ services:
       - VIRTUAL_HOST=${DOMAIN}
       - LETSENCRYPT_HOST=${DOMAIN}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-
-      - USE_HTML_MINIFIER_ON_SSR
     volumes:
       - './config/local.json.template:/var/www/config/local.json.template'
       - './babel.config.js:/var/www/babel.config.js'
