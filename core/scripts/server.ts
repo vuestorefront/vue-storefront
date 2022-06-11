@@ -63,6 +63,10 @@ if (isProd) {
   })
 }
 
+function healthCheck (req, res) {
+  res.status(200).end();
+}
+
 function invalidateCache (req, res) {
   if (config.server.useOutputCache) {
     if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
@@ -152,6 +156,7 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
 
 app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
+app.get('/healthcheck', healthCheck)
 
 function cacheVersion (req, res) {
   res.send(fs.readFileSync(resolve('core/build/cache-version.json')))
