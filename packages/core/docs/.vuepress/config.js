@@ -120,7 +120,14 @@ module.exports = {
     logo: '/vsf-full.svg',
     sidebarDepth: 0,
     nav: [
-      { text: 'Home', link: '/' },
+      {
+        text: 'Ecosystem',
+        items: [
+          { text: 'StorefrontUI', link: 'https://docs.storefrontui.io/' },
+          { text: 'Vue Storefront Cloud', link: 'https://docs.vuestorefront.io/cloud/' },
+          { text: 'Vue Storefront 1', link: 'https://docs.vuestorefront.io/v1/' },
+        ]
+      },
       { text: 'Demo', link: 'https://demo.vuestorefront.io/' },
       { text: 'Discord', link: 'https://discord.vuestorefront.io/' }
     ],
@@ -145,8 +152,7 @@ module.exports = {
           ['/getting-started/configuration', 'Configuration'],
           ['/getting-started/layouts-and-routing', 'Layouts and Routing'],
           ['/getting-started/theme', 'Theme'],
-          ['/getting-started/internationalization', 'Internationalization'],
-          ['/getting-started/logging', 'Logging']
+          ['/getting-started/internationalization', 'Internationalization']
         ]
       },
       {
