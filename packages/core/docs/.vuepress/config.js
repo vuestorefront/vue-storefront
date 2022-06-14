@@ -159,7 +159,6 @@ module.exports = {
         title: 'Composition',
         collapsable: true,
         children: [
-          ['/composition/composition-api', 'Composition API'],
           ['/composition/composables', 'Composables'],
           ['/composition/getters', 'Getters'],
           ['/composition/error-handling', 'Error Handling'],
