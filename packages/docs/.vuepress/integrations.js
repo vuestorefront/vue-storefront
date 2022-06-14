@@ -174,6 +174,16 @@ const INTEGRATIONS = {
       maintainedBy: [
         { name: 'Swell', link: 'https://www.swell.is/' }
       ]
+    },
+    {
+      name: 'Shopware PWA',
+      link: 'https://shopware-pwa-docs.vuestorefront.io/',
+      image: 'https://uploads-ssl.webflow.com/5e7cf661c23ac9df156d9c3d/5ea95f3130c7f0b4e33fb031_shopware_logo_blue.svg',
+      status: STATUS.STABLE,
+      license: LICENSE.OPEN_SOURCE,
+      maintainedBy: [
+        { name: 'Shopware', link: 'https://www.shopware.com/' }
+      ]
     }
   ],
   other: [

@@ -4,7 +4,7 @@
 
 Feel invited to join our community at [Discord](http://discord.vuestorefront.io/) - this is the place, where you can ask your questions, start interesting discussions, and meet Vue Storefront Core Team Members.
 
-Check out our [Forum](https://forum.vuestorefront.io/) and [Twitter](https://twitter.com/VueStorefront) to get the latest news and announcements.
+Check out our [Twitter](https://twitter.com/VueStorefront) to get the latest news and announcements.
 
 ## How to ask for help?
 
