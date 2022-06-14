@@ -10,33 +10,36 @@
     />
   </div>
   <SfModal v-else :visible="isMobileMenuOpen">
-    <SfHeaderNavigationItem
-      v-for="(category, index) in categories"
-      :key="index"
-      class="nav-item"
-      v-e2e="`app-header-url_${category}`"
-    >
-      <template #mobile-navigation-item>
-        <SfMenuItem
-          :label="category"
-          class="sf-header-navigation-item__menu-item"
-          :link="localePath(`/c/${category}`)"
-          @click="toggleMobileMenu"
-        />
-      </template>
-    </SfHeaderNavigationItem>
+    <SfList>
+      <SfHeaderNavigationItem
+          v-for="(category, index) in categories"
+          :key="index"
+          class="nav-item"
+          v-e2e="`app-header-url_${category}`"
+        >
+          <template #mobile-navigation-item>
+            <SfMenuItem
+              :label="category"
+              class="sf-header-navigation-item__menu-item"
+              :link="localePath(`/c/${category}`)"
+              @click.native="toggleMobileMenu"
+            />
+          </template>
+        </SfHeaderNavigationItem>
+    </SfList>
   </SfModal>
 </template>
 
 <script>
-import { SfMenuItem, SfModal } from '@storefront-ui/vue';
+import { SfMenuItem, SfModal, SfList } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 
 export default {
   name: 'HeaderNavigation',
   components: {
     SfMenuItem,
-    SfModal
+    SfModal,
+    SfList
   },
   props: {
     isMobile: {
