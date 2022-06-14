@@ -224,3 +224,25 @@ export default {
   },
 };
 ```
+## Page reload on language change
+
+By default, the page is reloading while changing language.
+
+To prevent this, you can set `reloadOnLanguageChange: false`  in the `i18n` configartion object in the `nuxt.config.js`.
+
+```js
+// nuxt.config.js
+
+export default {
+  i18n: {
+    reloadOnLanguageChange: false,
+  },
+};
+```
+
+::: tip
+Even though the page will not reload, this will not make all data to be translated automatically.
+:::
+
+Static strings will be translated out of the box, but for data coming from api it will not happen.
+You need to watch for language change and refetch data with new locale.
