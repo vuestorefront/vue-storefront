@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declarationMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "target": "es2019"
+  },
+  "exclude": ["./__tests__/**/*.ts"],
+}

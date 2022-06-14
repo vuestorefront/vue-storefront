@@ -1,0 +1,31 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["es2020"],
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "types": ["node", "jest"],
+
+    // https://github.com/microsoft/TypeScript/issues/40328
+    "noEmitHelpers": false,
+
+    // Strictness and code quality options
+    "alwaysStrict": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "importsNotUsedAsValues": "error",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "exclude": [],
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.json",
+    "./__tests__/**/*.ts"
+  ]
+}

@@ -1,9 +1,6 @@
 **/node_modules/**/*
 **/lib/*
-**/GraphQL.ts
 !**/.vuepress/**/*
-packages/boilerplate/composables/nuxt/plugin.js
-packages/commercetools/composables/nuxt/plugin.js
-packages/core/cache/nuxt/plugin.js
-packages/core/nuxt-module/plugins/i18n-cookies.js
-packages/core/nuxt-module/plugins/logger.js
+packages/cache/nuxt/plugin.js
+packages/nuxt-module/plugins/i18n-cookies.js
+packages/nuxt-module/plugins/logger.js
