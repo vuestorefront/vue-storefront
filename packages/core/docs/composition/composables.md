@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Composables use the Composition API introduced in Vue 3 but also made available via plugins in Vue 2. If you are not familiar with it, see the official [Composition API FAQ](https://vuejs.org/guide/extras/composition-api-faq.html).
+Composables use the Composition API introduced in Vue 3 but also made available via plugins in Vue 2. If you are unfamiliar with it, see the official [Composition API FAQ](https://vuejs.org/guide/extras/composition-api-faq.html).
 
 ## What are composables?
 

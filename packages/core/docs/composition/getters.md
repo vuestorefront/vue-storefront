@@ -19,7 +19,7 @@ Getters are objects with a set of methods that accept either:
 - the [primary state](./composables.html#anatomy-of-a-composable) from their composable,
 - or result from other getter methods.
 
-Let's take a closer look at how it might look like using the [userGetters](/reference/api/core.usergetters.html) composable as an example:
+Let's take a closer look at how it might look like using the [userGetters](/reference/api/core.usergetters.html) as an example:
 
 <img
   src="../images/userGetters-getter-anatomy.webp"
@@ -37,7 +37,7 @@ Each accepts the `user` object from the `useUser` composable as a parameter.
 
 ## Usage
 
-Let's see how you can use the [userGetters](/reference/api/core.usergetters.html) getter to get the full user name:
+Let's see how you can use the [userGetters](/reference/api/core.usergetters.html) to get the user's full name:
 
 ```vue
 <script>
@@ -63,13 +63,13 @@ export default {
 
 Let's go step by step through this example to understand what's going on:
 
-1. We begin by creating the `userFullName` property, which extracts the full user name from the `user` object. Because we didn't load user data yet, the `userFullName` is `undefined`.
+1. We begin by creating the `userFullName` property, which extracts the full user name from the `user` object. Because we didn't load user data yet, the value of `userFullName` is `undefined`.
 2. Next, we call the asynchronous `load` method within the `useFetch` hook to load user data. This updates the `user` object, which as a result, updates the value of the `userFullName` property.
 3. Finally, we return the `userFullName` property from the `setup` method to make it available in the components `<template>`.
 
 You might have noticed that in step 1, we called the getter function inside the `computed` function.
 
-That's because getter methods are not reactive and don't observe changes in the values you pass. You need to wrap them in `computed` functions to make them reactive.
+That's because getter methods are not reactive and don't observe changes in the values you pass. To make them reactive, you need to wrap them in `computed` functions.
 
 ```javascript
 /**
