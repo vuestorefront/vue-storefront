@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/vuestorefront/vue-storefront/issues"
   },
-  "homepage": "https://github.com/vuestorefront/vue-storefront#readme"
+  "homepage": "https://github.com/vuestorefront/vue-storefront#readme",
+  "engines": {
+    "node": ">=14 <=16"
+  }
 }

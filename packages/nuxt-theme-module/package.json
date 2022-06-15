@@ -27,5 +27,8 @@
   },
   "peerDependencies": {
     "@nuxtjs/composition-api": "^0.29.3"
+  },
+  "engines": {
+    "node": ">=14 <=16"
   }
 }
