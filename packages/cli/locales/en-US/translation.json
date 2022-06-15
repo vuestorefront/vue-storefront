@@ -1,0 +1,49 @@
+{
+  "command": {
+    "generate_store": {
+      "description": "Generates a Vue Storefront store.",
+      "input": {
+        "project_name": "What's your project name?",
+        "integration": "Choose an integration template:",
+        "custom_integration_repository": "What's the URL of the custom integration's git repository?",
+        "overwrite": "\"./{{projectName}}\" already exists. Overwrite?"
+      },
+      "message": {
+        "skipping": "Can't generate the store. Skipping…",
+        "success": "Sucessfully generated your store at \"./{{projectName}}\"!",
+        "install": "To finish the installation, run the following commands:",
+        "install_commands": ["cd {{ projectName }}", "npm install"],
+        "configure": "Then, go to the {{ documentationURL }} to learn how to configure the project.",
+        "start": "Once finished, you can start the project using this command:",
+        "start_command": "npm run dev"
+      }
+    },
+    "generate_template": {
+      "description": "Generates a template of your integration's for VSF",
+      "flag": {
+        "output": "A path where the template will be generated"
+      },
+      "input": {
+        "project_name": "How would you like to name the output folder?",
+        "integration_path": "What's the path to the integration theme?"
+      },
+      "message": {
+        "success": "Sucessfully created your template at \"./{{projectName}}\"!"
+      }
+    }
+  },
+  "domain": {
+    "directory": {
+      "was_not_found": "The directory \"{{directory}}\" was not found."
+    },
+    "project_name": {
+      "is_empty": "Please input a project name.",
+      "is_not_directory": "Please input a name that can be used as directory."
+    },
+    "git_repository_url": {
+      "is_invalid": "Please input a valid git repository URL.",
+      "was_not_found": "Couldn't locate git repository with the received URL.",
+      "suggestion": "The protocol isn't supported. Use \"{{suggestion}}\" instead?"
+    }
+  }
+}

@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - packages/core/docs/**
+      - packages/docs/**
 
 jobs:
   build:
@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.DOCS_CLOUD_USERNAME }}
           password: ${{ secrets.DOCS_CLOUD_PASSWORD }}
           workdir: .
-          dockerfile: ./packages/core/docs/Dockerfile
+          dockerfile: ./packages/docs/Dockerfile
           buildoptions: "--compress"
   deploy:
     runs-on: ubuntu-latest

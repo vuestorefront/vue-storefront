@@ -166,7 +166,7 @@ Vue Storefront solves a set of key business challenges from the world of the sho
 - rapid development without architecture limitations.
 
 ## The headless architecture
-  
+
 ![Vue Storefront - Headless Architecture](https://user-images.githubusercontent.com/1626923/156937729-bab22505-89f5-488b-9dd1-d2d7c7ad9600.jpg)
 
 ## Contributing

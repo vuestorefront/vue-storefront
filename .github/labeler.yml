@@ -1,24 +1,27 @@
-# Add 'Next' label to any change to packages files
-Next:
-- true
-
-# Add 'core' label to any change to packages/core files within the source dir EXCEPT for the docs sub-folder
-core:
-- any: ['packages/core/**/*', '!packages/core/docs/**/*']
-
-# Add 'commercetools' label to any change to packages/commercetools files
-commercetools:
-- packages/commercetools/**/*
-
-# Add 'boilerplate' label to any change to packages/boilerplate files
-boilerplate:
-- packages/boilerplate/**/*
-
-# Add 'docs' label to any change to packages/core/docs files
-docs:
-- packages/core/docs/**/*
-- packages/core/docs/.vuepress/**/*
-
-# Add 'ci' label to any change to continuous integration files inside .github folder
 ci:
 - .github/**/*
+
+cache:
+- packages/cache/**/*
+
+cli:
+- packages/cli/**/*
+
+core:
+- packages/core/**/*
+
+docs:
+- packages/docs/**/*
+- packages/docs/.vuepress/**/*
+
+health-check:
+- packages/health-check/**/*
+
+middleware:
+- packages/middleware/**/*
+
+nuxt-module:
+- packages/nuxt-module/**/*
+
+nuxt-theme-module:
+- packages/nuxt-theme-module/**/*

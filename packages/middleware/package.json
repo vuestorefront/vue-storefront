@@ -1,0 +1,30 @@
+{
+  "name": "@vue-storefront/middleware",
+  "version": "2.5.13",
+  "description": "",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "types": "lib/src/index.d.ts",
+  "scripts": {
+    "build": "rimraf lib && rollup -c",
+    "test": "jest",
+    "prepublish": "yarn build"
+  },
+  "author": "Vue Storefront",
+  "license": "MIT",
+  "dependencies": {
+    "@vue-storefront/core": "~2.5.5",
+    "consola": "2.15.3",
+    "express": "^4.17.1",
+    "helmet": "^5.0.2",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.1",
+    "@types/node": "^12.12.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
