@@ -68,7 +68,7 @@ const INTEGRATIONS = {
       status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [
-        { name: 'Aureate Labs', link: 'https://aureatelabs.com/' },
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ]
     },
     {
