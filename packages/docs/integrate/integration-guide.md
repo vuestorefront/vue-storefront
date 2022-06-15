@@ -130,19 +130,35 @@ cd packages/api-client
 yarn add axios
 ```
 
+There are two function that can be used to create the client `onCreate` and `init`.
+`onCreate` is executed on every request and can be used to customize the request or settings.
+`init` will be executed once on the midddleware bootsrap and should be use to setup initial GraphQL client instance.
+
 Now in the code editor, open `packages/api-client/src/index.server.ts`. Inside of it, there is the `onCreate` method.
 
 `onCreate` accepts the `settings` parameter, which is a configuration provided in `packages/theme/middleware.config.js`. By default, it's an empty object but can be any configuration you need.
 
 `onCreate` must return an object with at least `config` and `client` properties but it can have any number of custom properties if needed. This object is later available in API endpoints.
 
-Let's update the `onCreate` method to create and return a new Axios instance.
+
+Let's update the `onCreate` method to simply return `config` and `client` and to execute the `init` function in case that client was not initialized.
+
+```typescript
+// packages/api-client/index.server.ts
+if (!settings?.client) {
+    return init(settings);
+  }
+
+return { config: settings, client: settings.client };
+```
+
+Now let's implement `init` function that will create the GraphQL client. In fact, init function can return any result that will be merged into the configuration object. But for our purpose we will simply create the `axios` client instance.
 
 ```typescript
 // packages/api-client/index.server.ts
 import axios from 'axios';
 
-const onCreate = (settings) => {
+const init = (settings) => {
   const client = axios.create({
     baseURL: settings.api.url
   });
@@ -170,6 +186,27 @@ module.exports = {
     }
   }
 };
+```
+
+As a final step we must export the `init` function so it can be executed in on the setup of the middleware. At the very bottom add `init` below `createApiClient`.
+
+```typescript
+export {
+  createApiClient
+  init // export init function
+};
+```
+
+In the core we check if `init` is a function and try to execute it:
+
+```typescript
+async function getInitConfig({ apiClient, tag, integration }: LoadInitConfigProps): Promise<Record<string, any>> {
+  if (apiClient?.init) {
+    ...
+      const initConfig = await apiClient?.init(integration.configuration);
+    ...
+  }
+}
 ```
 
 ## Implement `useProduct` functionality
