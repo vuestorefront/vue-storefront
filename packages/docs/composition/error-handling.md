@@ -66,12 +66,25 @@ import { useFetch, computed } from '@nuxtjs/composition-api';
 export default {
   setup() {
     const { load, errors } = useUser();
+
+    /**
+     * Create variable which extracts the `load` property from
+     * the `errors` object. Because there were no errors yet,
+     * its value is `null`.
+     */
     const loadError = computed(() => errors.value.load);
 
+    /**
+     * Load user data. If it fails, the `errors` object gets
+     * updated, which as a result, updates the `loadError` variable.
+     */
     useFetch(async () => {
       await load();
     });
 
+    /**
+     * Return the `loadError` object to make it available in the template
+     */
     return {
       loadError
     };
@@ -80,13 +93,7 @@ export default {
 </script>
 ```
 
-Let's go step by step through this example to understand what's going on:
-
-1. We begin by creating the `loadError` property, which extracts the `load` property from the `errors` object. Because there were no errors yet, its value is `null`.
-2. Next, we call the asynchronous `load` method within the `useFetch` hook to load user data. If it fails, the `errors` object gets updated, which as a result, updates the value of the `loadError` property.
-3. Finally, we return the `loadError` property from the `setup` method to make it available in the components `<template>`.
-
-You might have noticed that in step 1, we used the `computed` function.
+You might have noticed that above, we used the `computed` function.
 
 That's because error properties are not reactive. To make them reactive, you need to wrap them in `computed` functions.
 

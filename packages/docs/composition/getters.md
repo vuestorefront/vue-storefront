@@ -47,12 +47,24 @@ import { useFetch, computed } from '@nuxtjs/composition-api';
 export default {
   setup() {
     const { load, user } = useUser();
+
+    /**
+     * Create variable which extracts the full user name from the `user`
+     * object. Until we load user data, the value is `undefined`.
+     */
     const userFullName = computed(() => userGetters.getFullName(user.value));
 
+    /**
+     * Load user data. This updates the `user` object,
+     * which as a result, updates the `userFullName` variable.
+     */
     useFetch(async () => {
       await load();
     });
 
+    /**
+     * Return the `userFullName` object to make it available in the template
+     */
     return {
       userFullName
     };
@@ -61,13 +73,7 @@ export default {
 </script>
 ```
 
-Let's go step by step through this example to understand what's going on:
-
-1. We begin by creating the `userFullName` property, which extracts the full user name from the `user` object. Because we didn't load user data yet, the value of `userFullName` is `undefined`.
-2. Next, we call the asynchronous `load` method within the `useFetch` hook to load user data. This updates the `user` object, which as a result, updates the value of the `userFullName` property.
-3. Finally, we return the `userFullName` property from the `setup` method to make it available in the components `<template>`.
-
-You might have noticed that in step 1, we called the getter function inside the `computed` function.
+You might have noticed that above, we called the getter function inside the `computed` function.
 
 That's because getter methods are not reactive and don't observe changes in the values you pass. To make them reactive, you need to wrap them in `computed` functions.
 

@@ -46,12 +46,21 @@ import { useFetch } from '@nuxtjs/composition-api';
 
 export default {
   setup() {
+    /**
+     * Extract needed methods and state variables from the composable
+     */
     const { load, user } = useUser();
 
+    /**
+     * Load user data. The result will update the `user` object.
+     */
     useFetch(async () => {
       await load();
     });
 
+    /**
+     * Return the `user` object to make it available in the template
+     */
     return {
       user
     };
@@ -60,13 +69,7 @@ export default {
 </script>
 ```
 
-Let's go step by step through this example to understand what's going on:
-
-1. We begin by extracting needed methods and state variables from the composable.
-2. Next, we call the asynchronous `load` method within the `useFetch` hook to load user data.
-3. Finally, we return the `user` object from the `setup` method to make it available in the components `<template>`.
-
-While it's okay to destructure a composable as we did in step 1, you should **not** destructure read-only states, such as the `user` or `error` properties. Doing it this way will create variables that are not reactive and don't update.
+While it's okay to destructure a composable like we did above, you should **not** destructure read-only states, such as the `user` or `error` properties. Doing it this way will create variables that are not reactive and don't update.
 
 ```javascript
 /**
