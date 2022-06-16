@@ -149,7 +149,7 @@
 - 🖥  Demo: https://demo.vuestorefront.io/
 - 📦  Installation: https://docs.vuestorefront.io/v2/getting-started/installation.html
 - 📘  Documentation: https://docs.vuestorefront.io/v2/
-- 👥  Discord Community: https://discord.gg/vuestorefront/
+- 👥  Discord Community: http://discord.vuestorefront.io/
 - 🐦  Twitter: https://twitter.com/VueStorefront
 - 🎥  YouTube: https://www.youtube.com/c/VueStorefront
 - 🌟  [Over 1000+ Live Stores, check the list!](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
