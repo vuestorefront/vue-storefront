@@ -1,34 +1,28 @@
-# What is Vue Storefront Enterprise
+# Vue Storefront Enterprise
 
-> Vue Storefront Enterprise is currently available only for commercetools
+Vue Storefront Enterprise is a commercial offering from the Vue Storefront team that gives you all the tools you need to launch your shop and provides you with ready-to-use integrations that will reduce your project's development time and cost.
 
-Vue Storefront Enterprise is a commercial offering from the Vue Storefront core team built on top of the open-source product. Its goal is to give you all the tools you need to launch your shop and provide you with ready-to-use integrations that will reduce your project's development time and cost.
+## Enterprise license
 
-## Differences between Open Source and Enterprise versions
+The Enterprise license offers everything available in our open-source version, plus:
 
-In Enterprise Edition you're getting everything that's in our open-source version. On top of that, we also provide:
+- [**Vue Storefront Cloud**](https://www.vuestorefront.io/cloud) infrastructure optimized for performance and safety, which includes CDN, DDoS protection, and high SLA.
+- Additional [**Integrations**](/integrations/) with e-commerce and other third-party services.
+- **Technical Support**.
 
-- access to [Vue Storefront Cloud](https://www.vuestorefront.io/cloud);
-- additional [integrations](/integrations/) with third-party services;
-- extended integration with eCommerce platform with advanced features.
+To get access to Vue Storefront Enterprise, [contact our Sales team](https://www.vuestorefront.io/contact/sales).
 
-Everything with <Badge text="Enterprise" type="info" /> badge in the documentation is only available for our Enterprise customers.
+## How to use enterprise packages
 
-You can learn more about our commercial offering on the [Enterprise](https://www.vuestorefront.io/enterprise) page.
+Once you have access to our enterprise license, you can connect to our private repository that hosts the `@vsf-enterprise` packages.
 
-## How to get access to Vue Storefront Enterprise
+To use them, create the `.npmrc` file with the following content at the root of your project:
 
-If you'd like to use Vue Storefront Enterprise in your project, please [contact our Sales team](https://www.vuestorefront.io/contact/sales).
-
-## How to use Vue Storefront Enterprise
-
-Enterprise packages within `@vsf-enterprise` scope are part of our private registry. To make use of them, create a `.npmrc` file in the root of your project with the following content:
-
-```text
+```bash
 @vsf-enterprise:registry=https://registrynpm.storefrontcloud.io
 ```
 
-Then log into your account with your Vue Storefront Enterprise credentials:
+Then run the following command and enter your Vue Storefront Enterprise account credentials:
 
 ```bash
 npm adduser --registry https://registrynpm.storefrontcloud.io
