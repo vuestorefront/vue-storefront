@@ -5,7 +5,7 @@
              :link="routerLink"
              :is-new-window="openLinkInNewWindow"
   >
-    {{ text }}
+    {{ parsedText }}
   </component>
 </template>
 
@@ -14,7 +14,27 @@ import Vue, { PropType } from 'vue';
 import { getProductDefaultPrice } from 'src/modules/shared';
 import { SearchQuery } from 'storefront-query-builder'
 import { mapGetters } from 'vuex';
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+
 import RichTextItem from '../../../../types/rich-text-item.interface';
+
+type priceType = 'regular' | 'special';
+
+interface DirectiveData {
+  directiveName: string,
+  directiveParams: string[]
+}
+
+interface Directive {
+  directive: string,
+  productSku: string,
+  priceType: priceType
+}
+
+interface DirectiveValue {
+  directive: string,
+  value: string
+}
 
 const directivesRegexp = /\{\{(.*?)\}\}/gi;
 const directiveDataRegexp = /(.*)\((.*)\)/i;
@@ -28,20 +48,18 @@ export default Vue.extend({
   },
   data () {
     return {
-      parsedHtml: ''
+      parsedText: '',
+      onPromotionPlatformStoreSynchronizedHandler: undefined as (text: string) => void
     }
   },
   computed: {
     ...mapGetters({
       productBySkuDictionary: 'product/getProductBySkuDictionary'
     }),
-    text () {
-      return this.parsedHtml;
-    },
-    classes () {
+    classes (): string[] {
       return [...this.fontDecorationClasses, ...this.styledClasses];
     },
-    fontDecorationClasses () {
+    fontDecorationClasses (): string[] {
       if (!this.item.marks?.length) {
         return [];
       }
@@ -49,7 +67,7 @@ export default Vue.extend({
         return `-${mark.type}`;
       })
     },
-    styledClasses () {
+    styledClasses (): string[] {
       if (!this.item.marks?.length) {
         return [];
       }
@@ -61,24 +79,24 @@ export default Vue.extend({
     link () {
       return this.item.marks?.find((mark) => mark.type === 'link');
     },
-    isLink () {
+    isLink (): boolean {
       return !!this.link;
     },
-    component () {
+    component (): string {
       if (!this.item.marks?.length) {
         return 'span';
       }
 
       return this.isLink ? 'sb-router-link' : 'span';
     },
-    routerLink () {
+    routerLink (): {url: string} | undefined {
       if (!this.isLink) {
         return;
       }
 
       return { url: this.link.attrs?.href };
     },
-    openLinkInNewWindow () {
+    openLinkInNewWindow (): boolean {
       if (!this.isLink) {
         return;
       }
@@ -86,14 +104,22 @@ export default Vue.extend({
       return this.link.attrs.target === '_blank';
     }
   },
-  beforeMount () {
-    this.processDirectivesInHtml(this.item.text);
+  async serverPrefetch (): Promise<void> {
+    return (this as any).processDirectivesInText((this as any).item.text);
   },
-  serverPrefetch () {
-    return (this as any).processDirectivesInHtml((this as any).item.text);
+  beforeMount (): void {
+    this.processDirectivesInText(this.item.text);
+
+    this.onPromotionPlatformStoreSynchronizedHandler = () => this.processDirectivesInText(this.item.text);
+    EventBus.$on('promotion-platform-store-synchronized', this.onPromotionPlatformStoreSynchronizedHandler);
+  },
+  beforeDestroy (): void {
+    if (this.onPromotionPlatformStoreSynchronizedHandler) {
+      EventBus.$off('promotion-platform-store-synchronized', this.onPromotionPlatformStoreSynchronizedHandler);
+    }
   },
   methods: {
-    getDirectiveData (directive) {
+    getDirectiveData (directive: string): DirectiveData {
       const directiveDataString = directive.replace(/\{|\}|&quot|"/g, '').trim();
       const match = directiveDataRegexp.exec(directiveDataString);
       const directiveName = match[1].trim();
@@ -104,15 +130,14 @@ export default Vue.extend({
         directiveParams: directiveParams.map((param) => param.trim())
       }
     },
-    getDirectivesFromHtml (html) {
+    getDirectivesFromText (text: string): { productPriceDirectives: Directive[] } {
       const productPriceDirectives = [];
 
-      if (!html) {
+      if (!text) {
         return { productPriceDirectives };
       }
-      debugger;
 
-      const directivesList = html.match(directivesRegexp);
+      const directivesList = text.match(directivesRegexp);
 
       if (!directivesList) {
         return { productPriceDirectives };
@@ -132,7 +157,7 @@ export default Vue.extend({
 
       return { productPriceDirectives };
     },
-    async loadProducts (productsSkus) {
+    async loadProducts (productsSkus: string[]): Promise<void> {
       let searchQuery = new SearchQuery();
       searchQuery = searchQuery.applyFilter({ key: 'sku', value: { 'in': productsSkus } })
 
@@ -147,7 +172,10 @@ export default Vue.extend({
     getDirectivesValues ({
       productPriceDirectives,
       productsBySkuDictionary
-    }) {
+    }: {
+      productPriceDirectives: Directive[],
+      productsBySkuDictionary: any[]
+    }): DirectiveValue[] {
       const directivesValues = [];
 
       for (const productPriceDirective of productPriceDirectives) {
@@ -162,8 +190,8 @@ export default Vue.extend({
 
       return directivesValues;
     },
-    getProductSkusUsedInDirectives (directives) {
-      const productSkusSet = new Set();
+    getProductSkusUsedInDirectives (directives: Directive[]): string[] {
+      const productSkusSet = new Set<string>();
       directives.forEach((directive) => {
         if (directive.productSku) {
           productSkusSet.add(directive.productSku)
@@ -171,12 +199,11 @@ export default Vue.extend({
       });
       return Array.from(productSkusSet);
     },
-    async processDirectivesInHtml (html) {
-      const { productPriceDirectives } = this.getDirectivesFromHtml(html);
+    async processDirectivesInText (text: string): Promise<void> {
+      const { productPriceDirectives } = this.getDirectivesFromText(text);
 
       if (!productPriceDirectives.length) {
-        this.parsedHtml = html;
-        this.isDirectivesParsed = true;
+        this.parsedText = text;
         return;
       }
 
@@ -198,26 +225,31 @@ export default Vue.extend({
         productsBySkuDictionary: this.productBySkuDictionary
       })
 
-      this.parsedHtml = this.fillDirectivesValuesIntoHtml(html, directivesValues);
-
-      this.isDirectivesParsed = true;
+      this.parsedText = this.fillDirectivesValuesIntoText(text, directivesValues);
     },
-    fillDirectivesValuesIntoHtml (html, directivesValues) {
-      let htmlWithFilledDirectivesValues = html;
+    fillDirectivesValuesIntoText (text: string, directivesValues: DirectiveValue[]): string {
+      let textWithFilledDirectivesValues = text;
 
       for (const directiveValue of directivesValues) {
-        htmlWithFilledDirectivesValues = htmlWithFilledDirectivesValues.replace(
+        textWithFilledDirectivesValues = textWithFilledDirectivesValues.replace(
           directiveValue.directive,
           directiveValue.value
         );
       }
 
-      return htmlWithFilledDirectivesValues;
+      return textWithFilledDirectivesValues;
     },
-    getProductDefaultPrice (product, priceType) {
+    getProductDefaultPrice (product: any, priceType: priceType): string {
       const price = getProductDefaultPrice(product, {});
 
       return price[priceType];
+    }
+  },
+  watch: {
+    'item.text' (val, oldVal) {
+      if (val.trim() !== oldVal.trim()) {
+        this.processDirectivesInText(val);
+      }
     }
   }
 })
