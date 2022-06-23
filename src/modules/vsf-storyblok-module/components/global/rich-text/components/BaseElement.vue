@@ -1,5 +1,9 @@
 <template>
-  <component :is="rootElement" class="rich-text-base-element" v-bind="elementAttributes">
+  <component
+    :is="rootElement"
+    class="rich-text-base-element"
+    v-bind="elementAttributes"
+  >
     <component
       v-for="contentItem in content"
       :key="contentItem.id"
@@ -27,7 +31,7 @@ export default Vue.extend({
         return [];
       }
 
-      return this.item.content.map((item) => getRichTextItemData(item)).filter((item) => !!item);
+      return this.item.content.map((item) => getRichTextItemData(item));
     },
     rootElement (): string {
       return this.item.rootElement || 'div';

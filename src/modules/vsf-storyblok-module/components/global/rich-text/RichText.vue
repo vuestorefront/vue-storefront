@@ -33,7 +33,7 @@ export default {
         return [];
       }
 
-      return this.text.content.map((item) => getRichTextItemData(item)).filter((item) => !!item);
+      return this.text.content.map((item) => getRichTextItemData(item));
     }
   }
 }
