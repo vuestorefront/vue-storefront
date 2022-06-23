@@ -7,10 +7,11 @@ export default interface RichTextItem {
   attrs?: any,
   elementAttributes?: any,
   marks?: {
-    type: 'link' | 'strike' | 'italic' | 'bold' | 'underline',
+    type: 'link' | 'strike' | 'italic' | 'bold' | 'underline' | 'styled',
     attrs?: {
       href?: string,
-      target?: '_blank' | '_current'
+      target?: '_blank' | '_current',
+      class?: string
     }
   }[]
 

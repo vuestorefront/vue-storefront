@@ -104,7 +104,7 @@ export default Vue.extend({
       return this.link.attrs.target === '_blank';
     }
   },
-  async serverPrefetch (): Promise<void> {
+  serverPrefetch (): Promise<void> {
     return (this as any).processDirectivesInText((this as any).item.text);
   },
   beforeMount (): void {

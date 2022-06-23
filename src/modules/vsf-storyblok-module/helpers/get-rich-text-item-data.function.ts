@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import RichTextItem from '../types/rich-text-item.interface'
 import { components } from '../components/index';
 
+const baseElementTag = 'rich-text-base-element';
+
 export default function getRichTextItemData (data: any): RichTextItem {
   switch (data.type) {
     case 'horizontal_rule':
@@ -13,28 +15,28 @@ export default function getRichTextItemData (data: any): RichTextItem {
     case 'blockquote':
       return {
         id: uuidv4(),
-        component: 'rich-text-base-element',
+        component: baseElementTag,
         rootElement: 'blockquote',
         content: data.content
       }
     case 'bullet_list':
       return {
         id: uuidv4(),
-        component: 'rich-text-base-element',
+        component: baseElementTag,
         rootElement: 'ul',
         content: data.content
       }
     case 'ordered_list':
       return {
         id: uuidv4(),
-        component: 'rich-text-base-element',
+        component: baseElementTag,
         rootElement: 'ol',
         content: data.content
       }
     case 'code_block':
       return {
         id: uuidv4(),
-        component: 'rich-text-base-element',
+        component: baseElementTag,
         rootElement: 'code',
         content: data.content,
         attrs: data.attrs
@@ -48,7 +50,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
     case 'heading':
       return {
         id: uuidv4(),
-        component: 'rich-text-base-element',
+        component: baseElementTag,
         rootElement: `h${data.attrs.level}`,
         content: data.content,
         attrs: data.attrs
@@ -57,14 +59,14 @@ export default function getRichTextItemData (data: any): RichTextItem {
     case 'image':
       return {
         id: uuidv4(),
-        component: 'rich-text-base-element',
+        component: baseElementTag,
         rootElement: 'img',
         elementAttributes: data.attrs
       }
     case 'paragraph':
       return {
         id: uuidv4(),
-        component: 'rich-text-base-element',
+        component: baseElementTag,
         rootElement: 'p',
         content: data.content
       }
@@ -87,7 +89,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
     case 'list_item':
       return {
         id: uuidv4(),
-        component: 'rich-text-base-element',
+        component: baseElementTag,
         rootElement: 'li',
         content: data.content
       }

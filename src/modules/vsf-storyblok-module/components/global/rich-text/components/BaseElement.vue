@@ -15,6 +15,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
+
 import getRichTextItemData from '../../../../helpers/get-rich-text-item-data.function';
 import RichTextItem from '../../../../types/rich-text-item.interface';
 
