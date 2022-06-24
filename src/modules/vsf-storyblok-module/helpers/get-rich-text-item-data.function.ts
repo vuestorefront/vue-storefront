@@ -61,7 +61,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
         id: uuidv4(),
         component: baseElementTag,
         rootTagName: 'img',
-        elementAttributes: data.attrs
+        rootElementAttributes: data.attrs
       }
     case 'paragraph':
       return {
@@ -96,7 +96,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
         id,
         component: baseElementTag,
         rootTagName: 'sb-router-link',
-        elementAttributes: {
+        rootElementAttributes: {
           isNewWindow: link.attrs.target === '_blank',
           link: { url: link.attrs.href }
         },

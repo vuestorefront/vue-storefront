@@ -5,7 +5,7 @@ export default interface RichTextItem {
   text?: string,
   content?: any[],
   attrs?: any,
-  elementAttributes?: any,
+  rootElementAttributes?: any,
   marks?: {
     type: 'link' | 'strike' | 'italic' | 'bold' | 'underline' | 'styled',
     attrs?: {

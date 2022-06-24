@@ -2,7 +2,7 @@
   <component
     :is="rootTagName"
     class="rich-text-generic-component"
-    v-bind="elementAttributes"
+    v-bind="rootElementAttributes"
   >
     <component
       v-for="contentItem in content"
@@ -38,8 +38,8 @@ export default Vue.extend({
     rootTagName (): string {
       return this.item.rootTagName || 'div';
     },
-    elementAttributes (): any {
-      return this.item.elementAttributes || {};
+    rootElementAttributes (): any {
+      return this.item.rootElementAttributes || {};
     }
   }
 })
