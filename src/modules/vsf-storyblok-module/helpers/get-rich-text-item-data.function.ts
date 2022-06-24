@@ -97,7 +97,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
         component: genericComponentTag,
         rootTagName: 'sb-router-link',
         rootElementAttributes: {
-          isNewWindow: link.attrs.target === '_blank',
+          isNewWindow: link.attrs.target ? link.attrs.target === '_blank' : undefined,
           link: { url: link.attrs.href }
         },
         content: [{ ...data, marks: data.marks.filter((mark: any) => mark.type !== 'link') }]

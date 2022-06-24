@@ -1,16 +1,24 @@
 <template>
-  <router-link v-if="!isExternal" :to="url">
+  <router-link
+    v-if="!isExternal"
+    :to="url"
+    :target="shouldOpenInNewWindow ? '_blank' : '_self'"
+  >
     <slot />
   </router-link>
-  <a v-else :href="url" rel="noopener noreferrer" :target="isNewWindow ? '_blank' : '_self'">
+  <a v-else
+     :href="url"
+     :target="shouldOpenInNewWindow ? '_blank' : '_self'"
+  >
     <slot />
   </a>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import config from 'config'
-import get from 'lodash-es/get'
+import { mapGetters } from 'vuex'
+
+import isUrlExternal from '../../helpers/is-url-external';
+import getUrlFromLink from '../../helpers/get-url-from-link';
 
 export default {
   name: 'StoryblokRouterLink',
@@ -20,25 +28,25 @@ export default {
       required: true
     },
     isNewWindow: {
-      type: Boolean,
-      default: false
+      type: Boolean
     }
   },
   computed: {
-    ...mapState('storyblok', {
-      storeCodeFromHeader: (state) => state.storeCode
+    ...mapGetters({
+      storeCodeFromHeader: 'storyblok/storeCode'
     }),
     isExternal () {
-      return /^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(this.link.cached_url || this.link.url)
+      return isUrlExternal(this.link.cached_url || this.link.url);
+    },
+    shouldOpenInNewWindow () {
+      if (this.isNewWindow !== undefined) {
+        return this.isNewWindow;
+      }
+
+      return this.isExternal;
     },
     url () {
-      const formatUrl = url => this.isExternal ? url : (`/${url}`).replace(/^\/+/, '/')
-      const url = formatUrl(this.link.cached_url || this.link.url)
-      const addStoreCode = get(config, 'storyblok.settings.appendStoreCodeFromHeader')
-      if (addStoreCode && this.storeCodeFromHeader && url.startsWith(`/${this.storeCodeFromHeader}/`)) {
-        return url.replace(`/${this.storeCodeFromHeader}/`, '/')
-      }
-      return url
+      return getUrlFromLink(this.link, this.storeCodeFromHeader);
     }
   }
 }
