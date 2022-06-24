@@ -1,6 +1,6 @@
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
 
-const queryString = require('query-string')
+const qs = require('qs')
 const config = require('config')
 const path = require('path')
 const glob = require('glob')
@@ -196,7 +196,7 @@ app.get('*', async (req, res, next) => {
     let redirectUrl = `${req.path}/`;
     
     if (hasQuery) {
-      redirectUrl += '?' + queryString.stringify(req.query);
+      redirectUrl += '?' + qs.stringify(req.query);
     }
 
     return res.redirect(301, redirectUrl);

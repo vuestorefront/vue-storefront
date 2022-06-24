@@ -18,6 +18,7 @@
     "localforage": "^1.7.2",
     "lodash-es": "^4.17",
     "lru-cache": "^5.1.1",
+    "qs": "^6.6.0",
     "query-string": "6.13.2",
     "redis-tag-cache": "^1.2.1",
     "remove-accents": "^0.4.2",
