@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import RichTextItem from '../types/rich-text-item.interface'
 import { components } from '../components/index';
 
-const baseElementTag = 'rich-text-base-element';
+const baseElementTag = 'rich-text-generic-component';
 
 export default function getRichTextItemData (data: any): RichTextItem {
   switch (data.type) {

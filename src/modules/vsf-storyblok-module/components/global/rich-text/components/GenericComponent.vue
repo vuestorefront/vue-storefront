@@ -1,7 +1,7 @@
 <template>
   <component
     :is="rootElement"
-    class="rich-text-base-element"
+    class="rich-text-generic-component"
     v-bind="elementAttributes"
   >
     <component
@@ -20,6 +20,7 @@ import getRichTextItemData from '../../../../helpers/get-rich-text-item-data.fun
 import RichTextItem from '../../../../types/rich-text-item.interface';
 
 export default Vue.extend({
+  name: 'RichTextGenericComponent',
   props: {
     item: {
       type: Object as PropType<RichTextItem>,
