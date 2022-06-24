@@ -199,7 +199,7 @@ app.get('*', async (req, res, next) => {
       redirectUrl += '?' + queryString.stringify(req.query);
     }
 
-    return res.redirect(redirectUrl);
+    return res.redirect(301, redirectUrl);
   }
 
   const site = req.headers['x-vs-store-code'] || 'main'
