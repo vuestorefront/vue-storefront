@@ -12,7 +12,8 @@ import Vue, { PropType } from 'vue';
 import { getProductDefaultPrice } from 'src/modules/shared';
 import { SearchQuery } from 'storefront-query-builder'
 import { mapGetters } from 'vuex';
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import RichTextItem from '../../../../types/rich-text-item.interface';
 
@@ -48,7 +49,7 @@ export default Vue.extend({
   data () {
     return {
       parsedText: '',
-      onPromotionPlatformStoreSynchronizedHandler: undefined as (text: string) => void
+      onPromotionPlatformStoreSynchronizedHandler: undefined as ((text: string) => void) | undefined
     }
   },
   computed: {
@@ -72,18 +73,18 @@ export default Vue.extend({
         return [];
       }
 
-      return this.item.marks.filter((mark) => mark.type === 'styled').map((mark) => {
-        return mark.attrs.class;
-      })
+      return this.item.marks
+        .filter((mark) => mark.type === 'styled')
+        .map((mark) => mark.attrs?.class || '')
     }
   },
   serverPrefetch (): Promise<void> {
     return (this as any).processDirectivesInText((this as any).item.text);
   },
   beforeMount (): void {
-    this.processDirectivesInText(this.item.text);
+    this.processDirectivesInText(this.item.text || '');
 
-    this.onPromotionPlatformStoreSynchronizedHandler = () => this.processDirectivesInText(this.item.text);
+    this.onPromotionPlatformStoreSynchronizedHandler = () => this.processDirectivesInText(this.item.text || '');
     EventBus.$on('promotion-platform-store-synchronized', this.onPromotionPlatformStoreSynchronizedHandler);
   },
   beforeDestroy (): void {
@@ -95,6 +96,11 @@ export default Vue.extend({
     getDirectiveData (directive: string): DirectiveData {
       const directiveDataString = directive.replace(/\{|\}|&quot|"/g, '').trim();
       const match = directiveDataRegexp.exec(directiveDataString);
+
+      if (!match) {
+        throw new Error('Unable to parse directive data: ' + directive);
+      }
+
       const directiveName = match[1].trim();
       const directiveParams = match[2].split(',');
 
@@ -104,7 +110,7 @@ export default Vue.extend({
       }
     },
     getDirectivesFromText (text: string): { productPriceDirectives: Directive[] } {
-      const productPriceDirectives = [];
+      const productPriceDirectives: Directive[] = [];
 
       if (!text) {
         return { productPriceDirectives };
@@ -120,6 +126,10 @@ export default Vue.extend({
         const { directiveName, directiveParams } = this.getDirectiveData(directive);
 
         if (directiveName === 'productPrice') {
+          if (directiveParams[1] !== 'regular' && directiveParams[1] !== 'special') {
+            throw new Error('Unknown price type for the productPrice directive: ' + directiveParams[1]);
+          }
+
           productPriceDirectives.push({
             directive: directive,
             productSku: directiveParams[0],
@@ -147,7 +157,7 @@ export default Vue.extend({
       productsBySkuDictionary
     }: {
       productPriceDirectives: Directive[],
-      productsBySkuDictionary: any[]
+      productsBySkuDictionary: Record<string, Product>
     }): DirectiveValue[] {
       const directivesValues = [];
 
@@ -181,7 +191,7 @@ export default Vue.extend({
       }
 
       const productSkusUsedInDirectives = this.getProductSkusUsedInDirectives(productPriceDirectives);
-      const productsToLoadSkus = [];
+      const productsToLoadSkus: string[] = [];
 
       productSkusUsedInDirectives.forEach((sku) => {
         if (!this.productBySkuDictionary[sku]) {
@@ -212,7 +222,7 @@ export default Vue.extend({
 
       return textWithFilledDirectivesValues;
     },
-    getProductDefaultPrice (product: any, priceType: priceType): string {
+    getProductDefaultPrice (product: Product, priceType: priceType): string {
       const price = getProductDefaultPrice(product, {});
 
       return price[priceType];

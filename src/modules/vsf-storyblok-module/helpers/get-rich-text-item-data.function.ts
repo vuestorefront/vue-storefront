@@ -79,7 +79,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
       }
     case 'text':
       const id = uuidv4();
-      const link = data.marks?.find((mark) => mark.type === 'link');
+      const link = data.marks?.find((mark: any) => mark.type === 'link');
 
       if (!link) {
         return {
@@ -100,7 +100,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
           isNewWindow: link.attrs.target === '_blank',
           link: { url: link.attrs.href }
         },
-        content: [{ ...data, marks: data.marks.filter((mark) => mark.type !== 'link') }]
+        content: [{ ...data, marks: data.marks.filter((mark: any) => mark.type !== 'link') }]
       }
 
     case 'list_item':
@@ -110,5 +110,9 @@ export default function getRichTextItemData (data: any): RichTextItem {
         rootTagName: 'li',
         content: data.content
       }
+
+    default: {
+      throw new Error('Unknown rich text item type: ' + data.type);
+    }
   }
 }
