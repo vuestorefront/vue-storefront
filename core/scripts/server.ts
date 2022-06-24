@@ -193,7 +193,11 @@ app.get('*', async (req, res, next) => {
 
   if (!req.path.endsWith('/')) {
     const hasQuery = Object.values(req.query).length;
-    const redirectUrl = `${req.path}/${hasQuery ? `?${queryString.stringify(req.query)}` : ''}`;
+    let redirectUrl = `${req.path}/`;
+    
+    if (hasQuery) {
+      redirectUrl += '?' + queryString.stringify(req.query);
+    }
 
     return res.redirect(redirectUrl);
   }
