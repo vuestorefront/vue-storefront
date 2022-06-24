@@ -1,6 +1,6 @@
 <template>
   <component :is="component"
-             class="storyblok-text"
+             class="rich-text-text-component"
              :class="classes"
              :link="routerLink"
              :is-new-window="openLinkInNewWindow"
@@ -25,9 +25,7 @@ interface DirectiveData {
   directiveParams: string[]
 }
 
-interface Directive {
-  directive: string,
-  productSku: string,
+interface Directive {Text,
   priceType: priceType
 }
 
@@ -40,6 +38,7 @@ const directivesRegexp = /\{\{(.*?)\}\}/gi;
 const directiveDataRegexp = /(.*)\((.*)\)/i;
 
 export default Vue.extend({
+  name: 'RichTextTextComponent',
   props: {
     item: {
       type: Object as PropType<RichTextItem>,
@@ -256,7 +255,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.storyblok-text {
+.rich-text-text-component {
     &.-strike {
         text-decoration: line-through;
     }

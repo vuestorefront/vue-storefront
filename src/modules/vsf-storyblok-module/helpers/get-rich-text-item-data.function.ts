@@ -80,7 +80,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
     case 'text':
       return {
         id: uuidv4(),
-        component: 'rich-text-text',
+        component: 'rich-text-text-component',
         content: data.content,
         attrs: data.attrs,
         marks: data.marks,

@@ -9,7 +9,7 @@ import Cms from '../components/global/Cms.vue'
 import RouterLink from '../components/global/RouterLink.vue'
 import RichText from '../components/global/rich-text/RichText.vue';
 import RichTextGenericComponent from '../components/global/rich-text/components/GenericComponent.vue';
-import RichTextText from '../components/global/rich-text/components/Text.vue';
+import RichTextTextComponent from '../components/global/rich-text/components/TextComponent.vue';
 import { once } from '@vue-storefront/core/helpers'
 import { StoryblokRoutes } from '../pages/routes'
 import { getSettings } from '../helpers'
@@ -39,7 +39,7 @@ function beforeRegistration (appConfig, store) {
   Vue.component('sb-link', RouterLink)
   Vue.component('sb-rich-text', RichText)
   Vue.component('rich-text-generic-component', RichTextGenericComponent)
-  Vue.component('rich-text-text', RichTextText);
+  Vue.component('rich-text-text-component', RichTextTextComponent);
   Vue.component('cms', Cms)
 }
 
