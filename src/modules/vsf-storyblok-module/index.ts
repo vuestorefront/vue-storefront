@@ -12,6 +12,9 @@ import LinkField from './types/link-field.interface'
 import VideoUrlField from './types/video-url-field.interface'
 import { LinkType } from './types/link-type.value'
 import { SizeValue } from './types/size.value'
+import isUrlExternal from './helpers/is-url-external'
+import getUrlFromLink from './helpers/get-url-from-link'
+import { Blok } from './components'
 
 export const KEY = 'storyblok'
 
@@ -21,6 +24,7 @@ export const StoryblokModule: StorefrontModule = function ({ store, router, appC
 }
 
 export {
+  Blok,
   ComponentWidthCalculator,
   SizeValue,
   Alignment,
@@ -31,5 +35,7 @@ export {
   ColorPickerField,
   LinkField,
   LinkType,
-  VideoUrlField
+  VideoUrlField,
+  isUrlExternal,
+  getUrlFromLink
 }
