@@ -13,7 +13,7 @@
 import getRichTextItemData from '../../../helpers/get-rich-text-item-data.function';
 
 export default {
-  name: 'RichText',
+  name: 'StoryblokRichText',
   props: {
     text: {
       type: Object,

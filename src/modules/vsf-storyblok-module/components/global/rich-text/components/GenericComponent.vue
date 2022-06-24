@@ -1,7 +1,7 @@
 <template>
   <component
     :is="rootTagName"
-    class="rich-text-generic-component"
+    class="storyblok-rich-text-generic-component"
     v-bind="rootElementAttributes"
   >
     <component
@@ -20,7 +20,7 @@ import getRichTextItemData from '../../../../helpers/get-rich-text-item-data.fun
 import RichTextItem from '../../../../types/rich-text-item.interface';
 
 export default Vue.extend({
-  name: 'RichTextGenericComponent',
+  name: 'StoryblokRichTextGenericComponent',
   props: {
     item: {
       type: Object as PropType<RichTextItem>,

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import RichTextItem from '../types/rich-text-item.interface'
 import { components } from '../components/index';
 
-const baseElementTag = 'rich-text-generic-component';
+const genericComponentTag = 'sb-rich-text-generic-component';
 
 export default function getRichTextItemData (data: any): RichTextItem {
   switch (data.type) {
@@ -15,28 +15,28 @@ export default function getRichTextItemData (data: any): RichTextItem {
     case 'blockquote':
       return {
         id: uuidv4(),
-        component: baseElementTag,
+        component: genericComponentTag,
         rootTagName: 'blockquote',
         content: data.content
       }
     case 'bullet_list':
       return {
         id: uuidv4(),
-        component: baseElementTag,
+        component: genericComponentTag,
         rootTagName: 'ul',
         content: data.content
       }
     case 'ordered_list':
       return {
         id: uuidv4(),
-        component: baseElementTag,
+        component: genericComponentTag,
         rootTagName: 'ol',
         content: data.content
       }
     case 'code_block':
       return {
         id: uuidv4(),
-        component: baseElementTag,
+        component: genericComponentTag,
         rootTagName: 'code',
         content: data.content,
         attrs: data.attrs
@@ -50,7 +50,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
     case 'heading':
       return {
         id: uuidv4(),
-        component: baseElementTag,
+        component: genericComponentTag,
         rootTagName: `h${data.attrs.level}`,
         content: data.content,
         attrs: data.attrs
@@ -59,14 +59,14 @@ export default function getRichTextItemData (data: any): RichTextItem {
     case 'image':
       return {
         id: uuidv4(),
-        component: baseElementTag,
+        component: genericComponentTag,
         rootTagName: 'img',
         rootElementAttributes: data.attrs
       }
     case 'paragraph':
       return {
         id: uuidv4(),
-        component: baseElementTag,
+        component: genericComponentTag,
         rootTagName: 'p',
         content: data.content
       }
@@ -84,7 +84,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
       if (!link) {
         return {
           id,
-          component: 'rich-text-text-component',
+          component: 'sb-rich-text-text-component',
           content: data.content,
           attrs: data.attrs,
           marks: data.marks,
@@ -94,7 +94,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
 
       return {
         id,
-        component: baseElementTag,
+        component: genericComponentTag,
         rootTagName: 'sb-router-link',
         rootElementAttributes: {
           isNewWindow: link.attrs.target === '_blank',
@@ -106,7 +106,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
     case 'list_item':
       return {
         id: uuidv4(),
-        component: baseElementTag,
+        component: genericComponentTag,
         rootTagName: 'li',
         content: data.content
       }

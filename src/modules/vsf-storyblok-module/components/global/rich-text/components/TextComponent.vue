@@ -1,6 +1,6 @@
 <template>
   <span
-    class="rich-text-text-component"
+    class="storyblok-rich-text-text-component"
     :class="classes"
   >
     {{ parsedText }}
@@ -38,7 +38,7 @@ const directivesRegexp = /\{\{(.*?)\}\}/gi;
 const directiveDataRegexp = /(.*)\((.*)\)/i;
 
 export default Vue.extend({
-  name: 'RichTextTextComponent',
+  name: 'StoryblokRichTextTextComponent',
   props: {
     item: {
       type: Object as PropType<RichTextItem>,
@@ -229,7 +229,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.rich-text-text-component {
+.storyblok-rich-text-text-component {
     &.-strike {
         text-decoration: line-through;
     }

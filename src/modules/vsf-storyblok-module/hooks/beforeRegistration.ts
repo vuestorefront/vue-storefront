@@ -38,8 +38,8 @@ function beforeRegistration (appConfig, store) {
   Vue.component('sb-router-link', RouterLink) // old naming
   Vue.component('sb-link', RouterLink)
   Vue.component('sb-rich-text', RichText)
-  Vue.component('rich-text-generic-component', RichTextGenericComponent)
-  Vue.component('rich-text-text-component', RichTextTextComponent);
+  Vue.component('sb-rich-text-generic-component', RichTextGenericComponent)
+  Vue.component('sb-rich-text-text-component', RichTextTextComponent);
   Vue.component('cms', Cms)
 }
 
