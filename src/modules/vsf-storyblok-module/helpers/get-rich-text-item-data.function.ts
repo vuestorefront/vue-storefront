@@ -78,14 +78,31 @@ export default function getRichTextItemData (data: any): RichTextItem {
         ...data.attrs
       }
     case 'text':
-      return {
-        id: uuidv4(),
-        component: 'rich-text-text-component',
-        content: data.content,
-        attrs: data.attrs,
-        marks: data.marks,
-        text: data.text
+      const id = uuidv4();
+      const link = data.marks?.find((mark) => mark.type === 'link');
+
+      if (!link) {
+        return {
+          id,
+          component: 'rich-text-text-component',
+          content: data.content,
+          attrs: data.attrs,
+          marks: data.marks,
+          text: data.text
+        };
       }
+
+      return {
+        id,
+        component: baseElementTag,
+        rootTagName: 'sb-router-link',
+        elementAttributes: {
+          isNewWindow: link.attrs.target === '_blank',
+          link: { url: link.attrs.href }
+        },
+        content: [{ ...data, marks: data.marks.filter((mark) => mark.type !== 'link') }]
+      }
+
     case 'list_item':
       return {
         id: uuidv4(),

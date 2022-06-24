@@ -1,12 +1,10 @@
 <template>
-  <component :is="component"
-             class="rich-text-text-component"
-             :class="classes"
-             :link="routerLink"
-             :is-new-window="openLinkInNewWindow"
+  <span
+    class="rich-text-text-component"
+    :class="classes"
   >
     {{ parsedText }}
-  </component>
+  </span>
 </template>
 
 <script lang="ts">
@@ -64,7 +62,8 @@ export default Vue.extend({
       if (!this.item.marks?.length) {
         return [];
       }
-      return this.item.marks.filter((mark) => mark.type !== 'link').map((mark) => {
+
+      return this.item.marks.filter((mark) => mark.type !== 'styled').map((mark) => {
         return `-${mark.type}`;
       })
     },
@@ -76,33 +75,6 @@ export default Vue.extend({
       return this.item.marks.filter((mark) => mark.type === 'styled').map((mark) => {
         return mark.attrs.class;
       })
-    },
-    link () {
-      return this.item.marks?.find((mark) => mark.type === 'link');
-    },
-    isLink (): boolean {
-      return !!this.link;
-    },
-    component (): string {
-      if (!this.item.marks?.length) {
-        return 'span';
-      }
-
-      return this.isLink ? 'sb-router-link' : 'span';
-    },
-    routerLink (): {url: string} | undefined {
-      if (!this.isLink) {
-        return;
-      }
-
-      return { url: this.link.attrs?.href };
-    },
-    openLinkInNewWindow (): boolean {
-      if (!this.isLink) {
-        return;
-      }
-
-      return this.link.attrs.target === '_blank';
     }
   },
   serverPrefetch (): Promise<void> {
