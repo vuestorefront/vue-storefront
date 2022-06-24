@@ -7,6 +7,18 @@ import { once } from '@vue-storefront/core/helpers'
 once('__VUE_EXTEND_PUSH_RR__', () => {
   const originalPush = VueRouter.prototype.push
   VueRouter.prototype.push = function push (location: RawLocation, onComplete: Function = () => {}, onAbort?: ErrorHandler): Promise<Route> {
+    // TODO temporary solution because some links from storyblok pages has urls without slash at the end. And with strict option in routes, this will lead to 404 page.
+    if (typeof location === 'string') {
+      const [path, query] = location.split('?');
+      const hasQuery = query && query.length;
+
+      if (!path.endsWith('/')) {
+        location = `${location}/${hasQuery ? `?${query}` : ''}`;
+      }
+    } else if (location.path && !location.path.endsWith('/')) {
+      location.path = `${location.path}/`
+    }
+
     if (onComplete || onAbort) return originalPush.call(this, location, onComplete, onAbort)
     return originalPush.call(this, location).catch(err => err)
   }
