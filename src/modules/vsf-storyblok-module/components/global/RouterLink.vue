@@ -2,7 +2,7 @@
   <router-link v-if="!isExternal" :to="url">
     <slot />
   </router-link>
-  <a v-else :href="url" rel="noopener noreferrer" target="isNewWindow ? '_blank' : '_self'">
+  <a v-else :href="url" rel="noopener noreferrer" :target="isNewWindow ? '_blank' : '_self'">
     <slot />
   </a>
 </template>
