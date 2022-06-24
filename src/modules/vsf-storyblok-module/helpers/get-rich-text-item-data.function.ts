@@ -16,28 +16,28 @@ export default function getRichTextItemData (data: any): RichTextItem {
       return {
         id: uuidv4(),
         component: baseElementTag,
-        rootElement: 'blockquote',
+        rootTagName: 'blockquote',
         content: data.content
       }
     case 'bullet_list':
       return {
         id: uuidv4(),
         component: baseElementTag,
-        rootElement: 'ul',
+        rootTagName: 'ul',
         content: data.content
       }
     case 'ordered_list':
       return {
         id: uuidv4(),
         component: baseElementTag,
-        rootElement: 'ol',
+        rootTagName: 'ol',
         content: data.content
       }
     case 'code_block':
       return {
         id: uuidv4(),
         component: baseElementTag,
-        rootElement: 'code',
+        rootTagName: 'code',
         content: data.content,
         attrs: data.attrs
       }
@@ -51,7 +51,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
       return {
         id: uuidv4(),
         component: baseElementTag,
-        rootElement: `h${data.attrs.level}`,
+        rootTagName: `h${data.attrs.level}`,
         content: data.content,
         attrs: data.attrs
       }
@@ -60,14 +60,14 @@ export default function getRichTextItemData (data: any): RichTextItem {
       return {
         id: uuidv4(),
         component: baseElementTag,
-        rootElement: 'img',
+        rootTagName: 'img',
         elementAttributes: data.attrs
       }
     case 'paragraph':
       return {
         id: uuidv4(),
         component: baseElementTag,
-        rootElement: 'p',
+        rootTagName: 'p',
         content: data.content
       }
     case 'blok':
@@ -90,7 +90,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
       return {
         id: uuidv4(),
         component: baseElementTag,
-        rootElement: 'li',
+        rootTagName: 'li',
         content: data.content
       }
   }

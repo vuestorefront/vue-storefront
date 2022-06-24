@@ -1,7 +1,7 @@
 export default interface RichTextItem {
   id: string,
   component: string,
-  rootElement?: string,
+  rootTagName?: string,
   text?: string,
   content?: any[],
   attrs?: any,

@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="rootElement"
+    :is="rootTagName"
     class="rich-text-generic-component"
     v-bind="elementAttributes"
   >
@@ -35,8 +35,8 @@ export default Vue.extend({
 
       return this.item.content.map((item) => getRichTextItemData(item));
     },
-    rootElement (): string {
-      return this.item.rootElement || 'div';
+    rootTagName (): string {
+      return this.item.rootTagName || 'div';
     },
     elementAttributes (): any {
       return this.item.elementAttributes || {};
