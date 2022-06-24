@@ -7,6 +7,20 @@ import { once } from '@vue-storefront/core/helpers'
 once('__VUE_EXTEND_PUSH_RR__', () => {
   const originalPush = VueRouter.prototype.push
   VueRouter.prototype.push = function push (location: RawLocation, onComplete: Function = () => {}, onAbort?: ErrorHandler): Promise<Route> {
+    if (typeof location === 'string') {
+      const [path, query] = location.split('?');
+      const hasQuery = query && query.length;
+
+      if (!path.endsWith('/')) {
+        location = `${path}/`;
+        if (hasQuery) {
+          location += '?'+ query;
+        }
+      }
+    } else if (location.path && !location.path.endsWith('/')) {
+      location.path = `${location.path}/`
+    }
+
     if (onComplete || onAbort) return originalPush.call(this, location, onComplete, onAbort)
     return originalPush.call(this, location).catch(err => err)
   }

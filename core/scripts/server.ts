@@ -1,5 +1,6 @@
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
 
+const queryString = require('query-string')
 const config = require('config')
 const path = require('path')
 const glob = require('glob')
@@ -188,6 +189,17 @@ app.get('*', async (req, res, next) => {
       serverHooksExecutors.ssrException({ err, req, isProd })
       return res.redirect('/error')
     }
+  }
+
+  if (!req.path.endsWith('/')) {
+    const hasQuery = Object.values(req.query).length;
+    let redirectUrl = `${req.path}/`;
+    
+    if (hasQuery) {
+      redirectUrl += '?' + queryString.stringify(req.query);
+    }
+
+    return res.redirect(redirectUrl);
   }
 
   const site = req.headers['x-vs-store-code'] || 'main'
