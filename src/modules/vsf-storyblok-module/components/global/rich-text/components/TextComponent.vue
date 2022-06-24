@@ -25,7 +25,9 @@ interface DirectiveData {
   directiveParams: string[]
 }
 
-interface Directive {Text,
+interface Directive {
+  directive: string,
+  productSku: string,
   priceType: priceType
 }
 
