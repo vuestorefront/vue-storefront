@@ -15,6 +15,10 @@ export const forStoryblok = async ({ dispatch, rootState }, { url, params }) => 
       meta: { layout: 'empty' }
     }
   }
+  if (url.startsWith('/')) {
+    url = url.replace('/', '');
+  }
+
   url = url.replace(/\/?(\?.*)?$/, '') // remove trailing slash and/or qs variables if present
   const storeCode = storeCodeFromRoute(url)
   const addStoreCode = get(config, 'storyblok.settings.appendStoreCodeFromHeader')
