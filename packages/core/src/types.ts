@@ -869,7 +869,7 @@ export interface ApiClientFactory {
   createApiClient: CreateApiClientFn;
 
   /**
-   * function responsible for setting up integration config, runs once.
+   * Sets up integration config, runs once.
    */
   init?: (configuration: Record<string, any>) => Record<string, any>;
 }
