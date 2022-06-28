@@ -1,69 +1,94 @@
 # Getters
 
-> The getters are closely connected to the composables. If you are not already familiar with the concept, please refer to the composables chapter first.
+## Prerequisites
+
+This guide assumes prior knowledge of composables. If you don't know what they are or how to use them, see the [Composables](./composables.html) guide.
 
 ## What are getters?
 
-Getters are functions that are used to get the data from the raw API responses. They return agnostic or primitive types and allow you to write the same code regardless of the backend used.
-Each composable has its own dedicated getter, e.g., `useCart` and `cartGetters`. **You should only use getters dedicated to specific composable**.
+Reading the same composable's data in a few places in your application can be cumbersome, especially if that data is deeply nested.
 
-## When should I use them?
+That's why every composable has a dedicated getter, which is a helper for extracting commonly used data. For example, the `useUser` composable has the `userGetters`.
 
-**Getters should be used whenever possible to extract the data from composables**, e.g., when you want to get the quantity of the products in the cart in UI components.
+You should use getters whenever possible unless the given getter doesn't have a method that returns the data you need.
 
-## How can I use getters?
+## Anatomy of a getter
 
-The getters accept arguments to get the data. As an example, we will use cart functionalities.
-Most functions in `cartGetters` accept whole `cart` objects or individual cart items. This data needs to be extracted from `useCart` composable first.
-As the first example, we will use `getTotalItems` from `cartGetters` to get the total number of items in the cart.
+Getters are objects with a set of methods that accept either:
+
+- the [primary state](./composables.html#anatomy-of-a-composable) from their composable,
+- or result from other getter methods.
+
+Let's take a closer look at how it might look like using the [userGetters](/reference/api/core.usergetters.html) as an example:
+
+<img
+  src="../images/userGetters-getter-anatomy.webp"
+  alt="Anatomy of the userGetters getter"
+  style="display: block; margin: 0 auto;">
+
+In this example, the getter has four methods:
+
+- `getEmailAddress()`,
+- `getFirstName()`,
+- `getFullName()`,
+- `getLastName()`.
+
+Each accepts the `user` object from the `useUser` composable as a parameter.
+
+## Usage
+
+Let's see how you can use the [userGetters](/reference/api/core.usergetters.html) to get the user's full name:
 
 ```vue
-<template>
-  <div>
-    <!-- ... -->
-    <span>
-      {{ cartTotalItems }}
-    </span>
-  </div>
-</template>
-
 <script>
-import { computed } from '@nuxtjs/composition-api';
-import { useCart, cartGetters } from '{INTEGRATION}';
-import { onSSR } from '@vue-storefront/core';
+import { useUser, userGetters } from '{INTEGRATION}';
+import { useFetch, computed } from '@nuxtjs/composition-api';
 
 export default {
   setup() {
-    const { cart, load } = useCart();
-    const cartTotalItems = computed(() => cartGetters.getTotalItems(cart.value);
+    const { load, user } = useUser();
 
-    onSSR(async () => {
+    /**
+     * Create variable which extracts the full user name from the `user`
+     * object. Until we load user data, the value is `undefined`.
+     */
+    const userFullName = computed(() => userGetters.getFullName(user.value));
+
+    /**
+     * Load user data. This updates the `user` object,
+     * which as a result, updates the `userFullName` variable.
+     */
+    useFetch(async () => {
       await load();
     });
 
+    /**
+     * Return the `userFullName` object to make it available in the template
+     */
     return {
-      cart,
-      cartTotalItems,
+      userFullName
     };
   }
-}
+};
 </script>
 ```
 
-**It's important to use getters as the computed property** to have them always updated:
+You might have noticed that above, we called the getter function inside the `computed` function.
 
-```vue
-<script>
-  import {  cartGetters } from '{INTEGRATION}';
-  export default {
-    setup() {
-    
-     // Don't do this, because you lose reactivity
-      const nonReactive = cartGetters.getTotalItems(cart.value);
-      
-      // Do this instead
-       const reactive = computed(() => cartGetters.getTotalItems(cart.value);
-    };
-  }
-</script>
+That's because getter methods are not reactive and don't observe changes in the values you pass. To make them reactive, you need to wrap them in `computed` functions.
+
+```javascript
+/**
+ * ❌
+ * Calling getter methods like this will only read their values
+ * once and never update, even when the value of the `user` changes
+ */
+const nonReactive = userGetters.getFullName(user.value);
+
+/**
+ * ✔️
+ * Wrapping the same method call inside `computed` will observe
+ * the changes in the `user` object and re-run the getter method
+ */
+const reactive = computed(() => userGetters.getFullName(user.value));
 ```

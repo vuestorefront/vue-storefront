@@ -20,7 +20,7 @@
     <a href="https://www.youtube.com/c/VueStorefront">
         <img alt="Subscribe on our Youtube Channel" src="https://img.shields.io/youtube/channel/subscribers/UCkm1F3Cglty3CE1QwKQUhhg?style=social" />
     </a>
-    <a href="https://discord.gg/vuestorefront">
+    <a href="https://discord.vuestorefront.io/">
         <img alt="Chat with us on Discord" src="https://img.shields.io/discord/770285988244750366?label=join%20discord&logo=Discord&logoColor=white" />
     </a>
 </p>
@@ -149,7 +149,7 @@
 - 🖥  Demo: https://demo.vuestorefront.io/
 - 📦  Installation: https://docs.vuestorefront.io/v2/getting-started/installation.html
 - 📘  Documentation: https://docs.vuestorefront.io/v2/
-- 👥  Discord Community: https://discord.gg/vuestorefront/
+- 👥  Discord Community: https://discord.vuestorefront.io/
 - 🐦  Twitter: https://twitter.com/VueStorefront
 - 🎥  YouTube: https://www.youtube.com/c/VueStorefront
 - 🌟  [Over 1000+ Live Stores, check the list!](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
@@ -171,7 +171,7 @@ Vue Storefront solves a set of key business challenges from the world of the sho
 
 ## Contributing
 
-If you like the ideas behind Vue Storefront and want to become a contributor - join our [Discord server](https://discord.vuestorefront.io), check the [list of the active issues](https://github.com/vuestorefront/vue-storefront/issues) or contact us directly via contributors(at)vuestorefront(dot)io.
+If you like the ideas behind Vue Storefront and want to become a contributor - join our [Discord server](https://discord.vuestorefront.io/), check the [list of the active issues](https://github.com/vuestorefront/vue-storefront/issues) or contact us directly via contributors(at)vuestorefront(dot)io.
 
 If you have discovered a 🐜 or have feature suggestion, feel free to [create an issue](https://github.com/vuestorefront/vue-storefront/issues/new/choose) on Github.
 

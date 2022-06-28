@@ -21,10 +21,11 @@ COPY . .
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-RUN yarn install
+RUN yarn install --frozen-lockfile \
+    && yarn build
 
 RUN cd packages/docs \
-    && yarn install \
+    && yarn install --frozen-lockfile \
     && yarn build
 
 FROM nginx
