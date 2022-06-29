@@ -34,8 +34,8 @@
     <a href="https://github.com/vuestorefront/vue-storefront/pulls">
         <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" />
     </a>
-    <a href="https://coveralls.io/github/vuestorefront/vue-storefront/?branch=next">
-        <img alt="Coverage Status" src="https://coveralls.io/repos/github/vuestorefront/vue-storefront/badge.svg?branch=next" />
+    <a href="https://coveralls.io/github/vuestorefront/vue-storefront/?branch=main">
+        <img alt="Coverage Status" src="https://coveralls.io/repos/github/vuestorefront/vue-storefront/badge.svg?branch=main" />
     </a>
 </p>
 

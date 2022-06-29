@@ -28,8 +28,7 @@
     "vue-template-compiler": "^2.6.x"
   },
   "peerDependencies": {
-    "@nuxtjs/composition-api": "^0.29.3",
-    "@vue/composition-api": "*"
+    "@nuxtjs/composition-api": "^0.29.3"
   },
   "files": [
     "lib/**/*",

@@ -23,6 +23,6 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - uses: JulienKode/pull-request-name-linter-action@v0.1.2
