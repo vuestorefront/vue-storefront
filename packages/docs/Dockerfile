@@ -1,7 +1,7 @@
 # Docs require puppeteer / chromium to generate OpenGraph images.
 # https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#running-on-alpine
 
-FROM node:12-alpine AS build
+FROM node:14-alpine AS build
 
 WORKDIR /var/www
 
