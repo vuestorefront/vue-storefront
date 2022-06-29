@@ -8,11 +8,11 @@ This document will show you how to submit a Pull Request to any of our [reposito
 
 ## Check your tools
 
-Like every other artisan, we need to ensure we have all the tools necessary to do our work. In our case we need [Yarn 1](https://classic.yarnpkg.com/en/docs/install) and [Git](https://git-scm.com/downloads). To verify that you have these tools installed, open the terminal and run both commands:
+Like every other artisan, we need to ensure we have all the tools necessary to do our work. In our case we need [pnpm](https://pnpm.io/) and [Git](https://git-scm.com/downloads). To verify that you have these tools installed, open the terminal and run both commands:
 
 ```bash
 git --version
-yarn --version
+pnpm --version
 ```
 
 ## Pick a target branch
@@ -24,7 +24,7 @@ Before starting to code, you need to **fork our repository** and find out which 
 Before you start coding, make sure to run the following command to install all necessary dependencies:
 
 ```bash
-yarn install
+pnpm install
 ```
 
 This command will install tools like `eslint`, `husky`, and a few others that will ensure that your code follows our rules and conventions.
@@ -56,24 +56,24 @@ If it's there, change the version to the `link` like so:
 }
 ```
 
-If it's an indirect dependency (dependency of another package) and not present in the `package.json`, use the [Selective dependency resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/), like so:
+If it's an indirect dependency (dependency of another package) and not present in the `package.json`, use the [Overrides](https://pnpm.io/package_json#pnpmoverrides), like so:
 
 ```json
 // package.json
 {
-  "resolutions": {
+  "overrides": {
     "@vue-storefront/some-package": "link:/absolute/path/to/modified/package"
   }
 }
 ```
 
-The steps above will tell Yarn to use your locally modified package instead of pulling it from the npm.
+The steps above will tell pnpm to use your locally modified package instead of pulling it from the npm.
 
 Then, run the following commands to update the dependencies and run your application:
 
 ```bash
-yarn install
-yarn dev
+pnpm install
+pnpm dev
 ```
 
 ## Update unit and E2E tests

@@ -20,16 +20,19 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`@vue-storefront/cli generate store`](#vue-storefrontcli-generate-store)
-* [`@vue-storefront/cli generate template`](#vue-storefrontcli-generate-template)
-* [`@vue-storefront/cli help [COMMAND]`](#vue-storefrontcli-help-command)
-* [`@vue-storefront/cli plugins`](#vue-storefrontcli-plugins)
-* [`@vue-storefront/cli plugins:inspect PLUGIN...`](#vue-storefrontcli-pluginsinspect-plugin)
-* [`@vue-storefront/cli plugins:install PLUGIN...`](#vue-storefrontcli-pluginsinstall-plugin)
-* [`@vue-storefront/cli plugins:link PLUGIN`](#vue-storefrontcli-pluginslink-plugin)
-* [`@vue-storefront/cli plugins:uninstall PLUGIN...`](#vue-storefrontcli-pluginsuninstall-plugin)
-* [`@vue-storefront/cli plugins update`](#vue-storefrontcli-plugins-update)
-* [`@vue-storefront/cli update [CHANNEL]`](#vue-storefrontcli-update-channel)
+- [Vue Storefront CLI](#vue-storefront-cli)
+- [Usage](#usage)
+- [Commands](#commands)
+  - [`@vue-storefront/cli generate store`](#vue-storefrontcli-generate-store)
+  - [`@vue-storefront/cli generate template`](#vue-storefrontcli-generate-template)
+  - [`@vue-storefront/cli help [COMMAND]`](#vue-storefrontcli-help-command)
+  - [`@vue-storefront/cli plugins`](#vue-storefrontcli-plugins)
+  - [`@vue-storefront/cli plugins:inspect PLUGIN...`](#vue-storefrontcli-pluginsinspect-plugin)
+  - [`@vue-storefront/cli plugins:install PLUGIN...`](#vue-storefrontcli-pluginsinstall-plugin)
+  - [`@vue-storefront/cli plugins:link PLUGIN`](#vue-storefrontcli-pluginslink-plugin)
+  - [`@vue-storefront/cli plugins:uninstall PLUGIN...`](#vue-storefrontcli-pluginsuninstall-plugin)
+  - [`@vue-storefront/cli plugins update`](#vue-storefrontcli-plugins-update)
+  - [`@vue-storefront/cli update [CHANNEL]`](#vue-storefrontcli-update-channel)
 
 ## `@vue-storefront/cli generate store`
 
@@ -138,7 +141,7 @@ ARGUMENTS
   PLUGIN  Plugin to install.
 
 FLAGS
-  -f, --force    Run yarn install with force flag.
+  -f, --force    Run installation with force flag.
   -h, --help     Show CLI help.
   -v, --verbose
 

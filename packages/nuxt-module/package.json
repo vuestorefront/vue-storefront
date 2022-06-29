@@ -6,8 +6,7 @@
   "types": "lib/src/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "yarn build"
+    "prepublish": "pnpm build"
   },
   "author": "Vue Storefront",
   "license": "MIT",

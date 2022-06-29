@@ -7,7 +7,7 @@ interface SSRConfiguration {
   vsfRef: VsfRef;
 }
 
-let onSSR = onServerPrefetch;
+let onSSR: any = onServerPrefetch;
 let vsfRef: VsfRef = ref;
 
 const configureSSR = (config: SSRConfiguration) => {

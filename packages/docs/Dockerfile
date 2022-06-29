@@ -1,7 +1,7 @@
 # Docs require puppeteer / chromium to generate OpenGraph images.
 # https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#running-on-alpine
 
-FROM node:12-alpine AS build
+FROM node:14-alpine AS build
 
 WORKDIR /var/www
 
@@ -12,21 +12,24 @@ RUN apk add --no-cache \
     freetype \
     harfbuzz \
     ca-certificates \
-    ttf-freefont \
-    yarn
+    ttf-freefont
 
-COPY . .
+# Install pnpm
+RUN npm install -g pnpm
 
 # Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-RUN yarn install --frozen-lockfile \
-    && yarn build
+COPY . ./
 
+# Build packages (needed to generate API reference)
+RUN pnpm install \
+    && pnpm build
+
+# Build documentation
 RUN cd packages/docs \
-    && yarn install --frozen-lockfile \
-    && yarn build
+    && pnpm build
 
 FROM nginx
 

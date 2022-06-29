@@ -9,10 +9,10 @@
     "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
     "test": "jest",
-    "prepublish": "yarn build"
+    "prepublish": "pnpm build"
   },
   "dependencies": {
-    "@vue-storefront/core": "~2.5.13"
+    "@vue-storefront/core": "workspace:~"
   },
   "peerDependencies": {
     "@nuxtjs/composition-api": "^0.29.3"

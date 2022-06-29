@@ -14,7 +14,7 @@ const getDirectory = async (message: string): Promise<string> => {
     name: 'directory',
     type: 'input',
     default: './',
-    validate: async (directory): Promise<string | true> => {
+    validate: async (directory: any): Promise<string | true> => {
       const exists = await existsDirectory(path.resolve(directory));
 
       if (!exists) {

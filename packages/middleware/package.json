@@ -8,12 +8,12 @@
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "test": "jest",
-    "prepublish": "yarn build"
+    "prepublish": "pnpm build"
   },
   "author": "Vue Storefront",
   "license": "MIT",
   "dependencies": {
-    "@vue-storefront/core": "~2.5.5",
+    "@vue-storefront/core": "workspace:~",
     "consola": "2.15.3",
     "express": "^4.17.1",
     "helmet": "^5.0.2",
