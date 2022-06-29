@@ -35,7 +35,7 @@ import {
   SfLoader
 } from '@storefront-ui/vue';
 import { productGetters, useWishlist, wishlistGetters, useCart } from '<%= options.generate.replace.composables %>';
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import { addBasePath } from '@vue-storefront/core';
 
 export default {
