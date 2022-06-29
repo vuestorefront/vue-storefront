@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/cache",
-  "version": "2.5.13",
+  "version": "2.6.0",
   "license": "MIT",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
