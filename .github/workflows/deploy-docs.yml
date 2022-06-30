@@ -32,6 +32,7 @@ jobs:
           username: ${{ secrets.DOCS_CLOUD_USERNAME }}
           password: ${{ secrets.DOCS_CLOUD_PASSWORD }}
           workdir: .
+          context: .
           dockerfile: ./packages/docs/Dockerfile
           buildoptions: "--compress"
   deploy:

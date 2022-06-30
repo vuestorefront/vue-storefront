@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/health-check",
-  "version": "2.5.13",
+  "version": "2.6.0",
   "description": "",
   "main": "lib/module.js",
   "scripts": {
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/vuestorefront/vue-storefront/issues"
   },
-  "homepage": "https://github.com/vuestorefront/vue-storefront#readme"
+  "homepage": "https://github.com/vuestorefront/vue-storefront#readme",
+  "engines": {
+    "node": ">=14 <=16"
+  }
 }

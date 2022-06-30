@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/nuxt",
-  "version": "2.5.13",
+  "version": "2.6.0",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/src/index.d.ts",
@@ -31,5 +31,8 @@
   "files": [
     "lib/**/*",
     "plugins/**/*"
-  ]
+  ],
+  "engines": {
+    "node": ">=14 <=16"
+  }
 }

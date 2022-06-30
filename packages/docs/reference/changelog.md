@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.6.0
+
+- Node.js Engine version bump / upgrade to `>=14 <=16`
+
+- Docs update / corrects / fixes
+
+- All new CLI `3.0.0` 
+
 ## 2.5.13
 
 - Allow using external Middleware URL ([6702](https://github.com/vuestorefront/vue-storefront/pull/6702)) - Heitor Ramon Ribeiro / Lukas Borawski

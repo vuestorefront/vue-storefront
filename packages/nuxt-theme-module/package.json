@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/nuxt-theme",
-  "version": "2.5.13",
+  "version": "2.6.0",
   "description": "",
   "main": "lib/module.js",
   "scripts": {
@@ -27,5 +27,8 @@
   },
   "peerDependencies": {
     "@nuxtjs/composition-api": "^0.29.3"
+  },
+  "engines": {
+    "node": ">=14 <=16"
   }
 }

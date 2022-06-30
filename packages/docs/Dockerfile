@@ -1,7 +1,7 @@
 # Docs require puppeteer / chromium to generate OpenGraph images.
 # https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#running-on-alpine
 
-FROM node:12-alpine AS build
+FROM node:14-alpine AS build
 
 WORKDIR /var/www
 
@@ -21,10 +21,11 @@ COPY . .
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-RUN yarn install
+RUN yarn install --frozen-lockfile \
+    && yarn build
 
 RUN cd packages/docs \
-    && yarn install \
+    && yarn install --frozen-lockfile \
     && yarn build
 
 FROM nginx
