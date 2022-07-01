@@ -4,7 +4,7 @@ const productActions = {
   async findProductOption ({ dispatch }, { serverItem }) {
     if (serverItem.product_type === 'configurable') {
       let query = new SearchQuery()
-      query = query.applyFilter({ key: 'configurable_children.sku', value: { 'eq': serverItem.sku } })
+      query = query.applyFilter({ key: 'configurable_children.sku.keyword', value: { 'eq': serverItem.sku } })
 
       const { items } = await dispatch('product/findProducts', {
         query,

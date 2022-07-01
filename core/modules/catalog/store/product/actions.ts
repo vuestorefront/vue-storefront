@@ -144,7 +144,7 @@ const actions: ActionTree<ProductState, RootState> = {
   },
   async findConfigurableParent (context, { product, configuration }) {
     const searchQuery = new SearchQuery()
-    const query = searchQuery.applyFilter({ key: 'configurable_children.sku', value: { 'eq': product.sku } })
+    const query = searchQuery.applyFilter({ key: 'configurable_children.sku.keyword', value: { 'eq': product.sku } })
     const products = await context.dispatch('findProducts', { query, configuration })
     return products.items && products.items.length > 0 ? products.items[0] : null
   },
