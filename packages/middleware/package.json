@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/middleware",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "description": "",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -13,7 +13,7 @@
   "author": "Vue Storefront",
   "license": "MIT",
   "dependencies": {
-    "@vue-storefront/core": "~2.6.0",
+    "@vue-storefront/core": "~2.7.0",
     "consola": "2.15.3",
     "express": "^4.17.1",
     "helmet": "^5.0.2",
