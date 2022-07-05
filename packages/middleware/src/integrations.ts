@@ -8,15 +8,21 @@ import {
   CustomQuery,
   Logger
 } from '@vue-storefront/core';
-
 interface IntegrationLoaded {
   apiClient: ApiClientFactory;
+  initConfig: Record<string, any>;
   configuration: any;
   extensions: ApiClientExtension[];
-  customQueries?: Record<string, CustomQuery>
+  customQueries?: Record<string, CustomQuery>;
 }
 
-type IntegrationsLoaded = Record<string, IntegrationLoaded>
+interface LoadInitConfigProps {
+  apiClient: ApiClientFactory;
+  integration: Integration;
+  tag: string;
+}
+
+type IntegrationsLoaded = Record<string, IntegrationLoaded>;
 
 /**
  * Resolves dependencies based on the current working directory, not relative to this package.
@@ -37,31 +43,39 @@ function createRawExtensions(apiClient: ApiClientFactory, integration: Integrati
   const extensionsCreateFn = integration.extensions;
   const predefinedExtensions = (apiClient.createApiClient as any)._predefinedExtensions;
 
-  return extensionsCreateFn
-    ? extensionsCreateFn(predefinedExtensions)
-    : predefinedExtensions;
+  return extensionsCreateFn ? extensionsCreateFn(predefinedExtensions) : predefinedExtensions;
 }
 
 function lookUpExternal(extension: string | ApiClientExtension): ApiClientExtension[] {
-  return typeof extension === 'string'
-    ? resolveDependency<ApiClientExtension[]>(extension)
-    : [extension];
+  return typeof extension === 'string' ? resolveDependency<ApiClientExtension[]>(extension) : [extension];
 }
 
 function createExtensions(rawExtensions: ApiClientExtension[]): ApiClientExtension[] {
-  return rawExtensions.reduce((prev, curr) => [
-    ...prev,
-    ...lookUpExternal(curr)
-  ], []);
+  return rawExtensions.reduce((prev, curr) => [...prev, ...lookUpExternal(curr)], []);
 }
 
-function registerIntegrations(app: Express, integrations: IntegrationsSection): IntegrationsLoaded {
-  return Object.entries<Integration>(integrations).reduce((prev, [tag, integration]) => {
+async function getInitConfig({ apiClient, tag, integration }: LoadInitConfigProps): Promise<Record<string, any>> {
+  if (apiClient?.init) {
+    try {
+      consola.success(`- Integration: ${tag} init function Start!`);
+      const initConfig = await apiClient?.init(integration.configuration);
+      consola.success(`- Integration: ${tag} init function Done!`);
+      return initConfig;
+    } catch (error) {
+      throw Error(`Error during executing init function in ${tag} integration. Error message: ${error}`);
+    }
+  }
+  return {};
+}
+
+async function registerIntegrations(app: Express, integrations: IntegrationsSection): Promise<IntegrationsLoaded> {
+  return Object.entries<Integration>(integrations).reduce(async (prev, [tag, integration]) => {
     consola.info(`- Loading: ${tag} ${integration.location}`);
 
     const apiClient: ApiClientFactory = resolveDependency<ApiClientFactory>(integration.location);
     const rawExtensions: ApiClientExtension[] = createRawExtensions(apiClient, integration);
     const extensions: ApiClientExtension[] = createExtensions(rawExtensions);
+    const initConfig: Record<string, any> = await getInitConfig({ apiClient, integration, tag });
 
     extensions.forEach(({ name, extendApp }) => {
       consola.info(`- Loading: ${tag} extension: ${name}`);
@@ -78,6 +92,7 @@ function registerIntegrations(app: Express, integrations: IntegrationsSection): 
       [tag]: {
         apiClient,
         extensions,
+        initConfig,
         configuration: integration.configuration,
         customQueries: integration.customQueries
       }
