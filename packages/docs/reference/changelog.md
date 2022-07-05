@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.7.0
+
+- **[BREAKING]** Add init function in the middleware ([6749](https://github.com/vuestorefront/vue-storefront/pull/6749)) - [Bartosz Herba](https://github.com/bartoszherba)
+
+  | Before | After | Comment | Module |
+  | ------ | ----- | ------- | ------ |
+  | createServer was a sync function | createServer is now an async function | Check architecture -> middleware doc's page for more details | core |
+
 ## 2.6.0
 
 - Node.js Engine version bump / upgrade to `>=14 <=16`
