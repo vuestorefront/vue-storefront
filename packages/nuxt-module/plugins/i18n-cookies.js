@@ -7,6 +7,7 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
   const acceptedLanguage = app.context.req?.headers?.['accept-language'] || navigator?.languages || '';
   const isRouteValid = !!app.context.route.name;
   const autoRedirectByLocale = i18nOptions.autoRedirectByLocale ?? true;
+  const reloadOnLanguageChange = i18nOptions.reloadOnLanguageChange ?? true;
   const cookieNames = {
     currency: i18nOptions.cookies?.currencyCookieName || VSF_CURRENCY_COOKIE,
     country: i18nOptions.cookies?.countryCookieName || VSF_COUNTRY_COOKIE,
@@ -101,7 +102,9 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
       $cookies.set(cookieNames.currency, getCurrencyByLocale(newLocale), cookieOptions);
     }
 
-    window.location.href = context.route.fullPath;
+    if (reloadOnLanguageChange) {
+      window.location.href = context.route.fullPath;
+    }
   }
 }
 
