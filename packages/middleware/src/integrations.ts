@@ -69,9 +69,9 @@ async function getInitConfig({ apiClient, tag, integration }: LoadInitConfigProp
 }
 
 async function registerIntegrations(app: Express, integrations: IntegrationsSection): Promise<IntegrationsLoaded> {
-  return Object.entries<Integration>(integrations).reduce(async (prev, [tag, integration]) => {
+  return await Object.entries<Integration>(integrations).reduce(async (prevPromise, [tag, integration]) => {
     consola.info(`- Loading: ${tag} ${integration.location}`);
-
+    const prev = await prevPromise;
     const apiClient: ApiClientFactory = resolveDependency<ApiClientFactory>(integration.location);
     const rawExtensions: ApiClientExtension[] = createRawExtensions(apiClient, integration);
     const extensions: ApiClientExtension[] = createExtensions(rawExtensions);
