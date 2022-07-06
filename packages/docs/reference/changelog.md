@@ -6,7 +6,7 @@ Date: 06.07.2022
 
 - Added flag allowing to change language without full page reload ([6752](https://github.com/vuestorefront/vue-storefront/pull/6752)) - [Dawid Ziobro](https://github.com/dawid-ziobro)
 
-- Update `registerIntegrations` function to accommodate async change for each iteration. ([6779](https://github.com/vuestorefront/vue-storefront/pull/6779)) - [Bartosz Herba](https://github.com/bartoszherba)
+- Update `registerIntegrations` function to accommodate async change for each iteration ([6779](https://github.com/vuestorefront/vue-storefront/pull/6779)) - [Bartosz Herba](https://github.com/bartoszherba)
 
 ## 2.7.0
 
