@@ -16,8 +16,8 @@ const { search } = useProduct();
 search({
   customQuery: {
     products: 'my-products-query',
-    metadata: { size: 'xl' }
-  }
+    metadata: { size: 'xl' },
+  },
 });
 ```
 
@@ -42,18 +42,19 @@ module.exports = {
   integrations: {
     ct: {
       location: '@vue-storefront/commercetools-api/server',
-      configuration: { /* ... */ },
+      configuration: {
+        /* ... */
+      },
       customQueries: {
         'my-products-query': ({ query, variables, metadata }) => {
+          variables.locale = 'en';
+          variables.size = metadata.size;
 
-          variables.locale = 'en'
-          variables.size = metadata.size
-
-          return { query, variables }
-        }
-      }
-    }
-  }
+          return { query, variables };
+        },
+      },
+    },
+  },
 };
 ```
 
@@ -66,7 +67,9 @@ module.exports = {
   integrations: {
     ct: {
       location: '@vue-storefront/commercetools-api/server',
-      configuration: { /* ... */ },
+      configuration: {
+        /* ... */
+      },
       customQueries: {
         'my-products-query': ({ variables }) => ({
           query: `
@@ -75,10 +78,10 @@ module.exports = {
             }
           `,
           variables,
-        })
-      }
-    }
-  }
+        }),
+      },
+    },
+  },
 };
 ```
 
@@ -114,9 +117,11 @@ module.exports = {
   integrations: {
     ct: {
       location: '@vue-storefront/commercetools-api/server',
-      configuration: { /* ... */ },
+      configuration: {
+        /* ... */
+      },
       customQueries,
-    }
-  }
+    },
+  },
 };
 ```
