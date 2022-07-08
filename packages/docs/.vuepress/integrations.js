@@ -23,7 +23,7 @@ const INTEGRATIONS = {
   eCommerce: [
     {
       name: 'commercetools',
-      link: 'https://docs.vuestorefront.io/v2/commercetools/',
+      link: 'https://docs.vuestorefront.io/commercetools/',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed627806456312e2aa80da9_1.commercetools_primary-logo_horizontal_RGB.svg',
       status: STATUS.STABLE,
       license: LICENSE.ENTERPRISE,
