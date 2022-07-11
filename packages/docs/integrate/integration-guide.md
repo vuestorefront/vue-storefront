@@ -130,19 +130,40 @@ cd packages/api-client
 yarn add axios
 ```
 
+There are two functions you can use to create the client:
+- The `onCreate` is called on every request. You can use it to customize the request, response, or settings.
+- The `init` is called once on the middleware setup. You can use it to set up the GraphQL or axios client instance.
+
 Now in the code editor, open `packages/api-client/src/index.server.ts`. Inside of it, there is the `onCreate` method.
 
 `onCreate` accepts the `settings` parameter, which is a configuration provided in `packages/theme/middleware.config.js`. By default, it's an empty object but can be any configuration you need.
 
 `onCreate` must return an object with at least `config` and `client` properties but it can have any number of custom properties if needed. This object is later available in API endpoints.
 
-Let's update the `onCreate` method to create and return a new Axios instance.
+
+Let's update the `onCreate` method to return `config` and `client` and execute the `init` function if the application did not initialize that client.
+
+```typescript
+// packages/api-client/index.server.ts
+function onCreate(settings) {
+  if (!settings?.client) {
+    return init(settings);
+  }
+
+  return {
+    config: settings,
+    client: settings.client
+  };
+}
+```
+
+Now let's implement the `init` function. It can return any result, and the server will merge it into the configuration object. For our purpose, we'll return our API Client settings and the `axios` client instance.
 
 ```typescript
 // packages/api-client/index.server.ts
 import axios from 'axios';
 
-const onCreate = (settings) => {
+const init = (settings) => {
   const client = axios.create({
     baseURL: settings.api.url
   });
@@ -169,6 +190,15 @@ module.exports = {
       }
     }
   }
+};
+```
+
+As a final step, we must export the `init` function so the Server Middleware can execute it on setup. At the very bottom, add `init` below `createApiClient` to the exported object.
+
+```typescript
+export {
+  createApiClient
+  init // export init function
 };
 ```
 

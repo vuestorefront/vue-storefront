@@ -59,11 +59,13 @@ By default, Server Middleware runs as an extension to the Express server used by
 const { createServer } = require('@vue-storefront/middleware');
 const { integrations } = require('./middleware.config');
 
-const app = createServer({ integrations });
+(async () => {
+  const app = await createServer({ integrations });
 
-app.listen(8181, () => {
-  console.log('Middleware started');
-});
+  app.listen(8181, () => {
+    console.log('Middleware started');
+  });
+})();
 ```
 
 When running this file using Node.js, the middleware will start its server without relying on Nuxt.js.
