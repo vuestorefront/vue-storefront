@@ -3,7 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const consola = require('consola');
 
-module.exports = function VueStorefrontMiddleware(moduleOptions) {
+module.exports = async function VueStorefrontMiddleware(moduleOptions) {
   const apiPath = 'api';
   const options = {
     contentSecurityPolicy: false,
@@ -36,12 +36,14 @@ module.exports = function VueStorefrontMiddleware(moduleOptions) {
       }
     } catch (error) {
       consola.warn(error);
-      consola.fatal('Nuxt wasn\'t able to fetch the middlewareUrl. Please follow the guide at https://docs.vuestorefront.io/v2/getting-started/configuration.html#nuxt-config-js to configure your nuxt.config.js');
+      consola.fatal(
+        'Nuxt wasn\'t able to fetch the middlewareUrl. Please follow the guide at https://docs.vuestorefront.io/v2/getting-started/configuration.html#nuxt-config-js to configure your nuxt.config.js'
+      );
     }
   });
 
   const config = require(`${this.nuxt.options.rootDir}/middleware.config.js`);
-  const handler = createServer(config);
+  const handler = await createServer(config);
   const serverMiddleware = { path: `/${apiPath}`, handler };
 
   this.addServerMiddleware(serverMiddleware);
