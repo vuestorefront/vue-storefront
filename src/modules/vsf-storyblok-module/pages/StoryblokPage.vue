@@ -116,7 +116,9 @@ export default {
     getCanonical (storeView = currentStoreView(), story = this.story) {
       const storeViewUrl = get(storeView, 'url', '')
 
-      const url = this.isAbsoluteUrl(storeViewUrl) ? storeViewUrl + '/' + this.removeStoreCodeFromSlug(story.full_slug) : this.getAbsoluteUrlForStory(story.full_slug);
+      const url = this.isAbsoluteUrl(storeViewUrl)
+        ? storeViewUrl + '/' + this.removeStoreCodeFromSlug(story.full_slug)
+        : this.getAbsoluteUrlForStory(story.full_slug);
 
       return url.replace(/\/home/, '')
     },
