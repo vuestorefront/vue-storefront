@@ -49,13 +49,22 @@ const getDataToHash = (product: CartItem | ServerItem): any => {
   }
 
   const supportedProductOptions = ['bundle_options', 'custom_options', 'configurable_item_options']
+  let selectedProductOptions: Record<string, any> | undefined;
 
-  // returns first options that has array with options
+  // add options that has array with selected options to the dictionary
   for (let optionName of supportedProductOptions) {
     const options = getProductOptions(product, optionName)
     if (options.length) {
-      return options
+      if (!selectedProductOptions) {
+        selectedProductOptions = {};
+      }
+
+      selectedProductOptions[optionName] = options;
     }
+  }
+
+  if (selectedProductOptions) {
+    return selectedProductOptions;
   }
 
   // if there are options that are not supported then just return all options
