@@ -397,6 +397,17 @@ const INTEGRATIONS = {
         { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
       ],
       categories: [ CATEGORY.CMS, CATEGORY.ANALYTICS ]
+    },
+    {
+      name: 'Builder.io',
+      link: 'https://docs.vuestorefront.io/builderio/',
+      image: '/v2/integrations-logos/builder-io.webp',
+      status: STATUS.STABLE,
+      license: LICENSE.OPEN_SOURCE,
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
+      categories: [ CATEGORY.CMS ]
     }
   ]
 };
