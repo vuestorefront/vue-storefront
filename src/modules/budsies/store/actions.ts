@@ -250,7 +250,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     store,
     payload: {email: string, listId: string}
   ): Promise<Task> {
-    const url = processURLAddress(`${config.budsies.endpoint}/mailchimp/subscriptions?token={{token}}`);
+    const url = processURLAddress(`${config.budsies.endpoint}/newsletter/mailchimpSubscriptions?token={{token}}`);
 
     return TaskQueue.execute({
       url,
