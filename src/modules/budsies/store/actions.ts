@@ -246,11 +246,11 @@ export const actions: ActionTree<BudsiesState, RootState> = {
 
     return result;
   },
-  async createMailchimpSubscription (
+  async createMailingListSubscription (
     store,
     payload: {email: string, listId: string}
   ): Promise<Task> {
-    const url = processURLAddress(`${config.budsies.endpoint}/newsletter/mailchimpSubscriptions?token={{token}}`);
+    const url = processURLAddress(`${config.budsies.endpoint}/newsletter/mailingListSubscriptions?token={{token}}`);
 
     return TaskQueue.execute({
       url,
