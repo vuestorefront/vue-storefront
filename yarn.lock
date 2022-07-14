@@ -16889,11 +16889,6 @@ vue-loader@^15.7.1:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-multiselect@^2.1.6:
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-2.1.6.tgz#5be5d811a224804a15c43a4edbb7485028a89c7f"
-  integrity sha512-s7jmZPlm9FeueJg1RwJtnE9KNPtME/7C8uRWSfp9/yEN4M8XcS/d+bddoyVwVnvFyRh9msFo0HWeW0vTL8Qv+w==
-
 vue-router@^3.4.5:
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.5.4.tgz#c453c0b36bc75554de066fefc3f2a9c3212aca70"
@@ -16969,6 +16964,16 @@ vuepress-plugin-smooth-scroll@^0.0.3:
   integrity sha512-qsQkDftLVFLe8BiviIHaLV0Ea38YLZKKonDGsNQy1IE0wllFpFIEldWD8frWZtDFdx6b/O3KDMgVQ0qp5NjJCg==
   dependencies:
     smoothscroll-polyfill "^0.4.3"
+
+vuepress-theme-vsf-docs@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/vuepress-theme-vsf-docs/-/vuepress-theme-vsf-docs-1.0.13.tgz#949aa0adb1aa9de98774c19a4887e64994838aec"
+  integrity sha512-vvjA88XVu+a/DjyChzF4karIztDCqcmLbsfgyFPGGAIAmOx28g11xVx1Wg5nXzl89hDbSWyLzKtLoSP7g/JZyQ==
+  dependencies:
+    "@vuepress/plugin-active-header-links" "1.9.7"
+    "@vuepress/plugin-nprogress" "1.9.7"
+    "@vuepress/plugin-search" "1.9.7"
+    vuepress-plugin-container "^2.0.2"
 
 vuepress@^1.2.0:
   version "1.9.7"

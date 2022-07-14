@@ -9,10 +9,10 @@ Packages with the `Enterprise` label are part of the [Vue Storefront Enterprise]
 Below is a list of integrations with e-commerce platforms. These integrations are the backbone of every Vue Storefront project.
 
 <IntegrationList
-  :filterable="false"
-  type="eCommerce"
->
-</IntegrationList>
+:filterable="false"
+type="eCommerce"
+
+> </IntegrationList>
 
 ## Other integrations
 
@@ -21,7 +21,7 @@ Below is a list of optional integrations. While not strictly necessary, they pro
 **Some integrations are available only for selected e-commerce platforms.** Use the dropdown below to filter integrations by supported e-commerce platforms.
 
 <IntegrationList
-  :filterable="true"
-  type="other"
->
-</IntegrationList>
+:filterable="true"
+type="other"
+
+> </IntegrationList>
