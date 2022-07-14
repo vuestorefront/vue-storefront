@@ -17,14 +17,12 @@ export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: s
 }
 
 function prepareDynamicRoute (routeData: LocalizedRoute, path: string): RouteConfig {
-  const userRouteByName = routeData.name && RouterManager.findByName(routeData.name)
-  const userRouteByPath = routeData.path && RouterManager.findByPath(routeData.path)
-  const userRoute = userRouteByName || userRouteByPath;
+  const userRoute = RouterManager.findByName(routeData.name);
 
   if (userRoute) {
-    const normalizedPath = userRouteByPath
+    const normalizedPath = routeData.path
       ? routeData.path
-      : `${path.startsWith('/') ? '' : '/'}${path}`
+      : `${path.startsWith('/') ? '' : '/'}${path}`;
 
     return {
       ...userRoute,

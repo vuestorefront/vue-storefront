@@ -33,6 +33,7 @@ export const forStoryblok = async ({ dispatch, rootState }, { url, params }) => 
   if (story && story.full_slug) {
     return {
       name: 'storyblok-page',
+      path: url ? `/${url}/` : undefined,
       params: {
         slug: story.full_slug
       }
