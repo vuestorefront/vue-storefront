@@ -20,7 +20,8 @@ export const CheckoutModule: StorefrontModule = function ({ store }) {
     const type = mutation.type
 
     if (
-      type.endsWith(types.CHECKOUT_SAVE_PERSONAL_DETAILS)
+      type.endsWith(types.CHECKOUT_SAVE_PERSONAL_DETAILS) ||
+      type.endsWith(types.CHECKOUT_RESET_PERSONAL_DETAILS)
     ) {
       StorageManager.get('checkout').setItem('personal-details', state.checkout.personalDetails).catch((reason) => {
         Logger.error(reason)() // it doesn't work on SSR
@@ -28,7 +29,9 @@ export const CheckoutModule: StorefrontModule = function ({ store }) {
     }
 
     if (
-      type.endsWith(types.CHECKOUT_SAVE_SHIPPING_DETAILS) || type.endsWith(types.CHECKOUT_UPDATE_PROP_VALUE)
+      type.endsWith(types.CHECKOUT_SAVE_SHIPPING_DETAILS) ||
+      type.endsWith(types.CHECKOUT_UPDATE_PROP_VALUE) ||
+      type.endsWith(types.CHECKOUT_RESET_SHIPPING_DETAILS)
     ) {
       StorageManager.get('checkout').setItem('shipping-details', state.checkout.shippingDetails).catch((reason) => {
         Logger.error(reason)() // it doesn't work on SSR
@@ -36,7 +39,9 @@ export const CheckoutModule: StorefrontModule = function ({ store }) {
     }
 
     if (
-      type.endsWith(types.CHECKOUT_SAVE_PAYMENT_DETAILS) || type.endsWith(types.CHECKOUT_UPDATE_PAYMENT_DETAILS)
+      type.endsWith(types.CHECKOUT_SAVE_PAYMENT_DETAILS) ||
+      type.endsWith(types.CHECKOUT_UPDATE_PAYMENT_DETAILS) ||
+      type.endsWith(types.CHECKOUT_RESET_PAYMENT_DETAILS)
     ) {
       StorageManager.get('checkout').setItem('payment-details', state.checkout.paymentDetails).catch((reason) => {
         Logger.error(reason)() // it doesn't work on SSR

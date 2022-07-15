@@ -226,9 +226,7 @@ const actions: ActionTree<UserState, RootState> = {
     commit(types.USER_INFO_LOADED, null)
     if (isModuleRegistered('WishlistModule')) dispatch('wishlist/clear', null, { root: true })
     if (isModuleRegistered('CompareModule')) dispatch('compare/clear', null, { root: true })
-    dispatch('checkout/savePersonalDetails', {}, { root: true })
-    dispatch('checkout/saveShippingDetails', {}, { root: true })
-    dispatch('checkout/savePaymentDetails', {}, { root: true })
+    EventBus.$emit('clear-user-data');
     commit(types.USER_ORDERS_HISTORY_LOADED, {})
     StorageManager
       .get('user')
