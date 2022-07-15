@@ -1,10 +1,13 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { isServer } from '@vue-storefront/core/helpers'
+import { Logger } from '@vue-storefront/core/lib/logger'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+
 import { checkoutModule } from './store/checkout'
 import { paymentModule } from './store/payment'
 import { shippingModule } from './store/shipping'
-import { Logger } from '@vue-storefront/core/lib/logger'
 import * as types from './store/checkout/mutation-types'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 export const CheckoutModule: StorefrontModule = function ({ store }) {
   StorageManager.init('checkout')
@@ -39,5 +42,10 @@ export const CheckoutModule: StorefrontModule = function ({ store }) {
         Logger.error(reason)() // it doesn't work on SSR
       }) // populate cache
     }
-  })
+  });
+
+  if (!isServer) {
+    const onClearUserData = () => store.dispatch('checkout/resetDetails');
+    EventBus.$on('clear-user-data', onClearUserData);
+  }
 }
