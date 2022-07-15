@@ -162,6 +162,17 @@ const removeCoupon = async (): Promise<Task> =>
     silent: false
   });
 
+const mergeGuestAndCustomer = async (): Promise<Task> =>
+  TaskQueue.execute({
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'merge_guest_and_customer_endpoint')),
+    payload: {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      mode: 'cors'
+    },
+    silent: true
+  });
+
 export const CartService: DataResolver.CartService = {
   setShippingInfo,
   getTotals,
@@ -172,5 +183,6 @@ export const CartService: DataResolver.CartService = {
   getShippingMethods,
   getItems,
   applyCoupon,
-  removeCoupon
+  removeCoupon,
+  mergeGuestAndCustomer
 }

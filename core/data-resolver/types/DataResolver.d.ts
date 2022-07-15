@@ -109,7 +109,8 @@ declare namespace DataResolver {
     getShippingMethods: (address: any /*: ShippingMethodsData */) => Promise<Task>,
     getItems: () => Promise<Task>,
     applyCoupon: (couponCode: string) => Promise<Task>,
-    removeCoupon: () => Promise<Task>
+    removeCoupon: () => Promise<Task>,
+    mergeGuestAndCustomer: () => Promise<Task>
   }
 
   interface OrderService {
