@@ -36,7 +36,7 @@ export default {
       storeCodeFromHeader: 'storyblok/storeCode'
     }),
     isExternal () {
-      return isUrlExternal(this.link.cached_url || this.link.url);
+      return isUrlExternal(this.url);
     },
     shouldOpenInNewWindow () {
       if (this.isNewWindow !== undefined) {

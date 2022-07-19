@@ -1,4 +1,4 @@
-import { LinkField } from 'src/modules/vsf-storyblok-module';
+import { LinkField, LinkType } from 'src/modules/vsf-storyblok-module';
 import config from 'config';
 import get from 'lodash-es/get';
 
@@ -13,8 +13,16 @@ export default function getUrlFromLink (
       return url;
     }
 
+    if (url.startsWith('#')) {
+      return url;
+    }
+
     return (`/${url}`).replace(/^\/+/, '/');
   };
+
+  if (link.linktype === LinkType.EMAIL) {
+    return 'mailto:' + link.url;
+  }
 
   const url = formatUrl(link.cached_url || link.url);
 
