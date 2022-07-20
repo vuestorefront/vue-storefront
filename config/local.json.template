@@ -69,7 +69,14 @@
       "config": {}
     },
     "helmet": {
-      "enabled": ${HELMET_ENABLED}
+      "enabled": ${HELMET_ENABLED},
+      "config": {
+        "contentSecurityPolicy": {
+          "directives": {
+            "frame-ancestors": [${HELMET_FRAME_ANCESTORS}]
+          }
+        }
+      }
     },
     "protocol_ssr": "https"
   },

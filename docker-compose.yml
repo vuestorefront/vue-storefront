@@ -9,6 +9,7 @@ services:
       - NODE_CONFIG_ENV=docker
       - PM2_ARGS=--no-daemon
       - HELMET_ENABLED
+      - HELMET_FRAME_ANCESTORS
 
       - NODEJS_INSTANCES_COUNT
       - NODEJS_INSTANCE_MAX_MEMORY
