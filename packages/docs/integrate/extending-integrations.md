@@ -16,7 +16,7 @@ You can define as many extensions as you want. Each extension has the following 
 const extension = {
   name: 'extension-name',
   extendApiMethods: {
-    getProduct: async () => { /* ... */ }
+    async customMethod(context, params) => { /* ... */ }
   },
   extendApp: (app) => {  /* ... */ },
   hooks: (req, res) => {
@@ -48,18 +48,66 @@ To register an extension, add it to the array returned from the `extensions` fun
 ```js
 module.exports = {
   integrations: {
-    <TAG NAME>: {
-      location: '@<integration-package>/server',
+    '{INTEGRATION_NAME}': {
+      location: '{SERVER_INTEGRATION}',
       configuration: {},
       extensions: (extensions) => [
         ...extensions,
         {
-          name: 'our-extension',
-          hooks: () => { /* ... */}
+          name: 'extension-name',
+          hooks: () => { /* ... */ }
         }
       ],
       customQueries: {}
     }
   }
 };
+```
+
+## Example: Adding new API endpoints
+
+You cannot register new API endpoints directly but only through extensions to already registered integrations. Let's follow the examples above to add a new endpoint to the integration.
+
+```js
+module.exports = {
+  integrations: {
+    '{INTEGRATION_NAME}': {
+      location: '{SERVER_INTEGRATION}',
+      configuration: {},
+      extensions: (extensions) => [
+        ...extensions,
+        {
+          name: 'extension-name',
+          extendApiMethods: {
+            async customMethod(context, params) => { /* ... */ }
+          }
+        }
+      ],
+      customQueries: {}
+    }
+  }
+};
+```
+
+Because this is an abstract example that applies to all integrations, we intentionally used `'{INTEGRATION_NAME}'` as the name of the integration. However, for the sake of example, let's assume it's `sloth`.
+
+In such a case, registering the `customMethod` method in `extendApiMethods` would create a new `/api/sloth/customMethod` endpoint. This method accepts two parameters:
+
+- `context` which includes:
+  - `config` - integration configuration,
+  - `client` - API client created in `packages/api-client/src/index.server.ts`,
+  - `req` - HTTP request object,
+  - `res` - HTTP response object,
+  - `extensions` - extensions registered within integration,
+  - `customQueries` - custom GraphQL queries registered within integration (used only with GraphQL),
+  - `extendQuery` - helper function for handling custom queries (used only with GraphQL).
+- `params` - parameters passed.
+
+All HTTP requests to such endpoint must be POST, with arguments passed in an array:
+
+```bash
+curl '{SERVER_DOMAIN}/api/sloth/customMethod`' \
+  -X POST \
+  -H 'content-type: application/json' \
+  -d '[{"query":"test","limit":20}]'
 ```
