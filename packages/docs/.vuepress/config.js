@@ -217,6 +217,13 @@ module.exports = {
           ],
         },
         {
+          title: 'FAQ',
+          collapsable: true,
+          children: [
+            ['/general/faq', 'Frequently Asked Questions'],
+          ],
+        },
+        {
           title: 'Community',
           collapsable: true,
           children: [
