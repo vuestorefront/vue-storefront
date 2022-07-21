@@ -1,24 +1,21 @@
 # Vue Storefront CLI
 
-<!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
-# Usage
-<!-- usage -->
-```sh-session
-$ npm install -g @vue-storefront/cli
-$ @vue-storefront/cli COMMAND
-running command...
-$ @vue-storefront/cli (--version)
-@vue-storefront/cli/0.0.0 linux-x64 node-v16.14.0
-$ @vue-storefront/cli --help [COMMAND]
-USAGE
-  $ @vue-storefront/cli COMMAND
-...
+## Usage
+
+To create a new Vue Storefront project, use the following command:
+
+```bash
+npx @vue-storefront/cli generate store
 ```
-<!-- usagestop -->
-# Commands
+
+To generate a new template project from the integration source code, use the following command:
+
+```bash
+npx @vue-storefront/cli generate template
+```
+
+## Commands
+
 <!-- commands -->
 * [`@vue-storefront/cli generate store`](#vue-storefrontcli-generate-store)
 * [`@vue-storefront/cli generate template`](#vue-storefrontcli-generate-template)
@@ -82,7 +79,7 @@ DESCRIPTION
   Display help for @vue-storefront/cli.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.11/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.12/src/commands/help.ts)_
 
 ## `@vue-storefront/cli plugins`
 
