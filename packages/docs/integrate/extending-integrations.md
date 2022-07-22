@@ -49,16 +49,14 @@ To register an extension, add it to the array returned from the `extensions` fun
 module.exports = {
   integrations: {
     '{INTEGRATION_NAME}': {
-      location: '{SERVER_INTEGRATION}',
-      configuration: {},
+      // ...
       extensions: (extensions) => [
         ...extensions,
         {
           name: 'extension-name',
           hooks: () => { /* ... */ }
         }
-      ],
-      customQueries: {}
+      ]
     }
   }
 };
@@ -66,14 +64,13 @@ module.exports = {
 
 ## Example: Adding new API endpoints
 
-You cannot register new API endpoints directly but only through extensions to already registered integrations. Let's follow the examples above to add a new endpoint to the integration.
+To register a new API endpoint, you can register a custom extension and use the `extendApiMethods` property. API endpoints cannot be registered directly. Let's look at an example:
 
 ```js
 module.exports = {
   integrations: {
     '{INTEGRATION_NAME}': {
-      location: '{SERVER_INTEGRATION}',
-      configuration: {},
+      // ...
       extensions: (extensions) => [
         ...extensions,
         {
@@ -83,15 +80,14 @@ module.exports = {
           }
         }
       ],
-      customQueries: {}
     }
   }
 };
 ```
 
-Because this is an abstract example that applies to all integrations, we intentionally used `'{INTEGRATION_NAME}'` as the name of the integration. However, for the sake of example, let's assume it's `sloth`.
+Because this is an abstract example that applies to all integrations, we intentionally used `{INTEGRATION_NAME}` as the name of the integration. In this example, we are registering `customMethod` in `extendApiMethods` that creates a new `/api/{INTEGRATION_NAME}/customMethod` endpoint.
 
-In such a case, registering the `customMethod` method in `extendApiMethods` would create a new `/api/sloth/customMethod` endpoint. This method accepts two parameters:
+This method accepts two parameters:
 
 - `context` which includes:
   - `config` - integration configuration,
@@ -103,10 +99,29 @@ In such a case, registering the `customMethod` method in `extendApiMethods` woul
   - `extendQuery` - helper function for handling custom queries (used only with GraphQL).
 - `params` - parameters passed.
 
-All HTTP requests to such endpoint must be POST, with arguments passed in an array:
+You can call this endpoint from the application like so:
+
+```javascript
+import { useVSFContext, onSSR } from '@vue-storefront/core';
+
+export default {
+  setup() {
+    const { $INTEGRATION_NAME } = useVSFContext();  
+  
+    onSSR(async () => {
+      await $INTEGRATION_NAME.api.customMethod({
+        query: 'test',
+        limit: 20
+      })
+    });
+  }
+}
+```
+
+This will send a `POST` request, similar to this one:
 
 ```bash
-curl '{SERVER_DOMAIN}/api/sloth/customMethod`' \
+curl '{SERVER_DOMAIN}/api/INTEGRATION_NAME/customMethod`' \
   -X POST \
   -H 'content-type: application/json' \
   -d '[{"query":"test","limit":20}]'
