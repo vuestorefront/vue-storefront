@@ -33,7 +33,7 @@ const INTEGRATIONS = {
       name: 'Magento',
       link: 'https://docs.vuestorefront.io/magento',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed6279b8b992c23fd014f3b_Magento.svg',
-      status: STATUS.BETA,
+      status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
     },
