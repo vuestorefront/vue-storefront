@@ -220,7 +220,7 @@ module.exports = {
           title: 'FAQ',
           collapsable: true,
           children: [
-            ['/general/faq', 'Frequently Asked Questions'],
+            ['/faq/list', 'Frequently Asked Questions'],
           ],
         },
         {
