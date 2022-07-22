@@ -68,12 +68,10 @@ Server Middleware **[URL paths](https://developer.mozilla.org/en-US/docs/Learn/C
 
 Following this rule, when you call the `$magento.api.products`, it sends the request to the `/api/magento/products` endpoint.
 
-<center>
-  <img
-    src="./images/api-request.webp"
-    alt="Mapping of the `api` method call to the Server Middleware request"
-  />
-</center>
+<img
+  src="./images/api-request.webp"
+  alt="Mapping of the `api` method call to the Server Middleware request"
+  style="display: block; margin: 0 auto; max-height: 400px">
 
 ## Extending context
 
