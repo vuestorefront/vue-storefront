@@ -7,7 +7,7 @@ No, at this moment, Vue Storefront runs on Nuxt 2 and Vue 2. We will upgrade our
 
 ## Rationale
 
-We made such a decision because there are already several big projects using Vue Storefront 2 in production, and upgrading them to an unstable framework with a still immature ecosystem would be risky, if not impossible. We prefer to wait and provide an excellent development experience than work around the bugs.
+We made this decision because there are already several big projects using Vue Storefront 2 in production, and upgrading them to an unstable framework with a still immature ecosystem would be risky, if not impossible. We prefer to wait and provide an excellent development experience than work around the bugs.
 
 ## Composition API
 
