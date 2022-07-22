@@ -20,12 +20,10 @@ Once downloaded and installed, run the HTTP toolkit binary/exec file.
 
 Then, open the "Intercept" tab in HTTP Toolkit, and select the "Existing Terminal" tab. It will download a script configuring the terminal session and instructing Node to send its traffic via proxy.
 
-<center>
-  <img
-    src="../images/httptoolkit.gif"
-    alt="Selecting Existing Terminal interception option"
-  />
-</center>
+<img
+  src="../images/httptoolkit.gif"
+  alt="Selecting Existing Terminal interception option"
+  style="display: block; margin: 0 auto; max-height: 500px">
 
 Run the following command displayed after clicking on the "Existing Terminal" tab.
 

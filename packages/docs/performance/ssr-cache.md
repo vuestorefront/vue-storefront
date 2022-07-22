@@ -58,6 +58,11 @@ We can break down package configuration into three pieces:
 
 ### Update your project
 
+<img
+  src="../images/ssr-cache.webp"
+  alt="Diagram showing that with caching, HTML response is generated only once, but asks the question 'What if it contains personalized content?'"
+  style="display: block; margin: 0 auto; max-height: 500px">
+
 This package doesn't check the application state before saving SSR output. For example, it doesn't check if the request comes from a logged-in user or not. It means that inappropriately using this package could lead to a leak of user-sensitive data. If the first request for the given page comes from the logged-in user and is later cached, all subsequent responses might include sensitive data of this user.
 
 To prevent this, update your project to either:
@@ -75,9 +80,10 @@ Refer to the [Tags](#tags) section for more information.
 
 When the page is requested, the cache driver checks if there is an already rendered page in the cache matching the current route. If the rendered page exists, the cache driver will serve the cached version. Otherwise, the current page will be rendered on the server and served to the user, but if it contains tags, the result will be saved in the cache and used for subsequent requests.
 
-<center>
- <img src="../images/ssr-flow.jpg" alt="Server Side Rendering request flow" />
-</center>
+<img
+  src="../images/ssr-flow.jpg"
+  alt="Server Side Rendering request flow"
+  style="display: block; margin: 0 auto">
 
 ## Tags
 
