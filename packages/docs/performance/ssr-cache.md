@@ -52,7 +52,7 @@ export default {
 
 We can break down package configuration into three pieces:
 
-* `enabled` (required boolean) - indicates whether to enable caching. The example above requires adding the `VSF_REDIS_ENABLED=true` configuration to the `.env` file to enable caching.
+* `enabled` (required boolean) - indicates if caching is enabled. The example above requires adding the `VSF_REDIS_ENABLED=true` configuration to the `.env` file to enable caching.
 * `invalidation` (optional object) - contains URL to invalidate cache and array of invalidation functions. Refer to the [Invalidating cache](#invalidating-tags) section for more information.
 * `driver` (array or string) - contains the path to or name of the driver package and its configuration. If the driver doesn't require any configuration, you can pass a string instead of an array. Refer to the documentation of the driver you use for more information.
 
@@ -63,7 +63,7 @@ This package doesn't check the application state before saving SSR output. For e
 To prevent this, update your project to either:
 
 * load **all** user-specific data only in the browser, using the `onMounted` hook,
-* or don't use tags on pages and components that load use data.
+* or don't use tags on pages and components that load user data.
 
 ### Add tags
 
