@@ -1,10 +1,10 @@
 {
   "name": "@vue-storefront/middleware",
-  "version": "2.5.13",
+  "version": "2.7.1",
   "description": "",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
-  "types": "lib/src/index.d.ts",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "test": "jest",
@@ -13,7 +13,7 @@
   "author": "Vue Storefront",
   "license": "MIT",
   "dependencies": {
-    "@vue-storefront/core": "~2.5.5",
+    "@vue-storefront/core": "~2.7.1",
     "consola": "2.15.3",
     "express": "^4.17.1",
     "helmet": "^5.0.2",

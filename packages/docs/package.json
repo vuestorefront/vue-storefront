@@ -29,6 +29,6 @@
   },
   "dependencies": {
     "sass-loader": "^8.0.2",
-    "vue-multiselect": "^2.1.6"
+    "vuepress-theme-vsf-docs": "^1.0.13"
   }
 }

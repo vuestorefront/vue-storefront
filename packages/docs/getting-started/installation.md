@@ -15,7 +15,7 @@ node -v
 The easiest way to get started with Vue Storefront is to set up your project using our CLI. You can run it using the following command:
 
 ```bash
-npx @vue-storefront/cli init
+npx @vue-storefront/cli generate store
 ```
 
 It will ask you to enter the project's name and select the e-commerce platform you wish to use. Once selected, the CLI will create project files in the directory matching your project name.

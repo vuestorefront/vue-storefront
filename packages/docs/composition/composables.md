@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Composables use the Composition API introduced in Vue 3 but are also made available via plugins in Vue 2. If you are not familiar with it, see the [Composition API guide](/composition/composition-api.html).
+Composables use the Composition API introduced in Vue 3 but also made available via plugins in Vue 2. If you are unfamiliar with it, see the official [Composition API FAQ](https://vuejs.org/guide/extras/composition-api-faq.html).
 
 ## What are composables?
 
@@ -25,7 +25,7 @@ To make composables easily distinguishable from standard methods, we follow the 
 Let's take a closer look at how it might look like using the [useUser](/reference/api/core.useuser.html) composable as an example:
 
 <img
-  src="../images/useUser-composable-anatomy.png"
+  src="../images/useUser-composable-anatomy.webp"
   alt="Anatomy of the useUser composable"
   style="display: block; margin: 0 auto;">
 
@@ -33,7 +33,7 @@ In this example:
 
 - the `user` property is the primary state,
 - the `loading` and `error` properties represent the supportive state,
-- the `load`, `register`, `login`, `logout`, and `changePassword` are methods.
+- the `load`, `register`, `login`, `logout`, `changePassword`, and `updateUser` are methods.
 
 ## Usage
 
@@ -46,12 +46,21 @@ import { useFetch } from '@nuxtjs/composition-api';
 
 export default {
   setup() {
+    /**
+     * Extract needed methods and state variables from the composable
+     */
     const { load, user } = useUser();
 
+    /**
+     * Load user data. The result will update the `user` object.
+     */
     useFetch(async () => {
       await load();
     });
 
+    /**
+     * Return the `user` object to make it available in the template
+     */
     return {
       user
     };
@@ -60,19 +69,21 @@ export default {
 </script>
 ```
 
-Let's go step by step through this example to understand what's going on:
-
-1. We begin by extracting needed methods and state variables from the composable.
-2. Next, we call the asynchronous `load` method within the `useFetch` hook to load user data.
-3. Finally, we return the `user` object from the `setup` method to make it available in the components `<template>`.
-
-While it's okay to destructure a composable as we did in step 1, you should **not** destructure read-only states, such as the `user` or `error` properties. Doing it this way will create variables that are not reactive and don't update.
+While it's okay to destructure a composable like we did above, you should **not** destructure read-only states, such as the `user` or `error` properties. Doing it this way will create variables that are not reactive and don't update.
 
 ```javascript
-// ❌ Destructuring `user` will create variables that aren't reactive and don't update
+/**
+ * ❌
+ * Destructuring `user` will create variables that
+ * aren't reactive and don't update
+ */
 const { user: { value: { firstname } } } = useUser();
 
-// ✔️ Using `computed` will make the variable react to changes in the `user` object
+/**
+ * ✔️
+ * Using `computed` will make the variable react to
+ * changes in the `user` object
+ */
 const { user } = useUser();
 const firstname = computed(() => user.value.firstname);
 ```
@@ -97,7 +108,7 @@ You can use one or more hooks simultaneously, even in the same component.
 You might be wondering what happened within the composable when we called the `load` method in the example above. The behavior of methods is different between composables. Still, in the case of the `useUser` composable, the `load` method updated the `loading`, `error`, and `user` properties to reflect the current state, made an API call, and then updated the state with the API's response.
 
 <img
-  src="../images/useUser-load-flow.png"
+  src="../images/useUser-load-flow.webp"
   alt="Flow of the load method from the useUser composable"
   style="display: block; margin: 0 auto;">
 
