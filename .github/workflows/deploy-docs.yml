@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - packages/docs/**
+  workflow_dispatch:
 
 jobs:
   build:
