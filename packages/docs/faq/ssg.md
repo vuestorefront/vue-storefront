@@ -1,4 +1,4 @@
-# Does Vue storefront support Static-Site Generation?
+# Does Vue Storefront support Static-Site Generation?
 
 No, at this moment, Vue Storefront only works as a Server-Side Rendered (SSR) application.
 

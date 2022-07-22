@@ -11,7 +11,7 @@ We made such a decision because there are already several big projects using Vue
 
 ## Composition API
 
-Worry not if you only have experience with Vue 3 or want to use Composition API. From the very beginning, we are using Composition API thanks to the [@vue/composition-api](https://github.com/vuejs/composition-api) plugin (and soon, the native support added in [Vue 2.7](https://github.com/vuejs/vue/blob/main/CHANGELOG.md#270-2022-07-01)). It offers great features and will make upgrading to Nuxt 3 easier.
+Don't worry if you only have experience with Vue 3 or want to use Composition API. From the very beginning, we are using Composition API thanks to the [@vue/composition-api](https://github.com/vuejs/composition-api) plugin (and soon, the native support added in [Vue 2.7](https://github.com/vuejs/vue/blob/main/CHANGELOG.md#270-2022-07-01)). It offers great features and will make upgrading to Nuxt 3 easier.
 
 ## Is there a way around this?
 
