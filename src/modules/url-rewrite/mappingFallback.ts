@@ -8,7 +8,7 @@ import { isServer } from '@vue-storefront/core/helpers';
 export const mappingFallbackForUrlRewrite = async (
   { dispatch, rootGetters }: ActionContext<UrlState, RootState>,
   { url }: { url: string }
-): Promise<string | undefined> => {
+): Promise<LocalizedRoute | undefined> => {
   if (!url) {
     return;
   }
@@ -34,7 +34,10 @@ export const mappingFallbackForUrlRewrite = async (
   const redirectCode = urlRewriteForRequestPath.rewrite_options === 'RP' ? 301 : 302;
 
   if (!isServer) {
-    return `/${targetPath}/`;
+    return {
+      name: 'url-rewrite',
+      path: `/${targetPath}/`
+    };
   }
 
   AsyncDataLoader.push({
