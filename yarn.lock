@@ -8108,10 +8108,9 @@ filepond-plugin-image-transform@^3.7.3:
   resolved "https://registry.yarnpkg.com/filepond-plugin-image-transform/-/filepond-plugin-image-transform-3.7.6.tgz#e954234276bd6f111e5ca7a0c6246fedbc1dfcdb"
   integrity sha512-FiZ+YqupONb+3o3Fph5DdQWGutxOTdb2yKZ4K21lfFoN6Ig9pVsCV8AECz7J+4EZxbblON7HOpiAHVHGm4JnGA==
 
-filepond@^4.13.5:
-  version "4.27.1"
-  resolved "https://registry.yarnpkg.com/filepond/-/filepond-4.27.1.tgz#2fdbb2a2e49b32feb978ef41752a1d84bc68f222"
-  integrity sha512-L4DQgywbI68L+Qtp+1Wo6ZuzxtsfnxPMssTV4tyV0Sm9+9SOhwX5Dmx7y9RE5I8E7OnKKugxuUSakXUPS689Zg==
+"filepond@https://github.com/BudsiesApp/filepond#36e17d7e443a16480e4c714f6b9b604d82c0ac9b":
+  version "4.30.4"
+  resolved "https://github.com/BudsiesApp/filepond#36e17d7e443a16480e4c714f6b9b604d82c0ac9b"
 
 filesize@^3.6.1:
   version "3.6.1"
