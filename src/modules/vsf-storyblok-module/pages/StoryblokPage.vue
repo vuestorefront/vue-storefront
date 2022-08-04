@@ -22,12 +22,17 @@
 </template>
 
 <script>
-import config from 'config'
 import get from 'lodash-es/get'
+import config from 'config'
+
+import { SfBreadcrumbs as Breadcrumbs } from '@storefront-ui/vue'
+import { isServer } from '@vue-storefront/core/helpers'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+
 import { getSettings } from '../helpers'
 import StoryblokMixin from '../components/StoryblokMixin'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { SfBreadcrumbs as Breadcrumbs } from '@storefront-ui/vue'
+
+const PROTOCOL = 'https://';
 
 export default {
   name: 'StoryblokPage',
@@ -93,11 +98,29 @@ export default {
         return []
       }
     },
+    getAbsoluteUrlForStory (fullSlug) {
+      const { hreflangPrefix } = getSettings(config.storyblok.settings)
+
+      if (!fullSlug.startsWith('/')) {
+        fullSlug = `/${fullSlug}`;
+      }
+
+      if (!fullSlug.endsWith('/')) {
+        fullSlug = `${fullSlug}/`;
+      }
+
+      const host = isServer ? global.process.env.VIRTUAL_HOST : window.location.host;
+
+      return PROTOCOL + host + hreflangPrefix + fullSlug;
+    },
     getCanonical (storeView = currentStoreView(), story = this.story) {
       const storeViewUrl = get(storeView, 'url', '')
-      const { hreflangPrefix } = getSettings(config.storyblok.settings)
-      const url = this.isAbsoluteUrl(storeViewUrl) ? storeViewUrl + '/' + this.removeStoreCodeFromSlug(story.full_slug) : hreflangPrefix + story.full_slug
-      return url.replace(/\/home$/, '')
+
+      const url = this.isAbsoluteUrl(storeViewUrl)
+        ? storeViewUrl + '/' + this.removeStoreCodeFromSlug(story.full_slug)
+        : this.getAbsoluteUrlForStory(story.full_slug);
+
+      return url.replace(/\/home/, '')
     },
     storeCodeFromSlug (slug) {
       return slug.split(/\/(.+)/)[0]

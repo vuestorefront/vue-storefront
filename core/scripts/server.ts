@@ -1,5 +1,6 @@
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
 
+const qs = require('qs')
 const config = require('config')
 const path = require('path')
 const glob = require('glob')
@@ -61,6 +62,10 @@ if (isProd) {
     templatesCache['default'] = ssr.compileTemplate(template, compileOptions) // Important Notice: template switching doesn't work with dev server because of the HMR
     renderer = ssr.createRenderer(bundle)
   })
+}
+
+function healthCheck (req, res) {
+  res.status(200).end();
 }
 
 function invalidateCache (req, res) {
@@ -152,6 +157,7 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
 
 app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
+app.get('/healthcheck', healthCheck)
 
 function cacheVersion (req, res) {
   res.send(fs.readFileSync(resolve('core/build/cache-version.json')))
@@ -183,6 +189,17 @@ app.get('*', async (req, res, next) => {
       serverHooksExecutors.ssrException({ err, req, isProd })
       return res.redirect('/error')
     }
+  }
+
+  if (!req.path.endsWith('/')) {
+    const hasQuery = Object.values(req.query).length;
+    let redirectUrl = `${req.path}/`;
+    
+    if (hasQuery) {
+      redirectUrl += '?' + qs.stringify(req.query);
+    }
+
+    return res.redirect(301, redirectUrl);
   }
 
   const site = req.headers['x-vs-store-code'] || 'main'

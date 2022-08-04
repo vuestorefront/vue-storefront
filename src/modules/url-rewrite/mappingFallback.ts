@@ -9,7 +9,7 @@ export const mappingFallbackForUrlRewrite = async (
   { dispatch, rootGetters }: ActionContext<UrlState, RootState>,
   { url }: { url: string }
 ): Promise<LocalizedRoute | undefined> => {
-  if (!isServer || !url) {
+  if (!url) {
     return;
   }
 
@@ -19,7 +19,7 @@ export const mappingFallbackForUrlRewrite = async (
     return;
   }
 
-  let urlRewriteForRequestPath = await dispatch('urlRewrite/loadUrlRewrite', { requestPath: url }, { root: true });
+  const urlRewriteForRequestPath = await dispatch('urlRewrite/loadUrlRewrite', { requestPath: url }, { root: true });
 
   if (!urlRewriteForRequestPath) {
     return;
@@ -32,6 +32,13 @@ export const mappingFallbackForUrlRewrite = async (
   }
 
   const redirectCode = urlRewriteForRequestPath.rewrite_options === 'RP' ? 301 : 302;
+
+  if (!isServer) {
+    return {
+      name: 'url-rewrite',
+      path: `/${targetPath}/`
+    };
+  }
 
   AsyncDataLoader.push({
     execute: async ({ context }) => {

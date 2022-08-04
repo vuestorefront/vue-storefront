@@ -43,10 +43,20 @@ const connectActions = {
   },
   async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false, mergeQty = false }) {
     if (!getters.isCartSyncEnabled) return
-    const { result, resultCode } = await CartService.getCartToken(guestCart, forceClientState)
+    const cartToken = getters.getCartToken;
+    const isCartEmpty = !getters.getCartItems.length;
+    const shouldMergeCart = cartToken && !isCartEmpty;
+
+    const cartActionPromise = shouldMergeCart
+      ? CartService.mergeGuestAndCustomer()
+      : CartService.getCartToken(guestCart, forceClientState);
+
+    const { result, resultCode } = await cartActionPromise;
 
     if (resultCode === 200) {
-      Logger.info('Server cart token created.', 'cart', result)()
+      shouldMergeCart
+        ? Logger.info('Customer and guest carts are merged.', 'cart', result)()
+        : Logger.info('Server cart token created.', 'cart', result)()
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result)
 
       return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault, mergeQty })

@@ -6,7 +6,7 @@
   >
     <div class="_items_wrapper">
       <div
-        v-for="_item in itemData.items"
+        v-for="_item in childItems"
         :key="_item.uuid"
         class="_item"
       >
@@ -46,6 +46,19 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     }
   },
   computed: {
+    childItems (): any[] {
+      const result = [];
+      for (const item of this.itemData.items) {
+        if (!item) {
+          console.warn('Warning! Component data are missing: ' + JSON.stringify(this.itemData));
+          continue;
+        }
+
+        result.push(item);
+      }
+
+      return result;
+    },
     itemData (): PageSectionData {
       return this.item as PageSectionData;
     },

@@ -29,6 +29,11 @@ const actions: ActionTree<CheckoutState, RootState> = {
       commit(types.CHECKOUT_DROP_PASSWORD)
     }
   },
+  async resetDetails ({ commit }) {
+    commit(types.CHECKOUT_RESET_PAYMENT_DETAILS);
+    commit(types.CHECKOUT_RESET_PERSONAL_DETAILS);
+    commit(types.CHECKOUT_RESET_SHIPPING_DETAILS);
+  },
   async setModifiedAt ({ commit }, timestamp) {
     commit(types.CHECKOUT_SET_MODIFIED_AT, timestamp)
   },

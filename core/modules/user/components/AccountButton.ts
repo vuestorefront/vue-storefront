@@ -13,7 +13,7 @@ export const AccountButton = {
   methods: {
     goToAccount () {
       if (this.currentUser) {
-        this.$router.push(this.localizedRoute('/my-account'))
+        this.$router.push(this.localizedRoute({ name: 'my-account' }))
       } else {
         this.$store.commit('ui/setAuthElem', 'login')
         EventBus.$emit('modal-show', 'modal-signup')

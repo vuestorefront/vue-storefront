@@ -1,6 +1,10 @@
 import { MutationTree } from 'vuex'
+
 import * as types from './mutation-types'
 import CheckoutState from '../../types/CheckoutState'
+import getDefaultPersonalDetails from '../../helpers/default-personal-details.factory'
+import getDefaultShippingDetails from '../../helpers/default-shipping-details.factory'
+import getDefaultPaymentDetails from '../../helpers/default-payment-details.factory'
 
 const mutations: MutationTree<CheckoutState> = {
   /**
@@ -30,6 +34,15 @@ const mutations: MutationTree<CheckoutState> = {
   },
   [types.CHECKOUT_LOAD_PAYMENT_DETAILS] (state, storedPaymentDetails) {
     state.paymentDetails = storedPaymentDetails
+  },
+  [types.CHECKOUT_RESET_PERSONAL_DETAILS] (state) {
+    state.personalDetails = getDefaultPersonalDetails();
+  },
+  [types.CHECKOUT_RESET_SHIPPING_DETAILS] (state) {
+    state.shippingDetails = getDefaultShippingDetails();
+  },
+  [types.CHECKOUT_RESET_PAYMENT_DETAILS] (state) {
+    state.paymentDetails = getDefaultPaymentDetails();
   },
   [types.CHECKOUT_UPDATE_PROP_VALUE] (state, payload) {
     state.shippingDetails[payload[0]] = payload[1]

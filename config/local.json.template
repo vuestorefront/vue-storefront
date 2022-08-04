@@ -5,7 +5,7 @@
     "protocol": "http",
     "api": "api-search-query",
     "devServiceWorker": false,
-    "useHtmlMinifier": true,
+    "useHtmlMinifier": ${SSR_USE_HTML_MINIFIER},
     "htmlMinifierOptions": {
       "minifyJS": true,
       "minifyCSS": true
@@ -69,7 +69,14 @@
       "config": {}
     },
     "helmet": {
-      "enabled": ${HELMET_ENABLED}
+      "enabled": ${HELMET_ENABLED},
+      "config": {
+        "contentSecurityPolicy": {
+          "directives": {
+            "frame-ancestors": [${HELMET_FRAME_ANCESTORS}]
+          }
+        }
+      }
     },
     "protocol_ssr": "https"
   },
@@ -559,6 +566,7 @@
     "collecttotals_endpoint": "https://${VSF_API_DOMAIN}/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
     "deletecoupon_endpoint": "https://${VSF_API_DOMAIN}/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
     "applycoupon_endpoint": "https://${VSF_API_DOMAIN}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}",
+    "merge_guest_and_customer_endpoint": "https://${VSF_API_DOMAIN}/api/cart/merge-guest-and-customer?token={{token}}&cartId={{cartId}}",
     "create_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/create?token={{token}}",
     "updateitem_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/update?token={{token}}&cartId={{cartId}}",
     "deleteitem_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/delete?token={{token}}&cartId={{cartId}}",
