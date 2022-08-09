@@ -8,7 +8,7 @@ import { SearchQuery } from 'storefront-query-builder';
 
 import getCookieByName from 'src/modules/shared/helpers/get-cookie-by-name.function';
 import CartEvents from 'src/modules/shared/types/cart-events';
-import ForeversWizardEvents from 'src/modules/shared/types/forevers-wizard-events';
+import { ForeversWizardEvents } from 'src/modules/budsies';
 
 import GoogleTagManagerEvents from '../types/GoogleTagManagerEvents';
 
