@@ -1,6 +1,6 @@
 import Vue, { PropType } from 'vue';
 import { getStoryblokQueryParams } from '../helpers'
-import { Display } from '../types/display.value';
+import convertDisplayValueToClass from '../helpers/convert-display-value-to-class';
 import ItemData from '../types/item-data.interface';
 import { SpacingSettingsFieldName } from '../types/spacing-setting-field-name.value';
 
@@ -24,12 +24,9 @@ export default Vue.extend({
     cssClasses (): string[] {
       const result: string[] = [];
 
-      if (this.item.display === Display.MOBILE_ONLY) {
-        result.push('-mobile-only');
-      }
-
-      if (this.item.display === Display.MOBILE_HIDDEN) {
-        result.push('-mobile-hidden');
+      const displayClass = convertDisplayValueToClass(this.item.display, this.isStoryblokPreview);
+      if (displayClass) {
+        result.push(displayClass);
       }
 
       if (this.isStoryblokPreview) {
