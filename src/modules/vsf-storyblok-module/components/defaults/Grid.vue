@@ -26,6 +26,8 @@ import ComponentWidthCalculator, { ColumnsSpecification } from '../../component-
 import GridData from '../../types/grid-data.interface';
 import { SizeValue } from '../../types/size.value';
 import isColumnData from '../../types/is-column-data.typeguard';
+import isItemData from '../../types/is-item-data.typeguard';
+import convertDisplayValueToClass from '../../helpers/convert-display-value-to-class';
 
 interface InjectedServices {
   componentWidthCalculator: ComponentWidthCalculator
@@ -129,6 +131,17 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     getItemCssClasses (item: unknown): string[] {
       const result: string [] = [];
 
+      if (!isItemData(item)) {
+        return result;
+      }
+
+      if (item.display) {
+        const displayClass = convertDisplayValueToClass(item.display, this.isStoryblokPreview);
+        if (displayClass) {
+          result.push(displayClass);
+        }
+      }
+
       if (!isColumnData(item)) {
         return result;
       }
@@ -176,6 +189,10 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
 
   display: grid;
   grid-gap: $default-grid-gap;
+
+  ._item {
+    @include display-property-handling;
+  }
 
   @for $i from 1 through 12 {
     &.-columns-#{$i} {

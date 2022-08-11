@@ -1,5 +1,6 @@
 /* eslint-disable valid-typeof */
 import ColumnData from './column-data.interface';
+import isItemData from './is-item-data.typeguard';
 
 export default function isColumnData (
   arg: unknown
@@ -8,7 +9,11 @@ export default function isColumnData (
     return false;
   }
 
-  const tmpArg = arg as Record<string | number | symbol, unknown>;
+  if (!isItemData(arg)) {
+    return false;
+  }
+
+  const tmpArg = arg as unknown as Record<string | number | symbol, unknown>;
 
   if (tmpArg.component !== 'column') {
     return false;

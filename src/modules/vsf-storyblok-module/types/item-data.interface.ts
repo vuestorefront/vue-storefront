@@ -5,9 +5,9 @@ import { SpacingSettingsField } from './spacing-settings-field.type';
 
 export default interface ItemData {
   _uid: string,
-  css_classes: string,
   alignment: Alignment,
   spacing_settings: SpacingSettingsField,
+  css_classes?: string,
   display?: Display,
   background?: ColorPickerField
 }
