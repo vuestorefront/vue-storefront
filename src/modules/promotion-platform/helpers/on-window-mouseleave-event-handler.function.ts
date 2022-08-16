@@ -7,7 +7,7 @@ import { USER_LEAVE_PAGE } from '../types/user-leave-page.event';
 const LEFT_PADDING = 15;
 const RIGHT_PADDING = 50;
 const ALLOWED_ZONE_BOTTOM = 10;
-const LOCAL_STORAGE_ITEM_NAME = 'user-leave-page';
+const LOCAL_STORAGE_ITEM_NAME = 'user-leave-page-event-was-fired';
 
 export default async function onWindowMouseLeaveEventHandler (event: MouseEvent): Promise<void> {
   const promotionPlatformStorage = StorageManager.get(SN_PROMOTION_PLATFORM);
@@ -29,7 +29,7 @@ export default async function onWindowMouseLeaveEventHandler (event: MouseEvent)
     return;
   }
 
-  promotionPlatformStorage.setItem(LOCAL_STORAGE_ITEM_NAME, true);
-
   EventBus.$emit(USER_LEAVE_PAGE);
+
+  promotionPlatformStorage.setItem(LOCAL_STORAGE_ITEM_NAME, true);
 }
