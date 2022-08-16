@@ -10,6 +10,7 @@ import * as syncLocalStorageChange from './helpers/syncLocalStorageChange';
 import { module } from './store';
 import { CLEAR_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, SN_PROMOTION_PLATFORM } from './types/StoreMutations';
 import isCustomProduct from '../shared/helpers/is-custom-product.function';
+import onWindowMouseLeaveEventHandler from './helpers/on-window-mouseleave-event-handler.function';
 
 export const PromotionPlatformModule: StorefrontModule = function ({ app, store }) {
   StorageManager.init(SN_PROMOTION_PLATFORM);
@@ -40,5 +41,7 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
     store.subscribe(cacheHandlerFactory());
 
     syncLocalStorageChange.addEventListener();
+
+    document.body.addEventListener('mouseleave', onWindowMouseLeaveEventHandler);
   }
 }
