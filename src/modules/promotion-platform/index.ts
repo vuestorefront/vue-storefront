@@ -10,6 +10,7 @@ import { module } from './store';
 import { CLEAR_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, SN_PROMOTION_PLATFORM } from './types/StoreMutations';
 import isCustomProduct from '../shared/helpers/is-custom-product.function';
 import onWindowMouseLeaveEventHandler from './helpers/on-window-mouseleave-event-handler.function';
+import { USER_LEAVING_WEBSITE } from './types/user-leaving-website.event';
 
 export const PromotionPlatformModule: StorefrontModule = function ({ app, store }) {
   StorageManager.init(SN_PROMOTION_PLATFORM);
@@ -43,4 +44,8 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
 
     document.body.addEventListener('mouseleave', onWindowMouseLeaveEventHandler);
   }
+}
+
+export {
+  USER_LEAVING_WEBSITE
 }

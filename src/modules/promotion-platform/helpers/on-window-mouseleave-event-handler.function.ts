@@ -2,7 +2,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
 
 import { SN_PROMOTION_PLATFORM } from '../types/StoreMutations';
-import { USER_LEAVE_PAGE } from '../types/user-leave-page.event';
+import { USER_LEAVING_WEBSITE } from '../types/user-leaving-website.event';
 
 const LEFT_PADDING = 15;
 const RIGHT_PADDING = 50;
@@ -12,9 +12,9 @@ const LOCAL_STORAGE_ITEM_NAME = 'user-leave-page-event-was-fired';
 export default async function onWindowMouseLeaveEventHandler (event: MouseEvent): Promise<void> {
   const promotionPlatformStorage = StorageManager.get(SN_PROMOTION_PLATFORM);
 
-  const isUserAlreadyLeavePage = await promotionPlatformStorage.getItem(LOCAL_STORAGE_ITEM_NAME);
+  const wasEventAlreadyFiredBefore = await promotionPlatformStorage.getItem(LOCAL_STORAGE_ITEM_NAME);
 
-  if (isUserAlreadyLeavePage) {
+  if (wasEventAlreadyFiredBefore) {
     return;
   }
 
@@ -29,7 +29,7 @@ export default async function onWindowMouseLeaveEventHandler (event: MouseEvent)
     return;
   }
 
-  EventBus.$emit(USER_LEAVE_PAGE);
+  EventBus.$emit(USER_LEAVING_WEBSITE);
 
   promotionPlatformStorage.setItem(LOCAL_STORAGE_ITEM_NAME, true);
 }
