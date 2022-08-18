@@ -136,7 +136,7 @@ module.exports = {
         },
         {
           title: 'Project Essentials',
-          collapsable: false,
+          collapsable: true,
           children: [
             ['/getting-started/project-structure', 'Project structure'],
             ['/getting-started/configuration', 'Configuration'],
@@ -172,10 +172,17 @@ module.exports = {
             ['/integrate/extending-vue-storefront', 'Extending Vue Storefront'],
             ['/integrate/extending-integrations', 'Extending integrations'],
             ['/integrate/cookie-based-config', 'Cookie-based configuration'],
-            ['/integrate/integration-guide', 'Integrating e-commerce platform'],
-            ['/integrate/cms', 'Integrating CMS platform'],
-            ['/integrate/cache-driver', 'Integrating cache driver'],
-            ['/integrate/payment', 'Integrating payments solutions'],
+          ],
+        },
+        {
+          title: 'Building Integrations',
+          collapsable: true,
+          children: [
+            ['/integrate/custom-integration', 'Introduction'],
+            ['/integrate/integration-guide', 'E-commerce platforms'],
+            ['/integrate/cms', 'CMS platforms'],
+            ['/integrate/payment', 'Payments solutions'],
+            ['/integrate/cache-driver', 'Cache driver'],
           ],
         },
         {
@@ -219,9 +226,7 @@ module.exports = {
         {
           title: 'FAQ',
           collapsable: true,
-          children: [
-            ['/faq/list', 'Frequently Asked Questions'],
-          ],
+          children: [['/faq/list', 'Frequently Asked Questions']],
         },
         {
           title: 'Community',
