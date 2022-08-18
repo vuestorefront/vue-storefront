@@ -85,7 +85,7 @@ const actions: ActionTree<OrderState, RootState> = {
       return task
     }
     EventBus.$emit('notification-progress-stop')
-    throw new Error('Unhandled place order request error')
+    throw new Error(task.result);
   },
   handlePlacingOrderFailed ({ commit, dispatch }, { newOrder, currentOrderHash }) {
     const order = { ...newOrder, transmited: false }
