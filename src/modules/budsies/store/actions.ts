@@ -333,5 +333,33 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     }
 
     return result;
+  },
+  async creditCardProcessingErrorNotifications (
+    context,
+    payload: {
+      customerEmail: string,
+      customerName: string,
+      customerPhone?: string,
+      errorReason: string
+    }
+  ): Promise<any> {
+    const url = processURLAddress(`${config.budsies.endpoint}/order/creditcard-processing-error-notifications?token={{token}}&cartId={{cartId}}`)
+
+    const { result, resultCode } = await TaskQueue.execute({
+      url,
+      payload: {
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        mode: 'cors',
+        method: 'POST',
+        body: JSON.stringify(payload)
+      },
+      silent: false
+    });
+
+    if (resultCode !== 200) {
+      throw Error('Error while sending creditcard processing error notification' + result)
+    }
+
+    return result;
   }
 }

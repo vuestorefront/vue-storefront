@@ -5,6 +5,7 @@ import CheckoutState from '../../types/CheckoutState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { ORDER_ERROR_EVENT } from '../../types/OrderErrorEvent'
 
 const actions: ActionTree<CheckoutState, RootState> = {
   async placeOrder ({ dispatch }, { order }) {
@@ -15,8 +16,11 @@ const actions: ActionTree<CheckoutState, RootState> = {
         // clear cart without sync, because after order cart will be already cleared on backend
         await dispatch('cart/clear', { sync: false }, { root: true })
         await dispatch('dropPassword')
+      } else if (result.resultCode !== 404) {
+        EventBus.$emit(ORDER_ERROR_EVENT, { order, error: result.result });
       }
     } catch (e) {
+      EventBus.$emit(ORDER_ERROR_EVENT, { order, error: (e as Error).message });
       Logger.error(e, 'checkout')()
     }
   },
