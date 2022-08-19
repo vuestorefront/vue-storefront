@@ -12,7 +12,8 @@ const placeOrder = (order: Order): Promise<Task> =>
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
       body: JSON.stringify(order)
-    }
+    },
+    silent: true
   })
 
 export const OrderService: DataResolver.OrderService = {
