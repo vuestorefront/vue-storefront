@@ -5,7 +5,7 @@ import CheckoutState from '../../types/CheckoutState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { ORDER_ERROR_EVENT } from '../../types/order-error.event'
+import { ORDER_ERROR_EVENT } from '../../types/OrderErrorEvent'
 
 const actions: ActionTree<CheckoutState, RootState> = {
   async placeOrder ({ dispatch }, { order }) {

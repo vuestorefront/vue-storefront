@@ -8,6 +8,7 @@ import { checkoutModule } from './store/checkout'
 import { paymentModule } from './store/payment'
 import { shippingModule } from './store/shipping'
 import * as types from './store/checkout/mutation-types'
+import { ORDER_ERROR_EVENT } from './types/OrderErrorEvent'
 
 export const CheckoutModule: StorefrontModule = function ({ store }) {
   StorageManager.init('checkout')
@@ -53,4 +54,8 @@ export const CheckoutModule: StorefrontModule = function ({ store }) {
     const onClearUserData = () => store.dispatch('checkout/resetDetails');
     EventBus.$on('clear-user-data', onClearUserData);
   }
+}
+
+export {
+  ORDER_ERROR_EVENT
 }
