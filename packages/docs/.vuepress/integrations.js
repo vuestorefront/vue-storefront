@@ -262,6 +262,19 @@ const INTEGRATIONS = {
       categories: [CATEGORY.PAYMENT],
     },
     {
+      name: 'Stripe',
+      link: [
+        { name: 'ElasticPath Commerce Cloud', link: 'https://docs.vuestorefront.io/stripe/epcc' }
+      ],
+      image: '/v2/integrations-logos/stripe.svg',
+      status: STATUS.STABLE,
+      license: LICENSE.ENTERPRISE,
+      maintainedBy: [
+        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
+      ],
+      categories: [ CATEGORY.PAYMENT ]
+    },
+    {
       name: 'Auth0',
       link: [{ name: 'commercetools', link: 'https://docs.vuestorefront.io/auth0/' }],
       image: '/v2/integrations-logos/auth0.svg',
