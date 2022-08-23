@@ -6,8 +6,8 @@
       <span v-if="part.isSimpleText" :class="classes" :key="part.text">{{ part.text }}</span>
 
       <price-component
-        v-else
-        :regular-price="part.price ? part.price.regular : 0"
+        v-else-if="part.price && part.price.regular"
+        :regular-price="part.price.regular"
         :special-price="part.price ? part.price.special : 0"
         :key="part.text"
       />
