@@ -2,16 +2,15 @@
   <span
     class="storyblok-rich-text-text-component"
   >
-    <template v-for="part in textParts">
-      <span v-if="part.isSimpleText" :class="classes" :key="part.text">{{ part.text }}</span>
-
-      <price-component
-        v-else-if="part.price && part.price.regular"
-        :regular-price="part.price.regular"
-        :special-price="part.price ? part.price.special : 0"
-        :key="part.text"
-      />
-    </template>
+    <component
+      v-for="part in textParts"
+      :key="part.text"
+      :class="part.classes"
+      :is="part.component"
+      v-bind="part.props"
+    >
+      {{ part.text }}
+    </component>
 
   </span>
 </template>
@@ -53,13 +52,15 @@ interface ProductPriceDirective extends Directive {
   isPromo: boolean
 }
 
-interface TextPart {
-  isSimpleText: boolean,
+interface ProcessedTextPart {
   text: string,
-  price?: {
-    regular?: number,
-    special?: number
-  },
+  classes: string[],
+  component: string,
+  props?: Record<string, any>
+}
+
+interface TextPart {
+  text: string,
   directive?: Directive
 }
 
@@ -79,7 +80,7 @@ export default Vue.extend({
   },
   data () {
     return {
-      textParts: [] as TextPart[],
+      textParts: [] as ProcessedTextPart[],
       onPromotionPlatformStoreSynchronizedHandler: undefined as ((text: string) => void) | undefined
     }
   },
@@ -192,7 +193,7 @@ export default Vue.extend({
       const { parts, hasDirectives } = this.getPartsFromText(text);
 
       if (!hasDirectives) {
-        this.textParts = [{ isSimpleText: true, text }];
+        this.textParts = [{ text, classes: this.classes, component: 'span' }];
         return;
       }
 
@@ -212,57 +213,82 @@ export default Vue.extend({
         await this.loadProducts(productsToLoadSkus);
       }
 
-      this.textParts = this.fillDirectivesIntoParts(parts);
+      this.textParts = this.processTextParts(parts);
     },
-    fillDirectivesIntoParts (textParts: TextPart[]): TextPart[] {
+    processTextParts (textParts: TextPart[]): ProcessedTextPart[] {
+      const processedTextParts: ProcessedTextPart[] = [];
       for (const textPart of textParts) {
-        if (textPart.isSimpleText) {
+        if (!textPart.directive) {
+          processedTextParts.push({
+            text: textPart.text,
+            component: 'span',
+            classes: this.classes
+          })
           continue;
         }
 
         if (textPart.directive?.type === DirectiveType.PRODUCT_SPECIFIC_PRICE) {
-          textPart.text = this.getProductDefaultPrice(
-            this.productBySkuDictionary[textPart.directive.productSku],
-            (textPart.directive as ProductSpecificPriceDirective).priceType
-          ) as string
-
-          textPart.isSimpleText = true;
+          processedTextParts.push(
+            this.processTextPartWithProductSpecificPriceDirective(textPart)
+          );
         } else if (textPart.directive?.type === DirectiveType.PRODUCT_PRICE) {
-          const isPromo = (textPart.directive as ProductPriceDirective).isPromo;
-          const regularPrice = this.getProductDefaultPrice(
-            this.productBySkuDictionary[textPart.directive.productSku],
-            'regular',
-            false
-          ) as number;
-
-          const specialPrice = this.getProductDefaultPrice(
-            this.productBySkuDictionary[textPart.directive.productSku],
-            'special',
-            false
-          ) as number;
-
-          if (isPromo) {
-            textPart.price = {
-              regular: regularPrice,
-              special: specialPrice
-            }
-            continue;
-          }
-
-          const isSpecial = specialPrice && specialPrice > 0;
-
-          textPart.price = {
-            regular: isSpecial ? specialPrice : regularPrice
-          }
+          processedTextParts.push(this.processTextPartWithProductPriceDirective(textPart));
         }
       }
 
-      return textParts;
+      return processedTextParts;
+    },
+    processTextPartWithProductPriceDirective (textPart: TextPart): ProcessedTextPart {
+      if (!textPart.directive) {
+        throw new Error('Wrong text part');
+      }
+
+      const isPromo = (textPart.directive as ProductPriceDirective).isPromo;
+      const { regular, special } = getProductDefaultPrice(
+        this.productBySkuDictionary[textPart.directive.productSku],
+        {},
+        false
+      );
+
+      const processedTextPart: ProcessedTextPart = {
+        text: '',
+        classes: [],
+        component: 'price-component'
+      }
+
+      if (isPromo) {
+        processedTextPart.props = {
+          regularPrice: regular,
+          specialPrice: special
+        }
+      } else {
+        const isSpecial = special && special > 0;
+
+        processedTextPart.props = {
+          regularPrice: isSpecial ? special : regular
+        }
+      }
+
+      return processedTextPart;
+    },
+    processTextPartWithProductSpecificPriceDirective (textPart: TextPart): ProcessedTextPart {
+      if (!textPart.directive) {
+        throw new Error('Wrong text part');
+      }
+
+      return {
+        text: this.getProductDefaultPrice(
+          this.productBySkuDictionary[textPart.directive.productSku],
+          (textPart.directive as ProductSpecificPriceDirective).priceType
+        ) as string,
+        classes: this.classes,
+        component: 'span'
+      }
     },
     getPartsFromText (text: string): {parts: TextPart[], hasDirectives: boolean} {
       const directives = text.match(directivesRegexp);
       if (!directives) {
-        return { parts: [{ isSimpleText: true, text }], hasDirectives: false }
+        return { parts: [{ text }], hasDirectives: false }
       }
 
       const textParts: TextPart[] = [];
@@ -276,7 +302,7 @@ export default Vue.extend({
         if (index === 0) {
           const slice = text.slice(index, shift);
           const directiveData = this.getDirectiveData(directive);
-          textParts.push({ isSimpleText: false, text: slice, directive: this.getDirectiveByData(directiveData) });
+          textParts.push({ text: slice, directive: this.getDirectiveByData(directiveData) });
           text = text.replace(slice, '');
           continue;
         }
@@ -284,16 +310,16 @@ export default Vue.extend({
         const directiveSlice = text.slice(index, shift);
         const prefixSlice = text.slice(0, index);
 
-        textParts.push({ isSimpleText: true, text: prefixSlice });
+        textParts.push({ text: prefixSlice });
         const directiveData = this.getDirectiveData(directive);
-        textParts.push({ isSimpleText: false, text: directiveSlice, directive: this.getDirectiveByData(directiveData) });
+        textParts.push({ text: directiveSlice, directive: this.getDirectiveByData(directiveData) });
 
         text = text.replace(directiveSlice, '');
         text = text.replace(prefixSlice, '');
       }
 
       if (text.length) {
-        textParts.push({ isSimpleText: true, text });
+        textParts.push({ text });
       }
 
       return { parts: textParts, hasDirectives: true };
