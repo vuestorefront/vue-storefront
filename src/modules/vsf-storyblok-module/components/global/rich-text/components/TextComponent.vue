@@ -285,7 +285,7 @@ export default Vue.extend({
         component: 'span'
       }
     },
-    getPartsFromText (text: string): {parts: TextPart[], hasDirectives: boolean} {
+    getPartsFromText (text: string): { parts: TextPart[], hasDirectives: boolean } {
       const directives = text.match(directivesRegexp);
       if (!directives) {
         return { parts: [{ text }], hasDirectives: false }
