@@ -4,7 +4,7 @@
   >
     <component
       v-for="part in textParts"
-      :key="part.text"
+      :key="part.id"
       :class="part.classes"
       :is="part.component"
       v-bind="part.props"
@@ -16,6 +16,7 @@
 </template>
 
 <script lang="ts">
+import { v4 as uuidv4 } from 'uuid';
 import Vue, { PropType } from 'vue';
 import { getProductDefaultPrice } from 'src/modules/shared';
 import { SearchQuery } from 'storefront-query-builder'
@@ -39,26 +40,27 @@ interface DirectiveData {
   directiveParams: string[]
 }
 
-interface Directive {
-  productSku: string,
-  type: DirectiveType
+interface ProductSpecificPriceDirective {
+  type: DirectiveType.PRODUCT_SPECIFIC_PRICE,
+  priceType: priceType,
+  productSku: string
 }
 
-interface ProductSpecificPriceDirective extends Directive {
-  priceType: priceType
-}
-
-interface ProductPriceDirective extends Directive {
-  isPromo: boolean
+interface ProductPriceDirective {
+  type: DirectiveType.PRODUCT_PRICE,
+  isPromo: boolean,
+  productSku: string
 }
 
 interface ProcessedTextPart {
+  id: string,
   text: string,
   classes: string[],
   component: string,
   props?: Record<string, any>
 }
 
+type Directive = ProductSpecificPriceDirective | ProductPriceDirective
 type TextPart = string | Directive;
 
 const directivesRegexp = /\{\{(.*?)\}\}/gi;
@@ -190,7 +192,7 @@ export default Vue.extend({
       const { parts, hasDirectives } = this.getPartsFromText(text);
 
       if (!hasDirectives) {
-        this.textParts = [{ text, classes: this.classes, component: 'span' }];
+        this.textParts = [{ id: uuidv4(), text, classes: this.classes, component: 'span' }];
         return;
       }
 
@@ -216,6 +218,7 @@ export default Vue.extend({
       for (const textPart of textParts) {
         if (typeof textPart === 'string') {
           processedTextParts.push({
+            id: uuidv4(),
             text: textPart,
             component: 'span',
             classes: this.classes
@@ -226,12 +229,12 @@ export default Vue.extend({
         if (textPart.type === DirectiveType.PRODUCT_SPECIFIC_PRICE) {
           processedTextParts.push(
             this.processTextPartWithProductSpecificPriceDirective(
-              textPart as ProductSpecificPriceDirective
+              textPart
             )
           );
         } else if (textPart.type === DirectiveType.PRODUCT_PRICE) {
           processedTextParts.push(
-            this.processTextPartWithProductPriceDirective(textPart as ProductPriceDirective)
+            this.processTextPartWithProductPriceDirective(textPart)
           );
         }
       }
@@ -247,6 +250,7 @@ export default Vue.extend({
       );
 
       const processedTextPart: ProcessedTextPart = {
+        id: uuidv4(),
         text: '',
         classes: [],
         component: 'price-component'
@@ -269,6 +273,7 @@ export default Vue.extend({
     },
     processTextPartWithProductSpecificPriceDirective (textPart: ProductSpecificPriceDirective): ProcessedTextPart {
       return {
+        id: uuidv4(),
         text: this.getProductDefaultPrice(
           this.productBySkuDictionary[textPart.productSku],
           textPart.priceType
@@ -278,47 +283,36 @@ export default Vue.extend({
       }
     },
     getPartsFromText (text: string): { parts: TextPart[], hasDirectives: boolean } {
-      const directives = text.match(directivesRegexp);
-      if (!directives) {
+      let match = directivesRegexp.exec(text);
+      if (!match) {
         return { parts: [text], hasDirectives: false }
       }
 
       const textParts: TextPart[] = [];
-      let shift = 0;
+      let directiveEndIndex = 0;
 
-      for (const directive of directives) {
-        const index = text.indexOf(directive);
+      while (match !== null) {
+        const index = match.index;
 
-        shift = index + directive.length;
-
-        if (index === 0) {
-          const slice = text.slice(index, shift);
-          const directiveData = this.getDirectiveData(directive);
-
-          textParts.push(this.getDirectiveByData(directiveData));
-          text = text.replace(slice, '');
-          continue;
+        if (directiveEndIndex !== index) {
+          textParts.push(text.slice(directiveEndIndex, index));
         }
 
-        const directiveSlice = text.slice(index, shift);
-        const prefixSlice = text.slice(0, index);
-        const directiveData = this.getDirectiveData(directive);
+        const directiveData = this.getDirectiveData(match[0]);
 
-        textParts.push(prefixSlice);
         textParts.push(this.getDirectiveByData(directiveData));
-
-        text = text.replace(directiveSlice, '');
-        text = text.replace(prefixSlice, '');
+        directiveEndIndex = match.index + match[0].length;
+        match = directivesRegexp.exec(text);
       }
 
-      if (text.length) {
-        textParts.push(text);
+      if (directiveEndIndex < text.length - 1) {
+        textParts.push(text.slice(directiveEndIndex));
       }
 
       return { parts: textParts, hasDirectives: true };
     },
-    getProductDefaultPrice (product: Product, priceType: priceType, format = true): string | number {
-      const price = getProductDefaultPrice(product, {}, format);
+    getProductDefaultPrice (product: Product, priceType: priceType): string {
+      const price = getProductDefaultPrice(product, {});
 
       return price[priceType];
     }
