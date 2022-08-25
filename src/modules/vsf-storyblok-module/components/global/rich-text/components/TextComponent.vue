@@ -1,13 +1,22 @@
 <template>
   <span
     class="storyblok-rich-text-text-component"
-    :class="classes"
   >
-    {{ parsedText }}
+    <component
+      v-for="part in textParts"
+      :key="part.id"
+      :class="part.classes"
+      :is="part.component"
+      v-bind="part.props"
+    >
+      {{ part.text }}
+    </component>
+
   </span>
 </template>
 
 <script lang="ts">
+import { v4 as uuidv4 } from 'uuid';
 import Vue, { PropType } from 'vue';
 import { getProductDefaultPrice } from 'src/modules/shared';
 import { SearchQuery } from 'storefront-query-builder'
@@ -17,29 +26,51 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import RichTextItem from '../../../../types/rich-text-item.interface';
 
+import PriceComponent from './PriceComponent.vue';
+
 type priceType = 'regular' | 'special';
 
-interface DirectiveData {
+enum DirectiveType {
+  PRODUCT_PRICE = 'productPrice',
+  PRODUCT_SPECIFIC_PRICE = 'productSpecificPrice'
+}
+
+interface DirectiveSpecification {
   directiveName: string,
   directiveParams: string[]
 }
 
-interface Directive {
-  directive: string,
-  productSku: string,
-  priceType: priceType
+interface ProductSpecificPriceDirective {
+  type: DirectiveType.PRODUCT_SPECIFIC_PRICE,
+  priceType: priceType,
+  productSku: string
 }
 
-interface DirectiveValue {
-  directive: string,
-  value: string
+interface ProductPriceDirective {
+  type: DirectiveType.PRODUCT_PRICE,
+  isPromo: boolean,
+  productSku: string
 }
+
+interface ProcessedTextPart {
+  id: string,
+  text: string,
+  classes: string[],
+  component: string,
+  props?: Record<string, any>
+}
+
+type Directive = ProductSpecificPriceDirective | ProductPriceDirective
+type TextPart = string | Directive;
 
 const directivesRegexp = /\{\{(.*?)\}\}/gi;
-const directiveDataRegexp = /(.*)\((.*)\)/i;
+const directiveSpecificationRegexp = /(.*)\((.*)\)/i;
 
 export default Vue.extend({
   name: 'StoryblokRichTextTextComponent',
+  components: {
+    PriceComponent
+  },
   props: {
     item: {
       type: Object as PropType<RichTextItem>,
@@ -48,7 +79,7 @@ export default Vue.extend({
   },
   data () {
     return {
-      parsedText: '',
+      textParts: [] as ProcessedTextPart[],
       onPromotionPlatformStoreSynchronizedHandler: undefined as ((text: string) => void) | undefined
     }
   },
@@ -93,12 +124,41 @@ export default Vue.extend({
     }
   },
   methods: {
-    getDirectiveData (directive: string): DirectiveData {
-      const directiveDataString = directive.replace(/\{|\}|&quot|"/g, '').trim();
-      const match = directiveDataRegexp.exec(directiveDataString);
+    getDirectiveFromSpecification (specification: DirectiveSpecification): Directive {
+      const { directiveName, directiveParams } = specification;
+
+      if (directiveName === 'productSpecificPrice') {
+        if (directiveParams[1] !== 'regular' && directiveParams[1] !== 'special') {
+          throw new Error('Unknown price type for the productSpecificPrice directive: ' + directiveParams[1]);
+        }
+
+        const directive: ProductSpecificPriceDirective = {
+          productSku: directiveParams[0],
+          priceType: directiveParams[1],
+          type: DirectiveType.PRODUCT_SPECIFIC_PRICE
+        }
+
+        return directive;
+      }
+
+      if (directiveName === 'productPrice') {
+        const directive: ProductPriceDirective = {
+          productSku: directiveParams[0],
+          isPromo: directiveParams[1] === 'promo',
+          type: DirectiveType.PRODUCT_PRICE
+        }
+
+        return directive
+      }
+
+      throw new Error('Unknown directive type: ' + directiveName);
+    },
+    parseDirectiveText (directive: string): DirectiveSpecification {
+      const directiveString = directive.replace(/\{|\}|&quot|"/g, '').trim();
+      const match = directiveSpecificationRegexp.exec(directiveString);
 
       if (!match) {
-        throw new Error('Unable to parse directive data: ' + directive);
+        throw new Error('Unable to parse directive: ' + directive);
       }
 
       const directiveName = match[1].trim();
@@ -108,37 +168,6 @@ export default Vue.extend({
         directiveName,
         directiveParams: directiveParams.map((param) => param.trim())
       }
-    },
-    getDirectivesFromText (text: string): { productPriceDirectives: Directive[] } {
-      const productPriceDirectives: Directive[] = [];
-
-      if (!text) {
-        return { productPriceDirectives };
-      }
-
-      const directivesList = text.match(directivesRegexp);
-
-      if (!directivesList) {
-        return { productPriceDirectives };
-      }
-
-      for (const directive of directivesList) {
-        const { directiveName, directiveParams } = this.getDirectiveData(directive);
-
-        if (directiveName === 'productPrice') {
-          if (directiveParams[1] !== 'regular' && directiveParams[1] !== 'special') {
-            throw new Error('Unknown price type for the productPrice directive: ' + directiveParams[1]);
-          }
-
-          productPriceDirectives.push({
-            directive: directive,
-            productSku: directiveParams[0],
-            priceType: directiveParams[1]
-          })
-        }
-      }
-
-      return { productPriceDirectives };
     },
     async loadProducts (productsSkus: string[]): Promise<void> {
       let searchQuery = new SearchQuery();
@@ -152,27 +181,6 @@ export default Vue.extend({
         }
       )
     },
-    getDirectivesValues ({
-      productPriceDirectives,
-      productsBySkuDictionary
-    }: {
-      productPriceDirectives: Directive[],
-      productsBySkuDictionary: Record<string, Product>
-    }): DirectiveValue[] {
-      const directivesValues = [];
-
-      for (const productPriceDirective of productPriceDirectives) {
-        directivesValues.push({
-          directive: productPriceDirective.directive,
-          value: this.getProductDefaultPrice(
-            productsBySkuDictionary[productPriceDirective.productSku],
-            productPriceDirective.priceType
-          )
-        })
-      }
-
-      return directivesValues;
-    },
     getProductSkusUsedInDirectives (directives: Directive[]): string[] {
       const productSkusSet = new Set<string>();
       directives.forEach((directive) => {
@@ -183,14 +191,10 @@ export default Vue.extend({
       return Array.from(productSkusSet);
     },
     async processDirectivesInText (text: string): Promise<void> {
-      const { productPriceDirectives } = this.getDirectivesFromText(text);
+      const parts = this.getPartsFromText(text);
+      const directives = (parts.filter((part) => typeof part !== 'string')) as Directive[];
 
-      if (!productPriceDirectives.length) {
-        this.parsedText = text;
-        return;
-      }
-
-      const productSkusUsedInDirectives = this.getProductSkusUsedInDirectives(productPriceDirectives);
+      const productSkusUsedInDirectives = this.getProductSkusUsedInDirectives(directives);
       const productsToLoadSkus: string[] = [];
 
       productSkusUsedInDirectives.forEach((sku) => {
@@ -203,29 +207,98 @@ export default Vue.extend({
         await this.loadProducts(productsToLoadSkus);
       }
 
-      const directivesValues = this.getDirectivesValues({
-        productPriceDirectives,
-        productsBySkuDictionary: this.productBySkuDictionary
-      })
-
-      this.parsedText = this.fillDirectivesValuesIntoText(text, directivesValues);
+      this.textParts = this.processTextParts(parts);
     },
-    fillDirectivesValuesIntoText (text: string, directivesValues: DirectiveValue[]): string {
-      let textWithFilledDirectivesValues = text;
+    processTextParts (textParts: TextPart[]): ProcessedTextPart[] {
+      const processedTextParts: ProcessedTextPart[] = [];
+      for (const textPart of textParts) {
+        if (typeof textPart === 'string') {
+          processedTextParts.push({
+            id: uuidv4(),
+            text: textPart,
+            component: 'span',
+            classes: this.classes
+          })
+          continue;
+        }
 
-      for (const directiveValue of directivesValues) {
-        textWithFilledDirectivesValues = textWithFilledDirectivesValues.replace(
-          directiveValue.directive,
-          directiveValue.value
-        );
+        if (textPart.type === DirectiveType.PRODUCT_SPECIFIC_PRICE) {
+          processedTextParts.push(
+            this.processProductSpecificPriceDirective(
+              textPart
+            )
+          );
+        } else if (textPart.type === DirectiveType.PRODUCT_PRICE) {
+          processedTextParts.push(
+            this.processProductPriceDirective(textPart)
+          );
+        }
       }
 
-      return textWithFilledDirectivesValues;
+      return processedTextParts;
     },
-    getProductDefaultPrice (product: Product, priceType: priceType): string {
-      const price = getProductDefaultPrice(product, {});
+    processProductPriceDirective (textPart: ProductPriceDirective): ProcessedTextPart {
+      const { regular, special } = getProductDefaultPrice(
+        this.productBySkuDictionary[textPart.productSku],
+        {},
+        false
+      );
 
-      return price[priceType];
+      const processedTextPart: ProcessedTextPart = {
+        id: uuidv4(),
+        text: '',
+        classes: [],
+        component: 'price-component',
+        props: {
+          regularPrice: regular,
+          specialPrice: special,
+          isPromo: textPart.isPromo
+        }
+      }
+
+      return processedTextPart;
+    },
+    processProductSpecificPriceDirective (textPart: ProductSpecificPriceDirective): ProcessedTextPart {
+      const prices = getProductDefaultPrice(
+        this.productBySkuDictionary[textPart.productSku],
+        {}
+      );
+
+      return {
+        id: uuidv4(),
+        text: prices[textPart.priceType],
+        classes: this.classes,
+        component: 'span'
+      }
+    },
+    getPartsFromText (text: string): TextPart[] {
+      let match = directivesRegexp.exec(text);
+      if (!match) {
+        return [text];
+      }
+
+      const textParts: TextPart[] = [];
+      let textFragmentStartIndex = 0;
+
+      while (match !== null) {
+        const index = match.index;
+
+        if (textFragmentStartIndex !== index) {
+          textParts.push(text.slice(textFragmentStartIndex, index));
+        }
+
+        const directiveData = this.parseDirectiveText(match[0]);
+
+        textParts.push(this.getDirectiveFromSpecification(directiveData));
+        textFragmentStartIndex = match.index + match[0].length;
+        match = directivesRegexp.exec(text);
+      }
+
+      if (textFragmentStartIndex < text.length - 1) {
+        textParts.push(text.slice(textFragmentStartIndex));
+      }
+
+      return textParts;
     }
   },
   watch: {
@@ -240,19 +313,19 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .storyblok-rich-text-text-component {
-    &.-strike {
+    .-strike {
         text-decoration: line-through;
     }
 
-    &.-italic {
+    .-italic {
         font-style: italic;
     }
 
-    &.-bold {
+    .-bold {
         font-weight: bold;
     }
 
-    &.-underline {
+    .-underline {
         text-decoration: underline;
     }
 }
