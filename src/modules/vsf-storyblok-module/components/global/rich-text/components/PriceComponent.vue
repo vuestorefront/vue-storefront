@@ -62,6 +62,7 @@ export default Vue.extend({
     color: var(--c-warning);
     font-style: italic;
     font-weight: normal;
+    margin-right: var(--spacer-xs);
   }
 
   ._final-price {
