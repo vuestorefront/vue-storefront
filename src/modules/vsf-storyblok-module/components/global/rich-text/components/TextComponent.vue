@@ -151,7 +151,7 @@ export default Vue.extend({
         throw new Error('Unknown directive type: ' + directiveName);
       }
     },
-    getDirectiveData (directive: string): DirectiveData {
+    parseDirectiveText (directive: string): DirectiveData {
       const directiveDataString = directive.replace(/\{|\}|&quot|"/g, '').trim();
       const match = directiveDataRegexp.exec(directiveDataString);
 
@@ -242,7 +242,6 @@ export default Vue.extend({
       return processedTextParts;
     },
     processTextPartWithProductPriceDirective (textPart: ProductPriceDirective): ProcessedTextPart {
-      const isPromo = textPart.isPromo;
       const { regular, special } = getProductDefaultPrice(
         this.productBySkuDictionary[textPart.productSku],
         {},
@@ -253,19 +252,11 @@ export default Vue.extend({
         id: uuidv4(),
         text: '',
         classes: [],
-        component: 'price-component'
-      }
-
-      if (isPromo) {
-        processedTextPart.props = {
+        component: 'price-component',
+        props: {
           regularPrice: regular,
-          specialPrice: special
-        }
-      } else {
-        const isSpecial = special && special > 0;
-
-        processedTextPart.props = {
-          regularPrice: isSpecial ? special : regular
+          specialPrice: special,
+          isPromo: textPart.isPromo
         }
       }
 
@@ -298,7 +289,7 @@ export default Vue.extend({
           textParts.push(text.slice(directiveEndIndex, index));
         }
 
-        const directiveData = this.getDirectiveData(match[0]);
+        const directiveData = this.parseDirectiveText(match[0]);
 
         textParts.push(this.getDirectiveByData(directiveData));
         directiveEndIndex = match.index + match[0].length;

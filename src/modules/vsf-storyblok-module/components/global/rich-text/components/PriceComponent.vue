@@ -1,11 +1,11 @@
 <template>
   <span class="storyblok-rich-text-price-component">
-    <span class="_regular-price" :class="{'-strike': isRegularStrike}">
-      {{ regularPrice }}
+    <span class="_regular-price" v-if="showRegularPrice">
+      {{ formattedRegularPrice }}
     </span>
 
-    <span class="_special-price" v-if="specialPrice">
-      {{ specialPrice }}
+    <span class="_final-price">
+      {{ formattedFinalPrice }}
     </span>
   </span>
 </template>
@@ -25,17 +25,24 @@ export default Vue.extend({
     specialPrice: {
       type: Number as PropType<number | undefined>,
       default: undefined
+    },
+    isPromo: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
+    finalPrice (): number {
+      return this.specialPrice ? this.specialPrice : this.regularPrice;
+    },
+    formattedFinalPrice (): string {
+      return this.formatPrice(this.finalPrice)
+    },
     formattedRegularPrice (): string {
       return this.formatPrice(this.regularPrice);
     },
-    formattedSpecialPrice (): string {
-      return this.specialPrice ? this.formatPrice(this.specialPrice) : '';
-    },
-    isRegularStrike (): boolean {
-      return !!this.specialPrice;
+    showRegularPrice (): boolean {
+      return !!this.specialPrice && this.isPromo;
     }
   },
   methods: {
@@ -51,20 +58,13 @@ export default Vue.extend({
   font-size: 24px;
 
   ._regular-price {
-    color: var(--c-primary);
-    text-decoration: none;
-    font-style: normal;
-    font-weight: bold;
-
-    &.-strike {
-      text-decoration: line-through;
-      color: var(--c-warning);
-      font-style: italic;
-      font-weight: normal;
-    }
+    text-decoration: line-through;
+    color: var(--c-warning);
+    font-style: italic;
+    font-weight: normal;
   }
 
-  ._special-price {
+  ._final-price {
       color: var(--c-primary);
       font-weight: bold;
   }
