@@ -35,7 +35,7 @@ enum DirectiveType {
   PRODUCT_SPECIFIC_PRICE = 'productSpecificPrice'
 }
 
-interface DirectiveData {
+interface DirectiveSpecification {
   directiveName: string,
   directiveParams: string[]
 }
@@ -64,7 +64,7 @@ type Directive = ProductSpecificPriceDirective | ProductPriceDirective
 type TextPart = string | Directive;
 
 const directivesRegexp = /\{\{(.*?)\}\}/gi;
-const directiveDataRegexp = /(.*)\((.*)\)/i;
+const directiveSpecificationRegexp = /(.*)\((.*)\)/i;
 
 export default Vue.extend({
   name: 'StoryblokRichTextTextComponent',
@@ -124,8 +124,8 @@ export default Vue.extend({
     }
   },
   methods: {
-    getDirectiveByData (directiveData: DirectiveData): Directive {
-      const { directiveName, directiveParams } = directiveData;
+    getDirectiveFromSpecification (specification: DirectiveSpecification): Directive {
+      const { directiveName, directiveParams } = specification;
 
       if (directiveName === 'productSpecificPrice') {
         if (directiveParams[1] !== 'regular' && directiveParams[1] !== 'special') {
@@ -139,7 +139,9 @@ export default Vue.extend({
         }
 
         return directive;
-      } else if (directiveName === 'productPrice') {
+      }
+
+      if (directiveName === 'productPrice') {
         const directive: ProductPriceDirective = {
           productSku: directiveParams[0],
           isPromo: directiveParams[1] === 'promo',
@@ -147,16 +149,16 @@ export default Vue.extend({
         }
 
         return directive
-      } else {
-        throw new Error('Unknown directive type: ' + directiveName);
       }
+
+      throw new Error('Unknown directive type: ' + directiveName);
     },
-    parseDirectiveText (directive: string): DirectiveData {
-      const directiveDataString = directive.replace(/\{|\}|&quot|"/g, '').trim();
-      const match = directiveDataRegexp.exec(directiveDataString);
+    parseDirectiveText (directive: string): DirectiveSpecification {
+      const directiveString = directive.replace(/\{|\}|&quot|"/g, '').trim();
+      const match = directiveSpecificationRegexp.exec(directiveString);
 
       if (!match) {
-        throw new Error('Unable to parse directive data: ' + directive);
+        throw new Error('Unable to parse directive: ' + directive);
       }
 
       const directiveName = match[1].trim();
@@ -189,13 +191,7 @@ export default Vue.extend({
       return Array.from(productSkusSet);
     },
     async processDirectivesInText (text: string): Promise<void> {
-      const { parts, hasDirectives } = this.getPartsFromText(text);
-
-      if (!hasDirectives) {
-        this.textParts = [{ id: uuidv4(), text, classes: this.classes, component: 'span' }];
-        return;
-      }
-
+      const parts = this.getPartsFromText(text);
       const directives = (parts.filter((part) => typeof part !== 'string')) as Directive[];
 
       const productSkusUsedInDirectives = this.getProductSkusUsedInDirectives(directives);
@@ -228,20 +224,20 @@ export default Vue.extend({
 
         if (textPart.type === DirectiveType.PRODUCT_SPECIFIC_PRICE) {
           processedTextParts.push(
-            this.processTextPartWithProductSpecificPriceDirective(
+            this.processProductSpecificPriceDirective(
               textPart
             )
           );
         } else if (textPart.type === DirectiveType.PRODUCT_PRICE) {
           processedTextParts.push(
-            this.processTextPartWithProductPriceDirective(textPart)
+            this.processProductPriceDirective(textPart)
           );
         }
       }
 
       return processedTextParts;
     },
-    processTextPartWithProductPriceDirective (textPart: ProductPriceDirective): ProcessedTextPart {
+    processProductPriceDirective (textPart: ProductPriceDirective): ProcessedTextPart {
       const { regular, special } = getProductDefaultPrice(
         this.productBySkuDictionary[textPart.productSku],
         {},
@@ -262,50 +258,47 @@ export default Vue.extend({
 
       return processedTextPart;
     },
-    processTextPartWithProductSpecificPriceDirective (textPart: ProductSpecificPriceDirective): ProcessedTextPart {
+    processProductSpecificPriceDirective (textPart: ProductSpecificPriceDirective): ProcessedTextPart {
+      const prices = getProductDefaultPrice(
+        this.productBySkuDictionary[textPart.productSku],
+        {}
+      );
+
       return {
         id: uuidv4(),
-        text: this.getProductDefaultPrice(
-          this.productBySkuDictionary[textPart.productSku],
-          textPart.priceType
-        ) as string,
+        text: prices[textPart.priceType],
         classes: this.classes,
         component: 'span'
       }
     },
-    getPartsFromText (text: string): { parts: TextPart[], hasDirectives: boolean } {
+    getPartsFromText (text: string): TextPart[] {
       let match = directivesRegexp.exec(text);
       if (!match) {
-        return { parts: [text], hasDirectives: false }
+        return [text];
       }
 
       const textParts: TextPart[] = [];
-      let directiveEndIndex = 0;
+      let textFragmentStartIndex = 0;
 
       while (match !== null) {
         const index = match.index;
 
-        if (directiveEndIndex !== index) {
-          textParts.push(text.slice(directiveEndIndex, index));
+        if (textFragmentStartIndex !== index) {
+          textParts.push(text.slice(textFragmentStartIndex, index));
         }
 
         const directiveData = this.parseDirectiveText(match[0]);
 
-        textParts.push(this.getDirectiveByData(directiveData));
-        directiveEndIndex = match.index + match[0].length;
+        textParts.push(this.getDirectiveFromSpecification(directiveData));
+        textFragmentStartIndex = match.index + match[0].length;
         match = directivesRegexp.exec(text);
       }
 
-      if (directiveEndIndex < text.length - 1) {
-        textParts.push(text.slice(directiveEndIndex));
+      if (textFragmentStartIndex < text.length - 1) {
+        textParts.push(text.slice(textFragmentStartIndex));
       }
 
-      return { parts: textParts, hasDirectives: true };
-    },
-    getProductDefaultPrice (product: Product, priceType: priceType): string {
-      const price = getProductDefaultPrice(product, {});
-
-      return price[priceType];
+      return textParts;
     }
   },
   watch: {
