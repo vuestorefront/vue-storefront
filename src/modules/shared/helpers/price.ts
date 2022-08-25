@@ -27,15 +27,11 @@ function calculateCartItemBundleOptionsPrice (product) {
 }
 
 function calculateProductDefaultBundleOptionsPrice (product) {
-  const allBundleOptions = product.bundle_options || [];
-
-  const defaultBundleOptions = getDefaultBundleOptions(product);
-
-  const price = getBundleOptionPrice(
-    getBundleOptionsValues(defaultBundleOptions as SelectedBundleOption[], allBundleOptions)
-  )
-
-  return price;
+  return {
+    priceInclTax: product.price_incl_tax || product.priceInclTax || 0,
+    originalPriceInclTax: product.original_price_incl_tax || product.originalPriceInclTax || 0,
+    specialPrice: product.special_price || product.specialPrice || 0
+  };
 }
 
 function getProductPriceData (product, bundleOptionsPriceCalculationFunction: (product) => any): ProductPriceData {
