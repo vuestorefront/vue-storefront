@@ -14,7 +14,7 @@ export default function initEventBusListeners (store: Store<RootState>, app: Vue
   EventBus.$on(UPDATE_CART_ITEM_DISCOUNT_PRICE_DATA_EVENT_ID, (productPriceData: UpdateProductDiscountPriceEventData) => {
     let discountedPrice;
 
-    if (config.products.calculateBundlePriceByOptions && isBundleProduct(productPriceData.product)) {
+    if (isBundleProduct(productPriceData.product)) {
       discountedPrice = getBundleCartItemDiscountPrice(productPriceData.product, store);
       productPriceData.value = discountedPrice;
       return;

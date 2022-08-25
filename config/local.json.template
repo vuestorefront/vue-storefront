@@ -629,7 +629,7 @@
       "name",
       "visibility"
     ],
-    "calculateBundlePriceByOptions": true,
+    "calculateBundlePriceByOptions": false,
     "endpoint": "https://${VSF_API_DOMAIN}/api/product",
     "defaultFilters": [
       "color",
