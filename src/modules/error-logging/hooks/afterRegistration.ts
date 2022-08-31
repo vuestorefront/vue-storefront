@@ -3,7 +3,7 @@ import windowOnErrorHandler from '../helpers/windowOnErrorHandler';
 import consoleError from '../helpers/consoleError';
 
 export function afterRegistration (config: any) {
-  if (!config.errorLogging.serverAddress) {
+  if (!config.errorLogging.serviceUrl) {
     return;
   }
 

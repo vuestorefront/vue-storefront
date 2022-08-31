@@ -32,6 +32,7 @@ services:
       - CACHE_INVALIDATION_KEY
       - FILEUPLOADER_UPLOAD_URL
       - IMAGE_HANDLER_SERVICE_URL
+      - ERROR_LOGGING_SERVICE_URL
       
       - GTM_ID
       

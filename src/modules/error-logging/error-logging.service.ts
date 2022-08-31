@@ -28,7 +28,7 @@ export async function sendErrorMessage (
   }
 
   const { resultCode } = await TaskQueue.execute({
-    url: config.errorLogging.serverAddress,
+    url: config.errorLogging.serviceUrl,
     payload: {
       method: 'POST',
       body: JSON.stringify(data)
