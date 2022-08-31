@@ -1,5 +1,4 @@
 import config from 'config';
-import { TaskQueue } from '@vue-storefront/core/lib/sync';
 
 import ErrorMessage from './type/ErrorMessage';
 
@@ -27,16 +26,15 @@ export async function sendErrorMessage (
     _line: errorMessage.line
   }
 
-  const { resultCode } = await TaskQueue.execute({
-    url: config.errorLogging.serviceUrl,
-    payload: {
+  const response = await fetch(
+    config.errorLogging.serviceUrl,
+    {
       method: 'POST',
       body: JSON.stringify(data)
-    },
-    silent: true
-  });
+    }
+  );
 
-  if (resultCode !== GELF_ACCEPTED_STATUS) {
+  if (response.status !== GELF_ACCEPTED_STATUS) {
     throw new Error('An error has occurred while logging');
   }
 }

@@ -1,19 +1,18 @@
-import { TaskQueue } from '@vue-storefront/core/lib/sync';
-
-const IP_RESOLVE_SERVICE_URL = 'get.geojs.io/v1/ip/country.json';
+const IP_RESOLVE_SERVICE_URL = 'https://get.geojs.io/v1/ip/country.json';
 
 export default async function ipResolver (): Promise<string> {
-  const { result, resultCode } = await TaskQueue.execute({
+  const response = await fetch(
     IP_RESOLVE_SERVICE_URL,
-    payload: {
-      method: 'GET',
-      silent: true
+    {
+      method: 'GET'
     }
-  });
+  );
 
-  if (resultCode !== 200) {
+  if (response.status !== 200) {
     throw new Error('Unable to resolve ip');
   }
 
-  return result.ip;
+  const responseData = await response.json()
+
+  return responseData.ip;
 }
