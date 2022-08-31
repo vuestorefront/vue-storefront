@@ -9,7 +9,7 @@ export default async function ipResolver (): Promise<string> {
   );
 
   if (response.status !== 200) {
-    throw new Error('Unable to resolve ip');
+    return 'Unable to resolve ip';
   }
 
   const responseData = await response.json()
