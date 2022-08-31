@@ -1,9 +1,10 @@
-import config from 'config';
+import rootStore from '@vue-storefront/core/store'
 
 import { checkMessageAlreadySent, keepMessage, removeMessage } from './sentMessagesKeeper'
-import ErrorMessage from '../type/ErrorMessage';
 import { sendErrorMessage } from '../error-logging.service';
 import ipResolver from '../ip-resolver.service';
+import ErrorMessage from '../type/ErrorMessage';
+import { SN_ERROR_LOGGING } from '../type/StoreMutations';
 
 let clientIp: string | undefined;
 
@@ -31,7 +32,7 @@ export default async function errorLogger (errorMessage: ErrorMessage): Promise<
 
   await keepMessage(errorMessage);
 
-  const traceId = config.errorLogging.traceId;
+  const traceId = rootStore.getters[`${SN_ERROR_LOGGING}/traceId`];
 
   try {
     await sendErrorMessage(errorMessage, userAgent, clientIp, traceId);
