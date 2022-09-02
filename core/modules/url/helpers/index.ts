@@ -7,6 +7,20 @@ import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { Category } from 'core/modules/catalog-next/types/Category'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
+const geBlanketProductUrl: (product: any) => string | LocalizedRoute = (product: any) => {
+  return {
+    name: product.category_ids.includes(99) ? 'renaissance-blankets' : 'cut-out-blankets',
+    query: {
+      product_design: product.sku
+    }
+  }
+};
+
+const customProductUrlByCategoryId: Record<number, (product: any) => string | LocalizedRoute> = {
+  98: geBlanketProductUrl,
+  99: geBlanketProductUrl
+}
+
 export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: string]: any } | string, storeCodeInPath: string): LocalizedRoute {
   const parametrizedRoute = Object.assign({}, routeData)
   parametrizedRoute.params = Object.assign({}, parametrizedRoute.params || {}, query)
@@ -94,10 +108,18 @@ export function formatProductLink (
     type_id: string,
     slug: string,
     options?: [],
-    configurable_children?: []
+    configurable_children?: [],
+    category_ids?: []
   },
   storeCode
 ): string | LocalizedRoute {
+  const customProductLinkFunctionIndex = product.category_ids &&
+    product.category_ids.find((id) => !!customProductUrlByCategoryId[id]);
+
+  if (customProductLinkFunctionIndex) {
+    return customProductUrlByCategoryId[customProductLinkFunctionIndex](product);
+  }
+
   if (config.seo.useUrlDispatcher && product.url_path) {
     let routeData: LocalizedRoute;
     if ((product.options && product.options.length > 0) || (product.configurable_children && product.configurable_children.length > 0)) {

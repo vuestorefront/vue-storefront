@@ -302,6 +302,7 @@
       "sort": "updated_at:desc",
       "includeFields": [
         "activity",
+        "category_ids",
         "configurable_children.attributes",
         "configurable_children.id",
         "configurable_children.final_price",
