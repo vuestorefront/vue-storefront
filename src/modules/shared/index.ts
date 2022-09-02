@@ -4,6 +4,7 @@ import { InjectType } from './types/inject-type';
 import { VideoProvider } from './types/video-provider.value';
 import CustomerImage from './types/customer-image.interface';
 import { getCartItemPrice, getProductDefaultDiscount, getProductDefaultPrice, getProductPriceFromTotals } from './helpers/price';
+import ServerError from './types/server-error';
 
 import StreamingVideo from './components/streaming-video.vue';
 
@@ -17,5 +18,6 @@ export {
   getCartItemPrice,
   getProductDefaultDiscount,
   getProductDefaultPrice,
-  getProductPriceFromTotals
+  getProductPriceFromTotals,
+  ServerError
 }
