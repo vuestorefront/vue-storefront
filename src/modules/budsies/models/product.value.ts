@@ -23,5 +23,5 @@ export enum ProductValue {
   PRINTED_MASKS = '22',
   PRINTED_KEYCHAINS = '23',
   FELTED_MAGNETS = '27',
-  FELTED_KEYCHAINS = '28'
+  FELTED_ORNAMENTS = '28'
 }
