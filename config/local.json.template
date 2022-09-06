@@ -302,6 +302,7 @@
       "sort": "updated_at:desc",
       "includeFields": [
         "activity",
+        "category_ids",
         "configurable_children.attributes",
         "configurable_children.id",
         "configurable_children.final_price",
@@ -659,13 +660,9 @@
     },
     "gallery": {
       "mergeConfigurableChildren": true,
-      "imageAttributes": [
-        "image",
-        "thumbnail",
-        "small_image"
-      ],
-      "width": 600,
-      "height": 744
+      "imageAttributes": false,
+      "width": 1350,
+      "height": 1674
     },
     "thumbnails": {
       "width": 324,
