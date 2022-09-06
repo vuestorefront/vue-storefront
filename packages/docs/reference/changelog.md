@@ -72,7 +72,7 @@ Date: 05.07.2022
 
 - Fixed adding custom router.base property breaks api calls ([6526](https://github.com/vuestorefront/vue-storefront/issues/6505)) - [Piotr Grzywa](https://github.com/PiotrGrzywa)
 
-- Add the `autoChangeCookie` option on nuxt-i18n configuration to handle fine control on cookie ([6595]()) - [Heitor Ramon](https://github.com/bloodf)
+- Add the `autoChangeCookie` option on nuxt-i18n configuration to handle fine control on cookie ([6595](https://github.com/vuestorefront/vue-storefront/issues/6595)) - [Heitor Ramon](https://github.com/bloodf)
 
 ## 2.5.3
 
