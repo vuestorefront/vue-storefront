@@ -1,10 +1,14 @@
 <template>
   <div
     class="base-image sf-image"
-    :class="[{
-      '-with-placeholder': hasPlaceholder,
-      '-loading': !isLoaded
-    }, componentClass]"
+    :class="[
+      {
+        '-with-placeholder': hasPlaceholder,
+        '-loading': !isLoaded,
+      },
+      componentClass,
+      objectFitClass
+    ]"
     :style="componentStyles"
     v-on="$listeners"
   >
@@ -93,6 +97,10 @@ export default Vue.extend({
     width: {
       type: [String, Number],
       default: null
+    },
+    objectFit: {
+      type: String as PropType<'contain' | 'cover'>,
+      default: 'contain'
     }
   },
   data () {
@@ -150,6 +158,9 @@ export default Vue.extend({
       }
 
       return this.defaultSrcSet[0];
+    },
+    objectFitClass (): string {
+      return `-${this.objectFit}`;
     },
     optimizedAspectRatiosList (): ImageAspectRatioSpec[] {
       const result: ImageAspectRatioSpec[] = [];
@@ -240,7 +251,6 @@ export default Vue.extend({
 
       img {
         height: 100%;
-        object-fit: contain;
         object-position: top;
       }
   }
@@ -272,6 +282,20 @@ export default Vue.extend({
       ._placeholder {
         background-color: #fafafa;
       }
+    }
+  }
+
+  &.-contain {
+    img {
+      object-fit: contain;
+    }
+  }
+
+  &.-cover {
+    max-height: 100%;
+
+    img {
+      object-fit: cover;
     }
   }
 }
