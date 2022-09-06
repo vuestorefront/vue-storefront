@@ -660,6 +660,7 @@
     },
     "gallery": {
       "mergeConfigurableChildren": true,
+      "imageAttributes": false,
       "width": 1350,
       "height": 1674
     },
