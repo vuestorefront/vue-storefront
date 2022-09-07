@@ -4,19 +4,19 @@
 If you want to integrate with Vue Storefront, don't hesitate to get in touch with the core team on our [Discord](https://discord.vuestorefront.io/) server. We are eager to help you to ensure its high quality and maybe even officially recommend it 😉
 :::
 
-Vue Storefront provides out-of-the-box integrations for various third-party solutions (you can find them listed [here](https://docs.vuestorefront.io/v2/integrations/)). However, sometimes your project might need to connect to a service that Vue Storefront does not integrate with by default.
+Vue Storefront provides [out-of-the-box integrations](https://docs.vuestorefront.io/v2/integrations/) for various third-party solutions. However, sometimes your project might need to connect to a service that Vue Storefront does not integrate with by default.
 
-For this case, you can leverage our default pattern to create your own integration easily and keep your project coherent!
+For this case, you can leverage our default pattern to create your own integration and keep your project coherent!
 
-This quick tutorial will guide you step-by-step through creating a simple integration with [JSON Placeholder Free Fake API.](https://jsonplaceholder.typicode.com/)
+This quick tutorial will guide you step-by-step through creating a simple integration with the [JSON Placeholder Free Fake API.](https://jsonplaceholder.typicode.com/)
 
 ## Locating custom integration code
 
 Integrations delivered by Vue Storefront are installed in your project as dependencies. When it comes to creating your own integrations, the easiest solution would be to create a dedicated `/integrations` directory in the root of your project.
 
-To kick off working with this tutorial, please, add the following directory structure to the root of your project (highlighted in blue):
+To kick off working with this tutorial, add the following directory structure to the root of your project (highlighted in blue):
 
-![Untitled](../images/custom-integration-file-structure.png)
+![Visual Studio Code file structure containing a JSON/placeholder folder in the root of the project with two subdirectories called nuxt and src](../images/custom-integration-file-structure.png)
 
 ## Creating custom integration module
 
@@ -53,7 +53,7 @@ export default function jsonplaceholder(moduleOptions) {
 }
 ```
 
-You're done with the `/nuxt` directory. At this point, your integration is an empty shell and delivers no functionality, but you can register it in your project already!
+You're done with the `/nuxt` directory. At this point, your integration has no functionality, but you can already register it in your project!
 
 ## Registering custom integration
 
@@ -99,15 +99,15 @@ module.exports = {
 };
 ```
 
-In this example, the configuration will only contain `baseURL`. However, if your integration requires passing some sensitive credentials (like tokens or API keys), this is the right place to put them.
+In this example, the configuration only contains the `baseURL` property. However, if your integration requires sensitive credentials (like tokens or API keys), this is the right place to put them.
 
-You might be wondering about the `location` part of the above configuration, and you are right - it refrences a file that does not exist yet. Do not worry. You're going to create it in the next step.
+You might be wondering about the `location` part of the configuration since it references a file that doesn't exist yet. That location will be the `jsonplaceholder` integration's API client. let's set that up now.
 
 ## Creating an API client
 
-Your integration will need an API client to communicate with the 3rd party. For most services, you would use a client provided by their SDKs. This is what Vue Storefront does for the majority of our integrations (e.g. [Contentstack](https://www.contentstack.com/docs/developers/javascript-browser/api-reference/)).
+Your integration needs an API client to communicate with third party APIs. For most services, you would use a client provided by their SDKs. This is what Vue Storefront does for the majority of our integrations (e.g. [Contentstack](https://www.contentstack.com/docs/developers/javascript-browser/api-reference/)).
 
-For [JSON Placeholder Free Fake API](https://jsonplaceholder.typicode.com/), we're simply going to create a dedicated [axios](https://github.com/axios/axios) instance. Let’s start with adding the missing `index.server.js` file in `/integrations/jsonplaceholder/src`.
+For the JSON Placeholder Free Fake API, we're going to create a dedicated [axios](https://github.com/axios/axios) instance. Let’s start with adding an `index.server.js` file in `/integrations/jsonplaceholder/src`.
 
 ```jsx
 // integrations/jsonplaceholder/src/index.server.js
@@ -137,11 +137,12 @@ const { createApiClient } = apiClientFactory({
 module.exports = { createApiClient };
 ```
 
-The `setup` function is crucial here because this is where we create our `axios` client. It receives `baseURL` we had specified in `middleware.config.js` and will be used by API methods located in `/integrations/jsonplaceholder/src/api.js`. Let's create the file as the next step of this tutorial.
+The `setup` function is crucial because it's where we create our `axios` client. It receives the `baseURL` we specified in `middleware.config.js` and will be used by API methods in `/integrations/jsonplaceholder/src/api.js`. Let's create the file as the next step of this tutorial.
+
 
 ## Creating API methods
 
-Your integration with [JSON Placeholder Free Fake API](https://jsonplaceholder.typicode.com/) will consist of a single `searchTodos` API method responsible for fetching [todos](https://jsonplaceholder.typicode.com/todos). Create the `/integrations/jsonplaceholder/src/api.js` and add the method code there:
+This example integration will have a single `searchTodos` API method that fetches [todos](https://jsonplaceholder.typicode.com/todos). Create a `/integrations/jsonplaceholder/src/api.js` file and add the method code there:
 
 ```jsx
 // integrations/jsonplaceholder/src/api.js
@@ -165,12 +166,12 @@ module.exports.searchTodos = async (context, params) => {
 };
 ```
 
-As you can see, your `searchTodos` method receives 2 arguments:
+As you can see, the `searchTodos` method receives two arguments:
 
-1. an automatically injected `context` containing our API client created in the previous step
-2. `params` object which can contain `id`. If it does, the API method will fetch a particular todo entry. If it does not - it will fetch all todos from the database.
+1. an automatically injected `context` containing our API client created in the previous step,
+2. a `params` object which can contain `id`. If it does, the API method will fetch a particular todo entry. If it does not, it will fetch all todos from the database.
 
-The API method will use the previously created client to call the API and either return the received array of todos or Log the error if it occurs. You should now be able to retrieve it from the global application context and use it in your Vue components!
+The API method will use the previously created client to call the API and either return the received array of todos or log the error if it occurs. You should now be able to retrieve this method from the global application context and use it in your Vue components!
 
 ```vue
 <template>
@@ -210,23 +211,24 @@ export default {
 If you're not using `onSSR` and fetch your data on the client side, you can stick with the default [reactivity API](https://vuejs.org/api/reactivity-core.html) methods provided by `@nuxtjs/composition-api` package.
 :::
 
-That might be enough for you already. However, there is one more layer you can add: the composables.
-
 ## Creating composable methods
+
+If your integration needs to do more than make API calls, you can add additional functionality inside composables. 
+
 
 [Composables](https://docs.vuestorefront.io/v2/composition/composables.html) in Vue Storefront:
 
-1. prepare and send the request to the API middleware (i.e. the corresponding API methods)
-2. save (and modify if necessary) the response and manage the state associated with it
+1. prepare and send the request to the API middleware (i.e., the corresponding API methods),
+2. save (and modify if necessary) the response and manage the associated state.
 
-Your [JSON Placeholder Free Fake API](https://jsonplaceholder.typicode.com/) will consist of a single composable called `useTodos`. It's going to ship with:
+In this example, the `jsonplaceholder` integration will contain a single composable called `useTodos` that returns:
 
-- a `search` method calling our `searchTodos` API method under the hood
-- a `todos` computed property
-- a `loading` computed property
-- an `error` computed property
+- a `search` method that calls our `searchTodos` API method under the hood,
+- a `todos` computed property,
+- a `loading` computed property,
+- an `error` computed property.
 
-In `integrations/jsonplaceholder/src` create a `/composables` directory with a `/useTodos` directory nested in it. In `/useTodos`, create two files:
+In `integrations/jsonplaceholder/src` create a `/composables` directory with a `/useTodos` directory nested inside. In `/useTodos`, create two files:
 
 ```jsx
 // integrations/jsonplaceholder/src/composables/useTodos/index.js
@@ -283,14 +285,14 @@ const useTodosMethods = {
 export default useTodosMethods;
 ```
 
-Even though you could easily do away with a single index.js file, it’s a good practice to have two separate ones here:
+Even though you could use a single `index.js` file, it’s a good practice to have two separate ones:
 
-- `index.js` - manages the composable's state
+- `index.js` - manages the composable's state,
 - `useTodosMethods.js` - stores the logic of the composable's methods (i.e. `search`).
 
-Separating these will come in handy especially when dealing with composables featuring more than a single method and with more complex logic.
+Separating these will come in handy when creating composables with multiple methods and more complex logic.
 
-Now you can import the newly-created composable in your Vue components:
+Now, you can import the newly-created `useTodos` composable in your Vue components:
 
 ```vue
 // pages/Home.vue
