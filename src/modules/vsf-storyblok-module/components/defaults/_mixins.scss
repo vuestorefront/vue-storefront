@@ -1,11 +1,37 @@
 @mixin display-property-handling {
+    &.-editor-mobile-only,
+    &.-editor-mobile-hidden {
+        position: relative;
+
+        &::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 0.5rem;
+            z-index: 12;
+
+            background: rgba(205, 205, 205, .7);
+            font-weight: bold;
+        }
+    }
+
+    &.-editor-mobile-only::before {
+        content: "Mobile only";
+    }
+
+    &.-editor-mobile-hidden::before {
+        content: "Desktop only";
+    }
+
     @media (min-width: $tablet-min) {
         &.-mobile-only {
             display: none !important;
         }
 
         &.-editor-mobile-only {
-            position: relative;
+            &::before {
+                content: "";
+            }
 
             &::after {
                 position: absolute;
@@ -31,7 +57,9 @@
         }
 
         &.-editor-mobile-hidden {
-            position: relative;
+            &::before {
+                content: "";
+            }
 
             &::after {
                 position: absolute;
