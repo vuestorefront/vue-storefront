@@ -56,13 +56,17 @@ jobs:
           environment: production
           initial_status: in_progress
       - name: Deploy on docs.europe-west1.gcp.storefrontcloud.io/v2
-        run: |
-          if curl -s -H 'X-User-Id: ${{ secrets.DOCS_CLOUD_USERNAME }}'  -H 'X-Api-Key: ${{ secrets.DOCS_CLOUD_PASSWORD }}' -H 'Content-Type: application/json' -X POST -d '{"code":"docs","region":"europe-west1.gcp","additionalApps":{"apps":[{"name":"docs-v2","tag":"${{ steps.get_version.outputs.VERSION }}","image":"registry.storefrontcloud.io/docs-storefrontcloud-io/v2","path":"/v2","port":"80"}]}}' https://farmer.storefrontcloud.io/instances | grep -q '{"code":200,"result":"Instance updated!"}'; then
-            echo "Instance updated"
-          else
-            echo "Something went wrong during the update process..."
-            exit 1
-          fi
+        id: publish
+        uses: vuestorefront/publish-docs-action@main
+        with:
+          user-id: ${{ secrets.DOCS_CLOUD_USERNAME }}
+          api-key: ${{ secrets.DOCS_CLOUD_PASSWORD }}
+          name: "docs-v2"
+          tag: "${{ steps.get_version.outputs.VERSION }}"
+          image: "registry.storefrontcloud.io/docs-storefrontcloud-io/v2"
+          path: "/v2"
+          port: "80"
+          has-base-path: true
       - name: Update deployment status (success)
         if: success()
         uses: chrnorm/deployment-status@releases/v1
