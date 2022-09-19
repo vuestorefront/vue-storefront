@@ -131,12 +131,14 @@ yarn add axios
 ```
 
 There are two functions you can use to create the client:
-- The `onCreate` is called on every request. You can use it to customize the request, response, or settings.
+- The `onCreate` is an asynchronous function called on every request. You can use it to customize the request, response, or settings.
 - The `init` is called once on the middleware setup. You can use it to set up the GraphQL or axios client instance.
 
 Now in the code editor, open `packages/api-client/src/index.server.ts`. Inside of it, there is the `onCreate` method.
 
 `onCreate` accepts the `settings` parameter, which is a configuration provided in `packages/theme/middleware.config.js`. By default, it's an empty object but can be any configuration you need.
+
+`onCreate` is an asynchronous function and must return a Promise.
 
 `onCreate` must return an object with at least `config` and `client` properties but it can have any number of custom properties if needed. This object is later available in API endpoints.
 
@@ -145,15 +147,14 @@ Let's update the `onCreate` method to return `config` and `client` and execute t
 
 ```typescript
 // packages/api-client/index.server.ts
-function onCreate(settings) {
+async function onCreate(settings) {
   if (!settings?.client) {
-    return init(settings);
+    return await init(settings);
   }
 
-  return {
-    config: settings,
-    client: settings.client
-  };
+  const config = buildConfig(settings);
+
+  return Promise.resolve({ config, client: settings.client });
 }
 ```
 
@@ -167,7 +168,7 @@ const init = (settings) => {
   const client = axios.create({
     baseURL: settings.api.url
   });
-
+  
   return {
     config: settings,
     client

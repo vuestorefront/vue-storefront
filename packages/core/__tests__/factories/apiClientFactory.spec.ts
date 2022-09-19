@@ -9,18 +9,18 @@ jest.mock('../../src/utils', () => ({
 }));
 
 describe('[CORE - factories] apiClientFactory', () => {
-  it('Should return passed config with overrides property', () => {
+  it('Should return passed config with overrides property', async () => {
     const params = {
       onCreate: jest.fn((config) => ({ config })),
       defaultSettings: { option: 'option' }
     };
 
     const { createApiClient } = apiClientFactory<any, any>(params as any) as any;
-
-    expect(createApiClient({}).settings).toEqual({});
+    const client = await createApiClient({});
+    expect(client.settings).toEqual({});
   });
 
-  it('Should merge with default settings when setup is called', () => {
+  it('Should merge with default settings when setup is called', async () => {
     const params = {
       onCreate: jest.fn((config) => ({ config })),
       defaultSettings: { option: 'option' }
@@ -28,7 +28,7 @@ describe('[CORE - factories] apiClientFactory', () => {
 
     const { createApiClient} = apiClientFactory<any, any>(params as any) as any;
 
-    const { settings } = createApiClient({ newOption: 'newOption'});
+    const { settings } = await createApiClient({ newOption: 'newOption'});
 
     expect(settings).toEqual({
       newOption: 'newOption'
@@ -48,7 +48,7 @@ describe('[CORE - factories] apiClientFactory', () => {
     expect(params.onCreate).toHaveBeenCalled();
   });
 
-  it('Should run given extensions', () => {
+  it('Should run given extensions', async () => {
     const beforeCreate = jest.fn(a => a);
     const afterCreate = jest.fn(a => a);
     const extension = {
@@ -65,7 +65,7 @@ describe('[CORE - factories] apiClientFactory', () => {
     const { createApiClient } = apiClientFactory<any, any>(params as any);
     const extensions = (createApiClient as any)._predefinedExtensions;
 
-    createApiClient.bind({ middleware: { req: null, res: null, extensions } })({});
+    await createApiClient.bind({ middleware: { req: null, res: null, extensions } })({});
 
     expect(beforeCreate).toHaveBeenCalled();
     expect(afterCreate).toHaveBeenCalled();
