@@ -3,6 +3,7 @@ import StoryblokClient from 'storyblok-js-client'
 import StoryblokVue from 'storyblok-vue'
 import { router } from '@vue-storefront/core/app'
 import { setupMultistoreRoutes } from '@vue-storefront/core/lib/multistore'
+import EditorBlockIcons from '../components/global/EditorBlockIcons.vue';
 import Render from '../components/global/Render.vue'
 import Img from '../components/global/Img.vue'
 import Cms from '../components/global/Cms.vue'
@@ -41,6 +42,7 @@ function beforeRegistration (appConfig, store) {
   Vue.component('sb-rich-text-generic-component', RichTextGenericComponent)
   Vue.component('sb-rich-text-text-component', RichTextTextComponent);
   Vue.component('cms', Cms)
+  Vue.component('editor-block-icons', EditorBlockIcons)
 }
 
 export { beforeRegistration }

@@ -4,12 +4,15 @@
     :class="cssClasses"
     :style="styles"
   >
+    <editor-block-icons :item="itemData" />
+
     <div class="_items_wrapper">
       <div
         v-for="_item in childItems"
         :key="_item.uuid"
         class="_item"
       >
+        <editor-block-icons :item="_item" />
         <sb-render class="box" :item="_item" />
       </div>
     </div>
