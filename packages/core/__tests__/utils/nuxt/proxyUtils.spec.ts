@@ -29,7 +29,7 @@ describe('[CORE - utils] _proxyUtils', () => {
   });
 
   it('it combines config with the current one', () => {
-    jest.spyOn(utils, 'getCookies').mockReturnValue('');
+    jest.spyOn(utils, 'getCookies').mockReturnValueOnce('');
 
     expect(utils.getIntegrationConfig(
       {
@@ -48,7 +48,7 @@ describe('[CORE - utils] _proxyUtils', () => {
   });
 
   it('it combines config with the current one and adds a cookie', () => {
-    jest.spyOn(utils, 'getCookies').mockReturnValue('xxx');
+    jest.spyOn(utils, 'getCookies').mockReturnValueOnce('xxx');
 
     expect(utils.getIntegrationConfig(
       {
@@ -62,6 +62,29 @@ describe('[CORE - utils] _proxyUtils', () => {
         baseURL: 'http://localhost.com/api',
         headers: {
           cookie: 'xxx'
+        }
+      }
+    });
+  });
+
+  it('it combines config with the current one and adds a Host header', () => {
+    expect(utils.getIntegrationConfig(
+      {
+        $config: {
+          middlewareUrl: 'http://localhost.com'
+        },
+        req: {
+          headers: {
+            host: 'mywebsite.local'
+          }
+        }
+      } as any,
+      {}
+    )).toEqual({
+      axios: {
+        baseURL: 'http://localhost.com/api',
+        headers: {
+          Host: 'mywebsite.local'
         }
       }
     });

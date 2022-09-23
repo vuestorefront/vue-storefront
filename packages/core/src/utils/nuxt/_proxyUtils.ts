@@ -37,7 +37,8 @@ export const getIntegrationConfig = (context: NuxtContext, configuration: any) =
     axios: {
       baseURL: new URL(/\/api\//gi.test(baseURL) ? '' : 'api', baseURL).toString(),
       headers: {
-        ...(cookie ? { cookie } : {})
+        ...(cookie ? { cookie } : {}),
+        ...(context.req ? { Host: context.req.headers.host } : {})
       }
     }
   }, configuration);
