@@ -86,23 +86,27 @@ export default Vue.extend({
     left: 0;
 
     ._icons {
-      padding-left: 5px;
       position: absolute;
-      left: 0;
-      top: 0;
+      right: 5px;
+      top: 5px;
       display: flex;
       z-index: 3;
 
       ._icon-item {
-        padding: 0.5rem;
-        width: 1rem;
-        height: 1rem;
+        padding: 0.3rem;
+        width: 1.3rem;
+        height: 1.3rem;
         background-color: #00b3b0;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 5px;
         margin-right: 1rem;
+
+        ._icon-image {
+          display: block;
+          width: 100%;
+        }
 
         &:last-child {
           margin-right: 0;
