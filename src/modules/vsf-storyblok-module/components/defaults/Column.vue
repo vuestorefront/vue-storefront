@@ -11,7 +11,6 @@
       :key="_item.uuid"
       class="_item"
     >
-      <editor-block-icons :item="_item" />
       <sb-render class="box" :item="_item" />
     </div>
   </div>
