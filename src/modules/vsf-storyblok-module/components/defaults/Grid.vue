@@ -4,6 +4,8 @@
     :class="cssClasses"
     :style="styles"
   >
+    <editor-block-icons :item="itemData" />
+
     <div
       v-for="_item in itemData.items"
       :key="_item.uuid"

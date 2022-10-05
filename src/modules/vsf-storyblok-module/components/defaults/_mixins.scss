@@ -1,12 +1,14 @@
 @mixin display-property-handling {
+    &.-editor-preview-mode {
+        position: relative;
+    }
+
     @media (min-width: $tablet-min) {
         &.-mobile-only {
             display: none !important;
         }
 
         &.-editor-mobile-only {
-            position: relative;
-
             &::after {
                 position: absolute;
                 top: 0;
@@ -31,8 +33,6 @@
         }
 
         &.-editor-mobile-hidden {
-            position: relative;
-
             &::after {
                 position: absolute;
                 top: 0;

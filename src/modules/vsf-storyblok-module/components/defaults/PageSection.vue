@@ -4,6 +4,8 @@
     :class="cssClasses"
     :style="styles"
   >
+    <editor-block-icons :item="itemData" />
+
     <div class="_items_wrapper">
       <div
         v-for="_item in childItems"
