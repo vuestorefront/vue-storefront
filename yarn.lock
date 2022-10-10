@@ -3593,6 +3593,16 @@
     "@typescript-eslint/types" "4.33.0"
     eslint-visitor-keys "^2.0.0"
 
+"@vue-storefront/core@~2.7.1":
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.7.1.tgz#ff9ae1577e42783d97bd365c6694ca9b44c76883"
+  integrity sha512-YXr3oPtfd0KXp32XHUNcPJIhOWiIOSOHLLNJceSSR3ouan9aM2JtJsj1VHcHyTD/6MopTgM65EXncmh5o6/VRw==
+  dependencies:
+    axios "0.21.1"
+    express "^4.17.1"
+    lodash-es "^4.17.15"
+    vue "^2.6.11"
+
 "@vue-storefront/theme-utilities@^0.1.7":
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/@vue-storefront/theme-utilities/-/theme-utilities-0.1.8.tgz#a5cbd51922b2e9dcd4e74d8b3f6d0e89a8cb8f2d"
@@ -4696,6 +4706,13 @@ aws4@^1.8.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
+
+axios@0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
+  dependencies:
+    follow-redirects "^1.10.0"
 
 axios@0.21.2:
   version "0.21.2"
@@ -8293,6 +8310,11 @@ follow-redirects@^1.0.0, follow-redirects@^1.14.0:
   version "1.15.1"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.1.tgz#0ca6a452306c9b276e4d3127483e29575e207ad5"
   integrity sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==
+
+follow-redirects@^1.10.0:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
+  integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
 
 for-in@^1.0.2:
   version "1.0.2"
