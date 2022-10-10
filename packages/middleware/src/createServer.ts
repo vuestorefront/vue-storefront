@@ -53,7 +53,7 @@ async function createServer(config: MiddlewareConfig): Promise<Express> {
     const { apiClient, configuration, extensions, customQueries, initConfig } = integrations[integrationName];
     const middlewareContext: MiddlewareContext = { req, res, extensions, customQueries };
     const createApiClient = apiClient.createApiClient.bind({ middleware: middlewareContext });
-    const apiClientInstance = createApiClient({ ...configuration, ...initConfig });
+    const apiClientInstance = await createApiClient({ ...configuration, ...initConfig });
     const apiFunction = apiClientInstance.api[functionName];
     try {
       const platformResponse = await apiFunction(...req.body);
