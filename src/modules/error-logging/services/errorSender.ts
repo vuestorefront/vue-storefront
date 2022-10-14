@@ -2,7 +2,7 @@ import config from 'config';
 
 import ErrorMessage from '../type/ErrorMessage';
 
-const FACILITY_NAME = 'client-js-error';
+const FACILITY_NAME = 'store-ui-app-js-error';
 const GELF_ACCEPTED_STATUS = 202;
 const GELF_SPEC_VERSION = '1.1';
 
