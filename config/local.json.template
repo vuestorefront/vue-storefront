@@ -975,5 +975,8 @@
     "nginx",
     "varnish",
     "cloudflare"
-  ]
+  ],
+  "errorLogging": {
+    "serviceUrl": "${ERROR_LOGGING_SERVICE_URL}"
+  }
 }
