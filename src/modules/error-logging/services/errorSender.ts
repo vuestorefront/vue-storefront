@@ -1,6 +1,6 @@
 import config from 'config';
 
-import ErrorMessage from './type/ErrorMessage';
+import ErrorMessage from '../type/ErrorMessage';
 
 const FACILITY_NAME = 'client-js-error';
 const GELF_ACCEPTED_STATUS = 202;

@@ -1,4 +1,4 @@
-import errorLogger from './errorLogger';
+import logError from '../services/errorLogger';
 import ErrorMessage from '../type/ErrorMessage';
 
 export default function windowOnErrorHandler (
@@ -32,5 +32,5 @@ export default function windowOnErrorHandler (
     file
   };
 
-  errorLogger(errorMessage);
+  logError(errorMessage);
 }

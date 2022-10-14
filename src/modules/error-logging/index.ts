@@ -3,7 +3,7 @@ import { AsyncDataLoader } from '@vue-storefront/core/lib/async-data-loader';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
-import { afterRegistration } from './hooks/afterRegistration';
+import { afterRegistration } from './listeners/afterRegistration';
 import { module } from './store';
 import LOCAL_STORAGE_KEY from './type/LocalStorageKey';
 import { SET_TRACE_ID, SN_ERROR_LOGGING } from './type/StoreMutations';

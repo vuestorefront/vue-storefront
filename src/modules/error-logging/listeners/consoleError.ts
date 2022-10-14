@@ -1,4 +1,4 @@
-import errorLogger from './errorLogger';
+import logError from '../services/errorLogger';
 import ErrorMessage from '../type/ErrorMessage';
 
 const errorHandler = console.error;
@@ -19,7 +19,7 @@ export default function consoleError (...args: any): void {
       currentUrl
     };
 
-    errorLogger(errorMessage);
+    logError(errorMessage);
   } else if (typeof error === 'string') {
     const errorMessage: ErrorMessage = {
       shortMessage: error,
@@ -27,7 +27,7 @@ export default function consoleError (...args: any): void {
       currentUrl
     };
 
-    errorLogger(errorMessage);
+    logError(errorMessage);
   }
 
   return errorHandler.apply(console, args);

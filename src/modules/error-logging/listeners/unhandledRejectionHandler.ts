@@ -1,7 +1,7 @@
-import errorLogger from './errorLogger';
+import logError from '../services/errorLogger';
 import ErrorMessage from '../type/ErrorMessage';
 
-export default function onUnhandledRejectionHandler (event: PromiseRejectionEvent): void {
+export default function unhandledRejectionHandler (event: PromiseRejectionEvent): void {
   if (event.reason || JSON.stringify(event.reason) === '{}') {
     return;
   }
@@ -12,5 +12,5 @@ export default function onUnhandledRejectionHandler (event: PromiseRejectionEven
     currentUrl: window.location.href
   };
 
-  errorLogger(errorMessage);
+  logError(errorMessage);
 }

@@ -1,6 +1,6 @@
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
-import getMessageHash from './getMessageHash';
+import getMessageHash from '../helpers/getMessageHash';
 import ErrorMessage from '../type/ErrorMessage';
 import LOCAL_STORAGE_KEY from '../type/LocalStorageKey';
 import SentMessage from '../type/SentMessage';

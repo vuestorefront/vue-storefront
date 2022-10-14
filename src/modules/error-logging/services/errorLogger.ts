@@ -1,22 +1,24 @@
 import rootStore from '@vue-storefront/core/store'
 
-import { checkMessageAlreadySent, keepMessage, removeMessage } from './sentMessagesKeeper'
-import { sendErrorMessage } from '../error-logging.service';
-import ipResolver from '../ip-resolver.service';
 import ErrorMessage from '../type/ErrorMessage';
 import { SN_ERROR_LOGGING } from '../type/StoreMutations';
+import resolveIp from '../helpers/resolveIp';
+import { checkMessageAlreadySent, keepMessage, removeMessage } from './sentMessagesKeeper'
+import { sendErrorMessage } from './errorSender';
 
-let clientIp: string | undefined;
+let clientIpCache: string | undefined;
 
-async function resolveIp (): Promise<void> {
-  if (clientIp) {
-    return;
+async function resolveIpWithCache (): Promise<string> {
+  if (clientIpCache) {
+    return clientIpCache;
   }
 
-  clientIp = await ipResolver();
+  clientIpCache = await resolveIp();
+
+  return clientIpCache;
 }
 
-export default async function errorLogger (errorMessage: ErrorMessage): Promise<void> {
+export default async function logError (errorMessage: ErrorMessage): Promise<void> {
   const messageAlreadySent = await checkMessageAlreadySent(errorMessage);
   const userAgent = navigator.userAgent;
 
@@ -24,7 +26,7 @@ export default async function errorLogger (errorMessage: ErrorMessage): Promise<
     return;
   }
 
-  await resolveIp();
+  const clientIp = await resolveIpWithCache();
 
   if (!clientIp) {
     return;
