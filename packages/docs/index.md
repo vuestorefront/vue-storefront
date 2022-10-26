@@ -27,7 +27,7 @@ Learn how to build your Vue Storefront application
 
 ## Frontend Platform for Headless Commerce
 
-Start building with our powerful, yet easily-extensible theme that uses our API Client to connect to your replace_me store.
+Build your storefront and connect to dozens of third-party services with Vue Storefront's integrations.
 
 [Get Started](/getting-started/introduction.html)
 [See on Github](https://github.com/vuestorefront/ecommerce-integration-boilerplate/)
