@@ -20,24 +20,23 @@ npx @vue-storefront/cli generate template
 * [`@vue-storefront/cli generate store`](#vue-storefrontcli-generate-store)
 * [`@vue-storefront/cli generate template`](#vue-storefrontcli-generate-template)
 * [`@vue-storefront/cli help [COMMAND]`](#vue-storefrontcli-help-command)
+* [`@vue-storefront/cli init`](#vue-storefrontcli-init)
 * [`@vue-storefront/cli plugins`](#vue-storefrontcli-plugins)
-* [`@vue-storefront/cli plugins:inspect PLUGIN...`](#vue-storefrontcli-pluginsinspect-plugin)
 * [`@vue-storefront/cli plugins:install PLUGIN...`](#vue-storefrontcli-pluginsinstall-plugin)
+* [`@vue-storefront/cli plugins:inspect PLUGIN...`](#vue-storefrontcli-pluginsinspect-plugin)
+* [`@vue-storefront/cli plugins:install PLUGIN...`](#vue-storefrontcli-pluginsinstall-plugin-1)
 * [`@vue-storefront/cli plugins:link PLUGIN`](#vue-storefrontcli-pluginslink-plugin)
 * [`@vue-storefront/cli plugins:uninstall PLUGIN...`](#vue-storefrontcli-pluginsuninstall-plugin)
+* [`@vue-storefront/cli plugins:uninstall PLUGIN...`](#vue-storefrontcli-pluginsuninstall-plugin-1)
+* [`@vue-storefront/cli plugins:uninstall PLUGIN...`](#vue-storefrontcli-pluginsuninstall-plugin-2)
 * [`@vue-storefront/cli plugins update`](#vue-storefrontcli-plugins-update)
 * [`@vue-storefront/cli update [CHANNEL]`](#vue-storefrontcli-update-channel)
 
 ## `@vue-storefront/cli generate store`
 
-Generates a Vue Storefront store.
-
 ```
 USAGE
   $ @vue-storefront/cli generate store
-
-DESCRIPTION
-  Generates a Vue Storefront store.
 
 EXAMPLES
   $ @vue-storefront/cli generate store
@@ -45,17 +44,12 @@ EXAMPLES
 
 ## `@vue-storefront/cli generate template`
 
-Generates a template of your integration's for VSF
-
 ```
 USAGE
   $ @vue-storefront/cli generate template [--output <value>]
 
 FLAGS
-  --output=<value>  [default: ./] A path where the template will be generated
-
-DESCRIPTION
-  Generates a template of your integration's for VSF
+  --output=<value>  [default: .]
 
 EXAMPLES
   $ @vue-storefront/cli generate template
@@ -79,7 +73,19 @@ DESCRIPTION
   Display help for @vue-storefront/cli.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.12/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.16/src/commands/help.ts)_
+
+## `@vue-storefront/cli init`
+
+```
+USAGE
+  $ @vue-storefront/cli init
+
+EXAMPLES
+  $ @vue-storefront/cli init
+```
+
+_See code: [dist/commands/init.ts](https://github.com/vuestorefront/vue-storefront/blob/v3.0.0/dist/commands/init.ts)_
 
 ## `@vue-storefront/cli plugins`
 
@@ -99,7 +105,45 @@ EXAMPLES
   $ @vue-storefront/cli plugins
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.1.0/src/commands/plugins/index.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.1.5/src/commands/plugins/index.ts)_
+
+## `@vue-storefront/cli plugins:install PLUGIN...`
+
+Installs a plugin into the CLI.
+
+```
+USAGE
+  $ @vue-storefront/cli plugins:install PLUGIN...
+
+ARGUMENTS
+  PLUGIN  Plugin to install.
+
+FLAGS
+  -f, --force    Run yarn install with force flag.
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Installs a plugin into the CLI.
+  Can be installed from npm or a git url.
+
+  Installation of a user-installed plugin will override a core plugin.
+
+  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command
+  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in
+  the CLI without the need to patch and update the whole CLI.
+
+
+ALIASES
+  $ @vue-storefront/cli plugins add
+
+EXAMPLES
+  $ @vue-storefront/cli plugins:install myplugin 
+
+  $ @vue-storefront/cli plugins:install https://github.com/someuser/someplugin
+
+  $ @vue-storefront/cli plugins:install someuser/someplugin
+```
 
 ## `@vue-storefront/cli plugins:inspect PLUGIN...`
 
@@ -141,7 +185,6 @@ FLAGS
 
 DESCRIPTION
   Installs a plugin into the CLI.
-
   Can be installed from npm or a git url.
 
   Installation of a user-installed plugin will override a core plugin.
@@ -150,11 +193,12 @@ DESCRIPTION
   will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in
   the CLI without the need to patch and update the whole CLI.
 
+
 ALIASES
   $ @vue-storefront/cli plugins add
 
 EXAMPLES
-  $ @vue-storefront/cli plugins:install myplugin
+  $ @vue-storefront/cli plugins:install myplugin 
 
   $ @vue-storefront/cli plugins:install https://github.com/someuser/someplugin
 
@@ -178,14 +222,60 @@ FLAGS
 
 DESCRIPTION
   Links a plugin into the CLI for development.
-
   Installation of a linked plugin will override a user-installed or core plugin.
 
   e.g. If you have a user-installed or core plugin that has a 'hello' command, installing a linked plugin with a 'hello'
   command will override the user-installed or core plugin implementation. This is useful for development work.
 
+
 EXAMPLES
   $ @vue-storefront/cli plugins:link myplugin
+```
+
+## `@vue-storefront/cli plugins:uninstall PLUGIN...`
+
+Removes a plugin from the CLI.
+
+```
+USAGE
+  $ @vue-storefront/cli plugins:uninstall PLUGIN...
+
+ARGUMENTS
+  PLUGIN  plugin to uninstall
+
+FLAGS
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Removes a plugin from the CLI.
+
+ALIASES
+  $ @vue-storefront/cli plugins unlink
+  $ @vue-storefront/cli plugins remove
+```
+
+## `@vue-storefront/cli plugins:uninstall PLUGIN...`
+
+Removes a plugin from the CLI.
+
+```
+USAGE
+  $ @vue-storefront/cli plugins:uninstall PLUGIN...
+
+ARGUMENTS
+  PLUGIN  plugin to uninstall
+
+FLAGS
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Removes a plugin from the CLI.
+
+ALIASES
+  $ @vue-storefront/cli plugins unlink
+  $ @vue-storefront/cli plugins remove
 ```
 
 ## `@vue-storefront/cli plugins:uninstall PLUGIN...`
@@ -262,5 +352,5 @@ EXAMPLES
     $ @vue-storefront/cli update --available
 ```
 
-_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.0.0/src/commands/update.ts)_
+_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.0.4/src/commands/update.ts)_
 <!-- commandsstop -->
