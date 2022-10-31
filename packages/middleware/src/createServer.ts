@@ -8,6 +8,7 @@ import { registerIntegrations } from './integrations';
 import getAgnosticStatusCode from './helpers/getAgnosticStatusCode';
 
 const app = express();
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
@@ -63,7 +64,6 @@ async function createServer(config: MiddlewareConfig): Promise<Express> {
     }
 
     const { apiClient, configuration, extensions, customQueries, initConfig } = integrations[integrationName];
-
     const middlewareContext: MiddlewareContext = { req, res, extensions, customQueries };
     const createApiClient = apiClient.createApiClient.bind({ middleware: middlewareContext });
     const apiClientInstance = createApiClient({ ...configuration, ...initConfig });
