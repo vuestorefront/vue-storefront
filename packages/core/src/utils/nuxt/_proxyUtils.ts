@@ -11,15 +11,23 @@ interface CreateProxiedApiParams {
 
 export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiParams) => new Proxy(givenApi, {
   get: (target, prop, receiver) => {
-
     const functionName = String(prop);
     if (Reflect.has(target, functionName)) {
       return Reflect.get(target, prop, receiver);
     }
 
-    return async (...args) => client
-      .post(`/${tag}/${functionName}`, args)
-      .then(r => r.data);
+    return async (...args) => {
+      const url = `/${tag}/${functionName}`;
+
+      if (args[args.length - 1]?.method === 'GET') {
+        args.pop();
+        return client
+          .get(url, { params: { args } })
+          .then((r) => r.data);
+      }
+
+      return client.post(url, args).then((r) => r.data);
+    };
   }
 });
 
@@ -43,4 +51,3 @@ export const getIntegrationConfig = (context: NuxtContext, configuration: any) =
     }
   }, configuration);
 };
-

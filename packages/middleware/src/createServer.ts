@@ -26,6 +26,16 @@ interface Helmet extends HelmetOptions {
   helmet?: boolean | HelmetOptions
 }
 
+function parseArgs(args) {
+  return args.map(arg => {
+    try {
+      return JSON.parse(arg);
+    } catch (err) {
+      return null;
+    }
+  });
+}
+
 async function createServer(config: MiddlewareConfig): Promise<Express> {
   consola.info('Middleware starting....');
 
@@ -48,7 +58,7 @@ async function createServer(config: MiddlewareConfig): Promise<Express> {
   const integrations = await registerIntegrations(app, config.integrations);
   consola.success('Integrations loaded!');
 
-  app.post('/:integrationName/:functionName', async (req: Request, res: Response) => {
+  app.all('/:integrationName/:functionName', async (req: Request, res: Response) => {
     const { integrationName, functionName } = req.params as any as RequestParams;
     const { apiClient, configuration, extensions, customQueries, initConfig } = integrations[integrationName];
     const middlewareContext: MiddlewareContext = { req, res, extensions, customQueries };
@@ -56,9 +66,16 @@ async function createServer(config: MiddlewareConfig): Promise<Express> {
     const apiClientInstance = createApiClient({ ...configuration, ...initConfig });
     const apiFunction = apiClientInstance.api[functionName];
     try {
-      const platformResponse = await apiFunction(...req.body);
-      res.send(platformResponse);
+      if (req.method === 'GET') {
+        const args = parseArgs(req.query.args);
+        const platformResponse = await apiFunction(...args);
+        res.send(platformResponse);
+      } else {
+        const platformResponse = await apiFunction(...req.body);
+        res.send(platformResponse);
+      }
     } catch (error) {
+      consola.error(error);
       res.status(getAgnosticStatusCode(error));
       res.send(error);
     }
