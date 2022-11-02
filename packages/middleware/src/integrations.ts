@@ -29,10 +29,7 @@ type IntegrationsLoaded = Record<string, IntegrationLoaded>;
  */
 function resolveDependency<T>(name: string): T {
   try {
-    console.log('name', name);
-    console.log('process.cwd()', process.cwd());
     const path = require.resolve(name, { paths: [process.cwd()] });
-    console.log('path', path);
 
     // eslint-disable-next-line global-require
     return require(path);
