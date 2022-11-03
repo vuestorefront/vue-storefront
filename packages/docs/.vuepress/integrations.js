@@ -47,9 +47,9 @@ const INTEGRATIONS = {
     },
     {
       name: 'SAP Commerce Cloud',
-      link: '',
+      link: 'https://docs.vuestorefront.io/sapcc',
       image: '/v2/integrations-logos/sap.svg',
-      status: STATUS.WIP,
+      status: STATUS.STABLE,
       license: LICENSE.ENTERPRISE,
       maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
     },
@@ -264,7 +264,8 @@ const INTEGRATIONS = {
     {
       name: 'Stripe',
       link: [
-        { name: 'ElasticPath Commerce Cloud', link: 'https://docs.vuestorefront.io/stripe/epcc' }
+        { name: 'ElasticPath Commerce Cloud', link: 'https://docs.vuestorefront.io/stripe/epcc' },
+        { name: 'commercetools', link: 'https://docs.vuestorefront.io/stripe/commercetools' }
       ],
       image: '/v2/integrations-logos/stripe.svg',
       status: STATUS.STABLE,
