@@ -136,9 +136,9 @@ const INTEGRATIONS = {
     },
     {
       name: 'Elastic Path',
-      link: '',
+      link: 'https://docs.vuestorefront.io/elasticpath/',
       image: '/v2/integrations-logos/elasticpath.svg',
-      status: STATUS.WIP,
+      status: STATUS.STABLE,
       license: LICENSE.ENTERPRISE,
       maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
     },
