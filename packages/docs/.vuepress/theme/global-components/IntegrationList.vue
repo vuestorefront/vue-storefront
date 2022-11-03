@@ -99,17 +99,7 @@ export default {
     availableIntegrations() {
       const allIntegrations = this.$site.themeConfig.INTEGRATIONS[this.type];
 
-      // if (this.selected?.value) {
-      //   allIntegrations.filter(({ link }) => {
-      //     // If link is a string, the integration can be used for all e-commerce platforms
-      //     if (typeof link === 'string') {
-      //       return true
-      //     }
-
-      //     // If link is an array, it only works with specified e-commerce platforms
-      //     return link.map(({ name }) => name).includes(this.selected.value)
-      //   })
-      // }
+   
 
       if (this.type !== 'other') {
         return allIntegrations;

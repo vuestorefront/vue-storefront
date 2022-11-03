@@ -34,30 +34,10 @@
         <div>
           <span class="font-medium text-black dark:text-white">{{ name }}</span>
         </div>
-        <!-- <div class="tile-data"></div>
-        <div class="py-2 mt-auto">
-          <a
-            v-if="typeof link === 'string'"
-            :href="link"
-            class="inline-flex items-center -mx-2 p-2 text-sm rounded text-green hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5"
-          >
-          </a>
-          <template v-else-if="link">
-            <a
-              v-for="{ name, link: docs } in Object.values(link)"
-              :key="name"
-              :href="docs"
-              class="inline-flex items-center p-2 text-sm rounded text-green hover:bg-black hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-5"
-            >
-              <span>DOCS</span>
-              <span v-if="Object.values(link).length > 1" class="ml-1">({{ name }})</span>
-            </a></template
-          >
-        </div> -->
       </div>
     </div>
-    <div v-if="(maintainedBy[0] && maintainedBy[0]?.name !== 'Vue Storefront') || (link && typeof link !== 'string')" class="mb-4">
-      <p v-if="maintainedBy[0] && maintainedBy[0]?.name !== 'Vue Storefront'" class="text-sm">Maintained by {{ maintainedBy[0]?.name }}</p>
+    <div v-if="isCommunityMaintained || (link && typeof link !== 'string')" class="mb-4">
+      <p v-if="isCommunityMaintained" class="text-sm">Maintained by {{ maintainedBy[0]?.name }}</p>
       <p class="mt-4 text-sm" v-if="link && typeof link !== 'string'">Compatible with {{ link.map((val) => val?.name).join(' and ') }}</p>
     </div>
     <div class="tile-info mb-4 mt-auto">
@@ -124,6 +104,9 @@ export default {
   },
 
   computed: {
+    isCommunityMaintained() {
+      return this.maintainedBy[0] && this.maintainedBy[0]?.name !== 'Vue Storefront'
+    },
     statusClass() {
       const [key] = Object.entries(this.$site.themeConfig.STATUS).find(([_, value]) => value === this.status);
 
