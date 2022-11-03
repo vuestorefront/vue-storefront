@@ -1,4 +1,4 @@
-import getAgnosticStatusCode, { ApolloError, AxiosError, UnknownError } from '../../src/helpers/getAgnosticStatusCode';
+import getAgnosticStatusCode, { ApolloError, AxiosError, UnknownError } from '../../../src/helpers/getAgnosticStatusCode';
 import bigObject from '../test-data/getAgnosticStatusCode';
 
 const expectedStatusCode = 400;
