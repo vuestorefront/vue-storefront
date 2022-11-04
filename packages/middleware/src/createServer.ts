@@ -70,6 +70,7 @@ async function createServer(config: MiddlewareConfig): Promise<Express> {
     const apiFunction = apiClientInstance.api[functionName];
 
     try {
+      if (!(Symbol.iterator in Object(req.body))) req.body = [req.body];
       const platformResponse = await apiFunction(...req.body);
       res.send(platformResponse);
     } catch (error) {
