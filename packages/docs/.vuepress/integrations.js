@@ -10,13 +10,14 @@ const LICENSE = {
 };
 
 const CATEGORY = {
-  ANALYTICS: 'Analytics',
-  AUTH: 'Authentication',
-  CACHE: 'Cache',
   CMS: 'CMS',
-  PAYMENT: 'Payment',
   REVIEWS: 'Reviews',
+  CACHE: 'Cache',
+  PAYMENT: 'Payment',
+  AUTH: 'Authentication',
   SEARCH: 'Search',
+
+  ANALYTICS: 'Analytics',
 };
 
 const INTEGRATIONS = {
@@ -135,9 +136,9 @@ const INTEGRATIONS = {
     },
     {
       name: 'Elastic Path',
-      link: '',
+      link: 'https://docs.vuestorefront.io/elasticpath/',
       image: '/v2/integrations-logos/elasticpath.svg',
-      status: STATUS.WIP,
+      status: STATUS.STABLE,
       license: LICENSE.ENTERPRISE,
       maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
     },
@@ -232,11 +233,17 @@ const INTEGRATIONS = {
       categories: [CATEGORY.PAYMENT],
     },
     {
-      name: 'Adyen',
-      link: [
-        { name: 'commercetools', link: 'https://docs.vuestorefront.io/adyen/' },
-        { name: 'Magento', link: 'https://docs.vuestorefront.io/adyen/magento2/' },
-      ],
+      name: 'Adyen - Magento',
+      link: [{ name: 'Magento', link: 'https://docs.vuestorefront.io/adyen/magento2/' }],
+      image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed621cc6456318210a7d22b_Adyen_Corporate_Logo.svg',
+      status: STATUS.STABLE,
+      license: LICENSE.ENTERPRISE,
+      maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
+      categories: [CATEGORY.PAYMENT],
+    },
+    {
+      name: 'Adyen - commercetools',
+      link: [{ name: 'commercetools', link: 'https://docs.vuestorefront.io/adyen/' }],
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed621cc6456318210a7d22b_Adyen_Corporate_Logo.svg',
       status: STATUS.STABLE,
       license: LICENSE.ENTERPRISE,
@@ -270,10 +277,8 @@ const INTEGRATIONS = {
       image: '/v2/integrations-logos/stripe.svg',
       status: STATUS.STABLE,
       license: LICENSE.ENTERPRISE,
-      maintainedBy: [
-        { name: 'Vue Storefront', link: 'https://vuestorefront.io/' },
-      ],
-      categories: [ CATEGORY.PAYMENT ]
+      maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
+      categories: [CATEGORY.PAYMENT],
     },
     {
       name: 'Auth0',
