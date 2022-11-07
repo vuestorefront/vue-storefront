@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "sass-loader": "^8.0.2",
-    "vuepress-theme-vsf-docs": "^1.0.16"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+    "vuepress-theme-vsf-docs": "^1.1.0-alpha.4"
   }
 }
