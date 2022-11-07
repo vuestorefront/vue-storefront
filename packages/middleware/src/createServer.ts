@@ -8,6 +8,7 @@ import { registerIntegrations } from './integrations';
 import getAgnosticStatusCode from './helpers/getAgnosticStatusCode';
 
 const app = express();
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
@@ -18,12 +19,14 @@ interface MiddlewareContext {
   extensions: ApiClientExtension[];
   customQueries: Record<string, CustomQuery>;
 }
+
 interface RequestParams {
   integrationName: string;
   functionName: string;
 }
+
 interface Helmet extends HelmetOptions {
-  helmet?: boolean | HelmetOptions
+  helmet?: boolean | HelmetOptions;
 }
 
 async function createServer(config: MiddlewareConfig): Promise<Express> {
@@ -50,12 +53,24 @@ async function createServer(config: MiddlewareConfig): Promise<Express> {
 
   app.post('/:integrationName/:functionName', async (req: Request, res: Response) => {
     const { integrationName, functionName } = req.params as any as RequestParams;
+
+    if (!integrations[integrationName]) {
+      const errMsg = `"${integrationName}" integration is not configured. Please, check the request path or integration configuration.`;
+
+      res.status(404);
+      res.send(errMsg);
+
+      return;
+    }
+
     const { apiClient, configuration, extensions, customQueries, initConfig } = integrations[integrationName];
     const middlewareContext: MiddlewareContext = { req, res, extensions, customQueries };
     const createApiClient = apiClient.createApiClient.bind({ middleware: middlewareContext });
     const apiClientInstance = createApiClient({ ...configuration, ...initConfig });
     const apiFunction = apiClientInstance.api[functionName];
+
     try {
+      if (!(Symbol.iterator in Object(req.body))) req.body = [req.body];
       const platformResponse = await apiFunction(...req.body);
       res.send(platformResponse);
     } catch (error) {

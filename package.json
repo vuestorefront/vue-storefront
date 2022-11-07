@@ -18,7 +18,7 @@
     "test:http-cache": "cd packages/http-cache && yarn test",
     "test:cli": "cd packages/cli && yarn test",
     "test:core": "cd packages/core && yarn test",
-    "test:middleware": "cd packages/middleware && yarn test"
+    "test:middleware": "cd packages/middleware && yarn test:unit && yarn test:integration"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

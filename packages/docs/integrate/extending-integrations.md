@@ -2,12 +2,12 @@
 
 ## Introduction
 
-Server Middleware extensions allow to extend Express.js server, register additional API endpoints, or inject into the lifecycle of a request sent to a given Server Middleware integration from the application.
+Server Middleware extensions allow to extend Express.js server, register additional API endpoints, or inject into the
+lifecycle of a request sent to a given Server Middleware integration from the application.
 
-<img
-  src="../images/middleware-extensions.jpg"
-  alt="Middleware Extensions"
-  style="display: block; margin: 0 auto">
+<img src="../images/middleware-extensions.jpg"
+alt="Middleware Extensions"
+style="display: block; margin: 0 auto">
 
 ## Creating an extension
 
@@ -15,12 +15,13 @@ You can define as many extensions as you want. Each extension has the following 
 
 ```js
 const extension = {
-  name: 'extension-name',
-  extendApiMethods: {
-    async customMethod(context, params) => { /* ... */ }
-  },
-  extendApp: (app) => {  /* ... */ },
-  hooks: (req, res) => {
+    name: 'extension-name',
+    extendApiMethods: {
+      customMethod: (context, params) => { /* ... */ },
+    },
+     extendApp: (app) => {  /* ... */
+    },
+    hooks: (req, res) => {
     return {
       beforeCreate: ({ configuration }) => configuration,
       afterCreate: ({ configuration }) => configuration,
@@ -35,16 +36,21 @@ const extension = {
 - `extendApiMethods` - overrides the original functions from API-client
 - `extendApp` - a function that gives you access to the express.js app
 - `hooks` - defines lifecycle hooks of API-client
-- `hooks:beforeCreate` - called before API-client creates a connection. It accepts configuration as an argument, and must return it as well. You can use it to modify the configuration or merge with the default values.
-- `hooks:afterCreate` - similar to the previous function, but called after the connection has been created. It accepts configuration as an argument, and must return it as well.
-- `hooks:beforeCall` - called before each API-client function. We have access to the configuration, function name, and its arguments. This function must return the arguments, and based on the input parameters we can change it.
-- `hooks:afterCall` - called after each API-client function. We have access to the configuration, function name, and its arguments. This function must return the response, and based on the input parameters we can attach something to it.
+- `hooks:beforeCreate` - called before API-client creates a connection. It accepts configuration as an argument, and
+  must return it as well. You can use it to modify the configuration or merge with the default values.
+- `hooks:afterCreate` - similar to the previous function, but called after the connection has been created. It accepts
+  configuration as an argument, and must return it as well.
+- `hooks:beforeCall` - called before each API-client function. We have access to the configuration, function name, and
+  its arguments. This function must return the arguments, and based on the input parameters we can change it.
+- `hooks:afterCall` - called after each API-client function. We have access to the configuration, function name, and its
+  arguments. This function must return the response, and based on the input parameters we can attach something to it.
 
 See the [ApiClientExtension interface](/reference/api/core.apiclientextension.html) for more information.
 
 ## Registering an extension
 
-To register an extension, add it to the array returned from the `extensions` function of a given integration in the `middleware.config.js` file:
+To register an extension, add it to the array returned from the `extensions` function of a given integration in
+the `middleware.config.js` file:
 
 ```js
 module.exports = {
@@ -65,9 +71,10 @@ module.exports = {
 
 ## Example: Adding new API endpoints
 
-To register a new API endpoint, you can register a custom extension and use the `extendApiMethods` property. API endpoints cannot be registered directly. Let's look at an example:
+To register a new API endpoint, you can register a custom extension and use the `extendApiMethods` property. API
+endpoints cannot be registered directly. Let's look at an example:
 
-```js
+```ts
 module.exports = {
   integrations: {
     '{INTEGRATION_NAME}': {
@@ -77,7 +84,22 @@ module.exports = {
         {
           name: 'extension-name',
           extendApiMethods: {
-            async customMethod(context, params) => { /* ... */ }
+            customMethod: async (context, params) => {
+              const response = await context.client.mutate({
+                mutation: gql`${someQuery.query}`,
+                variables,
+                fetchPolicy: 'no-cache', // in most cases you do not want to cache response in the Apollo
+                /**
+                 * This is a required object and must be attached to every graphql endpoint
+                 * with req and res node objects inside.
+                 * If you are using custom client then you can omitt this.
+                 */
+                context: {
+                  req: context.req,
+                  res: context.res
+                }
+              });
+            }
           }
         }
       ],
@@ -86,7 +108,9 @@ module.exports = {
 };
 ```
 
-Because this is an abstract example that applies to all integrations, we intentionally used `{INTEGRATION_NAME}` as the name of the integration. In this example, we are registering `customMethod` in `extendApiMethods` that creates a new `/api/{INTEGRATION_NAME}/customMethod` endpoint.
+Because this is an abstract example that applies to all integrations, we intentionally used `{INTEGRATION_NAME}` as the
+name of the integration. In this example, we are registering `customMethod` in `extendApiMethods` that creates a
+new `/api/{INTEGRATION_NAME}/customMethod` endpoint.
 
 This method accepts two parameters:
 
@@ -107,8 +131,8 @@ import { useVSFContext, onSSR } from '@vue-storefront/core';
 
 export default {
   setup() {
-    const { $INTEGRATION_NAME } = useVSFContext();  
-  
+    const { $INTEGRATION_NAME } = useVSFContext();
+
     onSSR(async () => {
       await $INTEGRATION_NAME.api.customMethod({
         query: 'test',

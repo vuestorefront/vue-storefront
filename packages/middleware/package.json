@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/middleware",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -8,21 +8,25 @@
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "test": "jest",
-    "prepublish": "yarn build"
+    "prepublish": "yarn build",
+    "test:unit": "jest --testMatch='<rootDir>/**/__tests__/unit/**/*spec.[jt]s?(x)'",
+    "test:integration": "jest --testMatch='<rootDir>/**/__tests__/integration/**/*spec.[jt]s?(x)'"
   },
   "author": "Vue Storefront",
   "license": "MIT",
   "dependencies": {
-    "@vue-storefront/core": "~2.7.1",
+    "@vue-storefront/core": "~2.7.2",
     "consola": "2.15.3",
-    "express": "^4.17.1",
-    "helmet": "^5.0.2",
     "cookie-parser": "^1.4.5",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^5.0.2"
   },
   "devDependencies": {
     "@types/express": "^4.11.1",
-    "@types/node": "^12.12.2"
+    "@types/node": "^12.12.2",
+    "nock": "^13.2.9",
+    "supertest": "^6.3.1"
   },
   "publishConfig": {
     "access": "public"
