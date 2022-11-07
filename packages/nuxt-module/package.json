@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/nuxt",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/src/index.d.ts",
