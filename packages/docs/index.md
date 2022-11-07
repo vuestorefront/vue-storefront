@@ -25,7 +25,7 @@ Learn how to build your Vue Storefront application
 :::::: col-wrapper-hero
 ::: col-1/2
 
-## Frontend Platform for Headless Commerce
+## Frontend as a Service for Composable Commerce
 
 Build your storefront and connect to dozens of third-party services with Vue Storefront's integrations.
 
