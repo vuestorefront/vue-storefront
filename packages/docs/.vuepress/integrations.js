@@ -43,7 +43,7 @@ const INTEGRATIONS = {
       link: 'https://docs.vuestorefront.io/sfcc',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed627707df0e6b720941b44_saleforce-commerce-cloud-logo%201.svg',
       status: STATUS.BETA,
-      license: LICENSE.ENTERPRISE,
+      license: LICENSE.OPEN_SOURCE,
       maintainedBy: [{ name: 'Forkpoint', link: 'https://forkpoint.com/' }],
     },
     {
@@ -75,7 +75,7 @@ const INTEGRATIONS = {
       link: '',
       image: '/v2/integrations-logos/scayle.svg',
       status: STATUS.WIP,
-      license: LICENSE.ENTERPRISE,
+      license: LICENSE.OPEN_SOURCE,
       maintainedBy: [],
     },
     {
