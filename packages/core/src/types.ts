@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import { Ref } from '@nuxtjs/composition-api';
-import type { Request, Response } from 'express';
+import type { Express, Request, Response } from 'express';
 import { HelmetOptions } from 'helmet';
 
 /**
@@ -297,7 +297,7 @@ export interface UseCart
   cart: ComputedProperty<CART>;
   setCart(cart: CART): void;
   addItem(params: { product: PRODUCT; quantity: number; customQuery?: CustomQuery }): Promise<void>;
-  isInCart: ({ product: PRODUCT }) => boolean;
+  isInCart: (params: {product: PRODUCT, customQuery?: CustomQuery, [k: string]: unknown}) => boolean;
   removeItem(params: { product: CART_ITEM; customQuery?: CustomQuery }): Promise<void>;
   updateItemQty(params: { product: CART_ITEM; quantity?: number; customQuery?: CustomQuery }): Promise<void>;
   clear(): Promise<void>;
@@ -329,7 +329,7 @@ export interface UseWishlist
   load(params: { customQuery?: CustomQuery }): Promise<void>;
   clear(): Promise<void>;
   setWishlist: (wishlist: WISHLIST) => void;
-  isInWishlist({ product: PRODUCT }): boolean;
+  isInWishlist(params: {product: PRODUCT, customQuery?: CustomQuery, [k: string]: unknown}): boolean;
   error: ComputedProperty<UseWishlistErrors>;
 }
 
@@ -831,7 +831,7 @@ export type ApiClientMethod = (...args: any) => Promise<any>
 export interface ApiClientExtension {
   name: string;
   extendApiMethods?: Record<string, ApiClientMethod>;
-  extendApp?: ({ app: Express, configuration: any }) => void;
+  extendApp?: (params: { app: Express, configuration: unknown }) => void;
   hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
 }
 
