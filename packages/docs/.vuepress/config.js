@@ -9,7 +9,6 @@ const gettingStartedSidebar = [
     children: [
       ['/getting-started/introduction', 'Introduction'],
       ['/getting-started/installation', 'Installation'],
-      ['/integrations/', 'Integrations'],
     ],
   },
 ];
@@ -59,6 +58,9 @@ module.exports = {
       ],
     ],
   ],
+  postcss: {
+    plugins: [require('tailwindcss')('./tailwind.config.js'), require('autoprefixer')],
+  },
 
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#configurewebpack
@@ -97,7 +99,6 @@ module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/plugin/
    */
-  theme: 'vsf-docs',
 
   plugins: [resolve(__dirname, './plugins/meta/index.js')],
 
@@ -118,10 +119,16 @@ module.exports = {
     editLinkText: 'Edit this page',
     logo: '/vsf-full.svg',
     sidebarDepth: 0,
+    title: 'Core Docs',
+    secondaryNav: [
+      { text: 'Home', link: '/' },
+      { text: 'Getting Started', link: '/getting-started/introduction' },
+      { text: 'Concepts', link: '/getting-started/project-structure' },
+      { text: 'Integrations', link: '/integrations/' },
+    ],
     sidebar: {
       '/getting-started/introduction': gettingStartedSidebar,
       '/getting-started/installation': gettingStartedSidebar,
-      '/integrations': gettingStartedSidebar,
       '/': [
         {
           title: '',
@@ -219,9 +226,7 @@ module.exports = {
         {
           title: 'FAQ',
           collapsable: true,
-          children: [
-            ['/faq/list', 'Frequently Asked Questions'],
-          ],
+          children: [['/faq/list', 'Frequently Asked Questions']],
         },
         {
           title: 'Community',
