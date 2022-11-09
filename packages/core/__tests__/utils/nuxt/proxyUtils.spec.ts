@@ -28,7 +28,7 @@ describe('[CORE - utils] _proxyUtils', () => {
     expect(utils.getCookies({ req: { headers: { cookie: { someCookie: 1 } } } } as any)).toEqual({ someCookie: 1 });
   });
 
-  it('it combines config with the current one', () => {
+  it('combines config with the current one', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValueOnce('');
 
     expect(utils.getIntegrationConfig(
@@ -47,7 +47,7 @@ describe('[CORE - utils] _proxyUtils', () => {
     });
   });
 
-  it('it combines config with the current one and adds a cookie', () => {
+  it('combines config with the current one and adds a cookie', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValueOnce('xxx');
 
     expect(utils.getIntegrationConfig(
@@ -90,7 +90,7 @@ describe('[CORE - utils] _proxyUtils', () => {
     });
   });
 
-  it('it combines config with the current one and adds a Host header', () => {
+  it('combines config with the current one and adds a Host header', () => {
     expect(utils.getIntegrationConfig(
       {
         $config: {
