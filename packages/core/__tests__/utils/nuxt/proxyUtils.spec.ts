@@ -67,7 +67,7 @@ describe('[CORE - utils] _proxyUtils', () => {
     });
   });
 
-  it('it combines config with the current one and adds a Host header from X-Forwarded-Host header', () => {
+  it('combines config with the current one and adds a X-Forwarded-Host header', () => {
     expect(utils.getIntegrationConfig(
       {
         $config: {
@@ -75,7 +75,6 @@ describe('[CORE - utils] _proxyUtils', () => {
         },
         req: {
           headers: {
-            host: '127.0.0.1',
             'x-forwarded-host': 'myforward.vsf'
           }
         }
@@ -85,7 +84,7 @@ describe('[CORE - utils] _proxyUtils', () => {
       axios: {
         baseURL: 'http://localhost.com/api',
         headers: {
-          Host: 'myforward.vsf'
+          'X-Forwarded-Host': 'myforward.vsf'
         }
       }
     });

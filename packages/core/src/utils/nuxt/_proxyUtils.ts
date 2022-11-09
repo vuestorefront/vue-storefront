@@ -38,7 +38,10 @@ export const getIntegrationConfig = (context: NuxtContext, configuration: any) =
       baseURL: new URL(/\/api\//gi.test(baseURL) ? '' : 'api', baseURL).toString(),
       headers: {
         ...(cookie ? { cookie } : {}),
-        ...(context.req ? { Host: context.req.headers['x-forwarded-host'] || context.req.headers.host } : {})
+        ...(context.req ? {
+          'X-Forwarded-Host': context.req.headers['x-forwarded-host'],
+          Host: context.req.headers.host
+        } : {})
       }
     }
   }, configuration);
