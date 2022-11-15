@@ -40,5 +40,11 @@ describe('[Integration] Create server', () => {
     expect(status).toEqual(200);
     expect(body.message).toEqual('ok');
   });
+
+  it('\'x-powered-by\' header is removed', async () => {
+    const { headers } = await request(app).post('/test_integration/success').send([]);
+
+    expect(headers['x-powered-by']).toBeUndefined();
+  });
 });
 
