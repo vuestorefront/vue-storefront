@@ -12,6 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
+app.disable('x-powered-by');
 
 interface MiddlewareContext {
   req: Request;
