@@ -1,7 +1,9 @@
 import * as utils from '../../../src/utils/nuxt/_proxyUtils';
 
 describe('[CORE - utils] _proxyUtils', () => {
-  process.server = true;
+  beforeEach(() => {
+    process.server = true;
+  });
 
   it('returns proxy for defined api', () => {
     const givenApi = {
@@ -29,18 +31,20 @@ describe('[CORE - utils] _proxyUtils', () => {
   });
 
   it('it combines config with the current one', () => {
-    jest.spyOn(utils, 'getCookies').mockReturnValueOnce('');
+    jest.spyOn(utils, 'getCookies').mockReturnValue('');
 
-    expect(utils.getIntegrationConfig(
+    const integrationConfig = utils.getIntegrationConfig(
       {
         $config: {
           middlewareUrl: 'http://localhost.com'
         }
       } as any,
       { someGivenOption: 1 }
-    )).toEqual({
+    );
+
+    expect(integrationConfig).toEqual({
       axios: {
-        baseURL: 'http://localhost.com/api',
+        baseURL: 'http://localhost.com',
         headers: {}
       },
       someGivenOption: 1
@@ -48,18 +52,20 @@ describe('[CORE - utils] _proxyUtils', () => {
   });
 
   it('it combines config with the current one and adds a cookie', () => {
-    jest.spyOn(utils, 'getCookies').mockReturnValueOnce('xxx');
+    jest.spyOn(utils, 'getCookies').mockReturnValue('xxx');
 
-    expect(utils.getIntegrationConfig(
+    const integrationConfig = utils.getIntegrationConfig(
       {
         $config: {
           middlewareUrl: 'http://localhost.com'
         }
       } as any,
       {}
-    )).toEqual({
+    );
+
+    expect(integrationConfig).toEqual({
       axios: {
-        baseURL: 'http://localhost.com/api',
+        baseURL: 'http://localhost.com',
         headers: {
           cookie: 'xxx'
         }
@@ -67,26 +73,44 @@ describe('[CORE - utils] _proxyUtils', () => {
     });
   });
 
-  it('it combines config with the current one and adds a Host header', () => {
-    expect(utils.getIntegrationConfig(
+  /**
+   * baseURL configuration cases matrix
+   */
+  const urlSetupCases = [
+    { server: true, middlewareUrl: 'client/api', ssrMiddlewareUrl: 'server/api', expected: '/server/api' },
+    { server: false, middlewareUrl: 'client/api', ssrMiddlewareUrl: 'server/api', expected: '/client/api' },
+    { server: true, middlewareUrl: '/client/api', ssrMiddlewareUrl: '', expected: '/client/api' },
+    { server: false, middlewareUrl: 'https://client/api', ssrMiddlewareUrl: null, expected: 'https://client/api' },
+    { server: true, middlewareUrl: 'https://client/api', ssrMiddlewareUrl: 'https://server/api', expected: 'https://server/api' }
+  ];
+
+  const testMsg = '[baseUrl must be configured properly for] server: $server, middlewareUrl: $middlewareUrl, ssrMiddlewareUrl: $ssrMiddlewareUrl, expected: $expected';
+  test.each(urlSetupCases)(testMsg, ({ server, middlewareUrl, ssrMiddlewareUrl, expected }) => {
+    process.server = server;
+
+    const integrationConfig = utils.getIntegrationConfig(
       {
         $config: {
-          middlewareUrl: 'http://localhost.com'
-        },
-        req: {
-          headers: {
-            host: 'mywebsite.local'
-          }
+          middlewareUrl,
+          ssrMiddlewareUrl
         }
       } as any,
       {}
-    )).toEqual({
+    );
+
+    expect(integrationConfig).toEqual({
       axios: {
-        baseURL: 'http://localhost.com/api',
+        baseURL: expected,
         headers: {
-          Host: 'mywebsite.local'
+          cookie: 'xxx'
         }
       }
     });
+  });
+
+  it('[getIntegrationConfig] throws the error if the middlewareURL is not provided', () => {
+    expect(() => {
+      utils.getIntegrationConfig({ $config: { middlewareUrl: undefined } } as any, {});
+    }).toThrow('`middlewareUrl` is required. Provide the `middlewareUrl` in your integration\'s configuration.');
   });
 });
