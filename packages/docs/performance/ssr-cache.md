@@ -32,7 +32,7 @@ Make sure this package is added to the `modules` array, not `buildModules`.
 export default {
   modules: [
     ['@vue-storefront/cache/nuxt', {
-      enabled: true,
+      enabled: process.env.VSF_REDIS_ENABLED === 'true',
       invalidation: {
         endpoint: '/cache-invalidate',
         handlers: [
@@ -52,9 +52,23 @@ export default {
 
 We can break down package configuration into three pieces:
 
-* `enabled` (required boolean) - contains boolean value, that is responsible for the package's running status.
+* `enabled` (required boolean) - indicates if caching is enabled. The example above requires adding the `VSF_REDIS_ENABLED=true` configuration to the `.env` file to enable caching.
 * `invalidation` (optional object) - contains URL to invalidate cache and array of invalidation functions. Refer to the [Invalidating cache](#invalidating-tags) section for more information.
 * `driver` (array or string) - contains the path to or name of the driver package and its configuration. If the driver doesn't require any configuration, you can pass a string instead of an array. Refer to the documentation of the driver you use for more information.
+
+### Update your project
+
+<img
+  src="../images/ssr-cache.webp"
+  alt="Diagram showing that with caching, HTML response is generated only once, but asks the question 'What if it contains personalized content?'"
+  style="display: block; margin: 0 auto; max-height: 500px">
+
+This package doesn't check the application state before saving SSR output. For example, it doesn't check if the request comes from a logged-in user or not. It means that inappropriately using this package could lead to a leak of user-sensitive data. If the first request for the given page comes from the logged-in user and is later cached, all subsequent responses might include sensitive data of this user.
+
+To prevent this, update your project to either:
+
+* load **all** user-specific data only in the browser, using the `onMounted` hook,
+* or don't use tags on pages and components that load user data.
 
 ### Add tags
 
@@ -66,9 +80,10 @@ Refer to the [Tags](#tags) section for more information.
 
 When the page is requested, the cache driver checks if there is an already rendered page in the cache matching the current route. If the rendered page exists, the cache driver will serve the cached version. Otherwise, the current page will be rendered on the server and served to the user, but if it contains tags, the result will be saved in the cache and used for subsequent requests.
 
-<center>
- <img src="../images/ssr-flow.jpg" alt="Server Side Rendering request flow" />
-</center>
+<img
+  src="../images/ssr-flow.jpg"
+  alt="Server Side Rendering request flow"
+  style="display: block; margin: 0 auto">
 
 ## Tags
 
@@ -92,10 +107,6 @@ When at least one tag associated with the given page is [invalidated](#invalidat
 * Search page where this product is part of the results.
 
 Additionally, all modifiers changing what is displayed on the page, such as pagination, filtering, and sorting options, should be added as URL queries (for example, `?sort=price-up&size=36&page=3`). This will cause different modifier combinations to be treated as different routes, and thus, cached separately.
-
-::: warning
-Don't use tags on pages, components, or composables specific to the current user, such as user profile pages or cart components.
-:::
 
 ### Using tags
 

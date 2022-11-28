@@ -17,6 +17,8 @@ describe('getProjectName | integration tests', () => {
     io = stdin();
     output = '';
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     (t as jest.MockedFunction<TFunction>).mockImplementation(identity);
 
     jest.spyOn(process.stdout, 'write').mockImplementation((message) => {

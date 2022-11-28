@@ -17,6 +17,8 @@ describe('getGitRepositoryURL', () => {
   let io: MockSTDIN;
   let output = '';
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   (t as jest.MockedFunction<TFunction>).mockImplementation(identity);
 
   beforeEach(() => {

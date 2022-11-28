@@ -1,5 +1,31 @@
 # Changelog
 
+## 2.7.2
+
+- feat: plugins pass Host header in server to server communication #6810. Previously headers other than Cookie have been lost in server to server communication. Now it's passed to the axios client of plugins and works as expected. ([6810](https://github.com/vuestorefront/vue-storefront/pull/6810)) - [Filip Jędrasik](https://github.com/Fifciu)
+
+- fix: allow using spread operator on request body. ([6812](https://github.com/vuestorefront/vue-storefront/pull/6815)) - [Bartosz Herba](https://github.com/bartoszherba)
+
+- fix: prevent middleware from crashing when sending a request with non-existing integration name. ([6815](https://github.com/vuestorefront/vue-storefront/pull/6815)) - [Bartosz Herba](https://github.com/bartoszherba)
+
+## 2.7.1
+
+Date: 06.07.2022
+
+- Added flag allowing to change language without full page reload ([6752](https://github.com/vuestorefront/vue-storefront/pull/6752)) - [Dawid Ziobro](https://github.com/dawid-ziobro)
+
+- Update `registerIntegrations` function to accommodate async change for each iteration ([6779](https://github.com/vuestorefront/vue-storefront/pull/6779)) - [Bartosz Herba](https://github.com/bartoszherba)
+
+## 2.7.0
+
+Date: 05.07.2022
+
+- **[BREAKING]** Add init function in the middleware ([6749](https://github.com/vuestorefront/vue-storefront/pull/6749)) - [Bartosz Herba](https://github.com/bartoszherba)
+
+  | Before | After | Comment | Module |
+  | ------ | ----- | ------- | ------ |
+  | createServer was a sync function | createServer is now an async function | Check architecture -> middleware doc's page for more details | core |
+
 ## 2.6.0
 
 - Node.js Engine version bump / upgrade to `>=14 <=16`
@@ -54,7 +80,7 @@
 
 - Fixed adding custom router.base property breaks api calls ([6526](https://github.com/vuestorefront/vue-storefront/issues/6505)) - [Piotr Grzywa](https://github.com/PiotrGrzywa)
 
-- Add the `autoChangeCookie` option on nuxt-i18n configuration to handle fine control on cookie ([6595]()) - [Heitor Ramon](https://github.com/bloodf)
+- Add the `autoChangeCookie` option on nuxt-i18n configuration to handle fine control on cookie ([6595](https://github.com/vuestorefront/vue-storefront/issues/6595)) - [Heitor Ramon](https://github.com/bloodf)
 
 ## 2.5.3
 

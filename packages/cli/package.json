@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/cli",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Vue Storefront's CLI.",
   "bin": "./bin/run",
   "homepage": "https://github.com/vuestorefront/vue-storefront",
@@ -15,38 +15,37 @@
     "/oclif.manifest.json"
   ],
   "dependencies": {
-    "@oclif/core": "^1.7.0",
-    "@oclif/plugin-help": "^5.1.12",
-    "@oclif/plugin-plugins": "^2.1.0",
-    "@oclif/plugin-update": "^3.0.0",
-    "@oclif/plugin-warn-if-update-available": "^2.0.4",
-    "@vue-storefront/theme-utilities": "^0.1.7",
+    "@oclif/core": "^1.19.2",
+    "@oclif/plugin-help": "^5.1.16",
+    "@oclif/plugin-plugins": "^2.1.5",
+    "@oclif/plugin-update": "^3.0.4",
+    "@oclif/plugin-warn-if-update-available": "^2.0.10",
+    "@vue-storefront/theme-utilities": "^0.2.0",
     "execa": "^5.1.1",
-    "i18next": "^21.6.16",
-    "i18next-fs-backend": "^1.1.4",
+    "globby": "11.1.0",
+    "i18next": "^22.0.3",
+    "i18next-fs-backend": "^2.0.0",
     "inquirer": "^8.2.4",
-    "isomorphic-git": "^1.17.1",
-    "node-fetch": "^2.6.7",
+    "isomorphic-git": "^1.21.0",
+    "node-fetch-native": "^0.1.8",
+    "oclif": "^3.2.22",
     "os-locale": "^5.0.0",
     "picocolors": "^1.0.0",
     "reasonable-filename": "^1.2.0",
-    "rimraf": "^3.0.2",
-    "tslib": "^2.4.0"
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "@types/i18next-fs-backend": "^1.1.2",
-    "@types/inquirer": "^8.2.1",
+    "@types/inquirer": "^9.0.2",
     "@types/mock-fs": "^4.13.1",
-    "@types/node": "^12.20.50",
-    "@types/node-fetch": "^2.6.1",
+    "@types/node": "^16.18.2",
     "@types/rimraf": "^3.0.2",
-    "eslint": "^7.32.0",
-    "globby": "^11.1.0",
-    "mock-fs": "^5.1.2",
+    "eslint": "^8.26.0",
+    "mock-fs": "^5.1.4",
     "mock-stdin": "^1.0.0",
-    "oclif": "^3.0.1",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.4"
+    "ts-node": "^10.9.1",
+    "typescript": "^4.6.4",
+    "tslib": "^2.4.0"
   },
   "oclif": {
     "bin": "@vue-storefront/cli",
@@ -71,11 +70,14 @@
     "version": "oclif readme && git add README.md"
   },
   "engines": {
-    "node": ">=14 <=16"
+    "node": ">=14"
   },
   "bugs": "https://github.com/vuestorefront/vue-storefront/issues",
   "keywords": [
     "oclif"
   ],
+  "overrides": {
+    "node-fetch": "npm:node-fetch-native@latest"
+  },
   "types": "dist/index.d.ts"
 }
