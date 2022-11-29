@@ -31,14 +31,16 @@ describe('[CORE - utils] _proxyUtils', () => {
   it('combines config with the current one', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValueOnce('');
 
-    expect(utils.getIntegrationConfig(
+    const integrationConfig = utils.getIntegrationConfig(
       {
         $config: {
           middlewareUrl: 'http://localhost.com'
         }
       } as any,
       { someGivenOption: 1 }
-    )).toEqual({
+    );
+
+    expect(integrationConfig).toEqual({
       axios: {
         baseURL: 'http://localhost.com/api',
         headers: {}
@@ -50,14 +52,16 @@ describe('[CORE - utils] _proxyUtils', () => {
   it('combines config with the current one and adds a cookie', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValueOnce('xxx');
 
-    expect(utils.getIntegrationConfig(
+    const integrationConfig = utils.getIntegrationConfig(
       {
         $config: {
           middlewareUrl: 'http://localhost.com'
         }
       } as any,
       {}
-    )).toEqual({
+    );
+
+    expect(integrationConfig).toEqual({
       axios: {
         baseURL: 'http://localhost.com/api',
         headers: {
@@ -68,7 +72,7 @@ describe('[CORE - utils] _proxyUtils', () => {
   });
 
   it('combines config with the current one and adds a X-Forwarded-Host header', () => {
-    expect(utils.getIntegrationConfig(
+    const integrationConfig = utils.getIntegrationConfig(
       {
         $config: {
           middlewareUrl: 'http://localhost.com'
@@ -80,7 +84,9 @@ describe('[CORE - utils] _proxyUtils', () => {
         }
       } as any,
       {}
-    )).toEqual({
+    );
+
+    expect(integrationConfig).toEqual({
       axios: {
         baseURL: 'http://localhost.com/api',
         headers: {
@@ -91,7 +97,7 @@ describe('[CORE - utils] _proxyUtils', () => {
   });
 
   it('combines config with the current one and adds a Host header', () => {
-    expect(utils.getIntegrationConfig(
+    const integrationConfig = utils.getIntegrationConfig(
       {
         $config: {
           middlewareUrl: 'http://localhost.com'
@@ -103,7 +109,9 @@ describe('[CORE - utils] _proxyUtils', () => {
         }
       } as any,
       {}
-    )).toEqual({
+    );
+
+    expect(integrationConfig).toEqual({
       axios: {
         baseURL: 'http://localhost.com/api',
         headers: {
