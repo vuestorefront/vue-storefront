@@ -26,7 +26,7 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
   const getCurrencyByLocale = (locale) =>
     i18n.numberFormats?.[locale]?.currency?.currency
     || i18nOptions.currency
-    || (i18nOptions.currencies.length && i18nOptions.currencies[0].name);
+    || i18nOptions.currencies && (i18nOptions.currencies.length && i18nOptions.currencies[0].name);
 
   const utils = i18nRedirectsUtil({
     path: app.context.route.path,
@@ -62,11 +62,11 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
     expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)), // Year from now
     ...i18nOptions.cookieOptions
   };
-  const settings = {
-    locale: targetLocale,
-    currency: getCurrencyByLocale(targetLocale),
-    country: i18nOptions.country || (i18nOptions.countries.length && i18nOptions.countries[0].name)
-  };
+  const settings = {};
+
+  if (autoChangeCookie.locale) settings.locale = targetLocale;
+  if (autoChangeCookie.currency) settings.currency = getCurrencyByLocale(targetLocale);
+  if (autoChangeCookie.country) settings.country = i18nOptions.country || (i18nOptions.countries.length && i18nOptions.countries[0].name)
 
   const missingFields = Object
     .entries(settings)
