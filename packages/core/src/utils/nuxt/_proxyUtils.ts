@@ -39,7 +39,9 @@ export const getIntegrationConfig = (context: NuxtContext, configuration: any) =
       headers: {
         ...(cookie ? { cookie } : {}),
         ...(context.req ? {
-          'X-Forwarded-Host': context.req.headers['x-forwarded-host'],
+          ...(context.req.headers?.['x-forwarded-host']
+            ? { 'X-Forwarded-Host': context.req.headers['x-forwarded-host'] }
+            : {}),
           Host: context.req.headers.host
         } : {})
       }
