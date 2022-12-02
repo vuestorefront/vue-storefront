@@ -6,12 +6,14 @@ export default interface RichTextItem {
   content?: any[],
   attrs?: any,
   rootElementAttributes?: any,
+  rootElementId?: string,
   marks?: {
     type: 'link' | 'strike' | 'italic' | 'bold' | 'underline' | 'styled',
     attrs?: {
       href?: string,
       target?: '_blank' | '_current',
-      class?: string
+      class?: string,
+      anchor?: string
     }
   }[]
 
