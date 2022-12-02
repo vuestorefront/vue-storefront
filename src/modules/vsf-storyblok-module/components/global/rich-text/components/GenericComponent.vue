@@ -1,6 +1,7 @@
 <template>
   <component
     :is="rootTagName"
+    :id="item.rootElementId"
     class="storyblok-rich-text-generic-component"
     v-bind="rootElementAttributes"
   >

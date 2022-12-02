@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import RichTextItem from '../types/rich-text-item.interface'
 import { components } from '../components/index';
+import getHeaderId from './get-header-id';
 
 const genericComponentTag = 'sb-rich-text-generic-component';
 
@@ -52,6 +53,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
         id: uuidv4(),
         component: genericComponentTag,
         rootTagName: `h${data.attrs.level}`,
+        rootElementId: getHeaderId(+data.attrs.level, data.content),
         content: data.content,
         attrs: data.attrs
       }
@@ -98,7 +100,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
         rootTagName: 'sb-router-link',
         rootElementAttributes: {
           isNewWindow: link.attrs.target ? link.attrs.target === '_blank' : undefined,
-          link: { url: link.attrs.href, linktype: link.attrs.linktype }
+          link: { url: link.attrs.href, anchor: link.attrs.anchor, linktype: link.attrs.linktype }
         },
         content: [{ ...data, marks: data.marks.filter((mark: any) => mark.type !== 'link') }]
       }
