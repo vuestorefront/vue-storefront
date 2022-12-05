@@ -17,7 +17,13 @@ export default function getUrlFromLink (
       return url;
     }
 
-    return (`/${url}`).replace(/^\/+/, '/');
+    let anchorPart = '';
+
+    if (link.anchor) {
+      anchorPart = '#' + link.anchor;
+    }
+
+    return (`/${url}`).replace(/^\/+/, '/') + anchorPart;
   };
 
   if (link.linktype === LinkType.EMAIL) {
