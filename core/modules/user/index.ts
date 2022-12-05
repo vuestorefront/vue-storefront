@@ -27,6 +27,18 @@ export const UserModule: StorefrontModule = async function ({ store }) {
       })
     })
 
+    EventBus.$on('address-added', (payload: any) => {
+      store.dispatch('user/addAddress', payload);
+    })
+
+    EventBus.$on('address-updated', (payload: any) => {
+      store.dispatch('user/updateAddress', payload);
+    })
+
+    EventBus.$on('address-removed', (payload: any) => {
+      store.dispatch('user/removeAddress', payload);
+    })
+
     store.dispatch('user/startSession')
   }
 

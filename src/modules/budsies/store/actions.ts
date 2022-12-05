@@ -361,5 +361,65 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     }
 
     return result;
+  },
+  async createNewAddress (context, payload): Promise<void> {
+    const url = `${config.budsies.endpoint}/address/create?token={{token}}`;
+
+    const { result, resultCode } = await TaskQueue.execute({
+      url,
+      payload: {
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        mode: 'cors',
+        method: 'POST',
+        body: JSON.stringify(payload)
+      },
+      silent: false
+    });
+
+    if (resultCode !== 200) {
+      throw new Error(`Error while creating address: ${result}`);
+    }
+
+    EventBus.$emit('address-added', result);
+  },
+  async updateAddress (context, payload): Promise<void> {
+    const url = `${config.budsies.endpoint}/address/update?token={{token}}`;
+
+    const { result, resultCode } = await TaskQueue.execute({
+      url,
+      payload: {
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        mode: 'cors',
+        method: 'POST',
+        body: JSON.stringify(payload)
+      },
+      silent: false
+    });
+
+    if (resultCode !== 200) {
+      throw new Error(`Error while creating address: ${result}`);
+    }
+
+    EventBus.$emit('address-updated', result);
+  },
+  async removeAddress (context, payload): Promise<void> {
+    const url = `${config.budsies.endpoint}/address/delete?token={{token}}`;
+
+    const { result, resultCode } = await TaskQueue.execute({
+      url,
+      payload: {
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        mode: 'cors',
+        method: 'POST',
+        body: JSON.stringify(payload)
+      },
+      silent: false
+    });
+
+    if (resultCode !== 200) {
+      throw new Error(`Error while creating address: ${result}`);
+    }
+
+    EventBus.$emit('address-removed', payload.address.id);
   }
 }
