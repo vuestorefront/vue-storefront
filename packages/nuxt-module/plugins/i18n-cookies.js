@@ -24,8 +24,7 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
   };
 
   const getCurrencyByLocale = (locale) =>
-    app.$config.defaultCurrency
-    || i18n.numberFormats?.[locale]?.currency?.currency
+    i18n.numberFormats?.[locale]?.currency?.currency
     || i18nOptions.currency
     || (i18nOptions.currencies.length && i18nOptions.currencies[0].name);
 
@@ -48,7 +47,7 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
   if (isServer) {
     app.i18n.cookieValues = {
       ...(autoChangeCookie.locale && { [cookieNames.locale]: targetLocale }),
-      ...(autoChangeCookie.currency && { [cookieNames.currency]: getCurrencyByLocale(targetLocale) })
+      ...(autoChangeCookie.currency && { [cookieNames.currency]: app.$config.defaultCurrency || getCurrencyByLocale(targetLocale) })
     };
 
     if (autoRedirectByLocale && redirectPath) {
@@ -65,7 +64,7 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
   };
   const settings = {
     locale: targetLocale,
-    currency: getCurrencyByLocale(targetLocale),
+    currency: app.$config.defaultCurrency || getCurrencyByLocale(targetLocale),
     country: app.$config.defaultCountry || i18nOptions.country || (i18nOptions.countries.length && i18nOptions.countries[0].name)
   };
 
@@ -100,7 +99,7 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
     }
 
     if (autoChangeCookie.currency) {
-      $cookies.set(cookieNames.currency, getCurrencyByLocale(newLocale), cookieOptions);
+      $cookies.set(cookieNames.currency, app.$config.defaultCurrency || getCurrencyByLocale(newLocale), cookieOptions);
     }
 
     if (reloadOnLanguageChange) {
