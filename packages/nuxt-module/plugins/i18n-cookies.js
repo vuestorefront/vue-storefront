@@ -23,7 +23,6 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
     ...i18nOptions.autoChangeCookie,
   };
 
-
   const getDefaultLocale = () => app.$config.defaultLocale;
   const getDefaultCurrency = () => app.$config.defaultCurrency;
   const getDefaultCountry = () => app.$config.defaultCountry;
