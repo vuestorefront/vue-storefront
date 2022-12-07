@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.7.3
+
+- feat: make new url constructor in core package able to work with api ([6846](https://github.com/vuestorefront/vue-storefront/pull/6846)) - [Bartosz Herba](https://github.com/bartoszherba)
+
+- build(deps): bump axios from 0.21.2 to 0.22.0 ([6848](https://github.com/vuestorefront/vue-storefront/pull/6848)) - [Jeff Paltera](https://github.com/jeffpdotone)
+
+- feat: allow overwriting i18n configuration through plugins ([6850](https://github.com/vuestorefront/vue-storefront/pull/6850)) - [Łukasz Śliwa](https://github.com/lsliwaradioluz)
+
 ## 2.7.2
 
 - feat: plugins pass Host header in server to server communication #6810. Previously headers other than Cookie have been lost in server to server communication. Now it's passed to the axios client of plugins and works as expected. ([6810](https://github.com/vuestorefront/vue-storefront/pull/6810)) - [Filip Jędrasik](https://github.com/Fifciu)

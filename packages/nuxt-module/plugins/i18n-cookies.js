@@ -23,14 +23,19 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
     ...i18nOptions.autoChangeCookie,
   };
 
+  const getDefaultLocale = () => app.$config.defaultLocale;
+  const getDefaultCurrency = () => app.$config.defaultCurrency;
+  const getDefaultCountry = () => app.$config.defaultCountry;
+  
   const getCurrencyByLocale = (locale) =>
     i18n.numberFormats?.[locale]?.currency?.currency
     || i18nOptions.currency
     || (i18nOptions.currencies.length && i18nOptions.currencies[0].name);
 
+
   const utils = i18nRedirectsUtil({
     path: app.context.route.path,
-    defaultLocale: i18nOptions.defaultLocale,
+    defaultLocale: getDefaultLocale() ?? i18nOptions.defaultLocale,
     availableLocales: i18nOptions.locales.map((item) => item.code),
     acceptedLanguages: isServer ? acceptedLanguage.split(',').map((item) => item.split(';')[0]) : acceptedLanguage,
     cookieLocale,
@@ -47,7 +52,7 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
   if (isServer) {
     app.i18n.cookieValues = {
       ...(autoChangeCookie.locale && { [cookieNames.locale]: targetLocale }),
-      ...(autoChangeCookie.currency && { [cookieNames.currency]: getCurrencyByLocale(targetLocale) })
+      ...(autoChangeCookie.currency && { [cookieNames.currency]: getDefaultCurrency() || getCurrencyByLocale(targetLocale) })
     };
 
     if (autoRedirectByLocale && redirectPath) {
@@ -64,8 +69,8 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
   };
   const settings = {
     locale: targetLocale,
-    currency: getCurrencyByLocale(targetLocale),
-    country: i18nOptions.country || (i18nOptions.countries.length && i18nOptions.countries[0].name)
+    currency: getDefaultCurrency() || getCurrencyByLocale(targetLocale),
+    country: getDefaultCountry() || i18nOptions.country || (i18nOptions.countries.length && i18nOptions.countries[0].name)
   };
 
   const missingFields = Object
@@ -99,7 +104,7 @@ const i18nCookiesPlugin = ({ $cookies, i18n, app, redirect }) => {
     }
 
     if (autoChangeCookie.currency) {
-      $cookies.set(cookieNames.currency, getCurrencyByLocale(newLocale), cookieOptions);
+      $cookies.set(cookieNames.currency, getDefaultCurrency() || getCurrencyByLocale(newLocale), cookieOptions);
     }
 
     if (reloadOnLanguageChange) {
