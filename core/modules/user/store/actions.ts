@@ -401,7 +401,7 @@ const actions: ActionTree<UserState, RootState> = {
       return;
     }
 
-    const addressIndex = state.current.addresses.findIndex(({ id }) => id === payload.id);
+    const addressIndex = state.current.addresses.findIndex(({ id }) => id === payload);
 
     if (addressIndex === -1) {
       return;
