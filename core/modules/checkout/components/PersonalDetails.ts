@@ -19,8 +19,10 @@ export const PersonalDetails = {
       personalDetails: this.$store.state.checkout.personalDetails,
       createAccount: false,
       acceptConditions: false,
-      password: '',
-      rPassword: '',
+      passwordData: {
+        password: '',
+        repeatPassword: ''
+      },
       isValidationError: false
     }
   },
@@ -42,7 +44,7 @@ export const PersonalDetails = {
     },
     sendDataToCheckout () {
       if (this.createAccount) {
-        this.personalDetails.password = this.password
+        this.personalDetails.password = this.passwordData.password
         this.personalDetails.createAccount = true
       } else {
         this.personalDetails.createAccount = false
@@ -68,8 +70,10 @@ export const PersonalDetails = {
     if (this.focusedField && !this.isValidationError) {
       if (this.focusedField === 'password') {
         this.isValidationError = true
-        this.password = ''
-        this.rPassword = ''
+        this.passwordData = {
+          password: '',
+          repeatPassword: ''
+        }
         this.$refs['password'].setFocus('password')
       }
     }
