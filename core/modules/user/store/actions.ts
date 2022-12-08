@@ -325,6 +325,89 @@ const actions: ActionTree<UserState, RootState> = {
     Logger.info('User session authorised ', 'user')()
     await dispatch('me', { refresh, useCache })
     await dispatch('getOrdersHistory', { refresh, useCache })
+  },
+  addAddress ({ state, dispatch }, payload) {
+    if (!state.current) {
+      return;
+    }
+
+    dispatch('updateDefaultAddresses', payload);
+
+    state.current.addresses.push(payload);
+  },
+  updateAddress ({ state, dispatch }, payload) {
+    if (!state.current) {
+      return;
+    }
+
+    const addressIndex = state.current.addresses.findIndex(({ id }) => id === payload.id);
+
+    if (addressIndex === -1) {
+      dispatch('addAddress', payload);
+      return;
+    }
+
+    dispatch('updateDefaultAddresses', payload);
+
+    state.current.addresses.splice(addressIndex, 1, payload);
+  },
+  updateDefaultAddresses ({ state }, payload) {
+    if (!state.current) {
+      return;
+    }
+
+    if (payload.default_billing) {
+      const currentDefaultBillingIndex = state.current.addresses.findIndex(
+        ({ default_billing }) => {
+          return default_billing;
+        }
+      );
+
+      if (currentDefaultBillingIndex > -1) {
+        state.current.addresses.splice(
+          currentDefaultBillingIndex,
+          1,
+          {
+            ...state.current.addresses[currentDefaultBillingIndex],
+            default_billing: false
+          }
+        )
+      }
+
+      state.current.default_billing = payload.id;
+    }
+
+    if (payload.default_shipping) {
+      const currentDefaultShippingIndex = state.current.addresses.findIndex(
+        ({ default_shipping }) => default_shipping
+      );
+
+      if (currentDefaultShippingIndex > -1) {
+        state.current.addresses.splice(
+          currentDefaultShippingIndex,
+          1,
+          {
+            ...state.current.addresses[currentDefaultShippingIndex],
+            default_shipping: false
+          }
+        )
+      }
+
+      state.current.default_shipping = payload.id;
+    }
+  },
+  removeAddress ({ state }, payload) {
+    if (!state.current) {
+      return;
+    }
+
+    const addressIndex = state.current.addresses.findIndex(({ id }) => id === payload);
+
+    if (addressIndex === -1) {
+      return;
+    }
+
+    state.current.addresses.splice(addressIndex, 1);
   }
 }
 

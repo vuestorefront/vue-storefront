@@ -4,7 +4,10 @@ export default interface UserState {
   groupToken: string,
   groupId: any,
   current: {
-    email: string
+    email: string,
+    addresses: any[],
+    default_shipping: number,
+    default_billing: number
   } | null,
   current_storecode: string,
   session_started: Date,
