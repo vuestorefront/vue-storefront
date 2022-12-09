@@ -91,7 +91,7 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
 @import "./mixins";
 
 .page-section {
-  $default-grid-gap: 10px;
+  $default-grid-gap: 20px;
   padding: $default-grid-gap * 3 $default-grid-gap;
 
   > ._items_wrapper {

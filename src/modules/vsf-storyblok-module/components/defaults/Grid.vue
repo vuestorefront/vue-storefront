@@ -187,7 +187,7 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     'xlg': $desktop-l-min,
   );
 
-  $default-grid-gap: 10px;
+  $default-grid-gap: 20px;
 
   display: grid;
   grid-gap: $default-grid-gap;
