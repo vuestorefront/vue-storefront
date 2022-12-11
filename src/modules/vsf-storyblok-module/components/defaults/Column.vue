@@ -7,11 +7,15 @@
     <editor-block-icons :item="itemData" />
 
     <div
-      v-for="_item in itemData.items"
+      v-for="(_item, _index) in itemData.items"
       :key="_item.uuid"
       class="_item"
     >
-      <sb-render class="box" :item="_item" />
+      <sb-render
+        class="box"
+        :class="{'-first-item': _index === 0}"
+        :item="_item"
+      />
     </div>
   </div>
 </template>

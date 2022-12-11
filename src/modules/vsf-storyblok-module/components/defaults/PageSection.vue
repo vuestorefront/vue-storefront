@@ -8,11 +8,16 @@
 
     <div class="_items_wrapper">
       <div
-        v-for="_item in childItems"
+        v-for="(_item, _index) in childItems"
         :key="_item.uuid"
         class="_item"
       >
-        <sb-render class="box" :item="_item" />
+        <sb-render
+          class="box"
+          :class="{'-first-item': _index === 0}"
+          :item="_item"
+          some-attr="test"
+        />
       </div>
     </div>
   </div>
@@ -92,7 +97,7 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
 
 .page-section {
   $default-grid-gap: 20px;
-  padding: $default-grid-gap * 3 $default-grid-gap;
+  padding: $default-grid-gap * 1.5 $default-grid-gap;
 
   > ._items_wrapper {
     max-width: var(--max-section-width, none);

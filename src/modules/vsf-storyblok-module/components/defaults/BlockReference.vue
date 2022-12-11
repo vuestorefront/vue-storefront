@@ -6,7 +6,12 @@
     :style="styles"
   >
     <div class="_content-wrapper" v-if="itemData.reference && itemData.reference.content">
-      <sb-render v-for="child in itemData.reference.content.body" :item="child" :key="child.uuid" />
+      <sb-render
+        v-for="(child, index) in itemData.reference.content.body"
+        :class="parentCssClasses"
+        :item="child"
+        :key="child.uuid"
+      />
     </div>
   </div>
 </template>
@@ -21,6 +26,13 @@ export default Blok.extend({
   computed: {
     itemData (): BlockReferenceData {
       return this.item as BlockReferenceData;
+    },
+    parentCssClasses (): Record<string, string> {
+      if (!this.$vnode.parent) {
+        return {};
+      };
+
+      return this.$vnode.parent.data.class;
     }
   }
 });
