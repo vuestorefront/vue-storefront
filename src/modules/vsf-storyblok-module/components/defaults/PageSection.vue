@@ -16,7 +16,6 @@
           class="box"
           :class="{'-first-item': _index === 0}"
           :item="_item"
-          some-attr="test"
         />
       </div>
     </div>
