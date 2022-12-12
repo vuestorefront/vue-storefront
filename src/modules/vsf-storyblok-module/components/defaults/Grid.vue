@@ -187,7 +187,8 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     'xlg': $desktop-l-min,
   );
 
-  $default-grid-gap: 20px;
+  $default-grid-gap: 0.7rem;
+  $default-grid-gap-tablet: 1.3rem;
 
   display: grid;
   grid-gap: $default-grid-gap;
@@ -199,6 +200,12 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
   @for $i from 1 through 12 {
     &.-columns-#{$i} {
       grid-template-columns: repeat($i, minmax(0, 1fr));
+
+      @if ($i > 1) {
+        grid-gap: $default-grid-gap;
+      } @else {
+        grid-gap: 2em;
+      }
     }
 
     ._item.-span-#{$i} {
@@ -211,6 +218,12 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
       @for $i from 1 through 12 {
         &.-columns-#{$size}-#{$i} {
           grid-template-columns: repeat($i, minmax(0, 1fr));
+
+          @if ($i > 1) {
+            grid-gap: if($breakpoint < $tablet-min, $default-grid-gap, $default-grid-gap-tablet);
+          } @else {
+            grid-gap: 2em;
+          }
         }
       }
 
@@ -223,6 +236,8 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
   }
 
   &.-cards-mode {
+    grid-gap: $default-grid-gap;
+
     > ._item {
       padding: 15px;
     }
@@ -244,6 +259,13 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     align-items: end;
   }
 
+  @media (min-width: $tablet-min) {
+    grid-gap: $default-grid-gap-tablet;
+
+    &.-cards-mode {
+      grid-gap: $default-grid-gap-tablet;
+    }
+  }
   @include display-property-handling;
 }
 </style>
