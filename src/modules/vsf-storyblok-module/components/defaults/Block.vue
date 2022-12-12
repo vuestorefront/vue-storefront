@@ -2,7 +2,7 @@
   <div data-testid="storyblok-block">
     <sb-render
       v-for="(child, index) in itemData.body"
-      :class="{'-first-item': index === 0}"
+      :class="{'-first-item': index === 0, '-last-item': index === itemData.body.length - 1}"
       :item="child"
       :key="child.uuid"
     />

@@ -14,7 +14,7 @@
       >
         <sb-render
           class="box"
-          :class="{'-first-item': _index === 0}"
+          :class="{'-first-item': _index === 0, '-last-item': _index === childItems.length - 1}"
           :item="_item"
         />
       </div>
