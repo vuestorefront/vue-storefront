@@ -35,5 +35,13 @@ export default {
 <style lang="scss" scoped>
 .storyblok-rich-text {
   overflow: auto;
+
+  p {
+    margin-bottom: 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
 }
 </style>
