@@ -51,3 +51,11 @@
         }
     }
 }
+
+@mixin storyblok-default-margin {
+    margin-top: 1em;
+
+    &.-first-item {
+        margin-top: 0;
+    }
+}

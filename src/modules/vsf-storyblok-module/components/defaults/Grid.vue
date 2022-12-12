@@ -266,6 +266,8 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
       grid-gap: $default-grid-gap-tablet;
     }
   }
+
+  @include storyblok-default-margin;
   @include display-property-handling;
 }
 </style>
