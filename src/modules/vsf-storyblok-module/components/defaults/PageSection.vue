@@ -95,7 +95,8 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
 @import "./mixins";
 
 .page-section {
-  $default-grid-gap: 20px;
+  $default-grid-gap: 1rem;
+
   padding: $default-grid-gap * 1.5 $default-grid-gap;
 
   > ._items_wrapper {
@@ -103,6 +104,11 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
 
     margin-left: auto;
     margin-right: auto;
+  }
+
+  @media (min-width: $tablet-min) {
+    $default-grid-gap: 1.3rem;
+    padding: $default-grid-gap * 1.5 $default-grid-gap;
   }
 
   @include display-property-handling;
