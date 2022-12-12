@@ -8,7 +8,7 @@
     <div class="_content-wrapper" v-if="itemData.reference && itemData.reference.content">
       <sb-render
         v-for="(child, index) in itemData.reference.content.body"
-        :class="parentCssClasses"
+        :class="getItemCssClasses(child, index)"
         :item="child"
         :key="child.uuid"
       />
@@ -27,12 +27,35 @@ export default Blok.extend({
     itemData (): BlockReferenceData {
       return this.item as BlockReferenceData;
     },
-    parentCssClasses (): Record<string, string> {
-      if (!this.$vnode.parent) {
-        return {};
+    parentCssClasses (): string[] {
+      const result: string[] = [];
+
+      const parentNode = this.$vnode.parent;
+
+      if (!parentNode) {
+        return result;
       };
 
-      return this.$vnode.parent.data.class;
+      const classes: Record<string, boolean> = parentNode.data?.class || {};
+
+      for (const className in classes) {
+        if (classes[className]) {
+          result.push(className);
+        }
+      }
+
+      return result;
+    }
+  },
+  methods: {
+    getItemCssClasses (item: unknown, index: number): string[] {
+      const result = [];
+
+      if (index === 0 && this.parentCssClasses.includes('-first-item')) {
+        result.push('-first-item');
+      }
+
+      return result;
     }
   }
 });
