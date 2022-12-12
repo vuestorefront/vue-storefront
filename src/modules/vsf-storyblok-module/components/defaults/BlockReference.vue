@@ -10,7 +10,7 @@
         v-for="(child, index) in childItems"
         :class="getItemCssClasses(child, index)"
         :item="child"
-        :key="child.uuid"
+        :key="child._uid"
       />
     </div>
   </div>
