@@ -1,5 +1,5 @@
 <template>
-  <div class="storyblok-rich-text">
+  <div class="storyblok-rich-text layout-transparent-container">
     <component
       v-for="item in content"
       :is="item.component"
@@ -33,8 +33,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@storefront-ui/shared/styles/helpers/breakpoints";
+@import "../../defaults/mixins";
+
 .storyblok-rich-text {
-  overflow: auto;
+
+  ul, ol, dl {
+    display: inline-block;
+    text-align: left;
+
+    ::v-deep li {
+      p {
+        margin-bottom: 0;
+      }
+
+      &:first-child {
+        p {
+          margin-top: 0;
+        }
+      }
+    }
+  }
 
   p {
     margin-bottom: 0;
@@ -43,5 +62,7 @@ export default {
       margin-top: 0;
     }
   }
+
+  @include storyblok-transparent-container-layout;
 }
 </style>
