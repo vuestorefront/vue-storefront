@@ -1,14 +1,14 @@
 <template>
   <div
-    class="storyblok-block-reference"
+    class="storyblok-block-reference layout-transparent-container"
     data-testid="storyblok-block-reference"
     :class="cssClasses"
     :style="styles"
   >
     <div class="_content-wrapper" v-if="itemData.reference && itemData.reference.content">
       <sb-render
-        v-for="(child, index) in childItems"
-        :class="getItemCssClasses(child, index)"
+        v-for="(child) in childItems"
+        class="_item"
         :item="child"
         :key="child._uid"
       />
@@ -30,51 +30,24 @@ export default Blok.extend({
     },
     childItems (): ItemData[] {
       return this.itemData.reference.content.body || [];
-    },
-    parentCssClasses (): string[] {
-      const result: string[] = [];
-
-      const parentNode = this.$vnode.parent;
-
-      if (!parentNode) {
-        return result;
-      };
-
-      const classes: Record<string, boolean> = parentNode.data?.class || {};
-
-      for (const className in classes) {
-        if (classes[className]) {
-          result.push(className);
-        }
-      }
-
-      return result;
     }
   },
   methods: {
-    getItemCssClasses (item: unknown, index: number): string[] {
-      const result = [];
-
-      if (index === 0 && this.parentCssClasses.includes('-first-item')) {
-        result.push('-first-item');
-      }
-
-      if (index === this.childItems.length - 1 && this.parentCssClasses.includes('-last-item')) {
-        result.push('-last-item');
-      }
-
-      return result;
-    }
   }
 });
 </script>
 
 <style lang="scss" scoped>
+@import "~@storefront-ui/shared/styles/helpers/breakpoints";
+@import "./mixins";
+
 .storyblok-block-reference {
   &.-editor-preview-mode {
     ._content-wrapper {
       pointer-events: none;
     }
   }
+
+  @include storyblok-sub-elements-layout();
 }
 </style>

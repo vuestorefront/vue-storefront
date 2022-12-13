@@ -1,8 +1,7 @@
 <template>
   <div data-testid="storyblok-block">
     <sb-render
-      v-for="(child, index) in itemData.body"
-      :class="{'-first-item': index === 0, '-last-item': index === itemData.body.length - 1}"
+      v-for="(child) in itemData.body"
       :item="child"
       :key="child.uuid"
     />
@@ -49,3 +48,12 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
   }
 });
 </script>
+
+<style lang="scss" scoped>
+@import "~@storefront-ui/shared/styles/helpers/breakpoints";
+@import "./mixins";
+
+.storyblok-block {
+  @include storyblok-sub-elements-layout;
+}
+</style>

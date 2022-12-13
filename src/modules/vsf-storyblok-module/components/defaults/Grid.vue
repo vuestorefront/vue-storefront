@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid"
+    class="grid layout-regular-component"
     :class="cssClasses"
     :style="styles"
   >
@@ -13,7 +13,7 @@
       :class="getItemCssClasses(_item)"
       :style="itemStyles"
     >
-      <sb-render class="box" :item="_item" />
+      <sb-render class="_component box" :item="_item" />
     </div>
   </div>
 </template>
@@ -194,7 +194,13 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
   grid-gap: $default-grid-gap;
 
   ._item {
+    @include storyblok-reset-margins-for-transparent-containers();
     @include display-property-handling;
+  }
+
+  ._component {
+    margin-bottom: 0;
+    margin-top: 0;
   }
 
   @for $i from 1 through 12 {
@@ -267,7 +273,6 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     }
   }
 
-  @include storyblok-default-margin;
   @include display-property-handling;
 }
 </style>

@@ -2,8 +2,7 @@
   <div data-testid="storyblok-page">
     <sb-rich-text :text="itemData.description" v-if="itemData.description" />
     <sb-render
-      v-for="(child, index) in itemData.body"
-      :class="{'-first-item': index === 0, '-last-item': index === itemData.body.length - 1}"
+      v-for="(child) in itemData.body"
       :item="child"
       :key="child.uuid"
     />
@@ -36,3 +35,12 @@ export default Blok.extend({
 
 })
 </script>
+<style lang="scss" scoped>
+@import "~@storefront-ui/shared/styles/helpers/breakpoints";
+@import "./mixins";
+
+.storyblok-page {
+  @include storyblok-sub-elements-layout;
+
+}
+</style>
