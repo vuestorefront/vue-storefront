@@ -9,7 +9,7 @@
     <div class="_items_wrapper">
       <sb-render
         v-for="(_item) in childItems"
-        :key="_item.uuid"
+        :key="_item._uid"
         class="box _item"
         :item="_item"
       />

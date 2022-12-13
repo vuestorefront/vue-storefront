@@ -6,7 +6,7 @@
     <sb-render
       v-for="(child) in itemData.body"
       :item="child"
-      :key="child.uuid"
+      :key="child._uid"
     />
   </div>
 </template>

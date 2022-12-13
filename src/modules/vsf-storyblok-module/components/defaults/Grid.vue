@@ -8,7 +8,7 @@
 
     <div
       v-for="_item in itemData.items"
-      :key="_item.uuid"
+      :key="_item._uid"
       class="_item"
       :class="getItemCssClasses(_item)"
       :style="itemStyles"
