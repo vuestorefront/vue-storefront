@@ -48,6 +48,6 @@ export default Blok.extend({
     }
   }
 
-  @include storyblok-sub-elements-layout();
+  @include storyblok-transparent-container-layout();
 }
 </style>

@@ -64,13 +64,13 @@
     }
 }
 
-@mixin storyblok-sub-elements-layout() {
-    $standard-top-margin: 1em;
-    $header-top-margin: 2em;
-    $header-bottom-margin: 1em;
+$storyblok-layout-standard-top-margin: 1em;
+$storyblok-layout-header-top-margin: 2em;
+$storyblok-layout-header-bottom-margin: 1em;
 
+@mixin storyblok-sub-elements-layout() {
     .layout-regular-component {
-        margin-top: $standard-top-margin;
+        margin-top: $storyblok-layout-standard-top-margin;
 
         &:first-child {
             margin-top: 0;
@@ -78,8 +78,8 @@
     }
 
     .storyblok-heading {
-        margin-top: $header-top-margin;
-        margin-bottom: $header-bottom-margin;
+        margin-top: $storyblok-layout-header-top-margin;
+        margin-bottom: $storyblok-layout-header-bottom-margin;
     }
 
     @include storyblok-reset-margins-for-transparent-containers();
@@ -94,35 +94,40 @@
             margin-bottom: 0;
         }
     }
+}
 
-    &.layout-transparent-container {
-        .layout-regular-component,
-        .storyblok-heading,
-        .layout-transparent-container,
-        ._item {
-            &:not(:first-child) {
-                --sb-layout-first-item-margin: initial;
-            }
-            
-            &:not(:last-child) {
-                --sb-layout-last-item-margin: initial;
-            }
+@mixin storyblok-transparent-container-layout() {
+    .layout-regular-component {
+        margin-top: $storyblok-layout-standard-top-margin;
+
+        &:first-child {
+            margin-top: var(--sb-layout-first-item-margin, $storyblok-layout-standard-top-margin);
+        }
+    }
+
+    .storyblok-heading {
+        margin-top: $storyblok-layout-header-top-margin;
+        margin-bottom: $storyblok-layout-header-bottom-margin;
+
+        &:first-child {
+            margin-top: var(--sb-layout-first-item-margin, $storyblok-layout-header-top-margin);
+        }
+
+        &:last-child {
+            margin-top: var(--sb-layout-last-item-margin, $storyblok-layout-header-bottom-margin);
+        }
+    }
+
+    .layout-regular-component,
+    .storyblok-heading,
+    .layout-transparent-container,
+    ._item {
+        &:not(:first-child) {
+            --sb-layout-first-item-margin: initial;
         }
         
-        .layout-regular-component {
-            &:first-child {
-                margin-top: var(--sb-layout-first-item-margin, $standard-top-margin);
-            }
-        }
-
-        .storyblok-heading {
-            &:first-child {
-                margin-top: var(--sb-layout-first-item-margin, $header-top-margin);
-            }
-
-            &:last-child {
-                margin-top: var(--sb-layout-last-item-margin, $header-bottom-margin);
-            }    
+        &:not(:last-child) {
+            --sb-layout-last-item-margin: initial;
         }
     }
 }
