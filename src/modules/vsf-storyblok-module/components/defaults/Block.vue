@@ -1,5 +1,8 @@
 <template>
-  <div data-testid="storyblok-block">
+  <div
+    class="storyblok-block layout-transparent-container"
+    data-testid="storyblok-block"
+  >
     <sb-render
       v-for="(child) in itemData.body"
       :item="child"
@@ -54,6 +57,6 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
 @import "./mixins";
 
 .storyblok-block {
-  @include storyblok-sub-elements-layout;
+  @include storyblok-transparent-container-layout;
 }
 </style>
