@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid"
+    class="grid layout-regular-component"
     :class="cssClasses"
     :style="styles"
   >
@@ -8,12 +8,12 @@
 
     <div
       v-for="_item in itemData.items"
-      :key="_item.uuid"
+      :key="_item._uid"
       class="_item"
       :class="getItemCssClasses(_item)"
       :style="itemStyles"
     >
-      <sb-render class="box" :item="_item" />
+      <sb-render class="_component box" :item="_item" />
     </div>
   </div>
 </template>
@@ -181,48 +181,64 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
 
 .grid {
   $sizes: (
-    'sm': 480px,
-    'md': $tablet-min,
-    'lg': $desktop-min,
-    'xlg': $desktop-l-min,
+    '': 0px,
+    '-sm': 480px,
+    '-md': $tablet-min,
+    '-lg': $desktop-min,
+    '-xlg': $desktop-l-min,
   );
 
-  $default-grid-gap: 10px;
+  $default-grid-gap: 0.7rem;
+  $default-grid-gap-tablet: 1.3rem;
 
   display: grid;
   grid-gap: $default-grid-gap;
 
   ._item {
+    @include storyblok-reset-margins-for-transparent-containers();
     @include display-property-handling;
   }
 
-  @for $i from 1 through 12 {
-    &.-columns-#{$i} {
-      grid-template-columns: repeat($i, minmax(0, 1fr));
-    }
-
-    ._item.-span-#{$i} {
-      grid-column: span $i;
-    }
+  ._component {
+    margin-bottom: 0;
+    margin-top: 0;
   }
 
   @each $size, $breakpoint in $sizes {
     @media (min-width: $breakpoint) {
       @for $i from 1 through 12 {
-        &.-columns-#{$size}-#{$i} {
+        &.-columns#{$size}-#{$i} {
           grid-template-columns: repeat($i, minmax(0, 1fr));
-        }
-      }
 
-      @for $i from 1 through 12 {
-        ._item.-span-#{$size}-#{$i} {
+          @if ($i > 1) {
+            grid-gap: if($breakpoint < $tablet-min, $default-grid-gap, $default-grid-gap-tablet);
+          } @else {
+            grid-gap: 2em;
+          }
+        }
+
+        ._item.-span#{$size}-#{$i} {
           grid-column: span $i;
         }
       }
     }
   }
 
+  @media (min-width: $tablet-min) {
+    @for $i from 2 through 12 {
+      &.-columns-#{$i} {
+        grid-gap: $default-grid-gap-tablet;
+      }
+
+      &.-columns-sm-#{$i} {
+        grid-gap: $default-grid-gap-tablet;
+      }
+    }
+  }
+
   &.-cards-mode {
+    grid-gap: $default-grid-gap;
+
     > ._item {
       padding: 15px;
     }
@@ -242,6 +258,14 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
 
   &.-vertically-aligned-to-bottom {
     align-items: end;
+  }
+
+  @media (min-width: $tablet-min) {
+    grid-gap: $default-grid-gap-tablet;
+
+    &.-cards-mode {
+      grid-gap: $default-grid-gap-tablet;
+    }
   }
 
   @include display-property-handling;

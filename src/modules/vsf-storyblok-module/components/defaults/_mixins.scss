@@ -51,3 +51,83 @@
         }
     }
 }
+
+@mixin storyblok-reset-margins-for-transparent-containers() {
+    .layout-transparent-container {
+        &:first-child {
+            --sb-layout-first-item-margin: 0;
+        }
+
+        &:last-child {
+            --sb-layout-last-item-margin: 0;
+        }
+    }
+}
+
+$storyblok-layout-standard-top-margin: 1em;
+$storyblok-layout-header-top-margin: 2em;
+$storyblok-layout-header-bottom-margin: 1em;
+
+@mixin storyblok-sub-elements-layout() {
+    .layout-regular-component {
+        margin-top: $storyblok-layout-standard-top-margin;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    .layout-heading-component {
+        margin-top: $storyblok-layout-header-top-margin;
+        margin-bottom: $storyblok-layout-header-bottom-margin;
+    }
+
+    @include storyblok-reset-margins-for-transparent-containers();
+
+    .layout-regular-component, 
+    .layout-heading-component {
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+@mixin storyblok-transparent-container-layout() {
+    .layout-regular-component {
+        margin-top: $storyblok-layout-standard-top-margin;
+
+        &:first-child {
+            margin-top: var(--sb-layout-first-item-margin, $storyblok-layout-standard-top-margin);
+        }
+    }
+
+    .layout-heading-component {
+        margin-top: $storyblok-layout-header-top-margin;
+        margin-bottom: $storyblok-layout-header-bottom-margin;
+
+        &:first-child {
+            margin-top: var(--sb-layout-first-item-margin, $storyblok-layout-header-top-margin);
+        }
+
+        &:last-child {
+            margin-top: var(--sb-layout-last-item-margin, $storyblok-layout-header-bottom-margin);
+        }
+    }
+
+    .layout-regular-component,
+    .layout-heading-component,
+    .layout-transparent-container,
+    ._item {
+        &:not(:first-child) {
+            --sb-layout-first-item-margin: initial;
+        }
+        
+        &:not(:last-child) {
+            --sb-layout-last-item-margin: initial;
+        }
+    }
+}

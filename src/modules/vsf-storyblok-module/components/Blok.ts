@@ -29,6 +29,10 @@ export default Vue.extend({
         result.push(displayClass);
       }
 
+      if (this.item.alignment) {
+        result.push('-align-' + this.item.alignment);
+      }
+
       if (this.isStoryblokPreview) {
         result.push('-editor-preview-mode');
       }

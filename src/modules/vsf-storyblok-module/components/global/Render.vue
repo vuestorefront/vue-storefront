@@ -1,5 +1,10 @@
 <template>
-  <component v-if="component" v-editable="item" :is="component" :item="item" />
+  <component
+    v-if="component"
+    v-editable="item"
+    :is="component"
+    :item="item"
+  />
 </template>
 
 <script>

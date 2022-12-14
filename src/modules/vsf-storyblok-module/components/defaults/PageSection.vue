@@ -7,13 +7,12 @@
     <editor-block-icons :item="itemData" />
 
     <div class="_items_wrapper">
-      <div
-        v-for="_item in childItems"
-        :key="_item.uuid"
-        class="_item"
-      >
-        <sb-render class="box" :item="_item" />
-      </div>
+      <sb-render
+        v-for="(_item) in childItems"
+        :key="_item._uid"
+        class="box _item"
+        :item="_item"
+      />
     </div>
   </div>
 </template>
@@ -91,8 +90,9 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
 @import "./mixins";
 
 .page-section {
-  $default-grid-gap: 10px;
-  padding: $default-grid-gap * 3 $default-grid-gap;
+  $default-grid-gap: 1rem;
+
+  padding: $default-grid-gap * 1.5 $default-grid-gap;
 
   > ._items_wrapper {
     max-width: var(--max-section-width, none);
@@ -101,6 +101,12 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     margin-right: auto;
   }
 
+  @media (min-width: $tablet-min) {
+    $default-grid-gap: 1.3rem;
+    padding: $default-grid-gap * 1.5 $default-grid-gap;
+  }
+
+  @include storyblok-sub-elements-layout;
   @include display-property-handling;
 }
 </style>

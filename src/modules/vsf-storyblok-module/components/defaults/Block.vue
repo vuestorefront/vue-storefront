@@ -1,6 +1,13 @@
 <template>
-  <div data-testid="storyblok-block">
-    <sb-render v-for="child in itemData.body" :item="child" :key="child.uuid" />
+  <div
+    class="storyblok-block layout-transparent-container"
+    data-testid="storyblok-block"
+  >
+    <sb-render
+      v-for="(child) in itemData.body"
+      :item="child"
+      :key="child._uid"
+    />
   </div>
 </template>
 
@@ -44,3 +51,12 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
   }
 });
 </script>
+
+<style lang="scss" scoped>
+@import "~@storefront-ui/shared/styles/helpers/breakpoints";
+@import "./mixins";
+
+.storyblok-block {
+  @include storyblok-transparent-container-layout;
+}
+</style>

@@ -1,18 +1,17 @@
 <template>
   <div
-    class="column"
+    class="column layout-regular-component"
     :class="cssClasses"
     :style="styles"
   >
     <editor-block-icons :item="itemData" />
 
-    <div
-      v-for="_item in itemData.items"
-      :key="_item.uuid"
-      class="_item"
-    >
-      <sb-render class="box" :item="_item" />
-    </div>
+    <sb-render
+      v-for="(_item) in itemData.items"
+      :key="_item._uid"
+      class="box _item"
+      :item="_item"
+    />
   </div>
 </template>
 
@@ -86,6 +85,7 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
 @import "./mixins";
 
 .column {
+  @include storyblok-sub-elements-layout;
   @include display-property-handling;
 
 }

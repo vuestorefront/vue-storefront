@@ -22,7 +22,6 @@ import { getProductDefaultPrice } from 'src/modules/shared';
 import { SearchQuery } from 'storefront-query-builder'
 import { mapGetters } from 'vuex';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
-import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import RichTextItem from '../../../../types/rich-text-item.interface';
 
