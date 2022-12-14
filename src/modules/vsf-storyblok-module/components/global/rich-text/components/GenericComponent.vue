@@ -75,9 +75,20 @@ export default Vue.extend({
         'video'
       ];
 
+      const headingsTags = [
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6'
+      ];
+
       const result = [];
 
-      if (blockTags.includes(this.rootTagName)) {
+      if (headingsTags.includes(this.rootTagName)) {
+        result.push('layout-heading-component');
+      } else if (blockTags.includes(this.rootTagName)) {
         result.push('layout-regular-component');
       }
 
