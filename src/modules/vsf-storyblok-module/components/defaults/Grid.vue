@@ -181,10 +181,11 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
 
 .grid {
   $sizes: (
-    'sm': 480px,
-    'md': $tablet-min,
-    'lg': $desktop-min,
-    'xlg': $desktop-l-min,
+    '': 0px,
+    '-sm': 480px,
+    '-md': $tablet-min,
+    '-lg': $desktop-min,
+    '-xlg': $desktop-l-min,
   );
 
   $default-grid-gap: 0.7rem;
@@ -203,26 +204,10 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     margin-top: 0;
   }
 
-  @for $i from 1 through 12 {
-    &.-columns-#{$i} {
-      grid-template-columns: repeat($i, minmax(0, 1fr));
-
-      @if ($i > 1) {
-        grid-gap: $default-grid-gap;
-      } @else {
-        grid-gap: 2em;
-      }
-    }
-
-    ._item.-span-#{$i} {
-      grid-column: span $i;
-    }
-  }
-
   @each $size, $breakpoint in $sizes {
     @media (min-width: $breakpoint) {
       @for $i from 1 through 12 {
-        &.-columns-#{$size}-#{$i} {
+        &.-columns#{$size}-#{$i} {
           grid-template-columns: repeat($i, minmax(0, 1fr));
 
           @if ($i > 1) {
@@ -231,12 +216,22 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
             grid-gap: 2em;
           }
         }
-      }
 
-      @for $i from 1 through 12 {
-        ._item.-span-#{$size}-#{$i} {
+        ._item.-span#{$size}-#{$i} {
           grid-column: span $i;
         }
+      }
+    }
+  }
+
+  @media (min-width: $tablet-min) {
+    @for $i from 2 through 12 {
+      &.-columns-#{$i} {
+        grid-gap: $default-grid-gap-tablet;
+      }
+
+      &.-columns-sm-#{$i} {
+        grid-gap: $default-grid-gap-tablet;
       }
     }
   }
