@@ -264,7 +264,7 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     grid-gap: $default-grid-gap-tablet;
 
     &.-cards-mode {
-      grid-gap: $default-grid-gap-tablet;
+      grid-gap: $default-grid-gap;
     }
   }
 
