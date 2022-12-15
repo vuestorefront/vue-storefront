@@ -276,6 +276,8 @@ const INTEGRATIONS = {
       license: LICENSE.ENTERPRISE,
       maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
       categories: [CATEGORY.PAYMENT],
+      maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
+      categories: [CATEGORY.PAYMENT],
     },
     {
       name: 'Auth0',

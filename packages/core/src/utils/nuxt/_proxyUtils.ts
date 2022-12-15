@@ -1,7 +1,7 @@
 import { Context as NuxtContext } from '@nuxt/types';
 import merge from 'lodash-es/merge';
-import { ApiClientMethod } from './../../types';
-import { Logger } from './../logger';
+import { ApiClientMethod } from '../../types';
+import { Logger } from '../logger';
 
 interface CreateProxiedApiParams {
   givenApi: Record<string, ApiClientMethod>;
@@ -26,16 +26,26 @@ export const createProxiedApi = ({ givenApi, client, tag }: CreateProxiedApiPara
 export const getCookies = (context: NuxtContext) => context?.req?.headers?.cookie ?? '';
 
 export const getIntegrationConfig = (context: NuxtContext, configuration: any) => {
-  const baseURL = process.server ? context?.$config?.middlewareUrl : window.location.origin;
   const cookie = getCookies(context);
 
   if (process.server && context?.$config?.middlewareUrl) {
     Logger.info('Applied middlewareUrl as ', context.$config.middlewareUrl);
   }
 
+  const { middlewareUrl, ssrMiddlewareUrl } = context.$config;
+
+  if (!middlewareUrl) {
+    throw new Error('`middlewareUrl` is required. Provide the `middlewareUrl` in your integration\'s configuration.');
+  }
+
+  let baseURL: string = process.server ? ssrMiddlewareUrl || middlewareUrl : middlewareUrl;
+  if (!baseURL.match(/https?:\/\//) && baseURL.charAt(0) !== '/') {
+    baseURL = `/${baseURL}`;
+  }
+
   return merge({
     axios: {
-      baseURL: new URL(/\/api\//gi.test(baseURL) ? '' : 'api', baseURL).toString(),
+      baseURL,
       headers: {
         ...(cookie ? { cookie } : {}),
         ...(context.req ? { Host: context.req.headers.host } : {})

@@ -31,7 +31,7 @@ export default class GenerateStore extends Command {
       const { overwrite } = await inquirer.prompt<{ overwrite: boolean }>({
         type: 'confirm',
         name: 'overwrite',
-        message: () => t('command.generate_store.input.overwrite', { projectName })
+        message: () => t('command.generate_store.input.overwrite', { projectName }) as string
       });
 
       if (!overwrite) {

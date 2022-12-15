@@ -24,7 +24,7 @@ jobs:
           path: version.txt
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::$(cat version.txt)
+        run: echo "VERSION=$(cat version.txt)" >> $GITHUB_OUTPUT
       - name: Build and publish docker image
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
@@ -46,7 +46,7 @@ jobs:
           name: version
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::$(cat version.txt)
+        run: echo "VERSION=$(cat version.txt)" >> $GITHUB_OUTPUT
       - uses: chrnorm/deployment-action@releases/v1
         name: Create GitHub deployment
         id: deployment
