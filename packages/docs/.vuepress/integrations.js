@@ -270,10 +270,18 @@ const INTEGRATIONS = {
     },
     {
       name: 'Stripe',
-      link: [
-        { name: 'ElasticPath Commerce Cloud', link: 'https://docs.vuestorefront.io/stripe/epcc' },
-        { name: 'commercetools', link: 'https://docs.vuestorefront.io/stripe/commercetools' }
-      ],
+      link: [{ name: 'ElasticPath Commerce Cloud', link: 'https://docs.vuestorefront.io/stripe/epcc' }],
+      image: '/v2/integrations-logos/stripe.svg',
+      status: STATUS.STABLE,
+      license: LICENSE.ENTERPRISE,
+      maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
+      categories: [CATEGORY.PAYMENT],
+      maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
+      categories: [CATEGORY.PAYMENT],
+    },
+    {
+      name: 'Stripe',
+      link: [{ name: 'commercetools', link: 'https://docs.vuestorefront.io/stripe/commercetools' }],
       image: '/v2/integrations-logos/stripe.svg',
       status: STATUS.STABLE,
       license: LICENSE.ENTERPRISE,
