@@ -89,4 +89,29 @@ describe('[CORE - utils] _proxyUtils', () => {
       }
     });
   });
+
+  it('it combines config with the current one and adds a Host header', () => {
+    expect(utils.getIntegrationConfig(
+      {
+        $config: {
+          middlewareUrl: 'http://localhost.com'
+        },
+        req: {
+          headers: {
+            'x-forwarded-host': 'mywebsite.local',
+            cookie: 'xxx'
+          }
+        }
+      } as any,
+      {}
+    )).toEqual({
+      axios: {
+        baseURL: 'http://localhost.com/api',
+        headers: {
+          Host: 'mywebsite.local',
+          cookie: 'xxx'
+        }
+      }
+    });
+  });
 });
