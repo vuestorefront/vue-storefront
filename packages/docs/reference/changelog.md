@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.7.4
+
+- fix: use any type as configuration in ApiClientExtension ([6862](https://github.com/vuestorefront/vue-storefront/pull/6862)) - [Wojciech Sikora](https://github.com/WojtekTheWebDev)
+
 ## 2.7.3
 
 - feat: make new url constructor in core package able to work with api ([6846](https://github.com/vuestorefront/vue-storefront/pull/6846)) - [Bartosz Herba](https://github.com/bartoszherba)
