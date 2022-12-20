@@ -831,7 +831,7 @@ export type ApiClientMethod = (...args: any) => Promise<any>
 export interface ApiClientExtension {
   name: string;
   extendApiMethods?: Record<string, ApiClientMethod>;
-  extendApp?: (params: { app: Express, configuration: unknown }) => void;
+  extendApp?: (params: { app: Express, configuration: any }) => void;
   hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
 }
 
