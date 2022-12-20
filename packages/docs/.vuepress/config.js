@@ -196,6 +196,7 @@ module.exports = {
             ['/performance/optimizing-javascript', 'Optimizing JavaScript'],
             ['/performance/other-optimizations', 'Other optimizations'],
             ['/performance/ssr-cache', 'SSR cache'],
+            ['/performance/http-cache', 'HTTP cache'],
           ],
         },
         {

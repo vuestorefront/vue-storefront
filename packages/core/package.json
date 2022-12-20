@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/core",
-  "version": "2.7.2",
+  "version": "2.7.3",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -13,7 +13,7 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "axios": "0.21.2",
+    "axios": "0.22.0",
     "express": "^4.17.1",
     "lodash-es": "^4.17.15",
     "vue": "^2.6.11"
