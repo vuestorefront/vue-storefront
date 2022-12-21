@@ -2,7 +2,7 @@ import getAgnosticStatusCode, { ApolloError, AxiosError, UnknownError } from '..
 import bigObject from '../test-data/getAgnosticStatusCode';
 
 const expectedStatusCode = 400;
-const defaultCode = 200;
+const defaultCode = 500;
 const networkErrorCode = 500;
 
 describe('[middleware-helpers] getAgnosticStatusCode', () => {
@@ -30,7 +30,7 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
   });
 
   it('retrieves the status code from big object', () => {
-    const testData = {...bigObject, ...{statusCode: expectedStatusCode}} as unknown as UnknownError;
+    const testData = { ...bigObject, ...{ statusCode: expectedStatusCode } } as unknown as UnknownError;
     const statusCode = getAgnosticStatusCode(testData);
 
     expect(statusCode).toBe(expectedStatusCode);

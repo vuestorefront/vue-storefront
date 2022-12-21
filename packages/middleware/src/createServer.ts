@@ -75,8 +75,9 @@ async function createServer(config: MiddlewareConfig): Promise<Express> {
       const platformResponse = await apiFunction(...req.body);
       res.send(platformResponse);
     } catch (error) {
+      consola.error(error);
       res.status(getAgnosticStatusCode(error));
-      res.send(error);
+      res.send('ServerError: Response not successful. Please, check server logs for more details.');
     }
   });
 
