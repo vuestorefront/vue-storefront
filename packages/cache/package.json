@@ -15,7 +15,7 @@
     "@vue-storefront/core": "~2.7.4"
   },
   "peerDependencies": {
-    "@nuxtjs/composition-api": "^0.29.3"
+    "@nuxtjs/composition-api": "^0.33.1"
   },
   "publishConfig": {
     "access": "public"

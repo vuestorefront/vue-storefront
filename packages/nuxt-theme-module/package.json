@@ -23,10 +23,10 @@
     "consola": "^2.10.1",
     "loglevel": "^1.6.7",
     "ts-loader": "^8.0.3",
-    "vue": "^2.6.11"
+    "vue": "^2.7.14"
   },
   "peerDependencies": {
-    "@nuxtjs/composition-api": "^0.29.3"
+    "@nuxtjs/composition-api": "^0.33.1"
   },
   "engines": {
     "node": ">=14 <=16"
