@@ -269,7 +269,7 @@ const INTEGRATIONS = {
       categories: [CATEGORY.PAYMENT],
     },
     {
-      name: 'Stripe',
+      name: 'Stripe - ElasticPath',
       link: [{ name: 'ElasticPath Commerce Cloud', link: 'https://docs.vuestorefront.io/stripe/epcc' }],
       image: '/v2/integrations-logos/stripe.svg',
       status: STATUS.STABLE,
@@ -280,7 +280,7 @@ const INTEGRATIONS = {
       categories: [CATEGORY.PAYMENT],
     },
     {
-      name: 'Stripe',
+      name: 'Stripe - commercetools',
       link: [{ name: 'commercetools', link: 'https://docs.vuestorefront.io/stripe/commercetools' }],
       image: '/v2/integrations-logos/stripe.svg',
       status: STATUS.STABLE,
@@ -318,6 +318,24 @@ const INTEGRATIONS = {
     {
       name: 'Sanity',
       link: 'https://docs.vuestorefront.io/sanity/',
+      image: '/v2/integrations-logos/sanity.svg',
+      status: STATUS.STABLE,
+      license: LICENSE.ENTERPRISE,
+      maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
+      categories: [CATEGORY.CMS],
+    },
+    {
+      name: 'Hygraph',
+      link: 'https://docs.vuestorefront.io/graphcms/',
+      image: '/v2/integrations-logos/hygraph.svg',
+      status: STATUS.STABLE,
+      license: LICENSE.ENTERPRISE,
+      maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
+      categories: [CATEGORY.CMS],
+    },
+    {
+      name: 'Kentico',
+      link: 'https://docs.vuestorefront.io/kentico/',
       image: '/v2/integrations-logos/sanity.svg',
       status: STATUS.STABLE,
       license: LICENSE.ENTERPRISE,

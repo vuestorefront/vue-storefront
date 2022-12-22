@@ -24,6 +24,7 @@
             .toLowerCase()
             .replace(/ - magento/g, '')
             .replace(/ - commercetools/g, '')
+            .replace(/ - elasticpath/g, '')
             .replace(/ /g, '-')
             .replace(/\./g, '-')}.png`"
           class="object-contain w-full h-8 p-1"
