@@ -33,18 +33,16 @@ export const getIntegrationConfig = (context: NuxtContext, configuration: any) =
     Logger.info('Applied middlewareUrl as ', context.$config.middlewareUrl);
   }
 
+  const headers = {};
+  cookie && Object.assign(headers, { cookie });
+  const reqHeaders = context.req?.headers;
+  reqHeaders?.['x-forwarded-host'] && Object.assign(headers, { 'X-Forwarded-Host': reqHeaders['x-forwarded-host'] });
+  reqHeaders?.host && Object.assign(headers, { Host: reqHeaders.host });
+
   return merge({
     axios: {
       baseURL: new URL(/\/api\//gi.test(baseURL) ? '' : 'api', baseURL).toString(),
-      headers: {
-        ...(cookie ? { cookie } : {}),
-        ...(context.req ? {
-          ...(context.req.headers?.['x-forwarded-host']
-            ? { 'X-Forwarded-Host': context.req.headers['x-forwarded-host'] }
-            : {}),
-          Host: context.req.headers.host
-        } : {})
-      }
+      headers
     }
   }, configuration);
 };
