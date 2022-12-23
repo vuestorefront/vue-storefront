@@ -30,7 +30,7 @@ describe('[CORE - utils] _proxyUtils', () => {
     expect(utils.getCookies({ req: { headers: { cookie: { someCookie: 1 } } } } as any)).toEqual({ someCookie: 1 });
   });
 
-  it('it combines config with the current one', () => {
+  it('combines config with the current one', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValue('');
 
     const integrationConfig = utils.getIntegrationConfig(
@@ -51,7 +51,7 @@ describe('[CORE - utils] _proxyUtils', () => {
     });
   });
 
-  it('it combines config with the current one and adds a cookie', () => {
+  it('combines config with the current one and adds a cookie', () => {
     jest.spyOn(utils, 'getCookies').mockReturnValue('xxx');
 
     const integrationConfig = utils.getIntegrationConfig(
@@ -73,6 +73,56 @@ describe('[CORE - utils] _proxyUtils', () => {
     });
   });
 
+  it('adds a X-Forwarded-Host header', () => {
+    const integrationConfig = utils.getIntegrationConfig(
+      {
+        $config: {
+          middlewareUrl: 'http://localhost.com'
+        },
+        req: {
+          headers: {
+            'x-forwarded-host': 'myforward.vsf'
+          }
+        }
+      } as any,
+      {}
+    );
+
+    expect(integrationConfig).toEqual({
+      axios: {
+        baseURL: expect.any(String),
+        headers: expect.objectContaining({
+          'X-Forwarded-Host': 'myforward.vsf'
+        })
+      }
+    });
+  });
+
+  it('adds a Host header', () => {
+    const integrationConfig = utils.getIntegrationConfig(
+      {
+        $config: {
+          middlewareUrl: 'http://localhost.com'
+        },
+        req: {
+          headers: {
+            host: 'mywebsite.local'
+          }
+        }
+      } as any,
+      {}
+    );
+
+    expect(integrationConfig).toEqual({
+      axios: {
+        baseURL: expect.any(String),
+        headers: expect.objectContaining({
+          Host: 'mywebsite.local'
+        })
+      }
+    });
+  });
+
   /**
    * baseURL configuration cases matrix
    */
@@ -85,7 +135,7 @@ describe('[CORE - utils] _proxyUtils', () => {
   ];
 
   const testMsg = '[baseUrl must be configured properly for] server: $server, middlewareUrl: $middlewareUrl, ssrMiddlewareUrl: $ssrMiddlewareUrl, expected: $expected';
-  test.each(urlSetupCases)(testMsg, ({ server, middlewareUrl, ssrMiddlewareUrl, expected }) => {
+  it.each(urlSetupCases)(testMsg, ({ server, middlewareUrl, ssrMiddlewareUrl, expected }) => {
     process.server = server;
 
     const integrationConfig = utils.getIntegrationConfig(
@@ -113,4 +163,5 @@ describe('[CORE - utils] _proxyUtils', () => {
       utils.getIntegrationConfig({ $config: { middlewareUrl: undefined } } as any, {});
     }).toThrow('`middlewareUrl` is required. Provide the `middlewareUrl` in your integration\'s configuration.');
   });
+
 });
