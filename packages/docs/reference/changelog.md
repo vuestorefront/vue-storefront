@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8.0-c.1 (canary)
+
+- feat!: plugins pass X-Forwarded-Host header with fallback to the Host header in server to server communication #6869. ([6869](https://github.com/vuestorefront/vue-storefront/pull/6869)) - [Filip Jędrasik](https://github.com/Fifciu)
+
 ## 2.7.4
 
 - fix: use any type as configuration in ApiClientExtension ([6862](https://github.com/vuestorefront/vue-storefront/pull/6862)) - [Wojciech Sikora](https://github.com/WojtekTheWebDev)
