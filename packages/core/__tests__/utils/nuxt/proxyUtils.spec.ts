@@ -73,7 +73,7 @@ describe('[CORE - utils] _proxyUtils', () => {
     });
   });
 
-  it('adds a X-Forwarded-Host header', () => {
+  it('sets Host header from X-Forwarded-Host header', () => {
     const integrationConfig = utils.getIntegrationConfig(
       {
         $config: {
@@ -92,13 +92,13 @@ describe('[CORE - utils] _proxyUtils', () => {
       axios: {
         baseURL: expect.any(String),
         headers: expect.objectContaining({
-          'X-Forwarded-Host': 'myforward.vsf'
+          Host: 'myforward.vsf'
         })
       }
     });
   });
 
-  it('adds a Host header', () => {
+  it('sets Host from Host header', () => {
     const integrationConfig = utils.getIntegrationConfig(
       {
         $config: {
@@ -106,6 +106,32 @@ describe('[CORE - utils] _proxyUtils', () => {
         },
         req: {
           headers: {
+            host: 'pod.local'
+          }
+        }
+      } as any,
+      {}
+    );
+
+    expect(integrationConfig).toEqual({
+      axios: {
+        baseURL: expect.any(String),
+        headers: expect.objectContaining({
+          Host: 'pod.local'
+        })
+      }
+    });
+  });
+
+  it('prioritizes X-Forwarded-Host header over Host header', () => {
+    const integrationConfig = utils.getIntegrationConfig(
+      {
+        $config: {
+          middlewareUrl: 'http://localhost.com'
+        },
+        req: {
+          headers: {
+            'x-forwarded-host': 'myforward.vsf',
             host: 'mywebsite.local'
           }
         }
@@ -117,7 +143,7 @@ describe('[CORE - utils] _proxyUtils', () => {
       axios: {
         baseURL: expect.any(String),
         headers: expect.objectContaining({
-          Host: 'mywebsite.local'
+          Host: 'myforward.vsf'
         })
       }
     });
