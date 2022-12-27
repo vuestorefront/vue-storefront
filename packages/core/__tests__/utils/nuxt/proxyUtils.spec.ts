@@ -164,4 +164,54 @@ describe('[CORE - utils] _proxyUtils', () => {
     }).toThrow('`middlewareUrl` is required. Provide the `middlewareUrl` in your integration\'s configuration.');
   });
 
+  it('sets Host from Host header', () => {
+    const integrationConfig = utils.getIntegrationConfig(
+      {
+        $config: {
+          middlewareUrl: 'http://localhost.com'
+        },
+        req: {
+          headers: {
+            host: 'pod.local'
+          }
+        }
+      } as any,
+      {}
+    );
+
+    expect(integrationConfig).toEqual({
+      axios: {
+        baseURL: expect.any(String),
+        headers: expect.objectContaining({
+          Host: 'pod.local'
+        })
+      }
+    });
+  });
+
+  it('sets Host proritizing X-Forwarded-Host header over Host header', () => {
+    const integrationConfig = utils.getIntegrationConfig(
+      {
+        $config: {
+          middlewareUrl: 'http://localhost.com'
+        },
+        req: {
+          headers: {
+            'x-forwarded-host': 'myforward.vsf',
+            host: 'pod.local'
+          }
+        }
+      } as any,
+      {}
+    );
+
+    expect(integrationConfig).toEqual({
+      axios: {
+        baseURL: expect.any(String),
+        headers: expect.objectContaining({
+          Host: 'myforward.vsf'
+        })
+      }
+    });
+  });
 });

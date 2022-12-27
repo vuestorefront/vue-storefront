@@ -43,16 +43,13 @@ export const getIntegrationConfig = (context: NuxtContext, configuration: any) =
     baseURL = `/${baseURL}`;
   }
 
-  const headers = {};
-  cookie && Object.assign(headers, { cookie });
-  const reqHeaders = context.req?.headers;
-  reqHeaders?.['x-forwarded-host'] && Object.assign(headers, { 'X-Forwarded-Host': reqHeaders['x-forwarded-host'] });
-  reqHeaders?.host && Object.assign(headers, { Host: reqHeaders.host });
-
   return merge({
     axios: {
       baseURL,
-      headers
+      headers: {
+        ...(cookie ? { cookie } : {}),
+        ...(context.req ? { Host: context.req.headers['x-forwarded-host'] || context.req.headers.host } : {})
+      }
     }
   }, configuration);
 };

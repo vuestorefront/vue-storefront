@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.7.5
+
+- feat: plugins pass X-Forwarded-Host header with fallback to the Host header as a Host in axios server to server communication #6871. ([6871](https://github.com/vuestorefront/vue-storefront/pull/6871)) - [Filip Jędrasik](https://github.com/Fifciu)
+
 ## 2.7.4
 
 - fix: use any type as configuration in ApiClientExtension ([6862](https://github.com/vuestorefront/vue-storefront/pull/6862)) - [Wojciech Sikora](https://github.com/WojtekTheWebDev)
