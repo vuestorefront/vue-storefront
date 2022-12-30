@@ -19,25 +19,43 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS>(f
     const extendedApis = Object.keys(rawExtensions)
       .reduce((prev, curr) => ({ ...prev, ...rawExtensions[curr].extendApiMethods }), customApi);
 
-    const _config = lifecycles
-      .filter(ext => isFn(ext.beforeCreate))
-      .reduce((prev, curr) => curr.beforeCreate({ configuration: prev }), config);
+    const extensionsWithBeforeCreate = lifecycles
+      .filter(ext => isFn(ext.beforeCreate));
+    let _beforeCreateConfig = config;
+    for (const ext of extensionsWithBeforeCreate) {
+      _beforeCreateConfig = await ext.beforeCreate({ configuration: _beforeCreateConfig });
+    }
 
-    const settings = factoryParams.onCreate ? await factoryParams.onCreate(_config) : { config, client: config.client };
+    const settings = factoryParams.onCreate ? await factoryParams.onCreate(_beforeCreateConfig) : { config, client: config.client };
 
     Logger.debug('apiClientFactory.create', settings);
 
-    settings.config = lifecycles
-      .filter(ext => isFn(ext.afterCreate))
-      .reduce((prev, curr) => curr.afterCreate({ configuration: prev }), settings.config);
+    const extensionsWithAfterCreate = lifecycles
+      .filter(ext => isFn(ext.afterCreate));
+    let _afterCreateConfig = settings.config;
+    for (const ext of extensionsWithAfterCreate) {
+      _afterCreateConfig = await ext.afterCreate({ configuration: _afterCreateConfig });
+    }
 
+    const extensionsWithBeforeCall = lifecycles
+      .filter(ext => isFn(ext.beforeCall));
+    const extensionsWithAfterCall = lifecycles
+      .filter(ext => isFn(ext.afterCall));
     const extensionHooks = {
-      before: (params) => lifecycles
-        .filter(e => isFn(e.beforeCall))
-        .reduce((args, e) => e.beforeCall({ ...params, configuration: settings.config, args}), params.args),
-      after: (params) => lifecycles
-        .filter(e => isFn(e.afterCall))
-        .reduce((response, e) => e.afterCall({ ...params, configuration: settings.config, response }), params.response)
+      before: async (params) => {
+        let _beforeCallArgs = params.args;
+        for (const ext of extensionsWithBeforeCall) {
+          _beforeCallArgs = await ext.beforeCall({ ...params, configuration: settings.config, args: _beforeCallArgs });
+        }
+        return _beforeCallArgs;
+      },
+      after: async (params) => {
+        let _afterCallResponse = params.response;
+        for (const ext of extensionsWithAfterCall) {
+          _afterCallResponse = await ext.afterCall({ ...params, configuration: settings.config, response: _afterCallResponse });
+        }
+        return _afterCallResponse;
+      }
     };
 
     const api = applyContextToApi(
