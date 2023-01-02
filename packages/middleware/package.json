@@ -7,6 +7,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c",
+    "dev": "rimraf lib && rollup -c rollup.config.js -w",
     "test": "jest",
     "prepublish": "yarn build"
   },
