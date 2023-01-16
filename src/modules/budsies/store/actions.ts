@@ -114,9 +114,13 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     commit('setProductRushAddons', { key: productId, addons });
   },
   async loadProductBodyparts (
-    { commit, state },
-    { productId }
+    { commit, getters },
+    { productId, useCache = true }
   ): Promise<void> {
+    if (useCache && getters['getProductBodyparts'](productId).length !== 0) {
+      return;
+    }
+
     const url = processURLAddress(`${config.budsies.endpoint}/plushies/body-parts`);
 
     const result = await TaskQueue.execute({
