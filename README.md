@@ -4,10 +4,16 @@
 </p>
 
 <h3 align="center">
-  Lightning-Fast Frontend Platform for Headless Commerce
+  <strong>An ecosystem of developer tools that accelerate and simplify building eCommerce Storefronts</strong>
 </h3>
 <p align="center">
-    Vue Storefront is the most popular and most advanced Frontend Platform for eCommerce.
+    Works with any backend
+</p>
+
+<p align="center">
+    <a href="https://demo.vuestorefront.io/">
+        Check our demo application
+    </a>
 </p>
 
 <p align="center">
@@ -39,38 +45,17 @@
     </a>
 </p>
 
-> # #TechForUkraine
-> <div align="center">
->   <p>
->      <img src="https://user-images.githubusercontent.com/1626923/155853691-d6d0a541-d3b9-40bf-b8f5-2d38303e9e49.png" />
->   </p>
->   <h2><strong>Russia’s military aggression against Ukraine.</strong></h2>
->   <div align="left">
->     <h3>How can you support Ukrainian civil society?</h3>
->     All help is needed. If you are not able to help locally, by sheltering a fellow Ukrainian, you can also:
->     <ul>
->       <li>
->           Support the Ukraine Armed forces directly by sending funding to the special accounts.<br />
->           <a href="https://bank.gov.ua/en/news/all/natsionalniy-bank-vidkriv-spetsrahunok-dlya-zboru-koshtiv-na-potrebi-armiyi"
->               target="_blank">NBU Special Account to Raise Funds for Ukraine’s Armed Forces</a>
->       </li>
->       <li>
->           Help the ICRC (Red Cross) with donations.<br />
->           <a href="https://www.icrc.org/en/where-we-work/europe-central-asia/ukraine" target="_blank">Ukrainian
->               Red Cross Society</a>
->       </li>
->       <li>
->           Donate to the United Help Ukraine.<br />
->           <a href="https://unitedhelpukraine.org/" target="_blank">United Help Ukraine</a>
->       </li>
->       <li>
->           Donate to Voices of Children<br />
->           <a href="https://voices.org.ua/en/" target="_blank">Voices of Children</a>
->       </li>
->   </div>
-> </div>
+![Screenshots](https://images.contentstack.io/v3/assets/blt189c1df68c6b48d7/blt012de533cf11b952/62a0df552680af592233245c/Homepage-Hero-v1.png?auto=webp&width=640&format=pjpg&disable=upscale&quality=100&dpr=2)
 
-![Screenshots](https://blog.vuestorefront.io/wp-content/uploads/2020/03/3-views-Vue-Storefront-.png)
+
+- **Works with any backend**. Vue Storefront is compatible with many eCommerce platforms, including Magento, Shopify, BigCommerce, and more. [See the list of all open-source and enterprise eCommerce platforms supported](https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms).
+
+- **Build and Customize**. Build your application with pre-installed [Storefront UI](https://github.com/vuestorefront/storefront-ui) - components library designed for eCommerce, or build your own theme from scratch.
+
+- **Connect with other Integrations**. Vue Storefront is compatible with many third-party services, including StoryBlok, Ampliance, Stripe, Algolia, and more. [See the list of all open-source and enterprise integrations supported](https://docs.vuestorefront.io/v2/integrations/#cms).
+- **Host and Deploy**. Vue Storefront is a server-side rendered application, so you can host it on any server or cloud provider. Enterprise clients can benefit from our in-house [cloud solutions fully optimized for Vue Storefront applications](https://vuestorefront.io/cloud)
+
+<br />
 
 # Supported platforms
 
@@ -144,28 +129,68 @@
 </p>
 
 
-## Links
+## **Getting started**
 
-- 🖥  Demo: https://demo.vuestorefront.io/
-- 📦  Installation: https://docs.vuestorefront.io/v2/getting-started/installation.html
-- 📘  Documentation: https://docs.vuestorefront.io/v2/
-- 👥  Discord Community: https://discord.vuestorefront.io/
-- 🐦  Twitter: https://twitter.com/VueStorefront
-- 🎥  YouTube: https://www.youtube.com/c/VueStorefront
-- 🌟  [Over 1000+ Live Stores, check the list!](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
+<br />
 
-## The business challenges
+### **Step 1: Generate a new project** 🧰
 
-Vue Storefront solves a set of key business challenges from the world of the shopping experience. Our goal is to provide the solution with:
+```bash
+npx @vue-storefront/cli generate store
+```
 
-- ultrafast front-end for the store - with the PWA approach, we can now render the catalog of products within milliseconds;
-- endurance for traffic overloads on the store;
-- off-line shopping capabilities;
-- smooth shopping experience close to the user experience from the native mobile applications;
-- all-in-one front-end for desktop and mobile screens with no necessity for maintaining 3 or more applications for different touchpoints (web browser, Android, iOS, etc.).
-- rapid development without architecture limitations.
+You will be asked to enter the project's name and select the e-commerce platform you wish to use. Once selected, the CLI will create project files in the directory matching your project name.
 
-## The headless architecture
+<br />
+
+### **Step 2: Install dependencies** ⏳
+
+Go to the newly created directory and install the required dependencies:
+
+
+```bash
+cd <project_name>
+
+yarn
+```
+
+> Vue Storefront supports only **Yarn** package manager. If you don't have it installed, please follow the [official Yarn installation guide](https://yarnpkg.com/getting-started/install).
+
+<br />
+
+### **Step 3: Configure the project** ⚙️
+
+The next step is to configure your project, and it's different for every e-commerce integration. Go to the [Integrations](https://docs.vuestorefront.io/v2/integrations/) page, open the documentation for the integration you selected in our CLI, and look for the page describing the configuration steps.
+
+<!-- add icons for integrations leading to docs -->
+
+<br />
+
+### **Step 4: Start the project** 🚀
+
+The project is now ready. You can start the application in development mode using the command below. You can read more about available commands and environments on the [Commands and deployment](https://nuxtjs.org/docs/get-started/commands/) page in Nuxt.js documentation.
+
+```bash
+yarn dev
+```
+
+<br />
+
+### **Step 5: Build** 🎨
+
+To learn more about the project structure and how to customize it, check out the [Vue Storefront documentation](https://docs.vuestorefront.io/v2/getting-started/project-structure.html).
+
+<br />
+
+
+<!-- What you get after installation out of the box https://docs.vuestorefront.io/v2/architecture/networking.html -->
+
+integr
+theme
+nuxt
+middleware
+
+## The headless architecture -- REMOVE
 
 ![Vue Storefront - Headless Architecture](https://user-images.githubusercontent.com/1626923/156937729-bab22505-89f5-488b-9dd1-d2d7c7ad9600.jpg)
 
@@ -193,3 +218,25 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
 Vue Storefront source code is completely free and released under the [MIT License](https://github.com/vuestorefront/vue-storefront/blob/master/LICENSE).
 
 [![analytics](http://www.google-analytics.com/collect?v=1&t=pageview&_s=1&dl=https%3A%2F%2Fgithub.com%2FDivanteLtd%2Fvue-storefront&_u=MAC~&cid=1757014354.1393964045&tid=UA-108235765-10)]()
+
+<p>
+    <img src="https://gcdnb.pbrd.co/images/xheIr0DIp7M6.png?o=1" />
+</p>
+
+<p>
+    <img src="https://gcdnb.pbrd.co/images/mfmANzq355zr.png?o=1" />
+</p>
+
+<p>
+<img src="https://gcdnb.pbrd.co/images/bDfmujNpxjxy.png?o=1" />
+</p>
+
+## Links
+
+- 🖥  Demo: https://demo.vuestorefront.io/
+- 📦  Installation: https://docs.vuestorefront.io/v2/getting-started/installation.html
+- 📘  Documentation: https://docs.vuestorefront.io/v2/
+- 👥  Discord Community: https://discord.vuestorefront.io/
+- 🐦  Twitter: https://twitter.com/VueStorefront
+- 🎥  YouTube: https://www.youtube.com/c/VueStorefront
+- 🌟  [Over 1000+ Live Stores, check the list!](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
