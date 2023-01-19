@@ -12,10 +12,10 @@
         "skipping": "Não é possível gerar a loja. Pulando…",
         "success": "Loja gerada com sucesso em \"./{{projectName}}\"!",
         "install": "Para finalizar a instalação, execute os comandos abaixo:",
-        "install_commands": ["cd {{ projectName }}", "npm install"],
+        "install_commands": ["cd {{ projectName }}", "yarn"],
         "configure": "Depois, acesse {{ documentationURL }} para aprender a configurar o projeto.",
         "start": "Ao finalizar, você pode inicializar o projeto com o comando:",
-        "start_command": "npm run dev"
+        "start_command": "yarn dev"
       }
     },
     "generate_template": {

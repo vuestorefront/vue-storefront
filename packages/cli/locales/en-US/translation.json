@@ -12,10 +12,10 @@
         "skipping": "Can't generate the store. Skipping…",
         "success": "Sucessfully generated your store at \"./{{projectName}}\"!",
         "install": "To finish the installation, run the following commands:",
-        "install_commands": ["cd {{ projectName }}", "npm install"],
+        "install_commands": ["cd {{ projectName }}", "yarn"],
         "configure": "Then, go to the {{ documentationURL }} to learn how to configure the project.",
         "start": "Once finished, you can start the project using this command:",
-        "start_command": "npm run dev"
+        "start_command": "yarn dev"
       }
     },
     "generate_template": {
