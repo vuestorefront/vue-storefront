@@ -60,12 +60,7 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
 
 🌟  [Over 1000+ Live Stores, check the list!](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
 
-<br />
-
 ## **Supported platforms** 🛍️
-___
-
-<br />
 
 
 <p align="center" valign="middle">
@@ -131,11 +126,7 @@ ___
   <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms">Learn more about available eCommerce platforms</a>
 </p>
 
-<br />
-
 ## **Getting started** 🚀
-____
-<br />
 
 ### **Step 1: Generate a new project** 🧰
 
@@ -144,8 +135,6 @@ npx @vue-storefront/cli generate store
 ```
 
 You will be asked to enter the project's name and select the e-commerce platform you wish to use. Once selected, the CLI will create project files in the directory matching your project name.
-
-<br />
 
 ### **Step 2: Install dependencies** ⏳
 
@@ -159,8 +148,6 @@ yarn
 ```
 
 > Vue Storefront supports only **Yarn** package manager. If you don't have it installed, please follow the [official Yarn installation guide](https://yarnpkg.com/getting-started/install).
-
-<br />
 
 ### **Step 3: Configure the project** ⚙️
 
@@ -208,8 +195,6 @@ The next step is to configure your project, and it's different for every e-comme
 </p>
 
 
-<br />
-
 ### **Step 4: Start the project** 🚀
 
 The project is now ready. You can start the application in development mode using the command below. You can read more about available commands and environments on the [Commands and deployment](https://nuxtjs.org/docs/get-started/commands/) page in Nuxt.js documentation.
@@ -218,17 +203,12 @@ The project is now ready. You can start the application in development mode usin
 yarn dev
 ```
 
-<br />
 
 ### **Step 5: Build** 🎨
 
 To learn more about the project structure and how to customize it, check out the [Vue Storefront documentation](https://docs.vuestorefront.io/v2/getting-started/project-structure.html).
 
-<br />
-
 ## **What you get out-of-the-box** 📦
-___
-<br />
 
 ![Vue Storefront - Architecture](https://gcdnb.pbrd.co/images/wP9G1IiiwVdp.png?o=1)
 
@@ -237,11 +217,7 @@ ___
 - **Storefront UI** - the Vue.js components UI library used to build the frontend application
 - **Vue Storefront Middleware** - the Express.js server used to connect the frontend application with the eCommerce platform and other Integrations
 
-<br />
-
 ## **Our Tech Stack** 🛠
-___
-<br />
 
 - [Vue.js](https://vuejs.org/)
 - [Nuxt.js](https://nuxtjs.org/)
@@ -253,11 +229,7 @@ ___
 - [Docker](https://www.docker.com/)
 - [Jest](https://jestjs.io/)
 
-<br />
-
 ## **Contribution** 🤝
-____
-<br />
 
 Vue Storefront is an Open Source project and we encourage everyone to help us making it better. If you are interested in contributing to the project, please read our [Contributing Guide](https://github.com/vuestorefront/vue-storefront/blob/main/CONTRIBUTING.md) and [Code of Conduct](https://github.com/vuestorefront/vue-storefront/blob/main/CODE_OF_CONDUCT.md).
 
@@ -265,11 +237,7 @@ If you have any questions about contributing, please join our [Discord server](h
 
 Discovered a 🐜 or have feature suggestion? Feel free to [create an issue](https://github.com/vuestorefront/vue-storefront/issues/new/choose) on Github.
 
-<br />
-
 ## **Support us** ❤️
-____
-<br />
 
 **Vue Storefront is and always will be Open Source, released under MIT Licence.**
 
@@ -280,8 +248,6 @@ How you can help us:
 - **Create content** - write a blog post, record a video, or create a tutorial. We will be happy to share it on our social media channels.
 - **Engage with the community** - help others in our [Discord server](https://discord.vuestorefront.io/).
 
-<br />
-
 **Follow us on Social Media**
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/VSFdevelopers?style=social)](https://twitter.com/VSFdevelopers)
@@ -291,11 +257,7 @@ How you can help us:
 [![LinkedIn Follow](https://img.shields.io/badge/LinkedIn-Follow-black?style=social&logo=linkedin)](https://www.linkedin.com/company/vue-storefront/)
 [![Facebook Follow](https://img.shields.io/badge/Facebook-Follow-black?style=social&logo=facebook)](https://www.facebook.com/vuestorefront)
 
-<br />
-
 ## **Partners** 💪
-____
-<br />
 
 Vue Storefront is a Community effort brought to You by our great Core Team and supported by the following companies.
 
@@ -305,19 +267,11 @@ Vue Storefront source code is completely free and released under the [MIT Licens
 
 [![analytics](http://www.google-analytics.com/collect?v=1&t=pageview&_s=1&dl=https%3A%2F%2Fgithub.com%2FDivanteLtd%2Fvue-storefront&_u=MAC~&cid=1757014354.1393964045&tid=UA-108235765-10)]()
 
-<br />
-
 ## **Careers** 👩‍💻👨‍💻
-____
-<br />
 
 We are growing and we are looking for talented people to join our team. If you are interested in working with us, please check our [Careers page](https://vuestorefront.io/careers).
 
-<br />
-
 ## **#StandWithUkraine** 🇺🇦
-____
-<br />
 
 We at Vue Storefront express our support for the people of Ukraine and their right to live in a free and democratic country. We stand with Ukraine and we will continue to support the Ukrainian community.
 
