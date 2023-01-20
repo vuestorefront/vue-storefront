@@ -45,8 +45,9 @@
     </a>
 </p>
 
-![Screenshots](https://images.contentstack.io/v3/assets/blt189c1df68c6b48d7/blt012de533cf11b952/62a0df552680af592233245c/Homepage-Hero-v1.png?auto=webp&width=640&format=pjpg&disable=upscale&quality=100&dpr=2)
+![Hero image](https://images.contentstack.io/v3/assets/blt189c1df68c6b48d7/blt012de533cf11b952/62a0df552680af592233245c/Homepage-Hero-v1.png?auto=webp&width=640&format=pjpg&disable=upscale&quality=100&dpr=2)
 
+Vue Storefront is an ecosystem of tools to help developers build eCommerce Frontend applications fast. Focus on building features with customizable frontend components, out-of-the-box integrations, and a reliable cloud architecture.
 
 - **Works with any backend**. Vue Storefront is compatible with many eCommerce platforms, including Magento, Shopify, BigCommerce, and more. [See the list of all open-source and enterprise eCommerce platforms supported](https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms).
 
@@ -57,45 +58,43 @@
 
 <br />
 
-# Supported platforms
+🌟  [Over 1000+ Live Stores, check the list!](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
+
+<br />
+
+## **Supported platforms** 🛍️
+___
+
+<br />
 
 
 <p align="center" valign="middle">
-    <a title="commercetools" target="_blank" href="https://docs.vuestorefront.io/v2/commercetools/">
-        <img alt="commercetools" width="75" src="https://user-images.githubusercontent.com/1626923/156658926-532f44bd-f178-4bd9-ae72-1ca7d9984f57.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="Shopware" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
-        <img alt="Shopware" width="75" src="https://user-images.githubusercontent.com/1626923/156659145-d98ea807-872c-42a9-8fdb-4c4f30a68895.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="Shopify" target="_blank" href="https://github.com/vuestorefront/shopify">
-        <img alt="Shopify" width="75" src="https://user-images.githubusercontent.com/1626923/156658959-d8da60fd-9904-44f4-9823-11a3e821c155.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="Magento" target="_blank" href="https://github.com/vuestorefront/magento2">
-        <img alt="Magento" width="75" src="https://user-images.githubusercontent.com/1626923/156659008-edbd2bed-74d5-4f0d-8a4a-eab56c283d24.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="Salesforce Commerce Cloud" target="_blank" href="https://docs.vuestorefront.io/sfcc/">
-        <img alt="Salesforce Commerce Cloud" width="75" src="https://user-images.githubusercontent.com/1626923/156659047-6030014e-6ec7-4dc6-b2ea-a442f7ef8c2d.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="Spree" target="_blank" href="https://github.com/vuestorefront/spree">
-        <img alt="Spree" width="75" src="https://user-images.githubusercontent.com/1626923/156659147-5576eb2f-4cf8-4610-8631-18d03e3f52de.png" />
-    </a>
-<br />
-    &nbsp;&nbsp;
     <a title="BigCommerce" target="_blank" href="https://docs.vuestorefront.io/bigcommerce/">
         <img alt="BigCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/156659123-12a987f5-a590-4971-810e-7594defc48f5.png" />
     </a>
     &nbsp;&nbsp;
-    <a title="Spryker" target="_blank" href="https://github.com/vuestorefront/spryker">
-        <img alt="Spryker" width="75" src="https://user-images.githubusercontent.com/1626923/156659149-63324469-8727-4adb-a651-95370fecf23f.png" />
+    <a title="commercetools" target="_blank" href="https://docs.vuestorefront.io/v2/commercetools/">
+        <img alt="commercetools" width="75" src="https://user-images.githubusercontent.com/1626923/156658926-532f44bd-f178-4bd9-ae72-1ca7d9984f57.png" />
     </a>
     &nbsp;&nbsp;
-    <a title="Vendure" target="_blank" href="https://github.com/vuestorefront/vendure">
-        <img alt="Vendure" width="75" src="https://user-images.githubusercontent.com/1626923/156659153-fafdeb94-a34e-4e9e-8e8a-0f03afde9741.png" />
+    <a title="Elastic Path" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
+        <img alt="Elastic Path" width="75" src="https://docs.vuestorefront.io/v2/integrations-logos/thumbnails/elastic-path.png" />
+    </a>
+    &nbsp;&nbsp;
+    <a title="SAP" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
+        <img alt="SAP" width="75" src="https://docs.vuestorefront.io/v2/integrations-logos/thumbnails/sap-commerce-cloud.png" />
+    </a>
+    &nbsp;&nbsp;
+     <a title="Salesforce Commerce Cloud" target="_blank" href="https://docs.vuestorefront.io/sfcc/">
+        <img alt="Salesforce Commerce Cloud" width="75" src="https://user-images.githubusercontent.com/1626923/156659047-6030014e-6ec7-4dc6-b2ea-a442f7ef8c2d.png" />
+    </a>
+    <br />
+        <a title="Magento" target="_blank" href="https://github.com/vuestorefront/magento2">
+        <img alt="Magento" width="75" src="https://user-images.githubusercontent.com/1626923/156659008-edbd2bed-74d5-4f0d-8a4a-eab56c283d24.png" />
+    </a>
+    &nbsp;&nbsp;
+    <a title="Shopify" target="_blank" href="https://github.com/vuestorefront/shopify">
+        <img alt="Shopify" width="75" src="https://user-images.githubusercontent.com/1626923/156658959-d8da60fd-9904-44f4-9823-11a3e821c155.png" />
     </a>
     &nbsp;&nbsp;
     <a title="Odoo" target="_blank" href="https://github.com/vuestorefront-community/odoo">
@@ -106,18 +105,22 @@
         <img alt="Prestashop" width="75" src="https://user-images.githubusercontent.com/1626923/156659137-d857ad24-f23f-4c80-ac56-4ef6c0721274.png" />
     </a>
     &nbsp;&nbsp;
-    <a title="nopCommerce" target="_blank" href="https://github.com/vuestorefront-community/nopcommerce">
-        <img alt="nopCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/156659133-d047ea68-ec32-4ef1-aa7d-dc5ab88f5230.png" />
+    <a title="Shopware" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
+        <img alt="Shopware" width="75" src="https://user-images.githubusercontent.com/1626923/156659145-d98ea807-872c-42a9-8fdb-4c4f30a68895.png" />
     </a>
-<br />
     &nbsp;&nbsp;
-    <a title="kiboCommerce" target="_blank" href="https://github.com/vuestorefront-community/kibocommerce">
-        <img alt="kiboCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/156659127-68c1442a-de03-46ab-863b-8dce2b5857d5.png" />
+<br />
+    <a title="Spree" target="_blank" href="https://github.com/vuestorefront/spree">
+        <img alt="Spree" width="75" src="https://user-images.githubusercontent.com/1626923/156659147-5576eb2f-4cf8-4610-8631-18d03e3f52de.png" />
     </a>
-  &nbsp;&nbsp;
+    &nbsp;&nbsp;
     <a title="Sylius" target="_blank" href="https://github.com/vuestorefront-community/sylius">
         <img alt="Sylius" width="75" src="https://user-images.githubusercontent.com/1626923/161141058-8f6a4a8e-2c6f-402e-b19b-892c7acec77f.png" />
-  </a>
+    </a>
+    &nbsp;&nbsp;
+    <a title="Vendure" target="_blank" href="https://github.com/vuestorefront/vendure">
+        <img alt="Vendure" width="75" src="https://user-images.githubusercontent.com/1626923/156659153-fafdeb94-a34e-4e9e-8e8a-0f03afde9741.png" />
+    </a>
     &nbsp;&nbsp;
         <img alt="Swell" width="75" src="https://user-images.githubusercontent.com/1626923/160184104-f4820722-3eff-4c8e-b33b-8134bc1dd78a.png" />
     &nbsp;&nbsp;
@@ -125,12 +128,13 @@
         <img alt="WooCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/160184108-b54e8785-d44c-4023-957f-2fd40c286d88.png" />
   </a>
 <br /><br />
-  <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/">Learn more about available integrations</a>
+  <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms">Learn more about available eCommerce platforms</a>
 </p>
 
+<br />
 
-## **Getting started**
-
+## **Getting started** 🚀
+____
 <br />
 
 ### **Step 1: Generate a new project** 🧰
@@ -160,9 +164,49 @@ yarn
 
 ### **Step 3: Configure the project** ⚙️
 
-The next step is to configure your project, and it's different for every e-commerce integration. Go to the [Integrations](https://docs.vuestorefront.io/v2/integrations/) page, open the documentation for the integration you selected in our CLI, and look for the page describing the configuration steps.
+The next step is to configure your project, and it's different for every e-commerce integration. Go to the [Integrations](https://docs.vuestorefront.io/v2/integrations/) page, open the documentation for the integration you selected in our CLI, and look for the page describing the configuration steps. Or just click on the integration icon below:
 
 <!-- add icons for integrations leading to docs -->
+<p align="center" valign="middle">
+    <a title="Magento" target="_blank" href="https://docs.vuestorefront.io/magento/installation-setup/configure-magento.html">
+        <span valign="center">
+            <img alt="Magento" width="55" src="https://user-images.githubusercontent.com/1626923/156659008-edbd2bed-74d5-4f0d-8a4a-eab56c283d24.png" />
+        </span>
+     </a>
+    &nbsp;&nbsp;
+    <a title="Shopify" target="_blank" href="https://docs.vuestorefront.io/shopify/guide/getting-started.html">
+        <img alt="Shopify" width="55" src="https://user-images.githubusercontent.com/1626923/156658959-d8da60fd-9904-44f4-9823-11a3e821c155.png" />
+    </a>
+    &nbsp;&nbsp;
+    <a title="Odoo" target="_blank" href="https://docs.vuestorefront.io/odoo/">
+    <span valign="center">
+        <img alt="Odoo" width="55" src="https://user-images.githubusercontent.com/1626923/156659136-55c8d696-febd-410e-ab72-b217e9e745e6.png" />
+    </span>
+    </a>
+    &nbsp;&nbsp;
+    <a title="Prestashop" target="_blank" href="https://docs.vuestorefront.io/prestashop/guide/getting-started.html">
+        <img alt="Prestashop" width="55" src="https://user-images.githubusercontent.com/1626923/156659137-d857ad24-f23f-4c80-ac56-4ef6c0721274.png" />
+    </a>
+    &nbsp;&nbsp;
+    <a title="Shopware" target="_blank" href="https://shopware-pwa-docs.vuestorefront.io/">
+        <img alt="Shopware" width="55" src="https://user-images.githubusercontent.com/1626923/156659145-d98ea807-872c-42a9-8fdb-4c4f30a68895.png" />
+    </a>
+    &nbsp;&nbsp;
+    <a title="Spree" target="_blank" href="https://docs.vuestorefront.io/spree/guide/getting-started.html">
+        <img alt="Spree" width="55" src="https://user-images.githubusercontent.com/1626923/156659147-5576eb2f-4cf8-4610-8631-18d03e3f52de.png" />
+    </a>
+    &nbsp;&nbsp;
+    <a title="Sylius" target="_blank" href="https://github.com/vuestorefront-community/sylius">
+        <img alt="Sylius" width="55" src="https://user-images.githubusercontent.com/1626923/161141058-8f6a4a8e-2c6f-402e-b19b-892c7acec77f.png" />
+    </a>
+    &nbsp;&nbsp;
+    <a title="Vendure" target="_blank" href="https://docs.vuestorefront.io/vendure/guide/configuration.html#steps">
+        <img alt="Vendure" width="55" src="https://user-images.githubusercontent.com/1626923/156659153-fafdeb94-a34e-4e9e-8e8a-0f03afde9741.png" />
+    </a>
+<br /><br />
+  <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms">Check all available integrations</a>
+</p>
+
 
 <br />
 
@@ -182,34 +226,76 @@ To learn more about the project structure and how to customize it, check out the
 
 <br />
 
+## **What you get out-of-the-box** 📦
+___
+<br />
 
-<!-- What you get after installation out of the box https://docs.vuestorefront.io/v2/architecture/networking.html -->
+![Vue Storefront - Architecture](https://gcdnb.pbrd.co/images/wP9G1IiiwVdp.png?o=1)
 
-integr
-theme
-nuxt
-middleware
+- **Nuxt.js** - the Vue.js framework used to build the application
+- **Vue Storefront Theme** - fully functional eCommerce theme based on the Storefront UI library
+- **Storefront UI** - the Vue.js components UI library used to build the frontend application
+- **Vue Storefront Middleware** - the Express.js server used to connect the frontend application with the eCommerce platform and other Integrations
 
-## The headless architecture -- REMOVE
+<br />
 
-![Vue Storefront - Headless Architecture](https://user-images.githubusercontent.com/1626923/156937729-bab22505-89f5-488b-9dd1-d2d7c7ad9600.jpg)
+## **Our Tech Stack** 🛠
+___
+<br />
 
-## Contributing
+- [Vue.js](https://vuejs.org/)
+- [Nuxt.js](https://nuxtjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Storefront UI](https://storefrontui.io/)
+- [Express.js](https://expressjs.com/)
+- [GraphQL](https://graphql.org/)
+- [Yarn](https://yarnpkg.com/)
+- [Docker](https://www.docker.com/)
+- [Jest](https://jestjs.io/)
 
-If you like the ideas behind Vue Storefront and want to become a contributor - join our [Discord server](https://discord.vuestorefront.io/), check the [list of the active issues](https://github.com/vuestorefront/vue-storefront/issues) or contact us directly via contributors(at)vuestorefront(dot)io.
+<br />
 
-If you have discovered a 🐜 or have feature suggestion, feel free to [create an issue](https://github.com/vuestorefront/vue-storefront/issues/new/choose) on Github.
+## **Contribution** 🤝
+____
+<br />
 
-## Support us
+Vue Storefront is an Open Source project and we encourage everyone to help us making it better. If you are interested in contributing to the project, please read our [Contributing Guide](https://github.com/vuestorefront/vue-storefront/blob/main/CONTRIBUTING.md) and [Code of Conduct](https://github.com/vuestorefront/vue-storefront/blob/main/CODE_OF_CONDUCT.md).
+
+If you have any questions about contributing, please join our [Discord server](https://discord.vuestorefront.io/) - we are happy to help you!
+
+Discovered a 🐜 or have feature suggestion? Feel free to [create an issue](https://github.com/vuestorefront/vue-storefront/issues/new/choose) on Github.
+
+<br />
+
+## **Support us** ❤️
+____
+<br />
 
 **Vue Storefront is and always will be Open Source, released under MIT Licence.**
 
-You can support us in various ways:
+How you can help us:
 
-- **Contribute** - this is how the Core Team is supporting the project!
-- **Evangelize** - tweet about us, take some speaking slot at a tech conference, etc.
+- **Contribute** - this is how the Core Team is supporting the project.
+- **Spread the word** - tell your friends, colleagues, and followers about Vue Storefront.
+- **Create content** - write a blog post, record a video, or create a tutorial. We will be happy to share it on our social media channels.
+- **Engage with the community** - help others in our [Discord server](https://discord.vuestorefront.io/).
 
-## Partners
+<br />
+
+**Follow us on Social Media**
+
+[![Twitter Follow](https://img.shields.io/twitter/follow/VSFdevelopers?style=social)](https://twitter.com/VSFdevelopers)
+[![YouTube Follow](https://img.shields.io/badge/YouTube-Follow-black?style=social&logo=youtube)](https://www.youtube.com/c/VueStorefront)
+[![Dev.to Follow](https://img.shields.io/badge/DEV.to-Follow-black?style=social&logo=dev.to)](https://dev.to/vue-storefront)
+
+[![LinkedIn Follow](https://img.shields.io/badge/LinkedIn-Follow-black?style=social&logo=linkedin)](https://www.linkedin.com/company/vue-storefront/)
+[![Facebook Follow](https://img.shields.io/badge/Facebook-Follow-black?style=social&logo=facebook)](https://www.facebook.com/vuestorefront)
+
+<br />
+
+## **Partners** 💪
+____
+<br />
 
 Vue Storefront is a Community effort brought to You by our great Core Team and supported by the following companies.
 
@@ -219,24 +305,22 @@ Vue Storefront source code is completely free and released under the [MIT Licens
 
 [![analytics](http://www.google-analytics.com/collect?v=1&t=pageview&_s=1&dl=https%3A%2F%2Fgithub.com%2FDivanteLtd%2Fvue-storefront&_u=MAC~&cid=1757014354.1393964045&tid=UA-108235765-10)]()
 
-<p>
-    <img src="https://gcdnb.pbrd.co/images/xheIr0DIp7M6.png?o=1" />
-</p>
+<br />
 
-<p>
-    <img src="https://gcdnb.pbrd.co/images/mfmANzq355zr.png?o=1" />
-</p>
+## **Careers** 👩‍💻👨‍💻
+____
+<br />
+
+We are growing and we are looking for talented people to join our team. If you are interested in working with us, please check our [Careers page](https://vuestorefront.io/careers).
+
+<br />
+
+## **#StandWithUkraine** 🇺🇦
+____
+<br />
+
+We at Vue Storefront express our support for the people of Ukraine and their right to live in a free and democratic country. We stand with Ukraine and we will continue to support the Ukrainian community.
 
 <p>
 <img src="https://gcdnb.pbrd.co/images/bDfmujNpxjxy.png?o=1" />
 </p>
-
-## Links
-
-- 🖥  Demo: https://demo.vuestorefront.io/
-- 📦  Installation: https://docs.vuestorefront.io/v2/getting-started/installation.html
-- 📘  Documentation: https://docs.vuestorefront.io/v2/
-- 👥  Discord Community: https://discord.vuestorefront.io/
-- 🐦  Twitter: https://twitter.com/VueStorefront
-- 🎥  YouTube: https://www.youtube.com/c/VueStorefront
-- 🌟  [Over 1000+ Live Stores, check the list!](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
