@@ -7,6 +7,7 @@ import omit from 'lodash-es/omit'
 import pick from 'lodash-es/pick'
 import buildTimeConfig from 'config'
 import { AsyncDataLoader } from '@vue-storefront/core/lib/async-data-loader'
+import getHostFromHeaders from '@vue-storefront/core/helpers/get-host-from-headers.function';
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { RouterManager } from './lib/router-manager';
@@ -59,15 +60,11 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
   })
 }
 
-function getHostFromHeader (headers: string[]): string {
-  return headers['x-forwarded-host'] !== undefined ? headers['x-forwarded-host'] : headers['host']
-}
-
 export default async context => {
   let storeCode = context.vs.storeCode
   if (config.storeViews.multistore === true) {
     if (!storeCode) { // this is from url
-      const currentRoute = Object.assign({ path: queryString.parseUrl(context.url).url/* this gets just the url path part */, host: getHostFromHeader(context.server.request.headers) })
+      const currentRoute = Object.assign({ path: queryString.parseUrl(context.url).url/* this gets just the url path part */, host: getHostFromHeaders(context.server.request.headers) })
       storeCode = storeCodeFromRoute(currentRoute)
     }
   }

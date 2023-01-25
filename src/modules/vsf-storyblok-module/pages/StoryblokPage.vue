@@ -26,8 +26,8 @@ import get from 'lodash-es/get'
 import config from 'config'
 
 import { SfBreadcrumbs as Breadcrumbs } from '@storefront-ui/vue'
-import { isServer } from '@vue-storefront/core/helpers'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import getHostFromHeaders from '@vue-storefront/core/helpers/get-host-from-headers.function';
 
 import { getSettings } from '../helpers'
 import StoryblokMixin from '../components/StoryblokMixin'
@@ -108,8 +108,9 @@ export default {
       if (!fullSlug.endsWith('/')) {
         fullSlug = `${fullSlug}/`;
       }
-
-      const host = isServer ? global.process.env.VIRTUAL_HOST : window.location.host;
+      const host = this.$ssrContext
+        ? getHostFromHeaders(this.$ssrContext.server.request.headers)
+        : window.location.host;
 
       return PROTOCOL + host + hreflangPrefix + fullSlug;
     },
