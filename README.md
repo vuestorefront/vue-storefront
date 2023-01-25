@@ -79,11 +79,11 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
     <a title="SAP" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
         <img alt="SAP" width="75" src="https://docs.vuestorefront.io/v2/integrations-logos/thumbnails/sap-commerce-cloud.png" />
     </a>
-    &nbsp;&nbsp;
-     <a title="Salesforce Commerce Cloud" target="_blank" href="https://docs.vuestorefront.io/sfcc/">
-        <img alt="Salesforce Commerce Cloud" width="75" src="https://user-images.githubusercontent.com/1626923/156659047-6030014e-6ec7-4dc6-b2ea-a442f7ef8c2d.png" />
-    </a>
     <br />
+         <a title="Salesforce Commerce Cloud" target="_blank" href="https://docs.vuestorefront.io/sfcc/">
+            <img alt="Salesforce Commerce Cloud" width="75" src="https://user-images.githubusercontent.com/1626923/156659047-6030014e-6ec7-4dc6-b2ea-a442f7ef8c2d.png" />
+        </a>
+        &nbsp;&nbsp;
         <a title="Magento" target="_blank" href="https://github.com/vuestorefront/magento2">
         <img alt="Magento" width="75" src="https://user-images.githubusercontent.com/1626923/156659008-edbd2bed-74d5-4f0d-8a4a-eab56c283d24.png" />
     </a>
@@ -95,7 +95,7 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
     <a title="Odoo" target="_blank" href="https://github.com/vuestorefront-community/odoo">
         <img alt="Odoo" width="75" src="https://user-images.githubusercontent.com/1626923/156659136-55c8d696-febd-410e-ab72-b217e9e745e6.png" />
     </a>
-    &nbsp;&nbsp;
+<br />
     <a title="Prestashop" target="_blank" href="https://github.com/vuestorefront-community/prestashop">
         <img alt="Prestashop" width="75" src="https://user-images.githubusercontent.com/1626923/156659137-d857ad24-f23f-4c80-ac56-4ef6c0721274.png" />
     </a>
@@ -103,8 +103,6 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
     <a title="Shopware" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
         <img alt="Shopware" width="75" src="https://user-images.githubusercontent.com/1626923/156659145-d98ea807-872c-42a9-8fdb-4c4f30a68895.png" />
     </a>
-    &nbsp;&nbsp;
-<br />
     <a title="Spree" target="_blank" href="https://github.com/vuestorefront/spree">
         <img alt="Spree" width="75" src="https://user-images.githubusercontent.com/1626923/156659147-5576eb2f-4cf8-4610-8631-18d03e3f52de.png" />
     </a>
@@ -112,7 +110,7 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
     <a title="Sylius" target="_blank" href="https://github.com/vuestorefront-community/sylius">
         <img alt="Sylius" width="75" src="https://user-images.githubusercontent.com/1626923/161141058-8f6a4a8e-2c6f-402e-b19b-892c7acec77f.png" />
     </a>
-    &nbsp;&nbsp;
+<br />
     <a title="Vendure" target="_blank" href="https://github.com/vuestorefront/vendure">
         <img alt="Vendure" width="75" src="https://user-images.githubusercontent.com/1626923/156659153-fafdeb94-a34e-4e9e-8e8a-0f03afde9741.png" />
     </a>
@@ -122,7 +120,9 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
     <a title="WooCommerce" target="_blank" href="https://github.com/vuestorefront-community/woocommerce">
         <img alt="WooCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/160184108-b54e8785-d44c-4023-957f-2fd40c286d88.png" />
   </a>
-<br /><br />
+  <br />
+
+<br />
   <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms">Learn more about available eCommerce platforms</a>
 </p>
 
@@ -214,7 +214,7 @@ To learn more about the project structure and how to customize it, check out the
 
 - **Nuxt.js** - the Vue.js framework used to build the application
 - **Vue Storefront Theme** - fully functional eCommerce theme based on the Storefront UI library
-- **Storefront UI** - the Vue.js components UI library used to build the frontend application
+- **Storefront UI** - the Vue.js UI components library used to build the frontend application
 - **Vue Storefront Middleware** - the Express.js server used to connect the frontend application with the eCommerce platform and other Integrations
 
 ## **Our Tech Stack** 🛠
@@ -275,6 +275,6 @@ We are growing and we are looking for talented people to join our team. If you a
 
 We at Vue Storefront express our support for the people of Ukraine and their right to live in a free and democratic country. We stand with Ukraine and we will continue to support the Ukrainian community.
 
-<p>
-<img src="https://gcdnb.pbrd.co/images/bDfmujNpxjxy.png?o=1" />
-</p>
+<a href="https://supportukrainenow.org/" target="_blank">
+    <img src="https://gcdnb.pbrd.co/images/bDfmujNpxjxy.png?o=1" />
+</a>
