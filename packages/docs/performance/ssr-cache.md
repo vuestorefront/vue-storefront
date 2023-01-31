@@ -180,6 +180,27 @@ invalidation: {
 }]
 ```
 
+Next, create a file that will setup a `body-parser` Nuxt plugin, and then register this plugin in your `nuxt.config.js`.
+
+```js
+// plugins/body-parser.js
+const bodyParser = require('body-parser')
+const app = require('express')()
+
+app.use(bodyParser.json())
+module.exports = app
+```
+
+```js
+// nuxt.config.js
+module.exports = {
+  plugins: [
+   '~/plugins/body-parser.js'
+  ]
+}
+```
+
+
 To invalidate the cache using it, visit an URL provided in the configuration with two query strings:
 
 * `key` - specified in the configuration and used to prevent unauthorized users from clearing the application's cache. For this reason, you should use long and hard-to-guess keys.
