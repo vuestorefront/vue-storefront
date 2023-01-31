@@ -46,7 +46,7 @@
           class="px-2 py-1 text-xs rounded border border-purple text-purple dark:border-purple-200 dark:text-purple-200"
           v-if="maintainedBy[0]?.name !== 'Vue Storefront'"
         >
-          Community
+          Community Maintained
         </div>
         <div class="px-2 py-1 text-xs rounded border border-green text-green" v-else>VSF Maintained</div>
 
