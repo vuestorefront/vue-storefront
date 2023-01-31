@@ -1,3 +1,9 @@
+/**
+  WARNING: Package deprecated (from development).
+  Do not provide any changes here.
+  Please check the https://github.com/vuestorefront/middleware repository,
+  where the current middleware package lives.
+*/
 {
   "name": "@vue-storefront/middleware",
   "version": "2.7.5",
