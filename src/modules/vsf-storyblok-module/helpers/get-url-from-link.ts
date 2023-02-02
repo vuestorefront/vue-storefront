@@ -17,6 +17,10 @@ export default function getUrlFromLink (
       return url;
     }
 
+    if (url.startsWith('tel:')) {
+      return url;
+    }
+
     let anchorPart = '';
 
     if (link.anchor) {
