@@ -79,11 +79,6 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
     <a title="SAP" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
         <img alt="SAP" width="75" src="https://docs.vuestorefront.io/v2/integrations-logos/thumbnails/sap-commerce-cloud.png" />
     </a>
-    <br />
-         <a title="Salesforce Commerce Cloud" target="_blank" href="https://docs.vuestorefront.io/sfcc/">
-            <img alt="Salesforce Commerce Cloud" width="75" src="https://user-images.githubusercontent.com/1626923/156659047-6030014e-6ec7-4dc6-b2ea-a442f7ef8c2d.png" />
-        </a>
-        &nbsp;&nbsp;
         <a title="Magento" target="_blank" href="https://github.com/vuestorefront/magento2">
         <img alt="Magento" width="75" src="https://user-images.githubusercontent.com/1626923/156659008-edbd2bed-74d5-4f0d-8a4a-eab56c283d24.png" />
     </a>
@@ -91,11 +86,11 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
     <a title="Shopify" target="_blank" href="https://github.com/vuestorefront/shopify">
         <img alt="Shopify" width="75" src="https://user-images.githubusercontent.com/1626923/156658959-d8da60fd-9904-44f4-9823-11a3e821c155.png" />
     </a>
-    &nbsp;&nbsp;
+<br />
     <a title="Odoo" target="_blank" href="https://github.com/vuestorefront-community/odoo">
         <img alt="Odoo" width="75" src="https://user-images.githubusercontent.com/1626923/156659136-55c8d696-febd-410e-ab72-b217e9e745e6.png" />
     </a>
-<br />
+    &nbsp;&nbsp;
     <a title="Prestashop" target="_blank" href="https://github.com/vuestorefront-community/prestashop">
         <img alt="Prestashop" width="75" src="https://user-images.githubusercontent.com/1626923/156659137-d857ad24-f23f-4c80-ac56-4ef6c0721274.png" />
     </a>
@@ -110,16 +105,6 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
     <a title="Sylius" target="_blank" href="https://github.com/vuestorefront-community/sylius">
         <img alt="Sylius" width="75" src="https://user-images.githubusercontent.com/1626923/161141058-8f6a4a8e-2c6f-402e-b19b-892c7acec77f.png" />
     </a>
-<br />
-    <a title="Vendure" target="_blank" href="https://github.com/vuestorefront/vendure">
-        <img alt="Vendure" width="75" src="https://user-images.githubusercontent.com/1626923/156659153-fafdeb94-a34e-4e9e-8e8a-0f03afde9741.png" />
-    </a>
-    &nbsp;&nbsp;
-        <img alt="Swell" width="75" src="https://user-images.githubusercontent.com/1626923/160184104-f4820722-3eff-4c8e-b33b-8134bc1dd78a.png" />
-    &nbsp;&nbsp;
-    <a title="WooCommerce" target="_blank" href="https://github.com/vuestorefront-community/woocommerce">
-        <img alt="WooCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/160184108-b54e8785-d44c-4023-957f-2fd40c286d88.png" />
-  </a>
   <br />
 
 <br />
@@ -127,6 +112,7 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
 </p>
 
 ## **Getting started** 🚀
+Create a new Vue Storefront project with Open Source integration in just a few steps. For the Enterprise integration, please [contact sales](https://vuestorefront.io/contact/sales).
 
 ### **Step 1: Generate a new project** 🧰
 
@@ -134,7 +120,7 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
 npx @vue-storefront/cli generate store
 ```
 
-You will be asked to enter the project's name and select the e-commerce platform you wish to use. Once selected, the CLI will create project files in the directory matching your project name.
+You will be asked to enter the project's name and select the eCommerce platform you wish to use. Once selected, the CLI will create project files in the directory matching your project name.
 
 ### **Step 2: Install dependencies** ⏳
 
@@ -151,7 +137,7 @@ yarn
 
 ### **Step 3: Configure the project** ⚙️
 
-The next step is to configure your project, and it's different for every e-commerce integration. Go to the [Integrations](https://docs.vuestorefront.io/v2/integrations/) page, open the documentation for the integration you selected in our CLI, and look for the page describing the configuration steps. Or just click on the integration icon below:
+The next step is to configure your project, and it's different for every eCommerce integration. Go to the [Integrations](https://docs.vuestorefront.io/v2/integrations/) page, open the documentation for the integration you selected in our CLI, and look for the page describing the configuration steps. Or just click on the integration icon below:
 
 <!-- add icons for integrations leading to docs -->
 <p align="center" valign="middle">
@@ -186,27 +172,11 @@ The next step is to configure your project, and it's different for every e-comme
     <a title="Sylius" target="_blank" href="https://github.com/vuestorefront-community/sylius">
         <img alt="Sylius" width="55" src="https://user-images.githubusercontent.com/1626923/161141058-8f6a4a8e-2c6f-402e-b19b-892c7acec77f.png" />
     </a>
-    &nbsp;&nbsp;
-    <a title="Vendure" target="_blank" href="https://docs.vuestorefront.io/vendure/guide/configuration.html#steps">
-        <img alt="Vendure" width="55" src="https://user-images.githubusercontent.com/1626923/156659153-fafdeb94-a34e-4e9e-8e8a-0f03afde9741.png" />
-    </a>
 <br /><br />
   <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms">Check all available integrations</a>
 </p>
 
-
-### **Step 4: Start the project** 🚀
-
-The project is now ready. You can start the application in development mode using the command below. You can read more about available commands and environments on the [Commands and deployment](https://nuxtjs.org/docs/get-started/commands/) page in Nuxt.js documentation.
-
-```bash
-yarn dev
-```
-
-
-### **Step 5: Build** 🎨
-
-To learn more about the project structure and how to customize it, check out the [Vue Storefront documentation](https://docs.vuestorefront.io/v2/getting-started/project-structure.html).
+Continue with the configuration steps described in the documentation for your integration.
 
 ## **What you get out-of-the-box** 📦
 
