@@ -130,7 +130,7 @@ export const Shipping = {
           city: this.myAddressDetails.city,
           streetAddress: this.myAddressDetails.street[0],
           apartmentNumber: this.myAddressDetails.street[1],
-          zipCode: this.myAddressDetails.postcode,
+          zipCode: this.myAddressDetails.postcode.toString(),
           phoneNumber: this.myAddressDetails.telephone,
           shippingMethod: this.checkoutShippingDetails.shippingMethod,
           shippingCarrier: this.checkoutShippingDetails.shippingCarrier

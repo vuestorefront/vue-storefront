@@ -119,7 +119,7 @@ export const Payment = {
                 city: addresses[i].city,
                 streetAddress: addresses[i].street[0],
                 apartmentNumber: addresses[i].street[1],
-                zipCode: addresses[i].postcode,
+                zipCode: addresses[i].postcode.toString(),
                 taxId: addresses[i].vat_id,
                 phoneNumber: addresses[i].telephone,
                 paymentMethod: this.paymentMethods[0].code
@@ -192,7 +192,7 @@ export const Payment = {
               city: addresses[i].city,
               streetAddress: addresses[i].street[0],
               apartmentNumber: addresses[i].street[1],
-              zipCode: addresses[i].postcode,
+              zipCode: addresses[i].postcode.toString(),
               taxId: addresses[i].vat_id,
               phoneNumber: addresses[i].telephone,
               paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
