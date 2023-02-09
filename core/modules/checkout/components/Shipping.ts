@@ -1,6 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
-import toString from 'lodash-es/toString'
+import isAddressEmpty from '../helpers/is-address-empty.function'
+import isAddressesEquals from '../helpers/is-addresses-equals.function'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Shipping = {
@@ -26,17 +27,7 @@ export const Shipping = {
       isFilled: false,
       countries: Countries,
       shipping: this.$store.state.checkout.shippingDetails,
-      shipToMyAddress: false,
-      myAddressDetails: {
-        firstname: '',
-        lastname: '',
-        country: '',
-        region: '',
-        city: '',
-        street: ['', ''],
-        postcode: '',
-        telephone: ''
-      }
+      shipToMyAddress: false
     }
   },
   computed: {
@@ -48,6 +39,34 @@ export const Shipping = {
     }),
     checkoutShippingDetails () {
       return this.$store.state.checkout.shippingDetails
+    },
+    defaultShippingAddress () {
+      if (!this.currentUser || !this.currentUser.default_shipping) {
+        return;
+      }
+
+      const address = this.currentUser.addresses.find((address) => {
+        return address.id.toString() === this.currentUser.default_shipping.toString();
+      })
+
+      if (!address) {
+        return;
+      }
+
+      return {
+        firstName: address.firstname,
+        lastName: address.lastname,
+        country: address.country_id,
+        state: address.region.region ? address.region.region : '',
+        city: address.city,
+        streetAddress: address.street[0],
+        apartmentNumber: address.street[1],
+        zipCode: address.postcode.toString(),
+        phoneNumber: address.telephone
+      }
+    },
+    hasDefaultShippingAddress () {
+      return !!this.defaultShippingAddress;
     },
     paymentMethod () {
       return this.$store.getters['checkout/getPaymentMethods']
@@ -67,14 +86,11 @@ export const Shipping = {
     '$route.hash': 'useMyAddress'
   },
   mounted () {
-    this.checkDefaultShippingAddress()
+    this.fillFormData();
     this.checkDefaultShippingMethod()
     this.changeShippingMethod()
   },
   methods: {
-    checkDefaultShippingAddress () {
-      this.shipToMyAddress = this.hasShippingDetails()
-    },
     checkDefaultShippingMethod () {
       if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
         let shipping = this.shippingMethods.find(item => item.default)
@@ -105,33 +121,10 @@ export const Shipping = {
         this.$bus.$emit('checkout-before-edit', 'shipping')
       }
     },
-    hasShippingDetails () {
-      if (this.currentUser) {
-        if (this.currentUser.hasOwnProperty('default_shipping')) {
-          let id = this.currentUser.default_shipping
-          let addresses = this.currentUser.addresses
-          for (let i = 0; i < addresses.length; i++) {
-            if (toString(addresses[i].id) === toString(id)) {
-              this.myAddressDetails = addresses[i]
-              return true
-            }
-          }
-        }
-      }
-      return false
-    },
     useMyAddress () {
       if (this.shipToMyAddress) {
         this.$set(this, 'shipping', {
-          firstName: this.myAddressDetails.firstname,
-          lastName: this.myAddressDetails.lastname,
-          country: this.myAddressDetails.country_id,
-          state: this.myAddressDetails.region.region ? this.myAddressDetails.region.region : '',
-          city: this.myAddressDetails.city,
-          streetAddress: this.myAddressDetails.street[0],
-          apartmentNumber: this.myAddressDetails.street[1],
-          zipCode: this.myAddressDetails.postcode.toString(),
-          phoneNumber: this.myAddressDetails.telephone,
+          ...this.defaultShippingAddress,
           shippingMethod: this.checkoutShippingDetails.shippingMethod,
           shippingCarrier: this.checkoutShippingDetails.shippingCarrier
         })
@@ -190,7 +183,26 @@ export const Shipping = {
       return true
     },
     onCheckoutLoad () {
+      this.fillFormData();
+    },
+    fillFormData () {
       this.shipping = this.$store.state.checkout.shippingDetails
+
+      this.updateShipToMyAddress();
+    },
+    updateShipToMyAddress () {
+      this.shipToMyAddress = false;
+
+      if (!this.defaultShippingAddress) {
+        return;
+      }
+
+      if (isAddressEmpty(this.shipping, ['country'])) {
+        this.shipToMyAddress = true;
+        return;
+      }
+
+      this.shipToMyAddress = isAddressesEquals(this.defaultShippingAddress, this.shipping);
     }
   }
 }
