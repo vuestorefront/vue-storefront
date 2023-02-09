@@ -64,7 +64,7 @@ export const Shipping = {
         streetAddress: address.street[0],
         apartmentNumber: address.street[1],
         zipCode: address.postcode.toString(),
-        phoneNumber: address.telephone
+        phoneNumber: address.telephone.toString()
       }
     },
     hasDefaultShippingAddress () {
