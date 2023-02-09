@@ -1,7 +1,9 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
+
 import isAddressEmpty from '../helpers/is-address-empty.function'
 import isAddressesEquals from '../helpers/is-addresses-equals.function'
+
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Shipping = {
