@@ -180,7 +180,9 @@ Continue with the configuration steps described in the documentation for your in
 
 ## **What you get out-of-the-box** 📦
 
-![Vue Storefront - Architecture](https://gcdnb.pbrd.co/images/wP9G1IiiwVdp.png?o=1)
+<p align="center">
+  <img alt="Vue Storefront Architecture" src="https://user-images.githubusercontent.com/74229951/218062920-e9c9eb14-de3f-4c62-9362-7c33d224ad26.png">
+</p>
 
 - **Nuxt.js** - the Vue.js framework used to build the application
 - **Vue Storefront Theme** - fully functional eCommerce theme based on the Storefront UI library
@@ -218,12 +220,16 @@ How you can help us:
 - **Create content** - write a blog post, record a video, or create a tutorial. We will be happy to share it on our social media channels.
 - **Engage with the community** - help others in our [Discord server](https://discord.vuestorefront.io/).
 
-**Follow us on Social Media**
+
+<a target="_blank" href="https://vuestorefront.io/developer-newsletter">
+  <img alt="Sign up to Developer's Newsletter" src="https://user-images.githubusercontent.com/74229951/218061404-2451ad24-e018-4954-8238-9e3289369059.png">
+</a>
+
+### **Follow us on Social Media**
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/VSFdevelopers?style=social)](https://twitter.com/VSFdevelopers)
 [![YouTube Follow](https://img.shields.io/badge/YouTube-Follow-black?style=social&logo=youtube)](https://www.youtube.com/c/VueStorefront)
 [![Dev.to Follow](https://img.shields.io/badge/DEV.to-Follow-black?style=social&logo=dev.to)](https://dev.to/vue-storefront)
-
 [![LinkedIn Follow](https://img.shields.io/badge/LinkedIn-Follow-black?style=social&logo=linkedin)](https://www.linkedin.com/company/vue-storefront/)
 [![Facebook Follow](https://img.shields.io/badge/Facebook-Follow-black?style=social&logo=facebook)](https://www.facebook.com/vuestorefront)
 
@@ -236,7 +242,6 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
 Vue Storefront source code is completely free and released under the [MIT License](https://github.com/vuestorefront/vue-storefront/blob/master/LICENSE).
 
 [![analytics](http://www.google-analytics.com/collect?v=1&t=pageview&_s=1&dl=https%3A%2F%2Fgithub.com%2FDivanteLtd%2Fvue-storefront&_u=MAC~&cid=1757014354.1393964045&tid=UA-108235765-10)]()
-
 ## **Careers** 👩‍💻👨‍💻
 
 We are growing and we are looking for talented people to join our team. If you are interested in working with us, please check our [Careers page](https://vuestorefront.io/careers).
