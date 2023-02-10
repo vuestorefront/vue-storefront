@@ -41,7 +41,7 @@ export const Payment = {
       }
 
       const address = this.currentUser.addresses.find((address) => {
-        return address.id.toString() === this.currentUser.default_shipping.toString();
+        return address.id.toString() === this.currentUser.default_billing.toString();
       })
 
       if (!address) {
