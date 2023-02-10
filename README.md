@@ -58,10 +58,9 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
 
 <br />
 
-🌟  [Over 1000+ Live Stores, check the list!](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
+🌟  [Over 2000+ Live Stores, check the list!](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
 
 ## **Supported platforms** 🛍️
-
 
 <p align="center" valign="middle">
     <a title="BigCommerce" target="_blank" href="https://docs.vuestorefront.io/bigcommerce/">
@@ -79,14 +78,29 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
     <a title="SAP" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
         <img alt="SAP" width="75" src="https://docs.vuestorefront.io/v2/integrations-logos/thumbnails/sap-commerce-cloud.png" />
     </a>
-        <a title="Magento" target="_blank" href="https://github.com/vuestorefront/magento2">
+  &nbsp;&nbsp;
+      <a title="Salesforce Commerce Cloud" target="_blank" href="https://docs.vuestorefront.io/sfcc/">
+        <img alt="Salesforce Commerce Cloud" width="75" src="https://user-images.githubusercontent.com/74229951/218112081-8f8bfcb3-9f53-4add-9d5e-8899c505e526.png" />
+    </a>
+
+
+</p>
+
+<p align="center">
+  <strong>Enterprise Integrations</strong>
+</p>
+
+<br /> 
+
+<p align="center" valign="middle">
+  <a title="Magento" target="_blank" href="https://github.com/vuestorefront/magento2">
         <img alt="Magento" width="75" src="https://user-images.githubusercontent.com/1626923/156659008-edbd2bed-74d5-4f0d-8a4a-eab56c283d24.png" />
     </a>
-    &nbsp;&nbsp;
+  &nbsp;&nbsp;
     <a title="Shopify" target="_blank" href="https://github.com/vuestorefront/shopify">
         <img alt="Shopify" width="75" src="https://user-images.githubusercontent.com/1626923/156658959-d8da60fd-9904-44f4-9823-11a3e821c155.png" />
     </a>
-<br />
+  &nbsp;&nbsp;
     <a title="Odoo" target="_blank" href="https://github.com/vuestorefront-community/odoo">
         <img alt="Odoo" width="75" src="https://user-images.githubusercontent.com/1626923/156659136-55c8d696-febd-410e-ab72-b217e9e745e6.png" />
     </a>
@@ -95,9 +109,6 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
         <img alt="Prestashop" width="75" src="https://user-images.githubusercontent.com/1626923/156659137-d857ad24-f23f-4c80-ac56-4ef6c0721274.png" />
     </a>
     &nbsp;&nbsp;
-    <a title="Shopware" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
-        <img alt="Shopware" width="75" src="https://user-images.githubusercontent.com/1626923/156659145-d98ea807-872c-42a9-8fdb-4c4f30a68895.png" />
-    </a>
     <a title="Spree" target="_blank" href="https://github.com/vuestorefront/spree">
         <img alt="Spree" width="75" src="https://user-images.githubusercontent.com/1626923/156659147-5576eb2f-4cf8-4610-8631-18d03e3f52de.png" />
     </a>
@@ -105,9 +116,14 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
     <a title="Sylius" target="_blank" href="https://github.com/vuestorefront-community/sylius">
         <img alt="Sylius" width="75" src="https://user-images.githubusercontent.com/1626923/161141058-8f6a4a8e-2c6f-402e-b19b-892c7acec77f.png" />
     </a>
-  <br />
+ </p>
+ 
+<p align="center">
+  <strong>Open Source Integrations</strong>
+</p>
 
 <br />
+<p align="center">
   <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms">Learn more about available eCommerce platforms</a>
 </p>
 
