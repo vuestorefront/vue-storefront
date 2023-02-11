@@ -4,7 +4,7 @@ A project without any theme would just show a blank page, but if you have seen a
 
 This page will describe what makes the default theme, how to customize it, and what tricks we use to improve the performance.
 
-## What's makes a default theme
+## What makes a default theme
 
 Although, at first glance, it might look like all of our e-commerce integrations use the same exact theme, it's not the case. All of them are built upon the same base theme and modify it to work well and cover features of a given platform. This means that some integrations might have more pages, different UI elements, or additional Nuxt.js modules or plugins.
 
