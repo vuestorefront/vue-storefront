@@ -7,19 +7,22 @@
   <strong>An ecosystem of developer tools that accelerate and simplify building eCommerce Storefronts</strong>
 </h3>
 <p align="center">
-    Fully customizable, backend-agnostic
+    Fully customizable, backend-agnostic with     <a href="https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme">
+          2000+ Live Stores!
+    </a>
 </p>
 
 <p align="center">
+     <a href="https://docs.vuestorefront.io/v2/">
+        Documentation
+    </a> |
     <a href="https://demo.vuestorefront.io/">
-        Check our demo application
+        Demo Store 
     </a>
 </p>
 
 <p align="center">
-    <a href="https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme">
-        🌟 Over 2000+ Live Stores!
-    </a>
+
 </p>
 
 <p align="center">
@@ -59,9 +62,9 @@ Vue Storefront is an ecosystem of Open Source (aoptional) paid tools to help dev
 
 - **Working eCommerce Storefront** - Vue Storefront delivers fully-working eCommerce storefront integrated with your favourite stack
 
-- **Fully customizable*. Build your application with pre-installed [Storefront UI](https://github.com/vuestorefront/storefront-ui) - components library designed for eCommerce, or build your own theme from scratch.
+- **Fully customizable**. Build your application with pre-installed [Storefront UI](https://github.com/vuestorefront/storefront-ui) - components library designed for eCommerce, or build your own theme from scratch.
 
-## **eIntegrations** 🛍️
+## **Integrations** 🛍️
 
 <p align="center">
   <strong>Open Source Integrations (free on MIT license)</strong>
@@ -92,7 +95,7 @@ Vue Storefront is an ecosystem of Open Source (aoptional) paid tools to help dev
         <img alt="Sylius" width="75" src="https://user-images.githubusercontent.com/1626923/161141058-8f6a4a8e-2c6f-402e-b19b-892c7acec77f.png" />
     </a>
  </p>
- 
+ <br />
 <p align="center">
   <strong>Enterprise Integrations (part of paid Vue Storefront Enterprise License)</strong>
 </p>
