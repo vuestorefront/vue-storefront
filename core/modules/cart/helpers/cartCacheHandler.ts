@@ -12,7 +12,8 @@ export const cartCacheHandlerPlugin = (mutation, state) => {
     type.endsWith(types.CART_DEL_ITEM) ||
     type.endsWith(types.CART_UPD_ITEM) ||
     type.endsWith(types.CART_DEL_NON_CONFIRMED_ITEM) ||
-    type.endsWith(types.CART_UPD_ITEM_PROPS)
+    type.endsWith(types.CART_UPD_ITEM_PROPS) ||
+    type.endsWith(types.CART_SET_CART_ITEMS)
   ) {
     return StorageManager.get('cart').setItem('current-cart', state.cart.cartItems).catch((reason) => {
       Logger.error(reason)() // it doesn't work on SSR
