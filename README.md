@@ -7,7 +7,7 @@
   <strong>An ecosystem of developer tools that accelerate and simplify building eCommerce Storefronts</strong>
 </h3>
 <p align="center">
-    Works with any backend
+    Fully customizable, backend-agnostic
 </p>
 
 <p align="center">
@@ -26,8 +26,8 @@
   <a href="https://github.com/vuestorefront/vue-storefront/">
     <img alt="GitHub Repository Stars Count" src="https://img.shields.io/github/stars/vuestorefront/vue-storefront?style=social" />
   </a>
-    <a href="https://twitter.com/vuestorefront">
-        <img alt="Follow Us on Twitter" src="https://img.shields.io/twitter/follow/vuestorefront?style=social" />
+    <a href="https://twitter.com/vsfdevelopers">
+        <img alt="Follow Us on Twitter" src="https://img.shields.io/twitter/follow/VSFdevelopers?style=social" />
     </a>
     <a href="https://www.youtube.com/c/VueStorefront">
         <img alt="Subscribe on our Youtube Channel" src="https://img.shields.io/youtube/channel/subscribers/UCkm1F3Cglty3CE1QwKQUhhg?style=social" />
@@ -53,46 +53,19 @@
 
 ![Hero image](https://images.contentstack.io/v3/assets/blt189c1df68c6b48d7/blt012de533cf11b952/62a0df552680af592233245c/Homepage-Hero-v1.png?auto=webp&width=640&format=pjpg&disable=upscale&quality=100&dpr=2)
 
-Vue Storefront is an ecosystem of tools to help developers build eCommerce Frontend applications fast. Focus on building features with customizable frontend components, out-of-the-box integrations, and a reliable cloud architecture.
+Vue Storefront is an ecosystem of Open Source (aoptional) paid tools to help developers build eCommerce Frontend applications faster. 
 
-- **Works with any backend**. Vue Storefront is compatible with many eCommerce platforms, including Magento, Shopify, BigCommerce, and more. [See the list of all open-source and enterprise eCommerce platforms supported](https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms).
+- **Works with any backend**. Vue Storefront is compatible with any backend that has an API. In addition its already integrated with many of them! [See the list of available integrations](https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms).
 
-- **Build and Customize**. Build your application with pre-installed [Storefront UI](https://github.com/vuestorefront/storefront-ui) - components library designed for eCommerce, or build your own theme from scratch.
+- **Working eCommerce Storefront** - Vue Storefront delivers fully-working eCommerce storefront integrated with your favourite stack
 
-- **Connect with other Integrations**. Vue Storefront is compatible with many third-party services, including StoryBlok, Ampliance, Stripe, Algolia, and more. [See the list of all open-source and enterprise integrations supported](https://docs.vuestorefront.io/v2/integrations/#cms).
-- **Host and Deploy**. Vue Storefront is a server-side rendered application, so you can host it on any server or cloud provider. Enterprise clients can benefit from our in-house [cloud solutions fully optimized for Vue Storefront applications](https://vuestorefront.io/cloud)
+- **Fully customizable*. Build your application with pre-installed [Storefront UI](https://github.com/vuestorefront/storefront-ui) - components library designed for eCommerce, or build your own theme from scratch.
 
-## **Supported platforms** 🛍️
-
-<p align="center" valign="middle">
-    <a title="BigCommerce" target="_blank" href="https://docs.vuestorefront.io/bigcommerce/">
-        <img alt="BigCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/156659123-12a987f5-a590-4971-810e-7594defc48f5.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="commercetools" target="_blank" href="https://docs.vuestorefront.io/v2/commercetools/">
-        <img alt="commercetools" width="75" src="https://user-images.githubusercontent.com/1626923/156658926-532f44bd-f178-4bd9-ae72-1ca7d9984f57.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="Elastic Path" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
-        <img alt="Elastic Path" width="75" src="https://docs.vuestorefront.io/v2/integrations-logos/thumbnails/elastic-path.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="SAP" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
-        <img alt="SAP" width="75" src="https://docs.vuestorefront.io/v2/integrations-logos/thumbnails/sap-commerce-cloud.png" />
-    </a>
-  &nbsp;&nbsp;
-      <a title="Salesforce Commerce Cloud" target="_blank" href="https://docs.vuestorefront.io/sfcc/">
-        <img alt="Salesforce Commerce Cloud" width="75" src="https://user-images.githubusercontent.com/74229951/218112081-8f8bfcb3-9f53-4add-9d5e-8899c505e526.png" />
-    </a>
-
-
-</p>
+## **eIntegrations** 🛍️
 
 <p align="center">
-  <strong>Enterprise Integrations</strong>
+  <strong>Open Source Integrations (free on MIT license)</strong>
 </p>
-
-<br /> 
 
 <p align="center" valign="middle">
   <a title="Magento" target="_blank" href="https://github.com/vuestorefront/magento2">
@@ -121,12 +94,37 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
  </p>
  
 <p align="center">
-  <strong>Open Source Integrations</strong>
+  <strong>Enterprise Integrations (part of paid Vue Storefront Enterprise License)</strong>
 </p>
+
+<p align="center" valign="middle">
+    <a title="BigCommerce" target="_blank" href="https://docs.vuestorefront.io/bigcommerce/">
+        <img alt="BigCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/156659123-12a987f5-a590-4971-810e-7594defc48f5.png" />
+    </a>
+    &nbsp;&nbsp;
+    <a title="commercetools" target="_blank" href="https://docs.vuestorefront.io/v2/commercetools/">
+        <img alt="commercetools" width="75" src="https://user-images.githubusercontent.com/1626923/156658926-532f44bd-f178-4bd9-ae72-1ca7d9984f57.png" />
+    </a>
+    &nbsp;&nbsp;
+    <a title="Elastic Path" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
+        <img alt="Elastic Path" width="75" src="https://docs.vuestorefront.io/v2/integrations-logos/thumbnails/elastic-path.png" />
+    </a>
+    &nbsp;&nbsp;
+    <a title="SAP" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
+        <img alt="SAP" width="75" src="https://docs.vuestorefront.io/v2/integrations-logos/thumbnails/sap-commerce-cloud.png" />
+    </a>
+  &nbsp;&nbsp;
+      <a title="Salesforce Commerce Cloud" target="_blank" href="https://docs.vuestorefront.io/sfcc/">
+        <img alt="Salesforce Commerce Cloud" width="75" src="https://user-images.githubusercontent.com/74229951/218112081-8f8bfcb3-9f53-4add-9d5e-8899c505e526.png" />
+    </a>
+
+
+</p>
+
 
 <br />
 <p align="center">
-  <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms">Learn more about available eCommerce platforms</a>
+  <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/">There is more! Check out the integrations with CMS, Search and Payment providers</a>
 </p>
 
 ## **Getting started** 🚀
