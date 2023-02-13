@@ -17,6 +17,12 @@
 </p>
 
 <p align="center">
+    <a href="https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme">
+        🌟 Over 2000+ Live Stores!
+    </a>
+</p>
+
+<p align="center">
   <a href="https://github.com/vuestorefront/vue-storefront/">
     <img alt="GitHub Repository Stars Count" src="https://img.shields.io/github/stars/vuestorefront/vue-storefront?style=social" />
   </a>
@@ -55,10 +61,6 @@ Vue Storefront is an ecosystem of tools to help developers build eCommerce Front
 
 - **Connect with other Integrations**. Vue Storefront is compatible with many third-party services, including StoryBlok, Ampliance, Stripe, Algolia, and more. [See the list of all open-source and enterprise integrations supported](https://docs.vuestorefront.io/v2/integrations/#cms).
 - **Host and Deploy**. Vue Storefront is a server-side rendered application, so you can host it on any server or cloud provider. Enterprise clients can benefit from our in-house [cloud solutions fully optimized for Vue Storefront applications](https://vuestorefront.io/cloud)
-
-<br />
-
-🌟  [Over 2000+ Live Stores, check the list!](https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
 
 ## **Supported platforms** 🛍️
 
