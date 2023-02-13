@@ -239,10 +239,7 @@ How you can help us:
 - **Create content** - write a blog post, record a video, or create a tutorial. We will be happy to share it on our social media channels.
 - **Engage with the community** - help others in our [Discord server](https://discord.vuestorefront.io/).
 
-
-<a target="_blank" href="https://vuestorefront.io/developer-newsletter">
-  <img alt="Sign up to Developer's Newsletter" src="https://user-images.githubusercontent.com/74229951/218061404-2451ad24-e018-4954-8238-9e3289369059.png">
-</a>
+<a target="_blank" href="https://vuestorefront.io/developer-newsletter"><img alt="Sign up to Developer's Newsletter" src="https://i.ibb.co/k3hND0G/Newsletter-Main-2.png" alt="Newsletter-Main-2" border="0"></a>
 
 ### **Follow us on Social Media**
 
