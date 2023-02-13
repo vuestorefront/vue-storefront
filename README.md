@@ -56,7 +56,7 @@
 
 ![Hero image](https://images.contentstack.io/v3/assets/blt189c1df68c6b48d7/blt012de533cf11b952/62a0df552680af592233245c/Homepage-Hero-v1.png?auto=webp&width=640&format=pjpg&disable=upscale&quality=100&dpr=2)
 
-Vue Storefront is an ecosystem of Open Source (aoptional) paid tools to help developers build eCommerce Frontend applications faster. 
+Vue Storefront is an ecosystem of Open Source tools to build fast and feature-rich eCommerce Storefronts using the latest technologies.
 
 - **Works with any backend**. Vue Storefront is compatible with any backend that has an API. In addition its already integrated with many of them! [See the list of available integrations](https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms).
 
