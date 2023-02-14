@@ -137,6 +137,8 @@ const synchronizeActions = {
     commit(types.CART_SET_CART_ITEMS, { cartItems: products });
 
     await dispatch('updateTotalsAfterMerge', { clientItems: products });
+
+    return createDiffLog();
   }
 }
 
