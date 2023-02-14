@@ -1,7 +1,10 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
-import toString from 'lodash-es/toString'
 import debounce from 'lodash-es/debounce'
+
+import isAddressesEquals from '../helpers/is-addresses-equals.function'
+import isAddressEmpty from '../helpers/is-address-empty.function'
+
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Payment = {
@@ -31,7 +34,32 @@ export const Payment = {
       paymentMethods: 'checkout/getPaymentMethods',
       paymentDetails: 'checkout/getPaymentDetails',
       isVirtualCart: 'cart/isVirtualCart'
-    })
+    }),
+    defaultBillingAddress () {
+      if (!this.currentUser || !this.currentUser.default_billing) {
+        return;
+      }
+
+      const address = this.currentUser.addresses.find((address) => {
+        return address.id.toString() === this.currentUser.default_billing.toString();
+      })
+
+      if (!address) {
+        return;
+      }
+
+      return {
+        firstName: address.firstname,
+        lastName: address.lastname,
+        country: address.country_id,
+        state: address.region.region ? address.region.region : '',
+        city: address.city,
+        streetAddress: address.street[0],
+        apartmentNumber: address.street[1],
+        zipCode: address.postcode.toString(),
+        phoneNumber: address.telephone.toString()
+      }
+    }
   },
   created () {
     if (!this.payment.paymentMethod || this.notInMethods(this.payment.paymentMethod)) {
@@ -42,14 +70,13 @@ export const Payment = {
     this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
   },
   mounted () {
-    if (this.payment.firstName) {
-      this.initializeBillingAddress()
-    } else {
-      if (this.payment.company) {
-        this.generateInvoice = true
-      }
+    if (this.payment.company) {
+      this.generateInvoice = true
     }
-    this.changePaymentMethod()
+
+    this.changePaymentMethod();
+
+    this.fillFormData();
   },
   beforeDestroy () {
     this.$bus.$off('checkout-after-load', this.onCheckoutLoad)
@@ -102,53 +129,6 @@ export const Payment = {
       }
       return false
     },
-    initializeBillingAddress () {
-      let initialized = false
-      if (this.currentUser) {
-        if (this.currentUser.hasOwnProperty('default_billing')) {
-          let id = this.currentUser.default_billing
-          let addresses = this.currentUser.addresses
-          for (let i = 0; i < addresses.length; i++) {
-            if (toString(addresses[i].id) === toString(id)) {
-              this.payment = {
-                firstName: addresses[i].firstname,
-                lastName: addresses[i].lastname,
-                company: addresses[i].company,
-                country: addresses[i].country_id,
-                state: addresses[i].region.region ? addresses[i].region.region : '',
-                city: addresses[i].city,
-                streetAddress: addresses[i].street[0],
-                apartmentNumber: addresses[i].street[1],
-                zipCode: addresses[i].postcode.toString(),
-                taxId: addresses[i].vat_id,
-                phoneNumber: addresses[i].telephone,
-                paymentMethod: this.paymentMethods[0].code
-              }
-              this.generateInvoice = true
-              this.sendToBillingAddress = true
-              initialized = true
-            }
-          }
-        }
-      }
-      if (!initialized) {
-        this.payment = this.paymentDetails || {
-          firstName: '',
-          lastName: '',
-          company: '',
-          country: '',
-          state: '',
-          city: '',
-          streetAddress: '',
-          apartmentNumber: '',
-          postcode: '',
-          zipCode: '',
-          phoneNumber: '',
-          taxId: '',
-          paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
-        }
-      }
-    },
     useShippingAddress () {
       if (this.isVirtualCart) {
         this.sendToShippingAddress = false;
@@ -179,27 +159,12 @@ export const Payment = {
     },
     useBillingAddress () {
       if (this.sendToBillingAddress) {
-        let id = this.currentUser.default_billing
-        let addresses = this.currentUser.addresses
-        for (let i = 0; i < addresses.length; i++) {
-          if (toString(addresses[i].id) === toString(id)) {
-            this.payment = {
-              firstName: addresses[i].firstname,
-              lastName: addresses[i].lastname,
-              company: addresses[i].company,
-              country: addresses[i].country_id,
-              state: addresses[i].region.region ? addresses[i].region.region : '',
-              city: addresses[i].city,
-              streetAddress: addresses[i].street[0],
-              apartmentNumber: addresses[i].street[1],
-              zipCode: addresses[i].postcode.toString(),
-              taxId: addresses[i].vat_id,
-              phoneNumber: addresses[i].telephone,
-              paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
-            }
-            this.generateInvoice = true
-          }
+        this.payment = {
+          ...this.defaultBillingAddress,
+          paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
         }
+
+        this.generateInvoice = true;
         this.sendToShippingAddress = false
       }
 
@@ -257,7 +222,31 @@ export const Payment = {
       this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
     },
     onCheckoutLoad () {
-      this.payment = this.$store.getters['checkout/getPaymentDetails']
+      this.fillFormData();
+    },
+    fillFormData () {
+      this.payment = this.$store.getters['checkout/getPaymentDetails'];
+
+      this.updateCheckboxesFlags();
+    },
+    updateCheckboxesFlags () {
+      this.sendToBillingAddress = false;
+      this.sendToShippingAddress = false;
+
+      if (
+        !!this.defaultBillingAddress &&
+         (isAddressEmpty(this.payment, ['country']) ||
+         isAddressesEquals(this.payment, this.defaultBillingAddress))
+      ) {
+        this.sendToBillingAddress = true;
+        return;
+      }
+
+      if (isAddressEmpty(this.payment, ['country']) ||
+        isAddressesEquals(this.payment, this.shippingDetails)
+      ) {
+        this.sendToShippingAddress = true;
+      }
     }
   }
 }
