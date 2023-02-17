@@ -114,31 +114,9 @@ const synchronizeActions = {
     EventBus.$emit('cart-after-itemchanged', { item: cartItem })
     commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
   },
-  async pullServerCart ({ dispatch, commit }): Promise<any> {
-    const { result, resultCode } = await CartService.getItems();
-
-    if (resultCode === 404) {
-      dispatch('clear', { disconnect: true, sync: false });
-      return createDiffLog();
-    }
-
-    const loadProductsPromises: Promise<void>[] = [];
-
-    for (const serverItem of result) {
-      loadProductsPromises.push(dispatch('getProductVariant', { serverItem }));
-    }
-
-    const products = await Promise.all(loadProductsPromises);
-
-    result.forEach((serverItem, index) => {
-      EventBus.$emit('cart-prepare-item-product', { product: products[index], serverItem });
-    });
-
-    commit(types.CART_SET_CART_ITEMS, { cartItems: products });
-
-    await dispatch('updateTotalsAfterMerge', { clientItems: products });
-
-    return createDiffLog();
+  async pullServerCart ({ dispatch }): Promise<any> {
+    await dispatch('clear', { disconnect: false, sync: false });
+    return dispatch('sync', {});
   }
 }
 
