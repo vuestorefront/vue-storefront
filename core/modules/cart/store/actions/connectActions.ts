@@ -59,6 +59,10 @@ const connectActions = {
         : Logger.info('Server cart token created.', 'cart', result)()
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result)
 
+      if (shouldMergeCart) {
+        return dispatch('pullServerCart');
+      }
+
       return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault, mergeQty })
     }
 
