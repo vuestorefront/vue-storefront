@@ -93,9 +93,6 @@ const mutations: MutationTree<CartState> = {
   },
   [types.CART_ADDING_ITEM] (state, { isAdding }) {
     state.isAddingToCart = isAdding
-  },
-  [types.CART_SET_CART_ITEMS] (state, { cartItems }) {
-    state.cartItems = cartItems;
   }
 }
 
