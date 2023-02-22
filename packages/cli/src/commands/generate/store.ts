@@ -102,7 +102,13 @@ export default class GenerateStore extends Command {
           // eslint-disable-next-line max-depth
           if (isGenerateData) {
             await handleSampleData(magentoDirName);
+          } else {
+            this.log('You can generate sample data later by running `bin/magento sampledata:deploy` in the Magento directory');
+            this.log('Do not forget to run `bin/magento setup:upgrade` after generating sample data');
           }
+        } else {
+          this.log('Docker is not installed. Please make sure that prerequisites are complied with and run command again - https://docs.vuestorefront.io/magento/installation-setup/configure-magento.html#prerequisites');
+          this.exit(1);
         }
       }
     }

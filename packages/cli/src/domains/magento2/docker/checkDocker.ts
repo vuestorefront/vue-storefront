@@ -1,9 +1,15 @@
 import execa from 'execa';
 
-const checkDocker = async () => {
+const checkIfStdoutIsVersion = (stdout: string) => {
+  const versionRegex = /^\d+\.\d+\.\d+$/;
+
+  return versionRegex.test(stdout);
+};
+
+const checkDocker = async (): Promise<boolean> => {
   const { stdout } = await execa('docker', ['version', '--format', '{{.Server.Version}}']);
 
-  return stdout;
+  return checkIfStdoutIsVersion(stdout);
 };
 
 export default checkDocker;

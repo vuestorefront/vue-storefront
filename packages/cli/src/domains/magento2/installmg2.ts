@@ -5,7 +5,7 @@ import inquirer from 'inquirer';
 type Answers = 'Yes' | 'No';
 
 /** Gets a git repository URL from user's input. */
-const isInstallMagento = async (message: string): Promise<string> => {
+const isInstallMagento = async (message: string): Promise<boolean> => {
   const { isInstallMagento } = await inquirer.prompt<{ isInstallMagento: Answers}>({
     message,
     type: 'list',
@@ -23,7 +23,7 @@ const isInstallMagento = async (message: string): Promise<string> => {
     default: 'Yes'
   });
 
-  return isInstallMagento;
+  return isInstallMagento === 'Yes';
 };
 
 export default isInstallMagento;
