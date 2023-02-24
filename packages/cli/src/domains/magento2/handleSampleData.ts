@@ -1,5 +1,11 @@
 import { spawn } from 'child_process';
-import picocolors from 'picocolors';
+import {
+  logSimpleWarningMessage,
+  startLoggingProgress,
+  stopLoggingProgressError,
+  stopLoggingProgressSuccess
+} from './terminalHelpers';
+import { CliUx } from '@oclif/core';
 
 const handleSampleData = async (magentoDirName: string) => {
   const options = {
@@ -8,21 +14,23 @@ const handleSampleData = async (magentoDirName: string) => {
   };
 
   return new Promise((resolve, reject) => {
-    const sampleData = spawn('bin/magento sampledata:deploy && bin/magento setup:upgrade', options);
+    const sampleData = spawn(
+      'bin/magento sampledata:deploy && bin/magento setup:upgrade',
+      options
+    );
 
-    sampleData.stdout.on('data', (data) => {
-      console.log(data.toString());
-    });
-
+    startLoggingProgress('Deploying sample data for Magento 2');
     sampleData.stderr.on('data', (data) => {
-      console.log(data.toString());
+      logSimpleWarningMessage(data.toString());
     });
 
     sampleData.on('close', (code) => {
       if (code === 0) {
-        console.log(picocolors.green('Sample data deployed successfully'));
+        stopLoggingProgressSuccess('Sample data deployed successfully');
+        CliUx.ux.wait(500);
         resolve(1);
       } else {
+        stopLoggingProgressError('Sample data deployment failed');
         reject();
       }
     });

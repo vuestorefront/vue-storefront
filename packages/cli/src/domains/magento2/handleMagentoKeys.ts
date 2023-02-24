@@ -5,19 +5,19 @@ import inquirer from 'inquirer';
 type MagentoKeys = {
   accessKey: string;
   secretKey: string;
-}
+};
 
 /** Gets a git repository URL from user's input. */
-const handleMagentoKeys = async (message: string): Promise<MagentoKeys> => {
+const handleMagentoKeys = async (): Promise<MagentoKeys> => {
   const { accessKey, secretKey } = await inquirer.prompt<MagentoKeys>([
     {
-      message,
-      type: 'input',
+      message: 'Magento access key',
+      type: 'password',
       name: 'accessKey'
     },
     {
       message: 'Magento secret key',
-      type: 'input',
+      type: 'password',
       name: 'secretKey'
     }
   ]);

@@ -7,7 +7,7 @@ import { checkExistingDockerContainers } from './docker';
 /** The answers expected in the form of 'inquirer'. */
 type Answer = {
   magentoDirName: string;
-}
+};
 
 /** Gets a git repository URL from user's input. */
 const getMagentoDirName = async (message: string): Promise<string> => {
@@ -34,10 +34,14 @@ const getMagentoDirName = async (message: string): Promise<string> => {
     }
   });
 
-  const existingContainers = await checkExistingDockerContainers(magentoDirName);
+  const existingContainers = await checkExistingDockerContainers(
+    magentoDirName
+  );
 
   if (existingContainers) {
-    return getMagentoDirName('Docker container with the same name already exists. Please choose another name.');
+    return getMagentoDirName(
+      'Docker container with the same name already exists. Please choose another name: \n'
+    );
   }
 
   return magentoDirName;

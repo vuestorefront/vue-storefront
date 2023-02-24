@@ -5,7 +5,7 @@ import inquirer from 'inquirer';
 type Answers = 'Yes' | 'No';
 
 /** Gets a git repository URL from user's input. */
-const isMagentoKeys = async (message: string): Promise<boolean> => {
+const isMagentoKeys = async (message: string): Promise<string> => {
   const { hasMagentoAccessKeys } = await inquirer.prompt<{ hasMagentoAccessKeys: Answers }>({
     message,
     type: 'list',
@@ -23,7 +23,7 @@ const isMagentoKeys = async (message: string): Promise<boolean> => {
     default: 'Yes'
   });
 
-  return hasMagentoAccessKeys === 'Yes';
+  return hasMagentoAccessKeys;
 };
 
 export default isMagentoKeys;

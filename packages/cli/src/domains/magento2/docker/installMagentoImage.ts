@@ -1,42 +1,75 @@
-// import execa from 'execa';
 import { spawn } from 'child_process';
-import picocolors from 'picocolors';
 import removeDockerContainer from './removeDocker';
+import {
+  logSimpleErrorMessage,
+  startLoggingProgress,
+  stopLoggingProgressError,
+  stopLoggingProgressSuccess,
+  suspendLoggingProgressPrompt
+} from '../terminalHelpers';
+import { CliUx } from '@oclif/core';
 
 // rewrite with exec
-const installMagentoImage = async (magentoDirName: string, magentoDomainName: string, self: any): Promise<any> => {
+const installMagentoImage = async (
+  magentoDirName: string,
+  magentoDomainName: string
+): Promise<any> => {
   // const command = `curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/onelinesetup | bash -s -- ${magentoDomainName} 2.4.4`;
   const options = {
     cwd: magentoDirName
   };
 
   return new Promise((resolve) => {
-    const curl = spawn('curl', ['-s', 'https://raw.githubusercontent.com/markshust/docker-magento/master/lib/onelinesetup'], options);
-    const bash = spawn('bash', ['-s', '--', magentoDomainName, '2.4.4'], options);
+    const curl = spawn(
+      'curl',
+      [
+        '-s',
+        'https://raw.githubusercontent.com/markshust/docker-magento/master/lib/onelinesetup'
+      ],
+      options
+    );
+    const bash = spawn(
+      'bash',
+      ['-s', '--', magentoDomainName, '2.4.4'],
+      options
+    );
+
+    startLoggingProgress('Installing Magento 2 Docker image');
 
     curl.stdout.pipe(bash.stdin);
 
     bash.stdout.on('data', (data) => {
-      self.log(data.toString());
+      if (data.toString().includes('System password requested')) {
+        suspendLoggingProgressPrompt('please enter the password');
+      }
+
+      if (data.toString().includes('Restarting containers to apply updates')) {
+        startLoggingProgress('Installing Magento 2 Docker image');
+      }
     });
 
     bash.stderr.on('data', async (data) => {
-      self.log(data.toString());
-
       if (data.toString().includes('port is already allocated')) {
-        self.log(picocolors.red('Port is already in use. Please stop the container and try again.'));
+        logSimpleErrorMessage(
+          'Port is already in use. Please stop the container and try again.'
+        );
         // delete the directory
-
-        await removeDockerContainer(magentoDirName, self);
+        await removeDockerContainer(magentoDirName);
       }
     });
 
     bash.on('exit', (code) => {
-      self.log(picocolors.green('Magento 2 Docker image installed successfully'));
-      resolve(code);
+      if (code === 0) {
+        stopLoggingProgressSuccess(
+          'Magento 2 Docker image installed successfully'
+        );
+        CliUx.ux.wait(500);
+        resolve(1);
+      } else {
+        stopLoggingProgressError('Magento 2 Docker image installation failed');
+      }
     });
   });
 };
 
 export default installMagentoImage;
-
