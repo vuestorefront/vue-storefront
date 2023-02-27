@@ -1,5 +1,6 @@
 import { CliUx } from '@oclif/core';
 import picocolors from 'picocolors';
+import { spinner } from '@clack/prompts';
 
 export function startLoggingProgress(message: string): void {
   CliUx.ux.action.start(picocolors.bgBlack(picocolors.green(message)));
@@ -35,4 +36,10 @@ export function logSimpleInfoMessage(message: string): void {
 
 export function simpleLog(message: string): void {
   console.log(message);
+}
+
+export function clackSimpleLog(message: string): void {
+  const sp = spinner();
+  sp.start(picocolors.blue(message));
+  sp.stop(picocolors.blue(message));
 }

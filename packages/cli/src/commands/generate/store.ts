@@ -28,11 +28,14 @@ import {
   installMagentoImage
 } from '../../domains/magento2/docker';
 import {
+  clackSimpleLog,
   logSimpleErrorMessage,
   logSimpleInfoMessage,
   logSimpleSuccessMessage,
   simpleLog
 } from '../../domains/magento2/terminalHelpers';
+
+import { intro } from '@clack/prompts';
 
 export default class GenerateStore extends Command {
   static override description = t('command.generate_store.description');
@@ -77,6 +80,7 @@ export default class GenerateStore extends Command {
     }
 
     if (integrationName === 'Magento 2') {
+      intro('Welcome to Magento 2 integration generator! 💚');
       let magentoAccessKey: string;
       let magentoSecretKey: string;
       let isDockerInstalled: boolean;
@@ -86,6 +90,7 @@ export default class GenerateStore extends Command {
       );
 
       if (isInstallMagento) {
+        clackSimpleLog('Checking if Docker is installed...');
         logSimpleInfoMessage('Checking if Docker is installed...');
         isDockerInstalled = await checkDocker();
 

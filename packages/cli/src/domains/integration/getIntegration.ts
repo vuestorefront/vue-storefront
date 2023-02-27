@@ -45,7 +45,9 @@ const getIntegration = async (options: Options): Promise<Integration> => {
 
   return {
     ...answers.integration,
-    gitRepositoryURL: await getGitRepositoryURL(customIntegrationRepositoryMessage)
+    gitRepositoryURL: await getGitRepositoryURL(
+      customIntegrationRepositoryMessage
+    )
   };
 };
 

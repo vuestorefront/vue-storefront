@@ -45,7 +45,9 @@ const getGitRepositoryURL = async (message: string): Promise<string> => {
 
   if (!suggestion) return answers.gitRepositoryURL;
 
-  return answers.acceptSuggestionAsGitRepositoryURL ? suggestion : getGitRepositoryURL(message);
+  return answers.acceptSuggestionAsGitRepositoryURL
+    ? suggestion
+    : getGitRepositoryURL(message);
 };
 
 export default getGitRepositoryURL;
