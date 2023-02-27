@@ -1,11 +1,9 @@
 import { spawn } from 'child_process';
 import {
-  logSimpleWarningMessage,
   startLoggingProgress,
   stopLoggingProgressError,
   stopLoggingProgressSuccess
 } from './terminalHelpers';
-import { CliUx } from '@oclif/core';
 
 const handleSampleData = async (magentoDirName: string) => {
   const options = {
@@ -19,18 +17,14 @@ const handleSampleData = async (magentoDirName: string) => {
       options
     );
 
-    startLoggingProgress('Deploying sample data for Magento 2');
-    sampleData.stderr.on('data', (data) => {
-      logSimpleWarningMessage(data.toString());
-    });
+    startLoggingProgress('🛍️ Deploying sample data for Magento 2');
 
     sampleData.on('close', (code) => {
       if (code === 0) {
-        stopLoggingProgressSuccess('Sample data deployed successfully');
-        CliUx.ux.wait(500);
+        stopLoggingProgressSuccess('🎉 Sample data deployed successfully');
         resolve(1);
       } else {
-        stopLoggingProgressError('Sample data deployment failed');
+        stopLoggingProgressError('😱 Sample data deployment failed');
         reject();
       }
     });

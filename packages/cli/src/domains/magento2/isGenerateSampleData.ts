@@ -1,29 +1,20 @@
-// import { t } from 'i18next';
-import inquirer from 'inquirer';
-
-/** The answers expected in the form of 'inquirer'. */
-type Answers = 'Yes' | 'No';
+import { t } from 'i18next';
+import { confirm, isCancel } from '@clack/prompts';
+import { logSimpleWarningMessage } from './terminalHelpers';
 
 /** Gets a git repository URL from user's input. */
-const isGenerateSampleData = async (message: string): Promise<string> => {
-  const { isGenerate } = await inquirer.prompt<{ isGenerate: Answers}>({
+const isGenerateSampleData = async (message: string): Promise<boolean> => {
+  const isGenerate = await confirm({
     message,
-    type: 'list',
-    name: 'isGenerate',
-    choices: [
-      {
-        name: 'Yes',
-        value: true
-      },
-      {
-        name: 'No',
-        value: false
-      }
-    ],
-    default: 'Yes'
+    initialValue: true
   });
 
-  return isGenerate;
+  if (isCancel(isGenerate)) {
+    logSimpleWarningMessage(t('command.generate_store.message.canceled'));
+    process.exit(0);
+  }
+
+  return isGenerate as boolean;
 };
 
 export default isGenerateSampleData;

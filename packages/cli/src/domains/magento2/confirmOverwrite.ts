@@ -1,7 +1,11 @@
 // import { t } from 'i18next';
-import inquirer from 'inquirer';
 import fs from 'fs';
-import { logSimpleInfoMessage } from './terminalHelpers';
+import {
+  logSimpleInfoMessage,
+  logSimpleWarningMessage
+} from './terminalHelpers';
+import { confirm, isCancel } from '@clack/prompts';
+import { t } from 'i18next';
 
 /** The answers expected in the form of 'inquirer'. */
 type Arguments = {
@@ -13,12 +17,15 @@ type Arguments = {
 const confirmOverwrite = async ({
   message,
   magentoDirName
-}: Arguments): Promise<string> => {
-  const { overwrite } = await inquirer.prompt<{ overwrite: boolean }>({
-    type: 'confirm',
-    name: 'overwrite',
+}: Arguments): Promise<boolean | symbol> => {
+  const overwrite = await confirm({
     message
   });
+
+  if (isCancel(overwrite)) {
+    logSimpleWarningMessage(t('command.generate_store.message.canceled'));
+    process.exit(0);
+  }
 
   if (overwrite) {
     logSimpleInfoMessage('Deleting the existing directory');
@@ -32,7 +39,7 @@ const confirmOverwrite = async ({
     fs.mkdirSync(magentoDirName + '-new');
   }
 
-  return overwrite ? 'Yes' : 'No';
+  return overwrite;
 };
 
 export default confirmOverwrite;

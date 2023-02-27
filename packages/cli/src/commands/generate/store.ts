@@ -30,10 +30,11 @@ import {
   logSimpleErrorMessage,
   logSimpleInfoMessage,
   logSimpleSuccessMessage,
+  logSimpleWarningMessage,
   simpleLog
 } from '../../domains/magento2/terminalHelpers';
 
-import { intro, confirm } from '@clack/prompts';
+import { intro, confirm, isCancel, note } from '@clack/prompts';
 
 export default class GenerateStore extends Command {
   static override description = t('command.generate_store.description');
@@ -50,15 +51,6 @@ export default class GenerateStore extends Command {
       t('command.generate_store.input.project_name')
     );
 
-    const integration = await getIntegration({
-      message: t('command.generate_store.input.integration'),
-      customIntegrationRepositoryMessage: t(
-        'command.generate_store.input.custom_integration_repository'
-      )
-    });
-
-    const { name: integrationName } = integration;
-
     const projectDir = path.resolve(projectName);
 
     if (await existsDirectory(projectDir)) {
@@ -68,38 +60,44 @@ export default class GenerateStore extends Command {
         }) as string
       });
 
+      if (isCancel(overwrite)) {
+        logSimpleWarningMessage(t('command.generate_store.message.canceled'));
+        this.exit(0);
+      }
+
       if (!overwrite) {
         logSimpleErrorMessage(t('command.generate_store.message.skipping'));
         this.exit(0);
       }
     }
 
+    const integration = await getIntegration({
+      message: t('command.generate_store.input.integration'),
+      customIntegrationRepositoryMessage: t(
+        'command.generate_store.input.custom_integration_repository'
+      )
+    });
+
+    const { name: integrationName } = integration;
+
     if (integrationName === 'Magento 2') {
       let magentoAccessKey: string;
       let magentoSecretKey: string;
-      let isDockerInstalled: boolean;
+
+      await checkDocker();
 
       const isInstallMagento = await installMg2Prompt(
         'Do you want to install Magento 2 locally on your computer? (beta)'
       );
 
+      if (isCancel(isInstallMagento)) {
+        logSimpleWarningMessage(t('command.generate_store.message.canceled'));
+        this.exit(0);
+      }
+
       if (isInstallMagento) {
-        logSimpleInfoMessage('Checking if Docker is installed...');
-        isDockerInstalled = await checkDocker();
-
-        if (!isDockerInstalled) {
-          logSimpleErrorMessage(
-            'Docker is not installed or not running. Please make sure that prerequisites are complied with and run command again. For more information, please visit https://docs.vuestorefront.io/magento/installation-setup/configure-magento.html'
-          );
-          this.exit(1);
-        } else {
-          logSimpleSuccessMessage(
-            'Docker is installed and running. Proceeding with Magento 2 installation...'
-          );
-        }
-
         const magentoDirName = await getMagentoDirName(
-          'Magento directory name'
+          'Please provide a name for the Magento 2 directory'
         );
 
         // check if the directory with the name magentoDirName exists in the current directory
@@ -159,9 +157,6 @@ export default class GenerateStore extends Command {
           logSimpleInfoMessage(
             'You can generate sample data later by running `bin/magento sampledata:deploy` in the Magento directory'
           );
-          logSimpleInfoMessage(
-            'You can generate sample data later by running `bin/magento sampledata:deploy` in the Magento directory'
-          );
         }
 
         logSimpleSuccessMessage(
@@ -180,19 +175,19 @@ export default class GenerateStore extends Command {
     await terminateGitRepository(projectDir);
 
     simpleLog(t('command.generate_store.message.success', { projectName }));
-    simpleLog(t('command.generate_store.message.install'));
-    simpleLog('');
-    logSimpleSuccessMessage(
-      t<string>('command.generate_store.message.install_commands.0', {
-        projectName
-      })
-    );
-    logSimpleSuccessMessage(
-      t<string>('command.generate_store.message.install_commands.1', {
-        projectName
-      })
-    );
-    simpleLog('');
+    note(`
+      ${t('command.generate_store.message.success', { projectName })}.
+
+      ${t('command.generate_store.message.install')}
+
+      ${t<string>('command.generate_store.message.install_commands.0', {
+  projectName
+})}
+
+      ${t<string>('command.generate_store.message.install_commands.1', {
+  projectName
+})}
+    `);
 
     if (integration.documentationURL) {
       simpleLog(

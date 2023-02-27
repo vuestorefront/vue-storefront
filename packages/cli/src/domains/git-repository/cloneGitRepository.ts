@@ -1,7 +1,10 @@
-import { CliUx } from '@oclif/core';
 import * as fs from 'fs';
 import git from 'isomorphic-git';
 import http from 'isomorphic-git/http/node';
+import {
+  startLoggingProgress,
+  stopLoggingProgressSuccess
+} from '../magento2/terminalHelpers';
 
 type Options = {
   projectDir: string;
@@ -12,30 +15,16 @@ type Options = {
 const cloneGitRepository = async (options: Options): Promise<void> => {
   const { projectDir, gitRepositoryURL } = options;
 
-  const bar = CliUx.ux.progress({
-    fps: 64,
-    format: '{bar} || {percentage}%',
-    barCompleteChar: '\u2588',
-    barIncompleteChar: '\u2591'
-  });
-
-  bar.start();
+  startLoggingProgress('🗂️ Cloning git repository...');
 
   await git.clone({
     fs,
     http,
     dir: projectDir,
-    url: gitRepositoryURL,
-    onProgress(progress) {
-      bar.update(progress.loaded);
-
-      if (progress.total !== undefined) {
-        bar.setTotal(progress.total);
-      }
-    }
+    url: gitRepositoryURL
   });
 
-  bar.stop();
+  stopLoggingProgressSuccess('🎉 Git repository cloned.');
 };
 
 export default cloneGitRepository;

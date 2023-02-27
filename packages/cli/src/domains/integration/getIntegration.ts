@@ -3,17 +3,14 @@ import type Integration from './Integration';
 import fetchIntegrations from './fetchIntegrations';
 import { getGitRepositoryURL } from '../git-repository-url';
 
-import { select } from '@clack/prompts';
+import { select, isCancel } from '@clack/prompts';
+import { logSimpleWarningMessage } from '../magento2/terminalHelpers';
+import { t } from 'i18next';
 
 type CustomIntegration = {
   name: string;
   gitRepositoryURL: null;
 };
-
-/** The answers expected in the form of 'inquirer'. */
-// type Answers = {
-//   integration: Integration | CustomIntegration;
-// };
 
 type Options = {
   message: string;
@@ -39,6 +36,11 @@ const getIntegration = async (options: Options): Promise<Integration> => {
     options: choices,
     message
   });
+
+  if (isCancel(answer)) {
+    logSimpleWarningMessage(t('command.generate_store.message.canceled'));
+    process.exit(0);
+  }
 
   if (answer !== customIntegration.name) {
     return integrations.find(

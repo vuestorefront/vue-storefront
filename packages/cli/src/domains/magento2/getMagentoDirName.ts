@@ -1,27 +1,16 @@
 import { t } from 'i18next';
-import inquirer from 'inquirer';
 import isReasonableFilename from 'reasonable-filename';
 import formatToProjectName from '../project-name/formatToProjectName';
 import { checkExistingDockerContainers } from './docker';
 
-/** The answers expected in the form of 'inquirer'. */
-type Answer = {
-  magentoDirName: string;
-};
+import { text, isCancel } from '@clack/prompts';
+import { logSimpleWarningMessage } from './terminalHelpers';
 
 /** Gets a git repository URL from user's input. */
 const getMagentoDirName = async (message: string): Promise<string> => {
-  const { magentoDirName } = await inquirer.prompt<Answer>({
+  const magentoDirName = await text({
     message,
-    type: 'input',
-    name: 'magentoDirName',
-    filter: (value: string): string => {
-      return formatToProjectName(value.trim());
-    },
-    transformer: (value: string): string => {
-      return formatToProjectName(value.trimStart());
-    },
-    validate: (value?: string): true | string => {
+    validate: (value?: string): string | void => {
       if (!value?.trim()) {
         return t<string>('domain.project_name.is_empty');
       }
@@ -29,13 +18,16 @@ const getMagentoDirName = async (message: string): Promise<string> => {
       if (!isReasonableFilename(value)) {
         return t<string>('domain.project_name.is_not_directory');
       }
-
-      return true;
     }
   });
 
+  if (isCancel(magentoDirName)) {
+    logSimpleWarningMessage(t('command.generate_store.message.canceled'));
+    process.exit(0);
+  }
+
   const existingContainers = await checkExistingDockerContainers(
-    magentoDirName
+    formatToProjectName(magentoDirName as string)
   );
 
   if (existingContainers) {
@@ -44,7 +36,7 @@ const getMagentoDirName = async (message: string): Promise<string> => {
     );
   }
 
-  return magentoDirName;
+  return formatToProjectName(magentoDirName as string);
 };
 
 export default getMagentoDirName;

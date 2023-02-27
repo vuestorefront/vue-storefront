@@ -1,12 +1,10 @@
 import { spawn } from 'child_process';
 import fs from 'fs';
 import {
-  logSimpleWarningMessage,
   startLoggingProgress,
   stopLoggingProgressError,
   stopLoggingProgressSuccess
 } from './terminalHelpers';
-import { CliUx } from '@oclif/core';
 
 const handleGraphQL = async (magentoDirName: string) => {
   const options = {
@@ -49,27 +47,22 @@ const handleGraphQL = async (magentoDirName: string) => {
     );
   };
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const child = spawn(
       'bin/composer require caravelx/module-graphql-config && bin/magento module:enable Caravel_GraphQlConfig && bin/magento setup:upgrade && bin/magento setup:di:compile && bin/magento setup:static-content:deploy -f',
       options
     );
 
-    startLoggingProgress('Enabling GraphQL module for Magento 2');
+    startLoggingProgress('🪢 Enabling GraphQL module for Magento 2');
 
-    child.stderr.on('data', (data) => {
-      logSimpleWarningMessage(data.toString());
-    });
-
-    child.on('close', (code) => {
+    child.on('exit', (code) => {
       if (code === 0) {
         increaseQueryDepthAndComplexity();
-        stopLoggingProgressSuccess('GraphQL module enabled successfully');
-        CliUx.ux.wait(500);
+        stopLoggingProgressSuccess('🎉 GraphQL module enabled successfully');
         resolve(1);
       } else {
-        stopLoggingProgressError('GraphQL module enabling failed');
-        resolve(1);
+        stopLoggingProgressError('😱 GraphQL module enabling failed');
+        reject();
       }
     });
   });

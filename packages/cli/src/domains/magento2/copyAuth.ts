@@ -1,7 +1,6 @@
 import { spawn } from 'child_process';
 import fs from 'fs';
-import { logSimpleSuccessMessage, simpleLog } from './terminalHelpers';
-import { CliUx } from '@oclif/core';
+import { logSimpleSuccessMessage } from './terminalHelpers';
 
 const copyAuth = async (
   magentoDirName: string,
@@ -19,14 +18,6 @@ const copyAuth = async (
     ['src/auth.json'],
     options
   );
-
-  child.stdout.on('data', (data) => {
-    simpleLog(data.toString());
-  });
-
-  child.stderr.on('data', (data) => {
-    simpleLog(data.toString());
-  });
 
   child.on('close', () => {
     fs.readFile(
@@ -51,17 +42,8 @@ const copyAuth = async (
     );
   });
 
-  copyToContainer.stdout.on('data', (data) => {
-    simpleLog(data.toString());
-  });
-
-  copyToContainer.stderr.on('data', (data) => {
-    simpleLog(data.toString());
-  });
-
   copyToContainer.on('close', () => {
     logSimpleSuccessMessage('Auth.json file has been copied to container');
-    CliUx.ux.wait(500);
   });
 };
 

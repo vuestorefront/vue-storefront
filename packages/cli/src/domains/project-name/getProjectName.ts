@@ -3,7 +3,8 @@ import { t } from 'i18next';
 import isReasonableFilename from 'reasonable-filename';
 import formatToProjectName from './formatToProjectName';
 
-import { text } from '@clack/prompts';
+import { text, isCancel } from '@clack/prompts';
+import { logSimpleWarningMessage } from '../magento2/terminalHelpers';
 
 const getProjectName = async (message: string): Promise<string> => {
   const projectName = await text({
@@ -18,6 +19,11 @@ const getProjectName = async (message: string): Promise<string> => {
       }
     }
   });
+
+  if (isCancel(projectName)) {
+    logSimpleWarningMessage(t('command.generate_store.message.canceled'));
+    process.exit(0);
+  }
 
   return formatToProjectName(projectName as string);
 };

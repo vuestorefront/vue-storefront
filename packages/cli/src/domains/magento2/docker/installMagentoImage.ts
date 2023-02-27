@@ -7,7 +7,8 @@ import {
   stopLoggingProgressSuccess,
   suspendLoggingProgressPrompt
 } from '../terminalHelpers';
-import { CliUx } from '@oclif/core';
+
+import { note } from '@clack/prompts';
 
 // rewrite with exec
 const installMagentoImage = async (
@@ -34,24 +35,26 @@ const installMagentoImage = async (
       options
     );
 
-    startLoggingProgress('Installing Magento 2 Docker image');
+    note('This may take up to 10 minutes to complete. Please wait...🐌');
+
+    startLoggingProgress('🔁 Installing Magento 2 Docker image');
 
     curl.stdout.pipe(bash.stdin);
 
     bash.stdout.on('data', (data) => {
       if (data.toString().includes('System password requested')) {
-        suspendLoggingProgressPrompt('please enter the password');
+        suspendLoggingProgressPrompt('🙈 Please enter the password');
       }
 
       if (data.toString().includes('Restarting containers to apply updates')) {
-        startLoggingProgress('Installing Magento 2 Docker image');
+        startLoggingProgress('🔁 Installing Magento 2 Docker image');
       }
     });
 
     bash.stderr.on('data', async (data) => {
       if (data.toString().includes('port is already allocated')) {
         logSimpleErrorMessage(
-          'Port is already in use. Please stop the container and try again.'
+          '😞 Port is already in use. Please stop the container and try again.'
         );
         // delete the directory
         await removeDockerContainer(magentoDirName);
@@ -61,12 +64,13 @@ const installMagentoImage = async (
     bash.on('exit', (code) => {
       if (code === 0) {
         stopLoggingProgressSuccess(
-          'Magento 2 Docker image installed successfully'
+          '🎉 Magento 2 Docker image installed successfully'
         );
-        CliUx.ux.wait(500);
         resolve(1);
       } else {
-        stopLoggingProgressError('Magento 2 Docker image installation failed');
+        stopLoggingProgressError(
+          '😱 Magento 2 Docker image installation failed'
+        );
       }
     });
   });

@@ -1,19 +1,13 @@
 import { t } from 'i18next';
-import inquirer from 'inquirer';
-
-/** The answers expected in the form of 'inquirer'. */
-type Answer = {
-  magentoDomainName: string;
-};
+import { text, isCancel } from '@clack/prompts';
+import { logSimpleWarningMessage } from '../terminalHelpers';
 
 /** Gets a Magento domain name and checks for validity. */
 const getMagentoDomainName = async (message: string): Promise<string> => {
-  const { magentoDomainName } = await inquirer.prompt<Answer>({
+  const magentoDomainName = await text({
     message,
-    type: 'input',
-    name: 'magentoDomainName',
-    default: 'magento.test',
-    validate(value: string) {
+    initialValue: 'magento.test',
+    validate(value: string): string | void {
       if (!value?.trim()) {
         return t<string>('domain.project_name.is_empty');
       }
@@ -24,12 +18,15 @@ const getMagentoDomainName = async (message: string): Promise<string> => {
       if (!domainNameRegex.test(value)) {
         return 'Please enter a valid domain name';
       }
-
-      return true;
     }
   });
 
-  return magentoDomainName;
+  if (isCancel(magentoDomainName)) {
+    logSimpleWarningMessage(t('command.generate_store.message.canceled'));
+    process.exit(0);
+  }
+
+  return magentoDomainName as string;
 };
 
 export default getMagentoDomainName;
