@@ -1,7 +1,9 @@
-import inquirer from 'inquirer';
+// import inquirer from 'inquirer';
 import type Integration from './Integration';
 import fetchIntegrations from './fetchIntegrations';
 import { getGitRepositoryURL } from '../git-repository-url';
+
+import { select } from '@clack/prompts';
 
 type CustomIntegration = {
   name: string;
@@ -9,16 +11,15 @@ type CustomIntegration = {
 };
 
 /** The answers expected in the form of 'inquirer'. */
-type Answers = {
-  integration: Integration | CustomIntegration;
-};
+// type Answers = {
+//   integration: Integration | CustomIntegration;
+// };
 
 type Options = {
   message: string;
   customIntegrationRepositoryMessage: string;
 };
 
-/** Gets the integration from user's input. */
 const getIntegration = async (options: Options): Promise<Integration> => {
   const { message, customIntegrationRepositoryMessage } = options;
 
@@ -31,20 +32,22 @@ const getIntegration = async (options: Options): Promise<Integration> => {
 
   const choices = [...integrations, customIntegration].map((integration) => ({
     name: integration.name,
-    value: integration
+    value: integration.name
   }));
 
-  const answers = await inquirer.prompt<Answers>({
-    choices,
-    message,
-    type: 'list',
-    name: 'integration'
+  const answer = await select({
+    options: choices,
+    message
   });
 
-  if (answers.integration.gitRepositoryURL) return answers.integration;
+  if (answer !== customIntegration.name) {
+    return integrations.find(
+      (integration) => integration.name === answer
+    ) as Integration;
+  }
 
   return {
-    ...answers.integration,
+    name: customIntegration.name,
     gitRepositoryURL: await getGitRepositoryURL(
       customIntegrationRepositoryMessage
     )

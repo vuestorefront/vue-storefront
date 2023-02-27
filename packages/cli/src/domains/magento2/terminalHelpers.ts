@@ -19,27 +19,31 @@ export function stopLoggingProgressError(message?: string): void {
 }
 
 export function logSimpleSuccessMessage(message: string): void {
-  console.log(picocolors.green(message));
+  simpleLog(message, picocolors.green);
 }
 
 export function logSimpleErrorMessage(message: string): void {
-  console.log(picocolors.red(message));
+  simpleLog(message, picocolors.red);
 }
 
 export function logSimpleWarningMessage(message: string): void {
-  console.log(picocolors.yellow(message));
+  simpleLog(message, picocolors.yellow);
 }
 
 export function logSimpleInfoMessage(message: string): void {
-  console.log(picocolors.blue(message));
+  simpleLog(message, picocolors.blue);
 }
 
-export function simpleLog(message: string): void {
-  console.log(message);
-}
-
-export function clackSimpleLog(message: string): void {
+export function simpleLog(
+  message: string,
+  pc?: (message: string) => string
+): void {
   const sp = spinner();
-  sp.start(picocolors.blue(message));
-  sp.stop(picocolors.blue(message));
+  if (pc) {
+    sp.start(pc(message));
+    sp.stop(pc(message));
+  } else {
+    sp.start(message);
+    sp.stop(message);
+  }
 }

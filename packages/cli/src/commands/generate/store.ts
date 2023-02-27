@@ -1,6 +1,5 @@
 import { Command } from '@oclif/core';
 import { t } from 'i18next';
-import inquirer from 'inquirer';
 import * as path from 'path';
 import fs from 'fs';
 import { getIntegration } from '../../domains/integration';
@@ -28,14 +27,13 @@ import {
   installMagentoImage
 } from '../../domains/magento2/docker';
 import {
-  clackSimpleLog,
   logSimpleErrorMessage,
   logSimpleInfoMessage,
   logSimpleSuccessMessage,
   simpleLog
 } from '../../domains/magento2/terminalHelpers';
 
-import { intro } from '@clack/prompts';
+import { intro, confirm } from '@clack/prompts';
 
 export default class GenerateStore extends Command {
   static override description = t('command.generate_store.description');
@@ -47,7 +45,7 @@ export default class GenerateStore extends Command {
   static override args = [];
 
   async run(): Promise<void> {
-    simpleLog('Welcome to Vue Storefront 2 CLI! 💚');
+    intro('Welcome to Vue Storefront 2 CLI! 💚');
     const projectName = await getProjectName(
       t('command.generate_store.input.project_name')
     );
@@ -64,23 +62,19 @@ export default class GenerateStore extends Command {
     const projectDir = path.resolve(projectName);
 
     if (await existsDirectory(projectDir)) {
-      const { overwrite } = await inquirer.prompt<{ overwrite: boolean }>({
-        type: 'confirm',
-        name: 'overwrite',
-        message: () =>
-          t('command.generate_store.input.overwrite', {
-            projectName
-          }) as string
+      const overwrite = await confirm({
+        message: t('command.generate_store.input.overwrite', {
+          projectName
+        }) as string
       });
 
       if (!overwrite) {
-        simpleLog(t('command.generate_store.message.skipping'));
+        logSimpleErrorMessage(t('command.generate_store.message.skipping'));
         this.exit(0);
       }
     }
 
     if (integrationName === 'Magento 2') {
-      intro('Welcome to Magento 2 integration generator! 💚');
       let magentoAccessKey: string;
       let magentoSecretKey: string;
       let isDockerInstalled: boolean;
@@ -90,7 +84,6 @@ export default class GenerateStore extends Command {
       );
 
       if (isInstallMagento) {
-        clackSimpleLog('Checking if Docker is installed...');
         logSimpleInfoMessage('Checking if Docker is installed...');
         isDockerInstalled = await checkDocker();
 

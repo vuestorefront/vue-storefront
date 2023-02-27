@@ -1,53 +1,67 @@
 import { t } from 'i18next';
-import inquirer from 'inquirer';
+// import inquirer from 'inquirer';
 import git from 'isomorphic-git';
 import extractSuggestionFromError from './extractSuggestionFromError';
 import validateGitRepositoryURL from './validateGitRepositoryURL';
 
-/** The answers expected in the form of 'inquirer'. */
-type Answers = {
-  gitRepositoryURL: string;
-  acceptSuggestionAsGitRepositoryURL: boolean;
+import { text, isCancel, cancel } from '@clack/prompts';
+
+const validateURL = async (url: string): Promise<string | void> => {
+  const [valid, error] = await validateGitRepositoryURL(url);
+
+  if (valid) return 'Valid';
+
+  console.log(
+    error instanceof git.Errors.UrlParseError
+      ? t<string>('domain.git_repository_url.is_invalid')
+      : t<string>('domain.git_repository_url.was_not_found')
+  );
+};
+
+const suggestURL = async (url: string): Promise<string | null> => {
+  let suggestion: null | string = null;
+
+  suggestion = await extractSuggestionFromError(url);
+
+  if (suggestion) return suggestion;
+
+  return null;
 };
 
 /** Gets a git repository URL from user's input. */
 const getGitRepositoryURL = async (message: string): Promise<string> => {
-  let suggestion: null | string = null;
+  // URL
+  const answer = await text({
+    message
+  });
 
-  const answers = await inquirer.prompt<Answers>([
-    {
-      type: 'input',
-      name: 'gitRepositoryURL',
-      message,
-      validate: async (url: string): Promise<true | string> => {
-        suggestion = null;
+  if (isCancel(answer)) {
+    cancel('Installation cancelled');
+    return '';
+  }
 
-        const [valid, error] = await validateGitRepositoryURL(url);
+  // Validation
+  const isValid = await validateURL(answer as string);
 
-        if (valid) return true;
+  if (isValid === 'Valid') return answer as string;
 
-        suggestion = await extractSuggestionFromError(error);
+  // Suggestion
+  const suggestion = await suggestURL(answer as string);
 
-        if (suggestion) return true;
+  if (suggestion) {
+    const answer = await text({
+      message: t('domain.git_repository_url.suggestion', { suggestion })
+    });
 
-        return error instanceof git.Errors.UrlParseError
-          ? t<string>('domain.git_repository_url.is_invalid')
-          : t<string>('domain.git_repository_url.was_not_found');
-      }
-    },
-    {
-      type: 'confirm',
-      name: 'acceptSuggestionAsGitRepositoryURL',
-      when: () => Boolean(suggestion),
-      message: () => t('domain.git_repository_url.suggestion', { suggestion })
+    if (isCancel(answer)) {
+      cancel('Installation cancelled');
+      return '';
     }
-  ]);
 
-  if (!suggestion) return answers.gitRepositoryURL;
+    if (answer) return answer as string;
+  }
 
-  return answers.acceptSuggestionAsGitRepositoryURL
-    ? suggestion
-    : getGitRepositoryURL(message);
+  return getGitRepositoryURL(message);
 };
 
 export default getGitRepositoryURL;

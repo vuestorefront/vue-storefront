@@ -9,7 +9,7 @@
         "overwrite": "\"./{{projectName}}\" already exists. Overwrite?"
       },
       "message": {
-        "skipping": "Can't generate the store. Skipping…",
+        "skipping": "Can't generate the store. Please run the command again and provide a valid project name asdasdasd asdas das dasd asdasdasdasdasdas.",
         "success": "Sucessfully generated your store at \"./{{projectName}}\"!",
         "install": "To finish the installation, run the following commands:",
         "install_commands": ["cd {{ projectName }}", "yarn"],
