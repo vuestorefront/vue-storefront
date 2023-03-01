@@ -33,6 +33,10 @@ describe('confirmOverwrite | Magento tests', () => {
     });
   });
 
+  afterEach(() => {
+    mockFileSystem.restore();
+  });
+
   it('user can confirm overwrite', async () => {
     const answer = async () => {
       expect(output).toContain('command.generate_store.magento.overwrite');
