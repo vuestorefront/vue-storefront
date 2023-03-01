@@ -1,4 +1,4 @@
-export { default as installMg2Prompt } from '../prompts/installmg2';
+export { default as installMg2Prompt } from '../prompts/isInstallMagento';
 export { default as getMagentoDirName } from '../prompts/getMagentoDirName';
 export { default as confirmOverwrite } from '../prompts/confirmOverwrite';
 export { default as isMagentoKeys } from '../prompts/isMagentoKeys';
