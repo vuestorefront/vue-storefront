@@ -4,18 +4,21 @@ import git from 'isomorphic-git';
 import extractSuggestionFromError from './extractSuggestionFromError';
 import validateGitRepositoryURL from './validateGitRepositoryURL';
 
-import { text, isCancel, cancel } from '@clack/prompts';
+import { text, isCancel, cancel, confirm } from '@clack/prompts';
+import { simpleLog } from '../magento2/functions/terminalHelpers';
 
-const validateURL = async (url: string): Promise<string | void> => {
+const validateURL = async (url: string): Promise<string | void | any> => {
   const [valid, error] = await validateGitRepositoryURL(url);
 
   if (valid) return 'Valid';
 
-  console.log(
+  simpleLog(
     error instanceof git.Errors.UrlParseError
       ? t<string>('domain.git_repository_url.is_invalid')
       : t<string>('domain.git_repository_url.was_not_found')
   );
+
+  return error;
 };
 
 const suggestURL = async (url: string): Promise<string | null> => {
@@ -41,15 +44,15 @@ const getGitRepositoryURL = async (message: string): Promise<string> => {
   }
 
   // Validation
-  const isValid = await validateURL(answer as string);
+  const validateResult = await validateURL(answer as string);
 
-  if (isValid === 'Valid') return answer as string;
+  if (validateResult === 'Valid') return answer as string;
 
   // Suggestion
-  const suggestion = await suggestURL(answer as string);
+  const suggestion = await suggestURL(validateResult);
 
   if (suggestion) {
-    const answer = await text({
+    const answer = await confirm({
       message: t('domain.git_repository_url.suggestion', { suggestion })
     });
 
@@ -58,7 +61,7 @@ const getGitRepositoryURL = async (message: string): Promise<string> => {
       return '';
     }
 
-    if (answer) return answer as string;
+    if (answer) return suggestion;
   }
 
   return getGitRepositoryURL(message);
