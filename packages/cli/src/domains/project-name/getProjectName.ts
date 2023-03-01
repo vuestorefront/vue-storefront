@@ -4,7 +4,7 @@ import isReasonableFilename from 'reasonable-filename';
 import formatToProjectName from './formatToProjectName';
 
 import { text, isCancel } from '@clack/prompts';
-import { logSimpleWarningMessage } from '../magento2/terminalHelpers';
+import { logSimpleWarningMessage } from '../magento2/functions/terminalHelpers';
 
 const getProjectName = async (message: string): Promise<string> => {
   const projectName = await text({

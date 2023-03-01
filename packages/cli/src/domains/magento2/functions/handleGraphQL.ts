@@ -1,22 +1,23 @@
 import { spawn } from 'child_process';
 import fs from 'fs';
-import {
-  startLoggingProgress,
-  stopLoggingProgressError,
-  stopLoggingProgressSuccess
-} from './terminalHelpers';
+import { spinner } from '@clack/prompts';
+import picocolors from 'picocolors';
+import { t } from 'i18next';
 
+/** Install and enable GraphQL Magento module */
 const handleGraphQL = async (magentoDirName: string) => {
   const options = {
     cwd: magentoDirName,
     shell: true
   };
 
+  const sp = spinner();
+
   const increaseQueryDepthAndComplexity = async () => {
     fs.readFile(
       `${magentoDirName}/src/vendor/magento/module-graph-ql/etc/di.xml`,
       'utf8',
-      function (err, data) {
+      async function (err, data) {
         if (err) {
           return console.log(err);
         }
@@ -53,15 +54,24 @@ const handleGraphQL = async (magentoDirName: string) => {
       options
     );
 
-    startLoggingProgress('🪢 Enabling GraphQL module for Magento 2');
+    sp.start(
+      picocolors.cyan(t('command.generate_store.progress.graphql_start'))
+    );
 
-    child.on('exit', (code) => {
+    child.stdout.on('data', () => {});
+
+    child.on('exit', async (code) => {
+      console.log(picocolors.red(code));
       if (code === 0) {
         increaseQueryDepthAndComplexity();
-        stopLoggingProgressSuccess('🎉 GraphQL module enabled successfully');
+        sp.stop(
+          picocolors.green(t('command.generate_store.progress.graphql_end'))
+        );
         resolve(1);
       } else {
-        stopLoggingProgressError('😱 GraphQL module enabling failed');
+        sp.stop(
+          picocolors.red(t('command.generate_store.progress.graphql_failed'))
+        );
         reject();
       }
     });

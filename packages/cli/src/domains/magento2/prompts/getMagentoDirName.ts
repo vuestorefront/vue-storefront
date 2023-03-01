@@ -1,12 +1,12 @@
 import { t } from 'i18next';
 import isReasonableFilename from 'reasonable-filename';
-import formatToProjectName from '../project-name/formatToProjectName';
-import { checkExistingDockerContainers } from './docker';
 
 import { text, isCancel } from '@clack/prompts';
-import { logSimpleWarningMessage } from './terminalHelpers';
+import { logSimpleWarningMessage } from '../functions/terminalHelpers';
+import { formatToProjectName } from '../../project-name';
+import { checkExistingDockerContainers } from '../docker';
 
-/** Gets a git repository URL from user's input. */
+/** Prompt user to enter Magento directory name */
 const getMagentoDirName = async (message: string): Promise<string> => {
   const magentoDirName = await text({
     message,
@@ -31,9 +31,7 @@ const getMagentoDirName = async (message: string): Promise<string> => {
   );
 
   if (existingContainers) {
-    return getMagentoDirName(
-      'Docker container with the same name already exists. Please choose another name: \n'
-    );
+    return getMagentoDirName(t('command.generate_store.magento.docker_exists'));
   }
 
   return formatToProjectName(magentoDirName as string);

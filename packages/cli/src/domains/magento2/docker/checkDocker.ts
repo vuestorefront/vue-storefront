@@ -2,17 +2,10 @@ import { spawn } from 'child_process';
 import {
   logSimpleErrorMessage,
   logSimpleInfoMessage,
-  logSimpleSuccessMessage,
   simpleLog
-} from '../terminalHelpers';
+} from '../functions/terminalHelpers';
 
-// const checkIfStdoutIsVersion = (stdout: string) => {
-//   stdout = stdout.trim();
-//   const versionRegex = /^(\d+\.)?(\d+\.)?(\*|\d+)$/;
-
-//   return versionRegex.test(stdout);
-// };
-
+/** Checking if Docker is installed and running on user's machine */
 const checkDocker = async (): Promise<void> => {
   logSimpleInfoMessage('🔍 Checking if Docker is installed...');
   const docker = spawn('docker', ['info']);
@@ -39,10 +32,6 @@ const checkDocker = async (): Promise<void> => {
       'Docker is not installed or not running. Please make sure that prerequisites are complied with and run command again. For more information, please visit https://docs.vuestorefront.io/magento/installation-setup/configure-magento.html'
     );
     process.exit(1);
-  } else {
-    logSimpleSuccessMessage(
-      'Docker is installed and running. Proceeding with Magento 2 installation...'
-    );
   }
 };
 

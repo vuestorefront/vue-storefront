@@ -1,7 +1,7 @@
 import { spawn } from 'child_process';
 import fs from 'fs';
-import { logSimpleSuccessMessage } from './terminalHelpers';
 
+/** Copy auth.json file to Docker container */
 const copyAuth = async (
   magentoDirName: string,
   accessKey: string,
@@ -42,9 +42,7 @@ const copyAuth = async (
     );
   });
 
-  copyToContainer.on('close', () => {
-    logSimpleSuccessMessage('Auth.json file has been copied to container');
-  });
+  copyToContainer.on('close', () => {});
 };
 
 export default copyAuth;

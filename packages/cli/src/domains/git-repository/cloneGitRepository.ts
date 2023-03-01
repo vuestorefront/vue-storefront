@@ -1,10 +1,6 @@
 import * as fs from 'fs';
 import git from 'isomorphic-git';
 import http from 'isomorphic-git/http/node';
-import {
-  startLoggingProgress,
-  stopLoggingProgressSuccess
-} from '../magento2/terminalHelpers';
 
 type Options = {
   projectDir: string;
@@ -15,16 +11,12 @@ type Options = {
 const cloneGitRepository = async (options: Options): Promise<void> => {
   const { projectDir, gitRepositoryURL } = options;
 
-  startLoggingProgress('🗂️ Cloning git repository...');
-
   await git.clone({
     fs,
     http,
     dir: projectDir,
     url: gitRepositoryURL
   });
-
-  stopLoggingProgressSuccess('🎉 Git repository cloned.');
 };
 
 export default cloneGitRepository;

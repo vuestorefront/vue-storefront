@@ -3,20 +3,54 @@
     "generate_store": {
       "description": "Generates a Vue Storefront store.",
       "input": {
-        "project_name": "What's your project name?",
-        "integration": "Choose an integration template:",
-        "custom_integration_repository": "What's the URL of the custom integration's git repository?",
-        "overwrite": "\"./{{projectName}}\" already exists. Overwrite?"
+        "project_name": "🚀  What's your project name?",
+        "integration": "⚙️  Choose an integration template:",
+        "custom_integration_repository": "🌍  What's the URL of the custom integration's git repository?",
+        "overwrite": "🤔  \"./{{projectName}}\" already exists. Overwrite?"
       },
       "message": {
-        "skipping": "Can't generate the store. Please run the command again and provide a valid project name.",
-        "success": "Sucessfully generated your store at \"./{{projectName}}\"!",
+        "intro": "Welcome to Vue Storefront 2 CLI! 💚",
+        "skipping": "😞 Can't generate the store. Please run the command again and provide a valid project name.",
+        "success": "🎉  Sucessfully generated your store at \"./{{projectName}}\"!",
         "install": "To finish the installation, run the following commands:",
         "install_commands": ["cd {{ projectName }}", "yarn"],
         "configure": "Then, go to the {{ documentationURL }} to learn how to configure the project.",
         "start": "Once finished, you can start the project using this command:",
         "start_command": "yarn dev",
-        "canceled": "Store generation cancelled 😞 We hope to see you soon! 🤗"
+        "canceled": "Store generation cancelled 😞\nWe hope to see you soon! 🤗"
+      },
+      "progress": {
+        "vsf_start": "🧩 Generating Vue Storefront project",
+        "vsf_end": "🎉 Vue Storefront project has been generated",
+        "docker_start": "🐳 Installing Magento 2 Docker image",
+        "docker_end": "🎉 Magento 2 Docker image has been installed successfully",
+        "docker_failed": "😱 Magento 2 Docker image installation failed",
+        "graphql_start": "✨ Enabling GraphQL module",
+        "graphql_end": "🎉 GraphQL module has been enabled successfully",
+        "graphql_failed": "😱 GraphQL module enabling failed",
+        "sample_data_start": "🛍️  Deploying sample data for Magento 2",
+        "sample_data_end": "🎉 Sample data has been deployed successfully",
+        "sample_data_failed": "😱 Sample data deployment failed"
+      },
+      "magento": {
+        "install": "🤓 Do you want to install Magento 2 locally on your computer? (BETA)",
+        "install_note": "This feature is still in beta.\nThanks for your patience! 🙏 \nYou can report any issues here: \nhttps://github.com/vuestorefront/vue-storefront/issues",
+        "directory": "⌨️  Please provide a name for the Magento 2 directory",
+        "docker_exists": "Docker container with the same name already exists. Please choose another name: \n",
+        "overwrite": "🤔 The directory {{ magentoDirName }} already exists. Do you want to overwrite it?",
+        "access_keys": "👀 Do you have Magento access keys?",
+        "provide_keys": "🔐 Please provide your Magento access keys",
+        "access_key": "🔑 Magento access key",
+        "secret_key": "🔒 Magento secret key",
+        "no_keys": "Please go to Adobe Authentication Keys Guide \nhttps://experienceleague.adobe.com/docs/commerce-operations/installation-guide/prerequisites/authentication-keys.html \nand follow instructions to get your Magento access keys.",
+        "domain": "🌐 Magento domain name",
+        "invalid_domain": "🫤 Please enter a valid domain name.",
+        "note_long": "This may take up to 10 minutes to complete. Please wait...🐌",
+        "password": "🙈 Please enter the password",
+        "port_busy": "😞 Port is already in use. Please stop the container and try again.",
+        "sample_data": "🛒 Do you want to generate sample data for the store?",
+        "sample_data_note": "☝️ You can generate sample data later by running `bin/magento sampledata:deploy` in the Magento directory.",
+        "success": "🎉 Magento 2 has been installed successfully."
       }
     },
     "generate_template": {

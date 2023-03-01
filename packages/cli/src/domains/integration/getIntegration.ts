@@ -4,7 +4,7 @@ import fetchIntegrations from './fetchIntegrations';
 import { getGitRepositoryURL } from '../git-repository-url';
 
 import { select, isCancel } from '@clack/prompts';
-import { logSimpleWarningMessage } from '../magento2/terminalHelpers';
+import { logSimpleWarningMessage } from '../magento2/functions/terminalHelpers';
 import { t } from 'i18next';
 
 type CustomIntegration = {

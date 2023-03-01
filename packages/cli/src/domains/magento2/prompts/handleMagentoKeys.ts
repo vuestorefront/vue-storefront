@@ -1,5 +1,5 @@
 import { password, isCancel } from '@clack/prompts';
-import { logSimpleWarningMessage } from './terminalHelpers';
+import { logSimpleWarningMessage } from '../functions/terminalHelpers';
 import { t } from 'i18next';
 
 /** The answers expected in the form of 'inquirer'. */
@@ -8,14 +8,14 @@ type MagentoKeys = {
   secretKey: string;
 };
 
-/** Gets a git repository URL from user's input. */
+/** Handle input for Magento 2 access keys */
 const handleMagentoKeys = async (): Promise<MagentoKeys> => {
   const accessKey = await password({
-    message: 'Magento access key'
+    message: t('command.generate_store.magento.access_key')
   });
 
   const secretKey = await password({
-    message: 'Magento secret key'
+    message: t('command.generate_store.magento.secret_key')
   });
 
   if (isCancel(accessKey || secretKey)) {

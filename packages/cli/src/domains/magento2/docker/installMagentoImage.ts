@@ -1,16 +1,12 @@
 import { spawn } from 'child_process';
 import removeDockerContainer from './removeDocker';
-import {
-  logSimpleErrorMessage,
-  startLoggingProgress,
-  stopLoggingProgressError,
-  stopLoggingProgressSuccess,
-  suspendLoggingProgressPrompt
-} from '../terminalHelpers';
+import { logSimpleErrorMessage } from '../functions/terminalHelpers';
 
-import { note } from '@clack/prompts';
+import { note, spinner } from '@clack/prompts';
+import picocolors from 'picocolors';
+import { t } from 'i18next';
 
-// rewrite with exec
+/** Handles Magento 2 Docker Image installation */
 const installMagentoImage = async (
   magentoDirName: string,
   magentoDomainName: string
@@ -19,6 +15,8 @@ const installMagentoImage = async (
   const options = {
     cwd: magentoDirName
   };
+
+  const sp = spinner();
 
   return new Promise((resolve) => {
     const curl = spawn(
@@ -35,27 +33,31 @@ const installMagentoImage = async (
       options
     );
 
-    note('This may take up to 10 minutes to complete. Please wait...🐌');
+    note(t('command.generate_store.magento.note_long'));
 
-    startLoggingProgress('🔁 Installing Magento 2 Docker image');
+    sp.start(
+      picocolors.cyan(t('command.generate_store.progress.docker_start'))
+    );
 
     curl.stdout.pipe(bash.stdin);
 
     bash.stdout.on('data', (data) => {
       if (data.toString().includes('System password requested')) {
-        suspendLoggingProgressPrompt('🙈 Please enter the password');
+        sp.stop(
+          picocolors.yellow(t('command.generate_store.magento.password'))
+        );
       }
 
       if (data.toString().includes('Restarting containers to apply updates')) {
-        startLoggingProgress('🔁 Installing Magento 2 Docker image');
+        sp.start(
+          picocolors.cyan(t('command.generate_store.progress.docker_start'))
+        );
       }
     });
 
     bash.stderr.on('data', async (data) => {
       if (data.toString().includes('port is already allocated')) {
-        logSimpleErrorMessage(
-          '😞 Port is already in use. Please stop the container and try again.'
-        );
+        logSimpleErrorMessage(t('command.generate_store.magento.port_busy'));
         // delete the directory
         await removeDockerContainer(magentoDirName);
       }
@@ -63,13 +65,13 @@ const installMagentoImage = async (
 
     bash.on('exit', (code) => {
       if (code === 0) {
-        stopLoggingProgressSuccess(
-          '🎉 Magento 2 Docker image installed successfully'
+        sp.stop(
+          picocolors.green(t('command.generate_store.progress.docker_end'))
         );
         resolve(1);
       } else {
-        stopLoggingProgressError(
-          '😱 Magento 2 Docker image installation failed'
+        sp.stop(
+          picocolors.red(t('command.generate_store.progress.docker_failed'))
         );
       }
     });

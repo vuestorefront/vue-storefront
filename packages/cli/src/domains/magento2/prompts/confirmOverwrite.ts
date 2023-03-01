@@ -3,9 +3,10 @@ import fs from 'fs';
 import {
   logSimpleInfoMessage,
   logSimpleWarningMessage
-} from './terminalHelpers';
-import { confirm, isCancel } from '@clack/prompts';
+} from '../functions/terminalHelpers';
+import { confirm, isCancel, spinner } from '@clack/prompts';
 import { t } from 'i18next';
+import picocolors from 'picocolors';
 
 /** The answers expected in the form of 'inquirer'. */
 type Arguments = {
@@ -13,7 +14,7 @@ type Arguments = {
   magentoDirName: string;
 };
 
-/** Gets a git repository URL from user's input. */
+/** Prompts user if they want to overwrite the directory */
 const confirmOverwrite = async ({
   message,
   magentoDirName
@@ -27,10 +28,13 @@ const confirmOverwrite = async ({
     process.exit(0);
   }
 
+  const sp = spinner();
+
   if (overwrite) {
-    logSimpleInfoMessage('Deleting the existing directory');
-    fs.rmSync(magentoDirName, { recursive: true, force: true });
-    fs.mkdirSync(magentoDirName);
+    sp.start(picocolors.cyan('🗑️  Deleting the existing directory'));
+    await fs.rmSync(magentoDirName, { recursive: true, force: true });
+    await fs.mkdirSync(magentoDirName);
+    sp.stop(picocolors.green('🗑️  Directory deleted'));
   }
 
   // eslint-disable-next-line max-depth

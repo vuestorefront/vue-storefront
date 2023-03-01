@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { text, isCancel } from '@clack/prompts';
-import { logSimpleWarningMessage } from '../terminalHelpers';
+import { logSimpleWarningMessage } from '../functions/terminalHelpers';
 
 /** Gets a Magento domain name and checks for validity. */
 const getMagentoDomainName = async (message: string): Promise<string> => {
@@ -16,7 +16,7 @@ const getMagentoDomainName = async (message: string): Promise<string> => {
         /^((?!-))(xn--)?[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]{0,1}\.(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})$/;
 
       if (!domainNameRegex.test(value)) {
-        return 'Please enter a valid domain name';
+        return t<string>('command.generate_store.magento.invalid_domain');
       }
     }
   });

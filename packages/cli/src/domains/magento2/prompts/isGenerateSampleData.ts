@@ -1,8 +1,8 @@
 import { t } from 'i18next';
 import { confirm, isCancel } from '@clack/prompts';
-import { logSimpleWarningMessage } from './terminalHelpers';
+import { logSimpleWarningMessage } from '../functions/terminalHelpers';
 
-/** Gets a git repository URL from user's input. */
+/** Pormpt user if they want to generate sample data */
 const isGenerateSampleData = async (message: string): Promise<boolean> => {
   const isGenerate = await confirm({
     message,

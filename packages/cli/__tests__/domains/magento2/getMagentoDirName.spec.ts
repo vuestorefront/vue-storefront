@@ -2,14 +2,14 @@ import { t, TFunction } from 'i18next';
 import { stdin, MockSTDIN } from 'mock-stdin';
 import { wait } from '../../../src/domains/async';
 import { identity } from '../../../src/domains/math';
-import { getProjectName } from '../../../src/domains/project-name';
+import getMagentoDirName from '../../../src/domains/magento2/prompts/getMagentoDirName';
 
 jest.mock('i18next');
 
 const ENTER_KEY = '\x0D';
 const BACKSPACE_KEY = '\x08';
 
-describe('getProjectName | integration tests', () => {
+describe('getMagentoDirName | Magento tests', () => {
   let io: MockSTDIN;
   let output = '';
 
@@ -27,9 +27,9 @@ describe('getProjectName | integration tests', () => {
     });
   });
 
-  it('gets project name from user', async () => {
+  it('gets magento dir name from user', async () => {
     const answer = async () => {
-      expect(output).toContain(t('command.generate_store.input.project_name'));
+      expect(output).toContain('command.generate_store.magento.directory');
 
       io.send(' ');
       io.send(ENTER_KEY);
@@ -59,10 +59,10 @@ describe('getProjectName | integration tests', () => {
 
     wait(100).then(answer);
 
-    const projectName = await getProjectName(
-      t('command.generate_store.input.project_name')
+    const magentoDirName = await getMagentoDirName(
+      'command.generate_store.magento.directory'
     );
 
-    expect(projectName).toBe('project-name');
+    expect(magentoDirName).toBe('project-name');
   });
 });

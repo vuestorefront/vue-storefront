@@ -1,8 +1,8 @@
 import { t } from 'i18next';
 import { confirm, isCancel } from '@clack/prompts';
-import { logSimpleWarningMessage } from './terminalHelpers';
+import { logSimpleWarningMessage } from '../functions/terminalHelpers';
 
-/** Gets a git repository URL from user's input. */
+/** Pormpt user is they have Magento 2 keys */
 const isMagentoKeys = async (message: string): Promise<boolean | symbol> => {
   const hasMagentoAccessKeys = await confirm({
     message,
