@@ -6,8 +6,8 @@ import path from 'path';
 const copyEnv = async (vsfDirName: string) => {
   try {
     await fs.copyFileSync(
-      path.join(__dirname, `${vsfDirName}/.env.example`),
-      path.join(__dirname, `${vsfDirName}/.env`)
+      path.join(vsfDirName, '.env.example'),
+      path.join(vsfDirName, '.env')
     );
   } catch (error) {
     simpleLog(
@@ -17,7 +17,7 @@ const copyEnv = async (vsfDirName: string) => {
     process.exit(1);
   }
 
-  fs.rmSync(path.join(__dirname, `${vsfDirName}/.env.example`));
+  fs.rmSync(path.join(vsfDirName, '.env.example'));
 };
 
 export default copyEnv;

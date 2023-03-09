@@ -7,9 +7,9 @@ const extractSuggestionFromError = async (
 ): Promise<string | null> => {
   if (error instanceof git.Errors.UnknownTransportError) {
     if (error.data.suggestion) {
-      const [valid] = await validateGitRepositoryURL(error.data.suggestion);
+      const valid = await validateGitRepositoryURL(error.data.suggestion);
 
-      if (valid) return error.data.suggestion;
+      if (!valid) return error.data.suggestion;
     }
   }
 

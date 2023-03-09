@@ -18,13 +18,10 @@ const copyAuth = async (
   );
 
   await fs.writeFileSync(
-    path.join(
-      magentoDirName,
-      'src/auth.json',
-      authFile
-        .replace(/<public-key>/g, accessKey)
-        .replace(/<private-key>/g, secretKey)
-    ),
+    path.join(magentoDirName, 'src/auth.json'),
+    authFile
+      .replace(/<public-key>/g, accessKey)
+      .replace(/<private-key>/g, secretKey),
     'utf-8'
   );
 
