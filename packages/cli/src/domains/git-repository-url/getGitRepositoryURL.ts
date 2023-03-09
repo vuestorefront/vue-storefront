@@ -1,5 +1,4 @@
 import { t } from 'i18next';
-// import inquirer from 'inquirer';
 import git from 'isomorphic-git';
 import extractSuggestionFromError from './extractSuggestionFromError';
 import validateGitRepositoryURL from './validateGitRepositoryURL';
@@ -7,10 +6,8 @@ import validateGitRepositoryURL from './validateGitRepositoryURL';
 import { text, isCancel, cancel, confirm } from '@clack/prompts';
 import { simpleLog } from '../magento2/functions/terminalHelpers';
 
-const validateURL = async (url: string): Promise<string | void | any> => {
-  const [valid, error] = await validateGitRepositoryURL(url);
-
-  if (valid) return 'Valid';
+const validateURL = async (url: string): Promise<void | any> => {
+  const error = await validateGitRepositoryURL(url);
 
   simpleLog(
     error instanceof git.Errors.UrlParseError
@@ -22,13 +19,8 @@ const validateURL = async (url: string): Promise<string | void | any> => {
 };
 
 const suggestURL = async (url: string): Promise<string | null> => {
-  let suggestion: null | string = null;
-
-  suggestion = await extractSuggestionFromError(url);
-
-  if (suggestion) return suggestion;
-
-  return null;
+  const suggestion = await extractSuggestionFromError(url);
+  return suggestion ?? null;
 };
 
 /** Gets a git repository URL from user's input. */
@@ -46,7 +38,7 @@ const getGitRepositoryURL = async (message: string): Promise<string> => {
   // Validation
   const validateResult = await validateURL(answer as string);
 
-  if (validateResult === 'Valid') return answer as string;
+  if (!validateResult) return answer as string;
 
   // Suggestion
   const suggestion = await suggestURL(validateResult);

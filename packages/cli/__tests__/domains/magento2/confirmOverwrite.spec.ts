@@ -52,7 +52,7 @@ describe('confirmOverwrite | Magento tests', () => {
       expect(output).toContain('🗑️  Directory deleted');
     };
 
-    wait(100).then(answer);
+    await wait(100).then(answer);
 
     await confirmOverwrite({
       message: 'command.generate_store.magento.overwrite',

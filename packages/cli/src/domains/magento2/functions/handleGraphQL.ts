@@ -14,43 +14,32 @@ const handleGraphQL = async (magentoDirName: string) => {
   const sp = spinner();
 
   const increaseQueryDepthAndComplexity = async () => {
-    fs.readFile(
+    const data = fs.readFileSync(
       `${magentoDirName}/src/vendor/magento/module-graph-ql/etc/di.xml`,
-      'utf8',
-      async function (err, data) {
-        if (err) {
-          return console.log(err);
-        }
+      'utf8'
+    );
 
-        const result = data.replace(
-          /<argument name="queryComplexity" xsi:type="number">300<\/argument>/g,
-          '<argument name="queryComplexity" xsi:type="number">1500</argument>'
-        );
+    const result = data.replace(
+      /<argument name="queryComplexity" xsi:type="number">300<\/argument>/g,
+      '<argument name="queryComplexity" xsi:type="number">1500</argument>'
+    );
 
-        fs.writeFile(
-          `${magentoDirName}/src/vendor/magento/module-graph-ql/etc/di.xml`,
-          result,
-          'utf8',
-          function (err) {
-            if (err) return console.log(err);
-          }
-        );
+    fs.writeFileSync(
+      `${magentoDirName}/src/vendor/magento/module-graph-ql/etc/di.xml`,
+      result,
+      'utf8'
+    );
 
-        fs.writeFile(
-          `${magentoDirName}/src/vendor/magento/module-graph-ql/etc/di.xml`,
-          result,
-          'utf8',
-          function (err) {
-            if (err) return console.log(err);
-          }
-        );
-      }
+    fs.writeFileSync(
+      `${magentoDirName}/src/vendor/magento/module-graph-ql/etc/di.xml`,
+      result,
+      'utf8'
     );
   };
 
   return new Promise((resolve, reject) => {
     const child = spawn(
-      'bin/composer require caravelx/module-graphql-config && bin/magento module:enable Caravel_GraphQlConfig && bin/magento setup:upgrade && bin/magento setup:di:compile && bin/magento setup:static-content:deploy -f',
+      'bin/composer require caravelx/module-graphql-config && bin/magento module:enable Caravel_GraphQlConfig && bin/magento setup:upgrade',
       options
     );
 
@@ -63,7 +52,7 @@ const handleGraphQL = async (magentoDirName: string) => {
     child.on('exit', async (code) => {
       console.log(picocolors.red(code));
       if (code === 0) {
-        increaseQueryDepthAndComplexity();
+        await increaseQueryDepthAndComplexity();
         sp.stop(
           picocolors.green(t('command.generate_store.progress.graphql_end'))
         );

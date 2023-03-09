@@ -10,21 +10,12 @@ const checkDocker = async (): Promise<void> => {
   logSimpleInfoMessage('🔍 Checking if Docker is installed...');
   const docker = spawn('docker', ['info']);
 
-  let isDockerInstalled = false;
-
   docker.stderr.on('data', (data) => {
     simpleLog(data.toString());
   });
 
-  await new Promise((resolve) => {
-    docker.on('close', (code) => {
-      if (code === 0) {
-        isDockerInstalled = true;
-        resolve(true);
-      } else {
-        resolve(false);
-      }
-    });
+  const isDockerInstalled = await new Promise((resolve) => {
+    docker.on('close', (code) => resolve(code === 0));
   });
 
   if (!isDockerInstalled) {

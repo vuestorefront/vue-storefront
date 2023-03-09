@@ -1,4 +1,3 @@
-// import inquirer from 'inquirer';
 import type Integration from './Integration';
 import fetchIntegrations from './fetchIntegrations';
 import { getGitRepositoryURL } from '../git-repository-url';
@@ -20,7 +19,7 @@ type Options = {
 const getIntegration = async (options: Options): Promise<Integration> => {
   const { message, customIntegrationRepositoryMessage } = options;
 
-  const integrations = await fetchIntegrations();
+  const integrations: Integration[] = await fetchIntegrations();
 
   const customIntegration: CustomIntegration = {
     name: 'Custom integration',
@@ -43,9 +42,15 @@ const getIntegration = async (options: Options): Promise<Integration> => {
   }
 
   if (answer !== customIntegration.name) {
-    return integrations.find(
+    const selectedIntegration = integrations.find(
       (integration) => integration.name === answer
-    ) as Integration;
+    );
+
+    if (!selectedIntegration) {
+      throw new Error('Integration not found');
+    }
+
+    return selectedIntegration;
   }
 
   return {

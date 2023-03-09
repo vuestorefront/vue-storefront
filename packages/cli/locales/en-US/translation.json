@@ -22,6 +22,9 @@
       "progress": {
         "vsf_start": "🧩 Generating Vue Storefront project",
         "vsf_end": "🎉 Vue Storefront project has been generated",
+        "delete_start": "🗑️  Deleting the existing directory",
+        "delete_end": "🎉 Directory deleted",
+        "create_dir": "📁 Creating a new directory",
         "docker_start": "🐳 Installing Magento 2 Docker image",
         "docker_end": "🎉 Magento 2 Docker image has been installed successfully",
         "docker_failed": "😱 Magento 2 Docker image installation failed",

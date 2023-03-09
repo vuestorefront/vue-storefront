@@ -1,4 +1,3 @@
-// import { t } from 'i18next';
 import fs from 'fs';
 import {
   logSimpleInfoMessage,
@@ -31,15 +30,16 @@ const confirmOverwrite = async ({
   const sp = spinner();
 
   if (overwrite) {
-    sp.start(picocolors.cyan('🗑️  Deleting the existing directory'));
+    sp.start(
+      picocolors.cyan(t('command.generate_store.progress.delete_start'))
+    );
     await fs.rmSync(magentoDirName, { recursive: true, force: true });
     await fs.mkdirSync(magentoDirName);
-    sp.stop(picocolors.green('🗑️  Directory deleted'));
+    sp.stop(picocolors.green(t('command.generate_store.progress.delete_end')));
   }
 
-  // eslint-disable-next-line max-depth
   if (!overwrite) {
-    logSimpleInfoMessage('Creating a new directory');
+    logSimpleInfoMessage(t('command.generate_store.progress.create_dir'));
     fs.mkdirSync(magentoDirName + '-new');
   }
 
