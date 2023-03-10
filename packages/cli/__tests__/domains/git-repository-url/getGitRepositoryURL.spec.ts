@@ -65,12 +65,11 @@ describe('getGitRepositoryURL', () => {
     wait(100).then(answer);
 
     (validateGitRepositoryURL as MockValidate)
-      .mockResolvedValueOnce([false, new git.Errors.UrlParseError(' ')])
-      .mockResolvedValueOnce([
-        false,
+      .mockResolvedValueOnce(new git.Errors.UrlParseError(' '))
+      .mockResolvedValueOnce(
         new git.Errors.NotFoundError('https://github.com/x/x.git')
-      ])
-      .mockResolvedValueOnce([true, null]);
+      )
+      .mockResolvedValueOnce(null);
 
     const gitRepositoryURL = await getGitRepositoryURL(
       '🌍  What\'s the URL of the custom integration\'s git repository?'
@@ -110,24 +109,22 @@ describe('getGitRepositoryURL', () => {
       wait(100).then(answer);
 
       (validateGitRepositoryURL as MockValidate)
-        .mockResolvedValueOnce([
-          false,
+        .mockResolvedValueOnce(
           new git.Errors.UnknownTransportError(
             'git@github.com:x/x.git',
             'ssh',
             'https://github.com/x/y.git'
           )
-        ])
-        .mockResolvedValueOnce([true, null])
-        .mockResolvedValueOnce([
-          false,
+        )
+        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce(
           new git.Errors.UnknownTransportError(
             'git@github.com:x/y.git',
             'ssh',
             'https://github.com/x/y.git'
           )
-        ])
-        .mockResolvedValueOnce([true, null]);
+        )
+        .mockResolvedValueOnce(null);
 
       const result = await getGitRepositoryURL(
         '🌍  What\'s the URL of the custom integration\'s git repository?'

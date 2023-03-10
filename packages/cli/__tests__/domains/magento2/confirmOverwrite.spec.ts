@@ -45,14 +45,14 @@ describe('confirmOverwrite | Magento tests', () => {
 
       await wait(100);
 
-      expect(output).toContain('🗑️  Deleting the existing directory');
+      expect(output).toContain('command.generate_store.progress.delete_start');
 
       await wait(100);
 
-      expect(output).toContain('🗑️  Directory deleted');
+      expect(output).toContain('command.generate_store.progress.delete_end');
     };
 
-    await wait(100).then(answer);
+    wait(100).then(answer);
 
     await confirmOverwrite({
       message: 'command.generate_store.magento.overwrite',
