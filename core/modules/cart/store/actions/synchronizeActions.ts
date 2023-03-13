@@ -113,6 +113,10 @@ const synchronizeActions = {
     })
     EventBus.$emit('cart-after-itemchanged', { item: cartItem })
     commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
+  },
+  async pullServerCart ({ dispatch }): Promise<any> {
+    await dispatch('clear', { disconnect: false, sync: false });
+    return dispatch('sync', {});
   }
 }
 
