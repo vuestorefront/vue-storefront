@@ -140,6 +140,20 @@ export const actions: ActionTree<BudsiesState, RootState> = {
         isBodypartValueApiResponse
       );
 
+      if (item.child_bodyparts) {
+        item.child_bodyparts.forEach((childItem: any) => {
+          const childItemValues = parse<BodypartValue, BodypartValueApiResponse>(
+            childItem.values,
+            bodypartValueFactory,
+            isBodypartValueApiResponse
+          );
+
+          commit('setBodypartBodypartsValues', { key: childItem.id + '', values: childItemValues });
+
+          delete childItem.values;
+        })
+      }
+
       commit('setBodypartBodypartsValues', { key: item.id + '', values });
 
       delete item.values;

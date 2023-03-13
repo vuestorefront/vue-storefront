@@ -1,5 +1,3 @@
-import BodypartValue from './bodypart-value.model';
-
 export default class Bodypart {
   public constructor (
     public readonly id: string,
@@ -8,7 +6,9 @@ export default class Bodypart {
     public readonly isRequired: boolean,
     public readonly maxValues: number,
     public readonly sn: number,
-    public readonly isNew = true
+    public readonly isNew = true,
+    public readonly detailingFlagText?: string,
+    public readonly childrenBodyparts?: Bodypart[]
   ) {
     [id, code, name, isRequired, maxValues, sn, isNew].forEach((arg, index) => {
       if (arg === undefined) {

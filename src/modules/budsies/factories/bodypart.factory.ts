@@ -10,7 +10,21 @@ const factory: ObjectBuilderInterface<Bodypart, BodypartApiResponse> = (data) =>
     +data.is_required === 1,
     +data.max_values,
     +data.sn,
-    false
+    false,
+    data.detailing_flag_text,
+    data.child_bodyparts
+      ? data.child_bodyparts.map((bodyPart) => {
+        return new Bodypart(
+          bodyPart.id + '',
+          bodyPart.code,
+          bodyPart.name,
+          +bodyPart.is_required === 1,
+          +bodyPart.max_values,
+          +bodyPart.sn,
+          false
+        )
+      })
+      : undefined
   );
 
   return value;
