@@ -41,6 +41,7 @@ export const PersonalDetails = {
         lastName: receivedData.lastname,
         emailAddress: receivedData.email
       }
+      this.createAccount = false;
     },
     sendDataToCheckout () {
       if (this.createAccount) {
