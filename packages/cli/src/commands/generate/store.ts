@@ -1,6 +1,8 @@
 import { Command } from '@oclif/core';
 import { t } from 'i18next';
 import * as path from 'path';
+import { intro, confirm, isCancel, spinner } from '@clack/prompts';
+import picocolors from 'picocolors';
 import { getIntegration } from '../../domains/integration';
 import { getProjectName } from '../../domains/project-name';
 import {
@@ -8,16 +10,20 @@ import {
   terminateGitRepository
 } from '../../domains/git-repository';
 import { existsDirectory } from '../../domains/directory';
-import { copyEnv } from '../../domains/magento2/functions';
+import {
+  copyEnv,
+  installMg2Prompt,
+  getMagentoDetails
+} from '../../domains/magento2/functions';
 import {
   logSimpleErrorMessage,
   logSimpleWarningMessage,
   simpleLog
 } from '../../domains/magento2/functions/terminalHelpers';
 
-import { intro, confirm, isCancel, spinner } from '@clack/prompts';
-import picocolors from 'picocolors';
 import { installMagento } from '../../domains/magento2/installMagento';
+import { checkDocker } from '../../domains/magento2/docker';
+import installDeps from '../../domains/magento2/functions/installDeps';
 
 export default class GenerateStore extends Command {
   static override description = t('command.generate_store.description');
@@ -29,6 +35,7 @@ export default class GenerateStore extends Command {
   static override args = [];
 
   async run(): Promise<void> {
+    let magentoDomain = '';
     const sp = spinner();
 
     intro(t('command.generate_store.message.intro'));
@@ -66,7 +73,35 @@ export default class GenerateStore extends Command {
     const { name: integrationName } = integration;
 
     if (integrationName === 'Magento 2') {
-      await installMagento();
+      await checkDocker();
+
+      const isInstallMagento = await installMg2Prompt(
+        t('command.generate_store.magento.install')
+      );
+
+      if (isCancel(isInstallMagento)) {
+        logSimpleWarningMessage(t('command.generate_store.message.canceled'));
+        process.exit(0);
+      }
+
+      const {
+        magentoDirName,
+        magentoDomainName,
+        magentoAccessKey,
+        magentoSecretKey
+      } = await getMagentoDetails();
+
+      magentoDomain = magentoDomainName;
+
+      if (isInstallMagento) {
+        await installMagento({
+          isInstallMagento,
+          magentoDirName,
+          magentoDomainName,
+          magentoAccessKey,
+          magentoSecretKey
+        });
+      }
     }
 
     sp.start(t('command.generate_store.progress.vsf_start'));
@@ -75,25 +110,12 @@ export default class GenerateStore extends Command {
       gitRepositoryURL: integration.gitRepositoryURL
     });
 
-    await copyEnv(projectDir);
-
+    await copyEnv(projectDir, magentoDomain);
     await terminateGitRepository(projectDir);
 
     sp.stop(picocolors.green(t('command.generate_store.progress.vsf_end')));
 
-    simpleLog(t('command.generate_store.message.install'));
-    simpleLog(
-      t<string>('command.generate_store.message.install_commands.0', {
-        projectName
-      }),
-      picocolors.magenta
-    );
-    simpleLog(
-      t<string>('command.generate_store.message.install_commands.1', {
-        projectName
-      }),
-      picocolors.magenta
-    );
+    await installDeps(projectDir);
 
     if (integration.documentationURL) {
       simpleLog(
@@ -110,7 +132,6 @@ export default class GenerateStore extends Command {
       picocolors.magenta
     );
 
-    simpleLog('');
     simpleLog('');
 
     simpleLog('Happy coding! 🎉', picocolors.green);

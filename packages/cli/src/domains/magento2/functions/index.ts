@@ -8,3 +8,5 @@ export { default as handleGraphQL } from './handleGraphQL';
 export { default as isGenerateSampleData } from '../prompts/isGenerateSampleData';
 export { default as handleSampleData } from './handleSampleData';
 export { default as copyEnv } from './copyEnv';
+export { default as installDeps } from './installDeps';
+export { default as getMagentoDetails } from './getMagentoDetails';

@@ -39,7 +39,7 @@ const handleGraphQL = async (magentoDirName: string) => {
 
   return new Promise((resolve, reject) => {
     const child = spawn(
-      'bin/composer require caravelx/module-graphql-config && bin/magento module:enable Caravel_GraphQlConfig && bin/magento setup:upgrade',
+      'bin/composer require caravelx/module-graphql-config && bin/magento module:enable Caravel_GraphQlConfig && bin/magento setup:upgrade && bin/magento setup:di:compile && bin/magento setup:static-content:deploy -f',
       options
     );
 
