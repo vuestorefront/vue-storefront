@@ -27,11 +27,7 @@ const installMagentoImage = async (
       ],
       options
     );
-    const bash = spawn(
-      'bash',
-      ['-s', '--', magentoDomainName, '2.4.4'],
-      options
-    );
+    const bash = spawn('bash', ['-s', '--', magentoDomainName], options);
 
     note(t('command.generate_store.magento.note_long'));
 

@@ -1,7 +1,8 @@
 import { Command } from '@oclif/core';
+import fs from 'fs';
 import { t } from 'i18next';
 import * as path from 'path';
-import { intro, confirm, isCancel, spinner } from '@clack/prompts';
+import { intro, confirm, isCancel, spinner, note } from '@clack/prompts';
 import picocolors from 'picocolors';
 import { getIntegration } from '../../domains/integration';
 import { getProjectName } from '../../domains/project-name';
@@ -55,6 +56,17 @@ export default class GenerateStore extends Command {
       if (isCancel(overwrite)) {
         logSimpleWarningMessage(t('command.generate_store.message.canceled'));
         this.exit(0);
+      }
+
+      if (overwrite) {
+        sp.start(
+          picocolors.cyan(t('command.generate_store.progress.delete_start'))
+        );
+        await fs.rmSync(projectDir, { recursive: true, force: true });
+        await fs.mkdirSync(projectDir);
+        sp.stop(
+          picocolors.green(t('command.generate_store.progress.delete_end'))
+        );
       }
 
       if (!overwrite) {
@@ -118,7 +130,7 @@ export default class GenerateStore extends Command {
     await installDeps(projectDir);
 
     if (integration.documentationURL) {
-      simpleLog(
+      note(
         t('command.generate_store.message.configure', {
           documentationURL: integration.documentationURL
         })

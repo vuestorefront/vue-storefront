@@ -14,7 +14,7 @@
         "success": "🎉  Sucessfully generated your store at \"./{{projectName}}\"!",
         "install": "To finish the installation, run the following commands:",
         "install_commands": ["cd {{ projectName }}", "yarn"],
-        "configure": "Project is conifugred. If you want more advanced configuration go to the {{ documentationURL }} to learn how to do it.",
+        "configure": "Project is conifugred. \nIf you want more advanced configuration go to the \n{{ documentationURL }} to learn how to do it.",
         "start": "Start the project using this command:",
         "start_command": "yarn dev",
         "canceled": "Store generation cancelled 😞\nWe hope to see you soon! 🤗"
