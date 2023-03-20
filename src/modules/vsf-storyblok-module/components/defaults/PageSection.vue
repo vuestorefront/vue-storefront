@@ -63,7 +63,7 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
         return true;
       }
 
-      return Object.values(this.childItemsEmptyState).some((isEmpty) => !isEmpty);
+      return values.some((isEmpty) => !isEmpty);
     },
     childItems (): any[] {
       const result = [];
@@ -102,7 +102,7 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
   },
   methods: {
     onChildContentChange ({ isEmpty, itemId }: {isEmpty: boolean, itemId: string}): void {
-      this.childItemsEmptyState[itemId] = isEmpty;
+      this.$set(this.childItemsEmptyState, itemId, isEmpty);
     }
   }
 });
