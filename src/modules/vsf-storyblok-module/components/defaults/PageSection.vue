@@ -1,6 +1,7 @@
 <template>
   <div
     class="page-section"
+    v-show="showPageSection"
     :class="cssClasses"
     :style="styles"
   >
@@ -12,6 +13,7 @@
         :key="_item._uid"
         class="box _item"
         :item="_item"
+        @content-change="onChildContentChange"
       />
     </div>
   </div>
@@ -46,7 +48,23 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
       'componentWidthCalculator': widthCalculator
     }
   },
+  data () {
+    let childItemsEmptyState: Record<string, boolean> = {};
+
+    return {
+      childItemsEmptyState
+    }
+  },
   computed: {
+    showPageSection (): boolean {
+      const values = Object.values(this.childItemsEmptyState);
+
+      if (!values.length) {
+        return true;
+      }
+
+      return Object.values(this.childItemsEmptyState).some((isEmpty) => !isEmpty);
+    },
     childItems (): any[] {
       const result = [];
       for (const item of this.itemData.items) {
@@ -80,6 +98,11 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
       }
 
       return result;
+    }
+  },
+  methods: {
+    onChildContentChange ({ isEmpty, itemId }: {isEmpty: boolean, itemId: string}): void {
+      this.childItemsEmptyState[itemId] = isEmpty;
     }
   }
 });
