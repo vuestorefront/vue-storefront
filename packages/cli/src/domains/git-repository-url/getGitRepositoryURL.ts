@@ -1,51 +1,62 @@
 import { t } from 'i18next';
-import inquirer from 'inquirer';
 import git from 'isomorphic-git';
 import extractSuggestionFromError from './extractSuggestionFromError';
 import validateGitRepositoryURL from './validateGitRepositoryURL';
 
-/** The answers expected in the form of 'inquirer'. */
-type Answers = {
-  gitRepositoryURL: string;
-  acceptSuggestionAsGitRepositoryURL: boolean;
+import { text, isCancel, cancel, confirm } from '@clack/prompts';
+import { simpleLog } from '../magento2/functions/terminalHelpers';
+
+const validateURL = async (url: string): Promise<void | any> => {
+  const error = await validateGitRepositoryURL(url);
+
+  simpleLog(
+    error instanceof git.Errors.UrlParseError
+      ? t<string>('domain.git_repository_url.is_invalid')
+      : t<string>('domain.git_repository_url.was_not_found')
+  );
+
+  return error;
+};
+
+const suggestURL = async (url: string): Promise<string | null> => {
+  const suggestion = await extractSuggestionFromError(url);
+  return suggestion ?? null;
 };
 
 /** Gets a git repository URL from user's input. */
 const getGitRepositoryURL = async (message: string): Promise<string> => {
-  let suggestion: null | string = null;
+  // URL
+  const answer = await text({
+    message
+  });
 
-  const answers = await inquirer.prompt<Answers>([
-    {
-      type: 'input',
-      name: 'gitRepositoryURL',
-      message,
-      validate: async (url: string): Promise<true | string> => {
-        suggestion = null;
+  if (isCancel(answer)) {
+    cancel('Installation cancelled');
+    return '';
+  }
 
-        const [valid, error] = await validateGitRepositoryURL(url);
+  // Validation
+  const validateResult = await validateURL(answer as string);
 
-        if (valid) return true;
+  if (!validateResult) return answer as string;
 
-        suggestion = await extractSuggestionFromError(error);
+  // Suggestion
+  const suggestion = await suggestURL(validateResult);
 
-        if (suggestion) return true;
+  if (suggestion) {
+    const answer = await confirm({
+      message: t('domain.git_repository_url.suggestion', { suggestion })
+    });
 
-        return error instanceof git.Errors.UrlParseError
-          ? t<string>('domain.git_repository_url.is_invalid')
-          : t<string>('domain.git_repository_url.was_not_found');
-      }
-    },
-    {
-      type: 'confirm',
-      name: 'acceptSuggestionAsGitRepositoryURL',
-      when: () => Boolean(suggestion),
-      message: () => t('domain.git_repository_url.suggestion', { suggestion })
+    if (isCancel(answer)) {
+      cancel('Installation cancelled');
+      return '';
     }
-  ]);
 
-  if (!suggestion) return answers.gitRepositoryURL;
+    if (answer) return suggestion;
+  }
 
-  return answers.acceptSuggestionAsGitRepositoryURL ? suggestion : getGitRepositoryURL(message);
+  return getGitRepositoryURL(message);
 };
 
 export default getGitRepositoryURL;

@@ -1,7 +1,10 @@
 import git from 'isomorphic-git';
 import { t, TFunction } from 'i18next';
 import { stdin, MockSTDIN } from 'mock-stdin';
-import { getGitRepositoryURL, validateGitRepositoryURL } from '../../../src/domains/git-repository-url';
+import {
+  getGitRepositoryURL,
+  validateGitRepositoryURL
+} from '../../../src/domains/git-repository-url';
 import { wait } from '../../../src/domains/async';
 import { identity } from '../../../src/domains/math';
 
@@ -33,14 +36,18 @@ describe('getGitRepositoryURL', () => {
 
   it('gets git repository URL from user', async () => {
     const answer = async () => {
-      expect(output).toContain('What\'s your git repository URL?');
+      expect(output).toContain(
+        '🌍  What\'s the URL of the custom integration\'s git repository?'
+      );
 
       io.send(' ');
       io.send(ENTER_KEY);
 
       await wait(100);
 
-      expect(output).toContain('domain.git_repository_url.is_invalid');
+      expect(output).toContain(
+        '🌍  What\'s the URL of the custom integration\'s git repository?'
+      );
 
       io.send(BACKSPACE_KEY);
       io.send('https://github.com/x/x.git');
@@ -51,24 +58,22 @@ describe('getGitRepositoryURL', () => {
       expect(output).toContain('domain.git_repository_url.was_not_found');
 
       io.send(BACKSPACE_KEY.repeat(5));
-      io.send('y.git');
+      io.send('https://github.com/x/y.git');
       io.send(ENTER_KEY);
     };
 
     wait(100).then(answer);
 
     (validateGitRepositoryURL as MockValidate)
-      .mockResolvedValueOnce([
-        false,
-        new git.Errors.UrlParseError(' ')
-      ])
-      .mockResolvedValueOnce([
-        false,
+      .mockResolvedValueOnce(new git.Errors.UrlParseError(' '))
+      .mockResolvedValueOnce(
         new git.Errors.NotFoundError('https://github.com/x/x.git')
-      ])
-      .mockResolvedValueOnce([true, null]);
+      )
+      .mockResolvedValueOnce(null);
 
-    const gitRepositoryURL = await getGitRepositoryURL('What\'s your git repository URL?');
+    const gitRepositoryURL = await getGitRepositoryURL(
+      '🌍  What\'s the URL of the custom integration\'s git repository?'
+    );
 
     expect(gitRepositoryURL).toBe('https://github.com/x/y.git');
   });
@@ -76,24 +81,19 @@ describe('getGitRepositoryURL', () => {
   describe('when user input unsupported git repository URL', () => {
     it('allow user to select suggestion as answer', async () => {
       const answer = async () => {
-        expect(output).toContain('What\'s your git repository URL?');
+        expect(output).toContain(
+          '🌍  What\'s the URL of the custom integration\'s git repository?'
+        );
 
         io.send('git@github.com:x/x.git');
         io.send(ENTER_KEY);
 
         await wait(100);
 
-        expect(output).toContain('domain.git_repository_url.suggestion');
+        expect(output).toContain('domain.git_repository_url.was_not_found');
 
         // Cleanup the output.
         output = '';
-
-        io.send('N');
-        io.send(ENTER_KEY);
-
-        await wait(100);
-
-        expect(output).toContain('What\'s your git repository URL?');
 
         io.send('git@github.com:x/y.git');
         io.send(ENTER_KEY);
@@ -109,26 +109,26 @@ describe('getGitRepositoryURL', () => {
       wait(100).then(answer);
 
       (validateGitRepositoryURL as MockValidate)
-        .mockResolvedValueOnce([
-          false,
+        .mockResolvedValueOnce(
           new git.Errors.UnknownTransportError(
             'git@github.com:x/x.git',
             'ssh',
-            'https://github.com/x/x.git'
+            'https://github.com/x/y.git'
           )
-        ])
-        .mockResolvedValueOnce([true, null])
-        .mockResolvedValueOnce([
-          false,
+        )
+        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce(
           new git.Errors.UnknownTransportError(
             'git@github.com:x/y.git',
             'ssh',
             'https://github.com/x/y.git'
           )
-        ])
-        .mockResolvedValueOnce([true, null]);
+        )
+        .mockResolvedValueOnce(null);
 
-      const result = await getGitRepositoryURL('What\'s your git repository URL?');
+      const result = await getGitRepositoryURL(
+        '🌍  What\'s the URL of the custom integration\'s git repository?'
+      );
 
       expect(result).toBe('https://github.com/x/y.git');
     });

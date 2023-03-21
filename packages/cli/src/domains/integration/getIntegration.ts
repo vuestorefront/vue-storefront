@@ -1,16 +1,14 @@
-import inquirer from 'inquirer';
 import type Integration from './Integration';
 import fetchIntegrations from './fetchIntegrations';
 import { getGitRepositoryURL } from '../git-repository-url';
 
+import { select, isCancel } from '@clack/prompts';
+import { logSimpleWarningMessage } from '../magento2/functions/terminalHelpers';
+import { t } from 'i18next';
+
 type CustomIntegration = {
   name: string;
   gitRepositoryURL: null;
-};
-
-/** The answers expected in the form of 'inquirer'. */
-type Answers = {
-  integration: Integration | CustomIntegration;
 };
 
 type Options = {
@@ -18,11 +16,10 @@ type Options = {
   customIntegrationRepositoryMessage: string;
 };
 
-/** Gets the integration from user's input. */
 const getIntegration = async (options: Options): Promise<Integration> => {
   const { message, customIntegrationRepositoryMessage } = options;
 
-  const integrations = await fetchIntegrations();
+  const integrations: Integration[] = await fetchIntegrations();
 
   const customIntegration: CustomIntegration = {
     name: 'Custom integration',
@@ -31,21 +28,36 @@ const getIntegration = async (options: Options): Promise<Integration> => {
 
   const choices = [...integrations, customIntegration].map((integration) => ({
     name: integration.name,
-    value: integration
+    value: integration.name
   }));
 
-  const answers = await inquirer.prompt<Answers>({
-    choices,
-    message,
-    type: 'list',
-    name: 'integration'
+  const answer = await select({
+    options: choices,
+    message
   });
 
-  if (answers.integration.gitRepositoryURL) return answers.integration;
+  if (isCancel(answer)) {
+    logSimpleWarningMessage(t('command.generate_store.message.canceled'));
+    process.exit(0);
+  }
+
+  if (answer !== customIntegration.name) {
+    const selectedIntegration = integrations.find(
+      (integration) => integration.name === answer
+    );
+
+    if (!selectedIntegration) {
+      throw new Error('Integration not found');
+    }
+
+    return selectedIntegration;
+  }
 
   return {
-    ...answers.integration,
-    gitRepositoryURL: await getGitRepositoryURL(customIntegrationRepositoryMessage)
+    name: customIntegration.name,
+    gitRepositoryURL: await getGitRepositoryURL(
+      customIntegrationRepositoryMessage
+    )
   };
 };
 

@@ -1,26 +1,15 @@
 import { t } from 'i18next';
-import inquirer from 'inquirer';
+// import inquirer from 'inquirer';
 import isReasonableFilename from 'reasonable-filename';
 import formatToProjectName from './formatToProjectName';
 
-/** The answers expected in the form of 'inquirer'. */
-type Answers = {
-  projectName: string;
-};
+import { text, isCancel } from '@clack/prompts';
+import { logSimpleWarningMessage } from '../magento2/functions/terminalHelpers';
 
-/** Gets a git repository URL from user's input. */
 const getProjectName = async (message: string): Promise<string> => {
-  const { projectName } = await inquirer.prompt<Answers>({
-    type: 'input',
-    name: 'projectName',
+  const projectName = await text({
     message,
-    filter: (value: string): string => {
-      return formatToProjectName(value.trim());
-    },
-    transformer: (value: string): string => {
-      return formatToProjectName(value.trimStart());
-    },
-    validate: (value?: string): true | string => {
+    validate: (value?: string): string | void => {
       if (!value?.trim()) {
         return t<string>('domain.project_name.is_empty');
       }
@@ -28,12 +17,15 @@ const getProjectName = async (message: string): Promise<string> => {
       if (!isReasonableFilename(value)) {
         return t<string>('domain.project_name.is_not_directory');
       }
-
-      return true;
     }
   });
 
-  return projectName;
+  if (isCancel(projectName)) {
+    logSimpleWarningMessage(t('command.generate_store.message.canceled'));
+    process.exit(0);
+  }
+
+  return formatToProjectName(projectName as string);
 };
 
 export default getProjectName;

@@ -28,18 +28,8 @@ describe('validateGitRepositoryURL | unit tests', () => {
       );
     });
 
-    it('returns \'true\' and no error', async () => {
-      expect(await validateGitRepositoryURL(url)).toEqual([true, null]);
-    });
-  });
-
-  describe('when receives an invalid git repository URL', () => {
-    it('returns \'false\' and an error', async () => {
-      const error = new git.Errors.UrlParseError(url);
-
-      jest.spyOn(git, 'getRemoteInfo2').mockRejectedValueOnce(error);
-
-      expect(await validateGitRepositoryURL(url)).toEqual([false, error]);
+    it('returns null', async () => {
+      expect(await validateGitRepositoryURL(url)).toEqual(null);
     });
   });
 });
