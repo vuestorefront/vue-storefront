@@ -11,7 +11,6 @@ const installMagentoImage = async (
   magentoDirName: string,
   magentoDomainName: string
 ): Promise<any> => {
-  // const command = `curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/onelinesetup | bash -s -- ${magentoDomainName} 2.4.4`;
   const options = {
     cwd: magentoDirName
   };
@@ -53,9 +52,21 @@ const installMagentoImage = async (
 
     bash.stderr.on('data', async (data) => {
       if (data.toString().includes('port is already allocated')) {
+        sp.stop();
         logSimpleErrorMessage(t('command.generate_store.magento.port_busy'));
         // delete the directory
         await removeDockerContainer(magentoDirName);
+      }
+
+      if (
+        data
+          .toString()
+          .includes('Project directory "/var/www/html/." is not empty')
+      ) {
+        sp.stop();
+        logSimpleErrorMessage(
+          'Docker container with such name already exists.'
+        );
       }
     });
 
