@@ -7,7 +7,10 @@ import {
 
 /** Checking if Docker is installed and running on user's machine */
 const checkDocker = async (): Promise<void> => {
-  const docker = spawn('docker', ['info']);
+  const docker =
+    process.platform === 'darwin'
+      ? spawn('docker', ['info'])
+      : spawn('sudo', ['docker', 'info']);
 
   docker.stderr.on('data', (data) => {
     simpleLog(data.toString());
