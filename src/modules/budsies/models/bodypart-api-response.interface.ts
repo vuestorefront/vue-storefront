@@ -4,5 +4,7 @@ export default interface BodypartApiResponse {
   name: string,
   is_required: number,
   max_values: number,
-  sn: number
+  sn: number,
+  detailing_flag_text?: string,
+  child_bodyparts?: BodypartApiResponse[]
 }
