@@ -16,7 +16,7 @@ const checkNodeVersion = (nodeString: string): boolean => {
   return false;
 };
 
-/** Checking if Docker is installed and running on user's machine */
+/** Checking if Node version is correct as per prerequisites */
 const checkNode = async (): Promise<void> => {
   const node = spawn('node', ['-v']);
 

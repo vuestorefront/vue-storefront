@@ -1,7 +1,7 @@
 import { spawn } from 'child_process';
 import { logSimpleErrorMessage, simpleLog } from './terminalHelpers';
 
-/** Checking if Docker is installed and running on user's machine */
+/** Checking if Yarn is installed */
 const checkYarn = async (): Promise<void> => {
   const yarn = spawn('yarn', ['-v']);
 
