@@ -95,6 +95,17 @@ export default Vue.extend({
       return {};
     }
   },
+  created () {
+    this.onComponentContentUpdate();
+  },
+  methods: {
+    onComponentContentUpdate () {
+      this.$emit(
+        'content-change',
+        { itemId: this.item._uid, isEmpty: false }
+      );
+    }
+  },
   metaInfo: {
     meta: [
       { charset: 'utf-8', vmid: 'charset' }

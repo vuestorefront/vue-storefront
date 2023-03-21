@@ -23,10 +23,10 @@
 import { VueConstructor } from 'vue';
 
 import { InjectType } from 'src/modules/shared';
-import { Blok } from '..'
 import PageSectionData from '../../types/page-section-data.interface';
 import ComponentWidthCalculator from '../../component-width-calculator.service';
 import { SectionWidth } from '../../types/section-width.value';
+import EmptyChildrenState from '../../mixins/empty-children-state';
 
 const MAX_WIDTH = 960;
 
@@ -34,7 +34,7 @@ interface InjectedServices {
   componentWidthCalculator: ComponentWidthCalculator
 }
 
-export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServices>).extend({
+export default (EmptyChildrenState as VueConstructor<InstanceType<typeof EmptyChildrenState> & InjectedServices>).extend({
   name: 'StoryblokPageSection',
   inject: {
     componentWidthCalculator: {}
@@ -48,22 +48,9 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
       'componentWidthCalculator': widthCalculator
     }
   },
-  data () {
-    let childItemsEmptyState: Record<string, boolean> = {};
-
-    return {
-      childItemsEmptyState
-    }
-  },
   computed: {
     showPageSection (): boolean {
-      const values = Object.values(this.childItemsEmptyState);
-
-      if (!values.length) {
-        return true;
-      }
-
-      return values.some((isEmpty) => !isEmpty);
+      return !this.isAllChildrenEmpty;
     },
     childItems (): any[] {
       const result = [];
@@ -98,11 +85,6 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
       }
 
       return result;
-    }
-  },
-  methods: {
-    onChildContentChange ({ isEmpty, itemId }: {isEmpty: boolean, itemId: string}): void {
-      this.$set(this.childItemsEmptyState, itemId, isEmpty);
     }
   }
 });

@@ -3,6 +3,7 @@
     class="grid layout-regular-component"
     :class="cssClasses"
     :style="styles"
+    v-show="showGrid"
   >
     <editor-block-icons :item="itemData" />
 
@@ -13,7 +14,7 @@
       :class="getItemCssClasses(_item)"
       :style="itemStyles"
     >
-      <sb-render class="_component box" :item="_item" />
+      <sb-render class="_component box" :item="_item" @content-change="onChildContentChange" />
     </div>
   </div>
 </template>
@@ -23,19 +24,19 @@ import { VueConstructor } from 'vue';
 
 import { InjectType } from 'src/modules/shared';
 
-import { Blok } from '..'
 import ComponentWidthCalculator, { ColumnsSpecification } from '../../component-width-calculator.service';
 import GridData from '../../types/grid-data.interface';
 import { SizeValue } from '../../types/size.value';
 import isColumnData from '../../types/is-column-data.typeguard';
 import isItemData from '../../types/is-item-data.typeguard';
 import convertDisplayValueToClass from '../../helpers/convert-display-value-to-class';
+import EmptyChildrenState from '../../mixins/empty-children-state';
 
 interface InjectedServices {
   componentWidthCalculator: ComponentWidthCalculator
 }
 
-export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServices>).extend({
+export default (EmptyChildrenState as VueConstructor<InstanceType<typeof EmptyChildrenState> & InjectedServices>).extend({
   name: 'GridBlok',
   inject: {
     componentWidthCalculator: {}
@@ -101,6 +102,9 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     },
     isCardsMode (): boolean {
       return this.itemData.is_cards_mode === true;
+    },
+    showGrid (): boolean {
+      return !this.isAllChildrenEmpty;
     },
     verticalAlignment (): string | undefined {
       return this.itemData.vertical_alignment;

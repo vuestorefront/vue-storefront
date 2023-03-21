@@ -4,6 +4,7 @@
     data-testid="storyblok-block-reference"
     :class="cssClasses"
     :style="styles"
+    v-show="showBlockReference"
   >
     <div class="_content-wrapper" v-if="itemData.reference && itemData.reference.content">
       <sb-render
@@ -11,18 +12,19 @@
         class="_item"
         :item="child"
         :key="child._uid"
+        @content-change="onChildContentChange"
       />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Blok } from '..';
 import { ItemData } from '../..';
 
 import BlockReferenceData from '../../types/block-reference-data.interface';
+import EmptyChildrenState from '../../mixins/empty-children-state';
 
-export default Blok.extend({
+export default EmptyChildrenState.extend({
   name: 'BlockReference',
   computed: {
     itemData (): BlockReferenceData {
@@ -30,9 +32,10 @@ export default Blok.extend({
     },
     childItems (): ItemData[] {
       return this.itemData.reference.content.body || [];
+    },
+    showBlockReference (): boolean {
+      return !this.isAllChildrenEmpty;
     }
-  },
-  methods: {
   }
 });
 </script>
