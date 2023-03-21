@@ -26,6 +26,7 @@ import { installMagento } from '../../domains/magento2/installMagento';
 import { checkDocker } from '../../domains/magento2/docker';
 import installDeps from '../../domains/magento2/functions/installDeps';
 import checkNode from '../../domains/magento2/functions/checkNode';
+import checkYarn from '../../domains/magento2/functions/checkYarn';
 
 export default class GenerateStore extends Command {
   static override description = t('command.generate_store.description');
@@ -91,6 +92,7 @@ export default class GenerateStore extends Command {
       );
 
       await checkNode();
+      await checkYarn();
       await checkDocker();
 
       if (isCancel(isInstallMagento)) {
