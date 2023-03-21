@@ -70,6 +70,10 @@ const installMagentoImage = async (
       }
     });
 
+    bash.stderr.on('error', (err) => {
+      console.log(err);
+    });
+
     bash.on('exit', (code) => {
       if (code === 0) {
         sp.stop(
