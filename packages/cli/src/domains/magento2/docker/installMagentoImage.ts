@@ -1,6 +1,10 @@
 import { spawn } from 'child_process';
 import removeDockerContainer from './removeDocker';
-import { logSimpleErrorMessage } from '../functions/terminalHelpers';
+import {
+  logSimpleErrorMessage,
+  logSimpleInfoMessage
+} from '../functions/terminalHelpers';
+import fs from 'fs';
 
 import { note, spinner } from '@clack/prompts';
 import picocolors from 'picocolors';
@@ -28,6 +32,8 @@ const installMagentoImage = async (
     );
     const bash = spawn('bash', ['-s', '--', magentoDomainName], options);
 
+    let stdout = '';
+
     note(t('command.generate_store.magento.note_long'));
 
     sp.start(
@@ -51,30 +57,16 @@ const installMagentoImage = async (
     });
 
     bash.stderr.on('data', async (data) => {
+      stdout += data.toString();
       if (data.toString().includes('port is already allocated')) {
         sp.stop();
         logSimpleErrorMessage(t('command.generate_store.magento.port_busy'));
         // delete the directory
         await removeDockerContainer(magentoDirName);
       }
-
-      if (
-        data
-          .toString()
-          .includes('Project directory "/var/www/html/." is not empty')
-      ) {
-        sp.stop();
-        logSimpleErrorMessage(
-          'Docker container with such name already exists.'
-        );
-      }
     });
 
-    bash.stderr.on('error', (err) => {
-      console.log(err);
-    });
-
-    bash.on('exit', (code) => {
+    bash.on('exit', async (code) => {
       if (code === 0) {
         sp.stop(
           picocolors.green(t('command.generate_store.progress.docker_end'))
@@ -83,6 +75,18 @@ const installMagentoImage = async (
       } else {
         sp.stop(
           picocolors.red(t('command.generate_store.progress.docker_failed'))
+        );
+
+        if (
+          stdout.includes('Project directory "/var/www/html/." is not empty')
+        ) {
+          note(t('command.generate_store.magento.image_exists'));
+        }
+        // create a log file
+        await fs.writeFileSync(`${magentoDirName}/docker.log`, stdout, 'utf8');
+
+        logSimpleInfoMessage(
+          t('command.generate_store.magento.docker_log', { magentoDirName })
         );
       }
     });
