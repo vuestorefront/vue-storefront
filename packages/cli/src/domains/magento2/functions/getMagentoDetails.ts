@@ -11,6 +11,9 @@ import { getMagentoDomainName } from '../docker';
 const getMagentoDetails = async () => {
   let magentoAccessKey: string;
   let magentoSecretKey: string;
+  let newMagentoDirName = '';
+
+  note(t('command.generate_store.magento.info'));
 
   const magentoDirName = await getMagentoDirName(
     t('command.generate_store.magento.directory')
@@ -19,7 +22,7 @@ const getMagentoDetails = async () => {
   if (!fs.existsSync(magentoDirName)) {
     fs.mkdirSync(magentoDirName);
   } else {
-    await confirmOverwrite({
+    newMagentoDirName = await confirmOverwrite({
       message: t('command.generate_store.magento.overwrite', {
         magentoDirName
       }),
@@ -52,7 +55,7 @@ const getMagentoDetails = async () => {
   );
 
   return {
-    magentoDirName,
+    magentoDirName: newMagentoDirName || magentoDirName,
     magentoDomainName,
     magentoAccessKey,
     magentoSecretKey

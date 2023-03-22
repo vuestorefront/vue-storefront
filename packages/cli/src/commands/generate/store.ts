@@ -25,6 +25,8 @@ import {
 import { installMagento } from '../../domains/magento2/installMagento';
 import { checkDocker } from '../../domains/magento2/docker';
 import installDeps from '../../domains/magento2/functions/installDeps';
+import checkNode from '../../domains/magento2/functions/checkNode';
+import checkYarn from '../../domains/magento2/functions/checkYarn';
 
 export default class GenerateStore extends Command {
   static override description = t('command.generate_store.description');
@@ -85,11 +87,13 @@ export default class GenerateStore extends Command {
     const { name: integrationName } = integration;
 
     if (integrationName === 'Magento 2') {
-      await checkDocker();
-
       const isInstallMagento = await installMg2Prompt(
         t('command.generate_store.magento.install')
       );
+
+      await checkNode();
+      await checkYarn();
+      await checkDocker();
 
       if (isCancel(isInstallMagento)) {
         logSimpleWarningMessage(t('command.generate_store.message.canceled'));

@@ -39,6 +39,9 @@
         "install_deps_failed": "😱 Dependencies installation failed"
       },
       "magento": {
+        "info": "Please make sure that magento directory name \nis unique and was not used before",
+        "node_ok": "🙌 Node.js version is compatible",
+        "node_not_ok": "😩 Node.js version is incompatible. Please make sure you use Node.js version >= 16.13 and <17.",
         "install": "🤓 Do you want to install Magento 2 locally on your computer? (BETA)",
         "install_note": "This feature is still in beta.\nThanks for your patience! 🙏 \nYou can report any issues here: \nhttps://github.com/vuestorefront/vue-storefront/issues",
         "directory": "⌨️  Please provide a name for the Magento 2 directory",
@@ -55,8 +58,10 @@
         "password": "🙈 Please enter the password",
         "port_busy": "😞 Port is already in use. Please stop the container and try again.",
         "sample_data": "🛒 Do you want to generate sample data for the store?",
-        "sample_data_note": "☝️ You can generate sample data later by running `bin/magento sampledata:deploy` in the Magento directory.",
-        "success": "🎉 Magento 2 has been installed successfully."
+        "sample_data_note": "☝️ You can generate sample data later \nby running `bin/magento sampledata:deploy` \nin the Magento directory.",
+        "success": "🎉 Magento 2 has been installed successfully.",
+        "image_exists": "Project directory \"/var/www/html/.\" is not empty. \nPlease remove previous installation or use another directory name.",
+        "docker_log": "You can find the log file in the {{ magentoDirName }} directory."
       }
     },
     "generate_template": {

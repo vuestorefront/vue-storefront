@@ -17,7 +17,8 @@ type Arguments = {
 const confirmOverwrite = async ({
   message,
   magentoDirName
-}: Arguments): Promise<boolean | symbol> => {
+}: Arguments): Promise<string> => {
+  let newMagentoDirName = '';
   const overwrite = await confirm({
     message
   });
@@ -36,14 +37,16 @@ const confirmOverwrite = async ({
     await fs.rmSync(magentoDirName, { recursive: true, force: true });
     await fs.mkdirSync(magentoDirName);
     sp.stop(picocolors.green(t('command.generate_store.progress.delete_end')));
+    newMagentoDirName = magentoDirName;
   }
 
   if (!overwrite) {
     logSimpleInfoMessage(t('command.generate_store.progress.create_dir'));
-    fs.mkdirSync(magentoDirName + '-new');
+    newMagentoDirName = magentoDirName + new Date().getTime().toString();
+    fs.mkdirSync(newMagentoDirName);
   }
 
-  return overwrite;
+  return newMagentoDirName;
 };
 
 export default confirmOverwrite;
