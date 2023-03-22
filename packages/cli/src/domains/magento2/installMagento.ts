@@ -1,4 +1,5 @@
 import { installMagentoImage } from './docker';
+
 import {
   copyAuth,
   handleGraphQL,

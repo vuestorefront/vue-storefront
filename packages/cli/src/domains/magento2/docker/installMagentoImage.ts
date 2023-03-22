@@ -43,7 +43,7 @@ const installMagentoImage = async (
     curl.stdout.pipe(bash.stdin);
 
     bash.stdout.on('data', (data) => {
-      if (data.toString().includes('System password requested')) {
+      if (data.toString().includes('system password is needed')) {
         sp.stop(
           picocolors.yellow(t('command.generate_store.magento.password'))
         );
@@ -58,7 +58,7 @@ const installMagentoImage = async (
 
     bash.stderr.on('data', async (data) => {
       stdout += data.toString();
-      if (data.toString().includes('port is already allocated')) {
+      if (stdout.includes('port is already allocated')) {
         sp.stop();
         logSimpleErrorMessage(t('command.generate_store.magento.port_busy'));
         // delete the directory

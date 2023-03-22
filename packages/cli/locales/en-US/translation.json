@@ -39,7 +39,7 @@
         "install_deps_failed": "😱 Dependencies installation failed"
       },
       "magento": {
-        "info": "Please make sure that magento directory name is unique and was not used before",
+        "info": "Please make sure that magento directory name \nis unique and was not used before",
         "node_ok": "🙌 Node.js version is compatible",
         "node_not_ok": "😩 Node.js version is incompatible. Please make sure you use Node.js version >= 16.13 and <17.",
         "install": "🤓 Do you want to install Magento 2 locally on your computer? (BETA)",
