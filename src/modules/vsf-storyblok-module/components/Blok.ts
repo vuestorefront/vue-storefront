@@ -4,6 +4,8 @@ import convertDisplayValueToClass from '../helpers/convert-display-value-to-clas
 import ItemData from '../types/item-data.interface';
 import { SpacingSettingsFieldName } from '../types/spacing-setting-field-name.value';
 
+let instanceId = 0;
+
 export default Vue.extend({
   props: {
     item: {
@@ -14,6 +16,11 @@ export default Vue.extend({
   filters: {
     pretty (value: any) {
       return value
+    }
+  },
+  data () {
+    return {
+      instanceId: ''
     }
   },
   computed: {
@@ -96,13 +103,19 @@ export default Vue.extend({
     }
   },
   created () {
-    this.onComponentContentUpdate();
+    this.instanceId = instanceId.toString();
+    instanceId += 1;
+
+    this.onComponentContentUpdate(true);
+  },
+  beforeDestroy () {
+    this.onComponentContentUpdate(false);
   },
   methods: {
-    onComponentContentUpdate () {
+    onComponentContentUpdate (hasContent: boolean) {
       this.$emit(
         'content-change',
-        { itemId: this.item._uid, isEmpty: false }
+        { itemId: this.instanceId, isEmpty: !hasContent }
       );
     }
   },
