@@ -4,7 +4,7 @@
     v-editable="item"
     :is="component"
     :item="item"
-    @content-change="$emit('content-change', $event)"
+    v-on="$listeners"
   />
 </template>
 
