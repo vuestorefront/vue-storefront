@@ -43,7 +43,11 @@ const installMagentoImage = async (
     curl.stdout.pipe(bash.stdin);
 
     bash.stdout.on('data', (data) => {
-      if (data.toString().includes('system password is needed')) {
+      console.log(data.toString());
+      if (
+        data.toString().toLowerCase().includes('system password is needed') ||
+        data.toString().toLowerCase().includes('system password requested')
+      ) {
         sp.stop(
           picocolors.yellow(t('command.generate_store.magento.password'))
         );
