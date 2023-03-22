@@ -43,7 +43,6 @@ const installMagentoImage = async (
     curl.stdout.pipe(bash.stdin);
 
     bash.stdout.on('data', (data) => {
-      console.log(data.toString());
       if (
         data.toString().toLowerCase().includes('system') &&
         data.toString().toLowerCase().includes('password')
