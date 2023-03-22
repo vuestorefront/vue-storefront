@@ -10524,11 +10524,6 @@ is-unicode-supported@^0.1.0:
   resolved "https://registry.yarnpkg.com/is-unicode-supported/-/is-unicode-supported-0.1.0.tgz#3f26c76a809593b52bfa2ecb5710ed2779b522a7"
   integrity sha512-knxG2q4UC3u8stRGyAVJCOdxFmv5DZiRcdlIaAQXAbSfJya+OhopNotLQrstBhququ4ZpuKbDc/8S6mgXgPFPw==
 
-is-unicode-supported@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/is-unicode-supported/-/is-unicode-supported-1.3.0.tgz#d824984b616c292a2e198207d4a609983842f714"
-  integrity sha512-43r2mRvz+8JRIKnWJ+3j8JtjRKZ6GmjzfaE/qiBJnikNnYv/6bagRJ1kUhNk8R5EX/GkobD+r+sfxCPJsiKBLQ==
-
 is-utf8@^0.2.0, is-utf8@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/is-utf8/-/is-utf8-0.2.1.tgz#4b0da1442104d1b336340e80797e865cf39f7d72"
@@ -17622,10 +17617,10 @@ vuepress-plugin-smooth-scroll@^0.0.3:
   dependencies:
     smoothscroll-polyfill "^0.4.3"
 
-vuepress-theme-vsf-docs@^1.1.0-alpha.4:
-  version "1.1.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/vuepress-theme-vsf-docs/-/vuepress-theme-vsf-docs-1.1.0-alpha.4.tgz#2185cdc5f48e5cd556ae40e890aa78b5f3ae9aa6"
-  integrity sha512-kme/v4TqYoOgBodmvnwwmcxTl8V6zmsrNvaDl3m/7CS3uEUwIa88rBehyAc7KdTIj+alxJsAFYyblTzpbLmkXQ==
+vuepress-theme-vsf-docs@^1.2.12:
+  version "1.2.12"
+  resolved "https://registry.npmjs.org/vuepress-theme-vsf-docs/-/vuepress-theme-vsf-docs-1.2.12.tgz#a13d5406ca167141b200b72429e7ffd81b4de695"
+  integrity sha512-A+DyZPLJIOQgeFGSjfkwqkG4OorNaBl6TWjyQ2T+D8YD3ZPiVg5KjnV35scRegGISp2oqTjAxHxsuHZHcy82XA==
   dependencies:
     "@vuepress/plugin-active-header-links" "1.9.7"
     "@vuepress/plugin-nprogress" "1.9.7"
