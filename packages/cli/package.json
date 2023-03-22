@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/cli",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "description": "Vue Storefront's CLI.",
   "bin": "./bin/run",
   "homepage": "https://github.com/vuestorefront/vue-storefront",
