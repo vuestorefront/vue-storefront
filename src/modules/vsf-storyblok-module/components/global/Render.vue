@@ -4,6 +4,7 @@
     v-editable="item"
     :is="component"
     :item="item"
+    v-on="$listeners"
   />
 </template>
 

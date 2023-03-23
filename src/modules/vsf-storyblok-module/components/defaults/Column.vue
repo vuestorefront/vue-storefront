@@ -3,6 +3,7 @@
     class="column layout-regular-component"
     :class="cssClasses"
     :style="styles"
+    v-show="showColumn"
   >
     <editor-block-icons :item="itemData" />
 
@@ -11,6 +12,7 @@
       :key="_item._uid"
       class="box _item"
       :item="_item"
+      @content-change="onChildContentChange"
     />
   </div>
 </template>
@@ -20,16 +22,16 @@ import { VueConstructor } from 'vue';
 
 import { InjectType } from 'src/modules/shared';
 
-import { Blok } from '..';
 import { SizeValue } from '../../types/size.value';
 import ComponentWidthCalculator, { ColumnsSpecification } from '../../component-width-calculator.service';
 import ColumnData from '../../types/column-data.interface';
+import EmptyChildrenState from '../../mixins/empty-children-state';
 
 interface InjectedServices {
   componentWidthCalculator: ComponentWidthCalculator
 }
 
-export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServices>).extend({
+export default (EmptyChildrenState as VueConstructor<InstanceType<typeof EmptyChildrenState> & InjectedServices>).extend({
   name: 'StoryblokColumn',
   inject: {
     componentWidthCalculator: {}
@@ -46,6 +48,9 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
   computed: {
     itemData (): ColumnData {
       return this.item as ColumnData;
+    },
+    showColumn (): boolean {
+      return !this.isAllChildrenEmpty;
     }
   },
   methods: {

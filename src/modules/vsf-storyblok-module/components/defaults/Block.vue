@@ -2,11 +2,13 @@
   <div
     class="storyblok-block layout-transparent-container"
     data-testid="storyblok-block"
+    v-show="showBlock"
   >
     <sb-render
       v-for="(child) in itemData.body"
       :item="child"
       :key="child._uid"
+      @content-change="onChildContentChange"
     />
   </div>
 </template>
@@ -15,15 +17,15 @@
 import { InjectType } from 'src/modules/shared';
 import { VueConstructor } from 'vue';
 
-import { Blok } from '..';
 import BlockData from '../../types/block-data.interface';
 import ComponentWidthCalculator from '../../component-width-calculator.service';
+import EmptyChildrenState from '../../mixins/empty-children-state';
 
 interface InjectedServices {
   componentWidthCalculator?: ComponentWidthCalculator
 }
 
-export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServices>).extend({
+export default (EmptyChildrenState as VueConstructor<InstanceType<typeof EmptyChildrenState> & InjectedServices>).extend({
   name: 'Block',
   inject: {
     componentWidthCalculator: { default: undefined }
@@ -47,6 +49,9 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
   computed: {
     itemData (): BlockData {
       return this.item as unknown as BlockData;
+    },
+    showBlock (): boolean {
+      return !this.isAllChildrenEmpty;
     }
   }
 });
