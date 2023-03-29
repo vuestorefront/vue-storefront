@@ -17617,10 +17617,10 @@ vuepress-plugin-smooth-scroll@^0.0.3:
   dependencies:
     smoothscroll-polyfill "^0.4.3"
 
-vuepress-theme-vsf-docs@^1.2.12:
-  version "1.2.12"
-  resolved "https://registry.npmjs.org/vuepress-theme-vsf-docs/-/vuepress-theme-vsf-docs-1.2.12.tgz#a13d5406ca167141b200b72429e7ffd81b4de695"
-  integrity sha512-A+DyZPLJIOQgeFGSjfkwqkG4OorNaBl6TWjyQ2T+D8YD3ZPiVg5KjnV35scRegGISp2oqTjAxHxsuHZHcy82XA==
+vuepress-theme-vsf-docs@^1.2.20:
+  version "1.2.20"
+  resolved "https://registry.npmjs.org/vuepress-theme-vsf-docs/-/vuepress-theme-vsf-docs-1.2.20.tgz#f4e59dc4ce3a179ce05d42e3648adae2962dbfc4"
+  integrity sha512-Kw+wMcXHls1+GrOU7lxRrrIaiA+SkYQ1Tf4xNHUHdd+cwTWhtWfO0nG02Rtqr1Qmt2+Ug7v++o8SSRJhuldVaw==
   dependencies:
     "@vuepress/plugin-active-header-links" "1.9.7"
     "@vuepress/plugin-nprogress" "1.9.7"
