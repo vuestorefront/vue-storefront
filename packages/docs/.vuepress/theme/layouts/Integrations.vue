@@ -27,3 +27,9 @@
 </template>
 
 <script></script>
+
+<style scoped>
+:deep(.header-anchor svg) {
+  display: none;
+}
+</style>
