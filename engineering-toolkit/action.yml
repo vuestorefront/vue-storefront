@@ -6,4 +6,4 @@ inputs:
     required: true
 runs:
   using: 'node16'
-  main: 'dist/index.js'
+  main: 'packages/circular-dependency-action/dist/index.js'
