@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Before proceeding, make sure you have [Node 14](https://nodejs.org/en/) installed. You can check this by running the following command:
+Before proceeding, make sure you have [Node >= v16.13 < v17](https://nodejs.org/en/) installed. You can check this by running the following command:
 
 ```bash
 node -v
@@ -31,7 +31,7 @@ Go to the newly created directory and install the required dependencies:
 ```bash
 cd <project_name>
 
-npm install
+yarn
 ```
 
 ### Step 3: Configure the project
@@ -43,7 +43,7 @@ The next step is to configure your project, and it's different for every e-comme
 The project is now ready. You can start the application in development mode using the command below. You can read more about available commands and environments on the [Commands and deployment](https://nuxtjs.org/docs/2.x/get-started/commands/) page in Nuxt.js documentation.
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 ## Recommended tools
