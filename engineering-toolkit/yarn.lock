@@ -544,11 +544,18 @@ __metadata:
     "@microsoft/eslint-plugin-sdl": ^0.2.0
     eslint-plugin-import: ^2.27.5
     eslint-plugin-no-secrets: ^0.8.9
+    eslint-plugin-no-unsanitized: ^4.0.2
     eslint-plugin-promise: ^6.1.1
     eslint-plugin-sonarjs: ^0.19.0
     eslint-plugin-unicorn: ^46.0.0
   peerDependencies:
     eslint: ">= 9"
+  languageName: unknown
+  linkType: soft
+
+"@vue-storefront/prettier-config@workspace:*, @vue-storefront/prettier-config@workspace:packages/prettier-config":
+  version: 0.0.0-use.local
+  resolution: "@vue-storefront/prettier-config@workspace:packages/prettier-config"
   languageName: unknown
   linkType: soft
 
@@ -558,9 +565,12 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^17.5.1
     "@commitlint/config-conventional": ^17.4.4
+    "@vue-storefront/prettier-config": "workspace:*"
     commitizen: ^4.3.0
     cz-conventional-changelog: ^3.3.0
+    git-cz: ^4.9.0
     husky: ^8.0.3
+    prettier: ^2.8.7
   languageName: unknown
   linkType: soft
 
@@ -1546,6 +1556,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-no-unsanitized@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "eslint-plugin-no-unsanitized@npm:4.0.2"
+  peerDependencies:
+    eslint: ^6 || ^7 || ^8
+  checksum: c3b171c31ae436909899d1aeec52dbd331f653b989e5489a8fb4d756a5102720cb57c6e40e2cac5966195201f17684952a896734eec538d5f358892da11d6150
+  languageName: node
+  linkType: hard
+
 "eslint-plugin-node@npm:11.1.0":
   version: 11.1.0
   resolution: "eslint-plugin-node@npm:11.1.0"
@@ -1916,6 +1935,16 @@ __metadata:
     call-bind: ^1.0.2
     get-intrinsic: ^1.1.1
   checksum: 9ceff8fe968f9270a37a1f73bf3f1f7bda69ca80f4f80850670e0e7b9444ff99323f7ac52f96567f8b5f5fbe7ac717a0d81d3407c7313e82810c6199446a5247
+  languageName: node
+  linkType: hard
+
+"git-cz@npm:^4.9.0":
+  version: 4.9.0
+  resolution: "git-cz@npm:4.9.0"
+  bin:
+    git-cz: bin/git-cz.js
+    gitcz: bin/git-cz.js
+  checksum: c2f1f5b4d77f27fb3bc3edc7ac998f7ae822c5dc843e9f23929fab229fa7469a9023da35a767274559940dc140aafb92123195ea56aa2b732783807278156688
   languageName: node
   linkType: hard
 
@@ -3390,6 +3419,15 @@ __metadata:
   version: 8.0.0
   resolution: "pluralize@npm:8.0.0"
   checksum: 08931d4a6a4a5561a7f94f67a31c17e6632cb21e459ab3ff4f6f629d9a822984cf8afef2311d2005fbea5d7ef26016ebb090db008e2d8bce39d0a9a9d218736e
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.8.7":
+  version: 2.8.7
+  resolution: "prettier@npm:2.8.7"
+  bin:
+    prettier: bin-prettier.js
+  checksum: fdc8f2616f099f5f0d685907f4449a70595a0fc1d081a88919604375989e0d5e9168d6121d8cc6861f21990b31665828e00472544d785d5940ea08a17660c3a6
   languageName: node
   linkType: hard
 
