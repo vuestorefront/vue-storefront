@@ -1,5 +1,5 @@
 {
-  "name": "@vuestorefront/eslint-config-base",
+  "name": "@vue-storefront/eslint-config-basic",
   "version": "0.0.1",
   "homepage": "https://github.com/vuestorefront/engineering-toolkit/packages/eslint-config-base",
   "contributors": [
