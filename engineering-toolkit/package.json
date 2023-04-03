@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "prepare": "npx husky install",
-    "commit": "npx cz"
+    "commit": "npx git-cz",
+    "prettier": "prettier --write 'packages/**/*.{js,ts,tsx,mdx,json}'"
   },
   "workspaces": {
     "packages": [
@@ -18,9 +19,12 @@
   "devDependencies": {
     "@commitlint/cli": "^17.5.1",
     "@commitlint/config-conventional": "^17.4.4",
+    "@vue-storefront/prettier-config": "workspace:*",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^8.0.3"
+    "git-cz": "^4.9.0",
+    "husky": "^8.0.3",
+    "prettier": "^2.8.7"
   },
   "husky": {
     "hooks": {
