@@ -1,3 +1,5 @@
+[![vuestorefront/prettier-config](./prettier.jpg)]()
+
 # @vue-storefront/prettier-config
 
 > Common prettier configuration used in Vue Storefront projects
@@ -6,10 +8,10 @@
 
 #### Install
 ```bash
-yarn add -D eslint @vue-storefront/prettier-config
+yarn add -D prettier @vue-storefront/prettier-config
 ```
 
-#### Config `prettier.config`
+#### Config `prettier.config.js`
 
 ```javascript
 const config = require('@vuestorefront/prettier-config');
