@@ -1,0 +1,26 @@
+{
+  "name": "@vuestorefront/eslint-config-base",
+  "version": "0.0.1",
+  "homepage": "https://github.com/vuestorefront/engineering-toolkit/packages/eslint-config-base",
+  "contributors": [
+    {
+      "name": "Maciej Rybaniec",
+      "email": "maciej.rybaniec@gmail.com"
+    }
+  ],
+  "keywords": [
+    "eslint-config"
+  ],
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "peerDependencies": {
+    "eslint": ">= 9"
+  },
+  "dependencies": {
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-unicorn": "^46.0.0"
+  }
+}
