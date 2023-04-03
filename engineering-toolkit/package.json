@@ -11,7 +11,8 @@
   },
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "github-actions/*"
     ]
   },
   "devDependencies": {

@@ -1,6 +1,11 @@
 {
-  "name": "@vue-storefront/eslint-config-basic",
+  "name": "@vue-storefront/eslint-config",
   "version": "0.0.1",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./ecma": "./src/ecma.js"
+  },
   "homepage": "https://github.com/vuestorefront/engineering-toolkit/packages/eslint-config-base",
   "contributors": [
     {
@@ -11,7 +16,6 @@
   "keywords": [
     "eslint-config"
   ],
-  "main": "index.js",
   "files": [
     "*.js"
   ],
@@ -19,8 +23,11 @@
     "eslint": ">= 9"
   },
   "dependencies": {
+    "@microsoft/eslint-plugin-sdl": "^0.2.0",
     "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-no-secrets": "^0.8.9",
     "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-sonarjs": "^0.19.0",
     "eslint-plugin-unicorn": "^46.0.0"
   }
 }
