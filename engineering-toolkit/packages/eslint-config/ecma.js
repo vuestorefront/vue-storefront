@@ -9,12 +9,22 @@ module.exports = {
         'plugin:import/recommended',
         'plugin:promise/recommended',
         'plugin:unicorn/recommended',
+        'plugin:sonarjs/recommended',
     ],
     plugins: [
         'promise',
+        'sonarjs',
         'unicorn',
+        'no-secrets',
+        '@microsoft/sdl',
         'unused-imports',
     ],
+    parserOptions: {
+        ecmaVersion: 'latest',
+        ecmaFeatures: {
+            jsx: true,
+        },
+    },
     ignorePatterns: [
         '*.min.*',
         '*.d.ts',
@@ -41,10 +51,12 @@ module.exports = {
         'Dockerfile',
     ],
     rules: {
-        /* GENERAL */
+        /* General */
 
         /* Enforce a maximum cyclomatic complexity allowed in a program */
         'complexity': ['error', 4],
+        /* Cognitive complexity is a measure of how hard the control flow of a function is to understand */
+        "sonarjs/cognitive-complexity": ["error", 15],
         /* Enforce a maximum depth that blocks can be nested */
         'max-depth': ['error', 4],
         /* Enforce a maximum number of statements allowed per line */
@@ -80,7 +92,7 @@ module.exports = {
           { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
         ],
 
-        /* BEST PRACTICES */
+        /* Best practices */
 
         /* Enforce return statements in callbacks of array methods */
         'array-callback-return': 'error',
@@ -95,7 +107,7 @@ module.exports = {
         /* Require let or const instead of var */
         'no-var': 'error',
 
-        /* UNICORNS */
+        /* Unicorns */
 
         /* Enforce to pass error message when throwing errors */
         'unicorn/error-message': 'error',
@@ -128,5 +140,30 @@ module.exports = {
         'unicorn/no-nested-ternary': 'error',
         /* Prefer Date.now() to get the number of milliseconds since the Unix Epoch. */
         'unicorn/prefer-date-now': 'error',
+        /* Disabled as VueStorefront delivers CommonJS and ES modules */
+        "unicorn/prefer-module": "off",
+        /* Using Array.prototype.forEach is not restricted */
+        "unicorn/no-array-for-each": "off",
+        /* Using Array.prototype.reduce and reduceRight is not restricted */
+        "unicorn/no-array-reduce": "off",
+        /* Using null literal is not restriced  */
+        "unicorn/no-null": "warn",
+
+        /* Security and Misconfiguration */
+
+        /* Prefer to use Web Storage, IndexedDB or other modern methods instead for client side storage */
+        "@microsoft/sdl/no-cookies": "warn",
+        /* Writes to document.domain property must be reviewed to avoid bypass of same-origin checks. */
+        "@microsoft/sdl/no-document-domain": "error",
+        /* Prevent writes to DOM directly using document.write */
+        "@microsoft/sdl/no-document-write": "error",
+        /* Do not write to DOM directly using innerHTML method */
+        "@microsoft/sdl/no-inner-html": "error",
+        /* Do not use insecure URLs */
+        "@microsoft/sdl/no-insecure-url": "error",
+        /* Do not use * as target origin when sending data to other windows */
+        "@microsoft/sdl/no-postmessage-star-origin": "error",
+        /* Prevents from exposing secrets or keys in the code */
+        "no-secrets/no-secrets": "error"
     },
 };
