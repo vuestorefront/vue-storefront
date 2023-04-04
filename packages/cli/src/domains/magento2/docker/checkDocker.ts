@@ -4,15 +4,19 @@ import {
   logSimpleInfoMessage,
   simpleLog
 } from '../functions/terminalHelpers';
+import { t } from 'i18next';
 
 /** Checking if Docker is installed and running on user's machine */
-const checkDocker = async (): Promise<void> => {
+const checkDocker = async (
+  writeLog: (message: string) => void
+): Promise<void> => {
   const docker =
     process.platform === 'darwin'
       ? spawn('docker', ['info'])
       : spawn('sudo', ['docker', 'info']);
 
   docker.stderr.on('data', (data) => {
+    writeLog(data.toString());
     simpleLog(data.toString());
   });
 
@@ -21,11 +25,16 @@ const checkDocker = async (): Promise<void> => {
   });
 
   if (!isDockerInstalled) {
+    writeLog(
+      'Docker is not installed or not running. Please make sure that prerequisites are complied with and run command again. For more information, please visit https://docs.vuestorefront.io/magento/installation-setup/configure-magento.html'
+    );
     logSimpleErrorMessage(
       'Docker is not installed or not running. Please make sure that prerequisites are complied with and run command again. For more information, please visit https://docs.vuestorefront.io/magento/installation-setup/configure-magento.html'
     );
+    logSimpleInfoMessage(t('command.generate_store.magento.failed_log'));
     process.exit(1);
   } else {
+    writeLog('🐳 Docker is installed and running.');
     logSimpleInfoMessage('🐳 Docker is installed and running.');
   }
 };

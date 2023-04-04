@@ -13,8 +13,10 @@
         "skipping": "😞 Can't generate the store. Please run the command again and provide a valid project name.",
         "success": "🎉  Sucessfully generated your store at \"./{{projectName}}\"!",
         "install": "To finish the installation, run the following commands:",
-        "install_commands": ["cd {{ projectName }}", "yarn"],
+        "install_commands": ["cd {{ projectName }}"],
         "configure": "Project is conifugred. \nIf you want more advanced configuration go to the \n{{ documentationURL }} to learn how to do it.",
+        "cd_message": "To start working with the project, cd into project directory:",
+        "cd_directory": "cd {{ projectName }}",
         "start": "Start the project using this command:",
         "start_command": "yarn dev",
         "canceled": "Store generation cancelled 😞\nWe hope to see you soon! 🤗"
@@ -42,6 +44,7 @@
         "info": "Please make sure that magento directory name \nis unique and was not used before",
         "node_ok": "🙌 Node.js version is compatible",
         "node_not_ok": "😩 Node.js version is incompatible. Please make sure you use Node.js version >= 16.13 and <17.",
+        "yarn_not_ok": "😩 Yarn version is incompatible. Please make sure you use Yarn version >= 1 and <3.",
         "install": "🤓 Do you want to install Magento 2 locally on your computer? (BETA)",
         "install_note": "This feature is still in beta.\nThanks for your patience! 🙏 \nYou can report any issues here: \nhttps://github.com/vuestorefront/vue-storefront/issues",
         "directory": "⌨️  Please provide a name for the Magento 2 directory",
@@ -61,7 +64,13 @@
         "sample_data_note": "☝️ You can generate sample data later \nby running `bin/magento sampledata:deploy` \nin the Magento directory.",
         "success": "🎉 Magento 2 has been installed successfully.",
         "image_exists": "Project directory \"/var/www/html/.\" is not empty. \nPlease remove previous installation or use another directory name.",
-        "docker_log": "You can find the log file in the {{ magentoDirName }} directory."
+        "failed_log": "You can find the log in the current directory in the file CLI_logs.txt",
+        "error": {
+          "same_dir": "😞 Magento directory name: {{ magentoDirName }} cannot be the same as Vue Storefront project name: {{ projectName }}. Please choose another name."
+        }
+      },
+      "logs": {
+        "project_name_selected": "\nProject name selected {{ projectName }}"
       }
     },
     "generate_template": {

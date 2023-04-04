@@ -4,7 +4,6 @@ import {
   logSimpleErrorMessage,
   logSimpleInfoMessage
 } from '../functions/terminalHelpers';
-import fs from 'fs';
 
 import { note, spinner } from '@clack/prompts';
 import picocolors from 'picocolors';
@@ -13,7 +12,8 @@ import { t } from 'i18next';
 /** Handles Magento 2 Docker Image installation */
 const installMagentoImage = async (
   magentoDirName: string,
-  magentoDomainName: string
+  magentoDomainName: string,
+  writeLog: (message: string) => void
 ): Promise<any> => {
   const options = {
     cwd: magentoDirName
@@ -86,11 +86,9 @@ const installMagentoImage = async (
           note(t('command.generate_store.magento.image_exists'));
         }
         // create a log file
-        await fs.writeFileSync(`${magentoDirName}/docker.log`, stdout, 'utf8');
+        writeLog(stdout);
 
-        logSimpleInfoMessage(
-          t('command.generate_store.magento.docker_log', { magentoDirName })
-        );
+        logSimpleInfoMessage(t('command.generate_store.magento.failed_log'));
       }
     });
   });

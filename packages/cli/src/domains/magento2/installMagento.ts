@@ -14,28 +14,30 @@ import { t } from 'i18next';
 interface MagentoDetails {
   isInstallMagento: boolean;
   magentoDirName: string;
-  magentoDomainName: string;
+  magentoDomain: string;
   magentoAccessKey: string;
   magentoSecretKey: string;
+  writeLog: (message: string) => void;
 }
 
 /** Function responsible for all Magento 2 installation process */
 export const installMagento = async ({
   magentoDirName,
-  magentoDomainName,
+  magentoDomain,
   magentoAccessKey,
-  magentoSecretKey
+  magentoSecretKey,
+  writeLog
 }: MagentoDetails) => {
-  await installMagentoImage(magentoDirName, magentoDomainName);
+  await installMagentoImage(magentoDirName, magentoDomain, writeLog);
   await copyAuth(magentoDirName, magentoAccessKey, magentoSecretKey);
-  await handleGraphQL(magentoDirName);
+  await handleGraphQL(magentoDirName, writeLog);
 
   const isGenerateData = await isGenerateSampleData(
     t('command.generate_store.magento.sample_data')
   );
 
   if (isGenerateData) {
-    await handleSampleData(magentoDirName);
+    await handleSampleData(magentoDirName, writeLog);
   } else {
     note(t('command.generate_store.magento.sample_data_note'));
   }

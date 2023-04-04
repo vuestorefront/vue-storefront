@@ -4,7 +4,10 @@ import picocolors from 'picocolors';
 import { t } from 'i18next';
 
 /** Generate sample data and upgrade */
-const handleSampleData = async (magentoDirName: string) => {
+const handleSampleData = async (
+  magentoDirName: string,
+  writeLog: (message: string) => void
+) => {
   const options = {
     cwd: magentoDirName,
     shell: true
@@ -22,7 +25,13 @@ const handleSampleData = async (magentoDirName: string) => {
       picocolors.cyan(t('command.generate_store.progress.sample_data_start'))
     );
 
-    sampleData.stdout.on('data', () => {});
+    sampleData.stdout.on('data', (data) => {
+      writeLog(data.toString());
+    });
+
+    sampleData.stderr.on('data', (data) => {
+      writeLog(data.toString());
+    });
 
     sampleData.on('close', (code) => {
       if (code === 0) {
