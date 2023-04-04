@@ -1,3 +1,3 @@
 module.exports = {
-  extends: [require.resolve("./ecma.js")],
+  extends: [require.resolve("./ecma.js"), require.resolve("./typescript.js")],
 };
