@@ -6,7 +6,6 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "plugin:import/recommended",
     "plugin:promise/recommended",
     "plugin:unicorn/recommended",
     "plugin:sonarjs/recommended",
@@ -33,6 +32,7 @@ module.exports = {
     "package-lock.json",
     "pnpm-lock.yaml",
     "yarn.lock",
+    "__tests__",
     "__snapshots__",
     "*.css",
     "*.png",
@@ -48,7 +48,7 @@ module.exports = {
     /* General */
 
     /* Enforce a maximum cyclomatic complexity allowed in a program */
-    complexity: ["error", 4],
+    complexity: ["error", 6],
     /* Cognitive complexity is a measure of how hard the control flow of a function is to understand */
     "sonarjs/cognitive-complexity": ["error", 15],
     /* Enforce a maximum depth that blocks can be nested */
@@ -80,6 +80,8 @@ module.exports = {
       "warn",
       { vars: "all", varsIgnorePattern: "^_", args: "after-used", argsIgnorePattern: "^_" },
     ],
+    /* Enforce specifying rules to disable in eslint-disable comments */
+    "no-abusive-eslint-disable": "warn",
 
     /* Best practices */
 
@@ -136,7 +138,33 @@ module.exports = {
     /* Using Array.prototype.reduce and reduceRight is not restricted */
     "unicorn/no-array-reduce": "off",
     /* Using null literal is not restriced  */
-    "unicorn/no-null": "warn",
+    "unicorn/no-null": "off",
+    /* Prevent usage of abbreviations  */
+    "unicorn/prevent-abbreviations": [
+      "warn",
+      {
+        replacements: {
+          e: false,
+          err: false,
+          req: false,
+          params: false,
+          props: false,
+          attrs: false,
+        },
+      },
+    ],
+    /* Enforce camelCase and PascalCase for filenames */
+    "unicorn/filename-case": [
+      "error",
+      {
+        cases: {
+          camelCase: true,
+          pascalCase: true,
+          kebabCase: false,
+          snakeCase: false,
+        },
+      },
+    ],
 
     /* Security and Misconfiguration */
 

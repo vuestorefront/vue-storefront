@@ -26,3 +26,4 @@ yarn add -D eslint @vue-storefront/eslint-config
 - [promise](https://github.com/eslint-community/eslint-plugin-promise)
 - [sonarjs](https://github.com/SonarSource/eslint-plugin-sonarjs)
 - [@microsoft/sdl](https://github.com/microsoft/eslint-plugin-sdl)
+- [unused-imports](https://www.npmjs.com/package/eslint-plugin-unused-imports)

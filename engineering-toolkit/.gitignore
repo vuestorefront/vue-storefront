@@ -3,3 +3,4 @@ node_modules
 cache
 lib
 install-state.gz
+.DS_Store
