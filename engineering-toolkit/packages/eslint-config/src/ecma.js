@@ -165,6 +165,8 @@ module.exports = {
         },
       },
     ],
+    /* Warn about abusive eslint disable in comments */
+    "unicorn/no-abusive-eslint-disable": "warn",
 
     /* Security and Misconfiguration */
 

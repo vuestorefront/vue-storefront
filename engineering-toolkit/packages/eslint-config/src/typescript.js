@@ -10,8 +10,6 @@ module.exports = {
         project: "tsconfig.json",
       },
       rules: {
-        /* General */
-
         /* Disable recommended naming convetion */
         "@typescript-eslint/naming-convention": "off",
         /* Do not enforce explicit return type annotation */
