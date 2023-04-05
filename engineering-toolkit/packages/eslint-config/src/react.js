@@ -11,6 +11,11 @@ module.exports = {
       },
     },
   ],
+  settings: {
+    react: {
+      version: "detect",
+    },
+  },
   extends: ["plugin:react/recommended", "plugin:react-hooks/recommended"],
   rules: {
     /* Relax rule which enforces that React variable must be in scope */
