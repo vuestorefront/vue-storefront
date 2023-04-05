@@ -7,7 +7,9 @@
     "./ecma": "./src/ecma.js",
     "./typescript": "./src/typescript.js",
     "./vue": "./src/vue.js",
-    "./react": "./src/react.js"
+    "./react": "./src/react.js",
+    "./prettier": "./src/prettier.js",
+    "./json": "./src/json.js"
   },
   "homepage": "https://github.com/vuestorefront/engineering-toolkit/packages/eslint-config",
   "contributors": [
@@ -40,9 +42,12 @@
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "@vue/eslint-config-typescript": "^11.0.2",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-etc": "^2.0.2",
+    "eslint-plugin-jsonc": "^2.7.0",
     "eslint-plugin-no-secrets": "^0.8.9",
     "eslint-plugin-no-unsanitized": "^4.0.2",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
