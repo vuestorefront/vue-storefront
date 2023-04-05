@@ -80,8 +80,6 @@ module.exports = {
       "warn",
       { vars: "all", varsIgnorePattern: "^_", args: "after-used", argsIgnorePattern: "^_" },
     ],
-    /* Enforce specifying rules to disable in eslint-disable comments */
-    "no-abusive-eslint-disable": "warn",
 
     /* Best practices */
 
@@ -165,8 +163,8 @@ module.exports = {
         },
       },
     ],
-    /* Warn about abusive eslint disable in comments */
-    "unicorn/no-abusive-eslint-disable": "warn",
+    /* Prevent abusive eslint disable in comments */
+    "unicorn/no-abusive-eslint-disable": "error",
 
     /* Security and Misconfiguration */
 

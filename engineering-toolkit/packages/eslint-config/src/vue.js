@@ -13,7 +13,6 @@ module.exports = {
     },
   ],
   extends: [
-    "@vue-storefront/eslint-config-typescript",
     "@vue/typescript/recommended",
     "plugin:vue/strongly-recommended",
   ],
