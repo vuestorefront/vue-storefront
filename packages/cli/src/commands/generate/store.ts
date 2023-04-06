@@ -1,8 +1,7 @@
 import { Command } from '@oclif/core';
-import fs from 'fs';
 import { t } from 'i18next';
 import * as path from 'path';
-import { intro, confirm, isCancel, spinner, note } from '@clack/prompts';
+import { intro, isCancel, spinner, note } from '@clack/prompts';
 import picocolors from 'picocolors';
 import { getIntegration } from '../../domains/integration';
 import { getProjectName } from '../../domains/project-name';
@@ -10,23 +9,26 @@ import {
   cloneGitRepository,
   terminateGitRepository
 } from '../../domains/git-repository';
-import { existsDirectory } from '../../domains/directory';
 import {
   copyEnv,
   installMg2Prompt,
   getMagentoDetails
 } from '../../domains/magento2/functions';
 import {
-  logSimpleErrorMessage,
   logSimpleWarningMessage,
   simpleLog
 } from '../../domains/magento2/functions/terminalHelpers';
 
 import { installMagento } from '../../domains/magento2/installMagento';
-import { checkDocker } from '../../domains/magento2/docker';
+import {
+  checkDocker,
+  getMagentoDomainName
+} from '../../domains/magento2/docker';
 import installDeps from '../../domains/magento2/functions/installDeps';
 import checkNode from '../../domains/magento2/functions/checkNode';
 import checkYarn from '../../domains/magento2/functions/checkYarn';
+import { handleProjectDiretoryExists } from '../../domains/directory/handleProjectDiretoryExists';
+import { initLogger } from '../../domains/logging/logger';
 
 export default class GenerateStore extends Command {
   static override description = t('command.generate_store.description');
@@ -41,42 +43,25 @@ export default class GenerateStore extends Command {
     let magentoDomain = '';
     const sp = spinner();
 
+    const { writeLog, deleteLog } = initLogger();
+
     intro(t('command.generate_store.message.intro'));
+
+    // get project name
     const projectName = await getProjectName(
       t('command.generate_store.input.project_name')
     );
 
     const projectDir = path.resolve(projectName);
 
-    if (await existsDirectory(projectDir)) {
-      const overwrite = await confirm({
-        message: t('command.generate_store.input.overwrite', {
-          projectName
-        }) as string
-      });
+    // check if project directory exists and ask for overwrite
+    await handleProjectDiretoryExists({
+      projectName,
+      projectDir,
+      sp
+    });
 
-      if (isCancel(overwrite)) {
-        logSimpleWarningMessage(t('command.generate_store.message.canceled'));
-        this.exit(0);
-      }
-
-      if (overwrite) {
-        sp.start(
-          picocolors.cyan(t('command.generate_store.progress.delete_start'))
-        );
-        await fs.rmSync(projectDir, { recursive: true, force: true });
-        await fs.mkdirSync(projectDir);
-        sp.stop(
-          picocolors.green(t('command.generate_store.progress.delete_end'))
-        );
-      }
-
-      if (!overwrite) {
-        logSimpleErrorMessage(t('command.generate_store.message.skipping'));
-        this.exit(0);
-      }
-    }
-
+    // get integration
     const integration = await getIntegration({
       message: t('command.generate_store.input.integration'),
       customIntegrationRepositoryMessage: t(
@@ -85,54 +70,66 @@ export default class GenerateStore extends Command {
     });
 
     const { name: integrationName } = integration;
+    const isMagento2 = integrationName === 'Magento 2';
 
-    if (integrationName === 'Magento 2') {
+    await checkNode(writeLog);
+    await checkYarn(writeLog);
+
+    // install Magento 2 if needed
+    if (isMagento2) {
       const isInstallMagento = await installMg2Prompt(
         t('command.generate_store.magento.install')
       );
-
-      await checkNode();
-      await checkYarn();
-      await checkDocker();
 
       if (isCancel(isInstallMagento)) {
         logSimpleWarningMessage(t('command.generate_store.message.canceled'));
         process.exit(0);
       }
 
-      const {
-        magentoDirName,
-        magentoDomainName,
-        magentoAccessKey,
-        magentoSecretKey
-      } = await getMagentoDetails();
-
-      magentoDomain = magentoDomainName;
-
       if (isInstallMagento) {
+        await checkDocker(writeLog);
+
+        const { magentoDirName, magentoAccessKey, magentoSecretKey } =
+          await getMagentoDetails(projectName);
+
+        magentoDomain = await getMagentoDomainName(
+          t('command.generate_store.magento.domain')
+        );
+
         await installMagento({
           isInstallMagento,
           magentoDirName,
-          magentoDomainName,
+          magentoDomain,
           magentoAccessKey,
-          magentoSecretKey
+          magentoSecretKey,
+          writeLog
         });
+      } else {
+        magentoDomain = await getMagentoDomainName(
+          t('command.generate_store.magento.domain')
+        );
       }
     }
 
+    // generate VSF project
     sp.start(t('command.generate_store.progress.vsf_start'));
     await cloneGitRepository({
       projectDir,
       gitRepositoryURL: integration.gitRepositoryURL
     });
 
-    await copyEnv(projectDir, magentoDomain);
+    // copy .env file if Magento 2 integration
+    if (isMagento2) {
+      await copyEnv(projectDir, magentoDomain);
+    }
     await terminateGitRepository(projectDir);
 
     sp.stop(picocolors.green(t('command.generate_store.progress.vsf_end')));
 
-    await installDeps(projectDir);
+    // install dependencies
+    await installDeps(projectDir, writeLog);
 
+    // show success message
     if (integration.documentationURL) {
       note(
         t('command.generate_store.message.configure', {
@@ -140,6 +137,16 @@ export default class GenerateStore extends Command {
         })
       );
     }
+
+    deleteLog();
+
+    simpleLog(t('command.generate_store.message.cd_message'));
+    simpleLog(
+      t<string>('command.generate_store.message.cd_directory', {
+        projectName
+      }),
+      picocolors.magenta
+    );
     simpleLog(t('command.generate_store.message.start'));
     simpleLog(
       t<string>('command.generate_store.message.start_command', {

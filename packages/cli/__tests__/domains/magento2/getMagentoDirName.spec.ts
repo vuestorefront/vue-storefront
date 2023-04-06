@@ -31,7 +31,7 @@ describe('getMagentoDirName | Magento tests', () => {
     const answer = async () => {
       expect(output).toContain('command.generate_store.magento.directory');
 
-      io.send(' ');
+      io.send(BACKSPACE_KEY.repeat(8));
       io.send(ENTER_KEY);
 
       await wait(100);

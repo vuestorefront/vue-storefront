@@ -17,11 +17,14 @@ const checkNodeVersion = (nodeString: string): boolean => {
 };
 
 /** Checking if Node version is correct as per prerequisites */
-const checkNode = async (): Promise<void> => {
+const checkNode = async (
+  writeLog: (message: string) => void
+): Promise<void> => {
   const node = spawn('node', ['-v']);
 
   return await new Promise((resolve) => {
     node.stdout.on('data', (data) => {
+      writeLog(data.toString());
       if (!checkNodeVersion(data.toString())) {
         logSimpleErrorMessage(t('command.generate_store.magento.node_not_ok'));
         process.exit(1);
@@ -29,6 +32,7 @@ const checkNode = async (): Promise<void> => {
     });
 
     node.on('close', () => {
+      writeLog(t('command.generate_store.magento.node_ok'));
       logSimpleSuccessMessage(t('command.generate_store.magento.node_ok'));
       resolve();
     });

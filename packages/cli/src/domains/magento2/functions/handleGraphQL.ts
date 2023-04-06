@@ -3,9 +3,13 @@ import fs from 'fs';
 import { spinner } from '@clack/prompts';
 import picocolors from 'picocolors';
 import { t } from 'i18next';
+import { logSimpleInfoMessage } from './terminalHelpers';
 
 /** Install and enable GraphQL Magento module */
-const handleGraphQL = async (magentoDirName: string) => {
+const handleGraphQL = async (
+  magentoDirName: string,
+  writeLog: (message: string) => void
+) => {
   const options = {
     cwd: magentoDirName,
     shell: true
@@ -47,7 +51,13 @@ const handleGraphQL = async (magentoDirName: string) => {
       picocolors.cyan(t('command.generate_store.progress.graphql_start'))
     );
 
-    child.stdout.on('data', () => {});
+    child.stdout.on('data', (data) => {
+      writeLog(data.toString());
+    });
+
+    child.stderr.on('data', (data) => {
+      writeLog(data.toString());
+    });
 
     child.on('exit', async (code) => {
       console.log(picocolors.red(code));
@@ -61,6 +71,7 @@ const handleGraphQL = async (magentoDirName: string) => {
         sp.stop(
           picocolors.red(t('command.generate_store.progress.graphql_failed'))
         );
+        logSimpleInfoMessage(t('command.generate_store.magento.failed_log'));
         reject();
       }
     });

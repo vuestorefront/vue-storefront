@@ -10,6 +10,7 @@ import { checkExistingDockerContainers } from '../docker';
 const getMagentoDirName = async (message: string): Promise<string> => {
   const magentoDirName = await text({
     message,
+    initialValue: 'magento',
     validate: (value?: string): string | void => {
       if (!value?.trim()) {
         return t<string>('domain.project_name.is_empty');
