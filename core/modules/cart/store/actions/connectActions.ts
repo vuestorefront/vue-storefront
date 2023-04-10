@@ -41,11 +41,12 @@ const connectActions = {
       await dispatch('applyCoupon', coupon)
     }
   },
-  async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false, mergeQty = false }) {
+  async connect ({ getters, rootGetters, dispatch, commit }, { guestCart = false, forceClientState = false, mergeQty = false }) {
     if (!getters.isCartSyncEnabled) return
     const cartToken = getters.getCartToken;
     const isCartEmpty = !getters.getCartItems.length;
     const shouldMergeCart = cartToken && !isCartEmpty;
+    const isUserInCheckout = rootGetters['checkout/isUserInCheckout'];
 
     const cartActionPromise = shouldMergeCart
       ? CartService.mergeGuestAndCustomer()
@@ -60,6 +61,10 @@ const connectActions = {
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result)
 
       if (shouldMergeCart) {
+        if (isUserInCheckout) {
+          return dispatch('sync', { forceClientState: true });
+        }
+
         return dispatch('pullServerCart');
       }
 
