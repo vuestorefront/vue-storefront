@@ -1,10 +1,5 @@
 name: Check licenses
 description: Analyses software licenses of dependencies used in the project
-inputs:
-  startPath:
-    description: The path used in analysis
-    default: './'
-    required: true
 runs:
   using: 'node16'
   main: 'dist/index.js'
