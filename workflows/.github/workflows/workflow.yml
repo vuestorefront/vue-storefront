@@ -12,6 +12,8 @@ on:
       NPM_EMAIL:
         description: 'repository NPM_EMAIL secret passed on'
         required: true
+      GITHUB_TOKEN:
+        required: true      
 
 jobs:
   setup:
@@ -40,6 +42,7 @@ jobs:
           config_path: "./.eslintrc.json"
           ignore_path: "./.eslintignore"
           reporter: "github-check"
+          token: ${{ secrets.GITHUB_TOKEN }}
           file_extensions: |
             **/*.ts
             **/*.vue
