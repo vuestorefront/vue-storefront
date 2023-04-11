@@ -1,9 +1,0 @@
-name: 'Detect Circular Dependencies'
-description: 'Detects Circular Dependencies in the projects'
-inputs:
-  filesPath:
-    description: 'Path to application source directory'
-    required: true
-runs:
-  using: 'node16'
-  main: 'dist/index.js'
