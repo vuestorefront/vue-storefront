@@ -1,8 +1,8 @@
 {
-  "name": "@vue-storefront/circular-dependency-action",
+  "name": "@vue-storefront/check-licenses",
   "version": "0.0.1",
   "private": true,
-  "homepage": "https://github.com/vuestorefront/engineering-toolkit/packages/circular-dependency-action",
+  "homepage": "https://github.com/vuestorefront/engineering-toolkit/github-actions/check-licenses",
   "main": "lib/index.js",
   "contributors": [
     {
@@ -16,15 +16,16 @@
     "build": "yarn compile && yarn package"
   },
   "keywords": [
-    "circular-dependency",
+    "license-checker",
     "dpdm"
   ],
   "dependencies": {
     "@actions/core": "^1.10.0",
     "@actions/github": "^5.1.1",
-    "dpdm": "^3.13.0"
+    "license-checker": "^25.0.1"
   },
   "devDependencies": {
+    "@types/license-checker": "^25.0.3",
     "@vercel/ncc": "^0.36.1",
     "typescript": "^5.0.3"
   }
