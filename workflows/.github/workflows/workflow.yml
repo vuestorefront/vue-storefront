@@ -39,7 +39,6 @@ jobs:
         with:
           config_path: "./.eslintrc.json"
           ignore_path: "./.eslintignore"
-          reporter: "github-check"
           token: ${{ secrets.GITHUB_TOKEN }}
           file_extensions: |
             **/*.ts
