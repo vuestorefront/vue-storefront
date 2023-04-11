@@ -38,7 +38,7 @@ jobs:
         uses: tj-actions/eslint-changed-files@v18
         with:
           config_path: "./eslintrc.json"
-          ignore_path: "/.eslintignore"
+          ignore_path: "./eslintignore"
           file_extensions: |
-            packages/**/*.ts
-            packages/**/*.vue
+            **/*.ts
+            **/*.vue
