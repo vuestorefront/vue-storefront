@@ -11,7 +11,7 @@
     }
   ],
   "scripts": {
-    "package": "ncc build --license licenses.txt",
+    "package": "ncc build --license licenses.txt --no-source-map-register",
     "compile": "tsc",
     "build": "yarn compile && yarn package"
   },
