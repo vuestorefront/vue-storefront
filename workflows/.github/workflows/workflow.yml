@@ -17,17 +17,23 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout code 🛎️
         uses: actions/checkout@v3
-        with:
-          fetch-depth: "0"
 
-      - name: Setup node
+      - name: Setup node 🏗️
         uses: actions/setup-node@v1
         with:
           node-version: '16'
 
-      - name: Install dependencies
+      - name: Get cache 🗄️
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install dependencies 🔧
+        if: steps.cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
           npm install -g npm-cli-login
