@@ -54,4 +54,10 @@ jobs:
         shell: bash
         run: |
           npm install -g dpdm
-          npx dpdm packages/**/*.{ts,vue} -T --exit-code circular:1 --no-warning --no-tree 
+          npx dpdm packages/**/*.{ts,vue} -T --exit-code circular:1 --no-warning --no-tree
+          
+      - name: Check licenses 🧪
+        shell: bash
+        run: |
+          npm install -g license-checker
+          npx license-checker --onlyAllow ISC;MIT;BSD-2-Clause;BSD-3-Clause;Apache-2.0  
