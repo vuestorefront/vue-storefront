@@ -1,7 +1,7 @@
 {
     "$schema": "https://json.schemastore.org/tsconfig",
     "compilerOptions": {
-      "target": "es6",                      
+      "target": "es5",                      
       "module": "commonjs",                  
       "outDir": "./lib",                      
       "rootDir": "./src",                     
