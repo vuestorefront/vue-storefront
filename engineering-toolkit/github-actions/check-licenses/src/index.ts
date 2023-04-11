@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import checker from 'license-checker';
+import process from 'node:process';
 
 const ALLOWED_LICENSES = [
  "CC-BY-3.0",
@@ -23,10 +24,9 @@ const ALLOWED_LICENSES = [
 
 async function run(): Promise<void> {
   try {
-    const startPath = core.getInput('startPath');
     core.info('Checking licenses used in the project');
     checker.init({
-      start: startPath,
+      start: process.cwd(),
       summary: true,
       onlyAllow: ALLOWED_LICENSES.join(';')
   }, function(error, packages) {

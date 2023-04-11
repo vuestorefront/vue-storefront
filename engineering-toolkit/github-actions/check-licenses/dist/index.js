@@ -71,6 +71,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var core = __importStar(__nccwpck_require__(7117));
 var license_checker_1 = __importDefault(__nccwpck_require__(8554));
+var node_process_1 = __importDefault(__nccwpck_require__(7742));
 var ALLOWED_LICENSES = [
     "CC-BY-3.0",
     "Public Domain",
@@ -92,13 +93,11 @@ var ALLOWED_LICENSES = [
 ];
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var startPath;
         return __generator(this, function (_a) {
             try {
-                startPath = core.getInput('startPath');
                 core.info('Checking licenses used in the project');
                 license_checker_1.default.init({
-                    start: startPath,
+                    start: node_process_1.default.cwd(),
                     summary: true,
                     onlyAllow: ALLOWED_LICENSES.join(';')
                 }, function (error, packages) {
@@ -18662,6 +18661,14 @@ module.exports = require("module");
 
 "use strict";
 module.exports = require("net");
+
+/***/ }),
+
+/***/ 7742:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("node:process");
 
 /***/ }),
 
