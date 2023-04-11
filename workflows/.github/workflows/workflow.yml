@@ -60,4 +60,4 @@ jobs:
         shell: bash
         run: |
           npm install -g license-checker
-          npx license-checker --onlyAllow 'Apache-2.0;ISC;MIT;BSD-2-Clause;BSD-3-Clause;CC0-1.0;UNKNOWN;Custom: https://docs.vuestorefront.io/;Custom: https://nuxtjs.org;CC-BY-4.0;LGPL-3.0' --summary
+          npx license-checker --onlyAllow '0BSD;Artistic-2.0;Unlicense;Apache-2.0;ISC;MIT;BSD-2-Clause;BSD-3-Clause;CC0-1.0;UNKNOWN;Custom: https://docs.vuestorefront.io/;Custom: https://nuxtjs.org;CC-BY-4.0;LGPL-3.0' --summary
