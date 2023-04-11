@@ -8,6 +8,7 @@ async function run(): Promise<void> {
     const tree = await parseDependencyTree(filesPath, {});
     
     core.info('Test message');
+    core.info(JSON.stringify(tree));
     const circulars = parseCircular(tree);
     core.info(prettyCircular(circulars));
 
