@@ -60,4 +60,4 @@ jobs:
         shell: bash
         run: |
           npm install -g license-checker
-          npx license-checker --onlyAllow 'Apache-2.0;ISC;MIT;BSD-2-Clause;BSD-3-Clause'
+          npx license-checker --onlyAllow 'Apache-2.0;ISC;MIT;BSD-2-Clause;BSD-3-Clause;CC0-1.0'
