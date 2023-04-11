@@ -39,6 +39,7 @@ jobs:
         with:
           config_path: "./.eslintrc.json"
           ignore_path: "./.eslintignore"
+          reporter: "github-check"
           file_extensions: |
             **/*.ts
             **/*.vue
