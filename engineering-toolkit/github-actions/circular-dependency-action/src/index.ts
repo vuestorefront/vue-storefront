@@ -10,6 +10,12 @@ async function run(): Promise<void> {
     core.info('Test message');
     core.info(JSON.stringify(tree));
     const circulars = parseCircular(tree);
+
+    core.info('-------');
+    core.info(circulars.length);
+
+    core.info('-------');
+
     core.info(prettyCircular(circulars));
 
   } catch (error) {
