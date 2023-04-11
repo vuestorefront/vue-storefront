@@ -5,7 +5,7 @@ try {
   const filesPath = core.getInput('filesPath');
   parseDependencyTree(filesPath, {}).then((tree: any) => {
     const circulars = parseCircular(tree);
-    console.log(prettyCircular(circulars));
+    core.info(prettyCircular(circulars));
   });
 } catch (error) {
   core.setFailed(error.message);
