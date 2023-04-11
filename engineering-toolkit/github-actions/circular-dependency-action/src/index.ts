@@ -1,12 +1,19 @@
 import * as core from '@actions/core';
 const { parseDependencyTree, parseCircular, prettyCircular } = require('dpdm');
 
-try {
-  const filesPath = core.getInput('filesPath');
-  parseDependencyTree(filesPath, {}).then((tree: any) => {
+
+async function run(): Promise<void> {
+  try {
+    const filesPath = core.getInput('filesPath');
+    const tree = await parseDependencyTree(filesPath, {});
+    
+    core.info('Test message');
     const circulars = parseCircular(tree);
     core.info(prettyCircular(circulars));
-  });
-} catch (error) {
-  core.setFailed(error.message);
+
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
+
+run();
