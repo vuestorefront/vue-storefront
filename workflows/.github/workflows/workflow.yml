@@ -49,3 +49,9 @@ jobs:
           file_extensions: |
             **/*.ts
             **/*.vue
+            
+      - name: Detect circular dependencies 🔄
+        shell: bash
+        run: |
+          npm install -g dpdm
+          npx dpdm packages/**/*.{ts,vue} -T --exit-code circular:1 --no-warning --no-tree 
