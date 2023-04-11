@@ -1,0 +1,10 @@
+name: Continous Integration
+
+on:
+  workflow_call:
+
+jobs:
+  setup:
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
