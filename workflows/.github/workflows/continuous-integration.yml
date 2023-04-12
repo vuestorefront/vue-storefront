@@ -14,7 +14,7 @@ on:
         required: true    
 
 jobs:
-  setup:
+  setup_environment:
     name: Setup environment
     runs-on: ubuntu-latest
     steps:
@@ -42,8 +42,8 @@ jobs:
           yarn --frozen-lockfile
   
   eslint-staged:
-    name: Api-Client Unit Tests
-    needs: setup
+    name: Eslint Staged
+    needs: setup_environment
     runs-on: ubuntu-latest
     steps:
       - name: Run linter on changed files 🧹
@@ -58,7 +58,7 @@ jobs:
             
   circular-dependencies:
     name: Circular dependencies
-    needs: setup
+    needs: setup_environment
     runs-on: ubuntu-latest   
     steps:
       - name: Detect circular dependencies 🔄
@@ -68,7 +68,7 @@ jobs:
           
   check-licenses:
     name: Check licenses
-    needs: setup
+    needs: setup_environment
     runs-on: ubuntu-latest   
     steps:         
       - name: Check licenses 🧪
