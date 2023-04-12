@@ -37,7 +37,7 @@ async function run(): Promise<void> {
           core.error(error.message);
           core.setFailed(error.message);
         } else {
-          core.info(JSON.stringify(packages));
+          core.info(JSON.stringify(packages.summary, null, 4));
         }
       },
     );
