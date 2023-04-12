@@ -12,10 +12,7 @@ module.exports = {
       },
     },
   ],
-  extends: [
-    "@vue/typescript/recommended",
-    "plugin:vue/strongly-recommended",
-  ],
+  extends: ["@vue/typescript/recommended", "plugin:vue/strongly-recommended"],
   rules: {
     /* Disallow use other than available lang */
     "vue/block-lang": [

@@ -3,6 +3,6 @@ module.exports = {
     require.resolve("./ecma.js"),
     require.resolve("./typescript.js"),
     require.resolve("./json.js"),
-    require.resolve("./prettier.js")
+    require.resolve("./prettier.js"),
   ],
 };
