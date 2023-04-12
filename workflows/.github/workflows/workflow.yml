@@ -51,7 +51,7 @@ jobs:
             **/*.vue
             
       - name: Detect circular dependencies 🔄
-        uses: vuestorefront/engineering-toolkit/github-actions/circular-dependencies@1.0.1
+        uses: vuestorefront/engineering-toolkit/github-actions/circular-dependencies@1.0.2
         with:
           filesPath: 'packages/**/*.{ts,vue}'
           
