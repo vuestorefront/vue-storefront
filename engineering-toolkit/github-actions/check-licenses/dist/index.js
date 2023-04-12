@@ -108,7 +108,7 @@ function run() {
                         core.setFailed(error.message);
                     }
                     else {
-                        core.info(JSON.stringify(packages));
+                        core.info(JSON.stringify(packages.summary, null, 4));
                     }
                 });
             }
