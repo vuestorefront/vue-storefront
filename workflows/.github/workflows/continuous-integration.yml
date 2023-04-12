@@ -15,6 +15,7 @@ on:
 
 jobs:
   setup:
+    name: Setup environment
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code 🛎️
@@ -39,7 +40,12 @@ jobs:
           npm install -g npm-cli-login
           npm-cli-login -u ${{ secrets.NPM_USER }} -p ${{ secrets.NPM_PASS }} -e ${{ secrets.NPM_EMAIL }} -r https://registrynpm.storefrontcloud.io
           yarn --frozen-lockfile
-
+  
+  eslint-staged:
+    name: Api-Client Unit Tests
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
       - name: Run linter on changed files 🧹
         uses: tj-actions/eslint-changed-files@v18
         with:
@@ -50,11 +56,21 @@ jobs:
             **/*.ts
             **/*.vue
             
+  circular-dependencies:
+    name: Circular dependencies
+    needs: setup
+    runs-on: ubuntu-latest   
+    steps:
       - name: Detect circular dependencies 🔄
         uses: vuestorefront/engineering-toolkit/github-actions/circular-dependencies@1.0.3
         with:
           filesPath: 'packages/**/*.{ts,vue}'
           
+  check-licenses:
+    name: Check licenses
+    needs: setup
+    runs-on: ubuntu-latest   
+    steps:         
       - name: Check licenses 🧪
         uses: vuestorefront/engineering-toolkit/github-actions/check-licenses@1.0.5
         with:
