@@ -23,10 +23,11 @@ const ALLOWED_LICENSES = [
 ];
 
 async function run(): Promise<void> {
+  const startPath = core.getInput('startPath');
   try {
-    core.info('Checking licenses used in the project');
+    core.info(`Checking licenses used in the project: ${startPath}`);
     checker.init({
-      start: process.cwd(),
+      start: startPath,
       summary: true,
       onlyAllow: ALLOWED_LICENSES.join(';')
   }, function(error, packages) {
