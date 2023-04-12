@@ -2,7 +2,7 @@ name: Check licenses
 description: Analyses software licenses of dependencies used in the project
 inputs:
   projectPath:
-    description: Path to start checking dependencies from
+    description: The path to the project root directory
     required: true
 runs:
   using: 'node16'
