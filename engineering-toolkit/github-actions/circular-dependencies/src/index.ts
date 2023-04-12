@@ -1,17 +1,17 @@
-import * as core from '@actions/core';
-import { parseDependencyTree, parseCircular, prettyCircular } from 'dpdm';
+import * as core from "@actions/core";
+import { parseDependencyTree, parseCircular, prettyCircular } from "dpdm";
 
 async function run(): Promise<void> {
   try {
-    const filesPath = core.getInput('filesPath');
+    const filesPath = core.getInput("filesPath");
     const tree = await parseDependencyTree(filesPath, {});
     const circulars = parseCircular(tree);
 
     if (circulars.length) {
-      core.setFailed('Detected circular dependencies');
+      core.setFailed("Detected circular dependencies");
       core.info(prettyCircular(circulars));
     } else {
-      core.info('No circular dependencies');
+      core.info("No circular dependencies");
     }
   } catch (error) {
     core.setFailed(error.message);

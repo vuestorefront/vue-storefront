@@ -8,7 +8,7 @@
   "scripts": {
     "prepare": "npx husky install",
     "commit": "npx git-cz",
-    "prettier": "prettier --write 'packages/**/*.{js,ts,tsx,mdx,json}'"
+    "prettier": "prettier --write '{packages,github-actions}/**/*.{js,ts,tsx,mdx,json}'"
   },
   "workspaces": {
     "packages": [

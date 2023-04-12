@@ -1,7 +1,7 @@
 name: Check licenses
 description: Analyses software licenses of dependencies used in the project
 inputs:
-  startPath:
+  projectPath:
     description: Path to start checking dependencies from
     required: true
 runs:
