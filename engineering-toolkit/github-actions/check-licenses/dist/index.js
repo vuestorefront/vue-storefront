@@ -72,39 +72,40 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 var core = __importStar(__nccwpck_require__(7117));
 var license_checker_1 = __importDefault(__nccwpck_require__(8554));
 var ALLOWED_LICENSES = [
-    "CC-BY-3.0",
-    "Public Domain",
-    "BSD*",
-    "0BSD",
     "Artistic-2.0",
     "Apache-2.0",
-    "Unlicense",
-    "ISC",
-    "MIT",
     "BSD-2-Clause",
     "BSD-3-Clause",
+    "BSD*",
+    "0BSD",
+    "CC-BY-3.0",
     "CC0-1.0",
-    "UNKNOWN",
     "Custom: https://docs.vuestorefront.io/",
     "Custom: https://nuxtjs.org",
     "CC-BY-4.0",
+    "Unlicense",
+    "ISC",
+    "MIT",
+    "UNKNOWN",
     "LGPL-3.0",
+    "Public Domain",
+    "Python-2.0",
 ];
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var startPath;
+        var projectPath;
         return __generator(this, function (_a) {
-            startPath = core.getInput('startPath');
+            projectPath = core.getInput("projectPath");
             try {
-                core.info("Checking licenses used in the project: ".concat(startPath));
+                core.info("Checking licenses: --projectPath ".concat(projectPath));
                 license_checker_1.default.init({
-                    start: startPath,
+                    start: projectPath,
                     summary: true,
-                    onlyAllow: ALLOWED_LICENSES.join(';')
+                    onlyAllow: ALLOWED_LICENSES.join(";"),
                 }, function (error, packages) {
                     if (error) {
                         core.error(error.message);
-                        core.setFailed('Detected circular dependencies');
+                        core.setFailed(error.message);
                     }
                     else {
                         core.info(JSON.stringify(packages));
@@ -112,8 +113,7 @@ function run() {
                 });
             }
             catch (error) {
-                core.error(error.message);
-                core.setFailed('There was an error during license check process');
+                core.setFailed(error.message);
             }
             return [2 /*return*/];
         });
