@@ -51,13 +51,11 @@ jobs:
             **/*.vue
             
       - name: Detect circular dependencies 🔄
-        shell: bash
-        run: |
-          npm install -g dpdm
-          npx dpdm packages/**/*.{ts,vue} -T --exit-code circular:1 --no-warning --no-tree
+        uses: vuestorefront/engineering-toolkit/github-actions/circular-dependencies@1.0.0
+        with:
+          filesPath: 'packages/**/*.{ts,vue}'
           
       - name: Check licenses 🧪
-        shell: bash
-        run: |
-          npm install -g license-checker
-          npx license-checker --onlyAllow 'CC-BY-3.0;Public Domain;BSD*;0BSD;Artistic-2.0;Unlicense;Apache-2.0;ISC;MIT;BSD-2-Clause;BSD-3-Clause;CC0-1.0;UNKNOWN;Custom: https://docs.vuestorefront.io/;Custom: https://nuxtjs.org;CC-BY-4.0;LGPL-3.0' --summary
+        uses: vuestorefront/engineering-toolkit/github-actions/check-licenses@1.0.0
+        with:
+          projectPath: ${{ github.workspace }}
