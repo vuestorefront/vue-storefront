@@ -25,6 +25,7 @@ const ALLOWED_LICENSES = [
   "UNKNOWN",
   "Unicode",
   "Unlicense",
+  "UNLICENSED",
   "Universal",
   "Lucent",
   "LGPL-3.0",
