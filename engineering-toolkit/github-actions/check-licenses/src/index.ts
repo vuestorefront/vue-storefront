@@ -7,6 +7,7 @@ const ALLOWED_LICENSES = [
   "BSD-2-Clause",
   "BSD-3-Clause",
   "BSD*",
+  "BlueOak-1.0.0",
   "0BSD",
   "CC-BY-3.0",
   "CC0-1.0",
@@ -33,11 +34,10 @@ async function run(): Promise<void> {
         onlyAllow: ALLOWED_LICENSES.join(";"),
       },
       function (error, packages) {
+        // @ts-ignore
+        core.info(checker.asSummary(packages));
         if (error) {
-          core.error(error.message);
           core.setFailed(error.message);
-        } else {
-          core.info(JSON.stringify(packages.summary, null, 4));
         }
       },
     );
