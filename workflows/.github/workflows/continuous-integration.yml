@@ -17,8 +17,8 @@ jobs:
   setup_environment:
     name: Setup environment
     runs-on: ubuntu-latest
-    steps:
-      - uses: ./.github/actions/setup-environment
+    steps: 
+      - uses: vuestorefront/integrations-github-workflows/.github/actions/setup-environment
         with:
           NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
           NPM_USER: ${{ secrets.NPM_USER }}
@@ -29,7 +29,7 @@ jobs:
     needs: setup_environment
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/setup-environment
+      - uses: vuestorefront/integrations-github-workflows/.github/actions/setup-environment
         with:
           NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
           NPM_USER: ${{ secrets.NPM_USER }}
@@ -49,7 +49,7 @@ jobs:
     needs: setup_environment
     runs-on: ubuntu-latest   
     steps:
-      - uses: ./.github/actions/setup-environment
+      - uses: vuestorefront/integrations-github-workflows/.github/actions/setup-environment
         with:
           NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
           NPM_USER: ${{ secrets.NPM_USER }}
@@ -64,7 +64,7 @@ jobs:
     needs: setup_environment
     runs-on: ubuntu-latest   
     steps:      
-      - uses: ./.github/actions/setup-environment
+      - uses: vuestorefront/integrations-github-workflows/.github/actions/setup-environment
         with:
           NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
           NPM_USER: ${{ secrets.NPM_USER }}
