@@ -18,34 +18,22 @@ jobs:
     name: Setup environment
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code 🛎️
-        uses: actions/checkout@v3
-
-      - name: Setup node 🏗️
-        uses: actions/setup-node@v1
+      - uses: ./.github/actions/setup-environment
         with:
-          node-version: '16'
-
-      - name: Get cache 🗄️
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Install dependencies 🔧
-        if: steps.cache.outputs.cache-hit != 'true'
-        shell: bash
-        run: |
-          npm install -g npm-cli-login
-          npm-cli-login -u ${{ secrets.NPM_USER }} -p ${{ secrets.NPM_PASS }} -e ${{ secrets.NPM_EMAIL }} -r https://registrynpm.storefrontcloud.io
-          yarn --frozen-lockfile
+          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
+          NPM_USER: ${{ secrets.NPM_USER }}
+          NPM_PASS: ${{ secrets.NPM_PASS }}
   
   eslint-staged:
     name: Eslint Staged
     needs: setup_environment
     runs-on: ubuntu-latest
     steps:
+      - uses: ./.github/actions/setup-environment
+        with:
+          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
+          NPM_USER: ${{ secrets.NPM_USER }}
+          NPM_PASS: ${{ secrets.NPM_PASS }}
       - name: Run linter on changed files 🧹
         uses: tj-actions/eslint-changed-files@v18
         with:
@@ -61,6 +49,11 @@ jobs:
     needs: setup_environment
     runs-on: ubuntu-latest   
     steps:
+      - uses: ./.github/actions/setup-environment
+        with:
+          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
+          NPM_USER: ${{ secrets.NPM_USER }}
+          NPM_PASS: ${{ secrets.NPM_PASS }}
       - name: Detect circular dependencies 🔄
         uses: vuestorefront/engineering-toolkit/github-actions/circular-dependencies@1.0.3
         with:
@@ -70,7 +63,12 @@ jobs:
     name: Check licenses
     needs: setup_environment
     runs-on: ubuntu-latest   
-    steps:         
+    steps:      
+      - uses: ./.github/actions/setup-environment
+        with:
+          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
+          NPM_USER: ${{ secrets.NPM_USER }}
+          NPM_PASS: ${{ secrets.NPM_PASS }}   
       - name: Check licenses 🧪
         uses: vuestorefront/engineering-toolkit/github-actions/check-licenses@1.0.5
         with:
