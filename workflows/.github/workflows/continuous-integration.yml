@@ -56,7 +56,7 @@ jobs:
           filesPath: 'packages/**/*.{ts,vue}'
           
       - name: Check licenses 🧪
-        uses: vuestorefront/engineering-toolkit/github-actions/check-licenses@1.0.5
+        uses: vuestorefront/engineering-toolkit/github-actions/check-licenses@develop
         with:
           projectPath: ${{ github.workspace }}
    
