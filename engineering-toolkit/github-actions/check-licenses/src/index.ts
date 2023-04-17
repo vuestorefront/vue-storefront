@@ -46,6 +46,7 @@ async function run(): Promise<void> {
       {
         start: projectPath,
         summary: true,
+        production: true,
         onlyAllow: ALLOWED_LICENSES.join(";"),
       },
       function (error, packages) {
