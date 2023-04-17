@@ -1,42 +1,8 @@
 import * as core from "@actions/core";
-import checker from "license-checker";
+import checker from "license-checker-rseidelsohn";
 
-const ALLOWED_LICENSES = [
-  "Artistic-2.0",
-  "Apache-2.0",
-  "BSD-2-Clause",
-  "BSD-3-Clause",
-  "BSD*",
-  "Boost",
-  "BlueOak-1.0.0",
-  "CC-BY-3.0",
-  "CC0-1.0",
-  "CNRI",
-  "Custom: http://www.commonjs.org/",
-  "Custom: https://docs.vuestorefront.io/",
-  "Custom: https://nuxtjs.org",
-  "CC-BY-4.0",
-  "ISC",
-  "MIT",
-  "Miros",
-  "Multics",
-  "Naumen",
-  "NTP",
-  "UNKNOWN",
-  "Unicode",
-  "Unlicense",
-  "UNLICENSED",
-  "Universal",
-  "Lucent",
-  "LGPL-3.0",
-  "Open",
-  "0BSD",
-  "OBSD",
-  "PostgreSQ",
-  "Public Domain",
-  "Python-2.0",
-  "Zope"
-];
+import { ALLOWED_LICENSES } from './licenses';
+import { EXCLUDE_NPM_PACKAGES } from './npmPackages';
 
 async function run(): Promise<void> {
   const projectPath = core.getInput("projectPath");
@@ -46,10 +12,10 @@ async function run(): Promise<void> {
       {
         start: projectPath,
         summary: true,
-        production: true,
+        excludePackagesStartingWith: EXCLUDE_NPM_PACKAGES.join(";"),
         onlyAllow: ALLOWED_LICENSES.join(";"),
       },
-      function (error, packages) {
+      (error, packages) => {
         // @ts-ignore
         core.info(checker.asSummary(packages));
         if (error) {
