@@ -117,6 +117,7 @@ function run() {
                 license_checker_1.default.init({
                     start: projectPath,
                     summary: true,
+                    production: true,
                     onlyAllow: ALLOWED_LICENSES.join(";"),
                 }, function (error, packages) {
                     // @ts-ignore
