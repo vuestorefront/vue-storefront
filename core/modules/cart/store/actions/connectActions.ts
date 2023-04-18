@@ -35,13 +35,13 @@ const connectActions = {
       await dispatch('removeCoupon', { sync: false })
     }
 
-    await dispatch('connect', { guestCart: false, mergeQty: true })
+    await dispatch('connect', { guestCart: false })
 
     if (coupon) {
       await dispatch('applyCoupon', coupon)
     }
   },
-  async connect ({ getters, rootGetters, dispatch, commit }, { guestCart = false, forceClientState = false, mergeQty = false }) {
+  async connect ({ getters, rootGetters, dispatch, commit }, { guestCart = false, forceClientState = false }) {
     if (!getters.isCartSyncEnabled) return
     const cartToken = getters.getCartToken;
     const isCartEmpty = !getters.getCartItems.length;
@@ -60,15 +60,11 @@ const connectActions = {
         : Logger.info('Server cart token created.', 'cart', result)()
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result)
 
-      if (shouldMergeCart) {
-        if (isUserInCheckout) {
-          return dispatch('sync', { forceClientState: true });
-        }
-
+      if (shouldMergeCart && !isUserInCheckout) {
         return dispatch('pullServerCart');
       }
 
-      return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault, mergeQty })
+      return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
     }
 
     if (resultCode === 401 && getters.bypassCounter < config.queues.maxCartBypassAttempts) {
