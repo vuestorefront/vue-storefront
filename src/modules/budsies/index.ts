@@ -30,7 +30,7 @@ import { ImageUploadMethod } from './types/image-upload-method.value';
 import { ProductId } from './models/product.id';
 import fillProductWithAdditionalFields from './helpers/fill-product-with-additional-fields.function';
 import BodypartOption from './types/bodypart-option';
-import ForeversWizardEvents from './types/forevers-wizard-events';
+import PlushieWizardEvents from './types/plushie-wizard-events';
 
 export const BudsiesModule: StorefrontModule = async function ({ store }) {
   StorageManager.init(types.SN_BUDSIES);
@@ -71,5 +71,5 @@ export {
   ImageUploadMethod,
   ProductId,
   BodypartOption,
-  ForeversWizardEvents
+  PlushieWizardEvents
 }
