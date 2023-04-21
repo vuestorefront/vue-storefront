@@ -3,12 +3,9 @@ enum GoogleTagManagerEvents {
   CHECKOUT_SECTION_CHANGE = 'checkoutSectionChange',
   GO_TO_CHECKOUT_FROM_CART = 'goToCheckoutFromCart',
   MAKE_ANOTHER_FROM_CART = 'makeAnotherFromCart',
-  FOREVERS_WIZARD_PHOTOS_PROVIDE = 'foreversWizardPhotosProvide',
-  FOREVERS_WIZARD_INFO_FILL = 'foreversWizardInfoFill',
-  FOREVERS_WIZARD_TYPE_CHANGE = 'foreversWizardTypeChange',
-  GOLF_COVERS_WIZARD_PHOTOS_PROVIDE = 'golfCoversWizardPhotosProvide',
-  GOLF_COVERS_WIZARD_INFO_FILL = 'golfCoversWizardInfoFill',
-  GOLF_COVERS_WIZARD_TYPE_CHANGE = 'golfCoversWizardTypeChange'
+  PLUSHIE_WIZARD_PHOTOS_PROVIDE = 'WizardPhotosProvide',
+  PLUSHIE_WIZARD_INFO_FILL = 'WizardInfoFill',
+  PLUSHIE_WIZARD_TYPE_CHANGE = 'WizardTypeChange',
 }
 
 export default GoogleTagManagerEvents;

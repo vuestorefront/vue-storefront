@@ -19,43 +19,16 @@ export default class EventBusListener {
 
   public initEventBusListeners (): void {
     EventBus.$on(
-      PlushieWizardEvents.FOREVERS_PHOTOS_PROVIDE,
-      (uploadName: string) => this.onPlushieWizardPhotosProvideEventHandler(
-        GoogleTagManagerEvents.FOREVERS_WIZARD_PHOTOS_PROVIDE,
-        uploadName
-      )
+      PlushieWizardEvents.PLUSHIE_WIZARD_PHOTOS_PROVIDE,
+      this.onPlushieWizardPhotosProvideEventHandler.bind(this)
     );
     EventBus.$on(
-      PlushieWizardEvents.FOREVERS_INFO_FILL,
-      () => this.gtm.trackEvent({
-        event: GoogleTagManagerEvents.FOREVERS_WIZARD_INFO_FILL
-      })
-    );
-    EventBus.$on(PlushieWizardEvents.FOREVERS_TYPE_CHANGE,
-      (type: string) => this.onPlushieWizardTypeChangeEventHandler(
-        GoogleTagManagerEvents.FOREVERS_WIZARD_TYPE_CHANGE,
-        type
-      )
-    );
-
-    EventBus.$on(
-      PlushieWizardEvents.GOLF_COVERS_PHOTOS_PROVIDE,
-      (uploadName: string) => this.onPlushieWizardPhotosProvideEventHandler(
-        GoogleTagManagerEvents.GOLF_COVERS_WIZARD_PHOTOS_PROVIDE,
-        uploadName
-      )
+      PlushieWizardEvents.PLUSHIE_WIZARD_INFO_FILL,
+      this.onPlushieWizardInfoFillEventHandler.bind(this)
     );
     EventBus.$on(
-      PlushieWizardEvents.GOLF_COVERS_INFO_FILL,
-      () => this.gtm.trackEvent({
-        event: GoogleTagManagerEvents.GOLF_COVERS_WIZARD_INFO_FILL
-      })
-    );
-    EventBus.$on(PlushieWizardEvents.GOLF_COVERS_TYPE_CHANGE,
-      (type: string) => this.onPlushieWizardTypeChangeEventHandler(
-        GoogleTagManagerEvents.GOLF_COVERS_WIZARD_TYPE_CHANGE,
-        type
-      )
+      PlushieWizardEvents.PLUSHIE_WIZARD_TYPE_CHANGE,
+      this.onPlushieWizardTypeChangeEventHandler.bind(this)
     );
 
     EventBus.$on('order-after-placed', this.onOrderAfterPlacedEventHandler.bind(this));
@@ -119,17 +92,32 @@ export default class EventBusListener {
     });
   }
 
-  private onPlushieWizardPhotosProvideEventHandler (event: GoogleTagManagerEvents, uploadMethodName: string) {
+  private onPlushieWizardInfoFillEventHandler (plushieType: string) {
+    const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_INFO_FILL}`;
+
+    this.gtm.trackEvent({
+      event
+    })
+  }
+
+  private onPlushieWizardPhotosProvideEventHandler (
+    { uploadName, plushieType }:
+    { uploadName: string, plushieType: string }
+  ) {
+    const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_PHOTOS_PROVIDE}`;
+
     this.gtm.trackEvent({
       event,
-      [`${event}.methodName`]: uploadMethodName
+      [`${event}.methodName`]: uploadName
     });
   }
 
-  private onPlushieWizardTypeChangeEventHandler (event: GoogleTagManagerEvents, type: string) {
+  private onPlushieWizardTypeChangeEventHandler ({ plushieType, productType }: {plushieType: string, productType: string}) {
+    const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_TYPE_CHANGE}`;
+
     this.gtm.trackEvent({
       event,
-      [`${event}.typeName`]: type
+      [`${event}.typeName`]: productType
     })
   }
 

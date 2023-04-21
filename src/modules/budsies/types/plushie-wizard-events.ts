@@ -1,10 +1,7 @@
 enum PlushieWizardEvents {
-  FOREVERS_PHOTOS_PROVIDE = 'foreversWizardPhotosProvide',
-  FOREVERS_INFO_FILL = 'foreversWizardInfoFill',
-  FOREVERS_TYPE_CHANGE = 'foreversWizardTypeChange',
-  GOLF_COVERS_PHOTOS_PROVIDE = 'golfCoversWizardPhotosProvide',
-  GOLF_COVERS_INFO_FILL = 'golfCoversWizardInfoFill',
-  GOLF_COVERS_TYPE_CHANGE = 'golfCoversWizardTypeChange'
+  PLUSHIE_WIZARD_PHOTOS_PROVIDE = 'plushieWizardPhotosProvide',
+  PLUSHIE_WIZARD_INFO_FILL = 'plushieWizardInfoFill',
+  PLUSHIE_WIZARD_TYPE_CHANGE = 'plushieWizardTypeChange',
 }
 
 export default PlushieWizardEvents;
