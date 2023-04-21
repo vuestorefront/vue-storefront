@@ -101,14 +101,14 @@ export default class EventBusListener {
   }
 
   private onPlushieWizardPhotosProvideEventHandler (
-    { uploadName, plushieType }:
-    { uploadName: string, plushieType: string }
+    { uploadMethod, plushieType }:
+    { uploadMethod: string, plushieType: string }
   ) {
     const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_PHOTOS_PROVIDE}`;
 
     this.gtm.trackEvent({
       event,
-      [`${event}.methodName`]: uploadName
+      [`${event}.methodName`]: uploadMethod
     });
   }
 
