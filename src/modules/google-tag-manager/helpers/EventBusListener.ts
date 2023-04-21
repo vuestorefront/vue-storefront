@@ -8,7 +8,7 @@ import { SearchQuery } from 'storefront-query-builder';
 
 import getCookieByName from 'src/modules/shared/helpers/get-cookie-by-name.function';
 import CartEvents from 'src/modules/shared/types/cart-events';
-import { ForeversWizardEvents } from 'src/modules/budsies';
+import { PlushieWizardEvents } from 'src/modules/budsies';
 
 import GoogleTagManagerEvents from '../types/GoogleTagManagerEvents';
 
@@ -18,14 +18,29 @@ export default class EventBusListener {
   public constructor (private store: Store<any>, private gtm: typeof VueGtm) {}
 
   public initEventBusListeners (): void {
-    EventBus.$on(ForeversWizardEvents.PHOTOS_PROVIDE, this.onForeversWizardPhotosProvideEventHandler.bind(this));
-    EventBus.$on(ForeversWizardEvents.INFO_FILL, this.onForeversWizardInfoFillEventHandler.bind(this));
-    EventBus.$on(ForeversWizardEvents.TYPE_CHANGE, this.onForeversWizardTypeChangeEventHandler.bind(this));
+    EventBus.$on(
+      PlushieWizardEvents.PLUSHIE_WIZARD_PHOTOS_PROVIDE,
+      this.onPlushieWizardPhotosProvideEventHandler.bind(this)
+    );
+    EventBus.$on(
+      PlushieWizardEvents.PLUSHIE_WIZARD_INFO_FILL,
+      this.onPlushieWizardInfoFillEventHandler.bind(this)
+    );
+    EventBus.$on(
+      PlushieWizardEvents.PLUSHIE_WIZARD_TYPE_CHANGE,
+      this.onPlushieWizardTypeChangeEventHandler.bind(this)
+    );
+
     EventBus.$on('order-after-placed', this.onOrderAfterPlacedEventHandler.bind(this));
     EventBus.$on('checkout-after-paymentDetails', this.onCheckoutAfterPaymentDetailsEventHandler.bind(this));
     EventBus.$on('checkout-after-personalDetails', this.onCheckoutAfterPersonalDetailsEventHandler.bind(this));
     EventBus.$on('checkout-after-shippingDetails', this.onCheckoutAfterShippingDetailsEventHandler.bind(this));
-    EventBus.$on(CartEvents.GO_TO_CHECKOUT_FROM_CART, this.onGoToCheckoutFromCartEventHandler.bind(this))
+    EventBus.$on(
+      CartEvents.GO_TO_CHECKOUT_FROM_CART,
+      () => this.gtm.trackEvent({
+        event: GoogleTagManagerEvents.GO_TO_CHECKOUT_FROM_CART
+      })
+    );
     EventBus.$on(CartEvents.MAKE_ANOTHER_FROM_CART, this.onMakeAnotherFromCartEventHandler.bind(this))
   }
 
@@ -77,31 +92,32 @@ export default class EventBusListener {
     });
   }
 
-  private onForeversWizardPhotosProvideEventHandler (uploadMethodName: string) {
-    const event = GoogleTagManagerEvents.FOREVERS_WIZARD_PHOTOS_PROVIDE;
-    this.gtm.trackEvent({
-      event,
-      [`${event}.methodName`]: uploadMethodName
-    });
-  }
+  private onPlushieWizardInfoFillEventHandler (plushieType: string) {
+    const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_INFO_FILL}`;
 
-  private onForeversWizardInfoFillEventHandler () {
     this.gtm.trackEvent({
-      event: GoogleTagManagerEvents.FOREVERS_WIZARD_INFO_FILL
-    });
-  }
-
-  private onForeversWizardTypeChangeEventHandler (type: string) {
-    const event = GoogleTagManagerEvents.FOREVERS_WIZARD_TYPE_CHANGE;
-    this.gtm.trackEvent({
-      event,
-      [`${event}.typeName`]: type
+      event
     })
   }
 
-  private onGoToCheckoutFromCartEventHandler () {
+  private onPlushieWizardPhotosProvideEventHandler (
+    { uploadMethod, plushieType }:
+    { uploadMethod: string, plushieType: string }
+  ) {
+    const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_PHOTOS_PROVIDE}`;
+
     this.gtm.trackEvent({
-      event: GoogleTagManagerEvents.GO_TO_CHECKOUT_FROM_CART
+      event,
+      [`${event}.methodName`]: uploadMethod
+    });
+  }
+
+  private onPlushieWizardTypeChangeEventHandler ({ plushieType, productType }: {plushieType: string, productType: string}) {
+    const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_TYPE_CHANGE}`;
+
+    this.gtm.trackEvent({
+      event,
+      [`${event}.typeName`]: productType
     })
   }
 
