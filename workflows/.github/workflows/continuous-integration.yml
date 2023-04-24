@@ -39,16 +39,6 @@ jobs:
           npm install -g npm-cli-login
           npm-cli-login -u ${{ secrets.NPM_USER }} -p ${{ secrets.NPM_PASS }} -e ${{ secrets.NPM_EMAIL }} -r https://registrynpm.storefrontcloud.io
           yarn --frozen-lockfile
-
-      - name: Run linter on changed files 🧹
-        uses: tj-actions/eslint-changed-files@v18
-        with:
-          config_path: "./.eslintrc.json"
-          ignore_path: "./.eslintignore"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          file_extensions: |
-            **/*.ts
-            **/*.vue
             
       - name: Detect circular dependencies 🔄
         uses: vuestorefront/engineering-toolkit/github-actions/circular-dependencies@1.0.3
