@@ -87,6 +87,13 @@ export default class GenerateStore extends Command {
       }
 
       if (isInstallMagento) {
+        if (process.platform === 'win32') {
+          logSimpleWarningMessage(
+            t('command.generate_store.message.windows_not_supported')
+          );
+          process.exit(0);
+        }
+
         await checkDocker(writeLog);
 
         const { magentoDirName, magentoAccessKey, magentoSecretKey } =
