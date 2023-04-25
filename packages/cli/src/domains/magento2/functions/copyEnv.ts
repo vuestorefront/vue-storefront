@@ -31,7 +31,9 @@ const copyEnv = async (vsfDirName: string, magentoDomain?: string) => {
     process.exit(1);
   }
 
-  fs.rmdirSync(path.join(vsfDirName, '.env.example'));
+  if (fs.existsSync(path.join(vsfDirName, '.env.example'))) {
+    fs.rmSync(path.join(vsfDirName, '.env.example'));
+  }
 };
 
 export default copyEnv;

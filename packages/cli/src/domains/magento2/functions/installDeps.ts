@@ -15,7 +15,10 @@ const installDeps = async (
   const sp = spinner();
 
   return new Promise((resolve) => {
-    const install = spawn('yarn', options);
+    const install =
+      process.platform === 'win32'
+        ? spawn('yarn.cmd', [], options)
+        : spawn('yarn', [], options);
 
     sp.start(
       picocolors.cyan(t('command.generate_store.progress.install_deps_start'))
