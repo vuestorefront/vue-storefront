@@ -32,7 +32,7 @@ export const handleProjectDiretoryExists = async ({
       sp.start(
         picocolors.cyan(t('command.generate_store.progress.delete_start'))
       );
-      await fs.rmSync(projectDir, { recursive: true, force: true });
+      await fs.rmdirSync(projectDir, { recursive: true });
       await fs.mkdirSync(projectDir);
       sp.stop(
         picocolors.green(t('command.generate_store.progress.delete_end'))

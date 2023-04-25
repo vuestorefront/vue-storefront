@@ -20,7 +20,10 @@ const checkYarnVersion = (yarnString: string): boolean => {
 const checkYarn = async (
   writeLog: (message: string) => void
 ): Promise<void> => {
-  const yarn = spawn('yarn', ['-v']);
+  const yarn =
+    process.platform === 'win32'
+      ? spawn('yarn.cmd', ['--version'])
+      : spawn('yarn', ['--version']);
 
   yarn.stdout.on('data', (data) => {
     if (!checkYarnVersion(data.toString())) {
