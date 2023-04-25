@@ -34,7 +34,7 @@ const confirmOverwrite = async ({
     sp.start(
       picocolors.cyan(t('command.generate_store.progress.delete_start'))
     );
-    await fs.rmSync(magentoDirName, { recursive: true, force: true });
+    await fs.rmdirSync(magentoDirName, { recursive: true });
     await fs.mkdirSync(magentoDirName);
     sp.stop(picocolors.green(t('command.generate_store.progress.delete_end')));
     newMagentoDirName = magentoDirName;
