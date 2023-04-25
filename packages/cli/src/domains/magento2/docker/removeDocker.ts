@@ -11,7 +11,7 @@ const removeDockerContainer = async (magentoDirName: string): Promise<any> => {
     const removeDocker = spawn('docker-compose', ['rm', '-f'], options);
 
     removeDocker.on('exit', () => {
-      fs.rmdirSync(magentoDirName, { recursive: true });
+      fs.rmSync(magentoDirName, { recursive: true });
     });
   });
 };

@@ -73,7 +73,7 @@ DESCRIPTION
   Display help for @vue-storefront/cli.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.16/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.18/src/commands/help.ts)_
 
 ## `@vue-storefront/cli init`
 
@@ -85,7 +85,7 @@ EXAMPLES
   $ @vue-storefront/cli init
 ```
 
-_See code: [dist/commands/init.ts](https://github.com/vuestorefront/vue-storefront/blob/v3.0.0/dist/commands/init.ts)_
+_See code: [dist/commands/init.ts](https://github.com/vuestorefront/vue-storefront/blob/v4.1.1-next.0/dist/commands/init.ts)_
 
 ## `@vue-storefront/cli plugins`
 
@@ -105,7 +105,7 @@ EXAMPLES
   $ @vue-storefront/cli plugins
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.1.5/src/commands/plugins/index.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.1.7/src/commands/plugins/index.ts)_
 
 ## `@vue-storefront/cli plugins:install PLUGIN...`
 
@@ -352,5 +352,5 @@ EXAMPLES
     $ @vue-storefront/cli update --available
 ```
 
-_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.0.4/src/commands/update.ts)_
+_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.0.6/src/commands/update.ts)_
 <!-- commandsstop -->
