@@ -1,13 +1,13 @@
 {
   "name": "@vue-storefront/circular-dependencies",
-  "version": "0.0.1",
+  "version": "1.0.6",
   "private": true,
   "homepage": "https://github.com/vuestorefront/engineering-toolkit/github-actions/circular-dependencies",
   "main": "lib/index.js",
   "contributors": [
     {
       "name": "Maciej Rybaniec",
-      "email": "maciej.rybaniec@gmail.com"
+      "email": "mrybaniec@vuestorefront.io"
     }
   ],
   "scripts": {

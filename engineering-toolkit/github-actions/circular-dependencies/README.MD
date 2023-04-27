@@ -15,3 +15,10 @@ uses: vuestorefront/engineering-toolkit/github-actions/circular-dependencies@mai
 with:
   filesPath: 'packages/**/*.{ts,vue}'
 ```
+
+### Deployment
+
+1. Run `build` command to create GitHub actions distribution
+2. Update `package.json` version property
+3. Commit `dist` directory
+4. Create Git tag and push changes
