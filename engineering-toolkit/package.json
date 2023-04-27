@@ -8,7 +8,9 @@
   "scripts": {
     "prepare": "npx husky install",
     "commit": "npx git-cz",
-    "prettier": "prettier --write '{packages,github-actions}/**/*.{js,ts,tsx,mdx,json}'"
+    "lint": "npx turbo run build",
+    "format": "npx turbo run format",
+    "build": "npx turbo run build"
   },
   "workspaces": {
     "packages": [
@@ -24,13 +26,15 @@
     "cz-conventional-changelog": "^3.3.0",
     "git-cz": "^4.9.0",
     "husky": "^8.0.3",
-    "prettier": "^2.8.7"
+    "lint-staged": "^13.2.2",
+    "turbo": "^1.9.3"
   },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
+  "packageManager": "yarn@3.4.1",
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

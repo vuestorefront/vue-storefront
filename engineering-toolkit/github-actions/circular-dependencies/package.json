@@ -2,8 +2,10 @@
   "name": "@vue-storefront/circular-dependencies",
   "version": "1.0.6",
   "private": true,
+  "type": "module",
   "homepage": "https://github.com/vuestorefront/engineering-toolkit/github-actions/circular-dependencies",
   "main": "lib/index.js",
+  "prettier": "@vue-storefront/prettier-config",
   "contributors": [
     {
       "name": "Maciej Rybaniec",
@@ -11,8 +13,10 @@
     }
   ],
   "scripts": {
+    "format": "prettier --write .",
     "package": "ncc build --license licenses.txt --no-source-map-register",
     "compile": "tsc",
+    "lint": "eslint --fix .",
     "build": "yarn compile && yarn package"
   },
   "keywords": [
@@ -26,6 +30,8 @@
   },
   "devDependencies": {
     "@vercel/ncc": "^0.36.1",
+    "eslint": "8.38.0",
+    "prettier": "^2.8.7",
     "typescript": "^5.0.3"
   }
 }
