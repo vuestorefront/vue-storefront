@@ -16,3 +16,10 @@ uses: vuestorefront/engineering-toolkit/github-actions/check-licenses@main
 with:
   projectPath: ${{ github.workspace }}
 ```
+
+### Deployment
+
+1. Run `build` command to create GitHub actions distribution
+2. Update `package.json` version property
+3. Commit `dist` directory
+4. Create Git tag and push changes

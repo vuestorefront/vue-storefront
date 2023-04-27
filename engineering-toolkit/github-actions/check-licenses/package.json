@@ -1,13 +1,13 @@
 {
   "name": "@vue-storefront/check-licenses",
-  "version": "0.0.1",
+  "version": "1.0.6",
   "private": true,
   "homepage": "https://github.com/vuestorefront/engineering-toolkit/github-actions/check-licenses",
   "main": "lib/index.js",
   "contributors": [
     {
       "name": "Maciej Rybaniec",
-      "email": "maciej.rybaniec@gmail.com"
+      "email": "mrybaniec@vuestorefront.io"
     }
   ],
   "scripts": {
@@ -16,8 +16,7 @@
     "build": "yarn compile && yarn package"
   },
   "keywords": [
-    "license-checker",
-    "dpdm"
+    "license-checker"
   ],
   "dependencies": {
     "@actions/core": "^1.10.0",
