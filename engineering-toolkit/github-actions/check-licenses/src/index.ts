@@ -1,8 +1,8 @@
 import * as core from "@actions/core";
 import checker from "license-checker-rseidelsohn";
 
-import { ALLOWED_LICENSES } from './licenses';
-import { EXCLUDE_NPM_PACKAGES } from './npmPackages';
+import { ALLOWED_LICENSES } from "./licenses.js";
+import { EXCLUDE_NPM_PACKAGES } from "./npmPackages.js";
 
 async function run(): Promise<void> {
   const projectPath = core.getInput("projectPath");
@@ -16,7 +16,7 @@ async function run(): Promise<void> {
         onlyAllow: ALLOWED_LICENSES.join(";"),
       },
       (error, packages) => {
-        // @ts-ignore
+        // @ts-expect-error: the library definition is wrong
         core.info(checker.asSummary(packages));
         if (error) {
           core.setFailed(error.message);
@@ -28,4 +28,4 @@ async function run(): Promise<void> {
   }
 }
 
-run();
+await run();

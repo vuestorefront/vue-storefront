@@ -7,7 +7,7 @@ async function run(): Promise<void> {
     const tree = await parseDependencyTree(filesPath, {});
     const circulars = parseCircular(tree);
 
-    if (circulars.length) {
+    if (circulars.length > 0) {
       core.warning(`Detected ${circulars.length} circular dependencies between the files`);
       core.info(prettyCircular(circulars));
     } else {
@@ -18,4 +18,4 @@ async function run(): Promise<void> {
   }
 }
 
-run();
+await run();

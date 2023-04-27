@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "target": "esnext",
+    "module": "node16",
     "outDir": "./lib",
     "rootDir": "./src",
     "noImplicitAny": true,

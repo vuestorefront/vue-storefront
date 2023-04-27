@@ -1,0 +1,5 @@
+.eslintrc.cjs 24ms
+action.yml 15ms
+package.json 3ms
+src/index.ts 90ms
+tsconfig.json 4ms

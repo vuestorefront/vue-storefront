@@ -5,5 +5,5 @@ inputs:
     description: The path to the project root directory
     required: true
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: "node16"
+  main: "dist/index.js"
