@@ -220,7 +220,11 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     const cartStorage = StorageManager.get('cart');
     const customerEmail = await budsiesStorage.getItem('customer-email');
     const cartTokenFromLocalStorage = await cartStorage.getItem('current-cart-token');
-    const cartTokenFromCookies = Vue.$cookies.get(getCartTokenCookieKey());
+    let cartTokenFromCookies = Vue.$cookies.get(getCartTokenCookieKey());
+
+    if (cartTokenFromCookies === 'null') {
+      cartTokenFromCookies = null;
+    }
 
     if (!cartTokenFromLocalStorage && cartTokenFromCookies) {
       await cartStorage.setItem('current-cart-token', cartTokenFromCookies);
