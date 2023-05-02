@@ -7,6 +7,8 @@ import * as types from '../store/mutation-types'
 import getCartTokenCookieKey from './get-cart-token-cookie-key.function';
 
 export function cacheHandlerFactory (Vue) {
+  const cartTokenCookieKey = getCartTokenCookieKey();
+
   return (mutation, state) => {
     const type = mutation.type;
 
@@ -17,7 +19,23 @@ export function cacheHandlerFactory (Vue) {
     }
 
     if (type.endsWith(CART_LOAD_CART_SERVER_TOKEN)) {
-      return Vue.$cookies.set(getCartTokenCookieKey(), mutation.payload, '3m', null, null, null, 'Strict')
+      const token = mutation.payload;
+
+      if (!token) {
+        return Vue.$cookies.remove(
+          cartTokenCookieKey
+        )
+      }
+
+      return Vue.$cookies.set(
+        cartTokenCookieKey,
+        token,
+        '3m',
+        null,
+        null,
+        null,
+        'Strict'
+      )
     }
   }
 }
