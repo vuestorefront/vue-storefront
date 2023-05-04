@@ -18,9 +18,9 @@ export const actions: ActionTree<PromotionPlatformState, any> = {
   },
   async fetchActiveCampaign (
     { commit },
-    cartId: string
+    { cartId, userToken }: {cartId: string, userToken?: string}
   ): Promise<void> {
-    const content = await PromotionPlatformService.fetchActiveCampaign(cartId);
+    const content = await PromotionPlatformService.fetchActiveCampaign(cartId, userToken);
 
     commit(types.SET_CAMPAIGN_CONTENT, content.campaignContent);
     commit(types.SET_CAMPAIGN_TOKEN, content.campaignToken);

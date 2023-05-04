@@ -87,8 +87,12 @@ export const PromotionPlatformService = {
 
     return parseResponseData(responseData);
   },
-  async fetchActiveCampaign (cartId: string): Promise<CampaignsGetAPIResponse> {
+  async fetchActiveCampaign (cartId: string, userToken?: string): Promise<CampaignsGetAPIResponse> {
     let url = processURLAddress(`${config.budsies.endpoint}/promotion-platform/quotes-campaigns?cartId=${cartId}`);
+
+    if (userToken) {
+      url += `&token=${userToken}`;
+    }
 
     const response = await fetch(url, {
       method: 'GET',

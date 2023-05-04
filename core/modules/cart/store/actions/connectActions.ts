@@ -47,6 +47,7 @@ const connectActions = {
     const isCartEmpty = !getters.getCartItems.length;
     const shouldMergeCart = cartToken && !isCartEmpty;
     const isUserInCheckout = rootGetters['checkout/isUserInCheckout'];
+    const userToken = rootGetters['user/getToken'];
 
     const cartActionPromise = shouldMergeCart
       ? CartService.mergeGuestAndCustomer()
@@ -60,7 +61,7 @@ const connectActions = {
         : Logger.info('Server cart token created.', 'cart', result)()
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result)
 
-      await dispatch('promotion-platform/fetchActiveCampaign', result);
+      await dispatch('promotionPlatform/fetchActiveCampaign', {cartId: result, userToken}, {root: true});
 
       if (shouldMergeCart && !isUserInCheckout) {
         return dispatch('pullServerCart');
