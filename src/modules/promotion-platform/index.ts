@@ -19,7 +19,7 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
   if (!app.$isServer) {
     EventBus.$once('cart-created', async (cartToken: string) => {
       await store.dispatch(`${SN_PROMOTION_PLATFORM}/synchronize`);
-      store.dispatch(`${SN_PROMOTION_PLATFORM}/fetchCampaignContent`, { dataParam: app.$route.query.data, cartId: cartToken });
+      store.dispatch(`${SN_PROMOTION_PLATFORM}/updateActiveCampaign`, { dataParam: app.$route.query.data, cartId: cartToken });
       initEventBusListeners(store, app);
     });
 
