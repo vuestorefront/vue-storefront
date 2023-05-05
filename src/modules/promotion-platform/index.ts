@@ -23,6 +23,12 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
       initEventBusListeners(store, app);
     });
 
+    EventBus.$on(
+      'cart-connected',
+      (payload: {cartId: string, userToken: string}) =>
+        store.dispatch('fetchActiveCampaign', payload)
+    );
+
     store.subscribe((mutation) => {
       if (mutation.type === `cart/${CART_ADD_ITEM}`) {
         if (!isCustomProduct(mutation.payload.product.id)) {

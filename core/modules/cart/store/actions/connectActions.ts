@@ -61,7 +61,7 @@ const connectActions = {
         : Logger.info('Server cart token created.', 'cart', result)()
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result)
 
-      await dispatch('promotionPlatform/fetchActiveCampaign', {cartId: result, userToken}, {root: true});
+      EventBus.$emit('cart-connected', {cartId: result, userToken});
 
       if (shouldMergeCart && !isUserInCheckout) {
         return dispatch('pullServerCart');
