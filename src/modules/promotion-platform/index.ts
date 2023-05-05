@@ -26,7 +26,7 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
     EventBus.$on(
       'cart-connected',
       (payload: {cartId: string, userToken: string}) =>
-        store.dispatch('fetchActiveCampaign', payload)
+        store.dispatch(`${SN_PROMOTION_PLATFORM}/fetchActiveCampaign`, payload)
     );
 
     store.subscribe((mutation) => {
