@@ -1,8 +1,0 @@
-.eslintrc.cjs 23ms
-action.yml 15ms
-lint-staged.config.mjs 2ms
-package.json 2ms
-src/index.ts 90ms
-src/licenses.ts 4ms
-src/npmPackages.ts 2ms
-tsconfig.json 2ms
