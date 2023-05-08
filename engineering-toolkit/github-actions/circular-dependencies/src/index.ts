@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-top-level-await */
 import * as core from "@actions/core";
 import { parseDependencyTree, parseCircular, prettyCircular } from "dpdm";
 
@@ -18,4 +19,4 @@ async function run(): Promise<void> {
   }
 }
 
-await run();
+run();
