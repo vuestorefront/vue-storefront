@@ -33,6 +33,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+/* eslint-disable unicorn/prefer-top-level-await */
 const core = __importStar(__nccwpck_require__(7117));
 const license_checker_rseidelsohn_1 = __importDefault(__nccwpck_require__(9989));
 const licenses_js_1 = __nccwpck_require__(3560);
