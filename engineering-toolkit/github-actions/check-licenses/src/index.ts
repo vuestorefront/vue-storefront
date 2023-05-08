@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-top-level-await */
 import * as core from "@actions/core";
 import checker from "license-checker-rseidelsohn";
 
@@ -28,4 +29,4 @@ async function run(): Promise<void> {
   }
 }
 
-await run();
+run();

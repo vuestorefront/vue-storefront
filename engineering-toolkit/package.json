@@ -8,7 +8,7 @@
   "scripts": {
     "prepare": "npx husky install",
     "commit": "npx git-cz",
-    "lint": "npx turbo run build",
+    "lint": "npx turbo run lint",
     "format": "npx turbo run format",
     "build": "npx turbo run build"
   },

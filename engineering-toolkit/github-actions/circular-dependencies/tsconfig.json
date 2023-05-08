@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "target": "esnext",
-    "module": "node16",
+    "module": "commonjs",
     "outDir": "./lib",
     "rootDir": "./src",
     "noImplicitAny": true,

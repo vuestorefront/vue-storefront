@@ -2,7 +2,6 @@
   "name": "@vue-storefront/circular-dependencies",
   "version": "1.0.6",
   "private": true,
-  "type": "module",
   "homepage": "https://github.com/vuestorefront/engineering-toolkit/github-actions/circular-dependencies",
   "main": "lib/index.js",
   "prettier": "@vue-storefront/prettier-config",
