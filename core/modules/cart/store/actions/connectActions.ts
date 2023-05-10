@@ -61,13 +61,16 @@ const connectActions = {
         : Logger.info('Server cart token created.', 'cart', result)()
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result)
 
-      EventBus.$emit('cart-connected', {cartId: result, userToken});
+      let diffLog;
 
       if (shouldMergeCart && !isUserInCheckout) {
-        return dispatch('pullServerCart');
+        diffLog = await dispatch('pullServerCart');
+      } else {
+        diffLog = await dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
       }
 
-      return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
+      EventBus.$emit('cart-connected', {cartId: result, userToken});
+      return diffLog;
     }
 
     if (resultCode === 401 && getters.bypassCounter < config.queues.maxCartBypassAttempts) {
