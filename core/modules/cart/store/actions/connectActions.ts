@@ -47,6 +47,7 @@ const connectActions = {
     const isCartEmpty = !getters.getCartItems.length;
     const shouldMergeCart = cartToken && !isCartEmpty;
     const isUserInCheckout = rootGetters['checkout/isUserInCheckout'];
+    const userToken = rootGetters['user/getToken'];
 
     const cartActionPromise = shouldMergeCart
       ? CartService.mergeGuestAndCustomer()
@@ -60,11 +61,16 @@ const connectActions = {
         : Logger.info('Server cart token created.', 'cart', result)()
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result)
 
+      let diffLog;
+
       if (shouldMergeCart && !isUserInCheckout) {
-        return dispatch('pullServerCart');
+        diffLog = await dispatch('pullServerCart');
+      } else {
+        diffLog = await dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
       }
 
-      return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
+      EventBus.$emit('cart-connected', {cartId: result, userToken});
+      return diffLog;
     }
 
     if (resultCode === 401 && getters.bypassCounter < config.queues.maxCartBypassAttempts) {

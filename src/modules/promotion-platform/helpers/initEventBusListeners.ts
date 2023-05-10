@@ -54,6 +54,6 @@ export default function initEventBusListeners (store: Store<RootState>, app: Vue
   })
 
   EventBus.$on('after-cart-recovery', (cartToken: string) => {
-    store.dispatch('promotionPlatform/fetchCampaignContent', { dataParam: app.$route.query.data, cartId: cartToken });
+    store.dispatch('promotionPlatform/updateActiveCampaign', { dataParam: app.$route.query.data, cartId: cartToken });
   })
 }
