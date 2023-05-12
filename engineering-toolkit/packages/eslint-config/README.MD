@@ -8,7 +8,7 @@
 
 #### Install
 ```bash
-yarn add -D eslint @vue-storefront/eslint-config
+yarn add -D eslint prettier @vue-storefront/eslint-config
 ```
 
 #### Config `.eslintrc`
