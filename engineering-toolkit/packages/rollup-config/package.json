@@ -1,7 +1,10 @@
 {
   "name": "@vue-storefront/rollup-config",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "build": "rimraf ./lib && tsc",
     "prepublish": "yarn build"
@@ -17,9 +20,6 @@
     "rollup",
     "rollup-config",
     "vuestorefront"
-  ],
-  "files": [
-    "*.js"
   ],
   "engines": {
     "node": ">=16.0.0"
