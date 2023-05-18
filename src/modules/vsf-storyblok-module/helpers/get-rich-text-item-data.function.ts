@@ -11,7 +11,8 @@ export default function getRichTextItemData (data: any): RichTextItem {
     case 'horizontal_rule':
       return {
         id: uuidv4(),
-        component: 'hr'
+        component: genericComponentTag,
+        rootTagName: 'hr'
       }
     case 'blockquote':
       return {
