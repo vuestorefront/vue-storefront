@@ -31,6 +31,7 @@ export enum ProductValue {
   FIGURINES = '33',
   PETSIES_BOBBLEHEADS = '34',
   PETSIES_FIGURINES = '35',
+  PAJAMAS = '36',
   GOLF_COVERS_DOG = '37',
   GOLF_COVERS_CAT = '38',
   GOLF_COVERS_OTHER = '39'
