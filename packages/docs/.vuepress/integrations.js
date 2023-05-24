@@ -72,9 +72,9 @@ const INTEGRATIONS = {
     },
     {
       name: 'Sylius',
-      link: 'https://github.com/BitBagCommerce/SyliusVueStorefront2Plugin',
+      link: 'https://vsf2-docs.bitbag.io/',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed6275b7df0e61000941a54_sylius_logo.svg',
-      status: STATUS.BETA,
+      status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
       maintainedBy: [{ name: 'BitBag', link: 'https://bitbag.io/' }],
     },
