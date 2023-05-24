@@ -1,8 +1,8 @@
 import { t, TFunction } from 'i18next';
 import { stdin, MockSTDIN } from 'mock-stdin';
-import { wait } from '../../../src/domains/async';
-import { identity } from '../../../src/domains/math';
-import { getProjectName } from '../../../src/domains/project-name';
+import { wait } from '../../../src/domains/generate/async';
+import { identity } from '../../../src/domains/generate/math';
+import { getProjectName } from '../../../src/domains/generate/project-name';
 
 jest.mock('i18next');
 

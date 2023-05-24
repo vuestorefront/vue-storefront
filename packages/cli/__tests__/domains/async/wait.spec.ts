@@ -1,4 +1,4 @@
-import { wait } from '../../../src/domains/async';
+import { wait } from '../../../src/domains/generate/async';
 import { performance } from 'perf_hooks';
 
 describe('wait | unit tests', () => {

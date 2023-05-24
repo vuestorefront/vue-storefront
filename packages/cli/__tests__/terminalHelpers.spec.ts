@@ -1,4 +1,4 @@
-import { simpleLog } from '../src/domains/magento2/functions/terminalHelpers';
+import { simpleLog } from '../src/domains/generate/magento2/functions/terminalHelpers';
 
 describe('terminalHelpers | Terminal logger tests', () => {
   let output = '';

@@ -10,17 +10,24 @@ interface CreateIntegrationBoilerplateOptions {
 
 export const createIntegrationBoilerplate = async ({
   projectDir,
-  framework,
+  framework
 }: CreateIntegrationBoilerplateOptions): Promise<string> => {
   const sp = spinner();
 
-  log(`Creating integration boilerplate in ${picocolors.green(projectDir)} directory${framework ? `, using ${picocolors.green(framework)} framework...` : ''}`);
+  log(
+    `Creating integration boilerplate in ${picocolors.green(
+      projectDir
+    )} directory${
+      framework ? `, using ${picocolors.green(framework)} framework...` : ''
+    }`
+  );
 
   sp.start('Cloning integration boilerplate...');
   await cloneGitRepository({
     projectDir: projectDir,
     ref: 'feat/dx-audit',
-    gitRepositoryURL: 'https://github.com/vuestorefront/integration-boilerplate.git',
+    gitRepositoryURL:
+      'https://github.com/vuestorefront/integration-boilerplate.git'
   });
   sp.stop('Integration boilerplate has been cloned successfully!');
 
@@ -29,4 +36,4 @@ export const createIntegrationBoilerplate = async ({
   await removeUnwantedFiles(projectDir);
 
   return projectDir;
-}
+};

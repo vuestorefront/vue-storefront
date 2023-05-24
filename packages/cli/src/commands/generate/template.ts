@@ -1,9 +1,9 @@
 import * as path from 'path';
 import { Command, Flags } from '@oclif/core';
 import { t } from 'i18next';
-import { getDirectory } from '../../domains/directory';
-import { getProjectName } from '../../domains/project-name';
-import { inheritTheme } from '../../domains/theme';
+import { getDirectory } from '../../domains/generate/directory';
+import { getProjectName } from '../../domains/generate/project-name';
+import { inheritTheme } from '../../domains/generate/theme';
 
 export default class GenerateTemplate extends Command {
   static override description = t('command.generate_template.description');

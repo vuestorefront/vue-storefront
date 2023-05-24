@@ -3,32 +3,32 @@ import { t } from 'i18next';
 import * as path from 'path';
 import { intro, isCancel, spinner, note } from '@clack/prompts';
 import picocolors from 'picocolors';
-import { getIntegration } from '../../domains/integration';
-import { getProjectName } from '../../domains/project-name';
+import { getIntegration } from '../../domains/generate/integration';
+import { getProjectName } from '../../domains/generate/project-name';
 import {
   cloneGitRepository,
   terminateGitRepository
-} from '../../domains/git-repository';
+} from '../../domains/generate/git-repository';
 import {
   copyEnv,
   installMg2Prompt,
   getMagentoDetails
-} from '../../domains/magento2/functions';
+} from '../../domains/generate/magento2/functions';
 import {
   logSimpleWarningMessage,
   simpleLog
-} from '../../domains/magento2/functions/terminalHelpers';
+} from '../../domains/generate/magento2/functions/terminalHelpers';
 
-import { installMagento } from '../../domains/magento2/installMagento';
+import { installMagento } from '../../domains/generate/magento2/installMagento';
 import {
   checkDocker,
   getMagentoDomainName
-} from '../../domains/magento2/docker';
-import installDeps from '../../domains/magento2/functions/installDeps';
-import checkNode from '../../domains/magento2/functions/checkNode';
-import checkYarn from '../../domains/magento2/functions/checkYarn';
-import { handleProjectDiretoryExists } from '../../domains/directory/handleProjectDiretoryExists';
-import { initLogger } from '../../domains/logging/logger';
+} from '../../domains/generate/magento2/docker';
+import installDeps from '../../domains/generate/magento2/functions/installDeps';
+import checkNode from '../../domains/generate/magento2/functions/checkNode';
+import checkYarn from '../../domains/generate/magento2/functions/checkYarn';
+import { handleProjectDiretoryExists } from '../../domains/generate/directory/handleProjectDiretoryExists';
+import { initLogger } from '../../domains/generate/logging/logger';
 
 export default class GenerateStore extends Command {
   static override description = t('command.generate_store.description');

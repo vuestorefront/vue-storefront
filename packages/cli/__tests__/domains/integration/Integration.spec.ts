@@ -1,4 +1,4 @@
-import type { Integration } from '../../../src/domains/integration';
+import type { Integration } from '../../../src/domains/generate/integration';
 
 type Assert<A, B> = [B] extends [A] ? true : false;
 

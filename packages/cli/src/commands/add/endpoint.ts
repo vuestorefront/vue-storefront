@@ -1,8 +1,7 @@
 import { Command } from '@oclif/core';
-import { existsDirectory } from '../../utils';
+import { existsDirectory, log } from '../../utils';
 import { makeMethod } from '../../domains/add/endpoint';
 import { endpointName } from '../../domains/add/endpoint/helpers';
-import { note } from '@clack/prompts';
 
 export default class AddEndpoint extends Command {
   static override description = 'Create new endpoint boilerplate code';
@@ -11,7 +10,7 @@ export default class AddEndpoint extends Command {
   static override args = [
     {
       name: 'name',
-      description: 'Name of the endpoint',
+      description: 'Name of the endpoint'
     }
   ];
 
@@ -30,7 +29,9 @@ export default class AddEndpoint extends Command {
     if (isPackagesDirExists && isPlaygroundDirExists) {
       await makeMethod(name);
     } else {
-      note('Please run this command in the root directory of the SDK Integration Boilerplate!');
+      log(
+        'Please run this command in the root directory of the SDK Integration Boilerplate!'
+      );
     }
 
     process.exit(0);
