@@ -7,7 +7,7 @@ import { t } from 'i18next';
 import handleMagentoKeys from '../prompts/handleMagentoKeys';
 import { note } from '@clack/prompts';
 
-const getMagentoDetails = async (projectName: string) => {
+const getMagentoDetails = async (projectName?: string) => {
   let magentoAccessKey: string;
   let magentoSecretKey: string;
 
