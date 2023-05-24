@@ -24,8 +24,6 @@ export default class M2Only extends Command {
 
     intro('Welcome to the Magento 2 local instance installer!');
 
-    await checkNode(writeLog);
-    await checkYarn(writeLog);
     await checkDocker(writeLog);
 
     const { magentoDirName, magentoAccessKey, magentoSecretKey } =
