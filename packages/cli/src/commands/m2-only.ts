@@ -1,8 +1,6 @@
 import { intro } from '@clack/prompts';
 import { Command } from '@oclif/core';
 import { initLogger } from '../domains/logging/logger';
-import checkNode from '../domains/magento2/functions/checkNode';
-import checkYarn from '../domains/magento2/functions/checkYarn';
 import { checkDocker, getMagentoDomainName } from '../domains/magento2/docker';
 import { getMagentoDetails } from '../domains/magento2/functions';
 import { installMagento } from '../domains/magento2/installMagento';
