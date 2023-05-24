@@ -42,9 +42,6 @@ export default class M2Only extends Command {
 
     deleteLog();
 
-    simpleLog('Magento 2 local instance installed!');
-    simpleLog('');
-
     simpleLog('Happy coding! 🎉', picocolors.green);
 
     this.exit(0);
