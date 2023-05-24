@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/check-licenses",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": true,
   "homepage": "https://github.com/vuestorefront/engineering-toolkit/github-actions/check-licenses",
   "main": "lib/index.js",
