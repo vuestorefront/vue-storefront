@@ -1,0 +1,26 @@
+{
+  "name": "@vue-storefront/api-extractor-config",
+  "version": "0.0.3",
+  "main": "./src/index.json",
+  "files": [
+    "src"
+  ],
+  "homepage": "https://github.com/vuestorefront/engineering-toolkit/packages/api-extractor-config",
+  "contributors": [
+    {
+      "name": "Wojciech Sikora",
+      "email": "wsikora@vuestorefront.io"
+    }
+  ],
+  "keywords": [
+    "api-extractor",
+    "api-extractor-config",
+    "vuestorefront"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
