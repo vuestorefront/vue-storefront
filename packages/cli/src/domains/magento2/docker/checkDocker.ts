@@ -26,10 +26,10 @@ const checkDocker = async (
 
   if (!isDockerInstalled) {
     writeLog(
-      'Docker is not installed or not running. Please make sure that prerequisites are complied with and run command again. For more information, please visit https://docs.vuestorefront.io/magento/installation-setup/configure-magento.html'
+      'Docker is not installed or not running. Please make sure that prerequisites are complied with and run command again.'
     );
     logSimpleErrorMessage(
-      'Docker is not installed or not running. Please make sure that prerequisites are complied with and run command again. For more information, please visit https://docs.vuestorefront.io/magento/installation-setup/configure-magento.html'
+      'Docker is not installed or not running. Please make sure that prerequisites are complied with and run command again.'
     );
     logSimpleInfoMessage(t('command.generate_store.magento.failed_log'));
     process.exit(1);
