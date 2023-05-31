@@ -36,7 +36,10 @@ export const mappingFallbackForUrlRewrite = async (
   if (!isServer) {
     return {
       name: 'url-rewrite',
-      path: `/${targetPath}/`
+      path: `/${url}/`,
+      params: {
+        targetPath: `/${targetPath}/`
+      }
     };
   }
 
