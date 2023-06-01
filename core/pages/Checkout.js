@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { router } from '@vue-storefront/core/app';
 import i18n from '@vue-storefront/i18n'
 import config from 'config'
 import VueOfflineMixin from 'vue-offline/mixin'
@@ -367,8 +368,14 @@ export default {
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      if (context) context.output.cacheTags.add(`checkout`)
-      if (context) context.server.response.redirect(localizedRoute('/'))
+      if (!context) {
+        resolve();
+      }
+
+      const resolvedRoute = router.resolve({ name: 'detailed-cart' });
+
+      context.output.cacheTags.add(`checkout`)
+      context.server.response.redirect(localizedRoute(resolvedRoute.href));
       resolve()
     })
   }
