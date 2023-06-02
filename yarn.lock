@@ -2340,9 +2340,9 @@
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.7.11.tgz#e0c1bc240dd9489332673ff6cb9f7e2b135aa436"
   integrity sha512-X55W8/UveA3+VP0RXkAqMrB4L63dd9u2wwnjTwNShLSLcYyQ1ljD7XFLZHb0i8AxdjQW71qIsprXUWqxJEQOsQ==
 
-"@storefront-ui/vue@https://gitpkg.now.sh/BudsiesApp/storefront-ui/packages/vue?a19d65957aa1b22c3eedac3c346671cb9a4b3437":
+"@storefront-ui/vue@https://gitpkg.now.sh/BudsiesApp/storefront-ui/packages/vue?1bad7f0b73b4641ecab65edcf807bc505c359eb9":
   version "0.7.11"
-  resolved "https://gitpkg.now.sh/BudsiesApp/storefront-ui/packages/vue?a19d65957aa1b22c3eedac3c346671cb9a4b3437#b5024b0d288de409784f4e98eb904db232c26af0"
+  resolved "https://gitpkg.now.sh/BudsiesApp/storefront-ui/packages/vue?1bad7f0b73b4641ecab65edcf807bc505c359eb9#ed9410511dd317da961520b3b5d1cfd346badb96"
   dependencies:
     "@glidejs/glide" "^3.3.0"
     "@storefront-ui/shared" "0.7.11"
