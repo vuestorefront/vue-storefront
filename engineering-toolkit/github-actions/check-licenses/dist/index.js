@@ -106,8 +106,7 @@ exports.ALLOWED_LICENSES = [
     "Public Domain",
     "Python-2.0",
     "Zope",
-    "WTFPL",
-    "GPL-2.0*"
+    "WTFPL"
 ];
 
 
