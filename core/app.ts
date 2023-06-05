@@ -1,6 +1,7 @@
 import { Store } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
-import Vue from 'vue'
+import Vue, { VueConstructor } from 'vue'
+import VueCompositionAPI from '@vue/composition-api'
 import { isServer } from '@vue-storefront/core/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import i18n from '@vue-storefront/i18n'
@@ -37,6 +38,9 @@ let routerProxy: VueRouter = null
 
 once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
+  Vue.use(VueCompositionAPI as unknown as { // TODO - for some reasons TS doesn't recognize type of VueCompositionAPI right
+    install: (Vue: VueConstructor) => void;
+  })
 })
 
 const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
