@@ -9,11 +9,13 @@ import { simpleLog } from '../magento2/functions/terminalHelpers';
 const validateURL = async (url: string): Promise<void | any> => {
   const error = await validateGitRepositoryURL(url);
 
-  simpleLog(
-    error instanceof git.Errors.UrlParseError
-      ? t<string>('domain.git_repository_url.is_invalid')
-      : t<string>('domain.git_repository_url.was_not_found')
-  );
+  if (error) {
+    simpleLog(
+      error instanceof git.Errors.UrlParseError
+        ? t<string>('domain.git_repository_url.is_invalid')
+        : t<string>('domain.git_repository_url.was_not_found')
+    );
+  }
 
   return error;
 };
