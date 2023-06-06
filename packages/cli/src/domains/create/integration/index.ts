@@ -25,7 +25,6 @@ export const createIntegrationBoilerplate = async ({
   sp.start('Cloning integration boilerplate...');
   await cloneGitRepository({
     projectDir: projectDir,
-    ref: 'feat/dx-audit',
     gitRepositoryURL:
       'https://github.com/vuestorefront/integration-boilerplate.git'
   });

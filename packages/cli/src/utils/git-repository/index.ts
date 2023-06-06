@@ -10,18 +10,12 @@ type Options = {
 
 /** Clones git repository to the project directory displaying a progress bar. */
 export const cloneGitRepository = async (options: Options): Promise<void> => {
-  const { projectDir, gitRepositoryURL, ref } = options;
+  const { projectDir, gitRepositoryURL } = options;
 
   await git.clone({
     fs,
     http,
     dir: projectDir,
-    url: gitRepositoryURL,
-    ref,
-    singleBranch: true,
-    onAuth: () => ({
-      username: 'skirianov',
-      password: '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'
-    })
+    url: gitRepositoryURL
   });
 };
