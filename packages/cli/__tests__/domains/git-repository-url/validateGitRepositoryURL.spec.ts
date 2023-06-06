@@ -1,4 +1,4 @@
-import { validateGitRepositoryURL } from '../../../src/domains/git-repository-url';
+import { validateGitRepositoryURL } from '../../../src/domains/generate/git-repository-url';
 import git from 'isomorphic-git';
 
 describe('validateGitRepositoryURL | unit tests', () => {

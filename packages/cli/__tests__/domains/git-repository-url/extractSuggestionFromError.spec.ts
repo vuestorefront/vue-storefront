@@ -2,9 +2,11 @@ import git from 'isomorphic-git';
 import {
   extractSuggestionFromError,
   validateGitRepositoryURL
-} from '../../../src/domains/git-repository-url';
+} from '../../../src/domains/generate/git-repository-url';
 
-jest.mock('../../../src/domains/git-repository-url/validateGitRepositoryURL');
+jest.mock(
+  '../../../src/domains/generate/git-repository-url/validateGitRepositoryURL'
+);
 
 type ValidateGitRepositoryURL = jest.MockedFunction<
   typeof validateGitRepositoryURL

@@ -1,9 +1,9 @@
 import { t, TFunction } from 'i18next';
 import { stdin, MockSTDIN } from 'mock-stdin';
-import { wait } from '../../../src/domains/async';
-import { identity } from '../../../src/domains/math';
+import { wait } from '../../../src/domains/generate/async';
+import { identity } from '../../../src/domains/generate/math';
 import mockFileSystem from 'mock-fs';
-import confirmOverwrite from '../../../src/domains/magento2/prompts/confirmOverwrite';
+import confirmOverwrite from '../../../src/domains/generate/magento2/prompts/confirmOverwrite';
 
 jest.mock('i18next');
 

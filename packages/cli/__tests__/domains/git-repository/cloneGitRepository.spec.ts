@@ -1,5 +1,5 @@
 import git from 'isomorphic-git';
-import { cloneGitRepository } from '../../../src/domains/git-repository';
+import { cloneGitRepository } from '../../../src/domains/generate/git-repository';
 
 jest.mock('isomorphic-git');
 

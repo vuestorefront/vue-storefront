@@ -1,8 +1,8 @@
 import { t, TFunction } from 'i18next';
 import { stdin, MockSTDIN } from 'mock-stdin';
-import { wait } from '../../../src/domains/async';
-import { identity } from '../../../src/domains/math';
-import getMagentoDomainName from '../../../src/domains/magento2/prompts/getMagentoDomain';
+import { wait } from '../../../src/domains/generate/async';
+import { identity } from '../../../src/domains/generate/math';
+import getMagentoDomainName from '../../../src/domains/generate/magento2/prompts/getMagentoDomain';
 
 jest.mock('i18next');
 

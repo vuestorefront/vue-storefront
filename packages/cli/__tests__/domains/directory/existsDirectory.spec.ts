@@ -1,5 +1,5 @@
 import mockFileSystem from 'mock-fs';
-import { existsDirectory } from '../../../src/domains/directory';
+import { existsDirectory } from '../../../src/domains/generate/directory';
 
 describe('existsDirectory | integration test', () => {
   beforeEach(() => {

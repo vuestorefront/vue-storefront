@@ -4,12 +4,14 @@ import { stdin, MockSTDIN } from 'mock-stdin';
 import {
   getGitRepositoryURL,
   validateGitRepositoryURL
-} from '../../../src/domains/git-repository-url';
-import { wait } from '../../../src/domains/async';
-import { identity } from '../../../src/domains/math';
+} from '../../../src/domains/generate/git-repository-url';
+import { wait } from '../../../src/domains/generate/async';
+import { identity } from '../../../src/domains/generate/math';
 
 jest.mock('i18next');
-jest.mock('../../../src/domains/git-repository-url/validateGitRepositoryURL');
+jest.mock(
+  '../../../src/domains/generate/git-repository-url/validateGitRepositoryURL'
+);
 
 const ENTER_KEY = '\x0D';
 const BACKSPACE_KEY = '\x08';
