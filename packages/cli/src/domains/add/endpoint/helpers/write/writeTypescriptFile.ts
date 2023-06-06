@@ -1,4 +1,4 @@
-import { Project } from 'ts-morph'
+import { Project } from 'ts-morph';
 
 export const writeToTypescriptFile = (path: string, endpoint: string) => {
   const fileName = path;
@@ -30,11 +30,11 @@ export const writeToTypescriptFile = (path: string, endpoint: string) => {
     name: endpointName,
     parameters: [
       { name: 'context', type: contextType },
-      { name: 'params', type: paramsType },
+      { name: 'params', type: paramsType }
     ],
-    returnType: `Promise<${returnType}>`,
+    returnType: `Promise<${returnType}>`
   });
 
   // Save the modified TypeScript file
   sourceFile.saveSync();
-}
+};

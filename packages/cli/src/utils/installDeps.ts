@@ -12,7 +12,7 @@ interface InstallDepsOptions {
 export const installDeps = async ({
   path,
   entryMessage,
-  exitMessage,
+  exitMessage
 }: InstallDepsOptions,
 packageManager: string
 ) => {

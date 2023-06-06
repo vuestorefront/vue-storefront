@@ -8,4 +8,4 @@ export const ${endpoint}: Endpoints['${endpoint}'] = async (
 
   return { data: 'Hello from ${endpoint} endpoint!' };
 };
-`
+`;

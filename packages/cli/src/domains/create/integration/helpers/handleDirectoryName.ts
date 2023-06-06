@@ -9,7 +9,7 @@ export const handleDirectoryName = async (projectDir: string): Promise<string> =
 
   if (!directoryName) {
     directoryName = await text({
-      message: 'How we will name your integration?',
+      message: 'How we will name your integration?'
     }) as string;
 
     if (isCancel(directoryName)) {
@@ -23,7 +23,7 @@ export const handleDirectoryName = async (projectDir: string): Promise<string> =
   if (isDirExists) {
     const isOverwrite = await confirm({
       message: `Directory ${directoryName} already exists. Do you want to overwrite it?`,
-      active: 'Yes',
+      active: 'Yes'
     });
 
     if (isCancel(isOverwrite)) {
@@ -33,7 +33,7 @@ export const handleDirectoryName = async (projectDir: string): Promise<string> =
 
     if (isOverwrite) {
       sp.start(
-        picocolors.cyan('deleting directory...'),
+        picocolors.cyan('deleting directory...')
       );
       await fs.rmSync(directoryName, { recursive: true, force: true });
       await fs.mkdirSync(directoryName);

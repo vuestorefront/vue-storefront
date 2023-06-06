@@ -1,7 +1,7 @@
 import { intro, isCancel, text } from '@clack/prompts';
 
 export const endpointName = async (): Promise<string> => {
-  intro('To create a new endpoint, you need to specify its name')
+  intro('To create a new endpoint, you need to specify its name');
   const name = await text({
     message: 'Enter endpoint name',
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -23,4 +23,4 @@ export const endpointName = async (): Promise<string> => {
   }
 
   return name;
-}
+};

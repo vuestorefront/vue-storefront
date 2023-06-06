@@ -19,7 +19,7 @@ export const checkCommandAndSuggest = async ({
   commands,
   commandArg,
   endpoint,
-  self,
+  self
 }: CheckCommandAndSuggest) => {
   const similarCommand = commands.find(({ command }) => isCloseEnough(commandArg, command));
 
@@ -29,7 +29,7 @@ export const checkCommandAndSuggest = async ({
     log(`Command ${picocolors.cyan('add')} ${picocolors.yellow(`${commandArg}`)} does not exist. Did you mean ${picocolors.cyan('add')} ${picocolors.green(`${command}`)}?`);
 
     const shouldRunNewCommand = await confirm({
-      message: `Do you want to run ${picocolors.green(command)} command?`,
+      message: `Do you want to run ${picocolors.green(command)} command?`
     });
 
     if (isCancel(shouldRunNewCommand) || !shouldRunNewCommand) {
@@ -47,4 +47,4 @@ export const checkCommandAndSuggest = async ({
   log(`Command ${picocolors.yellow(commandArg)} does not exist \n\nCommand list:`);
   commands.forEach(({ command }) => log(`- ${picocolors.cyan('add')} ${picocolors.green(command)}`));
   process.exit(0);
-}
+};

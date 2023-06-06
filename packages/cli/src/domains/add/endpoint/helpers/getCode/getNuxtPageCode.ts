@@ -42,4 +42,4 @@ function reset() {
   res.value = 'waiting to call ${endpoint}() ...'
 }
 </script>
-`
+`;

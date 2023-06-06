@@ -24,4 +24,4 @@ export async function ${endpoint}(props: TODO) {
   const { data } = await client.post<TODO>('${endpoint}', props);
   return data
 }
-`
+`;

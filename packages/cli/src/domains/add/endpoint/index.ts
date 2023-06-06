@@ -13,8 +13,8 @@ export const makeMethod = async (name: string) => {
     log(`Endpoint ${name} already exists`);
 
     const shouldOverwrite = await confirm({
-      message: `Do you want to overwrite ${name} enpoint?`,
-    })
+      message: `Do you want to overwrite ${name} enpoint?`
+    });
 
     if (!shouldOverwrite) {
       log('Endpoint was not created');
@@ -28,7 +28,7 @@ export const makeMethod = async (name: string) => {
   await writeSDKMethod(name, isOverwrite);
   await writePageMethod(name);
 
-  intro(`Endpoint ${name} has been created`)
+  intro(`Endpoint ${name} has been created`);
   log('Files created:');
   log(`- packages/api-client/src/api/${name}`);
   log(`- packages/sdk/src/methods/${name}`);
@@ -37,4 +37,4 @@ export const makeMethod = async (name: string) => {
   log('- packages/sdk/src/methods/index.ts');
   log('- packages/api-client/src/types/api/endpoints.ts');
   log(`Run ${picocolors.green('build')} command to build the project and ${picocolors.green('dev')} command to start the playground again`);
-}
+};

@@ -12,7 +12,7 @@ const checkPackageManager = async (packageManager: PackageManager): Promise<bool
   }
 
   return true;
-}
+};
 
 export const getPkgManager = async (pkgManager?: PackageManager): Promise<PackageManager> => {
   let packageManager = pkgManager || 'yarn';
@@ -30,7 +30,7 @@ export const getPkgManager = async (pkgManager?: PackageManager): Promise<Packag
   if (!isPackageManagerExists) {
     const useAnotherPackageManager = await confirm({
       message: `Package manager ${packageManager} not found. Do you want to use another package manager?`,
-      active: 'Yes',
+      active: 'Yes'
     });
 
     if (useAnotherPackageManager) {
@@ -48,4 +48,4 @@ export const getPkgManager = async (pkgManager?: PackageManager): Promise<Packag
   }
 
   return packageManager;
-}
+};

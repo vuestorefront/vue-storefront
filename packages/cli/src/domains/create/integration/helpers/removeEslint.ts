@@ -4,12 +4,12 @@ import path from 'path';
 const ESLINT_FILES = [
   '.eslintrc.js',
   '.eslintignore',
-  '.eslintrc.json',
+  '.eslintrc.json'
 ];
 
 const COMMITLINT_FILES = [
-  'commitlint.config.js',
-]
+  'commitlint.config.js'
+];
 
 const OTHER_FILES = [
   'CHANGELOG.md',

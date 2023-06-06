@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from 'fs';
 import { existsDirectory } from '../../../../../utils';
 import { getNuxtPageCode } from '..';
 
