@@ -1,10 +1,13 @@
 import { intro } from '@clack/prompts';
 import { Command } from '@oclif/core';
-import { initLogger } from '../domains/logging/logger';
-import { checkDocker, getMagentoDomainName } from '../domains/magento2/docker';
-import { getMagentoDetails } from '../domains/magento2/functions';
-import { installMagento } from '../domains/magento2/installMagento';
-import { simpleLog } from '../domains/magento2/functions/terminalHelpers';
+import { initLogger } from '../domains/generate/logging/logger';
+import {
+  checkDocker,
+  getMagentoDomainName
+} from '../domains/generate/magento2/docker';
+import { getMagentoDetails } from '../domains/generate/magento2/functions';
+import { installMagento } from '../domains/generate/magento2/installMagento';
+import { simpleLog } from '../domains/generate/magento2/functions/terminalHelpers';
 import picocolors from 'picocolors';
 import { t } from 'i18next';
 
