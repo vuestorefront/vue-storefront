@@ -54,6 +54,7 @@
   "dependencies": {
     "@types/webpack": "^4.41",
     "@types/webpack-dev-server": "^3.10",
+    "@vue/composition-api": "^1.7.1",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
     "apollo-link": "^1.2.13",
