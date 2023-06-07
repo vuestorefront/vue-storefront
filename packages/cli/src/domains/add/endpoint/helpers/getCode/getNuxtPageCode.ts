@@ -2,18 +2,15 @@ export const getNuxtPageCode = (endpoint: string) => `
 <template>
   <div class="flex justify-center items-center h-screen">
     <div class="p-5 w-96">
-      <p class="typography-text-xs md:typography-text-sm font-bold tracking-widest text-neutral-500 uppercase">
-        Let's go
-      </p>
       <h1 class="typography-headline-2 font-bold mt-2 mb-4 text-green-500">
         Build something amazing
       </h1>
-      <p>
+      <p class="text-gray-50">
        ${endpoint}()
       </p>
       <div class="box">
         <!-- <JsonViewer :value="jsonData" copyable boxed sort theme="light"  @onKeyClick="keyClick"/> -->
-        <h4>Response</h4>
+        <h4 class="text-gray-50">Response</h4>
         <JsonViewer class="min-h-[800px] min-w-[500px]" :value="res" expandDepth="5" expanded copyable boxed sort
           theme="dark" />
       </div>
