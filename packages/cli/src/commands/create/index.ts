@@ -5,7 +5,8 @@ import picocolors from 'picocolors';
 const EXISTING_COMMANDS = ['integration'];
 
 export default class Create extends Command {
-  static override description = 'Generate integration boilerplate';
+  static override description =
+    'Generate integration boilerplate. Usage: create integration';
   static override examples = ['<%= config.bin %> <%= command.id %>'];
   static override flags = {
     framework: Flags.string({

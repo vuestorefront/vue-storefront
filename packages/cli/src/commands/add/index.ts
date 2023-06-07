@@ -11,8 +11,11 @@ const EXISTING_COMMANDS = [
 ];
 
 export default class Add extends Command {
-  static override description = 'Create new endpoint boilerplate code';
-  static override examples = ['@vue-storefront/cli add <command> <endpoint>'];
+  static override description =
+    'Create new endpoint. Usage: add endpoint <endpoint_name>';
+  static override examples = [
+    '@vue-storefront/cli add endpoint <endpoint_name>'
+  ];
   static override flags = {};
   static override args = [
     {

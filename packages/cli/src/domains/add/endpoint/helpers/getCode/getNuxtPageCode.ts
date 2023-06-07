@@ -5,7 +5,7 @@ export const getNuxtPageCode = (endpoint: string) => `
       <p class="typography-text-xs md:typography-text-sm font-bold tracking-widest text-neutral-500 uppercase">
         Let's go
       </p>
-      <h1 class="typography-headline-2 md:typography-headline-1 md:leading-[67.5px] font-bold mt-2 mb-4">
+      <h1 class="typography-headline-2 mt-2 mb-4">
         Build something amazing
       </h1>
       <p>
