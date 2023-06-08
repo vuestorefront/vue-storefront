@@ -10,7 +10,7 @@ function createInvalidationEndpoint (driver, options) {
     return;
   }
 
-  const handler = async (request, response) => {
+  const handler = async (request, response, next) => {
     try {
       // Resolve handlers paths
       const tags = options.handlers
@@ -28,16 +28,14 @@ function createInvalidationEndpoint (driver, options) {
         tags: Array.from(new Set(tags))
       });
 
-      response
-        .status(200)
-        .send('Cache invalidated successfully!');
+      const msg = `Cache invalidated successfully! ${tags?.toString()}`;
+      console.log(msg);
+      response.end(msg);
     } catch (error) {
       Logger.error('Cache driver thrown an error when invalidating cache! Operation skipped.');
       Logger.error(error);
 
-      response
-        .status(500)
-        .send(`Cache driver thrown an error when invalidating cache! Operation skipped. ${error}`);
+      next(error);
     }
   };
 
