@@ -1,6 +1,6 @@
 import { getProductLinkPrice } from './associatedProducts/getProductLinkPrice';
 import get from 'lodash-es/get'
-import Product from '@vue-storefront/core/modules/catalog/types/Product';
+import Product, { ProductOptions } from '@vue-storefront/core/modules/catalog/types/Product';
 import { BundleOption, BundleOptionsProductLink, SelectedBundleOption } from '@vue-storefront/core/modules/catalog/types/BundleOption';
 
 export const getBundleOptionPrice = (bundleOptionValues: BundleOptionsProductLink[]) => getProductLinkPrice(bundleOptionValues)
@@ -60,4 +60,27 @@ export const getDefaultBundleOptions = (product: Product): SelectedBundleOption[
       option_selections: [Number(defaultLink.id)]
     }
   });
+}
+
+export const getDefaultProductLinkFromBundleOption = (
+  bundleOption: BundleOption
+): BundleOptionsProductLink | undefined => {
+  return bundleOption.product_links.find((productLink) => {
+    return productLink.is_default;
+  })
+}
+
+export const getSelectedProductLinkFromBundleOption = (
+  bundleOption: BundleOption,
+  productOptions: ProductOptions
+): BundleOptionsProductLink | undefined => {
+  const selectedBundleOption = productOptions.extension_attributes.bundle_options[bundleOption.option_id];
+
+  if (!selectedBundleOption) {
+    return;
+  }
+
+  return bundleOption.product_links.find((productLink) =>
+    productLink.id.toString() === selectedBundleOption.option_selections[0].toString()
+  );
 }
