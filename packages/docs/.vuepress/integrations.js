@@ -16,8 +16,6 @@ const CATEGORY = {
   PAYMENT: 'Payment',
   AUTH: 'Authentication',
   SEARCH: 'Search',
-
-  ANALYTICS: 'Analytics',
 };
 
 const INTEGRATIONS = {
