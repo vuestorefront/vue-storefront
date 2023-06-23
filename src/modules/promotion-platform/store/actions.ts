@@ -49,6 +49,7 @@ export const actions: ActionTree<PromotionPlatformState, any> = {
       Logger.info('Production Spot Countdown Expiration Date received from cache.', 'cache', lastClosedBannerVersionByUser)()
     }
 
-    EventBus.$emit('promotion-platform-store-synchronized')
+    commit(types.SET_IS_SYNCED, true);
+    EventBus.$emit('promotion-platform-store-synchronized');
   }
 }

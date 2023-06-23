@@ -14,6 +14,8 @@
 import { InjectType } from 'src/modules/shared';
 import Vue, { VueConstructor } from 'vue';
 
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+
 import { CLEAR_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, SET_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, SN_PROMOTION_PLATFORM } from '../types/StoreMutations';
 
 const timerInterval = 1000;
@@ -24,6 +26,7 @@ interface InjectedServices {
 }
 
 export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
+  name: 'ProductionSpotCountdown',
   props: {
     canShow: {
       type: Boolean,
@@ -41,6 +44,9 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
     }
   },
   computed: {
+    canTimerStart (): boolean {
+      return this.isPromotionPlatformModuleSynced && !!this.expirationMinutesCount && this.canShow;
+    },
     expirationMinutesCount (): number {
       const expirationMinutesCount = this.$store.getters['backend-settings/getSettingByCompositeKey']('promotions/productionSpotCountdown/expirationMinutesCount');
       return expirationMinutesCount || 0;
@@ -49,32 +55,35 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
       return this.$store.getters[`${SN_PROMOTION_PLATFORM}/productionSpotCountdownExpirationDate`];
     },
     formattedTimerValue (): string {
-      const minutes = Math.floor(this.timerValue / 60);
+      let minutes = Math.floor(this.timerValue / 60);
       let seconds: number | string = Math.round(this.timerValue - minutes * 60);
+
+      if (seconds === 60) {
+        seconds = 0;
+        minutes++;
+      }
 
       if (seconds < 10) {
         seconds = `0${seconds}`;
       }
 
       return `${minutes}:${seconds}`;
+    },
+    isPromotionPlatformModuleSynced (): boolean {
+      return this.$store.getters[`${SN_PROMOTION_PLATFORM}/isSynced`];
     }
   },
-  created (): void {
-    if (!this.getIsTimerCanStart) {
-      return;
-    }
-
-    this.initAndStartTimer();
+  beforeMount (): void {
+    EventBus.$on('promotion-platform-store-synchronized', this.tryStartTimer);
+    this.tryStartTimer();
   },
   beforeDestroy (): void {
+    EventBus.$off('promotion-platform-store-synchronized', this.tryStartTimer);
     this.stopTimer();
   },
   methods: {
     getIsExpired (): boolean {
       return !!this.expirationDate && this.expirationDate <= Date.now();
-    },
-    getIsTimerCanStart (): boolean {
-      return !!this.expirationMinutesCount && this.canShow;
     },
     initAndStartTimer (): void {
       if (!this.expirationDate) {
@@ -108,7 +117,7 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
       this.showTimer = true;
 
       this.timerIntervalId = this.window.setInterval(() => {
-        this.timerValue -= 1;
+        this.timerValue = (this.expirationDate - Date.now()) / 1000;
 
         if (this.timerValue <= 0) {
           this.stopTimer();
@@ -123,6 +132,13 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
 
       clearInterval(this.timerIntervalId);
       this.timerIntervalId = undefined;
+    },
+    tryStartTimer (): void {
+      if (!this.canTimerStart) {
+        return;
+      }
+
+      this.initAndStartTimer();
     },
     clearExpirationDate (): void {
       this.$store.commit(
@@ -142,7 +158,7 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
         }
       } else {
         if (!isExpired) {
-          this.initAndStartTimer();
+          this.tryStartTimer();
         }
       }
     }

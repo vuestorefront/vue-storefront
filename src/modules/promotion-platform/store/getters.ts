@@ -27,6 +27,9 @@ export const getters: GetterTree<PromotionPlatformState, any> = {
       return discountPrice;
     }
   },
+  isSynced (state): boolean {
+    return state.isSynced;
+  },
   lastClosedBannerVersionByUser (state): string | undefined {
     return state.lastClosedBannerVersionByUser;
   },
