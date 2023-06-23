@@ -12,6 +12,9 @@ export const mutations: MutationTree<PromotionPlatformState> = {
   [types.SET_CAMPAIGN_TOKEN] (state, payload: string) {
     Vue.set(state, 'campaignToken', payload)
   },
+  [types.SET_IS_SYNCED] (state, payload: boolean) {
+    state.isSynced = payload;
+  },
   [types.SET_LAST_BANNER_VERSION_CLOSED_BY_USER] (state, payload: string) {
     Vue.set(state, 'lastClosedBannerVersionByUser', payload)
   },
