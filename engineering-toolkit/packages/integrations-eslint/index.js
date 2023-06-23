@@ -37,7 +37,8 @@ module.exports = {
     'no-use-before-define': 'warn',
     camelcase: 'warn',
     'consistent-return': 'warn',
-    'default-param-last': 'warn'
+    'default-param-last': 'warn',
+    'no-return-await': 'none'
   },
   settings: {
     'import/resolver': {
