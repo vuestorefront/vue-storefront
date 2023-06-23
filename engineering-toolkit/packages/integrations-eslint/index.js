@@ -35,7 +35,8 @@ module.exports = {
     'no-param-reassign': 'warn',
     'no-shadow': 'warn',
     'no-use-before-define': 'warn',
-    camelcase: 'warn'
+    camelcase: 'warn',
+    'consistent-return': 'warn'
   },
   settings: {
     'import/resolver': {
