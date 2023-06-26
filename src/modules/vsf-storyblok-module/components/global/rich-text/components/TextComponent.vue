@@ -6,6 +6,7 @@
       v-for="part in textParts"
       :key="part.id"
       :class="part.classes"
+      :style="part.styles"
       :is="part.component"
       v-bind="part.props"
     >
@@ -55,6 +56,7 @@ interface ProcessedTextPart {
   id: string,
   text: string,
   classes: string[],
+  styles: Record<string, number | string>,
   component: string,
   props?: Record<string, any>
 }
@@ -94,7 +96,7 @@ export default Vue.extend({
         return [];
       }
 
-      return this.item.marks.filter((mark) => mark.type !== 'styled').map((mark) => {
+      return this.item.marks.filter((mark) => mark.type !== 'styled' && mark.type !== 'textStyle').map((mark) => {
         return `-${mark.type}`;
       })
     },
@@ -106,6 +108,25 @@ export default Vue.extend({
       return this.item.marks
         .filter((mark) => mark.type === 'styled')
         .map((mark) => mark.attrs?.class || '')
+    },
+    styles (): Record<string, string | number> {
+      const result: Record<string, string | number> = {};
+
+      if (!this.item.marks?.length) {
+        return result;
+      }
+
+      const textStyle = this.item.marks.find((mark) => mark.type === 'textStyle');
+
+      if (!textStyle) {
+        return result;
+      }
+
+      if (textStyle.attrs?.color) {
+        result.color = textStyle.attrs.color;
+      }
+
+      return result;
     }
   },
   serverPrefetch (): Promise<void> {
@@ -216,7 +237,8 @@ export default Vue.extend({
             id: uuidv4(),
             text: textPart,
             component: 'span',
-            classes: this.classes
+            classes: this.classes,
+            styles: this.styles
           })
           continue;
         }
@@ -247,6 +269,7 @@ export default Vue.extend({
         id: uuidv4(),
         text: '',
         classes: [],
+        styles: {},
         component: 'price-component',
         props: {
           regularPrice: regular,
@@ -267,6 +290,7 @@ export default Vue.extend({
         id: uuidv4(),
         text: prices[textPart.priceType],
         classes: this.classes,
+        styles: {},
         component: 'span'
       }
     },
