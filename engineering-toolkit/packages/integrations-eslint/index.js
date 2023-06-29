@@ -38,7 +38,8 @@ module.exports = {
     camelcase: 'warn',
     'consistent-return': 'warn',
     'default-param-last': 'warn',
-    'no-return-await': 'off'
+    'no-return-await': 'off',
+    'no-throw-literal': 'warn',
   },
   settings: {
     'import/resolver': {
