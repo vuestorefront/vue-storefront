@@ -7,6 +7,7 @@
     "./ecma": "./src/ecma.js",
     "./typescript": "./src/typescript.js",
     "./vue": "./src/vue.js",
+    "./vue3": "./src/vue3.js",
     "./react": "./src/react.js",
     "./prettier": "./src/prettier.js",
     "./json": "./src/json.js"
