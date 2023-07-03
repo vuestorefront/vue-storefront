@@ -6,12 +6,13 @@
 
 ## Usage
 
-#### Install
+### Install
+
 ```bash
 yarn add -D prettier @vue-storefront/prettier-config
 ```
 
-#### Config `prettier.config.js`
+### Config `prettier.config.js`
 
 ```javascript
 const config = require('@vuestorefront/prettier-config');
