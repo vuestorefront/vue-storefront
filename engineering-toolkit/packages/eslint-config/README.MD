@@ -7,11 +7,13 @@
 ## Usage
 
 #### Install
+
 ```bash
 yarn add -D eslint prettier @vue-storefront/eslint-config
 ```
 
 #### Config `.eslintrc`
+
 ```json
 {
   "extends": "@vue-storefront/eslint-config"
@@ -54,6 +56,19 @@ Vue Storefront `Vue` specific linting rules.
   "extends": [
     "@vue-storefront/eslint-config",
     "@vue-storefront/eslint-config/vue"
+  ]
+}
+```
+
+### Usage with Vue3 `.eslintrc`
+
+Vue Storefront `Vue3` specific linting rules.
+
+```json
+{
+  "extends": [
+    "@vue-storefront/eslint-config",
+    "@vue-storefront/eslint-config/vue3"
   ]
 }
 ```
