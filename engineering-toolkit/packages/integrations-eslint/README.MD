@@ -19,3 +19,8 @@ You need a configuration file in your package root:
   "extends": "@vue-storefront/eslint-config-integrations"
 }
 ```
+
+### Troubleshooting
+
+If you ever come across the error that `ESLint couldn't find the plugin "@typescript-eslint/eslint-plugin".`, and ./node_modules/@typescript-eslint/eslint-plugin is indeed non-existent,
+try removing eslint from the root package.json. Your package manager will then fetch the matching ESLint version that are given by this package.
