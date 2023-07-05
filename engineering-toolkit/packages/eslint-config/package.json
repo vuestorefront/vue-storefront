@@ -27,7 +27,8 @@
   ],
   "files": [
     "README.MD",
-    "*.js"
+    "*.js",
+    "src"
   ],
   "publishConfig": {
     "access": "public"
