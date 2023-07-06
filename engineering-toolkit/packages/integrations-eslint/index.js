@@ -43,7 +43,8 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "no-useless-constructor": "warn",
     "no-undef": "warn",
-    "no-empty-function": "warn"
+    "no-empty-function": "warn",
+    "import/first": "warn",
   },
   settings: {
     'import/resolver': {
