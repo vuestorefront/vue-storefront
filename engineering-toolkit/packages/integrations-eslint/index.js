@@ -45,6 +45,8 @@ module.exports = {
     "no-undef": "warn",
     "no-empty-function": "warn",
     "import/first": "warn",
+    "no-empty": "warn",
+    "import/no-dynamic-require": "warn"
   },
   settings: {
     'import/resolver': {
