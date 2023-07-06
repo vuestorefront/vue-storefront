@@ -46,7 +46,8 @@ module.exports = {
     "no-empty-function": "warn",
     "import/first": "warn",
     "no-empty": "warn",
-    "import/no-dynamic-require": "warn"
+    "import/no-dynamic-require": "warn",
+    "@typescript-eslint/no-var-requires": "warn"
   },
   settings: {
     'import/resolver': {
