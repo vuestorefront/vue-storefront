@@ -40,7 +40,10 @@ module.exports = {
     'default-param-last': 'warn',
     'no-return-await': 'off',
     'no-throw-literal': 'warn',
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-useless-constructor": "warn",
+    "no-undef": "warn",
+    "no-empty-function": "warn"
   },
   settings: {
     'import/resolver': {
