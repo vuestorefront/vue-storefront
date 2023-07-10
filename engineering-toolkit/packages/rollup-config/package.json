@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/rollup-config",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "./lib/index.js",
   "files": [
     "lib"
@@ -28,7 +28,7 @@
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "rollup": "^2.59.0",
-    "rollup-plugin-typescript2": "^0.30.0"
+    "rollup-plugin-typescript2": "^0.35.0"
   },
   "publishConfig": {
     "access": "public"
