@@ -32,6 +32,7 @@ module.exports = {
       }
     ],
     'import/no-extraneous-dependencies': 'warn',
+    '@typescript-eslint/no-non-null-assertion': 'warn',
     'no-param-reassign': 'warn',
     'no-shadow': 'warn',
     'no-use-before-define': 'warn',
