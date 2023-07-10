@@ -5,3 +5,4 @@ lib
 install-state.gz
 .turbo
 .DS_Store
+.idea
