@@ -92,7 +92,7 @@ describe('[CORE - utils] _proxyUtils', () => {
       axios: {
         baseURL: expect.any(String),
         headers: expect.objectContaining({
-          'X-Forwarded-Host': 'myforward.vsf'
+          Host: 'myforward.vsf'
         })
       }
     });
