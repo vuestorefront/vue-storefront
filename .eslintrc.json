@@ -62,7 +62,7 @@
       }
     ],
     "default-case": 0,
-    "dot-notation": 2,
+    "dot-notation": 0,
     "no-alert": 2,
     "no-empty-function": 0,
     "no-eval": 2,

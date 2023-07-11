@@ -1,8 +1,8 @@
 import { t, TFunction } from 'i18next';
 import { stdin, MockSTDIN } from 'mock-stdin';
-import { wait } from '../../../src/domains/async';
-import { identity } from '../../../src/domains/math';
-import { getProjectName } from '../../../src/domains/project-name';
+import { wait } from '../../../src/domains/generate/async';
+import { identity } from '../../../src/domains/generate/math';
+import { getProjectName } from '../../../src/domains/generate/project-name';
 
 jest.mock('i18next');
 
@@ -29,7 +29,7 @@ describe('getProjectName | integration tests', () => {
 
   it('gets project name from user', async () => {
     const answer = async () => {
-      expect(output).toContain('What is the project name?');
+      expect(output).toContain(t('command.generate_store.input.project_name'));
 
       io.send(' ');
       io.send(ENTER_KEY);
@@ -38,7 +38,8 @@ describe('getProjectName | integration tests', () => {
 
       expect(output).toContain('domain.project_name.is_empty');
 
-      io.send('PROJECT  \t NAME.');
+      io.send(BACKSPACE_KEY);
+      io.send('.');
       io.send(ENTER_KEY);
 
       await wait(100);
@@ -46,6 +47,7 @@ describe('getProjectName | integration tests', () => {
       expect(output).toContain('domain.project_name.is_not_directory');
 
       io.send(BACKSPACE_KEY);
+      io.send('project-name');
       io.send(ENTER_KEY);
 
       await wait(100);
@@ -57,7 +59,9 @@ describe('getProjectName | integration tests', () => {
 
     wait(100).then(answer);
 
-    const projectName = await getProjectName('What is the project name?');
+    const projectName = await getProjectName(
+      t('command.generate_store.input.project_name')
+    );
 
     expect(projectName).toBe('project-name');
   });

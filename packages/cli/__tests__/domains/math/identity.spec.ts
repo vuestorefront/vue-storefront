@@ -1,4 +1,4 @@
-import { identity } from '../../../src/domains/math';
+import { identity } from '../../../src/domains/generate/math';
 
 describe('identity | unit tests', () => {
   it('returns first argument', () => {

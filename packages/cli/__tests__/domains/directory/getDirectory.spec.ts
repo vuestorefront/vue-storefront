@@ -2,9 +2,9 @@ import * as path from 'path';
 import mockFS from 'mock-fs';
 import { t, TFunction } from 'i18next';
 import { stdin, MockSTDIN } from 'mock-stdin';
-import { wait } from '../../../src/domains/async';
-import { identity } from '../../../src/domains/math';
-import { getDirectory } from '../../../src/domains/directory';
+import { wait } from '../../../src/domains/generate/async';
+import { identity } from '../../../src/domains/generate/math';
+import { getDirectory } from '../../../src/domains/generate/directory';
 
 jest.mock('i18next');
 

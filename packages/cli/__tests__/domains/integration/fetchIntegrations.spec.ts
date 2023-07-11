@@ -1,4 +1,4 @@
-import { fetchIntegrations } from '../../../src/domains/integration';
+import { fetchIntegrations } from '../../../src/domains/generate/integration';
 
 describe('fetchIntegrations | integration tests', () => {
   it('fetches the integration list', async () => {

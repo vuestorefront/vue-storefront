@@ -16,8 +16,6 @@ const CATEGORY = {
   PAYMENT: 'Payment',
   AUTH: 'Authentication',
   SEARCH: 'Search',
-
-  ANALYTICS: 'Analytics',
 };
 
 const INTEGRATIONS = {
@@ -71,44 +69,12 @@ const INTEGRATIONS = {
       maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
     },
     {
-      name: 'Scayle',
-      link: '',
-      image: '/v2/integrations-logos/scayle.svg',
-      status: STATUS.WIP,
-      license: LICENSE.ENTERPRISE,
-      maintainedBy: [],
-    },
-    {
       name: 'Sylius',
-      link: 'https://vsf-sylius-docs.herokuapp.com/',
+      link: 'https://vsf2-docs.bitbag.io/',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed6275b7df0e61000941a54_sylius_logo.svg',
-      status: STATUS.BETA,
-      license: LICENSE.OPEN_SOURCE,
-      maintainedBy: [{ name: 'BitBag', link: 'https://bitbag.io/' }],
-    },
-    {
-      name: 'WooCommerce',
-      link: '',
-      image: '/v2/integrations-logos/woocommerce.svg',
-      status: STATUS.WIP,
-      license: LICENSE.OPEN_SOURCE,
-      maintainedBy: [],
-    },
-    {
-      name: 'OpenCart',
-      link: '',
-      image: '/v2/integrations-logos/opencart.svg',
-      status: STATUS.WIP,
-      license: LICENSE.OPEN_SOURCE,
-      maintainedBy: [],
-    },
-    {
-      name: 'Vendure',
-      link: 'https://docs.vuestorefront.io/vendure',
-      image: '/v2/integrations-logos/vendure.svg',
       status: STATUS.STABLE,
       license: LICENSE.OPEN_SOURCE,
-      maintainedBy: [{ name: 'Jakub Andrzejewski', link: 'https://www.linkedin.com/in/jakub-andrzejewski/' }],
+      maintainedBy: [{ name: 'BitBag', link: 'https://bitbag.io/' }],
     },
     {
       name: 'Odoo',
@@ -141,22 +107,6 @@ const INTEGRATIONS = {
       status: STATUS.STABLE,
       license: LICENSE.ENTERPRISE,
       maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
-    },
-    {
-      name: 'Swell',
-      link: '',
-      image: '/v2/integrations-logos/swell.svg',
-      status: STATUS.WIP,
-      license: LICENSE.OPEN_SOURCE,
-      maintainedBy: [{ name: 'Swell', link: 'https://www.swell.is/' }],
-    },
-    {
-      name: 'Shopware PWA',
-      link: 'https://shopware-pwa-docs.vuestorefront.io/',
-      image: 'https://uploads-ssl.webflow.com/5e7cf661c23ac9df156d9c3d/5ea95f3130c7f0b4e33fb031_shopware_logo_blue.svg',
-      status: STATUS.STABLE,
-      license: LICENSE.OPEN_SOURCE,
-      maintainedBy: [{ name: 'Shopware', link: 'https://www.shopware.com/' }],
     },
   ],
   other: [
@@ -341,15 +291,6 @@ const INTEGRATIONS = {
       license: LICENSE.ENTERPRISE,
       maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
       categories: [CATEGORY.SEARCH],
-    },
-    {
-      name: 'Adobe Experience Manager',
-      link: '',
-      image: 'https://www.rackspace.com/sites/default/files/styles/rxt_image/public/2020-11/AEM.png',
-      status: STATUS.WIP,
-      license: LICENSE.ENTERPRISE,
-      maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
-      categories: [CATEGORY.CMS, CATEGORY.ANALYTICS],
     },
   ],
 };

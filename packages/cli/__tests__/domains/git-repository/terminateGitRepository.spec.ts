@@ -1,7 +1,7 @@
-import { removeFileOrDirectory } from '../../../src/domains/directory';
-import { terminateGitRepository } from '../../../src/domains/git-repository';
+import { removeFileOrDirectory } from '../../../src/domains/generate/directory';
+import { terminateGitRepository } from '../../../src/domains/generate/git-repository';
 
-jest.mock('../../../src/domains/directory');
+jest.mock('../../../src/domains/generate/directory');
 
 type Mock = jest.MockedFunction<typeof removeFileOrDirectory>;
 
@@ -11,6 +11,8 @@ describe('terminateGitRepository | unit tests', () => {
 
     await terminateGitRepository('~/Projects/test-store');
 
-    expect(removeFileOrDirectory).toHaveBeenCalledWith('~/Projects/test-store/.git');
+    expect(removeFileOrDirectory).toHaveBeenCalledWith(
+      '~/Projects/test-store/.git'
+    );
   });
 });

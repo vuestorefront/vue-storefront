@@ -1,4 +1,4 @@
-import { formatToProjectName } from '../../../src/domains/project-name';
+import { formatToProjectName } from '../../../src/domains/generate/project-name';
 
 describe('formatToProjectName | unit tests', () => {
   it('replaces spaces with dashes', () => {
