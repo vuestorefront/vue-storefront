@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.7.6
+
+- chore: enhance custom query to allow sending metadata as object ([6928](https://github.com/vuestorefront/vue-storefront/pull/6928))
+
 ## 2.7.5
 
 - feat: plugins pass X-Forwarded-Host header with fallback to the Host header as a Host in axios server to server communication #6871. ([6871](https://github.com/vuestorefront/vue-storefront/pull/6871)) - [Filip Jędrasik](https://github.com/Fifciu)
