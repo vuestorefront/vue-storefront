@@ -31,9 +31,9 @@ export const VSF_CHANNEL_COOKIE = 'vsf-channel';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
-export type CustomQuery = Record<string, string>
+export type CustomQuery = Record<string, string | Record<string, string>>;
 
-export type ComposableFunctionArgs <T> = T & { customQuery?: CustomQuery }
+export type ComposableFunctionArgs<T> = T & { customQuery?: CustomQuery };
 
 export interface ProductsSearchParams {
   perPage?: number;
@@ -63,24 +63,18 @@ export interface Context<CLIENT = any, CONFIG = any, API = any> {
 }
 
 export type PlatformApi = {
-  [functionName: string]: (context: Context, ...args: any[]) => Promise<any>
-}
+  [functionName: string]: (context: Context, ...args: any[]) => Promise<any>;
+};
 
 export type ContextedPlatformApi<T extends PlatformApi> = {
-  [P in keyof T]: T[P] extends (context: Context, ...arg: infer X) => Promise<any>
-    ? (...arg: X) => Promise<any>
-    : never
-}
+  [P in keyof T]: T[P] extends (context: Context, ...arg: infer X) => Promise<any> ? (...arg: X) => Promise<any> : never;
+};
 
 export interface Composable<API extends PlatformApi> {
-  api?: ContextedPlatformApi<API>
+  api?: ContextedPlatformApi<API>;
 }
 
-export interface UseProduct<
-  PRODUCTS,
-  PRODUCT_SEARCH_PARAMS,
-  API extends PlatformApi = any
-> extends Composable<API> {
+export interface UseProduct<PRODUCTS, PRODUCT_SEARCH_PARAMS, API extends PlatformApi = any> extends Composable<API> {
   products: ComputedProperty<PRODUCTS>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseProductErrors>;
@@ -97,7 +91,7 @@ export interface UseForgotPassword<RESULT> {
   result: ComputedProperty<RESULT>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseForgotPasswordErrors>;
-  setNew(params: ComposableFunctionArgs<{ tokenValue: string, newPassword: string }>): Promise<void>;
+  setNew(params: ComposableFunctionArgs<{ tokenValue: string; newPassword: string }>): Promise<void>;
   request(params: ComposableFunctionArgs<{ email: string }>): Promise<void>;
 }
 
@@ -130,20 +124,15 @@ export interface UseUserErrors {
   load: Error;
 }
 
-export interface UseUser
-<
-  USER,
-  UPDATE_USER_PARAMS,
-  API extends PlatformApi = any
-> extends Composable<API> {
+export interface UseUser<USER, UPDATE_USER_PARAMS, API extends PlatformApi = any> extends Composable<API> {
   user: ComputedProperty<USER>;
   setUser: (user: USER) => void;
   updateUser: (params: { user: UPDATE_USER_PARAMS; customQuery?: CustomQuery }) => Promise<void>;
   register: (params: { user: UseUserRegisterParams; customQuery?: CustomQuery }) => Promise<void>;
   login: (params: { user: UseUserLoginParams; customQuery?: CustomQuery }) => Promise<void>;
-  logout: (params?: {customQuery: CustomQuery}) => Promise<void>;
-  changePassword: (params: { current: string; new: string, customQuery?: CustomQuery }) => Promise<void>;
-  load: (params?: {customQuery: CustomQuery}) => Promise<void>;
+  logout: (params?: { customQuery: CustomQuery }) => Promise<void>;
+  changePassword: (params: { current: string; new: string; customQuery?: CustomQuery }) => Promise<void>;
+  load: (params?: { customQuery: CustomQuery }) => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseUserErrors>;
@@ -158,11 +147,7 @@ export interface UseUserOrderSearchParams {
 export interface UseUserOrderErrors {
   search: Error;
 }
-export interface UseUserOrder<
-  ORDERS,
-  ORDER_SEARCH_PARAMS,
-  API extends PlatformApi = any
-> extends Composable<API> {
+export interface UseUserOrder<ORDERS, ORDER_SEARCH_PARAMS, API extends PlatformApi = any> extends Composable<API> {
   orders: ComputedProperty<ORDERS>;
   search(params: ComposableFunctionArgs<ORDER_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
@@ -185,17 +170,13 @@ export interface UseUserShippingErrors {
   load: Error;
   setDefaultAddress: Error;
 }
-export interface UseUserShipping<
-USER_SHIPPING,
-USER_SHIPPING_ITEM,
-API extends PlatformApi = any
-> extends Composable<API> {
+export interface UseUserShipping<USER_SHIPPING, USER_SHIPPING_ITEM, API extends PlatformApi = any> extends Composable<API> {
   shipping: ComputedProperty<USER_SHIPPING>;
-  addAddress: (params: { address: USER_SHIPPING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
-  deleteAddress: (params: { address: USER_SHIPPING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
-  updateAddress: (params: { address: USER_SHIPPING_ITEM, customQuery?: CustomQuery}) => Promise<void>;
+  addAddress: (params: { address: USER_SHIPPING_ITEM; customQuery?: CustomQuery }) => Promise<void>;
+  deleteAddress: (params: { address: USER_SHIPPING_ITEM; customQuery?: CustomQuery }) => Promise<void>;
+  updateAddress: (params: { address: USER_SHIPPING_ITEM; customQuery?: CustomQuery }) => Promise<void>;
   load: () => Promise<void>;
-  setDefaultAddress: (params: { address: USER_SHIPPING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
+  setDefaultAddress: (params: { address: USER_SHIPPING_ITEM; customQuery?: CustomQuery }) => Promise<void>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseUserShippingErrors>;
 }
@@ -228,17 +209,13 @@ export interface UseUserBillingErrors {
   load: Error;
   setDefaultAddress: Error;
 }
-export interface UseUserBilling<
-  USER_BILLING,
-  USER_BILLING_ITEM,
-  API extends PlatformApi = any
-> extends Composable<API> {
+export interface UseUserBilling<USER_BILLING, USER_BILLING_ITEM, API extends PlatformApi = any> extends Composable<API> {
   billing: ComputedProperty<USER_BILLING>;
-  addAddress: (params: { address: USER_BILLING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
-  deleteAddress: (params: { address: USER_BILLING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
-  updateAddress: (params: { address: USER_BILLING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
+  addAddress: (params: { address: USER_BILLING_ITEM; customQuery?: CustomQuery }) => Promise<void>;
+  deleteAddress: (params: { address: USER_BILLING_ITEM; customQuery?: CustomQuery }) => Promise<void>;
+  updateAddress: (params: { address: USER_BILLING_ITEM; customQuery?: CustomQuery }) => Promise<void>;
   load: () => Promise<void>;
-  setDefaultAddress: (params: { address: USER_BILLING_ITEM, customQuery?: CustomQuery }) => Promise<void>;
+  setDefaultAddress: (params: { address: USER_BILLING_ITEM; customQuery?: CustomQuery }) => Promise<void>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseUserBillingErrors>;
 }
@@ -267,11 +244,7 @@ export interface UserBillingGetters<USER_BILLING, USER_BILLING_ITEM> {
 export interface UseCategoryErrors {
   search: Error;
 }
-export interface UseCategory<
-  CATEGORY,
-  CATEGORY_SEARCH_PARAMS,
-  API extends PlatformApi = any
-> extends Composable<API> {
+export interface UseCategory<CATEGORY, CATEGORY_SEARCH_PARAMS, API extends PlatformApi = any> extends Composable<API> {
   categories: ComputedProperty<CATEGORY[]>;
   search(params: ComposableFunctionArgs<CATEGORY_SEARCH_PARAMS>): Promise<void>;
   loading: ComputedProperty<boolean>;
@@ -287,17 +260,11 @@ export interface UseCartErrors {
   applyCoupon: Error;
   removeCoupon: Error;
 }
-export interface UseCart
-<
-  CART,
-  CART_ITEM,
-  PRODUCT,
-  API extends PlatformApi = any
-> extends Composable<API> {
+export interface UseCart<CART, CART_ITEM, PRODUCT, API extends PlatformApi = any> extends Composable<API> {
   cart: ComputedProperty<CART>;
   setCart(cart: CART): void;
   addItem(params: { product: PRODUCT; quantity: number; customQuery?: CustomQuery }): Promise<void>;
-  isInCart: (params: {product: PRODUCT, customQuery?: CustomQuery, [k: string]: unknown}) => boolean;
+  isInCart: (params: { product: PRODUCT; customQuery?: CustomQuery; [k: string]: unknown }) => boolean;
   removeItem(params: { product: CART_ITEM; customQuery?: CustomQuery }): Promise<void>;
   updateItemQty(params: { product: CART_ITEM; quantity?: number; customQuery?: CustomQuery }): Promise<void>;
   clear(): Promise<void>;
@@ -314,13 +281,7 @@ export interface UseWishlistErrors {
   load: Error;
   clear: Error;
 }
-export interface UseWishlist
-<
-  WISHLIST,
-  WISHLIST_ITEM,
-  PRODUCT,
-  API extends PlatformApi = any
-> extends Composable<API> {
+export interface UseWishlist<WISHLIST, WISHLIST_ITEM, PRODUCT, API extends PlatformApi = any> extends Composable<API> {
   wishlist: ComputedProperty<WISHLIST>;
   loading: ComputedProperty<boolean>;
   addItem(params: { product: PRODUCT; customQuery?: CustomQuery }): Promise<void>;
@@ -329,7 +290,7 @@ export interface UseWishlist
   load(params: { customQuery?: CustomQuery }): Promise<void>;
   clear(): Promise<void>;
   setWishlist: (wishlist: WISHLIST) => void;
-  isInWishlist(params: {product: PRODUCT, customQuery?: CustomQuery, [k: string]: unknown}): boolean;
+  isInWishlist(params: { product: PRODUCT; customQuery?: CustomQuery; [k: string]: unknown }): boolean;
   error: ComputedProperty<UseWishlistErrors>;
 }
 
@@ -352,8 +313,7 @@ export interface UseMakeOrder<ORDER, API extends PlatformApi = any> extends Comp
   loading: ComputedProperty<boolean>;
 }
 
-export interface UseCheckout
-<
+export interface UseCheckout<
   PAYMENT_METHODS,
   SHIPPING_METHODS,
   PERSONAL_DETAILS,
@@ -378,12 +338,7 @@ export interface UseReviewErrors {
   search: Error;
   addReview: Error;
 }
-export interface UseReview<
-REVIEW,
-REVIEWS_SEARCH_PARAMS,
-REVIEW_ADD_PARAMS,
-API extends PlatformApi = any
-> extends Composable<API> {
+export interface UseReview<REVIEW, REVIEWS_SEARCH_PARAMS, REVIEW_ADD_PARAMS, API extends PlatformApi = any> extends Composable<API> {
   search(params: ComposableFunctionArgs<REVIEWS_SEARCH_PARAMS>): Promise<void>;
   addReview(params: ComposableFunctionArgs<REVIEW_ADD_PARAMS>): Promise<void>;
   error: ComputedProperty<UseReviewErrors>;
@@ -396,11 +351,7 @@ export interface UseShippingErrors {
   load: Error;
   save: Error;
 }
-export interface UseShipping<
-SHIPPING,
-SHIPPING_PARAMS,
-API extends PlatformApi = any
-> extends Composable<API> {
+export interface UseShipping<SHIPPING, SHIPPING_PARAMS, API extends PlatformApi = any> extends Composable<API> {
   error: ComputedProperty<UseShippingErrors>;
   loading: ComputedProperty<boolean>;
   shipping: ComputedProperty<SHIPPING>;
@@ -412,18 +363,14 @@ export interface UseShippingProviderErrors {
   load: Error;
   save: Error;
 }
-export interface UseShippingProvider<
-STATE,
-SHIPPING_METHOD,
-API extends PlatformApi = any
-> extends Composable<API> {
+export interface UseShippingProvider<STATE, SHIPPING_METHOD, API extends PlatformApi = any> extends Composable<API> {
   error: ComputedProperty<UseShippingProviderErrors>;
   loading: ComputedProperty<boolean>;
   state: ComputedProperty<STATE>;
   setState(state: STATE): void;
   load(): Promise<void>;
   load(params: { customQuery?: CustomQuery }): Promise<void>;
-  save(params: { shippingMethod: SHIPPING_METHOD, customQuery?: CustomQuery }): Promise<void>;
+  save(params: { shippingMethod: SHIPPING_METHOD; customQuery?: CustomQuery }): Promise<void>;
 }
 
 export interface UseBillingErrors {
@@ -431,11 +378,7 @@ export interface UseBillingErrors {
   save: Error;
 }
 
-export interface UseBilling<
-  BILLING,
-  BILLING_PARAMS,
-  API extends PlatformApi = any
-> extends Composable<API> {
+export interface UseBilling<BILLING, BILLING_PARAMS, API extends PlatformApi = any> extends Composable<API> {
   error: ComputedProperty<UseBillingErrors>;
   loading: ComputedProperty<boolean>;
   billing: ComputedProperty<BILLING>;
@@ -472,11 +415,7 @@ export interface UseFacet<SEARCH_DATA> {
 export interface UseContentErrors {
   search: Error;
 }
-export interface UseContent<
-  CONTENT,
-  CONTENT_SEARCH_PARAMS,
-  API extends PlatformApi = any
-> extends Composable<API> {
+export interface UseContent<CONTENT, CONTENT_SEARCH_PARAMS, API extends PlatformApi = any> extends Composable<API> {
   search: (params: CONTENT_SEARCH_PARAMS) => Promise<void>;
   content: ComputedProperty<CONTENT>;
   loading: ComputedProperty<boolean>;
@@ -550,7 +489,7 @@ export interface AgnosticFilter {
     count?: number;
     label: string;
     value: string;
-  }[]
+  }[];
 }
 
 export interface AgnosticProductReview {
@@ -600,7 +539,7 @@ export enum AgnosticOrderStatus {
   Shipped = 'Shipped',
   Complete = 'Complete',
   Cancelled = 'Cancelled',
-  Refunded = 'Refunded'
+  Refunded = 'Refunded',
 }
 
 export interface AgnosticFacet {
@@ -650,7 +589,7 @@ export interface AgnosticStore {
   id: string;
   description?: string;
   locales?: AgnosticLocale[];
-  currencies?: AgnosticCurrency[]
+  currencies?: AgnosticCurrency[];
   address?: AgnosticAddress;
   geoLocation?: AgnosticGeoLocation;
   [x: string]: unknown;
@@ -730,12 +669,7 @@ export interface UserOrderGetters<ORDER, ORDER_ITEM> {
   getItemQty: (item: ORDER_ITEM) => number;
   getItemPrice: (item: ORDER_ITEM) => number;
   getFormattedPrice: (price: number) => string;
-  getOrdersTotal: (orders: {
-    offset: number;
-    count: number;
-    total: number;
-    results: Array<ORDER>;
-  }) => number;
+  getOrdersTotal: (orders: { offset: number; count: number; total: number; results: Array<ORDER> }) => number;
   [getterName: string]: (element: any, options?: any) => unknown;
 }
 
@@ -764,8 +698,8 @@ export interface FacetsGetters<SEARCH_DATA, RESULTS, CRITERIA = any> {
 }
 
 export interface ForgotPasswordGetters<FORGOT_PASSWORD_RESULT> {
-  getResetPasswordToken: (result: FORGOT_PASSWORD_RESULT) => string
-  isPasswordChanged: (result: FORGOT_PASSWORD_RESULT) => boolean
+  getResetPasswordToken: (result: FORGOT_PASSWORD_RESULT) => string;
+  isPasswordChanged: (result: FORGOT_PASSWORD_RESULT) => boolean;
 }
 
 export interface UseSearchGetters<RESULT, ITEM> {
@@ -775,7 +709,7 @@ export interface UseSearchGetters<RESULT, ITEM> {
   getItemPrice: (item: ITEM) => AgnosticPrice;
   getSortOptions: (result: RESULT) => AgnosticSort;
   getBreadcrumbs: (result: RESULT) => AgnosticBreadcrumb[];
-  getItemImages: (item: ITEM) => AgnosticMediaGalleryItem[]
+  getItemImages: (item: ITEM) => AgnosticMediaGalleryItem[];
   getFilters: (result: RESULT) => AgnosticFilter[];
   getItemName: (item: ITEM) => string;
   getItemId: (item: ITEM) => string;
@@ -805,7 +739,7 @@ export interface CallHookParams<C> extends HookParams<C> {
 export type BeforeCallArgs = any;
 export type AfterCallArgs = any;
 
-export interface BeforeCallParams< C> extends CallHookParams<C> {
+export interface BeforeCallParams<C> extends CallHookParams<C> {
   args: BeforeCallArgs;
 }
 
@@ -826,12 +760,12 @@ export type CustomQueryFn<T = any> = ({ query, variables, metadata }) => {
   metadata: any;
 };
 
-export type ApiClientMethod = (...args: any) => Promise<any>
+export type ApiClientMethod = (...args: any) => Promise<any>;
 
 export interface ApiClientExtension {
   name: string;
   extendApiMethods?: Record<string, ApiClientMethod>;
-  extendApp?: (params: { app: Express, configuration: any }) => void;
+  extendApp?: (params: { app: Express; configuration: any }) => void;
   hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
 }
 
@@ -842,7 +776,7 @@ export interface Integration {
   customQueries?: Record<string, CustomQueryFn>;
 }
 
-export type IntegrationsSection = Record<string, Integration>
+export type IntegrationsSection = Record<string, Integration>;
 
 export interface MiddlewareConfig {
   integrations: Record<string, Integration>;
@@ -881,11 +815,8 @@ export interface ApiClientConfig {
 }
 
 export type ApiClientMethods<T> = {
-  [K in keyof T]:
-    T[K] extends (...args: any) => any ?
-    (...args: [...Parameters<T[K]>, CustomQuery?]) => ReturnType<T[K]> :
-    T[K]
-}
+  [K in keyof T]: T[K] extends (...args: any) => any ? (...args: [...Parameters<T[K]>, CustomQuery?]) => ReturnType<T[K]> : T[K];
+};
 
 export interface UseStoreErrors {
   load: Error | null;
@@ -903,8 +834,8 @@ export interface UseStoreFactoryLoadParamArguments {
 }
 
 export interface UseStoreFactoryParams<STORES> extends FactoryParams {
-  load(context: Context, params: UseStoreFactoryLoadParamArguments): Promise<STORES>
-  change(context: Context, params: UseStoreFactoryChangeParamArguments): Promise<STORES>
+  load(context: Context, params: UseStoreFactoryLoadParamArguments): Promise<STORES>;
+  change(context: Context, params: UseStoreFactoryChangeParamArguments): Promise<STORES>;
 }
 export interface UseStoreInterface<STORES> {
   change(params: UseStoreFactoryChangeParamArguments): Promise<void>;
@@ -920,5 +851,5 @@ export interface UseStore<STORES> {
 
 export interface UseStoreGetters<STORES, CRITERIA = any> {
   getItems(stores: STORES, criteria?: CRITERIA): AgnosticStore[];
-  getSelected(stores: STORES): AgnosticStore | undefined
+  getSelected(stores: STORES): AgnosticStore | undefined;
 }
