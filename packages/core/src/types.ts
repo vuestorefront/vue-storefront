@@ -31,7 +31,7 @@ export const VSF_CHANNEL_COOKIE = 'vsf-channel';
 
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 
-export declare type CustomQuery = Record<string, string | Record<string, string>>;
+export type CustomQuery = Record<string, string | Record<string, string>>;
 
 export type ComposableFunctionArgs<T> = T & { customQuery?: CustomQuery };
 
