@@ -73,6 +73,56 @@ describe('[CORE - utils] _proxyUtils', () => {
     });
   });
 
+  it('adds a X-Forwarded-Host header', () => {
+    const integrationConfig = utils.getIntegrationConfig(
+      {
+        $config: {
+          middlewareUrl: 'http://localhost.com'
+        },
+        req: {
+          headers: {
+            'x-forwarded-host': 'myforward.vsf'
+          }
+        }
+      } as any,
+      {}
+    );
+
+    expect(integrationConfig).toEqual({
+      axios: {
+        baseURL: expect.any(String),
+        headers: expect.objectContaining({
+          Host: 'myforward.vsf'
+        })
+      }
+    });
+  });
+
+  it('adds a Host header', () => {
+    const integrationConfig = utils.getIntegrationConfig(
+      {
+        $config: {
+          middlewareUrl: 'http://localhost.com'
+        },
+        req: {
+          headers: {
+            host: 'mywebsite.local'
+          }
+        }
+      } as any,
+      {}
+    );
+
+    expect(integrationConfig).toEqual({
+      axios: {
+        baseURL: expect.any(String),
+        headers: expect.objectContaining({
+          Host: 'mywebsite.local'
+        })
+      }
+    });
+  });
+
   /**
    * baseURL configuration cases matrix
    */
@@ -85,7 +135,7 @@ describe('[CORE - utils] _proxyUtils', () => {
   ];
 
   const testMsg = '[baseUrl must be configured properly for] server: $server, middlewareUrl: $middlewareUrl, ssrMiddlewareUrl: $ssrMiddlewareUrl, expected: $expected';
-  test.each(urlSetupCases)(testMsg, ({ server, middlewareUrl, ssrMiddlewareUrl, expected }) => {
+  it.each(urlSetupCases)(testMsg, ({ server, middlewareUrl, ssrMiddlewareUrl, expected }) => {
     process.server = server;
 
     const integrationConfig = utils.getIntegrationConfig(
