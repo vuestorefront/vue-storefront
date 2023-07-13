@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/integrations-tsconfig",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "./tsconfig.json",
   "files": [
     "tsconfig.json"
