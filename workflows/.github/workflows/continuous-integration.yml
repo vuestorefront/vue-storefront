@@ -5,25 +5,52 @@ on:
     secrets:
       NPM_USER:
         description: 'repository NPM_USER secret passed on'
-        required: true
+        required: false
       NPM_PASS:
         description: 'repository NPM_PASS secret passed on'
-        required: true
+        required: false
       NPM_EMAIL:
         description: 'repository NPM_EMAIL secret passed on'
-        required: true    
+        required: false
+
+    inputs:
+      enterprise:
+        description: "Flag to use enterprise registry"
+        type: boolean
+        required: false
+        default: false
+
+      node_version:
+        description: "Node versions to test"
+        type: string
+        required: false
+        default: "['16']"
 
 jobs:
-  setup:
+  run-ci:
+    name: Run CI
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: ${{ fromJson(inputs.node_version) }}
     steps:
+      - name: Expose github environment as shell variables
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
+        run: |
+          # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
+          # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          to_envs() { jq -r "to_entries[] | \"\(.key)<<$EOF\n\(.value)\n$EOF\n\""; }
+          echo "$SECRETS_CONTEXT" | to_envs >> $GITHUB_ENV
       - name: Checkout code 🛎️
         uses: actions/checkout@v3
 
       - name: Setup node 🏗️
         uses: actions/setup-node@v3
         with:
-          node-version-file: '.node-version'
+          node-version: ${{ matrix.node_version }}
 
       - name: Get cache 🗄️
         id: cache
@@ -32,23 +59,45 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Install dependencies 🔧
-        if: steps.cache.outputs.cache-hit != 'true'
+      - name: Install dependencies (Enterprise)
+        if: ${{ (inputs.enterprise == true) && (steps.cache.outputs.cache-hit != true)}}
         shell: bash
         run: |
           npm install -g npm-cli-login
           npm-cli-login -u ${{ secrets.NPM_USER }} -p ${{ secrets.NPM_PASS }} -e ${{ secrets.NPM_EMAIL }} -r https://registrynpm.storefrontcloud.io
-          yarn --frozen-lockfile
-            
+          HUSKY=0 yarn --frozen-lockfile
+
+      - name: Install dependencies (OS)
+        if: ${{ (inputs.enterprise == false) && (steps.cache.outputs.cache-hit != true)}}
+        shell: bash
+        run: |
+          HUSKY=0 yarn --frozen-lockfile
+
       - name: Detect circular dependencies 🔄
-        uses: vuestorefront/engineering-toolkit/github-actions/circular-dependencies@1.0.3
+        uses: vuestorefront/engineering-toolkit/github-actions/circular-dependencies@main
         with:
           filesPath: 'packages/**/*.{ts,vue}'
-          
+
       - name: Check licenses 🧪
-        uses: vuestorefront/engineering-toolkit/github-actions/check-licenses@1.0.9
+        uses: vuestorefront/engineering-toolkit/github-actions/check-licenses@main
         with:
           projectPath: ${{ github.workspace }}
-   
-      - name: Validate pull request title ⚡️
-        uses: JulienKode/pull-request-name-linter-action@v0.5.0   
+
+      - name: Build project
+        run: yarn build
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-${{ runner.os }}-${{ github.event.pull_request.head.sha }}
+          path: |
+            packages/api-client/coverage
+            packages/sdk/coverage
+            packages/composables/coverage
+            coverage
+
+      - name: Lint project
+        run: yarn lint
