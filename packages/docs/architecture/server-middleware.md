@@ -83,3 +83,23 @@ export default {
 +  }
 }
 ```
+## Customize the error handler
+
+The Server Middleware comes with a default error handler that logs errors to the console and sends a generic error response to the client. You can customize this behavior by providing your own error handler function in the `middleware.config.js` file:
+
+```javascript
+module.exports = {
+  integrations: {
+    ct: {
+      location: '@vsf-enterprise/commercetools-api/server',
+      // Express req and res objects
+      errorHandler: (error: unknown, req: Request, res: Response) => {
+        res.status(404);
+        res.send('Custom not-found error handler');
+      },
+      configuration: { ... },
+      ...
+    // remaining configuration
+```
+
+Custom error handler are configured per integration, so you can have different error handlers for different integrations.
