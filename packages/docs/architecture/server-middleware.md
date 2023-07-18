@@ -92,8 +92,11 @@ module.exports = {
   integrations: {
     ct: {
       location: '@vsf-enterprise/commercetools-api/server',
-      // Express req and res objects
-      errorHandler: (error: unknown, req: Request, res: Response) => {
+      errorHandler: (
+        error: unknown, /** Error thrown by API method */
+        req: Request, /** Express Request object */
+        res: Response /** Express Response object */
+      ) => {
         res.status(404);
         res.send('Custom not-found error handler');
       },
