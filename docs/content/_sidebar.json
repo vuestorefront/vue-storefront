@@ -33,7 +33,7 @@
     "title": "Storefronts",
     "_path": "/storefronts",
     "sidebarSection": "Build",
-    "icon": "ri:terminal-box-fill",
+    "icon": "material-symbols:storefront",
     "sidebarRoot": true
   },
   {
