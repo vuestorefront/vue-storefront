@@ -38,7 +38,7 @@
   },
   {
     "title": "Storefront UI",
-    "_path": "/middleware",
+    "_path": "https://docs.storefrontui.io",
     "icon": "IconStorefrontUi",
     "sidebarRoot": true
   },
