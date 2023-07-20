@@ -1,0 +1,15 @@
+{
+  "eCommerce": [
+    {
+      "title": "commercetools",
+      "to": "/integrations/commercetools",
+      "icon": "IconCommercetools"
+    },
+    {
+      "title": "Magento",
+      "to": "/integrations/magento",
+      "icon": "logos:magento",
+      "openSource": true
+    }
+  ]
+}
