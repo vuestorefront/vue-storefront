@@ -116,6 +116,7 @@ This method accepts two parameters:
 
 - `context` which includes:
   - `config` - integration configuration,
+  - `api` - integration endpoints exposed as methods,
   - `client` - API client created in `packages/api-client/src/index.server.ts`,
   - `req` - HTTP request object,
   - `res` - HTTP response object,
