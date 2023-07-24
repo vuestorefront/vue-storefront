@@ -10,6 +10,12 @@
       "to": "/integrations/magento",
       "icon": "logos:magento",
       "openSource": true
+    },
+    {
+      "title": "BigCommerce",
+      "to": "/integrations/bigcommerce",
+      "icon": "simple-icons:bigcommerce",
+      "iconClass": "text-black dark:text-white"
     }
   ]
 }
