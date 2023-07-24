@@ -1,3 +1,4 @@
-navigation.title: 'Integration Name'
 sidebarRoot: true
-navigation.icon: 'ri:terminal-box-fill'
+navigation:
+  title: 'Home'
+  icon: ri:home-2-fill

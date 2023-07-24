@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Integrations",
+    "sidebarRoot": true,
+    "_path": "/integrations",
+    "icon": "fluent:puzzle-cube-piece-20-filled",
+    "children": [
+      {
+        "title": "All Integrations",
+        "_path": "/integrations"
+      },
+      {
+        "title": "What is an Integration?",
+        "_path": "/integrations/what-is-an-integration"
+      }
+    ]
+  }
+]
