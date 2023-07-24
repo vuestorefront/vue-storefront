@@ -53,14 +53,6 @@ const INTEGRATIONS = {
       maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
     },
     {
-      name: 'Shopify',
-      link: 'https://docs.vuestorefront.io/shopify',
-      image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed627658b992c5c98014d1c_Shopify_logo_2018%201.svg',
-      status: STATUS.STABLE,
-      license: LICENSE.OPEN_SOURCE,
-      maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
-    },
-    {
       name: 'BigCommerce',
       link: 'https://docs.vuestorefront.io/bigcommerce',
       image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/6023aa663109a7a8f995f095_BigCommerce-logo-dark.svg',
