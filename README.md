@@ -75,10 +75,6 @@ Vue Storefront is an ecosystem of Open Source tools to build fast and feature-ri
         <img alt="Magento" width="75" src="https://user-images.githubusercontent.com/1626923/156659008-edbd2bed-74d5-4f0d-8a4a-eab56c283d24.png" />
     </a>
   &nbsp;&nbsp;
-    <a title="Shopify" target="_blank" href="https://github.com/vuestorefront/shopify">
-        <img alt="Shopify" width="75" src="https://user-images.githubusercontent.com/1626923/156658959-d8da60fd-9904-44f4-9823-11a3e821c155.png" />
-    </a>
-  &nbsp;&nbsp;
     <a title="Odoo" target="_blank" href="https://github.com/vuestorefront-community/odoo">
         <img alt="Odoo" width="75" src="https://user-images.githubusercontent.com/1626923/156659136-55c8d696-febd-410e-ab72-b217e9e745e6.png" />
     </a>
