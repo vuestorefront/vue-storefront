@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/module.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\""
   },
   "author": "Vue Storefront",
   "license": "MIT",
@@ -29,6 +29,6 @@
     "@nuxtjs/composition-api": "^0.29.3"
   },
   "engines": {
-    "node": ">=14 <=16"
+    "node": ">= 14"
   }
 }
