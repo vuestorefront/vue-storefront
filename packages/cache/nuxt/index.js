@@ -34,7 +34,6 @@ function createInvalidationEndpoint (driver, options) {
     } catch (error) {
       Logger.error('Cache driver thrown an error when invalidating cache! Operation skipped.');
       Logger.error(error);
-      console.log('response2', response);
 
       response
         .status(500)

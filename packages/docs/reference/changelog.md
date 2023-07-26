@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8.0
+
+- feat: add support for the Node 18 ([6943](https://github.com/vuestorefront/vue-storefront/pull/6943)) - [Bartosz Herba](https://github.com/bartoszherba)
+
 ## 2.7.6
 
 - chore: enhance custom query to allow sending metadata as object ([6928](https://github.com/vuestorefront/vue-storefront/pull/6928))
@@ -52,7 +56,7 @@ Date: 05.07.2022
 
 - Docs update / corrects / fixes
 
-- All new CLI `3.0.0` 
+- All new CLI `3.0.0`
 
 ## 2.5.13
 
