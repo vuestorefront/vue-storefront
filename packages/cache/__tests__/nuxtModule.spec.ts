@@ -14,8 +14,9 @@ const mockNuxt = {
   addPlugin: jest.fn(),
 
   addServerMiddleware: jest.fn(({ handler }) => {
-    // Simulate request to invalidation endpoint
-    handler({}, { writeHead: jest.fn(), end: jest.fn() });
+    const responseMock = { writeHead: jest.fn(), end: jest.fn(), status: jest.fn(() => responseMock), send: jest.fn() };
+
+    handler({}, responseMock);
   })
 };
 
