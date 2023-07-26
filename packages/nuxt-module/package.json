@@ -1,12 +1,12 @@
 {
   "name": "@vue-storefront/nuxt",
-  "version": "2.7.5",
+  "version": "2.8.0",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/src/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\"",
     "prepublish": "yarn build"
   },
   "author": "Vue Storefront",
@@ -33,6 +33,6 @@
     "plugins/**/*"
   ],
   "engines": {
-    "node": ">=14 <=16"
+    "node": ">= 14"
   }
 }

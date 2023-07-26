@@ -16,6 +16,9 @@ jobs:
   test_repository:
     name: Run linter, build and test all packages
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14, 16, 18]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -23,7 +26,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: ${{ matrix.node-version }}
           cache: 'yarn'
 
       - name: Install dependencies
