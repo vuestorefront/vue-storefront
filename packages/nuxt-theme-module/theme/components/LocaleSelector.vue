@@ -8,7 +8,7 @@
     </SfButton>
     <SfBottomModal
       :is-open="isLangModalOpen"
-      title="Choose language"
+      :title="$t('Choose language')"
       @click:close="isLangModalOpen = !isLangModalOpen"
     >
       <SfList>

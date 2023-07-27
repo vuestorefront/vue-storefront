@@ -24,7 +24,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="email"
-                label="Your email"
+                :label="$t('Your email')"
                 class="form__element"
               />
             </ValidationProvider>
@@ -35,7 +35,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="password"
-                label="Password"
+                :label="$t('Password')"
                 type="password"
                 class="form__element"
               />
@@ -44,7 +44,7 @@
               v-e2e="'login-modal-remember-me'"
               v-model="rememberMe"
               name="remember-me"
-              label="Remember me"
+              :label="$t('Remember me')"
               class="form__element checkbox"
             />
             <div v-if="error.login">
@@ -120,7 +120,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="email"
-                label="Your email"
+                :label="$t('Your email')"
                 class="form__element"
               />
             </ValidationProvider>
@@ -131,7 +131,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="first-name"
-                label="First Name"
+                :label="$t('First Name')"
                 class="form__element"
               />
             </ValidationProvider>
@@ -142,7 +142,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="last-name"
-                label="Last Name"
+                :label="$t('Last Name')"
                 class="form__element"
               />
             </ValidationProvider>
@@ -153,7 +153,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="password"
-                label="Password"
+                :label="$t('Password')"
                 type="password"
                 class="form__element"
               />
@@ -165,7 +165,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="create-account"
-                label="I want to create an account"
+                :label="$t('I want to create an account')"
                 class="form__element"
               />
             </ValidationProvider>
