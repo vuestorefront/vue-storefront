@@ -58,6 +58,12 @@ module.exports = {
     `,
       ],
     ],
+    // REO.ai 
+    [
+      'script',
+      {},
+      [`!function(){var e,t,n;e="https://static.reo.dev/reo.js",t=function(){Reo.init({"clientID":"20bbeae9ca04f95"})},(n=document.createElement("script")).src=e,n.async=!0,n.onload=t,document.head.appendChild(n)}();`]
+    ]
   ],
   postcss: {
     plugins: [require('tailwindcss')('./tailwind.config.js'), require('autoprefixer')],
