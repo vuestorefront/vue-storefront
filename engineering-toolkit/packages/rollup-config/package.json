@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/rollup-config",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "./lib/index.js",
   "files": [
     "lib"
@@ -21,9 +21,6 @@
     "rollup-config",
     "vuestorefront"
   ],
-  "engines": {
-    "node": ">=16.0.0"
-  },
   "dependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
