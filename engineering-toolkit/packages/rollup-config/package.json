@@ -1,13 +1,13 @@
 {
   "name": "@vue-storefront/rollup-config",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "./lib/index.js",
   "files": [
     "lib"
   ],
   "scripts": {
     "build": "rimraf ./lib && tsc",
-    "prepublish": "yarn build"
+    "prepublishOnly": "yarn build"
   },
   "homepage": "https://github.com/vuestorefront/engineering-toolkit/packages/rollup-config",
   "contributors": [
