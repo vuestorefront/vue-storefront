@@ -10,7 +10,9 @@
     "commit": "npx git-cz",
     "lint": "npx turbo run lint",
     "format": "npx turbo run format",
-    "build": "npx turbo run build"
+    "build": "npx turbo run build",
+    "changesets:version": "yarn build && yarn changeset version",
+    "changesets:publish": "yarn build && yarn changeset publish"
   },
   "workspaces": {
     "packages": [
@@ -19,6 +21,7 @@
     ]
   },
   "devDependencies": {
+    "@changesets/cli": "^2.26.1",
     "@commitlint/cli": "^17.5.1",
     "@commitlint/config-conventional": "^17.4.4",
     "@vue-storefront/prettier-config": "workspace:*",
