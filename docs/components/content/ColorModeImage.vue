@@ -9,9 +9,10 @@ const props = defineProps(['src','alt'])
 const colorMode = useColorMode();
 
 function addDarkToImagePath(imagePath) {
-  const parts = imagePath.split('.');
-  const extension = parts.pop();
-  const darkImagePath = `${parts.join('.')}_dark.${extension}`;
+  const lastDotIndex = imagePath.lastIndexOf('.');
+  const fileName = imagePath.substring(0, lastDotIndex);
+  const extension = imagePath.substring(lastDotIndex + 1);
+  const darkImagePath = `${fileName}_dark.${extension}`;
   return darkImagePath;
 }
 </script>
