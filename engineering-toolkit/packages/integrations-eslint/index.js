@@ -49,7 +49,9 @@ module.exports = {
     "import/first": "warn",
     "no-empty": "warn",
     "import/no-dynamic-require": "warn",
-    "@typescript-eslint/no-var-requires": "warn"
+    "@typescript-eslint/no-var-requires": "warn",
+    "no-restricted-syntax": "off",
+    "no-await-in-loop": "off",
   },
   settings: {
     'import/resolver': {
