@@ -12,6 +12,23 @@
       {
         "title": "What is an Integration?",
         "_path": "/integrations/what-is-an-integration"
+      },
+      {
+        "title": "Custom Integrations",
+        "children": [
+          {
+            "title": "Creating a Custom Integration",
+            "_path": "/integrations/custom/quick-start"
+          },
+          {
+            "title": "Building an API Client",
+            "_path": "/integrations/custom/api-client"
+          },
+          {
+            "title": "Building an SDK Module",
+            "_path": "/integrations/custom/sdk-module"
+          }
+        ]
       }
     ]
   }
