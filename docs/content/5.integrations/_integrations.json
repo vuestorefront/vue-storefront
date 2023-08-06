@@ -1,6 +1,11 @@
 {
   "eCommerce": [
     {
+      "title": "SAP Commerce Cloud",
+      "to": "/integrations/sapcc",
+      "icon": "IconSAP"
+    },
+    {
       "title": "commercetools",
       "to": "/integrations/commercetools",
       "icon": "IconCommercetools"
@@ -16,6 +21,25 @@
       "to": "/integrations/bigcommerce",
       "icon": "simple-icons:bigcommerce",
       "iconClass": "text-black dark:text-white"
+    }
+  ],
+  "CMS": [
+    {
+      "title": "Contentful",
+      "to": "/integrations/contentful",
+      "icon": "logos:contentful"
+    },
+    {
+      "title": "Contentstack",
+      "to": "/integrations/contentstack",
+      "icon": "IconContentstack"
+    }
+  ],
+  "Search": [
+    {
+      "title": "Bloomreach Search",
+      "to": "/integrations/bloomreach-search",
+      "icon": "IconBloomreach"
     }
   ]
 }
