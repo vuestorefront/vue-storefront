@@ -162,10 +162,6 @@ The next step is to configure your project, and it's different for every eCommer
         </span>
      </a>
     &nbsp;&nbsp;
-    <a title="Shopify" target="_blank" href="https://docs.vuestorefront.io/shopify/guide/getting-started.html">
-        <img alt="Shopify" width="55" src="https://user-images.githubusercontent.com/1626923/156658959-d8da60fd-9904-44f4-9823-11a3e821c155.png" />
-    </a>
-    &nbsp;&nbsp;
     <a title="Odoo" target="_blank" href="https://docs.vuestorefront.io/odoo/">
     <span valign="center">
         <img alt="Odoo" width="55" src="https://user-images.githubusercontent.com/1626923/156659136-55c8d696-febd-410e-ab72-b217e9e745e6.png" />
