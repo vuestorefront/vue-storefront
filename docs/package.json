@@ -14,6 +14,7 @@
     "nuxt": "^3.6.2"
   },
   "dependencies": {
+    "@stackblitz/sdk": "^1.9.0",
     "sf-docs-base": "latest"
   }
 }
