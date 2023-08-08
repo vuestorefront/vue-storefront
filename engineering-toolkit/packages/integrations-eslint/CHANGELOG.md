@@ -1,5 +1,11 @@
 # @vue-storefront/eslint-config-integrations
 
+## 0.0.18
+
+### Patch Changes
+
+- 70a6928: unlocked TypeScript constructor assignement
+
 ## 0.0.17
 
 ### Patch Changes
