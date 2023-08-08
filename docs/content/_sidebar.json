@@ -61,11 +61,5 @@
     "_path": "/contributing",
     "icon": "clarity:group-solid",
     "sidebarRoot": true
-  },
-  {
-    "title": "Resources",
-    "_path": "/resources",
-    "icon": "ic:outline-link",
-    "sidebarRoot": true
   }
 ]
