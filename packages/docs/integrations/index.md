@@ -13,7 +13,7 @@ Explore Vue Storefront integrations created by our team and community.
 
 This page lists Vue Storefront integrations created by our team and partners. If the integration you want to use isn't listed below, [contact our Sales team](https://www.vuestorefront.io/contact/sales) or core team on our [Discord](https://discord.vuestorefront.io) server.
 
-Packages with the `Enterprise` label are part of the [Vue Storefront Enterprise](/general/enterprise.html) offering.
+Packages with the `Enterprise` label are part of the [Vue Storefront Enterprise](/enterprise.html) offering.
 
 
 ::::::
