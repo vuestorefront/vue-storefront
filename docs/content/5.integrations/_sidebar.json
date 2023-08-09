@@ -10,8 +10,13 @@
         "_path": "/integrations"
       },
       {
-        "title": "What is an Integration?",
-        "_path": "/integrations/what-is-an-integration"
+        "title": "Guide",
+        "children": [
+          {
+            "title": "What is an Integration?",
+            "_path": "/integrations/guide/what-is-an-integration"
+          }
+        ]
       },
       {
         "title": "Custom Integrations",

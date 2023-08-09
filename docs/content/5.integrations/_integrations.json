@@ -21,6 +21,11 @@
       "to": "/integrations/bigcommerce",
       "icon": "simple-icons:bigcommerce",
       "iconClass": "text-black dark:text-white"
+    },
+    {
+      "title": "Salesforce Commerce Cloud",
+      "to": "/integrations/sfcc",
+      "icon": "logos:salesforce"
     }
   ],
   "CMS": [
@@ -33,6 +38,19 @@
       "title": "Contentstack",
       "to": "/integrations/contentstack",
       "icon": "IconContentstack"
+    },
+    {
+      "title": "Sanity",
+      "to": "/integrations/sanity",
+      "icon": "devicon:sanity"
+    }
+  ],
+  "Payment": [
+    {
+      "title": "Stripe (commercetools)",
+      "to": "/integrations/stripe-commercetools",
+      "icon": "logos:stripe",
+      "secondaryIcon": "IconCommercetools"
     }
   ],
   "Search": [
