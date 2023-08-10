@@ -61,5 +61,13 @@ module.exports = {
         extensions: ['.js', '.ts']
       }
     }
-  }
+  },
+  overrides: [
+    {
+      files: ["*.ts", "*.tsx"],
+      rules: {
+        "no-dupe-class-members": "off"
+      }
+    }
+  ]
 };
