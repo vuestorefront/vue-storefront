@@ -14,3 +14,7 @@ If you're interested in creating an integration, we want to support you! Reach o
 #section-2
 :card{to="/integrations/custom/quick-start" title="Custom Integration Docs" description="Read about the basics of creating a custom integration" icon="logos:nuxt-icon"}
 ::
+
+## Working with Existing Integrations
+
+If you're interested in contributing to existing integrations, you can find the [list of integrations here](/integrations/). Please refer to the [Contribution Guide](/contibuting/integrations/contribution-guide) for more information on how to contribute to existing integrations.
