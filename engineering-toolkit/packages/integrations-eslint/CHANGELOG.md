@@ -1,5 +1,11 @@
 # @vue-storefront/eslint-config-integrations
 
+## 0.0.19
+
+### Patch Changes
+
+- 54e7004: unlocked TypeScript class methods overloading
+
 ## 0.0.18
 
 ### Patch Changes
