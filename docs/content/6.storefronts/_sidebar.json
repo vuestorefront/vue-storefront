@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Storefronts",
+    "sidebarRoot": true,
+    "_path": "/storefronts",
+    "icon": "material-symbols:storefront",
+    "children": [
+      {
+        "title": "Overview",
+        "_path": "/storefronts"
+      },
+      {
+        "title": "Essentials",
+        "children": [
+          {
+            "title": "What is a storefront?",
+            "_path": "/storefronts/guide/explainer"
+          }
+        ]
+      }
+    ]
+  }
+]
