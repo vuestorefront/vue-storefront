@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/cli",
-  "version": "4.4.0",
+  "version": "4.4.1",
   "description": "Vue Storefront's CLI.",
   "bin": "./bin/run",
   "homepage": "https://github.com/vuestorefront/vue-storefront",
@@ -15,8 +15,7 @@
     "/oclif.manifest.json"
   ],
   "dependencies": {
-    "@clack/core": "^0.2.1",
-    "@clack/prompts": "^0.5.1",
+    "@clack/prompts": "^0.7.0",
     "@oclif/core": "^1.19.2",
     "@oclif/plugin-help": "^5.1.16",
     "@oclif/plugin-plugins": "^2.1.5",
@@ -29,7 +28,7 @@
     "i18next-fs-backend": "^2.0.0",
     "inquirer": "^8.2.4",
     "isomorphic-git": "^1.21.0",
-    "node-fetch-native": "^0.1.8",
+    "node-fetch-native": "^1.2.0",
     "oclif": "^3.2.22",
     "os-locale": "^5.0.0",
     "picocolors": "^1.0.0",
@@ -47,8 +46,8 @@
     "mock-fs": "^5.1.4",
     "mock-stdin": "^1.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "^4.6.4",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "typescript": "^4.6.4"
   },
   "oclif": {
     "bin": "@vue-storefront/cli",

@@ -9,6 +9,7 @@ import { t } from 'i18next';
 type CustomIntegration = {
   name: string;
   gitRepositoryURL: null;
+  type: 'VSF2',
 };
 
 type Options = {
@@ -16,20 +17,32 @@ type Options = {
   customIntegrationRepositoryMessage: string;
 };
 
-const getIntegration = async (options: Options): Promise<Integration> => {
+const getIntegration = async (options: Options, sdk = false): Promise<Integration> => {
   const { message, customIntegrationRepositoryMessage } = options;
 
   const integrations: Integration[] = await fetchIntegrations();
 
   const customIntegration: CustomIntegration = {
     name: 'Custom integration',
-    gitRepositoryURL: null
+    gitRepositoryURL: null,
+    type: 'VSF2'
   };
 
-  const choices = [...integrations, customIntegration].map((integration) => ({
-    name: integration.name,
-    value: integration.name
-  }));
+  let choices;
+
+  if (sdk) {
+    const sdkIntegrations = integrations.filter(integration => integration.type === 'SDK');
+    choices = sdkIntegrations.map((integration) => ({
+      label: integration.name,
+      value: integration.name
+    }));
+  } else {
+    const vsf2Integrations = integrations.filter(integration => integration.type === 'VSF2');
+    choices = [...vsf2Integrations, customIntegration].map((integration) => ({
+      label: integration.name,
+      value: integration.name
+    }));
+  }
 
   const answer = await select({
     options: choices,
@@ -57,7 +70,8 @@ const getIntegration = async (options: Options): Promise<Integration> => {
     name: customIntegration.name,
     gitRepositoryURL: await getGitRepositoryURL(
       customIntegrationRepositoryMessage
-    )
+    ),
+    type: 'VSF2'
   };
 };
 
