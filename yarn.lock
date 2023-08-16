@@ -975,20 +975,20 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@clack/core@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@clack/core/-/core-0.2.1.tgz#b4ae3e5f00f66f10c0d4ae288ec30a0f6cd4b137"
-  integrity sha512-MIZMbzA9IOdjXDAKh2/gfTic3yt554WFXszjjpVfI/Rs5/ofoEjuvdOE2amDQeVnGTHfRL0QB1SBPnoxyliuuA==
+"@clack/core@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@clack/core/-/core-0.3.3.tgz#233ccebf779aa5a66fc68ee48df5e58cd226fd94"
+  integrity sha512-5ZGyb75BUBjlll6eOa1m/IZBxwk91dooBWhPSL67sWcLS0zt9SnswRL0l26TVdBhb0wnWORRxUn//uH6n4z7+A==
   dependencies:
     picocolors "^1.0.0"
     sisteransi "^1.0.5"
 
-"@clack/prompts@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@clack/prompts/-/prompts-0.5.1.tgz#dbb8418374da0b5eff3c2389533762db675f4161"
-  integrity sha512-qkaher9atkx4Sw+Ti1q05tc9ZvkmXNqBTYn6lf/xbD9lW4qZcGn8Nr6I66zGmhE2SpiyN878b9LWcSJShnRnYA==
+"@clack/prompts@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@clack/prompts/-/prompts-0.7.0.tgz#6aaef48ea803d91cce12bc80811cfcb8de2e75ea"
+  integrity sha512-0MhX9/B4iL6Re04jPrttDm+BsP8y6mS7byuv0BvXgdXhbV5PdlsHt55dvNsuBCPZ7xq1oTAOOuotR9NFbQyMSA==
   dependencies:
-    "@clack/core" "^0.2.1"
+    "@clack/core" "^0.3.3"
     picocolors "^1.0.0"
     sisteransi "^1.0.5"
 
@@ -12663,10 +12663,10 @@ node-emoji@^1.11.0:
   dependencies:
     lodash "^4.17.21"
 
-node-fetch-native@^0.1.8:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/node-fetch-native/-/node-fetch-native-0.1.8.tgz#19e2eaf6d86ac14e711ebd2612f40517c3468f2a"
-  integrity sha512-ZNaury9r0NxaT2oL65GvdGDy+5PlSaHTovT6JV5tOW07k1TQmgC0olZETa4C9KZg0+6zBr99ctTYa3Utqj9P/Q==
+node-fetch-native@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/node-fetch-native/-/node-fetch-native-1.2.0.tgz#13ec6df98f33168958dbfb6945f10aedf42e7ea8"
+  integrity sha512-5IAMBTl9p6PaAjYCnMv5FmqIF6GcZnawAVnzaCG0rX2aYZJ4CxEkZNtVPuTRug7fL7wyM5BQYTlAzcyMPi6oTQ==
 
 node-fetch-npm@^2.0.2:
   version "2.0.4"
