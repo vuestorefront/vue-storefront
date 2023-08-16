@@ -43,6 +43,11 @@
       "title": "Sanity",
       "to": "/integrations/sanity",
       "icon": "devicon:sanity"
+    },
+    {
+      "title": "Bloomreach Content",
+      "to": "https://docs.vuestorefront.io/bloomreach-content",
+      "icon": "IconBloomreach"
     }
   ],
   "Payment": [
