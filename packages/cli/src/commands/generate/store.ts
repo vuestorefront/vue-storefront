@@ -30,6 +30,12 @@ import checkYarn from '../../domains/generate/magento2/functions/checkYarn';
 import { handleProjectDiretoryExists } from '../../domains/generate/directory/handleProjectDiretoryExists';
 import { initLogger } from '../../domains/generate/logging/logger';
 
+let globalSDK = false;
+
+export function setSDK(value: boolean) {
+  globalSDK = value;
+}
+
 export default class GenerateStore extends Command {
   static override description = t('command.generate_store.description');
 
@@ -45,7 +51,7 @@ export default class GenerateStore extends Command {
 
     const { writeLog, deleteLog } = initLogger();
 
-    intro(t('command.generate_store.message.intro'));
+    intro(globalSDK ? t('sdk.message.intro') : t('command.generate_store.message.intro'));
 
     // get project name
     const projectName = await getProjectName(
@@ -67,7 +73,7 @@ export default class GenerateStore extends Command {
       customIntegrationRepositoryMessage: t(
         'command.generate_store.input.custom_integration_repository'
       )
-    });
+    }, globalSDK);
 
     const { name: integrationName } = integration;
     const isMagento2 = integrationName === 'Magento 2';

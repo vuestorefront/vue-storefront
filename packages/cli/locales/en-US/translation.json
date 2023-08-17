@@ -13,8 +13,10 @@
         "skipping": "😞 Can't generate the store. Please run the command again and provide a valid project name.",
         "success": "🎉  Sucessfully generated your store at \"./{{projectName}}\"!",
         "install": "To finish the installation, run the following commands:",
-        "install_commands": ["cd {{ projectName }}"],
-        "configure": "Project is conifugred. \nIf you want more advanced configuration go to the \n{{ documentationURL }} to learn how to do it.",
+        "install_commands": [
+          "cd {{ projectName }}"
+        ],
+        "configure": "Project is conifugred. \nIf you want more advanced configuration go to the \n{{ documentationURL }}\n to learn how to do it.",
         "cd_message": "To start working with the project, cd into project directory:",
         "cd_directory": "cd {{ projectName }}",
         "start": "Start the project using this command:",
@@ -99,6 +101,12 @@
       "is_invalid": "Please input a valid git repository URL.",
       "was_not_found": "Couldn't locate git repository with the received URL.",
       "suggestion": "The protocol isn't supported. Use \"{{suggestion}}\" instead?"
+    }
+  },
+  "sdk": {
+    "description": "Generate VSF project with SDK architecture",
+    "message": {
+      "intro": "Welcome to Vue Storefront SDK CLI 💚"
     }
   }
 }
