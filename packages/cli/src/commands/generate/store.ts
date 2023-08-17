@@ -140,7 +140,7 @@ export default class GenerateStore extends Command {
     await installDeps({
       path: projectDir,
       entryMessage: 'Installing project dependencies',
-      exitMessage: 'Porject dependencies are successfully installed'
+      exitMessage: 'Project dependencies are successfully installed'
     }, PACKAGE_MANAGER);
 
     // show success message
