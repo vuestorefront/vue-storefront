@@ -30,16 +30,6 @@ import checkYarn from '../../domains/generate/magento2/functions/checkYarn';
 import { handleProjectDiretoryExists } from '../../domains/generate/directory/handleProjectDiretoryExists';
 import { initLogger } from '../../domains/generate/logging/logger';
 
-<<<<<<< Updated upstream
-=======
-let globalSDK = false;
-const PACKAGE_MANAGER = 'yarn';
-
-export function setSDK(value: boolean) {
-  globalSDK = value;
-}
-
->>>>>>> Stashed changes
 export default class GenerateStore extends Command {
   static override description = t('command.generate_store.description');
 
