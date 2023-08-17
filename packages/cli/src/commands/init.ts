@@ -12,7 +12,7 @@ export default class Init extends Command {
       char: 's',
       aliases: ['sdk'],
       summary: 'Use --sdk flag to initiate SDK architecure CLI',
-      description: '--sdk flag is used to run and install projects with SDK architecture',
+      description: '--sdk flag is used to run and install projects with SDK architecture'
     })
   };
 
