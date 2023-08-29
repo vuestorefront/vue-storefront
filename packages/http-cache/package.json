@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/http-cache",
-  "version": "2.7.5",
+  "version": "2.8.0",
   "license": "MIT",
   "scripts": {
     "test": "jest"
@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/vuestorefront/vue-storefront#readme",
   "engines": {
-    "node": ">=14 <=16"
+    "node": ">= 14"
   }
 }
