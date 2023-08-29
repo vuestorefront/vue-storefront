@@ -64,7 +64,7 @@ jobs:
           # set token for Artifact Registry
           npm config set //europe-west1-npm.pkg.dev/${{ env.GCP_PROJECT_NAME }}/npm/:_authToken=${{ steps.auth.outputs.access_token }}
           # set token for Verdaccio
-          npx npm-cli-login -u ${{ secrets.NPM_USER }} -p ${{ secrets.NPM_PASS }} -e ${{ secrets.NPM_EMAIL }} -r https://registrynpm.storefrontcloud.io
+          npx npm-cli-login -u "${{ secrets.NPM_USER }}" -p "${{ secrets.NPM_PASS }}" -e "${{ secrets.NPM_EMAIL }}" -r https://registrynpm.storefrontcloud.io
 
       - if: ${{ !inputs.enterprise }}
         run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_RELEASE_TOKEN }}
