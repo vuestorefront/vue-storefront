@@ -14,7 +14,7 @@
         "success": "🎉  Sucessfully generated your store at \"./{{projectName}}\"!",
         "install": "To finish the installation, run the following commands:",
         "install_commands": ["cd {{ projectName }}"],
-        "configure": "Project is conifugred. \nIf you want more advanced configuration go to the \n{{ documentationURL }} to learn how to do it.",
+        "configure": "Project is configured. \nIf you want more advanced configuration go to the \n{{ documentationURL }} to learn how to do it.",
         "cd_message": "To start working with the project, cd into project directory:",
         "cd_directory": "cd {{ projectName }}",
         "start": "Start the project using this command:",
