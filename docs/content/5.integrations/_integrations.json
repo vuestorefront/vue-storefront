@@ -46,7 +46,7 @@
     },
     {
       "title": "Bloomreach Content",
-      "to": "https://docs.vuestorefront.io/bloomreach-content",
+      "to": "/integrations/bloomreach-content",
       "icon": "IconBloomreach"
     }
   ],
