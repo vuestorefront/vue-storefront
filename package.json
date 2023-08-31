@@ -9,7 +9,6 @@
     "build:middleware": "cd packages/middleware && yarn build",
     "build:nuxt-module": "cd packages/nuxt-module && yarn build",
     "cli": "cd packages/cli && yarn cli",
-    "commit": "cz",
     "core:changelog": "cd packages/docs/scripts && node changelog --in ../changelog --out ../reference/changelog.md",
     "dev:docs": "cd packages/docs && yarn dev",
     "link-packages": "lerna link --force-local",
@@ -58,21 +57,6 @@
     "packages": [
       "packages/*"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts,vue}": "eslint --fix"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog",
-      "maxHeaderWidth": 100,
-      "maxLineWidth": 100
-    }
   },
   "engines": {
     "node": ">=12.x"
