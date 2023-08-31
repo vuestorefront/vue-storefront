@@ -1,0 +1,72 @@
+{
+  "name": "@vue-storefront/sdk",
+  "license": "MIT",
+  "version": "1.1.1",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rimraf lib && rollup -c",
+    "dev": "rimraf lib && rollup -c -w",
+    "lint": "eslint . --ext .ts",
+    "test": "yarn test:unit && yarn test:integration",
+    "test:unit": "jest ./unit -c ./jest.config.unit.js",
+    "test:integration": "jest ./integration -c ./jest.config.integration.js --runInBand",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --passWithNoTests",
+    "prepublish": "yarn build",
+    "format": "prettier --write \"**/*.{ts,tsx,css,scss,md}\"",
+    "clean": "npx rimraf ./**/node_modules && rm yarn.lock",
+    "clean:hard": "npx rimraf ./**/node_modules && npx rimraf ./**/lib && rm yarn.lock",
+    "changesets:version": "yarn changeset version && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install",
+    "changesets:publish": "yarn run build && yarn changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.2",
+    "@trivago/prettier-plugin-sort-imports": "^3.4.0",
+    "@types/jest": "^29.0.3",
+    "@types/node": "^18.11.17",
+    "@typescript-eslint/eslint-plugin": "^5.47.0",
+    "@typescript-eslint/parser": "^5.47.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-node": "^5.1.1",
+    "commitizen": "^4.2.5",
+    "cross-env": "^7.0.3",
+    "eslint": "8.22.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^7.0.4",
+    "jest": "^29.0.3",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.1",
+    "rollup": "^2.79.0",
+    "rollup-plugin-dts": "^5.0.0",
+    "rollup-plugin-typescript2": "^0.33.0",
+    "ts-jest": "^29.0.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "4.8.2"
+  },
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=16.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog",
+      "disableScopeLowerCase": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.1"
+  }
+}

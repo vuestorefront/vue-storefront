@@ -1,0 +1,16 @@
+{
+  "endOfLine": "lf",
+  "semi": true,
+  "singleQuote": true,
+  "arrowParens": "always",
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "printWidth": 120,
+  "jsxSingleQuote": false,
+  "importOrder": [
+    "^react",
+    "^(next/(.*)$)|^(next$)",
+    "<THIRD_PARTY_MODULES>",
+    "^[./]"
+  ]
+}
