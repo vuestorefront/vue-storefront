@@ -20,6 +20,7 @@
     "@types/node": "^12.12.14",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
+    "@vue-storefront/api-extractor-config": "^0.0.3",
     "@vue-storefront/integrations-tsconfig": "^0.0.2",
     "@vue-storefront/jest-config": "^0.0.2",
     "@vue-storefront/rollup-config": "^0.0.2",

@@ -3371,6 +3371,11 @@
     "@typescript-eslint/types" "5.62.0"
     eslint-visitor-keys "^3.3.0"
 
+"@vue-storefront/api-extractor-config@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/api-extractor-config/-/api-extractor-config-0.0.3.tgz#05bab58c485a39e721d9f9e673bb28a5fbf95840"
+  integrity sha512-o/vbqbehZ2luLNyMRzGGcw7/K4gqYTcVUJud1iRu5lAoGJjH6hBwU4ZWy/XfSmhuudPY4LKQco5etTUfNDAuPQ==
+
 "@vue-storefront/core@^2.8.0":
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/@vue-storefront/core/-/core-2.8.0.tgz#eee99b78cf26c1c6c731e21df7009f7e27a483ce"
@@ -10133,7 +10138,7 @@ jest@^27.0.6:
     import-local "^3.0.2"
     jest-cli "^27.5.1"
 
-jest@^29.0.3, jest@^29.5.0:
+jest@^29.5.0:
   version "29.6.4"
   resolved "https://registry.yarnpkg.com/jest/-/jest-29.6.4.tgz#7c48e67a445ba264b778253b5d78d4ebc9d0a622"
   integrity sha512-tEFhVQFF/bzoYV1YuGyzLPZ6vlPrdfvDmmAxudA1dLEuiztqg2Rkx20vkKY32xiDROcD2KXlgZ7Cu8RPeEHRKw==
