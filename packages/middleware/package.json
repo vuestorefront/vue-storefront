@@ -28,8 +28,5 @@
     "@types/node": "^12.12.2",
     "nock": "^13.2.9",
     "supertest": "^6.3.1"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

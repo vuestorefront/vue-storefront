@@ -34,19 +34,15 @@
     "@typescript-eslint/parser": "^5.47.0",
     "babel-cli": "^6.26.0",
     "babel-preset-node": "^5.1.1",
-    "commitizen": "^4.2.5",
     "cross-env": "^7.0.3",
     "eslint": "8.22.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^7.0.4",
     "nodemon": "^2.0.20",
-    "prettier": "^2.8.1",
     "ts-jest": "^29.0.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "4.8.2"
+    "ts-node-dev": "^2.0.0"
   },
   "engines": {
     "npm": ">=7.0.0",
@@ -57,9 +53,6 @@
       "path": "cz-conventional-changelog",
       "disableScopeLowerCase": true
     }
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "dependencies": {
     "@changesets/changelog-github": "^0.4.8",
