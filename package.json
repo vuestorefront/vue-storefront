@@ -13,15 +13,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-node-resolve": "~13.1.3",
-    "@rollup/plugin-replace": "^3.0.0",
     "@types/jest": "^26.0.24",
     "@types/node": "^12.12.14",
-    "@typescript-eslint/eslint-plugin": "^4.15.2",
-    "@typescript-eslint/parser": "^4.15.2",
     "@vue-storefront/api-extractor-config": "^0.0.3",
-    "@vue-storefront/eslint-config-integrations": "^0.0.2",
+    "@vue-storefront/eslint-config-integrations": "^0.0.17",
     "@vue-storefront/integrations-tsconfig": "^0.0.2",
     "@vue-storefront/jest-config": "^0.0.2",
     "@vue-storefront/rollup-config": "^0.0.2",
@@ -36,7 +31,6 @@
     "ts-node": "^8.4.1",
     "tslib": "^2.1.0",
     "typescript": "^4",
-    "vue-eslint-parser": "^7.0.0",
     "webpack-bundle-analyzer": "^3.5.2"
   },
   "workspaces": {

@@ -42,7 +42,6 @@
     "@types/inquirer": "^9.0.2",
     "@types/mock-fs": "^4.13.1",
     "@types/node": "^16.18.2",
-    "eslint": "^8.26.0",
     "mock-fs": "^5.1.4",
     "mock-stdin": "^1.0.0",
     "ts-node": "^10.9.1",
