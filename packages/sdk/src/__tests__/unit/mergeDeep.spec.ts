@@ -1,4 +1,4 @@
-import mergeDeep from '@/helpers/mergeDeep';
+import mergeDeep from '../../helpers/mergeDeep';
 
 describe('[mergeDeep]', () => {
   it('should merge objects', () => {

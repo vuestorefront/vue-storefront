@@ -1,4 +1,4 @@
-import { handleError } from '@/error';
+import { handleError } from '../../error';
 
 describe('[error]', () => {
   it('should return SDKError', () => {

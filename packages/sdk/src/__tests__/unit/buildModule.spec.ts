@@ -1,6 +1,6 @@
-import { extension1Mock } from '@/__tests__/__mocks__/extension1.mock';
-import module1Mock from '@/__tests__/__mocks__/module1.mock';
-import { buildModule } from '@/module/buildModule';
+import { extension1Mock } from '../../__tests__/__mocks__/extension1.mock';
+import module1Mock from '../../__tests__/__mocks__/module1.mock';
+import { buildModule } from '../../module/buildModule';
 
 describe('[buildModule]', () => {
   it('should build module without extensions', () => {

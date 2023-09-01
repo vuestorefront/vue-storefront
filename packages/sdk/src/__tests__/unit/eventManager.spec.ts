@@ -1,4 +1,4 @@
-import { EventManager } from '@/events/EventManager';
+import { EventManager } from '../../events/EventManager';
 
 let eventManager: EventManager;
 

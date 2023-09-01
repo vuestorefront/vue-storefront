@@ -1,7 +1,7 @@
-import { SDKError } from '@/error';
-import { EventManager } from '@/events/EventManager';
-import { InterceptorsManager } from '@/interceptors/InterceptorsManager';
-import { AnyFunction } from '@/types';
+import { SDKError } from '../../error';
+import { EventManager } from '../../events/EventManager';
+import { InterceptorsManager } from '../../interceptors/InterceptorsManager';
+import { AnyFunction } from '../../types';
 
 function getWrappedMethods(configWithoutInterceptors: any, eventManager: EventManager = new EventManager()): any {
   const interceptorsManager = new InterceptorsManager(configWithoutInterceptors, eventManager);

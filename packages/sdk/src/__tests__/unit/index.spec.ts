@@ -1,4 +1,4 @@
-import * as index from '@/index';
+import * as index from '../../index';
 
 describe('[index]', () => {
   it('should export eventManager', () => {
