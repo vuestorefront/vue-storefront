@@ -1,4 +1,4 @@
-import type { EventCallback, Subscribers } from '@/types';
+import type { EventCallback, Subscribers } from '../types';
 
 /**
  * EventManagerInterface is an interface used to emit and subscribe to events.

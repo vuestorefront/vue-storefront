@@ -1,7 +1,7 @@
-import { handleError } from '@/error';
-import type { EventManagerInterface } from '@/events/EventManager';
-import type { Connector, InterceptorType, MappedInterceptors, SDKConfig } from '@/types';
-import { AnyFunction, Interceptor, InterceptorsConfig } from '@/types';
+import { handleError } from '../error';
+import type { EventManagerInterface } from '../events/EventManager';
+import type { Connector, InterceptorType, MappedInterceptors, SDKConfig } from '../types';
+import { AnyFunction, Interceptor, InterceptorsConfig } from '../types';
 
 /**
  * This class is responsible for managing interceptors, executing them and mapping them to the methods.

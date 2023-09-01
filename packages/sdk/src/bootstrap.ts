@@ -1,6 +1,6 @@
-import { eventManager } from '@/events/EventManager';
-import { InterceptorsManager } from '@/interceptors/InterceptorsManager';
-import { SDKApi, SDKConfig } from '@/types';
+import { eventManager } from './events/EventManager';
+import { InterceptorsManager } from './interceptors/InterceptorsManager';
+import { SDKApi, SDKConfig } from './types';
 
 /**
  * Initializes SDK

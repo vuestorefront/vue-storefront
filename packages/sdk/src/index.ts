@@ -1,6 +1,6 @@
-import { initSDK } from '@/bootstrap';
-import { eventManager } from '@/events/EventManager';
-import { buildModule } from '@/module/buildModule';
+import { initSDK } from './bootstrap';
+import { eventManager } from './events/EventManager';
+import { buildModule } from './module/buildModule';
 import { handleError } from './error';
 
 /**

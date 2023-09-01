@@ -1,5 +1,5 @@
-import mergeDeep from '@/helpers/mergeDeep';
-import { Module, Extension, InitFunction } from '@/types';
+import mergeDeep from '../helpers/mergeDeep';
+import { Module, Extension, InitFunction } from '../types';
 
 function buildModule<T extends Module>(module: InitFunction<T>, moduleOptions?: any): T;
 function buildModule<T extends Module, U extends Extension = object>(
