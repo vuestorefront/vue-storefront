@@ -1,6 +1,6 @@
-import { buildModule } from '@/module/buildModule';
+import { buildModule } from '../../module/buildModule';
 import proxyModule1Mock, { ProxyModule1 } from '../__mocks__/proxyModule1.mock';
-import { initSDK } from '@/bootstrap';
+import { initSDK } from '../../bootstrap';
 import { createModuleMock } from '../__mocks__/createModuleMock';
 
 describe('[Subscription]', () => {

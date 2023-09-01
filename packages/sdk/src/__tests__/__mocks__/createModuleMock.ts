@@ -1,4 +1,4 @@
-import { Module, SDKConfig } from '@/types';
+import { Module, SDKConfig } from '../../types';
 
 type ModuleMock<Overwrite extends Partial<SDKConfig[string]>> = {
   moduleMock: () => Module & Overwrite;

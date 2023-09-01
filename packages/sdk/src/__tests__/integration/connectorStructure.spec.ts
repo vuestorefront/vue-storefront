@@ -1,5 +1,5 @@
-import { initSDK } from '@/bootstrap';
-import { buildModule } from '@/module/buildModule';
+import { initSDK } from '../../bootstrap';
+import { buildModule } from '../../module/buildModule';
 import { createModuleMock } from '../__mocks__/createModuleMock';
 
 describe('[ConnectorStructure]', () => {
