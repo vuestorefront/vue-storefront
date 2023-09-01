@@ -17,7 +17,7 @@
     "test:integration": "jest ./integration -c ./jest.config.integration.js --runInBand",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --passWithNoTests",
-    "prepublish": "yarn build",
+    "prepublishOnly": "yarn build",
     "format": "prettier --write \"**/*.{ts,tsx,css,scss,md}\"",
     "clean": "npx rimraf ./**/node_modules && rm yarn.lock",
     "clean:hard": "npx rimraf ./**/node_modules && npx rimraf ./**/lib && rm yarn.lock",
