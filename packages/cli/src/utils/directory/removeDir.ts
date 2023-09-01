@@ -1,10 +1,8 @@
-import {promisify} from 'util';
-import rimraf from 'rimraf';
+import { rimraf } from 'rimraf';
 import path from 'path';
 
-const removeFileOrDirectory = promisify(rimraf);
+const removeFileOrDirectory = rimraf;
 
-export const removeDir = (projectDir: string, dirName: string): Promise<void> => {
+export const removeDir = (projectDir: string, dirName: string): Promise<boolean> => {
   return removeFileOrDirectory(path.join(projectDir, dirName));
-
 };
