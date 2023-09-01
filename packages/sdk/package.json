@@ -25,21 +25,10 @@
     "changesets:publish": "yarn run build && yarn changeset publish"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.4.8",
-    "@changesets/cli": "^2.26.2",
-    "@trivago/prettier-plugin-sort-imports": "^3.4.0",
     "@types/jest": "^29.0.3",
     "@types/node": "^18.11.17",
-    "@typescript-eslint/eslint-plugin": "^5.47.0",
-    "@typescript-eslint/parser": "^5.47.0",
     "babel-cli": "^6.26.0",
     "babel-preset-node": "^5.1.1",
-    "cross-env": "^7.0.3",
-    "eslint": "8.22.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-import-resolver-alias": "^1.1.2",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-prettier": "^4.2.1",
     "nodemon": "^2.0.20",
     "ts-jest": "^29.0.2",
     "ts-node-dev": "^2.0.0"
@@ -47,15 +36,5 @@
   "engines": {
     "npm": ">=7.0.0",
     "node": ">=16.0.0"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog",
-      "disableScopeLowerCase": true
-    }
-  },
-  "dependencies": {
-    "@changesets/changelog-github": "^0.4.8",
-    "@changesets/cli": "^2.26.1"
   }
 }
