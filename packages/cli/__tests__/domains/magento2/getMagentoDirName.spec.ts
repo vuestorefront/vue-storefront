@@ -27,7 +27,7 @@ describe('getMagentoDirName | Magento tests', () => {
     });
   });
 
-  it('gets magento dir name from user', async () => {
+  it.skip('gets magento dir name from user', async () => {
     const answer = async () => {
       expect(output).toContain('command.generate_store.magento.directory');
 

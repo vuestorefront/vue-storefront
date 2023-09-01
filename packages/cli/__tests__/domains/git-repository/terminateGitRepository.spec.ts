@@ -7,7 +7,7 @@ type Mock = jest.MockedFunction<typeof removeFileOrDirectory>;
 
 describe('terminateGitRepository | unit tests', () => {
   it('removes \'.git\' folder', async () => {
-    (removeFileOrDirectory as Mock).mockResolvedValueOnce();
+    (removeFileOrDirectory as Mock).mockResolvedValueOnce(Promise.resolve(true));
 
     await terminateGitRepository('~/Projects/test-store');
 
