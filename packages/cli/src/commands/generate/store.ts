@@ -24,7 +24,7 @@ import {
   checkDocker,
   getMagentoDomainName
 } from '../../domains/generate/magento2/docker';
-import installDeps from '../../domains/generate/magento2/functions/installDeps';
+import { installDeps } from '../../utils/installDeps';
 import checkNode from '../../domains/generate/magento2/functions/checkNode';
 import checkYarn from '../../domains/generate/magento2/functions/checkYarn';
 import { handleProjectDiretoryExists } from '../../domains/generate/directory/handleProjectDiretoryExists';
@@ -127,7 +127,11 @@ export default class GenerateStore extends Command {
     sp.stop(picocolors.green(t('command.generate_store.progress.vsf_end')));
 
     // install dependencies
-    await installDeps(projectDir, writeLog);
+    await installDeps({
+      path: projectDir,
+      entryMessage: 'Installing project dependencies',
+      exitMessage: 'Project dependencies are successfully installed'
+    }, PACKAGE_MANAGER);
 
     // show success message
     if (integration.documentationURL) {
