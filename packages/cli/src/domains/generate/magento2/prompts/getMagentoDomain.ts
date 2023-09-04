@@ -19,6 +19,7 @@ const getMagentoDomainName = async (message: string): Promise<string> => {
       if (!domainNameRegex.test(value)) {
         return t<string>('command.generate_store.magento.invalid_domain');
       }
+      return undefined;
     },
   });
 

@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 const nextConfigPath = './playground/app/next.config.js';
 const nuxtConfigPath = './playground/app/nuxt.config.ts';

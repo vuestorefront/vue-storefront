@@ -18,7 +18,7 @@ const copyAuth = async (magentoDirName: string, accessKey: string, secretKey: st
 
   const copyToContainer = spawn('bin/copytocontainer', ['src/auth.json'], options);
 
-  copyToContainer.on('close', () => {});
+  copyToContainer.on('close', () => undefined);
 };
 
 export default copyAuth;

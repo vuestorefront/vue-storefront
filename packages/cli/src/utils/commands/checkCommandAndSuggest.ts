@@ -15,6 +15,7 @@ interface CheckCommandAndSuggest {
   self: any;
 }
 
+// eslint-disable-next-line consistent-return
 export const checkCommandAndSuggest = async ({ commands, commandArg, endpoint, self }: CheckCommandAndSuggest) => {
   const similarCommand = commands.find(({ command }) => isCloseEnough(commandArg, command));
 

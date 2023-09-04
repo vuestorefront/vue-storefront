@@ -11,7 +11,7 @@ const levenshteinDistance = (a: string, b: string): number => {
 
 const countFrequencies = (str: string): Record<string, number> => {
   const freq: Record<string, number> = {};
-  for (let i = 0; i < str.length; i++) {
+  for (let i = 0; i < str.length; i += 1) {
     const c = str[i] as keyof typeof freq;
     freq[c] = (freq[c] || 0) + 1;
   }

@@ -5,11 +5,11 @@ import { t } from 'i18next';
 const isInstallMagento = async (message: string): Promise<boolean> => {
   note(t('command.generate_store.magento.install_note'));
 
-  const isInstallMagento = await confirm({
+  const isInstallMagentoFn = await confirm({
     message,
   });
 
-  return isInstallMagento as boolean;
+  return isInstallMagentoFn as boolean;
 };
 
 export default isInstallMagento;

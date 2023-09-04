@@ -46,16 +46,16 @@ const getGitRepositoryURL = async (message: string): Promise<string> => {
   const suggestion = await suggestURL(validateResult);
 
   if (suggestion) {
-    const answer = await confirm({
+    const suggestionAnswer = await confirm({
       message: t('domain.git_repository_url.suggestion', { suggestion }),
     });
 
-    if (isCancel(answer)) {
+    if (isCancel(suggestionAnswer)) {
       cancel('Installation cancelled');
       return '';
     }
 
-    if (answer) return suggestion;
+    if (suggestionAnswer) return suggestion;
   }
 
   return getGitRepositoryURL(message);

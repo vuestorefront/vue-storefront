@@ -19,6 +19,7 @@ const getMagentoDirName = async (message: string): Promise<string> => {
       if (!isReasonableFilename(value)) {
         return t<string>('domain.project_name.is_not_directory');
       }
+      return undefined;
     },
   });
 

@@ -2,9 +2,10 @@ import { password, isCancel } from '@clack/prompts';
 import { t } from 'i18next';
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import { logSimpleWarningMessage } from '../functions/terminalHelpers';
 
-const homeDir = require('os').homedir();
+const homeDir = os.homedir();
 
 /** The answers expected in the form of 'inquirer'. */
 type MagentoKeys = {

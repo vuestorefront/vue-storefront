@@ -7,7 +7,7 @@ export const endpointName = async (): Promise<string> => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore - @clack/prompts does not require return value
     validate: (value: string) => {
-      const regex = new RegExp('^(?!.*[^a-zA-Z]).+$');
+      const regex = /'^(?!.*[^a-zA-Z]).+$'/;
 
       if (!value) {
         return 'Endpoint name is required';
@@ -15,6 +15,7 @@ export const endpointName = async (): Promise<string> => {
       if (!regex.test(value)) {
         return 'Endpoint name must contain only letters';
       }
+      return undefined;
     },
   });
 
