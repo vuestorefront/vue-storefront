@@ -6,13 +6,11 @@ jest.mock('../../../src/domains/generate/directory');
 type Mock = jest.MockedFunction<typeof removeFileOrDirectory>;
 
 describe('terminateGitRepository | unit tests', () => {
-  it('removes \'.git\' folder', async () => {
+  it("removes '.git' folder", async () => {
     (removeFileOrDirectory as Mock).mockResolvedValueOnce(Promise.resolve(true));
 
     await terminateGitRepository('~/Projects/test-store');
 
-    expect(removeFileOrDirectory).toHaveBeenCalledWith(
-      '~/Projects/test-store/.git'
-    );
+    expect(removeFileOrDirectory).toHaveBeenCalledWith('~/Projects/test-store/.git');
   });
 });

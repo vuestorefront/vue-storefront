@@ -25,8 +25,8 @@ describe('getDirectory | integration test', () => {
 
     mockFS({
       src: {
-        'index.js': 'console.log("Hello world!");'
-      }
+        'index.js': 'console.log("Hello world!");',
+      },
     });
 
     jest.spyOn(process.stdout, 'write').mockImplementation((message) => {
@@ -41,7 +41,7 @@ describe('getDirectory | integration test', () => {
 
   it('asks user to input a directory', async () => {
     const answer = async () => {
-      expect(output).toContain('What\'s the directory?');
+      expect(output).toContain("What's the directory?");
 
       io.send('test');
       io.send(ENTER_KEY);
@@ -57,7 +57,7 @@ describe('getDirectory | integration test', () => {
 
     wait(100).then(answer);
 
-    const directory = await getDirectory('What\'s the directory?');
+    const directory = await getDirectory("What's the directory?");
 
     expect(directory).toBe(path.resolve('src'));
   });

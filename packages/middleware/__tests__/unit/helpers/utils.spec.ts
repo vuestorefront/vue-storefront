@@ -1,4 +1,4 @@
-import { includes, isFunction } from '../../../src/helpers/';
+import { includes, isFunction } from '../../../src/helpers';
 
 describe('[helpers] utils', () => {
   describe('[isFunction]', () => {

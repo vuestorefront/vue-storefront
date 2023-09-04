@@ -1,16 +1,16 @@
 import fs from 'fs';
 import { confirm, isCancel, spinner, text } from '@clack/prompts';
-import { existsDirectory, log } from '../../../../utils';
 import picocolors from 'picocolors';
+import { existsDirectory, log } from '../../../../utils';
 
 export const handleDirectoryName = async (projectDir: string): Promise<string> => {
   let directoryName = projectDir;
   const sp = spinner();
 
   if (!directoryName) {
-    directoryName = await text({
-      message: 'How we will name your integration?'
-    }) as string;
+    directoryName = (await text({
+      message: 'How we will name your integration?',
+    })) as string;
 
     if (isCancel(directoryName)) {
       log('Integration creation has been canceled');
@@ -23,7 +23,7 @@ export const handleDirectoryName = async (projectDir: string): Promise<string> =
   if (isDirExists) {
     const isOverwrite = await confirm({
       message: `Directory ${directoryName} already exists. Do you want to overwrite it?`,
-      active: 'Yes'
+      active: 'Yes',
     });
 
     if (isCancel(isOverwrite)) {
@@ -32,9 +32,7 @@ export const handleDirectoryName = async (projectDir: string): Promise<string> =
     }
 
     if (isOverwrite) {
-      sp.start(
-        picocolors.cyan('deleting directory...')
-      );
+      sp.start(picocolors.cyan('deleting directory...'));
       await fs.rmSync(directoryName, { recursive: true, force: true });
       await fs.mkdirSync(directoryName);
       sp.stop(picocolors.green('directory has been deleted!'));

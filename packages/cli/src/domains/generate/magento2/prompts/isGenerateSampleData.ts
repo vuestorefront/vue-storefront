@@ -6,7 +6,7 @@ import { logSimpleWarningMessage } from '../functions/terminalHelpers';
 const isGenerateSampleData = async (message: string): Promise<boolean> => {
   const isGenerate = await confirm({
     message,
-    initialValue: true
+    initialValue: true,
   });
 
   if (isCancel(isGenerate)) {

@@ -1,8 +1,8 @@
 import fs from 'fs';
-import {writeApiMethod, writeSDKMethod, writePageMethod} from './helpers';
-import {confirm, intro} from '@clack/prompts';
-import {log} from '../../../utils/log';
+import { confirm, intro } from '@clack/prompts';
 import picocolors from 'picocolors';
+import { writeApiMethod, writeSDKMethod, writePageMethod } from './helpers';
+import { log } from '../../../utils/log';
 
 export const makeMethod = async (name: string) => {
   const apiMethodPath = `./packages/api-client/src/api/${name}`;
@@ -13,7 +13,7 @@ export const makeMethod = async (name: string) => {
     log(`Endpoint ${name} already exists`);
 
     const shouldOverwrite = await confirm({
-      message: `Do you want to overwrite ${name} enpoint?`
+      message: `Do you want to overwrite ${name} enpoint?`,
     });
 
     if (!shouldOverwrite) {

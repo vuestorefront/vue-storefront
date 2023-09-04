@@ -40,12 +40,7 @@ const inheritTheme = async (options: Options) => {
 `
   );
 
-  await execa(require.resolve('@vue-storefront/theme-utilities'), [
-    '--config',
-    configPath,
-    '--output',
-    projectPath
-  ]);
+  await execa(require.resolve('@vue-storefront/theme-utilities'), ['--config', configPath, '--output', projectPath]);
 
   await removeFileOrDirectory(configPath);
 

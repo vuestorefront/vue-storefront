@@ -7,7 +7,7 @@ type ModuleMock<Overwrite extends Partial<SDKConfig[string]>> = {
 
 export function createModuleMock<Overwrite extends Partial<SDKConfig[string]>>(
   isProxy: boolean,
-  overwrite: Overwrite = {} as Overwrite,
+  overwrite: Overwrite = {} as Overwrite
 ): ModuleMock<Overwrite> {
   const methodMock = jest.fn();
   const proxyModule = new Proxy(
@@ -16,7 +16,7 @@ export function createModuleMock<Overwrite extends Partial<SDKConfig[string]>>(
       get() {
         return methodMock;
       },
-    },
+    }
   ) as unknown as { callFunction: () => symbol };
 
   const connector = isProxy ? proxyModule : { callFunction: methodMock };

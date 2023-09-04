@@ -9,10 +9,10 @@ describe('[error]', () => {
   });
 
   it('if axios error should return SDKError with axios error', () => {
-    const result = handleError({ name: 'axios error',  message: 'test' });
+    const result = handleError({ name: 'axios error', message: 'test' });
 
     expect(result.name).toEqual('SDKError');
     expect(result.message).toEqual('test');
-    expect(result.cause).toEqual({ message: 'test', "name": "axios error" });
+    expect(result.cause).toEqual({ message: 'test', name: 'axios error' });
   });
 });

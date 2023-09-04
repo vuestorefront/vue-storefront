@@ -12,7 +12,7 @@ export interface Integration<CONFIG extends TObject = any, API extends ApiMethod
   location: string;
   configuration: CONFIG;
   extensions?: <T extends ApiClientMethodWithContext<CONTEXT>>(
-    extensions: ApiClientExtension<API, CONTEXT>[],
+    extensions: ApiClientExtension<API, CONTEXT>[]
   ) => ApiClientExtension<API & T, CONTEXT>[];
   customQueries?: Record<string, CustomQueryFunction>;
   initConfig?: TObject;
@@ -39,10 +39,7 @@ export interface LoadInitConfigProps {
   tag: string;
 }
 
-export type IntegrationsLoaded<CONFIG extends ApiClientConfig = any, API extends ApiMethods = {}> = Record<
-  string,
-  IntegrationLoaded<CONFIG, API>
->;
+export type IntegrationsLoaded<CONFIG extends ApiClientConfig = any, API extends ApiMethods = {}> = Record<string, IntegrationLoaded<CONFIG, API>>;
 
 export type ExtendApiMethod<API, CONTEXT> = {
   [K in keyof API]?: ApiClientMethodWithContext<CONTEXT>;
@@ -112,7 +109,7 @@ export interface ApplyingContextHooks<CONFIG = any> {
 
 export type ExtendQuery = <T extends ContextQuery<string>, Key extends keyof T>(
   customQuery: CustomQuery<Key> | null,
-  defaults: T,
+  defaults: T
 ) => ContextQuery<Key>;
 
 export type ExtensionHookWith<T extends keyof ApiClientExtensionHooks> = WithRequired<ApiClientExtensionHooks, T>;

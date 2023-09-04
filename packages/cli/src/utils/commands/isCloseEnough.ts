@@ -4,10 +4,8 @@ const levenshteinDistance = (a: string, b: string): number => {
 
   if (a[0] === b[0]) return levenshteinDistance(a.substring(1), b.substring(1));
 
-  return 1 + Math.min(
-    levenshteinDistance(a, b.substring(1)),
-    levenshteinDistance(a.substring(1), b),
-    levenshteinDistance(a.substring(1), b.substring(1))
+  return (
+    1 + Math.min(levenshteinDistance(a, b.substring(1)), levenshteinDistance(a.substring(1), b), levenshteinDistance(a.substring(1), b.substring(1)))
   );
 };
 

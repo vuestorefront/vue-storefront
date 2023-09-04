@@ -13,6 +13,6 @@ export const initLogger = () => {
 
   return {
     writeLog,
-    deleteLog
+    deleteLog,
   };
 };

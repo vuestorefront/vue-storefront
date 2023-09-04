@@ -1,9 +1,9 @@
 import { t } from 'i18next';
 import git from 'isomorphic-git';
+import { text, isCancel, cancel, confirm } from '@clack/prompts';
 import extractSuggestionFromError from './extractSuggestionFromError';
 import validateGitRepositoryURL from './validateGitRepositoryURL';
 
-import { text, isCancel, cancel, confirm } from '@clack/prompts';
 import { simpleLog } from '../magento2/functions/terminalHelpers';
 
 const validateURL = async (url: string): Promise<void | any> => {
@@ -29,7 +29,7 @@ const suggestURL = async (url: string): Promise<string | null> => {
 const getGitRepositoryURL = async (message: string): Promise<string> => {
   // URL
   const answer = await text({
-    message
+    message,
   });
 
   if (isCancel(answer)) {
@@ -47,7 +47,7 @@ const getGitRepositoryURL = async (message: string): Promise<string> => {
 
   if (suggestion) {
     const answer = await confirm({
-      message: t('domain.git_repository_url.suggestion', { suggestion })
+      message: t('domain.git_repository_url.suggestion', { suggestion }),
     });
 
     if (isCancel(answer)) {

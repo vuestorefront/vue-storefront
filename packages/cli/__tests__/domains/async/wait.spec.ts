@@ -1,5 +1,5 @@
-import { wait } from '../../../src/domains/generate/async';
 import { performance } from 'perf_hooks';
+import { wait } from '../../../src/domains/generate/async';
 
 describe('wait | unit tests', () => {
   it('waits received amount of time', async () => {

@@ -22,7 +22,7 @@ describe('[EventManager]', () => {
     eventManager.register('test', callback);
     eventManager.register('test', callback);
 
-    expect(eventManager.events['test'].length).toBe(1);
+    expect(eventManager.events.test.length).toBe(1);
   });
 
   it('should unregister events', () => {
@@ -75,5 +75,4 @@ describe('[EventManager]', () => {
     expect(callback1).toHaveBeenCalledWith('test');
     expect(callback2).toHaveBeenCalledWith('test');
   });
-
 });

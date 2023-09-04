@@ -19,4 +19,3 @@ export const writeApiMethod = async (endpoint: string, isOverwrite: boolean) => 
   fs.writeFileSync(`${apiMethodPath}/index.ts`, getApiMethodCode(endpoint));
   writeToTypescriptFile(typesMethodPath, endpoint);
 };
-

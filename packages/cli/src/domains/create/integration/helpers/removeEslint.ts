@@ -1,20 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 
-const ESLINT_FILES = [
-  '.eslintrc.js',
-  '.eslintignore',
-  '.eslintrc.json'
-];
+const ESLINT_FILES = ['.eslintrc.js', '.eslintignore', '.eslintrc.json'];
 
-const COMMITLINT_FILES = [
-  'commitlint.config.js'
-];
+const COMMITLINT_FILES = ['commitlint.config.js'];
 
-const OTHER_FILES = [
-  'CHANGELOG.md',
-  '/playground/app/exampleApp.md'
-];
+const OTHER_FILES = ['CHANGELOG.md', '/playground/app/exampleApp.md'];
 
 const removeFromPackageJson = async (directoryName: string, packageName: string): Promise<void> => {
   const packageJSONPath = path.join(directoryName, 'package.json');

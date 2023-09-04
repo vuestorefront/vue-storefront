@@ -5,55 +5,44 @@ import { createModuleMock } from '../__mocks__/createModuleMock';
 
 describe('[Subscription]', () => {
   it('triggers subscribers when module is proxy', async () => {
-    expect.assertions(2)
-    const mock = proxyModule1Mock({})
+    expect.assertions(2);
+    const mock = proxyModule1Mock({});
     const sdkConfig = {
       proxyModule1: buildModule<ProxyModule1>(() => mock),
     };
 
     const sdk = initSDK(sdkConfig);
-    await sdk.proxyModule1.callProxyFunction()
+    await sdk.proxyModule1.callProxyFunction();
 
     expect(mock.subscribers['*_before'][0]).toBeCalledTimes(1);
-    expect(mock.subscribers['proxyModule1_callProxyFunction_before']).toBeCalledTimes(1);
+    expect(mock.subscribers.proxyModule1_callProxyFunction_before).toBeCalledTimes(1);
   });
 
   it('triggers interceptors when module is proxy', async () => {
-    expect.assertions(4)
+    expect.assertions(4);
 
-    const beforeInterceptorReturnValue = Symbol('beforeInterceptorReturnValue')
-    const afterInterceptorReturnValue = Symbol('afterInterceptorReturnValue')
-    const { moduleMock, methodMock } =
-      createModuleMock(
-        true,
+    const beforeInterceptorReturnValue = Symbol('beforeInterceptorReturnValue');
+    const afterInterceptorReturnValue = Symbol('afterInterceptorReturnValue');
+    const { moduleMock, methodMock } = createModuleMock(true, {
+      interceptors: [
         {
-          interceptors: [
-            {
-              before: {
-                callProxyFunction: jest.fn(
-                  (...args: any[]) => {
-                    return [beforeInterceptorReturnValue]
-                  }
-                )
-              },
-              after: {
-                callProxyFunction: jest.fn(
-                  (...args: any[]) => {
-                    return [afterInterceptorReturnValue]
-                  }
-                )
-                
-              }
-            }
-          ],
-          subscribers: {
-            '*_before': [
-              jest.fn()
-            ],
-            'proxyModule1_callProxyFunction_before': jest.fn()
-          }
-        }
-      )
+          before: {
+            callProxyFunction: jest.fn((...args: any[]) => {
+              return [beforeInterceptorReturnValue];
+            }),
+          },
+          after: {
+            callProxyFunction: jest.fn((...args: any[]) => {
+              return [afterInterceptorReturnValue];
+            }),
+          },
+        },
+      ],
+      subscribers: {
+        '*_before': [jest.fn()],
+        proxyModule1_callProxyFunction_before: jest.fn(),
+      },
+    });
 
     const sdkConfig = {
       proxyModule1: buildModule<ReturnType<typeof moduleMock>>(moduleMock),
@@ -61,49 +50,42 @@ describe('[Subscription]', () => {
 
     const sdk = initSDK(sdkConfig);
 
-    const result = await sdk.proxyModule1.callProxyFunction()
+    const result = await sdk.proxyModule1.callProxyFunction();
 
     expect(moduleMock().interceptors[0].before.callProxyFunction).toBeCalledTimes(1);
     expect(moduleMock().interceptors[0].after.callProxyFunction).toBeCalledTimes(1);
-    expect(methodMock).toHaveBeenCalledWith(beforeInterceptorReturnValue)
-    expect(result).toEqual([afterInterceptorReturnValue])
+    expect(methodMock).toHaveBeenCalledWith(beforeInterceptorReturnValue);
+    expect(result).toEqual([afterInterceptorReturnValue]);
   });
 
   it('triggers hooks when module is proxy and hooks are added by extension', async () => {
-    expect.assertions(6)
+    expect.assertions(6);
 
-    const beforeInterceptorReturnValue = Symbol('beforeInterceptorReturnValue')
-    const afterInterceptorReturnValue = Symbol('afterInterceptorReturnValue')
+    const beforeInterceptorReturnValue = Symbol('beforeInterceptorReturnValue');
+    const afterInterceptorReturnValue = Symbol('afterInterceptorReturnValue');
 
-    const { moduleMock, methodMock } = createModuleMock(true)
+    const { moduleMock, methodMock } = createModuleMock(true);
 
     const extension = {
       interceptors: [
         {
           before: {
-            callProxyFunction: jest.fn(
-              (...args: any[]) => {
-                return [beforeInterceptorReturnValue]
-              }
-            )
+            callProxyFunction: jest.fn((...args: any[]) => {
+              return [beforeInterceptorReturnValue];
+            }),
           },
           after: {
-            callProxyFunction: jest.fn(
-              (...args: any[]) => {
-                return [afterInterceptorReturnValue]
-              }
-            )
-            
-          }
-        }
+            callProxyFunction: jest.fn((...args: any[]) => {
+              return [afterInterceptorReturnValue];
+            }),
+          },
+        },
       ],
       subscribers: {
-        '*_before': [
-          jest.fn()
-        ],
-        'proxyModule1_callProxyFunction_before': jest.fn()
-      }
-    }
+        '*_before': [jest.fn()],
+        proxyModule1_callProxyFunction_before: jest.fn(),
+      },
+    };
 
     const sdkConfig = {
       proxyModule1: buildModule<ReturnType<typeof moduleMock>, typeof extension>(moduleMock, {}, extension),
@@ -111,54 +93,46 @@ describe('[Subscription]', () => {
 
     const sdk = initSDK(sdkConfig);
 
-    const result = await sdk.proxyModule1.callProxyFunction()
-  
+    const result = await sdk.proxyModule1.callProxyFunction();
+
     expect(extension.subscribers['*_before'][0]).toBeCalledTimes(1);
-    expect(extension.subscribers['proxyModule1_callProxyFunction_before']).toBeCalledTimes(1);
+    expect(extension.subscribers.proxyModule1_callProxyFunction_before).toBeCalledTimes(1);
     expect(extension.interceptors[0].before.callProxyFunction).toBeCalledTimes(1);
     expect(extension.interceptors[0].after.callProxyFunction).toBeCalledTimes(1);
-    expect(methodMock).toHaveBeenCalledWith(beforeInterceptorReturnValue)
-    expect(result).toEqual([afterInterceptorReturnValue])
+    expect(methodMock).toHaveBeenCalledWith(beforeInterceptorReturnValue);
+    expect(result).toEqual([afterInterceptorReturnValue]);
   });
 
   it('triggers hooks on overridden functions when module is proxy and hooks are added by extension', async () => {
-    expect.assertions(6)
-    const beforeInterceptorReturnValue = Symbol('beforeInterceptorReturnValue')
-    const afterInterceptorReturnValue = Symbol('afterInterceptorReturnValue')
-    const { moduleMock, methodMock} = createModuleMock(true)
+    expect.assertions(6);
+    const beforeInterceptorReturnValue = Symbol('beforeInterceptorReturnValue');
+    const afterInterceptorReturnValue = Symbol('afterInterceptorReturnValue');
+    const { moduleMock, methodMock } = createModuleMock(true);
 
     const extension = {
-      extend: {
-      },
+      extend: {},
       override: {
-        overriddenFunction: methodMock
+        overriddenFunction: methodMock,
       },
       interceptors: [
         {
           before: {
-            overriddenFunction: jest.fn(
-              (...args: any[]) => {
-                return [beforeInterceptorReturnValue]
-              }
-            )
+            overriddenFunction: jest.fn((...args: any[]) => {
+              return [beforeInterceptorReturnValue];
+            }),
           },
           after: {
-            overriddenFunction: jest.fn(
-              (...args: any[]) => {
-                return [afterInterceptorReturnValue]
-              }
-            )
-            
-          }
-        }
+            overriddenFunction: jest.fn((...args: any[]) => {
+              return [afterInterceptorReturnValue];
+            }),
+          },
+        },
       ],
       subscribers: {
-        '*_before': [
-          jest.fn()
-        ],
-        'proxyModule1_overriddenFunction_before': jest.fn()
-      }
-    }
+        '*_before': [jest.fn()],
+        proxyModule1_overriddenFunction_before: jest.fn(),
+      },
+    };
 
     const sdkConfig = {
       proxyModule1: buildModule<ReturnType<typeof moduleMock>, typeof extension>(moduleMock, {}, extension),
@@ -166,57 +140,49 @@ describe('[Subscription]', () => {
 
     const sdk = initSDK(sdkConfig);
 
-    const result = await sdk.proxyModule1.overriddenFunction()
+    const result = await sdk.proxyModule1.overriddenFunction();
 
     expect(extension.subscribers['*_before'][0]).toBeCalledTimes(1);
-    expect(extension.subscribers['proxyModule1_overriddenFunction_before']).toBeCalledTimes(1);
+    expect(extension.subscribers.proxyModule1_overriddenFunction_before).toBeCalledTimes(1);
     expect(extension.interceptors[0].before.overriddenFunction).toBeCalledTimes(1);
     expect(extension.interceptors[0].after.overriddenFunction).toBeCalledTimes(1);
-    expect(methodMock).toHaveBeenCalledWith(beforeInterceptorReturnValue)
-    expect(result).toEqual([afterInterceptorReturnValue])
+    expect(methodMock).toHaveBeenCalledWith(beforeInterceptorReturnValue);
+    expect(result).toEqual([afterInterceptorReturnValue]);
   });
 
   it('triggers hooks on functions when module is proxy and hooks are added by extension and overriding functions are being added', async () => {
-    expect.assertions(6)
+    expect.assertions(6);
 
-    const beforeInterceptorReturnValue = Symbol('beforeInterceptorReturnValue')
-    const afterInterceptorReturnValue = Symbol('afterInterceptorReturnValue')
-    const { moduleMock, methodMock } = createModuleMock(true)
+    const beforeInterceptorReturnValue = Symbol('beforeInterceptorReturnValue');
+    const afterInterceptorReturnValue = Symbol('afterInterceptorReturnValue');
+    const { moduleMock, methodMock } = createModuleMock(true);
 
     const extension = {
-      extend: {
-      },
+      extend: {},
       override: {
         overriddenFunction() {
-          return 'hello'
-        }
+          return 'hello';
+        },
       },
       interceptors: [
         {
           before: {
-            callProxyFunction: jest.fn(
-              (...args: any[]) => {
-                return [beforeInterceptorReturnValue]
-              }
-            )
+            callProxyFunction: jest.fn((...args: any[]) => {
+              return [beforeInterceptorReturnValue];
+            }),
           },
           after: {
-            callProxyFunction: jest.fn(
-              (...args: any[]) => {
-                return [afterInterceptorReturnValue]
-              }
-            )
-            
-          }
-        }
+            callProxyFunction: jest.fn((...args: any[]) => {
+              return [afterInterceptorReturnValue];
+            }),
+          },
+        },
       ],
       subscribers: {
-        '*_before': [
-          jest.fn()
-        ],
-        'proxyModule1_callProxyFunction_before': jest.fn()
-      }
-    }
+        '*_before': [jest.fn()],
+        proxyModule1_callProxyFunction_before: jest.fn(),
+      },
+    };
 
     const sdkConfig = {
       proxyModule1: buildModule<ReturnType<typeof moduleMock>, typeof extension>(moduleMock, {}, extension),
@@ -224,13 +190,13 @@ describe('[Subscription]', () => {
 
     const sdk = initSDK(sdkConfig);
 
-    const result = await sdk.proxyModule1.callProxyFunction()
+    const result = await sdk.proxyModule1.callProxyFunction();
 
     expect(extension.subscribers['*_before'][0]).toBeCalledTimes(1);
-    expect(extension.subscribers['proxyModule1_callProxyFunction_before']).toBeCalledTimes(1);
+    expect(extension.subscribers.proxyModule1_callProxyFunction_before).toBeCalledTimes(1);
     expect(extension.interceptors[0].before.callProxyFunction).toBeCalledTimes(1);
     expect(extension.interceptors[0].after.callProxyFunction).toBeCalledTimes(1);
-    expect(methodMock).toHaveBeenCalledWith(beforeInterceptorReturnValue)
-    expect(result).toEqual([afterInterceptorReturnValue])
+    expect(methodMock).toHaveBeenCalledWith(beforeInterceptorReturnValue);
+    expect(result).toEqual([afterInterceptorReturnValue]);
   });
-})
+});

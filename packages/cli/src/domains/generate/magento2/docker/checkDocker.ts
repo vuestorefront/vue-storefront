@@ -1,19 +1,10 @@
 import { spawn } from 'child_process';
-import {
-  logSimpleErrorMessage,
-  logSimpleInfoMessage,
-  simpleLog
-} from '../functions/terminalHelpers';
 import { t } from 'i18next';
+import { logSimpleErrorMessage, logSimpleInfoMessage, simpleLog } from '../functions/terminalHelpers';
 
 /** Checking if Docker is installed and running on user's machine */
-const checkDocker = async (
-  writeLog: (message: string) => void
-): Promise<void> => {
-  const docker =
-    process.platform === 'darwin'
-      ? spawn('docker', ['info'])
-      : spawn('sudo', ['docker', 'info']);
+const checkDocker = async (writeLog: (message: string) => void): Promise<void> => {
+  const docker = process.platform === 'darwin' ? spawn('docker', ['info']) : spawn('sudo', ['docker', 'info']);
 
   docker.stderr.on('data', (data) => {
     writeLog(data.toString());
@@ -25,12 +16,8 @@ const checkDocker = async (
   });
 
   if (!isDockerInstalled) {
-    writeLog(
-      'Docker is not installed or not running. Please make sure that prerequisites are complied with and run command again.'
-    );
-    logSimpleErrorMessage(
-      'Docker is not installed or not running. Please make sure that prerequisites are complied with and run command again.'
-    );
+    writeLog('Docker is not installed or not running. Please make sure that prerequisites are complied with and run command again.');
+    logSimpleErrorMessage('Docker is not installed or not running. Please make sure that prerequisites are complied with and run command again.');
     logSimpleInfoMessage(t('command.generate_store.magento.failed_log'));
     process.exit(1);
   } else {

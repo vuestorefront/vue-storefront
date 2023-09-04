@@ -1,11 +1,11 @@
+import fs from 'fs';
+import { t } from 'i18next';
+import { note } from '@clack/prompts';
 import confirmOverwrite from '../prompts/confirmOverwrite';
 import getMagentoDirName from '../prompts/getMagentoDirName';
-import fs from 'fs';
 import isMagentoKeys from '../prompts/isMagentoKeys';
 import { logSimpleErrorMessage, simpleLog } from './terminalHelpers';
-import { t } from 'i18next';
 import handleMagentoKeys from '../prompts/handleMagentoKeys';
-import { note } from '@clack/prompts';
 
 const getMagentoDetails = async (projectName?: string) => {
   let magentoAccessKey: string;
@@ -13,21 +13,17 @@ const getMagentoDetails = async (projectName?: string) => {
 
   note(t('command.generate_store.magento.info'));
 
-  let magentoDirName = await getMagentoDirName(
-    t('command.generate_store.magento.directory')
-  );
+  let magentoDirName = await getMagentoDirName(t('command.generate_store.magento.directory'));
 
   if (magentoDirName === projectName) {
     logSimpleErrorMessage(
       t('command.generate_store.magento.error.same_dir', {
         magentoDirName,
-        projectName
+        projectName,
       })
     );
 
-    magentoDirName = await getMagentoDirName(
-      t('command.generate_store.magento.directory')
-    );
+    magentoDirName = await getMagentoDirName(t('command.generate_store.magento.directory'));
   }
 
   if (!fs.existsSync(magentoDirName)) {
@@ -35,15 +31,13 @@ const getMagentoDetails = async (projectName?: string) => {
   } else {
     magentoDirName = await confirmOverwrite({
       message: t('command.generate_store.magento.overwrite', {
-        magentoDirName
+        magentoDirName,
       }),
-      magentoDirName
+      magentoDirName,
     });
   }
 
-  const hasMagentoKeys = await isMagentoKeys(
-    t('command.generate_store.magento.access_keys')
-  );
+  const hasMagentoKeys = await isMagentoKeys(t('command.generate_store.magento.access_keys'));
 
   if (hasMagentoKeys) {
     simpleLog(t('command.generate_store.magento.provide_keys'));
@@ -64,7 +58,7 @@ const getMagentoDetails = async (projectName?: string) => {
   return {
     magentoDirName,
     magentoAccessKey,
-    magentoSecretKey
+    magentoSecretKey,
   };
 };
 

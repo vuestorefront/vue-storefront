@@ -8,8 +8,8 @@ describe('fetchIntegrations | integration tests', () => {
       expect.arrayContaining([
         expect.objectContaining({
           name: expect.any(String),
-          gitRepositoryURL: expect.any(String)
-        })
+          gitRepositoryURL: expect.any(String),
+        }),
       ])
     );
   });

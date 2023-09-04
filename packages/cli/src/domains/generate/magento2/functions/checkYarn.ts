@@ -1,10 +1,6 @@
 import { spawn } from 'child_process';
-import {
-  logSimpleErrorMessage,
-  logSimpleInfoMessage,
-  simpleLog
-} from './terminalHelpers';
 import { t } from 'i18next';
+import { logSimpleErrorMessage, logSimpleInfoMessage, simpleLog } from './terminalHelpers';
 
 const checkYarnVersion = (yarnString: string): boolean => {
   const yarnVersion = yarnString.split('.')[0];
@@ -17,13 +13,8 @@ const checkYarnVersion = (yarnString: string): boolean => {
 };
 
 /** Checking if Yarn is installed */
-const checkYarn = async (
-  writeLog: (message: string) => void
-): Promise<void> => {
-  const yarn =
-    process.platform === 'win32'
-      ? spawn('yarn.cmd', ['--version'])
-      : spawn('yarn', ['--version']);
+const checkYarn = async (writeLog: (message: string) => void): Promise<void> => {
+  const yarn = process.platform === 'win32' ? spawn('yarn.cmd', ['--version']) : spawn('yarn', ['--version']);
 
   yarn.stdout.on('data', (data) => {
     if (!checkYarnVersion(data.toString())) {

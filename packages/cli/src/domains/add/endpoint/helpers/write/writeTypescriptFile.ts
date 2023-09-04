@@ -30,9 +30,9 @@ export const writeToTypescriptFile = (path: string, endpoint: string) => {
     name: endpointName,
     parameters: [
       { name: 'context', type: contextType },
-      { name: 'params', type: paramsType }
+      { name: 'params', type: paramsType },
     ],
-    returnType: `Promise<${returnType}>`
+    returnType: `Promise<${returnType}>`,
   });
 
   // Save the modified TypeScript file

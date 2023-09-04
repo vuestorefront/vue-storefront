@@ -16,12 +16,12 @@ app.use(
   cors({
     credentials: true,
     origin: 'http://localhost:3000',
-  }),
+  })
 );
 app.disable('x-powered-by');
 
 async function createServer<TIntegrationContext extends Record<string, IntegrationContext>>(
-  config: MiddlewareConfig<TIntegrationContext>,
+  config: MiddlewareConfig<TIntegrationContext>
 ): Promise<Express> {
   consola.info('Middleware starting....');
   const options: Helmet = {
@@ -43,20 +43,8 @@ async function createServer<TIntegrationContext extends Record<string, Integrati
   const integrations = await registerIntegrations(app, config.integrations);
   consola.success('Integrations loaded!');
 
-  app.post(
-    '/:integrationName/:functionName',
-    prepareApiFunction(integrations),
-    prepareErrorHandler(integrations),
-    prepareArguments,
-    callApiFunction,
-  );
-  app.get(
-    '/:integrationName/:functionName',
-    prepareApiFunction(integrations),
-    prepareErrorHandler(integrations),
-    prepareArguments,
-    callApiFunction,
-  );
+  app.post('/:integrationName/:functionName', prepareApiFunction(integrations), prepareErrorHandler(integrations), prepareArguments, callApiFunction);
+  app.get('/:integrationName/:functionName', prepareApiFunction(integrations), prepareErrorHandler(integrations), prepareArguments, callApiFunction);
 
   app.get('/healthz', (_req, res) => {
     res.end('ok');

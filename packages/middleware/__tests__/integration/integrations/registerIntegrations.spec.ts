@@ -1,4 +1,4 @@
-import { registerIntegrations } from '../../../src/integrations/';
+import { registerIntegrations } from '../../../src/integrations';
 import { Integrations } from '../../../src/types';
 
 const mockIntegrations: Integrations = {

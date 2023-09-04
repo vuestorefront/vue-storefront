@@ -1,5 +1,5 @@
-import { extension1Mock } from '../../__tests__/__mocks__/extension1.mock';
-import module1Mock from '../../__tests__/__mocks__/module1.mock';
+import { extension1Mock } from '../__mocks__/extension1.mock';
+import module1Mock from '../__mocks__/module1.mock';
 import { buildModule } from '../../module/buildModule';
 
 describe('[buildModule]', () => {

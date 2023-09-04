@@ -59,9 +59,7 @@ describe('getProjectName | integration tests', () => {
 
     wait(100).then(answer);
 
-    const projectName = await getProjectName(
-      t('command.generate_store.input.project_name')
-    );
+    const projectName = await getProjectName(t('command.generate_store.input.project_name'));
 
     expect(projectName).toBe('project-name');
   });

@@ -7,9 +7,7 @@ export function prepareApiFunction(integrations: IntegrationsLoaded): RequestHan
 
     if (!integrations || !integrations[integrationName]) {
       res.status(404);
-      res.send(
-        `"${integrationName}" integration is not configured. Please, check the request path or integration configuration.`,
-      );
+      res.send(`"${integrationName}" integration is not configured. Please, check the request path or integration configuration.`);
 
       return;
     }

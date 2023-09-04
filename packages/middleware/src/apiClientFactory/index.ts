@@ -14,23 +14,16 @@ import { isFunction } from '../helpers';
 import { applyContextToApi } from './applyContextToApi';
 
 const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS extends ApiMethods>(
-  factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>,
+  factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>
 ): ApiClientFactory<any, ALL_FUNCTIONS> => {
-  const createApiClient: CreateApiClientFn<any, ALL_FUNCTIONS> = function (
-    this: CallableContext<ALL_FUNCTIONS>,
-    config,
-    customApi = {},
-  ) {
+  const createApiClient: CreateApiClientFn<any, ALL_FUNCTIONS> = function (this: CallableContext<ALL_FUNCTIONS>, config, customApi = {}) {
     const rawExtensions: ApiClientExtension<ALL_FUNCTIONS>[] = this?.middleware?.extensions || [];
 
     const lifecycles = rawExtensions
       .filter((extension): extension is ExtensionWith<'hooks'> => isFunction(extension?.hooks))
       .map(({ hooks }) => hooks(this?.middleware?.req, this?.middleware?.res));
 
-    const extendedApis = rawExtensions.reduce(
-      (prev, { extendApiMethods }) => ({ ...prev, ...extendApiMethods }),
-      customApi,
-    );
+    const extendedApis = rawExtensions.reduce((prev, { extendApiMethods }) => ({ ...prev, ...extendApiMethods }), customApi);
 
     const _config = lifecycles
       .filter((extension): extension is ExtensionHookWith<'beforeCreate'> => isFunction(extension?.beforeCreate))
@@ -46,17 +39,11 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS ex
       before: (params) =>
         lifecycles
           .filter((extension): extension is ExtensionHookWith<'beforeCall'> => isFunction(extension?.beforeCall))
-          .reduce(
-            (args, extension) => extension.beforeCall({ ...params, configuration: settings.config, args }),
-            params.args,
-          ),
+          .reduce((args, extension) => extension.beforeCall({ ...params, configuration: settings.config, args }), params.args),
       after: (params) =>
         lifecycles
           .filter((extension): extension is ExtensionHookWith<'afterCall'> => isFunction(extension.afterCall))
-          .reduce(
-            (response, extension) => extension.afterCall({ ...params, configuration: settings.config, response }),
-            params.response,
-          ),
+          .reduce((response, extension) => extension.afterCall({ ...params, configuration: settings.config, response }), params.response),
     };
 
     const context = { ...settings, ...(this?.middleware || {}) };

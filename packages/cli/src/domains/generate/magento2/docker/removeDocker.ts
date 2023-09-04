@@ -4,7 +4,7 @@ import fs from 'fs';
 // rewrite with exec
 const removeDockerContainer = async (magentoDirName: string): Promise<any> => {
   const options = {
-    cwd: magentoDirName
+    cwd: magentoDirName,
   };
 
   return new Promise(() => {

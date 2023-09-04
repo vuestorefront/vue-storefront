@@ -59,9 +59,7 @@ describe('getMagentoDirName | Magento tests', () => {
 
     wait(100).then(answer);
 
-    const magentoDirName = await getMagentoDirName(
-      'command.generate_store.magento.directory'
-    );
+    const magentoDirName = await getMagentoDirName('command.generate_store.magento.directory');
 
     expect(magentoDirName).toBe('project-name');
   });

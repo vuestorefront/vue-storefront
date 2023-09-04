@@ -1,9 +1,6 @@
 import { spawn } from 'child_process';
-import {
-  logSimpleErrorMessage,
-  logSimpleSuccessMessage
-} from './terminalHelpers';
 import { t } from 'i18next';
+import { logSimpleErrorMessage, logSimpleSuccessMessage } from './terminalHelpers';
 
 const checkNodeVersion = (nodeString: string): boolean => {
   const nodeVersion = nodeString.split('v')[1]?.split('.')[0];
@@ -17,9 +14,7 @@ const checkNodeVersion = (nodeString: string): boolean => {
 };
 
 /** Checking if Node version is correct as per prerequisites */
-const checkNode = async (
-  writeLog: (message: string) => void
-): Promise<void> => {
+const checkNode = async (writeLog: (message: string) => void): Promise<void> => {
   const node = spawn('node', ['-v']);
 
   return await new Promise((resolve) => {

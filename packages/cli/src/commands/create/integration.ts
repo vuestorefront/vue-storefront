@@ -1,33 +1,29 @@
 import { Command, Flags } from '@oclif/core';
-import { createIntegrationBoilerplate } from '../../domains/create/integration';
-import { getPkgManager, log } from '../../utils';
-import {
-  handleDirectoryName,
-  handleFrameworkName,
-  installAppSdkDependencies,
-  cleanUpRepositories
-} from '../../domains/create/integration/helpers';
-
 import { intro, spinner } from '@clack/prompts';
 import execa from 'execa';
 import picocolors from 'picocolors';
+import { createIntegrationBoilerplate } from '../../domains/create/integration';
+import { getPkgManager, log } from '../../utils';
+import { handleDirectoryName, handleFrameworkName, installAppSdkDependencies, cleanUpRepositories } from '../../domains/create/integration/helpers';
 
 export default class GenerateSDK extends Command {
   static override description = 'Generate integration boilerplate';
+
   static override examples = ['<%= config.bin %> <%= command.id %>'];
+
   static override flags = {
     framework: Flags.string({
       char: 't',
       description: 'Framework to use',
       options: ['nuxt', 'next'],
-      aliases: ['template']
-    })
+      aliases: ['template'],
+    }),
   };
 
   static override args = [
     {
-      name: 'name'
-    }
+      name: 'name',
+    },
   ];
 
   async run(): Promise<void> {
@@ -66,11 +62,7 @@ export default class GenerateSDK extends Command {
     log('SDK integration boilerplate has been generated successfully!');
     log('To start the development, run the following commands:');
     log(picocolors.green(`cd ${projectDir}`));
-    log(
-      picocolors.green(
-        `${packageManager === 'yarn' ? 'yarn dev' : 'npm run dev'}`
-      )
-    );
+    log(picocolors.green(`${packageManager === 'yarn' ? 'yarn dev' : 'npm run dev'}`));
     process.exit(0);
   }
 }

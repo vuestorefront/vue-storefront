@@ -4,11 +4,11 @@ import { createModuleMock } from '../__mocks__/createModuleMock';
 
 describe('[ConnectorStructure]', () => {
   it('exposes utils', async () => {
-    expect.assertions(1)
-    const utilFunction = () => {}
-    const { moduleMock } = createModuleMock(true, {utils: {utilFunction}})
+    expect.assertions(1);
+    const utilFunction = () => {};
+    const { moduleMock } = createModuleMock(true, { utils: { utilFunction } });
 
-    const extension = {}
+    const extension = {};
 
     const sdkConfig = {
       proxyModule1: buildModule<ReturnType<typeof moduleMock>, typeof extension>(moduleMock, {}, extension),
@@ -16,17 +16,20 @@ describe('[ConnectorStructure]', () => {
 
     const sdk = initSDK(sdkConfig);
 
-    expect(sdk.proxyModule1.utils.utilFunction).toEqual(utilFunction)
+    expect(sdk.proxyModule1.utils.utilFunction).toEqual(utilFunction);
   });
 
-  it('returns undefined when method doesn\'t exist', async () => {
-    expect.assertions(1)
-    const utilFunction = () => {}
-    const { moduleMock } = createModuleMock(true, {utils: utilFunction, connector: {
-      realFunction: () => {}
-    }})
+  it("returns undefined when method doesn't exist", async () => {
+    expect.assertions(1);
+    const utilFunction = () => {};
+    const { moduleMock } = createModuleMock(true, {
+      utils: utilFunction,
+      connector: {
+        realFunction: () => {},
+      },
+    });
 
-    const extension = {}
+    const extension = {};
 
     const sdkConfig = {
       proxyModule1: buildModule<ReturnType<typeof moduleMock>, typeof extension>(moduleMock, {}, extension),
@@ -34,32 +37,31 @@ describe('[ConnectorStructure]', () => {
 
     const sdk = initSDK(sdkConfig);
 
-    expect(sdk.proxyModule1.fakeFunction).toEqual(undefined)
+    expect(sdk.proxyModule1.fakeFunction).toEqual(undefined);
   });
 
   it('handles connectors with nonconfigurable properties', async () => {
-    expect.assertions(1)
-    const utilFunction = () => {}
+    expect.assertions(1);
+    const utilFunction = () => {};
 
-    const connector = {}
+    const connector = {};
 
     Object.defineProperty(connector, 'realFunction', {
       value: () => {},
       configurable: false,
-      enumerable: true
-    })
+      enumerable: true,
+    });
 
-    const { moduleMock } = createModuleMock(true, {utils: utilFunction, connector})
+    const { moduleMock } = createModuleMock(true, { utils: utilFunction, connector });
 
-    const extension = {}
+    const extension = {};
 
     const sdkConfig = {
       proxyModule1: buildModule<ReturnType<typeof moduleMock>, typeof extension>(moduleMock, {}, extension),
     };
 
-
     const sdk = initSDK(sdkConfig);
 
-    expect( () => sdk.proxyModule1.realFunction()).not.toThrow()
+    expect(() => sdk.proxyModule1.realFunction()).not.toThrow();
   });
-})
+});

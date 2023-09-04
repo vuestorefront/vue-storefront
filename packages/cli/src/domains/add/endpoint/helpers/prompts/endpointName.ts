@@ -11,10 +11,11 @@ export const endpointName = async (): Promise<string> => {
 
       if (!value) {
         return 'Endpoint name is required';
-      } else if (!regex.test(value)) {
+      }
+      if (!regex.test(value)) {
         return 'Endpoint name must contain only letters';
       }
-    }
+    },
   });
 
   if (isCancel(name)) {

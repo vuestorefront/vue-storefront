@@ -1,10 +1,10 @@
+import { select, isCancel } from '@clack/prompts';
+import { t } from 'i18next';
 import type Integration from './Integration';
 import fetchIntegrations from './fetchIntegrations';
 import { getGitRepositoryURL } from '../git-repository-url';
 
-import { select, isCancel } from '@clack/prompts';
 import { logSimpleWarningMessage } from '../magento2/functions/terminalHelpers';
-import { t } from 'i18next';
 
 type CustomIntegration = {
   name: string;
@@ -23,17 +23,17 @@ const getIntegration = async (options: Options): Promise<Integration> => {
 
   const customIntegration: CustomIntegration = {
     name: 'Custom integration',
-    gitRepositoryURL: null
+    gitRepositoryURL: null,
   };
 
   const choices = [...integrations, customIntegration].map((integration) => ({
     name: integration.name,
-    value: integration.name
+    value: integration.name,
   }));
 
   const answer = await select({
     options: choices,
-    message
+    message,
   });
 
   if (isCancel(answer)) {
@@ -42,9 +42,7 @@ const getIntegration = async (options: Options): Promise<Integration> => {
   }
 
   if (answer !== customIntegration.name) {
-    const selectedIntegration = integrations.find(
-      (integration) => integration.name === answer
-    );
+    const selectedIntegration = integrations.find((integration) => integration.name === answer);
 
     if (!selectedIntegration) {
       throw new Error('Integration not found');
@@ -55,9 +53,7 @@ const getIntegration = async (options: Options): Promise<Integration> => {
 
   return {
     name: customIntegration.name,
-    gitRepositoryURL: await getGitRepositoryURL(
-      customIntegrationRepositoryMessage
-    )
+    gitRepositoryURL: await getGitRepositoryURL(customIntegrationRepositoryMessage),
   };
 };
 

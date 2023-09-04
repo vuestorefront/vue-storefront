@@ -1,5 +1,5 @@
-import { validateGitRepositoryURL } from '../../../src/domains/generate/git-repository-url';
 import git from 'isomorphic-git';
+import { validateGitRepositoryURL } from '../../../src/domains/generate/git-repository-url';
 
 describe('validateGitRepositoryURL | unit tests', () => {
   const url = 'https://github.com/vuestorefront/test-template.git';
@@ -13,8 +13,8 @@ describe('validateGitRepositoryURL | unit tests', () => {
           fetch: 'shallow wait-for-done filter',
           'ls-refs': 'unborn',
           'server-option': true,
-          'object-format': 'sha1'
-        }
+          'object-format': 'sha1',
+        },
       });
     });
 
@@ -23,7 +23,7 @@ describe('validateGitRepositoryURL | unit tests', () => {
 
       expect(git.getRemoteInfo2).toHaveBeenCalledWith(
         expect.objectContaining({
-          url
+          url,
         })
       );
     });

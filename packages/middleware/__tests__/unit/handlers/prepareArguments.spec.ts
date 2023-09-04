@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { prepareArguments } from '../../../src/handlers';
 
 describe('[middleware-handlers] prepareArguments', () => {
-  
   const req = { query: {} } as unknown as Request;
   const res = { locals: {} } as unknown as Response;
   const next = jest.fn();
@@ -13,7 +12,6 @@ describe('[middleware-handlers] prepareArguments', () => {
   });
 
   describe('when method is GET', () => {
-
     beforeEach(() => {
       req.method = 'GET';
       req.query = {};
@@ -31,7 +29,7 @@ describe('[middleware-handlers] prepareArguments', () => {
 
     it('defaults to empty object when query param "body" is not provided', () => {
       prepareArguments(req, res, next);
-      
+
       expect(res.locals.args).toEqual([{}]);
     });
 
@@ -54,11 +52,9 @@ describe('[middleware-handlers] prepareArguments', () => {
 
       expect(res.locals.args).toEqual(body);
     });
-
   });
 
   describe('when method is POST', () => {
-
     beforeEach(() => {
       req.method = 'POST';
     });
@@ -78,7 +74,6 @@ describe('[middleware-handlers] prepareArguments', () => {
 
       expect(res.locals.args).toEqual(req.body);
     });
-
   });
 
   it('calls next middleware', () => {
@@ -87,5 +82,4 @@ describe('[middleware-handlers] prepareArguments', () => {
     expect(next).toBeCalledTimes(1);
     expect(next).toBeCalledWith();
   });
-
 });

@@ -5,13 +5,13 @@ export const handleFrameworkName = async (framework: string): Promise<string> =>
   let frameworkName = framework;
 
   if (!frameworkName) {
-    frameworkName = await select({
+    frameworkName = (await select({
       message: 'What framework do you want to use?',
       options: [
         { label: 'Nuxt', value: 'nuxt' },
-        { label: 'Next', value: 'next' }
-      ]
-    }) as unknown as string;
+        { label: 'Next', value: 'next' },
+      ],
+    })) as unknown as string;
 
     if (isCancel(frameworkName)) {
       log('SDK integration boilerplate generation has been canceled!');

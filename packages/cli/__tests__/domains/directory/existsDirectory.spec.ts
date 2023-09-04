@@ -5,8 +5,8 @@ describe('existsDirectory | integration test', () => {
   beforeEach(() => {
     mockFileSystem({
       templates: {
-        'getting-started.md': '# Getting Started\n'
-      }
+        'getting-started.md': '# Getting Started\n',
+      },
     });
   });
 

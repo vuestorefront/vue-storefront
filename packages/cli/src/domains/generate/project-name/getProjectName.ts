@@ -1,9 +1,9 @@
 import { t } from 'i18next';
 // import inquirer from 'inquirer';
 import isReasonableFilename from 'reasonable-filename';
+import { text, isCancel } from '@clack/prompts';
 import formatToProjectName from './formatToProjectName';
 
-import { text, isCancel } from '@clack/prompts';
 import { logSimpleWarningMessage } from '../magento2/functions/terminalHelpers';
 
 const getProjectName = async (message: string): Promise<string> => {
@@ -17,7 +17,7 @@ const getProjectName = async (message: string): Promise<string> => {
       if (!isReasonableFilename(value)) {
         return t<string>('domain.project_name.is_not_directory');
       }
-    }
+    },
   });
 
   if (isCancel(projectName)) {

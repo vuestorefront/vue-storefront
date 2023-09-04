@@ -17,10 +17,7 @@ export function logSimpleInfoMessage(message: string): void {
   simpleLog(message, picocolors.cyan);
 }
 
-export function simpleLog(
-  message: string,
-  pc?: (message: string) => string
-): void {
+export function simpleLog(message: string, pc?: (message: string) => string): void {
   const sp = spinner();
   if (pc) {
     sp.start(pc(message));

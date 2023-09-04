@@ -1,8 +1,9 @@
 import { password, isCancel } from '@clack/prompts';
-import { logSimpleWarningMessage } from '../functions/terminalHelpers';
 import { t } from 'i18next';
 import fs from 'fs';
 import path from 'path';
+import { logSimpleWarningMessage } from '../functions/terminalHelpers';
+
 const homeDir = require('os').homedir();
 
 /** The answers expected in the form of 'inquirer'. */
@@ -14,11 +15,11 @@ type MagentoKeys = {
 /** Handle input for Magento 2 access keys */
 const handleMagentoKeys = async (): Promise<MagentoKeys> => {
   const accessKey = await password({
-    message: t('command.generate_store.magento.access_key')
+    message: t('command.generate_store.magento.access_key'),
   });
 
   const secretKey = await password({
-    message: t('command.generate_store.magento.secret_key')
+    message: t('command.generate_store.magento.secret_key'),
   });
 
   if (isCancel(accessKey || secretKey)) {
@@ -36,10 +37,7 @@ const handleMagentoKeys = async (): Promise<MagentoKeys> => {
     // check if file exists
     if (fs.existsSync(path.join(homeDir, '.composer', 'auth.json'))) {
       // read file
-      const authFile = fs.readFileSync(
-        path.join(homeDir, '.composer', 'auth.json'),
-        'utf-8'
-      );
+      const authFile = fs.readFileSync(path.join(homeDir, '.composer', 'auth.json'), 'utf-8');
 
       // parse JSON
       const authJson = JSON.parse(authFile);
@@ -48,37 +46,29 @@ const handleMagentoKeys = async (): Promise<MagentoKeys> => {
       authJson['http-basic'] = {
         'repo.magento.com': {
           username: accessKey,
-          password: secretKey
-        }
+          password: secretKey,
+        },
       };
 
       // write file
-      fs.writeFileSync(
-        path.join(homeDir, '.composer', 'auth.json'),
-        JSON.stringify(authJson, null, 2),
-        'utf-8'
-      );
+      fs.writeFileSync(path.join(homeDir, '.composer', 'auth.json'), JSON.stringify(authJson, null, 2), 'utf-8');
     } else {
       // create file
       const authJson = {
         'http-basic': {
           'repo.magento.com': {
             username: accessKey,
-            password: secretKey
-          }
+            password: secretKey,
+          },
         },
         'bitbucket-oauth': {},
         'github-oauth': {},
         'gitlab-oauth': {},
         'gitlab-token': {},
-        bearer: {}
+        bearer: {},
       };
 
-      fs.writeFileSync(
-        path.join(homeDir, '.composer', 'auth.json'),
-        JSON.stringify(authJson, null, 2),
-        'utf-8'
-      );
+      fs.writeFileSync(path.join(homeDir, '.composer', 'auth.json'), JSON.stringify(authJson, null, 2), 'utf-8');
     }
 
     resolve(1);
@@ -86,7 +76,7 @@ const handleMagentoKeys = async (): Promise<MagentoKeys> => {
 
   return {
     accessKey: accessKey as string,
-    secretKey: secretKey as string
+    secretKey: secretKey as string,
   };
 };
 

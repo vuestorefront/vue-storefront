@@ -13,7 +13,7 @@ export function createExtensions(rawExtensions: (ApiClientExtension | string)[])
  */
 export function createRawExtensions<CONFIG extends TObject, API extends ApiMethods, CONTEXT extends TObject>(
   apiClient: ApiClientFactory,
-  integration: Integration<CONFIG, API, CONTEXT>,
+  integration: Integration<CONFIG, API, CONTEXT>
 ): ApiClientExtension<API, CONTEXT>[] {
   const extensionsCreateFn = integration.extensions;
   const predefinedExtensions = apiClient.createApiClient._predefinedExtensions || [];

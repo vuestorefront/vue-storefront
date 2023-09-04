@@ -1,17 +1,12 @@
 import git from 'isomorphic-git';
 import { t, TFunction } from 'i18next';
 import { stdin, MockSTDIN } from 'mock-stdin';
-import {
-  getGitRepositoryURL,
-  validateGitRepositoryURL
-} from '../../../src/domains/generate/git-repository-url';
+import { getGitRepositoryURL, validateGitRepositoryURL } from '../../../src/domains/generate/git-repository-url';
 import { wait } from '../../../src/domains/generate/async';
 import { identity } from '../../../src/domains/generate/math';
 
 jest.mock('i18next');
-jest.mock(
-  '../../../src/domains/generate/git-repository-url/validateGitRepositoryURL'
-);
+jest.mock('../../../src/domains/generate/git-repository-url/validateGitRepositoryURL');
 
 const ENTER_KEY = '\x0D';
 const BACKSPACE_KEY = '\x08';
@@ -38,18 +33,14 @@ describe('getGitRepositoryURL', () => {
 
   it('gets git repository URL from user', async () => {
     const answer = async () => {
-      expect(output).toContain(
-        '🌍  What\'s the URL of the custom integration\'s git repository?'
-      );
+      expect(output).toContain("🌍  What's the URL of the custom integration's git repository?");
 
       io.send(' ');
       io.send(ENTER_KEY);
 
       await wait(100);
 
-      expect(output).toContain(
-        '🌍  What\'s the URL of the custom integration\'s git repository?'
-      );
+      expect(output).toContain("🌍  What's the URL of the custom integration's git repository?");
 
       io.send(BACKSPACE_KEY);
       io.send('https://github.com/x/x.git');
@@ -68,14 +59,10 @@ describe('getGitRepositoryURL', () => {
 
     (validateGitRepositoryURL as MockValidate)
       .mockResolvedValueOnce(new git.Errors.UrlParseError(' '))
-      .mockResolvedValueOnce(
-        new git.Errors.NotFoundError('https://github.com/x/x.git')
-      )
+      .mockResolvedValueOnce(new git.Errors.NotFoundError('https://github.com/x/x.git'))
       .mockResolvedValueOnce(null);
 
-    const gitRepositoryURL = await getGitRepositoryURL(
-      '🌍  What\'s the URL of the custom integration\'s git repository?'
-    );
+    const gitRepositoryURL = await getGitRepositoryURL("🌍  What's the URL of the custom integration's git repository?");
 
     expect(gitRepositoryURL).toBe('https://github.com/x/y.git');
   });
@@ -83,9 +70,7 @@ describe('getGitRepositoryURL', () => {
   describe('when user input unsupported git repository URL', () => {
     it('allow user to select suggestion as answer', async () => {
       const answer = async () => {
-        expect(output).toContain(
-          '🌍  What\'s the URL of the custom integration\'s git repository?'
-        );
+        expect(output).toContain("🌍  What's the URL of the custom integration's git repository?");
 
         io.send('git@github.com:x/x.git');
         io.send(ENTER_KEY);
@@ -111,26 +96,12 @@ describe('getGitRepositoryURL', () => {
       wait(100).then(answer);
 
       (validateGitRepositoryURL as MockValidate)
-        .mockResolvedValueOnce(
-          new git.Errors.UnknownTransportError(
-            'git@github.com:x/x.git',
-            'ssh',
-            'https://github.com/x/y.git'
-          )
-        )
+        .mockResolvedValueOnce(new git.Errors.UnknownTransportError('git@github.com:x/x.git', 'ssh', 'https://github.com/x/y.git'))
         .mockResolvedValueOnce(null)
-        .mockResolvedValueOnce(
-          new git.Errors.UnknownTransportError(
-            'git@github.com:x/y.git',
-            'ssh',
-            'https://github.com/x/y.git'
-          )
-        )
+        .mockResolvedValueOnce(new git.Errors.UnknownTransportError('git@github.com:x/y.git', 'ssh', 'https://github.com/x/y.git'))
         .mockResolvedValueOnce(null);
 
-      const result = await getGitRepositoryURL(
-        '🌍  What\'s the URL of the custom integration\'s git repository?'
-      );
+      const result = await getGitRepositoryURL("🌍  What's the URL of the custom integration's git repository?");
 
       expect(result).toBe('https://github.com/x/y.git');
     });

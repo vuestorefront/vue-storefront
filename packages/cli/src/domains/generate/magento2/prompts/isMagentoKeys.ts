@@ -6,7 +6,7 @@ import { logSimpleWarningMessage } from '../functions/terminalHelpers';
 const isMagentoKeys = async (message: string): Promise<boolean | symbol> => {
   const hasMagentoAccessKeys = await confirm({
     message,
-    initialValue: true
+    initialValue: true,
   });
 
   if (isCancel(hasMagentoAccessKeys)) {

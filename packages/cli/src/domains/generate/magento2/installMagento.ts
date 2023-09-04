@@ -1,15 +1,10 @@
+import { note } from '@clack/prompts';
+import { t } from 'i18next';
 import { installMagentoImage } from './docker';
 
-import {
-  copyAuth,
-  handleGraphQL,
-  handleSampleData,
-  isGenerateSampleData
-} from './functions';
+import { copyAuth, handleGraphQL, handleSampleData, isGenerateSampleData } from './functions';
 
-import { note } from '@clack/prompts';
 import { logSimpleSuccessMessage } from './functions/terminalHelpers';
-import { t } from 'i18next';
 
 interface MagentoDetails {
   isInstallMagento: boolean;
@@ -21,20 +16,12 @@ interface MagentoDetails {
 }
 
 /** Function responsible for all Magento 2 installation process */
-export const installMagento = async ({
-  magentoDirName,
-  magentoDomain,
-  magentoAccessKey,
-  magentoSecretKey,
-  writeLog
-}: MagentoDetails) => {
+export const installMagento = async ({ magentoDirName, magentoDomain, magentoAccessKey, magentoSecretKey, writeLog }: MagentoDetails) => {
   await installMagentoImage(magentoDirName, magentoDomain, writeLog);
   await copyAuth(magentoDirName, magentoAccessKey, magentoSecretKey);
   await handleGraphQL(magentoDirName, writeLog);
 
-  const isGenerateData = await isGenerateSampleData(
-    t('command.generate_store.magento.sample_data')
-  );
+  const isGenerateData = await isGenerateSampleData(t('command.generate_store.magento.sample_data'));
 
   if (isGenerateData) {
     await handleSampleData(magentoDirName, writeLog);

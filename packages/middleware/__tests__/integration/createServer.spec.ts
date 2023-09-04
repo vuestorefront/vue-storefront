@@ -2,7 +2,7 @@ import { Express } from 'express';
 import request from 'supertest';
 import { createServer } from '../../src/index';
 import { success } from './bootstrap/api';
-import * as api from './bootstrap/api'
+import * as api from './bootstrap/api';
 
 describe('[Integration] Create server', () => {
   let app: Express;
@@ -10,22 +10,22 @@ describe('[Integration] Create server', () => {
   beforeAll(async () => {
     type IntegrationConfigs = {
       test_integration: {
-        myCfgEntry: boolean
-      }
-    }
+        myCfgEntry: boolean;
+      };
+    };
 
     type IntegrationContexts = {
       test_integration: {
-        api: typeof api,
-        config: IntegrationConfigs['test_integration'],
-        client: unknown
-      }
-    }
+        api: typeof api;
+        config: IntegrationConfigs['test_integration'];
+        client: unknown;
+      };
+    };
     app = await createServer<IntegrationContexts>({
       integrations: {
         test_integration: {
           configuration: {
-            myCfgEntry: true
+            myCfgEntry: true,
           },
           errorHandler: (error: unknown, req: any, res: any) => {
             res.status(410); // awkward status code to test if it's working
@@ -38,19 +38,18 @@ describe('[Integration] Create server', () => {
                 name: 'my-extension',
                 extendApiMethods: {
                   myFunc(context) {
-                    return context.api.success()
+                    return context.api.success();
                   },
                   myFuncWithDependencyToOtherExtension(context) {
-                    return (context.api as any).myFunc()
-                  }
-                }
-              }
-            ]
-          }
+                    return (context.api as any).myFunc();
+                  },
+                },
+              },
+            ];
+          },
         },
       },
     });
-    
   });
 
   it('config.integrations should be properly configured', async () => {
@@ -61,9 +60,7 @@ describe('[Integration] Create server', () => {
     expect(status).toEqual(404);
     expect(error).toBeTruthy();
     if (error) {
-      expect(error.text).toEqual(
-        '"invalid_integration" integration is not configured. Please, check the request path or integration configuration.',
-      );
+      expect(error.text).toEqual('"invalid_integration" integration is not configured. Please, check the request path or integration configuration.');
     }
   });
 
@@ -97,19 +94,19 @@ describe('[Integration] Create server', () => {
   });
 
   it('should allow functions from extensions to access integration functions', async () => {
-    expect.assertions(2)
+    expect.assertions(2);
     const { status, text } = await request(app).post('/test_integration/myFunc').send([]);
-    const response = JSON.parse(text)
+    const response = JSON.parse(text);
 
     // This is the result of the original "success" function from the integration
-    const apiMethodResult = await success()
+    const apiMethodResult = await success();
 
     expect(status).toEqual(200);
     expect(response).toEqual(apiMethodResult);
   });
 
   it('should not allow functions from extensions to access extension functions', async () => {
-    expect.assertions(2)
+    expect.assertions(2);
     const { status, text } = await request(app).post('/test_integration/myFuncWithDependencyToOtherExtension').send([]);
 
     expect(status).toEqual(410);
@@ -119,22 +116,23 @@ describe('[Integration] Create server', () => {
   it('should pass context type to extensions functions', async () => {
     type IntegrationConfigs = {
       test_integration: {
-        myCfgEntry: boolean
-      }
-    }
+        myCfgEntry: boolean;
+      };
+    };
 
     type IntegrationContexts = {
       test_integration: {
-        api: typeof api,
-        config: IntegrationConfigs['test_integration'],
-        client: any}
-    }
+        api: typeof api;
+        config: IntegrationConfigs['test_integration'];
+        client: any;
+      };
+    };
 
     createServer<IntegrationContexts>({
       integrations: {
         test_integration: {
           configuration: {
-            myCfgEntry: true
+            myCfgEntry: true,
           },
           errorHandler: (error: unknown, req: any, res: any) => {
             res.status(410); // awkward status code to test if it's working
@@ -147,15 +145,15 @@ describe('[Integration] Create server', () => {
                 name: 'my-extension',
                 extendApiMethods: {
                   myFunc(context) {
-                    context satisfies IntegrationContexts['test_integration']
-                    return context.api.success()
-                  }
-                }
-              }
-            ]
-          }
+                    context satisfies IntegrationContexts['test_integration'];
+                    return context.api.success();
+                  },
+                },
+              },
+            ];
+          },
         },
       },
-    })
+    });
   });
 });

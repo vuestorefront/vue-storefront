@@ -15,15 +15,7 @@ export type ContextQuery<T extends ParamType = string> = {
   [Key in T]: ContextQueryParams;
 };
 
-export type CustomQueryFunction<T = any> = ({
-  query,
-  variables,
-  metadata,
-}: {
-  query: string;
-  variables: T;
-  metadata: unknown;
-}) => {
+export type CustomQueryFunction<T = any> = ({ query, variables, metadata }: { query: string; variables: T; metadata: unknown }) => {
   query: string;
   variables: T;
   metadata?: unknown;
@@ -34,9 +26,7 @@ export type ComposableFunctionArgs<T> = T & { customQuery?: CustomQuery };
 export type ApiClientMethod = (...args: any) => Promise<any>;
 
 export type ApiClientMethods<T> = {
-  [K in keyof T]: T[K] extends (...args: any) => any
-    ? (...args: [...Parameters<T[K]>, CustomQuery?]) => ReturnType<T[K]>
-    : T[K];
+  [K in keyof T]: T[K] extends (...args: any) => any ? (...args: [...Parameters<T[K]>, CustomQuery?]) => ReturnType<T[K]> : T[K];
 };
 
 export type AxiosError = {

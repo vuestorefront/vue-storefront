@@ -151,17 +151,8 @@ describe('apiClientFactory', () => {
       apiWithContext.thirdFunc('A', 'FEW', 'ARGS');
 
       expect(api.firstFunc).toHaveBeenCalledWith(expect.objectContaining({ extendQuery: expect.any(Function) }));
-      expect(api.secondFunc).toHaveBeenCalledWith(
-        expect.objectContaining({ extendQuery: expect.any(Function) }),
-        'TEST',
-      );
-      expect(api.thirdFunc).toHaveBeenCalledWith(
-        expect.objectContaining({ extendQuery: expect.any(Function) }),
-        'A',
-        'FEW',
-        'ARGS',
-      );
+      expect(api.secondFunc).toHaveBeenCalledWith(expect.objectContaining({ extendQuery: expect.any(Function) }), 'TEST');
+      expect(api.thirdFunc).toHaveBeenCalledWith(expect.objectContaining({ extendQuery: expect.any(Function) }), 'A', 'FEW', 'ARGS');
     });
   });
-  
 });

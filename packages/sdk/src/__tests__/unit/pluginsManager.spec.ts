@@ -6,12 +6,9 @@ import { AnyFunction } from '../../types';
 function getWrappedMethods(configWithoutInterceptors: any, eventManager: EventManager = new EventManager()): any {
   const interceptorsManager = new InterceptorsManager(configWithoutInterceptors, eventManager);
   const wrappedMethodsEntries = Object.entries(configWithoutInterceptors.module1.connector).map(([methodName, value]) => {
-    return [
-      methodName,
-      interceptorsManager.applyInterceptors(methodName, value as AnyFunction, 'module1')
-    ]
-  })
-  return Object.fromEntries(wrappedMethodsEntries)
+    return [methodName, interceptorsManager.applyInterceptors(methodName, value as AnyFunction, 'module1')];
+  });
+  return Object.fromEntries(wrappedMethodsEntries);
 }
 
 describe('[InterceptorManager]', () => {
@@ -88,7 +85,7 @@ describe('[InterceptorManager]', () => {
         interceptors: [
           {
             before: {
-              test: [(args: any) => [args + ' modified']],
+              test: [(args: any) => [`${args} modified`]],
             },
           },
         ],
@@ -111,7 +108,7 @@ describe('[InterceptorManager]', () => {
         interceptors: [
           {
             after: {
-              test: [(result: any) => result + ' modified'],
+              test: [(result: any) => `${result} modified`],
             },
           },
         ],
@@ -134,10 +131,10 @@ describe('[InterceptorManager]', () => {
         interceptors: [
           {
             before: {
-              test: [(args: any) => [args[0] + ' modified_before1'], (args: any) => [args[0] + ' modified_before2']],
+              test: [(args: any) => [`${args[0]} modified_before1`], (args: any) => [`${args[0]} modified_before2`]],
             },
             after: {
-              test: [(result: any) => result + ' modified_after1', (result: any) => result + ' modified_after2'],
+              test: [(result: any) => `${result} modified_after1`, (result: any) => `${result} modified_after2`],
             },
           },
         ],
@@ -160,10 +157,10 @@ describe('[InterceptorManager]', () => {
         interceptors: [
           {
             before: {
-              test: (args: any) => [args[0] + ' modified_before1', args[1] + 1],
+              test: (args: any) => [`${args[0]} modified_before1`, args[1] + 1],
             },
             after: {
-              test: (result: any) => [result[0] + ' modified_after1', result[1] + 1],
+              test: (result: any) => [`${result[0]} modified_after1`, result[1] + 1],
             },
           },
         ],
@@ -178,10 +175,10 @@ describe('[InterceptorManager]', () => {
   });
 
   it('interceptors are executed in correct order', async () => {
-    const before1 = jest.fn(a => a);
-    const before2 = jest.fn(a => a);
-    const after1 = jest.fn(b => b);
-    const after2 = jest.fn(b => b);
+    const before1 = jest.fn((a) => a);
+    const before2 = jest.fn((a) => a);
+    const after1 = jest.fn((b) => b);
+    const after2 = jest.fn((b) => b);
 
     const configWithInterceptors = {
       module1: {
@@ -250,7 +247,7 @@ describe('[InterceptorManager]', () => {
     };
 
     const eventManager = new EventManager();
-    
+
     const withInterceptors = getWrappedMethods(configWithSimpleModule, eventManager);
     const emitSpy = jest.spyOn(eventManager, 'emit');
 

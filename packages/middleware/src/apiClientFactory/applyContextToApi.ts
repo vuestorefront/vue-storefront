@@ -17,7 +17,7 @@ const applyContextToApi = <API extends ApiMethods, CONTEXT extends MiddlewareCon
    * It's useful in extensions, when someone don't want to inject into changing arguments or the response,
    * in that case, we use default function, to handle that scenario - NOP
    */
-  hooks: ApplyingContextHooks = { before: nopBefore, after: nopAfter },
+  hooks: ApplyingContextHooks = { before: nopBefore, after: nopAfter }
 ): API =>
   Object.entries(api).reduce(
     (prev, [callName, fn]) => ({
@@ -32,7 +32,7 @@ const applyContextToApi = <API extends ApiMethods, CONTEXT extends MiddlewareCon
         return transformedResponse;
       },
     }),
-    {} as any,
+    {} as any
   );
 
 export { applyContextToApi };

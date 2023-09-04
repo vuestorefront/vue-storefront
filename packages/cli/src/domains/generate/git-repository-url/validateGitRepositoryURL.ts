@@ -7,7 +7,7 @@ const validateGitRepositoryURL = async (url: string): Promise<null | Error> => {
   try {
     await git.getRemoteInfo2({
       url,
-      http
+      http,
     });
     return null;
   } catch (error: unknown) {

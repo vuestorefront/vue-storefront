@@ -19,12 +19,12 @@ const getDirectory = async (message: string): Promise<string> => {
 
       if (!exists) {
         return t<string>('domain.directory.was_not_found', {
-          directory
+          directory,
         });
       }
 
       return true;
-    }
+    },
   });
 
   return path.resolve(answers.directory);

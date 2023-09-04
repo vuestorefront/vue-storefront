@@ -3,12 +3,11 @@ import { prepareErrorHandler } from '../../../src/handlers';
 import { IntegrationsLoaded } from '../../../src/types';
 
 describe('[middleware-handlers] prepareErrorHandler', () => {
-
   const integrationName = 'ct';
   const errorHandler = jest.fn();
 
   const integrations = {
-    [integrationName]: { errorHandler }
+    [integrationName]: { errorHandler },
   } as unknown as IntegrationsLoaded;
   const req = { params: { integrationName } } as unknown as Request;
   const res = { locals: {} } as unknown as Response;
@@ -31,5 +30,4 @@ describe('[middleware-handlers] prepareErrorHandler', () => {
     expect(next).toBeCalledTimes(1);
     expect(next).toBeCalledWith();
   });
-
 });

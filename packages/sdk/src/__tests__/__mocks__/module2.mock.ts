@@ -8,18 +8,18 @@ const module2 = {
     helpers: {
       formatCurrency(price: string, currency: string) {
         return `${currency} ${price}`;
-      }
-    }
+      },
+    },
   },
-  extend: {}
-}
+  extend: {},
+};
 
-export default function(options: any) {
+export default function (options: any) {
   return module2;
 }
 
-export const stringDecoratorInterceptor = (result: string ): string => {
+export const stringDecoratorInterceptor = (result: string): string => {
   return `((((${result}))))`;
-}
+};
 
 export type Module2 = typeof module2;

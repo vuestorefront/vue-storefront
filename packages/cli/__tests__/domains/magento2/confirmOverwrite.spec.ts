@@ -1,8 +1,8 @@
 import { t, TFunction } from 'i18next';
 import { stdin, MockSTDIN } from 'mock-stdin';
+import mockFileSystem from 'mock-fs';
 import { wait } from '../../../src/domains/generate/async';
 import { identity } from '../../../src/domains/generate/math';
-import mockFileSystem from 'mock-fs';
 import confirmOverwrite from '../../../src/domains/generate/magento2/prompts/confirmOverwrite';
 
 jest.mock('i18next');
@@ -19,8 +19,8 @@ describe('confirmOverwrite | Magento tests', () => {
 
     mockFileSystem({
       magentoDir: {
-        'getting-started.md': '# Getting Started\n'
-      }
+        'getting-started.md': '# Getting Started\n',
+      },
     });
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -56,7 +56,7 @@ describe('confirmOverwrite | Magento tests', () => {
 
     await confirmOverwrite({
       message: 'command.generate_store.magento.overwrite',
-      magentoDirName: 'magentoDir'
+      magentoDirName: 'magentoDir',
     });
   });
 });

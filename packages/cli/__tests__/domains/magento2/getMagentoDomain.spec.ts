@@ -59,9 +59,7 @@ describe('getMagentoDomain | magento test', () => {
 
     wait(100).then(answer);
 
-    const domainName = await getMagentoDomainName(
-      'command.generate_store.magento.domain'
-    );
+    const domainName = await getMagentoDomainName('command.generate_store.magento.domain');
 
     expect(domainName).toBe('magento.test');
   });

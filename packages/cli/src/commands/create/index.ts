@@ -1,28 +1,30 @@
 import { Command, Flags } from '@oclif/core';
-import { checkCommandAndQuit, log } from '../../utils';
 import picocolors from 'picocolors';
+import { checkCommandAndQuit, log } from '../../utils';
 
 const EXISTING_COMMANDS = ['integration'];
 
 export default class Create extends Command {
   static override description = 'Generate integration boilerplate';
+
   static override examples = ['<%= config.bin %> <%= command.id %>'];
+
   static override flags = {
     framework: Flags.string({
       char: 't',
       description: 'Framework to use',
       options: ['nuxt', 'next'],
-      aliases: ['template']
-    })
+      aliases: ['template'],
+    }),
   };
 
   static override args = [
     {
-      name: 'commandName'
+      name: 'commandName',
     },
     {
-      name: 'integrationName'
-    }
+      name: 'integrationName',
+    },
   ];
 
   async run(): Promise<void> {
@@ -31,13 +33,11 @@ export default class Create extends Command {
 
     checkCommandAndQuit({
       commands: EXISTING_COMMANDS,
-      commandName
+      commandName,
     });
 
     log(
-      `Command ${picocolors.green(
-        'create'
-      )} require additional arguments. Please run ${picocolors.green(
+      `Command ${picocolors.green('create')} require additional arguments. Please run ${picocolors.green(
         '@vue-storefront/cli create --help'
       )} to see available options.\n`
     );

@@ -48,7 +48,7 @@ export class InterceptorsManager<Config extends SDKConfig> {
    * @param {InterceptorType} interceptorType
    */
   public getInterceptors(moduleName: string, methodName: string, interceptorType: Exclude<InterceptorType, 'around'>) {
-    //TODO Exclusion of aroundInterceptors is needed because they are not implemented yet, should be removed when they are implemented
+    // TODO Exclusion of aroundInterceptors is needed because they are not implemented yet, should be removed when they are implemented
     return this.configuredInterceptors[moduleName]?.[interceptorType]?.[methodName] ?? [];
   }
 

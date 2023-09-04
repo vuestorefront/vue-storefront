@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { callApiFunction } from '../../../src/handlers';
 
 describe('[middleware-handlers] callApiFunction', () => {
-
   const apiResponse = {};
   const apiError = new Error();
   const apiFunction = jest.fn(() => Promise.resolve(apiResponse));
@@ -12,13 +11,13 @@ describe('[middleware-handlers] callApiFunction', () => {
   const req = {} as Request;
   const res = {
     send: jest.fn(),
-    locals: { apiFunction, errorHandler, args }
+    locals: { apiFunction, errorHandler, args },
   } as unknown as Response;
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  
+
   it('calls api function with arguments', async () => {
     await callApiFunction(req, res);
 
@@ -35,11 +34,10 @@ describe('[middleware-handlers] callApiFunction', () => {
 
   it('passes api function error to error handler', async () => {
     apiFunction.mockRejectedValueOnce(apiError);
-    
+
     await callApiFunction(req, res);
 
     expect(errorHandler).toBeCalledTimes(1);
     expect(errorHandler).toBeCalledWith(apiError, req, res);
   });
-
 });

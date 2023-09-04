@@ -25,9 +25,7 @@ export type PlatformApi = {
 };
 
 export type ContextedPlatformApi<T extends PlatformApi> = {
-  [P in keyof T]: T[P] extends (context: Context, ...arg: infer X) => Promise<any>
-    ? (...arg: X) => Promise<any>
-    : never;
+  [P in keyof T]: T[P] extends (context: Context, ...arg: infer X) => Promise<any> ? (...arg: X) => Promise<any> : never;
 };
 
 export interface FactoryParams<API extends PlatformApi = any> {
@@ -61,10 +59,7 @@ export interface ApiClientFactory<CONFIG extends ApiClientConfig = any, API exte
   init?: (configuration: TObject) => TObject;
 }
 
-export type CreateApiProxyFn = <CONFIG, API, CLIENT>(
-  givenConfig: any,
-  customApi?: any,
-) => ApiInstance<CONFIG, API, CLIENT>;
+export type CreateApiProxyFn = <CONFIG, API, CLIENT>(givenConfig: any, customApi?: any) => ApiInstance<CONFIG, API, CLIENT>;
 
 export interface ApiClientConfig<CLIENT = any> {
   client?: CLIENT;

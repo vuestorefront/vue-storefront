@@ -5,13 +5,16 @@ import { endpointName } from '../../domains/add/endpoint/helpers';
 
 export default class AddEndpoint extends Command {
   static override description = 'Create new endpoint boilerplate code';
+
   static override examples = ['<%= config.bin %> <%= command.id %>'];
+
   static override flags = {};
+
   static override args = [
     {
       name: 'name',
-      description: 'Name of the endpoint'
-    }
+      description: 'Name of the endpoint',
+    },
   ];
 
   async run(): Promise<void> {
@@ -29,9 +32,7 @@ export default class AddEndpoint extends Command {
     if (isPackagesDirExists && isPlaygroundDirExists) {
       await makeMethod(name);
     } else {
-      log(
-        'Please run this command in the root directory of the SDK Integration Boilerplate!'
-      );
+      log('Please run this command in the root directory of the SDK Integration Boilerplate!');
     }
 
     process.exit(0);

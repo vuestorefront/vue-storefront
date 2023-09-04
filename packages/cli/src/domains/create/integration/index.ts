@@ -1,32 +1,26 @@
 import { spinner } from '@clack/prompts';
+import picocolors from 'picocolors';
 import { cloneGitRepository, log } from '../../../utils';
 import { handleFrameworkClone, removeUnwantedFiles } from './helpers';
-import picocolors from 'picocolors';
 
 interface CreateIntegrationBoilerplateOptions {
   projectDir: string;
   framework: string;
 }
 
-export const createIntegrationBoilerplate = async ({
-  projectDir,
-  framework
-}: CreateIntegrationBoilerplateOptions): Promise<string> => {
+export const createIntegrationBoilerplate = async ({ projectDir, framework }: CreateIntegrationBoilerplateOptions): Promise<string> => {
   const sp = spinner();
 
   log(
-    `Creating integration boilerplate in ${picocolors.green(
-      projectDir
-    )} directory${
+    `Creating integration boilerplate in ${picocolors.green(projectDir)} directory${
       framework ? `, using ${picocolors.green(framework)} framework...` : ''
     }`
   );
 
   sp.start('Cloning integration boilerplate...');
   await cloneGitRepository({
-    projectDir: projectDir,
-    gitRepositoryURL:
-      'https://github.com/vuestorefront/integration-boilerplate.git'
+    projectDir,
+    gitRepositoryURL: 'https://github.com/vuestorefront/integration-boilerplate.git',
   });
   sp.stop('Integration boilerplate has been cloned successfully!');
 

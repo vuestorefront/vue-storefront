@@ -1,15 +1,12 @@
 import mockFileSystem from 'mock-fs';
-import {
-  existsDirectory,
-  removeFileOrDirectory
-} from '../../../src/domains/generate/directory';
+import { existsDirectory, removeFileOrDirectory } from '../../../src/domains/generate/directory';
 
 describe('removeFileOrDirectory | integration test', () => {
   beforeEach(() => {
     mockFileSystem({
       src: {
-        'index.js': 'console.log("Hello world!");'
-      }
+        'index.js': 'console.log("Hello world!");',
+      },
     });
   });
 

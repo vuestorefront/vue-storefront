@@ -6,7 +6,7 @@ const isInstallMagento = async (message: string): Promise<boolean> => {
   note(t('command.generate_store.magento.install_note'));
 
   const isInstallMagento = await confirm({
-    message
+    message,
   });
 
   return isInstallMagento as boolean;

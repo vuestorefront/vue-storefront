@@ -10,11 +10,9 @@ const module1 = {
     add: (a: number, b: number) => a + b,
   },
   extend: {},
-  beforeInterceptors: {
+  beforeInterceptors: {},
+};
 
-  }
-}
-
-export type Module1= typeof module1;
+export type Module1 = typeof module1;
 
 export default jest.fn((options) => module1);

@@ -1,17 +1,14 @@
 import fs from 'fs';
 import { confirm, isCancel } from '@clack/prompts';
-import existsDirectory from './existsDirectory';
-import {
-  logSimpleErrorMessage,
-  logSimpleWarningMessage
-} from '../magento2/functions/terminalHelpers';
 import { t } from 'i18next';
 import picocolors from 'picocolors';
+import existsDirectory from './existsDirectory';
+import { logSimpleErrorMessage, logSimpleWarningMessage } from '../magento2/functions/terminalHelpers';
 
 export const handleProjectDiretoryExists = async ({
   projectName,
   projectDir,
-  sp
+  sp,
 }: {
   projectName: string;
   projectDir: string;
@@ -20,8 +17,8 @@ export const handleProjectDiretoryExists = async ({
   if (await existsDirectory(projectDir)) {
     const overwrite = await confirm({
       message: t('command.generate_store.input.overwrite', {
-        projectName
-      }) as string
+        projectName,
+      }) as string,
     });
     if (isCancel(overwrite)) {
       logSimpleWarningMessage(t('command.generate_store.message.canceled'));
@@ -29,14 +26,10 @@ export const handleProjectDiretoryExists = async ({
     }
 
     if (overwrite) {
-      sp.start(
-        picocolors.cyan(t('command.generate_store.progress.delete_start'))
-      );
+      sp.start(picocolors.cyan(t('command.generate_store.progress.delete_start')));
       await fs.rmdirSync(projectDir, { recursive: true });
       await fs.mkdirSync(projectDir);
-      sp.stop(
-        picocolors.green(t('command.generate_store.progress.delete_end'))
-      );
+      sp.stop(picocolors.green(t('command.generate_store.progress.delete_end')));
     }
 
     if (!overwrite) {

@@ -16,6 +16,6 @@ export const cloneGitRepository = async (options: Options): Promise<void> => {
     fs,
     http,
     dir: projectDir,
-    url: gitRepositoryURL
+    url: gitRepositoryURL,
   });
 };

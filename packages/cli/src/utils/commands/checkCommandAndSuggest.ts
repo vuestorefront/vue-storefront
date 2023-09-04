@@ -1,6 +1,6 @@
 import picocolors from 'picocolors';
-import { isCloseEnough } from './isCloseEnough';
 import { confirm, isCancel } from '@clack/prompts';
+import { isCloseEnough } from './isCloseEnough';
 import { log } from '../log';
 
 interface Command {
@@ -15,21 +15,20 @@ interface CheckCommandAndSuggest {
   self: any;
 }
 
-export const checkCommandAndSuggest = async ({
-  commands,
-  commandArg,
-  endpoint,
-  self
-}: CheckCommandAndSuggest) => {
+export const checkCommandAndSuggest = async ({ commands, commandArg, endpoint, self }: CheckCommandAndSuggest) => {
   const similarCommand = commands.find(({ command }) => isCloseEnough(commandArg, command));
 
   if (similarCommand) {
     const { command, Func } = similarCommand;
 
-    log(`Command ${picocolors.cyan('add')} ${picocolors.yellow(`${commandArg}`)} does not exist. Did you mean ${picocolors.cyan('add')} ${picocolors.green(`${command}`)}?`);
+    log(
+      `Command ${picocolors.cyan('add')} ${picocolors.yellow(`${commandArg}`)} does not exist. Did you mean ${picocolors.cyan(
+        'add'
+      )} ${picocolors.green(`${command}`)}?`
+    );
 
     const shouldRunNewCommand = await confirm({
-      message: `Do you want to run ${picocolors.green(command)} command?`
+      message: `Do you want to run ${picocolors.green(command)} command?`,
     });
 
     if (isCancel(shouldRunNewCommand) || !shouldRunNewCommand) {

@@ -76,9 +76,7 @@ describe('[getInitConfig]', () => {
       tag: mockTag,
       integration: { configuration: mockConfiguration, location: '' },
     };
-    const error = new Error(
-      `Error during executing init function in ${mockTag} integration. Error message: ${mockError}`,
-    );
+    const error = new Error(`Error during executing init function in ${mockTag} integration. Error message: ${mockError}`);
 
     await expect(getInitConfig(params)).rejects.toThrow(error);
   });
