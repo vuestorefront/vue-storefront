@@ -56,6 +56,11 @@
       "to": "/integrations/stripe-commercetools",
       "icon": "logos:stripe",
       "secondaryIcon": "IconCommercetools"
+    },
+    {
+      "title": "Adyen",
+      "to": "/integrations/adyen",
+      "icon": "logos:adyen"
     }
   ],
   "Search": [
