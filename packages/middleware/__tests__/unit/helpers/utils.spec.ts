@@ -3,10 +3,11 @@ import { includes, isFunction } from '../../../src/helpers';
 describe('[helpers] utils', () => {
   describe('[isFunction]', () => {
     it('should validate function', () => {
-      const testFn = () => {};
+      const testFn = () => undefined;
       const invalidTypes = ['test', 123, {}, [], new Set()];
 
-      expect(isFunction(() => {})).toBe(true);
+      expect(isFunction(() => undefined)).toBe(true);
+      // eslint-disable-next-line
       expect(isFunction(function () {})).toBe(true);
       expect(isFunction(testFn)).toBe(true);
 

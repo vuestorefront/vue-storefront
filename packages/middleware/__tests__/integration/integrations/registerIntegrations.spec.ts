@@ -32,7 +32,7 @@ describe('[registerIntegrations]', () => {
     const mockExtendApp = jest.fn();
     const mockApp = {} as any;
 
-    const mockIntegrations: Integrations = {
+    const mockIntegrations2: Integrations = {
       ct: {
         configuration: { prop: 'value' },
         location: './__tests__/integration/integrations/integration-module.js',
@@ -41,7 +41,7 @@ describe('[registerIntegrations]', () => {
         },
       },
     };
-    const result = await registerIntegrations(mockApp, mockIntegrations);
+    const result = await registerIntegrations(mockApp, mockIntegrations2);
 
     expect(mockExtendApp).toHaveBeenCalledWith({ app: mockApp, configuration: { ...mockIntegrations.ct.configuration, integrationName: 'ct' } });
     expect(result).toEqual({

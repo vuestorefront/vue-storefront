@@ -1,13 +1,6 @@
 import consola from 'consola';
 import { Express } from 'express';
-import {
-  Integration,
-  ApiClientFactory,
-  ApiClientExtension,
-  IntegrationsSection,
-  CustomQuery,
-  Logger
-} from './types';
+import { Integration, ApiClientFactory, ApiClientExtension, IntegrationsSection, CustomQuery, Logger } from './types';
 
 interface IntegrationLoaded {
   apiClient: ApiClientFactory;
@@ -32,7 +25,7 @@ function resolveDependency<T>(name: string): T {
   try {
     const path = require.resolve(name, { paths: [process.cwd()] });
 
-    // eslint-disable-next-line global-require
+    // eslint-disable-next-line
     return require(path);
   } catch (error) {
     Logger.error(error);
@@ -95,8 +88,8 @@ async function registerIntegrations(app: Express, integrations: IntegrationsSect
         extensions,
         initConfig,
         configuration: integration.configuration,
-        customQueries: integration.customQueries
-      }
+        customQueries: integration.customQueries,
+      },
     };
   }, Promise.resolve({}));
 }

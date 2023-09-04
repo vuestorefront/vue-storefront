@@ -8,7 +8,47 @@ export type ApiMethodsFactory<API extends ApiMethods, CONFIG extends ApiClientCo
 
 export type ApiClientMethodWithContext<CONTEXT> = (context: CONTEXT, ...args: any) => any;
 
-export interface Integration<CONFIG extends TObject = any, API extends ApiMethods = {}, CONTEXT extends TObject = any> {
+export type ExtendApiMethod<API, CONTEXT> = {
+  [K in keyof API]?: ApiClientMethodWithContext<CONTEXT>;
+} & {
+  [key: string]: ApiClientMethodWithContext<CONTEXT>;
+};
+
+export interface HookParams<C> {
+  configuration?: C;
+}
+
+export interface CallHookParams<C> extends HookParams<C> {
+  callName: string;
+}
+
+export type BeforeCallArgs<T = any> = T;
+export type AfterCallArgs<T = any> = T;
+
+export interface BeforeCallParams<C, ARGS> extends CallHookParams<C> {
+  args: BeforeCallArgs<ARGS>;
+}
+
+export interface AfterCallParams<C, ARGS, RESPONSE> extends CallHookParams<C> {
+  args: BeforeCallArgs<ARGS>;
+  response: AfterCallArgs<RESPONSE>;
+}
+
+export interface ApiClientExtensionHooks<C = any> {
+  beforeCreate?: (params: HookParams<C>) => C;
+  afterCreate?: (params: HookParams<C>) => C;
+  beforeCall?: <ARGS>(params: BeforeCallParams<C, ARGS>) => BeforeCallArgs;
+  afterCall?: <ARGS, RESPONSE>(params: AfterCallParams<C, ARGS, RESPONSE>) => AfterCallArgs;
+}
+
+export interface ApiClientExtension<API = Record<string, any>, CONTEXT = any> {
+  name: string;
+  extendApiMethods?: ExtendApiMethod<API, CONTEXT>;
+  extendApp?: ({ app, configuration }: { app: Express; configuration: any }) => Promise<void>;
+  hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
+}
+
+export interface Integration<CONFIG extends TObject = any, API extends ApiMethods = Record<string, any>, CONTEXT extends TObject = any> {
   location: string;
   configuration: CONFIG;
   extensions?: <T extends ApiClientMethodWithContext<CONTEXT>>(
@@ -39,27 +79,22 @@ export interface LoadInitConfigProps {
   tag: string;
 }
 
-export type IntegrationsLoaded<CONFIG extends ApiClientConfig = any, API extends ApiMethods = {}> = Record<string, IntegrationLoaded<CONFIG, API>>;
+export type IntegrationsLoaded<CONFIG extends ApiClientConfig = any, API extends ApiMethods = Record<string, any>> = Record<
+  string,
+  IntegrationLoaded<CONFIG, API>
+>;
 
-export type ExtendApiMethod<API, CONTEXT> = {
-  [K in keyof API]?: ApiClientMethodWithContext<CONTEXT>;
-} & {
-  [key: string]: ApiClientMethodWithContext<CONTEXT>;
-};
-
-export interface ApiClientExtension<API = {}, CONTEXT = any> {
-  name: string;
-  extendApiMethods?: ExtendApiMethod<API, CONTEXT>;
-  extendApp?: ({ app, configuration }: { app: Express; configuration: any }) => Promise<void>;
-  hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
-}
-
-export interface MiddlewareContext<API extends ApiMethods = {}> {
+export interface MiddlewareContext<API extends ApiMethods = Record<string, any>> {
   req: Request;
   res: Response;
   extensions: ApiClientExtension<API>[];
   customQueries: Record<string, CustomQueryFunction>;
 }
+
+export type ExtendQuery = <T extends ContextQuery<string>, Key extends keyof T>(
+  customQuery: CustomQuery<Key> | null,
+  defaults: T
+) => ContextQuery<Key>;
 
 export interface ApiContext<CONFIG, CLIENT, REQUEST, RESPONSE> {
   config: CONFIG;
@@ -75,42 +110,10 @@ export type CallableContext<API extends ApiMethods> = {
   middleware: MiddlewareContext<API>;
 };
 
-export interface HookParams<C> {
-  configuration?: C;
-}
-
-export interface CallHookParams<C> extends HookParams<C> {
-  callName: string;
-}
-
-export type BeforeCallArgs<T = any> = T;
-export type AfterCallArgs<T = any> = T;
-
-export interface BeforeCallParams<C, ARGS> extends CallHookParams<C> {
-  args: BeforeCallArgs<ARGS>;
-}
-
-export interface AfterCallParams<C, ARGS, RESPONSE> extends CallHookParams<C> {
-  args: BeforeCallArgs<ARGS>;
-  response: AfterCallArgs<RESPONSE>;
-}
-
-export interface ApiClientExtensionHooks<C = any> {
-  beforeCreate?: (params: HookParams<C>) => C;
-  afterCreate?: (params: HookParams<C>) => C;
-  beforeCall?: <ARGS>(params: BeforeCallParams<C, ARGS>) => BeforeCallArgs;
-  afterCall?: <ARGS, RESPONSE>(params: AfterCallParams<C, ARGS, RESPONSE>) => AfterCallArgs;
-}
-
 export interface ApplyingContextHooks<CONFIG = any> {
   before: <ARGS>(params: BeforeCallParams<CONFIG, ARGS>) => BeforeCallArgs;
   after: <ARGS, RESPONSE>(params: AfterCallParams<CONFIG, ARGS, RESPONSE>) => AfterCallArgs;
 }
-
-export type ExtendQuery = <T extends ContextQuery<string>, Key extends keyof T>(
-  customQuery: CustomQuery<Key> | null,
-  defaults: T
-) => ContextQuery<Key>;
 
 export type ExtensionHookWith<T extends keyof ApiClientExtensionHooks> = WithRequired<ApiClientExtensionHooks, T>;
 export type ExtensionWith<T extends keyof ApiClientExtension> = WithRequired<ApiClientExtension, T>;

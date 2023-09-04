@@ -16,7 +16,11 @@ import { applyContextToApi } from './applyContextToApi';
 const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS extends ApiMethods>(
   factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>
 ): ApiClientFactory<any, ALL_FUNCTIONS> => {
-  const createApiClient: CreateApiClientFn<any, ALL_FUNCTIONS> = function (this: CallableContext<ALL_FUNCTIONS>, config, customApi = {}) {
+  const createApiClient: CreateApiClientFn<any, ALL_FUNCTIONS> = function createApiClient(
+    this: CallableContext<ALL_FUNCTIONS>,
+    config,
+    customApi = {}
+  ) {
     const rawExtensions: ApiClientExtension<ALL_FUNCTIONS>[] = this?.middleware?.extensions || [];
 
     const lifecycles = rawExtensions
@@ -27,13 +31,13 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS ex
 
     const _config = lifecycles
       .filter((extension): extension is ExtensionHookWith<'beforeCreate'> => isFunction(extension?.beforeCreate))
-      .reduce((config, extension) => extension.beforeCreate({ configuration: config }), config);
+      .reduce((configSoFar, extension) => extension.beforeCreate({ configuration: configSoFar }), config);
 
     const settings = factoryParams.onCreate ? factoryParams.onCreate(_config) : { config, client: config.client };
 
     settings.config = lifecycles
       .filter((extension): extension is ExtensionHookWith<'afterCreate'> => isFunction(extension?.afterCreate))
-      .reduce((config, extension) => extension.afterCreate({ configuration: config }), settings.config);
+      .reduce((configSoFar, extension) => extension.afterCreate({ configuration: configSoFar }), settings.config);
 
     const extensionHooks: ApplyingContextHooks = {
       before: (params) =>

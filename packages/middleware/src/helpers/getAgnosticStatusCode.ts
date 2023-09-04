@@ -20,7 +20,7 @@ function isApolloError(error: ErrorObject<Status>): error is ApolloError {
 }
 
 function reduceStatus(narrowObject: UnknownError<Status>, depth: number) {
-  return function (statusCode: StatusCode, key: string): StatusCode {
+  return function reduceStatusNested(statusCode: StatusCode, key: string): StatusCode {
     if (statusCode) {
       return statusCode;
     }
@@ -30,6 +30,7 @@ function reduceStatus(narrowObject: UnknownError<Status>, depth: number) {
     }
     const newDepth = depth + 1;
 
+    // eslint-disable-next-line no-use-before-define
     return obtainStatusCode(narrowObject[key], newDepth);
   };
 }
@@ -55,11 +56,12 @@ function getApolloStatusCode(error: ApolloError) {
   if (error.code) {
     return typeof error.code === 'string' ? 400 : error.code;
   }
+  return undefined;
 }
 
 function getCodeFromError(error: unknown) {
   if (!isErrorObject(error)) {
-    return;
+    return undefined;
   }
   if (isAxiosError(error)) {
     return getAxiosStatusCode(error);

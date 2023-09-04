@@ -18,7 +18,7 @@ describe('defaultErrorHandler', () => {
     expect(mockRes.send).toHaveBeenCalledWith(error);
   });
 
-  it('should send masked error for other error codes', function () {
+  it('should send masked error for other error codes', () => {
     const error = new Error('test');
 
     defaultErrorHandler(error, mockReq as any, mockRes as any);

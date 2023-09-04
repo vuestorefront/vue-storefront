@@ -39,6 +39,13 @@ export interface ApiInstance<CONFIG, API, CLIENT> {
   settings: CONFIG;
 }
 
+export interface ApiClientConfig<CLIENT = any> {
+  client?: CLIENT;
+  extensions?: ApiClientExtension[];
+
+  [x: string]: any;
+}
+
 export type CreateApiClientFn<CONFIG extends ApiClientConfig, API extends ApiMethods> = {
   <T extends ApiClientConfig, C>(givenConfig: CONFIG, customApi?: ApiMethods): ApiInstance<T, API & ApiMethods, C>;
   _predefinedExtensions?: ApiClientExtension<API>[];
@@ -51,7 +58,7 @@ export interface ApiClientFactoryParams<CONFIG extends ApiClientConfig, API exte
   extensions?: ApiClientExtension<API>[];
 }
 
-export interface ApiClientFactory<CONFIG extends ApiClientConfig = any, API extends ApiMethods = {}> {
+export interface ApiClientFactory<CONFIG extends ApiClientConfig = any, API extends ApiMethods = Record<string, any>> {
   createApiClient: CreateApiClientFn<CONFIG, API>;
   /**
    * Sets up integration config, runs once.
@@ -60,10 +67,3 @@ export interface ApiClientFactory<CONFIG extends ApiClientConfig = any, API exte
 }
 
 export type CreateApiProxyFn = <CONFIG, API, CLIENT>(givenConfig: any, customApi?: any) => ApiInstance<CONFIG, API, CLIENT>;
-
-export interface ApiClientConfig<CLIENT = any> {
-  client?: CLIENT;
-  extensions?: ApiClientExtension[];
-
-  [x: string]: any;
-}
