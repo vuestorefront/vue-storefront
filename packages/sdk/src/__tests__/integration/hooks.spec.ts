@@ -27,12 +27,12 @@ describe('[Subscription]', () => {
       interceptors: [
         {
           before: {
-            callProxyFunction: jest.fn((...args: any[]) => {
+            callProxyFunction: jest.fn(() => {
               return [beforeInterceptorReturnValue];
             }),
           },
           after: {
-            callProxyFunction: jest.fn((...args: any[]) => {
+            callProxyFunction: jest.fn(() => {
               return [afterInterceptorReturnValue];
             }),
           },
@@ -70,12 +70,12 @@ describe('[Subscription]', () => {
       interceptors: [
         {
           before: {
-            callProxyFunction: jest.fn((...args: any[]) => {
+            callProxyFunction: jest.fn(() => {
               return [beforeInterceptorReturnValue];
             }),
           },
           after: {
-            callProxyFunction: jest.fn((...args: any[]) => {
+            callProxyFunction: jest.fn(() => {
               return [afterInterceptorReturnValue];
             }),
           },
@@ -117,12 +117,12 @@ describe('[Subscription]', () => {
       interceptors: [
         {
           before: {
-            overriddenFunction: jest.fn((...args: any[]) => {
+            overriddenFunction: jest.fn(() => {
               return [beforeInterceptorReturnValue];
             }),
           },
           after: {
-            overriddenFunction: jest.fn((...args: any[]) => {
+            overriddenFunction: jest.fn(() => {
               return [afterInterceptorReturnValue];
             }),
           },
@@ -167,12 +167,12 @@ describe('[Subscription]', () => {
       interceptors: [
         {
           before: {
-            callProxyFunction: jest.fn((...args: any[]) => {
+            callProxyFunction: jest.fn(() => {
               return [beforeInterceptorReturnValue];
             }),
           },
           after: {
-            callProxyFunction: jest.fn((...args: any[]) => {
+            callProxyFunction: jest.fn(() => {
               return [afterInterceptorReturnValue];
             }),
           },

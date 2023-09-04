@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default function createProxyModule1(options: any, methodMock: Function = () => {}) {
   return {
     connector: new Proxy(

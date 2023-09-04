@@ -1,3 +1,4 @@
+/* eslint-disable */
 type Method1 = (test: string) => { result: string };
 
 export const proxyExtensionMock1 = {

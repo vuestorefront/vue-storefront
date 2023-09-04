@@ -2,6 +2,15 @@ import { eventManager } from './events/EventManager';
 import { InterceptorsManager } from './interceptors/InterceptorsManager';
 import { SDKApi, SDKConfig } from './types';
 
+function normalizePropertyDescriptors<Connector extends Record<string, unknown>>(connector: Connector): Connector {
+  const propertyDescriptors = Object.getOwnPropertyDescriptors(connector);
+  const hasNonConfigurableProperties = Object.values(propertyDescriptors).some((descriptor) => !descriptor.configurable);
+
+  // If the connector has non-configurable properties, we need to recreate it without property descriptors
+  // we don't just recrate all connectors, as they may bo proxies and so it wouldn't work.
+  return hasNonConfigurableProperties ? { ...connector } : connector;
+}
+
 /**
  * Initializes SDK
  *
@@ -62,12 +71,3 @@ export const initSDK = <T extends SDKConfig>(sdkConfig: T): SDKApi<T> => {
 
   return sdk;
 };
-
-function normalizePropertyDescriptors<Connector extends Record<string, unknown>>(connector: Connector): Connector {
-  const propertyDescriptors = Object.getOwnPropertyDescriptors(connector);
-  const hasNonConfigurableProperties = Object.values(propertyDescriptors).some((descriptor) => !descriptor.configurable);
-
-  // If the connector has non-configurable properties, we need to recreate it without property descriptors
-  // we don't just recrate all connectors, as they may bo proxies and so it wouldn't work.
-  return hasNonConfigurableProperties ? { ...connector } : connector;
-}

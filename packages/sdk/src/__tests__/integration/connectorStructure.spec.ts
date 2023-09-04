@@ -5,7 +5,7 @@ import { createModuleMock } from '../__mocks__/createModuleMock';
 describe('[ConnectorStructure]', () => {
   it('exposes utils', async () => {
     expect.assertions(1);
-    const utilFunction = () => {};
+    const utilFunction = () => undefined;
     const { moduleMock } = createModuleMock(true, { utils: { utilFunction } });
 
     const extension = {};
@@ -21,11 +21,11 @@ describe('[ConnectorStructure]', () => {
 
   it("returns undefined when method doesn't exist", async () => {
     expect.assertions(1);
-    const utilFunction = () => {};
+    const utilFunction = () => undefined;
     const { moduleMock } = createModuleMock(true, {
       utils: utilFunction,
       connector: {
-        realFunction: () => {},
+        realFunction: () => undefined,
       },
     });
 
@@ -42,12 +42,12 @@ describe('[ConnectorStructure]', () => {
 
   it('handles connectors with nonconfigurable properties', async () => {
     expect.assertions(1);
-    const utilFunction = () => {};
+    const utilFunction = () => undefined;
 
     const connector = {};
 
     Object.defineProperty(connector, 'realFunction', {
-      value: () => {},
+      value: () => undefined,
       configurable: false,
       enumerable: true,
     });

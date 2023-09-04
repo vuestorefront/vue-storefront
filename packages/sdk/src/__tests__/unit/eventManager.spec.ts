@@ -15,7 +15,7 @@ describe('[EventManager]', () => {
     expect(callback).toHaveBeenCalledWith('test');
   });
 
-  it('should register event only once', function () {
+  it('should register event only once', () => {
     const callback = jest.fn();
 
     eventManager.register('test', callback);

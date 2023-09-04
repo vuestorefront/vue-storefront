@@ -1,3 +1,4 @@
+/* eslint-disable */
 const module2 = {
   connector: {
     m2_method1: (names: string[]): string => {

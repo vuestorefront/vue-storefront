@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /**
  * Performs a deep merge of objects and returns new object. Does not modify
  * objects (immutable) and merges arrays via concatenation.

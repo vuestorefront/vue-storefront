@@ -1,6 +1,6 @@
 import { handleError } from '../error';
 import type { EventManagerInterface } from '../events/EventManager';
-import type { Connector, InterceptorType, MappedInterceptors, SDKConfig } from '../types';
+import type { InterceptorType, MappedInterceptors, SDKConfig } from '../types';
 import { AnyFunction, Interceptor, InterceptorsConfig } from '../types';
 
 /**
@@ -68,11 +68,13 @@ export class InterceptorsManager<Config extends SDKConfig> {
    * @param {Interceptor} interceptors
    * @param data
    */
+  // eslint-disable-next-line class-methods-use-this
   private executeInterceptors = async <T>(interceptors: Interceptor[], data: T): Promise<T> => {
     if (!interceptors) return data;
 
     for (const interceptor of interceptors) {
       if (typeof interceptor === 'function') {
+        // eslint-disable-next-line no-param-reassign
         data = await interceptor(data);
       }
     }
@@ -143,6 +145,7 @@ export class InterceptorsManager<Config extends SDKConfig> {
    *   }
    * }
    */
+  // eslint-disable-next-line class-methods-use-this
   private mapInterceptors(interceptors: Array<InterceptorsConfig>): MappedInterceptors {
     const mappedInterceptors: MappedInterceptors = {
       before: {},

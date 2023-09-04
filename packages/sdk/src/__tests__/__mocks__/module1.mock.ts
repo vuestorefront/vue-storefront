@@ -1,3 +1,4 @@
+/* eslint-disable */
 const module1 = {
   connector: {
     m1_method1: () => ({ result: 'John Doe' }),
