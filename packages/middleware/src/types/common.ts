@@ -41,14 +41,14 @@ export interface ApiClientExtensionHooks<C = any> {
   afterCall?: <ARGS, RESPONSE>(params: AfterCallParams<C, ARGS, RESPONSE>) => AfterCallArgs;
 }
 
-export interface ApiClientExtension<API = Record<string, any>, CONTEXT = any> {
+export interface ApiClientExtension<API = any, CONTEXT = any> {
   name: string;
   extendApiMethods?: ExtendApiMethod<API, CONTEXT>;
   extendApp?: ({ app, configuration }: { app: Express; configuration: any }) => Promise<void>;
   hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
 }
 
-export interface Integration<CONFIG extends TObject = any, API extends ApiMethods = Record<string, any>, CONTEXT extends TObject = any> {
+export interface Integration<CONFIG extends TObject = any, API extends ApiMethods = any, CONTEXT extends TObject = any> {
   location: string;
   configuration: CONFIG;
   extensions?: <T extends ApiClientMethodWithContext<CONTEXT>>(
@@ -79,12 +79,9 @@ export interface LoadInitConfigProps {
   tag: string;
 }
 
-export type IntegrationsLoaded<CONFIG extends ApiClientConfig = any, API extends ApiMethods = Record<string, any>> = Record<
-  string,
-  IntegrationLoaded<CONFIG, API>
->;
+export type IntegrationsLoaded<CONFIG extends ApiClientConfig = any, API extends ApiMethods = any> = Record<string, IntegrationLoaded<CONFIG, API>>;
 
-export interface MiddlewareContext<API extends ApiMethods = Record<string, any>> {
+export interface MiddlewareContext<API extends ApiMethods = any> {
   req: Request;
   res: Response;
   extensions: ApiClientExtension<API>[];

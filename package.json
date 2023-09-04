@@ -14,7 +14,7 @@
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@types/jest": "^26.0.24",
-    "@types/node": "^12.12.14",
+    "@types/node": "^16",
     "@vue-storefront/api-extractor-config": "^0.0.3",
     "@vue-storefront/eslint-config-integrations": "^0.0.17",
     "@vue-storefront/integrations-tsconfig": "^0.0.2",
