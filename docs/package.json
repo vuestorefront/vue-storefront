@@ -1,0 +1,20 @@
+{
+  "name": "@vuestorefront/docs-example",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxi prepare"
+  },
+  "devDependencies": {
+    "@types/node": "^18",
+    "nuxt": "^3.6.2"
+  },
+  "dependencies": {
+    "@stackblitz/sdk": "^1.9.0",
+    "sf-docs-base": "latest"
+  }
+}

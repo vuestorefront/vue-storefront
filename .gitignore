@@ -25,3 +25,6 @@ coverage
 
 # OS generated files
 .DS_STORE
+
+# Nuxt generated files
+.nuxt

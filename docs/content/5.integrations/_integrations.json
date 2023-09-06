@@ -1,0 +1,73 @@
+{
+  "eCommerce": [
+    {
+      "title": "SAP Commerce Cloud",
+      "to": "/integrations/sapcc",
+      "icon": "IconSAP"
+    },
+    {
+      "title": "commercetools",
+      "to": "/integrations/commercetools",
+      "icon": "IconCommercetools"
+    },
+    {
+      "title": "Magento",
+      "to": "/integrations/magento",
+      "icon": "logos:magento",
+      "openSource": true
+    },
+    {
+      "title": "BigCommerce",
+      "to": "/integrations/bigcommerce",
+      "icon": "simple-icons:bigcommerce",
+      "iconClass": "text-black dark:text-white"
+    },
+    {
+      "title": "Salesforce Commerce Cloud",
+      "to": "/integrations/sfcc",
+      "icon": "logos:salesforce"
+    }
+  ],
+  "CMS": [
+    {
+      "title": "Contentful",
+      "to": "/integrations/contentful",
+      "icon": "logos:contentful"
+    },
+    {
+      "title": "Contentstack",
+      "to": "/integrations/contentstack",
+      "icon": "IconContentstack"
+    },
+    {
+      "title": "Sanity",
+      "to": "/integrations/sanity",
+      "icon": "devicon:sanity"
+    },
+    {
+      "title": "Bloomreach Content",
+      "to": "/integrations/bloomreach-content",
+      "icon": "IconBloomreach"
+    }
+  ],
+  "Payment": [
+    {
+      "title": "Stripe (commercetools)",
+      "to": "/integrations/stripe-commercetools",
+      "icon": "logos:stripe",
+      "secondaryIcon": "IconCommercetools"
+    },
+    {
+      "title": "Adyen",
+      "to": "/integrations/adyen",
+      "icon": "logos:adyen"
+    }
+  ],
+  "Search": [
+    {
+      "title": "Bloomreach Search",
+      "to": "/integrations/bloomreach-search",
+      "icon": "IconBloomreach"
+    }
+  ]
+}
