@@ -12,7 +12,7 @@ describe('[Subscription]', () => {
     };
 
     const sdk = initSDK(sdkConfig);
-    await sdk.proxyModule1.callProxyFunction();
+    sdk.proxyModule1.callProxyFunction();
 
     expect(mock.subscribers['*_before'][0]).toBeCalledTimes(1);
     expect(mock.subscribers.proxyModule1_callProxyFunction_before).toBeCalledTimes(1);
