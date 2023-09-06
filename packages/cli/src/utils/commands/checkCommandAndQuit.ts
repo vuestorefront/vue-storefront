@@ -14,7 +14,7 @@ export const checkCommandAndQuit = async ({ commands, commandName }: CheckComman
     log(
       `Command ${picocolors.cyan('create')} ${picocolors.yellow(commandName)} does not exist. Did you mean ${picocolors.cyan(
         'create'
-      )} ${picocolors.green(`${similarCommand}`)}?`
+      )} ${picocolors.green(similarCommand)}?`
     );
     process.exit(0);
   }

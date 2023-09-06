@@ -23,9 +23,9 @@ export const checkCommandAndSuggest = async ({ commands, commandArg, endpoint, s
     const { command, Func } = similarCommand;
 
     log(
-      `Command ${picocolors.cyan('add')} ${picocolors.yellow(`${commandArg}`)} does not exist. Did you mean ${picocolors.cyan(
-        'add'
-      )} ${picocolors.green(`${command}`)}?`
+      `Command ${picocolors.cyan('add')} ${picocolors.yellow(commandArg)} does not exist. Did you mean ${picocolors.cyan('add')} ${picocolors.green(
+        command
+      )}?`
     );
 
     const shouldRunNewCommand = await confirm({
