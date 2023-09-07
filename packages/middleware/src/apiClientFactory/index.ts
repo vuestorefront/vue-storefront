@@ -9,9 +9,9 @@ import {
   CreateApiClientFn,
   ExtensionHookWith,
   ExtensionWith,
-} from '../types';
-import { isFunction } from '../helpers';
-import { applyContextToApi } from './applyContextToApi';
+} from "../types";
+import { isFunction } from "../helpers";
+import { applyContextToApi } from "./applyContextToApi";
 
 const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS extends ApiMethods>(
   factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>
@@ -24,29 +24,29 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS ex
     const rawExtensions: ApiClientExtension<ALL_FUNCTIONS>[] = this?.middleware?.extensions || [];
 
     const lifecycles = rawExtensions
-      .filter((extension): extension is ExtensionWith<'hooks'> => isFunction(extension?.hooks))
+      .filter((extension): extension is ExtensionWith<"hooks"> => isFunction(extension?.hooks))
       .map(({ hooks }) => hooks(this?.middleware?.req, this?.middleware?.res));
 
     const extendedApis = rawExtensions.reduce((prev, { extendApiMethods }) => ({ ...prev, ...extendApiMethods }), customApi);
 
     const _config = lifecycles
-      .filter((extension): extension is ExtensionHookWith<'beforeCreate'> => isFunction(extension?.beforeCreate))
+      .filter((extension): extension is ExtensionHookWith<"beforeCreate"> => isFunction(extension?.beforeCreate))
       .reduce((configSoFar, extension) => extension.beforeCreate({ configuration: configSoFar }), config);
 
     const settings = factoryParams.onCreate ? factoryParams.onCreate(_config) : { config, client: config.client };
 
     settings.config = lifecycles
-      .filter((extension): extension is ExtensionHookWith<'afterCreate'> => isFunction(extension?.afterCreate))
+      .filter((extension): extension is ExtensionHookWith<"afterCreate"> => isFunction(extension?.afterCreate))
       .reduce((configSoFar, extension) => extension.afterCreate({ configuration: configSoFar }), settings.config);
 
     const extensionHooks: ApplyingContextHooks = {
       before: (params) =>
         lifecycles
-          .filter((extension): extension is ExtensionHookWith<'beforeCall'> => isFunction(extension?.beforeCall))
+          .filter((extension): extension is ExtensionHookWith<"beforeCall"> => isFunction(extension?.beforeCall))
           .reduce((args, extension) => extension.beforeCall({ ...params, configuration: settings.config, args }), params.args),
       after: (params) =>
         lifecycles
-          .filter((extension): extension is ExtensionHookWith<'afterCall'> => isFunction(extension.afterCall))
+          .filter((extension): extension is ExtensionHookWith<"afterCall"> => isFunction(extension.afterCall))
           .reduce((response, extension) => extension.afterCall({ ...params, configuration: settings.config, response }), params.response),
     };
 
@@ -54,7 +54,7 @@ const apiClientFactory = <ALL_SETTINGS extends ApiClientConfig, ALL_FUNCTIONS ex
 
     const { api: apiOrApiFactory = {} } = factoryParams;
 
-    const isApiFactory = typeof apiOrApiFactory === 'function';
+    const isApiFactory = typeof apiOrApiFactory === "function";
     const api = isApiFactory ? apiOrApiFactory(settings) : apiOrApiFactory;
     /**
      * FIXME IN-3487

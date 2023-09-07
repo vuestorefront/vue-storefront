@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
-import { prepareApiFunction } from '../../../src/handlers';
-import { IntegrationsLoaded } from '../../../src/types';
+import { Request, Response } from "express";
+import { prepareApiFunction } from "../../../src/handlers";
+import { IntegrationsLoaded } from "../../../src/types";
 
-describe('[middleware-handlers] prepareApiFunction', () => {
-  const integrationName = 'ct';
-  const functionName = 'getProduct';
+describe("[middleware-handlers] prepareApiFunction", () => {
+  const integrationName = "ct";
+  const functionName = "getProduct";
   const apiFunction = jest.fn();
   const api = { [functionName]: apiFunction };
   const createApiClient = jest.fn(() => ({ api }));
@@ -27,7 +27,7 @@ describe('[middleware-handlers] prepareApiFunction', () => {
     res.locals = {};
   });
 
-  it('sends 404 error if integration is not configured', () => {
+  it("sends 404 error if integration is not configured", () => {
     const emptyIntegrations = {};
 
     prepareApiFunction(emptyIntegrations)(req, res, next);
@@ -37,14 +37,14 @@ describe('[middleware-handlers] prepareApiFunction', () => {
     expect(res.send).toBeCalledTimes(1);
   });
 
-  describe('if integration is configured', () => {
-    it('adds api function to res.locals', () => {
+  describe("if integration is configured", () => {
+    it("adds api function to res.locals", () => {
       prepareApiFunction(integrations)(req, res, next);
 
       expect(res.locals).toEqual(expect.objectContaining({ apiFunction }));
     });
 
-    it('calls next middleware', () => {
+    it("calls next middleware", () => {
       prepareApiFunction(integrations)(req, res, next);
 
       expect(next).toBeCalledTimes(1);

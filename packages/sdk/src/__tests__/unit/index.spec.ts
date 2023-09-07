@@ -1,19 +1,19 @@
-import * as index from '../../index';
+import * as index from "../../index";
 
-describe('[index]', () => {
-  it('should export eventManager', () => {
+describe("[index]", () => {
+  it("should export eventManager", () => {
     expect(index.eventManager).toBeDefined();
   });
 
-  it('should export initSDK', () => {
+  it("should export initSDK", () => {
     expect(index.initSDK).toBeDefined();
   });
 
-  it('should export handleError', () => {
+  it("should export handleError", () => {
     expect(index.handleError).toBeDefined();
   });
 
-  it('should export buildModule', () => {
+  it("should export buildModule", () => {
     expect(index.buildModule).toBeDefined();
   });
 });

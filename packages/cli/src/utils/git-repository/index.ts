@@ -1,6 +1,6 @@
-import * as fs from 'fs';
-import git from 'isomorphic-git';
-import http from 'isomorphic-git/http/node';
+import * as fs from "fs";
+import git from "isomorphic-git";
+import http from "isomorphic-git/http/node";
 
 type Options = {
   projectDir: string;

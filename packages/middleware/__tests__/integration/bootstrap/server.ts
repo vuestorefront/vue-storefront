@@ -1,5 +1,5 @@
-import { apiClientFactory } from '../../../src/apiClientFactory';
-import * as api from './api';
+import { apiClientFactory } from "../../../src/apiClientFactory";
+import * as api from "./api";
 
 const onCreate = () => {
   return {

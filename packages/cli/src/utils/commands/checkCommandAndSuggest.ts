@@ -1,7 +1,7 @@
-import picocolors from 'picocolors';
-import { confirm, isCancel } from '@clack/prompts';
-import { isCloseEnough } from './isCloseEnough';
-import { log } from '../log';
+import picocolors from "picocolors";
+import { confirm, isCancel } from "@clack/prompts";
+import { isCloseEnough } from "./isCloseEnough";
+import { log } from "../log";
 
 interface Command {
   command: string;
@@ -23,7 +23,7 @@ export const checkCommandAndSuggest = async ({ commands, commandArg, endpoint, s
     const { command, Func } = similarCommand;
 
     log(
-      `Command ${picocolors.cyan('add')} ${picocolors.yellow(commandArg)} does not exist. Did you mean ${picocolors.cyan('add')} ${picocolors.green(
+      `Command ${picocolors.cyan("add")} ${picocolors.yellow(commandArg)} does not exist. Did you mean ${picocolors.cyan("add")} ${picocolors.green(
         command
       )}?`
     );
@@ -33,7 +33,7 @@ export const checkCommandAndSuggest = async ({ commands, commandArg, endpoint, s
     });
 
     if (isCancel(shouldRunNewCommand) || !shouldRunNewCommand) {
-      log('Command was not created \nSee you next time!');
+      log("Command was not created \nSee you next time!");
       process.exit(0);
     }
 
@@ -45,6 +45,6 @@ export const checkCommandAndSuggest = async ({ commands, commandArg, endpoint, s
   }
 
   log(`Command ${picocolors.yellow(commandArg)} does not exist \n\nCommand list:`);
-  commands.forEach(({ command }) => log(`- ${picocolors.cyan('add')} ${picocolors.green(command)}`));
+  commands.forEach(({ command }) => log(`- ${picocolors.cyan("add")} ${picocolors.green(command)}`));
   process.exit(0);
 };

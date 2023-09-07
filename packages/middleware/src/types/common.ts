@@ -1,7 +1,7 @@
-import type { Express, Request, Response } from 'express';
-import { WithRequired } from './index';
-import { ApiClientMethod, ContextQuery, CustomQuery, CustomQueryFunction, TObject } from './base';
-import { ApiClientConfig, ApiClientFactory } from './server';
+import type { Express, Request, Response } from "express";
+import { WithRequired } from "./index";
+import { ApiClientMethod, ContextQuery, CustomQuery, CustomQueryFunction, TObject } from "./base";
+import { ApiClientConfig, ApiClientFactory } from "./server";
 
 export type ApiMethods = Record<string, ApiClientMethod>;
 export type ApiMethodsFactory<API extends ApiMethods, CONFIG extends ApiClientConfig> = (configuration: CONFIG) => API;

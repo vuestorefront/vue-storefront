@@ -1,1 +1,1 @@
-export { registerIntegrations } from './registerIntegrations';
+export { registerIntegrations } from "./registerIntegrations";

@@ -1,10 +1,10 @@
-import { includes, isFunction } from '../../../src/helpers';
+import { includes, isFunction } from "../../../src/helpers";
 
-describe('[helpers] utils', () => {
-  describe('[isFunction]', () => {
-    it('should validate function', () => {
+describe("[helpers] utils", () => {
+  describe("[isFunction]", () => {
+    it("should validate function", () => {
       const testFn = () => undefined;
-      const invalidTypes = ['test', 123, {}, [], new Set()];
+      const invalidTypes = ["test", 123, {}, [], new Set()];
 
       expect(isFunction(() => undefined)).toBe(true);
       // eslint-disable-next-line
@@ -17,13 +17,13 @@ describe('[helpers] utils', () => {
     });
   });
 
-  describe('[includes]', () => {
-    it('should validate array includes value', () => {
+  describe("[includes]", () => {
+    it("should validate array includes value", () => {
       const testObj = {};
 
       expect(includes([123, 456], 123)).toBe(true);
 
-      expect(includes(['123', '456'], 'falsy')).toBe(false);
+      expect(includes(["123", "456"], "falsy")).toBe(false);
       expect(includes([{}, {}], {})).toBe(false);
 
       expect(includes([{}, testObj], testObj)).toBe(true);

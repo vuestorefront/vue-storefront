@@ -1,6 +1,6 @@
-import execa from 'execa';
-import { spinner } from '@clack/prompts';
-import picocolors from 'picocolors';
+import execa from "execa";
+import { spinner } from "@clack/prompts";
+import picocolors from "picocolors";
 
 interface InstallDepsOptions {
   path: string;
@@ -18,10 +18,10 @@ export const installDeps = async ({ path, entryMessage, exitMessage }: InstallDe
   try {
     sp.start(picocolors.cyan(entryMessage));
 
-    await execa(packageManager, ['install'], options);
+    await execa(packageManager, ["install"], options);
 
     sp.stop(picocolors.green(exitMessage));
   } catch (error) {
-    console.error('Error installing dependencies:', error);
+    console.error("Error installing dependencies:", error);
   }
 };

@@ -29,7 +29,7 @@ export type AnyFunction = (...args: any) => any;
 
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
-export * from './base';
-export * from './common';
-export * from './server';
-export * from './config';
+export * from "./base";
+export * from "./common";
+export * from "./server";
+export * from "./config";

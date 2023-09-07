@@ -1,5 +1,5 @@
-import picocolors from 'picocolors';
-import { spinner } from '@clack/prompts';
+import picocolors from "picocolors";
+import { spinner } from "@clack/prompts";
 
 export function simpleLog(message: string, pc?: (pcMessage: string) => string): void {
   const sp = spinner();

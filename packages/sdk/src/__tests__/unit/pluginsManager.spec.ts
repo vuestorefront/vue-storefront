@@ -1,25 +1,25 @@
-import { SDKError } from '../../error';
-import { EventManager } from '../../events/EventManager';
-import { InterceptorsManager } from '../../interceptors/InterceptorsManager';
-import { AnyFunction } from '../../types';
+import { SDKError } from "../../error";
+import { EventManager } from "../../events/EventManager";
+import { InterceptorsManager } from "../../interceptors/InterceptorsManager";
+import { AnyFunction } from "../../types";
 
 function getWrappedMethods(configWithoutInterceptors: any, eventManager: EventManager = new EventManager()): any {
   const interceptorsManager = new InterceptorsManager(configWithoutInterceptors, eventManager);
   const wrappedMethodsEntries = Object.entries(configWithoutInterceptors.module1.connector).map(([methodName, value]) => {
-    return [methodName, interceptorsManager.applyInterceptors(methodName, value as AnyFunction, 'module1')];
+    return [methodName, interceptorsManager.applyInterceptors(methodName, value as AnyFunction, "module1")];
   });
   return Object.fromEntries(wrappedMethodsEntries);
 }
 
-describe('[InterceptorManager]', () => {
-  it('getInterceptors should return an empty array if no interceptors are defined', () => {
+describe("[InterceptorManager]", () => {
+  it("getInterceptors should return an empty array if no interceptors are defined", () => {
     const interceptorsManager = new InterceptorsManager({}, new EventManager());
-    const result = interceptorsManager.getInterceptors('test', 'test', 'before');
+    const result = interceptorsManager.getInterceptors("test", "test", "before");
 
     expect(result).toEqual([]);
   });
 
-  it('getInterceptors should return an empty array if no interceptors are defined for given type', () => {
+  it("getInterceptors should return an empty array if no interceptors are defined for given type", () => {
     const configWithoutInterceptors = {
       module1: {
         connector: {},
@@ -31,20 +31,20 @@ describe('[InterceptorManager]', () => {
     };
 
     const interceptorsManager = new InterceptorsManager(configWithoutInterceptors, new EventManager());
-    const result = interceptorsManager.getInterceptors('module1', 'test', 'after');
+    const result = interceptorsManager.getInterceptors("module1", "test", "after");
 
     expect(result).toEqual([]);
   });
 
-  it('getOverride should return null if no overrides are defined', () => {
+  it("getOverride should return null if no overrides are defined", () => {
     const interceptorsManager = new InterceptorsManager({}, new EventManager());
-    const result = interceptorsManager.getOverride('test', 'test');
+    const result = interceptorsManager.getOverride("test", "test");
 
     expect(result).toBeNull();
   });
 
-  it('getOverride should return function if override is defined', () => {
-    const testOverride = () => 'test';
+  it("getOverride should return function if override is defined", () => {
+    const testOverride = () => "test";
     const configWithOverride = {
       module1: {
         connector: {},
@@ -56,12 +56,12 @@ describe('[InterceptorManager]', () => {
     };
 
     const interceptorsManager = new InterceptorsManager(configWithOverride, new EventManager());
-    const result = interceptorsManager.getOverride('module1', 'test');
+    const result = interceptorsManager.getOverride("module1", "test");
 
     expect(result).toBe(testOverride);
   });
 
-  it('method should return unmodified result if no interceptors are defined', async () => {
+  it("method should return unmodified result if no interceptors are defined", async () => {
     const configWithoutInterceptors = {
       module1: {
         connector: {
@@ -71,12 +71,12 @@ describe('[InterceptorManager]', () => {
       },
     };
     const wrappedMethods = getWrappedMethods(configWithoutInterceptors);
-    const result = await wrappedMethods.test('test');
+    const result = await wrappedMethods.test("test");
 
-    expect(result).toEqual('test');
+    expect(result).toEqual("test");
   });
 
-  it('method should return modified result if before interceptors are defined', async () => {
+  it("method should return modified result if before interceptors are defined", async () => {
     const configWithInterceptors = {
       module1: {
         connector: {
@@ -94,12 +94,12 @@ describe('[InterceptorManager]', () => {
     };
 
     const wrappedMethods = getWrappedMethods(configWithInterceptors);
-    const result = await wrappedMethods.test('test');
+    const result = await wrappedMethods.test("test");
 
-    expect(result).toEqual('test modified');
+    expect(result).toEqual("test modified");
   });
 
-  it('method should return modified result if after interceptors are defined', async () => {
+  it("method should return modified result if after interceptors are defined", async () => {
     const configWithInterceptors = {
       module1: {
         connector: {
@@ -117,12 +117,12 @@ describe('[InterceptorManager]', () => {
     };
 
     const wrappedMethods = getWrappedMethods(configWithInterceptors);
-    const result = await wrappedMethods.test('test');
+    const result = await wrappedMethods.test("test");
 
-    expect(result).toEqual('test modified');
+    expect(result).toEqual("test modified");
   });
 
-  it('interceptors are executed in correct order', async () => {
+  it("interceptors are executed in correct order", async () => {
     const configWithInterceptors = {
       module1: {
         connector: {
@@ -143,12 +143,12 @@ describe('[InterceptorManager]', () => {
     };
 
     const wrappedMethods = getWrappedMethods(configWithInterceptors);
-    const result = await wrappedMethods.test('test');
+    const result = await wrappedMethods.test("test");
 
-    expect(result).toEqual('test modified_before1 modified_before2 modified_after1 modified_after2');
+    expect(result).toEqual("test modified_before1 modified_before2 modified_after1 modified_after2");
   });
 
-  it('interceptors are executed with multiple arguments', async () => {
+  it("interceptors are executed with multiple arguments", async () => {
     const configWithInterceptors = {
       module1: {
         connector: {
@@ -169,12 +169,12 @@ describe('[InterceptorManager]', () => {
     };
 
     const wrappedMethods = getWrappedMethods(configWithInterceptors);
-    const result = await wrappedMethods.test('test', 10);
+    const result = await wrappedMethods.test("test", 10);
 
-    expect(result).toEqual(['test modified_before1 modified_after1', 12]);
+    expect(result).toEqual(["test modified_before1 modified_after1", 12]);
   });
 
-  it('interceptors are executed in correct order', async () => {
+  it("interceptors are executed in correct order", async () => {
     const before1 = jest.fn((a) => a);
     const before2 = jest.fn((a) => a);
     const after1 = jest.fn((b) => b);
@@ -200,7 +200,7 @@ describe('[InterceptorManager]', () => {
     };
 
     const wrappedMethods = getWrappedMethods(configWithInterceptors);
-    await wrappedMethods.test('test');
+    await wrappedMethods.test("test");
 
     expect(before1.mock.invocationCallOrder[0]).toBe(1);
     expect(before2.mock.invocationCallOrder[0]).toBe(2);
@@ -208,16 +208,16 @@ describe('[InterceptorManager]', () => {
     expect(after2.mock.invocationCallOrder[0]).toBe(4);
   });
 
-  it('handleError should return error if interceptor throws error', async () => {
+  it("handleError should return error if interceptor throws error", async () => {
     const configWithInterceptors = {
       module1: {
         connector: {
-          test: () => 'test',
+          test: () => "test",
         },
         beforeInterceptors: {
           test: [
             () => {
-              throw new Error('test error');
+              throw new Error("test error");
             },
           ],
         },
@@ -231,12 +231,12 @@ describe('[InterceptorManager]', () => {
       await wrappedMethods.test();
     } catch (e) {
       expect(e).toBeInstanceOf(SDKError);
-      expect((e as SDKError).message).toEqual('test error');
-      expect((e as SDKError).cause).toEqual(new Error('test error'));
+      expect((e as SDKError).message).toEqual("test error");
+      expect((e as SDKError).cause).toEqual(new Error("test error"));
     }
   });
 
-  it('eventManager should emit events before and after execution of the function', async () => {
+  it("eventManager should emit events before and after execution of the function", async () => {
     const configWithSimpleModule = {
       module1: {
         connector: {
@@ -249,16 +249,16 @@ describe('[InterceptorManager]', () => {
     const eventManager = new EventManager();
 
     const withInterceptors = getWrappedMethods(configWithSimpleModule, eventManager);
-    const emitSpy = jest.spyOn(eventManager, 'emit');
+    const emitSpy = jest.spyOn(eventManager, "emit");
 
-    await withInterceptors.m1('test');
+    await withInterceptors.m1("test");
 
-    expect(emitSpy).toBeCalledWith(`*_before`, ['test']);
-    expect(emitSpy).toBeCalledWith(`module1_before`, ['test']);
-    expect(emitSpy).toBeCalledWith(`module1_m1_before`, ['test']);
+    expect(emitSpy).toBeCalledWith(`*_before`, ["test"]);
+    expect(emitSpy).toBeCalledWith(`module1_before`, ["test"]);
+    expect(emitSpy).toBeCalledWith(`module1_m1_before`, ["test"]);
 
-    expect(emitSpy).toBeCalledWith(`*_after`, 'test');
-    expect(emitSpy).toBeCalledWith(`module1_after`, 'test');
-    expect(emitSpy).toBeCalledWith(`module1_m1_after`, 'test');
+    expect(emitSpy).toBeCalledWith(`*_after`, "test");
+    expect(emitSpy).toBeCalledWith(`module1_after`, "test");
+    expect(emitSpy).toBeCalledWith(`module1_m1_after`, "test");
   });
 });

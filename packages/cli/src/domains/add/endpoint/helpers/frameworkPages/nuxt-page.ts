@@ -1,9 +1,9 @@
-import fs from 'fs';
-import { existsDirectory } from '../../../../../utils';
-import { getNuxtPageCode } from '..';
+import fs from "fs";
+import { existsDirectory } from "../../../../../utils";
+import { getNuxtPageCode } from "..";
 
 export const writeNuxtPageMethod = async (endpoint: string) => {
-  const nuxtPagesPath = './playground/app/pages';
+  const nuxtPagesPath = "./playground/app/pages";
 
   const folderExists = await existsDirectory(nuxtPagesPath);
 

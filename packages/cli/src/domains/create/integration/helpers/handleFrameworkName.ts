@@ -1,20 +1,20 @@
-import { isCancel, select } from '@clack/prompts';
-import { log } from '../../../../utils';
+import { isCancel, select } from "@clack/prompts";
+import { log } from "../../../../utils";
 
 export const handleFrameworkName = async (framework: string): Promise<string> => {
   let frameworkName = framework;
 
   if (!frameworkName) {
     frameworkName = (await select({
-      message: 'What framework do you want to use?',
+      message: "What framework do you want to use?",
       options: [
-        { label: 'Nuxt', value: 'nuxt' },
-        { label: 'Next', value: 'next' },
+        { label: "Nuxt", value: "nuxt" },
+        { label: "Next", value: "next" },
       ],
     })) as unknown as string;
 
     if (isCancel(frameworkName)) {
-      log('SDK integration boilerplate generation has been canceled!');
+      log("SDK integration boilerplate generation has been canceled!");
       process.exit(0);
     }
   }

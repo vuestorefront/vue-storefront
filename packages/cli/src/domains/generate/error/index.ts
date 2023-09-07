@@ -1,1 +1,1 @@
-export { default as resolveToError } from './resolveToError';
+export { default as resolveToError } from "./resolveToError";

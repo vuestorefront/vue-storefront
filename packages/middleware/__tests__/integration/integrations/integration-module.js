@@ -1,1 +1,1 @@
-module.exports = { createApiClient: { key: 'value' } };
+module.exports = { createApiClient: { key: "value" } };

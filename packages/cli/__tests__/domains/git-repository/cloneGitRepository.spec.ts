@@ -1,15 +1,15 @@
-import git from 'isomorphic-git';
-import { cloneGitRepository } from '../../../src/domains/generate/git-repository';
+import git from "isomorphic-git";
+import { cloneGitRepository } from "../../../src/domains/generate/git-repository";
 
-jest.mock('isomorphic-git');
+jest.mock("isomorphic-git");
 
-describe('cloneGitRepository | unit tests', () => {
-  it('clones git repository to the project directory', async () => {
-    const projectDir = '~/Projects/test-store';
+describe("cloneGitRepository | unit tests", () => {
+  it("clones git repository to the project directory", async () => {
+    const projectDir = "~/Projects/test-store";
 
-    const gitRepositoryURL = 'https://github.com/vuestorefront/test-template.git';
+    const gitRepositoryURL = "https://github.com/vuestorefront/test-template.git";
 
-    jest.spyOn(git, 'clone').mockResolvedValueOnce();
+    jest.spyOn(git, "clone").mockResolvedValueOnce();
 
     await cloneGitRepository({
       projectDir,

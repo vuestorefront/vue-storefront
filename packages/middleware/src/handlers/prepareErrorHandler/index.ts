@@ -1,5 +1,5 @@
-import type { RequestHandler } from 'express';
-import { IntegrationsLoaded } from '../../types';
+import type { RequestHandler } from "express";
+import { IntegrationsLoaded } from "../../types";
 
 export function prepareErrorHandler(integrations: IntegrationsLoaded): RequestHandler {
   return (req, res, next) => {

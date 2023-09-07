@@ -1,4 +1,4 @@
-import consola from 'consola';
+import consola from "consola";
 
 /**
  * Resolves dependencies based on the current working directory, not relative to this package.

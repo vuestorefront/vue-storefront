@@ -1,10 +1,10 @@
-import { Express } from 'express';
-import request from 'supertest';
-import { createServer } from '../../src/index';
-import { success } from './bootstrap/api';
-import * as api from './bootstrap/api';
+import { Express } from "express";
+import request from "supertest";
+import { createServer } from "../../src/index";
+import { success } from "./bootstrap/api";
+import * as api from "./bootstrap/api";
 
-describe('[Integration] Create server', () => {
+describe("[Integration] Create server", () => {
   let app: Express;
 
   beforeAll(async () => {
@@ -17,7 +17,7 @@ describe('[Integration] Create server', () => {
     type IntegrationContexts = {
       test_integration: {
         api: typeof api;
-        config: IntegrationConfigs['test_integration'];
+        config: IntegrationConfigs["test_integration"];
         client: unknown;
       };
     };
@@ -29,13 +29,13 @@ describe('[Integration] Create server', () => {
           },
           errorHandler: (error: unknown, req: any, res: any) => {
             res.status(410); // awkward status code to test if it's working
-            res.send('Custom error handler');
+            res.send("Custom error handler");
           },
-          location: './__tests__/integration/bootstrap/server',
+          location: "./__tests__/integration/bootstrap/server",
           extensions() {
             return [
               {
-                name: 'my-extension',
+                name: "my-extension",
                 extendApiMethods: {
                   myFunc(context) {
                     return context.api.success();
@@ -52,10 +52,10 @@ describe('[Integration] Create server', () => {
     });
   });
 
-  it('config.integrations should be properly configured', async () => {
+  it("config.integrations should be properly configured", async () => {
     app = await createServer({ integrations: {} });
 
-    const { status, error } = await request(app).post('/invalid_integration/action');
+    const { status, error } = await request(app).post("/invalid_integration/action");
 
     expect(status).toEqual(404);
     expect(error).toBeTruthy();
@@ -64,38 +64,38 @@ describe('[Integration] Create server', () => {
     }
   });
 
-  it('can handle a valid request', async () => {
-    const { status, body } = await request(app).post('/test_integration/success').send([]);
+  it("can handle a valid request", async () => {
+    const { status, body } = await request(app).post("/test_integration/success").send([]);
 
     expect(status).toEqual(200);
-    expect(body.message).toEqual('ok');
+    expect(body.message).toEqual("ok");
   });
 
   it("'x-powered-by' header is removed", async () => {
-    const { headers } = await request(app).post('/test_integration/success').send([]);
+    const { headers } = await request(app).post("/test_integration/success").send([]);
 
-    expect(headers['x-powered-by']).toBeUndefined();
+    expect(headers["x-powered-by"]).toBeUndefined();
   });
 
-  it('healthz endpoint responds with ok', async () => {
-    const { status, text } = await request(app).get('/healthz').send();
+  it("healthz endpoint responds with ok", async () => {
+    const { status, text } = await request(app).get("/healthz").send();
 
     expect(status).toEqual(200);
-    expect(text).toEqual('ok');
+    expect(text).toEqual("ok");
   });
 
-  it('should allow to override default error handler', async () => {
-    const { status, error } = await request(app).post('/test_integration/throwAxiosError');
+  it("should allow to override default error handler", async () => {
+    const { status, error } = await request(app).post("/test_integration/throwAxiosError");
     expect(status).toEqual(410);
     expect(error).toBeTruthy();
     if (error) {
-      expect(error.text).toEqual('Custom error handler');
+      expect(error.text).toEqual("Custom error handler");
     }
   });
 
-  it('should allow functions from extensions to access integration functions', async () => {
+  it("should allow functions from extensions to access integration functions", async () => {
     expect.assertions(2);
-    const { status, text } = await request(app).post('/test_integration/myFunc').send([]);
+    const { status, text } = await request(app).post("/test_integration/myFunc").send([]);
     const response = JSON.parse(text);
 
     // This is the result of the original "success" function from the integration
@@ -105,15 +105,15 @@ describe('[Integration] Create server', () => {
     expect(response).toEqual(apiMethodResult);
   });
 
-  it('should not allow functions from extensions to access extension functions', async () => {
+  it("should not allow functions from extensions to access extension functions", async () => {
     expect.assertions(2);
-    const { status, text } = await request(app).post('/test_integration/myFuncWithDependencyToOtherExtension').send([]);
+    const { status, text } = await request(app).post("/test_integration/myFuncWithDependencyToOtherExtension").send([]);
 
     expect(status).toEqual(410);
-    expect(text).toEqual('Custom error handler');
+    expect(text).toEqual("Custom error handler");
   });
 
-  it('should pass context type to extensions functions', async () => {
+  it("should pass context type to extensions functions", async () => {
     type IntegrationConfigs = {
       test_integration: {
         myCfgEntry: boolean;
@@ -123,7 +123,7 @@ describe('[Integration] Create server', () => {
     type IntegrationContexts = {
       test_integration: {
         api: typeof api;
-        config: IntegrationConfigs['test_integration'];
+        config: IntegrationConfigs["test_integration"];
         client: any;
       };
     };
@@ -136,16 +136,16 @@ describe('[Integration] Create server', () => {
           },
           errorHandler: (error: unknown, req: any, res: any) => {
             res.status(410); // awkward status code to test if it's working
-            res.send('Custom error handler');
+            res.send("Custom error handler");
           },
-          location: './__tests__/integration/bootstrap/server',
+          location: "./__tests__/integration/bootstrap/server",
           extensions() {
             return [
               {
-                name: 'my-extension',
+                name: "my-extension",
                 extendApiMethods: {
                   myFunc(context) {
-                    context satisfies IntegrationContexts['test_integration'];
+                    context satisfies IntegrationContexts["test_integration"];
                     return context.api.success();
                   },
                 },

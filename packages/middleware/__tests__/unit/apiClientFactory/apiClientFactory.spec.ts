@@ -1,12 +1,12 @@
-import { apiClientFactory } from '../../../src/apiClientFactory';
-import { applyContextToApi } from '../../../src/apiClientFactory/applyContextToApi';
-import { MiddlewareContext } from '../../../src/types';
+import { apiClientFactory } from "../../../src/apiClientFactory";
+import { applyContextToApi } from "../../../src/apiClientFactory/applyContextToApi";
+import { MiddlewareContext } from "../../../src/types";
 
-describe('apiClientFactory', () => {
-  it('Should return passed config with overrides property', () => {
+describe("apiClientFactory", () => {
+  it("Should return passed config with overrides property", () => {
     const params = {
       onCreate: jest.fn((config) => ({ config })),
-      defaultSettings: { option: 'option' },
+      defaultSettings: { option: "option" },
     };
 
     const { createApiClient } = apiClientFactory<any, any>(params as any) as any;
@@ -14,22 +14,22 @@ describe('apiClientFactory', () => {
     expect(createApiClient({}).settings).toEqual({});
   });
 
-  it('Should merge with default settings when setup is called', () => {
+  it("Should merge with default settings when setup is called", () => {
     const params = {
       onCreate: jest.fn((config) => ({ config })),
-      defaultSettings: { option: 'option' },
+      defaultSettings: { option: "option" },
     };
 
     const { createApiClient } = apiClientFactory<any, any>(params as any) as any;
 
-    const { settings } = createApiClient({ newOption: 'newOption' });
+    const { settings } = createApiClient({ newOption: "newOption" });
 
     expect(settings).toEqual({
-      newOption: 'newOption',
+      newOption: "newOption",
     });
   });
 
-  it('Should run onCreate when setup is invoked', () => {
+  it("Should run onCreate when setup is invoked", () => {
     const params = {
       onCreate: jest.fn((config) => ({ config })),
       defaultSettings: {},
@@ -42,12 +42,12 @@ describe('apiClientFactory', () => {
     expect(params.onCreate).toHaveBeenCalled();
   });
 
-  it('Should run initial config when onCreate is not provided', () => {
+  it("Should run initial config when onCreate is not provided", () => {
     const params = {
       defaultSettings: {},
     };
     const defaultConfig = { value: 123 };
-    const defaultClient = { key: 'value' };
+    const defaultClient = { key: "value" };
     const clientConfig = { config: defaultConfig, client: defaultClient };
     const { createApiClient } = apiClientFactory<any, any>(params as any);
 
@@ -57,11 +57,11 @@ describe('apiClientFactory', () => {
     expect(settings.config).toBe(defaultConfig);
   });
 
-  it('Should run given extensions', () => {
+  it("Should run given extensions", () => {
     const beforeCreate = jest.fn((a) => a);
     const afterCreate = jest.fn((a) => a);
     const extension = {
-      name: 'extTest',
+      name: "extTest",
       hooks: () => ({ beforeCreate, afterCreate }),
     };
 
@@ -80,11 +80,11 @@ describe('apiClientFactory', () => {
     expect(afterCreate).toHaveBeenCalled();
   });
 
-  it('Should run beforeCall / afterCall extension methods', async () => {
+  it("Should run beforeCall / afterCall extension methods", async () => {
     const beforeCall = jest.fn(({ args }) => args);
     const afterCall = jest.fn(({ response }) => response);
     const extension = {
-      name: 'extTest',
+      name: "extTest",
       hooks: () => ({ beforeCall, afterCall }),
     };
 
@@ -108,7 +108,7 @@ describe('apiClientFactory', () => {
     expect(afterCall).toHaveBeenCalled();
   });
 
-  it('should accept methods passed as object', () => {
+  it("should accept methods passed as object", () => {
     const params = {
       onCreate: jest.fn((config, client) => ({ config, client })),
       api: { testMethod: jest.fn() },
@@ -120,7 +120,7 @@ describe('apiClientFactory', () => {
     expect(apiClient.api.testMethod).toBeDefined();
   });
 
-  it('should accept methods passed as object factory', () => {
+  it("should accept methods passed as object factory", () => {
     const params = {
       onCreate: jest.fn((config, client) => ({ config, client })),
       api: jest.fn(() => ({ testMethod: jest.fn() })),
@@ -133,8 +133,8 @@ describe('apiClientFactory', () => {
     expect(apiClient.api.testMethod).toBeDefined();
   });
 
-  describe('[applyContextToApi]', () => {
-    it('should add context as first argument to api functions', () => {
+  describe("[applyContextToApi]", () => {
+    it("should add context as first argument to api functions", () => {
       const api = {
         firstFunc: jest.fn(),
         secondFunc: jest.fn(),
@@ -147,12 +147,12 @@ describe('apiClientFactory', () => {
       const apiWithContext: any = applyContextToApi(api, context);
 
       apiWithContext.firstFunc();
-      apiWithContext.secondFunc('TEST');
-      apiWithContext.thirdFunc('A', 'FEW', 'ARGS');
+      apiWithContext.secondFunc("TEST");
+      apiWithContext.thirdFunc("A", "FEW", "ARGS");
 
       expect(api.firstFunc).toHaveBeenCalledWith(expect.objectContaining({ extendQuery: expect.any(Function) }));
-      expect(api.secondFunc).toHaveBeenCalledWith(expect.objectContaining({ extendQuery: expect.any(Function) }), 'TEST');
-      expect(api.thirdFunc).toHaveBeenCalledWith(expect.objectContaining({ extendQuery: expect.any(Function) }), 'A', 'FEW', 'ARGS');
+      expect(api.secondFunc).toHaveBeenCalledWith(expect.objectContaining({ extendQuery: expect.any(Function) }), "TEST");
+      expect(api.thirdFunc).toHaveBeenCalledWith(expect.objectContaining({ extendQuery: expect.any(Function) }), "A", "FEW", "ARGS");
     });
   });
 });

@@ -1,6 +1,6 @@
-import { eventManager } from './events/EventManager';
-import { InterceptorsManager } from './interceptors/InterceptorsManager';
-import { SDKApi, SDKConfig } from './types';
+import { eventManager } from "./events/EventManager";
+import { InterceptorsManager } from "./interceptors/InterceptorsManager";
+import { SDKApi, SDKConfig } from "./types";
 
 function normalizePropertyDescriptors<Connector extends Record<string, unknown>>(connector: Connector): Connector {
   const propertyDescriptors = Object.getOwnPropertyDescriptors(connector);
@@ -54,7 +54,7 @@ export const initSDK = <T extends SDKConfig>(sdkConfig: T): SDKApi<T> => {
 
     sdk[extensionCode] = new Proxy(connectorWithoutDescriptors, {
       get(target, propKey: string, receiver) {
-        if (propKey === 'utils') return utils;
+        if (propKey === "utils") return utils;
 
         const methodFromExtend = Reflect.get(extend, propKey, receiver);
         const methodFromTarget = Reflect.get(target, propKey, receiver);

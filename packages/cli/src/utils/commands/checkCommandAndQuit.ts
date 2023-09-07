@@ -1,6 +1,6 @@
-import picocolors from 'picocolors';
-import { isCloseEnough } from './isCloseEnough';
-import { log } from '../log';
+import picocolors from "picocolors";
+import { isCloseEnough } from "./isCloseEnough";
+import { log } from "../log";
 
 interface CheckCommandAndQuit {
   commands: string[];
@@ -12,14 +12,14 @@ export const checkCommandAndQuit = async ({ commands, commandName }: CheckComman
 
   if (similarCommand) {
     log(
-      `Command ${picocolors.cyan('create')} ${picocolors.yellow(commandName)} does not exist. Did you mean ${picocolors.cyan(
-        'create'
+      `Command ${picocolors.cyan("create")} ${picocolors.yellow(commandName)} does not exist. Did you mean ${picocolors.cyan(
+        "create"
       )} ${picocolors.green(similarCommand)}?`
     );
     process.exit(0);
   }
 
   log(`Command ${picocolors.yellow(commandName)} does not exist \n\nCommand list:`);
-  commands.forEach((command) => log(`- ${picocolors.cyan('create')} ${picocolors.green(command)}`));
+  commands.forEach((command) => log(`- ${picocolors.cyan("create")} ${picocolors.green(command)}`));
   process.exit(0);
 };

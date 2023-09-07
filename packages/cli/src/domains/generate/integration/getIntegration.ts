@@ -1,10 +1,10 @@
-import { select, isCancel } from '@clack/prompts';
-import { t } from 'i18next';
-import type Integration from './Integration';
-import fetchIntegrations from './fetchIntegrations';
-import { getGitRepositoryURL } from '../git-repository-url';
+import { select, isCancel } from "@clack/prompts";
+import { t } from "i18next";
+import type Integration from "./Integration";
+import fetchIntegrations from "./fetchIntegrations";
+import { getGitRepositoryURL } from "../git-repository-url";
 
-import { logSimpleWarningMessage } from '../magento2/functions/terminalHelpers';
+import { logSimpleWarningMessage } from "../magento2/functions/terminalHelpers";
 
 type CustomIntegration = {
   name: string;
@@ -22,7 +22,7 @@ const getIntegration = async (options: Options): Promise<Integration> => {
   const integrations: Integration[] = await fetchIntegrations();
 
   const customIntegration: CustomIntegration = {
-    name: 'Custom integration',
+    name: "Custom integration",
     gitRepositoryURL: null,
   };
 
@@ -37,7 +37,7 @@ const getIntegration = async (options: Options): Promise<Integration> => {
   });
 
   if (isCancel(answer)) {
-    logSimpleWarningMessage(t('command.generate_store.message.canceled'));
+    logSimpleWarningMessage(t("command.generate_store.message.canceled"));
     process.exit(0);
   }
 
@@ -45,7 +45,7 @@ const getIntegration = async (options: Options): Promise<Integration> => {
     const selectedIntegration = integrations.find((integration) => integration.name === answer);
 
     if (!selectedIntegration) {
-      throw new Error('Integration not found');
+      throw new Error("Integration not found");
     }
 
     return selectedIntegration;

@@ -1,7 +1,7 @@
-import { handleError } from '../error';
-import type { EventManagerInterface } from '../events/EventManager';
-import type { InterceptorType, MappedInterceptors, SDKConfig } from '../types';
-import { AnyFunction, Interceptor, InterceptorsConfig } from '../types';
+import { handleError } from "../error";
+import type { EventManagerInterface } from "../events/EventManager";
+import type { InterceptorType, MappedInterceptors, SDKConfig } from "../types";
+import { AnyFunction, Interceptor, InterceptorsConfig } from "../types";
 
 /**
  * This class is responsible for managing interceptors, executing them and mapping them to the methods.
@@ -47,7 +47,7 @@ export class InterceptorsManager<Config extends SDKConfig> {
    * @param {string} methodName
    * @param {InterceptorType} interceptorType
    */
-  public getInterceptors(moduleName: string, methodName: string, interceptorType: Exclude<InterceptorType, 'around'>) {
+  public getInterceptors(moduleName: string, methodName: string, interceptorType: Exclude<InterceptorType, "around">) {
     // TODO Exclusion of aroundInterceptors is needed because they are not implemented yet, should be removed when they are implemented
     return this.configuredInterceptors[moduleName]?.[interceptorType]?.[methodName] ?? [];
   }
@@ -73,7 +73,7 @@ export class InterceptorsManager<Config extends SDKConfig> {
     if (!interceptors) return data;
 
     for (const interceptor of interceptors) {
-      if (typeof interceptor === 'function') {
+      if (typeof interceptor === "function") {
         // eslint-disable-next-line no-param-reassign
         data = await interceptor(data);
       }
@@ -162,7 +162,7 @@ export class InterceptorsManager<Config extends SDKConfig> {
 
           if (Array.isArray(methodInterceptors)) {
             mappedInterceptors[interceptorType][methodName].push(...methodInterceptors);
-          } else if (typeof methodInterceptors === 'function') {
+          } else if (typeof methodInterceptors === "function") {
             mappedInterceptors[interceptorType][methodName].push(methodInterceptors);
           }
         });
@@ -178,7 +178,7 @@ export class InterceptorsManager<Config extends SDKConfig> {
    * @param {any} args
    */
   private async executeBeforeInterceptors<T>(moduleName: string, methodName: string, args: T): Promise<T> {
-    const interceptors = this.getInterceptors(moduleName, methodName, 'before');
+    const interceptors = this.getInterceptors(moduleName, methodName, "before");
 
     return this.executeInterceptors<T>(interceptors, args);
   }
@@ -189,7 +189,7 @@ export class InterceptorsManager<Config extends SDKConfig> {
    * @param {any} result
    */
   private async executeAfterInterceptors<T>(moduleName: string, methodName: string, result: T): Promise<T> {
-    const interceptors = this.getInterceptors(moduleName, methodName, 'after');
+    const interceptors = this.getInterceptors(moduleName, methodName, "after");
 
     return this.executeInterceptors<T>(interceptors, result);
   }

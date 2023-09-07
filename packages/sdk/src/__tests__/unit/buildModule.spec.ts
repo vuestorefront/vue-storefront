@@ -1,15 +1,15 @@
-import { extension1Mock } from '../__mocks__/extension1.mock';
-import module1Mock from '../__mocks__/module1.mock';
-import { buildModule } from '../../module/buildModule';
+import { extension1Mock } from "../__mocks__/extension1.mock";
+import module1Mock from "../__mocks__/module1.mock";
+import { buildModule } from "../../module/buildModule";
 
-describe('[buildModule]', () => {
-  it('should build module without extensions', () => {
+describe("[buildModule]", () => {
+  it("should build module without extensions", () => {
     const result = buildModule(module1Mock, {});
 
     expect(result).toEqual(module1Mock({}));
   });
 
-  it('should build module with extensions as an object', () => {
+  it("should build module with extensions as an object", () => {
     const result = buildModule(module1Mock, {}, extension1Mock);
     const expected = {
       ...module1Mock({}),
@@ -19,7 +19,7 @@ describe('[buildModule]', () => {
     expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
   });
 
-  it('should build module with extension as a function with options', () => {
+  it("should build module with extension as a function with options", () => {
     const extension1MockFn = jest.fn(() => extension1Mock);
     const extensionOptions = { test: true };
     const expected = {
@@ -34,7 +34,7 @@ describe('[buildModule]', () => {
     expect(extension1MockFn).toBeCalledWith(extensionOptions);
   });
 
-  it('module can be executed with options', () => {
+  it("module can be executed with options", () => {
     const result = buildModule(module1Mock, { test: true });
 
     const expected = {

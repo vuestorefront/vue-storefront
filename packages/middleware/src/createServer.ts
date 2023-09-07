@@ -1,13 +1,13 @@
-import consola from 'consola';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import type { Express } from 'express';
-import express from 'express';
-import type { HelmetOptions } from 'helmet';
-import helmet from 'helmet';
-import { registerIntegrations } from './integrations';
-import type { Helmet, IntegrationContext, MiddlewareConfig } from './types';
-import { prepareApiFunction, prepareErrorHandler, prepareArguments, callApiFunction } from './handlers';
+import consola from "consola";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import type { Express } from "express";
+import express from "express";
+import type { HelmetOptions } from "helmet";
+import helmet from "helmet";
+import { registerIntegrations } from "./integrations";
+import type { Helmet, IntegrationContext, MiddlewareConfig } from "./types";
+import { prepareApiFunction, prepareErrorHandler, prepareArguments, callApiFunction } from "./handlers";
 
 const app = express();
 app.use(express.json());
@@ -15,42 +15,42 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: "http://localhost:3000",
   })
 );
-app.disable('x-powered-by');
+app.disable("x-powered-by");
 
 async function createServer<TIntegrationContext extends Record<string, IntegrationContext>>(
   config: MiddlewareConfig<TIntegrationContext>
 ): Promise<Express> {
-  consola.info('Middleware starting....');
+  consola.info("Middleware starting....");
   const options: Helmet = {
     contentSecurityPolicy: false,
     crossOriginOpenerPolicy: false,
     crossOriginEmbedderPolicy: false,
     permittedCrossDomainPolicies: {
-      permittedPolicies: 'none',
+      permittedPolicies: "none",
     },
     ...((config.helmet || {}) as HelmetOptions),
   };
   const isHelmetEnabled = config.helmet === true || (config.helmet && Object.keys(config.helmet).length > 0);
   if (isHelmetEnabled) {
     app.use(helmet(options));
-    consola.info('VSF `Helmet` middleware added');
+    consola.info("VSF `Helmet` middleware added");
   }
 
-  consola.info('Loading integrations...');
+  consola.info("Loading integrations...");
   const integrations = await registerIntegrations(app, config.integrations);
-  consola.success('Integrations loaded!');
+  consola.success("Integrations loaded!");
 
-  app.post('/:integrationName/:functionName', prepareApiFunction(integrations), prepareErrorHandler(integrations), prepareArguments, callApiFunction);
-  app.get('/:integrationName/:functionName', prepareApiFunction(integrations), prepareErrorHandler(integrations), prepareArguments, callApiFunction);
+  app.post("/:integrationName/:functionName", prepareApiFunction(integrations), prepareErrorHandler(integrations), prepareArguments, callApiFunction);
+  app.get("/:integrationName/:functionName", prepareApiFunction(integrations), prepareErrorHandler(integrations), prepareArguments, callApiFunction);
 
-  app.get('/healthz', (_req, res) => {
-    res.end('ok');
+  app.get("/healthz", (_req, res) => {
+    res.end("ok");
   });
 
-  consola.success('Middleware created!');
+  consola.success("Middleware created!");
   return app;
 }
 

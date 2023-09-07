@@ -1,5 +1,5 @@
-import mergeDeep from '../helpers/mergeDeep';
-import { Module, Extension, InitFunction } from '../types';
+import mergeDeep from "../helpers/mergeDeep";
+import { Module, Extension, InitFunction } from "../types";
 
 /* eslint-disable no-redeclare */
 function buildModule<T extends Module>(module: InitFunction<T>, moduleOptions?: any): T;
@@ -27,7 +27,7 @@ function buildModule<T extends Module, U extends Extension = object>(
   extension?: InitFunction<U> | U,
   extensionOptions?: object
 ): T & U {
-  const resolvedExtension = typeof extension === 'function' ? extension(extensionOptions) : extension ?? {};
+  const resolvedExtension = typeof extension === "function" ? extension(extensionOptions) : extension ?? {};
   // This is safe, because extension doesn't have "connector" property
   return mergeDeep(module(moduleOptions), resolvedExtension);
 }

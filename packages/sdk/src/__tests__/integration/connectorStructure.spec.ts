@@ -1,9 +1,9 @@
-import { initSDK } from '../../bootstrap';
-import { buildModule } from '../../module/buildModule';
-import { createModuleMock } from '../__mocks__/createModuleMock';
+import { initSDK } from "../../bootstrap";
+import { buildModule } from "../../module/buildModule";
+import { createModuleMock } from "../__mocks__/createModuleMock";
 
-describe('[ConnectorStructure]', () => {
-  it('exposes utils', async () => {
+describe("[ConnectorStructure]", () => {
+  it("exposes utils", async () => {
     expect.assertions(1);
     const utilFunction = () => undefined;
     const { moduleMock } = createModuleMock(true, { utils: { utilFunction } });
@@ -40,13 +40,13 @@ describe('[ConnectorStructure]', () => {
     expect(sdk.proxyModule1.fakeFunction).toEqual(undefined);
   });
 
-  it('handles connectors with nonconfigurable properties', async () => {
+  it("handles connectors with nonconfigurable properties", async () => {
     expect.assertions(1);
     const utilFunction = () => undefined;
 
     const connector = {};
 
-    Object.defineProperty(connector, 'realFunction', {
+    Object.defineProperty(connector, "realFunction", {
       value: () => undefined,
       configurable: false,
       enumerable: true,

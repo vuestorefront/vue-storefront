@@ -1,20 +1,20 @@
-import { simpleLog } from '../src/domains/generate/magento2/functions/terminalHelpers';
+import { simpleLog } from "../src/domains/generate/magento2/functions/terminalHelpers";
 
-describe('terminalHelpers | Terminal logger tests', () => {
-  let output = '';
+describe("terminalHelpers | Terminal logger tests", () => {
+  let output = "";
 
   beforeEach(() => {
-    output = '';
+    output = "";
 
-    jest.spyOn(process.stdout, 'write').mockImplementation((message) => {
+    jest.spyOn(process.stdout, "write").mockImplementation((message) => {
       output += message;
       return true;
     });
   });
 
-  it('simpleLog is printing', async () => {
-    simpleLog('test');
+  it("simpleLog is printing", async () => {
+    simpleLog("test");
 
-    expect(output).toContain('test');
+    expect(output).toContain("test");
   });
 });

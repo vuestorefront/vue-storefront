@@ -1,5 +1,5 @@
-import type { RequestHandler } from 'express';
-import { IntegrationsLoaded, MiddlewareContext } from '../../types';
+import type { RequestHandler } from "express";
+import { IntegrationsLoaded, MiddlewareContext } from "../../types";
 
 export function prepareApiFunction(integrations: IntegrationsLoaded): RequestHandler {
   return (req, res, next) => {

@@ -1,6 +1,6 @@
-import { baseConfig } from '@vue-storefront/jest-config';
+import { baseConfig } from "@vue-storefront/jest-config";
 
 export default {
   ...baseConfig,
-  resolver: '<rootDir>/resolver.js',
+  resolver: "<rootDir>/resolver.js",
 };

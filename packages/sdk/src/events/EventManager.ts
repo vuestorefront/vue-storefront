@@ -1,4 +1,4 @@
-import type { EventCallback, Subscribers } from '../types';
+import type { EventCallback, Subscribers } from "../types";
 
 /**
  * EventManagerInterface is an interface used to emit and subscribe to events.
@@ -88,7 +88,7 @@ export class EventManager implements EventManagerInterface {
   register(topic: string, callback: EventCallback | Array<EventCallback>) {
     const topicEvents = this.events[topic] ?? [];
 
-    const canAddCallback = (cb: EventCallback) => typeof cb === 'function' && !topicEvents.includes(cb);
+    const canAddCallback = (cb: EventCallback) => typeof cb === "function" && !topicEvents.includes(cb);
 
     if (Array.isArray(callback)) {
       topicEvents.push(...callback.filter(canAddCallback));

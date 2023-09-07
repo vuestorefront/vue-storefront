@@ -1,22 +1,22 @@
-import { includes } from './utils';
-import { AxiosError, StatusCode, UnknownError, ApolloError, ErrorObject } from '../types';
+import { includes } from "./utils";
+import { AxiosError, StatusCode, UnknownError, ApolloError, ErrorObject } from "../types";
 
-const STATUS_FIELDS = ['status', 'statusCode'] as const;
+const STATUS_FIELDS = ["status", "statusCode"] as const;
 
 export type Status = (typeof STATUS_FIELDS)[number];
 
 function isErrorObject(obj: unknown): obj is ErrorObject<Status> {
   // typeof null is 'object' https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#typeof_null
   if (obj === null) return false;
-  return typeof obj === 'object';
+  return typeof obj === "object";
 }
 
 function isAxiosError(error: ErrorObject<Status>): error is AxiosError {
-  return 'isAxiosError' in error;
+  return "isAxiosError" in error;
 }
 
 function isApolloError(error: ErrorObject<Status>): error is ApolloError {
-  return 'networkError' in error || 'code' in error;
+  return "networkError" in error || "code" in error;
 }
 
 function reduceStatus(narrowObject: UnknownError<Status>, depth: number) {
@@ -54,7 +54,7 @@ function getApolloStatusCode(error: ApolloError) {
     return 500;
   }
   if (error.code) {
-    return typeof error.code === 'string' ? 400 : error.code;
+    return typeof error.code === "string" ? 400 : error.code;
   }
   return undefined;
 }

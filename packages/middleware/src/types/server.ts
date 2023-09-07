@@ -1,5 +1,5 @@
-import { TObject } from './base';
-import { ApiClientExtension, ApiMethods, ApiMethodsFactory } from './common';
+import { TObject } from "./base";
+import { ApiClientExtension, ApiMethods, ApiMethodsFactory } from "./common";
 
 export interface ClientContext<CLIENT = any, CONFIG = any> {
   client: CLIENT;

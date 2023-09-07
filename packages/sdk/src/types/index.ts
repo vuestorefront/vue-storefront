@@ -46,7 +46,7 @@ export type Interceptor = AnyFunction;
 /**
  * InterceptorType represents the type of the interceptor.
  */
-export type InterceptorType = 'before' | 'after' | 'around';
+export type InterceptorType = "before" | "after" | "around";
 
 /**
  * InterceptorsConfig represents the configuration of the interceptors.
@@ -156,7 +156,7 @@ export type Module = {
  * Extension Type represents the extension configuration.
  * It provides extensibility mechanisms like interceptors, extensions, overrides, and pub/sub manager.
  */
-export type Extension = Omit<Partial<Module>, 'connector'> & {
+export type Extension = Omit<Partial<Module>, "connector"> & {
   /**
    * Extend contains methods that are added to the module.
    * Because of the dynamic nature of the SDK, the extend method must be an asynchronous function.
@@ -230,17 +230,17 @@ export type SDKConfig = Readonly<Record<string, Module> & Record<string, Extensi
 export type SDKApi<Config extends SDKConfig> = {
   [ExtensionName in keyof Config]: {
     +readonly [Method in
-      | keyof Config[ExtensionName]['connector']
-      | keyof Config[ExtensionName]['override']]: Method extends keyof Config[ExtensionName]['override']
-      ? Config[ExtensionName]['override'][Method]
-      : Config[ExtensionName]['connector'][Method];
+      | keyof Config[ExtensionName]["connector"]
+      | keyof Config[ExtensionName]["override"]]: Method extends keyof Config[ExtensionName]["override"]
+      ? Config[ExtensionName]["override"][Method]
+      : Config[ExtensionName]["connector"][Method];
   } & {
-    +readonly [Method in keyof Config[ExtensionName]['extend']]: Config[ExtensionName]['extend'][Method];
+    +readonly [Method in keyof Config[ExtensionName]["extend"]]: Config[ExtensionName]["extend"][Method];
   };
 } & {
   +readonly [ExtensionName in keyof Config]: {
     utils: {
-      +readonly [Method in keyof Config[ExtensionName]['utils']]: Config[ExtensionName]['utils'][Method];
+      +readonly [Method in keyof Config[ExtensionName]["utils"]]: Config[ExtensionName]["utils"][Method];
     };
   };
 };

@@ -1,5 +1,5 @@
 const mapping = {
-  'fake-module.js': '/fake-module.js',
+  "fake-module.js": "/fake-module.js",
 };
 
 function resolver(path, options) {

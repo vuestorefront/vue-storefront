@@ -1,10 +1,10 @@
-import { note } from '@clack/prompts';
-import { t } from 'i18next';
-import { installMagentoImage } from './docker';
+import { note } from "@clack/prompts";
+import { t } from "i18next";
+import { installMagentoImage } from "./docker";
 
-import { copyAuth, handleGraphQL, handleSampleData, isGenerateSampleData } from './functions';
+import { copyAuth, handleGraphQL, handleSampleData, isGenerateSampleData } from "./functions";
 
-import { logSimpleSuccessMessage } from './functions/terminalHelpers';
+import { logSimpleSuccessMessage } from "./functions/terminalHelpers";
 
 interface MagentoDetails {
   isInstallMagento: boolean;
@@ -21,13 +21,13 @@ export const installMagento = async ({ magentoDirName, magentoDomain, magentoAcc
   await copyAuth(magentoDirName, magentoAccessKey, magentoSecretKey);
   await handleGraphQL(magentoDirName, writeLog);
 
-  const isGenerateData = await isGenerateSampleData(t('command.generate_store.magento.sample_data'));
+  const isGenerateData = await isGenerateSampleData(t("command.generate_store.magento.sample_data"));
 
   if (isGenerateData) {
     await handleSampleData(magentoDirName, writeLog);
   } else {
-    note(t('command.generate_store.magento.sample_data_note'));
+    note(t("command.generate_store.magento.sample_data_note"));
   }
 
-  logSimpleSuccessMessage(t('command.generate_store.magento.success'));
+  logSimpleSuccessMessage(t("command.generate_store.magento.success"));
 };

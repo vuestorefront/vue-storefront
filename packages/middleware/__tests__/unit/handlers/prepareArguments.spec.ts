@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import { prepareArguments } from '../../../src/handlers';
+import { Request, Response } from "express";
+import { prepareArguments } from "../../../src/handlers";
 
-describe('[middleware-handlers] prepareArguments', () => {
+describe("[middleware-handlers] prepareArguments", () => {
   const req = { query: {} } as unknown as Request;
   const res = { locals: {} } as unknown as Response;
   const next = jest.fn();
@@ -11,9 +11,9 @@ describe('[middleware-handlers] prepareArguments', () => {
     res.locals = {};
   });
 
-  describe('when method is GET', () => {
+  describe("when method is GET", () => {
     beforeEach(() => {
-      req.method = 'GET';
+      req.method = "GET";
       req.query = {};
     });
 
@@ -33,7 +33,7 @@ describe('[middleware-handlers] prepareArguments', () => {
       expect(res.locals.args).toEqual([{}]);
     });
 
-    it('wraps query params in array when not iterable', () => {
+    it("wraps query params in array when not iterable", () => {
       const body = 1;
       const stringifiedBody = JSON.stringify(body);
       req.query.body = stringifiedBody;
@@ -43,7 +43,7 @@ describe('[middleware-handlers] prepareArguments', () => {
       expect(res.locals.args).toEqual([body]);
     });
 
-    it('handles multiple parameters correctly', () => {
+    it("handles multiple parameters correctly", () => {
       const body = [1, 2, 3];
       const stringifiedBody = JSON.stringify(body);
       req.query.body = stringifiedBody;
@@ -54,12 +54,12 @@ describe('[middleware-handlers] prepareArguments', () => {
     });
   });
 
-  describe('when method is POST', () => {
+  describe("when method is POST", () => {
     beforeEach(() => {
-      req.method = 'POST';
+      req.method = "POST";
     });
 
-    it('wraps query params in array when not iterable', () => {
+    it("wraps query params in array when not iterable", () => {
       req.body = 1;
 
       prepareArguments(req, res, next);
@@ -67,7 +67,7 @@ describe('[middleware-handlers] prepareArguments', () => {
       expect(res.locals.args).toEqual([req.body]);
     });
 
-    it('handles multiple parameters correctly', () => {
+    it("handles multiple parameters correctly", () => {
       req.body = [1, 2, 3];
 
       prepareArguments(req, res, next);
@@ -76,7 +76,7 @@ describe('[middleware-handlers] prepareArguments', () => {
     });
   });
 
-  it('calls next middleware', () => {
+  it("calls next middleware", () => {
     prepareArguments(req, res, next);
 
     expect(next).toBeCalledTimes(1);

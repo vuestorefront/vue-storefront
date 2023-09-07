@@ -1,5 +1,5 @@
-import { lookUpExternal } from './lookUpExternal';
-import type { Integration, ApiClientFactory, ApiClientExtension, ApiMethods, TObject } from '../../types';
+import { lookUpExternal } from "./lookUpExternal";
+import type { Integration, ApiClientFactory, ApiClientExtension, ApiMethods, TObject } from "../../types";
 
 /**
  * Imports extensions if they're represented as strings.

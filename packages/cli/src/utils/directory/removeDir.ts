@@ -1,5 +1,5 @@
-import { rimraf } from 'rimraf';
-import path from 'path';
+import { rimraf } from "rimraf";
+import path from "path";
 
 const removeFileOrDirectory = rimraf;
 

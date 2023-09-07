@@ -1,4 +1,4 @@
-import { capitalizeFirst } from '../../../../../utils/capitalizeFirst';
+import { capitalizeFirst } from "../../../../../utils/capitalizeFirst";
 
 export const getNextPageCode = (endpoint: string) => `import { useState } from 'react';
 import { sdk } from '@/pages/_app';

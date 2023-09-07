@@ -1,4 +1,4 @@
-import { CustomQuery, ContextQuery, MiddlewareContext } from '../types';
+import { CustomQuery, ContextQuery, MiddlewareContext } from "../types";
 
 export const createExtendQuery =
   (context: MiddlewareContext) =>

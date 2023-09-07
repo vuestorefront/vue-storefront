@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import { callApiFunction } from '../../../src/handlers';
+import { Request, Response } from "express";
+import { callApiFunction } from "../../../src/handlers";
 
-describe('[middleware-handlers] callApiFunction', () => {
+describe("[middleware-handlers] callApiFunction", () => {
   const apiResponse = {};
   const apiError = new Error();
   const apiFunction = jest.fn(() => Promise.resolve(apiResponse));
@@ -18,21 +18,21 @@ describe('[middleware-handlers] callApiFunction', () => {
     jest.clearAllMocks();
   });
 
-  it('calls api function with arguments', async () => {
+  it("calls api function with arguments", async () => {
     await callApiFunction(req, res);
 
     expect(apiFunction).toBeCalledTimes(1);
     expect(apiFunction).toBeCalledWith(...args);
   });
 
-  it('sends api function response', async () => {
+  it("sends api function response", async () => {
     await callApiFunction(req, res);
 
     expect(res.send).toBeCalledTimes(1);
     expect(res.send).toBeCalledWith(apiResponse);
   });
 
-  it('passes api function error to error handler', async () => {
+  it("passes api function error to error handler", async () => {
     apiFunction.mockRejectedValueOnce(apiError);
 
     await callApiFunction(req, res);

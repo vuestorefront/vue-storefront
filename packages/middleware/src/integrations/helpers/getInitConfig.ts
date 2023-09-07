@@ -1,6 +1,6 @@
-import consola from 'consola';
-import { isFunction } from '../../helpers';
-import { LoadInitConfigProps, TObject } from '../../types';
+import consola from "consola";
+import { isFunction } from "../../helpers";
+import { LoadInitConfigProps, TObject } from "../../types";
 
 export async function getInitConfig({ apiClient, tag, integration }: LoadInitConfigProps): Promise<TObject> {
   if (isFunction(apiClient?.init)) {

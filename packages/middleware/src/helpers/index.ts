@@ -1,2 +1,2 @@
-export * from './utils';
-export { getAgnosticStatusCode } from './getAgnosticStatusCode';
+export * from "./utils";
+export { getAgnosticStatusCode } from "./getAgnosticStatusCode";

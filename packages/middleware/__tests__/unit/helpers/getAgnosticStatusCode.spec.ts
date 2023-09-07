@@ -1,12 +1,12 @@
-import { getAgnosticStatusCode } from '../../../src/helpers';
-import bigObject from '../test-data/getAgnosticStatusCode';
+import { getAgnosticStatusCode } from "../../../src/helpers";
+import bigObject from "../test-data/getAgnosticStatusCode";
 
 const expectedStatusCode = 400;
 const defaultCode = 500;
 const networkErrorCode = 500;
 
-describe('[middleware-helpers] getAgnosticStatusCode', () => {
-  it('retrieves the status code from simple object', () => {
+describe("[middleware-helpers] getAgnosticStatusCode", () => {
+  it("retrieves the status code from simple object", () => {
     const testData = {
       statusCode: expectedStatusCode,
     };
@@ -16,7 +16,7 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
     expect(statusCode).toBe(expectedStatusCode);
   });
 
-  it('retrieves the status code from nested object', () => {
+  it("retrieves the status code from nested object", () => {
     const testData = {
       a: {
         b: 4,
@@ -29,14 +29,14 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
     expect(statusCode).toBe(expectedStatusCode);
   });
 
-  it('retrieves the status code from big object', () => {
+  it("retrieves the status code from big object", () => {
     const testData = { ...bigObject, ...{ statusCode: expectedStatusCode } };
     const statusCode = getAgnosticStatusCode(testData);
 
     expect(statusCode).toBe(expectedStatusCode);
   });
 
-  it('retrieves the status code from nested object inside an array', () => {
+  it("retrieves the status code from nested object inside an array", () => {
     const testData = {
       a: [
         {
@@ -50,7 +50,7 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
     expect(statusCode).toBe(expectedStatusCode);
   });
 
-  it('returns only the value of the first matched key', () => {
+  it("returns only the value of the first matched key", () => {
     const testData = {
       statusCode: expectedStatusCode,
       status: 500,
@@ -62,13 +62,13 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
   });
 
   it("handles values of type other than 'object' correctly", () => {
-    expect(getAgnosticStatusCode('string')).toBe(defaultCode);
+    expect(getAgnosticStatusCode("string")).toBe(defaultCode);
     expect(getAgnosticStatusCode(null)).toBe(defaultCode);
     expect(getAgnosticStatusCode(undefined)).toBe(defaultCode);
     expect(getAgnosticStatusCode(300)).toBe(defaultCode);
   });
 
-  it('not check deeper than 3 levels down', () => {
+  it("not check deeper than 3 levels down", () => {
     const testData = {
       level1: {
         level2: {
@@ -86,7 +86,7 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
     expect(statusCode).toBe(defaultCode);
   });
 
-  it('retrieves status code for axios', () => {
+  it("retrieves status code for axios", () => {
     const testData = {
       isAxiosError: true,
       response: {
@@ -99,9 +99,9 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
     expect(statusCode).toBe(expectedStatusCode);
   });
 
-  it('retrieves status code for apollo when code is a string', () => {
+  it("retrieves status code for apollo when code is a string", () => {
     const testData = {
-      code: 'someString',
+      code: "someString",
     };
 
     const statusCode = getAgnosticStatusCode(testData);
@@ -109,7 +109,7 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
     expect(statusCode).toBe(expectedStatusCode);
   });
 
-  it('retrieves status code for apollo when code is a number', () => {
+  it("retrieves status code for apollo when code is a number", () => {
     const testData = {
       code: expectedStatusCode,
     };
@@ -119,7 +119,7 @@ describe('[middleware-helpers] getAgnosticStatusCode', () => {
     expect(statusCode).toBe(expectedStatusCode);
   });
 
-  it('retrieves status code for apollo when network error occurs', () => {
+  it("retrieves status code for apollo when network error occurs", () => {
     const testData = {
       networkError: expectedStatusCode,
     };

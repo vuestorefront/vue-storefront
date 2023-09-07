@@ -1,11 +1,11 @@
-import mockFileSystem from 'mock-fs';
-import { existsDirectory, removeFileOrDirectory } from '../../../src/domains/generate/directory';
+import mockFileSystem from "mock-fs";
+import { existsDirectory, removeFileOrDirectory } from "../../../src/domains/generate/directory";
 
-describe('removeFileOrDirectory | integration test', () => {
+describe("removeFileOrDirectory | integration test", () => {
   beforeEach(() => {
     mockFileSystem({
       src: {
-        'index.js': 'console.log("Hello world!");',
+        "index.js": 'console.log("Hello world!");',
       },
     });
   });
@@ -14,12 +14,12 @@ describe('removeFileOrDirectory | integration test', () => {
     mockFileSystem.restore();
   });
 
-  it('removes files and directories', async () => {
-    expect(await existsDirectory('src')).toBe(true);
+  it("removes files and directories", async () => {
+    expect(await existsDirectory("src")).toBe(true);
 
-    await removeFileOrDirectory('src/index.js');
-    await removeFileOrDirectory('src');
+    await removeFileOrDirectory("src/index.js");
+    await removeFileOrDirectory("src");
 
-    expect(await existsDirectory('src')).toBe(false);
+    expect(await existsDirectory("src")).toBe(false);
   });
 });

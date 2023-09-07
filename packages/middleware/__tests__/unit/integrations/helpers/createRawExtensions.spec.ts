@@ -1,8 +1,8 @@
-import { createRawExtensions } from '../../../../src/integrations/helpers';
-import { ApiClientFactory, Integration } from '../../../../src/types';
+import { createRawExtensions } from "../../../../src/integrations/helpers";
+import { ApiClientFactory, Integration } from "../../../../src/types";
 
-describe('[createRawExtensions]', () => {
-  it('should call extensions function and return fallback array value', () => {
+describe("[createRawExtensions]", () => {
+  it("should call extensions function and return fallback array value", () => {
     const mockExtensionsFn = jest.fn((val) => val);
 
     const apiClient = {
@@ -11,7 +11,7 @@ describe('[createRawExtensions]', () => {
 
     const integration: Integration = {
       configuration: {},
-      location: '',
+      location: "",
       extensions: mockExtensionsFn,
     };
 
@@ -21,8 +21,8 @@ describe('[createRawExtensions]', () => {
     expect(mockExtensionsFn).toHaveBeenCalledWith([]);
   });
 
-  it('should call extensions function and return extensions value', () => {
-    const extensions = [{ name: 'predefined-extension' }];
+  it("should call extensions function and return extensions value", () => {
+    const extensions = [{ name: "predefined-extension" }];
     const mockExtensionsFn = jest.fn((val) => val);
 
     const apiClient = {
@@ -31,7 +31,7 @@ describe('[createRawExtensions]', () => {
 
     const integration: Integration = {
       configuration: {},
-      location: '',
+      location: "",
       extensions: mockExtensionsFn,
     };
 
@@ -41,9 +41,9 @@ describe('[createRawExtensions]', () => {
     expect(mockExtensionsFn).toHaveBeenCalledWith(extensions);
   });
 
-  it('should call extensions function and return merged extensions', () => {
-    const predefinedExtensions = [{ name: 'predefined-extension' }];
-    const mockCustomExtensions = [{ name: 'extension1' }, { name: 'extension2' }];
+  it("should call extensions function and return merged extensions", () => {
+    const predefinedExtensions = [{ name: "predefined-extension" }];
+    const mockCustomExtensions = [{ name: "extension1" }, { name: "extension2" }];
 
     const mockExtensionsFn = jest.fn((val) => [...val, ...mockCustomExtensions]);
 
@@ -55,7 +55,7 @@ describe('[createRawExtensions]', () => {
 
     const integration: Integration = {
       configuration: {},
-      location: '',
+      location: "",
       extensions: mockExtensionsFn,
     };
 
@@ -65,8 +65,8 @@ describe('[createRawExtensions]', () => {
     expect(mockExtensionsFn).toHaveBeenCalledWith(predefinedExtensions);
   });
 
-  it('should return predefined extensions when extensions method not defined', () => {
-    const predefinedExtensions = [{ name: 'predefined-extension' }];
+  it("should return predefined extensions when extensions method not defined", () => {
+    const predefinedExtensions = [{ name: "predefined-extension" }];
 
     const apiClient = {
       createApiClient: { _predefinedExtensions: predefinedExtensions },
@@ -74,7 +74,7 @@ describe('[createRawExtensions]', () => {
 
     const integration: Integration = {
       configuration: {},
-      location: '',
+      location: "",
     };
 
     const result = createRawExtensions(apiClient, integration);

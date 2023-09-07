@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';
+import type { Request, Response } from "express";
 
 export async function callApiFunction(req: Request, res: Response) {
   const { apiFunction, args, errorHandler } = res.locals;

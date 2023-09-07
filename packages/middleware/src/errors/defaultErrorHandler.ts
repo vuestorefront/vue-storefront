@@ -1,6 +1,6 @@
-import consola from 'consola';
-import type { Request, Response } from 'express';
-import { getAgnosticStatusCode } from '../helpers';
+import consola from "consola";
+import type { Request, Response } from "express";
+import { getAgnosticStatusCode } from "../helpers";
 
 /**
  * Default error handler for the middleware
@@ -22,6 +22,6 @@ export const defaultErrorHandler = (error: unknown, req: Request, res: Response)
     /**
      * For all other error codes we wanted to send a generic error message
      */
-    res.send('ServerError: Something went wrong. Please, check the logs for more details.');
+    res.send("ServerError: Something went wrong. Please, check the logs for more details.");
   }
 };

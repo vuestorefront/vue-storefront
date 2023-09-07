@@ -1,8 +1,8 @@
-import consola from 'consola';
-import type { Express } from 'express';
-import { createExtensions, createRawExtensions, getInitConfig, resolveDependency } from './helpers';
-import type { ApiClientFactory, Integrations, IntegrationsLoaded } from '../types';
-import { defaultErrorHandler } from '../errors/defaultErrorHandler';
+import consola from "consola";
+import type { Express } from "express";
+import { createExtensions, createRawExtensions, getInitConfig, resolveDependency } from "./helpers";
+import type { ApiClientFactory, Integrations, IntegrationsLoaded } from "../types";
+import { defaultErrorHandler } from "../errors/defaultErrorHandler";
 
 export async function registerIntegrations(app: Express, integrations: Integrations): Promise<IntegrationsLoaded> {
   return await Object.entries(integrations).reduce(async (prevAsync, [tag, integration]) => {

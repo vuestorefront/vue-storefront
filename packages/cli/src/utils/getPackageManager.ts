@@ -1,12 +1,12 @@
-import { confirm, select } from '@clack/prompts';
-import execa from 'execa';
-import { log } from '.';
+import { confirm, select } from "@clack/prompts";
+import execa from "execa";
+import { log } from ".";
 
-export type PackageManager = 'npm' | 'yarn';
+export type PackageManager = "npm" | "yarn";
 
 const checkPackageManager = async (packageManager: PackageManager): Promise<boolean> => {
   try {
-    await execa(packageManager, ['--version'], { stdio: 'ignore' });
+    await execa(packageManager, ["--version"], { stdio: "ignore" });
   } catch (error) {
     return false;
   }
@@ -15,13 +15,13 @@ const checkPackageManager = async (packageManager: PackageManager): Promise<bool
 };
 
 export const getPkgManager = async (pkgManager?: PackageManager): Promise<PackageManager> => {
-  let packageManager = pkgManager || 'yarn';
+  let packageManager = pkgManager || "yarn";
 
   packageManager = (await select({
-    message: 'What package manager do you want to use?',
+    message: "What package manager do you want to use?",
     options: [
-      { label: 'NPM', value: 'npm' },
-      { label: 'Yarn', value: 'yarn' },
+      { label: "NPM", value: "npm" },
+      { label: "Yarn", value: "yarn" },
     ],
   })) as unknown as PackageManager;
 
@@ -30,19 +30,19 @@ export const getPkgManager = async (pkgManager?: PackageManager): Promise<Packag
   if (!isPackageManagerExists) {
     const useAnotherPackageManager = await confirm({
       message: `Package manager ${packageManager} not found. Do you want to use another package manager?`,
-      active: 'Yes',
+      active: "Yes",
     });
 
     if (useAnotherPackageManager) {
-      if (packageManager === 'npm') {
-        packageManager = 'yarn';
+      if (packageManager === "npm") {
+        packageManager = "yarn";
       } else {
-        packageManager = 'npm';
+        packageManager = "npm";
       }
 
       return await getPkgManager(packageManager);
     }
-    log('Please install package manager and try again.');
+    log("Please install package manager and try again.");
     process.exit(1);
   }
 

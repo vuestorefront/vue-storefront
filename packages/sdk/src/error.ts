@@ -3,13 +3,13 @@ export class SDKError extends Error {
 
   constructor(message: string, cause: unknown) {
     super(message);
-    this.name = 'SDKError';
+    this.name = "SDKError";
     this.cause = cause;
   }
 }
 
 export const handleError = (err: Error) => {
-  const errMsg = err?.message ?? '[SDK] Error: something went wrong.';
+  const errMsg = err?.message ?? "[SDK] Error: something went wrong.";
 
   return new SDKError(errMsg, err);
 };
