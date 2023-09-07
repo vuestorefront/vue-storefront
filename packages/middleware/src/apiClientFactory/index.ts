@@ -115,9 +115,9 @@ const apiClientFactory = <
        */
       // @ts-expect-error see above
       const integrationApi = applyContextToApi(api, context, extensionHooks);
-      // @ts-expect-error see above
       const extensionsApi = applyContextToApi(
         extendedApis ?? {},
+        // @ts-expect-error see above
         context,
         extensionHooks
       );
