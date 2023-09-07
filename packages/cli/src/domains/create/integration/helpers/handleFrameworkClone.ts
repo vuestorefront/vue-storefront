@@ -1,7 +1,10 @@
 import { spinner } from "@clack/prompts";
 import { cloneGitRepository } from "../../../../utils";
 
-export const handleFrameworkClone = async (directoryName: string, framework: string): Promise<void> => {
+export const handleFrameworkClone = async (
+  directoryName: string,
+  framework: string
+): Promise<void> => {
   const sp = spinner();
 
   sp.start("Cloning SDK boilerplate...");

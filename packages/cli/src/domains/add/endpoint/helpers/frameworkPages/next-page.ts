@@ -17,5 +17,8 @@ export const writeNextPageMethod = async (endpoint: string) => {
     fs.rmSync(`${nextPagesPath}/${endpoint}.tsx`, { recursive: true });
   }
 
-  fs.writeFileSync(`${nextPagesPath}/${endpoint}.tsx`, getNextPageCode(endpoint));
+  fs.writeFileSync(
+    `${nextPagesPath}/${endpoint}.tsx`,
+    getNextPageCode(endpoint)
+  );
 };

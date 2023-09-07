@@ -21,7 +21,9 @@ describe("[createExtendQuery]", () => {
 
     const result = createExtendQuery(context)(customQuery, defaults);
 
-    expect(result).toEqual({ somekey: { query: "test", variables: { data: {} } } });
+    expect(result).toEqual({
+      somekey: { query: "test", variables: { data: {} } },
+    });
   });
 
   it("should return default query when matching customQuery not available in context", () => {

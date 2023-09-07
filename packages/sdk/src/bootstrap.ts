@@ -2,9 +2,13 @@ import { eventManager } from "./events/EventManager";
 import { InterceptorsManager } from "./interceptors/InterceptorsManager";
 import { SDKApi, SDKConfig } from "./types";
 
-function normalizePropertyDescriptors<Connector extends Record<string, unknown>>(connector: Connector): Connector {
+function normalizePropertyDescriptors<
+  Connector extends Record<string, unknown>
+>(connector: Connector): Connector {
   const propertyDescriptors = Object.getOwnPropertyDescriptors(connector);
-  const hasNonConfigurableProperties = Object.values(propertyDescriptors).some((descriptor) => !descriptor.configurable);
+  const hasNonConfigurableProperties = Object.values(propertyDescriptors).some(
+    (descriptor) => !descriptor.configurable
+  );
 
   // If the connector has non-configurable properties, we need to recreate it without property descriptors
   // we don't just recrate all connectors, as they may bo proxies and so it wouldn't work.
@@ -50,7 +54,9 @@ export const initSDK = <T extends SDKConfig>(sdkConfig: T): SDKApi<T> => {
       Due to this, we recreate connector but without property descriptors.
     */
 
-    const connectorWithoutDescriptors = normalizePropertyDescriptors(sdkConfig[extensionCode].connector);
+    const connectorWithoutDescriptors = normalizePropertyDescriptors(
+      sdkConfig[extensionCode].connector
+    );
 
     sdk[extensionCode] = new Proxy(connectorWithoutDescriptors, {
       get(target, propKey: string, receiver) {
@@ -62,7 +68,11 @@ export const initSDK = <T extends SDKConfig>(sdkConfig: T): SDKApi<T> => {
         const method = methodFromExtend ?? methodFromTarget;
         if (!method) return method;
 
-        const wrappedMethod = interceptorsManager.applyInterceptors(propKey, method, extensionCode);
+        const wrappedMethod = interceptorsManager.applyInterceptors(
+          propKey,
+          method,
+          extensionCode
+        );
 
         return wrappedMethod;
       },

@@ -58,8 +58,14 @@ describe("[getInitConfig]", () => {
 
     expect(result).toEqual(mockInitConfiguration);
     expect(mockInit).toHaveBeenCalledWith(mockConfiguration);
-    expect(consola.success).toHaveBeenNthCalledWith(1, `- Integration: ${mockTag} init function Start!`);
-    expect(consola.success).toHaveBeenNthCalledWith(2, `- Integration: ${mockTag} init function Done!`);
+    expect(consola.success).toHaveBeenNthCalledWith(
+      1,
+      `- Integration: ${mockTag} init function Start!`
+    );
+    expect(consola.success).toHaveBeenNthCalledWith(
+      2,
+      `- Integration: ${mockTag} init function Done!`
+    );
   });
 
   it("should throw an error when init method execution fails", async () => {
@@ -76,7 +82,9 @@ describe("[getInitConfig]", () => {
       tag: mockTag,
       integration: { configuration: mockConfiguration, location: "" },
     };
-    const error = new Error(`Error during executing init function in ${mockTag} integration. Error message: ${mockError}`);
+    const error = new Error(
+      `Error during executing init function in ${mockTag} integration. Error message: ${mockError}`
+    );
 
     await expect(getInitConfig(params)).rejects.toThrow(error);
   });

@@ -10,6 +10,8 @@ export function resolveDependency<T>(name: string): T {
   } catch (error) {
     consola.error(error);
 
-    throw new Error(`Could not resolve integration "${name}". See the error above for more details.`);
+    throw new Error(
+      `Could not resolve integration "${name}". See the error above for more details.`
+    );
   }
 }

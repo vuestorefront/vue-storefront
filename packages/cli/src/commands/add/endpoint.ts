@@ -32,7 +32,9 @@ export default class AddEndpoint extends Command {
     if (isPackagesDirExists && isPlaygroundDirExists) {
       await makeMethod(name);
     } else {
-      log("Please run this command in the root directory of the SDK Integration Boilerplate!");
+      log(
+        "Please run this command in the root directory of the SDK Integration Boilerplate!"
+      );
     }
 
     process.exit(0);

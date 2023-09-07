@@ -18,7 +18,9 @@ describe("[resolveDependency]", () => {
 
   it("should throw an error when module does not exist", () => {
     const mockDepName = "invalid-module.js";
-    const error = new Error(`Could not resolve integration "${mockDepName}". See the error above for more details.`);
+    const error = new Error(
+      `Could not resolve integration "${mockDepName}". See the error above for more details.`
+    );
 
     expect(() => resolveDependency(mockDepName)).toThrow(error);
   });

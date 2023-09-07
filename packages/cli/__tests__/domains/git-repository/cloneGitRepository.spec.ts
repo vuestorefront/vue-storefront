@@ -7,7 +7,8 @@ describe("cloneGitRepository | unit tests", () => {
   it("clones git repository to the project directory", async () => {
     const projectDir = "~/Projects/test-store";
 
-    const gitRepositoryURL = "https://github.com/vuestorefront/test-template.git";
+    const gitRepositoryURL =
+      "https://github.com/vuestorefront/test-template.git";
 
     jest.spyOn(git, "clone").mockResolvedValueOnce();
 

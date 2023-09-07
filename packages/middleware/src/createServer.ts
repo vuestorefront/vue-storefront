@@ -7,7 +7,12 @@ import type { HelmetOptions } from "helmet";
 import helmet from "helmet";
 import { registerIntegrations } from "./integrations";
 import type { Helmet, IntegrationContext, MiddlewareConfig } from "./types";
-import { prepareApiFunction, prepareErrorHandler, prepareArguments, callApiFunction } from "./handlers";
+import {
+  prepareApiFunction,
+  prepareErrorHandler,
+  prepareArguments,
+  callApiFunction,
+} from "./handlers";
 
 const app = express();
 app.use(express.json());
@@ -20,9 +25,9 @@ app.use(
 );
 app.disable("x-powered-by");
 
-async function createServer<TIntegrationContext extends Record<string, IntegrationContext>>(
-  config: MiddlewareConfig<TIntegrationContext>
-): Promise<Express> {
+async function createServer<
+  TIntegrationContext extends Record<string, IntegrationContext>
+>(config: MiddlewareConfig<TIntegrationContext>): Promise<Express> {
   consola.info("Middleware starting....");
   const options: Helmet = {
     contentSecurityPolicy: false,
@@ -33,7 +38,9 @@ async function createServer<TIntegrationContext extends Record<string, Integrati
     },
     ...((config.helmet || {}) as HelmetOptions),
   };
-  const isHelmetEnabled = config.helmet === true || (config.helmet && Object.keys(config.helmet).length > 0);
+  const isHelmetEnabled =
+    config.helmet === true ||
+    (config.helmet && Object.keys(config.helmet).length > 0);
   if (isHelmetEnabled) {
     app.use(helmet(options));
     consola.info("VSF `Helmet` middleware added");
@@ -43,8 +50,20 @@ async function createServer<TIntegrationContext extends Record<string, Integrati
   const integrations = await registerIntegrations(app, config.integrations);
   consola.success("Integrations loaded!");
 
-  app.post("/:integrationName/:functionName", prepareApiFunction(integrations), prepareErrorHandler(integrations), prepareArguments, callApiFunction);
-  app.get("/:integrationName/:functionName", prepareApiFunction(integrations), prepareErrorHandler(integrations), prepareArguments, callApiFunction);
+  app.post(
+    "/:integrationName/:functionName",
+    prepareApiFunction(integrations),
+    prepareErrorHandler(integrations),
+    prepareArguments,
+    callApiFunction
+  );
+  app.get(
+    "/:integrationName/:functionName",
+    prepareApiFunction(integrations),
+    prepareErrorHandler(integrations),
+    prepareArguments,
+    callApiFunction
+  );
 
   app.get("/healthz", (_req, res) => {
     res.end("ok");

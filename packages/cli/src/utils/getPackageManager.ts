@@ -4,7 +4,9 @@ import { log } from ".";
 
 export type PackageManager = "npm" | "yarn";
 
-const checkPackageManager = async (packageManager: PackageManager): Promise<boolean> => {
+const checkPackageManager = async (
+  packageManager: PackageManager
+): Promise<boolean> => {
   try {
     await execa(packageManager, ["--version"], { stdio: "ignore" });
   } catch (error) {
@@ -14,7 +16,9 @@ const checkPackageManager = async (packageManager: PackageManager): Promise<bool
   return true;
 };
 
-export const getPkgManager = async (pkgManager?: PackageManager): Promise<PackageManager> => {
+export const getPkgManager = async (
+  pkgManager?: PackageManager
+): Promise<PackageManager> => {
   let packageManager = pkgManager || "yarn";
 
   packageManager = (await select({

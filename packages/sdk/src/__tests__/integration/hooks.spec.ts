@@ -15,7 +15,9 @@ describe("[Subscription]", () => {
     sdk.proxyModule1.callProxyFunction();
 
     expect(mock.subscribers["*_before"][0]).toBeCalledTimes(1);
-    expect(mock.subscribers.proxyModule1_callProxyFunction_before).toBeCalledTimes(1);
+    expect(
+      mock.subscribers.proxyModule1_callProxyFunction_before
+    ).toBeCalledTimes(1);
   });
 
   it("triggers interceptors when module is proxy", async () => {
@@ -52,8 +54,12 @@ describe("[Subscription]", () => {
 
     const result = await sdk.proxyModule1.callProxyFunction();
 
-    expect(moduleMock().interceptors[0].before.callProxyFunction).toBeCalledTimes(1);
-    expect(moduleMock().interceptors[0].after.callProxyFunction).toBeCalledTimes(1);
+    expect(
+      moduleMock().interceptors[0].before.callProxyFunction
+    ).toBeCalledTimes(1);
+    expect(
+      moduleMock().interceptors[0].after.callProxyFunction
+    ).toBeCalledTimes(1);
     expect(methodMock).toHaveBeenCalledWith(beforeInterceptorReturnValue);
     expect(result).toEqual([afterInterceptorReturnValue]);
   });
@@ -88,7 +94,10 @@ describe("[Subscription]", () => {
     };
 
     const sdkConfig = {
-      proxyModule1: buildModule<ReturnType<typeof moduleMock>, typeof extension>(moduleMock, {}, extension),
+      proxyModule1: buildModule<
+        ReturnType<typeof moduleMock>,
+        typeof extension
+      >(moduleMock, {}, extension),
     };
 
     const sdk = initSDK(sdkConfig);
@@ -96,9 +105,15 @@ describe("[Subscription]", () => {
     const result = await sdk.proxyModule1.callProxyFunction();
 
     expect(extension.subscribers["*_before"][0]).toBeCalledTimes(1);
-    expect(extension.subscribers.proxyModule1_callProxyFunction_before).toBeCalledTimes(1);
-    expect(extension.interceptors[0].before.callProxyFunction).toBeCalledTimes(1);
-    expect(extension.interceptors[0].after.callProxyFunction).toBeCalledTimes(1);
+    expect(
+      extension.subscribers.proxyModule1_callProxyFunction_before
+    ).toBeCalledTimes(1);
+    expect(extension.interceptors[0].before.callProxyFunction).toBeCalledTimes(
+      1
+    );
+    expect(extension.interceptors[0].after.callProxyFunction).toBeCalledTimes(
+      1
+    );
     expect(methodMock).toHaveBeenCalledWith(beforeInterceptorReturnValue);
     expect(result).toEqual([afterInterceptorReturnValue]);
   });
@@ -135,7 +150,10 @@ describe("[Subscription]", () => {
     };
 
     const sdkConfig = {
-      proxyModule1: buildModule<ReturnType<typeof moduleMock>, typeof extension>(moduleMock, {}, extension),
+      proxyModule1: buildModule<
+        ReturnType<typeof moduleMock>,
+        typeof extension
+      >(moduleMock, {}, extension),
     };
 
     const sdk = initSDK(sdkConfig);
@@ -143,9 +161,15 @@ describe("[Subscription]", () => {
     const result = await sdk.proxyModule1.overriddenFunction();
 
     expect(extension.subscribers["*_before"][0]).toBeCalledTimes(1);
-    expect(extension.subscribers.proxyModule1_overriddenFunction_before).toBeCalledTimes(1);
-    expect(extension.interceptors[0].before.overriddenFunction).toBeCalledTimes(1);
-    expect(extension.interceptors[0].after.overriddenFunction).toBeCalledTimes(1);
+    expect(
+      extension.subscribers.proxyModule1_overriddenFunction_before
+    ).toBeCalledTimes(1);
+    expect(extension.interceptors[0].before.overriddenFunction).toBeCalledTimes(
+      1
+    );
+    expect(extension.interceptors[0].after.overriddenFunction).toBeCalledTimes(
+      1
+    );
     expect(methodMock).toHaveBeenCalledWith(beforeInterceptorReturnValue);
     expect(result).toEqual([afterInterceptorReturnValue]);
   });
@@ -185,7 +209,10 @@ describe("[Subscription]", () => {
     };
 
     const sdkConfig = {
-      proxyModule1: buildModule<ReturnType<typeof moduleMock>, typeof extension>(moduleMock, {}, extension),
+      proxyModule1: buildModule<
+        ReturnType<typeof moduleMock>,
+        typeof extension
+      >(moduleMock, {}, extension),
     };
 
     const sdk = initSDK(sdkConfig);
@@ -193,9 +220,15 @@ describe("[Subscription]", () => {
     const result = await sdk.proxyModule1.callProxyFunction();
 
     expect(extension.subscribers["*_before"][0]).toBeCalledTimes(1);
-    expect(extension.subscribers.proxyModule1_callProxyFunction_before).toBeCalledTimes(1);
-    expect(extension.interceptors[0].before.callProxyFunction).toBeCalledTimes(1);
-    expect(extension.interceptors[0].after.callProxyFunction).toBeCalledTimes(1);
+    expect(
+      extension.subscribers.proxyModule1_callProxyFunction_before
+    ).toBeCalledTimes(1);
+    expect(extension.interceptors[0].before.callProxyFunction).toBeCalledTimes(
+      1
+    );
+    expect(extension.interceptors[0].after.callProxyFunction).toBeCalledTimes(
+      1
+    );
     expect(methodMock).toHaveBeenCalledWith(beforeInterceptorReturnValue);
     expect(result).toEqual([afterInterceptorReturnValue]);
   });

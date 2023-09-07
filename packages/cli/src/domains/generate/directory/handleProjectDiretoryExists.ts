@@ -3,7 +3,10 @@ import { confirm, isCancel } from "@clack/prompts";
 import { t } from "i18next";
 import picocolors from "picocolors";
 import existsDirectory from "./existsDirectory";
-import { logSimpleErrorMessage, logSimpleWarningMessage } from "../magento2/functions/terminalHelpers";
+import {
+  logSimpleErrorMessage,
+  logSimpleWarningMessage,
+} from "../magento2/functions/terminalHelpers";
 
 export const handleProjectDiretoryExists = async ({
   projectName,
@@ -26,10 +29,14 @@ export const handleProjectDiretoryExists = async ({
     }
 
     if (overwrite) {
-      sp.start(picocolors.cyan(t("command.generate_store.progress.delete_start")));
+      sp.start(
+        picocolors.cyan(t("command.generate_store.progress.delete_start"))
+      );
       await fs.rmdirSync(projectDir, { recursive: true });
       await fs.mkdirSync(projectDir);
-      sp.stop(picocolors.green(t("command.generate_store.progress.delete_end")));
+      sp.stop(
+        picocolors.green(t("command.generate_store.progress.delete_end"))
+      );
     }
 
     if (!overwrite) {

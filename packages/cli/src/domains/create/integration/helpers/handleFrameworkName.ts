@@ -1,7 +1,9 @@
 import { isCancel, select } from "@clack/prompts";
 import { log } from "../../../../utils";
 
-export const handleFrameworkName = async (framework: string): Promise<string> => {
+export const handleFrameworkName = async (
+  framework: string
+): Promise<string> => {
   let frameworkName = framework;
 
   if (!frameworkName) {

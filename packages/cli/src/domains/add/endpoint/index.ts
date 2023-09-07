@@ -36,5 +36,11 @@ export const makeMethod = async (name: string) => {
   log("- packages/api-client/src/api/index.ts");
   log("- packages/sdk/src/methods/index.ts");
   log("- packages/api-client/src/types/api/endpoints.ts");
-  log(`Run ${picocolors.green("build")} command to build the project and ${picocolors.green("dev")} command to start the playground again`);
+  log(
+    `Run ${picocolors.green(
+      "build"
+    )} command to build the project and ${picocolors.green(
+      "dev"
+    )} command to start the playground again`
+  );
 };

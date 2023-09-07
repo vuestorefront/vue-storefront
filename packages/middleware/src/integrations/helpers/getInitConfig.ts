@@ -2,7 +2,11 @@ import consola from "consola";
 import { isFunction } from "../../helpers";
 import { LoadInitConfigProps, TObject } from "../../types";
 
-export async function getInitConfig({ apiClient, tag, integration }: LoadInitConfigProps): Promise<TObject> {
+export async function getInitConfig({
+  apiClient,
+  tag,
+  integration,
+}: LoadInitConfigProps): Promise<TObject> {
   if (isFunction(apiClient?.init)) {
     try {
       consola.success(`- Integration: ${tag} init function Start!`);
@@ -11,7 +15,9 @@ export async function getInitConfig({ apiClient, tag, integration }: LoadInitCon
 
       return initConfig;
     } catch (error) {
-      throw Error(`Error during executing init function in ${tag} integration. Error message: ${error}`);
+      throw Error(
+        `Error during executing init function in ${tag} integration. Error message: ${error}`
+      );
     }
   }
 

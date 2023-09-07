@@ -3,7 +3,9 @@ import { confirm, isCancel, spinner, text } from "@clack/prompts";
 import picocolors from "picocolors";
 import { existsDirectory, log } from "../../../../utils";
 
-export const handleDirectoryName = async (projectDir: string): Promise<string> => {
+export const handleDirectoryName = async (
+  projectDir: string
+): Promise<string> => {
   let directoryName = projectDir;
   const sp = spinner();
 

@@ -27,7 +27,12 @@ describe("[buildModule]", () => {
       ...extension1Mock,
     };
 
-    const result = buildModule(module1Mock, {}, extension1MockFn, extensionOptions);
+    const result = buildModule(
+      module1Mock,
+      {},
+      extension1MockFn,
+      extensionOptions
+    );
 
     expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
     expect(extension1MockFn).toBeCalledTimes(1);

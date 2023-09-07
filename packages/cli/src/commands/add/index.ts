@@ -40,7 +40,9 @@ export default class Add extends Command {
     });
 
     log(
-      `Command ${picocolors.green("add")} require additional arguments. Please run ${picocolors.green(
+      `Command ${picocolors.green(
+        "add"
+      )} require additional arguments. Please run ${picocolors.green(
         "@vue-storefront/cli add --help"
       )} to see available options.\n`
     );

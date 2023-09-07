@@ -12,9 +12,15 @@ jest.mock("../../../../src/integrations/helpers/lookUpExternal.ts", () => {
 
 describe("[createExtensions]", () => {
   it("should resolve paths and flatten extensions", () => {
-    const mockRawExtensions = ["module-path", { name: "extension2", extendApiMethods: {} }];
+    const mockRawExtensions = [
+      "module-path",
+      { name: "extension2", extendApiMethods: {} },
+    ];
     const result = createExtensions(mockRawExtensions);
 
-    expect(result).toEqual([{ name: "extension1" }, { name: "extension2", extendApiMethods: {} }]);
+    expect(result).toEqual([
+      { name: "extension1" },
+      { name: "extension2", extendApiMethods: {} },
+    ]);
   });
 });

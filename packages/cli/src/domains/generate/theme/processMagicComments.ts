@@ -7,7 +7,10 @@ const processMagicComments = async (filePath: string): Promise<void> => {
     encoding: "utf-8",
   });
 
-  await fs.promises.writeFile(filePath, removeDevCommentBlocks(uncommentProjectOnlyBlocks(contents)));
+  await fs.promises.writeFile(
+    filePath,
+    removeDevCommentBlocks(uncommentProjectOnlyBlocks(contents))
+  );
 };
 
 export default processMagicComments;

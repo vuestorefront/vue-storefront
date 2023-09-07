@@ -2,7 +2,10 @@ import { CustomQuery, ContextQuery, MiddlewareContext } from "../types";
 
 export const createExtendQuery =
   (context: MiddlewareContext) =>
-  <T extends ContextQuery, Key extends keyof T>(customQuery: CustomQuery | null, defaults: T): ContextQuery<Key> => {
+  <T extends ContextQuery, Key extends keyof T>(
+    customQuery: CustomQuery | null,
+    defaults: T
+  ): ContextQuery<Key> => {
     const { customQueries = {} } = context;
     const { metadata = {} } = customQuery || {};
 

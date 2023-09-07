@@ -1,6 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
 
-export function prepareArguments(req: Request, res: Response, next: NextFunction) {
+export function prepareArguments(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   const { method, query, body } = req;
   let args: unknown;
 

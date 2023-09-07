@@ -43,7 +43,13 @@ describe("[registerIntegrations]", () => {
     };
     const result = await registerIntegrations(mockApp, mockIntegrations2);
 
-    expect(mockExtendApp).toHaveBeenCalledWith({ app: mockApp, configuration: { ...mockIntegrations.ct.configuration, integrationName: "ct" } });
+    expect(mockExtendApp).toHaveBeenCalledWith({
+      app: mockApp,
+      configuration: {
+        ...mockIntegrations.ct.configuration,
+        integrationName: "ct",
+      },
+    });
     expect(result).toEqual({
       ct: {
         apiClient: {
@@ -51,7 +57,9 @@ describe("[registerIntegrations]", () => {
         },
         configuration: { prop: "value", integrationName: "ct" },
         customQueries: undefined,
-        extensions: [{ name: "test-extension", extendApp: expect.any(Function) }],
+        extensions: [
+          { name: "test-extension", extendApp: expect.any(Function) },
+        ],
         initConfig: {},
         errorHandler: expect.any(Function),
       },

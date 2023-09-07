@@ -9,7 +9,10 @@ interface InstallDepsOptions {
 }
 
 /** Generate sample data and upgrade */
-export const installDeps = async ({ path, entryMessage, exitMessage }: InstallDepsOptions, packageManager: string) => {
+export const installDeps = async (
+  { path, entryMessage, exitMessage }: InstallDepsOptions,
+  packageManager: string
+) => {
   const options = {
     cwd: path,
   };

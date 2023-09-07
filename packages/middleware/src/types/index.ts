@@ -8,7 +8,9 @@ export type ObjectItemRecord<V = string, K = string> = {
 export type PartialRecord<O> = { [K in keyof O]?: O[K] };
 export type NullableRecord<V> = V | null;
 
-export type GetConstructorArgs<T> = T extends new (...args: infer U) => any ? U : never;
+export type GetConstructorArgs<T> = T extends new (...args: infer U) => any
+  ? U
+  : never;
 
 export type RecordOverloadedReturnType<T> = T extends {
   (...args: any[]): infer R;
@@ -17,7 +19,11 @@ export type RecordOverloadedReturnType<T> = T extends {
   (...args: any[]): infer R;
 }
   ? R
-  : T extends { (...args: any[]): infer R; (...args: any[]): infer R; (...args: any[]): infer R }
+  : T extends {
+      (...args: any[]): infer R;
+      (...args: any[]): infer R;
+      (...args: any[]): infer R;
+    }
   ? R
   : T extends { (...args: any[]): infer R; (...args: any[]): infer R }
   ? R

@@ -38,7 +38,10 @@ const handleMagentoKeys = async (): Promise<MagentoKeys> => {
     // check if file exists
     if (fs.existsSync(path.join(homeDir, ".composer", "auth.json"))) {
       // read file
-      const authFile = fs.readFileSync(path.join(homeDir, ".composer", "auth.json"), "utf-8");
+      const authFile = fs.readFileSync(
+        path.join(homeDir, ".composer", "auth.json"),
+        "utf-8"
+      );
 
       // parse JSON
       const authJson = JSON.parse(authFile);
@@ -52,7 +55,11 @@ const handleMagentoKeys = async (): Promise<MagentoKeys> => {
       };
 
       // write file
-      fs.writeFileSync(path.join(homeDir, ".composer", "auth.json"), JSON.stringify(authJson, null, 2), "utf-8");
+      fs.writeFileSync(
+        path.join(homeDir, ".composer", "auth.json"),
+        JSON.stringify(authJson, null, 2),
+        "utf-8"
+      );
     } else {
       // create file
       const authJson = {
@@ -69,7 +76,11 @@ const handleMagentoKeys = async (): Promise<MagentoKeys> => {
         bearer: {},
       };
 
-      fs.writeFileSync(path.join(homeDir, ".composer", "auth.json"), JSON.stringify(authJson, null, 2), "utf-8");
+      fs.writeFileSync(
+        path.join(homeDir, ".composer", "auth.json"),
+        JSON.stringify(authJson, null, 2),
+        "utf-8"
+      );
     }
 
     resolve(1);

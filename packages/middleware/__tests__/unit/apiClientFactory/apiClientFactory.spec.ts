@@ -9,7 +9,9 @@ describe("apiClientFactory", () => {
       defaultSettings: { option: "option" },
     };
 
-    const { createApiClient } = apiClientFactory<any, any>(params as any) as any;
+    const { createApiClient } = apiClientFactory<any, any>(
+      params as any
+    ) as any;
 
     expect(createApiClient({}).settings).toEqual({});
   });
@@ -20,7 +22,9 @@ describe("apiClientFactory", () => {
       defaultSettings: { option: "option" },
     };
 
-    const { createApiClient } = apiClientFactory<any, any>(params as any) as any;
+    const { createApiClient } = apiClientFactory<any, any>(
+      params as any
+    ) as any;
 
     const { settings } = createApiClient({ newOption: "newOption" });
 
@@ -74,7 +78,9 @@ describe("apiClientFactory", () => {
     const { createApiClient } = apiClientFactory<any, any>(params as any);
     const extensions = (createApiClient as any)._predefinedExtensions;
 
-    createApiClient.bind({ middleware: { req: null, res: null, extensions } })({});
+    createApiClient.bind({ middleware: { req: null, res: null, extensions } })(
+      {}
+    );
 
     expect(beforeCreate).toHaveBeenCalled();
     expect(afterCreate).toHaveBeenCalled();
@@ -100,7 +106,9 @@ describe("apiClientFactory", () => {
     const { createApiClient } = apiClientFactory<any, any>(params as any);
     const extensions = (createApiClient as any)._predefinedExtensions;
 
-    const apiWithContext: any = createApiClient.bind({ middleware: { req: null, res: null, extensions } })({});
+    const apiWithContext: any = createApiClient.bind({
+      middleware: { req: null, res: null, extensions },
+    })({});
 
     await apiWithContext.api.firstFunc();
 
@@ -150,9 +158,19 @@ describe("apiClientFactory", () => {
       apiWithContext.secondFunc("TEST");
       apiWithContext.thirdFunc("A", "FEW", "ARGS");
 
-      expect(api.firstFunc).toHaveBeenCalledWith(expect.objectContaining({ extendQuery: expect.any(Function) }));
-      expect(api.secondFunc).toHaveBeenCalledWith(expect.objectContaining({ extendQuery: expect.any(Function) }), "TEST");
-      expect(api.thirdFunc).toHaveBeenCalledWith(expect.objectContaining({ extendQuery: expect.any(Function) }), "A", "FEW", "ARGS");
+      expect(api.firstFunc).toHaveBeenCalledWith(
+        expect.objectContaining({ extendQuery: expect.any(Function) })
+      );
+      expect(api.secondFunc).toHaveBeenCalledWith(
+        expect.objectContaining({ extendQuery: expect.any(Function) }),
+        "TEST"
+      );
+      expect(api.thirdFunc).toHaveBeenCalledWith(
+        expect.objectContaining({ extendQuery: expect.any(Function) }),
+        "A",
+        "FEW",
+        "ARGS"
+      );
     });
   });
 });

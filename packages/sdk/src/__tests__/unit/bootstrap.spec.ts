@@ -9,9 +9,21 @@ import proxyModule1Mock, { ProxyModule1 } from "../__mocks__/proxyModule1.mock";
 import { proxyExtensionMock1 } from "../__mocks__/proxyExtension1.mock";
 
 const sdkConfig = {
-  module1: buildModule<Module1, typeof extension1Mock>(module1, {}, extension1Mock),
-  module2: buildModule<Module2, typeof extension2Mock>(module2, {}, extension2Mock),
-  proxyModule1: buildModule<ProxyModule1, typeof proxyExtensionMock1>(proxyModule1Mock, {}, proxyExtensionMock1),
+  module1: buildModule<Module1, typeof extension1Mock>(
+    module1,
+    {},
+    extension1Mock
+  ),
+  module2: buildModule<Module2, typeof extension2Mock>(
+    module2,
+    {},
+    extension2Mock
+  ),
+  proxyModule1: buildModule<ProxyModule1, typeof proxyExtensionMock1>(
+    proxyModule1Mock,
+    {},
+    proxyExtensionMock1
+  ),
 };
 
 describe("[Bootstrap]", () => {

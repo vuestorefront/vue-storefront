@@ -28,9 +28,13 @@ export default class GenerateTemplate extends Command {
   public async run(): Promise<void> {
     const { flags } = await this.parse(GenerateTemplate);
 
-    const integrationPath = await getDirectory(t("command.generate_template.input.integration_path"));
+    const integrationPath = await getDirectory(
+      t("command.generate_template.input.integration_path")
+    );
 
-    const projectName = await getProjectName(t("command.generate_template.input.project_name"));
+    const projectName = await getProjectName(
+      t("command.generate_template.input.project_name")
+    );
 
     const projectPath = path.join(flags.output, projectName);
 

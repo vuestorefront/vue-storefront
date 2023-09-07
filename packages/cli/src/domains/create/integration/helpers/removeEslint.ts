@@ -7,7 +7,10 @@ const COMMITLINT_FILES = ["commitlint.config.js"];
 
 const OTHER_FILES = ["CHANGELOG.md", "/playground/app/exampleApp.md"];
 
-const removeFromPackageJson = async (directoryName: string, packageName: string): Promise<void> => {
+const removeFromPackageJson = async (
+  directoryName: string,
+  packageName: string
+): Promise<void> => {
   const packageJSONPath = path.join(directoryName, "package.json");
   const packageJson = JSON.parse(fs.readFileSync(packageJSONPath, "utf8"));
 
@@ -38,7 +41,10 @@ const removeFromPackageJson = async (directoryName: string, packageName: string)
   fs.writeFileSync(packageJSONPath, JSON.stringify(packageJson, null, 2));
 };
 
-const removeFiles = async (directoryName: string, files: string[]): Promise<void> => {
+const removeFiles = async (
+  directoryName: string,
+  files: string[]
+): Promise<void> => {
   files.forEach((file) => {
     const filePath = path.join(directoryName, file);
     if (fs.existsSync(filePath)) {
@@ -54,7 +60,9 @@ const removeFiles = async (directoryName: string, files: string[]): Promise<void
   });
 };
 
-export const removeUnwantedFiles = async (directoryName: string): Promise<void> => {
+export const removeUnwantedFiles = async (
+  directoryName: string
+): Promise<void> => {
   const rootDir = directoryName;
   const playgroundDir = `${directoryName}/playground/app`;
 

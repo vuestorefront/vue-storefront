@@ -47,9 +47,17 @@ export class InterceptorsManager<Config extends SDKConfig> {
    * @param {string} methodName
    * @param {InterceptorType} interceptorType
    */
-  public getInterceptors(moduleName: string, methodName: string, interceptorType: Exclude<InterceptorType, "around">) {
+  public getInterceptors(
+    moduleName: string,
+    methodName: string,
+    interceptorType: Exclude<InterceptorType, "around">
+  ) {
     // TODO Exclusion of aroundInterceptors is needed because they are not implemented yet, should be removed when they are implemented
-    return this.configuredInterceptors[moduleName]?.[interceptorType]?.[methodName] ?? [];
+    return (
+      this.configuredInterceptors[moduleName]?.[interceptorType]?.[
+        methodName
+      ] ?? []
+    );
   }
 
   /**
@@ -69,7 +77,10 @@ export class InterceptorsManager<Config extends SDKConfig> {
    * @param data
    */
   // eslint-disable-next-line class-methods-use-this
-  private executeInterceptors = async <T>(interceptors: Interceptor[], data: T): Promise<T> => {
+  private executeInterceptors = async <T>(
+    interceptors: Interceptor[],
+    data: T
+  ): Promise<T> => {
     if (!interceptors) return data;
 
     for (const interceptor of interceptors) {
@@ -88,12 +99,16 @@ export class InterceptorsManager<Config extends SDKConfig> {
    *
    * @param config
    */
-  private configureInterceptors = (config: Config): Record<string, MappedInterceptors> => {
+  private configureInterceptors = (
+    config: Config
+  ): Record<string, MappedInterceptors> => {
     const mappedInterceptors: Record<string, MappedInterceptors> = {};
 
     Object.entries(config).forEach(([extensionCode, extensionConfig]) => {
       if (extensionConfig?.interceptors) {
-        mappedInterceptors[extensionCode] = this.mapInterceptors(extensionConfig.interceptors);
+        mappedInterceptors[extensionCode] = this.mapInterceptors(
+          extensionConfig.interceptors
+        );
       }
     });
 
@@ -146,7 +161,9 @@ export class InterceptorsManager<Config extends SDKConfig> {
    * }
    */
   // eslint-disable-next-line class-methods-use-this
-  private mapInterceptors(interceptors: Array<InterceptorsConfig>): MappedInterceptors {
+  private mapInterceptors(
+    interceptors: Array<InterceptorsConfig>
+  ): MappedInterceptors {
     const mappedInterceptors: MappedInterceptors = {
       before: {},
       after: {},
@@ -154,19 +171,27 @@ export class InterceptorsManager<Config extends SDKConfig> {
     };
 
     interceptors.forEach((interceptor: InterceptorsConfig) => {
-      Object.entries(interceptor).forEach(([interceptorType, interceptorMethods]) => {
-        Object.entries(interceptorMethods).forEach(([methodName, methodInterceptors]) => {
-          if (!mappedInterceptors[interceptorType][methodName]) {
-            mappedInterceptors[interceptorType][methodName] = [];
-          }
+      Object.entries(interceptor).forEach(
+        ([interceptorType, interceptorMethods]) => {
+          Object.entries(interceptorMethods).forEach(
+            ([methodName, methodInterceptors]) => {
+              if (!mappedInterceptors[interceptorType][methodName]) {
+                mappedInterceptors[interceptorType][methodName] = [];
+              }
 
-          if (Array.isArray(methodInterceptors)) {
-            mappedInterceptors[interceptorType][methodName].push(...methodInterceptors);
-          } else if (typeof methodInterceptors === "function") {
-            mappedInterceptors[interceptorType][methodName].push(methodInterceptors);
-          }
-        });
-      });
+              if (Array.isArray(methodInterceptors)) {
+                mappedInterceptors[interceptorType][methodName].push(
+                  ...methodInterceptors
+                );
+              } else if (typeof methodInterceptors === "function") {
+                mappedInterceptors[interceptorType][methodName].push(
+                  methodInterceptors
+                );
+              }
+            }
+          );
+        }
+      );
     });
 
     return mappedInterceptors;
@@ -177,7 +202,11 @@ export class InterceptorsManager<Config extends SDKConfig> {
    * @param {string} methodName
    * @param {any} args
    */
-  private async executeBeforeInterceptors<T>(moduleName: string, methodName: string, args: T): Promise<T> {
+  private async executeBeforeInterceptors<T>(
+    moduleName: string,
+    methodName: string,
+    args: T
+  ): Promise<T> {
     const interceptors = this.getInterceptors(moduleName, methodName, "before");
 
     return this.executeInterceptors<T>(interceptors, args);
@@ -188,7 +217,11 @@ export class InterceptorsManager<Config extends SDKConfig> {
    * @param {string} methodName
    * @param {any} result
    */
-  private async executeAfterInterceptors<T>(moduleName: string, methodName: string, result: T): Promise<T> {
+  private async executeAfterInterceptors<T>(
+    moduleName: string,
+    methodName: string,
+    result: T
+  ): Promise<T> {
     const interceptors = this.getInterceptors(moduleName, methodName, "after");
 
     return this.executeInterceptors<T>(interceptors, result);
@@ -202,17 +235,31 @@ export class InterceptorsManager<Config extends SDKConfig> {
    * @param {string} moduleName
    * @public
    */
-  public applyInterceptors(fnName: string, fn: AnyFunction, moduleName: string): ReturnType<typeof fn> {
-    return async (...args: Parameters<typeof fn>): Promise<ReturnType<typeof fn>> => {
+  public applyInterceptors(
+    fnName: string,
+    fn: AnyFunction,
+    moduleName: string
+  ): ReturnType<typeof fn> {
+    return async (
+      ...args: Parameters<typeof fn>
+    ): Promise<ReturnType<typeof fn>> => {
       try {
         this.eventManager.emit(`*_before`, args);
         this.eventManager.emit(`${moduleName}_before`, args);
         this.eventManager.emit(`${moduleName}_${fnName}_before`, args);
 
-        const methodArgs = await this.executeBeforeInterceptors(moduleName, fnName, args);
+        const methodArgs = await this.executeBeforeInterceptors(
+          moduleName,
+          fnName,
+          args
+        );
         const finalFn = this.getOverride(moduleName, fnName) ?? fn;
         let result = await finalFn(...methodArgs);
-        result = await this.executeAfterInterceptors(moduleName, fnName, result);
+        result = await this.executeAfterInterceptors(
+          moduleName,
+          fnName,
+          result
+        );
 
         this.eventManager.emit(`*_after`, result);
         this.eventManager.emit(`${moduleName}_after`, result);

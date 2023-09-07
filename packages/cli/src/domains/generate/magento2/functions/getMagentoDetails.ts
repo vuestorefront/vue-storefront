@@ -13,7 +13,9 @@ const getMagentoDetails = async (projectName?: string) => {
 
   note(t("command.generate_store.magento.info"));
 
-  let magentoDirName = await getMagentoDirName(t("command.generate_store.magento.directory"));
+  let magentoDirName = await getMagentoDirName(
+    t("command.generate_store.magento.directory")
+  );
 
   if (magentoDirName === projectName) {
     logSimpleErrorMessage(
@@ -23,7 +25,9 @@ const getMagentoDetails = async (projectName?: string) => {
       })
     );
 
-    magentoDirName = await getMagentoDirName(t("command.generate_store.magento.directory"));
+    magentoDirName = await getMagentoDirName(
+      t("command.generate_store.magento.directory")
+    );
   }
 
   if (!fs.existsSync(magentoDirName)) {
@@ -37,7 +41,9 @@ const getMagentoDetails = async (projectName?: string) => {
     });
   }
 
-  const hasMagentoKeys = await isMagentoKeys(t("command.generate_store.magento.access_keys"));
+  const hasMagentoKeys = await isMagentoKeys(
+    t("command.generate_store.magento.access_keys")
+  );
 
   if (hasMagentoKeys) {
     simpleLog(t("command.generate_store.magento.provide_keys"));

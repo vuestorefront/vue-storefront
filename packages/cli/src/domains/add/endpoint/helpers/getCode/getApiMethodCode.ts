@@ -1,4 +1,6 @@
-export const getApiMethodCode = (endpoint: string) => `import { Endpoints } from '../../types';
+export const getApiMethodCode = (
+  endpoint: string
+) => `import { Endpoints } from '../../types';
 
 export const ${endpoint}: Endpoints['${endpoint}'] = async (
   context,

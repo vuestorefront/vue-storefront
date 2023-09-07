@@ -9,7 +9,11 @@ import { getAgnosticStatusCode } from "../helpers";
  * @param req
  * @param res
  */
-export const defaultErrorHandler = (error: unknown, req: Request, res: Response) => {
+export const defaultErrorHandler = (
+  error: unknown,
+  req: Request,
+  res: Response
+) => {
   consola.error(error);
   const status = getAgnosticStatusCode(error);
   res.status(status);
@@ -22,6 +26,8 @@ export const defaultErrorHandler = (error: unknown, req: Request, res: Response)
     /**
      * For all other error codes we wanted to send a generic error message
      */
-    res.send("ServerError: Something went wrong. Please, check the logs for more details.");
+    res.send(
+      "ServerError: Something went wrong. Please, check the logs for more details."
+    );
   }
 };

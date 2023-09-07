@@ -1,14 +1,25 @@
 // @ts-check
 import { createExtendQuery } from "./createExtendQuery";
-import { AfterCallParams, ApiMethods, ApplyingContextHooks, BeforeCallParams, MiddlewareContext } from "../types";
+import {
+  AfterCallParams,
+  ApiMethods,
+  ApplyingContextHooks,
+  BeforeCallParams,
+  MiddlewareContext,
+} from "../types";
 
 const nopBefore = <ARGS>({ args }: BeforeCallParams<any, ARGS>): ARGS => args;
-const nopAfter = <RESPONSE>({ response }: AfterCallParams<any, any, RESPONSE>) => response;
+const nopAfter = <RESPONSE>({
+  response,
+}: AfterCallParams<any, any, RESPONSE>) => response;
 
 /**
  * Wraps api methods with context and hooks triggers
  */
-const applyContextToApi = <API extends ApiMethods, CONTEXT extends MiddlewareContext>(
+const applyContextToApi = <
+  API extends ApiMethods,
+  CONTEXT extends MiddlewareContext
+>(
   api: API,
   context: CONTEXT,
 

@@ -42,7 +42,9 @@ const getIntegration = async (options: Options): Promise<Integration> => {
   }
 
   if (answer !== customIntegration.name) {
-    const selectedIntegration = integrations.find((integration) => integration.name === answer);
+    const selectedIntegration = integrations.find(
+      (integration) => integration.name === answer
+    );
 
     if (!selectedIntegration) {
       throw new Error("Integration not found");
@@ -53,7 +55,9 @@ const getIntegration = async (options: Options): Promise<Integration> => {
 
   return {
     name: customIntegration.name,
-    gitRepositoryURL: await getGitRepositoryURL(customIntegrationRepositoryMessage),
+    gitRepositoryURL: await getGitRepositoryURL(
+      customIntegrationRepositoryMessage
+    ),
   };
 };
 

@@ -43,9 +43,15 @@ describe("[createRawExtensions]", () => {
 
   it("should call extensions function and return merged extensions", () => {
     const predefinedExtensions = [{ name: "predefined-extension" }];
-    const mockCustomExtensions = [{ name: "extension1" }, { name: "extension2" }];
+    const mockCustomExtensions = [
+      { name: "extension1" },
+      { name: "extension2" },
+    ];
 
-    const mockExtensionsFn = jest.fn((val) => [...val, ...mockCustomExtensions]);
+    const mockExtensionsFn = jest.fn((val) => [
+      ...val,
+      ...mockCustomExtensions,
+    ]);
 
     const expected = [...predefinedExtensions, ...mockCustomExtensions];
 

@@ -16,16 +16,25 @@ interface CheckCommandAndSuggest {
 }
 
 // eslint-disable-next-line consistent-return
-export const checkCommandAndSuggest = async ({ commands, commandArg, endpoint, self }: CheckCommandAndSuggest) => {
-  const similarCommand = commands.find(({ command }) => isCloseEnough(commandArg, command));
+export const checkCommandAndSuggest = async ({
+  commands,
+  commandArg,
+  endpoint,
+  self,
+}: CheckCommandAndSuggest) => {
+  const similarCommand = commands.find(({ command }) =>
+    isCloseEnough(commandArg, command)
+  );
 
   if (similarCommand) {
     const { command, Func } = similarCommand;
 
     log(
-      `Command ${picocolors.cyan("add")} ${picocolors.yellow(commandArg)} does not exist. Did you mean ${picocolors.cyan("add")} ${picocolors.green(
-        command
-      )}?`
+      `Command ${picocolors.cyan("add")} ${picocolors.yellow(
+        commandArg
+      )} does not exist. Did you mean ${picocolors.cyan(
+        "add"
+      )} ${picocolors.green(command)}?`
     );
 
     const shouldRunNewCommand = await confirm({
@@ -44,7 +53,11 @@ export const checkCommandAndSuggest = async ({ commands, commandArg, endpoint, s
     }
   }
 
-  log(`Command ${picocolors.yellow(commandArg)} does not exist \n\nCommand list:`);
-  commands.forEach(({ command }) => log(`- ${picocolors.cyan("add")} ${picocolors.green(command)}`));
+  log(
+    `Command ${picocolors.yellow(commandArg)} does not exist \n\nCommand list:`
+  );
+  commands.forEach(({ command }) =>
+    log(`- ${picocolors.cyan("add")} ${picocolors.green(command)}`)
+  );
   process.exit(0);
 };

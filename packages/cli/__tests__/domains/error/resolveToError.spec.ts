@@ -13,7 +13,9 @@ describe("resolveToError | unit tests", () => {
     it("creates a new 'Error' using received value as message", () => {
       const error = "The database just exploded!";
 
-      expect(resolveToError(error)).toEqual(new Error("The database just exploded!"));
+      expect(resolveToError(error)).toEqual(
+        new Error("The database just exploded!")
+      );
     });
 
     it("defines value as 'cause' property", () => {

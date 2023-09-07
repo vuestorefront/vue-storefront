@@ -37,7 +37,9 @@ export default class Create extends Command {
     });
 
     log(
-      `Command ${picocolors.green("create")} require additional arguments. Please run ${picocolors.green(
+      `Command ${picocolors.green(
+        "create"
+      )} require additional arguments. Please run ${picocolors.green(
         "@vue-storefront/cli create --help"
       )} to see available options.\n`
     );

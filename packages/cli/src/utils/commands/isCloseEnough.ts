@@ -5,7 +5,12 @@ const levenshteinDistance = (a: string, b: string): number => {
   if (a[0] === b[0]) return levenshteinDistance(a.substring(1), b.substring(1));
 
   return (
-    1 + Math.min(levenshteinDistance(a, b.substring(1)), levenshteinDistance(a.substring(1), b), levenshteinDistance(a.substring(1), b.substring(1)))
+    1 +
+    Math.min(
+      levenshteinDistance(a, b.substring(1)),
+      levenshteinDistance(a.substring(1), b),
+      levenshteinDistance(a.substring(1), b.substring(1))
+    )
   );
 };
 
@@ -18,8 +23,13 @@ const countFrequencies = (str: string): Record<string, number> => {
   return freq;
 };
 
-const cosineSimilarity = (freq1: Record<string, number>, freq2: Record<string, number>): number => {
-  const words = Array.from(new Set(Object.keys(freq1).concat(Object.keys(freq2))));
+const cosineSimilarity = (
+  freq1: Record<string, number>,
+  freq2: Record<string, number>
+): number => {
+  const words = Array.from(
+    new Set(Object.keys(freq1).concat(Object.keys(freq2)))
+  );
   let dotProduct = 0;
   let norm1 = 0;
   let norm2 = 0;
@@ -31,7 +41,11 @@ const cosineSimilarity = (freq1: Record<string, number>, freq2: Record<string, n
   return dotProduct / (Math.sqrt(norm1) * Math.sqrt(norm2));
 };
 
-export const isCloseEnough = (inputStr: string, targetStr: string, threshold = 0.8): boolean => {
+export const isCloseEnough = (
+  inputStr: string,
+  targetStr: string,
+  threshold = 0.8
+): boolean => {
   // Compute Levenshtein distance
   const distance = levenshteinDistance(inputStr, targetStr);
   if (distance <= threshold * targetStr.length) {

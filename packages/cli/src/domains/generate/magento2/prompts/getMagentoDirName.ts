@@ -28,7 +28,9 @@ const getMagentoDirName = async (message: string): Promise<string> => {
     process.exit(0);
   }
 
-  const existingContainers = await checkExistingDockerContainers(formatToProjectName(magentoDirName as string));
+  const existingContainers = await checkExistingDockerContainers(
+    formatToProjectName(magentoDirName as string)
+  );
 
   if (existingContainers) {
     return getMagentoDirName(t("command.generate_store.magento.docker_exists"));

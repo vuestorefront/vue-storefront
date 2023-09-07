@@ -69,7 +69,10 @@ export type InterceptorType = "before" | "after" | "around";
  *};
  */
 export type InterceptorsConfig = {
-  [type in InterceptorType]?: Record<string, Interceptor | Array<Interceptor> | undefined>;
+  [type in InterceptorType]?: Record<
+    string,
+    Interceptor | Array<Interceptor> | undefined
+  >;
 };
 
 /**
@@ -78,7 +81,10 @@ export type InterceptorsConfig = {
  *
  * @internal
  */
-export type MappedInterceptors = Record<string, Record<string, Array<Interceptor>>>;
+export type MappedInterceptors = Record<
+  string,
+  Record<string, Array<Interceptor>>
+>;
 
 /**
  * Utility type that defines the type of arguments that are passed to the `before` interceptor.
@@ -88,17 +94,23 @@ export type InterceptorArgsBefore<ARGS extends AnyFunction> = Parameters<ARGS>;
 /**
  * Utility type that defines the type of the result that is returned from the `before` interceptor.
  */
-export type InterceptorResultBefore<ARGS extends AnyFunction> = Promise<Parameters<ARGS>>;
+export type InterceptorResultBefore<ARGS extends AnyFunction> = Promise<
+  Parameters<ARGS>
+>;
 
 /**
  * Utility type that defines the type of arguments that are passed to the `after` interceptor.
  */
-export type InterceptorArgsAfter<RESULT extends AnyFunction> = Awaited<ReturnType<RESULT>>;
+export type InterceptorArgsAfter<RESULT extends AnyFunction> = Awaited<
+  ReturnType<RESULT>
+>;
 
 /**
  * Utility type that defines the type of the result that is returned from the `after` interceptor.
  */
-export type InterceptorResultAfter<RESULT extends AnyFunction> = Promise<ReturnType<RESULT>>;
+export type InterceptorResultAfter<RESULT extends AnyFunction> = Promise<
+  ReturnType<RESULT>
+>;
 
 /**
  * EventCallback is a function that is called when an event is emitted.
@@ -216,7 +228,9 @@ export type Extension = Omit<Partial<Module>, "connector"> & {
 /**
  * SDKConfig represents the configuration and the API of the SDK.
  */
-export type SDKConfig = Readonly<Record<string, Module> & Record<string, Extension>>;
+export type SDKConfig = Readonly<
+  Record<string, Module> & Record<string, Extension>
+>;
 
 /**
  * SDKApi represents the API of the SDK.

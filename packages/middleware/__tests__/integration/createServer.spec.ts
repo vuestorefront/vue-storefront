@@ -55,24 +55,32 @@ describe("[Integration] Create server", () => {
   it("config.integrations should be properly configured", async () => {
     app = await createServer({ integrations: {} });
 
-    const { status, error } = await request(app).post("/invalid_integration/action");
+    const { status, error } = await request(app).post(
+      "/invalid_integration/action"
+    );
 
     expect(status).toEqual(404);
     expect(error).toBeTruthy();
     if (error) {
-      expect(error.text).toEqual('"invalid_integration" integration is not configured. Please, check the request path or integration configuration.');
+      expect(error.text).toEqual(
+        '"invalid_integration" integration is not configured. Please, check the request path or integration configuration.'
+      );
     }
   });
 
   it("can handle a valid request", async () => {
-    const { status, body } = await request(app).post("/test_integration/success").send([]);
+    const { status, body } = await request(app)
+      .post("/test_integration/success")
+      .send([]);
 
     expect(status).toEqual(200);
     expect(body.message).toEqual("ok");
   });
 
   it("'x-powered-by' header is removed", async () => {
-    const { headers } = await request(app).post("/test_integration/success").send([]);
+    const { headers } = await request(app)
+      .post("/test_integration/success")
+      .send([]);
 
     expect(headers["x-powered-by"]).toBeUndefined();
   });
@@ -85,7 +93,9 @@ describe("[Integration] Create server", () => {
   });
 
   it("should allow to override default error handler", async () => {
-    const { status, error } = await request(app).post("/test_integration/throwAxiosError");
+    const { status, error } = await request(app).post(
+      "/test_integration/throwAxiosError"
+    );
     expect(status).toEqual(410);
     expect(error).toBeTruthy();
     if (error) {
@@ -95,7 +105,9 @@ describe("[Integration] Create server", () => {
 
   it("should allow functions from extensions to access integration functions", async () => {
     expect.assertions(2);
-    const { status, text } = await request(app).post("/test_integration/myFunc").send([]);
+    const { status, text } = await request(app)
+      .post("/test_integration/myFunc")
+      .send([]);
     const response = JSON.parse(text);
 
     // This is the result of the original "success" function from the integration
@@ -107,7 +119,9 @@ describe("[Integration] Create server", () => {
 
   it("should not allow functions from extensions to access extension functions", async () => {
     expect.assertions(2);
-    const { status, text } = await request(app).post("/test_integration/myFuncWithDependencyToOtherExtension").send([]);
+    const { status, text } = await request(app)
+      .post("/test_integration/myFuncWithDependencyToOtherExtension")
+      .send([]);
 
     expect(status).toEqual(410);
     expect(text).toEqual("Custom error handler");

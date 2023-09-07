@@ -14,7 +14,9 @@ describe("[middleware-handlers] prepareApiFunction", () => {
       apiClient: { createApiClient },
     },
   } as unknown as IntegrationsLoaded;
-  const req = { params: { integrationName, functionName } } as unknown as Request;
+  const req = {
+    params: { integrationName, functionName },
+  } as unknown as Request;
   const res = {
     status: jest.fn(),
     send: jest.fn(),

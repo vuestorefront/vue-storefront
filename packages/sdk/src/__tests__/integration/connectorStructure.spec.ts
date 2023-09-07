@@ -11,7 +11,10 @@ describe("[ConnectorStructure]", () => {
     const extension = {};
 
     const sdkConfig = {
-      proxyModule1: buildModule<ReturnType<typeof moduleMock>, typeof extension>(moduleMock, {}, extension),
+      proxyModule1: buildModule<
+        ReturnType<typeof moduleMock>,
+        typeof extension
+      >(moduleMock, {}, extension),
     };
 
     const sdk = initSDK(sdkConfig);
@@ -32,7 +35,10 @@ describe("[ConnectorStructure]", () => {
     const extension = {};
 
     const sdkConfig = {
-      proxyModule1: buildModule<ReturnType<typeof moduleMock>, typeof extension>(moduleMock, {}, extension),
+      proxyModule1: buildModule<
+        ReturnType<typeof moduleMock>,
+        typeof extension
+      >(moduleMock, {}, extension),
     };
 
     const sdk = initSDK(sdkConfig);
@@ -52,12 +58,18 @@ describe("[ConnectorStructure]", () => {
       enumerable: true,
     });
 
-    const { moduleMock } = createModuleMock(true, { utils: utilFunction, connector });
+    const { moduleMock } = createModuleMock(true, {
+      utils: utilFunction,
+      connector,
+    });
 
     const extension = {};
 
     const sdkConfig = {
-      proxyModule1: buildModule<ReturnType<typeof moduleMock>, typeof extension>(moduleMock, {}, extension),
+      proxyModule1: buildModule<
+        ReturnType<typeof moduleMock>,
+        typeof extension
+      >(moduleMock, {}, extension),
     };
 
     const sdk = initSDK(sdkConfig);

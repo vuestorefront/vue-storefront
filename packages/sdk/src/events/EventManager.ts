@@ -88,7 +88,8 @@ export class EventManager implements EventManagerInterface {
   register(topic: string, callback: EventCallback | Array<EventCallback>) {
     const topicEvents = this.events[topic] ?? [];
 
-    const canAddCallback = (cb: EventCallback) => typeof cb === "function" && !topicEvents.includes(cb);
+    const canAddCallback = (cb: EventCallback) =>
+      typeof cb === "function" && !topicEvents.includes(cb);
 
     if (Array.isArray(callback)) {
       topicEvents.push(...callback.filter(canAddCallback));

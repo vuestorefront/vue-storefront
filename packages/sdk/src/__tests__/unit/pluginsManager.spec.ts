@@ -3,10 +3,25 @@ import { EventManager } from "../../events/EventManager";
 import { InterceptorsManager } from "../../interceptors/InterceptorsManager";
 import { AnyFunction } from "../../types";
 
-function getWrappedMethods(configWithoutInterceptors: any, eventManager: EventManager = new EventManager()): any {
-  const interceptorsManager = new InterceptorsManager(configWithoutInterceptors, eventManager);
-  const wrappedMethodsEntries = Object.entries(configWithoutInterceptors.module1.connector).map(([methodName, value]) => {
-    return [methodName, interceptorsManager.applyInterceptors(methodName, value as AnyFunction, "module1")];
+function getWrappedMethods(
+  configWithoutInterceptors: any,
+  eventManager: EventManager = new EventManager()
+): any {
+  const interceptorsManager = new InterceptorsManager(
+    configWithoutInterceptors,
+    eventManager
+  );
+  const wrappedMethodsEntries = Object.entries(
+    configWithoutInterceptors.module1.connector
+  ).map(([methodName, value]) => {
+    return [
+      methodName,
+      interceptorsManager.applyInterceptors(
+        methodName,
+        value as AnyFunction,
+        "module1"
+      ),
+    ];
   });
   return Object.fromEntries(wrappedMethodsEntries);
 }
@@ -14,7 +29,11 @@ function getWrappedMethods(configWithoutInterceptors: any, eventManager: EventMa
 describe("[InterceptorManager]", () => {
   it("getInterceptors should return an empty array if no interceptors are defined", () => {
     const interceptorsManager = new InterceptorsManager({}, new EventManager());
-    const result = interceptorsManager.getInterceptors("test", "test", "before");
+    const result = interceptorsManager.getInterceptors(
+      "test",
+      "test",
+      "before"
+    );
 
     expect(result).toEqual([]);
   });
@@ -30,8 +49,15 @@ describe("[InterceptorManager]", () => {
       },
     };
 
-    const interceptorsManager = new InterceptorsManager(configWithoutInterceptors, new EventManager());
-    const result = interceptorsManager.getInterceptors("module1", "test", "after");
+    const interceptorsManager = new InterceptorsManager(
+      configWithoutInterceptors,
+      new EventManager()
+    );
+    const result = interceptorsManager.getInterceptors(
+      "module1",
+      "test",
+      "after"
+    );
 
     expect(result).toEqual([]);
   });
@@ -55,7 +81,10 @@ describe("[InterceptorManager]", () => {
       },
     };
 
-    const interceptorsManager = new InterceptorsManager(configWithOverride, new EventManager());
+    const interceptorsManager = new InterceptorsManager(
+      configWithOverride,
+      new EventManager()
+    );
     const result = interceptorsManager.getOverride("module1", "test");
 
     expect(result).toBe(testOverride);
@@ -131,10 +160,16 @@ describe("[InterceptorManager]", () => {
         interceptors: [
           {
             before: {
-              test: [(args: any) => [`${args[0]} modified_before1`], (args: any) => [`${args[0]} modified_before2`]],
+              test: [
+                (args: any) => [`${args[0]} modified_before1`],
+                (args: any) => [`${args[0]} modified_before2`],
+              ],
             },
             after: {
-              test: [(result: any) => `${result} modified_after1`, (result: any) => `${result} modified_after2`],
+              test: [
+                (result: any) => `${result} modified_after1`,
+                (result: any) => `${result} modified_after2`,
+              ],
             },
           },
         ],
@@ -145,7 +180,9 @@ describe("[InterceptorManager]", () => {
     const wrappedMethods = getWrappedMethods(configWithInterceptors);
     const result = await wrappedMethods.test("test");
 
-    expect(result).toEqual("test modified_before1 modified_before2 modified_after1 modified_after2");
+    expect(result).toEqual(
+      "test modified_before1 modified_before2 modified_after1 modified_after2"
+    );
   });
 
   it("interceptors are executed with multiple arguments", async () => {
@@ -160,7 +197,10 @@ describe("[InterceptorManager]", () => {
               test: (args: any) => [`${args[0]} modified_before1`, args[1] + 1],
             },
             after: {
-              test: (result: any) => [`${result[0]} modified_after1`, result[1] + 1],
+              test: (result: any) => [
+                `${result[0]} modified_after1`,
+                result[1] + 1,
+              ],
             },
           },
         ],
@@ -248,7 +288,10 @@ describe("[InterceptorManager]", () => {
 
     const eventManager = new EventManager();
 
-    const withInterceptors = getWrappedMethods(configWithSimpleModule, eventManager);
+    const withInterceptors = getWrappedMethods(
+      configWithSimpleModule,
+      eventManager
+    );
     const emitSpy = jest.spyOn(eventManager, "emit");
 
     await withInterceptors.m1("test");

@@ -25,7 +25,12 @@ export type PlatformApi = {
 };
 
 export type ContextedPlatformApi<T extends PlatformApi> = {
-  [P in keyof T]: T[P] extends (context: Context, ...arg: infer X) => Promise<any> ? (...arg: X) => Promise<any> : never;
+  [P in keyof T]: T[P] extends (
+    context: Context,
+    ...arg: infer X
+  ) => Promise<any>
+    ? (...arg: X) => Promise<any>
+    : never;
 };
 
 export interface FactoryParams<API extends PlatformApi = any> {
@@ -46,19 +51,35 @@ export interface ApiClientConfig<CLIENT = any> {
   [x: string]: any;
 }
 
-export type CreateApiClientFn<CONFIG extends ApiClientConfig, API extends ApiMethods> = {
-  <T extends ApiClientConfig, C>(givenConfig: CONFIG, customApi?: ApiMethods): ApiInstance<T, API & ApiMethods, C>;
+export type CreateApiClientFn<
+  CONFIG extends ApiClientConfig,
+  API extends ApiMethods
+> = {
+  <T extends ApiClientConfig, C>(
+    givenConfig: CONFIG,
+    customApi?: ApiMethods
+  ): ApiInstance<T, API & ApiMethods, C>;
   _predefinedExtensions?: ApiClientExtension<API>[];
 };
 
-export interface ApiClientFactoryParams<CONFIG extends ApiClientConfig, API extends ApiMethods = {}, CLIENT = any> {
+export interface ApiClientFactoryParams<
+  CONFIG extends ApiClientConfig,
+  API extends ApiMethods = {},
+  CLIENT = any
+> {
   api: API | ApiMethodsFactory<API, CONFIG>;
   isProxy?: boolean;
-  onCreate: (config: CONFIG, headers?: Record<string, string>) => { client: CLIENT; config: ApiClientConfig };
+  onCreate: (
+    config: CONFIG,
+    headers?: Record<string, string>
+  ) => { client: CLIENT; config: ApiClientConfig };
   extensions?: ApiClientExtension<API>[];
 }
 
-export interface ApiClientFactory<CONFIG extends ApiClientConfig = any, API extends ApiMethods = {}> {
+export interface ApiClientFactory<
+  CONFIG extends ApiClientConfig = any,
+  API extends ApiMethods = {}
+> {
   createApiClient: CreateApiClientFn<CONFIG, API>;
   /**
    * Sets up integration config, runs once.
@@ -66,4 +87,7 @@ export interface ApiClientFactory<CONFIG extends ApiClientConfig = any, API exte
   init?: (configuration: TObject) => TObject;
 }
 
-export type CreateApiProxyFn = <CONFIG, API, CLIENT>(givenConfig: any, customApi?: any) => ApiInstance<CONFIG, API, CLIENT>;
+export type CreateApiProxyFn = <CONFIG, API, CLIENT>(
+  givenConfig: any,
+  customApi?: any
+) => ApiInstance<CONFIG, API, CLIENT>;

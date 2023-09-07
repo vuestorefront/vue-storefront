@@ -1,5 +1,11 @@
 import { includes } from "./utils";
-import { AxiosError, StatusCode, UnknownError, ApolloError, ErrorObject } from "../types";
+import {
+  AxiosError,
+  StatusCode,
+  UnknownError,
+  ApolloError,
+  ErrorObject,
+} from "../types";
 
 const STATUS_FIELDS = ["status", "statusCode"] as const;
 
@@ -20,7 +26,10 @@ function isApolloError(error: ErrorObject<Status>): error is ApolloError {
 }
 
 function reduceStatus(narrowObject: UnknownError<Status>, depth: number) {
-  return function reduceStatusNested(statusCode: StatusCode, key: string): StatusCode {
+  return function reduceStatusNested(
+    statusCode: StatusCode,
+    key: string
+  ): StatusCode {
     if (statusCode) {
       return statusCode;
     }
@@ -35,7 +44,10 @@ function reduceStatus(narrowObject: UnknownError<Status>, depth: number) {
   };
 }
 
-function obtainStatusCode(givenObject: UnknownError<Status>, depth = 1): StatusCode {
+function obtainStatusCode(
+  givenObject: UnknownError<Status>,
+  depth = 1
+): StatusCode {
   const obj = givenObject || {};
 
   if (depth > 3) {

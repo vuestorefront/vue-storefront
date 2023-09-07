@@ -3,7 +3,10 @@ import { Command } from "@oclif/core";
 import picocolors from "picocolors";
 import { t } from "i18next";
 import { initLogger } from "../domains/generate/logging/logger";
-import { checkDocker, getMagentoDomainName } from "../domains/generate/magento2/docker";
+import {
+  checkDocker,
+  getMagentoDomainName,
+} from "../domains/generate/magento2/docker";
 import { getMagentoDetails } from "../domains/generate/magento2/functions";
 import { installMagento } from "../domains/generate/magento2/installMagento";
 import { simpleLog } from "../domains/generate/magento2/functions/terminalHelpers";
@@ -24,9 +27,12 @@ export default class M2Only extends Command {
 
     await checkDocker(writeLog);
 
-    const { magentoDirName, magentoAccessKey, magentoSecretKey } = await getMagentoDetails();
+    const { magentoDirName, magentoAccessKey, magentoSecretKey } =
+      await getMagentoDetails();
 
-    const magentoDomain = await getMagentoDomainName(t("command.generate_store.magento.domain"));
+    const magentoDomain = await getMagentoDomainName(
+      t("command.generate_store.magento.domain")
+    );
 
     await installMagento({
       isInstallMagento: true,

@@ -24,6 +24,8 @@ describe("defaultErrorHandler", () => {
     defaultErrorHandler(error, mockReq as any, mockRes as any);
 
     expect(mockRes.status).toHaveBeenCalledWith(500);
-    expect(mockRes.send).toHaveBeenCalledWith("ServerError: Something went wrong. Please, check the logs for more details.");
+    expect(mockRes.send).toHaveBeenCalledWith(
+      "ServerError: Something went wrong. Please, check the logs for more details."
+    );
   });
 });

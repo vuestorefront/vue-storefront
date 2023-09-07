@@ -8,11 +8,16 @@ interface CreateIntegrationBoilerplateOptions {
   framework: string;
 }
 
-export const createIntegrationBoilerplate = async ({ projectDir, framework }: CreateIntegrationBoilerplateOptions): Promise<string> => {
+export const createIntegrationBoilerplate = async ({
+  projectDir,
+  framework,
+}: CreateIntegrationBoilerplateOptions): Promise<string> => {
   const sp = spinner();
 
   log(
-    `Creating integration boilerplate in ${picocolors.green(projectDir)} directory${
+    `Creating integration boilerplate in ${picocolors.green(
+      projectDir
+    )} directory${
       framework ? `, using ${picocolors.green(framework)} framework...` : ""
     }`
   );
@@ -20,7 +25,8 @@ export const createIntegrationBoilerplate = async ({ projectDir, framework }: Cr
   sp.start("Cloning integration boilerplate...");
   await cloneGitRepository({
     projectDir,
-    gitRepositoryURL: "https://github.com/vuestorefront/integration-boilerplate.git",
+    gitRepositoryURL:
+      "https://github.com/vuestorefront/integration-boilerplate.git",
   });
   sp.stop("Integration boilerplate has been cloned successfully!");
 

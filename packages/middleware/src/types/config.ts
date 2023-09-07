@@ -16,7 +16,12 @@ export type Integrations<TIntegrationsContext extends TObject = TObject> = {
     : never;
 };
 
-export interface MiddlewareConfig<TIntegrationsContext extends Record<string, IntegrationContext> = Record<string, IntegrationContext>> {
+export interface MiddlewareConfig<
+  TIntegrationsContext extends Record<string, IntegrationContext> = Record<
+    string,
+    IntegrationContext
+  >
+> {
   integrations: Integrations<TIntegrationsContext>;
   helmet?: boolean | Readonly<HelmetOptions>;
 }
