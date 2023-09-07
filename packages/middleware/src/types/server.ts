@@ -51,14 +51,14 @@ export type CreateApiClientFn<CONFIG extends ApiClientConfig, API extends ApiMet
   _predefinedExtensions?: ApiClientExtension<API>[];
 };
 
-export interface ApiClientFactoryParams<CONFIG extends ApiClientConfig, API extends ApiMethods, CLIENT = any> {
+export interface ApiClientFactoryParams<CONFIG extends ApiClientConfig, API extends ApiMethods = {}, CLIENT = any> {
   api: API | ApiMethodsFactory<API, CONFIG>;
   isProxy?: boolean;
   onCreate: (config: CONFIG, headers?: Record<string, string>) => { client: CLIENT; config: ApiClientConfig };
   extensions?: ApiClientExtension<API>[];
 }
 
-export interface ApiClientFactory<CONFIG extends ApiClientConfig = any, API extends ApiMethods = Record<string, any>> {
+export interface ApiClientFactory<CONFIG extends ApiClientConfig = any, API extends ApiMethods = {}> {
   createApiClient: CreateApiClientFn<CONFIG, API>;
   /**
    * Sets up integration config, runs once.
