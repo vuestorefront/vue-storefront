@@ -1,0 +1,194 @@
+# Creating a SDK module
+
+:::warning
+This section covers how to create an integration SDK module. If you're looking for a ready-to-use integration, please check out the [Modules](../modules/index.md) section.
+:::
+
+## Creating the integration SDK module
+
+To start creating the SDK module, create a new folder called `sdk` in the `src` folder of your integration. This package will contain your integration SDK module.
+
+First, you should create the `index.ts` file. It will be the entry point for the SDK module. It should look like this:
+
+```ts
+// index.ts
+export const myIntegrationModule = (options: any) => ({
+  // TODO: create a module here
+});
+```
+
+Think of the `options` object as a set of configuration options for your integration. It can contain the `apiUrl` or any other information that you need to configure the module.
+
+```ts
+// types/options.ts
+
+export interface Options {
+  apiUrl: string;
+}
+```
+
+Once you have the Options interface defined, you can use it in the `index.ts` file:
+
+```ts
+// index.ts
+import { Options } from './types/options';
+
+export const myIntegrationModule = (options: Options) => ({
+  // TODO: create a module here
+});
+```
+
+Now, let's verify what `myIntegrationModule` should return. To help with that, we've created a `Module` interface that you can use and extend:
+
+```ts
+// index.ts
+import { Module } from '@vue-storefront/sdk';
+import { Options } from './types/options';
+
+interface MyIntegrationModule extends Module {}
+
+export const myIntegrationModule = (options: Options): MyIntegrationModule => ({
+  connector: {},
+  utils: {},
+  subscribers: {},
+});
+```
+
+In the example, we're going to create a connector that will call the `exampleEndpoint` prepared in the [Creating an API Client](./api-client.md) section.
+To do that, we need a connector. A connector is a set of functions that will be available in the frontend application. It's a communication layer between the frontend application and the API client.
+
+```ts
+// connector.ts
+import { Options } from './types/options';
+
+export const myIntegrationConnector = (options: Options) => {
+  return {}; // Connector methods
+};
+```
+
+A connector should return a set of methods, and each method should use a configured client to call the server middleware. In this example we're going to use `axios` to call the `exampleEndpoint`:
+
+```ts
+// client/index.ts
+import axios from './axios';
+
+const client = axios.create();
+
+export { client };
+```
+
+The client should be configured when the connector is initialized:
+
+```ts
+// connector.ts
+import { client } from './client';
+import { Options } from './types/options';
+
+export const myIntegrationConnector = (options: Options) => {
+  client.defaults.baseURL = options.apiUrl;
+  return {}; // Connector methods
+};
+```
+
+Now, let's create a method that will call the `exampleEndpoint`:
+
+```ts
+// methods/exampleMethod.ts
+import { client } from '../client';
+
+export const exampleMethod = async (params: any) => {
+  const response = await client.get('/exampleEndpoint', { params });
+  return response.data;
+};
+```
+
+Let's also export the method from `methods/index.ts` file:
+
+```ts
+// methods/index.ts
+export { exampleMethod } from './exampleMethod';
+```
+
+Now, you can import the method in the connector and return it:
+
+```ts
+// connector.ts
+import { client } from './client';
+import * as methods from './methods';
+import { Options } from './types/options';
+
+export const myIntegrationConnector = (options: Options) => {
+  client.defaults.baseURL = options.apiUrl;
+  return methods;
+};
+```
+
+The connector is ready. You can import it in the `index.ts` file and return it in the `myIntegrationModule` function:
+
+```ts
+// index.ts
+import { Module } from '@vue-storefront/sdk';
+import { myIntegrationConnector } from './connector';
+import { Options } from './types/options';
+
+interface MyIntegrationModule extends Module {
+  connector: ReturnType<typeof myIntegrationConnector>;
+}
+
+export const myIntegrationModule = (options: Options): MyIntegrationModule => ({
+  connector: myIntegrationConnector(options),
+  utils: {},
+  subscribers: {},
+});
+```
+
+Last but not least, you should also export the `client` to allow extending the module:
+
+```ts
+// index.ts
+import { Module } from '@vue-storefront/sdk';
+import { myIntegrationConnector } from './connector';
+import { Options } from './types/options';
+
+interface MyIntegrationModule extends Module {
+  connector: ReturnType<typeof myIntegrationConnector>;
+}
+
+export const myIntegrationModule = (options: Options): MyIntegrationModule => ({
+  connector: myIntegrationConnector(options),
+  utils: {},
+  subscribers: {},
+});
+
+export { client } from './client';
+```
+
+Your integration SDK module is ready to use.
+
+## Using the module
+
+:::warning Building your integration module
+This guide described the details of creating the integration module, but it does not cover the details of the building process. You can find the tools and configuration we're using by default in our integrations in our [integration boilerplate repository](https://github.com/vuestorefront/integration-boilerplate)
+:::
+
+When your integration SDK module is ready, you can use it in the front-end application. To do that, you need to import the module in the `sdk.config.ts` file:
+
+```ts
+// sdk.config.ts
+import { myIntegrationModule, MyIntegrationModule } from '@vsf-enterprise/my-integration-sdk';
+import { initSDK, buildModule } from '@vsf-enterprise/sdk';
+
+const sdkConfig = {
+  myIntegration: buildModule<MyIntegrationModule>(myIntegrationModule, {
+    apiUrl: 'http://localhost:8181/myIntegration',
+  }),
+};
+
+export const sdk = initSDK<typeof sdkConfig>(sdkConfig);
+```
+
+The `exampleMethod` is ready to be used in your components:
+
+```ts
+await sdk.myIntegration.exampleMethod({ param: 'value' });
+```

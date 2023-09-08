@@ -1,5 +1,5 @@
-import git from 'isomorphic-git';
-import validateGitRepositoryURL from './validateGitRepositoryURL';
+import git from "isomorphic-git";
+import validateGitRepositoryURL from "./validateGitRepositoryURL";
 
 /** Extracts a suggestion for git repository URL from error. */
 const extractSuggestionFromError = async (

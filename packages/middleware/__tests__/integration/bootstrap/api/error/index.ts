@@ -1,7 +1,7 @@
 export const error = () => {
-  return {
+  return Promise.resolve({
     status: 404,
-    message: 'error',
-    error: true
-  };
+    message: "error",
+    error: true,
+  });
 };

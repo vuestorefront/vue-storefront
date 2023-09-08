@@ -1,10 +1,10 @@
-import { t } from 'i18next';
-import git from 'isomorphic-git';
-import extractSuggestionFromError from './extractSuggestionFromError';
-import validateGitRepositoryURL from './validateGitRepositoryURL';
+import { t } from "i18next";
+import git from "isomorphic-git";
+import { text, isCancel, cancel, confirm } from "@clack/prompts";
+import extractSuggestionFromError from "./extractSuggestionFromError";
+import validateGitRepositoryURL from "./validateGitRepositoryURL";
 
-import { text, isCancel, cancel, confirm } from '@clack/prompts';
-import { simpleLog } from '../magento2/functions/terminalHelpers';
+import { simpleLog } from "../magento2/functions/terminalHelpers";
 
 const validateURL = async (url: string): Promise<void | any> => {
   const error = await validateGitRepositoryURL(url);
@@ -12,8 +12,8 @@ const validateURL = async (url: string): Promise<void | any> => {
   if (error) {
     simpleLog(
       error instanceof git.Errors.UrlParseError
-        ? t<string>('domain.git_repository_url.is_invalid')
-        : t<string>('domain.git_repository_url.was_not_found')
+        ? t<string>("domain.git_repository_url.is_invalid")
+        : t<string>("domain.git_repository_url.was_not_found")
     );
   }
 
@@ -29,12 +29,12 @@ const suggestURL = async (url: string): Promise<string | null> => {
 const getGitRepositoryURL = async (message: string): Promise<string> => {
   // URL
   const answer = await text({
-    message
+    message,
   });
 
   if (isCancel(answer)) {
-    cancel('Installation cancelled');
-    return '';
+    cancel("Installation cancelled");
+    return "";
   }
 
   // Validation
@@ -46,16 +46,16 @@ const getGitRepositoryURL = async (message: string): Promise<string> => {
   const suggestion = await suggestURL(validateResult);
 
   if (suggestion) {
-    const answer = await confirm({
-      message: t('domain.git_repository_url.suggestion', { suggestion })
+    const suggestionAnswer = await confirm({
+      message: t("domain.git_repository_url.suggestion", { suggestion }),
     });
 
-    if (isCancel(answer)) {
-      cancel('Installation cancelled');
-      return '';
+    if (isCancel(suggestionAnswer)) {
+      cancel("Installation cancelled");
+      return "";
     }
 
-    if (answer) return suggestion;
+    if (suggestionAnswer) return suggestion;
   }
 
   return getGitRepositoryURL(message);

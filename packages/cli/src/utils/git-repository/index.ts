@@ -1,6 +1,6 @@
-import * as fs from 'fs';
-import git from 'isomorphic-git';
-import http from 'isomorphic-git/http/node';
+import * as fs from "fs";
+import git from "isomorphic-git";
+import http from "isomorphic-git/http/node";
 
 type Options = {
   projectDir: string;
@@ -16,6 +16,6 @@ export const cloneGitRepository = async (options: Options): Promise<void> => {
     fs,
     http,
     dir: projectDir,
-    url: gitRepositoryURL
+    url: gitRepositoryURL,
   });
 };

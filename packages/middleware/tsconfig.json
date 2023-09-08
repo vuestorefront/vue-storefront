@@ -1,23 +1,12 @@
 {
+  "extends": "@vue-storefront/integrations-tsconfig/tsconfig",
   "compilerOptions": {
+    "baseUrl": ".",
     "outDir": "./lib",
-    "esModuleInterop": true,
-    "target": "ES2019",
-    "module": "ES2015",
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "noEmitHelpers": true,
-    "sourceMap": true,
+    "declarationDir": "./lib",
     "declaration": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": "./",
-    "lib": [
-      "ES2019",
-      "ES2020",
-      "DOM"
-    ],
-    "strict": false,
+    "rootDir": "./src"
   },
-  "exclude": ["node_modules", "**/*.spec.ts", "__tests__"]
+  "exclude": ["node_modules"],
+  "include": ["src/**/*.ts"]
 }

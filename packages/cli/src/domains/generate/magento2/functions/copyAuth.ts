@@ -1,6 +1,6 @@
-import { spawn } from 'child_process';
-import fs from 'fs';
-import path from 'path';
+import { spawn } from "child_process";
+import fs from "fs";
+import path from "path";
 
 /** Copy auth.json file to Docker container */
 const copyAuth = async (
@@ -9,29 +9,29 @@ const copyAuth = async (
   secretKey: string
 ) => {
   const options = {
-    cwd: magentoDirName
+    cwd: magentoDirName,
   };
 
   const authFile = await fs.readFileSync(
-    path.join(magentoDirName, 'src/auth.json.sample'),
-    'utf-8'
+    path.join(magentoDirName, "src/auth.json.sample"),
+    "utf-8"
   );
 
   await fs.writeFileSync(
-    path.join(magentoDirName, 'src/auth.json'),
+    path.join(magentoDirName, "src/auth.json"),
     authFile
       .replace(/<public-key>/g, accessKey)
       .replace(/<private-key>/g, secretKey),
-    'utf-8'
+    "utf-8"
   );
 
   const copyToContainer = spawn(
-    'bin/copytocontainer',
-    ['src/auth.json'],
+    "bin/copytocontainer",
+    ["src/auth.json"],
     options
   );
 
-  copyToContainer.on('close', () => {});
+  copyToContainer.on("close", () => undefined);
 };
 
 export default copyAuth;

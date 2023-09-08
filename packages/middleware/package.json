@@ -1,34 +1,38 @@
 {
   "name": "@vue-storefront/middleware",
-  "version": "2.8.0",
-  "description": "",
+  "version": "3.5.0",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
-  "scripts": {
-    "build": "rimraf lib && rollup -c",
-    "test": "jest",
-    "prepublish": "yarn build",
-    "test:unit": "jest --testMatch='<rootDir>/**/__tests__/unit/**/*spec.[jt]s?(x)'",
-    "test:integration": "jest --testMatch='<rootDir>/**/__tests__/integration/**/*spec.[jt]s?(x)'"
-  },
-  "author": "Vue Storefront",
   "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prepare": "husky install",
+    "dev": "rollup -c -w",
+    "build": "rimraf lib && rollup -c",
+    "test": "yarn test:unit && yarn test:integration",
+    "test:unit": "jest -c jest.config.ts --coverage",
+    "test:integration": "echo No integration tests",
+    "lint": "eslint . --ext .ts,.js",
+    "prepublish": "yarn build",
+    "changesets:version": "yarn changeset version && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install",
+    "changesets:publish": "yarn build && yarn changeset publish"
+  },
   "dependencies": {
-    "@vue-storefront/core": "^2.8.0",
-    "consola": "2.15.3",
-    "cookie-parser": "^1.4.5",
+    "consola": "^2.15.3",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "helmet": "^5.0.2"
+    "express": "^4.18.1",
+    "helmet": "^5.1.1"
   },
   "devDependencies": {
-    "@types/express": "^4.11.1",
-    "@types/node": "^12.12.2",
-    "nock": "^13.2.9",
-    "supertest": "^6.3.1"
+    "@types/body-parser": "^1.19.2",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "supertest": "^6.3.3"
   },
-  "publishConfig": {
-    "access": "public"
-  }
+  "packageManager": "yarn@1.22.10"
 }

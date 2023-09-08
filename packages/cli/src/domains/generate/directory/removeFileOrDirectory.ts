@@ -1,6 +1,5 @@
-import rimraf from 'rimraf';
-import { promisify } from 'util';
+import { rimraf } from "rimraf";
 
-const removeFileOrDirectory = promisify(rimraf);
+const removeFileOrDirectory = rimraf;
 
 export default removeFileOrDirectory;

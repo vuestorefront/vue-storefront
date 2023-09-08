@@ -1,4 +1,6 @@
-export const getSDKMethodCode = (endpoint: string) => `import { client } from '../../client';
+export const getSDKMethodCode = (
+  endpoint: string
+) => `import { client } from '../../client';
 import { TODO } from '../../types';
 
 /**

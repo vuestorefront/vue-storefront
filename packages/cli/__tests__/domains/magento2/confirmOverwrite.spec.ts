@@ -1,33 +1,33 @@
-import { t, TFunction } from 'i18next';
-import { stdin, MockSTDIN } from 'mock-stdin';
-import { wait } from '../../../src/domains/generate/async';
-import { identity } from '../../../src/domains/generate/math';
-import mockFileSystem from 'mock-fs';
-import confirmOverwrite from '../../../src/domains/generate/magento2/prompts/confirmOverwrite';
+import { t, TFunction } from "i18next";
+import { stdin, MockSTDIN } from "mock-stdin";
+import mockFileSystem from "mock-fs";
+import { wait } from "../../../src/domains/generate/async";
+import { identity } from "../../../src/domains/generate/math";
+import confirmOverwrite from "../../../src/domains/generate/magento2/prompts/confirmOverwrite";
 
-jest.mock('i18next');
+jest.mock("i18next");
 
-const ENTER_KEY = '\x0D';
+const ENTER_KEY = "\x0D";
 
-describe('confirmOverwrite | Magento tests', () => {
+describe("confirmOverwrite | Magento tests", () => {
   let io: MockSTDIN;
-  let output = '';
+  let output = "";
 
   beforeEach(() => {
     io = stdin();
-    output = '';
+    output = "";
 
     mockFileSystem({
       magentoDir: {
-        'getting-started.md': '# Getting Started\n'
-      }
+        "getting-started.md": "# Getting Started\n",
+      },
     });
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     (t as jest.MockedFunction<TFunction>).mockImplementation(identity);
 
-    jest.spyOn(process.stdout, 'write').mockImplementation((message) => {
+    jest.spyOn(process.stdout, "write").mockImplementation((message) => {
       output += message;
       return true;
     });
@@ -37,26 +37,26 @@ describe('confirmOverwrite | Magento tests', () => {
     mockFileSystem.restore();
   });
 
-  it('user can confirm overwrite', async () => {
+  it("user can confirm overwrite", async () => {
     const answer = async () => {
-      expect(output).toContain('command.generate_store.magento.overwrite');
+      expect(output).toContain("command.generate_store.magento.overwrite");
 
       io.send(ENTER_KEY);
 
       await wait(100);
 
-      expect(output).toContain('command.generate_store.progress.delete_start');
+      expect(output).toContain("command.generate_store.progress.delete_start");
 
       await wait(100);
 
-      expect(output).toContain('command.generate_store.progress.delete_end');
+      expect(output).toContain("command.generate_store.progress.delete_end");
     };
 
     wait(100).then(answer);
 
     await confirmOverwrite({
-      message: 'command.generate_store.magento.overwrite',
-      magentoDirName: 'magentoDir'
+      message: "command.generate_store.magento.overwrite",
+      magentoDirName: "magentoDir",
     });
   });
 });

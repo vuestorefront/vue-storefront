@@ -1,12 +1,12 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import execa from 'execa';
-import processMagicComments from './processMagicComments';
-import { removeFileOrDirectory } from '../directory';
+import * as fs from "fs";
+import * as path from "path";
+import execa from "execa";
+import processMagicComments from "./processMagicComments";
+import { removeFileOrDirectory } from "../directory";
 
-const VSF_TU_CONFIG_FILENAME = 'theme-utils.config.js';
+const VSF_TU_CONFIG_FILENAME = "theme-utils.config.js";
 
-const NUXT_CONFIG_FILENAME = 'nuxt.config.js';
+const NUXT_CONFIG_FILENAME = "nuxt.config.js";
 
 type Options = {
   projectPath: string;
@@ -25,7 +25,7 @@ const inheritTheme = async (options: Options) => {
     to: '${projectPath}',
     from: [
       {
-        path: '${path.join(integrationPath, '_theme')}',
+        path: '${path.join(integrationPath, "_theme")}',
         watch: false
       },
       {
@@ -40,18 +40,18 @@ const inheritTheme = async (options: Options) => {
 `
   );
 
-  await execa(require.resolve('@vue-storefront/theme-utilities'), [
-    '--config',
+  await execa(require.resolve("@vue-storefront/theme-utilities"), [
+    "--config",
     configPath,
-    '--output',
-    projectPath
+    "--output",
+    projectPath,
   ]);
 
   await removeFileOrDirectory(configPath);
 
   await processMagicComments(path.join(projectPath, NUXT_CONFIG_FILENAME));
 
-  await removeFileOrDirectory(path.join(projectPath, '_theme'));
+  await removeFileOrDirectory(path.join(projectPath, "_theme"));
 };
 
 export default inheritTheme;

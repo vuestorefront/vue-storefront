@@ -1,0 +1,15 @@
+name: VSF Continuous Delivery
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      
+jobs:
+  release-packages:
+    name: "Release NPM Packages"
+    uses: vuestorefront/integrations-github-workflows/.github/workflows/continuous-delivery.yml@main
+    secrets: inherit
+    with:
+      enterprise: false

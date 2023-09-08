@@ -1,7 +1,7 @@
-import { spawn } from 'child_process';
-import { spinner } from '@clack/prompts';
-import picocolors from 'picocolors';
-import { t } from 'i18next';
+import { spawn } from "child_process";
+import { spinner } from "@clack/prompts";
+import picocolors from "picocolors";
+import { t } from "i18next";
 
 /** Generate sample data and upgrade */
 const installDeps = async (
@@ -9,29 +9,29 @@ const installDeps = async (
   writeLog: (message: string) => void
 ) => {
   const options = {
-    cwd: vsfDirName
+    cwd: vsfDirName,
   };
 
   const sp = spinner();
 
   return new Promise((resolve) => {
-    const install = spawn('yarn', options);
+    const install = spawn("yarn", options);
 
     sp.start(
-      picocolors.cyan(t('command.generate_store.progress.install_deps_start'))
+      picocolors.cyan(t("command.generate_store.progress.install_deps_start"))
     );
 
-    install.stdout.on('data', (data) => {
+    install.stdout.on("data", (data) => {
       writeLog(data.toString());
     });
 
-    install.stderr.on('data', (data) => {
+    install.stderr.on("data", (data) => {
       writeLog(data.toString());
     });
 
-    install.on('close', () => {
+    install.on("close", () => {
       sp.stop(
-        picocolors.green(t('command.generate_store.progress.install_deps_end'))
+        picocolors.green(t("command.generate_store.progress.install_deps_end"))
       );
       resolve(1);
     });

@@ -1,0 +1,35 @@
+{
+  "name": "@vue-storefront/sdk",
+  "license": "MIT",
+  "version": "1.1.1",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rimraf lib && rollup -c",
+    "dev": "rimraf lib && rollup -c -w",
+    "lint": "eslint . --ext .ts",
+    "test": "yarn test:unit && yarn test:integration",
+    "test:unit": "jest ./src/__tests__/unit -c ./jest.config.unit.ts --coverage",
+    "test:integration": "jest ./src/__tests__/integration -c ./jest.config.integration.ts --runInBand --coverage",
+    "prepublishOnly": "yarn build",
+    "changesets:version": "yarn changeset version && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install",
+    "changesets:publish": "yarn run build && yarn changeset publish"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.0.3",
+    "@types/node": "^18.11.17",
+    "babel-cli": "^6.26.0",
+    "babel-preset-node": "^5.1.1",
+    "nodemon": "^2.0.20",
+    "ts-jest": "^29.0.2",
+    "ts-node-dev": "^2.0.0"
+  },
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=16.0.0"
+  }
+}

@@ -1,68 +1,90 @@
-const STATUS_FIELDS = ['status', 'statusCode'] as const;
+import { includes } from "./utils";
+import {
+  AxiosError,
+  StatusCode,
+  UnknownError,
+  ApolloError,
+  ErrorObject,
+} from "../types";
 
-export type AxiosError = {
-  isAxiosError: boolean;
-  response: {
-    status: number
-  }
+const STATUS_FIELDS = ["status", "statusCode"] as const;
+
+export type Status = (typeof STATUS_FIELDS)[number];
+
+function isErrorObject(obj: unknown): obj is ErrorObject<Status> {
+  // typeof null is 'object' https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#typeof_null
+  if (obj === null) return false;
+  return typeof obj === "object";
 }
 
-export type ApolloError = {
-  networkError?: number
-  code: string | number
+function isAxiosError(error: ErrorObject<Status>): error is AxiosError {
+  return "isAxiosError" in error;
 }
 
-type Status = typeof STATUS_FIELDS[number]
+function isApolloError(error: ErrorObject<Status>): error is ApolloError {
+  return "networkError" in error || "code" in error;
+}
 
-type StatusCode = number | null
-
-export type UnknownError = { [K in Status]?: number; } & { [x: string]: UnknownError };
-
-function reduceStatus(narrowObject: UnknownError, depth: number) {
-  return function(statusCode: StatusCode, c: string): StatusCode {
+function reduceStatus(narrowObject: UnknownError<Status>, depth: number) {
+  return function reduceStatusNested(
+    statusCode: StatusCode,
+    key: string
+  ): StatusCode {
     if (statusCode) {
       return statusCode;
     }
 
-    if (STATUS_FIELDS.includes(c as Status)) {
-      return narrowObject[c as Status];
+    if (includes(STATUS_FIELDS, key)) {
+      return narrowObject[key] || null;
     }
     const newDepth = depth + 1;
 
-    return obtainStatusCode(narrowObject[c], newDepth);
+    // eslint-disable-next-line no-use-before-define
+    return obtainStatusCode(narrowObject[key], newDepth);
   };
 }
 
-function obtainStatusCode(givenObject: UnknownError, depth = 1): StatusCode {
+function obtainStatusCode(
+  givenObject: UnknownError<Status>,
+  depth = 1
+): StatusCode {
   const obj = givenObject || {};
 
   if (depth > 3) {
-    return;
+    return null;
   }
-  return Object.keys(obj).reduce(reduceStatus(obj, depth), null) as unknown as number;
+
+  return Object.keys(obj).reduce(reduceStatus(obj, depth), null);
 }
 
 function getAxiosStatusCode(error: AxiosError) {
-  if (error?.isAxiosError) {
-    return error.response.status;
-  }
+  return error.response.status;
 }
 
 function getApolloStatusCode(error: ApolloError) {
-  if (error?.networkError) {
+  if (error.networkError) {
     return 500;
   }
-
-  if (error?.code) {
-    return typeof error.code === 'string' ? 400 : error.code;
+  if (error.code) {
+    return typeof error.code === "string" ? 400 : error.code;
   }
+  return undefined;
 }
 
-function getAgnosticStatusCode(error: AxiosError | ApolloError | UnknownError): number {
-  return getAxiosStatusCode(error as AxiosError) ||
-    getApolloStatusCode(error as ApolloError) ||
-    obtainStatusCode(error as UnknownError) ||
-    500;
+function getCodeFromError(error: unknown) {
+  if (!isErrorObject(error)) {
+    return undefined;
+  }
+  if (isAxiosError(error)) {
+    return getAxiosStatusCode(error);
+  }
+  if (isApolloError(error)) {
+    return getApolloStatusCode(error);
+  }
+
+  return obtainStatusCode(error);
 }
 
-export default getAgnosticStatusCode;
+export function getAgnosticStatusCode(error: unknown): number {
+  return getCodeFromError(error) || 500;
+}

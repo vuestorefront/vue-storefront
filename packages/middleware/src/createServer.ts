@@ -1,87 +1,75 @@
-import express, { Request, Response, Express } from 'express';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import consola from 'consola';
-import helmet, { HelmetOptions } from 'helmet';
-import { MiddlewareConfig, ApiClientExtension, CustomQuery } from '@vue-storefront/core';
-import { registerIntegrations } from './integrations';
-import getAgnosticStatusCode from './helpers/getAgnosticStatusCode';
+import consola from "consola";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import type { Express } from "express";
+import express from "express";
+import type { HelmetOptions } from "helmet";
+import helmet from "helmet";
+import { registerIntegrations } from "./integrations";
+import type { Helmet, IntegrationContext, MiddlewareConfig } from "./types";
+import {
+  prepareApiFunction,
+  prepareErrorHandler,
+  prepareArguments,
+  callApiFunction,
+} from "./handlers";
 
 const app = express();
-
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
-app.disable('x-powered-by');
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
+app.disable("x-powered-by");
 
-interface MiddlewareContext {
-  req: Request;
-  res: Response;
-  extensions: ApiClientExtension[];
-  customQueries: Record<string, CustomQuery>;
-}
-
-interface RequestParams {
-  integrationName: string;
-  functionName: string;
-}
-
-interface Helmet extends HelmetOptions {
-  helmet?: boolean | HelmetOptions;
-}
-
-async function createServer(config: MiddlewareConfig): Promise<Express> {
-  consola.info('Middleware starting....');
-
+async function createServer<
+  TIntegrationContext extends Record<string, IntegrationContext>
+>(config: MiddlewareConfig<TIntegrationContext>): Promise<Express> {
+  consola.info("Middleware starting....");
   const options: Helmet = {
     contentSecurityPolicy: false,
     crossOriginOpenerPolicy: false,
     crossOriginEmbedderPolicy: false,
     permittedCrossDomainPolicies: {
-      permittedPolicies: 'none'
+      permittedPolicies: "none",
     },
-    ...(config.helmet || {}) as HelmetOptions
+    ...((config.helmet || {}) as HelmetOptions),
   };
-  const isHelmetEnabled = config.helmet === true || (config.helmet && Object.keys(config.helmet).length > 0);
+  const isHelmetEnabled =
+    config.helmet === true ||
+    (config.helmet && Object.keys(config.helmet).length > 0);
   if (isHelmetEnabled) {
     app.use(helmet(options));
-    consola.info('VSF `Helmet` middleware added');
+    consola.info("VSF `Helmet` middleware added");
   }
 
-  consola.info('Loading integrations...');
+  consola.info("Loading integrations...");
   const integrations = await registerIntegrations(app, config.integrations);
-  consola.success('Integrations loaded!');
+  consola.success("Integrations loaded!");
 
-  app.post('/:integrationName/:functionName', async (req: Request, res: Response) => {
-    const { integrationName, functionName } = req.params as any as RequestParams;
+  app.post(
+    "/:integrationName/:functionName",
+    prepareApiFunction(integrations),
+    prepareErrorHandler(integrations),
+    prepareArguments,
+    callApiFunction
+  );
+  app.get(
+    "/:integrationName/:functionName",
+    prepareApiFunction(integrations),
+    prepareErrorHandler(integrations),
+    prepareArguments,
+    callApiFunction
+  );
 
-    if (!integrations[integrationName]) {
-      const errMsg = `"${integrationName}" integration is not configured. Please, check the request path or integration configuration.`;
-
-      res.status(404);
-      res.send(errMsg);
-
-      return;
-    }
-
-    const { apiClient, configuration, extensions, customQueries, initConfig } = integrations[integrationName];
-    const middlewareContext: MiddlewareContext = { req, res, extensions, customQueries };
-    const createApiClient = apiClient.createApiClient.bind({ middleware: middlewareContext });
-    const apiClientInstance = createApiClient({ ...configuration, ...initConfig });
-    const apiFunction = apiClientInstance.api[functionName];
-
-    try {
-      if (!(Symbol.iterator in Object(req.body))) req.body = [req.body];
-      const platformResponse = await apiFunction(...req.body);
-      res.send(platformResponse);
-    } catch (error) {
-      consola.error(error);
-      res.status(getAgnosticStatusCode(error));
-      res.send('ServerError: Response not successful. Please, check server logs for more details.');
-    }
+  app.get("/healthz", (_req, res) => {
+    res.end("ok");
   });
 
-  consola.success('Middleware created!');
+  consola.success("Middleware created!");
   return app;
 }
 

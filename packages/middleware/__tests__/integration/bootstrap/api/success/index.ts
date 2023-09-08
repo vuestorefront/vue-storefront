@@ -1,7 +1,7 @@
 export const success = () => {
-  return {
+  return Promise.resolve({
     status: 200,
-    message: 'ok',
-    error: false
-  };
+    message: "ok",
+    error: false,
+  });
 };

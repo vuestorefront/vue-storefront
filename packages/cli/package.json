@@ -34,7 +34,7 @@
     "os-locale": "^5.0.0",
     "picocolors": "^1.0.0",
     "reasonable-filename": "^1.2.0",
-    "rimraf": "^3.0.2",
+    "rimraf": "^5.0.0",
     "ts-morph": "^18.0.0"
   },
   "devDependencies": {
@@ -42,13 +42,11 @@
     "@types/inquirer": "^9.0.2",
     "@types/mock-fs": "^4.13.1",
     "@types/node": "^16.18.2",
-    "@types/rimraf": "^3.0.2",
-    "eslint": "^8.26.0",
     "mock-fs": "^5.1.4",
     "mock-stdin": "^1.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "^4.6.4",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "typescript": "^4.6.4"
   },
   "oclif": {
     "bin": "@vue-storefront/cli",
@@ -63,14 +61,12 @@
     "topicSeparator": " "
   },
   "scripts": {
-    "build": "rimraf dist && tsc --project ./tsconfig.build.json",
-    "lint": "eslint . --ext .ts --config .eslintrc.js",
-    "postpack": "rimraf oclif.manifest.json",
-    "posttest": "yarn lint",
-    "prepack": "yarn build && oclif manifest",
-    "docs": "oclif readme",
-    "test": "jest --rootDir .",
-    "version": "oclif readme && git add README.md"
+    "build": "rimraf lib && tsc",
+    "test": "yarn test:unit && yarn test:integration",
+    "test:unit": "jest -c jest.config.ts --coverage",
+    "test:integration": "echo 'No test step created for this package'",
+    "lint": "eslint . --ext .ts,.js",
+    "prepublish": "yarn build"
   },
   "engines": {
     "node": ">=14"

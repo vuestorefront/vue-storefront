@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import * as fs from "fs";
 
 const existsDirectory = async (path: string): Promise<boolean> => {
   try {

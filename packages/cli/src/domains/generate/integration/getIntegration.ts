@@ -1,10 +1,10 @@
-import type Integration from './Integration';
-import fetchIntegrations from './fetchIntegrations';
-import { getGitRepositoryURL } from '../git-repository-url';
+import { select, isCancel } from "@clack/prompts";
+import { t } from "i18next";
+import type Integration from "./Integration";
+import fetchIntegrations from "./fetchIntegrations";
+import { getGitRepositoryURL } from "../git-repository-url";
 
-import { select, isCancel } from '@clack/prompts';
-import { logSimpleWarningMessage } from '../magento2/functions/terminalHelpers';
-import { t } from 'i18next';
+import { logSimpleWarningMessage } from "../magento2/functions/terminalHelpers";
 
 type CustomIntegration = {
   name: string;
@@ -22,22 +22,22 @@ const getIntegration = async (options: Options): Promise<Integration> => {
   const integrations: Integration[] = await fetchIntegrations();
 
   const customIntegration: CustomIntegration = {
-    name: 'Custom integration',
-    gitRepositoryURL: null
+    name: "Custom integration",
+    gitRepositoryURL: null,
   };
 
   const choices = [...integrations, customIntegration].map((integration) => ({
     name: integration.name,
-    value: integration.name
+    value: integration.name,
   }));
 
   const answer = await select({
     options: choices,
-    message
+    message,
   });
 
   if (isCancel(answer)) {
-    logSimpleWarningMessage(t('command.generate_store.message.canceled'));
+    logSimpleWarningMessage(t("command.generate_store.message.canceled"));
     process.exit(0);
   }
 
@@ -47,7 +47,7 @@ const getIntegration = async (options: Options): Promise<Integration> => {
     );
 
     if (!selectedIntegration) {
-      throw new Error('Integration not found');
+      throw new Error("Integration not found");
     }
 
     return selectedIntegration;
@@ -57,7 +57,7 @@ const getIntegration = async (options: Options): Promise<Integration> => {
     name: customIntegration.name,
     gitRepositoryURL: await getGitRepositoryURL(
       customIntegrationRepositoryMessage
-    )
+    ),
   };
 };
 

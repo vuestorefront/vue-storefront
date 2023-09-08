@@ -1,28 +1,31 @@
-import { Command } from '@oclif/core';
-import AddEndpoint from './endpoint';
-import { checkCommandAndSuggest, log } from '../../utils';
-import picocolors from 'picocolors';
+import { Command } from "@oclif/core";
+import picocolors from "picocolors";
+import AddEndpoint from "./endpoint";
+import { checkCommandAndSuggest, log } from "../../utils";
 
 const EXISTING_COMMANDS = [
   {
-    command: 'endpoint',
-    Func: AddEndpoint
-  }
+    command: "endpoint",
+    Func: AddEndpoint,
+  },
 ];
 
 export default class Add extends Command {
-  static override description = 'Create new endpoint boilerplate code';
-  static override examples = ['@vue-storefront/cli add <command> <endpoint>'];
+  static override description = "Create new endpoint boilerplate code";
+
+  static override examples = ["@vue-storefront/cli add <command> <endpoint>"];
+
   static override flags = {};
+
   static override args = [
     {
-      name: 'commandArg',
-      description: 'Name of the command'
+      name: "commandArg",
+      description: "Name of the command",
     },
     {
-      name: 'endpoint',
-      description: 'Name of the endpoint'
-    }
+      name: "endpoint",
+      description: "Name of the endpoint",
+    },
   ];
 
   async run(): Promise<void> {
@@ -33,14 +36,14 @@ export default class Add extends Command {
       commands: EXISTING_COMMANDS,
       commandArg,
       endpoint,
-      self: this
+      self: this,
     });
 
     log(
       `Command ${picocolors.green(
-        'add'
+        "add"
       )} require additional arguments. Please run ${picocolors.green(
-        '@vue-storefront/cli add --help'
+        "@vue-storefront/cli add --help"
       )} to see available options.\n`
     );
 

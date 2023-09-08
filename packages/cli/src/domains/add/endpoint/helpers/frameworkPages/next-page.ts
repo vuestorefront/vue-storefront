@@ -1,9 +1,9 @@
-import fs from 'fs';
-import { existsDirectory } from '../../../../../utils';
-import { getNextPageCode } from '..';
+import fs from "fs";
+import { existsDirectory } from "../../../../../utils";
+import { getNextPageCode } from "..";
 
 export const writeNextPageMethod = async (endpoint: string) => {
-  const nextPagesPath = './playground/app/src/pages/methods';
+  const nextPagesPath = "./playground/app/src/pages/methods";
 
   const folderExists = await existsDirectory(nextPagesPath);
 
@@ -17,5 +17,8 @@ export const writeNextPageMethod = async (endpoint: string) => {
     fs.rmSync(`${nextPagesPath}/${endpoint}.tsx`, { recursive: true });
   }
 
-  fs.writeFileSync(`${nextPagesPath}/${endpoint}.tsx`, getNextPageCode(endpoint));
+  fs.writeFileSync(
+    `${nextPagesPath}/${endpoint}.tsx`,
+    getNextPageCode(endpoint)
+  );
 };

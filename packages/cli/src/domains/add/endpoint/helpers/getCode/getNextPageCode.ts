@@ -1,6 +1,8 @@
-import { capitalizeFirst } from '../../../../../utils/capitalizeFirst';
+import { capitalizeFirst } from "../../../../../utils/capitalizeFirst";
 
-export const getNextPageCode = (endpoint: string) => `import { useState } from 'react';
+export const getNextPageCode = (
+  endpoint: string
+) => `import { useState } from 'react';
 import { sdk } from '@/pages/_app';
 import { SfButton } from '@storefront-ui/react';
 import { RenderJson } from '@/components/RenderJson';

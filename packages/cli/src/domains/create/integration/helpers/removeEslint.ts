@@ -1,30 +1,24 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
-const ESLINT_FILES = [
-  '.eslintrc.js',
-  '.eslintignore',
-  '.eslintrc.json'
-];
+const ESLINT_FILES = [".eslintrc.js", ".eslintignore", ".eslintrc.json"];
 
-const COMMITLINT_FILES = [
-  'commitlint.config.js'
-];
+const COMMITLINT_FILES = ["commitlint.config.js"];
 
-const OTHER_FILES = [
-  'CHANGELOG.md',
-  '/playground/app/exampleApp.md'
-];
+const OTHER_FILES = ["CHANGELOG.md", "/playground/app/exampleApp.md"];
 
-const removeFromPackageJson = async (directoryName: string, packageName: string): Promise<void> => {
-  const packageJSONPath = path.join(directoryName, 'package.json');
-  const packageJson = JSON.parse(fs.readFileSync(packageJSONPath, 'utf8'));
+const removeFromPackageJson = async (
+  directoryName: string,
+  packageName: string
+): Promise<void> => {
+  const packageJSONPath = path.join(directoryName, "package.json");
+  const packageJson = JSON.parse(fs.readFileSync(packageJSONPath, "utf8"));
 
   const dependencies = packageJson.dependencies || {};
   const devDependencies = packageJson.devDependencies || {};
 
-  if (packageJson['lint-staged']) {
-    delete packageJson['lint-staged'];
+  if (packageJson["lint-staged"]) {
+    delete packageJson["lint-staged"];
   }
 
   // Loop through the dependencies section
@@ -47,7 +41,10 @@ const removeFromPackageJson = async (directoryName: string, packageName: string)
   fs.writeFileSync(packageJSONPath, JSON.stringify(packageJson, null, 2));
 };
 
-const removeFiles = async (directoryName: string, files: string[]): Promise<void> => {
+const removeFiles = async (
+  directoryName: string,
+  files: string[]
+): Promise<void> => {
   files.forEach((file) => {
     const filePath = path.join(directoryName, file);
     if (fs.existsSync(filePath)) {
@@ -63,13 +60,15 @@ const removeFiles = async (directoryName: string, files: string[]): Promise<void
   });
 };
 
-export const removeUnwantedFiles = async (directoryName: string): Promise<void> => {
+export const removeUnwantedFiles = async (
+  directoryName: string
+): Promise<void> => {
   const rootDir = directoryName;
   const playgroundDir = `${directoryName}/playground/app`;
 
-  await removeFromPackageJson(rootDir, 'eslint');
-  await removeFromPackageJson(playgroundDir, 'eslint');
-  await removeFromPackageJson(rootDir, 'commitlint');
+  await removeFromPackageJson(rootDir, "eslint");
+  await removeFromPackageJson(playgroundDir, "eslint");
+  await removeFromPackageJson(rootDir, "commitlint");
 
   await removeFiles(rootDir, ESLINT_FILES);
   await removeFiles(playgroundDir, ESLINT_FILES);
