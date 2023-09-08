@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
+    "@changesets/cli": "^2.26.1",
     "@types/jest": "^26.0.24",
     "@types/node": "^16",
     "@vue-storefront/api-extractor-config": "^0.0.3",
