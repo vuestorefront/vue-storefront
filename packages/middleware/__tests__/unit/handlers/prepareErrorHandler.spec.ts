@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { prepareErrorHandler } from "../../../src/handlers";
-import { IntegrationsLoaded } from "../../../src/types";
+import { IntegrationsLoaded } from "../../../src/deprecated/types";
 
 describe("[middleware-handlers] prepareErrorHandler", () => {
   const integrationName = "ct";

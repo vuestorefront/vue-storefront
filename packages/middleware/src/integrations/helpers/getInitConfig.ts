@@ -1,6 +1,6 @@
 import consola from "consola";
 import { isFunction } from "../../helpers";
-import { LoadInitConfigProps, TObject } from "../../types";
+import { LoadInitConfigProps, TObject } from "../../deprecated/types";
 
 export async function getInitConfig({
   apiClient,

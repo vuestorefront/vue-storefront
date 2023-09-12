@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import { IntegrationsLoaded, MiddlewareContext } from "../../types";
+import { IntegrationsLoaded, MiddlewareContext } from "../../deprecated/types";
 
 export function prepareApiFunction(
   integrations: IntegrationsLoaded

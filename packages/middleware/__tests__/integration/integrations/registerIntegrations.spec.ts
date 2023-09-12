@@ -1,5 +1,5 @@
 import { registerIntegrations } from "../../../src/integrations";
-import { Integrations } from "../../../src/types";
+import { Integrations } from "../../../src/deprecated/types";
 
 const mockIntegrations: Integrations = {
   ct: {

@@ -1,4 +1,4 @@
-import { AnyFunction } from "../types";
+import { AnyFunction } from "../deprecated/types";
 
 export const isFunction = (x: unknown): x is AnyFunction =>
   typeof x === "function";

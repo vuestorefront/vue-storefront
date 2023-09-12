@@ -1,6 +1,6 @@
 import consola from "consola";
 import { getInitConfig } from "../../../../src/integrations/helpers";
-import { LoadInitConfigProps } from "../../../../src/types";
+import { LoadInitConfigProps } from "../../../../src/deprecated/types";
 
 jest.mock("consola");
 

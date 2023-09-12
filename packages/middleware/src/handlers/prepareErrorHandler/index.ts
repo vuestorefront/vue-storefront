@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import { IntegrationsLoaded } from "../../types";
+import { IntegrationsLoaded } from "../../deprecated/types";
 
 export function prepareErrorHandler(
   integrations: IntegrationsLoaded

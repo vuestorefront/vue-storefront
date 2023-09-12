@@ -1,5 +1,5 @@
 import { createRawExtensions } from "../../../../src/integrations/helpers";
-import { ApiClientFactory, Integration } from "../../../../src/types";
+import { ApiClientFactory, Integration } from "../../../../src/deprecated/types";
 
 describe("[createRawExtensions]", () => {
   it("should call extensions function and return fallback array value", () => {

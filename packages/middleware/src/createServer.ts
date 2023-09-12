@@ -6,7 +6,7 @@ import express from "express";
 import type { HelmetOptions } from "helmet";
 import helmet from "helmet";
 import { registerIntegrations } from "./integrations";
-import type { Helmet, IntegrationContext, MiddlewareConfig } from "./types";
+import type { Helmet, IntegrationContext, MiddlewareConfig } from "./deprecated/types";
 import {
   prepareApiFunction,
   prepareErrorHandler,

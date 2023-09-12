@@ -9,7 +9,7 @@ import {
   CreateApiClientFn,
   ExtensionHookWith,
   ExtensionWith,
-} from "../types";
+} from "../deprecated/types";
 import { isFunction } from "../helpers";
 import { applyContextToApi } from "./applyContextToApi";
 

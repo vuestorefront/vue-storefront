@@ -1,6 +1,6 @@
 import { apiClientFactory } from "../../../src/apiClientFactory";
 import { applyContextToApi } from "../../../src/apiClientFactory/applyContextToApi";
-import { MiddlewareContext } from "../../../src/types";
+import { MiddlewareContext } from "../../../src/deprecated/types";
 
 describe("apiClientFactory", () => {
   it("Should return passed config with overrides property", () => {

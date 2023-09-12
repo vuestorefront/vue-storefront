@@ -6,7 +6,7 @@ import {
   ApplyingContextHooks,
   BeforeCallParams,
   MiddlewareContext,
-} from "../types";
+} from "../deprecated/types";
 
 const nopBefore = <ARGS>({ args }: BeforeCallParams<any, ARGS>): ARGS => args;
 const nopAfter = <RESPONSE>({

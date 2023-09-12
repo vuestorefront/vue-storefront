@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { prepareApiFunction } from "../../../src/handlers";
-import { IntegrationsLoaded } from "../../../src/types";
+import { IntegrationsLoaded } from "../../../src/deprecated/types";
 
 describe("[middleware-handlers] prepareApiFunction", () => {
   const integrationName = "ct";

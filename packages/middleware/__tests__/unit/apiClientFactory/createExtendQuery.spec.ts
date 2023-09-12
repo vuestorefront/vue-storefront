@@ -1,4 +1,4 @@
-import { MiddlewareContext } from "../../../src/types";
+import { MiddlewareContext } from "../../../src/deprecated/types";
 import { createExtendQuery } from "../../../src/apiClientFactory/createExtendQuery";
 
 describe("[createExtendQuery]", () => {
