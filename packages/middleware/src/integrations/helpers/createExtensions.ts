@@ -5,7 +5,7 @@ import type {
   ApiClientExtension,
   ApiMethods,
   TObject,
-} from "../../types";
+} from "../../deprecated/types";
 
 /**
  * Imports extensions if they're represented as strings.

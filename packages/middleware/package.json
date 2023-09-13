@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/middleware",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
@@ -16,7 +16,7 @@
     "test:unit": "jest -c jest.config.ts --coverage",
     "test:integration": "echo No integration tests",
     "lint": "eslint . --ext .ts,.js",
-    "prepublish": "yarn build",
+    "prepublishOnly": "yarn build",
     "changesets:version": "yarn changeset version && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install",
     "changesets:publish": "yarn build && yarn changeset publish"
   },

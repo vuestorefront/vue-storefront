@@ -5,7 +5,7 @@ import {
   UnknownError,
   ApolloError,
   ErrorObject,
-} from "../types";
+} from "../deprecated/types";
 
 const STATUS_FIELDS = ["status", "statusCode"] as const;
 

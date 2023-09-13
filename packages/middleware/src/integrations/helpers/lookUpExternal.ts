@@ -1,5 +1,5 @@
 import { resolveDependency } from "./resolveDependency";
-import type { ApiClientExtension } from "../../types";
+import type { ApiClientExtension } from "../../deprecated/types";
 
 /**
  * Imports extensions from the current working directory if they're represented as strings.

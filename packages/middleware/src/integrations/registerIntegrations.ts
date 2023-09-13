@@ -10,7 +10,7 @@ import type {
   ApiClientFactory,
   Integrations,
   IntegrationsLoaded,
-} from "../types";
+} from "../deprecated/types";
 import { defaultErrorHandler } from "../errors/defaultErrorHandler";
 
 export async function registerIntegrations(
