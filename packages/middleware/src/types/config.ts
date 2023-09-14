@@ -42,7 +42,7 @@ export type IntegrationsConfig =
   Record<string, IntegrationConfig>;
 
 type ExtensionFromIntegration<IntegrationName, Integration extends Client> =
-  (extension: Extension2<IntegrationName, Integration>) => Extension2<IntegrationName, Integration>
+  (extension: Extension2<IntegratiőnName, Integration>) => Extension2<IntegrationName, Integration>
 
 type ExtensionsFromIntegration<Integration extends Client> = 
   (extensions: Extension[]) => Extension[]
