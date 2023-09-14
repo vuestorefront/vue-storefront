@@ -1,8 +1,4 @@
-export type BaseConfig = Record<string, any>;
-
-export type BaseMethod = (...args: any[]) => any;
-
-export type BaseClient = any;
+// Query Function Types
 
 export type CustomQueryFunction<T = any> = ({
   query,

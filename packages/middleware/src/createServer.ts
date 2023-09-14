@@ -13,7 +13,7 @@ import {
   prepareArguments,
   callApiFunction,
 } from "./handlers";
-import { MiddlewareConfig } from "./types";
+import { CreateServerParams } from "./types";
 
 const app = express();
 app.use(express.json());
@@ -26,9 +26,9 @@ app.use(
 );
 app.disable("x-powered-by");
 
-async function createServer(config: MiddlewareConfig<any>): Promise<Express> {
+async function createServer(config: CreateServerParams): Promise<Express> {
   consola.info("Middleware starting....");
-  const helmetOptions = config.options?.helmet || config.helmet || {};
+  const helmetOptions = config.helmet || config.helmet || {};
   const options = {
     contentSecurityPolicy: false,
     crossOriginOpenerPolicy: false,

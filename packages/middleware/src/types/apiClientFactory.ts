@@ -1,71 +1,71 @@
-import { BaseConfig, BaseClient } from "./common";
-import {
-  BaseContext,
-  ContextualizedApi,
-  ContextualizedMethodFactory,
-} from "./context";
-import { BaseExtension } from "./extensions";
+import { Context } from "vm";
+import { Client, Config } from "./base";
+import { ContextualizedApi, ContextualizedMethodFactory } from "./context";
+import { Extension } from "./exntensions";
 
-// BaseTypes
+// On Create Function Type
 
-export type BaseOnCreateFn = (
-  config: BaseConfig,
+export type OnCreateFunction = (
+  config: Config,
   headers?: Record<string, string>
-) => { config: BaseConfig; client: BaseClient };
+) => { config: Config; client: Client };
 
-export interface BaseApiClientFactoryParams {
+// API Client Factory Types
+
+export interface ApiClientFactoryParams {
   api: ContextualizedApi | ContextualizedMethodFactory;
-  onCreate: BaseOnCreateFn;
-  extensions?: BaseExtension[];
+  onCreate: OnCreateFunction;
+  extensions?: Extension[];
   isProxy?: boolean;
 }
 
-export interface BaseApiClient {
+export interface ApiClient {
   api: ContextualizedApi | ContextualizedMethodFactory;
-  client: BaseClient;
-  settings: BaseConfig;
+  client: Client;
+  settings: Config;
 }
 
-// Utils
+// Utility Types
 
 export type ConfigFromParams<
-  ApiClientFactoryParams extends BaseApiClientFactoryParams
-> = ReturnType<ApiClientFactoryParams["onCreate"]>["config"];
+  ApiClientFactoryParamsType extends ApiClientFactoryParams
+> = ReturnType<ApiClientFactoryParamsType["onCreate"]>["config"];
 
 export type ClientFromParams<
-  ApiClientFactoryParams extends BaseApiClientFactoryParams
-> = ReturnType<ApiClientFactoryParams["onCreate"]>["client"];
+  ApiClientFactoryParamsType extends ApiClientFactoryParams
+> = ReturnType<ApiClientFactoryParamsType["onCreate"]>["client"];
 
-export type MethodsFromExtensions<
-  ApiClientFactoryParams extends BaseApiClientFactoryParams
-> = ApiClientFactoryParams["extensions"][number]["extendApiMethods"];
+export type MethodFromExtensions<
+  ApiClientFactoryParamsType extends ApiClientFactoryParams
+> = ApiClientFactoryParamsType["extensions"][number]["extendApiMethods"];
 
-// ApiClientFactory
+// Extended ApiClient Type
 
-interface ApiClient<ApiClientFactoryParams extends BaseApiClientFactoryParams>
-  extends BaseApiClient {
-  api: ApiClientFactoryParams["api"] &
-    MethodsFromExtensions<ApiClientFactoryParams>;
-  client: ClientFromParams<ApiClientFactoryParams>;
-  settings: ConfigFromParams<ApiClientFactoryParams>;
+export interface ExtendedApiClient<
+  ApiClientFactoryParamsType extends ApiClientFactoryParams
+> extends ApiClient {
+  api: ApiClientFactoryParamsType["api"] &
+    MethodFromExtensions<ApiClientFactoryParamsType>;
+  client: ClientFromParams<ApiClientFactoryParamsType>;
+  settings: ConfigFromParams<ApiClientFactoryParamsType>;
 }
 
-export type CreateApiClientFn<
-  ApiClientFactoryParams extends BaseApiClientFactoryParams
+export type CreateApiClientFunction<
+  ApiClientFactoryParamsType extends ApiClientFactoryParams
 > = (
-  middlewareContext: BaseContext,
-  config: ConfigFromParams<ApiClientFactoryParams>,
-  customApi?: ContextualizedApi // Note: customApi is being accepted but it's never being passed during the initialization...
-) => ApiClient<ApiClientFactoryParams>;
+  middlewareContext: Context,
+  config: ReturnType<ApiClientFactoryParamsType["onCreate"]>["config"],
+  customApi?: ContextualizedApi
+) => ExtendedApiClient<ApiClientFactoryParamsType>;
 
 export interface ApiClientFactoryResult<
-  ApiClientFactoryParams extends BaseApiClientFactoryParams
+  ApiClientFactoryParamsType extends ApiClientFactoryParams
 > {
-  createApiClient: CreateApiClientFn<ApiClientFactoryParams> & {
-    _predefinedExtensions?: ApiClientFactoryParams["extensions"];
+  createApiClient: CreateApiClientFunction<ApiClientFactoryParamsType> & {
+    _predefinedExtensions?: ApiClientFactoryParamsType["extensions"];
   };
 
   init?: (
-    configuration: ConfigFromParams<ApiClientFactoryParams>
-  ) => ConfigFromParams<ApiClientFactoryParams>;
+    configuration: ReturnType<ApiClientFactoryParamsType["onCreate"]>["config"]
+  ) => ReturnType<ApiClientFactoryParamsType["onCreate"]>["config"];
 }

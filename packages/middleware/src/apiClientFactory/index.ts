@@ -1,21 +1,19 @@
 import { isFunction } from "../helpers";
 import { applyContextToApi } from "./applyContextToApi";
 import type {
-  BaseApiClientFactoryParams,
+  ApiClientFactoryParams,
   ApiClientFactoryResult,
-  CreateApiClientFn,
-} from "../types/apiClientFactory";
+  CreateApiClientFunction,
+} from "../types";
 
 export function apiClientFactory<
-  ApiClientFactoryParams extends BaseApiClientFactoryParams
+  ApiClientFactoryParamsType extends ApiClientFactoryParams
 >(
-  factoryParams: ApiClientFactoryParams
-): ApiClientFactoryResult<ApiClientFactoryParams> {
-  const createApiClientFn: CreateApiClientFn<ApiClientFactoryParams> = (
-    middlewareContext,
-    config,
-    customApi = {}
-  ) => {
+  factoryParams: ApiClientFactoryParamsType
+): ApiClientFactoryResult<ApiClientFactoryParamsType> {
+  const createApiClientFn: CreateApiClientFunction<
+    ApiClientFactoryParamsType
+  > = (middlewareContext, config, customApi = {}) => {
     const rawExtensions = middlewareContext?.extensions || [];
 
     const lifecycles = rawExtensions

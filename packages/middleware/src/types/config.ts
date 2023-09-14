@@ -1,74 +1,98 @@
 import { HelmetOptions } from "helmet";
-import { ApiClientFactoryResult } from "./apiClientFactory";
-import { BaseConfig, CustomQueryFunction } from "./common";
-import { BaseExtension } from "./extensions";
-import { BaseContext } from "./context";
+import { Client, Config } from "./base";
+import { Extension } from "./exntensions";
+import { CustomQueryFunction } from "./query";
+// import { OrchestrationMethods } from "./orchestration";
 
-export type AnyApiClient = ApiClientFactoryResult<any>;
+// Integration Config Types
 
-export interface BaseIntegrationConfig {
-  /**
-   * @deprecated
-   * Use `apiClient` instead.
-   */
+export interface IntegrationConfig {
   location?: string;
-  apiClient?: AnyApiClient;
-  configuration: BaseConfig;
-  extensions?: (extensions: BaseExtension[]) => BaseExtension[];
+  apiClient?: Client;
+  configuration: Config;
+  extensions?: (extensions: Extension[]) => Extension[];
   customQueries?: Record<string, CustomQueryFunction>;
-  initConfig?: BaseConfig;
+  initConfig?: Config;
   errorHandler?: (error: unknown, req: Request, res: Response) => void;
 }
 
-export type BaseIntegrationsConfig = Record<string, BaseIntegrationConfig>;
+// type ExtendAppParams = {
+//   app: Express;
+//   configuration: Config;
+// }
 
-export type OmitFirstArg<F> = F extends (arg1: any, ...args: infer A) => infer R
-  ? (...args: A) => R
-  : never;
+// type ExtendAppFunction2 = (params: ExtendAppParams) => Promise<void>;
 
-export type RemoveContextFromAPI<APIType> = {
-  [K in keyof APIType]: OmitFirstArg<APIType[K]>;
+type ContextualizedApi2<IntegrationName extends string, Context> = Record<
+  string,
+  (context: {getApiClient: Record<IntegrationName, Context>}, params: any) => any
+>;
+
+type Extension2<IntegrationName, Context> = {
+  name: string;
+  extendApiMethods?: Record<
+    string,
+    ContextualizedApi2<IntegrationName, Context>
+  >;
+  // extendApp?: ExtendAppFunction;
+  // hooks?: Hooks;
+}
+
+export type IntegrationsConfig =
+  Record<string, IntegrationConfig>;
+
+type ExtensionFromIntegration<IntegrationName, Integration extends Client> =
+  (extension: Extension2<IntegrationName, Integration>) => Extension2<IntegrationName, Integration>
+
+type ExtensionsFromIntegration<Integration extends Client> = 
+  (extensions: Extension[]) => Extension[]
+
+type IntegrationConfigConstructor<IntegrationConfig> = {
+  [IntegrationCode in keyof IntegrationConfig]: 
+    IntegrationCode extends 'extensions' ? (extensions: Extension[]) => [
+      ReturnType<IntegrationConfig[IntegrationCode]['extensions']>[number] extends infer ExtensionEntry ?
+        {
+          name: ExtensionEntry['name'],
+          extendApiMethods?: ContextualizedApi2<IntegrationCode, ExtensionEntry['extendApiMethods']>
+        }
+        : never
+    ] :
+    IntegrationConfig[IntegrationCode]
 };
 
-export interface OrchestrationContext<
-  IntegrationsConfig extends BaseIntegrationsConfig
-> extends Omit<BaseContext, "integrations"> {
-  extensions: ReturnType<
-    IntegrationsConfig[keyof IntegrationsConfig]["extensions"]
-  >;
-  customQueries: IntegrationsConfig[keyof IntegrationsConfig]["customQueries"];
-  getApiClient: <K extends keyof IntegrationsConfig>(
-    key: K
-  ) => {
-    api: RemoveContextFromAPI<
-      ReturnType<IntegrationsConfig[K]["apiClient"]["createApiClient"]>["api"]
-    >; // TODO: Add extensions here
-  } & Omit<
-    ReturnType<IntegrationsConfig[K]["apiClient"]["createApiClient"]>,
-    "api"
-  >;
-}
+// export type IntegrationsConfig2 =
+//   IntegrationConfigConstructor
+//   Record<string, IntegrationConfig> extends Record<infer 
 
-export interface OrchestrationMethods<
-  IntegrationsConfig extends BaseIntegrationsConfig
+export interface MiddlewareConfig2<
+  IntegrationsConfigType extends IntegrationsConfig
 > {
-  [key: string]: (
-    context: OrchestrationContext<IntegrationsConfig>,
-    params: any
-  ) => any;
-}
-
-export interface MiddlewareConfig<
-  IntegrationsConfig extends BaseIntegrationsConfig
-> {
-  integrations: IntegrationsConfig;
-  orchestration?: OrchestrationMethods<IntegrationsConfig>;
-  /**
-   * @deprecated
-   * Use `options.helmet` instead.
-   */
-  helmet?: boolean | HelmetOptions;
+  integrations: IntegrationConfigConstructor<IntegrationsConfigType>;
   options?: {
     helmet?: boolean | HelmetOptions;
   };
+}
+
+export function defineConfig2<IntegrationsConfigType extends IntegrationsConfig>(
+  config: MiddlewareConfig2<IntegrationsConfigType>
+): any {
+  return config
+}
+
+
+
+// Middleware Types
+
+export interface MiddlewareConfig<
+  IntegrationsConfigType extends IntegrationsConfig
+> {
+  integrations: IntegrationsConfigType
+  options?: {
+    helmet?: boolean | HelmetOptions;
+  };
+}
+
+export interface CreateServerParams {
+  integrations: IntegrationsConfig;
+  helmet?: boolean | HelmetOptions;
 }
