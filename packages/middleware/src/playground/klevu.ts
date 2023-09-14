@@ -13,11 +13,13 @@ const onCreate = (config: { hello: string }) => {
 
 const { createApiClient } = apiClientFactory({
   onCreate,
+  
   api: {
     hello: (context) => {
       console.log("hello", context);
     },
   },
+
   extensions: [
     {
       name: "klevuExtension",
@@ -29,5 +31,7 @@ const { createApiClient } = apiClientFactory({
     },
   ],
 });
+
+// createApiClient().api.
 
 export { createApiClient };

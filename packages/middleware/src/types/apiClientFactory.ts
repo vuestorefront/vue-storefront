@@ -44,8 +44,7 @@ export type MethodFromExtensions<
 export interface ExtendedApiClient<
   ApiClientFactoryParamsType extends ApiClientFactoryParams
 > extends ApiClient {
-  api: ApiClientFactoryParamsType["api"] &
-    MethodFromExtensions<ApiClientFactoryParamsType>;
+  api: ApiClientFactoryParamsType["api"];
   client: ClientFromParams<ApiClientFactoryParamsType>;
   settings: ConfigFromParams<ApiClientFactoryParamsType>;
 }

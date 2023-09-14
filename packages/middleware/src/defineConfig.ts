@@ -3,7 +3,7 @@ import {
   IntegrationsConfig,
   MiddlewareConfig,
   CreateServerParams,
-  defineConfig2,
+  Extension,
 } from "./types";
 import * as klevuApiClient from "./playground/klevu";
 
@@ -32,26 +32,6 @@ export function defineConfig<IntegrationsConfigType extends IntegrationsConfig>(
   };
 }
 
-// const integrationsConfig = {
-//   klevu: {
-//     apiClient: klevuApiClient,
-//     configuration: {
-//       // TODO: verify type inference
-//     },
-//     extensions: (extensions) => [
-//       ...extensions,
-//       {
-//         name: "klevuExtension",
-//         extendApiMethods: {
-//           helloWorld: (context) => {
-//             console.log("world", context);
-//           },
-//         },
-//       },
-//     ],
-//   },
-// };
-
 export const newConfig = defineConfig({
   integrations: {
     klevu: {
@@ -59,7 +39,9 @@ export const newConfig = defineConfig({
       configuration: {
         // TODO: verify type inference
       },
-      extensions: (extensions) => [
+      extensions: (
+        extensions: (typeof klevuApiClient)["createApiClient"]["_predefinedExtensions"]
+      ) => [
         ...extensions,
         {
           name: "klevuExtension",
@@ -67,45 +49,17 @@ export const newConfig = defineConfig({
             helloWorld: (context) => {
               context.getApiClient("klevu");
               console.log("world", context);
+              return "dupa";
             },
           },
         },
       ],
     },
   },
-  // orchestration: {
-  //   someMethod: (context, params) => {
-  //     const klevu = context.getApiClient("klevu");
-  //     klevu.api.hello();
-  //   },
-  // },
-});
-
-const result = defineConfig2({
-  integrations: {
-    klevu: {
-      apiClient: klevuApiClient,
-      configuration: {
-        // TODO: verify type inference
-      },
-      extensions: (extensions) => [
-        ...extensions,
-        {
-          name: "klevuExtension",
-          extendApiMethods: {
-            helloWorld: (context) => {
-              context.getApiClient("klevu");
-              console.log("world", context);
-            },
-          },
-        },
-      ],
+  orchestration: {
+    someMethod: (context, params) => {
+      const klevu = context.getApiClient("klevu");
+      klevu.api.helloWorld();
     },
   },
-  // orchestration: {
-  //   someMethod: (context, params) => {
-  //     const klevu = context.getApiClient("klevu");
-  //     klevu.api.hello();
-  //   },
-  // },
 });
