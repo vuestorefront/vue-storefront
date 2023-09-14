@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { BaseExtension } from "./extensions";
-import { BaseIntegration } from "./integrations";
+import { Integrations } from "./integrations";
 import { CustomQueryFunction, BaseConfig } from "./common";
 import { BaseApiClient } from "./apiClientFactory";
 
@@ -9,7 +9,7 @@ export interface BaseContext {
   res: Response;
   extensions?: BaseExtension[];
   customQueries?: Record<string, CustomQueryFunction>;
-  integrations: BaseIntegration[];
+  integrations: Integrations;
   getApiClient: (name: string) => BaseApiClient;
 }
 

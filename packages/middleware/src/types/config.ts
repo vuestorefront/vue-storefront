@@ -7,11 +7,17 @@ import { BaseContext } from "./context";
 export type AnyApiClient = ApiClientFactoryResult<any>;
 
 export interface BaseIntegrationConfig {
-  apiClient: AnyApiClient;
+  /**
+   * @deprecated
+   * Use `apiClient` instead.
+   */
+  location?: string;
+  apiClient?: AnyApiClient;
   configuration: BaseConfig;
   extensions?: (extensions: BaseExtension[]) => BaseExtension[];
   customQueries?: Record<string, CustomQueryFunction>;
   initConfig?: BaseConfig;
+  errorHandler?: (error: unknown, req: Request, res: Response) => void;
 }
 
 export type BaseIntegrationsConfig = Record<string, BaseIntegrationConfig>;
@@ -57,13 +63,12 @@ export interface MiddlewareConfig<
 > {
   integrations: IntegrationsConfig;
   orchestration?: OrchestrationMethods<IntegrationsConfig>;
+  /**
+   * @deprecated
+   * Use `options.helmet` instead.
+   */
   helmet?: boolean | HelmetOptions;
-}
-
-export interface LegacyConfig {
-  integrations: Record<
-    string,
-    Omit<BaseIntegrationConfig, "apiClient"> & { location: string }
-  >;
-  helmet?: boolean | HelmetOptions;
+  options?: {
+    helmet?: boolean | HelmetOptions;
+  };
 }

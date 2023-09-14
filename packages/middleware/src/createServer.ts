@@ -6,13 +6,14 @@ import express from "express";
 import type { HelmetOptions } from "helmet";
 import helmet from "helmet";
 import { registerIntegrations } from "./integrations";
-import type { Helmet, IntegrationContext, MiddlewareConfig } from "./deprecated/types";
+// import type { Helmet, IntegrationContext, MiddlewareConfig } from "./deprecated/types";
 import {
   prepareApiFunction,
   prepareErrorHandler,
   prepareArguments,
   callApiFunction,
 } from "./handlers";
+import { MiddlewareConfig } from "./types";
 
 const app = express();
 app.use(express.json());
@@ -25,22 +26,21 @@ app.use(
 );
 app.disable("x-powered-by");
 
-async function createServer<
-  TIntegrationContext extends Record<string, IntegrationContext>
->(config: MiddlewareConfig<TIntegrationContext>): Promise<Express> {
+async function createServer(config: MiddlewareConfig<any>): Promise<Express> {
   consola.info("Middleware starting....");
-  const options: Helmet = {
+  const helmetOptions = config.options?.helmet || config.helmet || {};
+  const options = {
     contentSecurityPolicy: false,
     crossOriginOpenerPolicy: false,
     crossOriginEmbedderPolicy: false,
     permittedCrossDomainPolicies: {
       permittedPolicies: "none",
     },
-    ...((config.helmet || {}) as HelmetOptions),
+    ...(helmetOptions as HelmetOptions),
   };
   const isHelmetEnabled =
-    config.helmet === true ||
-    (config.helmet && Object.keys(config.helmet).length > 0);
+    helmetOptions === true ||
+    (helmetOptions && Object.keys(helmetOptions).length > 0);
   if (isHelmetEnabled) {
     app.use(helmet(options));
     consola.info("VSF `Helmet` middleware added");

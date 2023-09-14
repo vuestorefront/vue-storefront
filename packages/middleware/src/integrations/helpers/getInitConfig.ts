@@ -1,16 +1,29 @@
 import consola from "consola";
 import { isFunction } from "../../helpers";
-import { LoadInitConfigProps, TObject } from "../../deprecated/types";
+import {
+  BaseConfig,
+  ApiClientFactoryResult,
+  BaseIntegrationConfig,
+} from "../../types";
+// import { LoadInitConfigProps, TObject } from "../../deprecated/types";
+
+interface LoadInitConfigProps {
+  apiClientFactoryResult: ApiClientFactoryResult<any>;
+  tag: string;
+  integrationConfig: BaseIntegrationConfig;
+}
 
 export async function getInitConfig({
-  apiClient,
+  apiClientFactoryResult,
   tag,
-  integration,
-}: LoadInitConfigProps): Promise<TObject> {
-  if (isFunction(apiClient?.init)) {
+  integrationConfig,
+}: LoadInitConfigProps): Promise<BaseConfig> {
+  if (isFunction(apiClientFactoryResult?.init)) {
     try {
       consola.success(`- Integration: ${tag} init function Start!`);
-      const initConfig = await apiClient.init(integration.configuration);
+      const initConfig = await apiClientFactoryResult.init(
+        integrationConfig.configuration
+      );
       consola.success(`- Integration: ${tag} init function Done!`);
 
       return initConfig;

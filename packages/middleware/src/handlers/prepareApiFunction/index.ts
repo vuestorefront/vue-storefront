@@ -1,9 +1,8 @@
 import type { RequestHandler } from "express";
-import { IntegrationsLoaded, MiddlewareContext } from "../../deprecated/types";
+// import { IntegrationsLoaded, MiddlewareContext } from "../../deprecated/types";
+import { Integrations, BaseContext } from "../../types";
 
-export function prepareApiFunction(
-  integrations: IntegrationsLoaded
-): RequestHandler {
+export function prepareApiFunction(integrations: Integrations): RequestHandler {
   return (req, res, next) => {
     const { integrationName, functionName } = req.params;
 
@@ -24,7 +23,7 @@ export function prepareApiFunction(
       initConfig,
     } = integrations[integrationName];
 
-    const middlewareContext: MiddlewareContext = {
+    const middlewareContext: BaseContext = {
       req,
       res,
       extensions,
@@ -37,13 +36,10 @@ export function prepareApiFunction(
           );
         }
 
-        return (integrations[name].apiClient.createApiClient as any)(
-          middlewareContext,
-          {
-            ...integrations[name].configuration,
-            ...integrations[name].initConfig,
-          }
-        );
+        return integrations[name].apiClient.createApiClient(middlewareContext, {
+          ...integrations[name].configuration,
+          ...integrations[name].initConfig,
+        });
       },
     };
 

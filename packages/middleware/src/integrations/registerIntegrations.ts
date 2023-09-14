@@ -6,29 +6,47 @@ import {
   getInitConfig,
   resolveDependency,
 } from "./helpers";
-import type {
-  ApiClientFactory,
-  Integrations,
-  IntegrationsLoaded,
-} from "../deprecated/types";
+// import type {
+//   ApiClientFactory,
+//   Integrations,
+//   IntegrationsLoaded,
+// } from "../deprecated/types";
 import { defaultErrorHandler } from "../errors/defaultErrorHandler";
+import {
+  Integrations,
+  BaseIntegrationsConfig,
+  ApiClientFactoryResult,
+} from "../types";
 
 export async function registerIntegrations(
   app: Express,
-  integrations: Integrations
-): Promise<IntegrationsLoaded> {
+  integrations: BaseIntegrationsConfig
+): Promise<Integrations> {
   return await Object.entries(integrations).reduce(
-    async (prevAsync, [tag, integration]) => {
-      consola.info(`- Loading: ${tag} ${integration.location}`);
+    async (prevAsync, [tag, integrationConfig]) => {
+      consola.info(`- Loading: ${tag} ${integrationConfig.location ?? ""}`);
       const prev = await prevAsync;
-      const apiClient = resolveDependency<ApiClientFactory>(
-        integration.location
+
+      let apiClientFactoryResult: ApiClientFactoryResult<any>;
+      if (integrationConfig.location) {
+        apiClientFactoryResult = resolveDependency<ApiClientFactoryResult<any>>(
+          integrationConfig.location
+        );
+      }
+      apiClientFactoryResult = integrationConfig.apiClient;
+
+      const rawExtensions = createRawExtensions(
+        apiClientFactoryResult,
+        integrationConfig
       );
-      const rawExtensions = createRawExtensions(apiClient, integration);
       const extensions = createExtensions(rawExtensions);
-      const initConfig = await getInitConfig({ apiClient, integration, tag });
+      const initConfig = await getInitConfig({
+        apiClientFactoryResult,
+        tag,
+        integrationConfig,
+      });
       const configuration = {
-        ...integration.configuration,
+        ...integrationConfig.configuration,
         integrationName: tag,
       };
 
@@ -45,12 +63,12 @@ export async function registerIntegrations(
       return {
         ...prev,
         [tag]: {
-          apiClient,
+          apiClient: apiClientFactoryResult,
           extensions,
           initConfig,
           configuration,
-          customQueries: integration.customQueries,
-          errorHandler: integration.errorHandler ?? defaultErrorHandler,
+          customQueries: integrationConfig.customQueries,
+          errorHandler: integrationConfig.errorHandler ?? defaultErrorHandler,
         },
       };
     },

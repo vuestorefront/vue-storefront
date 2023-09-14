@@ -1,35 +1,36 @@
 import { lookUpExternal } from "./lookUpExternal";
-import type {
-  Integration,
-  ApiClientFactory,
-  ApiClientExtension,
-  ApiMethods,
-  TObject,
-} from "../../deprecated/types";
+// import type {
+//   Integration,
+//   ApiClientFactory,
+//   ApiClientExtension,
+//   ApiMethods,
+//   TObject,
+// } from "../../deprecated/types";
+import {
+  BaseExtension,
+  ApiClientFactoryResult,
+  BaseIntegrationConfig,
+} from "../../types";
 
 /**
  * Imports extensions if they're represented as strings.
  */
 export function createExtensions(
-  rawExtensions: (ApiClientExtension | string)[]
-): ApiClientExtension[] {
+  rawExtensions: (BaseExtension | string)[]
+): BaseExtension[] {
   return rawExtensions.flatMap(lookUpExternal);
 }
 
 /**
  * Creates an array of extensions schemas or their paths.
  */
-export function createRawExtensions<
-  CONFIG extends TObject,
-  API extends ApiMethods,
-  CONTEXT extends TObject
->(
-  apiClient: ApiClientFactory,
-  integration: Integration<CONFIG, API, CONTEXT>
-): ApiClientExtension<API, CONTEXT>[] {
+export function createRawExtensions(
+  apiClientFactoryResult: ApiClientFactoryResult<any>,
+  integration: BaseIntegrationConfig
+): BaseExtension[] {
   const extensionsCreateFn = integration.extensions;
   const predefinedExtensions =
-    apiClient.createApiClient._predefinedExtensions || [];
+    apiClientFactoryResult.createApiClient._predefinedExtensions || [];
 
   return extensionsCreateFn
     ? extensionsCreateFn(predefinedExtensions)

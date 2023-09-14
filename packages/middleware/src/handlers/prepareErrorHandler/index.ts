@@ -1,8 +1,9 @@
 import type { RequestHandler } from "express";
-import { IntegrationsLoaded } from "../../deprecated/types";
+import { Integrations } from "../../types";
+// import { IntegrationsLoaded } from "../../deprecated/types";
 
 export function prepareErrorHandler(
-  integrations: IntegrationsLoaded
+  integrations: Integrations
 ): RequestHandler {
   return (req, res, next) => {
     const { integrationName } = req.params;
