@@ -1,5 +1,7 @@
 import { Express, Request, Response } from "express";
-import { Config, ContextualizedApi } from "./index";
+import { ApiClientFactoryResult } from "./apiClientFactory";
+import { Config } from "./base";
+import { ContextualizedApi } from "./context";
 
 // Hooks Types
 
@@ -11,27 +13,27 @@ export interface AfterCreateParams {
   configuration: Config;
 }
 
-export interface BeforeCallParams<ARGS = any> {
-  configuration: Config;
+export interface BeforeCallParams<Args = any> {
+  configuration?: Config;
   callName: string;
-  args: ARGS;
+  args: Args;
 }
 
-export interface AfterCallParams<ARGS = any, RESPONSE = any> {
-  configuration: Config;
+export interface AfterCallParams<Args = any, Res = any> {
+  configuration?: Config;
   callName: string;
-  args: ARGS;
-  response: RESPONSE;
+  args: Args;
+  response: Res;
 }
 
-export interface ApiClientExtensionHooks {
+export interface Hooks {
   beforeCreate?: (params: BeforeCreateParams) => Config;
   afterCreate?: (params: AfterCreateParams) => Config;
   beforeCall?: <Args>(params: BeforeCallParams<Args>) => Args;
   afterCall?: <Args, Res>(params: AfterCallParams<Args, Res>) => Res;
 }
 
-export type Hooks = (req: Request, res: Response) => ApiClientExtensionHooks;
+export type ApiClientExtensionHooks = (req: Request, res: Response) => Hooks;
 
 // Extension Types
 
@@ -46,5 +48,14 @@ export interface Extension {
   name: string;
   extendApiMethods?: ContextualizedApi;
   extendApp?: ExtendAppFunction;
-  hooks?: Hooks;
+  hooks?: ApiClientExtensionHooks; // | Hooks -> TODO: Verify;
 }
+
+// Predefined Extensions Helpers
+
+export type PredefinedExtensions<
+  ApiClientType extends ApiClientFactoryResult<any>
+> =
+  ApiClientType["createApiClient"]["_predefinedExtensions"] extends Extension[]
+    ? ApiClientType["createApiClient"]["_predefinedExtensions"]
+    : [];

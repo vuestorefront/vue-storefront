@@ -1,6 +1,7 @@
+import { Request, Response } from "express";
 import { ApiClient } from "./apiClientFactory";
 import { Config } from "./base";
-import { IntegrationsConfig } from "./config";
+import { IntegrationsLoaded } from "./integrations";
 import { Extension } from "./exntensions";
 import { CustomQueryFunction } from "./query";
 
@@ -11,7 +12,7 @@ export interface Context {
   res: Response;
   extensions?: Extension[];
   customQueries?: Record<string, CustomQueryFunction>;
-  integrations: IntegrationsConfig;
+  integrations: IntegrationsLoaded;
   getApiClient: (name: string) => ApiClient;
 }
 

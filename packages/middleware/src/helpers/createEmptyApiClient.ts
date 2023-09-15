@@ -2,6 +2,9 @@ import { apiClientFactory } from "../apiClientFactory";
 
 export const createEmptyApiClient = () =>
   apiClientFactory({
-    onCreate: () => ({}),
+    onCreate: () => ({
+      client: {},
+      config: {},
+    }),
     api: {},
   });

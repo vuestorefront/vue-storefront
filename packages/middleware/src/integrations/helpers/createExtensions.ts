@@ -1,23 +1,16 @@
 import { lookUpExternal } from "./lookUpExternal";
-// import type {
-//   Integration,
-//   ApiClientFactory,
-//   ApiClientExtension,
-//   ApiMethods,
-//   TObject,
-// } from "../../deprecated/types";
 import {
-  BaseExtension,
+  Extension,
   ApiClientFactoryResult,
-  BaseIntegrationConfig,
+  IntegrationConfig,
 } from "../../types";
 
 /**
  * Imports extensions if they're represented as strings.
  */
 export function createExtensions(
-  rawExtensions: (BaseExtension | string)[]
-): BaseExtension[] {
+  rawExtensions: (Extension | string)[]
+): Extension[] {
   return rawExtensions.flatMap(lookUpExternal);
 }
 
@@ -26,8 +19,8 @@ export function createExtensions(
  */
 export function createRawExtensions(
   apiClientFactoryResult: ApiClientFactoryResult<any>,
-  integration: BaseIntegrationConfig
-): BaseExtension[] {
+  integration: IntegrationConfig
+): Extension[] {
   const extensionsCreateFn = integration.extensions;
   const predefinedExtensions =
     apiClientFactoryResult.createApiClient._predefinedExtensions || [];

@@ -48,7 +48,7 @@ export function apiClientFactory<
       );
 
     const extensionHooks = {
-      before: (params) =>
+      beforeCall: (params) =>
         lifecycles
           .filter((extension) => isFunction(extension?.beforeCall))
           .reduce(
@@ -60,7 +60,7 @@ export function apiClientFactory<
               }),
             params.args
           ),
-      after: (params) =>
+      afterCall: (params) =>
         lifecycles
           .filter((extension) => isFunction(extension.afterCall))
           .reduce(

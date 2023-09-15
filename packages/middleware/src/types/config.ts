@@ -1,14 +1,15 @@
 import { HelmetOptions } from "helmet";
-import { Client, Config } from "./base";
+import { Config } from "./base";
 import { Extension } from "./exntensions";
 import { CustomQueryFunction } from "./query";
 import { OrchestrationMethods } from "./orchestration";
+import { ApiClientFactoryResult } from "./apiClientFactory";
 
 // Integration Config Types
 
 export interface IntegrationConfig {
   location?: string;
-  apiClient?: Client;
+  apiClient?: ApiClientFactoryResult<any>;
   configuration: Config;
   extensions?: (extensions: Extension[]) => Extension[];
   customQueries?: Record<string, CustomQueryFunction>;
@@ -33,4 +34,22 @@ export interface MiddlewareConfig<
 export interface CreateServerParams {
   integrations: IntegrationsConfig;
   helmet?: boolean | HelmetOptions;
+}
+
+// Api Client Types
+
+type OptionalExtensions<Extensions extends Extension[]> =
+  Extensions extends Extension[] ? Extensions : [];
+
+export interface ApiClientConfig<
+  ApiClientType extends ApiClientFactoryResult<any>,
+  ExtensionType extends Extension
+> extends Omit<IntegrationConfig, "location"> {
+  apiClient: ApiClientType;
+  configuration: ReturnType<ApiClientType["createApiClient"]>["settings"];
+  extensions?: (
+    extensions: OptionalExtensions<
+      ApiClientType["createApiClient"]["_predefinedExtensions"]
+    >
+  ) => ExtensionType[];
 }

@@ -13,7 +13,7 @@ const onCreate = (config: { hello: string }) => {
 
 const { createApiClient } = apiClientFactory({
   onCreate,
-  
+
   api: {
     hello: (context) => {
       console.log("hello", context);

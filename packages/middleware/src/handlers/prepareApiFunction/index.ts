@@ -1,8 +1,9 @@
 import type { RequestHandler } from "express";
-// import { IntegrationsLoaded, MiddlewareContext } from "../../deprecated/types";
-import { Integrations, BaseContext } from "../../types";
+import { IntegrationsLoaded, Context } from "../../types";
 
-export function prepareApiFunction(integrations: Integrations): RequestHandler {
+export function prepareApiFunction(
+  integrations: IntegrationsLoaded
+): RequestHandler {
   return (req, res, next) => {
     const { integrationName, functionName } = req.params;
 
@@ -23,7 +24,7 @@ export function prepareApiFunction(integrations: Integrations): RequestHandler {
       initConfig,
     } = integrations[integrationName];
 
-    const middlewareContext: BaseContext = {
+    const middlewareContext: Context = {
       req,
       res,
       extensions,

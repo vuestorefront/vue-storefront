@@ -1,7 +1,6 @@
-import { AnyFunction } from "../deprecated/types";
+import { Method } from "../types";
 
-export const isFunction = (x: unknown): x is AnyFunction =>
-  typeof x === "function";
+export const isFunction = (x: unknown): x is Method => typeof x === "function";
 
 // eslint-disable-next-line no-use-before-define
 export function includes<T extends U, U>(

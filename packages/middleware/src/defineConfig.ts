@@ -4,8 +4,9 @@ import {
   MiddlewareConfig,
   CreateServerParams,
   Extension,
+  ApiClientFactoryResult,
+  ApiClientConfig,
 } from "./types";
-import * as klevuApiClient from "./playground/klevu";
 
 const emptyApiClient = createEmptyApiClient();
 
@@ -32,34 +33,11 @@ export function defineConfig<IntegrationsConfigType extends IntegrationsConfig>(
   };
 }
 
-export const newConfig = defineConfig({
-  integrations: {
-    klevu: {
-      apiClient: klevuApiClient,
-      configuration: {
-        // TODO: verify type inference
-      },
-      extensions: (
-        extensions: (typeof klevuApiClient)["createApiClient"]["_predefinedExtensions"]
-      ) => [
-        ...extensions,
-        {
-          name: "klevuExtension",
-          extendApiMethods: {
-            helloWorld: (context) => {
-              context.getApiClient("klevu");
-              console.log("world", context);
-              return "dupa";
-            },
-          },
-        },
-      ],
-    },
-  },
-  orchestration: {
-    someMethod: (context, params) => {
-      const klevu = context.getApiClient("klevu");
-      klevu.api.helloWorld();
-    },
-  },
-});
+export function defineApiClient<
+  ApiClientType extends ApiClientFactoryResult<any>,
+  TExtension extends Extension
+>(
+  config: ApiClientConfig<ApiClientType, TExtension>
+): ApiClientConfig<ApiClientType, TExtension> {
+  return config;
+}

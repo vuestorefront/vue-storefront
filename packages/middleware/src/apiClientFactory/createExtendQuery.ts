@@ -1,11 +1,11 @@
-import { CustomQuery, ContextQuery, MiddlewareContext } from "../deprecated/types";
+import { Context, Query, CustomQuery } from "../types";
 
 export const createExtendQuery =
-  (context: MiddlewareContext) =>
-  <T extends ContextQuery, Key extends keyof T>(
+  (context: Context) =>
+  <T extends Query, Key extends keyof T>(
     customQuery: CustomQuery | null,
     defaults: T
-  ): ContextQuery<Key> => {
+  ): Query<Key> => {
     const { customQueries = {} } = context;
     const { metadata = {} } = customQuery || {};
 

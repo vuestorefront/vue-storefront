@@ -6,23 +6,18 @@ import {
   getInitConfig,
   resolveDependency,
 } from "./helpers";
-// import type {
-//   ApiClientFactory,
-//   Integrations,
-//   IntegrationsLoaded,
-// } from "../deprecated/types";
 import { defaultErrorHandler } from "../errors/defaultErrorHandler";
 import {
-  Integrations,
-  BaseIntegrationsConfig,
+  IntegrationsLoaded,
+  IntegrationsConfig,
   ApiClientFactoryResult,
 } from "../types";
 
 export async function registerIntegrations(
   app: Express,
-  integrations: BaseIntegrationsConfig
-): Promise<Integrations> {
-  return await Object.entries(integrations).reduce(
+  integrationsConfig: IntegrationsConfig
+): Promise<IntegrationsLoaded> {
+  return await Object.entries(integrationsConfig).reduce(
     async (prevAsync, [tag, integrationConfig]) => {
       consola.info(`- Loading: ${tag} ${integrationConfig.location ?? ""}`);
       const prev = await prevAsync;
