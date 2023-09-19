@@ -1,5 +1,11 @@
 # @vue-storefront/middleware
 
+## 4.0.0-test.3
+
+### Patch Changes
+
+- Add missing IntegrationContext type
+
 ## 4.0.0-test.2
 
 ### Patch Changes

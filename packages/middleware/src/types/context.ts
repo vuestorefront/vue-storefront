@@ -24,3 +24,13 @@ export type ContextualizedApi = Record<
 >;
 
 export type ContextualizedMethodFactory = (config: Config) => ContextualizedApi;
+
+// Integration Context Types
+
+export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any> {
+  client: CLIENT;
+  config: CONFIG;
+  api: API;
+
+  [x: string]: any;
+}
