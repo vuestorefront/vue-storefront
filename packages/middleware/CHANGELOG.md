@@ -1,5 +1,11 @@
 # @vue-storefront/middleware
 
+## 4.0.0-test.5
+
+### Patch Changes
+
+- fix extended api client type
+
 ## 4.0.0-test.4
 
 ### Patch Changes
