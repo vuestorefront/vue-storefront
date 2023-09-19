@@ -19,6 +19,14 @@ export interface ApiClientFactoryParams {
   isProxy?: boolean;
 }
 
+// Api Client Types
+
+export interface ApiClient {
+  api: Api;
+  client: Client;
+  settings: Config;
+}
+
 // Utility Types
 
 export type ConfigFromParams<
@@ -37,8 +45,12 @@ export type MethodFromExtensions<
 
 export interface ExtendedApiClient<
   ApiClientFactoryParamsType extends ApiClientFactoryParams
-> {
-  api: ApiClientFactoryParamsType["api"];
+> extends ApiClient {
+  api: ApiClientFactoryParamsType["api"] extends ApiMethodsFactory
+    ? ReturnType<ApiClientFactoryParamsType["api"]>
+    : ApiClientFactoryParamsType["api"] extends Api
+    ? ApiClientFactoryParamsType["api"]
+    : never;
   client: ClientFromParams<ApiClientFactoryParamsType>;
   settings: ConfigFromParams<ApiClientFactoryParamsType>;
 }
