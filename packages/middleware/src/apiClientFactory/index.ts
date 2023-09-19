@@ -11,9 +11,14 @@ export function apiClientFactory<
 >(
   factoryParams: ApiClientFactoryParamsType
 ): ApiClientFactoryResult<ApiClientFactoryParamsType> {
-  const createApiClientFn: CreateApiClientFunction<
-    ApiClientFactoryParamsType
-  > = (middlewareContext, config, customApi = {}) => {
+  // The `any` type here is on purpose.
+  // In here, we are preparing the `createApiClientFn` definition and the type `CreateApiClientFunction<any>` is mostly to ensure the contract.
+  // Using `ApiClientFactoryParamsType` as type argument would require more complex `mergedApi` definition.
+  const createApiClientFn: CreateApiClientFunction<any> = (
+    middlewareContext,
+    config,
+    customApi = {}
+  ) => {
     const rawExtensions = middlewareContext?.extensions || [];
 
     const lifecycles = rawExtensions
