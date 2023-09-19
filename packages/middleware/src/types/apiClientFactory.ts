@@ -31,7 +31,7 @@ export interface ApiClient {
 
 export type ConfigFromParams<
   ApiClientFactoryParamsType extends ApiClientFactoryParams
-> = ReturnType<ApiClientFactoryParamsType["onCreate"]>["config"];
+> = Parameters<ApiClientFactoryParamsType["onCreate"]>[0];
 
 export type ClientFromParams<
   ApiClientFactoryParamsType extends ApiClientFactoryParams
@@ -59,7 +59,7 @@ export type CreateApiClientFunction<
   ApiClientFactoryParamsType extends ApiClientFactoryParams
 > = (
   middlewareContext: Context,
-  config: ReturnType<ApiClientFactoryParamsType["onCreate"]>["config"],
+  config: ConfigFromParams<ApiClientFactoryParamsType>,
   customApi?: ContextualizedApi
 ) => ExtendedApiClient<ApiClientFactoryParamsType>;
 
@@ -71,6 +71,6 @@ export interface ApiClientFactoryResult<
   };
 
   init?: (
-    configuration: ReturnType<ApiClientFactoryParamsType["onCreate"]>["config"]
-  ) => ReturnType<ApiClientFactoryParamsType["onCreate"]>["config"];
+    configuration: ConfigFromParams<ApiClientFactoryParamsType>
+  ) => ConfigFromParams<ApiClientFactoryParamsType>;
 }

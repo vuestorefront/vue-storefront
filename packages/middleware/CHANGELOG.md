@@ -1,5 +1,11 @@
 # @vue-storefront/middleware
 
+## 4.0.0-test.4
+
+### Patch Changes
+
+- fix config type in api client factory and define api config
+
 ## 4.0.0-test.3
 
 ### Patch Changes

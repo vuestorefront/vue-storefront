@@ -46,7 +46,7 @@ export interface ApiClientConfig<
   ExtensionType extends Extension
 > extends Omit<IntegrationConfig, "location"> {
   apiClient: ApiClientType;
-  configuration: ReturnType<ApiClientType["createApiClient"]>["settings"];
+  configuration: Parameters<ApiClientType["createApiClient"]>[1];
   extensions?: (
     extensions: OptionalExtensions<
       ApiClientType["createApiClient"]["_predefinedExtensions"]
