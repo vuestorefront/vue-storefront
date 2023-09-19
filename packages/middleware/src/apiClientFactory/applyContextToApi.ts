@@ -1,5 +1,5 @@
 import {
-  Method,
+  Api,
   Context,
   Hooks,
   BeforeCallParams,
@@ -15,7 +15,7 @@ const nopAfter = <RESPONSE>({ response }: AfterCallParams<any, RESPONSE>) =>
  * Wraps api methods with context and hooks triggers
  */
 const applyContextToApi = (
-  api: Record<string, Method>,
+  api: Api,
   context: Context,
 
   /**
@@ -24,7 +24,7 @@ const applyContextToApi = (
    * in that case, we use default function, to handle that scenario - NOP
    */
   hooks: Hooks = { beforeCall: nopBefore, afterCall: nopAfter }
-): Record<string, Method> =>
+): Api =>
   Object.entries(api).reduce(
     (prev, [callName, fn]) => ({
       ...prev,

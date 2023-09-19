@@ -1,6 +1,6 @@
 import { Context } from "vm";
-import { Client, Config } from "./base";
-import { ContextualizedApi, ContextualizedMethodFactory } from "./context";
+import { Api, Client, Config, ApiMethodsFactory } from "./base";
+import { ContextualizedApi } from "./context";
 import { Extension } from "./exntensions";
 
 // On Create Function Type
@@ -13,16 +13,10 @@ export type OnCreateFunction = (
 // API Client Factory Types
 
 export interface ApiClientFactoryParams {
-  api: ContextualizedApi | ContextualizedMethodFactory;
+  api: Api | ApiMethodsFactory;
   onCreate: OnCreateFunction;
   extensions?: Extension[];
   isProxy?: boolean;
-}
-
-export interface ApiClient {
-  api: ContextualizedApi | ContextualizedMethodFactory;
-  client: Client;
-  settings: Config;
 }
 
 // Utility Types
@@ -43,7 +37,7 @@ export type MethodFromExtensions<
 
 export interface ExtendedApiClient<
   ApiClientFactoryParamsType extends ApiClientFactoryParams
-> extends ApiClient {
+> {
   api: ApiClientFactoryParamsType["api"];
   client: ClientFromParams<ApiClientFactoryParamsType>;
   settings: ConfigFromParams<ApiClientFactoryParamsType>;
