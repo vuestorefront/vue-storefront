@@ -7,6 +7,7 @@
     "@vue-storefront/sdk": "1.1.1"
   },
   "changesets": [
+    "mean-parrots-turn",
     "slimy-colts-cry",
     "smart-ladybugs-doubt",
     "smart-terms-repair",

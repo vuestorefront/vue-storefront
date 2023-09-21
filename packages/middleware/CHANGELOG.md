@@ -1,5 +1,11 @@
 # @vue-storefront/middleware
 
+## 4.0.0-test.6
+
+### Patch Changes
+
+- 3d9e68f6c: test changeset
+
 ## 4.0.0-test.5
 
 ### Patch Changes
