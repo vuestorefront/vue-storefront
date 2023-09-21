@@ -50,10 +50,8 @@ export const newConfig = defineConfig({
     someMethod: (context, params: { helloWorld: string }) => {
       console.log(params);
 
-      const klevu = context.getApiClient("klevu");
-      const klevu2 = context.getApiClient("klevu2");
-      klevu2.api.helloWorld2();
-      klevu.api.helloWorld();
+      // const klevu = context.getApiClient("klevu2");
+      // klevu.api;
     },
   },
 });
