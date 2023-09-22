@@ -48,6 +48,11 @@
       "title": "Bloomreach Content",
       "to": "/integrations/bloomreach-content",
       "icon": "IconBloomreach"
+    },
+    {
+      "title": "Amplience",
+      "to": "/integrations/amplience",
+      "icon": "IconAmplience"
     }
   ],
   "Payment": [
