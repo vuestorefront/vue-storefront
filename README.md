@@ -97,23 +97,19 @@ Vue Storefront is an ecosystem of Open Source tools to build fast and feature-ri
 </p>
 
 <p align="center" valign="middle">
-    <a title="BigCommerce" target="_blank" href="https://docs.vuestorefront.io/bigcommerce/">
+    <a title="BigCommerce" target="_blank" href="https://docs.vuestorefront.io/integrations/bigcommerce/">
         <img alt="BigCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/156659123-12a987f5-a590-4971-810e-7594defc48f5.png" />
     </a>
     &nbsp;&nbsp;
-    <a title="commercetools" target="_blank" href="https://docs.vuestorefront.io/v2/commercetools/">
+    <a title="commercetools" target="_blank" href="https://docs.vuestorefront.io/integrations/commercetools/">
         <img alt="commercetools" width="75" src="https://user-images.githubusercontent.com/1626923/156658926-532f44bd-f178-4bd9-ae72-1ca7d9984f57.png" />
     </a>
     &nbsp;&nbsp;
-    <a title="Elastic Path" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
-        <img alt="Elastic Path" width="75" src="https://docs.vuestorefront.io/v2/integrations-logos/thumbnails/elastic-path.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="SAP" target="_blank" href="https://github.com/vuestorefront/shopware-pwa">
+    <a title="SAP" target="_blank" href="https://github.com/vuestorefront/integrations/sapcc/">
         <img alt="SAP" width="75" src="https://docs.vuestorefront.io/v2/integrations-logos/thumbnails/sap-commerce-cloud.png" />
     </a>
   &nbsp;&nbsp;
-      <a title="Salesforce Commerce Cloud" target="_blank" href="https://docs.vuestorefront.io/sfcc/">
+      <a title="Salesforce Commerce Cloud" target="_blank" href="https://docs.vuestorefront.io/integrations/sfcc/">
         <img alt="Salesforce Commerce Cloud" width="75" src="https://user-images.githubusercontent.com/74229951/218112081-8f8bfcb3-9f53-4add-9d5e-8899c505e526.png" />
     </a>
 
