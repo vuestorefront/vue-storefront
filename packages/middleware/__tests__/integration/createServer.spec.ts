@@ -3,7 +3,7 @@ import request from "supertest";
 import { createServer } from "../../src/index";
 import { success } from "./bootstrap/api";
 
-describe.skip("[Integration] Create server", () => {
+describe("[Integration] Create server", () => {
   let app: Express;
 
   beforeAll(async () => {
