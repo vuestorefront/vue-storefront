@@ -30,7 +30,7 @@ export function prepareApiFunction(
       extensions,
       customQueries,
       integrations,
-      getIntegration: (integrationKey: string) => {
+      getApiClient: (integrationKey: string) => {
         if (!integrations[integrationKey]) {
           const keys = Object.keys(integrations);
           throw new Error(

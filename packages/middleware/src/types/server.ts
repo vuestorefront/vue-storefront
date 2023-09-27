@@ -44,7 +44,17 @@ export interface FactoryParams<API extends PlatformApi = any> {
   api?: Partial<API>;
 }
 
+/**
+ * @deprecated
+ * Use `ApiClient` instead.
+ */
 export interface ApiInstance<CONFIG, API, CLIENT> {
+  api: API;
+  client: CLIENT;
+  settings: CONFIG;
+}
+
+export interface ApiClient<API = any, CONFIG = any, CLIENT = any> {
   api: API;
   client: CLIENT;
   settings: CONFIG;
@@ -64,7 +74,7 @@ export type CreateApiClientFn<
   <T extends ApiClientConfig, C>(
     givenConfig: CONFIG,
     customApi?: ApiMethods
-  ): ApiInstance<T, API & ApiMethods, C>;
+  ): ApiClient<API & ApiMethods, T, C>;
   _predefinedExtensions?: ApiClientExtension<API>[];
 };
 
@@ -96,4 +106,4 @@ export interface ApiClientFactory<
 export type CreateApiProxyFn = <CONFIG, API, CLIENT>(
   givenConfig: any,
   customApi?: any
-) => ApiInstance<CONFIG, API, CLIENT>;
+) => ApiClient<API, CONFIG, CLIENT>;

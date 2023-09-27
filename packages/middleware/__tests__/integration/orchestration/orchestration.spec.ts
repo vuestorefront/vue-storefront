@@ -21,7 +21,7 @@ describe("[Integration] Orchestration basics", () => {
               extendApiMethods: {
                 getSecondIntegrationConfig: async (context) => {
                   const secondIntegration =
-                    context.getIntegration("secondIntegration");
+                    context.getApiClient("secondIntegration");
                   const firstIntegrationConfig = await context.api.getConfig();
 
                   return {
@@ -87,7 +87,7 @@ describe("[Integration] Orchestration basics", () => {
               extendApiMethods: {
                 getFirstIntegrationConfig(context) {
                   const firstIntegration =
-                    context.getIntegration("firstIntegration");
+                    context.getApiClient("firstIntegration");
                   return firstIntegration.api.getConfig();
                 },
               },
@@ -114,7 +114,7 @@ describe("[Integration] Orchestration basics", () => {
   /**
    * Self-referring
    */
-  it("allows self-referring with getIntegration", async () => {
+  it("allows self-referring with getApiClient", async () => {
     // Given
     const middlewareConfigMock = {
       integrations: {
@@ -136,7 +136,7 @@ describe("[Integration] Orchestration basics", () => {
               extendApiMethods: {
                 getConfigFromSelfRefer(context) {
                   const secondIntegration =
-                    context.getIntegration("secondIntegration");
+                    context.getApiClient("secondIntegration");
                   return secondIntegration.api.getConfig();
                 },
               },
@@ -185,12 +185,12 @@ describe("[Integration] Orchestration basics", () => {
               extendApiMethods: {
                 getMultipleIntegrationsConfig: async (context) => {
                   const firstIntegration =
-                    context.getIntegration("firstIntegration");
+                    context.getApiClient("firstIntegration");
 
                   const secondIntegrationConfig = await context.api.getConfig();
 
                   const thirdIntegration =
-                    context.getIntegration("thirdIntegration");
+                    context.getApiClient("thirdIntegration");
 
                   return {
                     first: await firstIntegration.api.getConfig(),
@@ -253,7 +253,7 @@ describe("[Integration] Orchestration basics", () => {
               name: "orchestration-extension",
               extendApiMethods: {
                 secondIntegrationExtendedFunc: async (context) => {
-                  const secondIntegration = await context.getIntegration(
+                  const secondIntegration = await context.getApiClient(
                     "secondIntegration"
                   );
 
@@ -304,7 +304,7 @@ describe("[Integration] Orchestration basics", () => {
               extendApiMethods: {
                 orchestrationMethod: async (context) => {
                   const secondIntegration =
-                    context.getIntegration("secondIntegration");
+                    context.getApiClient("secondIntegration");
 
                   const firstIntegrationConfig = await context.api.getConfig();
 
