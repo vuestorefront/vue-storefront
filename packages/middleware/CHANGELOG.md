@@ -1,5 +1,11 @@
 # @vue-storefront/middleware
 
+## 3.6.0-rc.2
+
+### Minor Changes
+
+- 8aeafe262: Add new interface: ApiClient
+
 ## 3.6.0-rc.1
 
 ### Patch Changes
