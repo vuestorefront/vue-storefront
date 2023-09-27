@@ -6,7 +6,7 @@ import { success } from "./bootstrap/api";
 describe("[Integration] Create server", () => {
   let app: Express;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     app = await createServer({
       integrations: {
         test_integration: {

@@ -5,7 +5,7 @@ describe("[Integration] Orchestration basics", () => {
   /**
    * Basic orchestration
    */
-  it.skip("calls other integrations methods from an integration's extension", async () => {
+  it("calls other integrations methods from an integration's extension", async () => {
     // Given
     const middlewareConfigMock = {
       integrations: {
@@ -65,7 +65,7 @@ describe("[Integration] Orchestration basics", () => {
   /**
    * Orchestration order does not matter
    */
-  it.skip("calls integrations registered before the integration that implements orchestration", async () => {
+  it("calls integrations registered before the integration that implements orchestration", async () => {
     // Given
     const middlewareConfigMock = {
       integrations: {
@@ -114,7 +114,7 @@ describe("[Integration] Orchestration basics", () => {
   /**
    * Self-referring
    */
-  it.skip("allows self-referring with getIntegration", async () => {
+  it("allows self-referring with getIntegration", async () => {
     // Given
     const middlewareConfigMock = {
       integrations: {
@@ -163,7 +163,7 @@ describe("[Integration] Orchestration basics", () => {
   /**
    * Multiple integrations
    */
-  it.skip("calls more than one additional integration", async () => {
+  it("calls more than one additional integration", async () => {
     // Given
     const middlewareConfigMock = {
       integrations: {
@@ -238,7 +238,7 @@ describe("[Integration] Orchestration basics", () => {
   /**
    * Prefedined extensions
    */
-  it.skip("calls integration methods added as predefined extensions", async () => {
+  it("calls integration methods added as predefined extensions", async () => {
     // Given
     const middlewareConfigMock = {
       integrations: {
