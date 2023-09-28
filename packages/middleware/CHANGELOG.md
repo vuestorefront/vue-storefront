@@ -1,5 +1,11 @@
 # @vue-storefront/middleware
 
+## 3.6.0-rc.4
+
+### Patch Changes
+
+- Remove deprecation from ApiInstance
+
 ## 3.6.0-rc.3
 
 ### Patch Changes
