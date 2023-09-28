@@ -7,6 +7,7 @@
     "@vue-storefront/sdk": "1.1.1"
   },
   "changesets": [
+    "gentle-kings-clap",
     "great-peas-knock",
     "light-apples-visit",
     "lucky-actors-sip",

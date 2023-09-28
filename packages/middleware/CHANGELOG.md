@@ -1,5 +1,11 @@
 # @vue-storefront/middleware
 
+## 3.6.0-rc.5
+
+### Patch Changes
+
+- Remove extension from IntegrationContext
+
 ## 3.6.0-rc.4
 
 ### Patch Changes
