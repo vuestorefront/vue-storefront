@@ -1,5 +1,11 @@
 # @vue-storefront/middleware
 
+## 3.6.0-rc.3
+
+### Patch Changes
+
+- Use ContextualizedApi for ApiClient interface
+
 ## 3.6.0-rc.2
 
 ### Minor Changes
