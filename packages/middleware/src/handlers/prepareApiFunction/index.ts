@@ -31,7 +31,7 @@ export function prepareApiFunction(
       customQueries,
       integrations,
       getApiClient: (integrationKey: string) => {
-        if (!integrations[integrationKey]) {
+        if (!(integrationKey in integrations)) {
           const keys = Object.keys(integrations);
           throw new Error(
             `The specified integration key "${integrationKey}" was not found. Available integration keys are: ${keys}. Please ensure you're using the correct key or add the necessary integration configuration.`

@@ -360,4 +360,58 @@ describe("[Integration] Orchestration basics", () => {
       },
     });
   });
+
+  /**
+   * Error handling
+   */
+  it("informs the user that non-existing integration key has been used", async () => {
+    // Given
+    const middlewareConfigMock = {
+      integrations: {
+        firstIntegration: {
+          location: "./__tests__/integration/bootstrap/server",
+          configuration: {
+            id: "firstIntegration",
+          },
+          extensions: (extensions) => [
+            ...extensions,
+            {
+              name: "orchestration-extension",
+              extendApiMethods: {
+                getSecondIntegrationConfig: async (context) => {
+                  const secondIntegration = context.getApiClient(
+                    "nonExistingIntegration"
+                  );
+                  const firstIntegrationConfig = await context.api.getConfig();
+
+                  return {
+                    first: firstIntegrationConfig,
+                    second: await secondIntegration.api.getConfig(),
+                  };
+                },
+              },
+            },
+          ],
+        },
+        secondIntegration: {
+          location: "./__tests__/integration/bootstrap/server",
+          configuration: {
+            id: "secondIntegration",
+          },
+        },
+      },
+    };
+
+    // When
+    const app = await createServer(middlewareConfigMock);
+    const res = await request(app).post(
+      "/firstIntegration/getSecondIntegrationConfig"
+    );
+
+    // Then
+    expect(res.status).toBe(500);
+    expect(res.text).toEqual(
+      "ServerError: Something went wrong. Please, check the logs for more details."
+    );
+  });
 });
