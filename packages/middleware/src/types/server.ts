@@ -46,7 +46,7 @@ export interface FactoryParams<API extends PlatformApi = any> {
 
 /**
  * @deprecated
- * Use `ApiClient` instead.
+ * Use `ApiClient<API, CONFIG, CLIENT>` instead.
  */
 export interface ApiInstance<CONFIG, API, CLIENT> {
   api: API;
@@ -54,10 +54,22 @@ export interface ApiInstance<CONFIG, API, CLIENT> {
   settings: CONFIG;
 }
 
+/**
+ * All available API methods without first argument - `context`, because this prop is set automatically.
+ */
+export type ContextualizedApi<API> = {
+  [T in keyof API]: API[T] extends (
+    context: any,
+    ...arguments_: infer P
+  ) => infer R
+    ? (...arguments_: P) => R
+    : never;
+};
+
 export interface ApiClient<API = any, CONFIG = any, CLIENT = any> {
-  api: API;
+  api: ContextualizedApi<API>;
   client: CLIENT;
-  settings: CONFIG;
+  settings: CONFIG & { integrationName: string };
 }
 
 export interface ApiClientConfig<CLIENT = any> {
