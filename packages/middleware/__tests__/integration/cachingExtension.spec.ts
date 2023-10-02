@@ -1,21 +1,19 @@
-import { Express } from 'express';
-import request from 'supertest';
-import { createServer } from '../../src/index';
-import * as api from './bootstrap/api'
+import { Express } from "express";
+import request from "supertest";
+import { createServer } from "../../src/index";
+import * as api from "./bootstrap/api";
 
 const Logger = {
-  info: jest.fn()
-}
+  info: jest.fn(),
+};
 
 const cachingExtension = {
   name: "caching-extension",
-  hooks (req, res) {
+  hooks(req, res) {
     return {
-      afterCall ({ response }) {
+      afterCall({ response }) {
         if (req.method !== "GET") {
-          Logger.info(
-            "[CACHING] It's not a GET request, skipping caching"
-          );
+          Logger.info("[CACHING] It's not a GET request, skipping caching");
           return response;
         }
 
@@ -48,86 +46,91 @@ const cachingExtension = {
         }
 
         return response;
-      }
-    }
-  }
-}
+      },
+    };
+  },
+};
 
 /**
  * The following test suite is responsible for making sure
  * the caching extension's boilerplate in our documentation is working correctly
  * and no one will break it accidently during working on the middleware.
- * 
+ *
  * Aforementioned caching extension is responsible for setting Cache-Control response header
  * for cookie-independent requests to the GET endpoints in our integrations
  */
-describe('[Integration] Caching extension', () => {
+describe("[Integration] Caching extension", () => {
   let app: Express;
 
   beforeEach(() => {
     jest.clearAllMocks();
-  })
+  });
 
   beforeAll(async () => {
     type IntegrationContexts = {
       test_integration: {
-        api: typeof api,
-        config: unknown,
-        client: unknown
-      }
-    }
+        api: typeof api;
+        config: unknown;
+        client: unknown;
+      };
+    };
     app = await createServer<IntegrationContexts>({
       integrations: {
         test_integration: {
           configuration: {},
-          location: './__tests__/integration/bootstrap/server',
+          location: "./__tests__/integration/bootstrap/server",
           extensions() {
-            return [
-              cachingExtension as any
-            ]
-          }
+            return [cachingExtension as any];
+          },
         },
       },
     });
   });
 
-  it('doesn\'t add Cache-Control header for not GET method', async () => {
-    const { status, body, headers } = await request(app).post('/test_integration/success');
+  it("doesn't add Cache-Control header for not GET method", async () => {
+    const { status, body, headers } = await request(app).post(
+      "/test_integration/success"
+    );
 
     expect(status).toEqual(200);
-    expect(body.message).toEqual('ok');
-    expect(headers['cache-control']).toBeUndefined();
+    expect(body.message).toEqual("ok");
+    expect(headers["cache-control"]).toBeUndefined();
   });
 
-  it('doesn\'t add Cache-Control header if there is Set-Cookie response header', async () => {
-    const { status, body, headers } = await request(app).get('/test_integration/setCookieHeader');
+  it("doesn't add Cache-Control header if there is Set-Cookie response header", async () => {
+    const { status, body, headers } = await request(app).get(
+      "/test_integration/setCookieHeader"
+    );
 
     expect(status).toEqual(200);
-    expect(body.message).toEqual('ok');
-    expect(headers['cache-control']).toBeUndefined();
+    expect(body.message).toEqual("ok");
+    expect(headers["cache-control"]).toBeUndefined();
   });
 
-  it('adds Cache-Control header if request variables were passed via params, so there are not dependencies on cookies', async () => {
-    const { status, body, headers } = await request.agent(app).get('/test_integration/success')
-    .query({
-      country: 'PL',
-      currency: 'PLN',
-      locale: 'pl',
-      channel: null,
-      customerGroupId: null,
-    })
+  it("adds Cache-Control header if request variables were passed via params, so there are not dependencies on cookies", async () => {
+    const { status, body, headers } = await request
+      .agent(app)
+      .get("/test_integration/success")
+      .query({
+        country: "PL",
+        currency: "PLN",
+        locale: "pl",
+        channel: null,
+        customerGroupId: null,
+      });
 
     expect(status).toEqual(200);
-    expect(body.message).toEqual('ok');
-    expect(headers['cache-control']).toEqual("public, max-age=3600");
+    expect(body.message).toEqual("ok");
+    expect(headers["cache-control"]).toEqual("public, max-age=3600");
   });
 
-  it('doesn\'t add Cache-Control header if request variables weren\'t passed via params, so there are dependencies on cookies', async () => {
-    const { status, body, headers } = await request(app).get('/test_integration/success');
+  it("doesn't add Cache-Control header if request variables weren't passed via params, so there are dependencies on cookies", async () => {
+    const { status, body, headers } = await request(app).get(
+      "/test_integration/success"
+    );
 
     expect(status).toEqual(200);
-    expect(body.message).toEqual('ok');
-    expect(headers['Cache-Control']).toBeUndefined();
+    expect(body.message).toEqual("ok");
+    expect(headers["Cache-Control"]).toBeUndefined();
   });
-
 });
