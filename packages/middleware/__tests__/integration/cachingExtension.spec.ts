@@ -91,7 +91,7 @@ describe('[Integration] Caching extension', () => {
     });
   });
 
-  it('doesn\'t add headers for not GET method', async () => {
+  it('doesn\'t add Cache-Control header for not GET method', async () => {
     const { status, body, headers } = await request(app).post('/test_integration/success');
 
     expect(status).toEqual(200);
@@ -99,7 +99,7 @@ describe('[Integration] Caching extension', () => {
     expect(headers['cache-control']).toBeUndefined();
   });
 
-  it('doesn\'t add headers if there is Set-Cookie response header', async () => {
+  it('doesn\'t add Cache-Control header if there is Set-Cookie response header', async () => {
     const { status, body, headers } = await request(app).get('/test_integration/setCookieHeader');
 
     expect(status).toEqual(200);
@@ -107,7 +107,7 @@ describe('[Integration] Caching extension', () => {
     expect(headers['cache-control']).toBeUndefined();
   });
 
-  it('adds headers if conditions are fulfilled', async () => {
+  it('adds Cache-Control header if request variables were passed via params, so there are not dependencies on cookies', async () => {
     const { status, body, headers } = await request.agent(app).get('/test_integration/success')
     .query({
       country: 'PL',
@@ -122,7 +122,7 @@ describe('[Integration] Caching extension', () => {
     expect(headers['cache-control']).toEqual("public, max-age=3600");
   });
 
-  it('doesn\'t add header if conditions are not fulfilled', async () => {
+  it('doesn\'t add Cache-Control header if request variables weren\'t passed via params, so there are dependencies on cookies', async () => {
     const { status, body, headers } = await request(app).get('/test_integration/success');
 
     expect(status).toEqual(200);
