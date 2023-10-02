@@ -1,5 +1,11 @@
 # @vue-storefront/middleware
 
+## 3.6.0-rc.6
+
+### Patch Changes
+
+- Make IntegrationContext interface extended by Partial<MiddlewareContext>
+
 ## 3.6.0-rc.5
 
 ### Patch Changes
