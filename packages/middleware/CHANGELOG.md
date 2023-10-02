@@ -1,5 +1,11 @@
 # @vue-storefront/middleware
 
+## 3.6.0-rc.7
+
+### Patch Changes
+
+- fa9e2131f: Remove partial extension of IntegrationContext
+
 ## 3.6.0-rc.6
 
 ### Patch Changes
