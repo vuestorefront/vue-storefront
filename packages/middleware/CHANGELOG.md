@@ -1,5 +1,11 @@
 # @vue-storefront/middleware
 
+## 3.6.0-rc.8
+
+### Minor Changes
+
+- Extend IntegrationContext type with MiddlewareContext
+
 ## 3.6.0-rc.7
 
 ### Patch Changes

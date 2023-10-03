@@ -1,5 +1,10 @@
 import { TObject } from "./base";
-import { ApiClientExtension, ApiMethods, ApiMethodsFactory } from "./common";
+import {
+  ApiClientExtension,
+  ApiMethods,
+  ApiMethodsFactory,
+  MiddlewareContext,
+} from "./common";
 
 export interface ClientContext<CLIENT = any, CONFIG = any> {
   client: CLIENT;
@@ -8,7 +13,8 @@ export interface ClientContext<CLIENT = any, CONFIG = any> {
   [x: string]: any;
 }
 
-export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any> {
+export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any>
+  extends MiddlewareContext {
   client: CLIENT;
   config: CONFIG;
   api: API;
