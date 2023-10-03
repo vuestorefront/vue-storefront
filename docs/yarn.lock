@@ -7094,10 +7094,10 @@ setprototypeof@1.2.0:
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.2.0.tgz#66c9a24a73f9fc28cbe66b09fed3d33dcaf1b424"
   integrity sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
 
-sf-docs-base@latest:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/sf-docs-base/-/sf-docs-base-1.0.3.tgz#85a5a0552aae990c115be7d0efaa7fbbccb01d45"
-  integrity sha512-2cpekKQzVtJillPOMQICoS+DEorK6Q2iu8PGxXzBqq/cTYGWMz8oYxPeNmBHmzmwETee2u8gWx/ulg3lpdZmpw==
+sf-docs-base@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/sf-docs-base/-/sf-docs-base-1.0.4.tgz#f28e3ef1f4315fb45aae6d374491eae6bff1b6a9"
+  integrity sha512-2T91LsfoMd9bgrkmuYnUdbune81BCHUlwdgvSYV3/s0yCssFVPsyAwCO6grHH4Y35NzCCDw3jcetU8TsMRivrw==
   dependencies:
     "@microsoft/api-extractor-model" "^7.26.5"
     "@microsoft/tsdoc" "^0.14.2"
