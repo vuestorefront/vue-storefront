@@ -6,36 +6,6 @@
 
 - Extend IntegrationContext type with MiddlewareContext
 
-## 3.6.0-rc.7
-
-### Patch Changes
-
-- fa9e2131f: Remove partial extension of IntegrationContext
-
-## 3.6.0-rc.6
-
-### Patch Changes
-
-- Make IntegrationContext interface extended by Partial<MiddlewareContext>
-
-## 3.6.0-rc.5
-
-### Patch Changes
-
-- Remove extension from IntegrationContext
-
-## 3.6.0-rc.4
-
-### Patch Changes
-
-- Remove deprecation from ApiInstance
-
-## 3.6.0-rc.3
-
-### Patch Changes
-
-- Use ContextualizedApi for ApiClient interface
-
 ## 3.6.0-rc.2
 
 ### Minor Changes
