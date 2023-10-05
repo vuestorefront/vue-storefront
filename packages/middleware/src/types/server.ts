@@ -1,5 +1,10 @@
 import { TObject } from "./base";
-import { ApiClientExtension, ApiMethods, ApiMethodsFactory } from "./common";
+import {
+  ApiClientExtension,
+  ApiMethods,
+  ApiMethodsFactory,
+  MiddlewareContext,
+} from "./common";
 
 export interface ClientContext<CLIENT = any, CONFIG = any> {
   client: CLIENT;
@@ -8,7 +13,8 @@ export interface ClientContext<CLIENT = any, CONFIG = any> {
   [x: string]: any;
 }
 
-export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any> {
+export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any>
+  extends MiddlewareContext {
   client: CLIENT;
   config: CONFIG;
   api: API;
@@ -42,6 +48,24 @@ export interface ApiInstance<CONFIG, API, CLIENT> {
   api: API;
   client: CLIENT;
   settings: CONFIG;
+}
+
+/**
+ * All available API methods without first argument - `context`, because this prop is set automatically.
+ */
+export type ContextualizedApi<API> = {
+  [T in keyof API]: API[T] extends (
+    context: any,
+    ...arguments_: infer P
+  ) => infer R
+    ? (...arguments_: P) => R
+    : never;
+};
+
+export interface ApiClient<API = any, CONFIG = any, CLIENT = any> {
+  api: API;
+  client: CLIENT;
+  settings: CONFIG & { integrationName: string };
 }
 
 export interface ApiClientConfig<CLIENT = any> {

@@ -1,7 +1,6 @@
 import { Express } from "express";
 import request from "supertest";
 import { createServer } from "../../src/index";
-import * as api from "./bootstrap/api";
 
 const Logger = {
   info: jest.fn(),
@@ -67,14 +66,7 @@ describe("[Integration] Caching extension", () => {
   });
 
   beforeAll(async () => {
-    type IntegrationContexts = {
-      test_integration: {
-        api: typeof api;
-        config: unknown;
-        client: unknown;
-      };
-    };
-    app = await createServer<IntegrationContexts>({
+    app = await createServer({
       integrations: {
         test_integration: {
           configuration: {},

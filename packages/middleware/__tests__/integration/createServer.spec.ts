@@ -2,26 +2,12 @@ import { Express } from "express";
 import request from "supertest";
 import { createServer } from "../../src/index";
 import { success } from "./bootstrap/api";
-import * as api from "./bootstrap/api";
 
 describe("[Integration] Create server", () => {
   let app: Express;
 
-  beforeAll(async () => {
-    type IntegrationConfigs = {
-      test_integration: {
-        myCfgEntry: boolean;
-      };
-    };
-
-    type IntegrationContexts = {
-      test_integration: {
-        api: typeof api;
-        config: IntegrationConfigs["test_integration"];
-        client: unknown;
-      };
-    };
-    app = await createServer<IntegrationContexts>({
+  beforeEach(async () => {
+    app = await createServer({
       integrations: {
         test_integration: {
           configuration: {
@@ -128,21 +114,7 @@ describe("[Integration] Create server", () => {
   });
 
   it("should pass context type to extensions functions", async () => {
-    type IntegrationConfigs = {
-      test_integration: {
-        myCfgEntry: boolean;
-      };
-    };
-
-    type IntegrationContexts = {
-      test_integration: {
-        api: typeof api;
-        config: IntegrationConfigs["test_integration"];
-        client: any;
-      };
-    };
-
-    createServer<IntegrationContexts>({
+    createServer({
       integrations: {
         test_integration: {
           configuration: {
@@ -159,7 +131,6 @@ describe("[Integration] Create server", () => {
                 name: "my-extension",
                 extendApiMethods: {
                   myFunc(context) {
-                    context satisfies IntegrationContexts["test_integration"];
                     return context.api.success();
                   },
                 },

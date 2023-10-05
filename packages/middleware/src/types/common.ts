@@ -116,6 +116,8 @@ export interface MiddlewareContext<API extends ApiMethods = any> {
   res: Response;
   extensions: ApiClientExtension<API>[];
   customQueries: Record<string, CustomQueryFunction>;
+  integrations: IntegrationsLoaded;
+  getApiClient: (integrationName: string) => any;
 }
 
 export type ExtendQuery = <T extends ContextQuery<string>, Key extends keyof T>(
