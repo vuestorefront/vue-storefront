@@ -63,7 +63,7 @@ export type ContextualizedApi<API> = {
 };
 
 export interface ApiClient<API = any, CONFIG = any, CLIENT = any> {
-  api: ContextualizedApi<API>;
+  api: API;
   client: CLIENT;
   settings: CONFIG & { integrationName: string };
 }
