@@ -64,7 +64,7 @@ export interface ApiClientExtension<API = any, CONTEXT = any> {
   }: {
     app: Express;
     configuration: any;
-  }) => Promise<void>;
+  }) => Promise<void> | void;
   hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
 }
 
