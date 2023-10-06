@@ -19,7 +19,7 @@ const extension = {
     extendApiMethods: {
       customMethod: (context, params) => { /* ... */ },
     },
-     extendApp: (app) => {  /* ... */
+     extendApp: ({app, configuration}) => {  /* ... */
     },
     hooks: (req, res) => {
     return {
