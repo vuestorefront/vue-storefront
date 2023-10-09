@@ -30,8 +30,8 @@
     "sidebarRoot": true
   },
   {
-    "title": "Storefronts",
-    "_path": "/storefronts",
+    "title": "Storefront",
+    "_path": "/storefront",
     "sidebarSection": "Build",
     "icon": "material-symbols:storefront",
     "sidebarRoot": true
