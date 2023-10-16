@@ -30,5 +30,5 @@ To use them, create the `.npmrc` file with the following content at the root of 
 Then run the following command and enter your Vue Storefront Enterprise account credentials:
 
 ```bash
-npm adduser --registry https://registrynpm.storefrontcloud.io
+npm login --registry https://registrynpm.storefrontcloud.io
 ```
