@@ -1,5 +1,18 @@
 # @vue-storefront/middleware
 
+## 3.6.1
+
+### Patch Changes
+
+- 3335b9b48: `getApiClient` helper returns now ApiClient interface
+
+  Usage:
+
+  ```typescript
+  const sapcc = context.getApiClient<Api, Config, Client>("sapcc");
+  // typeof sapcc === ApiClient<Api, Config, Client>
+  ```
+
 ## 3.6.0
 
 ### Minor Changes
