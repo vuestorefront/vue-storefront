@@ -7,7 +7,7 @@ import {
   CustomQueryFunction,
   TObject,
 } from "./base";
-import { ApiClientConfig, ApiClientFactory } from "./server";
+import { ApiClient, ApiClientConfig, ApiClientFactory } from "./server";
 
 export type ApiMethods = Record<string, ApiClientMethod>;
 export type ApiMethodsFactory<
@@ -64,7 +64,7 @@ export interface ApiClientExtension<API = any, CONTEXT = any> {
   }: {
     app: Express;
     configuration: any;
-  }) => Promise<void>;
+  }) => Promise<void> | void;
   hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
 }
 
@@ -116,6 +116,10 @@ export interface MiddlewareContext<API extends ApiMethods = any> {
   res: Response;
   extensions: ApiClientExtension<API>[];
   customQueries: Record<string, CustomQueryFunction>;
+  integrations: IntegrationsLoaded;
+  getApiClient: <Api = any, Config = any, Client = any>(
+    integrationName: string
+  ) => ApiClient<Api, Config, Client>;
 }
 
 export type ExtendQuery = <T extends ContextQuery<string>, Key extends keyof T>(

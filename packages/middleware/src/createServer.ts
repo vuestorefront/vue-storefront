@@ -14,20 +14,21 @@ import {
   callApiFunction,
 } from "./handlers";
 
-const app = express();
-app.use(express.json());
-app.use(cookieParser());
-app.use(
-  cors({
-    credentials: true,
-    origin: "http://localhost:3000",
-  })
-);
-app.disable("x-powered-by");
-
 async function createServer<
   TIntegrationContext extends Record<string, IntegrationContext>
 >(config: MiddlewareConfig<TIntegrationContext>): Promise<Express> {
+  const app = express();
+
+  app.use(express.json());
+  app.use(cookieParser());
+  app.use(
+    cors({
+      credentials: true,
+      origin: "http://localhost:3000",
+    })
+  );
+  app.disable("x-powered-by");
+
   consola.info("Middleware starting....");
   const options: Helmet = {
     contentSecurityPolicy: false,
