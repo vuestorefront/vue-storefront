@@ -9,6 +9,6 @@
     "untrimmedFilePath": "./lib/<unscopedPackageName>.d.ts"
   },
   "docModel": {
-    "apiJsonFilePath": "<projectFolder>/../../docs/content/3.middleware/3.api/<unscopedPackageName>.api.json"
+    "apiJsonFilePath": "<projectFolder>/../../docs/content/4.sdk/4.api/<unscopedPackageName>.api.json"
   }
 }

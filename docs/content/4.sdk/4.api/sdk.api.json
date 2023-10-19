@@ -1,0 +1,1723 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.36.4",
+    "schemaVersion": 1011,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      },
+      "reportUnsupportedHtmlElements": false
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "@vue-storefront/sdk!",
+  "docComment": "",
+  "name": "@vue-storefront/sdk",
+  "preserveMemberOrder": false,
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@vue-storefront/sdk!",
+      "name": "",
+      "preserveMemberOrder": false,
+      "members": [
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!AnyFunction:type",
+          "docComment": "/**\n * AnyFunction type represents a function that accepts any number of arguments and returns any type of value. It is used for the connector methods, interceptors, overrides and extensions for which we don't know the exact types.\n *\n * @example\n *\n * const fn: AnyFunction = (a, b) => a + b;\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type AnyFunction = "
+            },
+            {
+              "kind": "Content",
+              "text": "(...args: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Array",
+              "canonicalReference": "!Array:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<any>) => any"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "AnyFunction",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!buildModule:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function buildModule<T extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Module",
+              "canonicalReference": "@vue-storefront/sdk!Module:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">(module: "
+            },
+            {
+              "kind": "Reference",
+              "text": "InitFunction",
+              "canonicalReference": "@vue-storefront/sdk!InitFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ", moduleOptions?: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "T"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/module/buildModule.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 8,
+            "endIndex": 9
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "module",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "moduleOptions",
+              "parameterTypeTokenRange": {
+                "startIndex": 6,
+                "endIndex": 7
+              },
+              "isOptional": true
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "buildModule"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!buildModule:function(2)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function buildModule<T extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Module",
+              "canonicalReference": "@vue-storefront/sdk!Module:type"
+            },
+            {
+              "kind": "Content",
+              "text": ", U extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Extension",
+              "canonicalReference": "@vue-storefront/sdk!Extension:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
+              "text": ">(module: "
+            },
+            {
+              "kind": "Reference",
+              "text": "InitFunction",
+              "canonicalReference": "@vue-storefront/sdk!InitFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ", moduleOptions: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "T & U"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/module/buildModule.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 12,
+            "endIndex": 13
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 2,
+          "parameters": [
+            {
+              "parameterName": "module",
+              "parameterTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 9
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "moduleOptions",
+              "parameterTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 11
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "U",
+              "constraintTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              }
+            }
+          ],
+          "name": "buildModule"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!buildModule:function(3)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function buildModule<T extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Module",
+              "canonicalReference": "@vue-storefront/sdk!Module:type"
+            },
+            {
+              "kind": "Content",
+              "text": ", U extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Extension",
+              "canonicalReference": "@vue-storefront/sdk!Extension:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
+              "text": ">(module: "
+            },
+            {
+              "kind": "Reference",
+              "text": "InitFunction",
+              "canonicalReference": "@vue-storefront/sdk!InitFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ", moduleOptions: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": ", extension: "
+            },
+            {
+              "kind": "Content",
+              "text": "U"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "T & U"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/module/buildModule.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 14,
+            "endIndex": 15
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 3,
+          "parameters": [
+            {
+              "parameterName": "module",
+              "parameterTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 9
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "moduleOptions",
+              "parameterTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 11
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "extension",
+              "parameterTypeTokenRange": {
+                "startIndex": 12,
+                "endIndex": 13
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "U",
+              "constraintTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              }
+            }
+          ],
+          "name": "buildModule"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!buildModule:function(4)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function buildModule<T extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Module",
+              "canonicalReference": "@vue-storefront/sdk!Module:type"
+            },
+            {
+              "kind": "Content",
+              "text": ", U extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Extension",
+              "canonicalReference": "@vue-storefront/sdk!Extension:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
+              "text": ">(module: "
+            },
+            {
+              "kind": "Reference",
+              "text": "InitFunction",
+              "canonicalReference": "@vue-storefront/sdk!InitFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": ", moduleOptions: "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
+              "text": ", extension?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "InitFunction",
+              "canonicalReference": "@vue-storefront/sdk!InitFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<U> | U"
+            },
+            {
+              "kind": "Content",
+              "text": ", extensionOptions?: "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "T & U"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/module/buildModule.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 17,
+            "endIndex": 18
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 4,
+          "parameters": [
+            {
+              "parameterName": "module",
+              "parameterTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 9
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "moduleOptions",
+              "parameterTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 11
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "extension",
+              "parameterTypeTokenRange": {
+                "startIndex": 12,
+                "endIndex": 14
+              },
+              "isOptional": true
+            },
+            {
+              "parameterName": "extensionOptions",
+              "parameterTypeTokenRange": {
+                "startIndex": 15,
+                "endIndex": 16
+              },
+              "isOptional": true
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "U",
+              "constraintTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              }
+            }
+          ],
+          "name": "buildModule"
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!Connector:type",
+          "docComment": "/**\n * Connector returns all methods that are exposed by the module.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type Connector = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, "
+            },
+            {
+              "kind": "Reference",
+              "text": "AnyFunction",
+              "canonicalReference": "@vue-storefront/sdk!AnyFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "Connector",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!EventCallback:type",
+          "docComment": "/**\n * EventCallback is a function that is called when an event is emitted.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type EventCallback = "
+            },
+            {
+              "kind": "Content",
+              "text": "<T>(...data: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Array",
+              "canonicalReference": "!Array:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>) => void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "EventCallback",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@vue-storefront/sdk!eventManager:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "eventManager: "
+            },
+            {
+              "kind": "Reference",
+              "text": "EventManager",
+              "canonicalReference": "@vue-storefront/sdk!~EventManager:class"
+            }
+          ],
+          "fileUrlPath": "src/events/EventManager.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "eventManager",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!Extension:type",
+          "docComment": "/**\n * Extension Type represents the extension configuration. It provides extensibility mechanisms like interceptors, extensions, overrides, and pub/sub manager.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type Extension = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Omit",
+              "canonicalReference": "!Omit:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "Partial",
+              "canonicalReference": "!Partial:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "Module",
+              "canonicalReference": "@vue-storefront/sdk!Module:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">, \"connector\"> & {\n    extend?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, "
+            },
+            {
+              "kind": "Reference",
+              "text": "AnyFunction",
+              "canonicalReference": "@vue-storefront/sdk!AnyFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">;\n    override?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, "
+            },
+            {
+              "kind": "Reference",
+              "text": "AnyFunction",
+              "canonicalReference": "@vue-storefront/sdk!AnyFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">;\n    interceptors?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Array",
+              "canonicalReference": "!Array:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "InterceptorsConfig",
+              "canonicalReference": "@vue-storefront/sdk!InterceptorsConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "Extension",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 19
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@vue-storefront/sdk!handleError:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "handleError: "
+            },
+            {
+              "kind": "Content",
+              "text": "(err: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Error",
+              "canonicalReference": "!Error:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
+            },
+            {
+              "kind": "Reference",
+              "text": "SDKError",
+              "canonicalReference": "@vue-storefront/sdk!~SDKError:class"
+            }
+          ],
+          "fileUrlPath": "src/error.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "handleError",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!InitFunction:type",
+          "docComment": "/**\n * InitFunction is a function that is called when the module is initialized. It contains the module options that is passed to the module and returns the module.\n *\n * @example\n *\n * const MyModule: InitFunction<Module> = (opts) => { // Do something with the options return { connector: { method1: () => {}, }, } }\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type InitFunction<T> = "
+            },
+            {
+              "kind": "Content",
+              "text": "(opts?: any) => T"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "InitFunction",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@vue-storefront/sdk!initSDK:var",
+          "docComment": "/**\n * Initializes SDK\n *\n * @param sdkConfig - SDK configuration\n *\n * @example\n *\n * This is an example of how to initialize SDK Providing generic type is required to get proper type inference.\n * ```typescript\n * const sdkConfig = {\n *   module1: buildModule<Module1, typeof extension>(module1, {}, extension),\n *   module2: buildModule<Module2>(module2),\n * };\n *\n * const sdk = initSDK<typeof sdkConfig>(sdkConfig);\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "initSDK: "
+            },
+            {
+              "kind": "Content",
+              "text": "<T extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Readonly",
+              "canonicalReference": "!Readonly:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, import(\"./types\")."
+            },
+            {
+              "kind": "Reference",
+              "text": "Module",
+              "canonicalReference": "@vue-storefront/sdk!Module:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> & "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, import(\"./types\")."
+            },
+            {
+              "kind": "Reference",
+              "text": "Extension",
+              "canonicalReference": "@vue-storefront/sdk!Extension:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">>>(sdkConfig: T) => "
+            },
+            {
+              "kind": "Reference",
+              "text": "SDKApi",
+              "canonicalReference": "@vue-storefront/sdk!SDKApi:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            }
+          ],
+          "fileUrlPath": "src/bootstrap.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "initSDK",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 14
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@vue-storefront/sdk!initVSFSDK:var",
+          "docComment": "/**\n * An old alias for initSDK function.\n *\n * @deprecated\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "initVSFSDK: "
+            },
+            {
+              "kind": "Content",
+              "text": "<T extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Readonly",
+              "canonicalReference": "!Readonly:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, import(\"./types\")."
+            },
+            {
+              "kind": "Reference",
+              "text": "Module",
+              "canonicalReference": "@vue-storefront/sdk!Module:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> & "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, import(\"./types\")."
+            },
+            {
+              "kind": "Reference",
+              "text": "Extension",
+              "canonicalReference": "@vue-storefront/sdk!Extension:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">>>(sdkConfig: T) => import(\"./types\")."
+            },
+            {
+              "kind": "Reference",
+              "text": "SDKApi",
+              "canonicalReference": "@vue-storefront/sdk!SDKApi:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            }
+          ],
+          "fileUrlPath": "src/api-extractor-data.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "initVSFSDK",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 14
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!Interceptor:type",
+          "docComment": "/**\n * Alias for the AnyFunction type. Used in the context of interceptors.\n *\n * @see\n *\n * AnyFunction\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type Interceptor = "
+            },
+            {
+              "kind": "Reference",
+              "text": "AnyFunction",
+              "canonicalReference": "@vue-storefront/sdk!AnyFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "Interceptor",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!InterceptorArgsAfter:type",
+          "docComment": "/**\n * Utility type that defines the type of arguments that are passed to the `after` interceptor.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type InterceptorArgsAfter<RESULT extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "AnyFunction",
+              "canonicalReference": "@vue-storefront/sdk!AnyFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Awaited",
+              "canonicalReference": "!Awaited:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "ReturnType",
+              "canonicalReference": "!ReturnType:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<RESULT>>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "InterceptorArgsAfter",
+          "typeParameters": [
+            {
+              "typeParameterName": "RESULT",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 7
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!InterceptorArgsBefore:type",
+          "docComment": "/**\n * Utility type that defines the type of arguments that are passed to the `before` interceptor.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type InterceptorArgsBefore<ARGS extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "AnyFunction",
+              "canonicalReference": "@vue-storefront/sdk!AnyFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Parameters",
+              "canonicalReference": "!Parameters:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<ARGS>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "InterceptorArgsBefore",
+          "typeParameters": [
+            {
+              "typeParameterName": "ARGS",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!InterceptorResultAfter:type",
+          "docComment": "/**\n * Utility type that defines the type of the result that is returned from the `after` interceptor.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type InterceptorResultAfter<RESULT extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "AnyFunction",
+              "canonicalReference": "@vue-storefront/sdk!AnyFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "ReturnType",
+              "canonicalReference": "!ReturnType:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<RESULT>>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "InterceptorResultAfter",
+          "typeParameters": [
+            {
+              "typeParameterName": "RESULT",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 7
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!InterceptorResultBefore:type",
+          "docComment": "/**\n * Utility type that defines the type of the result that is returned from the `before` interceptor.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type InterceptorResultBefore<ARGS extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "AnyFunction",
+              "canonicalReference": "@vue-storefront/sdk!AnyFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "Parameters",
+              "canonicalReference": "!Parameters:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<ARGS>>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "InterceptorResultBefore",
+          "typeParameters": [
+            {
+              "typeParameterName": "ARGS",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 7
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!InterceptorsConfig:type",
+          "docComment": "/**\n * InterceptorsConfig represents the configuration of the interceptors. It is a map of the interceptor type to the map of the method name to the interceptor.\n *\n * @example\n *\n * const interceptorsConfig: InterceptorsConfig = { before: { method1: [interceptor1, interceptor2], method2: interceptor3, }, after: { method1: [interceptor1, interceptor2], method2: interceptor3, }, around: { method1: [interceptor1, interceptor2], method2: interceptor3, }, };\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type InterceptorsConfig = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [type in "
+            },
+            {
+              "kind": "Reference",
+              "text": "InterceptorType",
+              "canonicalReference": "@vue-storefront/sdk!InterceptorType:type"
+            },
+            {
+              "kind": "Content",
+              "text": "]?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, "
+            },
+            {
+              "kind": "Reference",
+              "text": "Interceptor",
+              "canonicalReference": "@vue-storefront/sdk!Interceptor:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "Array",
+              "canonicalReference": "!Array:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "Interceptor",
+              "canonicalReference": "@vue-storefront/sdk!Interceptor:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> | undefined>;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "InterceptorsConfig",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 12
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!InterceptorType:type",
+          "docComment": "/**\n * InterceptorType represents the type of the interceptor.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type InterceptorType = "
+            },
+            {
+              "kind": "Content",
+              "text": "\"before\" | \"after\" | \"around\""
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "InterceptorType",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!Module:type",
+          "docComment": "/**\n * Module Type represents the module configuration. It is a pluggable piece of code in a standalone package. Module can be a subject of interceptors, overrides and extensions.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type Module = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    connector: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Connector",
+              "canonicalReference": "@vue-storefront/sdk!Connector:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    utils?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, any>;\n    subscribers?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Subscribers",
+              "canonicalReference": "@vue-storefront/sdk!Subscribers:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "Module",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 8
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!SDKApi:type",
+          "docComment": "/**\n * SDKApi represents the API of the SDK. On the init SDK transform configuration data to compose an API and apply interceptors to all methods. This requires a dynamic type mapping to provide the user with the best possible developer experience.\n *\n * The following type map understand the SDK configuration input and produce usable SDK api with all type hints.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type SDKApi<Config extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "SDKConfig",
+              "canonicalReference": "@vue-storefront/sdk!SDKConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [ExtensionName in keyof Config]: {\n        +readonly [Method in keyof Config[ExtensionName][\"connector\"] | keyof Config[ExtensionName][\"override\"]]: Method extends keyof Config[ExtensionName][\"override\"] ? Config[ExtensionName][\"override\"][Method] : Config[ExtensionName][\"connector\"][Method];\n    } & {\n        +readonly [Method in keyof Config[ExtensionName][\"extend\"]]: Config[ExtensionName][\"extend\"][Method];\n    };\n} & {\n    +readonly [ExtensionName in keyof Config]: {\n        utils: {\n            +readonly [Method in keyof Config[ExtensionName][\"utils\"]]: Config[ExtensionName][\"utils\"][Method];\n        };\n    };\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "SDKApi",
+          "typeParameters": [
+            {
+              "typeParameterName": "Config",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!SDKConfig:type",
+          "docComment": "/**\n * SDKConfig represents the configuration and the API of the SDK.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type SDKConfig = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Readonly",
+              "canonicalReference": "!Readonly:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, "
+            },
+            {
+              "kind": "Reference",
+              "text": "Module",
+              "canonicalReference": "@vue-storefront/sdk!Module:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> & "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, "
+            },
+            {
+              "kind": "Reference",
+              "text": "Extension",
+              "canonicalReference": "@vue-storefront/sdk!Extension:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "SDKConfig",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 11
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!Subscribers:type",
+          "docComment": "/**\n * Subscribers are declarative callbacks that are called when an event is emitted.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type Subscribers = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, "
+            },
+            {
+              "kind": "Reference",
+              "text": "EventCallback",
+              "canonicalReference": "@vue-storefront/sdk!EventCallback:type"
+            },
+            {
+              "kind": "Content",
+              "text": " | "
+            },
+            {
+              "kind": "Reference",
+              "text": "Array",
+              "canonicalReference": "!Array:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "EventCallback",
+              "canonicalReference": "@vue-storefront/sdk!EventCallback:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/index.ts",
+          "releaseTag": "Public",
+          "name": "Subscribers",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 9
+          }
+        }
+      ]
+    }
+  ]
+}

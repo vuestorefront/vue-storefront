@@ -7,9 +7,13 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxi prepare"
+    "api-extract": "cd ../ && yarn build && cd docs/ && yarn middleware-ref && yarn sdk-ref",
+    "middleware-ref": "cd ../packages/middleware && api-extractor run --local",
+    "sdk-ref": "cd ../packages/sdk && api-extractor run --local"
   },
   "devDependencies": {
+    "@microsoft/api-documenter": "^7.13.30",
+    "@microsoft/api-extractor": "^7.18.1",
     "@types/node": "^18",
     "nuxt": "^3.6.2"
   },

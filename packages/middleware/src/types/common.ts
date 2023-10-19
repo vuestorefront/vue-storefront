@@ -7,7 +7,7 @@ import {
   CustomQueryFunction,
   TObject,
 } from "./base";
-import { ApiClientConfig, ApiClientFactory } from "./server";
+import { ApiClient, ApiClientConfig, ApiClientFactory } from "./server";
 
 export type ApiMethods = Record<string, ApiClientMethod>;
 export type ApiMethodsFactory<
@@ -117,7 +117,9 @@ export interface MiddlewareContext<API extends ApiMethods = any> {
   extensions: ApiClientExtension<API>[];
   customQueries: Record<string, CustomQueryFunction>;
   integrations: IntegrationsLoaded;
-  getApiClient: (integrationName: string) => any;
+  getApiClient: <Api = any, Config = any, Client = any>(
+    integrationName: string
+  ) => ApiClient<Api, Config, Client>;
 }
 
 export type ExtendQuery = <T extends ContextQuery<string>, Key extends keyof T>(

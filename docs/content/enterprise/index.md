@@ -16,7 +16,7 @@ The Enterprise license offers everything available in our open-source projects, 
 - and more...
 ::
 
-:card{to="hhttps://vuestorefront.io/pricing" title="Open Source vs Enterprise" description="Learn the difference between Open Source and Enterprise offerings or talk to sales" icon="pepicons-pencil:internet"}
+:card{to="https://vuestorefront.io/pricing" title="Open Source vs Enterprise" description="Learn the difference between Open Source and Enterprise offerings or talk to sales" icon="pepicons-pencil:internet"}
 ## How to use Enterprise Packages
 
 Once you have access to our enterprise license, you can connect to our private repository that hosts the `@vsf-enterprise` packages.
@@ -30,5 +30,5 @@ To use them, create the `.npmrc` file with the following content at the root of 
 Then run the following command and enter your Vue Storefront Enterprise account credentials:
 
 ```bash
-npm adduser --registry https://registrynpm.storefrontcloud.io
+npm login --registry https://registrynpm.storefrontcloud.io
 ```
