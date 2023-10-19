@@ -1,4 +1,4 @@
-# @vue-storefront/middleware
+# Change log
 
 ## 3.6.1
 
