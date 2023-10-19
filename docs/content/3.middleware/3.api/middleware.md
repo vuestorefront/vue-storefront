@@ -1,1 +1,1 @@
-# `middleware`
+# `@vue-storefront/middleware`

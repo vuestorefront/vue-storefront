@@ -1,1 +1,1 @@
-# `sdk`
+# `@vue-storefront/sdk`
