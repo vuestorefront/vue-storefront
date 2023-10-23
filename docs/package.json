@@ -9,7 +9,10 @@
     "preview": "nuxt preview",
     "api-extract": "cd ../ && yarn build && cd docs/ && yarn middleware-ref && yarn sdk-ref",
     "middleware-ref": "cd ../packages/middleware && api-extractor run --local",
-    "sdk-ref": "cd ../packages/sdk && api-extractor run --local"
+    "sdk-ref": "cd ../packages/sdk && api-extractor run --local",
+    "add-changelogs:middleware": "cp ../packages/middleware/CHANGELOG.md ./content/3.middleware/4.reference/change-log.md",
+    "add-changelogs:sdk": "cp ../packages/sdk/CHANGELOG.md ./content/4.sdk/5.reference/change-log.md",
+    "add-changelogs": "yarn add-changelogs:middleware && yarn add-changelogs:sdk"
   },
   "devDependencies": {
     "@microsoft/api-documenter": "^7.13.30",

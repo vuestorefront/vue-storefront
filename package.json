@@ -10,7 +10,7 @@
     "lint": "lerna run lint",
     "changesets:version": "yarn changeset version && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install && yarn prepare:docs",
     "changesets:publish": "yarn build && yarn changeset publish",
-    "prepare:docs": "cd docs && yarn install && yarn api-extract"
+    "prepare:docs": "cd docs && yarn install && yarn api-extract && yarn add-changelogs"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
