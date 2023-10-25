@@ -214,7 +214,7 @@ Continue with the configuration steps described in the documentation for your in
 
 ## **Contribution** 🤝
 
-Vue Storefront is an Open Source project and we encourage everyone to help us making it better. If you are interested in contributing to the project, please read our [Contributing Guide](https://github.com/vuestorefront/vue-storefront/blob/main/CONTRIBUTING.md) and [Code of Conduct](https://github.com/vuestorefront/vue-storefront/blob/main/CODE_OF_CONDUCT.md).
+Vue Storefront is an Open Source project and we encourage everyone to help us making it better. If you are interested in contributing to the project, please read our [Contributing Guide](https://github.com/vuestorefront/.github/blob/main/CONTRIBUTING.md) and [Code of Conduct](https://github.com/vuestorefront/.github/blob/main//CODE_OF_CONDUCT.md).
 
 If you have any questions about contributing, please join our [Discord server](https://discord.vuestorefront.io/) - we are happy to help you!
 
