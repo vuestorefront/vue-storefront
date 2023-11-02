@@ -2,8 +2,9 @@
   "extends": "@vue-storefront/integrations-tsconfig/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "./lib",
-    "declarationDir": "./lib",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "declarationDir": "./dist",
     "declaration": true,
     "rootDir": "./src"
   },
