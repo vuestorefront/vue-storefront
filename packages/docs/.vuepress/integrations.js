@@ -37,14 +37,6 @@ const INTEGRATIONS = {
       maintainedBy: [{ name: 'Vue Storefront', link: 'https://vuestorefront.io/' }],
     },
     {
-      name: 'Salesforce Commerce Cloud',
-      link: 'https://docs.vuestorefront.io/sfcc',
-      image: 'https://uploads-ssl.webflow.com/5e90e5cd5f86784ad554a3c2/5ed627707df0e6b720941b44_saleforce-commerce-cloud-logo%201.svg',
-      status: STATUS.BETA,
-      license: LICENSE.ENTERPRISE,
-      maintainedBy: [{ name: 'Forkpoint', link: 'https://forkpoint.com/' }],
-    },
-    {
       name: 'SAP Commerce Cloud',
       link: 'https://docs.vuestorefront.io/sapcc',
       image: '/v2/integrations-logos/sap.svg',
