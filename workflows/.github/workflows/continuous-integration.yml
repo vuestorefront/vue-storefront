@@ -24,11 +24,6 @@ env:
   GCP_PROJECT_NAME: sf-artifacts-prod
 
 jobs:
-  name: GitGuardian scan
-
-on: [push, pull_request]
-
-jobs:
   scanning:
     name: GitGuardian scan
     runs-on: ubuntu-latest
