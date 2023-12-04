@@ -53,6 +53,11 @@
       "title": "Amplience",
       "to": "/integrations/amplience",
       "icon": "IconAmplience"
+    },
+    {
+      "title": "Builder",
+      "to": "/integrations/builder",
+      "icon": "logos:builder-io-icon"
     }
   ],
   "Payment": [
