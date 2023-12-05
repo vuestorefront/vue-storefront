@@ -40,11 +40,6 @@
       "icon": "IconContentstack"
     },
     {
-      "title": "Sanity",
-      "to": "/integrations/sanity",
-      "icon": "devicon:sanity"
-    },
-    {
       "title": "Bloomreach Content",
       "to": "/integrations/bloomreach-content",
       "icon": "IconBloomreach"
