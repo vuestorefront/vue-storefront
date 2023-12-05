@@ -58,7 +58,9 @@ export default class GenerateSDK extends Command {
 
     // build the boilerplate
     sp.start("Building the boilerplate");
+    const cliDir = `${projectDir}/cli`;
     await execa(packageManager, ["run", "build"], { cwd: projectDir });
+    await execa(packageManager, ["run", "build"], { cwd: cliDir });
     sp.stop("Boilerplate has been built successfully!");
     // clean up the git repository
     await cleanUpRepositories(projectDir);

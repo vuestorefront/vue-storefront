@@ -2201,7 +2201,7 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@rollup/pluginutils@^4.1.0":
+"@rollup/pluginutils@^4.1.2":
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-4.2.1.tgz#e6c6c3aba0744edce3fb2074922d3776c0af2a6d"
   integrity sha512-iKnFXr7NkdZAIHiIWE+BX5ULi/ucVFYWD6TbAV+rZctiRTY2PL6tsIKhoIOaoskiWAkgu+VsbXgUVDNLHf+InQ==
@@ -2378,6 +2378,11 @@
   integrity sha512-CqSKwFwefj4PzZ5n/iwad/bow2hTCh0FlNAeWLtQM3JA/NX/iYagIpWG2cf1bQKQ2c9gU2log5VUCrn7LDOs0w==
   dependencies:
     "@types/express" "*"
+
+"@types/cookiejar@*":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@types/cookiejar/-/cookiejar-2.1.2.tgz#66ad9331f63fe8a3d3d9d8c6e3906dd10f6446e8"
+  integrity sha512-t73xJJrvdTjXrn4jLS9VSGRbz0nUY3cl2DMGDU48lKl+HR9dbbjW2A9r3g40VA++mQpy6uuHg33gy7du2BKpog==
 
 "@types/cors@^2.8.12":
   version "2.8.13"
@@ -2638,6 +2643,21 @@
   resolved "https://registry.yarnpkg.com/@types/strip-json-comments/-/strip-json-comments-0.0.30.tgz#9aa30c04db212a9a0649d6ae6fd50accc40748a1"
   integrity sha512-7NQmHra/JILCd1QqpSzl8+mJRc8ZHz3uDm8YV1Ks9IhK0epEiTw8aIErbvH9PI+6XbqhyIQy3462nEsn7UVzjQ==
 
+"@types/superagent@*":
+  version "4.1.19"
+  resolved "https://registry.yarnpkg.com/@types/superagent/-/superagent-4.1.19.tgz#33f4fa460fb9e79e5e47a96731725141c667acd0"
+  integrity sha512-McM1mlc7PBZpCaw0fw/36uFqo0YeA6m8JqoyE4OfqXsZCIg0hPP2xdE6FM7r6fdprDZHlJwDpydUj1R++93hCA==
+  dependencies:
+    "@types/cookiejar" "*"
+    "@types/node" "*"
+
+"@types/supertest@^2.0.13":
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/@types/supertest/-/supertest-2.0.13.tgz#797b3df9abb9a09c4c740c9c615d618c7921ad41"
+  integrity sha512-Vc/5/pRwSC055fU7Wu8erTj4gLpID9SdG2zRMuqaHLni3GTsrJ8gyB6MbFZZGLW6vQaGPhiUWRB6uWglv87MEg==
+  dependencies:
+    "@types/superagent" "*"
+
 "@types/through@*":
   version "0.0.30"
   resolved "https://registry.yarnpkg.com/@types/through/-/through-0.0.30.tgz#e0e42ce77e897bd6aead6f6ea62aeb135b8a3895"
@@ -2763,15 +2783,15 @@
     "@typescript-eslint/types" "5.62.0"
     eslint-visitor-keys "^3.3.0"
 
-"@vue-storefront/api-extractor-config@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/api-extractor-config/-/api-extractor-config-0.0.3.tgz#05bab58c485a39e721d9f9e673bb28a5fbf95840"
-  integrity sha512-o/vbqbehZ2luLNyMRzGGcw7/K4gqYTcVUJud1iRu5lAoGJjH6hBwU4ZWy/XfSmhuudPY4LKQco5etTUfNDAuPQ==
+"@vue-storefront/api-extractor-config@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/api-extractor-config/-/api-extractor-config-0.0.4.tgz#62838a52a90ae66542aed8b0c621fb0e3a30fa5f"
+  integrity sha512-rXBk1u44YPPKP+Xl7vOQQYuKuYqg1aZHr9SkbJJiyUoOBwJXkayLMGx5lL9EaldIsDyRm8snVWOF228aJfD8cw==
 
-"@vue-storefront/eslint-config-integrations@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/eslint-config-integrations/-/eslint-config-integrations-0.0.17.tgz#ab5d00706a5ab823846370c31906510963da13ee"
-  integrity sha512-8jO3voE0Ieru/9MuMRT34U6ar/3G0jXvmkzwLglpl+Hn8plausOn1cNzUari0Tf74+A3poBhsTYL/aYpzhYgQA==
+"@vue-storefront/eslint-config-integrations@^0.0.19":
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/eslint-config-integrations/-/eslint-config-integrations-0.0.19.tgz#4776899c8612d67ccd9b227556382f456995c04b"
+  integrity sha512-Bvh30w3rah7m5eeiY8JNCYbD1ZlX6mXA8sj3i+UXarPTpvkcs66gmeIxHIcpJk8YXwmYRH2Vf02vTrVnnWJNYg==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^5.59.9"
     "@typescript-eslint/parser" "^5.59.9"
@@ -2782,30 +2802,30 @@
     eslint-plugin-prettier "^4.2.1"
     prettier "^2.8.8"
 
-"@vue-storefront/integrations-tsconfig@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/integrations-tsconfig/-/integrations-tsconfig-0.0.2.tgz#de3bf7775cebb816c491323fc486e745e3045e0b"
-  integrity sha512-8zWgGKU7EGrwAK+zcfxNUYSdsuFvrdLo5Oq95o5Unwcj5X153rgexTVGL4qYC18NRXD76r52Fbj8hWKWIBVdFw==
+"@vue-storefront/integrations-tsconfig@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/integrations-tsconfig/-/integrations-tsconfig-0.0.4.tgz#36b9f742dedac04df17657ad296e08c91f2fae6d"
+  integrity sha512-Joi9dTblviEaujemcWT30GSF3nh0MaPfrz76V6kHyGgO3ftbWVq2tfq2jtbiL+YJxT3FaY1/giq7cSRCjb9kcQ==
 
-"@vue-storefront/jest-config@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/jest-config/-/jest-config-0.0.2.tgz#12998b1d390fb75113e2f5649934c3fd55c4c96c"
-  integrity sha512-FVaA6jDoPtn5+4yv+RwwlEUvcvRc1cgysvDKX7pB8MR7NkVPT1zBxFJMAdGbFzgVMhM3Nbgz1MWZrPxVQkhxJQ==
+"@vue-storefront/jest-config@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/jest-config/-/jest-config-0.0.3.tgz#3c59e14e658fb5c8085505742646cb29405cc308"
+  integrity sha512-IZ46nJVoe+g8GRDviCdBRMnnkkySV0or4rzcAz2rV1xNwMMFiGVz8rP2pLEoZtmfNTtJFOUxa/y9/B/EetJ5JQ==
   dependencies:
     "@types/jest" "^27.4.0"
     jest "^29.5.0"
     ts-jest "^29.1.0"
     ts-node "^10.9.1"
 
-"@vue-storefront/rollup-config@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/rollup-config/-/rollup-config-0.0.2.tgz#09f97a6c8ea9c9fa0a2c9c3c13a696f620cc3575"
-  integrity sha512-BfnGBZUeTWCwB1FUiNFjzIYUt6Db5G1vMzNFoSwua6ZfVI/hmVWjd/0Z2t0MHsXvl6yIdqVRBwP2mbckYtVxgQ==
+"@vue-storefront/rollup-config@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/rollup-config/-/rollup-config-0.0.6.tgz#625f4e67790f11e2b9ff2843a95fea52849effa2"
+  integrity sha512-Xc1AZNqVLRWfkYuiH/suCyP0ZTIYT4vNfQ3iS01CoLAATPRPOeZ7WSll0DS99vIiCY2VjM65U1vyOAIXqomu3w==
   dependencies:
     "@rollup/plugin-commonjs" "^21.0.1"
     "@rollup/plugin-node-resolve" "^13.0.6"
     rollup "^2.59.0"
-    rollup-plugin-typescript2 "^0.30.0"
+    rollup-plugin-typescript2 "^0.35.0"
 
 "@vue-storefront/theme-utilities@^0.2.0":
   version "0.2.0"
@@ -6172,7 +6192,7 @@ finalhandler@1.2.0:
     statuses "2.0.1"
     unpipe "~1.0.0"
 
-find-cache-dir@^3.3.1:
+find-cache-dir@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/find-cache-dir/-/find-cache-dir-3.3.2.tgz#b30c5b6eff0730731aea9bbd9dbecbd80256d64b"
   integrity sha512-wXZV5emFEjrridIgED11OoUKLxiYjAcqot/NJdAkOhlJ+vGzwhOAfcG5OX1jP+S0PcjEn8bdMJv+g2jwQ3Onig==
@@ -6326,21 +6346,21 @@ fs-constants@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs-constants/-/fs-constants-1.0.0.tgz#6be0de9be998ce16af8afc24497b9ee9b7ccd9ad"
   integrity sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==
 
-fs-extra@8.1.0, fs-extra@^8.1, fs-extra@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-8.1.0.tgz#49d43c45a88cd9677668cb7be1b46efdb8d2e1c0"
-  integrity sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==
-  dependencies:
-    graceful-fs "^4.2.0"
-    jsonfile "^4.0.0"
-    universalify "^0.1.0"
-
 fs-extra@9.1.0, fs-extra@^9.0, fs-extra@^9.0.1, fs-extra@^9.1.0:
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-9.1.0.tgz#5954460c764a8da2094ba3554bf839e6b9a7c86d"
   integrity sha512-hcg3ZmepS30/7BSFqRvoo3DOMQu7IjqxO5nCDt+zM9XWjb33Wg7ziNT+Qvqbuc3+gWpzO02JubVyk2G4Zvo1OQ==
   dependencies:
     at-least-node "^1.0.0"
+    graceful-fs "^4.2.0"
+    jsonfile "^6.0.1"
+    universalify "^2.0.0"
+
+fs-extra@^10.0.0:
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-10.1.0.tgz#02873cfbc4084dde127eaa5f9905eef2325d1abf"
+  integrity sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==
+  dependencies:
     graceful-fs "^4.2.0"
     jsonfile "^6.0.1"
     universalify "^2.0.0"
@@ -6369,6 +6389,15 @@ fs-extra@^7.0.1:
   integrity sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==
   dependencies:
     graceful-fs "^4.1.2"
+    jsonfile "^4.0.0"
+    universalify "^0.1.0"
+
+fs-extra@^8.1, fs-extra@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-8.1.0.tgz#49d43c45a88cd9677668cb7be1b46efdb8d2e1c0"
+  integrity sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==
+  dependencies:
+    graceful-fs "^4.2.0"
     jsonfile "^4.0.0"
     universalify "^0.1.0"
 
@@ -7400,7 +7429,7 @@ is-ci@^3.0.1:
   dependencies:
     ci-info "^3.2.0"
 
-is-core-module@^2.13.0, is-core-module@^2.2.0, is-core-module@^2.8.1:
+is-core-module@^2.13.0, is-core-module@^2.8.1:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.13.0.tgz#bb52aa6e2cbd49a30c2ba68c42bf3435ba6072db"
   integrity sha512-Z7dk6Qo8pOCp3l4tsX2C5ZVas4V+UxwQodwZhLopL91TX8UyyHEXafPcyoeeWuLrwzHcr3igO78wNLwHJHsMCQ==
@@ -10924,7 +10953,7 @@ path-key@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-key/-/path-key-4.0.0.tgz#295588dc3aee64154f877adb9d780b81c554bf18"
   integrity sha512-haREypq7xkM7ErfgIyA0z+Bj4AGKlMSdlQE2jvJo6huWD1EdkKYV+G/T4nq0YEF2vgTT8kqMFKo1uHn950r4SQ==
 
-path-parse@^1.0.6, path-parse@^1.0.7:
+path-parse@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
   integrity sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==
@@ -11672,14 +11701,6 @@ resolve.exports@^2.0.0:
   resolved "https://registry.yarnpkg.com/resolve.exports/-/resolve.exports-2.0.2.tgz#f8c934b8e6a13f539e38b7098e2e36134f01e800"
   integrity sha512-X2UW6Nw3n/aMgDVy+0rSqgHlv39WZAlZrXCdnbyEiKm17DSqHX4MmQMaST3FbeWR5FTuRcUwYAziZajji0Y7mg==
 
-resolve@1.20.0:
-  version "1.20.0"
-  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.20.0.tgz#629a013fb3f70755d6f0b7935cc1c2c5378b1975"
-  integrity sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==
-  dependencies:
-    is-core-module "^2.2.0"
-    path-parse "^1.0.6"
-
 resolve@^1.0.0, resolve@^1.17.0, resolve@^1.22.4:
   version "1.22.4"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.22.4.tgz#1dc40df46554cdaf8948a486a10f6ba1e2026c34"
@@ -11762,16 +11783,16 @@ rimraf@^5.0.0:
   dependencies:
     glob "^10.2.5"
 
-rollup-plugin-typescript2@^0.30.0:
-  version "0.30.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-typescript2/-/rollup-plugin-typescript2-0.30.0.tgz#1cc99ac2309bf4b9d0a3ebdbc2002aecd56083d3"
-  integrity sha512-NUFszIQyhgDdhRS9ya/VEmsnpTe+GERDMmFo0Y+kf8ds51Xy57nPNGglJY+W6x1vcouA7Au7nsTgsLFj2I0PxQ==
+rollup-plugin-typescript2@^0.35.0:
+  version "0.35.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-typescript2/-/rollup-plugin-typescript2-0.35.0.tgz#a84fb4e802b919613f31552c69c3415101b547c1"
+  integrity sha512-szcIO9hPUx3PhQl91u4pfNAH2EKbtrXaES+m163xQVE5O1CC0ea6YZV/5woiDDW3CR9jF2CszPrKN+AFiND0bg==
   dependencies:
-    "@rollup/pluginutils" "^4.1.0"
-    find-cache-dir "^3.3.1"
-    fs-extra "8.1.0"
-    resolve "1.20.0"
-    tslib "2.1.0"
+    "@rollup/pluginutils" "^4.1.2"
+    find-cache-dir "^3.3.2"
+    fs-extra "^10.0.0"
+    semver "^7.3.7"
+    tslib "^2.4.0"
 
 rollup@^2.59.0:
   version "2.75.7"
@@ -12982,11 +13003,6 @@ tsconfig@^7.0.0:
     "@types/strip-json-comments" "0.0.30"
     strip-bom "^3.0.0"
     strip-json-comments "^2.0.0"
-
-tslib@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
-  integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
 
 tslib@^1.8.1:
   version "1.14.1"

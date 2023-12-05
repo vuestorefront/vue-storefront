@@ -11,6 +11,16 @@ const onCreate = (config: Record<string, unknown> = {}) => {
 const { createApiClient } = apiClientFactory({
   onCreate,
   api,
+  extensions: [
+    {
+      name: "bootstrap-extension",
+      extendApiMethods: {
+        extendedFunc() {
+          return { isExtended: true };
+        },
+      },
+    },
+  ],
 });
 
 export { createApiClient };
