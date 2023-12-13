@@ -15,6 +15,7 @@ lerna-debug.log*
 
 # Rollup generate output
 lib
+dist
 
 # Coverage directory used by tools like istanbul
 coverage

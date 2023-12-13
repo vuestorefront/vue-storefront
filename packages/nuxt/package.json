@@ -1,0 +1,52 @@
+{
+  "name": "@vue-storefront/nuxt",
+  "version": "2.8.0",
+  "description": "VueStorefront dedicated features for Nuxt",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "nuxt-module-build build",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:test-app": "cd __tests__/app && yarn dev",
+    "dev:test-middleware": "cd __tests__/middleware && yarn dev",
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "test": "start-server-and-test dev:test-middleware localhost:4000/test_integration/success dev:test-app localhost:3000 \"yarn test:unit && yarn test:e2e\"",
+    "test:e2e": "cypress run",
+    "test:unit": "vitest run",
+    "test:watch": "vitest watch",
+    "postinstall": "nuxi prepare"
+  },
+  "peerDependencies": {
+    "@vue-storefront/sdk": "^1.0.0"
+  },
+  "dependencies": {
+    "@nuxt/kit": "3.7.4",
+    "knitwork": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.17",
+    "@nuxt/devtools": "^1.0.0",
+    "@nuxt/module-builder": "0.5.2",
+    "@nuxt/schema": "3.7.4",
+    "@nuxt/test-utils": "3.7.4",
+    "@vue-storefront/sdk": "*",
+    "@vue-storefront/middleware": "*",
+    "nuxt": "3.7.4",
+    "start-server-and-test": "^2.0.3",
+    "vitest": "^0.34.6"
+  }
+}

@@ -1,0 +1,6 @@
+export interface VsfSdkModuleOptions {
+  apiBaseUrl: string;
+  apiProtocol: string;
+  apiSubpath: string;
+  isMultistoreEnabled: boolean;
+}
