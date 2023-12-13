@@ -3,3 +3,7 @@
 
 yarn lint-staged
 
+# run
+# `brew install gitguardian/tap/ggshield && ggshield auth login`
+# (you can substitute the brew command for `pip3 install ggshield` if brew doesn't work)
+ggshield secret scan pre-commit
