@@ -1,19 +1,20 @@
-import type { Module } from "@vue-storefront/sdk";
-
 interface Options {
   apiUrl: string;
+  headers?: Record<string, string>;
 }
 
-export function exampleSdkModule({ apiUrl }: Options) {
+export function exampleSdkModule({ apiUrl, headers }: Options) {
   return {
     connector: {
-      getSuccess() {
-        return fetch(`${apiUrl}/success`, { method: "POST" }).then((res) =>
-          res.json()
-        );
+      async getSuccess() {
+        const response = await fetch(`${apiUrl}/success`, {
+          method: "POST",
+        });
+        const payload = await response.json();
+        return { ...payload, cookie: headers?.cookie };
       },
     },
     utils: {},
     subscribers: {},
-  } satisfies Module;
+  };
 }

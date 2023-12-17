@@ -1,25 +1,34 @@
+import { SdkModuleOptions } from "~/src/types";
+
 interface ComposeMiddlewareUrlParams {
-  config: {
-    apiBaseUrl: string;
-    apiProtocol: string;
-    apiSubpath: string;
-    isMultistoreEnabled: boolean;
-  };
-  headers: Record<string, string>;
-  clientsideUrl: string | null;
+  options: SdkModuleOptions;
+  headers: Record<string, string | string[]>;
 }
 
+/**
+ *
+ * @description A helper function to compute the middleware url. It will be used only internally in the package
+ */
 export function composeMiddlewareUrl({
-  config,
+  options,
   headers,
-  clientsideUrl,
 }: ComposeMiddlewareUrlParams) {
-  const { isMultistoreEnabled, apiProtocol, apiBaseUrl, apiSubpath } = config;
-  if (!isMultistoreEnabled)
-    return `${apiProtocol}://${apiBaseUrl}${apiSubpath}`;
+  const { apiUrl, ssrApiUrl } = options.middleware;
 
-  const ssrApiUrl = headers["x-forwarded-host"] ?? headers.host;
-  const apiHost = clientsideUrl || ssrApiUrl || apiBaseUrl;
+  if (typeof window !== "undefined") {
+    return apiUrl;
+  }
+  if (ssrApiUrl) {
+    return ssrApiUrl;
+  }
+  if (!options.multistore?.enabled) {
+    return apiUrl;
+  }
 
-  return `${apiProtocol}://${apiHost}${apiSubpath}`;
+  const forwardedHost = headers["x-forwarded-host"] ?? headers.host;
+  const url = new URL(apiUrl);
+  url.host =
+    (forwardedHost && [...forwardedHost].join("")) || new URL(apiUrl).host;
+
+  return url.href;
 }

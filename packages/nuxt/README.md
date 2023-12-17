@@ -39,28 +39,13 @@ export default defineNuxtConfig({
 });
 ```
 
-The second is to use Runtime Config. You can set the same set of variables in Runtime Config, providing access to this data throughout the application. You can control the values of these variables through environment variables:
-
-```ts
-export default defineNuxtConfig({
-  modules: ["@vue-storefront/sdk-nuxt"],
-  runtimeConfig: {
-    public: {
-      apiBaseUrl: "localhost:4000",
-    },
-  },
-});
-```
-
 4. Create SDK config file - `sdk.config.ts` in root directory of your project:
 
 The `defineSdkConfig` function is used for this purpose. The parameter for calling this function should be an anonymous function that receives an injected context from the module, containing:
 
 - the `buildModule` function,
 - the middleware URL (`middlewareUrl`),
-- a function for retrieving the Set-Cookie header with cookie values (`getCookieHeader`).
-- a function that compose Middleware URL - in case you want to do it by yourself (`composeMiddlewareUrl`)
-- a module config
+- a function for retrieving the Cookie header with cookie values (`getCookieHeader`).
 
 You should import all other SDK configuration components. See the example below illustrating the SDK configuration with Unified and Contentful modules.
 

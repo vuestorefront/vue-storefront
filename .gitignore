@@ -29,3 +29,9 @@ coverage
 
 # Nuxt generated files
 .nuxt
+
+# Next generated files
+.next
+
+# Cypress generated files
+**/cypress/screenshots

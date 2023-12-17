@@ -1,47 +1,38 @@
 import { buildModule } from "@vue-storefront/sdk";
 import { composeMiddlewareUrl, useNuxtApp, useRequestHeaders } from "#imports";
-import { VsfSdkModuleOptions } from "./vsfModule";
+import { SdkModuleOptions } from "./vsfModule";
 
 type InjectedContext = {
   buildModule: typeof buildModule;
   middlewareUrl: string;
-  composeMiddlewareUrl: typeof composeMiddlewareUrl;
-  moduleConfig: VsfSdkModuleOptions;
-  getCookieHeader: () => Record<string, string> | Promise<Record<string, string>>;
+  getCookieHeader: () => Record<string, string>;
 };
 
 type Config<TConfig> = (context: InjectedContext) => TConfig;
 
-const moduleConfig: VsfSdkModuleOptions = <%= options.moduleConfig %>;
+const moduleConfig: SdkModuleOptions = <%= options.moduleConfig %>;
 
 export function defineSdkConfig<TConfig>(config: Config<TConfig>) {
   return () => {
     const nuxtApp = useNuxtApp()
     const runtimeConfig = useRuntimeConfig();
-    const { apiBaseUrl, apiProtocol, apiSubpath, isMultistoreEnabled } =
-      runtimeConfig.public;
-
-    const resolvedConfig = {
-      apiBaseUrl: apiBaseUrl ?? moduleConfig.apiBaseUrl,
-      apiProtocol: apiProtocol ?? moduleConfig.apiProtocol,
-      apiSubpath: apiSubpath ?? moduleConfig.apiSubpath,
-      isMultistoreEnabled: isMultistoreEnabled ?? moduleConfig.isMultistoreEnabled,
+    const { middleware, multistore } = runtimeConfig.public;
+    const resolvedOptions = {
+      middleware: middleware ?? moduleConfig.middleware,
+      multistore: multistore ?? moduleConfig.multistore,
     }
 
     const requestHeaders = useRequestHeaders(["x-forwarded-host", "host"]);
     const middlewareUrl = composeMiddlewareUrl({
-      config: resolvedConfig,
+      options: resolvedOptions,
       headers: requestHeaders,
-      clientsideUrl: (!process.server && window?.location.host) || null,
     });
 
-    const getCookieHeader = () => nuxtApp.runWithContext(() => useRequestHeaders(["cookie"]))
+    const getCookieHeader = () => useRequestHeaders(["cookie"]);
 
     return config({
       buildModule,
       middlewareUrl,
-      composeMiddlewareUrl,
-      moduleConfig: resolvedConfig,
       getCookieHeader
     });
   }

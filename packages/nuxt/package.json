@@ -45,6 +45,7 @@
     "@nuxt/test-utils": "3.7.4",
     "@vue-storefront/sdk": "*",
     "@vue-storefront/middleware": "*",
+    "cypress": "^13.6.1",
     "nuxt": "3.7.4",
     "start-server-and-test": "^2.0.3",
     "vitest": "^0.34.6"

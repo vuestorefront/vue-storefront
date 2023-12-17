@@ -9,15 +9,9 @@ import {
   // eslint-disable-next-line import/no-unresolved
 } from "@nuxt/kit";
 import { genInlineTypeImport } from "knitwork";
+import { SdkModuleOptions } from "./types";
 
-export interface VsfSdkModuleOptions {
-  apiBaseUrl: string;
-  apiProtocol: string;
-  apiSubpath: string;
-  isMultistoreEnabled: boolean;
-}
-
-export default defineNuxtModule<VsfSdkModuleOptions>({
+export default defineNuxtModule<SdkModuleOptions>({
   meta: {
     name: "@vue-storefront/sdk-nuxt",
     configKey: "vsfSdk",
@@ -26,10 +20,12 @@ export default defineNuxtModule<VsfSdkModuleOptions>({
     },
   },
   defaults: {
-    apiBaseUrl: "localhost:4000",
-    apiProtocol: "http",
-    apiSubpath: "",
-    isMultistoreEnabled: false,
+    middleware: {
+      apiUrl: "http://localhost:4000",
+    },
+    multistore: {
+      enabled: false,
+    },
   },
   setup(options, nuxt) {
     const projectLayer = nuxt.options._layers[0];
@@ -42,7 +38,7 @@ export default defineNuxtModule<VsfSdkModuleOptions>({
       ...(nuxt.options.app.head.meta ?? []),
       {
         name: "generator",
-        content: "vue storefront 2",
+        content: "Vue Storefront 2",
       },
     ];
 
