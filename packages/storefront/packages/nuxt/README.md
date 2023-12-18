@@ -1,25 +1,25 @@
-# @vue-storefront/sdk-nuxt
+# @vue-storefront/nuxt
 
 ## Quick Setup
 
-1. Add `@vue-storefront/sdk-nuxt` dependency to your project
+1. Add `@vue-storefront/nuxt` dependency to your project
 
 ```bash
 # Using pnpm
-pnpm add -D @vue-storefront/sdk-nuxt
+pnpm add -D @vue-storefront/nuxt
 
 # Using yarn
-yarn add --dev @vue-storefront/sdk-nuxt
+yarn add --dev @vue-storefront/nuxt
 
 # Using npm
-npm install --save-dev @vue-storefront/sdk-nuxt
+npm install --save-dev @vue-storefront/nuxt
 ```
 
-2. Add `@vue-storefront/sdk-nuxt` to the `modules` section of `nuxt.config.ts`
+2. Add `@vue-storefront/nuxt` to the `modules` section of `nuxt.config.ts`
 
 ```js
 export default defineNuxtConfig({
-  modules: ["@vue-storefront/sdk-nuxt"],
+  modules: ["@vue-storefront/nuxt"],
 });
 ```
 
@@ -29,7 +29,7 @@ There are two ways you can configure the SDK module. The first is by using the `
 
 ```ts
 export default defineNuxtConfig({
-  modules: ["@vue-storefront/sdk-nuxt"],
+  modules: ["@vue-storefront/nuxt"],
   vsfSdk: {
     apiBaseUrl: "localhost:4000",
     apiProtocol: "http",
@@ -72,4 +72,4 @@ export default defineSdkConfig(
 );
 ```
 
-That's it! You can now use VueStorefront SDK in your Nuxt app ✨
+That's it! You can now use VueStorefront Module in your Nuxt app ✨

@@ -1,5 +1,4 @@
 {
-  "name": "@vue-storefront/next-tests-app",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,14 +8,14 @@
   },
   "dependencies": {
     "@storefront/shared": "file:../../../../shared",
-    "@vue-storefront/next": "file:../../../",
+    "@vue-storefront/next": "*",
     "react": "^18",
     "react-dom": "^18",
     "next": "14.0.4"
   },
   "devDependencies": {
     "typescript": "^5",
-    "@types/node": "^20",
+    "@types/node": "^18",
     "@types/react": "^18",
     "@types/react-dom": "^18"
   }
