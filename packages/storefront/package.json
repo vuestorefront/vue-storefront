@@ -22,8 +22,5 @@
     "packages": [
       "packages/**/*"
     ]
-  },
-  "engines": {
-    "node": ">=18.x"
   }
 }

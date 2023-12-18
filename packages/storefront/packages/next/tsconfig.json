@@ -10,7 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "types": ["cypress"],
     "paths": {
-      "@storefront/shared": ["../shared"]
+      "@storefront/shared": ["../../shared"]
     }
   },
   "exclude": ["node_modules"],

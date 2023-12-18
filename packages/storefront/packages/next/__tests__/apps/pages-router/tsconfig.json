@@ -14,7 +14,7 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@storefront/shared": ["../../../../shared"]
+      "@storefront/shared": ["../../../../../shared"]
     },
     "forceConsistentCasingInFileNames": true
   },
