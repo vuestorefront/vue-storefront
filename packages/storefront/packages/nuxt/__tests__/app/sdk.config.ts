@@ -1,4 +1,4 @@
-import { exampleSdkModule } from "../../../shared";
+import { exampleSdkModule } from "../../../../shared";
 
 export default defineSdkConfig(
   ({ buildModule, middlewareUrl, getCookieHeader }) => ({

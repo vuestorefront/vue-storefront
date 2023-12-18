@@ -12,7 +12,7 @@ export type { CreateSdkOptions } from "@storefront/shared";
  * Creates an SDK for the given configuration definition.
  * @param options - The options for creating the SDK.
  * @param configDefinition - The configuration definition for the SDK.
- * @returns An object containing the `getSdk` function and the `createSdkContext` function.
+ * @returns An object containing the `getSdk` function.
  * @example
  * ```tsx
  * import {

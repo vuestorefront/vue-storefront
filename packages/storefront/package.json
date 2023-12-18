@@ -20,7 +20,9 @@
   },
   "workspaces": {
     "packages": [
-      "packages/**/*"
+      "packages/**/*",
+      "shared",
+      "shared/**/*"
     ]
   }
 }

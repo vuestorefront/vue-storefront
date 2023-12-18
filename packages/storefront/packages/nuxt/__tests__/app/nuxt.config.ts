@@ -1,6 +1,6 @@
 export default defineNuxtConfig({
   modules: ["../../src/module.ts"],
-  vsfSdk: {
+  vsf: {
     middleware: {
       apiUrl: "http://localhost:4000",
     },

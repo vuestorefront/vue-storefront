@@ -2,13 +2,8 @@
   "extends": "@vue-storefront/integrations-tsconfig/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "./lib",
-    "declarationDir": "./lib",
-    "declaration": true,
     "jsx": "react",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowSyntheticDefaultImports": true,
-    "types": ["cypress"],
     "paths": {
       "@storefront/shared": ["../../shared"]
     }

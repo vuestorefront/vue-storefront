@@ -60,7 +60,8 @@ jobs:
 
       - name: Install dependencies
         shell: bash
-        run: HUSKY=0 yarn --frozen-lockfile && cd packages/storefront && yarn --frozen-lockfile
+        working-directory: packages/storefront
+        run: HUSKY=0 yarn --frozen-lockfile
 
       - name: Build project
         run: yarn build

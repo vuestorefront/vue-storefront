@@ -13,7 +13,7 @@ import { SdkModuleOptions } from "./types";
 export default defineNuxtModule<SdkModuleOptions>({
   meta: {
     name: "@vue-storefront/nuxt",
-    configKey: "vsfSdk",
+    configKey: "vsf",
     compatibility: {
       nuxt: "^3.0.0",
     },

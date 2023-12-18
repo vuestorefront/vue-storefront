@@ -2250,7 +2250,7 @@
   resolved "https://registry.npmjs.org/@vue-storefront/integrations-tsconfig/-/integrations-tsconfig-0.0.4.tgz#36b9f742dedac04df17657ad296e08c91f2fae6d"
   integrity sha512-Joi9dTblviEaujemcWT30GSF3nh0MaPfrz76V6kHyGgO3ftbWVq2tfq2jtbiL+YJxT3FaY1/giq7cSRCjb9kcQ==
 
-"@vue-storefront/middleware@*":
+"@vue-storefront/middleware@^3.6.1":
   version "3.6.1"
   resolved "https://registry.npmjs.org/@vue-storefront/middleware/-/middleware-3.6.1.tgz#638d06e3706d1ba3a4a4a3d019185a1519ee175b"
   integrity sha512-dQjRezqB05AsHtn4asEXZA1wyNVenujrWCxGTCaWZLnTHfozJGW4xrRMZaSXyoZqLYidXMnmbg7dmZLJ0H+ctQ==

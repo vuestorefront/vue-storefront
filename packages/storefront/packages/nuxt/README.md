@@ -25,16 +25,15 @@ export default defineNuxtConfig({
 
 3. Configure the module
 
-There are two ways you can configure the SDK module. The first is by using the `vsfSdk` key in the Nuxt configuration object and providing necessary information such as the Middleware instance address:
+There are two ways you can configure the SDK module. The first is by using the `vsf` key in the Nuxt configuration object and providing necessary information such as the Middleware instance address:
 
 ```ts
 export default defineNuxtConfig({
   modules: ["@vue-storefront/nuxt"],
-  vsfSdk: {
-    apiBaseUrl: "localhost:4000",
-    apiProtocol: "http",
-    apiSubpath: "",
-    isMultistoreEnabled: false,
+  vsf: {
+    middleware: {
+      apiUrl: "http://localhost:3000"
+    }
   },
 });
 ```
