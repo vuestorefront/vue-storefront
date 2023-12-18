@@ -61,9 +61,10 @@ The `createSdk` function returns
 3. Create SDK context in your app, it could be for example `hooks/sdk.ts` file:
 
 ```ts
-import { createSdkContext } from "../sdk.config";
+import { createSdkContext } from "@vue-storefront/next/client";
+import { getSdk } from "../sdk.config";
 
-export const [SdkProvider, useSdk] = createSdkContext();
+export const [SdkProvider, useSdk] = createSdkContext(getSdk());
 ```
 
 4. Register the `SdkProvider` in the root component of your app:
