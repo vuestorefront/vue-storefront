@@ -1,0 +1,9 @@
+{
+  "name": "@storefront/shared",
+  "private": true,
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "devDependencies": {
+    "@vue-storefront/sdk": "^1.0.0"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "root-storefront",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/**/*"
+    ]
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
