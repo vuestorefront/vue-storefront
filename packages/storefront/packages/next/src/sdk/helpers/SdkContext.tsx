@@ -1,10 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 "use client";
 
-/* eslint-disable import/no-extraneous-dependencies */
 import { initSDK } from "@vue-storefront/sdk";
 import Script from "next/script";
 import React, { createContext, useContext } from "react";
-import { SdkProviderProps } from "./types";
+import { SdkProviderProps } from "../types";
 
 export function createSdkContext<TSdk extends ReturnType<typeof initSDK>>(
   sdk: TSdk

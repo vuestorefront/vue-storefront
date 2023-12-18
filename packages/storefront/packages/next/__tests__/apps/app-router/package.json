@@ -1,4 +1,6 @@
 {
+  "name": "@vue-storefront/next-tests-app-router",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -7,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@storefront/shared": "file:../../../../shared",
     "@vue-storefront/next": "*",
     "react": "^18",
     "react-dom": "^18",

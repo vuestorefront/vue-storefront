@@ -1,15 +1,11 @@
-import { CreateSdkOptions } from "./types";
+import { CreateSdkOptions } from "../types";
 
 interface ComposeMiddlewareUrlParams {
   options: CreateSdkOptions;
   headers: Record<string, string | string[]>;
 }
 
-/**
- *
- * @description A helper function to compute the middleware url. It will be used only internally in the package
- */
-export function composeMiddlewareUrl({
+function calculateMiddlewareUrl({
   options,
   headers,
 }: ComposeMiddlewareUrlParams) {
@@ -31,4 +27,20 @@ export function composeMiddlewareUrl({
     (forwardedHost && [...forwardedHost].join("")) || new URL(apiUrl).host;
 
   return url.href;
+}
+
+function removeTrailingSlash(url: string) {
+  return url.replace(/\/$/, "");
+}
+
+/**
+ *
+ * @description A helper function to compute the middleware url. It will be used only internally in the package
+ */
+export function composeMiddlewareUrl({
+  options,
+  headers,
+}: ComposeMiddlewareUrlParams) {
+  const url = calculateMiddlewareUrl({ options, headers });
+  return removeTrailingSlash(url);
 }

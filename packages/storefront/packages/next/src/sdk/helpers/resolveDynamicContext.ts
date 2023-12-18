@@ -1,9 +1,4 @@
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable import/no-unresolved */
-import { DynamicContext, GetSdkContext } from "./types";
-
-export type { CreateSdkOptions } from "./types";
+import { DynamicContext, GetSdkContext } from "../types";
 
 const BLACKLISTED_HEADERS = ["host"];
 

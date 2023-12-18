@@ -3,7 +3,11 @@
   "private": true,
   "version": "0.0.1",
   "main": "src/index.ts",
+  "scripts": {
+    "test": "vitest"
+  },
   "devDependencies": {
-    "@vue-storefront/sdk": "^1.0.0"
+    "@vue-storefront/sdk": "^1.0.0",
+    "vitest": "^0.34.6"
   }
 }

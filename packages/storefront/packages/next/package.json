@@ -9,8 +9,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --dts",
+    "build": "tsup src/index.ts --dts-resolve",
     "lint": "eslint . --ext .ts",
+    "test:unit": "vitest",
     "test:e2e": "cypress run"
   },
   "devDependencies": {
@@ -18,7 +19,8 @@
     "@types/react-dom": "^18.2.14",
     "cypress": "^13.6.1",
     "react-dom": "^18.2.0",
-    "tsup": "8.0.1"
+    "tsup": "8.0.1",
+    "vitest": "^0.34.6"
   },
   "peerDependencies": {
     "@vue-storefront/sdk": "^1.0.0",

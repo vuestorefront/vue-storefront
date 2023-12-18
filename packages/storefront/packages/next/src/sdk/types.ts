@@ -1,32 +1,5 @@
 import { SDKApi, buildModule } from "@vue-storefront/sdk";
-import { ReactNode, JSX } from "react";
-
-export interface MiddlewareConfig {
-  /**
-   * The URL of the middleware.
-   * @example "http://localhost:4000"
-   */
-  apiUrl: string;
-  /**
-   * The URL of the middleware for server-side rendering.
-   * @example "http://localhost:4000"
-   */
-  ssrApiUrl?: string;
-}
-
-export interface MultistoreConfig {
-  /**
-   * Whether the multistore is enabled or not.
-   * @example false
-   * @default false
-   */
-  enabled: boolean;
-}
-
-export interface CreateSdkOptions {
-  multistore?: MultistoreConfig;
-  middleware: MiddlewareConfig;
-}
+import { JSX, ReactNode } from "react";
 
 export type GetSdkContext = {
   /**

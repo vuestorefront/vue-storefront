@@ -1,18 +1,12 @@
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable import/no-unresolved */
 import { buildModule, initSDK } from "@vue-storefront/sdk";
-import * as SdkContext from "./SdkContext";
-import { composeMiddlewareUrl } from "./composeMiddlewareUrl";
-import { resolveDynamicContext } from "./resolveDynamicContext";
 import {
-  Config,
-  CreateSdkOptions,
-  CreateSdkReturn,
-  GetSdkContext,
-} from "./types";
+  composeMiddlewareUrl,
+  type CreateSdkOptions,
+} from "@storefront/shared";
+import { createSdkContext, resolveDynamicContext } from "./helpers";
+import { Config, CreateSdkReturn, GetSdkContext } from "./types";
 
-export type { CreateSdkOptions } from "./types";
+export type { CreateSdkOptions } from "@storefront/shared";
 
 /**
  * Creates an SDK for the given configuration definition.
@@ -71,12 +65,8 @@ export function createSdk<TConfig extends Record<string, any>>(
     return initSDK(resolvedConfig);
   }
 
-  function createSdkContext() {
-    return SdkContext.createSdkContext(getSdk());
-  }
-
   return {
     getSdk,
-    createSdkContext,
+    createSdkContext: () => createSdkContext(getSdk()),
   };
 }

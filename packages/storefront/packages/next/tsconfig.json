@@ -5,11 +5,13 @@
     "outDir": "./lib",
     "declarationDir": "./lib",
     "declaration": true,
-    "rootDir": "./src",
     "jsx": "react",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowSyntheticDefaultImports": true,
-    "types": ["cypress"]
+    "types": ["cypress"],
+    "paths": {
+      "@storefront/shared": ["../shared"]
+    }
   },
   "exclude": ["node_modules"],
   "include": ["src/**/*.ts"]

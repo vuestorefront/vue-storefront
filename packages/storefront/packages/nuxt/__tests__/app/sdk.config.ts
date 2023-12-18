@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-relative-packages
-import { exampleSdkModule } from "../sdk";
+import { exampleSdkModule } from "../../../shared";
 
 export default defineSdkConfig(
   ({ buildModule, middlewareUrl, getCookieHeader }) => ({
