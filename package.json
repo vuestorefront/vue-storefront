@@ -38,10 +38,12 @@
   },
   "workspaces": {
     "packages": [
-      "packages/(!storefront)"
+      "packages/*",
+      "packages/storefront/packages/*"
     ]
   },
   "engines": {
     "node": ">=12.x"
-  }
+  },
+  "version": "0.0.0"
 }
