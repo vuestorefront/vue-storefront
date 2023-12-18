@@ -1,5 +1,5 @@
 import { SDKApi, buildModule } from "@vue-storefront/sdk";
-import { JSX, ReactNode } from "react";
+import { ReactNode } from "react";
 
 export type GetSdkContext = {
   /**
@@ -26,11 +26,6 @@ export type Config<TConfig> = (context: InjectedContext) => TConfig;
 export type SdkProviderProps = {
   children: ReactNode;
 };
-
-type CreateSdkContextReturn<TConfig extends Record<string, any>> = readonly [
-  (props: SdkProviderProps) => JSX.Element,
-  () => SDKApi<TConfig>
-];
 
 export interface CreateSdkReturn<TConfig extends Record<string, any>> {
   /**

@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-// eslint-disable-next-line import/extensions, import/no-unresolved
 import { Providers } from "./providers";
 
 export default function RootLayout({ children }: { children: ReactNode }) {

@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved, import/extensions
 import { ClientComponentUsingSdk } from "./ClientComponent";
 
 export default function ClientSidePage() {

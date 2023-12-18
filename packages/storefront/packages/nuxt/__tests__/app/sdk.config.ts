@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-relative-packages
 import { exampleSdkModule } from "../../../shared";
 
 export default defineSdkConfig(

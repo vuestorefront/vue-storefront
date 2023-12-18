@@ -14,8 +14,9 @@
   },
   "devDependencies": {
     "@vue-storefront/api-extractor-config": "^0.0.4",
-    "@vue-storefront/eslint-config-integrations": "^0.0.19",
-    "@vue-storefront/integrations-tsconfig": "^0.0.4"
+    "@vue-storefront/eslint-config": "~2.0.0-rc.7",
+    "@vue-storefront/integrations-tsconfig": "^0.0.4",
+    "eslint": "^8.55.0"
   },
   "workspaces": {
     "packages": [

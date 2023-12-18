@@ -6,7 +6,6 @@ import {
   addPluginTemplate,
   addTypeTemplate,
   addImportsSources,
-  // eslint-disable-next-line import/no-unresolved
 } from "@nuxt/kit";
 import { genInlineTypeImport } from "knitwork";
 import { SdkModuleOptions } from "./types";

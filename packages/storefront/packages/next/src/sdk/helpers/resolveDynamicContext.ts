@@ -1,6 +1,6 @@
 import { DynamicContext, GetSdkContext } from "../types";
 
-const BLACKLISTED_HEADERS = ["host"];
+const BLACKLISTED_HEADERS = new Set(["host"]);
 
 function isAppRouterHeaders(
   headers: ReturnType<GetSdkContext["getRequestHeaders"]>
@@ -16,13 +16,11 @@ export function resolveDynamicContext(context: GetSdkContext): DynamicContext {
       const resolvedHeaders = isAppRouterHeaders(headers)
         ? Object.fromEntries(headers.entries())
         : headers;
-      const allowedHeaders = Object.fromEntries(
+      return Object.fromEntries(
         Object.entries(resolvedHeaders).filter(
-          ([key]) => !BLACKLISTED_HEADERS.includes(key)
+          ([key]) => !BLACKLISTED_HEADERS.has(key)
         )
       );
-
-      return allowedHeaders;
     },
   };
 }
