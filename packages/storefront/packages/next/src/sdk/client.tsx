@@ -2,14 +2,12 @@
 
 "use client";
 
-import { initSDK } from "@vue-storefront/sdk";
+import { SDKApi } from "@vue-storefront/sdk";
 import Script from "next/script";
 import React, { createContext, useContext } from "react";
-import { SdkProviderProps } from "../types";
+import { SdkProviderProps } from "./types";
 
-export function createSdkContext<TSdk extends ReturnType<typeof initSDK>>(
-  sdk: TSdk
-) {
+export function createSdkContext<TSdk extends SDKApi<any>>(sdk: TSdk) {
   const SdkContext = createContext<TSdk>(sdk);
 
   function SdkProvider({ children }: SdkProviderProps) {

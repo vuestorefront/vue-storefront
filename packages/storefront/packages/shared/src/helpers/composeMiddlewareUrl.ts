@@ -22,9 +22,12 @@ function calculateMiddlewareUrl({
   }
 
   const forwardedHost = headers["x-forwarded-host"] ?? headers.host;
+  const resolvedForwardedHost =
+    forwardedHost && Array.isArray(forwardedHost)
+      ? forwardedHost[0]
+      : (forwardedHost as string | undefined);
   const url = new URL(apiUrl);
-  url.host =
-    (forwardedHost && [...forwardedHost].join("")) || new URL(apiUrl).host;
+  url.host = resolvedForwardedHost || new URL(apiUrl).host;
 
   return url.href;
 }

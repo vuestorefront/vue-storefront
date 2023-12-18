@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable import/no-relative-packages */
 import { exampleSdkModule } from "@storefront/shared";
 import { CreateSdkOptions, createSdk } from "@vue-storefront/next";
@@ -8,7 +9,7 @@ const options: CreateSdkOptions = {
   },
 };
 
-export const { getSdk, createSdkContext } = createSdk(
+export const { getSdk } = createSdk(
   options,
   ({ buildModule, middlewareUrl, getRequestHeaders }) => ({
     example: buildModule(exampleSdkModule, {

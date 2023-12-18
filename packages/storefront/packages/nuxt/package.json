@@ -17,16 +17,13 @@
     "dist"
   ],
   "scripts": {
-    "build": "nuxt-module-build build",
-    "dev": "nuxi dev playground",
-    "dev:build": "nuxi build playground",
-    "dev:test-app": "cd __tests__/app && yarn dev",
-    "dev:test-middleware": "cd __tests__/middleware && yarn dev",
-    "format": "prettier --write .",
+    "build": "nuxt-module-build build && yarn build:app",
+    "build:app": "cd __tests__/app && yarn build",
+    "dev": "cd __tests__/app && yarn dev",
+    "dev:middleware": "cd ../shared/src/__tests__/middleware && yarn dev",
     "lint": "eslint .",
-    "test": "start-server-and-test dev:test-middleware localhost:4000/test_integration/success dev:test-app localhost:3000 \"yarn test:unit && yarn test:e2e\"",
-    "test:e2e": "cypress run",
-    "test:unit": "vitest run",
+    "test": "start-server-and-test dev:middleware localhost:4000/test_integration/success dev localhost:3000/ssr \"yarn test:e2e\"",
+    "test:e2e": "cd ../shared/ && yarn test:e2e",
     "test:watch": "vitest watch",
     "postinstall": "nuxi prepare"
   },
@@ -44,8 +41,6 @@
     "@nuxt/schema": "3.7.4",
     "@nuxt/test-utils": "3.7.4",
     "@vue-storefront/sdk": "*",
-    "@vue-storefront/middleware": "*",
-    "cypress": "^13.6.1",
     "nuxt": "3.7.4",
     "start-server-and-test": "^2.0.3",
     "vitest": "^0.34.6"

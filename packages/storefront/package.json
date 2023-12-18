@@ -1,6 +1,22 @@
 {
   "name": "root-storefront",
   "private": true,
+  "scripts": {
+    "build": "yarn build:next && yarn build:nuxt",
+    "build:next": "cd packages/next && yarn build",
+    "build:nuxt": "cd packages/nuxt && yarn build",
+    "lint": "yarn lint:next && yarn lint:nuxt",
+    "lint:next": "cd packages/next && yarn lint",
+    "lint:nuxt": "cd packages/nuxt && yarn lint",
+    "test": "yarn test:next && yarn test:nuxt",
+    "test:next": "cd packages/next && yarn test",
+    "test:nuxt": "cd packages/nuxt && yarn test"
+  },
+  "devDependencies": {
+    "@vue-storefront/api-extractor-config": "^0.0.4",
+    "@vue-storefront/eslint-config-integrations": "^0.0.19",
+    "@vue-storefront/integrations-tsconfig": "^0.0.4"
+  },
   "workspaces": {
     "packages": [
       "packages/**/*"

@@ -1,6 +1,7 @@
 {
-  "private": true,
   "name": "@vue-storefront/next-tests-middleware",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
     "dev": "nodemon"
   },

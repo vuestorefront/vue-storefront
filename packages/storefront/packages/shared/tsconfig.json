@@ -2,15 +2,8 @@
   "extends": "@vue-storefront/integrations-tsconfig/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "./lib",
-    "declarationDir": "./lib",
-    "declaration": true,
-    "rootDir": "./src",
-    "jsx": "react",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowSyntheticDefaultImports": true,
     "types": ["cypress"]
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts"]
+  "include": ["src/**/*.ts"]
 }

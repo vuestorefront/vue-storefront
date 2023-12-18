@@ -7,7 +7,7 @@ const options: CreateSdkOptions = {
   },
 };
 
-export const { getSdk, createSdkContext } = createSdk(
+export const { getSdk } = createSdk(
   options,
   ({ buildModule, middlewareUrl, getRequestHeaders }) => ({
     example: buildModule(exampleSdkModule, {

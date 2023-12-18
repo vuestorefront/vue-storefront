@@ -1,9 +1,9 @@
-import { buildModule, initSDK } from "@vue-storefront/sdk";
 import {
   composeMiddlewareUrl,
   type CreateSdkOptions,
 } from "@storefront/shared";
-import { createSdkContext, resolveDynamicContext } from "./helpers";
+import { buildModule, initSDK } from "@vue-storefront/sdk";
+import { resolveDynamicContext } from "./helpers";
 import { Config, CreateSdkReturn, GetSdkContext } from "./types";
 
 export type { CreateSdkOptions } from "@storefront/shared";
@@ -67,6 +67,5 @@ export function createSdk<TConfig extends Record<string, any>>(
 
   return {
     getSdk,
-    createSdkContext: () => createSdkContext(getSdk()),
   };
 }

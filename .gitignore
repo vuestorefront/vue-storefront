@@ -29,6 +29,7 @@ coverage
 
 # Nuxt generated files
 .nuxt
+.output
 
 # Next generated files
 .next
