@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/redis-cache",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Redis driver for the SSR cache in Vue Storefront 2",
   "license": "MIT",
   "main": "src/index.js",

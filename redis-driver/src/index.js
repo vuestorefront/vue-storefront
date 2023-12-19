@@ -1,6 +1,17 @@
 import Redis from 'redis-tag-cache';
 
-export default function RedisCache (options) {
+const defaultRedisOptions = {
+  maxRetriesPerRequest: 3
+};
+
+export default function RedisCache (opt) {
+  const options = {
+    ...opt,
+    redis: {
+      ...opt?.redis,
+      ...defaultRedisOptions
+    }
+  };
   const client = new Redis(options);
 
   return {
