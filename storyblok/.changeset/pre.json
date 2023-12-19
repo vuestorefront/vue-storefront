@@ -4,5 +4,7 @@
   "initialVersions": {
     "@vue-storefront/storyblok": "0.3.0"
   },
-  "changesets": []
+  "changesets": [
+    "twelve-pets-live"
+  ]
 }
