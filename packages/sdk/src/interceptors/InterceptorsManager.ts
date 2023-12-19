@@ -50,9 +50,8 @@ export class InterceptorsManager<Config extends SDKConfig> {
   public getInterceptors(
     moduleName: string,
     methodName: string,
-    interceptorType: Exclude<InterceptorType, "around">
+    interceptorType: InterceptorType
   ) {
-    // TODO Exclusion of aroundInterceptors is needed because they are not implemented yet, should be removed when they are implemented
     return (
       this.configuredInterceptors[moduleName]?.[interceptorType]?.[
         methodName
@@ -82,7 +81,6 @@ export class InterceptorsManager<Config extends SDKConfig> {
     data: T
   ): Promise<T> => {
     if (!interceptors) return data;
-
     for (const interceptor of interceptors) {
       if (typeof interceptor === "function") {
         // eslint-disable-next-line no-param-reassign
@@ -213,6 +211,36 @@ export class InterceptorsManager<Config extends SDKConfig> {
   }
 
   /**
+   *
+   * @param {string} moduleName
+   * @param {string} methodName
+   * @param {function} callback Original method
+   * @param {any} args
+   * @returns
+   */
+  private async executeAroundInterceptors<T>(
+    moduleName: string,
+    methodName: string,
+    callback: AnyFunction,
+    args: any[]
+  ): Promise<T> {
+    const interceptors = this.getInterceptors(moduleName, methodName, "around");
+
+    if (!interceptors.length) {
+      return callback(...args);
+    }
+
+    for (let i = interceptors.length - 1; i >= 0; i -= 1) {
+      const interceptor = interceptors[i];
+      const next = interceptors[i + 1] ?? callback;
+
+      interceptors[i] = interceptor.bind(interceptor, next);
+    }
+
+    return interceptors?.[0]?.(...args) ?? callback(...args);
+  }
+
+  /**
    * @param {string} moduleName
    * @param {string} methodName
    * @param {any} result
@@ -254,7 +282,14 @@ export class InterceptorsManager<Config extends SDKConfig> {
           args
         );
         const finalFn = this.getOverride(moduleName, fnName) ?? fn;
-        let result = await finalFn(...methodArgs);
+
+        let result = await this.executeAroundInterceptors(
+          moduleName,
+          fnName,
+          finalFn,
+          methodArgs
+        );
+
         result = await this.executeAfterInterceptors(
           moduleName,
           fnName,
