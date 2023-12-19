@@ -1,6 +1,6 @@
 import { apiClientFactory } from '@vue-storefront/core'
-import { ApiContext, ContentSearchParams } from './types'
 import StoryblokClient from 'storyblok-js-client'
+import { ApiContext, ContentSearchParams } from './types'
 
 import { getContent } from './api'
 

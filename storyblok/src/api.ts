@@ -1,11 +1,11 @@
-import { ApiContext, ApiResponse, ContentSearchParams } from './types'
 import { Logger } from '@vue-storefront/core'
 import { nanoid } from 'nanoid'
+import { ApiContext, ApiResponse, ContentSearchParams } from './types'
 import { errorMessage } from './helpers/constants'
 import { extractNestedComponents } from './helpers'
 
 export const getContent = async (
-  { client, config }: ApiContext,
+  { client: Client, config }: ApiContext,
   {
     id,
     url,
@@ -20,7 +20,7 @@ export const getContent = async (
     return Logger.warn(`${errorMessage.GENERAL} ${errorMessage.EMPTY_ID}`)
   }
   const { token, cacheProvider } = config
-  const Storyblok = new client({
+  const Storyblok = new Client({
     accessToken: token,
     cache: {
       clear: 'auto',

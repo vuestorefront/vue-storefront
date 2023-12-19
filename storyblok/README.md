@@ -7,7 +7,7 @@
 [![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/subscribers/UCkm1F3Cglty3CE1QwKQUhhg?style=social)](https://www.youtube.com/c/VueStorefront)
 [![Discord](https://img.shields.io/discord/770285988244750366?label=join%20discord&logo=Discord&logoColor=white)](https://discord.vuestorefront.io)
 
-Here you can find quick installation guide for [Storyblok](https://www.storyblok.com/) CMS integration with Vue Storefront.
+Here you can find a quick installation guide for [Storyblok](https://www.storyblok.com/) CMS integration with Vue Storefront.
 
 Full documentation can be found [here](https://docs.vuestorefront.io/storyblok).
 
@@ -15,16 +15,16 @@ Full documentation can be found [here](https://docs.vuestorefront.io/storyblok).
 
 ---
 
-Install module into your app.
+Install the module in your app.
 
 ```bash
-npm install @vue-storefront/storyblok storyblok-vue  --save
+npm install @vue-storefront/storyblok @storyblok/vue-2  --save
 ```
 
 or
 
 ```bash
-yarn add @vue-storefront/storyblok storyblok-vue
+yarn add @vue-storefront/storyblok -D @storyblok/vue-2
 ```
 
 Check the [documentation](https://docs.vuestorefront.io/storyblok) for all the instructions and guidelines.

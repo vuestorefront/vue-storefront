@@ -7,7 +7,7 @@ export const buildImageObject = (
   return items.map((item: { image }) => {
     const { replace } = actions
     if (item.image) {
-      const image = item.image
+      const { image } = item
       const itemObject = replace
         ? { ...item, url: image }
         : {

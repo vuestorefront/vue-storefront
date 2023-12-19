@@ -1,4 +1,4 @@
-import { storyblokBridge } from './helpers/storyblokBridge.js'
+import { storyblokBridge } from './helpers/storyblokBridge'
 
 export * from './composables'
 export { storyblokBridge }

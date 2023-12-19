@@ -5,6 +5,7 @@ export const storyblokBridge = (
 ) => {
   if (window) {
     // eslint-disable-next-line
+    // @ts-ignore
     const instance = new StoryblokBridge({
       resolveRelations: relations,
     })
