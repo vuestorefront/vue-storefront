@@ -1,9 +1,6 @@
 name: Continuous Delivery (Storefront)
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - feat/UST-1087-nuxt-package
 
 jobs:
   publish-next:
@@ -33,29 +30,29 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
 
-  # publish-nuxt:
-  #   name: Publish Nuxt
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #       with:
-  #         fetch-depth: 0 # fetch all history so multiple commits can be scanned
+  publish-nuxt:
+    name: Publish Nuxt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # fetch all history so multiple commits can be scanned
 
-  #     - name: Install dependencies
-  #       shell: bash
-  #       working-directory: packages/storefront
-  #       run: HUSKY=0 yarn --frozen-lockfile
+      - name: Install dependencies
+        shell: bash
+        working-directory: packages/storefront
+        run: HUSKY=0 yarn --frozen-lockfile
 
-  #     - name: Build Nuxt
-  #       run: yarn build
-  #       working-directory: packages/storefront/packages/nuxt
+      - name: Build Nuxt
+        run: yarn build
+        working-directory: packages/storefront/packages/nuxt
 
-  #     - name: Set npm token
-  #       run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_RELEASE_TOKEN }}
+      - name: Set npm token
+        run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_RELEASE_TOKEN }}
 
-  #     - name: Publish Nuxt
-  #       run: yarn publish --non-interactive --access public
-  #       working-directory: packages/storefront/packages/nuxt
-  #       env:
-  #         NODE_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
+      - name: Publish Nuxt
+        run: yarn publish --non-interactive --access public
+        working-directory: packages/storefront/packages/nuxt
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}

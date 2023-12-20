@@ -116,7 +116,7 @@ export function Providers({ children }: { children: ReactNode }) {
 
 5. The example of using the SDK can be found in example applications:
 
-- [Pages Router](./__tests__/apps/pages-router)
-- [App Router](./__tests__/apps/app-router)
+- [Pages Router](https://github.com/vuestorefront/vue-storefront/tree/main/packages/storefront/packages/next/__tests__/apps/pages-router)
+- [App Router](https://github.com/vuestorefront/vue-storefront/tree/main/packages/storefront/packages/next/__tests__/apps/app-router)
 
 That's it! You can now use VueStorefront Next in your Next app ✨
