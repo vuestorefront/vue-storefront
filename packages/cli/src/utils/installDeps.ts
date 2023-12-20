@@ -22,6 +22,7 @@ export const installDeps = async (
     sp.start(picocolors.cyan(entryMessage));
 
     await execa(packageManager, ["install"], options);
+    await execa(packageManager, ["install"], { cwd: `${options.cwd}/cli` });
 
     sp.stop(picocolors.green(exitMessage));
   } catch (error) {
