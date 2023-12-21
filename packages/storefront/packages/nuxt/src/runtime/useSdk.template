@@ -4,7 +4,7 @@ import { useNuxtApp } from "#imports";
 
 export const useSdk = () => {
   const nuxtApp = useNuxtApp();
-  const { sdk } = nuxtApp.$vsf;
+  const { sdk } = nuxtApp.$vsf as { sdk: SDKApi<ReturnType<SdkConfig>> };
 
-  return sdk as SDKApi<ReturnType<SdkConfig>>;
+  return sdk;
 };

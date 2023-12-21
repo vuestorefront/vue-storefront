@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/nuxt",
-  "version": "3.0.0-rc.1",
+  "version": "3.0.0-rc.3",
   "description": "Vue Storefront dedicated features for Nuxt",
   "license": "MIT",
   "type": "module",
@@ -25,7 +25,7 @@
     "test": "start-server-and-test dev:middleware localhost:4000/test_integration/success dev localhost:3000/ssr \"yarn test:e2e\"",
     "test:e2e": "cd ../../shared/ && yarn test:e2e",
     "test:watch": "vitest watch",
-    "postinstall": "nuxi prepare"
+    "prepare": "nuxi prepare"
   },
   "peerDependencies": {
     "@vue-storefront/sdk": "^1.0.0"

@@ -10,7 +10,8 @@
     "lint:nuxt": "cd packages/nuxt && yarn lint",
     "test": "yarn test:next && yarn test:nuxt",
     "test:next": "cd packages/next && yarn test",
-    "test:nuxt": "cd packages/nuxt && yarn test"
+    "test:nuxt": "cd packages/nuxt && yarn test",
+    "postinstall": "cd packages/nuxt && yarn prepare"
   },
   "devDependencies": {
     "@vue-storefront/api-extractor-config": "^0.0.4",
