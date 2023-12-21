@@ -6,5 +6,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   const config = sdkConfig();
   const sdk = initSDK<typeof config>(config);
 
-  nuxtApp.provide("vsf", { sdk });
+  return {
+    provide: {
+      vsf: { sdk }
+    }
+  }
 })
