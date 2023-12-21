@@ -1,9 +1,6 @@
 name: Continuous Delivery (Storefront)
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - feat/UST-1087-nuxt-package
 
 jobs:
   publish-next:
