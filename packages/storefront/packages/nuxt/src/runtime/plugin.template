@@ -2,9 +2,13 @@ import { initSDK } from "@vue-storefront/sdk"
 import sdkConfig from "~/sdk.config"
 import { defineNuxtPlugin } from '#app'
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin(() => {
   const config = sdkConfig();
   const sdk = initSDK<typeof config>(config);
 
-  nuxtApp.provide("vsf", { sdk });
+  return {
+    provide: {
+      vsf: { sdk }
+    }
+  }
 })

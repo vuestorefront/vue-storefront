@@ -56,8 +56,6 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
 
-      - run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_RELEASE_TOKEN }}
-
       - name: Install dependencies
         shell: bash
         working-directory: packages/storefront

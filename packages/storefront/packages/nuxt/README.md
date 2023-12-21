@@ -25,7 +25,7 @@ export default defineNuxtConfig({
 
 3. Configure the module
 
-There are two ways you can configure the SDK module. The first is by using the `vsf` key in the Nuxt configuration object and providing necessary information such as the Middleware instance address:
+To configure the module, use `vsf` key in the Nuxt configuration object and provide necessary information such as the Middleware instance address:
 
 ```ts
 export default defineNuxtConfig({
