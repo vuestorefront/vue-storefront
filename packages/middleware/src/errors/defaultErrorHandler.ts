@@ -17,7 +17,7 @@ export const defaultErrorHandler = (
   consola.error(error);
   const status = getAgnosticStatusCode(error);
   res.status(status);
-  if (status >= 400 && status < 500) {
+  if (status < 500) {
     /**
      * For all 4xx error codes or client error codes we wanted to send the error message
      */
