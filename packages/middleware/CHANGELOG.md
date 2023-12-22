@@ -1,5 +1,11 @@
 # Change log
 
+## 3.6.2
+
+### Patch Changes
+
+- 6c769c7a8: Fix status code resolving for the apollo client
+
 ## 3.6.1
 
 ### Patch Changes
