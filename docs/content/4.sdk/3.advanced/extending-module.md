@@ -46,24 +46,24 @@ Interceptors are functions that modify the input parameters of a method or the o
 
 ### Execution order of interceptors
 
-Assume that you have the following interceptors defined for the `m1` method:
+Assume that you have the following interceptors defined for the `getProducts` method:
 
 ```js
 const extension = {
   interceptors: [
     {
       before: {
-        m1: (args: any) => {
+        getProducts: (args: any) => {
           return ["modified-args"];
         },
       },
       after: {
-        m1: (result: any) => {
+        getProducts: (result: any) => {
           return `${result}-modified-result`;
         },
       },
       around: {
-        m1: [
+        getProducts: [
           (next: any, arg1: any, arg2: any) => {
             const result = next(arg1, arg2);
             return result + "-around1";
@@ -88,13 +88,13 @@ The execution order of interceptors will be as follows:
   * `around` interceptor 1 up to next() call
     * `around` interceptor 2 up to next() call
       * `around` interceptor 3 up to next() call
-        * `m1` method
+        * `getProducts` method
       * `around` interceptor 3 after next() call
     * `around` interceptor 2 after next() call
   * `around` interceptor 1 after next() call
 * all `after` interceptors in the order they are defined
 
-`m1` method will be called only once.
+`getProducts` method will be called only once.
 
 ### `before` interceptors
 
@@ -173,12 +173,12 @@ export const sapccExtension: SAPCCExtension = {
   interceptors: [
     {
       around: {
-        getProducts: (next: GetProductsFn, arg1: Parameters<GetProductsFn>[0], arg1: Parameters<GetProductsFn>[1]): ReturnType<GetProductsFn> => {
+        getProducts: (next: GetProductsFn, ...args: Parameters<GetProductsFn>): ReturnType<GetProductsFn> => {
           // Do something before the method call
           // ...
 
           // Call the original method, if it's not called, the SDK method won't be executed
-          const result = next(arg1, arg2);
+          const result = next(...args);
           
           // Do something after the method call with the result
           result.myCustomProperty = 'Hello world';

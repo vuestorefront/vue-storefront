@@ -267,7 +267,7 @@ describe("[InterceptorManager]", () => {
     expect(after2.mock.invocationCallOrder[0]).toBe(6);
   });
 
-  it("not calling next should not break the chain", async () => {
+  it("not calling next should break the chain", async () => {
     const configWithInterceptors = {
       module1: {
         connector: {
