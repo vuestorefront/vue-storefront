@@ -49,6 +49,7 @@ export type AxiosError = {
 export type ApolloError = {
   networkError?: number;
   code?: string | number;
+  graphQLErrors: Array<any>;
 };
 
 export type StatusCode = number | null;
