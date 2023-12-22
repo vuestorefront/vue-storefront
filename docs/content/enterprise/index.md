@@ -11,6 +11,7 @@ The Enterprise license offers everything available in our open-source projects, 
 
 ::list{type="success"}
 - [**Vue Storefront Cloud**](/cloud) infrastructure optimized for performance and safety, which includes CDN, DDoS protection, and high SLA
+- [**Vue Storefront Console**](/console) to manage your Vue Storefront Cloud projects
 - Additional [**Integrations**](/integrations) with Enterprise-grade eCommerce platforms and third-party services
 - **Technical Support and SLA** to ensure you're set for success
 - and more...

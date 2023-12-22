@@ -1,9 +1,6 @@
 name: Continuous Delivery (Storefront)
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - feat/UST-1087-nuxt-package
 
 jobs:
   publish-next:
@@ -12,8 +9,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # fetch all history so multiple commits can be scanned
 
       - name: Install dependencies
         shell: bash
@@ -39,8 +34,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # fetch all history so multiple commits can be scanned
 
       - name: Install dependencies
         shell: bash

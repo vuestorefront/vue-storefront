@@ -68,6 +68,11 @@ function getApolloStatusCode(error: ApolloError) {
   if (error.code) {
     return typeof error.code === "string" ? 400 : error.code;
   }
+
+  if (error?.graphQLErrors?.length > 0) {
+    return 200;
+  }
+
   return undefined;
 }
 
