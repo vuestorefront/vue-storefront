@@ -163,7 +163,8 @@ export const sapccExtension: SAPCCExtension = {
 These interceptors run after all `before` interceptors and before all `after` interceptors.
 
 :::warning `around` interceptors should not change the return type of the parameter!
-:::warning it is up to the developer to call the original method, if it's not called, the SDK method won't be executed.
+it is up to the developer to call the original method, if it's not called, the SDK method won't be executed.
+:::
 
 ```js
 // SAPCC Example
@@ -232,7 +233,7 @@ const sapccPaymentConfig = sdk.sapcc.utils.buildConfig(baseConfig);
 
 `extend` can be used to create a new method that is not covered by the module. 
 
-::: tip These methods are affected by interceptors
+:::tip These methods are affected by interceptors
 Like the built-in SDK methods, methods in `extend` are impacted by your interceptors.
 :::
 
@@ -263,7 +264,7 @@ const product = await sdk.sapcc.getProductBySku('product-sku');
 
 While `extend` allows you to create a new method, `override` allows you to change the behavior of the existing method.
 
-::: tip These methods are affected by interceptors
+:::tip These methods are affected by interceptors
 Like the built-in SDK methods, methods in `extend` are impacted by your interceptors.
 :::
 
