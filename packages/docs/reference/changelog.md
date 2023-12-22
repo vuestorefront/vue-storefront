@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8.1
+
+- fix: resolving Apollo Client error status code ([7001](https://github.com/vuestorefront/vue-storefront/pull/7001)) - [Bartosz Herba](https://github.com/bartoszherba)
+
 ## 2.8.0
 
 - feat: add support for the Node 18 ([6943](https://github.com/vuestorefront/vue-storefront/pull/6943)) - [Bartosz Herba](https://github.com/bartoszherba)
