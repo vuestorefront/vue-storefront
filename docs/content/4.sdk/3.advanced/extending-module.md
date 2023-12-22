@@ -44,6 +44,58 @@ Let's review each of the extension properties to understand their roles and resp
 
 Interceptors are functions that modify the input parameters of a method or the output result of a method. 
 
+### Execution order of interceptors
+
+Assume that you have the following interceptors defined for the `getProducts` method:
+
+```js
+const extension = {
+  interceptors: [
+    {
+      before: {
+        getProducts: (args: any) => {
+          return ["modified-args"];
+        },
+      },
+      after: {
+        getProducts: (result: any) => {
+          return `${result}-modified-result`;
+        },
+      },
+      around: {
+        getProducts: [
+          (next: any, arg1: any, arg2: any) => {
+            const result = next(arg1, arg2);
+            return result + "-around1";
+          },
+          (next: any, arg1: any, arg2: any) => {
+            const result = next(arg1, arg2);
+            return result + "-around2";
+          },
+          (next: any, arg1: any, arg2: any) => {
+            const result = next(arg1, arg2);
+            return result + "-around3";
+          },
+        ],
+      },
+    },
+  ],
+};
+```
+
+The execution order of interceptors will be as follows:
+* all `before` interceptors in the order they are defined
+  * `around` interceptor 1 up to next() call
+    * `around` interceptor 2 up to next() call
+      * `around` interceptor 3 up to next() call
+        * `getProducts` method
+      * `around` interceptor 3 after next() call
+    * `around` interceptor 2 after next() call
+  * `around` interceptor 1 after next() call
+* all `after` interceptors in the order they are defined
+
+`getProducts` method will be called only once.
+
 ### `before` interceptors
 
 `before` interceptors allow you to define a list of interceptors that can modify the input parameters of an SDK method. 
@@ -98,6 +150,40 @@ export const sapccExtension: SAPCCExtension = {
           console.log(`Interceptor modifies the output of getProducts method.`)
 
           return [{ id: res[0].id, name: 'Hello world' }]
+        }
+      }
+    }
+  ]
+}
+```
+
+### `around` interceptors
+`around` interceptors allow you to define a list of interceptors that can modify the input and output of an SDK method and have access to the original method.
+
+These interceptors run after all `before` interceptors and before all `after` interceptors.
+
+:::warning `around` interceptors should not change the return type of the parameter!
+:::warning it is up to the developer to call the original method, if it's not called, the SDK method won't be executed.
+
+```js
+// SAPCC Example
+type GetProductsFn = typeof SAPCCModuleType['connector']['getProducts'];
+
+export const sapccExtension: SAPCCExtension = {
+  interceptors: [
+    {
+      around: {
+        getProducts: (next: GetProductsFn, ...args: Parameters<GetProductsFn>): ReturnType<GetProductsFn> => {
+          // Do something before the method call
+          // ...
+
+          // Call the original method, if it's not called, the SDK method won't be executed
+          const result = next(...args);
+          
+          // Do something after the method call with the result
+          result.myCustomProperty = 'Hello world';
+
+          return result;
         }
       }
     }
