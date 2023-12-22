@@ -1,5 +1,11 @@
 # Change log
 
+## 1.2.0
+
+### Minor Changes
+
+- ad50ec8c8: Add around interceptors
+
 ## 1.1.1
 
 ### Patch Changes
