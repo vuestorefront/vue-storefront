@@ -165,6 +165,18 @@ describe("[InterceptorManager]", () => {
                 (args: any) => [`${args[0]} modified_before2`],
               ],
             },
+            around: {
+              test: [
+                (next: any, args: any) => {
+                  const result = next(args);
+                  return [`${result[0]} around1`];
+                },
+                (next: any, args: any) => {
+                  const result = next(args);
+                  return [`${result[0]} around2`];
+                },
+              ],
+            },
             after: {
               test: [
                 (result: any) => `${result} modified_after1`,
@@ -181,7 +193,7 @@ describe("[InterceptorManager]", () => {
     const result = await wrappedMethods.test("test");
 
     expect(result).toEqual(
-      "test modified_before1 modified_before2 modified_after1 modified_after2"
+      "test modified_before1 modified_before2 around2 around1 modified_after1 modified_after2"
     );
   });
 
@@ -217,6 +229,8 @@ describe("[InterceptorManager]", () => {
   it("interceptors are executed in correct order", async () => {
     const before1 = jest.fn((a) => a);
     const before2 = jest.fn((a) => a);
+    const around1 = jest.fn((next, a) => next(a));
+    const around2 = jest.fn((next, a) => next(a));
     const after1 = jest.fn((b) => b);
     const after2 = jest.fn((b) => b);
 
@@ -229,6 +243,9 @@ describe("[InterceptorManager]", () => {
           {
             before: {
               test: [before1, before2],
+            },
+            around: {
+              test: [around1, around2],
             },
             after: {
               test: [after1, after2],
@@ -244,8 +261,41 @@ describe("[InterceptorManager]", () => {
 
     expect(before1.mock.invocationCallOrder[0]).toBe(1);
     expect(before2.mock.invocationCallOrder[0]).toBe(2);
-    expect(after1.mock.invocationCallOrder[0]).toBe(3);
-    expect(after2.mock.invocationCallOrder[0]).toBe(4);
+    expect(around1.mock.invocationCallOrder[0]).toBe(3);
+    expect(around2.mock.invocationCallOrder[0]).toBe(4);
+    expect(after1.mock.invocationCallOrder[0]).toBe(5);
+    expect(after2.mock.invocationCallOrder[0]).toBe(6);
+  });
+
+  it("not calling next should break the chain", async () => {
+    const configWithInterceptors = {
+      module1: {
+        connector: {
+          test: (name: string) => [name],
+        },
+        interceptors: [
+          {
+            around: {
+              test: [
+                () => {
+                  return `around1`;
+                },
+                (next: any, args: any) => {
+                  const result = next(args);
+                  return [`${result[0]} around2`];
+                },
+              ],
+            },
+          },
+        ],
+        extend: {},
+      },
+    };
+
+    const wrappedMethods = getWrappedMethods(configWithInterceptors);
+    const result = await wrappedMethods.test("test");
+
+    expect(result).toEqual("around1");
   });
 
   it("handleError should return error if interceptor throws error", async () => {
