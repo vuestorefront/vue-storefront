@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "@vue-storefront/nuxt-tests-app",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "nuxt": "3.7.4",
+    "@vue-storefront/sdk": "*"
+  }
+}

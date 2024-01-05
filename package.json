@@ -37,7 +37,7 @@
   },
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/!(storefront)"
     ]
   },
   "engines": {

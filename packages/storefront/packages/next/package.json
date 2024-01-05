@@ -1,0 +1,62 @@
+{
+  "name": "@vue-storefront/next",
+  "description": "Vue Storefront dedicated features for Next.js",
+  "license": "MIT",
+  "version": "1.0.0",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./client": {
+      "import": "./dist/client.js",
+      "require": "./dist/client.js",
+      "types": "./dist/client.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "client": [
+        "dist/client.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup && yarn build:app-router && yarn build:pages-router",
+    "build:app-router": "cd __tests__/apps/app-router && yarn build",
+    "build:pages-router": "cd __tests__/apps/pages-router && yarn build",
+    "dev:app-router": "cd __tests__/apps/app-router && yarn dev",
+    "dev:pages-router": "cd __tests__/apps/pages-router && yarn dev",
+    "dev:middleware": "cd ../../shared/src/__tests__/middleware && yarn dev",
+    "lint": "eslint . --ext .ts",
+    "test:app-router": "start-server-and-test dev:middleware localhost:4000/test_integration/success dev:app-router localhost:3000 \"yarn test:e2e\"",
+    "test:pages-router": "start-server-and-test dev:middleware localhost:4000/test_integration/success dev:pages-router localhost:3000 \"yarn test:e2e\"",
+    "test": "yarn test:app-router && yarn test:pages-router",
+    "test:e2e": "cd ../../shared/ && yarn test:e2e",
+    "test:unit": "vitest run"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.31",
+    "@types/react-dom": "^18.2.14",
+    "react-dom": "^18.2.0",
+    "start-server-and-test": "^2.0.3",
+    "tsup": "8.0.1",
+    "vitest": "^0.34.6"
+  },
+  "peerDependencies": {
+    "@vue-storefront/sdk": "^1.0.0",
+    "react": "^18.2.0",
+    "next": "^13.4.7 || ^14.0.0"
+  },
+  "engines": {
+    "npm": ">=8.0.0",
+    "node": ">=18.0.0"
+  }
+}

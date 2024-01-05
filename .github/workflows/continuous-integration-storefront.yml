@@ -1,0 +1,74 @@
+name: Continuous Integration (Storefront)
+on:
+  pull_request:
+    types: ["opened", "edited", "reopened", "synchronize"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  scanning:
+    name: GitGuardian scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # fetch all history so multiple commits can be scanned
+      - name: GitGuardian scan
+        uses: GitGuardian/ggshield-action@v1.22.0
+        with:
+          args: -v
+        env:
+          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+
+  run-ci:
+    name: Run CI
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: ["18"]
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Expose github environment as shell variables
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
+        run: |
+          # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
+          # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          to_envs() { jq -r "to_entries[] | \"\(.key)<<$EOF\n\(.value)\n$EOF\n\""; }
+          echo "$SECRETS_CONTEXT" | to_envs >> $GITHUB_ENV
+      - name: Checkout code 🛎️
+        uses: actions/checkout@v3
+
+      - name: Setup node 🏗️
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+
+      - name: Install dependencies
+        shell: bash
+        working-directory: packages/storefront
+        run: HUSKY=0 yarn --frozen-lockfile
+
+      - name: Build project
+        run: yarn build
+        working-directory: packages/storefront
+
+      - name: Run tests
+        run: yarn test
+        working-directory: packages/storefront
+
+      - name: Lint project
+        run: yarn lint
+        working-directory: packages/storefront
