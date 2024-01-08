@@ -1,0 +1,5 @@
+{
+  "compilerOptions": {},
+  "include": ["**/*.ts"],
+  "exclude": ["dist", "lib", "node_modules", ".turbo"]
+}

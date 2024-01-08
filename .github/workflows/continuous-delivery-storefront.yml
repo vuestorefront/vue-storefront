@@ -1,0 +1,54 @@
+name: Continuous Delivery (Storefront)
+on:
+  workflow_dispatch:
+
+jobs:
+  publish-next:
+    name: Publish Next.js
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        shell: bash
+        working-directory: packages/storefront
+        run: HUSKY=0 yarn --frozen-lockfile
+
+      - name: Build Next.js
+        run: yarn build
+        working-directory: packages/storefront/packages/next
+
+      - name: Set npm token
+        run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_RELEASE_TOKEN }}
+
+      - name: Publish Next.js
+        run: yarn publish --non-interactive --access public
+        working-directory: packages/storefront/packages/next
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
+
+  publish-nuxt:
+    name: Publish Nuxt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        shell: bash
+        working-directory: packages/storefront
+        run: HUSKY=0 yarn --frozen-lockfile
+
+      - name: Build Nuxt
+        run: yarn build
+        working-directory: packages/storefront/packages/nuxt
+
+      - name: Set npm token
+        run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_RELEASE_TOKEN }}
+
+      - name: Publish Nuxt
+        run: yarn publish --non-interactive --access public
+        working-directory: packages/storefront/packages/nuxt
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}

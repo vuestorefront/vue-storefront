@@ -1,0 +1,10 @@
+import type { SdkConfig } from "./sdk.config";
+import type { SDKApi } from '@vue-storefront/sdk';
+import { useNuxtApp } from "#imports";
+
+export const useSdk = () => {
+  const nuxtApp = useNuxtApp();
+  const { sdk } = nuxtApp.$vsf as { sdk: SDKApi<ReturnType<SdkConfig>> };
+
+  return sdk;
+};

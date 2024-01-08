@@ -15,6 +15,7 @@ lerna-debug.log*
 
 # Rollup generate output
 lib
+dist
 
 # Coverage directory used by tools like istanbul
 coverage
@@ -28,3 +29,10 @@ coverage
 
 # Nuxt generated files
 .nuxt
+.output
+
+# Next generated files
+.next
+
+# Cypress generated files
+**/cypress/screenshots

@@ -1,0 +1,68 @@
+import { buildModule } from "@vue-storefront/sdk";
+import { composeMiddlewareUrl, useNuxtApp, useRequestHeaders } from "#imports";
+import { SdkModuleOptions } from "./vsfModule";
+
+type InjectedContext = {
+  buildModule: typeof buildModule;
+  middlewareUrl: string;
+  getCookieHeader: () => Record<string, string>;
+};
+
+type Config<TConfig> = (context: InjectedContext) => TConfig;
+
+const moduleConfig: SdkModuleOptions = <%= options.moduleConfig %>;
+
+/**
+  * Define SDK config function
+  *
+  * @param config - Function that returns SDK config
+  *
+  * @example
+  * ```ts
+  * import {
+  *   contentfulModule,
+  *   ContentfulModuleType,
+  * } from "@vsf-enterprise/contentful-sdk";
+  * import { unifiedModule } from "@vsf-enterprise/unified-sdk";
+  * import type { UnifiedApiExtension } from "../storefront-middleware/middleware.config";
+  * 
+  * export default defineSdkConfig(
+  *   ({ buildModule, middlewareUrl, getCookieHeader }) => ({
+  *     unified: buildModule(unifiedModule<UnifiedApiExtension>, {
+  *       apiUrl: middlewareUrl + "/commerce",
+  *       requestOptions: {
+  *         headers: getCookieHeader,
+  *       },
+  *     }),
+  *     contentful: buildModule<ContentfulModuleType>(contentfulModule, {
+  *       apiUrl: middlewareUrl + "/cntf",
+  *     }),
+  *   }),
+  * );
+  * ```
+  */
+export function defineSdkConfig<TConfig>(config: Config<TConfig>) {
+  return () => {
+    const nuxtApp = useNuxtApp()
+    const runtimeConfig = useRuntimeConfig();
+    const { middleware, multistore } = runtimeConfig.public;
+    const resolvedOptions = {
+      middleware: middleware ?? moduleConfig.middleware,
+      multistore: multistore ?? moduleConfig.multistore,
+    }
+
+    const requestHeaders = useRequestHeaders(["x-forwarded-host", "host"]);
+    const middlewareUrl = composeMiddlewareUrl({
+      options: resolvedOptions,
+      headers: requestHeaders,
+    });
+
+    const getCookieHeader = () => useRequestHeaders(["cookie"]);
+
+    return config({
+      buildModule,
+      middlewareUrl,
+      getCookieHeader
+    });
+  }
+}

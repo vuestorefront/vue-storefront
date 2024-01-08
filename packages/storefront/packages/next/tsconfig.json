@@ -1,0 +1,13 @@
+{
+  "extends": "@vue-storefront/integrations-tsconfig/tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "paths": {
+      "@storefront/shared": ["../../shared"]
+    }
+  },
+  "exclude": ["node_modules"],
+  "include": ["**/*.ts"]
+}
