@@ -57,7 +57,8 @@ export interface ApiClientExtensionHooks<C = any> {
 
 export interface ApiClientExtension<API = any, CONTEXT = any> {
   name: string;
-  extendApiMethods?: ExtendApiMethod<API, CONTEXT>;
+  isNamespaced?: boolean;
+  extendApiMethods?: ExtendApiMethod<API, CONTEXT> | [key: string];
   extendApp?: ({
     app,
     configuration,

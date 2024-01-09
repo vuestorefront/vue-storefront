@@ -18,7 +18,8 @@
     "@microsoft/api-documenter": "^7.13.30",
     "@microsoft/api-extractor": "^7.18.1",
     "@types/node": "^18",
-    "nuxt": "^3.6.2"
+    "nuxt": "^3.6.2",
+    "nuxt-gtag": "^1.1.2"
   },
   "dependencies": {
     "@stackblitz/sdk": "^1.9.0",

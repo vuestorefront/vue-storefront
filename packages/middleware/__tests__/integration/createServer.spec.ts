@@ -31,6 +31,18 @@ describe("[Integration] Create server", () => {
                   },
                 },
               },
+              {
+                name: "my-namespaced-extension",
+                isNamespaced: true,
+                extendApiMethods: {
+                  myFunc(context) {
+                    return context.api.error();
+                  },
+                  myFuncNamespaced(context) {
+                    return context.api.success();
+                  },
+                },
+              },
             ];
           },
         },
@@ -140,5 +152,36 @@ describe("[Integration] Create server", () => {
         },
       },
     });
+  });
+
+  it("should make a call to a namespaced method", async () => {
+    expect.assertions(2);
+
+    const { status, text } = await request(app)
+      .post("/test_integration/my-namespaced-extension/myFuncNamespaced")
+      .send([]);
+
+    const response = JSON.parse(text);
+    // This is the result of the original "success" function from the integration
+    const apiMethodResult = await success();
+
+    expect(status).toEqual(200);
+    expect(response).toEqual(apiMethodResult);
+  });
+
+  it("namespaced extension should be not merged to the shared api", async () => {
+    expect.assertions(2);
+
+    const { status, text } = await request(app)
+      .post("/test_integration/myFunc")
+      .send([]);
+
+    const response = JSON.parse(text);
+    // This is the result of the original "success" function from the integration
+    const apiMethodResult = await success();
+
+    // If merged, the response would be { message: "error", error: true, status: 404 }
+    expect(status).toEqual(200);
+    expect(response).toEqual(apiMethodResult);
   });
 });

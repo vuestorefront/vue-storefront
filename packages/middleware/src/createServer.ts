@@ -52,14 +52,14 @@ async function createServer<
   consola.success("Integrations loaded!");
 
   app.post(
-    "/:integrationName/:functionName",
+    "/:integrationName/:extensionName?/:functionName",
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),
     prepareArguments,
     callApiFunction
   );
   app.get(
-    "/:integrationName/:functionName",
+    "/:integrationName/:extensionName?/:functionName",
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),
     prepareArguments,
