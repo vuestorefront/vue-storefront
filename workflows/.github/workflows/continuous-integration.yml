@@ -52,6 +52,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    timeout-minutes: 120
     steps:
       - name: Expose github environment as shell variables
         env:
