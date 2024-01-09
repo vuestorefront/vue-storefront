@@ -1,5 +1,11 @@
 # Change log
 
+## 3.7.0
+
+### Minor Changes
+
+- 496bfb840: Hide error data from the response, now only the message will be exposed to the client.
+
 ## 3.6.2
 
 ### Patch Changes
