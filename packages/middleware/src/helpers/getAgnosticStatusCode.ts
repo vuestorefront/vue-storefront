@@ -58,7 +58,7 @@ function obtainStatusCode(
 }
 
 function getAxiosStatusCode(error: AxiosError) {
-  return error.response.status;
+  return error.response?.status ?? 500;
 }
 
 function getApolloStatusCode(error: ApolloError) {

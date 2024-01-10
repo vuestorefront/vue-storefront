@@ -99,6 +99,16 @@ describe("[middleware-helpers] getAgnosticStatusCode", () => {
     expect(statusCode).toBe(expectedStatusCode);
   });
 
+  it("retrieves status code for axios even when status code is missing", () => {
+    const testData = {
+      isAxiosError: true,
+    };
+
+    const statusCode = getAgnosticStatusCode(testData);
+
+    expect(statusCode).toBe(defaultCode);
+  });
+
   it("retrieves status code for apollo when code is a string", () => {
     const testData = {
       code: "someString",
