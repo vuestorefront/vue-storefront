@@ -1,5 +1,11 @@
 # Change log
 
+## 3.7.1
+
+### Patch Changes
+
+- 76e5f92e6: Fix the issue with error handling during the timeouted requests
+
 ## 3.7.0
 
 ### Minor Changes
