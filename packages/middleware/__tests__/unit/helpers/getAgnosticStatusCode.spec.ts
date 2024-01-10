@@ -102,7 +102,6 @@ describe("[middleware-helpers] getAgnosticStatusCode", () => {
   it("retrieves status code for axios even when status code is missing", () => {
     const testData = {
       isAxiosError: true,
-      response: {},
     };
 
     const statusCode = getAgnosticStatusCode(testData);
