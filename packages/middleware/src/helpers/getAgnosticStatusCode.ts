@@ -58,7 +58,13 @@ function obtainStatusCode(
 }
 
 function getAxiosStatusCode(error: AxiosError) {
-  return error.response?.status ?? 500;
+  if (error?.code === "ECONNABORTED") {
+    return 408;
+  }
+  if (error?.code === "ECONNRESET") {
+    return 500;
+  }
+  return error.response?.status;
 }
 
 function getApolloStatusCode(error: ApolloError) {
