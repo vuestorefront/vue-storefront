@@ -155,8 +155,6 @@ describe("[Integration] Create server", () => {
   });
 
   it("should make a call to a namespaced method", async () => {
-    expect.assertions(2);
-
     const { status, text } = await request(app)
       .post("/test_integration/my-namespaced-extension/myFuncNamespaced")
       .send([]);
@@ -169,9 +167,35 @@ describe("[Integration] Create server", () => {
     expect(response).toEqual(apiMethodResult);
   });
 
-  it("namespaced extension should be not merged to the shared api", async () => {
-    expect.assertions(2);
+  it("should return 404 and proper message if function is not available in the namespace", async () => {
+    const { status, error } = await request(app).post(
+      "/test_integration/my-namespaced-extension/unavailavbleFunction"
+    );
 
+    expect(status).toEqual(404);
+    expect(error).toBeTruthy();
+    if (error) {
+      expect(error.text).toEqual(
+        `Extension "my-namespaced-extension" is not namespaced or the function "unavailavbleFunction" is not available in the namespace.`
+      );
+    }
+  });
+
+  it("should return 404 and proper message if function is not available in the shared namespace", async () => {
+    const { status, error } = await request(app).post(
+      "/test_integration/unavailavbleFunction"
+    );
+
+    expect(status).toEqual(404);
+    expect(error).toBeTruthy();
+    if (error) {
+      expect(error.text).toEqual(
+        `The function "unavailavbleFunction" is not registered.`
+      );
+    }
+  });
+
+  it("namespaced extension should be not merged to the shared api", async () => {
     const { status, text } = await request(app)
       .post("/test_integration/myFunc")
       .send([]);

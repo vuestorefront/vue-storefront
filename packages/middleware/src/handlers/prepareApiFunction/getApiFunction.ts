@@ -9,8 +9,17 @@ export const getApiFunction = (
   functionName: string,
   extensionName?: string
 ) => {
-  return (
-    apiClient?.api?.[extensionName]?.[functionName] ??
-    apiClient?.api?.[functionName]
-  );
+  const apiFn = extensionName
+    ? apiClient?.api?.[extensionName]?.[functionName]
+    : apiClient?.api?.[functionName];
+
+  if (!apiFn) {
+    const errorMessage = extensionName
+      ? `Extension "${extensionName}" is not namespaced or the function "${functionName}" is not available in the namespace.`
+      : `The function "${functionName}" is not registered.`;
+
+    throw new Error(errorMessage);
+  }
+
+  return apiFn;
 };

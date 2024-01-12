@@ -76,11 +76,18 @@ export function prepareApiFunction(
     });
 
     // Pick the function from the namespaced if it exists, otherwise pick it from the shared integration
-    res.locals.apiFunction = getApiFunction(
-      apiClientInstance,
-      functionName,
-      extensionName
-    );
+    try {
+      res.locals.apiFunction = getApiFunction(
+        apiClientInstance,
+        functionName,
+        extensionName
+      );
+    } catch (e) {
+      res.status(404);
+      res.send(e.message);
+
+      return;
+    }
 
     next();
   };
