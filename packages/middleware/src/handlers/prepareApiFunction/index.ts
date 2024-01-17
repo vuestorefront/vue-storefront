@@ -1,11 +1,12 @@
 import type { RequestHandler } from "express";
 import { IntegrationsLoaded, MiddlewareContext } from "../../types";
+import { getApiFunction } from "./getApiFunction";
 
 export function prepareApiFunction(
   integrations: IntegrationsLoaded
 ): RequestHandler {
   return (req, res, next) => {
-    const { integrationName, functionName } = req.params;
+    const { integrationName, extensionName, functionName } = req.params;
 
     if (!integrations || !integrations[integrationName]) {
       res.status(404);
@@ -74,9 +75,19 @@ export function prepareApiFunction(
       ...initConfig,
     });
 
-    const apiFunction = apiClientInstance.api[functionName];
+    // Pick the function from the namespaced if it exists, otherwise pick it from the shared integration
+    try {
+      res.locals.apiFunction = getApiFunction(
+        apiClientInstance,
+        functionName,
+        extensionName
+      );
+    } catch (e) {
+      res.status(404);
+      res.send(e.message);
 
-    res.locals.apiFunction = apiFunction;
+      return;
+    }
 
     next();
   };
