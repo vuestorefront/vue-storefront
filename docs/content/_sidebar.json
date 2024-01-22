@@ -11,6 +11,12 @@
     "sidebarRoot": true
   },
   {
+    "title": "Cookbook",
+    "_path": "/cookbook",
+    "icon": "ri:book-2-fill",
+    "sidebarRoot": true
+  },
+  {
     "title": "SDK",
     "_path": "/sdk",
     "sidebarSection": "Connect",
