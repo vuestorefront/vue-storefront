@@ -56,6 +56,11 @@
     "sidebarRoot": true
   },
   {
+    "title": "OSS Deployment",
+    "_path": "/cookbook/oss-deployment-guide",
+    "icon": "pepicons-pencil:arrow-spin-circle"
+  },
+  {
     "sidebarSection": "Community",
     "title": "Contributing",
     "_path": "/contributing",
