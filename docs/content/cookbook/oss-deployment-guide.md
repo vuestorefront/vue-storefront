@@ -396,7 +396,7 @@ To summarize the steps of this job:
  - We then store the tarball so we can later upload it to our server.
 ::
 :hr
-Now that we've created our deployment artifacts, we need to prepare our server to receive them. On addition to this job that we didn't have on the previous job is the `needs` property. This tells Github that this job depends on the previous job. This means that Github will run the previous job before running this job.
+Now that we've created our deployment artifacts, we need to prepare our server to receive them. One addition to this job that we didn't have on the previous one is the `needs` property. This tells GitHub that `prepare-release-on-servers` depends on `create-deployment-artifacts`. This means that GitHub will run our job to create deployment artifacts before running this job.
 
 ### Prepare the release
 ```yaml
