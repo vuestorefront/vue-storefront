@@ -123,8 +123,8 @@ create an nginx config `/etc/nginx/sites-enable/vsfcommunity`
 
 As you may have noticed, there is no metion of SSL in the nginx config file. We'll configure SSL now using certbot. Of course, if you already have a method of obtaining SSL certificates, you can skip this step.
 
-### Run certbot:
-[Cerbot](https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal) is a free and open source tool that will help us get a free SSL certificate from Let's Encrypt. Not only is this certificate free, but it's also trusted by all major browsers. Cerbot will even automatically renew the certificate for us when it's about to expire.
+### Run certbot: 
+[Certbot](https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal) is a free and open source tool that will help us get a free SSL certificate from Let's Encrypt. Not only is this certificate free, but it's also trusted by all major browsers. Cerbot will even automatically renew the certificate for us when it's about to expire.
 
 Follow the prompts to configure certbot. I recommend selecting the option to redirect all HTTP traffic to HTTPS.
 
@@ -300,7 +300,7 @@ Github will automatically encrypt the secret for you. You can read more about Gi
 ## Deployment Script
 
 ### Why use Github Action?
-We want to deploy our applications based on a preconfigued setup. This reduces the chance of human error and frees up our time to work on more important things.
+We want to deploy our applications based on a preconfigured setup. This reduces the chance of human error and frees up our time to work on more important things.
 
 To do this, we'll use Github Actions to build our application and deploy it to our server. Github Actions is a CI/CD tool that allows us to automate our development workflow. We'll use it to build our application, create a tarball of the application, upload the tarball to our server, extract the tarball on our server, and restart our services. For more information on Github Actions, check out the [official documentation](https://docs.github.com/en/actions).
 
@@ -329,7 +329,7 @@ on:
     branches:
       - main
 ```
-You can change this to only run when, for exmaple, you create a realease tag. Check out the [Github Actions documentation](https://docs.github.com/en/actions) for more information.
+You can change this to only run when, for example, you create a realease tag. Check out the [Github Actions documentation](https://docs.github.com/en/actions) for more information.
 
 ### Create deployment artifacts
 Now that we've told Github when to run our script, we need to tell it what to do. The `jobs` property in the script tells Github what to do. In this case, we want to create deployment artifacts.
