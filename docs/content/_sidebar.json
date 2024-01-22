@@ -11,6 +11,11 @@
     "sidebarRoot": true
   },
   {
+    "title": "Cookbook",
+    "_path": "/cookbook",
+    "icon": "ri:book-2-fill"
+  },
+  {
     "title": "SDK",
     "_path": "/sdk",
     "sidebarSection": "Connect",
@@ -54,11 +59,6 @@
     "_path": "/console",
     "icon": "material-symbols:frame-inspect",
     "sidebarRoot": true
-  },
-  {
-    "title": "OSS Deployment",
-    "_path": "/cookbook/oss-deployment-guide",
-    "icon": "pepicons-pencil:arrow-spin-circle"
   },
   {
     "sidebarSection": "Community",
