@@ -77,12 +77,11 @@ ln -s /snap/bin/certbot /usr/bin/certbot
 
 ## Setting up a reverse proxy
 
-We're running two application, one for the frontend and one for the backend. The frontend is running on port 3000 and the backend is running on port 4000. 
+We're running two applications, one for the frontend and one for the backend. The frontend is running on port 3000 and the backend is running on port 4000. 
 When someone visits our website, we want to serve the frontend application. When someone makes a request to our API, we want to serve the backend application. We'll use Nginx to proxy the requests to the correct application.
 
 Configure Nginx
-the temp nginx file will be located here ./config/nginx/vsfcommunity
-copy it to /etc/nginx/sites-enable directory
+create an nginx config `/etc/nginx/sites-enable/vsfcommunity`
 ```nginx
   server {
       
