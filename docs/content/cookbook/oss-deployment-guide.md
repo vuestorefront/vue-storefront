@@ -274,7 +274,7 @@ In a subsequent step, we will create a deployment script that will automatically
 systemctl enable vsfcommunity-web
 ```
 ```bash
-systemctl enable vsfcommunity-api
+systemctl enable vsfcommunity-server
 ``` 
 
 #tab-2
