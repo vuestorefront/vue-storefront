@@ -15,7 +15,6 @@ This guide is for Open Source Applications. If you have Enterprise support, plea
 ::list{type="success"}
 - A linux server with SSH Access
 - A domain name and the ability to point it to your server's IP address
-- Remember to stay hydrated and get enough sleep 😉
 ::
 
 ## References
