@@ -280,7 +280,7 @@ systemctl enable vsfcommunity-api
 #tab-2
 
 ### Add SSH Key to Github Secrets
-We'll need to add an SSH key to our Github repository so that we can upload the tarball and run commands on our target server. Generate an SSH and make sure it's added to your server. Then, add the private key to your Github repository as a secret. To do this, go to your repository's settings page, click on "Secrets", and then click on "New repository secret". Name the secret "SSH_KEY" and paste the contents of your private key into the value field.
+We'll need to add an SSH key to our GitHub repository so that we can upload the tarball and run commands on our target server. Generate an SSH and make sure it's added to your server. Then, add the private key to your GitHub repository as a secret. To do this, go to your repository's settings page, click on "Secrets", and then click on "New repository secret". Name the secret "SSH_KEY" and paste the contents of your private key into the value field.
 
 :::list{type="success"}
 - Generate an SSH key
