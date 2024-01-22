@@ -198,8 +198,8 @@ when certbot is done, your nginx config file will look something like this:
 `systemctl` is a command-line tool that allows for the management and monitoring of the `systemd` system and service manager. It is used to start, stop, and restart services, as well as to configure services to automatically start when the system boots. We'll use it to start our frontend and backend applications. To do this, we'll first create a service for each application.
 
 ### Create a service for the frontend
-Create a file called vsfcommunity.service in `/etc/systemd/system/` and paste the following contents into it:
-```bash[/etc/systemd/system/vsfcommunity.service]
+Create a file called vsfcommunity-web.service in `/etc/systemd/system/` and paste the following contents into it:
+```bash[/etc/systemd/system/vsfcommunity-web.service]
 [Unit]
 Description=vsfcommunity-web service
 Documentation=https://vsfcommunity.dev
@@ -221,8 +221,8 @@ WantedBy=multi-user.target
 ```
 
 ### Create a service for the API
-Create a file called vsfcommunity-api.service in `/etc/systemd/system/` and paste the following contents into it:
-```bash[/etc/systemd/system/vsfcommunity-api.service]
+Create a file called vsfcommunity-server.service in `/etc/systemd/system/` and paste the following contents into it:
+```bash[/etc/systemd/system/vsfcommunity-server.service]
 [Unit]
 Description=vsfcommunity-server service
 Documentation=https://vsfcommunity.dev
