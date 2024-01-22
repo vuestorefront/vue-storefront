@@ -864,6 +864,33 @@
             },
             {
               "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!ApiClientExtension#isNamespaced:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "isNamespaced?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "isNamespaced",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
               "canonicalReference": "@vue-storefront/middleware!ApiClientExtension#name:member",
               "docComment": "",
               "excerptTokens": [
@@ -2181,7 +2208,16 @@
             },
             {
               "kind": "Content",
-              "text": "{\n    networkError?: number;\n    code?: string | number;\n}"
+              "text": "{\n    networkError?: number;\n    code?: string | number;\n    graphQLErrors: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Array",
+              "canonicalReference": "!Array:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<any>;\n}"
             },
             {
               "kind": "Content",
@@ -2193,7 +2229,7 @@
           "name": "ApolloError",
           "typeTokenRange": {
             "startIndex": 1,
-            "endIndex": 2
+            "endIndex": 4
           }
         },
         {
