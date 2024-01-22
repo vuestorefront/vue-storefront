@@ -328,7 +328,7 @@ on:
     branches:
       - main
 ```
-You can change this to only run when, for example, you create a realease tag. Check out the [Github Actions documentation](https://docs.github.com/en/actions) for more information.
+You can change this to only run when, for example, you create a release tag. Check out the [GitHub Actions documentation](https://docs.github.com/en/actions) for more information.
 
 ### Create deployment artifacts
 Now that we've told Github when to run our script, we need to tell it what to do. The `jobs` property in the script tells Github what to do. In this case, we want to create deployment artifacts.
