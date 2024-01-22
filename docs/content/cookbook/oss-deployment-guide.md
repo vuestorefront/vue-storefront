@@ -55,7 +55,7 @@ npm install --global yarn
 yarn -v
 ```
 
-### Install Nginx
+### Install nginx
 ```bash
 apt-get install nginx
 ```
