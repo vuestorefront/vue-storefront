@@ -298,7 +298,7 @@ Github will automatically encrypt the secret for you. You can read more about Gi
 
 ## Deployment Script
 
-### Why use Github Action?
+### Why use Github Actions?
 We want to deploy our applications based on a preconfigured setup. This reduces the chance of human error and frees up our time to work on more important things.
 
 To do this, we'll use Github Actions to build our application and deploy it to our server. Github Actions is a CI/CD tool that allows us to automate our development workflow. We'll use it to build our application, create a tarball of the application, upload the tarball to our server, extract the tarball on our server, and restart our services. For more information on Github Actions, check out the [official documentation](https://docs.github.com/en/actions).
