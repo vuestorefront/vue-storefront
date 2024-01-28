@@ -1,91 +1,71 @@
-# Unified multi-store
+# @vue-storefront/multistore
 
-Unified multi-store approach for VSF eCommerce integrations.
+The `@vue-storefront/multistore` package provides a middleware extension for multi-store functionality. It changes the middleware configuration to support multiple stores based on the domain configuration.
 
 ## Prerequisites
 
-A unified multi-store solution was designed to work in VSF infrastructure. It requires 3 headers to work properly
-- `origin` for client-to-server communication,
-- `x-forwarded-host` for server-to-server communication,
-- `host` for server-to-server communication, as a fallback if there is no `x-forwarded-host`.
-Be sure that the client used to communicate with the middleware is adding those headers to the requests!
+Ensure the following prerequisites are met for the unified multi-store solution:
 
-## Getting started
+- It works within the VSF infrastructure.
+- Requires three headers for proper functionality:
+  1. `origin` for client-server communication.
+  2. `x-forwarded-host` for server-server communication.
+  3. `host` as a fallback for server-server communication if `x-forwarded-host` is absent.
+- The client communicating with the middleware must include these headers in requests.
 
-Unified multi-store is an extension for VSF middleware that overwrites the base configuration with a store-specific config.
-To set up multi-store in your VSF middleware:
+## Setup Steps
 
-1. Import `multistoreExtension` from `@vue-storefront/multistore` package and extend the middleware config. SAP example:
+To configure multi-store in your middleware, follow these steps:
 
-```diff
-# middleware.config.js
+1. Extend Middleware Config with Multi-Store Extension
 
-require('dotenv').config();
-+ const { multistoreExtension } = require('@vue-storefront/multistore');
+- Import `multistoreExtension` from `@vue-storefront/multistore`.
+- Extend the middleware config in `middleware.config.ts`.
 
-module.exports = {
+Example: Add `multistoreExtension` to the extensions array for SAP integration.
+
+```ts [middleware.config.ts]
+import { multistoreExtension } from '@vue-storefront/multistore';
+
+export default {
   integrations: {
-    sapcc: {
-      location: '@vsf-enterprise/sapcc-api/server',
-+     extensions: (extensions) => [
-+       ...extensions,
-+       multistoreExtension
-+     ],
-      configuration: {
-        OAuth: {
-          uri: process.env.SAPCC_OAUTH_URI,
-          clientId: process.env.SAPCC_OAUTH_CLIENT_ID,
-          clientSecret: process.env.SAPCC_OAUTH_CLIENT_SECRET,
-          tokenEndpoint: process.env.SAPCC_OAUTH_TOKEN_ENDPOINT,
-          tokenRevokeEndpoint: process.env.SAPCC_OAUTH_TOKEN_REVOKE_ENDPOINT,
-          cookieOptions: {
-            'vsf-sap-token': { secure: process.env.NODE_ENV !== 'development' }
-          }
-        },
-        api: {
-          uri: process.env.SAPCC_API_URI,
-          baseSiteId: 'electronics',
-          catalogId: 'electronicsProductCatalog',
-          catalogVersion: 'Online',
-          defaultLanguage: 'en',
-          defaultCurrency: 'USD'
-        }
-      }
+    sap: {
+      location: '@vue-storefront/sapcc-api/server',
+      configuration: { ... },
+      extensions: (predefinedExtensions) => [
+        ...predefinedExtensions,
+        multistoreExtension
+      ]
     }
   }
 };
 ```
 
-2. Prepare multistore configuration. Create `multistore.config.js` file containing the following methods
+2. Create Multi-Store Configuration
 
-- `fetchConfiguration({ domain }): Record<string, StoreConfig>` - fetches store configuration. The method accepts the domain as an argument and returns with the store-specific configuration based on the domains where the domain is a key and the configuration is a value.
-- `mergeConfigurations({ baseConfig, storeConfig }): StoreConfig` - overwrites base configuration with store-specific config.
-- `cacheManagerFactory(): { get: (key: string) => StoreConfig, set(key: string, value: StoreConfig)}` - creates cache manager with `get` and `set` methods.
+- Prepare a `multistore.config.ts` file with methods:
+  - `fetchConfiguration({ domain })`: Returns store-specific configurations based on domain.
+  - `mergeConfigurations({ baseConfig, storeConfig })`: Merges base configuration with store-specific settings.
+  - `cacheManagerFactory()`: Implements cache manager with get and set methods.
 
-Example multistore configuration, which overwrites the `api` parameter of base configuration and uses `node-cache` as a cache manager.
+Example: Configuration that modifies the api parameter and uses `node-cache`.
 
-```javascript
-// multistore.config.js
+```ts [multistore.config.ts]
+import NodeCache from "node-cache";
 
-const NodeCache = require('node-cache');
-
-module.exports = {
+export const multistoreConfig = {
   fetchConfiguration(/* { domain } */) {
     return {
-      'my-apparel-domain.io': {
-        baseSiteId: 'apparel-uk',
-        catalogId: 'apparelProductCatalog',
-        catalogVersion: 'Online',
-        defaultLanguage: 'en',
-        defaultCurrency: 'GBP'
+      "my-apparel-domain.io": {
+        baseSiteId: "apparel-uk",
+        defaultCurrency: "GBP",
+        // ...
       },
-      'my-electronics-domain.io': {
-        baseSiteId: 'electronics',
-        catalogId: 'electronicsProductCatalog',
-        catalogVersion: 'Online',
-        defaultLanguage: 'en',
-        defaultCurrency: 'USD'
-      }
+      "my-electronics-domain.io": {
+        baseSiteId: "electronics",
+        defaultCurrency: "USD",
+        // ...
+      },
     };
   },
   mergeConfigurations({ baseConfig, storeConfig }) {
@@ -93,13 +73,13 @@ module.exports = {
       ...baseConfig,
       api: {
         ...baseConfig.api,
-        ...storeConfig
-      }
+        ...storeConfig,
+      },
     };
   },
   cacheManagerFactory() {
     const client = new NodeCache({
-      stdTTL: 10
+      stdTTL: 10,
     });
 
     return {
@@ -108,69 +88,34 @@ module.exports = {
       },
       set(key, value) {
         return client.set(key, value);
-      }
+      },
     };
-  }
+  },
 };
 ```
 
-3. Add multi-store configuration to `middleware.config.js`:
+3. Integrate Multi-Store Configuration
 
-```diff
-# middleware.config.js
+- Add the multi-store configuration from `multistore.config.ts` to your `middleware.config.ts`.
 
-require('dotenv').config();
-+ const multistore = require('./multistore.config');
-const { multistoreExtension } = require('@vue-storefront/multistore');
+Example: Add multi-store configuration to `middleware.config.ts`.
 
-module.exports = {
+```ts [middleware.config.ts]
+import { multistoreConfig } from "./multistore.config";
+
+export default {
   integrations: {
-    sapcc: {
-      location: '@vsf-enterprise/sapcc-api/server',
-      extensions: (extensions) => [
-        ...extensions,
-        multistoreExtension
-      ],
+    sap: {
+      location: "@vue-storefront/sapcc-api/server",
       configuration: {
-        OAuth: {
-          uri: process.env.SAPCC_OAUTH_URI,
-          clientId: process.env.SAPCC_OAUTH_CLIENT_ID,
-          clientSecret: process.env.SAPCC_OAUTH_CLIENT_SECRET,
-          tokenEndpoint: process.env.SAPCC_OAUTH_TOKEN_ENDPOINT,
-          tokenRevokeEndpoint: process.env.SAPCC_OAUTH_TOKEN_REVOKE_ENDPOINT,
-          cookieOptions: {
-            'vsf-sap-token': { secure: process.env.NODE_ENV !== 'development' }
-          }
-        },
-        api: {
-          uri: process.env.SAPCC_API_URI,
-          baseSiteId: 'electronics',
-          catalogId: 'electronicsProductCatalog',
-          catalogVersion: 'Online',
-          defaultLanguage: 'en',
-          defaultCurrency: 'USD'
-        },
-+       multistore
-      }
-    }
-  }
+        // ...
+        multistore: multistoreConfig,
+      },
+      extensions: (predefinedExtensions) => [
+        ...predefinedExtensions,
+        multistoreExtension,
+      ],
+    },
+  },
 };
 ```
-
-## Architecture
-
-### System context level
-
-![System context level](https://res.cloudinary.com/vue-storefront/image/upload/v1674577953/Unified%20multi-store/Integrations_Workspace_-_System_context_level_utxxzw.jpg)
-
-### Vue Storefront Integration container level
-
-![System container level](https://res.cloudinary.com/vue-storefront/image/upload/v1674577953/Unified%20multi-store/Integrations_Workspace_-_System_container_level_jbhk66.jpg)
-
-### Middleware component level
-
-![System component level](https://res.cloudinary.com/vue-storefront/image/upload/v1674577953/Unified%20multi-store/Integrations_Workspace_-_System_component_level_-_Middleware_with_multistore_1_at6dqq.jpg)
-
-### Unified multi-store sequence diagram
-
-![Sequence diagram](https://res.cloudinary.com/vue-storefront/image/upload/v1674577949/Unified%20multi-store/Unified_multi-store_1_kwbuu1.png)
