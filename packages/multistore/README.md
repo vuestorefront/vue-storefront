@@ -1,10 +1,10 @@
 # @vue-storefront/multistore
 
-The `@vue-storefront/multistore` package provides a middleware extension for multi-store functionality. It changes the middleware configuration to support multiple stores based on the domain configuration.
+The `@vue-storefront/multistore` package provides a middleware extension for multistore functionality. It changes the middleware configuration to support multiple stores based on the domain configuration.
 
 ## Prerequisites
 
-Ensure the following prerequisites are met for the unified multi-store solution:
+Ensure the following prerequisites are met for the unified multistore solution:
 
 - It works within the VSF infrastructure.
 - Requires three headers for proper functionality:
@@ -15,9 +15,9 @@ Ensure the following prerequisites are met for the unified multi-store solution:
 
 ## Setup Steps
 
-To configure multi-store in your middleware, follow these steps:
+To configure multistore in your middleware, follow these steps:
 
-1. Extend Middleware Config with Multi-Store Extension
+1. Extend Middleware Config with multistore Extension
 
 - Import `multistoreExtension` from `@vue-storefront/multistore`.
 - Extend the middleware config in `middleware.config.ts`.
@@ -41,7 +41,7 @@ export default {
 };
 ```
 
-2. Create Multi-Store Configuration
+2. Create multistore Configuration
 
 - Prepare a `multistore.config.ts` file with methods:
   - `fetchConfiguration({ domain })`: Returns store-specific configurations based on domain.
@@ -94,11 +94,11 @@ export const multistoreConfig = {
 };
 ```
 
-3. Integrate Multi-Store Configuration
+3. Integrate multistore Configuration
 
-- Add the multi-store configuration from `multistore.config.ts` to your `middleware.config.ts`.
+- Add the multistore configuration from `multistore.config.ts` to your `middleware.config.ts`.
 
-Example: Add multi-store configuration to `middleware.config.ts`.
+Example: Add multistore configuration to `middleware.config.ts`.
 
 ```ts [middleware.config.ts]
 import { multistoreConfig } from "./multistore.config";

@@ -50,13 +50,13 @@ export interface MiddlewareConfiguration {
   multistore: MultistoreExtensionMethods;
 
   /**
-   * Other configration entries, that are not being used by the multi-store extension.
+   * Other configration entries, that are not being used by the multistore extension.
    */
   [key: string]: any;
 }
 
 /**
- * Parameters containing multi-store configuration used by the extension.
+ * Parameters containing multistore configuration used by the extension.
  */
 export interface ExtensionParams {
   /**

@@ -2,7 +2,7 @@ import { MultistoreExtensionMethods } from "../types";
 import { requiredMethodsErrors } from "./requiredMethodsErrors";
 
 /**
- * Validates if multi-store extension methods exists in the configuration input.
+ * Validates if multistore extension methods exists in the configuration input.
  */
 export const validateMultistoreMethods = (
   methodName: string,

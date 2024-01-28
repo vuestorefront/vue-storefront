@@ -5,7 +5,7 @@ import { integrations } from "./bootstrap/middleware.config";
 import { mockMiddlewareConfig } from "../../__mocks__/middleware.config.mock";
 import { multistoreExtension } from "../../src/extension";
 
-describe("[MultiStoreExtension] Unified multi-store approach", () => {
+describe("[MultiStoreExtension] Unified multistore approach", () => {
   const mockedMiddlewareConfig = mockMiddlewareConfig();
 
   describe("Extended app", () => {
