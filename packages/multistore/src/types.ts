@@ -1,7 +1,7 @@
 /**
  * Type alias for any store configuration.
  */
-export type StoreConfig = any;
+export type StoreConfig = Record<string, any>;
 
 /**
  * Cache manager is responsible for caching configuration and retreiving configuration from cache.
@@ -25,7 +25,7 @@ export interface MultistoreExtensionMethods {
   /**
    * Cache manager factory creates cache manager.
    */
-  cacheManagerFactory: (configuration: StoreConfig) => CacheManager;
+  cacheManagerFactory: () => CacheManager;
 
   /**
    * Overwrites base configuration with store configuration.
@@ -53,16 +53,6 @@ export interface MiddlewareConfiguration {
    * Other configration entries, that are not being used by the multistore extension.
    */
   [key: string]: any;
-}
-
-/**
- * Parameters containing multistore configuration used by the extension.
- */
-export interface ExtensionParams {
-  /**
-   * Middleware configuration.
-   */
-  configuration: MiddlewareConfiguration;
 }
 
 /**
