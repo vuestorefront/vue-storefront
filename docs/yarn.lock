@@ -893,7 +893,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@nuxt/content@2.7.0", "@nuxt/content@^2.8.0":
+"@nuxt/content@2.11.0", "@nuxt/content@^2.8.0":
   version "2.8.2"
   resolved "https://registry.yarnpkg.com/@nuxt/content/-/content-2.8.2.tgz#ceabb2cb9643aef23b8a1fb4640b317b0509b528"
   integrity sha512-fi5/axuYNGccJ/dXyaf5C/WqgEd5wSijpGHZ9O+pH7754S2NeKyx8fUFGfXsLN9VyJP+Mx8EUihfWKJm09SCRA==
@@ -2721,11 +2721,6 @@ commander@^8.0.0:
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
   integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
-
-commander@^9.0.0:
-  version "9.5.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-9.5.0.tgz#bc08d1eb5cedf7ccb797a96199d41c7bc3e60d30"
-  integrity sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==
 
 commondir@^1.0.1:
   version "1.0.1"
@@ -6004,6 +5999,15 @@ nuxt-content-assets@^1.3.2:
     unstorage "^1.4.1"
     ws "^8.13.0"
 
+nuxt-gtag@^0.5.7:
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/nuxt-gtag/-/nuxt-gtag-0.5.9.tgz#f1d094647815c72f024b58aa2a0ee9dc709548be"
+  integrity sha512-rT6HaGzECmIAbc4fyyl0KzQWd8YwMoNBbXcSTYCwZ5WEZiPGViBicz8NP5j8Olgj6JLqD1EZiGEfAVyFNGNhuA==
+  dependencies:
+    "@nuxt/kit" "^3.6.5"
+    defu "^6.1.2"
+    pathe "^1.1.1"
+
 nuxt-gtag@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/nuxt-gtag/-/nuxt-gtag-1.1.2.tgz#aa6d405b767ef4b3fca28753f21849940d604c04"
@@ -7353,14 +7357,14 @@ setprototypeof@1.2.0:
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.2.0.tgz#66c9a24a73f9fc28cbe66b09fed3d33dcaf1b424"
   integrity sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
 
-sf-docs-base@latest:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/sf-docs-base/-/sf-docs-base-1.0.7.tgz#11c80d9a72a1a16364df45265ac10865efbf5b61"
-  integrity sha512-eM9F8FpzUeW247Y9fwYkUSRpYcZomzVULNUiL8aVch1L/QNgyLJEnEkR1nwv29qQ6lrMNaaPjrrXXhpR3wPyBw==
+sf-docs-base@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/sf-docs-base/-/sf-docs-base-1.1.0.tgz#f131130b1a3209917d89524317ea0816a6171b67"
+  integrity sha512-ibOfqFQAzpiN/pyozVuztfU89LyJU7iEHLi1QfSPqhHhTurvkmZw55ncy/xESnlIckP4rtBjBVYrOtT39vzBZA==
   dependencies:
     "@microsoft/api-extractor-model" "^7.26.5"
     "@microsoft/tsdoc" "^0.14.2"
-    "@nuxt/content" "2.7.0"
+    "@nuxt/content" "2.11.0"
     "@nuxtjs/algolia" "^1.8.0"
     "@nuxtjs/color-mode" "^3.2.0"
     "@nuxtjs/tailwindcss" "^6.7.0"
@@ -7374,13 +7378,11 @@ sf-docs-base@latest:
     focus-trap "^7.4.0"
     marked "^5.1.1"
     nuxt-content-assets "^1.3.2"
+    nuxt-gtag "^0.5.7"
     nuxt-icon "^0.3.3"
     nuxt-seo-kit "^1.3.7"
-    showdown "^2.1.0"
     unstorage "^1.5.0"
     vite-svg-loader "^4.0.0"
-    vue-instantsearch "^4.8.10"
-    vue-virtual-scroller "^2.0.0-beta.8"
 
 shebang-command@^2.0.0:
   version "2.0.0"
@@ -7403,13 +7405,6 @@ shiki-es@^0.14.0:
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/shiki-es/-/shiki-es-0.14.0.tgz#64f7902ad47eda244840836f70f68f9d24aac6e6"
   integrity sha512-e+/aueHx0YeIEut6RXC6K8gSf0PykwZiHD7q7AHtpTW8Kd8TpFUIWqTwhAnrGjOyOMyrwv+syr5WPagMpDpVYQ==
-
-showdown@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/showdown/-/showdown-2.1.0.tgz#1251f5ed8f773f0c0c7bfc8e6fd23581f9e545c5"
-  integrity sha512-/6NVYu4U819R2pUIk79n67SYgJHWCce0a5xTP979WbNp0FL9MN1I1QK662IDU1b6JzKTvmhgI7T7JYIxBi3kMQ==
-  dependencies:
-    commander "^9.0.0"
 
 signal-exit@^3.0.0, signal-exit@^3.0.3, signal-exit@^3.0.7:
   version "3.0.7"
@@ -8459,7 +8454,7 @@ vue-devtools-stub@^0.1.0:
   resolved "https://registry.yarnpkg.com/vue-devtools-stub/-/vue-devtools-stub-0.1.0.tgz#a65b9485edecd4273cedcb8102c739b83add2c81"
   integrity sha512-RutnB7X8c5hjq39NceArgXg28WZtZpGc3+J16ljMiYnFhKvd8hITxSWQSQ5bvldxMDU6gG5mkxl1MTQLXckVSQ==
 
-vue-instantsearch@^4.3.2, vue-instantsearch@^4.8.10:
+vue-instantsearch@^4.3.2:
   version "4.10.10"
   resolved "https://registry.yarnpkg.com/vue-instantsearch/-/vue-instantsearch-4.10.10.tgz#ff245f5a324a516f18a688d59c299de8ec3b0466"
   integrity sha512-tOBkxp5QCiRQScd+vV6yECNIXMKf06cB6hAQuwcMlqlQhZPCuf7FWalCII/8zScqv5F/9xZXNNqdN7JHAGJycA==
@@ -8467,31 +8462,12 @@ vue-instantsearch@^4.3.2, vue-instantsearch@^4.8.10:
     instantsearch.js "4.56.10"
     mitt "^2.1.0"
 
-vue-observe-visibility@^2.0.0-alpha.1:
-  version "2.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-2.0.0-alpha.1.tgz#1e4eda7b12562161d58984b7e0dea676d83bdb13"
-  integrity sha512-flFbp/gs9pZniXR6fans8smv1kDScJ8RS7rEpMjhVabiKeq7Qz3D9+eGsypncjfIyyU84saU88XZ0zjbD6Gq/g==
-
-vue-resize@^2.0.0-alpha.1:
-  version "2.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/vue-resize/-/vue-resize-2.0.0-alpha.1.tgz#43eeb79e74febe932b9b20c5c57e0ebc14e2df3a"
-  integrity sha512-7+iqOueLU7uc9NrMfrzbG8hwMqchfVfSzpVlCMeJQe4pyibqyoifDNbKTZvwxZKDvGkB+PdFeKvnGZMoEb8esg==
-
 vue-router@^4.2.4:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.2.4.tgz#382467a7e2923e6a85f015d081e1508052c191b9"
   integrity sha512-9PISkmaCO02OzPVOMq2w82ilty6+xJmQrarYZDkjZBfl4RvYAlt4PKnEX21oW4KTtWfa9OuO/b3qk1Od3AEdCQ==
   dependencies:
     "@vue/devtools-api" "^6.5.0"
-
-vue-virtual-scroller@^2.0.0-beta.8:
-  version "2.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/vue-virtual-scroller/-/vue-virtual-scroller-2.0.0-beta.8.tgz#eeceda57e4faa5ba1763994c873923e2a956898b"
-  integrity sha512-b8/f5NQ5nIEBRTNi6GcPItE4s7kxNHw2AIHLtDp+2QvqdTjVN0FgONwX9cr53jWRgnu+HRLPaWDOR2JPI5MTfQ==
-  dependencies:
-    mitt "^2.1.0"
-    vue-observe-visibility "^2.0.0-alpha.1"
-    vue-resize "^2.0.0-alpha.1"
 
 vue@^3.3.4:
   version "3.3.4"
