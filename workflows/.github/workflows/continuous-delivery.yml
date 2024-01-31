@@ -78,6 +78,7 @@ jobs:
         with:
           commit: "ci: release"
           title: "ci: release"
+          createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -95,9 +96,9 @@ jobs:
         name: Publish in Verdaccio
         run: |
          npm config --location project set @vsf-enterprise:registry=https://registrynpm.storefrontcloud.io/ && \
-         yarn changeset publish
+         yarn changeset publish && git push --follow-tags
 
 
       - if: ${{ (inputs.enterprise == false) && (steps.changesets.outputs.hasChangesets == 'false') }}
         name: Publish
-        run: yarn build && yarn changeset publish
+        run: yarn build && yarn changeset publish && git push --follow-tags
