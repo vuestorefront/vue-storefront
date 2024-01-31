@@ -126,6 +126,11 @@ export type Subscribers = Record<string, EventCallback | Array<EventCallback>>;
 export type Connector = Record<string, AnyFunction>;
 
 /**
+ * ModuleOptions Type represents a generic module options object.
+ */
+export type ModuleOptions = Record<string, any>;
+
+/**
  * Module Type represents the module configuration.
  * It is a pluggable piece of code in a standalone package.
  * Module can be a subject of interceptors, overrides and extensions.
@@ -165,10 +170,21 @@ export type Module = {
 };
 
 /**
+ * ModuleOverride Type prevents from creating an override with
+ * a signature different from the existing SDK method.
+ */
+type ModuleOverride<OverriddenConnector> = {
+  [K in keyof OverriddenConnector]?: OverriddenConnector[K];
+};
+
+/**
  * Extension Type represents the extension configuration.
  * It provides extensibility mechanisms like interceptors, extensions, overrides, and pub/sub manager.
  */
-export type Extension = Omit<Partial<Module>, "connector"> & {
+export type Extension<ExtendedModule extends Module> = Omit<
+  Partial<Module>,
+  "connector"
+> & {
   /**
    * Extend contains methods that are added to the module.
    * Because of the dynamic nature of the SDK, the extend method must be an asynchronous function.
@@ -177,7 +193,9 @@ export type Extension = Omit<Partial<Module>, "connector"> & {
    * @example
    * Extending the module with a new method.
    * ```typescript
-   * const extension: Extension = {
+   * import { SAPCCModuleType } from "@vsf-enterprise/sapcc-sdk";
+   *
+   * const extension: Extension<SAPCCModuleType> = {
    *  extend: {
    *   getBlueProducts: async () => {
    *     const products = await client.getProducts({ color: 'blue'});
@@ -202,7 +220,9 @@ export type Extension = Omit<Partial<Module>, "connector"> & {
    * Assume that the module has a method called getProducts.
    *
    * ```typescript
-   * const extension: Extension = {
+   * import { SAPCCModuleType } from "@vsf-enterprise/sapcc-sdk";
+   *
+   * const extension: Extension<SAPCCModuleType> = {
    * override: {
    *  getProducts: async (args: Parameters<getProducts>): ReturnType<getProducts> => {
    *     const products = await client.getProducts({ color: 'blue'});
@@ -212,7 +232,7 @@ export type Extension = Omit<Partial<Module>, "connector"> & {
    * }
    * ```
    */
-  override?: Record<string, AnyFunction>;
+  override?: ModuleOverride<ExtendedModule["connector"]>;
   /**
    * Interceptors are functions that are called before, after or around the method
    * and can be used to modify the input and output of the method but also
@@ -229,8 +249,27 @@ export type Extension = Omit<Partial<Module>, "connector"> & {
  * SDKConfig represents the configuration and the API of the SDK.
  */
 export type SDKConfig = Readonly<
-  Record<string, Module> & Record<string, Extension>
+  Record<string, Module> & Record<string, Extension<Module>>
 >;
+
+/**
+ * ModuleInitializer Type represents a function accepting module options
+ * as an argument and returning the actual module.
+ */
+export type ModuleInitializer<
+  InitializedModule extends Module,
+  Options extends ModuleOptions
+> = (options?: Options) => InitializedModule;
+
+/**
+ * ExtensionInitializer Type represents a function accepting extension options
+ * as an argument and returning the actual extension.
+ */
+export type ExtensionInitializer<
+  ExtendedModule extends Module,
+  InitializedExtension extends Extension<ExtendedModule>,
+  Options extends ModuleOptions
+> = (options?: Options) => InitializedExtension;
 
 /**
  * SDKApi represents the API of the SDK.
