@@ -20,7 +20,7 @@ export const createMultistoreExtension = (
     },
     hooks: (req) => {
       return {
-        beforeCreate: ({ configuration }) => {
+        beforeCreate: ({ configuration: baseConfig }) => {
           const domain = resolveDomain(req);
 
           const storeConfiguration = fetchConfigWithCache({
@@ -30,7 +30,7 @@ export const createMultistoreExtension = (
           });
 
           return multistoreConfig.mergeConfigurations({
-            baseConfig: configuration,
+            baseConfig,
             storeConfig: storeConfiguration,
           });
         },
