@@ -79,6 +79,7 @@ jobs:
           commit: "ci: release"
           title: "ci: release"
           createGithubReleases: true
+          publish: echo "Publishing with a github release."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -87,7 +88,7 @@ jobs:
         run: |
          yarn build && \
          npm config --location project set @vsf-enterprise:registry=https://europe-west1-npm.pkg.dev/${{ env.GCP_PROJECT_NAME }}/npm/ && \
-         yarn changeset publish
+         yarn changeset publish && git push --follow-tags
 
       # Remove this step once Verdaccio is removed by the Cloud Team for good.
       # It's possible to use `continue-on-error: true` here for max futureproofing,
