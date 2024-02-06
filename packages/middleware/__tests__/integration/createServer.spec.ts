@@ -31,6 +31,18 @@ describe("[Integration] Create server", () => {
                   },
                 },
               },
+              {
+                name: "my-namespaced-extension",
+                isNamespaced: true,
+                extendApiMethods: {
+                  myFunc(context) {
+                    return context.api.error();
+                  },
+                  myFuncNamespaced(context) {
+                    return context.api.success();
+                  },
+                },
+              },
             ];
           },
         },
@@ -140,5 +152,60 @@ describe("[Integration] Create server", () => {
         },
       },
     });
+  });
+
+  it("should make a call to a namespaced method", async () => {
+    const { status, text } = await request(app)
+      .post("/test_integration/my-namespaced-extension/myFuncNamespaced")
+      .send([]);
+
+    const response = JSON.parse(text);
+    // This is the result of the original "success" function from the integration
+    const apiMethodResult = await success();
+
+    expect(status).toEqual(200);
+    expect(response).toEqual(apiMethodResult);
+  });
+
+  it("should return 404 and proper message if function is not available in the namespace", async () => {
+    const { status, error } = await request(app).post(
+      "/test_integration/my-namespaced-extension/unavailavbleFunction"
+    );
+
+    expect(status).toEqual(404);
+    expect(error).toBeTruthy();
+    if (error) {
+      expect(error.text).toEqual(
+        `Extension "my-namespaced-extension" is not namespaced or the function "unavailavbleFunction" is not available in the namespace.`
+      );
+    }
+  });
+
+  it("should return 404 and proper message if function is not available in the shared namespace", async () => {
+    const { status, error } = await request(app).post(
+      "/test_integration/unavailavbleFunction"
+    );
+
+    expect(status).toEqual(404);
+    expect(error).toBeTruthy();
+    if (error) {
+      expect(error.text).toEqual(
+        `The function "unavailavbleFunction" is not registered.`
+      );
+    }
+  });
+
+  it("namespaced extension should be not merged to the shared api", async () => {
+    const { status, text } = await request(app)
+      .post("/test_integration/myFunc")
+      .send([]);
+
+    const response = JSON.parse(text);
+    // This is the result of the original "success" function from the integration
+    const apiMethodResult = await success();
+
+    // If merged, the response would be { message: "error", error: true, status: 404 }
+    expect(status).toEqual(200);
+    expect(response).toEqual(apiMethodResult);
   });
 });

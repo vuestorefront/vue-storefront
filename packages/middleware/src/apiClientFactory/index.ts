@@ -23,7 +23,7 @@ const apiClientFactory = <
     function createApiClient(
       this: CallableContext<ALL_FUNCTIONS>,
       config,
-      customApi = {}
+      customApi: Record<string, any> = {}
     ) {
       const rawExtensions: ApiClientExtension<ALL_FUNCTIONS>[] =
         this?.middleware?.extensions || [];
@@ -35,11 +35,6 @@ const apiClientFactory = <
         .map(({ hooks }) =>
           hooks(this?.middleware?.req, this?.middleware?.res)
         );
-
-      const extendedApis = rawExtensions.reduce(
-        (prev, { extendApiMethods }) => ({ ...prev, ...extendApiMethods }),
-        customApi
-      );
 
       const _config = lifecycles
         .filter((extension): extension is ExtensionHookWith<"beforeCreate"> =>
@@ -102,6 +97,26 @@ const apiClientFactory = <
 
       const isApiFactory = typeof apiOrApiFactory === "function";
       const api = isApiFactory ? apiOrApiFactory(settings) : apiOrApiFactory;
+
+      const namespacedExtensions: Record<string, any> = {};
+      let sharedExtensions = customApi;
+
+      // If the extension is namespaced, we need to merge the extended api methods into the namespace
+      // Otherwise, we can just merge the extended api methods into the api
+      rawExtensions.forEach((extension) => {
+        if (extension.isNamespaced) {
+          namespacedExtensions[extension.name] = {
+            ...(namespacedExtensions?.[extension.name] ?? {}),
+            ...extension.extendApiMethods,
+          };
+        } else {
+          sharedExtensions = {
+            ...sharedExtensions,
+            ...extension.extendApiMethods,
+          };
+        }
+      });
+
       /**
        * FIXME IN-3487
        *
@@ -113,18 +128,37 @@ const apiClientFactory = <
        *
        * `MiddlewareContext` requires `req` and `res` to be required, not optional, hence the error.
        */
-      // @ts-expect-error see above
-      const integrationApi = applyContextToApi(api, context, extensionHooks);
-      const extensionsApi = applyContextToApi(
-        extendedApis ?? {},
+      const integrationApi = applyContextToApi(
+        api,
         // @ts-expect-error see above
         context,
         extensionHooks
       );
 
+      const sharedExtensionsApi = applyContextToApi(
+        sharedExtensions,
+        // @ts-expect-error see above
+        context,
+        extensionHooks
+      );
+
+      const namespacedApi = {};
+
+      for (const [namespace, extension] of Object.entries(
+        namespacedExtensions
+      )) {
+        namespacedApi[namespace] = applyContextToApi(
+          extension,
+          // @ts-expect-error see above
+          context,
+          extensionHooks
+        );
+      }
+
       const mergedApi = {
         ...integrationApi,
-        ...extensionsApi,
+        ...sharedExtensionsApi,
+        ...namespacedApi,
       } as ALL_FUNCTIONS;
 
       // api methods haven't been invoked yet, so we still have time to add them to the context

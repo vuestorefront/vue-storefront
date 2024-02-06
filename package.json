@@ -32,7 +32,7 @@
     "ts-jest": "^27.0.3",
     "ts-node": "^8.4.1",
     "tslib": "^2.1.0",
-    "typescript": "^4",
+    "typescript": "^5",
     "webpack-bundle-analyzer": "^3.5.2"
   },
   "workspaces": {
