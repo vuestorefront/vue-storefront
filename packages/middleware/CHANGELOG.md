@@ -1,5 +1,11 @@
 # Change log
 
+## 3.8.1
+
+### Patch Changes
+
+- c4534b523: Adjusted handling timeouts and aborting TCP connection
+
 ## 3.8.0
 
 ### Minor Changes
