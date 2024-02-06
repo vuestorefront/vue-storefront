@@ -8,6 +8,15 @@ import {
 } from "../types";
 
 const STATUS_FIELDS = ["status", "statusCode"] as const;
+/**
+ * @key is constant string identifier of connection error
+ * @value is desired HTTP code that we are going to
+ *  send back when we encounter specified connection error
+ */
+const CONNECTION_ERRORS = {
+  ECONNABORTED: 408,
+  ECONNRESET: 500,
+};
 
 export type Status = (typeof STATUS_FIELDS)[number];
 
@@ -58,12 +67,10 @@ function obtainStatusCode(
 }
 
 function getAxiosStatusCode(error: AxiosError) {
-  if (error?.code === "ECONNABORTED") {
-    return 408;
+  if (error?.code && CONNECTION_ERRORS[error.code]) {
+    return CONNECTION_ERRORS[error.code];
   }
-  if (error?.code === "ECONNRESET") {
-    return 500;
-  }
+
   return error.response?.status;
 }
 
