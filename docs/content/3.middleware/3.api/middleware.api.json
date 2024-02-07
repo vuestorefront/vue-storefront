@@ -2364,7 +2364,7 @@
             },
             {
               "kind": "Content",
-              "text": "{\n    isAxiosError: boolean;\n    response: {\n        status: number;\n    };\n}"
+              "text": "{\n    isAxiosError: boolean;\n    code: string;\n    response?: {\n        status: number;\n    };\n}"
             },
             {
               "kind": "Content",

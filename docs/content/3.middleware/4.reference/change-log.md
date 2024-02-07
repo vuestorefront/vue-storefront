@@ -1,5 +1,11 @@
 # Change log
 
+## 3.8.1
+
+### Patch Changes
+
+- c4534b523: [CHANGED] Returning HTTP Code 408 in case of ECONNABORTED from 3rd party service, and 500 in case of ECONNRESET instead of general fallback to HTTP Code 500, to provide more precise information about the case.
+
 ## 3.8.0
 
 ### Minor Changes
