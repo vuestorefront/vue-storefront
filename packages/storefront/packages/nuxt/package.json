@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/nuxt",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Vue Storefront dedicated features for Nuxt",
   "license": "MIT",
   "type": "module",

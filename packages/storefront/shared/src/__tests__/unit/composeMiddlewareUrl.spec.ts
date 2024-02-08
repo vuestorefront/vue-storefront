@@ -7,7 +7,7 @@ describe("composeMiddlewareUrl", () => {
   });
 
   describe("client side", () => {
-    it("returns api url regardless of the config", () => {
+    it("returns api url when multistore is disabled", () => {
       vi.stubGlobal("window", {});
 
       expect(
@@ -17,6 +17,30 @@ describe("composeMiddlewareUrl", () => {
               apiUrl: "http://localhost:4000",
             },
             multistore: {
+              enabled: false,
+            },
+          },
+          headers: {
+            host: "localhost:3000",
+          },
+        })
+      ).toBe("http://localhost:4000");
+    });
+
+    it("returns modified api url when multistore is enabled", () => {
+      vi.stubGlobal("window", {
+        location: {
+          host: "some.domain",
+        },
+      });
+
+      expect(
+        composeMiddlewareUrl({
+          options: {
+            middleware: {
+              apiUrl: "https://another.domain/api",
+            },
+            multistore: {
               enabled: true,
             },
           },
@@ -24,21 +48,7 @@ describe("composeMiddlewareUrl", () => {
             host: "localhost:3000",
           },
         })
-      ).toBe("http://localhost:4000");
-
-      expect(
-        composeMiddlewareUrl({
-          options: {
-            middleware: {
-              apiUrl: "http://localhost:4000",
-              ssrApiUrl: "http://localhost:5000",
-            },
-          },
-          headers: {
-            host: "localhost:3000",
-          },
-        })
-      ).toBe("http://localhost:4000");
+      ).toBe("https://some.domain/api");
     });
 
     it("removes trailing slash", () => {
