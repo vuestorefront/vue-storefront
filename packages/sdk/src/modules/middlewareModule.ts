@@ -36,7 +36,16 @@ export interface MiddlewareModule<Endpoints extends EndpointsConstraint>
   connector: Methods<Endpoints>;
 }
 
-// interface MethodsToEndpoints
+export type ApiClientMethodsToEndpoints<
+  ApiClientMethods extends EndpointsConstraint
+> = {
+  [T in keyof ApiClientMethods]: ApiClientMethods[T] extends (
+    context: any,
+    ...arguments_: infer P
+  ) => infer R
+    ? (...arguments_: P) => R
+    : never;
+};
 
 // === Helpers ===
 
