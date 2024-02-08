@@ -3,7 +3,7 @@ import {
   prepareRequestConfig,
   type Options,
   type EnforceEndpointsConstraint,
-} from "../../modules/middleware";
+} from "../../modules/middlewareModule";
 import { initSDK } from "../../bootstrap";
 import { buildModule } from "../../modules/buildModule";
 

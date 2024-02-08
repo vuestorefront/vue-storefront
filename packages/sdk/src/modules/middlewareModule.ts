@@ -1,8 +1,6 @@
-import type { Module, Connector } from "../../types";
+import type { Module, Connector, AnyFunction } from "../types";
 
 // === Interfaces ===
-export type AnyFunction = (...args: any[]) => any;
-
 export type EndpointsConstraint = {
   [key: string]: AnyFunction;
 };
