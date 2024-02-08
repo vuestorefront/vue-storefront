@@ -3,9 +3,9 @@ import {
   prepareRequestConfig,
   type Options,
   type EnforceEndpointsConstraint,
-} from "../../module/proxy";
+} from "../../modules/middleware";
 import { initSDK } from "../../bootstrap";
-import { buildModule } from "../../module/buildModule";
+import { buildModule } from "../../modules/buildModule";
 
 type TestEndpoints = {
   /**
