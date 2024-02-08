@@ -26,7 +26,7 @@ describe("[buildModule]", () => {
       ...module1Mock({}),
       ...extension1Mock,
     };
-
+    const resolvedModule = module1Mock({});
     const result = buildModule(
       module1Mock,
       {},
@@ -35,8 +35,11 @@ describe("[buildModule]", () => {
     );
 
     expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
-    expect(extension1MockFn).toBeCalledTimes(1);
-    expect(extension1MockFn).toBeCalledWith(extensionOptions);
+    expect(extension1MockFn).toHaveBeenCalledTimes(1);
+    expect(extension1MockFn).toHaveBeenCalledWith(extensionOptions, {
+      methods: resolvedModule.connector,
+      context: resolvedModule.context,
+    });
   });
 
   it("module can be executed with options", () => {
@@ -46,7 +49,7 @@ describe("[buildModule]", () => {
       ...module1Mock({ test: true }),
       extend: {},
     };
-    expect(module1Mock).toBeCalledWith({ test: true });
+    expect(module1Mock).toHaveBeenCalledWith({ test: true });
     expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
   });
 });
