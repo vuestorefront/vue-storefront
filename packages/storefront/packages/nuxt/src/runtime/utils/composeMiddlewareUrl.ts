@@ -12,6 +12,11 @@ function calculateMiddlewareUrl({
   const { apiUrl, ssrApiUrl } = options.middleware;
 
   if (typeof window !== "undefined") {
+    if (options.multistore?.enabled) {
+      const url = new URL(apiUrl);
+      url.host = window.location.host;
+      return url.href;
+    }
     return apiUrl;
   }
   if (ssrApiUrl) {
