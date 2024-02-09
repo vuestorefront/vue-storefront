@@ -278,7 +278,7 @@ const sdkConfig = {
     // module options
     { url: "some-url" }, 
     // factory function that receives the options and the parent object as arguments
-    (options, parent) => { 
+    (options, { methods, context }) => { 
     return {
       extend: {
         getProductBySkuWithLogger: (sku: string) => {
@@ -299,10 +299,12 @@ const sdkConfig = {
 ```
 In such way you can easily extend the module with new methods and use the original methods. Also, it is up to the developer to decide if the `context` object is available and what properties it contains.
 
-:::tip As a rule of thumb, it's recommended to add options and client to the context object as it allows for easy implementation of custom methods.
+:::tip
+As a rule of thumb, it's recommended to add options and client to the context object as it allows for easy implementation of custom methods.
 :::
 
-:::warning the `context` object is optional and might not be available in all modules. Please, check the module's documentation to see if it's available and what properties it contains. You can also check type-hinting in your IDE to see what properties are available.
+:::
+warning the `context` object is optional and might not be available in all modules. Please, check the module's documentation to see if it's available and what properties it contains. You can also check type-hinting in your IDE to see what properties are available.
 :::
 
 
@@ -310,7 +312,8 @@ In such way you can easily extend the module with new methods and use the origin
 
 While `extend` allows you to create a new method, `override` allows you to change the behavior of the existing method.
 
-:::tip These methods are affected by interceptors
+:::tip 
+These methods are affected by interceptors
 Like the built-in SDK methods, methods in `extend` are impacted by your interceptors.
 :::
 
