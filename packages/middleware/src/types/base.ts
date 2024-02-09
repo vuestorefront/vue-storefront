@@ -41,7 +41,8 @@ export type ApiClientMethods<T> = {
 
 export type AxiosError = {
   isAxiosError: boolean;
-  response: {
+  code: string;
+  response?: {
     status: number;
   };
 };

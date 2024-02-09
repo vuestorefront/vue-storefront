@@ -1,5 +1,5 @@
 import { buildModule } from "../../module/buildModule";
-import proxyModule1Mock, { ProxyModule1 } from "../__mocks__/proxyModule1.mock";
+import proxyModule1Mock from "../__mocks__/proxyModule1.mock";
 import { initSDK } from "../../bootstrap";
 import { createModuleMock } from "../__mocks__/createModuleMock";
 
@@ -8,7 +8,7 @@ describe("[Subscription]", () => {
     expect.assertions(2);
     const mock = proxyModule1Mock({});
     const sdkConfig = {
-      proxyModule1: buildModule<ProxyModule1>(() => mock),
+      proxyModule1: buildModule(() => mock),
     };
 
     const sdk = initSDK(sdkConfig);
@@ -47,7 +47,7 @@ describe("[Subscription]", () => {
     });
 
     const sdkConfig = {
-      proxyModule1: buildModule<ReturnType<typeof moduleMock>>(moduleMock),
+      proxyModule1: buildModule(moduleMock),
     };
 
     const sdk = initSDK(sdkConfig);
@@ -94,10 +94,7 @@ describe("[Subscription]", () => {
     };
 
     const sdkConfig = {
-      proxyModule1: buildModule<
-        ReturnType<typeof moduleMock>,
-        typeof extension
-      >(moduleMock, {}, extension),
+      proxyModule1: buildModule(moduleMock, {}, extension),
     };
 
     const sdk = initSDK(sdkConfig);
@@ -150,10 +147,7 @@ describe("[Subscription]", () => {
     };
 
     const sdkConfig = {
-      proxyModule1: buildModule<
-        ReturnType<typeof moduleMock>,
-        typeof extension
-      >(moduleMock, {}, extension),
+      proxyModule1: buildModule(moduleMock, {}, extension),
     };
 
     const sdk = initSDK(sdkConfig);
@@ -209,10 +203,7 @@ describe("[Subscription]", () => {
     };
 
     const sdkConfig = {
-      proxyModule1: buildModule<
-        ReturnType<typeof moduleMock>,
-        typeof extension
-      >(moduleMock, {}, extension),
+      proxyModule1: buildModule(moduleMock, {}, extension),
     };
 
     const sdk = initSDK(sdkConfig);

@@ -7353,7 +7353,7 @@ setprototypeof@1.2.0:
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.2.0.tgz#66c9a24a73f9fc28cbe66b09fed3d33dcaf1b424"
   integrity sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
 
-sf-docs-base@latest:
+sf-docs-base@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/sf-docs-base/-/sf-docs-base-1.0.7.tgz#11c80d9a72a1a16364df45265ac10865efbf5b61"
   integrity sha512-eM9F8FpzUeW247Y9fwYkUSRpYcZomzVULNUiL8aVch1L/QNgyLJEnEkR1nwv29qQ6lrMNaaPjrrXXhpR3wPyBw==

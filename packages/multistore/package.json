@@ -1,0 +1,28 @@
+{
+  "name": "@vue-storefront/multistore",
+  "version": "1.0.2",
+  "author": "Fifciu",
+  "license": "MIT",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "build": "rimraf lib && rollup -c",
+    "dev": "rimraf lib && rollup -c -w",
+    "lint": "eslint . --ext .ts",
+    "test": "yarn jest",
+    "prepublishOnly": "yarn build"
+  },
+  "devDependencies": {
+    "@vue-storefront/middleware": "^3.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

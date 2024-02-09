@@ -33,8 +33,8 @@ export const extension2Mock = {
     math: { test: () => false },
   },
   override: {
-    m1_method1: (): { result: string } => {
-      return { result: 'override' };
+    m2_method1: (names: string[]): string => {
+      return 'override'
     },
   },
   extend: {

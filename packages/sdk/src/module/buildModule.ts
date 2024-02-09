@@ -1,26 +1,11 @@
 import mergeDeep from "../helpers/mergeDeep";
-import { Module, Extension, InitFunction } from "../types";
-
-/* eslint-disable no-redeclare */
-function buildModule<T extends Module>(
-  module: InitFunction<T>,
-  moduleOptions?: any
-): T;
-function buildModule<T extends Module, U extends Extension = object>(
-  module: InitFunction<T>,
-  moduleOptions: any
-): T & U;
-function buildModule<T extends Module, U extends Extension = object>(
-  module: InitFunction<T>,
-  moduleOptions: any,
-  extension: U
-): T & U;
-function buildModule<T extends Module, U extends Extension = object>(
-  module: InitFunction<T>,
-  moduleOptions: any,
-  extension?: InitFunction<U> | U,
-  extensionOptions?: object
-): T & U;
+import {
+  Module,
+  Extension,
+  ModuleInitializer,
+  ExtensionInitializer,
+  ModuleOptions,
+} from "../types";
 
 /**
  * Build module with extension.
@@ -31,17 +16,28 @@ function buildModule<T extends Module, U extends Extension = object>(
  * - buildModule(module, moduleOptions, extension)
  * - buildModule(module, moduleOptions, extension, extensionOptions)
  */
-function buildModule<T extends Module, U extends Extension = object>(
-  module: InitFunction<T>,
-  moduleOptions: any = {},
-  extension?: InitFunction<U> | U,
-  extensionOptions?: object
-): T & U {
+function buildModule<
+  InitializedModule extends Module,
+  Options extends ModuleOptions,
+  InitializedExtension extends Extension<InitializedModule>,
+  ExtensionOptions extends ModuleOptions
+>(
+  module: ModuleInitializer<InitializedModule, Options>,
+  moduleOptions?: Options,
+  extension?:
+    | ExtensionInitializer<
+        InitializedModule,
+        InitializedExtension,
+        ExtensionOptions
+      >
+    | InitializedExtension,
+  extensionOptions?: ExtensionOptions
+): InitializedModule & InitializedExtension {
   const resolvedExtension =
     typeof extension === "function"
       ? extension(extensionOptions)
       : extension ?? {};
-  // This is safe, because extension doesn't have "connector" property
+
   return mergeDeep(module(moduleOptions), resolvedExtension);
 }
 
