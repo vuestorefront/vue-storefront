@@ -167,6 +167,7 @@ export type Module = {
    *```
    */
   subscribers?: Subscribers;
+  context?: Record<string, any>;
 };
 
 /**
@@ -183,7 +184,7 @@ type ModuleOverride<OverriddenConnector> = {
  */
 export type Extension<ExtendedModule extends Module> = Omit<
   Partial<Module>,
-  "connector"
+  "connector" | "context"
 > & {
   /**
    * Extend contains methods that are added to the module.
@@ -269,7 +270,13 @@ export type ExtensionInitializer<
   ExtendedModule extends Module,
   InitializedExtension extends Extension<ExtendedModule>,
   Options extends ModuleOptions
-> = (options?: Options) => InitializedExtension;
+> = (
+  options?: Options,
+  parent?: {
+    methods: ExtendedModule["connector"];
+    context?: ExtendedModule["context"];
+  }
+) => InitializedExtension;
 
 /**
  * SDKApi represents the API of the SDK.

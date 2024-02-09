@@ -237,6 +237,8 @@ const sapccPaymentConfig = sdk.sapcc.utils.buildConfig(baseConfig);
 Like the built-in SDK methods, methods in `extend` are impacted by your interceptors.
 :::
 
+The very common use case and also very basic example of using `extend` is to create a new method that is not covered by the module. In this example the `extend` attribute is configured with an object that contains a method `getProductBySku` that returns a promise.
+
 ```js
 // SAPCC Example
 
@@ -260,11 +262,58 @@ import { sdk } from './sdk';
 const product = await sdk.sapcc.getProductBySku('product-sku');
 ```
 
+In the example below, we are using the `extend` attribute to create a new method `getProductBySkuWithLogger` that logs the used sku and then calls the original `getProductBySku` method.
+
+`buildModule` function provides the parent object that contains the original methods and optional context. You can use it to call the original method or access additional properties in the context.
+
+We pass a factory function as the third argument to the `buildModule` function. The factory function receives the options and the parent object as arguments. Parent object contains the original methods and optional context.
+
+In this example, we are also using the `customMethod` that calls an external API using the `context.client` method.
+
+```ts
+const sdkConfig = {
+  sapcc: buildModule(
+    // sapccModule is the module that we want to extend
+    sapccModule, 
+    // module options
+    { url: "some-url" }, 
+    // factory function that receives the options and the parent object as arguments
+    (options, { methods, context }) => { 
+    return {
+      extend: {
+        getProductBySkuWithLogger: (sku: string) => {
+          console.log("used sku", sku);
+          return await parent.methods.getProductBySku(sku);(1);
+        },
+        customMethod: async () => {
+          return (
+            await parent.context.client(
+              "some-url-to-external-api",
+            )
+          );
+        },
+      },
+    };
+  }),
+};
+```
+In such way you can easily extend the module with new methods and use the original methods. Also, it is up to the developer to decide if the `context` object is available and what properties it contains.
+
+:::tip
+As a rule of thumb, it's recommended to add options and client to the context object as it allows for easy implementation of custom methods.
+:::
+
+:::
+warning the `context` object is optional and might not be available in all modules. Please, check the module's documentation to see if it's available and what properties it contains. You can also check type-hinting in your IDE to see what properties are available.
+:::
+
+
 ## `override`
 
 While `extend` allows you to create a new method, `override` allows you to change the behavior of the existing method.
 
-:::tip These methods are affected by interceptors
+:::tip 
+These methods are affected by interceptors
 Like the built-in SDK methods, methods in `extend` are impacted by your interceptors.
 :::
 

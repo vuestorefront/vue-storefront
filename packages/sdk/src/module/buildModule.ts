@@ -11,10 +11,6 @@ import {
  * Build module with extension.
  * Provide a module factory function and an extension object.
  *
- * Overloaded function:
- * - buildModule(module, moduleOptions)
- * - buildModule(module, moduleOptions, extension)
- * - buildModule(module, moduleOptions, extension, extensionOptions)
  */
 function buildModule<
   InitializedModule extends Module,
@@ -33,12 +29,17 @@ function buildModule<
     | InitializedExtension,
   extensionOptions?: ExtensionOptions
 ): InitializedModule & InitializedExtension {
+  const resolvedModule = module(moduleOptions);
+
   const resolvedExtension =
     typeof extension === "function"
-      ? extension(extensionOptions)
+      ? extension(extensionOptions, {
+          methods: resolvedModule.connector,
+          context: resolvedModule?.context ?? {},
+        })
       : extension ?? {};
 
-  return mergeDeep(module(moduleOptions), resolvedExtension);
+  return mergeDeep(resolvedModule, resolvedExtension);
 }
 
 export { buildModule };
