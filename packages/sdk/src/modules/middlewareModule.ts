@@ -1,5 +1,7 @@
 import type { Module, Connector, AnyFunction } from "../types";
 
+const isRequestConfig = Symbol("requestConfig");
+
 // === Interfaces ===
 export type EndpointsConstraint = {
   [key: string]: AnyFunction;
@@ -7,11 +9,11 @@ export type EndpointsConstraint = {
 
 export type EnforceEndpointsConstraint<T extends EndpointsConstraint> = T;
 
-export interface RequestConfig {
-  _isRequestConfig: true;
+export type RequestConfig = {
+  [isRequestConfig]: boolean;
   headers?: Record<string, string>;
   method?: "GET" | "POST";
-}
+};
 
 export interface HTTPClient {
   get: (url: string, config?: RequestConfig) => Promise<any>;
@@ -50,11 +52,11 @@ export type ApiClientMethodsToEndpoints<
 // === Helpers ===
 
 export const prepareRequestConfig = (
-  requestConfig: Omit<RequestConfig, "_isRequestConfig">
+  requestConfig: Omit<RequestConfig, typeof isRequestConfig>
 ): RequestConfig => {
   return {
-    _isRequestConfig: true,
     ...requestConfig,
+    [isRequestConfig]: true,
   };
 };
 
@@ -130,7 +132,7 @@ const middlewareConnector = <Endpoints extends EndpointsConstraint>(
 
       return async (...params: any[]) => {
         let requestConfig: RequestConfig | undefined;
-        if (params[params.length - 1]?._isRequestConfig) {
+        if (params[params.length - 1]?.[isRequestConfig]) {
           requestConfig = params.pop();
         }
 
