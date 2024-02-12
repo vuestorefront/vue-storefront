@@ -109,6 +109,28 @@ describe("[middleware-helpers] getAgnosticStatusCode", () => {
     expect(statusCode).toBe(defaultCode);
   });
 
+  it("retrieves status code for axios even when status code is missing and it's timeout", () => {
+    const testData = {
+      isAxiosError: true,
+      code: "ECONNABORTED",
+    };
+
+    const statusCode = getAgnosticStatusCode(testData);
+
+    expect(statusCode).toBe(408);
+  });
+
+  it("retrieves status code for axios even when status code is missing and recipient closed TCP connection", () => {
+    const testData = {
+      isAxiosError: true,
+      code: "ECONNRESET",
+    };
+
+    const statusCode = getAgnosticStatusCode(testData);
+
+    expect(statusCode).toBe(500);
+  });
+
   it("retrieves status code for apollo when code is a string", () => {
     const testData = {
       code: "someString",
