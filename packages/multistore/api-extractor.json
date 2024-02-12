@@ -1,0 +1,14 @@
+{
+  "extends": "@vue-storefront/api-extractor-config",
+  "mainEntryPointFilePath": "./lib/api-extractor-data.d.ts",
+  "projectFolder": ".",
+  "compiler": {
+    "tsconfigFilePath": "<projectFolder>/tsconfig.json"
+  },
+  "dtsRollup": {
+    "untrimmedFilePath": "./lib/<unscopedPackageName>.d.ts"
+  },
+  "docModel": {
+    "apiJsonFilePath": "<projectFolder>/../../docs/content/3.middleware/3.api/<unscopedPackageName>.api.json"
+  }
+}

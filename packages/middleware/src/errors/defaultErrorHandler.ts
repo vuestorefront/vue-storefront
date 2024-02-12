@@ -2,6 +2,10 @@ import consola from "consola";
 import type { Request, Response } from "express";
 import { getAgnosticStatusCode } from "../helpers";
 
+type ClientSideError = {
+  message?: string;
+};
+
 /**
  * Default error handler for the middleware
  *
@@ -10,7 +14,7 @@ import { getAgnosticStatusCode } from "../helpers";
  * @param res
  */
 export const defaultErrorHandler = (
-  error: unknown,
+  error: ClientSideError,
   req: Request,
   res: Response
 ) => {
@@ -18,10 +22,12 @@ export const defaultErrorHandler = (
   const status = getAgnosticStatusCode(error);
   res.status(status);
   if (status < 500) {
+    const errMsg =
+      error?.message ?? `Request faileds with status code ${status}`;
     /**
      * For all 4xx error codes or client error codes we wanted to send the error message
      */
-    res.send(error);
+    res.send({ message: errMsg });
   } else {
     /**
      * For all other error codes we wanted to send a generic error message

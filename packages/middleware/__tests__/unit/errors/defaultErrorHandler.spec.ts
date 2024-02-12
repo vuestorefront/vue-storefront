@@ -15,7 +15,7 @@ describe("defaultErrorHandler", () => {
     defaultErrorHandler(error, mockReq as any, mockRes as any);
 
     expect(mockRes.status).toHaveBeenCalledWith(404);
-    expect(mockRes.send).toHaveBeenCalledWith(error);
+    expect(mockRes.send).toHaveBeenCalledWith({ message: error.message });
   });
 
   it("should send masked error for other error codes", () => {

@@ -26,6 +26,12 @@
       "title": "Salesforce Commerce Cloud",
       "to": "/integrations/sfcc",
       "icon": "logos:salesforce"
+    },
+    {
+      "title": "plentysystems",
+      "to": "https://pwa-docs.plentymarkets.com/",
+      "icon": "IconPlentyMarkets",
+      "partnerMaintained": true
     }
   ],
   "CMS": [
