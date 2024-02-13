@@ -1,5 +1,11 @@
 # Change log
 
+## 1.2.1
+
+### Patch Changes
+
+- 0c9d1070a: [FIXED] Resolved an issue where the `option` parameter type resolution in the `buildModule` function was not working correctly. The `options` parameter is now required or optional, depending on the module implementation.
+
 ## 1.2.0
 
 ### Minor Changes
