@@ -9,11 +9,11 @@ export type EndpointsConstraint = {
 
 export type EnforceEndpointsConstraint<T extends EndpointsConstraint> = T;
 
-export type RequestConfig = {
+export interface RequestConfig {
   [isRequestConfig]: boolean;
   headers?: Record<string, string>;
   method?: "GET" | "POST";
-};
+}
 
 export interface HTTPClient {
   get: (url: string, config?: RequestConfig) => Promise<any>;
