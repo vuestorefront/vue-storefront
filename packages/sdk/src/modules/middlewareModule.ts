@@ -9,24 +9,41 @@ export type EndpointsConstraint = {
 
 export type EnforceEndpointsConstraint<T extends EndpointsConstraint> = T;
 
+/**
+ * Config for the request.
+ */
 export interface RequestConfig {
   headers?: Record<string, string>;
   method?: "GET" | "POST";
+}
+
+/**
+ * Config for the HTTP client.
+ */
+export interface HTTPClientConfig extends RequestConfig {
   params?: any;
 }
 
+/**
+ * Config for the SDK method.
+ */
 export interface MethodConfig extends RequestConfig {
   [isRequestConfig]: boolean;
 }
 
-export type HTTPClient = (url: string, config: RequestConfig) => Promise<any>;
+export type HTTPClient = (
+  url: string,
+  config: HTTPClientConfig
+) => Promise<any>;
+
+export type ErrorHandler = (error: any) => any;
 
 export interface Options {
   apiUrl: string;
   ssrApiUrl?: string;
   httpClient?: HTTPClient;
   defaultRequestConfig?: RequestConfig;
-  errorHandler?: (error: any) => any;
+  errorHandler?: ErrorHandler;
 }
 
 export type Methods<Endpoints extends EndpointsConstraint> = {
@@ -98,7 +115,7 @@ const getHttpClient = (options: Options): HTTPClient => {
     return response.json();
   };
 
-  const defaultErrorHandler = (error: any) => {
+  const defaultErrorHandler: ErrorHandler = (error: any) => {
     throw error;
   };
 
