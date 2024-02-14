@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   middlewareModule,
-  prepareRequestConfig,
+  prepareConfig,
   type Options,
   type EnforceEndpointsConstraint,
 } from "../../modules/middlewareModule";
@@ -35,6 +36,15 @@ const testEndpointsComplianceCheck: EnforceEndpointsConstraint<TestEndpoints> =
   {} as TestEndpoints;
 
 describe("Middleware module", () => {
+  const defaultConfig = {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    params: [],
+  };
+
   it("should create a middleware module", async () => {
     const options = {
       apiUrl: "https://api.example.com",
@@ -46,15 +56,11 @@ describe("Middleware module", () => {
   });
 
   it("should call a method", async () => {
-    const getMock = jest.fn(() => Promise.resolve("getFoo"));
-    const postMock = jest.fn(() => Promise.resolve("postFoo"));
-
     const options: Options = {
       apiUrl: "https://api.example.com",
-      httpClient: {
-        get: getMock,
-        post: postMock,
-      },
+      httpClient: jest.fn((url, config) =>
+        Promise.resolve({ status: 200, message: "ok" })
+      ),
     };
 
     const sdk = initSDK({
@@ -62,19 +68,22 @@ describe("Middleware module", () => {
     });
 
     const result = await sdk.test.foo("foo");
-    expect(result).toBe("postFoo");
+    expect(options.httpClient).toHaveBeenCalledWith(
+      "https://api.example.com/foo",
+      {
+        ...defaultConfig,
+        params: ["foo"],
+      }
+    );
+    expect(result).toEqual({ status: 200, message: "ok" });
   });
 
   it("should call a method with request config", async () => {
-    const getMock = jest.fn(() => Promise.resolve("getFoo"));
-    const postMock = jest.fn(() => Promise.resolve("postFoo"));
-
     const options: Options = {
       apiUrl: "https://api.example.com",
-      httpClient: {
-        get: getMock,
-        post: postMock,
-      },
+      httpClient: jest.fn((url, config) =>
+        Promise.resolve({ status: 200, message: "ok" })
+      ),
     };
 
     const sdk = initSDK({
@@ -83,28 +92,45 @@ describe("Middleware module", () => {
 
     const result = await sdk.test.object(
       { foo: "foo" },
-      prepareRequestConfig({ method: "GET" })
+      prepareConfig({ method: "GET", headers: { "X-Test": "test" } })
     );
-    expect(result).toBe("getFoo");
+
+    expect(options.httpClient).toHaveBeenCalledWith(
+      "https://api.example.com/object",
+      {
+        ...defaultConfig,
+        params: [{ foo: "foo" }],
+        method: "GET",
+        headers: {
+          ...defaultConfig.headers,
+          "X-Test": "test",
+        },
+      }
+    );
+    expect(result).toEqual({ status: 200, message: "ok" });
   });
 
   it("should call a method with request config and without params", async () => {
-    const getMock = jest.fn(() => Promise.resolve("getFoo"));
-    const postMock = jest.fn(() => Promise.resolve("postFoo"));
-
     const options: Options = {
       apiUrl: "https://api.example.com",
-      httpClient: {
-        get: getMock,
-        post: postMock,
-      },
+      httpClient: jest.fn((url, config) =>
+        Promise.resolve({ status: 200, message: "ok" })
+      ),
     };
 
     const sdk = initSDK({
       test: buildModule(middlewareModule<TestEndpoints>, options),
     });
 
-    const result = await sdk.test.baz(prepareRequestConfig({ method: "GET" }));
-    expect(result).toBe("getFoo");
+    const result = await sdk.test.baz(prepareConfig({ method: "GET" }));
+
+    expect(options.httpClient).toHaveBeenCalledWith(
+      "https://api.example.com/baz",
+      {
+        ...defaultConfig,
+        method: "GET",
+      }
+    );
+    expect(result).toEqual({ status: 200, message: "ok" });
   });
 });

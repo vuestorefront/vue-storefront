@@ -10,26 +10,28 @@ export type EndpointsConstraint = {
 export type EnforceEndpointsConstraint<T extends EndpointsConstraint> = T;
 
 export interface RequestConfig {
-  [isRequestConfig]: boolean;
   headers?: Record<string, string>;
   method?: "GET" | "POST";
+  params?: any;
 }
 
-export interface HTTPClient {
-  get: (url: string, config?: RequestConfig) => Promise<any>;
-  post: (url: string, data: any, config?: RequestConfig) => Promise<any>;
+export interface MethodConfig extends RequestConfig {
+  [isRequestConfig]: boolean;
 }
+
+export type HTTPClient = (url: string, config: RequestConfig) => Promise<any>;
 
 export interface Options {
   apiUrl: string;
   ssrApiUrl?: string;
   httpClient?: HTTPClient;
   defaultRequestConfig?: RequestConfig;
+  errorHandler?: (error: any) => any;
 }
 
 export type Methods<Endpoints extends EndpointsConstraint> = {
   [Key in keyof Endpoints]: (
-    ...params: [...Parameters<Endpoints[Key]>, requestConfig?: RequestConfig]
+    ...params: [...Parameters<Endpoints[Key]>, config?: MethodConfig]
   ) => ReturnType<Endpoints[Key]>;
 };
 
@@ -51,9 +53,11 @@ export type ApiClientMethodsToEndpoints<
 
 // === Helpers ===
 
-export const prepareRequestConfig = (
-  requestConfig: Omit<RequestConfig, typeof isRequestConfig>
-): RequestConfig => {
+export const prepareConfig = <
+  CustomConfig extends RequestConfig = RequestConfig
+>(
+  requestConfig: CustomConfig
+): MethodConfig => {
   return {
     ...requestConfig,
     [isRequestConfig]: true,
@@ -65,6 +69,8 @@ export const prepareRequestConfig = (
 const getHttpClient = (options: Options): HTTPClient => {
   const getHeaders = (requestConfig?: RequestConfig) => {
     return {
+      "Content-Type": "application/json",
+      Accept: "application/json",
       ...(options.defaultRequestConfig?.headers ?? {}),
       ...(requestConfig?.headers ?? {}),
     };
@@ -83,39 +89,32 @@ const getHttpClient = (options: Options): HTTPClient => {
     return `${normalizedBaseUrl}${path}`;
   };
 
-  const defaultHttpClient: HTTPClient = {
-    get: async (url, requestConfig?) => {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: requestConfig?.headers,
-      });
-      return response.json();
-    },
-    post: async (url, data, requestConfig) => {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: requestConfig?.headers,
-        body: JSON.stringify(data),
-      });
-      return response.json();
-    },
+  const defaultHttpClient: HTTPClient = async (url, config) => {
+    const response = await fetch(url, {
+      ...config,
+      body: JSON.stringify(config.params),
+      credentials: "include",
+    });
+    return response.json();
+  };
+
+  const defaultErrorHandler = (error: any) => {
+    throw error;
   };
 
   const httpClient: HTTPClient = options.httpClient || defaultHttpClient;
 
-  return {
-    get: (path, config) => {
-      const headers = getHeaders(config);
-      return httpClient.get(getUrl(path), prepareRequestConfig({ headers }));
-    },
-    post: (path, data, config) => {
-      const headers = getHeaders(config);
-      return httpClient.post(
-        getUrl(path),
-        data,
-        prepareRequestConfig({ headers })
-      );
-    },
+  return (url, config) => {
+    const headers = getHeaders(config);
+    const fullUrl = getUrl(url);
+    const method = config.method || "POST";
+
+    try {
+      return httpClient(fullUrl, { ...config, method, headers });
+    } catch (error) {
+      const errorHandler = options.errorHandler ?? defaultErrorHandler;
+      return errorHandler(error);
+    }
   };
 };
 
@@ -132,16 +131,13 @@ const middlewareConnector = <Endpoints extends EndpointsConstraint>(
 
       return async (...params: any[]) => {
         let requestConfig: RequestConfig | undefined;
-        if (params[params.length - 1]?.[isRequestConfig]) {
-          requestConfig = params.pop();
+        if ((params[params.length - 1] as MethodConfig)?.[isRequestConfig]) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { [isRequestConfig]: omit, ...rest } = params.pop();
+          requestConfig = rest;
         }
 
-        if (requestConfig?.method === "GET") {
-          const response = await httpClient.get(endpoint, requestConfig);
-          return response;
-        }
-
-        return await httpClient.post(endpoint, params, requestConfig);
+        return await httpClient(endpoint, { ...requestConfig, params });
       };
     },
   }) satisfies Connector;
@@ -155,5 +151,8 @@ export const middlewareModule = <Endpoints extends EndpointsConstraint>(
   const httpClient = getHttpClient(options);
   return {
     connector: middlewareConnector<Endpoints>(httpClient),
+    context: {
+      httpClient,
+    },
   };
 };
