@@ -2,11 +2,10 @@
 import {
   connect,
   prepareConfig,
-  type Options,
   type EnforceEndpointsConstraint,
-} from "../../modules/connect";
-import { initSDK } from "../../bootstrap";
-import { buildModule } from "../../modules/buildModule";
+} from "../../../modules/connect";
+import { initSDK } from "../../../bootstrap";
+import { buildModule } from "../../../modules/buildModule";
 
 type TestEndpoints = {
   /**
@@ -27,7 +26,7 @@ type TestEndpoints = {
 const testEndpointsComplianceCheck: EnforceEndpointsConstraint<TestEndpoints> =
   {} as TestEndpoints;
 
-describe("Middleware module", () => {
+describe("Connect SDK module", () => {
   const defaultConfig = {
     headers: {
       Accept: "application/json",
