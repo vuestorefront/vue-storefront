@@ -1,22 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-  middlewareModule,
+  connect,
   prepareConfig,
   type Options,
   type EnforceEndpointsConstraint,
-} from "../../modules/middlewareModule";
+} from "../../modules/connect";
 import { initSDK } from "../../bootstrap";
 import { buildModule } from "../../modules/buildModule";
 
 type TestEndpoints = {
-  /**
-   * Foo.
-   */
-  foo: (foo: string) => Promise<string>;
-  /**
-   * Bar.
-   */
-  bar: (bar: number) => Promise<number>;
   /**
    * FooBar.
    */
@@ -45,92 +37,173 @@ describe("Middleware module", () => {
     params: [],
   };
 
-  it("should create a middleware module", async () => {
+  it("should create a middleware module with methods", async () => {
+    // Given
     const options = {
       apiUrl: "https://api.example.com",
     };
+
+    // When
     const sdk = initSDK({
-      test: buildModule(middlewareModule<TestEndpoints>, options),
+      test: buildModule(connect<TestEndpoints>, options),
     });
+
+    // Then
     expect(sdk.test).toBeDefined();
+    expect(sdk.test.fooBar).toBeDefined();
+    expect(sdk.test.baz).toBeDefined();
+    expect(sdk.test.object).toBeDefined();
   });
 
-  it("should call a method", async () => {
-    const options: Options = {
+  it("should call a method with params", async () => {
+    // Given
+    const httpClient = jest.fn((url, config) => Promise.resolve("ok"));
+    const options = {
       apiUrl: "https://api.example.com",
-      httpClient: jest.fn((url, config) =>
-        Promise.resolve({ status: 200, message: "ok" })
-      ),
+      httpClient,
     };
-
     const sdk = initSDK({
-      test: buildModule(middlewareModule<TestEndpoints>, options),
+      test: buildModule(connect<TestEndpoints>, options),
     });
 
-    const result = await sdk.test.foo("foo");
-    expect(options.httpClient).toHaveBeenCalledWith(
-      "https://api.example.com/foo",
-      {
-        ...defaultConfig,
-        params: ["foo"],
-      }
+    // When
+    const result = await sdk.test.fooBar("foo", 1);
+
+    // Then
+    expect(httpClient).toHaveBeenCalledWith("https://api.example.com/fooBar", {
+      ...defaultConfig,
+      params: ["foo", 1],
+    });
+    expect(result).toEqual("ok");
+  });
+
+  it("should call a method with params in GET method", async () => {
+    // Given
+    const httpClient = jest.fn((url, config) => Promise.resolve("ok"));
+    const options = {
+      apiUrl: "https://api.example.com",
+      httpClient,
+    };
+    const sdk = initSDK({
+      test: buildModule(connect<TestEndpoints>, options),
+    });
+    const expectedUrl = new URL("https://api.example.com/fooBar");
+    expectedUrl.searchParams.append("body", JSON.stringify(["foo", 1]));
+
+    // When
+    const result = await sdk.test.fooBar(
+      "foo",
+      1,
+      prepareConfig({ method: "GET" })
     );
-    expect(result).toEqual({ status: 200, message: "ok" });
+
+    // Then
+
+    expect(httpClient).toHaveBeenCalledWith(expectedUrl.toString(), {
+      ...defaultConfig,
+      method: "GET",
+    });
+    expect(result).toEqual("ok");
   });
 
-  it("should call a method with request config", async () => {
-    const options: Options = {
+  it("should call a method with params in GET method and headers", async () => {
+    // Given
+    const httpClient = jest.fn((url, config) => Promise.resolve("ok"));
+    const options = {
       apiUrl: "https://api.example.com",
-      httpClient: jest.fn((url, config) =>
-        Promise.resolve({ status: 200, message: "ok" })
-      ),
+      httpClient,
     };
-
     const sdk = initSDK({
-      test: buildModule(middlewareModule<TestEndpoints>, options),
+      test: buildModule(connect<TestEndpoints>, options),
     });
+    const expectedUrl = new URL("https://api.example.com/object");
+    expectedUrl.searchParams.append("body", JSON.stringify([{ foo: "bar" }]));
 
+    // When
     const result = await sdk.test.object(
-      { foo: "foo" },
+      { foo: "bar" },
       prepareConfig({ method: "GET", headers: { "X-Test": "test" } })
     );
 
-    expect(options.httpClient).toHaveBeenCalledWith(
-      "https://api.example.com/object",
-      {
-        ...defaultConfig,
-        params: [{ foo: "foo" }],
-        method: "GET",
-        headers: {
-          ...defaultConfig.headers,
-          "X-Test": "test",
-        },
-      }
-    );
-    expect(result).toEqual({ status: 200, message: "ok" });
+    // Then
+    expect(httpClient).toHaveBeenCalledWith(expectedUrl.toString(), {
+      ...defaultConfig,
+      method: "GET",
+      headers: {
+        ...defaultConfig.headers,
+        "X-Test": "test",
+      },
+    });
+    expect(result).toEqual("ok");
   });
 
-  it("should call a method with request config and without params", async () => {
-    const options: Options = {
+  it("should call a method with default request config", async () => {
+    // Given
+    const httpClient = jest.fn((url, config) => Promise.resolve("ok"));
+    const options = {
       apiUrl: "https://api.example.com",
-      httpClient: jest.fn((url, config) =>
-        Promise.resolve({ status: 200, message: "ok" })
-      ),
+      httpClient,
+      defaultRequestConfig: {
+        headers: {
+          "X-Test-Default": "test default",
+        },
+      },
     };
-
     const sdk = initSDK({
-      test: buildModule(middlewareModule<TestEndpoints>, options),
+      test: buildModule(connect<TestEndpoints>, options),
     });
 
-    const result = await sdk.test.baz(prepareConfig({ method: "GET" }));
+    // When
+    const result = await sdk.test.baz();
 
-    expect(options.httpClient).toHaveBeenCalledWith(
-      "https://api.example.com/baz",
-      {
-        ...defaultConfig,
-        method: "GET",
-      }
-    );
-    expect(result).toEqual({ status: 200, message: "ok" });
+    // Then
+    expect(httpClient).toHaveBeenCalledWith("https://api.example.com/baz", {
+      ...defaultConfig,
+      headers: {
+        ...defaultConfig.headers,
+        "X-Test-Default": "test default",
+      },
+    });
+    expect(result).toEqual("ok");
+  });
+
+  it("should use error handler only if method fails", async () => {
+    // Given
+    const httpClient = jest.fn((url, config) => Promise.resolve("ok"));
+    const errorHandler = jest.fn((error) => Promise.resolve("error handled"));
+    const options = {
+      apiUrl: "https://api.example.com",
+      httpClient,
+      errorHandler,
+    };
+    const sdk = initSDK({
+      test: buildModule(connect<TestEndpoints>, options),
+    });
+
+    // When
+    const result = await sdk.test.baz();
+
+    // Then
+    expect(errorHandler).not.toHaveBeenCalled();
+    expect(result).toEqual("ok");
+  });
+
+  it("should call a method with custom error handler", async () => {
+    // Given
+    const httpClient = jest.fn((url, config) => Promise.reject());
+    const errorHandler = jest.fn((error) => Promise.resolve("error handled"));
+    const options = {
+      apiUrl: "https://api.example.com",
+      httpClient,
+      errorHandler,
+    };
+    const sdk = initSDK({
+      test: buildModule(connect<TestEndpoints>, options),
+    });
+
+    // When
+    const result = await sdk.test.baz();
+    expect(errorHandler).toHaveBeenCalled();
+    expect(result).toEqual("error handled");
   });
 });
