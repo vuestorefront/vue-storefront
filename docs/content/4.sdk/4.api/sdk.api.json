@@ -210,7 +210,255 @@
         {
           "kind": "Function",
           "canonicalReference": "@vue-storefront/sdk!buildModule:function(1)",
-          "docComment": "/**\n * Build module with extension. Provide a module factory function and an extension object.\n */\n",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function buildModule<InitializedModule extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Module",
+              "canonicalReference": "@vue-storefront/sdk!Module:type"
+            },
+            {
+              "kind": "Content",
+              "text": ", Options extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ModuleOptions",
+              "canonicalReference": "@vue-storefront/sdk!ModuleOptions:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
+              "text": ">(module: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ModuleInitializer",
+              "canonicalReference": "@vue-storefront/sdk!ModuleInitializer:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<InitializedModule, Options>"
+            },
+            {
+              "kind": "Content",
+              "text": ", moduleOptions?: "
+            },
+            {
+              "kind": "Content",
+              "text": "Options"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "InitializedModule"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/module/buildModule.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 12,
+            "endIndex": 13
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "module",
+              "parameterTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 9
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "moduleOptions",
+              "parameterTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 11
+              },
+              "isOptional": true
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "InitializedModule",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "Options",
+              "constraintTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              }
+            }
+          ],
+          "name": "buildModule"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!buildModule:function(2)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function buildModule<InitializedModule extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Module",
+              "canonicalReference": "@vue-storefront/sdk!Module:type"
+            },
+            {
+              "kind": "Content",
+              "text": ", Options extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ModuleOptions",
+              "canonicalReference": "@vue-storefront/sdk!ModuleOptions:type"
+            },
+            {
+              "kind": "Content",
+              "text": ", InitializedExtension extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Extension",
+              "canonicalReference": "@vue-storefront/sdk!Extension:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<InitializedModule>"
+            },
+            {
+              "kind": "Content",
+              "text": ">(module: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ModuleInitializer",
+              "canonicalReference": "@vue-storefront/sdk!ModuleInitializer:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<InitializedModule, Options>"
+            },
+            {
+              "kind": "Content",
+              "text": ", moduleOptions: "
+            },
+            {
+              "kind": "Content",
+              "text": "Options"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "InitializedModule & InitializedExtension"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/module/buildModule.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 13,
+            "endIndex": 14
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 2,
+          "parameters": [
+            {
+              "parameterName": "module",
+              "parameterTypeTokenRange": {
+                "startIndex": 8,
+                "endIndex": 10
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "moduleOptions",
+              "parameterTypeTokenRange": {
+                "startIndex": 11,
+                "endIndex": 12
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "InitializedModule",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "Options",
+              "constraintTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "InitializedExtension",
+              "constraintTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "buildModule"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!buildModule:function(3)",
+          "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -267,7 +515,180 @@
             },
             {
               "kind": "Content",
-              "text": ", moduleOptions?: "
+              "text": ", moduleOptions: "
+            },
+            {
+              "kind": "Content",
+              "text": "Options"
+            },
+            {
+              "kind": "Content",
+              "text": ", extension?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ExtensionInitializer",
+              "canonicalReference": "@vue-storefront/sdk!ExtensionInitializer:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<InitializedModule, InitializedExtension, ExtensionOptions> | InitializedExtension"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "InitializedModule & InitializedExtension"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/module/buildModule.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 18,
+            "endIndex": 19
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 3,
+          "parameters": [
+            {
+              "parameterName": "module",
+              "parameterTypeTokenRange": {
+                "startIndex": 10,
+                "endIndex": 12
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "moduleOptions",
+              "parameterTypeTokenRange": {
+                "startIndex": 13,
+                "endIndex": 14
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "extension",
+              "parameterTypeTokenRange": {
+                "startIndex": 15,
+                "endIndex": 17
+              },
+              "isOptional": true
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "InitializedModule",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "Options",
+              "constraintTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "InitializedExtension",
+              "constraintTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "ExtensionOptions",
+              "constraintTokenRange": {
+                "startIndex": 8,
+                "endIndex": 9
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "buildModule"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!buildModule:function(4)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "declare function buildModule<InitializedModule extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Module",
+              "canonicalReference": "@vue-storefront/sdk!Module:type"
+            },
+            {
+              "kind": "Content",
+              "text": ", Options extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ModuleOptions",
+              "canonicalReference": "@vue-storefront/sdk!ModuleOptions:type"
+            },
+            {
+              "kind": "Content",
+              "text": ", InitializedExtension extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Extension",
+              "canonicalReference": "@vue-storefront/sdk!Extension:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<InitializedModule>"
+            },
+            {
+              "kind": "Content",
+              "text": ", ExtensionOptions extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ModuleOptions",
+              "canonicalReference": "@vue-storefront/sdk!ModuleOptions:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">(module: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ModuleInitializer",
+              "canonicalReference": "@vue-storefront/sdk!ModuleInitializer:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<InitializedModule, Options>"
+            },
+            {
+              "kind": "Content",
+              "text": ", moduleOptions: "
             },
             {
               "kind": "Content",
@@ -313,7 +734,7 @@
             "endIndex": 21
           },
           "releaseTag": "Public",
-          "overloadIndex": 1,
+          "overloadIndex": 4,
           "parameters": [
             {
               "parameterName": "module",
@@ -329,7 +750,7 @@
                 "startIndex": 13,
                 "endIndex": 14
               },
-              "isOptional": true
+              "isOptional": false
             },
             {
               "parameterName": "extension",
