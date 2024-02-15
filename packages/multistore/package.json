@@ -19,8 +19,8 @@
     "test": "yarn jest",
     "prepublishOnly": "yarn build"
   },
-  "devDependencies": {
-    "@vue-storefront/middleware": "^3.8.0"
+  "peerDependencies": {
+    "@vue-storefront/middleware": "^3"
   },
   "publishConfig": {
     "access": "public"

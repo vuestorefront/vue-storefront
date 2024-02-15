@@ -1,10 +1,5 @@
 /* eslint-disable no-useless-return */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-import { mockMultistoreConfig } from "./multistore.config.mock";
-
-const multistore = mockMultistoreConfig();
-
 export const mockMiddlewareConfig = () => {
   return {
     OAuth: {
@@ -25,6 +20,5 @@ export const mockMiddlewareConfig = () => {
       defaultLanguage: "en",
       defaultCurrency: "GBP",
     },
-    multistore,
   };
 };

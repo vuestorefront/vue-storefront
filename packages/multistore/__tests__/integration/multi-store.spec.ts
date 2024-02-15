@@ -1,78 +1,84 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import request from "supertest";
 import { Express } from "express";
 import { createServer } from "@vue-storefront/middleware";
 import { integrations } from "./bootstrap/middleware.config";
 import { mockMiddlewareConfig } from "../../__mocks__/middleware.config.mock";
-import { multistoreExtension } from "../../src/extension";
+import { mockMultistoreConfig } from "../../__mocks__/multistore.config.mock";
+import { createMultistoreExtension } from "../../src/extension";
+import { MultistoreExtensionMethods } from "../../src/types";
 
-describe("[MultiStoreExtension] Unified multistore approach", () => {
+describe("[MultiStoreExtension] Overwrites base config with store specific one", () => {
+  // Globals
+  let app: Express;
+
+  // Mocks
   const mockedMiddlewareConfig = mockMiddlewareConfig();
+  const multistoreConfigMock = mockMultistoreConfig();
 
-  describe("Extended app", () => {
-    let app: Express;
+  // Headers
+  const localhosHeader = "localhost:3000";
+  const mydomainHeader = "mydomain.io";
+  const podHostname = "vue-storefront:3000";
 
-    const bootstrapedConfig = {
-      ...integrations.bootstraped,
-      configuration: mockedMiddlewareConfig,
-      extensions: (extensions) => [...extensions, multistoreExtension],
-    };
+  // Configs
+  const localhostConfig = {
+    ...multistoreConfigMock.fetchConfiguration({})[localhosHeader],
+    uri: "uri",
+  };
+  const mydomainConfig = {
+    ...multistoreConfigMock.fetchConfiguration({})[mydomainHeader],
+    uri: "uri",
+  };
+  const bootstrapedConfig = {
+    ...integrations.bootstraped,
+    configuration: mockedMiddlewareConfig,
+    extensions: (extensions) => [
+      ...extensions,
+      createMultistoreExtension(
+        // Cast to any and then to MultistoreExtensionMethods to avoid TS errors caused by using jest mocks.
+        multistoreConfigMock as any as MultistoreExtensionMethods
+      ),
+    ],
+  };
 
-    beforeAll(async () => {
-      app = await createServer({
-        integrations: {
-          bootstraped: bootstrapedConfig,
-        },
-      });
+  // Setup
+  beforeAll(async () => {
+    app = await createServer({
+      integrations: {
+        bootstraped: bootstrapedConfig,
+      },
     });
+  });
 
-    describe("overwrites base config with store-specific config", () => {
-      const localhosHeader = "localhost:3000";
-      const mydomainHeader = "mydomain.io";
-      const podHostname = "vue-storefront:3000";
+  // Tests
+  it("overwrites base configuration based on x-forwarded-host header for server-to-server communication", async () => {
+    const { body } = await request(app)
+      .post("/bootstraped/getConfig")
+      .set("x-forwarded-host", mydomainHeader)
+      .set("host", podHostname)
+      .send([]);
 
-      const localhostConfig = {
-        ...mockedMiddlewareConfig.multistore.fetchConfiguration({})[
-          localhosHeader
-        ],
-        uri: "uri",
-      };
+    expect(body.config.api).toEqual(mydomainConfig);
+  });
 
-      const mydomainConfig = {
-        ...mockedMiddlewareConfig.multistore.fetchConfiguration({})[
-          mydomainHeader
-        ],
-        uri: "uri",
-      };
+  it("overwrites base configuration based on fallback to host header for server-to-server communication", async () => {
+    const { body } = await request(app)
+      .post("/bootstraped/getConfig")
+      .set("x-forwarded-host", "")
+      .set("host", localhosHeader)
+      .send([]);
 
-      it("based on x-forwarded-host header for server-to-server communication", async () => {
-        const { body } = await request(app)
-          .post("/bootstraped/getConfig")
-          .set("x-forwarded-host", mydomainHeader)
-          .set("host", podHostname)
-          .send([]);
+    expect(body.config.api).toEqual(localhostConfig);
+  });
 
-        expect(body.config.api).toEqual(mydomainConfig);
-      });
+  it("overwrites base configuration based on origin header for client-to-server communication", async () => {
+    const { body } = await request(app)
+      .post("/bootstraped/getConfig")
+      .set("origin", `http://${mydomainHeader}`)
+      .set("host", podHostname)
+      .send([]);
 
-      it("based on fallback to host header for server-to-server communication", async () => {
-        const { body } = await request(app)
-          .post("/bootstraped/getConfig")
-          .set("x-forwarded-host", "")
-          .set("host", localhosHeader)
-          .send([]);
-
-        expect(body.config.api).toEqual(localhostConfig);
-      });
-
-      it("based on origin header for client-to-server communication", async () => {
-        const { body } = await request(app)
-          .post("/bootstraped/getConfig")
-          .set("origin", `http://${mydomainHeader}`)
-          .set("host", podHostname)
-          .send([]);
-
-        expect(body.config.api).toEqual(mydomainConfig);
-      });
-    });
+    expect(body.config.api).toEqual(mydomainConfig);
   });
 });
