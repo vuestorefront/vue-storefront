@@ -74,8 +74,7 @@ export const getHttpClient = (options: Options): HTTPClient => {
   return async (url, config) => {
     const headers = getHeaders(config);
     const method = config.method || "POST";
-    const queryParams = method === "GET" ? config.params : undefined;
-    const fullUrl = getUrl(url, queryParams);
+    const fullUrl = getUrl(url, method === "GET" ? config.params : undefined);
 
     try {
       return await httpClient(fullUrl, {
@@ -86,8 +85,7 @@ export const getHttpClient = (options: Options): HTTPClient => {
       });
     } catch (error) {
       const errorHandler = options.errorHandler ?? defaultErrorHandler;
-      const errorHandlerResponse = await errorHandler(error);
-      return errorHandlerResponse;
+      return await errorHandler(error);
     }
   };
 };
