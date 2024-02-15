@@ -1,5 +1,17 @@
 # Change log
 
+## 1.3.2
+
+### Patch Changes
+
+- 44c067dff: [FIXED] Make the second generic argument in the `buildModule` function optional. It's not required for the `buildModule` function to have the second argument. In some cases, when the first generic argument was provided, the second one was required.
+
+## 1.3.1
+
+### Patch Changes
+
+- 72826cd11: [FIXED] Resolved an issue where the `option` parameter type resolution in the `buildModule` function was not working correctly. The `options` parameter is now required or optional, depending on the module implementation.
+
 ## 1.3.0
 
 ### Minor Changes
