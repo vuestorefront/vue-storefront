@@ -1,5 +1,11 @@
 # Change log
 
+## 1.4.0-rc.0
+
+### Minor Changes
+
+- [ADDED] New SDK module - connect - that is a recommended solution when it comes to communicate with the Server Middleware.
+
 ## 1.3.2
 
 ### Patch Changes
