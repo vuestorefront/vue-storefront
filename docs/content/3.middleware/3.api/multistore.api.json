@@ -300,50 +300,99 @@
           "extendsTokenRanges": []
         },
         {
-          "kind": "Interface",
-          "canonicalReference": "@vue-storefront/multistore!ExtensionParams:interface",
-          "docComment": "/**\n * Parameters containing multistore configuration used by the extension.\n */\n",
+          "kind": "Variable",
+          "canonicalReference": "@vue-storefront/multistore!createMultistoreExtension:var",
+          "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface ExtensionParams "
-            }
-          ],
-          "fileUrlPath": "src/types.ts",
-          "releaseTag": "Public",
-          "name": "ExtensionParams",
-          "preserveMemberOrder": false,
-          "members": [
+              "text": "createMultistoreExtension: "
+            },
             {
-              "kind": "PropertySignature",
-              "canonicalReference": "@vue-storefront/multistore!ExtensionParams#configuration:member",
-              "docComment": "/**\n * Middleware configuration.\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "configuration: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "MiddlewareConfiguration",
-                  "canonicalReference": "@vue-storefront/multistore!MiddlewareConfiguration:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": false,
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "configuration",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
+              "kind": "Content",
+              "text": "(multistoreConfig: "
+            },
+            {
+              "kind": "Reference",
+              "text": "MultistoreExtensionMethods",
+              "canonicalReference": "@vue-storefront/multistore!MultistoreExtensionMethods:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ") => {\n    name: string;\n    isNamespaced: false;\n    extendApp: () => void;\n    hooks: (req: import(\"express\")."
+            },
+            {
+              "kind": "Reference",
+              "text": "Request",
+              "canonicalReference": "@types/express!e.Request:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<import(\"express-serve-static-core\")."
+            },
+            {
+              "kind": "Reference",
+              "text": "ParamsDictionary",
+              "canonicalReference": "@types/express-serve-static-core!ParamsDictionary:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", any, any, import(\"qs\")."
+            },
+            {
+              "kind": "Reference",
+              "text": "ParsedQs",
+              "canonicalReference": "@types/qs!QueryString.ParsedQs:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, any>>) => {\n        beforeCreate: ({ "
+            },
+            {
+              "kind": "Reference",
+              "text": "configuration",
+              "canonicalReference": "@vue-storefront/middleware!HookParams#configuration"
+            },
+            {
+              "kind": "Content",
+              "text": ": baseConfig }: import(\"@vue-storefront/middleware\")."
+            },
+            {
+              "kind": "Reference",
+              "text": "HookParams",
+              "canonicalReference": "@vue-storefront/middleware!HookParams:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<any>) => import(\"./types\")."
+            },
+            {
+              "kind": "Reference",
+              "text": "StoreConfig",
+              "canonicalReference": "@vue-storefront/multistore!StoreConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    };\n}"
             }
           ],
-          "extendsTokenRanges": []
+          "fileUrlPath": "src/extension.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "createMultistoreExtension",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 18
+          }
         },
         {
           "kind": "Interface",
@@ -537,56 +586,6 @@
           "extendsTokenRanges": []
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "@vue-storefront/multistore!multistoreExtension:var",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "multistoreExtension: "
-            },
-            {
-              "kind": "Content",
-              "text": "{\n    name: string;\n    extendApp: ({ configuration }: "
-            },
-            {
-              "kind": "Reference",
-              "text": "ExtensionParams",
-              "canonicalReference": "@vue-storefront/multistore!ExtensionParams:interface"
-            },
-            {
-              "kind": "Content",
-              "text": ") => void;\n    hooks: (req: "
-            },
-            {
-              "kind": "Reference",
-              "text": "Request",
-              "canonicalReference": "@types/express!e.Request:interface"
-            },
-            {
-              "kind": "Content",
-              "text": ") => {\n        beforeCreate: ({ configuration }: "
-            },
-            {
-              "kind": "Reference",
-              "text": "ExtensionParams",
-              "canonicalReference": "@vue-storefront/multistore!ExtensionParams:interface"
-            },
-            {
-              "kind": "Content",
-              "text": ") => any;\n    };\n}"
-            }
-          ],
-          "fileUrlPath": "src/extension.ts",
-          "isReadonly": true,
-          "releaseTag": "Public",
-          "name": "multistoreExtension",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 8
-          }
-        },
-        {
           "kind": "Interface",
           "canonicalReference": "@vue-storefront/multistore!MultistoreExtensionMethods:interface",
           "docComment": "/**\n * Extension methods defined in the middleware multistore configuration.\n */\n",
@@ -612,16 +611,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "(configuration: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "StoreConfig",
-                  "canonicalReference": "@vue-storefront/multistore!StoreConfig:type"
-                },
-                {
-                  "kind": "Content",
-                  "text": ") => "
+                  "text": "() => "
                 },
                 {
                   "kind": "Reference",
@@ -639,7 +629,7 @@
               "name": "cacheManagerFactory",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 5
+                "endIndex": 3
               }
             },
             {
@@ -750,8 +740,13 @@
               "text": "export type StoreConfig = "
             },
             {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
               "kind": "Content",
-              "text": "any"
+              "text": "<string, any>"
             },
             {
               "kind": "Content",
@@ -763,7 +758,7 @@
           "name": "StoreConfig",
           "typeTokenRange": {
             "startIndex": 1,
-            "endIndex": 2
+            "endIndex": 3
           }
         }
       ]

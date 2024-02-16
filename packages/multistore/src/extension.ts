@@ -1,39 +1,40 @@
-import { Request } from "express";
-import { CacheManager, ExtensionParams } from "./types";
+import { ApiClientExtension } from "@vue-storefront/middleware";
+import { MultistoreExtensionMethods } from "./types";
 import { resolveDomain } from "./resolve/resolveDomain";
 import { validateMultistoreMethods } from "./validate/validateMultistoreMethods";
 import { requiredMethodsErrors } from "./validate/requiredMethodsErrors";
 import { fetchConfigWithCache } from "./cache/fetchConfigWithCache";
 
-let cacheManager: CacheManager;
+export const createMultistoreExtension = (
+  multistoreConfig: MultistoreExtensionMethods
+) => {
+  const cacheManager = multistoreConfig.cacheManagerFactory();
 
-export const multistoreExtension = {
-  name: "multistore-extension",
+  return {
+    name: "multistore-extension",
+    isNamespaced: false,
+    extendApp: () => {
+      Object.keys(requiredMethodsErrors).forEach((requiredMethod) => {
+        validateMultistoreMethods(requiredMethod, multistoreConfig);
+      });
+    },
+    hooks: (req) => {
+      return {
+        beforeCreate: ({ configuration: baseConfig }) => {
+          const domain = resolveDomain(req);
 
-  extendApp: ({ configuration }: ExtensionParams) => {
-    Object.keys(requiredMethodsErrors).forEach((requiredMethod) => {
-      validateMultistoreMethods(requiredMethod, configuration.multistore);
-    });
+          const storeConfiguration = fetchConfigWithCache({
+            cacheManager,
+            domain,
+            multistore: multistoreConfig,
+          });
 
-    cacheManager = configuration.multistore.cacheManagerFactory(configuration);
-  },
-
-  hooks: (req: Request) => {
-    return {
-      beforeCreate: ({ configuration }: ExtensionParams) => {
-        const domain = resolveDomain(req);
-
-        const storeConfiguration = fetchConfigWithCache({
-          cacheManager,
-          domain,
-          multistore: configuration.multistore,
-        });
-
-        return configuration.multistore.mergeConfigurations({
-          baseConfig: configuration,
-          storeConfig: storeConfiguration,
-        });
-      },
-    };
-  },
+          return multistoreConfig.mergeConfigurations({
+            baseConfig,
+            storeConfig: storeConfiguration,
+          });
+        },
+      };
+    },
+  } satisfies ApiClientExtension;
 };

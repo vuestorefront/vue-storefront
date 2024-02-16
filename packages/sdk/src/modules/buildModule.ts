@@ -10,10 +10,10 @@ import {
 /* eslint-disable no-redeclare */
 function buildModule<
   InitializedModule extends Module,
-  Options extends ModuleOptions
+  Options extends ModuleOptions = object
 >(
   module: ModuleInitializer<InitializedModule, Options>,
-  moduleOptions?: any
+  moduleOptions?: Options
 ): InitializedModule;
 
 function buildModule<

@@ -1,2 +1,2 @@
-export { multistoreExtension } from "./extension";
+export { createMultistoreExtension } from "./extension";
 export type * from "./types";
