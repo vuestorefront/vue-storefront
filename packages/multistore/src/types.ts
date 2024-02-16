@@ -15,7 +15,7 @@ export interface CacheManager {
   /**
    * Sets a store configuration in the cache storage with identifier equals `key` value.
    */
-  set(key: string, value: StoreConfig): StoreConfig;
+  set(key: string, value: StoreConfig): any;
 }
 
 /**
@@ -41,18 +41,6 @@ export interface MultistoreExtensionMethods {
   fetchConfiguration: (params: {
     domain: string;
   }) => Record<string, StoreConfig>;
-}
-
-export interface MiddlewareConfiguration {
-  /**
-   * Multistore configuration.
-   */
-  multistore: MultistoreExtensionMethods;
-
-  /**
-   * Other configration entries, that are not being used by the multistore extension.
-   */
-  [key: string]: any;
 }
 
 /**
