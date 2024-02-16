@@ -10,7 +10,7 @@ export interface CacheManager {
   /**
    * Gets a store configuration from cache storage based on the `key` value.
    */
-  get(key: string): StoreConfig;
+  get(key: string): StoreConfig | undefined;
 
   /**
    * Sets a store configuration in the cache storage with identifier equals `key` value.
