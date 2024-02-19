@@ -1,5 +1,11 @@
 # Change log
 
+## 2.0.1
+
+### Patch Changes
+
+- d95379e91: [FIXED] Type issue in multistore package. Cache control `set` method returns `any` type and `get` returns `StoreConfig | undefined`. Also, `MiddlewareConfiguration` type has been removed as it is no longer necessary.
+
 ## 2.0.0
 
 ### Major Changes
