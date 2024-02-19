@@ -4,7 +4,7 @@ import { getHttpClient } from "./utils";
 import { Module } from "../../types";
 
 /**
- * `connect` module is allowing to communicate with the Server Middleware API.
+ * `moduleFromEndpoints` module is allowing to communicate with the Server Middleware API.
  *
  * It generates the methods to communicate with the API based on the provided endpoints interface.
  *
@@ -12,11 +12,10 @@ import { Module } from "../../types";
  * Setup:
  * ```ts
  * import { createSdk } from "@vue-storefront/next";
- * import { connect } from "@vue-storefront/sdk";
  * import type { SapccEndpoints } from "../storefront-middleware/types";
  *
- * export const { getSdk } = createSdk(options, ({ buildModule }) => ({
- *   sapcc: buildModule(connect<SapccEndpoints>, {
+ * export const { getSdk } = createSdk(options, ({ buildModule, moduleFromEndpoints }) => ({
+ *   sapcc: buildModule(moduleFromEndpoints<SapccEndpoints>, {
  *     apiUrl: "http://localhost:4000/sapcc",
  *   }),
  * }));
@@ -27,7 +26,6 @@ import { Module } from "../../types";
  * Usage:
  * ```ts
  * import { createSdk } from "@vue-storefront/next";
- * import { connect } from "@vue-storefront/sdk";
  * import type { SapccEndpoints } from "../storefront-middleware/types";
  *
  * const extension = (extensionOptions, { methods, context }) => ({
@@ -41,14 +39,14 @@ import { Module } from "../../types";
  *   }
  * });
  *
- * export const { getSdk } = createSdk(options, ({ buildModule }) => ({
- *   sapcc: buildModule(connect<SapccEndpoints>, {
+ * export const { getSdk } = createSdk(options, ({ buildModule, moduleFromEndpoints }) => ({
+ *   sapcc: buildModule(moduleFromEndpoints<SapccEndpoints>, {
  *     apiUrl: "http://localhost:4000/sapcc",
  *   }, extension),
  * }));
  * ```
  */
-export const connect = <Endpoints extends EndpointsConstraint>(
+export const moduleFromEndpoints = <Endpoints extends EndpointsConstraint>(
   options: Options
 ) => {
   const httpClient = getHttpClient(options);

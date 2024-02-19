@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-  connect,
+  moduleFromEndpoints,
   prepareConfig,
   type EnforceEndpointsConstraint,
-} from "../../../modules/connect";
+} from "../../../modules/moduleFromEndpoints";
 import { initSDK } from "../../../bootstrap";
 import { buildModule } from "../../../modules/buildModule";
 
@@ -26,7 +26,7 @@ type TestEndpoints = {
 const testEndpointsComplianceCheck: EnforceEndpointsConstraint<TestEndpoints> =
   {} as TestEndpoints;
 
-describe("Connect SDK module", () => {
+describe("moduleFromEndpoints SDK module", () => {
   const defaultConfig = {
     headers: {
       Accept: "application/json",
@@ -44,7 +44,7 @@ describe("Connect SDK module", () => {
 
     // When
     const sdk = initSDK({
-      test: buildModule(connect<TestEndpoints>, options),
+      test: buildModule(moduleFromEndpoints<TestEndpoints>, options),
     });
 
     // Then
@@ -62,7 +62,7 @@ describe("Connect SDK module", () => {
       httpClient,
     };
     const sdk = initSDK({
-      test: buildModule(connect<TestEndpoints>, options),
+      test: buildModule(moduleFromEndpoints<TestEndpoints>, options),
     });
 
     // When
@@ -84,7 +84,7 @@ describe("Connect SDK module", () => {
       httpClient,
     };
     const sdk = initSDK({
-      test: buildModule(connect<TestEndpoints>, options),
+      test: buildModule(moduleFromEndpoints<TestEndpoints>, options),
     });
     const expectedUrl = new URL("https://api.example.com/fooBar");
     expectedUrl.searchParams.append("body", JSON.stringify(["foo", 1]));
@@ -113,7 +113,7 @@ describe("Connect SDK module", () => {
       httpClient,
     };
     const sdk = initSDK({
-      test: buildModule(connect<TestEndpoints>, options),
+      test: buildModule(moduleFromEndpoints<TestEndpoints>, options),
     });
     const expectedUrl = new URL("https://api.example.com/object");
     expectedUrl.searchParams.append("body", JSON.stringify([{ foo: "bar" }]));
@@ -149,7 +149,7 @@ describe("Connect SDK module", () => {
       },
     };
     const sdk = initSDK({
-      test: buildModule(connect<TestEndpoints>, options),
+      test: buildModule(moduleFromEndpoints<TestEndpoints>, options),
     });
 
     // When
@@ -176,7 +176,7 @@ describe("Connect SDK module", () => {
       errorHandler,
     };
     const sdk = initSDK({
-      test: buildModule(connect<TestEndpoints>, options),
+      test: buildModule(moduleFromEndpoints<TestEndpoints>, options),
     });
 
     // When
@@ -197,7 +197,7 @@ describe("Connect SDK module", () => {
       errorHandler,
     };
     const sdk = initSDK({
-      test: buildModule(connect<TestEndpoints>, options),
+      test: buildModule(moduleFromEndpoints<TestEndpoints>, options),
     });
 
     // When

@@ -155,3 +155,34 @@ export type ExtensionWith<T extends keyof ApiClientExtension> = WithRequired<
   ApiClientExtension,
   T
 >;
+
+/**
+ * Type helper to convert the API Client methods to the endpoints.
+ *
+ * Each API Client method contains the `context` as the first parameter.
+ * It's added by the middleware and it's not part of the endpoint.
+ *
+ * This type helper will remove the `context` parameter from the API Client methods.
+ *
+ * @example
+ * Usage:
+ * ```ts
+ * const apiClientExtension = {
+ *   name: "my-extension",
+ *   extendApiMethods: {
+ *     myMethod: (context: any, params: Params) => { ... }
+ *   }
+ * }
+ * type ApiClientExtension = typeof apiClientExtension;
+ * type ExtendedApiMethods = ApiClientExtension["extendApiMethods"]
+ * export type UnifiedEndpoints = WithoutContext<ExtendedApiMethods>;
+ * ```
+ */
+export type WithoutContext<Methods extends Record<string, ApiClientMethod>> = {
+  [T in keyof Methods]: Methods[T] extends (
+    context: any,
+    ...arguments_: infer P
+  ) => infer R
+    ? (...arguments_: P) => R
+    : never;
+};

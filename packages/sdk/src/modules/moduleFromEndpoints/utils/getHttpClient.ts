@@ -4,7 +4,7 @@ import { Options, HTTPClient, HTTPClientConfig, ErrorHandler } from "../types";
  * Configures and returns the HTTP client.
  *
  * It accepts the options to configure the HTTP client.
- * Those options are used to configure the `connect` SDK module as well.
+ * Those options are used to configure the `fromEndpoints` SDK module as well.
  *
  * It might be usefull when working with SDK extensions.
  *
@@ -13,7 +13,7 @@ import { Options, HTTPClient, HTTPClientConfig, ErrorHandler } from "../types";
  * ```ts
  * import { getHttpClient } from "@vue-storefront/sdk";
  *
- * // Options used to configure the `connect` SDK module.
+ * // Options used to configure the `fromEndpoints` SDK module.
  * const options = {
  *  apiUrl: "https://api.example.com",
  * };

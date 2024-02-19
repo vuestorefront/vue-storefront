@@ -87,7 +87,7 @@ export type HTTPClient = (
 export type ErrorHandler = (error: any) => any;
 
 /**
- * Options for the Connect module.
+ * Options for the `moduleFromEndpoints`.
  */
 export interface Options {
   /**
@@ -178,36 +178,4 @@ export type Methods<Endpoints extends EndpointsConstraint> = {
   [Key in keyof Endpoints]: (
     ...params: [...Parameters<Endpoints[Key]>, config?: MethodConfig]
   ) => ReturnType<Endpoints[Key]>;
-};
-
-/**
- * Type helper to convert the API Client methods to the endpoints.
- *
- * Each API Client method contains the `context` as the first parameter.
- * It's added by the middleware and it's not part of the endpoint.
- *
- * This type helper will remove the `context` parameter from the API Client methods.
- *
- * @example
- * Usage:
- * ```ts
- * const apiClientExtension = {
- *   name: "my-extension",
- *   extendApiMethods: {
- *     myMethod: (context: any, params: Params) => { ... }
- *   }
- * }
- * type ApiClientMethods = typeof apiClientExtension["extendApiMethods"];
- * type Endpoints = ApiClientMethodsToEndpoints<ApiClientMethods>;
- * ```
- */
-export type ApiClientMethodsToEndpoints<
-  ApiClientMethods extends EndpointsConstraint
-> = {
-  [T in keyof ApiClientMethods]: ApiClientMethods[T] extends (
-    context: any,
-    ...arguments_: infer P
-  ) => infer R
-    ? (...arguments_: P) => R
-    : never;
 };
