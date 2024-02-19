@@ -15,7 +15,7 @@ export interface CacheManager {
   /**
    * Sets a store configuration in the cache storage with identifier equals `key` value.
    */
-  set(key: string, value: StoreConfig): any;
+  set(key: string, value: StoreConfig): unknown;
 }
 
 /**
