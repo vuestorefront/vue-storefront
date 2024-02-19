@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/multistore",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "Fifciu",
   "license": "MIT",
   "main": "lib/index.cjs.js",
