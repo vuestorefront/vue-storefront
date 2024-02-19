@@ -1,5 +1,11 @@
 # Change log
 
+## 3.8.2-rc.0
+
+### Patch Changes
+
+- f15d9a1ee: [ADDED] Add `WithoutContext` type helper, that extracts `context` from api client methods.
+
 ## 3.8.1
 
 ### Patch Changes

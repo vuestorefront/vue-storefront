@@ -1,5 +1,12 @@
 # Change log
 
+## 2.0.1-rc.0
+
+### Patch Changes
+
+- Updated dependencies [f15d9a1ee]
+  - @vue-storefront/middleware@3.8.2-rc.0
+
 ## 2.0.0
 
 ### Major Changes

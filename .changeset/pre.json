@@ -8,6 +8,8 @@
     "@vue-storefront/sdk": "1.3.2"
   },
   "changesets": [
-    "gentle-feet-speak"
+    "five-glasses-drop",
+    "gentle-feet-speak",
+    "stupid-news-tickle"
   ]
 }
