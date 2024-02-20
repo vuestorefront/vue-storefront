@@ -2,120 +2,38 @@
 
 The `@vue-storefront/multistore` package provides a middleware extension for multistore functionality. It changes the middleware configuration to support multiple stores based on the domain configuration.
 
-## Prerequisites
+## Usage
 
-Ensure the following prerequisites are met for the unified multistore solution:
+To learn about the prerequisites, setup and architecture of the `@vue-storefront/multistore` package, please refer to the [multistore documentation](https://docs.vuestorefront.io/middleware/multistore).
 
-- It works within the VSF infrastructure.
-- Requires three headers for proper functionality:
-  1. `origin` for client-server communication.
-  2. `x-forwarded-host` for server-server communication.
-  3. `host` as a fallback for server-server communication if `x-forwarded-host` is absent.
-- The client communicating with the middleware must include these headers in requests.
+## Development
 
-## Setup Steps
+To start development on the `@vue-storefront/multistore` package, clone the repository and install dependencies:
 
-To configure multistore in your middleware, follow these steps:
-
-1. Extend Middleware Config with multistore Extension
-
-- Import `multistoreExtension` from `@vue-storefront/multistore`.
-- Extend the middleware config in `middleware.config.ts`.
-
-Example: Add `multistoreExtension` to the extensions array for SAP integration.
-
-```ts [middleware.config.ts]
-import { multistoreExtension } from '@vue-storefront/multistore';
-
-export default {
-  integrations: {
-    sap: {
-      location: '@vue-storefront/sapcc-api/server',
-      configuration: { ... },
-      extensions: (predefinedExtensions) => [
-        ...predefinedExtensions,
-        multistoreExtension
-      ]
-    }
-  }
-};
+```shell
+yarn install
 ```
 
-2. Create multistore Configuration
+### Build
 
-- Prepare a `multistore.config.ts` file with methods:
-  - `fetchConfiguration({ domain })`: Returns store-specific configurations based on domain.
-  - `mergeConfigurations({ baseConfig, storeConfig })`: Merges base configuration with store-specific settings.
-  - `cacheManagerFactory()`: Implements cache manager with get and set methods.
+To build the package, run:
 
-Example: Configuration that modifies the api parameter and uses `node-cache`.
-
-```ts [multistore.config.ts]
-import NodeCache from "node-cache";
-
-export const multistoreConfig = {
-  fetchConfiguration(/* { domain } */) {
-    return {
-      "my-apparel-domain.io": {
-        baseSiteId: "apparel-uk",
-        defaultCurrency: "GBP",
-        // ...
-      },
-      "my-electronics-domain.io": {
-        baseSiteId: "electronics",
-        defaultCurrency: "USD",
-        // ...
-      },
-    };
-  },
-  mergeConfigurations({ baseConfig, storeConfig }) {
-    return {
-      ...baseConfig,
-      api: {
-        ...baseConfig.api,
-        ...storeConfig,
-      },
-    };
-  },
-  cacheManagerFactory() {
-    const client = new NodeCache({
-      stdTTL: 10,
-    });
-
-    return {
-      get(key) {
-        return client.get(key);
-      },
-      set(key, value) {
-        return client.set(key, value);
-      },
-    };
-  },
-};
+```shell
+yarn build
 ```
 
-3. Integrate multistore Configuration
+### Linting
 
-- Add the multistore configuration from `multistore.config.ts` to your `middleware.config.ts`.
+To lint the package, run:
 
-Example: Add multistore configuration to `middleware.config.ts`.
+```shell
+yarn lint
+```
 
-```ts [middleware.config.ts]
-import { multistoreConfig } from "./multistore.config";
+### Testing
 
-export default {
-  integrations: {
-    sap: {
-      location: "@vue-storefront/sapcc-api/server",
-      configuration: {
-        // ...
-        multistore: multistoreConfig,
-      },
-      extensions: (predefinedExtensions) => [
-        ...predefinedExtensions,
-        multistoreExtension,
-      ],
-    },
-  },
-};
+To test the package, run:
+
+```shell
+yarn test
 ```
