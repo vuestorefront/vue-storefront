@@ -26,7 +26,12 @@
     "babel-preset-node": "^5.1.1",
     "nodemon": "^2.0.20",
     "ts-jest": "^29.0.2",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "@vue-storefront/middleware": "*",
+    "@types/isomorphic-fetch": "^0.0.39"
+  },
+  "dependencies": {
+    "isomorphic-fetch": "^3.0.0"
   },
   "engines": {
     "npm": ">=7.0.0",
