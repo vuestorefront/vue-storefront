@@ -241,4 +241,24 @@ describe("moduleFromEndpoints", () => {
       }
     );
   });
+
+  it("should allow to use custom error handler", async () => {
+    const error = new Error("Test error");
+    const customErrorHandler = jest
+      .fn()
+      .mockResolvedValue({ id: 1, name: "Error handler did a good job" });
+    const customHttpClient = jest.fn().mockRejectedValue(error);
+    const sdkConfig = {
+      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        httpClient: customHttpClient,
+        errorHandler: customErrorHandler,
+      }),
+    };
+    const sdk = initSDK(sdkConfig);
+
+    const res = await sdk.commerce.getProduct({ id: 1 });
+    expect(customErrorHandler).toHaveBeenCalledWith(error);
+    expect(res).toEqual({ id: 1, name: "Error handler did a good job" });
+  });
 });

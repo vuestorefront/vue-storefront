@@ -65,6 +65,11 @@ export type HTTPClient = (
 ) => Promise<any>;
 
 /**
+ * Error handler abstraction.
+ */
+export type ErrorHandler = (error: any) => Promise<any>;
+
+/**
  * Options for the `moduleFromEndpoints`.
  */
 export type Options = {
@@ -125,6 +130,23 @@ export type Options = {
    * Default request config for each request.
    */
   defaultRequestConfig?: RequestConfig;
+
+  /**
+   * Custom error handler for the requests.
+   *
+   * It's optional and it will use the default error handler if it's not provided.
+   *
+   * @example
+   * ```ts
+   * const options: Options = {
+   *   apiUrl: "https://api.example.com",
+   *   errorHandler: (error) => {
+   *     return refreshAndRetry(error);
+   *   },
+   * };
+   * ```
+   */
+  errorHandler?: ErrorHandler;
 };
 
 /**

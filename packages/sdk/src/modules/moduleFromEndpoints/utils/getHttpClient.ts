@@ -55,6 +55,16 @@ export const getHTTPClient = (options: Options) => {
   return async (methodName: string, config: HTTPClientConfig) => {
     const httpClient = options.httpClient || defaultHTTPClient;
 
-    return httpClient(getUrl(methodName, config), getConfig(config));
+    try {
+      return await httpClient(getUrl(methodName, config), getConfig(config));
+    } catch (error) {
+      const { errorHandler } = options;
+
+      if (errorHandler) {
+        return errorHandler(error);
+      }
+
+      throw error;
+    }
   };
 };
