@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Connector } from "../../types";
-import { getHTTPClient } from "./utils/getHttpClient";
 import {
   EndpointsConstraint,
-  Options,
   Methods,
   RequestConfig,
   MethodConfig,
+  HTTPClient,
 } from "./types";
 import { isRequestConfig } from "./consts";
 
@@ -16,9 +15,8 @@ import { isRequestConfig } from "./consts";
  * Implements the Proxy pattern.
  */
 export const connector = <Endpoints extends EndpointsConstraint>(
-  options: Options
+  httpClient: HTTPClient
 ) => {
-  const httpClient = getHTTPClient(options);
   const target = {} as Methods<Endpoints>;
   return new Proxy<Methods<Endpoints>>(target, {
     get: (_, methodName) => {

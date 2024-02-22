@@ -1,6 +1,7 @@
 import { Module } from "../../types";
 import { connector } from "./connector";
 import { EndpointsConstraint, Options } from "./types";
+import { getHTTPClient } from "./utils";
 
 /**
  * `moduleFromEndpoints` module is allowing to communicate with the Server Middleware API.
@@ -47,7 +48,13 @@ import { EndpointsConstraint, Options } from "./types";
  */
 export const moduleFromEndpoints = <Endpoints extends EndpointsConstraint>(
   options: Options
-) =>
-  ({
-    connector: connector<Endpoints>(options),
-  } satisfies Module);
+) => {
+  const httpClient = getHTTPClient(options);
+
+  return {
+    connector: connector<Endpoints>(httpClient),
+    context: {
+      httpClient,
+    },
+  } satisfies Module;
+};

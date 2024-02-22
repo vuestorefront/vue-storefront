@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import "isomorphic-fetch";
 import { initSDK, buildModule } from "../../../index";
 import {
@@ -260,5 +261,63 @@ describe("moduleFromEndpoints", () => {
     const res = await sdk.commerce.getProduct({ id: 1 });
     expect(customErrorHandler).toHaveBeenCalledWith(error);
     expect(res).toEqual({ id: 1, name: "Error handler did a good job" });
+  });
+
+  it("should allow to add new methods with a standard extension", async () => {
+    const sdk = initSDK({
+      commerce: buildModule(
+        moduleFromEndpoints<Endpoints>,
+        {
+          apiUrl: "http://localhost:8181/commerce",
+        },
+        {
+          extend: {
+            customMethod: async (params: { id: number }) => {
+              return { id: params.id, name: "Custom method" };
+            },
+          },
+        }
+      ),
+    });
+
+    const res = await sdk.commerce.customMethod({ id: 1 });
+
+    expect(res).toEqual({ id: 1, name: "Custom method" });
+  });
+
+  it("should allow to reuse initialized HTTP Client in extensions", async () => {
+    const customHttpClient = jest
+      .fn()
+      .mockResolvedValue({ id: 1, name: "Custom method" });
+    const sdk = initSDK({
+      commerce: buildModule(
+        moduleFromEndpoints<Endpoints>,
+        {
+          apiUrl: "http://localhost:8181/commerce",
+          httpClient: customHttpClient,
+        },
+        (_, { context }) => ({
+          extend: {
+            customMethod: async (params: { id: number }) => {
+              return context.httpClient("customMethod", { params: [params] });
+            },
+          },
+        })
+      ),
+    });
+
+    await sdk.commerce.customMethod({ id: 1 });
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      "http://localhost:8181/commerce/customMethod",
+      {
+        method: "POST",
+        params: [{ id: 1 }],
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
   });
 });

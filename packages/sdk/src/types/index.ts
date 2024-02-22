@@ -189,7 +189,6 @@ export type Extension<ExtendedModule extends Module> = Omit<
   /**
    * Extend contains methods that are added to the module.
    * Because of the dynamic nature of the SDK, the extend method must be an asynchronous function.
-   * Extending methods can't be used to override the connector.
    *
    * @example
    * Extending the module with a new method.
