@@ -61,7 +61,7 @@ export const getHTTPClient = (options: Options) => {
       const { errorHandler } = options;
 
       if (errorHandler) {
-        return errorHandler(error);
+        return await errorHandler(error);
       }
 
       throw error;
