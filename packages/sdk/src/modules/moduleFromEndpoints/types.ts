@@ -2,7 +2,8 @@ import { AnyFunction } from "../../types";
 import { isRequestConfig } from "./consts";
 
 /**
- * Constraint for the endpoints.
+ * Defines a constraint for API endpoint functions.
+ * Each endpoint function should return a Promise.
  *
  * @example
  * ```ts
@@ -17,7 +18,7 @@ export type EndpointsConstraint = {
 };
 
 /**
- * Config for the request.
+ * Common configuration for HTTP requests.
  */
 export interface RequestConfig {
   /**
@@ -31,7 +32,7 @@ export interface RequestConfig {
 }
 
 /**
- * Config for the HTTP client.
+ * Extends `RequestConfig` with parameters specific to HTTP requests.
  */
 export interface HTTPClientConfig extends RequestConfig {
   /**
@@ -41,7 +42,7 @@ export interface HTTPClientConfig extends RequestConfig {
 }
 
 /**
- * Config for the SDK method.
+ * Configuration for SDK methods, distinguishing it from other parameter types.
  */
 export interface MethodConfig extends RequestConfig {
   /**
@@ -51,7 +52,7 @@ export interface MethodConfig extends RequestConfig {
 }
 
 /**
- * HTTP Client abstraction.
+ * Abstracts the functionality of an HTTP client, promising any response type.
  */
 export type HTTPClient = (
   /**
@@ -65,12 +66,12 @@ export type HTTPClient = (
 ) => Promise<any>;
 
 /**
- * Error handler abstraction.
+ * Abstracts error handling with a function that takes any error and returns a promise.
  */
 export type ErrorHandler = (error: any) => Promise<any>;
 
 /**
- * Options for the `moduleFromEndpoints`.
+ * Configurations for initializing the `moduleFromEndpoints`, including URLs and optional customizations.
  */
 export type Options = {
   /**
@@ -150,12 +151,8 @@ export type Options = {
 };
 
 /**
- * Final type for the SDK methods.
- *
- * It requires the `Endpoints` interface to be provided.
- * Based on this interface it will generate the methods with the correct parameters and return types.
- *
- * To each endpoint, it will add the `config` parameter with the `MethodConfig` type.
+ * Generates SDK method types based on a given Endpoints interface,
+ * allowing optional method-specific configurations.
  */
 export type Methods<Endpoints extends EndpointsConstraint> = {
   [Key in keyof Endpoints]: (

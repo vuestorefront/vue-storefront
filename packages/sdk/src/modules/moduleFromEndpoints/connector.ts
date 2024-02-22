@@ -10,6 +10,11 @@ import {
 } from "./types";
 import { isRequestConfig } from "./consts";
 
+/**
+ * Connector for the SDK.
+ * It's used to create the methods for the SDK.
+ * Implements the Proxy pattern.
+ */
 export const connector = <Endpoints extends EndpointsConstraint>(
   options: Options
 ) => {
