@@ -1,0 +1,14 @@
+{
+  "mode": "pre",
+  "tag": "rc",
+  "initialVersions": {
+    "@vue-storefront/cli": "4.5.0",
+    "@vue-storefront/middleware": "3.8.1",
+    "@vue-storefront/multistore": "2.0.1",
+    "@vue-storefront/sdk": "1.3.2"
+  },
+  "changesets": [
+    "brave-mirrors-design",
+    "silver-squids-switch"
+  ]
+}
