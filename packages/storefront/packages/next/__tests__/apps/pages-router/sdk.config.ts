@@ -20,7 +20,7 @@ export const { getSdk } = createSdk(
         },
       },
       (_, { context }) => ({
-        extend: {
+        override: {
           getSuccess: async () => {
             const payload = await context.httpClient(`getSuccess`, {
               method: "POST",

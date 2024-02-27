@@ -1,9 +1,10 @@
-import { buildModule } from "@vue-storefront/sdk";
+import { buildModule, moduleFromEndpoints } from "@vue-storefront/sdk";
 import { composeMiddlewareUrl, useNuxtApp, useRequestHeaders } from "#imports";
 import { SdkModuleOptions } from "./vsfModule";
 
 type InjectedContext = {
   buildModule: typeof buildModule;
+  moduleFromEndpoints: typeof moduleFromEndpoints;
   middlewareUrl: string;
   getCookieHeader: () => Record<string, string>;
 };
@@ -61,6 +62,7 @@ export function defineSdkConfig<TConfig>(config: Config<TConfig>) {
 
     return config({
       buildModule,
+      moduleFromEndpoints,
       middlewareUrl,
       getCookieHeader
     });

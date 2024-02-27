@@ -1,12 +1,13 @@
 import { apiClientFactory } from "@vue-storefront/middleware";
 
 const api = {
-  getSuccess: () =>
-    Promise.resolve({
+  getSuccess: () => {
+    return Promise.resolve({
       status: 200,
       message: "ok",
       error: false,
-    }),
+    });
+  },
 };
 
 const onCreate = (config: Record<string, unknown> = {}) => {
