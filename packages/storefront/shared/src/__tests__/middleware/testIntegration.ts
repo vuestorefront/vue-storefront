@@ -1,7 +1,7 @@
 import { apiClientFactory } from "@vue-storefront/middleware";
 
 const api = {
-  success: () =>
+  getSuccess: () =>
     Promise.resolve({
       status: 200,
       message: "ok",
