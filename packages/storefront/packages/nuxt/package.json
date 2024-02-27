@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "3.7.4",
-    "@vue-storefront/sdk": "^1.0.0",
+    "@vue-storefront/sdk": "1.4.0-rc.2",
     "knitwork": "^1.0.0"
   },
   "devDependencies": {
@@ -38,7 +38,6 @@
     "@nuxt/module-builder": "0.5.2",
     "@nuxt/schema": "3.7.4",
     "@nuxt/test-utils": "3.7.4",
-    "@vue-storefront/sdk": "*",
     "nuxt": "3.7.4",
     "start-server-and-test": "^2.0.3",
     "vitest": "^0.34.6"
