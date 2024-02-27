@@ -9,6 +9,7 @@
   },
   "changesets": [
     "brave-mirrors-design",
-    "silver-squids-switch"
+    "silver-squids-switch",
+    "sweet-eels-eat"
   ]
 }
