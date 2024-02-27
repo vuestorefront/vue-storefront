@@ -36,8 +36,8 @@
     "dev:pages-router": "cd __tests__/apps/pages-router && yarn dev",
     "dev:middleware": "cd ../../shared/src/__tests__/middleware && yarn dev",
     "lint": "eslint . --ext .ts",
-    "test:app-router": "start-server-and-test dev:middleware localhost:4000/test_integration/success dev:app-router localhost:3000 \"yarn test:e2e\"",
-    "test:pages-router": "start-server-and-test dev:middleware localhost:4000/test_integration/success dev:pages-router localhost:3000 \"yarn test:e2e\"",
+    "test:app-router": "start-server-and-test dev:middleware localhost:4000/test_integration/getSuccess dev:app-router localhost:3000 \"yarn test:e2e\"",
+    "test:pages-router": "start-server-and-test dev:middleware localhost:4000/test_integration/getSuccess dev:pages-router localhost:3000 \"yarn test:e2e\"",
     "test": "yarn test:app-router && yarn test:pages-router",
     "test:e2e": "cd ../../shared/ && yarn test:e2e",
     "test:unit": "vitest run"

@@ -2,7 +2,7 @@ import {
   composeMiddlewareUrl,
   type CreateSdkOptions,
 } from "@storefront/shared";
-import { buildModule, initSDK } from "@vue-storefront/sdk";
+import { buildModule, initSDK, moduleFromEndpoints } from "@vue-storefront/sdk";
 import { resolveDynamicContext } from "./helpers";
 import { Config, CreateSdkReturn, GetSdkContext } from "./types";
 
@@ -58,6 +58,7 @@ export function createSdk<TConfig extends Record<string, any>>(
 
     const resolvedConfig = configDefinition({
       buildModule,
+      moduleFromEndpoints,
       getRequestHeaders,
       middlewareUrl,
     });
