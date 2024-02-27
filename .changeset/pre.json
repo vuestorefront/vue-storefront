@@ -7,9 +7,5 @@
     "@vue-storefront/multistore": "2.0.1",
     "@vue-storefront/sdk": "1.3.2"
   },
-  "changesets": [
-    "brave-mirrors-design",
-    "silver-squids-switch",
-    "sweet-eels-eat"
-  ]
+  "changesets": ["brave-mirrors-design", "silver-squids-switch"]
 }

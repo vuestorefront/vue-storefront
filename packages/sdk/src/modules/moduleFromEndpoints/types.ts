@@ -24,7 +24,7 @@ export interface RequestConfig {
   /**
    * Headers for the request.
    */
-  headers?: Record<string, string | string[]>;
+  headers?: Record<string, string>;
   /**
    * HTTP method for the request.
    */
