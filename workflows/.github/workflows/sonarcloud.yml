@@ -44,7 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
         with:
-          projectBaseDir: ${{ inputs.base_dir || 'packages/'inputs.package_name }}
+          projectBaseDir: ${{ inputs.base_dir || format('packages/{0}', inputs.package_name) }}
           args: >
             -Dsonar.organization=vuestorefront
             -Dsonar.projectKey=${{ inputs.project_key }}
