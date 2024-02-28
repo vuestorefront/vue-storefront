@@ -10,6 +10,11 @@ on:
         description: "Project key i.e. bigcommerce_api-client"
         required: true
         type: string
+      base_dir:
+        description: "Base directory containing packages. Defaults to 'packages' which is the case for monorepos."
+        required: false
+        type: string
+        default: "packages"
       package_name:
           description: "Package name i.e. api-client"
           required: true
@@ -40,7 +45,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
         with:
-          projectBaseDir: packages/${{ inputs.package_name }}
+          projectBaseDir: ${{ inputs.base_dir }}/${{ inputs.package_name }}
           args: >
             -Dsonar.organization=vuestorefront
             -Dsonar.projectKey=${{ inputs.project_key }}
