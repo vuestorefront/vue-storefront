@@ -11,10 +11,9 @@ on:
         required: true
         type: string
       base_dir:
-        description: "Base directory containing packages. Defaults to 'packages' which is the case for monorepos."
+        description: "Project base directory. If not provided, 'packages/<package_name>' will be used instead."
         required: false
         type: string
-        default: "packages"
       package_name:
           description: "Package name i.e. api-client"
           required: true
@@ -45,7 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
         with:
-          projectBaseDir: ${{ inputs.base_dir }}/${{ inputs.package_name }}
+          projectBaseDir: ${{ inputs.base_dir || 'packages/'inputs.package_name }}
           args: >
             -Dsonar.organization=vuestorefront
             -Dsonar.projectKey=${{ inputs.project_key }}
