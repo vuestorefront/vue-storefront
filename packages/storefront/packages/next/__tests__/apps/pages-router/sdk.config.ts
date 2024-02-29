@@ -19,16 +19,6 @@ export const { getSdk } = createSdk(
           headers: getRequestHeaders() as Record<string, string>,
         },
       },
-      (_, { context }) => ({
-        override: {
-          getSuccess: async () => {
-            const payload = await context.httpClient(`getSuccess`, {
-              method: "POST",
-            });
-            return { ...payload, cookie: getRequestHeaders().cookie ?? null };
-          },
-        },
-      })
     ),
   })
 );

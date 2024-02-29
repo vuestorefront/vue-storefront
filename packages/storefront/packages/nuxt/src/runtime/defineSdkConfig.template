@@ -24,18 +24,15 @@ const moduleConfig: SdkModuleOptions = <%= options.moduleConfig %>;
   *   contentfulModule,
   *   ContentfulModuleType,
   * } from "@vsf-enterprise/contentful-sdk";
-  * import { unifiedModule } from "@vsf-enterprise/unified-sdk";
-  * import type { UnifiedApiExtension } from "../storefront-middleware/middleware.config";
+  * import type { UnifiedApiEndpoints } from "../storefront-middleware/types";
   * 
   * export default defineSdkConfig(
-  *   ({ buildModule, middlewareUrl, getCookieHeader }) => ({
-  *     unified: buildModule(unifiedModule<UnifiedApiExtension>, {
+  *   ({ buildModule, moduleFromEndpoints, middlewareUrl, getCookieHeader }) => ({
+  *     unified: buildModule(moduleFromEndpoints<UnifiedApiEndpoints>, {
   *       apiUrl: middlewareUrl + "/commerce",
-  *       requestOptions: {
-  *         headers: getCookieHeader,
-  *       },
+  *       defaultRequestConfig: { headers: { ...getCookieHeader() } },
   *     }),
-  *     contentful: buildModule<ContentfulModuleType>(contentfulModule, {
+  *     contentful: buildModule(contentfulModule, {
   *       apiUrl: middlewareUrl + "/cntf",
   *     }),
   *   }),
