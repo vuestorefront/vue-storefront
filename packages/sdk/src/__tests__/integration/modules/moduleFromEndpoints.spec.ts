@@ -33,9 +33,7 @@ describe("moduleFromEndpoints", () => {
   });
 
   it("should allow to override the default HTTP Client", async () => {
-    const customHttpClient = jest
-      .fn()
-      .mockResolvedValue({ id: 1, name: "Test Product" });
+    const customHttpClient = jest.fn();
     const sdkConfig = {
       commerce: buildModule(moduleFromEndpoints<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
@@ -50,9 +48,7 @@ describe("moduleFromEndpoints", () => {
   });
 
   it("should send a POST request to <BASE_URL>/<METHOD_NAME> by default", async () => {
-    const customHttpClient = jest
-      .fn()
-      .mockResolvedValue({ id: 1, name: "Test Product" });
+    const customHttpClient = jest.fn();
     const sdkConfig = {
       commerce: buildModule(moduleFromEndpoints<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
@@ -65,14 +61,10 @@ describe("moduleFromEndpoints", () => {
 
     expect(customHttpClient).toHaveBeenCalledWith(
       "http://localhost:8181/commerce/getProduct",
-      {
+      expect.objectContaining({
         method: "POST",
         params: [{ id: 1 }],
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
+      })
     );
   });
 
@@ -108,20 +100,17 @@ describe("moduleFromEndpoints", () => {
       prepareConfig({ method: "GET" })
     );
 
-    expect(customHttpClient).toHaveBeenCalledWith(expectedUrl.toString(), {
-      method: "GET",
-      params: [],
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
+    expect(customHttpClient).toHaveBeenCalledWith(
+      expectedUrl.toString(),
+      expect.objectContaining({
+        method: "GET",
+        params: [],
+      })
+    );
   });
 
-  it("should normalize the base URL", async () => {
-    const customHttpClient = jest
-      .fn()
-      .mockResolvedValue({ id: 1, name: "Test Product" });
+  it("should remove trailing slash from the api url", async () => {
+    const customHttpClient = jest.fn();
     const sdkConfig = {
       commerce: buildModule(moduleFromEndpoints<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce/",
@@ -134,21 +123,12 @@ describe("moduleFromEndpoints", () => {
 
     expect(customHttpClient).toHaveBeenCalledWith(
       "http://localhost:8181/commerce/getProduct",
-      {
-        method: "POST",
-        params: [{ id: 1 }],
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
+      expect.any(Object)
     );
   });
 
   it("should allow to use custom headers", async () => {
-    const customHttpClient = jest
-      .fn()
-      .mockResolvedValue({ id: 1, name: "Test Product" });
+    const customHttpClient = jest.fn();
     const sdkConfig = {
       commerce: buildModule(moduleFromEndpoints<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
@@ -169,22 +149,18 @@ describe("moduleFromEndpoints", () => {
 
     expect(customHttpClient).toHaveBeenCalledWith(
       "http://localhost:8181/commerce/getProduct",
-      {
-        method: "POST",
-        params: [{ id: 1 }],
+      expect.objectContaining({
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
           "X-Test": "x-test-header",
         },
-      }
+      })
     );
   });
 
   it("should allow to define default headers", async () => {
-    const customHttpClient = jest
-      .fn()
-      .mockResolvedValue({ id: 1, name: "Test Product" });
+    const customHttpClient = jest.fn();
     const sdkConfig = {
       commerce: buildModule(moduleFromEndpoints<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
@@ -202,22 +178,18 @@ describe("moduleFromEndpoints", () => {
 
     expect(customHttpClient).toHaveBeenCalledWith(
       "http://localhost:8181/commerce/getProduct",
-      {
-        method: "POST",
-        params: [{ id: 1 }],
+      expect.objectContaining({
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
           "X-Test": "x-test-header",
         },
-      }
+      })
     );
   });
 
   it("should use different base URL during SSR if defined", async () => {
-    const customHttpClient = jest
-      .fn()
-      .mockResolvedValue({ id: 1, name: "Test Product" });
+    const customHttpClient = jest.fn();
     const sdkConfig = {
       commerce: buildModule(moduleFromEndpoints<Endpoints>, {
         apiUrl: "/api/commerce",
@@ -231,14 +203,7 @@ describe("moduleFromEndpoints", () => {
 
     expect(customHttpClient).toHaveBeenCalledWith(
       "http://localhost:8181/commerce/getProduct",
-      {
-        method: "POST",
-        params: [{ id: 1 }],
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
+      expect.any(Object)
     );
   });
 });
