@@ -28,8 +28,8 @@ describe("moduleFromEndpoints", () => {
 
     const sdk = initSDK(sdkConfig);
 
-    expect(sdk.commerce.getProduct).toBeDefined();
-    expect(sdk.commerce.getProducts).toBeDefined();
+    expect(sdk.commerce.getProduct).toBeInstanceOf(Function);
+    expect(sdk.commerce.getProducts).toBeInstanceOf(Function);
   });
 
   it("should allow to override the default HTTP Client", async () => {
