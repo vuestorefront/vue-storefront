@@ -1,5 +1,5 @@
 ---
-"@vue-storefront/middleware": patch
+"@vue-storefront/middleware": minor
 ---
 
 [ADDED] Adds WithoutContext type helper.
