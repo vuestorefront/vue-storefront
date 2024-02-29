@@ -109,11 +109,36 @@ describe("moduleFromEndpoints", () => {
     );
   });
 
-  it("should remove trailing slash from the api url", async () => {
+  it("should allow to use GET request when apiUrl is a path", async () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
       commerce: buildModule(moduleFromEndpoints<Endpoints>, {
-        apiUrl: "http://localhost:8181/commerce/",
+        apiUrl: "/api/commerce",
+        httpClient: customHttpClient,
+      }),
+    };
+    const sdk = initSDK(sdkConfig);
+    const serializedParams = encodeURIComponent(JSON.stringify([{ limit: 1 }]));
+
+    await sdk.commerce.getProducts(
+      { limit: 1 },
+      prepareConfig({ method: "GET" })
+    );
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      `/api/commerce/getProducts?body=${serializedParams}`,
+      expect.objectContaining({
+        method: "GET",
+        params: [],
+      })
+    );
+  });
+
+  it("should normalize the url", async () => {
+    const customHttpClient = jest.fn();
+    const sdkConfig = {
+      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce///", // Extra slashes
         httpClient: customHttpClient,
       }),
     };

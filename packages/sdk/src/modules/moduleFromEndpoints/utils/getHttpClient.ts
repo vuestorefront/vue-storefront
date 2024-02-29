@@ -10,7 +10,9 @@ export const getHTTPClient = (options: Options) => {
       typeof window === "undefined" ? ssrApiUrl || apiUrl : apiUrl;
 
     // Ensure the base URL ends with a slash
-    const normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+    // TODO: Update eslint rule to warn on prefer-template instead of error.
+    // eslint-disable-next-line prefer-template
+    const normalizedBaseUrl = baseUrl.replace(/\/+$/, "") + "/";
     const url = `${normalizedBaseUrl}${path}`;
     const queryParams = method === "GET" ? params : undefined;
 
@@ -20,11 +22,9 @@ export const getHTTPClient = (options: Options) => {
     }
 
     // If there are query params, append them to the URL as `?body=[<strignified query params>]`
-    const queryParamsString = JSON.stringify(queryParams);
-    const urlWithParams = new URL(url);
-    urlWithParams.searchParams.append("body", queryParamsString);
+    const serializedParams = encodeURIComponent(JSON.stringify(queryParams));
 
-    return urlWithParams.toString();
+    return `${url}?body=${serializedParams}`;
   };
 
   const getConfig = (config: HTTPClientConfig): HTTPClientConfig => {
@@ -53,7 +53,7 @@ export const getHTTPClient = (options: Options) => {
   };
 
   return async (methodName: string, config: HTTPClientConfig) => {
-    const httpClient = options.httpClient || defaultHTTPClient;
+    const { httpClient = defaultHTTPClient } = options;
 
     return httpClient(getUrl(methodName, config), getConfig(config));
   };
