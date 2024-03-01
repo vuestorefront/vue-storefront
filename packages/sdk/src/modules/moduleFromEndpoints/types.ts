@@ -100,22 +100,14 @@ export type Options = {
    *
    * const options: Options = {
    *   apiUrl: "https://api.example.com",
-   *   httpClient: (url, config) => {
-   *     if (config.method === "GET") {
-   *       const queryParams = new URLSearchParams(config.params);
-   *       const urlWithParams = new URL(url);
-   *       urlWithParams.search = queryParams.toString();
-   *       return axios({
-   *         ...config,
-   *         url: urlWithParams.toString(),
-   *       });
-   *     }
-   *
-   *     return axios({
-   *       ...config,
-   *       url,
-   *     });
-   *   },
+   *   httpClient: async (url, config) => {
+        const { params, ...restConfig } = config;
+        const { data } = await axios(url, {
+          ...restConfig,
+          data: params,
+        });
+        return data;
+      },
    * };
    * ```
    */

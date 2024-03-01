@@ -6,6 +6,8 @@ import {
 } from "../../../modules/moduleFromEndpoints";
 import { Endpoints } from "../../__mocks__/apiClient/types";
 
+const axios = require("axios/dist/node/axios.cjs");
+
 describe("moduleFromEndpoints", () => {
   it("should be able to be used as standard SDK module", async () => {
     const sdkConfig = {
@@ -82,9 +84,7 @@ describe("moduleFromEndpoints", () => {
   });
 
   it("should allow to use GET request with query parameters", async () => {
-    const customHttpClient = jest
-      .fn()
-      .mockResolvedValue({ id: 1, name: "Test Product" });
+    const customHttpClient = jest.fn();
     const sdkConfig = {
       commerce: buildModule(moduleFromEndpoints<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
@@ -230,5 +230,33 @@ describe("moduleFromEndpoints", () => {
       "http://localhost:8181/commerce/getProduct",
       expect.any(Object)
     );
+  });
+
+  it("should be able to use axios as a custom HTTP client", async () => {
+    expect.assertions(2);
+
+    const sdkConfig = {
+      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        httpClient: async (url, config) => {
+          const { params, ...restConfig } = config;
+          const { data } = await axios(url, {
+            ...restConfig,
+            data: params,
+          });
+          return data;
+        },
+      }),
+    };
+    const sdk = initSDK(sdkConfig);
+
+    const postResponse = await sdk.commerce.getProduct({ id: 1 });
+    const getResponse = await sdk.commerce.getProduct(
+      { id: 2 },
+      prepareConfig({ method: "GET" })
+    );
+
+    expect(postResponse).toEqual({ id: 1, name: "Test Product" });
+    expect(getResponse).toEqual({ id: 2, name: "Test Product" });
   });
 });
