@@ -1,5 +1,12 @@
 # Change log
 
+## 3.0.0
+
+### Patch Changes
+
+- Updated dependencies [712ba85a6]
+  - @vue-storefront/middleware@3.9.0
+
 ## 2.0.1
 
 ### Patch Changes
