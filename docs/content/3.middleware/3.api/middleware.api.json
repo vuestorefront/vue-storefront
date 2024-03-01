@@ -6153,6 +6153,54 @@
         },
         {
           "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/middleware!WithoutContext:type",
+          "docComment": "/**\n * Removes the `context` from the methods of an API Client. `context` is an internal parameter added by the Server Middleware to the methods of the API Client. Removing it allows to define the contract of the endpoints exposed by the Server Middleware.\n *\n * @example\n * ```ts\n * type ApiClientMethods = {\n *  getProduct: (context: any, id: string) => Promise<Product>;\n * }\n *\n * type Endpoints = WithoutContext<ApiClientMethods>;\n * // { getProduct: (id: string) => Promise<Product> }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type WithoutContext<Methods extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ApiMethods",
+              "canonicalReference": "@vue-storefront/middleware!ApiMethods:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [T in keyof Methods]: Methods[T] extends (context: any, ...arguments_: infer P) => infer R ? (...arguments_: P) => R : never;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/common.ts",
+          "releaseTag": "Public",
+          "name": "WithoutContext",
+          "typeParameters": [
+            {
+              "typeParameterName": "Methods",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "TypeAlias",
           "canonicalReference": "@vue-storefront/middleware!WithRequired:type",
           "docComment": "",
           "excerptTokens": [
