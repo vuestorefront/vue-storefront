@@ -74,7 +74,7 @@ export type HTTPClient = (
   /**
    * Parameters for the POST request.
    */
-  params: any[],
+  params: unknown[],
   /**
    * Config for the request.
    */
@@ -88,15 +88,18 @@ export type ErrorHandlerContext = {
   /**
    * The error that was thrown during the HTTP request.
    */
-  error: any;
+  error: unknown;
   /**
    * The URL of the HTTP request that resulted in an error.
    */
   url: string;
   /**
-   * The parameters passed to the HTTP request. Can be of any type, hence the use of `any[]`.
+   * The parameters passed to the HTTP POST request.
+   * @remarks
+   * This is only relevant for POST requests, as GET requests do not have a body.
+   * Query parameters are part of the URL and are not included here.
    */
-  params: any[];
+  params: unknown[];
   /**
    * The computed configuration used for the HTTP request, after processing user inputs.
    */

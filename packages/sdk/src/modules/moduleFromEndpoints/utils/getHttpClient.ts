@@ -13,7 +13,7 @@ export const getHTTPClient = (options: Options) => {
   const getUrl = (
     path: string,
     method: BaseConfig["method"],
-    params: any[]
+    params: unknown[]
   ): string => {
     // Determine the base URL based on the environment
     const baseUrl =
@@ -64,7 +64,7 @@ export const getHTTPClient = (options: Options) => {
 
   const defaultHTTPClient: HTTPClient = async (
     url: string,
-    params: any[],
+    params: unknown[],
     config?: ComputedConfig
   ) => {
     const response = await fetch(url, {
@@ -79,7 +79,11 @@ export const getHTTPClient = (options: Options) => {
     throw error;
   };
 
-  return async (methodName: string, params: any[], config?: IncomingConfig) => {
+  return async (
+    methodName: string,
+    params: unknown[],
+    config?: IncomingConfig
+  ) => {
     const {
       httpClient = defaultHTTPClient,
       errorHandler = defaultErrorHandler,
