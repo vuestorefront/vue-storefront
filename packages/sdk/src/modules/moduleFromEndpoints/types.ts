@@ -82,9 +82,36 @@ export type HTTPClient = (
 ) => Promise<any>;
 
 /**
- * Error handler abstraction.
+ * Provides context for error handling, encapsulating details relevant to the failed HTTP request.
  */
-export type ErrorHandler = (error: any) => Promise<any>;
+export type ErrorHandlerContext = {
+  /**
+   * The error that was thrown during the HTTP request.
+   */
+  error: any;
+  /**
+   * The URL of the HTTP request that resulted in an error.
+   */
+  url: string;
+  /**
+   * The parameters passed to the HTTP request. Can be of any type, hence the use of `any[]`.
+   */
+  params: any[];
+  /**
+   * The computed configuration used for the HTTP request, after processing user inputs.
+   */
+  config: ComputedConfig;
+  /**
+   * The HTTP client function that was used to make the request. This allows for possible retry logic or logging.
+   */
+  httpClient: HTTPClient;
+};
+
+/**
+ * Defines a generic error handler function type. This abstraction allows for custom error handling logic,
+ * which can be implemented by the consumer of the HTTP client.
+ */
+export type ErrorHandler = (context: ErrorHandlerContext) => Promise<any>;
 
 /**
  * Options for the `moduleFromEndpoints`.
@@ -141,16 +168,20 @@ export type Options = {
   defaultRequestConfig?: IncomingConfig;
 
   /**
-   * Custom error handler for the requests.
+   * An optional custom error handler for HTTP requests.
    *
-   * It's optional and it will use the default error handler if it's not provided.
+   * If not provided, errors will be thrown as is.
+   *
+   * This enables custom error handling, like retrying the request or refreshing tokens, depending on the error type and details of the request that failed.
    *
    * @example
-   * ```ts
+   * ```typescript
    * const options: Options = {
    *   apiUrl: "https://api.example.com",
-   *   errorHandler: (error) => {
-   *     return refreshAndRetry(error);
+   *   errorHandler: async (context) => {
+   *     // Custom logic to handle the error, possibly including retrying the request
+   *     // `context` provides additional details about the failed request
+   *     return refreshAndRetry(context);
    *   },
    * };
    * ```

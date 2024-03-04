@@ -304,6 +304,26 @@ describe("moduleFromEndpoints", () => {
     );
   });
 
+  it("should throw an error if the error handler is not provided", async () => {
+    expect.assertions(1);
+
+    const error = new Error("Test error");
+    const customHttpClient = jest.fn().mockRejectedValue(error);
+    const sdkConfig = {
+      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        httpClient: customHttpClient,
+      }),
+    };
+    const sdk = initSDK(sdkConfig);
+
+    try {
+      await sdk.commerce.getProduct({ id: 1 });
+    } catch (err) {
+      expect(err).toEqual(error);
+    }
+  });
+
   it("should allow to use custom error handler", async () => {
     const error = new Error("Test error");
     const customErrorHandler = jest
@@ -320,7 +340,19 @@ describe("moduleFromEndpoints", () => {
     const sdk = initSDK(sdkConfig);
 
     const res = await sdk.commerce.getProduct({ id: 1 });
-    expect(customErrorHandler).toHaveBeenCalledWith(error);
+    expect(customErrorHandler).toHaveBeenCalledWith({
+      error,
+      url: "http://localhost:8181/commerce/getProduct",
+      params: [{ id: 1 }],
+      config: {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      },
+      httpClient: customHttpClient,
+    });
     expect(res).toEqual({ id: 1, name: "Error handler did a good job" });
   });
 });

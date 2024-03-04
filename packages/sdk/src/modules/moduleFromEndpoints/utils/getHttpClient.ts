@@ -4,6 +4,7 @@ import {
   BaseConfig,
   ComputedConfig,
   HTTPClient,
+  ErrorHandlerContext,
 } from "../types";
 
 export const getHTTPClient = (options: Options) => {
@@ -74,7 +75,7 @@ export const getHTTPClient = (options: Options) => {
     return response.json();
   };
 
-  const defaultErrorHandler = async (error: any) => {
+  const defaultErrorHandler = async ({ error }: ErrorHandlerContext) => {
     throw error;
   };
 
@@ -85,15 +86,19 @@ export const getHTTPClient = (options: Options) => {
     } = options;
     const { method = "POST", headers = {}, ...restConfig } = config ?? {};
     const computedParams = method === "GET" ? [] : params;
+    const finalUrl = getUrl(methodName, method, params);
+    const finalConfig = getConfig({ method, headers, ...restConfig });
 
     try {
-      return await httpClient(
-        getUrl(methodName, method, params),
-        computedParams,
-        getConfig({ method, headers, ...restConfig })
-      );
+      return await httpClient(finalUrl, computedParams, finalConfig);
     } catch (error) {
-      return await errorHandler(error);
+      return await errorHandler({
+        error,
+        url: finalUrl,
+        params: computedParams,
+        config: finalConfig,
+        httpClient,
+      });
     }
   };
 };
