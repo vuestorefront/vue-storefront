@@ -63,9 +63,9 @@ describe("moduleFromEndpoints", () => {
 
     expect(customHttpClient).toHaveBeenCalledWith(
       "http://localhost:8181/commerce/getProduct",
+      [{ id: 1 }],
       expect.objectContaining({
         method: "POST",
-        params: [{ id: 1 }],
       })
     );
   });
@@ -80,6 +80,7 @@ describe("moduleFromEndpoints", () => {
 
     const response = await sdk.commerce.getProduct({ id: 1 });
 
+    // To avoid mocking fetch, we're calling the real middleware and verifying the response.
     expect(response).toEqual({ id: 1, name: "Test Product" });
   });
 
@@ -92,8 +93,6 @@ describe("moduleFromEndpoints", () => {
       }),
     };
     const sdk = initSDK(sdkConfig);
-    const expectedUrl = new URL("http://localhost:8181/commerce/getProducts");
-    expectedUrl.searchParams.append("body", JSON.stringify([{ limit: 1 }]));
 
     await sdk.commerce.getProducts(
       { limit: 1 },
@@ -101,10 +100,12 @@ describe("moduleFromEndpoints", () => {
     );
 
     expect(customHttpClient).toHaveBeenCalledWith(
-      expectedUrl.toString(),
+      `http://localhost:8181/commerce/getProducts?body=${encodeURIComponent(
+        JSON.stringify([{ limit: 1 }])
+      )}`,
+      [],
       expect.objectContaining({
         method: "GET",
-        params: [],
       })
     );
   });
@@ -118,7 +119,6 @@ describe("moduleFromEndpoints", () => {
       }),
     };
     const sdk = initSDK(sdkConfig);
-    const serializedParams = encodeURIComponent(JSON.stringify([{ limit: 1 }]));
 
     await sdk.commerce.getProducts(
       { limit: 1 },
@@ -126,10 +126,12 @@ describe("moduleFromEndpoints", () => {
     );
 
     expect(customHttpClient).toHaveBeenCalledWith(
-      `/api/commerce/getProducts?body=${serializedParams}`,
+      `/api/commerce/getProducts?body=${encodeURIComponent(
+        JSON.stringify([{ limit: 1 }])
+      )}`,
+      [],
       expect.objectContaining({
         method: "GET",
-        params: [],
       })
     );
   });
@@ -148,6 +150,7 @@ describe("moduleFromEndpoints", () => {
 
     expect(customHttpClient).toHaveBeenCalledWith(
       "http://localhost:8181/commerce/getProduct",
+      expect.any(Array),
       expect.any(Object)
     );
   });
@@ -174,6 +177,7 @@ describe("moduleFromEndpoints", () => {
 
     expect(customHttpClient).toHaveBeenCalledWith(
       "http://localhost:8181/commerce/getProduct",
+      expect.any(Array),
       expect.objectContaining({
         headers: {
           "Content-Type": "application/json",
@@ -203,6 +207,7 @@ describe("moduleFromEndpoints", () => {
 
     expect(customHttpClient).toHaveBeenCalledWith(
       "http://localhost:8181/commerce/getProduct",
+      expect.any(Array),
       expect.objectContaining({
         headers: {
           "Content-Type": "application/json",
@@ -228,6 +233,7 @@ describe("moduleFromEndpoints", () => {
 
     expect(customHttpClient).toHaveBeenCalledWith(
       "http://localhost:8181/commerce/getProduct",
+      expect.any(Array),
       expect.any(Object)
     );
   });
@@ -238,10 +244,9 @@ describe("moduleFromEndpoints", () => {
     const sdkConfig = {
       commerce: buildModule(moduleFromEndpoints<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        httpClient: async (url, config) => {
-          const { params, ...restConfig } = config;
+        httpClient: async (url, params, config) => {
           const { data } = await axios(url, {
-            ...restConfig,
+            ...config,
             data: params,
           });
           return data;
@@ -258,5 +263,44 @@ describe("moduleFromEndpoints", () => {
 
     expect(postResponse).toEqual({ id: 1, name: "Test Product" });
     expect(getResponse).toEqual({ id: 2, name: "Test Product" });
+  });
+
+  it("should accept headers as Record<string | string[]>", async () => {
+    const customHttpClient = jest.fn();
+    const sdkConfig = {
+      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        httpClient: customHttpClient,
+        defaultRequestConfig: {
+          headers: {
+            "X-Test-Default": ["x-test-header", "x-test-header-2"],
+          },
+        },
+      }),
+    };
+    const sdk = initSDK(sdkConfig);
+
+    await sdk.commerce.getProduct(
+      { id: 1 },
+      prepareConfig({
+        method: "POST",
+        headers: {
+          "X-Test": ["x-test-header", "x-test-header-2"],
+        },
+      })
+    );
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      "http://localhost:8181/commerce/getProduct",
+      expect.any(Array),
+      expect.objectContaining({
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-Test-Default": "x-test-header,x-test-header-2",
+          "X-Test": "x-test-header,x-test-header-2",
+        },
+      })
+    );
   });
 });

@@ -1,12 +1,18 @@
-import { Options, HTTPClientConfig } from "../types";
+import {
+  Options,
+  IncomingConfig,
+  BaseConfig,
+  ComputedConfig,
+  HTTPClient,
+} from "../types";
 
 export const getHTTPClient = (options: Options) => {
   const { apiUrl, ssrApiUrl, defaultRequestConfig = {} } = options;
 
   const getUrl = (
     path: string,
-    method: HTTPClientConfig["method"],
-    params: HTTPClientConfig["params"]
+    method: BaseConfig["method"],
+    params: any[]
   ): string => {
     // Determine the base URL based on the environment
     const baseUrl =
@@ -29,45 +35,54 @@ export const getHTTPClient = (options: Options) => {
     return `${url}?body=${serializedParams}`;
   };
 
-  const getConfig = (config: HTTPClientConfig): HTTPClientConfig => {
-    const { method, headers, params } = config;
+  const getConfig = (config: IncomingConfig): ComputedConfig => {
+    const { method, headers } = config;
     const defaultHeaders = {
       "Content-Type": "application/json",
       Accept: "application/json",
       ...defaultRequestConfig.headers,
     };
+    const mergedHeaders = {
+      ...defaultHeaders,
+      ...headers,
+    };
+
+    const computedHeaders: ComputedConfig["headers"] = {};
+    Object.entries(mergedHeaders).forEach(([key, value]) => {
+      computedHeaders[key] = Array.isArray(value) ? value.join(",") : value;
+    });
 
     return {
       ...config,
-      params: method === "GET" ? [] : params,
       method,
       headers: {
-        ...defaultHeaders,
-        ...headers,
+        ...computedHeaders,
       },
     };
   };
 
-  const defaultHTTPClient = async (url: string, config: HTTPClientConfig) => {
+  const defaultHTTPClient: HTTPClient = async (
+    url: string,
+    params: any[],
+    config?: ComputedConfig
+  ) => {
     const response = await fetch(url, {
       ...config,
-      body: JSON.stringify(config.params),
+      body: JSON.stringify(params),
     });
+
     return response.json();
   };
 
-  return async (methodName: string, config: HTTPClientConfig) => {
+  return async (methodName: string, params: any[], config?: IncomingConfig) => {
     const { httpClient = defaultHTTPClient } = options;
-    const {
-      method = "POST",
-      headers = {},
-      params = [],
-      ...restConfig
-    } = config;
+    const { method = "POST", headers = {}, ...restConfig } = config ?? {};
+    const computedParams = method === "GET" ? [] : params;
 
     return httpClient(
       getUrl(methodName, method, params),
-      getConfig({ method, headers, params, ...restConfig })
+      computedParams,
+      getConfig({ method, headers, ...restConfig })
     );
   };
 };
