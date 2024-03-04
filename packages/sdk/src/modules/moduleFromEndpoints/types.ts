@@ -178,10 +178,15 @@ export type Options = {
    * ```typescript
    * const options: Options = {
    *   apiUrl: "https://api.example.com",
-   *   errorHandler: async (context) => {
-   *     // Custom logic to handle the error, possibly including retrying the request
-   *     // `context` provides additional details about the failed request
-   *     return refreshAndRetry(context);
+   *   errorHandler: async ({ error, url, params, config, httpClient }) => {
+   *     if (error.status === 401) {
+   *       // Refresh token
+   *       await refreshToken();
+   *       // Retry the request
+   *       return httpClient(url, params, config);
+   *     }
+   *
+   *     throw error;
    *   },
    * };
    * ```
