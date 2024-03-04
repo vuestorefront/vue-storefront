@@ -4,6 +4,7 @@ import {
   BaseConfig,
   ComputedConfig,
   HTTPClient,
+  ErrorHandler,
 } from "../types";
 
 export const getHTTPClient = (options: Options) => {
@@ -12,7 +13,7 @@ export const getHTTPClient = (options: Options) => {
   const getUrl = (
     path: string,
     method: BaseConfig["method"],
-    params: any[]
+    params: unknown[]
   ): string => {
     // Determine the base URL based on the environment
     const baseUrl =
@@ -63,7 +64,7 @@ export const getHTTPClient = (options: Options) => {
 
   const defaultHTTPClient: HTTPClient = async (
     url: string,
-    params: any[],
+    params: unknown[],
     config?: ComputedConfig
   ) => {
     const response = await fetch(url, {
@@ -74,15 +75,35 @@ export const getHTTPClient = (options: Options) => {
     return response.json();
   };
 
-  return async (methodName: string, params: any[], config?: IncomingConfig) => {
-    const { httpClient = defaultHTTPClient } = options;
+  const defaultErrorHandler: ErrorHandler = async ({ error }) => {
+    throw error;
+  };
+
+  return async (
+    methodName: string,
+    params: unknown[],
+    config?: IncomingConfig
+  ) => {
+    const {
+      httpClient = defaultHTTPClient,
+      errorHandler = defaultErrorHandler,
+    } = options;
     const { method = "POST", headers = {}, ...restConfig } = config ?? {};
     const computedParams = method === "GET" ? [] : params;
+    const finalUrl = getUrl(methodName, method, params);
+    const finalConfig = getConfig({ method, headers, ...restConfig });
 
-    return httpClient(
-      getUrl(methodName, method, params),
-      computedParams,
-      getConfig({ method, headers, ...restConfig })
-    );
+    try {
+      return await httpClient(finalUrl, computedParams, finalConfig);
+    } catch (error) {
+      return await errorHandler({
+        error,
+        methodName,
+        url: finalUrl,
+        params: computedParams,
+        config: finalConfig,
+        httpClient,
+      });
+    }
   };
 };

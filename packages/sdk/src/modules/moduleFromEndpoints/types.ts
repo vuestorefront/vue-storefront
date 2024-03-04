@@ -74,12 +74,53 @@ export type HTTPClient = (
   /**
    * Parameters for the POST request.
    */
-  params: any[],
+  params: unknown[],
   /**
    * Config for the request.
    */
   config?: ComputedConfig
 ) => Promise<any>;
+
+/**
+ * Provides context for error handling, encapsulating details relevant to the failed HTTP request.
+ */
+export type ErrorHandlerContext = {
+  /**
+   * The error that was thrown during the HTTP request.
+   */
+  error: unknown;
+  /**
+   * The name of the method that was called to make the HTTP request.
+   */
+  methodName: string;
+  /**
+   * The URL of the HTTP request that resulted in an error.
+   */
+  url: string;
+  /**
+   * The parameters passed to the HTTP POST request.
+   * @remarks
+   * This is only relevant for POST requests, as GET requests do not have a body.
+   * Query parameters are part of the URL and are not included here.
+   */
+  params: unknown[];
+  /**
+   * The computed configuration used for the HTTP request, after processing user inputs.
+   */
+  config: ComputedConfig;
+  /**
+   * The HTTP client function that was used to make the request.
+   * @remarks
+   * This allows for possible retry logic or logging.
+   */
+  httpClient: HTTPClient;
+};
+
+/**
+ * Defines a generic error handler function type. This abstraction allows for custom error handling logic,
+ * which can be implemented by the consumer of the HTTP client.
+ */
+export type ErrorHandler = (context: ErrorHandlerContext) => Promise<any>;
 
 /**
  * Options for the `moduleFromEndpoints`.
@@ -92,9 +133,10 @@ export type Options = {
 
   /**
    * Base URL for the API in the server side rendering.
-   * It's optional and it will use the `apiUrl` if it's not provided.
    *
    * @remarks
+   * It's optional and it will use the `apiUrl` if it's not provided.
+   *
    * This may be useful during implementation of a multi-store feature based on domains.
    *
    * `apiUrl` could be set to `/api` and on the client side, the HTTP Client would use the current domain.
@@ -108,6 +150,7 @@ export type Options = {
   /**
    * Custom HTTP Client.
    *
+   * @remarks
    * It's optional and it will use the default HTTP Client if it's not provided.
    *
    * @example
@@ -134,6 +177,33 @@ export type Options = {
    * Default request config for each request.
    */
   defaultRequestConfig?: IncomingConfig;
+
+  /**
+   * An optional custom error handler for HTTP requests.
+   *
+   * @remarks
+   * If not provided, errors will be thrown as is.
+   *
+   * This enables custom error handling, like retrying the request or refreshing tokens, depending on the error type and details of the request that failed.
+   *
+   * @example
+   * ```typescript
+   * const options: Options = {
+   *   apiUrl: "https://api.example.com",
+   *   errorHandler: async ({ error, methodName, url, params, config, httpClient }) => {
+   *     if (error.status === 401 && methodName !== "login") {
+   *       // Refresh token
+   *       await refreshToken();
+   *       // Retry the request
+   *       return httpClient(url, params, config);
+   *     }
+   *
+   *     throw error;
+   *   },
+   * };
+   * ```
+   */
+  errorHandler?: ErrorHandler;
 };
 
 /**
