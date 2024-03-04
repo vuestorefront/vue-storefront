@@ -109,7 +109,9 @@ export type ErrorHandlerContext = {
    */
   config: ComputedConfig;
   /**
-   * The HTTP client function that was used to make the request. This allows for possible retry logic or logging.
+   * The HTTP client function that was used to make the request.
+   * @remarks
+   * This allows for possible retry logic or logging.
    */
   httpClient: HTTPClient;
 };
@@ -131,9 +133,10 @@ export type Options = {
 
   /**
    * Base URL for the API in the server side rendering.
-   * It's optional and it will use the `apiUrl` if it's not provided.
    *
    * @remarks
+   * It's optional and it will use the `apiUrl` if it's not provided.
+   *
    * This may be useful during implementation of a multi-store feature based on domains.
    *
    * `apiUrl` could be set to `/api` and on the client side, the HTTP Client would use the current domain.
@@ -147,6 +150,7 @@ export type Options = {
   /**
    * Custom HTTP Client.
    *
+   * @remarks
    * It's optional and it will use the default HTTP Client if it's not provided.
    *
    * @example
@@ -177,6 +181,7 @@ export type Options = {
   /**
    * An optional custom error handler for HTTP requests.
    *
+   * @remarks
    * If not provided, errors will be thrown as is.
    *
    * This enables custom error handling, like retrying the request or refreshing tokens, depending on the error type and details of the request that failed.
