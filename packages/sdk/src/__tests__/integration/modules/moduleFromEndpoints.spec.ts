@@ -365,6 +365,7 @@ describe("moduleFromEndpoints", () => {
     };
     const sdk = initSDK(sdkConfig);
 
+    // This is a real call to the middleware, so we're verifying the response, to check if the request was successful.
     const res = await sdk.commerce.getCategory(1);
 
     expect(res).toEqual({ id: 1, name: "Test Category" });
