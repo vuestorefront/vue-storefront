@@ -4,7 +4,7 @@ import {
   BaseConfig,
   ComputedConfig,
   HTTPClient,
-  ErrorHandlerContext,
+  ErrorHandler,
 } from "../types";
 
 export const getHTTPClient = (options: Options) => {
@@ -75,7 +75,7 @@ export const getHTTPClient = (options: Options) => {
     return response.json();
   };
 
-  const defaultErrorHandler = async ({ error }: ErrorHandlerContext) => {
+  const defaultErrorHandler: ErrorHandler = async ({ error }) => {
     throw error;
   };
 
