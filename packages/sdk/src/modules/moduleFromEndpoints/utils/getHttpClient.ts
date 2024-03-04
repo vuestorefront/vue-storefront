@@ -98,6 +98,7 @@ export const getHTTPClient = (options: Options) => {
     } catch (error) {
       return await errorHandler({
         error,
+        methodName,
         url: finalUrl,
         params: computedParams,
         config: finalConfig,

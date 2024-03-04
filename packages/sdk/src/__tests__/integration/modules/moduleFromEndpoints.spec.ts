@@ -342,6 +342,7 @@ describe("moduleFromEndpoints", () => {
     const res = await sdk.commerce.getProduct({ id: 1 });
     expect(customErrorHandler).toHaveBeenCalledWith({
       error,
+      methodName: "getProduct",
       url: "http://localhost:8181/commerce/getProduct",
       params: [{ id: 1 }],
       config: {

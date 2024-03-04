@@ -90,6 +90,10 @@ export type ErrorHandlerContext = {
    */
   error: unknown;
   /**
+   * The name of the method that was called to make the HTTP request.
+   */
+  methodName: string;
+  /**
    * The URL of the HTTP request that resulted in an error.
    */
   url: string;
