@@ -3,6 +3,11 @@ import { getHTTPClient } from "./utils/getHttpClient";
 import { EndpointsConstraint, Options, Methods, IncomingConfig } from "./types";
 import { isConfig } from "./consts";
 
+/**
+ * SDK connector.
+ * It's used to create the methods for the SDK.
+ * Implements the Proxy pattern.
+ */
 export const connector = <Endpoints extends EndpointsConstraint>(
   options: Options
 ) => {
@@ -16,9 +21,10 @@ export const connector = <Endpoints extends EndpointsConstraint>(
 
       return async (...params: any[]) => {
         let config: IncomingConfig | undefined;
+        const lastParam = params.at(-1);
 
         // If last parameter contains the `isRequestConfig` symbol, it's a request config
-        if (params.at(-1)?.[isConfig]) {
+        if (typeof lastParam === "object" && lastParam?.[isConfig]) {
           // Remove the `isRequestConfig` symbol from the request config
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { [isConfig]: omit, ...rest } = params.pop();
