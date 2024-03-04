@@ -185,8 +185,8 @@ export type Options = {
    * ```typescript
    * const options: Options = {
    *   apiUrl: "https://api.example.com",
-   *   errorHandler: async ({ error, url, params, config, httpClient }) => {
-   *     if (error.status === 401) {
+   *   errorHandler: async ({ error, methodName, url, params, config, httpClient }) => {
+   *     if (error.status === 401 && methodName !== "login") {
    *       // Refresh token
    *       await refreshToken();
    *       // Retry the request
