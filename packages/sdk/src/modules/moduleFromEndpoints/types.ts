@@ -1,5 +1,5 @@
 import { AnyFunction } from "../../types";
-import { isRequestConfig } from "./consts";
+import { isConfig } from "./consts";
 
 /**
  * Defines a constraint for API endpoint functions.
@@ -18,60 +18,113 @@ export type EndpointsConstraint = {
 };
 
 /**
- * Common configuration for HTTP requests.
+ * Defines the basic configuration for an HTTP request.
+ * Specifies the HTTP method to be used.
  */
-export interface RequestConfig {
+export type BaseConfig = {
   /**
-   * Headers for the request.
-   */
-  headers?: Record<string, string>;
-  /**
-   * HTTP method for the request.
+   * The HTTP method for the request. Optional. Can be "GET" or "POST".
+   * @default "POST"
    */
   method?: "GET" | "POST";
-}
+};
 
 /**
- * Extends `RequestConfig` with parameters specific to HTTP requests.
+ * User-defined configuration for HTTP requests, extending `BaseConfig`.
+ * Allows custom headers, supporting both strings and arrays of strings for header values.
  */
-export interface HTTPClientConfig extends RequestConfig {
+export type IncomingConfig = BaseConfig & {
   /**
-   * Parameters for the request.
+   * Optional custom headers. Keys are header names, values can be a string or an array of strings.
    */
-  params?: any[];
-}
+  headers?: Record<string, string | string[]>;
+};
 
 /**
- * Configuration for SDK methods, distinguishing it from other parameter types.
+ * Computed configuration for HTTP requests, derived from `IncomingConfig`.
+ * Normalizes header values to strings for consistent request formatting.
  */
-export interface MethodConfig extends RequestConfig {
+export type ComputedConfig = BaseConfig & {
   /**
-   * It's used to differentiate the method config from the params.
+   * Normalized headers for the HTTP request, ensuring all values are strings.
    */
-  [isRequestConfig]: boolean;
-}
+  headers?: Record<string, string>;
+};
 
 /**
- * Abstracts the functionality of an HTTP client, promising any response type.
+ * Configuration specific to a method, merging `IncomingConfig` with an internal flag.
+ * Indicates that the configuration is ready for making a request.
+ */
+export type MethodConfig = IncomingConfig & {
+  /**
+   * Internal flag to mark the configuration as specific to a request.
+   */
+  [isConfig]: boolean;
+};
+
+/**
+ * HTTP Client abstraction.
  */
 export type HTTPClient = (
   /**
    * URL for the request.
+   * @remarks
+   * It's the full URL for the request, including the base URL, endpoint and query parameters.
    */
   url: string,
   /**
+   * Parameters for the POST request.
+   */
+  params: unknown[],
+  /**
    * Config for the request.
    */
-  config: HTTPClientConfig
+  config?: ComputedConfig
 ) => Promise<any>;
 
 /**
- * Abstracts error handling with a function that takes any error and returns a promise.
+ * Provides context for error handling, encapsulating details relevant to the failed HTTP request.
  */
-export type ErrorHandler = (error: any) => Promise<any>;
+export type ErrorHandlerContext = {
+  /**
+   * The error that was thrown during the HTTP request.
+   */
+  error: unknown;
+  /**
+   * The name of the method that was called to make the HTTP request.
+   */
+  methodName: string;
+  /**
+   * The URL of the HTTP request that resulted in an error.
+   */
+  url: string;
+  /**
+   * The parameters passed to the HTTP POST request.
+   * @remarks
+   * This is only relevant for POST requests, as GET requests do not have a body.
+   * Query parameters are part of the URL and are not included here.
+   */
+  params: unknown[];
+  /**
+   * The computed configuration used for the HTTP request, after processing user inputs.
+   */
+  config: ComputedConfig;
+  /**
+   * The HTTP client function that was used to make the request.
+   * @remarks
+   * This allows for possible retry logic or logging.
+   */
+  httpClient: HTTPClient;
+};
 
 /**
- * Configurations for initializing the `moduleFromEndpoints`, including URLs and optional customizations.
+ * Defines a generic error handler function type. This abstraction allows for custom error handling logic,
+ * which can be implemented by the consumer of the HTTP client.
+ */
+export type ErrorHandler = (context: ErrorHandlerContext) => Promise<any>;
+
+/**
+ * Options for the `moduleFromEndpoints`.
  */
 export type Options = {
   /**
@@ -81,9 +134,10 @@ export type Options = {
 
   /**
    * Base URL for the API in the server side rendering.
-   * It's optional and it will use the `apiUrl` if it's not provided.
    *
    * @remarks
+   * It's optional and it will use the `apiUrl` if it's not provided.
+   *
    * This may be useful during implementation of a multi-store feature based on domains.
    *
    * `apiUrl` could be set to `/api` and on the client side, the HTTP Client would use the current domain.
@@ -97,6 +151,7 @@ export type Options = {
   /**
    * Custom HTTP Client.
    *
+   * @remarks
    * It's optional and it will use the default HTTP Client if it's not provided.
    *
    * @example
@@ -106,22 +161,14 @@ export type Options = {
    *
    * const options: Options = {
    *   apiUrl: "https://api.example.com",
-   *   httpClient: (url, config) => {
-   *     if (config.method === "GET") {
-   *       const queryParams = new URLSearchParams(config.params);
-   *       const urlWithParams = new URL(url);
-   *       urlWithParams.search = queryParams.toString();
-   *       return axios({
-   *         ...config,
-   *         url: urlWithParams.toString(),
-   *       });
-   *     }
+   *   httpClient: async (url, params, config) => {
+   *    const { data } = await axios(url, {
+   *      ...config,
+   *      data: params,
+   *    });
    *
-   *     return axios({
-   *       ...config,
-   *       url,
-   *     });
-   *   },
+   *    return data;
+   *  },
    * };
    * ```
    */
@@ -130,19 +177,29 @@ export type Options = {
   /**
    * Default request config for each request.
    */
-  defaultRequestConfig?: RequestConfig;
+  defaultRequestConfig?: IncomingConfig;
 
   /**
-   * Custom error handler for the requests.
+   * An optional custom error handler for HTTP requests.
    *
-   * It's optional and it will use the default error handler if it's not provided.
+   * @remarks
+   * If not provided, errors will be thrown as is.
+   *
+   * This enables custom error handling, like retrying the request or refreshing tokens, depending on the error type and details of the request that failed.
    *
    * @example
-   * ```ts
+   * ```typescript
    * const options: Options = {
    *   apiUrl: "https://api.example.com",
-   *   errorHandler: (error) => {
-   *     return refreshAndRetry(error);
+   *   errorHandler: async ({ error, methodName, url, params, config, httpClient }) => {
+   *     if (error.status === 401 && methodName !== "login") {
+   *       // Refresh token
+   *       await refreshToken();
+   *       // Retry the request
+   *       return httpClient(url, params, config);
+   *     }
+   *
+   *     throw error;
    *   },
    * };
    * ```
@@ -151,8 +208,13 @@ export type Options = {
 };
 
 /**
- * Generates SDK method types based on a given Endpoints interface,
- * allowing optional method-specific configurations.
+ * Final type for the SDK methods.
+ *
+ * It requires the `Endpoints` interface to be provided.
+ *
+ * Based on this interface it will generate the methods with the correct parameters and return types.
+ *
+ * To each endpoint, it will add the `config` parameter with the `MethodConfig` type.
  */
 export type Methods<Endpoints extends EndpointsConstraint> = {
   [Key in keyof Endpoints]: (

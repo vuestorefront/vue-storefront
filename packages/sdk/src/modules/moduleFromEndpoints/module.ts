@@ -21,6 +21,7 @@ import { EndpointsConstraint, Options } from "./types";
  * ```
  *
  * It also exposes the `context` with the `httpClient` to allow to use the `httpClient` directly in extensions.
+ *
  * @example
  * Usage:
  * ```ts
