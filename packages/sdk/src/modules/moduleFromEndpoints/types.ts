@@ -67,10 +67,12 @@ export type MethodConfig = IncomingConfig & {
 export type HTTPClient = (
   /**
    * URL for the request.
+   * @remarks
+   * It's the full URL for the request, including the base URL, endpoint and query parameters.
    */
   url: string,
   /**
-   * Parameters for the request.
+   * Parameters for the POST request.
    */
   params: any[],
   /**
