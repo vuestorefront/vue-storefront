@@ -11,8 +11,8 @@ const onCreate = (settings) => {
 const { createApiClient } = apiClientFactory({
   onCreate,
   api: {
-    getProduct: async (_context, _params) => {
-      return { id: 1, name: "Test Product" };
+    getProduct: async (_context, params) => {
+      return { id: params.id, name: "Test Product" };
     },
     getProducts: async (_context, _params) => {
       return [{ id: 1, name: "Test Product" }];

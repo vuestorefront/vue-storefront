@@ -1,5 +1,5 @@
 import { AnyFunction } from "../../types";
-import { isRequestConfig } from "./consts";
+import { isConfig } from "./consts";
 
 /**
  * Constraint for the endpoints.
@@ -17,38 +17,49 @@ export type EndpointsConstraint = {
 };
 
 /**
- * Config for the request.
+ * Defines the basic configuration for an HTTP request.
+ * Specifies the HTTP method to be used.
  */
-export interface RequestConfig {
+export type BaseConfig = {
   /**
-   * Headers for the request.
-   */
-  headers?: Record<string, string>;
-  /**
-   * HTTP method for the request.
+   * The HTTP method for the request. Optional. Can be "GET" or "POST".
+   * @default "POST"
    */
   method?: "GET" | "POST";
-}
+};
 
 /**
- * Config for the HTTP client.
+ * User-defined configuration for HTTP requests, extending `BaseConfig`.
+ * Allows custom headers, supporting both strings and arrays of strings for header values.
  */
-export interface HTTPClientConfig extends RequestConfig {
+export type IncomingConfig = BaseConfig & {
   /**
-   * Parameters for the request.
+   * Optional custom headers. Keys are header names, values can be a string or an array of strings.
    */
-  params?: any[];
-}
+  headers?: Record<string, string | string[]>;
+};
 
 /**
- * Config for the SDK method.
+ * Computed configuration for HTTP requests, derived from `IncomingConfig`.
+ * Normalizes header values to strings for consistent request formatting.
  */
-export interface MethodConfig extends RequestConfig {
+export type ComputedConfig = BaseConfig & {
   /**
-   * It's used to differentiate the method config from the params.
+   * Normalized headers for the HTTP request, ensuring all values are strings.
    */
-  [isRequestConfig]: boolean;
-}
+  headers?: Record<string, string>;
+};
+
+/**
+ * Configuration specific to a method, merging `IncomingConfig` with an internal flag.
+ * Indicates that the configuration is ready for making a request.
+ */
+export type MethodConfig = IncomingConfig & {
+  /**
+   * Internal flag to mark the configuration as specific to a request.
+   */
+  [isConfig]: boolean;
+};
 
 /**
  * HTTP Client abstraction.
@@ -56,12 +67,18 @@ export interface MethodConfig extends RequestConfig {
 export type HTTPClient = (
   /**
    * URL for the request.
+   * @remarks
+   * It's the full URL for the request, including the base URL, endpoint and query parameters.
    */
   url: string,
   /**
+   * Parameters for the POST request.
+   */
+  params: any[],
+  /**
    * Config for the request.
    */
-  config: HTTPClientConfig
+  config?: ComputedConfig
 ) => Promise<any>;
 
 /**
@@ -105,22 +122,14 @@ export type Options = {
    *
    * const options: Options = {
    *   apiUrl: "https://api.example.com",
-   *   httpClient: (url, config) => {
-   *     if (config.method === "GET") {
-   *       const queryParams = new URLSearchParams(config.params);
-   *       const urlWithParams = new URL(url);
-   *       urlWithParams.search = queryParams.toString();
-   *       return axios({
-   *         ...config,
-   *         url: urlWithParams.toString(),
-   *       });
-   *     }
+   *   httpClient: async (url, params, config) => {
+   *    const { data } = await axios(url, {
+   *      ...config,
+   *      data: params,
+   *    });
    *
-   *     return axios({
-   *       ...config,
-   *       url,
-   *     });
-   *   },
+   *    return data;
+   *  },
    * };
    * ```
    */
@@ -129,7 +138,7 @@ export type Options = {
   /**
    * Default request config for each request.
    */
-  defaultRequestConfig?: RequestConfig;
+  defaultRequestConfig?: IncomingConfig;
 
   /**
    * Custom error handler for the requests.

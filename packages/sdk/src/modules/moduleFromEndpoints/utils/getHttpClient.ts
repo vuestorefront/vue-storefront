@@ -1,70 +1,99 @@
-import { Options, HTTPClientConfig } from "../types";
+import {
+  Options,
+  IncomingConfig,
+  BaseConfig,
+  ComputedConfig,
+  HTTPClient,
+} from "../types";
 
 export const getHTTPClient = (options: Options) => {
-  const getUrl = (path: string, config: HTTPClientConfig): string => {
-    const { apiUrl, ssrApiUrl } = options;
-    const { method = "POST", params = [] } = config;
+  const { apiUrl, ssrApiUrl, defaultRequestConfig = {} } = options;
 
+  const getUrl = (
+    path: string,
+    method: BaseConfig["method"],
+    params: any[]
+  ): string => {
     // Determine the base URL based on the environment
     const baseUrl =
       typeof window === "undefined" ? ssrApiUrl || apiUrl : apiUrl;
 
-    // Ensure the base URL ends with a slash
-    const normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+    // Ensure the base URL ends with a slash.
+    // TODO: Update eslint rule to warn on prefer-template instead of error.
+    // eslint-disable-next-line prefer-template
+    const normalizedBaseUrl = baseUrl.replace(/\/+$/, "") + "/";
     const url = `${normalizedBaseUrl}${path}`;
-    const queryParams = method === "GET" ? params : undefined;
 
     // If there are no query params, return the URL as is
-    if (!queryParams) {
+    if (method !== "GET") {
       return url;
     }
 
     // If there are query params, append them to the URL as `?body=[<strignified query params>]`
-    const queryParamsString = JSON.stringify(queryParams);
-    const urlWithParams = new URL(url);
-    urlWithParams.searchParams.append("body", queryParamsString);
+    const serializedParams = encodeURIComponent(JSON.stringify(params));
 
-    return urlWithParams.toString();
+    return `${url}?body=${serializedParams}`;
   };
 
-  const getConfig = (config: HTTPClientConfig): HTTPClientConfig => {
-    const { defaultRequestConfig = {} } = options;
-    const { method = "POST", headers = {}, params = [] } = config;
+  const getConfig = (config: IncomingConfig): ComputedConfig => {
+    const { method, headers } = config;
     const defaultHeaders = {
       "Content-Type": "application/json",
       Accept: "application/json",
       ...defaultRequestConfig.headers,
     };
+    const mergedHeaders = {
+      ...defaultHeaders,
+      ...headers,
+    };
+
+    const computedHeaders: ComputedConfig["headers"] = {};
+    Object.entries(mergedHeaders).forEach(([key, value]) => {
+      computedHeaders[key] = Array.isArray(value) ? value.join(",") : value;
+    });
 
     return {
       ...config,
-      params: method === "GET" ? [] : params,
       method,
       headers: {
-        ...defaultHeaders,
-        ...headers,
+        ...computedHeaders,
       },
     };
   };
 
-  const defaultHTTPClient = async (url: string, config: HTTPClientConfig) => {
-    const response = await fetch(url, config);
+  const defaultHTTPClient: HTTPClient = async (
+    url: string,
+    params: any[],
+    config?: ComputedConfig
+  ) => {
+    const response = await fetch(url, {
+      ...config,
+      body: JSON.stringify(params),
+    });
+
     return response.json();
   };
 
-  return async (methodName: string, config: HTTPClientConfig) => {
-    const httpClient = options.httpClient || defaultHTTPClient;
+  const defaultErrorHandler = async (error: any) => {
+    throw error;
+  };
+
+  return async (methodName: string, params: any[], config?: IncomingConfig) => {
+    const {
+      httpClient = defaultHTTPClient,
+      errorHandler = defaultErrorHandler,
+    } = options;
+    const { method = "POST", headers = {}, ...restConfig } = config ?? {};
+    const computedParams = method === "GET" ? [] : params;
 
     try {
-      return await httpClient(getUrl(methodName, config), getConfig(config));
+      return await httpClient(
+        getUrl(methodName, method, params),
+        computedParams,
+        getConfig({ method, headers, ...restConfig })
+      );
     } catch (error) {
-      const { errorHandler } = options;
-
-      if (errorHandler) {
-        return await errorHandler(error);
-      }
-
-      throw error;
+      return await errorHandler(error);
     }
   };
 };
