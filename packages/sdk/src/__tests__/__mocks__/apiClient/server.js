@@ -17,6 +17,9 @@ const { createApiClient } = apiClientFactory({
     getProducts: async (_context, _params) => {
       return [{ id: 1, name: "Test Product" }];
     },
+    getCategory: async (_context, id) => {
+      return { id, name: "Test Category" };
+    },
   },
 });
 

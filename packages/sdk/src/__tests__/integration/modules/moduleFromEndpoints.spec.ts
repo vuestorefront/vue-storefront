@@ -356,4 +356,18 @@ describe("moduleFromEndpoints", () => {
     });
     expect(res).toEqual({ id: 1, name: "Error handler did a good job" });
   });
+
+  it("should allow to use non-object params", async () => {
+    const sdkConfig = {
+      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+      }),
+    };
+    const sdk = initSDK(sdkConfig);
+
+    // This is a real call to the middleware, so we're verifying the response, to check if the request was successful.
+    const res = await sdk.commerce.getCategory(1);
+
+    expect(res).toEqual({ id: 1, name: "Test Category" });
+  });
 });

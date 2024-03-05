@@ -2,7 +2,8 @@ import { AnyFunction } from "../../types";
 import { isConfig } from "./consts";
 
 /**
- * Constraint for the endpoints.
+ * Defines a constraint for API endpoint functions.
+ * Each endpoint function should return a Promise.
  *
  * @example
  * ```ts
@@ -210,6 +211,7 @@ export type Options = {
  * Final type for the SDK methods.
  *
  * It requires the `Endpoints` interface to be provided.
+ *
  * Based on this interface it will generate the methods with the correct parameters and return types.
  *
  * To each endpoint, it will add the `config` parameter with the `MethodConfig` type.

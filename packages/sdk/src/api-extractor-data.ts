@@ -11,4 +11,5 @@ import { handleError } from "./error";
 const initVSFSDK = initSDK;
 
 export { initVSFSDK, initSDK, handleError, buildModule, eventManager };
+export * from "./modules/moduleFromEndpoints";
 export * from "./types";
