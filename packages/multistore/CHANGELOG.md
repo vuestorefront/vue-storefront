@@ -4,8 +4,17 @@
 
 ### Patch Changes
 
-- Updated dependencies [712ba85a6]
+- Updated dependencies:
   - @vue-storefront/middleware@3.9.0
+
+```diff [package.json]
+dependencies: {
+-  "@vue-storefront/middleware": "3.x.x",
+-  "@vue-storefront/multistore": "2.x.x",
++  "@vue-storefront/middleware": "^3.9.0",
++  "@vue-storefront/multistore": "^3.0.0",
+}
+```
 
 ## 2.0.1
 
