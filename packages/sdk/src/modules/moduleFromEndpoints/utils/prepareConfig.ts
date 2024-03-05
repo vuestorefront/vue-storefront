@@ -1,5 +1,5 @@
-import { isRequestConfig } from "../consts";
-import { MethodConfig, RequestConfig } from "../types";
+import { isConfig } from "../consts";
+import { RequestConfig, MethodConfig } from "../types";
 
 /**
  * Prepare the config for the request.
@@ -20,6 +20,6 @@ export const prepareConfig = <
 ): MethodConfig => {
   return {
     ...requestConfig,
-    [isRequestConfig]: true,
+    [isConfig]: true,
   };
 };

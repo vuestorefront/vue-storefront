@@ -1,2 +1,2 @@
-export { getHTTPClient } from "./getHttpClient";
+export { getRequestSender } from "./getHttpClient";
 export { prepareConfig } from "./prepareConfig";
