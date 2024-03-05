@@ -1,0 +1,13 @@
+{
+  "version": "v1",
+  "packages": {
+    "alokai-cli-ui": {
+      "signature": "c5c02f87a3748494a41aa791949f8688",
+      "file": true
+    },
+    "@alokai/cli-ui": {
+      "signature": "07709874e509f1c0a4f8b9e66c2907a8",
+      "file": true
+    }
+  }
+}
