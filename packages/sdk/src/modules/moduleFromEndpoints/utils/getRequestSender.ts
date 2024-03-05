@@ -78,6 +78,7 @@ export const getRequestSender = (options: Options): RequestSender => {
     const response = await fetch(url, {
       ...config,
       body: JSON.stringify(params),
+      credentials: "include",
     });
 
     return response.json();
