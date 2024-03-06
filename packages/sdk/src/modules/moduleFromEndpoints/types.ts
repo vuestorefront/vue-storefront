@@ -76,7 +76,7 @@ export type MethodConfig = RequestConfig & {
  */
 export type RequestSender = (
   /**
-   * Name of the method that was called to make the HTTP request.
+   * Name of the SDK method that was called to make the HTTP request.
    */
   methodName: string,
 
