@@ -2001,10 +2001,10 @@
     express "^4.18.1"
     helmet "^5.1.1"
 
-"@vue-storefront/sdk@1.4.0-rc.2":
-  version "1.4.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/sdk/-/sdk-1.4.0-rc.2.tgz#5cce32beff37adb357788e78f055e71ec1c3c798"
-  integrity sha512-rDkAebTFdwS0CCiy++NiekqxfnQtbsQlzLJr3j2fEctNS6/Xal50/uD6DkgO683Gnea2bBn//5DcIWyr3m5MnQ==
+"@vue-storefront/sdk@1.4.0-rc.3":
+  version "1.4.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/sdk/-/sdk-1.4.0-rc.3.tgz#e23d5c3dc784689aa30224dcb46029d1e2e6f5c6"
+  integrity sha512-yscLOylMmF7uzy4Iy6NhXuEpcLJuu1I/9Zosn0fFq48fs+kFl5jWO6U9VwsuPdfCt/4x90ka2HIFcpLmXpdWgQ==
 
 "@vue/babel-helper-vue-transform-on@^1.1.5":
   version "1.1.5"

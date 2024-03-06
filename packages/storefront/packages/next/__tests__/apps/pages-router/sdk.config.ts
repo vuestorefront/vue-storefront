@@ -10,15 +10,11 @@ const options: CreateSdkOptions = {
 export const { getSdk } = createSdk(
   options,
   ({ buildModule, moduleFromEndpoints, middlewareUrl, getRequestHeaders }) => ({
-    example: buildModule(
-      moduleFromEndpoints<Endpoints>,
-      {
-        apiUrl: `${middlewareUrl}/test_integration`,
-        defaultRequestConfig: {
-          // TODO: Headers should accept Record<string, string | string[]>, it needs to be fixed as separate task.
-          headers: getRequestHeaders() as Record<string, string>,
-        },
+    example: buildModule(moduleFromEndpoints<Endpoints>, {
+      apiUrl: `${middlewareUrl}/test_integration`,
+      defaultRequestConfig: {
+        headers: getRequestHeaders(),
       },
-    ),
+    }),
   })
 );

@@ -13,8 +13,7 @@ export const { getSdk } = createSdk(
     example: buildModule(moduleFromEndpoints<Endpoints>, {
       apiUrl: `${middlewareUrl}/test_integration`,
       defaultRequestConfig: {
-        // TODO: Headers should accept Record<string, string | string[]>, it needs to be fixed as separate task.
-        headers: getRequestHeaders() as Record<string, string>,
+        headers: getRequestHeaders(),
       },
     }),
   })
