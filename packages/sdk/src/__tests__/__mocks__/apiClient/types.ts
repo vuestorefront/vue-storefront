@@ -9,4 +9,8 @@ export type Endpoints = {
   getProducts: (params: {
     limit: number;
   }) => Promise<{ id: number; name: string }[]>;
+  /**
+   * Get the category by id.
+   */
+  getCategory: (id: number) => Promise<{ id: number; name: string }>;
 };

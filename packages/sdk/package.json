@@ -28,7 +28,8 @@
     "ts-jest": "^29.0.2",
     "ts-node-dev": "^2.0.0",
     "@vue-storefront/middleware": "*",
-    "isomorphic-fetch": "^3.0.0"
+    "isomorphic-fetch": "^3.0.0",
+    "axios": "^1.6.7"
   },
   "engines": {
     "npm": ">=7.0.0",
