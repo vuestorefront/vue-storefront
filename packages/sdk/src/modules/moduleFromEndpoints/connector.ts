@@ -1,6 +1,10 @@
 import { Connector } from "../../types";
-import { getHTTPClient } from "./utils/getHttpClient";
-import { EndpointsConstraint, Options, Methods, IncomingConfig } from "./types";
+import {
+  EndpointsConstraint,
+  Methods,
+  RequestConfig,
+  RequestSender,
+} from "./types";
 import { isConfig } from "./consts";
 
 /**
@@ -9,9 +13,8 @@ import { isConfig } from "./consts";
  * Implements the Proxy pattern.
  */
 export const connector = <Endpoints extends EndpointsConstraint>(
-  options: Options
+  requestSender: RequestSender
 ) => {
-  const httpClient = getHTTPClient(options);
   const target = {} as Methods<Endpoints>;
   return new Proxy<Methods<Endpoints>>(target, {
     get: (_, methodName) => {
@@ -20,7 +23,7 @@ export const connector = <Endpoints extends EndpointsConstraint>(
       }
 
       return async (...params: any[]) => {
-        let config: IncomingConfig | undefined;
+        let config: RequestConfig | undefined;
         const lastParam = params.at(-1);
 
         // If last parameter contains the `isRequestConfig` symbol, it's a request config
@@ -31,7 +34,7 @@ export const connector = <Endpoints extends EndpointsConstraint>(
           config = rest;
         }
 
-        return httpClient(methodName, params, config);
+        return requestSender(methodName, params, config);
       };
     },
   }) satisfies Connector;

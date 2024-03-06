@@ -2,14 +2,15 @@ import { AnyFunction } from "../../types";
 import { isConfig } from "./consts";
 
 /**
- * Defines a constraint for API endpoint functions.
- * Each endpoint function should return a Promise.
+ * Represents the constraint for API endpoint functions within the SDK.
+ * Each endpoint function must return a Promise, allowing for asynchronous operations.
  *
  * @example
- * ```ts
+ * ```typescript
+ * // Definition of an API endpoint structure
  * type Endpoints = {
- *   getUser: (id: string) => Promise<User>;
- *   createUser: (data: CreateUser) => Promise<User>;
+ *   getUser: ({ id: string }) => Promise<User>;
+ *   createUser: (userDetails: CreateUserDetails) => Promise<User>;
  * };
  * ```
  */
@@ -18,8 +19,11 @@ export type EndpointsConstraint = {
 };
 
 /**
- * Defines the basic configuration for an HTTP request.
- * Specifies the HTTP method to be used.
+ * Base configuration object for HTTP requests. It includes essential configurations like the HTTP method.
+ *
+ * @remarks
+ * This type serves as a base for more detailed configuration objects by specifying
+ * the method of the HTTP request.
  */
 export type BaseConfig = {
   /**
@@ -33,7 +37,7 @@ export type BaseConfig = {
  * User-defined configuration for HTTP requests, extending `BaseConfig`.
  * Allows custom headers, supporting both strings and arrays of strings for header values.
  */
-export type IncomingConfig = BaseConfig & {
+export type RequestConfig = BaseConfig & {
   /**
    * Optional custom headers. Keys are header names, values can be a string or an array of strings.
    */
@@ -41,7 +45,7 @@ export type IncomingConfig = BaseConfig & {
 };
 
 /**
- * Computed configuration for HTTP requests, derived from `IncomingConfig`.
+ * Computed configuration for HTTP requests, derived from `RequestConfig`.
  * Normalizes header values to strings for consistent request formatting.
  */
 export type ComputedConfig = BaseConfig & {
@@ -52,10 +56,10 @@ export type ComputedConfig = BaseConfig & {
 };
 
 /**
- * Configuration specific to a method, merging `IncomingConfig` with an internal flag.
+ * Configuration specific to a method, merging `RequestConfig` with an internal flag.
  * Indicates that the configuration is ready for making a request.
  */
-export type MethodConfig = IncomingConfig & {
+export type MethodConfig = RequestConfig & {
   /**
    * Internal flag to mark the configuration as specific to a request.
    */
@@ -63,21 +67,49 @@ export type MethodConfig = IncomingConfig & {
 };
 
 /**
- * HTTP Client abstraction.
+ * Represents a function type for sending HTTP requests, abstracting the complexity of request configuration.
+ *
+ * @remarks
+ * This type is created via a factory function that configures it with common settings, such as base URLs and default headers.
+ *
+ * It simplifies making HTTP requests by handling URL construction, parameter serialization, and applying default and overridden configurations.
+ */
+export type RequestSender = (
+  /**
+   * Name of the SDK method that was called to make the HTTP request.
+   */
+  methodName: string,
+
+  /**
+   * The parameters of the method that was called to make the HTTP request.
+   */
+  params: unknown[],
+
+  /**
+   * User-defined configuration for the HTTP request.
+   */
+  config?: RequestConfig
+) => Promise<any>;
+
+/**
+ * A customizable HTTP client function for making HTTP requests.
+ *
+ * @remarks This type represents a flexible interface for HTTP clients within the SDK, allowing for
+ * customization and substitution of different HTTP request mechanisms (e.g., Fetch API, Axios).
  */
 export type HTTPClient = (
   /**
-   * URL for the request.
-   * @remarks
-   * It's the full URL for the request, including the base URL, endpoint and query parameters.
+   * The URL for the HTTP request.
    */
   url: string,
+
   /**
-   * Parameters for the POST request.
+   * The parameters for the POST HTTP request.
    */
   params: unknown[],
+
   /**
-   * Config for the request.
+   * The computed configuration for the HTTP request, after processing url, query params and headers.
    */
   config?: ComputedConfig
 ) => Promise<any>;
@@ -177,7 +209,7 @@ export type Options = {
   /**
    * Default request config for each request.
    */
-  defaultRequestConfig?: IncomingConfig;
+  defaultRequestConfig?: RequestConfig;
 
   /**
    * An optional custom error handler for HTTP requests.

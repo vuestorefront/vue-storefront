@@ -1,13 +1,21 @@
 import {
   Options,
-  IncomingConfig,
+  RequestConfig,
   BaseConfig,
   ComputedConfig,
   HTTPClient,
   ErrorHandler,
+  RequestSender,
 } from "../types";
 
-export const getHTTPClient = (options: Options) => {
+/**
+ * Generates a `RequestSender` function configured according to the provided options.
+ *
+ * @remarks
+ * This function abstracts away the details of constructing request URLs, merging configurations,
+ * handling errors, and executing HTTP requests.
+ */
+export const getRequestSender = (options: Options): RequestSender => {
   const { apiUrl, ssrApiUrl, defaultRequestConfig = {} } = options;
 
   const getUrl = (
@@ -36,7 +44,7 @@ export const getHTTPClient = (options: Options) => {
     return `${url}?body=${serializedParams}`;
   };
 
-  const getConfig = (config: IncomingConfig): ComputedConfig => {
+  const getConfig = (config: RequestConfig): ComputedConfig => {
     const { method, headers } = config;
     const defaultHeaders = {
       "Content-Type": "application/json",
@@ -70,6 +78,7 @@ export const getHTTPClient = (options: Options) => {
     const response = await fetch(url, {
       ...config,
       body: JSON.stringify(params),
+      credentials: "include",
     });
 
     return response.json();
@@ -79,11 +88,7 @@ export const getHTTPClient = (options: Options) => {
     throw error;
   };
 
-  return async (
-    methodName: string,
-    params: unknown[],
-    config?: IncomingConfig
-  ) => {
+  return async (methodName, params, config?) => {
     const {
       httpClient = defaultHTTPClient,
       errorHandler = defaultErrorHandler,

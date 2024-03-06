@@ -1,9 +1,10 @@
 import { Module } from "../../types";
 import { connector } from "./connector";
 import { EndpointsConstraint, Options } from "./types";
+import { getRequestSender } from "./utils";
 
 /**
- * `moduleFromEndpoints` module is allowing to communicate with the Server Middleware API.
+ * `moduleFromEndpoints` is allowing to communicate with the Server Middleware API.
  *
  * It generates the methods to communicate with the API based on the provided endpoints interface.
  *
@@ -20,7 +21,7 @@ import { EndpointsConstraint, Options } from "./types";
  * }));
  * ```
  *
- * It also exposes the `context` with the `httpClient` to allow to use the `httpClient` directly in extensions.
+ * It also exposes the `context` with the `requestSender` to allow to use it directly in extensions.
  *
  * @example
  * Usage:
@@ -31,7 +32,7 @@ import { EndpointsConstraint, Options } from "./types";
  * const extension = (extensionOptions, { methods, context }) => ({
  *   extend: {
  *     async newMethod(params) {
- *       const response = await context.httpClient("http://localhost:4000/sapcc/extended-endpoint", { params });
+ *       const response = await context.requestSender("http://localhost:4000/sapcc/extended-endpoint", { params });
  *       const responseJson = await response.json();
  *       const products = await methods.getProducts(params);
  *       return { ...responseJson, ...products };
@@ -48,7 +49,13 @@ import { EndpointsConstraint, Options } from "./types";
  */
 export const moduleFromEndpoints = <Endpoints extends EndpointsConstraint>(
   options: Options
-) =>
-  ({
-    connector: connector<Endpoints>(options),
-  } satisfies Module);
+) => {
+  const requestSender = getRequestSender(options);
+
+  return {
+    connector: connector<Endpoints>(requestSender),
+    context: {
+      requestSender,
+    },
+  } satisfies Module;
+};

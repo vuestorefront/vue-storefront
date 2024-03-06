@@ -370,4 +370,124 @@ describe("moduleFromEndpoints", () => {
 
     expect(res).toEqual({ id: 1, name: "Test Category" });
   });
+
+  it("should allow to add new methods with a standard extension", async () => {
+    const sdk = initSDK({
+      commerce: buildModule(
+        moduleFromEndpoints<Endpoints>,
+        {
+          apiUrl: "http://localhost:8181/commerce",
+        },
+        {
+          extend: {
+            customMethod: async (params: { id: number }) => {
+              return { id: params.id, name: "Custom method" };
+            },
+          },
+        }
+      ),
+    });
+
+    const res = await sdk.commerce.customMethod({ id: 1 });
+
+    expect(res).toEqual({ id: 1, name: "Custom method" });
+  });
+
+  it("should allow to reuse the request sender in extensions", async () => {
+    const customHttpClient = jest
+      .fn()
+      .mockResolvedValue({ id: 1, name: "Custom method" });
+    const sdk = initSDK({
+      commerce: buildModule(
+        moduleFromEndpoints<Endpoints>,
+        {
+          apiUrl: "http://localhost:8181/commerce",
+          httpClient: customHttpClient,
+        },
+        (_, { context }) => ({
+          extend: {
+            customMethod: async (params: { id: number }) => {
+              return context.requestSender("customMethod", [params]);
+            },
+          },
+        })
+      ),
+    });
+
+    await sdk.commerce.customMethod({ id: 1 });
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      "http://localhost:8181/commerce/customMethod",
+      [{ id: 1 }],
+      expect.objectContaining({
+        method: "POST",
+      })
+    );
+  });
+
+  it("should allow to use custom error handler in extensions", async () => {
+    const error = new Error("Test error");
+    const customErrorHandler = jest
+      .fn()
+      .mockResolvedValue({ id: 1, name: "Error handler did a good job" });
+    const customHttpClient = jest.fn().mockRejectedValue(error);
+    const sdk = initSDK({
+      commerce: buildModule(
+        moduleFromEndpoints<Endpoints>,
+        {
+          apiUrl: "http://localhost:8181/commerce",
+          httpClient: customHttpClient,
+          errorHandler: customErrorHandler,
+        },
+        (_, { context }) => ({
+          extend: {
+            /**
+             * Custom method.
+             * TSDoc to test if it's visible.
+             */
+            customMethod: async (params: { id: number }) => {
+              return context.requestSender("customMethod", [params]);
+            },
+          },
+        })
+      ),
+    });
+
+    const res = await sdk.commerce.customMethod({ id: 1 });
+    expect(customErrorHandler).toHaveBeenCalledWith({
+      error,
+      methodName: "customMethod",
+      params: [{ id: 1 }],
+      url: "http://localhost:8181/commerce/customMethod",
+      config: expect.any(Object),
+      httpClient: customHttpClient,
+    });
+    expect(res).toEqual({ id: 1, name: "Error handler did a good job" });
+  });
+
+  it("should allow to override SDK methods in extensions", async () => {
+    const sdk = initSDK({
+      commerce: buildModule(
+        moduleFromEndpoints<Endpoints>,
+        {
+          apiUrl: "http://localhost:8181/commerce",
+        },
+        {
+          override: {
+            /**
+             * Get the product by id.
+             * TSDoc to test if it's also overridden.
+             */
+            getProduct: async (params: { id: number }) => {
+              return { id: params.id, name: "Custom method" };
+            },
+          },
+        }
+      ),
+    });
+
+    const res = await sdk.commerce.getProduct({ id: 1 });
+
+    expect(res).toEqual({ id: 1, name: "Custom method" });
+  });
 });
