@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { handleError } from "../error";
 import type { EventManagerInterface } from "../events/EventManager";
 import type { InterceptorType, MappedInterceptors, SDKConfig } from "../types";
@@ -297,8 +296,11 @@ export class InterceptorsManager<Config extends SDKConfig> {
           result
         );
 
+        // @ts-expect-error ToDo: Wojtek, please check this
         this.eventManager.emit(`*_after`, result);
+        // @ts-expect-error ToDo: Wojtek, please check this
         this.eventManager.emit(`${moduleName}_after`, result);
+        // @ts-expect-error ToDo: Wojtek, please check this
         this.eventManager.emit(`${moduleName}_${fnName}_after`, result);
 
         return result;

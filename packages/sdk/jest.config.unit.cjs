@@ -1,6 +1,6 @@
-import { baseConfig } from "@vue-storefront/jest-config";
+const { baseConfig } = require("@vue-storefront/jest-config");
 
-export default {
+module.exports = {
   ...baseConfig,
   coveragePathIgnorePatterns: ["<rootDir>/src/api-extractor-data.ts"],
 };
