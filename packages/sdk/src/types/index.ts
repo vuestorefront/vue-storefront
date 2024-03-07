@@ -263,16 +263,6 @@ export type ModuleInitializer<
 > = (options?: Options) => InitializedModule;
 
 /**
- * ModuleInitializer Type represents a function accepting module options
- * as an argument and returning the actual module.
- * It requires options to be passed to the module.
- */
-export type ModuleInitializerWithOptions<
-  InitializedModule extends Module,
-  Options extends ModuleOptions
-> = (options: Options) => InitializedModule;
-
-/**
  * ExtensionInitializer Type represents a function accepting extension options
  * as an argument and returning the actual extension.
  */

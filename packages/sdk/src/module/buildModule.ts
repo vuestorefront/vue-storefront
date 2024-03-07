@@ -5,8 +5,12 @@ import {
   ModuleInitializer,
   ExtensionInitializer,
   ModuleOptions,
-  ModuleInitializerWithOptions,
 } from "../types";
+
+type ModuleInitializerWithOptions<
+  InitializedModule extends Module,
+  Options extends ModuleOptions
+> = (options: Options) => InitializedModule;
 
 /* eslint-disable no-redeclare */
 function buildModule<
