@@ -6,7 +6,7 @@ type InjectedContext = {
   buildModule: typeof buildModule;
   moduleFromEndpoints: typeof moduleFromEndpoints;
   middlewareUrl: string;
-  getCookieHeader: () => Record<string, string>;
+  getRequestHeaders: () => Record<string, string>;
 };
 
 type Config<TConfig> = (context: InjectedContext) => TConfig;
@@ -55,13 +55,13 @@ export function defineSdkConfig<TConfig>(config: Config<TConfig>) {
       headers: requestHeaders,
     });
 
-    const getCookieHeader = () => useRequestHeaders(["cookie"]);
+    const getRequestHeaders = () => useRequestHeaders();
 
     return config({
       buildModule,
       moduleFromEndpoints,
       middlewareUrl,
-      getCookieHeader
+      getRequestHeaders
     });
   }
 }
