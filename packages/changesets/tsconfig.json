@@ -1,6 +1,7 @@
 {
   "extends": "@vue-storefront/integrations-tsconfig/tsconfig",
   "compilerOptions": {
+    "strict": true,
     "baseUrl": ".",
     "outDir": "./lib",
     "declarationDir": "./lib",
