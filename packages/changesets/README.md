@@ -48,7 +48,7 @@ In the changeset's release PR makes sure, that the migration guide is provided i
 ## Conventions
 
 - [ADDED] { what was added, with link to the docs }, { what new capabilities it introduced }{ example usage }
-- [CHANGED] { what has changed }, { why it has changed}{ before / after code }
+- [CHANGED] { what has changed }, { why it has changed }{ before / after code }
 - [FIXED] { what was fixed }, { what was the previous behaviour}. { what is the new behaviour }
 - [REMOVED] { what was removed }, { why }. { additional context for ones using this feature eg. it is now handled in a different way in a different place }
 

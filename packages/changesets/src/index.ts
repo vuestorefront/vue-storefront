@@ -1,1 +1,3 @@
-export { changelogFunctionsa as default } from "./changelog";
+import { changelogFunctions } from "./changelog";
+
+export default changelogFunctions;
