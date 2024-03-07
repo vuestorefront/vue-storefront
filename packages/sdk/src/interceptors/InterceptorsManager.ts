@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { handleError } from "../error";
 import type { EventManagerInterface } from "../events/EventManager";
 import type { InterceptorType, MappedInterceptors, SDKConfig } from "../types";

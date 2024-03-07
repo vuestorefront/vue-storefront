@@ -4371,6 +4371,14 @@ chalk@^2.0.0, chalk@^2.1.0, chalk@^2.4.1, chalk@^2.4.2:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
+chalk@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/chalk/-/chalk-3.0.0.tgz#3f73c2bf526591f574cc492c51e2456349f844e4"
+  integrity sha512-4D3B6Wf41KOYRFdszmDqMCGq5VV/uMAB273JILmO+3jAlh8X4qDtdtgCR3fxtbLEMzSx22QdhnDcJvu2u1fVwg==
+  dependencies:
+    ansi-styles "^4.1.0"
+    supports-color "^7.1.0"
+
 chalk@^4, chalk@^4.0.0, chalk@^4.0.2, chalk@^4.1.0, chalk@^4.1.1, chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
@@ -13367,6 +13375,16 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
+
+typescript-strict-plugin@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.npmjs.org/typescript-strict-plugin/-/typescript-strict-plugin-2.3.2.tgz#a383c483c867b8673cdf27bc21599192f454843e"
+  integrity sha512-dzD8uLjBrBpm10nrjgi5H1ZuBTr21U+gvuZ9EKHN3tHTW8N/wTCpkEiqMlfVUTtonBB+KUchxoJE3huweWYUqg==
+  dependencies:
+    chalk "^3.0.0"
+    execa "^4.0.0"
+    ora "^5.4.1"
+    yargs "^16.2.0"
 
 "typescript@^3 || ^4", typescript@^4.6.4:
   version "4.9.5"
