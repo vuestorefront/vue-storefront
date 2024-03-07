@@ -1,5 +1,9 @@
 # Change log
 
+## 3.0.3
+
+- **[CHANGED]** `@nuxt/kit` locked `3.7.4` version to `@nuxt/kit@^3.7.4`
+
 ## 3.0.2
 
 - **[FIXED]** Multi-store URL calculation, now working correctly in the browser.
