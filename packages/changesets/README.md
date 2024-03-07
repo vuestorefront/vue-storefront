@@ -14,7 +14,7 @@ yarn add -D @vue-storefront/changesets
 
 Add the following to your `changeset/config.json` file:
 
-```json[.changeset/config.json]
+```json
 {
   "changelog": "@vue-storefront/changesets",
 }
