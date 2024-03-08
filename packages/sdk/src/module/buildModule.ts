@@ -7,6 +7,11 @@ import {
   ModuleOptions,
 } from "../types";
 
+type ModuleInitializerWithOptions<
+  InitializedModule extends Module,
+  Options extends ModuleOptions
+> = (options: Options) => InitializedModule;
+
 /* eslint-disable no-redeclare */
 function buildModule<
   InitializedModule extends Module,
@@ -48,7 +53,7 @@ function buildModule<
   InitializedExtension extends Extension<InitializedModule>,
   ExtensionOptions extends ModuleOptions
 >(
-  module: ModuleInitializer<InitializedModule, Options>,
+  module: ModuleInitializerWithOptions<InitializedModule, Options>,
   moduleOptions: Options,
   extension?:
     | ExtensionInitializer<
@@ -71,7 +76,7 @@ function buildModule<
   InitializedExtension extends Extension<InitializedModule>,
   ExtensionOptions extends ModuleOptions
 >(
-  module: ModuleInitializer<InitializedModule, Options>,
+  module: ModuleInitializerWithOptions<InitializedModule, Options>,
   moduleOptions: Options,
   extension?:
     | ExtensionInitializer<

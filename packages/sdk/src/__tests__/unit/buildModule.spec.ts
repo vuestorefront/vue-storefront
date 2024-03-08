@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { extension1Mock } from "../__mocks__/extension1.mock";
 import module1Mock from "../__mocks__/module1.mock";
 import { buildModule } from "../../module/buildModule";
@@ -51,5 +52,36 @@ describe("[buildModule]", () => {
     };
     expect(module1Mock).toHaveBeenCalledWith({ test: true });
     expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
+  });
+
+  it("should correctly infer types in typescript's strict mode", () => {
+    const moduleWithNoOptions = () => ({ connector: {} });
+    const moduleWithOptionalOptions = (_opts?: { test: boolean }) => ({
+      connector: {},
+    });
+    const moduleWithMandatoryOptions = (_opts: { test: boolean }) => ({
+      connector: {},
+    });
+
+    buildModule(moduleWithNoOptions);
+    buildModule(moduleWithNoOptions, {}, extension1Mock);
+    buildModule(moduleWithNoOptions, {}, () => extension1Mock, {
+      test: true,
+    });
+    buildModule(moduleWithOptionalOptions);
+    // @ts-expect-error - should correctly infer type of options
+    buildModule(moduleWithOptionalOptions, { test: "should be boolean" });
+    // @ts-expect-error - should require options as a second argument
+    buildModule(moduleWithMandatoryOptions);
+    buildModule(moduleWithMandatoryOptions, { test: true });
+    buildModule(moduleWithMandatoryOptions, { test: true }, extension1Mock);
+    buildModule(
+      moduleWithMandatoryOptions,
+      { test: true },
+      () => extension1Mock,
+      {
+        test: true,
+      }
+    );
   });
 });
