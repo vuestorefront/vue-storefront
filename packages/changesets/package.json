@@ -9,7 +9,8 @@
     "lib"
   ],
   "scripts": {
-    "build": "rimraf lib && rollup -c",
+    "build": "rimraf lib && rollup -c && yarn update-root-changelog",
+    "update-root-changelog": "cp ./lib/index.cjs.js ../../.changeset/changelog.js",
     "test": "jest"
   },
   "devDependencies": {
