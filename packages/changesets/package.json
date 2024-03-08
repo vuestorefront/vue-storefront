@@ -1,0 +1,21 @@
+{
+  "name": "@vue-storefront/changesets",
+  "license": "MIT",
+  "version": "1.0.0",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rimraf lib && rollup -c",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@changesets/types": "6.0.0",
+    "@types/jest": "^29.0.3",
+    "@types/node": "^18.11.17",
+    "ts-jest": "^29.0.2"
+  }
+}
