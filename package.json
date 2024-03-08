@@ -18,6 +18,7 @@
     "@types/jest": "^26.0.24",
     "@types/node": "^16",
     "@vue-storefront/api-extractor-config": "^0.0.4",
+    "@vue-storefront/changesets": "*",
     "@vue-storefront/eslint-config-integrations": "^0.0.19",
     "@vue-storefront/integrations-tsconfig": "^0.0.4",
     "@vue-storefront/jest-config": "^0.0.3",
