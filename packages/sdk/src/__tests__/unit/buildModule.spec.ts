@@ -65,7 +65,7 @@ describe("[buildModule]", () => {
 
     buildModule(moduleWithNoOptions);
     buildModule(moduleWithNoOptions, {}, extension1Mock);
-    buildModule(moduleWithNoOptions, {}, extension1Mock, {
+    buildModule(moduleWithNoOptions, {}, () => extension1Mock, {
       test: true,
     });
     buildModule(moduleWithOptionalOptions);
@@ -73,8 +73,13 @@ describe("[buildModule]", () => {
     buildModule(moduleWithOptionalOptions, { test: "should be boolean" });
     buildModule(moduleWithMandatoryOptions, { test: true });
     buildModule(moduleWithMandatoryOptions, { test: true }, extension1Mock);
-    buildModule(moduleWithMandatoryOptions, { test: true }, extension1Mock, {
-      test: true,
-    });
+    buildModule(
+      moduleWithMandatoryOptions,
+      { test: true },
+      () => extension1Mock,
+      {
+        test: true,
+      }
+    );
   });
 });
