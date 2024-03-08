@@ -71,6 +71,8 @@ describe("[buildModule]", () => {
     buildModule(moduleWithOptionalOptions);
     // @ts-expect-error - should correctly infer type of options
     buildModule(moduleWithOptionalOptions, { test: "should be boolean" });
+    // @ts-expect-error - should require options as a second argument
+    buildModule(moduleWithMandatoryOptions);
     buildModule(moduleWithMandatoryOptions, { test: true });
     buildModule(moduleWithMandatoryOptions, { test: true }, extension1Mock);
     buildModule(

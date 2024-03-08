@@ -7,33 +7,29 @@ import {
   ModuleOptions,
 } from "../types";
 
-/* eslint-disable no-redeclare */
-// Single parameter overload
-function buildModule<InitializedModule extends Module>(
-  module: () => InitializedModule
-): InitializedModule;
-
-// Two parameter overload
-function buildModule<
+type ModuleInitializerWithOptions<
   InitializedModule extends Module,
   Options extends ModuleOptions
+> = (options: Options) => InitializedModule;
+
+/* eslint-disable no-redeclare */
+function buildModule<
+  InitializedModule extends Module,
+  Options extends ModuleOptions = object
 >(
   module: ModuleInitializer<InitializedModule, Options>,
   moduleOptions?: Options
 ): InitializedModule;
 
-// Three parameter overload
 function buildModule<
   InitializedModule extends Module,
   Options extends ModuleOptions,
   InitializedExtension extends Extension<InitializedModule>
 >(
   module: ModuleInitializer<InitializedModule, Options>,
-  moduleOptions?: Options,
-  extension?: InitializedExtension
+  moduleOptions: Options
 ): InitializedModule & InitializedExtension;
 
-// Four parameter overload
 function buildModule<
   InitializedModule extends Module,
   Options extends ModuleOptions,
@@ -41,13 +37,14 @@ function buildModule<
   ExtensionOptions extends ModuleOptions
 >(
   module: ModuleInitializer<InitializedModule, Options>,
-  moduleOptions?: Options,
-  extension?: ExtensionInitializer<
-    InitializedModule,
-    InitializedExtension,
-    ExtensionOptions
-  >,
-  extensionOptions?: ExtensionOptions
+  moduleOptions: Options,
+  extension?:
+    | ExtensionInitializer<
+        InitializedModule,
+        InitializedExtension,
+        ExtensionOptions
+      >
+    | InitializedExtension
 ): InitializedModule & InitializedExtension;
 
 function buildModule<
@@ -56,8 +53,31 @@ function buildModule<
   InitializedExtension extends Extension<InitializedModule>,
   ExtensionOptions extends ModuleOptions
 >(
-  module: (options?: Options) => InitializedModule,
-  moduleOptions?: Options,
+  module: ModuleInitializerWithOptions<InitializedModule, Options>,
+  moduleOptions: Options,
+  extension?:
+    | ExtensionInitializer<
+        InitializedModule,
+        InitializedExtension,
+        ExtensionOptions
+      >
+    | InitializedExtension,
+  extensionOptions?: ExtensionOptions
+): InitializedModule & InitializedExtension;
+
+/**
+ * Build module with extension.
+ * Provide a module factory function and an extension object.
+ *
+ */
+function buildModule<
+  InitializedModule extends Module,
+  Options extends ModuleOptions,
+  InitializedExtension extends Extension<InitializedModule>,
+  ExtensionOptions extends ModuleOptions
+>(
+  module: ModuleInitializerWithOptions<InitializedModule, Options>,
+  moduleOptions: Options,
   extension?:
     | ExtensionInitializer<
         InitializedModule,

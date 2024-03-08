@@ -260,7 +260,7 @@ export type SDKConfig = Readonly<
 export type ModuleInitializer<
   InitializedModule extends Module,
   Options extends ModuleOptions
-> = (options: Options) => InitializedModule;
+> = (options?: Options) => InitializedModule;
 
 /**
  * ExtensionInitializer Type represents a function accepting extension options
