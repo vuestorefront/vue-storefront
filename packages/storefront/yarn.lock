@@ -2121,10 +2121,10 @@
     express "^4.18.1"
     helmet "^5.1.1"
 
-"@vue-storefront/sdk@1.4.0-rc.4":
-  version "1.4.0-rc.4"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/sdk/-/sdk-1.4.0-rc.4.tgz#49b6654e2bef48a7c652e3b9c75120d7ae62058a"
-  integrity sha512-+yRck/Dd8UGk1Ya2aKH3ahU6DnGDkjYchru697A4rYrPXu5ksiPgp1sx+xIPSNlkXrhIy6P8W9oEVYchbcAbHQ==
+"@vue-storefront/sdk@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/sdk/-/sdk-1.4.0.tgz#7d6cc08a0b6fe71f11d971be5be7d050d4808bd1"
+  integrity sha512-8YFE1XBVOPJm+b0dO6IhhIxjR1MUUsEWOJJVw5ARxZQa+hzRIZdwC+rW/p/t/MIxDZ99G0vC9H3kGYXMxeC2qg==
 
 "@vue/babel-helper-vue-transform-on@^1.1.5":
   version "1.1.5"

@@ -43,7 +43,7 @@
     "test:unit": "vitest run"
   },
   "dependencies": {
-    "@vue-storefront/sdk": "1.4.0-rc.4"
+    "@vue-storefront/sdk": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.31",
