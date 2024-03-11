@@ -29,8 +29,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "3.7.4",
-    "@vue-storefront/sdk": "1.4.0-rc.3",
-    "@nuxt/schema": "^3.7.4",
+    "@vue-storefront/sdk": "1.4.0-rc.4",
     "knitwork": "^1.0.0"
   },
   "devDependencies": {

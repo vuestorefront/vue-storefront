@@ -2,7 +2,7 @@ import {
   composeMiddlewareUrl,
   type CreateSdkOptions,
 } from "@storefront/shared";
-import { buildModule, initSDK, moduleFromEndpoints } from "@vue-storefront/sdk";
+import { buildModule, initSDK, middlewareModule } from "@vue-storefront/sdk";
 import { resolveDynamicContext } from "./helpers";
 import { Config, CreateSdkReturn, GetSdkContext } from "./types";
 
@@ -27,8 +27,8 @@ export type { CreateSdkOptions } from "@storefront/shared";
  *
  * export const { getSdk, createSdkContext } = createSdk(
  *   options,
- *   ({ buildModule, moduleFromEndpoints, middlewareUrl, getRequestHeaders }) => ({
- *     unified: buildModule(moduleFromEndpoints<UnifiedApiEndpoints>, {
+ *   ({ buildModule, middlewareModule, middlewareUrl, getRequestHeaders }) => ({
+ *     unified: buildModule(middlewareModule<UnifiedApiEndpoints>, {
  *       apiUrl: middlewareUrl + "/commerce",
  *       defaultRequestConfig: {
  *         headers: getRequestHeaders(),
@@ -54,7 +54,7 @@ export function createSdk<TConfig extends Record<string, any>>(
 
     const resolvedConfig = configDefinition({
       buildModule,
-      moduleFromEndpoints,
+      middlewareModule,
       getRequestHeaders,
       middlewareUrl,
     });

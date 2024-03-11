@@ -1,9 +1,9 @@
 import { Endpoints } from "@storefront/shared";
 
 export default defineSdkConfig(
-  ({ buildModule, moduleFromEndpoints, middlewareUrl, getRequestHeaders }) => {
+  ({ buildModule, middlewareModule, middlewareUrl, getRequestHeaders }) => {
     return {
-      example: buildModule(moduleFromEndpoints<Endpoints>, {
+      example: buildModule(middlewareModule<Endpoints>, {
         apiUrl: `${middlewareUrl}/test_integration`,
         defaultRequestConfig: { headers: { ...getRequestHeaders() } },
       }),

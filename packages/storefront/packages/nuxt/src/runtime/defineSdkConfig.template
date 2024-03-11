@@ -1,10 +1,10 @@
-import { buildModule, moduleFromEndpoints } from "@vue-storefront/sdk";
+import { buildModule, middlewareModule } from "@vue-storefront/sdk";
 import { composeMiddlewareUrl, useNuxtApp, useRequestHeaders } from "#imports";
 import { SdkModuleOptions } from "./vsfModule";
 
 type InjectedContext = {
   buildModule: typeof buildModule;
-  moduleFromEndpoints: typeof moduleFromEndpoints;
+  middlewareModule: typeof middlewareModule;
   middlewareUrl: string;
   getRequestHeaders: () => Record<string, string>;
 };
@@ -27,8 +27,8 @@ const moduleConfig: SdkModuleOptions = <%= options.moduleConfig %>;
   * import type { UnifiedApiEndpoints } from "../storefront-middleware/types";
   * 
   * export default defineSdkConfig(
-  *   ({ buildModule, moduleFromEndpoints, middlewareUrl, getCookieHeader }) => ({
-  *     unified: buildModule(moduleFromEndpoints<UnifiedApiEndpoints>, {
+  *   ({ buildModule, middlewareModule, middlewareUrl, getCookieHeader }) => ({
+  *     unified: buildModule(middlewareModule<UnifiedApiEndpoints>, {
   *       apiUrl: middlewareUrl + "/commerce",
   *       defaultRequestConfig: { headers: { ...getCookieHeader() } },
   *     }),
@@ -59,7 +59,7 @@ export function defineSdkConfig<TConfig>(config: Config<TConfig>) {
 
     return config({
       buildModule,
-      moduleFromEndpoints,
+      middlewareModule,
       middlewareUrl,
       getRequestHeaders
     });
