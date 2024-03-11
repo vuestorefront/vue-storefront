@@ -2,4 +2,7 @@
 "@vue-storefront/sdk": patch
 ---
 
-[CHANGED] Simplify the overloads of `buildModule` by reducing their number and add StrictModuleInitializer type.
+[CHANGED] Updated `buildModule` function to work well with modules, whether they have optional or mandatory options.
+
+- Simplified how `buildModule` is set up,
+- Added a new type, `ModuleInitializerWithMandatoryOptions`.

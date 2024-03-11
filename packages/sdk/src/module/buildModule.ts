@@ -5,8 +5,8 @@ import {
   Extension,
   ExtensionInitializer,
   ModuleOptions,
-  StrictModuleInitializer,
   ModuleInitializer,
+  ModuleInitializerWithMandatoryOptions,
 } from "../types";
 
 // === Overload with mandatory options ===
@@ -16,7 +16,7 @@ function buildModule<
   InitializedExtension extends Extension<InitializedModule>,
   ExtensionOptions extends ModuleOptions
 >(
-  module: StrictModuleInitializer<InitializedModule, Options>,
+  module: ModuleInitializerWithMandatoryOptions<InitializedModule, Options>,
   moduleOptions: Options,
   extension?:
     | ExtensionInitializer<

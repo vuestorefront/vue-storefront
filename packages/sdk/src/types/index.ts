@@ -266,7 +266,7 @@ export type ModuleInitializer<
  * StrictModuleInitializer Type represents a function accepting mandatory module options
  * as an argument and returning the actual module.
  */
-export type StrictModuleInitializer<
+export type ModuleInitializerWithMandatoryOptions<
   InitializedModule extends Module,
   Options extends ModuleOptions
 > = (options: Options) => InitializedModule;
