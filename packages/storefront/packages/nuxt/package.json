@@ -28,7 +28,8 @@
     "prepare": "nuxi prepare"
   },
   "dependencies": {
-    "@nuxt/kit": "3.7.4",
+    "@nuxt/kit": "^3.7.4",
+    "@nuxt/schema": "^3.7.4",
     "@vue-storefront/sdk": "1.4.0-rc.4",
     "knitwork": "^1.0.0"
   },
@@ -36,7 +37,6 @@
     "@types/node": "^18.11.17",
     "@nuxt/devtools": "^1.0.0",
     "@nuxt/module-builder": "0.5.2",
-    "@nuxt/schema": "3.7.4",
     "@nuxt/test-utils": "3.7.4",
     "nuxt": "3.7.4",
     "start-server-and-test": "^2.0.3",
