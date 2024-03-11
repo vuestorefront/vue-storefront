@@ -1,3 +1,4 @@
+/* eslint-disable no-redeclare */
 import mergeDeep from "../helpers/mergeDeep";
 import {
   Module,
@@ -8,7 +9,7 @@ import {
   ModuleInitializer,
 } from "../types";
 
-/* eslint-disable no-redeclare */
+// === Overload with mandatory options ===
 function buildModule<
   InitializedModule extends Module,
   Options extends ModuleOptions,
@@ -27,6 +28,7 @@ function buildModule<
   extensionOptions?: ExtensionOptions
 ): InitializedModule & InitializedExtension;
 
+// === Overload with optional options ===
 function buildModule<
   InitializedModule extends Module,
   Options extends ModuleOptions,
@@ -45,6 +47,7 @@ function buildModule<
   extensionOptions?: ExtensionOptions
 ): InitializedModule & InitializedExtension;
 
+// === Implementation ===
 /**
  * Build module with extension.
  * Provide a module factory function and an extension object.
