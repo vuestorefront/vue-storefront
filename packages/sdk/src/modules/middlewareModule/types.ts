@@ -156,7 +156,7 @@ export type ErrorHandlerContext = {
 export type ErrorHandler = (context: ErrorHandlerContext) => Promise<any>;
 
 /**
- * Options for the `moduleFromEndpoints`.
+ * Options for the `middlewareModule`.
  */
 export type Options = {
   /**

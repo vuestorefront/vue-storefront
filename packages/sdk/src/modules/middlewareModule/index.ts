@@ -1,3 +1,3 @@
-export { moduleFromEndpoints } from "./module";
+export { middlewareModule } from "./module";
 export { getRequestSender, prepareConfig } from "./utils";
 export * from "./types";

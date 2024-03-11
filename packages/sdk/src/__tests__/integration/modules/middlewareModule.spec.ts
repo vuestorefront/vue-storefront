@@ -1,17 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import "isomorphic-fetch";
 import { initSDK, buildModule } from "../../../index";
 import {
-  moduleFromEndpoints,
+  middlewareModule,
   prepareConfig,
-} from "../../../modules/moduleFromEndpoints";
+} from "../../../modules/middlewareModule";
 import { Endpoints } from "../../__mocks__/apiClient/types";
 
 const axios = require("axios/dist/node/axios.cjs");
 
-describe("moduleFromEndpoints", () => {
+describe("middlewareModule", () => {
   it("should be able to be used as standard SDK module", async () => {
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints, {
+      commerce: buildModule(middlewareModule, {
         apiUrl: "http://localhost:8181/commerce",
       }),
     };
@@ -23,7 +24,7 @@ describe("moduleFromEndpoints", () => {
 
   it("should use generic types to define the endpoints", async () => {
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
       }),
     };
@@ -37,7 +38,7 @@ describe("moduleFromEndpoints", () => {
   it("should allow to override the default HTTP Client", async () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
       }),
@@ -52,7 +53,7 @@ describe("moduleFromEndpoints", () => {
   it("should send a POST request to <BASE_URL>/<METHOD_NAME> by default", async () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
       }),
@@ -72,7 +73,7 @@ describe("moduleFromEndpoints", () => {
 
   it("should use default HTTP Client if it's not provided", async () => {
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
       }),
     };
@@ -87,7 +88,7 @@ describe("moduleFromEndpoints", () => {
   it("should allow to use GET request with query parameters", async () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
       }),
@@ -113,7 +114,7 @@ describe("moduleFromEndpoints", () => {
   it("should allow to use GET request when apiUrl is a path", async () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "/api/commerce",
         httpClient: customHttpClient,
       }),
@@ -139,7 +140,7 @@ describe("moduleFromEndpoints", () => {
   it("should normalize the url", async () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce///", // Extra slashes
         httpClient: customHttpClient,
       }),
@@ -158,7 +159,7 @@ describe("moduleFromEndpoints", () => {
   it("should allow to use custom headers", async () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
       }),
@@ -191,7 +192,7 @@ describe("moduleFromEndpoints", () => {
   it("should allow to define default headers", async () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
         defaultRequestConfig: {
@@ -221,7 +222,7 @@ describe("moduleFromEndpoints", () => {
   it("should use different base URL during SSR if defined", async () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "/api/commerce",
         ssrApiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
@@ -242,7 +243,7 @@ describe("moduleFromEndpoints", () => {
     expect.assertions(2);
 
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
         httpClient: async (url, params, config) => {
           const { data } = await axios(url, {
@@ -268,7 +269,7 @@ describe("moduleFromEndpoints", () => {
   it("should accept headers as Record<string | string[]>", async () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
         defaultRequestConfig: {
@@ -310,7 +311,7 @@ describe("moduleFromEndpoints", () => {
     const error = new Error("Test error");
     const customHttpClient = jest.fn().mockRejectedValue(error);
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
       }),
@@ -331,7 +332,7 @@ describe("moduleFromEndpoints", () => {
       .mockResolvedValue({ id: 1, name: "Error handler did a good job" });
     const customHttpClient = jest.fn().mockRejectedValue(error);
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
         errorHandler: customErrorHandler,
@@ -359,7 +360,7 @@ describe("moduleFromEndpoints", () => {
 
   it("should allow to use non-object params", async () => {
     const sdkConfig = {
-      commerce: buildModule(moduleFromEndpoints<Endpoints>, {
+      commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
       }),
     };
@@ -374,7 +375,7 @@ describe("moduleFromEndpoints", () => {
   it("should allow to add new methods with a standard extension", async () => {
     const sdk = initSDK({
       commerce: buildModule(
-        moduleFromEndpoints<Endpoints>,
+        middlewareModule<Endpoints>,
         {
           apiUrl: "http://localhost:8181/commerce",
         },
@@ -399,15 +400,15 @@ describe("moduleFromEndpoints", () => {
       .mockResolvedValue({ id: 1, name: "Custom method" });
     const sdk = initSDK({
       commerce: buildModule(
-        moduleFromEndpoints<Endpoints>,
+        middlewareModule<Endpoints>,
         {
           apiUrl: "http://localhost:8181/commerce",
           httpClient: customHttpClient,
         },
-        (_, { context }) => ({
+        (_, module) => ({
           extend: {
             customMethod: async (params: { id: number }) => {
-              return context.requestSender("customMethod", [params]);
+              return module?.context?.requestSender("customMethod", [params]);
             },
           },
         })
@@ -433,20 +434,20 @@ describe("moduleFromEndpoints", () => {
     const customHttpClient = jest.fn().mockRejectedValue(error);
     const sdk = initSDK({
       commerce: buildModule(
-        moduleFromEndpoints<Endpoints>,
+        middlewareModule<Endpoints>,
         {
           apiUrl: "http://localhost:8181/commerce",
           httpClient: customHttpClient,
           errorHandler: customErrorHandler,
         },
-        (_, { context }) => ({
+        (_, module) => ({
           extend: {
             /**
              * Custom method.
              * TSDoc to test if it's visible.
              */
             customMethod: async (params: { id: number }) => {
-              return context.requestSender("customMethod", [params]);
+              return module?.context?.requestSender("customMethod", [params]);
             },
           },
         })
@@ -468,7 +469,7 @@ describe("moduleFromEndpoints", () => {
   it("should allow to override SDK methods in extensions", async () => {
     const sdk = initSDK({
       commerce: buildModule(
-        moduleFromEndpoints<Endpoints>,
+        middlewareModule<Endpoints>,
         {
           apiUrl: "http://localhost:8181/commerce",
         },
