@@ -1,5 +1,15 @@
 # Change log
 
+## 1.4.0
+
+### Minor Changes
+
+- **[ADDED]** New SDK module - `middlewareModule`. It is a recommended way to communicate with the Server Middleware.
+
+### Patch Changes
+
+- **[CHANGED]** SDK extension allows now to override module methods in `extend` property.
+
 ## 1.3.4
 
 ### Patch Changes

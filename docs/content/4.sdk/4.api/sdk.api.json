@@ -208,6 +208,32 @@
           }
         },
         {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!BaseConfig:type",
+          "docComment": "/**\n * Base configuration object for HTTP requests. It includes essential configurations like the HTTP method.\n *\n * @remarks\n *\n * This type serves as a base for more detailed configuration objects by specifying the method of the HTTP request.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type BaseConfig = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    method?: \"GET\" | \"POST\";\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/types.ts",
+          "releaseTag": "Public",
+          "name": "BaseConfig",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
           "kind": "Function",
           "canonicalReference": "@vue-storefront/sdk!buildModule:function(1)",
           "docComment": "",
@@ -307,7 +333,7 @@
               "text": ";"
             }
           ],
-          "fileUrlPath": "src/module/buildModule.ts",
+          "fileUrlPath": "src/modules/buildModule.ts",
           "returnTypeTokenRange": {
             "startIndex": 20,
             "endIndex": 21
@@ -496,7 +522,7 @@
               "text": ";"
             }
           ],
-          "fileUrlPath": "src/module/buildModule.ts",
+          "fileUrlPath": "src/modules/buildModule.ts",
           "returnTypeTokenRange": {
             "startIndex": 20,
             "endIndex": 21
@@ -587,6 +613,46 @@
         },
         {
           "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!ComputedConfig:type",
+          "docComment": "/**\n * Computed configuration for HTTP requests, derived from `RequestConfig`. Normalizes header values to strings for consistent request formatting.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type ComputedConfig = "
+            },
+            {
+              "kind": "Reference",
+              "text": "BaseConfig",
+              "canonicalReference": "@vue-storefront/sdk!BaseConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": " & {\n    headers?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, string>;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/types.ts",
+          "releaseTag": "Public",
+          "name": "ComputedConfig",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
           "canonicalReference": "@vue-storefront/sdk!Connector:type",
           "docComment": "/**\n * Connector returns all methods that are exposed by the module.\n */\n",
           "excerptTokens": [
@@ -623,6 +689,129 @@
           "typeTokenRange": {
             "startIndex": 1,
             "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!EndpointsConstraint:type",
+          "docComment": "/**\n * Represents the constraint for API endpoint functions within the SDK. Each endpoint function must return a Promise, allowing for asynchronous operations.\n *\n * @example\n * ```typescript\n * // Definition of an API endpoint structure\n * type Endpoints = {\n *   getUser: ({ id: string }) => Promise<User>;\n *   createUser: (userDetails: CreateUserDetails) => Promise<User>;\n * };\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type EndpointsConstraint = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [key: string]: "
+            },
+            {
+              "kind": "Reference",
+              "text": "AnyFunction",
+              "canonicalReference": "@vue-storefront/sdk!AnyFunction:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/types.ts",
+          "releaseTag": "Public",
+          "name": "EndpointsConstraint",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!ErrorHandler:type",
+          "docComment": "/**\n * Defines a generic error handler function type. This abstraction allows for custom error handling logic, which can be implemented by the consumer of the HTTP client.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type ErrorHandler = "
+            },
+            {
+              "kind": "Content",
+              "text": "(context: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ErrorHandlerContext",
+              "canonicalReference": "@vue-storefront/sdk!ErrorHandlerContext:type"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<any>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/types.ts",
+          "releaseTag": "Public",
+          "name": "ErrorHandler",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 6
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!ErrorHandlerContext:type",
+          "docComment": "/**\n * Provides context for error handling, encapsulating details relevant to the failed HTTP request.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type ErrorHandlerContext = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    error: unknown;\n    methodName: string;\n    url: string;\n    params: unknown[];\n    config: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ComputedConfig",
+              "canonicalReference": "@vue-storefront/sdk!ComputedConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    httpClient: "
+            },
+            {
+              "kind": "Reference",
+              "text": "HTTPClient",
+              "canonicalReference": "@vue-storefront/sdk!HTTPClient:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/types.ts",
+          "releaseTag": "Public",
+          "name": "ErrorHandlerContext",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 6
           }
         },
         {
@@ -894,6 +1083,43 @@
         },
         {
           "kind": "Variable",
+          "canonicalReference": "@vue-storefront/sdk!getRequestSender:var",
+          "docComment": "/**\n * Generates a `RequestSender` function configured according to the provided options.\n *\n * @remarks\n *\n * This function abstracts away the details of constructing request URLs, merging configurations, handling errors, and executing HTTP requests.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "getRequestSender: "
+            },
+            {
+              "kind": "Content",
+              "text": "(options: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Options",
+              "canonicalReference": "@vue-storefront/sdk!Options:type"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
+            },
+            {
+              "kind": "Reference",
+              "text": "RequestSender",
+              "canonicalReference": "@vue-storefront/sdk!RequestSender:type"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/utils/getRequestSender.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "getRequestSender",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "Variable",
           "canonicalReference": "@vue-storefront/sdk!handleError:var",
           "docComment": "",
           "excerptTokens": [
@@ -927,6 +1153,50 @@
           "variableTypeTokenRange": {
             "startIndex": 1,
             "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!HTTPClient:type",
+          "docComment": "/**\n * A customizable HTTP client function for making HTTP requests.\n *\n * @remarks\n *\n * This type represents a flexible interface for HTTP clients within the SDK, allowing for customization and substitution of different HTTP request mechanisms (e.g., Fetch API, Axios).\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type HTTPClient = "
+            },
+            {
+              "kind": "Content",
+              "text": "(\nurl: string, \nparams: unknown[], \nconfig?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ComputedConfig",
+              "canonicalReference": "@vue-storefront/sdk!ComputedConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<any>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/types.ts",
+          "releaseTag": "Public",
+          "name": "HTTPClient",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 6
           }
         },
         {
@@ -1505,6 +1775,180 @@
         },
         {
           "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!MethodConfig:type",
+          "docComment": "/**\n * Configuration specific to a method, merging `RequestConfig` with an internal flag. Indicates that the configuration is ready for making a request.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type MethodConfig = "
+            },
+            {
+              "kind": "Reference",
+              "text": "RequestConfig",
+              "canonicalReference": "@vue-storefront/sdk!RequestConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": " & {\n    ["
+            },
+            {
+              "kind": "Reference",
+              "text": "isConfig",
+              "canonicalReference": "@vue-storefront/sdk!~isConfig:var"
+            },
+            {
+              "kind": "Content",
+              "text": "]: boolean;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/types.ts",
+          "releaseTag": "Public",
+          "name": "MethodConfig",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!Methods:type",
+          "docComment": "/**\n * Final type for the SDK methods.\n *\n * It requires the `Endpoints` interface to be provided.\n *\n * Based on this interface it will generate the methods with the correct parameters and return types.\n *\n * To each endpoint, it will add the `config` parameter with the `MethodConfig` type.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type Methods<Endpoints extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "EndpointsConstraint",
+              "canonicalReference": "@vue-storefront/sdk!EndpointsConstraint:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [Key in keyof Endpoints]: (...params: [..."
+            },
+            {
+              "kind": "Reference",
+              "text": "Parameters",
+              "canonicalReference": "!Parameters:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Endpoints[Key]>, config?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "MethodConfig",
+              "canonicalReference": "@vue-storefront/sdk!MethodConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": "]) => "
+            },
+            {
+              "kind": "Reference",
+              "text": "ReturnType",
+              "canonicalReference": "!ReturnType:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Endpoints[Key]>;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/types.ts",
+          "releaseTag": "Public",
+          "name": "Methods",
+          "typeParameters": [
+            {
+              "typeParameterName": "Endpoints",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 10
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@vue-storefront/sdk!middlewareModule:var",
+          "docComment": "/**\n * `middlewareModule` is allowing to communicate with the Server Middleware API.\n *\n * It generates the methods to communicate with the API based on the provided endpoints interface.\n *\n * @example\n *\n * Setup:\n * ```ts\n * import { createSdk } from \"@vue-storefront/next\";\n * import type { SapccEndpoints } from \"../storefront-middleware/types\";\n *\n * export const { getSdk } = createSdk(options, ({ buildModule, middlewareModule }) => ({\n *   sapcc: buildModule(middlewareModule<SapccEndpoints>, {\n *     apiUrl: \"http://localhost:4000/sapcc\",\n *   }),\n * }));\n * ```\n *\n * It also exposes the `context` with the `requestSender` to allow to use it directly in extensions.\n *\n * @example\n *\n * Usage:\n * ```ts\n * import { createSdk } from \"@vue-storefront/next\";\n * import type { SapccEndpoints } from \"../storefront-middleware/types\";\n *\n * const extension = (extensionOptions, { methods, context }) => ({\n *   extend: {\n *     async newMethod(params) {\n *       const response = await context.requestSender(\"customMethod\", [params]);\n *       const products = await methods.getProducts(params);\n *       return { ...response, ...products };\n *     }\n *   }\n * });\n *\n * export const { getSdk } = createSdk(options, ({ buildModule, middlewareModule }) => ({\n *   sapcc: buildModule(middlewareModule<SapccEndpoints>, {\n *     apiUrl: \"http://localhost:4000/sapcc\",\n *   }, extension),\n * }));\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "middlewareModule: "
+            },
+            {
+              "kind": "Content",
+              "text": "<Endpoints extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "EndpointsConstraint",
+              "canonicalReference": "@vue-storefront/sdk!EndpointsConstraint:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">(options: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Options",
+              "canonicalReference": "@vue-storefront/sdk!Options:type"
+            },
+            {
+              "kind": "Content",
+              "text": ") => {\n    connector: import(\"./types\")."
+            },
+            {
+              "kind": "Reference",
+              "text": "Methods",
+              "canonicalReference": "@vue-storefront/sdk!Methods:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Endpoints>;\n    context: {\n        requestSender: import(\"./types\")."
+            },
+            {
+              "kind": "Reference",
+              "text": "RequestSender",
+              "canonicalReference": "@vue-storefront/sdk!RequestSender:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    };\n}"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/module.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "middlewareModule",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 10
+          }
+        },
+        {
+          "kind": "TypeAlias",
           "canonicalReference": "@vue-storefront/sdk!Module:type",
           "docComment": "/**\n * Module Type represents the module configuration. It is a pluggable piece of code in a standalone package. Module can be a subject of interceptors, overrides and extensions.\n */\n",
           "excerptTokens": [
@@ -1734,6 +2178,189 @@
         },
         {
           "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!Options:type",
+          "docComment": "/**\n * Options for the `middlewareModule`.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type Options = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    apiUrl: string;\n    ssrApiUrl?: string;\n    httpClient?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "HTTPClient",
+              "canonicalReference": "@vue-storefront/sdk!HTTPClient:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    defaultRequestConfig?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "RequestConfig",
+              "canonicalReference": "@vue-storefront/sdk!RequestConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    errorHandler?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ErrorHandler",
+              "canonicalReference": "@vue-storefront/sdk!ErrorHandler:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/types.ts",
+          "releaseTag": "Public",
+          "name": "Options",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 8
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@vue-storefront/sdk!prepareConfig:var",
+          "docComment": "/**\n * Prepare the config for the request. It's used to differentiate the method config from the params.\n *\n * @example\n *\n * Usage\n * ```ts\n * import { prepareConfig } from \"@vue-storefront/sdk\";\n *\n * const products = sdk.commerce.getProducts(params, prepareConfig({ method: \"GET\" }));\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "prepareConfig: "
+            },
+            {
+              "kind": "Content",
+              "text": "<CustomConfig extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "RequestConfig",
+              "canonicalReference": "@vue-storefront/sdk!RequestConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "RequestConfig",
+              "canonicalReference": "@vue-storefront/sdk!RequestConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">(requestConfig: CustomConfig) => "
+            },
+            {
+              "kind": "Reference",
+              "text": "MethodConfig",
+              "canonicalReference": "@vue-storefront/sdk!MethodConfig:type"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/utils/prepareConfig.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "prepareConfig",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 7
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!RequestConfig:type",
+          "docComment": "/**\n * User-defined configuration for HTTP requests, extending `BaseConfig`. Allows custom headers, supporting both strings and arrays of strings for header values.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type RequestConfig = "
+            },
+            {
+              "kind": "Reference",
+              "text": "BaseConfig",
+              "canonicalReference": "@vue-storefront/sdk!BaseConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": " & {\n    headers?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, string | string[]>;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/types.ts",
+          "releaseTag": "Public",
+          "name": "RequestConfig",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!RequestSender:type",
+          "docComment": "/**\n * Represents a function type for sending HTTP requests, abstracting the complexity of request configuration.\n *\n * @remarks\n *\n * This type is created via a factory function that configures it with common settings, such as base URLs and default headers.\n *\n * It simplifies making HTTP requests by handling URL construction, parameter serialization, and applying default and overridden configurations.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type RequestSender = "
+            },
+            {
+              "kind": "Content",
+              "text": "(\nmethodName: string, \nparams: unknown[], \nconfig?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "RequestConfig",
+              "canonicalReference": "@vue-storefront/sdk!RequestConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<any>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/types.ts",
+          "releaseTag": "Public",
+          "name": "RequestSender",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 6
+          }
+        },
+        {
+          "kind": "TypeAlias",
           "canonicalReference": "@vue-storefront/sdk!SDKApi:type",
           "docComment": "/**\n * SDKApi represents the API of the SDK. On the init SDK transform configuration data to compose an API and apply interceptors to all methods. This requires a dynamic type mapping to provide the user with the best possible developer experience.\n *\n * The following type map understand the SDK configuration input and produce usable SDK api with all type hints.\n */\n",
           "excerptTokens": [
@@ -1752,7 +2379,25 @@
             },
             {
               "kind": "Content",
-              "text": "{\n    [ExtensionName in keyof Config]: {\n        +readonly [Method in keyof Config[ExtensionName][\"connector\"] | keyof Config[ExtensionName][\"override\"]]: Method extends keyof Config[ExtensionName][\"override\"] ? Config[ExtensionName][\"override\"][Method] : Config[ExtensionName][\"connector\"][Method];\n    } & {\n        +readonly [Method in keyof Config[ExtensionName][\"extend\"]]: Config[ExtensionName][\"extend\"][Method];\n    };\n} & {\n    +readonly [ExtensionName in keyof Config]: {\n        utils: {\n            +readonly [Method in keyof Config[ExtensionName][\"utils\"]]: Config[ExtensionName][\"utils\"][Method];\n        };\n    };\n}"
+              "text": "{\n    [ExtensionName in keyof Config]: Config[ExtensionName][\"extend\"] & "
+            },
+            {
+              "kind": "Reference",
+              "text": "Omit",
+              "canonicalReference": "!Omit:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Config[ExtensionName][\"override\"], keyof Config[ExtensionName][\"extend\"]> & "
+            },
+            {
+              "kind": "Reference",
+              "text": "Omit",
+              "canonicalReference": "!Omit:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Config[ExtensionName][\"connector\"], keyof Config[ExtensionName][\"override\"] & keyof Config[ExtensionName][\"extend\"]>;\n} & {\n    +readonly [ExtensionName in keyof Config]: {\n        utils: {\n            +readonly [Method in keyof Config[ExtensionName][\"utils\"]]: Config[ExtensionName][\"utils\"][Method];\n        };\n    };\n}"
             },
             {
               "kind": "Content",
@@ -1777,7 +2422,7 @@
           ],
           "typeTokenRange": {
             "startIndex": 3,
-            "endIndex": 4
+            "endIndex": 8
           }
         },
         {
