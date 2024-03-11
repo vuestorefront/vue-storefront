@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { extension1Mock } from "../__mocks__/extension1.mock";
 import module1Mock from "../__mocks__/module1.mock";
-import { buildModule } from "../../module/buildModule";
+import { buildModule } from "../../modules/buildModule";
 
 describe("[buildModule]", () => {
   it("should build module without extensions", () => {

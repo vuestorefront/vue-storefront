@@ -65,7 +65,8 @@ export const initSDK = <T extends SDKConfig>(sdkConfig: T): SDKApi<T> => {
         const methodFromExtend = Reflect.get(extend, propKey, receiver);
         const methodFromTarget = Reflect.get(target, propKey, receiver);
 
-        const method = methodFromTarget ?? methodFromExtend;
+        const method = methodFromExtend ?? methodFromTarget;
+
         if (!method) return method;
 
         const wrappedMethod = interceptorsManager.applyInterceptors(

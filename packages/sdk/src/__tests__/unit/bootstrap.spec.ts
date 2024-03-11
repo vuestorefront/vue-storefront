@@ -4,7 +4,7 @@ import module1 from "../__mocks__/module1.mock";
 import module2 from "../__mocks__/module2.mock";
 import { initSDK } from "../../bootstrap";
 import { eventManager } from "../../index";
-import { buildModule } from "../../module/buildModule";
+import { buildModule } from "../../modules/buildModule";
 import proxyModule1Mock from "../__mocks__/proxyModule1.mock";
 import { proxyExtensionMock1 } from "../__mocks__/proxyExtension1.mock";
 

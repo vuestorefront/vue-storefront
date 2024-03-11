@@ -189,7 +189,6 @@ export type Extension<ExtendedModule extends Module> = Omit<
   /**
    * Extend contains methods that are added to the module.
    * Because of the dynamic nature of the SDK, the extend method must be an asynchronous function.
-   * Extending methods can't be used to override the connector.
    *
    * @example
    * Extending the module with a new method.
@@ -296,16 +295,18 @@ export type ExtensionInitializer<
  * The following type map understand the SDK configuration input and produce
  * usable SDK api with all type hints.
  */
+
 export type SDKApi<Config extends SDKConfig> = {
-  [ExtensionName in keyof Config]: {
-    +readonly [Method in
-      | keyof Config[ExtensionName]["connector"]
-      | keyof Config[ExtensionName]["override"]]: Method extends keyof Config[ExtensionName]["override"]
-      ? Config[ExtensionName]["override"][Method]
-      : Config[ExtensionName]["connector"][Method];
-  } & {
-    +readonly [Method in keyof Config[ExtensionName]["extend"]]: Config[ExtensionName]["extend"][Method];
-  };
+  [ExtensionName in keyof Config]: Config[ExtensionName]["extend"] &
+    Omit<
+      Config[ExtensionName]["override"],
+      keyof Config[ExtensionName]["extend"]
+    > &
+    Omit<
+      Config[ExtensionName]["connector"],
+      keyof Config[ExtensionName]["override"] &
+        keyof Config[ExtensionName]["extend"]
+    >;
 } & {
   +readonly [ExtensionName in keyof Config]: {
     utils: {
