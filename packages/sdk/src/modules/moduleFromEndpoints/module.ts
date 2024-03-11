@@ -32,10 +32,9 @@ import { getRequestSender } from "./utils";
  * const extension = (extensionOptions, { methods, context }) => ({
  *   extend: {
  *     async newMethod(params) {
- *       const response = await context.requestSender("http://localhost:4000/sapcc/extended-endpoint", { params });
- *       const responseJson = await response.json();
+ *       const response = await context.requestSender("customMethod", [params]);
  *       const products = await methods.getProducts(params);
- *       return { ...responseJson, ...products };
+ *       return { ...response, ...products };
  *     }
  *   }
  * });
