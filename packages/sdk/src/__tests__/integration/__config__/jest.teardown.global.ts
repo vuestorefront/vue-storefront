@@ -1,3 +1,5 @@
+import { ExtendedGlobalThis } from "./types";
+
 export default () => {
-  globalThis.__MIDDLEWARE__.close();
+  (globalThis as ExtendedGlobalThis).__MIDDLEWARE__.close();
 };

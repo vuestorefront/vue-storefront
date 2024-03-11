@@ -1,5 +1,19 @@
 # Change log
 
+## 3.9.0
+
+### Minor Changes
+
+- 712ba85a6: [ADDED] Adds WithoutContext type helper.
+
+  ```ts
+  type ApiClientMethods = {
+    getProduct: (context: any, id: string) => Promise<Product>;
+  };
+
+  type Endpoints = WithoutContext<ApiClientMethods>;
+  ```
+
 ## 3.8.1
 
 ### Patch Changes

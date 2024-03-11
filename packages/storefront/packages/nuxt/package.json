@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/nuxt",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Vue Storefront dedicated features for Nuxt",
   "license": "MIT",
   "type": "module",
@@ -30,6 +30,7 @@
   "dependencies": {
     "@nuxt/kit": "3.7.4",
     "@vue-storefront/sdk": "1.4.0-rc.3",
+    "@nuxt/schema": "^3.7.4",
     "knitwork": "^1.0.0"
   },
   "devDependencies": {
