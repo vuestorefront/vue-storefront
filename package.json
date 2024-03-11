@@ -21,7 +21,7 @@
     "@vue-storefront/api-extractor-config": "^0.0.4",
     "@vue-storefront/eslint-config-integrations": "^0.0.19",
     "@vue-storefront/integrations-tsconfig": "^0.0.4",
-    "@vue-storefront/jest-config": "^0.0.3",
+    "@vue-storefront/jest-config": "^0.0.4",
     "@vue-storefront/rollup-config": "^0.0.6",
     "cross-env": "^6.0.3",
     "husky": "^8.0.3",
