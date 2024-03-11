@@ -55,24 +55,35 @@ describe("[buildModule]", () => {
   });
 
   it("should correctly infer types in typescript's strict mode", () => {
+    // No options
     const moduleWithNoOptions = () => ({ connector: {} });
-    const moduleWithOptionalOptions = (_opts?: { test: boolean }) => ({
-      connector: {},
-    });
-    const moduleWithMandatoryOptions = (_opts: { test: boolean }) => ({
-      connector: {},
-    });
-
     buildModule(moduleWithNoOptions);
     buildModule(moduleWithNoOptions, {}, extension1Mock);
     buildModule(moduleWithNoOptions, {}, () => extension1Mock, {
       test: true,
     });
+
+    // Optional options
+    const moduleWithOptionalOptions = (_opts?: { test: boolean }) => ({
+      connector: {},
+    });
     buildModule(moduleWithOptionalOptions);
     // @ts-expect-error - should correctly infer type of options
     buildModule(moduleWithOptionalOptions, { test: "should be boolean" });
+    buildModule(moduleWithOptionalOptions, { test: true });
+    buildModule(moduleWithNoOptions, {}, extension1Mock);
+    buildModule(moduleWithNoOptions, {}, () => extension1Mock, {
+      test: true,
+    });
+
+    // Mandatory options
+    const moduleWithMandatoryOptions = (_opts: { test: boolean }) => ({
+      connector: {},
+    });
     // @ts-expect-error - should require options as a second argument
     buildModule(moduleWithMandatoryOptions);
+    // @ts-expect-error - should correctly infer type of options
+    buildModule(moduleWithOptionalOptions, { test: "should be boolean" });
     buildModule(moduleWithMandatoryOptions, { test: true });
     buildModule(moduleWithMandatoryOptions, { test: true }, extension1Mock);
     buildModule(

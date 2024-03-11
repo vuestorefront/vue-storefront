@@ -2,41 +2,20 @@ import mergeDeep from "../helpers/mergeDeep";
 import {
   Module,
   Extension,
-  ModuleInitializer,
   ExtensionInitializer,
   ModuleOptions,
+  StrictModuleInitializer,
+  ModuleInitializer,
 } from "../types";
 
-type ModuleInitializerWithOptions<
-  InitializedModule extends Module,
-  Options extends ModuleOptions
-> = (options: Options) => InitializedModule;
-
 /* eslint-disable no-redeclare */
-function buildModule<
-  InitializedModule extends Module,
-  Options extends ModuleOptions = object
->(
-  module: ModuleInitializer<InitializedModule, Options>,
-  moduleOptions?: Options
-): InitializedModule;
-
-function buildModule<
-  InitializedModule extends Module,
-  Options extends ModuleOptions,
-  InitializedExtension extends Extension<InitializedModule>
->(
-  module: ModuleInitializer<InitializedModule, Options>,
-  moduleOptions: Options
-): InitializedModule & InitializedExtension;
-
 function buildModule<
   InitializedModule extends Module,
   Options extends ModuleOptions,
   InitializedExtension extends Extension<InitializedModule>,
   ExtensionOptions extends ModuleOptions
 >(
-  module: ModuleInitializer<InitializedModule, Options>,
+  module: StrictModuleInitializer<InitializedModule, Options>,
   moduleOptions: Options,
   extension?:
     | ExtensionInitializer<
@@ -44,7 +23,8 @@ function buildModule<
         InitializedExtension,
         ExtensionOptions
       >
-    | InitializedExtension
+    | InitializedExtension,
+  extensionOptions?: ExtensionOptions
 ): InitializedModule & InitializedExtension;
 
 function buildModule<
@@ -53,8 +33,8 @@ function buildModule<
   InitializedExtension extends Extension<InitializedModule>,
   ExtensionOptions extends ModuleOptions
 >(
-  module: ModuleInitializerWithOptions<InitializedModule, Options>,
-  moduleOptions: Options,
+  module: ModuleInitializer<InitializedModule, Options>,
+  moduleOptions?: Options,
   extension?:
     | ExtensionInitializer<
         InitializedModule,
@@ -76,8 +56,8 @@ function buildModule<
   InitializedExtension extends Extension<InitializedModule>,
   ExtensionOptions extends ModuleOptions
 >(
-  module: ModuleInitializerWithOptions<InitializedModule, Options>,
-  moduleOptions: Options,
+  module: ModuleInitializer<InitializedModule, Options>,
+  moduleOptions?: Options,
   extension?:
     | ExtensionInitializer<
         InitializedModule,

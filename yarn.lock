@@ -2853,10 +2853,10 @@
   resolved "https://registry.yarnpkg.com/@vue-storefront/integrations-tsconfig/-/integrations-tsconfig-0.0.4.tgz#36b9f742dedac04df17657ad296e08c91f2fae6d"
   integrity sha512-Joi9dTblviEaujemcWT30GSF3nh0MaPfrz76V6kHyGgO3ftbWVq2tfq2jtbiL+YJxT3FaY1/giq7cSRCjb9kcQ==
 
-"@vue-storefront/jest-config@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/jest-config/-/jest-config-0.0.3.tgz#3c59e14e658fb5c8085505742646cb29405cc308"
-  integrity sha512-IZ46nJVoe+g8GRDviCdBRMnnkkySV0or4rzcAz2rV1xNwMMFiGVz8rP2pLEoZtmfNTtJFOUxa/y9/B/EetJ5JQ==
+"@vue-storefront/jest-config@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/jest-config/-/jest-config-0.0.4.tgz#45a124247f21cc9ff71a61ffdcae9d30fb2529aa"
+  integrity sha512-+1ZHIrPYROO3ixQKHxuvAHheBSb1TyurpXNCX3LyBzDJR/QCZ9BJjiTUFGwpgJQNyV5V8LuNoSjq/mnhV80Mzw==
   dependencies:
     "@types/jest" "^27.4.0"
     jest "^29.5.0"
