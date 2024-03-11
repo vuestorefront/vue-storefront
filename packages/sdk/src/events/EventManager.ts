@@ -11,7 +11,7 @@ export interface EventManagerInterface {
    * @param topic - topic of the event
    * @param data - data that is passed to the callbacks
    */
-  emit<EVENT_DATA>(topic: string, data: Readonly<EVENT_DATA>): void;
+  emit<EVENT_DATA>(topic: string, data: EVENT_DATA): void;
 
   /**
    * Function that registers a callback for a given topic.
@@ -78,7 +78,7 @@ export class EventManager implements EventManagerInterface {
     this.events = {};
   }
 
-  emit<EVENT_DATA>(topic: string, data: Readonly<EVENT_DATA>) {
+  emit<EVENT_DATA>(topic: string, data: EVENT_DATA) {
     const topicEvents = this.events[topic] ?? [];
     topicEvents.forEach((callback) => {
       callback<EVENT_DATA>(data);

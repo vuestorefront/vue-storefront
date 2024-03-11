@@ -254,13 +254,22 @@ export type SDKConfig = Readonly<
 >;
 
 /**
- * ModuleInitializer Type represents a function accepting module options
+ * ModuleInitializer Type represents a function accepting optional module options
  * as an argument and returning the actual module.
  */
 export type ModuleInitializer<
   InitializedModule extends Module,
   Options extends ModuleOptions
 > = (options?: Options) => InitializedModule;
+
+/**
+ * StrictModuleInitializer Type represents a function accepting mandatory module options
+ * as an argument and returning the actual module.
+ */
+export type ModuleInitializerWithMandatoryOptions<
+  InitializedModule extends Module,
+  Options extends ModuleOptions
+> = (options: Options) => InitializedModule;
 
 /**
  * ExtensionInitializer Type represents a function accepting extension options

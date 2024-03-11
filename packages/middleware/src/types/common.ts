@@ -155,3 +155,28 @@ export type ExtensionWith<T extends keyof ApiClientExtension> = WithRequired<
   ApiClientExtension,
   T
 >;
+
+/**
+ * Removes the `context` from the methods of an API Client.
+ * `context` is an internal parameter added by the Server Middleware to the methods of the API Client.
+ * Removing it allows to define the contract of the endpoints exposed by the Server Middleware.
+ *
+ * @example
+ *
+ * ```ts
+ * type ApiClientMethods = {
+ *  getProduct: (context: any, id: string) => Promise<Product>;
+ * }
+ *
+ * type Endpoints = WithoutContext<ApiClientMethods>;
+ * // { getProduct: (id: string) => Promise<Product> }
+ * ```
+ */
+export type WithoutContext<Methods extends ApiMethods> = {
+  [T in keyof Methods]: Methods[T] extends (
+    context: any,
+    ...arguments_: infer P
+  ) => infer R
+    ? (...arguments_: P) => R
+    : never;
+};

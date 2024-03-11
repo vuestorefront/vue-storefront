@@ -1,5 +1,20 @@
 # Change log
 
+## 1.3.4
+
+### Patch Changes
+
+- **[CHANGED]** Updated `buildModule` function to work well with modules, whether they have optional or mandatory options.
+
+- Simplified how `buildModule` is set up,
+- Added a new type, `ModuleInitializerWithMandatoryOptions`.
+
+## 1.3.3
+
+### Patch Changes
+
+- **[FIXED]** `buildModule` types in tsconfig strict mode
+
 ## 1.3.2
 
 ### Patch Changes
