@@ -2,7 +2,7 @@
 
 ## 3.1.0
 
-- **[ADDED]** `middlewareModule` to `createSdk` params.
+- **[ADDED]** `middlewareModule` to `defineSdkConfig` params.
 
 ```diff [sdk.config.ts]
 - import { UnifiedApiExtension } from "storefront-middleware/types"
@@ -14,7 +14,7 @@ export default defineSdkConfig(
 -      apiUrl: `${middlewareUrl}/commerce`,
 -      requestOptions: { headers: getRequestHeaders },
 +  ({ buildModule, middlewareModule, middlewareUrl, getRequestHeaders }) => ({
-+      commerce: buildModule(middlewareModule<Endpoints>, {
++      commerce: buildModule(middlewareModule<UnifiedEndpoints>, {
 +        apiUrl: `${middlewareUrl}/commerce`,
 +        defaultRequestConfig: { headers: getRequestHeaders() },
       }),
@@ -25,13 +25,10 @@ export default defineSdkConfig(
 - **[CHANGED]** deprecate `getCookieHeader`, use `getRequestHeaders` instead
 
 ```diff [sdk.config.ts]
-- import { UnifiedApiExtension } from "storefront-middleware/types"
-+ import { UnifiedEndpoints } from "storefront-middleware/types"
-
 export default defineSdkConfig(
 -  ({ buildModule, middlewareModule, middlewareUrl, getCookieHeader }) => ({
 +  ({ buildModule, middlewareModule, middlewareUrl, getRequestHeaders }) => ({
-      commerce: buildModule(middlewareModule<Endpoints>, {
+      commerce: buildModule(middlewareModule<UnifiedEndpoints>, {
         apiUrl: `${middlewareUrl}/commerce`,
 -        defaultRequestConfig: { headers: getCookieHeader() }, // Only cookie header is included.
 +        defaultRequestConfig: { headers: getRequestHeaders() }, // All headers are included.
