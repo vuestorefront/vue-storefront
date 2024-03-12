@@ -2,7 +2,7 @@
 
 ## 1.1.0
 
-- **[ADDED]** Add `middlewareModule` to `createSdk` params.
+- **[ADDED]** `middlewareModule` to `createSdk` params.
 
 ```diff [sdk.config.ts]
 - import { UnifiedApiExtension } from "storefront-middleware/types"
