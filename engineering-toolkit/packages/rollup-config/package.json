@@ -23,6 +23,7 @@
   ],
   "dependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "rollup": "^2.59.0",
     "rollup-plugin-typescript2": "^0.35.0"

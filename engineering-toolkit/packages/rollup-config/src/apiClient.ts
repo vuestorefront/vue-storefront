@@ -1,6 +1,7 @@
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
 import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
 import { OutputBundle, OutputOptions } from 'rollup';
 
 const extensions = ['.ts', '.js'];
@@ -28,6 +29,7 @@ export function generateServerConfig(pkg: any) {
       commonjs({
         extensions
       }),
+      json(),
       nodeResolve({
         extensions
       }),
