@@ -1,10 +1,12 @@
-import { exampleSdkModule } from "../../../../shared";
+import { Endpoints } from "@storefront/shared";
 
 export default defineSdkConfig(
-  ({ buildModule, middlewareUrl, getCookieHeader }) => ({
-    example: buildModule(exampleSdkModule, {
-      apiUrl: `${middlewareUrl}/test_integration`,
-      headers: { cookie: getCookieHeader() },
-    }),
-  })
+  ({ buildModule, middlewareModule, middlewareUrl, getRequestHeaders }) => {
+    return {
+      example: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: `${middlewareUrl}/test_integration`,
+        defaultRequestConfig: { headers: { ...getRequestHeaders() } },
+      }),
+    };
+  }
 );

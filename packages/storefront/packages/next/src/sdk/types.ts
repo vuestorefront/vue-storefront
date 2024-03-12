@@ -1,4 +1,4 @@
-import { SDKApi, buildModule } from "@vue-storefront/sdk";
+import { SDKApi, buildModule, middlewareModule } from "@vue-storefront/sdk";
 import { ReactNode } from "react";
 
 export type GetSdkContext = {
@@ -16,6 +16,7 @@ export type DynamicContext = {
 
 export type StaticContext = {
   buildModule: typeof buildModule;
+  middlewareModule: typeof middlewareModule;
   middlewareUrl: string;
 };
 

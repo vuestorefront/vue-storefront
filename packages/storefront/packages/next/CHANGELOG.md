@@ -1,5 +1,31 @@
 # Change log
 
+## 1.1.0
+
+- **[ADDED]** `middlewareModule` to `createSdk` params.
+
+```diff [sdk.config.ts]
+- import { UnifiedApiExtension } from "storefront-middleware/types"
++ import { UnifiedEndpoints } from "storefront-middleware/types"
+
+export const { getSdk } = createSdk(
+  options,
+-  ({ buildModule, middlewareUrl, getRequestHeaders }) => ({
+-    commerce: buildModule(unifiedModule<UnifiedApiExtension>, {
+-      apiUrl: `${middlewareUrl}/commerce`,
+-      requestOptions: {
+-        headers: getRequestHeaders,
++  ({ buildModule, middlewareModule, middlewareUrl, getRequestHeaders }) => ({
++    commerce: buildModule(middlewareModule<UnifiedEndpoints>, {
++      apiUrl: `${middlewareUrl}/commerce`,
++      defaultRequestConfig: {
++        headers: getRequestHeaders(),
+      },
+    }),
+  })
+);
+```
+
 ## 1.0.2
 
 - **[FIXED]** Multi-store URL calculation, now working correctly in the browser.

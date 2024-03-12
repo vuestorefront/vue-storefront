@@ -8,7 +8,7 @@ import {
   addImportsSources,
 } from "@nuxt/kit";
 import { genInlineTypeImport } from "knitwork";
-import { SdkModuleOptions } from "./types";
+import { type SdkModuleOptions } from "./types";
 
 export default defineNuxtModule<SdkModuleOptions>({
   meta: {

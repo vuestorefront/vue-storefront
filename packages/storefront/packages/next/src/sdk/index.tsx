@@ -2,7 +2,7 @@ import {
   composeMiddlewareUrl,
   type CreateSdkOptions,
 } from "@storefront/shared";
-import { buildModule, initSDK } from "@vue-storefront/sdk";
+import { buildModule, initSDK, middlewareModule } from "@vue-storefront/sdk";
 import { resolveDynamicContext } from "./helpers";
 import { Config, CreateSdkReturn, GetSdkContext } from "./types";
 
@@ -15,13 +15,9 @@ export type { CreateSdkOptions } from "@storefront/shared";
  * @returns An object containing the `getSdk` function.
  * @example
  * ```tsx
- * import {
- *   contentfulModule,
- *   ContentfulModuleType,
- * } from "@vsf-enterprise/contentful-sdk";
- * import { unifiedModule } from "@vsf-enterprise/unified-sdk";
+ * import { contentfulModule } from "@vsf-enterprise/contentful-sdk";
  * import { CreateSdkOptions, createSdk } from "@vue-storefront/next";
- * import type { UnifiedApiExtension } from "../storefront-middleware/middleware.config";
+ * import type { UnifiedApiEndpoints } from "../storefront-middleware/types";
  *
  * const options: CreateSdkOptions = {
  *   middleware: {
@@ -31,14 +27,14 @@ export type { CreateSdkOptions } from "@storefront/shared";
  *
  * export const { getSdk, createSdkContext } = createSdk(
  *   options,
- *   ({ buildModule, middlewareUrl, getRequestHeaders }) => ({
- *     unified: buildModule(unifiedModule<UnifiedApiExtension>, {
+ *   ({ buildModule, middlewareModule, middlewareUrl, getRequestHeaders }) => ({
+ *     unified: buildModule(middlewareModule<UnifiedApiEndpoints>, {
  *       apiUrl: middlewareUrl + "/commerce",
- *       requestOptions: {
- *         headers: getRequestHeaders,
+ *       defaultRequestConfig: {
+ *         headers: getRequestHeaders(),
  *       },
  *     }),
- *     contentful: buildModule<ContentfulModuleType>(contentfulModule, {
+ *     contentful: buildModule(contentfulModule, {
  *       apiUrl: middlewareUrl + "/cntf",
  *     }),
  *   }),
@@ -58,6 +54,7 @@ export function createSdk<TConfig extends Record<string, any>>(
 
     const resolvedConfig = configDefinition({
       buildModule,
+      middlewareModule,
       getRequestHeaders,
       middlewareUrl,
     });

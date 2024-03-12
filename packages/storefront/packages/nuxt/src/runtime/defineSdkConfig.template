@@ -1,11 +1,17 @@
-import { buildModule } from "@vue-storefront/sdk";
+import { buildModule, middlewareModule } from "@vue-storefront/sdk";
 import { composeMiddlewareUrl, useNuxtApp, useRequestHeaders } from "#imports";
 import { SdkModuleOptions } from "./vsfModule";
 
 type InjectedContext = {
   buildModule: typeof buildModule;
+  middlewareModule: typeof middlewareModule;
   middlewareUrl: string;
+  /**
+   * @deprecated
+   * Use `getRequestHeaders` instead.
+   */
   getCookieHeader: () => Record<string, string>;
+  getRequestHeaders: () => Record<string, string>;
 };
 
 type Config<TConfig> = (context: InjectedContext) => TConfig;
@@ -23,18 +29,15 @@ const moduleConfig: SdkModuleOptions = <%= options.moduleConfig %>;
   *   contentfulModule,
   *   ContentfulModuleType,
   * } from "@vsf-enterprise/contentful-sdk";
-  * import { unifiedModule } from "@vsf-enterprise/unified-sdk";
-  * import type { UnifiedApiExtension } from "../storefront-middleware/middleware.config";
+  * import type { UnifiedApiEndpoints } from "../storefront-middleware/types";
   * 
   * export default defineSdkConfig(
-  *   ({ buildModule, middlewareUrl, getCookieHeader }) => ({
-  *     unified: buildModule(unifiedModule<UnifiedApiExtension>, {
+  *   ({ buildModule, middlewareModule, middlewareUrl, getCookieHeader }) => ({
+  *     unified: buildModule(middlewareModule<UnifiedApiEndpoints>, {
   *       apiUrl: middlewareUrl + "/commerce",
-  *       requestOptions: {
-  *         headers: getCookieHeader,
-  *       },
+  *       defaultRequestConfig: { headers: { ...getCookieHeader() } },
   *     }),
-  *     contentful: buildModule<ContentfulModuleType>(contentfulModule, {
+  *     contentful: buildModule(contentfulModule, {
   *       apiUrl: middlewareUrl + "/cntf",
   *     }),
   *   }),
@@ -58,11 +61,14 @@ export function defineSdkConfig<TConfig>(config: Config<TConfig>) {
     });
 
     const getCookieHeader = () => useRequestHeaders(["cookie"]);
+    const getRequestHeaders = () => useRequestHeaders();
 
     return config({
       buildModule,
+      middlewareModule,
       middlewareUrl,
-      getCookieHeader
+      getCookieHeader,
+      getRequestHeaders
     });
   }
 }
