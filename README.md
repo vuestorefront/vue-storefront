@@ -1,6 +1,8 @@
 <br />
 <p align="center">
-  <img src="./_readme/Logo.png" alt="Alokai" />
+  <picture>
+    <img src="./_readme/Logo.png" width="400px" height="auto" alt="Alokai" />
+  </picture>
 </p>
 
 <h3 align="center">
