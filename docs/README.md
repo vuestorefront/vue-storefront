@@ -12,7 +12,7 @@ You can use the rest of this project to preview your content locally, but any co
 
 If you need additional functionality, reach out to us on [Discord](https://discord.alokai.com) and we'll work with you to get it added to the docs base layer and make it available to all of our docs projects.
 
-But remember - if you're publishing through the VSF docs, only your `content` folder will be pulled into the docs.
+But remember - if you're publishing through the Alokai docs, only your `content` folder will be pulled into the docs.
 
 ### Place images directly in the `content` folder
 
