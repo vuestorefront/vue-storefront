@@ -4,6 +4,11 @@ import { initSDK, buildModule } from "../../../index";
 import {
   middlewareModule,
   prepareConfig,
+  isCausedBySdkHttpError,
+  isSpecificSdkHttpError,
+  isSdkRequestError,
+  isSdkUnauthorizedError,
+  SdkHttpError,
 } from "../../../modules/middlewareModule";
 import { Endpoints } from "../../__mocks__/apiClient/types";
 
@@ -368,7 +373,6 @@ describe("middlewareModule", () => {
 
     // This is a real call to the middleware, so we're verifying the response, to check if the request was successful.
     const res = await sdk.commerce.getCategory(1);
-
     expect(res).toEqual({ id: 1, name: "Test Category" });
   });
 
@@ -490,5 +494,73 @@ describe("middlewareModule", () => {
     const res = await sdk.commerce.getProduct({ id: 1 });
 
     expect(res).toEqual({ id: 1, name: "Custom method" });
+  });
+
+  it("should make a method throw if httpClient callback throws", async () => {
+    expect.assertions(6);
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+      }),
+    });
+
+    try {
+      // This is a real request to the middleware, invalid endpoint throws { statusCode: 401, message: "Unauthorized" }
+      await sdk.commerce.unauthorized();
+    } catch (err) {
+      expect(err).toBeInstanceOf(Error);
+      expect(isCausedBySdkHttpError(err)).toBe(true);
+      expect(isSpecificSdkHttpError(err, { statusCode: 401 })).toBe(true);
+      expect(
+        isSpecificSdkHttpError(err, {
+          statusCode: (statusCode) => statusCode === 401,
+        })
+      ).toBe(true);
+      expect(isSdkRequestError(err)).toBe(true);
+      expect(isSdkUnauthorizedError(err)).toBe(true);
+    }
+  });
+
+  it("sshould make a method throw if custom httpClient callback throws", async () => {
+    expect.assertions(6);
+
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        httpClient: async (url, params, config) => {
+          try {
+            const { data } = await axios(url, {
+              ...config,
+              data: params,
+              withCredentials: true,
+            });
+
+            return data;
+          } catch (err: any) {
+            throw new SdkHttpError({
+              statusCode: err?.response?.status || 500,
+              message: err?.response?.data?.message || err.message,
+              cause: err,
+            });
+          }
+        },
+      }),
+    });
+
+    try {
+      // This is a real request to the middleware, invalid endpoint throws { statusCode: 401, message: "Unauthorized" }
+      await sdk.commerce.unauthorized();
+    } catch (err) {
+      expect(err).toBeInstanceOf(Error);
+      expect(isCausedBySdkHttpError(err)).toBe(true);
+      expect(isSpecificSdkHttpError(err, { statusCode: 401 })).toBe(true);
+      expect(
+        isSpecificSdkHttpError(err, {
+          statusCode: (statusCode) => statusCode === 401,
+        })
+      ).toBe(true);
+      expect(isSdkRequestError(err)).toBe(true);
+      expect(isSdkUnauthorizedError(err)).toBe(true);
+    }
   });
 });
