@@ -7,6 +7,7 @@ import {
   ErrorHandler,
   RequestSender,
 } from "../types";
+import { SDKError } from "./SDKError";
 
 /**
  * Generates a `RequestSender` function configured according to the provided options.
@@ -81,7 +82,16 @@ export const getRequestSender = (options: Options): RequestSender => {
       credentials: "include",
     });
 
-    return response.json();
+    const responseJson = await response.json();
+
+    if (!response.ok) {
+      throw new SDKError({
+        statusCode: response.status,
+        message: responseJson?.message,
+      });
+    }
+
+    return responseJson;
   };
 
   const defaultErrorHandler: ErrorHandler = async ({ error }) => {

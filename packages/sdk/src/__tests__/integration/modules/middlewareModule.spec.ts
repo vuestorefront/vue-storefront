@@ -4,6 +4,8 @@ import { initSDK, buildModule } from "../../../index";
 import {
   middlewareModule,
   prepareConfig,
+  isCausedBySdkError,
+  SDKError,
 } from "../../../modules/middlewareModule";
 import { Endpoints } from "../../__mocks__/apiClient/types";
 
@@ -368,7 +370,6 @@ describe("middlewareModule", () => {
 
     // This is a real call to the middleware, so we're verifying the response, to check if the request was successful.
     const res = await sdk.commerce.getCategory(1);
-
     expect(res).toEqual({ id: 1, name: "Test Category" });
   });
 
@@ -490,5 +491,21 @@ describe("middlewareModule", () => {
     const res = await sdk.commerce.getProduct({ id: 1 });
 
     expect(res).toEqual({ id: 1, name: "Custom method" });
+  });
+
+  it("should throw an error that is caused by the SDKError", async () => {
+    expect.assertions(2);
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+      }),
+    });
+
+    try {
+      await sdk.commerce.invalid();
+    } catch (err) {
+      expect(err).toBeInstanceOf(Error);
+      expect(isCausedBySdkError(err)).toBe(true);
+    }
   });
 });
