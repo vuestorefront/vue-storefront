@@ -13,7 +13,7 @@ export type ErrorParams = {
 /**
  * Represents a custom error for SDK HTTP operations.
  */
-export class SDKError extends Error {
+export class SdkHttpError extends Error {
   /** The HTTP status code associated with this error. */
   public statusCode: number;
 
@@ -30,7 +30,7 @@ export class SDKError extends Error {
 /**
  * Represents an error type with a cause property of type `SDKError`.
  */
-export type ErrorCausedBySDKError = Error & { cause: SDKError };
+export type ErrorCausedBySDKError = Error & { cause: SdkHttpError };
 
 /**
  * Defines a predicate for checking an `SDKError` based on its status code.
@@ -53,10 +53,12 @@ export type SdkErrorPredicate = {
  * }
  * ```
  */
-export const isCausedBySdkError = (
+export const isCausedBySdkHttpError = (
   error: unknown
 ): error is ErrorCausedBySDKError =>
-  error instanceof Error && "cause" in error && error.cause instanceof SDKError;
+  error instanceof Error &&
+  "cause" in error &&
+  error.cause instanceof SdkHttpError;
 
 /**
  * Checks if the given error was caused by `SDKError` and matches a specific status code or condition.
@@ -80,11 +82,11 @@ export const isCausedBySdkError = (
  * }
  * ```
  */
-export const isSpecificSdkError = (
+export const isSpecificSdkHttpError = (
   error: unknown,
   statusCodePredicate: SdkErrorPredicate
 ): error is ErrorCausedBySDKError =>
-  isCausedBySdkError(error) &&
+  isCausedBySdkHttpError(error) &&
   (typeof statusCodePredicate.statusCode === "function"
     ? statusCodePredicate.statusCode(error.cause.statusCode)
     : error.cause.statusCode === statusCodePredicate.statusCode);
@@ -105,7 +107,7 @@ export const isSpecificSdkError = (
 export const isSdkRequestError = (
   error: unknown
 ): error is ErrorCausedBySDKError =>
-  isSpecificSdkError(error, {
+  isSpecificSdkHttpError(error, {
     statusCode: (code: number) => code >= 400 && code < 500,
   });
 
@@ -125,4 +127,4 @@ export const isSdkRequestError = (
 export const isSdkUnauthorizedError = (
   error: unknown
 ): error is ErrorCausedBySDKError =>
-  isSpecificSdkError(error, { statusCode: 401 });
+  isSpecificSdkHttpError(error, { statusCode: 401 });

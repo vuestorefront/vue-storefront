@@ -4,8 +4,11 @@ import { initSDK, buildModule } from "../../../index";
 import {
   middlewareModule,
   prepareConfig,
-  isCausedBySdkError,
-  SDKError,
+  isCausedBySdkHttpError,
+  isSpecificSdkHttpError,
+  isSdkRequestError,
+  isSdkUnauthorizedError,
+  axiosAdapter,
 } from "../../../modules/middlewareModule";
 import { Endpoints } from "../../__mocks__/apiClient/types";
 
@@ -493,8 +496,8 @@ describe("middlewareModule", () => {
     expect(res).toEqual({ id: 1, name: "Custom method" });
   });
 
-  it("should throw an error that is caused by the SDKError", async () => {
-    expect.assertions(2);
+  it("should throw an error as an instance of SdkHttpError class with default http client", async () => {
+    expect.assertions(6);
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
@@ -502,10 +505,45 @@ describe("middlewareModule", () => {
     });
 
     try {
-      await sdk.commerce.invalid();
+      // This is a real request to the middleware, invalid endpoint throws { statusCode: 401, message: "Unauthorized" }
+      await sdk.commerce.unauthorized();
     } catch (err) {
       expect(err).toBeInstanceOf(Error);
-      expect(isCausedBySdkError(err)).toBe(true);
+      expect(isCausedBySdkHttpError(err)).toBe(true);
+      expect(isSpecificSdkHttpError(err, { statusCode: 401 })).toBe(true);
+      expect(
+        isSpecificSdkHttpError(err, {
+          statusCode: (statusCode) => statusCode === 401,
+        })
+      ).toBe(true);
+      expect(isSdkRequestError(err)).toBe(true);
+      expect(isSdkUnauthorizedError(err)).toBe(true);
+    }
+  });
+
+  it("should throw an error as an instance of SdkHttpError class with axios as a custom http client", async () => {
+    expect.assertions(6);
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        httpClient: axiosAdapter(axios),
+      }),
+    });
+
+    try {
+      // This is a real request to the middleware, invalid endpoint throws { statusCode: 401, message: "Unauthorized" }
+      await sdk.commerce.unauthorized();
+    } catch (err) {
+      expect(err).toBeInstanceOf(Error);
+      expect(isCausedBySdkHttpError(err)).toBe(true);
+      expect(isSpecificSdkHttpError(err, { statusCode: 401 })).toBe(true);
+      expect(
+        isSpecificSdkHttpError(err, {
+          statusCode: (statusCode) => statusCode === 401,
+        })
+      ).toBe(true);
+      expect(isSdkRequestError(err)).toBe(true);
+      expect(isSdkUnauthorizedError(err)).toBe(true);
     }
   });
 });

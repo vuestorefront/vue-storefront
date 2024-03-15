@@ -14,7 +14,7 @@ export type Endpoints = {
    */
   getCategory: (id: number) => Promise<{ id: number; name: string }>;
   /**
-   * For testing invalid requests.
+   * For testing unauthorized requests.
    */
-  invalid: () => Promise<unknown>;
+  unauthorized: () => Promise<unknown>;
 };

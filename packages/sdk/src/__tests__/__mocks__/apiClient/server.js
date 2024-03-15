@@ -20,8 +20,8 @@ const { createApiClient } = apiClientFactory({
     getCategory: async (_context, id) => {
       return { id, name: "Test Category" };
     },
-    invalid: async (_context, _params) => {
-      throw new Error("Invalid method");
+    unauthorized: async (_context, _params) => {
+      throw { statusCode: 401, message: "Unauthorized" };
     },
   },
 });

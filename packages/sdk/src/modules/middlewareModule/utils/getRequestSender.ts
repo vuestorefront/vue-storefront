@@ -7,7 +7,7 @@ import {
   ErrorHandler,
   RequestSender,
 } from "../types";
-import { SDKError } from "./SDKError";
+import { SdkHttpError } from "./SdkHttpError";
 
 /**
  * Generates a `RequestSender` function configured according to the provided options.
@@ -85,7 +85,7 @@ export const getRequestSender = (options: Options): RequestSender => {
     const responseJson = await response.json();
 
     if (!response.ok) {
-      throw new SDKError({
+      throw new SdkHttpError({
         statusCode: response.status,
         message: responseJson?.message,
       });

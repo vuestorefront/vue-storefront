@@ -1,3 +1,4 @@
 export { getRequestSender } from "./getRequestSender";
 export { prepareConfig } from "./prepareConfig";
-export * from "./SDKError";
+export { axiosAdapter } from "./axiosAdapter";
+export * from "./SdkHttpError";
