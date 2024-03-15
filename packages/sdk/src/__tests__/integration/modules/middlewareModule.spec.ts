@@ -8,7 +8,7 @@ import {
   isSpecificSdkHttpError,
   isSdkRequestError,
   isSdkUnauthorizedError,
-  axiosAdapter,
+  SdkHttpError,
 } from "../../../modules/middlewareModule";
 import { Endpoints } from "../../__mocks__/apiClient/types";
 
@@ -523,10 +523,27 @@ describe("middlewareModule", () => {
 
   it("should throw an error as an instance of SdkHttpError class with axios as a custom http client", async () => {
     expect.assertions(6);
+
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        httpClient: axiosAdapter(axios),
+        httpClient: async (url, params, config) => {
+          try {
+            const { data } = await axios(url, {
+              ...config,
+              data: params,
+              withCredentials: true,
+            });
+
+            return data;
+          } catch (err: any) {
+            throw new SdkHttpError({
+              statusCode: err?.response?.status || 500,
+              message: err?.response?.data?.message || err.message,
+              cause: err,
+            });
+          }
+        },
       }),
     });
 

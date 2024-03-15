@@ -1,5 +1,6 @@
 import { AnyFunction } from "../../types";
 import { isConfig } from "./consts";
+import { SdkHttpError } from "./utils";
 
 /**
  * Represents the constraint for API endpoint functions within the SDK.
@@ -112,7 +113,7 @@ export type HTTPClient = (
    * The computed configuration for the HTTP request, after processing url, query params and headers.
    */
   config?: ComputedConfig
-) => Promise<any>;
+) => Promise<true> | SdkHttpError;
 
 /**
  * Provides context for error handling, encapsulating details relevant to the failed HTTP request.
@@ -187,20 +188,29 @@ export type Options = {
    * It's optional and it will use the default HTTP Client if it's not provided.
    *
    * @example
-   * Using `axios` as the HTTP Client
+   * Using `axios` as the HTTP Client:
    * ```ts
    * import axios from "axios";
    *
    * const options: Options = {
    *   apiUrl: "https://api.example.com",
    *   httpClient: async (url, params, config) => {
-   *    const { data } = await axios(url, {
-   *      ...config,
-   *      data: params,
-   *    });
+   *     try {
+   *       const { data } = await axios(url, {
+   *         ...config,
+   *         data: params,
+   *         withCredentials: true,
+   *       });
    *
-   *    return data;
-   *  },
+   *       return data;
+   *     } catch (err: any) {
+   *       throw new SdkHttpError({
+   *         statusCode: err?.response?.status || 500,
+   *         message: err?.response?.data?.message || err.message,
+   *         cause: err,
+   *       });
+   *     }
+   *   },
    * };
    * ```
    */
