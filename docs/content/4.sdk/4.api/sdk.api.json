@@ -728,6 +728,46 @@
         },
         {
           "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!ErrorCausedBySDKError:type",
+          "docComment": "/**\n * Represents an error type with a cause property of type `SDKError`.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type ErrorCausedBySDKError = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Error",
+              "canonicalReference": "!Error:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " & {\n    cause: "
+            },
+            {
+              "kind": "Reference",
+              "text": "SdkHttpError",
+              "canonicalReference": "@vue-storefront/sdk!SdkHttpError:class"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/utils/SdkHttpError.ts",
+          "releaseTag": "Public",
+          "name": "ErrorCausedBySDKError",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
           "canonicalReference": "@vue-storefront/sdk!ErrorHandler:type",
           "docComment": "/**\n * Defines a generic error handler function type. This abstraction allows for custom error handling logic, which can be implemented by the consumer of the HTTP client.\n */\n",
           "excerptTokens": [
@@ -812,6 +852,32 @@
           "typeTokenRange": {
             "startIndex": 1,
             "endIndex": 6
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!ErrorParams:type",
+          "docComment": "/**\n * Defines the parameters required to construct an `SDKError`.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type ErrorParams = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    message: string;\n    statusCode: number;\n    cause?: unknown;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/utils/SdkHttpError.ts",
+          "releaseTag": "Public",
+          "name": "ErrorParams",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
           }
         },
         {
@@ -1184,7 +1250,12 @@
             },
             {
               "kind": "Content",
-              "text": "<any>"
+              "text": "<true> | "
+            },
+            {
+              "kind": "Reference",
+              "text": "SdkHttpError",
+              "canonicalReference": "@vue-storefront/sdk!SdkHttpError:class"
             },
             {
               "kind": "Content",
@@ -1196,7 +1267,7 @@
           "name": "HTTPClient",
           "typeTokenRange": {
             "startIndex": 1,
-            "endIndex": 6
+            "endIndex": 7
           }
         },
         {
@@ -1771,6 +1842,163 @@
           "typeTokenRange": {
             "startIndex": 1,
             "endIndex": 2
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@vue-storefront/sdk!isCausedBySdkHttpError:var",
+          "docComment": "/**\n * Checks if the given error was caused by `SDKError`.\n *\n * @param error - The error to check.\n *\n * @returns A type predicate indicating whether the error is an `ErrorCausedBySDKError`.\n *\n * @example\n * ```typescript\n * catch (error) {\n *   if (isCausedBySdkError(error)) {\n *     const statusCode = error.cause.statusCode;\n *   }\n * }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "isCausedBySdkHttpError: "
+            },
+            {
+              "kind": "Content",
+              "text": "(error: unknown) => "
+            },
+            {
+              "kind": "Reference",
+              "text": "error",
+              "canonicalReference": "@vue-storefront/sdk!~error"
+            },
+            {
+              "kind": "Content",
+              "text": " is "
+            },
+            {
+              "kind": "Reference",
+              "text": "ErrorCausedBySDKError",
+              "canonicalReference": "@vue-storefront/sdk!ErrorCausedBySDKError:type"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/utils/SdkHttpError.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "isCausedBySdkHttpError",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@vue-storefront/sdk!isSdkRequestError:var",
+          "docComment": "/**\n * Checks if the given error was caused by `SDKError` and its status code is between 400 and 500, indicating a client error.\n *\n * @param error - The error to check.\n *\n * @returns A type predicate indicating whether the error is a client error caused by `SDKError`.\n *\n * @example\n * ```typescript\n * catch (error) {\n *   if (isSdkRequestError(error)) {\n *     // handle client error\n *   }\n * }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "isSdkRequestError: "
+            },
+            {
+              "kind": "Content",
+              "text": "(error: unknown) => "
+            },
+            {
+              "kind": "Reference",
+              "text": "error",
+              "canonicalReference": "@vue-storefront/sdk!~error"
+            },
+            {
+              "kind": "Content",
+              "text": " is "
+            },
+            {
+              "kind": "Reference",
+              "text": "ErrorCausedBySDKError",
+              "canonicalReference": "@vue-storefront/sdk!ErrorCausedBySDKError:type"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/utils/SdkHttpError.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "isSdkRequestError",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@vue-storefront/sdk!isSdkUnauthorizedError:var",
+          "docComment": "/**\n * Checks if the given error was caused by `SDKError` and its status code is 401, indicating an unauthorized request error.\n *\n * @param error - The error to check.\n *\n * @returns A type predicate indicating whether the error is an unauthorized request error caused by `SDKError`.\n *\n * @example\n * ```typescript\n * catch (error) {\n *   if (isSdkUnauthorizedError(error)) {\n *     // handle unauthorized error\n *   }\n * }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "isSdkUnauthorizedError: "
+            },
+            {
+              "kind": "Content",
+              "text": "(error: unknown) => "
+            },
+            {
+              "kind": "Reference",
+              "text": "error",
+              "canonicalReference": "@vue-storefront/sdk!~error"
+            },
+            {
+              "kind": "Content",
+              "text": " is "
+            },
+            {
+              "kind": "Reference",
+              "text": "ErrorCausedBySDKError",
+              "canonicalReference": "@vue-storefront/sdk!ErrorCausedBySDKError:type"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/utils/SdkHttpError.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "isSdkUnauthorizedError",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@vue-storefront/sdk!isSpecificSdkHttpError:var",
+          "docComment": "/**\n * Checks if the given error was caused by `SDKError` and matches a specific status code or condition.\n *\n * @param error - The error to check.\n *\n * @param statusCodePredicate - The predicate to match the error's status code against.\n *\n * @returns A type predicate indicating whether the error matches the specific condition.\n *\n * @example\n * ```typescript\n * catch (error) {\n *   if (isSpecificSdkError(error, { statusCode: 422 })) {\n *     // handle 422\n *   }\n * }\n * ```\n *\n * @example\n * ```typescript\n * catch (error) {\n *   if (isSpecificSdkError(error, { statusCode: (code) => code === 401 || code === 403 })) {\n *     // handle 401 or 403\n *   }\n * }\n * ```\n *\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "isSpecificSdkHttpError: "
+            },
+            {
+              "kind": "Content",
+              "text": "(error: unknown, statusCodePredicate: "
+            },
+            {
+              "kind": "Reference",
+              "text": "SdkErrorPredicate",
+              "canonicalReference": "@vue-storefront/sdk!SdkErrorPredicate:type"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
+            },
+            {
+              "kind": "Reference",
+              "text": "error",
+              "canonicalReference": "@vue-storefront/sdk!~error"
+            },
+            {
+              "kind": "Content",
+              "text": " is "
+            },
+            {
+              "kind": "Reference",
+              "text": "ErrorCausedBySDKError",
+              "canonicalReference": "@vue-storefront/sdk!ErrorCausedBySDKError:type"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/utils/SdkHttpError.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "isSpecificSdkHttpError",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 7
           }
         },
         {
@@ -2500,6 +2728,127 @@
             "startIndex": 1,
             "endIndex": 13
           }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/sdk!SdkErrorPredicate:type",
+          "docComment": "/**\n * Defines a predicate for checking an `SDKError` based on its status code.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type SdkErrorPredicate = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    statusCode: number | ((statusCode: number) => boolean);\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/utils/SdkHttpError.ts",
+          "releaseTag": "Public",
+          "name": "SdkErrorPredicate",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@vue-storefront/sdk!SdkHttpError:class",
+          "docComment": "/**\n * Represents a custom error for SDK HTTP operations.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class SdkHttpError extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Error",
+              "canonicalReference": "!Error:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "fileUrlPath": "src/modules/middlewareModule/utils/SdkHttpError.ts",
+          "releaseTag": "Public",
+          "isAbstract": false,
+          "name": "SdkHttpError",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@vue-storefront/sdk!SdkHttpError:constructor(1)",
+              "docComment": "/**\n * Constructs an instance of `SDKError`.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(errorParams: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ErrorParams",
+                  "canonicalReference": "@vue-storefront/sdk!ErrorParams:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "errorParams",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ]
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@vue-storefront/sdk!SdkHttpError#statusCode:member",
+              "docComment": "/**\n * The HTTP status code associated with this error.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "statusCode: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "statusCode",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            }
+          ],
+          "extendsTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "implementsTokenRanges": []
         },
         {
           "kind": "TypeAlias",
