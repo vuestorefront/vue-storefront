@@ -496,7 +496,7 @@ describe("middlewareModule", () => {
     expect(res).toEqual({ id: 1, name: "Custom method" });
   });
 
-  it("should throw an error as an instance of SdkHttpError class with default http client", async () => {
+  it("should make a method throw if httpClient callback throws", async () => {
     expect.assertions(6);
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
@@ -521,7 +521,7 @@ describe("middlewareModule", () => {
     }
   });
 
-  it("should throw an error as an instance of SdkHttpError class with axios as a custom http client", async () => {
+  it("sshould make a method throw if custom httpClient callback throws", async () => {
     expect.assertions(6);
 
     const sdk = initSDK({
