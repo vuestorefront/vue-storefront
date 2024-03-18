@@ -13,4 +13,12 @@ export type Endpoints = {
    * Get the category by id.
    */
   getCategory: (id: number) => Promise<{ id: number; name: string }>;
+  /**
+   * For testing unauthorized requests.
+   */
+  unauthorized: () => Promise<unknown>;
+  /**
+   * For testing void responses.
+   */
+  logout: () => Promise<void>;
 };

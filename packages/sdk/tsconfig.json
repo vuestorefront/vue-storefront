@@ -1,6 +1,9 @@
 {
   "extends": "@vue-storefront/integrations-tsconfig/tsconfig",
   "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2015",
+    "lib": ["ES2022", "DOM"],
     "strict": true,
     "baseUrl": ".",
     "outDir": "./lib",
