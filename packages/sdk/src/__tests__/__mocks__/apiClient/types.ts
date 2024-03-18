@@ -17,4 +17,8 @@ export type Endpoints = {
    * For testing unauthorized requests.
    */
   unauthorized: () => Promise<unknown>;
+  /**
+   * For testing void responses.
+   */
+  logout: () => Promise<void>;
 };

@@ -521,7 +521,7 @@ describe("middlewareModule", () => {
     }
   });
 
-  it("sshould make a method throw if custom httpClient callback throws", async () => {
+  it("should make a method throw if custom httpClient callback throws", async () => {
     expect.assertions(6);
 
     const sdk = initSDK({
@@ -562,5 +562,17 @@ describe("middlewareModule", () => {
       expect(isSdkRequestError(err)).toBe(true);
       expect(isSdkUnauthorizedError(err)).toBe(true);
     }
+  });
+
+  it("should return undefined, when method is void", async () => {
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+      }),
+    });
+
+    const res = await sdk.commerce.logout();
+
+    expect(res).toBeUndefined();
   });
 });

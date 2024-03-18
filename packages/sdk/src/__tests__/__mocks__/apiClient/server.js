@@ -23,6 +23,7 @@ const { createApiClient } = apiClientFactory({
     unauthorized: async (_context, _params) => {
       throw { statusCode: 401, message: "Unauthorized" };
     },
+    logout: async (_context) => {},
   },
 });
 
