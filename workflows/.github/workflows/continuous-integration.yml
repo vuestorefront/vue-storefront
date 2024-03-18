@@ -2,6 +2,17 @@ name: Continous Integration
 
 on:
   workflow_call:
+    secrets:
+      NPM_USER:
+        description: 'repository NPM_USER secret passed on'
+        required: false
+      NPM_PASS:
+        description: 'repository NPM_PASS secret passed on'
+        required: false
+      NPM_EMAIL:
+        description: 'repository NPM_EMAIL secret passed on'
+        required: false
+
     inputs:
       enterprise:
         description: "Flag to use enterprise registry"
@@ -14,14 +25,6 @@ on:
         type: string
         required: false
         default: "['16', '18']"
-
-defaults:
-  run:
-    shell: bash
-        
-env:
-  GCP_PROJECT_ID: 81559754996
-  GCP_PROJECT_NAME: sf-artifacts-prod
 
 jobs:
   scanning:
@@ -79,28 +82,16 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      # IN-3457
-      - id: auth
-        name: Authenticate to Google Cloud
+      - name: Log into Verdaccio
         if: ${{ inputs.enterprise }}
-        uses: google-github-actions/auth@v1
-        with:
-          workload_identity_provider: projects/${{ env.GCP_PROJECT_ID }}/locations/global/workloadIdentityPools/sf-artifacts-prod-01/providers/sf-artifacts-prod-01
-          service_account: workload-identity-federation@sf-artifacts-prod.iam.gserviceaccount.com
-          token_format: access_token
-          create_credentials_file: false
-
-      - if: ${{ inputs.enterprise }}
-        run: |
-          npm config set //europe-west1-npm.pkg.dev/${{ env.GCP_PROJECT_NAME }}/npm/:_authToken=${{ steps.auth.outputs.access_token }}
-          npm config set //registrynpm.storefrontcloud.io/:_authToken=${{ secrets.NPM_DEFAULT_ENTERPRISE_TOKEN }}
-
-      - if: ${{ !inputs.enterprise }}
-        run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_RELEASE_TOKEN }}
-
-      - name: Install dependencies
         shell: bash
-        if: steps.cache.outputs.cache-hit != true
+        run: |
+          npm install -g npm-cli-login
+          npm-cli-login -u ${{ secrets.NPM_USER }} -p ${{ secrets.NPM_PASS }} -e ${{ secrets.NPM_EMAIL }} -r https://registrynpm.storefrontcloud.io
+
+      - name: Install dependencies (OS)
+        if: ${{ !steps.cache.outputs.cache-hit }}
+        shell: bash
         run: HUSKY=0 yarn --frozen-lockfile
 
       - name: Detect circular dependencies 🔄
