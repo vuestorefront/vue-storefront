@@ -1,6 +1,6 @@
 # @vuestorefront/engineering-toolkit
 
-> Vue Storefront engineering standards
+> Alokai engineering standards
 
 ## Information
 
@@ -75,4 +75,4 @@ List of useful commands that could be used by developers. Execution in the comma
 
 [MIT License](./LICENSE)
 
-Copyright (c) Vue Storefront
+Copyright (c) Alokai
