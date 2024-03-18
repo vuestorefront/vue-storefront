@@ -82,7 +82,7 @@ export const getRequestSender = (options: Options): RequestSender => {
       credentials: "include",
     });
 
-    const responseJson = await response.json();
+    const responseJson = await response.json().catch(() => undefined);
 
     if (!response.ok) {
       throw new SdkHttpError({

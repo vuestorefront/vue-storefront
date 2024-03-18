@@ -1,5 +1,11 @@
 # Change log
 
+## 1.4.2
+
+### Patch Changes
+
+- **[FIXED]** handling void response in `middlewareModule`. Previously an invalid-json error was thrown, now undefined will be returned.
+
 ## 1.4.1
 
 ### Patch Changes
