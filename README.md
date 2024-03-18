@@ -1,9 +1,6 @@
 <br />
-<p align="center">
-  <picture>
-    <img src="./_readme/Logo.png" width="400px" height="auto" alt="Alokai" />
-  </picture>
-</p>
+
+![Alokai](https://res.cloudinary.com/vue-storefront/image/upload/v1710754524/Logo_green_2x_z4vmhz.png)
 
 <h3 align="center">
   <strong>An ecosystem of developer tools that accelerate and simplify building eCommerce Storefronts</strong>
