@@ -1,7 +1,6 @@
 <br />
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/1626923/156934585-5c585b9f-53ff-4eee-beb3-a3a410c48d47.png" alt="Vue Storefront" />
-</p>
+
+![Alokai](https://res.cloudinary.com/vue-storefront/image/upload/v1710754524/Logo_green_2x_z4vmhz.png)
 
 <h3 align="center">
   <strong>An ecosystem of developer tools that accelerate and simplify building eCommerce Storefronts</strong>
@@ -54,13 +53,13 @@
     </a>
 </p>
 
-![Hero image](https://images.contentstack.io/v3/assets/blt189c1df68c6b48d7/blt012de533cf11b952/62a0df552680af592233245c/Homepage-Hero-v1.png?auto=webp&width=640&format=pjpg&disable=upscale&quality=100&dpr=2)
+![Hero image](./_readme/HeroImage.png)
 
-Vue Storefront is an ecosystem of Open Source tools to build fast and feature-rich eCommerce Storefronts using the latest technologies.
+Alokai is your guide to the composable commerce world that simplifies building, deploying, and monitoring ecommerce frontends.
 
-- **Works with any backend**. Vue Storefront is compatible with any backend that has an API. In addition its already integrated with many of them! [See the list of available integrations](https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms).
+- **Works with any backend**. Alokai is compatible with any backend that has an API. In addition its already integrated with many of them! [See the list of available integrations](https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms).
 
-- **Working eCommerce Storefront** - Vue Storefront delivers fully-working eCommerce storefront integrated with your favourite stack
+- **Working eCommerce Storefront** - Alokai delivers fully-working eCommerce storefront integrated with your favourite stack
 
 - **Fully customizable**. Build your application with pre-installed [Storefront UI](https://github.com/vuestorefront/storefront-ui) - components library designed for eCommerce, or build your own theme from scratch.
 
@@ -93,7 +92,7 @@ Vue Storefront is an ecosystem of Open Source tools to build fast and feature-ri
  </p>
  <br />
 <p align="center">
-  <strong>Enterprise Integrations (part of paid Vue Storefront Enterprise License)</strong>
+  <strong>Enterprise Integrations (part of paid Alokai Enterprise License)</strong>
 </p>
 
 <p align="center" valign="middle">
@@ -123,7 +122,7 @@ Vue Storefront is an ecosystem of Open Source tools to build fast and feature-ri
 </p>
 
 ## **Getting started** 🚀
-Create a new Vue Storefront project with Open Source integration in just a few steps. For the Enterprise integration, please [contact sales](https://vuestorefront.io/contact/sales).
+Create a new Alokai project with Open Source integration in just a few steps. For the Enterprise integration, please [contact sales](https://vuestorefront.io/contact/sales).
 
 ### **Step 1: Generate a new project** 🧰
 
@@ -144,7 +143,7 @@ cd <project_name>
 yarn
 ```
 
-> Vue Storefront supports only **Yarn** package manager. If you don't have it installed, please follow the [official Yarn installation guide](https://yarnpkg.com/getting-started/install).
+> Alokai supports only **Yarn** package manager. If you don't have it installed, please follow the [official Yarn installation guide](https://yarnpkg.com/getting-started/install).
 
 ### **Step 3: Configure the project** ⚙️
 
@@ -188,18 +187,21 @@ Continue with the configuration steps described in the documentation for your in
 ## **What you get out-of-the-box** 📦
 
 <p align="center">
-  <img alt="Vue Storefront Architecture" src="https://user-images.githubusercontent.com/74229951/218062920-e9c9eb14-de3f-4c62-9362-7c33d224ad26.png">
+  <img alt="Alokai Architecture" src="./_readme/Ootb.png">
 </p>
 
 - **Nuxt.js** - the Vue.js framework used to build the application
-- **Vue Storefront Theme** - fully functional eCommerce theme based on the Storefront UI library
+- **Next.js** - the React.js framework used to build the application
+- **Alokai Theme** - fully functional eCommerce theme based on the Storefront UI library
 - **Storefront UI** - the Vue.js UI components library used to build the frontend application
-- **Vue Storefront Middleware** - the Express.js server used to connect the frontend application with the eCommerce platform and other Integrations
+- **Alokai Middleware** - the Express.js server used to connect the frontend application with the eCommerce platform and other Integrations
 
 ## **Our Tech Stack** 🛠
 
 - [Vue.js](https://vuejs.org/)
 - [Nuxt.js](https://nuxtjs.org/)
+- [React.js](https://react.dev/)
+- [Next.js](https://nextjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Storefront UI](https://storefrontui.io/)
 - [Express.js](https://expressjs.com/)
@@ -210,7 +212,7 @@ Continue with the configuration steps described in the documentation for your in
 
 ## **Contribution** 🤝
 
-Vue Storefront is an Open Source project and we encourage everyone to help us making it better. If you are interested in contributing to the project, please read our [Contributing Guide](https://github.com/vuestorefront/.github/blob/main/CONTRIBUTING.md) and [Code of Conduct](https://github.com/vuestorefront/.github/blob/main//CODE_OF_CONDUCT.md).
+Alokai is an Open Source project and we encourage everyone to help us making it better. If you are interested in contributing to the project, please read our [Contributing Guide](https://github.com/vuestorefront/.github/blob/main/CONTRIBUTING.md) and [Code of Conduct](https://github.com/vuestorefront/.github/blob/main//CODE_OF_CONDUCT.md).
 
 If you have any questions about contributing, please join our [Discord server](https://discord.vuestorefront.io/) - we are happy to help you!
 
@@ -218,16 +220,16 @@ Discovered a 🐜 or have feature suggestion? Feel free to [create an issue](htt
 
 ## **Support us** ❤️
 
-**Vue Storefront is and always will be Open Source, released under MIT Licence.**
+**Alokai is and always will be Open Source, released under MIT Licence.**
 
 How you can help us:
 
 - **Contribute** - this is how the Core Team is supporting the project.
-- **Spread the word** - tell your friends, colleagues, and followers about Vue Storefront.
+- **Spread the word** - tell your friends, colleagues, and followers about Alokai.
 - **Create content** - write a blog post, record a video, or create a tutorial. We will be happy to share it on our social media channels.
 - **Engage with the community** - help others in our [Discord server](https://discord.vuestorefront.io/).
 
-<a target="_blank" href="https://vuestorefront.io/developer-newsletter"><img alt="Sign up to Developer's Newsletter" src="https://i.ibb.co/k3hND0G/Newsletter-Main-2.png" alt="Newsletter-Main-2" border="0"></a>
+<a target="_blank" href="https://vuestorefront.io/developer-newsletter">Sign up to Developer's Newsletter.</a>
 
 ### **Follow us on Social Media**
 
@@ -239,11 +241,11 @@ How you can help us:
 
 ## **Partners** 💪
 
-Vue Storefront is a Community effort brought to You by our great Core Team and supported by the following companies.
+Alokai is a Community effort brought to You by our great Core Team and supported by the following companies.
 
-[**See Vue Storefront partners directory**](https://www.vuestorefront.io/partner-agencies?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
+[**See Alokai partners directory**](https://www.vuestorefront.io/partner-agencies?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
 
-Vue Storefront source code is completely free and released under the [MIT License](https://github.com/vuestorefront/vue-storefront/blob/master/LICENSE).
+Alokai source code is completely free and released under the [MIT License](https://github.com/vuestorefront/vue-storefront/blob/master/LICENSE).
 
 [![analytics](http://www.google-analytics.com/collect?v=1&t=pageview&_s=1&dl=https%3A%2F%2Fgithub.com%2FDivanteLtd%2Fvue-storefront&_u=MAC~&cid=1757014354.1393964045&tid=UA-108235765-10)]()
 ## **Careers** 👩‍💻👨‍💻
@@ -252,7 +254,7 @@ We are growing and we are looking for talented people to join our team. If you a
 
 ## **#StandWithUkraine** 🇺🇦
 
-We at Vue Storefront express our support for the people of Ukraine and their right to live in a free and democratic country. We stand with Ukraine and we will continue to support the Ukrainian community.
+We at Alokai express our support for the people of Ukraine and their right to live in a free and democratic country. We stand with Ukraine and we will continue to support the Ukrainian community.
 
 <a href="https://supportukrainenow.org/" target="_blank">
     <img src="https://gcdnb.pbrd.co/images/bDfmujNpxjxy.png?o=1" />
