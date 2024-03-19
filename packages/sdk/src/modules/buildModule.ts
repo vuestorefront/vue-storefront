@@ -13,8 +13,8 @@ import {
 function buildModule<
   InitializedModule extends Module,
   Options extends ModuleOptions,
-  InitializedExtension extends Extension<InitializedModule>,
-  ExtensionOptions extends ModuleOptions
+  InitializedExtension extends Extension<InitializedModule> = object,
+  ExtensionOptions extends ModuleOptions = object
 >(
   module: ModuleInitializerWithMandatoryOptions<InitializedModule, Options>,
   moduleOptions: Options,
@@ -31,9 +31,9 @@ function buildModule<
 // === Overload with optional options ===
 function buildModule<
   InitializedModule extends Module,
-  Options extends ModuleOptions,
-  InitializedExtension extends Extension<InitializedModule>,
-  ExtensionOptions extends ModuleOptions
+  Options extends ModuleOptions = object,
+  InitializedExtension extends Extension<InitializedModule> = object,
+  ExtensionOptions extends ModuleOptions = object
 >(
   module: ModuleInitializer<InitializedModule, Options>,
   moduleOptions?: Options,
@@ -55,9 +55,9 @@ function buildModule<
  */
 function buildModule<
   InitializedModule extends Module,
-  Options extends ModuleOptions,
-  InitializedExtension extends Extension<InitializedModule>,
-  ExtensionOptions extends ModuleOptions
+  Options extends ModuleOptions = object,
+  InitializedExtension extends Extension<InitializedModule> = object,
+  ExtensionOptions extends ModuleOptions = object
 >(
   module: ModuleInitializer<InitializedModule, Options>,
   moduleOptions?: Options,
