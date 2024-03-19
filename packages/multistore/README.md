@@ -4,7 +4,7 @@ The `@vue-storefront/multistore` package provides a middleware extension for mul
 
 ## Usage
 
-To learn about the prerequisites, setup and architecture of the `@vue-storefront/multistore` package, please refer to the [multistore documentation](https://docs.vuestorefront.io/middleware/multistore).
+To learn about the prerequisites, setup and architecture of the `@vue-storefront/multistore` package, please refer to the [multistore documentation](https://docs.alokai.com/middleware/guides/multistore).
 
 ## Development
 
