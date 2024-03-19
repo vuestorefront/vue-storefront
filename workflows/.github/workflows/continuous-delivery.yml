@@ -40,7 +40,7 @@ jobs:
         shell: bash
         run: |
           npm install -g npm-cli-login
-          npm-cli-login -u ${{ secrets.NPM_USER }} -p ${{ secrets.NPM_PASS }} -e ${{ secrets.NPM_EMAIL }} -r https://registrynpm.storefrontcloud.io
+          npm-cli-login -u "${{ secrets.NPM_USER }}" -p "${{ secrets.NPM_PASS }}" -e "${{ secrets.NPM_EMAIL }}" -r https://registrynpm.storefrontcloud.io
 
       - name: Install dependencies
         shell: bash
