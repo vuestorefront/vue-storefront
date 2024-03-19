@@ -64,61 +64,8 @@ Alokai is your guide to the composable commerce world that simplifies building, 
 - **Fully customizable**. Build your application with pre-installed [Storefront UI](https://github.com/vuestorefront/storefront-ui) - components library designed for eCommerce, or build your own theme from scratch.
 
 ## **Integrations** 🛍️
-
 <p align="center">
-  <strong>Open Source Integrations (free on MIT license)</strong>
-</p>
-
-<p align="center" valign="middle">
-  <a title="Magento" target="_blank" href="https://github.com/vuestorefront/magento2">
-        <img alt="Magento" width="75" src="https://user-images.githubusercontent.com/1626923/156659008-edbd2bed-74d5-4f0d-8a4a-eab56c283d24.png" />
-    </a>
-  &nbsp;&nbsp;
-    <a title="Odoo" target="_blank" href="https://github.com/vuestorefront-community/odoo">
-        <img alt="Odoo" width="75" src="https://user-images.githubusercontent.com/1626923/156659136-55c8d696-febd-410e-ab72-b217e9e745e6.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="Prestashop" target="_blank" href="https://github.com/vuestorefront-community/prestashop">
-        <img alt="Prestashop" width="75" src="https://user-images.githubusercontent.com/1626923/156659137-d857ad24-f23f-4c80-ac56-4ef6c0721274.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="Spree" target="_blank" href="https://github.com/vuestorefront/spree">
-        <img alt="Spree" width="75" src="https://user-images.githubusercontent.com/1626923/156659147-5576eb2f-4cf8-4610-8631-18d03e3f52de.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="Sylius" target="_blank" href="https://github.com/vuestorefront-community/sylius">
-        <img alt="Sylius" width="75" src="https://user-images.githubusercontent.com/1626923/161141058-8f6a4a8e-2c6f-402e-b19b-892c7acec77f.png" />
-    </a>
- </p>
- <br />
-<p align="center">
-  <strong>Enterprise Integrations (part of paid Alokai Enterprise License)</strong>
-</p>
-
-<p align="center" valign="middle">
-    <a title="BigCommerce" target="_blank" href="https://docs.vuestorefront.io/integrations/bigcommerce/">
-        <img alt="BigCommerce" width="75" src="https://user-images.githubusercontent.com/1626923/156659123-12a987f5-a590-4971-810e-7594defc48f5.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="commercetools" target="_blank" href="https://docs.vuestorefront.io/integrations/commercetools/">
-        <img alt="commercetools" width="75" src="https://user-images.githubusercontent.com/1626923/156658926-532f44bd-f178-4bd9-ae72-1ca7d9984f57.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="SAP" target="_blank" href="https://github.com/vuestorefront/integrations/sapcc/">
-        <img alt="SAP" width="75" src="https://docs.vuestorefront.io/v2/integrations-logos/thumbnails/sap-commerce-cloud.png" />
-    </a>
-  &nbsp;&nbsp;
-      <a title="Salesforce Commerce Cloud" target="_blank" href="https://docs.vuestorefront.io/integrations/sfcc/">
-        <img alt="Salesforce Commerce Cloud" width="75" src="https://user-images.githubusercontent.com/74229951/218112081-8f8bfcb3-9f53-4add-9d5e-8899c505e526.png" />
-    </a>
-
-
-</p>
-
-
-<br />
-<p align="center">
-  <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/">There is more! Check out the integrations with CMS, Search and Payment providers</a>
+  <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/">Check out the integrations with eCommerce platform, CMS, payment provider, and more.</a>
 </p>
 
 ## **Getting started** 🚀
@@ -147,40 +94,7 @@ yarn
 
 ### **Step 3: Configure the project** ⚙️
 
-The next step is to configure your project, and it's different for every eCommerce integration. Go to the [Integrations](https://docs.vuestorefront.io/v2/integrations/) page, open the documentation for the integration you selected in our CLI, and look for the page describing the configuration steps. Or just click on the integration icon below:
-
-<!-- add icons for integrations leading to docs -->
-<p align="center" valign="middle">
-    <a title="Magento" target="_blank" href="https://docs.vuestorefront.io/magento/installation-setup/configure-magento.html">
-        <span valign="center">
-            <img alt="Magento" width="55" src="https://user-images.githubusercontent.com/1626923/156659008-edbd2bed-74d5-4f0d-8a4a-eab56c283d24.png" />
-        </span>
-     </a>
-    &nbsp;&nbsp;
-    <a title="Odoo" target="_blank" href="https://docs.vuestorefront.io/odoo/">
-    <span valign="center">
-        <img alt="Odoo" width="55" src="https://user-images.githubusercontent.com/1626923/156659136-55c8d696-febd-410e-ab72-b217e9e745e6.png" />
-    </span>
-    </a>
-    &nbsp;&nbsp;
-    <a title="Prestashop" target="_blank" href="https://docs.vuestorefront.io/prestashop/guide/getting-started.html">
-        <img alt="Prestashop" width="55" src="https://user-images.githubusercontent.com/1626923/156659137-d857ad24-f23f-4c80-ac56-4ef6c0721274.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="Shopware" target="_blank" href="https://shopware-pwa-docs.vuestorefront.io/">
-        <img alt="Shopware" width="55" src="https://user-images.githubusercontent.com/1626923/156659145-d98ea807-872c-42a9-8fdb-4c4f30a68895.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="Spree" target="_blank" href="https://docs.vuestorefront.io/spree/guide/getting-started.html">
-        <img alt="Spree" width="55" src="https://user-images.githubusercontent.com/1626923/156659147-5576eb2f-4cf8-4610-8631-18d03e3f52de.png" />
-    </a>
-    &nbsp;&nbsp;
-    <a title="Sylius" target="_blank" href="https://github.com/vuestorefront-community/sylius">
-        <img alt="Sylius" width="55" src="https://user-images.githubusercontent.com/1626923/161141058-8f6a4a8e-2c6f-402e-b19b-892c7acec77f.png" />
-    </a>
-<br /><br />
-  <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/#ecommerce-platforms">Check all available integrations</a>
-</p>
+The next step is to configure your project, and it's different for every eCommerce integration. Go to the [Integrations](https://docs.vuestorefront.io/integrations/) page, open the documentation for the integration you selected in our CLI, and look for the page describing the configuration steps.
 
 Continue with the configuration steps described in the documentation for your integration.
 
