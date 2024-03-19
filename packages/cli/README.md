@@ -1,8 +1,8 @@
-# Vue Storefront CLI
+# Alokai CLI
 
 ## Usage
 
-To create a new Vue Storefront project, use the following command:
+To create a new Alokai project, use the following command:
 
 ```bash
 npx @vue-storefront/cli generate store

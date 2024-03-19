@@ -1,4 +1,4 @@
-import { buildModule } from "../../module/buildModule";
+import { buildModule } from "../../modules/buildModule";
 import proxyModule1Mock from "../__mocks__/proxyModule1.mock";
 import { initSDK } from "../../bootstrap";
 import { createModuleMock } from "../__mocks__/createModuleMock";

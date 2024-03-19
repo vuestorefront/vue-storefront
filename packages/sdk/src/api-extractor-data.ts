@@ -1,6 +1,6 @@
 import { initSDK } from "./bootstrap";
 import { eventManager } from "./events/EventManager";
-import { buildModule } from "./module/buildModule";
+import { buildModule } from "./modules/buildModule";
 import { handleError } from "./error";
 
 /**
@@ -11,4 +11,5 @@ import { handleError } from "./error";
 const initVSFSDK = initSDK;
 
 export { initVSFSDK, initSDK, handleError, buildModule, eventManager };
+export * from "./modules/middlewareModule";
 export * from "./types";
