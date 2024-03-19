@@ -9,9 +9,6 @@ on:
       NPM_PASS:
         description: "repository NPM_PASS secret passed on"
         required: false
-      NPM_EMAIL:
-        description: "repository NPM_EMAIL secret passed on"
-        required: false
     inputs:
       enterprise:
         description: "Flag to use enterprise registry"
@@ -40,7 +37,7 @@ jobs:
         shell: bash
         run: |
           npm install -g npm-cli-login
-          npm-cli-login -u "${{ secrets.NPM_USER }}" -p "${{ secrets.NPM_PASS }}" -e "${{ secrets.NPM_EMAIL }}" -r https://registrynpm.storefrontcloud.io
+          npm-cli-login -u "${{ secrets.NPM_USER }}" -p "${{ secrets.NPM_PASS }}" -e doesntmatter@example.com -r https://registrynpm.storefrontcloud.io
 
       - name: Install dependencies
         shell: bash
