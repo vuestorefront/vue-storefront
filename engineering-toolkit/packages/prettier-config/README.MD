@@ -1,8 +1,6 @@
-[![vuestorefront/prettier-config](./prettier.jpg)]()
-
 # @vue-storefront/prettier-config
 
-> Common prettier configuration used in Vue Storefront projects
+> Common prettier configuration used in Alokai projects
 
 ## Usage
 
