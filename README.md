@@ -171,5 +171,5 @@ We are growing and we are looking for talented people to join our team. If you a
 We at Alokai express our support for the people of Ukraine and their right to live in a free and democratic country. We stand with Ukraine and we will continue to support the Ukrainian community.
 
 <a href="https://supportukrainenow.org/" target="_blank">
-    <img src="https://gcdnb.pbrd.co/images/bDfmujNpxjxy.png?o=1" />
+    <img src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/0bad218e-829a-4547-8bee-a14be1ad783e/IMG_5243/w=3840,quality=80,fit=scale-down" width="300px" height="auto" />
 </a>
