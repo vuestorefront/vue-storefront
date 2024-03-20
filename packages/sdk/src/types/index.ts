@@ -167,6 +167,7 @@ export type Module = {
    *```
    */
   subscribers?: Subscribers;
+  context?: Record<string, any>;
 };
 
 /**
@@ -183,12 +184,11 @@ type ModuleOverride<OverriddenConnector> = {
  */
 export type Extension<ExtendedModule extends Module> = Omit<
   Partial<Module>,
-  "connector"
+  "connector" | "context"
 > & {
   /**
    * Extend contains methods that are added to the module.
    * Because of the dynamic nature of the SDK, the extend method must be an asynchronous function.
-   * Extending methods can't be used to override the connector.
    *
    * @example
    * Extending the module with a new method.
@@ -253,13 +253,22 @@ export type SDKConfig = Readonly<
 >;
 
 /**
- * ModuleInitializer Type represents a function accepting module options
+ * ModuleInitializer Type represents a function accepting optional module options
  * as an argument and returning the actual module.
  */
 export type ModuleInitializer<
   InitializedModule extends Module,
   Options extends ModuleOptions
 > = (options?: Options) => InitializedModule;
+
+/**
+ * StrictModuleInitializer Type represents a function accepting mandatory module options
+ * as an argument and returning the actual module.
+ */
+export type ModuleInitializerWithMandatoryOptions<
+  InitializedModule extends Module,
+  Options extends ModuleOptions
+> = (options: Options) => InitializedModule;
 
 /**
  * ExtensionInitializer Type represents a function accepting extension options
@@ -269,7 +278,13 @@ export type ExtensionInitializer<
   ExtendedModule extends Module,
   InitializedExtension extends Extension<ExtendedModule>,
   Options extends ModuleOptions
-> = (options?: Options) => InitializedExtension;
+> = (
+  options?: Options,
+  parent?: {
+    methods: ExtendedModule["connector"];
+    context?: ExtendedModule["context"];
+  }
+) => InitializedExtension;
 
 /**
  * SDKApi represents the API of the SDK.
@@ -280,16 +295,18 @@ export type ExtensionInitializer<
  * The following type map understand the SDK configuration input and produce
  * usable SDK api with all type hints.
  */
+
 export type SDKApi<Config extends SDKConfig> = {
-  [ExtensionName in keyof Config]: {
-    +readonly [Method in
-      | keyof Config[ExtensionName]["connector"]
-      | keyof Config[ExtensionName]["override"]]: Method extends keyof Config[ExtensionName]["override"]
-      ? Config[ExtensionName]["override"][Method]
-      : Config[ExtensionName]["connector"][Method];
-  } & {
-    +readonly [Method in keyof Config[ExtensionName]["extend"]]: Config[ExtensionName]["extend"][Method];
-  };
+  [ExtensionName in keyof Config]: Config[ExtensionName]["extend"] &
+    Omit<
+      Config[ExtensionName]["override"],
+      keyof Config[ExtensionName]["extend"]
+    > &
+    Omit<
+      Config[ExtensionName]["connector"],
+      keyof Config[ExtensionName]["override"] &
+        keyof Config[ExtensionName]["extend"]
+    >;
 } & {
   +readonly [ExtensionName in keyof Config]: {
     utils: {

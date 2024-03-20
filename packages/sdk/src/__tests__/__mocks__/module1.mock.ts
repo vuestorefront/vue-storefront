@@ -12,6 +12,7 @@ const module1 = {
   },
   extend: {},
   beforeInterceptors: {},
+  context: {}
 };
 
 export type Module1 = typeof module1;

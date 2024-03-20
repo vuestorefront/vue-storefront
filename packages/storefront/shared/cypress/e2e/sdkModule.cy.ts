@@ -12,7 +12,7 @@ describe("SDK Module Acceptance Criteria", () => {
   it("should send cookies header on ssr page", () => {
     cy.setCookie("vsf-currency", "USD");
     cy.visit("/ssr");
-    cy.get("main").should("contain.text", "vsf-currency=USD");
+    cy.get("main").should("contain.text", `"vsf-currency": "USD"`);
   });
 
   it("should have generator meta tag on csr page", () => {
