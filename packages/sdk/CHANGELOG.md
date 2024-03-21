@@ -1,5 +1,17 @@
 # Change log
 
+## 1.4.3
+
+### Patch Changes
+
+- **[FIXED]** issue with type inference. Previously, types were not infered properly when there were no extension declared. Now it has been fixed.
+
+## 1.4.2
+
+### Patch Changes
+
+- **[FIXED]** handling void response in `middlewareModule`. Previously an invalid-json error was thrown, now undefined will be returned.
+
 ## 1.4.1
 
 ### Patch Changes

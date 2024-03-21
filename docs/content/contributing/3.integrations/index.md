@@ -4,7 +4,7 @@ layout: fullscreen
 
 # Creating an Integration
 
-Another great way to contribute to the Vue Storefront ecosystem is to create additional ecosystems. This can allow developers to use Vue Storefront to connect to even more services. 
+Another great way to contribute to the Alokai ecosystem is to create additional ecosystems. This can allow developers to use Alokai to connect to even more services. 
 
 If you're interested in creating an integration, we want to support you! Reach out on Discord and we can help find ways to guide you through the process of creating custom integrations. 
 
