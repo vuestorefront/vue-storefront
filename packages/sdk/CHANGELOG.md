@@ -1,5 +1,12 @@
 # Change log
 
+## 1.4.4
+
+### Patch Changes
+
+- **[FIXED]** type issue with obligatory generic type argument for `Extension` interface. Now, it can be used without any type arg.
+- **[FIXED]** BaseConfig extensibility. Now, it allows to add additional custom properties.
+
 ## 1.4.3
 
 ### Patch Changes
