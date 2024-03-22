@@ -7,13 +7,20 @@
   {
     "title": "Getting Started",
     "_path": "/general",
-    "icon": "ri:book-2-fill",
+    "icon": "ri:rocket-2-fill",
+    "sidebarRoot": true
+  },
+  {
+    "title": "Guides",
+    "_path": "/guides",
+    "icon": "ri:code-s-slash-fill",
     "sidebarRoot": true
   },
   {
     "title": "Cookbook",
     "_path": "/cookbook",
-    "icon": "ri:book-2-fill"
+    "icon": "ri:book-2-fill",
+    "sidebarRoot": true
   },
   {
     "title": "SDK",
