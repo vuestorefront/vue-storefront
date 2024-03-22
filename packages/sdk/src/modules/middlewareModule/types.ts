@@ -32,6 +32,11 @@ export type BaseConfig = {
    * @default "POST"
    */
   method?: "GET" | "POST";
+
+  /**
+   * Additional properties for the configuration object.
+   */
+  [key: string]: any;
 };
 
 /**
