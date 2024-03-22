@@ -30,7 +30,7 @@
     "inquirer": "^8.2.4",
     "isomorphic-git": "^1.21.0",
     "node-fetch-native": "^0.1.8",
-    "oclif": "^3.2.22",
+    "oclif": "^4.6.0",
     "os-locale": "^5.0.0",
     "picocolors": "^1.0.0",
     "reasonable-filename": "^1.2.0",
