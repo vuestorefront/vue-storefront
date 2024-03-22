@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.36.4",
+    "toolVersion": "7.42.3",
     "schemaVersion": 1011,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
@@ -1113,6 +1113,103 @@
           "extendsTokenRanges": []
         },
         {
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/middleware!apiClientFactory:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "apiClientFactory: <ALL_SETTINGS extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ApiClientConfig",
+              "canonicalReference": "@vue-storefront/middleware!ApiClientConfig:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<any>"
+            },
+            {
+              "kind": "Content",
+              "text": ", ALL_FUNCTIONS extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "ApiMethods",
+              "canonicalReference": "@vue-storefront/middleware!ApiMethods:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">(factoryParams: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ApiClientFactoryParams",
+              "canonicalReference": "@vue-storefront/middleware!ApiClientFactoryParams:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<ALL_SETTINGS, ALL_FUNCTIONS, any>"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
+            },
+            {
+              "kind": "Reference",
+              "text": "ApiClientFactory",
+              "canonicalReference": "@vue-storefront/middleware!ApiClientFactory:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<any, ALL_FUNCTIONS>"
+            }
+          ],
+          "fileUrlPath": "src/apiClientFactory/index.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 9,
+            "endIndex": 11
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "factoryParams",
+              "parameterTypeTokenRange": {
+                "startIndex": 6,
+                "endIndex": 8
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "ALL_SETTINGS",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "ALL_FUNCTIONS",
+              "constraintTokenRange": {
+                "startIndex": 4,
+                "endIndex": 5
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "apiClientFactory"
+        },
+        {
           "kind": "Interface",
           "canonicalReference": "@vue-storefront/middleware!ApiClientFactory:interface",
           "docComment": "",
@@ -1260,65 +1357,6 @@
             }
           ],
           "extendsTokenRanges": []
-        },
-        {
-          "kind": "Variable",
-          "canonicalReference": "@vue-storefront/middleware!apiClientFactory:var",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "apiClientFactory: "
-            },
-            {
-              "kind": "Content",
-              "text": "<ALL_SETTINGS extends "
-            },
-            {
-              "kind": "Reference",
-              "text": "ApiClientConfig",
-              "canonicalReference": "@vue-storefront/middleware!ApiClientConfig:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<any>, ALL_FUNCTIONS extends "
-            },
-            {
-              "kind": "Reference",
-              "text": "ApiMethods",
-              "canonicalReference": "@vue-storefront/middleware!ApiMethods:type"
-            },
-            {
-              "kind": "Content",
-              "text": ">(factoryParams: "
-            },
-            {
-              "kind": "Reference",
-              "text": "ApiClientFactoryParams",
-              "canonicalReference": "@vue-storefront/middleware!ApiClientFactoryParams:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<ALL_SETTINGS, ALL_FUNCTIONS, any>) => "
-            },
-            {
-              "kind": "Reference",
-              "text": "ApiClientFactory",
-              "canonicalReference": "@vue-storefront/middleware!ApiClientFactory:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<any, ALL_FUNCTIONS>"
-            }
-          ],
-          "fileUrlPath": "src/apiClientFactory/index.ts",
-          "isReadonly": true,
-          "releaseTag": "Public",
-          "name": "apiClientFactory",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 10
-          }
         },
         {
           "kind": "Interface",
