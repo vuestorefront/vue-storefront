@@ -29,10 +29,10 @@ jobs:
     name: Changelog PR or Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
 
@@ -49,7 +49,7 @@ jobs:
 
       - name: Create Release Pull Request or Publish
         id: changesets
-        uses: changesets/action@v1.4.5
+        uses: changesets/action@v1.4.7
         with:
           version: yarn run changesets:version
           publish: yarn run changesets:publish
