@@ -20,6 +20,10 @@ defaults:
   run:
     shell: bash
 
+# Avoid running precommit hooks when changesets makes a commit for the release PR
+env:
+  HUSKY: 0 
+
 jobs:
   changelog:
     name: Changelog PR or Release
@@ -41,7 +45,7 @@ jobs:
 
       - name: Install dependencies
         shell: bash
-        run: HUSKY=0 yarn --frozen-lockfile
+        run: yarn --frozen-lockfile
 
       - name: Create Release Pull Request or Publish
         id: changesets
