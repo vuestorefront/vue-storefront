@@ -9,7 +9,6 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "nuxt": "3.7.4",
-    "@vue-storefront/sdk": "*"
+    "nuxt": "3.7.4"
   }
 }

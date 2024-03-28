@@ -1,4 +1,4 @@
-import { exampleSdkModule } from "@storefront/shared";
+import { Endpoints } from "@storefront/shared";
 import { CreateSdkOptions, createSdk } from "@vue-storefront/next";
 
 const options: CreateSdkOptions = {
@@ -9,10 +9,12 @@ const options: CreateSdkOptions = {
 
 export const { getSdk } = createSdk(
   options,
-  ({ buildModule, middlewareUrl, getRequestHeaders }) => ({
-    example: buildModule(exampleSdkModule, {
+  ({ buildModule, middlewareModule, middlewareUrl, getRequestHeaders }) => ({
+    example: buildModule(middlewareModule<Endpoints>, {
       apiUrl: `${middlewareUrl}/test_integration`,
-      headers: getRequestHeaders(),
+      defaultRequestConfig: {
+        headers: getRequestHeaders(),
+      },
     }),
   })
 );

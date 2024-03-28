@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { extension1Mock } from "../__mocks__/extension1.mock";
 import module1Mock from "../__mocks__/module1.mock";
-import { buildModule } from "../../module/buildModule";
+import { buildModule } from "../../modules/buildModule";
 
 describe("[buildModule]", () => {
   it("should build module without extensions", () => {
@@ -51,5 +52,47 @@ describe("[buildModule]", () => {
     };
     expect(module1Mock).toHaveBeenCalledWith({ test: true });
     expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
+  });
+
+  it("should correctly infer types in typescript's strict mode", () => {
+    // No options
+    const moduleWithNoOptions = () => ({ connector: {} });
+    buildModule(moduleWithNoOptions);
+    buildModule(moduleWithNoOptions, {}, extension1Mock);
+    buildModule(moduleWithNoOptions, {}, () => extension1Mock, {
+      test: true,
+    });
+
+    // Optional options
+    const moduleWithOptionalOptions = (_opts?: { test: boolean }) => ({
+      connector: {},
+    });
+    buildModule(moduleWithOptionalOptions);
+    // @ts-expect-error - should correctly infer type of options
+    buildModule(moduleWithOptionalOptions, { test: "should be boolean" });
+    buildModule(moduleWithOptionalOptions, { test: true });
+    buildModule(moduleWithNoOptions, {}, extension1Mock);
+    buildModule(moduleWithNoOptions, {}, () => extension1Mock, {
+      test: true,
+    });
+
+    // Mandatory options
+    const moduleWithMandatoryOptions = (_opts: { test: boolean }) => ({
+      connector: {},
+    });
+    // @ts-expect-error - should require options as a second argument
+    buildModule(moduleWithMandatoryOptions);
+    // @ts-expect-error - should correctly infer type of options
+    buildModule(moduleWithOptionalOptions, { test: "should be boolean" });
+    buildModule(moduleWithMandatoryOptions, { test: true });
+    buildModule(moduleWithMandatoryOptions, { test: true }, extension1Mock);
+    buildModule(
+      moduleWithMandatoryOptions,
+      { test: true },
+      () => extension1Mock,
+      {
+        test: true,
+      }
+    );
   });
 });

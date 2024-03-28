@@ -1,5 +1,55 @@
 # Change log
 
+## 1.4.4
+
+### Patch Changes
+
+- **[FIXED]** type issue with obligatory generic type argument for `Extension` interface. Now, it can be used without any type arg.
+- **[FIXED]** BaseConfig extensibility. Now, it allows to add additional custom properties.
+
+## 1.4.3
+
+### Patch Changes
+
+- **[FIXED]** issue with type inference. Previously, types were not infered properly when there were no extension declared. Now it has been fixed.
+
+## 1.4.2
+
+### Patch Changes
+
+- **[FIXED]** handling void response in `middlewareModule`. Previously an invalid-json error was thrown, now undefined will be returned.
+
+## 1.4.1
+
+### Patch Changes
+
+- **[FIXED]** error handling for default HTTP client. Default HTTP Client was not throwing an error on each failed request, now it does.
+
+## 1.4.0
+
+### Minor Changes
+
+- **[ADDED]** New SDK module - `middlewareModule`. It is a recommended way to communicate with the Server Middleware.
+
+### Patch Changes
+
+- **[CHANGED]** SDK extension allows now to override module methods in `extend` property.
+
+## 1.3.4
+
+### Patch Changes
+
+- **[CHANGED]** Updated `buildModule` function to work well with modules, whether they have optional or mandatory options.
+
+- Simplified how `buildModule` is set up,
+- Added a new type, `ModuleInitializerWithMandatoryOptions`.
+
+## 1.3.3
+
+### Patch Changes
+
+- **[FIXED]** `buildModule` types in tsconfig strict mode
+
 ## 1.3.2
 
 ### Patch Changes

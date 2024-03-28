@@ -8,7 +8,6 @@
     "test:e2e": "cypress run"
   },
   "devDependencies": {
-    "@vue-storefront/sdk": "^1.0.0",
     "cypress": "^13.6.1",
     "vitest": "^0.34.6"
   }

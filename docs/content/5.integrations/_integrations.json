@@ -69,8 +69,13 @@
       "secondaryIcon": "IconCommercetools"
     },
     {
-      "title": "Adyen",
+      "title": "Adyen (commercetools)",
       "to": "/integrations/adyen",
+      "icon": "logos:adyen"
+    },
+    {
+      "title": "Adyen (Salesforce Commerce Cloud)",
+      "to": "/integrations/adyen-sfcc",
       "icon": "logos:adyen"
     }
   ],

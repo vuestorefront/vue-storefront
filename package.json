@@ -10,7 +10,8 @@
     "lint": "lerna run lint",
     "changesets:version": "yarn changeset version && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install && yarn prepare:docs",
     "changesets:publish": "yarn build && yarn changeset publish",
-    "prepare:docs": "cd docs && yarn install && yarn api-extract && yarn add-changelogs"
+    "prepare:docs": "cd docs && yarn install && yarn api-extract && yarn add-changelogs",
+    "postinstall": "cd packages/changesets && yarn build"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
@@ -20,7 +21,7 @@
     "@vue-storefront/api-extractor-config": "^0.0.4",
     "@vue-storefront/eslint-config-integrations": "^0.0.19",
     "@vue-storefront/integrations-tsconfig": "^0.0.4",
-    "@vue-storefront/jest-config": "^0.0.3",
+    "@vue-storefront/jest-config": "^0.0.4",
     "@vue-storefront/rollup-config": "^0.0.6",
     "cross-env": "^6.0.3",
     "husky": "^8.0.3",

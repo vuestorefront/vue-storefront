@@ -1,6 +1,6 @@
-# Vue Storefront SDK
+# Alokai SDK
 
-Vue Storefront SDK is a framework-agnostic communication layer in VSF Integrations. It communicates with Commerce Platforms and third-party services through the Server Middleware, which works as a proxy. Vue Storefront SDK creates a contract between the storefront and the Server Middleware.
+Alokai SDK is a framework-agnostic communication layer in Alokai Integrations. It communicates with Commerce Platforms and third-party services through the Server Middleware, which works as a proxy. Alokai SDK creates a contract between the storefront and the Server Middleware.
 
 ## Docs
 
@@ -34,7 +34,7 @@ const sdkConfig = {};
 
 Now, let's incorporate a module into the configuration. To accomplish this, you should:
 
-1. Import the desired module. By default, it exports a function that returns a collection of module methods. Vue Storefront modules also export a type for these methods.
+1. Import the desired module. By default, it exports a function that returns a collection of module methods. Alokai modules also export a type for these methods.
 
 ```js
 // SAPCC Example

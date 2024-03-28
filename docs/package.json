@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@stackblitz/sdk": "^1.9.0",
-    "sf-docs-base": "^1.0.7"
+    "sf-docs-base": "latest"
   },
   "resolutions": {
     "@nuxt/content": "^2.8.0"
