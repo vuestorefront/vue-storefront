@@ -1,5 +1,24 @@
 # Change log
 
+## 1.4.4
+
+### Patch Changes
+
+- **[FIXED]** type issue with obligatory generic type argument for `Extension` interface. Now, it can be used without any type arg.
+- **[FIXED]** BaseConfig extensibility. Now, it allows to add additional custom properties.
+
+## 1.4.3
+
+### Patch Changes
+
+- **[FIXED]** issue with type inference. Previously, types were not infered properly when there were no extension declared. Now it has been fixed.
+
+## 1.4.2
+
+### Patch Changes
+
+- **[FIXED]** handling void response in `middlewareModule`. Previously an invalid-json error was thrown, now undefined will be returned.
+
 ## 1.4.1
 
 ### Patch Changes
@@ -47,7 +66,7 @@
 
 ### Minor Changes
 
-- feec8789d: [ADDED] in this release we allowed extension to use module methods, access module configuration and optional context object. For more information please visit documentation about [extending modules](/sdk/advanced/extending-module#extend).
+- feec8789d: [ADDED] in this release we allowed extension to use module methods, access module configuration and optional context object. For more information please visit documentation about [extending modules](https://docs.vuestorefront.io/sdk/advanced/extending-module#extend).
 
 ## 1.2.2
 
