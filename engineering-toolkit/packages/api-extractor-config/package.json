@@ -12,6 +12,10 @@
       "email": "wsikora@vuestorefront.io"
     }
   ],
+  "dependencies": {
+    "@microsoft/api-documenter": "^7.13.30",
+    "@microsoft/api-extractor": "^7.18.1"
+  },
   "keywords": [
     "api-extractor",
     "api-extractor-config",
