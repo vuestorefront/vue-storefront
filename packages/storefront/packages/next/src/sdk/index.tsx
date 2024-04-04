@@ -7,7 +7,6 @@ import { resolveDynamicContext } from "./helpers";
 import { Config, CreateSdkReturn, GetSdkContext } from "./types";
 
 export type { CreateSdkOptions } from "@storefront/shared";
-export * from "./types";
 
 /**
  * Creates an SDK for the given configuration definition.
