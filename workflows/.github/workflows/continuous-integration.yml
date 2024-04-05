@@ -23,6 +23,9 @@ on:
         required: false
         default: "['16', '18']"
 
+env:
+  HUSKY: 0
+
 jobs:
   scanning:
     name: GitGuardian scan
@@ -89,15 +92,15 @@ jobs:
       - name: Install dependencies (OS)
         if: ${{ !steps.cache.outputs.cache-hit }}
         shell: bash
-        run: HUSKY=0 yarn --frozen-lockfile
+        run: yarn --frozen-lockfile
 
       - name: Detect circular dependencies 🔄
-        uses: vuestorefront/engineering-toolkit/github-actions/circular-dependencies@main
+        uses: vuestorefront/vue-storefront/actions/circular-dependencies@main
         with:
           filesPath: 'packages/**/*.{ts,vue}'
 
       - name: Check licenses 🧪
-        uses: vuestorefront/engineering-toolkit/github-actions/check-licenses@main
+        uses: vuestorefront/vue-storefront/actions/check-licenses@main
         with:
           projectPath: ${{ github.workspace }}
 
