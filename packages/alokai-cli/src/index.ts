@@ -15,7 +15,7 @@ const __dirname = dirname(__filename);
 const nodeModulesPath = path.join(__dirname, "..", "node_modules");
 
 // Function to import and initialize command modules
-const loadCommandModules = (program, dir) => {
+const loadCommandModules = (program) => {
   fs.readdirSync(nodeModulesPath).forEach(async (moduleName) => {
     try {
       if (moduleName.startsWith("alokai-")) {
@@ -24,17 +24,9 @@ const loadCommandModules = (program, dir) => {
           const modulePath = path.join(nodeModulesPath, moduleName);
 
           // Dynamically import the command module
-          const commandModule = await import(
+          await import(
             `file://${modulePath}/dist/index.js`
           );
-          // Initialize the command module with the Commander instance
-          if (typeof commandModule.default === "function") {
-            commandModule.default(program);
-          } else {
-            console.warn(
-              `Module ${moduleName} does not export a default function and was not loaded.`
-            );
-          }
         } catch (error) {
           console.error(`Error loading module ${moduleName}:`, error);
         }
@@ -52,10 +44,10 @@ async function main() {
     .version("0.0.1", "-v, --version", "display the version number")
     .action(() => {
       // Load command modules
-      loadCommandModules(program, __dirname);
-
-      program.parse();
+      loadCommandModules(program);
     });
+
+  program.parse();
 }
 
 main();
