@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.36.4",
+    "toolVersion": "7.42.3",
     "schemaVersion": 1011,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
@@ -303,17 +303,13 @@
           "extendsTokenRanges": []
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "@vue-storefront/multistore!createMultistoreExtension:var",
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/multistore!createMultistoreExtension:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "createMultistoreExtension: "
-            },
-            {
-              "kind": "Content",
-              "text": "(multistoreConfig: "
+              "text": "createMultistoreExtension: (multistoreConfig: "
             },
             {
               "kind": "Reference",
@@ -322,7 +318,11 @@
             },
             {
               "kind": "Content",
-              "text": ") => {\n    name: string;\n    isNamespaced: false;\n    extendApp: () => void;\n    hooks: (req: import(\"express\")."
+              "text": ") => "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    name: string;\n    isNamespaced: false;\n    extendApp: () => void;\n    hooks: (req: import(\"express\")."
             },
             {
               "kind": "Reference",
@@ -389,13 +389,23 @@
             }
           ],
           "fileUrlPath": "src/extension.ts",
-          "isReadonly": true,
-          "releaseTag": "Public",
-          "name": "createMultistoreExtension",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
+          "returnTypeTokenRange": {
+            "startIndex": 3,
             "endIndex": 18
-          }
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "multistoreConfig",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "createMultistoreExtension"
         },
         {
           "kind": "Interface",

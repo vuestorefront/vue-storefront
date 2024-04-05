@@ -38,7 +38,9 @@
   },
   "workspaces": {
     "packages": [
-      "packages/!(storefront)"
+      "packages/!(storefront)",
+      "engineering-toolkit/*",
+      "actions/*"
     ]
   },
   "engines": {

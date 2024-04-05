@@ -1,0 +1,62 @@
+{
+  "name": "@vue-storefront/eslint-config",
+  "version": "2.0.0-rc.7",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./ecma": "./src/ecma.js",
+    "./typescript": "./src/typescript.js",
+    "./vue": "./src/vue.js",
+    "./vue3": "./src/vue3.js",
+    "./react": "./src/react.js",
+    "./prettier": "./src/prettier.js",
+    "./json": "./src/json.js"
+  },
+  "homepage": "https://github.com/vuestorefront/vue-storefront/engineering-toolkit/eslint-config",
+  "contributors": [
+    {
+      "name": "Maciej Rybaniec",
+      "email": "maciej.rybaniec@gmail.com"
+    }
+  ],
+  "keywords": [
+    "eslint",
+    "eslintconfig",
+    "eslint-config",
+    "vuestorefront"
+  ],
+  "files": [
+    "README.MD",
+    "*.js",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "peerDependencies": {
+    "eslint": ">= 8"
+  },
+  "dependencies": {
+    "@microsoft/eslint-plugin-sdl": "^0.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.57.1",
+    "@vue/eslint-config-typescript": "^11.0.2",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-etc": "^2.0.2",
+    "eslint-plugin-jsonc": "^2.7.0",
+    "eslint-plugin-no-secrets": "^0.8.9",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-sonarjs": "^0.19.0",
+    "eslint-plugin-unicorn": "^46.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "eslint-plugin-vue": "^9.10.0",
+    "vue-eslint-parser": "^9.1.1"
+  },
+  "stableVersion": "2.0.0"
+}

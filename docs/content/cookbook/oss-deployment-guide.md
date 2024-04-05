@@ -5,10 +5,10 @@ hideFromSiteSearch: true
 
 # OSS Deployment Guide
 
-In this guide we'll show you how to deploy an Open Source Vue Storefront application to a production server. 
+In this guide we'll show you how to deploy an Open Source Alokai application to a production server. 
 
 ::tip
-This guide is for Open Source Applications. If you have Enterprise support, please refer to the [Cloud Deployment Guide](/cloud) or see the [Enterprise Onboarding Course](https://academy.vuestorefront.io/courses/enterprise-onboarding-course).
+This guide is for Open Source Applications. If you have Enterprise support, please refer to the [Cloud Deployment Guide](/cloud) or see the [Enterprise Onboarding Course](https://academy.alokai.com/courses/enterprise-onboarding-course).
 ::
 
 ## Prerequisites

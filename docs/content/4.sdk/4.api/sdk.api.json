@@ -1,7 +1,7 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.36.4",
+    "toolVersion": "7.42.3",
     "schemaVersion": 1011,
     "oldestForwardsCompatibleVersion": 1001,
     "tsdocConfig": {
@@ -218,7 +218,7 @@
             },
             {
               "kind": "Content",
-              "text": "{\n    method?: \"GET\" | \"POST\";\n}"
+              "text": "{\n    method?: \"GET\" | \"POST\";\n    [key: string]: any;\n}"
             },
             {
               "kind": "Content",
@@ -271,12 +271,28 @@
             },
             {
               "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
               "text": ", ExtensionOptions extends "
             },
             {
               "kind": "Reference",
               "text": "ModuleOptions",
               "canonicalReference": "@vue-storefront/sdk!ModuleOptions:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
             },
             {
               "kind": "Content",
@@ -335,8 +351,8 @@
           ],
           "fileUrlPath": "src/modules/buildModule.ts",
           "returnTypeTokenRange": {
-            "startIndex": 20,
-            "endIndex": 21
+            "startIndex": 24,
+            "endIndex": 25
           },
           "releaseTag": "Public",
           "overloadIndex": 1,
@@ -344,32 +360,32 @@
             {
               "parameterName": "module",
               "parameterTypeTokenRange": {
-                "startIndex": 10,
-                "endIndex": 12
+                "startIndex": 14,
+                "endIndex": 16
               },
               "isOptional": false
             },
             {
               "parameterName": "moduleOptions",
               "parameterTypeTokenRange": {
-                "startIndex": 13,
-                "endIndex": 14
+                "startIndex": 17,
+                "endIndex": 18
               },
               "isOptional": false
             },
             {
               "parameterName": "extension",
               "parameterTypeTokenRange": {
-                "startIndex": 15,
-                "endIndex": 17
+                "startIndex": 19,
+                "endIndex": 21
               },
               "isOptional": true
             },
             {
               "parameterName": "extensionOptions",
               "parameterTypeTokenRange": {
-                "startIndex": 18,
-                "endIndex": 19
+                "startIndex": 22,
+                "endIndex": 23
               },
               "isOptional": true
             }
@@ -404,19 +420,19 @@
                 "endIndex": 7
               },
               "defaultTypeTokenRange": {
-                "startIndex": 0,
-                "endIndex": 0
+                "startIndex": 8,
+                "endIndex": 9
               }
             },
             {
               "typeParameterName": "ExtensionOptions",
               "constraintTokenRange": {
-                "startIndex": 8,
-                "endIndex": 9
+                "startIndex": 10,
+                "endIndex": 11
               },
               "defaultTypeTokenRange": {
-                "startIndex": 0,
-                "endIndex": 0
+                "startIndex": 12,
+                "endIndex": 13
               }
             }
           ],
@@ -447,6 +463,14 @@
             },
             {
               "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
               "text": ", InitializedExtension extends "
             },
             {
@@ -460,12 +484,28 @@
             },
             {
               "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
               "text": ", ExtensionOptions extends "
             },
             {
               "kind": "Reference",
               "text": "ModuleOptions",
               "canonicalReference": "@vue-storefront/sdk!ModuleOptions:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
             },
             {
               "kind": "Content",
@@ -524,8 +564,8 @@
           ],
           "fileUrlPath": "src/modules/buildModule.ts",
           "returnTypeTokenRange": {
-            "startIndex": 20,
-            "endIndex": 21
+            "startIndex": 26,
+            "endIndex": 27
           },
           "releaseTag": "Public",
           "overloadIndex": 2,
@@ -533,32 +573,32 @@
             {
               "parameterName": "module",
               "parameterTypeTokenRange": {
-                "startIndex": 10,
-                "endIndex": 12
+                "startIndex": 16,
+                "endIndex": 18
               },
               "isOptional": false
             },
             {
               "parameterName": "moduleOptions",
               "parameterTypeTokenRange": {
-                "startIndex": 13,
-                "endIndex": 14
+                "startIndex": 19,
+                "endIndex": 20
               },
               "isOptional": true
             },
             {
               "parameterName": "extension",
               "parameterTypeTokenRange": {
-                "startIndex": 15,
-                "endIndex": 17
+                "startIndex": 21,
+                "endIndex": 23
               },
               "isOptional": true
             },
             {
               "parameterName": "extensionOptions",
               "parameterTypeTokenRange": {
-                "startIndex": 18,
-                "endIndex": 19
+                "startIndex": 24,
+                "endIndex": 25
               },
               "isOptional": true
             }
@@ -582,30 +622,30 @@
                 "endIndex": 4
               },
               "defaultTypeTokenRange": {
-                "startIndex": 0,
-                "endIndex": 0
+                "startIndex": 5,
+                "endIndex": 6
               }
             },
             {
               "typeParameterName": "InitializedExtension",
               "constraintTokenRange": {
-                "startIndex": 5,
-                "endIndex": 7
+                "startIndex": 7,
+                "endIndex": 9
               },
               "defaultTypeTokenRange": {
-                "startIndex": 0,
-                "endIndex": 0
+                "startIndex": 10,
+                "endIndex": 11
               }
             },
             {
               "typeParameterName": "ExtensionOptions",
               "constraintTokenRange": {
-                "startIndex": 8,
-                "endIndex": 9
+                "startIndex": 12,
+                "endIndex": 13
               },
               "defaultTypeTokenRange": {
-                "startIndex": 0,
-                "endIndex": 0
+                "startIndex": 14,
+                "endIndex": 15
               }
             }
           ],
@@ -955,6 +995,15 @@
             },
             {
               "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Module",
+              "canonicalReference": "@vue-storefront/sdk!Module:type"
+            },
+            {
+              "kind": "Content",
               "text": "> = "
             },
             {
@@ -1045,14 +1094,14 @@
                 "endIndex": 2
               },
               "defaultTypeTokenRange": {
-                "startIndex": 0,
-                "endIndex": 0
+                "startIndex": 3,
+                "endIndex": 4
               }
             }
           ],
           "typeTokenRange": {
-            "startIndex": 3,
-            "endIndex": 19
+            "startIndex": 5,
+            "endIndex": 21
           }
         },
         {
@@ -1148,17 +1197,13 @@
           }
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "@vue-storefront/sdk!getRequestSender:var",
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!getRequestSender:function(1)",
           "docComment": "/**\n * Generates a `RequestSender` function configured according to the provided options.\n *\n * @remarks\n *\n * This function abstracts away the details of constructing request URLs, merging configurations, handling errors, and executing HTTP requests.\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "getRequestSender: "
-            },
-            {
-              "kind": "Content",
-              "text": "(options: "
+              "text": "getRequestSender: (options: "
             },
             {
               "kind": "Reference",
@@ -1176,26 +1221,32 @@
             }
           ],
           "fileUrlPath": "src/modules/middlewareModule/utils/getRequestSender.ts",
-          "isReadonly": true,
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
           "releaseTag": "Public",
-          "name": "getRequestSender",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 5
-          }
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "options",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "getRequestSender"
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "@vue-storefront/sdk!handleError:var",
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!handleError:function(1)",
           "docComment": "",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "handleError: "
-            },
-            {
-              "kind": "Content",
-              "text": "(err: "
+              "text": "handleError: (err: "
             },
             {
               "kind": "Reference",
@@ -1213,13 +1264,23 @@
             }
           ],
           "fileUrlPath": "src/error.ts",
-          "isReadonly": true,
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
           "releaseTag": "Public",
-          "name": "handleError",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 5
-          }
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "err",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "handleError"
         },
         {
           "kind": "TypeAlias",
@@ -1310,17 +1371,13 @@
           }
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "@vue-storefront/sdk!initSDK:var",
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!initSDK:function(1)",
           "docComment": "/**\n * Initializes SDK\n *\n * @param sdkConfig - SDK configuration\n *\n * @example\n *\n * This is an example of how to initialize SDK Providing generic type is required to get proper type inference.\n * ```typescript\n * const sdkConfig = {\n *   module1: buildModule<Module1, typeof extension>(module1, {}, extension),\n *   module2: buildModule<Module2>(module2),\n * };\n *\n * const sdk = initSDK<typeof sdkConfig>(sdkConfig);\n * ```\n *\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "initSDK: "
-            },
-            {
-              "kind": "Content",
-              "text": "<T extends "
+              "text": "initSDK: <T extends "
             },
             {
               "kind": "Reference",
@@ -1374,7 +1431,19 @@
             },
             {
               "kind": "Content",
-              "text": ">>>>(sdkConfig: T) => "
+              "text": ">>>"
+            },
+            {
+              "kind": "Content",
+              "text": ">(sdkConfig: "
+            },
+            {
+              "kind": "Content",
+              "text": "T"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
             },
             {
               "kind": "Reference",
@@ -1387,26 +1456,45 @@
             }
           ],
           "fileUrlPath": "src/bootstrap.ts",
-          "isReadonly": true,
+          "returnTypeTokenRange": {
+            "startIndex": 16,
+            "endIndex": 18
+          },
           "releaseTag": "Public",
-          "name": "initSDK",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 16
-          }
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "sdkConfig",
+              "parameterTypeTokenRange": {
+                "startIndex": 14,
+                "endIndex": 15
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 13
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "initSDK"
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "@vue-storefront/sdk!initVSFSDK:var",
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!initVSFSDK:function(1)",
           "docComment": "/**\n * An old alias for initSDK function.\n *\n * @deprecated\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "initVSFSDK: "
-            },
-            {
-              "kind": "Content",
-              "text": "<T extends "
+              "text": "initVSFSDK: <T extends "
             },
             {
               "kind": "Reference",
@@ -1460,7 +1548,23 @@
             },
             {
               "kind": "Content",
-              "text": ">>>>(sdkConfig: T) => import(\"./types\")."
+              "text": ">>>"
+            },
+            {
+              "kind": "Content",
+              "text": ">(sdkConfig: "
+            },
+            {
+              "kind": "Content",
+              "text": "T"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
+            },
+            {
+              "kind": "Content",
+              "text": "import(\"./types\")."
             },
             {
               "kind": "Reference",
@@ -1473,13 +1577,36 @@
             }
           ],
           "fileUrlPath": "src/api-extractor-data.ts",
-          "isReadonly": true,
+          "returnTypeTokenRange": {
+            "startIndex": 16,
+            "endIndex": 19
+          },
           "releaseTag": "Public",
-          "name": "initVSFSDK",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 16
-          }
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "sdkConfig",
+              "parameterTypeTokenRange": {
+                "startIndex": 14,
+                "endIndex": 15
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 13
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "initVSFSDK"
         },
         {
           "kind": "TypeAlias",
@@ -1845,17 +1972,21 @@
           }
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "@vue-storefront/sdk!isCausedBySdkHttpError:var",
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!isCausedBySdkHttpError:function(1)",
           "docComment": "/**\n * Checks if the given error was caused by `SDKError`.\n *\n * @param error - The error to check.\n *\n * @returns A type predicate indicating whether the error is an `ErrorCausedBySDKError`.\n *\n * @example\n * ```typescript\n * catch (error) {\n *   if (isCausedBySdkError(error)) {\n *     const statusCode = error.cause.statusCode;\n *   }\n * }\n * ```\n *\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "isCausedBySdkHttpError: "
+              "text": "isCausedBySdkHttpError: (error: "
             },
             {
               "kind": "Content",
-              "text": "(error: unknown) => "
+              "text": "unknown"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
             },
             {
               "kind": "Reference",
@@ -1873,26 +2004,40 @@
             }
           ],
           "fileUrlPath": "src/modules/middlewareModule/utils/SdkHttpError.ts",
-          "isReadonly": true,
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 6
+          },
           "releaseTag": "Public",
-          "name": "isCausedBySdkHttpError",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 5
-          }
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "error",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "isCausedBySdkHttpError"
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "@vue-storefront/sdk!isSdkRequestError:var",
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!isSdkRequestError:function(1)",
           "docComment": "/**\n * Checks if the given error was caused by `SDKError` and its status code is between 400 and 500, indicating a client error.\n *\n * @param error - The error to check.\n *\n * @returns A type predicate indicating whether the error is a client error caused by `SDKError`.\n *\n * @example\n * ```typescript\n * catch (error) {\n *   if (isSdkRequestError(error)) {\n *     // handle client error\n *   }\n * }\n * ```\n *\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "isSdkRequestError: "
+              "text": "isSdkRequestError: (error: "
             },
             {
               "kind": "Content",
-              "text": "(error: unknown) => "
+              "text": "unknown"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
             },
             {
               "kind": "Reference",
@@ -1910,26 +2055,40 @@
             }
           ],
           "fileUrlPath": "src/modules/middlewareModule/utils/SdkHttpError.ts",
-          "isReadonly": true,
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 6
+          },
           "releaseTag": "Public",
-          "name": "isSdkRequestError",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 5
-          }
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "error",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "isSdkRequestError"
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "@vue-storefront/sdk!isSdkUnauthorizedError:var",
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!isSdkUnauthorizedError:function(1)",
           "docComment": "/**\n * Checks if the given error was caused by `SDKError` and its status code is 401, indicating an unauthorized request error.\n *\n * @param error - The error to check.\n *\n * @returns A type predicate indicating whether the error is an unauthorized request error caused by `SDKError`.\n *\n * @example\n * ```typescript\n * catch (error) {\n *   if (isSdkUnauthorizedError(error)) {\n *     // handle unauthorized error\n *   }\n * }\n * ```\n *\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "isSdkUnauthorizedError: "
+              "text": "isSdkUnauthorizedError: (error: "
             },
             {
               "kind": "Content",
-              "text": "(error: unknown) => "
+              "text": "unknown"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
             },
             {
               "kind": "Reference",
@@ -1947,26 +2106,40 @@
             }
           ],
           "fileUrlPath": "src/modules/middlewareModule/utils/SdkHttpError.ts",
-          "isReadonly": true,
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 6
+          },
           "releaseTag": "Public",
-          "name": "isSdkUnauthorizedError",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 5
-          }
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "error",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "isSdkUnauthorizedError"
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "@vue-storefront/sdk!isSpecificSdkHttpError:var",
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!isSpecificSdkHttpError:function(1)",
           "docComment": "/**\n * Checks if the given error was caused by `SDKError` and matches a specific status code or condition.\n *\n * @param error - The error to check.\n *\n * @param statusCodePredicate - The predicate to match the error's status code against.\n *\n * @returns A type predicate indicating whether the error matches the specific condition.\n *\n * @example\n * ```typescript\n * catch (error) {\n *   if (isSpecificSdkError(error, { statusCode: 422 })) {\n *     // handle 422\n *   }\n * }\n * ```\n *\n * @example\n * ```typescript\n * catch (error) {\n *   if (isSpecificSdkError(error, { statusCode: (code) => code === 401 || code === 403 })) {\n *     // handle 401 or 403\n *   }\n * }\n * ```\n *\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "isSpecificSdkHttpError: "
+              "text": "isSpecificSdkHttpError: (error: "
             },
             {
               "kind": "Content",
-              "text": "(error: unknown, statusCodePredicate: "
+              "text": "unknown"
+            },
+            {
+              "kind": "Content",
+              "text": ", statusCodePredicate: "
             },
             {
               "kind": "Reference",
@@ -1993,13 +2166,31 @@
             }
           ],
           "fileUrlPath": "src/modules/middlewareModule/utils/SdkHttpError.ts",
-          "isReadonly": true,
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 8
+          },
           "releaseTag": "Public",
-          "name": "isSpecificSdkHttpError",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 7
-          }
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "error",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            },
+            {
+              "parameterName": "statusCodePredicate",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "isSpecificSdkHttpError"
         },
         {
           "kind": "TypeAlias",
@@ -2117,17 +2308,13 @@
           }
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "@vue-storefront/sdk!middlewareModule:var",
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!middlewareModule:function(1)",
           "docComment": "/**\n * `middlewareModule` is allowing to communicate with the Server Middleware API.\n *\n * It generates the methods to communicate with the API based on the provided endpoints interface.\n *\n * @example\n *\n * Setup:\n * ```ts\n * import { createSdk } from \"@vue-storefront/next\";\n * import type { SapccEndpoints } from \"../storefront-middleware/types\";\n *\n * export const { getSdk } = createSdk(options, ({ buildModule, middlewareModule }) => ({\n *   sapcc: buildModule(middlewareModule<SapccEndpoints>, {\n *     apiUrl: \"http://localhost:4000/sapcc\",\n *   }),\n * }));\n * ```\n *\n * It also exposes the `context` with the `requestSender` to allow to use it directly in extensions.\n *\n * @example\n *\n * Usage:\n * ```ts\n * import { createSdk } from \"@vue-storefront/next\";\n * import type { SapccEndpoints } from \"../storefront-middleware/types\";\n *\n * const extension = (extensionOptions, { methods, context }) => ({\n *   extend: {\n *     async newMethod(params) {\n *       const response = await context.requestSender(\"customMethod\", [params]);\n *       const products = await methods.getProducts(params);\n *       return { ...response, ...products };\n *     }\n *   }\n * });\n *\n * export const { getSdk } = createSdk(options, ({ buildModule, middlewareModule }) => ({\n *   sapcc: buildModule(middlewareModule<SapccEndpoints>, {\n *     apiUrl: \"http://localhost:4000/sapcc\",\n *   }, extension),\n * }));\n * ```\n *\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "middlewareModule: "
-            },
-            {
-              "kind": "Content",
-              "text": "<Endpoints extends "
+              "text": "middlewareModule: <Endpoints extends "
             },
             {
               "kind": "Reference",
@@ -2145,7 +2332,11 @@
             },
             {
               "kind": "Content",
-              "text": ") => {\n    connector: import(\"./types\")."
+              "text": ") => "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    connector: import(\"./types\")."
             },
             {
               "kind": "Reference",
@@ -2167,13 +2358,36 @@
             }
           ],
           "fileUrlPath": "src/modules/middlewareModule/module.ts",
-          "isReadonly": true,
-          "releaseTag": "Public",
-          "name": "middlewareModule",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
+          "returnTypeTokenRange": {
+            "startIndex": 5,
             "endIndex": 10
-          }
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "options",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "isOptional": false
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "Endpoints",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "middlewareModule"
         },
         {
           "kind": "TypeAlias",
@@ -2458,17 +2672,13 @@
           }
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "@vue-storefront/sdk!prepareConfig:var",
+          "kind": "Function",
+          "canonicalReference": "@vue-storefront/sdk!prepareConfig:function(1)",
           "docComment": "/**\n * Prepare the config for the request. It's used to differentiate the method config from the params.\n *\n * @example\n *\n * Usage\n * ```ts\n * import { prepareConfig } from \"@vue-storefront/sdk\";\n *\n * const products = sdk.commerce.getProducts(params, prepareConfig({ method: \"GET\" }));\n * ```\n *\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "prepareConfig: "
-            },
-            {
-              "kind": "Content",
-              "text": "<CustomConfig extends "
+              "text": "prepareConfig: (requestConfig: "
             },
             {
               "kind": "Reference",
@@ -2477,16 +2687,7 @@
             },
             {
               "kind": "Content",
-              "text": " = "
-            },
-            {
-              "kind": "Reference",
-              "text": "RequestConfig",
-              "canonicalReference": "@vue-storefront/sdk!RequestConfig:type"
-            },
-            {
-              "kind": "Content",
-              "text": ">(requestConfig: CustomConfig) => "
+              "text": ") => "
             },
             {
               "kind": "Reference",
@@ -2495,13 +2696,23 @@
             }
           ],
           "fileUrlPath": "src/modules/middlewareModule/utils/prepareConfig.ts",
-          "isReadonly": true,
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
           "releaseTag": "Public",
-          "name": "prepareConfig",
-          "variableTypeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 7
-          }
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "requestConfig",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "prepareConfig"
         },
         {
           "kind": "TypeAlias",

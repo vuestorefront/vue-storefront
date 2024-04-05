@@ -3,7 +3,7 @@
 import { SDKApi } from "@vue-storefront/sdk";
 import Script from "next/script";
 import React, { createContext, useContext } from "react";
-import { SdkProviderProps } from "./types";
+import { CreateSdkContextReturn, SdkProviderProps } from "./types";
 
 /**
  * Creates a new SDK context. This function is dedicated for the client-side usage.
@@ -23,7 +23,9 @@ import { SdkProviderProps } from "./types";
  * Finally you can use the `useSdk` in any client component of your application.
  * @returns [SdkProvider, useSdk] - The SDK provider and the `useSdk` hook.
  */
-export function createSdkContext<TSdk extends SDKApi<any>>(sdk: TSdk) {
+export function createSdkContext<TSdk extends SDKApi<any>>(
+  sdk: TSdk
+): CreateSdkContextReturn<TSdk> {
   const SdkContext = createContext<TSdk>(sdk);
 
   function SdkProvider({ children }: SdkProviderProps) {

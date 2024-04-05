@@ -182,7 +182,7 @@ type ModuleOverride<OverriddenConnector> = {
  * Extension Type represents the extension configuration.
  * It provides extensibility mechanisms like interceptors, extensions, overrides, and pub/sub manager.
  */
-export type Extension<ExtendedModule extends Module> = Omit<
+export type Extension<ExtendedModule extends Module = Module> = Omit<
   Partial<Module>,
   "connector" | "context"
 > & {
