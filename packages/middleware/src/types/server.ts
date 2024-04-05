@@ -137,7 +137,13 @@ export interface CreateServerOptions {
   };
   /**
    * The options for the `cors` middleware.
-   * If not provided, the default options will be used.
+   * If not provided, the following configuration will be used:
+   * ```json
+   * {
+   *  "credentials": true,
+   *  "origin": ["http://localhost:3000", "http://localhost:4000"]
+   * }
+   * ```
    * @see https://www.npmjs.com/package/cors
    */
   cors?: CorsOptions | CorsOptionsDelegate;

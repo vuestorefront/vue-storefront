@@ -19,6 +19,11 @@ import {
   callApiFunction,
 } from "./handlers";
 
+const defaultCorsOptions: CreateServerOptions["cors"] = {
+  credentials: true,
+  origin: ["http://localhost:3000", "http://localhost:4000"],
+};
+
 async function createServer<
   TIntegrationContext extends Record<string, IntegrationContext>
 >(
@@ -33,7 +38,7 @@ async function createServer<
       ? cookieParser(options.cookieParser.secret, options.cookieParser.options)
       : cookieParser()
   );
-  app.use(cors(options.cors));
+  app.use(cors(options.cors ?? defaultCorsOptions));
   app.disable("x-powered-by");
 
   consola.info("Middleware starting....");

@@ -22,13 +22,4 @@ createServer(config, {
 });
 ```
 
-[CHANGED] `cors` middleware uses the default configuration. If you want to change it, you can pass the options as a second parameter of `createServer`. The default configuration is:
-
-```json
-{
-  "origin": "*",
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  "preflightContinue": false,
-  "optionsSuccessStatus": 204
-}
-```
+[ADDED] `http://localhost:4000` to the default cors origin.
