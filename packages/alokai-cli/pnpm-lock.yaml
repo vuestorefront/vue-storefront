@@ -18,8 +18,11 @@ dependencies:
     specifier: ^7.22.5
     version: 7.24.1(@babel/core@7.24.3)
   alokai-cli-storefront:
-    specifier: ^0.0.2
-    version: 0.0.2(typescript@4.9.5)
+    specifier: file:.yalc/alokai-cli-storefront
+    version: file:.yalc/alokai-cli-storefront(typescript@4.9.5)
+  alokai-cli-ui:
+    specifier: ^0.0.3
+    version: 0.0.3
   chalk:
     specifier: 5.2.0
     version: 5.2.0
@@ -1225,39 +1228,6 @@ packages:
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /alokai-cli-storefront@0.0.2(typescript@4.9.5):
-    resolution: {integrity: sha512-BXs8G2vrvOqzh9CKpe59CjUqSKZz3IYyNqqimkOH2arr3ZOcQSPEC/i8DXOXYkKLHsdYNA3lUPUMbesfjLq7/g==}
-    engines: {node: '>=20.0.0'}
-    hasBin: true
-    dependencies:
-      '@antfu/ni': 0.21.12
-      '@babel/core': 7.24.3
-      '@babel/parser': 7.24.1
-      '@babel/plugin-transform-typescript': 7.24.1(@babel/core@7.24.3)
-      '@octokit/rest': 20.1.0
-      alokai-cli-ui: 0.0.3
-      chalk: 5.2.0
-      commander: 10.0.1
-      configstore: 6.0.0
-      cosmiconfig: 8.3.6(typescript@4.9.5)
-      diff: 5.2.0
-      execa: 7.2.0
-      fast-glob: 3.3.2
-      fs-extra: 11.2.0
-      glob: 10.3.12
-      https-proxy-agent: 6.2.1
-      isomorphic-git: 1.25.7
-      node-fetch: 3.3.2
-      ora: 6.3.1
-      prompts: 2.4.2
-      ts-morph: 18.0.0
-      tsconfig-paths: 4.2.0
-      zod: 3.22.4
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
     dev: false
 
   /alokai-cli-ui@0.0.3:
@@ -3079,4 +3049,39 @@ packages:
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+    dev: false
+
+  file:.yalc/alokai-cli-storefront(typescript@4.9.5):
+    resolution: {directory: .yalc/alokai-cli-storefront, type: directory}
+    id: file:.yalc/alokai-cli-storefront
+    name: alokai-cli-storefront
+    engines: {node: '>=20.0.0'}
+    hasBin: true
+    dependencies:
+      '@antfu/ni': 0.21.12
+      '@babel/core': 7.24.3
+      '@babel/parser': 7.24.1
+      '@babel/plugin-transform-typescript': 7.24.1(@babel/core@7.24.3)
+      '@octokit/rest': 20.1.0
+      alokai-cli-ui: 0.0.3
+      chalk: 5.2.0
+      commander: 10.0.1
+      configstore: 6.0.0
+      cosmiconfig: 8.3.6(typescript@4.9.5)
+      diff: 5.2.0
+      execa: 7.2.0
+      fast-glob: 3.3.2
+      fs-extra: 11.2.0
+      glob: 10.3.12
+      https-proxy-agent: 6.2.1
+      isomorphic-git: 1.25.7
+      node-fetch: 3.3.2
+      ora: 6.3.1
+      prompts: 2.4.2
+      ts-morph: 18.0.0
+      tsconfig-paths: 4.2.0
+      zod: 3.22.4
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
     dev: false

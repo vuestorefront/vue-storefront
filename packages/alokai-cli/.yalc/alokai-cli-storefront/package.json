@@ -1,7 +1,7 @@
 {
-  "name": "alokai-cli-preview",
-  "version": "0.0.1",
-  "description": "Alokai CLI",
+  "name": "alokai-cli-storefront",
+  "version": "0.0.6",
+  "description": "Alokai CLI for Alokai Storefront",
   "license": "MIT",
   "author": {
     "name": "alokai"
@@ -9,6 +9,7 @@
   "files": [
     "dist"
   ],
+  "types": "./dist/index.d.ts",
   "keywords": [
     "alokai"
   ],
@@ -17,8 +18,7 @@
   "bin": "./dist/index.js",
   "scripts": {
     "dev": "tsup --watch",
-    "prebuild": "node ./prebuild.js",
-    "build": "pnpm prebuild && tsup",
+    "build": "tsup",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf dist && rimraf components",
     "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3001 node dist/index.js",
@@ -36,7 +36,7 @@
     "@babel/core": "^7.22.1",
     "@babel/parser": "^7.22.6",
     "@babel/plugin-transform-typescript": "^7.22.5",
-    "alokai-cli-storefront": "file:.yalc/alokai-cli-storefront",
+    "@octokit/rest": "^20.1.0",
     "alokai-cli-ui": "^0.0.3",
     "chalk": "5.2.0",
     "commander": "^10.0.0",
@@ -46,7 +46,9 @@
     "execa": "^7.0.0",
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.1.0",
+    "glob": "^10.3.12",
     "https-proxy-agent": "^6.2.0",
+    "isomorphic-git": "^1.25.7",
     "node-fetch": "^3.3.0",
     "ora": "^6.1.2",
     "prompts": "^2.4.2",
@@ -54,19 +56,8 @@
     "tsconfig-paths": "^4.2.0",
     "zod": "^3.20.2"
   },
-  "devDependencies": {
-    "@types/babel__core": "^7.20.1",
-    "@types/diff": "^5.0.3",
-    "@types/fs-extra": "^11.0.1",
-    "@types/lodash.template": "^4.5.1",
-    "@types/prompts": "^2.4.2",
-    "rimraf": "^4.1.3",
-    "tsup": "^6.6.3",
-    "type-fest": "^3.8.0",
-    "typescript": "^4.9.3",
-    "vitest": "^1.3.1"
-  },
   "engines": {
     "node": ">=20.0.0"
-  }
+  },
+  "yalcSig": "10828386188db7a8b7c92c60b3c203e8"
 }
