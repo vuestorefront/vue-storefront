@@ -1,0 +1,46 @@
+{
+  "name": "@vuestorefront/engineering-toolkit",
+  "version": "0.0.1",
+  "private": true,
+  "repository": "git@github.com:vuestorefront/engineering-toolkit.git",
+  "author": "Maciej Rybaniec <mrybaniec@vuestorefront.io>",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "commit": "npx git-cz",
+    "lint": "npx turbo run lint",
+    "format": "npx turbo run format",
+    "build": "npx turbo run build",
+    "changesets:version": "yarn build && yarn changeset version",
+    "changesets:publish": "yarn build && yarn changeset publish"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "github-actions/*"
+    ]
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.1",
+    "@commitlint/cli": "^17.5.1",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@vue-storefront/prettier-config": "workspace:*",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "git-cz": "^4.9.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "turbo": "^1.9.3"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "packageManager": "yarn@3.4.1",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

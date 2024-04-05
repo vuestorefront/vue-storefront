@@ -1,0 +1,8 @@
+node_modules
+
+cache
+lib
+install-state.gz
+.turbo
+.DS_Store
+.idea

@@ -1,0 +1,30 @@
+{
+  "name": "@vue-storefront/jest-config",
+  "version": "0.0.4",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "files": [
+    "src"
+  ],
+  "homepage": "https://github.com/vuestorefront/engineering-toolkit/packages/jest-config",
+  "contributors": [
+    {
+      "name": "Wojciech Sikora",
+      "email": "wsikora@vuestorefront.io"
+    }
+  ],
+  "keywords": [
+    "jest",
+    "jest-config",
+    "vuestorefront"
+  ],
+  "dependencies": {
+    "@types/jest": "^27.4.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

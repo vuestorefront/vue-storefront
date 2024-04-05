@@ -1,0 +1,16 @@
+name: VSF Continuous Delivery
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      
+jobs:
+  release-packages:
+    name: "Release NPM Packages"
+    # FIXME Change back to @main once main actually rolls back to using changesets:version and changests:publish npm scripts
+    uses: vuestorefront/integrations-github-workflows/.github/workflows/continuous-delivery.yml@4370e6a59018c59fa0c296fb41d528d15e08f5ea
+    secrets: inherit
+    with:
+      enterprise: false
