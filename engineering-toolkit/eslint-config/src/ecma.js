@@ -9,7 +9,6 @@ module.exports = {
     "plugin:promise/recommended",
     "plugin:unicorn/recommended",
     "plugin:sonarjs/recommended",
-    "plugin:no-unsanitized/DOM",
   ],
   plugins: [
     "promise",
