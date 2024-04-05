@@ -1,3 +1,6 @@
+import { CorsOptions, CorsOptionsDelegate } from "cors";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import { TObject } from "./base";
 import {
   ApiClientExtension,
@@ -115,3 +118,12 @@ export type CreateApiProxyFn = <CONFIG, API, CLIENT>(
   givenConfig: any,
   customApi?: any
 ) => ApiInstance<CONFIG, API, CLIENT>;
+
+export interface CreateServerOptions {
+  bodyParser?: bodyParser.OptionsJson;
+  cookieParser?: {
+    secret: string | string[];
+    options: cookieParser.CookieParseOptions;
+  };
+  cors?: CorsOptions | CorsOptionsDelegate;
+}
