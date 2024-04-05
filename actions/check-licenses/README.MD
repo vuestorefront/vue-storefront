@@ -12,7 +12,7 @@
 ## Example usage
 
 ```yaml
-uses: vuestorefront/engineering-toolkit/github-actions/check-licenses@main
+uses: vuestorefront/vue-storefront/actions/check-licenses@main
 with:
   projectPath: ${{ github.workspace }}
 ```

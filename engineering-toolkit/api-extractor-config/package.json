@@ -5,7 +5,7 @@
   "files": [
     "src"
   ],
-  "homepage": "https://github.com/vuestorefront/engineering-toolkit/packages/api-extractor-config",
+  "homepage": "https://github.com/vuestorefront/vue-storefront/engineering-toolkit/api-extractor-config",
   "contributors": [
     {
       "name": "Wojciech Sikora",

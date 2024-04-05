@@ -6,7 +6,7 @@
     "README.MD",
     "*.js"
   ],
-  "homepage": "https://github.com/vuestorefront/engineering-toolkit/packages/eslint-config-integrations",
+  "homepage": "https://github.com/vuestorefront/vue-storefront/engineering-toolkit/eslint-config-integrations",
   "contributors": [
     {
       "name": "Wojciech Sikora",
