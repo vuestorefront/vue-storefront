@@ -33,13 +33,7 @@ async function createServer<
       ? cookieParser(options.cookieParser.secret, options.cookieParser.options)
       : cookieParser()
   );
-  app.use(
-    cors(
-      options.cors ?? {
-        credentials: true,
-      }
-    )
-  );
+  app.use(cors(options.cors));
   app.disable("x-powered-by");
 
   consola.info("Middleware starting....");

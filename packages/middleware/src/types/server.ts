@@ -120,10 +120,25 @@ export type CreateApiProxyFn = <CONFIG, API, CLIENT>(
 ) => ApiInstance<CONFIG, API, CLIENT>;
 
 export interface CreateServerOptions {
+  /**
+   * The options for the `express.json` middleware.
+   * If not provided, the default options will be used.
+   * @see https://www.npmjs.com/package/body-parser
+   */
   bodyParser?: bodyParser.OptionsJson;
+  /**
+   * The options for the `cookie-parser` middleware.
+   * If not provided, the default options will be used.
+   * @see https://www.npmjs.com/package/cookie-parser
+   */
   cookieParser?: {
     secret: string | string[];
     options: cookieParser.CookieParseOptions;
   };
+  /**
+   * The options for the `cors` middleware.
+   * If not provided, the default options will be used.
+   * @see https://www.npmjs.com/package/cors
+   */
   cors?: CorsOptions | CorsOptionsDelegate;
 }
