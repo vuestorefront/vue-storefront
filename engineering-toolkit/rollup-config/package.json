@@ -9,7 +9,7 @@
     "build": "rimraf ./lib && tsc",
     "prepublishOnly": "yarn build"
   },
-  "homepage": "https://github.com/vuestorefront/engineering-toolkit/packages/rollup-config",
+  "homepage": "https://github.com/vuestorefront/vue-storefront/engineering-toolkit/rollup-config",
   "contributors": [
     {
       "name": "Wojciech Sikora",

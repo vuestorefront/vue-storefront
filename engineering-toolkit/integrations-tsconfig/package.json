@@ -5,7 +5,7 @@
   "files": [
     "tsconfig.json"
   ],
-  "homepage": "https://github.com/vuestorefront/engineering-toolkit/packages/integrations-tsconfig",
+  "homepage": "https://github.com/vuestorefront/vue-storefront/engineering-toolkit/integrations-tsconfig",
   "contributors": [
     {
       "name": "Wojciech Sikora",

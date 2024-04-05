@@ -6,7 +6,7 @@
   "files": [
     "src"
   ],
-  "homepage": "https://github.com/vuestorefront/engineering-toolkit/packages/jest-config",
+  "homepage": "https://github.com/vuestorefront/vue-storefront/engineering-toolkit/jest-config",
   "contributors": [
     {
       "name": "Wojciech Sikora",
