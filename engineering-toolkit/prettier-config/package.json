@@ -2,6 +2,7 @@
   "name": "@vue-storefront/prettier-config",
   "version": "2.0.0-rc.1",
   "main": "src/index.js",
+  "license": "MIT",
   "exports": {
     ".": "./src/index.js"
   },

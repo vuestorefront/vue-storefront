@@ -2,6 +2,7 @@
   "name": "@vue-storefront/rollup-config",
   "version": "0.0.7",
   "main": "./lib/index.js",
+  "license": "MIT",
   "files": [
     "lib"
   ],

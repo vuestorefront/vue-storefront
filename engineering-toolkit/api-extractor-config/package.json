@@ -1,6 +1,7 @@
 {
   "name": "@vue-storefront/api-extractor-config",
   "version": "0.0.5",
+  "license": "MIT",
   "main": "./src/index.json",
   "files": [
     "src"
