@@ -1,6 +1,6 @@
 {
   "name": "alokai-cli-preview",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Alokai CLI",
   "license": "MIT",
   "author": {
@@ -36,8 +36,8 @@
     "@babel/core": "^7.22.1",
     "@babel/parser": "^7.22.6",
     "@babel/plugin-transform-typescript": "^7.22.5",
-    "alokai-cli-storefront": "^0.0.8",
-    "alokai-cli-ui": "^0.0.3",
+    "alokai-cli-storefront": "^0.0.10",
+    "alokai-cli-ui": "^0.0.4",
     "chalk": "5.2.0",
     "commander": "^10.0.0",
     "configstore": "^6.0.0",
