@@ -1,17 +1,13 @@
-import path, { dirname } from "path";
+import path from "path";
 import fs from "fs";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 // check if src/index.ts exists and delete it if it does
-const srcIndexPath = path.join(__dirname, "src", "index.ts");
+const srcIndexPath = path.join(process.cwd(), "src", "index.ts");
 if (fs.existsSync(srcIndexPath)) {
   fs.unlinkSync(srcIndexPath);
 }
 
-const nodeModulesPath = path.join(__dirname, "node_modules");
+const nodeModulesPath = path.join(process.cwd(), "node_modules");
 const modules = [];
 // Function to import and initialize command modules
 (() => {
@@ -38,7 +34,9 @@ const modules = [];
 })();
 
 // Write the src/index.ts file
-const indexFile = `import { Command } from "commander";
+const indexFile = `#!/usr/bin/env node
+
+import { Command } from "commander";
 ${modules.map((module) => `import ${module.camelCaseName} from "${module.name}";`).join("\n")}
 
 async function main() {
@@ -62,8 +60,8 @@ main();
 `;
 
 // create the src directory if it doesn't exist
-if (!fs.existsSync(path.join(__dirname, "src"))) {
-  fs.mkdirSync(path.join(__dirname, "src"));
+if (!fs.existsSync(path.join(process.cwd(), "src"))) {
+  fs.mkdirSync(path.join(process.cwd(), "src"));
 }
 
 fs.writeFileSync(srcIndexPath, indexFile);

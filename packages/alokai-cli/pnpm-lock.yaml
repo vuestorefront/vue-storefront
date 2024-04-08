@@ -18,8 +18,8 @@ dependencies:
     specifier: ^7.22.5
     version: 7.24.1(@babel/core@7.24.3)
   alokai-cli-storefront:
-    specifier: ^0.0.6
-    version: 0.0.6(typescript@4.9.5)
+    specifier: ^0.0.7
+    version: 0.0.7(typescript@4.9.5)
   alokai-cli-ui:
     specifier: ^0.0.3
     version: 0.0.3
@@ -1230,8 +1230,8 @@ packages:
       - supports-color
     dev: false
 
-  /alokai-cli-storefront@0.0.6(typescript@4.9.5):
-    resolution: {integrity: sha512-9yRLktmwTVDNhLNMyd640XK8M10lxt843a5y6vZNDT0YUnH+HodRhiX/kbYLRHVfA3NwubkxI1XDRgM6U5gUaA==}
+  /alokai-cli-storefront@0.0.7(typescript@4.9.5):
+    resolution: {integrity: sha512-gX5opWAOQFWa6tfbRgleZyLLglmOgAatRvIpkGvt+5ymwnjXzw7LOrh1DkMPwYQKKByue6TOAdUggv+QZjHBdQ==}
     engines: {node: '>=20.0.0'}
     hasBin: true
     dependencies:
