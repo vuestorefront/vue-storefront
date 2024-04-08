@@ -10201,17 +10201,17 @@ libnpmpublish@7.1.4:
     sigstore "^1.4.0"
     ssri "^10.0.1"
 
-license-checker-rseidelsohn@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/license-checker-rseidelsohn/-/license-checker-rseidelsohn-3.3.0.tgz#37b38512ceef89e5fb10b35af6573ec6fcc0bac6"
-  integrity sha512-BUiUTnaC8nvOvs4mfMrK89S/ib6u9I40IVTEEmazdHEZxgkxOdZntcHLEWlRDzxT6f23e3NdLoU940UXwC0Uzg==
+license-checker-rseidelsohn@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/license-checker-rseidelsohn/-/license-checker-rseidelsohn-4.3.0.tgz#4f72292c529d5ca432154d6737d83f8f6d25a444"
+  integrity sha512-A2LQ+3kUIG1hCJ/hh4WUvPsyhooT7o5mFhNyTean0cqH3rZeB1ZUCthxlcdgWESSqx+3DLC6J/8ghbiWRYKdUA==
   dependencies:
     chalk "4.1.2"
     debug "^4.3.4"
     lodash.clonedeep "^4.5.0"
     mkdirp "^1.0.4"
-    nopt "^5.0.0"
-    read-installed-packages "^1.0.0"
+    nopt "^7.2.0"
+    read-installed-packages "^2.0.1"
     semver "^7.3.5"
     spdx-correct "^3.1.1"
     spdx-expression-parse "^3.0.1"
@@ -11221,7 +11221,7 @@ nopt@^6.0.0:
   dependencies:
     abbrev "^1.0.0"
 
-nopt@^7.0.0:
+nopt@^7.0.0, nopt@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/nopt/-/nopt-7.2.0.tgz#067378c68116f602f552876194fd11f1292503d7"
   integrity sha512-CVDtwCdhYIvnAzFoJ6NJ6dX3oga9/HyciQDnG1vQDjSLMeKLJ4A93ZqYKDrgYSr1FBY5/hMYC+2VCi24pgpkGA==
@@ -11320,7 +11320,7 @@ npm-install-checks@^6.0.0:
   dependencies:
     semver "^7.1.1"
 
-npm-normalize-package-bin@^1.0.0, npm-normalize-package-bin@^1.0.1:
+npm-normalize-package-bin@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/npm-normalize-package-bin/-/npm-normalize-package-bin-1.0.1.tgz#6e79a41f23fd235c0623218228da7d9c23b8f6e2"
   integrity sha512-EPfafl6JL5/rU+ot6P3gRSCpPDW5VmIzX959Ob1+ySFUuuYHWHekXpwdUZcKP5C+DS4GEtdJluwBjnsNDl+fSA==
@@ -12663,14 +12663,14 @@ read-cmd-shim@^4.0.0:
   resolved "https://registry.yarnpkg.com/read-cmd-shim/-/read-cmd-shim-4.0.0.tgz#640a08b473a49043e394ae0c7a34dd822c73b9bb"
   integrity sha512-yILWifhaSEEytfXI76kB9xEEiG1AiozaCJZ83A87ytjRiN+jVibXjedjCRNjoZviinhG+4UkalO3mWTd8u5O0Q==
 
-read-installed-packages@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/read-installed-packages/-/read-installed-packages-1.0.0.tgz#ca94531c4392f579a26128906bad161fc19e2727"
-  integrity sha512-CZdFN0oYn7Iko+X8ynOztXNfbpO7UvAw1qEboRXCASP/psVrdt8LTvmwUYhAUF9q1dnD5R7lW4pmbpO6CQsfOg==
+read-installed-packages@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/read-installed-packages/-/read-installed-packages-2.0.1.tgz#8ba63a9382a5158c37a288c2f21268d6eb9c85eb"
+  integrity sha512-t+fJOFOYaZIjBpTVxiV8Mkt7yQyy4E6MSrrnt5FmPd4enYvpU/9DYGirDmN1XQwkfeuWIhM/iu0t2rm6iSr0CA==
   dependencies:
-    debug "^4.3.1"
-    read-package-json "^4.0.0"
-    readdir-scoped-modules "^1.0.0"
+    "@npmcli/fs" "^3.1.0"
+    debug "^4.3.4"
+    read-package-json "^6.0.0"
     semver "2 || 3 || 4 || 5 || 6 || 7"
     slide "~1.1.3"
   optionalDependencies:
@@ -12701,16 +12701,6 @@ read-package-json@5.0.1:
     json-parse-even-better-errors "^2.3.1"
     normalize-package-data "^4.0.0"
     npm-normalize-package-bin "^1.0.1"
-
-read-package-json@^4.0.0:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/read-package-json/-/read-package-json-4.1.2.tgz#b444d047de7c75d4a160cb056d00c0693c1df703"
-  integrity sha512-Dqer4pqzamDE2O4M55xp1qZMuLPqi4ldk2ya648FOMHRjwMzFhuxVrG04wd0c38IsvkVdr3vgHI6z+QTPdAjrQ==
-  dependencies:
-    glob "^7.1.1"
-    json-parse-even-better-errors "^2.3.0"
-    normalize-package-data "^3.0.0"
-    npm-normalize-package-bin "^1.0.0"
 
 read-package-json@^5.0.0:
   version "5.0.2"
@@ -12842,7 +12832,7 @@ readable-stream@~2.3.6:
     string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
 
-readdir-scoped-modules@^1.0.0, readdir-scoped-modules@^1.1.0:
+readdir-scoped-modules@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/readdir-scoped-modules/-/readdir-scoped-modules-1.1.0.tgz#8d45407b4f870a0dcaebc0e28670d18e74514309"
   integrity sha512-asaikDeqAQg7JifRsZn1NJZXo9E+VwlyCfbkZhwyISinqk5zNS6266HS5kah6P0SaQKGF6SkNnZVHUzHFYxYDw==
