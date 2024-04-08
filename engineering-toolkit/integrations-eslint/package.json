@@ -2,6 +2,7 @@
   "name": "@vue-storefront/eslint-config-integrations",
   "version": "0.0.20",
   "main": "index.js",
+  "license": "MIT",
   "files": [
     "README.MD",
     "*.js"

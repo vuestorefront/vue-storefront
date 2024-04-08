@@ -2,6 +2,7 @@
   "name": "@vue-storefront/integrations-tsconfig",
   "version": "0.0.4",
   "main": "./tsconfig.json",
+  "license": "MIT",
   "files": [
     "tsconfig.json"
   ],

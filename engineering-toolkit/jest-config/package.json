@@ -2,6 +2,7 @@
   "name": "@vue-storefront/jest-config",
   "version": "0.0.4",
   "main": "./src/index.js",
+  "license": "MIT",
   "types": "./src/index.d.ts",
   "files": [
     "src"
