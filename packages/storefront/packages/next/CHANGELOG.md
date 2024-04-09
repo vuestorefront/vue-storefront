@@ -1,5 +1,9 @@
 # Change log
 
+## 1.1.1
+
+- **[FIXED]** "The inferred type of 'SdkProvider' cannot be named without a reference to (...)" error when calling `createSdkContext`.
+
 ## 1.1.0
 
 - **[ADDED]** `middlewareModule` to `createSdk` params.

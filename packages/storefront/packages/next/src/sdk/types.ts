@@ -74,3 +74,8 @@ export interface CreateSdkReturn<TConfig extends Record<string, any>> {
    */
   getSdk: (dynamicContext?: GetSdkContext) => SDKApi<TConfig>;
 }
+
+export type CreateSdkContextReturn<TSdk extends SDKApi<any>> = readonly [
+  ({ children }: SdkProviderProps) => JSX.Element,
+  () => TSdk
+];

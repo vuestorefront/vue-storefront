@@ -1,0 +1,32 @@
+{
+  "name": "@vue-storefront/check-licenses",
+  "version": "1.0.7",
+  "private": true,
+  "homepage": "https://github.com/vuestorefront/vue-storefront/actions/check-licenses",
+  "main": "lib/index.js",
+  "prettier": "@vue-storefront/prettier-config",
+  "contributors": [
+    {
+      "name": "Maciej Rybaniec",
+      "email": "mrybaniec@vuestorefront.io"
+    }
+  ],
+  "scripts": {
+    "format": "prettier --write .",
+    "package": "ncc build --license licenses.txt --no-source-map-register",
+    "compile": "tsc",
+    "lint": "eslint --fix .",
+    "build": "yarn compile && yarn package"
+  },
+  "keywords": [
+    "license-checker"
+  ],
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "license-checker-rseidelsohn": "^4.3.0"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.36.1"
+  }
+}
