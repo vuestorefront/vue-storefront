@@ -1,5 +1,11 @@
 # @vue-storefront/eslint-config-integrations
 
+## 0.0.21
+
+### Patch Changes
+
+Turn off @typescript-eslint/no-empty-interface rule
+
 ## 0.0.20
 
 ### Patch Changes
