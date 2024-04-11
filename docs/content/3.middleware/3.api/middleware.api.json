@@ -3461,6 +3461,15 @@
             },
             {
               "kind": "Content",
+              "text": ", options?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "CreateServerOptions",
+              "canonicalReference": "@vue-storefront/middleware!CreateServerOptions:interface"
+            },
+            {
+              "kind": "Content",
               "text": "): "
             },
             {
@@ -3488,8 +3497,8 @@
           ],
           "fileUrlPath": "src/createServer.ts",
           "returnTypeTokenRange": {
-            "startIndex": 9,
-            "endIndex": 13
+            "startIndex": 11,
+            "endIndex": 15
           },
           "releaseTag": "Public",
           "overloadIndex": 1,
@@ -3501,6 +3510,14 @@
                 "endIndex": 8
               },
               "isOptional": false
+            },
+            {
+              "parameterName": "options",
+              "parameterTypeTokenRange": {
+                "startIndex": 9,
+                "endIndex": 10
+              },
+              "isOptional": true
             }
           ],
           "typeParameters": [
@@ -3517,6 +3534,125 @@
             }
           ],
           "name": "createServer"
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@vue-storefront/middleware!CreateServerOptions:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface CreateServerOptions "
+            }
+          ],
+          "fileUrlPath": "src/types/server.ts",
+          "releaseTag": "Public",
+          "name": "CreateServerOptions",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!CreateServerOptions#bodyParser:member",
+              "docComment": "/**\n * The options for the `express.json` middleware. If not provided, the default options will be used.\n *\n * @see\n *\n * https://www.npmjs.com/package/body-parser\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "bodyParser?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "bodyParser.OptionsJson",
+                  "canonicalReference": "@types/body-parser!bodyParser.OptionsJson:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "bodyParser",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!CreateServerOptions#cookieParser:member",
+              "docComment": "/**\n * The options for the `cookie-parser` middleware. If not provided, the default options will be used.\n *\n * @see\n *\n * https://www.npmjs.com/package/cookie-parser\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "cookieParser?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        secret: string | string[];\n        options: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "cookieParser.CookieParseOptions",
+                  "canonicalReference": "@types/cookie-parser!cookieParser.CookieParseOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "cookieParser",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 4
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!CreateServerOptions#cors:member",
+              "docComment": "/**\n * The options for the `cors` middleware. If not provided, the following configuration will be used:\n * ```json\n * {\n *  \"credentials\": true,\n *  \"origin\": [\"http://localhost:3000\", \"http://localhost:4000\"]\n * }\n * ```\n *\n * @see\n *\n * https://www.npmjs.com/package/cors\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "cors?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "CorsOptions",
+                  "canonicalReference": "@types/cors!e.CorsOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " | "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "CorsOptionsDelegate",
+                  "canonicalReference": "@types/cors!e.CorsOptionsDelegate:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "cors",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 4
+              }
+            }
+          ],
+          "extendsTokenRanges": []
         },
         {
           "kind": "TypeAlias",
