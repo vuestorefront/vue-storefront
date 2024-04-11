@@ -54,7 +54,7 @@ module.exports = {
     "@typescript-eslint/no-var-requires": "warn",
     "no-restricted-syntax": "off",
     "no-await-in-loop": "off",
-    "@typescript-eslint/no-empty-interface": "warn",
+    "@typescript-eslint/no-empty-interface": "off",
   },
   settings: {
     "import/resolver": {
