@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/multistore",
-  "version": "4.0.0",
+  "version": "3.0.0",
   "author": "Fifciu",
   "license": "MIT",
   "main": "lib/index.cjs.js",
@@ -19,8 +19,8 @@
     "test": "yarn jest",
     "prepublishOnly": "yarn build"
   },
-  "peerDependencies": {
-    "@vue-storefront/middleware": "^3.10.0"
+  "dependencies": {
+    "@vue-storefront/middleware": "^3.0.0"
   },
   "publishConfig": {
     "access": "public"
