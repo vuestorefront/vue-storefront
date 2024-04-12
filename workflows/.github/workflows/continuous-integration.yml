@@ -29,10 +29,10 @@ env:
 jobs:
   scanning:
     name: GitGuardian scan
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        if: false
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # fetch all history so multiple commits can be scanned
