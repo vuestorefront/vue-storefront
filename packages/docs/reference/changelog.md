@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.0
+- feat: update Axios client to 1.6.8 ([7114](https://github.com/vuestorefront/vue-storefront/pull/7114)) - [Bartosz Herba](https://github.com/bartoszherba)
+
 ## 2.8.1
 
 - fix: resolving Apollo Client error status code ([7001](https://github.com/vuestorefront/vue-storefront/pull/7001)) - [Bartosz Herba](https://github.com/bartoszherba)

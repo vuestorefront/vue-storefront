@@ -30,7 +30,7 @@ export const integrationPlugin = (pluginFn: NuxtPlugin) => (nuxtCtx: NuxtContext
     const api = createProxiedApi({ givenApi: configuration.api || {}, client, tag });
 
     if (nuxtCtx.app.i18n.cookieValues) {
-      client.defaults.headers.cookie = setCookieValues(nuxtCtx.app.i18n.cookieValues, client.defaults.headers.cookie);
+      client.defaults.headers.cookie = setCookieValues(nuxtCtx.app.i18n.cookieValues, client.defaults.headers.cookie.toString());
     }
 
     injectInContext({ api, client, config });
