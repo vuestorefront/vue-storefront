@@ -16,6 +16,6 @@ export function generateSDKConfig(pkg: any) {
       },
     ],
     external: [...Object.keys(pkg.dependencies || {})],
-    plugins: [typescript()],
+    plugins: [typescript({ clean: true })],
   };
 }
