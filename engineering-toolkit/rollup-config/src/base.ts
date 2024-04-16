@@ -26,7 +26,7 @@ export function generateBaseConfig(pkg: any) {
       nodeResolve({
         extensions,
       }),
-      typescript(),
+      typescript({ clean: true }),
     ],
   };
 }
