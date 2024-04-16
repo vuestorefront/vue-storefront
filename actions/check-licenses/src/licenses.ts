@@ -15,6 +15,10 @@ export const ALLOWED_LICENSES = [
   'Custom: http://www.commonjs.org/',
   'Custom: https://docs.vuestorefront.io/',
   'Custom: https://nuxtjs.org',
+  // Used by @vsf-enterprise/paypal-commercetools in its dependency @paypal/checkout-server-sdk@1.0.3
+  // If you download the package to your filesystem, you'll see that it's the Apache 2.0 license in fact
+  'Custom: https://github.com/paypal/Checkout-NodeJS-SDK/blob/master/LICENSE',
+  'Custom: VSFEL',
   'CC-BY-4.0',
   'ISC',
   'MIT',
