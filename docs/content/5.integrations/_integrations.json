@@ -11,7 +11,7 @@
       "icon": "IconCommercetools"
     },
     {
-      "title": "Magento",
+      "title": "Magento/Adobe Commerce",
       "to": "/integrations/magento",
       "icon": "logos:magento",
       "openSource": true
@@ -71,12 +71,15 @@
     {
       "title": "Adyen (commercetools)",
       "to": "/integrations/adyen",
-      "icon": "logos:adyen"
+      "icon": "logos:adyen",
+      "secondaryIcon": "IconCommercetools"
     },
     {
       "title": "Adyen (Salesforce Commerce Cloud)",
       "to": "/integrations/adyen-sfcc",
-      "icon": "logos:adyen"
+      "icon": "logos:adyen",
+      "secondaryIcon": "logos:salesforce"
+
     }
   ],
   "Search": [
@@ -84,6 +87,16 @@
       "title": "Bloomreach Search",
       "to": "/integrations/bloomreach-search",
       "icon": "IconBloomreach"
+    },
+    {
+      "title": "Algolia",
+      "to": "/storefront/features/search/algolia-integration",
+      "icon": "simple-icons:algolia"
+    },
+    {
+      "title": "Coveo",
+      "to": "/storefront/modules/search-integrations/coveo",
+      "icon": "IconCoveo"
     }
   ]
 }
