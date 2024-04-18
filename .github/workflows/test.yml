@@ -11,6 +11,7 @@ on:
       - main
       - develop
       - release-**
+      - legacy
 
 jobs:
   test_repository:
