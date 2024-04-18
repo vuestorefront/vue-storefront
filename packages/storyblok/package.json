@@ -25,20 +25,8 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.4.8",
-    "@changesets/cli": "^2.26.1",
-    "@commitlint/cli": "^13.2.1",
-    "@commitlint/config-conventional": "^13.2.0",
-    "@vue-storefront/eslint-config-integrations": "^0.0.19",
     "@vue-storefront/integrations-tsconfig": "^0.0.4",
-    "@vue-storefront/rollup-config": "^0.0.6",
-    "@vue/eslint-config-typescript": "^7.0.0",
-    "@jest/globals": "^27.2.5",
-    "husky": "^8.0.3",
-    "jest": "^27.2.5",
-    "lint-staged": "^11.2.3",
-    "prettier": "^2.4.1",
-    "ts-jest": "^29.1.0"
+    "@jest/globals": "^27.2.5"
   },
   "peerDependencies": {
     "@storyblok/vue-2": "^3.0.17"

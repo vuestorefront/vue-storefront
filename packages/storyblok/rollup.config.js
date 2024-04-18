@@ -17,10 +17,7 @@ const config = {
   ],
   external: [...Object.keys(pkg.dependencies || {})],
   plugins: [
-    typescript({
-      // eslint-disable-next-line global-require
-      typescript: require('typescript')
-    })
+    typescript()
   ]
 };
 const server = {
@@ -37,10 +34,7 @@ const server = {
     ...Object.keys(pkg.peerDependencies || {})
   ],
   plugins: [
-    typescript({
-      // eslint-disable-next-line global-require
-      typescript: require('typescript')
-    })
+    typescript()
   ]
 };
 
