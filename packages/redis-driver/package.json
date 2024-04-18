@@ -10,11 +10,6 @@
   "dependencies": {
     "redis-tag-cache": "^1.2.1"
   },
-  "devDependencies": {
-    "@commitlint/cli": "^16.1.0",
-    "@commitlint/config-conventional": "^16.0.0",
-    "@commitlint/config-lerna-scopes": "^16.0.0"
-  },
   "files": [
     "src/index.js"
   ],
