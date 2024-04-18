@@ -18,6 +18,7 @@ jobs:
     name: Run linter, build and test all packages
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         node-version: [14, 16, 18]
     steps:
