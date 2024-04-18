@@ -15,15 +15,6 @@
     "changesets:version": "yarn changeset version && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install",
     "changesets:publish": "yarn build && yarn changeset publish"
   },
-  "lint-staged": {
-    "*.{js,ts,vue}": "eslint --ext .js,.ts --ignore-path .eslintignore ."
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "author": "Vue Storefront",
   "license": "MIT",
   "dependencies": {
