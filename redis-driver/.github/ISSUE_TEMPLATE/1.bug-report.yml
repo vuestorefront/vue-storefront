@@ -1,0 +1,79 @@
+name: "🐛 Bug report"
+description: Report errors or unexpected behavior
+labels:
+  - bug
+  - triage-needed
+title: '[Bug]: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report, please make sure to [search for existing issues](https://github.com/vuestorefront/redis-driver/issues) before filing a new one!
+  - type: textarea
+    id: whattoexpect
+    attributes:
+      label: Expected Behavior
+      placeholder: What were you expecting?
+    validations:
+      required: false
+  - type: textarea
+    id: whathappened
+    attributes:
+      label: Actual Behavior
+      placeholder: What happened instead??
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Possible Solution
+      description: Also, if possible provide the information on how to implement the solution.
+      placeholder: Do you have any possible solution or fix for this bug?
+    validations:
+      required: false
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Please provide detailed instructions on how to reproduce.
+      placeholder: How we can reproduce this bug?
+    validations:
+      required: false
+  - type: input
+    attributes:
+      label: What version of Magento 2 integration are you using?
+      description: 'For example: 1.0.0'
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: What version of Node.js are you using?
+      description: 'For example: 12.0.0'
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: What browser (and version) are you using?
+      description: 'For example: Chrome, Safari'
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: What operating system (and version) are you using?
+      description: 'For example: macOS, Windows'
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/vuestorefront/redis-driver/blob/master/CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
