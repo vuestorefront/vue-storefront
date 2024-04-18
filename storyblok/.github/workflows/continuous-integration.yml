@@ -1,0 +1,30 @@
+name: VSF Continuous Integration
+
+on:
+  pull_request:
+    types: ['opened', 'edited', 'reopened', 'synchronize']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  continous-integration:
+    name: 'Continuous Integration'
+    uses: vuestorefront/integrations-github-workflows/.github/workflows/continuous-integration.yml@main
+    secrets: inherit
+    with:
+      enterprise: false
+
+  # This integration has 0 tests, thus the following sonarcloud check will fail
+
+  # sonarcloud:
+  #   name: 'SonarCloud'
+  #   needs: [continous-integration]
+  #   uses: vuestorefront/integrations-github-workflows/.github/workflows/sonarcloud.yml@main
+  #   secrets:
+  #     SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+  #   with:
+  #     project_key: 'vuestorefront_storyblok'
+  #     package_name: 'storyblok'
+  #     exclusions: '*.config.js,src/index.ts,src/api-extractor-data.ts,**/types/**'
