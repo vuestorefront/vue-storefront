@@ -1,0 +1,47 @@
+{
+  "name": "@vue-storefront/storyblok",
+  "version": "0.4.0",
+  "description": "Storyblok CMS integration with Vue Storefront",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "server": "server/index.js",
+  "scripts": {
+    "build": "rollup -c && rm -r -- ./server/*/",
+    "build:clean": "rollup -c && rm -r -- ./lib/*/ && rm -r -- ./server/*/",
+    "dev": "rollup -c -w",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint --ext .js,.ts --ignore-path .eslintignore .",
+    "prepublish": "yarn build",
+    "changesets:version": "yarn changeset version && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install",
+    "changesets:publish": "yarn build && yarn changeset publish"
+  },
+  "author": "Vue Storefront",
+  "license": "MIT",
+  "dependencies": {
+    "@vue-storefront/core": "^2.4.3",
+    "axios": "^0.23.0",
+    "nanoid": "^3.1.30",
+    "storyblok-js-client": "^4.1.5",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@vue-storefront/integrations-tsconfig": "^0.0.4",
+    "@jest/globals": "^27.2.5"
+  },
+  "peerDependencies": {
+    "@storyblok/vue-2": "^3.0.17"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "vuestorefront",
+    "vue-storefront",
+    "storyblok",
+    "cms",
+    "integration",
+    "vue",
+    "vuejs"
+  ],
+  "homepage": "https://github.com/vuestorefront/storyblok"
+}

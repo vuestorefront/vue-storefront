@@ -79,16 +79,18 @@ async function createServer(config: MiddlewareConfig): Promise<Express> {
       const status = getAgnosticStatusCode(error);
       res.status(status);
       if (status < 500) {
+
         /**
          * For all 4xx error codes or client error codes we wanted to send the error message
          */
         res.send(error);
       } else {
+
         /**
          * For all other error codes we wanted to send a generic error message
          */
         res.send(
-          "ServerError: Something went wrong. Please, check the logs for more details."
+          'ServerError: Something went wrong. Please, check the logs for more details.'
         );
       }
     }

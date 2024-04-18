@@ -1,0 +1,7 @@
+.idea
+
+lib
+server
+coverage
+node_modules
+package-lock.json
