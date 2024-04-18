@@ -18,11 +18,12 @@ export default function RedisCache (opt) {
     async invoke({ route, render, getTags }) {
       let key = `page:${ route }`;
       let shouldCache = true;
-      
+
       if (
         options.queryParamFilter?.denyList &&
         options.queryParamFilter?.allowList
       ) {
+
         /*
         allowList and denyList contain query params that could affect the content of the page.
         Any other params that don't exist in deny/allowList can be stripped as they do not affect the content of the page (e.g. gclid).
@@ -33,12 +34,15 @@ export default function RedisCache (opt) {
         search?term=dress&sort=price_ascending&page=1&itemsPerPage=100                            - Do not cache, denyList item exists
         */
         const cleanParams = [];
-        const urlParts = route.split("?");
+        const urlParts = route.split('?');
+
+        // eslint-disable-next-line eqeqeq
         if (urlParts.length == 2) {
-          const params = urlParts[1].split("&");
+          const params = urlParts[1].split('&');
 
           for (const param of params) {
-            const paramKey = param.split("=")[0];
+            const paramKey = param.split('=')[0];
+            // eslint-disable-next-line max-depth
             if (
               // Do not cache: denyListed param exists (stop processing further params)
               options.queryParamFilter.denyList.includes(paramKey)
@@ -47,6 +51,7 @@ export default function RedisCache (opt) {
               break;
             }
             // add any allowList params to cleanParams, ignore any other params
+            // eslint-disable-next-line max-depth
             if (options.queryParamFilter.allowList.includes(paramKey)) {
               cleanParams.push(param);
             }
@@ -54,8 +59,8 @@ export default function RedisCache (opt) {
         }
 
         key = `page:${urlParts[0]}${
-          cleanParams.length ? "?" : ""
-        }${cleanParams.join("&")}`;
+          cleanParams.length ? '?' : ''
+        }${cleanParams.join('&')}`;
 
         // console.log(`Original route: ${route}\nkey ${shouldCache ? "is" : "is not"} cacheable`);
 
@@ -91,7 +96,7 @@ export default function RedisCache (opt) {
       const clearAll = tags.includes('*');
 
       if (!clearAll) {
-        return client.invalidate(...tags)
+        return client.invalidate(...tags);
       }
 
       return new Promise((resolve, reject) => {
@@ -111,4 +116,4 @@ export default function RedisCache (opt) {
       });
     }
   };
-};
+}
