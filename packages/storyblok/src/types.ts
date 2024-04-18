@@ -1,4 +1,4 @@
-import { StoryblokCache } from 'storyblok-js-client'
+import { StoryblokCache } from 'storyblok-js-client';
 
 export interface ContentSearchParams {
   token: string

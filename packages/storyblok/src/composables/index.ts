@@ -1,4 +1,4 @@
-import { useContent } from './useContent'
-import { extractComponents } from './renderContent'
+import { useContent } from './useContent';
+import { extractComponents } from './renderContent';
 
-export { useContent, extractComponents }
+export { useContent, extractComponents };

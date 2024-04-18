@@ -1,27 +1,27 @@
-import { Content, Image } from '../types'
+import { Content, Image } from '../types';
 
 export const buildImageObject = (
   items: Image[],
-  actions: { replace: boolean } = { replace: false },
+  actions: { replace: boolean } = { replace: false }
 ): Image[] | Image => {
   return items.map((item: { image }) => {
-    const { replace } = actions
+    const { replace } = actions;
     if (item.image) {
-      const { image } = item
+      const { image } = item;
       const itemObject = replace
         ? { ...item, url: image }
         : {
-            ...item,
-            image: {
-              url: image,
-            },
+          ...item,
+          image: {
+            url: image
           }
-      if (replace) delete itemObject.image
-      return itemObject
+        };
+      if (replace) delete itemObject.image;
+      return itemObject;
     }
-    return item
-  })
-}
+    return item;
+  });
+};
 export const extractNestedComponents: (
   data:
     | {
@@ -32,23 +32,23 @@ export const extractNestedComponents: (
   stories?: boolean,
 ) => void | boolean = (data: Content, stories = false) => {
   if (data.content) {
-    extractNestedComponents(data.content)
+    extractNestedComponents(data.content);
     if (Array.isArray(data.content)) {
       data.content = data.content.map((component) => {
-        extractNestedComponents(component)
+        extractNestedComponents(component);
         if (component.content) {
           return {
             component: component.component,
             content: component.content,
-            _meta: component,
-          }
+            _meta: component
+          };
         }
-        return component
-      })
+        return component;
+      });
     }
   }
   return {
     ...data.content,
-    _meta: !stories ? data : null,
-  }
-}
+    _meta: !stories ? data : null
+  };
+};
