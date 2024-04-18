@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-process-exit, unicorn/prefer-module */
 const path = require('path');
 const { publishPackages } = require('./lib/publishNpm');
 
