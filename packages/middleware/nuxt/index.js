@@ -41,7 +41,7 @@ module.exports = async function VueStorefrontMiddleware(moduleOptions) {
       );
     }
   });
-
+  // eslint-disable-next-line global-require
   const config = require(`${this.nuxt.options.rootDir}/middleware.config.js`);
   const handler = await createServer(config);
   const serverMiddleware = { path: `/${apiPath}`, handler };

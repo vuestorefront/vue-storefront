@@ -11,11 +11,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { extractComponents } from '@vue-storefront/storyblok'
+import Vue from 'vue';
+import { extractComponents } from '@vue-storefront/storyblok';
 
 interface RenderContent {
   componentName: string
+  // eslint-disable-next-line @typescript-eslint/ban-types
   props?: {}
 }
 
@@ -23,13 +24,13 @@ export default Vue.extend({
   name: 'RenderContent',
   props: {
     content: {
-      type: Array,
-    },
+      type: Array
+    }
   },
   computed: {
     components(): RenderContent[] {
-      return extractComponents(this.content)
-    },
-  },
-})
+      return extractComponents(this.content);
+    }
+  }
+});
 </script>

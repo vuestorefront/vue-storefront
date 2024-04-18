@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable no-use-before-define */
 import { StoryblokCache } from 'storyblok-js-client';
 
 export interface ContentSearchParams {

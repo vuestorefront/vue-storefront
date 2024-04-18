@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { Logger } from '@vue-storefront/core';
 import { nanoid } from 'nanoid';
 import { ApiContext, ApiResponse, ContentSearchParams } from './types';

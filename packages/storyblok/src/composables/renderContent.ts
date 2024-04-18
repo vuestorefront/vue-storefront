@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { RenderComponent } from '@vue-storefront/core';
 import { Component } from '../types';
 import { buildImageObject } from '../helpers';
