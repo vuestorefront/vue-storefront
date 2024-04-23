@@ -3,11 +3,7 @@ name: Release
 on:
   workflow_call:
     secrets:
-      NPM_USER:
-        description: "repository NPM_USER secret passed on"
-        required: false
-      NPM_PASS:
-        description: "repository NPM_PASS secret passed on"
+      VERDACCIO_AUTH_TOKEN:
         required: false
     inputs:
       enterprise:
@@ -35,13 +31,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
-
-      - name: Log into Verdaccio
-        if: ${{ inputs.enterprise }}
-        shell: bash
-        run: |
-          npm install -g npm-cli-login
-          npm-cli-login -u "${{ secrets.NPM_USER }}" -p "${{ secrets.NPM_PASS }}" -e doesntmatter@example.com -r https://registrynpm.storefrontcloud.io
+          registry-url: ${{ inputs.enterprise && 'https://registrynpm.storefrontcloud.io' || '' }}
 
       - name: Install dependencies
         shell: bash
@@ -59,4 +49,4 @@ jobs:
         env:
           # Needs access to push to main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_RELEASE_TOKEN }}
+          NPM_TOKEN: ${{ inputs.enterprise && secrets.VERDACCIO_AUTH_TOKEN || secrets.NPM_RELEASE_TOKEN }}
