@@ -1,10 +1,11 @@
 # Handling custom OCC endpoints
 
-It is a common task to add support for a custom SAP OCC API endpoint. This guide will show you how can do it using Alokai.
+It is a common task to add support for a custom (non-standard) SAP OCC API endpoint not covered by the Alokai intergration.
+This guide will show you how can do it using Alokai.
 
 ## Prerequisites
 
-Before we start make sure that you are familiar with Adding an Endpoint guide. With that guide, you would be able to
+Before we start make sure that you are familiar with [Adding New API Methods](https://docs.alokai.com/storefront/integration-and-setup/storefront-extension#adding-new-api-methods) guide. With that guide, you would be able to
 communicate with OCC API but it would require manual retrieval of context parameters (baseSiteId, userId, language,
 and currency) and preparation of authorization headers. Read on to see how to streamline that process.
 
@@ -20,23 +21,23 @@ or for user-specific data:
 
 These parameters are:
 
-- baseUrl - the URL to the OCC API
-- baseSiteId - most endpoints require this due to multisite capabilities. eg. powertools-spa
-- userId - some endpoints return user-specific data. This parameter is either “current” for an authorized user, “anonymous” for an anonymous user, or a specific user id when we use ASM (link).
-- resource_path - what data we want to retrieve from the API. e.g. products/{productCode}/reviews
-- fields - what fieldset should be returned. e.g BASIC, DEFAULT, FULL, or list of fields
-- language - in what language the data should be returned
-- currency - in which currency the data should be returned
+- `baseUrl` - the URL to the OCC API
+- `baseSiteId` - most endpoints require this due to multisite capabilities. eg. powertools-spa
+- `userId` - some endpoints return user-specific data. This parameter is either “current” for an authorized user, “anonymous” for an anonymous user, or a specific user id when we use ASM (link).
+- `resource_path` - what data we want to retrieve from the API. e.g. products/{productCode}/reviews
+- `fields` - what fieldset should be returned. e.g BASIC, DEFAULT, FULL, or list of fields
+- `language` - in what language the data should be returned
+- `currency` - in which currency the data should be returned
 
 Additionally, for a logged-in user, the request should contain authorization headers.
 
 Here's where to find the parameters:
 
-- baseUrl - is configured in .env file as `SAPCC_API_URI`. The api client already knows it and prepends each URL with it.
-- baseSiteId - is defined in the middleware configuration. That configuration is exposed to api method via context.
-- userId - can be found in the request cookies under [`AUTH_USER_COOKIE_NAME`](https://docs.alokai.com/integrations/sapcc/api/sapcc-api/AUTH_USER_COOKIE_NAME).
-- language - can be found in the request cookies under [`VSF_LOCALE_COOKIE`](https://docs.alokai.com/storefront/features/internationalization/internatialization-support).
-- currency - can be found in the request cookies under [`VSF_CURRENCY_COOKIE`](https://docs.alokai.com/storefront/features/internationalization/currency-switching).
+- `baseUrl` - is configured in .env file as `SAPCC_API_URI`. The api client already knows it and prepends each URL with it.
+- `baseSiteId` - is defined in the middleware configuration. That configuration is exposed to api method via context.
+- `userId` - can be found in the request cookies under [`AUTH_USER_COOKIE_NAME`](https://docs.alokai.com/integrations/sapcc/api/sapcc-api/AUTH_USER_COOKIE_NAME).
+- `language` - can be found in the request cookies under [`VSF_LOCALE_COOKIE`](https://docs.alokai.com/storefront/features/internationalization/internatialization-support).
+- `currency` - can be found in the request cookies under [`VSF_CURRENCY_COOKIE`](https://docs.alokai.com/storefront/features/internationalization/currency-switching).
 - authorization token - can be found in the request cookies under [`AUTH_USER_TOKEN_COOKIE_NAME`](https://docs.alokai.com/integrations/sapcc/api/sapcc-api/AUTH_USER_TOKEN_COOKIE_NAME)
 
 You don't have to parse the cookies yourself. Alokai provides helper methods for that. Here’s a code example of how to do it:
@@ -87,10 +88,10 @@ Read more about the helper methods:
 
 ## Real life example
 
-Here's an example implementation of the product interest feature. This feature is available in OCC API but not in middleware and sdk.
+Here's an example implementation of the product interest feature. This feature is available in OCC API, but not in the middleware and SDK integration.
 Let's add support for it.
 
-First, you need to add a new api method in the middleware. (For the sake of simplicity we show how to do it in one file, but for the sake of clean code you should split it into a couple of files.)
+First, you need to add a new API method in the middleware. (For simplicity, this guide shows how to do it in one file, but we recommend splitting it into multiple files to maintain cleaner code.)
 
 ```typescript [storefront-middleware/middleware.config.ts]
 import {
@@ -158,7 +159,7 @@ const unifiedApiExtension = createUnifiedExtension<Context, Config>()({
 });
 ```
 
-Then you need to add a custom hook to retrieve the product interests on the front end:
+Then, in your frontend application, you need to add a custom hook to retrieve the product interests on the front end.
 
 ```typescript [storefront-unified-nextjs/hooks/useProductInterests/useProductInterests.ts]
 import { useQuery } from "@tanstack/react-query";
