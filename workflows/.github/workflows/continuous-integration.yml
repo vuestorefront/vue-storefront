@@ -81,7 +81,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}-${{ matrix.node_version }}
 
       - name: Log into Verdaccio
         if: ${{ inputs.enterprise }}
