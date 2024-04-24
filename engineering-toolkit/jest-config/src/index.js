@@ -5,7 +5,7 @@ module.exports = {
   baseConfig: {
     preset: "ts-jest",
     transform: {
-      "^.+\\.(j|t)s$": "ts-jest",
+      "^.+\\.(j|t)s$": ["ts-jest", { isolatedModules: true }]
     },
     coverageDirectory: "./coverage/",
     collectCoverageFrom: ["src/**/*.ts"],
