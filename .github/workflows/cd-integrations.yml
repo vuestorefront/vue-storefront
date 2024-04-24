@@ -36,6 +36,8 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: yarn --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VERDACCIO_AUTH_TOKEN }}
 
       - name: Create Release Pull Request or Publish
         id: changesets
