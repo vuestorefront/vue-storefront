@@ -31,9 +31,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
-
-      - if: inputs.enterprise
-        run: echo '//registrynpm.storefrontcloud.io/:_auth=${NODE_AUTH_TOKEN}' >> .npmrc
+          registry-url: ${{ inputs.enterprise && 'https://registrynpm.storefrontcloud.io' || 'https://registry.npmjs.org' }}
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
@@ -52,4 +50,4 @@ jobs:
         env:
           # Needs access to push to main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ inputs.enterprise && secrets.VERDACCIO_AUTH_TOKEN || secrets.NPM_RELEASE_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ inputs.enterprise && secrets.VERDACCIO_AUTH_TOKEN || secrets.NPM_RELEASE_TOKEN }}
