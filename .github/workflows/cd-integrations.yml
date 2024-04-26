@@ -31,13 +31,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
-          registry-url: ${{ inputs.enterprise && 'https://registrynpm.storefrontcloud.io' || '' }}
+
+      - if: inputs.enterprise
+        run: echo '//registrynpm.storefrontcloud.io/:_auth=${NODE_AUTH_TOKEN}' >> .npmrc
 
       - name: Install dependencies
-        shell: bash
         run: yarn --frozen-lockfile
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.VERDACCIO_AUTH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ inputs.enterprise && secrets.VERDACCIO_AUTH_TOKEN || '' }}
 
       - name: Create Release Pull Request or Publish
         id: changesets
