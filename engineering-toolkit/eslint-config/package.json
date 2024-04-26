@@ -42,8 +42,8 @@
   },
   "dependencies": {
     "@microsoft/eslint-plugin-sdl": "^0.2.0",
-    "@typescript-eslint/eslint-plugin": "^5.57.1",
-    "@typescript-eslint/parser": "^5.57.1",
+    "@typescript-eslint/eslint-plugin": "^7",
+    "@typescript-eslint/parser": "^7",
     "@vue/eslint-config-typescript": "^11.0.2",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-etc": "^2.0.2",
