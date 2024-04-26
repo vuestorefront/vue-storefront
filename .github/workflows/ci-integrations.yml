@@ -33,7 +33,7 @@ jobs:
         with:
           fetch-depth: 0 # fetch all history so multiple commits can be scanned
       - name: GitGuardian scan
-        uses: GitGuardian/ggshield-action@v1.22.0
+        uses: GitGuardian/ggshield-action@v1.26.0
         with:
           args: -v
         env:
@@ -65,7 +65,7 @@ jobs:
           to_envs() { jq -r "to_entries[] | \"\(.key)<<$EOF\n\(.value)\n$EOF\n\""; }
           echo "$SECRETS_CONTEXT" | to_envs >> $GITHUB_ENV
       - name: Checkout code 🛎️
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup node 🏗️
         uses: actions/setup-node@v4
@@ -104,7 +104,7 @@ jobs:
         run: yarn test
 
       - name: Upload test coverage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-${{ runner.os }}-${{ github.event.pull_request.head.sha }}
           path: |
