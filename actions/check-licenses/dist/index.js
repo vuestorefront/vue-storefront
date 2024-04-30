@@ -96,6 +96,7 @@ exports.ALLOWED_LICENSES = [
     'ISC',
     'MIT',
     'Miros',
+    'MPL-2.0',
     'Multics',
     'Naumen',
     'NTP',
