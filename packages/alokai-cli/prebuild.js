@@ -51,7 +51,7 @@ async function main() {
 
   ${modules.map((module) => `${module.camelCaseName}.forEach((command) => {
     program.addCommand(command);
-  });`).join("\n")}
+  });`).join("\n  ")}
 
   program.parse();
 }

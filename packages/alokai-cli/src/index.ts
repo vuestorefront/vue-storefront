@@ -2,6 +2,7 @@
 
 import { Command } from "commander";
 import alokaiCliStorefront from "alokai-cli-storefront";
+import alokaiTestCli from "alokai-test-cli";
 
 async function main() {
   const program = new Command()
@@ -12,10 +13,6 @@ async function main() {
     .action(() => {
       program.help();
     });
-
-  alokaiCliStorefront.forEach((command) => {
-    program.addCommand(command);
-  });
 
   program.parse();
 }

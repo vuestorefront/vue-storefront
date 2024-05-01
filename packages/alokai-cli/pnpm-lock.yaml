@@ -18,11 +18,14 @@ dependencies:
     specifier: ^7.22.5
     version: 7.24.1(@babel/core@7.24.3)
   alokai-cli-storefront:
-    specifier: ^0.0.7
-    version: 0.0.7(typescript@4.9.5)
+    specifier: ^0.0.10
+    version: 0.0.10(typescript@4.9.5)
   alokai-cli-ui:
-    specifier: ^0.0.3
-    version: 0.0.3
+    specifier: ^0.0.4
+    version: 0.0.4
+  alokai-test-cli:
+    specifier: file:.yalc/alokai-test-cli
+    version: file:.yalc/alokai-test-cli(typescript@4.9.5)
   chalk:
     specifier: 5.2.0
     version: 5.2.0
@@ -1230,9 +1233,9 @@ packages:
       - supports-color
     dev: false
 
-  /alokai-cli-storefront@0.0.7(typescript@4.9.5):
-    resolution: {integrity: sha512-gX5opWAOQFWa6tfbRgleZyLLglmOgAatRvIpkGvt+5ymwnjXzw7LOrh1DkMPwYQKKByue6TOAdUggv+QZjHBdQ==}
-    engines: {node: '>=20.0.0'}
+  /alokai-cli-storefront@0.0.10(typescript@4.9.5):
+    resolution: {integrity: sha512-t3cHiXJ2d1M68z38L+Ro/a9CMbf3/UKya2+bxEl+prWHYnCoTfMvt4y6dQVAZJC0j6iIJzmnFxEMRaEdZmUKig==}
+    engines: {node: '>=18.0.0'}
     hasBin: true
     dependencies:
       '@antfu/ni': 0.21.12
@@ -1240,7 +1243,7 @@ packages:
       '@babel/parser': 7.24.1
       '@babel/plugin-transform-typescript': 7.24.1(@babel/core@7.24.3)
       '@octokit/rest': 20.1.0
-      alokai-cli-ui: 0.0.3
+      alokai-cli-ui: 0.0.4
       chalk: 5.2.0
       commander: 10.0.1
       configstore: 6.0.0
@@ -1263,9 +1266,9 @@ packages:
       - typescript
     dev: false
 
-  /alokai-cli-ui@0.0.3:
-    resolution: {integrity: sha512-MlZqWTrIwOMbNKFhX0CVGJfVwlIUS/A0FeW4WkVtB1Hj5Ryufq4xSiqRqt00FCSr+AUdZSmATLqIbQInJYI7bg==}
-    engines: {node: '>=20.0.0'}
+  /alokai-cli-ui@0.0.4:
+    resolution: {integrity: sha512-N5x5C+HT47AqoRpVFKYwku7J8oS6T9KJowpWJVvNYF3m0Qhq0zA1X5bZp5BG6FEbsCzwFV0J6pXy/K4Bq6zAtw==}
+    engines: {node: '>=18.0.0'}
     hasBin: true
     dependencies:
       '@antfu/ni': 0.21.12
@@ -3082,4 +3085,35 @@ packages:
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+    dev: false
+
+  file:.yalc/alokai-test-cli(typescript@4.9.5):
+    resolution: {directory: .yalc/alokai-test-cli, type: directory}
+    id: file:.yalc/alokai-test-cli
+    name: alokai-test-cli
+    engines: {node: '>=20.0.0'}
+    hasBin: true
+    dependencies:
+      '@antfu/ni': 0.21.12
+      '@babel/core': 7.24.3
+      '@babel/parser': 7.24.1
+      '@babel/plugin-transform-typescript': 7.24.1(@babel/core@7.24.3)
+      chalk: 5.2.0
+      commander: 10.0.1
+      configstore: 6.0.0
+      cosmiconfig: 8.3.6(typescript@4.9.5)
+      diff: 5.2.0
+      execa: 7.2.0
+      fast-glob: 3.3.2
+      fs-extra: 11.2.0
+      https-proxy-agent: 6.2.1
+      node-fetch: 3.3.2
+      ora: 6.3.1
+      prompts: 2.4.2
+      ts-morph: 18.0.0
+      tsconfig-paths: 4.2.0
+      zod: 3.22.4
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
     dev: false

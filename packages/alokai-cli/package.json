@@ -38,6 +38,7 @@
     "@babel/plugin-transform-typescript": "^7.22.5",
     "alokai-cli-storefront": "^0.0.10",
     "alokai-cli-ui": "^0.0.4",
+    "alokai-test-cli": "file:.yalc/alokai-test-cli",
     "chalk": "5.2.0",
     "commander": "^10.0.0",
     "configstore": "^6.0.0",
