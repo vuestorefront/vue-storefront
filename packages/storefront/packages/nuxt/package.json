@@ -30,14 +30,14 @@
   "dependencies": {
     "@nuxt/kit": "^3.7.4",
     "@nuxt/schema": "^3.7.4",
-    "@vue-storefront/sdk": "^1.4.0",
+    "@vue-storefront/sdk": "^1.5.0",
     "knitwork": "^1.0.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.17",
     "@nuxt/devtools": "^1.0.0",
     "@nuxt/module-builder": "0.5.2",
     "@nuxt/test-utils": "3.7.4",
+    "@types/node": "^18.11.17",
     "nuxt": "3.7.4",
     "start-server-and-test": "^2.0.3",
     "vitest": "^0.34.6"
