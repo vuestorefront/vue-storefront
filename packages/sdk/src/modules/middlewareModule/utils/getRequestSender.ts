@@ -17,7 +17,12 @@ import { SdkHttpError } from "./SdkHttpError";
  * handling errors, and executing HTTP requests.
  */
 export const getRequestSender = (options: Options): RequestSender => {
-  const { apiUrl, ssrApiUrl, defaultRequestConfig = {} } = options;
+  const {
+    apiUrl,
+    ssrApiUrl,
+    defaultRequestConfig = {},
+    methodsRequestConfig = {},
+  } = options;
 
   const getUrl = (
     path: string,
@@ -45,8 +50,13 @@ export const getRequestSender = (options: Options): RequestSender => {
     return `${url}?body=${serializedParams}`;
   };
 
-  const getConfig = (config: RequestConfig): ComputedConfig => {
+  const getConfig = (
+    config: RequestConfig,
+    methodName: string
+  ): ComputedConfig => {
     const { method, headers } = config;
+    const { headers: methodHeaders = {} } =
+      methodsRequestConfig[methodName] ?? {};
     const defaultHeaders = {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -54,6 +64,7 @@ export const getRequestSender = (options: Options): RequestSender => {
     };
     const mergedHeaders = {
       ...defaultHeaders,
+      ...methodHeaders,
       ...headers,
     };
 
@@ -103,10 +114,18 @@ export const getRequestSender = (options: Options): RequestSender => {
       httpClient = defaultHTTPClient,
       errorHandler = defaultErrorHandler,
     } = options;
-    const { method = "POST", headers = {}, ...restConfig } = config ?? {};
-    const computedParams = method === "GET" ? [] : params;
-    const finalUrl = getUrl(methodName, method, params);
-    const finalConfig = getConfig({ method, headers, ...restConfig });
+    const { method, headers = {}, ...restConfig } = config ?? {};
+    const finalMethod =
+      method ||
+      methodsRequestConfig[methodName]?.method ||
+      defaultRequestConfig.method ||
+      "POST";
+    const computedParams = finalMethod === "GET" ? [] : params;
+    const finalUrl = getUrl(methodName, finalMethod, params);
+    const finalConfig = getConfig(
+      { method: finalMethod, headers, ...restConfig },
+      methodName
+    );
 
     try {
       return await httpClient(finalUrl, computedParams, finalConfig);

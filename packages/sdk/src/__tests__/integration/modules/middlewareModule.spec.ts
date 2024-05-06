@@ -575,4 +575,116 @@ describe("middlewareModule", () => {
 
     expect(res).toBeUndefined();
   });
+
+  it("should use method-specific configuration over default", async () => {
+    const customHttpClient = jest.fn();
+
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        httpClient: customHttpClient,
+        defaultRequestConfig: {
+          headers: {
+            "X-Test": "Test",
+          },
+        },
+        methodsRequestConfig: {
+          getProduct: {
+            method: "GET",
+            headers: {
+              "X-Test": "Test-Get",
+            },
+          },
+        },
+      }),
+    });
+
+    // Method-specific configuration should be used
+    await sdk.commerce.getProduct({ id: 1 });
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      `http://localhost:8181/commerce/getProduct?body=${encodeURIComponent(
+        JSON.stringify([{ id: 1 }])
+      )}`,
+      [],
+      expect.objectContaining({
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-Test": "Test-Get",
+        },
+      })
+    );
+
+    // Request-specific configuration should be used
+    await sdk.commerce.getProduct({ id: 1 }, prepareConfig({ method: "POST" }));
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      `http://localhost:8181/commerce/getProduct`,
+      [{ id: 1 }],
+      expect.objectContaining({
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-Test": "Test-Get",
+        },
+      })
+    );
+
+    // Default configuration should be used
+    await sdk.commerce.getProducts({ limit: 1 });
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      "http://localhost:8181/commerce/getProducts",
+      [{ limit: 1 }],
+      expect.objectContaining({
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-Test": "Test",
+        },
+      })
+    );
+  });
+
+  it("should use default method type if not specified", async () => {
+    const customHttpClient = jest.fn();
+
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        httpClient: customHttpClient,
+        defaultRequestConfig: {
+          method: "GET",
+        },
+      }),
+    });
+
+    await sdk.commerce.getProduct({ id: 1 });
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      `http://localhost:8181/commerce/getProduct?body=${encodeURIComponent(
+        JSON.stringify([{ id: 1 }])
+      )}`,
+      [],
+      expect.objectContaining({
+        method: "GET",
+      })
+    );
+
+    await sdk.commerce.getProducts({ limit: 1 });
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      `http://localhost:8181/commerce/getProducts?body=${encodeURIComponent(
+        JSON.stringify([{ limit: 1 }])
+      )}`,
+      [],
+      expect.objectContaining({
+        method: "GET",
+      })
+    );
+  });
 });
