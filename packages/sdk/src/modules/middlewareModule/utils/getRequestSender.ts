@@ -52,11 +52,10 @@ export const getRequestSender = (options: Options): RequestSender => {
 
   const getConfig = (
     config: RequestConfig,
-    methodName: string
+    methodConfig: RequestConfig
   ): ComputedConfig => {
     const { method, headers } = config;
-    const { headers: methodHeaders = {} } =
-      methodsRequestConfig[methodName] ?? {};
+    const { headers: methodHeaders = {} } = methodConfig;
     const defaultHeaders = {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -115,16 +114,14 @@ export const getRequestSender = (options: Options): RequestSender => {
       errorHandler = defaultErrorHandler,
     } = options;
     const { method, headers = {}, ...restConfig } = config ?? {};
+    const methodConfig = methodsRequestConfig[methodName] || {};
     const finalMethod =
-      method ||
-      methodsRequestConfig[methodName]?.method ||
-      defaultRequestConfig.method ||
-      "POST";
+      method || methodConfig.method || defaultRequestConfig.method || "POST";
     const computedParams = finalMethod === "GET" ? [] : params;
     const finalUrl = getUrl(methodName, finalMethod, params);
     const finalConfig = getConfig(
       { method: finalMethod, headers, ...restConfig },
-      methodName
+      methodConfig
     );
 
     try {
