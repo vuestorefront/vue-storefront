@@ -3,6 +3,7 @@
 ## 1.2.0
 
 - **[CHANGED]**  Updated the `@vue-storefront/sdk` dependency to version `1.5.0`
+- **[ADDED]** `default` property to the context
 
 
 ## 1.1.1
