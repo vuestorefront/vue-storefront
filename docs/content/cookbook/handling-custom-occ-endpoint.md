@@ -40,9 +40,16 @@ Here's where to find the parameters:
 - `currency` - can be found in the request cookies under [`VSF_CURRENCY_COOKIE`](https://docs.alokai.com/storefront/features/internationalization/currency-switching).
 - authorization token - can be found in the request cookies under [`AUTH_USER_TOKEN_COOKIE_NAME`](https://docs.alokai.com/integrations/sapcc/api/sapcc-api/AUTH_USER_TOKEN_COOKIE_NAME)
 
-You don't have to parse the cookies yourself. Alokai provides helper methods for that. Here’s a code example of how to do it:
+You don't have to parse the cookies yourself. Alokai provides helper methods for that. Here’s a code example of how to do it (explanation follows):
 
-```typescript
+```typescript [storefront-middleware/middleware.config.ts]
+import {
+  Config,
+  Context,
+  createUnifiedExtension,
+  methods,
+  normalizers
+} from "@vsf-enterprise/unified-api-sapcc";
 import {
   SapccIntegrationContext,
   TokenModes,
@@ -79,12 +86,39 @@ const callCustomEndpoint = async (
 
   return res.data;
 };
+
+const apiMethods = methods<typeof normalizers>();
+const unifiedApiExtension = createUnifiedExtension<Context, Config>()({
+  normalizers,
+  apiMethods: {
+    ...apiMethods,
+    getProductInterests,
+  },
+  config: {
+    /* ... */
+  },
+});
 ```
 
-Read more about the helper methods:
+In the code above we first define two intefaces:
 
-- [getUserIdFromRequest](https://docs.alokai.com/integrations/sapcc/api/sapcc-api/getUserIdFromRequest)
-- [createRequestOptions](https://docs.alokai.com/integrations/sapcc/api/sapcc-api/createRequestOptions)
+- `CustomEndpointProps` - represents parameters accepted by the custom method. It extends  `BaseProps` and
+`BaseUserId` intefraces which contain the default parameters like `language`, `currency`, `userId`, and `fields`.
+- `CustomResponse` - defines the type of the response returned from the method. It is used to guarantee the typesafety.
+
+Then we define the `callCustomEndpoint` method that:
+
+- retrieves `config`, `req`, and `client` from the context
+  - `config` - integration configuration.
+  - `req` - incoming http request object.
+  - `client` - http client used by the integration. Note: alternatively we could just use `fetch` however we want to
+  re-use the client that exists in the integration.
+- calls [`getUserIdFromRequest`](https://docs.alokai.com/integrations/sapcc/api/sapcc-api/getUserIdFromRequest) helper
+to get the userId either from the request parameters or the cookies
+- uses the `client` to call the custom endpoint. The client already has the `baseUrl` set, so we don't have to
+  specify the full path.
+- calls [`createRequestOptions`](https://docs.alokai.com/integrations/sapcc/api/sapcc-api/createRequestOptions) to
+set up langague and currency parameters, and authorization headers based on props and cookies.
 
 ## Real life example
 
