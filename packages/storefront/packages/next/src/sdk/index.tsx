@@ -1,5 +1,6 @@
 import {
   composeMiddlewareUrl,
+  contextConfig,
   type CreateSdkOptions,
 } from "@storefront/shared";
 import { buildModule, initSDK, middlewareModule } from "@vue-storefront/sdk";
@@ -53,6 +54,7 @@ export function createSdk<TConfig extends Record<string, any>>(
     });
 
     const resolvedConfig = configDefinition({
+      defaults: contextConfig,
       buildModule,
       middlewareModule,
       getRequestHeaders,
