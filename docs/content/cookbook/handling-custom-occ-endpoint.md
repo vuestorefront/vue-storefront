@@ -5,7 +5,7 @@ This guide will show you how can do it using Alokai.
 
 ## Prerequisites
 
-Before we start make sure that you are familiar with [Adding New API Methods](https://docs.alokai.com/storefront/integration-and-setup/storefront-extension#adding-new-api-methods) guide. With that guide, you would be able to
+Before we start make sure that you are familiar with [Adding New API Methods](https://docs.alokai.com/storefront/integration-and-setup/creating-new-api-methods) guide. With that guide, you would be able to
 communicate with OCC API but it would require manual retrieval of context parameters (baseSiteId, userId, language,
 and currency) and preparation of authorization headers. Read on to see how to streamline that process.
 
