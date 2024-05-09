@@ -1,6 +1,6 @@
 # Handling custom OCC endpoints
 
-It is a common task to add support for a custom (non-standard) SAP OCC API endpoint not covered by the Alokai intergration.
+It is a common task to add support for a custom (non-standard) SAP OCC API endpoint not covered by the Alokai integration.
 This guide will show you how can do it using Alokai.
 
 ## Prerequisites
@@ -100,11 +100,11 @@ const unifiedApiExtension = createUnifiedExtension<Context, Config>()({
 });
 ```
 
-In the code above we first define two intefaces:
+In the code above we first define two interfaces:
 
 - `CustomEndpointProps` - represents parameters accepted by the custom method. It extends  `BaseProps` and
-`BaseUserId` intefraces which contain the default parameters like `language`, `currency`, `userId`, and `fields`.
-- `CustomResponse` - defines the type of the response returned from the method. It is used to guarantee the typesafety.
+`BaseUserId` interfaces which contain the default parameters like `language`, `currency`, `userId`, and `fields`.
+- `CustomResponse` - defines the type of the response returned from the method. It is used to guarantee the type safety.
 
 Then we define the `callCustomEndpoint` method that:
 
@@ -118,7 +118,7 @@ to get the userId either from the request parameters or the cookies
 - uses the `client` to call the custom endpoint. The client already has the `baseUrl` set, so we don't have to
   specify the full path.
 - calls [`createRequestOptions`](https://docs.alokai.com/integrations/sapcc/api/sapcc-api/createRequestOptions) to
-set up langague and currency parameters, and authorization headers based on props and cookies.
+set up language and currency parameters, and authorization headers based on props and cookies.
 
 ## Real life example
 
@@ -193,7 +193,7 @@ const unifiedApiExtension = createUnifiedExtension<Context, Config>()({
 });
 ```
 
-Then, in your frontend application, you need to add a custom hook to retrieve the product interests on the front end.
+Then, in your front-end application, you need to add a custom hook to retrieve the product interests on the front end.
 
 ```typescript [storefront-unified-nextjs/hooks/useProductInterests/useProductInterests.ts]
 import { useQuery } from "@tanstack/react-query";
