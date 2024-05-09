@@ -92,7 +92,7 @@ const unifiedApiExtension = createUnifiedExtension<Context, Config>()({
   normalizers,
   apiMethods: {
     ...apiMethods,
-    getProductInterests,
+    callCustomEndpoint,
   },
   config: {
     /* ... */
