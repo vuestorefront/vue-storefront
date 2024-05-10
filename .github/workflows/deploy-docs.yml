@@ -5,8 +5,8 @@ on:
     branches:
       - legacy
       - chore/fix-legacy-docs-build-2
-    paths:
-      - packages/docs/**
+    # paths:
+    #   - packages/docs/**
   workflow_dispatch:
 
 jobs:
