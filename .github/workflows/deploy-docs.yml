@@ -1,12 +1,12 @@
 name: Deploy Docs
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - legacy
     paths:
       - packages/docs/**
-  workflow_dispatch:
 
 jobs:
   build:
