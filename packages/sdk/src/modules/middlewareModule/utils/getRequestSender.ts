@@ -38,6 +38,7 @@ export const getRequestSender = (options: Options): RequestSender => {
     // eslint-disable-next-line prefer-template
     const normalizedBaseUrl = baseUrl.replace(/\/+$/, "") + "/";
     const url = `${normalizedBaseUrl}${path}`;
+    const nextUrl = new URL(`${normalizedBaseUrl}${path}`);
 
     // If there are no query params, return the URL as is
     if (method !== "GET") {
@@ -46,6 +47,7 @@ export const getRequestSender = (options: Options): RequestSender => {
 
     // If there are query params, append them to the URL as `?body=[<strignified query params>]`
     const serializedParams = encodeURIComponent(JSON.stringify(params));
+    nextUrl.searchParams.append("body", serializedParams);
 
     return `${url}?body=${serializedParams}`;
   };
@@ -86,6 +88,11 @@ export const getRequestSender = (options: Options): RequestSender => {
     params: unknown[],
     config?: ComputedConfig
   ) => {
+    const urlObject = new URL(url);
+    Object.entries(urlObject.searchParams).forEach(([key, value]) => {
+      urlObject.searchParams.append(key, value);
+    });
+
     const response = await fetch(url, {
       ...config,
       ...(config?.method === "POST" ? { body: JSON.stringify(params) } : {}),
