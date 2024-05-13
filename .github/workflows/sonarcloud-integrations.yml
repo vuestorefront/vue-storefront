@@ -28,12 +28,12 @@ jobs:
     name: Run Sonarcloud check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Suggested by sonarcloud. Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Download test coverage for commit
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: coverage-${{ runner.os }}-${{ github.event.pull_request.head.sha }}
           path: ./
