@@ -87,7 +87,7 @@ export const getRequestSender = (options: Options): RequestSender => {
   const defaultHTTPClient: HTTPClient = async (url, params, config) => {
     const response = await fetch(url, {
       ...config,
-      body: config?.method === "GET" ? "" : JSON.stringify(params),
+      body: config?.method === "GET" ? undefined : JSON.stringify(params),
       credentials: "include",
     });
 
