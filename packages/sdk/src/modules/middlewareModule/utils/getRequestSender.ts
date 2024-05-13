@@ -22,6 +22,7 @@ export const getRequestSender = (options: Options): RequestSender => {
     ssrApiUrl,
     defaultRequestConfig = {},
     methodsRequestConfig = {},
+    cdnCacheBustingId,
   } = options;
 
   const getUrl = (
@@ -45,9 +46,11 @@ export const getRequestSender = (options: Options): RequestSender => {
     }
 
     // If there are query params, append them to the URL as `?body=[<strignified query params>]`
-    const serializedParams = encodeURIComponent(JSON.stringify(params));
+    const serializedBody = encodeURIComponent(JSON.stringify(params));
+    // Serialize CDN cache busting ID
+    const serializedCdnCacheBustingId = encodeURIComponent(cdnCacheBustingId);
 
-    return `${url}?body=${serializedParams}`;
+    return `${url}?body=${serializedBody}&cdnCacheBustingId=${serializedCdnCacheBustingId}`;
   };
 
   const getConfig = (
@@ -81,14 +84,10 @@ export const getRequestSender = (options: Options): RequestSender => {
     };
   };
 
-  const defaultHTTPClient: HTTPClient = async (
-    url: string,
-    params: unknown[],
-    config?: ComputedConfig
-  ) => {
+  const defaultHTTPClient: HTTPClient = async (url, params, config) => {
     const response = await fetch(url, {
       ...config,
-      body: JSON.stringify(params),
+      body: config?.method === "GET" ? undefined : JSON.stringify(params),
       credentials: "include",
     });
 
@@ -117,21 +116,21 @@ export const getRequestSender = (options: Options): RequestSender => {
     const methodConfig = methodsRequestConfig[methodName] || {};
     const finalMethod =
       method || methodConfig.method || defaultRequestConfig.method || "POST";
-    const computedParams = finalMethod === "GET" ? [] : params;
     const finalUrl = getUrl(methodName, finalMethod, params);
+    const finalParams = finalMethod === "GET" ? [] : params;
     const finalConfig = getConfig(
       { method: finalMethod, headers, ...restConfig },
       methodConfig
     );
 
     try {
-      return await httpClient(finalUrl, computedParams, finalConfig);
+      return await httpClient(finalUrl, finalParams, finalConfig);
     } catch (error) {
       return await errorHandler({
         error,
         methodName,
         url: finalUrl,
-        params: computedParams,
+        params: finalParams,
         config: finalConfig,
         httpClient,
       });
