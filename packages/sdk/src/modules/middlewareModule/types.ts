@@ -33,7 +33,6 @@ export type BaseConfig = {
    */
   method?: "GET" | "POST";
 
-  queryParameters?: Record<string, string>;
   /**
    * Additional properties for the configuration object.
    */
