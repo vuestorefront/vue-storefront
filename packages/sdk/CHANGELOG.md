@@ -1,5 +1,33 @@
 # Change log
 
+## 2.0.0
+
+### Major Changes
+
+- **[ADDED]** CDN support for the `middlewareModule`.
+  Now, the module's configuration includes `cdnCacheBustingId` property, which allows you to set a unique identifier for the CDN cache busting.
+  **The property is obligatory and must be a string.**
+
+```diff [sdk.config.ts]
+
+export const { getSdk } = createSdk(
+  options,
+  ({ buildModule, middlewareModule, middlewareUrl, getRequestHeaders }) => ({
+    example: buildModule(middlewareModule<Endpoints>, {
+      apiUrl: `${middlewareUrl}/test_integration`,
++      cdnCacheBustingId: process.env.CDN_CACHE_BUSTING_ID,
+      defaultRequestConfig: {
+        headers: getRequestHeaders(),
+      },
+    }),
+  })
+);
+```
+
+### Patch Changes
+
+- **[FIXED]** support for `GET` requests in default HTTP client, which was throwing an error "SDKError: Request with GET/HEAD method cannot have body". Now, the client can handle `GET` requests properly.
+
 ## 1.5.0
 
 ### Minor Changes

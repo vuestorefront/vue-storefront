@@ -259,6 +259,11 @@ export type Options<
    * ```
    */
   errorHandler?: ErrorHandler;
+
+  /**
+   * Unique identifier for CDN cache busting.
+   */
+  cdnCacheBustingId: string;
 };
 
 /**
