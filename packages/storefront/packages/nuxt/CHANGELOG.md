@@ -1,9 +1,5 @@
 # Change log
 
-## 3.2.0
-
-- **[CHANGED]**  Updated the `@vue-storefront/sdk` dependency to version `1.5.0`
-
 ## 3.1.0
 
 - **[ADDED]** `middlewareModule` to `defineSdkConfig` params.
