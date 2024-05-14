@@ -46,8 +46,8 @@ export function createSdk<TConfig extends Record<string, any>>(
   options: CreateSdkOptions,
   configDefinition: Config<TConfig>
 ): CreateSdkReturn<TConfig> {
-  function getSdk(dynamicContext: GetSdkContext = {}) {
-    const { getRequestHeaders } = resolveDynamicContext(dynamicContext);
+  function getSdk(dynamicContext: GetSdkContext = { buildId: "constant-id" }) {
+    const { getRequestHeaders, buildId } = resolveDynamicContext(dynamicContext);
     const middlewareUrl = composeMiddlewareUrl({
       options,
       headers: getRequestHeaders(),
@@ -59,6 +59,7 @@ export function createSdk<TConfig extends Record<string, any>>(
       middlewareModule,
       getRequestHeaders,
       middlewareUrl,
+      buildId,
     });
 
     return initSDK(resolvedConfig);
