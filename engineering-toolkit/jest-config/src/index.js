@@ -5,10 +5,11 @@ module.exports = {
   baseConfig: {
     preset: "ts-jest",
     transform: {
-      "^.+\\.(j|t)s$": ["ts-jest", { isolatedModules: true }]
+      "^.+\\.(j|t)s$": ["ts-jest", { isolatedModules: true }],
     },
     coverageDirectory: "./coverage/",
     collectCoverageFrom: ["src/**/*.ts"],
+    coverageRepoters: ["clover", "json", "lcov" /* "text" */],
     testMatch: ["<rootDir>/**/__tests__/**/*spec.[jt]s?(x)"],
   },
 };
