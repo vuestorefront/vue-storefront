@@ -11,6 +11,7 @@ function isAppRouterHeaders(
 export function resolveDynamicContext(context: GetSdkContext): DynamicContext {
   return {
     ...context,
+    buildId: context.buildId ?? "build-id-has-not-been-passed-to-sdk",
     getRequestHeaders() {
       const headers = context.getRequestHeaders?.() || {};
       const resolvedHeaders = isAppRouterHeaders(headers)
