@@ -2,7 +2,6 @@ export const contextConfig = {
   commerce: {
     middlewareModule: {
       defaultMethodsRequestConfig: {
-        getReview: { method: "GET" },
         getCategories: { method: "GET" },
         getProductDetails: { method: "GET" },
         getProductReviews: { method: "GET" },
