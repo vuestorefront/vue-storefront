@@ -1,5 +1,5 @@
 export const contextConfig = {
-  commerce: {
+  unifiedCommerce: {
     middlewareModule: {
       defaultMethodsRequestConfig: {
         getCategories: { method: "GET" },
@@ -10,7 +10,7 @@ export const contextConfig = {
       },
     },
   },
-  cms: {
+  unifiedCms: {
     middlewareModule: {
       defaultMethodsRequestConfig: {
         getEntries: { method: "GET" },
