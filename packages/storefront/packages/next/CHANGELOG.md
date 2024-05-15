@@ -1,8 +1,8 @@
 # Change log
 
-## 1.2.0
+## 2.0.0
 
-- **[CHANGED]**  Updated the `@vue-storefront/sdk` dependency to version `2.0.0`. The breaking changes are not propagated through this package.
+- **[CHANGED]**  Updated the `@vue-storefront/sdk` dependency to version `2.0.0`. 
 - **[ADDED]** `defaults` property to the injected context
 
 ## 1.1.1
