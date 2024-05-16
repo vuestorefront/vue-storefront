@@ -1,5 +1,10 @@
 # Change log
 
+## 2.0.0
+
+- **[CHANGED]**  Updated the `@vue-storefront/sdk` dependency to version `2.0.0`. 
+- **[ADDED]** `defaults` property to the injected context
+
 ## 1.1.1
 
 - **[FIXED]** "The inferred type of 'SdkProvider' cannot be named without a reference to (...)" error when calling `createSdkContext`.
