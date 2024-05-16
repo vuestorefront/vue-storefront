@@ -57,12 +57,10 @@ export function prepareApiFunction(
           middleware: innerMiddlewareContext,
         });
 
-        const apiClientInstance = createInnerApiClient({
+        return createInnerApiClient({
           ...innerConfiguration,
           ...innerInitConfig,
         });
-
-        return apiClientInstance;
       },
     };
 
@@ -76,19 +74,14 @@ export function prepareApiFunction(
     });
 
     // Pick the function from the namespaced if it exists, otherwise pick it from the shared integration
-    try {
-      res.locals.apiFunction = getApiFunction(
-        apiClientInstance,
-        functionName,
-        extensionName
-      );
-    } catch (e) {
-      res.status(404);
-      res.send(e.message);
-
-      return;
-    }
-
-    next();
+    getApiFunction(apiClientInstance, functionName, extensionName)
+      .then(async (apiFunction) => {
+        res.locals.apiFunction = await apiFunction;
+        next();
+      })
+      .catch((error) => {
+        res.status(404);
+        res.send(error.message);
+      });
   };
 }

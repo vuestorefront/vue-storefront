@@ -85,7 +85,7 @@ export type CreateApiClientFn<
   <T extends ApiClientConfig, C>(
     givenConfig: CONFIG,
     customApi?: ApiMethods
-  ): ApiInstance<T, API & ApiMethods, C>;
+  ): Promise<ApiInstance<T, API & ApiMethods, C>>;
   _predefinedExtensions?: ApiClientExtension<API>[];
 };
 
