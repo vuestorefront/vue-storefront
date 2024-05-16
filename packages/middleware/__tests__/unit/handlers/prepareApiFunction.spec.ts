@@ -29,10 +29,10 @@ describe("[middleware-handlers] prepareApiFunction", () => {
     res.locals = {};
   });
 
-  it("sends 404 error if integration is not configured", () => {
+  it("sends 404 error if integration is not configured", async () => {
     const emptyIntegrations = {};
 
-    prepareApiFunction(emptyIntegrations)(req, res, next);
+    await prepareApiFunction(emptyIntegrations)(req, res, next);
 
     expect(res.status).toBeCalledTimes(1);
     expect(res.status).toBeCalledWith(404);
@@ -40,14 +40,14 @@ describe("[middleware-handlers] prepareApiFunction", () => {
   });
 
   describe("if integration is configured", () => {
-    it("adds api function to res.locals", () => {
-      prepareApiFunction(integrations)(req, res, next);
+    it("adds api function to res.locals", async () => {
+      await prepareApiFunction(integrations)(req, res, next);
 
       expect(res.locals).toEqual(expect.objectContaining({ apiFunction }));
     });
 
-    it("calls next middleware", () => {
-      prepareApiFunction(integrations)(req, res, next);
+    it("calls next middleware", async () => {
+      await prepareApiFunction(integrations)(req, res, next);
 
       expect(next).toBeCalledTimes(1);
       expect(next).toBeCalledWith();

@@ -1,11 +1,10 @@
-import type { RequestHandler } from "express";
 import { IntegrationsLoaded, MiddlewareContext } from "../../types";
 import { getApiFunction } from "./getApiFunction";
 
 export function prepareApiFunction(
   integrations: IntegrationsLoaded
-): RequestHandler {
-  return (req, res, next) => {
+): (req, res, next) => Promise<any> {
+  return async (req, res, next) => {
     const { integrationName, extensionName, functionName } = req.params;
 
     if (!integrations || !integrations[integrationName]) {
@@ -77,7 +76,7 @@ export function prepareApiFunction(
 
     // Pick the function from the namespaced if it exists, otherwise pick it from the shared integration
     try {
-      res.locals.apiFunction = getApiFunction(
+      res.locals.apiFunction = await getApiFunction(
         apiClientInstance,
         functionName,
         extensionName
