@@ -13,12 +13,6 @@ on:
         required: false
         default: false
 
-      node_version:
-        description: "Node versions to test"
-        type: string
-        required: false
-        default: "['18']"
-
 
 jobs:
   scanning:
@@ -44,9 +38,6 @@ jobs:
   run-ci:
     name: Run CI
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node_version: ${{ fromJson(inputs.node_version) }}
     permissions:
       contents: read
       id-token: write
@@ -67,20 +58,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node_version }}
+          node-version-file: '.node-version'
           registry-url: ${{ inputs.enterprise && 'https://registrynpm.storefrontcloud.io' || '' }}
+          cache: yarn
 
-      - name: Get cache 🗄️
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}-${{ matrix.node_version }}
-
-      - name: Install dependencies (OS)
-        if: ${{ !steps.cache.outputs.cache-hit }}
-        shell: bash
-        run: yarn --frozen-lockfile
+      - run: yarn install --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{ secrets.VERDACCIO_AUTH_TOKEN }}
           HUSKY: 0
