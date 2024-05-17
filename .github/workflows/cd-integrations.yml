@@ -20,14 +20,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
           registry-url: ${{ inputs.enterprise && 'https://registrynpm.storefrontcloud.io' || 'https://registry.npmjs.org' }}
 
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
+      - run: yarn install --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{ inputs.enterprise && secrets.VERDACCIO_AUTH_TOKEN || '' }}
           HUSKY: 0
