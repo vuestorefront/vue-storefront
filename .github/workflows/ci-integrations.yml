@@ -97,8 +97,9 @@ jobs:
 
       - run: yarn build
 
-      - name: Run tests
-        run: yarn test
+      - run: yarn lint
+
+      - run: yarn test
 
       - name: Upload test coverage
         uses: actions/upload-artifact@v4
