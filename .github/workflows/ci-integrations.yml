@@ -19,8 +19,6 @@ on:
         required: false
         default: "['18']"
 
-env:
-  HUSKY: 0
 
 jobs:
   scanning:
@@ -86,6 +84,7 @@ jobs:
         run: yarn --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{ secrets.VERDACCIO_AUTH_TOKEN }}
+          HUSKY: 0
 
       - name: Detect circular dependencies 🔄
         uses: vuestorefront/vue-storefront/actions/circular-dependencies@main
