@@ -24,6 +24,7 @@ jobs:
         with:
           node-version-file: '.node-version'
           registry-url: ${{ inputs.enterprise && 'https://registrynpm.storefrontcloud.io' || 'https://registry.npmjs.org' }}
+          cache: yarn
 
       - run: yarn install --frozen-lockfile
         env:
