@@ -9,7 +9,7 @@ on:
 jobs:
   release-packages:
     name: "Release NPM Packages"
-    uses: vuestorefront/vue-storefront/.github/workflows/cd-integrations.yml@main
+    uses: ./.github/workflows/cd-integrations.yml
     secrets: inherit
     with:
       enterprise: false
