@@ -62,11 +62,10 @@ jobs:
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           to_envs() { jq -r "to_entries[] | \"\(.key)<<$EOF\n\(.value)\n$EOF\n\""; }
           echo "$SECRETS_CONTEXT" | to_envs >> $GITHUB_ENV
-      - name: Checkout code 🛎️
-        uses: actions/checkout@v4
+          
+      - uses: actions/checkout@v4
 
-      - name: Setup node 🏗️
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node_version }}
           registry-url: ${{ inputs.enterprise && 'https://registrynpm.storefrontcloud.io' || '' }}
@@ -96,8 +95,7 @@ jobs:
         with:
           projectPath: ${{ github.workspace }}
 
-      - name: Build project
-        run: yarn build
+      - run: yarn build
 
       - name: Run tests
         run: yarn test
