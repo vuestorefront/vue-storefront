@@ -77,11 +77,15 @@ jobs:
         with:
           projectPath: ${{ github.workspace }}
 
-      - run: yarn build
+      - name: Cache turbo build setup
+        uses: actions/cache@v3
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
 
-      - run: yarn lint
-
-      - run: yarn test
+      - run: yarn ci
 
       - name: Upload test coverage
         uses: actions/upload-artifact@v4
@@ -91,6 +95,3 @@ jobs:
           path: |
             coverage
             packages/**/coverage
-
-      - name: Lint project
-        run: yarn lint
