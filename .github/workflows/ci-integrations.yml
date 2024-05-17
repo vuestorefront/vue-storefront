@@ -17,7 +17,7 @@ on:
         description: "Node versions to test"
         type: string
         required: false
-        default: "['16', '18']"
+        default: "['18']"
 
 env:
   HUSKY: 0
