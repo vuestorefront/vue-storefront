@@ -5,20 +5,13 @@ on:
     secrets:
       VERDACCIO_AUTH_TOKEN:
         required: false
+        
     inputs:
       enterprise:
         description: "Flag to use enterprise registry"
         type: boolean
         required: false
         default: false
-
-defaults:
-  run:
-    shell: bash
-
-# Avoid running precommit hooks when changesets makes a commit for the release PR
-env:
-  HUSKY: 0 
 
 jobs:
   changelog:
@@ -37,6 +30,7 @@ jobs:
         run: yarn --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{ inputs.enterprise && secrets.VERDACCIO_AUTH_TOKEN || '' }}
+          HUSKY: 0
 
       - name: Create Release Pull Request or Publish
         id: changesets
