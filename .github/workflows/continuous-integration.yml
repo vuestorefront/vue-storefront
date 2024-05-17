@@ -9,7 +9,7 @@ concurrency:
 jobs:
   continous-integration:
     name: "Continuous Integration"
-    uses: vuestorefront/vue-storefront/.github/workflows/ci-integrations.yml@main
+    uses: ./.github/workflows/ci-integrations.yml
     secrets: inherit
     with:
       enterprise: false
@@ -17,7 +17,7 @@ jobs:
   sonarcloud-sdk:
     name: "SonarCloud SDK"
     needs: [continous-integration]
-    uses: vuestorefront/vue-storefront/.github/workflows/sonarcloud-integrations.yml@main
+    uses: ./.github/workflows/sonarcloud-integrations.yml
     secrets:
       SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
     with:
@@ -28,7 +28,7 @@ jobs:
   sonarcloud-cli:
     name: "SonarCloud CLI"
     needs: [continous-integration]
-    uses: vuestorefront/vue-storefront/.github/workflows/sonarcloud-integrations.yml@main
+    uses: ./.github/workflows/sonarcloud-integrations.yml
     secrets:
       SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
     with:
@@ -39,7 +39,7 @@ jobs:
   sonarcloud-middleware:
     name: "SonarCloud Middleware"
     needs: [continous-integration]
-    uses: vuestorefront/vue-storefront/.github/workflows/sonarcloud-integrations.yml@main
+    uses: ./.github/workflows/sonarcloud-integrations.yml
     secrets:
       SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
     with:
