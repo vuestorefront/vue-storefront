@@ -11,7 +11,7 @@
     "changesets:version": "yarn changeset version && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install && yarn prepare:docs",
     "changesets:publish": "yarn build && yarn changeset publish",
     "prepare:docs": "cd docs && yarn install && yarn api-extract && yarn add-changelogs",
-    "postinstall": "cd packages/changesets && yarn build"
+    "postinstall": "cd packages/changesets && yarn build && cd ../../packages/nuxt && yarn run prepare"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

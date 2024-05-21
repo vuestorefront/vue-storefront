@@ -5,7 +5,7 @@
     "jsx": "react",
     "lib": ["dom", "dom.iterable", "esnext"],
     "paths": {
-      "@storefront/shared": ["../../shared"]
+      "@storefront/shared": ["../shared"]
     }
   },
   "exclude": ["node_modules"],
