@@ -29,6 +29,7 @@ export type SdkProviderProps = {
   children: ReactNode;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface CreateSdkReturn<TConfig extends Record<string, any>> {
   /**
    * Creates a new SDK instance. This function is dedicated for server-side usage,
@@ -75,7 +76,7 @@ export interface CreateSdkReturn<TConfig extends Record<string, any>> {
    */
   getSdk: (dynamicContext?: GetSdkContext) => SDKApi<TConfig>;
 }
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CreateSdkContextReturn<TSdk extends SDKApi<any>> = readonly [
   ({ children }: SdkProviderProps) => JSX.Element,
   () => TSdk
