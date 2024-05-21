@@ -23,7 +23,7 @@ export const defaultErrorHandler = (
   res.status(status);
   if (status < 500) {
     const errMsg =
-      error?.message ?? `Request faileds with status code ${status}`;
+      error?.message ?? `Request failed with status code ${status}`;
     /**
      * For all 4xx error codes or client error codes we wanted to send the error message
      */
