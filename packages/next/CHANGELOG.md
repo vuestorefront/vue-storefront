@@ -1,8 +1,15 @@
 # Change log
 
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies:
+  - @vue-storefront/sdk@3.0.0
+
 ## 2.0.0
 
-- **[CHANGED]**  Updated the `@vue-storefront/sdk` dependency to version `2.0.0`. 
+- **[CHANGED]** Updated the `@vue-storefront/sdk` dependency to version `2.0.0`.
 - **[ADDED]** `defaults` property to the injected context
 
 ## 1.1.1
