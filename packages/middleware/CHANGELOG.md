@@ -1,5 +1,13 @@
 # Change log
 
+## 4.0.1
+
+### Patch Changes
+
+- **[CHANGED]** Fix typo in default error handler
+  Now the default error message for error responses bearing a 4xx status code will be
+  "Request failed with status code ${status}" instead of "Request faileds [...]".
+
 ## 4.0.0
 
 ### Major Changes
