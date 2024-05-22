@@ -1,5 +1,11 @@
 # @vue-storefront/jest-config
 
+## 1.0.1
+
+### Patch Changes
+
+Don't output coverage results to stdout
+
 ## 1.0.0
 
 ### Major Changes

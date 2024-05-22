@@ -1,5 +1,11 @@
 # @vue-storefront/eslint-config-integrations
 
+## 1.0.1
+
+### Patch Changes
+
+Update typescript-eslint to version that supports latest versions of TypeScript (^5.4.0)
+
 ## 1.0.0
 
 ### Major Changes
