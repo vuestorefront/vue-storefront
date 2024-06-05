@@ -1,5 +1,11 @@
 # @vue-storefront/jest-config
 
+## 1.0.2
+
+### Patch Changes
+
+Fix typo in coverageReporters
+
 ## 1.0.1
 
 ### Patch Changes
