@@ -1,5 +1,11 @@
 # @vue-storefront/eslint-config
 
+## 3.1.0
+
+### Minor Changes
+
+**[ADDED]** Eslint rules for Next.js v14
+
 ## 3.0.0
 
 ### Major Changes
