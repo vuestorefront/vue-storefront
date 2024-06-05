@@ -71,6 +71,18 @@ Vue Storefront `Vue3` specific linting rules.
 }
 ```
 
+### Usage with NextJs `.eslintrc`
+
+Vue Storefront `NextJs` specific linting rules.
+
+```json
+{
+  "extends": [
+    "@vue-storefront/eslint-config/next"
+  ]
+}
+```
+
 ## Used rulesets & plugins
 
 - [unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn)
