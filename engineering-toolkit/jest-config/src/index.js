@@ -9,7 +9,7 @@ module.exports = {
     },
     coverageDirectory: "./coverage/",
     collectCoverageFrom: ["src/**/*.ts"],
-    coverageRepoters: ["clover", "json", "lcov" /* "text" */],
+    coverageReporters: ["clover", "json", "lcov" /* "text" */],
     testMatch: ["<rootDir>/**/__tests__/**/*spec.[jt]s?(x)"],
   },
 };
