@@ -1,7 +1,13 @@
+/* eslint-disable global-require */
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   extends: [require.resolve("./next")],
-  plugins: ["filename-rules", "jsdoc", "custom-rules"],
+  // plugins: ["filename-rules", "jsdoc", "custom-rules"],
+  plugins: {
+    jsdoc: require("eslint-plugin-jsdoc"),
+    "filename-rules": require("eslint-plugin-filename-rules"),
+    "custom-rules": require("./custom-rules/index"),
+  },
   root: true,
   ignorePatterns: [
     "node_modules",
