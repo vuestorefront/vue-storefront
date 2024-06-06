@@ -1,5 +1,11 @@
 # @vue-storefront/eslint-config
 
+## 3.1.1
+
+### Patch Changes
+
+- **[FIXED]** - Eslint plugin installation error
+
 ## 3.1.0
 
 ### Minor Changes
