@@ -1,5 +1,5 @@
 ---
-"@vue-storefront/middleware": major
+"@vue-storefront/middleware": minor
 ---
 
 [CHANGED] [Middleware extension](https://docs.alokai.com/middleware/guides/extensions) hooks and the [onCreate](https://docs.alokai.com/middleware/guides/api-client#creating-the-integration-client) function can now be asynchronous. Examples:
