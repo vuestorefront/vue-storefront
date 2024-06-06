@@ -79,9 +79,12 @@ describe("apiClientFactory", () => {
     const apiClient = (await createApiClient) as any;
     const extensions = apiClient._predefinedExtensions;
 
-    await createApiClient.bind({
-      middleware: { req: null, res: null, extensions },
-    })({});
+    await createApiClient.call(
+      {
+        middleware: { req: null, res: null, extensions },
+      },
+      {}
+    );
 
     expect(beforeCreate).toHaveBeenCalled();
     expect(afterCreate).toHaveBeenCalled();
@@ -107,9 +110,12 @@ describe("apiClientFactory", () => {
     const { createApiClient } = apiClientFactory<any, any>(params as any);
     const extensions = (createApiClient as any)._predefinedExtensions;
 
-    const apiWithContext: any = await createApiClient.bind({
-      middleware: { req: null, res: null, extensions },
-    })({});
+    const apiWithContext: any = await createApiClient.call(
+      {
+        middleware: { req: null, res: null, extensions },
+      },
+      {}
+    );
 
     await apiWithContext.api.firstFunc();
 
