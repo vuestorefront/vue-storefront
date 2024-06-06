@@ -1557,7 +1557,25 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "<string, string>) => {\n        client: CLIENT;\n        config: "
+                  "text": "<string, string>) => "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<{\n        client: CLIENT;\n        config: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ApiClientConfig",
+                  "canonicalReference": "@vue-storefront/middleware!ApiClientConfig:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n    }> | {\n        client: CLIENT;\n        config: "
                 },
                 {
                   "kind": "Reference",
@@ -1579,7 +1597,7 @@
               "name": "onCreate",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 6
+                "endIndex": 10
               }
             }
           ],
@@ -3322,6 +3340,15 @@
             },
             {
               "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
               "text": "ApiInstance",
               "canonicalReference": "@vue-storefront/middleware!ApiInstance:interface"
             },
@@ -3336,7 +3363,7 @@
             },
             {
               "kind": "Content",
-              "text": ", C>;\n    _predefinedExtensions?: "
+              "text": ", C>>;\n    _predefinedExtensions?: "
             },
             {
               "kind": "Reference",
@@ -3381,7 +3408,7 @@
           ],
           "typeTokenRange": {
             "startIndex": 5,
-            "endIndex": 16
+            "endIndex": 18
           }
         },
         {
