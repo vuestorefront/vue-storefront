@@ -44,7 +44,9 @@ const apiClientFactory = <
         )
         .reduce(async (configSoFar, extension) => {
           const resolvedConfig = await configSoFar;
-          return extension.beforeCreate({ configuration: resolvedConfig });
+          return await extension.beforeCreate({
+            configuration: resolvedConfig,
+          });
         }, Promise.resolve(config));
 
       const settings = (await factoryParams.onCreate)
@@ -57,7 +59,7 @@ const apiClientFactory = <
         )
         .reduce(async (configSoFar, extension) => {
           const resolvedConfig = await configSoFar;
-          return extension.afterCreate({ configuration: resolvedConfig });
+          return await extension.afterCreate({ configuration: resolvedConfig });
         }, Promise.resolve(settings.config));
 
       const extensionHooks: ApplyingContextHooks = {
