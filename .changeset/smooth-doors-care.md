@@ -2,7 +2,7 @@
 "@vue-storefront/middleware": major
 ---
 
-[CHANGED] Middleware extension hooks and the `onCreate` function can now be asynchronous. Examples:
+[CHANGED] [Middleware extension](https://docs.alokai.com/middleware/guides/extensions) hooks and the [onCreate](https://docs.alokai.com/middleware/guides/api-client#creating-the-integration-client) function can now be asynchronous. Examples:
 
 ```ts
 // middleware.config.ts
