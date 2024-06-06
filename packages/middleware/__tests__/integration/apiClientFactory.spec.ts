@@ -1,67 +1,78 @@
-import express from "express";
+import express, { Express } from "express";
 import request from "supertest";
-import { apiClientFactory } from "../../src";
+import { createServer } from "../../src";
 
 const app = express();
 app.use(express.json());
 
-const onCreate = async (config) => {
-  const props = await Promise.resolve({ onCreate: true });
-  return {
-    ...config,
-    ...props,
-  };
-};
-
 const myExtension = {
   name: "myExtension",
+  extendApiMethods: {
+    testEndpoint: async (ctx) => {
+      console.log({ ctx });
+      return Promise.resolve({});
+    }
+  },
+  extendApp({ configuration }) {
+    configuration.testParams = {};
+  },
   hooks: (req, res) => ({
     beforeCreate: async ({ configuration }) => {
-      return Promise.resolve({ ...configuration, beforeCreate: true });
+      configuration.testParams.beforeCreate = true;
+      return Promise.resolve(configuration);
     },
     afterCreate: async ({ configuration }) => {
-      return Promise.resolve({ ...configuration, afterCreate: true });
+      configuration.testParams.afterCreate = true;
+      return Promise.resolve(configuration);
     },
-    beforeCall: async ({ args }) => {
-      return Promise.resolve({ ...args, beforeCall: true });
+    beforeCall: async ({ configuration, args }) => {
+      configuration.testParams.beforeCall = true;
+      return Promise.resolve(args);
     },
-    afterCall: async ({ response }) => {
-      return Promise.resolve({ ...response, afterCall: true });
+    afterCall: async ({ configuration, args, response }) => {
+      configuration.testParams.afterCall = true;
+      return Promise.resolve({
+        ...response,
+        ...configuration.testParams,
+        ...args[0],
+      });
     },
   }),
 };
 
-const { createApiClient } = apiClientFactory({
-  onCreate,
-  api: {
-    testEndpoint: async (context, args) => {
-      return { context, args };
-    },
-  },
-  extensions: [myExtension],
-});
-
-app.post("/test-endpoint", async (req, res) => {
-  const client = await createApiClient({ args: req.body });
-  const response = await client.api.testEndpoint(client, req.body);
-  res.send(response);
-});
-
 describe("POST /test-endpoint", () => {
+  let app: Express;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  beforeAll(async () => {
+    app = await createServer({
+      integrations: {
+        test_integration: {
+          configuration: {},
+          location: "./__tests__/integration/bootstrap/server",
+          extensions() {
+            return [myExtension as any];
+          },
+        },
+      },
+    });
+  });
+
   it("should return all added parameters", async () => {
     const res = await request(app)
-      .post("/test-endpoint")
+      .post("/test_integration/testEndpoint")
       .send({ arg1: "value1", arg2: "value2" });
 
-    expect(res.body.args).toEqual({
-      arg1: "value1",
-      arg2: "value2",
-      beforeCall: true,
-    });
-    expect(res.body.context.config).toEqual({
-      onCreate: true,
+    expect(res.body).toEqual({
       beforeCreate: true,
       afterCreate: true,
+      beforeCall: true,
+      afterCall: true,
+      arg1: "value1",
+      arg2: "value2",
     });
   });
 });
