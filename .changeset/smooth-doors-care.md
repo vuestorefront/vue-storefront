@@ -2,26 +2,16 @@
 "@vue-storefront/middleware": major
 ---
 
-[CHANGED] Extension hooks are now asynchronous. Example:
-hooks: () => ({
-beforeCreate: async ({ configuration }) => {
-configuration.testParams.beforeCreate = true;
-return configuration;
-},
-afterCreate: async ({ configuration }) => {
-configuration.testParams.afterCreate = true;
-return configuration;
-},
-beforeCall: async ({ configuration, args }) => {
-configuration.testParams.beforeCall = true;
-return args;
-},
-afterCall: async ({ configuration, args, response }) => {
-configuration.testParams.afterCall = true;
-return {
-...response,
-...configuration.testParams,
-...args[0],
-};
-},
-})
+[CHANGED] Middleware extension hooks now allow for performing asynchronous operations. Example:
+
+```ts
+const middlewareExtension = {
+  name: 'example-extension',
+  hooks: () => ({
+    beforeCreate: async ({ configuration }) => Promise.resolve(configuration),
+    afterCreate: async ({ configuration }) => Promise.resolve(configuration),
+    beforeCall: async ({ args }) => Promise.resolve(args),
+    afterCall: async ({ response }) => Promise.resolve(response),
+  }),
+}
+```
