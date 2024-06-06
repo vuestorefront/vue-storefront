@@ -85,7 +85,7 @@ export type CreateApiClientFn<
   <T extends ApiClientConfig, C>(
     givenConfig: CONFIG,
     customApi?: ApiMethods
-  ): ApiInstance<T, API & ApiMethods, C>;
+  ): Promise<ApiInstance<T, API & ApiMethods, C>>;
   _predefinedExtensions?: ApiClientExtension<API>[];
 };
 
@@ -99,7 +99,9 @@ export interface ApiClientFactoryParams<
   onCreate: (
     config: CONFIG,
     headers?: Record<string, string>
-  ) => { client: CLIENT; config: ApiClientConfig };
+  ) =>
+    | Promise<{ client: CLIENT; config: ApiClientConfig }>
+    | { client: CLIENT; config: ApiClientConfig };
   extensions?: ApiClientExtension<API>[];
 }
 

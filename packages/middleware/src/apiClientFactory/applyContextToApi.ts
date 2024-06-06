@@ -22,7 +22,6 @@ const applyContextToApi = <
 >(
   api: API,
   context: CONTEXT,
-
   /**
    * By default we use NOP function for returning the same parameters as they come.
    * It's useful in extensions, when someone don't want to inject into changing arguments or the response,
@@ -35,10 +34,14 @@ const applyContextToApi = <
       ...prev,
       [callName]: async (...args: Parameters<typeof fn>) => {
         const extendQuery = createExtendQuery(context);
-        const transformedArgs = hooks.before({ callName, args });
+        const transformedArgs = await hooks.before({ callName, args });
         const apiClientContext = { ...context, extendQuery };
         const response = await fn(apiClientContext, ...transformedArgs);
-        const transformedResponse = hooks.after({ callName, args, response });
+        const transformedResponse = await hooks.after({
+          callName,
+          args,
+          response,
+        });
 
         return transformedResponse;
       },
