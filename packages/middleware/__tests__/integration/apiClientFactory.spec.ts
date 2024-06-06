@@ -9,8 +9,8 @@ const myExtension = {
   name: "myExtension",
   extendApiMethods: {
     testEndpoint: async () => {
-      return Promise.resolve({});
-    }
+      return {};
+    },
   },
   extendApp({ configuration }) {
     configuration.testParams = {};

@@ -57,8 +57,6 @@ describe("apiClientFactory", () => {
 
     const { settings } = await createApiClient(clientConfig);
 
-    await settings.client;
-
     expect(settings.client).toBe(defaultClient);
     expect(settings.config).toBe(defaultConfig);
   });
@@ -78,7 +76,8 @@ describe("apiClientFactory", () => {
     };
 
     const { createApiClient } = apiClientFactory<any, any>(params as any);
-    const extensions = ((await createApiClient) as any)._predefinedExtensions;
+    const apiClient = (await createApiClient) as any;
+    const extensions = apiClient._predefinedExtensions;
 
     await createApiClient.bind({
       middleware: { req: null, res: null, extensions },
