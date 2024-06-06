@@ -9,7 +9,7 @@ const myExtension = {
   name: "myExtension",
   extendApiMethods: {
     testEndpoint: async () => {
-      return Promise.resolve({});
+      return {};
     }
   },
   extendApp({ configuration }) {
@@ -18,23 +18,23 @@ const myExtension = {
   hooks: () => ({
     beforeCreate: async ({ configuration }) => {
       configuration.testParams.beforeCreate = true;
-      return Promise.resolve(configuration);
+      return configuration;
     },
     afterCreate: async ({ configuration }) => {
       configuration.testParams.afterCreate = true;
-      return Promise.resolve(configuration);
+      return configuration;
     },
     beforeCall: async ({ configuration, args }) => {
       configuration.testParams.beforeCall = true;
-      return Promise.resolve(args);
+      return args;
     },
     afterCall: async ({ configuration, args, response }) => {
       configuration.testParams.afterCall = true;
-      return Promise.resolve({
+      return {
         ...response,
         ...configuration.testParams,
         ...args[0],
-      });
+      };
     },
   }),
 };
