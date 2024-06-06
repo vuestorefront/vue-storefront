@@ -8,8 +8,7 @@ app.use(express.json());
 const myExtension = {
   name: "myExtension",
   extendApiMethods: {
-    testEndpoint: async (ctx) => {
-      console.log({ ctx });
+    testEndpoint: async () => {
       return Promise.resolve({});
     }
   },
@@ -40,7 +39,7 @@ const myExtension = {
   }),
 };
 
-describe("POST /test-endpoint", () => {
+describe("POST /test_integration/testEndpoint", () => {
   let app: Express;
 
   beforeEach(() => {
