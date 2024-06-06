@@ -15,7 +15,7 @@ const myExtension = {
   extendApp({ configuration }) {
     configuration.testParams = {};
   },
-  hooks: (req, res) => ({
+  hooks: () => ({
     beforeCreate: async ({ configuration }) => {
       configuration.testParams.beforeCreate = true;
       return Promise.resolve(configuration);
