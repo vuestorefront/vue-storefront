@@ -38,7 +38,7 @@
     "lint": "eslint . --ext .ts",
     "test:app-router": "start-server-and-test dev:middleware localhost:4000/test_integration/getSuccess dev:app-router localhost:3000 \"yarn test:e2e\"",
     "test:pages-router": "start-server-and-test dev:middleware localhost:4000/test_integration/getSuccess dev:pages-router localhost:3000 \"yarn test:e2e\"",
-    "test": "yarn test:app-router && yarn test:pages-router",
+    "test:e2e:run": "yarn test:app-router && yarn test:pages-router",
     "test:e2e": "cd ../shared/ && yarn test:e2e",
     "test:unit": "vitest run"
   },
