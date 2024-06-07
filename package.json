@@ -39,7 +39,7 @@
   },
   "workspaces": {
     "packages": [
-      "packages/!(storefront)",
+      "packages/*",
       "engineering-toolkit/*"
     ]
   },
