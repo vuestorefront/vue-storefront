@@ -22,7 +22,7 @@
     "dev": "cd __tests__/app && yarn dev",
     "dev:middleware": "cd ../shared/src/__tests__/middleware && yarn dev",
     "lint": "eslint --ext .vue,.js,.ts .",
-    "test": "start-server-and-test dev:middleware localhost:4000/test_integration/getSuccess dev localhost:3000/ssr \"yarn test:e2e\"",
+    "test:e2e:run": "start-server-and-test dev:middleware localhost:4000/test_integration/getSuccess dev localhost:3000/ssr \"yarn test:e2e\"",
     "test:e2e": "cd ../shared/ && yarn test:e2e",
     "test:watch": "vitest watch",
     "prepare": "nuxi prepare"
