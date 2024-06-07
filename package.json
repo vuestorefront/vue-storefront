@@ -3,11 +3,12 @@
   "private": true,
   "scripts": {
     "prepare": "husky install",
-    "build": "lerna run build",
-    "test": "lerna run test",
-    "test:unit": "lerna run test:unit",
-    "test:integration": "lerna run test:integration",
-    "lint": "lerna run lint",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:unit": "turbo run test:unit",
+    "test:integration": "turbo run test:integration",
+    "lint": "turbo run lint",
+    "ci": "turbo run build test:unit test:integration lint",
     "changesets:version": "yarn changeset version && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install && yarn prepare:docs",
     "changesets:publish": "yarn build && yarn changeset publish",
     "prepare:docs": "cd docs && yarn install && yarn api-extract && yarn add-changelogs",
@@ -43,6 +44,6 @@
     ]
   },
   "engines": {
-    "node": ">=12.x"
+    "node": ">=18"
   }
 }
