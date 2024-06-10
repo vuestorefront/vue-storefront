@@ -20,7 +20,7 @@
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
-    "@vue-storefront/middleware": "^4.0.0"
+    "@vue-storefront/middleware": "^4.1.0"
   },
   "publishConfig": {
     "access": "public"
