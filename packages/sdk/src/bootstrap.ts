@@ -50,7 +50,7 @@ export const initSDK = <T extends SDKConfig>(sdkConfig: T): SDKApi<T> => {
       their property descriptors. The problem is that non-writeable and non-configurable properties cannot be altered by Proxy.
       See step 10 of the below algorithm
       https://262.ecma-international.org/8.0/#sec-proxy-object-internal-methods-and-internal-slots-get-p-receiver
-    
+
       Due to this, we recreate connector but without property descriptors.
     */
 

@@ -4,6 +4,7 @@
   "scripts": {
     "prepare": "husky install",
     "build": "lerna run build",
+    "build:middleware": "cd packages/middleware && yarn build",
     "test": "lerna run test",
     "test:unit": "lerna run test:unit",
     "test:integration": "lerna run test:integration",

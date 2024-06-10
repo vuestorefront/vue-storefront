@@ -8,10 +8,13 @@ export type GetSdkContext = {
   getRequestHeaders?: () =>
     | Record<string, string | string[] | undefined>
     | Headers;
+  buildId?: string;
 };
 
 export type DynamicContext = {
-  getRequestHeaders: () => Record<string, string | string[]>;
+  getRequestHeaders: (
+    headers?: Record<string, string | unknown>
+  ) => Record<string, string | string[]>;
 };
 
 export type StaticContext = {

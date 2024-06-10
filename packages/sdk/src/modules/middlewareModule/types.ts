@@ -280,3 +280,35 @@ export type Methods<Endpoints extends EndpointsConstraint> = {
     ...params: [...Parameters<Endpoints[Key]>, config?: MethodConfig]
   ) => ReturnType<Endpoints[Key]>;
 };
+
+/**
+ * Represents an extension of the `EndpointsConstraint` type.
+ * It allows for additional methods to be added to the endpoints, with their names specified by the `MethodNames` type parameter.
+ * The methods can be of any function type, as indicated by the `AnyFunction` type.
+ *
+ * @template Endpoints - A type that extends `EndpointsConstraint`, representing the existing endpoints.
+ * @template MethodNames - A string type representing the names of additional methods to be added to the endpoints. Defaults to `string`.
+ *
+ * @property {[K in keyof Endpoints | MethodNames]: AnyFunction} - A mapped type, where each key is either a key of `Endpoints` or a `MethodNames` value, and each value is a function of any type.
+ */
+export type ExtendedConfigEndpoints<
+  Endpoints extends EndpointsConstraint,
+  MethodNames extends string = string
+> = {
+  [K in keyof Endpoints | MethodNames]: AnyFunction;
+};
+
+/**
+ * Represents the configuration for methods in the SDK.
+ * It is derived from the `Options` type, specifically the `methodsRequestConfig` property.
+ * The `Endpoints` type parameter represents the existing endpoints, while the `MethodNames` type parameter represents additional methods.
+ *
+ * @template Endpoints - A type that extends `EndpointsConstraint`, representing the existing endpoints.
+ * @template MethodNames - A string type representing the names of additional methods to be added to the endpoints. Defaults to `string`.
+ */
+export type MethodsConfig<
+  Endpoints extends EndpointsConstraint,
+  MethodNames extends string = string
+> = Options<
+  ExtendedConfigEndpoints<Endpoints, MethodNames>
+>["methodsRequestConfig"];
