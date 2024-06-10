@@ -4,18 +4,23 @@
 export type StoreConfig = Record<string, any>;
 
 /**
+ * Utility for typing functions which can be defined as either async or sync.
+ */
+type MaybePromise<T> = T | Promise<T>;
+
+/**
  * Cache manager is responsible for caching configuration and retreiving configuration from cache.
  */
 export interface CacheManager {
   /**
    * Gets a store configuration from cache storage based on the `key` value.
    */
-  get(key: string): StoreConfig | undefined;
+  get(key: string): MaybePromise<StoreConfig | undefined>;
 
   /**
    * Sets a store configuration in the cache storage with identifier equals `key` value.
    */
-  set(key: string, value: StoreConfig): unknown;
+  set(key: string, value: StoreConfig): MaybePromise<unknown>;
 }
 
 /**
@@ -40,7 +45,7 @@ export interface MultistoreExtensionMethods {
    */
   fetchConfiguration: (params: {
     domain: string;
-  }) => Record<string, StoreConfig>;
+  }) => MaybePromise<Record<string, StoreConfig>>;
 }
 
 /**
