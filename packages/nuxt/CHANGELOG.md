@@ -1,5 +1,11 @@
 # Change log
 
+## 3.1.1
+
+### Patch Changes
+
+- **[FIXED]** Using the runtime config is now working properly. You can use `NUXT_PUBLIC_VSF_MIDDLEWARE_API_URL`, `NUXT_PUBLIC_VSF_MIDDLEWARE_SSR_API_URL` and `NUXT_PUBLIC_VSF_MULTISTORE_ENABLED` environments variables to define config in the runtime.
+
 ## 3.1.0
 
 - **[ADDED]** `middlewareModule` to `defineSdkConfig` params.
