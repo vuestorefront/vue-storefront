@@ -30,7 +30,7 @@ const moduleConfig: SdkModuleOptions = <%= options.moduleConfig %>;
   *   ContentfulModuleType,
   * } from "@vsf-enterprise/contentful-sdk";
   * import type { UnifiedApiEndpoints } from "../storefront-middleware/types";
-  * 
+  *
   * export default defineSdkConfig(
   *   ({ buildModule, middlewareModule, middlewareUrl, getCookieHeader }) => ({
   *     unified: buildModule(middlewareModule<UnifiedApiEndpoints>, {
@@ -48,15 +48,10 @@ export function defineSdkConfig<TConfig>(config: Config<TConfig>) {
   return () => {
     const nuxtApp = useNuxtApp()
     const runtimeConfig = useRuntimeConfig();
-    const { middleware, multistore } = runtimeConfig.public;
-    const resolvedOptions = {
-      middleware: middleware ?? moduleConfig.middleware,
-      multistore: multistore ?? moduleConfig.multistore,
-    }
 
     const requestHeaders = useRequestHeaders(["x-forwarded-host", "host"]);
     const middlewareUrl = composeMiddlewareUrl({
-      options: resolvedOptions,
+      options: runtimeConfig.public.vsf,
       headers: requestHeaders,
     });
 

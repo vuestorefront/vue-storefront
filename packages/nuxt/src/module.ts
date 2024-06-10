@@ -9,6 +9,7 @@ import {
 } from "@nuxt/kit";
 import { genInlineTypeImport } from "knitwork";
 import { type SdkModuleOptions } from "./types";
+import { defu } from "defu";
 
 export default defineNuxtModule<SdkModuleOptions>({
   meta: {
@@ -32,6 +33,11 @@ export default defineNuxtModule<SdkModuleOptions>({
     const projectRootResolver = createResolver(projectLayer.config.rootDir);
     const buildDirResolver = createResolver(nuxt.options.buildDir);
     const localResolver = createResolver(import.meta.url);
+
+    nuxt.options.runtimeConfig.public.vsf = defu(
+      nuxt.options.runtimeConfig.public?.vsf as any,
+      options
+    );
 
     nuxt.options.app.head.meta = [
       ...(nuxt.options.app.head.meta ?? []),
