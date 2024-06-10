@@ -12,5 +12,6 @@ module.exports = {
   rules: {
     complexity: 0,
     "max-statements": "off",
+    "max-lines-per-function": "off",
   },
 };
