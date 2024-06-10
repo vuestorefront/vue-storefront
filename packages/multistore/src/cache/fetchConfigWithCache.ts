@@ -3,18 +3,18 @@ import { FetchConfigWithCacheParams } from "../types";
 /**
  * Returns cached configuration or fetches and caches new configuration if cache is not valid.
  */
-export const fetchConfigWithCache = ({
+export const fetchConfigWithCache = async ({
   cacheManager,
   domain,
   multistore,
 }: FetchConfigWithCacheParams) => {
-  const cachedConfiguration = cacheManager.get(domain);
+  const cachedConfiguration = await cacheManager.get(domain);
 
   if (cachedConfiguration) {
     return cachedConfiguration;
   }
 
-  const fetchedConfiguration = multistore.fetchConfiguration({ domain });
+  const fetchedConfiguration = await multistore.fetchConfiguration({ domain });
 
   Object.entries(fetchedConfiguration).forEach(
     ([configDomain, domainConfiguration]) => {
