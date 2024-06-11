@@ -45,8 +45,5 @@
   },
   "engines": {
     "node": ">=12.x"
-  },
-  "resolutions": {
-    "@vue-storefront/sdk": "file:./packages/sdk"
   }
 }
