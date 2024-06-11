@@ -16,8 +16,11 @@ module.exports = {
   rules: {
     // prefer `import type` https://typescript-eslint.io/rules/consistent-type-imports/
     "@typescript-eslint/consistent-type-imports": "error",
-    // enforce PascalCase for React components https://github.com/dolsem/eslint-plugin-filename-rules
-    "filename-rules/match": ["error", { ".tsx": "pascalcase" }],
+    // enforce kebab-case for file naming https://github.com/dolsem/eslint-plugin-filename-rules
+    "filename-rules/match": [
+      "error",
+      { ".ts": "kebabcase", ".tsx": "kebabcase" },
+    ],
     // sort keys in JSON files https://eslint.org/docs/latest/rules/sort-keys
     "jsonc/sort-keys": ["error"],
     // https://eslint.org/docs/latest/rules/no-restricted-imports
@@ -105,6 +108,14 @@ module.exports = {
             fixerMessage: " TODO: Add JSDoc comment",
           },
         ],
+      },
+    },
+    {
+      // allow different case for root directory files
+      excludedFiles: ["*/*"],
+      files: "*",
+      rules: {
+        "filename-rules/match": "off",
       },
     },
   ],
