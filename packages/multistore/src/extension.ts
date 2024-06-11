@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Request } from "express";
+import type { Request } from "express";
 import { ApiClientExtension } from "@vue-storefront/middleware";
 import { MultistoreExtensionMethods } from "./types";
 import { resolveDomain } from "./resolve/resolveDomain";

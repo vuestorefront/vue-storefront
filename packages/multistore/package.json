@@ -22,6 +22,9 @@
   "dependencies": {
     "@vue-storefront/middleware": "^4.1.0"
   },
+  "devDependencies": {
+    "express": "^4.18.1"
+  },
   "publishConfig": {
     "access": "public"
   }

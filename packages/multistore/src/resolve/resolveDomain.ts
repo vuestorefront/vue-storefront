@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Request } from "express";
+import type { Request } from "express";
 
 /**
  * Resolves domain for client to server and server to server communications.
