@@ -1,3 +1,4 @@
+import type { Request } from "express";
 import { ApiClientExtension } from "@vue-storefront/middleware";
 import { MultistoreExtensionMethods } from "./types";
 import { resolveDomain } from "./resolve/resolveDomain";
@@ -18,12 +19,12 @@ export const createMultistoreExtension = (
         validateMultistoreMethods(requiredMethod, multistoreConfig);
       });
     },
-    hooks: (req) => {
+    hooks: (req: Request) => {
       return {
-        beforeCreate: ({ configuration: baseConfig }) => {
+        beforeCreate: async ({ configuration: baseConfig }) => {
           const domain = resolveDomain(req);
 
-          const storeConfiguration = fetchConfigWithCache({
+          const storeConfiguration = await fetchConfigWithCache({
             cacheManager,
             domain,
             multistore: multistoreConfig,

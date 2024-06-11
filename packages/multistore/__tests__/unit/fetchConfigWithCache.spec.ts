@@ -22,22 +22,26 @@ describe("[MultiStoreExtension] fetchConfigWithCache utility function", () => {
     jest.resetAllMocks();
   });
 
-  it("gets configuration from cache", () => {
+  it("gets configuration from cache", async () => {
     const [domain, storeConfig] = Object.entries(FETCH_RESPONSE)[0];
     cacheManager.get.mockReturnValue(storeConfig);
 
-    const res = fetchConfigWithCache({ cacheManager, domain, multistore });
+    const res = await fetchConfigWithCache({
+      cacheManager,
+      domain,
+      multistore,
+    });
 
     expect(cacheManager.get).toBeCalledWith(domain);
     expect(multistore.fetchConfiguration).not.toBeCalled();
     expect(res).toEqual(storeConfig);
   });
 
-  it("fetches new configuration there is no cache, and caches it", () => {
+  it("fetches new configuration there is no cache, and caches it", async () => {
     multistore.fetchConfiguration.mockReturnValue(FETCH_RESPONSE);
     const [domain, storeConfig] = Object.entries(FETCH_RESPONSE)[0];
 
-    const res = fetchConfigWithCache({
+    const res = await fetchConfigWithCache({
       cacheManager,
       domain,
       multistore,
