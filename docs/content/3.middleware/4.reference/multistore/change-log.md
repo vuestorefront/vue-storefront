@@ -1,5 +1,28 @@
 # Change log
 
+## 4.1.0
+
+### Minor Changes
+
+- **[ADDED]** Support for asynchronous `fetchConfiguration()` and cacheManagerFactory's `get()` / `set()` methods.
+
+```diff
+import { createMultistoreExtension } from "@vue-storefront/multistore";
+
+export const multistoreExtension = createMultistoreExtension({
+- fetchConfiguration: () => ({
++ fetchConfiguration: async () => ({ ... }),
+  mergeConfigurations: () => ({ ... }),
+  cacheManagerFactory: () => ({
+-   get(key) { ... },
++   async get(key) { ... },
+-   set(key, value) { ... },
++   async set(key, value) { ... },
+  }),
+});
+
+```
+
 ## 4.0.0
 
 ### Major Changes
