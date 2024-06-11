@@ -52,6 +52,13 @@ export function createSdk<TConfig extends Record<string, any>>(
       options,
       headers: getRequestHeaders(),
     });
+    if (dynamicContext.buildId && typeof dynamicContext.buildId === "string") {
+      middlewareModule({
+        buildId: dynamicContext.buildId,
+        apiUrl: null,
+        cdnCacheBustingId: null,
+      });
+    }
 
     const resolvedConfig = configDefinition({
       defaults: contextConfig,

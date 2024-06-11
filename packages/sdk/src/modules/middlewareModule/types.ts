@@ -264,6 +264,11 @@ export type Options<
    * Unique identifier for CDN cache busting.
    */
   cdnCacheBustingId: string;
+
+  /**
+   * Dedicated property to control request caching.
+   */
+  buildId?: string;
 };
 
 /**
