@@ -1,5 +1,11 @@
 # @vue-storefront/eslint-config
 
+## 3.1.3
+
+### Patch Changes
+
+- **[CHANGED]** Filename casing lint rule in `@vue-storefront/eslint-config/next`. From now kebab-case is preferred for filenames.
+
 ## 3.1.2
 
 ### Patch Changes
