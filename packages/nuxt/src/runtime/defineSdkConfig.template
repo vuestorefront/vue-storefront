@@ -54,7 +54,7 @@ export function defineSdkConfig<TConfig>(config: Config<TConfig>, dynamicContext
       multistore: multistore ?? moduleConfig.multistore,
     }
 
-    const requestHeaders = useRequestHes(["x-forwarded-host", "host"]);
+    const requestHeaders = useRequestHeaders(["x-forwarded-host", "host"]);
     const middlewareUrl = composeMiddlewareUrl({
       options: resolvedOptions,
       headers: requestHeaders,
