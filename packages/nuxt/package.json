@@ -41,5 +41,8 @@
     "nuxt": "3.7.4",
     "start-server-and-test": "^2.0.3",
     "vitest": "^0.34.6"
+  },
+  "resolutions": {
+    "semver": "7.3.2"
   }
 }
