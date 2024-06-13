@@ -55,8 +55,8 @@ export function createSdk<TConfig extends Record<string, any>>(
     if (dynamicContext.buildId && typeof dynamicContext.buildId === "string") {
       middlewareModule({
         buildId: dynamicContext.buildId,
-        apiUrl: null,
-        cdnCacheBustingId: null,
+        apiUrl: "",
+        cdnCacheBustingId: "",
       });
     }
 
