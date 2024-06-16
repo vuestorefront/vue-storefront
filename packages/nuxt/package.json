@@ -30,7 +30,7 @@
   "dependencies": {
     "@nuxt/kit": "^3.7.4",
     "@nuxt/schema": "^3.7.4",
-    "@vue-storefront/sdk": "^1.4.0",
+    "@vue-storefront/sdk": "^3.0.0",
     "knitwork": "^1.0.0",
     "defu": "^6.0.0"
   },

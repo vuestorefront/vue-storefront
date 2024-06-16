@@ -263,7 +263,7 @@ export type Options<
   /**
    * Unique identifier for CDN cache busting.
    */
-  cdnCacheBustingId: string;
+  cdnCacheBustingId?: string;
 };
 
 /**
