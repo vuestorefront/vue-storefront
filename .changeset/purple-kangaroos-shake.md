@@ -1,5 +1,5 @@
 ---
-"@vue-storefront/nuxt": minor
+"@vue-storefront/nuxt": major
 "@vue-storefront/sdk": minor
 ---
 
