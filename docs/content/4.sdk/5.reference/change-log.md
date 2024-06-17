@@ -1,5 +1,11 @@
 # Change log
 
+## 3.1.0
+
+### Minor Changes
+
+- **[CHANGED]** cdnCacheBustingId is now optional
+
 ## 3.0.0
 
 ### Major Changes

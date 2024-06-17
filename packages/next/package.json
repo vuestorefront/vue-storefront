@@ -2,7 +2,7 @@
   "name": "@vue-storefront/next",
   "description": "Vue Storefront dedicated features for Next.js",
   "license": "MIT",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
@@ -43,7 +43,7 @@
     "test:unit": "vitest run"
   },
   "dependencies": {
-    "@vue-storefront/sdk": "^3.0.0"
+    "@vue-storefront/sdk": "^3.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.31",
