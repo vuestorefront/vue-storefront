@@ -1,5 +1,17 @@
 # Change log
 
+## 4.0.0
+
+### Major Changes
+
+- **[CHANGED]** Updated core sdk dependency to latest version
+- **[ADDED]** Added .config parameter in createSdk callback
+
+### Patch Changes
+
+- Updated dependencies:
+  - @vue-storefront/sdk@3.1.0
+
 ## 3.1.1
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # Change log
 
+## 2.1.0
+
+### Minor Changes
+
+- **[ADDED]** Added .config parameter in createSdk callback
+
+### Patch Changes
+
+- Updated dependencies:
+  - @vue-storefront/sdk@3.1.0
+
 ## 2.0.1
 
 ### Patch Changes

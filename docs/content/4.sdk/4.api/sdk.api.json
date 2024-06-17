@@ -2705,7 +2705,7 @@
             },
             {
               "kind": "Content",
-              "text": ";\n    cdnCacheBustingId: string;\n}"
+              "text": ";\n    cdnCacheBustingId?: string;\n}"
             },
             {
               "kind": "Content",
