@@ -11395,11 +11395,6 @@ ip-address@^9.0.5:
     jsbn "1.1.0"
     sprintf-js "^1.1.3"
 
-ip@^1.1.5:
-  version "1.1.9"
-  resolved "https://registry.yarnpkg.com/ip/-/ip-1.1.9.tgz#8dfbcc99a754d07f425310b86a99546b1151e396"
-  integrity sha512-cyRxvOEpNHNtchU3Ln9KC/auJgup87llfQpQ+t5ghoC/UhL16SWzbueiCsdTnWmqAWl7LadfuwhlqmtOaqMHdQ==
-
 ipaddr.js@1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.9.1.tgz#bff38543eeb8984825079ff3a2a8e6cbd46781b3"
@@ -17933,15 +17928,7 @@ socks-proxy-agent@^8.0.3:
     debug "^4.3.4"
     socks "^2.7.1"
 
-socks@^2.6.2:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/socks/-/socks-2.6.2.tgz#ec042d7960073d40d94268ff3bb727dc685f111a"
-  integrity sha512-zDZhHhZRY9PxRruRMR7kMhnf3I8hDs4S3f9RecfnGxvcBHQcKcIH/oUcEWffsfl1XxdYlA7nnlGbbTvPz9D8gA==
-  dependencies:
-    ip "^1.1.5"
-    smart-buffer "^4.2.0"
-
-socks@^2.7.1:
+socks@^2.6.2, socks@^2.7.1:
   version "2.8.3"
   resolved "https://registry.yarnpkg.com/socks/-/socks-2.8.3.tgz#1ebd0f09c52ba95a09750afe3f3f9f724a800cb5"
   integrity sha512-l5x7VUUWbjVFbafGLxPWkYsHIhEvmF85tbIeFZWc8ZPtoMyybuEhL7Jye/ooC4/d48FgOjSJXgsF/AJPYCW8Zw==
