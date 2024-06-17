@@ -22,7 +22,7 @@ export const getRequestSender = (options: Options): RequestSender => {
     ssrApiUrl,
     defaultRequestConfig = {},
     methodsRequestConfig = {},
-    cdnCacheBustingId,
+    cdnCacheBustingId = undefined,
   } = options;
 
   const getUrl = (
@@ -48,9 +48,11 @@ export const getRequestSender = (options: Options): RequestSender => {
     // If there are query params, append them to the URL as `?body=[<strignified query params>]`
     const serializedBody = encodeURIComponent(JSON.stringify(params));
     // Serialize CDN cache busting ID
-    const serializedCdnCacheBustingId = encodeURIComponent(cdnCacheBustingId);
+    const serializedCdnCacheBustingId = cdnCacheBustingId
+      ? `&cdnCacheBustingId=${encodeURIComponent(cdnCacheBustingId)}`
+      : "";
 
-    return `${url}?body=${serializedBody}&cdnCacheBustingId=${serializedCdnCacheBustingId}`;
+    return `${url}?body=${serializedBody}${serializedCdnCacheBustingId}`;
   };
 
   const getConfig = (

@@ -67,6 +67,12 @@ export type SdkConfig = ${genInlineTypeImport(
       from: localResolver.resolve("./runtime/utils/composeMiddlewareUrl"),
     });
 
+    addImports({
+      name: "getDefaults",
+      as: "getDefaults",
+      from: localResolver.resolve("./runtime/utils/defaults"),
+    });
+
     addTemplate({
       src: localResolver.resolve("./runtime/useSdk.template"),
       filename: "useSdk.ts",
