@@ -12,7 +12,11 @@ type InjectedContext = {
    */
   getCookieHeader: () => Record<string, string>;
   getRequestHeaders: () => Record<string, string>;
-  defaults: ReturnType<typeof getDefaults>
+  defaults: ReturnType<typeof getDefaults>;
+  config: {
+    middlewareUrl: string;
+    defaults: ReturnType<typeof getDefaults>;
+  };
 };
 
 type Config<TConfig> = (context: InjectedContext) => TConfig;
@@ -62,10 +66,14 @@ export function defineSdkConfig<TConfig>(config: Config<TConfig>) {
     return config({
       buildModule,
       middlewareModule,
-      middlewareUrl,
       getCookieHeader,
       getRequestHeaders,
-      defaults: getDefaults()
+      defaults: getDefaults(),
+      middlewareUrl,
+      config: {
+        defaults: getDefaults(),
+        middlewareUrl,
+      }
     });
   }
 }

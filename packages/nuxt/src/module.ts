@@ -68,12 +68,6 @@ export type SdkConfig = ${genInlineTypeImport(
     });
 
     addImports({
-      name: "composeMiddlewareUrl",
-      as: "composeMiddlewareUrl",
-      from: localResolver.resolve("./runtime/utils/composeMiddlewareUrl"),
-    });
-
-    addImports({
       name: "getDefaults",
       as: "getDefaults",
       from: localResolver.resolve("./runtime/utils/defaults"),

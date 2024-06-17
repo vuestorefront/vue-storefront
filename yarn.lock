@@ -5038,11 +5038,6 @@
     rollup "^2.59.0"
     rollup-plugin-typescript2 "^0.35.0"
 
-"@vue-storefront/sdk@^1.4.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/sdk/-/sdk-1.5.0.tgz#f283eb57a5113e355206a0590dab874a6739e8e8"
-  integrity sha512-dV6CBCx3XcEdd9EmAtvyY5sPecRMYMDCpMcbbDKvRgzAh+VjCjvSr11PvRqHx3lSYeKQcQdQZtgkk95lEz07YQ==
-
 "@vue-storefront/theme-utilities@^0.2.0":
   version "0.2.0"
   resolved "https://registry.npmjs.org/@vue-storefront/theme-utilities/-/theme-utilities-0.2.0.tgz#c4dde4801c4413b51e354d9b0df7064d34c9572e"

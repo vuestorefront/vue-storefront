@@ -58,7 +58,11 @@ export function createSdk<TConfig extends Record<string, any>>(
       buildModule,
       middlewareModule,
       getRequestHeaders,
-      middlewareUrl
+      middlewareUrl,
+      config: {
+        middlewareUrl,
+        defaults: contextConfig,
+      }
     });
 
     return initSDK(resolvedConfig);

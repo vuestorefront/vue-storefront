@@ -19,6 +19,10 @@ export type StaticContext = {
   middlewareModule: typeof middlewareModule;
   middlewareUrl: string;
   defaults: typeof contextConfig;
+  config: {
+    middlewareUrl: string;
+    defaults: typeof contextConfig;
+  };
 };
 
 type InjectedContext = DynamicContext & StaticContext;
