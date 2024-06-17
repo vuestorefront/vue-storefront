@@ -1,5 +1,11 @@
 # Change log
 
+## 4.0.1
+
+### Patch Changes
+
+- **[CHANGED]** shared package wasn't being bundled with the release of the package
+
 ## 4.0.0
 
 ### Major Changes
