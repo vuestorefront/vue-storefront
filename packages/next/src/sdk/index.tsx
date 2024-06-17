@@ -46,19 +46,26 @@ export function createSdk<TConfig extends Record<string, any>>(
   options: CreateSdkOptions,
   configDefinition: Config<TConfig>
 ): CreateSdkReturn<TConfig> {
-  function getSdk(dynamicContext: GetSdkContext = { }) {
+  function getSdk(dynamicContext: GetSdkContext = {}) {
     const { getRequestHeaders } = resolveDynamicContext(dynamicContext);
     const middlewareUrl = composeMiddlewareUrl({
       options,
       headers: getRequestHeaders(),
     });
+    if (dynamicContext.buildId && typeof dynamicContext.buildId === "string") {
+      middlewareModule({
+        buildId: dynamicContext.buildId,
+        apiUrl: "",
+        cdnCacheBustingId: "",
+      });
+    }
 
     const resolvedConfig = configDefinition({
       defaults: contextConfig,
       buildModule,
       middlewareModule,
       getRequestHeaders,
-      middlewareUrl
+      middlewareUrl,
     });
 
     return initSDK(resolvedConfig);

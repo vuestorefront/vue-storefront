@@ -46,10 +46,15 @@ import { getRequestSender } from "./utils";
  * }));
  * ```
  */
+let storedBuildId: string | undefined;
 export const middlewareModule = <Endpoints extends EndpointsConstraint>(
   options: Options<Endpoints>
 ) => {
-  const requestSender = getRequestSender(options);
+  storedBuildId = options.buildId ?? storedBuildId;
+  const requestSender = getRequestSender({
+    ...options,
+    buildId: storedBuildId,
+  });
 
   return {
     connector: connector<Endpoints>(requestSender),

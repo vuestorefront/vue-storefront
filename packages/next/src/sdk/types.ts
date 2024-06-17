@@ -1,6 +1,7 @@
 import { SDKApi, buildModule, middlewareModule } from "@vue-storefront/sdk";
 import { ReactNode } from "react";
 import type { contextConfig } from "@storefront/shared";
+
 export type GetSdkContext = {
   /**
    * A function that returns the request headers.
@@ -8,6 +9,7 @@ export type GetSdkContext = {
   getRequestHeaders?: () =>
     | Record<string, string | string[] | undefined>
     | Headers;
+  buildId?: string;
 };
 
 export type DynamicContext = {

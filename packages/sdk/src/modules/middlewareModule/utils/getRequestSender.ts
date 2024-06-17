@@ -23,6 +23,7 @@ export const getRequestSender = (options: Options): RequestSender => {
     defaultRequestConfig = {},
     methodsRequestConfig = {},
     cdnCacheBustingId,
+    buildId,
   } = options;
 
   const getUrl = (
@@ -116,7 +117,11 @@ export const getRequestSender = (options: Options): RequestSender => {
     const methodConfig = methodsRequestConfig[methodName] || {};
     const finalMethod =
       method || methodConfig.method || defaultRequestConfig.method || "POST";
-    const finalUrl = getUrl(methodName, finalMethod, params);
+    const finalUrl = getUrl(
+      methodName,
+      finalMethod,
+      buildId ? [buildId, ...params] : params
+    );
     const finalParams = finalMethod === "GET" ? [] : params;
     const finalConfig = getConfig(
       { method: finalMethod, headers, ...restConfig },
