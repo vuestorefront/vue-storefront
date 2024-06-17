@@ -22,7 +22,7 @@ export const getRequestSender = (options: Options): RequestSender => {
     ssrApiUrl,
     defaultRequestConfig = {},
     methodsRequestConfig = {},
-    cdnCacheBustingId = "not-set",
+    cdnCacheBustingId = null,
   } = options;
 
   const getUrl = (
