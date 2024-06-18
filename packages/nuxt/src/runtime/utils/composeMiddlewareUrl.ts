@@ -39,7 +39,6 @@ function removeTrailingSlash(url: string) {
 }
 
 /**
- *
  * @description A helper function to compute the middleware url. It will be used only internally in the package
  */
 export function composeMiddlewareUrl({
