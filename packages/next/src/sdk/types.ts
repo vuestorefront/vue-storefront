@@ -1,6 +1,7 @@
+/* eslint-disable no-secrets/no-secrets */
 import { SDKApi, buildModule, middlewareModule } from "@vue-storefront/sdk";
 import { ReactNode } from "react";
-import type { contextConfig } from "@storefront/shared";
+import type { defaultMethodsRequestConfig } from "@storefront/shared";
 export type GetSdkContext = {
   /**
    * A function that returns the request headers.
@@ -17,11 +18,18 @@ export type DynamicContext = {
 export type StaticContext = {
   buildModule: typeof buildModule;
   middlewareModule: typeof middlewareModule;
+  /**
+   * @deprecated Use `config.middlewareUrl` instead.
+   */
   middlewareUrl: string;
-  defaults: typeof contextConfig;
+  /**
+   * @deprecated Use `config.defaultMethodsRequestConfig` instead.
+   */
+  defaults: typeof defaultMethodsRequestConfig;
   config: {
     middlewareUrl: string;
-    defaults: typeof contextConfig;
+    defaultMethodsRequestConfig: typeof defaultMethodsRequestConfig;
+    cdnCacheBustingId: string;
   };
 };
 
