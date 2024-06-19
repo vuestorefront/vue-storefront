@@ -79,10 +79,10 @@ export function defineSdkConfig<TConfig>(config: Config<TConfig>) {
       middlewareModule,
       getCookieHeader,
       getRequestHeaders,
-      defaults: getDefaults(),
+      defaults: getDefaultMethodsRequestConfig(),
       middlewareUrl,
       config: {
-        defaults: getDefaults(),
+        defaultMethodsRequestConfig: getDefaultMethodsRequestConfig(),
         middlewareUrl,
         cdnCacheBustingId: runtimeConfig.public.alokai.middleware.cdnCacheBustingId,
       }
