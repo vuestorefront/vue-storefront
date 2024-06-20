@@ -81,3 +81,31 @@ export function createSdk<TConfig extends Record<string, any>>(
     getSdk,
   };
 }
+
+/**
+ * Creates a configuration definition for the SDK.
+ * @param config The configuration definition for the SDK.
+ * @returns An object containing SDK configuration
+ * @example
+ * ```tsx
+ * const config = defineSdkConfig(
+ *   ({ buildModule, middlewareModule, config, getRequestHeaders }) => ({
+ *     unified: buildModule(middlewareModule<UnifiedApiEndpoints>, {
+ *       apiUrl: config.middlewareUrl + "/commerce",
+ *       cdnCacheBustingId: config.cdnCacheBustingId,
+ *       defaultRequestConfig: {
+ *         headers: getRequestHeaders(),
+ *       },
+ *       methodsRequestConfig: config.defaultMethodsRequestConfig.unifiedCommerce.middlewareModule,
+ *     }),
+ *     contentful: buildModule(contentfulModule, {
+ *       apiUrl: config.middlewareUrl + "/cntf",
+ *     }),
+ *   })
+ * );
+ */
+export function defineSdkConfig<TConfig extends Record<string, any>>(
+  config: Config<TConfig>
+) {
+  return config;
+}

@@ -23,12 +23,12 @@ import { CreateSdkContextReturn, SdkProviderProps } from "./types";
  * Finally you can use the `useSdk` in any client component of your application.
  * @returns [SdkProvider, useSdk] - The SDK provider and the `useSdk` hook.
  */
-export function createSdkContext<TSdk extends SDKApi<any>>(
-  sdk: TSdk
-): CreateSdkContextReturn<TSdk> {
-  const SdkContext = createContext<TSdk>(sdk);
+export function createSdkContext<
+  TSdk extends SDKApi<any>
+>(): CreateSdkContextReturn<TSdk> {
+  const SdkContext = createContext<TSdk>(null);
 
-  function SdkProvider({ children }: SdkProviderProps) {
+  function SdkProvider({ children, sdk }: SdkProviderProps<TSdk>) {
     return (
       <SdkContext.Provider value={sdk}>
         {/* an universal approach to add meta tag */}
