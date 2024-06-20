@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSdk } from "../hooks";
+import { useSdk } from "../sdk/sdk-provider";
 
 export default function ClientPage() {
   const sdk = useSdk();

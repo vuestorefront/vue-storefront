@@ -1,5 +1,5 @@
 import { headers } from "next/headers";
-import { getSdk } from "../../sdk.config";
+import { getSdk } from "../../sdk/sdk.server";
 
 export default async function SsrPage() {
   const pageData = await getSdk({

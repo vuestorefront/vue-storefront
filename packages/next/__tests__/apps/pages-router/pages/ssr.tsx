@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import { getSdk } from "../sdk.config";
+import { getSdk } from "../sdk/sdk.server";
 
 export default function SsrPage({ result }: any) {
   return (
