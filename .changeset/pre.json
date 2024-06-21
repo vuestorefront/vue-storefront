@@ -1,0 +1,28 @@
+{
+  "mode": "pre",
+  "tag": "rc",
+  "initialVersions": {
+    "@vue-storefront/api-extractor-config": "1.0.0",
+    "@vue-storefront/eslint-config": "3.1.3",
+    "@vue-storefront/eslint-config-integrations": "1.0.1",
+    "@vue-storefront/integrations-tsconfig": "1.0.0",
+    "@vue-storefront/jest-config": "1.0.2",
+    "@vue-storefront/prettier-config": "2.0.0",
+    "@vue-storefront/rollup-config": "1.0.0",
+    "@vue-storefront/changesets": "2.0.0",
+    "@vue-storefront/cli": "5.0.0",
+    "@vue-storefront/middleware": "4.1.0",
+    "@vue-storefront/multistore": "4.1.0",
+    "@vue-storefront/next": "2.1.0",
+    "@vue-storefront/nuxt": "4.0.1",
+    "@vue-storefront/sdk": "3.1.0",
+    "@vue-storefront/sdk-axios-request-sender": "2.0.0",
+    "@storefront/shared": "0.0.1"
+  },
+  "changesets": [
+    "eight-maps-invite",
+    "hot-garlics-wonder",
+    "rare-brooms-invite",
+    "rotten-berries-switch"
+  ]
+}
