@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { PublicEnvScript } from 'next-runtime-env';
+import { PublicEnvProvider } from 'next-runtime-env';
 import { Providers } from "./providers";
 import { getSdkOptions } from "../sdk/options";
 
@@ -9,9 +9,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <PublicEnvScript />
       </head>
       <body>
+        <PublicEnvProvider>
         <nav>
           <ul>
             <li>
@@ -22,7 +22,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </li>
           </ul>
         </nav>
-        <Providers sdkOptions={sdkOptions}>{children}</Providers>
+          <Providers sdkOptions={sdkOptions}>{children}</Providers>
+        </PublicEnvProvider>
       </body>
     </html>
   );
