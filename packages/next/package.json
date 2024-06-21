@@ -30,8 +30,8 @@
   ],
   "scripts": {
     "build": "tsup && yarn build:app-router && yarn build:pages-router",
-    "build:app-router": "cd __tests__/apps/app-router && yarn build",
-    "build:pages-router": "cd __tests__/apps/pages-router && yarn build",
+    "build:app-router": "cd __tests__/apps/app-router && yarn install && yarn build",
+    "build:pages-router": "cd __tests__/apps/pages-router && yarn install && yarn build",
     "dev:app-router": "cd __tests__/apps/app-router && yarn dev",
     "dev:pages-router": "cd __tests__/apps/pages-router && yarn dev",
     "dev:middleware": "cd ../shared/src/__tests__/middleware && yarn dev",
