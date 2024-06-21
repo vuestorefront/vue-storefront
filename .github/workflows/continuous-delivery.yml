@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
-      
+      - ci/pre-release-no-hardcoded-env
+
 jobs:
   release-packages:
     name: "Release NPM Packages"
