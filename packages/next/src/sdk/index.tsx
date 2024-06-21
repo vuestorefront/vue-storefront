@@ -1,6 +1,6 @@
 import {
   composeMiddlewareUrl,
-  contextConfig,
+  defaultMethodsRequestConfig,
   type CreateSdkOptions,
 } from "@storefront/shared";
 import { buildModule, initSDK, middlewareModule } from "@vue-storefront/sdk";
@@ -23,20 +23,27 @@ export type { CreateSdkOptions } from "@storefront/shared";
  * const options: CreateSdkOptions = {
  *   middleware: {
  *     apiUrl: "http://localhost:4000",
+ *     ssrApiUrl: "http://localhost:4000",
+ *     cdnCacheBustingId: "no-cache-busting-id-set",
+ *   },
+ *   multistore: {
+ *    enabled: false,
  *   },
  * };
  *
  * export const { getSdk, createSdkContext } = createSdk(
  *   options,
- *   ({ buildModule, middlewareModule, middlewareUrl, getRequestHeaders }) => ({
+ *   ({ buildModule, middlewareModule, config, getRequestHeaders }) => ({
  *     unified: buildModule(middlewareModule<UnifiedApiEndpoints>, {
- *       apiUrl: middlewareUrl + "/commerce",
+ *       apiUrl: config.middlewareUrl + "/commerce",
+ *       cdnCacheBustingId: config.cdnCacheBustingId,
  *       defaultRequestConfig: {
  *         headers: getRequestHeaders(),
  *       },
+ *       methodsRequestConfig: config.defaultMethodsRequestConfig.unifiedCommerce.middlewareModule,
  *     }),
  *     contentful: buildModule(contentfulModule, {
- *       apiUrl: middlewareUrl + "/cntf",
+ *       apiUrl: config.middlewareUrl + "/cntf",
  *     }),
  *   }),
  * );
@@ -46,7 +53,7 @@ export function createSdk<TConfig extends Record<string, any>>(
   options: CreateSdkOptions,
   configDefinition: Config<TConfig>
 ): CreateSdkReturn<TConfig> {
-  function getSdk(dynamicContext: GetSdkContext = { }) {
+  function getSdk(dynamicContext: GetSdkContext = {}) {
     const { getRequestHeaders } = resolveDynamicContext(dynamicContext);
     const middlewareUrl = composeMiddlewareUrl({
       options,
@@ -54,15 +61,17 @@ export function createSdk<TConfig extends Record<string, any>>(
     });
 
     const resolvedConfig = configDefinition({
-      defaults: contextConfig,
+      defaults: defaultMethodsRequestConfig,
       buildModule,
       middlewareModule,
       getRequestHeaders,
       middlewareUrl,
       config: {
         middlewareUrl,
-        defaults: contextConfig,
-      }
+        defaultMethodsRequestConfig: defaultMethodsRequestConfig,
+        cdnCacheBustingId:
+          options.middleware.cdnCacheBustingId ?? "no-cache-busting-id-set",
+      },
     });
 
     return initSDK(resolvedConfig);
@@ -71,4 +80,32 @@ export function createSdk<TConfig extends Record<string, any>>(
   return {
     getSdk,
   };
+}
+
+/**
+ * Creates a configuration definition for the SDK.
+ * @param config The configuration definition for the SDK.
+ * @returns An object containing SDK configuration
+ * @example
+ * ```tsx
+ * const config = defineSdkConfig(
+ *   ({ buildModule, middlewareModule, config, getRequestHeaders }) => ({
+ *     unified: buildModule(middlewareModule<UnifiedApiEndpoints>, {
+ *       apiUrl: config.middlewareUrl + "/commerce",
+ *       cdnCacheBustingId: config.cdnCacheBustingId,
+ *       defaultRequestConfig: {
+ *         headers: getRequestHeaders(),
+ *       },
+ *       methodsRequestConfig: config.defaultMethodsRequestConfig.unifiedCommerce.middlewareModule,
+ *     }),
+ *     contentful: buildModule(contentfulModule, {
+ *       apiUrl: config.middlewareUrl + "/cntf",
+ *     }),
+ *   })
+ * );
+ */
+export function defineSdkConfig<TConfig extends Record<string, any>>(
+  config: Config<TConfig>
+) {
+  return config;
 }
