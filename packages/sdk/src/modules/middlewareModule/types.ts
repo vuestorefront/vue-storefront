@@ -164,7 +164,9 @@ export type ErrorHandler = (context: ErrorHandlerContext) => Promise<any>;
 /**
  * Options for the `middlewareModule`.
  */
-export type Options = {
+export type Options<
+  Endpoints extends EndpointsConstraint = EndpointsConstraint
+> = {
   /**
    * Base URL for the API.
    */
@@ -227,6 +229,11 @@ export type Options = {
   defaultRequestConfig?: RequestConfig;
 
   /**
+   * Default request confguration for each method.
+   */
+  methodsRequestConfig?: Partial<Record<keyof Endpoints, RequestConfig>>;
+
+  /**
    * An optional custom error handler for HTTP requests.
    *
    * @remarks
@@ -252,6 +259,11 @@ export type Options = {
    * ```
    */
   errorHandler?: ErrorHandler;
+
+  /**
+   * Unique identifier for CDN cache busting.
+   */
+  cdnCacheBustingId?: string;
 };
 
 /**

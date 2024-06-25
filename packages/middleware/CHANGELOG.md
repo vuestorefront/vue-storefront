@@ -1,5 +1,54 @@
 # Change log
 
+## 4.1.0
+
+### Minor Changes
+
+- **[CHANGED]** [Middleware extension](https://docs.alokai.com/middleware/guides/extensions) hooks and the [onCreate](https://docs.alokai.com/middleware/guides/api-client#creating-the-integration-client) function can now be asynchronous. Examples:
+
+```ts
+// middleware.config.ts
+const middlewareExtension = {
+  name: "example-extension",
+  hooks: () => ({
+    beforeCreate: async ({ configuration }) => Promise.resolve(configuration),
+    afterCreate: async ({ configuration }) => Promise.resolve(configuration),
+    beforeCall: async ({ args }) => Promise.resolve(args),
+    afterCall: async ({ response }) => Promise.resolve(response),
+  }),
+};
+```
+
+```ts
+// index.server.ts
+import { apiClientFactory } from "@vue-storefront/middleware";
+
+const { createApiClient } = apiClientFactory({
+  onCreate: async (config) =>
+    Promise.resolve({
+      config,
+      client: {},
+    }),
+  api: {},
+});
+
+export { createApiClient };
+```
+
+## 4.0.1
+
+### Patch Changes
+
+- **[CHANGED]** Fix typo in default error handler
+  Now the default error message for error responses bearing a 4xx status code will be
+  "Request failed with status code ${status}" instead of "Request faileds [...]".
+
+## 4.0.0
+
+### Major Changes
+
+- **[CHANGED]** Changed minimum Node version from 16 to 18. The condition that was forcing the Node version to be lower than 19 is also removed.
+
 ## 3.10.0
 
 ### Minor Changes

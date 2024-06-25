@@ -206,12 +206,21 @@
                 },
                 {
                   "kind": "Reference",
+                  "text": "MaybePromise",
+                  "canonicalReference": "@vue-storefront/multistore!~MaybePromise:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
                   "text": "StoreConfig",
                   "canonicalReference": "@vue-storefront/multistore!StoreConfig:type"
                 },
                 {
                   "kind": "Content",
-                  "text": " | undefined"
+                  "text": " | undefined>"
                 },
                 {
                   "kind": "Content",
@@ -221,7 +230,7 @@
               "isOptional": false,
               "returnTypeTokenRange": {
                 "startIndex": 3,
-                "endIndex": 5
+                "endIndex": 7
               },
               "releaseTag": "Public",
               "overloadIndex": 1,
@@ -264,8 +273,13 @@
                   "text": "): "
                 },
                 {
+                  "kind": "Reference",
+                  "text": "MaybePromise",
+                  "canonicalReference": "@vue-storefront/multistore!~MaybePromise:type"
+                },
+                {
                   "kind": "Content",
-                  "text": "unknown"
+                  "text": "<unknown>"
                 },
                 {
                   "kind": "Content",
@@ -275,7 +289,7 @@
               "isOptional": false,
               "returnTypeTokenRange": {
                 "startIndex": 5,
-                "endIndex": 6
+                "endIndex": 7
               },
               "releaseTag": "Public",
               "overloadIndex": 1,
@@ -322,7 +336,7 @@
             },
             {
               "kind": "Content",
-              "text": "{\n    name: string;\n    isNamespaced: false;\n    extendApp: () => void;\n    hooks: (req: import(\"express\")."
+              "text": "{\n    name: string;\n    isNamespaced: false;\n    extendApp: () => void;\n    hooks: (req: "
             },
             {
               "kind": "Reference",
@@ -331,34 +345,7 @@
             },
             {
               "kind": "Content",
-              "text": "<import(\"express-serve-static-core\")."
-            },
-            {
-              "kind": "Reference",
-              "text": "ParamsDictionary",
-              "canonicalReference": "@types/express-serve-static-core!ParamsDictionary:interface"
-            },
-            {
-              "kind": "Content",
-              "text": ", any, any, import(\"qs\")."
-            },
-            {
-              "kind": "Reference",
-              "text": "ParsedQs",
-              "canonicalReference": "@types/qs!QueryString.ParsedQs:interface"
-            },
-            {
-              "kind": "Content",
-              "text": ", "
-            },
-            {
-              "kind": "Reference",
-              "text": "Record",
-              "canonicalReference": "!Record:type"
-            },
-            {
-              "kind": "Content",
-              "text": "<string, any>>) => {\n        beforeCreate: ({ "
+              "text": ") => {\n        beforeCreate: ({ "
             },
             {
               "kind": "Reference",
@@ -376,7 +363,16 @@
             },
             {
               "kind": "Content",
-              "text": "<any>) => import(\"./types\")."
+              "text": "<any>) => "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<import(\"./types\")."
             },
             {
               "kind": "Reference",
@@ -385,13 +381,13 @@
             },
             {
               "kind": "Content",
-              "text": ";\n    };\n}"
+              "text": ">;\n    };\n}"
             }
           ],
           "fileUrlPath": "src/extension.ts",
           "returnTypeTokenRange": {
             "startIndex": 3,
-            "endIndex": 18
+            "endIndex": 14
           },
           "releaseTag": "Public",
           "overloadIndex": 1,
@@ -570,6 +566,15 @@
                 },
                 {
                   "kind": "Reference",
+                  "text": "MaybePromise",
+                  "canonicalReference": "@vue-storefront/multistore!~MaybePromise:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
                   "text": "Record",
                   "canonicalReference": "!Record:type"
                 },
@@ -584,7 +589,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": ">"
+                  "text": ">>"
                 },
                 {
                   "kind": "Content",
@@ -597,7 +602,7 @@
               "name": "fetchConfiguration",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 6
+                "endIndex": 8
               }
             },
             {

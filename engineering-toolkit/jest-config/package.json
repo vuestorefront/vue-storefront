@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/jest-config",
-  "version": "0.0.4",
+  "version": "1.0.2",
   "main": "./src/index.js",
   "license": "MIT",
   "types": "./src/index.d.ts",
@@ -27,5 +27,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

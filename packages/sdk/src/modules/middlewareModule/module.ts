@@ -47,7 +47,7 @@ import { getRequestSender } from "./utils";
  * ```
  */
 export const middlewareModule = <Endpoints extends EndpointsConstraint>(
-  options: Options
+  options: Options<Endpoints>
 ) => {
   const requestSender = getRequestSender(options);
 

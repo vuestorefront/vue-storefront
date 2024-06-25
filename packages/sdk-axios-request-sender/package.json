@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/sdk-axios-request-sender",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
@@ -18,6 +18,6 @@
     "axios": "^0.27.2"
   },
   "engines": {
-    "node": ">= 16.x <= 20"
+    "node": ">=18"
   }
 }

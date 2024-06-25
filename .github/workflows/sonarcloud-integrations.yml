@@ -1,0 +1,53 @@
+name: Sonarcloud
+
+on:
+  workflow_call:
+    secrets:
+      SONARCLOUD_TOKEN:
+        required: true
+    inputs:
+      project_key:
+        description: "Project key i.e. bigcommerce_api-client"
+        required: true
+        type: string
+      base_dir:
+        description: "Project base directory. If not provided, 'packages/<package_name>' will be used instead."
+        required: false
+        type: string
+      package_name:
+          description: "Package name i.e. api-client"
+          required: true
+          type: string
+      exclusions:
+        description: "Comma separated list of files to exclude from analysis"
+        required: false
+        type: string
+
+jobs:
+  sonarcloud:
+    name: Run Sonarcloud check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Suggested by sonarcloud. Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Download test coverage for commit
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-${{ runner.os }}-${{ github.event.pull_request.head.sha }}
+          path: ./
+      
+      - name: Scanning ${{ inputs.package_name }} with sonarcloud
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+        with:
+          projectBaseDir: ${{ inputs.base_dir || format('packages/{0}', inputs.package_name) }}
+          args: >
+            -Dsonar.organization=vuestorefront
+            -Dsonar.projectKey=${{ inputs.project_key }}
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.coverage.exclusions=__tests__/**,__mocks__/**,${{ inputs.exclusions }}
+            -Dsonar.cpd.exclusions=__tests__/**,__mocks__/**,${{ inputs.exclusions }}

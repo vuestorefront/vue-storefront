@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/prettier-config",
-  "version": "2.0.0-rc.1",
+  "version": "2.0.0",
   "main": "src/index.js",
   "license": "MIT",
   "exports": {
@@ -25,6 +25,6 @@
     "access": "public"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18"
   }
 }

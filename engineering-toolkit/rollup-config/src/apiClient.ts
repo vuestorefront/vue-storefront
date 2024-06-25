@@ -25,7 +25,7 @@ export function generateServerConfig(pkg: any) {
       nodeResolve({
         extensions,
       }),
-      typescript(),
+      typescript({ clean: true }),
       commonjs({
         extensions,
       }),

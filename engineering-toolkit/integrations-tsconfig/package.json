@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/integrations-tsconfig",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "main": "./tsconfig.json",
   "license": "MIT",
   "files": [
@@ -20,5 +20,8 @@
   ],
   "publishConfig": {
     "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
