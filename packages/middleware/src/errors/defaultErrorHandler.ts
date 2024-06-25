@@ -1,4 +1,3 @@
-import consola from "consola";
 import type { Request, Response } from "express";
 import { getAgnosticStatusCode } from "../helpers";
 
@@ -18,7 +17,6 @@ export const defaultErrorHandler = (
   req: Request,
   res: Response
 ) => {
-  consola.error(error);
   const status = getAgnosticStatusCode(error);
   res.status(status);
   if (status < 500) {
