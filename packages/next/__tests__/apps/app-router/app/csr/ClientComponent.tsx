@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSdk } from "../../hooks";
+import { useSdk } from "../../sdk/sdk-provider";
 
 export function ClientComponentUsingSdk() {
   const sdk = useSdk();

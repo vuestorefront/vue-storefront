@@ -8,7 +8,7 @@ export default defineNuxtPlugin(() => {
 
   return {
     provide: {
-      vsf: { sdk }
+      alokai: { sdk }
     }
   }
 })

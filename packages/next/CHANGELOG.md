@@ -1,5 +1,17 @@
 # Change log
 
+## 3.0.0
+
+### Major Changes
+
+**[BREAKING CHANGE]**: Now the SDK is separately initialized on the server and client. We recommend splitting configuration files for SDK Options and Configuration to re-use them between instances. Introduce the `defineSdkConfig` helper function. Changed the `SdkProvider` interface, taking only type and no arguments. The SDK instance is passed to the Provider in the place where it's used.
+
+### Minor Changes
+
+**[ADDED]** Value of Busting ID for CDN Cache. You can access it via `config.cdnCacheBustingId`.
+**[CHANGED]** Deprecated `middlewareUrl` in `defineSdkConfig` context. Use `config.middlewareUrl` instead.
+**[CHANGED]** Deprecated `defaults` in `defineSdkConfig` context. Use `config.defaultMethodsRequestConfig` instead.
+
 ## 2.1.0
 
 ### Minor Changes

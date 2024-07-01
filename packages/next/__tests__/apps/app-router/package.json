@@ -9,10 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@vue-storefront/next": "*",
+    "@vue-storefront/next": "file:../../../",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.0.4"
+    "next": "14.0.4",
+    "next-runtime-env": "3.2.2"
   },
   "devDependencies": {
     "typescript": "^5",
