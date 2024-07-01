@@ -16,17 +16,27 @@ export interface ClientContext<CLIENT = any, CONFIG = any> {
   [x: string]: any;
 }
 
-export interface IntegrationContext<CLIENT = any, CONFIG = any, API = any>
-  extends MiddlewareContext {
+export interface IntegrationContext<
+  CLIENT = any,
+  CONFIG = any,
+  API = any,
+  EXTENDED_API = any
+> extends MiddlewareContext {
   client: CLIENT;
   config: CONFIG;
   api: API;
+  extendedApi: EXTENDED_API;
 
   [x: string]: any;
 }
 
-export interface Context<CLIENT = any, CONFIG = any, API = any> {
-  [x: string]: IntegrationContext<CLIENT, CONFIG, API> | any;
+export interface Context<
+  CLIENT = any,
+  CONFIG = any,
+  API = any,
+  EXTENDED_API = any
+> {
+  [x: string]: IntegrationContext<CLIENT, CONFIG, API, EXTENDED_API> | any;
 }
 
 export type PlatformApi = {
