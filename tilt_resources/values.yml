@@ -1,2 +1,7 @@
 project:
   name: 'test'
+  domain: www.example.com
+  networkPolicy:
+    vpcNetworkCidr: 192.168.1.0/8
+    metadataServerIp: 192.168.0.1
+    
