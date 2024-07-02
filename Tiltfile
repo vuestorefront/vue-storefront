@@ -7,6 +7,9 @@ load('ext://helm_resource', 'helm_resource', 'helm_repo')
 allow_k8s_contexts(['rancher-desktop', 'docker-desktop'])
 watch_file("./tilt_resources/values.yml")
 
+k8s_yaml('./tilt_resources/crd.yml')
+k8s_kind('BackendConfig')
+
 helm_repo(
     name='vsf',
     url='https://chartmuseum.vuestorefront.cloud',
