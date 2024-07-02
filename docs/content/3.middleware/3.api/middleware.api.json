@@ -2942,6 +2942,14 @@
             },
             {
               "kind": "Content",
+              "text": ", EXTENDED_API = "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
               "text": "> "
             }
           ],
@@ -2980,6 +2988,17 @@
                 "startIndex": 5,
                 "endIndex": 6
               }
+            },
+            {
+              "typeParameterName": "EXTENDED_API",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              }
             }
           ],
           "name": "Context",
@@ -3009,7 +3028,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "<CLIENT, CONFIG, API> | any"
+                  "text": "<CLIENT, CONFIG, API, EXTENDED_API> | any"
                 },
                 {
                   "kind": "Content",
@@ -4741,6 +4760,14 @@
             },
             {
               "kind": "Content",
+              "text": ", EXTENDED_API = "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
               "text": "> extends "
             },
             {
@@ -4787,6 +4814,17 @@
               "defaultTypeTokenRange": {
                 "startIndex": 5,
                 "endIndex": 6
+              }
+            },
+            {
+              "typeParameterName": "EXTENDED_API",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
               }
             }
           ],
@@ -4917,12 +4955,39 @@
                 "startIndex": 1,
                 "endIndex": 2
               }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!IntegrationContext#extendedApi:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "extendedApi: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "EXTENDED_API"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "extendedApi",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
             }
           ],
           "extendsTokenRanges": [
             {
-              "startIndex": 7,
-              "endIndex": 8
+              "startIndex": 9,
+              "endIndex": 10
             }
           ]
         },
