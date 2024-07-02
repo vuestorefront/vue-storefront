@@ -148,14 +148,19 @@ const apiClientFactory = <
         );
       }
 
-      const mergedApi = {
-        ...integrationApi,
+      const extendedApi = {
         ...sharedExtensionsApi,
         ...namespacedApi,
+      };
+
+      const mergedApi = {
+        ...integrationApi,
+        ...extendedApi,
       } as ALL_FUNCTIONS;
 
       // api methods haven't been invoked yet, so we still have time to add them to the context
       (context as any).api = integrationApi;
+      (context as any).extendedApi = extendedApi;
 
       return {
         api: mergedApi,
