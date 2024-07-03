@@ -1,5 +1,14 @@
 project:
   name: 'test'
+  additionalApps:
+    enabled: true
+    apps:
+      - name: middleware
+        image: tilt-middleware
+        tag: latest
+        port: 8181
+        path: /api
+        hasBasePath: false
   domain: www.example.com
   networkPolicy:
     vpcNetworkCidr: 192.168.1.0/8
