@@ -22,6 +22,7 @@
     "@vue-storefront/eslint-config-integrations": "*",
     "@vue-storefront/integrations-tsconfig": "*",
     "@vue-storefront/jest-config": "*",
+    "@vue-storefront/magento-api": "^5.0.0",
     "@vue-storefront/rollup-config": "^0.0.6",
     "cross-env": "^6.0.3",
     "husky": "^8.0.3",
