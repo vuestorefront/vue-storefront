@@ -8,7 +8,8 @@ allow_k8s_contexts(['rancher-desktop', 'docker-desktop'])
 watch_file("./tilt_resources/values.yml")
 
 k8s_yaml('./tilt_resources/crd.yml')
-k8s_kind('BackendConfig')
+k8s_yaml('./tilt_resources/no-op.yaml')
+
 
 helm_repo(
     name='vsf',
@@ -21,4 +22,9 @@ helm_resource(
     chart='vsf/vue-storefront',
     flags=['-f', 'tilt_resources/values.yml'],
     resource_deps=['vsf']
+)
+
+docker_build(
+  'tilt-middleware',
+  '.',
 )
