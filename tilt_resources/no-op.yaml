@@ -1,0 +1,15 @@
+# This is a no op Job, we're doing this so we can gain the benefits of Tilt
+# auto-building the local image for us
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: no-op
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+      - name: no-op
+        image: tilt-middleware
+      restartPolicy: Never
