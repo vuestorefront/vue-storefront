@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
+    "@vue-storefront/magento-api": "latest",
     "@changesets/cli": "^2.26.1",
     "@types/jest": "^26.0.24",
     "@types/node": "^16",
