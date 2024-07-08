@@ -5,4 +5,4 @@ COPY . .
 RUN yarn install
 RUN cd packages/middleware && npm run build
 # RUN yarn lerna run build --scope="@vue-storefront/middleware"
-ENTRYPOINT node packages/middleware/lib/index.cjs.js
+CMD ["node", "tilt_resources/middleware.js"]
