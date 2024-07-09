@@ -18,6 +18,7 @@ import {
   prepareArguments,
   callApiFunction,
 } from "./handlers";
+import { prometheusMetricsHandler } from "./helpers/metrics";
 
 const defaultCorsOptions: CreateServerOptions["cors"] = {
   credentials: true,
@@ -81,6 +82,8 @@ async function createServer<
   app.get("/healthz", (_req, res) => {
     res.end("ok");
   });
+
+  app.get("/metrics", prometheusMetricsHandler);
 
   consola.success("Middleware created!");
   return app;
