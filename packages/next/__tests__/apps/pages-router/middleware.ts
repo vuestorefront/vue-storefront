@@ -2,7 +2,7 @@
  * @docs https://nextjs.org/docs/advanced-features/middleware
  */
 import { NextRequest, NextResponse } from "next/server";
-import { getSdk } from "./sdk.config";
+import { getSdk } from "./sdk/sdk.server";
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();

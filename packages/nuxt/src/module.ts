@@ -41,6 +41,13 @@ export default defineNuxtModule<SdkModuleOptions>({
       options
     );
 
+    nuxt.options.runtimeConfig.public.alokai = defu(
+      nuxt.options.runtimeConfig.public?.alokai as any,
+      { middleware: { cdnCacheBustingId: process.env?.GIT_SHA } },
+      nuxt.options.runtimeConfig.public?.vsf as any,
+      options
+    );
+
     nuxt.options.app.head.meta = [
       ...(nuxt.options.app.head.meta ?? []),
       {

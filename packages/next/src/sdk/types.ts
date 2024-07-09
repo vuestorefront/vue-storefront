@@ -37,8 +37,9 @@ type InjectedContext = DynamicContext & StaticContext;
 
 export type Config<TConfig> = (context: InjectedContext) => TConfig;
 
-export type SdkProviderProps = {
+export type SdkProviderProps<TSdk> = {
   children: ReactNode;
+  sdk: TSdk;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -90,6 +91,6 @@ export interface CreateSdkReturn<TConfig extends Record<string, any>> {
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CreateSdkContextReturn<TSdk extends SDKApi<any>> = readonly [
-  ({ children }: SdkProviderProps) => JSX.Element,
+  ({ children }: SdkProviderProps<TSdk>) => JSX.Element,
   () => TSdk
 ];
