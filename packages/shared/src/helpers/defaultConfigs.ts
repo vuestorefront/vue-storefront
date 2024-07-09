@@ -5,6 +5,7 @@ export const defaultMethodsRequestConfig = {
       getProductDetails: { method: "GET" },
       getProductReviews: { method: "GET" },
       getProducts: { method: "GET" },
+      getCurrencies: { method: "GET" },
       searchProducts: { method: "GET" },
     },
   },
