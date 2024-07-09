@@ -98,5 +98,12 @@
       "to": "/storefront/modules/search-integrations/coveo",
       "icon": "IconCoveo"
     }
+  ],
+  "Cache": [
+    {
+      "title": "Redis",
+      "to": "/integrations/redis",
+      "icon": "logos:redis"
+    }
   ]
 }
