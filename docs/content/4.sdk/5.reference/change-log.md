@@ -1,5 +1,11 @@
 # Change log
 
+## 3.1.1
+
+### Patch Changes
+
+- **[CHANGED]** handle error for not available middleware
+
 ## 3.1.0
 
 ### Minor Changes

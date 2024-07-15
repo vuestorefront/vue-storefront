@@ -1,5 +1,11 @@
 # Change log
 
+## 3.0.1
+
+### Patch Changes
+
+**[FIXED]**: Added getCurrencies unified endpoint to be fetch by HTTP GET. This change enable caching this endpoint on CDN.
+
 ## 3.0.0
 
 ### Major Changes

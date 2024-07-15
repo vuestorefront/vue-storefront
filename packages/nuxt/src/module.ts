@@ -35,8 +35,9 @@ export default defineNuxtModule<SdkModuleOptions>({
     const buildDirectoryResolver = createResolver(nuxt.options.buildDir);
     const localResolver = createResolver(import.meta.url);
 
-    nuxt.options.runtimeConfig.public.vsf = defu(
+    nuxt.options.runtimeConfig.public.alokai = defu(
       nuxt.options.runtimeConfig.public?.vsf as any,
+      nuxt.options.runtimeConfig.public?.alokai as any,
       options
     );
 
