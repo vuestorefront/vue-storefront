@@ -703,6 +703,14 @@
             },
             {
               "kind": "Content",
+              "text": ", CONFIG = "
+            },
+            {
+              "kind": "Content",
+              "text": "any"
+            },
+            {
+              "kind": "Content",
               "text": "> "
             }
           ],
@@ -730,6 +738,17 @@
                 "startIndex": 3,
                 "endIndex": 4
               }
+            },
+            {
+              "typeParameterName": "CONFIG",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              }
             }
           ],
           "name": "ApiClientExtension",
@@ -751,7 +770,25 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "<API, CONTEXT>"
+                  "text": "<API, CONTEXT> | "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ApiMethodsFactory",
+                  "canonicalReference": "@vue-storefront/middleware!ApiMethodsFactory:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ExtendApiMethod",
+                  "canonicalReference": "@vue-storefront/middleware!ExtendApiMethod:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<API, CONTEXT>, CONFIG>"
                 },
                 {
                   "kind": "Content",
@@ -764,7 +801,7 @@
               "name": "extendApiMethods",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 3
+                "endIndex": 7
               }
             },
             {
@@ -2214,7 +2251,7 @@
             },
             {
               "kind": "Content",
-              "text": "(configuration: CONFIG) => API"
+              "text": "(configuration: {\n    config: CONFIG;\n}) => API"
             },
             {
               "kind": "Content",
