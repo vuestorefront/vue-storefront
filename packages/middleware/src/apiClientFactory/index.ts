@@ -1,3 +1,4 @@
+import { isFunction } from "../helpers";
 import {
   ApiClientConfig,
   ApiClientExtension,
@@ -10,7 +11,6 @@ import {
   ExtensionHookWith,
   ExtensionWith,
 } from "../types";
-import { isFunction } from "../helpers";
 import { applyContextToApi } from "./applyContextToApi";
 
 const apiClientFactory = <
@@ -19,6 +19,14 @@ const apiClientFactory = <
 >(
   factoryParams: ApiClientFactoryParams<ALL_SETTINGS, ALL_FUNCTIONS>
 ): ApiClientFactory<any, ALL_FUNCTIONS> => {
+  const resolveApi = async (api: any, settings: any) => {
+    if (typeof api === "function") {
+      return await api(settings);
+    }
+
+    return api ?? {};
+  };
+
   const createApiClient: CreateApiClientFn<any, ALL_FUNCTIONS> =
     async function createApiClient(
       this: CallableContext<ALL_FUNCTIONS>,
@@ -97,29 +105,28 @@ const apiClientFactory = <
 
       const context = { ...settings, ...(this?.middleware || {}) };
 
-      const { api: apiOrApiFactory = {} } = factoryParams;
-
-      const isApiFactory = typeof apiOrApiFactory === "function";
-      const api = isApiFactory
-        ? await apiOrApiFactory(settings)
-        : apiOrApiFactory;
+      const api = await resolveApi(factoryParams.api, settings);
 
       const namespacedExtensions: Record<string, any> = {};
       let sharedExtensions = customApi;
 
-      rawExtensions.forEach((extension) => {
+      for await (const extension of rawExtensions) {
+        const extendedApiMethods = await resolveApi(
+          extension.extendApiMethods,
+          settings
+        );
         if (extension.isNamespaced) {
           namespacedExtensions[extension.name] = {
             ...(namespacedExtensions?.[extension.name] ?? {}),
-            ...extension.extendApiMethods,
+            ...extendedApiMethods,
           };
         } else {
           sharedExtensions = {
             ...sharedExtensions,
-            ...extension.extendApiMethods,
+            ...extendedApiMethods,
           };
         }
-      });
+      }
 
       const integrationApi = applyContextToApi(
         api,
