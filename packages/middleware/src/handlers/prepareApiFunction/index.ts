@@ -1,3 +1,4 @@
+import { prometheusClient, prometheusRegister } from "src/helpers/metrics";
 import { IntegrationsLoaded, MiddlewareContext } from "../../types";
 import { getApiFunction } from "./getApiFunction";
 
@@ -72,6 +73,8 @@ export function prepareApiFunction(
     const apiClientInstance = createApiClient({
       ...configuration,
       ...initConfig,
+      prometheusClient,
+      prometheusRegister
     });
 
     // Pick the function from the namespaced if it exists, otherwise pick it from the shared integration
