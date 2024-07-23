@@ -4,16 +4,7 @@ import { SDKApi } from "@vue-storefront/sdk";
 import Script from "next/script";
 import React, { createContext, useContext } from "react";
 import { CreateSdkContextReturn, AlokaiProviderProps } from "./types";
-import { SfStateProvider } from "./state";
-
-export {
-  useSfCurrenciesState,
-  useSfCartState,
-  useSfLocalesState,
-  useSfCurrencyState,
-  useSfCustomerState,
-  useSfLocaleState,
-} from "./state";
+import { SfStateProvider } from "../state";
 
 /**
  * Creates a new SDK context. This function is dedicated for the client-side usage.

@@ -2,7 +2,7 @@
 import { SDKApi, buildModule, middlewareModule } from "@vue-storefront/sdk";
 import { ReactNode } from "react";
 import type { defaultMethodsRequestConfig } from "@storefront/shared";
-import type { SfStateProps } from "./state";
+import type { SfStateProps } from "../state";
 export type GetSdkContext = {
   /**
    * A function that returns the request headers.
