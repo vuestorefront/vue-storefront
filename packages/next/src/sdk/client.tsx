@@ -22,7 +22,7 @@ export {
  * Create a new SDK context somewhere in your application. It may be the `hooks/sdk.ts` file.
  *
  * ```tsx
- * import { createSdkContext } from "@vue-storefront/next/client";
+ * import { createAlokaiContext } from "@vue-storefront/next/client";
  * import { getSdk } from "../../sdk.config.ts";
  *
  * export const [AlokaiProvider, useSdk] = createSdkContext(getSdk());
@@ -33,7 +33,7 @@ export {
  * Finally, you can use the `useSdk` in any client component of your application.
  * @returns [SdkProvider, useSdk] - The SDK provider and the `useSdk` hook.
  */
-export function createSdkContext<
+export function createAlokaiContext<
   TSdk extends SDKApi<any>
 >(): CreateSdkContextReturn<TSdk> {
   const SdkContext = createContext<TSdk>(null);
