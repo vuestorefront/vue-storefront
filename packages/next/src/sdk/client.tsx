@@ -3,7 +3,17 @@
 import { SDKApi } from "@vue-storefront/sdk";
 import Script from "next/script";
 import React, { createContext, useContext } from "react";
-import { CreateSdkContextReturn, SdkProviderProps } from "./types";
+import { CreateSdkContextReturn, AlokaiProviderProps } from "./types";
+import { SfStateProvider } from "./state";
+
+export {
+  useSfCurrenciesState,
+  useSfCartState,
+  useSfLocalesState,
+  useSfCurrencyState,
+  useSfCustomerState,
+  useSfLocaleState,
+} from "./state";
 
 /**
  * Creates a new SDK context. This function is dedicated for the client-side usage.
@@ -15,12 +25,12 @@ import { CreateSdkContextReturn, SdkProviderProps } from "./types";
  * import { createSdkContext } from "@vue-storefront/next/client";
  * import { getSdk } from "../../sdk.config.ts";
  *
- * export const [SdkProvider, useSdk] = createSdkContext(getSdk());
+ * export const [AlokaiProvider, useSdk] = createSdkContext(getSdk());
  * ```
- * Then use the `SdkProvider` in the root component of your application.
+ * Then use the `AlokaiProvider` in the root component of your application.
  * For Pages Router it would be the `pages/_app.tsx` file,
  * and for the App Router it would be the `app/layout.tsx` file.
- * Finally you can use the `useSdk` in any client component of your application.
+ * Finally, you can use the `useSdk` in any client component of your application.
  * @returns [SdkProvider, useSdk] - The SDK provider and the `useSdk` hook.
  */
 export function createSdkContext<
@@ -28,7 +38,11 @@ export function createSdkContext<
 >(): CreateSdkContextReturn<TSdk> {
   const SdkContext = createContext<TSdk>(null);
 
-  function SdkProvider({ children, sdk }: SdkProviderProps<TSdk>) {
+  function AlokaiProvider({
+    children,
+    sdk,
+    initialData,
+  }: AlokaiProviderProps<TSdk>) {
     return (
       <SdkContext.Provider value={sdk}>
         {/* an universal approach to add meta tag */}
@@ -40,7 +54,7 @@ export function createSdkContext<
           document.head.appendChild(vsfMetaTag);
         `}
         </Script>
-        {children}
+        <SfStateProvider initialData={initialData}>{children}</SfStateProvider>
       </SdkContext.Provider>
     );
   }
@@ -48,10 +62,10 @@ export function createSdkContext<
   const useSdk = () => {
     const contextSdk = useContext(SdkContext);
     if (!contextSdk) {
-      throw new Error("useSdk must be used within a SdkProvider");
+      throw new Error("useSdk must be used within a AlokaiProvider");
     }
     return contextSdk;
   };
 
-  return [SdkProvider, useSdk] as const;
+  return [AlokaiProvider, useSdk] as const;
 }

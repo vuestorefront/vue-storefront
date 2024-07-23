@@ -2,6 +2,7 @@
 import { SDKApi, buildModule, middlewareModule } from "@vue-storefront/sdk";
 import { ReactNode } from "react";
 import type { defaultMethodsRequestConfig } from "@storefront/shared";
+import type { SfStateProps } from "./state";
 export type GetSdkContext = {
   /**
    * A function that returns the request headers.
@@ -37,9 +38,10 @@ type InjectedContext = DynamicContext & StaticContext;
 
 export type Config<TConfig> = (context: InjectedContext) => TConfig;
 
-export type SdkProviderProps<TSdk> = {
+export type AlokaiProviderProps<TSdk> = {
   children: ReactNode;
   sdk: TSdk;
+  initialData: Partial<SfStateProps>;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -91,6 +93,6 @@ export interface CreateSdkReturn<TConfig extends Record<string, any>> {
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CreateSdkContextReturn<TSdk extends SDKApi<any>> = readonly [
-  ({ children }: SdkProviderProps<TSdk>) => JSX.Element,
+  ({ children }: AlokaiProviderProps<TSdk>) => JSX.Element,
   () => TSdk
 ];

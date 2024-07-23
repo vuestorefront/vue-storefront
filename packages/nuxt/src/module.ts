@@ -6,6 +6,7 @@ import {
   addPluginTemplate,
   addTypeTemplate,
   addImportsSources,
+  installModule,
 } from "@nuxt/kit";
 import { genInlineTypeImport } from "knitwork";
 import { type SdkModuleOptions } from "./types";
@@ -28,12 +29,14 @@ export default defineNuxtModule<SdkModuleOptions>({
       enabled: false,
     },
   },
-  setup(options, nuxt) {
+  async setup(options, nuxt) {
     const projectLayer = nuxt.options._layers[0];
 
     const projectRootResolver = createResolver(projectLayer.config.rootDir);
     const buildDirectoryResolver = createResolver(nuxt.options.buildDir);
     const localResolver = createResolver(import.meta.url);
+
+    await installModule("@pinia/nuxt");
 
     nuxt.options.runtimeConfig.public.alokai = defu(
       nuxt.options.runtimeConfig.public?.vsf as any,
@@ -97,6 +100,12 @@ export type SdkConfig = ${genInlineTypeImport(
       },
     });
 
+    addTemplate({
+      src: localResolver.resolve("./runtime/useSfStore.template"),
+      filename: "useSfStore.ts",
+      write: true,
+    });
+
     addPluginTemplate({
       src: localResolver.resolve("./runtime/plugin.template"),
       filename: "alokaiSdkPlugin.ts",
@@ -111,6 +120,10 @@ export type SdkConfig = ${genInlineTypeImport(
       {
         imports: ["defineSdkConfig"],
         from: buildDirectoryResolver.resolve("defineSdkConfig.ts"),
+      },
+      {
+        imports: ["useSfStore"],
+        from: buildDirectoryResolver.resolve("useSfStore.ts"),
       },
     ]);
   },
