@@ -7,22 +7,23 @@ import { CreateSdkContextReturn, AlokaiProviderProps } from "./types";
 import { SfStateProvider } from "../state";
 
 /**
- * Creates a new SDK context. This function is dedicated for the client-side usage.
+ * Creates a new Alokai context which is a combination of SDK and state contexts.
+ * This function is dedicated for the client-side usage.
  *
  * @example
- * Create a new SDK context somewhere in your application. It may be the `hooks/sdk.ts` file.
+ * Create a new Alokai context somewhere in your application. It may be the `hooks/sdk.ts` file.
  *
  * ```tsx
  * import { createAlokaiContext } from "@vue-storefront/next/client";
- * import { getSdk } from "../../sdk.config.ts";
+ * import type { Sdk } from './sdk.server';
  *
- * export const [AlokaiProvider, useSdk] = createSdkContext(getSdk());
+ * export const [AlokaiProvider, useSdk] = createAlokaiContext<Sdk>();
  * ```
  * Then use the `AlokaiProvider` in the root component of your application.
  * For Pages Router it would be the `pages/_app.tsx` file,
  * and for the App Router it would be the `app/layout.tsx` file.
  * Finally, you can use the `useSdk` in any client component of your application.
- * @returns [SdkProvider, useSdk] - The SDK provider and the `useSdk` hook.
+ * @returns [AlokaiProvider, useSdk] - The SDK provider and the `useSdk` hook.
  */
 export function createAlokaiContext<
   TSdk extends SDKApi<any>
