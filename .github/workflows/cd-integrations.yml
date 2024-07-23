@@ -41,6 +41,7 @@ jobs:
           title: "ci: release"
           createGithubReleases: true
         env:
-          # Needs access to push to main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # If you are running into the problem where PRs created by changesets don't run workflows and are stuck forever,
+          # you can create a PR_CREATOR_TOKEN secret. You need to create a fine-grained PAT with the read & write permissions for "Content" and "Pull requests".
+          GITHUB_TOKEN: ${{ secrets.PR_CREATOR_TOKEN || secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ inputs.enterprise && secrets.VERDACCIO_AUTH_TOKEN || secrets.NPM_RELEASE_TOKEN }}
