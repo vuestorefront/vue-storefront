@@ -1,6 +1,6 @@
 "use client";
 
-export * from "./sdk/client";
+export * from "./alokai-provider";
 export { CreateSdkContextReturn } from "./sdk/types";
 
 export {

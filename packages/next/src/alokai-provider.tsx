@@ -3,8 +3,8 @@
 import { SDKApi } from "@vue-storefront/sdk";
 import Script from "next/script";
 import React, { createContext, useContext } from "react";
-import { CreateSdkContextReturn, AlokaiProviderProps } from "./types";
-import { SfStateProvider } from "../state";
+import { CreateSdkContextReturn, AlokaiProviderProps } from "./sdk/types";
+import { SfStateProvider } from "./state";
 
 /**
  * Creates a new Alokai context which is a combination of SDK and state contexts.
