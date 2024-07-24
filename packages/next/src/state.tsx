@@ -74,7 +74,7 @@ export function SfStateProvider({
   );
 }
 
-function getSfContext() {
+function getSfStateContext() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const context = useContext(SfStateContext);
   if (!context) throw new Error("Missing SfStateContext.Provider in the tree");
@@ -82,7 +82,7 @@ function getSfContext() {
 }
 
 export function useSfCurrencyState() {
-  const { currency, setCurrency } = useStore(getSfContext(), (state) => ({
+  const { currency, setCurrency } = useStore(getSfStateContext(), (state) => ({
     currency: state.currency,
     setCurrency: state.setCurrency,
   }));
@@ -91,16 +91,19 @@ export function useSfCurrencyState() {
 }
 
 export function useSfCurrenciesState() {
-  const { currencies, setCurrencies } = useStore(getSfContext(), (state) => ({
-    currencies: state.currencies,
-    setCurrencies: state.setCurrencies,
-  }));
+  const { currencies, setCurrencies } = useStore(
+    getSfStateContext(),
+    (state) => ({
+      currencies: state.currencies,
+      setCurrencies: state.setCurrencies,
+    })
+  );
 
   return [currencies, setCurrencies] as const;
 }
 
 export function useSfLocaleState() {
-  const { locale, setLocale } = useStore(getSfContext(), (state) => ({
+  const { locale, setLocale } = useStore(getSfStateContext(), (state) => ({
     locale: state.locale,
     setLocale: state.setLocale,
   }));
@@ -109,7 +112,7 @@ export function useSfLocaleState() {
 }
 
 export function useSfLocalesState() {
-  const { locales, setLocales } = useStore(getSfContext(), (state) => ({
+  const { locales, setLocales } = useStore(getSfStateContext(), (state) => ({
     locales: state.locales,
     setLocales: state.setLocales,
   }));
@@ -118,7 +121,7 @@ export function useSfLocalesState() {
 }
 
 export function useSfCartState() {
-  const { cart, setCart } = useStore(getSfContext(), (state) => ({
+  const { cart, setCart } = useStore(getSfStateContext(), (state) => ({
     cart: state.cart,
     setCart: state.setCart,
   }));
@@ -127,7 +130,7 @@ export function useSfCartState() {
 }
 
 export function useSfCustomerState() {
-  const { customer, setCustomer } = useStore(getSfContext(), (state) => ({
+  const { customer, setCustomer } = useStore(getSfStateContext(), (state) => ({
     customer: state.customer,
     setCustomer: state.setCustomer,
   }));
