@@ -1,5 +1,11 @@
 # Change log
 
+## 4.3.1
+
+### Patch Changes
+
+- **[FIX]** Rollback the changes to the `ApiMethodsFactory` config generic type. It was causing incompatibility for some older packages.
+
 ## 4.3.0
 
 ### Minor Changes
