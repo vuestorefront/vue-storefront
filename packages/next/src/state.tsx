@@ -1,6 +1,7 @@
 "use client";
 
 import type {
+  Maybe,
   SfCart,
   SfCurrency,
   SfCustomer,
@@ -11,38 +12,31 @@ import React, {
   useContext,
   useRef,
 } from "react";
-import { type StoreApi, createStore, useStore } from "zustand";
+import { createStore, useStore } from "zustand";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SfLocales {}
 export interface SfStateProps {
   currencies: SfCurrency[];
   currency: SfCurrency;
-  locale: string;
-  locales: string[];
+  locale: SfLocales[keyof SfLocales];
+  locales: SfLocales[keyof SfLocales][];
 }
-
-interface SfState extends SfStateProps {
-  cart: SfCart | null;
-  customer: SfCustomer | null;
-  setCart: (cart: SfCart) => void;
+export interface SfState extends SfStateProps {
+  cart: Maybe<SfCart>;
+  customer: Maybe<SfCustomer>;
+  setCart: (cart?: Maybe<SfCart>) => void;
   setCurrencies: (currencies: SfCurrency[]) => void;
   setCurrency: (currency: SfCurrency) => void;
-  setCustomer: (customer: SfCustomer) => void;
-  setLocale: (locale: string) => void;
-  setLocales: (locales: string[]) => void;
+  setCustomer: (customer?: Maybe<SfCustomer>) => void;
+  setLocale: (locale: SfLocales[keyof SfLocales]) => void;
+  setLocales: (locales: SfLocales[keyof SfLocales][]) => void;
 }
 
-const DEFAULT_PROPS: SfStateProps = {
-  currencies: [],
-  currency: "",
-  locale: "",
-  locales: [],
-};
-
-const createSfState = (initialData?: Partial<SfStateProps>) => {
+const createSfState = (initialData: SfStateProps) => {
   return createStore<SfState>()((set) => ({
     cart: null,
     customer: null,
-    ...DEFAULT_PROPS,
     ...initialData,
     setCart: (cart) => set({ cart }),
     setCurrencies: (currencies) => set({ currencies }),
@@ -52,16 +46,17 @@ const createSfState = (initialData?: Partial<SfStateProps>) => {
     setLocales: (locales) => set({ locales }),
   }));
 };
+type SfStateApi = ReturnType<typeof createSfState>;
 
-export const SfStateContext = createContext<StoreApi<SfState> | null>(null);
+export const SfStateContext = createContext<SfStateApi | null>(null);
 
 export function SfStateProvider({
   children,
   initialData,
 }: {
-  initialData: Partial<SfStateProps>;
+  initialData: SfStateProps;
 } & PropsWithChildren) {
-  const stateReference = useRef<StoreApi<SfState>>();
+  const stateReference = useRef<SfStateApi>();
 
   if (!stateReference.current) {
     stateReference.current = createSfState(initialData);
@@ -81,16 +76,22 @@ function getSfStateContext() {
   return context;
 }
 
-export function useSfCurrencyState() {
+export function useSfCurrencyState(): [
+  SfCurrency,
+  (currency: SfCurrency) => void
+] {
   const { currency, setCurrency } = useStore(getSfStateContext(), (state) => ({
     currency: state.currency,
     setCurrency: state.setCurrency,
   }));
 
-  return [currency, setCurrency] as const;
+  return [currency, setCurrency];
 }
 
-export function useSfCurrenciesState() {
+export function useSfCurrenciesState(): [
+  SfCurrency[],
+  (currencies: SfCurrency[]) => void
+] {
   const { currencies, setCurrencies } = useStore(
     getSfStateContext(),
     (state) => ({
@@ -99,41 +100,53 @@ export function useSfCurrenciesState() {
     })
   );
 
-  return [currencies, setCurrencies] as const;
+  return [currencies, setCurrencies];
 }
 
-export function useSfLocaleState() {
+export function useSfLocaleState(): [
+  SfLocales[keyof SfLocales],
+  (locale: SfLocales[keyof SfLocales]) => void
+] {
   const { locale, setLocale } = useStore(getSfStateContext(), (state) => ({
     locale: state.locale,
     setLocale: state.setLocale,
   }));
 
-  return [locale, setLocale] as const;
+  return [locale, setLocale];
 }
 
-export function useSfLocalesState() {
+export function useSfLocalesState(): [
+  SfLocales[keyof SfLocales][],
+  (locales: SfLocales[keyof SfLocales][]) => void
+] {
   const { locales, setLocales } = useStore(getSfStateContext(), (state) => ({
     locales: state.locales,
     setLocales: state.setLocales,
   }));
 
-  return [locales, setLocales] as const;
+  return [locales, setLocales];
 }
 
-export function useSfCartState() {
+export function useSfCartState(): [
+  Maybe<SfCart> | undefined,
+  (cart?: Maybe<SfCart>) => void
+] {
   const { cart, setCart } = useStore(getSfStateContext(), (state) => ({
     cart: state.cart,
     setCart: state.setCart,
   }));
 
-  return [cart, setCart] as const;
+  return [cart, setCart];
 }
 
-export function useSfCustomerState() {
+export function useSfCustomerState(): [
+  Maybe<SfCustomer> | undefined,
+  (customer?: Maybe<SfCustomer>) => void
+] {
   const { customer, setCustomer } = useStore(getSfStateContext(), (state) => ({
     customer: state.customer,
     setCustomer: state.setCustomer,
   }));
 
-  return [customer, setCustomer] as const;
+  return [customer, setCustomer];
 }

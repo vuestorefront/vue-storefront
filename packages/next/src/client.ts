@@ -10,4 +10,5 @@ export {
   useSfCurrencyState,
   useSfCustomerState,
   useSfLocaleState,
+  type SfLocales,
 } from "./state";

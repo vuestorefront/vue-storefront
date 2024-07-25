@@ -41,7 +41,7 @@ export type Config<TConfig> = (context: InjectedContext) => TConfig;
 export type AlokaiProviderProps<TSdk> = {
   children: ReactNode;
   sdk: TSdk;
-  initialData: Partial<SfStateProps>;
+  initialData: SfStateProps;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
