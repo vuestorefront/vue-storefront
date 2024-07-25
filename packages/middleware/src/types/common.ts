@@ -13,7 +13,7 @@ export type ApiMethods = Record<string, ApiClientMethod>;
 export type ApiMethodsFactory<
   API extends ApiMethods,
   CONFIG extends ApiClientConfig
-> = (configuration: { config: CONFIG }) => API;
+> = (configuration: CONFIG) => API;
 
 export type ApiClientMethodWithContext<CONTEXT> = (
   context: CONTEXT,
