@@ -2251,7 +2251,7 @@
             },
             {
               "kind": "Content",
-              "text": "(configuration: {\n    config: CONFIG;\n}) => API"
+              "text": "(configuration: CONFIG) => API"
             },
             {
               "kind": "Content",
