@@ -100,7 +100,9 @@ export const getRequestSender = (options: Options): RequestSender => {
     response: ({ config, url, responseTime }) => {
       const { pathname } = new URL(url);
       // eslint-disable-next-line no-console
-      console.log(`${config.method} ${pathname} in ${responseTime}ms`);
+      console.log(
+        `${config.method} ${pathname} in ${responseTime.toFixed()}ms`
+      );
     },
   };
 
@@ -157,7 +159,7 @@ export const getRequestSender = (options: Options): RequestSender => {
       { method: finalMethod, headers, ...restConfig },
       methodConfig
     );
-    const startTime = new Date().getTime();
+    const startTime = performance.now();
     logger.request?.({
       config: finalConfig,
       params,
@@ -166,7 +168,7 @@ export const getRequestSender = (options: Options): RequestSender => {
 
     try {
       const response = await httpClient(finalUrl, finalParams, finalConfig);
-      const responseTime = new Date().getTime() - startTime;
+      const responseTime = performance.now() - startTime;
       logger.response?.({
         config: finalConfig,
         params,
