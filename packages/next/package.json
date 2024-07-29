@@ -29,7 +29,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup && yarn build:app-router && yarn build:pages-router",
+    "build": "tsup",
     "build:app-router": "cd __tests__/apps/app-router && yarn install && yarn build",
     "build:pages-router": "cd __tests__/apps/pages-router && yarn install && yarn build",
     "dev:app-router": "cd __tests__/apps/app-router && yarn dev",

@@ -5,6 +5,11 @@ import Script from "next/script";
 import React, { createContext, useContext } from "react";
 import { CreateSdkContextReturn, AlokaiProviderProps } from "./sdk/types";
 import { SfStateProvider } from "./state";
+import {
+  SfCart,
+  SfCurrency,
+  SfCustomer,
+} from "@vue-storefront/unified-data-model";
 
 /**
  * Creates a new Alokai context which is a combination of SDK and state contexts.
@@ -26,15 +31,19 @@ import { SfStateProvider } from "./state";
  * @returns [AlokaiProvider, useSdk] - The SDK provider and the `useSdk` hook.
  */
 export function createAlokaiContext<
-  TSdk extends SDKApi<any>
->(): CreateSdkContextReturn<TSdk> {
+  TSdk extends SDKApi<any>,
+  TCurrency extends SfCurrency,
+  TLocale extends string,
+  TCart extends SfCart,
+  TCustomer extends SfCustomer
+>(): CreateSdkContextReturn<TSdk, TCurrency, TLocale> {
   const SdkContext = createContext<TSdk>(null);
 
   function AlokaiProvider({
     children,
     sdk,
     initialData,
-  }: AlokaiProviderProps<TSdk>) {
+  }: AlokaiProviderProps<TSdk, TCurrency, TLocale>) {
     return (
       <SdkContext.Provider value={sdk}>
         {/* an universal approach to add meta tag */}
@@ -46,7 +55,11 @@ export function createAlokaiContext<
           document.head.appendChild(vsfMetaTag);
         `}
         </Script>
-        <SfStateProvider initialData={initialData}>{children}</SfStateProvider>
+        <SfStateProvider<TCurrency, TLocale, TCart, TCustomer>
+          initialData={initialData}
+        >
+          {children}
+        </SfStateProvider>
       </SdkContext.Provider>
     );
   }

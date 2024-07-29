@@ -38,10 +38,10 @@ type InjectedContext = DynamicContext & StaticContext;
 
 export type Config<TConfig> = (context: InjectedContext) => TConfig;
 
-export type AlokaiProviderProps<TSdk> = {
+export type AlokaiProviderProps<TSdk, TCurrency, TLocale> = {
   children: ReactNode;
   sdk: TSdk;
-  initialData: SfStateProps;
+  initialData: SfStateProps<TCurrency, TLocale>;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -92,7 +92,11 @@ export interface CreateSdkReturn<TConfig extends Record<string, any>> {
   getSdk: (dynamicContext?: GetSdkContext) => SDKApi<TConfig>;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type CreateSdkContextReturn<TSdk extends SDKApi<any>> = readonly [
-  ({ children }: AlokaiProviderProps<TSdk>) => JSX.Element,
+export type CreateSdkContextReturn<
+  TSdk extends SDKApi<any>,
+  TCurrency,
+  TLocale
+> = readonly [
+  ({ children }: AlokaiProviderProps<TSdk, TCurrency, TLocale>) => JSX.Element,
   () => TSdk
 ];
