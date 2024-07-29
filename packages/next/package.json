@@ -29,7 +29,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup && yarn build:app-router && yarn build:pages-router",
+    "build": "tsup",
     "build:app-router": "cd __tests__/apps/app-router && yarn install && yarn build",
     "build:pages-router": "cd __tests__/apps/pages-router && yarn install && yarn build",
     "dev:app-router": "cd __tests__/apps/app-router && yarn dev",
@@ -49,7 +49,6 @@
   "devDependencies": {
     "@types/react": "^18.2.31",
     "@types/react-dom": "^18.2.14",
-    "@vue-storefront/unified-data-model": "^2.0.0",
     "react-dom": "^18.2.0",
     "start-server-and-test": "^2.0.3",
     "tsup": "8.0.1",

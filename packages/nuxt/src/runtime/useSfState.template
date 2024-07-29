@@ -1,0 +1,18 @@
+import type {
+  Maybe,
+  SfCart,
+  SfCurrency,
+  SfCustomer,
+  SfLocales,
+} from "~/types";
+
+export const useSfState = defineStore("SfState", () => {
+  const cart = ref<Maybe<SfCart>>(null);
+  const customer = ref<Maybe<SfCustomer>>(null);
+  const currencies = ref<SfCurrency[]>([]);
+  const currency = ref<SfCurrency>("");
+  const locale = ref<SfLocales[keyof SfLocales]>();
+  const locales = ref<SfLocales[keyof SfLocales][]>([]);
+
+  return { customer, cart, currencies, currency, locales, locale };
+});

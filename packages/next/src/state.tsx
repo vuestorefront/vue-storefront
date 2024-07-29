@@ -1,11 +1,6 @@
 "use client";
 
-import type {
-  Maybe,
-  SfCart,
-  SfCurrency,
-  SfCustomer,
-} from "@vue-storefront/unified-data-model";
+export type Maybe<TType> = TType | null;
 import React, {
   type PropsWithChildren,
   createContext,
@@ -16,6 +11,12 @@ import { createStore, useStore } from "zustand";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SfLocales {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SfCart {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SfCurrency {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SfCustomer {}
 export interface SfStateProps {
   currencies: SfCurrency[];
   currency: SfCurrency;
@@ -48,7 +49,7 @@ const createSfState = (initialData: SfStateProps) => {
 };
 type SfStateApi = ReturnType<typeof createSfState>;
 
-export const SfStateContext = createContext<SfStateApi | null>(null);
+const SfStateContext = createContext<SfStateApi | null>(null);
 
 export function SfStateProvider({
   children,

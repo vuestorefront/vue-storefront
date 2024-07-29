@@ -101,8 +101,8 @@ export type SdkConfig = ${genInlineTypeImport(
     });
 
     addTemplate({
-      src: localResolver.resolve("./runtime/useSfStore.template"),
-      filename: "useSfStore.ts",
+      src: localResolver.resolve("./runtime/useSfState.template"),
+      filename: "useSfState.ts",
       write: true,
     });
 
@@ -122,8 +122,8 @@ export type SdkConfig = ${genInlineTypeImport(
         from: buildDirectoryResolver.resolve("defineSdkConfig.ts"),
       },
       {
-        imports: ["useSfStore"],
-        from: buildDirectoryResolver.resolve("useSfStore.ts"),
+        imports: ["useSfState"],
+        from: buildDirectoryResolver.resolve("useSfState.ts"),
       },
     ]);
   },
