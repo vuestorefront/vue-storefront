@@ -9,33 +9,28 @@ import React, {
 } from "react";
 import { createStore, useStore } from "zustand";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SfLocales {}
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SfCart {}
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SfCurrency {}
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SfCustomer {}
-export interface SfStateProps {
-  currencies: SfCurrency[];
-  currency: SfCurrency;
-  locale: SfLocales[keyof SfLocales];
-  locales: SfLocales[keyof SfLocales][];
+export interface SfStateProps<TSfContract extends SfContract> {
+  currencies: TSfContract["SfCurrency"][];
+  currency: TSfContract["SfCurrency"];
+  locale: TSfContract["SfLocale"];
+  locales: TSfContract["SfLocale"][];
 }
-export interface SfState extends SfStateProps {
-  cart: Maybe<SfCart>;
-  customer: Maybe<SfCustomer>;
-  setCart: (cart?: Maybe<SfCart>) => void;
-  setCurrencies: (currencies: SfCurrency[]) => void;
-  setCurrency: (currency: SfCurrency) => void;
-  setCustomer: (customer?: Maybe<SfCustomer>) => void;
-  setLocale: (locale: SfLocales[keyof SfLocales]) => void;
-  setLocales: (locales: SfLocales[keyof SfLocales][]) => void;
+export interface SfState<TSfContract extends SfContract>
+  extends SfStateProps<TSfContract> {
+  cart: TSfContract["SfCart"] | null | undefined;
+  customer: TSfContract["SfCustomer"] | null | undefined;
+  setCart: (cart?: TSfContract["SfCart"] | null) => void;
+  setCurrencies: (currencies: TSfContract["SfCurrency"][]) => void;
+  setCurrency: (currency: TSfContract["SfCurrency"]) => void;
+  setCustomer: (customer?: TSfContract["SfCustomer"] | null) => void;
+  setLocale: (locale: TSfContract["SfLocale"]) => void;
+  setLocales: (locales: TSfContract["SfLocale"][]) => void;
 }
 
-const createSfState = (initialData: SfStateProps) => {
-  return createStore<SfState>()((set) => ({
+const createSfState = <TSfContract extends SfContract>(
+  initialData: SfStateProps<TSfContract>
+) => {
+  return createStore<SfState<TSfContract>>()((set) => ({
     cart: null,
     customer: null,
     ...initialData,
@@ -47,107 +42,135 @@ const createSfState = (initialData: SfStateProps) => {
     setLocales: (locales) => set({ locales }),
   }));
 };
-type SfStateApi = ReturnType<typeof createSfState>;
+type SfStateApi<TSfContract extends SfContract> = ReturnType<
+  typeof createSfState<TSfContract>
+>;
 
-const SfStateContext = createContext<SfStateApi | null>(null);
+export type SfContract = {
+  SfCart: unknown;
+  SfCustomer: unknown;
+  SfCurrency: unknown;
+  SfLocale: unknown;
+};
 
-export function SfStateProvider({
-  children,
-  initialData,
-}: {
-  initialData: SfStateProps;
-} & PropsWithChildren) {
-  const stateReference = useRef<SfStateApi>();
+export function CreateSfStateProvider<TSfContract extends SfContract>() {
+  const SfStateContext = createContext<SfStateApi<TSfContract> | null>(null);
 
-  if (!stateReference.current) {
-    stateReference.current = createSfState(initialData);
+  function SfStateProvider({
+    children,
+    initialData,
+  }: {
+    initialData: SfStateProps<TSfContract>;
+  } & PropsWithChildren) {
+    const stateReference = useRef<SfStateApi<TSfContract>>();
+
+    if (!stateReference.current) {
+      stateReference.current = createSfState<TSfContract>(initialData);
+    }
+
+    return (
+      <SfStateContext.Provider value={stateReference.current}>
+        {children}
+      </SfStateContext.Provider>
+    );
   }
 
-  return (
-    <SfStateContext.Provider value={stateReference.current}>
-      {children}
-    </SfStateContext.Provider>
-  );
-}
+  function getSfStateContext() {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const context = useContext(SfStateContext);
+    if (!context)
+      throw new Error("Missing SfStateContext.Provider in the tree");
+    return context;
+  }
 
-function getSfStateContext() {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const context = useContext(SfStateContext);
-  if (!context) throw new Error("Missing SfStateContext.Provider in the tree");
-  return context;
-}
+  function useSfCurrencyState(): [
+    TSfContract["SfCurrency"],
+    (currency: TSfContract["SfCurrency"]) => void
+  ] {
+    const { currency, setCurrency } = useStore(
+      getSfStateContext(),
+      (state) => ({
+        currency: state.currency,
+        setCurrency: state.setCurrency,
+      })
+    );
 
-export function useSfCurrencyState(): [
-  SfCurrency,
-  (currency: SfCurrency) => void
-] {
-  const { currency, setCurrency } = useStore(getSfStateContext(), (state) => ({
-    currency: state.currency,
-    setCurrency: state.setCurrency,
-  }));
+    return [currency, setCurrency];
+  }
 
-  return [currency, setCurrency];
-}
+  function useSfCurrenciesState(): [
+    TSfContract["SfCurrency"][],
+    (currencies: TSfContract["SfCurrency"][]) => void
+  ] {
+    const { currencies, setCurrencies } = useStore(
+      getSfStateContext(),
+      (state) => ({
+        currencies: state.currencies,
+        setCurrencies: state.setCurrencies,
+      })
+    );
 
-export function useSfCurrenciesState(): [
-  SfCurrency[],
-  (currencies: SfCurrency[]) => void
-] {
-  const { currencies, setCurrencies } = useStore(
-    getSfStateContext(),
-    (state) => ({
-      currencies: state.currencies,
-      setCurrencies: state.setCurrencies,
-    })
-  );
+    return [currencies, setCurrencies];
+  }
 
-  return [currencies, setCurrencies];
-}
+  function useSfLocaleState(): [
+    TSfContract["SfLocale"],
+    (locale: TSfContract["SfLocale"]) => void
+  ] {
+    const { locale, setLocale } = useStore(getSfStateContext(), (state) => ({
+      locale: state.locale,
+      setLocale: state.setLocale,
+    }));
 
-export function useSfLocaleState(): [
-  SfLocales[keyof SfLocales],
-  (locale: SfLocales[keyof SfLocales]) => void
-] {
-  const { locale, setLocale } = useStore(getSfStateContext(), (state) => ({
-    locale: state.locale,
-    setLocale: state.setLocale,
-  }));
+    return [locale, setLocale];
+  }
 
-  return [locale, setLocale];
-}
+  function useSfLocalesState(): [
+    TSfContract["SfLocale"][],
+    (locales: TSfContract["SfLocale"][]) => void
+  ] {
+    const { locales, setLocales } = useStore(getSfStateContext(), (state) => ({
+      locales: state.locales,
+      setLocales: state.setLocales,
+    }));
 
-export function useSfLocalesState(): [
-  SfLocales[keyof SfLocales][],
-  (locales: SfLocales[keyof SfLocales][]) => void
-] {
-  const { locales, setLocales } = useStore(getSfStateContext(), (state) => ({
-    locales: state.locales,
-    setLocales: state.setLocales,
-  }));
+    return [locales, setLocales];
+  }
 
-  return [locales, setLocales];
-}
+  function useSfCartState(): [
+    TSfContract["SfCart"] | null | undefined,
+    (cart?: TSfContract["SfCart"] | null) => void
+  ] {
+    const { cart, setCart } = useStore(getSfStateContext(), (state) => ({
+      cart: state.cart,
+      setCart: state.setCart,
+    }));
 
-export function useSfCartState(): [
-  Maybe<SfCart> | undefined,
-  (cart?: Maybe<SfCart>) => void
-] {
-  const { cart, setCart } = useStore(getSfStateContext(), (state) => ({
-    cart: state.cart,
-    setCart: state.setCart,
-  }));
+    return [cart, setCart];
+  }
 
-  return [cart, setCart];
-}
+  function useSfCustomerState(): [
+    TSfContract["SfCustomer"] | null | undefined,
+    (customer?: TSfContract["SfCustomer"] | null) => void
+  ] {
+    const { customer, setCustomer } = useStore(
+      getSfStateContext(),
+      (state) => ({
+        customer: state.customer,
+        setCustomer: state.setCustomer,
+      })
+    );
 
-export function useSfCustomerState(): [
-  Maybe<SfCustomer> | undefined,
-  (customer?: Maybe<SfCustomer>) => void
-] {
-  const { customer, setCustomer } = useStore(getSfStateContext(), (state) => ({
-    customer: state.customer,
-    setCustomer: state.setCustomer,
-  }));
+    return [customer, setCustomer];
+  }
 
-  return [customer, setCustomer];
+  return {
+    SfStateProvider,
+    useSfCurrencyState,
+    useSfCurrenciesState,
+    useSfLocaleState,
+    useSfLocalesState,
+    useSfCartState,
+    useSfCustomerState,
+  };
 }

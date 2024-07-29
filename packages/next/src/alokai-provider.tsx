@@ -4,7 +4,7 @@ import { SDKApi } from "@vue-storefront/sdk";
 import Script from "next/script";
 import React, { createContext, useContext } from "react";
 import { CreateSdkContextReturn, AlokaiProviderProps } from "./sdk/types";
-import { SfStateProvider } from "./state";
+import { CreateSfStateProvider, type SfContract } from "./state";
 
 /**
  * Creates a new Alokai context which is a combination of SDK and state contexts.
@@ -26,15 +26,17 @@ import { SfStateProvider } from "./state";
  * @returns [AlokaiProvider, useSdk] - The SDK provider and the `useSdk` hook.
  */
 export function createAlokaiContext<
-  TSdk extends SDKApi<any>
->(): CreateSdkContextReturn<TSdk> {
+  TSdk extends SDKApi<any>,
+  TSfContract extends SfContract
+>(): CreateSdkContextReturn<TSdk, TSfContract> {
   const SdkContext = createContext<TSdk>(null);
+  const { SfStateProvider, ...rest } = CreateSfStateProvider<TSfContract>();
 
   function AlokaiProvider({
     children,
     sdk,
     initialData,
-  }: AlokaiProviderProps<TSdk>) {
+  }: AlokaiProviderProps<TSdk, TSfContract>) {
     return (
       <SdkContext.Provider value={sdk}>
         {/* an universal approach to add meta tag */}
@@ -59,5 +61,5 @@ export function createAlokaiContext<
     return contextSdk;
   };
 
-  return [AlokaiProvider, useSdk] as const;
+  return { AlokaiProvider, useSdk, ...rest } as const;
 }
