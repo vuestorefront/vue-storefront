@@ -88,7 +88,7 @@ export const getRequestSender = (options: Options): RequestSender => {
   };
 
   const defaultLogger: Logger = {
-    request: ({ config, url, params }) => {
+    onRequest: ({ config, url, params }) => {
       const { pathname } = new URL(url);
       // eslint-disable-next-line no-console
       console.log(
@@ -97,7 +97,7 @@ export const getRequestSender = (options: Options): RequestSender => {
         JSON.stringify(params)
       );
     },
-    response: ({ config, url, responseTime }) => {
+    onResponse: ({ config, url, responseTime }) => {
       const { pathname } = new URL(url);
       // eslint-disable-next-line no-console
       console.log(
@@ -160,7 +160,7 @@ export const getRequestSender = (options: Options): RequestSender => {
       methodConfig
     );
     const startTime = performance.now();
-    logger.request?.({
+    logger.onRequest?.({
       config: finalConfig,
       params,
       url: finalUrl,
@@ -169,7 +169,7 @@ export const getRequestSender = (options: Options): RequestSender => {
     try {
       const response = await httpClient(finalUrl, finalParams, finalConfig);
       const responseTime = performance.now() - startTime;
-      logger.response?.({
+      logger.onResponse?.({
         config: finalConfig,
         params,
         response,

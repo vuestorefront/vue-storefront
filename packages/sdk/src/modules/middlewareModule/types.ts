@@ -155,8 +155,11 @@ export type ErrorHandlerContext = {
   httpClient: HTTPClient;
 };
 
+/**
+ * Custom logger for the middlewareModule, allowing for request and response logging.
+ */
 export type Logger = {
-  request?: (payload: {
+  onRequest?: (payload: {
     /** Request config */
     config: ComputedConfig;
     /** Request params */
@@ -164,7 +167,7 @@ export type Logger = {
     /** Request full url */
     url: string;
   }) => void;
-  response?: (payload: {
+  onResponse?: (payload: {
     /** Request config */
     config: ComputedConfig;
     /** Request params */

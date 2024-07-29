@@ -734,8 +734,8 @@ describe("middlewareModule", () => {
 
   it("should allow to use the custom logger", async () => {
     const logger = {
-      request: jest.fn(),
-      response: jest.fn(),
+      onRequest: jest.fn(),
+      onResponse: jest.fn(),
     };
 
     const sdk = initSDK({
@@ -748,10 +748,10 @@ describe("middlewareModule", () => {
 
     await sdk.commerce.getProduct({ id: 1 });
 
-    expect(logger.request).toHaveBeenCalled();
-    expect(logger.request.mock.calls[0][0]).toMatchSnapshot();
-    expect(logger.response).toHaveBeenCalled();
-    expect(logger.response.mock.calls[0][0]).toMatchSnapshot({
+    expect(logger.onRequest).toHaveBeenCalled();
+    expect(logger.onRequest.mock.calls[0][0]).toMatchSnapshot();
+    expect(logger.onResponse).toHaveBeenCalled();
+    expect(logger.onResponse.mock.calls[0][0]).toMatchSnapshot({
       responseTime: expect.any(Number),
     });
   });
