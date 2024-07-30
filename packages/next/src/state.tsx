@@ -9,6 +9,13 @@ import React, {
 } from "react";
 import { createStore, useStore } from "zustand";
 
+export type SfContract = {
+  SfCart: unknown;
+  SfCustomer: unknown;
+  SfCurrency: unknown;
+  SfLocale: unknown;
+};
+
 export interface SfStateProps<TSfContract extends SfContract> {
   currencies: TSfContract["SfCurrency"][];
   currency: TSfContract["SfCurrency"];
@@ -42,18 +49,12 @@ const createSfState = <TSfContract extends SfContract>(
     setLocales: (locales) => set({ locales }),
   }));
 };
+
 type SfStateApi<TSfContract extends SfContract> = ReturnType<
   typeof createSfState<TSfContract>
 >;
 
-export type SfContract = {
-  SfCart: unknown;
-  SfCustomer: unknown;
-  SfCurrency: unknown;
-  SfLocale: unknown;
-};
-
-export function CreateSfStateProvider<TSfContract extends SfContract>() {
+export function createSfStateProvider<TSfContract extends SfContract>() {
   const SfStateContext = createContext<SfStateApi<TSfContract> | null>(null);
 
   function SfStateProvider({

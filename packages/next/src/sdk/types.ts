@@ -2,7 +2,7 @@
 import { SDKApi, buildModule, middlewareModule } from "@vue-storefront/sdk";
 import { ReactNode } from "react";
 import type { defaultMethodsRequestConfig } from "@storefront/shared";
-import type { SfStateProps, CreateSfStateProvider, SfContract } from "../state";
+import type { SfStateProps, createSfStateProvider, SfContract } from "../state";
 export type GetSdkContext = {
   /**
    * A function that returns the request headers.
@@ -101,21 +101,21 @@ export type CreateSdkContextReturn<
   }: AlokaiProviderProps<TSdk, TSfContract>) => JSX.Element;
   useSdk: () => TSdk;
   useSfCurrencyState: ReturnType<
-    typeof CreateSfStateProvider<TSfContract>
+    typeof createSfStateProvider<TSfContract>
   >["useSfCurrencyState"];
   useSfCurrenciesState: ReturnType<
-    typeof CreateSfStateProvider<TSfContract>
+    typeof createSfStateProvider<TSfContract>
   >["useSfCurrenciesState"];
   useSfLocaleState: ReturnType<
-    typeof CreateSfStateProvider<TSfContract>
+    typeof createSfStateProvider<TSfContract>
   >["useSfLocaleState"];
   useSfLocalesState: ReturnType<
-    typeof CreateSfStateProvider<TSfContract>
+    typeof createSfStateProvider<TSfContract>
   >["useSfLocalesState"];
   useSfCartState: ReturnType<
-    typeof CreateSfStateProvider<TSfContract>
+    typeof createSfStateProvider<TSfContract>
   >["useSfCartState"];
   useSfCustomerState: ReturnType<
-    typeof CreateSfStateProvider<TSfContract>
+    typeof createSfStateProvider<TSfContract>
   >["useSfCustomerState"];
 }>;

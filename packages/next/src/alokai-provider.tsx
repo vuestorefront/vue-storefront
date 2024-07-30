@@ -4,7 +4,7 @@ import { SDKApi } from "@vue-storefront/sdk";
 import Script from "next/script";
 import React, { createContext, useContext } from "react";
 import { CreateSdkContextReturn, AlokaiProviderProps } from "./sdk/types";
-import { CreateSfStateProvider, type SfContract } from "./state";
+import { createSfStateProvider, type SfContract } from "./state";
 
 /**
  * Creates a new Alokai context which is a combination of SDK and state contexts.
@@ -30,7 +30,7 @@ export function createAlokaiContext<
   TSfContract extends SfContract
 >(): CreateSdkContextReturn<TSdk, TSfContract> {
   const SdkContext = createContext<TSdk>(null);
-  const { SfStateProvider, ...rest } = CreateSfStateProvider<TSfContract>();
+  const { SfStateProvider, ...rest } = createSfStateProvider<TSfContract>();
 
   function AlokaiProvider({
     children,
