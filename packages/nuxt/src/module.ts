@@ -15,7 +15,7 @@ import { defu } from "defu";
 export default defineNuxtModule<SdkModuleOptions>({
   meta: {
     name: "@vue-storefront/nuxt",
-    configKey: "vsf",
+    configKey: "alokai",
     compatibility: {
       nuxt: "^3.0.0",
     },
@@ -39,15 +39,12 @@ export default defineNuxtModule<SdkModuleOptions>({
     await installModule("@pinia/nuxt");
 
     nuxt.options.runtimeConfig.public.alokai = defu(
-      nuxt.options.runtimeConfig.public?.vsf as any,
       nuxt.options.runtimeConfig.public?.alokai as any,
       options
     );
 
     nuxt.options.runtimeConfig.public.alokai = defu(
       nuxt.options.runtimeConfig.public?.alokai as any,
-      { middleware: { cdnCacheBustingId: process.env?.GIT_SHA } },
-      nuxt.options.runtimeConfig.public?.vsf as any,
       options
     );
 
