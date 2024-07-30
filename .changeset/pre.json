@@ -19,5 +19,8 @@
     "@vue-storefront/sdk-axios-request-sender": "2.0.0",
     "@storefront/shared": "0.0.1"
   },
-  "changesets": []
+  "changesets": [
+    "curly-years-help",
+    "giant-dogs-crash"
+  ]
 }

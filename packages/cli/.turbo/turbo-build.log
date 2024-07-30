@@ -1,0 +1,3 @@
+yarn run v1.22.22
+$ rimraf lib && tsc
+Done in 7.77s.
