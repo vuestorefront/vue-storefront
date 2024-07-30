@@ -9,6 +9,7 @@ import {
   Logger,
 } from "../types";
 import { SdkHttpError } from "./SdkHttpError";
+import { defaultLogger } from "./defaultLogger";
 
 /**
  * Generates a `RequestSender` function configured according to the provided options.
@@ -85,25 +86,6 @@ export const getRequestSender = (options: Options): RequestSender => {
         ...computedHeaders,
       },
     };
-  };
-
-  const defaultLogger: Logger = {
-    onRequest: ({ config, url, params }) => {
-      const { pathname } = new URL(url);
-      // eslint-disable-next-line no-console
-      console.log(
-        `${config.method} ${pathname}`,
-        `(${typeof window === "undefined" ? "server" : "client"} side)`,
-        JSON.stringify(params)
-      );
-    },
-    onResponse: ({ config, url, responseTime }) => {
-      const { pathname } = new URL(url);
-      // eslint-disable-next-line no-console
-      console.log(
-        `${config.method} ${pathname} in ${responseTime.toFixed()}ms`
-      );
-    },
   };
 
   const getLogger = (logger: Options["logger"]): Logger => {

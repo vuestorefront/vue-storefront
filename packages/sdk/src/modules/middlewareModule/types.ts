@@ -156,28 +156,38 @@ export type ErrorHandlerContext = {
 };
 
 /**
+ * Payload for the `onRequest` logger.
+ */
+export type OnRequestPayload = {
+  /** Request config */
+  config: ComputedConfig;
+  /** Request params */
+  params: unknown[];
+  /** Request full url */
+  url: string;
+};
+
+/**
+ * Payload for the `onResponse` logger.
+ */
+export type OnResponsePayload = {
+  /** Request config */
+  config: ComputedConfig;
+  /** Request params */
+  params: unknown[];
+  response: unknown;
+  /** Time in miliseconds */
+  responseTime: number;
+  /** Request full url */
+  url: string;
+};
+
+/**
  * Custom logger for the middlewareModule, allowing for request and response logging.
  */
 export type Logger = {
-  onRequest?: (payload: {
-    /** Request config */
-    config: ComputedConfig;
-    /** Request params */
-    params: unknown[];
-    /** Request full url */
-    url: string;
-  }) => void;
-  onResponse?: (payload: {
-    /** Request config */
-    config: ComputedConfig;
-    /** Request params */
-    params: unknown[];
-    response: unknown;
-    /** Time in miliseconds */
-    responseTime: number;
-    /** Request full url */
-    url: string;
-  }) => void;
+  onRequest?: (payload: OnRequestPayload) => void;
+  onResponse?: (payload: OnResponsePayload) => void;
 };
 
 /**
