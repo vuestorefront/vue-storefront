@@ -1,0 +1,22 @@
+yarn run v1.22.22
+$ nuxt-module-build build
+[info] Building nuxt
+[info] Cleaning dist directory: `./dist`
+[nuxt] Expected `@nuxt/kit` to be at least `3.12.2` but got `3.11.2`. This might lead to unexpected behavior. Check your package.json or refresh your lockfile.
+[nuxt] Expected `@nuxt/schema` to be at least `3.12.2` but got `3.11.2`. This might lead to unexpected behavior. Check your package.json or refresh your lockfile.
+[success] Build succeeded for nuxt
+[log]   dist/runtime (total size: 7.33 kB)
+  └─ dist/runtime/utils/composeMiddlewareUrl.d.ts (404 B)
+  └─ dist/runtime/defineSdkConfig.template (2.85 kB)
+  └─ dist/runtime/utils/composeMiddlewareUrl.js (862 B)
+  └─ dist/runtime/utils/defaults.js (487 B)
+  └─ dist/runtime/utils/defaults.d.ts (887 B)
+  └─ dist/runtime/plugin.template (302 B)
+  └─ dist/runtime/types.template (786 B)
+  └─ dist/runtime/useSdk.template (295 B)
+  └─ dist/runtime/useSfState.template (458 B)
+[log]   dist/module.mjs (total size: 2.93 kB, chunk size: 2.93 kB, exports: default)
+
+Σ Total dist size (byte size): 13.9 kB
+[log]
+Done in 7.12s.
