@@ -52,7 +52,9 @@ It is delivered out of the box.
 Example of usage:
 
 ```tsx
-import { 
+import { useQuery } from '@tanstack/react-query';
+import {
+  useSdk,
   useSfCartState,
   useSfCustomerState,
   useSfCurrencyState,
@@ -60,15 +62,20 @@ import {
 } from '@/sdk/alokai-context';
 
 function Component() {
+  const sdk = useSdk();
   const [cart, setCart] = useSfCartState();
   const [customer] = useSfCustomerState();
   const [currency] = useSfCurrencyState();
   const [locale] = useSfLocaleState();
 
+  const result = useQuery({
+    queryFn: () => sdk.unified.getCart(),
+    queryKey: ['cart', 'main'],
+  });
   // updating the cart state
   useEffect(() => {
-    setCart(useSdk().unified.getCart());
-  }, []);
+    setCart(result.data);
+  }, [result.data]);
   
   return (
     <div>
