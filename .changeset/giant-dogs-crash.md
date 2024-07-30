@@ -9,7 +9,7 @@ It shares the data about:
 - currency
 - locale
 
-This change will require you to refactor your composables and make use of the introduced state manager.
+This change will require you to refactor your composables to make use of the introduced state manager.
 As this is only a state management, you will still need to use the composables to fetch the data and put it into the state.
 
 Every part of global state can now be used as refs so reading and writing to them is more straightforward.
