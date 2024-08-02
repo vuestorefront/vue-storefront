@@ -3433,6 +3433,11 @@
   dependencies:
     esquery "^1.4.0"
 
+"@philsch/gcp-logging@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@philsch/gcp-logging/-/gcp-logging-0.0.1.tgz#a4258e8e6988d0448b49487986c899c09a800809"
+  integrity sha512-NeZjbMPrEVHzcWxs6kB4HZIRvTBFGeQ21T9+AoWBr3IV5NjBt04Eg3Vcnnn4nZYtPs+pTrb5olSv8VmbzFXUKg==
+
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
