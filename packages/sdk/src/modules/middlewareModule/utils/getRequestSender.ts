@@ -6,8 +6,10 @@ import {
   HTTPClient,
   ErrorHandler,
   RequestSender,
+  Logger,
 } from "../types";
 import { SdkHttpError } from "./SdkHttpError";
+import { defaultLogger } from "./defaultLogger";
 
 /**
  * Generates a `RequestSender` function configured according to the provided options.
@@ -86,6 +88,15 @@ export const getRequestSender = (options: Options): RequestSender => {
     };
   };
 
+  const getLogger = (logger: Options["logger"]): Logger => {
+    if (logger === true) return defaultLogger;
+    if (logger === false) return {};
+    if (!logger)
+      return process.env.ALOKAI_SDK_DEBUG === "true" ? defaultLogger : {};
+
+    return logger;
+  };
+
   const defaultHTTPClient: HTTPClient = async (url, params, config) => {
     const response = await fetch(url, {
       ...config,
@@ -96,9 +107,14 @@ export const getRequestSender = (options: Options): RequestSender => {
     const responseJson = await response.json().catch(() => undefined);
 
     if (!response.ok) {
+      const message = `${config?.method} ${url} ${
+        responseJson?.message ?? response.statusText
+      }`;
+
       throw new SdkHttpError({
         statusCode: response.status,
-        message: responseJson?.message,
+        message,
+        url,
       });
     }
 
@@ -114,6 +130,7 @@ export const getRequestSender = (options: Options): RequestSender => {
       httpClient = defaultHTTPClient,
       errorHandler = defaultErrorHandler,
     } = options;
+    const logger = getLogger(options.logger);
     const { method, headers = {}, ...restConfig } = config ?? {};
     const methodConfig = methodsRequestConfig[methodName] || {};
     const finalMethod =
@@ -124,9 +141,24 @@ export const getRequestSender = (options: Options): RequestSender => {
       { method: finalMethod, headers, ...restConfig },
       methodConfig
     );
+    const startTime = performance.now();
+    logger.onRequest?.({
+      config: finalConfig,
+      params,
+      url: finalUrl,
+    });
 
     try {
-      return await httpClient(finalUrl, finalParams, finalConfig);
+      const response = await httpClient(finalUrl, finalParams, finalConfig);
+      const responseTime = performance.now() - startTime;
+      logger.onResponse?.({
+        config: finalConfig,
+        params,
+        response,
+        responseTime,
+        url: finalUrl,
+      });
+      return response;
     } catch (error) {
       return await errorHandler({
         error,

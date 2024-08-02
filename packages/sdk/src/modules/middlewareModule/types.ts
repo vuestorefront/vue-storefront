@@ -156,6 +156,41 @@ export type ErrorHandlerContext = {
 };
 
 /**
+ * Payload for the `onRequest` logger.
+ */
+export type OnRequestPayload = {
+  /** Request config */
+  config: ComputedConfig;
+  /** Request params */
+  params: unknown[];
+  /** Request full url */
+  url: string;
+};
+
+/**
+ * Payload for the `onResponse` logger.
+ */
+export type OnResponsePayload = {
+  /** Request config */
+  config: ComputedConfig;
+  /** Request params */
+  params: unknown[];
+  response: unknown;
+  /** Time in miliseconds */
+  responseTime: number;
+  /** Request full url */
+  url: string;
+};
+
+/**
+ * Custom logger for the middlewareModule, allowing for request and response logging.
+ */
+export type Logger = {
+  onRequest?: (payload: OnRequestPayload) => void;
+  onResponse?: (payload: OnResponsePayload) => void;
+};
+
+/**
  * Defines a generic error handler function type. This abstraction allows for custom error handling logic,
  * which can be implemented by the consumer of the HTTP client.
  */
@@ -264,6 +299,50 @@ export type Options<
    * Unique identifier for CDN cache busting.
    */
   cdnCacheBustingId?: string;
+
+  /**
+   * Logger for the module. It can be a boolean to enable/disable the default logger or a custom logger.
+   *
+   * @default true if the `ALOKAI_SDK_DEBUG` environment variable is set to `true`, otherwise `false`.
+   *
+   * @example
+   * Enable the default logger
+   *
+   * ```typescript
+   * const options: Options = {
+   *   apiUrl: "https://api.example.com",
+   *   logger: true,
+   * };
+   * ```
+   *
+   * @example
+   * Disable the default logger, even if the `ALOKAI_SDK_DEBUG` environment variable is set to `true`
+   *
+   * ```typescript
+   * const options: Options = {
+   *   apiUrl: "https://api.example.com",
+   *   logger: false,
+   * };
+   * ```
+   *
+   * @example
+   * Use a custom logger
+   *
+   * ```typescript
+   * const options: Options = {
+   *   apiUrl: "https://api.example.com",
+   *   logger: {
+   *     request: (payload) => {
+   *       console.log("Request", JSON.stringify(payload));
+   *     },
+   *     response: (payload) => {
+   *       console.log("Response", JSON.stringify(payload));
+   *     },
+   *   },
+   * };
+   * ```
+   */
+  logger?: boolean | Logger;
 };
 
 /**

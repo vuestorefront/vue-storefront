@@ -8,6 +8,8 @@ export type ErrorParams = {
   statusCode: number;
   /** An optional cause for the error, providing more context or the underlying error that led to this error. */
   cause?: unknown;
+  /** The full request url. */
+  url: string;
 };
 
 /**
@@ -15,15 +17,19 @@ export type ErrorParams = {
  */
 export class SdkHttpError extends Error {
   /** The HTTP status code associated with this error. */
-  public statusCode: number;
+  public readonly statusCode: number;
+
+  /** The full request url. */
+  public readonly url: string;
 
   /**
    * Constructs an instance of `SDKError`.
    */
   constructor(errorParams: ErrorParams) {
-    const { message, statusCode, cause = undefined } = errorParams;
+    const { message, statusCode, url, cause = undefined } = errorParams;
     super(message, { cause });
     this.statusCode = statusCode;
+    this.url = url;
   }
 }
 
