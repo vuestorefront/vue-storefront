@@ -581,6 +581,7 @@ describe("middlewareModule", () => {
               statusCode: err?.response?.status || 500,
               message: err?.response?.data?.message || err.message,
               cause: err,
+              url,
             });
           }
         },
@@ -729,5 +730,81 @@ describe("middlewareModule", () => {
         method: "GET",
       })
     );
+  });
+
+  it("should allow to use the custom logger", async () => {
+    const logger = {
+      onRequest: jest.fn(),
+      onResponse: jest.fn(),
+    };
+
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
+        logger,
+      }),
+    });
+
+    await sdk.commerce.getProduct({ id: 1 });
+
+    expect(logger.onRequest).toHaveBeenCalled();
+    expect(logger.onRequest.mock.calls[0][0]).toMatchSnapshot();
+    expect(logger.onResponse).toHaveBeenCalled();
+    expect(logger.onResponse.mock.calls[0][0]).toMatchSnapshot({
+      responseTime: expect.any(Number),
+    });
+  });
+
+  it("should use the built in logger when ALOKAI_SDK_DEBUG is true", async () => {
+    process.env.ALOKAI_SDK_DEBUG = "true";
+    const logSpy = jest.spyOn(console, "log");
+
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
+      }),
+    });
+
+    await sdk.commerce.getProduct({ id: 1 });
+
+    process.env.ALOKAI_SDK_DEBUG = undefined;
+    expect(logSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it("should not log when ALOKAI_SDK_DEBUG is false", async () => {
+    process.env.ALOKAI_SDK_DEBUG = "false";
+    const logSpy = jest.spyOn(console, "log");
+    logSpy.mockClear();
+
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
+      }),
+    });
+
+    await sdk.commerce.getProduct({ id: 1 });
+
+    process.env.ALOKAI_SDK_DEBUG = undefined;
+    expect(logSpy).not.toHaveBeenCalled();
+  });
+
+  it("should not log when logger is false", async () => {
+    const logSpy = jest.spyOn(console, "log");
+    logSpy.mockClear();
+
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
+        logger: false,
+      }),
+    });
+
+    await sdk.commerce.getProduct({ id: 1 });
+
+    expect(logSpy).not.toHaveBeenCalled();
   });
 });
