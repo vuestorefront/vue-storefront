@@ -1,0 +1,26 @@
+yarn run v1.22.22
+$ tsup
+CLI Building entry: {"index":"src/index.ts","client":"src/client.ts"}
+CLI Using tsconfig: tsconfig.json
+CLI tsup v8.0.1
+CLI Using tsup config: /home/runner/work/vue-storefront/vue-storefront/packages/next/tsup.config.ts
+CLI Target: es2015
+CJS Build start
+ESM Build start
+ESM dist/index.mjs          3.21 KB
+ESM dist/client.mjs         4.08 KB
+ESM dist/chunk-FUJQIYOF.mjs 1.30 KB
+ESM ⚡️ Build success in 31ms
+CJS dist/index.js  4.94 KB
+CJS dist/client.js 7.03 KB
+CJS ⚡️ Build success in 31ms
+DTS Build start
+"PropsWithChildren" is imported from external module "react" but never used in "src/state.tsx" and "src/sdk/types.ts".
+DTS ⚡️ Build success in 4371ms
+DTS dist/index.d.ts           3.38 KB
+DTS dist/client.d.ts          1.27 KB
+DTS dist/types-TuCCvExK.d.ts  6.30 KB
+DTS dist/index.d.mts          3.38 KB
+DTS dist/client.d.mts         1.27 KB
+DTS dist/types-TuCCvExK.d.mts 6.30 KB
+Done in 5.22s.
