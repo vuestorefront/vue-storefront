@@ -1,6 +1,0 @@
-yarn run v1.22.22
-$ rimraf lib && rollup -c
-[36m
-[1msrc/index.ts[22m → [1mlib/index.cjs.js, lib/index.es.js[22m...[39m
-[32mcreated [1mlib/index.cjs.js, lib/index.es.js[22m in [1m7.4s[22m[39m
-Done in 8.53s.

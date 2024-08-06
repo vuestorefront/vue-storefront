@@ -1,7 +1,0 @@
-yarn run v1.22.22
-warning package.json: License should be a valid SPDX license expression
-$ rimraf lib && rollup -c
-[36m
-[1msrc/index.ts[22m → [1mlib/index.cjs.js, lib/index.es.js[22m...[39m
-[32mcreated [1mlib/index.cjs.js, lib/index.es.js[22m in [1m6s[22m[39m
-Done in 6.99s.
