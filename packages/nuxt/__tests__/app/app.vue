@@ -13,3 +13,9 @@
     <NuxtPage />
   </div>
 </template>
+
+<script setup>
+const { currency } = storeToRefs(useSfStore());
+
+currency.value = "USD";
+</script>

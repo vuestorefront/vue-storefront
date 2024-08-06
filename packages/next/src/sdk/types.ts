@@ -2,6 +2,7 @@
 import { SDKApi, buildModule, middlewareModule } from "@vue-storefront/sdk";
 import { ReactNode } from "react";
 import type { defaultMethodsRequestConfig } from "@storefront/shared";
+import type { SfStateProps, createSfStateProvider, SfContract } from "../state";
 export type GetSdkContext = {
   /**
    * A function that returns the request headers.
@@ -37,9 +38,10 @@ type InjectedContext = DynamicContext & StaticContext;
 
 export type Config<TConfig> = (context: InjectedContext) => TConfig;
 
-export type SdkProviderProps<TSdk> = {
+export type AlokaiProviderProps<TSdk, TSfContract extends SfContract> = {
   children: ReactNode;
   sdk: TSdk;
+  initialData: SfStateProps<TSfContract>;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -90,7 +92,30 @@ export interface CreateSdkReturn<TConfig extends Record<string, any>> {
   getSdk: (dynamicContext?: GetSdkContext) => SDKApi<TConfig>;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type CreateSdkContextReturn<TSdk extends SDKApi<any>> = readonly [
-  ({ children }: SdkProviderProps<TSdk>) => JSX.Element,
-  () => TSdk
-];
+export type CreateSdkContextReturn<
+  TSdk extends SDKApi<any>,
+  TSfContract extends SfContract
+> = Readonly<{
+  AlokaiProvider: ({
+    children,
+  }: AlokaiProviderProps<TSdk, TSfContract>) => JSX.Element;
+  useSdk: () => TSdk;
+  useSfCurrencyState: ReturnType<
+    typeof createSfStateProvider<TSfContract>
+  >["useSfCurrencyState"];
+  useSfCurrenciesState: ReturnType<
+    typeof createSfStateProvider<TSfContract>
+  >["useSfCurrenciesState"];
+  useSfLocaleState: ReturnType<
+    typeof createSfStateProvider<TSfContract>
+  >["useSfLocaleState"];
+  useSfLocalesState: ReturnType<
+    typeof createSfStateProvider<TSfContract>
+  >["useSfLocalesState"];
+  useSfCartState: ReturnType<
+    typeof createSfStateProvider<TSfContract>
+  >["useSfCartState"];
+  useSfCustomerState: ReturnType<
+    typeof createSfStateProvider<TSfContract>
+  >["useSfCustomerState"];
+}>;

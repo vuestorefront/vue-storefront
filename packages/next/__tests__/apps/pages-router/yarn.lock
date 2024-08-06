@@ -150,14 +150,15 @@
     csstype "^3.0.2"
 
 "@vue-storefront/next@file:../../..":
-  version "3.0.0"
+  version "3.0.1"
   dependencies:
-    "@vue-storefront/sdk" "^3.1.0"
+    "@vue-storefront/sdk" "^3.1.1"
+    zustand "^4.5.4"
 
-"@vue-storefront/sdk@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/sdk/-/sdk-3.1.0.tgz#e4f450c9f98ab90eb22c378809c8fe4083c76bdb"
-  integrity sha512-8txDG3CuDzE+3nxQpgcnvanusAdMiWZWxcNCPxXu7F4ux7WM6oZpzJ4UahSAtbExRUPfqdd92eC6yV+Ys41qtg==
+"@vue-storefront/sdk@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/sdk/-/sdk-3.1.1.tgz#56c428784938cc35a889d3b576db0fbf6799e209"
+  integrity sha512-rPLcdK0i9tDdFSnRsGFgPVF1nmMx5G5c2rc4uYJrkRwZw/cSLmmznXMLMejgnX1QrdAkfG0D4oSqO37tMCJUbg==
 
 busboy@1.6.0:
   version "1.6.0"
@@ -331,6 +332,11 @@ undici-types@~5.26.4:
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
   integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
+use-sync-external-store@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
+  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
+
 watchpack@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-2.4.0.tgz#fa33032374962c78113f93c7f2fb4c54c9862a5d"
@@ -338,3 +344,10 @@ watchpack@2.4.0:
   dependencies:
     glob-to-regexp "^0.4.1"
     graceful-fs "^4.1.2"
+
+zustand@^4.5.4:
+  version "4.5.4"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.5.4.tgz#63abdd81edfb190bc61e0bbae045cc4d52158a05"
+  integrity sha512-/BPMyLKJPtFEvVL0E9E9BTUM63MNyhPGlvxk1XjrfWTUlV+BR8jufjsovHzrtR6YNcBEcL7cMHovL1n9xHawEg==
+  dependencies:
+    use-sync-external-store "1.2.0"

@@ -6,6 +6,7 @@ import {
   addPluginTemplate,
   addTypeTemplate,
   addImportsSources,
+  installModule,
 } from "@nuxt/kit";
 import { genInlineTypeImport } from "knitwork";
 import { type SdkModuleOptions } from "./types";
@@ -14,7 +15,7 @@ import { defu } from "defu";
 export default defineNuxtModule<SdkModuleOptions>({
   meta: {
     name: "@vue-storefront/nuxt",
-    configKey: "vsf",
+    configKey: "alokai",
     compatibility: {
       nuxt: "^3.0.0",
     },
@@ -28,23 +29,17 @@ export default defineNuxtModule<SdkModuleOptions>({
       enabled: false,
     },
   },
-  setup(options, nuxt) {
+  async setup(options, nuxt) {
     const projectLayer = nuxt.options._layers[0];
 
     const projectRootResolver = createResolver(projectLayer.config.rootDir);
     const buildDirectoryResolver = createResolver(nuxt.options.buildDir);
     const localResolver = createResolver(import.meta.url);
 
-    nuxt.options.runtimeConfig.public.alokai = defu(
-      nuxt.options.runtimeConfig.public?.vsf as any,
-      nuxt.options.runtimeConfig.public?.alokai as any,
-      options
-    );
+    await installModule("@pinia/nuxt");
 
     nuxt.options.runtimeConfig.public.alokai = defu(
       nuxt.options.runtimeConfig.public?.alokai as any,
-      { middleware: { cdnCacheBustingId: process.env?.GIT_SHA } },
-      nuxt.options.runtimeConfig.public?.vsf as any,
       options
     );
 
@@ -97,6 +92,12 @@ export type SdkConfig = ${genInlineTypeImport(
       },
     });
 
+    addTemplate({
+      src: localResolver.resolve("./runtime/useSfState.template"),
+      filename: "useSfState.ts",
+      write: true,
+    });
+
     addPluginTemplate({
       src: localResolver.resolve("./runtime/plugin.template"),
       filename: "alokaiSdkPlugin.ts",
@@ -111,6 +112,10 @@ export type SdkConfig = ${genInlineTypeImport(
       {
         imports: ["defineSdkConfig"],
         from: buildDirectoryResolver.resolve("defineSdkConfig.ts"),
+      },
+      {
+        imports: ["useSfState"],
+        from: buildDirectoryResolver.resolve("useSfState.ts"),
       },
     ]);
   },
