@@ -1,0 +1,43 @@
+{
+  "name": "@vue-storefront/rollup-config",
+  "version": "1.0.0",
+  "main": "./lib/index.js",
+  "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rimraf ./lib && tsc",
+    "prepublishOnly": "yarn build"
+  },
+  "homepage": "https://github.com/vuestorefront/vue-storefront/engineering-toolkit/rollup-config",
+  "contributors": [
+    {
+      "name": "Wojciech Sikora",
+      "email": "wsikora@vuestorefront.io"
+    }
+  ],
+  "keywords": [
+    "rollup",
+    "rollup-config",
+    "vuestorefront"
+  ],
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "rollup": "^2.59.0",
+    "rollup-plugin-typescript2": "^0.35.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.4",
+    "rimraf": "^5.0.0",
+    "typescript": "^4.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

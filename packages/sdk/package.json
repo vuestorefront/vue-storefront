@@ -1,7 +1,7 @@
 {
   "name": "@vue-storefront/sdk",
   "license": "MIT",
-  "version": "1.4.3",
+  "version": "3.2.0",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
@@ -22,17 +22,16 @@
   "devDependencies": {
     "@types/jest": "^29.0.3",
     "@types/node": "^18.11.17",
-    "babel-cli": "^6.26.0",
+    "@vue-storefront/middleware": "*",
+    "axios": "^1.6.7",
     "babel-preset-node": "^5.1.1",
+    "isomorphic-fetch": "^3.0.0",
     "nodemon": "^2.0.20",
     "ts-jest": "^29.0.2",
-    "ts-node-dev": "^2.0.0",
-    "@vue-storefront/middleware": "*",
-    "isomorphic-fetch": "^3.0.0",
-    "axios": "^1.6.7"
+    "ts-node-dev": "^2.0.0"
   },
   "engines": {
     "npm": ">=7.0.0",
-    "node": ">=16.0.0"
+    "node": ">=18"
   }
 }

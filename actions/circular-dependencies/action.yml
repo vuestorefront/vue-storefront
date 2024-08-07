@@ -1,0 +1,9 @@
+name: Circular dependencies
+description: Static circular dependency analyzer
+inputs:
+  filesPath:
+    description: The path to project files that will be used during analysis
+    required: true
+runs:
+  using: "node20"
+  main: "dist/index.js"

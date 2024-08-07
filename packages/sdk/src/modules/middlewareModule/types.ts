@@ -32,6 +32,11 @@ export type BaseConfig = {
    * @default "POST"
    */
   method?: "GET" | "POST";
+
+  /**
+   * Additional properties for the configuration object.
+   */
+  [key: string]: any;
 };
 
 /**
@@ -151,6 +156,41 @@ export type ErrorHandlerContext = {
 };
 
 /**
+ * Payload for the `onRequest` logger.
+ */
+export type OnRequestPayload = {
+  /** Request config */
+  config: ComputedConfig;
+  /** Request params */
+  params: unknown[];
+  /** Request full url */
+  url: string;
+};
+
+/**
+ * Payload for the `onResponse` logger.
+ */
+export type OnResponsePayload = {
+  /** Request config */
+  config: ComputedConfig;
+  /** Request params */
+  params: unknown[];
+  response: unknown;
+  /** Time in miliseconds */
+  responseTime: number;
+  /** Request full url */
+  url: string;
+};
+
+/**
+ * Custom logger for the middlewareModule, allowing for request and response logging.
+ */
+export type Logger = {
+  onRequest?: (payload: OnRequestPayload) => void;
+  onResponse?: (payload: OnResponsePayload) => void;
+};
+
+/**
  * Defines a generic error handler function type. This abstraction allows for custom error handling logic,
  * which can be implemented by the consumer of the HTTP client.
  */
@@ -159,7 +199,9 @@ export type ErrorHandler = (context: ErrorHandlerContext) => Promise<any>;
 /**
  * Options for the `middlewareModule`.
  */
-export type Options = {
+export type Options<
+  Endpoints extends EndpointsConstraint = EndpointsConstraint
+> = {
   /**
    * Base URL for the API.
    */
@@ -222,6 +264,11 @@ export type Options = {
   defaultRequestConfig?: RequestConfig;
 
   /**
+   * Default request confguration for each method.
+   */
+  methodsRequestConfig?: Partial<Record<keyof Endpoints, RequestConfig>>;
+
+  /**
    * An optional custom error handler for HTTP requests.
    *
    * @remarks
@@ -247,6 +294,55 @@ export type Options = {
    * ```
    */
   errorHandler?: ErrorHandler;
+
+  /**
+   * Unique identifier for CDN cache busting.
+   */
+  cdnCacheBustingId?: string;
+
+  /**
+   * Logger for the module. It can be a boolean to enable/disable the default logger or a custom logger.
+   *
+   * @default true if the `ALOKAI_SDK_DEBUG` environment variable is set to `true`, otherwise `false`.
+   *
+   * @example
+   * Enable the default logger
+   *
+   * ```typescript
+   * const options: Options = {
+   *   apiUrl: "https://api.example.com",
+   *   logger: true,
+   * };
+   * ```
+   *
+   * @example
+   * Disable the default logger, even if the `ALOKAI_SDK_DEBUG` environment variable is set to `true`
+   *
+   * ```typescript
+   * const options: Options = {
+   *   apiUrl: "https://api.example.com",
+   *   logger: false,
+   * };
+   * ```
+   *
+   * @example
+   * Use a custom logger
+   *
+   * ```typescript
+   * const options: Options = {
+   *   apiUrl: "https://api.example.com",
+   *   logger: {
+   *     request: (payload) => {
+   *       console.log("Request", JSON.stringify(payload));
+   *     },
+   *     response: (payload) => {
+   *       console.log("Response", JSON.stringify(payload));
+   *     },
+   *   },
+   * };
+   * ```
+   */
+  logger?: boolean | Logger;
 };
 
 /**

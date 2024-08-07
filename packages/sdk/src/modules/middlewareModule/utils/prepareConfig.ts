@@ -13,11 +13,7 @@ import { RequestConfig, MethodConfig } from "../types";
  * const products = sdk.commerce.getProducts(params, prepareConfig({ method: "GET" }));
  * ```
  */
-export const prepareConfig = <
-  CustomConfig extends RequestConfig = RequestConfig
->(
-  requestConfig: CustomConfig
-): MethodConfig => {
+export const prepareConfig = (requestConfig: RequestConfig): MethodConfig => {
   return {
     ...requestConfig,
     [isConfig]: true,

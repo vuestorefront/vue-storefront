@@ -6,8 +6,10 @@ import {
   HTTPClient,
   ErrorHandler,
   RequestSender,
+  Logger,
 } from "../types";
 import { SdkHttpError } from "./SdkHttpError";
+import { defaultLogger } from "./defaultLogger";
 
 /**
  * Generates a `RequestSender` function configured according to the provided options.
@@ -17,7 +19,13 @@ import { SdkHttpError } from "./SdkHttpError";
  * handling errors, and executing HTTP requests.
  */
 export const getRequestSender = (options: Options): RequestSender => {
-  const { apiUrl, ssrApiUrl, defaultRequestConfig = {} } = options;
+  const {
+    apiUrl,
+    ssrApiUrl,
+    defaultRequestConfig = {},
+    methodsRequestConfig = {},
+    cdnCacheBustingId = undefined,
+  } = options;
 
   const getUrl = (
     path: string,
@@ -40,13 +48,21 @@ export const getRequestSender = (options: Options): RequestSender => {
     }
 
     // If there are query params, append them to the URL as `?body=[<strignified query params>]`
-    const serializedParams = encodeURIComponent(JSON.stringify(params));
+    const serializedBody = encodeURIComponent(JSON.stringify(params));
+    // Serialize CDN cache busting ID
+    const serializedCdnCacheBustingId = cdnCacheBustingId
+      ? `&cdnCacheBustingId=${encodeURIComponent(cdnCacheBustingId)}`
+      : "";
 
-    return `${url}?body=${serializedParams}`;
+    return `${url}?body=${serializedBody}${serializedCdnCacheBustingId}`;
   };
 
-  const getConfig = (config: RequestConfig): ComputedConfig => {
+  const getConfig = (
+    config: RequestConfig,
+    methodConfig: RequestConfig
+  ): ComputedConfig => {
     const { method, headers } = config;
+    const { headers: methodHeaders = {} } = methodConfig;
     const defaultHeaders = {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -54,6 +70,7 @@ export const getRequestSender = (options: Options): RequestSender => {
     };
     const mergedHeaders = {
       ...defaultHeaders,
+      ...methodHeaders,
       ...headers,
     };
 
@@ -71,23 +88,33 @@ export const getRequestSender = (options: Options): RequestSender => {
     };
   };
 
-  const defaultHTTPClient: HTTPClient = async (
-    url: string,
-    params: unknown[],
-    config?: ComputedConfig
-  ) => {
+  const getLogger = (logger: Options["logger"]): Logger => {
+    if (logger === true) return defaultLogger;
+    if (logger === false) return {};
+    if (!logger)
+      return process.env.ALOKAI_SDK_DEBUG === "true" ? defaultLogger : {};
+
+    return logger;
+  };
+
+  const defaultHTTPClient: HTTPClient = async (url, params, config) => {
     const response = await fetch(url, {
       ...config,
-      body: JSON.stringify(params),
+      body: config?.method === "GET" ? undefined : JSON.stringify(params),
       credentials: "include",
     });
 
     const responseJson = await response.json().catch(() => undefined);
 
     if (!response.ok) {
+      const message = `${config?.method} ${url} ${
+        responseJson?.message ?? response.statusText
+      }`;
+
       throw new SdkHttpError({
         statusCode: response.status,
-        message: responseJson?.message,
+        message,
+        url,
       });
     }
 
@@ -103,19 +130,41 @@ export const getRequestSender = (options: Options): RequestSender => {
       httpClient = defaultHTTPClient,
       errorHandler = defaultErrorHandler,
     } = options;
-    const { method = "POST", headers = {}, ...restConfig } = config ?? {};
-    const computedParams = method === "GET" ? [] : params;
-    const finalUrl = getUrl(methodName, method, params);
-    const finalConfig = getConfig({ method, headers, ...restConfig });
+    const logger = getLogger(options.logger);
+    const { method, headers = {}, ...restConfig } = config ?? {};
+    const methodConfig = methodsRequestConfig[methodName] || {};
+    const finalMethod =
+      method || methodConfig.method || defaultRequestConfig.method || "POST";
+    const finalUrl = getUrl(methodName, finalMethod, params);
+    const finalParams = finalMethod === "GET" ? [] : params;
+    const finalConfig = getConfig(
+      { method: finalMethod, headers, ...restConfig },
+      methodConfig
+    );
+    const startTime = performance.now();
+    logger.onRequest?.({
+      config: finalConfig,
+      params,
+      url: finalUrl,
+    });
 
     try {
-      return await httpClient(finalUrl, computedParams, finalConfig);
+      const response = await httpClient(finalUrl, finalParams, finalConfig);
+      const responseTime = performance.now() - startTime;
+      logger.onResponse?.({
+        config: finalConfig,
+        params,
+        response,
+        responseTime,
+        url: finalUrl,
+      });
+      return response;
     } catch (error) {
       return await errorHandler({
         error,
         methodName,
         url: finalUrl,
-        params: computedParams,
+        params: finalParams,
         config: finalConfig,
         httpClient,
       });

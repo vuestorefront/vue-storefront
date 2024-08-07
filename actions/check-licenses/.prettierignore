@@ -1,0 +1,5 @@
+# Ignore artifacts:
+build
+dist
+lib
+coverage

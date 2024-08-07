@@ -1,5 +1,4 @@
 import type { Express, Request, Response } from "express";
-import { WithRequired } from "./index";
 import {
   ApiClientMethod,
   ContextQuery,
@@ -7,6 +6,7 @@ import {
   CustomQueryFunction,
   TObject,
 } from "./base";
+import { WithRequired } from "./index";
 import { ApiClient, ApiClientConfig, ApiClientFactory } from "./server";
 
 export type ApiMethods = Record<string, ApiClientMethod>;
@@ -55,10 +55,12 @@ export interface ApiClientExtensionHooks<C = any> {
   ) => AfterCallArgs;
 }
 
-export interface ApiClientExtension<API = any, CONTEXT = any> {
+export interface ApiClientExtension<API = any, CONTEXT = any, CONFIG = any> {
   name: string;
   isNamespaced?: boolean;
-  extendApiMethods?: ExtendApiMethod<API, CONTEXT>;
+  extendApiMethods?:
+    | ExtendApiMethod<API, CONTEXT>
+    | ApiMethodsFactory<ExtendApiMethod<API, CONTEXT>, CONFIG>;
   extendApp?: ({
     app,
     configuration,

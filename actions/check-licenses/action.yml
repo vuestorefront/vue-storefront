@@ -1,0 +1,9 @@
+name: Check licenses
+description: Analyses software licenses of dependencies used in the project
+inputs:
+  projectPath:
+    description: The path to the project root directory
+    required: true
+runs:
+  using: "node20"
+  main: "dist/index.js"

@@ -1,0 +1,27 @@
+{
+  "name": "@vue-storefront/integrations-tsconfig",
+  "version": "1.0.0",
+  "main": "./tsconfig.json",
+  "license": "MIT",
+  "files": [
+    "tsconfig.json"
+  ],
+  "homepage": "https://github.com/vuestorefront/vue-storefront/engineering-toolkit/integrations-tsconfig",
+  "contributors": [
+    {
+      "name": "Wojciech Sikora",
+      "email": "wsikora@vuestorefront.io"
+    }
+  ],
+  "keywords": [
+    "tsconfig",
+    "integrations-tsconfig",
+    "vuestorefront"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

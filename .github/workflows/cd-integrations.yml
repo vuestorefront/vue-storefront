@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  workflow_call:
+    secrets:
+      VERDACCIO_AUTH_TOKEN:
+        required: false
+        
+    inputs:
+      enterprise:
+        description: "Flag to use enterprise registry"
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  changelog:
+    name: Changelog PR or Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          registry-url: ${{ inputs.enterprise && 'https://registrynpm.storefrontcloud.io' || 'https://registry.npmjs.org' }}
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ inputs.enterprise && secrets.VERDACCIO_AUTH_TOKEN || '' }}
+          HUSKY: 0
+
+      - name: Create Release Pull Request or Publish
+        id: changesets
+        uses: changesets/action@v1.4.7
+        with:
+          version: yarn run changesets:version
+          publish: yarn run changesets:publish
+          commit: "ci: release"
+          title: "ci: release"
+          createGithubReleases: true
+        env:
+          # If you are running into the problem where PRs created by changesets don't run workflows and are stuck forever,
+          # you can create a PR_CREATOR_TOKEN secret. You need to create a fine-grained PAT with the read & write permissions for "Content" and "Pull requests".
+          # Needs access to push to main
+          GITHUB_TOKEN: ${{ secrets.PR_CREATOR_TOKEN || secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ inputs.enterprise && secrets.VERDACCIO_AUTH_TOKEN || secrets.NPM_RELEASE_TOKEN }}

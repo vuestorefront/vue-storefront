@@ -1,0 +1,31 @@
+{
+  "name": "@vue-storefront/api-extractor-config",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "./src/index.json",
+  "files": [
+    "src"
+  ],
+  "homepage": "https://github.com/vuestorefront/vue-storefront/engineering-toolkit/api-extractor-config",
+  "contributors": [
+    {
+      "name": "Wojciech Sikora",
+      "email": "wsikora@vuestorefront.io"
+    }
+  ],
+  "dependencies": {
+    "@microsoft/api-documenter": "^7.13.30",
+    "@microsoft/api-extractor": "^7.18.1"
+  },
+  "keywords": [
+    "api-extractor",
+    "api-extractor-config",
+    "vuestorefront"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

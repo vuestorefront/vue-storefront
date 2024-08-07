@@ -1,0 +1,4 @@
+title: Alokai with Nuxt
+sidebarRoot: true
+navigation:
+  icon: skill-icons:nuxtjs-dark

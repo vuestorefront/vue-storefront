@@ -1,0 +1,10 @@
+{
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "outDir": "./lib",
+    "declaration": true,
+    "declarationDir": "./lib",
+  },
+  "include": ["./src/**/*"]
+}

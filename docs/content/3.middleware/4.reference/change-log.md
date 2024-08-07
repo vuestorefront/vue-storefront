@@ -1,5 +1,147 @@
 # Change log
 
+## 4.3.1
+
+### Patch Changes
+
+- **[FIX]** Rollback the changes to the `ApiMethodsFactory` config generic type. It was causing incompatibility for some older packages.
+
+## 4.3.0
+
+### Minor Changes
+
+- **[ADDED]** Added factory function for the extension API. Previously the extension API was an object with a set of methods. Now it can be created using a factory function the same way as the base API.
+
+Previously only object was allowed:
+
+```ts
+export const extension: ApiClientExtension = {
+  name: "extension",
+  extendApiMethods: {
+    ...extendedMethods, //methods as an object
+  },
+};
+```
+
+Now you can either use an object or a factory function:
+
+```ts
+export const extension: ApiClientExtension = {
+  name: "extension",
+  // methods as a factory function with injected config object
+  extendApiMethods: ({ config }) => {
+    return createMyMethods(config);
+  },
+};
+```
+
+## 4.2.0
+
+### Minor Changes
+
+- **[ADDED]** Provided easy access to methods added by middleware extensions via the `context.extendedApi` property.
+
+```ts
+const extensionA = {
+  name: 'extensionA',
+  extendApiMethods: {
+    methodA: async () => { ... }
+  }
+}
+
+const extensionB = {
+  name: 'extensionB',
+  extendApiMethods: {
+    methodB: async () => { ... }
+  }
+}
+
+const extensionC = {
+  name: 'extensionC',
+  extendApiMethods: {
+    methodC: async (context) => {
+      context.extendedApi.methodA();
+      context.extendedApi.extensionB.methodB();
+    }
+  }
+}
+```
+
+## 4.1.0
+
+### Minor Changes
+
+- **[CHANGED]** [Middleware extension](https://docs.alokai.com/middleware/guides/extensions) hooks and the [onCreate](https://docs.alokai.com/middleware/guides/api-client#creating-the-integration-client) function can now be asynchronous. Examples:
+
+```ts
+// middleware.config.ts
+const middlewareExtension = {
+  name: "example-extension",
+  hooks: () => ({
+    beforeCreate: async ({ configuration }) => Promise.resolve(configuration),
+    afterCreate: async ({ configuration }) => Promise.resolve(configuration),
+    beforeCall: async ({ args }) => Promise.resolve(args),
+    afterCall: async ({ response }) => Promise.resolve(response),
+  }),
+};
+```
+
+```ts
+// index.server.ts
+import { apiClientFactory } from "@vue-storefront/middleware";
+
+const { createApiClient } = apiClientFactory({
+  onCreate: async (config) =>
+    Promise.resolve({
+      config,
+      client: {},
+    }),
+  api: {},
+});
+
+export { createApiClient };
+```
+
+## 4.0.1
+
+### Patch Changes
+
+- **[CHANGED]** Fix typo in default error handler
+  Now the default error message for error responses bearing a 4xx status code will be
+  "Request failed with status code ${status}" instead of "Request faileds [...]".
+
+## 4.0.0
+
+### Major Changes
+
+- **[CHANGED]** Changed minimum Node version from 16 to 18. The condition that was forcing the Node version to be lower than 19 is also removed.
+
+## 3.10.0
+
+### Minor Changes
+
+- **[ADDED]** Options as a second parameter of `createServer`. This allows you to pass additional options to `cors`, `body-parser` and `cookie-parser` express middlewares.
+
+```ts
+import { createServer } from "@vue-storefront/middleware";
+import config from "../middleware.config";
+
+createServer(config, {
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true,
+  },
+  bodyParser: {
+    limit: "50mb",
+  },
+  cookieParser: {
+    secret: "secret",
+  },
+});
+```
+
+- **[ADDED]** `http://localhost:4000` to the default cors origin.
+
 ## 3.9.0
 
 ### Minor Changes

@@ -1,7 +1,7 @@
 import { apiClientFactory } from "../../../src/apiClientFactory";
 import * as api from "./api";
 
-const onCreate = (config: Record<string, unknown> = {}) => {
+const onCreate = async (config: Record<string, unknown> = {}) => {
   return {
     config,
     client: null,

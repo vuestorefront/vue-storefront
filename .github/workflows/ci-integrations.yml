@@ -1,0 +1,95 @@
+name: Continous Integration
+
+on:
+  workflow_call:
+    secrets:
+      VERDACCIO_AUTH_TOKEN:
+        required: false
+
+    inputs:
+      enterprise:
+        description: "Flag to use enterprise registry"
+        type: boolean
+        required: false
+        default: false
+
+
+jobs:
+  scanning:
+    name: GitGuardian scan
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # fetch all history so multiple commits can be scanned
+      - uses: GitGuardian/ggshield-action@v1
+        with:
+          args: -v
+        env:
+          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+          GITHUB_PULL_BASE_SHA:  ${{ github.event.pull_request.base.sha }}
+          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+
+  run-ci:
+    name: Run CI
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    timeout-minutes: 120
+    steps:
+      - name: Expose github environment as shell variables
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
+        run: |
+          # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
+          # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          to_envs() { jq -r "to_entries[] | \"\(.key)<<$EOF\n\(.value)\n$EOF\n\""; }
+          echo "$SECRETS_CONTEXT" | to_envs >> $GITHUB_ENV
+          
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          registry-url: ${{ inputs.enterprise && 'https://registrynpm.storefrontcloud.io' || '' }}
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VERDACCIO_AUTH_TOKEN }}
+          HUSKY: 0
+
+      - name: Detect circular dependencies 🔄
+        uses: vuestorefront/vue-storefront/actions/circular-dependencies@main
+        with:
+          filesPath: 'packages/**/*.{ts,vue}'
+
+      - name: Check licenses 🧪
+        uses: vuestorefront/vue-storefront/actions/check-licenses@main
+        with:
+          projectPath: ${{ github.workspace }}
+
+      - name: Cache turbo build setup
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - run: yarn ci
+
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ runner.os }}-${{ github.event.pull_request.head.sha }}
+          overwrite: true
+          path: |
+            coverage
+            packages/**/coverage

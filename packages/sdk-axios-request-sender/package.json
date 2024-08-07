@@ -1,0 +1,23 @@
+{
+  "name": "@vue-storefront/sdk-axios-request-sender",
+  "version": "2.0.0",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "license": "VSFEL",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rimraf lib && rollup -c",
+    "test": "jest --coverage",
+    "lint": "eslint . --ext .ts,.js",
+    "prepublish": "yarn build"
+  },
+  "devDependencies": {
+    "axios": "^0.27.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

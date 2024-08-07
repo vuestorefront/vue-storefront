@@ -1,0 +1,30 @@
+{
+  "name": "@vue-storefront/prettier-config",
+  "version": "2.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "homepage": "https://github.com/vuestorefront/vue-storefront/engineering-toolkit/prettier-config",
+  "contributors": [
+    {
+      "name": "Maciej Rybaniec",
+      "email": "maciej.rybaniec@gmail.com"
+    }
+  ],
+  "keywords": [
+    "prettier",
+    "prettier-config",
+    "vuestorefront"
+  ],
+  "files": [
+    "*.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

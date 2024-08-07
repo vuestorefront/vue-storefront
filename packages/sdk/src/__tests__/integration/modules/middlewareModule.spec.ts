@@ -19,6 +19,7 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule, {
         apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
       }),
     };
 
@@ -31,6 +32,7 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
       }),
     };
 
@@ -45,6 +47,7 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
       }),
     };
@@ -60,6 +63,7 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
       }),
     };
@@ -79,6 +83,7 @@ describe("middlewareModule", () => {
   it("should use default HTTP Client if it's not provided", async () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
+        cdnCacheBustingId: "commit-hash",
         apiUrl: "http://localhost:8181/commerce",
       }),
     };
@@ -90,10 +95,29 @@ describe("middlewareModule", () => {
     expect(response).toEqual({ id: 1, name: "Test Product" });
   });
 
+  it("should support GETs in default HTTP Client", async () => {
+    const sdkConfig = {
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        cdnCacheBustingId: "commit-hash",
+        apiUrl: "http://localhost:8181/commerce",
+      }),
+    };
+    const sdk = initSDK(sdkConfig);
+
+    const response = await sdk.commerce.getProduct(
+      { id: 1 },
+      prepareConfig({ method: "GET" })
+    );
+
+    // To avoid mocking fetch, we're calling the real middleware and verifying the response.
+    expect(response).toEqual({ id: 1, name: "Test Product" });
+  });
+
   it("should allow to use GET request with query parameters", async () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
+        cdnCacheBustingId: "commit-hash",
         apiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
       }),
@@ -108,7 +132,7 @@ describe("middlewareModule", () => {
     expect(customHttpClient).toHaveBeenCalledWith(
       `http://localhost:8181/commerce/getProducts?body=${encodeURIComponent(
         JSON.stringify([{ limit: 1 }])
-      )}`,
+      )}&cdnCacheBustingId=${encodeURIComponent("commit-hash")}`,
       [],
       expect.objectContaining({
         method: "GET",
@@ -120,6 +144,7 @@ describe("middlewareModule", () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
+        cdnCacheBustingId: "commit-hash",
         apiUrl: "/api/commerce",
         httpClient: customHttpClient,
       }),
@@ -134,7 +159,7 @@ describe("middlewareModule", () => {
     expect(customHttpClient).toHaveBeenCalledWith(
       `/api/commerce/getProducts?body=${encodeURIComponent(
         JSON.stringify([{ limit: 1 }])
-      )}`,
+      )}&cdnCacheBustingId=${encodeURIComponent("commit-hash")}`,
       [],
       expect.objectContaining({
         method: "GET",
@@ -147,6 +172,7 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce///", // Extra slashes
+        cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
       }),
     };
@@ -165,6 +191,7 @@ describe("middlewareModule", () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
+        cdnCacheBustingId: "commit-hash",
         apiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
       }),
@@ -199,6 +226,7 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
         defaultRequestConfig: {
           headers: {
@@ -229,6 +257,7 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "/api/commerce",
+        cdnCacheBustingId: "commit-hash",
         ssrApiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
       }),
@@ -250,6 +279,7 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
         httpClient: async (url, params, config) => {
           const { data } = await axios(url, {
             ...config,
@@ -276,6 +306,7 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
         defaultRequestConfig: {
           headers: {
@@ -318,6 +349,7 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
       }),
     };
@@ -339,6 +371,7 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
         errorHandler: customErrorHandler,
       }),
@@ -367,6 +400,7 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
       }),
     };
     const sdk = initSDK(sdkConfig);
@@ -382,6 +416,7 @@ describe("middlewareModule", () => {
         middlewareModule<Endpoints>,
         {
           apiUrl: "http://localhost:8181/commerce",
+          cdnCacheBustingId: "commit-hash",
         },
         {
           extend: {
@@ -407,6 +442,7 @@ describe("middlewareModule", () => {
         middlewareModule<Endpoints>,
         {
           apiUrl: "http://localhost:8181/commerce",
+          cdnCacheBustingId: "commit-hash",
           httpClient: customHttpClient,
         },
         (_, module) => ({
@@ -441,6 +477,7 @@ describe("middlewareModule", () => {
         middlewareModule<Endpoints>,
         {
           apiUrl: "http://localhost:8181/commerce",
+          cdnCacheBustingId: "commit-hash",
           httpClient: customHttpClient,
           errorHandler: customErrorHandler,
         },
@@ -476,6 +513,7 @@ describe("middlewareModule", () => {
         middlewareModule<Endpoints>,
         {
           apiUrl: "http://localhost:8181/commerce",
+          cdnCacheBustingId: "commit-hash",
         },
         {
           override: {
@@ -501,6 +539,7 @@ describe("middlewareModule", () => {
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
       }),
     });
 
@@ -527,6 +566,7 @@ describe("middlewareModule", () => {
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
         httpClient: async (url, params, config) => {
           try {
             const { data } = await axios(url, {
@@ -541,6 +581,7 @@ describe("middlewareModule", () => {
               statusCode: err?.response?.status || 500,
               message: err?.response?.data?.message || err.message,
               cause: err,
+              url,
             });
           }
         },
@@ -568,11 +609,202 @@ describe("middlewareModule", () => {
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
       }),
     });
 
     const res = await sdk.commerce.logout();
 
     expect(res).toBeUndefined();
+  });
+
+  it("should use method-specific configuration over default", async () => {
+    const customHttpClient = jest.fn();
+
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
+        httpClient: customHttpClient,
+        defaultRequestConfig: {
+          headers: {
+            "X-Test": "Test",
+          },
+        },
+        methodsRequestConfig: {
+          getProduct: {
+            method: "GET",
+            headers: {
+              "X-Test": "Test-Get",
+            },
+          },
+        },
+      }),
+    });
+
+    // Method-specific configuration should be used
+    await sdk.commerce.getProduct({ id: 1 });
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      `http://localhost:8181/commerce/getProduct?body=${encodeURIComponent(
+        JSON.stringify([{ id: 1 }])
+      )}&cdnCacheBustingId=${encodeURIComponent("commit-hash")}`,
+      [],
+      expect.objectContaining({
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-Test": "Test-Get",
+        },
+      })
+    );
+
+    // Request-specific configuration should be used
+    await sdk.commerce.getProduct({ id: 1 }, prepareConfig({ method: "POST" }));
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      `http://localhost:8181/commerce/getProduct`,
+      [{ id: 1 }],
+      expect.objectContaining({
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-Test": "Test-Get",
+        },
+      })
+    );
+
+    // Default configuration should be used
+    await sdk.commerce.getProducts({ limit: 1 });
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      "http://localhost:8181/commerce/getProducts",
+      [{ limit: 1 }],
+      expect.objectContaining({
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-Test": "Test",
+        },
+      })
+    );
+  });
+
+  it("should use default method type if not specified", async () => {
+    const customHttpClient = jest.fn();
+
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
+        httpClient: customHttpClient,
+        defaultRequestConfig: {
+          method: "GET",
+        },
+      }),
+    });
+
+    await sdk.commerce.getProduct({ id: 1 });
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      `http://localhost:8181/commerce/getProduct?body=${encodeURIComponent(
+        JSON.stringify([{ id: 1 }])
+      )}&cdnCacheBustingId=${encodeURIComponent("commit-hash")}`,
+      [],
+      expect.objectContaining({
+        method: "GET",
+      })
+    );
+
+    await sdk.commerce.getProducts({ limit: 1 });
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      `http://localhost:8181/commerce/getProducts?body=${encodeURIComponent(
+        JSON.stringify([{ limit: 1 }])
+      )}&cdnCacheBustingId=${encodeURIComponent("commit-hash")}`,
+      [],
+      expect.objectContaining({
+        method: "GET",
+      })
+    );
+  });
+
+  it("should allow to use the custom logger", async () => {
+    const logger = {
+      onRequest: jest.fn(),
+      onResponse: jest.fn(),
+    };
+
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
+        logger,
+      }),
+    });
+
+    await sdk.commerce.getProduct({ id: 1 });
+
+    expect(logger.onRequest).toHaveBeenCalled();
+    expect(logger.onRequest.mock.calls[0][0]).toMatchSnapshot();
+    expect(logger.onResponse).toHaveBeenCalled();
+    expect(logger.onResponse.mock.calls[0][0]).toMatchSnapshot({
+      responseTime: expect.any(Number),
+    });
+  });
+
+  it("should use the built in logger when ALOKAI_SDK_DEBUG is true", async () => {
+    process.env.ALOKAI_SDK_DEBUG = "true";
+    const logSpy = jest.spyOn(console, "log");
+
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
+      }),
+    });
+
+    await sdk.commerce.getProduct({ id: 1 });
+
+    process.env.ALOKAI_SDK_DEBUG = undefined;
+    expect(logSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it("should not log when ALOKAI_SDK_DEBUG is false", async () => {
+    process.env.ALOKAI_SDK_DEBUG = "false";
+    const logSpy = jest.spyOn(console, "log");
+    logSpy.mockClear();
+
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
+      }),
+    });
+
+    await sdk.commerce.getProduct({ id: 1 });
+
+    process.env.ALOKAI_SDK_DEBUG = undefined;
+    expect(logSpy).not.toHaveBeenCalled();
+  });
+
+  it("should not log when logger is false", async () => {
+    const logSpy = jest.spyOn(console, "log");
+    logSpy.mockClear();
+
+    const sdk = initSDK({
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
+        logger: false,
+      }),
+    });
+
+    await sdk.commerce.getProduct({ id: 1 });
+
+    expect(logSpy).not.toHaveBeenCalled();
   });
 });

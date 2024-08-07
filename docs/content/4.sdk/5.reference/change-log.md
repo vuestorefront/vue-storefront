@@ -1,5 +1,117 @@
 # Change log
 
+## 3.2.0
+
+### Minor Changes
+
+- **[ADDED]** `logger` option to the `middlewareModule` config. This option allows you to turn on/off the logging of the SDK requests and responses or to provide a custom logger function.
+
+```diff
+import { initSDK, buildModule, middlewareModule } from "@vue-storefront/sdk";
+import { Endpoints } from "@vsf-enterprise/sapcc-api";
+
+const sdk = initSDK({
+  commerce: buildModule(middlewareModule<Endpoints>, {
+    apiUrl: "http://localhost:8181/commerce",
++   logger: true,
+  }),
+});
+```
+
+Logger can be also turned on by setting the `ALOKAI_SDK_DEBUG` environment variable to `true`.
+
+## 3.1.1
+
+### Patch Changes
+
+- **[CHANGED]** handle error for not available middleware
+
+## 3.1.0
+
+### Minor Changes
+
+- **[CHANGED]** cdnCacheBustingId is now optional
+
+## 3.0.0
+
+### Major Changes
+
+- **[CHANGED]** Changed minimum Node version from 16 to 18. The condition that was forcing the Node version to be lower than 19 is also removed.
+
+## 2.0.0
+
+### Major Changes
+
+- **[ADDED]** CDN support for the `middlewareModule`.
+  Now, the module's configuration includes `cdnCacheBustingId` property, which allows you to set a unique identifier for the CDN cache busting.
+  **The property is obligatory and must be a string.**
+
+```diff [sdk.config.ts]
+
+export const { getSdk } = createSdk(
+  options,
+  ({ buildModule, middlewareModule, middlewareUrl, getRequestHeaders }) => ({
+    example: buildModule(middlewareModule<Endpoints>, {
+      apiUrl: `${middlewareUrl}/test_integration`,
++      cdnCacheBustingId: process.env.CDN_CACHE_BUSTING_ID,
+      defaultRequestConfig: {
+        headers: getRequestHeaders(),
+      },
+    }),
+  })
+);
+```
+
+### Patch Changes
+
+- **[FIXED]** support for `GET` requests in default HTTP client, which was throwing an error "SDKError: Request with GET/HEAD method cannot have body". Now, the client can handle `GET` requests properly.
+
+## 1.5.0
+
+### Minor Changes
+
+- **[ADDED]** a way to specify the default request configuration for each method.
+
+Example: Set the `getProducts` method to be a `GET` request by default and use custom headers.
+
+```typescript
+import { initSDK, buildModule, middlewareModule } from "@vue-storefront/sdk";
+import { Endpoints } from "@vsf-enterprise/sapcc-api";
+
+const sdk = initSDK({
+  commerce: buildModule(middlewareModule<Endpoints>, {
+    apiUrl: "http://localhost:8181/commerce",
+    methodsRequestConfig: {
+      getProduct: {
+        method: "GET",
+        headers: {
+          "X-Header-Name": "Header-Value",
+        },
+      },
+    },
+  }),
+});
+```
+
+## 1.4.4
+
+### Patch Changes
+
+- **[FIXED]** type issue with obligatory generic type argument for `Extension` interface. Now, it can be used without any type arg.
+- **[FIXED]** BaseConfig extensibility. Now, it allows to add additional custom properties.
+
+## 1.4.3
+
+### Patch Changes
+
+- **[FIXED]** issue with type inference. Previously, types were not infered properly when there were no extension declared. Now it has been fixed.
+
+## 1.4.2
+
+### Patch Changes
+
+- **[FIXED]** handling void response in `middlewareModule`. Previously an invalid-json error was thrown, now undefined will be returned.
+
 ## 1.4.1
 
 ### Patch Changes

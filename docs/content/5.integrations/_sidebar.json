@@ -24,14 +24,6 @@
           {
             "title": "Creating a Custom Integration",
             "_path": "/integrations/custom/quick-start"
-          },
-          {
-            "title": "Building an API Client",
-            "_path": "/integrations/custom/api-client"
-          },
-          {
-            "title": "Building an SDK Module",
-            "_path": "/integrations/custom/sdk-module"
           }
         ]
       }

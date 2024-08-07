@@ -6,7 +6,12 @@ import express from "express";
 import type { HelmetOptions } from "helmet";
 import helmet from "helmet";
 import { registerIntegrations } from "./integrations";
-import type { Helmet, IntegrationContext, MiddlewareConfig } from "./types";
+import type {
+  Helmet,
+  IntegrationContext,
+  MiddlewareConfig,
+  CreateServerOptions,
+} from "./types";
 import {
   prepareApiFunction,
   prepareErrorHandler,
@@ -14,23 +19,30 @@ import {
   callApiFunction,
 } from "./handlers";
 
+const defaultCorsOptions: CreateServerOptions["cors"] = {
+  credentials: true,
+  origin: ["http://localhost:3000", "http://localhost:4000"],
+};
+
 async function createServer<
   TIntegrationContext extends Record<string, IntegrationContext>
->(config: MiddlewareConfig<TIntegrationContext>): Promise<Express> {
+>(
+  config: MiddlewareConfig<TIntegrationContext>,
+  options: CreateServerOptions = {}
+): Promise<Express> {
   const app = express();
 
-  app.use(express.json());
-  app.use(cookieParser());
+  app.use(express.json(options.bodyParser));
   app.use(
-    cors({
-      credentials: true,
-      origin: "http://localhost:3000",
-    })
+    options.cookieParser
+      ? cookieParser(options.cookieParser.secret, options.cookieParser.options)
+      : cookieParser()
   );
+  app.use(cors(options.cors ?? defaultCorsOptions));
   app.disable("x-powered-by");
 
   consola.info("Middleware starting....");
-  const options: Helmet = {
+  const helmetOptions: Helmet = {
     contentSecurityPolicy: false,
     crossOriginOpenerPolicy: false,
     crossOriginEmbedderPolicy: false,
@@ -43,7 +55,7 @@ async function createServer<
     config.helmet === true ||
     (config.helmet && Object.keys(config.helmet).length > 0);
   if (isHelmetEnabled) {
-    app.use(helmet(options));
+    app.use(helmet(helmetOptions));
     consola.info("VSF `Helmet` middleware added");
   }
 
