@@ -1,10 +1,17 @@
 import consola from "consola";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import type { Express } from "express";
 import express from "express";
 import type { HelmetOptions } from "helmet";
 import helmet from "helmet";
+import http, { Server } from "node:http";
+import {
+  TerminusOptions,
+  TerminusState,
+  createTerminus,
+} from "@godaddy/terminus";
+import * as v8 from "node:v8";
+
 import { registerIntegrations } from "./integrations";
 import type {
   Helmet,
@@ -29,7 +36,7 @@ async function createServer<
 >(
   config: MiddlewareConfig<TIntegrationContext>,
   options: CreateServerOptions = {}
-): Promise<Express> {
+): Promise<Server> {
   const app = express();
 
   app.use(express.json(options.bodyParser));
@@ -78,12 +85,64 @@ async function createServer<
     callApiFunction
   );
 
-  app.get("/healthz", (_req, res) => {
-    res.end("ok");
-  });
+  const readinessChecks = [
+    (function heapFullnessMemoryReadinessCheckClosure() {
+      const maxHeap = v8.getHeapStatistics().heap_size_limit;
+      return function heapFullnessMemoryHealthCheck() {
+        if (v8.getHeapStatistics().used_heap_size / maxHeap > 0.8) {
+          throw new Error("Heap memory utilization is higher than 80%");
+        }
+      };
+    })(),
+    function processTerminatingReadinessCheck(state: TerminusState) {
+      if (state.isShuttingDown) {
+        throw new Error("Process received SIGTERM signal and is shutting down");
+      }
+    },
+  ];
+
+  const terminusOptions: TerminusOptions = {
+    // health check options
+    healthChecks: {
+      "/healthz": async () => "OK",
+      "/readyz": async ({ state }) => {
+        readinessChecks.reduce<Error[]>((acc, currentReadinessCheckFn) => {
+          try {
+            currentReadinessCheckFn(state);
+            return acc;
+          } catch (e) {
+            return [...acc, e];
+          }
+        }, []);
+      },
+    },
+    //  verbatim: true,                 // [optional = false] use object returned from /healthcheck verbatim in response,
+    // unsafeExposeStackTraces: true // [optional = false] return stack traces in error response if healthchecks throw errors
+    //  },
+    // caseInsensitive,                  // [optional] whether given health checks routes are case insensitive (defaults to false)
+    // statusOk,                         // [optional = 200] status to be returned for successful healthchecks
+    // statusOkResponse,                 // [optional = { status: 'ok' }] status response to be returned for successful healthchecks
+    // statusError,                      // [optional = 503] status to be returned for unsuccessful healthchecks
+    // statusErrorResponse,              // [optional = { status: 'error' }] status response to be returned for unsuccessful healthchecks
+    // // cleanup options
+    // timeout: 1000,                    // [optional = 1000] number of milliseconds before forceful exiting
+    // signal,                           // [optional = 'SIGTERM'] what signal to listen for relative to shutdown
+    // signals,                          // [optional = []] array of signals to listen for relative to shutdown
+    // useExit0,                         // [optional = false] instead of sending the received signal again without beeing catched, the process will exit(0)
+    // sendFailuresDuringShutdown,       // [optional = true] whether or not to send failure (503) during shutdown
+    // beforeShutdown,                   // [optional] called before the HTTP server starts its shutdown
+    // onSignal,                         // [optional] cleanup function, returning a promise (used to be onSigterm)
+    // onShutdown,                       // [optional] called right before exiting
+    // onSendFailureDuringShutdown,      // [optional] called before sending each 503 during shutdowns
+    // both
+    // logger                            // [optional] logger function to be called with errors. Example logger call: ('error happened during shutdown', error). See terminus.js for more details.
+  };
+
+  const server = http.createServer(app);
+  createTerminus(server, terminusOptions);
 
   consola.success("Middleware created!");
-  return app;
+  return http.createServer(app);
 }
 
 export { createServer };
