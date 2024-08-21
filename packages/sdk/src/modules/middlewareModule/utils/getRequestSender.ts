@@ -144,9 +144,9 @@ export const getRequestSender = (options: Options): RequestSender => {
           httpClient,
         };
         return await refreshTokenHandler(handlerContext);
-      } catch (err) {
+      } catch (innerError) {
         const handlerContext: ErrorHandlerContext = {
-          error: err,
+          error: innerError,
           methodName,
           url: finalUrl,
           params: finalParams,
