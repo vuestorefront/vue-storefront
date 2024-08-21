@@ -1,7 +1,7 @@
 "use client";
 
-import { createSdkContext } from "@vue-storefront/next/client";
+import { createAlokaiContext } from "@vue-storefront/next/client";
 
 import type { Sdk } from "./sdk.server";
 
-export const [SdkProvider, useSdk] = createSdkContext<Sdk>();
+export const [AlokaiProvider, useSdk] = createAlokaiContext<Sdk>();

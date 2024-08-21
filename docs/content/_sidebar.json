@@ -42,6 +42,12 @@
     "sidebarRoot": true
   },
   {
+    "title": "Unified Data Layer",
+    "_path": "/unified-data-layer",
+    "icon": "material-symbols:data-object-rounded",
+    "sidebarRoot": true
+  },
+  {
     "title": "Storefront",
     "_path": "/storefront",
     "sidebarSection": "Build",

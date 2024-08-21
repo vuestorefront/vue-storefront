@@ -39,3 +39,6 @@ coverage
 
 # Local version of changeset's changelog
 .changeset/changelog.js
+
+.turbo
+.cache_ggshield

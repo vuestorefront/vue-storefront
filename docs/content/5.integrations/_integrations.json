@@ -13,8 +13,7 @@
     {
       "title": "Magento/Adobe Commerce",
       "to": "/integrations/magento",
-      "icon": "logos:magento",
-      "openSource": true
+      "icon": "logos:magento"
     },
     {
       "title": "BigCommerce",
