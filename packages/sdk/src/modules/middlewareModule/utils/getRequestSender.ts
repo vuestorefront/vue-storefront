@@ -6,6 +6,7 @@ import {
   HTTPClient,
   ErrorHandler,
   RequestSender,
+  ErrorHandlerContext,
 } from "../types";
 import { SdkHttpError } from "./SdkHttpError";
 
@@ -109,10 +110,15 @@ export const getRequestSender = (options: Options): RequestSender => {
     throw error;
   };
 
+  const defaultRefreshHandler: ErrorHandler = async ({ error }) => {
+    throw error;
+  };
+
   return async (methodName, params, config?) => {
     const {
       httpClient = defaultHTTPClient,
       errorHandler = defaultErrorHandler,
+      refreshTokenHandler = defaultRefreshHandler,
     } = options;
     const { method, headers = {}, ...restConfig } = config ?? {};
     const methodConfig = methodsRequestConfig[methodName] || {};
@@ -128,14 +134,28 @@ export const getRequestSender = (options: Options): RequestSender => {
     try {
       return await httpClient(finalUrl, finalParams, finalConfig);
     } catch (error) {
-      return await errorHandler({
-        error,
-        methodName,
-        url: finalUrl,
-        params: finalParams,
-        config: finalConfig,
-        httpClient,
-      });
+      try {
+        const handlerContext: ErrorHandlerContext = {
+          error,
+          methodName,
+          url: finalUrl,
+          params: finalParams,
+          config: finalConfig,
+          httpClient,
+        };
+        return await refreshTokenHandler(handlerContext);
+      } catch (err) {
+        const handlerContext: ErrorHandlerContext = {
+          error: err,
+          methodName,
+          url: finalUrl,
+          params: finalParams,
+          config: finalConfig,
+          httpClient,
+        };
+
+        return await errorHandler(handlerContext);
+      }
     }
   };
 };

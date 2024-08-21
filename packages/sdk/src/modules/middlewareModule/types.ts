@@ -240,25 +240,18 @@ export type Options<
    * If not provided, errors will be thrown as is.
    *
    * This enables custom error handling, like retrying the request or refreshing tokens, depending on the error type and details of the request that failed.
-   *
-   * @example
-   * ```typescript
-   * const options: Options = {
-   *   apiUrl: "https://api.example.com",
-   *   errorHandler: async ({ error, methodName, url, params, config, httpClient }) => {
-   *     if (error.status === 401 && methodName !== "login") {
-   *       // Refresh token
-   *       await refreshToken();
-   *       // Retry the request
-   *       return httpClient(url, params, config);
-   *     }
-   *
-   *     throw error;
-   *   },
-   * };
-   * ```
    */
   errorHandler?: ErrorHandler;
+
+  /**
+   * Optional error handler for refreshing tokens.
+   *
+   * @remarks
+   *
+   * The refresh token handler is a specific error handler that is triggered when the request fails due to 401 Unauthorized error.
+   * It is going to be triggered before the `errorHandler`, which is more generic.
+   */
+  refreshTokenHandler?: ErrorHandler;
 
   /**
    * Unique identifier for CDN cache busting.
