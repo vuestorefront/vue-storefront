@@ -73,8 +73,14 @@ export const getRequestSender = (options: Options): RequestSender => {
         ...defaultHeaders,
         ...methodHeaders,
         ...headers,
-      })
-        .reduce(headersSoFar, [key, value]) => (key.toLocaleLowerCase() === "content-length" && value == "0") ? headersSoFar : [...headersSoFar, [key, value])
+      }).reduce<[string, string | string[]][]>(
+        (headersSoFar, [key, value]) =>
+          // eslint-disable-next-line eqeqeq
+          key.toLocaleLowerCase() === "content-length" && value == "0"
+            ? headersSoFar
+            : [...headersSoFar, [key, value]],
+        []
+      )
     );
 
     const computedHeaders: ComputedConfig["headers"] = {};
