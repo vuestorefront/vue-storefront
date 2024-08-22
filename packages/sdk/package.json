@@ -22,7 +22,7 @@
   "devDependencies": {
     "@types/jest": "^29.0.3",
     "@types/node": "^18.11.17",
-    "@vue-storefront/middleware": "*",
+    "@vue-storefront/middleware": "4.4.0-terminus.0",
     "axios": "^1.6.7",
     "babel-preset-node": "^5.1.1",
     "isomorphic-fetch": "^3.0.0",

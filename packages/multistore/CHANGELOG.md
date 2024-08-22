@@ -1,5 +1,12 @@
 # Change log
 
+## 4.1.1-terminus.0
+
+### Patch Changes
+
+- Updated dependencies:
+  - @vue-storefront/middleware@4.4.0-terminus.0
+
 ## 4.1.0
 
 ### Minor Changes

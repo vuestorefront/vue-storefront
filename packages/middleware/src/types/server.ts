@@ -8,7 +8,6 @@ import {
   ApiMethodsFactory,
   MiddlewareContext,
 } from "./common";
-import { HealthCheckMap } from "@godaddy/terminus";
 
 export interface ClientContext<CLIENT = any, CONFIG = any> {
   client: CLIENT;
@@ -137,7 +136,7 @@ export type CreateApiProxyFn = <CONFIG, API, CLIENT>(
  * @returns Return value is never considered - only thrown exceptions
  * @throws The implementation *must* throw an exception at some point in the code, which means that the readiness check should fail
  */
-export type ReadinessCheck = () => void | Promise<void>
+export type ReadinessCheck = () => Promise<void>;
 
 export interface CreateServerOptions {
   /**
@@ -172,5 +171,5 @@ export interface CreateServerOptions {
    * If at least one function throws an exception, the response from the /readyz endpoint will report an error
    * @see https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-readiness-probes
    */
-  readinessChecks?: ReadinessCheck[]
+  readinessChecks?: ReadinessCheck[];
 }
