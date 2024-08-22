@@ -252,7 +252,7 @@ describe("middlewareModule", () => {
     );
   });
 
-  it("should remive zero-valued Content-Length header", async () => {
+  it("should remove zero-valued Content-Length header as it would crash Next.js server", async () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
