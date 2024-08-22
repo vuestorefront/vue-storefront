@@ -6,12 +6,11 @@ import type { HelmetOptions } from "helmet";
 import helmet from "helmet";
 import http, { Server } from "node:http";
 import {
-    HealthCheckError,
+  HealthCheckError,
   TerminusOptions,
-  TerminusState,
   createTerminus,
 } from "@godaddy/terminus";
-import * as v8 from "node:v8";
+import { setTimeout } from "node:timers/promises";
 
 import { registerIntegrations } from "./integrations";
 import type {
@@ -86,53 +85,42 @@ async function createServer<
     callApiFunction
   );
 
-  // This could be a healthcheck within terminus, but we don't want /healthz to change response if app received SIGTERM
+  // This could instead be implemented as a healthcheck within terminus, but we don't want /healthz to change response if app received SIGTERM
   app.get("/healthz", (_req, res) => {
     res.end("ok");
-  })
+  });
 
   const terminusOptions: TerminusOptions = {
     // health check options
     healthChecks: {
       verbatim: true,
       "/readyz": async () => {
-        const errors = options.readinessChecks?.reduce<Error[]>((acc, currentReadinessCheckFn) => {
-          try {
-            currentReadinessCheckFn();
-            return acc;
-          } catch (e) {
-            return [...acc, e];
-          }
-        }, []);
-	if (errors.length) {
-	  consola.log(errors)
-	  throw new HealthCheckError('healthecheck failed', errors)
-	}
+        if (
+          !Array.isArray(options.readinessChecks) ||
+          options.readinessChecks.length === 0
+        ) {
+          return;
+        }
+        const calledReadinessChecks = options.readinessChecks.map((fn) => fn());
+
+        const readinessErrors = (
+          await Promise.allSettled(calledReadinessChecks)
+        ).reduce<unknown[]>(
+          (errors, settledReadinessCheck) =>
+            settledReadinessCheck.status === "rejected"
+              ? [...errors, settledReadinessCheck.reason]
+              : errors,
+          []
+        );
+
+        if (readinessErrors.length) {
+          throw new HealthCheckError("Readiness check failed", readinessErrors);
+        }
       },
     },
-    beforeShutdown: () => {
-      return new Promise(r => setTimeout(r, 10**4))
-    },
+    // In case some requests are still being handled when SIGTERM was received, naively wait in hopes that they will be resolved in that time, and only then shut down the process
+    beforeShutdown: () => setTimeout(10 ** 4),
     useExit0: true,
-    // unsafeExposeStackTraces: true // [optional = false] return stack traces in error response if healthchecks throw errors
-    //  },
-    // caseInsensitive,                  // [optional] whether given health checks routes are case insensitive (defaults to false)
-    // statusOk,                         // [optional = 200] status to be returned for successful healthchecks
-    // statusOkResponse,                 // [optional = { status: 'ok' }] status response to be returned for successful healthchecks
-    // statusError,                      // [optional = 503] status to be returned for unsuccessful healthchecks
-    // statusErrorResponse,              // [optional = { status: 'error' }] status response to be returned for unsuccessful healthchecks
-    // // cleanup options
-    // timeout: 1000,                    // [optional = 1000] number of milliseconds before forceful exiting
-    // signal,                           // [optional = 'SIGTERM'] what signal to listen for relative to shutdown
-    // signals,                          // [optional = []] array of signals to listen for relative to shutdown
-    // useExit0,                         // [optional = false] instead of sending the received signal again without beeing catched, the process will exit(0)
-    // sendFailuresDuringShutdown,       // [optional = true] whether or not to send failure (503) during shutdown
-    // beforeShutdown,                   // [optional] called before the HTTP server starts its shutdown
-    // onSignal,                         // [optional] cleanup function, returning a promise (used to be onSigterm)
-    // onShutdown,                       // [optional] called right before exiting
-    // onSendFailureDuringShutdown,      // [optional] called before sending each 503 during shutdowns
-    // both
-    // logger                            // [optional] logger function to be called with errors. Example logger call: ('error happened during shutdown', error). See terminus.js for more details.
   };
 
   const server = http.createServer(app);
