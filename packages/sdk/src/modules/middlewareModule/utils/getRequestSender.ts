@@ -75,6 +75,7 @@ export const getRequestSender = (options: Options): RequestSender => {
         ...headers,
       }).reduce<[string, string | string[]][]>(
         (headersSoFar, [key, value]) =>
+          // Removing Content-Lenght header if it equals 0 because it would crash Next.js server
           // eslint-disable-next-line eqeqeq
           key.toLocaleLowerCase() === "content-length" && value == "0"
             ? headersSoFar
