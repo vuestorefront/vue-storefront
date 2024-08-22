@@ -2,4 +2,4 @@
 "@vue-storefront/sdk": patch
 ---
 
-[FIXED]: Bug that encounters when request was send with header `Content-Length` equals 0, then Next.js server blows up.
+[FIXED]: `Content-Length` header will no longer be appended to requests if its value is "0" - such situation caused Next.js server to crash
