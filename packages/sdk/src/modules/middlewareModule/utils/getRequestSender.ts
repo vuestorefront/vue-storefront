@@ -74,14 +74,7 @@ export const getRequestSender = (options: Options): RequestSender => {
         ...methodHeaders,
         ...headers,
       })
-        .map(([key, value]) => {
-          // eslint-disable-next-line eqeqeq
-          if (key.toLocaleLowerCase() === "content-length" && value == "0") {
-            return null;
-          }
-          return [key, value];
-        })
-        .filter(Boolean) as [string, string | string[]][]
+        .reduce(headersSoFar, [key, value]) => (key.toLocaleLowerCase() === "content-length" && value == "0") ? headersSoFar : [...headersSoFar, [key, value])
     );
 
     const computedHeaders: ComputedConfig["headers"] = {};
