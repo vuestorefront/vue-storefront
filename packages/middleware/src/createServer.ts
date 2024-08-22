@@ -6,6 +6,7 @@ import type { HelmetOptions } from "helmet";
 import helmet from "helmet";
 import http, { Server } from "node:http";
 import {
+    HealthCheckError,
   TerminusOptions,
   TerminusState,
   createTerminus,
@@ -85,38 +86,34 @@ async function createServer<
     callApiFunction
   );
 
-  const readinessChecks = [
-    (function heapFullnessMemoryReadinessCheckClosure() {
-      const maxHeap = v8.getHeapStatistics().heap_size_limit;
-      return function heapFullnessMemoryHealthCheck() {
-        if (v8.getHeapStatistics().used_heap_size / maxHeap > 0.8) {
-          throw new Error("Heap memory utilization is higher than 80%");
-        }
-      };
-    })(),
-    function processTerminatingReadinessCheck(state: TerminusState) {
-      if (state.isShuttingDown) {
-        throw new Error("Process received SIGTERM signal and is shutting down");
-      }
-    },
-  ];
+  // This could be a healthcheck within terminus, but we don't want /healthz to change response if app received SIGTERM
+  app.get("/healthz", (_req, res) => {
+    res.end("ok");
+  })
 
   const terminusOptions: TerminusOptions = {
     // health check options
     healthChecks: {
-      "/healthz": async () => "OK",
-      "/readyz": async ({ state }) => {
-        readinessChecks.reduce<Error[]>((acc, currentReadinessCheckFn) => {
+      verbatim: true,
+      "/readyz": async () => {
+        const errors = options.readinessChecks?.reduce<Error[]>((acc, currentReadinessCheckFn) => {
           try {
-            currentReadinessCheckFn(state);
+            currentReadinessCheckFn();
             return acc;
           } catch (e) {
             return [...acc, e];
           }
         }, []);
+	if (errors.length) {
+	  consola.log(errors)
+	  throw new HealthCheckError('healthecheck failed', errors)
+	}
       },
     },
-    //  verbatim: true,                 // [optional = false] use object returned from /healthcheck verbatim in response,
+    beforeShutdown: () => {
+      return new Promise(r => setTimeout(r, 10**4))
+    },
+    useExit0: true,
     // unsafeExposeStackTraces: true // [optional = false] return stack traces in error response if healthchecks throw errors
     //  },
     // caseInsensitive,                  // [optional] whether given health checks routes are case insensitive (defaults to false)
@@ -140,9 +137,8 @@ async function createServer<
 
   const server = http.createServer(app);
   createTerminus(server, terminusOptions);
-
   consola.success("Middleware created!");
-  return http.createServer(app);
+  return server;
 }
 
 export { createServer };
