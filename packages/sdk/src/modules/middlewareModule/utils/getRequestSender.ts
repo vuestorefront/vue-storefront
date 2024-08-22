@@ -68,11 +68,21 @@ export const getRequestSender = (options: Options): RequestSender => {
       Accept: "application/json",
       ...defaultRequestConfig.headers,
     };
-    const mergedHeaders = {
-      ...defaultHeaders,
-      ...methodHeaders,
-      ...headers,
-    };
+    const mergedHeaders = Object.fromEntries(
+      Object.entries({
+        ...defaultHeaders,
+        ...methodHeaders,
+        ...headers,
+      }).reduce<[string, string | string[]][]>(
+        (headersSoFar, [key, value]) =>
+          // Removing Content-Lenght header if it equals 0 because it would crash Next.js server
+          // eslint-disable-next-line eqeqeq
+          key.toLocaleLowerCase() === "content-length" && value == "0"
+            ? headersSoFar
+            : [...headersSoFar, [key, value]],
+        []
+      )
+    );
 
     const computedHeaders: ComputedConfig["headers"] = {};
     Object.entries(mergedHeaders).forEach(([key, value]) => {
