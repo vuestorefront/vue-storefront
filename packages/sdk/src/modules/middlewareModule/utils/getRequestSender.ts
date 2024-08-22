@@ -68,11 +68,21 @@ export const getRequestSender = (options: Options): RequestSender => {
       Accept: "application/json",
       ...defaultRequestConfig.headers,
     };
-    const mergedHeaders = {
-      ...defaultHeaders,
-      ...methodHeaders,
-      ...headers,
-    };
+    const mergedHeaders = Object.fromEntries(
+      Object.entries({
+        ...defaultHeaders,
+        ...methodHeaders,
+        ...headers,
+      })
+        .map(([key, value]) => {
+          // eslint-disable-next-line eqeqeq
+          if (key.toLocaleLowerCase() === "content-length" && value == "0") {
+            return null;
+          }
+          return [key, value];
+        })
+        .filter(Boolean) as [string, string | string[]][]
+    );
 
     const computedHeaders: ComputedConfig["headers"] = {};
     Object.entries(mergedHeaders).forEach(([key, value]) => {
