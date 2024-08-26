@@ -124,10 +124,10 @@ export function resolveSdkOptions(
   input: CreateSdkOptions,
   options: Partial<ResolveSdkOptionsConfig> = {}
 ): CreateSdkOptions {
-  if (input.multistore?.enabled) {
+  if (input?.multistore?.enabled) {
     return {
       middleware: {
-        apiUrl: `https://localhost/${options.customSuffix ?? "api"}`,
+        apiUrl: `https://localhost/${options?.customSuffix ?? "api"}`,
         cdnCacheBustingId: input.middleware?.cdnCacheBustingId,
         ssrApiUrl: input.middleware?.ssrApiUrl ?? input.middleware.apiUrl,
       },
