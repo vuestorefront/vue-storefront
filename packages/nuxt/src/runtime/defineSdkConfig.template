@@ -66,8 +66,10 @@ export function defineSdkConfig<TConfig>(config: Config<TConfig>) {
     const runtimeConfig = useRuntimeConfig();
 
     const requestHeaders = useRequestHeaders(["x-forwarded-host", "host"]);
+    const resolvedOptions = resolveOptions(runtimeConfig.public.alokai);
+
     const middlewareUrl = composeMiddlewareUrl({
-      options: runtimeConfig.public.alokai,
+      options: resolvedOptions,
       headers: requestHeaders,
     });
 
@@ -88,4 +90,28 @@ export function defineSdkConfig<TConfig>(config: Config<TConfig>) {
       }
     });
   }
+}
+
+function resolveSdkOptions(
+  input: SdkModuleOptions,
+  options: Partial<ResolveSdkOptionsConfig> = {}
+): SdkModuleOptions {
+  if (input.multistore?.enabled) {
+    return {
+      middleware: {
+        apiUrl: `https://localhost/${options.customSuffix ?? "api"}`,
+        cdnCacheBustingId: input.middleware?.cdnCacheBustingId,
+        ssrApiUrl: input.middleware?.ssrApiUrl ?? input.middleware.apiUrl,
+      },
+      multistore: {
+        enabled: true,
+      },
+    };
+  }
+
+  return input;
+}
+
+type ResolveSdkOptionsConfig = {
+  customSuffix: string;
 }
