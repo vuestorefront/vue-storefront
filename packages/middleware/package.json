@@ -20,6 +20,7 @@
     "changesets:publish": "yarn build && yarn changeset publish"
   },
   "dependencies": {
+    "@godaddy/terminus": "^4.12.1",
     "consola": "^2.15.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
