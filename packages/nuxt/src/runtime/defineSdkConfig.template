@@ -92,7 +92,7 @@ export function defineSdkConfig<TConfig>(config: Config<TConfig>) {
   }
 }
 
-function resolveSdkOptions(
+function resolveOptions(
   input: SdkModuleOptions,
   options: Partial<ResolveSdkOptionsConfig> = {}
 ): SdkModuleOptions {
