@@ -5,12 +5,7 @@ import express from "express";
 import type { HelmetOptions } from "helmet";
 import helmet from "helmet";
 import http, { Server } from "node:http";
-import {
-  HealthCheckError,
-  TerminusOptions,
-  createTerminus,
-} from "@godaddy/terminus";
-import { setTimeout } from "node:timers/promises";
+import { createTerminus } from "@godaddy/terminus";
 
 import { registerIntegrations } from "./integrations";
 import type {
@@ -25,6 +20,7 @@ import {
   prepareArguments,
   callApiFunction,
 } from "./handlers";
+import { createTerminusOptions } from "./terminus";
 
 const defaultCorsOptions: CreateServerOptions["cors"] = {
   credentials: true,
@@ -90,41 +86,8 @@ async function createServer<
     res.end("ok");
   });
 
-  const terminusOptions: TerminusOptions = {
-    // health check options
-    healthChecks: {
-      verbatim: true,
-      "/readyz": async () => {
-        if (
-          !Array.isArray(options.readinessChecks) ||
-          options.readinessChecks.length === 0
-        ) {
-          return;
-        }
-        const calledReadinessChecks = options.readinessChecks.map((fn) => fn());
-
-        const readinessErrors = (
-          await Promise.allSettled(calledReadinessChecks)
-        ).reduce<unknown[]>(
-          (errors, settledReadinessCheck) =>
-            settledReadinessCheck.status === "rejected"
-              ? [...errors, settledReadinessCheck.reason]
-              : errors,
-          []
-        );
-
-        if (readinessErrors.length) {
-          throw new HealthCheckError("Readiness check failed", readinessErrors);
-        }
-      },
-    },
-    // In case some requests are still being handled when SIGTERM was received, naively wait in hopes that they will be resolved in that time, and only then shut down the process
-    beforeShutdown: () => setTimeout(10 ** 4),
-    useExit0: true,
-  };
-
   const server = http.createServer(app);
-  createTerminus(server, terminusOptions);
+  createTerminus(server, createTerminusOptions(options.readinessChecks));
   consola.success("Middleware created!");
   return server;
 }
