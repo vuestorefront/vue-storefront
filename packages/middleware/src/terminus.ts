@@ -23,9 +23,7 @@ export const createMemoryFullnessReadinessCheck: () => null | ReadinessCheck =
     ].map((str) => Number.parseFloat(str));
 
     return async () => {
-      const memoryUtilization =
-        // limit is multiplied by 1000 because k8s reports limit in kilobytes, while rss in bytes
-        process.memoryUsage().rss / (parsedMemoryLimit * 1000);
+      const memoryUtilization = process.memoryUsage().rss / parsedMemoryLimit;
       if (memoryUtilization > parsedMemoryLimitThreshold) {
         throw new Error(
           `Process memory usage over threshold - current is ${memoryUtilization} where ALOKAI_MEMORY_LIMIT_THRESHOLD is ${parsedMemoryLimitThreshold}`
