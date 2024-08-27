@@ -2,7 +2,7 @@
   "name": "@vue-storefront/next",
   "description": "Vue Storefront dedicated features for Next.js",
   "license": "MIT",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
