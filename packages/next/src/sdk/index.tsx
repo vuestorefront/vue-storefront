@@ -109,3 +109,35 @@ export function defineSdkConfig<TConfig extends Record<string, any>>(
 ) {
   return config;
 }
+
+type ResolveSdkOptionsConfig = {
+  customSuffix: string;
+};
+
+/**
+ * Helper function to resolve the SDK options based on the configuration.
+ * @param input - The options for creating the SDK.
+ * @param options - The configuration object, that allows to customize the API Url creation on enabled multistore.
+ * @returns The resolved SDK options.
+ */
+export function resolveSdkOptions(
+  input: CreateSdkOptions,
+  options: Partial<ResolveSdkOptionsConfig> = {}
+): CreateSdkOptions {
+  if (input?.multistore?.enabled) {
+    return {
+      middleware: {
+        // This is a dummy URL, the localhost domain will be replaced by the actual domain in the browser
+        // in composeMiddlewareUrl function. The server-side rendering will use ssrApiUrl.
+        apiUrl: `https://localhost/${options?.customSuffix ?? "api"}`,
+        cdnCacheBustingId: input.middleware?.cdnCacheBustingId,
+        ssrApiUrl: input.middleware?.ssrApiUrl ?? input.middleware.apiUrl,
+      },
+      multistore: {
+        enabled: true,
+      },
+    };
+  }
+
+  return input;
+}

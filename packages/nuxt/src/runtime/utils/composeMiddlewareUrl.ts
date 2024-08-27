@@ -13,6 +13,8 @@ function calculateMiddlewareUrl({
 
   if (typeof window !== "undefined") {
     if (options.multistore?.enabled) {
+      // In options the apiUrl is a dummy URL with the localhost domain and real subpath.
+      // Here we replacing by the actual domain from the browser.
       const url = new URL(apiUrl);
       url.host = window.location.host;
       return url.href;
