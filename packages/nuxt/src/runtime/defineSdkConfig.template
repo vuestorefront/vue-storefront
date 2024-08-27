@@ -107,7 +107,7 @@ function resolveSdkOptions(
       },
       multistore: {
         enabled: true,
-      },`
+      },
     };
   }
 
