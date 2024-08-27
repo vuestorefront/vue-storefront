@@ -127,6 +127,8 @@ export function resolveSdkOptions(
   if (input?.multistore?.enabled) {
     return {
       middleware: {
+        // This is a dummy URL, the localhost domain will be replaced by the actual domain in the browser
+        // in composeMiddlewareUrl function. The server-side rendering will use ssrApiUrl.
         apiUrl: `https://localhost/${options?.customSuffix ?? "api"}`,
         cdnCacheBustingId: input.middleware?.cdnCacheBustingId,
         ssrApiUrl: input.middleware?.ssrApiUrl ?? input.middleware.apiUrl,
