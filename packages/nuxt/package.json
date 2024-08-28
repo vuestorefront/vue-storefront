@@ -31,7 +31,6 @@
     "@nuxt/kit": "^3.7.4",
     "@nuxt/schema": "^3.7.4",
     "@pinia/nuxt": "^0.5.1",
-    "@vue-storefront/sdk": "^3.2.0",
     "defu": "^6.0.0",
     "knitwork": "^1.0.0",
     "pinia": "^2.1.7"
@@ -45,5 +44,8 @@
     "nuxt": "3.12.2",
     "start-server-and-test": "^2.0.3",
     "vitest": "1.6.0"
+  },
+  "peerDependencies": {
+    "@vue-storefront/sdk": "^3.2.0"
   }
 }
