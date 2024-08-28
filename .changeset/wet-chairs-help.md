@@ -1,5 +1,5 @@
 ---
-"@vue-storefront/nuxt": major
+"@vue-storefront/nuxt": patch
 ---
 
 **[FIXED]** Removed backquote from defineSdkConfig.template
