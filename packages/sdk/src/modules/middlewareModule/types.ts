@@ -1,6 +1,5 @@
 import { AnyFunction } from "../../types";
 import { isConfig } from "./consts";
-import { SdkHttpError } from "./utils";
 
 /**
  * Represents the constraint for API endpoint functions within the SDK.
@@ -118,7 +117,7 @@ export type HTTPClient = (
    * The computed configuration for the HTTP request, after processing url, query params and headers.
    */
   config?: ComputedConfig
-) => Promise<true> | SdkHttpError;
+) => Promise<any>;
 
 /**
  * Provides context for error handling, encapsulating details relevant to the failed HTTP request.

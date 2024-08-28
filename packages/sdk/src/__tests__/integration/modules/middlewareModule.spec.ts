@@ -252,6 +252,67 @@ describe("middlewareModule", () => {
     );
   });
 
+  it("should remove zero-valued Content-Length header as it would crash Next.js server", async () => {
+    const customHttpClient = jest.fn();
+    const sdkConfig = {
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
+        httpClient: customHttpClient,
+        defaultRequestConfig: {
+          headers: {
+            "Content-Length": "0",
+          },
+        },
+      }),
+    };
+    const sdk = initSDK(sdkConfig);
+
+    await sdk.commerce.getProduct({ id: 1 });
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      "http://localhost:8181/commerce/getProduct",
+      expect.any(Array),
+      expect.objectContaining({
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
+    );
+  });
+
+  it("should pass non-zero-valued Content-Length header", async () => {
+    const customHttpClient = jest.fn();
+    const sdkConfig = {
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
+        httpClient: customHttpClient,
+        defaultRequestConfig: {
+          headers: {
+            "Content-Length": "1000",
+          },
+        },
+      }),
+    };
+    const sdk = initSDK(sdkConfig);
+
+    await sdk.commerce.getProduct({ id: 1 });
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      "http://localhost:8181/commerce/getProduct",
+      expect.any(Array),
+      expect.objectContaining({
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Content-Length": "1000",
+        },
+      })
+    );
+  });
+
   it("should use different base URL during SSR if defined", async () => {
     const customHttpClient = jest.fn();
     const sdkConfig = {

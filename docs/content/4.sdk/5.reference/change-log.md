@@ -1,5 +1,17 @@
 # Change log
 
+## 3.2.2
+
+### Patch Changes
+
+- **[CHANGED]** response type of HTTPClient to `Promise<any>`. Previously it was `Promise<true> | SdkHttpError`, which was making it impossible the use of an `axios` with the `middlewareModule`. Now, it more flexible and can be used with any HTTP client.
+
+## 3.2.1
+
+### Patch Changes
+
+**[FIXED]** `Content-Length` header will no longer be appended to requests if its value is "0" - such situation caused Next.js server to crash
+
 ## 3.2.0
 
 ### Minor Changes
