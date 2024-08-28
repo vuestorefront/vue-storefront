@@ -1,5 +1,11 @@
 # Change log
 
+## 4.4.0
+
+### Minor Changes
+
+- **[ADDED]** New GET /readyz endpoint for middleware for using with Kubernetes readiness probes.
+
 ## 4.3.1
 
 ### Patch Changes

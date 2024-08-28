@@ -1,5 +1,11 @@
 # Change log
 
+## 7.0.0
+
+### Major Changes
+
+**[FIXED]** Removed backquote from defineSdkConfig.template
+
 ## 6.0.0
 
 ### Major Changes
