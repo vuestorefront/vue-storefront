@@ -1,5 +1,6 @@
-import express, { Express } from "express";
+import express from "express";
 import request from "supertest";
+import { Server } from "http";
 import { createServer } from "../../src";
 
 const app = express();
@@ -40,7 +41,7 @@ const myExtension = {
 };
 
 describe("POST /test_integration/testEndpoint", () => {
-  let app: Express;
+  let app: Server;
 
   beforeEach(() => {
     jest.clearAllMocks();

@@ -1,10 +1,12 @@
 import consola from "consola";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import type { Express } from "express";
 import express from "express";
 import type { HelmetOptions } from "helmet";
 import helmet from "helmet";
+import http, { Server } from "node:http";
+import { createTerminus } from "@godaddy/terminus";
+
 import { registerIntegrations } from "./integrations";
 import type {
   Helmet,
@@ -18,6 +20,7 @@ import {
   prepareArguments,
   callApiFunction,
 } from "./handlers";
+import { createTerminusOptions } from "./terminus";
 
 const defaultCorsOptions: CreateServerOptions["cors"] = {
   credentials: true,
@@ -29,7 +32,7 @@ async function createServer<
 >(
   config: MiddlewareConfig<TIntegrationContext>,
   options: CreateServerOptions = {}
-): Promise<Express> {
+): Promise<Server> {
   const app = express();
 
   app.use(express.json(options.bodyParser));
@@ -78,12 +81,15 @@ async function createServer<
     callApiFunction
   );
 
+  // This could instead be implemented as a healthcheck within terminus, but we don't want /healthz to change response if app received SIGTERM
   app.get("/healthz", (_req, res) => {
     res.end("ok");
   });
 
+  const server = http.createServer(app);
+  createTerminus(server, createTerminusOptions(options.readinessProbes));
   consola.success("Middleware created!");
-  return app;
+  return server;
 }
 
 export { createServer };
