@@ -1,5 +1,11 @@
 # Change log
 
+## 4.1.1
+
+### Patch Changes
+
+- **[CHANGED]** the package `@vue-storefront/sdk` is now a peer dependency instead of dependency
+
 ## 4.1.0
 
 ### Minor Changes
