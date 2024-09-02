@@ -5023,6 +5023,17 @@
     local-pkg "^0.5.0"
     magic-string-ast "^0.5.0"
 
+"@vue-storefront/middleware@^4.2.0":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/middleware/-/middleware-4.3.1.tgz#075a594f35b9a6cbe3969eb2f1a101eaa632e04f"
+  integrity sha512-hIFp6djLFt3SLkeC0bs0CAiLfSifJMxdZQXxdnd9wA6Ud4IltG0ykVwXgedMmU4UiuANruUMQczDo5LCbJ5hYA==
+  dependencies:
+    consola "^2.15.3"
+    cookie-parser "^1.4.6"
+    cors "^2.8.5"
+    express "^4.18.1"
+    helmet "^5.1.1"
+
 "@vue-storefront/rollup-config@^0.0.6":
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/@vue-storefront/rollup-config/-/rollup-config-0.0.6.tgz#625f4e67790f11e2b9ff2843a95fea52849effa2"
