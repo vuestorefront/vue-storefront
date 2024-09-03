@@ -1,5 +1,17 @@
 # Change log
 
+## 6.0.2
+
+### Patch Changes
+
+- **[CHANGED]** the package `@vue-storefront/sdk` is now a peer dependency instead of dependency
+
+## 6.0.1
+
+### Patch Changes
+
+**[FIXED]** Removed backquote from defineSdkConfig.template
+
 ## 6.0.0
 
 ### Major Changes

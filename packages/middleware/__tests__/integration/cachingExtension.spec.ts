@@ -1,5 +1,5 @@
-import { Express } from "express";
 import request from "supertest";
+import { Server } from "http";
 import { createServer } from "../../src/index";
 
 const Logger = {
@@ -59,7 +59,7 @@ const cachingExtension = {
  * for cookie-independent requests to the GET endpoints in our integrations
  */
 describe("[Integration] Caching extension", () => {
-  let app: Express;
+  let app: Server;
 
   beforeEach(() => {
     jest.clearAllMocks();
