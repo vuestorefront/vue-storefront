@@ -1,5 +1,11 @@
 # Change log
 
+## 4.2.0
+
+### Minor Changes
+
+- **[CHANGED]** `defaultMethodsRequestConfig`, so the `getCategory`, and `getPage` methods will use `GET` request as a default.
+
 ## 4.1.1
 
 ### Patch Changes
