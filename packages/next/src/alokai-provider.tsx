@@ -5,6 +5,7 @@ import Script from "next/script";
 import React, { createContext, useContext } from "react";
 import { CreateSdkContextReturn, AlokaiProviderProps } from "./sdk/types";
 import { createSfStateProvider, type SfContract } from "./state";
+import { type Logger } from "@vue-storefront/logger";
 
 /**
  * Creates a new Alokai context which is a combination of SDK and state contexts.
@@ -27,29 +28,36 @@ import { createSfStateProvider, type SfContract } from "./state";
  */
 export function createAlokaiContext<
   TSdk extends SDKApi<any>,
-  TSfContract extends SfContract
->(): CreateSdkContextReturn<TSdk, TSfContract> {
+  TSfContract extends SfContract,
+  TLogger extends Logger
+>(): CreateSdkContextReturn<TSdk, TSfContract, TLogger> {
   const SdkContext = createContext<TSdk>(null);
+  const LoggerContext = createContext<TLogger>(null);
   const { SfStateProvider, ...rest } = createSfStateProvider<TSfContract>();
 
   function AlokaiProvider({
     children,
     sdk,
     initialData,
-  }: AlokaiProviderProps<TSdk, TSfContract>) {
+    logger,
+  }: AlokaiProviderProps<TSdk, TSfContract, TLogger>) {
     return (
-      <SdkContext.Provider value={sdk}>
-        {/* an universal approach to add meta tag */}
-        <Script strategy="beforeInteractive" id="vsfMetaTag">
-          {`
+      <LoggerContext.Provider value={logger}>
+        <SdkContext.Provider value={sdk}>
+          {/* an universal approach to add meta tag */}
+          <Script strategy="beforeInteractive" id="vsfMetaTag">
+            {`
           const vsfMetaTag = document.createElement("meta");
           vsfMetaTag.setAttribute("name", "generator");
           vsfMetaTag.setAttribute("content", "Vue Storefront 2");
           document.head.appendChild(vsfMetaTag);
         `}
-        </Script>
-        <SfStateProvider initialData={initialData}>{children}</SfStateProvider>
-      </SdkContext.Provider>
+          </Script>
+          <SfStateProvider initialData={initialData}>
+            {children}
+          </SfStateProvider>
+        </SdkContext.Provider>
+      </LoggerContext.Provider>
     );
   }
 
@@ -60,6 +68,13 @@ export function createAlokaiContext<
     }
     return contextSdk;
   };
+  const useLogger = () => {
+    const contextLogger = useContext(LoggerContext);
+    if (!contextLogger) {
+      throw new Error("useLogger must be used within a AlokaiProvider");
+    }
+    return contextLogger;
+  };
 
-  return { AlokaiProvider, useSdk, ...rest } as const;
+  return { AlokaiProvider, useSdk, useLogger, ...rest } as const;
 }
