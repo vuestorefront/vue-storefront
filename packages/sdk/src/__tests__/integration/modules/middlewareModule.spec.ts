@@ -383,7 +383,7 @@ describe("middlewareModule", () => {
       prepareConfig({
         method: "POST",
         headers: {
-          "X-Test": ["x-test-header", "x-test-header-2"],
+          Cookie: ["vsf-locale=123", "custom-cookie=456"],
         },
       })
     );
@@ -395,8 +395,8 @@ describe("middlewareModule", () => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          "X-Test-Default": "x-test-header,x-test-header-2",
-          "X-Test": "x-test-header,x-test-header-2",
+          "X-Test-Default": "x-test-header;x-test-header-2",
+          Cookie: "vsf-locale=123;custom-cookie=456",
         },
       })
     );

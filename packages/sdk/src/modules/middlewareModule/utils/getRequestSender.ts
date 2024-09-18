@@ -86,7 +86,7 @@ export const getRequestSender = (options: Options): RequestSender => {
 
     const computedHeaders: ComputedConfig["headers"] = {};
     Object.entries(mergedHeaders).forEach(([key, value]) => {
-      computedHeaders[key] = Array.isArray(value) ? value.join(",") : value;
+      computedHeaders[key] = Array.isArray(value) ? value.join(";") : value;
     });
 
     return {
