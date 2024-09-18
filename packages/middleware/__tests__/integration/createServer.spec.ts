@@ -1,10 +1,10 @@
-import { Express } from "express";
 import request from "supertest";
+import { Server } from "http";
 import { createServer } from "../../src/index";
 import { success } from "./bootstrap/api";
 
 describe("[Integration] Create server", () => {
-  let app: Express;
+  let app: Server;
 
   beforeEach(async () => {
     app = await createServer({

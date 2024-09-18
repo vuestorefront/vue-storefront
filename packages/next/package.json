@@ -43,7 +43,6 @@
     "test:unit": "vitest run"
   },
   "dependencies": {
-    "@vue-storefront/logger": "*",
     "zustand": "^4.5.4"
   },
   "devDependencies": {

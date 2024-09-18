@@ -1311,12 +1311,7 @@
             },
             {
               "kind": "Content",
-              "text": "<true> | "
-            },
-            {
-              "kind": "Reference",
-              "text": "SdkHttpError",
-              "canonicalReference": "@vue-storefront/sdk!SdkHttpError:class"
+              "text": "<any>"
             },
             {
               "kind": "Content",
@@ -1328,7 +1323,7 @@
           "name": "HTTPClient",
           "typeTokenRange": {
             "startIndex": 1,
-            "endIndex": 7
+            "endIndex": 6
           }
         },
         {

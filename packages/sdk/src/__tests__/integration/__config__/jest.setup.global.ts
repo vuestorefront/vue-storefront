@@ -1,9 +1,8 @@
-import { Express } from "express";
 import { Server } from "http";
 import { createServer } from "@vue-storefront/middleware";
 import { ExtendedGlobalThis } from "./types";
 
-async function runMiddleware(app: Express): Promise<Server> {
+async function runMiddleware(app: Server): Promise<Server> {
   return new Promise((resolve) => {
     const server = app.listen(8181, async () => {
       resolve(server);

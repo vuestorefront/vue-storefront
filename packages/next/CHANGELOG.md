@@ -1,5 +1,40 @@
 # Change log
 
+## 4.2.0
+
+### Minor Changes
+
+- **[CHANGED]** `defaultMethodsRequestConfig`, so the `getCategory`, and `getPage` methods will use `GET` request as a default.
+
+## 4.1.1
+
+### Patch Changes
+
+- **[CHANGED]** the package `@vue-storefront/sdk` is now a peer dependency instead of dependency
+
+## 4.1.0
+
+### Minor Changes
+
+- **[CHANGE]**: Added the `resolveSdkOptions` helper that automatically setup proper SSR & SPA URLs for middleware when multistore option is enabled. To use it, change your SDK configuration:
+
+```diff
+-import type { CreateSdkOptions } from '@vue-storefront/next';
++import { resolveSdkOptions } from '@vue-storefront/next';
+
+-const options: CreateSdkOptions = {
++const options = resolveSdkOptions({
+  middleware: {
+    apiUrl,
+    cdnCacheBustingId,
+    ssrApiUrl,
+  },
+  multistore: {
+    enabled: isMultiStoreEnabled,
+  },
+});
+```
+
 ## 4.0.0
 
 ### Major Changes

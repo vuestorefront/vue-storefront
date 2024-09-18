@@ -31,6 +31,12 @@
       "to": "https://pwa-docs.plentymarkets.com/",
       "icon": "IconPlentyMarkets",
       "partnerMaintained": true
+    },
+    {
+      "title": "Odoo",
+      "to": "/integrations/odoo",
+      "icon": "IconOdoo",
+      "partnerMaintained": true
     }
   ],
   "CMS": [
@@ -78,7 +84,6 @@
       "to": "/integrations/adyen-sfcc",
       "icon": "logos:adyen",
       "secondaryIcon": "logos:salesforce"
-
     }
   ],
   "Search": [

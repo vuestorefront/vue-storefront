@@ -1,5 +1,29 @@
 # Change log
 
+## 6.1.0
+
+### Minor Changes
+
+- **[CHANGED]** `defaultMethodsRequestConfig`, so the `getCategory`, and `getPage` methods will use `GET` request as a default.
+
+## 6.0.2
+
+### Patch Changes
+
+- **[CHANGED]** the package `@vue-storefront/sdk` is now a peer dependency instead of dependency
+
+## 6.0.1
+
+### Patch Changes
+
+**[FIXED]** Removed backquote from defineSdkConfig.template
+
+## 6.0.0
+
+### Major Changes
+
+- **[BREAKING]**: Added functionality that automatically configures the proper URLs for SSR & SPA modes when mutlistore mode is enabled. Left your environment variables like in normal mode, just set `NUXT_PUBLIC_ALOKAI_MULTISTORE_ENABLED` to `true`.
+
 ## 5.0.0
 
 ### Major Changes

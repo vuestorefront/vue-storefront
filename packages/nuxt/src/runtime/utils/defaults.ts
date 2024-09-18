@@ -2,6 +2,7 @@ export function getDefaultMethodsRequestConfig() {
   return {
     unifiedCommerce: {
       middlewareModule: {
+        getCategory: { method: "GET" },
         getCategories: { method: "GET" },
         getProductDetails: { method: "GET" },
         getProductReviews: { method: "GET" },
@@ -12,6 +13,7 @@ export function getDefaultMethodsRequestConfig() {
     },
     unifiedCms: {
       middlewareModule: {
+        getPage: { method: "GET" },
         getEntries: { method: "GET" },
       },
     },

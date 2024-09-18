@@ -131,6 +131,13 @@ export type CreateApiProxyFn = <CONFIG, API, CLIENT>(
   customApi?: any
 ) => ApiInstance<CONFIG, API, CLIENT>;
 
+/**
+ * Function that will be called to determine readiness of middleware to accept connections
+ * @returns Return value is never considered - only thrown exceptions
+ * @throws The implementation *must* throw an exception at some point in the code, which means that the readiness check should fail
+ */
+export type ReadinessProbe = () => Promise<void>;
+
 export interface CreateServerOptions {
   /**
    * The options for the `express.json` middleware.
@@ -159,4 +166,10 @@ export interface CreateServerOptions {
    * @see https://www.npmjs.com/package/cors
    */
   cors?: CorsOptions | CorsOptionsDelegate;
+  /**
+   * Array of functions that will be called in parallel every time the /readyz endpoint receives a GET request
+   * If at least one function throws an exception, the response from the /readyz endpoint will report an error
+   * @see https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-readiness-probes
+   */
+  readinessProbes?: ReadinessProbe[];
 }
