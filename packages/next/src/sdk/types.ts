@@ -3,7 +3,6 @@ import { SDKApi, buildModule, middlewareModule } from "@vue-storefront/sdk";
 import { ReactNode } from "react";
 import type { defaultMethodsRequestConfig } from "@storefront/shared";
 import type { SfStateProps, createSfStateProvider, SfContract } from "../state";
-import type { Logger } from "@vue-storefront/logger";
 export type GetSdkContext = {
   /**
    * A function that returns the request headers.
@@ -39,15 +38,10 @@ type InjectedContext = DynamicContext & StaticContext;
 
 export type Config<TConfig> = (context: InjectedContext) => TConfig;
 
-export type AlokaiProviderProps<
-  TSdk,
-  TSfContract extends SfContract,
-  TLogger
-> = {
+export type AlokaiProviderProps<TSdk, TSfContract extends SfContract> = {
   children: ReactNode;
   sdk: TSdk;
   initialData: SfStateProps<TSfContract>;
-  logger: TLogger;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -100,14 +94,12 @@ export interface CreateSdkReturn<TConfig extends Record<string, any>> {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CreateSdkContextReturn<
   TSdk extends SDKApi<any>,
-  TSfContract extends SfContract,
-  TLogger extends Logger
+  TSfContract extends SfContract
 > = Readonly<{
   AlokaiProvider: ({
     children,
-  }: AlokaiProviderProps<TSdk, TSfContract, TLogger>) => JSX.Element;
+  }: AlokaiProviderProps<TSdk, TSfContract>) => JSX.Element;
   useSdk: () => TSdk;
-  useLogger: () => TLogger;
   useSfCurrencyState: ReturnType<
     typeof createSfStateProvider<TSfContract>
   >["useSfCurrencyState"];

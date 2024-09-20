@@ -43,12 +43,13 @@
     "test:unit": "vitest run"
   },
   "dependencies": {
-    "zustand": "^4.5.4"
+    "zustand": "^4.5.4",
+    "@vue-storefront/logger": "*"
   },
   "devDependencies": {
     "@types/react": "^18.2.31",
     "@types/react-dom": "^18.2.14",
-    "@vue-storefront/sdk": "^3.1.0",
+    "@vue-storefront/sdk": "*",
     "react-dom": "^18.2.0",
     "start-server-and-test": "^2.0.3",
     "tsup": "8.0.1",
@@ -57,7 +58,7 @@
     "next": "^13.4.7 || ^14.0.0"
   },
   "peerDependencies": {
-    "@vue-storefront/sdk": "^3.1.0",
+    "@vue-storefront/sdk": "*",
     "react": "^18.2.0",
     "next": "^13.4.7 || ^14.0.0"
   },

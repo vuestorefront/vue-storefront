@@ -1,1 +1,1 @@
-export { LoggerFactory, LoggerType } from "@vue-storefront/logger";
+export { LoggerFactory, LoggerType, type Logger } from "@vue-storefront/logger";
