@@ -1,9 +1,0 @@
-{
-  "extends": "@vue-storefront/integrations-tsconfig/tsconfig",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "types": ["cypress"]
-  },
-  "exclude": ["node_modules"],
-  "include": ["src/**/*.ts"]
-}
