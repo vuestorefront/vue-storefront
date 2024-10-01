@@ -27,13 +27,6 @@ coverage
 # OS generated files
 .DS_STORE
 
-# Nuxt generated files
-.nuxt
-.output
-
-# Next generated files
-.next
-
 # Cypress generated files
 **/cypress/screenshots
 
