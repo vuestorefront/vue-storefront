@@ -17,5 +17,7 @@
     "@vue-storefront/sdk": "3.2.3",
     "@vue-storefront/sdk-axios-request-sender": "2.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "strange-schools-mate"
+  ]
 }
