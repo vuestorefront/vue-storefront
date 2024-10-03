@@ -65,7 +65,6 @@
     "test": "yarn test:unit && yarn test:integration",
     "test:unit": "jest -c jest.config.ts --coverage",
     "test:integration": "echo 'No test step created for this package'",
-    "lint": "eslint . --ext .ts,.js",
     "prepublish": "yarn build"
   },
   "engines": {
