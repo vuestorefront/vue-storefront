@@ -15,7 +15,6 @@
     "format": "prettier --write .",
     "package": "ncc build --license licenses.txt --no-source-map-register",
     "compile": "tsc",
-    "lint": "eslint --fix .",
     "build": "yarn compile && yarn package"
   },
   "keywords": [

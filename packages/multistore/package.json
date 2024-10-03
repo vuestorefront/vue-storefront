@@ -15,7 +15,6 @@
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "dev": "rimraf lib && rollup -c -w",
-    "lint": "eslint . --ext .ts",
     "test": "yarn jest",
     "prepublishOnly": "yarn build"
   },

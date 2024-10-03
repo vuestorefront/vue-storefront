@@ -14,7 +14,6 @@
     "test": "yarn test:unit && yarn test:integration",
     "test:unit": "jest -c jest.config.ts --coverage",
     "test:integration": "jest ./integration -c ./jest.config.ts --runInBand",
-    "lint": "eslint . --ext .ts,.js",
     "prepublishOnly": "yarn build",
     "changesets:version": "yarn changeset version && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install",
     "changesets:publish": "yarn build && yarn changeset publish"

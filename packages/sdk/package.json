@@ -11,7 +11,6 @@
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "dev": "rimraf lib && rollup -c -w",
-    "lint": "eslint . --ext .ts",
     "test": "yarn test:unit && yarn test:integration",
     "test:unit": "jest ./src/__tests__/unit -c ./jest.config.unit.ts --coverage",
     "test:integration": "jest ./src/__tests__/integration -c ./jest.config.integration.ts --runInBand --coverage",
