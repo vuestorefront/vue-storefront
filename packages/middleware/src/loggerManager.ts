@@ -1,10 +1,15 @@
 import type { Response } from "express";
 import { ConsolaStructuredLogger } from "@vue-storefront/logger";
-import type { IntegrationContext, MiddlewareConfig } from "./types";
+import type {
+  AlokaiContainer,
+  IntegrationContext,
+  MiddlewareConfig,
+} from "./types";
 
 type LoggerInstance = ConsolaStructuredLogger;
 const GLOBAL_MIDDLEWARE_CFG_KEY = Symbol("GLOBAL_MIDDLEWARE_CFG_KEY");
 export class LoggersManager<
+  TLoggerConfig = any,
   TIntegrationContext extends Record<string, IntegrationContext> = any
 > {
   private instances: Record<string | symbol, LoggerInstance> = {};
@@ -12,29 +17,28 @@ export class LoggersManager<
   /** Creating minimal amount of needed Logger instances * */
   constructor(
     config: MiddlewareConfig<TIntegrationContext>, // Whole middleware.config.js object
-    buildLogger: (logger: unknown) => LoggerInstance
+    buildLogger: (logger: TLoggerConfig) => LoggerInstance
   ) {
     // Global Logger
     this.instances[GLOBAL_MIDDLEWARE_CFG_KEY] = buildLogger(
-      config.logger // logger is on same level as integrations
+      config.logger as TLoggerConfig // logger is on same level as integrations
     );
     // Logger for every integration having custom logger config
-    for (const [
-      integrationName,
-      { configuration: integrationConfiguration },
-    ] of Object.entries(config.integrations)) {
-      if (this.hasCustomLoggerConfig(integrationConfiguration)) {
+    for (const [integrationName, integrationEntry] of Object.entries(
+      config.integrations
+    )) {
+      if (this.hasCustomLoggerConfig(integrationEntry)) {
         // every integration inside `configuration` object can have own logger too
         this.instances[integrationName] = buildLogger(
-          integrationConfiguration.logger
+          integrationEntry.logger as TLoggerConfig
         );
       }
     }
   }
 
   // eslint-disable-next-line class-methods-use-this
-  private hasCustomLoggerConfig(integrationConfiguration) {
-    return Boolean(integrationConfiguration.logger);
+  private hasCustomLoggerConfig(integrationEntry) {
+    return Boolean(integrationEntry.logger);
   }
 
   // getting reference to instance of logger by integration tag name
@@ -61,8 +65,19 @@ export class LoggersManager<
   }
 }
 
-export function getLogger(res: Response) {
-  return res.locals.alokai.logger;
+export function getLogger(
+  source: AlokaiContainer | Response | { res: Response }
+): LoggerInstance {
+  let base: Response;
+  if ("logger" in source) {
+    return source.logger;
+  }
+  if ("res" in source) {
+    base = source.res;
+  } else {
+    base = source;
+  }
+  return base.locals.alokai.logger;
 }
 
 const methodsToOverwrite = [
@@ -78,7 +93,7 @@ const methodsToOverwrite = [
 
 export function wrapLogger(
   logger: LoggerInstance,
-  metadataGetter: () => Record<string, any>
+  metadataGetter: (metadata: Record<string, any>) => Record<string, any>
 ): LoggerInstance {
   return new Proxy(logger, {
     get(target, prop) {
@@ -90,7 +105,7 @@ export function wrapLogger(
           const [message, metadata] = args;
           target[prop](message, {
             ...metadata,
-            ...metadataGetter(),
+            ...metadataGetter(metadata),
           });
         };
       }

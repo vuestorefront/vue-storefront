@@ -1,8 +1,7 @@
-import type { Response, NextFunction } from "express";
-import { RequestWithAlokai } from "../../types";
+import type { Response, Request, NextFunction } from "express";
 
-export async function prepareMetadataManager(
-  req: RequestWithAlokai,
+export async function prepareMetadataStorage(
+  req: Request,
   res: Response,
   next: NextFunction
 ) {

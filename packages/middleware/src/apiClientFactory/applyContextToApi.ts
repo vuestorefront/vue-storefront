@@ -36,6 +36,10 @@ const applyContextToApi = <
         const extendQuery = createExtendQuery(context);
         const transformedArgs = await hooks.before({ callName, args });
         const apiClientContext = { ...context, extendQuery };
+        if ("_extensionName" in fn) {
+          context.res.locals.alokai.metadata.scope.extensionName =
+            fn._extensionName;
+        }
         const response = await fn(apiClientContext, ...transformedArgs);
         const transformedResponse = await hooks.after({
           callName,

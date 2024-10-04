@@ -7,6 +7,7 @@ import http, { Server } from "node:http";
 import { createTerminus } from "@godaddy/terminus";
 import { LoggerFactory, LoggerType } from "@vue-storefront/logger";
 import { LoggersManager, wrapLogger } from "./loggerManager";
+import { LoggerFactoryConfig } from "./types";
 
 import { registerIntegrations } from "./integrations";
 import type {
@@ -22,7 +23,7 @@ import {
   callApiFunction,
 } from "./handlers";
 import { createTerminusOptions } from "./terminus";
-import { prepareMetadataManager } from "./handlers/prepareMetadataManager";
+import { prepareMetadataStorage } from "./handlers/prepareMetadataStorage";
 import { prepareLogger } from "./handlers/prepareLogger";
 
 const defaultCorsOptions: CreateServerOptions["cors"] = {
@@ -36,8 +37,9 @@ async function createServer<
   config: MiddlewareConfig<TIntegrationContext>,
   options: CreateServerOptions = {}
 ): Promise<Server> {
-  const loggersManager = new LoggersManager(config, () =>
-    LoggerFactory.create(LoggerType.ConsolaGcp)
+  const loggersManager = new LoggersManager<LoggerFactoryConfig>(
+    config,
+    (loggerConfig) => LoggerFactory.create(LoggerType.ConsolaGcp, loggerConfig)
   );
   const rawGlobalLogger = loggersManager.getGlobal();
   const globalLogger = wrapLogger(rawGlobalLogger, () => ({
@@ -74,12 +76,16 @@ async function createServer<
   }
 
   globalLogger.info("Loading integrations...");
-  const integrations = await registerIntegrations(app, config.integrations);
+  const integrations = await registerIntegrations(
+    app,
+    config.integrations,
+    loggersManager
+  );
   globalLogger.notice("Integrations loaded!");
 
   app.post(
     "/:integrationName/:extensionName?/:functionName",
-    prepareMetadataManager,
+    prepareMetadataStorage,
     prepareLogger(loggersManager),
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),
@@ -88,7 +94,7 @@ async function createServer<
   );
   app.get(
     "/:integrationName/:extensionName?/:functionName",
-    prepareMetadataManager,
+    prepareMetadataStorage,
     prepareLogger(loggersManager),
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),

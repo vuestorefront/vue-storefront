@@ -1,4 +1,3 @@
-import consola from "consola";
 import type { Express } from "express";
 import {
   createExtensions,
@@ -12,35 +11,55 @@ import type {
   IntegrationsLoaded,
 } from "../types";
 import { defaultErrorHandler } from "../errors/defaultErrorHandler";
+import { LoggersManager, wrapLogger } from "../loggerManager";
 
 export async function registerIntegrations(
   app: Express,
-  integrations: Integrations
+  integrations: Integrations,
+  loggersManager: LoggersManager
 ): Promise<IntegrationsLoaded> {
   return await Object.entries(integrations).reduce(
     async (prevAsync, [tag, integration]) => {
-      consola.info(`- Loading: ${tag} ${integration.location}`);
+      const rawLogger = loggersManager.get(tag);
+      const logger = wrapLogger(rawLogger, () => ({
+        context: "middleware",
+      }));
+      const alokai = { logger };
+      logger.info(`- Loading: ${tag} ${integration.location}`);
       const prev = await prevAsync;
       const apiClient = resolveDependency<ApiClientFactory>(
-        integration.location
+        integration.location,
+        alokai
       );
       const rawExtensions = createRawExtensions(apiClient, integration);
-      const extensions = createExtensions(rawExtensions);
-      const initConfig = await getInitConfig({ apiClient, integration, tag });
+      const extensions = createExtensions(rawExtensions, alokai);
+      const initConfig = await getInitConfig({
+        apiClient,
+        integration,
+        tag,
+        alokai,
+      });
       const configuration = {
         ...integration.configuration,
         integrationName: tag,
       };
 
       for (const { name, extendApp } of extensions) {
-        consola.info(`- Loading: ${tag} extension: ${name}`);
+        logger.info(`- Loading: ${tag} extension: ${name}`);
 
         if (extendApp) {
-          await extendApp({ app, configuration });
+          const logger = wrapLogger(rawLogger, () => ({
+            context: "middleware",
+            scope: {
+              extensionName: name,
+              hookName: "extendApp",
+            },
+          }));
+          await extendApp({ app, configuration, logger });
         }
       }
 
-      consola.success(`- Integration: ${tag} loaded!`);
+      logger.notice(`- Integration: ${tag} loaded!`);
 
       return {
         ...prev,
