@@ -11,7 +11,7 @@ type LogLevel =
   | "info"
   | "debug";
 
-interface Logger {
+export interface Logger {
   log(level: LogLevel, logData: LogData, metadata?: Metadata): void;
   emergency(logData: LogData, metadata?: Metadata): void;
   alert(logData: LogData, metadata?: Metadata): void;
