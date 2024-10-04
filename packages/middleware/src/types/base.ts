@@ -1,3 +1,6 @@
+import type { Request } from "express";
+import { ConsolaStructuredLogger } from "@vue-storefront/logger";
+
 export type ParamType = string | number | symbol;
 
 export type TObject = Record<string, any>;
@@ -63,3 +66,10 @@ export type ErrorObject<T extends string> =
   | AxiosError
   | ApolloError
   | UnknownError<T>;
+
+export type RequestWithAlokai = Request & {
+  alokai?: {
+    metadata?: Record<string, any>;
+    logger?: ConsolaStructuredLogger;
+  };
+};

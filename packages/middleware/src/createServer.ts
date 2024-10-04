@@ -1,4 +1,3 @@
-import consola from "consola";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
@@ -6,6 +5,8 @@ import type { HelmetOptions } from "helmet";
 import helmet from "helmet";
 import http, { Server } from "node:http";
 import { createTerminus } from "@godaddy/terminus";
+import { LoggerFactory, LoggerType } from "@vue-storefront/logger";
+import { LoggersManager, wrapLogger } from "./loggerManager";
 
 import { registerIntegrations } from "./integrations";
 import type {
@@ -21,6 +22,8 @@ import {
   callApiFunction,
 } from "./handlers";
 import { createTerminusOptions } from "./terminus";
+import { prepareMetadataManager } from "./handlers/prepareMetadataManager";
+import { prepareLogger } from "./handlers/prepareLogger";
 
 const defaultCorsOptions: CreateServerOptions["cors"] = {
   credentials: true,
@@ -33,6 +36,14 @@ async function createServer<
   config: MiddlewareConfig<TIntegrationContext>,
   options: CreateServerOptions = {}
 ): Promise<Server> {
+  const loggersManager = new LoggersManager(config, () =>
+    LoggerFactory.create(LoggerType.ConsolaGcp)
+  );
+  const rawGlobalLogger = loggersManager.getGlobal();
+  const globalLogger = wrapLogger(rawGlobalLogger, () => ({
+    context: "middleware",
+  }));
+
   const app = express();
 
   app.use(express.json(options.bodyParser));
@@ -44,7 +55,7 @@ async function createServer<
   app.use(cors(options.cors ?? defaultCorsOptions));
   app.disable("x-powered-by");
 
-  consola.info("Middleware starting....");
+  globalLogger.info("Middleware starting....");
   const helmetOptions: Helmet = {
     contentSecurityPolicy: false,
     crossOriginOpenerPolicy: false,
@@ -59,15 +70,17 @@ async function createServer<
     (config.helmet && Object.keys(config.helmet).length > 0);
   if (isHelmetEnabled) {
     app.use(helmet(helmetOptions));
-    consola.info("VSF `Helmet` middleware added");
+    globalLogger.info("VSF `Helmet` middleware added");
   }
 
-  consola.info("Loading integrations...");
+  globalLogger.info("Loading integrations...");
   const integrations = await registerIntegrations(app, config.integrations);
-  consola.success("Integrations loaded!");
+  globalLogger.notice("Integrations loaded!");
 
   app.post(
     "/:integrationName/:extensionName?/:functionName",
+    prepareMetadataManager,
+    prepareLogger(loggersManager),
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),
     prepareArguments,
@@ -75,6 +88,8 @@ async function createServer<
   );
   app.get(
     "/:integrationName/:extensionName?/:functionName",
+    prepareMetadataManager,
+    prepareLogger(loggersManager),
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),
     prepareArguments,
@@ -88,7 +103,7 @@ async function createServer<
 
   const server = http.createServer(app);
   createTerminus(server, createTerminusOptions(options.readinessProbes));
-  consola.success("Middleware created!");
+  globalLogger.notice("Middleware created!");
   return server;
 }
 

@@ -6,6 +6,14 @@ export function prepareApiFunction(
 ): (req, res, next) => Promise<any> {
   return async (req, res, next) => {
     const { integrationName, extensionName, functionName } = req.params;
+    res.locals.alokai.metadata = {
+      ...res.locals.alokai.metadata,
+      scope: {
+        integrationName,
+        extensionName,
+        functionName,
+      },
+    };
 
     if (!integrations || !integrations[integrationName]) {
       res.status(404);

@@ -16,12 +16,15 @@ export type Integrations<TIntegrationsContext extends TObject = TObject> = {
     : never;
 };
 
+export type LoggerConfig = unknown;
+
 export interface MiddlewareConfig<
   TIntegrationsContext extends Record<string, IntegrationContext> = Record<
     string,
     IntegrationContext
   >
 > {
+  logger?: LoggerConfig;
   integrations: Integrations<TIntegrationsContext>;
   helmet?: boolean | Readonly<HelmetOptions>;
 }
