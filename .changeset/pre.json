@@ -18,6 +18,7 @@
     "@vue-storefront/sdk-axios-request-sender": "2.0.0"
   },
   "changesets": [
+    "brave-jokes-film",
     "strange-schools-mate"
   ]
 }
