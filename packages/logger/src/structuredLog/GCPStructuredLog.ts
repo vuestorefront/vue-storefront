@@ -1,3 +1,7 @@
+import {
+  removeAnsiCodesFromStr as defaultRemoveAnsiCodes,
+  type RemoveAnsiCode,
+} from "../utils/removeAnsiCodes";
 import type { LogData, Metadata } from "../interfaces/Logger";
 import { GCPStructuredDTO } from "../interfaces/gcp/GCPStructuredLogger";
 import { StructuredLog } from "../interfaces/StructuredLog";
@@ -34,6 +38,15 @@ export class GCPStructuredLog implements StructuredLog {
     info: "INFO",
     debug: "DEBUG",
   };
+
+  /**
+   * The function to remove ANSI codes from the log message.
+   */
+  private removeAnsiCodes: RemoveAnsiCode;
+
+  constructor(removeAnsiCodes: RemoveAnsiCode = defaultRemoveAnsiCodes) {
+    this.removeAnsiCodes = removeAnsiCodes;
+  }
 
   /**
    * Creates a structured log object for GCP.
@@ -84,15 +97,16 @@ export class GCPStructuredLog implements StructuredLog {
    * @returns The formatted log message.
    */
   private formatMessage(logData: LogData): string {
+    let message = "";
     if (logData instanceof Error) {
-      return logData.message;
+      message = logData.message;
+    } else if (typeof logData === "string") {
+      message = logData;
+    } else {
+      message = JSON.stringify(logData);
     }
 
-    if (typeof logData === "string") {
-      return logData;
-    }
-
-    return JSON.stringify(logData);
+    return this.removeAnsiCodes(message);
   }
 
   /**
