@@ -118,7 +118,7 @@ describe("GCPStructuredLog", () => {
       },
     },
     {
-      id: "9",
+      id: "9: with metadata",
       logData: "message",
       options: { includeStackTrace: false },
       severity: "info",
@@ -127,6 +127,23 @@ describe("GCPStructuredLog", () => {
       },
       expected: {
         message: "message",
+        severity: "INFO",
+        timestamp: expect.any(String),
+        labels: "other-label",
+      },
+    },
+    {
+      id: "10:with ansi codes",
+      logData:
+        "\x1b[90m(/var/www/apps/storefront-unified-nextjs/\x1b[39m.next/server/chunks/689.js:67:9\x1b[90m)\x1b[39m",
+      options: { includeStackTrace: false },
+      severity: "info",
+      metadata: {
+        labels: "other-label",
+      },
+      expected: {
+        message:
+          "(/var/www/apps/storefront-unified-nextjs/.next/server/chunks/689.js:67:9)",
         severity: "INFO",
         timestamp: expect.any(String),
         labels: "other-label",

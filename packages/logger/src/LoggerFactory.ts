@@ -14,7 +14,14 @@ export enum LoggerType {
  * @param type The type of logger to create
  */
 export class LoggerFactory {
-  static create(type: LoggerType, options: LoggerOptions = {}) {
+  static create(
+    type: LoggerType,
+    options: LoggerOptions = {
+      level: "info",
+      includeStackTrace: true,
+      environment: "production",
+    }
+  ) {
     switch (type) {
       case LoggerType.ConsolaGcp:
         return new ConsolaStructuredLogger(new GCPStructuredLog(), options);

@@ -5,14 +5,17 @@ import consola, {
 } from "consola";
 
 import dotenv from "dotenv";
-
 import { LogLevel } from "./interfaces/LogLevel";
 import type { LogData, Logger, Metadata } from "./interfaces/Logger";
 import type { LoggerOptions } from "./interfaces/LoggerOptions";
 import type { StructuredLog } from "./interfaces/StructuredLog";
 import type { StructuredLogger } from "./interfaces/StructuredLogger";
 
-dotenv.config();
+// We do not want to load the .env in the browser and in the edge runtime
+if (typeof window === "undefined" && process.env.NEXT_RUNTIME !== "edge") {
+  dotenv.config();
+}
+
 interface ConsolaLoggerOptions
   extends LoggerOptions,
     Partial<Omit<ConsolaOptions, "level">> {}
