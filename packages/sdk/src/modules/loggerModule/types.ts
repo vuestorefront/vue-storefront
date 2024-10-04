@@ -1,18 +1,32 @@
-import type { Environment, LogLevel } from "@vue-storefront/logger";
+type LogData = string | Error;
+type Metadata = Record<string, unknown>;
+type Environment = "production" | "dev" | "stage" | "test";
+type LogLevel =
+  | "emergency"
+  | "alert"
+  | "critical"
+  | "error"
+  | "warning"
+  | "notice"
+  | "info"
+  | "debug";
+
+interface Logger {
+  log(level: LogLevel, logData: LogData, metadata?: Metadata): void;
+  emergency(logData: LogData, metadata?: Metadata): void;
+  alert(logData: LogData, metadata?: Metadata): void;
+  critical(logData: LogData, metadata?: Metadata): void;
+  error(logData: LogData, metadata?: Metadata): void;
+  warning(logData: LogData, metadata?: Metadata): void;
+  notice(logData: LogData, metadata?: Metadata): void;
+  info(logData: LogData, metadata?: Metadata): void;
+  debug(logData: LogData, metadata?: Metadata): void;
+}
 
 export type LoggerModuleConfig = Partial<{
   level: LogLevel;
   includeStackTrace: boolean;
   environment: Environment;
-  handler: Partial<{
-    emergency: (args: unknown) => void;
-    alert: (args: unknown) => void;
-    critical: (args: unknown) => void;
-    error: (args: unknown) => void;
-    warning: (args: unknown) => void;
-    notice: (args: unknown) => void;
-    info: (args: unknown) => void;
-    debug: (args: unknown) => void;
-  }>;
+  handler: Logger;
   [key: string]: any;
 }>;

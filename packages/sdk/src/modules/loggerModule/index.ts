@@ -3,7 +3,8 @@ import type { Module } from "../../types";
 import type { LoggerModuleConfig } from "./types";
 
 export const loggerModule = (options?: LoggerModuleConfig) => {
-  const logger = LoggerFactory.create(LoggerType.ConsolaGcp, options);
+  const logger =
+    options?.handler ?? LoggerFactory.create(LoggerType.ConsolaGcp, options);
 
   return {
     connector: {
