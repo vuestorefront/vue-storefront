@@ -1,4 +1,4 @@
-import type { LogData, Metadata } from "./Logger";
+import type { LogData, Metadata } from "./LoggerInterface";
 import type { LoggerOptions } from "./LoggerOptions";
 import { LogLevel } from "./LogLevel";
 
