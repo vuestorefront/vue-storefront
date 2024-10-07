@@ -1,15 +1,14 @@
-import consola, {
-  ConsolaOptions,
-  ConsolaReporter,
-  createConsola,
-} from "consola";
+import { ConsolaOptions, ConsolaReporter, createConsola } from "consola";
 
 import dotenv from "dotenv";
 import { LogLevel } from "./interfaces/LogLevel";
-import type { LogData, Logger, Metadata } from "./interfaces/Logger";
+import type {
+  LogData,
+  LoggerInterface,
+  Metadata,
+} from "./interfaces/LoggerInterface";
 import type { LoggerOptions } from "./interfaces/LoggerOptions";
 import type { StructuredLog } from "./interfaces/StructuredLog";
-import type { StructuredLogger } from "./interfaces/StructuredLogger";
 
 // We do not want to load the .env in the browser and in the edge runtime
 if (typeof window === "undefined" && process.env.NEXT_RUNTIME !== "edge") {
@@ -19,23 +18,15 @@ if (typeof window === "undefined" && process.env.NEXT_RUNTIME !== "edge") {
 interface ConsolaLoggerOptions
   extends LoggerOptions,
     Partial<Omit<ConsolaOptions, "level">> {}
-export class ConsolaStructuredLogger implements Logger, StructuredLogger {
-  /**
-   * The logger instance from the `consola` package.
-   */
-  private logger: typeof consola;
 
-  /**
-   * The options for the logger.
-   */
-  private options: LoggerOptions;
-
-  /**
-   * The structured log builder for GCP.
-   */
-  private structuredLog: StructuredLog;
-
-  private levelMap: Record<LogLevel, number> = {
+const createConsolaStructuredLogger = (
+  structuredLog: StructuredLog,
+  options: ConsolaLoggerOptions = {
+    level: "info",
+    includeStackTrace: true,
+  }
+): LoggerInterface => {
+  const levelMap: Record<LogLevel, number> = {
     emergency: 0,
     alert: 0,
     critical: 0,
@@ -46,10 +37,10 @@ export class ConsolaStructuredLogger implements Logger, StructuredLogger {
     debug: 4,
   };
 
-  private jsonReporter: ConsolaReporter = {
+  const jsonReporter: ConsolaReporter = {
     log: (logObject) => {
       if (
-        process.env.NODE_ENV !== "production" ||
+        process.env.NODE_ENV === "development" ||
         typeof window !== "undefined"
       ) {
         console.log(logObject.args[0].structuredLog);
@@ -59,92 +50,88 @@ export class ConsolaStructuredLogger implements Logger, StructuredLogger {
     },
   };
 
-  constructor(
-    structuredLog: StructuredLog,
-    options: ConsolaLoggerOptions = {
-      level: "info",
-      includeStackTrace: true,
-    }
-  ) {
-    this.logger = createConsola({
-      level: this.mapToConsolaLevel(options.level),
-      reporters: [this.jsonReporter],
-    });
+  const logger = createConsola({
+    level: levelMap?.[options.level] ?? levelMap.info,
+    reporters: [jsonReporter],
+  });
 
-    if (options.reporters) {
-      this.logger.setReporters(options.reporters);
-    }
-
-    this.structuredLog = structuredLog;
-    this.options = {
-      level: "info",
-      includeStackTrace: true,
-      ...options,
-    };
+  if (options.reporters) {
+    logger.setReporters(options.reporters);
   }
 
-  private mapToConsolaLevel(level: LogLevel): number {
-    return this.levelMap?.[level] ?? this.levelMap.info; // Default to consola 'info'
-  }
+  const mapToConsolaLevel = (level: LogLevel): number => {
+    return levelMap?.[level] ?? levelMap.info; // Default to 'info' level
+  };
 
-  public logStructured(
+  const logStructured = (
     level: LogLevel,
     logData: LogData,
     metadata?: Metadata
-  ): void {
-    const structuredLog = this.structuredLog.createLog(
+  ): void => {
+    const structuredLogEntry = structuredLog.createLog(
       logData,
-      this.options,
+      options,
       level,
       metadata
     );
 
-    const consolaLevel = this.mapToConsolaLevel(level);
+    const consolaLevel = mapToConsolaLevel(level);
 
     switch (consolaLevel) {
       case 0:
-        this.logger.error({ structuredLog });
+        logger.error({ structuredLog: structuredLogEntry });
         break;
       case 1:
-        this.logger.warn({ structuredLog });
+        logger.warn({ structuredLog: structuredLogEntry });
         break;
       case 2:
-        this.logger.log({ structuredLog });
+        logger.log({ structuredLog: structuredLogEntry });
         break;
       case 3:
-        this.logger.info({ structuredLog });
+        logger.info({ structuredLog: structuredLogEntry });
         break;
       case 4:
-        this.logger.debug({ structuredLog });
+        logger.debug({ structuredLog: structuredLogEntry });
         break;
       default:
-        this.logger.info(structuredLog);
+        logger.info(structuredLogEntry);
         break;
     }
-  }
+  };
 
-  public log(level: LogLevel, logData: LogData, metadata?: Metadata): void {
-    this.logStructured(level, logData, metadata);
-  }
+  const log = (
+    level: LogLevel,
+    logData: LogData,
+    metadata?: Metadata
+  ): void => {
+    logStructured(level, logData, metadata);
+  };
 
-  private logAtLevel(level: LogLevel) {
+  const logAtLevel = (level: LogLevel) => {
     return (logData: LogData, metadata?: Metadata) =>
-      this.log(level, logData, metadata);
-  }
+      log(level, logData, metadata);
+  };
 
-  public emergency = this.logAtLevel("emergency");
+  const emergency = logAtLevel("emergency");
+  const alert = logAtLevel("alert");
+  const critical = logAtLevel("critical");
+  const error = logAtLevel("error");
+  const warning = logAtLevel("warning");
+  const notice = logAtLevel("notice");
+  const info = logAtLevel("info");
+  const debug = logAtLevel("debug");
 
-  public alert = this.logAtLevel("alert");
+  return {
+    log,
+    emergency,
+    alert,
+    critical,
+    error,
+    warning,
+    notice,
+    info,
+    debug,
+  };
+};
 
-  public critical = this.logAtLevel("critical");
-
-  public error = this.logAtLevel("error");
-
-  public warning = this.logAtLevel("warning");
-
-  public notice = this.logAtLevel("notice");
-
-  public info = this.logAtLevel("info");
-
-  public debug = this.logAtLevel("debug");
-}
+export { createConsolaStructuredLogger };

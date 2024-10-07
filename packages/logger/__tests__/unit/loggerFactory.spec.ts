@@ -5,7 +5,7 @@ describe("LoggerFactory try to create type '$type'", () => {
   it.each([
     {
       type: "consola-gcp",
-      expected: "ConsolaStructuredLogger",
+      expected: "Object",
     },
   ])("should create a $type logger", ({ type, expected }) => {
     const result = LoggerFactory.create(type as any);
