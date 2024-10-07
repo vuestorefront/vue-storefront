@@ -1,3 +1,4 @@
+import { LoggerFactory } from "@vue-storefront/logger";
 import { buildModule } from "../../../modules/buildModule";
 import { initSDK } from "../../../bootstrap";
 import { loggerModule } from "../../../modules/loggerModule";
@@ -5,7 +6,6 @@ import { loggerModule } from "../../../modules/loggerModule";
 describe("loggerModule", () => {
   it("should be able to be used as standard SDK module", async () => {
     const sdkConfig = { logger: buildModule(loggerModule) };
-
     const sdk = initSDK(sdkConfig);
 
     expect(sdk.logger).toBeDefined();
@@ -64,5 +64,14 @@ describe("loggerModule", () => {
     await sdk.logger.info("foo");
 
     expect(mock).toHaveBeenCalled();
+  });
+
+  it("should created default logger when no custom handler is passed", async () => {
+    const createSpy = jest.spyOn(LoggerFactory, "create");
+    const sdkConfig = { logger: buildModule(loggerModule) };
+
+    initSDK(sdkConfig);
+
+    expect(createSpy).toHaveBeenCalled();
   });
 });

@@ -1,4 +1,4 @@
-type LogData = string | Error;
+type LogData = unknown;
 type Metadata = Record<string, unknown>;
 type LogLevel =
   | "emergency"
