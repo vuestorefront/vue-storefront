@@ -11,8 +11,7 @@ type LogLevel =
   | "info"
   | "debug";
 
-export interface Logger {
-  log(level: LogLevel, logData: LogData, metadata?: Metadata): void;
+export interface LoggerInterface {
   emergency(logData: LogData, metadata?: Metadata): void;
   alert(logData: LogData, metadata?: Metadata): void;
   critical(logData: LogData, metadata?: Metadata): void;
@@ -27,6 +26,6 @@ export type LoggerModuleConfig = Partial<{
   level: LogLevel;
   includeStackTrace: boolean;
   environment: Environment;
-  handler: Logger;
+  handler: LoggerInterface;
   [key: string]: any;
 }>;
