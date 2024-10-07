@@ -12,6 +12,7 @@ describe("loggerModule", () => {
   });
 
   it.each([
+    "log",
     "emergency",
     "alert",
     "critical",
