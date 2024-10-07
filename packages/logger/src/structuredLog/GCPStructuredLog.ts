@@ -2,7 +2,7 @@ import {
   removeAnsiCodesFromStr as defaultRemoveAnsiCodes,
   type RemoveAnsiCode,
 } from "../utils/removeAnsiCodes";
-import type { LogData, Metadata } from "../interfaces/Logger";
+import type { LogData, Metadata } from "../interfaces/LoggerInterface";
 import { GCPStructuredDTO } from "../interfaces/gcp/GCPStructuredLogger";
 import { StructuredLog } from "../interfaces/StructuredLog";
 import { LogLevel } from "../interfaces/LogLevel";

@@ -13,7 +13,7 @@ export type LogData = string | Error;
 /**
  * Common interface for a logger.
  */
-export interface Logger {
+export interface LoggerInterface {
   log(level: LogLevel, logData: LogData, metadata?: Metadata): void;
   emergency(logData: LogData, metadata?: Metadata): void;
   alert(logData: LogData, metadata?: Metadata): void;

@@ -1,4 +1,4 @@
-export * from "./Logger";
+export * from "./LoggerInterface";
 export * from "./LoggerOptions";
 export * from "./LogLevel";
 export * from "./StructuredLog";
