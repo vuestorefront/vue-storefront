@@ -1,5 +1,5 @@
 import type { Express, Request, Response } from "express";
-import { ConsolaStructuredLogger, LoggerFactory } from "@vue-storefront/logger";
+import { LoggerInterface, LoggerFactory } from "@vue-storefront/logger";
 import {
   ApiClientMethod,
   ContextQuery,
@@ -58,7 +58,7 @@ export interface ApiClientExtensionHooks<C = any> {
 }
 
 export type AlokaiContainer = {
-  logger: ConsolaStructuredLogger;
+  logger: LoggerInterface;
 };
 
 export interface ApiClientExtension<API = any, CONTEXT = any, CONFIG = any> {
@@ -73,7 +73,7 @@ export interface ApiClientExtension<API = any, CONTEXT = any, CONFIG = any> {
   }: {
     app: Express;
     configuration: any;
-    logger: ConsolaStructuredLogger;
+    logger: LoggerInterface;
   }) => Promise<void> | void;
   hooks?: (
     req: Request,
@@ -89,7 +89,7 @@ export interface Integration<
 > {
   location: string;
   configuration: CONFIG;
-  logger: LoggerFactoryConfig;
+  logger?: LoggerFactoryConfig;
   extensions?: <T extends ApiClientMethodWithContext<CONTEXT>>(
     extensions: ApiClientExtension<API, CONTEXT>[]
   ) => ApiClientExtension<API & T, CONTEXT>[];

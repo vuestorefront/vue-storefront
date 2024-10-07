@@ -20,13 +20,16 @@ describe("[middleware-handlers] prepareApiFunction", () => {
   const res = {
     status: jest.fn(),
     send: jest.fn(),
-    locals: {},
   } as unknown as Response;
   const next = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
-    res.locals = {};
+    res.locals = {
+      alokai: {
+        metadata: {},
+      },
+    };
   });
 
   it("sends 404 error if integration is not configured", async () => {
@@ -44,6 +47,30 @@ describe("[middleware-handlers] prepareApiFunction", () => {
       await prepareApiFunction(integrations)(req, res, next);
 
       expect(res.locals).toEqual(expect.objectContaining({ apiFunction }));
+    });
+
+    it("adds alokai metadata to res.locals", async () => {
+      const extensionName = "myExt";
+      const req = {
+        params: { integrationName, functionName, extensionName },
+      } as unknown as Request;
+      const res = {
+        status: jest.fn(),
+        send: jest.fn(),
+      } as unknown as Response;
+      res.locals = {
+        alokai: {
+          metadata: {},
+        },
+      };
+
+      await prepareApiFunction(integrations)(req, res, next);
+
+      expect(res.locals.alokai.metadata.scope).toEqual({
+        integrationName,
+        functionName,
+        extensionName,
+      });
     });
 
     it("calls next middleware", async () => {

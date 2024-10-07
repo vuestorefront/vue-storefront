@@ -6,7 +6,7 @@ import helmet from "helmet";
 import http, { Server } from "node:http";
 import { createTerminus } from "@godaddy/terminus";
 import { LoggerFactory, LoggerType } from "@vue-storefront/logger";
-import { LoggersManager, wrapLogger } from "./loggerManager";
+import { LoggerManager, wrapLogger } from "./loggerManager";
 import { LoggerFactoryConfig } from "./types";
 
 import { registerIntegrations } from "./integrations";
@@ -37,11 +37,11 @@ async function createServer<
   config: MiddlewareConfig<TIntegrationContext>,
   options: CreateServerOptions = {}
 ): Promise<Server> {
-  const loggersManager = new LoggersManager<LoggerFactoryConfig>(
+  const loggerManager = new LoggerManager<LoggerFactoryConfig>(
     config,
     (loggerConfig) => LoggerFactory.create(LoggerType.ConsolaGcp, loggerConfig)
   );
-  const rawGlobalLogger = loggersManager.getGlobal();
+  const rawGlobalLogger = loggerManager.getGlobal();
   const globalLogger = wrapLogger(rawGlobalLogger, () => ({
     context: "middleware",
   }));
@@ -79,14 +79,14 @@ async function createServer<
   const integrations = await registerIntegrations(
     app,
     config.integrations,
-    loggersManager
+    loggerManager
   );
   globalLogger.notice("Integrations loaded!");
 
   app.post(
     "/:integrationName/:extensionName?/:functionName",
     prepareMetadataStorage,
-    prepareLogger(loggersManager),
+    prepareLogger(loggerManager),
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),
     prepareArguments,
@@ -95,7 +95,7 @@ async function createServer<
   app.get(
     "/:integrationName/:extensionName?/:functionName",
     prepareMetadataStorage,
-    prepareLogger(loggersManager),
+    prepareLogger(loggerManager),
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),
     prepareArguments,

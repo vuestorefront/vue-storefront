@@ -1,14 +1,14 @@
 import type { Response } from "express";
-import { ConsolaStructuredLogger } from "@vue-storefront/logger";
+import { LoggerInterface } from "@vue-storefront/logger";
 import type {
   AlokaiContainer,
   IntegrationContext,
   MiddlewareConfig,
 } from "./types";
 
-type LoggerInstance = ConsolaStructuredLogger;
+type LoggerInstance = LoggerInterface;
 const GLOBAL_MIDDLEWARE_CFG_KEY = Symbol("GLOBAL_MIDDLEWARE_CFG_KEY");
-export class LoggersManager<
+export class LoggerManager<
   TLoggerConfig = any,
   TIntegrationContext extends Record<string, IntegrationContext> = any
 > {
@@ -53,25 +53,18 @@ export class LoggersManager<
   public getGlobal() {
     return this.instances[GLOBAL_MIDDLEWARE_CFG_KEY];
   }
-
-  // static utility function to obtain logger from req object easily
-  static fromRequest(req) {
-    return req._loggerInstance;
-  }
-
-  // static utility function to obtain logger from context object easily
-  static fromContext(context) {
-    return context.req._loggerInstance;
-  }
 }
 
 export function getLogger(
   source: AlokaiContainer | Response | { res: Response }
 ): LoggerInstance {
-  let base: Response;
+  if (!source) {
+    throw new Error("Parameter for getLogger function not provided");
+  }
   if ("logger" in source) {
     return source.logger;
   }
+  let base: Response;
   if ("res" in source) {
     base = source.res;
   } else {

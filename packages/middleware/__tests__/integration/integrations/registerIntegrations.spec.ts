@@ -1,5 +1,15 @@
+import { logger } from "../../../__mocks__/logger";
 import { registerIntegrations } from "../../../src/integrations";
+import { LoggerManager } from "../../../src/loggerManager";
 import { Integrations } from "../../../src/types";
+
+const mockWrappedLogger = {
+  ...logger,
+  _isWrapped: true,
+};
+jest.mock("../../../src/loggerManager", () => ({
+  wrapLogger: jest.fn(() => mockWrappedLogger),
+}));
 
 const mockIntegrations: Integrations = {
   ct: {
@@ -8,11 +18,19 @@ const mockIntegrations: Integrations = {
   },
 };
 
+const loggerManager = {
+  get: () => logger,
+} as unknown as LoggerManager;
+
 describe("[registerIntegrations]", () => {
   it("should build integration result", async () => {
     const mockApp = {} as any;
 
-    const result = await registerIntegrations(mockApp, mockIntegrations);
+    const result = await registerIntegrations(
+      mockApp,
+      mockIntegrations,
+      loggerManager
+    );
 
     expect(result).toEqual({
       ct: {
@@ -41,7 +59,11 @@ describe("[registerIntegrations]", () => {
         },
       },
     };
-    const result = await registerIntegrations(mockApp, mockIntegrations2);
+    const result = await registerIntegrations(
+      mockApp,
+      mockIntegrations2,
+      loggerManager
+    );
 
     expect(mockExtendApp).toHaveBeenCalledWith({
       app: mockApp,
@@ -49,6 +71,7 @@ describe("[registerIntegrations]", () => {
         ...mockIntegrations.ct.configuration,
         integrationName: "ct",
       },
+      logger: mockWrappedLogger,
     });
     expect(result).toEqual({
       ct: {

@@ -11,16 +11,16 @@ import type {
   IntegrationsLoaded,
 } from "../types";
 import { defaultErrorHandler } from "../errors/defaultErrorHandler";
-import { LoggersManager, wrapLogger } from "../loggerManager";
+import { LoggerManager, wrapLogger } from "../loggerManager";
 
 export async function registerIntegrations(
   app: Express,
   integrations: Integrations,
-  loggersManager: LoggersManager
+  loggerManager: LoggerManager
 ): Promise<IntegrationsLoaded> {
   return await Object.entries(integrations).reduce(
     async (prevAsync, [tag, integration]) => {
-      const rawLogger = loggersManager.get(tag);
+      const rawLogger = loggerManager.get(tag);
       const logger = wrapLogger(rawLogger, () => ({
         context: "middleware",
       }));

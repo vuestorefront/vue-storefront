@@ -1,12 +1,12 @@
 import type { Response, Request, NextFunction } from "express";
-import { LoggersManager, wrapLogger } from "../../loggerManager";
+import { LoggerManager, wrapLogger } from "../../loggerManager";
 
-export function prepareLogger(loggersManager: LoggersManager) {
+export function prepareLogger(loggerManager: LoggerManager) {
   return function (req: Request, res: Response, next: NextFunction) {
     if (!res.locals.alokai) {
       res.locals.alokai = {};
     }
-    const logger = loggersManager.get(req.params.integrationName);
+    const logger = loggerManager.get(req.params.integrationName);
     const proxiedLogger = wrapLogger(logger, (metadata) => {
       return {
         ...res.locals.alokai.metadata,
