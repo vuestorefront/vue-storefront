@@ -1,5 +1,11 @@
 # Change log
 
+## 3.3.0-rc.0
+
+### Minor Changes
+
+- **[ADDED]** Logger module
+
 ## 3.2.3
 
 ### Patch Changes
