@@ -8,7 +8,7 @@ export type Metadata = Record<string, unknown>;
 /**
  * Log data can be a string, an error, or and arbitrary object.
  */
-export type LogData = string | Error;
+export type LogData = string | Error | unknown;
 
 /**
  * Common interface for a logger.
