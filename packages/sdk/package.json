@@ -20,7 +20,7 @@
     "changesets:publish": "yarn run build && yarn changeset publish"
   },
   "dependencies": {
-    "@vue-storefront/logger": "1.0.0-rc.1"
+    "@vue-storefront/logger": "1.0.0-rc.2"
   },
   "devDependencies": {
     "@types/jest": "^29.0.3",

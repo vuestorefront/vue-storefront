@@ -1,6 +1,5 @@
 type LogData = string | Error;
 type Metadata = Record<string, unknown>;
-type Environment = "production" | "dev" | "stage" | "test";
 type LogLevel =
   | "emergency"
   | "alert"
@@ -12,6 +11,7 @@ type LogLevel =
   | "debug";
 
 export interface LoggerInterface {
+  log(level: LogLevel, logData: LogData, metadata?: Metadata): void;
   emergency(logData: LogData, metadata?: Metadata): void;
   alert(logData: LogData, metadata?: Metadata): void;
   critical(logData: LogData, metadata?: Metadata): void;
@@ -25,7 +25,6 @@ export interface LoggerInterface {
 export type LoggerModuleConfig = Partial<{
   level: LogLevel;
   includeStackTrace: boolean;
-  environment: Environment;
   handler: LoggerInterface;
   [key: string]: any;
 }>;
