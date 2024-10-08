@@ -1,5 +1,11 @@
 # @vue-storefront/eslint-config-integrations
 
+## 1.0.2
+
+### Patch Changes
+
+changed: add eslint-integration rule "class-methods-use-this": "off"
+
 ## 1.0.1
 
 ### Patch Changes
