@@ -55,6 +55,7 @@ module.exports = {
     "no-restricted-syntax": "off",
     "no-await-in-loop": "off",
     "@typescript-eslint/no-empty-interface": "off",
+    "class-methods-use-this": "off",
   },
   settings: {
     "import/resolver": {
