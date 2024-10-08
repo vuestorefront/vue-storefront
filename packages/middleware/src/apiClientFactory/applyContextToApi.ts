@@ -1,4 +1,5 @@
 // @ts-check
+import { isCustomEndpointHandler } from "../helpers";
 import { createExtendQuery } from "./createExtendQuery";
 import {
   AfterCallParams,
@@ -7,6 +8,7 @@ import {
   BeforeCallParams,
   MiddlewareContext,
 } from "../types";
+import { getLogger } from "../logger";
 
 const nopBefore = <ARGS>({ args }: BeforeCallParams<any, ARGS>): ARGS => args;
 const nopAfter = <RESPONSE>({
@@ -36,9 +38,16 @@ const applyContextToApi = <
         const extendQuery = createExtendQuery(context);
         const transformedArgs = await hooks.before({ callName, args });
         const apiClientContext = { ...context, extendQuery };
-        if ("_extensionName" in fn) {
-          context.res.locals.alokai.metadata.scope.extensionName =
-            fn._extensionName;
+        if (isCustomEndpointHandler(fn)) {
+          if (context.res.locals?.alokai?.metadata?.scope) {
+            context.res.locals.alokai.metadata.scope.extensionName =
+              fn._extensionName;
+          } else {
+            const logger = getLogger(context.res);
+            logger.warning(
+              "Local Alokai's metadata object is missing. Check your source code or contact Alokai's team."
+            );
+          }
         }
         const response = await fn(apiClientContext, ...transformedArgs);
         const transformedResponse = await hooks.after({

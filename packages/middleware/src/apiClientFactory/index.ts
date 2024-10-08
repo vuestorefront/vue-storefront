@@ -1,4 +1,4 @@
-import { wrapLogger, getLogger } from "../loggerManager";
+import { injectMetadata, getLogger } from "../logger";
 import { isFunction } from "../helpers";
 import {
   ApiClientConfig,
@@ -11,7 +11,7 @@ import {
   CreateApiClientFn,
   ExtensionHookWith,
   ExtensionWith,
-  FnMarkedWithExtensionName,
+  CustomEndpointHandler,
 } from "../types";
 import { applyContextToApi } from "./applyContextToApi";
 
@@ -20,7 +20,7 @@ import { applyContextToApi } from "./applyContextToApi";
  * with information about source extension's name
  */
 function markWithExtensionName(
-  apiMethod: FnMarkedWithExtensionName,
+  apiMethod: CustomEndpointHandler,
   extensionName: string
 ) {
   apiMethod._extensionName = extensionName;
@@ -61,7 +61,7 @@ const apiClientFactory = <
             // We cannot assign it to res.locals as we would end up
             // with incorrect logger for hook functions (like beforeCreate)
             // in case of multiple extensions using hooks property
-            const wrappedLogger = wrapLogger(logger, (metadata) => ({
+            const loggerWithMetadata = injectMetadata(logger, (metadata) => ({
               ...metadata,
               scope: {
                 ...metadata?.scope,
@@ -71,7 +71,7 @@ const apiClientFactory = <
             }));
 
             return hooks(this?.middleware?.req, this?.middleware?.res, {
-              logger: wrappedLogger,
+              logger: loggerWithMetadata,
             });
           })
       );
@@ -153,7 +153,7 @@ const apiClientFactory = <
         } else {
           const markedExtendedApiMethods = Object.entries(
             extendedApiMethods
-          ).reduce((total, [name, fn]: [string, FnMarkedWithExtensionName]) => {
+          ).reduce((total, [name, fn]: [string, CustomEndpointHandler]) => {
             return {
               ...total,
               [name]: markWithExtensionName(fn, extension.name),

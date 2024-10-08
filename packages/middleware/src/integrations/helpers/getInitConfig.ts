@@ -9,12 +9,12 @@ export async function getInitConfig({
 }: LoadInitConfigProps): Promise<TObject> {
   if (isFunction(apiClient?.init)) {
     try {
-      alokai.logger.notice(`- Integration: ${tag} init function Start!`);
+      alokai.logger.debug(`- Integration: ${tag} init function Start!`);
       const initConfig = await apiClient.init(
         integration.configuration,
         alokai
       );
-      alokai.logger.notice(`- Integration: ${tag} init function Done!`);
+      alokai.logger.debug(`- Integration: ${tag} init function Done!`);
 
       return initConfig;
     } catch (error) {

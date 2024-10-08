@@ -1,7 +1,8 @@
-import { LoggerOptions } from "@vue-storefront/logger";
 import type { Response } from "express";
-import { getLogger, LoggerManager, wrapLogger } from "../../src/loggerManager";
+import { LoggerInterface } from "@vue-storefront/logger";
+import { getLogger, LoggerManager, injectMetadata } from "../../src/logger";
 import { logger } from "../../__mocks__/logger";
+import { LoggerOptions } from "../../src/types";
 
 describe("loggerManager", () => {
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe("loggerManager", () => {
       buildLogger
     );
 
-    const globalLogger = loggerManager.getGlobal();
+    const globalLogger = loggerManager.get();
 
     expect(buildLogger).toBeCalled();
     expect(globalLogger).toBe(logger);
@@ -27,19 +28,47 @@ describe("loggerManager", () => {
 
   it("passes config when creating global configuration", () => {
     const logger = {} as any;
+    const loggerConfig: LoggerOptions = {
+      level: "debug",
+    };
     const buildLogger = jest.fn(() => logger);
 
     const loggerManager = new LoggerManager(
       {
         integrations: {},
+        logger: loggerConfig,
       },
       buildLogger
     );
 
-    const globalLogger = loggerManager.getGlobal();
+    const globalLogger = loggerManager.get();
 
-    expect(buildLogger).toBeCalled();
+    expect(buildLogger).toBeCalledWith(loggerConfig);
     expect(globalLogger).toBe(logger);
+  });
+
+  it("uses passed handler as global logger if provided", () => {
+    const logger = {} as any;
+    const loggerConfig: LoggerOptions = {
+      handler: {
+        info: jest.fn(),
+      } as unknown as LoggerInterface,
+    };
+    const buildLogger = jest.fn(() => logger);
+
+    const loggerManager = new LoggerManager(
+      {
+        integrations: {},
+        logger: loggerConfig,
+      },
+      buildLogger
+    );
+
+    const globalLogger = loggerManager.get();
+    globalLogger.info("test");
+
+    expect(buildLogger).not.toBeCalled();
+    expect(loggerConfig.handler?.info).toBeCalledWith("test");
   });
 
   it("creates integration's logger if config available", () => {
@@ -61,7 +90,7 @@ describe("loggerManager", () => {
       buildLogger
     );
 
-    const globalLogger = loggerManager.getGlobal();
+    const globalLogger = loggerManager.get();
     const sapccLogger = loggerManager.get("sapcc");
 
     expect(globalLogger).not.toBe(sapccLogger);
@@ -90,6 +119,69 @@ describe("loggerManager", () => {
     expect(buildLogger).toBeCalledWith(sapccLoggerConfig);
   });
 
+  it("uses passed handler as integration's logger if provided", () => {
+    const buildLogger = jest.fn(() => ({} as any));
+    const sapccLoggerConfig: LoggerOptions = {
+      handler: {
+        info: jest.fn(),
+      } as unknown as LoggerInterface,
+    };
+    const sapccConfig = {
+      location: "",
+      configuration: {},
+      logger: sapccLoggerConfig,
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const loggerManager = new LoggerManager(
+      {
+        integrations: {
+          sapcc: sapccConfig,
+        },
+      },
+      buildLogger
+    );
+
+    const logger = loggerManager.get("sapcc");
+    logger.info("test");
+
+    expect(buildLogger).not.toBeCalledWith(sapccConfig);
+    expect(sapccLoggerConfig.handler?.info).toBeCalledWith("test");
+  });
+
+  it("uses default logger globally even if integration has own logger", () => {
+    const globalLogger = {
+      debug: jest.fn(),
+    } as unknown as LoggerInterface;
+    const buildLogger = jest.fn(() => globalLogger);
+    const sapccLoggerConfig: LoggerOptions = {
+      handler: {
+        info: jest.fn(),
+      } as unknown as LoggerInterface,
+    };
+    const sapccConfig = {
+      location: "",
+      configuration: {},
+      logger: sapccLoggerConfig,
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const loggerManager = new LoggerManager(
+      {
+        integrations: {
+          sapcc: sapccConfig,
+        },
+      },
+      buildLogger
+    );
+
+    const glogger = loggerManager.get();
+    glogger.debug("other");
+
+    expect(buildLogger).toBeCalledWith(undefined);
+    expect(globalLogger.debug).toBeCalledWith("other");
+  });
+
   it("returns global logger if integration doesn't have own one", () => {
     const buildLogger = jest.fn(() => ({} as any));
 
@@ -100,7 +192,7 @@ describe("loggerManager", () => {
       buildLogger
     );
 
-    const globalLogger = loggerManager.getGlobal();
+    const globalLogger = loggerManager.get();
     const sapccLogger = loggerManager.get("adyen");
 
     expect(globalLogger).toBe(sapccLogger);
@@ -126,7 +218,7 @@ describe("loggerManager", () => {
       buildLogger
     );
 
-    const globalLogger = loggerManager.getGlobal();
+    const globalLogger = loggerManager.get();
 
     expect(loggerManager.get("sapcc")).not.toBe(globalLogger);
   });
@@ -175,7 +267,7 @@ describe("loggerManager", () => {
       a: 1,
       b: 2,
     });
-    const wrappedLogger = wrapLogger(logger, metadataGetter);
+    const wrappedLogger = injectMetadata(logger, metadataGetter);
 
     wrappedLogger.info("test");
 
@@ -190,7 +282,7 @@ describe("loggerManager", () => {
       a: 1,
       b: 2,
     });
-    const wrappedLogger = wrapLogger(logger, metadataGetter);
+    const wrappedLogger = injectMetadata(logger, metadataGetter);
 
     wrappedLogger.info("test", { a: 50, c: 3 });
 
@@ -210,8 +302,8 @@ describe("loggerManager", () => {
       a: 60,
       c: 123,
     });
-    const wrappedLogger = wrapLogger(
-      wrapLogger(logger, metadataGetter),
+    const wrappedLogger = injectMetadata(
+      injectMetadata(logger, metadataGetter),
       metadataGetter2
     );
 
@@ -234,8 +326,8 @@ describe("loggerManager", () => {
       a: 60,
       c: 123,
     });
-    const wrappedLogger = wrapLogger(
-      wrapLogger(logger, metadataGetter),
+    const wrappedLogger = injectMetadata(
+      injectMetadata(logger, metadataGetter),
       metadataGetter2
     );
 

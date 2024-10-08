@@ -1,13 +1,19 @@
 import type { Response, Request, NextFunction } from "express";
-import { LoggerManager, wrapLogger } from "../../loggerManager";
+import { LoggerManager, injectMetadata } from "../../logger";
 
 export function prepareLogger(loggerManager: LoggerManager) {
   return function (req: Request, res: Response, next: NextFunction) {
+    if (!res.locals) {
+      res.locals = {};
+    }
     if (!res.locals.alokai) {
       res.locals.alokai = {};
     }
-    const logger = loggerManager.get(req.params.integrationName);
-    const proxiedLogger = wrapLogger(logger, (metadata) => {
+    const logger = loggerManager.get(req?.params?.integrationName);
+    if (!req?.params?.integrationName) {
+      console.error("prepareLogger middleware used for unsupported route");
+    }
+    const loggerWithMetadata = injectMetadata(logger, (metadata) => {
       return {
         ...res.locals.alokai.metadata,
         ...metadata,
@@ -17,7 +23,7 @@ export function prepareLogger(loggerManager: LoggerManager) {
         },
       };
     });
-    res.locals.alokai.logger = proxiedLogger;
+    res.locals.alokai.logger = loggerWithMetadata;
 
     next();
   };

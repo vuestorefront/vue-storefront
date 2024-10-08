@@ -1,7 +1,45 @@
 import type { HelmetOptions } from "helmet";
+import { LoggerInterface } from "@vue-storefront/logger";
 import { Integration } from "./common";
 import { TObject } from "./base";
 import { IntegrationContext } from "./server";
+
+/**
+ * Based on the syslog levels defined in RFC 5424.
+ *
+ * @see https://datatracker.ietf.org/doc/html/rfc5424
+ */
+export type LogLevel =
+  | "emergency"
+  | "alert"
+  | "critical"
+  | "error"
+  | "warning"
+  | "notice"
+  | "info"
+  | "debug";
+
+/**
+ * Options for the logger.
+ */
+export interface LoggerOptions {
+  /**
+   * The log level aligned with RFC5424.
+   */
+  level?: LogLevel;
+
+  /**
+   * Whether to include the stack trace in the log message.
+   */
+  includeStackTrace?: boolean;
+
+  /**
+   * Own implementation of logger to be used internally.
+   *
+   * @remarks If provided then other options won't be used.
+   */
+  handler?: LoggerInterface; // Should it have .log?
+}
 
 export interface Helmet extends HelmetOptions {
   helmet?: boolean | HelmetOptions;
@@ -16,15 +54,13 @@ export type Integrations<TIntegrationsContext extends TObject = TObject> = {
     : never;
 };
 
-export type LoggerConfig = unknown;
-
 export interface MiddlewareConfig<
   TIntegrationsContext extends Record<string, IntegrationContext> = Record<
     string,
     IntegrationContext
   >
 > {
-  logger?: LoggerConfig;
+  logger?: LoggerOptions;
   integrations: Integrations<TIntegrationsContext>;
   helmet?: boolean | Readonly<HelmetOptions>;
 }

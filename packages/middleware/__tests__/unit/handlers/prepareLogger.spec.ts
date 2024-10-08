@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { prepareLogger } from "../../../src/handlers";
-import { LoggerManager } from "../../../src/loggerManager";
+import { LoggerManager } from "../../../src/logger/loggerManager";
 import { logger } from "../../../__mocks__/logger";
 
 describe("[middleware-handlers] prepareLogger", () => {

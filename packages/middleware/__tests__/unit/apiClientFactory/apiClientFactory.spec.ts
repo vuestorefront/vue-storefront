@@ -2,12 +2,12 @@ import { logger } from "../../../__mocks__/logger";
 import { apiClientFactory } from "../../../src/apiClientFactory";
 import { applyContextToApi } from "../../../src/apiClientFactory/applyContextToApi";
 import { MiddlewareContext } from "../../../src/types";
-import { wrapLogger } from "../../../src/loggerManager";
+import { injectMetadata } from "../../../src/logger";
 
-jest.mock("../../../src/loggerManager", () => ({
+jest.mock("../../../src/logger", () => ({
   getLogger: () => logger,
-  wrapLogger: jest.fn(
-    jest.requireActual("../../../src/loggerManager").wrapLogger
+  injectMetadata: jest.fn(
+    jest.requireActual("../../../src/logger").injectMetadata
   ),
 }));
 
@@ -151,7 +151,7 @@ describe("apiClientFactory", () => {
       ...logger,
       isWrapped: true,
     };
-    (wrapLogger as jest.Mock).mockImplementation(() => wrappedLogger);
+    (injectMetadata as jest.Mock).mockImplementation(() => wrappedLogger);
 
     const params = {
       onCreate: jest.fn((config) => ({ config })),
@@ -182,8 +182,8 @@ describe("apiClientFactory", () => {
         logger.info("test");
       }),
     };
-    (wrapLogger as jest.Mock).mockImplementation(
-      jest.requireActual("../../../src/loggerManager").wrapLogger
+    (injectMetadata as jest.Mock).mockImplementation(
+      jest.requireActual("../../../src/logger").injectMetadata
     );
 
     const params = {

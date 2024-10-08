@@ -1,14 +1,15 @@
 import { logger } from "../../../__mocks__/logger";
 import { registerIntegrations } from "../../../src/integrations";
-import { LoggerManager } from "../../../src/loggerManager";
+import { LoggerManager } from "../../../src/logger";
 import { Integrations } from "../../../src/types";
 
 const mockWrappedLogger = {
   ...logger,
   _isWrapped: true,
 };
-jest.mock("../../../src/loggerManager", () => ({
-  wrapLogger: jest.fn(() => mockWrappedLogger),
+jest.mock("../../../src/logger", () => ({
+  injectMetadata: jest.fn(() => mockWrappedLogger),
+  getLogger: jest.requireActual("../../../src/logger").getLogger,
 }));
 
 const mockIntegrations: Integrations = {

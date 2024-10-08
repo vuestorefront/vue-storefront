@@ -1,5 +1,6 @@
 import type { Express, Request, Response } from "express";
-import { LoggerInterface, LoggerFactory } from "@vue-storefront/logger";
+import { LoggerInterface } from "@vue-storefront/logger";
+import { LoggerOptions } from "./config";
 import {
   ApiClientMethod,
   ContextQuery,
@@ -10,8 +11,14 @@ import {
 import { WithRequired } from "./index";
 import { ApiClient, ApiClientConfig, ApiClientFactory } from "./server";
 
-export type LoggerFactoryConfig = Parameters<typeof LoggerFactory.create>[1];
-export type ApiMethods = Record<string, ApiClientMethod>;
+export type CustomEndpointHandler = ApiClientMethod & {
+  _extensionName?: string;
+};
+
+export type ApiMethods = Record<
+  string,
+  ApiClientMethod | CustomEndpointHandler
+>;
 export type ApiMethodsFactory<
   API extends ApiMethods,
   CONFIG extends ApiClientConfig
@@ -78,7 +85,7 @@ export interface ApiClientExtension<API = any, CONTEXT = any, CONFIG = any> {
   hooks?: (
     req: Request,
     res: Response,
-    alokai: AlokaiContainer
+    hooksContext: AlokaiContainer
   ) => ApiClientExtensionHooks;
 }
 
@@ -89,7 +96,7 @@ export interface Integration<
 > {
   location: string;
   configuration: CONFIG;
-  logger?: LoggerFactoryConfig;
+  logger?: LoggerOptions;
   extensions?: <T extends ApiClientMethodWithContext<CONTEXT>>(
     extensions: ApiClientExtension<API, CONTEXT>[]
   ) => ApiClientExtension<API & T, CONTEXT>[];
@@ -195,5 +202,3 @@ export type WithoutContext<Methods extends ApiMethods> = {
     ? (...arguments_: P) => R
     : never;
 };
-
-export type FnMarkedWithExtensionName = Function & { _extensionName?: string };

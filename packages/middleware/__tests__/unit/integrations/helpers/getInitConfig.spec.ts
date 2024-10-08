@@ -69,11 +69,11 @@ describe("[getInitConfig]", () => {
 
     expect(result).toEqual(mockInitConfiguration);
     expect(mockInit).toHaveBeenCalledWith(mockConfiguration, alokai);
-    expect(logger.notice).toHaveBeenNthCalledWith(
+    expect(logger.debug).toHaveBeenNthCalledWith(
       1,
       `- Integration: ${mockTag} init function Start!`
     );
-    expect(logger.notice).toHaveBeenNthCalledWith(
+    expect(logger.debug).toHaveBeenNthCalledWith(
       2,
       `- Integration: ${mockTag} init function Done!`
     );

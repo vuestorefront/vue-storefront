@@ -2977,10 +2977,10 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@vue-storefront/logger@1.0.0-rc.0":
-  version "1.0.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/logger/-/logger-1.0.0-rc.0.tgz#e4ee1a46687c46b23cf485342d7d23585b821d32"
-  integrity sha512-QQjvcw0a5lvqI800Fu6Y1oKoJBcjUCXN/cNABQEw8BkIlAL/xncBiki1RdEg0EBtSLXCOvUtNs2vzieDNQRZzw==
+"@vue-storefront/logger@1.0.0-rc.3":
+  version "1.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/logger/-/logger-1.0.0-rc.3.tgz#2e9c212a4ecd32a6adf890ed10ad87424af02d1e"
+  integrity sha512-NZfMtkVpTjH1dbHVFrJNTQvzRHnMeISDWJE6gD//Couktoo0lvoIKtedLEuKrpnMQ0MMWuOrQ3XchsRquwmesQ==
   dependencies:
     consola "^3"
     dotenv "^16"
@@ -4686,11 +4686,6 @@ confusing-browser-globals@^1.0.10:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/confusing-browser-globals/-/confusing-browser-globals-1.0.11.tgz#ae40e9b57cdd3915408a2805ebd3a5585608dc81"
   integrity sha512-JsPKdmh8ZkmnHxDk55FZ1TqVLvEQTvoByJZRN9jzI0UjxK/QgAmsphz7PGtqgPieQZ/CQcHWXCR7ATDNhGe+YA==
-
-consola@^2.15.3:
-  version "2.15.3"
-  resolved "https://registry.npmjs.org/consola/-/consola-2.15.3.tgz#2e11f98d6a4be71ff72e0bdf07bd23e12cb61550"
-  integrity sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==
 
 consola@^3:
   version "3.2.3"

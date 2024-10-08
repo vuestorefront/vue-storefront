@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { getLogger } from "../loggerManager";
+import { getLogger } from "../logger";
 import { getAgnosticStatusCode } from "../helpers";
 
 type ClientSideError = {
