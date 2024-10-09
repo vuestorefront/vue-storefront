@@ -1,5 +1,3 @@
-import { LogLevel } from "./LogLevel";
-
 /**
  * Metadata is a record with string keys and arbitrary values.
  */
@@ -14,7 +12,6 @@ export type LogData = string | Error | unknown;
  * Common interface for a logger.
  */
 export interface LoggerInterface {
-  log(level: LogLevel, logData: LogData, metadata?: Metadata): void;
   emergency(logData: LogData, metadata?: Metadata): void;
   alert(logData: LogData, metadata?: Metadata): void;
   critical(logData: LogData, metadata?: Metadata): void;
