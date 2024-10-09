@@ -1,6 +1,6 @@
 import type { LoggerModuleConfig } from "./types";
 
-const isEmptyObject = (obj = {}) => {
+export const isEmptyObject = (obj = {}) => {
   return Object.keys(obj).length === 0;
 };
 
