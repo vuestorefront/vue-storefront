@@ -1,7 +1,46 @@
 import { HealthCheckError } from "@godaddy/terminus";
-import { createReadyzHandler } from "../../src/terminus";
+import {
+  createReadyzHandler,
+  createMemoryFullnessReadinessProbe,
+} from "../../src/terminus";
 
 describe("terminus", () => {
+  describe("terminus: createMemoryFUllnessReadinessProbe", () => {
+    it("throws if memory usage over threshold", () => {
+      expect.assertions(1);
+      const memoryLimit = 3;
+      const memoryLimitThreshold = 0.5;
+
+      jest
+        .spyOn(process, "memoryUsage")
+        // @ts-expect-error other props not needed
+        .mockImplementationOnce(() => ({ rss: 2 }));
+
+      const memoryFullnessReadinessProbe = createMemoryFullnessReadinessProbe(
+        memoryLimit,
+        memoryLimitThreshold
+      );
+
+      expect(memoryFullnessReadinessProbe()).rejects.toThrow();
+    });
+    it("doesn't throw if memory usage is under threshold", () => {
+      const memoryLimit = 3;
+      const memoryLimitThreshold = 0.5;
+
+      jest
+        .spyOn(process, "memoryUsage")
+        // @ts-expect-error other props not needed
+        .mockImplementationOnce(() => ({ rss: 1 }));
+
+      const memoryFullnessReadinessProbe = createMemoryFullnessReadinessProbe(
+        memoryLimit,
+        memoryLimitThreshold
+      );
+
+      expect(memoryFullnessReadinessProbe()).resolves.toBe(undefined);
+    });
+  });
+
   describe("createReadyzHandler", () => {
     it("throws on failing ready check", () => {
       const readinessChecks = [

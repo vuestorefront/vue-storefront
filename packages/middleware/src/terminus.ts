@@ -29,8 +29,35 @@ export const createReadyzHandler =
     }
   };
 
+/*
+ * When running in Alokai Cloud, middleware pods are ran with a `ALOKAI_MEMORY_LIMIT` environment variable
+ * This limit represents what is the Kubernetes resource limit on memory of the pod (a number in kilobytes), which if crossed, will kill the app
+ * Here we're using that env var to monitor the current memory usage vs. the limit
+ * The existence of this env var is a workaround for the lack of `process.availableMemory()` in Node 18 (available in Node 20, which e.g. Alokai bootstrapper doesn't use yet), which retrieves the memory limit from kernel cgroups
+ */
+export const createMemoryFullnessReadinessProbe =
+  (memoryLimit: number, memoryLimitThreshold: number): ReadinessProbe =>
+  async () => {
+    const memoryUtilization = process.memoryUsage().rss / memoryLimit;
+    if (memoryUtilization > memoryLimitThreshold) {
+      throw new Error(
+        `Process memory usage over threshold - current is ${memoryUtilization} where ALOKAI_MEMORY_LIMIT_THRESHOLD is ${memoryLimitThreshold}`
+      );
+    }
+  };
+
+export const memoryFulnessReadinessProbe = createMemoryFullnessReadinessProbe(
+  Number.parseInt(process.env.ALOKAI_MEMORY_LIMIT, 10),
+  Number.parseFloat(process.env.ALOKAI_MEMORY_LIMIT_THRESHOLD ?? "0.8")
+);
+
+// ALOKAI_MEMORY_LIMT won't be set in local dev envs etc.
+const defaultReadinessChecks = process.env.ALOKAI_MEMORY_LIMT
+  ? [memoryFulnessReadinessProbe]
+  : [];
+
 export const createTerminusOptions = (
-  readinessChecks: ReadinessProbe[]
+  readinessChecks: ReadinessProbe[] = defaultReadinessChecks
 ): TerminusOptions => {
   return {
     useExit0: true,
