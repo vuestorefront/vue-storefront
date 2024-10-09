@@ -10,7 +10,7 @@ export const loggerModule = (options?: LoggerModuleConfig) => {
 
   if (isInvalidConfig(options)) {
     console.warn(
-      "Both handler and options are provided. Using handler, options will be ignored."
+      "Both handler and options are provided to logger's options. Using handler, options will be ignored."
     );
   }
 
