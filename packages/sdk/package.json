@@ -1,7 +1,7 @@
 {
   "name": "@vue-storefront/sdk",
   "license": "MIT",
-  "version": "3.3.0-rc.0",
+  "version": "3.3.0-rc.1",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
@@ -20,7 +20,7 @@
     "changesets:publish": "yarn run build && yarn changeset publish"
   },
   "dependencies": {
-    "@vue-storefront/logger": "1.0.0-rc.2"
+    "@vue-storefront/logger": "1.0.0-rc.3"
   },
   "devDependencies": {
     "@types/jest": "^29.0.3",
