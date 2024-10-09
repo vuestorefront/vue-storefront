@@ -11,13 +11,13 @@ import {
 import { WithRequired } from "./index";
 import { ApiClient, ApiClientConfig, ApiClientFactory } from "./server";
 
-export type CustomEndpointHandler = ApiClientMethod & {
+export type ExtensionEndpointHandler = ApiClientMethod & {
   _extensionName?: string;
 };
 
 export type ApiMethods = Record<
   string,
-  ApiClientMethod | CustomEndpointHandler
+  ApiClientMethod | ExtensionEndpointHandler
 >;
 export type ApiMethodsFactory<
   API extends ApiMethods,

@@ -16,7 +16,7 @@ export function prepareApiFunction(
     }
 
     res.locals.alokai.metadata = {
-      ...res.locals.alokai.metadata,
+      ...res.locals?.alokai?.metadata,
       scope: {
         integrationName,
         extensionName,

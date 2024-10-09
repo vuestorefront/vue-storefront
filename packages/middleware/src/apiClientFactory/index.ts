@@ -11,7 +11,7 @@ import {
   CreateApiClientFn,
   ExtensionHookWith,
   ExtensionWith,
-  CustomEndpointHandler,
+  ExtensionEndpointHandler,
 } from "../types";
 import { applyContextToApi } from "./applyContextToApi";
 
@@ -20,7 +20,7 @@ import { applyContextToApi } from "./applyContextToApi";
  * with information about source extension's name
  */
 function markWithExtensionName(
-  apiMethod: CustomEndpointHandler,
+  apiMethod: ExtensionEndpointHandler,
   extensionName: string
 ) {
   apiMethod._extensionName = extensionName;
@@ -153,7 +153,7 @@ const apiClientFactory = <
         } else {
           const markedExtendedApiMethods = Object.entries(
             extendedApiMethods
-          ).reduce((total, [name, fn]: [string, CustomEndpointHandler]) => {
+          ).reduce((total, [name, fn]: [string, ExtensionEndpointHandler]) => {
             return {
               ...total,
               [name]: markWithExtensionName(fn, extension.name),

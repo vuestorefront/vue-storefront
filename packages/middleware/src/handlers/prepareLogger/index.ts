@@ -15,10 +15,10 @@ export function prepareLogger(loggerManager: LoggerManager) {
     }
     const loggerWithMetadata = injectMetadata(logger, (metadata) => {
       return {
-        ...res.locals.alokai.metadata,
+        ...res.locals?.alokai?.metadata,
         ...metadata,
         scope: {
-          ...res.locals.alokai.metadata?.scope,
+          ...res.locals?.alokai?.metadata?.scope,
           ...metadata?.scope,
         },
       };

@@ -1,5 +1,5 @@
 // @ts-check
-import { isCustomEndpointHandler } from "../helpers";
+import { isExtensionEndpointHandler } from "../helpers";
 import { createExtendQuery } from "./createExtendQuery";
 import {
   AfterCallParams,
@@ -38,14 +38,25 @@ const applyContextToApi = <
         const extendQuery = createExtendQuery(context);
         const transformedArgs = await hooks.before({ callName, args });
         const apiClientContext = { ...context, extendQuery };
-        if (isCustomEndpointHandler(fn)) {
+        if (isExtensionEndpointHandler(fn)) {
           if (context.res.locals?.alokai?.metadata?.scope) {
             context.res.locals.alokai.metadata.scope.extensionName =
               fn._extensionName;
           } else {
             const logger = getLogger(context.res);
             logger.warning(
-              "Local Alokai's metadata object is missing. Check your source code or contact Alokai's team."
+              `Alokai's metadata object is missing in the context under 'res.locals.alokai'. 
+              This could indicate that the extension's scope or metadata has not been properly initialized. 
+              Without this metadata, certain custom API client functionalities may not work as expected, 
+              including tracking of extension-specific actions or data. 
+              Please ensure that the Alokai metadata object is correctly set up in 'res.locals.alokai' before proceeding with the request.
+              
+              Steps to troubleshoot:
+              1. Verify if content of res.locals hasn't been overwritten, instead of extended.
+              2. If you're unsure, please consult Alokai's team for further assistance or review the source code implementation.
+
+              Call Name: ${callName}
+              Function Name: ${fn.name || "Unnamed function"}`
             );
           }
         }
