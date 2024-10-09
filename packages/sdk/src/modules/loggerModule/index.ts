@@ -1,7 +1,7 @@
 import { LoggerFactory, LoggerType } from "@vue-storefront/logger";
 import type { Module } from "../../types";
 import type { LoggerModuleConfig } from "./types";
-import { wrapLogger } from "./wrapper";
+import { injectMetadata } from "./injectMetadata";
 import { isInvalidConfig } from "./utils";
 
 export const loggerModule = (options?: LoggerModuleConfig) => {
@@ -14,7 +14,7 @@ export const loggerModule = (options?: LoggerModuleConfig) => {
     );
   }
 
-  const wrappedLogger = wrapLogger(logger, {
+  const loggerWithMetadata = injectMetadata(logger, {
     alokai: {
       context: "storefront",
     },
@@ -22,7 +22,7 @@ export const loggerModule = (options?: LoggerModuleConfig) => {
 
   return {
     connector: {
-      ...wrappedLogger,
+      ...loggerWithMetadata,
     },
   } satisfies Module;
 };

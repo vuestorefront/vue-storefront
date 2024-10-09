@@ -2,7 +2,7 @@ import type { LoggerInterface } from "./types";
 
 const methodsToExclude = ["log"];
 
-export function wrapLogger(
+export function injectMetadata(
   logger: LoggerInterface,
   externalData: Record<string, any>
 ): LoggerInterface {

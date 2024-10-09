@@ -18,7 +18,7 @@ describe("loggerModule utils", () => {
     expect(isInvalidConfig({ handler: {} as LoggerInterface })).toBe(false);
     expect(
       isInvalidConfig({
-        handler: (() => {}) as unknown as LoggerInterface,
+        handler: {} as unknown as LoggerInterface,
         foo: "bar",
       })
     ).toBe(true);
