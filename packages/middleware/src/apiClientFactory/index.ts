@@ -1,3 +1,4 @@
+import { injectMetadata, getLogger } from "../logger";
 import { isFunction } from "../helpers";
 import {
   ApiClientConfig,
@@ -10,8 +11,21 @@ import {
   CreateApiClientFn,
   ExtensionHookWith,
   ExtensionWith,
+  ExtensionEndpointHandler,
 } from "../types";
 import { applyContextToApi } from "./applyContextToApi";
+
+/**
+ * Function marking endpoint added or overwritten by extension's extendApiMethod hook
+ * with information about source extension's name
+ */
+function markWithExtensionName(
+  apiMethod: ExtensionEndpointHandler,
+  extensionName: string
+) {
+  apiMethod._extensionName = extensionName;
+  return apiMethod;
+}
 
 const apiClientFactory = <
   ALL_SETTINGS extends ApiClientConfig,
@@ -35,15 +49,31 @@ const apiClientFactory = <
     ) {
       const rawExtensions: ApiClientExtension<ALL_FUNCTIONS>[] =
         this?.middleware?.extensions || [];
+      const logger = getLogger(this.middleware.res);
 
       const lifecycles = await Promise.all(
         rawExtensions
           .filter((extension): extension is ExtensionWith<"hooks"> =>
             isFunction(extension?.hooks)
           )
-          .map(async ({ hooks }) =>
-            hooks(this?.middleware?.req, this?.middleware?.res)
-          )
+          .map(async ({ name, hooks }) => {
+            // Attaching extension related metadata to the logger
+            // We cannot assign it to res.locals as we would end up
+            // with incorrect logger for hook functions (like beforeCreate)
+            // in case of multiple extensions using hooks property
+            const loggerWithMetadata = injectMetadata(logger, (metadata) => ({
+              ...metadata,
+              scope: {
+                ...metadata?.scope,
+                extensionName: name,
+                extensionNamePointsHookSource: true, // If we have hook on custom endpoint, extensionName value is confusing without this field
+              },
+            }));
+
+            return hooks(this?.middleware?.req, this?.middleware?.res, {
+              logger: loggerWithMetadata,
+            });
+          })
       );
 
       const _config = await lifecycles
@@ -58,7 +88,7 @@ const apiClientFactory = <
         }, Promise.resolve(config));
 
       const settings = (await factoryParams.onCreate)
-        ? await factoryParams.onCreate(_config)
+        ? await factoryParams.onCreate(_config, { logger })
         : { config, client: config.client };
 
       settings.config = await lifecycles
@@ -121,9 +151,17 @@ const apiClientFactory = <
             ...extendedApiMethods,
           };
         } else {
+          const markedExtendedApiMethods = Object.entries(
+            extendedApiMethods
+          ).reduce((total, [name, fn]: [string, ExtensionEndpointHandler]) => {
+            return {
+              ...total,
+              [name]: markWithExtensionName(fn, extension.name),
+            };
+          }, {});
           sharedExtensions = {
             ...sharedExtensions,
-            ...extendedApiMethods,
+            ...markedExtendedApiMethods,
           };
         }
       }

@@ -9,6 +9,7 @@
     "lib"
   ],
   "scripts": {
+    "dev": "rollup -c -w",
     "build": "rimraf lib && rollup -c",
     "test": "yarn test:unit && yarn test:integration",
     "test:unit": "jest -c jest.config.ts --coverage",
