@@ -122,7 +122,6 @@ const createConsolaStructuredLogger = (
   const debug = logAtLevel("debug");
 
   return {
-    log,
     emergency,
     alert,
     critical,
