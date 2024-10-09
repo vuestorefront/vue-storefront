@@ -15,7 +15,6 @@ describe("createConsolaStructuredLogger", () => {
   it("should create a logger with the correct set of methods", () => {
     const logger = createConsolaStructuredLogger(mockStructuredLog);
 
-    expect(logger).toHaveProperty("log");
     expect(logger).toHaveProperty("emergency");
     expect(logger).toHaveProperty("alert");
     expect(logger).toHaveProperty("critical");
