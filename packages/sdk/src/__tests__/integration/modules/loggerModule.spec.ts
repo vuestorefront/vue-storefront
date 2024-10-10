@@ -2,6 +2,7 @@ import { LoggerFactory } from "@vue-storefront/logger";
 import { buildModule } from "../../../modules/buildModule";
 import { initSDK } from "../../../bootstrap";
 import { loggerModule } from "../../../modules/loggerModule";
+import type { LoggerInterface } from "../../../modules/loggerModule/types";
 
 describe("loggerModule", () => {
   it("should be able to be used as standard SDK module", async () => {
@@ -24,7 +25,6 @@ describe("loggerModule", () => {
     "should have a function '%s' available within the logger",
     (functionName) => {
       const sdkConfig = { logger: buildModule(loggerModule) };
-
       const sdk = initSDK(sdkConfig);
 
       expect(
@@ -41,23 +41,12 @@ describe("loggerModule", () => {
 
   it("should be able to pass custom handler", async () => {
     const mock = jest.fn();
-    const customLogger = {
-      log: mock,
-      emergency: mock,
-      alert: mock,
-      critical: mock,
-      error: mock,
-      warning: mock,
-      notice: mock,
-      info: mock,
-      debug: mock,
-    };
+    const handler = { info: mock } as unknown as LoggerInterface;
     const sdkConfig = {
       logger: buildModule(loggerModule, {
-        handler: customLogger,
+        handler,
       }),
     };
-
     const sdk = initSDK(sdkConfig);
 
     await sdk.logger.info("foo");
@@ -72,5 +61,17 @@ describe("loggerModule", () => {
     initSDK(sdkConfig);
 
     expect(createSpy).toHaveBeenCalled();
+  });
+
+  it("should warn about wrong configuration", async () => {
+    const consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+
+    loggerModule({
+      handler: {} as unknown as LoggerInterface,
+      foo: "bar",
+    });
+
+    expect(consoleSpy).toHaveBeenCalled();
+    consoleSpy.mockReset();
   });
 });
