@@ -1,5 +1,5 @@
 ---
-"@vue-storefront/sdk": patch
+"@vue-storefront/sdk": minor
 ---
 
 rc.1
