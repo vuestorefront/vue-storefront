@@ -1,5 +1,11 @@
 # Change log
 
+## 3.3.0-rc.2
+
+### Minor Changes
+
+rc.1
+
 ## 3.3.0-rc.1
 
 ### Patch Changes
