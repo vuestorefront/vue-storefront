@@ -5,15 +5,17 @@ import type {
   ApiClientExtension,
   ApiMethods,
   TObject,
+  AlokaiContainer,
 } from "../../types";
 
 /**
  * Imports extensions if they're represented as strings.
  */
 export function createExtensions(
-  rawExtensions: (ApiClientExtension | string)[]
+  rawExtensions: (ApiClientExtension | string)[],
+  alokai: AlokaiContainer
 ): ApiClientExtension[] {
-  return rawExtensions.flatMap(lookUpExternal);
+  return rawExtensions.flatMap(lookUpExternal(alokai));
 }
 
 /**

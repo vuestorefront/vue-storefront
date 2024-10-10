@@ -12,4 +12,5 @@ const initVSFSDK = initSDK;
 
 export { initVSFSDK, initSDK, handleError, buildModule, eventManager };
 export * from "./modules/middlewareModule";
+export * from "./modules/loggerModule";
 export * from "./types";

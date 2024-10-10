@@ -1,5 +1,5 @@
-import consola from "consola";
 import type { Request, Response } from "express";
+import { getLogger } from "../logger";
 import { getAgnosticStatusCode } from "../helpers";
 
 type ClientSideError = {
@@ -18,7 +18,8 @@ export const defaultErrorHandler = (
   req: Request,
   res: Response
 ) => {
-  consola.error(error);
+  const logger = getLogger(res);
+  logger.error(error);
   const status = getAgnosticStatusCode(error);
   res.status(status);
   if (status < 500) {
