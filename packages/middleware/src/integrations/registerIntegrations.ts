@@ -43,6 +43,7 @@ async function triggerExtendAppHook(
       const loggerWithMetadata = injectMetadata(logger, () => ({
         scope: {
           extensionName: name,
+          type: "hook",
           hookName: "extendApp",
         },
       }));

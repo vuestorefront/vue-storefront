@@ -1,5 +1,5 @@
 import {
-  removeAnsiCodesFromStr as defaultRemoveAnsiCodes,
+  removeAnsiColorCodesFromStr as defaultRemoveAnsiCodes,
   type RemoveAnsiCode,
 } from "../utils/removeAnsiCodes";
 import type { LogData, Metadata } from "../interfaces/LoggerInterface";
@@ -40,7 +40,7 @@ export class GCPStructuredLog implements StructuredLog {
   };
 
   /**
-   * The function to remove ANSI codes from the log message.
+   * The function to remove ANSI color codes from the log message.
    */
   private removeAnsiCodes: RemoveAnsiCode;
 

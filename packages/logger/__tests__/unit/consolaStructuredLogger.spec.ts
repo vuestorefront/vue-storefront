@@ -12,7 +12,7 @@ describe("createConsolaStructuredLogger", () => {
   const logData: LogData = "Test log message";
   const metadata: Metadata = { userId: "12345" };
 
-  it("should create a logger with the correct set of methods", () => {
+  it("it creates a logger with the correct set of methods", () => {
     const logger = createConsolaStructuredLogger(mockStructuredLog);
 
     expect(logger).toHaveProperty("emergency");
@@ -25,7 +25,7 @@ describe("createConsolaStructuredLogger", () => {
     expect(logger).toHaveProperty("debug");
   });
 
-  it("should log at the correct level", () => {
+  it("it logs at the correct level", () => {
     const logger = createConsolaStructuredLogger(mockStructuredLog);
 
     const infoSpy = jest.spyOn(logger, "info").mockImplementation(() => {});

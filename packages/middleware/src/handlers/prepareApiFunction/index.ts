@@ -22,6 +22,12 @@ export function prepareApiFunction(
         extensionName,
         functionName,
       },
+      errorBoundary: {
+        scope: {
+          integrationName,
+          functionName,
+        },
+      },
     };
 
     const {

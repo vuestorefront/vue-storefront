@@ -1,4 +1,4 @@
-import { ConsolaOptions, ConsolaReporter, createConsola } from "consola";
+import { ConsolaOptions, createConsola } from "consola";
 
 import dotenv from "dotenv";
 import { LogLevel } from "./interfaces/LogLevel";
@@ -37,22 +37,24 @@ const createConsolaStructuredLogger = (
     debug: 4,
   };
 
-  const jsonReporter: ConsolaReporter = {
-    log: (logObject) => {
-      if (
-        process.env.NODE_ENV === "development" ||
-        typeof window !== "undefined"
-      ) {
-        console.log(logObject.args[0].structuredLog);
-      } else {
-        console.log(JSON.stringify(logObject.args[0].structuredLog));
-      }
-    },
+  const buildJsonReporter = () => {
+    return {
+      log: (logObject) => {
+        if (
+          process.env.NODE_ENV === "development" ||
+          typeof window !== "undefined"
+        ) {
+          console.log(logObject.args[0].structuredLog);
+        } else {
+          console.log(JSON.stringify(logObject.args[0].structuredLog));
+        }
+      },
+    };
   };
 
   const logger = createConsola({
     level: levelMap?.[options.level] ?? levelMap.info,
-    reporters: [jsonReporter],
+    reporters: options.reporters || [buildJsonReporter()],
   });
 
   if (options.reporters) {
@@ -75,6 +77,11 @@ const createConsolaStructuredLogger = (
       metadata
     );
 
+    /**
+     * Map the log level to the consola level
+     * Our log levels are more granular than consola's log levels
+     * and we need to map them to the closest consola level
+     */
     const consolaLevel = mapToConsolaLevel(level);
 
     switch (consolaLevel) {
