@@ -1,4 +1,6 @@
 import type { Express, Request, Response } from "express";
+import { LoggerInterface } from "@vue-storefront/logger";
+import { LoggerOptions } from "./config";
 import {
   ApiClientMethod,
   ContextQuery,
@@ -9,7 +11,14 @@ import {
 import { WithRequired } from "./index";
 import { ApiClient, ApiClientConfig, ApiClientFactory } from "./server";
 
-export type ApiMethods = Record<string, ApiClientMethod>;
+export type ExtensionEndpointHandler = ApiClientMethod & {
+  _extensionName?: string;
+};
+
+export type ApiMethods = Record<
+  string,
+  ApiClientMethod | ExtensionEndpointHandler
+>;
 export type ApiMethodsFactory<
   API extends ApiMethods,
   CONFIG extends ApiClientConfig
@@ -55,6 +64,10 @@ export interface ApiClientExtensionHooks<C = any> {
   ) => AfterCallArgs;
 }
 
+export type AlokaiContainer = {
+  logger: LoggerInterface;
+};
+
 export interface ApiClientExtension<API = any, CONTEXT = any, CONFIG = any> {
   name: string;
   isNamespaced?: boolean;
@@ -67,8 +80,13 @@ export interface ApiClientExtension<API = any, CONTEXT = any, CONFIG = any> {
   }: {
     app: Express;
     configuration: any;
+    logger: LoggerInterface;
   }) => Promise<void> | void;
-  hooks?: (req: Request, res: Response) => ApiClientExtensionHooks;
+  hooks?: (
+    req: Request,
+    res: Response,
+    hooksContext: AlokaiContainer
+  ) => ApiClientExtensionHooks;
 }
 
 export interface Integration<
@@ -78,6 +96,7 @@ export interface Integration<
 > {
   location: string;
   configuration: CONFIG;
+  logger?: LoggerOptions;
   extensions?: <T extends ApiClientMethodWithContext<CONTEXT>>(
     extensions: ApiClientExtension<API, CONTEXT>[]
   ) => ApiClientExtension<API & T, CONTEXT>[];
@@ -107,6 +126,7 @@ export interface LoadInitConfigProps {
   apiClient: ApiClientFactory;
   integration: Integration;
   tag: string;
+  alokai: AlokaiContainer;
 }
 
 export type IntegrationsLoaded<

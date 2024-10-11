@@ -1,5 +1,11 @@
 # Change log
 
+## 5.1.0-rc.0
+
+### Minor Changes
+
+Feature logger
+
 ## 5.0.0
 
 ### Major Changes

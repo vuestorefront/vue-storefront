@@ -1,4 +1,5 @@
 import { lookUpExternal } from "../../../../src/integrations/helpers";
+import { logger } from "../../../../__mocks__/logger";
 
 const mockResult = [
   { name: "extension1", extendApiMethods: { method: () => undefined } },
@@ -17,13 +18,19 @@ describe("[lookUpExternal]", () => {
       name: "extension1",
       extendApiMethods: { method: () => undefined },
     };
-    const result = lookUpExternal(mockExtension);
+    const alokai = {
+      logger,
+    };
+    const result = lookUpExternal(alokai)(mockExtension);
 
     expect(result).toEqual([mockExtension]);
   });
 
   it("should resolve import and return given extension in array", () => {
-    const result = lookUpExternal("extension-location");
+    const alokai = {
+      logger,
+    };
+    const result = lookUpExternal(alokai)("extension-location");
 
     expect(result).toEqual(mockResult);
   });
