@@ -19,15 +19,15 @@ export function prepareApiFunction(
       ...res.locals?.alokai?.metadata,
       scope: {
         integrationName,
-        extensionName,
         functionName,
+        ...(extensionName ? { extensionName } : {}),
       },
-      errorBoundary: {
-        scope: {
-          integrationName,
-          functionName,
-        },
-      },
+      // errorBoundary: {
+      //   scope: {
+      //     integrationName,
+      //     functionName,
+      //   },
+      // },
     };
 
     const {
@@ -44,6 +44,7 @@ export function prepareApiFunction(
       extensions,
       customQueries,
       integrations,
+      integrationKey: integrationName,
       getApiClient: (integrationKey: string) => {
         if (!(integrationKey in integrations)) {
           const keys = Object.keys(integrations);
@@ -62,6 +63,7 @@ export function prepareApiFunction(
 
         const innerMiddlewareContext: MiddlewareContext = {
           ...middlewareContext,
+          integrationKey,
           extensions: innerExtensions,
           customQueries: innerCustomQueries,
         };

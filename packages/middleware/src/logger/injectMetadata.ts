@@ -1,10 +1,13 @@
 import type { LoggerInterface } from "@vue-storefront/logger";
+import { AlokaiLocal } from "../types";
 
 const METHODS_TO_SKIP = ["log"];
 
+type Metadata = AlokaiLocal["metadata"] & Record<string, any>;
+
 export function injectMetadata(
   logger: LoggerInterface,
-  metadataGetter: (metadata: Record<string, any>) => Record<string, any>
+  metadataGetter: (metadata: Metadata) => Metadata
 ): LoggerInterface {
   return new Proxy(logger, {
     get(target, prop) {

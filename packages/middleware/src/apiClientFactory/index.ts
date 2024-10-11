@@ -51,6 +51,8 @@ const apiClientFactory = <
         this?.middleware?.extensions || [];
       const logger = getLogger(this.middleware.res);
 
+      this.middleware.res.locals.alokai.metadata.scope.hookName = "hooks";
+      this.middleware.res.locals.alokai.metadata.scope.type = "requestHook";
       const lifecycles = await Promise.all(
         rawExtensions
           .filter((extension): extension is ExtensionWith<"hooks"> =>
@@ -66,7 +68,6 @@ const apiClientFactory = <
               scope: {
                 ...metadata?.scope,
                 extensionName: name,
-                extensionNamePointsHookSource: true, // If we have hook on custom endpoint, extensionName value is confusing without this field
               },
             }));
 
@@ -82,13 +83,22 @@ const apiClientFactory = <
         )
         .reduce(async (configSoFar, extension) => {
           const resolvedConfig = await configSoFar;
+          this.middleware.res.locals.alokai.metadata.scope.hookName =
+            "beforeCreate";
           return await extension.beforeCreate({
             configuration: resolvedConfig,
           });
         }, Promise.resolve(config));
 
+      const loggerWithMetadata = injectMetadata(logger, () => ({
+        scope: {
+          integrationName: this.middleware?.integrationKey,
+          type: "requestHook",
+          hookName: "onCreate",
+        },
+      }));
       const settings = (await factoryParams.onCreate)
-        ? await factoryParams.onCreate(_config, { logger })
+        ? await factoryParams.onCreate(_config, { logger: loggerWithMetadata })
         : { config, client: config.client };
 
       settings.config = await lifecycles
@@ -97,11 +107,15 @@ const apiClientFactory = <
         )
         .reduce(async (configSoFar, extension) => {
           const resolvedConfig = await configSoFar;
+          this.middleware.res.locals.alokai.metadata.scope.hookName =
+            "afterCreate";
           return await extension.afterCreate({ configuration: resolvedConfig });
         }, Promise.resolve(settings.config));
 
       const extensionHooks: ApplyingContextHooks = {
         before: async (params) => {
+          this.middleware.res.locals.alokai.metadata.scope.hookName =
+            "beforeCall";
           return await lifecycles
             .filter((extension): extension is ExtensionHookWith<"beforeCall"> =>
               isFunction(extension?.beforeCall)
@@ -109,6 +123,7 @@ const apiClientFactory = <
             .reduce(async (argsSoFar, extension) => {
               const resolvedArgs = await argsSoFar;
               const resolvedSettings = await settings;
+
               return extension.beforeCall({
                 ...params,
                 configuration: resolvedSettings.config,
@@ -117,6 +132,8 @@ const apiClientFactory = <
             }, Promise.resolve(params.args));
         },
         after: async (params) => {
+          this.middleware.res.locals.alokai.metadata.scope.hookName =
+            "afterCall";
           return await lifecycles
             .filter((extension): extension is ExtensionHookWith<"afterCall"> =>
               isFunction(extension.afterCall)
@@ -133,7 +150,10 @@ const apiClientFactory = <
         },
       };
 
-      const context = { ...settings, ...(this?.middleware || {}) };
+      const context = {
+        ...settings,
+        ...(this?.middleware || {}),
+      };
 
       const api = await resolveApi(factoryParams.api, settings);
 
@@ -146,9 +166,18 @@ const apiClientFactory = <
           settings
         );
         if (extension.isNamespaced) {
+          const markedExtendedApiMethods = Object.entries(
+            extendedApiMethods
+          ).reduce((total, [name, fn]: [string, ExtensionEndpointHandler]) => {
+            return {
+              ...total,
+              [name]: markWithExtensionName(fn, extension.name),
+            };
+          }, {});
+
           namespacedExtensions[extension.name] = {
             ...(namespacedExtensions?.[extension.name] ?? {}),
-            ...extendedApiMethods,
+            ...markedExtendedApiMethods,
           };
         } else {
           const markedExtendedApiMethods = Object.entries(
