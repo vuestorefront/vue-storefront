@@ -13,7 +13,7 @@
     "sdk-ref": "cd ../packages/sdk && api-extractor run --local",
     "add-changelogs:middleware": "cp ../packages/middleware/CHANGELOG.md ./content/3.middleware/4.reference/change-log.md",
     "add-changelogs:multistore": "cp ../packages/multistore/CHANGELOG.md ./content/3.middleware/4.reference/multistore/change-log.md",
-    "add-changelogs:sdk": "cp ../packages/sdk/CHANGELOG.md ./content/4.sdk/5.reference/change-log.md",
+    "add-changelogs:sdk": "cp ../packages/sdk/CHANGELOG.md ./content/4.sdk/5.reference/sdk-change-log.md",
     "add-changelogs": "yarn add-changelogs:middleware && yarn add-changelogs:multistore && yarn add-changelogs:sdk"
   },
   "devDependencies": {

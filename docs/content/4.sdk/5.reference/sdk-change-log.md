@@ -1,4 +1,4 @@
-# Change log
+# Change log: `@vue-storefront/sdk`
 
 ## 3.2.3
 
