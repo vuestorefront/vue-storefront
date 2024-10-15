@@ -44,12 +44,12 @@ export function prepareApiFunction(
       extensions,
       customQueries,
       integrations,
-      integrationKey: integrationName,
-      getApiClient: (integrationKey: string) => {
-        if (!(integrationKey in integrations)) {
+      integrationTag: integrationName,
+      getApiClient: (integrationTag: string) => {
+        if (!(integrationTag in integrations)) {
           const keys = Object.keys(integrations);
           throw new Error(
-            `The specified integration key "${integrationKey}" was not found. Available integration keys are: ${keys}. Please ensure you're using the correct key or add the necessary integration configuration.`
+            `The specified integration key "${integrationTag}" was not found. Available integration keys are: ${keys}. Please ensure you're using the correct key or add the necessary integration configuration.`
           );
         }
 
@@ -59,11 +59,11 @@ export function prepareApiFunction(
           extensions: innerExtensions,
           customQueries: innerCustomQueries = {},
           initConfig: innerInitConfig,
-        } = integrations[integrationKey];
+        } = integrations[integrationTag];
 
         const innerMiddlewareContext: MiddlewareContext = {
           ...middlewareContext,
-          integrationKey,
+          integrationTag,
           extensions: innerExtensions,
           customQueries: innerCustomQueries,
         };

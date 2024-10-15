@@ -156,7 +156,7 @@ export interface MiddlewareContext<API extends ApiMethods = any> {
   extensions: ApiClientExtension<API>[];
   customQueries: Record<string, CustomQueryFunction>;
   integrations: IntegrationsLoaded;
-  integrationKey: string;
+  integrationTag: string;
   getApiClient: <Api = any, Config = any, Client = any>(
     integrationName: string
   ) => ApiClient<Api, Config, Client>;
@@ -179,7 +179,7 @@ export interface ApiContext<CONFIG, CLIENT, REQUEST, RESPONSE> {
 
 export type CallableContext<API extends ApiMethods> = {
   middleware: MiddlewareContext<API>;
-  integrationKey: string;
+  integrationTag: string;
 };
 
 export interface ApplyingContextHooks<CONFIG = any> {

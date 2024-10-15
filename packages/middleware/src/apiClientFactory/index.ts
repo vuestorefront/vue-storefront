@@ -11,21 +11,9 @@ import {
   CreateApiClientFn,
   ExtensionHookWith,
   ExtensionWith,
-  ExtensionEndpointHandler,
 } from "../types";
 import { applyContextToApi } from "./applyContextToApi";
-
-/**
- * Function marking endpoint added or overwritten by extension's extendApiMethod hook
- * with information about source extension's name
- */
-function markWithExtensionName(
-  apiMethod: ExtensionEndpointHandler,
-  extensionName: string
-) {
-  apiMethod._extensionName = extensionName;
-  return apiMethod;
-}
+import { markExtensionNameHelpers } from "./markExtensionNameHelpers";
 
 const apiClientFactory = <
   ALL_SETTINGS extends ApiClientConfig,
@@ -92,7 +80,7 @@ const apiClientFactory = <
 
       const loggerWithMetadata = injectMetadata(logger, () => ({
         scope: {
-          integrationName: this.middleware?.integrationKey,
+          integrationName: this.middleware?.integrationTag,
           type: "requestHook",
           hookName: "onCreate",
         },
@@ -150,10 +138,7 @@ const apiClientFactory = <
         },
       };
 
-      const context = {
-        ...settings,
-        ...(this?.middleware || {}),
-      };
+      const context = { ...settings, ...(this?.middleware || {}) };
 
       const api = await resolveApi(factoryParams.api, settings);
 
@@ -166,28 +151,20 @@ const apiClientFactory = <
           settings
         );
         if (extension.isNamespaced) {
-          const markedExtendedApiMethods = Object.entries(
-            extendedApiMethods
-          ).reduce((total, [name, fn]: [string, ExtensionEndpointHandler]) => {
-            return {
-              ...total,
-              [name]: markWithExtensionName(fn, extension.name),
-            };
-          }, {});
+          const markedExtendedApiMethods = markExtensionNameHelpers.markApi(
+            extendedApiMethods,
+            extension.name
+          );
 
           namespacedExtensions[extension.name] = {
             ...(namespacedExtensions?.[extension.name] ?? {}),
             ...markedExtendedApiMethods,
           };
         } else {
-          const markedExtendedApiMethods = Object.entries(
-            extendedApiMethods
-          ).reduce((total, [name, fn]: [string, ExtensionEndpointHandler]) => {
-            return {
-              ...total,
-              [name]: markWithExtensionName(fn, extension.name),
-            };
-          }, {});
+          const markedExtendedApiMethods = markExtensionNameHelpers.markApi(
+            extendedApiMethods,
+            extension.name
+          );
           sharedExtensions = {
             ...sharedExtensions,
             ...markedExtendedApiMethods,
