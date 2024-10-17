@@ -15,21 +15,6 @@ export function prepareApiFunction(
       return;
     }
 
-    res.locals.alokai.metadata = {
-      ...res.locals?.alokai?.metadata,
-      scope: {
-        integrationName,
-        functionName,
-        ...(extensionName ? { extensionName } : {}),
-      },
-      // errorBoundary: {
-      //   scope: {
-      //     integrationName,
-      //     functionName,
-      //   },
-      // },
-    };
-
     const {
       apiClient,
       configuration,

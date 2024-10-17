@@ -23,7 +23,6 @@ import {
   callApiFunction,
 } from "./handlers";
 import { createTerminusOptions } from "./terminus";
-import { prepareMetadataStorage } from "./handlers/prepareMetadataStorage";
 import { prepareLogger } from "./handlers/prepareLogger";
 
 const defaultCorsOptions: CreateServerOptions["cors"] = {
@@ -84,7 +83,6 @@ async function createServer<
 
   app.post(
     "/:integrationName/:extensionName?/:functionName",
-    prepareMetadataStorage,
     prepareLogger(loggerManager),
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),
@@ -93,7 +91,6 @@ async function createServer<
   );
   app.get(
     "/:integrationName/:extensionName?/:functionName",
-    prepareMetadataStorage,
     prepareLogger(loggerManager),
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),

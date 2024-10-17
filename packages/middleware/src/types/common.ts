@@ -45,6 +45,7 @@ export type ExtendApiMethod<API, CONTEXT> = {
 
 export interface HookParams<C> {
   configuration?: C;
+  logger?: LoggerInterface;
 }
 
 export interface CallHookParams<C> extends HookParams<C> {
@@ -190,7 +191,9 @@ export interface ApplyingContextHooks<CONFIG = any> {
 }
 
 export type ExtensionHookWith<T extends keyof ApiClientExtensionHooks> =
-  WithRequired<ApiClientExtensionHooks, T>;
+  WithRequired<ApiClientExtensionHooks, T> & {
+    name: string;
+  };
 export type ExtensionWith<T extends keyof ApiClientExtension> = WithRequired<
   ApiClientExtension,
   T

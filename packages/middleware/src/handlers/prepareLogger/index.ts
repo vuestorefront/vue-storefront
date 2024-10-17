@@ -13,12 +13,15 @@ export function prepareLogger(loggerManager: LoggerManager) {
     if (!req?.params?.integrationName) {
       console.error("prepareLogger middleware used for unsupported route");
     }
+    const { integrationName, functionName } = req.params;
+
     const loggerWithMetadata = injectMetadata(logger, (metadata) => {
       return {
-        ...res.locals?.alokai?.metadata,
+        context: "middleware",
         ...metadata,
         scope: {
-          ...res.locals?.alokai?.metadata?.scope,
+          integrationName,
+          functionName,
           ...metadata?.scope,
         },
       };

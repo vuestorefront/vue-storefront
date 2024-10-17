@@ -36,30 +36,47 @@ const testingExtension = {
     },
     async resueOtherIntegrationMethod(context) {
       const logger = getLogger(context);
-      logger.info("some log");
+      logger.info("resueOtherIntegrationMethod log");
       const int = await context.getApiClient("replicated_integration");
       return await int.api[
         "replicated-integration-extension"
       ].orchestrationTest();
+    },
+    async paralellOrchestrationTest(context) {
+      const logger = getLogger(context);
+      logger.info("resueOtherIntegrationMethod log");
+      // paralell_replicated_integration
+      const int = await context.getApiClient("replicated_integration");
+      const int2 = await context.getApiClient(
+        "paralell_replicated_integration"
+      );
+      // await int.api["replicated-integration-extension"].orchestrationTest();
+      // await int2.api.successParalell();
+      return await Promise.all([
+        int.api["replicated-integration-extension"].orchestrationTest(),
+        int2.api.successParalell(),
+      ]);
     },
   },
   hooks(req, res, alokai) {
     const logger = getLogger(alokai);
     logger.info("hooks");
     return {
-      beforeCall({ args }) {
+      beforeCall({ args, logger }) {
         logger.info("bc1");
         return args;
       },
       beforeCreate(a) {
+        const logger = getLogger(a);
         logger.info("bc2");
         return a;
       },
-      afterCall({ response }) {
+      afterCall({ response, logger }) {
         logger.info("after1");
         return response;
       },
       afterCreate(a) {
+        const logger = getLogger(a);
         logger.info("after2");
         return a;
       },
@@ -120,6 +137,19 @@ describe("[Integration] Logger scopes", () => {
           },
         },
         replicated_integration: {
+          configuration: {},
+          location: "./__tests__/integration/bootstrap/server",
+          logger: {
+            handler: Logger,
+          },
+          extensions() {
+            return [
+              testingExtension as any,
+              replicatedIntegrationExtension as any,
+            ];
+          },
+        },
+        paralell_replicated_integration: {
           configuration: {},
           location: "./__tests__/integration/bootstrap/server",
           logger: {
@@ -334,6 +364,45 @@ describe("[Integration] Logger scopes", () => {
       scope: {
         functionName: "success",
         integrationName: "replicated_integration",
+        type: "endpoint",
+      },
+    });
+  });
+
+  test("scope of log from: multiple different integrations called from extension", async () => {
+    await request(app).post("/test_integration/paralellOrchestrationTest");
+
+    expect(Logger.info).toBeCalledWith(expect.any(String), {
+      context: "middleware",
+      scope: {
+        extensionName: "testing-extension",
+        functionName: "paralellOrchestrationTest",
+        integrationName: "test_integration",
+        type: "endpoint",
+      },
+    });
+    expect(Logger.info).toBeCalledWith(expect.any(String), {
+      context: "middleware",
+      scope: {
+        extensionName: "replicated-integration-extension",
+        functionName: "orchestrationTest",
+        integrationName: "replicated_integration",
+        type: "endpoint",
+      },
+    });
+    expect(Logger.info).toBeCalledWith(expect.any(String), {
+      context: "middleware",
+      scope: {
+        functionName: "success",
+        integrationName: "replicated_integration",
+        type: "endpoint",
+      },
+    });
+    expect(Logger.info).toBeCalledWith(expect.any(String), {
+      context: "middleware",
+      scope: {
+        functionName: "successParalell",
+        integrationName: "paralell_replicated_integration",
         type: "endpoint",
       },
     });
