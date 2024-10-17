@@ -20,14 +20,7 @@ export function prepareApiFunction(
       scope: {
         integrationName,
         functionName,
-        ...(extensionName ? { extensionName } : {}),
       },
-      // errorBoundary: {
-      //   scope: {
-      //     integrationName,
-      //     functionName,
-      //   },
-      // },
     };
 
     const {

@@ -6,7 +6,7 @@ import { ExtensionEndpointHandler } from "../types";
  */
 export const markExtensionNameHelpers = {
   /**
-   * Function marking endpoint added or overwritten by extension's extendApiMethod hook
+   * Decorates handler added or overwritten by extension's extendApiMethod hook
    * with information about source extension's name
    */
   mark(apiMethod: ExtensionEndpointHandler, extensionName: string) {
@@ -14,6 +14,9 @@ export const markExtensionNameHelpers = {
     return apiMethod;
   },
 
+  /**
+   * Marks a set of endpoints using `mark` method
+   */
   markApi(
     api: Record<string, ExtensionEndpointHandler>,
     extensionName: string
@@ -29,10 +32,18 @@ export const markExtensionNameHelpers = {
     );
   },
 
+  /**
+   * Checks if object is marked with extension's name
+   */
   has(obj: object): obj is ExtensionEndpointHandler {
     return "_extensionName" in obj;
   },
 
+  /**
+   * Gets extension's name from which handler comes
+   *
+   * @remarks Returns undefined if it's missing in the handler
+   */
   get(obj: object) {
     return (obj as ExtensionEndpointHandler)?._extensionName;
   },

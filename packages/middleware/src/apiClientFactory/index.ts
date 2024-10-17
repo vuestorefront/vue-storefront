@@ -39,8 +39,6 @@ const apiClientFactory = <
         this?.middleware?.extensions || [];
       const logger = getLogger(this.middleware.res);
 
-      this.middleware.res.locals.alokai.metadata.scope.hookName = "hooks";
-      this.middleware.res.locals.alokai.metadata.scope.type = "requestHook";
       const lifecycles = await Promise.all(
         rawExtensions
           .filter((extension): extension is ExtensionWith<"hooks"> =>
@@ -56,12 +54,17 @@ const apiClientFactory = <
               scope: {
                 ...metadata?.scope,
                 extensionName: name,
+                hookName: "hooks",
+                type: "requestHook",
               },
             }));
 
-            return hooks(this?.middleware?.req, this?.middleware?.res, {
-              logger: loggerWithMetadata,
-            });
+            return {
+              ...hooks(this?.middleware?.req, this?.middleware?.res, {
+                logger: loggerWithMetadata,
+              }),
+              name,
+            };
           })
       );
 
@@ -71,10 +74,18 @@ const apiClientFactory = <
         )
         .reduce(async (configSoFar, extension) => {
           const resolvedConfig = await configSoFar;
-          this.middleware.res.locals.alokai.metadata.scope.hookName =
-            "beforeCreate";
+          const loggerWithMetadata = injectMetadata(logger, (metadata) => ({
+            ...metadata,
+            scope: {
+              ...metadata?.scope,
+              extensionName: extension.name,
+              hookName: "beforeCreate",
+              type: "requestHook",
+            },
+          }));
           return await extension.beforeCreate({
             configuration: resolvedConfig,
+            logger: loggerWithMetadata,
           });
         }, Promise.resolve(config));
 
@@ -95,15 +106,23 @@ const apiClientFactory = <
         )
         .reduce(async (configSoFar, extension) => {
           const resolvedConfig = await configSoFar;
-          this.middleware.res.locals.alokai.metadata.scope.hookName =
-            "afterCreate";
-          return await extension.afterCreate({ configuration: resolvedConfig });
+          const loggerWithMetadata = injectMetadata(logger, (metadata) => ({
+            ...metadata,
+            scope: {
+              ...metadata?.scope,
+              extensionName: extension.name,
+              hookName: "afterCreate",
+              type: "requestHook",
+            },
+          }));
+          return await extension.afterCreate({
+            configuration: resolvedConfig,
+            logger: loggerWithMetadata,
+          });
         }, Promise.resolve(settings.config));
 
       const extensionHooks: ApplyingContextHooks = {
         before: async (params) => {
-          this.middleware.res.locals.alokai.metadata.scope.hookName =
-            "beforeCall";
           return await lifecycles
             .filter((extension): extension is ExtensionHookWith<"beforeCall"> =>
               isFunction(extension?.beforeCall)
@@ -112,16 +131,25 @@ const apiClientFactory = <
               const resolvedArgs = await argsSoFar;
               const resolvedSettings = await settings;
 
+              const loggerWithMetadata = injectMetadata(logger, (metadata) => ({
+                ...metadata,
+                scope: {
+                  ...metadata?.scope,
+                  extensionName: extension.name,
+                  hookName: "beforeCall",
+                  type: "requestHook",
+                },
+              }));
+
               return extension.beforeCall({
                 ...params,
                 configuration: resolvedSettings.config,
                 args: resolvedArgs,
+                logger: loggerWithMetadata,
               });
             }, Promise.resolve(params.args));
         },
         after: async (params) => {
-          this.middleware.res.locals.alokai.metadata.scope.hookName =
-            "afterCall";
           return await lifecycles
             .filter((extension): extension is ExtensionHookWith<"afterCall"> =>
               isFunction(extension.afterCall)
@@ -129,10 +157,22 @@ const apiClientFactory = <
             .reduce(async (responseSoFar, extension) => {
               const resolvedResponse = await responseSoFar;
               const resolvedSettings = await settings;
+
+              const loggerWithMetadata = injectMetadata(logger, (metadata) => ({
+                ...metadata,
+                scope: {
+                  ...metadata?.scope,
+                  extensionName: extension.name,
+                  hookName: "afterCall",
+                  type: "requestHook",
+                },
+              }));
+
               return extension.afterCall({
                 ...params,
                 configuration: resolvedSettings.config,
                 response: resolvedResponse,
+                logger: loggerWithMetadata,
               });
             }, Promise.resolve(params.response));
         },

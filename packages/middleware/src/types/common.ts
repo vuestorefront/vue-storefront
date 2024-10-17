@@ -45,6 +45,7 @@ export type ExtendApiMethod<API, CONTEXT> = {
 
 export interface HookParams<C> {
   configuration?: C;
+  logger?: LoggerInterface;
 }
 
 export interface CallHookParams<C> extends HookParams<C> {
@@ -64,6 +65,7 @@ export interface AfterCallParams<C, ARGS, RESPONSE> extends CallHookParams<C> {
 }
 
 export interface ApiClientExtensionHooks<C = any> {
+  name: string;
   beforeCreate?: (params: HookParams<C>) => C;
   afterCreate?: (params: HookParams<C>) => C;
   beforeCall?: <ARGS>(params: BeforeCallParams<C, ARGS>) => BeforeCallArgs;

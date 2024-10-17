@@ -6,23 +6,14 @@ import {
   BeforeCallParams,
   MiddlewareContext,
 } from "../types";
-import {
-  ExtensionEndpointMethodDecorator,
-  PurgeHookNameMethodDecorator,
-  MethodDecoratorManager,
-  MissingScopeMethodDecorator,
-  OrchiestratedMethodDecorator,
-  ScopeTypeMethodDecorator,
-} from "./methodDecorator";
+import { createExtendQuery } from "./createExtendQuery";
+import { markExtensionNameHelpers } from "./markExtensionNameHelpers";
+import { getLogger, injectMetadata } from "../logger";
 
 const nopBefore = <ARGS>({ args }: BeforeCallParams<any, ARGS>): ARGS => args;
 const nopAfter = <RESPONSE>({
   response,
 }: AfterCallParams<any, any, RESPONSE>) => response;
-
-const checkMetadataScope = <CONTEXT extends MiddlewareContext>(
-  context: CONTEXT
-) => Boolean(context.res.locals?.alokai?.metadata?.scope);
 
 /**
  * Wraps api methods with context and hooks triggers
@@ -44,27 +35,44 @@ const applyContextToApi = <
     (prev, [callName, fn]) => ({
       ...prev,
       [callName]: async (...args: Parameters<typeof fn>) => {
-        const methodDecoratorManager = new MethodDecoratorManager(
-          context,
-          hooks,
+        const transformedArgs = await hooks.before({
           callName,
-          fn
+          args,
+        });
+        const apiClientContext = {
+          ...context,
+          extendQuery: createExtendQuery(context),
+        };
+        const response = await fn(
+          {
+            ...apiClientContext,
+            logger: injectMetadata(getLogger(context), (metadata) => {
+              const newMetadata = {
+                ...metadata,
+                scope: {
+                  ...metadata?.scope,
+                  type: "endpoint" as const,
+                  // Prevents incorrect values in advanced orchestration cases
+                  functionName: callName,
+                  integrationName: context.integrationTag,
+                },
+              };
+              if (markExtensionNameHelpers.has(fn)) {
+                newMetadata.scope.extensionName =
+                  markExtensionNameHelpers.get(fn);
+              }
+              return newMetadata;
+            }),
+          },
+          ...transformedArgs
         );
+        const transformedResponse = await hooks.after({
+          callName,
+          args,
+          response,
+        });
 
-        const hasMetadataScope = checkMetadataScope(context);
-        const decoratorsToAdd = hasMetadataScope
-          ? [
-              new ScopeTypeMethodDecorator(context),
-              new PurgeHookNameMethodDecorator(context),
-              new ExtensionEndpointMethodDecorator(context, fn),
-              new OrchiestratedMethodDecorator(context, callName, fn),
-            ]
-          : [new MissingScopeMethodDecorator(context, callName, fn.name)];
-        methodDecoratorManager.addDecorator(...decoratorsToAdd);
-
-        const method = methodDecoratorManager.prepare<typeof args>();
-
-        return await method(args);
+        return transformedResponse;
       },
     }),
     {} as any
