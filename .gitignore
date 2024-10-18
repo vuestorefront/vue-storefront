@@ -35,3 +35,6 @@ coverage
 
 .turbo
 .cache_ggshield
+
+# Nuxt.js build directory
+docs/.nuxt/
