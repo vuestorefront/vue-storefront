@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import request from "supertest";
-import { Express } from "express";
 import { createServer } from "@vue-storefront/middleware";
+import { Server } from "node:http";
 import { integrations } from "./bootstrap/middleware.config";
 import { mockMiddlewareConfig } from "../../__mocks__/middleware.config.mock";
 import { mockMultistoreConfig } from "../../__mocks__/multistore.config.mock";
@@ -10,7 +10,7 @@ import { MultistoreExtensionMethods } from "../../src/types";
 
 describe("[MultiStoreExtension] Overwrites base config with store specific one", () => {
   // Globals
-  let app: Express;
+  let app: Server;
 
   // Mocks
   const mockedMiddlewareConfig = mockMiddlewareConfig();

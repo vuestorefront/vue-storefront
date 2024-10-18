@@ -1,8 +1,8 @@
 import { getLogger } from "../../../../../src";
 
-export const success = (context) => {
+export const successParalell = (context) => {
   const logger = getLogger(context);
-  logger.info("success");
+  logger.info("successParalell");
   return Promise.resolve({
     status: 200,
     message: "ok",

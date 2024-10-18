@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { callApiFunction } from "../../../src/handlers";
+import { logger } from "../../../__mocks__/logger";
 
 describe("[middleware-handlers] callApiFunction", () => {
   const apiResponse = {};
@@ -11,7 +12,14 @@ describe("[middleware-handlers] callApiFunction", () => {
   const req = {} as Request;
   const res = {
     send: jest.fn(),
-    locals: { apiFunction, errorHandler, args },
+    locals: {
+      apiFunction,
+      errorHandler,
+      args,
+      alokai: {
+        logger,
+      },
+    },
   } as unknown as Response;
 
   beforeEach(() => {

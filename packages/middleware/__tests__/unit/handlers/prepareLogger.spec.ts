@@ -8,6 +8,7 @@ describe("[middleware-handlers] prepareLogger", () => {
     query: {},
     params: {
       integrationName: "sapcc",
+      functionName: "getProduct",
     },
   } as unknown as Request;
   const res = { locals: {} } as unknown as Response;
@@ -33,13 +34,6 @@ describe("[middleware-handlers] prepareLogger", () => {
 
   it("appends metadata when logging", () => {
     prepareLogger(loggerManager)(req, res, next);
-    res.locals.alokai.metadata = {
-      context: "middleware",
-      scope: {
-        integrationName: "sapcc",
-        functionName: "getProduct",
-      },
-    };
     res.locals.alokai.logger.info("test", { d: 15 });
 
     expect(logger.info).toBeCalledWith("test", {

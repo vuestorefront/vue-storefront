@@ -42,8 +42,9 @@ async function triggerExtendAppHook(
     if (extendApp) {
       const loggerWithMetadata = injectMetadata(logger, () => ({
         scope: {
+          integrationName: tag,
           extensionName: name,
-          type: "hook",
+          type: "bootstrapHook",
           hookName: "extendApp",
         },
       }));
@@ -64,11 +65,23 @@ async function loadIntegration(
   );
   const rawExtensions = createRawExtensions(apiClient, integration);
   const extensions = createExtensions(rawExtensions, alokai);
+  const loggerWithMetadata = injectMetadata(getLogger(alokai), (metadata) => ({
+    ...metadata,
+    scope: {
+      ...metadata?.scope,
+      hookName: "init",
+      type: "bootstrapHook",
+      integrationName: tag,
+    },
+  }));
   const initConfig = await getInitConfig({
     apiClient,
     integration,
     tag,
-    alokai,
+    alokai: {
+      ...alokai,
+      logger: loggerWithMetadata,
+    },
   });
   const configuration = {
     ...integration.configuration,

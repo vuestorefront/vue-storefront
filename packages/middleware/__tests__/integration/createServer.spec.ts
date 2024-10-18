@@ -2,6 +2,7 @@ import request from "supertest";
 import { Server } from "http";
 import { createServer } from "../../src/index";
 import { success } from "./bootstrap/api";
+import { logger } from "../../__mocks__/logger";
 
 describe("[Integration] Create server", () => {
   let app: Server;
@@ -109,7 +110,15 @@ describe("[Integration] Create server", () => {
     const response = JSON.parse(text);
 
     // This is the result of the original "success" function from the integration
-    const apiMethodResult = await success();
+    const apiMethodResult = await success({
+      res: {
+        locals: {
+          alokai: {
+            logger,
+          },
+        },
+      },
+    } as any);
 
     expect(status).toEqual(200);
     expect(response).toEqual(apiMethodResult);
@@ -161,7 +170,15 @@ describe("[Integration] Create server", () => {
 
     const response = JSON.parse(text);
     // This is the result of the original "success" function from the integration
-    const apiMethodResult = await success();
+    const apiMethodResult = await success({
+      res: {
+        locals: {
+          alokai: {
+            logger,
+          },
+        },
+      },
+    } as any);
 
     expect(status).toEqual(200);
     expect(response).toEqual(apiMethodResult);
@@ -202,7 +219,15 @@ describe("[Integration] Create server", () => {
 
     const response = JSON.parse(text);
     // This is the result of the original "success" function from the integration
-    const apiMethodResult = await success();
+    const apiMethodResult = await success({
+      res: {
+        locals: {
+          alokai: {
+            logger,
+          },
+        },
+      },
+    } as any);
 
     // If merged, the response would be { message: "error", error: true, status: 404 }
     expect(status).toEqual(200);

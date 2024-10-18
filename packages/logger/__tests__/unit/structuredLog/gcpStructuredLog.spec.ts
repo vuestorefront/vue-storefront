@@ -1,3 +1,4 @@
+import { Metadata } from "../../../src/interfaces/LoggerInterface";
 import { LogLevel } from "../../../src/interfaces/LogLevel";
 import { GCPStructuredLog } from "../../../src/structuredLog/GCPStructuredLog";
 
@@ -157,7 +158,7 @@ describe("GCPStructuredLog", () => {
         logData,
         options,
         severity as LogLevel,
-        metadata
+        metadata as unknown as Metadata
       );
       expect(gcpStructuredLog).toEqual(expected);
     }

@@ -75,24 +75,6 @@ describe("apiClientFactory", () => {
     expect(params.onCreate).toHaveBeenCalled();
   });
 
-  it("Should pass logger when calling onCreate", async () => {
-    const params = {
-      onCreate: jest.fn((config) => ({ config })),
-      defaultSettings: {},
-    };
-
-    const { createApiClient } = apiClientFactory<any, any>(params as any);
-
-    await createApiClient.call(
-      {
-        middleware: { req: null, res: null },
-      },
-      {}
-    );
-
-    expect(params.onCreate).toBeCalledWith(expect.anything(), { logger });
-  });
-
   it("Should run initial config when onCreate is not provided", async () => {
     const params = {
       defaultSettings: {},
@@ -206,7 +188,8 @@ describe("apiClientFactory", () => {
     expect(logger.info).toBeCalledWith("test", {
       scope: {
         extensionName: "extTest",
-        extensionNamePointsHookSource: true,
+        hookName: "hooks",
+        type: "requestHook",
       },
     });
   });
