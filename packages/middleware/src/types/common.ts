@@ -106,9 +106,9 @@ export interface Integration<
   location: string;
   configuration: CONFIG;
   logger?: LoggerOptions;
-  extensions?: <T extends ApiClientMethodWithContext<CONTEXT>>(
+  extensions?: (
     extensions: ApiClientExtension<API, CONTEXT>[]
-  ) => ApiClientExtension<API & T, CONTEXT>[];
+  ) => ApiClientExtension<API, CONTEXT>[];
   customQueries?: Record<string, CustomQueryFunction>;
   initConfig?: TObject;
   errorHandler?: (
