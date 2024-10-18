@@ -106,7 +106,7 @@ export interface Integration<
   location: string;
   configuration: CONFIG;
   logger?: LoggerOptions;
-  extensions?: <T extends ApiClientMethodWithContext<CONTEXT>>(
+  extensions?: <T>(
     extensions: ApiClientExtension<API, CONTEXT>[]
   ) => ApiClientExtension<API & T, CONTEXT>[];
   customQueries?: Record<string, CustomQueryFunction>;
