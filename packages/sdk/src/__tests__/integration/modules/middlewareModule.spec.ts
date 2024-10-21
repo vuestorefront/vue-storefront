@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "isomorphic-fetch";
+import axios from "axios";
 import { initSDK, buildModule } from "../../../index";
 import {
   middlewareModule,
@@ -11,8 +12,6 @@ import {
   SdkHttpError,
 } from "../../../modules/middlewareModule";
 import { Endpoints } from "../../__mocks__/apiClient/types";
-
-const axios = require("axios/dist/node/axios.cjs");
 
 describe("middlewareModule", () => {
   it("should be able to be used as standard SDK module", async () => {

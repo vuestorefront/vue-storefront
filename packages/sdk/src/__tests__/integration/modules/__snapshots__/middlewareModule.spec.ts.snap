@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`middlewareModule should allow to use the custom logger 1`] = `
-Object {
-  "config": Object {
-    "headers": Object {
+{
+  "config": {
+    "headers": {
       "Accept": "application/json",
       "Content-Type": "application/json",
     },
     "method": "POST",
   },
-  "params": Array [
-    Object {
+  "params": [
+    {
       "id": 1,
     },
   ],
@@ -19,20 +19,20 @@ Object {
 `;
 
 exports[`middlewareModule should allow to use the custom logger 2`] = `
-Object {
-  "config": Object {
-    "headers": Object {
+{
+  "config": {
+    "headers": {
       "Accept": "application/json",
       "Content-Type": "application/json",
     },
     "method": "POST",
   },
-  "params": Array [
-    Object {
+  "params": [
+    {
       "id": 1,
     },
   ],
-  "response": Object {
+  "response": {
     "id": 1,
     "name": "Test Product",
   },
