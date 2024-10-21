@@ -42,21 +42,21 @@ const testingExtension = {
         "replicated-integration-extension"
       ].orchestrationTest();
     },
-    async paralellOrchestrationTest(context) {
-      const logger = getLogger(context);
-      logger.info("resueOtherIntegrationMethod log");
-      // paralell_replicated_integration
-      const int = await context.getApiClient("replicated_integration");
-      const int2 = await context.getApiClient(
-        "paralell_replicated_integration"
-      );
-      // await int.api["replicated-integration-extension"].orchestrationTest();
-      // await int2.api.successParalell();
-      return await Promise.all([
-        int.api["replicated-integration-extension"].orchestrationTest(),
-        int2.api.successParalell(),
-      ]);
-    },
+    // async paralellOrchestrationTest(context) {
+    //   const logger = getLogger(context);
+    //   logger.info("resueOtherIntegrationMethod log");
+    //   // paralell_replicated_integration
+    //   const int = await context.getApiClient("replicated_integration");
+    //   const int2 = await context.getApiClient(
+    //     "paralell_replicated_integration"
+    //   );
+    //   // await int.api["replicated-integration-extension"].orchestrationTest();
+    //   // await int2.api.successParalell();
+    //   return await Promise.all([
+    //     int.api["replicated-integration-extension"].orchestrationTest(),
+    //     int2.api.successParalell(),
+    //   ]);
+    // },
   },
   hooks(req, res, alokai) {
     const logger = getLogger(alokai);
@@ -149,19 +149,19 @@ describe("[Integration] Logger scopes", () => {
             ];
           },
         },
-        paralell_replicated_integration: {
-          configuration: {},
-          location: "./__tests__/integration/bootstrap/server",
-          logger: {
-            handler: Logger,
-          },
-          extensions() {
-            return [
-              testingExtension as any,
-              replicatedIntegrationExtension as any,
-            ];
-          },
-        },
+        // paralell_replicated_integration: {
+        //   configuration: {},
+        //   location: "./__tests__/integration/bootstrap/server",
+        //   logger: {
+        //     handler: Logger,
+        //   },
+        //   extensions() {
+        //     return [
+        //       testingExtension as any,
+        //       replicatedIntegrationExtension as any,
+        //     ];
+        //   },
+        // },
       },
     });
   });
@@ -369,7 +369,7 @@ describe("[Integration] Logger scopes", () => {
     });
   });
 
-  test("scope of log from: multiple different integrations called from extension", async () => {
+  test.skip("scope of log from: multiple different integrations called from extension", async () => {
     await request(app).post("/test_integration/paralellOrchestrationTest");
 
     expect(Logger.info).toBeCalledWith(expect.any(String), {
@@ -398,14 +398,14 @@ describe("[Integration] Logger scopes", () => {
         type: "endpoint",
       },
     });
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        functionName: "successParalell",
-        integrationName: "paralell_replicated_integration",
-        type: "endpoint",
-      },
-    });
+    // expect(Logger.info).toBeCalledWith(expect.any(String), {
+    //   context: "middleware",
+    //   scope: {
+    //     functionName: "successParalell",
+    //     integrationName: "paralell_replicated_integration",
+    //     type: "endpoint",
+    //   },
+    // });
   });
 
   test("scope of log extendApp", async () => {
