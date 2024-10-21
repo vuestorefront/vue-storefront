@@ -1,3 +1,4 @@
+import { LoggerInterface } from "@vue-storefront/logger";
 import { injectMetadata, getLogger } from "../logger";
 import { isFunction } from "../helpers";
 import {
@@ -11,20 +12,38 @@ import {
   CreateApiClientFn,
   ExtensionHookWith,
   ExtensionWith,
-  ExtensionEndpointHandler,
+  LogScope,
 } from "../types";
 import { applyContextToApi } from "./applyContextToApi";
+import { markExtensionNameHelpers } from "./markExtensionNameHelpers";
 
 /**
- * Function marking endpoint added or overwritten by extension's extendApiMethod hook
- * with information about source extension's name
+ * Utility function faciliating building Logger with injected metadata about currently called hook
  */
-function markWithExtensionName(
-  apiMethod: ExtensionEndpointHandler,
-  extensionName: string
+function injectHookMetadata(
+  logger: LoggerInterface,
+  {
+    extensionName,
+    hookName,
+    integrationName,
+    type = "requestHook",
+  }: {
+    extensionName?: string;
+    hookName: LogScope["hookName"];
+    type?: LogScope["type"];
+    integrationName?: string;
+  }
 ) {
-  apiMethod._extensionName = extensionName;
-  return apiMethod;
+  return injectMetadata(logger, (metadata) => ({
+    ...metadata,
+    scope: {
+      ...metadata?.scope,
+      hookName,
+      type,
+      ...(extensionName ? { extensionName } : {}),
+      ...(integrationName ? { integrationName } : {}),
+    },
+  }));
 }
 
 const apiClientFactory = <
@@ -61,18 +80,17 @@ const apiClientFactory = <
             // We cannot assign it to res.locals as we would end up
             // with incorrect logger for hook functions (like beforeCreate)
             // in case of multiple extensions using hooks property
-            const loggerWithMetadata = injectMetadata(logger, (metadata) => ({
-              ...metadata,
-              scope: {
-                ...metadata?.scope,
-                extensionName: name,
-                extensionNamePointsHookSource: true, // If we have hook on custom endpoint, extensionName value is confusing without this field
-              },
-            }));
-
-            return hooks(this?.middleware?.req, this?.middleware?.res, {
-              logger: loggerWithMetadata,
+            const loggerWithMetadata = injectHookMetadata(logger, {
+              hookName: "hooks",
+              extensionName: name,
             });
+
+            return {
+              ...hooks(this?.middleware?.req, this?.middleware?.res, {
+                logger: loggerWithMetadata,
+              }),
+              name,
+            };
           })
       );
 
@@ -82,13 +100,22 @@ const apiClientFactory = <
         )
         .reduce(async (configSoFar, extension) => {
           const resolvedConfig = await configSoFar;
+          const loggerWithMetadata = injectHookMetadata(logger, {
+            extensionName: extension.name,
+            hookName: "beforeCreate",
+          });
           return await extension.beforeCreate({
             configuration: resolvedConfig,
+            logger: loggerWithMetadata,
           });
         }, Promise.resolve(config));
 
+      const loggerWithMetadata = injectHookMetadata(logger, {
+        hookName: "onCreate",
+        integrationName: this.middleware?.integrationTag,
+      });
       const settings = (await factoryParams.onCreate)
-        ? await factoryParams.onCreate(_config, { logger })
+        ? await factoryParams.onCreate(_config, { logger: loggerWithMetadata })
         : { config, client: config.client };
 
       settings.config = await lifecycles
@@ -97,7 +124,14 @@ const apiClientFactory = <
         )
         .reduce(async (configSoFar, extension) => {
           const resolvedConfig = await configSoFar;
-          return await extension.afterCreate({ configuration: resolvedConfig });
+          const loggerWithMetadata = injectHookMetadata(logger, {
+            extensionName: extension.name,
+            hookName: "afterCreate",
+          });
+          return await extension.afterCreate({
+            configuration: resolvedConfig,
+            logger: loggerWithMetadata,
+          });
         }, Promise.resolve(settings.config));
 
       const extensionHooks: ApplyingContextHooks = {
@@ -109,10 +143,17 @@ const apiClientFactory = <
             .reduce(async (argsSoFar, extension) => {
               const resolvedArgs = await argsSoFar;
               const resolvedSettings = await settings;
+
+              const loggerWithMetadata = injectHookMetadata(logger, {
+                extensionName: extension.name,
+                hookName: "beforeCall",
+              });
+
               return extension.beforeCall({
                 ...params,
                 configuration: resolvedSettings.config,
                 args: resolvedArgs,
+                logger: loggerWithMetadata,
               });
             }, Promise.resolve(params.args));
         },
@@ -124,10 +165,17 @@ const apiClientFactory = <
             .reduce(async (responseSoFar, extension) => {
               const resolvedResponse = await responseSoFar;
               const resolvedSettings = await settings;
+
+              const loggerWithMetadata = injectHookMetadata(logger, {
+                extensionName: extension.name,
+                hookName: "afterCall",
+              });
+
               return extension.afterCall({
                 ...params,
                 configuration: resolvedSettings.config,
                 response: resolvedResponse,
+                logger: loggerWithMetadata,
               });
             }, Promise.resolve(params.response));
         },
@@ -146,19 +194,20 @@ const apiClientFactory = <
           settings
         );
         if (extension.isNamespaced) {
+          const markedExtendedApiMethods = markExtensionNameHelpers.markApi(
+            extendedApiMethods,
+            extension.name
+          );
+
           namespacedExtensions[extension.name] = {
             ...(namespacedExtensions?.[extension.name] ?? {}),
-            ...extendedApiMethods,
+            ...markedExtendedApiMethods,
           };
         } else {
-          const markedExtendedApiMethods = Object.entries(
-            extendedApiMethods
-          ).reduce((total, [name, fn]: [string, ExtensionEndpointHandler]) => {
-            return {
-              ...total,
-              [name]: markWithExtensionName(fn, extension.name),
-            };
-          }, {});
+          const markedExtendedApiMethods = markExtensionNameHelpers.markApi(
+            extendedApiMethods,
+            extension.name
+          );
           sharedExtensions = {
             ...sharedExtensions,
             ...markedExtendedApiMethods,

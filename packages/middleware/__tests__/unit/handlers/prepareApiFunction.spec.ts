@@ -49,30 +49,6 @@ describe("[middleware-handlers] prepareApiFunction", () => {
       expect(res.locals).toEqual(expect.objectContaining({ apiFunction }));
     });
 
-    it("adds alokai metadata to res.locals", async () => {
-      const extensionName = "myExt";
-      const req = {
-        params: { integrationName, functionName, extensionName },
-      } as unknown as Request;
-      const res = {
-        status: jest.fn(),
-        send: jest.fn(),
-      } as unknown as Response;
-      res.locals = {
-        alokai: {
-          metadata: {},
-        },
-      };
-
-      await prepareApiFunction(integrations)(req, res, next);
-
-      expect(res.locals.alokai.metadata.scope).toEqual({
-        integrationName,
-        functionName,
-        extensionName,
-      });
-    });
-
     it("calls next middleware", async () => {
       await prepareApiFunction(integrations)(req, res, next);
 

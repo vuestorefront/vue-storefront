@@ -11,6 +11,14 @@ import {
 import { WithRequired } from "./index";
 import { ApiClient, ApiClientConfig, ApiClientFactory } from "./server";
 
+type ResponseWithAlokaiLocals = Response<
+  any,
+  {
+    alokai?: AlokaiLocal;
+    [key: string]: any;
+  }
+>;
+
 export type ExtensionEndpointHandler = ApiClientMethod & {
   _extensionName?: string;
 };
@@ -37,6 +45,7 @@ export type ExtendApiMethod<API, CONTEXT> = {
 
 export interface HookParams<C> {
   configuration?: C;
+  logger?: LoggerInterface;
 }
 
 export interface CallHookParams<C> extends HookParams<C> {
@@ -84,7 +93,7 @@ export interface ApiClientExtension<API = any, CONTEXT = any, CONFIG = any> {
   }) => Promise<void> | void;
   hooks?: (
     req: Request,
-    res: Response,
+    res: ResponseWithAlokaiLocals,
     hooksContext: AlokaiContainer
   ) => ApiClientExtensionHooks;
 }
@@ -102,7 +111,11 @@ export interface Integration<
   ) => ApiClientExtension<API & T, CONTEXT>[];
   customQueries?: Record<string, CustomQueryFunction>;
   initConfig?: TObject;
-  errorHandler?: (error: unknown, req: Request, res: Response) => void;
+  errorHandler?: (
+    error: unknown,
+    req: Request,
+    res: ResponseWithAlokaiLocals
+  ) => void;
 }
 
 export interface RequestParams {
@@ -119,7 +132,11 @@ export interface IntegrationLoaded<
   configuration: CONFIG;
   extensions: ApiClientExtension<API>[];
   customQueries?: Record<string, CustomQueryFunction>;
-  errorHandler: (error: unknown, req: Request, res: Response) => void;
+  errorHandler: (
+    error: unknown,
+    req: Request,
+    res: ResponseWithAlokaiLocals
+  ) => void;
 }
 
 export interface LoadInitConfigProps {
@@ -136,10 +153,11 @@ export type IntegrationsLoaded<
 
 export interface MiddlewareContext<API extends ApiMethods = any> {
   req: Request;
-  res: Response;
+  res: ResponseWithAlokaiLocals;
   extensions: ApiClientExtension<API>[];
   customQueries: Record<string, CustomQueryFunction>;
   integrations: IntegrationsLoaded;
+  integrationTag: string;
   getApiClient: <Api = any, Config = any, Client = any>(
     integrationName: string
   ) => ApiClient<Api, Config, Client>;
@@ -162,6 +180,7 @@ export interface ApiContext<CONFIG, CLIENT, REQUEST, RESPONSE> {
 
 export type CallableContext<API extends ApiMethods> = {
   middleware: MiddlewareContext<API>;
+  integrationTag: string;
 };
 
 export interface ApplyingContextHooks<CONFIG = any> {
@@ -172,7 +191,9 @@ export interface ApplyingContextHooks<CONFIG = any> {
 }
 
 export type ExtensionHookWith<T extends keyof ApiClientExtensionHooks> =
-  WithRequired<ApiClientExtensionHooks, T>;
+  WithRequired<ApiClientExtensionHooks, T> & {
+    name: string;
+  };
 export type ExtensionWith<T extends keyof ApiClientExtension> = WithRequired<
   ApiClientExtension,
   T
@@ -201,4 +222,27 @@ export type WithoutContext<Methods extends ApiMethods> = {
   ) => infer R
     ? (...arguments_: P) => R
     : never;
+};
+
+export type LogScope = {
+  integrationName: string;
+  extensionName?: string;
+  functionName?: string;
+  hookName?:
+    | "extendApp"
+    | "hooks"
+    | "onCreate"
+    | "init"
+    | "beforeCall"
+    | "beforeCreate"
+    | "afterCall"
+    | "afterCreate";
+  type: "endpoint" | "bootstrapHook" | "requestHook";
+};
+
+export type AlokaiLocal = {
+  metadata?: {
+    context?: string;
+    scope?: LogScope;
+  };
 };

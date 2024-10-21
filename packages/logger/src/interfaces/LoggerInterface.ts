@@ -1,7 +1,11 @@
 /**
  * Metadata is a record with string keys and arbitrary values.
  */
-export type Metadata = Record<string, unknown>;
+export type Metadata = {
+  [key: string]: any;
+  troubleshoot?: Record<string, any> | string[];
+  alokai?: never;
+};
 
 /**
  * Log data can be a string, an error, or and arbitrary object.
