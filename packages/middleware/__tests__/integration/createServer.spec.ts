@@ -14,7 +14,7 @@ describe("[Integration] Create server", () => {
           configuration: {
             myCfgEntry: true,
           },
-          errorHandler: (error: unknown, req: any, res: any) => {
+          errorHandler: (_error: unknown, _req: any, res: any) => {
             res.status(410); // awkward status code to test if it's working
             res.send("Custom error handler");
           },
@@ -27,7 +27,7 @@ describe("[Integration] Create server", () => {
                   myFunc(context) {
                     return context.api.success();
                   },
-                  myFuncWithDependencyToOtherExtension(context) {
+                  myFuncNamespaced(context) {
                     return (context.api as any).myFunc();
                   },
                 },
@@ -127,7 +127,7 @@ describe("[Integration] Create server", () => {
   it("should not allow functions from extensions to access extension functions", async () => {
     expect.assertions(2);
     const { status, text } = await request(app)
-      .post("/test_integration/myFuncWithDependencyToOtherExtension")
+      .post("/test_integration/myFuncNamespaced")
       .send([]);
 
     expect(status).toEqual(410);
@@ -141,7 +141,7 @@ describe("[Integration] Create server", () => {
           configuration: {
             myCfgEntry: true,
           },
-          errorHandler: (error: unknown, req: any, res: any) => {
+          errorHandler: (_error: unknown, _req: any, res: any) => {
             res.status(410); // awkward status code to test if it's working
             res.send("Custom error handler");
           },
