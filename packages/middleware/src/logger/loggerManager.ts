@@ -37,12 +37,30 @@ export class LoggerManager<TLoggerConfig = unknown> {
     )) {
       if (this.hasCustomLoggerConfig(integrationEntry)) {
         this.instances[integrationName] = this.selectLogger(
-          integrationEntry,
+          this.mergeConfigs(integrationEntry, config),
           buildLogger,
           integrationName
         );
       }
     }
+  }
+
+  /**
+   * Merges integration's logger config with global's logger config
+   */
+  private mergeConfigs(
+    integrationConfig: MiddlewareConfig<
+      Record<string, IntegrationContext>
+    >["integrations"][string],
+    globalConfig: MiddlewareConfig<Record<string, IntegrationContext>>
+  ) {
+    return {
+      ...integrationConfig,
+      logger: {
+        ...globalConfig.logger,
+        ...integrationConfig.logger,
+      },
+    };
   }
 
   /**
