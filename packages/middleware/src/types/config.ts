@@ -38,7 +38,7 @@ export interface LoggerOptions {
    *
    * @remarks If provided then other options won't be used.
    */
-  handler?: LoggerInterface; // Should it have .log?
+  handler?: LoggerInterface;
 }
 
 export interface Helmet extends HelmetOptions {
