@@ -6,17 +6,14 @@
   <strong>An ecosystem of developer tools that accelerate and simplify building eCommerce Storefronts</strong>
 </h3>
 <p align="center">
-    Fully customizable, backend-agnostic with     <a href="https://www.vuestorefront.io/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme">
-          2000+ Live Stores!
+    Fully customizable, backend-agnostic with     <a href="https://alokai.com/live-projects/?utm_source=github.com&utm_medium=referral&utm_campaign=readme">
+          3500+ Live Stores!
     </a>
 </p>
 
 <p align="center">
-     <a href="https://docs.vuestorefront.io/v2/">
+     <a href="https://docs.alokai.com/">
         Documentation
-    </a> |
-    <a href="https://demo.vuestorefront.io/">
-        Demo Store 
     </a>
 </p>
 
@@ -28,8 +25,8 @@
   <a href="https://github.com/vuestorefront/vue-storefront/">
     <img alt="GitHub Repository Stars Count" src="https://img.shields.io/github/stars/vuestorefront/vue-storefront?style=social" />
   </a>
-    <a href="https://twitter.com/vsfdevelopers">
-        <img alt="Follow Us on Twitter" src="https://img.shields.io/twitter/follow/VSFdevelopers?style=social" />
+    <a href="https://twitter.com/usealokai">
+        <img alt="Follow Us on Twitter" src="https://img.shields.io/twitter/follow/useAlokai?style=social" />
     </a>
     <a href="https://www.youtube.com/c/VueStorefront">
         <img alt="Subscribe on our Youtube Channel" src="https://img.shields.io/youtube/channel/subscribers/UCkm1F3Cglty3CE1QwKQUhhg?style=social" />
@@ -62,41 +59,6 @@ Alokai is your guide to the composable commerce world that simplifies building, 
 - **Working eCommerce Storefront** - Alokai delivers fully-working eCommerce storefront integrated with your favourite stack
 
 - **Fully customizable**. Build your application with pre-installed [Storefront UI](https://github.com/vuestorefront/storefront-ui) - components library designed for eCommerce, or build your own theme from scratch.
-
-## **Integrations** 🛍️
-<p align="center">
-  <a target="_blank" href="https://docs.vuestorefront.io/v2/integrations/">Check out the integrations with eCommerce platform, CMS, payment provider, and more.</a>
-</p>
-
-## **Getting started** 🚀
-Create a new Alokai project with Open Source integration in just a few steps. For the Enterprise integration, please [contact sales](https://vuestorefront.io/contact/sales).
-
-### **Step 1: Generate a new project** 🧰
-
-```bash
-npx @vue-storefront/cli generate store
-```
-
-You will be asked to enter the project's name and select the eCommerce platform you wish to use. Once selected, the CLI will create project files in the directory matching your project name.
-
-### **Step 2: Install dependencies** ⏳
-
-Go to the newly created directory and install the required dependencies:
-
-
-```bash
-cd <project_name>
-
-yarn
-```
-
-> Alokai supports only **Yarn** package manager. If you don't have it installed, please follow the [official Yarn installation guide](https://yarnpkg.com/getting-started/install).
-
-### **Step 3: Configure the project** ⚙️
-
-The next step is to configure your project, and it's different for every eCommerce integration. Go to the [Integrations](https://docs.vuestorefront.io/integrations/) page, open the documentation for the integration you selected in our CLI, and look for the page describing the configuration steps.
-
-Continue with the configuration steps described in the documentation for your integration.
 
 ## **What you get out-of-the-box** 📦
 
@@ -132,36 +94,13 @@ If you have any questions about contributing, please join our [Discord server](h
 
 Discovered a 🐜 or have feature suggestion? Feel free to [create an issue](https://github.com/vuestorefront/vue-storefront/issues/new/choose) on Github.
 
-## **Support us** ❤️
-
-**Alokai is and always will be Open Source, released under MIT Licence.**
-
-How you can help us:
-
-- **Contribute** - this is how the Core Team is supporting the project.
-- **Spread the word** - tell your friends, colleagues, and followers about Alokai.
-- **Create content** - write a blog post, record a video, or create a tutorial. We will be happy to share it on our social media channels.
-- **Engage with the community** - help others in our [Discord server](https://discord.vuestorefront.io/).
-
-<a target="_blank" href="https://vuestorefront.io/developer-newsletter">Sign up to Developer's Newsletter.</a>
-
 ### **Follow us on Social Media**
 
-[![Twitter Follow](https://img.shields.io/twitter/follow/VSFdevelopers?style=social)](https://twitter.com/VSFdevelopers)
-[![YouTube Follow](https://img.shields.io/badge/YouTube-Follow-black?style=social&logo=youtube)](https://www.youtube.com/c/VueStorefront)
+[![Twitter Follow](https://img.shields.io/twitter/follow/useAlokai?style=social)](https://twitter.com/useAlokai)
+[![YouTube Follow](https://img.shields.io/badge/YouTube-Follow-black?style=social&logo=youtube)](https://www.youtube.com/c/useAlokai)
 [![Dev.to Follow](https://img.shields.io/badge/DEV.to-Follow-black?style=social&logo=dev.to)](https://dev.to/vue-storefront)
 [![LinkedIn Follow](https://img.shields.io/badge/LinkedIn-Follow-black?style=social&logo=linkedin)](https://www.linkedin.com/company/vue-storefront/)
-[![Facebook Follow](https://img.shields.io/badge/Facebook-Follow-black?style=social&logo=facebook)](https://www.facebook.com/vuestorefront)
 
-## **Partners** 💪
-
-Alokai is a Community effort brought to You by our great Core Team and supported by the following companies.
-
-[**See Alokai partners directory**](https://www.vuestorefront.io/partner-agencies?utm_source=github.com&utm_medium=referral&utm_campaign=readme)
-
-Alokai source code is completely free and released under the [MIT License](https://github.com/vuestorefront/vue-storefront/blob/master/LICENSE).
-
-[![analytics](http://www.google-analytics.com/collect?v=1&t=pageview&_s=1&dl=https%3A%2F%2Fgithub.com%2FDivanteLtd%2Fvue-storefront&_u=MAC~&cid=1757014354.1393964045&tid=UA-108235765-10)]()
 ## **Careers** 👩‍💻👨‍💻
 
 We are growing and we are looking for talented people to join our team. If you are interested in working with us, please check our [Careers page](https://vuestorefront.io/careers).
