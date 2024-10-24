@@ -1,3 +1,5 @@
+import { markExtensionNameHelpers } from "../../apiClientFactory/markExtensionNameHelpers";
+
 /**
  * Resolves the api function from the apiClientPromise based on the extensionName and functionName parameters.
  *
@@ -22,10 +24,14 @@ export const getApiFunction = async (
         : `The function "${functionName}" is not registered.`;
       throw new Error(errorMessage);
     }
-    return apiFn;
+    return [apiFn, markExtensionNameHelpers.get(apiFn)];
   } catch (error) {
-    throw new Error(
+    const e = new Error(
       `Failed to resolve apiClient or function: ${error.message}`
     );
+    if (error.errorBoundary) {
+      Object.assign(e, { errorBoundary: error.errorBoundary });
+    }
+    throw e;
   }
 };

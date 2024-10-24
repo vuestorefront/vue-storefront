@@ -48,7 +48,21 @@ async function triggerExtendAppHook(
           hookName: "extendApp",
         },
       }));
-      await extendApp({ app, configuration, logger: loggerWithMetadata });
+      try {
+        await extendApp({ app, configuration, logger: loggerWithMetadata });
+      } catch (e) {
+        const logger = injectMetadata(loggerWithMetadata, (metadata) => ({
+          ...metadata,
+          errorBoundary: {
+            integrationName: tag,
+            extensionName: name,
+            type: "bootstrapHook",
+            hookName: "extendApp",
+          },
+        }));
+        logger.error(e);
+        throw e;
+      }
     }
   }
 }

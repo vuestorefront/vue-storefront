@@ -47,6 +47,34 @@ function injectHandlerMetadata<CONTEXT extends MiddlewareContext>(
   });
 }
 
+async function injectHandlerErrorMetadata<CONTEXT extends MiddlewareContext>(
+  fn: Function,
+  args: any[],
+  context: CONTEXT,
+  callName: string
+) {
+  try {
+    const response = await fn(...args);
+    return response;
+  } catch (err) {
+    const errorBoundary =
+      err.errorBoundary ||
+      ({
+        type: "endpoint" as const,
+        functionName: callName,
+        integrationName: context.integrationTag,
+      } as any);
+
+    if (!err.errorBoundary && markExtensionNameHelpers.has(fn)) {
+      errorBoundary.extensionName = markExtensionNameHelpers.get(fn);
+    }
+
+    Object.assign(err, { errorBoundary });
+
+    throw err;
+  }
+}
+
 /**
  * Wraps api methods with context and hooks triggers
  */
@@ -66,30 +94,46 @@ const applyContextToApi = <
   Object.entries(api).reduce(
     (prev, [callName, fn]) => ({
       ...prev,
-      [callName]: async (...args: Parameters<typeof fn>) => {
-        const transformedArgs = await hooks.before({
-          callName,
-          args,
-        });
-        const apiClientContext = {
-          ...context,
-          extendQuery: createExtendQuery(context),
-        };
-        const response = await fn(
-          {
-            ...apiClientContext,
-            logger: injectHandlerMetadata(context, fn, callName),
-          },
-          ...transformedArgs
-        );
-        const transformedResponse = await hooks.after({
-          callName,
-          args,
-          response,
-        });
+      [callName]: (() => {
+        const newFn = async (...args: Parameters<typeof fn>) => {
+          const transformedArgs = await hooks.before({
+            callName,
+            args,
+          });
 
-        return transformedResponse;
-      },
+          const apiClientContext = {
+            ...context,
+            extendQuery: createExtendQuery(context),
+          };
+          const response = await injectHandlerErrorMetadata(
+            fn,
+            [
+              {
+                ...apiClientContext,
+                logger: injectHandlerMetadata(context, fn, callName),
+              },
+              ...transformedArgs,
+            ],
+            context,
+            callName
+          );
+
+          const transformedResponse = await hooks.after({
+            callName,
+            args,
+            response,
+          });
+
+          return transformedResponse;
+        };
+        if (markExtensionNameHelpers.has(fn)) {
+          markExtensionNameHelpers.mark(
+            newFn,
+            markExtensionNameHelpers.get(fn)
+          );
+        }
+        return newFn;
+      })(),
     }),
     {} as any
   );
