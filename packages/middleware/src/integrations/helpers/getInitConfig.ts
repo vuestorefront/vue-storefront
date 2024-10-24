@@ -1,3 +1,4 @@
+import { injectMetadata } from "../../logger";
 import { isFunction } from "../../helpers";
 import { LoadInitConfigProps, TObject } from "../../types";
 
@@ -18,6 +19,15 @@ export async function getInitConfig({
 
       return initConfig;
     } catch (error) {
+      const logger = injectMetadata(alokai.logger, (metadata) => ({
+        ...metadata,
+        errorBoundary: {
+          integrationName: tag,
+          type: "bootstrapHook",
+          hookName: "init",
+        },
+      }));
+      logger.error(error);
       throw Error(
         `Error during executing init function in ${tag} integration. Error message: ${error}`
       );

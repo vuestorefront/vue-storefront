@@ -46,6 +46,32 @@ function injectHookMetadata(
   }));
 }
 
+async function injectHandlerErrorMetadata(
+  fn: Function,
+  args: any[],
+  integrationName: string,
+  hookName: LogScope["hookName"]
+) {
+  try {
+    const response = await fn(...args);
+    return response;
+  } catch (err) {
+    const errorBoundary: LogScope = {
+      type: "endpoint" as const,
+      integrationName,
+      hookName,
+    };
+
+    if (!err.errorBoundary && markExtensionNameHelpers.has(fn)) {
+      errorBoundary.extensionName = markExtensionNameHelpers.get(fn);
+    }
+
+    Object.assign(err, { errorBoundary });
+
+    throw err;
+  }
+}
+
 const apiClientFactory = <
   ALL_SETTINGS extends ApiClientConfig,
   ALL_FUNCTIONS extends ApiMethods
@@ -85,12 +111,26 @@ const apiClientFactory = <
               extensionName: name,
             });
 
-            return {
-              ...hooks(this?.middleware?.req, this?.middleware?.res, {
-                logger: loggerWithMetadata,
-              }),
-              name,
-            };
+            try {
+              return {
+                ...hooks(this?.middleware?.req, this?.middleware?.res, {
+                  logger: loggerWithMetadata,
+                }),
+                name,
+              };
+            } catch (err) {
+              const errorBoundary: LogScope = {
+                type: "requestHook" as const,
+                hookName: "hooks",
+                extensionName: name,
+                // functionName: callName, todo: HOW?
+                integrationName: this?.middleware?.integrationTag,
+              };
+
+              Object.assign(err, { errorBoundary });
+
+              throw err;
+            }
           })
       );
 
@@ -104,18 +144,38 @@ const apiClientFactory = <
             extensionName: extension.name,
             hookName: "beforeCreate",
           });
-          return await extension.beforeCreate({
-            configuration: resolvedConfig,
-            logger: loggerWithMetadata,
-          });
+          try {
+            return await extension.beforeCreate({
+              configuration: resolvedConfig,
+              logger: loggerWithMetadata,
+            });
+          } catch (err) {
+            const errorBoundary: LogScope = {
+              type: "requestHook" as const,
+              hookName: "beforeCreate",
+              extensionName: extension.name,
+              // functionName: callName, todo: HOW?
+              integrationName: this?.middleware?.integrationTag,
+            };
+
+            Object.assign(err, { errorBoundary });
+
+            throw err;
+          }
         }, Promise.resolve(config));
 
       const loggerWithMetadata = injectHookMetadata(logger, {
         hookName: "onCreate",
         integrationName: this.middleware?.integrationTag,
       });
-      const settings = (await factoryParams.onCreate)
-        ? await factoryParams.onCreate(_config, { logger: loggerWithMetadata })
+      // TODO: Wrap onCreate
+      const settings = factoryParams.onCreate
+        ? await injectHandlerErrorMetadata(
+            factoryParams.onCreate,
+            [_config, { logger: loggerWithMetadata }],
+            this.middleware?.integrationTag,
+            "onCreate"
+          )
         : { config, client: config.client };
 
       settings.config = await lifecycles
@@ -128,10 +188,24 @@ const apiClientFactory = <
             extensionName: extension.name,
             hookName: "afterCreate",
           });
-          return await extension.afterCreate({
-            configuration: resolvedConfig,
-            logger: loggerWithMetadata,
-          });
+          try {
+            return await extension.afterCreate({
+              configuration: resolvedConfig,
+              logger: loggerWithMetadata,
+            });
+          } catch (err) {
+            const errorBoundary: LogScope = {
+              type: "requestHook" as const,
+              hookName: "afterCreate",
+              extensionName: extension.name,
+              // functionName: callName, todo: HOW?
+              integrationName: this?.middleware?.integrationTag,
+            };
+
+            Object.assign(err, { errorBoundary });
+
+            throw err;
+          }
         }, Promise.resolve(settings.config));
 
       const extensionHooks: ApplyingContextHooks = {
@@ -149,12 +223,26 @@ const apiClientFactory = <
                 hookName: "beforeCall",
               });
 
-              return extension.beforeCall({
-                ...params,
-                configuration: resolvedSettings.config,
-                args: resolvedArgs,
-                logger: loggerWithMetadata,
-              });
+              try {
+                return extension.beforeCall({
+                  ...params,
+                  configuration: resolvedSettings.config,
+                  args: resolvedArgs,
+                  logger: loggerWithMetadata,
+                });
+              } catch (err) {
+                const errorBoundary: LogScope = {
+                  type: "requestHook" as const,
+                  hookName: "beforeCall",
+                  extensionName: extension.name,
+                  functionName: params.callName,
+                  integrationName: this?.middleware?.integrationTag,
+                };
+
+                Object.assign(err, { errorBoundary });
+
+                throw err;
+              }
             }, Promise.resolve(params.args));
         },
         after: async (params) => {
@@ -171,12 +259,26 @@ const apiClientFactory = <
                 hookName: "afterCall",
               });
 
-              return extension.afterCall({
-                ...params,
-                configuration: resolvedSettings.config,
-                response: resolvedResponse,
-                logger: loggerWithMetadata,
-              });
+              try {
+                return extension.afterCall({
+                  ...params,
+                  configuration: resolvedSettings.config,
+                  response: resolvedResponse,
+                  logger: loggerWithMetadata,
+                });
+              } catch (err) {
+                const errorBoundary: LogScope = {
+                  type: "requestHook" as const,
+                  hookName: "afterCall",
+                  extensionName: extension.name,
+                  functionName: params.callName,
+                  integrationName: this?.middleware?.integrationTag,
+                };
+
+                Object.assign(err, { errorBoundary });
+
+                throw err;
+              }
             }, Promise.resolve(params.response));
         },
       };
