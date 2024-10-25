@@ -5,6 +5,8 @@ import { markExtensionNameHelpers } from "../../apiClientFactory/markExtensionNa
  *
  * @param apiClientPromise
  * @param reqParams
+ *
+ * @returns Tuple containing resolved function and name of extension it comes from if any
  */
 export const getApiFunction = async (
   apiClientPromise: Promise<any> | any,

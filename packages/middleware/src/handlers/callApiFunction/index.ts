@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { injectMetadata, getLogger } from "../../logger";
+import { getLogger } from "../../logger";
 
 export async function callApiFunction(req: Request, res: Response) {
   const { apiFunction, args, errorHandler } = res.locals;
@@ -8,19 +8,21 @@ export async function callApiFunction(req: Request, res: Response) {
     const platformResponse = await apiFunction(...args);
     res.send(platformResponse);
   } catch (error) {
-    const apiFunctionFromExtension = !!res.locals.apiHandlerExtension;
-    const logger = injectMetadata(getLogger(res), (metadata) => ({
-      ...metadata,
+    const logger = getLogger(res);
+    const additionalScope = res.locals.fnOrigin
+      ? { extensionName: res.locals.fnOrigin }
+      : {};
+    const errorBoundary = error.errorBoundary
+      ? { errorBoundary: error.errorBoundary }
+      : {};
+
+    logger.error(error, {
       scope: {
-        ...metadata?.scope,
-        ...(apiFunctionFromExtension
-          ? { extensionName: res.locals.apiHandlerExtension }
-          : {}),
         type: "endpoint",
+        ...additionalScope,
       },
-      ...(error.errorBoundary ? { errorBoundary: error.errorBoundary } : {}),
-    }));
-    logger.error(error);
+      ...errorBoundary,
+    });
     errorHandler(error, req, res);
   }
 }

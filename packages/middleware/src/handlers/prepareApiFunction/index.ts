@@ -1,6 +1,6 @@
 import { IntegrationsLoaded, MiddlewareContext } from "../../types";
 import { getApiFunction } from "./getApiFunction";
-import { injectMetadata, getLogger } from "../../logger";
+import { getLogger } from "../../logger";
 
 export function prepareApiFunction(
   integrations: IntegrationsLoaded
@@ -78,24 +78,22 @@ export function prepareApiFunction(
 
     // Pick the function from the namespaced if it exists, otherwise pick it from the shared integration
     try {
-      const [fn, apiHandlerExtension] = await getApiFunction(
+      const [fn, fnOrigin] = await getApiFunction(
         apiClientInstance,
         functionName,
         extensionName
       );
       res.locals.apiFunction = fn;
-      res.locals.apiHandlerExtension = apiHandlerExtension;
+      res.locals.fnOrigin = fnOrigin;
     } catch (e) {
       if (e.errorBoundary) {
-        const logger = injectMetadata(getLogger(res), (metadata) => ({
-          ...metadata,
+        const logger = getLogger(res);
+        logger.error(e, {
           scope: {
-            ...metadata?.scope,
             type: "endpoint",
           },
-          ...(e.errorBoundary ? { errorBoundary: e.errorBoundary } : {}),
-        }));
-        logger.error(e);
+          errorBoundary: e.errorBoundary,
+        });
       }
       res.status(404);
       res.send(e.message);

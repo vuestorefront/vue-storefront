@@ -41,7 +41,11 @@ describe("[getInitConfig]", () => {
   });
 
   it("should return an empty object when apiClient is not defined", async () => {
-    const params = {} as unknown as LoadInitConfigProps;
+    const params = {
+      alokai: {
+        logger,
+      },
+    } as unknown as LoadInitConfigProps;
     const result = await getInitConfig(params);
 
     expect(result).toEqual({});

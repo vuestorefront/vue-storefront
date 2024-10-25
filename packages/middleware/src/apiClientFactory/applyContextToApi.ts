@@ -10,6 +10,7 @@ import {
 import { createExtendQuery } from "./createExtendQuery";
 import { markExtensionNameHelpers } from "./markExtensionNameHelpers";
 import { getLogger, injectMetadata } from "../logger";
+import { wrapFnWithErrorBoundary } from "./wrapFnWithErrorBoundary";
 
 const nopBefore = <ARGS>({ args }: BeforeCallParams<any, ARGS>): ARGS => args;
 const nopAfter = <RESPONSE>({
@@ -48,32 +49,6 @@ function injectHandlerMetadata<CONTEXT extends MiddlewareContext>(
   });
 }
 
-async function injectHandlerErrorMetadata<CONTEXT extends MiddlewareContext>(
-  fn: Function,
-  args: any[],
-  context: CONTEXT,
-  callName: string
-) {
-  try {
-    const response = await fn(...args);
-    return response;
-  } catch (err) {
-    const errorBoundary: LogScope = err.errorBoundary || {
-      type: "endpoint" as const,
-      functionName: callName,
-      integrationName: context.integrationTag,
-    };
-
-    if (!err.errorBoundary && markExtensionNameHelpers.has(fn)) {
-      errorBoundary.extensionName = markExtensionNameHelpers.get(fn);
-    }
-
-    Object.assign(err, { errorBoundary });
-
-    throw err;
-  }
-}
-
 /**
  * Wraps api methods with context and hooks triggers
  */
@@ -94,27 +69,51 @@ const applyContextToApi = <
     (prev, [callName, fn]) => ({
       ...prev,
       [callName]: (() => {
-        const newFn = async (...args: Parameters<typeof fn>) => {
+        const logger = injectHandlerMetadata(context, fn, callName);
+        /**
+         * Endpoint's handler decorated with:
+         * - hooks from every extension (hooks.before contains merged beforeCall's,
+         *   hooks.after contains merged afterCall's),
+         * - logger with metadata about scope of call (covers orchestrated parallely called endpoints),
+         * - support for building error boundary (covers orchestrated parallely called endpoints),
+         */
+        const handler = async (...args: Parameters<typeof fn>) => {
           const transformedArgs = await hooks.before({
             callName,
             args,
           });
 
+          const fnWithErrorBoundary = wrapFnWithErrorBoundary(fn, (err) => {
+            /**
+             * Handlers can call different handlers, so error could be already bubbling.
+             * That's why we check for presence of err.errorBoundary at first.
+             *
+             * ```ts
+             * async function myEndpoint(context) {
+             *  const int = await context.getApiClient("some_integration");
+             *  return await int.api.throwError(); // Bubbling from other integration's endpoint
+             * }
+             * ```
+             */
+            const errorBoundary: LogScope = err.errorBoundary || {
+              type: "endpoint" as const,
+              functionName: callName,
+              integrationName: context.integrationTag,
+              ...(markExtensionNameHelpers.has(fn)
+                ? { extensionName: markExtensionNameHelpers.get(fn) }
+                : {}),
+            };
+
+            return errorBoundary;
+          });
           const apiClientContext = {
             ...context,
             extendQuery: createExtendQuery(context),
+            logger,
           };
-          const response = await injectHandlerErrorMetadata(
-            fn,
-            [
-              {
-                ...apiClientContext,
-                logger: injectHandlerMetadata(context, fn, callName),
-              },
-              ...transformedArgs,
-            ],
-            context,
-            callName
+          const response = await fnWithErrorBoundary(
+            apiClientContext,
+            ...transformedArgs
           );
 
           const transformedResponse = await hooks.after({
@@ -125,13 +124,18 @@ const applyContextToApi = <
 
           return transformedResponse;
         };
+
+        /**
+         * Marks decorated handler with name of integration's extension
+         * from which original handler was defined, if any
+         */
         if (markExtensionNameHelpers.has(fn)) {
           markExtensionNameHelpers.mark(
-            newFn,
+            handler,
             markExtensionNameHelpers.get(fn)
           );
         }
-        return newFn;
+        return handler;
       })(),
     }),
     {} as any
