@@ -1,5 +1,11 @@
 # Change log
 
+## 3.3.0-rc.3
+
+### Patch Changes
+
+Export types from sdk logger module
+
 ## 3.3.0-rc.2
 
 ### Minor Changes
