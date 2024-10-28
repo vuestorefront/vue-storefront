@@ -119,6 +119,37 @@ describe("loggerManager", () => {
     expect(buildLogger).toBeCalledWith(sapccLoggerConfig);
   });
 
+  it("merges integration's and global's config", () => {
+    const buildLogger = jest.fn(() => ({} as any));
+    const globalConfig: LoggerOptions = {
+      includeStackTrace: false,
+      level: "critical",
+    };
+    const sapccLoggerConfig: LoggerOptions = {
+      includeStackTrace: true,
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const loggerManager = new LoggerManager(
+      {
+        logger: globalConfig,
+        integrations: {
+          sapcc: {
+            location: "",
+            configuration: {},
+            logger: sapccLoggerConfig,
+          },
+        },
+      },
+      buildLogger
+    );
+
+    expect(buildLogger).toBeCalledWith({
+      ...globalConfig,
+      ...sapccLoggerConfig,
+    });
+  });
+
   it("uses passed handler as integration's logger if provided", () => {
     const buildLogger = jest.fn(() => ({} as any));
     const sapccLoggerConfig: LoggerOptions = {
