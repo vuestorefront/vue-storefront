@@ -11,6 +11,7 @@ import { useCustomizationProductDescription } from './composables/use-customizat
 import { useCustomizationState } from './composables/use-customization-state';
 import { useCustomizationStatePreservation } from './composables/use-customization-state-preservation';
 import { useEmailCustomization } from './composables/use-email-customization';
+import { useEstimatedShipment } from './composables/use-estimated-shipment';
 import { useFilesUpload } from './composables/use-files-upload';
 import { useListWidget } from './composables/use-list-widget';
 import { useOptionValueActions } from './composables/use-option-value-actions';
@@ -30,6 +31,7 @@ import { updateProductProductionTimeCustomizationData } from './helpers/update-p
 
 import { Customization } from './types/customization.interface';
 import { CustomizationOptionValue } from './types/customization-option-value';
+import { EstimatedShipment } from './types/estimated-shipment.interface';
 import { ExtensionAttributes } from './types/extension-attributes.interface'
 import { CustomizationStateItem } from './types/customization-state-item.interface'
 import { FileUploadValue } from './types/file-upload-value';
@@ -47,6 +49,7 @@ export {
   Customization,
   CustomizationOptionValue,
   CustomizationStateItem,
+  EstimatedShipment,
   ExtensionAttributes,
   FileUploadValue,
   ListWidgetInputType,
@@ -81,6 +84,7 @@ export {
   useCustomizationState,
   useCustomizationStatePreservation,
   useEmailCustomization,
+  useEstimatedShipment,
   useFilesUpload,
   useListWidget,
   useOptionValueActions,
