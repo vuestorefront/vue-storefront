@@ -1,5 +1,11 @@
 # @vue-storefront/logger
 
+## 1.0.0-rc.4
+
+### Minor Changes
+
+use appropriate verbosity levels in the browser environment
+
 ## 1.0.0-rc.3
 
 ### Major Changes
