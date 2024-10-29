@@ -60,7 +60,8 @@ export default function fillProductWithAdditionalFields (
 
         (value as ExtensionAttributes) = {
           plushie_id: plushieId,
-          customization_state: customizationState
+          customization_state: customizationState,
+          estimated_shipment: value.estimated_shipment
         }
 
         break;

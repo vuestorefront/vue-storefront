@@ -153,7 +153,34 @@ const synchronizeActions = {
     await dispatch('syncTotals', { forceServerSync: true });
 
     return diffLog;
+  },
+  async pullEstimatedShipments ({ dispatch, commit }): Promise<any> {
+    const { result, resultCode } = await CartService.getItems();
 
+    if (resultCode === 404) {
+      dispatch(
+        'clear',
+        {
+          disconnect: true,
+          sync: false
+        }
+      );
+      return createDiffLog();
+    }
+
+    if (resultCode !== 200) {
+      return;
+    }
+
+    result.forEach((item) => {
+      const sku = item.product_type === 'bundle'
+        ? item.sku.split('-')[0]
+        : item.sku;
+
+      item.sku = sku;
+
+      commit(types.CART_UPDATE_ITEM_ESTIMATED_SHIPMENT, item);
+    });
   }
 }
 
