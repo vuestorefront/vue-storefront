@@ -16,6 +16,10 @@ import {
 } from "../types";
 import { applyContextToApi } from "./applyContextToApi";
 import { markExtensionNameHelpers } from "./markExtensionNameHelpers";
+import {
+  wrapFnWithErrorBoundary,
+  wrapFnWithErrorBoundarySync,
+} from "./wrapFnWithErrorBoundary";
 
 /**
  * Utility function faciliating building Logger with injected metadata about currently called hook
@@ -84,11 +88,24 @@ const apiClientFactory = <
               hookName: "hooks",
               extensionName: name,
             });
+            const hooksWithErrorBoundary = wrapFnWithErrorBoundarySync(
+              hooks,
+              () => ({
+                type: "requestHook" as const,
+                hookName: "hooks",
+                extensionName: name,
+                integrationName: this?.middleware?.integrationTag,
+              })
+            );
 
             return {
-              ...hooks(this?.middleware?.req, this?.middleware?.res, {
-                logger: loggerWithMetadata,
-              }),
+              ...hooksWithErrorBoundary(
+                this?.middleware?.req,
+                this?.middleware?.res,
+                {
+                  logger: loggerWithMetadata,
+                }
+              ),
               name,
             };
           })
@@ -104,7 +121,16 @@ const apiClientFactory = <
             extensionName: extension.name,
             hookName: "beforeCreate",
           });
-          return await extension.beforeCreate({
+          const beforeCreateWithErrorBoundary = wrapFnWithErrorBoundary(
+            extension.beforeCreate,
+            () => ({
+              type: "requestHook" as const,
+              hookName: "beforeCreate",
+              extensionName: extension.name,
+              integrationName: this?.middleware?.integrationTag,
+            })
+          );
+          return beforeCreateWithErrorBoundary({
             configuration: resolvedConfig,
             logger: loggerWithMetadata,
           });
@@ -114,8 +140,18 @@ const apiClientFactory = <
         hookName: "onCreate",
         integrationName: this.middleware?.integrationTag,
       });
-      const settings = (await factoryParams.onCreate)
-        ? await factoryParams.onCreate(_config, { logger: loggerWithMetadata })
+      const onCreateWithErrorBoundadry = wrapFnWithErrorBoundary(
+        factoryParams.onCreate,
+        () => ({
+          type: "endpoint" as const,
+          hookName: "onCreate",
+          integrationName: this.middleware?.integrationTag,
+        })
+      );
+      const settings = factoryParams.onCreate
+        ? await onCreateWithErrorBoundadry(_config, {
+            logger: loggerWithMetadata,
+          })
         : { config, client: config.client };
 
       settings.config = await lifecycles
@@ -128,7 +164,18 @@ const apiClientFactory = <
             extensionName: extension.name,
             hookName: "afterCreate",
           });
-          return await extension.afterCreate({
+
+          const afterCreateWithErrorBoundary = wrapFnWithErrorBoundary(
+            extension.afterCreate,
+            () => ({
+              type: "requestHook" as const,
+              hookName: "afterCreate",
+              extensionName: extension.name,
+              integrationName: this?.middleware?.integrationTag,
+            })
+          );
+
+          return afterCreateWithErrorBoundary({
             configuration: resolvedConfig,
             logger: loggerWithMetadata,
           });
@@ -149,7 +196,18 @@ const apiClientFactory = <
                 hookName: "beforeCall",
               });
 
-              return extension.beforeCall({
+              const beforeCallWithErrorBoundary = wrapFnWithErrorBoundary(
+                extension.beforeCall,
+                () => ({
+                  type: "requestHook" as const,
+                  hookName: "beforeCall",
+                  extensionName: extension.name,
+                  functionName: params.callName,
+                  integrationName: this?.middleware?.integrationTag,
+                })
+              );
+
+              return beforeCallWithErrorBoundary({
                 ...params,
                 configuration: resolvedSettings.config,
                 args: resolvedArgs,
@@ -171,7 +229,18 @@ const apiClientFactory = <
                 hookName: "afterCall",
               });
 
-              return extension.afterCall({
+              const afterCallWithErrorBoundary = wrapFnWithErrorBoundary(
+                extension.afterCall,
+                () => ({
+                  type: "requestHook" as const,
+                  hookName: "afterCall",
+                  extensionName: extension.name,
+                  functionName: params.callName,
+                  integrationName: this?.middleware?.integrationTag,
+                })
+              );
+
+              return afterCallWithErrorBoundary({
                 ...params,
                 configuration: resolvedSettings.config,
                 response: resolvedResponse,
@@ -215,16 +284,10 @@ const apiClientFactory = <
         }
       }
 
-      const integrationApi = applyContextToApi(
-        api,
-        // @ts-expect-error see above
-        context,
-        extensionHooks
-      );
+      const integrationApi = applyContextToApi(api, context, extensionHooks);
 
       const sharedExtensionsApi = applyContextToApi(
         sharedExtensions,
-        // @ts-expect-error see above
         context,
         extensionHooks
       );
@@ -236,7 +299,6 @@ const apiClientFactory = <
       )) {
         namespacedApi[namespace] = applyContextToApi(
           extension,
-          // @ts-expect-error see above
           context,
           extensionHooks
         );
