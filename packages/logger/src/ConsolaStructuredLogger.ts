@@ -9,6 +9,7 @@ import type {
 } from "./interfaces/LoggerInterface";
 import type { LoggerOptions } from "./interfaces/LoggerOptions";
 import type { StructuredLog } from "./interfaces/StructuredLog";
+import { jsonReporter } from "./reporters/consola/jsonReporter";
 
 // We do not want to load the .env in the browser and in the edge runtime
 if (typeof window === "undefined" && process.env.NEXT_RUNTIME !== "edge") {
@@ -39,16 +40,7 @@ const createConsolaStructuredLogger = (
 
   const buildJsonReporter = () => {
     return {
-      log: (logObject) => {
-        if (
-          process.env.NODE_ENV === "development" ||
-          typeof window !== "undefined"
-        ) {
-          console.log(logObject.args[0].structuredLog);
-        } else {
-          console.log(JSON.stringify(logObject.args[0].structuredLog));
-        }
-      },
+      log: jsonReporter,
     };
   };
 

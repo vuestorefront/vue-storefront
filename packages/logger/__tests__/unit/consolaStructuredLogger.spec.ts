@@ -39,4 +39,40 @@ describe("createConsolaStructuredLogger", () => {
     const debugSpy = jest.spyOn(logger, "debug").mockImplementation(() => {});
     expect(debugSpy).not.toHaveBeenCalled();
   });
+
+  it("calls console.warn once when logger.warning is invoked", () => {
+    const logger = createConsolaStructuredLogger(mockStructuredLog);
+    const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+
+    logger.warning(logData, metadata);
+
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+
+    warnSpy.mockRestore();
+  });
+
+  it("calls console.error once for each error-level logging method", () => {
+    const logger = createConsolaStructuredLogger(mockStructuredLog);
+    const errorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+
+    logger.error(logData, metadata);
+    logger.critical(logData, metadata);
+    logger.alert(logData, metadata);
+    logger.emergency(logData, metadata);
+
+    expect(errorSpy).toHaveBeenCalledTimes(4);
+
+    errorSpy.mockRestore();
+  });
+
+  it("calls console.info once when info-level is invoked", () => {
+    const logger = createConsolaStructuredLogger(mockStructuredLog);
+    const infoSpy = jest.spyOn(console, "info").mockImplementation(() => {});
+
+    logger.info(logData, metadata);
+
+    expect(infoSpy).toHaveBeenCalledTimes(1);
+
+    infoSpy.mockRestore();
+  });
 });
