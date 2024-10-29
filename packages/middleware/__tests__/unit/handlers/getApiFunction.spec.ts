@@ -1,3 +1,4 @@
+import { markExtensionNameHelpers } from "../../../src/apiClientFactory/markExtensionNameHelpers";
 import { getApiFunction } from "../../../src/handlers/prepareApiFunction/getApiFunction";
 
 describe("getApiFunction", () => {
@@ -12,23 +13,38 @@ describe("getApiFunction", () => {
     },
   };
 
+  markExtensionNameHelpers.mark(
+    apiClient.api.extension1.function1 as any,
+    "extension1"
+  );
+  markExtensionNameHelpers.mark(
+    apiClient.api.extension1.function2 as any,
+    "extension1"
+  );
+
   it("should return the correct API function when extensionName is provided", async () => {
     const functionName = "function1";
     const extensionName = "extension1";
     const expectedApiFn = apiClient.api[extensionName][functionName];
 
-    const apiFn = await getApiFunction(apiClient, functionName, extensionName);
+    const [apiFn, fnOrigin] = await getApiFunction(
+      apiClient,
+      functionName,
+      extensionName
+    );
 
     expect(apiFn).toEqual(expectedApiFn);
+    expect(fnOrigin).toEqual(extensionName);
   });
 
   it("should return the correct API function when extensionName is not provided", async () => {
     const functionName = "function3";
     const expectedApiFn = apiClient.api[functionName];
 
-    const apiFn = await getApiFunction(apiClient, functionName);
+    const [apiFn, fnOrigin] = await getApiFunction(apiClient, functionName);
 
     expect(apiFn).toEqual(expectedApiFn);
+    expect(fnOrigin).not.toBeDefined();
   });
 
   it("should throw an error when the API function is not found with extensionName", async () => {

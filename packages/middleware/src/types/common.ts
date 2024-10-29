@@ -15,6 +15,8 @@ type ResponseWithAlokaiLocals = Response<
   any,
   {
     alokai?: AlokaiLocal;
+    apiFunction?: Function;
+    fnOrigin?: string;
     [key: string]: any;
   }
 >;

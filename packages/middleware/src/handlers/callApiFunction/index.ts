@@ -9,7 +9,20 @@ export async function callApiFunction(req: Request, res: Response) {
     res.send(platformResponse);
   } catch (error) {
     const logger = getLogger(res);
-    logger.error(error);
+    const additionalScope = res.locals.fnOrigin
+      ? { extensionName: res.locals.fnOrigin }
+      : {};
+    const errorBoundary = error.errorBoundary
+      ? { errorBoundary: error.errorBoundary }
+      : {};
+
+    logger.error(error, {
+      scope: {
+        type: "endpoint",
+        ...additionalScope,
+      },
+      ...errorBoundary,
+    });
     errorHandler(error, req, res);
   }
 }
