@@ -1,5 +1,12 @@
 # Change log
 
+## 5.1.0-rc.2
+
+### Patch Changes
+
+- Updated dependencies:
+  - @vue-storefront/logger@1.0.0-rc.4
+
 ## 5.1.0-rc.1
 
 ### Patch Changes

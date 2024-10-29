@@ -1,5 +1,12 @@
 # Change log
 
+## 3.3.0-rc.4
+
+### Patch Changes
+
+- Updated dependencies:
+  - @vue-storefront/logger@1.0.0-rc.4
+
 ## 3.3.0-rc.3
 
 ### Patch Changes
