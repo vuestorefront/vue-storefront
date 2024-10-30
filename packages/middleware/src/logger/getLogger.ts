@@ -1,9 +1,8 @@
-import type { Response } from "express";
 import type { LoggerInterface } from "@vue-storefront/logger";
-import type { AlokaiContainer } from "../types";
+import type { AlokaiContainer, ResponseWithAlokaiLocals } from "../types";
 
-type ContextSubset = { res: Response };
-type LoggerSource = AlokaiContainer | Response | ContextSubset;
+type ContextSubset = { res: ResponseWithAlokaiLocals };
+type LoggerSource = AlokaiContainer | ResponseWithAlokaiLocals | ContextSubset;
 function isAlokaiContainer(source: LoggerSource): source is AlokaiContainer {
   return "logger" in source;
 }

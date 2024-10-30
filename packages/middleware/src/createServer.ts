@@ -41,7 +41,9 @@ async function createServer<
     (loggerConfig) => LoggerFactory.create(LoggerType.ConsolaGcp, loggerConfig)
   );
   const logger = injectMetadata(loggerManager.get(), () => ({
-    context: "middleware",
+    alokai: {
+      context: "middleware",
+    },
   }));
 
   const app = express();

@@ -186,10 +186,12 @@ describe("apiClientFactory", () => {
     );
 
     expect(logger.info).toBeCalledWith("test", {
-      scope: {
-        extensionName: "extTest",
-        hookName: "hooks",
-        type: "requestHook",
+      alokai: {
+        scope: {
+          extensionName: "extTest",
+          hookName: "hooks",
+          type: "requestHook",
+        },
       },
     });
   });

@@ -22,8 +22,11 @@ function buildAlokaiContainer(
 ): AlokaiContainer {
   const logger = loggerManager.get(tag);
   const loggerWithMetadata = injectMetadata(logger, (metadata) => ({
-    context: "middleware",
     ...metadata,
+    alokai: {
+      ...metadata?.alokai,
+      context: "middleware",
+    },
   }));
   return { logger: loggerWithMetadata };
 }
@@ -40,25 +43,38 @@ async function triggerExtendAppHook(
     logger.debug(`- Loading: ${tag} extension: ${name}`);
 
     if (extendApp) {
-      const loggerWithMetadata = injectMetadata(logger, () => ({
-        scope: {
-          integrationName: tag,
-          extensionName: name,
-          type: "bootstrapHook",
-          hookName: "extendApp",
-        },
-      }));
-      try {
-        await extendApp({ app, configuration, logger: loggerWithMetadata });
-      } catch (e) {
-        loggerWithMetadata.error(e, {
-          errorBoundary: {
+      const loggerWithMetadata = injectMetadata(logger, (metadata) => ({
+        ...metadata,
+        alokai: {
+          ...metadata?.alokai,
+          scope: {
+            ...metadata?.alokai?.scope,
             integrationName: tag,
             extensionName: name,
             type: "bootstrapHook",
             hookName: "extendApp",
           },
-        });
+        },
+      }));
+      try {
+        await extendApp({ app, configuration, logger: loggerWithMetadata });
+      } catch (e) {
+        const loggerWithErrorBoundary = injectMetadata(
+          loggerWithMetadata,
+          (metadata) => ({
+            ...metadata,
+            alokai: {
+              ...metadata?.alokai,
+              errorBoundary: {
+                integrationName: tag,
+                extensionName: name,
+                type: "bootstrapHook",
+                hookName: "extendApp",
+              },
+            },
+          })
+        );
+        loggerWithErrorBoundary.error(e);
         throw e;
       }
     }
@@ -79,11 +95,14 @@ async function loadIntegration(
   const extensions = createExtensions(rawExtensions, alokai);
   const loggerWithMetadata = injectMetadata(getLogger(alokai), (metadata) => ({
     ...metadata,
-    scope: {
-      ...metadata?.scope,
-      hookName: "init",
-      type: "bootstrapHook",
-      integrationName: tag,
+    alokai: {
+      ...metadata?.alokai,
+      scope: {
+        ...metadata?.alokai?.scope,
+        hookName: "init",
+        type: "bootstrapHook",
+        integrationName: tag,
+      },
     },
   }));
   const initConfig = await getInitConfig({

@@ -40,12 +40,15 @@ function injectHookMetadata(
 ) {
   return injectMetadata(logger, (metadata) => ({
     ...metadata,
-    scope: {
-      ...metadata?.scope,
-      hookName,
-      type,
-      ...(extensionName ? { extensionName } : {}),
-      ...(integrationName ? { integrationName } : {}),
+    alokai: {
+      ...metadata?.alokai,
+      scope: {
+        ...metadata?.alokai?.scope,
+        hookName,
+        type,
+        ...(extensionName ? { extensionName } : {}),
+        ...(integrationName ? { integrationName } : {}),
+      },
     },
   }));
 }

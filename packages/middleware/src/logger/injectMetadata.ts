@@ -3,7 +3,7 @@ import { AlokaiLocal } from "../types";
 
 const METHODS_TO_SKIP = ["log"];
 
-type Metadata = AlokaiLocal["metadata"] & Record<string, any>;
+type Metadata = { alokai: AlokaiLocal["metadata"] & Record<string, any> };
 
 /**
  * Function wrapping passed logger with additional metadata. So when log function is called

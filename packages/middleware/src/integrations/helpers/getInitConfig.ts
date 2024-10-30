@@ -1,4 +1,4 @@
-import { getLogger } from "../../logger";
+import { getLogger, injectMetadata } from "../../logger";
 import { isFunction } from "../../helpers";
 import { LoadInitConfigProps, TObject } from "../../types";
 
@@ -20,13 +20,18 @@ export async function getInitConfig({
 
       return initConfig;
     } catch (error) {
-      logger.error(error, {
-        errorBoundary: {
-          integrationName: tag,
-          type: "bootstrapHook",
-          hookName: "init",
+      const loggerWithErrorBoundary = injectMetadata(logger, (metadata) => ({
+        ...metadata,
+        alokai: {
+          ...metadata?.alokai,
+          errorBoundary: {
+            integrationName: tag,
+            type: "bootstrapHook",
+            hookName: "init",
+          },
         },
-      });
+      }));
+      loggerWithErrorBoundary.error(error);
       throw Error(
         `Error during executing init function in ${tag} integration. Error message: ${error}`
       );
