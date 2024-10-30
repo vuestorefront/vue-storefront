@@ -18,7 +18,7 @@ export function useCustomizationStatePreservation (
   productSku: Ref<string | undefined>,
   customizationState: Ref<CustomizationStateItem[]>,
   existingCartItem: Ref<CartItem | undefined>,
-  customizationStateFilters: ((customizationId: string) => boolean)[] = [],
+  unhandledCustomizationsFilters: ((customizationId: string) => boolean)[] = [],
   additionalData?: Ref<Record<string, any>> | undefined
 ) {
   const mutex = new Mutex();
@@ -30,13 +30,9 @@ export function useCustomizationStatePreservation (
   });
 
   const filterCustomizationState = (item: CustomizationStateItem): boolean => {
-    for (const filter of customizationStateFilters) {
-      if (!filter(item.customization_id)) {
-        return false;
-      }
-    }
-
-    return true;
+    return unhandledCustomizationsFilters.every(
+      (filter) => !filter(item.customization_id)
+    );
   }
 
   const filteredCustomizationState = computed<CustomizationStateItem[]>(() => {

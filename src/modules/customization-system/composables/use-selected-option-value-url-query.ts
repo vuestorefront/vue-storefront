@@ -89,8 +89,8 @@ export function useSelectedOptionValueUrlQuery (
     return root.$route.query;
   });
 
-  function statePreservationCustomizationsFilter (customizationId: string): boolean {
-    return !showInUrlQueryCustomizations.value.find((customization) => customization.id === customizationId);
+  function unhandledCustomizationsFilter (customizationId: string): boolean {
+    return !!showInUrlQueryCustomizations.value.find((customization) => customization.id === customizationId);
   }
 
   function updateQuery () {
@@ -177,6 +177,6 @@ export function useSelectedOptionValueUrlQuery (
   );
 
   return {
-    statePreservationCustomizationsFilter
+    unhandledCustomizationsFilter
   }
 }
