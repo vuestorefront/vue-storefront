@@ -113,6 +113,7 @@ export interface ApiClientFactoryParams<
     | Promise<{ client: CLIENT; config: ApiClientConfig }>
     | { client: CLIENT; config: ApiClientConfig };
   extensions?: ApiClientExtension<API>[];
+  init?: (configuration: CONFIG) => TObject;
 }
 
 export interface ApiClientFactory<
@@ -123,7 +124,7 @@ export interface ApiClientFactory<
   /**
    * Sets up integration config, runs once.
    */
-  init?: (configuration: TObject) => TObject;
+  init?: (configuration: CONFIG) => TObject;
 }
 
 export type CreateApiProxyFn = <CONFIG, API, CLIENT>(

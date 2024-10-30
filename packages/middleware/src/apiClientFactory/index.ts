@@ -178,7 +178,8 @@ const apiClientFactory = <
 
   createApiClient._predefinedExtensions = factoryParams.extensions || [];
 
-  return { createApiClient };
+  // TODO: Init function is being added to the return type but it's not being added nowhere here.
+  return { createApiClient, init: factoryParams.init };
 };
 
 export { apiClientFactory };
