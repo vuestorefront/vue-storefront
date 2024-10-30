@@ -7,7 +7,8 @@ import { OptionValue } from '../types/option-value.interface';
 
 export function useOptionValuesPrice (
   values: Ref<OptionValue[]>,
-  { root }: SetupContext
+  { root }: SetupContext,
+  useLowestPriceAsDefault: boolean = false
 ) {
   const optionValuePriceDictionary = computed<Record<string, PriceHelper.ProductPrice | undefined>>(
     () => {
@@ -29,7 +30,7 @@ export function useOptionValuesPrice (
     const _values = values.value;
     const defaultValue = _values.find((value) => value.isDefault);
 
-    if (defaultValue) {
+    if (defaultValue && !useLowestPriceAsDefault) {
       return defaultValue;
     }
 
@@ -74,11 +75,11 @@ export function useOptionValuesPrice (
 
     return PriceHelper.getFinalPrice(_defaultOptionValuePrice);
   });
-  const optionValuePriceDeltaDictionary = computed<Record<string, PriceHelper.ProductPrice | undefined>>(() => {
-    const dictionary: Record<string, PriceHelper.ProductPrice | undefined> = {};
+  const optionValueFinalPriceDeltaDictionary = computed<Record<string, number | undefined>>(() => {
+    const dictionary: Record<string, number | undefined> = {};
     const _defaultOptionValueFinalPrice = defaultOptionValueFinalPrice.value;
 
-    if (!_defaultOptionValueFinalPrice) {
+    if (_defaultOptionValueFinalPrice === undefined) {
       return dictionary;
     }
 
@@ -98,19 +99,19 @@ export function useOptionValuesPrice (
           : null
       };
 
-      dictionary[optionValueId] = priceDelta;
+      dictionary[optionValueId] = PriceHelper.getFinalPrice(priceDelta);
     }
 
     return dictionary;
   });
 
   const isOptionValuesSamePrice = computed<boolean>(() => {
-    for (const price of Object.values(optionValuePriceDeltaDictionary.value)) {
-      if (!price) {
+    for (const finalPriceDelta of Object.values(optionValueFinalPriceDeltaDictionary.value)) {
+      if (!finalPriceDelta) {
         continue;
       }
 
-      if (PriceHelper.getFinalPrice(price) !== 0) {
+      if (finalPriceDelta !== 0) {
         return false;
       }
     }
@@ -124,11 +125,11 @@ export function useOptionValuesPrice (
   }
 
   return {
-    defaultOptionValuePrice,
+    defaultOptionValueFinalPrice,
     isDefaultOptionValue,
     isOptionValuesSamePrice,
     optionValuePriceDictionary,
-    optionValuePriceDeltaDictionary,
+    optionValueFinalPriceDeltaDictionary,
     formatPrice: PriceHelper.formatPrice
   }
 }
