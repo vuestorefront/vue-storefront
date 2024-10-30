@@ -7,7 +7,8 @@ import { OptionValue } from '../types/option-value.interface';
 
 export function useOptionValuesPrice (
   values: Ref<OptionValue[]>,
-  { root }: SetupContext
+  { root }: SetupContext,
+  useLowestPriceAsDefault: boolean = false
 ) {
   const optionValuePriceDictionary = computed<Record<string, PriceHelper.ProductPrice | undefined>>(
     () => {
@@ -29,7 +30,7 @@ export function useOptionValuesPrice (
     const _values = values.value;
     const defaultValue = _values.find((value) => value.isDefault);
 
-    if (defaultValue) {
+    if (defaultValue && !useLowestPriceAsDefault) {
       return defaultValue;
     }
 
