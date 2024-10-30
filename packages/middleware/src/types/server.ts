@@ -1,7 +1,6 @@
 import { CorsOptions, CorsOptionsDelegate } from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import { TObject } from "./base";
 import {
   ApiClientExtension,
   ApiMethods,
@@ -113,7 +112,7 @@ export interface ApiClientFactoryParams<
     | Promise<{ client: CLIENT; config: ApiClientConfig }>
     | { client: CLIENT; config: ApiClientConfig };
   extensions?: ApiClientExtension<API>[];
-  init?: (configuration: CONFIG) => TObject;
+  init?: (configuration: CONFIG) => CONFIG;
 }
 
 export interface ApiClientFactory<
@@ -124,7 +123,7 @@ export interface ApiClientFactory<
   /**
    * Sets up integration config, runs once.
    */
-  init?: (configuration: CONFIG) => TObject;
+  init?: (configuration: CONFIG) => CONFIG;
 }
 
 export type CreateApiProxyFn = <CONFIG, API, CLIENT>(
