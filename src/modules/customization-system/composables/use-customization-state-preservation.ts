@@ -1,4 +1,4 @@
-import { computed, ref, Ref, watch } from '@vue/composition-api';
+import { computed, nextTick, onMounted, ref, Ref, watch } from '@vue/composition-api';
 import { Mutex } from 'async-mutex';
 
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
@@ -6,19 +6,20 @@ import CartItem from 'core/modules/cart/types/CartItem';
 
 import { CustomizationStateItem } from '../types/customization-state-item.interface';
 import { STORAGE_NAME } from '../types/storage-name';
+import { PersistedData } from '../types/persisted-data.interface';
 
 const STORAGE_BASE_KEY = 'form-state';
-
-interface PersistedData {
-  customizationState: CustomizationStateItem[],
-  additionalData?: Record<string, any>
-}
 
 export function useCustomizationStatePreservation (
   productSku: Ref<string | undefined>,
   customizationState: Ref<CustomizationStateItem[]>,
   existingCartItem: Ref<CartItem | undefined>,
   unhandledCustomizationsFilters: ((customizationId: string) => boolean)[] = [],
+  canPersist: Ref<boolean>,
+  mergeCustomizationState: (state: CustomizationStateItem[]) => void,
+  removeUnavailableOptionValues: () => void,
+  beforeCustomizationStateMerge?: (persistedData: PersistedData) => Promise<void>,
+  afterCustomizationStateMerge?: (persistedData: PersistedData) => void,
   additionalData?: Ref<Record<string, any>> | undefined
 ) {
   const mutex = new Mutex();
@@ -103,14 +104,41 @@ export function useCustomizationStatePreservation (
       mutexRelease();
     }
   }
-  const watchProperties: Ref<any>[] = [filteredCustomizationState, canUpdateState];
+
+  onMounted(async () => {
+    await nextTick();
+
+    if (existingCartItem.value || !canPersist) {
+      removePreservedState();
+      return;
+    }
+
+    const persistedData = await getPreservedData();
+
+    if (!persistedData) {
+      return;
+    }
+
+    if (beforeCustomizationStateMerge) {
+      await beforeCustomizationStateMerge(persistedData);
+    }
+
+    mergeCustomizationState(persistedData.customizationState);
+    removeUnavailableOptionValues();
+
+    if (afterCustomizationStateMerge) {
+      afterCustomizationStateMerge(persistedData);
+    }
+  });
+
+  const watchProperties: Ref<any>[] = [filteredCustomizationState];
 
   if (additionalData) {
     watchProperties.push(additionalData);
   }
 
-  watch(watchProperties, (value) => {
-    if (!value.length || existingCartItem.value || !canUpdateState.value) {
+  watch(watchProperties, () => {
+    if (existingCartItem.value || !canUpdateState.value) {
       return;
     }
 
