@@ -78,7 +78,7 @@
           {{ $t('You agree to receive email marketing from Budsies regarding our products and services.') }}
         </div>
 
-        <california-privacy-notice-link />
+        <component :is="$additionalContent.CaliforniaPrivacyNoticeLink" v-if="$additionalContent.CaliforniaPrivacyNoticeLink" />
       </validation-observer>
     </form>
 

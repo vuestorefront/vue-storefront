@@ -106,6 +106,7 @@ function initTemplatesCache (config, compileOptions) {
   return templatesCache
 }
 
+
 function initSSRRequestContext (app, req, res, config): Context {
   return {
     url: decodeURI(req.url),
@@ -127,24 +128,7 @@ function initSSRRequestContext (app, req, res, config): Context {
       config: config,
       storeCode: typeof req.header === 'function' ? (req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE) : process.env.STORE_CODE
     },
-    polaris: () => {
-      if (!config.privacyPolicy.enablePolaris) {
-        return '';
-      }
-
-      const options = config.analytics.id
-        ? `<script>
-            window.polarisOptions = {
-              GoogleAnalyticsTrackingId: "${config.analytics.id}"
-            };
-        </script>`
-        : '';
-
-      return `
-        ${options}
-        <script src="https://polaris.truevaultcdn.com/static/polaris.js" defer></script>
-      `
-    }
+    extendedHead: null
   };
 }
 
