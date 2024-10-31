@@ -24,6 +24,15 @@ const testingExtension = {
       logger.info("some log");
       return {};
     },
+    overwriteAlokaiMetadata(context) {
+      const logger = getLogger(context);
+      logger.info("some log", {
+        alokai: {
+          context: "storefront-hacking!",
+        },
+        author: "John",
+      } as any); // Skipping TypeScript guard
+    },
     setCookieHeader(context) {
       const logger = getLogger(context);
       logger.info("some log");
@@ -163,6 +172,23 @@ describe("[Integration] Logger scopes", () => {
           },
         },
       },
+    });
+  });
+
+  it("prevents overwriting 'alokai' metadata object", async () => {
+    await request(app).post("/test_integration/overwriteAlokaiMetadata");
+
+    expect(Logger.info).toBeCalledWith(expect.any(String), {
+      alokai: {
+        context: "middleware", // not "storefront-hacking!"
+        scope: {
+          extensionName: "testing-extension",
+          functionName: "overwriteAlokaiMetadata",
+          integrationName: "test_integration",
+          type: "endpoint",
+        },
+      },
+      author: "John",
     });
   });
 

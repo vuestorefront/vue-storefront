@@ -13,7 +13,7 @@ import type {
   MiddlewareConfig,
   CreateServerOptions,
 } from "./types";
-import { LoggerManager, injectMetadata } from "./logger";
+import { LoggerManager, injectMetadata, lockLogger } from "./logger";
 
 import { registerIntegrations } from "./integrations";
 import {
@@ -38,7 +38,8 @@ async function createServer<
 ): Promise<Server> {
   const loggerManager = new LoggerManager<LoggerOptions>(
     config,
-    (loggerConfig) => LoggerFactory.create(LoggerType.ConsolaGcp, loggerConfig)
+    (loggerConfig) =>
+      lockLogger(LoggerFactory.create(LoggerType.ConsolaGcp, loggerConfig))
   );
   const logger = injectMetadata(loggerManager.get(), () => ({
     alokai: {
