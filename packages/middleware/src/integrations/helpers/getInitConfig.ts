@@ -20,10 +20,8 @@ export async function getInitConfig({
 
       return initConfig;
     } catch (error) {
-      const loggerWithErrorBoundary = injectMetadata(logger, (metadata) => ({
-        ...metadata,
+      const loggerWithErrorBoundary = injectMetadata(logger, () => ({
         alokai: {
-          ...metadata?.alokai,
           errorBoundary: {
             integrationName: tag,
             type: "bootstrapHook",

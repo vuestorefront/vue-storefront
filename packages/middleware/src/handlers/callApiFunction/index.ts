@@ -19,12 +19,9 @@ export async function callApiFunction(
     const errorBoundary = error.errorBoundary
       ? { errorBoundary: error.errorBoundary as LogScope }
       : {};
-    const logger = injectMetadata(getLogger(res), (metadata) => ({
-      ...metadata,
+    const logger = injectMetadata(getLogger(res), () => ({
       alokai: {
-        ...metadata?.alokai,
         scope: {
-          ...metadata?.alokai?.scope,
           type: "endpoint" as const,
           ...additionalScope,
         },

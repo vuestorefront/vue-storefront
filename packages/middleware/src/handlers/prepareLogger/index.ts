@@ -19,9 +19,7 @@ export function prepareLogger(loggerManager: LoggerManager) {
 
     const loggerWithMetadata = injectMetadata(logger, (metadata) => {
       return {
-        ...metadata,
         alokai: {
-          ...metadata?.alokai,
           context: "middleware",
           scope: {
             integrationName,

@@ -38,12 +38,9 @@ function injectHookMetadata(
     integrationName?: string;
   }
 ) {
-  return injectMetadata(logger, (metadata) => ({
-    ...metadata,
+  return injectMetadata(logger, () => ({
     alokai: {
-      ...metadata?.alokai,
       scope: {
-        ...metadata?.alokai?.scope,
         hookName,
         type,
         ...(extensionName ? { extensionName } : {}),

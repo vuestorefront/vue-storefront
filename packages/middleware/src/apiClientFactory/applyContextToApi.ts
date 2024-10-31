@@ -25,31 +25,25 @@ function injectHandlerMetadata<CONTEXT extends MiddlewareContext>(
   fn: Function,
   callName: string
 ) {
-  return injectMetadata(getLogger(context), (metadata) => {
-    const newMetadata = {
-      ...metadata,
-      alokai: {
-        ...metadata?.alokai,
-        scope: {
-          ...metadata?.alokai?.scope,
-          type: "endpoint" as const,
-          /**
-           * The following lines ensure proper functionality in case of orchestration.
-           * In this scenario, there are multiple self-invocations of the function template we see here.
-           * Adding the currently known functionName and integrationName prevents scope confusion
-           * between different recurrent synchronous and parallel invocations (e.g., multiple orchestrated methods
-           * executed with Promise.all).
-           */
-          functionName: callName,
-          integrationName: context.integrationTag,
-          ...(markExtensionNameHelpers.has(fn)
-            ? { extensionName: markExtensionNameHelpers.get(fn) }
-            : {}),
-        },
+  return injectMetadata(getLogger(context), () => ({
+    alokai: {
+      scope: {
+        type: "endpoint" as const,
+        /**
+         * The following lines ensure proper functionality in case of orchestration.
+         * In this scenario, there are multiple self-invocations of the function template we see here.
+         * Adding the currently known functionName and integrationName prevents scope confusion
+         * between different recurrent synchronous and parallel invocations (e.g., multiple orchestrated methods
+         * executed with Promise.all).
+         */
+        functionName: callName,
+        integrationName: context.integrationTag,
+        ...(markExtensionNameHelpers.has(fn)
+          ? { extensionName: markExtensionNameHelpers.get(fn) }
+          : {}),
       },
-    };
-    return newMetadata;
-  });
+    },
+  }));
 }
 
 /**

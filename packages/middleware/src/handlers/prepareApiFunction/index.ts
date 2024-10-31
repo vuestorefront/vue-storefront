@@ -87,12 +87,9 @@ export function prepareApiFunction(
       res.locals.fnOrigin = fnOrigin;
     } catch (e) {
       if (e.errorBoundary) {
-        const logger = injectMetadata(getLogger(res), (metadata) => ({
-          ...metadata,
+        const logger = injectMetadata(getLogger(res), () => ({
           alokai: {
-            ...metadata?.alokai,
             scope: {
-              ...metadata?.alokai?.scope,
               type: "endpoint" as const,
             },
             errorBoundary: e.errorBoundary,
