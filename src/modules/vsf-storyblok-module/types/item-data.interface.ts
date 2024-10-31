@@ -1,6 +1,7 @@
 import { Alignment } from './alignment.value';
 import ColorPickerField from './color-picker-field.interface';
 import { Display } from './display.value';
+import { ImageModifier } from './image-modifier.value';
 import { SpacingSettingsField } from './spacing-settings-field.type';
 
 export default interface ItemData {
@@ -9,5 +10,6 @@ export default interface ItemData {
   spacing_settings: SpacingSettingsField,
   css_classes?: string,
   display?: Display,
-  background?: ColorPickerField
+  background?: ColorPickerField,
+  image_modifiers?: ImageModifier[]
 }
