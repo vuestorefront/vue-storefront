@@ -1,21 +1,21 @@
-import { ImageModifier } from '../types/image-modifier.value';
+import { ImageStyleModifier } from '../types/image-modifier.value';
 
-export function convertImageModifiersValuesToClasses (
-  imageModifiers: ImageModifier[] | undefined
+export function convertImageStyleModifiersValuesToClasses (
+  imageStyleModifiers: ImageStyleModifier[] | undefined
 ): string[] {
-  if (!imageModifiers) {
+  if (!imageStyleModifiers) {
     return [];
   }
 
   const list: string[] = [];
 
-  for (const imageModifier of imageModifiers) {
-    if (imageModifier === ImageModifier.ROUNDED_CORNERS) {
+  for (const imageStyleModifier of imageStyleModifiers) {
+    if (imageStyleModifier === ImageStyleModifier.ROUNDED_CORNERS) {
       list.push('-rounded-corners');
       continue;
     }
 
-    console.warn(`Unexpected image modifier value: ${imageModifier}`);
+    console.warn(`Unexpected image modifier value: ${imageStyleModifier}`);
   }
 
   return list;
