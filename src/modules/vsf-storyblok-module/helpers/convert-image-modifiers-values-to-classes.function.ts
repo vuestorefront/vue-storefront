@@ -1,4 +1,4 @@
-import { ImageStyleModifier } from '../types/image-modifier.value';
+import { ImageStyleModifier } from '../types/image-style-modifier.value';
 
 export function convertImageStyleModifiersValuesToClasses (
   imageStyleModifiers: ImageStyleModifier[] | undefined
