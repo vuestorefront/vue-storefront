@@ -38,10 +38,12 @@ describe("[middleware-handlers] prepareLogger", () => {
 
     expect(logger.info).toBeCalledWith("test", {
       d: 15,
-      context: "middleware",
-      scope: {
-        integrationName: "sapcc",
-        functionName: "getProduct",
+      alokai: {
+        context: "middleware",
+        scope: {
+          integrationName: "sapcc",
+          functionName: "getProduct",
+        },
       },
     });
   });

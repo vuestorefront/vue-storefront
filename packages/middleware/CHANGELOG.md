@@ -1,5 +1,11 @@
 # Change log
 
+## 5.1.0-rc.3
+
+### Minor Changes
+
+block overwriting alokai metadata
+
 ## 5.1.0-rc.2
 
 ### Patch Changes

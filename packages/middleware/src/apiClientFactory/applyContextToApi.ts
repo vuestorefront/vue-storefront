@@ -25,11 +25,9 @@ function injectHandlerMetadata<CONTEXT extends MiddlewareContext>(
   fn: Function,
   callName: string
 ) {
-  return injectMetadata(getLogger(context), (metadata) => {
-    const newMetadata = {
-      ...metadata,
+  return injectMetadata(getLogger(context), () => ({
+    alokai: {
       scope: {
-        ...metadata?.scope,
         type: "endpoint" as const,
         /**
          * The following lines ensure proper functionality in case of orchestration.
@@ -40,13 +38,12 @@ function injectHandlerMetadata<CONTEXT extends MiddlewareContext>(
          */
         functionName: callName,
         integrationName: context.integrationTag,
+        ...(markExtensionNameHelpers.has(fn)
+          ? { extensionName: markExtensionNameHelpers.get(fn) }
+          : {}),
       },
-    };
-    if (markExtensionNameHelpers.has(fn)) {
-      newMetadata.scope.extensionName = markExtensionNameHelpers.get(fn);
-    }
-    return newMetadata;
-  });
+    },
+  }));
 }
 
 /**
