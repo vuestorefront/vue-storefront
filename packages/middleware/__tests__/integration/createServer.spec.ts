@@ -209,21 +209,6 @@ describe("[Integration] Create server", () => {
     expect(response).toEqual(apiMethodResult);
   });
 
-  it("should prevent XSS attacks", async () => {
-    const url =
-      "/test_integration/z--%3E%3C!--hi--%3E%3Cimg%20src=x%20onerror=alert('DOM--XSS')%3E%3C!--%3C%3C";
-
-    const res = await request(app).get(url).send();
-
-    // To have the same error as in the browser, we need to use `res.error.text` instead of intuitionally `res.error.message`.
-    expect(res.error && res.error.text).not.toBe(
-      `Failed to resolve apiClient or function: The function \\"z--><!--hi--><img src=x onerror=alert('DOM--XSS')><!--<<\\" is not registered.`
-    );
-    expect(res.error && res.error.text).toEqual(
-      `Failed to resolve apiClient or function: The function "z--&gt;<img src>" is not registered.`
-    );
-  });
-
   it("should accept only GET and POST methods", async () => {
     const getRes = await request(app).get("/test_integration/success").send();
 
@@ -250,5 +235,28 @@ describe("[Integration] Create server", () => {
     expect(deleteRes.error && deleteRes.error.text).toEqual(
       "Method DELETE is not allowed. Please, use GET or POST method."
     );
+  });
+
+  describe("prevent XSS attacks", () => {
+    test.each([
+      [
+        "/z--%3E%3C!--hi--%3E%3Cimg%20src=x%20onerror=alert('DOM--XSS')%3E%3C!--%3C%3C/success",
+        `"z--&gt;<img src>" integration is not configured. Please, check the request path or integration configuration.`,
+      ],
+      [
+        "/test_integration/z--%3E%3C!--hi--%3E%3Cimg%20src=x%20onerror=alert('DOM--XSS')%3E%3C!--%3C%3C",
+        `Failed to resolve apiClient or function: The function "z--&gt;<img src>" is not registered.`,
+      ],
+      [
+        "/test_integration/z--%3E%3C!--hi--%3E%3Cimg%20src=x%20onerror=alert('DOM--XSS')%3E%3C!--%3C%3C/success",
+        `Failed to resolve apiClient or function: Extension "z--&gt;<img src>" is not namespaced or the function "success" is not available in the namespace.`,
+      ],
+    ])("Use case: %s", async (maliciousUrl, expectedMessage) => {
+      const res = await request(app).get(maliciousUrl).send();
+      expect(res.error && res.error.text).not.toContain(
+        "z--><!--hi--><img src=x onerror=alert('DOM--XSS')><!--<<"
+      );
+      expect(res.error && res.error.text).toEqual(expectedMessage);
+    });
   });
 });

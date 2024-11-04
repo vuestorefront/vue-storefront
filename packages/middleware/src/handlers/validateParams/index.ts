@@ -4,10 +4,13 @@ import { IntegrationsLoaded } from "../../types";
 
 export function validateParams(integrations: IntegrationsLoaded) {
   return (req: Request, res: Response, next: NextFunction) => {
-    const { method, params } = req;
-    const { integrationName } = params;
+    // Validate & sanitize the request params
+    Object.entries(req.params).forEach(([key, value]) => {
+      req.params[key] = typeof value === "string" ? xss(value) : value;
+    });
 
     // Validate the request method
+    const { method } = req;
     if (method !== "GET" && method !== "POST") {
       res.status(405);
       res.send(
@@ -18,6 +21,7 @@ export function validateParams(integrations: IntegrationsLoaded) {
     }
 
     // Validate the integration
+    const { integrationName } = req.params;
     if (!integrations || !integrations[integrationName]) {
       res.status(404);
       res.send(
@@ -26,11 +30,6 @@ export function validateParams(integrations: IntegrationsLoaded) {
 
       return;
     }
-
-    // Validate & sanitize the request params
-    Object.entries(params).forEach(([key, value]) => {
-      req.params[key] = typeof value === "string" ? xss(value) : value;
-    });
 
     next();
   };
