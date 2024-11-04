@@ -78,11 +78,11 @@ export interface Integration<
 > {
   location: string;
   configuration: CONFIG;
-  extensions?: <T extends Record<string, ApiClientMethodWithContext<CONTEXT>>>(
+  extensions?: (
     extensions: ApiClientExtension<API, CONTEXT>[]
     // TODO(IN-4338): There is a bug in the types here
     // we're not able to verify if the methods are namespaced or not with this implementation.
-  ) => ApiClientExtension<API & T, CONTEXT>[];
+  ) => ApiClientExtension<API, CONTEXT>[];
   customQueries?: Record<string, CustomQueryFunction>;
   initConfig?: TObject;
   errorHandler?: (error: unknown, req: Request, res: Response) => void;

@@ -1,23 +1,12 @@
 import request from "supertest";
 import { Server } from "http";
-import { ApiClientExtension, createServer } from "../../src/index";
+import { createServer } from "../../src/index";
 import { success } from "./bootstrap/api";
 
 describe("[Integration] Create server", () => {
   let app: Server;
 
   beforeEach(async () => {
-    const extension: ApiClientExtension = {
-      name: "my-extension",
-      extendApiMethods: {
-        myFunc: (context) => {
-          return context.api.success();
-        },
-        myFuncWithDependencyToOtherExtension: (context) => {
-          return context.api.myFunc();
-        },
-      },
-    };
     app = await createServer({
       integrations: {
         test_integration: {
@@ -29,22 +18,33 @@ describe("[Integration] Create server", () => {
             res.send("Custom error handler");
           },
           location: "./__tests__/integration/bootstrap/server",
-          extensions: (extensions) => [
-            ...extensions,
-            extension,
-            {
-              name: "my-namespaced-extension",
-              isNamespaced: true,
-              extendApiMethods: {
-                myFunc: (context) => {
-                  return context.api.error();
-                },
-                myFuncNamespaced: (context) => {
-                  return context.api.success();
+          extensions: (extensions) =>
+            [
+              ...extensions,
+              {
+                name: "my-extension",
+                extendApiMethods: {
+                  myFunc: (context) => {
+                    return context.api.success();
+                  },
+                  myFuncWithDependencyToOtherExtension: (context) => {
+                    return context.api.myFunc();
+                  },
                 },
               },
-            },
-          ],
+              {
+                name: "my-namespaced-extension",
+                isNamespaced: true,
+                extendApiMethods: {
+                  myFunc: (context) => {
+                    return context.api.error();
+                  },
+                  myFuncNamespaced: (context) => {
+                    return context.api.success();
+                  },
+                },
+              },
+            ] as any,
         },
       },
     });
@@ -225,16 +225,30 @@ describe("[Integration] Create server", () => {
   });
 
   it("should accept only GET and POST methods", async () => {
-    const { status, error } = await request(app).put(
-      "/test_integration/success"
+    const getRes = await request(app).get("/test_integration/success").send();
+
+    expect(getRes.status).toEqual(200);
+    expect(getRes.body.message).toEqual("ok");
+
+    const postRes = await request(app).post("/test_integration/success").send();
+
+    expect(postRes.status).toEqual(200);
+    expect(postRes.body.message).toEqual("ok");
+
+    const putRes = await request(app).put("/test_integration/success").send();
+
+    expect(putRes.status).toEqual(405);
+    expect(putRes.error && putRes.error.text).toEqual(
+      "Method PUT is not allowed. Please, use GET or POST method."
     );
 
-    expect(status).toEqual(405);
-    expect(error).toBeTruthy();
-    if (error) {
-      expect(error.text).toEqual(
-        "Method PUT is not allowed. Please, use GET or POST method."
-      );
-    }
+    const deleteRes = await request(app)
+      .delete("/test_integration/success")
+      .send();
+
+    expect(deleteRes.status).toEqual(405);
+    expect(deleteRes.error && deleteRes.error.text).toEqual(
+      "Method DELETE is not allowed. Please, use GET or POST method."
+    );
   });
 });
