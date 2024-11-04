@@ -178,7 +178,7 @@ const apiClientFactory = <
 
   createApiClient._predefinedExtensions = factoryParams.extensions || [];
 
-  return { createApiClient };
+  return { createApiClient, init: factoryParams.init };
 };
 
 export { apiClientFactory };
