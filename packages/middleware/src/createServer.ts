@@ -74,13 +74,6 @@ async function createServer<
     prepareArguments,
     callApiFunction
   );
-  // app.get(
-  //   "/:integrationName/:extensionName?/:functionName",
-  //   prepareApiFunction(integrations),
-  //   prepareErrorHandler(integrations),
-  //   prepareArguments,
-  //   callApiFunction
-  // );
 
   // This could instead be implemented as a healthcheck within terminus, but we don't want /healthz to change response if app received SIGTERM
   app.get("/healthz", (_req, res) => {
