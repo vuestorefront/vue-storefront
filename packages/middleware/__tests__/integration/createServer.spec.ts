@@ -1,12 +1,23 @@
 import request from "supertest";
 import { Server } from "http";
-import { createServer } from "../../src/index";
+import { ApiClientExtension, createServer } from "../../src/index";
 import { success } from "./bootstrap/api";
 
 describe("[Integration] Create server", () => {
   let app: Server;
 
   beforeEach(async () => {
+    const extension: ApiClientExtension = {
+      name: "my-extension",
+      extendApiMethods: {
+        myFunc: (context) => {
+          return context.api.success();
+        },
+        myFuncWithDependencyToOtherExtension: (context) => {
+          return context.api.myFunc();
+        },
+      },
+    };
     app = await createServer({
       integrations: {
         test_integration: {
@@ -18,33 +29,22 @@ describe("[Integration] Create server", () => {
             res.send("Custom error handler");
           },
           location: "./__tests__/integration/bootstrap/server",
-          extensions() {
-            return [
-              {
-                name: "my-extension",
-                extendApiMethods: {
-                  myFunc(context) {
-                    return context.api.success();
-                  },
-                  myFuncWithDependencyToOtherExtension(context) {
-                    return (context.api as any).myFunc();
-                  },
+          extensions: (extensions) => [
+            ...extensions,
+            extension,
+            {
+              name: "my-namespaced-extension",
+              isNamespaced: true,
+              extendApiMethods: {
+                myFunc: (context) => {
+                  return context.api.error();
+                },
+                myFuncNamespaced: (context) => {
+                  return context.api.success();
                 },
               },
-              {
-                name: "my-namespaced-extension",
-                isNamespaced: true,
-                extendApiMethods: {
-                  myFunc(context) {
-                    return context.api.error();
-                  },
-                  myFuncNamespaced(context) {
-                    return context.api.success();
-                  },
-                },
-              },
-            ];
-          },
+            },
+          ],
         },
       },
     });
@@ -207,5 +207,34 @@ describe("[Integration] Create server", () => {
     // If merged, the response would be { message: "error", error: true, status: 404 }
     expect(status).toEqual(200);
     expect(response).toEqual(apiMethodResult);
+  });
+
+  it("should prevent XSS attacks", async () => {
+    const url =
+      "/test_integration/z--%3E%3C!--hi--%3E%3Cimg%20src=x%20onerror=alert('DOM--XSS')%3E%3C!--%3C%3C";
+
+    const res = await request(app).get(url).send();
+
+    // To have the same error as in the browser, we need to use `res.error.text` instead of intuitionally `res.error.message`.
+    expect(res.error && res.error.text).not.toBe(
+      `Failed to resolve apiClient or function: The function \\"z--><!--hi--><img src=x onerror=alert('DOM--XSS')><!--<<\\" is not registered.`
+    );
+    expect(res.error && res.error.text).toEqual(
+      `Failed to resolve apiClient or function: The function "z--&gt;<img src>" is not registered.`
+    );
+  });
+
+  it("should accept only GET and POST methods", async () => {
+    const { status, error } = await request(app).put(
+      "/test_integration/success"
+    );
+
+    expect(status).toEqual(405);
+    expect(error).toBeTruthy();
+    if (error) {
+      expect(error.text).toEqual(
+        "Method PUT is not allowed. Please, use GET or POST method."
+      );
+    }
   });
 });

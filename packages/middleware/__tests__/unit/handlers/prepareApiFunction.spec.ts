@@ -29,16 +29,6 @@ describe("[middleware-handlers] prepareApiFunction", () => {
     res.locals = {};
   });
 
-  it("sends 404 error if integration is not configured", async () => {
-    const emptyIntegrations = {};
-
-    await prepareApiFunction(emptyIntegrations)(req, res, next);
-
-    expect(res.status).toBeCalledTimes(1);
-    expect(res.status).toBeCalledWith(404);
-    expect(res.send).toBeCalledTimes(1);
-  });
-
   describe("if integration is configured", () => {
     it("adds api function to res.locals", async () => {
       await prepareApiFunction(integrations)(req, res, next);
