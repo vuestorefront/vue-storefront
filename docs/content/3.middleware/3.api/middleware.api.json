@@ -4697,16 +4697,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "<T extends "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "ApiClientMethodWithContext",
-                  "canonicalReference": "@vue-storefront/middleware!ApiClientMethodWithContext:type"
-                },
-                {
-                  "kind": "Content",
-                  "text": "<CONTEXT>>(extensions: "
+                  "text": "(extensions: "
                 },
                 {
                   "kind": "Reference",
@@ -4724,7 +4715,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "<API & T, CONTEXT>[]"
+                  "text": "<API, CONTEXT>[]"
                 },
                 {
                   "kind": "Content",
@@ -4737,7 +4728,7 @@
               "name": "extensions",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 8
+                "endIndex": 6
               }
             },
             {
