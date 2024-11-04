@@ -6,7 +6,6 @@ import type { HelmetOptions } from "helmet";
 import helmet from "helmet";
 import http, { Server } from "node:http";
 import { createTerminus } from "@godaddy/terminus";
-
 import { registerIntegrations } from "./integrations";
 import type {
   Helmet,
@@ -19,6 +18,7 @@ import {
   prepareErrorHandler,
   prepareArguments,
   callApiFunction,
+  validateParams,
 } from "./handlers";
 import { createTerminusOptions } from "./terminus";
 
@@ -66,15 +66,9 @@ async function createServer<
   const integrations = await registerIntegrations(app, config.integrations);
   consola.success("Integrations loaded!");
 
-  app.post(
+  app.all(
     "/:integrationName/:extensionName?/:functionName",
-    prepareApiFunction(integrations),
-    prepareErrorHandler(integrations),
-    prepareArguments,
-    callApiFunction
-  );
-  app.get(
-    "/:integrationName/:extensionName?/:functionName",
+    validateParams(integrations),
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),
     prepareArguments,
