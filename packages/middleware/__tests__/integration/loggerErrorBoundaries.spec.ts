@@ -56,7 +56,6 @@ const testingExtension = {
       ]);
     },
     async paralellOrchestrationTest(context) {
-      // paralell_replicated_integration
       const int = await context.getApiClient("replicated_integration");
       const int2 = await context.getApiClient(
         "paralell_replicated_integration"
@@ -265,16 +264,18 @@ describe("[Integration] Logger error boundaries", () => {
       await request(app).post("/test_integration/throwError");
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          functionName: "throwError",
-          integrationName: "test_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          functionName: "throwError",
-          integrationName: "test_integration",
-          type: "endpoint",
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "throwError",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            functionName: "throwError",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
         },
       });
     });
@@ -283,17 +284,19 @@ describe("[Integration] Logger error boundaries", () => {
       await request(app).post("/hooks_error_integration/success");
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          functionName: "success",
-          integrationName: "hooks_error_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          integrationName: "hooks_error_integration",
-          extensionName: "throwing-hooks",
-          hookName: "hooks",
-          type: "requestHook",
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "success",
+            integrationName: "hooks_error_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            integrationName: "hooks_error_integration",
+            extensionName: "throwing-hooks",
+            hookName: "hooks",
+            type: "requestHook",
+          },
         },
       });
     });
@@ -302,17 +305,19 @@ describe("[Integration] Logger error boundaries", () => {
       await request(app).post("/before_create_error_integration/success");
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          functionName: "success",
-          integrationName: "before_create_error_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          integrationName: "before_create_error_integration",
-          extensionName: "throwing-hooks",
-          hookName: "beforeCreate",
-          type: "requestHook",
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "success",
+            integrationName: "before_create_error_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            integrationName: "before_create_error_integration",
+            extensionName: "throwing-hooks",
+            hookName: "beforeCreate",
+            type: "requestHook",
+          },
         },
       });
     });
@@ -321,17 +326,19 @@ describe("[Integration] Logger error boundaries", () => {
       await request(app).post("/after_create_error_integration/success");
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          functionName: "success",
-          integrationName: "after_create_error_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          integrationName: "after_create_error_integration",
-          extensionName: "throwing-hooks",
-          hookName: "afterCreate",
-          type: "requestHook",
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "success",
+            integrationName: "after_create_error_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            integrationName: "after_create_error_integration",
+            extensionName: "throwing-hooks",
+            hookName: "afterCreate",
+            type: "requestHook",
+          },
         },
       });
     });
@@ -340,18 +347,20 @@ describe("[Integration] Logger error boundaries", () => {
       await request(app).post("/before_call_error_integration/success");
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          functionName: "success",
-          integrationName: "before_call_error_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          functionName: "success",
-          integrationName: "before_call_error_integration",
-          extensionName: "throwing-hooks",
-          hookName: "beforeCall",
-          type: "requestHook",
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "success",
+            integrationName: "before_call_error_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            functionName: "success",
+            integrationName: "before_call_error_integration",
+            extensionName: "throwing-hooks",
+            hookName: "beforeCall",
+            type: "requestHook",
+          },
         },
       });
     });
@@ -360,18 +369,20 @@ describe("[Integration] Logger error boundaries", () => {
       await request(app).post("/after_call_error_integration/success");
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          functionName: "success",
-          integrationName: "after_call_error_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          functionName: "success",
-          integrationName: "after_call_error_integration",
-          extensionName: "throwing-hooks",
-          hookName: "afterCall",
-          type: "requestHook",
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "success",
+            integrationName: "after_call_error_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            functionName: "success",
+            integrationName: "after_call_error_integration",
+            extensionName: "throwing-hooks",
+            hookName: "afterCall",
+            type: "requestHook",
+          },
         },
       });
     });
@@ -413,18 +424,20 @@ describe("[Integration] Logger error boundaries", () => {
       ).rejects.toThrow(expect.any(Error));
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          extensionName: "throwing-extendapp",
-          integrationName: "extend_app_error_integration",
-          type: "bootstrapHook",
-          hookName: "extendApp",
-        },
-        errorBoundary: {
-          extensionName: "throwing-extendapp",
-          integrationName: "extend_app_error_integration",
-          type: "bootstrapHook",
-          hookName: "extendApp",
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "throwing-extendapp",
+            integrationName: "extend_app_error_integration",
+            type: "bootstrapHook",
+            hookName: "extendApp",
+          },
+          errorBoundary: {
+            extensionName: "throwing-extendapp",
+            integrationName: "extend_app_error_integration",
+            type: "bootstrapHook",
+            hookName: "extendApp",
+          },
         },
       });
     });
@@ -433,18 +446,20 @@ describe("[Integration] Logger error boundaries", () => {
       await request(app).post("/test_integration/addedCustomEndpoint");
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          functionName: "addedCustomEndpoint",
-          integrationName: "test_integration",
-          extensionName: "testing-extension",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          functionName: "addedCustomEndpoint",
-          integrationName: "test_integration",
-          extensionName: "testing-extension",
-          type: "endpoint",
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "addedCustomEndpoint",
+            integrationName: "test_integration",
+            extensionName: "testing-extension",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            functionName: "addedCustomEndpoint",
+            integrationName: "test_integration",
+            extensionName: "testing-extension",
+            type: "endpoint",
+          },
         },
       });
     });
@@ -455,18 +470,20 @@ describe("[Integration] Logger error boundaries", () => {
       );
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          functionName: "setCookieHeader",
-          integrationName: "test_integration",
-          extensionName: "namespaced-testing-extension",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          functionName: "setCookieHeader",
-          integrationName: "test_integration",
-          extensionName: "namespaced-testing-extension",
-          type: "endpoint",
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "setCookieHeader",
+            integrationName: "test_integration",
+            extensionName: "namespaced-testing-extension",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            functionName: "setCookieHeader",
+            integrationName: "test_integration",
+            extensionName: "namespaced-testing-extension",
+            type: "endpoint",
+          },
         },
       });
     });
@@ -475,17 +492,19 @@ describe("[Integration] Logger error boundaries", () => {
       await request(app).post("/test_integration/reuseOtherMethod");
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          extensionName: "testing-extension",
-          functionName: "reuseOtherMethod",
-          integrationName: "test_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          functionName: "throwError",
-          integrationName: "test_integration",
-          type: "endpoint",
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "reuseOtherMethod",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            functionName: "throwError",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
         },
       });
     });
@@ -494,17 +513,19 @@ describe("[Integration] Logger error boundaries", () => {
       await request(app).post("/test_integration/resueOtherIntegrationMethod");
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          extensionName: "testing-extension",
-          functionName: "resueOtherIntegrationMethod",
-          integrationName: "test_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          functionName: "throwError",
-          integrationName: "replicated_integration",
-          type: "endpoint",
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "resueOtherIntegrationMethod",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            functionName: "throwError",
+            integrationName: "replicated_integration",
+            type: "endpoint",
+          },
         },
       });
     });
@@ -515,18 +536,20 @@ describe("[Integration] Logger error boundaries", () => {
       );
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          extensionName: "testing-extension",
-          functionName: "resueOtherIntegrationsExtensionMethod",
-          integrationName: "test_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          functionName: "methodFromExt",
-          integrationName: "replicated_integration",
-          extensionName: "replicated-integration-extension",
-          type: "endpoint",
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "resueOtherIntegrationsExtensionMethod",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            functionName: "methodFromExt",
+            integrationName: "replicated_integration",
+            extensionName: "replicated-integration-extension",
+            type: "endpoint",
+          },
         },
       });
     });
@@ -537,17 +560,19 @@ describe("[Integration] Logger error boundaries", () => {
       );
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          extensionName: "testing-extension",
-          functionName: "resueOtherIntegrationsExtensionMethodCallingThrow",
-          integrationName: "test_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          functionName: "throwError",
-          integrationName: "replicated_integration",
-          type: "endpoint",
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "resueOtherIntegrationsExtensionMethodCallingThrow",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            functionName: "throwError",
+            integrationName: "replicated_integration",
+            type: "endpoint",
+          },
         },
       });
     });
@@ -558,18 +583,20 @@ describe("[Integration] Logger error boundaries", () => {
       );
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          extensionName: "testing-extension",
-          functionName: "paralellOrchestrationTestFromExtensionFails",
-          integrationName: "test_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          functionName: "methodFromExt",
-          extensionName: "replicated-integration-extension",
-          integrationName: "replicated_integration",
-          type: "endpoint",
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "paralellOrchestrationTestFromExtensionFails",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            functionName: "methodFromExt",
+            extensionName: "replicated-integration-extension",
+            integrationName: "replicated_integration",
+            type: "endpoint",
+          },
         },
       });
     });
@@ -578,17 +605,19 @@ describe("[Integration] Logger error boundaries", () => {
       await request(app).post("/test_integration/paralellOrchestrationTest");
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          extensionName: "testing-extension",
-          functionName: "paralellOrchestrationTest",
-          integrationName: "test_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          functionName: "throwError",
-          integrationName: "paralell_replicated_integration",
-          type: "endpoint",
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "paralellOrchestrationTest",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            functionName: "throwError",
+            integrationName: "paralell_replicated_integration",
+            type: "endpoint",
+          },
         },
       });
     });
@@ -609,16 +638,18 @@ describe("[Integration] Logger error boundaries", () => {
       ).rejects.toThrow(expect.any(Error));
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          integrationName: "test_integration",
-          type: "bootstrapHook",
-          hookName: "init",
-        },
-        errorBoundary: {
-          integrationName: "test_integration",
-          type: "bootstrapHook",
-          hookName: "init",
+        alokai: {
+          context: "middleware",
+          scope: {
+            integrationName: "test_integration",
+            type: "bootstrapHook",
+            hookName: "init",
+          },
+          errorBoundary: {
+            integrationName: "test_integration",
+            type: "bootstrapHook",
+            hookName: "init",
+          },
         },
       });
     });
@@ -639,16 +670,18 @@ describe("[Integration] Logger error boundaries", () => {
       await request(app).post("/test_integration/success");
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          functionName: "success",
-          integrationName: "test_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          integrationName: "test_integration",
-          type: "endpoint",
-          hookName: "onCreate",
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "success",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            integrationName: "test_integration",
+            type: "endpoint",
+            hookName: "onCreate",
+          },
         },
       });
     });
@@ -688,17 +721,19 @@ describe("[Integration] Logger error boundaries", () => {
       await request(app).post("/test_integration/callOther");
 
       expect(Logger.error).toBeCalledWith(expect.any(Error), {
-        context: "middleware",
-        scope: {
-          functionName: "callOther",
-          extensionName: "my-ext",
-          integrationName: "test_integration",
-          type: "endpoint",
-        },
-        errorBoundary: {
-          integrationName: "fail_integration",
-          type: "endpoint",
-          hookName: "onCreate",
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "callOther",
+            extensionName: "my-ext",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+          errorBoundary: {
+            integrationName: "fail_integration",
+            type: "endpoint",
+            hookName: "onCreate",
+          },
         },
       });
     });

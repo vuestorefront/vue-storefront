@@ -24,6 +24,15 @@ const testingExtension = {
       logger.info("some log");
       return {};
     },
+    overwriteAlokaiMetadata(context) {
+      const logger = getLogger(context);
+      logger.info("some log", {
+        alokai: {
+          context: "storefront-hacking!",
+        },
+        author: "John",
+      } as any); // Skipping TypeScript guard
+    },
     setCookieHeader(context) {
       const logger = getLogger(context);
       logger.info("some log");
@@ -166,345 +175,414 @@ describe("[Integration] Logger scopes", () => {
     });
   });
 
-  test("scope of log from API methods from the integration", async () => {
-    await request(app).post("/test_integration/success");
+  it("prevents overwriting 'alokai' metadata object", async () => {
+    await request(app).post("/test_integration/overwriteAlokaiMetadata");
 
     expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: undefined,
-        functionName: "success",
-        integrationName: "test_integration",
-        type: "endpoint",
-      },
-    });
-  });
-
-  test("scope of log from API methods added in the extension", async () => {
-    await request(app).post("/test_integration/addedCustomEndpoint");
-
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: "testing-extension",
-        functionName: "addedCustomEndpoint",
-        integrationName: "test_integration",
-        type: "endpoint",
-      },
-    });
-  });
-
-  test("scope of log from API methods overwritten in the extension (without namespace)", async () => {
-    await request(app).post("/test_integration/setCookieHeader");
-
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: "testing-extension",
-        functionName: "setCookieHeader",
-        integrationName: "test_integration",
-        type: "endpoint",
-      },
-    });
-  });
-
-  test("scope of log from API methods overwritten in the extension (with namespace)", async () => {
-    await request(app).post(
-      "/test_integration/namespaced-testing-extension/setCookieHeader"
-    );
-
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: "namespaced-testing-extension",
-        functionName: "setCookieHeader",
-        integrationName: "test_integration",
-        type: "endpoint",
-      },
-    });
-  });
-
-  test("scope of log from hooks method in the extension", async () => {
-    await request(app).post("/test_integration/setCookieHeader");
-
-    expect(Logger.info).toBeCalledWith("hooks", {
-      context: "middleware",
-      scope: {
-        extensionName: "testing-extension",
-        functionName: "setCookieHeader",
-        integrationName: "test_integration",
-        hookName: "hooks",
-        type: "requestHook",
-      },
-    });
-  });
-
-  test("scope of log from hooks method in the extension triggered when calling other method from other extension", async () => {
-    await request(app).post(
-      "/test_integration/namespaced-testing-extension/setCookieHeader"
-    );
-
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: "testing-extension",
-        functionName: "setCookieHeader",
-        integrationName: "test_integration",
-        hookName: "hooks",
-        type: "requestHook",
-      },
-    });
-  });
-
-  test("scope of log from beforeCreate method in the extension", async () => {
-    await request(app).post("/test_integration/setCookieHeader");
-
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: "testing-extension",
-        functionName: "setCookieHeader",
-        integrationName: "test_integration",
-        hookName: "beforeCreate",
-        type: "requestHook",
-      },
-    });
-  });
-
-  test("scope of log from beforeCall method in the extension", async () => {
-    await request(app).post("/test_integration/setCookieHeader");
-
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: "testing-extension",
-        functionName: "setCookieHeader",
-        integrationName: "test_integration",
-        hookName: "beforeCall",
-        type: "requestHook",
-      },
-    });
-  });
-
-  test("scope of log from afterCreate method in the extension", async () => {
-    await request(app).post("/test_integration/setCookieHeader");
-
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: "testing-extension",
-        functionName: "setCookieHeader",
-        integrationName: "test_integration",
-        hookName: "afterCreate",
-        type: "requestHook",
-      },
-    });
-  });
-
-  test("scope of log from afterCall method in the extension", async () => {
-    await request(app).post("/test_integration/setCookieHeader");
-
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: "testing-extension",
-        functionName: "setCookieHeader",
-        integrationName: "test_integration",
-        hookName: "afterCall",
-        type: "requestHook",
-      },
-    });
-  });
-
-  test("scope of log from endpoint resued in custom endpoint", async () => {
-    await request(app).post("/test_integration/reuseOtherMethod");
-
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: "testing-extension",
-        functionName: "reuseOtherMethod",
-        integrationName: "test_integration",
-        type: "endpoint",
-      },
-    });
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        functionName: "success",
-        integrationName: "test_integration",
-        type: "endpoint",
-      },
-    });
-  });
-
-  test("scope of log from: different integration called from extension", async () => {
-    await request(app).post("/test_integration/resueOtherIntegrationMethod");
-
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: "testing-extension",
-        functionName: "resueOtherIntegrationMethod",
-        integrationName: "test_integration",
-        type: "endpoint",
-      },
-    });
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: "replicated-integration-extension",
-        functionName: "orchestrationTest",
-        integrationName: "replicated_integration",
-        type: "endpoint",
-      },
-    });
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        functionName: "success",
-        integrationName: "replicated_integration",
-        type: "endpoint",
-      },
-    });
-  });
-
-  test("scope of log from: multiple different integrations called from extension", async () => {
-    await request(app).post("/test_integration/paralellOrchestrationTest");
-
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: "testing-extension",
-        functionName: "paralellOrchestrationTest",
-        integrationName: "test_integration",
-        type: "endpoint",
-      },
-    });
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        extensionName: "replicated-integration-extension",
-        functionName: "orchestrationTest",
-        integrationName: "replicated_integration",
-        type: "endpoint",
-      },
-    });
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        functionName: "success",
-        integrationName: "replicated_integration",
-        type: "endpoint",
-      },
-    });
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        functionName: "successParalell",
-        integrationName: "paralell_replicated_integration",
-        type: "endpoint",
-      },
-    });
-  });
-
-  test("scope of log extendApp", async () => {
-    await createServer({
-      logger: {
-        handler: Logger,
-      },
-      integrations: {
-        test_integration: {
-          configuration: {},
-          location: "./__tests__/integration/bootstrap/server",
-          logger: {
-            handler: Logger,
-          },
-          extensions() {
-            return [testingExtension as any, namespacedTestingExtension as any];
-          },
-        },
-        replicated_integration: {
-          configuration: {},
-          location: "./__tests__/integration/bootstrap/server",
-          logger: {
-            handler: Logger,
-          },
-          extensions() {
-            return [
-              testingExtension as any,
-              replicatedIntegrationExtension as any,
-            ];
-          },
+      alokai: {
+        context: "middleware", // not "storefront-hacking!"
+        scope: {
+          extensionName: "testing-extension",
+          functionName: "overwriteAlokaiMetadata",
+          integrationName: "test_integration",
+          type: "endpoint",
         },
       },
-    });
-
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        integrationName: "test_integration",
-        extensionName: "testing-extension",
-        type: "bootstrapHook",
-        hookName: "extendApp",
-      },
+      author: "John",
     });
   });
 
-  test("scope of log init function", async () => {
-    await createServer({
-      logger: {
-        handler: Logger,
-      },
-      integrations: {
-        test_integration: {
-          configuration: {},
-          location: "./__tests__/integration/bootstrap/serverWithInitFn",
-          logger: {
-            handler: Logger,
-          },
-          extensions() {
-            return [testingExtension as any, namespacedTestingExtension as any];
+  describe("scope of log from", () => {
+    test("handler from the integration", async () => {
+      await request(app).post("/test_integration/success");
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: undefined,
+            functionName: "success",
+            integrationName: "test_integration",
+            type: "endpoint",
           },
         },
-      },
+      });
     });
 
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        integrationName: "test_integration",
-        type: "bootstrapHook",
-        hookName: "init",
-      },
-    });
-  });
+    test("handler added in the extension", async () => {
+      await request(app).post("/test_integration/addedCustomEndpoint");
 
-  test("scope of log onCreate function", async () => {
-    const app = await createServer({
-      logger: {
-        handler: Logger,
-      },
-      integrations: {
-        test_integration: {
-          configuration: {},
-          location: "./__tests__/integration/bootstrap/server",
-          logger: {
-            handler: Logger,
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "addedCustomEndpoint",
+            integrationName: "test_integration",
+            type: "endpoint",
           },
         },
-      },
+      });
     });
-    await request(app).post("/test_integration/success");
 
-    expect(Logger.info).toBeCalledWith(expect.any(String), {
-      context: "middleware",
-      scope: {
-        integrationName: "test_integration",
-        functionName: "success",
-        type: "requestHook",
-        hookName: "onCreate",
-      },
+    test("handler overwritten in the extension (without namespace)", async () => {
+      await request(app).post("/test_integration/setCookieHeader");
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "setCookieHeader",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+        },
+      });
+    });
+
+    test("handler overwritten in the extension (with namespace)", async () => {
+      await request(app).post(
+        "/test_integration/namespaced-testing-extension/setCookieHeader"
+      );
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "namespaced-testing-extension",
+            functionName: "setCookieHeader",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+        },
+      });
+    });
+
+    test("hooks method in the extension", async () => {
+      await request(app).post("/test_integration/setCookieHeader");
+
+      expect(Logger.info).toBeCalledWith("hooks", {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "setCookieHeader",
+            integrationName: "test_integration",
+            hookName: "hooks",
+            type: "requestHook",
+          },
+        },
+      });
+    });
+
+    test("hooks method in the extension triggered when calling another method from different extension but same integration", async () => {
+      await request(app).post(
+        "/test_integration/namespaced-testing-extension/setCookieHeader"
+      );
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "setCookieHeader",
+            integrationName: "test_integration",
+            hookName: "hooks",
+            type: "requestHook",
+          },
+        },
+      });
+    });
+
+    test("beforeCreate hook in the extension", async () => {
+      await request(app).post("/test_integration/setCookieHeader");
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "setCookieHeader",
+            integrationName: "test_integration",
+            hookName: "beforeCreate",
+            type: "requestHook",
+          },
+        },
+      });
+    });
+
+    test("beforeCall hook in the extension", async () => {
+      await request(app).post("/test_integration/setCookieHeader");
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "setCookieHeader",
+            integrationName: "test_integration",
+            hookName: "beforeCall",
+            type: "requestHook",
+          },
+        },
+      });
+    });
+
+    test("afterCreate hook in the extension", async () => {
+      await request(app).post("/test_integration/setCookieHeader");
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "setCookieHeader",
+            integrationName: "test_integration",
+            hookName: "afterCreate",
+            type: "requestHook",
+          },
+        },
+      });
+    });
+
+    test("afterCall hook in the extension", async () => {
+      await request(app).post("/test_integration/setCookieHeader");
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "setCookieHeader",
+            integrationName: "test_integration",
+            hookName: "afterCall",
+            type: "requestHook",
+          },
+        },
+      });
+    });
+
+    test("handler reused in custom handler", async () => {
+      await request(app).post("/test_integration/reuseOtherMethod");
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "reuseOtherMethod",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+        },
+      });
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "success",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+        },
+      });
+    });
+
+    test("different integration called from extension", async () => {
+      await request(app).post("/test_integration/resueOtherIntegrationMethod");
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "resueOtherIntegrationMethod",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+        },
+      });
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "replicated-integration-extension",
+            functionName: "orchestrationTest",
+            integrationName: "replicated_integration",
+            type: "endpoint",
+          },
+        },
+      });
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "success",
+            integrationName: "replicated_integration",
+            type: "endpoint",
+          },
+        },
+      });
+    });
+
+    test("multiple different integrations called paralelly from extension", async () => {
+      await request(app).post("/test_integration/paralellOrchestrationTest");
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "testing-extension",
+            functionName: "paralellOrchestrationTest",
+            integrationName: "test_integration",
+            type: "endpoint",
+          },
+        },
+      });
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            extensionName: "replicated-integration-extension",
+            functionName: "orchestrationTest",
+            integrationName: "replicated_integration",
+            type: "endpoint",
+          },
+        },
+      });
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "success",
+            integrationName: "replicated_integration",
+            type: "endpoint",
+          },
+        },
+      });
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            functionName: "successParalell",
+            integrationName: "paralell_replicated_integration",
+            type: "endpoint",
+          },
+        },
+      });
+    });
+
+    test("extendApp", async () => {
+      await createServer({
+        logger: {
+          handler: Logger,
+        },
+        integrations: {
+          test_integration: {
+            configuration: {},
+            location: "./__tests__/integration/bootstrap/server",
+            logger: {
+              handler: Logger,
+            },
+            extensions() {
+              return [
+                testingExtension as any,
+                namespacedTestingExtension as any,
+              ];
+            },
+          },
+          replicated_integration: {
+            configuration: {},
+            location: "./__tests__/integration/bootstrap/server",
+            logger: {
+              handler: Logger,
+            },
+            extensions() {
+              return [
+                testingExtension as any,
+                replicatedIntegrationExtension as any,
+              ];
+            },
+          },
+        },
+      });
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            integrationName: "test_integration",
+            extensionName: "testing-extension",
+            type: "bootstrapHook",
+            hookName: "extendApp",
+          },
+        },
+      });
+    });
+
+    test("init function", async () => {
+      await createServer({
+        logger: {
+          handler: Logger,
+        },
+        integrations: {
+          test_integration: {
+            configuration: {},
+            location: "./__tests__/integration/bootstrap/serverWithInitFn",
+            logger: {
+              handler: Logger,
+            },
+            extensions() {
+              return [
+                testingExtension as any,
+                namespacedTestingExtension as any,
+              ];
+            },
+          },
+        },
+      });
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            integrationName: "test_integration",
+            type: "bootstrapHook",
+            hookName: "init",
+          },
+        },
+      });
+    });
+
+    test("onCreate function", async () => {
+      const app = await createServer({
+        logger: {
+          handler: Logger,
+        },
+        integrations: {
+          test_integration: {
+            configuration: {},
+            location: "./__tests__/integration/bootstrap/server",
+            logger: {
+              handler: Logger,
+            },
+          },
+        },
+      });
+      await request(app).post("/test_integration/success");
+
+      expect(Logger.info).toBeCalledWith(expect.any(String), {
+        alokai: {
+          context: "middleware",
+          scope: {
+            integrationName: "test_integration",
+            functionName: "success",
+            type: "requestHook",
+            hookName: "onCreate",
+          },
+        },
+      });
     });
   });
 });

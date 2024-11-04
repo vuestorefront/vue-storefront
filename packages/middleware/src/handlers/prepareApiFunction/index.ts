@@ -1,6 +1,6 @@
 import { IntegrationsLoaded, MiddlewareContext } from "../../types";
 import { getApiFunction } from "./getApiFunction";
-import { getLogger } from "../../logger";
+import { getLogger, injectMetadata } from "../../logger";
 
 export function prepareApiFunction(
   integrations: IntegrationsLoaded
@@ -87,13 +87,15 @@ export function prepareApiFunction(
       res.locals.fnOrigin = fnOrigin;
     } catch (e) {
       if (e.errorBoundary) {
-        const logger = getLogger(res);
-        logger.error(e, {
-          scope: {
-            type: "endpoint",
+        const logger = injectMetadata(getLogger(res), () => ({
+          alokai: {
+            scope: {
+              type: "endpoint" as const,
+            },
+            errorBoundary: e.errorBoundary,
           },
-          errorBoundary: e.errorBoundary,
-        });
+        }));
+        logger.error(e);
       }
       res.status(404);
       res.send(e.message);

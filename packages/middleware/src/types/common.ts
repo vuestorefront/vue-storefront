@@ -11,10 +11,12 @@ import {
 import { WithRequired } from "./index";
 import { ApiClient, ApiClientConfig, ApiClientFactory } from "./server";
 
-type ResponseWithAlokaiLocals = Response<
+export type ResponseWithAlokaiLocals = Response<
   any,
   {
-    alokai?: AlokaiLocal;
+    alokai?: {
+      logger: LoggerInterface;
+    };
     apiFunction?: Function;
     fnOrigin?: string;
     [key: string]: any;
@@ -246,5 +248,6 @@ export type AlokaiLocal = {
   metadata?: {
     context?: string;
     scope?: LogScope;
+    errorBoundary?: LogScope;
   };
 };

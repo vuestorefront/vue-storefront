@@ -38,14 +38,14 @@ function injectHookMetadata(
     integrationName?: string;
   }
 ) {
-  return injectMetadata(logger, (metadata) => ({
-    ...metadata,
-    scope: {
-      ...metadata?.scope,
-      hookName,
-      type,
-      ...(extensionName ? { extensionName } : {}),
-      ...(integrationName ? { integrationName } : {}),
+  return injectMetadata(logger, () => ({
+    alokai: {
+      scope: {
+        hookName,
+        type,
+        ...(extensionName ? { extensionName } : {}),
+        ...(integrationName ? { integrationName } : {}),
+      },
     },
   }));
 }
