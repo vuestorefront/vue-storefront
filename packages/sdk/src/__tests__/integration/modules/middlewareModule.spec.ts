@@ -818,7 +818,7 @@ describe("middlewareModule", () => {
 
   it("should use the built in logger when ALOKAI_SDK_DEBUG is true", async () => {
     process.env.ALOKAI_SDK_DEBUG = "true";
-    const logSpy = jest.spyOn(console, "log");
+    const logSpy = jest.spyOn(console, "debug");
 
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
