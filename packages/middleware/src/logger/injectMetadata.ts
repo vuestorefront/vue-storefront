@@ -31,7 +31,7 @@ export function lockLogger(logger: LoggerInterface): LoggerInterface {
         if (providedForbiddenMetadata) {
           delete metadata.alokai;
           target.warning(
-            "You attempted to overwrite alokai's metadata object. It's forbidden"
+            "You attempted to overwrite alokai's metadata object. It's forbidden and your data will be removed."
           );
         }
         target[prop](message, {
