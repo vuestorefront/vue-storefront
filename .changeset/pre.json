@@ -18,6 +18,7 @@
     "@vue-storefront/sdk-axios-request-sender": "2.0.0"
   },
   "changesets": [
+    "blue-suits-drop",
     "brave-jokes-film",
     "chilly-eggs-fetch",
     "chilly-fans-check",
