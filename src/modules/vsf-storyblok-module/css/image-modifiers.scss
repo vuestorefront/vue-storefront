@@ -1,7 +1,7 @@
 @mixin image-modifiers($target_image) {
   &.-rounded-corners {
     .#{$target_image} {
-      border-radius: 8px;
+      border-radius: 10px;
     }
   }
 }
