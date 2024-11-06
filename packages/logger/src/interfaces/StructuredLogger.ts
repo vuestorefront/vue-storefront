@@ -1,5 +1,5 @@
-import { LogLevel } from "./LogLevel";
+import { LogVerbosity } from "./LogVerbosity";
 
 export interface StructuredLogger {
-  logStructured(level: LogLevel, logData: unknown): void;
+  logStructured(level: LogVerbosity, logData: unknown): void;
 }

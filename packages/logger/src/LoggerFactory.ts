@@ -16,7 +16,7 @@ export enum LoggerType {
 export class LoggerFactory {
   static create(type: LoggerType, options?: LoggerOptions) {
     const defaultOptions = {
-      level: "info",
+      verbosity: "info",
       includeStackTrace: false,
     } satisfies LoggerOptions;
 
