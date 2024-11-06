@@ -1,5 +1,4 @@
 import type { HelmetOptions } from "helmet";
-import { LoggerInterface } from "@vue-storefront/logger";
 import { Integration } from "./common";
 import { TObject } from "./base";
 import { IntegrationContext } from "./server";
@@ -9,7 +8,7 @@ import { IntegrationContext } from "./server";
  *
  * @see https://datatracker.ietf.org/doc/html/rfc5424
  */
-export type LogLevel =
+export type LogVerbosity =
   | "emergency"
   | "alert"
   | "critical"
@@ -26,19 +25,12 @@ export interface LoggerOptions {
   /**
    * The log level aligned with RFC5424.
    */
-  level?: LogLevel;
+  level?: LogVerbosity;
 
   /**
    * Whether to include the stack trace in the log message.
    */
   includeStackTrace?: boolean;
-
-  /**
-   * Own implementation of logger to be used internally.
-   *
-   * @remarks If provided then other options won't be used.
-   */
-  handler?: LoggerInterface;
 }
 
 export interface Helmet extends HelmetOptions {

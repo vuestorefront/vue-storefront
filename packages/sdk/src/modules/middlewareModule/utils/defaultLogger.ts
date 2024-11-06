@@ -2,7 +2,7 @@ import { LoggerFactory, LoggerType } from "@vue-storefront/logger";
 import { Logger } from "../types";
 
 const internalLogger = LoggerFactory.create(LoggerType.ConsolaGcp, {
-  level: "debug",
+  verbosity: "debug",
 });
 
 /**

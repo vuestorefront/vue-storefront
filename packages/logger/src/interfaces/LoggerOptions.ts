@@ -1,4 +1,4 @@
-import { LogLevel } from "./LogLevel";
+import { LogVerbosity } from "./LogVerbosity";
 
 /**
  * Options for the logger.
@@ -7,7 +7,7 @@ export interface LoggerOptions {
   /**
    * The log level aligned with RFC5424.
    */
-  level?: LogLevel;
+  verbosity?: LogVerbosity;
 
   /**
    * Whether to include the stack trace in the log message.

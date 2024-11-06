@@ -3,7 +3,7 @@
  *
  * @see https://datatracker.ietf.org/doc/html/rfc5424
  */
-export type LogLevel =
+export type LogVerbosity =
   | "emergency"
   | "alert"
   | "critical"

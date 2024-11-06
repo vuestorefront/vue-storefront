@@ -5,7 +5,7 @@ import {
 import type { LogData, Metadata } from "../interfaces/LoggerInterface";
 import { GCPStructuredDTO } from "../interfaces/gcp/GCPStructuredLogger";
 import { StructuredLog } from "../interfaces/StructuredLog";
-import { LogLevel } from "../interfaces/LogLevel";
+import { LogVerbosity } from "../interfaces/LogVerbosity";
 import { LoggerOptions } from "../interfaces/LoggerOptions";
 
 type GCPSeverity =
@@ -19,7 +19,7 @@ type GCPSeverity =
   | "ALERT"
   | "EMERGENCY";
 
-type GCPSeverityMap = Record<LogLevel, GCPSeverity>;
+type GCPSeverityMap = Record<LogVerbosity, GCPSeverity>;
 
 /**
  * A structured log for Google Cloud Platform.
@@ -54,12 +54,12 @@ export class GCPStructuredLog implements StructuredLog {
   public createLog(
     logData: LogData,
     options: LoggerOptions,
-    severity?: LogLevel,
+    severity?: LogVerbosity,
     metadata: Metadata = {}
   ): GCPStructuredDTO {
     const structuredDto: GCPStructuredDTO = {
       timestamp: this.getCurrentTimestamp(),
-      severity: this.mapLogLevelToGCPSeverity(severity),
+      severity: this.mapLogVerbosityToGCPSeverity(severity),
       message: this.formatMessage(logData),
       ...metadata,
     };
@@ -88,7 +88,7 @@ export class GCPStructuredLog implements StructuredLog {
    *
    * @returns The GCP severity level for the given log level.
    */
-  private mapLogLevelToGCPSeverity(level: LogLevel): string {
+  private mapLogVerbosityToGCPSeverity(level: LogVerbosity): string {
     return this.severityMap[level] || "DEFAULT";
   }
 

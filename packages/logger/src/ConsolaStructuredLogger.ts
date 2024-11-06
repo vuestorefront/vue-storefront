@@ -1,7 +1,7 @@
 import { ConsolaOptions, createConsola } from "consola";
 
 import dotenv from "dotenv";
-import { LogLevel } from "./interfaces/LogLevel";
+import { LogVerbosity } from "./interfaces/LogVerbosity";
 import type {
   LogData,
   LoggerInterface,
@@ -23,11 +23,11 @@ interface ConsolaLoggerOptions
 const createConsolaStructuredLogger = (
   structuredLog: StructuredLog,
   options: ConsolaLoggerOptions = {
-    level: "info",
+    verbosity: "info",
     includeStackTrace: true,
   }
 ): LoggerInterface => {
-  const levelMap: Record<LogLevel, number> = {
+  const levelMap: Record<LogVerbosity, number> = {
     emergency: 0,
     alert: 0,
     critical: 0,
@@ -45,7 +45,7 @@ const createConsolaStructuredLogger = (
   };
 
   const logger = createConsola({
-    level: levelMap?.[options.level] ?? levelMap.info,
+    level: levelMap?.[options.verbosity] ?? levelMap.info,
     reporters: options.reporters || [buildJsonReporter()],
   });
 
@@ -53,12 +53,12 @@ const createConsolaStructuredLogger = (
     logger.setReporters(options.reporters);
   }
 
-  const mapToConsolaLevel = (level: LogLevel): number => {
+  const mapToConsolaLevel = (level: LogVerbosity): number => {
     return levelMap?.[level] ?? levelMap.info; // Default to 'info' level
   };
 
   const logStructured = (
-    level: LogLevel,
+    level: LogVerbosity,
     logData: LogData,
     metadata?: Metadata
   ): void => {
@@ -99,14 +99,14 @@ const createConsolaStructuredLogger = (
   };
 
   const log = (
-    level: LogLevel,
+    level: LogVerbosity,
     logData: LogData,
     metadata?: Metadata
   ): void => {
     logStructured(level, logData, metadata);
   };
 
-  const logAtLevel = (level: LogLevel) => {
+  const logAtLevel = (level: LogVerbosity) => {
     return (logData: LogData, metadata?: Metadata) =>
       log(level, logData, metadata);
   };
