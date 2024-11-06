@@ -1,5 +1,11 @@
 # @vue-storefront/logger
 
+## 1.0.0-rc.5
+
+### Minor Changes
+
+Change LogLevel into LogVerbosity
+
 ## 1.0.0-rc.4
 
 ### Minor Changes
