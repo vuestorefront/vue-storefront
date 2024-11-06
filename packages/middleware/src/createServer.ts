@@ -6,6 +6,7 @@ import helmet from "helmet";
 import http, { Server } from "node:http";
 import { createTerminus } from "@godaddy/terminus";
 import { LoggerFactory, LoggerType } from "@vue-storefront/logger";
+import { registerIntegrations } from "./integrations";
 import type {
   LoggerOptions,
   Helmet,
@@ -15,12 +16,12 @@ import type {
 } from "./types";
 import { LoggerManager, injectMetadata, lockLogger } from "./logger";
 
-import { registerIntegrations } from "./integrations";
 import {
   prepareApiFunction,
   prepareErrorHandler,
   prepareArguments,
   callApiFunction,
+  validateParams,
 } from "./handlers";
 import { createTerminusOptions } from "./terminus";
 import { prepareLogger } from "./handlers/prepareLogger";
@@ -84,16 +85,9 @@ async function createServer<
   );
   logger.debug("Integrations loaded!");
 
-  app.post(
+  app.all(
     "/:integrationName/:extensionName?/:functionName",
-    prepareLogger(loggerManager),
-    prepareApiFunction(integrations),
-    prepareErrorHandler(integrations),
-    prepareArguments,
-    callApiFunction
-  );
-  app.get(
-    "/:integrationName/:extensionName?/:functionName",
+    validateParams(integrations),
     prepareLogger(loggerManager),
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),

@@ -13,36 +13,3 @@ jobs:
     secrets: inherit
     with:
       enterprise: false
-
-  sonarcloud-sdk:
-    name: "SonarCloud SDK"
-    needs: [continous-integration]
-    uses: ./.github/workflows/sonarcloud-integrations.yml
-    secrets:
-      SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
-    with:
-      project_key: "vuestorefront_vue-storefront_sdk"
-      package_name: "sdk"
-      exclusions: "*.config.js,src/index.ts,src/api-extractor-data.ts,**/types/**,**/__tests__/**/*"
-
-  sonarcloud-cli:
-    name: "SonarCloud CLI"
-    needs: [continous-integration]
-    uses: ./.github/workflows/sonarcloud-integrations.yml
-    secrets:
-      SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
-    with:
-      project_key: "vuestorefront_vue-storefront_cli"
-      package_name: "cli"
-      exclusions: "*.config.js,*.config.*.ts,src/index.ts,src/connector.ts,src/api-extractor-data.ts,**/types/**,"
-
-  sonarcloud-middleware:
-    name: "SonarCloud Middleware"
-    needs: [continous-integration]
-    uses: ./.github/workflows/sonarcloud-integrations.yml
-    secrets:
-      SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
-    with:
-      project_key: "vuestorefront_vue-storefront_middleware"
-      package_name: "middleware"
-      exclusions: "*.config.js,*.config.*.ts,src/index.ts,src/connector.ts,src/api-extractor-data.ts,**/types/**,**/__tests__/**/*"
