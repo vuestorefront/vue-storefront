@@ -39,6 +39,7 @@ import { isFileUploadValue } from './types/is-file-upload-value.typeguard';
 import { ListWidgetInputType } from './types/list-widget-input-type';
 import { OptionType } from './types/option-type';
 import { OptionValue } from './types/option-value.interface';
+import { PersistedData } from './types/persisted-data.interface';
 import { PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID } from './types/production-time-selector-standard-option-value-id';
 import { WidgetOptionShape } from './types/widget-option-shape.type';
 import { WidgetType } from './types/widget-type';
@@ -55,6 +56,7 @@ export {
   ListWidgetInputType,
   OptionType,
   OptionValue,
+  PersistedData,
   PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID,
   WidgetOptionAlignment,
   WidgetOptions,
