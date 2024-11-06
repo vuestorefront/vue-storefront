@@ -5828,34 +5828,6 @@
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@vue-storefront/middleware!LoggerOptions#handler:member",
-              "docComment": "/**\n * Own implementation of logger to be used internally.\n *\n * @remarks\n *\n * If provided then other options won't be used.\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "handler?: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "LoggerInterface",
-                  "canonicalReference": "@vue-storefront/logger!LoggerInterface:interface"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isReadonly": false,
-              "isOptional": true,
-              "releaseTag": "Public",
-              "name": "handler",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            },
-            {
-              "kind": "PropertySignature",
               "canonicalReference": "@vue-storefront/middleware!LoggerOptions#includeStackTrace:member",
               "docComment": "/**\n * Whether to include the stack trace in the log message.\n */\n",
               "excerptTokens": [
@@ -5892,8 +5864,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "LogLevel",
-                  "canonicalReference": "@vue-storefront/middleware!LogLevel:type"
+                  "text": "LogVerbosity",
+                  "canonicalReference": "@vue-storefront/middleware!LogVerbosity:type"
                 },
                 {
                   "kind": "Content",
@@ -5911,32 +5883,6 @@
             }
           ],
           "extendsTokenRanges": []
-        },
-        {
-          "kind": "TypeAlias",
-          "canonicalReference": "@vue-storefront/middleware!LogLevel:type",
-          "docComment": "/**\n * Based on the syslog levels defined in RFC 5424.\n *\n * @see\n *\n * https://datatracker.ietf.org/doc/html/rfc5424\n */\n",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export type LogLevel = "
-            },
-            {
-              "kind": "Content",
-              "text": "\"emergency\" | \"alert\" | \"critical\" | \"error\" | \"warning\" | \"notice\" | \"info\" | \"debug\""
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "fileUrlPath": "src/types/config.ts",
-          "releaseTag": "Public",
-          "name": "LogLevel",
-          "typeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 2
-          }
         },
         {
           "kind": "TypeAlias",
@@ -5959,6 +5905,32 @@
           "fileUrlPath": "src/types/common.ts",
           "releaseTag": "Public",
           "name": "LogScope",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/middleware!LogVerbosity:type",
+          "docComment": "/**\n * Based on the syslog levels defined in RFC 5424.\n *\n * @see\n *\n * https://datatracker.ietf.org/doc/html/rfc5424\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type LogVerbosity = "
+            },
+            {
+              "kind": "Content",
+              "text": "\"emergency\" | \"alert\" | \"critical\" | \"error\" | \"warning\" | \"notice\" | \"info\" | \"debug\""
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/config.ts",
+          "releaseTag": "Public",
+          "name": "LogVerbosity",
           "typeTokenRange": {
             "startIndex": 1,
             "endIndex": 2
