@@ -1,5 +1,5 @@
 import { Metadata } from "../../../src/interfaces/LoggerInterface";
-import { LogLevel } from "../../../src/interfaces/LogLevel";
+import { LogVerbosity } from "../../../src/interfaces/LogVerbosity";
 import { GCPStructuredLog } from "../../../src/structuredLog/GCPStructuredLog";
 
 // We do not want to serialize the log payload at this point
@@ -157,7 +157,7 @@ describe("GCPStructuredLog", () => {
       const gcpStructuredLog = log.createLog(
         logData,
         options,
-        severity as LogLevel,
+        severity as LogVerbosity,
         metadata as unknown as Metadata
       );
       expect(gcpStructuredLog).toEqual(expected);

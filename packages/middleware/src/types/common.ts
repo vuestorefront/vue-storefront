@@ -110,9 +110,11 @@ export interface Integration<
   location: string;
   configuration: CONFIG;
   logger?: LoggerOptions;
-  extensions?: <T extends ApiClientMethodWithContext<CONTEXT>>(
+  extensions?: (
     extensions: ApiClientExtension<API, CONTEXT>[]
-  ) => ApiClientExtension<API & T, CONTEXT>[];
+    // TODO(IN-4338): There is a bug in the types here
+    // we're not able to verify if the methods are namespaced or not with this implementation.
+  ) => ApiClientExtension<API, CONTEXT>[];
   customQueries?: Record<string, CustomQueryFunction>;
   initConfig?: TObject;
   errorHandler?: (

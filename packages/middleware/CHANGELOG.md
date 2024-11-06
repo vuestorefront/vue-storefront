@@ -1,5 +1,22 @@
 # Change log
 
+## 5.1.0-rc.4
+
+### Minor Changes
+
+Change LogLevel into LogVerbosity
+
+### Patch Changes
+
+- Updated dependencies:
+  - @vue-storefront/logger@1.0.0-rc.5
+
+## 5.1.0-rc.3
+
+### Minor Changes
+
+block overwriting alokai metadata
+
 ## 5.1.0-rc.2
 
 ### Patch Changes
@@ -18,6 +35,12 @@ Fix scoping
 ### Minor Changes
 
 Feature logger
+
+## 5.0.1
+
+### Patch Changes
+
+- **[FIXED]** a potential XSS (Cross-Site Scripting) vulnerability in the middleware. Now, each parameter is properly sanitized and validated before being used in the middleware.
 
 ## 5.0.0
 
