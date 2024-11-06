@@ -15,7 +15,7 @@ export function useCustomizationStatePreservation (
   customizationState: Ref<CustomizationStateItem[]>,
   existingCartItem: Ref<CartItem | undefined>,
   unhandledCustomizationsFilters: ((customizationId: string) => boolean)[] = [],
-  canPersist: Ref<boolean>,
+  canRestorePreservedData: Ref<boolean>,
   mergeCustomizationState: (state: CustomizationStateItem[]) => void,
   removeUnavailableOptionValues: () => void,
   beforeCustomizationStateMerge?: (persistedData: PersistedData) => Promise<boolean>,
@@ -104,7 +104,7 @@ export function useCustomizationStatePreservation (
   onMounted(async () => {
     await nextTick();
 
-    if (existingCartItem.value || !canPersist) {
+    if (existingCartItem.value || !canRestorePreservedData.value) {
       removePreservedState();
       canUpdateState.value = true;
       return;
