@@ -18,7 +18,7 @@ export function useCustomizationStatePreservation (
   canPersist: Ref<boolean>,
   mergeCustomizationState: (state: CustomizationStateItem[]) => void,
   removeUnavailableOptionValues: () => void,
-  beforeCustomizationStateMerge?: (persistedData: PersistedData) => Promise<void>,
+  beforeCustomizationStateMerge?: (persistedData: PersistedData) => Promise<boolean>,
   afterCustomizationStateMerge?: (persistedData: PersistedData) => void,
   additionalData?: Ref<Record<string, any>> | undefined
 ) {
@@ -67,7 +67,6 @@ export function useCustomizationStatePreservation (
 
   async function removePreservedState (): Promise<void> {
     if (!storageItemKey.value) {
-      canUpdateState.value = true;
       return;
     }
 
@@ -78,14 +77,12 @@ export function useCustomizationStatePreservation (
         storageItemKey.value
       );
     } finally {
-      canUpdateState.value = true;
       mutexRelease();
     }
   }
 
   async function getPreservedData (): Promise<PersistedData | undefined> {
     if (!storageItemKey.value) {
-      canUpdateState.value = true;
       return;
     }
 
@@ -100,7 +97,6 @@ export function useCustomizationStatePreservation (
 
       return data;
     } finally {
-      canUpdateState.value = true;
       mutexRelease();
     }
   }
@@ -110,17 +106,25 @@ export function useCustomizationStatePreservation (
 
     if (existingCartItem.value || !canPersist) {
       removePreservedState();
+      canUpdateState.value = true;
       return;
     }
 
     const persistedData = await getPreservedData();
 
     if (!persistedData) {
+      canUpdateState.value = true;
       return;
     }
 
     if (beforeCustomizationStateMerge) {
-      await beforeCustomizationStateMerge(persistedData);
+      const isSuccess = await beforeCustomizationStateMerge(persistedData);
+
+      if (!isSuccess) {
+        removePreservedState();
+        canUpdateState.value = true;
+        return;
+      }
     }
 
     mergeCustomizationState(persistedData.customizationState);
@@ -129,6 +133,8 @@ export function useCustomizationStatePreservation (
     if (afterCustomizationStateMerge) {
       afterCustomizationStateMerge(persistedData);
     }
+
+    canUpdateState.value = true;
   });
 
   const watchProperties: Ref<any>[] = [filteredCustomizationState];
