@@ -114,7 +114,7 @@ export function useAvailableCustomizations (
     return ids;
   });
 
-  watch([availableOptionValuesIds, availableCustomizationsIds], () => {
+  function removeUnavailableOptionValues () {
     // Remove option values that became unavailable from customization state
     for (const key of Object.keys(customizationOptionValue.value)) {
       const customization = availableCustomization.value[key]
@@ -151,13 +151,21 @@ export function useAvailableCustomizations (
       const availableSelectedOptionValues = optionValue.filter((valueId) => !!availableOptionValues.find((item) => item.id === valueId));
       updateCustomizationOptionValue({ customizationId: key, value: availableSelectedOptionValues });
     }
-  });
+  }
+
+  watch(
+    [
+      availableOptionValuesIds, availableCustomizationsIds
+    ],
+    removeUnavailableOptionValues
+  );
 
   return {
     availableCustomization,
     availableCustomizations,
     availableOptionCustomizations,
     availableOptionValues,
-    customizationAvailableOptionValues
+    customizationAvailableOptionValues,
+    removeUnavailableOptionValues
   }
 }

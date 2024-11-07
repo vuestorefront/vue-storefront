@@ -2345,13 +2345,13 @@
   dependencies:
     type-detect "4.0.8"
 
-"@storefront-ui/shared@0.7.11", "@storefront-ui/shared@https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/shared?f5bf65a9b64be041b4990d39817cf5a5a0638fee":
+"@storefront-ui/shared@0.7.11", "@storefront-ui/shared@https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/shared?b757f7a8bded1fbaba87a533eb09aaa6303d20cf":
   version "0.7.11"
-  resolved "https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/shared?f5bf65a9b64be041b4990d39817cf5a5a0638fee#3bd50d0ebca7ebcf82e00e71924d98765b7b4c9b"
+  resolved "https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/shared?b757f7a8bded1fbaba87a533eb09aaa6303d20cf#26af1f6ec8c88a2a7aa3ce91c9f610fccac0fcc4"
 
-"@storefront-ui/vue@https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/vue?f5bf65a9b64be041b4990d39817cf5a5a0638fee":
+"@storefront-ui/vue@https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/vue?b757f7a8bded1fbaba87a533eb09aaa6303d20cf":
   version "0.7.11"
-  resolved "https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/vue?f5bf65a9b64be041b4990d39817cf5a5a0638fee#25fc35f5e2221db13385895f4bd71c66c8297389"
+  resolved "https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/vue?b757f7a8bded1fbaba87a533eb09aaa6303d20cf#069603b834492db38ba9b658e14368eb3aa73784"
   dependencies:
     "@glidejs/glide" "^3.3.0"
     "@storefront-ui/shared" "0.7.11"
@@ -17105,9 +17105,9 @@ vue-meta@^2.3.3:
   dependencies:
     deepmerge "^4.2.2"
 
-"vue-multiselect@https://github.com/BudsiesApp/vue-multiselect.git#cfcbdc69801438d2d7196905832367e3e19dbaf7":
+"vue-multiselect@https://github.com/BudsiesApp/vue-multiselect.git#86aaa62246c9d60d82e61889d265d4076337d50c":
   version "2.1.6"
-  resolved "https://github.com/BudsiesApp/vue-multiselect.git#cfcbdc69801438d2d7196905832367e3e19dbaf7"
+  resolved "https://github.com/BudsiesApp/vue-multiselect.git#86aaa62246c9d60d82e61889d265d4076337d50c"
 
 vue-no-ssr@^0.2.2:
   version "0.2.2"
