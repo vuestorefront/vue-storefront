@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/middleware",
-  "version": "5.1.0-rc.4",
+  "version": "5.1.0",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
@@ -20,7 +20,7 @@
     "changesets:publish": "yarn build && yarn changeset publish"
   },
   "dependencies": {
-    "@vue-storefront/logger": "1.0.0-rc.5",
+    "@vue-storefront/logger": "1.0.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.1",

@@ -1,5 +1,20 @@
 # Change log
 
+## 5.1.0
+
+### Minor Changes
+
+block overwriting alokai metadata
+Change LogLevel into LogVerbosity
+Feature logger
+
+### Patch Changes
+
+Fix scoping
+
+- Updated dependencies:
+  - @vue-storefront/logger@1.0.0
+
 ## 5.1.0-rc.4
 
 ### Minor Changes

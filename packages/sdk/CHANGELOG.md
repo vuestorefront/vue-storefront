@@ -1,5 +1,21 @@
 # Change log
 
+## 3.3.0
+
+### Minor Changes
+
+Change LogLevel into LogVerbosity
+rc.1
+
+- **[ADDED]** Logger module
+
+### Patch Changes
+
+Export types from sdk logger module
+
+- Updated dependencies:
+  - @vue-storefront/logger@1.0.0
+
 ## 3.3.0-rc.5
 
 ### Minor Changes

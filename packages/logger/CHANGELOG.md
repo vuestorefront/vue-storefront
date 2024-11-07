@@ -1,5 +1,20 @@
 # @vue-storefront/logger
 
+## 1.0.0
+
+### Major Changes
+
+rc.2
+rc.3
+rc.3
+Feature logger
+
+### Minor Changes
+
+rc.1
+Change LogLevel into LogVerbosity
+use appropriate verbosity levels in the browser environment
+
 ## 1.0.0-rc.5
 
 ### Minor Changes
