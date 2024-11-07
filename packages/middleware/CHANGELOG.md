@@ -4,52 +4,7 @@
 
 ### Minor Changes
 
-block overwriting alokai metadata
-Change LogLevel into LogVerbosity
-Feature logger
-
-### Patch Changes
-
-Fix scoping
-
-- Updated dependencies:
-  - @vue-storefront/logger@1.0.0
-
-## 5.1.0-rc.4
-
-### Minor Changes
-
-Change LogLevel into LogVerbosity
-
-### Patch Changes
-
-- Updated dependencies:
-  - @vue-storefront/logger@1.0.0-rc.5
-
-## 5.1.0-rc.3
-
-### Minor Changes
-
-block overwriting alokai metadata
-
-## 5.1.0-rc.2
-
-### Patch Changes
-
-- Updated dependencies:
-  - @vue-storefront/logger@1.0.0-rc.4
-
-## 5.1.0-rc.1
-
-### Patch Changes
-
-Fix scoping
-
-## 5.1.0-rc.0
-
-### Minor Changes
-
-Feature logger
+- **[ADDED]** The middleware application now offers a robust logger instance accessible across various parts of the system, including extensions, integrations, hooks, and API methods. This provides greater flexibility for logging critical events and errors throughout the application lifecycle. For more information, see the [Logger](https://docs.alokai.com/middleware/guides/logging) guide.
 
 ## 5.0.1
 
