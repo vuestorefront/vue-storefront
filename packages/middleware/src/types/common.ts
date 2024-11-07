@@ -1,6 +1,6 @@
 import type { Express, Request, Response } from "express";
-import { LoggerInterface } from "@vue-storefront/logger";
-import { LoggerOptions } from "./config";
+import type { LoggerInterface } from "@vue-storefront/logger";
+import type { LoggerOptions } from "./config";
 import {
   ApiClientMethod,
   ContextQuery,

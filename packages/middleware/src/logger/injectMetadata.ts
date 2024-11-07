@@ -1,6 +1,6 @@
 import merge from "lodash.merge";
 import type { LoggerInterface } from "@vue-storefront/logger";
-import { AlokaiLocal } from "../types";
+import type { AlokaiLocal } from "../types";
 
 type Metadata = { alokai: AlokaiLocal["metadata"] & Record<string, any> };
 

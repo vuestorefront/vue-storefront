@@ -1,4 +1,4 @@
-import { AlokaiContainer } from "../../types";
+import type { AlokaiContainer } from "../../types";
 
 /**
  * Resolves dependencies based on the current working directory, not relative to this package.

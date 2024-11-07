@@ -1,4 +1,4 @@
-import { LogScope } from "../types";
+import type { LogScope } from "../types";
 
 type ErrorWithBoundary = Error & { errorBoundary: LogScope };
 
