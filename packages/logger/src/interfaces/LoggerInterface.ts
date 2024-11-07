@@ -2,8 +2,18 @@
  * Metadata is a record with string keys and arbitrary values.
  */
 export type Metadata = {
+  /**
+   * Arbitrary metadata.
+   */
   [key: string]: any;
+  /**
+   * The error that caused the log entry with some additional information.
+   */
   troubleshoot?: Record<string, any> | string[];
+  /**
+   * Alokai's metadata object.
+   * It's forbidden to overwrite this object. If you attempt to do so, the logger will emit a warning and remove the data.
+   */
   alokai?: never;
 };
 
