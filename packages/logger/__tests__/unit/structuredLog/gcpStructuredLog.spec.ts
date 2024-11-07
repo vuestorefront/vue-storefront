@@ -3,7 +3,7 @@ import { LogVerbosity } from "../../../src/interfaces/LogVerbosity";
 import { GCPStructuredLog } from "../../../src/structuredLog/GCPStructuredLog";
 
 // We do not want to serialize the log payload at this point
-process.env.NODE_ENV = "dev";
+process.env.NODE_ENV = "development";
 
 describe("GCPStructuredLog", () => {
   it.each([
