@@ -1,8 +1,21 @@
+import { logger } from "../../../__mocks__/logger";
 import { apiClientFactory } from "../../../src/apiClientFactory";
 import { applyContextToApi } from "../../../src/apiClientFactory/applyContextToApi";
 import { MiddlewareContext } from "../../../src/types";
+import { injectMetadata } from "../../../src/logger";
+
+jest.mock("../../../src/logger", () => ({
+  getLogger: () => logger,
+  injectMetadata: jest.fn(
+    jest.requireActual("../../../src/logger").injectMetadata
+  ),
+}));
 
 describe("apiClientFactory", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("Should return passed config with overrides property", async () => {
     const params = {
       onCreate: jest.fn((config) => ({ config })),
@@ -12,8 +25,14 @@ describe("apiClientFactory", () => {
     const { createApiClient } = apiClientFactory<any, any>(
       params as any
     ) as any;
+    const result = await createApiClient.call(
+      {
+        middleware: { req: null, res: null },
+      },
+      {}
+    );
 
-    expect((await createApiClient({})).settings).toEqual({});
+    expect(result.settings).toEqual({});
   });
 
   it("Should merge with default settings when setup is called", async () => {
@@ -26,7 +45,12 @@ describe("apiClientFactory", () => {
       params as any
     ) as any;
 
-    const { settings } = await createApiClient({ newOption: "newOption" });
+    const { settings } = await createApiClient.call(
+      {
+        middleware: { req: null, res: null },
+      },
+      { newOption: "newOption" }
+    );
 
     expect(settings).toEqual({
       newOption: "newOption",
@@ -41,7 +65,12 @@ describe("apiClientFactory", () => {
 
     const { createApiClient } = apiClientFactory<any, any>(params as any);
 
-    await createApiClient({});
+    await createApiClient.call(
+      {
+        middleware: { req: null, res: null },
+      },
+      {}
+    );
 
     expect(params.onCreate).toHaveBeenCalled();
   });
@@ -55,7 +84,12 @@ describe("apiClientFactory", () => {
     const clientConfig = { config: defaultConfig, client: defaultClient };
     const { createApiClient } = apiClientFactory<any, any>(params as any);
 
-    const { settings } = await createApiClient(clientConfig);
+    const { settings } = await createApiClient.call(
+      {
+        middleware: { req: null, res: null },
+      },
+      clientConfig
+    );
 
     expect(settings.client).toBe(defaultClient);
     expect(settings.config).toBe(defaultConfig);
@@ -88,6 +122,78 @@ describe("apiClientFactory", () => {
 
     expect(beforeCreate).toHaveBeenCalled();
     expect(afterCreate).toHaveBeenCalled();
+  });
+
+  it("Should pass logger to 'hooks' extension's hook", async () => {
+    const extension = {
+      name: "extTest",
+      hooks: jest.fn(() => ({})),
+    };
+    const wrappedLogger = {
+      ...logger,
+      isWrapped: true,
+    };
+    (injectMetadata as jest.Mock).mockImplementation(() => wrappedLogger);
+
+    const params = {
+      onCreate: jest.fn((config) => ({ config })),
+      defaultSettings: {},
+      extensions: [extension],
+    };
+
+    const { createApiClient } = apiClientFactory<any, any>(params as any);
+    const apiClient = (await createApiClient) as any;
+    const extensions = apiClient._predefinedExtensions;
+
+    await createApiClient.call(
+      {
+        middleware: { req: null, res: null, extensions },
+      },
+      {}
+    );
+
+    expect(extension.hooks).toBeCalledWith(null, null, {
+      logger: wrappedLogger,
+    });
+  });
+
+  it("appends extensionName in wrapped logger passed to 'hooks' extension's hook", async () => {
+    const extension = {
+      name: "extTest",
+      hooks: jest.fn((_, __, { logger }) => {
+        logger.info("test");
+      }),
+    };
+    (injectMetadata as jest.Mock).mockImplementation(
+      jest.requireActual("../../../src/logger").injectMetadata
+    );
+
+    const params = {
+      onCreate: jest.fn((config) => ({ config })),
+      defaultSettings: {},
+      extensions: [extension],
+    };
+
+    const { createApiClient } = apiClientFactory<any, any>(params as any);
+    const apiClient = (await createApiClient) as any;
+    const extensions = apiClient._predefinedExtensions;
+
+    await createApiClient.call(
+      {
+        middleware: { req: null, res: null, extensions },
+      },
+      {}
+    );
+
+    expect(logger.info).toBeCalledWith("test", {
+      alokai: {
+        scope: {
+          extensionName: "extTest",
+          hookName: "hooks",
+          type: "requestHook",
+        },
+      },
+    });
   });
 
   it("Should run beforeCall / afterCall extension methods", async () => {
@@ -130,7 +236,12 @@ describe("apiClientFactory", () => {
     };
 
     const { createApiClient } = apiClientFactory(params);
-    const apiClient = await createApiClient({});
+    const apiClient = await createApiClient.call(
+      {
+        middleware: { req: null, res: null },
+      },
+      {}
+    );
 
     expect(apiClient.api.testMethod).toBeDefined();
   });
@@ -142,7 +253,12 @@ describe("apiClientFactory", () => {
     };
 
     const { createApiClient } = apiClientFactory(params);
-    const apiClient = await createApiClient({});
+    const apiClient = await createApiClient.call(
+      {
+        middleware: { req: null, res: null },
+      },
+      {}
+    );
 
     expect(params.api).toBeCalledTimes(1);
     expect(apiClient.api.testMethod).toBeDefined();

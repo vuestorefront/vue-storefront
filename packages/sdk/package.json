@@ -1,7 +1,7 @@
 {
   "name": "@vue-storefront/sdk",
   "license": "MIT",
-  "version": "3.2.3",
+  "version": "3.3.0-rc.5",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
@@ -19,10 +19,13 @@
     "changesets:version": "yarn changeset version && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install",
     "changesets:publish": "yarn run build && yarn changeset publish"
   },
+  "dependencies": {
+    "@vue-storefront/logger": "1.0.0-rc.5"
+  },
   "devDependencies": {
     "@types/jest": "^29.0.3",
     "@types/node": "^18.11.17",
-    "@vue-storefront/middleware": "*",
+    "@vue-storefront/middleware": "5.1.0-rc.4",
     "axios": "^1.6.7",
     "babel-preset-node": "^5.1.1",
     "isomorphic-fetch": "^3.0.0",

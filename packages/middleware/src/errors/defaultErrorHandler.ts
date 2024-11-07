@@ -1,6 +1,6 @@
-import consola from "consola";
-import type { Request, Response } from "express";
+import type { Request } from "express";
 import { getAgnosticStatusCode } from "../helpers";
+import type { ResponseWithAlokaiLocals } from "../types";
 
 type ClientSideError = {
   message?: string;
@@ -16,9 +16,8 @@ type ClientSideError = {
 export const defaultErrorHandler = (
   error: ClientSideError,
   req: Request,
-  res: Response
+  res: ResponseWithAlokaiLocals
 ) => {
-  consola.error(error);
   const status = getAgnosticStatusCode(error);
   res.status(status);
   if (status < 500) {

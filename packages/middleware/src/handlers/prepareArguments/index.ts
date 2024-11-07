@@ -1,8 +1,9 @@
-import type { Request, Response, NextFunction } from "express";
+import type { Request, NextFunction } from "express";
+import type { ResponseWithAlokaiLocals } from "../../types";
 
 export function prepareArguments(
   req: Request,
-  res: Response,
+  res: ResponseWithAlokaiLocals,
   next: NextFunction
 ) {
   const { method, query, body } = req;

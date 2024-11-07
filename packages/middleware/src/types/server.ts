@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { TObject } from "./base";
 import {
+  AlokaiContainer,
   ApiClientExtension,
   ApiMethods,
   ApiMethodsFactory,
@@ -108,7 +109,7 @@ export interface ApiClientFactoryParams<
   isProxy?: boolean;
   onCreate: (
     config: CONFIG,
-    headers?: Record<string, string>
+    alokai: AlokaiContainer
   ) =>
     | Promise<{ client: CLIENT; config: ApiClientConfig }>
     | { client: CLIENT; config: ApiClientConfig };
@@ -123,7 +124,7 @@ export interface ApiClientFactory<
   /**
    * Sets up integration config, runs once.
    */
-  init?: (configuration: TObject) => TObject;
+  init?: (configuration: TObject, alokai: AlokaiContainer) => TObject;
 }
 
 export type CreateApiProxyFn = <CONFIG, API, CLIENT>(
