@@ -1,5 +1,11 @@
 # Change log
 
+## 3.3.0
+
+### Minor Changes
+
+- **[CHANGED]** Replace the default `console` logger from the `middlewareModule` with the `@vue-storefront/logger` package.
+
 ## 3.2.3
 
 ### Patch Changes

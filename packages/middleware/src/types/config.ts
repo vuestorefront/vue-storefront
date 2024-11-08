@@ -3,6 +3,36 @@ import { Integration } from "./common";
 import { TObject } from "./base";
 import { IntegrationContext } from "./server";
 
+/**
+ * Based on the syslog levels defined in RFC 5424.
+ *
+ * @see https://datatracker.ietf.org/doc/html/rfc5424
+ */
+export type LogVerbosity =
+  | "emergency"
+  | "alert"
+  | "critical"
+  | "error"
+  | "warning"
+  | "notice"
+  | "info"
+  | "debug";
+
+/**
+ * Options for the logger.
+ */
+export interface LoggerOptions {
+  /**
+   * The log level aligned with RFC5424.
+   */
+  level?: LogVerbosity;
+
+  /**
+   * Whether to include the stack trace in the log message.
+   */
+  includeStackTrace?: boolean;
+}
+
 export interface Helmet extends HelmetOptions {
   helmet?: boolean | HelmetOptions;
 }
@@ -22,6 +52,7 @@ export interface MiddlewareConfig<
     IntegrationContext
   >
 > {
+  logger?: LoggerOptions;
   integrations: Integrations<TIntegrationsContext>;
   helmet?: boolean | Readonly<HelmetOptions>;
 }

@@ -20,13 +20,16 @@ describe("[middleware-handlers] prepareApiFunction", () => {
   const res = {
     status: jest.fn(),
     send: jest.fn(),
-    locals: {},
   } as unknown as Response;
   const next = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
-    res.locals = {};
+    res.locals = {
+      alokai: {
+        metadata: {},
+      },
+    };
   });
 
   describe("if integration is configured", () => {

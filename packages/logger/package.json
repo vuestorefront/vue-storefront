@@ -1,0 +1,30 @@
+{
+  "name": "@vue-storefront/logger",
+  "version": "1.0.0",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "dev": "rollup -c -w",
+    "build": "rimraf lib && rollup -c",
+    "test": "yarn test:unit && yarn test:integration",
+    "test:unit": "jest -c jest.config.ts --coverage",
+    "test:integration": "echo 'No integration tests available'",
+    "lint": "eslint . --ext .ts,.js",
+    "prepublishOnly": "yarn build",
+    "changesets:version": "yarn changeset version && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install",
+    "changesets:publish": "yarn build && yarn changeset publish"
+  },
+  "packageManager": "yarn@1.22.10",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "consola": "^3",
+    "dotenv": "^16"
+  }
+}

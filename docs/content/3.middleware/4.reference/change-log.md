@@ -1,5 +1,11 @@
 # Change log
 
+## 5.1.0
+
+### Minor Changes
+
+- **[ADDED]** The middleware application now offers a robust logger instance accessible across various parts of the system, including extensions, integrations, hooks, and API methods. This provides greater flexibility for logging critical events and errors throughout the application lifecycle. For more information, see the [Logger](https://docs.alokai.com/middleware/guides/logging) guide.
+
 ## 5.0.1
 
 ### Patch Changes
