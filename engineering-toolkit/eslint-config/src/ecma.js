@@ -1,205 +1,215 @@
-module.exports = {
-  env: {
-    es6: true,
-    browser: true,
-    node: true,
-  },
-  extends: [
-    "eslint:recommended",
-    "plugin:promise/recommended",
-    "plugin:unicorn/recommended",
-    "plugin:sonarjs/recommended",
-  ],
-  plugins: [
-    "promise",
-    "sonarjs",
-    "unicorn",
-    "no-secrets",
-    "@microsoft/sdl",
-    "unused-imports",
-  ],
-  parserOptions: {
-    ecmaVersion: "latest",
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
-  ignorePatterns: [
-    "*.min.*",
-    "*.d.ts",
-    "CHANGELOG.md",
-    "dist",
-    "LICENSE*",
-    "output",
-    "out",
-    "coverage",
-    "public",
-    "temp",
-    "package-lock.json",
-    "pnpm-lock.yaml",
-    "yarn.lock",
-    "__tests__",
-    "__snapshots__",
-    "*.css",
-    "*.png",
-    "*.ico",
-    "*.toml",
-    "*.patch",
-    "*.txt",
-    "*.crt",
-    "*.key",
-    "Dockerfile",
-  ],
-  rules: {
-    /* General */
+import js from "@eslint/js";
+import { concat, defineFlatConfig } from "eslint-flat-config-utils";
+import importPlugin from "eslint-plugin-import";
+import eslintPluginJsonc from "eslint-plugin-jsonc";
+import unicornPlugin from "eslint-plugin-unicorn";
+import globals from "globals";
 
-    /* Enforce a maximum cyclomatic complexity allowed in a program */
-    complexity: ["error", 6],
-    /* Cognitive complexity is a measure of how hard the control flow of a function is to understand */
-    "sonarjs/cognitive-complexity": ["error", 15],
-    /* Enforce a maximum depth that blocks can be nested */
-    "max-depth": ["error", 4],
-    /* Enforce a maximum number of statements allowed per line */
-    "max-statements-per-line": ["error", { max: 1 }],
-    /* Enforce a maximum number of lines per file */
-    "max-lines": ["error", { max: 300 }],
-    /* Enforce a maximum number of lines of code in a function */
-    "max-lines-per-function": ["error", { max: 60, skipBlankLines: true }],
-    /* Enforce a maximum number of statements allowed in function blocks */
-    "max-statements": ["error", 10],
-    /* Enforce a maximum depth that callbacks can be nested */
-    "max-nested-callbacks": ["error", 5],
-    /* Enforce a maximum number of parameters in function definitions */
-    "max-params": ["error", 3],
-    /* Require parentheses around arrow function arguments */
-    "arrow-parens": ["error", "as-needed", { requireForBlockBody: true }],
-    /* Disallow specified syntax */
-    "no-restricted-syntax": [
-      "error",
-      "DebuggerStatement",
-      "LabeledStatement",
-      "WithStatement",
-    ],
-    /* Disallow the use of debugger */
-    "no-debugger": "error",
-    /* Disallow the use of console */
-    "no-console": ["error", { allow: ["warn", "error"] }],
-    /* Do not allows to import modules that are not used */
-    "unused-imports/no-unused-imports": "error",
-    /* Eliminating unused variables, functions, and function parameters */
-    "unused-imports/no-unused-vars": [
-      "warn",
-      {
-        vars: "all",
-        varsIgnorePattern: "^_",
-        args: "after-used",
-        argsIgnorePattern: "^_",
-      },
-    ],
+/**
+ * Generates an ESLint Flat Config for ECMAScript projects.
+ *
+ * @param {{ files?: string, isStrict?: boolean }} config - The base configuration object with optional files and isStrict fields.
+ * @param {...import('eslint').Linter.Config[]} overrides - Additional configuration overrides.
+ * @returns {import('eslint').Linter.Config} The concatenated ESLint configuration.
+ */
+export function ecma(config, ...overrides) {
+  const { files = "**/*.{mjs,cjs,js,jsx}", isStrict = true, withImport = true } = config ?? {};
 
-    /* Best practices */
-
-    /* Enforce return statements in callbacks of array methods */
-    "array-callback-return": "error",
-    /* Disallow the use of alert, confirm, and prompt */
-    "no-alert": "warn",
-    /* Require the use of === and !== */
-    eqeqeq: ["error", "smart"],
-    /* Disallow multiple spaces */
-    "no-multi-spaces": "error",
-    /* Disallow the use of variables before they are defined */
-    "no-use-before-define": [
-      "error",
-      { functions: false, classes: false, variables: true },
-    ],
-    /* Require let or const instead of var */
-    "no-var": "error",
-
-    /* Unicorns */
-
-    /* Enforce to pass error message when throwing errors */
-    "unicorn/error-message": "error",
-    /* Enforce usage of Array.isArray instead of instanceof Array */
-    "unicorn/no-instanceof-array": "error",
-    /* Perfer includes over indexOf when checking for existence */
-    "unicorn/prefer-includes": "error",
-    /* Prefer startsWith() and endsWith() over using a regex with /^foo/ or /foo$/. */
-    "unicorn/prefer-string-starts-ends-with": "error",
-    /* Enforce throwing TypeError when throwing error while checking typeof */
-    "unicorn/prefer-type-error": "error",
-    /* Enforce to use new keyword when throwing error */
-    "unicorn/throw-new-error": "error",
-    /* Enforce combining multiple Array#push() into one call */
-    "unicorn/no-array-push-push": "error",
-    /* Disallow identifiers starting with new or class */
-    "unicorn/no-keyword-prefix": "error",
-    /* Prevent calling EventTarget#removeEventListener() with the result of an expression. */
-    "unicorn/no-invalid-remove-event-listener": "error",
-    /* This rule makes it possible to pass arguments to TODO, FIXME comments */
-    "unicorn/expiring-todo-comments": [
-      "error",
-      {
-        ignoreDatesOnPullRequests: true,
-      },
-    ],
-    /* Prevents usage of document.cookie directly. */
-    "unicorn/no-document-cookie": "error",
-    /* Disallow nested ternary expressions. */
-    "unicorn/no-nested-ternary": "error",
-    /* Prefer Date.now() to get the number of milliseconds since the Unix Epoch. */
-    "unicorn/prefer-date-now": "error",
-    /* Disabled as VueStorefront delivers CommonJS and ES modules */
-    "unicorn/prefer-module": "off",
-    /* Using Array.prototype.forEach is not restricted */
-    "unicorn/no-array-for-each": "off",
-    /* Using Array.prototype.reduce and reduceRight is not restricted */
-    "unicorn/no-array-reduce": "off",
-    /* Using null literal is not restriced  */
-    "unicorn/no-null": "off",
-    /* Prevent usage of abbreviations  */
-    "unicorn/prevent-abbreviations": [
-      "warn",
-      {
-        replacements: {
-          e: false,
-          err: false,
-          req: false,
-          params: false,
-          props: false,
-          attrs: false,
+  return concat(
+    defineFlatConfig({
+      files: [files],
+      languageOptions: {
+        globals: {
+          ...globals.browser,
+          ...globals.node,
+        },
+        parserOptions: {
+          ecmaVersion: 2024,
+          sourceType: "module",
         },
       },
-    ],
-    /* Enforce camelCase and PascalCase for filenames */
-    "unicorn/filename-case": [
-      "error",
-      {
-        cases: {
-          camelCase: true,
-          pascalCase: true,
-          kebabCase: false,
-          snakeCase: false,
-        },
+      name: "base-js",
+      ...js.configs.recommended,
+    }),
+    withImport
+      ? [
+          importPlugin.flatConfigs.recommended,
+          defineFlatConfig({
+            files: [files],
+            languageOptions: {
+              ecmaVersion: 2024,
+              sourceType: "module",
+            },
+            name: "import",
+            rules: {
+              "import/no-anonymous-default-export": "warn",
+            },
+            settings: {
+              "import/extensions": [".ts", ".tsx", ".mts", ".cts", ".mtsx", ".ctsx", ".js", ".jsx", ".mjs", ".cjs"],
+              "import/resolver": {
+                node: true,
+              },
+            },
+          }),
+        ]
+      : [],
+    eslintPluginJsonc.configs["flat/recommended-with-jsonc"],
+    defineFlatConfig({
+      files: [files],
+      name: "best-practices",
+      rules: {
+        /* Enforce return statements in callbacks of array methods */
+        "array-callback-return": "error",
+        /* Require the use of === and !== */
+        eqeqeq: ["error", "smart"],
+        /* Disallow the use of alert, confirm, and prompt */
+        "no-alert": "warn",
+        /* Disallow multiple spaces */
+        "no-multi-spaces": "error",
+        /* Disallow the use of variables before they are defined */
+        "no-use-before-define": ["error", { classes: false, functions: false, variables: true }],
+        /* Require let or const instead of var */
+        "no-var": "error",
       },
-    ],
-    /* Prevent abusive eslint disable in comments */
-    "unicorn/no-abusive-eslint-disable": "error",
-
-    /* Security and Misconfiguration */
-
-    /* Prefer to use Web Storage, IndexedDB or other modern methods for client side storage */
-    "@microsoft/sdl/no-cookies": "warn",
-    /* Writes to document.domain property must be reviewed to avoid bypass of same-origin checks. */
-    "@microsoft/sdl/no-document-domain": "error",
-    /* Prevent writes to DOM directly using document.write */
-    "@microsoft/sdl/no-document-write": "error",
-    /* Do not write to DOM directly using innerHTML method */
-    "@microsoft/sdl/no-inner-html": "error",
-    /* Do not use insecure URLs */
-    "@microsoft/sdl/no-insecure-url": "error",
-    /* Do not use * as target origin when sending data to other windows */
-    "@microsoft/sdl/no-postmessage-star-origin": "error",
-    /* Prevents from exposing secrets or keys in the code */
-    "no-secrets/no-secrets": "error",
-  },
-};
+    }),
+    defineFlatConfig({
+      files: [files],
+      name: "unicorn",
+      plugins: {
+        unicorn: unicornPlugin,
+      },
+      rules: {
+        "unicorn/better-regex": "error",
+        "unicorn/catch-error-name": "error",
+        "unicorn/consistent-destructuring": "error",
+        "unicorn/consistent-function-scoping": "off",
+        "unicorn/custom-error-definition": "error",
+        "unicorn/empty-brace-spaces": "error",
+        "unicorn/error-message": "error",
+        "unicorn/escape-case": "error",
+        "unicorn/expiring-todo-comments": "off",
+        "unicorn/explicit-length-check": "off",
+        "unicorn/filename-case": "off",
+        "unicorn/import-style": "off",
+        "unicorn/new-for-builtins": "error",
+        "unicorn/no-abusive-eslint-disable": "warn",
+        "unicorn/no-array-callback-reference": "off",
+        "unicorn/no-array-for-each": "off",
+        "unicorn/no-array-method-this-argument": "error",
+        "unicorn/no-array-push-push": "error",
+        "unicorn/no-array-reduce": "off",
+        "unicorn/no-await-expression-member": "off",
+        "unicorn/no-console-spaces": "error",
+        "unicorn/no-document-cookie": "error",
+        "unicorn/no-empty-file": "error",
+        "unicorn/no-for-loop": "off",
+        "unicorn/no-hex-escape": "error",
+        "unicorn/no-instanceof-array": "error",
+        "unicorn/no-invalid-remove-event-listener": "error",
+        "unicorn/no-keyword-prefix": "off",
+        "unicorn/no-lonely-if": "error",
+        "unicorn/no-nested-ternary": "error",
+        "unicorn/no-new-array": "error",
+        "unicorn/no-new-buffer": "error",
+        "unicorn/no-null": "off",
+        "unicorn/no-object-as-default-parameter": "error",
+        "unicorn/no-process-exit": "off",
+        "unicorn/no-static-only-class": "warn",
+        "unicorn/no-this-assignment": "error",
+        "unicorn/no-unreadable-array-destructuring": "error",
+        "unicorn/no-unreadable-iife": "error",
+        "unicorn/no-unsafe-regex": "error",
+        "unicorn/no-unused-properties": "error",
+        "unicorn/no-useless-fallback-in-spread": "error",
+        "unicorn/no-useless-length-check": "error",
+        "unicorn/no-useless-promise-resolve-reject": "error",
+        "unicorn/no-useless-spread": "error",
+        "unicorn/no-useless-switch-case": "error",
+        "unicorn/no-useless-undefined": "error",
+        "unicorn/no-zero-fractions": "error",
+        "unicorn/number-literal-case": "error",
+        "unicorn/numeric-separators-style": "error",
+        "unicorn/prefer-add-event-listener": "warn",
+        "unicorn/prefer-array-find": "warn",
+        "unicorn/prefer-array-flat": "warn",
+        "unicorn/prefer-array-flat-map": "warn",
+        "unicorn/prefer-array-index-of": "warn",
+        "unicorn/prefer-array-some": "warn",
+        "unicorn/prefer-at": "warn",
+        "unicorn/prefer-code-point": "warn",
+        "unicorn/prefer-date-now": "warn",
+        "unicorn/prefer-default-parameters": "warn",
+        "unicorn/prefer-dom-node-append": "warn",
+        "unicorn/prefer-dom-node-dataset": "warn",
+        "unicorn/prefer-dom-node-remove": "warn",
+        "unicorn/prefer-dom-node-text-content": "warn",
+        "unicorn/prefer-event-target": "warn",
+        "unicorn/prefer-export-from": "warn",
+        "unicorn/prefer-includes": "warn",
+        "unicorn/prefer-keyboard-event-key": "warn",
+        "unicorn/prefer-math-trunc": "warn",
+        "unicorn/prefer-modern-dom-apis": "warn",
+        "unicorn/prefer-module": "warn",
+        "unicorn/prefer-negative-index": "warn",
+        "unicorn/prefer-node-protocol": "warn",
+        "unicorn/prefer-number-properties": "warn",
+        "unicorn/prefer-object-from-entries": "warn",
+        "unicorn/prefer-optional-catch-binding": "warn",
+        "unicorn/prefer-prototype-methods": "warn",
+        "unicorn/prefer-query-selector": "warn",
+        "unicorn/prefer-reflect-apply": "warn",
+        "unicorn/prefer-regexp-test": "warn",
+        "unicorn/prefer-set-has": "warn",
+        "unicorn/prefer-spread": "warn",
+        "unicorn/prefer-string-replace-all": "warn",
+        "unicorn/prefer-string-slice": "warn",
+        "unicorn/prefer-string-starts-ends-with": "warn",
+        "unicorn/prefer-switch": "warn",
+        "unicorn/prefer-ternary": "warn",
+        "unicorn/prefer-top-level-await": "warn",
+        "unicorn/prefer-type-error": "warn",
+        "unicorn/prevent-abbreviations": "off",
+        "unicorn/require-array-join-separator": "error",
+        "unicorn/require-number-to-fixed-digits-argument": "error",
+        "unicorn/require-post-message-target-origin": "error",
+        "unicorn/string-content": "off",
+        "unicorn/template-indent": "error",
+        "unicorn/text-encoding-identifier-case": "error",
+        "unicorn/throw-new-error": "warn",
+      },
+    }),
+    isStrict
+      ? [
+          defineFlatConfig({
+            files: [files],
+            name: "strict/js",
+            rules: {
+              // sort keys in JSON files https://eslint.org/docs/latest/rules/sort-keys
+              "jsonc/sort-keys": ["error"],
+              // https://eslint.org/docs/latest/rules/no-restricted-imports
+              "no-restricted-imports": [
+                "error",
+                {
+                  patterns: [
+                    {
+                      group: ["../../*"],
+                      message: "Use absolute imports (@/) instead",
+                    },
+                  ],
+                },
+              ],
+            },
+          }),
+          defineFlatConfig({
+            files: ["package.json"],
+            name: "strict/package-json",
+            rules: {
+              // no need to sort keys in package.json
+              "jsonc/sort-keys": "off",
+            },
+          }),
+        ]
+      : [],
+    overrides,
+  );
+}

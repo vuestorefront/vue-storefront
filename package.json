@@ -43,6 +43,12 @@
       "engineering-toolkit/*"
     ]
   },
+  "resolutions": {
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8"
+  },
   "engines": {
     "node": ">=18"
   },
