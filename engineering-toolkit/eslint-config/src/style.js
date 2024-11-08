@@ -1,7 +1,7 @@
 import { concat, defineFlatConfig } from "eslint-flat-config-utils";
-import eslintPluginJsonc from "eslint-plugin-jsonc";
+import jsoncPlugin from "eslint-plugin-jsonc";
 import perfectionistPlugin from "eslint-plugin-perfectionist";
-import prettierConfig from "eslint-plugin-prettier/recommended";
+import prettierPlugin from "eslint-plugin-prettier/recommended";
 
 /**
  * Generates an ESLint Flat Config with Prettier and Perfectionist plugins.
@@ -14,8 +14,8 @@ export function style(config, ...overrides) {
   const { files = "**/*.{mjs,cjs,js,jsx,ts,tsx,mts,cts,mtsx,ctsx}" } = config ?? {};
 
   return concat(
-    prettierConfig,
-    eslintPluginJsonc.configs["flat/prettier"],
+    prettierPlugin,
+    jsoncPlugin.configs["flat/prettier"],
     defineFlatConfig({
       files: [files],
       name: "perfectionist",

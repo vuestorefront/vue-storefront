@@ -1,9 +1,9 @@
-import next from "@next/eslint-plugin-next";
+import nextPlugin from "@next/eslint-plugin-next";
 import { concat, defineFlatConfig } from "eslint-flat-config-utils";
-import jsdoc from "eslint-plugin-jsdoc";
-import jsxA11y from "eslint-plugin-jsx-a11y";
-import react from "eslint-plugin-react";
-import reactHooks from "eslint-plugin-react-hooks";
+import jsdocPlugin from "eslint-plugin-jsdoc";
+import a11yPlugin from "eslint-plugin-jsx-a11y";
+import reactPlugin from "eslint-plugin-react";
+import reactHooksPlugin from "eslint-plugin-react-hooks";
 
 /**
  * Generates an ESLint Flat Config for a Next.js project.
@@ -38,7 +38,7 @@ export function nextjs(config, ...overrides) {
       },
       name: "a11y",
       plugins: {
-        "jsx-a11y": jsxA11y,
+        "jsx-a11y": a11yPlugin,
       },
       rules: {
         "jsx-a11y/alt-text": [
@@ -56,16 +56,16 @@ export function nextjs(config, ...overrides) {
       },
     }),
     defineFlatConfig({
-      ...react.configs.flat["jsx-runtime"],
+      ...reactPlugin.configs.flat["jsx-runtime"],
       files: filesObj.general,
       name: "react",
       plugins: {
-        react,
-        "react-hooks": reactHooks,
+        react: reactPlugin,
+        "react-hooks": reactHooksPlugin,
       },
       rules: {
-        ...react.configs.flat["jsx-runtime"].rules,
-        ...reactHooks.configs.recommended.rules,
+        ...reactPlugin.configs.flat["jsx-runtime"].rules,
+        ...reactHooksPlugin.configs.recommended.rules,
         "react/jsx-no-bind": "off",
         "react/jsx-no-target-blank": "off",
         "react/jsx-props-no-spreading": "off",
@@ -85,10 +85,10 @@ export function nextjs(config, ...overrides) {
       files: filesObj.general,
       name: "next",
       plugins: {
-        "@next/next": next,
+        "@next/next": nextPlugin,
       },
       rules: {
-        ...next.configs["core-web-vitals"].rules,
+        ...nextPlugin.configs["core-web-vitals"].rules,
         "no-restricted-imports": [
           "error",
           {
@@ -145,7 +145,7 @@ export function nextjs(config, ...overrides) {
             files: filesObj.hooks,
             name: "strict/hooks",
             plugins: {
-              jsdoc,
+              jsdoc: jsdocPlugin,
             },
             rules: {
               "jsdoc/require-jsdoc": [
@@ -170,7 +170,7 @@ export function nextjs(config, ...overrides) {
             files: filesObj.components,
             name: "strict/components",
             plugins: {
-              jsdoc,
+              jsdoc: jsdocPlugin,
             },
             rules: {
               // prefer "interface" over "type" for component props

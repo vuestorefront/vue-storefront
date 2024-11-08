@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
-import pluginTs from "@typescript-eslint/eslint-plugin";
-import parserTs from "@typescript-eslint/parser";
+import typescriptPlugin from "@typescript-eslint/eslint-plugin";
+import typescriptParser from "@typescript-eslint/parser";
 import { concat, defineFlatConfig } from "eslint-flat-config-utils";
 import importPlugin from "eslint-plugin-import";
 
@@ -40,7 +40,7 @@ export function typescript(config, ...overrides) {
     defineFlatConfig({
       files: [files],
       languageOptions: {
-        parser: parserTs,
+        parser: typescriptParser,
         parserOptions: {
           ecmaFeatures: {
             jsx: true,
@@ -49,10 +49,10 @@ export function typescript(config, ...overrides) {
       },
       name: "base-ts",
       plugins: {
-        "@typescript-eslint": pluginTs,
+        "@typescript-eslint": typescriptPlugin,
       },
       rules: {
-        ...pluginTs.configs.recommended.rules,
+        ...typescriptPlugin.configs.recommended.rules,
         "@typescript-eslint/array-type": "warn",
         "@typescript-eslint/ban-types": "off",
         "@typescript-eslint/default-param-last": "warn",

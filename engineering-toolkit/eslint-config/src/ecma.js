@@ -2,7 +2,7 @@ import js from "@eslint/js";
 import { concat, defineFlatConfig } from "eslint-flat-config-utils";
 import importPlugin from "eslint-plugin-import";
 import eslintPluginJsonc from "eslint-plugin-jsonc";
-import unicorn from "eslint-plugin-unicorn";
+import unicornPlugin from "eslint-plugin-unicorn";
 import globals from "globals";
 
 /**
@@ -76,7 +76,7 @@ export function ecma(config, ...overrides) {
       files: [files],
       name: "unicorn",
       plugins: {
-        unicorn,
+        unicorn: unicornPlugin,
       },
       rules: {
         "unicorn/better-regex": "error",
