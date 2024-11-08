@@ -3,6 +3,7 @@ import convertDisplayValueToClass from '../helpers/convert-display-value-to-clas
 import ItemData from '../types/item-data.interface';
 import { SpacingSettingsFieldName } from '../types/spacing-setting-field-name.value';
 import { isStoryblokPreview } from '../helpers/is-storyblok-preview.function';
+import { convertImageStyleModifiersValuesToClasses } from '../helpers/convert-image-modifiers-values-to-classes.function';
 
 let instanceId = 0;
 
@@ -46,6 +47,9 @@ export default Vue.extend({
         result.push(...classes);
       }
 
+      const imageStyleModifiersClasses = convertImageStyleModifiersValuesToClasses(this.item.image_style_modifiers)
+
+      result.push(...imageStyleModifiersClasses);
       result.push(...this.extraCssClasses);
 
       return result
