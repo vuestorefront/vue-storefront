@@ -1,8 +1,9 @@
-module.exports = {
-  extends: [
-    require.resolve("./ecma.js"),
-    require.resolve("./typescript.js"),
-    require.resolve("./json.js"),
-    require.resolve("./prettier.js"),
-  ],
-};
+export * from "./architecture.js";
+export * from "./ecma.js";
+export * from "./nextjs.js";
+export * from "./playwright.js";
+export * from "./style.js";
+export * from "./typescript.js";
+
+export { default as gitignore } from "eslint-config-flat-gitignore";
+export { concat } from "eslint-flat-config-utils";
