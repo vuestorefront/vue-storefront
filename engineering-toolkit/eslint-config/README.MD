@@ -10,27 +10,81 @@
 yarn add -D eslint prettier @vue-storefront/eslint-config
 ```
 
+### Building Blocks
+
+This ESLint configuration is composed of several building blocks, each tailored for specific use cases:
+
+- `ecma`: For ECMAScript projects.
+- `typescript`: For TypeScript projects.
+- `style`: For Prettier and Perfectionist plugins.
+- `nextjs`: For Next.js projects.
+- `playwright`: For Playwright projects.
+- `architecture`: For enforcing architectural rules.
+
+### Options
+
+All options are optional. You don't have to set these options if you are okay with the default configuration.
+
+#### `ecma`
+
+- `files` (default: `"**/*.{mjs,cjs,js,jsx}"`): The glob pattern for files to lint.
+- `isStrict` (default: `true`): Enables extra rules for stricter checking.
+- `withImport` (default: `true`): Enables `eslint-plugin-import`.
+
+
+#### `typescript`
+
+- `files` (default: `"**/*.{ts,tsx,mts,cts,mtsx,ctsx}"`): The glob pattern for files to lint.
+- `isStrict` (default: `true`): Enables extra rules for stricter checking.
+- `withImport` (default: `true`): Enables `eslint-plugin-import`.
+
+### `style`
+
+- `files` (default: `"**/*.{mjs,cjs,js,jsx,ts,tsx,mts,cts,mtsx,ctsx}"`): The glob pattern for files to lint.
+
+### `nextjs`
+
+- `files` (default: `"**/*.{mjs,cjs,js,jsx,ts,tsx,mts,cts,mtsx,ctsx}"`): The glob pattern for files to lint.
+Here you can pass the general file glob pattern for all directories with Next.js/React code. But for better results please pass the glob for the components folders and hooks. Those two are passed to the special rules just for them.
+
+```ts
+files: {
+  general: "**/*.{js,jsx,ts,tsx}",
+  components: "src/components/**/*.{js,jsx,ts,tsx}",
+  hooks: "src/hooks/**/*.{js,jsx,ts,tsx}"
+}
+```
+
+- `isStrict` (default: `true`): Enables extra rules for stricter checking.
+
+### `playwright`
+
+- `files` (default: `"**/*.test.ts"`): The glob pattern for files to lint.
+
+### `architecture`
+
+- `files` (default: `"**/*.{mjs,cjs,js,jsx,ts,tsx,mts,cts,mtsx,ctsx}"`): The glob pattern for files to lint.
+- `maxComplexity` (default: `6`): The maximum cyclomatic complexity allowed in a program.
+- `maxDepth` (default: `4`): The maximum depth that blocks can be nested.
+- `maxStatementsPerLine` (default: `1`): The maximum number of statements allowed per line.
+- `maxLines` (default: `300`): The maximum number of lines per file.
+- `maxLinesPerFunction` (default: `60`): The maximum number of lines of code in a function.
+- `maxStatements` (default: `10`): The maximum number of statements allowed in function blocks.
+- `maxNestedCallbacks` (default: `5`): The maximum depth that callbacks can be nested.
+- `maxParams` (default: `3`): The maximum number of parameters in function definitions.
+
+
+## Example configurations
+
 ### Config `eslint.config.js`
 
 ```javascript
 import { ecma, typescript, style } from "@vue-storefront/eslint-config";
 
 export default [
-  ecma({
-    files: "**/*.{js,jsx,ts,tsx}",
-    // Enabling extra rules, for stricter checking, enabled by default
-    isStrict: true,
-    // Enabling eslint-plugin-import, enabled by default
-    withImport: true,
-  }),
-  typescript({
-    files: "**/*.{ts,tsx}",
-    isStrict: true,
-    withImport: true,
-  }),
-  style({
-    files: "**/*.{js,jsx,ts,tsx}"
-  })
+  ecma(),
+  typescript(),
+  style()
 ];
 ```
 
@@ -177,16 +231,6 @@ export default [
   })
 ];
 ```
-
-## Available Configurations
-
-- `@vue-storefront/eslint-config` - Base configuration.
-- `@vue-storefront/eslint-config/ecma` - ECMAScript configuration.
-- `@vue-storefront/eslint-config/typescript` - TypeScript configuration.
-- `@vue-storefront/eslint-config/nextjs` - Next.js configuration.
-- `@vue-storefront/eslint-config/playwright` - Playwright configuration.
-- `@vue-storefront/eslint-config/architecture` - Architectural rules configuration.
-- `@vue-storefront/eslint-config/style` - Style configuration with Prettier and Perfectionist plugins.
 
 ## Used rulesets & plugins
 
