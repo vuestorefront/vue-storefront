@@ -4,7 +4,7 @@
 
 ### Major Changes
 
-**[BREAKING]**: The ``@vue-storefront/eslint-config` is migrated to support ESLint v9 and FlatConfig. Please upgrade following way:
+**[BREAKING]**: The `@vue-storefront/eslint-config` is migrated to support ESLint v9 and FlatConfig. Please upgrade following way:
 
 **Step 1: Update Dependencies**
 
