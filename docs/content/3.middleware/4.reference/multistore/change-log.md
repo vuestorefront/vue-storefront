@@ -1,11 +1,11 @@
 # Change log
 
-## 4.1.2-rc.0
+## 4.1.2
 
 ### Patch Changes
 
 - Updated dependencies:
-  - @vue-storefront/middleware@5.1.0-rc.0
+  - @vue-storefront/middleware@5.1.0
 
 ## 4.1.1
 
