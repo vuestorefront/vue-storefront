@@ -10,13 +10,14 @@ import { getCartItemPrice, getProductDefaultDiscount, getProductDefaultPrice, ge
 import { PAYMENT_ERROR_EVENT } from './types/payment-error-event';
 import ServerError from './types/server-error';
 import * as ProductEvent from './types/product-events';
+import { getProductOptions } from './helpers/get-product-options.function';
 import { localStorageSynchronizationFactory } from './helpers/local-storage-synchronization.factory';
 import { parseLocalStorageValue } from './helpers/parse-local-storage-value.function';
 import * as PriceHelper from './helpers/price';
 
-import StreamingVideo from './components/streaming-video.vue';
 import EmailSubmitForm from './components/email-submit-form.vue';
-import { getProductOptions } from './helpers/get-product-options.function';
+import PrivacyPolicyLink from './components/privacy-policy-link.vue';
+import StreamingVideo from './components/streaming-video.vue';
 
 export {
   InjectType,
@@ -39,5 +40,6 @@ export {
   PAYMENT_ERROR_EVENT,
   parseLocalStorageValue,
   localStorageSynchronizationFactory,
-  getProductOptions
+  getProductOptions,
+  PrivacyPolicyLink
 }

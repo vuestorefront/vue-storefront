@@ -5,7 +5,11 @@ import { getPolarisScript } from './helpers/get-polaris-script.function';
 import CaliforniaPrivacyNoticeLink from './components/california-privacy-notice-link.vue';
 import NoticeOfFinancialIncentiveLink from './components/notice-of-financial-incentive-link.vue';
 import OptOutLink from './components/opt-out-link.vue';
-import PrivacyPolicyLink from './components/privacy-policy-link.vue';
+
+const californiaPrivacyNoticeLink = {
+  component: CaliforniaPrivacyNoticeLink,
+  key: 'CaliforniaPrivacyNoticeLink'
+};
 
 export const TrueVaultModule: StorefrontModule = ({ app, appConfig }) => {
   app.$extendedHead.append(getPolarisScript(appConfig));
@@ -14,12 +18,23 @@ export const TrueVaultModule: StorefrontModule = ({ app, appConfig }) => {
     return;
   }
 
-  app.$root.$options.additionalContent['CaliforniaPrivacyNoticeLink'] = CaliforniaPrivacyNoticeLink;
-}
+  app.$root.$options.additionalContent.formLinks = [
+    californiaPrivacyNoticeLink
+  ];
 
-export {
-  CaliforniaPrivacyNoticeLink,
-  NoticeOfFinancialIncentiveLink,
-  OptOutLink,
-  PrivacyPolicyLink
+  app.$root.$options.additionalContent.footerLinks = [
+    californiaPrivacyNoticeLink,
+    {
+      component: OptOutLink,
+      key: 'OptOutLink'
+    }
+  ];
+
+  app.$root.$options.additionalContent.financialIncentivesLinks = [
+    californiaPrivacyNoticeLink,
+    {
+      component: NoticeOfFinancialIncentiveLink,
+      key: 'NoticeOfFinancialIncentiveLink'
+    }
+  ];
 }

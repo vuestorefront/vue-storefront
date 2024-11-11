@@ -1,16 +1,16 @@
 
 import Vue from 'vue'
-import { VueConstructor } from 'vue/types/umd'
+import { AdditionalContent } from './additional-content.interface';
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $additionalContent: Record<string, VueConstructor<Vue>>;
-    _additionalContent?: Record<string, VueConstructor<Vue>>;
+    $additionalContent: AdditionalContent;
+    _additionalContent?: AdditionalContent;
   }
 }
 
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
-    additionalContent?: Record<string, VueConstructor<Vue>>
+    additionalContent?: AdditionalContent
   }
 }
