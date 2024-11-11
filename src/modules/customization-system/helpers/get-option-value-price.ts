@@ -12,7 +12,10 @@ export function getOptionValuePrice (
       regular: optionValue.price,
       special: null
     }
-    : undefined
+    : {
+      regular: 0,
+      special: null
+    }
 
   if (!optionValue.sku) {
     return defaultOptionValuePrice;
@@ -27,7 +30,7 @@ export function getOptionValuePrice (
   const price = PriceHelper.getProductDefaultPrice(product, {}, false);
 
   if (!price.regular) {
-    return;
+    return defaultOptionValuePrice;
   }
 
   return price;
