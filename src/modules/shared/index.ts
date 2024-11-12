@@ -18,6 +18,7 @@ import { stateCodeAutocompleteOptionSearch } from './helpers/state-code-autocomp
 import StreamingVideo from './components/streaming-video.vue';
 import EmailSubmitForm from './components/email-submit-form.vue';
 import { getProductOptions } from './helpers/get-product-options.function';
+import { getCanonicalUrl } from './helpers/get-canonical-url.function';
 
 export {
   InjectType,
@@ -41,5 +42,6 @@ export {
   parseLocalStorageValue,
   localStorageSynchronizationFactory,
   getProductOptions,
-  stateCodeAutocompleteOptionSearch
+  stateCodeAutocompleteOptionSearch,
+  getCanonicalUrl
 }
