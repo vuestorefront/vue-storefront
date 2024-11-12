@@ -1,6 +1,6 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import express from "express";
+import express, { Express } from "express";
 import type { HelmetOptions } from "helmet";
 import helmet from "helmet";
 import http, { Server } from "node:http";
@@ -31,12 +31,12 @@ const defaultCorsOptions: CreateServerOptions["cors"] = {
   origin: ["http://localhost:3000", "http://localhost:4000"],
 };
 
-async function createServer<
+async function createExpress<
   TIntegrationContext extends Record<string, IntegrationContext>
 >(
   config: MiddlewareConfig<TIntegrationContext>,
   options: CreateServerOptions = {}
-): Promise<Server> {
+): Promise<Express> {
   const loggerManager = new LoggerManager<LoggerOptions>(
     config,
     (loggerConfig) =>
@@ -100,10 +100,20 @@ async function createServer<
     res.end("ok");
   });
 
+  logger.info("Middleware created!");
+  return app;
+}
+
+async function createServer<
+  TIntegrationContext extends Record<string, IntegrationContext>
+>(
+  config: MiddlewareConfig<TIntegrationContext>,
+  options: CreateServerOptions = {}
+): Promise<Server> {
+  const app = await createExpress(config, options);
   const server = http.createServer(app);
   createTerminus(server, createTerminusOptions(options.readinessProbes));
-  logger.info("Middleware created!");
   return server;
 }
 
-export { createServer };
+export { createServer, createExpress };
