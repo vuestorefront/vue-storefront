@@ -35,6 +35,7 @@ export function useCustomizationsPrice (
   const totalPrice = computed<PriceHelper.ProductPrice>(() => {
     const productBySkuDictionary = root.$store.getters['product/getProductBySkuDictionary'];
     const selectedOptionValuesPrices: PriceHelper.ProductPrice[] = [];
+    const _customizationOptionValuesLowestPrice = customizationOptionValuesLowestPrice.value;
 
     // TODO: quick fix, need to refactor
     const _ = root.$store.getters['promotionPlatform/campaignContent'];
@@ -58,7 +59,7 @@ export function useCustomizationsPrice (
       }
 
       if (!hasSelections) {
-        const lowestPrice = customizationOptionValuesLowestPrice.value[customization.id];
+        const lowestPrice = _customizationOptionValuesLowestPrice[customization.id];
 
         if (lowestPrice) {
           selectedOptionValuesPrices.push(lowestPrice);

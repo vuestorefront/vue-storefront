@@ -17,6 +17,7 @@ import * as PriceHelper from './helpers/price';
 import StreamingVideo from './components/streaming-video.vue';
 import EmailSubmitForm from './components/email-submit-form.vue';
 import { getProductOptions } from './helpers/get-product-options.function';
+import { getCanonicalUrl } from './helpers/get-canonical-url.function';
 
 export {
   InjectType,
@@ -39,5 +40,6 @@ export {
   PAYMENT_ERROR_EVENT,
   parseLocalStorageValue,
   localStorageSynchronizationFactory,
-  getProductOptions
+  getProductOptions,
+  getCanonicalUrl
 }
