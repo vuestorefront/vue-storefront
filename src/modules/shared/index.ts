@@ -13,6 +13,7 @@ import * as ProductEvent from './types/product-events';
 import { localStorageSynchronizationFactory } from './helpers/local-storage-synchronization.factory';
 import { parseLocalStorageValue } from './helpers/parse-local-storage-value.function';
 import * as PriceHelper from './helpers/price';
+import { stateCodeAutocompleteOptionSearch } from './helpers/state-code-autocomplete-option-search.function';
 
 import StreamingVideo from './components/streaming-video.vue';
 import EmailSubmitForm from './components/email-submit-form.vue';
@@ -41,5 +42,6 @@ export {
   parseLocalStorageValue,
   localStorageSynchronizationFactory,
   getProductOptions,
+  stateCodeAutocompleteOptionSearch,
   getCanonicalUrl
 }
