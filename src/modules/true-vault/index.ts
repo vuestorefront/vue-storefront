@@ -18,7 +18,7 @@ export const TrueVaultModule: StorefrontModule = ({ app, appConfig }) => {
     return;
   }
 
-  app.$root.$options.additionalContent.formLinks = [
+  app.$root.$options.additionalContent.privacyPolicyAdditionalLinks = [
     californiaPrivacyNoticeLink
   ];
 
