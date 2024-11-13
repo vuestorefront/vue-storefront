@@ -54,7 +54,7 @@ const synchronizeActions = {
     const isUserAuthorized = rootGetters['user/getUserToken'];
 
     if (isUserAuthorized) {
-      return dispatch('authorize');
+      return dispatch('connect', { guestCart: false });
     }
 
     await dispatch('sync', {});
