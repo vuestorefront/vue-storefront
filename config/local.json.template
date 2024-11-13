@@ -142,7 +142,6 @@
     {
       "filters": [
         "filepond",
-        "vue-slick-carousel",
         "vue2-datepicker",
         "jquery",
         "vue-multiselect",
