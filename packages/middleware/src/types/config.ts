@@ -23,9 +23,9 @@ export type LogVerbosity =
  */
 export interface LoggerOptions {
   /**
-   * The log level aligned with RFC5424.
+   * The log verbosity level aligned with RFC5424.
    */
-  level?: LogVerbosity;
+  verbosity?: LogVerbosity;
 
   /**
    * Whether to include the stack trace in the log message.
