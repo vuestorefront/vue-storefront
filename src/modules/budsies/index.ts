@@ -1,7 +1,5 @@
-import Vue from 'vue'
-import VueCookies from 'vue-cookies';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
-import { once, isServer } from '@vue-storefront/core/helpers'
+import { isServer } from '@vue-storefront/core/helpers'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
@@ -15,7 +13,6 @@ import { Dictionary } from './types/Dictionary.type';
 import ObjectBuilderInterface from './types/object-builder.interface';
 import { ValueCollection } from './types/value.collection';
 import { Value } from './types/value.interface';
-import { cacheHandlerFactory } from './helpers/cacheHandler';
 import * as types from './store/mutation-types'
 import BaseImage from './components/BaseImage.vue';
 import ImageSourceItem from './types/image-source-item.interface';
@@ -50,20 +47,12 @@ export const BudsiesModule: StorefrontModule = async function ({ store }) {
   store.registerModule('budsies', budsiesStore);
 
   if (!isServer) {
-    once('__VUE_BUDSIES__', () => {
-      Vue.use(VueCookies);
-    })
-
     EventBus.$on(BEFORE_STORE_BACKEND_API_REQUEST, (payload: any) => {
       const { instanceId, appVersion } = debugData.getDebugData();
 
       payload.headers['x-instance-id'] = instanceId;
       payload.headers['x-app-version'] = appVersion;
     });
-
-    await store.dispatch('budsies/synchronize');
-
-    store.subscribe(cacheHandlerFactory(Vue));
 
     EventBus.$on('cart-prepare-item-product', fillProductWithAdditionalFields);
   }

@@ -1,10 +1,10 @@
 [submodule "src/modules/vsf-cache-nginx"]
 	path = src/modules/vsf-cache-nginx
-	url = https://github.com/new-fantastic/vsf-cache-nginx.git
+	url = https://github.com/Kidl/vsf-cache-nginx
 	branch = master
 [submodule "src/modules/vsf-cache-varnish"]
 	path = src/modules/vsf-cache-varnish
-	url = https://github.com/new-fantastic/vsf-cache-varnish.git
+	url = https://github.com/wmycco1/vsf-cache-varnish-1
 	branch = master
 [submodule "src/themes/petsies-capybara"]
 	path = src/themes/petsies-capybara

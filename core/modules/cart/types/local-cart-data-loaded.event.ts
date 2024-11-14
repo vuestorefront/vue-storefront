@@ -1,0 +1,1 @@
+export const LOCAL_CART_DATA_LOADED_EVENT = 'local_cart_data_loaded';

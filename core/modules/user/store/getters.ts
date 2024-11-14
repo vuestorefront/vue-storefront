@@ -18,6 +18,9 @@ const getters: GetterTree<UserState, RootState> = {
   },
   getUserEmail (state, getters) {
     return getters.isLoggedIn ? state.current.email : null
+  },
+  getIsSessionStarted (state) {
+    return state.isSessionStarted;
   }
 }
 

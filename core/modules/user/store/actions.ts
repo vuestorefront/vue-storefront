@@ -9,13 +9,14 @@ import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
 import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { userHooksExecutors, userHooks } from '../hooks'
+import { userHooksExecutors }  from '../hooks'
 import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import uniqBy from 'lodash-es/uniqBy'
+import { LOCAL_CART_DATA_LOADED_EVENT } from '@vue-storefront/core/modules/cart'
 
 const actions: ActionTree<UserState, RootState> = {
-  async startSession ({ commit, dispatch, getters }) {
+  async startSession ({ commit, dispatch, getters, rootGetters }) {
     const usersCollection = StorageManager.get('user')
     const userData = await usersCollection.getItem('current-user')
 
@@ -40,7 +41,21 @@ const actions: ActionTree<UserState, RootState> = {
       EventBus.$emit('session-after-nonauthorized')
     }
 
-    EventBus.$emit('session-after-started')
+    const isLocalCartDataLoaded = rootGetters['cart/isLocalDataLoaded'];
+
+    if (isLocalCartDataLoaded) {
+      return dispatch('sessionAfterStarted');
+    }
+
+    EventBus.$once(LOCAL_CART_DATA_LOADED_EVENT, () => {
+      dispatch('sessionAfterStarted');
+    });
+  },
+  async sessionAfterStarted({ commit, getters, dispatch }) {
+    await dispatch('cart/synchronizeCart', undefined, {root: true});
+    const userToken = getters['getUserToken'];
+    commit(types.USER_SESSION_STARTED);
+    EventBus.$emit('session-after-started', userToken);
   },
   /**
    * Send password reset link for specific e-mail
@@ -69,6 +84,8 @@ const actions: ActionTree<UserState, RootState> = {
         commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
         await dispatch('cart/mergeGuestAndCustomer', undefined, {root: true});
         await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+
+        EventBus.$emit('user-after-logged-in', resp.result);
       } catch (err) {
         await dispatch('clearCurrentUser')
         throw new Error(err)
@@ -126,7 +143,6 @@ const actions: ActionTree<UserState, RootState> = {
       commit(types.USER_INFO_LOADED, currentUser)
       await dispatch('setUserGroup', currentUser)
       EventBus.$emit('user-after-loggedin', currentUser)
-      dispatch('cart/authorize', {}, { root: true })
 
       return currentUser
     }
@@ -143,7 +159,6 @@ const actions: ActionTree<UserState, RootState> = {
 
     if (!resolvedFromCache && resp.resultCode === 200) {
       EventBus.$emit('user-after-loggedin', resp.result)
-      await dispatch('cart/authorize', {}, { root: true })
       return resp
     }
   },
@@ -247,8 +262,12 @@ const actions: ActionTree<UserState, RootState> = {
    */
   async logout ({ commit, dispatch }, { silent = false }) {
     commit(types.USER_END_SESSION)
-    await dispatch('cart/disconnect', {}, { root: true })
-    await dispatch('clearCurrentUser')
+
+    await Promise.all([
+      dispatch('cart/disconnect', {}, { root: true }),
+      dispatch('clearCurrentUser')
+    ]);
+
     EventBus.$emit('user-after-logout')
     // clear cart without sync, because after logout we don't want to clear cart on backend
     // user should have items when he comes back

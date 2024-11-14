@@ -3,7 +3,6 @@ import RushAddon from '../models/rush-addon.model'
 import BodypartValue from '../models/bodypart-value.model'
 import Bodypart from '../models/bodypart.model'
 import { Dictionary } from './Dictionary.type'
-import Hospital from './hospital.interface'
 import { StoreRating } from './store-rating.interface'
 import { StatisticMetric } from './statistic-metric'
 
@@ -19,7 +18,6 @@ export interface BudsiesState {
   plushieShortcode: Dictionary<string>,
   customerEmail: string | undefined,
   breeds: string[],
-  hospitals: Hospital[],
   storeRating: StoreRating | undefined,
   statisticValues: Record<StatisticMetric, string | number | undefined>
 }

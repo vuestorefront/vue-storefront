@@ -29,5 +29,15 @@ export const cartCacheHandlerPlugin = (mutation, state) => {
     return StorageManager.get('cart').setItem('current-cart-hash', state.cart.cartItemsHash).catch((reason) => {
       Logger.error(reason)()
     })
+  } else if (
+    type.endsWith(types.CART_UPD_TOTALS)
+  ) {
+    return StorageManager.get('cart').setItem('current-totals', {
+      platformTotalSegments: state.cart.platformTotalSegments,
+      platformTotals: state.cart.platformTotals,
+      itemsAfterPlatformTotals: state.cart.itemsAfterPlatformTotals
+    }).catch((reason) => {
+      Logger.error(reason)()
+    })
   }
 }

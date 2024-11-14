@@ -6,7 +6,6 @@ import { ValidationRuleSchema, ValidationResult } from 'vee-validate/dist/types/
 import { getFieldAnchorName } from 'theme/helpers/use-form-validation';
 
 import { Customization } from '../types/customization.interface';
-import { OptionType } from '../types/option-type';
 import { isEmailCustomization } from '../helpers/is-email-customization';
 
 extend('required', {
@@ -28,12 +27,7 @@ export function useCustomizationOptionValidation (customization: Ref<Customizati
   });
 
   const isFieldRequired = computed<boolean>(() => {
-    // TODO: temporary until separate option value for "Standard"
-    // production time will be added
-    const isProductionTimeCustomization = customization.value.optionData?.type === OptionType.PRODUCTION_TIME;
-
-    return customization.value.optionData?.isRequired ||
-      isProductionTimeCustomization;
+    return !!customization.value.optionData?.isRequired;
   });
 
   const validationRules = computed<Record<string, any>>(() => {

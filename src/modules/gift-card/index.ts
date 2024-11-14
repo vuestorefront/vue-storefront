@@ -3,6 +3,10 @@ import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
 import { module } from './store'
 import GiftCardTemplateSize from './GiftCardTemplateSize';
+import { AMASTY_GIFT_CARD_SKU } from './types/AmastyGiftCardSku';
+import { AmGiftCardType } from './types/AmGiftCard.type';
+import { AmGiftCardOptions } from './types/AmGiftCardOptions';
+import { GiftCardImage } from './types/GiftCardImage';
 import GiftCardOptions from './types/GiftCardOptions';
 import { SET_APPLIED_GIFT_CARDS } from './types/StoreMutations';
 
@@ -23,6 +27,10 @@ export const GiftCardModule: StorefrontModule = function ({ app, store }) {
 }
 
 export {
+  AMASTY_GIFT_CARD_SKU,
+  AmGiftCardOptions,
+  AmGiftCardType,
   GiftCardTemplateSize,
+  GiftCardImage,
   GiftCardOptions
 }

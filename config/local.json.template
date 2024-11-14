@@ -101,6 +101,12 @@
     "magentoDomain": "https://${MAGENTO_DOMAIN}",
     "enableRaffle": false
   },
+  "privacyPolicy": {
+    "url": "${PRIVACY_POLICY_URL}",
+    "californiaPrivacyNoticeUrl": "${PRIVACY_POLICY_URL}#california-privacy-notice",
+    "financialIncentiveNoticeUrl": "${PRIVACY_POLICY_URL}#financial-incentive",
+    "optOutUrl": "${PRIVACY_OPT_OUT_URL}"
+  },
   "initialResources": [
     {
       "filters": [
@@ -295,7 +301,6 @@
         "url_key",
         "url_path",
         "description",
-        "short_desc",
         "*.children_data.id",
         "*.id"
       ],
@@ -474,7 +479,7 @@
     },
     "serverMergeByDefault": true,
     "serverSyncCanRemoveLocalItems": false,
-    "serverSyncCanModifyLocalItems": false,
+    "serverSyncCanModifyLocalItems": true,
     "synchronize": true,
     "synchronize_totals": true,
     "setCustomProductOptions": true,
@@ -628,7 +633,7 @@
   },
   "orders": {
     "directBackendSync": true,
-    "endpoint": "https://${VSF_API_DOMAIN}/api/order",
+    "endpoint": "https://${VSF_API_DOMAIN}/api/order?token={{token}}",
     "payment_methods_mapping": {},
     "offline_orders": {
       "automatic_transmission_enabled": false,
@@ -708,7 +713,8 @@
     "paths": {
       "product": "/catalog/product",
       "bodypart": "/body_part/orig",
-      "giftcard": "/giftvoucher/template/background/images"
+      "giftcard": "/giftvoucher/template/background/images",
+      "am_gift_card": "/amasty/amgcard/image/admin_upload/"
     },
     "productPlaceholder": "/assets/placeholder.jpg",
     "fileuploaderUploadUrl": "${FILEUPLOADER_UPLOAD_URL}",
@@ -783,7 +789,7 @@
   },
   "theme": "${STORE_THEME}",
   "analytics": {
-    "id": false
+    "id": "${GOOGLE_ANALYTICS_TRACKING_ID}"
   },
   "braintree" : {
     "endpoint": "https://${VSF_API_DOMAIN}/api/ext/braintree",

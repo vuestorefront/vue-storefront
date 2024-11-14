@@ -12,5 +12,6 @@ export default interface UserState {
   current_storecode: string,
   session_started: Date,
   orders_history: any,
-  local_data_loaded: boolean
+  local_data_loaded: boolean,
+  isSessionStarted: boolean
 }

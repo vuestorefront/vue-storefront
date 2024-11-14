@@ -6,7 +6,6 @@ import BodypartValue from '../models/bodypart-value.model';
 import Bodypart from '../models/bodypart.model';
 import { BudsiesState } from '../types/State'
 import * as types from './mutation-types';
-import Hospital from '../types/hospital.interface';
 import { StoreRating } from '../types/store-rating.interface';
 import { StatisticValue } from '../types/statistic-value.interface';
 
@@ -68,9 +67,6 @@ export const mutations: MutationTree<BudsiesState> = {
   },
   setPlushieShortcode (state: BudsiesState, { key, shortcode }: { key: string, shortcode: string }) {
     Vue.set(state.plushieShortcode, key, shortcode);
-  },
-  [types.HOSPITALS_SET] (state, hospitals: Hospital[]): void {
-    state.hospitals = hospitals;
   },
   [types.STORE_RATING_SET] (state, storeRating: StoreRating): void {
     Vue.set(state, 'storeRating', storeRating);

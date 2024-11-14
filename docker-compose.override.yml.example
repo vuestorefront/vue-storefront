@@ -6,3 +6,5 @@ services:
     environment:
       - CERT_NAME=localdev
       - NODE_TLS_REJECT_UNAUTHORIZED=0
+    ports:
+      - 9229:9229

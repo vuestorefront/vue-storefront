@@ -13,7 +13,6 @@ export const state: BudsiesState = {
   plushieShortcode: {},
   customerEmail: undefined,
   breeds: [],
-  hospitals: [],
   storeRating: undefined,
   statisticValues: {
     [StatisticMetric.ORDERED_PLUSHIES_COUNT]: undefined

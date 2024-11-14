@@ -8,6 +8,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 import { UPDATE_CART_ITEM_DISCOUNT_PRICE_DATA_EVENT_ID, UPDATE_PRODUCT_DEFAULT_DISCOUNT_PRICE_DATA_EVENT_ID } from 'src/modules/shared/types/discount-price/events';
 import UpdateProductDiscountPriceEventData from 'src/modules/shared/types/discount-price/update-product-discount-price-event-data.interface';
+import { AmGiftCardOptions } from 'src/modules/gift-card';
 
 interface ProductPriceData {
   originalPriceInclTax: number,
@@ -45,11 +46,16 @@ function getProductPriceData (product, bundleOptionsPriceCalculationFunction: (p
     specialPrice: null
   }
 
+  const amGiftCardOptions: AmGiftCardOptions = product.product_option?.extension_attributes?.am_giftcard_options;
+
   if (isBundleProduct(product)) {
     productPriceData = bundleOptionsPriceCalculationFunction(product);
   } else if (product.giftcard_options) {
     productPriceData.priceInclTax = product.giftcard_options.price_amount;
     productPriceData.originalPriceInclTax = product.giftcard_options.price_amount;
+  } else if (amGiftCardOptions) {
+    productPriceData.priceInclTax = amGiftCardOptions.am_giftcard_amount || amGiftCardOptions.am_giftcard_amount_custom;
+    productPriceData.originalPriceInclTax = productPriceData.priceInclTax;
   } else {
     productPriceData.priceInclTax = product.price_incl_tax || 0;
     productPriceData.originalPriceInclTax = product.original_price_incl_tax || 0;

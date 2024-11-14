@@ -20,7 +20,8 @@ const getters: GetterTree<ProductState, RootState> = {
   getProductGallery: state => state.productGallery,
   getProductRelated: state => state.related,
   getCurrentCustomOptions: state => state.current_custom_options,
-  getProductBySkuDictionary: state => state.productBySku
+  getProductBySkuDictionary: state => state.productBySku,
+  getCurrentBundleOptions: state => state.current_bundle_options
 }
 
 export default getters

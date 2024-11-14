@@ -79,6 +79,9 @@ const mutations: MutationTree<ProductState> = {
       { [optionId]: option }
     )
   },
+  [types.PRODUCT_REMOVE_BUNDLE_OPTION] (state, bundleOptionId) {
+    Vue.delete(state.current_bundle_options, bundleOptionId);
+  },
   [types.PRODUCT_SET_CUSTOM_OPTION_VALIDATOR] (state, { validationRule, validatorFunction }) {
     state.custom_options_validators = Object.assign(
       {},

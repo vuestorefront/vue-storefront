@@ -1,19 +1,31 @@
 import rootStore from '@vue-storefront/core/store'
 
+import { parseLocalStorageValue } from 'src/modules/shared';
 import { checkMultiStoreLocalStorageKey } from 'src/modules/shared/helpers/check-multi-store-local-storage-key.function';
 
 import { SN_MAILCHIMP } from '../types/store-name';
 import { CAMPAIGN_ID, LANDING_PAGE } from '../types/local-storage-key';
 import { SET_CAMPAIGN_ID, SET_LANDING_PAGE } from '../types/mutation';
 
-const clearCampaignId = () => {
-  rootStore.commit(`${SN_MAILCHIMP}/${SET_CAMPAIGN_ID}`, undefined);
-}
-const clearLandingPage = () => {
-  rootStore.commit(`${SN_MAILCHIMP}/${SET_LANDING_PAGE}`, undefined);
+const clearItem = (mutationName: string) => {
+  rootStore.commit(
+    mutationName,
+    undefined
+  );
 }
 
-function getItemsFromStorage ({ key }: {key: string | null}) {
+const clearCampaignId = () => {
+  clearItem(
+    `${SN_MAILCHIMP}/${SET_CAMPAIGN_ID}`
+  );
+}
+const clearLandingPage = () => {
+  clearItem(
+    `${SN_MAILCHIMP}/${SET_LANDING_PAGE}`
+  );
+}
+
+export function getItemsFromStorage ({ key }: {key: string | null}) {
   if (!key) {
     clearCampaignId();
     clearLandingPage();
@@ -43,38 +55,29 @@ function getItemsFromStorage ({ key }: {key: string | null}) {
     }
   }
 
-  const rawValue = localStorage[key];
-
-  if (!rawValue) {
-    clearData();
-    return;
-  }
-
-  const value = JSON.parse(rawValue);
+  const value = parseLocalStorageValue(localStorage[key]);
 
   if (!value) {
     clearData();
     return;
   }
 
+  let mutationName: string | undefined;
+
   if (isCampaignIdChanged) {
-    rootStore.commit(`${SN_MAILCHIMP}/${SET_CAMPAIGN_ID}`, value);
+    mutationName = `${SN_MAILCHIMP}/${SET_CAMPAIGN_ID}`;
   }
 
   if (isLandingPageChanged) {
-    rootStore.commit(`${SN_MAILCHIMP}/${SET_LANDING_PAGE}`, value);
+    mutationName = `${SN_MAILCHIMP}/${SET_LANDING_PAGE}`;
   }
-}
 
-function addEventListener () {
-  window.addEventListener('storage', getItemsFromStorage)
-}
+  if (!mutationName) {
+    return;
+  }
 
-function removeEventListener () {
-  window.removeEventListener('storage', getItemsFromStorage)
-}
-
-export {
-  addEventListener,
-  removeEventListener
+  rootStore.commit(
+    mutationName,
+    value
+  );
 }

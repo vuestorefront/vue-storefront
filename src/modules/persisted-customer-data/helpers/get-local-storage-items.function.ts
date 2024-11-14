@@ -1,27 +1,46 @@
 import rootStore from '@vue-storefront/core/store'
 
+import { parseLocalStorageValue } from 'src/modules/shared';
 import { checkMultiStoreLocalStorageKey } from 'src/modules/shared/helpers/check-multi-store-local-storage-key.function';
+
 import { SN_PERSISTED_CUSTOMER_DATA } from '../types/store-name';
 import { SET_LAST_USED_CUSTOMER_EMAIL, SET_LAST_USED_CUSTOMER_FIRST_NAME, SET_LAST_USED_CUSTOMER_LAST_NAME, SET_LAST_USED_CUSTOMER_PHONE_NUMBER, SET_LAST_USED_CUSTOMER_SHIPPING_COUNTRY } from '../types/mutation';
 import { EMAIL, FIRST_NAME, LAST_NAME, PHONE_NUMBER, SHIPPING_COUNTRY } from '../types/local-storage-key';
 
-const clearLastUsedCustomerEmail = () => {
-  rootStore.commit(`${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_EMAIL}`, undefined);
-}
-const clearLastUsedCustomerFirstName = () => {
-  rootStore.commit(`${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_FIRST_NAME}`, undefined);
-}
-const clearLastUsedCustomerLastName = () => {
-  rootStore.commit(`${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_LAST_NAME}`, undefined);
-}
-const clearLastUsedCustomerPhoneNumber = () => {
-  rootStore.commit(`${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_PHONE_NUMBER}`, undefined);
-}
-const clearLastUsedCustomerShippingCountry = () => {
-  rootStore.commit(`${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_SHIPPING_COUNTRY}`, undefined);
+const clearItem = (mutationName: string) => {
+  rootStore.commit(
+    mutationName,
+    undefined
+  );
 }
 
-function getItemsFromStorage ({ key }: {key: string | null}) {
+const clearLastUsedCustomerEmail = () => {
+  clearItem(
+    `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_EMAIL}`
+  );
+}
+const clearLastUsedCustomerFirstName = () => {
+  clearItem(
+    `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_FIRST_NAME}`
+  );
+}
+const clearLastUsedCustomerLastName = () => {
+  clearItem(
+    `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_LAST_NAME}`
+  );
+}
+const clearLastUsedCustomerPhoneNumber = () => {
+  clearItem(
+    `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_PHONE_NUMBER}`
+  );
+}
+const clearLastUsedCustomerShippingCountry = () => {
+  clearItem(
+    `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_SHIPPING_COUNTRY}`
+  );
+}
+
+export function getItemsFromStorage ({ key }: { key: string | null }) {
   if (!key) {
     clearLastUsedCustomerEmail();
     clearLastUsedCustomerFirstName();
@@ -84,65 +103,41 @@ function getItemsFromStorage ({ key }: {key: string | null}) {
     }
   }
 
-  const rawValue = localStorage[key];
-
-  if (!rawValue) {
-    clearData();
-    return;
-  }
-
-  const value = JSON.parse(rawValue);
+  const value = parseLocalStorageValue(localStorage[key]);
 
   if (!value) {
     clearData();
     return;
   }
 
+  let mutationName: string | undefined;
+
   if (isEmailChanged) {
-    rootStore.dispatch(
-      `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_EMAIL}`,
-      value
-    );
+    mutationName = `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_EMAIL}`;
   }
 
   if (isFirstNameChanged) {
-    rootStore.commit(
-      `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_FIRST_NAME}`,
-      value
-    );
+    mutationName = `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_FIRST_NAME}`;
   }
 
   if (isLastNameChanged) {
-    rootStore.commit(
-      `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_LAST_NAME}`,
-      value
-    );
+    mutationName = `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_LAST_NAME}`;
   }
 
   if (isPhoneNumberChanged) {
-    rootStore.commit(
-      `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_PHONE_NUMBER}`,
-      value
-    );
+    mutationName = `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_PHONE_NUMBER}`;
   }
 
   if (isCountryChanged) {
-    rootStore.commit(
-      `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_SHIPPING_COUNTRY}`,
-      value
-    );
+    mutationName = `${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_SHIPPING_COUNTRY}`;
   }
-}
 
-function addEventListener () {
-  window.addEventListener('storage', getItemsFromStorage)
-}
+  if (!mutationName) {
+    return;
+  }
 
-function removeEventListener () {
-  window.removeEventListener('storage', getItemsFromStorage)
-}
-
-export {
-  addEventListener,
-  removeEventListener
+  rootStore.commit(
+    mutationName,
+    value
+  );
 }

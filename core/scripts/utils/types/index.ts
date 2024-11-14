@@ -19,5 +19,6 @@ export interface Context {
   vs: {
     config: Record<any, any>,
     storeCode: string
-  }
+  },
+  polaris: () => string
 }

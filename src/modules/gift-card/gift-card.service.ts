@@ -47,7 +47,7 @@ export const GiftCardService = {
 
     return {
       code,
-      value: result.result
+      value: Number.parseFloat(result.result)
     }
   },
   async changeAppliedGiftCardValue (

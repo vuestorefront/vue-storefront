@@ -7,12 +7,18 @@ import { InjectType } from './types/inject-type';
 import { VideoProvider } from './types/video-provider.value';
 import CustomerImage from './types/customer-image.interface';
 import { getCartItemPrice, getProductDefaultDiscount, getProductDefaultPrice, getProductPriceFromTotals } from './helpers/price';
+import { PAYMENT_ERROR_EVENT } from './types/payment-error-event';
 import ServerError from './types/server-error';
 import * as ProductEvent from './types/product-events';
+import { localStorageSynchronizationFactory } from './helpers/local-storage-synchronization.factory';
+import { parseLocalStorageValue } from './helpers/parse-local-storage-value.function';
 import * as PriceHelper from './helpers/price';
+import { stateCodeAutocompleteOptionSearch } from './helpers/state-code-autocomplete-option-search.function';
 
 import StreamingVideo from './components/streaming-video.vue';
 import EmailSubmitForm from './components/email-submit-form.vue';
+import { getProductOptions } from './helpers/get-product-options.function';
+import { getCanonicalUrl } from './helpers/get-canonical-url.function';
 
 export {
   InjectType,
@@ -31,5 +37,11 @@ export {
   CartEvents,
   PriceHelper,
   BEFORE_STORE_BACKEND_API_REQUEST,
-  BreakpointValue
+  BreakpointValue,
+  PAYMENT_ERROR_EVENT,
+  parseLocalStorageValue,
+  localStorageSynchronizationFactory,
+  getProductOptions,
+  stateCodeAutocompleteOptionSearch,
+  getCanonicalUrl
 }

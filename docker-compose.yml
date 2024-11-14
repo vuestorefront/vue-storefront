@@ -28,6 +28,8 @@ services:
       - DEFAULT_STORE_NAME
       - DEFAULT_STORE_DESCRIPTION
       - STORE_THEME
+      - PRIVACY_POLICY_URL
+      - PRIVACY_OPT_OUT_URL
       - PETSIES_STORE_DOMAIN
       - BUDSIES_STORE_DOMAIN
       - BULKORDERS_STORE_DOMAIN
@@ -41,6 +43,7 @@ services:
       - ERROR_LOGGING_SERVICE_URL
       
       - GTM_ID
+      - GOOGLE_ANALYTICS_TRACKING_ID
       
       - AFFIRM_PUBLIC_KEY
       - AFFIRM_CDN
@@ -70,20 +73,18 @@ services:
       - './packages:/var/www/packages'
       - './node_modules:/var/www/node_modules'
       - './yarn.lock:/var/www/yarn.lock'
-      - cache://usr/local/share/.cache
-    tmpfs:
-      - /var/www/dist
+      - cache:/usr/local/share/.cache
+      - dist:/var/www/dist
     networks:
       - default
       - reverseproxy
       # - vue-storefront-api
     expose:
       - 3000
-    ports:
-      - 9229:9229
 
 volumes: 
   cache:
+  dist:
 
 networks:
   reverseproxy:

@@ -1,10 +1,8 @@
-import Vue from 'vue';
 import RootState from '@vue-storefront/core/types/RootState'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { processURLAddress } from '@vue-storefront/core/helpers'
 import { ActionTree, Commit } from 'vuex'
 import config from 'config'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 import { BudsiesState } from '../types/State'
@@ -27,9 +25,7 @@ import isBodypartApiResponse from '../models/is-bodypart-api-response.typeguard'
 import isBodypartValueApiResponse from '../models/is-bodypart-value-api-response.typeguard'
 import BodypartApiResponse from '../models/bodypart-api-response.interface'
 import Task from 'core/lib/sync/types/Task'
-import getCartTokenCookieKey from '../helpers/get-cart-token-cookie-key.function'
 import { Dictionary } from '../types/Dictionary.type';
-import Hospital from '../types/hospital.interface';
 import { StoreRating } from '../types/store-rating.interface';
 import { StatisticValue } from '../types/statistic-value.interface';
 import { StatisticMetric } from '../types/statistic-metric';
@@ -268,38 +264,14 @@ export const actions: ActionTree<BudsiesState, RootState> = {
 
     commit('setPlushieShortcode', { key: plushieId, shortcode: result.result });
   },
-  async synchronize ({ commit, dispatch }) {
-    const cartStorage = StorageManager.get('cart');
-    const cartTokenFromLocalStorage = await cartStorage.getItem('current-cart-token');
-    let cartTokenFromCookies = Vue.$cookies.get(getCartTokenCookieKey());
-
-    if (cartTokenFromCookies === 'null') {
-      cartTokenFromCookies = null;
-    }
-
-    if (!cartTokenFromLocalStorage && cartTokenFromCookies) {
-      await cartStorage.setItem('current-cart-token', cartTokenFromCookies);
-
-      dispatch(
-        'cart/synchronizeCart',
-        {
-          forceClientState: false,
-          forceSync: true
-        },
-        { root: true }
-      )
-    }
-
-    EventBus.$emit('budsies-store-synchronized');
-  },
   async loadRecoverableCart (
     { commit, state },
     { recoveryId, recoveryCode }
   ): Promise<any> {
     const url = processURLAddress(`${config.budsies.endpoint}/carts/recovery-requests`);
 
-    const { result, resultCode } = await TaskQueue.execute({
-      url: `${url}?recoveryId=${recoveryId}&recoveryCode=${recoveryCode}`,
+    const { result, resultCode, code } = await TaskQueue.execute({
+      url: `${url}?recoveryId=${recoveryId}&recoveryCode=${recoveryCode}&token={{token}}`,
       payload: {
         headers: { 'Accept': 'application/json' },
         mode: 'cors',
@@ -307,6 +279,14 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       },
       silent: true
     });
+
+    if (resultCode === 401 || code === 401) {
+      const error = {
+        code
+      };
+
+      throw error;
+    }
 
     if (resultCode !== 200) {
       throw Error('Error while recovering cart. ' + result)
@@ -511,40 +491,6 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       throw new Error(`Error while send plushie reminders request: ${result}`);
     }
   },
-  async fetchHospitalsList (
-    { commit, getters },
-    payload: {
-      useCache: boolean
-    } = {
-      useCache: true
-    }
-  ): Promise<Hospital[]> {
-    const hospitals = getters['getHospitals'];
-
-    if (hospitals.length && payload.useCache) {
-      return hospitals;
-    }
-
-    const url = processURLAddress(`${config.budsies.endpoint}/hospitals`);
-
-    const { result, resultCode } = await TaskQueue.execute({
-      url,
-      payload: {
-        headers: { 'Accept': 'application/json' },
-        mode: 'cors',
-        method: 'GET'
-      },
-      silent: true
-    });
-
-    if (resultCode !== 200) {
-      throw new Error('Error while hospitals list fetching');
-    }
-
-    commit(types.HOSPITALS_SET, result);
-
-    return result;
-  },
   async fetchStoreRating (
     { commit, getters },
     {
@@ -631,6 +577,32 @@ export const actions: ActionTree<BudsiesState, RootState> = {
         mode: 'cors',
         method: 'POST',
         body: JSON.stringify(payload)
+      },
+      silent: true
+    });
+  },
+  updatePersonalDetails ({ rootGetters }, personalDetails: {
+    emailAddress: string,
+    firstName: string,
+    lastName: string
+  }): Promise<Task> {
+    const url = `${config.budsies.endpoint}/carts/personal-details-update-requests?token={{token}}`;
+    const cartId = rootGetters['cart/getCartToken'];
+
+    const body = {
+      email: personalDetails.emailAddress,
+      firstName: personalDetails.firstName,
+      lastName: personalDetails.lastName,
+      cartId
+    };
+
+    return TaskQueue.execute({
+      url,
+      payload: {
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        mode: 'cors',
+        method: 'POST',
+        body: JSON.stringify(body)
       },
       silent: true
     });

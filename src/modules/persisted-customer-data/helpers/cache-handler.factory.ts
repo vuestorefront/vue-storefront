@@ -11,49 +11,40 @@ export function cacheHandlerFactory () {
     const type = mutation.type;
     const persistedCustomerDataStorage = StorageManager.get(SN_PERSISTED_CUSTOMER_DATA);
 
-    if (type.endsWith(types.SET_LAST_USED_CUSTOMER_EMAIL)) {
-      if (!mutation.payload) {
-        persistedCustomerDataStorage.removeItem(EMAIL);
-        return;
-      }
+    let localStorageKey: string | undefined;
 
-      persistedCustomerDataStorage.setItem(EMAIL, mutation.payload);
+    if (type.endsWith(types.SET_LAST_USED_CUSTOMER_EMAIL)) {
+      localStorageKey = EMAIL;
     }
 
     if (type.endsWith(types.SET_LAST_USED_CUSTOMER_FIRST_NAME)) {
-      if (!mutation.payload) {
-        persistedCustomerDataStorage.removeItem(FIRST_NAME);
-        return;
-      }
-
-      persistedCustomerDataStorage.setItem(FIRST_NAME, mutation.payload);
+      localStorageKey = FIRST_NAME;
     }
 
     if (type.endsWith(types.SET_LAST_USED_CUSTOMER_LAST_NAME)) {
-      if (!mutation.payload) {
-        persistedCustomerDataStorage.removeItem(LAST_NAME);
-        return;
-      }
-
-      persistedCustomerDataStorage.setItem(LAST_NAME, mutation.payload);
+      localStorageKey = LAST_NAME;
     }
 
     if (type.endsWith(types.SET_LAST_USED_CUSTOMER_PHONE_NUMBER)) {
-      if (!mutation.payload) {
-        persistedCustomerDataStorage.removeItem(PHONE_NUMBER);
-        return;
-      }
-
-      persistedCustomerDataStorage.setItem(PHONE_NUMBER, mutation.payload);
+      localStorageKey = PHONE_NUMBER;
     }
 
     if (type.endsWith(types.SET_LAST_USED_CUSTOMER_SHIPPING_COUNTRY)) {
-      if (!mutation.payload) {
-        persistedCustomerDataStorage.removeItem(SHIPPING_COUNTRY);
-        return;
-      }
-
-      persistedCustomerDataStorage.setItem(SHIPPING_COUNTRY, mutation.payload);
+      localStorageKey = SHIPPING_COUNTRY;
     }
+
+    if (!localStorageKey) {
+      return;
+    }
+
+    if (!mutation.payload) {
+      persistedCustomerDataStorage.removeItem(localStorageKey);
+      return;
+    }
+
+    persistedCustomerDataStorage.setItem(
+      localStorageKey,
+      mutation.payload
+    );
   }
 }

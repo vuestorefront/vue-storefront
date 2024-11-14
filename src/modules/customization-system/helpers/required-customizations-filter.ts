@@ -1,5 +1,4 @@
 import { Customization } from '../types/customization.interface';
-import { OptionType } from '../types/option-type';
 import { OptionValue } from '../types/option-value.interface';
 
 export function requiredCustomizationsFilter (
@@ -7,10 +6,6 @@ export function requiredCustomizationsFilter (
   availableOptionValues?: OptionValue[]
 ): boolean {
   if (!customization.optionData) {
-    return true;
-  }
-
-  if (customization.optionData.type === OptionType.PRODUCTION_TIME) {
     return true;
   }
 

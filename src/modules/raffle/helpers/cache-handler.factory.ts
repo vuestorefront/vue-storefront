@@ -13,7 +13,7 @@ export function cacheHandlerFactory () {
     const raffleStorage = StorageManager.get(SN_RAFFLE);
 
     if (type.endsWith(types.PARTICIPANT_DATA_SET)) {
-      if (!mutation.payload) {
+      if (!mutation.payload?.token) {
         raffleStorage.removeItem(RAFFLE_TOKEN);
         return;
       }

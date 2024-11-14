@@ -8,11 +8,9 @@ import {
   createShippingInfoData
 } from '@vue-storefront/core/modules/cart/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { isCartNotFoundError } from '../../helpers/is-cart-not-found-error'
 
 const totalsActions = {
-  async updateTotals ({ commit }, payload) {
-    commit(types.CART_UPD_TOTALS, payload)
-  },
   async getTotals (context, { addressInformation, hasShippingInformation }) {
     if (hasShippingInformation) {
       return CartService.setShippingInfo(addressInformation)
@@ -21,11 +19,11 @@ const totalsActions = {
     return CartService.getTotals()
   },
   async overrideServerTotals ({ commit, getters, rootGetters, dispatch }, { addressInformation, hasShippingInformation }) {
-    const { resultCode, result } = await dispatch('getTotals', { addressInformation, hasShippingInformation })
+    const task = await dispatch('getTotals', { addressInformation, hasShippingInformation })
+    const { resultCode, result } = task;
 
-    if (resultCode === 404) {
-      dispatch('clear', { disconnect: true, sync: false });
-      return;
+    if (isCartNotFoundError(task)) {
+      return dispatch('clear', { disconnect: true, sync: false });
     }
 
     if (resultCode === 200) {

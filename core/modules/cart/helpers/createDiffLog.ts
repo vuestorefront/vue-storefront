@@ -65,6 +65,10 @@ export class DiffLog {
       !this.hasClientNotifications() &&
       !this.hasServerResponses()
   }
+
+  public hasNotFoundServerResponse(): boolean {
+    return !!this.serverResponses.find((item) => item.status === 404);
+  }
 }
 
 const createDiffLog = (): DiffLog => new DiffLog()

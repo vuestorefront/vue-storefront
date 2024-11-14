@@ -70,9 +70,9 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
       _internalExecute(resolve, reject, task, currentToken, currentCartId)
     })
     return // return but not resolve
-  } else if (rootStore.state.userTokenInvalidateLock < 0) {
+  } else if (currentToken && rootStore.state.userTokenInvalidateLock < 0) {
     Logger.error('Aborting the network task' + task.url + rootStore.state.userTokenInvalidateLock, 'sync')()
-    resolve({ code: 401, result: i18n.t('Error refreshing user token. User is not authorized to access the resource') })()
+    resolve({ code: 401, result: i18n.t('Error refreshing user token. User is not authorized to access the resource') })
     return
   } else {
     if (rootStore.state.userTokenInvalidated) {
@@ -114,14 +114,10 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
               if (rootStore.state.userTokenInvalidateAttemptsCount >= config.queues.maxNetworkTaskAttempts) {
                 Logger.error('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.', 'sync')()
                 rootStore.state.userTokenInvalidateLock = -1
+                rootStore.state.userTokenInvalidated = null
                 rootStore.dispatch('user/logout', { silent: true })
                 TaskQueue.clearNotTransmited()
                 EventBus.$emit('modal-show', 'modal-signup')
-                rootStore.dispatch('notification/spawnNotification', {
-                  type: 'error',
-                  message: i18n.t('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.'),
-                  action1: { label: i18n.t('OK') }
-                })
                 rootStore.state.userTokenInvalidateAttemptsCount = 0
               } else {
                 Logger.info('Invalidation process in progress (autoRefreshTokens is set to true)' + rootStore.state.userTokenInvalidateAttemptsCount + rootStore.state.userTokenInvalidateLock, 'sync')()
@@ -152,6 +148,8 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
             Logger.info('Invalidation process is disabled (autoRefreshTokens is set to false)', 'sync')()
             rootStore.dispatch('user/logout', { silent: true })
             EventBus.$emit('modal-show', 'modal-signup')
+            resolve({ code: 401, result: i18n.t('Error refreshing user token. User is not authorized to access the resource') })
+            return;
           }
         }
 
@@ -180,7 +178,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           EventBus.$emit(task.callback_event, task)
         }
       }
-      if (!rootStore.state.userTokenInvalidateLock) { // in case we're revalidaing the token - user must wait for it
+      if (!rootStore.state.userTokenInvalidateLock || !currentToken) { // in case we're revalidaing the token - user must wait for it
         resolve(task)
       }
     } else {

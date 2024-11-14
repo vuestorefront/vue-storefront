@@ -5,6 +5,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { CartService } from '@vue-storefront/core/data-resolver'
 import { preparePaymentMethodsToSync, createOrderData, createShippingInfoData } from '@vue-storefront/core/modules/cart/helpers'
 import PaymentMethod from '../../types/PaymentMethod'
+import { isCartNotFoundError } from '../../helpers/is-cart-not-found-error'
 
 const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
@@ -40,24 +41,24 @@ const methodsActions = {
         })
 
         if (shippingMethodsData.country) {
-          const { result, resultCode } = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData))
-          backendPaymentMethods = result.payment_methods || []
+          const task = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData));
 
-          if (resultCode === 404) {
-            dispatch('clear', { disconnect: true, sync: false });
-            return;
+          backendPaymentMethods = task.result.payment_methods || []
+
+          if (isCartNotFoundError(task)) {
+            return dispatch('clear', { disconnect: true, sync: false });
           }
         }
       }
-      if (!backendPaymentMethods || backendPaymentMethods.length === 0) {
-        const { result, resultCode } = await CartService.getPaymentMethods()
 
-        if (resultCode === 404) {
-          dispatch('clear', { disconnect: true, sync: false });
-          return;
+      if (!backendPaymentMethods || backendPaymentMethods.length === 0) {
+        const task = await CartService.getPaymentMethods();
+
+        if (isCartNotFoundError(task)) {
+          return dispatch('clear', { disconnect: true, sync: false });
         }
 
-        backendPaymentMethods = result
+        backendPaymentMethods = task.resultCode === 200 ? task.result : [];
       }
 
       const { uniqueBackendMethods, paymentMethods } = preparePaymentMethodsToSync(
@@ -93,12 +94,13 @@ const methodsActions = {
         region_code: shippingDetails.region_code ? shippingDetails.region_code : ''
       } : { country_id: storeView.tax.defaultCountry }
 
-      const { result, resultCode } = await CartService.getShippingMethods(address)
+      const task = await CartService.getShippingMethods(address);
 
-      if (resultCode === 404) {
-        dispatch('clear', { disconnect: true, sync: false });
-        return;
+      if (isCartNotFoundError(task)) {
+        return dispatch('clear', { disconnect: true, sync: false });
       }
+
+      const result = task.resultCode === 200 ? task.result : [];
 
       await dispatch('updateShippingMethods', { shippingMethods: result })
     } else {

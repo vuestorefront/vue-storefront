@@ -34,6 +34,8 @@
         >
           {{ buttonText }}
         </SfButton>
+
+        <california-privacy-notice-link />
       </form>
     </validation-observer>
   </div>
@@ -45,6 +47,8 @@ import { email, required } from 'vee-validate/dist/rules';
 import Vue, { PropType } from 'vue';
 import { SfButton, SfInput } from '@storefront-ui/vue';
 
+import { CaliforniaPrivacyNoticeLink } from 'src/modules/true-vault';
+
 extend('required', {
   ...required,
   message: 'Field is required'
@@ -55,6 +59,7 @@ extend('email', email);
 export default Vue.extend({
   name: 'EmailSubmitForm',
   components: {
+    CaliforniaPrivacyNoticeLink,
     SfButton,
     SfInput,
     ValidationProvider,

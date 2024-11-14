@@ -1,3 +1,4 @@
+import { parseLocalStorageValue } from 'src/modules/shared';
 import { checkMultiStoreLocalStorageKey } from 'src/modules/shared/helpers/check-multi-store-local-storage-key.function'
 
 import { SN_BUDSIES } from '../store/mutation-types'
@@ -22,14 +23,12 @@ export function getItemsFromStorageFactory (
       return;
     }
 
-    const rawValue = localStorage[key];
+    const value = parseLocalStorageValue(localStorage[key]);
 
-    if (!rawValue) {
+    if (!value) {
       renewInstanceId();
       return;
     }
-
-    const value = JSON.parse(rawValue);
 
     setInstanceId(value);
   }

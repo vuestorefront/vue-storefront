@@ -126,6 +126,20 @@ function initSSRRequestContext (app, req, res, config): Context {
     vs: {
       config: config,
       storeCode: typeof req.header === 'function' ? (req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE) : process.env.STORE_CODE
+    },
+    polaris: () => {
+      const options = config.analytics.id
+        ? `<script>
+            window.polarisOptions = {
+              GoogleAnalyticsTrackingId: "${config.analytics.id}"
+            };
+        </script>`
+        : '';
+
+      return `
+        ${options}
+        <script src="https://polaris.truevaultcdn.com/static/polaris.js" defer></script>
+      `
     }
   };
 }

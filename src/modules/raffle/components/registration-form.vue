@@ -77,6 +77,8 @@
         <div class="_agreement">
           {{ $t('You agree to receive email marketing from Budsies regarding our products and services.') }}
         </div>
+
+        <california-privacy-notice-link />
       </validation-observer>
     </form>
 
@@ -139,6 +141,8 @@ import { email, required } from 'vee-validate/dist/rules';
 import i18n from '@vue-storefront/i18n'
 import { usePersistedEmail, usePersistedFirstName, usePersistedLastName } from 'src/modules/persisted-customer-data';
 
+import { CaliforniaPrivacyNoticeLink } from 'src/modules/true-vault';
+
 import { SfButton, SfHeading, SfInput } from '@storefront-ui/vue';
 
 import { SN_RAFFLE } from '../types/store-name';
@@ -157,6 +161,7 @@ extend('email', {
 export default defineComponent({
   name: 'RaffleRegistrationForm',
   components: {
+    CaliforniaPrivacyNoticeLink,
     SfButton,
     SfHeading,
     SfInput,

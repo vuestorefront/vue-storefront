@@ -5,6 +5,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 import { PromotionPlatformService } from '../promotion-platform.service';
 import PromotionPlatformState from '../types/PromotionPlatformState';
+import CampaignsGetAPIResponse from '../types/CampaignsGetAPIResponse';
 import * as types from '../types/StoreMutations';
 
 export const actions: ActionTree<PromotionPlatformState, any> = {
@@ -19,11 +20,13 @@ export const actions: ActionTree<PromotionPlatformState, any> = {
   async fetchActiveCampaign (
     { commit },
     { cartId, userToken }: {cartId: string, userToken?: string}
-  ): Promise<void> {
+  ): Promise<CampaignsGetAPIResponse> {
     const content = await PromotionPlatformService.fetchActiveCampaign(cartId, userToken);
 
     commit(types.SET_CAMPAIGN_CONTENT, content.campaignContent);
     commit(types.SET_CAMPAIGN_TOKEN, content.campaignToken);
+
+    return content;
   },
   async synchronize ({ commit }): Promise<void> {
     const promotionPlatformStorage = StorageManager.get(types.SN_PROMOTION_PLATFORM);

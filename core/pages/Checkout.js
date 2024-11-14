@@ -338,8 +338,9 @@ export default {
         this.notifyNotAvailable()
       }
     },
-    savePersonalDetails () {
-      this.$store.dispatch('checkout/savePersonalDetails', this.personalDetails)
+    async savePersonalDetails () {
+      await this.$store.dispatch('checkout/savePersonalDetails', this.personalDetails);
+      await this.$store.dispatch('budsies/updatePersonalDetails', this.personalDetails);
     },
     saveShippingDetails () {
       this.$store.dispatch('checkout/saveShippingDetails', this.shipping)

@@ -1,6 +1,6 @@
 import { computed, Ref, SetupContext, watch } from '@vue/composition-api';
 
-import { PRODUCT_SET_BUNDLE_OPTION } from '@vue-storefront/core/modules/catalog/store/product/mutation-types';
+import { PRODUCT_REMOVE_BUNDLE_OPTION, PRODUCT_SET_BUNDLE_OPTION } from '@vue-storefront/core/modules/catalog/store/product/mutation-types';
 
 import { CustomizationOptionValue } from '../types/customization-option-value';
 import { Customization } from '../types/customization.interface';
@@ -17,6 +17,10 @@ export function useCustomizationsBundleOptions (
     return customizations.value.filter((customization) => !!customization.bundleOptionId);
   });
 
+  const customizationsBundleOptionsIds = computed<number[]>(() => {
+    return customizationsWithBundleOptions.value.map((customization) => customization.bundleOptionId as number);
+  });
+
   const bundleOptionsCustomizationOptionValue = computed<Record<string, CustomizationOptionValue>>(() => {
     const dictionary: Record<string, CustomizationOptionValue> = {};
 
@@ -31,6 +35,17 @@ export function useCustomizationsBundleOptions (
     }
 
     return dictionary;
+  });
+
+  const selectedBundleOptionsIds = computed<number[]>(() => {
+    const selectedBundleOptions = root.$store.getters['product/getCurrentBundleOptions'];
+    const ids: number[] = [];
+
+    for (const key in selectedBundleOptions) {
+      ids.push(Number(key));
+    }
+
+    return ids;
   });
 
   function setBundleOptionValue (
@@ -81,6 +96,17 @@ export function useCustomizationsBundleOptions (
     )
   }
 
+  function removeUnavailableSelectedBundleOptions (
+    availableBundleOptionsIds: number[],
+    selectedBundleOptionsIds: number[]
+  ): void {
+    for (const id of selectedBundleOptionsIds) {
+      if (!availableBundleOptionsIds.includes(id)) {
+        root.$store.commit(`product/${PRODUCT_REMOVE_BUNDLE_OPTION}`, id);
+      }
+    }
+  }
+
   function updateBundleOptionValues (): void {
     for (const customization of customizationsWithBundleOptions.value) {
       const value = bundleOptionsCustomizationOptionValue.value[customization.id];
@@ -91,6 +117,17 @@ export function useCustomizationsBundleOptions (
       );
     }
   }
+
+  watch(
+    customizationsBundleOptionsIds,
+    () => {
+      removeUnavailableSelectedBundleOptions(
+        customizationsBundleOptionsIds.value,
+        selectedBundleOptionsIds.value
+      );
+    },
+    { immediate: true }
+  );
 
   watch(
     bundleOptionsCustomizationOptionValue,

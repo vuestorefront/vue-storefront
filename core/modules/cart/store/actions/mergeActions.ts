@@ -12,6 +12,7 @@ import {
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 import productChecksum from '@vue-storefront/core/modules/cart/helpers/productChecksum';
 import { SearchQuery } from 'storefront-query-builder'
+import { getProductOptions } from 'src/modules/shared'
 
 import { cartHooksExecutors } from './../../hooks'
 import ServerItem from '../../types/Servertem'
@@ -53,7 +54,7 @@ const mergeActions = {
       sku: cartItem.sku,
       server_cart_id: serverItem.quote_id,
       prev_qty: cartItem.qty,
-      product_option: serverItem.product_option,
+      product_option: getProductOptions(serverItem),
       type_id: serverItem.product_type
     }
 
@@ -98,7 +99,6 @@ const mergeActions = {
     })
 
     if (resultCode === 404) {
-      dispatch('clear', { disconnect: true, sync: false });
       return diffLog;
     }
 
@@ -163,7 +163,7 @@ const mergeActions = {
 
     return diffLog
   },
-  async synchronizeServerItem({ dispatch }, { serverItem, clientItem, forceClientState, dryRun, mergeQty, forceUpdateServerItem }) {
+  async synchronizeServerItem({ commit, dispatch }, { serverItem, clientItem, forceClientState, dryRun, mergeQty, forceUpdateServerItem }) {
     const diffLog = createDiffLog()
 
     if (!serverItem) {
@@ -176,7 +176,7 @@ const mergeActions = {
         return diffLog.merge(updateServerItemDiffLog)
       }
 
-      await dispatch('removeItem', { product: clientItem })
+      commit(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false });
       return diffLog
     }
 
@@ -213,7 +213,7 @@ const mergeActions = {
         sku: clientItem.sku,
         server_cart_id: serverItem.quote_id,
         server_item_id: serverItem.item_id,
-        product_option: serverItem.product_option,
+        product_option: getProductOptions(serverItem),
         type_id: serverItem.product_type
       }
 
@@ -229,6 +229,10 @@ const mergeActions = {
       try {
         const mergeClientItemDiffLog = await dispatch('mergeClientItem', { clientItem, serverItems, forceClientState, dryRun, mergeQty, forceUpdateServerItem })
         diffLog.merge(mergeClientItemDiffLog)
+
+        if (diffLog.hasNotFoundServerResponse()) {
+          return diffLog;
+        }
       } catch (e) {
         Logger.debug('Problem syncing clientItem', 'cart', clientItem)()
       }
@@ -329,6 +333,19 @@ const mergeActions = {
       forceUpdateServerItem
     }
     const mergeClientItemsDiffLog = await dispatch('mergeClientItems', mergeParameters)
+
+    if (mergeClientItemsDiffLog.hasNotFoundServerResponse()) {
+      await dispatch(
+        'clear',
+        {
+          disconnect: true,
+          sync: false
+        }
+      );
+
+      return mergeClientItemsDiffLog;
+    } 
+
     const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
     await dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
 

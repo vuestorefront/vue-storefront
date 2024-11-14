@@ -2,6 +2,8 @@ import { KEY, METHOD_CODE } from '../index'
 import * as types from '../store/mutation-types'
 import * as states from '../store/order-states'
 import i18n from '@vue-storefront/i18n'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { PAYMENT_ERROR_EVENT } from 'src/modules/shared'
 
 export function afterRegistration ({ Vue, config, store, isServer }) {
   if (config.amazonPay) {
@@ -113,6 +115,8 @@ export function afterRegistration ({ Vue, config, store, isServer }) {
               sandbox: config.amazonPay.sandbox
             })
           } catch (err) {
+            EventBus.$emit(PAYMENT_ERROR_EVENT);
+
             if (err.hasOwnProperty('json')) {
               err.json().then(json => {
                 console.error(json)

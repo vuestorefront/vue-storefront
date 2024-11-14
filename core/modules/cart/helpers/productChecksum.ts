@@ -74,7 +74,22 @@ const getDataToHash = (product: CartItem | ServerItem): any => {
     return null
   }
 
-  const supportedProductOptions = ['bundle_options', 'custom_options', 'configurable_item_options']
+
+  const giftCardOptions = product.product_option?.extension_attributes?.am_giftcard_options;
+
+  if (giftCardOptions) {
+    return {
+      amount: (giftCardOptions.am_giftcard_amount || giftCardOptions.am_giftcard_amount_custom).toString(),
+      image: giftCardOptions.am_giftcard_image.toString(),
+      message: giftCardOptions.am_giftcard_message || '',
+      recipient_name: giftCardOptions.am_giftcard_recipient_name || '',
+      recipient_email: giftCardOptions.am_giftcard_recipient_email || '',
+      sender: giftCardOptions.am_giftcard_sender_name || '',
+      type: giftCardOptions.am_giftcard_type.toString()
+    };
+  }
+
+  const supportedProductOptions = ['bundle_options', 'custom_options', 'configurable_item_options', 'am_giftcard_options'];
   let selectedProductOptions: Record<string, any> | undefined;
 
   // add options that has array with selected options to the dictionary

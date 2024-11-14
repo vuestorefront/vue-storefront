@@ -5,28 +5,64 @@ import { CART_ADD_ITEM } from '@vue-storefront/core/modules/cart/store/mutation-
 
 import { cacheHandlerFactory } from './helpers/cacheHandler.factory';
 import initEventBusListeners from './helpers/initEventBusListeners';
-import * as syncLocalStorageChange from './helpers/syncLocalStorageChange';
+import { getItemsFromStorage } from './helpers/get-local-storage-items.function';
+import { mouseEventHandlerFactory } from './helpers/mouse-event-handler.factory';
 import { module } from './store';
 import { CLEAR_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, SN_PROMOTION_PLATFORM } from './types/StoreMutations';
 import isCustomProduct from '../shared/helpers/is-custom-product.function';
-import onWindowMouseLeaveEventHandler from './helpers/on-window-mouseleave-event-handler.function';
+import CampaignsGetAPIResponse from './types/CampaignsGetAPIResponse';
 import { USER_LEAVING_WEBSITE } from './types/user-leaving-website.event';
+import { localStorageSynchronizationFactory } from '../shared';
 
 export const PromotionPlatformModule: StorefrontModule = function ({ app, store }) {
   StorageManager.init(SN_PROMOTION_PLATFORM);
   store.registerModule(`${SN_PROMOTION_PLATFORM}`, module);
 
   if (!app.$isServer) {
-    EventBus.$once('cart-created', async (cartToken: string) => {
-      await store.dispatch(`${SN_PROMOTION_PLATFORM}/synchronize`);
-      store.dispatch(`${SN_PROMOTION_PLATFORM}/updateActiveCampaign`, { dataParam: app.$route.query.data, cartId: cartToken });
+    EventBus.$once('session-after-started', async (userToken: string) => {
       initEventBusListeners(store, app);
+      await store.dispatch(`${SN_PROMOTION_PLATFORM}/synchronize`);
+      const cartId = store.getters['cart/getCartToken'];
+
+      const updateActiveCampaign = () => {
+        return store.dispatch(
+          `${SN_PROMOTION_PLATFORM}/updateActiveCampaign`,
+          {
+            dataParam: app.$route.query.data,
+            cartId
+          }
+        );
+      }
+
+      if (!userToken || !cartId || app.$route.query.data) {
+        return updateActiveCampaign();
+      }
+
+      const response: CampaignsGetAPIResponse = await store.dispatch(
+        `${SN_PROMOTION_PLATFORM}/fetchActiveCampaign`,
+        {
+          cartId,
+          userToken
+        }
+      );
+
+      if (!response.campaignContent.isEmpty) {
+        return;
+      }
+
+      return updateActiveCampaign();
     });
 
     EventBus.$on(
-      'cart-connected',
-      (payload: {cartId: string, userToken: string}) =>
-        store.dispatch(`${SN_PROMOTION_PLATFORM}/fetchActiveCampaign`, payload)
+      'user-after-logged-in',
+      (userToken: string) => {
+        const cartId = store.getters['cart/getCartToken'];
+
+        store.dispatch(`${SN_PROMOTION_PLATFORM}/fetchActiveCampaign`, {
+          userToken,
+          cartId
+        });
+      }
     );
 
     store.subscribe((mutation) => {
@@ -44,11 +80,17 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
       }
     });
 
-    store.subscribe(cacheHandlerFactory());
+    const localStorageSynchronization = localStorageSynchronizationFactory(
+      getItemsFromStorage,
+      cacheHandlerFactory()
+    );
 
-    syncLocalStorageChange.addEventListener();
+    store.subscribe(localStorageSynchronization.setItems);
 
-    document.body.addEventListener('mouseleave', onWindowMouseLeaveEventHandler);
+    const { mouseEnterHandler, mouseLeaveHandler } = mouseEventHandlerFactory();
+
+    document.body.addEventListener('mouseleave', mouseLeaveHandler);
+    document.body.addEventListener('mouseenter', mouseEnterHandler);
   }
 }
 

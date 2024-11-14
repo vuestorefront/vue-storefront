@@ -1,0 +1,1 @@
+export const ORDER_CONFLICT_EVENT = 'order_conflict_event';

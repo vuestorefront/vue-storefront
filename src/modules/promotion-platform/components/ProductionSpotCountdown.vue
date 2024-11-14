@@ -51,7 +51,7 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
       const expirationMinutesCount = this.$store.getters['backend-settings/getSettingByCompositeKey']('promotions/productionSpotCountdown/expirationMinutesCount');
       return expirationMinutesCount || 0;
     },
-    expirationDate (): number {
+    expirationDate (): number | undefined {
       return this.$store.getters[`${SN_PROMOTION_PLATFORM}/productionSpotCountdownExpirationDate`];
     },
     formattedTimerValue (): string {
@@ -75,6 +75,7 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
   },
   beforeMount (): void {
     EventBus.$on('promotion-platform-store-synchronized', this.tryStartTimer);
+
     this.tryStartTimer();
   },
   beforeDestroy (): void {
@@ -104,6 +105,11 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
       this.startTimer();
     },
     initTimerData (): void {
+      if (!this.expirationDate) {
+        this.timerValue = 0;
+        return;
+      }
+
       this.timerValue = (this.expirationDate - Date.now()) / 1000;
     },
     setExpirationDate (): void {
@@ -117,6 +123,11 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
       this.showTimer = true;
 
       this.timerIntervalId = this.window.setInterval(() => {
+        if (!this.expirationDate) {
+          this.stopTimer();
+          return;
+        }
+
         this.timerValue = (this.expirationDate - Date.now()) / 1000;
 
         if (this.timerValue <= 0) {
@@ -147,7 +158,7 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
     }
   },
   watch: {
-    canShow (canShow): void {
+    canShow (canShow: boolean): void {
       const isExpired = this.getIsExpired();
 
       if (!canShow) {
@@ -161,6 +172,14 @@ export default (Vue as VueConstructor<Vue & InjectedServices>).extend({
           this.tryStartTimer();
         }
       }
+    },
+    expirationDate (value: number | undefined): void {
+      if (value || !this.canShow || this.getIsExpired()) {
+        return;
+      }
+
+      this.stopTimer();
+      this.tryStartTimer();
     }
   }
 });

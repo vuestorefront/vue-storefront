@@ -1,5 +1,6 @@
 import rootStore from '@vue-storefront/core/store'
 
+import { parseLocalStorageValue } from 'src/modules/shared';
 import { checkMultiStoreLocalStorageKey } from 'src/modules/shared/helpers/check-multi-store-local-storage-key.function';
 
 import { SN_RAFFLE } from '../types/store-name';
@@ -7,14 +8,21 @@ import { VERIFY_TOKEN } from '../types/action';
 import { RAFFLE_TOKEN, REFERRER_TOKEN } from '../types/local-storage-keys';
 import { PARTICIPANT_DATA_SET, REFERRER_TOKEN_SET } from '../types/mutation';
 
-const clearParticipantData = () => {
-  rootStore.commit(`${SN_RAFFLE}/${PARTICIPANT_DATA_SET}`, undefined);
-}
-const clearReferrerToken = () => {
-  rootStore.commit(`${SN_RAFFLE}/${REFERRER_TOKEN_SET}`, undefined);
+const clearItem = (mutationName: string) => {
+  rootStore.commit(
+    mutationName,
+    undefined
+  );
 }
 
-function getItemsFromStorage ({ key }: {key: string | null}) {
+const clearParticipantData = () => {
+  clearItem(`${SN_RAFFLE}/${PARTICIPANT_DATA_SET}`);
+}
+const clearReferrerToken = () => {
+  clearItem(`${SN_RAFFLE}/${REFERRER_TOKEN_SET}`);
+}
+
+export function getItemsFromStorage ({ key }: {key: string | null}) {
   if (!key) {
     clearParticipantData();
     clearReferrerToken();
@@ -38,14 +46,7 @@ function getItemsFromStorage ({ key }: {key: string | null}) {
     }
   }
 
-  const rawValue = localStorage[key];
-
-  if (!rawValue) {
-    clearData();
-    return;
-  }
-
-  const value = JSON.parse(rawValue);
+  const value = parseLocalStorageValue(localStorage[key]);
 
   if (!value) {
     clearData();
@@ -57,19 +58,9 @@ function getItemsFromStorage ({ key }: {key: string | null}) {
   }
 
   if (isReferrerTokenChanged) {
-    rootStore.commit(`${SN_RAFFLE}/${REFERRER_TOKEN_SET}`, value);
+    rootStore.commit(
+      `${SN_RAFFLE}/${REFERRER_TOKEN_SET}`,
+      value
+    );
   }
-}
-
-function addEventListener () {
-  window.addEventListener('storage', getItemsFromStorage)
-}
-
-function removeEventListener () {
-  window.removeEventListener('storage', getItemsFromStorage)
-}
-
-export {
-  addEventListener,
-  removeEventListener
 }

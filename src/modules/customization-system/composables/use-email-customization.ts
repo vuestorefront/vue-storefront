@@ -1,4 +1,4 @@
-import { computed, nextTick, onMounted, ref, Ref } from '@vue/composition-api';
+import { computed, nextTick, onMounted, ref, Ref, watch } from '@vue/composition-api';
 import { usePersistedEmail } from 'src/modules/persisted-customer-data';
 import { isEmailCustomization } from '../helpers/is-email-customization';
 import { CustomizationOptionValue } from '../types/customization-option-value';
@@ -78,6 +78,17 @@ export function useEmailCustomization (
 
     return !hasPrefilledEmail.value;
   }
+
+  watch(
+    [emailValue, emailCustomization],
+    () => {
+      if (!emailCustomization.value || emailValue.value) {
+        return;
+      }
+
+      fillLastUsedCustomerEmail();
+    }
+  );
 
   return {
     emailCustomizationFilter,

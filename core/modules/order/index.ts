@@ -9,6 +9,7 @@ import { serial, onlineHelper, processURLAddress } from '@vue-storefront/core/he
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { isServer } from '@vue-storefront/core/helpers'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+import { ORDER_CONFLICT_EVENT } from './types/OrderConflictEvent'
 
 export const OrderModule: StorefrontModule = function ({ store }) {
   StorageManager.init('orders')
@@ -112,4 +113,8 @@ export const OrderModule: StorefrontModule = function ({ store }) {
     })
   }
   store.registerModule('order', orderStore)
+}
+
+export {
+  ORDER_CONFLICT_EVENT
 }

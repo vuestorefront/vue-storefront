@@ -9,8 +9,9 @@ import addAffirmScript from './helpers/add-affirm-script.function';
 import { module } from './store';
 import { SET_CHECKOUT_TOKEN } from './types/StoreMutations';
 import { AFFIRM_METHOD_CODE, MAGENTO1_AFFIRM_METHOD_CODE } from './types/AffirmPaymentMethod';
-import { AFFIRM_BEFORE_PLACE_ORDER, AFFIRM_MODAL_CLOSED, AFFIRM_CHECKOUT_ERROR } from './types/AffirmCheckoutEvents';
+import { AFFIRM_MODAL_CLOSED } from './types/AffirmCheckoutEvents';
 import affirmIcon from './assets/affirm-icon.svg';
+import { PAYMENT_ERROR_EVENT } from '../shared';
 
 export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig }) {
   store.registerModule('affirm', module);
@@ -31,12 +32,16 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
           return;
         }
 
-        EventBus.$emit(AFFIRM_BEFORE_PLACE_ORDER);
+        let checkoutObject;
 
-        const checkoutObject = await store.dispatch('affirm/getCheckoutObject');
+        try {
+          checkoutObject = await store.dispatch('affirm/getCheckoutObject');
+        } catch (_) {
+          checkoutObject = undefined;
+        }
 
         if (!checkoutObject) {
-          EventBus.$emit(AFFIRM_CHECKOUT_ERROR);
+          EventBus.$emit(PAYMENT_ERROR_EVENT);
           return;
         }
 
@@ -53,7 +58,6 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
         affirm.checkout(checkoutObject);
         affirm.checkout.open({
           onSuccess: (event) => {
-            EventBus.$emit(AFFIRM_MODAL_CLOSED);
             store.commit(`affirm/${SET_CHECKOUT_TOKEN}`, event.checkout_token);
             EventBus.$emit('checkout-do-placeOrder', {});
           },
@@ -71,11 +75,12 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
         const checkoutToken = store.getters['affirm/getCheckoutToken'];
 
         if (!checkoutToken) {
-          EventBus.$emit(AFFIRM_CHECKOUT_ERROR);
+          EventBus.$emit(PAYMENT_ERROR_EVENT);
           return;
         }
 
-        order.checkout_token = checkoutToken;
+        order.checkout_token = checkoutToken; // Magento 1 checkout token send workaround
+        order.addressInformation.payment_method_additional.checkout_token = checkoutToken; // Magento 2 checkout token send workaround
       }
 
       const onCollectSupportedPaymentMethodsEventHandler = (methods: string[]) => {

@@ -56,6 +56,10 @@
     "code": "AT"
   },
   {
+    "name": "Åland Islands",
+    "code": "AX"
+  },
+  {
     "name": "Azerbaijan",
     "code": "AZ"
   },
@@ -124,11 +128,7 @@
     "code": "IO"
   },
   {
-    "name": "British Virgin Islands",
-    "code": "VG"
-  },
-  {
-    "name": "Brunei",
+    "name": "Brunei Darussalam",
     "code": "BN"
   },
   {
@@ -196,12 +196,12 @@
     "code": "KM"
   },
   {
-    "name": "Congo",
-    "code": "CG"
+    "name": "Congo (the Democratic Republic of the)",
+    "code": "CD"
   },
   {
-    "name": "Congo",
-    "code": "CD"
+    "name": "Congo (the)",
+    "code": "CG"
   },
   {
     "name": "Cook Islands",
@@ -210,6 +210,10 @@
   {
     "name": "Costa Rica",
     "code": "CR"
+  },
+  {
+    "name": "Côte d’Ivoire",
+    "code": "CI"
   },
   {
     "name": "Croatia",
@@ -226,10 +230,6 @@
   {
     "name": "Czech Republic",
     "code": "CZ"
-  },
-  {
-    "name": "Côte d’Ivoire",
-    "code": "CI"
   },
   {
     "name": "Denmark",
@@ -912,10 +912,6 @@
     "code": "UM"
   },
   {
-    "name": "U.S. Virgin Islands",
-    "code": "VI"
-  },
-  {
     "name": "Uganda",
     "code": "UG"
   },
@@ -960,6 +956,14 @@
     "code": "VN"
   },
   {
+    "name": "Virgin Islands (British)",
+    "code": "VG"
+  },
+  {
+    "name": "Virgin Islands (U.S.)",
+    "code": "VI"
+  },
+  {
     "name": "Wallis and Futuna",
     "code": "WF"
   },
@@ -978,9 +982,5 @@
   {
     "name": "Zimbabwe",
     "code": "ZW"
-  },
-  {
-    "name": "Åland Islands",
-    "code": "AX"
   }
 ]

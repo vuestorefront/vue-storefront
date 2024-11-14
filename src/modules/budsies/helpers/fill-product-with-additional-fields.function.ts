@@ -15,7 +15,7 @@ const ADDITIONAL_FIELDS_LIST = [
     'key': 'giftcard_options'
   },
   {
-    'type': 'ExtensionAttributes[]',
+    'type': 'ExtensionAttributes',
     'key': 'extension_attributes'
   }
 ];
@@ -46,17 +46,23 @@ export default function fillProductWithAdditionalFields (
       case 'GiftCardOptions':
         value = value as GiftCardOptions;
         break;
-      case 'ExtensionAttributes[]':
-        value = value as ExtensionAttributes[];
-        value.plushie_id = value.plushie_id ? String(value.plushie_id) : null;
+      case 'ExtensionAttributes':
+        value = value as ExtensionAttributes;
 
-        value.customization_state = (value.customization_state as CustomizationStateItem[]).map((item) => {
+        const plushieId = value.plushie_id ? String(value.plushie_id) : undefined;
+        const customizationState = ((value.customization_state || []) as CustomizationStateItem[]).map((item) => {
           if (typeof item.value === 'number') {
             item.value = (item.value as number).toString();
           }
 
           return item;
         });
+
+        (value as ExtensionAttributes) = {
+          plushie_id: plushieId,
+          customization_state: customizationState,
+          estimated_shipment: value.estimated_shipment
+        }
 
         break;
       default:

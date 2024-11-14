@@ -12,8 +12,9 @@ import * as getters from './types/getter';
 import * as mutations from './types/mutation';
 import { SN_PERSISTED_CUSTOMER_DATA } from './types/store-name';
 import { persistedCustomerDataStore } from './store';
-import { addEventListener } from './helpers/sync-local-storage-change';
+import { getItemsFromStorage } from './helpers/get-local-storage-items.function';
 import { cacheHandlerFactory } from './helpers/cache-handler.factory';
+import { localStorageSynchronizationFactory } from '../shared';
 
 const LAST_USED_CUSTOMER_EMAIL = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.LAST_USED_CUSTOMER_EMAIL}`;
 const LAST_USED_CUSTOMER_FIRST_NAME = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.LAST_USED_CUSTOMER_FIRST_NAME}`;
@@ -35,8 +36,12 @@ export const PersistedCustomerDataModule: StorefrontModule = async function ({ s
     return;
   }
 
-  store.subscribe(cacheHandlerFactory());
-  addEventListener();
+  const localStorageSynchronization = localStorageSynchronizationFactory(
+    getItemsFromStorage,
+    cacheHandlerFactory()
+  );
+
+  store.subscribe(localStorageSynchronization.setItems);
 
   store.dispatch(`${SN_PERSISTED_CUSTOMER_DATA}/synchronize`);
   EventBus.$on('user-after-logout', () => {

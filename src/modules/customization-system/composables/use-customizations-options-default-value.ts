@@ -28,7 +28,8 @@ export function useCustomizationsOptionsDefaultValue (
       const defaultValue = getDefaultValue(
         optionValues,
         selectedOptionValue,
-        canSelectMultipleOptionValues(customization)
+        canSelectMultipleOptionValues(customization),
+        !!customization.optionData?.isRequired
       );
 
       if (!defaultValue) {

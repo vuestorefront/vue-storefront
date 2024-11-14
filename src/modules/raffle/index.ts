@@ -14,12 +14,13 @@ import * as getters from './types/getter';
 import * as mutations from './types/mutation';
 import { SN_RAFFLE } from './types/store-name';
 import { cacheHandlerFactory } from './helpers/cache-handler.factory';
-import * as syncLocalStorageChange from './helpers/sync-local-storage-change';
+import { getItemsFromStorage } from './helpers/get-local-storage-items.function';
 
 import RafflePending from './components/pending.vue';
 import RaffleRegistrationForm from './components/registration-form.vue';
 import RaffleModalPreviousWinningTickets from './components/modal-previous-winning-tickets.vue';
 import RaffleWinner from './components/winner.vue';
+import { localStorageSynchronizationFactory } from '../shared';
 
 export const RaffleModule: StorefrontModule = async function ({ store }) {
   if (!config.budsies.enableRaffle) {
@@ -30,8 +31,12 @@ export const RaffleModule: StorefrontModule = async function ({ store }) {
   store.registerModule(SN_RAFFLE, raffleStore);
 
   if (!isServer) {
-    store.subscribe(cacheHandlerFactory());
-    syncLocalStorageChange.addEventListener();
+    const localStorageSynchronization = localStorageSynchronizationFactory(
+      getItemsFromStorage,
+      cacheHandlerFactory()
+    );
+
+    store.subscribe(localStorageSynchronization.setItems);
 
     await store.dispatch(`${SN_RAFFLE}/${actions.SYNCHRONIZE}`);
 

@@ -3,6 +3,7 @@ import Vue, { PropType } from 'vue';
 import { ValidationProvider, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
 
+import { AMASTY_GIFT_CARD_SKU } from '../types/AmastyGiftCardSku';
 import GiftCard from '../types/GiftCard';
 
 extend('required', {
@@ -34,10 +35,10 @@ export default Vue.extend({
       return grandTotal ? grandTotal.value : undefined;
     },
     hasGiftCardsInOrder (): boolean {
-      return this.cartItems.some((item) => item.sku === 'GiftCard');
+      return this.cartItems.some((item) => item.sku === 'GiftCard' || item.sku === AMASTY_GIFT_CARD_SKU);
     },
     isOnlyGiftCardsInOrder (): boolean {
-      return this.cartItems.every((item) => item.sku === 'GiftCard');
+      return this.cartItems.every((item) => item.sku === 'GiftCard' || item.sku === AMASTY_GIFT_CARD_SKU);
     },
     showAppliedGiftCards (): boolean {
       return this.useGiftCard && this.appliedGiftCards.length > 0;
@@ -130,6 +131,18 @@ export default Vue.extend({
         this.appliedGiftCards.map((giftCard) => giftCard.code)
       )
       this.isAllAppliedGiftCardsRemoving = false;
+    }
+  },
+  watch: {
+    hasGiftCardsInOrder: {
+      handler (value: boolean) {
+        if (!value) {
+          return;
+        }
+
+        void this.removeAllAppliedGiftCards();
+      },
+      immediate: true
     }
   }
 });

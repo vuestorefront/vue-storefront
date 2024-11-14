@@ -13,8 +13,9 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
 import { orderHooksExecutors } from '../hooks'
 import * as entities from '@vue-storefront/core/lib/store/entities'
-import { prepareOrder, optimizeOrder, notifications } from './../helpers'
+import { prepareOrder, optimizeOrder } from './../helpers'
 import { ProcessOrderError } from '../types/ProcessOrderError'
+import { ORDER_CONFLICT_EVENT } from '../types/OrderConflictEvent'
 
 const actions: ActionTree<OrderState, RootState> = {
   /**
@@ -57,6 +58,13 @@ const actions: ActionTree<OrderState, RootState> = {
     if (task.resultCode === 404) {
       commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash);
       EventBus.$emit('cart-not-found-error');
+      EventBus.$emit('notification-progress-stop');
+      return task;
+    }
+
+    if (task.resultCode === 409) {
+      commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash);
+      EventBus.$emit(ORDER_CONFLICT_EVENT);
       EventBus.$emit('notification-progress-stop');
       return task;
     }

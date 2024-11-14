@@ -17,7 +17,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
         // clear cart without sync, because after order cart will be already cleared on backend
         await dispatch('cart/clear', { sync: false }, { root: true })
         await dispatch('dropPassword')
-      } else if (result.resultCode !== 404) {
+      } else if (result.resultCode !== 404 && result.resultCode !== 409) {
         EventBus.$emit(
           ORDER_ERROR_EVENT,
           {

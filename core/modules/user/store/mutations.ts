@@ -11,8 +11,17 @@ const mutations: MutationTree<UserState> = {
       Logger.log('Refresh token is set to' + state.refreshToken, 'user')()
     }
   },
+  [types.SET_USER_TOKEN] (state, payload: string = '') {
+    state.token = payload;
+  },
+  [types.SET_USER_REFRESH_TOKEN] (state, payload: string = '') {
+    state.refreshToken = payload
+  },
   [types.USER_START_SESSION] (state) {
     state.session_started = new Date()
+  },
+  [types.USER_SESSION_STARTED] (state) {
+    state.isSessionStarted = true
   },
   [types.USER_GROUP_TOKEN_CHANGED] (state, token) {
     state.groupToken = token
@@ -20,10 +29,10 @@ const mutations: MutationTree<UserState> = {
   [types.USER_GROUP_CHANGED] (state, groupId) {
     state.groupId = groupId
   },
-  [types.USER_INFO_LOADED] (state, currentUser) {
+  [types.USER_INFO_LOADED] (state, currentUser = null) {
     state.current = currentUser
   },
-  [types.USER_ORDERS_HISTORY_LOADED] (state, ordersHistory) {
+  [types.USER_ORDERS_HISTORY_LOADED] (state, ordersHistory = {}) {
     state.orders_history = ordersHistory
   },
   [types.USER_END_SESSION] (state) {
