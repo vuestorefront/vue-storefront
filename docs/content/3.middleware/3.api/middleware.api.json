@@ -5855,12 +5855,12 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@vue-storefront/middleware!LoggerOptions#level:member",
-              "docComment": "/**\n * The log level aligned with RFC5424.\n */\n",
+              "canonicalReference": "@vue-storefront/middleware!LoggerOptions#verbosity:member",
+              "docComment": "/**\n * The log verbosity level aligned with RFC5424.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "level?: "
+                  "text": "verbosity?: "
                 },
                 {
                   "kind": "Reference",
@@ -5875,7 +5875,7 @@
               "isReadonly": false,
               "isOptional": true,
               "releaseTag": "Public",
-              "name": "level",
+              "name": "verbosity",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
