@@ -1,5 +1,17 @@
 # Change log
 
+## 5.1.1
+
+### Patch Changes
+
+** [CHANGED] **
+
+- added more verbose message with a troubleshooting guide in case that the `getLogger` method was not able to retrieve the logger instance.
+
+** [FIXED] **
+
+- changed `level` property to `verbosity` in the `LoggerConfig` interface.
+
 ## 5.1.0
 
 ### Minor Changes
