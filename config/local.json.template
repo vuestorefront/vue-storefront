@@ -105,7 +105,8 @@
     "url": "${PRIVACY_POLICY_URL}",
     "californiaPrivacyNoticeUrl": "${PRIVACY_POLICY_URL}#california-privacy-notice",
     "financialIncentiveNoticeUrl": "${PRIVACY_POLICY_URL}#financial-incentive",
-    "optOutUrl": "${PRIVACY_OPT_OUT_URL}"
+    "optOutUrl": "${PRIVACY_OPT_OUT_URL}",
+    "enablePolaris": ${ENABLE_POLARIS}
   },
   "initialResources": [
     {

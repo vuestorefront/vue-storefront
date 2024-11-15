@@ -20,5 +20,8 @@ export interface Context {
     config: Record<any, any>,
     storeCode: string
   },
-  polaris: () => string
+  extendedHead: {
+    append: (value: string) => void,
+    inject: () => string
+  } | null
 }

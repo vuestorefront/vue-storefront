@@ -26,6 +26,8 @@ import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { registerClientModules } from 'src/modules/client'
 import initialStateFactory from '@vue-storefront/core/helpers/initialStateFactory'
 import { createRouter, createRouterProxy } from '@vue-storefront/core/helpers/router'
+import { extendHeadFactory } from './helpers/extended-head.factory'
+import { AdditionalContent } from './plugins/additional-content.plugin'
 
 const stateFactory = initialStateFactory(store.state)
 
@@ -69,6 +71,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     Vue.use(Meta, {
       ssrAppId: 1
     })
+    Vue.use(AdditionalContent);
 
     Object.keys(corePlugins).forEach(key => {
       Vue.use(corePlugins[key])
@@ -87,10 +90,12 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     router: routerProxy,
     store,
     i18n,
+    additionalContent: {},
     render: h => h(themeEntry)
   }
 
   const app = new Vue(vueOptions)
+  app.$extendedHead = extendHeadFactory();
 
   const appContext = {
     isServer,

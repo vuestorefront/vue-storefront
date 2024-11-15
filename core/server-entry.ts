@@ -74,8 +74,10 @@ export default async context => {
   context.initialState = initialState
   return new Promise((resolve, reject) => {
     const meta = (app as any).$meta()
+    const extendedHead = app.$extendedHead
     router.push(context.url)
     context.meta = meta
+    context.extendedHead = extendedHead
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
       if (!matchedComponents.length || !matchedComponents[0]) {
