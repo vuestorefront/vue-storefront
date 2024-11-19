@@ -5,7 +5,7 @@ import playwrightPlugin from "eslint-plugin-playwright";
  * Generates an ESLint Flat Config for Playwright projects.
  *
  * @param {{ files?: string }} config - The base configuration object with an optional files field.
- * @param {...import('eslint').Linter.Config[]} overrides - Additional configuration overrides.
+ * @param {...import('eslint').Linter.Config} overrides - Additional configuration overrides.
  * @returns {import('eslint').Linter.Config} The concatenated ESLint configuration.
  */
 export function playwright(config, ...overrides) {

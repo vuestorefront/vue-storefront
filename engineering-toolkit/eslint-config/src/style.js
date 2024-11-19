@@ -7,7 +7,7 @@ import prettierPlugin from "eslint-plugin-prettier/recommended";
  * Generates an ESLint Flat Config with Prettier and Perfectionist plugins.
  *
  * @param {{ files?: string }} config - The base configuration object with an optional files field.
- * @param {...import('eslint').Linter.Config[]} overrides - Additional configuration overrides.
+ * @param {...import('eslint').Linter.Config} overrides - Additional configuration overrides.
  * @returns {import('eslint').Linter.Config} The concatenated ESLint configuration.
  */
 export function style(config, ...overrides) {

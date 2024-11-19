@@ -9,7 +9,7 @@ import reactHooksPlugin from "eslint-plugin-react-hooks";
  * Generates an ESLint Flat Config for a Next.js project.
  *
  * @param {{ files?: string | { general: string | string[], components: string | string[], hooks: string | string[] }, isStrict?: boolean }} config - The base configuration object with optional files and isStrict fields.
- * @param {...import('eslint').Linter.Config[]} overrides - Additional configuration overrides.
+ * @param {...import('eslint').Linter.Config} overrides - Additional configuration overrides.
  * @returns {import('eslint').Linter.Config} The concatenated ESLint configuration.
  */
 export function nextjs(config, ...overrides) {
