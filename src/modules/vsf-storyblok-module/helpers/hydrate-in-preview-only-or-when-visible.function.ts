@@ -13,14 +13,6 @@ export function hydrateInPreviewOrWhenVisible (componentOrFactory: Vue | (() => 
       if (isPreview) {
         this.hydrate();
       }
-    },
-    render (h) {
-      return h(this.Nonce, {
-        attrs: { ...this.$attrs },
-        on: this.$listeners,
-        scopedSlots: this.$scopedSlots,
-        directives: this.$vnode.data.directives
-      }, this.$slots.default);
     }
   });
 }
