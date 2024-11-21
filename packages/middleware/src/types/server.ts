@@ -9,6 +9,7 @@ import {
   ApiMethodsFactory,
   MiddlewareContext,
 } from "./common";
+import { FileUploadOptions } from "./fileUpload";
 
 export interface ClientContext<CLIENT = any, CONFIG = any> {
   client: CLIENT;
@@ -173,4 +174,10 @@ export interface CreateServerOptions {
    * @see https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-readiness-probes
    */
   readinessProbes?: ReadinessProbe[];
+
+  /**
+   * Configuration options for handling file uploads.
+   * @see FileUploadOptions
+   */
+  fileUpload?: FileUploadOptions;
 }

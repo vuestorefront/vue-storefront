@@ -22,6 +22,14 @@ export type ResponseWithAlokaiLocals = Response<
     [key: string]: any;
   }
 >;
+export type RequestWithFiles = Request & {
+  files?:
+    | {
+        [fieldname: string]: Express.Multer.File[];
+      }
+    | Express.Multer.File[]
+    | undefined;
+};
 
 export type ExtensionEndpointHandler = ApiClientMethod & {
   _extensionName?: string;
@@ -96,7 +104,7 @@ export interface ApiClientExtension<API = any, CONTEXT = any, CONFIG = any> {
     logger: LoggerInterface;
   }) => Promise<void> | void;
   hooks?: (
-    req: Request,
+    req: RequestWithFiles,
     res: ResponseWithAlokaiLocals,
     hooksContext: AlokaiContainer
   ) => ApiClientExtensionHooks;
@@ -119,7 +127,7 @@ export interface Integration<
   initConfig?: TObject;
   errorHandler?: (
     error: unknown,
-    req: Request,
+    req: RequestWithFiles,
     res: ResponseWithAlokaiLocals
   ) => void;
 }
@@ -158,7 +166,7 @@ export type IntegrationsLoaded<
 > = Record<string, IntegrationLoaded<CONFIG, API>>;
 
 export interface MiddlewareContext<API extends ApiMethods = any> {
-  req: Request;
+  req: RequestWithFiles;
   res: ResponseWithAlokaiLocals;
   extensions: ApiClientExtension<API>[];
   customQueries: Record<string, CustomQueryFunction>;

@@ -25,6 +25,7 @@ import {
 } from "./handlers";
 import { createTerminusOptions } from "./terminus";
 import { prepareLogger } from "./handlers/prepareLogger";
+import { configureFileUpload } from "./services/fileUpload";
 
 const defaultCorsOptions: CreateServerOptions["cors"] = {
   credentials: true,
@@ -49,6 +50,8 @@ async function createServer<
   }));
 
   const app = express();
+
+  configureFileUpload(app, options.fileUpload);
 
   app.use(express.json(options.bodyParser));
   app.use(
