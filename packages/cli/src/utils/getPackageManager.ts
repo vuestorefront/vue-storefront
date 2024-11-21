@@ -9,7 +9,7 @@ const checkPackageManager = async (
 ): Promise<boolean> => {
   try {
     await execa(packageManager, ["--version"], { stdio: "ignore" });
-  } catch (error) {
+  } catch {
     return false;
   }
 

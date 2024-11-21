@@ -21,7 +21,7 @@ module.exports = {
     "prettier/prettier": "error",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["error"],
-    "@typescript-eslint/ban-types": "warn",
+    "@typescript-eslint/no-restricted-types": "warn",
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
     "import/extensions": [
@@ -56,6 +56,8 @@ module.exports = {
     "no-await-in-loop": "off",
     "@typescript-eslint/no-empty-interface": "off",
     "class-methods-use-this": "off",
+    "@typescript-eslint/no-unsafe-function-type": "off",
+    "@typescript-eslint/no-empty-object-type": "off",
   },
   settings: {
     "import/resolver": {

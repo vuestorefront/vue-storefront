@@ -23,7 +23,7 @@ const copyEnv = async (vsfDirName: string, magentoDomain?: string) => {
 
       fs.writeFileSync(path.join(vsfDirName, ".env"), result, "utf8");
     }
-  } catch (error) {
+  } catch {
     simpleLog(
       "No .env file available. Please check that your git repository is a valid Vue Storefront project",
       picocolors.red

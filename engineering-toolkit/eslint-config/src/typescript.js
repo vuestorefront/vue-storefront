@@ -8,7 +8,7 @@ import importPlugin from "eslint-plugin-import";
  * Generates an ESLint Flat Config for TypeScript projects.
  *
  * @param {{ files?: string, isStrict?: boolean }} config - The base configuration object with optional files and isStrict fields.
- * @param {...import('eslint').Linter.Config[]} overrides - Additional configuration overrides.
+ * @param {...import('eslint').Linter.Config} overrides - Additional configuration overrides.
  * @returns {import('eslint').Linter.Config} The concatenated ESLint configuration.
  */
 export function typescript(config, ...overrides) {
@@ -78,9 +78,11 @@ export function typescript(config, ...overrides) {
         ],
         "@typescript-eslint/no-use-before-define": "warn",
         "@typescript-eslint/prefer-function-type": "warn",
+        "@typescript-eslint/no-empty-object-type": "warn",
         "default-param-last": "off",
         "no-magic-numbers": "off",
         "no-use-before-define": "off",
+        "no-unused-vars": "off",
         "prefer-promise-reject-errors": "off",
       },
     }),
