@@ -58,4 +58,16 @@ describe("[Integration] Create server", () => {
     expect(body).toBeDefined();
     expect(body.files).toBeUndefined();
   });
+
+  it("should allow sending non multipart/form-data requests when fileUpload is enabled", async () => {
+    app = await getServer();
+
+    const { body } = await request(app)
+      .post("/test_integration/upload")
+      .expect(200);
+
+    expect(body).toBeDefined();
+    expect(body.files).toBeUndefined();
+    expect(body.message).toBe("ok");
+  });
 });

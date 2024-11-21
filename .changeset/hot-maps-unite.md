@@ -20,7 +20,7 @@ export const upload = (context) => {
 };
 ```
 
-Available options are:
+Available options for the new `fileUpload` property in the `createServer` function are:
 
 - `enabled`: (boolean) Enable/disable file upload functionality. Default: `true`. If you set it to `false`, the middleware will not initialize file upload functionality and the `req.files` object will be empty. That can be useful if you do not want to handle file uploads in your app and want to avoid unnecessary processing.
 - `maxFileSize`: (number) Maximum file size in bytes. Default: `5242880` (5MB)

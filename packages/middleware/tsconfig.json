@@ -5,8 +5,7 @@
     "outDir": "./lib",
     "declarationDir": "./lib",
     "declaration": true,
-    "rootDir": "./src",
-    "typeRoots": ["./src/types"]
+    "rootDir": "./src"
   },
   "exclude": ["node_modules"],
   "include": ["src/**/*.ts"]

@@ -1,7 +1,30 @@
+/**
+ * Options for file upload middleware
+ */
 export interface FileUploadOptions {
+  /**
+   * Whether file upload is enabled
+   * @default true
+   */
   enabled?: boolean;
-  maxFileSize?: number; // in bytes
+  /**
+   * Maximum file size in bytes
+   * @default 5MB
+   */
+  maxFileSize?: number;
+  /**
+   * Maximum number of files
+   * @default 5
+   */
   maxFiles?: number;
+  /**
+   * Allowed MIME types
+   * @default ["image/*", "application/pdf"]
+   */
   allowedMimeTypes?: string[];
-  fieldNames?: string[]; // specific field names to accept
+  /**
+   * Specific field names to accept
+   * @default []
+   */
+  fieldNames?: string[];
 }

@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import { configureFileUpload } from "../../../src/services/fileUpload";
+import { createMulterMiddleware } from "../../../src/services/fileUpload";
 
 // Mock multer
 jest.mock("fileUpload", () => {
@@ -22,13 +22,13 @@ describe("configureFileUpload", () => {
   });
 
   it("should not configure upload when enabled is false", () => {
-    configureFileUpload(app, { enabled: false });
+    createMulterMiddleware(app, { enabled: false });
     expect(app.use).not.toHaveBeenCalled();
     expect(multer).not.toHaveBeenCalled();
   });
 
   it("should configure upload with default options when enabled", () => {
-    configureFileUpload(app, { enabled: true });
+    createMulterMiddleware(app, { enabled: true });
 
     expect(multer).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -49,7 +49,7 @@ describe("configureFileUpload", () => {
       allowedMimeTypes: ["image/jpeg"],
     };
 
-    configureFileUpload(app, customOptions);
+    createMulterMiddleware(app, customOptions);
 
     expect(multer).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -62,7 +62,7 @@ describe("configureFileUpload", () => {
   });
 
   it("should use fields() when fieldNames are provided", () => {
-    configureFileUpload(app, {
+    createMulterMiddleware(app, {
       enabled: true,
       fieldNames: ["avatar", "document"],
     });
@@ -78,7 +78,7 @@ describe("configureFileUpload", () => {
   });
 
   it("should use any() when no fieldNames are provided", () => {
-    configureFileUpload(app, { enabled: true });
+    createMulterMiddleware(app, { enabled: true });
 
     const multerInstance = (multer as unknown as jest.Mock).mock.results[0]
       .value;
@@ -89,7 +89,7 @@ describe("configureFileUpload", () => {
     let fileFilter: (req: any, file: any, cb: any) => void;
 
     beforeEach(() => {
-      configureFileUpload(app, {
+      createMulterMiddleware(app, {
         enabled: true,
         allowedMimeTypes: ["image/*", "application/pdf"],
       });
@@ -98,7 +98,7 @@ describe("configureFileUpload", () => {
 
     it("should accept files when no mime types are specified", () => {
       const cb = jest.fn();
-      configureFileUpload(app, { enabled: true, allowedMimeTypes: [] });
+      createMulterMiddleware(app, { enabled: true, allowedMimeTypes: [] });
       fileFilter = (multer as unknown as jest.Mock).mock.calls[1][0].fileFilter;
 
       fileFilter(null, { mimetype: "anything" }, cb);

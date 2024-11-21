@@ -1,19 +1,21 @@
 import multer from "multer";
-import type { Express } from "express";
+import { RequestHandler } from "express";
 import type { FileUploadOptions } from "../types";
 
 const DEFAULT_OPTIONS: FileUploadOptions = {
-  enabled: false,
+  enabled: true,
   maxFileSize: 5 * 1024 * 1024, // 5MB
   maxFiles: 5,
   allowedMimeTypes: ["image/*", "application/pdf"],
 };
 
-export function configureFileUpload(app: Express, options?: FileUploadOptions) {
+export function createMulterMiddleware(
+  options?: FileUploadOptions
+): RequestHandler | undefined {
   const config = { ...DEFAULT_OPTIONS, ...options };
 
   if (!config.enabled) {
-    return;
+    return undefined;
   }
 
   const storage = multer.memoryStorage();
@@ -41,11 +43,9 @@ export function configureFileUpload(app: Express, options?: FileUploadOptions) {
     },
   });
 
-  // If specific field names are provided, use fields()
   if (config.fieldNames?.length) {
     const fields = config.fieldNames.map((name) => ({ name, maxCount: 1 }));
-    app.use(upload.fields(fields));
-  } else {
-    app.use(upload.any());
+    return upload.fields(fields);
   }
+  return upload.any();
 }
