@@ -9,7 +9,7 @@ import {
   ApiMethodsFactory,
   MiddlewareContext,
 } from "./common";
-import { FileUploadOptions } from "./fileUpload";
+import { FileUploadOptions, FileUploadRequest } from "./fileUpload";
 
 export interface ClientContext<CLIENT = any, CONFIG = any> {
   client: CLIENT;
@@ -179,5 +179,7 @@ export interface CreateServerOptions {
    * Configuration options for handling file uploads.
    * @see FileUploadOptions
    */
-  fileUpload?: FileUploadOptions;
+  fileUpload?:
+    | FileUploadOptions
+    | ((req: FileUploadRequest) => FileUploadOptions);
 }

@@ -15,7 +15,7 @@ import type {
   CreateServerOptions,
 } from "./types";
 import { LoggerManager, injectMetadata, lockLogger } from "./logger";
-
+import { prepareFileUpload } from "./handlers/prepareFileUpload";
 import {
   prepareApiFunction,
   prepareErrorHandler,
@@ -25,7 +25,6 @@ import {
 } from "./handlers";
 import { createTerminusOptions } from "./terminus";
 import { prepareLogger } from "./handlers/prepareLogger";
-import { createMulterMiddleware } from "./services/fileUpload";
 
 const defaultCorsOptions: CreateServerOptions["cors"] = {
   credentials: true,
@@ -51,7 +50,7 @@ async function createServer<
 
   const app = express();
 
-  app.use(createMulterMiddleware(options.fileUpload));
+  // app.use(createMulterMiddleware(options.fileUpload));
   app.use(express.json(options.bodyParser));
   app.use(
     options.cookieParser
@@ -90,6 +89,7 @@ async function createServer<
   app.all(
     "/:integrationName/:extensionName?/:functionName",
     validateParams(integrations),
+    prepareFileUpload(options),
     prepareLogger(loggerManager),
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),

@@ -20,10 +20,4 @@ export const upload = (context) => {
 };
 ```
 
-Available options for the new `fileUpload` property in the `createServer` function are:
-
-- `enabled`: (boolean) Enable/disable file upload functionality. Default: `true`. If you set it to `false`, the middleware will not initialize file upload functionality and the `req.files` object will be empty. That can be useful if you do not want to handle file uploads in your app and want to avoid unnecessary processing.
-- `maxFileSize`: (number) Maximum file size in bytes. Default: `5242880` (5MB)
-- `maxFiles`: (number) Maximum number of files that can be uploaded at once. Default: `5`
-- `allowedMimeTypes`: (string[]) Array of allowed MIME types. Default: `["image/*", "application/pdf"]`
-- `fieldNames`: (string[]) Array of accepted form field names for file uploads. Default: `[]`
+Please, read the [Getting Started guide](https://docs.alokai.com/middleware/guides/getting-started#file-upload-configuration) for more information about file uploads.

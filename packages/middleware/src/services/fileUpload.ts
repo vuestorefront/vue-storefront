@@ -20,10 +20,15 @@ export function createMulterMiddleware(
 
   const storage = multer.memoryStorage();
 
+  const maxFileSizeLimit = Math.min(
+    config.maxFileSize,
+    10 * 1024 * 1024 // 10MB absolute maximum
+  );
+
   const upload = multer({
     storage,
     limits: {
-      fileSize: config.maxFileSize,
+      fileSize: maxFileSizeLimit,
       files: config.maxFiles,
     },
     fileFilter: (_req, file, cb) => {
