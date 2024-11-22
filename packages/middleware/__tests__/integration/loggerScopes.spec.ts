@@ -67,7 +67,7 @@ const testingExtension = {
       ]);
     },
   },
-  hooks(req, res, alokai) {
+  hooks(_req, _res, alokai) {
     const logger = getLogger(alokai);
     logger.info("hooks");
     return {

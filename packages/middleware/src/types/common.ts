@@ -8,20 +8,29 @@ import {
   CustomQueryFunction,
   TObject,
 } from "./base";
-import { WithRequired } from "./index";
+import { UploadedFile, WithRequired } from "./index";
 import { ApiClient, ApiClientConfig, ApiClientFactory } from "./server";
 
-export type ResponseWithAlokaiLocals = Response<
+export type AlokaiResponse = Response<
   any,
   {
     alokai?: {
       logger: LoggerInterface;
     };
-    apiFunction?: Function;
+    apiFunction?: (...args: any[]) => any;
     fnOrigin?: string;
     [key: string]: any;
   }
 >;
+
+export type AlokaiRequest = Request & {
+  files?:
+    | {
+        [fieldname: string]: UploadedFile[];
+      }
+    | UploadedFile[]
+    | undefined;
+};
 
 export type ExtensionEndpointHandler = ApiClientMethod & {
   _extensionName?: string;
@@ -96,8 +105,8 @@ export interface ApiClientExtension<API = any, CONTEXT = any, CONFIG = any> {
     logger: LoggerInterface;
   }) => Promise<void> | void;
   hooks?: (
-    req: Request,
-    res: ResponseWithAlokaiLocals,
+    req: AlokaiRequest,
+    res: AlokaiResponse,
     hooksContext: AlokaiContainer
   ) => ApiClientExtensionHooks;
 }
@@ -119,8 +128,8 @@ export interface Integration<
   initConfig?: TObject;
   errorHandler?: (
     error: unknown,
-    req: Request,
-    res: ResponseWithAlokaiLocals
+    req: AlokaiRequest,
+    res: AlokaiResponse
   ) => void;
 }
 
@@ -138,11 +147,7 @@ export interface IntegrationLoaded<
   configuration: CONFIG;
   extensions: ApiClientExtension<API>[];
   customQueries?: Record<string, CustomQueryFunction>;
-  errorHandler: (
-    error: unknown,
-    req: Request,
-    res: ResponseWithAlokaiLocals
-  ) => void;
+  errorHandler: (error: unknown, req: Request, res: AlokaiResponse) => void;
 }
 
 export interface LoadInitConfigProps {
@@ -158,8 +163,8 @@ export type IntegrationsLoaded<
 > = Record<string, IntegrationLoaded<CONFIG, API>>;
 
 export interface MiddlewareContext<API extends ApiMethods = any> {
-  req: Request;
-  res: ResponseWithAlokaiLocals;
+  req: AlokaiRequest;
+  res: AlokaiResponse;
   extensions: ApiClientExtension<API>[];
   customQueries: Record<string, CustomQueryFunction>;
   integrations: IntegrationsLoaded;
