@@ -11,13 +11,14 @@ export default interface RichTextItem {
   rootElementAttributes?: any,
   rootElementId?: string,
   marks?: {
-    type: 'link' | 'strike' | 'italic' | 'bold' | 'underline' | 'styled' | 'textStyle' | 'highlight' | 'code',
+    type: 'link' | 'strike' | 'italic' | 'bold' | 'underline' | 'styled' | 'textStyle' | 'highlight' | 'code' | 'emoji',
     attrs?: {
       href?: string,
       target?: '_blank' | '_current',
       class?: string,
       anchor?: string,
-      color?: string
+      color?: string,
+      emoji?: string
     }
   }[]
 
