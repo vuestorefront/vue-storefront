@@ -21,4 +21,10 @@ export type Endpoints = {
    * For testing void responses.
    */
   logout: () => Promise<void>;
+  /**
+   * Upload a file.
+   */
+  uploadFile: (params: {
+    file: { name: string; content: string };
+  }) => Promise<{ file: { name: string; content: string } }>;
 };
