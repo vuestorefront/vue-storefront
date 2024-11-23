@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/middleware",
-  "version": "5.1.1",
+  "version": "5.2.0",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",

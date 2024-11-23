@@ -435,6 +435,95 @@
         },
         {
           "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/middleware!AlokaiRequest:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type AlokaiRequest = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Request",
+              "canonicalReference": "@types/express!e.Request:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " & {\n    files?: {\n        [fieldname: string]: "
+            },
+            {
+              "kind": "Reference",
+              "text": "UploadedFile",
+              "canonicalReference": "@vue-storefront/middleware!UploadedFile:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "[];\n    } | "
+            },
+            {
+              "kind": "Reference",
+              "text": "UploadedFile",
+              "canonicalReference": "@vue-storefront/middleware!UploadedFile:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "[] | undefined;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/common.ts",
+          "releaseTag": "Public",
+          "name": "AlokaiRequest",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 7
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/middleware!AlokaiResponse:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type AlokaiResponse = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Response",
+              "canonicalReference": "@types/express!e.Response:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<any, {\n    alokai?: {\n        logger: "
+            },
+            {
+              "kind": "Reference",
+              "text": "LoggerInterface",
+              "canonicalReference": "@vue-storefront/logger!LoggerInterface:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n    };\n    apiFunction?: (...args: any[]) => any;\n    fnOrigin?: string;\n    [key: string]: any;\n}>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/common.ts",
+          "releaseTag": "Public",
+          "name": "AlokaiResponse",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
           "canonicalReference": "@vue-storefront/middleware!AnyFunction:type",
           "docComment": "",
           "excerptTokens": [
@@ -952,8 +1041,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "Request",
-                  "canonicalReference": "@types/express!e.Request:interface"
+                  "text": "AlokaiRequest",
+                  "canonicalReference": "@vue-storefront/middleware!AlokaiRequest:type"
                 },
                 {
                   "kind": "Content",
@@ -961,8 +1050,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "ResponseWithAlokaiLocals",
-                  "canonicalReference": "@vue-storefront/middleware!ResponseWithAlokaiLocals:type"
+                  "text": "AlokaiResponse",
+                  "canonicalReference": "@vue-storefront/middleware!AlokaiResponse:type"
                 },
                 {
                   "kind": "Content",
@@ -3851,6 +3940,56 @@
             },
             {
               "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!CreateServerOptions#fileUpload:member",
+              "docComment": "/**\n * Configuration options for handling file uploads.\n *\n * @see\n *\n * FileUploadOptions\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "fileUpload?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "FileUploadOptions",
+                  "canonicalReference": "@vue-storefront/middleware!FileUploadOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " | ((req: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "FileUploadRequest",
+                  "canonicalReference": "@vue-storefront/middleware!FileUploadRequest:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ") => "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "FileUploadOptions",
+                  "canonicalReference": "@vue-storefront/middleware!FileUploadOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ")"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "fileUpload",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 7
+              }
+            },
+            {
+              "kind": "PropertySignature",
               "canonicalReference": "@vue-storefront/middleware!CreateServerOptions#readinessProbes:member",
               "docComment": "/**\n * Array of functions that will be called in parallel every time the /readyz endpoint receives a GET request If at least one function throws an exception, the response from the /readyz endpoint will report an error\n *\n * @see\n *\n * https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-readiness-probes\n */\n",
               "excerptTokens": [
@@ -4458,6 +4597,205 @@
           "extendsTokenRanges": []
         },
         {
+          "kind": "Interface",
+          "canonicalReference": "@vue-storefront/middleware!FileUploadOptions:interface",
+          "docComment": "/**\n * Options for file upload middleware\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface FileUploadOptions "
+            }
+          ],
+          "fileUrlPath": "src/types/fileUpload.ts",
+          "releaseTag": "Public",
+          "name": "FileUploadOptions",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!FileUploadOptions#allowedMimeTypes:member",
+              "docComment": "/**\n * Allowed MIME types  @default [\"image/*\", \"application/pdf\"]\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "allowedMimeTypes?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "allowedMimeTypes",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!FileUploadOptions#enabled:member",
+              "docComment": "/**\n * Whether file upload is enabled  @default true\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "enabled?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "enabled",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!FileUploadOptions#fieldNames:member",
+              "docComment": "/**\n * Specific field names to accept  @default []\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "fieldNames?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "fieldNames",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!FileUploadOptions#maxFiles:member",
+              "docComment": "/**\n * Maximum number of files  @default 5\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "maxFiles?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "maxFiles",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!FileUploadOptions#maxFileSize:member",
+              "docComment": "/**\n * Maximum file size in bytes  @default 5MB\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "maxFileSize?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "maxFileSize",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@vue-storefront/middleware!FileUploadRequest:interface",
+          "docComment": "/**\n * Request object for file upload middleware\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface FileUploadRequest "
+            }
+          ],
+          "fileUrlPath": "src/types/fileUpload.ts",
+          "releaseTag": "Public",
+          "name": "FileUploadRequest",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!FileUploadRequest#headers:member",
+              "docComment": "/**\n * Request headers\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "headers: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IncomingHttpHeaders",
+                  "canonicalReference": "!\"\\\"http\\\"\".IncomingHttpHeaders:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "headers",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
           "kind": "TypeAlias",
           "canonicalReference": "@vue-storefront/middleware!GetConstructorArgs:type",
           "docComment": "",
@@ -4830,8 +5168,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "Request",
-                  "canonicalReference": "@types/express!e.Request:interface"
+                  "text": "AlokaiRequest",
+                  "canonicalReference": "@vue-storefront/middleware!AlokaiRequest:type"
                 },
                 {
                   "kind": "Content",
@@ -4839,8 +5177,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "ResponseWithAlokaiLocals",
-                  "canonicalReference": "@vue-storefront/middleware!ResponseWithAlokaiLocals:type"
+                  "text": "AlokaiResponse",
+                  "canonicalReference": "@vue-storefront/middleware!AlokaiResponse:type"
                 },
                 {
                   "kind": "Content",
@@ -5434,8 +5772,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "ResponseWithAlokaiLocals",
-                  "canonicalReference": "@vue-storefront/middleware!ResponseWithAlokaiLocals:type"
+                  "text": "AlokaiResponse",
+                  "canonicalReference": "@vue-storefront/middleware!AlokaiResponse:type"
                 },
                 {
                   "kind": "Content",
@@ -6336,8 +6674,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "Request",
-                  "canonicalReference": "@types/express!e.Request:interface"
+                  "text": "AlokaiRequest",
+                  "canonicalReference": "@vue-storefront/middleware!AlokaiRequest:type"
                 },
                 {
                   "kind": "Content",
@@ -6364,8 +6702,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "ResponseWithAlokaiLocals",
-                  "canonicalReference": "@vue-storefront/middleware!ResponseWithAlokaiLocals:type"
+                  "text": "AlokaiResponse",
+                  "canonicalReference": "@vue-storefront/middleware!AlokaiResponse:type"
                 },
                 {
                   "kind": "Content",
@@ -6785,55 +7123,6 @@
         },
         {
           "kind": "TypeAlias",
-          "canonicalReference": "@vue-storefront/middleware!ResponseWithAlokaiLocals:type",
-          "docComment": "",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export type ResponseWithAlokaiLocals = "
-            },
-            {
-              "kind": "Reference",
-              "text": "Response",
-              "canonicalReference": "@types/express!e.Response:interface"
-            },
-            {
-              "kind": "Content",
-              "text": "<any, {\n    alokai?: {\n        logger: "
-            },
-            {
-              "kind": "Reference",
-              "text": "LoggerInterface",
-              "canonicalReference": "@vue-storefront/logger!LoggerInterface:interface"
-            },
-            {
-              "kind": "Content",
-              "text": ";\n    };\n    apiFunction?: "
-            },
-            {
-              "kind": "Reference",
-              "text": "Function",
-              "canonicalReference": "!Function:interface"
-            },
-            {
-              "kind": "Content",
-              "text": ";\n    fnOrigin?: string;\n    [key: string]: any;\n}>"
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "fileUrlPath": "src/types/common.ts",
-          "releaseTag": "Public",
-          "name": "ResponseWithAlokaiLocals",
-          "typeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 7
-          }
-        },
-        {
-          "kind": "TypeAlias",
           "canonicalReference": "@vue-storefront/middleware!StatusCode:type",
           "docComment": "",
           "excerptTokens": [
@@ -6970,6 +7259,187 @@
             "startIndex": 3,
             "endIndex": 6
           }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@vue-storefront/middleware!UploadedFile:interface",
+          "docComment": "/**\n * Uploaded file object\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface UploadedFile "
+            }
+          ],
+          "fileUrlPath": "src/types/fileUpload.ts",
+          "releaseTag": "Public",
+          "name": "UploadedFile",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!UploadedFile#buffer:member",
+              "docComment": "/**\n * File buffer\n *\n * @see\n *\n * https://nodejs.org/api/buffer.html\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "buffer: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Buffer",
+                  "canonicalReference": "!\"\\\"buffer\\\"\".__global.Buffer:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "buffer",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!UploadedFile#encoding:member",
+              "docComment": "/**\n * Encoding eg. 7bit, 8bit\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "encoding: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "encoding",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!UploadedFile#fieldname:member",
+              "docComment": "/**\n * Field name Identifies the field name of the file\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "fieldname: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "fieldname",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!UploadedFile#mimetype:member",
+              "docComment": "/**\n * MIME type eg. image/jpeg, application/pdf\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "mimetype: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "mimetype",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!UploadedFile#originalname:member",
+              "docComment": "/**\n * Original file name\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "originalname: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "originalname",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@vue-storefront/middleware!UploadedFile#size:member",
+              "docComment": "/**\n * File size in bytes\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "size: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "size",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
         },
         {
           "kind": "TypeAlias",
