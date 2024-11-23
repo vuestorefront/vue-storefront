@@ -1,7 +1,7 @@
 {
   "name": "@vue-storefront/sdk",
   "license": "MIT",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
@@ -25,7 +25,7 @@
   "devDependencies": {
     "@types/jest": "^29.0.3",
     "@types/node": "^18.11.17",
-    "@vue-storefront/middleware": "5.1.1",
+    "@vue-storefront/middleware": "5.2.0",
     "axios": "^1.6.7",
     "babel-preset-node": "^5.1.1",
     "isomorphic-fetch": "^3.0.0",
