@@ -108,9 +108,34 @@ export const getRequestSender = (options: Options): RequestSender => {
   };
 
   const defaultHTTPClient: HTTPClient = async (url, params, config) => {
+    const isMultipart = config?.headers?.["Content-Type"]?.includes(
+      "multipart/form-data"
+    );
+
+    let body;
+    if (config?.method === "GET") {
+      body = undefined;
+    } else if (isMultipart) {
+      const formData = new FormData();
+      Object.entries(params).forEach(([key, value]) => {
+        if (value instanceof Blob || value instanceof File) {
+          formData.append(key, value);
+        } else {
+          formData.append(key, JSON.stringify(value));
+        }
+      });
+      body = formData;
+
+      if (config?.headers) {
+        delete config.headers["Content-Type"];
+      }
+    } else {
+      body = JSON.stringify(params);
+    }
+
     const response = await fetch(url, {
       ...config,
-      body: config?.method === "GET" ? undefined : JSON.stringify(params),
+      body,
       credentials: "include",
     });
 

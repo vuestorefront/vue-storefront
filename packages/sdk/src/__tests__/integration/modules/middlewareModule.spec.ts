@@ -867,4 +867,56 @@ describe("middlewareModule", () => {
 
     expect(logSpy).not.toHaveBeenCalled();
   });
+
+  it("should create FormData when Content-Type is multipart/form-data", async () => {
+    const customHttpClient = jest.fn();
+    const sdkConfig = {
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        cdnCacheBustingId: "commit-hash",
+        httpClient: customHttpClient,
+      }),
+    };
+    const sdk = initSDK(sdkConfig);
+
+    await sdk.commerce.uploadFile(
+      { file: { name: "test.txt", content: "test" } },
+      prepareConfig({
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+    );
+
+    const [url, params, config] = customHttpClient.mock.calls[0];
+    expect(url).toBe("http://localhost:8181/commerce/uploadFile");
+    expect(params[0]).toEqual({ file: { name: "test.txt", content: "test" } });
+    expect(config.headers["Content-Type"]).toBe("multipart/form-data");
+  });
+
+  it("should maintain correct endpoint URL for multipart requests", async () => {
+    const customHttpClient = jest.fn();
+    const sdkConfig = {
+      commerce: buildModule(middlewareModule<Endpoints>, {
+        apiUrl: "http://localhost:8181/commerce",
+        httpClient: customHttpClient,
+      }),
+    };
+    const sdk = initSDK(sdkConfig);
+
+    await sdk.commerce.uploadFile(
+      { file: { name: "test.txt", content: "test" } },
+      prepareConfig({
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+    );
+
+    expect(customHttpClient).toHaveBeenCalledWith(
+      "http://localhost:8181/commerce/uploadFile",
+      expect.any(Array),
+      expect.any(Object)
+    );
+  });
 });
