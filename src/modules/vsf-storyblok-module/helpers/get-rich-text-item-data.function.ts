@@ -11,7 +11,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
   if (data.type === 'emoji') {
     data = {
       type: 'text',
-      text: data.attrs.emoji,
+      text: data.attrs.emoji || '',
       content: data.content,
       attrs: data.attrs,
       marks: data.marks
