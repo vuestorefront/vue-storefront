@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/eslint-config",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "type": "module",
   "main": "src/index.js",
   "license": "MIT",
