@@ -4,8 +4,8 @@
 
 ### Minor Changes
 
-**[ADDED]** Support for file uploads
-Now you can upload files to the server with a `multipart/form-data` content type. Files are available in the `req.files` object.
+- **[ADDED]** Support for file uploads.
+  Now you can upload files to the server with a `multipart/form-data` content type. Files are available in the `req.files` object.
 
 ```ts
 // Example of an endpoint that handles file uploads
@@ -28,13 +28,9 @@ Please, read the [Getting Started guide](https://docs.alokai.com/middleware/guid
 
 ### Patch Changes
 
-** [CHANGED] **
+- **[CHANGED]** added more verbose message with a troubleshooting guide in case that the `getLogger` method was not able to retrieve the logger instance.
 
-- added more verbose message with a troubleshooting guide in case that the `getLogger` method was not able to retrieve the logger instance.
-
-** [FIXED] **
-
-- changed `level` property to `verbosity` in the `LoggerConfig` interface.
+- **[FIXED]** changed `level` property to `verbosity` in the `LoggerConfig` interface.
 
 ## 5.1.0
 
@@ -46,13 +42,13 @@ Please, read the [Getting Started guide](https://docs.alokai.com/middleware/guid
 
 ### Patch Changes
 
-- **[FIXED]** a potential XSS (Cross-Site Scripting) vulnerability in the middleware. Now, each parameter is properly sanitized and validated before being used in the middleware.
+- **[FIXED]** Potential XSS (Cross-Site Scripting) vulnerability in the middleware. Now, each parameter is properly sanitized and validated before being used in the middleware.
 
 ## 5.0.0
 
 ### Major Changes
 
-- [CHANGED] [BREAKING] Changed return type of `createServer()` from `Express` to `Server` (from built-in `node:http` package). Both of those types' interfaces have the `.listen()` method with the same shape. In some older templates for starting the middleware (`middleware.js` in your repo) you come across:
+- **[CHANGED] [BREAKING]** - Changed return type of `createServer()` from `Express` to `Server` (from built-in `node:http` package). Both of those types' interfaces have the `.listen()` method with the same shape. In some older templates for starting the middleware (`middleware.js` in your repo) you come across:
 
 ```ts
 async function runMiddleware(app: Express) {
@@ -66,7 +62,7 @@ If you're using that older template, please change the `Express` type to `Server
 - async function runMiddleware(app: Express) {
 ```
 
-- [ADDED] New GET /readyz endpoint for middleware for using with Kubernetes readiness probes. Please see https://docs.alokai.com/middleware/guides/readiness-probes for more information
+- **[ADDED]** New GET /readyz endpoint for middleware for using with Kubernetes readiness probes. Please see https://docs.alokai.com/middleware/guides/readiness-probes for more information
 
 ## 4.3.1
 
@@ -214,7 +210,7 @@ createServer(config, {
 
 ### Minor Changes
 
-- 712ba85a6: [ADDED] Adds WithoutContext type helper.
+- **[ADDED]** Adds WithoutContext type helper.
 
   ```ts
   type ApiClientMethods = {
@@ -228,7 +224,7 @@ createServer(config, {
 
 ### Patch Changes
 
-- c4534b523: [CHANGED] Returning HTTP Code 408 in case of ECONNABORTED from 3rd party service, and 500 in case of ECONNRESET instead of general fallback to HTTP Code 500, to provide more precise information about the case.
+- **[CHANGED]** Returning HTTP Code 408 in case of ECONNABORTED from 3rd party service, and 500 in case of ECONNRESET instead of general fallback to HTTP Code 500, to provide more precise information about the case.
 
 ## 3.8.0
 
