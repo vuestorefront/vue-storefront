@@ -24,7 +24,7 @@ export type Endpoints = {
   /**
    * Upload a file.
    */
-  uploadFile: (params: {
-    file: { name: string; content: string };
-  }) => Promise<{ file: { name: string; content: string } }>;
+  uploadFile: (
+    params: any
+  ) => Promise<{ file: { name: string; content: string } }>;
 };

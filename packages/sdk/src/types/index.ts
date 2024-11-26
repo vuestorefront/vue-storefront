@@ -279,10 +279,10 @@ export type ExtensionInitializer<
   InitializedExtension extends Extension<ExtendedModule>,
   Options extends ModuleOptions
 > = (
-  options?: Options,
-  parent?: {
+  options: Options,
+  parent: {
     methods: ExtendedModule["connector"];
-    context?: ExtendedModule["context"];
+    context: ExtendedModule["context"];
   }
 ) => InitializedExtension;
 
