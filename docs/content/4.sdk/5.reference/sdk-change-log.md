@@ -12,7 +12,7 @@
 ```typescript
 // Upload a file using multipart/form-data
 await sdk.commerce.uploadFile(
-  { file: new File(["content"], "test.txt", { type: "text/plain" }) },
+  { file: new File(["content"], "test.pdf", { type: "application/pdf" }) },
   prepareConfig({
     headers: {
       "Content-Type": "multipart/form-data",
@@ -20,6 +20,10 @@ await sdk.commerce.uploadFile(
   })
 );
 ```
+
+:::warning
+Files mustn't be included in the `FormData` object manually, SDK handles it automatically.
+:::
 
 ## 3.3.0
 
