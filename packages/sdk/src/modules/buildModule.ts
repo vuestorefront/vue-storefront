@@ -74,7 +74,7 @@ function buildModule<
 
   const resolvedExtension =
     typeof extension === "function"
-      ? extension(extensionOptions, {
+      ? extension(extensionOptions ?? ({} as ExtensionOptions), {
           methods: resolvedModule.connector,
           context: resolvedModule?.context ?? {},
         })
