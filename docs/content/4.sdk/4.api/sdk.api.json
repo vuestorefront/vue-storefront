@@ -1146,7 +1146,7 @@
             },
             {
               "kind": "Content",
-              "text": "(options?: Options, parent?: {\n    methods: ExtendedModule[\"connector\"];\n    context?: ExtendedModule[\"context\"];\n}) => InitializedExtension"
+              "text": "(options: Options, parent: {\n    methods: ExtendedModule[\"connector\"];\n    context: ExtendedModule[\"context\"];\n}) => InitializedExtension"
             },
             {
               "kind": "Content",

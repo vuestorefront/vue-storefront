@@ -1,5 +1,12 @@
 # Change log
 
+## 3.4.1
+
+### Patch Changes
+
+- **[FIXED]** Fixed type inference for function-based configurations when using the [extend](https://docs.alokai.com/sdk/advanced/extending-module#extend) method. Now the `methods` object is correctly typed.
+- **[FIXED]** Fixed multiple files upload, now it works as expected.
+
 ## 3.4.0
 
 ### Minor Changes
@@ -20,10 +27,6 @@ await sdk.commerce.uploadFile(
   })
 );
 ```
-
-:::warning
-Files mustn't be included in the `FormData` object manually, SDK handles it automatically.
-:::
 
 ## 3.3.0
 
