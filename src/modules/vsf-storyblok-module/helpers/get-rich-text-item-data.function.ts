@@ -8,6 +8,16 @@ import RichTextTextComponent from '../components/global/rich-text/components/Tex
 const genericComponentTag = 'sb-rich-text-generic-component';
 
 export default function getRichTextItemData (data: any): RichTextItem {
+  if (data.type === 'emoji') {
+    data = {
+      type: 'text',
+      text: data.attrs.emoji || '',
+      content: data.content,
+      attrs: data.attrs,
+      marks: data.marks
+    };
+  }
+
   switch (data.type) {
     case 'horizontal_rule':
       return {
