@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- **[FIXED]** Fixed type inference for function-based configurations when using the [extend](https://docs.alokai.com/sdk/advanced/extending-module#extend) method. Now the `methods` object is correctly typed.
+- **[FIX]** Fixed type inference for function-based configurations when using the [extend](https://docs.alokai.com/sdk/advanced/extending-module#extend) method. Now the `methods` object is correctly typed.
 - **[FIXED]** Fixed multiple files upload, now it works as expected.
 
 ## 3.4.0
@@ -19,7 +19,7 @@
 ```typescript
 // Upload a file using multipart/form-data
 await sdk.commerce.uploadFile(
-  { file: new File(["content"], "test.pdf", { type: "application/pdf" }) },
+  { file: new File(["content"], "test.txt", { type: "text/plain" }) },
   prepareConfig({
     headers: {
       "Content-Type": "multipart/form-data",

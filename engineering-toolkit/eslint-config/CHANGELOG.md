@@ -1,5 +1,11 @@
 # @vue-storefront/eslint-config
 
+## 4.0.3
+
+### Patch Changes
+
+- **[CHANGED]** Added `/public` directory to ignored destinations in config for nextjs.
+
 ## 4.0.2
 
 ### Patch Changes
