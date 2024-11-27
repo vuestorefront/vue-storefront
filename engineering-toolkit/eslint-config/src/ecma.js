@@ -42,7 +42,7 @@ export function ecma(config, ...overrides) {
             },
             name: "import",
             rules: {
-              "import/no-anonymous-default-export": "warn",
+              "import/no-anonymous-default-export": "off",
             },
             settings: {
               "import/extensions": [".ts", ".tsx", ".mts", ".cts", ".mtsx", ".ctsx", ".js", ".jsx", ".mjs", ".cjs"],
