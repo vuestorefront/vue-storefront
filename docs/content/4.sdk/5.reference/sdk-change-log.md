@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- **[FIX]** Fixed type inference for function-based configurations when using the [extend](https://docs.alokai.com/sdk/advanced/extending-module#extend) method. Now the `methods` object is correctly typed.
+- **[FIXED]** Fixed type inference for function-based configurations when using the [extend](https://docs.alokai.com/sdk/advanced/extending-module#extend) method. Now the `methods` object is correctly typed.
 - **[FIXED]** Fixed multiple files upload, now it works as expected.
 
 ## 3.4.0
