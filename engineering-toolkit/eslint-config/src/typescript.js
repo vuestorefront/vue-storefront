@@ -61,10 +61,10 @@ export function typescript(config, ...overrides) {
         "@typescript-eslint/explicit-module-boundary-types": "warn",
         "@typescript-eslint/naming-convention": "off",
         "@typescript-eslint/no-empty-interface": "off",
-        "@typescript-eslint/no-empty-object-type": "off",
+        "@typescript-eslint/no-empty-object-type": "warn",
         "@typescript-eslint/no-explicit-any": "warn",
         "@typescript-eslint/no-inferrable-types": "warn",
-        "@typescript-eslint/no-magic-numbers": "off",
+        "@typescript-eslint/no-magic-numbers": "warn",
         "@typescript-eslint/no-namespace": "warn",
         "@typescript-eslint/no-non-null-assertion": "off",
         // allow unused vars starting with `_` https://typescript-eslint.io/rules/no-unused-vars
@@ -103,6 +103,6 @@ export function typescript(config, ...overrides) {
           }),
         ]
       : [],
-    overrides
+    overrides,
   );
 }
