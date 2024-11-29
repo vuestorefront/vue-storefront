@@ -26,7 +26,7 @@ export function typescript(config, ...overrides) {
             },
             name: "import",
             rules: {
-              "import/no-anonymous-default-export": "warn",
+              "import/no-anonymous-default-export": "off",
             },
             settings: {
               "import/resolver": {
@@ -61,6 +61,7 @@ export function typescript(config, ...overrides) {
         "@typescript-eslint/explicit-module-boundary-types": "warn",
         "@typescript-eslint/naming-convention": "off",
         "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/no-empty-object-type": "warn",
         "@typescript-eslint/no-explicit-any": "warn",
         "@typescript-eslint/no-inferrable-types": "warn",
         "@typescript-eslint/no-magic-numbers": "warn",
@@ -76,9 +77,13 @@ export function typescript(config, ...overrides) {
             varsIgnorePattern: "^_",
           },
         ],
-        "@typescript-eslint/no-use-before-define": "warn",
+        "@typescript-eslint/no-use-before-define": [
+          "warn",
+          {
+            functions: false,
+          },
+        ],
         "@typescript-eslint/prefer-function-type": "warn",
-        "@typescript-eslint/no-empty-object-type": "warn",
         "default-param-last": "off",
         "no-magic-numbers": "off",
         "no-use-before-define": "off",
