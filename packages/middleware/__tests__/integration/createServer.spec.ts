@@ -13,7 +13,7 @@ describe("[Integration] Create server", () => {
           configuration: {
             myCfgEntry: true,
           },
-          errorHandler: (error: unknown, req: any, res: any) => {
+          errorHandler: (_error: unknown, _req: any, res: any) => {
             res.status(410); // awkward status code to test if it's working
             res.send("Custom error handler");
           },
@@ -132,7 +132,7 @@ describe("[Integration] Create server", () => {
           configuration: {
             myCfgEntry: true,
           },
-          errorHandler: (error: unknown, req: any, res: any) => {
+          errorHandler: (_error: unknown, _req: any, res: any) => {
             res.status(410); // awkward status code to test if it's working
             res.send("Custom error handler");
           },
@@ -207,5 +207,28 @@ describe("[Integration] Create server", () => {
     // If merged, the response would be { message: "error", error: true, status: 404 }
     expect(status).toEqual(200);
     expect(response).toEqual(apiMethodResult);
+  });
+
+  describe("prevent XSS attacks", () => {
+    test.each([
+      [
+        "/z--%3E%3C!--hi--%3E%3Cimg%20src=x%20onerror=alert('DOM--XSS')%3E%3C!--%3C%3C/success",
+        `"z--&gt;<img src>" integration is not configured. Please, check the request path or integration configuration.`,
+      ],
+      [
+        "/test_integration/z--%3E%3C!--hi--%3E%3Cimg%20src=x%20onerror=alert('DOM--XSS')%3E%3C!--%3C%3C",
+        `The function "z--&gt;<img src>" is not registered.`,
+      ],
+      [
+        "/test_integration/z--%3E%3C!--hi--%3E%3Cimg%20src=x%20onerror=alert('DOM--XSS')%3E%3C!--%3C%3C/success",
+        `Extension "z--&gt;<img src>" is not namespaced or the function "success" is not available in the namespace.`,
+      ],
+    ])("Use case: %s", async (maliciousUrl, expectedMessage) => {
+      const res = await request(app).get(maliciousUrl).send();
+      expect(res.error && res.error.text).not.toContain(
+        "z--><!--hi--><img src=x onerror=alert('DOM--XSS')><!--<<"
+      );
+      expect(res.error && res.error.text).toEqual(expectedMessage);
+    });
   });
 });
