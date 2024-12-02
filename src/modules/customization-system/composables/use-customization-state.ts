@@ -75,7 +75,7 @@ export function useCustomizationState (
     }
 
     customizationOptionValue.value = {
-    // TODO: temporary - current TS version don't handle `value` type right in this case
+      // TODO: temporary - current TS version don't handle `value` type right in this case
       ...(customizationOptionValue as any).value,
       ...customizationOptionValueForMerge
     };

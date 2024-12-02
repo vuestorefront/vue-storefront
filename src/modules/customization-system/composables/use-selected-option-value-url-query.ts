@@ -155,6 +155,10 @@ export function useSelectedOptionValueUrlQuery (
       }
     }
 
+    if (customizationStateItemsForUpdate.length === 0) {
+      return;
+    }
+
     mergeCustomizationState(customizationStateItemsForUpdate);
     removeUnavailableOptionValues();
   }
