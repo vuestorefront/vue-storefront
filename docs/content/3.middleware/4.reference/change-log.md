@@ -46,7 +46,7 @@ Please, read the [Getting Started guide](https://docs.alokai.com/middleware/guid
 
 ### Patch Changes
 
-- **[FIXED]** a potential XSS (Cross-Site Scripting) vulnerability in the middleware. Now, each parameter is properly sanitized and validated before being used in the middleware.
+- **[FIXED]** Now parameters are properly sanitized and validated before being used in the middleware.
 
 ## 5.0.0
 
