@@ -68,6 +68,12 @@ If you're using that older template, please change the `Express` type to `Server
 
 - [ADDED] New GET /readyz endpoint for middleware for using with Kubernetes readiness probes. Please see https://docs.alokai.com/middleware/guides/readiness-probes for more information
 
+## 4.3.2
+
+### Patch Changes
+
+- **[FIXED]** Now parameters are properly sanitized and validated before being used in the middleware.
+
 ## 4.3.1
 
 ### Patch Changes
@@ -183,6 +189,12 @@ export { createApiClient };
 ### Major Changes
 
 - **[CHANGED]** Changed minimum Node version from 16 to 18. The condition that was forcing the Node version to be lower than 19 is also removed.
+
+## 3.10.1
+
+### Patch Changes
+
+- **[FIXED]** Now parameters are properly sanitized and validated before being used in the middleware.
 
 ## 3.10.0
 
