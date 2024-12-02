@@ -1,5 +1,11 @@
 # Change log
 
+## 4.3.2
+
+### Patch Changes
+
+- **[FIXED]** Now parameters are properly sanitized and validated before being used in the middleware.
+
 ## 4.3.1
 
 ### Patch Changes
