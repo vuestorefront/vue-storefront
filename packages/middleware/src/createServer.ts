@@ -17,6 +17,7 @@ import {
   prepareErrorHandler,
   prepareArguments,
   callApiFunction,
+  validateParams,
 } from "./handlers";
 
 const defaultCorsOptions: CreateServerOptions["cors"] = {
@@ -65,6 +66,7 @@ async function createServer<
 
   app.post(
     "/:integrationName/:extensionName?/:functionName",
+    validateParams(integrations),
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),
     prepareArguments,
@@ -72,6 +74,7 @@ async function createServer<
   );
   app.get(
     "/:integrationName/:extensionName?/:functionName",
+    validateParams(integrations),
     prepareApiFunction(integrations),
     prepareErrorHandler(integrations),
     prepareArguments,
