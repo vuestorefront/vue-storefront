@@ -98,7 +98,7 @@ export function useSelectedOptionValueUrlQuery (
       return;
     }
 
-    root.$router.push({ query: { ...root.$route.query, ...showInUrlQueryData.value } });
+    root.$router.replace({ query: { ...root.$route.query, ...showInUrlQueryData.value } });
   }
 
   function updateCustomizationOptionValueFromQuery (): void {
