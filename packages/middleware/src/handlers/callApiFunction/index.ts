@@ -1,12 +1,9 @@
 import type { Request } from "express";
 import { LogScope } from "../../types";
 import { getLogger, injectMetadata } from "../../logger";
-import type { ResponseWithAlokaiLocals } from "../../types";
+import type { AlokaiResponse } from "../../types";
 
-export async function callApiFunction(
-  req: Request,
-  res: ResponseWithAlokaiLocals
-) {
+export async function callApiFunction(req: Request, res: AlokaiResponse) {
   const { apiFunction, args, errorHandler } = res.locals;
 
   try {

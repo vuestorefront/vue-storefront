@@ -1,5 +1,29 @@
 # Change log
 
+## 5.2.0
+
+### Minor Changes
+
+**[ADDED]** Support for file uploads
+Now you can upload files to the server with a `multipart/form-data` content type. Files are available in the `req.files` object.
+
+```ts
+// Example of an endpoint that handles file uploads
+export const upload = (context) => {
+  // Files are available in the `req.files` object
+  const { files } = context.req;
+
+  // Do something with files
+
+  return Promise.resolve({
+    status: 200,
+    message: "ok",
+  });
+};
+```
+
+Please, read the [Getting Started guide](https://docs.alokai.com/middleware/guides/getting-started#file-upload-configuration) for more information about file uploads.
+
 ## 5.1.1
 
 ### Patch Changes
@@ -22,7 +46,7 @@
 
 ### Patch Changes
 
-- **[FIXED]** a potential XSS (Cross-Site Scripting) vulnerability in the middleware. Now, each parameter is properly sanitized and validated before being used in the middleware.
+- **[FIXED]** Now parameters are properly sanitized and validated before being used in the middleware.
 
 ## 5.0.0
 
@@ -145,6 +169,12 @@ const { createApiClient } = apiClientFactory({
 
 export { createApiClient };
 ```
+
+- **[CHANGED]** - Middleware `getApiClient` is now an asynchronous function. Please, read the [data federation](https://docs.alokai.com/middleware/guides/federation#using-getapiclient-method-to-access-different-api-client) guide to get more information.
+
+:::warning
+This change may introduce breaking changes in some projects. Please ensure to update your project accordingly if necessary.
+:::
 
 ## 4.0.1
 

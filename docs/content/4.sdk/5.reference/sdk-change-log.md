@@ -1,5 +1,33 @@
 # Change log
 
+## 3.4.1
+
+### Patch Changes
+
+- **[FIX]** Fixed type inference for function-based configurations when using the [extend](https://docs.alokai.com/sdk/advanced/extending-module#extend) method. Now the `methods` object is correctly typed.
+- **[FIXED]** Fixed multiple files upload, now it works as expected.
+
+## 3.4.0
+
+### Minor Changes
+
+**[ADDED]** Add support for multipart/form-data requests in SDK
+
+- Added handling for multipart/form-data content type in the default HTTP client
+- Automatically handles File and Blob objects in request parameters
+
+```typescript
+// Upload a file using multipart/form-data
+await sdk.commerce.uploadFile(
+  { file: new File(["content"], "test.txt", { type: "text/plain" }) },
+  prepareConfig({
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  })
+);
+```
+
 ## 3.3.0
 
 ### Minor Changes

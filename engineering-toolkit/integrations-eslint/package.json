@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/eslint-config-integrations",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "license": "MIT",
   "files": [
@@ -23,8 +23,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.10",
-    "@typescript-eslint/parser": "^8.10",
+    "@typescript-eslint/eslint-plugin": "^8.16",
+    "@typescript-eslint/parser": "^8.16",
     "eslint": "^8.55.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.8.0",

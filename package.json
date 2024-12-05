@@ -34,8 +34,7 @@
     "ts-node": "^8.4.1",
     "tslib": "^2.1.0",
     "turbo": "^2.3.0",
-    "typescript": "^5",
-    "webpack-bundle-analyzer": "^3.5.2"
+    "typescript": "^5"
   },
   "workspaces": {
     "packages": [

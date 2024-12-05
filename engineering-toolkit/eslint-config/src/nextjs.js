@@ -28,6 +28,9 @@ export function nextjs(config, ...overrides) {
 
   return concat(
     defineFlatConfig({
+      ignores: ['**/public/*'],
+    }),
+    defineFlatConfig({
       files: filesObj.general,
       languageOptions: {
         parserOptions: {

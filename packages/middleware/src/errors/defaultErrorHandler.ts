@@ -1,6 +1,6 @@
 import type { Request } from "express";
 import { getAgnosticStatusCode } from "../helpers";
-import type { ResponseWithAlokaiLocals } from "../types";
+import type { AlokaiResponse } from "../types";
 
 type ClientSideError = {
   message?: string;
@@ -16,7 +16,7 @@ type ClientSideError = {
 export const defaultErrorHandler = (
   error: ClientSideError,
   req: Request,
-  res: ResponseWithAlokaiLocals
+  res: AlokaiResponse
 ) => {
   const status = getAgnosticStatusCode(error);
   res.status(status);
