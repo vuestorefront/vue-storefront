@@ -170,6 +170,12 @@ const { createApiClient } = apiClientFactory({
 export { createApiClient };
 ```
 
+- **[CHANGED]** - Middleware `getApiClient` is now an asynchronous function. Please, read the [data federation](https://docs.alokai.com/middleware/guides/federation#using-getapiclient-method-to-access-different-api-client) guide to get more information.
+
+:::warning
+This change may introduce breaking changes in some projects. Please ensure to update your project accordingly if necessary.
+:::
+
 ## 4.0.1
 
 ### Patch Changes
