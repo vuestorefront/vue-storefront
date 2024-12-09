@@ -73,5 +73,8 @@ export const mutations: MutationTree<BudsiesState> = {
   },
   [types.METRIC_SET] (state, statisticValue: StatisticValue): void {
     Vue.set(state.statisticValues, statisticValue.metric, statisticValue.value);
+  },
+  [types.SET_RUSH_ADDONS_LOADING_PROMISE] (state, promise: Promise<void> | undefined): void {
+    Vue.set(state, 'rushAddonsLoadingPromise', promise);
   }
 }

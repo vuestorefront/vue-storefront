@@ -19,5 +19,6 @@ export interface BudsiesState {
   customerEmail: string | undefined,
   breeds: string[],
   storeRating: StoreRating | undefined,
-  statisticValues: Record<StatisticMetric, string | number | undefined>
+  statisticValues: Record<StatisticMetric, string | number | undefined>,
+  rushAddonsLoadingPromise: Promise<void> | undefined
 }

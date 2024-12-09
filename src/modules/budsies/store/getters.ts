@@ -9,6 +9,9 @@ import BodypartOption from '../types/bodypart-option'
 import { StatisticMetric } from '../types/statistic-metric'
 
 const getters: GetterTree<BudsiesState, RootState> = {
+  extraPhotoAddonsLoadingPromise: (state) => {
+    return state.rushAddonsLoadingPromise;
+  },
   getExtraPhotoAddon: (state: BudsiesState, id: string): ExtraPhotoAddon | undefined => {
     return state.extraPhotoAddons[id];
   },
@@ -129,6 +132,9 @@ const getters: GetterTree<BudsiesState, RootState> = {
   },
   getStatisticValueByMetric: (state) => (metric: StatisticMetric) => {
     return state.statisticValues[metric];
+  },
+  getRushAddonsLoadingPromise: (state) => {
+    return state.rushAddonsLoadingPromise;
   }
 }
 

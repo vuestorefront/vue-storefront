@@ -16,5 +16,6 @@ export const state: BudsiesState = {
   storeRating: undefined,
   statisticValues: {
     [StatisticMetric.ORDERED_PLUSHIES_COUNT]: undefined
-  }
+  },
+  rushAddonsLoadingPromise: undefined
 }
