@@ -20,5 +20,6 @@ export interface BudsiesState {
   breeds: string[],
   storeRating: StoreRating | undefined,
   statisticValues: Record<StatisticMetric, string | number | undefined>,
-  rushAddonsLoadingPromise: Promise<void> | undefined
+  rushAddonsLoadingPromise: Promise<void> | undefined,
+  isRushAddonsLoaded: boolean
 }

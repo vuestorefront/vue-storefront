@@ -76,5 +76,8 @@ export const mutations: MutationTree<BudsiesState> = {
   },
   [types.SET_RUSH_ADDONS_LOADING_PROMISE] (state, promise: Promise<void> | undefined): void {
     Vue.set(state, 'rushAddonsLoadingPromise', promise);
+  },
+  [types.SET_IS_RUSH_ADDONS_LOADED] (state) {
+    state.isRushAddonsLoaded = true;
   }
 }

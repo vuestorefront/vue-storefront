@@ -122,9 +122,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
   async loadProductsRushAddons (
     { commit, state, getters }
   ): Promise<void> {
-    const isRushAddonsLoaded = Object.keys(state.rushAddons).length > 0;
-
-    if (isRushAddonsLoaded) {
+    if (state.isRushAddonsLoaded) {
       return;
     }
 
@@ -154,6 +152,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       }
 
       commit(types.SET_RUSH_ADDONS_LOADING_PROMISE, undefined);
+      commit(types.SET_IS_RUSH_ADDONS_LOADED);
 
       resolve();
     });
