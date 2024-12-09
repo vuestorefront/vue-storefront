@@ -119,7 +119,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
 
     commit('setPrintedProductAddons', { key: productId, addons: addons });
   },
-  async loadProductRushAddons (
+  async loadProductsRushAddons (
     { commit, state, getters }
   ): Promise<void> {
     const rushAddonsLoaded = Object.keys(state.rushAddons).length > 0;
