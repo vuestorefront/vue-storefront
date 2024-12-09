@@ -122,9 +122,9 @@ export const actions: ActionTree<BudsiesState, RootState> = {
   async loadProductsRushAddons (
     { commit, state, getters }
   ): Promise<void> {
-    const rushAddonsLoaded = Object.keys(state.rushAddons).length > 0;
+    const isRushAddonsLoaded = Object.keys(state.rushAddons).length > 0;
 
-    if (rushAddonsLoaded) {
+    if (isRushAddonsLoaded) {
       return;
     }
 
