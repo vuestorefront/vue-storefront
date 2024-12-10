@@ -3,7 +3,6 @@ import { StatisticMetric } from '../types/statistic-metric'
 
 export const state: BudsiesState = {
   extraPhotoAddons: {},
-  rushAddons: {},
   productExtraPhotoAddons: {},
   productRushAddons: {},
   bodyparts: {},

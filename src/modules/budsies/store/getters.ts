@@ -31,21 +31,8 @@ const getters: GetterTree<BudsiesState, RootState> = {
 
     return result;
   },
-  getRushAddon: (state: BudsiesState, id: string): RushAddon | undefined => {
-    return state.rushAddons[id];
-  },
   getProductRushAddons: (state: BudsiesState) => (id: string): RushAddon[] => {
-    const result: RushAddon[] = [];
-
-    if (!state.productRushAddons[id] || !state.productRushAddons[id].length) {
-      return result;
-    }
-
-    state.productRushAddons[id].forEach((id) => {
-      result.push(state.rushAddons[id]);
-    });
-
-    return result;
+    return state.productRushAddons[id] || [];
   },
   getProductBodyparts: (state: BudsiesState) => (id: string): Bodypart[] => {
     const result: Bodypart[] = [];

@@ -16,9 +16,6 @@ export const mutations: MutationTree<BudsiesState> = {
   setPlushieBreeds (state: BudsiesState, items: string[]) {
     state.breeds = [...items];
   },
-  setRushAddon (state: BudsiesState, { key, addon }: { key: string, addon: RushAddon }) {
-    Vue.set(state.rushAddons, key, addon);
-  },
   setPrintedProductAddons (state: BudsiesState, { key, addons }: { key: string, addons: ExtraPhotoAddon[] }) {
     const ids: string[] = [];
 
@@ -30,14 +27,7 @@ export const mutations: MutationTree<BudsiesState> = {
     Vue.set(state.productExtraPhotoAddons, key, ids);
   },
   setProductRushAddons (state: BudsiesState, { key, addons }: { key: string, addons: RushAddon[] }) {
-    const ids: string[] = [];
-
-    addons.forEach((item) => {
-      ids.push(item.id);
-      Vue.set(state.rushAddons, item.id, item);
-    });
-
-    Vue.set(state.productRushAddons, key, ids);
+    Vue.set(state.productRushAddons, key, addons);
   },
   setBodypart (state: BudsiesState, { key, bodypart }: { key: string, bodypart: Bodypart }) {
     Vue.set(state.bodyparts, key, bodypart);

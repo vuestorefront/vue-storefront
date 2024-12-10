@@ -8,9 +8,8 @@ import { StatisticMetric } from './statistic-metric'
 
 export interface BudsiesState {
   extraPhotoAddons: Dictionary<ExtraPhotoAddon>,
-  rushAddons: Dictionary<RushAddon>,
   productExtraPhotoAddons: Dictionary<string[]>,
-  productRushAddons: Dictionary<string[]>,
+  productRushAddons: Dictionary<RushAddon[]>,
   bodyparts: Dictionary<Bodypart>,
   bodypartsValues: Dictionary<BodypartValue>,
   bodypartBodypartsValues: Dictionary<string[]>,
