@@ -317,15 +317,17 @@ const mergeActions = {
 
     return diffLog
   },
-  async updateTotalsAfterMerge ({ dispatch, getters }, { clientItems, dryRun }) {
+  async updateTotalsAfterMerge ({ commit, dispatch, getters }, { clientItems, dryRun }) {
     if (dryRun) return
 
     if (getters.isTotalsSyncRequired && clientItems.length > 0) {
       await dispatch('syncTotals')
     }
+
+    commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
   },
   async updateItemsProductData (
-    { commit, dispatch, getters, rootGetters }
+    { dispatch, rootGetters }
   ) {
     const clientItems = rootGetters['cart/getCartItems'];
     await loadClientItemsProducts(clientItems, dispatch);
@@ -333,8 +335,6 @@ const mergeActions = {
     for (const clientItem of clientItems) {
       await dispatch('updateClientItemProductData', clientItem);
     }
-
-    commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
   },
   async merge ({ commit, getters, dispatch }, { serverItems, clientItems, dryRun = false, forceClientState = false, mergeQty = false, forceUpdateServerItem = false }) {
     const hookResult = cartHooksExecutors.beforeSync({ clientItems, serverItems })
@@ -362,7 +362,6 @@ const mergeActions = {
       return mergeClientItemsDiffLog;
     }
 
-    commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
     const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
     dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
     dispatch('updateItemsProductData')
