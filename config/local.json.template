@@ -87,7 +87,8 @@
     "endpoint": "https://${VSF_API_DOMAIN}/api/ext/vsf-storyblok-extension",
     "settings": {
       "addRoutes": true
-    }
+    },
+    "homeStorySlug": "${STORYBLOK_HOME_STORY_SLUG}"
   },
   "urlRewrite": {
     "endpoint": "https://${VSF_API_DOMAIN}/api/ext/url-rewrite"
