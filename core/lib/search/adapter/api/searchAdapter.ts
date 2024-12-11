@@ -1,10 +1,10 @@
 import map from 'lodash-es/map'
-import { elasticsearch } from 'storefront-query-builder'
+import { elasticsearch, SearchQuery } from 'storefront-query-builder'
 import fetch from 'isomorphic-fetch'
 import { slugify, processURLAddress } from '@vue-storefront/core/helpers'
 import queryString from 'query-string'
 import { currentStoreView, prepareStoreView } from '@vue-storefront/core/lib/multistore'
-import { SearchQuery } from 'storefront-query-builder'
+
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
@@ -77,18 +77,21 @@ export class SearchAdapter {
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
     url = url + '?' + queryString.stringify(httpQuery)
 
+    const isPostQueryMethod = config.elasticsearch.queryMethod === 'POST';
+
     const mode: RequestMode = 'cors';
-    const payload = {
+    const payload: RequestInit = {
       method: config.elasticsearch.queryMethod,
       mode,
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Accept': 'application/json'
       },
-      body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
+      body: isPostQueryMethod ? JSON.stringify(ElasticsearchQueryBody) : null
     }
 
-    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, payload);
+    if (isPostQueryMethod) {
+      (payload.headers as Record<string, string>)['Content-Type'] = 'application/json'
+    }
 
     return fetch(url, payload)
       .then(resp => { return resp.json() })
