@@ -119,25 +119,47 @@ export const actions: ActionTree<BudsiesState, RootState> = {
 
     commit('setPrintedProductAddons', { key: productId, addons: addons });
   },
-  async loadProductRushAddons (
-    { commit, state },
-    { productId }
+  async loadProductsRushAddons (
+    { commit, state, getters }
   ): Promise<void> {
-    const url = processURLAddress(`${config.budsies.endpoint}/plushies/rush-upgrades`);
+    if (state.isRushAddonsLoaded) {
+      return;
+    }
 
-    const result = await TaskQueue.execute({
-      url: `${url}?productId=${productId}`,
-      payload: {
-        headers: { 'Accept': 'application/json' },
-        mode: 'cors',
-        method: 'GET'
-      },
-      silent: true
+    const existingPromise = getters['extraPhotoAddonsLoadingPromise'];
+
+    if (existingPromise) {
+      return existingPromise;
+    }
+
+    const loadingPromise = new Promise<void>(async (resolve) => {
+      const url = processURLAddress(`${config.budsies.endpoint}/plushies/products-rush-upgrades`);
+
+      const result = await TaskQueue.execute({
+        url: `${url}`,
+        payload: {
+          headers: { 'Accept': 'application/json' },
+          mode: 'cors',
+          method: 'GET'
+        },
+        silent: true
+      });
+
+      for (const productId in result.result) {
+        const addons = parse<RushAddon, RushAddonApiResponse>(result.result[productId], rushAddonFactory, isRushAddonApiResponse);
+
+        commit('setProductRushAddons', { key: productId, addons });
+      }
+
+      commit(types.SET_RUSH_ADDONS_LOADING_PROMISE, undefined);
+      commit(types.SET_IS_RUSH_ADDONS_LOADED);
+
+      resolve();
     });
 
-    const addons = parse<RushAddon, RushAddonApiResponse>(result.result, rushAddonFactory, isRushAddonApiResponse);
+    commit(types.SET_RUSH_ADDONS_LOADING_PROMISE, loadingPromise);
 
-    commit('setProductRushAddons', { key: productId, addons });
+    return loadingPromise;
   },
   // TODO: used in Bulkorders theme on Bulk Request page
   async loadProductBodyparts (
@@ -296,7 +318,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
   },
   async createMailingListSubscription (
     store,
-    payload: {email: string, listId: string}
+    payload: { email: string, listId: string }
   ): Promise<Task> {
     const url = processURLAddress(`${config.budsies.endpoint}/mailing-list-subscriptions?token={{token}}`);
 
