@@ -5,14 +5,14 @@
 ### Patch Changes
 
 - Updated dependencies:
-  - @vue-storefront/middleware@5.1.0 - Please refer to the [middleware changelog](https://docs.alokai.com/middleware/reference/change-log#_510) for more details.
+  - @vue-storefront/middleware@5.1.0
 
 ## 4.1.1
 
 ### Patch Changes
 
 - Updated dependencies:
-  - @vue-storefront/middleware@5.0.0 - Please refer to the [middleware changelog](https://docs.alokai.com/middleware/reference/change-log#_500) for more details.
+  - @vue-storefront/middleware@5.0.0
 
 ## 4.1.0
 

@@ -1,5 +1,28 @@
 # Change log
 
+## 5.3.0
+
+### Minor Changes
+
+**[ADDED]** `defaultErrorHandler` is now exported from the package. Example usage:
+
+```ts
+import type { Integration } from "@vue-storefront/middleware";
+import type { MiddlewareConfig } from "@vsf-enterprise/sapcc-api";
+import { defaultErrorHandler } from "@vue-storefront/middleware";
+
+export const config = {
+  integrations: {
+    commerce: {
+      errorHandler: (error, req, res) => {
+        // Perform custom actions before delegating to the default error handler
+        defaultErrorHandler(error, req, res);
+      },
+    } satisfies Integration<MiddlewareConfig>,
+  },
+};
+```
+
 ## 5.2.0
 
 ### Minor Changes
@@ -46,7 +69,7 @@ Please, read the [Getting Started guide](https://docs.alokai.com/middleware/guid
 
 ### Patch Changes
 
-- **[FIXED]** Now parameters are properly sanitized and validated before being used in the middleware.
+- **[FIXED]** a potential XSS (Cross-Site Scripting) vulnerability in the middleware. Now, each parameter is properly sanitized and validated before being used in the middleware.
 
 ## 5.0.0
 
@@ -169,12 +192,6 @@ const { createApiClient } = apiClientFactory({
 
 export { createApiClient };
 ```
-
-- **[CHANGED]** - Middleware `getApiClient` is now an asynchronous function. Please, read the [data federation](https://docs.alokai.com/middleware/guides/federation#using-getapiclient-method-to-access-different-api-client) guide to get more information.
-
-:::warning
-This change may introduce breaking changes in some projects. Please ensure to update your project accordingly if necessary.
-:::
 
 ## 4.0.1
 

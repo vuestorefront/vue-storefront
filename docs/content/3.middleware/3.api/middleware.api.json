@@ -5152,7 +5152,7 @@
             {
               "kind": "PropertySignature",
               "canonicalReference": "@vue-storefront/middleware!Integration#errorHandler:member",
-              "docComment": "",
+              "docComment": "/**\n * Custom error handler for middleware.\n *\n * This function is invoked whenever an error occurs during middleware execution. Alokai provides a default error handler, which will be used if this property is not set.\n *\n * @param error - The error object or value that triggered the handler.\n *\n * @param req - The HTTP request object associated with the error.\n *\n * @param res - The HTTP response object for sending a response.\n *\n * @example\n * ```ts\n * {\n *  errorHandler: (error, req, res) => {\n *    if (typeof error === \"object\" && error !== null && \"message\" in error) {\n *      res.status(500).send({ message: (error as any).message });\n *    } else {\n *      res.status(500).send({ message: \"An unknown error occurred\" });\n *    }\n *  }\n * }\n * ```\n *\n * @example\n *\n * Using the default error handler with custom behavior\n * ```ts\n * import { defaultErrorHandler } from \"@vue-storefront/middleware\";\n *\n * {\n *   errorHandler: (error, req, res) => {\n *     // Perform custom actions before delegating to the default error handler\n *     defaultErrorHandler(error, req, res);\n *   }\n * };\n * ```\n *\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
