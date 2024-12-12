@@ -111,6 +111,12 @@ export interface ApiClientExtension<API = any, CONTEXT = any, CONFIG = any> {
   ) => ApiClientExtensionHooks;
 }
 
+export type ErrorHandler = (
+  error: unknown,
+  req: AlokaiRequest,
+  res: AlokaiResponse
+) => void;
+
 export interface Integration<
   CONFIG extends TObject = any,
   API extends ApiMethods = any,
@@ -162,11 +168,7 @@ export interface Integration<
    * };
    * ```
    */
-  errorHandler?: (
-    error: unknown,
-    req: AlokaiRequest,
-    res: AlokaiResponse
-  ) => void;
+  errorHandler?: ErrorHandler;
 }
 
 export interface RequestParams {
