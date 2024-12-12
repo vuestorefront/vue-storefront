@@ -126,6 +126,42 @@ export interface Integration<
   ) => ApiClientExtension<API, CONTEXT>[];
   customQueries?: Record<string, CustomQueryFunction>;
   initConfig?: TObject;
+  /**
+   * Custom error handler for middleware.
+   *
+   * This function is invoked whenever an error occurs during middleware execution.
+   * Alokai provides a default error handler, which will be used if this property is not set.
+   *
+   * @param {unknown} error - The error object or value that triggered the handler.
+   * @param {AlokaiRequest} req - The HTTP request object associated with the error.
+   * @param {AlokaiResponse} res - The HTTP response object for sending a response.
+   *
+   * @example
+   * ```ts
+   * {
+   *  errorHandler: (error, req, res) => {
+   *    if (typeof error === "object" && error !== null && "message" in error) {
+   *      res.status(500).send({ message: (error as any).message });
+   *    } else {
+   *      res.status(500).send({ message: "An unknown error occurred" });
+   *    }
+   *  }
+   * }
+   * ```
+   *
+   * @example
+   * Using the default error handler with custom behavior
+   * ```ts
+   * import { defaultErrorHandler } from "@vue-storefront/middleware";
+   *
+   * {
+   *   errorHandler: (error, req, res) => {
+   *     // Perform custom actions before delegating to the default error handler
+   *     defaultErrorHandler(error, req, res);
+   *   }
+   * };
+   * ```
+   */
   errorHandler?: (
     error: unknown,
     req: AlokaiRequest,
