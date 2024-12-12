@@ -133,7 +133,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     }
 
     const loadingPromise = new Promise<void>(async (resolve) => {
-      const url = processURLAddress(`${config.budsies.endpoint}/plushies/rush-upgrades`);
+      const url = processURLAddress(`${config.budsies.endpoint}/plushies/products-rush-upgrades`);
 
       const result = await TaskQueue.execute({
         url: `${url}`,
