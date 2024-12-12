@@ -4124,6 +4124,50 @@
         },
         {
           "kind": "TypeAlias",
+          "canonicalReference": "@vue-storefront/middleware!ErrorHandler:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type ErrorHandler = "
+            },
+            {
+              "kind": "Content",
+              "text": "(error: unknown, req: "
+            },
+            {
+              "kind": "Reference",
+              "text": "AlokaiRequest",
+              "canonicalReference": "@vue-storefront/middleware!AlokaiRequest:type"
+            },
+            {
+              "kind": "Content",
+              "text": ", res: "
+            },
+            {
+              "kind": "Reference",
+              "text": "AlokaiResponse",
+              "canonicalReference": "@vue-storefront/middleware!AlokaiResponse:type"
+            },
+            {
+              "kind": "Content",
+              "text": ") => void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/types/common.ts",
+          "releaseTag": "Public",
+          "name": "ErrorHandler",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 6
+          }
+        },
+        {
+          "kind": "TypeAlias",
           "canonicalReference": "@vue-storefront/middleware!ErrorObject:type",
           "docComment": "",
           "excerptTokens": [
@@ -5159,26 +5203,9 @@
                   "text": "errorHandler?: "
                 },
                 {
-                  "kind": "Content",
-                  "text": "(error: unknown, req: "
-                },
-                {
                   "kind": "Reference",
-                  "text": "AlokaiRequest",
-                  "canonicalReference": "@vue-storefront/middleware!AlokaiRequest:type"
-                },
-                {
-                  "kind": "Content",
-                  "text": ", res: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "AlokaiResponse",
-                  "canonicalReference": "@vue-storefront/middleware!AlokaiResponse:type"
-                },
-                {
-                  "kind": "Content",
-                  "text": ") => void"
+                  "text": "ErrorHandler",
+                  "canonicalReference": "@vue-storefront/middleware!ErrorHandler:type"
                 },
                 {
                   "kind": "Content",
@@ -5191,7 +5218,7 @@
               "name": "errorHandler",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
-                "endIndex": 6
+                "endIndex": 2
               }
             },
             {

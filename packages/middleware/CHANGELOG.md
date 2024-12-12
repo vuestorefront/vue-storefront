@@ -1,5 +1,11 @@
 # Change log
 
+## 5.3.1
+
+### Patch Changes
+
+**[FIXED]** type of `defaultErrorHandler`
+
 ## 5.3.0
 
 ### Minor Changes
