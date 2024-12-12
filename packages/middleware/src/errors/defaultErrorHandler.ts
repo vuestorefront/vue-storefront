@@ -1,14 +1,10 @@
 import { getAgnosticStatusCode } from "../helpers";
-import type { Integration } from "../types";
+import type { ErrorHandler } from "../types";
 
 /**
  * Default error handler for the middleware
  */
-export const defaultErrorHandler: Integration["errorHandler"] = (
-  error,
-  _req,
-  res
-) => {
+export const defaultErrorHandler: ErrorHandler = (error, _req, res) => {
   const status = getAgnosticStatusCode(error);
   res.status(status);
   if (status < 500) {
