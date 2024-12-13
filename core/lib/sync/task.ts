@@ -10,10 +10,10 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import * as entities from '@vue-storefront/core/lib/store/entities'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { processURLAddress } from '@vue-storefront/core/helpers'
-import { serial } from '@vue-storefront/core/helpers'
+import { processURLAddress, serial, onlineHelper } from '@vue-storefront/core/helpers'
+
 import config from 'config'
-import { onlineHelper } from '@vue-storefront/core/helpers'
+
 import { hasResponseError, getResponseMessage } from '@vue-storefront/core/lib/sync/helpers'
 import queryString from 'query-string'
 
@@ -85,12 +85,18 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
     reject('Error executing sync task ' + task.url + ' the required cartId  argument is null. Re-creating shopping cart synchro.')
     return
   }
-  const url = getUrl(task, currentToken, currentCartId)
+  let url = getUrl(task, currentToken, currentCartId)
   const payload = getPayload(task, currentToken)
   let silentMode = false
   Logger.info('Executing sync task ' + url, 'sync', task)()
 
-  EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, payload);
+  const eventPayload = {
+    url
+  };
+
+  EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+  url = eventPayload.url;
 
   return fetch(url, payload).then((response) => {
     const contentType = response.headers.get('content-type')

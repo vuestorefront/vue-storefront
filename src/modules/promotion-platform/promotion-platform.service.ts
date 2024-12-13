@@ -27,7 +27,7 @@ function parseResponseData (responseData: any): CampaignsGetAPIResponse {
   }
 
   if (campaignData.countdown_banner_blacklist_urls &&
-       campaignData.countdown_banner_blacklist_urls.length > 0
+    campaignData.countdown_banner_blacklist_urls.length > 0
   ) {
     countdownBannerBlacklistUrls = campaignData.countdown_banner_blacklist_urls;
   }
@@ -86,7 +86,13 @@ export const PromotionPlatformService = {
       mode
     }
 
-    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, payload);
+    const eventPayload = {
+      url
+    };
+
+    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+    url = eventPayload.url;
 
     const response = await fetch(url, payload);
 
@@ -108,7 +114,13 @@ export const PromotionPlatformService = {
       mode
     };
 
-    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, payload);
+    const eventPayload = {
+      url
+    };
+
+    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+    url = eventPayload.url;
 
     const response = await fetch(url, payload);
 

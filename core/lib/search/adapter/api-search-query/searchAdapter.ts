@@ -8,9 +8,9 @@ import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
+
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import { BEFORE_STORE_BACKEND_API_REQUEST } from 'src/modules/shared'
-
 export class SearchAdapter {
   public entities: any
 
@@ -45,7 +45,7 @@ export class SearchAdapter {
       rawQueryObject['groupToken'] = Request.groupToken
     }
     if (Request.sort) {
-      const [ field, options ] = Request.sort.split(':')
+      const [field, options] = Request.sort.split(':')
       rawQueryObject.applySort({ field, options })
       delete Request.sort
     }
@@ -85,18 +85,29 @@ export class SearchAdapter {
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
     url = url + '?' + queryString.stringify(httpQuery)
 
+    const isPostQueryMethod = config.elasticsearch.queryMethod === 'POST';
+
     const mode: RequestMode = 'cors';
-    const payload = {
+    const payload: RequestInit = {
       method: config.elasticsearch.queryMethod,
       mode,
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Accept': 'application/json'
       },
-      body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(rawQueryObject) : null
+      body: isPostQueryMethod ? JSON.stringify(rawQueryObject) : null
+    }
+
+    const eventPayload = {
+      url
     };
 
-    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, payload);
+    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+    url = eventPayload.url;
+
+    if (isPostQueryMethod) {
+      (payload.headers as Record<string, string>)['Content-Type'] = 'application/json'
+    }
 
     return fetch(url, payload)
       .then(resp => { return resp.json() })

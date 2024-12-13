@@ -21,7 +21,7 @@ const baseRaffleUrl = `${config.budsies.endpoint}/raffle`;
 export const actions: ActionTree<StoreState, RootState> = {
   async [FETCH_CURRENT_STATE] (
     { commit, getters },
-    { useCache }: {useCache: boolean} = { useCache: true }
+    { useCache }: { useCache: boolean } = { useCache: true }
   ): Promise<CurrentState> {
     const cachedState = getters[GET_CURRENT_STATE];
 
@@ -35,8 +35,7 @@ export const actions: ActionTree<StoreState, RootState> = {
       url,
       payload: {
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Accept': 'application/json'
         },
         mode: 'cors',
         method: 'GET'
@@ -108,7 +107,7 @@ export const actions: ActionTree<StoreState, RootState> = {
   },
   async [FETCH_WINNING_TICKETS] (
     { commit, getters },
-    { useCache }: {useCache: boolean} = { useCache: true }
+    { useCache }: { useCache: boolean } = { useCache: true }
   ): Promise<string[]> {
     const url = processURLAddress(`${baseRaffleUrl}/tickets/winning`);
     const fetchedWinningTickets = getters[GET_LAST_WINNING_TICKETS];
@@ -121,8 +120,7 @@ export const actions: ActionTree<StoreState, RootState> = {
       url,
       payload: {
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Accept': 'application/json'
         },
         mode: 'cors',
         method: 'GET'
