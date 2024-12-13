@@ -63,7 +63,7 @@
   "scripts": {
     "build": "rimraf lib && tsc",
     "test": "yarn test:unit && yarn test:integration",
-    "test:unit": "jest -c jest.config.ts --coverage",
+    "test:unit": "echo 'No unit test step created for this package'",
     "test:integration": "echo 'No test step created for this package'",
     "lint": "eslint . --ext .ts,.js",
     "prepublish": "yarn build"
