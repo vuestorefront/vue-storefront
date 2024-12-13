@@ -3,7 +3,6 @@ import { StatisticMetric } from '../types/statistic-metric'
 
 export const state: BudsiesState = {
   extraPhotoAddons: {},
-  rushAddons: {},
   productExtraPhotoAddons: {},
   productRushAddons: {},
   bodyparts: {},
@@ -16,5 +15,7 @@ export const state: BudsiesState = {
   storeRating: undefined,
   statisticValues: {
     [StatisticMetric.ORDERED_PLUSHIES_COUNT]: undefined
-  }
+  },
+  rushAddonsLoadingPromise: undefined,
+  isRushAddonsLoaded: false
 }
