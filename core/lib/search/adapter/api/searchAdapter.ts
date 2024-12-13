@@ -9,6 +9,8 @@ import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
+import { BEFORE_STORE_BACKEND_API_REQUEST } from 'src/modules/shared'
 
 export class SearchAdapter {
   public entities: any
@@ -86,6 +88,14 @@ export class SearchAdapter {
       },
       body: isPostQueryMethod ? JSON.stringify(ElasticsearchQueryBody) : null
     }
+
+    const eventPayload = {
+      url
+    };
+
+    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+    url = eventPayload.url;
 
     if (isPostQueryMethod) {
       (payload.headers as Record<string, string>)['Content-Type'] = 'application/json'

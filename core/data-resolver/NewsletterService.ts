@@ -9,7 +9,6 @@ const isSubscribed = (email: string): Promise<boolean> =>
     url: processURLAddress(getApiEndpointUrl(config.newsletter, 'endpoint')) + '?email=' + encodeURIComponent(email),
     payload: {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
     silent: true

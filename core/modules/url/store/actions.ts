@@ -1,5 +1,5 @@
 import { transformProductUrl, transformCategoryUrl, transformCmsPageUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
-import { isServer } from '@vue-storefront/core/helpers';
+import { isServer, processURLAddress } from '@vue-storefront/core/helpers';
 import { UrlState } from '../types/UrlState'
 import { ActionTree } from 'vuex';
 // you can use this storage if you want to enable offline capabilities
@@ -12,7 +12,7 @@ import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteNam
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 import fetch from 'isomorphic-fetch'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { processURLAddress } from '@vue-storefront/core/helpers';
+
 import * as categoryMutationTypes from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
 import * as cmsPageMutationTypes from '@vue-storefront/core/modules/cms/store/page/mutation-types'
 import isEqual from 'lodash-es/isEqual'
@@ -26,7 +26,7 @@ import { BEFORE_STORE_BACKEND_API_REQUEST } from 'src/modules/shared'
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
   // if you want to use cache in your module you can load cached data like this
-  async registerMapping ({ state }, { url, routeData }: { url: string, routeData: any}) {
+  async registerMapping ({ state }, { url, routeData }: { url: string, routeData: any }) {
     if (!state.dispatcherMap[url]) {
       state.dispatcherMap[url] = routeData
     }
@@ -55,7 +55,7 @@ export const actions: ActionTree<UrlState, any> = {
     })
     await Promise.all(registrationRoutePromises)
   },
-  mapUrl ({ state, dispatch }, { url, query }: { url: string, query: string}) {
+  mapUrl ({ state, dispatch }, { url, query }: { url: string, query: string }) {
     const parsedQuery = typeof query === 'string' ? queryString.parse(query) : query
     const storeCodeInPath = storeCodeFromRoute(url)
     url = normalizeUrlPath(url)
@@ -82,7 +82,7 @@ export const actions: ActionTree<UrlState, any> = {
    * Router mapping fallback - get the proper URL from API
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
-  async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
+  async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any }) {
     Logger.warn(`
       Deprecated action mappingFallback - use mapFallbackUrl instead.
       You can enable mapFallbackUrl by changing 'config.urlModule.enableMapFallbackUrl' to true
@@ -105,7 +105,7 @@ export const actions: ActionTree<UrlState, any> = {
    * Router mapping fallback - get the proper URL from API
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
-  async mapFallbackUrl ({ dispatch }, { url, params }: { url: string, params: any}) {
+  async mapFallbackUrl ({ dispatch }, { url, params }: { url: string, params: any }) {
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
 
     // search for record in ES based on `url`
@@ -134,7 +134,7 @@ export const actions: ActionTree<UrlState, any> = {
     const groupId = (config.usePriceTiers && context.rootState.user.groupId) || null
     const groupToken = context.rootState.user.groupToken || null
     try {
-      const requestUrl = `${adjustMultistoreApiUrl(processURLAddress(config.urlModule.map_endpoint))}`
+      let requestUrl = `${adjustMultistoreApiUrl(processURLAddress(config.urlModule.map_endpoint))}`
       const mode: RequestMode = 'cors';
       const payload = {
         method: 'POST',
@@ -163,7 +163,13 @@ export const actions: ActionTree<UrlState, any> = {
         })
       };
 
-      EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, payload);
+      const eventPayload = {
+        url: requestUrl
+      };
+
+      EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+      requestUrl = eventPayload.url;
 
       let response: any = await fetch(
         requestUrl,

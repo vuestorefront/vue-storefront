@@ -18,7 +18,7 @@ const baseInspirationMachineUrl = `${config.budsies.endpoint}/inspirationMachine
 export const actions: ActionTree<StoreState, RootState> = {
   async [FETCH_EXTRAS] (
     { commit, getters },
-    { useCache }: {useCache: boolean} = { useCache: true }
+    { useCache }: { useCache: boolean } = { useCache: true }
   ): Promise<SelectableItem[]> {
     const extras: SelectableItem[] = getters[GET_EXTRAS];
 
@@ -32,8 +32,7 @@ export const actions: ActionTree<StoreState, RootState> = {
       url,
       payload: {
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Accept': 'application/json'
         },
         mode: 'cors',
         method: 'GET'
@@ -51,7 +50,7 @@ export const actions: ActionTree<StoreState, RootState> = {
   },
   async [FETCH_THEMES] (
     { commit, getters },
-    { useCache }: {useCache: boolean} = { useCache: true }
+    { useCache }: { useCache: boolean } = { useCache: true }
   ): Promise<Theme[]> {
     const themes: Theme[] = getters[GET_THEMES];
 
@@ -65,8 +64,7 @@ export const actions: ActionTree<StoreState, RootState> = {
       url,
       payload: {
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Accept': 'application/json'
         },
         mode: 'cors',
         method: 'GET'

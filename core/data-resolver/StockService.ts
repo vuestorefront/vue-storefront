@@ -10,7 +10,6 @@ const queueCheck = (sku: string, actionName: string): Promise<any> =>
     url: processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`),
     payload: {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
     is_result_cacheable: true,
@@ -23,7 +22,6 @@ const check = (sku: string): Promise<Task> =>
     url: processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`),
     payload: {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
     is_result_cacheable: true,
@@ -39,7 +37,6 @@ const list = (skuList: string[]): Promise<Task> =>
     ),
     payload: {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
     skus: skuList
