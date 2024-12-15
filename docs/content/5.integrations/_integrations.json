@@ -69,6 +69,11 @@
       "title": "SmartEdit",
       "to": "/integrations/smartedit",
       "icon": "IconSAP"
+    },
+    {
+      "title": "Storyblok",
+      "to": "/integrations/storyblok",
+      "icon": "logos:storyblok-icon"
     }
   ],
   "Payment": [
