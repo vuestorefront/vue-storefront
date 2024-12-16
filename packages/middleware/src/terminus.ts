@@ -30,7 +30,7 @@ export const createReadyzHandler =
   };
 
 export const createTerminusOptions = (
-  readinessChecks: ReadinessProbe[]
+  readinessChecks: ReadinessProbe[] = []
 ): TerminusOptions => {
   return {
     useExit0: true,
