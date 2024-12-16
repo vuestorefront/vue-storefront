@@ -35,7 +35,7 @@ const getSeverityLog = (severity) => {
   }
 };
 
-// Prettier and lint are disabled due to the way the code is formatted / printed within the console.
+// Prettier and linter were disabled due to the way the code is formatted / printed within the console.
 // eslint-disable-file no-console
 // prettier-ignore
 /**
@@ -46,33 +46,37 @@ const getSeverityLog = (severity) => {
  * @param {String} mode - The mode in which the log is being generated. Defaults to "server".
  */
 export const jsonReporterPrettier = (logObject: Record<any, any>, logFn: Function, mode: string = "server") => {
- if (mode === "server") {
-   const { timestamp, severity, message, alokai, metadata, troubleshooting } = logObject;
-   const severityLog = getSeverityLog(severity);
-   const isSSR = typeof globalThis.window === "undefined";
+  if (!logObject || mode !== "server") {
+    logFn(`Alokai Log unavailable in ${mode} mode`);
+    return;
+  }
 
-   if (isSSR && alokai?.context === "middleware") {
-     logFn(`\x1b[90m:: Alokai Log: Middleware ::\x1b[0m
+  const { timestamp, severity, message, alokai, metadata, troubleshooting } = logObject;
+  const severityLog = getSeverityLog(severity);
+  const isSSR = typeof globalThis.window === "undefined";
+
+  if (isSSR && alokai?.context === "middleware") {
+    logFn(`\x1b[90m:: Alokai Log: Middleware ::\x1b[0m
 
 🔥 Severity: ${severityLog}
 🕓 Timestamp: \x1b[93m${new Date(timestamp).toLocaleString()}\x1b[0m (${timestamp})
 💬 Message: ${message}
 `);
-     if (troubleshooting) {
-       logFn(`🛠️ Troubleshooting: ${troubleshooting.message}
+    if (troubleshooting) {
+      logFn(`🛠️ Troubleshooting: ${troubleshooting.message}
 🚶 Steps to follow:
 ${troubleshooting.steps.map((step) => `➡️ ${step}`).join("\n")}
 `);
-     }
-     if (alokai.context) {
-       logFn(`🛍️ Alokai Context: ${alokai.context}`);
-     }
-     if (metadata) {
-       logFn(`📁 Metadata: ${JSON.stringify(metadata)}`);
-     }
-     logFn(``);
-   } else if (isSSR && alokai?.context === "storefront") {
-     console.log(`\x1b[90m:: Alokai Log: Storefront ::\x1b[0m
+    }
+    if (alokai.context) {
+      logFn(`🛍️ Alokai Context: ${alokai.context}`);
+    }
+    if (metadata) {
+      logFn(`📁 Metadata: ${JSON.stringify(metadata)}`);
+    }
+    logFn(``);
+  } else if (isSSR && alokai?.context === "storefront") {
+    console.log(`\x1b[90m:: Alokai Log: Storefront ::\x1b[0m
 
 🔥 Severity: ${severityLog}
 🕓 Timestamp: \x1b[93m${new Date(timestamp).toLocaleString()}\x1b[0m (${timestamp})
@@ -83,8 +87,7 @@ ${troubleshooting ? `🛠️ Troubleshooting: ${troubleshooting.message}\n🚶 S
 ${alokai?.context ? `🛍️ Alokai Context: ${alokai.context}` : ""}
 ${metadata ? `📁 Metadata: ${JSON.stringify(metadata)}` : ""}
 `);
-   } else {
-     console.log(`Alokai Log ($raw): ${JSON.stringify(logObject)}`);
-   }
- }
+  } else {
+    console.log(`Alokai Log ($raw): ${JSON.stringify(logObject)}`);
+  }
 };

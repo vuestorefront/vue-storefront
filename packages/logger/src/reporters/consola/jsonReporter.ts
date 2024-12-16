@@ -9,6 +9,6 @@ export const jsonReporter = (logObject: LogObject) => {
   if (process.env.NODE_ENV === "development") {
     jsonReporterPrettier(logObject.args[0].structuredLog, logFn);
   } else {
-    // logFn(JSON.stringify(logObject.args[0].structuredLog));
+    logFn(JSON.stringify(logObject.args[0].structuredLog));
   }
 };

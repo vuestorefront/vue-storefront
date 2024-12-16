@@ -22,7 +22,9 @@ describe("jsonReporter", () => {
 
     jsonReporter(logObject);
 
-    expect(consoleSpy).toHaveBeenCalledWith({ message: "test message" });
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'Alokai Log ($raw): {"message":"test message"}'
+    );
   });
 
   it("should log structuredLog directly in browser environment", () => {
@@ -36,7 +38,7 @@ describe("jsonReporter", () => {
 
     jsonReporter(logObject);
 
-    expect(consoleSpy).toHaveBeenCalledWith({ message: "test message" });
+    expect(consoleSpy).toHaveBeenCalledWith('{"message":"test message"}');
 
     delete (global as any).window;
   });
