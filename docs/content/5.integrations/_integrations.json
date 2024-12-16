@@ -64,6 +64,11 @@
       "title": "Builder",
       "to": "/integrations/builder",
       "icon": "logos:builder-io-icon"
+    },
+    {
+      "title": "SmartEdit",
+      "to": "/integrations/smartedit",
+      "icon": "IconSAP"
     }
   ],
   "Payment": [
