@@ -31,7 +31,7 @@ export const actions: ActionTree<State, RootState> = {
     const result = await TaskQueue.execute({
       url,
       payload: {
-        headers: { 'Content-Type': 'application/json' },
+        method: 'GET',
         mode: 'cors'
       },
       silent: true
