@@ -4,7 +4,7 @@
  * @param {String} severity - The severity level of the log message.
  * @returns {String} - The formatted severity level with ANSI escape codes for color.
  */
-const getSeverityLog = (severity) => {
+const getSeverityLog = (severity: string): string => {
   switch (severity) {
     case "INFO":
     case "info":
