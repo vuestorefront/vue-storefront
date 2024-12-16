@@ -13,15 +13,18 @@ on:
         required: false
         default: false
 
-
 jobs:
   run-ci:
     name: Run CI
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ["18.20.2"]
     permissions:
       contents: read
       id-token: write
-    timeout-minutes: 120
+    timeout-minutes: 15
+    if: github.event.pull_request.draft == false
     steps:
       - name: Expose github environment as shell variables
         env:
@@ -33,39 +36,27 @@ jobs:
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           to_envs() { jq -r "to_entries[] | \"\(.key)<<$EOF\n\(.value)\n$EOF\n\""; }
           echo "$SECRETS_CONTEXT" | to_envs >> $GITHUB_ENV
-          
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          node-version-file: '.node-version'
-          registry-url: ${{ inputs.enterprise && 'https://registrynpm.storefrontcloud.io' || '' }}
-          cache: yarn
-
-      - run: yarn install --frozen-lockfile
+          fetch-depth: 0
+      
+      - name: Install dependencies
+        uses: ./.github/actions/init
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.VERDACCIO_AUTH_TOKEN }}
           HUSKY: 0
-
-      - name: Detect circular dependencies 🔄
-        uses: vuestorefront/vue-storefront/actions/circular-dependencies@main
         with:
-          filesPath: 'packages/**/*.{ts,vue}'
+          node_version: ${{ matrix.node-version }}
+          auth_token: ${{ secrets.VERDACCIO_AUTH_TOKEN }}
 
       - name: Check licenses 🧪
         uses: vuestorefront/vue-storefront/actions/check-licenses@main
         with:
           projectPath: ${{ github.workspace }}
 
-      - name: Cache turbo build setup
-        uses: actions/cache@v4
-        with:
-          path: .turbo
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-
-
-      - run: yarn ci
+      - name: Run the pipeline
+        run: ./node_modules/.bin/turbo run build lint test:unit test:integration --cache-dir=.turbo --filter=\[${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}\]
 
       - name: Upload test coverage
         uses: actions/upload-artifact@v4
