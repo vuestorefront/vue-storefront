@@ -47,18 +47,9 @@ const getSeverityLog = (severity) => {
  */
 export const jsonReporterPrettier = (logObject: Record<any, any>, logFn: Function, mode: string = "server") => {
  if (mode === "server") {
-   const { timestamp, severity, message, alokai, metadata } = logObject;
+   const { timestamp, severity, message, alokai, metadata, troubleshooting } = logObject;
    const severityLog = getSeverityLog(severity);
    const isSSR = typeof globalThis.window === "undefined";
-
-   const troubleshooting = {
-     message:
-       "This issue is likely caused by a version mismatch in the middleware stack.",
-     steps: [
-       "Update all middleware packages.",
-       "Ensure API client packages are also updated",
-     ],
-   };
 
    if (isSSR && alokai?.context === "middleware") {
      logFn(`\x1b[90m:: Alokai Log: Middleware ::\x1b[0m
