@@ -14,7 +14,7 @@ const fetchStory = async url => {
   const { result: story }: any = await TaskQueue.execute({
     url,
     payload: {
-      headers: { 'Content-Type': 'application/json' },
+      method: 'GET',
       mode: 'cors'
     },
     silent: true
@@ -43,7 +43,7 @@ export const actions: ActionTree<StoryblokState, RootState> = {
     const { result: { previewToken } }: any = await TaskQueue.execute({
       url,
       payload: {
-        headers: { 'Content-Type': 'application/json' },
+        method: 'GET',
         mode: 'cors'
       },
       silent: true

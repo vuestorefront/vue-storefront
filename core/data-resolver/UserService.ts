@@ -74,7 +74,9 @@ const getProfile = async () =>
     payload: {
       method: 'GET',
       mode: 'cors',
-      headers
+      headers: {
+        'Accept': 'application/json, text/plain, */*'
+      }
     }
   })
 
