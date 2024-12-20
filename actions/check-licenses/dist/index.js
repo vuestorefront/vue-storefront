@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 /* eslint-disable unicorn/prefer-top-level-await */
 const core = __importStar(__nccwpck_require__(2186));
-const license_checker_rseidelsohn_1 = __importDefault(__nccwpck_require__(5344));
+const license_checker_rseidelsohn_1 = __importDefault(__nccwpck_require__(2591));
 const licenses_1 = __nccwpck_require__(3247);
 const npmPackages_1 = __nccwpck_require__(1865);
 async function run() {
@@ -92,6 +92,7 @@ exports.ALLOWED_LICENSES = [
     // If you download the package to your filesystem, you'll see that it's the Apache 2.0 license in fact
     'Custom: https://github.com/paypal/Checkout-NodeJS-SDK/blob/master/LICENSE',
     'Custom: VSFEL',
+    'Custom: LICENSE',
     'CC-BY-4.0',
     'ISC',
     'MIT',
@@ -139,7 +140,11 @@ exports.EXCLUDE_NPM_PACKAGES = ['webpack', '@types', '@babel', 'k6', '@nuxt/ui-t
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -152,7 +157,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -214,13 +219,13 @@ class Command {
     }
 }
 function escapeData(s) {
-    return utils_1.toCommandValue(s)
+    return (0, utils_1.toCommandValue)(s)
         .replace(/%/g, '%25')
         .replace(/\r/g, '%0D')
         .replace(/\n/g, '%0A');
 }
 function escapeProperty(s) {
-    return utils_1.toCommandValue(s)
+    return (0, utils_1.toCommandValue)(s)
         .replace(/%/g, '%25')
         .replace(/\r/g, '%0D')
         .replace(/\n/g, '%0A')
@@ -238,7 +243,11 @@ function escapeProperty(s) {
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -251,7 +260,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -265,7 +274,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getIDToken = exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
+exports.platform = exports.toPlatformPath = exports.toWin32Path = exports.toPosixPath = exports.markdownSummary = exports.summary = exports.getIDToken = exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
 const command_1 = __nccwpck_require__(7351);
 const file_command_1 = __nccwpck_require__(717);
 const utils_1 = __nccwpck_require__(5278);
@@ -285,7 +294,7 @@ var ExitCode;
      * A code indicating that the action was a failure
      */
     ExitCode[ExitCode["Failure"] = 1] = "Failure";
-})(ExitCode = exports.ExitCode || (exports.ExitCode = {}));
+})(ExitCode || (exports.ExitCode = ExitCode = {}));
 //-----------------------------------------------------------------------
 // Variables
 //-----------------------------------------------------------------------
@@ -296,13 +305,13 @@ var ExitCode;
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function exportVariable(name, val) {
-    const convertedVal = utils_1.toCommandValue(val);
+    const convertedVal = (0, utils_1.toCommandValue)(val);
     process.env[name] = convertedVal;
     const filePath = process.env['GITHUB_ENV'] || '';
     if (filePath) {
-        return file_command_1.issueFileCommand('ENV', file_command_1.prepareKeyValueMessage(name, val));
+        return (0, file_command_1.issueFileCommand)('ENV', (0, file_command_1.prepareKeyValueMessage)(name, val));
     }
-    command_1.issueCommand('set-env', { name }, convertedVal);
+    (0, command_1.issueCommand)('set-env', { name }, convertedVal);
 }
 exports.exportVariable = exportVariable;
 /**
@@ -310,7 +319,7 @@ exports.exportVariable = exportVariable;
  * @param secret value of the secret
  */
 function setSecret(secret) {
-    command_1.issueCommand('add-mask', {}, secret);
+    (0, command_1.issueCommand)('add-mask', {}, secret);
 }
 exports.setSecret = setSecret;
 /**
@@ -320,10 +329,10 @@ exports.setSecret = setSecret;
 function addPath(inputPath) {
     const filePath = process.env['GITHUB_PATH'] || '';
     if (filePath) {
-        file_command_1.issueFileCommand('PATH', inputPath);
+        (0, file_command_1.issueFileCommand)('PATH', inputPath);
     }
     else {
-        command_1.issueCommand('add-path', {}, inputPath);
+        (0, command_1.issueCommand)('add-path', {}, inputPath);
     }
     process.env['PATH'] = `${inputPath}${path.delimiter}${process.env['PATH']}`;
 }
@@ -398,10 +407,10 @@ exports.getBooleanInput = getBooleanInput;
 function setOutput(name, value) {
     const filePath = process.env['GITHUB_OUTPUT'] || '';
     if (filePath) {
-        return file_command_1.issueFileCommand('OUTPUT', file_command_1.prepareKeyValueMessage(name, value));
+        return (0, file_command_1.issueFileCommand)('OUTPUT', (0, file_command_1.prepareKeyValueMessage)(name, value));
     }
     process.stdout.write(os.EOL);
-    command_1.issueCommand('set-output', { name }, utils_1.toCommandValue(value));
+    (0, command_1.issueCommand)('set-output', { name }, (0, utils_1.toCommandValue)(value));
 }
 exports.setOutput = setOutput;
 /**
@@ -410,7 +419,7 @@ exports.setOutput = setOutput;
  *
  */
 function setCommandEcho(enabled) {
-    command_1.issue('echo', enabled ? 'on' : 'off');
+    (0, command_1.issue)('echo', enabled ? 'on' : 'off');
 }
 exports.setCommandEcho = setCommandEcho;
 //-----------------------------------------------------------------------
@@ -441,7 +450,7 @@ exports.isDebug = isDebug;
  * @param message debug message
  */
 function debug(message) {
-    command_1.issueCommand('debug', {}, message);
+    (0, command_1.issueCommand)('debug', {}, message);
 }
 exports.debug = debug;
 /**
@@ -450,7 +459,7 @@ exports.debug = debug;
  * @param properties optional properties to add to the annotation.
  */
 function error(message, properties = {}) {
-    command_1.issueCommand('error', utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
+    (0, command_1.issueCommand)('error', (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
 }
 exports.error = error;
 /**
@@ -459,7 +468,7 @@ exports.error = error;
  * @param properties optional properties to add to the annotation.
  */
 function warning(message, properties = {}) {
-    command_1.issueCommand('warning', utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
+    (0, command_1.issueCommand)('warning', (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
 }
 exports.warning = warning;
 /**
@@ -468,7 +477,7 @@ exports.warning = warning;
  * @param properties optional properties to add to the annotation.
  */
 function notice(message, properties = {}) {
-    command_1.issueCommand('notice', utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
+    (0, command_1.issueCommand)('notice', (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
 }
 exports.notice = notice;
 /**
@@ -487,14 +496,14 @@ exports.info = info;
  * @param name The name of the output group
  */
 function startGroup(name) {
-    command_1.issue('group', name);
+    (0, command_1.issue)('group', name);
 }
 exports.startGroup = startGroup;
 /**
  * End an output group.
  */
 function endGroup() {
-    command_1.issue('endgroup');
+    (0, command_1.issue)('endgroup');
 }
 exports.endGroup = endGroup;
 /**
@@ -532,9 +541,9 @@ exports.group = group;
 function saveState(name, value) {
     const filePath = process.env['GITHUB_STATE'] || '';
     if (filePath) {
-        return file_command_1.issueFileCommand('STATE', file_command_1.prepareKeyValueMessage(name, value));
+        return (0, file_command_1.issueFileCommand)('STATE', (0, file_command_1.prepareKeyValueMessage)(name, value));
     }
-    command_1.issueCommand('save-state', { name }, utils_1.toCommandValue(value));
+    (0, command_1.issueCommand)('save-state', { name }, (0, utils_1.toCommandValue)(value));
 }
 exports.saveState = saveState;
 /**
@@ -570,6 +579,10 @@ var path_utils_1 = __nccwpck_require__(2981);
 Object.defineProperty(exports, "toPosixPath", ({ enumerable: true, get: function () { return path_utils_1.toPosixPath; } }));
 Object.defineProperty(exports, "toWin32Path", ({ enumerable: true, get: function () { return path_utils_1.toWin32Path; } }));
 Object.defineProperty(exports, "toPlatformPath", ({ enumerable: true, get: function () { return path_utils_1.toPlatformPath; } }));
+/**
+ * Platform utilities exports
+ */
+exports.platform = __importStar(__nccwpck_require__(5243));
 //# sourceMappingURL=core.js.map
 
 /***/ }),
@@ -582,7 +595,11 @@ Object.defineProperty(exports, "toPlatformPath", ({ enumerable: true, get: funct
 // For internal use, subject to change.
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -595,7 +612,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -603,9 +620,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.prepareKeyValueMessage = exports.issueFileCommand = void 0;
 // We use any as a valid input type
 /* eslint-disable @typescript-eslint/no-explicit-any */
+const crypto = __importStar(__nccwpck_require__(6113));
 const fs = __importStar(__nccwpck_require__(7147));
 const os = __importStar(__nccwpck_require__(2037));
-const uuid_1 = __nccwpck_require__(5840);
 const utils_1 = __nccwpck_require__(5278);
 function issueFileCommand(command, message) {
     const filePath = process.env[`GITHUB_${command}`];
@@ -615,14 +632,14 @@ function issueFileCommand(command, message) {
     if (!fs.existsSync(filePath)) {
         throw new Error(`Missing file at path: ${filePath}`);
     }
-    fs.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os.EOL}`, {
+    fs.appendFileSync(filePath, `${(0, utils_1.toCommandValue)(message)}${os.EOL}`, {
         encoding: 'utf8'
     });
 }
 exports.issueFileCommand = issueFileCommand;
 function prepareKeyValueMessage(key, value) {
-    const delimiter = `ghadelimiter_${uuid_1.v4()}`;
-    const convertedValue = utils_1.toCommandValue(value);
+    const delimiter = `ghadelimiter_${crypto.randomUUID()}`;
+    const convertedValue = (0, utils_1.toCommandValue)(value);
     // These should realistically never happen, but just in case someone finds a
     // way to exploit uuid generation let's not allow keys or values that contain
     // the delimiter.
@@ -707,9 +724,9 @@ class OidcClient {
                     const encodedAudience = encodeURIComponent(audience);
                     id_token_url = `${id_token_url}&audience=${encodedAudience}`;
                 }
-                core_1.debug(`ID token url is ${id_token_url}`);
+                (0, core_1.debug)(`ID token url is ${id_token_url}`);
                 const id_token = yield OidcClient.getCall(id_token_url);
-                core_1.setSecret(id_token);
+                (0, core_1.setSecret)(id_token);
                 return id_token;
             }
             catch (error) {
@@ -730,7 +747,11 @@ exports.OidcClient = OidcClient;
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -743,7 +764,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -785,6 +806,107 @@ function toPlatformPath(pth) {
 }
 exports.toPlatformPath = toPlatformPath;
 //# sourceMappingURL=path-utils.js.map
+
+/***/ }),
+
+/***/ 5243:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getDetails = exports.isLinux = exports.isMacOS = exports.isWindows = exports.arch = exports.platform = void 0;
+const os_1 = __importDefault(__nccwpck_require__(2037));
+const exec = __importStar(__nccwpck_require__(1514));
+const getWindowsInfo = () => __awaiter(void 0, void 0, void 0, function* () {
+    const { stdout: version } = yield exec.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Version"', undefined, {
+        silent: true
+    });
+    const { stdout: name } = yield exec.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Caption"', undefined, {
+        silent: true
+    });
+    return {
+        name: name.trim(),
+        version: version.trim()
+    };
+});
+const getMacOsInfo = () => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c, _d;
+    const { stdout } = yield exec.getExecOutput('sw_vers', undefined, {
+        silent: true
+    });
+    const version = (_b = (_a = stdout.match(/ProductVersion:\s*(.+)/)) === null || _a === void 0 ? void 0 : _a[1]) !== null && _b !== void 0 ? _b : '';
+    const name = (_d = (_c = stdout.match(/ProductName:\s*(.+)/)) === null || _c === void 0 ? void 0 : _c[1]) !== null && _d !== void 0 ? _d : '';
+    return {
+        name,
+        version
+    };
+});
+const getLinuxInfo = () => __awaiter(void 0, void 0, void 0, function* () {
+    const { stdout } = yield exec.getExecOutput('lsb_release', ['-i', '-r', '-s'], {
+        silent: true
+    });
+    const [name, version] = stdout.trim().split('\n');
+    return {
+        name,
+        version
+    };
+});
+exports.platform = os_1.default.platform();
+exports.arch = os_1.default.arch();
+exports.isWindows = exports.platform === 'win32';
+exports.isMacOS = exports.platform === 'darwin';
+exports.isLinux = exports.platform === 'linux';
+function getDetails() {
+    return __awaiter(this, void 0, void 0, function* () {
+        return Object.assign(Object.assign({}, (yield (exports.isWindows
+            ? getWindowsInfo()
+            : exports.isMacOS
+                ? getMacOsInfo()
+                : getLinuxInfo()))), { platform: exports.platform,
+            arch: exports.arch,
+            isWindows: exports.isWindows,
+            isMacOS: exports.isMacOS,
+            isLinux: exports.isLinux });
+    });
+}
+exports.getDetails = getDetails;
+//# sourceMappingURL=platform.js.map
 
 /***/ }),
 
@@ -1122,6 +1244,741 @@ function toCommandProperties(annotationProperties) {
 }
 exports.toCommandProperties = toCommandProperties;
 //# sourceMappingURL=utils.js.map
+
+/***/ }),
+
+/***/ 1514:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getExecOutput = exports.exec = void 0;
+const string_decoder_1 = __nccwpck_require__(1576);
+const tr = __importStar(__nccwpck_require__(8159));
+/**
+ * Exec a command.
+ * Output will be streamed to the live console.
+ * Returns promise with return code
+ *
+ * @param     commandLine        command to execute (can include additional args). Must be correctly escaped.
+ * @param     args               optional arguments for tool. Escaping is handled by the lib.
+ * @param     options            optional exec options.  See ExecOptions
+ * @returns   Promise<number>    exit code
+ */
+function exec(commandLine, args, options) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const commandArgs = tr.argStringToArray(commandLine);
+        if (commandArgs.length === 0) {
+            throw new Error(`Parameter 'commandLine' cannot be null or empty.`);
+        }
+        // Path to tool to execute should be first arg
+        const toolPath = commandArgs[0];
+        args = commandArgs.slice(1).concat(args || []);
+        const runner = new tr.ToolRunner(toolPath, args, options);
+        return runner.exec();
+    });
+}
+exports.exec = exec;
+/**
+ * Exec a command and get the output.
+ * Output will be streamed to the live console.
+ * Returns promise with the exit code and collected stdout and stderr
+ *
+ * @param     commandLine           command to execute (can include additional args). Must be correctly escaped.
+ * @param     args                  optional arguments for tool. Escaping is handled by the lib.
+ * @param     options               optional exec options.  See ExecOptions
+ * @returns   Promise<ExecOutput>   exit code, stdout, and stderr
+ */
+function getExecOutput(commandLine, args, options) {
+    var _a, _b;
+    return __awaiter(this, void 0, void 0, function* () {
+        let stdout = '';
+        let stderr = '';
+        //Using string decoder covers the case where a mult-byte character is split
+        const stdoutDecoder = new string_decoder_1.StringDecoder('utf8');
+        const stderrDecoder = new string_decoder_1.StringDecoder('utf8');
+        const originalStdoutListener = (_a = options === null || options === void 0 ? void 0 : options.listeners) === null || _a === void 0 ? void 0 : _a.stdout;
+        const originalStdErrListener = (_b = options === null || options === void 0 ? void 0 : options.listeners) === null || _b === void 0 ? void 0 : _b.stderr;
+        const stdErrListener = (data) => {
+            stderr += stderrDecoder.write(data);
+            if (originalStdErrListener) {
+                originalStdErrListener(data);
+            }
+        };
+        const stdOutListener = (data) => {
+            stdout += stdoutDecoder.write(data);
+            if (originalStdoutListener) {
+                originalStdoutListener(data);
+            }
+        };
+        const listeners = Object.assign(Object.assign({}, options === null || options === void 0 ? void 0 : options.listeners), { stdout: stdOutListener, stderr: stdErrListener });
+        const exitCode = yield exec(commandLine, args, Object.assign(Object.assign({}, options), { listeners }));
+        //flush any remaining characters
+        stdout += stdoutDecoder.end();
+        stderr += stderrDecoder.end();
+        return {
+            exitCode,
+            stdout,
+            stderr
+        };
+    });
+}
+exports.getExecOutput = getExecOutput;
+//# sourceMappingURL=exec.js.map
+
+/***/ }),
+
+/***/ 8159:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.argStringToArray = exports.ToolRunner = void 0;
+const os = __importStar(__nccwpck_require__(2037));
+const events = __importStar(__nccwpck_require__(2361));
+const child = __importStar(__nccwpck_require__(2081));
+const path = __importStar(__nccwpck_require__(1017));
+const io = __importStar(__nccwpck_require__(7436));
+const ioUtil = __importStar(__nccwpck_require__(1962));
+const timers_1 = __nccwpck_require__(9512);
+/* eslint-disable @typescript-eslint/unbound-method */
+const IS_WINDOWS = process.platform === 'win32';
+/*
+ * Class for running command line tools. Handles quoting and arg parsing in a platform agnostic way.
+ */
+class ToolRunner extends events.EventEmitter {
+    constructor(toolPath, args, options) {
+        super();
+        if (!toolPath) {
+            throw new Error("Parameter 'toolPath' cannot be null or empty.");
+        }
+        this.toolPath = toolPath;
+        this.args = args || [];
+        this.options = options || {};
+    }
+    _debug(message) {
+        if (this.options.listeners && this.options.listeners.debug) {
+            this.options.listeners.debug(message);
+        }
+    }
+    _getCommandString(options, noPrefix) {
+        const toolPath = this._getSpawnFileName();
+        const args = this._getSpawnArgs(options);
+        let cmd = noPrefix ? '' : '[command]'; // omit prefix when piped to a second tool
+        if (IS_WINDOWS) {
+            // Windows + cmd file
+            if (this._isCmdFile()) {
+                cmd += toolPath;
+                for (const a of args) {
+                    cmd += ` ${a}`;
+                }
+            }
+            // Windows + verbatim
+            else if (options.windowsVerbatimArguments) {
+                cmd += `"${toolPath}"`;
+                for (const a of args) {
+                    cmd += ` ${a}`;
+                }
+            }
+            // Windows (regular)
+            else {
+                cmd += this._windowsQuoteCmdArg(toolPath);
+                for (const a of args) {
+                    cmd += ` ${this._windowsQuoteCmdArg(a)}`;
+                }
+            }
+        }
+        else {
+            // OSX/Linux - this can likely be improved with some form of quoting.
+            // creating processes on Unix is fundamentally different than Windows.
+            // on Unix, execvp() takes an arg array.
+            cmd += toolPath;
+            for (const a of args) {
+                cmd += ` ${a}`;
+            }
+        }
+        return cmd;
+    }
+    _processLineBuffer(data, strBuffer, onLine) {
+        try {
+            let s = strBuffer + data.toString();
+            let n = s.indexOf(os.EOL);
+            while (n > -1) {
+                const line = s.substring(0, n);
+                onLine(line);
+                // the rest of the string ...
+                s = s.substring(n + os.EOL.length);
+                n = s.indexOf(os.EOL);
+            }
+            return s;
+        }
+        catch (err) {
+            // streaming lines to console is best effort.  Don't fail a build.
+            this._debug(`error processing line. Failed with error ${err}`);
+            return '';
+        }
+    }
+    _getSpawnFileName() {
+        if (IS_WINDOWS) {
+            if (this._isCmdFile()) {
+                return process.env['COMSPEC'] || 'cmd.exe';
+            }
+        }
+        return this.toolPath;
+    }
+    _getSpawnArgs(options) {
+        if (IS_WINDOWS) {
+            if (this._isCmdFile()) {
+                let argline = `/D /S /C "${this._windowsQuoteCmdArg(this.toolPath)}`;
+                for (const a of this.args) {
+                    argline += ' ';
+                    argline += options.windowsVerbatimArguments
+                        ? a
+                        : this._windowsQuoteCmdArg(a);
+                }
+                argline += '"';
+                return [argline];
+            }
+        }
+        return this.args;
+    }
+    _endsWith(str, end) {
+        return str.endsWith(end);
+    }
+    _isCmdFile() {
+        const upperToolPath = this.toolPath.toUpperCase();
+        return (this._endsWith(upperToolPath, '.CMD') ||
+            this._endsWith(upperToolPath, '.BAT'));
+    }
+    _windowsQuoteCmdArg(arg) {
+        // for .exe, apply the normal quoting rules that libuv applies
+        if (!this._isCmdFile()) {
+            return this._uvQuoteCmdArg(arg);
+        }
+        // otherwise apply quoting rules specific to the cmd.exe command line parser.
+        // the libuv rules are generic and are not designed specifically for cmd.exe
+        // command line parser.
+        //
+        // for a detailed description of the cmd.exe command line parser, refer to
+        // http://stackoverflow.com/questions/4094699/how-does-the-windows-command-interpreter-cmd-exe-parse-scripts/7970912#7970912
+        // need quotes for empty arg
+        if (!arg) {
+            return '""';
+        }
+        // determine whether the arg needs to be quoted
+        const cmdSpecialChars = [
+            ' ',
+            '\t',
+            '&',
+            '(',
+            ')',
+            '[',
+            ']',
+            '{',
+            '}',
+            '^',
+            '=',
+            ';',
+            '!',
+            "'",
+            '+',
+            ',',
+            '`',
+            '~',
+            '|',
+            '<',
+            '>',
+            '"'
+        ];
+        let needsQuotes = false;
+        for (const char of arg) {
+            if (cmdSpecialChars.some(x => x === char)) {
+                needsQuotes = true;
+                break;
+            }
+        }
+        // short-circuit if quotes not needed
+        if (!needsQuotes) {
+            return arg;
+        }
+        // the following quoting rules are very similar to the rules that by libuv applies.
+        //
+        // 1) wrap the string in quotes
+        //
+        // 2) double-up quotes - i.e. " => ""
+        //
+        //    this is different from the libuv quoting rules. libuv replaces " with \", which unfortunately
+        //    doesn't work well with a cmd.exe command line.
+        //
+        //    note, replacing " with "" also works well if the arg is passed to a downstream .NET console app.
+        //    for example, the command line:
+        //          foo.exe "myarg:""my val"""
+        //    is parsed by a .NET console app into an arg array:
+        //          [ "myarg:\"my val\"" ]
+        //    which is the same end result when applying libuv quoting rules. although the actual
+        //    command line from libuv quoting rules would look like:
+        //          foo.exe "myarg:\"my val\""
+        //
+        // 3) double-up slashes that precede a quote,
+        //    e.g.  hello \world    => "hello \world"
+        //          hello\"world    => "hello\\""world"
+        //          hello\\"world   => "hello\\\\""world"
+        //          hello world\    => "hello world\\"
+        //
+        //    technically this is not required for a cmd.exe command line, or the batch argument parser.
+        //    the reasons for including this as a .cmd quoting rule are:
+        //
+        //    a) this is optimized for the scenario where the argument is passed from the .cmd file to an
+        //       external program. many programs (e.g. .NET console apps) rely on the slash-doubling rule.
+        //
+        //    b) it's what we've been doing previously (by deferring to node default behavior) and we
+        //       haven't heard any complaints about that aspect.
+        //
+        // note, a weakness of the quoting rules chosen here, is that % is not escaped. in fact, % cannot be
+        // escaped when used on the command line directly - even though within a .cmd file % can be escaped
+        // by using %%.
+        //
+        // the saving grace is, on the command line, %var% is left as-is if var is not defined. this contrasts
+        // the line parsing rules within a .cmd file, where if var is not defined it is replaced with nothing.
+        //
+        // one option that was explored was replacing % with ^% - i.e. %var% => ^%var^%. this hack would
+        // often work, since it is unlikely that var^ would exist, and the ^ character is removed when the
+        // variable is used. the problem, however, is that ^ is not removed when %* is used to pass the args
+        // to an external program.
+        //
+        // an unexplored potential solution for the % escaping problem, is to create a wrapper .cmd file.
+        // % can be escaped within a .cmd file.
+        let reverse = '"';
+        let quoteHit = true;
+        for (let i = arg.length; i > 0; i--) {
+            // walk the string in reverse
+            reverse += arg[i - 1];
+            if (quoteHit && arg[i - 1] === '\\') {
+                reverse += '\\'; // double the slash
+            }
+            else if (arg[i - 1] === '"') {
+                quoteHit = true;
+                reverse += '"'; // double the quote
+            }
+            else {
+                quoteHit = false;
+            }
+        }
+        reverse += '"';
+        return reverse
+            .split('')
+            .reverse()
+            .join('');
+    }
+    _uvQuoteCmdArg(arg) {
+        // Tool runner wraps child_process.spawn() and needs to apply the same quoting as
+        // Node in certain cases where the undocumented spawn option windowsVerbatimArguments
+        // is used.
+        //
+        // Since this function is a port of quote_cmd_arg from Node 4.x (technically, lib UV,
+        // see https://github.com/nodejs/node/blob/v4.x/deps/uv/src/win/process.c for details),
+        // pasting copyright notice from Node within this function:
+        //
+        //      Copyright Joyent, Inc. and other Node contributors. All rights reserved.
+        //
+        //      Permission is hereby granted, free of charge, to any person obtaining a copy
+        //      of this software and associated documentation files (the "Software"), to
+        //      deal in the Software without restriction, including without limitation the
+        //      rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+        //      sell copies of the Software, and to permit persons to whom the Software is
+        //      furnished to do so, subject to the following conditions:
+        //
+        //      The above copyright notice and this permission notice shall be included in
+        //      all copies or substantial portions of the Software.
+        //
+        //      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        //      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        //      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        //      AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        //      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+        //      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+        //      IN THE SOFTWARE.
+        if (!arg) {
+            // Need double quotation for empty argument
+            return '""';
+        }
+        if (!arg.includes(' ') && !arg.includes('\t') && !arg.includes('"')) {
+            // No quotation needed
+            return arg;
+        }
+        if (!arg.includes('"') && !arg.includes('\\')) {
+            // No embedded double quotes or backslashes, so I can just wrap
+            // quote marks around the whole thing.
+            return `"${arg}"`;
+        }
+        // Expected input/output:
+        //   input : hello"world
+        //   output: "hello\"world"
+        //   input : hello""world
+        //   output: "hello\"\"world"
+        //   input : hello\world
+        //   output: hello\world
+        //   input : hello\\world
+        //   output: hello\\world
+        //   input : hello\"world
+        //   output: "hello\\\"world"
+        //   input : hello\\"world
+        //   output: "hello\\\\\"world"
+        //   input : hello world\
+        //   output: "hello world\\" - note the comment in libuv actually reads "hello world\"
+        //                             but it appears the comment is wrong, it should be "hello world\\"
+        let reverse = '"';
+        let quoteHit = true;
+        for (let i = arg.length; i > 0; i--) {
+            // walk the string in reverse
+            reverse += arg[i - 1];
+            if (quoteHit && arg[i - 1] === '\\') {
+                reverse += '\\';
+            }
+            else if (arg[i - 1] === '"') {
+                quoteHit = true;
+                reverse += '\\';
+            }
+            else {
+                quoteHit = false;
+            }
+        }
+        reverse += '"';
+        return reverse
+            .split('')
+            .reverse()
+            .join('');
+    }
+    _cloneExecOptions(options) {
+        options = options || {};
+        const result = {
+            cwd: options.cwd || process.cwd(),
+            env: options.env || process.env,
+            silent: options.silent || false,
+            windowsVerbatimArguments: options.windowsVerbatimArguments || false,
+            failOnStdErr: options.failOnStdErr || false,
+            ignoreReturnCode: options.ignoreReturnCode || false,
+            delay: options.delay || 10000
+        };
+        result.outStream = options.outStream || process.stdout;
+        result.errStream = options.errStream || process.stderr;
+        return result;
+    }
+    _getSpawnOptions(options, toolPath) {
+        options = options || {};
+        const result = {};
+        result.cwd = options.cwd;
+        result.env = options.env;
+        result['windowsVerbatimArguments'] =
+            options.windowsVerbatimArguments || this._isCmdFile();
+        if (options.windowsVerbatimArguments) {
+            result.argv0 = `"${toolPath}"`;
+        }
+        return result;
+    }
+    /**
+     * Exec a tool.
+     * Output will be streamed to the live console.
+     * Returns promise with return code
+     *
+     * @param     tool     path to tool to exec
+     * @param     options  optional exec options.  See ExecOptions
+     * @returns   number
+     */
+    exec() {
+        return __awaiter(this, void 0, void 0, function* () {
+            // root the tool path if it is unrooted and contains relative pathing
+            if (!ioUtil.isRooted(this.toolPath) &&
+                (this.toolPath.includes('/') ||
+                    (IS_WINDOWS && this.toolPath.includes('\\')))) {
+                // prefer options.cwd if it is specified, however options.cwd may also need to be rooted
+                this.toolPath = path.resolve(process.cwd(), this.options.cwd || process.cwd(), this.toolPath);
+            }
+            // if the tool is only a file name, then resolve it from the PATH
+            // otherwise verify it exists (add extension on Windows if necessary)
+            this.toolPath = yield io.which(this.toolPath, true);
+            return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+                this._debug(`exec tool: ${this.toolPath}`);
+                this._debug('arguments:');
+                for (const arg of this.args) {
+                    this._debug(`   ${arg}`);
+                }
+                const optionsNonNull = this._cloneExecOptions(this.options);
+                if (!optionsNonNull.silent && optionsNonNull.outStream) {
+                    optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os.EOL);
+                }
+                const state = new ExecState(optionsNonNull, this.toolPath);
+                state.on('debug', (message) => {
+                    this._debug(message);
+                });
+                if (this.options.cwd && !(yield ioUtil.exists(this.options.cwd))) {
+                    return reject(new Error(`The cwd: ${this.options.cwd} does not exist!`));
+                }
+                const fileName = this._getSpawnFileName();
+                const cp = child.spawn(fileName, this._getSpawnArgs(optionsNonNull), this._getSpawnOptions(this.options, fileName));
+                let stdbuffer = '';
+                if (cp.stdout) {
+                    cp.stdout.on('data', (data) => {
+                        if (this.options.listeners && this.options.listeners.stdout) {
+                            this.options.listeners.stdout(data);
+                        }
+                        if (!optionsNonNull.silent && optionsNonNull.outStream) {
+                            optionsNonNull.outStream.write(data);
+                        }
+                        stdbuffer = this._processLineBuffer(data, stdbuffer, (line) => {
+                            if (this.options.listeners && this.options.listeners.stdline) {
+                                this.options.listeners.stdline(line);
+                            }
+                        });
+                    });
+                }
+                let errbuffer = '';
+                if (cp.stderr) {
+                    cp.stderr.on('data', (data) => {
+                        state.processStderr = true;
+                        if (this.options.listeners && this.options.listeners.stderr) {
+                            this.options.listeners.stderr(data);
+                        }
+                        if (!optionsNonNull.silent &&
+                            optionsNonNull.errStream &&
+                            optionsNonNull.outStream) {
+                            const s = optionsNonNull.failOnStdErr
+                                ? optionsNonNull.errStream
+                                : optionsNonNull.outStream;
+                            s.write(data);
+                        }
+                        errbuffer = this._processLineBuffer(data, errbuffer, (line) => {
+                            if (this.options.listeners && this.options.listeners.errline) {
+                                this.options.listeners.errline(line);
+                            }
+                        });
+                    });
+                }
+                cp.on('error', (err) => {
+                    state.processError = err.message;
+                    state.processExited = true;
+                    state.processClosed = true;
+                    state.CheckComplete();
+                });
+                cp.on('exit', (code) => {
+                    state.processExitCode = code;
+                    state.processExited = true;
+                    this._debug(`Exit code ${code} received from tool '${this.toolPath}'`);
+                    state.CheckComplete();
+                });
+                cp.on('close', (code) => {
+                    state.processExitCode = code;
+                    state.processExited = true;
+                    state.processClosed = true;
+                    this._debug(`STDIO streams have closed for tool '${this.toolPath}'`);
+                    state.CheckComplete();
+                });
+                state.on('done', (error, exitCode) => {
+                    if (stdbuffer.length > 0) {
+                        this.emit('stdline', stdbuffer);
+                    }
+                    if (errbuffer.length > 0) {
+                        this.emit('errline', errbuffer);
+                    }
+                    cp.removeAllListeners();
+                    if (error) {
+                        reject(error);
+                    }
+                    else {
+                        resolve(exitCode);
+                    }
+                });
+                if (this.options.input) {
+                    if (!cp.stdin) {
+                        throw new Error('child process missing stdin');
+                    }
+                    cp.stdin.end(this.options.input);
+                }
+            }));
+        });
+    }
+}
+exports.ToolRunner = ToolRunner;
+/**
+ * Convert an arg string to an array of args. Handles escaping
+ *
+ * @param    argString   string of arguments
+ * @returns  string[]    array of arguments
+ */
+function argStringToArray(argString) {
+    const args = [];
+    let inQuotes = false;
+    let escaped = false;
+    let arg = '';
+    function append(c) {
+        // we only escape double quotes.
+        if (escaped && c !== '"') {
+            arg += '\\';
+        }
+        arg += c;
+        escaped = false;
+    }
+    for (let i = 0; i < argString.length; i++) {
+        const c = argString.charAt(i);
+        if (c === '"') {
+            if (!escaped) {
+                inQuotes = !inQuotes;
+            }
+            else {
+                append(c);
+            }
+            continue;
+        }
+        if (c === '\\' && escaped) {
+            append(c);
+            continue;
+        }
+        if (c === '\\' && inQuotes) {
+            escaped = true;
+            continue;
+        }
+        if (c === ' ' && !inQuotes) {
+            if (arg.length > 0) {
+                args.push(arg);
+                arg = '';
+            }
+            continue;
+        }
+        append(c);
+    }
+    if (arg.length > 0) {
+        args.push(arg.trim());
+    }
+    return args;
+}
+exports.argStringToArray = argStringToArray;
+class ExecState extends events.EventEmitter {
+    constructor(options, toolPath) {
+        super();
+        this.processClosed = false; // tracks whether the process has exited and stdio is closed
+        this.processError = '';
+        this.processExitCode = 0;
+        this.processExited = false; // tracks whether the process has exited
+        this.processStderr = false; // tracks whether stderr was written to
+        this.delay = 10000; // 10 seconds
+        this.done = false;
+        this.timeout = null;
+        if (!toolPath) {
+            throw new Error('toolPath must not be empty');
+        }
+        this.options = options;
+        this.toolPath = toolPath;
+        if (options.delay) {
+            this.delay = options.delay;
+        }
+    }
+    CheckComplete() {
+        if (this.done) {
+            return;
+        }
+        if (this.processClosed) {
+            this._setResult();
+        }
+        else if (this.processExited) {
+            this.timeout = timers_1.setTimeout(ExecState.HandleTimeout, this.delay, this);
+        }
+    }
+    _debug(message) {
+        this.emit('debug', message);
+    }
+    _setResult() {
+        // determine whether there is an error
+        let error;
+        if (this.processExited) {
+            if (this.processError) {
+                error = new Error(`There was an error when attempting to execute the process '${this.toolPath}'. This may indicate the process failed to start. Error: ${this.processError}`);
+            }
+            else if (this.processExitCode !== 0 && !this.options.ignoreReturnCode) {
+                error = new Error(`The process '${this.toolPath}' failed with exit code ${this.processExitCode}`);
+            }
+            else if (this.processStderr && this.options.failOnStdErr) {
+                error = new Error(`The process '${this.toolPath}' failed because one or more lines were written to the STDERR stream`);
+            }
+        }
+        // clear the timeout
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
+        }
+        this.done = true;
+        this.emit('done', error, this.processExitCode);
+    }
+    static HandleTimeout(state) {
+        if (state.done) {
+            return;
+        }
+        if (!state.processClosed && state.processExited) {
+            const message = `The STDIO streams did not close within ${state.delay /
+                1000} seconds of the exit event from process '${state.toolPath}'. This may indicate a child process inherited the STDIO streams and has not yet exited.`;
+            state._debug(message);
+        }
+        state._setResult();
+    }
+}
+//# sourceMappingURL=toolrunner.js.map
 
 /***/ }),
 
@@ -1780,7 +2637,7 @@ class HttpClient {
         }
         const usingSsl = parsedUrl.protocol === 'https:';
         proxyAgent = new undici_1.ProxyAgent(Object.assign({ uri: proxyUrl.href, pipelining: !this._keepAlive ? 0 : 1 }, ((proxyUrl.username || proxyUrl.password) && {
-            token: `${proxyUrl.username}:${proxyUrl.password}`
+            token: `Basic ${Buffer.from(`${proxyUrl.username}:${proxyUrl.password}`).toString('base64')}`
         })));
         this._proxyAgentDispatcher = proxyAgent;
         if (usingSsl && this._ignoreSslError) {
@@ -1894,11 +2751,11 @@ function getProxyUrl(reqUrl) {
     })();
     if (proxyVar) {
         try {
-            return new URL(proxyVar);
+            return new DecodedURL(proxyVar);
         }
         catch (_a) {
             if (!proxyVar.startsWith('http://') && !proxyVar.startsWith('https://'))
-                return new URL(`http://${proxyVar}`);
+                return new DecodedURL(`http://${proxyVar}`);
         }
     }
     else {
@@ -1957,7 +2814,516 @@ function isLoopbackAddress(host) {
         hostLower.startsWith('[::1]') ||
         hostLower.startsWith('[0:0:0:0:0:0:0:1]'));
 }
+class DecodedURL extends URL {
+    constructor(url, base) {
+        super(url, base);
+        this._decodedUsername = decodeURIComponent(super.username);
+        this._decodedPassword = decodeURIComponent(super.password);
+    }
+    get username() {
+        return this._decodedUsername;
+    }
+    get password() {
+        return this._decodedPassword;
+    }
+}
 //# sourceMappingURL=proxy.js.map
+
+/***/ }),
+
+/***/ 1962:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getCmdPath = exports.tryGetExecutablePath = exports.isRooted = exports.isDirectory = exports.exists = exports.READONLY = exports.UV_FS_O_EXLOCK = exports.IS_WINDOWS = exports.unlink = exports.symlink = exports.stat = exports.rmdir = exports.rm = exports.rename = exports.readlink = exports.readdir = exports.open = exports.mkdir = exports.lstat = exports.copyFile = exports.chmod = void 0;
+const fs = __importStar(__nccwpck_require__(7147));
+const path = __importStar(__nccwpck_require__(1017));
+_a = fs.promises
+// export const {open} = 'fs'
+, exports.chmod = _a.chmod, exports.copyFile = _a.copyFile, exports.lstat = _a.lstat, exports.mkdir = _a.mkdir, exports.open = _a.open, exports.readdir = _a.readdir, exports.readlink = _a.readlink, exports.rename = _a.rename, exports.rm = _a.rm, exports.rmdir = _a.rmdir, exports.stat = _a.stat, exports.symlink = _a.symlink, exports.unlink = _a.unlink;
+// export const {open} = 'fs'
+exports.IS_WINDOWS = process.platform === 'win32';
+// See https://github.com/nodejs/node/blob/d0153aee367422d0858105abec186da4dff0a0c5/deps/uv/include/uv/win.h#L691
+exports.UV_FS_O_EXLOCK = 0x10000000;
+exports.READONLY = fs.constants.O_RDONLY;
+function exists(fsPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield exports.stat(fsPath);
+        }
+        catch (err) {
+            if (err.code === 'ENOENT') {
+                return false;
+            }
+            throw err;
+        }
+        return true;
+    });
+}
+exports.exists = exists;
+function isDirectory(fsPath, useStat = false) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const stats = useStat ? yield exports.stat(fsPath) : yield exports.lstat(fsPath);
+        return stats.isDirectory();
+    });
+}
+exports.isDirectory = isDirectory;
+/**
+ * On OSX/Linux, true if path starts with '/'. On Windows, true for paths like:
+ * \, \hello, \\hello\share, C:, and C:\hello (and corresponding alternate separator cases).
+ */
+function isRooted(p) {
+    p = normalizeSeparators(p);
+    if (!p) {
+        throw new Error('isRooted() parameter "p" cannot be empty');
+    }
+    if (exports.IS_WINDOWS) {
+        return (p.startsWith('\\') || /^[A-Z]:/i.test(p) // e.g. \ or \hello or \\hello
+        ); // e.g. C: or C:\hello
+    }
+    return p.startsWith('/');
+}
+exports.isRooted = isRooted;
+/**
+ * Best effort attempt to determine whether a file exists and is executable.
+ * @param filePath    file path to check
+ * @param extensions  additional file extensions to try
+ * @return if file exists and is executable, returns the file path. otherwise empty string.
+ */
+function tryGetExecutablePath(filePath, extensions) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let stats = undefined;
+        try {
+            // test file exists
+            stats = yield exports.stat(filePath);
+        }
+        catch (err) {
+            if (err.code !== 'ENOENT') {
+                // eslint-disable-next-line no-console
+                console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
+            }
+        }
+        if (stats && stats.isFile()) {
+            if (exports.IS_WINDOWS) {
+                // on Windows, test for valid extension
+                const upperExt = path.extname(filePath).toUpperCase();
+                if (extensions.some(validExt => validExt.toUpperCase() === upperExt)) {
+                    return filePath;
+                }
+            }
+            else {
+                if (isUnixExecutable(stats)) {
+                    return filePath;
+                }
+            }
+        }
+        // try each extension
+        const originalFilePath = filePath;
+        for (const extension of extensions) {
+            filePath = originalFilePath + extension;
+            stats = undefined;
+            try {
+                stats = yield exports.stat(filePath);
+            }
+            catch (err) {
+                if (err.code !== 'ENOENT') {
+                    // eslint-disable-next-line no-console
+                    console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
+                }
+            }
+            if (stats && stats.isFile()) {
+                if (exports.IS_WINDOWS) {
+                    // preserve the case of the actual file (since an extension was appended)
+                    try {
+                        const directory = path.dirname(filePath);
+                        const upperName = path.basename(filePath).toUpperCase();
+                        for (const actualName of yield exports.readdir(directory)) {
+                            if (upperName === actualName.toUpperCase()) {
+                                filePath = path.join(directory, actualName);
+                                break;
+                            }
+                        }
+                    }
+                    catch (err) {
+                        // eslint-disable-next-line no-console
+                        console.log(`Unexpected error attempting to determine the actual case of the file '${filePath}': ${err}`);
+                    }
+                    return filePath;
+                }
+                else {
+                    if (isUnixExecutable(stats)) {
+                        return filePath;
+                    }
+                }
+            }
+        }
+        return '';
+    });
+}
+exports.tryGetExecutablePath = tryGetExecutablePath;
+function normalizeSeparators(p) {
+    p = p || '';
+    if (exports.IS_WINDOWS) {
+        // convert slashes on Windows
+        p = p.replace(/\//g, '\\');
+        // remove redundant slashes
+        return p.replace(/\\\\+/g, '\\');
+    }
+    // remove redundant slashes
+    return p.replace(/\/\/+/g, '/');
+}
+// on Mac/Linux, test the execute bit
+//     R   W  X  R  W X R W X
+//   256 128 64 32 16 8 4 2 1
+function isUnixExecutable(stats) {
+    return ((stats.mode & 1) > 0 ||
+        ((stats.mode & 8) > 0 && stats.gid === process.getgid()) ||
+        ((stats.mode & 64) > 0 && stats.uid === process.getuid()));
+}
+// Get the path of cmd.exe in windows
+function getCmdPath() {
+    var _a;
+    return (_a = process.env['COMSPEC']) !== null && _a !== void 0 ? _a : `cmd.exe`;
+}
+exports.getCmdPath = getCmdPath;
+//# sourceMappingURL=io-util.js.map
+
+/***/ }),
+
+/***/ 7436:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.findInPath = exports.which = exports.mkdirP = exports.rmRF = exports.mv = exports.cp = void 0;
+const assert_1 = __nccwpck_require__(9491);
+const path = __importStar(__nccwpck_require__(1017));
+const ioUtil = __importStar(__nccwpck_require__(1962));
+/**
+ * Copies a file or folder.
+ * Based off of shelljs - https://github.com/shelljs/shelljs/blob/9237f66c52e5daa40458f94f9565e18e8132f5a6/src/cp.js
+ *
+ * @param     source    source path
+ * @param     dest      destination path
+ * @param     options   optional. See CopyOptions.
+ */
+function cp(source, dest, options = {}) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { force, recursive, copySourceDirectory } = readCopyOptions(options);
+        const destStat = (yield ioUtil.exists(dest)) ? yield ioUtil.stat(dest) : null;
+        // Dest is an existing file, but not forcing
+        if (destStat && destStat.isFile() && !force) {
+            return;
+        }
+        // If dest is an existing directory, should copy inside.
+        const newDest = destStat && destStat.isDirectory() && copySourceDirectory
+            ? path.join(dest, path.basename(source))
+            : dest;
+        if (!(yield ioUtil.exists(source))) {
+            throw new Error(`no such file or directory: ${source}`);
+        }
+        const sourceStat = yield ioUtil.stat(source);
+        if (sourceStat.isDirectory()) {
+            if (!recursive) {
+                throw new Error(`Failed to copy. ${source} is a directory, but tried to copy without recursive flag.`);
+            }
+            else {
+                yield cpDirRecursive(source, newDest, 0, force);
+            }
+        }
+        else {
+            if (path.relative(source, newDest) === '') {
+                // a file cannot be copied to itself
+                throw new Error(`'${newDest}' and '${source}' are the same file`);
+            }
+            yield copyFile(source, newDest, force);
+        }
+    });
+}
+exports.cp = cp;
+/**
+ * Moves a path.
+ *
+ * @param     source    source path
+ * @param     dest      destination path
+ * @param     options   optional. See MoveOptions.
+ */
+function mv(source, dest, options = {}) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (yield ioUtil.exists(dest)) {
+            let destExists = true;
+            if (yield ioUtil.isDirectory(dest)) {
+                // If dest is directory copy src into dest
+                dest = path.join(dest, path.basename(source));
+                destExists = yield ioUtil.exists(dest);
+            }
+            if (destExists) {
+                if (options.force == null || options.force) {
+                    yield rmRF(dest);
+                }
+                else {
+                    throw new Error('Destination already exists');
+                }
+            }
+        }
+        yield mkdirP(path.dirname(dest));
+        yield ioUtil.rename(source, dest);
+    });
+}
+exports.mv = mv;
+/**
+ * Remove a path recursively with force
+ *
+ * @param inputPath path to remove
+ */
+function rmRF(inputPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (ioUtil.IS_WINDOWS) {
+            // Check for invalid characters
+            // https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file
+            if (/[*"<>|]/.test(inputPath)) {
+                throw new Error('File path must not contain `*`, `"`, `<`, `>` or `|` on Windows');
+            }
+        }
+        try {
+            // note if path does not exist, error is silent
+            yield ioUtil.rm(inputPath, {
+                force: true,
+                maxRetries: 3,
+                recursive: true,
+                retryDelay: 300
+            });
+        }
+        catch (err) {
+            throw new Error(`File was unable to be removed ${err}`);
+        }
+    });
+}
+exports.rmRF = rmRF;
+/**
+ * Make a directory.  Creates the full path with folders in between
+ * Will throw if it fails
+ *
+ * @param   fsPath        path to create
+ * @returns Promise<void>
+ */
+function mkdirP(fsPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        assert_1.ok(fsPath, 'a path argument must be provided');
+        yield ioUtil.mkdir(fsPath, { recursive: true });
+    });
+}
+exports.mkdirP = mkdirP;
+/**
+ * Returns path of a tool had the tool actually been invoked.  Resolves via paths.
+ * If you check and the tool does not exist, it will throw.
+ *
+ * @param     tool              name of the tool
+ * @param     check             whether to check if tool exists
+ * @returns   Promise<string>   path to tool
+ */
+function which(tool, check) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!tool) {
+            throw new Error("parameter 'tool' is required");
+        }
+        // recursive when check=true
+        if (check) {
+            const result = yield which(tool, false);
+            if (!result) {
+                if (ioUtil.IS_WINDOWS) {
+                    throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also verify the file has a valid extension for an executable file.`);
+                }
+                else {
+                    throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also check the file mode to verify the file is executable.`);
+                }
+            }
+            return result;
+        }
+        const matches = yield findInPath(tool);
+        if (matches && matches.length > 0) {
+            return matches[0];
+        }
+        return '';
+    });
+}
+exports.which = which;
+/**
+ * Returns a list of all occurrences of the given tool on the system path.
+ *
+ * @returns   Promise<string[]>  the paths of the tool
+ */
+function findInPath(tool) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!tool) {
+            throw new Error("parameter 'tool' is required");
+        }
+        // build the list of extensions to try
+        const extensions = [];
+        if (ioUtil.IS_WINDOWS && process.env['PATHEXT']) {
+            for (const extension of process.env['PATHEXT'].split(path.delimiter)) {
+                if (extension) {
+                    extensions.push(extension);
+                }
+            }
+        }
+        // if it's rooted, return it if exists. otherwise return empty.
+        if (ioUtil.isRooted(tool)) {
+            const filePath = yield ioUtil.tryGetExecutablePath(tool, extensions);
+            if (filePath) {
+                return [filePath];
+            }
+            return [];
+        }
+        // if any path separators, return empty
+        if (tool.includes(path.sep)) {
+            return [];
+        }
+        // build the list of directories
+        //
+        // Note, technically "where" checks the current directory on Windows. From a toolkit perspective,
+        // it feels like we should not do this. Checking the current directory seems like more of a use
+        // case of a shell, and the which() function exposed by the toolkit should strive for consistency
+        // across platforms.
+        const directories = [];
+        if (process.env.PATH) {
+            for (const p of process.env.PATH.split(path.delimiter)) {
+                if (p) {
+                    directories.push(p);
+                }
+            }
+        }
+        // find all matches
+        const matches = [];
+        for (const directory of directories) {
+            const filePath = yield ioUtil.tryGetExecutablePath(path.join(directory, tool), extensions);
+            if (filePath) {
+                matches.push(filePath);
+            }
+        }
+        return matches;
+    });
+}
+exports.findInPath = findInPath;
+function readCopyOptions(options) {
+    const force = options.force == null ? true : options.force;
+    const recursive = Boolean(options.recursive);
+    const copySourceDirectory = options.copySourceDirectory == null
+        ? true
+        : Boolean(options.copySourceDirectory);
+    return { force, recursive, copySourceDirectory };
+}
+function cpDirRecursive(sourceDir, destDir, currentDepth, force) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // Ensure there is not a run away recursive copy
+        if (currentDepth >= 255)
+            return;
+        currentDepth++;
+        yield mkdirP(destDir);
+        const files = yield ioUtil.readdir(sourceDir);
+        for (const fileName of files) {
+            const srcFile = `${sourceDir}/${fileName}`;
+            const destFile = `${destDir}/${fileName}`;
+            const srcFileStat = yield ioUtil.lstat(srcFile);
+            if (srcFileStat.isDirectory()) {
+                // Recurse
+                yield cpDirRecursive(srcFile, destFile, currentDepth, force);
+            }
+            else {
+                yield copyFile(srcFile, destFile, force);
+            }
+        }
+        // Change the mode for the newly created directory
+        yield ioUtil.chmod(destDir, (yield ioUtil.stat(sourceDir)).mode);
+    });
+}
+// Buffered file copy
+function copyFile(srcFile, destFile, force) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if ((yield ioUtil.lstat(srcFile)).isSymbolicLink()) {
+            // unlink/re-link it
+            try {
+                yield ioUtil.lstat(destFile);
+                yield ioUtil.unlink(destFile);
+            }
+            catch (e) {
+                // Try to override file permission
+                if (e.code === 'EPERM') {
+                    yield ioUtil.chmod(destFile, '0666');
+                    yield ioUtil.unlink(destFile);
+                }
+                // other errors = it doesn't exist, no work to do
+            }
+            // Copy over symlink
+            const symlinkFull = yield ioUtil.readlink(srcFile);
+            yield ioUtil.symlink(symlinkFull, destFile, ioUtil.IS_WINDOWS ? 'junction' : null);
+        }
+        else if (!(yield ioUtil.exists(destFile)) || force) {
+            yield ioUtil.copyFile(srcFile, destFile);
+        }
+    });
+}
+//# sourceMappingURL=io.js.map
 
 /***/ }),
 
@@ -5024,14 +6390,17 @@ function useColors() {
 		return false;
 	}
 
+	let m;
+
 	// Is webkit? http://stackoverflow.com/a/16459606/376773
 	// document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+	// eslint-disable-next-line no-return-assign
 	return (typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
 		// Is firebug? http://stackoverflow.com/a/398120/376773
 		(typeof window !== 'undefined' && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
 		// Is firefox >= v31?
 		// https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-		(typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+		(typeof navigator !== 'undefined' && navigator.userAgent && (m = navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/)) && parseInt(m[1], 10) >= 31) ||
 		// Double check webkit in userAgent just in case we are in a worker
 		(typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
 }
@@ -5341,24 +6710,62 @@ function setup(env) {
 		createDebug.names = [];
 		createDebug.skips = [];
 
-		let i;
-		const split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
-		const len = split.length;
+		const split = (typeof namespaces === 'string' ? namespaces : '')
+			.trim()
+			.replace(' ', ',')
+			.split(',')
+			.filter(Boolean);
 
-		for (i = 0; i < len; i++) {
-			if (!split[i]) {
-				// ignore empty strings
-				continue;
-			}
-
-			namespaces = split[i].replace(/\*/g, '.*?');
-
-			if (namespaces[0] === '-') {
-				createDebug.skips.push(new RegExp('^' + namespaces.slice(1) + '$'));
+		for (const ns of split) {
+			if (ns[0] === '-') {
+				createDebug.skips.push(ns.slice(1));
 			} else {
-				createDebug.names.push(new RegExp('^' + namespaces + '$'));
+				createDebug.names.push(ns);
 			}
 		}
+	}
+
+	/**
+	 * Checks if the given string matches a namespace template, honoring
+	 * asterisks as wildcards.
+	 *
+	 * @param {String} search
+	 * @param {String} template
+	 * @return {Boolean}
+	 */
+	function matchesTemplate(search, template) {
+		let searchIndex = 0;
+		let templateIndex = 0;
+		let starIndex = -1;
+		let matchIndex = 0;
+
+		while (searchIndex < search.length) {
+			if (templateIndex < template.length && (template[templateIndex] === search[searchIndex] || template[templateIndex] === '*')) {
+				// Match character or proceed with wildcard
+				if (template[templateIndex] === '*') {
+					starIndex = templateIndex;
+					matchIndex = searchIndex;
+					templateIndex++; // Skip the '*'
+				} else {
+					searchIndex++;
+					templateIndex++;
+				}
+			} else if (starIndex !== -1) { // eslint-disable-line no-negated-condition
+				// Backtrack to the last '*' and try to match more characters
+				templateIndex = starIndex + 1;
+				matchIndex++;
+				searchIndex = matchIndex;
+			} else {
+				return false; // No match
+			}
+		}
+
+		// Handle trailing '*' in template
+		while (templateIndex < template.length && template[templateIndex] === '*') {
+			templateIndex++;
+		}
+
+		return templateIndex === template.length;
 	}
 
 	/**
@@ -5369,8 +6776,8 @@ function setup(env) {
 	*/
 	function disable() {
 		const namespaces = [
-			...createDebug.names.map(toNamespace),
-			...createDebug.skips.map(toNamespace).map(namespace => '-' + namespace)
+			...createDebug.names,
+			...createDebug.skips.map(namespace => '-' + namespace)
 		].join(',');
 		createDebug.enable('');
 		return namespaces;
@@ -5384,39 +6791,19 @@ function setup(env) {
 	* @api public
 	*/
 	function enabled(name) {
-		if (name[name.length - 1] === '*') {
-			return true;
-		}
-
-		let i;
-		let len;
-
-		for (i = 0, len = createDebug.skips.length; i < len; i++) {
-			if (createDebug.skips[i].test(name)) {
+		for (const skip of createDebug.skips) {
+			if (matchesTemplate(name, skip)) {
 				return false;
 			}
 		}
 
-		for (i = 0, len = createDebug.names.length; i < len; i++) {
-			if (createDebug.names[i].test(name)) {
+		for (const ns of createDebug.names) {
+			if (matchesTemplate(name, ns)) {
 				return true;
 			}
 		}
 
 		return false;
-	}
-
-	/**
-	* Convert regexp to namespace
-	*
-	* @param {RegExp} regxep
-	* @return {String} namespace
-	* @api private
-	*/
-	function toNamespace(regexp) {
-		return regexp.toString()
-			.substring(2, regexp.toString().length - 2)
-			.replace(/\.\*\?$/, '*');
 	}
 
 	/**
@@ -5462,13 +6849,13 @@ module.exports = setup;
 if (typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs) {
 	module.exports = __nccwpck_require__(8222);
 } else {
-	module.exports = __nccwpck_require__(4874);
+	module.exports = __nccwpck_require__(5332);
 }
 
 
 /***/ }),
 
-/***/ 4874:
+/***/ 5332:
 /***/ ((module, exports, __nccwpck_require__) => {
 
 /**
@@ -5660,11 +7047,11 @@ function getDate() {
 }
 
 /**
- * Invokes `util.format()` with the specified arguments and writes to stderr.
+ * Invokes `util.formatWithOptions()` with the specified arguments and writes to stderr.
  */
 
 function log(...args) {
-	return process.stderr.write(util.format(...args) + '\n');
+	return process.stderr.write(util.formatWithOptions(exports.inspectOpts, ...args) + '\n');
 }
 
 /**
@@ -6988,7 +8375,11 @@ module.exports = (giturl, opts, { gitHosts, protocols }) => {
 
 const maybeJoin = (...args) => args.every(arg => arg) ? args.join('') : ''
 const maybeEncode = (arg) => arg ? encodeURIComponent(arg) : ''
-const formatHashFragment = (f) => f.toLowerCase().replace(/^\W+|\/|\W+$/g, '').replace(/\W+/g, '-')
+const formatHashFragment = (f) => f.toLowerCase()
+  .replace(/^\W+/g, '') // strip leading non-characters
+  .replace(/(?<!\W)\W+$/, '') // strip trailing non-characters
+  .replace(/\//g, '') // strip all slashes
+  .replace(/\W+/g, '-') // replace remaining non-characters with '-'
 
 const defaults = {
   sshtemplate: ({ domain, user, project, committish }) =>
@@ -7704,1472 +9095,6 @@ parseJsonError.noExceptions = (raw, reviver) => {
     // no exceptions
   }
 }
-
-
-/***/ }),
-
-/***/ 8423:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-const spdxExpressionParse = __nccwpck_require__(5254);
-
-const MIT_LICENSE = /ermission is hereby granted, free of charge, to any/;
-const BSD_LICENSE = /edistribution and use in source and binary forms, with or withou/;
-const BSD_SOURCE_CODE_LICENSE = /edistribution and use of this software in source and binary forms, with or withou/;
-const WTFPL_LICENSE = /DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE/;
-const ISC_LICENSE = /The ISC License/;
-const HIPPOCRATIC_LICENSE = /Hippocratic License/;
-const MIT = /\bMIT\b/;
-const BSD = /\bBSD\b/;
-const ISC = /\bISC\b/;
-const GPL = /\bGNU GENERAL PUBLIC LICENSE\s*Version ([^,]*)/i;
-const LGPL = /(?:LESSER|LIBRARY) GENERAL PUBLIC LICENSE\s*Version ([^,]*)/i;
-const APACHE_VERSION = /\bApache License\s*Version ([^,\s]*)/i;
-const APACHE = /\bApache License\b/;
-const APACHE_VERSION_SHORT = /\bApache ([^,\s]*)/i;
-const WTFPL = /\bWTFPL\b/;
-const ZERO_PARITY_LICENSE = /\bParity\b/;
-// https://creativecommons.org/publicdomain/zero/1.0/
-const CC0_1_0 =
-    /The\s+person\s+who\s+associated\s+a\s+work\s+with\s+this\s+deed\s+has\s+dedicated\s+the\s+work\s+to\s+the\s+public\s+domain\s+by\s+waiving\s+all\s+of\s+his\s+or\s+her\s+rights\s+to\s+the\s+work\s+worldwide\s+under\s+copyright\s+law,\s+including\s+all\s+related\s+and\s+neighboring\s+rights,\s+to\s+the\s+extent\s+allowed\s+by\s+law.\s+You\s+can\s+copy,\s+modify,\s+distribute\s+and\s+perform\s+the\s+work,\s+even\s+for\s+commercial\s+purposes,\s+all\s+without\s+asking\s+permission./i; // jshint ignore:line
-const PUBLIC_DOMAIN = /[Pp]ublic[\-_ ]*[Dd]omain/;
-const IS_URL = /(https?:\/\/[-a-zA-Z0-9\/.]*)/;
-const CONTAINS_URLS_ENDING_WITH = /(.svg|.gif|.png|.jpg|.jpeg)$/i;
-const CONTAINS_LICENSE_TERM = /(license|licence|lizenz)/gi;
-const IS_FILE_REFERENCE = /SEE LICENSE IN (.*)/i;
-const UNLICENSED = /UNLICENSED/i;
-
-module.exports = function getLicenseTitle(str = 'undefined') {
-    if (typeof str !== 'string') {
-        throw new Error(
-            `Wrong type for parameter "str" ("${str}"): Must be of type string`,
-            'lib/getLicenseTitle.js',
-            24,
-        );
-    }
-
-    let match;
-    let version;
-
-    try {
-        // Simply check if the string is a valid SPDX expression:
-        spdxExpressionParse(str);
-
-        // No need for additional parsing efforts:
-        return str;
-    } catch (error) {
-        // Fail silently and continue with additional parsing efforts:
-    }
-
-    if (str) {
-        str = str.replace('\n', '');
-    }
-
-    if (!str || str === 'undefined') {
-        return 'Undefined';
-    }
-
-    if (ZERO_PARITY_LICENSE.test(str)) {
-        return 'Zero Parity*';
-    }
-
-    if (ISC_LICENSE.test(str)) {
-        return 'ISC*';
-    }
-
-    if (HIPPOCRATIC_LICENSE.test(str)) {
-        return 'Hippocratic-2.1*';
-    }
-
-    if (MIT_LICENSE.test(str)) {
-        return 'MIT*';
-    }
-
-    if (BSD_LICENSE.test(str)) {
-        return 'BSD*';
-    }
-
-    if (BSD_SOURCE_CODE_LICENSE.test(str)) {
-        // https://spdx.org/licenses/BSD-Source-Code.html
-        return 'BSD-Source-Code*';
-    }
-
-    if (WTFPL_LICENSE.test(str)) {
-        return 'WTFPL*';
-    }
-
-    if (ISC.test(str)) {
-        return 'ISC*';
-    }
-
-    if (MIT.test(str)) {
-        return 'MIT*';
-    }
-
-    if (BSD.test(str)) {
-        return 'BSD*';
-    }
-
-    if (WTFPL.test(str)) {
-        return 'WTFPL*';
-    }
-
-    if (APACHE_VERSION.test(str)) {
-        match = APACHE_VERSION.exec(str);
-        version = match[1];
-
-        if (version.length === 1) {
-            version = version + '.0';
-        }
-
-        return 'Apache-' + version + '*';
-    }
-
-    if (APACHE.test(str)) {
-        return 'Apache*';
-    }
-
-    if (APACHE_VERSION_SHORT.test(str)) {
-        match = APACHE_VERSION_SHORT.exec(str);
-        version = match[1];
-
-        if (version.length === 1) {
-            version = version + '.0';
-        }
-
-        return 'Apache-' + version + '*';
-    }
-
-    if (CC0_1_0.test(str)) {
-        return 'CC0-1.0*';
-    }
-
-    if (GPL.test(str)) {
-        match = GPL.exec(str);
-        version = match[1];
-
-        /*istanbul ignore else*/
-        if (version.length === 1) {
-            version = version + '.0';
-        }
-
-        return 'GPL-' + version + '*';
-    }
-
-    if (LGPL.test(str)) {
-        match = LGPL.exec(str);
-        version = match[1];
-
-        if (version.length === 1) {
-            version = version + '.0';
-        }
-        return 'LGPL-' + version + '*';
-    }
-
-    if (PUBLIC_DOMAIN.test(str)) {
-        return 'Public Domain';
-    }
-
-    if (UNLICENSED.test(str)) {
-        return 'UNLICENSED';
-    }
-
-    match = IS_URL.exec(str) || IS_FILE_REFERENCE.exec(str);
-
-    if (match) {
-        const matchedUrl = match[1];
-        CONTAINS_LICENSE_TERM.lastIndex = 0;
-        CONTAINS_URLS_ENDING_WITH.lastIndex = 0;
-
-        if (CONTAINS_LICENSE_TERM.test(str) && !CONTAINS_URLS_ENDING_WITH.test(matchedUrl)) {
-            return `Custom: ${matchedUrl}`;
-        }
-    }
-
-    return null;
-};
-
-
-/***/ }),
-
-/***/ 5344:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-/*
-Copyright (c) 2013, Yahoo! Inc. All rights reserved.
-Code licensed under the BSD License:
-http://yuilibrary.com/license/
-*/
-
-const LICENSE_TITLE_UNKNOWN = 'UNKNOWN';
-const LICENSE_TITLE_UNLICENSED = 'UNLICENSED';
-const INITIAL_MODULE_INFO = {
-    licenses: LICENSE_TITLE_UNKNOWN,
-};
-
-const chalk = __nccwpck_require__(8818);
-const debug = __nccwpck_require__(8237);
-const fs = __nccwpck_require__(7561);
-const mkdirp = __nccwpck_require__(6186);
-const path = __nccwpck_require__(9411);
-const readInstalledPackages = __nccwpck_require__(2057);
-const spdxCorrect = __nccwpck_require__(2372);
-const spdxSatisfies = __nccwpck_require__(4424);
-const treeify = __nccwpck_require__(355);
-const createHash = (__nccwpck_require__(6113).createHash);
-
-const getLicenseTitle = __nccwpck_require__(8423);
-const licenseFiles = __nccwpck_require__(885);
-const helpers = __nccwpck_require__(53);
-
-// Set up debug logging
-// https://www.npmjs.com/package/debug#stderr-vs-stdout
-const debugError = debug('license-checker-rseidelsohn:error');
-const debugLog = debug('license-checker-rseidelsohn:log');
-
-debugLog.log = console.log.bind(console);
-
-// This function calls itself recursively. On the first iteration, it collects the data of the main program, during the
-// second iteration, it collects the data from all direct dependencies, then it collects their dependencies and so on.
-const recursivelyCollectAllDependencies = (options) => {
-    const { color: colorize, deps: currentExtendedPackageJson, unknown } = options;
-    const moduleInfo = { ...INITIAL_MODULE_INFO };
-    const currentPackageNameAndVersion = `${currentExtendedPackageJson.name}@${currentExtendedPackageJson.version}`;
-
-    let { data } = options;
-    let licenseFilesInCurrentModuleDirectory = [];
-    let licenseData;
-    let licenseFile;
-    let noticeFiles = [];
-    let clarification = options.clarifications?.[currentPackageNameAndVersion];
-    let passedClarificationCheck = clarification?.checksum ? false : true;
-
-    if (
-        // If we have processed this currentPackageNameAndVersion already, just return the data object.
-        // This was added so that we don't recurse forever if there was a circular
-        // dependency in the dependency tree.
-        data[currentPackageNameAndVersion] ||
-        (options.production && currentExtendedPackageJson.extraneous) ||
-        (options.development && !currentExtendedPackageJson.extraneous && !currentExtendedPackageJson.root)
-    ) {
-        return data;
-    }
-
-    if (currentExtendedPackageJson.private) {
-        moduleInfo.private = true;
-    }
-
-    data[currentPackageNameAndVersion] = moduleInfo;
-
-    // Include property in output unless custom format has set property explicitly to false:
-    const mustInclude = (propertyName = '') => options?.customFormat?.[propertyName] !== false;
-
-    if (mustInclude('repository')) {
-        const repositoryUrl = helpers.getRepositoryUrl({
-            clarificationRepository: clarification?.repository,
-            jsonRepository: currentExtendedPackageJson?.repository,
-        });
-
-        if (repositoryUrl) {
-            moduleInfo.repository = repositoryUrl;
-        }
-    }
-
-    if (mustInclude('url')) {
-        // TODO: Figure out where the check for currentExtendedPackageJson.url.web comes from. It's in the original license-checker,
-        //       but I can't find any documentation on it.
-        let url = helpers.getFirstNotUndefinedOrUndefined(clarification?.url, currentExtendedPackageJson?.url?.web);
-        /*istanbul ignore next*/
-        if (url) {
-            moduleInfo.url = url;
-        }
-    }
-
-    if (typeof currentExtendedPackageJson.author === 'object') {
-        const { publisher, email, url } = helpers.getAuthorDetails({
-            clarification,
-            author: currentExtendedPackageJson?.author,
-        });
-
-        if (mustInclude('publisher') && publisher) {
-            moduleInfo.publisher = publisher;
-        }
-
-        if (mustInclude('email') && email) {
-            moduleInfo.email = email;
-        }
-
-        // moduleInfo.url can for some reason already be set to currentExtendedPackageJson.url.web further up in the code,
-        // so we only set it if it's not already set.
-        if (typeof moduleInfo.url !== 'undefined' && mustInclude('url') && url) {
-            moduleInfo.url = url;
-        }
-    }
-
-    /*istanbul ignore next*/
-    if (unknown) {
-        moduleInfo.dependencyPath = currentExtendedPackageJson.path;
-    }
-
-    const modulePath = helpers.getFirstNotUndefinedOrUndefined(clarification?.path, currentExtendedPackageJson?.path);
-    if (mustInclude('path') && typeof modulePath === 'string') {
-        moduleInfo.path = modulePath;
-    }
-
-    // Eventually store the contents of the module's README.md in currentExtendedPackageJson.readme:
-    helpers.storeReadmeInJsonIfExists(modulePath, currentExtendedPackageJson);
-
-    // console.log('licenseData: %s', licenseData);
-
-    // Try to get the license information from the clarification file or from the package.json file:
-    licenseData = helpers.getFirstNotUndefinedOrUndefined(
-        clarification?.licenses,
-        currentExtendedPackageJson.license,
-        currentExtendedPackageJson.licenses,
-    );
-
-    if (licenseData) {
-        // License information has been collected from either the clarifiation file or from the package.json file
-        /*istanbul ignore else*/
-        if (Array.isArray(licenseData) && licenseData.length > 0) {
-            moduleInfo.licenses = licenseData.map((moduleLicense) => {
-                const moduleLicenseTypeOrName = helpers.getFirstNotUndefinedOrUndefined(
-                    moduleLicense.type,
-                    moduleLicense.name,
-                );
-
-                if (typeof moduleLicenseTypeOrName === 'string') {
-                    return moduleLicenseTypeOrName;
-                }
-
-                if (typeof moduleLicense === 'string') {
-                    return moduleLicense;
-                }
-            });
-        } else if (typeof helpers.getFirstNotUndefinedOrUndefined(licenseData.type, licenseData.name) === 'string') {
-            moduleInfo.licenses = getLicenseTitle(
-                helpers.getFirstNotUndefinedOrUndefined(licenseData.type, licenseData.name),
-            );
-        } else if (typeof licenseData === 'string') {
-            moduleInfo.licenses = getLicenseTitle(licenseData);
-        }
-    } else if (getLicenseTitle(currentExtendedPackageJson.readme)) {
-        // Try to get the license information from the README file if neither the clarification file nor the package.json
-        // file contained any license information:
-        moduleInfo.licenses = getLicenseTitle(currentExtendedPackageJson.readme);
-    }
-
-    if (Array.isArray(moduleInfo.licenses)) {
-        /*istanbul ignore else*/
-        if (moduleInfo.licenses.length === 1) {
-            moduleInfo.licenses = moduleInfo.licenses[0];
-        }
-    }
-
-    /*istanbul ignore else*/
-    if (clarification?.licenseFile) {
-        licenseFilesInCurrentModuleDirectory = [clarification.licenseFile];
-    } else if (fs.existsSync(modulePath)) {
-        const filesInModuleDirectory = fs.readdirSync(modulePath);
-        licenseFilesInCurrentModuleDirectory = licenseFiles(filesInModuleDirectory);
-
-        noticeFiles = filesInModuleDirectory.filter((filename) => {
-            filename = filename.toUpperCase();
-            const name = path.basename(filename).replace(path.extname(filename), '');
-
-            return name === 'NOTICE';
-        });
-    }
-
-    // console.log('licenseFilesInCurrentModuleDirectory before: %s', licenseFilesInCurrentModuleDirectory);
-
-    licenseFilesInCurrentModuleDirectory.forEach(function findBetterLicenseData(filename, index) {
-        licenseFile = path.join(modulePath, filename);
-        // Checking that the file is in fact a normal file and not a directory for example.
-        /*istanbul ignore else*/
-        if (fs.lstatSync(licenseFile).isFile()) {
-            let currentLicenceFilesContent;
-
-            if (
-                !moduleInfo.licenses ||
-                moduleInfo.licenses.indexOf(LICENSE_TITLE_UNKNOWN) > -1
-                // TODO: Should we override a custom license?
-                // || moduleInfo.licenses.indexOf('Custom:') === 0
-            ) {
-                //Only re-check the license if we didn't get it from elsewhere
-                currentLicenceFilesContent = fs.readFileSync(licenseFile, { encoding: 'utf8' });
-
-                moduleInfo.licenses = getLicenseTitle(currentLicenceFilesContent);
-            }
-
-            if (index === 0) {
-                // Treat the file with the highest precedence as licenseFile
-                if (clarification !== undefined && !passedClarificationCheck) {
-                    /*istanbul ignore else*/
-                    if (!currentLicenceFilesContent) {
-                        currentLicenceFilesContent = fs.readFileSync(licenseFile, { encoding: 'utf8' });
-                    }
-
-                    let sha256 = createHash('sha256').update(currentLicenceFilesContent).digest('hex');
-
-                    if (clarification.checksum !== sha256) {
-                        console.error(
-                            `Clarification checksum mismatch for ${currentPackageNameAndVersion} :(\nFile checked: ${licenseFile}`,
-                        );
-                        process.exit(1);
-                    } else {
-                        passedClarificationCheck = true;
-                    }
-                }
-
-                /*istanbul ignore else*/
-                if (mustInclude('licenseFile')) {
-                    moduleInfo.licenseFile = helpers.getFirstNotUndefinedOrUndefined(
-                        clarification?.licenseFile,
-                        options.basePath ? path.relative(options.basePath, licenseFile) : licenseFile,
-                    );
-                }
-
-                if (mustInclude('licenseText') && options.customFormat) {
-                    if (clarification?.licenseText) {
-                        moduleInfo.licenseText = clarification.licenseText;
-                    } else {
-                        if (!currentLicenceFilesContent) {
-                            currentLicenceFilesContent = fs.readFileSync(licenseFile, { encoding: 'utf8' });
-                        }
-
-                        /*istanbul ignore else*/
-                        if (options._args && !options._args.csv) {
-                            moduleInfo.licenseText = currentLicenceFilesContent.trim();
-                        } else {
-                            moduleInfo.licenseText = currentLicenceFilesContent
-                                .replace(/"/g, "'")
-                                .replace(/\r?\n|\r/g, ' ')
-                                .trim();
-                        }
-                    }
-
-                    if (clarification?.licenseStart) {
-                        let startIndex = moduleInfo.licenseText.indexOf(clarification.licenseStart);
-                        let endIndex;
-
-                        if (clarification?.licenseEnd) {
-                            endIndex = moduleInfo.licenseText.indexOf(clarification.licenseEnd, startIndex);
-                        } else {
-                            endIndex = moduleInfo.licenseText.length;
-                        }
-
-                        moduleInfo.licenseText = moduleInfo.licenseText.substring(startIndex, endIndex);
-                    }
-                }
-
-                if (mustInclude('copyright') && options.customFormat) {
-                    if (clarification?.copyright) {
-                        moduleInfo.copyright = clarification.copyright;
-                    } else {
-                        if (!currentLicenceFilesContent) {
-                            currentLicenceFilesContent = fs.readFileSync(licenseFile, { encoding: 'utf8' });
-                        }
-
-                        const linesWithCopyright = helpers.getLinesWithCopyright(currentLicenceFilesContent);
-
-                        if (linesWithCopyright.length > 0) {
-                            moduleInfo.copyright = linesWithCopyright[0].replace(/\n/g, '. ').trim();
-                        }
-
-                        // Mark files with multiple copyright statements. This might be
-                        // an indicator to take a closer look at the LICENSE file.
-                        if (linesWithCopyright.length > 1) {
-                            moduleInfo.copyright = `${moduleInfo.copyright}*`;
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-    // console.log('moduleInfo.licenses after: %s', moduleInfo.licenses);
-
-    if (!passedClarificationCheck) {
-        console.error('All clarifications must come with a checksum');
-        process.exit(1);
-    }
-
-    // TODO: How do clarifications interact with notice files?
-    noticeFiles.forEach((filename) => {
-        const file = path.join(currentExtendedPackageJson.path, filename);
-        /*istanbul ignore else*/
-        if (fs.lstatSync(file).isFile()) {
-            moduleInfo.noticeFile = options.basePath ? path.relative(options.basePath, file) : file;
-        }
-    });
-
-    /*istanbul ignore else*/
-    if (currentExtendedPackageJson.dependencies) {
-        Object.keys(currentExtendedPackageJson.dependencies).forEach((dependencyName) => {
-            const childDependency =
-                options.currentRecursionDepth > options._args.direct
-                    ? {}
-                    : currentExtendedPackageJson.dependencies[dependencyName];
-            const dependencyId = `${childDependency.name}@${childDependency.version}`;
-
-            if (data[dependencyId]) {
-                // already exists
-                return;
-            }
-
-            data = recursivelyCollectAllDependencies({
-                _args: options._args,
-                basePath: options.basePath,
-                color: colorize,
-                customFormat: options.customFormat,
-                data,
-                deps: childDependency,
-                development: options.development,
-                production: options.production,
-                unknown,
-                currentRecursionDepth: options.currentRecursionDepth + 1,
-                clarifications: options.clarifications,
-            });
-        });
-    }
-
-    if (!currentExtendedPackageJson.name || !currentExtendedPackageJson.version) {
-        delete data[currentPackageNameAndVersion];
-    }
-
-    /*istanbul ignore next*/
-    if (options.customFormat) {
-        Object.keys(options.customFormat).forEach((customFormatKey) => {
-            if (mustInclude(customFormatKey) && moduleInfo[customFormatKey] === undefined) {
-                moduleInfo[customFormatKey] = helpers.getFirstNotUndefinedOrUndefined(
-                    clarification?.[customFormatKey],
-                    typeof currentExtendedPackageJson[customFormatKey] === 'string'
-                        ? currentExtendedPackageJson[customFormatKey]
-                        : options.customFormat[customFormatKey],
-                );
-            }
-        });
-    }
-
-    return data;
-};
-
-exports.init = function init(args, callback) {
-    debugLog('scanning %s', args.start);
-
-    // customPath is a path to a JSON file that defined a custom format
-    if (args.customPath) {
-        args.customFormat = exports.parseJson(args.customPath);
-    }
-
-    const optionsForReadingInstalledPackages = {
-        depth: args.direct, // How deep to traverse the dependency tree
-        nopeer: args.nopeer, // Whether or not to skip peerDependencies in output
-        dev: true, // Whether or not to include devDependencies
-        log: debugLog, // A function to log debug info
-    };
-
-    if (args.production || args.development) {
-        optionsForReadingInstalledPackages.dev = false;
-    }
-
-    const toCheckforFailOn = [];
-    const toCheckforOnlyAllow = [];
-    let checker;
-    let pusher;
-
-    if (args.onlyAllow) {
-        checker = args.onlyAllow;
-        pusher = toCheckforOnlyAllow;
-    }
-
-    if (args.failOn) {
-        checker = args.failOn;
-        pusher = toCheckforFailOn;
-    }
-
-    // An object mapping from Package name -> What contents it should have
-    let clarifications = {};
-    if (args.clarificationsFile) {
-        clarifications = exports.parseJson(args.clarificationsFile);
-    }
-
-    if (checker && pusher) {
-        checker.split(';').forEach((license) => {
-            license = license.trim();
-            /*istanbul ignore else*/
-            if (license.length > 0) {
-                pusher.push(license);
-            }
-        });
-    }
-
-    readInstalledPackages(args.start, optionsForReadingInstalledPackages, (err, installedPackagesJson) => {
-        // Good to know:
-        // The json object returned by readInstalledPackages stores all direct (prod and dev) dependencies from
-        // the package.json file in the property '_dependencies'. The property 'dependencies' contains all dependencies,
-        // including the ones that are only required by other dependencies.
-        if (optionsForReadingInstalledPackages.depth === 0) {
-            helpers.deleteNonDirectDependenciesFromAllDependencies(installedPackagesJson, args);
-        }
-
-        // 'allWantedDepthDependenciesWithVersions' might be longer than 'installedPackagesJson.dependencies', as it appends the version numbers to each key (package name),
-        // e.g. 'grunt@1' instead of 'grunt', and this way contains all different installed versions of each package:
-        let allWantedDepthDependenciesWithVersions = recursivelyCollectAllDependencies({
-            _args: args,
-            basePath: args.relativeLicensePath ? installedPackagesJson.path : null,
-            color: args.color,
-            customFormat: args.customFormat,
-            data: {},
-            deps: installedPackagesJson,
-            development: args.development,
-            production: args.production,
-            unknown: args.unknown,
-            currentRecursionDepth: 0,
-            clarifications,
-        });
-
-        const colorize = args.color;
-        const sorted = {}; // 'sorted' will store the same items as allWantedDepthDependenciesWithVersions, but sorted by package name and version
-        let resultJson = {};
-        const excludeLicenses =
-            args.excludeLicenses &&
-            args.excludeLicenses
-                .match(/([^\\\][^,]|\\,)+/g)
-                .map((license) => license.replace(/\\,/g, ',').replace(/^\s+|\s+$/g, ''));
-        const includeLicenses =
-            args.includeLicenses &&
-            args.includeLicenses
-                .match(/([^\\\][^,]|\\,)+/g)
-                .map((license) => license.replace(/\\,/g, ',').replace(/^\s+|\s+$/g, ''));
-        let inputError = null;
-
-        const colorizeString = (string) =>
-            /*istanbul ignore next*/
-            colorize ? chalk.bold.red(string) : string;
-
-        const filterDeletePrivatePackages = (privatePackage) => {
-            /*istanbul ignore next - I don't have access to private packages to test */
-            if (resultJson[privatePackage] && resultJson[privatePackage].private) {
-                delete resultJson[privatePackage];
-            }
-        };
-
-        const onlyIncludeWhitelist = (whitelist, filtered) => {
-            const resultJson = {};
-
-            Object.keys(filtered).map((filteredPackage) => {
-                // Whitelist packages by declaring:
-                // 1. the package full name. Ex: `react` (we suffix an '@' to ensure we don't match packages like `react-native`)
-                // 2. the package full name and the major version. Ex: `react@16`
-                // 3. the package full name and full version. Ex: `react@16.0.2`
-                if (
-                    whitelist.findIndex((whitelistPackage) =>
-                        filteredPackage.startsWith(
-                            whitelistPackage.lastIndexOf('@') > 0 ? whitelistPackage : `${whitelistPackage}@`,
-                        ),
-                    ) !== -1
-                ) {
-                    resultJson[filteredPackage] = filtered[filteredPackage];
-                }
-            });
-
-            return resultJson;
-        };
-
-        const excludeBlacklist = (blacklist, filtered) => {
-            const resultJson = {};
-
-            Object.keys(filtered).map((filteredPackage) => {
-                // Blacklist packages by declaring:
-                // 1. the package full name. Ex: `react` (we suffix an '@' to ensure we don't match packages like `react-native`)
-                // 2. the package full name and the major version. Ex: `react@16`
-                // 3. the package full name and full version. Ex: `react@16.0.2`
-                if (
-                    blacklist.findIndex((blacklistPackage) =>
-                        filteredPackage.startsWith(
-                            blacklistPackage.lastIndexOf('@') > 0 ? blacklistPackage : `${blacklistPackage}@`,
-                        ),
-                    ) === -1
-                ) {
-                    resultJson[filteredPackage] = filtered[filteredPackage];
-                }
-            });
-
-            return resultJson;
-        };
-
-        const excludePackagesStartingWith = (blacklist, currentResult) => {
-            const resultJson = { ...currentResult };
-
-            for (const pkgName in resultJson) {
-                for (const denyPrefix of blacklist) {
-                    if (pkgName.startsWith(denyPrefix)) delete resultJson[pkgName];
-                }
-            }
-
-            return resultJson;
-        };
-
-        const exitIfCheckHits = (packageName) => {
-            const currentLicense = resultJson[packageName]?.licenses;
-
-            if (currentLicense) {
-                checkForFailOn(currentLicense);
-                checkForOnlyAllow(currentLicense, packageName);
-            }
-        };
-
-        const checkForFailOn = (currentLicense) => {
-            if (!Array.isArray(toCheckforFailOn) || toCheckforFailOn.length === 0) {
-                return;
-            }
-
-            if (toCheckforFailOn.includes(currentLicense)) {
-                console.error(`Found license defined by the --failOn flag: "${currentLicense}". Exiting.`);
-
-                process.exit(1);
-            }
-        };
-
-        /**
-         * Check if the current license contains (eventually among others) at least one of the allowed licenses
-         *
-         * @param      {string}  currentLicense  The current license
-         * @param      {string}  packageName     The package name
-         */
-        const checkForOnlyAllow = (currentLicense, packageName) => {
-            if (toCheckforOnlyAllow.length > 0) {
-                let containsOneOfAllowedPackages = false;
-
-                for (const allowedLicense of toCheckforOnlyAllow) {
-                    // "currentLicense" is a longer string that may contain several license names,
-                    // and we check if one of those is a license listed in the "toCheckforOnlyAllow"
-                    // licenses array:
-                    if (currentLicense.includes(allowedLicense)) {
-                        containsOneOfAllowedPackages = true;
-                        break;
-                    }
-                }
-
-                if (!containsOneOfAllowedPackages) {
-                    console.error(
-                        `Package "${packageName}" is licensed under "${currentLicense}" which is not permitted by the --onlyAllow flag. Exiting.`,
-                    );
-
-                    process.exit(1);
-                }
-            }
-        };
-
-        const transformBSD = (spdx) =>
-            spdx === 'BSD' ? '(0BSD OR BSD-2-Clause OR BSD-3-Clause OR BSD-4-Clause)' : spdx;
-
-        const invertResultOf = (fn) => (spdx) => !fn(spdx);
-
-        const spdxIsValid = (spdx) => spdxCorrect(spdx) === spdx;
-
-        const getLicenseMatch = (licensesArr, filtered, packageName, packageData, compareLicenses) => {
-            const validSPDXLicenses = compareLicenses.map(transformBSD).filter(spdxIsValid);
-            const invalidSPDXLicenses = compareLicenses.map(transformBSD).filter(invertResultOf(spdxIsValid));
-            const spdxExcluder = `( ${validSPDXLicenses.join(' OR ')} )`;
-
-            let match = false;
-
-            licensesArr.forEach((license) => {
-                /*istanbul ignore if - just for protection*/
-                if (license.indexOf(LICENSE_TITLE_UNKNOWN) >= 0) {
-                    // Necessary due to colorization:
-                    filtered[packageName] = packageData;
-                } else {
-                    if (license.endsWith('*')) {
-                        license = license.slice(0, -1);
-                    }
-
-                    license = transformBSD(license);
-
-                    if (
-                        invalidSPDXLicenses.indexOf(license) >= 0 ||
-                        (spdxCorrect(license) &&
-                            validSPDXLicenses.length > 0 &&
-                            spdxSatisfies(spdxCorrect(license), spdxExcluder))
-                    ) {
-                        match = true;
-                    }
-                }
-            });
-
-            return match;
-        };
-
-        // This following block stores the licenses in the sorted object (before, the sorted object is the empty object):
-        Object.keys(allWantedDepthDependenciesWithVersions)
-            .sort()
-            .forEach((item) => {
-                if (allWantedDepthDependenciesWithVersions[item].private) {
-                    allWantedDepthDependenciesWithVersions[item].licenses = colorizeString(LICENSE_TITLE_UNLICENSED);
-                }
-
-                /*istanbul ignore next*/
-                if (!allWantedDepthDependenciesWithVersions[item].licenses) {
-                    allWantedDepthDependenciesWithVersions[item].licenses = colorizeString(LICENSE_TITLE_UNKNOWN);
-                }
-
-                if (
-                    args.unknown &&
-                    allWantedDepthDependenciesWithVersions[item].licenses &&
-                    allWantedDepthDependenciesWithVersions[item].licenses !== LICENSE_TITLE_UNKNOWN &&
-                    allWantedDepthDependenciesWithVersions[item].licenses.indexOf('*') > -1
-                ) {
-                    /*istanbul ignore if*/
-                    allWantedDepthDependenciesWithVersions[item].licenses = colorizeString(LICENSE_TITLE_UNKNOWN);
-                }
-                /*istanbul ignore else*/
-                if (allWantedDepthDependenciesWithVersions[item]) {
-                    if (args.relativeModulePath && allWantedDepthDependenciesWithVersions[item].path != null) {
-                        allWantedDepthDependenciesWithVersions[item].path = path.relative(
-                            args.start,
-                            allWantedDepthDependenciesWithVersions[item].path,
-                        );
-                    }
-
-                    if (args.onlyunknown) {
-                        if (
-                            allWantedDepthDependenciesWithVersions[item].licenses.indexOf('*') > -1 ||
-                            allWantedDepthDependenciesWithVersions[item].licenses.indexOf(LICENSE_TITLE_UNKNOWN) > -1
-                        ) {
-                            sorted[item] = allWantedDepthDependenciesWithVersions[item];
-                        }
-                    } else {
-                        sorted[item] = allWantedDepthDependenciesWithVersions[item];
-                    }
-                }
-            });
-
-        // 'allWantedDepthDependenciesWithVersions' is not needed anymore:
-        allWantedDepthDependenciesWithVersions = null;
-
-        if (!Object.keys(sorted).length) {
-            err = new Error('No packages found in this path...');
-        }
-
-        // This following block stores the entries from the 'sorted' object in the
-        // resultJson object (before, the resultJson object is the empty object):
-        if (
-            (!Array.isArray(excludeLicenses) || excludeLicenses.length === 0) &&
-            (!Array.isArray(includeLicenses) || includeLicenses.length === 0)
-        ) {
-            resultJson = { ...sorted };
-        } else {
-            if (Array.isArray(excludeLicenses) && excludeLicenses.length > 0) {
-                Object.entries(sorted).forEach(([packageName, packageData]) => {
-                    let { licenses } = packageData;
-
-                    /*istanbul ignore if - just for protection*/
-                    if (!licenses) {
-                        resultJson[packageName] = packageData;
-                    } else {
-                        const licensesArr = Array.isArray(licenses) ? licenses : [licenses];
-                        const licenseMatch = getLicenseMatch(
-                            licensesArr,
-                            resultJson,
-                            packageName,
-                            packageData,
-                            excludeLicenses,
-                        );
-
-                        if (!licenseMatch) {
-                            resultJson[packageName] = packageData;
-                        }
-                    }
-                });
-            }
-
-            if (Array.isArray(includeLicenses) && includeLicenses.length > 0) {
-                Object.entries(sorted).forEach(([packageName, packageData]) => {
-                    let { licenses } = packageData;
-
-                    /*istanbul ignore if - just for protection*/
-                    if (!licenses) {
-                        resultJson[packageName] = packageData;
-                    } else {
-                        const licensesArr = Array.isArray(licenses) ? licenses : [licenses];
-                        const licenseMatch = getLicenseMatch(
-                            licensesArr,
-                            resultJson,
-                            packageName,
-                            packageData,
-                            includeLicenses,
-                        );
-
-                        if (licenseMatch) {
-                            resultJson[packageName] = packageData;
-                        }
-                    }
-                });
-            }
-        }
-
-        // package whitelist
-        const whitelist = helpers.getOptionArray(args.includePackages);
-        if (whitelist) {
-            resultJson = onlyIncludeWhitelist(whitelist, resultJson);
-        }
-
-        // package blacklist
-        const blacklist = helpers.getOptionArray(args.excludePackages);
-        if (blacklist) {
-            resultJson = excludeBlacklist(blacklist, resultJson);
-        }
-
-        // exclude by package name starting with a string
-        const excludeStartStringsArr = helpers.getOptionArray(args.excludePackagesStartingWith);
-        if (excludeStartStringsArr) {
-            resultJson = excludePackagesStartingWith(excludeStartStringsArr, resultJson);
-        }
-
-        if (args.excludePrivatePackages) {
-            Object.keys(resultJson).forEach(filterDeletePrivatePackages);
-        }
-
-        Object.keys(resultJson).forEach(exitIfCheckHits);
-
-        /*istanbul ignore next*/
-        if (err) {
-            debugError(err);
-            inputError = err;
-        } else {
-            // Output to files, if necessary
-            exports.writeOutput(args, resultJson);
-        }
-
-        // Return the callback and variables nicely
-        callback(inputError, resultJson);
-    });
-};
-
-exports.filterAttributes = (attributes, json) => {
-    let filteredJson = json;
-
-    if (attributes) {
-        filteredJson = {};
-        attributes.forEach((attribute) => {
-            filteredJson[attribute] = json[attribute];
-        });
-    }
-
-    return filteredJson;
-};
-
-exports.print = (sorted) => {
-    console.log(exports.asTree(sorted));
-};
-
-exports.asTree = (sorted) => treeify.asTree(sorted, true);
-
-exports.asSummary = (sorted) => {
-    const licenseCountMap = new global.Map();
-    const licenseCountArray = [];
-    const sortedLicenseCountObj = {};
-
-    Object.values(sorted).forEach(({ licenses }) => {
-        /*istanbul ignore else*/
-        if (licenses) {
-            licenseCountMap.set(licenses, licenseCountMap.get(licenses) + 1 || 1);
-        }
-    });
-
-    licenseCountMap.forEach((count, license) => {
-        licenseCountArray.push({ license, count });
-    });
-
-    /*istanbul ignore next*/
-    licenseCountArray
-        .sort((a, b) => b.count - a.count)
-        .forEach(({ license, count }) => {
-            sortedLicenseCountObj[license] = count;
-        });
-
-    return treeify.asTree(sortedLicenseCountObj, true);
-};
-
-exports.asCSV = (sorted, customFormat, csvComponentPrefix) => {
-    const csvHeaders = helpers.getCsvHeaders(customFormat, csvComponentPrefix);
-    const csvDataArr = helpers.getCsvData(sorted, customFormat, csvComponentPrefix);
-
-    return [csvHeaders, ...csvDataArr].join('\n');
-};
-
-/**
- * Exports data as markdown (*.md) file which has it's own syntax.
- * @method
- * @param  {JSON} sorted       The sorted JSON data from all packages.
- * @param  {JSON} customFormat The custom format with information about the needed keys.
- * @return {String}            The returning plain text.
- */
-exports.asMarkDown = (sorted, customFormat) => {
-    let text = [];
-
-    if (customFormat && Object.keys(customFormat).length > 0) {
-        Object.keys(sorted).forEach((sortedItem) => {
-            text.push(`- **[${sortedItem}](${sorted[sortedItem].repository})**`);
-
-            Object.keys(customFormat).forEach((customItem) => {
-                text.push(`    - ${customItem}: ${sorted[sortedItem][customItem]}`);
-            });
-        });
-    } else {
-        Object.keys(sorted).forEach((key) => {
-            const module = sorted[key];
-            text.push(`- [${key}](${module.repository}) - ${module.licenses}`);
-        });
-    }
-
-    return text.join('\n');
-};
-
-/**
- * Output data in plain vertical format like Angular CLI does: https://angular.io/3rdpartylicenses.txt
- */
-exports.asPlainVertical = (sorted) =>
-    Object.entries(sorted)
-        .map(([moduleName, moduleData]) => {
-            let licenseText = helpers.getModuleNameForLicenseTextHeader(moduleName);
-
-            if (Array.isArray(moduleData.licenses) && moduleData.licenses.length > 0) {
-                licenseText += moduleData.licenses.map((moduleLicense) => {
-                    /*istanbul ignore else*/
-                    if (typeof moduleLicense === 'object') {
-                        /*istanbul ignore next*/
-                        return moduleLicense.type || moduleLicense.name;
-                    }
-
-                    /*istanbul ignore next*/
-                    if (typeof moduleLicense === 'string') {
-                        return moduleLicense;
-                    }
-                });
-            } else if (
-                typeof moduleData.licenses === 'object' &&
-                (moduleData.licenses.type || moduleData.licenses.name)
-            ) {
-                licenseText += getLicenseTitle(moduleData.licenses.type || moduleData.licenses.name);
-            } else if (typeof moduleData.licenses === 'string') {
-                licenseText += getLicenseTitle(moduleData.licenses);
-            }
-
-            licenseText += '\n';
-
-            if (Array.isArray(moduleData.licenseFile) && moduleData.licenseFile.length > 0) {
-                licenseText += moduleData.licenseFile.map((moduleLicense) => {
-                    /*istanbul ignore else*/
-                    if (typeof moduleLicense === 'object') {
-                        /*istanbul ignore next*/
-                        return moduleLicense.type || moduleLicense.name;
-                    }
-
-                    if (typeof moduleLicense === 'string') {
-                        return moduleLicense;
-                    }
-                });
-            } else if (
-                typeof moduleData.licenseFile === 'object' &&
-                (moduleData.licenseFile.type || moduleData.licenseFile.name)
-            ) {
-                licenseText += moduleData.licenseFile.type || moduleData.licenseFile.name;
-            } else if (typeof moduleData.licenseFile === 'string') {
-                licenseText += fs.readFileSync(moduleData.licenseFile, { encoding: 'utf8' });
-            }
-
-            return licenseText;
-        })
-        .join('\n\n');
-
-exports.parseJson = (jsonPath) => {
-    if (typeof jsonPath !== 'string') {
-        return new Error('The path was not specified for the JSON file to parse.');
-    }
-
-    try {
-        const jsonFileContents = fs.readFileSync(jsonPath, { encoding: 'utf8' });
-
-        return JSON.parse(jsonFileContents);
-    } catch (err) {
-        return err;
-    }
-};
-
-exports.asFiles = (json, outDir) => {
-    mkdirp.sync(outDir);
-
-    Object.keys(json).forEach((moduleName) => {
-        const licenseFile = json[moduleName].licenseFile;
-
-        if (licenseFile && fs.existsSync(licenseFile)) {
-            const fileContents = fs.readFileSync(licenseFile);
-            const outPath = path.join(outDir, `${moduleName}-LICENSE.txt`);
-            const baseDir = path.dirname(outPath);
-
-            mkdirp.sync(baseDir);
-            fs.writeFileSync(outPath, fileContents, 'utf8');
-        } else {
-            console.warn(`No license file found for module '${moduleName}'`);
-        }
-    });
-};
-
-/**
- * Write output to a file, if indicated in parsedArgs.
- */
-exports.writeOutput = function (parsedArgs, foundLicensesJson) {
-    if (parsedArgs.files || parsedArgs.out) {
-        // Import is in here to avoid a circular dependency
-        const licenseCheckerHelpers = __nccwpck_require__(2871);
-
-        const formattedOutput = licenseCheckerHelpers.getFormattedOutput(foundLicensesJson, parsedArgs);
-
-        if (parsedArgs.files) {
-            exports.asFiles(foundLicensesJson, parsedArgs.files);
-        }
-
-        if (parsedArgs.out) {
-            const dir = path.dirname(parsedArgs.out);
-
-            mkdirp.sync(dir);
-            fs.writeFileSync(parsedArgs.out, formattedOutput, 'utf8');
-        }
-    }
-};
-
-
-/***/ }),
-
-/***/ 53:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-const fs = __nccwpck_require__(7561);
-const path = __nccwpck_require__(9411);
-
-/**
- * ! This function has a wanted sideeffect, as it modifies the json object that is passed by reference.
- *
- *  The depth attribute set in the options parameter here - which is defined by setting the `--direct` flag - is of
- *  no use with npm < 3, as the older npm versions flattened all dependencies into one single directory. So in
- *  order to making `--direct` work with older versions of npm, we need to filter out all non-dependencies from
- *  the json result.
- */
-// TODO: Add tests for this function
-const deleteNonDirectDependenciesFromAllDependencies = function deleteNonDirectDependenciesFromAllDependencies(
-    { _dependencies: directDependencies = {}, dependencies: allDependencies = {}, devDependencies = {} } = {},
-    options,
-) {
-    const allDependenciesArray = Object.keys(allDependencies);
-    const directDependenciesArray = Object.keys(directDependencies);
-    const devDependenciesArray = Object.keys(devDependencies);
-    let wantedDependenciesArray = [];
-
-    if (options.production && !options.development) {
-        wantedDependenciesArray = directDependenciesArray.filter(
-            (directDependency) => !devDependenciesArray.includes(directDependency),
-        );
-    } else if (!options.production && options.development) {
-        wantedDependenciesArray = devDependenciesArray;
-    } else {
-        wantedDependenciesArray = directDependenciesArray;
-    }
-
-    allDependenciesArray.forEach((currentDependency) => {
-        if (!wantedDependenciesArray.includes(currentDependency)) {
-            delete allDependencies[currentDependency];
-        }
-    });
-};
-
-const getRepositoryUrl = function getRepositoryUrl({ clarificationRepository, jsonRepository }) {
-    if (clarificationRepository) {
-        return clarificationRepository;
-    }
-
-    if (typeof jsonRepository?.url === 'string') {
-        return jsonRepository.url
-            .replace('git+ssh://git@', 'git://')
-            .replace('git+https://github.com', 'https://github.com')
-            .replace('git://github.com', 'https://github.com')
-            .replace('git@github.com:', 'https://github.com/')
-            .replace(/\.git$/, '');
-    }
-
-    return undefined;
-};
-
-const getFirstNotUndefinedOrUndefined = function getFirstNotUndefinedOrUndefined() {
-    for (let i = 0; i < arguments.length; i++) {
-        if (typeof arguments[i] !== 'undefined') {
-            return arguments[i];
-        }
-    }
-
-    return undefined;
-};
-
-const getAuthorDetails = function getAuthorDetails({ clarification, author }) {
-    let publisher = getFirstNotUndefinedOrUndefined(clarification?.publisher, author?.name);
-    let email = getFirstNotUndefinedOrUndefined(clarification?.email, author?.email);
-    let url = getFirstNotUndefinedOrUndefined(clarification?.url, author?.url);
-
-    return { publisher, email, url };
-};
-
-const getLinesWithCopyright = function getLinesWithCopyright(fileContents = '') {
-    return fileContents
-        .replace(/\r\n/g, '\n')
-        .split('\n\n')
-        .filter(function selectCopyRightStatements(value) {
-            return (
-                value.startsWith('opyright', 1) && // include copyright statements
-                !value.startsWith('opyright notice', 1) && // exclude lines from from license text
-                !value.startsWith('opyright and related rights', 1)
-            );
-        })
-        .filter(function removeDuplicates(value, index, list) {
-            return index === 0 || value !== list[0];
-        });
-};
-
-const getOptionArray = (option) => {
-    if (Array.isArray(option)) {
-        return option;
-    }
-
-    if (typeof option === 'string') {
-        return option.split(';');
-    }
-
-    return false;
-};
-
-const getCsvData = (sorted, customFormat, csvComponentPrefix) => {
-    const csvDataArr = [];
-
-    Object.entries(sorted).forEach(([key, module]) => {
-        const dataElements = [];
-
-        if (csvComponentPrefix) {
-            dataElements.push(`"${csvComponentPrefix}"`);
-        }
-
-        // Grab the custom keys from the custom format
-        if (typeof customFormat === 'object' && Object.keys(customFormat).length > 0) {
-            dataElements.push(`"${key}"`);
-
-            Object.keys(customFormat).forEach((item) => {
-                dataElements.push(`"${module[item]}"`);
-            });
-        } else {
-            // Be sure to push empty strings for empty values, as this is what CSV expects:
-            dataElements.push([`"${key}"`, `"${module.licenses || ''}"`, `"${module.repository || ''}"`]);
-        }
-
-        csvDataArr.push(dataElements.join(','));
-    });
-
-    return csvDataArr;
-};
-
-const getCsvHeaders = (customFormat, csvComponentPrefix) => {
-    const prefixName = '"component"';
-    const entriesArr = [];
-
-    if (csvComponentPrefix) {
-        entriesArr.push(prefixName);
-    }
-
-    if (typeof customFormat === 'object' && Object.keys(customFormat).length > 0) {
-        entriesArr.push('"module name"');
-
-        Object.keys(customFormat).forEach((item) => {
-            entriesArr.push(`"${item}"`);
-        });
-    } else {
-        entriesArr.push('"module name"', '"license"', '"repository"');
-    }
-
-    return entriesArr.join(',');
-};
-
-const getModuleNameForLicenseTextHeader = (moduleName = '') => {
-    const lastIndexOfAtCharacter = moduleName.lastIndexOf('@');
-
-    return `${moduleName.substring(0, lastIndexOfAtCharacter)} ${moduleName.substring(lastIndexOfAtCharacter + 1)}\n`;
-};
-
-// Eventually store the contents of the module's README.md in currentExtendedPackageJson.readme:
-const storeReadmeInJsonIfExists = (modulePath, currentExtendedPackageJson) => {
-    if (
-        typeof modulePath !== 'string' ||
-        typeof currentExtendedPackageJson !== 'object' ||
-        modulePath === '' ||
-        currentExtendedPackageJson?.readme?.toLowerCase()?.indexOf('no readme data found') === -1
-    ) {
-        return;
-    }
-
-    const readmeFile = path.join(modulePath, 'README.md');
-
-    if (fs.existsSync(readmeFile)) {
-        currentExtendedPackageJson.readme = fs.readFileSync(readmeFile, 'utf8').toString();
-    }
-};
-
-module.exports = {
-    deleteNonDirectDependenciesFromAllDependencies,
-    getAuthorDetails,
-    getCsvData,
-    getCsvHeaders,
-    getFirstNotUndefinedOrUndefined,
-    getLinesWithCopyright,
-    getModuleNameForLicenseTextHeader,
-    getOptionArray,
-    getRepositoryUrl,
-    storeReadmeInJsonIfExists,
-};
-
-
-/***/ }),
-
-/***/ 885:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-const path = __nccwpck_require__(1017);
-
-const BASENAMES_PRECEDENCE = [
-    /^LICENSE$/,
-    /^LICENSE\-\w+$/, // e.g. LICENSE-MIT
-    /^LICENCE$/,
-    /^LICENCE\-\w+$/, // e.g. LICENCE-MIT
-    /^MIT-LICENSE$/,
-    /^COPYING$/,
-    /^README$/, // TODO: should we really include README?
-];
-
-// Find and list license files in the precedence order
-module.exports = function (dirFiles) {
-    const files = [];
-
-    BASENAMES_PRECEDENCE.forEach((basenamePattern) => {
-        dirFiles.some((filename) => {
-            const basename = path.basename(filename, path.extname(filename)).toUpperCase();
-
-            if (basenamePattern.test(basename)) {
-                files.push(filename);
-                return true;
-            }
-
-            return false;
-        });
-    });
-
-    return files;
-};
-
-
-/***/ }),
-
-/***/ 2871:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-const chalk = __nccwpck_require__(8818);
-const cloneDeep = __nccwpck_require__(2061);
-const fs = __nccwpck_require__(7147);
-const path = __nccwpck_require__(1017);
-
-const licenseChecker = __nccwpck_require__(5344);
-
-const shouldColorizeOutput = function shouldColorizeOutput(args) {
-    return args.color && !args.out && !args.files && !(args.csv || args.json || args.markdown || args.plainVertical);
-};
-
-const colorizeOutput = function colorizeOutput(json) {
-    Object.keys(json).forEach((key) => {
-        const index = key.lastIndexOf('@');
-        const colorizedKey =
-            chalk.white.bgKeyword('darkslategrey')(key.slice(0, index + 1)) +
-            chalk.dim('@') +
-            chalk.white.bgKeyword('green')(key.slice(index + 1));
-        json[colorizedKey] = json[key];
-
-        delete json[key];
-    });
-};
-
-const filterJson = function filterJson(limitAttributes, json) {
-    let filteredJson = json;
-
-    if (limitAttributes) {
-        filteredJson = {};
-        const attributes = limitAttributes.split(',').map((attribute) => attribute.trim());
-
-        Object.keys(json).forEach((dependency) => {
-            filteredJson[dependency] = licenseChecker.filterAttributes(attributes, json[dependency]);
-        });
-    }
-
-    return filteredJson;
-};
-
-const getFormattedOutput = function getFormattedOutput(modulesWithVersions, args) {
-    let filteredJson = filterJson(args.limitAttributes, modulesWithVersions);
-    const jsonCopy = cloneDeep(filteredJson);
-    filteredJson = null;
-
-    if (args.files) {
-        Object.keys(jsonCopy).forEach((moduleName) => {
-            const outPath = path.join(args.files, `${moduleName}-LICENSE.txt`);
-            const originalLicenseFile = jsonCopy[moduleName].licenseFile;
-
-            if (originalLicenseFile && fs.existsSync(originalLicenseFile)) {
-                if (args.relativeLicensePath) {
-                    if (args.out) {
-                        jsonCopy[moduleName].licenseFile = path.relative(path.dirname(args.out), outPath);
-                    } else {
-                        jsonCopy[moduleName].licenseFile = path.relative(process.cwd(), outPath);
-                    }
-                } else {
-                    jsonCopy[moduleName].licenseFile = outPath;
-                }
-            }
-        });
-    }
-
-    if (args.json) {
-        return JSON.stringify(jsonCopy, null, 4) + '\n';
-    }
-
-    if (args.csv) {
-        return licenseChecker.asCSV(jsonCopy, args.customFormat, args.csvComponentPrefix);
-    }
-
-    if (args.markdown) {
-        return licenseChecker.asMarkDown(jsonCopy, args.customFormat) + '\n';
-    }
-
-    if (args.summary) {
-        return licenseChecker.asSummary(jsonCopy);
-    }
-
-    if (args.plainVertical || args.angluarCli) {
-        return licenseChecker.asPlainVertical(jsonCopy);
-    }
-
-    return licenseChecker.asTree(jsonCopy);
-};
-
-module.exports = {
-    colorizeOutput: colorizeOutput,
-    getFormattedOutput: getFormattedOutput,
-    shouldColorizeOutput: shouldColorizeOutput,
-};
 
 
 /***/ }),
@@ -11232,7 +11157,7 @@ var y = d * 365.25;
  * @api public
  */
 
-module.exports = function(val, options) {
+module.exports = function (val, options) {
   options = options || {};
   var type = typeof val;
   if (type === 'string' && val.length > 0) {
@@ -13206,6 +13131,8 @@ const Range = __nccwpck_require__(9828)
 /***/ 9828:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
+const SPACE_CHARACTERS = /\s+/g
+
 // hoisted class for cyclic dependency
 class Range {
   constructor (range, options) {
@@ -13226,7 +13153,7 @@ class Range {
       // just put it in the set and return
       this.raw = range.value
       this.set = [[range]]
-      this.format()
+      this.formatted = undefined
       return this
     }
 
@@ -13237,10 +13164,7 @@ class Range {
     // First reduce all whitespace as much as possible so we do not have to rely
     // on potentially slow regexes like \s*. This is then stored and used for
     // future error messages as well.
-    this.raw = range
-      .trim()
-      .split(/\s+/)
-      .join(' ')
+    this.raw = range.trim().replace(SPACE_CHARACTERS, ' ')
 
     // First, split on ||
     this.set = this.raw
@@ -13274,14 +13198,29 @@ class Range {
       }
     }
 
-    this.format()
+    this.formatted = undefined
+  }
+
+  get range () {
+    if (this.formatted === undefined) {
+      this.formatted = ''
+      for (let i = 0; i < this.set.length; i++) {
+        if (i > 0) {
+          this.formatted += '||'
+        }
+        const comps = this.set[i]
+        for (let k = 0; k < comps.length; k++) {
+          if (k > 0) {
+            this.formatted += ' '
+          }
+          this.formatted += comps[k].toString().trim()
+        }
+      }
+    }
+    return this.formatted
   }
 
   format () {
-    this.range = this.set
-      .map((comps) => comps.join(' ').trim())
-      .join('||')
-      .trim()
     return this.range
   }
 
@@ -39316,652 +39255,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ 5840:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-Object.defineProperty(exports, "v1", ({
-  enumerable: true,
-  get: function () {
-    return _v.default;
-  }
-}));
-Object.defineProperty(exports, "v3", ({
-  enumerable: true,
-  get: function () {
-    return _v2.default;
-  }
-}));
-Object.defineProperty(exports, "v4", ({
-  enumerable: true,
-  get: function () {
-    return _v3.default;
-  }
-}));
-Object.defineProperty(exports, "v5", ({
-  enumerable: true,
-  get: function () {
-    return _v4.default;
-  }
-}));
-Object.defineProperty(exports, "NIL", ({
-  enumerable: true,
-  get: function () {
-    return _nil.default;
-  }
-}));
-Object.defineProperty(exports, "version", ({
-  enumerable: true,
-  get: function () {
-    return _version.default;
-  }
-}));
-Object.defineProperty(exports, "validate", ({
-  enumerable: true,
-  get: function () {
-    return _validate.default;
-  }
-}));
-Object.defineProperty(exports, "stringify", ({
-  enumerable: true,
-  get: function () {
-    return _stringify.default;
-  }
-}));
-Object.defineProperty(exports, "parse", ({
-  enumerable: true,
-  get: function () {
-    return _parse.default;
-  }
-}));
-
-var _v = _interopRequireDefault(__nccwpck_require__(8628));
-
-var _v2 = _interopRequireDefault(__nccwpck_require__(6409));
-
-var _v3 = _interopRequireDefault(__nccwpck_require__(5122));
-
-var _v4 = _interopRequireDefault(__nccwpck_require__(9120));
-
-var _nil = _interopRequireDefault(__nccwpck_require__(5332));
-
-var _version = _interopRequireDefault(__nccwpck_require__(1595));
-
-var _validate = _interopRequireDefault(__nccwpck_require__(6900));
-
-var _stringify = _interopRequireDefault(__nccwpck_require__(8950));
-
-var _parse = _interopRequireDefault(__nccwpck_require__(2746));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/***/ }),
-
-/***/ 4569:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _crypto = _interopRequireDefault(__nccwpck_require__(6113));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function md5(bytes) {
-  if (Array.isArray(bytes)) {
-    bytes = Buffer.from(bytes);
-  } else if (typeof bytes === 'string') {
-    bytes = Buffer.from(bytes, 'utf8');
-  }
-
-  return _crypto.default.createHash('md5').update(bytes).digest();
-}
-
-var _default = md5;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 5332:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-var _default = '00000000-0000-0000-0000-000000000000';
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 2746:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _validate = _interopRequireDefault(__nccwpck_require__(6900));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function parse(uuid) {
-  if (!(0, _validate.default)(uuid)) {
-    throw TypeError('Invalid UUID');
-  }
-
-  let v;
-  const arr = new Uint8Array(16); // Parse ########-....-....-....-............
-
-  arr[0] = (v = parseInt(uuid.slice(0, 8), 16)) >>> 24;
-  arr[1] = v >>> 16 & 0xff;
-  arr[2] = v >>> 8 & 0xff;
-  arr[3] = v & 0xff; // Parse ........-####-....-....-............
-
-  arr[4] = (v = parseInt(uuid.slice(9, 13), 16)) >>> 8;
-  arr[5] = v & 0xff; // Parse ........-....-####-....-............
-
-  arr[6] = (v = parseInt(uuid.slice(14, 18), 16)) >>> 8;
-  arr[7] = v & 0xff; // Parse ........-....-....-####-............
-
-  arr[8] = (v = parseInt(uuid.slice(19, 23), 16)) >>> 8;
-  arr[9] = v & 0xff; // Parse ........-....-....-....-############
-  // (Use "/" to avoid 32-bit truncation when bit-shifting high-order bytes)
-
-  arr[10] = (v = parseInt(uuid.slice(24, 36), 16)) / 0x10000000000 & 0xff;
-  arr[11] = v / 0x100000000 & 0xff;
-  arr[12] = v >>> 24 & 0xff;
-  arr[13] = v >>> 16 & 0xff;
-  arr[14] = v >>> 8 & 0xff;
-  arr[15] = v & 0xff;
-  return arr;
-}
-
-var _default = parse;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 814:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-var _default = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 807:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = rng;
-
-var _crypto = _interopRequireDefault(__nccwpck_require__(6113));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const rnds8Pool = new Uint8Array(256); // # of random values to pre-allocate
-
-let poolPtr = rnds8Pool.length;
-
-function rng() {
-  if (poolPtr > rnds8Pool.length - 16) {
-    _crypto.default.randomFillSync(rnds8Pool);
-
-    poolPtr = 0;
-  }
-
-  return rnds8Pool.slice(poolPtr, poolPtr += 16);
-}
-
-/***/ }),
-
-/***/ 5274:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _crypto = _interopRequireDefault(__nccwpck_require__(6113));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function sha1(bytes) {
-  if (Array.isArray(bytes)) {
-    bytes = Buffer.from(bytes);
-  } else if (typeof bytes === 'string') {
-    bytes = Buffer.from(bytes, 'utf8');
-  }
-
-  return _crypto.default.createHash('sha1').update(bytes).digest();
-}
-
-var _default = sha1;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 8950:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _validate = _interopRequireDefault(__nccwpck_require__(6900));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Convert array of 16 byte values to UUID string format of the form:
- * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
- */
-const byteToHex = [];
-
-for (let i = 0; i < 256; ++i) {
-  byteToHex.push((i + 0x100).toString(16).substr(1));
-}
-
-function stringify(arr, offset = 0) {
-  // Note: Be careful editing this code!  It's been tuned for performance
-  // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
-  const uuid = (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + '-' + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + '-' + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + '-' + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + '-' + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase(); // Consistency check for valid UUID.  If this throws, it's likely due to one
-  // of the following:
-  // - One or more input array values don't map to a hex octet (leading to
-  // "undefined" in the uuid)
-  // - Invalid input values for the RFC `version` or `variant` fields
-
-  if (!(0, _validate.default)(uuid)) {
-    throw TypeError('Stringified UUID is invalid');
-  }
-
-  return uuid;
-}
-
-var _default = stringify;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 8628:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _rng = _interopRequireDefault(__nccwpck_require__(807));
-
-var _stringify = _interopRequireDefault(__nccwpck_require__(8950));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// **`v1()` - Generate time-based UUID**
-//
-// Inspired by https://github.com/LiosK/UUID.js
-// and http://docs.python.org/library/uuid.html
-let _nodeId;
-
-let _clockseq; // Previous uuid creation time
-
-
-let _lastMSecs = 0;
-let _lastNSecs = 0; // See https://github.com/uuidjs/uuid for API details
-
-function v1(options, buf, offset) {
-  let i = buf && offset || 0;
-  const b = buf || new Array(16);
-  options = options || {};
-  let node = options.node || _nodeId;
-  let clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq; // node and clockseq need to be initialized to random values if they're not
-  // specified.  We do this lazily to minimize issues related to insufficient
-  // system entropy.  See #189
-
-  if (node == null || clockseq == null) {
-    const seedBytes = options.random || (options.rng || _rng.default)();
-
-    if (node == null) {
-      // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
-      node = _nodeId = [seedBytes[0] | 0x01, seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]];
-    }
-
-    if (clockseq == null) {
-      // Per 4.2.2, randomize (14 bit) clockseq
-      clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 0x3fff;
-    }
-  } // UUID timestamps are 100 nano-second units since the Gregorian epoch,
-  // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
-  // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
-  // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
-
-
-  let msecs = options.msecs !== undefined ? options.msecs : Date.now(); // Per 4.2.1.2, use count of uuid's generated during the current clock
-  // cycle to simulate higher resolution clock
-
-  let nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1; // Time since last uuid creation (in msecs)
-
-  const dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 10000; // Per 4.2.1.2, Bump clockseq on clock regression
-
-  if (dt < 0 && options.clockseq === undefined) {
-    clockseq = clockseq + 1 & 0x3fff;
-  } // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
-  // time interval
-
-
-  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
-    nsecs = 0;
-  } // Per 4.2.1.2 Throw error if too many uuids are requested
-
-
-  if (nsecs >= 10000) {
-    throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
-  }
-
-  _lastMSecs = msecs;
-  _lastNSecs = nsecs;
-  _clockseq = clockseq; // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
-
-  msecs += 12219292800000; // `time_low`
-
-  const tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
-  b[i++] = tl >>> 24 & 0xff;
-  b[i++] = tl >>> 16 & 0xff;
-  b[i++] = tl >>> 8 & 0xff;
-  b[i++] = tl & 0xff; // `time_mid`
-
-  const tmh = msecs / 0x100000000 * 10000 & 0xfffffff;
-  b[i++] = tmh >>> 8 & 0xff;
-  b[i++] = tmh & 0xff; // `time_high_and_version`
-
-  b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
-
-  b[i++] = tmh >>> 16 & 0xff; // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
-
-  b[i++] = clockseq >>> 8 | 0x80; // `clock_seq_low`
-
-  b[i++] = clockseq & 0xff; // `node`
-
-  for (let n = 0; n < 6; ++n) {
-    b[i + n] = node[n];
-  }
-
-  return buf || (0, _stringify.default)(b);
-}
-
-var _default = v1;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 6409:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _v = _interopRequireDefault(__nccwpck_require__(5998));
-
-var _md = _interopRequireDefault(__nccwpck_require__(4569));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const v3 = (0, _v.default)('v3', 0x30, _md.default);
-var _default = v3;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 5998:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = _default;
-exports.URL = exports.DNS = void 0;
-
-var _stringify = _interopRequireDefault(__nccwpck_require__(8950));
-
-var _parse = _interopRequireDefault(__nccwpck_require__(2746));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function stringToBytes(str) {
-  str = unescape(encodeURIComponent(str)); // UTF8 escape
-
-  const bytes = [];
-
-  for (let i = 0; i < str.length; ++i) {
-    bytes.push(str.charCodeAt(i));
-  }
-
-  return bytes;
-}
-
-const DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
-exports.DNS = DNS;
-const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
-exports.URL = URL;
-
-function _default(name, version, hashfunc) {
-  function generateUUID(value, namespace, buf, offset) {
-    if (typeof value === 'string') {
-      value = stringToBytes(value);
-    }
-
-    if (typeof namespace === 'string') {
-      namespace = (0, _parse.default)(namespace);
-    }
-
-    if (namespace.length !== 16) {
-      throw TypeError('Namespace must be array-like (16 iterable integer values, 0-255)');
-    } // Compute hash of namespace and value, Per 4.3
-    // Future: Use spread syntax when supported on all platforms, e.g. `bytes =
-    // hashfunc([...namespace, ... value])`
-
-
-    let bytes = new Uint8Array(16 + value.length);
-    bytes.set(namespace);
-    bytes.set(value, namespace.length);
-    bytes = hashfunc(bytes);
-    bytes[6] = bytes[6] & 0x0f | version;
-    bytes[8] = bytes[8] & 0x3f | 0x80;
-
-    if (buf) {
-      offset = offset || 0;
-
-      for (let i = 0; i < 16; ++i) {
-        buf[offset + i] = bytes[i];
-      }
-
-      return buf;
-    }
-
-    return (0, _stringify.default)(bytes);
-  } // Function#name is not settable on some platforms (#270)
-
-
-  try {
-    generateUUID.name = name; // eslint-disable-next-line no-empty
-  } catch (err) {} // For CommonJS default export support
-
-
-  generateUUID.DNS = DNS;
-  generateUUID.URL = URL;
-  return generateUUID;
-}
-
-/***/ }),
-
-/***/ 5122:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _rng = _interopRequireDefault(__nccwpck_require__(807));
-
-var _stringify = _interopRequireDefault(__nccwpck_require__(8950));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function v4(options, buf, offset) {
-  options = options || {};
-
-  const rnds = options.random || (options.rng || _rng.default)(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-
-
-  rnds[6] = rnds[6] & 0x0f | 0x40;
-  rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
-
-  if (buf) {
-    offset = offset || 0;
-
-    for (let i = 0; i < 16; ++i) {
-      buf[offset + i] = rnds[i];
-    }
-
-    return buf;
-  }
-
-  return (0, _stringify.default)(rnds);
-}
-
-var _default = v4;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 9120:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _v = _interopRequireDefault(__nccwpck_require__(5998));
-
-var _sha = _interopRequireDefault(__nccwpck_require__(5274));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const v5 = (0, _v.default)('v5', 0x50, _sha.default);
-var _default = v5;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 6900:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _regex = _interopRequireDefault(__nccwpck_require__(814));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function validate(uuid) {
-  return typeof uuid === 'string' && _regex.default.test(uuid);
-}
-
-var _default = validate;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 1595:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _validate = _interopRequireDefault(__nccwpck_require__(6900));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function version(uuid) {
-  if (!(0, _validate.default)(uuid)) {
-    throw TypeError('Invalid UUID');
-  }
-
-  return parseInt(uuid.substr(14, 1), 16);
-}
-
-var _default = version;
-exports["default"] = _default;
-
-/***/ }),
-
 /***/ 2524:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
@@ -40076,6 +39369,14 @@ module.exports = require("async_hooks");
 
 "use strict";
 module.exports = require("buffer");
+
+/***/ }),
+
+/***/ 2081:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("child_process");
 
 /***/ }),
 
@@ -40284,6 +39585,14 @@ module.exports = require("stream/web");
 
 "use strict";
 module.exports = require("string_decoder");
+
+/***/ }),
+
+/***/ 9512:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("timers");
 
 /***/ }),
 
@@ -41976,16 +41285,16 @@ module.exports = parseParams
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Glob = void 0;
 const minimatch_1 = __nccwpck_require__(4501);
-const path_scurry_1 = __nccwpck_require__(1081);
 const node_url_1 = __nccwpck_require__(1041);
+const path_scurry_1 = __nccwpck_require__(1081);
 const pattern_js_1 = __nccwpck_require__(6866);
 const walker_js_1 = __nccwpck_require__(153);
 // if no process global, just call it linux.
 // so we default to case-sensitive, / separators
-const defaultPlatform = typeof process === 'object' &&
+const defaultPlatform = (typeof process === 'object' &&
     process &&
-    typeof process.platform === 'string'
-    ? process.platform
+    typeof process.platform === 'string') ?
+    process.platform
     : 'linux';
 /**
  * An object that can perform glob pattern traversals.
@@ -42015,6 +41324,7 @@ class Glob {
     signal;
     windowsPathsNoEscape;
     withFileTypes;
+    includeChildMatches;
     /**
      * The options provided to the constructor.
      */
@@ -42060,6 +41370,7 @@ class Glob {
         this.noext = !!opts.noext;
         this.realpath = !!opts.realpath;
         this.absolute = opts.absolute;
+        this.includeChildMatches = opts.includeChildMatches !== false;
         this.noglobstar = !!opts.noglobstar;
         this.matchBase = !!opts.matchBase;
         this.maxDepth =
@@ -42074,7 +41385,8 @@ class Glob {
         }
         this.windowsPathsNoEscape =
             !!opts.windowsPathsNoEscape ||
-                opts.allowWindowsEscape === false;
+                opts.allowWindowsEscape ===
+                    false;
         if (this.windowsPathsNoEscape) {
             pattern = pattern.map(p => p.replace(/\\/g, '/'));
         }
@@ -42095,12 +41407,9 @@ class Glob {
             }
         }
         else {
-            const Scurry = opts.platform === 'win32'
-                ? path_scurry_1.PathScurryWin32
-                : opts.platform === 'darwin'
-                    ? path_scurry_1.PathScurryDarwin
-                    : opts.platform
-                        ? path_scurry_1.PathScurryPosix
+            const Scurry = opts.platform === 'win32' ? path_scurry_1.PathScurryWin32
+                : opts.platform === 'darwin' ? path_scurry_1.PathScurryDarwin
+                    : opts.platform ? path_scurry_1.PathScurryPosix
                         : path_scurry_1.PathScurry;
             this.scurry = new Scurry(this.cwd, {
                 nocase: opts.nocase,
@@ -42152,11 +41461,12 @@ class Glob {
         return [
             ...(await new walker_js_1.GlobWalker(this.patterns, this.scurry.cwd, {
                 ...this.opts,
-                maxDepth: this.maxDepth !== Infinity
-                    ? this.maxDepth + this.scurry.cwd.depth()
+                maxDepth: this.maxDepth !== Infinity ?
+                    this.maxDepth + this.scurry.cwd.depth()
                     : Infinity,
                 platform: this.platform,
                 nocase: this.nocase,
+                includeChildMatches: this.includeChildMatches,
             }).walk()),
         ];
     }
@@ -42164,32 +41474,35 @@ class Glob {
         return [
             ...new walker_js_1.GlobWalker(this.patterns, this.scurry.cwd, {
                 ...this.opts,
-                maxDepth: this.maxDepth !== Infinity
-                    ? this.maxDepth + this.scurry.cwd.depth()
+                maxDepth: this.maxDepth !== Infinity ?
+                    this.maxDepth + this.scurry.cwd.depth()
                     : Infinity,
                 platform: this.platform,
                 nocase: this.nocase,
+                includeChildMatches: this.includeChildMatches,
             }).walkSync(),
         ];
     }
     stream() {
         return new walker_js_1.GlobStream(this.patterns, this.scurry.cwd, {
             ...this.opts,
-            maxDepth: this.maxDepth !== Infinity
-                ? this.maxDepth + this.scurry.cwd.depth()
+            maxDepth: this.maxDepth !== Infinity ?
+                this.maxDepth + this.scurry.cwd.depth()
                 : Infinity,
             platform: this.platform,
             nocase: this.nocase,
+            includeChildMatches: this.includeChildMatches,
         }).stream();
     }
     streamSync() {
         return new walker_js_1.GlobStream(this.patterns, this.scurry.cwd, {
             ...this.opts,
-            maxDepth: this.maxDepth !== Infinity
-                ? this.maxDepth + this.scurry.cwd.depth()
+            maxDepth: this.maxDepth !== Infinity ?
+                this.maxDepth + this.scurry.cwd.depth()
                 : Infinity,
             platform: this.platform,
             nocase: this.nocase,
+            includeChildMatches: this.includeChildMatches,
         }).streamSync();
     }
     /**
@@ -42265,10 +41578,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Ignore = void 0;
 const minimatch_1 = __nccwpck_require__(4501);
 const pattern_js_1 = __nccwpck_require__(6866);
-const defaultPlatform = typeof process === 'object' &&
+const defaultPlatform = (typeof process === 'object' &&
     process &&
-    typeof process.platform === 'string'
-    ? process.platform
+    typeof process.platform === 'string') ?
+    process.platform
     : 'linux';
 /**
  * Class used to process ignored patterns
@@ -42278,12 +41591,15 @@ class Ignore {
     relativeChildren;
     absolute;
     absoluteChildren;
+    platform;
+    mmopts;
     constructor(ignored, { nobrace, nocase, noext, noglobstar, platform = defaultPlatform, }) {
         this.relative = [];
         this.absolute = [];
         this.relativeChildren = [];
         this.absoluteChildren = [];
-        const mmopts = {
+        this.platform = platform;
+        this.mmopts = {
             dot: true,
             nobrace,
             nocase,
@@ -42294,6 +41610,10 @@ class Ignore {
             nocomment: true,
             nonegate: true,
         };
+        for (const ign of ignored)
+            this.add(ign);
+    }
+    add(ign) {
         // this is a little weird, but it gives us a clean set of optimized
         // minimatch matchers, without getting tripped up if one of them
         // ends in /** inside a brace section, and it's only inefficient at
@@ -42306,36 +41626,34 @@ class Ignore {
         // for absolute-ness.
         // Yet another way, Minimatch could take an array of glob strings, and
         // a cwd option, and do the right thing.
-        for (const ign of ignored) {
-            const mm = new minimatch_1.Minimatch(ign, mmopts);
-            for (let i = 0; i < mm.set.length; i++) {
-                const parsed = mm.set[i];
-                const globParts = mm.globParts[i];
-                /* c8 ignore start */
-                if (!parsed || !globParts) {
-                    throw new Error('invalid pattern object');
-                }
-                // strip off leading ./ portions
-                // https://github.com/isaacs/node-glob/issues/570
-                while (parsed[0] === '.' && globParts[0] === '.') {
-                    parsed.shift();
-                    globParts.shift();
-                }
-                /* c8 ignore stop */
-                const p = new pattern_js_1.Pattern(parsed, globParts, 0, platform);
-                const m = new minimatch_1.Minimatch(p.globString(), mmopts);
-                const children = globParts[globParts.length - 1] === '**';
-                const absolute = p.isAbsolute();
+        const mm = new minimatch_1.Minimatch(ign, this.mmopts);
+        for (let i = 0; i < mm.set.length; i++) {
+            const parsed = mm.set[i];
+            const globParts = mm.globParts[i];
+            /* c8 ignore start */
+            if (!parsed || !globParts) {
+                throw new Error('invalid pattern object');
+            }
+            // strip off leading ./ portions
+            // https://github.com/isaacs/node-glob/issues/570
+            while (parsed[0] === '.' && globParts[0] === '.') {
+                parsed.shift();
+                globParts.shift();
+            }
+            /* c8 ignore stop */
+            const p = new pattern_js_1.Pattern(parsed, globParts, 0, this.platform);
+            const m = new minimatch_1.Minimatch(p.globString(), this.mmopts);
+            const children = globParts[globParts.length - 1] === '**';
+            const absolute = p.isAbsolute();
+            if (absolute)
+                this.absolute.push(m);
+            else
+                this.relative.push(m);
+            if (children) {
                 if (absolute)
-                    this.absolute.push(m);
+                    this.absoluteChildren.push(m);
                 else
-                    this.relative.push(m);
-                if (children) {
-                    if (absolute)
-                        this.absoluteChildren.push(m);
-                    else
-                        this.relativeChildren.push(m);
-                }
+                    this.relativeChildren.push(m);
             }
         }
     }
@@ -42379,33 +41697,42 @@ exports.Ignore = Ignore;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.glob = exports.hasMagic = exports.Glob = exports.unescape = exports.escape = exports.sync = exports.iterate = exports.iterateSync = exports.stream = exports.streamSync = exports.globIterate = exports.globIterateSync = exports.globSync = exports.globStream = exports.globStreamSync = void 0;
+exports.glob = exports.sync = exports.iterate = exports.iterateSync = exports.stream = exports.streamSync = exports.Ignore = exports.hasMagic = exports.Glob = exports.unescape = exports.escape = void 0;
+exports.globStreamSync = globStreamSync;
+exports.globStream = globStream;
+exports.globSync = globSync;
+exports.globIterateSync = globIterateSync;
+exports.globIterate = globIterate;
 const minimatch_1 = __nccwpck_require__(4501);
 const glob_js_1 = __nccwpck_require__(2487);
 const has_magic_js_1 = __nccwpck_require__(3133);
+var minimatch_2 = __nccwpck_require__(4501);
+Object.defineProperty(exports, "escape", ({ enumerable: true, get: function () { return minimatch_2.escape; } }));
+Object.defineProperty(exports, "unescape", ({ enumerable: true, get: function () { return minimatch_2.unescape; } }));
+var glob_js_2 = __nccwpck_require__(2487);
+Object.defineProperty(exports, "Glob", ({ enumerable: true, get: function () { return glob_js_2.Glob; } }));
+var has_magic_js_2 = __nccwpck_require__(3133);
+Object.defineProperty(exports, "hasMagic", ({ enumerable: true, get: function () { return has_magic_js_2.hasMagic; } }));
+var ignore_js_1 = __nccwpck_require__(9703);
+Object.defineProperty(exports, "Ignore", ({ enumerable: true, get: function () { return ignore_js_1.Ignore; } }));
 function globStreamSync(pattern, options = {}) {
     return new glob_js_1.Glob(pattern, options).streamSync();
 }
-exports.globStreamSync = globStreamSync;
 function globStream(pattern, options = {}) {
     return new glob_js_1.Glob(pattern, options).stream();
 }
-exports.globStream = globStream;
 function globSync(pattern, options = {}) {
     return new glob_js_1.Glob(pattern, options).walkSync();
 }
-exports.globSync = globSync;
 async function glob_(pattern, options = {}) {
     return new glob_js_1.Glob(pattern, options).walk();
 }
 function globIterateSync(pattern, options = {}) {
     return new glob_js_1.Glob(pattern, options).iterateSync();
 }
-exports.globIterateSync = globIterateSync;
 function globIterate(pattern, options = {}) {
     return new glob_js_1.Glob(pattern, options).iterate();
 }
-exports.globIterate = globIterate;
 // aliases: glob.sync.stream() glob.stream.sync() glob.sync() etc
 exports.streamSync = globStreamSync;
 exports.stream = Object.assign(globStream, { sync: globStreamSync });
@@ -42417,15 +41744,6 @@ exports.sync = Object.assign(globSync, {
     stream: globStreamSync,
     iterate: globIterateSync,
 });
-/* c8 ignore start */
-var minimatch_2 = __nccwpck_require__(4501);
-Object.defineProperty(exports, "escape", ({ enumerable: true, get: function () { return minimatch_2.escape; } }));
-Object.defineProperty(exports, "unescape", ({ enumerable: true, get: function () { return minimatch_2.unescape; } }));
-var glob_js_2 = __nccwpck_require__(2487);
-Object.defineProperty(exports, "Glob", ({ enumerable: true, get: function () { return glob_js_2.Glob; } }));
-var has_magic_js_2 = __nccwpck_require__(3133);
-Object.defineProperty(exports, "hasMagic", ({ enumerable: true, get: function () { return has_magic_js_2.hasMagic; } }));
-/* c8 ignore stop */
 exports.glob = Object.assign(glob_, {
     glob: glob_,
     globSync,
@@ -42564,9 +41882,9 @@ class Pattern {
     globString() {
         return (this.#globString =
             this.#globString ||
-                (this.#index === 0
-                    ? this.isAbsolute()
-                        ? this.#globList[0] + this.#globList.slice(1).join('/')
+                (this.#index === 0 ?
+                    this.isAbsolute() ?
+                        this.#globList[0] + this.#globList.slice(1).join('/')
                         : this.#globList.join('/')
                     : this.#globList.slice(this.#index).join('/')));
     }
@@ -42595,8 +41913,8 @@ class Pattern {
      */
     isUNC() {
         const pl = this.#patternList;
-        return this.#isUNC !== undefined
-            ? this.#isUNC
+        return this.#isUNC !== undefined ?
+            this.#isUNC
             : (this.#isUNC =
                 this.#platform === 'win32' &&
                     this.#index === 0 &&
@@ -42617,8 +41935,8 @@ class Pattern {
      */
     isDrive() {
         const pl = this.#patternList;
-        return this.#isDrive !== undefined
-            ? this.#isDrive
+        return this.#isDrive !== undefined ?
+            this.#isDrive
             : (this.#isDrive =
                 this.#platform === 'win32' &&
                     this.#index === 0 &&
@@ -42634,8 +41952,8 @@ class Pattern {
      */
     isAbsolute() {
         const pl = this.#patternList;
-        return this.#isAbsolute !== undefined
-            ? this.#isAbsolute
+        return this.#isAbsolute !== undefined ?
+            this.#isAbsolute
             : (this.#isAbsolute =
                 (pl[0] === '' && pl.length > 1) ||
                     this.isDrive() ||
@@ -42646,8 +41964,8 @@ class Pattern {
      */
     root() {
         const p = this.#patternList[0];
-        return typeof p === 'string' && this.isAbsolute() && this.#index === 0
-            ? p
+        return (typeof p === 'string' && this.isAbsolute() && this.#index === 0) ?
+            p
             : '';
     }
     /**
@@ -42783,9 +42101,8 @@ class Processor {
         this.opts = opts;
         this.follow = !!opts.follow;
         this.dot = !!opts.dot;
-        this.hasWalkedCache = hasWalkedCache
-            ? hasWalkedCache.copy()
-            : new HasWalkedCache();
+        this.hasWalkedCache =
+            hasWalkedCache ? hasWalkedCache.copy() : new HasWalkedCache();
     }
     processPatterns(target, patterns) {
         this.patterns = patterns;
@@ -42798,8 +42115,8 @@ class Processor {
             const absolute = pattern.isAbsolute() && this.opts.absolute !== false;
             // start absolute patterns at root
             if (root) {
-                t = t.resolve(root === '/' && this.opts.root !== undefined
-                    ? this.opts.root
+                t = t.resolve(root === '/' && this.opts.root !== undefined ?
+                    this.opts.root
                     : root);
                 const rest = pattern.rest();
                 if (!rest) {
@@ -42999,10 +42316,8 @@ exports.GlobStream = exports.GlobWalker = exports.GlobUtil = void 0;
 const minipass_1 = __nccwpck_require__(4968);
 const ignore_js_1 = __nccwpck_require__(9703);
 const processor_js_1 = __nccwpck_require__(4628);
-const makeIgnore = (ignore, opts) => typeof ignore === 'string'
-    ? new ignore_js_1.Ignore([ignore], opts)
-    : Array.isArray(ignore)
-        ? new ignore_js_1.Ignore(ignore, opts)
+const makeIgnore = (ignore, opts) => typeof ignore === 'string' ? new ignore_js_1.Ignore([ignore], opts)
+    : Array.isArray(ignore) ? new ignore_js_1.Ignore(ignore, opts)
         : ignore;
 /**
  * basic walking utilities that all the glob walker types use
@@ -43019,13 +42334,20 @@ class GlobUtil {
     #sep;
     signal;
     maxDepth;
+    includeChildMatches;
     constructor(patterns, path, opts) {
         this.patterns = patterns;
         this.path = path;
         this.opts = opts;
         this.#sep = !opts.posix && opts.platform === 'win32' ? '\\' : '/';
-        if (opts.ignore) {
-            this.#ignore = makeIgnore(opts.ignore, opts);
+        this.includeChildMatches = opts.includeChildMatches !== false;
+        if (opts.ignore || !this.includeChildMatches) {
+            this.#ignore = makeIgnore(opts.ignore ?? [], opts);
+            if (!this.includeChildMatches &&
+                typeof this.#ignore.add !== 'function') {
+                const m = 'cannot ignore child matches, ignore lacks add() method.';
+                throw new Error(m);
+            }
         }
         // ignore, always set with maxDepth, but it's optional on the
         // GlobOptions type
@@ -43097,7 +42419,7 @@ class GlobUtil {
         return this.matchCheckTest(s, ifDir);
     }
     matchCheckTest(e, ifDir) {
-        return e &&
+        return (e &&
             (this.maxDepth === Infinity || e.depth() <= this.maxDepth) &&
             (!ifDir || e.canReaddir()) &&
             (!this.opts.nodir || !e.isDirectory()) &&
@@ -43105,8 +42427,8 @@ class GlobUtil {
                 !this.opts.follow ||
                 !e.isSymbolicLink() ||
                 !e.realpathCached()?.isDirectory()) &&
-            !this.#ignored(e)
-            ? e
+            !this.#ignored(e)) ?
+            e
             : undefined;
     }
     matchCheckSync(e, ifDir) {
@@ -43132,6 +42454,11 @@ class GlobUtil {
     matchFinish(e, absolute) {
         if (this.#ignored(e))
             return;
+        // we know we have an ignore if this is false, but TS doesn't
+        if (!this.includeChildMatches && this.#ignore?.add) {
+            const ign = `${e.relativePosix()}/**`;
+            this.#ignore.add(ign);
+        }
         const abs = this.opts.absolute === undefined ? absolute : this.opts.absolute;
         this.seen.add(e);
         const mark = this.opts.mark && e.isDirectory() ? this.#sep : '';
@@ -43145,8 +42472,8 @@ class GlobUtil {
         }
         else {
             const rel = this.opts.posix ? e.relativePosix() : e.relative();
-            const pre = this.opts.dotRelative && !rel.startsWith('..' + this.#sep)
-                ? '.' + this.#sep
+            const pre = this.opts.dotRelative && !rel.startsWith('..' + this.#sep) ?
+                '.' + this.#sep
                 : '';
             this.matchEmit(!rel ? '.' + mark : pre + rel + mark);
         }
@@ -43286,10 +42613,9 @@ class GlobUtil {
 }
 exports.GlobUtil = GlobUtil;
 class GlobWalker extends GlobUtil {
-    matches;
+    matches = new Set();
     constructor(patterns, path, opts) {
         super(patterns, path, opts);
-        this.matches = new Set();
     }
     matchEmit(e) {
         this.matches.add(e);
@@ -44738,21 +44064,26 @@ class Stack {
 /**
  * Default export, the thing you're using this module to get.
  *
- * All properties from the options object (with the exception of
- * {@link OptionsBase.max} and {@link OptionsBase.maxSize}) are added as
- * normal public members. (`max` and `maxBase` are read-only getters.)
- * Changing any of these will alter the defaults for subsequent method calls,
- * but is otherwise safe.
+ * The `K` and `V` types define the key and value types, respectively. The
+ * optional `FC` type defines the type of the `context` object passed to
+ * `cache.fetch()` and `cache.memo()`.
+ *
+ * Keys and values **must not** be `null` or `undefined`.
+ *
+ * All properties from the options object (with the exception of `max`,
+ * `maxSize`, `fetchMethod`, `memoMethod`, `dispose` and `disposeAfter`) are
+ * added as normal public members. (The listed options are read-only getters.)
+ *
+ * Changing any of these will alter the defaults for subsequent method calls.
  */
 class LRUCache {
-    // properties coming in from the options of these, only max and maxSize
-    // really *need* to be protected. The rest can be modified, as they just
-    // set defaults for various methods.
+    // options that cannot be changed without disaster
     #max;
     #maxSize;
     #dispose;
     #disposeAfter;
     #fetchMethod;
+    #memoMethod;
     /**
      * {@link LRUCache.OptionsBase.ttl}
      */
@@ -44898,6 +44229,9 @@ class LRUCache {
     get fetchMethod() {
         return this.#fetchMethod;
     }
+    get memoMethod() {
+        return this.#memoMethod;
+    }
     /**
      * {@link LRUCache.OptionsBase.dispose} (read-only)
      */
@@ -44911,7 +44245,7 @@ class LRUCache {
         return this.#disposeAfter;
     }
     constructor(options) {
-        const { max = 0, ttl, ttlResolution = 1, ttlAutopurge, updateAgeOnGet, updateAgeOnHas, allowStale, dispose, disposeAfter, noDisposeOnSet, noUpdateTTL, maxSize = 0, maxEntrySize = 0, sizeCalculation, fetchMethod, noDeleteOnFetchRejection, noDeleteOnStaleGet, allowStaleOnFetchRejection, allowStaleOnFetchAbort, ignoreFetchAbort, } = options;
+        const { max = 0, ttl, ttlResolution = 1, ttlAutopurge, updateAgeOnGet, updateAgeOnHas, allowStale, dispose, disposeAfter, noDisposeOnSet, noUpdateTTL, maxSize = 0, maxEntrySize = 0, sizeCalculation, fetchMethod, memoMethod, noDeleteOnFetchRejection, noDeleteOnStaleGet, allowStaleOnFetchRejection, allowStaleOnFetchAbort, ignoreFetchAbort, } = options;
         if (max !== 0 && !isPosInt(max)) {
             throw new TypeError('max option must be a nonnegative integer');
         }
@@ -44931,6 +44265,11 @@ class LRUCache {
                 throw new TypeError('sizeCalculation set to non-function');
             }
         }
+        if (memoMethod !== undefined &&
+            typeof memoMethod !== 'function') {
+            throw new TypeError('memoMethod must be a function if defined');
+        }
+        this.#memoMethod = memoMethod;
         if (fetchMethod !== undefined &&
             typeof fetchMethod !== 'function') {
             throw new TypeError('fetchMethod must be a function if specified');
@@ -45009,7 +44348,8 @@ class LRUCache {
         }
     }
     /**
-     * Return the remaining TTL time for a given entry key
+     * Return the number of ms left in the item's TTL. If item is not in cache,
+     * returns `0`. Returns `Infinity` if item is in cache without a defined TTL.
      */
     getRemainingTTL(key) {
         return this.#keyMap.has(key) ? Infinity : 0;
@@ -45025,7 +44365,7 @@ class LRUCache {
             if (ttl !== 0 && this.ttlAutopurge) {
                 const t = setTimeout(() => {
                     if (this.#isStale(index)) {
-                        this.delete(this.#keyList[index]);
+                        this.#delete(this.#keyList[index], 'expire');
                     }
                 }, ttl + 1);
                 // unref() not supported on all platforms
@@ -45282,13 +44622,14 @@ class LRUCache {
         return this.entries();
     }
     /**
-     * A String value that is used in the creation of the default string description of an object.
-     * Called by the built-in method Object.prototype.toString.
+     * A String value that is used in the creation of the default string
+     * description of an object. Called by the built-in method
+     * `Object.prototype.toString`.
      */
     [Symbol.toStringTag] = 'LRUCache';
     /**
      * Find a value for which the supplied fn method returns a truthy value,
-     * similar to Array.find().  fn is called as fn(value, key, cache).
+     * similar to `Array.find()`. fn is called as `fn(value, key, cache)`.
      */
     find(fn, getOptions = {}) {
         for (const i of this.#indexes()) {
@@ -45304,10 +44645,15 @@ class LRUCache {
         }
     }
     /**
-     * Call the supplied function on each item in the cache, in order from
-     * most recently used to least recently used.  fn is called as
-     * fn(value, key, cache).  Does not update age or recenty of use.
-     * Does not iterate over stale values.
+     * Call the supplied function on each item in the cache, in order from most
+     * recently used to least recently used.
+     *
+     * `fn` is called as `fn(value, key, cache)`.
+     *
+     * If `thisp` is provided, function will be called in the `this`-context of
+     * the provided object, or the cache if no `thisp` object is provided.
+     *
+     * Does not update age or recenty of use, or iterate over stale values.
      */
     forEach(fn, thisp = this) {
         for (const i of this.#indexes()) {
@@ -45343,7 +44689,7 @@ class LRUCache {
         let deleted = false;
         for (const i of this.#rindexes({ allowStale: true })) {
             if (this.#isStale(i)) {
-                this.delete(this.#keyList[i]);
+                this.#delete(this.#keyList[i], 'expire');
                 deleted = true;
             }
         }
@@ -45351,9 +44697,15 @@ class LRUCache {
     }
     /**
      * Get the extended info about a given entry, to get its value, size, and
-     * TTL info simultaneously. Like {@link LRUCache#dump}, but just for a
-     * single key. Always returns stale values, if their info is found in the
-     * cache, so be sure to check for expired TTLs if relevant.
+     * TTL info simultaneously. Returns `undefined` if the key is not present.
+     *
+     * Unlike {@link LRUCache#dump}, which is designed to be portable and survive
+     * serialization, the `start` value is always the current timestamp, and the
+     * `ttl` is a calculated remaining time to live (negative if expired).
+     *
+     * Always returns stale values, if their info is found in the cache, so be
+     * sure to check for expirations (ie, a negative {@link LRUCache.Entry#ttl})
+     * if relevant.
      */
     info(key) {
         const i = this.#keyMap.get(key);
@@ -45382,7 +44734,16 @@ class LRUCache {
     }
     /**
      * Return an array of [key, {@link LRUCache.Entry}] tuples which can be
-     * passed to cache.load()
+     * passed to {@link LRLUCache#load}.
+     *
+     * The `start` fields are calculated relative to a portable `Date.now()`
+     * timestamp, even if `performance.now()` is available.
+     *
+     * Stale entries are always included in the `dump`, even if
+     * {@link LRUCache.OptionsBase.allowStale} is false.
+     *
+     * Note: this returns an actual array, not a generator, so it can be more
+     * easily passed around.
      */
     dump() {
         const arr = [];
@@ -45411,8 +44772,12 @@ class LRUCache {
     }
     /**
      * Reset the cache and load in the items in entries in the order listed.
-     * Note that the shape of the resulting cache may be different if the
-     * same options are not used in both caches.
+     *
+     * The shape of the resulting cache may be different if the same options are
+     * not used in both caches.
+     *
+     * The `start` fields are assumed to be calculated relative to a portable
+     * `Date.now()` timestamp, even if `performance.now()` is available.
      */
     load(arr) {
         this.clear();
@@ -45435,6 +44800,30 @@ class LRUCache {
      *
      * Note: if `undefined` is specified as a value, this is an alias for
      * {@link LRUCache#delete}
+     *
+     * Fields on the {@link LRUCache.SetOptions} options param will override
+     * their corresponding values in the constructor options for the scope
+     * of this single `set()` operation.
+     *
+     * If `start` is provided, then that will set the effective start
+     * time for the TTL calculation. Note that this must be a previous
+     * value of `performance.now()` if supported, or a previous value of
+     * `Date.now()` if not.
+     *
+     * Options object may also include `size`, which will prevent
+     * calling the `sizeCalculation` function and just use the specified
+     * number if it is a positive integer, and `noDisposeOnSet` which
+     * will prevent calling a `dispose` function in the case of
+     * overwrites.
+     *
+     * If the `size` (or return value of `sizeCalculation`) for a given
+     * entry is greater than `maxEntrySize`, then the item will not be
+     * added to the cache.
+     *
+     * Will update the recency of the entry.
+     *
+     * If the value is `undefined`, then this is an alias for
+     * `cache.delete(key)`. `undefined` is never stored in the cache.
      */
     set(k, v, setOptions = {}) {
         if (v === undefined) {
@@ -45452,7 +44841,7 @@ class LRUCache {
                 status.maxEntrySizeExceeded = true;
             }
             // have to delete, in case something is there already.
-            this.delete(k);
+            this.#delete(k, 'set');
             return this;
         }
         let index = this.#size === 0 ? undefined : this.#keyMap.get(k);
@@ -45604,6 +44993,14 @@ class LRUCache {
      * Will return false if the item is stale, even though it is technically
      * in the cache.
      *
+     * Check if a key is in the cache, without updating the recency of
+     * use. Age is updated if {@link LRUCache.OptionsBase.updateAgeOnHas} is set
+     * to `true` in either the options or the constructor.
+     *
+     * Will return `false` if the item is stale, even though it is technically in
+     * the cache. The difference can be determined (if it matters) by using a
+     * `status` argument, and inspecting the `has` field.
+     *
      * Will not update item age unless
      * {@link LRUCache.OptionsBase.updateAgeOnHas} is set.
      */
@@ -45695,7 +45092,7 @@ class LRUCache {
                         this.#valList[index] = bf.__staleWhileFetching;
                     }
                     else {
-                        this.delete(k);
+                        this.#delete(k, 'fetch');
                     }
                 }
                 else {
@@ -45724,7 +45121,7 @@ class LRUCache {
                 // the stale value is not removed from the cache when the fetch fails.
                 const del = !noDelete || bf.__staleWhileFetching === undefined;
                 if (del) {
-                    this.delete(k);
+                    this.#delete(k, 'fetch');
                 }
                 else if (!allowStaleAborted) {
                     // still replace the *promise* with the stale value,
@@ -45870,6 +45267,28 @@ class LRUCache {
             return staleVal ? p.__staleWhileFetching : (p.__returned = p);
         }
     }
+    async forceFetch(k, fetchOptions = {}) {
+        const v = await this.fetch(k, fetchOptions);
+        if (v === undefined)
+            throw new Error('fetch() returned undefined');
+        return v;
+    }
+    memo(k, memoOptions = {}) {
+        const memoMethod = this.#memoMethod;
+        if (!memoMethod) {
+            throw new Error('no memoMethod provided to constructor');
+        }
+        const { context, forceRefresh, ...options } = memoOptions;
+        const v = this.get(k, options);
+        if (!forceRefresh && v !== undefined)
+            return v;
+        const vv = memoMethod(k, v, {
+            options,
+            context,
+        });
+        this.set(k, vv, options);
+        return vv;
+    }
     /**
      * Return a value from the cache. Will update the recency of the cache
      * entry found.
@@ -45890,7 +45309,7 @@ class LRUCache {
                 // delete only if not an in-flight background fetch
                 if (!fetching) {
                     if (!noDeleteOnStaleGet) {
-                        this.delete(k);
+                        this.#delete(k, 'expire');
                     }
                     if (status && allowStale)
                         status.returnedStale = true;
@@ -45953,16 +45372,20 @@ class LRUCache {
     }
     /**
      * Deletes a key out of the cache.
+     *
      * Returns true if the key was deleted, false otherwise.
      */
     delete(k) {
+        return this.#delete(k, 'delete');
+    }
+    #delete(k, reason) {
         let deleted = false;
         if (this.#size !== 0) {
             const index = this.#keyMap.get(k);
             if (index !== undefined) {
                 deleted = true;
                 if (this.#size === 1) {
-                    this.clear();
+                    this.#clear(reason);
                 }
                 else {
                     this.#removeItemSize(index);
@@ -45972,10 +45395,10 @@ class LRUCache {
                     }
                     else if (this.#hasDispose || this.#hasDisposeAfter) {
                         if (this.#hasDispose) {
-                            this.#dispose?.(v, k, 'delete');
+                            this.#dispose?.(v, k, reason);
                         }
                         if (this.#hasDisposeAfter) {
-                            this.#disposed?.push([v, k, 'delete']);
+                            this.#disposed?.push([v, k, reason]);
                         }
                     }
                     this.#keyMap.delete(k);
@@ -46011,6 +45434,9 @@ class LRUCache {
      * Clear the cache entirely, throwing away all values.
      */
     clear() {
+        return this.#clear('delete');
+    }
+    #clear(reason) {
         for (const index of this.#rindexes({ allowStale: true })) {
             const v = this.#valList[index];
             if (this.#isBackgroundFetch(v)) {
@@ -46019,10 +45445,10 @@ class LRUCache {
             else {
                 const k = this.#keyList[index];
                 if (this.#hasDispose) {
-                    this.#dispose?.(v, k, 'delete');
+                    this.#dispose?.(v, k, reason);
                 }
                 if (this.#hasDisposeAfter) {
-                    this.#disposed?.push([v, k, 'delete']);
+                    this.#disposed?.push([v, k, reason]);
                 }
             }
         }
@@ -47400,10 +46826,11 @@ class Minimatch {
         for (let i = 0; i < globParts.length - 1; i++) {
             for (let j = i + 1; j < globParts.length; j++) {
                 const matched = this.partsMatch(globParts[i], globParts[j], !this.preserveMultipleSlashes);
-                if (!matched)
-                    continue;
-                globParts[i] = matched;
-                globParts[j] = [];
+                if (matched) {
+                    globParts[i] = [];
+                    globParts[j] = matched;
+                    break;
+                }
             }
         }
         return globParts.filter(gs => gs.length);
@@ -50973,11 +50400,1532 @@ exports.PathScurry = process.platform === 'win32' ? PathScurryWin32
 
 /***/ }),
 
+/***/ 2591:
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
+
+"use strict";
+// ESM COMPAT FLAG
+__nccwpck_require__.r(__webpack_exports__);
+
+// EXPORTS
+__nccwpck_require__.d(__webpack_exports__, {
+  "asCSV": () => (/* binding */ asCSV),
+  "asFiles": () => (/* binding */ asFiles),
+  "asMarkDown": () => (/* binding */ asMarkDown),
+  "asPlainVertical": () => (/* binding */ asPlainVertical),
+  "asSummary": () => (/* binding */ asSummary),
+  "asTree": () => (/* binding */ asTree),
+  "filterAttributes": () => (/* binding */ filterAttributes),
+  "init": () => (/* binding */ init),
+  "parseJson": () => (/* binding */ parseJson),
+  "print": () => (/* binding */ print),
+  "recursivelyCollectAllDependencies": () => (/* binding */ recursivelyCollectAllDependencies),
+  "writeOutput": () => (/* binding */ writeOutput)
+});
+
+// EXTERNAL MODULE: ./node_modules/chalk/source/index.js
+var source = __nccwpck_require__(8818);
+// EXTERNAL MODULE: ./node_modules/debug/src/index.js
+var src = __nccwpck_require__(8237);
+// EXTERNAL MODULE: external "node:fs"
+var external_node_fs_ = __nccwpck_require__(7561);
+// EXTERNAL MODULE: ./node_modules/mkdirp/index.js
+var mkdirp = __nccwpck_require__(6186);
+// EXTERNAL MODULE: external "node:path"
+var external_node_path_ = __nccwpck_require__(9411);
+// EXTERNAL MODULE: ./node_modules/read-installed-packages/read-installed.js
+var read_installed = __nccwpck_require__(2057);
+// EXTERNAL MODULE: ./node_modules/spdx-correct/index.js
+var spdx_correct = __nccwpck_require__(2372);
+// EXTERNAL MODULE: ./node_modules/spdx-satisfies/index.js
+var spdx_satisfies = __nccwpck_require__(4424);
+// EXTERNAL MODULE: ./node_modules/treeify/treeify.js
+var treeify = __nccwpck_require__(355);
+// EXTERNAL MODULE: external "crypto"
+var external_crypto_ = __nccwpck_require__(6113);
+// EXTERNAL MODULE: ./node_modules/semver/index.js
+var semver = __nccwpck_require__(1383);
+// EXTERNAL MODULE: ./node_modules/lodash.clonedeep/index.js
+var lodash_clonedeep = __nccwpck_require__(2061);
+;// CONCATENATED MODULE: ./node_modules/license-checker-rseidelsohn/lib/licenseCheckerHelpers.js
+
+
+
+
+
+
+
+const shouldColorizeOutput = function shouldColorizeOutput(args) {
+    return args.color && !args.out && !args.files && !(args.csv || args.json || args.markdown || args.plainVertical);
+};
+
+const colorizeOutput = function colorizeOutput(json) {
+    Object.keys(json).forEach((key) => {
+        const index = key.lastIndexOf('@');
+        const colorizedKey =
+            chalk.white.bgKeyword('darkslategrey')(key.slice(0, index + 1)) +
+            chalk.dim('@') +
+            chalk.white.bgKeyword('green')(key.slice(index + 1));
+        json[colorizedKey] = json[key];
+
+        delete json[key];
+    });
+};
+
+const filterJson = function filterJson(limitAttributes, json) {
+    let filteredJson = json;
+
+    if (limitAttributes) {
+        filteredJson = {};
+        const attributes = limitAttributes.split(',').map((attribute) => attribute.trim());
+
+        Object.keys(json).forEach((dependency) => {
+            filteredJson[dependency] = filterAttributes(attributes, json[dependency]);
+        });
+    }
+
+    return filteredJson;
+};
+
+const getFormattedOutput = function getFormattedOutput(modulesWithVersions, args) {
+    let filteredJson = filterJson(args.limitAttributes, modulesWithVersions);
+    const jsonCopy = lodash_clonedeep(filteredJson);
+    filteredJson = null;
+
+    if (args.files) {
+        Object.keys(jsonCopy).forEach((moduleName) => {
+            const outPath = external_node_path_.join(args.files, `${moduleName}-LICENSE.txt`);
+            const originalLicenseFile = jsonCopy[moduleName].licenseFile;
+
+            if (originalLicenseFile && external_node_fs_.existsSync(originalLicenseFile)) {
+                if (args.relativeLicensePath) {
+                    if (args.out) {
+                        jsonCopy[moduleName].licenseFile = external_node_path_.relative(external_node_path_.dirname(args.out), outPath);
+                    } else {
+                        jsonCopy[moduleName].licenseFile = external_node_path_.relative(process.cwd(), outPath);
+                    }
+                } else {
+                    jsonCopy[moduleName].licenseFile = outPath;
+                }
+            }
+        });
+    }
+
+    if (args.json) {
+        return JSON.stringify(jsonCopy, null, 4) + '\n';
+    }
+
+    if (args.csv) {
+        return asCSV(jsonCopy, args.customFormat, args.csvComponentPrefix);
+    }
+
+    if (args.markdown) {
+        return asMarkDown(jsonCopy, args.customFormat) + '\n';
+    }
+
+    if (args.summary) {
+        return asSummary(jsonCopy);
+    }
+
+    if (args.plainVertical || args.angluarCli) {
+        return asPlainVertical(jsonCopy);
+    }
+
+    return asTree(jsonCopy);
+};
+
+
+
+// EXTERNAL MODULE: ./node_modules/spdx-expression-parse/index.js
+var spdx_expression_parse = __nccwpck_require__(5254);
+;// CONCATENATED MODULE: ./node_modules/license-checker-rseidelsohn/lib/getLicenseTitle.js
+
+
+const MIT_LICENSE = /ermission is hereby granted, free of charge, to any/;
+const BSD_LICENSE = /edistribution and use in source and binary forms, with or withou/;
+const BSD_SOURCE_CODE_LICENSE = /edistribution and use of this software in source and binary forms, with or withou/;
+const WTFPL_LICENSE = /DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE/;
+const ISC_LICENSE = /The ISC License/;
+const HIPPOCRATIC_LICENSE = /Hippocratic License/;
+const MIT = /\bMIT\b/;
+const BSD = /\bBSD\b/;
+const ISC = /\bISC\b/;
+const GPL = /\bGNU GENERAL PUBLIC LICENSE\s*Version ([^,]*)/i;
+const LGPL = /(?:LESSER|LIBRARY) GENERAL PUBLIC LICENSE\s*Version ([^,]*)/i;
+const APACHE_VERSION = /\bApache License\s*Version ([^,\s]*)/i;
+const APACHE = /\bApache License\b/;
+const APACHE_VERSION_SHORT = /\bApache ([^,\s]*)/i;
+const WTFPL = /\bWTFPL\b/;
+const ZERO_PARITY_LICENSE = /\bParity\b/;
+// https://creativecommons.org/publicdomain/zero/1.0/
+const CC0_1_0 =
+    /The\s+person\s+who\s+associated\s+a\s+work\s+with\s+this\s+deed\s+has\s+dedicated\s+the\s+work\s+to\s+the\s+public\s+domain\s+by\s+waiving\s+all\s+of\s+his\s+or\s+her\s+rights\s+to\s+the\s+work\s+worldwide\s+under\s+copyright\s+law,\s+including\s+all\s+related\s+and\s+neighboring\s+rights,\s+to\s+the\s+extent\s+allowed\s+by\s+law.\s+You\s+can\s+copy,\s+modify,\s+distribute\s+and\s+perform\s+the\s+work,\s+even\s+for\s+commercial\s+purposes,\s+all\s+without\s+asking\s+permission./i; // jshint ignore:line
+const PUBLIC_DOMAIN = /[Pp]ublic[\-_ ]*[Dd]omain/;
+const IS_URL = /(https?:\/\/[-a-zA-Z0-9\/.]*)/;
+const CONTAINS_URLS_ENDING_WITH = /(.svg|.gif|.png|.jpg|.jpeg)$/i;
+const CONTAINS_LICENSE_TERM = /(license|licence|lizenz)/gi;
+const IS_FILE_REFERENCE = /SEE LICENSE IN (.*)/i;
+const UNLICENSED = /UNLICENSED/i;
+
+const getLicenseTitle = (str = 'undefined') => {
+    if (typeof str !== 'string') {
+        throw new Error(
+            `Wrong type for parameter "str" ("${str}"): Must be of type string`,
+            'lib/getLicenseTitle.js',
+            24,
+        );
+    }
+
+    let match;
+    let version;
+
+    try {
+        // Simply check if the string is a valid SPDX expression:
+        spdx_expression_parse(str);
+
+        // No need for additional parsing efforts:
+        return str;
+    } catch (error) {
+        // Fail silently and continue with additional parsing efforts:
+    }
+
+    if (str) {
+        str = str.replace('\n', '');
+    }
+
+    if (!str || str === 'undefined') {
+        return 'Undefined';
+    }
+
+    if (ZERO_PARITY_LICENSE.test(str)) {
+        return 'Zero Parity*';
+    }
+
+    if (ISC_LICENSE.test(str)) {
+        return 'ISC*';
+    }
+
+    if (HIPPOCRATIC_LICENSE.test(str)) {
+        return 'Hippocratic-2.1*';
+    }
+
+    if (MIT_LICENSE.test(str)) {
+        return 'MIT*';
+    }
+
+    if (BSD_LICENSE.test(str)) {
+        return 'BSD*';
+    }
+
+    if (BSD_SOURCE_CODE_LICENSE.test(str)) {
+        // https://spdx.org/licenses/BSD-Source-Code.html
+        return 'BSD-Source-Code*';
+    }
+
+    if (WTFPL_LICENSE.test(str)) {
+        return 'WTFPL*';
+    }
+
+    if (ISC.test(str)) {
+        return 'ISC*';
+    }
+
+    if (MIT.test(str)) {
+        return 'MIT*';
+    }
+
+    if (BSD.test(str)) {
+        return 'BSD*';
+    }
+
+    if (WTFPL.test(str)) {
+        return 'WTFPL*';
+    }
+
+    if (APACHE_VERSION.test(str)) {
+        match = APACHE_VERSION.exec(str);
+        version = match[1];
+
+        if (version.length === 1) {
+            version = version + '.0';
+        }
+
+        return 'Apache-' + version + '*';
+    }
+
+    if (APACHE.test(str)) {
+        return 'Apache*';
+    }
+
+    if (APACHE_VERSION_SHORT.test(str)) {
+        match = APACHE_VERSION_SHORT.exec(str);
+        version = match[1];
+
+        if (version.length === 1) {
+            version = version + '.0';
+        }
+
+        return 'Apache-' + version + '*';
+    }
+
+    if (CC0_1_0.test(str)) {
+        return 'CC0-1.0*';
+    }
+
+    if (GPL.test(str)) {
+        match = GPL.exec(str);
+        version = match[1];
+
+        /*istanbul ignore else*/
+        if (version.length === 1) {
+            version = version + '.0';
+        }
+
+        return 'GPL-' + version + '*';
+    }
+
+    if (LGPL.test(str)) {
+        match = LGPL.exec(str);
+        version = match[1];
+
+        if (version.length === 1) {
+            version = version + '.0';
+        }
+        return 'LGPL-' + version + '*';
+    }
+
+    if (PUBLIC_DOMAIN.test(str)) {
+        return 'Public Domain';
+    }
+
+    if (UNLICENSED.test(str)) {
+        return 'UNLICENSED';
+    }
+
+    match = IS_URL.exec(str) || IS_FILE_REFERENCE.exec(str);
+
+    if (match) {
+        const matchedUrl = match[1];
+        CONTAINS_LICENSE_TERM.lastIndex = 0;
+        CONTAINS_URLS_ENDING_WITH.lastIndex = 0;
+
+        if (CONTAINS_LICENSE_TERM.test(str) && !CONTAINS_URLS_ENDING_WITH.test(matchedUrl)) {
+            return `Custom: ${matchedUrl}`;
+        }
+    }
+
+    return null;
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/license-checker-rseidelsohn/lib/license-files.js
+
+
+const BASENAMES_PRECEDENCE = [
+    /^LICENSE$/,
+    /^LICENSE\-\w+$/, // e.g. LICENSE-MIT
+    /^LICENCE$/,
+    /^LICENCE\-\w+$/, // e.g. LICENCE-MIT
+    /^MIT-LICENSE$/,
+    /^COPYING$/,
+    /^README$/, // TODO: should we really include README?
+];
+
+// Find and list license files in the precedence order
+const licenseFiles = (dirFiles) => {
+    const files = [];
+
+    BASENAMES_PRECEDENCE.forEach((basenamePattern) => {
+        dirFiles.some((filename) => {
+            const basename = external_node_path_.basename(filename, external_node_path_.extname(filename)).toUpperCase();
+
+            if (basenamePattern.test(basename)) {
+                files.push(filename);
+                return true;
+            }
+
+            return false;
+        });
+    });
+
+    return files;
+};
+
+
+;// CONCATENATED MODULE: ./node_modules/license-checker-rseidelsohn/lib/indexHelpers.js
+
+
+
+/**
+ * ! This function has a wanted sideeffect, as it modifies the json object that is passed by reference.
+ *
+ *  The depth attribute set in the options parameter here - which is defined by setting the `--direct` flag - is of
+ *  no use with npm < 3, as the older npm versions flattened all dependencies into one single directory. So in
+ *  order to making `--direct` work with older versions of npm, we need to filter out all non-dependencies from
+ *  the json result.
+ */
+// TODO: Add tests for this function
+const deleteNonDirectDependenciesFromAllDependencies = function deleteNonDirectDependenciesFromAllDependencies(
+    { _dependencies: directDependencies = {}, dependencies: allDependencies = {}, devDependencies = {} } = {},
+    options,
+) {
+    const allDependenciesArray = Object.keys(allDependencies);
+    const directDependenciesArray = Object.keys(directDependencies);
+    const devDependenciesArray = Object.keys(devDependencies);
+    let wantedDependenciesArray = [];
+
+    if (options.production && !options.development) {
+        wantedDependenciesArray = directDependenciesArray.filter(
+            (directDependency) => !devDependenciesArray.includes(directDependency),
+        );
+    } else if (!options.production && options.development) {
+        wantedDependenciesArray = devDependenciesArray;
+    } else {
+        wantedDependenciesArray = directDependenciesArray;
+    }
+
+    allDependenciesArray.forEach((currentDependency) => {
+        if (!wantedDependenciesArray.includes(currentDependency)) {
+            delete allDependencies[currentDependency];
+        }
+    });
+};
+
+const getRepositoryUrl = function getRepositoryUrl({ clarificationRepository, jsonRepository }) {
+    if (clarificationRepository) {
+        return clarificationRepository;
+    }
+
+    if (typeof jsonRepository?.url === 'string') {
+        return jsonRepository.url
+            .replace('git+ssh://git@', 'git://')
+            .replace('git+https://github.com', 'https://github.com')
+            .replace('git://github.com', 'https://github.com')
+            .replace('git@github.com:', 'https://github.com/')
+            .replace(/\.git$/, '');
+    }
+
+    return undefined;
+};
+
+const getFirstNotUndefinedOrUndefined = function getFirstNotUndefinedOrUndefined() {
+    for (let i = 0; i < arguments.length; i++) {
+        if (typeof arguments[i] !== 'undefined') {
+            return arguments[i];
+        }
+    }
+
+    return undefined;
+};
+
+const getAuthorDetails = function getAuthorDetails({ clarification, author }) {
+    let publisher = getFirstNotUndefinedOrUndefined(clarification?.publisher, author?.name);
+    let email = getFirstNotUndefinedOrUndefined(clarification?.email, author?.email);
+    let url = getFirstNotUndefinedOrUndefined(clarification?.url, author?.url);
+
+    return { publisher, email, url };
+};
+
+const getLinesWithCopyright = function getLinesWithCopyright(fileContents = '') {
+    return fileContents
+        .replace(/\r\n/g, '\n')
+        .split('\n\n')
+        .filter(function selectCopyRightStatements(value) {
+            return (
+                value.startsWith('opyright', 1) && // include copyright statements
+                !value.startsWith('opyright notice', 1) && // exclude lines from from license text
+                !value.startsWith('opyright and related rights', 1)
+            );
+        })
+        .filter(function removeDuplicates(value, index, list) {
+            return index === 0 || value !== list[0];
+        });
+};
+
+const getOptionArray = (option) => {
+    if (Array.isArray(option)) {
+        return option;
+    }
+
+    if (typeof option === 'string') {
+        return option.split(';');
+    }
+
+    return false;
+};
+
+const getCsvData = (sorted, customFormat, csvComponentPrefix) => {
+    const csvDataArr = [];
+
+    Object.entries(sorted).forEach(([key, module]) => {
+        const dataElements = [];
+
+        if (csvComponentPrefix) {
+            dataElements.push(`"${csvComponentPrefix}"`);
+        }
+
+        // Grab the custom keys from the custom format
+        if (typeof customFormat === 'object' && Object.keys(customFormat).length > 0) {
+            dataElements.push(`"${key}"`);
+
+            Object.keys(customFormat).forEach((item) => {
+                dataElements.push(`"${module[item]}"`);
+            });
+        } else {
+            // Be sure to push empty strings for empty values, as this is what CSV expects:
+            dataElements.push([`"${key}"`, `"${module.licenses || ''}"`, `"${module.repository || ''}"`]);
+        }
+
+        csvDataArr.push(dataElements.join(','));
+    });
+
+    return csvDataArr;
+};
+
+const getCsvHeaders = (customFormat, csvComponentPrefix) => {
+    const prefixName = '"component"';
+    const entriesArr = [];
+
+    if (csvComponentPrefix) {
+        entriesArr.push(prefixName);
+    }
+
+    if (typeof customFormat === 'object' && Object.keys(customFormat).length > 0) {
+        entriesArr.push('"module name"');
+
+        Object.keys(customFormat).forEach((item) => {
+            entriesArr.push(`"${item}"`);
+        });
+    } else {
+        entriesArr.push('"module name"', '"license"', '"repository"');
+    }
+
+    return entriesArr.join(',');
+};
+
+const getModuleNameForLicenseTextHeader = (moduleName = '') => {
+    const lastIndexOfAtCharacter = moduleName.lastIndexOf('@');
+
+    return `${moduleName.substring(0, lastIndexOfAtCharacter)} ${moduleName.substring(lastIndexOfAtCharacter + 1)}\n`;
+};
+
+// Eventually store the contents of the module's README.md in currentExtendedPackageJson.readme:
+const storeReadmeInJsonIfExists = (modulePath, currentExtendedPackageJson) => {
+    if (
+        typeof modulePath !== 'string' ||
+        typeof currentExtendedPackageJson !== 'object' ||
+        modulePath === '' ||
+        (typeof currentExtendedPackageJson?.readme === 'string' &&
+            currentExtendedPackageJson?.readme?.toLowerCase()?.indexOf('no readme data found') === -1)
+    ) {
+        return;
+    }
+
+    const readmeFile = external_node_path_.join(modulePath, 'README.md');
+
+    if (external_node_fs_.existsSync(readmeFile)) {
+        currentExtendedPackageJson.readme = external_node_fs_.readFileSync(readmeFile, 'utf8').toString();
+    }
+};
+
+
+
+;// CONCATENATED MODULE: ./node_modules/license-checker-rseidelsohn/lib/index.js
+/*
+Copyright (c) 2013, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://yuilibrary.com/license/
+*/
+
+const LICENSE_TITLE_UNKNOWN = 'UNKNOWN';
+const LICENSE_TITLE_UNLICENSED = 'UNLICENSED';
+const INITIAL_MODULE_INFO = {
+    licenses: LICENSE_TITLE_UNKNOWN,
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Set up debug logging
+// https://www.npmjs.com/package/debug#stderr-vs-stdout
+const debugError = src('license-checker-rseidelsohn:error');
+const debugLog = src('license-checker-rseidelsohn:log');
+
+debugLog.log = console.log.bind(console);
+
+// This function calls itself recursively. On the first iteration, it collects the data of the main program, during the
+// second iteration, it collects the data from all direct dependencies, then it collects their dependencies and so on.
+const recursivelyCollectAllDependencies = (options) => {
+    const { color: colorize, deps: currentExtendedPackageJson, unknown } = options;
+    const moduleInfo = { ...INITIAL_MODULE_INFO };
+    const currentPackageNameAndVersion = `${currentExtendedPackageJson.name}@${currentExtendedPackageJson.version}`;
+
+    let { data } = options;
+    let licenseFilesInCurrentModuleDirectory = [];
+    let licenseData;
+    let licenseFile;
+    let noticeFiles = [];
+    const clarification = options.clarifications[currentExtendedPackageJson.name]?.find(
+        (clarification) =>
+            currentExtendedPackageJson.version === clarification.semverRange ||
+            semver.satisfies(currentExtendedPackageJson.version, clarification.semverRange),
+    );
+    let passedClarificationCheck = clarification?.checksum ? false : true;
+    if (clarification) {
+        clarification.used = true;
+    }
+
+    if (
+        // If we have processed this currentPackageNameAndVersion already, just return the data object.
+        // This was added so that we don't recurse forever if there was a circular
+        // dependency in the dependency tree.
+        data[currentPackageNameAndVersion] ||
+        (options.production && currentExtendedPackageJson.extraneous) ||
+        (options.development && !currentExtendedPackageJson.extraneous && !currentExtendedPackageJson.root)
+    ) {
+        return data;
+    }
+
+    if (currentExtendedPackageJson.private) {
+        moduleInfo.private = true;
+    }
+
+    data[currentPackageNameAndVersion] = moduleInfo;
+
+    // Include property in output unless custom format has set property explicitly to false:
+    const mustInclude = (propertyName = '') => options?.customFormat?.[propertyName] !== false;
+
+    if (mustInclude('repository')) {
+        const repositoryUrl = getRepositoryUrl({
+            clarificationRepository: clarification?.repository,
+            jsonRepository: currentExtendedPackageJson?.repository,
+        });
+
+        if (repositoryUrl) {
+            moduleInfo.repository = repositoryUrl;
+        }
+    }
+
+    if (mustInclude('url')) {
+        // TODO: Figure out where the check for currentExtendedPackageJson.url.web comes from. It's in the original license-checker,
+        //       but I can't find any documentation on it.
+        let url = getFirstNotUndefinedOrUndefined(clarification?.url, currentExtendedPackageJson?.url?.web);
+        /*istanbul ignore next*/
+        if (url) {
+            moduleInfo.url = url;
+        }
+    }
+
+    if (typeof currentExtendedPackageJson.author === 'object') {
+        const { publisher, email, url } = getAuthorDetails({
+            clarification,
+            author: currentExtendedPackageJson?.author,
+        });
+
+        if (mustInclude('publisher') && publisher) {
+            moduleInfo.publisher = publisher;
+        }
+
+        if (mustInclude('email') && email) {
+            moduleInfo.email = email;
+        }
+
+        // moduleInfo.url can for some reason already be set to currentExtendedPackageJson.url.web further up in the code,
+        // so we only set it if it's not already set.
+        if (typeof moduleInfo.url !== 'undefined' && mustInclude('url') && url) {
+            moduleInfo.url = url;
+        }
+    }
+
+    /*istanbul ignore next*/
+    if (unknown) {
+        moduleInfo.dependencyPath = currentExtendedPackageJson.path;
+    }
+
+    const modulePath = getFirstNotUndefinedOrUndefined(clarification?.path, currentExtendedPackageJson?.path);
+    if (mustInclude('path') && typeof modulePath === 'string') {
+        moduleInfo.path = modulePath;
+    }
+
+    // Eventually store the contents of the module's README.md in currentExtendedPackageJson.readme:
+    storeReadmeInJsonIfExists(modulePath, currentExtendedPackageJson);
+
+    // console.log('licenseData: %s', licenseData);
+
+    // Try to get the license information from the clarification file or from the package.json file:
+    licenseData = getFirstNotUndefinedOrUndefined(
+        clarification?.licenses,
+        currentExtendedPackageJson.license,
+        currentExtendedPackageJson.licenses,
+    );
+
+    if (licenseData) {
+        // License information has been collected from either the clarification file or from the package.json file
+        /*istanbul ignore else*/
+        if (Array.isArray(licenseData) && licenseData.length > 0) {
+            moduleInfo.licenses = licenseData.map((moduleLicense) => {
+                const moduleLicenseTypeOrName = getFirstNotUndefinedOrUndefined(
+                    moduleLicense.type,
+                    moduleLicense.name,
+                );
+
+                if (typeof moduleLicenseTypeOrName === 'string') {
+                    return moduleLicenseTypeOrName;
+                }
+
+                if (typeof moduleLicense === 'string') {
+                    return moduleLicense;
+                }
+            });
+        } else if (typeof getFirstNotUndefinedOrUndefined(licenseData.type, licenseData.name) === 'string') {
+            moduleInfo.licenses = getLicenseTitle(
+                getFirstNotUndefinedOrUndefined(licenseData.type, licenseData.name),
+            );
+        } else if (typeof licenseData === 'string') {
+            moduleInfo.licenses = getLicenseTitle(licenseData);
+        }
+    } else if (getLicenseTitle(currentExtendedPackageJson.readme)) {
+        // Try to get the license information from the README file if neither the clarification file nor the package.json
+        // file contained any license information:
+        moduleInfo.licenses = getLicenseTitle(currentExtendedPackageJson.readme);
+    }
+
+    if (Array.isArray(moduleInfo.licenses)) {
+        /*istanbul ignore else*/
+        if (moduleInfo.licenses.length === 1) {
+            moduleInfo.licenses = moduleInfo.licenses[0];
+        }
+    }
+
+    /*istanbul ignore else*/
+    if (clarification?.licenseFile) {
+        licenseFilesInCurrentModuleDirectory = [clarification.licenseFile];
+    } else if (external_node_fs_.existsSync(modulePath)) {
+        const filesInModuleDirectory = external_node_fs_.readdirSync(modulePath);
+        licenseFilesInCurrentModuleDirectory = licenseFiles(filesInModuleDirectory);
+
+        noticeFiles = filesInModuleDirectory.filter((filename) => {
+            filename = filename.toUpperCase();
+            const name = external_node_path_.basename(filename).replace(external_node_path_.extname(filename), '');
+
+            return name === 'NOTICE';
+        });
+    }
+
+    // console.log('licenseFilesInCurrentModuleDirectory before: %s', licenseFilesInCurrentModuleDirectory);
+
+    licenseFilesInCurrentModuleDirectory.forEach(function findBetterLicenseData(filename, index) {
+        licenseFile = external_node_path_.join(modulePath, filename);
+        // Checking that the file is in fact a normal file and not a directory for example.
+        /*istanbul ignore else*/
+        if (external_node_fs_.lstatSync(licenseFile).isFile()) {
+            let currentLicenceFilesContent;
+
+            if (
+                !moduleInfo.licenses ||
+                moduleInfo.licenses.indexOf(LICENSE_TITLE_UNKNOWN) > -1
+                // TODO: Should we override a custom license?
+                // || moduleInfo.licenses.indexOf('Custom:') === 0
+            ) {
+                //Only re-check the license if we didn't get it from elsewhere
+                currentLicenceFilesContent = external_node_fs_.readFileSync(licenseFile, { encoding: 'utf8' });
+
+                moduleInfo.licenses = getLicenseTitle(currentLicenceFilesContent);
+            }
+
+            if (index === 0) {
+                // Treat the file with the highest precedence as licenseFile
+                if (clarification !== undefined && !passedClarificationCheck) {
+                    /*istanbul ignore else*/
+                    if (!currentLicenceFilesContent) {
+                        currentLicenceFilesContent = external_node_fs_.readFileSync(licenseFile, { encoding: 'utf8' });
+                    }
+
+                    let sha256 = (0,external_crypto_.createHash)('sha256').update(currentLicenceFilesContent).digest('hex');
+
+                    if (clarification.checksum !== sha256) {
+                        console.error(
+                            `Clarification checksum mismatch for ${currentPackageNameAndVersion} :(\nFile checked: ${licenseFile}`,
+                        );
+                        process.exit(1);
+                    } else {
+                        passedClarificationCheck = true;
+                    }
+                }
+
+                /*istanbul ignore else*/
+                if (mustInclude('licenseFile')) {
+                    moduleInfo.licenseFile = getFirstNotUndefinedOrUndefined(
+                        clarification?.licenseFile,
+                        options.basePath ? external_node_path_.relative(options.basePath, licenseFile) : licenseFile,
+                    );
+                }
+
+                if (mustInclude('licenseText') && options.customFormat) {
+                    if (clarification?.licenseText) {
+                        moduleInfo.licenseText = clarification.licenseText;
+                    } else {
+                        if (!currentLicenceFilesContent) {
+                            currentLicenceFilesContent = external_node_fs_.readFileSync(licenseFile, { encoding: 'utf8' });
+                        }
+
+                        /*istanbul ignore else*/
+                        if (options._args && !options._args.csv) {
+                            moduleInfo.licenseText = currentLicenceFilesContent.trim();
+                        } else {
+                            moduleInfo.licenseText = currentLicenceFilesContent
+                                .replace(/"/g, "'")
+                                .replace(/\r?\n|\r/g, ' ')
+                                .trim();
+                        }
+                    }
+
+                    if (clarification?.licenseStart) {
+                        let startIndex = moduleInfo.licenseText.indexOf(clarification.licenseStart);
+                        let endIndex;
+
+                        if (clarification?.licenseEnd) {
+                            endIndex = moduleInfo.licenseText.indexOf(clarification.licenseEnd, startIndex);
+                        } else {
+                            endIndex = moduleInfo.licenseText.length;
+                        }
+
+                        moduleInfo.licenseText = moduleInfo.licenseText.substring(startIndex, endIndex);
+                    }
+                }
+
+                if (mustInclude('copyright') && options.customFormat) {
+                    if (clarification?.copyright) {
+                        moduleInfo.copyright = clarification.copyright;
+                    } else {
+                        if (!currentLicenceFilesContent) {
+                            currentLicenceFilesContent = external_node_fs_.readFileSync(licenseFile, { encoding: 'utf8' });
+                        }
+
+                        const linesWithCopyright = getLinesWithCopyright(currentLicenceFilesContent);
+
+                        if (linesWithCopyright.length > 0) {
+                            moduleInfo.copyright = linesWithCopyright[0].replace(/\n/g, '. ').trim();
+                        }
+
+                        // Mark files with multiple copyright statements. This might be
+                        // an indicator to take a closer look at the LICENSE file.
+                        if (linesWithCopyright.length > 1) {
+                            moduleInfo.copyright = `${moduleInfo.copyright}*`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // console.log('moduleInfo.licenses after: %s', moduleInfo.licenses);
+
+    if (!passedClarificationCheck) {
+        console.error('All clarifications must come with a checksum');
+        process.exit(1);
+    }
+
+    // TODO: How do clarifications interact with notice files?
+    noticeFiles.forEach((filename) => {
+        const file = external_node_path_.join(currentExtendedPackageJson.path, filename);
+        /*istanbul ignore else*/
+        if (external_node_fs_.lstatSync(file).isFile()) {
+            moduleInfo.noticeFile = options.basePath ? external_node_path_.relative(options.basePath, file) : file;
+        }
+    });
+
+    /*istanbul ignore else*/
+    if (currentExtendedPackageJson.dependencies) {
+        Object.keys(currentExtendedPackageJson.dependencies).forEach((dependencyName) => {
+            const childDependency =
+                options.currentRecursionDepth > options._args.direct
+                    ? {}
+                    : currentExtendedPackageJson.dependencies[dependencyName];
+            const dependencyId = `${childDependency.name}@${childDependency.version}`;
+
+            if (data[dependencyId]) {
+                // already exists
+                return;
+            }
+
+            data = recursivelyCollectAllDependencies({
+                _args: options._args,
+                basePath: options.basePath,
+                color: colorize,
+                customFormat: options.customFormat,
+                data,
+                deps: childDependency,
+                development: options.development,
+                production: options.production,
+                unknown,
+                currentRecursionDepth: options.currentRecursionDepth + 1,
+                clarifications: options.clarifications,
+            });
+        });
+    }
+
+    if (!currentExtendedPackageJson.name || !currentExtendedPackageJson.version) {
+        delete data[currentPackageNameAndVersion];
+    }
+
+    /*istanbul ignore next*/
+    if (options.customFormat) {
+        Object.keys(options.customFormat).forEach((customFormatKey) => {
+            if (mustInclude(customFormatKey) && moduleInfo[customFormatKey] === undefined) {
+                moduleInfo[customFormatKey] = getFirstNotUndefinedOrUndefined(
+                    clarification?.[customFormatKey],
+                    typeof currentExtendedPackageJson[customFormatKey] === 'string'
+                        ? currentExtendedPackageJson[customFormatKey]
+                        : options.customFormat[customFormatKey],
+                );
+            }
+        });
+    }
+
+    return data;
+};
+
+const init = (args, callback) => {
+    debugLog('scanning %s', args.start);
+
+    // customPath is a path to a JSON file that defined a custom format
+    if (args.customPath) {
+        args.customFormat = parseJson(args.customPath);
+    }
+
+    const optionsForReadingInstalledPackages = {
+        depth: args.direct, // How deep to traverse the dependency tree
+        nopeer: args.nopeer, // Whether or not to skip peerDependencies in output
+        dev: true, // Whether or not to include devDependencies
+        log: debugLog, // A function to log debug info
+    };
+
+    if (args.production || args.development) {
+        optionsForReadingInstalledPackages.dev = false;
+    }
+
+    const toCheckforFailOn = [];
+    const toCheckforOnlyAllow = [];
+    let checker;
+    let pusher;
+
+    if (args.onlyAllow) {
+        checker = args.onlyAllow;
+        pusher = toCheckforOnlyAllow;
+    }
+
+    if (args.failOn) {
+        checker = args.failOn;
+        pusher = toCheckforFailOn;
+    }
+
+    // An object mapping from Package name -> list of what contents it should have, including a semver range for each entry
+    let clarifications = {};
+    if (args.clarificationsFile) {
+        const clarificationsFromFile = parseJson(args.clarificationsFile);
+
+        for (const [versionString, clarification] of Object.entries(clarificationsFromFile)) {
+            const versionSplit = versionString.lastIndexOf('@');
+            if (versionSplit !== -1) {
+                const name = versionString.slice(0, versionSplit);
+                const semverRange = versionString.slice(versionSplit + 1);
+                clarifications[name] = clarifications[name] || [];
+                // keep track for each clarification if it was used, optionally error when not
+                clarifications[name].push({ ...clarification, semverRange, used: false });
+            }
+        }
+    }
+
+    if (checker && pusher) {
+        checker.split(';').forEach((license) => {
+            license = license.trim();
+            /*istanbul ignore else*/
+            if (license.length > 0) {
+                pusher.push(license);
+            }
+        });
+    }
+
+    read_installed(args.start, optionsForReadingInstalledPackages, (err, installedPackagesJson) => {
+        // Good to know:
+        // The json object returned by readInstalledPackages stores all direct (prod and dev) dependencies from
+        // the package.json file in the property '_dependencies'. The property 'dependencies' contains all dependencies,
+        // including the ones that are only required by other dependencies.
+        if (optionsForReadingInstalledPackages.depth === 0) {
+            deleteNonDirectDependenciesFromAllDependencies(installedPackagesJson, args);
+        }
+
+        // 'allWantedDepthDependenciesWithVersions' might be longer than 'installedPackagesJson.dependencies', as it appends the version numbers to each key (package name),
+        // e.g. 'grunt@1' instead of 'grunt', and this way contains all different installed versions of each package:
+        let allWantedDepthDependenciesWithVersions = recursivelyCollectAllDependencies({
+            _args: args,
+            basePath: args.relativeLicensePath ? installedPackagesJson.path : null,
+            color: args.color,
+            customFormat: args.customFormat,
+            data: {},
+            deps: installedPackagesJson,
+            development: args.development,
+            production: args.production,
+            unknown: args.unknown,
+            currentRecursionDepth: 0,
+            clarifications,
+        });
+
+        if (args.clarificationsMatchAll) {
+            const unusedClarifications = [];
+            for (const [packageName, entries] of Object.entries(clarifications)) {
+                for (const clarification of entries) {
+                    if (!clarification.used) {
+                        unusedClarifications.push(`${packageName}@${clarification.semverRange}`);
+                    }
+                }
+            }
+            if (unusedClarifications.length) {
+                console.error(
+                    `Some clarifications (${unusedClarifications.join(
+                        ', ',
+                    )}) were unused and --clarificationsMatchAll was specified. Exiting.`,
+                );
+
+                process.exit(1);
+            }
+        }
+
+        const colorize = args.color;
+        const sorted = {}; // 'sorted' will store the same items as allWantedDepthDependenciesWithVersions, but sorted by package name and version
+        let resultJson = {};
+        const excludeLicenses =
+            args.excludeLicenses &&
+            args.excludeLicenses
+                .match(/([^\\\][^,]|\\,)+/g)
+                .map((license) => license.replace(/\\,/g, ',').replace(/^\s+|\s+$/g, ''));
+        const includeLicenses =
+            args.includeLicenses &&
+            args.includeLicenses
+                .match(/([^\\\][^,]|\\,)+/g)
+                .map((license) => license.replace(/\\,/g, ',').replace(/^\s+|\s+$/g, ''));
+        let inputError = null;
+
+        const colorizeString = (string) =>
+            /*istanbul ignore next*/
+            colorize ? source.bold.red(string) : string;
+
+        const filterDeletePrivatePackages = (privatePackage) => {
+            /*istanbul ignore next - I don't have access to private packages to test */
+            if (resultJson[privatePackage] && resultJson[privatePackage].private) {
+                delete resultJson[privatePackage];
+            }
+        };
+
+        const onlyIncludeWhitelist = (whitelist, filtered) => {
+            const resultJson = {};
+
+            Object.keys(filtered).map((filteredPackage) => {
+                // Whitelist packages by declaring:
+                // 1. the package full name. Ex: `react` (we suffix an '@' to ensure we don't match packages like `react-native`)
+                // 2. the package full name and the major version. Ex: `react@16`
+                // 3. the package full name and full version. Ex: `react@16.0.2`
+                if (
+                    whitelist.findIndex((whitelistPackage) =>
+                        filteredPackage.startsWith(
+                            whitelistPackage.lastIndexOf('@') > 0 ? whitelistPackage : `${whitelistPackage}@`,
+                        ),
+                    ) !== -1
+                ) {
+                    resultJson[filteredPackage] = filtered[filteredPackage];
+                }
+            });
+
+            return resultJson;
+        };
+
+        const excludeBlacklist = (blacklist, filtered) => {
+            const resultJson = {};
+
+            Object.keys(filtered).map((filteredPackage) => {
+                // Blacklist packages by declaring:
+                // 1. the package full name. Ex: `react` (we suffix an '@' to ensure we don't match packages like `react-native`)
+                // 2. the package full name and the major version. Ex: `react@16`
+                // 3. the package full name and full version. Ex: `react@16.0.2`
+                if (
+                    blacklist.findIndex((blacklistPackage) =>
+                        filteredPackage.startsWith(
+                            blacklistPackage.lastIndexOf('@') > 0 ? blacklistPackage : `${blacklistPackage}@`,
+                        ),
+                    ) === -1
+                ) {
+                    resultJson[filteredPackage] = filtered[filteredPackage];
+                }
+            });
+
+            return resultJson;
+        };
+
+        const excludePackagesStartingWith = (blacklist, currentResult) => {
+            const resultJson = { ...currentResult };
+
+            for (const pkgName in resultJson) {
+                for (const denyPrefix of blacklist) {
+                    if (pkgName.startsWith(denyPrefix)) delete resultJson[pkgName];
+                }
+            }
+
+            return resultJson;
+        };
+
+        const exitIfCheckHits = (packageName) => {
+            const currentLicense = resultJson[packageName]?.licenses;
+
+            if (currentLicense) {
+                checkForFailOn(currentLicense);
+                checkForOnlyAllow(currentLicense, packageName);
+            }
+        };
+
+        const checkForFailOn = (currentLicense) => {
+            if (!Array.isArray(toCheckforFailOn) || toCheckforFailOn.length === 0) {
+                return;
+            }
+
+            if (toCheckforFailOn.includes(currentLicense)) {
+                console.error(`Found license defined by the --failOn flag: "${currentLicense}". Exiting.`);
+
+                process.exit(1);
+            }
+        };
+
+        /**
+         * Check if the current license contains (eventually among others) at least one of the allowed licenses
+         *
+         * @param      {string}  currentLicense  The current license
+         * @param      {string}  packageName     The package name
+         */
+        const checkForOnlyAllow = (currentLicense, packageName) => {
+            if (toCheckforOnlyAllow.length > 0) {
+                let containsOneOfAllowedPackages = false;
+
+                for (const allowedLicense of toCheckforOnlyAllow) {
+                    // "currentLicense" is a longer string that may contain several license names,
+                    // and we check if one of those is a license listed in the "toCheckforOnlyAllow"
+                    // licenses array:
+                    if (currentLicense.includes(allowedLicense)) {
+                        containsOneOfAllowedPackages = true;
+                        break;
+                    }
+                }
+
+                if (!containsOneOfAllowedPackages) {
+                    console.error(
+                        `Package "${packageName}" is licensed under "${currentLicense}" which is not permitted by the --onlyAllow flag. Exiting.`,
+                    );
+
+                    process.exit(1);
+                }
+            }
+        };
+
+        const transformBSD = (spdx) =>
+            spdx === 'BSD' ? '(0BSD OR BSD-2-Clause OR BSD-3-Clause OR BSD-4-Clause)' : spdx;
+
+        const invertResultOf = (fn) => (spdx) => !fn(spdx);
+
+        const spdxIsValid = (spdx) => spdx_correct(spdx) === spdx;
+
+        const getLicenseMatch = (licensesArr, filtered, packageName, packageData, compareLicenses) => {
+            const validSPDXLicenses = compareLicenses.map(transformBSD).filter(spdxIsValid);
+            const invalidSPDXLicenses = compareLicenses.map(transformBSD).filter(invertResultOf(spdxIsValid));
+            const spdxExcluder = `( ${validSPDXLicenses.join(' OR ')} )`;
+
+            let match = false;
+
+            licensesArr.forEach((license) => {
+                /*istanbul ignore if - just for protection*/
+                if (license.indexOf(LICENSE_TITLE_UNKNOWN) >= 0) {
+                    // Necessary due to colorization:
+                    filtered[packageName] = packageData;
+                } else {
+                    if (license.endsWith('*')) {
+                        license = license.slice(0, -1);
+                    }
+
+                    license = transformBSD(license);
+
+                    if (
+                        invalidSPDXLicenses.indexOf(license) >= 0 ||
+                        (spdx_correct(license) &&
+                            validSPDXLicenses.length > 0 &&
+                            spdx_satisfies(spdx_correct(license), spdxExcluder))
+                    ) {
+                        match = true;
+                    }
+                }
+            });
+
+            return match;
+        };
+
+        // This following block stores the licenses in the sorted object (before, the sorted object is the empty object):
+        Object.keys(allWantedDepthDependenciesWithVersions)
+            .sort()
+            .forEach((item) => {
+                if (allWantedDepthDependenciesWithVersions[item].private) {
+                    allWantedDepthDependenciesWithVersions[item].licenses = colorizeString(LICENSE_TITLE_UNLICENSED);
+                }
+
+                /*istanbul ignore next*/
+                if (!allWantedDepthDependenciesWithVersions[item].licenses) {
+                    allWantedDepthDependenciesWithVersions[item].licenses = colorizeString(LICENSE_TITLE_UNKNOWN);
+                }
+
+                if (
+                    args.unknown &&
+                    allWantedDepthDependenciesWithVersions[item].licenses &&
+                    allWantedDepthDependenciesWithVersions[item].licenses !== LICENSE_TITLE_UNKNOWN &&
+                    allWantedDepthDependenciesWithVersions[item].licenses.indexOf('*') > -1
+                ) {
+                    /*istanbul ignore if*/
+                    allWantedDepthDependenciesWithVersions[item].licenses = colorizeString(LICENSE_TITLE_UNKNOWN);
+                }
+                /*istanbul ignore else*/
+                if (allWantedDepthDependenciesWithVersions[item]) {
+                    if (args.relativeModulePath && allWantedDepthDependenciesWithVersions[item].path != null) {
+                        allWantedDepthDependenciesWithVersions[item].path = external_node_path_.relative(
+                            args.start,
+                            allWantedDepthDependenciesWithVersions[item].path,
+                        );
+                    }
+
+                    if (args.onlyunknown) {
+                        if (
+                            allWantedDepthDependenciesWithVersions[item].licenses.indexOf('*') > -1 ||
+                            allWantedDepthDependenciesWithVersions[item].licenses.indexOf(LICENSE_TITLE_UNKNOWN) > -1
+                        ) {
+                            sorted[item] = allWantedDepthDependenciesWithVersions[item];
+                        }
+                    } else {
+                        sorted[item] = allWantedDepthDependenciesWithVersions[item];
+                    }
+                }
+            });
+
+        // 'allWantedDepthDependenciesWithVersions' is not needed anymore:
+        allWantedDepthDependenciesWithVersions = null;
+
+        if (!Object.keys(sorted).length) {
+            err = new Error('No packages found in this path...');
+        }
+
+        // This following block stores the entries from the 'sorted' object in the
+        // resultJson object (before, the resultJson object is the empty object):
+        if (
+            (!Array.isArray(excludeLicenses) || excludeLicenses.length === 0) &&
+            (!Array.isArray(includeLicenses) || includeLicenses.length === 0)
+        ) {
+            resultJson = { ...sorted };
+        } else {
+            if (Array.isArray(excludeLicenses) && excludeLicenses.length > 0) {
+                Object.entries(sorted).forEach(([packageName, packageData]) => {
+                    let { licenses } = packageData;
+
+                    /*istanbul ignore if - just for protection*/
+                    if (!licenses) {
+                        resultJson[packageName] = packageData;
+                    } else {
+                        const licensesArr = Array.isArray(licenses) ? licenses : [licenses];
+                        const licenseMatch = getLicenseMatch(
+                            licensesArr,
+                            resultJson,
+                            packageName,
+                            packageData,
+                            excludeLicenses,
+                        );
+
+                        if (!licenseMatch) {
+                            resultJson[packageName] = packageData;
+                        }
+                    }
+                });
+            }
+
+            if (Array.isArray(includeLicenses) && includeLicenses.length > 0) {
+                Object.entries(sorted).forEach(([packageName, packageData]) => {
+                    let { licenses } = packageData;
+
+                    /*istanbul ignore if - just for protection*/
+                    if (!licenses) {
+                        resultJson[packageName] = packageData;
+                    } else {
+                        const licensesArr = Array.isArray(licenses) ? licenses : [licenses];
+                        const licenseMatch = getLicenseMatch(
+                            licensesArr,
+                            resultJson,
+                            packageName,
+                            packageData,
+                            includeLicenses,
+                        );
+
+                        if (licenseMatch) {
+                            resultJson[packageName] = packageData;
+                        }
+                    }
+                });
+            }
+        }
+
+        // package whitelist
+        const whitelist = getOptionArray(args.includePackages);
+        if (whitelist) {
+            resultJson = onlyIncludeWhitelist(whitelist, resultJson);
+        }
+
+        // package blacklist
+        const blacklist = getOptionArray(args.excludePackages);
+        if (blacklist) {
+            resultJson = excludeBlacklist(blacklist, resultJson);
+        }
+
+        // exclude by package name starting with a string
+        const excludeStartStringsArr = getOptionArray(args.excludePackagesStartingWith);
+        if (excludeStartStringsArr) {
+            resultJson = excludePackagesStartingWith(excludeStartStringsArr, resultJson);
+        }
+
+        if (args.excludePrivatePackages) {
+            Object.keys(resultJson).forEach(filterDeletePrivatePackages);
+        }
+
+        Object.keys(resultJson).forEach(exitIfCheckHits);
+
+        /*istanbul ignore next*/
+        if (err) {
+            debugError(err);
+            inputError = err;
+        } else {
+            // Output to files, if necessary
+            writeOutput(args, resultJson);
+        }
+
+        // Return the callback and variables nicely
+        callback(inputError, resultJson);
+    });
+};
+
+const filterAttributes = (attributes, json) => {
+    let filteredJson = json;
+
+    if (attributes) {
+        filteredJson = {};
+        attributes.forEach((attribute) => {
+            filteredJson[attribute] = json[attribute];
+        });
+    }
+
+    return filteredJson;
+};
+
+const print = (sorted) => {
+    console.log(asTree(sorted));
+};
+
+const asTree = (sorted) => treeify.asTree(sorted, true);
+
+const asSummary = (sorted) => {
+    const licenseCountMap = new global.Map();
+    const licenseCountArray = [];
+    const sortedLicenseCountObj = {};
+
+    Object.values(sorted).forEach(({ licenses }) => {
+        /*istanbul ignore else*/
+        if (licenses) {
+            licenseCountMap.set(licenses, licenseCountMap.get(licenses) + 1 || 1);
+        }
+    });
+
+    licenseCountMap.forEach((count, license) => {
+        licenseCountArray.push({ license, count });
+    });
+
+    /*istanbul ignore next*/
+    licenseCountArray
+        .sort((a, b) => b.count - a.count)
+        .forEach(({ license, count }) => {
+            sortedLicenseCountObj[license] = count;
+        });
+
+    return treeify.asTree(sortedLicenseCountObj, true);
+};
+
+const asCSV = (sorted, customFormat, csvComponentPrefix) => {
+    const csvHeaders = getCsvHeaders(customFormat, csvComponentPrefix);
+    const csvDataArr = getCsvData(sorted, customFormat, csvComponentPrefix);
+
+    return [csvHeaders, ...csvDataArr].join('\n');
+};
+
+/**
+ * Exports data as markdown (*.md) file which has it's own syntax.
+ * @method
+ * @param  {JSON} sorted       The sorted JSON data from all packages.
+ * @param  {JSON} customFormat The custom format with information about the needed keys.
+ * @return {String}            The returning plain text.
+ */
+const asMarkDown = (sorted, customFormat) => {
+    let text = [];
+
+    if (customFormat && Object.keys(customFormat).length > 0) {
+        Object.keys(sorted).forEach((sortedItem) => {
+            text.push(`- **[${sortedItem}](${sorted[sortedItem].repository})**`);
+
+            Object.keys(customFormat).forEach((customItem) => {
+                text.push(`    - ${customItem}: ${sorted[sortedItem][customItem]}`);
+            });
+        });
+    } else {
+        Object.keys(sorted).forEach((key) => {
+            const module = sorted[key];
+            text.push(`- [${key}](${module.repository}) - ${module.licenses}`);
+        });
+    }
+
+    return text.join('\n');
+};
+
+/**
+ * Output data in plain vertical format like Angular CLI does: https://angular.io/3rdpartylicenses.txt
+ */
+const asPlainVertical = (sorted) =>
+    Object.entries(sorted)
+        .map(([moduleName, moduleData]) => {
+            let licenseText = getModuleNameForLicenseTextHeader(moduleName);
+
+            if (Array.isArray(moduleData.licenses) && moduleData.licenses.length > 0) {
+                licenseText += moduleData.licenses.map((moduleLicense) => {
+                    /*istanbul ignore else*/
+                    if (typeof moduleLicense === 'object') {
+                        /*istanbul ignore next*/
+                        return moduleLicense.type || moduleLicense.name;
+                    }
+
+                    /*istanbul ignore next*/
+                    if (typeof moduleLicense === 'string') {
+                        return moduleLicense;
+                    }
+                });
+            } else if (
+                typeof moduleData.licenses === 'object' &&
+                (moduleData.licenses.type || moduleData.licenses.name)
+            ) {
+                licenseText += getLicenseTitle(moduleData.licenses.type || moduleData.licenses.name);
+            } else if (typeof moduleData.licenses === 'string') {
+                licenseText += getLicenseTitle(moduleData.licenses);
+            }
+
+            licenseText += '\n';
+
+            if (Array.isArray(moduleData.licenseFile) && moduleData.licenseFile.length > 0) {
+                licenseText += moduleData.licenseFile.map((moduleLicense) => {
+                    /*istanbul ignore else*/
+                    if (typeof moduleLicense === 'object') {
+                        /*istanbul ignore next*/
+                        return moduleLicense.type || moduleLicense.name;
+                    }
+
+                    if (typeof moduleLicense === 'string') {
+                        return moduleLicense;
+                    }
+                });
+            } else if (
+                typeof moduleData.licenseFile === 'object' &&
+                (moduleData.licenseFile.type || moduleData.licenseFile.name)
+            ) {
+                licenseText += moduleData.licenseFile.type || moduleData.licenseFile.name;
+            } else if (typeof moduleData.licenseFile === 'string') {
+                licenseText += external_node_fs_.readFileSync(moduleData.licenseFile, { encoding: 'utf8' });
+            }
+
+            return licenseText;
+        })
+        .join('\n\n');
+
+const parseJson = (jsonPath) => {
+    if (typeof jsonPath !== 'string') {
+        return new Error('The path was not specified for the JSON file to parse.');
+    }
+
+    try {
+        const jsonFileContents = external_node_fs_.readFileSync(jsonPath, { encoding: 'utf8' });
+
+        return JSON.parse(jsonFileContents);
+    } catch (err) {
+        return err;
+    }
+};
+
+const asFiles = (json, outDir) => {
+    mkdirp.sync(outDir);
+
+    Object.keys(json).forEach((moduleName) => {
+        const licenseFile = json[moduleName].licenseFile;
+
+        if (licenseFile && external_node_fs_.existsSync(licenseFile)) {
+            const fileContents = external_node_fs_.readFileSync(licenseFile);
+            const outPath = external_node_path_.join(outDir, `${moduleName}-LICENSE.txt`);
+            const baseDir = external_node_path_.dirname(outPath);
+
+            mkdirp.sync(baseDir);
+            external_node_fs_.writeFileSync(outPath, fileContents, 'utf8');
+        } else {
+            console.warn(`No license file found for module '${moduleName}'`);
+        }
+    });
+};
+
+/**
+ * Write output to a file, if indicated in parsedArgs.
+ */
+const writeOutput = (parsedArgs, foundLicensesJson) => {
+    if (parsedArgs.files || parsedArgs.out) {
+        const formattedOutput = getFormattedOutput(foundLicensesJson, parsedArgs);
+
+        if (parsedArgs.files) {
+            asFiles(foundLicensesJson, parsedArgs.files);
+        }
+
+        if (parsedArgs.out) {
+            const dir = external_node_path_.dirname(parsedArgs.out);
+
+            mkdirp.sync(dir);
+            external_node_fs_.writeFileSync(parsedArgs.out, formattedOutput, 'utf8');
+        }
+    }
+};
+
+
+
+
+/***/ }),
+
 /***/ 6151:
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"assert":true,"node:assert":[">= 14.18 && < 15",">= 16"],"assert/strict":">= 15","node:assert/strict":">= 16","async_hooks":">= 8","node:async_hooks":[">= 14.18 && < 15",">= 16"],"buffer_ieee754":">= 0.5 && < 0.9.7","buffer":true,"node:buffer":[">= 14.18 && < 15",">= 16"],"child_process":true,"node:child_process":[">= 14.18 && < 15",">= 16"],"cluster":">= 0.5","node:cluster":[">= 14.18 && < 15",">= 16"],"console":true,"node:console":[">= 14.18 && < 15",">= 16"],"constants":true,"node:constants":[">= 14.18 && < 15",">= 16"],"crypto":true,"node:crypto":[">= 14.18 && < 15",">= 16"],"_debug_agent":">= 1 && < 8","_debugger":"< 8","dgram":true,"node:dgram":[">= 14.18 && < 15",">= 16"],"diagnostics_channel":[">= 14.17 && < 15",">= 15.1"],"node:diagnostics_channel":[">= 14.18 && < 15",">= 16"],"dns":true,"node:dns":[">= 14.18 && < 15",">= 16"],"dns/promises":">= 15","node:dns/promises":">= 16","domain":">= 0.7.12","node:domain":[">= 14.18 && < 15",">= 16"],"events":true,"node:events":[">= 14.18 && < 15",">= 16"],"freelist":"< 6","fs":true,"node:fs":[">= 14.18 && < 15",">= 16"],"fs/promises":[">= 10 && < 10.1",">= 14"],"node:fs/promises":[">= 14.18 && < 15",">= 16"],"_http_agent":">= 0.11.1","node:_http_agent":[">= 14.18 && < 15",">= 16"],"_http_client":">= 0.11.1","node:_http_client":[">= 14.18 && < 15",">= 16"],"_http_common":">= 0.11.1","node:_http_common":[">= 14.18 && < 15",">= 16"],"_http_incoming":">= 0.11.1","node:_http_incoming":[">= 14.18 && < 15",">= 16"],"_http_outgoing":">= 0.11.1","node:_http_outgoing":[">= 14.18 && < 15",">= 16"],"_http_server":">= 0.11.1","node:_http_server":[">= 14.18 && < 15",">= 16"],"http":true,"node:http":[">= 14.18 && < 15",">= 16"],"http2":">= 8.8","node:http2":[">= 14.18 && < 15",">= 16"],"https":true,"node:https":[">= 14.18 && < 15",">= 16"],"inspector":">= 8","node:inspector":[">= 14.18 && < 15",">= 16"],"inspector/promises":[">= 19"],"node:inspector/promises":[">= 19"],"_linklist":"< 8","module":true,"node:module":[">= 14.18 && < 15",">= 16"],"net":true,"node:net":[">= 14.18 && < 15",">= 16"],"node-inspect/lib/_inspect":">= 7.6 && < 12","node-inspect/lib/internal/inspect_client":">= 7.6 && < 12","node-inspect/lib/internal/inspect_repl":">= 7.6 && < 12","os":true,"node:os":[">= 14.18 && < 15",">= 16"],"path":true,"node:path":[">= 14.18 && < 15",">= 16"],"path/posix":">= 15.3","node:path/posix":">= 16","path/win32":">= 15.3","node:path/win32":">= 16","perf_hooks":">= 8.5","node:perf_hooks":[">= 14.18 && < 15",">= 16"],"process":">= 1","node:process":[">= 14.18 && < 15",">= 16"],"punycode":">= 0.5","node:punycode":[">= 14.18 && < 15",">= 16"],"querystring":true,"node:querystring":[">= 14.18 && < 15",">= 16"],"readline":true,"node:readline":[">= 14.18 && < 15",">= 16"],"readline/promises":">= 17","node:readline/promises":">= 17","repl":true,"node:repl":[">= 14.18 && < 15",">= 16"],"smalloc":">= 0.11.5 && < 3","_stream_duplex":">= 0.9.4","node:_stream_duplex":[">= 14.18 && < 15",">= 16"],"_stream_transform":">= 0.9.4","node:_stream_transform":[">= 14.18 && < 15",">= 16"],"_stream_wrap":">= 1.4.1","node:_stream_wrap":[">= 14.18 && < 15",">= 16"],"_stream_passthrough":">= 0.9.4","node:_stream_passthrough":[">= 14.18 && < 15",">= 16"],"_stream_readable":">= 0.9.4","node:_stream_readable":[">= 14.18 && < 15",">= 16"],"_stream_writable":">= 0.9.4","node:_stream_writable":[">= 14.18 && < 15",">= 16"],"stream":true,"node:stream":[">= 14.18 && < 15",">= 16"],"stream/consumers":">= 16.7","node:stream/consumers":">= 16.7","stream/promises":">= 15","node:stream/promises":">= 16","stream/web":">= 16.5","node:stream/web":">= 16.5","string_decoder":true,"node:string_decoder":[">= 14.18 && < 15",">= 16"],"sys":[">= 0.4 && < 0.7",">= 0.8"],"node:sys":[">= 14.18 && < 15",">= 16"],"test/reporters":">= 19.9 && < 20.2","node:test/reporters":[">= 18.17 && < 19",">= 19.9",">= 20"],"node:test":[">= 16.17 && < 17",">= 18"],"timers":true,"node:timers":[">= 14.18 && < 15",">= 16"],"timers/promises":">= 15","node:timers/promises":">= 16","_tls_common":">= 0.11.13","node:_tls_common":[">= 14.18 && < 15",">= 16"],"_tls_legacy":">= 0.11.3 && < 10","_tls_wrap":">= 0.11.3","node:_tls_wrap":[">= 14.18 && < 15",">= 16"],"tls":true,"node:tls":[">= 14.18 && < 15",">= 16"],"trace_events":">= 10","node:trace_events":[">= 14.18 && < 15",">= 16"],"tty":true,"node:tty":[">= 14.18 && < 15",">= 16"],"url":true,"node:url":[">= 14.18 && < 15",">= 16"],"util":true,"node:util":[">= 14.18 && < 15",">= 16"],"util/types":">= 15.3","node:util/types":">= 16","v8/tools/arguments":">= 10 && < 12","v8/tools/codemap":[">= 4.4 && < 5",">= 5.2 && < 12"],"v8/tools/consarray":[">= 4.4 && < 5",">= 5.2 && < 12"],"v8/tools/csvparser":[">= 4.4 && < 5",">= 5.2 && < 12"],"v8/tools/logreader":[">= 4.4 && < 5",">= 5.2 && < 12"],"v8/tools/profile_view":[">= 4.4 && < 5",">= 5.2 && < 12"],"v8/tools/splaytree":[">= 4.4 && < 5",">= 5.2 && < 12"],"v8":">= 1","node:v8":[">= 14.18 && < 15",">= 16"],"vm":true,"node:vm":[">= 14.18 && < 15",">= 16"],"wasi":[">= 13.4 && < 13.5",">= 18.17 && < 19",">= 20"],"node:wasi":[">= 18.17 && < 19",">= 20"],"worker_threads":">= 11.7","node:worker_threads":[">= 14.18 && < 15",">= 16"],"zlib":">= 0.5","node:zlib":[">= 14.18 && < 15",">= 16"]}');
+module.exports = JSON.parse('{"assert":true,"node:assert":[">= 14.18 && < 15",">= 16"],"assert/strict":">= 15","node:assert/strict":">= 16","async_hooks":">= 8","node:async_hooks":[">= 14.18 && < 15",">= 16"],"buffer_ieee754":">= 0.5 && < 0.9.7","buffer":true,"node:buffer":[">= 14.18 && < 15",">= 16"],"child_process":true,"node:child_process":[">= 14.18 && < 15",">= 16"],"cluster":">= 0.5","node:cluster":[">= 14.18 && < 15",">= 16"],"console":true,"node:console":[">= 14.18 && < 15",">= 16"],"constants":true,"node:constants":[">= 14.18 && < 15",">= 16"],"crypto":true,"node:crypto":[">= 14.18 && < 15",">= 16"],"_debug_agent":">= 1 && < 8","_debugger":"< 8","dgram":true,"node:dgram":[">= 14.18 && < 15",">= 16"],"diagnostics_channel":[">= 14.17 && < 15",">= 15.1"],"node:diagnostics_channel":[">= 14.18 && < 15",">= 16"],"dns":true,"node:dns":[">= 14.18 && < 15",">= 16"],"dns/promises":">= 15","node:dns/promises":">= 16","domain":">= 0.7.12","node:domain":[">= 14.18 && < 15",">= 16"],"events":true,"node:events":[">= 14.18 && < 15",">= 16"],"freelist":"< 6","fs":true,"node:fs":[">= 14.18 && < 15",">= 16"],"fs/promises":[">= 10 && < 10.1",">= 14"],"node:fs/promises":[">= 14.18 && < 15",">= 16"],"_http_agent":">= 0.11.1","node:_http_agent":[">= 14.18 && < 15",">= 16"],"_http_client":">= 0.11.1","node:_http_client":[">= 14.18 && < 15",">= 16"],"_http_common":">= 0.11.1","node:_http_common":[">= 14.18 && < 15",">= 16"],"_http_incoming":">= 0.11.1","node:_http_incoming":[">= 14.18 && < 15",">= 16"],"_http_outgoing":">= 0.11.1","node:_http_outgoing":[">= 14.18 && < 15",">= 16"],"_http_server":">= 0.11.1","node:_http_server":[">= 14.18 && < 15",">= 16"],"http":true,"node:http":[">= 14.18 && < 15",">= 16"],"http2":">= 8.8","node:http2":[">= 14.18 && < 15",">= 16"],"https":true,"node:https":[">= 14.18 && < 15",">= 16"],"inspector":">= 8","node:inspector":[">= 14.18 && < 15",">= 16"],"inspector/promises":[">= 19"],"node:inspector/promises":[">= 19"],"_linklist":"< 8","module":true,"node:module":[">= 14.18 && < 15",">= 16"],"net":true,"node:net":[">= 14.18 && < 15",">= 16"],"node-inspect/lib/_inspect":">= 7.6 && < 12","node-inspect/lib/internal/inspect_client":">= 7.6 && < 12","node-inspect/lib/internal/inspect_repl":">= 7.6 && < 12","os":true,"node:os":[">= 14.18 && < 15",">= 16"],"path":true,"node:path":[">= 14.18 && < 15",">= 16"],"path/posix":">= 15.3","node:path/posix":">= 16","path/win32":">= 15.3","node:path/win32":">= 16","perf_hooks":">= 8.5","node:perf_hooks":[">= 14.18 && < 15",">= 16"],"process":">= 1","node:process":[">= 14.18 && < 15",">= 16"],"punycode":">= 0.5","node:punycode":[">= 14.18 && < 15",">= 16"],"querystring":true,"node:querystring":[">= 14.18 && < 15",">= 16"],"readline":true,"node:readline":[">= 14.18 && < 15",">= 16"],"readline/promises":">= 17","node:readline/promises":">= 17","repl":true,"node:repl":[">= 14.18 && < 15",">= 16"],"node:sea":[">= 20.12 && < 21",">= 21.7"],"smalloc":">= 0.11.5 && < 3","node:sqlite":">= 23.4","_stream_duplex":">= 0.9.4","node:_stream_duplex":[">= 14.18 && < 15",">= 16"],"_stream_transform":">= 0.9.4","node:_stream_transform":[">= 14.18 && < 15",">= 16"],"_stream_wrap":">= 1.4.1","node:_stream_wrap":[">= 14.18 && < 15",">= 16"],"_stream_passthrough":">= 0.9.4","node:_stream_passthrough":[">= 14.18 && < 15",">= 16"],"_stream_readable":">= 0.9.4","node:_stream_readable":[">= 14.18 && < 15",">= 16"],"_stream_writable":">= 0.9.4","node:_stream_writable":[">= 14.18 && < 15",">= 16"],"stream":true,"node:stream":[">= 14.18 && < 15",">= 16"],"stream/consumers":">= 16.7","node:stream/consumers":">= 16.7","stream/promises":">= 15","node:stream/promises":">= 16","stream/web":">= 16.5","node:stream/web":">= 16.5","string_decoder":true,"node:string_decoder":[">= 14.18 && < 15",">= 16"],"sys":[">= 0.4 && < 0.7",">= 0.8"],"node:sys":[">= 14.18 && < 15",">= 16"],"test/reporters":">= 19.9 && < 20.2","node:test/reporters":[">= 18.17 && < 19",">= 19.9",">= 20"],"test/mock_loader":">= 22.3 && < 22.7","node:test/mock_loader":">= 22.3 && < 22.7","node:test":[">= 16.17 && < 17",">= 18"],"timers":true,"node:timers":[">= 14.18 && < 15",">= 16"],"timers/promises":">= 15","node:timers/promises":">= 16","_tls_common":">= 0.11.13","node:_tls_common":[">= 14.18 && < 15",">= 16"],"_tls_legacy":">= 0.11.3 && < 10","_tls_wrap":">= 0.11.3","node:_tls_wrap":[">= 14.18 && < 15",">= 16"],"tls":true,"node:tls":[">= 14.18 && < 15",">= 16"],"trace_events":">= 10","node:trace_events":[">= 14.18 && < 15",">= 16"],"tty":true,"node:tty":[">= 14.18 && < 15",">= 16"],"url":true,"node:url":[">= 14.18 && < 15",">= 16"],"util":true,"node:util":[">= 14.18 && < 15",">= 16"],"util/types":">= 15.3","node:util/types":">= 16","v8/tools/arguments":">= 10 && < 12","v8/tools/codemap":[">= 4.4 && < 5",">= 5.2 && < 12"],"v8/tools/consarray":[">= 4.4 && < 5",">= 5.2 && < 12"],"v8/tools/csvparser":[">= 4.4 && < 5",">= 5.2 && < 12"],"v8/tools/logreader":[">= 4.4 && < 5",">= 5.2 && < 12"],"v8/tools/profile_view":[">= 4.4 && < 5",">= 5.2 && < 12"],"v8/tools/splaytree":[">= 4.4 && < 5",">= 5.2 && < 12"],"v8":">= 1","node:v8":[">= 14.18 && < 15",">= 16"],"vm":true,"node:vm":[">= 14.18 && < 15",">= 16"],"wasi":[">= 13.4 && < 13.5",">= 18.17 && < 19",">= 20"],"node:wasi":[">= 18.17 && < 19",">= 20"],"worker_threads":">= 11.7","node:worker_threads":[">= 14.18 && < 15",">= 16"],"zlib":">= 0.5","node:zlib":[">= 14.18 && < 15",">= 16"]}');
 
 /***/ }),
 
@@ -51009,7 +51957,7 @@ module.exports = JSON.parse('["389-exception","Asterisk-exception","Autoconf-exc
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('["AGPL-1.0","AGPL-3.0","BSD-2-Clause-FreeBSD","BSD-2-Clause-NetBSD","GFDL-1.1","GFDL-1.2","GFDL-1.3","GPL-1.0","GPL-1.0+","GPL-2.0","GPL-2.0+","GPL-2.0-with-GCC-exception","GPL-2.0-with-autoconf-exception","GPL-2.0-with-bison-exception","GPL-2.0-with-classpath-exception","GPL-2.0-with-font-exception","GPL-3.0","GPL-3.0+","GPL-3.0-with-GCC-exception","GPL-3.0-with-autoconf-exception","LGPL-2.0","LGPL-2.0+","LGPL-2.1","LGPL-2.1+","LGPL-3.0","LGPL-3.0+","Nunit","StandardML-NJ","bzip2-1.0.5","eCos-2.0","wxWindows"]');
+module.exports = JSON.parse('["AGPL-1.0","AGPL-3.0","BSD-2-Clause-FreeBSD","BSD-2-Clause-NetBSD","GFDL-1.1","GFDL-1.2","GFDL-1.3","GPL-1.0","GPL-2.0","GPL-2.0-with-GCC-exception","GPL-2.0-with-autoconf-exception","GPL-2.0-with-bison-exception","GPL-2.0-with-classpath-exception","GPL-2.0-with-font-exception","GPL-3.0","GPL-3.0-with-GCC-exception","GPL-3.0-with-autoconf-exception","LGPL-2.0","LGPL-2.1","LGPL-3.0","Net-SNMP","Nunit","StandardML-NJ","bzip2-1.0.5","eCos-2.0","wxWindows"]');
 
 /***/ }),
 
@@ -51017,7 +51965,7 @@ module.exports = JSON.parse('["AGPL-1.0","AGPL-3.0","BSD-2-Clause-FreeBSD","BSD-
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('["0BSD","AAL","ADSL","AFL-1.1","AFL-1.2","AFL-2.0","AFL-2.1","AFL-3.0","AGPL-1.0-only","AGPL-1.0-or-later","AGPL-3.0-only","AGPL-3.0-or-later","AMDPLPA","AML","AML-glslang","AMPAS","ANTLR-PD","ANTLR-PD-fallback","APAFML","APL-1.0","APSL-1.0","APSL-1.1","APSL-1.2","APSL-2.0","ASWF-Digital-Assets-1.0","ASWF-Digital-Assets-1.1","Abstyles","AdaCore-doc","Adobe-2006","Adobe-Display-PostScript","Adobe-Glyph","Adobe-Utopia","Afmparse","Aladdin","Apache-1.0","Apache-1.1","Apache-2.0","App-s2p","Arphic-1999","Artistic-1.0","Artistic-1.0-Perl","Artistic-1.0-cl8","Artistic-2.0","BSD-1-Clause","BSD-2-Clause","BSD-2-Clause-Darwin","BSD-2-Clause-Patent","BSD-2-Clause-Views","BSD-3-Clause","BSD-3-Clause-Attribution","BSD-3-Clause-Clear","BSD-3-Clause-HP","BSD-3-Clause-LBNL","BSD-3-Clause-Modification","BSD-3-Clause-No-Military-License","BSD-3-Clause-No-Nuclear-License","BSD-3-Clause-No-Nuclear-License-2014","BSD-3-Clause-No-Nuclear-Warranty","BSD-3-Clause-Open-MPI","BSD-3-Clause-Sun","BSD-3-Clause-acpica","BSD-3-Clause-flex","BSD-4-Clause","BSD-4-Clause-Shortened","BSD-4-Clause-UC","BSD-4.3RENO","BSD-4.3TAHOE","BSD-Advertising-Acknowledgement","BSD-Attribution-HPND-disclaimer","BSD-Inferno-Nettverk","BSD-Protection","BSD-Source-Code","BSD-Source-beginning-file","BSD-Systemics","BSD-Systemics-W3Works","BSL-1.0","BUSL-1.1","Baekmuk","Bahyph","Barr","Beerware","BitTorrent-1.0","BitTorrent-1.1","Bitstream-Charter","Bitstream-Vera","BlueOak-1.0.0","Boehm-GC","Borceux","Brian-Gladman-2-Clause","Brian-Gladman-3-Clause","C-UDA-1.0","CAL-1.0","CAL-1.0-Combined-Work-Exception","CATOSL-1.1","CC-BY-1.0","CC-BY-2.0","CC-BY-2.5","CC-BY-2.5-AU","CC-BY-3.0","CC-BY-3.0-AT","CC-BY-3.0-AU","CC-BY-3.0-DE","CC-BY-3.0-IGO","CC-BY-3.0-NL","CC-BY-3.0-US","CC-BY-4.0","CC-BY-NC-1.0","CC-BY-NC-2.0","CC-BY-NC-2.5","CC-BY-NC-3.0","CC-BY-NC-3.0-DE","CC-BY-NC-4.0","CC-BY-NC-ND-1.0","CC-BY-NC-ND-2.0","CC-BY-NC-ND-2.5","CC-BY-NC-ND-3.0","CC-BY-NC-ND-3.0-DE","CC-BY-NC-ND-3.0-IGO","CC-BY-NC-ND-4.0","CC-BY-NC-SA-1.0","CC-BY-NC-SA-2.0","CC-BY-NC-SA-2.0-DE","CC-BY-NC-SA-2.0-FR","CC-BY-NC-SA-2.0-UK","CC-BY-NC-SA-2.5","CC-BY-NC-SA-3.0","CC-BY-NC-SA-3.0-DE","CC-BY-NC-SA-3.0-IGO","CC-BY-NC-SA-4.0","CC-BY-ND-1.0","CC-BY-ND-2.0","CC-BY-ND-2.5","CC-BY-ND-3.0","CC-BY-ND-3.0-DE","CC-BY-ND-4.0","CC-BY-SA-1.0","CC-BY-SA-2.0","CC-BY-SA-2.0-UK","CC-BY-SA-2.1-JP","CC-BY-SA-2.5","CC-BY-SA-3.0","CC-BY-SA-3.0-AT","CC-BY-SA-3.0-DE","CC-BY-SA-3.0-IGO","CC-BY-SA-4.0","CC-PDDC","CC0-1.0","CDDL-1.0","CDDL-1.1","CDL-1.0","CDLA-Permissive-1.0","CDLA-Permissive-2.0","CDLA-Sharing-1.0","CECILL-1.0","CECILL-1.1","CECILL-2.0","CECILL-2.1","CECILL-B","CECILL-C","CERN-OHL-1.1","CERN-OHL-1.2","CERN-OHL-P-2.0","CERN-OHL-S-2.0","CERN-OHL-W-2.0","CFITSIO","CMU-Mach","CMU-Mach-nodoc","CNRI-Jython","CNRI-Python","CNRI-Python-GPL-Compatible","COIL-1.0","CPAL-1.0","CPL-1.0","CPOL-1.02","CUA-OPL-1.0","Caldera","Caldera-no-preamble","ClArtistic","Clips","Community-Spec-1.0","Condor-1.1","Cornell-Lossless-JPEG","Cronyx","Crossword","CrystalStacker","Cube","D-FSL-1.0","DEC-3-Clause","DL-DE-BY-2.0","DL-DE-ZERO-2.0","DOC","DRL-1.0","DRL-1.1","DSDP","Dotseqn","ECL-1.0","ECL-2.0","EFL-1.0","EFL-2.0","EPICS","EPL-1.0","EPL-2.0","EUDatagrid","EUPL-1.0","EUPL-1.1","EUPL-1.2","Elastic-2.0","Entessa","ErlPL-1.1","Eurosym","FBM","FDK-AAC","FSFAP","FSFAP-no-warranty-disclaimer","FSFUL","FSFULLR","FSFULLRWD","FTL","Fair","Ferguson-Twofish","Frameworx-1.0","FreeBSD-DOC","FreeImage","Furuseth","GCR-docs","GD","GFDL-1.1-invariants-only","GFDL-1.1-invariants-or-later","GFDL-1.1-no-invariants-only","GFDL-1.1-no-invariants-or-later","GFDL-1.1-only","GFDL-1.1-or-later","GFDL-1.2-invariants-only","GFDL-1.2-invariants-or-later","GFDL-1.2-no-invariants-only","GFDL-1.2-no-invariants-or-later","GFDL-1.2-only","GFDL-1.2-or-later","GFDL-1.3-invariants-only","GFDL-1.3-invariants-or-later","GFDL-1.3-no-invariants-only","GFDL-1.3-no-invariants-or-later","GFDL-1.3-only","GFDL-1.3-or-later","GL2PS","GLWTPL","GPL-1.0-only","GPL-1.0-or-later","GPL-2.0-only","GPL-2.0-or-later","GPL-3.0-only","GPL-3.0-or-later","Giftware","Glide","Glulxe","Graphics-Gems","HP-1986","HP-1989","HPND","HPND-DEC","HPND-Fenneberg-Livingston","HPND-INRIA-IMAG","HPND-Kevlin-Henney","HPND-MIT-disclaimer","HPND-Markus-Kuhn","HPND-Pbmplus","HPND-UC","HPND-doc","HPND-doc-sell","HPND-export-US","HPND-export-US-modify","HPND-sell-MIT-disclaimer-xserver","HPND-sell-regexpr","HPND-sell-variant","HPND-sell-variant-MIT-disclaimer","HTMLTIDY","HaskellReport","Hippocratic-2.1","IBM-pibs","ICU","IEC-Code-Components-EULA","IJG","IJG-short","IPA","IPL-1.0","ISC","ISC-Veillard","ImageMagick","Imlib2","Info-ZIP","Inner-Net-2.0","Intel","Intel-ACPI","Interbase-1.0","JPL-image","JPNIC","JSON","Jam","JasPer-2.0","Kastrup","Kazlib","Knuth-CTAN","LAL-1.2","LAL-1.3","LGPL-2.0-only","LGPL-2.0-or-later","LGPL-2.1-only","LGPL-2.1-or-later","LGPL-3.0-only","LGPL-3.0-or-later","LGPLLR","LOOP","LPD-document","LPL-1.0","LPL-1.02","LPPL-1.0","LPPL-1.1","LPPL-1.2","LPPL-1.3a","LPPL-1.3c","LZMA-SDK-9.11-to-9.20","LZMA-SDK-9.22","Latex2e","Latex2e-translated-notice","Leptonica","LiLiQ-P-1.1","LiLiQ-R-1.1","LiLiQ-Rplus-1.1","Libpng","Linux-OpenIB","Linux-man-pages-1-para","Linux-man-pages-copyleft","Linux-man-pages-copyleft-2-para","Linux-man-pages-copyleft-var","Lucida-Bitmap-Fonts","MIT","MIT-0","MIT-CMU","MIT-Festival","MIT-Modern-Variant","MIT-Wu","MIT-advertising","MIT-enna","MIT-feh","MIT-open-group","MIT-testregex","MITNFA","MMIXware","MPEG-SSG","MPL-1.0","MPL-1.1","MPL-2.0","MPL-2.0-no-copyleft-exception","MS-LPL","MS-PL","MS-RL","MTLL","Mackerras-3-Clause","Mackerras-3-Clause-acknowledgment","MakeIndex","Martin-Birgmeier","McPhee-slideshow","Minpack","MirOS","Motosoto","MulanPSL-1.0","MulanPSL-2.0","Multics","Mup","NAIST-2003","NASA-1.3","NBPL-1.0","NCGL-UK-2.0","NCSA","NGPL","NICTA-1.0","NIST-PD","NIST-PD-fallback","NIST-Software","NLOD-1.0","NLOD-2.0","NLPL","NOSL","NPL-1.0","NPL-1.1","NPOSL-3.0","NRL","NTP","NTP-0","Naumen","Net-SNMP","NetCDF","Newsletr","Nokia","Noweb","O-UDA-1.0","OCCT-PL","OCLC-2.0","ODC-By-1.0","ODbL-1.0","OFFIS","OFL-1.0","OFL-1.0-RFN","OFL-1.0-no-RFN","OFL-1.1","OFL-1.1-RFN","OFL-1.1-no-RFN","OGC-1.0","OGDL-Taiwan-1.0","OGL-Canada-2.0","OGL-UK-1.0","OGL-UK-2.0","OGL-UK-3.0","OGTSL","OLDAP-1.1","OLDAP-1.2","OLDAP-1.3","OLDAP-1.4","OLDAP-2.0","OLDAP-2.0.1","OLDAP-2.1","OLDAP-2.2","OLDAP-2.2.1","OLDAP-2.2.2","OLDAP-2.3","OLDAP-2.4","OLDAP-2.5","OLDAP-2.6","OLDAP-2.7","OLDAP-2.8","OLFL-1.3","OML","OPL-1.0","OPL-UK-3.0","OPUBL-1.0","OSET-PL-2.1","OSL-1.0","OSL-1.1","OSL-2.0","OSL-2.1","OSL-3.0","OpenPBS-2.3","OpenSSL","OpenSSL-standalone","OpenVision","PADL","PDDL-1.0","PHP-3.0","PHP-3.01","PSF-2.0","Parity-6.0.0","Parity-7.0.0","Pixar","Plexus","PolyForm-Noncommercial-1.0.0","PolyForm-Small-Business-1.0.0","PostgreSQL","Python-2.0","Python-2.0.1","QPL-1.0","QPL-1.0-INRIA-2004","Qhull","RHeCos-1.1","RPL-1.1","RPL-1.5","RPSL-1.0","RSA-MD","RSCPL","Rdisc","Ruby","SAX-PD","SAX-PD-2.0","SCEA","SGI-B-1.0","SGI-B-1.1","SGI-B-2.0","SGI-OpenGL","SGP4","SHL-0.5","SHL-0.51","SISSL","SISSL-1.2","SL","SMLNJ","SMPPL","SNIA","SPL-1.0","SSH-OpenSSH","SSH-short","SSLeay-standalone","SSPL-1.0","SWL","Saxpath","SchemeReport","Sendmail","Sendmail-8.23","SimPL-2.0","Sleepycat","Soundex","Spencer-86","Spencer-94","Spencer-99","SugarCRM-1.1.3","Sun-PPP","SunPro","Symlinks","TAPR-OHL-1.0","TCL","TCP-wrappers","TGPPL-1.0","TMate","TORQUE-1.1","TOSL","TPDL","TPL-1.0","TTWL","TTYP0","TU-Berlin-1.0","TU-Berlin-2.0","TermReadKey","UCAR","UCL-1.0","UMich-Merit","UPL-1.0","URT-RLE","Unicode-3.0","Unicode-DFS-2015","Unicode-DFS-2016","Unicode-TOU","UnixCrypt","Unlicense","VOSTROM","VSL-1.0","Vim","W3C","W3C-19980720","W3C-20150513","WTFPL","Watcom-1.0","Widget-Workshop","Wsuipa","X11","X11-distribute-modifications-variant","XFree86-1.1","XSkat","Xdebug-1.03","Xerox","Xfig","Xnet","YPL-1.0","YPL-1.1","ZPL-1.1","ZPL-2.0","ZPL-2.1","Zed","Zeeff","Zend-2.0","Zimbra-1.3","Zimbra-1.4","Zlib","bcrypt-Solar-Designer","blessing","bzip2-1.0.6","check-cvs","checkmk","copyleft-next-0.3.0","copyleft-next-0.3.1","curl","diffmark","dtoa","dvipdfm","eGenix","etalab-2.0","fwlw","gSOAP-1.3b","gnuplot","gtkbook","hdparm","iMatix","libpng-2.0","libselinux-1.0","libtiff","libutil-David-Nugent","lsof","magaz","mailprio","metamail","mpi-permissive","mpich2","mplus","pnmstitch","psfrag","psutils","python-ldap","radvd","snprintf","softSurfer","ssh-keyscan","swrule","ulem","w3m","xinetd","xkeyboard-config-Zinoviev","xlock","xpp","zlib-acknowledgement"]');
+module.exports = JSON.parse('["0BSD","3D-Slicer-1.0","AAL","ADSL","AFL-1.1","AFL-1.2","AFL-2.0","AFL-2.1","AFL-3.0","AGPL-1.0-only","AGPL-1.0-or-later","AGPL-3.0-only","AGPL-3.0-or-later","AMD-newlib","AMDPLPA","AML","AML-glslang","AMPAS","ANTLR-PD","ANTLR-PD-fallback","APAFML","APL-1.0","APSL-1.0","APSL-1.1","APSL-1.2","APSL-2.0","ASWF-Digital-Assets-1.0","ASWF-Digital-Assets-1.1","Abstyles","AdaCore-doc","Adobe-2006","Adobe-Display-PostScript","Adobe-Glyph","Adobe-Utopia","Afmparse","Aladdin","Apache-1.0","Apache-1.1","Apache-2.0","App-s2p","Arphic-1999","Artistic-1.0","Artistic-1.0-Perl","Artistic-1.0-cl8","Artistic-2.0","BSD-1-Clause","BSD-2-Clause","BSD-2-Clause-Darwin","BSD-2-Clause-Patent","BSD-2-Clause-Views","BSD-2-Clause-first-lines","BSD-3-Clause","BSD-3-Clause-Attribution","BSD-3-Clause-Clear","BSD-3-Clause-HP","BSD-3-Clause-LBNL","BSD-3-Clause-Modification","BSD-3-Clause-No-Military-License","BSD-3-Clause-No-Nuclear-License","BSD-3-Clause-No-Nuclear-License-2014","BSD-3-Clause-No-Nuclear-Warranty","BSD-3-Clause-Open-MPI","BSD-3-Clause-Sun","BSD-3-Clause-acpica","BSD-3-Clause-flex","BSD-4-Clause","BSD-4-Clause-Shortened","BSD-4-Clause-UC","BSD-4.3RENO","BSD-4.3TAHOE","BSD-Advertising-Acknowledgement","BSD-Attribution-HPND-disclaimer","BSD-Inferno-Nettverk","BSD-Protection","BSD-Source-Code","BSD-Source-beginning-file","BSD-Systemics","BSD-Systemics-W3Works","BSL-1.0","BUSL-1.1","Baekmuk","Bahyph","Barr","Beerware","BitTorrent-1.0","BitTorrent-1.1","Bitstream-Charter","Bitstream-Vera","BlueOak-1.0.0","Boehm-GC","Borceux","Brian-Gladman-2-Clause","Brian-Gladman-3-Clause","C-UDA-1.0","CAL-1.0","CAL-1.0-Combined-Work-Exception","CATOSL-1.1","CC-BY-1.0","CC-BY-2.0","CC-BY-2.5","CC-BY-2.5-AU","CC-BY-3.0","CC-BY-3.0-AT","CC-BY-3.0-AU","CC-BY-3.0-DE","CC-BY-3.0-IGO","CC-BY-3.0-NL","CC-BY-3.0-US","CC-BY-4.0","CC-BY-NC-1.0","CC-BY-NC-2.0","CC-BY-NC-2.5","CC-BY-NC-3.0","CC-BY-NC-3.0-DE","CC-BY-NC-4.0","CC-BY-NC-ND-1.0","CC-BY-NC-ND-2.0","CC-BY-NC-ND-2.5","CC-BY-NC-ND-3.0","CC-BY-NC-ND-3.0-DE","CC-BY-NC-ND-3.0-IGO","CC-BY-NC-ND-4.0","CC-BY-NC-SA-1.0","CC-BY-NC-SA-2.0","CC-BY-NC-SA-2.0-DE","CC-BY-NC-SA-2.0-FR","CC-BY-NC-SA-2.0-UK","CC-BY-NC-SA-2.5","CC-BY-NC-SA-3.0","CC-BY-NC-SA-3.0-DE","CC-BY-NC-SA-3.0-IGO","CC-BY-NC-SA-4.0","CC-BY-ND-1.0","CC-BY-ND-2.0","CC-BY-ND-2.5","CC-BY-ND-3.0","CC-BY-ND-3.0-DE","CC-BY-ND-4.0","CC-BY-SA-1.0","CC-BY-SA-2.0","CC-BY-SA-2.0-UK","CC-BY-SA-2.1-JP","CC-BY-SA-2.5","CC-BY-SA-3.0","CC-BY-SA-3.0-AT","CC-BY-SA-3.0-DE","CC-BY-SA-3.0-IGO","CC-BY-SA-4.0","CC-PDDC","CC0-1.0","CDDL-1.0","CDDL-1.1","CDL-1.0","CDLA-Permissive-1.0","CDLA-Permissive-2.0","CDLA-Sharing-1.0","CECILL-1.0","CECILL-1.1","CECILL-2.0","CECILL-2.1","CECILL-B","CECILL-C","CERN-OHL-1.1","CERN-OHL-1.2","CERN-OHL-P-2.0","CERN-OHL-S-2.0","CERN-OHL-W-2.0","CFITSIO","CMU-Mach","CMU-Mach-nodoc","CNRI-Jython","CNRI-Python","CNRI-Python-GPL-Compatible","COIL-1.0","CPAL-1.0","CPL-1.0","CPOL-1.02","CUA-OPL-1.0","Caldera","Caldera-no-preamble","Catharon","ClArtistic","Clips","Community-Spec-1.0","Condor-1.1","Cornell-Lossless-JPEG","Cronyx","Crossword","CrystalStacker","Cube","D-FSL-1.0","DEC-3-Clause","DL-DE-BY-2.0","DL-DE-ZERO-2.0","DOC","DRL-1.0","DRL-1.1","DSDP","DocBook-Schema","DocBook-XML","Dotseqn","ECL-1.0","ECL-2.0","EFL-1.0","EFL-2.0","EPICS","EPL-1.0","EPL-2.0","EUDatagrid","EUPL-1.0","EUPL-1.1","EUPL-1.2","Elastic-2.0","Entessa","ErlPL-1.1","Eurosym","FBM","FDK-AAC","FSFAP","FSFAP-no-warranty-disclaimer","FSFUL","FSFULLR","FSFULLRWD","FTL","Fair","Ferguson-Twofish","Frameworx-1.0","FreeBSD-DOC","FreeImage","Furuseth","GCR-docs","GD","GFDL-1.1-invariants-only","GFDL-1.1-invariants-or-later","GFDL-1.1-no-invariants-only","GFDL-1.1-no-invariants-or-later","GFDL-1.1-only","GFDL-1.1-or-later","GFDL-1.2-invariants-only","GFDL-1.2-invariants-or-later","GFDL-1.2-no-invariants-only","GFDL-1.2-no-invariants-or-later","GFDL-1.2-only","GFDL-1.2-or-later","GFDL-1.3-invariants-only","GFDL-1.3-invariants-or-later","GFDL-1.3-no-invariants-only","GFDL-1.3-no-invariants-or-later","GFDL-1.3-only","GFDL-1.3-or-later","GL2PS","GLWTPL","GPL-1.0-only","GPL-1.0-or-later","GPL-2.0-only","GPL-2.0-or-later","GPL-3.0-only","GPL-3.0-or-later","Giftware","Glide","Glulxe","Graphics-Gems","Gutmann","HIDAPI","HP-1986","HP-1989","HPND","HPND-DEC","HPND-Fenneberg-Livingston","HPND-INRIA-IMAG","HPND-Intel","HPND-Kevlin-Henney","HPND-MIT-disclaimer","HPND-Markus-Kuhn","HPND-Netrek","HPND-Pbmplus","HPND-UC","HPND-UC-export-US","HPND-doc","HPND-doc-sell","HPND-export-US","HPND-export-US-acknowledgement","HPND-export-US-modify","HPND-export2-US","HPND-merchantability-variant","HPND-sell-MIT-disclaimer-xserver","HPND-sell-regexpr","HPND-sell-variant","HPND-sell-variant-MIT-disclaimer","HPND-sell-variant-MIT-disclaimer-rev","HTMLTIDY","HaskellReport","Hippocratic-2.1","IBM-pibs","ICU","IEC-Code-Components-EULA","IJG","IJG-short","IPA","IPL-1.0","ISC","ISC-Veillard","ImageMagick","Imlib2","Info-ZIP","Inner-Net-2.0","Intel","Intel-ACPI","Interbase-1.0","JPL-image","JPNIC","JSON","Jam","JasPer-2.0","Kastrup","Kazlib","Knuth-CTAN","LAL-1.2","LAL-1.3","LGPL-2.0-only","LGPL-2.0-or-later","LGPL-2.1-only","LGPL-2.1-or-later","LGPL-3.0-only","LGPL-3.0-or-later","LGPLLR","LOOP","LPD-document","LPL-1.0","LPL-1.02","LPPL-1.0","LPPL-1.1","LPPL-1.2","LPPL-1.3a","LPPL-1.3c","LZMA-SDK-9.11-to-9.20","LZMA-SDK-9.22","Latex2e","Latex2e-translated-notice","Leptonica","LiLiQ-P-1.1","LiLiQ-R-1.1","LiLiQ-Rplus-1.1","Libpng","Linux-OpenIB","Linux-man-pages-1-para","Linux-man-pages-copyleft","Linux-man-pages-copyleft-2-para","Linux-man-pages-copyleft-var","Lucida-Bitmap-Fonts","MIT","MIT-0","MIT-CMU","MIT-Festival","MIT-Khronos-old","MIT-Modern-Variant","MIT-Wu","MIT-advertising","MIT-enna","MIT-feh","MIT-open-group","MIT-testregex","MITNFA","MMIXware","MPEG-SSG","MPL-1.0","MPL-1.1","MPL-2.0","MPL-2.0-no-copyleft-exception","MS-LPL","MS-PL","MS-RL","MTLL","Mackerras-3-Clause","Mackerras-3-Clause-acknowledgment","MakeIndex","Martin-Birgmeier","McPhee-slideshow","Minpack","MirOS","Motosoto","MulanPSL-1.0","MulanPSL-2.0","Multics","Mup","NAIST-2003","NASA-1.3","NBPL-1.0","NCBI-PD","NCGL-UK-2.0","NCL","NCSA","NGPL","NICTA-1.0","NIST-PD","NIST-PD-fallback","NIST-Software","NLOD-1.0","NLOD-2.0","NLPL","NOSL","NPL-1.0","NPL-1.1","NPOSL-3.0","NRL","NTP","NTP-0","Naumen","NetCDF","Newsletr","Nokia","Noweb","O-UDA-1.0","OAR","OCCT-PL","OCLC-2.0","ODC-By-1.0","ODbL-1.0","OFFIS","OFL-1.0","OFL-1.0-RFN","OFL-1.0-no-RFN","OFL-1.1","OFL-1.1-RFN","OFL-1.1-no-RFN","OGC-1.0","OGDL-Taiwan-1.0","OGL-Canada-2.0","OGL-UK-1.0","OGL-UK-2.0","OGL-UK-3.0","OGTSL","OLDAP-1.1","OLDAP-1.2","OLDAP-1.3","OLDAP-1.4","OLDAP-2.0","OLDAP-2.0.1","OLDAP-2.1","OLDAP-2.2","OLDAP-2.2.1","OLDAP-2.2.2","OLDAP-2.3","OLDAP-2.4","OLDAP-2.5","OLDAP-2.6","OLDAP-2.7","OLDAP-2.8","OLFL-1.3","OML","OPL-1.0","OPL-UK-3.0","OPUBL-1.0","OSET-PL-2.1","OSL-1.0","OSL-1.1","OSL-2.0","OSL-2.1","OSL-3.0","OpenPBS-2.3","OpenSSL","OpenSSL-standalone","OpenVision","PADL","PDDL-1.0","PHP-3.0","PHP-3.01","PPL","PSF-2.0","Parity-6.0.0","Parity-7.0.0","Pixar","Plexus","PolyForm-Noncommercial-1.0.0","PolyForm-Small-Business-1.0.0","PostgreSQL","Python-2.0","Python-2.0.1","QPL-1.0","QPL-1.0-INRIA-2004","Qhull","RHeCos-1.1","RPL-1.1","RPL-1.5","RPSL-1.0","RSA-MD","RSCPL","Rdisc","Ruby","Ruby-pty","SAX-PD","SAX-PD-2.0","SCEA","SGI-B-1.0","SGI-B-1.1","SGI-B-2.0","SGI-OpenGL","SGP4","SHL-0.5","SHL-0.51","SISSL","SISSL-1.2","SL","SMLNJ","SMPPL","SNIA","SPL-1.0","SSH-OpenSSH","SSH-short","SSLeay-standalone","SSPL-1.0","SWL","Saxpath","SchemeReport","Sendmail","Sendmail-8.23","SimPL-2.0","Sleepycat","Soundex","Spencer-86","Spencer-94","Spencer-99","SugarCRM-1.1.3","Sun-PPP","Sun-PPP-2000","SunPro","Symlinks","TAPR-OHL-1.0","TCL","TCP-wrappers","TGPPL-1.0","TMate","TORQUE-1.1","TOSL","TPDL","TPL-1.0","TTWL","TTYP0","TU-Berlin-1.0","TU-Berlin-2.0","TermReadKey","UCAR","UCL-1.0","UMich-Merit","UPL-1.0","URT-RLE","Ubuntu-font-1.0","Unicode-3.0","Unicode-DFS-2015","Unicode-DFS-2016","Unicode-TOU","UnixCrypt","Unlicense","VOSTROM","VSL-1.0","Vim","W3C","W3C-19980720","W3C-20150513","WTFPL","Watcom-1.0","Widget-Workshop","Wsuipa","X11","X11-distribute-modifications-variant","X11-swapped","XFree86-1.1","XSkat","Xdebug-1.03","Xerox","Xfig","Xnet","YPL-1.0","YPL-1.1","ZPL-1.1","ZPL-2.0","ZPL-2.1","Zed","Zeeff","Zend-2.0","Zimbra-1.3","Zimbra-1.4","Zlib","any-OSI","bcrypt-Solar-Designer","blessing","bzip2-1.0.6","check-cvs","checkmk","copyleft-next-0.3.0","copyleft-next-0.3.1","curl","cve-tou","diffmark","dtoa","dvipdfm","eGenix","etalab-2.0","fwlw","gSOAP-1.3b","gnuplot","gtkbook","hdparm","iMatix","libpng-2.0","libselinux-1.0","libtiff","libutil-David-Nugent","lsof","magaz","mailprio","metamail","mpi-permissive","mpich2","mplus","pkgconf","pnmstitch","psfrag","psutils","python-ldap","radvd","snprintf","softSurfer","ssh-keyscan","swrule","threeparttable","ulem","w3m","xinetd","xkeyboard-config-Zinoviev","xlock","xpp","xzoom","zlib-acknowledgement"]');
 
 /***/ }),
 
@@ -51065,6 +52013,34 @@ module.exports = JSON.parse('[["AFL-1.1","AFL-1.2","AFL-2.0","AFL-2.1","AFL-3.0"
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nccwpck_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__nccwpck_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/node module decorator */
 /******/ 	(() => {
 /******/ 		__nccwpck_require__.nmd = (module) => {
