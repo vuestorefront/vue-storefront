@@ -19,7 +19,6 @@ export const ALLOWED_LICENSES = [
   // If you download the package to your filesystem, you'll see that it's the Apache 2.0 license in fact
   'Custom: https://github.com/paypal/Checkout-NodeJS-SDK/blob/master/LICENSE',
   'Custom: VSFEL',
-  'Custom: LICENSE',
   'CC-BY-4.0',
   'ISC',
   'MIT',
