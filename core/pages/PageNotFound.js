@@ -19,7 +19,6 @@ export default {
       size: 8,
       sort: 'created_at:desc',
       options: {
-        populateRequestCacheTags: false,
         prefetchGroupProducts: false
       }
     })

@@ -68,7 +68,31 @@ function healthCheck (req, res) {
   res.status(200).end();
 }
 
-function invalidateCache (req, res) {
+function invalidateCache (tag: string) {
+  let tags: string[] = []
+  if (tag === '*') {
+    tags = config.server.availableCacheTags
+  } else {
+    tags = tag.split(',')
+  }
+  const invalidationPromises: Promise<void>[] = []
+
+  tags.forEach(tag => {
+    if (config.server.availableCacheTags.indexOf(tag) >= 0 || config.server.availableCacheTags.find((t: string) => {
+      return tag.indexOf(t) === 0
+    })) {
+      invalidationPromises.push(cache.invalidate(tag).then(() => {
+        console.log(`Tags invalidated successfully for [${tag}]`)
+      }))
+    } else {
+      console.error(`Invalid tag name ${tag}`)
+    }
+  })
+
+  return { invalidationPromises, tags };
+}
+
+function invalidateCacheHandler (req, res) {
   if (config.server.useOutputCache) {
     if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
       if (req.query.key !== config.server.invalidateCacheKey) {
@@ -77,29 +101,11 @@ function invalidateCache (req, res) {
         return
       }
       console.log(`Clear cache request for [${req.query.tag}]`)
-      let tags = []
-      if (req.query.tag === '*') {
-        tags = config.server.availableCacheTags
-      } else {
-        tags = req.query.tag.split(',')
-      }
-      const subPromises = []
+      const { tags, invalidationPromises } = invalidateCache(req.query.tag);
 
       serverHooksExecutors.beforeCacheInvalidated({ tags, req })
 
-      tags.forEach(tag => {
-        if (config.server.availableCacheTags.indexOf(tag) >= 0 || config.server.availableCacheTags.find(t => {
-          return tag.indexOf(t) === 0
-        })) {
-          subPromises.push(cache.invalidate(tag).then(() => {
-            console.log(`Tags invalidated successfully for [${tag}]`)
-          }))
-        } else {
-          console.error(`Invalid tag name ${tag}`)
-        }
-      })
-
-      Promise.all(subPromises).then(r => {
+      Promise.all(invalidationPromises).then(r => {
         apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
       }).catch(error => {
         apiStatus(res, error, 500)
@@ -155,9 +161,11 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
   }
 }))
 
-app.post('/invalidate', invalidateCache)
-app.get('/invalidate', invalidateCache)
+app.post('/invalidate', invalidateCacheHandler)
+app.get('/invalidate', invalidateCacheHandler)
 app.get('/healthcheck', healthCheck)
+
+invalidateCache('*')
 
 function cacheVersion (req, res) {
   res.send(fs.readFileSync(resolve('core/build/cache-version.json')))
@@ -194,7 +202,7 @@ app.get('*', async (req, res, next) => {
   if (!req.path.endsWith('/')) {
     const hasQuery = Object.values(req.query).length;
     let redirectUrl = `${req.path}/`;
-    
+
     if (hasQuery) {
       redirectUrl += '?' + qs.stringify(req.query);
     }
@@ -239,7 +247,7 @@ app.get('*', async (req, res, next) => {
       }
 
       output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, isProd);
-      if (config.server.useOutputCache && cache) {
+      if (config.server.useOutputCache && cache && !context.output.cacheTags['no-cache']) {
         cache.set(
           cacheKey,
           { headers: res.getHeaders(), body: output, httpCode: res.statusCode },

@@ -10,8 +10,8 @@
       "minifyJS": true,
       "minifyCSS": true
     },
-    "useOutputCacheTagging": false,
-    "useOutputCache": false,
+    "useOutputCacheTagging": true,
+    "useOutputCache": true,
     "outputCacheDefaultTtl": 86400,
     "availableCacheTags": [
       "attribute",
@@ -25,7 +25,19 @@
       "P",
       "page-not-found",
       "product",
-      "taxrule"
+      "taxrule",
+      "statistic_value",
+      "statistic_value_",
+      "storyblok",
+      "S_",
+      "store_rating",
+      "settings",
+      "settings_",
+      "url_rewrite",
+      "url_rewrite_",
+      "rush_addons",
+      "rush_addons_",
+      "gift_card_templates"
     ],
     "invalidateCacheKey": "${CACHE_INVALIDATION_KEY}",
     "invalidateCacheForwarding": false,

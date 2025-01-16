@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { Dictionary } from 'src/modules/budsies';
 import { ActionTree } from 'vuex';
@@ -52,6 +53,10 @@ export const actions: ActionTree<GiftCardState, any> = {
     }
   },
   async loadGiftCardsTemplates ({ commit, rootGetters }): Promise<Dictionary<GiftCardTemplate>> {
+    if (Vue.prototype.$cacheTags) {
+      Vue.prototype.$cacheTags.add(`gift_card_templates`);
+    }
+
     const { storeId } = currentStoreView();
     const token = rootGetters['user/getToken'];
     const giftCardTemplates = await GiftCardService.loadGiftCardsTemplates(storeId, token);

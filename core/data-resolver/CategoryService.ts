@@ -1,8 +1,11 @@
+import Vue from 'vue';
+
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search';
 import { SearchQuery } from 'storefront-query-builder'
 import config from 'config';
 import { DataResolver } from './types/DataResolver';
 import { Category } from 'core/modules/catalog-next/types/Category';
+import { getCategoriesIdsFromSearchQuery } from '@vue-storefront/core/helpers/get-categories-ids-from-search-query.function';
 
 const getCategories = async ({
   parentId = null,
@@ -43,6 +46,16 @@ const getCategories = async ({
   if (onlyNotEmpty === true) {
     searchQuery = searchQuery.applyFilter({ key: 'product_count', value: { 'gt': 0 } })
   }
+
+  if (Vue.prototype.$cacheTags) {
+    Vue.prototype.$cacheTags.add('category');
+    const categoriesIds = getCategoriesIdsFromSearchQuery(searchQuery);
+
+    for (const id of categoriesIds) {
+      Vue.prototype.$cacheTags.add(`C${id}`);
+    }
+  }
+
   const response = await quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields })
   return response.items as Category[]
 }

@@ -24,6 +24,11 @@ export const mappingFallbackForUrlRewrite = async (
     ssrContext?: Context
   }
 ): Promise<LocalizedRoute | undefined> => {
+  if (ssrContext) {
+    ssrContext.output.cacheTags.add(`url_rewrite`);
+    ssrContext.output.cacheTags.add(`url_rewrite_${url}`);
+  }
+
   const urlRewriteForRequestPath: UrlRewrite = await dispatch('urlRewrite/loadUrlRewrite', { requestPath: url }, { root: true });
 
   if (!urlRewriteForRequestPath) {

@@ -54,7 +54,6 @@ export const Search = {
             start: this.start,
             size: this.size,
             options: {
-              populateRequestCacheTags: false,
               prefetchGroupProducts: false
             }
           })
@@ -79,7 +78,6 @@ export const Search = {
             start: startValue,
             size: this.size,
             options: {
-              populateRequestCacheTags: false,
               prefetchGroupProducts: false
             }
           })

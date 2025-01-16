@@ -19,9 +19,9 @@ const actions = {
    * Configure configurable products to have first available options selected
    * so they can be added to cart/wishlist/compare without manual configuring
    */
-  async configureProducts ({ rootState }, { products = [], filters = {}, populateRequestCacheTags = config.server.useOutputCacheTagging } = {}) {
+  async configureProducts ({ rootState }, { products = [], filters = {} } = {}) {
     return products.map(product => {
-      product = Object.assign({}, preConfigureProduct({ product, populateRequestCacheTags }))
+      product = Object.assign({}, preConfigureProduct({ product }))
       const configuredProductVariant = configureProductAsync({ rootState, state: { current_configuration: {} } }, { product, configuration: filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false })
       return Object.assign(product, omit(configuredProductVariant, ['visibility']))
     })

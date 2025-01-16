@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import StoryblokClient from 'storyblok-js-client'
 
 import { StoryblokState } from '../types/State'
@@ -58,6 +59,10 @@ export const actions: ActionTree<StoryblokState, RootState> = {
       return state.stories[id].loadingPromise;
     }
 
+    if (Vue.prototype.$cacheTags) {
+      Vue.prototype.$cacheTags.add(`no-cache`);
+    }
+
     const loadingPromise = (this['$storyblokClient'] as StoryblokClient).get(`cdn/stories/${id}`, {
       token: previewToken,
       language: lang,
@@ -83,6 +88,11 @@ export const actions: ActionTree<StoryblokState, RootState> = {
     if (state.stories[key]?.loading) {
       // Already fetching this story
       return state.stories[key].loadingPromise;
+    }
+
+    if (Vue.prototype.$cacheTags) {
+      Vue.prototype.$cacheTags.add(`storyblok`);
+      Vue.prototype.$cacheTags.add(`S_${key}`);
     }
 
     const cachedStory = state.stories[key]?.story

@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import RootState from '@vue-storefront/core/types/RootState'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { processURLAddress } from '@vue-storefront/core/helpers'
@@ -120,8 +121,14 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     commit('setPrintedProductAddons', { key: productId, addons: addons });
   },
   async loadProductsRushAddons (
-    { commit, state, getters }
+    { commit, state, getters },
+    { productSku }: { productSku: string }
   ): Promise<void> {
+    if (Vue.prototype.$cacheTags) {
+      Vue.prototype.$cacheTags.add(`rush_addons`);
+      Vue.prototype.$cacheTags.add(`rush_addons_${productSku}`);
+    }
+
     if (state.isRushAddonsLoaded) {
       return;
     }
@@ -523,6 +530,10 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       useCache: boolean
     }
   ): Promise<StoreRating> {
+    if (Vue.prototype.$cacheTags) {
+      Vue.prototype.$cacheTags.add(`store_rating`);
+    }
+
     const storeRating = getters['getStoreRating'];
 
     if (useCache && storeRating) {
@@ -561,6 +572,11 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       useCache: boolean
     }
   ): Promise<Pick<StatisticValue, 'value'>> {
+    if (Vue.prototype.$cacheTags) {
+      Vue.prototype.$cacheTags.add(`statistic_value`);
+      Vue.prototype.$cacheTags.add(`statistic_value_${metric}`);
+    }
+
     const cachedMetric: Pick<StatisticValue, 'value'> = getters.getStatisticValueByMetric(metric);
 
     if (useCache && cachedMetric) {

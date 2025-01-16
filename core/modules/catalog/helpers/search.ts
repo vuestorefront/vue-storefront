@@ -48,18 +48,13 @@ export const storeProductToCache = (product, cacheByKey) => {
   cache.setItem(cacheKey, product, null, config.products.disablePersistentProductsCache)
 };
 
-export const preConfigureProduct = ({ product, populateRequestCacheTags }) => {
-  const shouldPopulateCacheTags = populateRequestCacheTags && Vue.prototype.$cacheTags;
+export const preConfigureProduct = ({ product }) => {
   const isFirstVariantAsDefaultInURL =
     config.products.setFirstVarianAsDefaultInURL &&
     product.hasOwnProperty('configurable_children') &&
     product.configurable_children.length > 0;
   product.errors = {}; // this is an object to store validation result for custom options and others
   product.info = {};
-
-  if (shouldPopulateCacheTags) {
-    Vue.prototype.$cacheTags.add(`P${product.id}`);
-  }
 
   if (!product.parentSku) {
     product.parentSku = product.sku;

@@ -1,9 +1,18 @@
 version: '2.0'
 services:
+  redis:
+    image: 'redis:4-alpine'
+    ports:
+      - '6377:6379'
+    networks:
+      - redis
+
   app:
     build:
       context: .
       dockerfile: docker/vue-storefront/Dockerfile
+    depends_on:
+      - redis
     environment:
       - VS_ENV
       - APPVERSION
@@ -80,6 +89,7 @@ services:
     networks:
       - default
       - reverseproxy
+      - redis
       # - vue-storefront-api
     expose:
       - 3000
@@ -92,6 +102,9 @@ networks:
   reverseproxy:
       name: webdevelopmentreverseproxy_default
       external: true
+  redis:
+    name: vue-storefront-redis
+    external: false
 #  vue-storefront-api:
 #    external:
 #      name: vue-storefront-api_default
