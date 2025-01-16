@@ -8,7 +8,7 @@ import { fetchConfigWithCache } from "./cache/fetchConfigWithCache";
 
 export const createMultistoreExtension = (
   multistoreConfig: MultistoreExtensionMethods
-) => {
+): ApiClientExtension => {
   const cacheManager = multistoreConfig.cacheManagerFactory();
 
   return {
