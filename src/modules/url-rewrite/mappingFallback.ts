@@ -1,4 +1,5 @@
 import { Response } from 'express';
+import Vue from 'vue';
 import { ActionContext } from 'vuex';
 import queryString from 'query-string';
 
@@ -24,9 +25,9 @@ export const mappingFallbackForUrlRewrite = async (
     ssrContext?: Context
   }
 ): Promise<LocalizedRoute | undefined> => {
-  if (ssrContext) {
-    ssrContext.output.cacheTags.add(`url_rewrite`);
-    ssrContext.output.cacheTags.add(`url_rewrite_${url}`);
+  if (Vue.prototype.$cacheTags) {
+    Vue.prototype.$cacheTags.add(`url_rewrite`);
+    Vue.prototype.$cacheTags.add(`url_rewrite_${url}`);
   }
 
   const urlRewriteForRequestPath: UrlRewrite = await dispatch('urlRewrite/loadUrlRewrite', { requestPath: url }, { root: true });
