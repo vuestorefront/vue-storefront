@@ -10,23 +10,9 @@ export const isEnabled = (gtmId: string | null) => {
   return typeof gtmId === 'string' && gtmId.length > 0 && !isServer
 }
 
-export function afterRegistration (config, store: Store<any>, router: VueRouter) {
+export function afterRegistration (config, store: Store<any>) {
   if (isEnabled(config.googleTagManager.id)) {
     const GTM: typeof VueGtm = (Vue as any).gtm
-
-    router.afterEach(() => {
-      const loggedUser = store.state.user.current;
-
-      if (!loggedUser) {
-        return;
-      }
-
-      GTM.trackEvent({
-        customerEmail: loggedUser.email,
-        customerFullName: `${loggedUser.firstname} ${loggedUser.lastname}`,
-        customerId: loggedUser.id
-      })
-    });
 
     const eventBusListener = new EventBusListener(store, GTM);
     eventBusListener.initEventBusListeners();
