@@ -1,7 +1,7 @@
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
+import { UserEvents } from 'src/modules/shared';
 
 import UserState from '../types/UserState';
-import { UserEvents } from 'src/modules/shared';
 
 export function notifyCustomerDataChanged (data: UserState['current']): void {
   if (!data) {
