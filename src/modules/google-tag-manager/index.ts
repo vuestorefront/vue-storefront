@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueGtm from 'vue-gtm'
 
-import { once, isServer } from '@vue-storefront/core/helpers'
+import { once } from '@vue-storefront/core/helpers'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
@@ -28,5 +28,5 @@ export const GoogleTagManagerModule: StorefrontModule = function ({ store, route
 
   store.registerModule(KEY, googleTagManagerModule)
 
-  afterRegistration(appConfig, store, router)
+  afterRegistration(appConfig, store)
 }

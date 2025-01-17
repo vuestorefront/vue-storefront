@@ -18,7 +18,7 @@ import { LOCAL_CART_DATA_LOADED_EVENT } from '@vue-storefront/core/modules/cart'
 import { notifyCustomerDataChanged } from '../helpers/notify-customer-data-changed.function'
 
 const actions: ActionTree<UserState, RootState> = {
-  async startSession ({ commit, dispatch, getters, rootGetters, state }) {
+  async startSession ({ commit, dispatch, getters, rootGetters }) {
     const usersCollection = StorageManager.get('user')
     const userData = await usersCollection.getItem('current-user')
 

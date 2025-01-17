@@ -10,7 +10,7 @@ export const isEnabled = (gtmId: string | null) => {
   return typeof gtmId === 'string' && gtmId.length > 0 && !isServer
 }
 
-export function afterRegistration (config, store: Store<any>, router: VueRouter) {
+export function afterRegistration (config, store: Store<any>) {
   if (isEnabled(config.googleTagManager.id)) {
     const GTM: typeof VueGtm = (Vue as any).gtm
 
