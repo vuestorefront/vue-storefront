@@ -9,14 +9,16 @@ import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
 import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { userHooksExecutors }  from '../hooks'
+import { userHooksExecutors } from '../hooks'
 import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import uniqBy from 'lodash-es/uniqBy'
 import { LOCAL_CART_DATA_LOADED_EVENT } from '@vue-storefront/core/modules/cart'
 
+import { notifyCustomerDataChanged } from '../helpers/notify-customer-data-changed.function'
+
 const actions: ActionTree<UserState, RootState> = {
-  async startSession ({ commit, dispatch, getters, rootGetters }) {
+  async startSession ({ commit, dispatch, getters, rootGetters, state }) {
     const usersCollection = StorageManager.get('user')
     const userData = await usersCollection.getItem('current-user')
 
@@ -33,6 +35,8 @@ const actions: ActionTree<UserState, RootState> = {
     if (lastUserToken) {
       commit(types.USER_TOKEN_CHANGED, { newToken: lastUserToken })
       await dispatch('sessionAfterAuthorized', {})
+
+      notifyCustomerDataChanged(state);
 
       if (userData) {
         dispatch('setUserGroup', userData)
@@ -51,8 +55,8 @@ const actions: ActionTree<UserState, RootState> = {
       dispatch('sessionAfterStarted');
     });
   },
-  async sessionAfterStarted({ commit, getters, dispatch }) {
-    await dispatch('cart/synchronizeCart', undefined, {root: true});
+  async sessionAfterStarted ({ commit, getters, dispatch }) {
+    await dispatch('cart/synchronizeCart', undefined, { root: true });
     const userToken = getters['getUserToken'];
     commit(types.USER_SESSION_STARTED);
     EventBus.$emit('session-after-started', userToken);
@@ -73,7 +77,7 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Login user and return user profile and current token
    */
-  async login ({ commit, dispatch }, { username, password }) {
+  async login ({ commit, dispatch, state }, { username, password }) {
     await dispatch('resetUserInvalidation', {}, { root: true })
 
     const resp = await UserService.login(username, password)
@@ -82,8 +86,10 @@ const actions: ActionTree<UserState, RootState> = {
     if (resp.code === 200) {
       try {
         commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
-        await dispatch('cart/mergeGuestAndCustomer', undefined, {root: true});
+        await dispatch('cart/mergeGuestAndCustomer', undefined, { root: true });
         await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+
+        notifyCustomerDataChanged(state);
 
         EventBus.$emit('user-after-logged-in', resp.result);
       } catch (err) {
@@ -193,14 +199,15 @@ const actions: ActionTree<UserState, RootState> = {
     profile = userHooksExecutors.beforeUserProfileUpdate(profile)
     await UserService.updateProfile(profile, 'user/handleUpdateProfile')
   },
-  async handleUpdateProfile ({ dispatch }, event: Task) {
+  async handleUpdateProfile ({ dispatch, state }, event: Task) {
     if (event.resultCode === 200) {
       dispatch('notification/spawnNotification', {
         type: 'success',
         message: i18n.t('Account data has successfully been updated'),
         action1: { label: i18n.t('OK') }
       }, { root: true })
-      dispatch('user/setCurrentUser', event.result, { root: true })
+      await dispatch('user/setCurrentUser', event.result, { root: true });
+      notifyCustomerDataChanged(state);
     }
     userHooksExecutors.afterUserProfileUpdated(event)
   },
