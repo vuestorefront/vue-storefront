@@ -36,7 +36,7 @@ const actions: ActionTree<UserState, RootState> = {
       commit(types.USER_TOKEN_CHANGED, { newToken: lastUserToken })
       await dispatch('sessionAfterAuthorized', {})
 
-      notifyCustomerDataChanged(state);
+      notifyCustomerDataChanged(getters['current']);
 
       if (userData) {
         dispatch('setUserGroup', userData)
@@ -77,7 +77,7 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Login user and return user profile and current token
    */
-  async login ({ commit, dispatch, state }, { username, password }) {
+  async login ({ commit, dispatch, getters }, { username, password }) {
     await dispatch('resetUserInvalidation', {}, { root: true })
 
     const resp = await UserService.login(username, password)
@@ -89,7 +89,7 @@ const actions: ActionTree<UserState, RootState> = {
         await dispatch('cart/mergeGuestAndCustomer', undefined, { root: true });
         await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
 
-        notifyCustomerDataChanged(state);
+        notifyCustomerDataChanged(getters['current']);
 
         EventBus.$emit('user-after-logged-in', resp.result);
       } catch (err) {
@@ -199,7 +199,7 @@ const actions: ActionTree<UserState, RootState> = {
     profile = userHooksExecutors.beforeUserProfileUpdate(profile)
     await UserService.updateProfile(profile, 'user/handleUpdateProfile')
   },
-  async handleUpdateProfile ({ dispatch, state }, event: Task) {
+  async handleUpdateProfile ({ dispatch, getters }, event: Task) {
     if (event.resultCode === 200) {
       dispatch('notification/spawnNotification', {
         type: 'success',
@@ -207,7 +207,7 @@ const actions: ActionTree<UserState, RootState> = {
         action1: { label: i18n.t('OK') }
       }, { root: true })
       await dispatch('user/setCurrentUser', event.result, { root: true });
-      notifyCustomerDataChanged(state);
+      notifyCustomerDataChanged(getters['current']);
     }
     userHooksExecutors.afterUserProfileUpdated(event)
   },

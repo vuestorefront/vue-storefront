@@ -6,6 +6,7 @@ const getters: GetterTree<UserState, RootState> = {
   isLoggedIn (state) {
     return state.current !== null
   },
+  current: state => state.current,
   isLocalDataLoaded: state => state.local_data_loaded,
   getUserToken (state) {
     return state.token
