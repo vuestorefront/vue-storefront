@@ -17,10 +17,11 @@ npx @vue-storefront/cli generate template
 ## Commands
 
 <!-- commands -->
-* [`@vue-storefront/cli generate store`](#vue-storefrontcli-generate-store)
-* [`@vue-storefront/cli generate template`](#vue-storefrontcli-generate-template)
-* [`@vue-storefront/cli help [COMMAND]`](#vue-storefrontcli-help-command)
-* [`@vue-storefront/cli init`](#vue-storefrontcli-init)
+* [`@vue-storefront/cli add [COMMANDARG] [ENDPOINT]`](#vue-storefrontcli-add-commandarg-endpoint)
+* [`@vue-storefront/cli add endpoint [NAME]`](#vue-storefrontcli-add-endpoint-name)
+* [`@vue-storefront/cli create [COMMANDNAME] [INTEGRATIONNAME]`](#vue-storefrontcli-create-commandname-integrationname)
+* [`@vue-storefront/cli create integration [NAME]`](#vue-storefrontcli-create-integration-name)
+* [`@vue-storefront/cli help [COMMANDS]`](#vue-storefrontcli-help-commands)
 * [`@vue-storefront/cli plugins`](#vue-storefrontcli-plugins)
 * [`@vue-storefront/cli plugins:install PLUGIN...`](#vue-storefrontcli-pluginsinstall-plugin)
 * [`@vue-storefront/cli plugins:inspect PLUGIN...`](#vue-storefrontcli-pluginsinspect-plugin)
@@ -32,39 +33,99 @@ npx @vue-storefront/cli generate template
 * [`@vue-storefront/cli plugins update`](#vue-storefrontcli-plugins-update)
 * [`@vue-storefront/cli update [CHANNEL]`](#vue-storefrontcli-update-channel)
 
-## `@vue-storefront/cli generate store`
+## `@vue-storefront/cli add [COMMANDARG] [ENDPOINT]`
+
+Create new endpoint boilerplate code
 
 ```
 USAGE
-  $ @vue-storefront/cli generate store
+  $ @vue-storefront/cli add [COMMANDARG] [ENDPOINT]
+
+ARGUMENTS
+  COMMANDARG  Name of the command
+  ENDPOINT    Name of the endpoint
+
+DESCRIPTION
+  Create new endpoint boilerplate code
 
 EXAMPLES
-  $ @vue-storefront/cli generate store
+  $ @vue-storefront/cli add <command> <endpoint>
 ```
 
-## `@vue-storefront/cli generate template`
+_See code: [src/commands/add/index.ts](https://github.com/vuestorefront/vue-storefront/blob/v5.0.0/src/commands/add/index.ts)_
+
+## `@vue-storefront/cli add endpoint [NAME]`
+
+Create new endpoint boilerplate code
 
 ```
 USAGE
-  $ @vue-storefront/cli generate template [--output <value>]
+  $ @vue-storefront/cli add endpoint [NAME]
+
+ARGUMENTS
+  NAME  Name of the endpoint
+
+DESCRIPTION
+  Create new endpoint boilerplate code
+
+EXAMPLES
+  $ @vue-storefront/cli add endpoint
+```
+
+_See code: [src/commands/add/endpoint.ts](https://github.com/vuestorefront/vue-storefront/blob/v5.0.0/src/commands/add/endpoint.ts)_
+
+## `@vue-storefront/cli create [COMMANDNAME] [INTEGRATIONNAME]`
+
+Generate integration boilerplate
+
+```
+USAGE
+  $ @vue-storefront/cli create [COMMANDNAME] [INTEGRATIONNAME] [-t nuxt|next]
 
 FLAGS
-  --output=<value>  [default: .]
+  -t, --framework=<option>  Framework to use
+                            <options: nuxt|next>
+
+DESCRIPTION
+  Generate integration boilerplate
 
 EXAMPLES
-  $ @vue-storefront/cli generate template
+  $ @vue-storefront/cli create
 ```
 
-## `@vue-storefront/cli help [COMMAND]`
+_See code: [src/commands/create/index.ts](https://github.com/vuestorefront/vue-storefront/blob/v5.0.0/src/commands/create/index.ts)_
+
+## `@vue-storefront/cli create integration [NAME]`
+
+Generate integration boilerplate
+
+```
+USAGE
+  $ @vue-storefront/cli create integration [NAME] [-t nuxt|next]
+
+FLAGS
+  -t, --framework=<option>  Framework to use
+                            <options: nuxt|next>
+
+DESCRIPTION
+  Generate integration boilerplate
+
+EXAMPLES
+  $ @vue-storefront/cli create integration
+```
+
+_See code: [src/commands/create/integration.ts](https://github.com/vuestorefront/vue-storefront/blob/v5.0.0/src/commands/create/integration.ts)_
+
+## `@vue-storefront/cli help [COMMANDS]`
 
 Display help for @vue-storefront/cli.
 
 ```
 USAGE
-  $ @vue-storefront/cli help [COMMAND] [-n]
+  $ @vue-storefront/cli help [COMMANDS] [-n]
 
 ARGUMENTS
-  COMMAND  Command to show help for.
+  COMMANDS  Command to show help for.
 
 FLAGS
   -n, --nested-commands  Include all nested commands in the output.
@@ -73,19 +134,7 @@ DESCRIPTION
   Display help for @vue-storefront/cli.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.16/src/commands/help.ts)_
-
-## `@vue-storefront/cli init`
-
-```
-USAGE
-  $ @vue-storefront/cli init
-
-EXAMPLES
-  $ @vue-storefront/cli init
-```
-
-_See code: [dist/commands/init.ts](https://github.com/vuestorefront/vue-storefront/blob/v3.0.0/dist/commands/init.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.20/src/commands/help.ts)_
 
 ## `@vue-storefront/cli plugins`
 
@@ -105,7 +154,7 @@ EXAMPLES
   $ @vue-storefront/cli plugins
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.1.5/src/commands/plugins/index.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/index.ts)_
 
 ## `@vue-storefront/cli plugins:install PLUGIN...`
 
@@ -160,12 +209,17 @@ FLAGS
   -h, --help     Show CLI help.
   -v, --verbose
 
+GLOBAL FLAGS
+  --json  Format output as json.
+
 DESCRIPTION
   Displays installation properties of a plugin.
 
 EXAMPLES
   $ @vue-storefront/cli plugins:inspect myplugin
 ```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/inspect.ts)_
 
 ## `@vue-storefront/cli plugins:install PLUGIN...`
 
@@ -205,6 +259,8 @@ EXAMPLES
   $ @vue-storefront/cli plugins:install someuser/someplugin
 ```
 
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/install.ts)_
+
 ## `@vue-storefront/cli plugins:link PLUGIN`
 
 Links a plugin into the CLI for development.
@@ -232,28 +288,7 @@ EXAMPLES
   $ @vue-storefront/cli plugins:link myplugin
 ```
 
-## `@vue-storefront/cli plugins:uninstall PLUGIN...`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ @vue-storefront/cli plugins:uninstall PLUGIN...
-
-ARGUMENTS
-  PLUGIN  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ @vue-storefront/cli plugins unlink
-  $ @vue-storefront/cli plugins remove
-```
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/link.ts)_
 
 ## `@vue-storefront/cli plugins:uninstall PLUGIN...`
 
@@ -277,6 +312,31 @@ ALIASES
   $ @vue-storefront/cli plugins unlink
   $ @vue-storefront/cli plugins remove
 ```
+
+## `@vue-storefront/cli plugins:uninstall PLUGIN...`
+
+Removes a plugin from the CLI.
+
+```
+USAGE
+  $ @vue-storefront/cli plugins:uninstall PLUGIN...
+
+ARGUMENTS
+  PLUGIN  plugin to uninstall
+
+FLAGS
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Removes a plugin from the CLI.
+
+ALIASES
+  $ @vue-storefront/cli plugins unlink
+  $ @vue-storefront/cli plugins remove
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/uninstall.ts)_
 
 ## `@vue-storefront/cli plugins:uninstall PLUGIN...`
 
@@ -317,6 +377,8 @@ DESCRIPTION
   Update installed plugins.
 ```
 
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/update.ts)_
+
 ## `@vue-storefront/cli update [CHANNEL]`
 
 update the @vue-storefront/cli CLI
@@ -352,5 +414,5 @@ EXAMPLES
     $ @vue-storefront/cli update --available
 ```
 
-_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.0.4/src/commands/update.ts)_
+_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v3.2.4/src/commands/update.ts)_
 <!-- commandsstop -->

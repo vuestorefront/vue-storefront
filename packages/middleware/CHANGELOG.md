@@ -1,5 +1,66 @@
 # Change log
 
+## 5.3.2
+
+### Patch Changes
+
+- **[FIXED]** Fix /readyz returning 503 if readinessProbes not passed in middleware.config.ts
+
+Before this fix, sending a GET request to `http://localhost:4000/readyz` would return { "status": "error" } and a HTTP 503 status. This happened only when `readinessProbes` wasn't added to middleware options (the default behavior)
+
+## 5.3.1
+
+### Patch Changes
+
+**[FIXED]** type of `defaultErrorHandler`
+
+## 5.3.0
+
+### Minor Changes
+
+**[ADDED]** `defaultErrorHandler` is now exported from the package. Example usage:
+
+```ts
+import type { Integration } from "@vue-storefront/middleware";
+import type { MiddlewareConfig } from "@vsf-enterprise/sapcc-api";
+import { defaultErrorHandler } from "@vue-storefront/middleware";
+
+export const config = {
+  integrations: {
+    commerce: {
+      errorHandler: (error, req, res) => {
+        // Perform custom actions before delegating to the default error handler
+        defaultErrorHandler(error, req, res);
+      },
+    } satisfies Integration<MiddlewareConfig>,
+  },
+};
+```
+
+## 5.2.0
+
+### Minor Changes
+
+**[ADDED]** Support for file uploads
+Now you can upload files to the server with a `multipart/form-data` content type. Files are available in the `req.files` object.
+
+```ts
+// Example of an endpoint that handles file uploads
+export const upload = (context) => {
+  // Files are available in the `req.files` object
+  const { files } = context.req;
+
+  // Do something with files
+
+  return Promise.resolve({
+    status: 200,
+    message: "ok",
+  });
+};
+```
+
+Please, read the [Getting Started guide](https://docs.alokai.com/middleware/guides/getting-started#file-upload-configuration) for more information about file uploads.
+
 ## 5.1.1
 
 ### Patch Changes

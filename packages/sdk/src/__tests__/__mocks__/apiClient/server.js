@@ -23,6 +23,9 @@ const { createApiClient } = apiClientFactory({
     unauthorized: async (_context, _params) => {
       throw { statusCode: 401, message: "Unauthorized" };
     },
+    uploadFile: async (_context, params) => {
+      return { file: params.file };
+    },
     logout: async (_context) => {},
   },
 });

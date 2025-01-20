@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/cli",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Vue Storefront's CLI.",
   "bin": "./bin/run",
   "homepage": "https://github.com/vuestorefront/vue-storefront",
@@ -63,7 +63,7 @@
   "scripts": {
     "build": "rimraf lib && tsc",
     "test": "yarn test:unit && yarn test:integration",
-    "test:unit": "jest -c jest.config.ts --coverage",
+    "test:unit": "echo 'No unit test step created for this package'",
     "test:integration": "echo 'No test step created for this package'",
     "lint": "eslint . --ext .ts,.js",
     "prepublish": "yarn build"

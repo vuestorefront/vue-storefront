@@ -1,13 +1,9 @@
 import type { Request, NextFunction } from "express";
 import { LoggerManager, injectMetadata } from "../../logger";
-import { ResponseWithAlokaiLocals } from "../../types";
+import { AlokaiResponse } from "../../types";
 
 export function prepareLogger(loggerManager: LoggerManager) {
-  return function (
-    req: Request,
-    res: ResponseWithAlokaiLocals,
-    next: NextFunction
-  ) {
+  return function (req: Request, res: AlokaiResponse, next: NextFunction) {
     if (!res.locals) {
       res.locals = {};
     }

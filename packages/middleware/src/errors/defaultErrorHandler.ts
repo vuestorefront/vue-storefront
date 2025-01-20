@@ -1,32 +1,17 @@
-import type { Request } from "express";
 import { getAgnosticStatusCode } from "../helpers";
-import type { ResponseWithAlokaiLocals } from "../types";
-
-type ClientSideError = {
-  message?: string;
-};
+import type { ErrorHandler } from "../types";
 
 /**
  * Default error handler for the middleware
- *
- * @param error
- * @param req
- * @param res
  */
-export const defaultErrorHandler = (
-  error: ClientSideError,
-  req: Request,
-  res: ResponseWithAlokaiLocals
-) => {
+export const defaultErrorHandler: ErrorHandler = (error, _req, res) => {
   const status = getAgnosticStatusCode(error);
   res.status(status);
   if (status < 500) {
-    const errMsg =
-      error?.message ?? `Request failed with status code ${status}`;
     /**
      * For all 4xx error codes or client error codes we wanted to send the error message
      */
-    res.send({ message: errMsg });
+    res.send({ message: getClientSideErrorMessage(error, status) });
   } else {
     /**
      * For all other error codes we wanted to send a generic error message
@@ -35,4 +20,16 @@ export const defaultErrorHandler = (
       "ServerError: Something went wrong. Please, check the logs for more details."
     );
   }
+};
+
+const getClientSideErrorMessage = (error: unknown, status: number) => {
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error &&
+    typeof error.message === "string"
+  ) {
+    return error.message;
+  }
+  return `Request failed with status code ${status}`;
 };

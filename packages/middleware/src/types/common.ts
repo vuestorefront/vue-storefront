@@ -8,20 +8,29 @@ import {
   CustomQueryFunction,
   TObject,
 } from "./base";
-import { WithRequired } from "./index";
+import { UploadedFile, WithRequired } from "./index";
 import { ApiClient, ApiClientConfig, ApiClientFactory } from "./server";
 
-export type ResponseWithAlokaiLocals = Response<
+export type AlokaiResponse = Response<
   any,
   {
     alokai?: {
       logger: LoggerInterface;
     };
-    apiFunction?: Function;
+    apiFunction?: (...args: any[]) => any;
     fnOrigin?: string;
     [key: string]: any;
   }
 >;
+
+export type AlokaiRequest = Request & {
+  files?:
+    | {
+        [fieldname: string]: UploadedFile[];
+      }
+    | UploadedFile[]
+    | undefined;
+};
 
 export type ExtensionEndpointHandler = ApiClientMethod & {
   _extensionName?: string;
@@ -96,11 +105,17 @@ export interface ApiClientExtension<API = any, CONTEXT = any, CONFIG = any> {
     logger: LoggerInterface;
   }) => Promise<void> | void;
   hooks?: (
-    req: Request,
-    res: ResponseWithAlokaiLocals,
+    req: AlokaiRequest,
+    res: AlokaiResponse,
     hooksContext: AlokaiContainer
   ) => ApiClientExtensionHooks;
 }
+
+export type ErrorHandler = (
+  error: unknown,
+  req: AlokaiRequest,
+  res: AlokaiResponse
+) => void;
 
 export interface Integration<
   CONFIG extends TObject = any,
@@ -117,11 +132,43 @@ export interface Integration<
   ) => ApiClientExtension<API, CONTEXT>[];
   customQueries?: Record<string, CustomQueryFunction>;
   initConfig?: TObject;
-  errorHandler?: (
-    error: unknown,
-    req: Request,
-    res: ResponseWithAlokaiLocals
-  ) => void;
+  /**
+   * Custom error handler for middleware.
+   *
+   * This function is invoked whenever an error occurs during middleware execution.
+   * Alokai provides a default error handler, which will be used if this property is not set.
+   *
+   * @param {unknown} error - The error object or value that triggered the handler.
+   * @param {AlokaiRequest} req - The HTTP request object associated with the error.
+   * @param {AlokaiResponse} res - The HTTP response object for sending a response.
+   *
+   * @example
+   * ```ts
+   * {
+   *  errorHandler: (error, req, res) => {
+   *    if (typeof error === "object" && error !== null && "message" in error) {
+   *      res.status(500).send({ message: (error as any).message });
+   *    } else {
+   *      res.status(500).send({ message: "An unknown error occurred" });
+   *    }
+   *  }
+   * }
+   * ```
+   *
+   * @example
+   * Using the default error handler with custom behavior
+   * ```ts
+   * import { defaultErrorHandler } from "@vue-storefront/middleware";
+   *
+   * {
+   *   errorHandler: (error, req, res) => {
+   *     // Perform custom actions before delegating to the default error handler
+   *     defaultErrorHandler(error, req, res);
+   *   }
+   * };
+   * ```
+   */
+  errorHandler?: ErrorHandler;
 }
 
 export interface RequestParams {
@@ -138,11 +185,7 @@ export interface IntegrationLoaded<
   configuration: CONFIG;
   extensions: ApiClientExtension<API>[];
   customQueries?: Record<string, CustomQueryFunction>;
-  errorHandler: (
-    error: unknown,
-    req: Request,
-    res: ResponseWithAlokaiLocals
-  ) => void;
+  errorHandler: (error: unknown, req: Request, res: AlokaiResponse) => void;
 }
 
 export interface LoadInitConfigProps {
@@ -158,8 +201,8 @@ export type IntegrationsLoaded<
 > = Record<string, IntegrationLoaded<CONFIG, API>>;
 
 export interface MiddlewareContext<API extends ApiMethods = any> {
-  req: Request;
-  res: ResponseWithAlokaiLocals;
+  req: AlokaiRequest;
+  res: AlokaiResponse;
   extensions: ApiClientExtension<API>[];
   customQueries: Record<string, CustomQueryFunction>;
   integrations: IntegrationsLoaded;
