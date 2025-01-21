@@ -10,9 +10,9 @@
       "minifyJS": true,
       "minifyCSS": true
     },
-    "useOutputCacheTagging": ${SSR_USE_OUTPUT_CACHE},
-    "useOutputCache": ${SSR_USE_OUTPUT_CACHE},
-    "outputCacheDefaultTtl": 86400,
+    "useOutputCacheTagging": ${SSR_OUTPUT_CACHE_ENABLE},
+    "useOutputCache": ${SSR_OUTPUT_CACHE_ENABLE},
+    "outputCacheDefaultTtl": ${SSR_OUTPUT_CACHE_TTL},
     "availableCacheTags": [
       "attribute",
       "category_",

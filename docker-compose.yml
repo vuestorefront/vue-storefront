@@ -2,10 +2,6 @@ version: '2.0'
 services:
   redis:
     image: 'redis:4-alpine'
-    ports:
-      - '6377:6379'
-    networks:
-      - default
 
   app:
     build:
@@ -26,7 +22,8 @@ services:
       - NODEJS_INSTANCE_MAX_OLD_SPACE
 
       - SSR_USE_HTML_MINIFIER
-      - SSR_USE_OUTPUT_CACHE
+      - SSR_OUTPUT_CACHE_ENABLE
+      - SSR_OUTPUT_CACHE_TTL
 
       - REDIS_HOST=redis
       - REDIS_PORT=6379
