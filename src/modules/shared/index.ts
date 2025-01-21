@@ -10,6 +10,8 @@ import { getCartItemPrice, getProductDefaultDiscount, getProductDefaultPrice, ge
 import { PAYMENT_ERROR_EVENT } from './types/payment-error-event';
 import ServerError from './types/server-error';
 import * as ProductEvent from './types/product-events';
+import { UserEvents } from './types/user-events';
+import { CustomerDataChangedEventPayload } from './types/user-events-payload';
 import { getProductOptions } from './helpers/get-product-options.function';
 import { localStorageSynchronizationFactory } from './helpers/local-storage-synchronization.factory';
 import { parseLocalStorageValue } from './helpers/parse-local-storage-value.function';
@@ -45,5 +47,7 @@ export {
   getProductOptions,
   PrivacyPolicyLink,
   stateCodeAutocompleteOptionSearch,
-  getCanonicalUrl
+  getCanonicalUrl,
+  UserEvents,
+  CustomerDataChangedEventPayload
 }

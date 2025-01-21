@@ -7,7 +7,10 @@ export default interface UserState {
     email: string,
     addresses: any[],
     default_shipping: number,
-    default_billing: number
+    default_billing: number,
+    id: number,
+    firstname: string,
+    lastname: string
   } | null,
   current_storecode: string,
   session_started: Date,
