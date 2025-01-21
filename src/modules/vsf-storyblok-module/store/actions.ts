@@ -92,7 +92,7 @@ export const actions: ActionTree<StoryblokState, RootState> = {
 
     if (Vue.prototype.$cacheTags) {
       Vue.prototype.$cacheTags.add(`storyblok`);
-      Vue.prototype.$cacheTags.add(`S_${key}`);
+      Vue.prototype.$cacheTags.add(`storyblok_${key}`);
     }
 
     const cachedStory = state.stories[key]?.story

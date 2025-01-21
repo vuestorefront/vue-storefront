@@ -3,7 +3,8 @@ import { SearchQuery } from 'storefront-query-builder';
 const CATEGORIES_ID_FIELDS = [
   'url-key',
   'slug',
-  'id'
+  'id',
+  'parent_id'
 ];
 
 export function getCategoriesIdsFromSearchQuery (searchQuery: SearchQuery): string[] {

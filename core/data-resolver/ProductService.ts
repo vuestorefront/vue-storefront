@@ -45,7 +45,7 @@ const getProducts = async ({
     const productsIds = getProductsIdsFromSearchQuery(query);
 
     for (const id of productsIds) {
-      Vue.prototype.$cacheTags.add(`P${id}`);
+      Vue.prototype.$cacheTags.add(`product_${id}`);
     }
   }
 
@@ -64,6 +64,12 @@ const getProducts = async ({
     excludeFields: excluded,
     includeFields: included
   })
+
+  if (Vue.prototype.$cacheTags) {
+    for (const product of products) {
+      Vue.prototype.$cacheTags.add(`product_${product.id}`);
+    }
+  }
 
   products = prepareProducts(products)
 

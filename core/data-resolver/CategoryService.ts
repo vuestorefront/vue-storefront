@@ -52,11 +52,17 @@ const getCategories = async ({
     const categoriesIds = getCategoriesIdsFromSearchQuery(searchQuery);
 
     for (const id of categoriesIds) {
-      Vue.prototype.$cacheTags.add(`C${id}`);
+      Vue.prototype.$cacheTags.add(`category_${id}`);
     }
   }
 
   const response = await quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields })
+
+  if (Vue.prototype.$cacheTags) {
+    for (const category of response.items as Category[]) {
+      Vue.prototype.$cacheTags.add(`category_${category.id}`);
+    }
+  }
   return response.items as Category[]
 }
 
