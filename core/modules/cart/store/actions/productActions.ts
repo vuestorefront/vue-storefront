@@ -11,7 +11,6 @@ const productActions = {
         start: 0,
         size: 1,
         options: {
-          populateRequestCacheTags: false,
           prefetchGroupProducts: false,
           separateSelectedVariant: true
         }

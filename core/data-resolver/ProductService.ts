@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 import { getOptimizedFields } from '@vue-storefront/core/modules/catalog/helpers/search';
 import { canCache, storeProductToCache } from './../modules/catalog/helpers/search';
 import { doPlatformPricesSync } from '@vue-storefront/core/modules/catalog/helpers';
@@ -15,6 +17,7 @@ import { Logger } from '@vue-storefront/core/lib/logger';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { prepareProducts } from '@vue-storefront/core/modules/catalog/helpers/prepare';
 import { configureProducts } from '@vue-storefront/core/modules/catalog/helpers/configure';
+import { getProductsIdsFromSearchQuery } from '@vue-storefront/core/helpers/get-products-ids-from-search-query.function';
 
 const getProducts = async ({
   query,
@@ -36,6 +39,16 @@ const getProducts = async ({
 }: DataResolver.ProductSearchOptions): Promise<DataResolver.ProductsListResponse> => {
   const isCacheable = canCache({ includeFields, excludeFields })
   const { excluded, included } = getOptimizedFields({ excludeFields, includeFields })
+
+  if (Vue.prototype.$cacheTags) {
+    Vue.prototype.$cacheTags.add('product');
+    const productsIds = getProductsIdsFromSearchQuery(query);
+
+    for (const id of productsIds) {
+      Vue.prototype.$cacheTags.add(`product_${id}`);
+    }
+  }
+
   let {
     items: products = [],
     attributeMetadata = [],
@@ -51,6 +64,12 @@ const getProducts = async ({
     excludeFields: excluded,
     includeFields: included
   })
+
+  if (Vue.prototype.$cacheTags) {
+    for (const product of products) {
+      Vue.prototype.$cacheTags.add(`product_${product.id}`);
+    }
+  }
 
   products = prepareProducts(products)
 

@@ -194,7 +194,7 @@ app.get('*', async (req, res, next) => {
   if (!req.path.endsWith('/')) {
     const hasQuery = Object.values(req.query).length;
     let redirectUrl = `${req.path}/`;
-    
+
     if (hasQuery) {
       redirectUrl += '?' + qs.stringify(req.query);
     }
@@ -239,7 +239,7 @@ app.get('*', async (req, res, next) => {
       }
 
       output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, isProd);
-      if (config.server.useOutputCache && cache) {
+      if (config.server.useOutputCache && cache && !context.output.cacheTags['no-cache']) {
         cache.set(
           cacheKey,
           { headers: res.getHeaders(), body: output, httpCode: res.statusCode },

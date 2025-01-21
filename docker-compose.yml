@@ -1,9 +1,14 @@
 version: '2.0'
 services:
+  redis:
+    image: 'redis:4-alpine'
+
   app:
     build:
       context: .
       dockerfile: docker/vue-storefront/Dockerfile
+    depends_on:
+      - redis
     environment:
       - VS_ENV
       - APPVERSION
@@ -17,6 +22,8 @@ services:
       - NODEJS_INSTANCE_MAX_OLD_SPACE
 
       - SSR_USE_HTML_MINIFIER
+      - SSR_OUTPUT_CACHE_ENABLE
+      - SSR_OUTPUT_CACHE_TTL
 
       - REDIS_HOST=redis
       - REDIS_PORT=6379
