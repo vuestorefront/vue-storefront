@@ -103,7 +103,20 @@ If you're using that older template, please change the `Express` type to `Server
 - async function runMiddleware(app: Express) {
 ```
 
-- [ADDED] New GET /readyz endpoint for middleware for using with Kubernetes readiness probes. Please see https://docs.alokai.com/middleware/guides/readiness-probes for more information
+- [ADDED] New GET /readyz endpoint for middleware for using with Kubernetes readiness probes. Please see https://docs.alokai.com/middleware/guides/readiness-probes for more information. For the endpoint to work correctly, it is required to pass `readinessProbes` configuration (at least an empty array) to `createServer()`:
+
+```diff
+// ./apps/storefront-middleware/src/index.ts
+import { createServer, type CreateServerOptions } from "@vue-storefront/middleware";
+
+async function runApp() {
+  const app = await createServer(config, {
+    cors: process.env.NODE_ENV === "production" ? undefined : developmentCorsConfig,
++   readinessProbes: [] 
+  });
+}
+
+```
 
 ## 4.3.1
 
