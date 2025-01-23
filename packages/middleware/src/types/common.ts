@@ -1,3 +1,6 @@
+// @ts-expect-error - This path does not exist in the library but
+// it will exist in the project the library will be installed in.
+import type { MiddlewareConfig } from "@storefront-middleware/middleware.config";
 import type { Express, Request, Response } from "express";
 import type { LoggerInterface } from "@vue-storefront/logger";
 import type { LoggerOptions } from "./config";
@@ -9,7 +12,8 @@ import {
   TObject,
 } from "./base";
 import { UploadedFile, WithRequired } from "./index";
-import { ApiClient, ApiClientConfig, ApiClientFactory } from "./server";
+import { ApiClientConfig, ApiClientFactory } from "./server";
+import { GetApiClient } from "../defines";
 
 export type AlokaiResponse = Response<
   any,
@@ -207,9 +211,7 @@ export interface MiddlewareContext<API extends ApiMethods = any> {
   customQueries: Record<string, CustomQueryFunction>;
   integrations: IntegrationsLoaded;
   integrationTag: string;
-  getApiClient: <Api = any, Config = any, Client = any>(
-    integrationName: string
-  ) => ApiClient<Api, Config, Client>;
+  getApiClient: GetApiClient<MiddlewareConfig>;
 }
 
 export type ExtendQuery = <T extends ContextQuery<string>, Key extends keyof T>(

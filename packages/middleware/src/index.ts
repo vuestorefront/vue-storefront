@@ -4,3 +4,4 @@ export * from "./apiClientFactory";
 export * from "./terminus";
 export { getLogger } from "./logger";
 export { defaultErrorHandler } from "./errors";
+export { createDefineConfig } from "./defines";
