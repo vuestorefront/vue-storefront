@@ -22,6 +22,7 @@ import {
   prepareArguments,
   callApiFunction,
   validateParams,
+  processHeaders,
 } from "./handlers";
 import { createTerminusOptions } from "./terminus";
 import { prepareLogger } from "./handlers/prepareLogger";
@@ -89,6 +90,7 @@ async function createServer<
   app.all(
     "/:integrationName/:extensionName?/:functionName",
     validateParams(integrations),
+    processHeaders,
     prepareFileUpload(options),
     prepareLogger(loggerManager),
     prepareApiFunction(integrations),
