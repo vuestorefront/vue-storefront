@@ -98,7 +98,17 @@ export function useSelectedOptionValueUrlQuery (
       return;
     }
 
-    root.$router.replace({ query: { ...root.$route.query, ...showInUrlQueryData.value } });
+    const _showInUrlQueryData = showInUrlQueryData.value;
+
+    const isChanged = Object.keys(_showInUrlQueryData).some((key) => {
+      return _showInUrlQueryData[key] !== root.$route.query[key];
+    });
+
+    if (!isChanged) {
+      return;
+    }
+
+    root.$router.replace({ query: { ...root.$route.query, ..._showInUrlQueryData } });
   }
 
   function updateCustomizationOptionValueFromQuery (): void {
