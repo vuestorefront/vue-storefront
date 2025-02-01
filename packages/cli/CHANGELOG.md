@@ -1,5 +1,11 @@
 # @vue-storefront/cli
 
+## 6.0.1
+
+### Patch Changes
+
+- **[FIXED]** Added back missing i18next infrastructure file to fix CLI error.
+
 ## 6.0.0
 
 ### Major Changes
