@@ -27,6 +27,22 @@ const createOrderData = ({
   const country = shippingDetails.country ? shippingDetails.country : taxCountry
   const shipping = getDefaultShippingMethod(shippingMethods)
   const payment = getDefaultPaymentMethod(paymentMethods)
+  let shippingMethodCode: string | undefined = shippingDetails.shippingMethod;
+  // TODO: update type properly
+  let shippingCarrierCode: string | undefined = (shippingDetails as any).shippingCarrier;
+  let paymentMethodCode: string | undefined = paymentDetails.paymentMethod;
+
+  if (!shippingMethodCode) {
+    shippingMethodCode = shipping.method_code;
+  }
+
+  if (!shippingCarrierCode) {
+    shippingCarrierCode = shipping.carrier_code;
+  }
+
+  if (!paymentMethodCode) {
+    paymentMethodCode = payment.code;
+  }
 
   return {
     country,
@@ -51,9 +67,9 @@ const createOrderData = ({
       region_id: paymentDetails.region_id,
       telephone: paymentDetails.phoneNumber
     },
-    method_code: shipping && shipping.method_code ? shipping.method_code : null,
-    carrier_code: shipping && shipping.carrier_code ? shipping.carrier_code : null,
-    payment_method: payment && payment.code ? payment.code : null
+    method_code: shippingMethodCode,
+    carrier_code: shippingCarrierCode,
+    payment_method: paymentMethodCode
   }
 }
 
