@@ -50,5 +50,9 @@
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "yarn@1.22.22"
+  "packageManager": "yarn@1.22.22",
+  "dependencies": {
+    "@types/opossum": "^8.1.8",
+    "opossum": "^8.4.0"
+  }
 }
