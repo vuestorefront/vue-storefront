@@ -4,14 +4,14 @@ import ShippingMethod from '@vue-storefront/core/modules/cart/types/ShippingMeth
 import CheckoutData from '@vue-storefront/core/modules/cart/types/CheckoutData'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
-const getDefaultShippingMethod = (shippingMethods: ShippingMethod[] = []): ShippingMethod => {
+const getDefaultShippingMethod = (shippingMethods: ShippingMethod[] = []): ShippingMethod | undefined => {
   const onlineShippingMethods = shippingMethods.filter(shippingMethod => !shippingMethod.offline)
   if (!onlineShippingMethods.length) return
 
   return onlineShippingMethods.find(shippingMethod => !!shippingMethod.default) || onlineShippingMethods[0]
 }
 
-const getDefaultPaymentMethod = (paymentMethods: PaymentMethod[] = []): PaymentMethod => {
+const getDefaultPaymentMethod = (paymentMethods: PaymentMethod[] = []): PaymentMethod | undefined => {
   if (!paymentMethods || !paymentMethods.length) return
 
   return paymentMethods.find(item => item.default) || paymentMethods[0]
@@ -27,22 +27,11 @@ const createOrderData = ({
   const country = shippingDetails.country ? shippingDetails.country : taxCountry
   const shipping = getDefaultShippingMethod(shippingMethods)
   const payment = getDefaultPaymentMethod(paymentMethods)
-  let shippingMethodCode: string | undefined = shippingDetails.shippingMethod;
+
+  let shippingMethodCode = shippingDetails.shippingMethod || shipping?.method_code;
   // TODO: update type properly
-  let shippingCarrierCode: string | undefined = (shippingDetails as any).shippingCarrier;
-  let paymentMethodCode: string | undefined = paymentDetails.paymentMethod;
-
-  if (!shippingMethodCode) {
-    shippingMethodCode = shipping.method_code;
-  }
-
-  if (!shippingCarrierCode) {
-    shippingCarrierCode = shipping.carrier_code;
-  }
-
-  if (!paymentMethodCode) {
-    paymentMethodCode = payment.code;
-  }
+  let shippingCarrierCode: string | undefined = (shippingDetails as any).shippingCarrier || shipping?.carrier_code;
+  let paymentMethodCode = paymentDetails.paymentMethod || payment?.code;
 
   return {
     country,
