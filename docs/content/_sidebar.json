@@ -23,9 +23,15 @@
     "sidebarRoot": true
   },
   {
+    "title": "Basics",
+    "_path": "/connect",
+    "sidebarSection": "Connect",
+    "icon": "ri:plug-line",
+    "sidebarRoot": true
+  },
+  {
     "title": "SDK",
     "_path": "/sdk",
-    "sidebarSection": "Connect",
     "icon": "ri:terminal-box-fill",
     "sidebarRoot": true
   },
