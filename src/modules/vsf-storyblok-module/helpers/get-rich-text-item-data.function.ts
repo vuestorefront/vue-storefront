@@ -106,6 +106,21 @@ export default function getRichTextItemData (data: any): RichTextItem {
         };
       }
 
+      const marks: any[] = [];
+
+      for (const mark of data.marks) {
+        if (mark.type === 'link') {
+          continue;
+        }
+
+        // Remove color override for links
+        if (mark.attrs?.color) {
+          delete mark.attrs.color;
+        }
+
+        marks.push(mark);
+      }
+
       return {
         id,
         component: genericComponentTag,
@@ -114,7 +129,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
           isNewWindow: link.attrs.target ? link.attrs.target === '_blank' : undefined,
           link: { url: link.attrs.href, anchor: link.attrs.anchor, linktype: link.attrs.linktype }
         },
-        content: [{ ...data, marks: data.marks.filter((mark: any) => mark.type !== 'link') }]
+        content: [{ ...data, marks }]
       }
 
     case 'list_item':
