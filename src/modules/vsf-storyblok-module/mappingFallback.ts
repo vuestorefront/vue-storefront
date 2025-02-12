@@ -1,7 +1,13 @@
+import get from 'lodash-es/get'
+
 import config from 'config'
+import { AsyncDataLoader } from '@vue-storefront/core/lib/async-data-loader';
 import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
-import get from 'lodash-es/get'
+
+import { isUrlInLowerCase } from './helpers/is-url-in-lower-case.function'
+
+const REDIRECT_CODE = 301;
 
 export const forStoryblok = async ({ dispatch, rootState }, { url, params }) => {
   if (params && params._storyblok_c && params._storyblok_c === 'page') {
@@ -15,6 +21,21 @@ export const forStoryblok = async ({ dispatch, rootState }, { url, params }) => 
       meta: { layout: 'empty' }
     }
   }
+
+  if (!isUrlInLowerCase(url)) {
+    AsyncDataLoader.push({
+      execute: async ({ context }) => {
+        if (context) {
+          context.server.response.redirect(
+            REDIRECT_CODE,
+            url.toLowerCase()
+          );
+        }
+      }
+    });
+    return;
+  }
+
   if (url.startsWith('/')) {
     url = url.replace('/', '');
   }
