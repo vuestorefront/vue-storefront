@@ -8,9 +8,7 @@
     },
     "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
-        "source.fixAll": true,
-        // "source.fixAll.eslint": true,
-        // "source.fixAll.stylelint": true
+        "source.fixAll": "explicit"
     },
     "cSpell.words": [
         "Approvements",
@@ -56,4 +54,19 @@
         "zurb"
     ],
     "githubIssues.issueBranchTitle": "${issueNumber}-${sanitizedIssueTitle}",
+    "github.copilot.chat.reviewSelection.instructions": [
+        {
+            "file": ".github/.copilot-instructions.md"
+        },
+    ],
+    "github.copilot.chat.codeGeneration.instructions": [
+        {
+            "file": ".github/.copilot-instructions.md"
+        },
+    ],
+    "github.copilot.chat.commitMessageGeneration.instructions": [
+        {
+            "file": ".github/.copilot-commit-message-instructions.md"
+        }
+    ]
 }
