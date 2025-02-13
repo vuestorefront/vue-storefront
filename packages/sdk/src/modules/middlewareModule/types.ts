@@ -203,6 +203,10 @@ export type Options<
 > = {
   /**
    * Base URL for the API.
+   *
+   * @remarks
+   * Can be set to a relative `/api` path if we expect the request URL to be resolved
+   * based on the current domain.
    */
   apiUrl: string;
 
@@ -210,17 +214,15 @@ export type Options<
    * Base URL for the API in the server side rendering.
    *
    * @remarks
-   * It's optional and it will use the `apiUrl` if it's not provided.
+   * The option may be useful during implementation of a multi-store feature based on domains.
    *
-   * This may be useful during implementation of a multi-store feature based on domains.
-   *
-   * `apiUrl` could be set to `/api` and on the client side, the HTTP Client would use the current domain.
-   *
-   * However, on the server side, the HTTP Client is not aware of the current domain, so it would use just the `/api` path and it would fail.
-   *
-   * To solve this issue, the `ssrApiUrl` could be set to the pod name with port (e.g. `https://localhost:8181`) and the HTTP Client would use it on the server side.
+   * @remarks
+   * Whereas client-side `apiUrl` can be set to a relative `/api` path (that would resolve to a full URL based on the current domain),
+   * the server-side `ssrApiUrl` should be set to a full URL including the domain since it won't be resolved automatically based
+   * on the current domain. Setting it to just `/api` would fail. To solve this issue, the `ssrApiUrl` could be set to the pod name
+   * with port (e.g. `https://localhost:8181`) and the HTTP Client would use it on the server side.
    */
-  ssrApiUrl?: string;
+  ssrApiUrl: string;
 
   /**
    * Custom HTTP Client.
