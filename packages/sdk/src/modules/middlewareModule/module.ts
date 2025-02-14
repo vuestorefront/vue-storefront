@@ -17,6 +17,7 @@ import { getRequestSender } from "./utils";
  * export const { getSdk } = createSdk(options, ({ buildModule, middlewareModule }) => ({
  *   sapcc: buildModule(middlewareModule<SapccEndpoints>, {
  *     apiUrl: "http://localhost:4000/sapcc",
+ *     ssrApiUrl: "http://localhost:4000/sapcc"
  *   }),
  * }));
  * ```
@@ -42,6 +43,7 @@ import { getRequestSender } from "./utils";
  * export const { getSdk } = createSdk(options, ({ buildModule, middlewareModule }) => ({
  *   sapcc: buildModule(middlewareModule<SapccEndpoints>, {
  *     apiUrl: "http://localhost:4000/sapcc",
+ *     ssrApiUrl: "http://localhost:4000/sapcc",
  *   }, extension),
  * }));
  * ```
