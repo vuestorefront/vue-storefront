@@ -84,6 +84,20 @@ export const actions: ActionTree<StoryblokState, RootState> = {
 
     return loadingPromise;
   },
+  async checkStoryExist (context, { fullSlug: key }): Promise<boolean> {
+    const url = processURLAddress(`${config.storyblok.endpoint}/check-exist/${key}`.replace(/([^:]\/)\/+/g, '$1'))
+
+    const { result }: any = await TaskQueue.execute({
+      url,
+      payload: {
+        method: 'GET',
+        mode: 'cors'
+      },
+      silent: true
+    });
+
+    return result.exist;
+  },
   async loadStory ({ commit, state }, { fullSlug: key }) {
     if (state.stories[key]?.loading) {
       // Already fetching this story
