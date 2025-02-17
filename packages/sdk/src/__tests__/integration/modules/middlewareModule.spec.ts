@@ -18,7 +18,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
       }),
     };
@@ -32,7 +31,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
       }),
     };
@@ -48,7 +46,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
       }),
@@ -65,7 +62,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
       }),
@@ -88,7 +84,6 @@ describe("middlewareModule", () => {
       commerce: buildModule(middlewareModule<Endpoints>, {
         cdnCacheBustingId: "commit-hash",
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
       }),
     };
     const sdk = initSDK(sdkConfig);
@@ -104,7 +99,6 @@ describe("middlewareModule", () => {
       commerce: buildModule(middlewareModule<Endpoints>, {
         cdnCacheBustingId: "commit-hash",
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
       }),
     };
     const sdk = initSDK(sdkConfig);
@@ -124,7 +118,6 @@ describe("middlewareModule", () => {
       commerce: buildModule(middlewareModule<Endpoints>, {
         cdnCacheBustingId: "commit-hash",
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
       }),
     };
@@ -152,7 +145,6 @@ describe("middlewareModule", () => {
       commerce: buildModule(middlewareModule<Endpoints>, {
         cdnCacheBustingId: "commit-hash",
         apiUrl: "/api/commerce",
-        ssrApiUrl: "/api/commerce",
         httpClient: customHttpClient,
       }),
     };
@@ -179,7 +171,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce///", // Extra slashes
-        ssrApiUrl: "http://localhost:8181/commerce///", // Extra slashes
         cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
       }),
@@ -201,7 +192,6 @@ describe("middlewareModule", () => {
       commerce: buildModule(middlewareModule<Endpoints>, {
         cdnCacheBustingId: "commit-hash",
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
       }),
     };
@@ -235,7 +225,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
         defaultRequestConfig: {
@@ -267,7 +256,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
         defaultRequestConfig: {
@@ -298,7 +286,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
         defaultRequestConfig: {
@@ -352,7 +339,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         httpClient: async (url, params, config) => {
           const { data } = await axios(url, {
@@ -380,7 +366,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
         defaultRequestConfig: {
@@ -424,7 +409,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
       }),
@@ -447,7 +431,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
         errorHandler: customErrorHandler,
@@ -477,7 +460,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
       }),
     };
@@ -494,7 +476,6 @@ describe("middlewareModule", () => {
         middlewareModule<Endpoints>,
         {
           apiUrl: "http://localhost:8181/commerce",
-          ssrApiUrl: "http://localhost:8181/commerce",
           cdnCacheBustingId: "commit-hash",
         },
         {
@@ -521,7 +502,6 @@ describe("middlewareModule", () => {
         middlewareModule<Endpoints>,
         {
           apiUrl: "http://localhost:8181/commerce",
-          ssrApiUrl: "http://localhost:8181/commerce",
           cdnCacheBustingId: "commit-hash",
           httpClient: customHttpClient,
         },
@@ -557,7 +537,6 @@ describe("middlewareModule", () => {
         middlewareModule<Endpoints>,
         {
           apiUrl: "http://localhost:8181/commerce",
-          ssrApiUrl: "http://localhost:8181/commerce",
           cdnCacheBustingId: "commit-hash",
           httpClient: customHttpClient,
           errorHandler: customErrorHandler,
@@ -594,7 +573,6 @@ describe("middlewareModule", () => {
         middlewareModule<Endpoints>,
         {
           apiUrl: "http://localhost:8181/commerce",
-          ssrApiUrl: "http://localhost:8181/commerce",
           cdnCacheBustingId: "commit-hash",
         },
         {
@@ -621,7 +599,6 @@ describe("middlewareModule", () => {
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
       }),
     });
@@ -649,7 +626,6 @@ describe("middlewareModule", () => {
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         httpClient: async (url, params, config) => {
           try {
@@ -693,7 +669,6 @@ describe("middlewareModule", () => {
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
       }),
     });
@@ -709,7 +684,6 @@ describe("middlewareModule", () => {
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
         defaultRequestConfig: {
@@ -785,7 +759,6 @@ describe("middlewareModule", () => {
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
         defaultRequestConfig: {
@@ -828,7 +801,6 @@ describe("middlewareModule", () => {
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         logger,
       }),
@@ -851,7 +823,6 @@ describe("middlewareModule", () => {
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
       }),
     });
@@ -870,7 +841,6 @@ describe("middlewareModule", () => {
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
       }),
     });
@@ -888,7 +858,6 @@ describe("middlewareModule", () => {
     const sdk = initSDK({
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         logger: false,
       }),
@@ -904,7 +873,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         cdnCacheBustingId: "commit-hash",
         httpClient: customHttpClient,
       }),
@@ -931,7 +899,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
       }),
     };
@@ -958,7 +925,6 @@ describe("middlewareModule", () => {
     const sdkConfig = {
       commerce: buildModule(middlewareModule<Endpoints>, {
         apiUrl: "http://localhost:8181/commerce",
-        ssrApiUrl: "http://localhost:8181/commerce",
         httpClient: customHttpClient,
       }),
     };
