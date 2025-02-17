@@ -1,5 +1,11 @@
 # Change log
 
+## 4.0.0
+
+### Major Changes
+
+- **[CHANGED]** The `ssrApiUrl` module option is now required by the `buildModule()` function.
+
 ## 3.4.1
 
 ### Patch Changes
