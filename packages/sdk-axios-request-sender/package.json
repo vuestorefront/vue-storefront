@@ -14,8 +14,8 @@
     "lint": "eslint . --ext .ts,.js",
     "prepublish": "yarn build"
   },
-  "devDependencies": {
-    "axios": "^0.27.2"
+  "dependencies": {
+    "axios": "^0.29.0"
   },
   "engines": {
     "node": ">=18"
