@@ -22,7 +22,30 @@ export const forStoryblok = async ({ dispatch, rootState }, { url, params }) => 
     }
   }
 
+  let formattedUrl = url;
+
+  if (formattedUrl.startsWith('/')) {
+    formattedUrl = formattedUrl.replace('/', '');
+  }
+
+  formattedUrl = formattedUrl.replace(/\/?(\?.*)?$/, '') // remove trailing slash and/or qs variables if present
+  const storeCode = storeCodeFromRoute(formattedUrl)
+  const addStoreCode = get(config, 'storyblok.settings.appendStoreCodeFromHeader')
+  const storeCodeToAdd = rootState.storyblok.storeCode
+  if (addStoreCode && storeCodeToAdd) {
+    formattedUrl = `${storeCodeToAdd}/${(formattedUrl || 'home')}`
+  }
+  if (config.storeViews.multistore && storeCode && formattedUrl.replace(/\/$/, '') === removeStoreCodeFromRoute(formattedUrl)) {
+    formattedUrl = `${formattedUrl}/home`
+  }
+
   if (!isUrlInLowerCase(url)) {
+    const isStoryExist = await dispatch(`storyblok/checkStoryExist`, { fullSlug: formattedUrl.toLowerCase() }, { root: true });
+
+    if (!isStoryExist) {
+      return;
+    }
+
     AsyncDataLoader.push({
       execute: async ({ context }) => {
         if (context) {
@@ -36,25 +59,11 @@ export const forStoryblok = async ({ dispatch, rootState }, { url, params }) => 
     return;
   }
 
-  if (url.startsWith('/')) {
-    url = url.replace('/', '');
-  }
-
-  url = url.replace(/\/?(\?.*)?$/, '') // remove trailing slash and/or qs variables if present
-  const storeCode = storeCodeFromRoute(url)
-  const addStoreCode = get(config, 'storyblok.settings.appendStoreCodeFromHeader')
-  const storeCodeToAdd = rootState.storyblok.storeCode
-  if (addStoreCode && storeCodeToAdd) {
-    url = `${storeCodeToAdd}/${(url || 'home')}`
-  }
-  if (config.storeViews.multistore && storeCode && url.replace(/\/$/, '') === removeStoreCodeFromRoute(url)) {
-    url = `${url}/home`
-  }
-  const story = await dispatch(`storyblok/loadStory`, { fullSlug: url }, { root: true })
+  const story = await dispatch(`storyblok/loadStory`, { fullSlug: formattedUrl }, { root: true })
   if (story && story.full_slug) {
     return {
       name: 'storyblok-page',
-      path: url ? `/${url}/` : undefined,
+      path: formattedUrl ? `/${formattedUrl}/` : undefined,
       params: {
         slug: story.full_slug
       }
