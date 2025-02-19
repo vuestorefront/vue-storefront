@@ -1,5 +1,11 @@
 # @vue-storefront/sdk-axios-request-sender
 
+## 2.0.1
+
+### Patch Changes
+
+- **[CHANGED]** Bumped `axios` version to `^0.29.0` and moved it from `devDependencies` to `dependencies`.
+
 ## 2.0.0
 
 ### Major Changes
