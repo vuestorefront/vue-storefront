@@ -4,7 +4,7 @@
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "files": [
     "lib"
   ],
