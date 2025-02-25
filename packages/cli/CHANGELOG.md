@@ -1,5 +1,17 @@
 # @vue-storefront/cli
 
+## 6.0.2
+
+### Patch Changes
+
+- **[CHANGED]** Added back the previously removed `m2-only` command.
+
+## 6.0.1
+
+### Patch Changes
+
+- **[FIXED]** Added back missing i18next infrastructure file to fix CLI error.
+
 ## 6.0.0
 
 ### Major Changes
