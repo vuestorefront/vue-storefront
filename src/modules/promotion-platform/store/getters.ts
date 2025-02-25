@@ -1,5 +1,5 @@
 import { GetterTree } from 'vuex';
-import CampaignContent from '../types/CampaignContent.model';
+import { CampaignContent } from '../types/CampaignContent.interface';
 
 import PromotionPlatformState from '../types/PromotionPlatformState';
 

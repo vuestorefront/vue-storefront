@@ -16,14 +16,29 @@
 <script lang="ts">
 import Vue from 'vue';
 
+import { isServer } from '@vue-storefront/core/helpers';
 import { Dictionary } from 'src/modules/budsies';
 
-import CampaignContent from '../types/CampaignContent.model';
+import { CampaignContent } from '../types/CampaignContent.interface';
 import { SET_LAST_BANNER_VERSION_CLOSED_BY_USER } from '../types/StoreMutations';
 
 import Timer from './Timer.vue';
 
 const startTimeThreshold = 1;
+
+function getDataAttributes (htmlString: string): Record<string, string> {
+  const dataAttributes: Record<string, string> = {};
+  const dataAttributesRegex = /data-([a-z0-9-]+)=['"]([^'"]*)['"]/g;
+  let match = dataAttributesRegex.exec(htmlString);
+
+  while (match !== null) {
+    const key = match[1].replace(/-/g, '_');
+    dataAttributes[key] = match[2];
+    match = dataAttributesRegex.exec(htmlString)
+  }
+
+  return dataAttributes;
+}
 
 export default Vue.extend({
   computed: {
@@ -74,7 +89,7 @@ export default Vue.extend({
       );
     },
     showBanner (): boolean {
-      return this.showOnCurrentPage && !this.isBannerWasClosedByUser && !this.isTimeOver;
+      return this.showOnCurrentPage && (!this.isBannerWasClosedByUser || isServer) && !this.isTimeOver;
     },
     showOnCurrentPage (): boolean {
       return this.blackListUrls.every((url) => !this.$route.path.includes(url));
@@ -133,7 +148,40 @@ export default Vue.extend({
       this.timerParentInstance.$destroy();
       this.timerParentInstance = undefined;
     },
+    fillDataOnServer () {
+      if (!this.showBanner || !this.bannerContent) {
+        return;
+      }
+
+      const dataAttributes = getDataAttributes(this.bannerContent);
+
+      if (dataAttributes.countdown_date) {
+        this.countdownDate = new Date(dataAttributes.countdown_date);
+      }
+
+      if (dataAttributes.background_color) {
+        this.backgroundColor = dataAttributes.background_color;
+      }
+
+      if (dataAttributes.text_color) {
+        this.textColor = dataAttributes.text_color;
+      }
+
+      if (dataAttributes.numbers_color) {
+        this.numbersColor = dataAttributes.numbers_color;
+      }
+
+      if (dataAttributes.version) {
+        this.version = dataAttributes.version;
+      }
+
+      this.isTimeOver = this.getCountdownTime() <= 1000 * startTimeThreshold;
+    },
     fillData () {
+      if (isServer) {
+        return this.fillDataOnServer();
+      }
+
       const bannerElement = this.getBannerElement();
       if (!bannerElement) {
         return;
@@ -199,6 +247,11 @@ export default Vue.extend({
       return bannerElement.querySelector('._timer-btn._view-toggle-btn');
     },
     async initBanner (): Promise<void> {
+      if (isServer) {
+        this.fillDataOnServer();
+        return;
+      }
+
       await this.$nextTick();
 
       this.fillData();
@@ -279,9 +332,12 @@ export default Vue.extend({
       );
     }
   },
+  created () {
+    this.initBanner();
+  },
   watch: {
     bannerContent: {
-      immediate: true,
+      immediate: false,
       handler (val) {
         if (!val) {
           return;

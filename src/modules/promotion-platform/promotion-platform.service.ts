@@ -1,11 +1,12 @@
+import fetch from 'isomorphic-fetch';
 import config from 'config';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { processURLAddress } from '@vue-storefront/core/helpers';
 
 import CampaignsGetAPIResponse from './types/CampaignsGetAPIResponse';
-import CampaignContent from './types/CampaignContent.model';
+import { CampaignContent } from './types/CampaignContent.interface';
 import { Dictionary } from '../budsies';
-import ImageBanner from './types/ImageBanner.model';
+import { ImageBanner } from './types/ImageBanner.interface';
 import { BEFORE_STORE_BACKEND_API_REQUEST } from '../shared';
 
 function parseResponseData (responseData: any): CampaignsGetAPIResponse {
@@ -17,7 +18,9 @@ function parseResponseData (responseData: any): CampaignsGetAPIResponse {
 
   if (!campaignData || campaignData.length === 0) {
     return {
-      campaignContent: new CampaignContent(),
+      campaignContent: {
+        countdownBannerBlacklistUrls: []
+      },
       campaignToken: responseData.result.campaignToken
     }
   }
@@ -35,19 +38,22 @@ function parseResponseData (responseData: any): CampaignsGetAPIResponse {
   const imageBanner = campaignData.image_banner;
 
   if (imageBanner && imageBanner.content && imageBanner.campaign_id) {
-    imagesBannerContent = new ImageBanner(imageBanner.campaign_id, imageBanner.content);
+    imagesBannerContent = {
+      campaignId: imageBanner.campaign_id,
+      content: imageBanner.content
+    };
   }
 
   if (campaignData.discounts && campaignData.discounts.prices) {
     discountsContent = campaignData.discounts.prices;
   }
 
-  const campaignContent = new CampaignContent(
+  const campaignContent: CampaignContent = {
     countdownBannerContent,
-    discountsContent,
-    imagesBannerContent,
+    productDiscountPriceDictionary: discountsContent,
+    imageBanner: imagesBannerContent,
     countdownBannerBlacklistUrls
-  )
+  };
 
   return {
     campaignContent,
@@ -106,6 +112,30 @@ export const PromotionPlatformService = {
     if (userToken) {
       url += `&token=${userToken}`;
     }
+
+    const mode: RequestMode = 'cors';
+    const payload = {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' },
+      mode
+    };
+
+    const eventPayload = {
+      url
+    };
+
+    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+    url = eventPayload.url;
+
+    const response = await fetch(url, payload);
+
+    const responseData = await response.json();
+
+    return parseResponseData(responseData);
+  },
+  async fetchDefaultActiveCampaignData (): Promise<CampaignsGetAPIResponse> {
+    let url = processURLAddress(`${config.budsies.endpoint}/promotion-platform/fetch-default-active-campaign`);
 
     const mode: RequestMode = 'cors';
     const payload = {
