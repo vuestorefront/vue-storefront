@@ -156,7 +156,8 @@ export const Payment = {
         apartmentNumber: this.shippingDetails.apartmentNumber,
         zipCode: this.shippingDetails.zipCode,
         phoneNumber: this.shippingDetails.phoneNumber,
-        paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
+        paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : '',
+        vat_id: this.shippingDetails.vat_id
       }
     },
     useBillingAddress () {
@@ -178,7 +179,7 @@ export const Payment = {
     useGenerateInvoice () {
       if (!this.generateInvoice) {
         this.payment.company = ''
-        this.payment.taxId = ''
+        this.payment.vat_id = ''
       }
     },
     getCountryName () {
@@ -239,8 +240,8 @@ export const Payment = {
 
       if (
         !!this.defaultBillingAddress &&
-         (isAddressEmpty(this.payment, ['country']) ||
-         isAddressesEquals(this.payment, this.defaultBillingAddress))
+        (isAddressEmpty(this.payment, ['country']) ||
+          isAddressesEquals(this.payment, this.defaultBillingAddress))
       ) {
         this.sendToBillingAddress = true;
         return;
