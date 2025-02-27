@@ -135,7 +135,7 @@ export const PromotionPlatformService = {
     return parseResponseData(responseData);
   },
   async fetchDefaultActiveCampaignData (): Promise<CampaignsGetAPIResponse> {
-    let url = processURLAddress(`${config.budsies.endpoint}/promotion-platform/fetch-default-active-campaign`);
+    let url = processURLAddress(`${config.budsies.endpoint}/promotion-platform/campaigns/default`);
 
     const mode: RequestMode = 'cors';
     const payload = {
