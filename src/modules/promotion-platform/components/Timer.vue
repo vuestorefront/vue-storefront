@@ -181,7 +181,6 @@ export default Vue.extend({
   font-size: 32px;
   line-height: 108%;
   font-weight: bold;
-  height: 32px;
 
   ._number-group-container {
     display: flex;

@@ -400,6 +400,7 @@ $mobile-s: 640px;
           transform: scale(0.5);
           transform-origin: left;
           width: 142px;
+          height: 46px;
 
           ._timer {
             white-space: nowrap;
@@ -603,6 +604,8 @@ $mobile-s: 640px;
             transform: scale(0.75);
             transform-origin: center;
             width: auto;
+            min-width: 274px;
+            margin-top: 10px;
           }
 
           ._timer-btn {
@@ -645,7 +648,6 @@ $mobile-s: 640px;
           }
 
           ._timer-container {
-            margin-top: -10px;
             transform: scale(1);
           }
 
