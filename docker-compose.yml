@@ -91,6 +91,19 @@ services:
     expose:
       - 3000
 
+  tests:
+      image: mcr.microsoft.com/playwright:v1.50.1
+      depends_on:
+        - app
+      environment:
+        - DEFAULT_STORE_DOMAIN
+      volumes:
+        - ./src/themes/petsies-capybara/e2e-tests:/e2e
+      working_dir: /e2e
+      command: ["npx", "playwright", "test"]
+      profiles:
+        - e2e
+
 volumes:
   cache:
   dist:
