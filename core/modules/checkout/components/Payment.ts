@@ -58,7 +58,8 @@ export const Payment = {
         streetAddress: address.street[0],
         apartmentNumber: address.street[1],
         zipCode: address.postcode.toString(),
-        phoneNumber: address.telephone.toString()
+        phoneNumber: address.telephone.toString(),
+        vat_id: address.vat_id || ''
       }
     }
   },
