@@ -9,5 +9,6 @@ export default interface ShippingDetails {
   region_id: number | null,
   zipCode: string,
   phoneNumber: string,
-  shippingMethod: string
+  shippingMethod: string,
+  vat_id: string
 }
