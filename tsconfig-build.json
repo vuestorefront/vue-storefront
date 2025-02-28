@@ -5,6 +5,7 @@
     "esModuleInterop": true
   },
   "exclude": [
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/e2e-tests"
   ]
 }

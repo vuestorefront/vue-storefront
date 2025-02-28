@@ -92,15 +92,16 @@ services:
       - 3000
 
   tests:
-      image: mcr.microsoft.com/playwright:v1.50.1
+      build:
+        context: ./src/themes/petsies-capybara/e2e-tests
+        dockerfile: Dockerfile
       depends_on:
         - app
       environment:
         - DEFAULT_STORE_DOMAIN
       volumes:
         - ./src/themes/petsies-capybara/e2e-tests:/e2e
-      working_dir: /e2e
-      command: ["npx", "playwright", "test"]
+        - /e2e/node_modules
       profiles:
         - e2e
 
