@@ -10,6 +10,7 @@ export default function getDefaultShippingDetails () {
     region_id: null,
     zipCode: '',
     phoneNumber: '',
-    shippingMethod: ''
+    shippingMethod: '',
+    vat_id: ''
   }
 }

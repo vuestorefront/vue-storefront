@@ -6,5 +6,6 @@ export default interface ShippingAddress {
   street: string[],
   region?: string,
   region_id: number | null,
-  telephone?: string
+  telephone?: string,
+  vat_id?: string
 }
