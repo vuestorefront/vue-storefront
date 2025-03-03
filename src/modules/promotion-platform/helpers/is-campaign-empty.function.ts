@@ -1,10 +1,10 @@
 import { CampaignContent } from '../types/CampaignContent.interface';
 
 export function isCampaignEmpty (campaignContent: CampaignContent): boolean {
-  const isProductDiscountsEmpty = !campaignContent.productDiscountPriceDictionary ||
-      !Object.values(campaignContent.productDiscountPriceDictionary).length;
+  const isProductDiscountsEmpty = !campaignContent.discounts ||
+      !Object.values(campaignContent.discounts).length;
 
-  return !campaignContent.countdownBannerContent &&
+  return !campaignContent.countdown &&
       isProductDiscountsEmpty &&
-      !campaignContent.imageBanner
+      !campaignContent.image_banner
 }

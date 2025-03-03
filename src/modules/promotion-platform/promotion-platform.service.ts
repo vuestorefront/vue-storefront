@@ -8,51 +8,20 @@ import { CampaignContent } from './types/CampaignContent.interface';
 import { Dictionary } from '../budsies';
 import { ImageBanner } from './types/ImageBanner.interface';
 import { BEFORE_STORE_BACKEND_API_REQUEST } from '../shared';
+import { CountdownBanner } from './types/CountdownBanner.interface';
 
 function parseResponseData (responseData: any): CampaignsGetAPIResponse {
   const campaignData = responseData.result.campaignContent;
-  let countdownBannerContent;
-  let discountsContent: Dictionary<number> | undefined;
-  let imagesBannerContent: ImageBanner | undefined;
-  let countdownBannerBlacklistUrls: string[] = [];
+  let discountsContent: Dictionary<number> = {};
 
-  if (!campaignData || campaignData.length === 0) {
-    return {
-      campaignContent: {
-        countdownBannerBlacklistUrls: []
-      },
-      campaignToken: responseData.result.campaignToken
-    }
-  }
-
-  if (campaignData.countdown_banner) {
-    countdownBannerContent = campaignData.countdown_banner;
-  }
-
-  if (campaignData.countdown_banner_blacklist_urls &&
-    campaignData.countdown_banner_blacklist_urls.length > 0
-  ) {
-    countdownBannerBlacklistUrls = campaignData.countdown_banner_blacklist_urls;
-  }
-
-  const imageBanner = campaignData.image_banner;
-
-  if (imageBanner && imageBanner.content && imageBanner.campaign_id) {
-    imagesBannerContent = {
-      campaignId: imageBanner.campaign_id,
-      content: imageBanner.content
-    };
-  }
-
-  if (campaignData.discounts && campaignData.discounts.prices) {
-    discountsContent = campaignData.discounts.prices;
+  if (campaignData.discounts && campaignData.discounts) {
+    discountsContent = campaignData.discounts.prices as Dictionary<number>;
   }
 
   const campaignContent: CampaignContent = {
-    countdownBannerContent,
-    productDiscountPriceDictionary: discountsContent,
-    imageBanner: imagesBannerContent,
-    countdownBannerBlacklistUrls
+    countdown: campaignData.countdown as CountdownBanner | undefined,
+    discounts: discountsContent,
+    image_banner: campaignData.image_banner as ImageBanner | undefined
   };
 
   return {
