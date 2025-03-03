@@ -1,0 +1,41 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-outside-of-docker-compose
+{
+	"name": "Docker from Store-UI.Budsies Project",
+	"dockerComposeFile": "../docker-compose.yml",
+	"service": "tests",
+	"workspaceFolder": "/var/www",
+	// Use this environment variable if you need to bind mount your local source code into a new container.
+	"remoteEnv": {
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+	},
+	"features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "docker --version",
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root",
+	"remoteUser": "1000",
+	// "postCreateCommand": "ash -c 'apk add --no-cache openssh'",
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"remote.autoForwardPorts": false,
+			},
+			"extensions": [
+				"streetsidesoftware.code-spell-checker",
+				"mhutchie.git-graph",
+				"GitHub.copilot",
+				"GitHub.copilot-chat",
+				"GitHub.vscode-pull-request-github",
+				"eamodio.gitlens",
+				"dbaeumer.vscode-eslint",
+				"syler.sass-indented",
+				"stylelint.vscode-stylelint",
+				"octref.vetur",
+				"ms-playwright.playwright",
+			]
+		}
+	}
+}
