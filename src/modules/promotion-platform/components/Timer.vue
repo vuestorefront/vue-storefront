@@ -54,6 +54,7 @@
 import Vue from 'vue';
 
 import TimerNumbersGroup from './TimerNumbersGroup.vue';
+import { isServer } from '@vue-storefront/core/helpers';
 
 const millisecondsInSecond = 1000;
 const millisecondsInMinute = millisecondsInSecond * 60;
@@ -80,12 +81,6 @@ export default Vue.extend({
       time: undefined as undefined | number,
       fUpdateTimerData: undefined as (() => void) | undefined
     }
-  },
-  created () {
-    this.time = this.countdownTime;
-  },
-  mounted () {
-    this.startTimer();
   },
   beforeDestroy () {
     this.stopTimer();
@@ -129,7 +124,7 @@ export default Vue.extend({
       return Math.round(((this.time - daysCount * millisecondsInDay - hoursCount * millisecondsInHour - minutesCount * millisecondsInMinute) / millisecondsInSecond))
     },
     startTimer (): void {
-      if (this.intervalId) {
+      if (this.intervalId || isServer) {
         return;
       }
 
@@ -169,6 +164,19 @@ export default Vue.extend({
       this.hours = this.getArrayOfString(hours);
       this.minutes = this.getArrayOfString(minutes);
       this.seconds = this.getArrayOfString(seconds);
+    }
+  },
+  watch: {
+    countdownTime: {
+      handler (value: number, oldValue: number) {
+        if (value === oldValue) {
+          return;
+        }
+
+        this.time = this.countdownTime;
+        this.startTimer();
+      },
+      immediate: true
     }
   }
 })
