@@ -34,11 +34,10 @@
           <div class="_timer-btn _view-toggle-btn" @click="onToggleViewButtonClickHandler">
             <i class="fa fa-times" />
 
-            <i class="fa fa-angle-double-down">
-              <div class="_btn-text">
-                {{ $t('More Info') }}
-              </div>
-            </i>
+            <i class="fa fa-angle-double-down" />
+            <div class="_btn-text">
+              {{ $t('More Info') }}
+            </div>
           </div>
         </div>
       </div>
@@ -352,7 +351,6 @@ $mobile-s: 640px;
     }
 
     ._view-toggle-btn {
-
       .fa-angle-double-down,
       ._btn-text {
         display: none;
