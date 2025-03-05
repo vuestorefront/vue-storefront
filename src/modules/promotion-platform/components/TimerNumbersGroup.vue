@@ -39,11 +39,14 @@ export default Vue.extend({
     }
   },
   watch: {
-    value (val, oldVal): void {
-      if (val !== oldVal) {
-        this.oldValue = oldVal;
-        this.isAnimated = true;
-      }
+    value: {
+      handler (val, oldVal): void {
+        if (val !== oldVal) {
+          this.oldValue = oldVal;
+          this.isAnimated = true;
+        }
+      },
+      immediate: true
     }
   }
 })

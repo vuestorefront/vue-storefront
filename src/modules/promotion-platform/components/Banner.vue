@@ -194,7 +194,6 @@ export default Vue.extend({
 
 $countdown-banner-background-color: #77b834;
 $countdown-banner-text-color: #fff;
-$countdown-banner-numbers-color: #000;
 $mobile-s: 640px;
 
 .promotion-platform-countdown-banner-wrapper {
@@ -205,8 +204,7 @@ $mobile-s: 640px;
     min-width: 320px;
 
     ._container {
-      background-color: $countdown-banner-background-color;
-      background-color: var(--background-color);
+      background-color: var(--background-color, $countdown-banner-background-color);
       height: inherit;
       overflow: hidden;
       position: relative;
@@ -225,8 +223,7 @@ $mobile-s: 640px;
       }
 
       ._title {
-        color: $countdown-banner-text-color;
-        color: var(--text-color);
+        color: var(--text-color, $countdown-banner-text-color);
         font-size: 1.05em;
         line-height: 1.2em;
         margin-bottom: 0.3em;
@@ -239,7 +236,7 @@ $mobile-s: 640px;
         transform: scale(0.5);
         transform-origin: left;
         width: 142px;
-        height: 46px;
+        height: 32px;
 
         ._timer {
           white-space: nowrap;
@@ -247,8 +244,7 @@ $mobile-s: 640px;
       }
 
       ._content {
-        color: $countdown-banner-text-color;
-        color: var(--text-color);
+        color: var(--text-color, $countdown-banner-text-color);
         font-size: 0.79em;
         margin-top: 0.25em;
         padding: 0.75em;
@@ -289,8 +285,7 @@ $mobile-s: 640px;
     }
 
     ._timer-btn {
-      color: $countdown-banner-text-color;
-      color: var(--text-color);
+      color: var(--text-color, $countdown-banner-text-color);
       cursor: pointer;
       line-height: 1em;
       position: absolute;
@@ -311,8 +306,7 @@ $mobile-s: 640px;
           position: absolute;
           height: 1px;
           width: 100%;
-          background: $countdown-banner-text-color;
-          background: var(--text-color);
+          background: var(--text-color, $countdown-banner-text-color);
         }
 
         &:before {
@@ -337,8 +331,7 @@ $mobile-s: 640px;
           width: 100%;
           height: 100%;
           border: 1px solid;
-          border-color: $countdown-banner-text-color;
-          border-color: var(--text-color);
+          border-color: var(--text-color, $countdown-banner-text-color);
           border-top: none;
           border-right: none;
           transform: rotate(-45deg);
@@ -438,7 +431,6 @@ $mobile-s: 640px;
           transform-origin: center;
           width: auto;
           min-width: 274px;
-          margin-top: 10px;
         }
 
         ._timer-btn {
@@ -478,6 +470,7 @@ $mobile-s: 640px;
 
         ._timer-container {
           transform: scale(1);
+          margin-top: -10px;
         }
 
         ._content {

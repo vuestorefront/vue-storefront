@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import config from 'config';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { Logger } from '@vue-storefront/core/lib/logger'
 import { processURLAddress } from '@vue-storefront/core/helpers';
 
 import CampaignsGetAPIResponse from './types/CampaignsGetAPIResponse';
@@ -11,10 +12,17 @@ import { BEFORE_STORE_BACKEND_API_REQUEST } from '../shared';
 import { CountdownBanner } from './types/CountdownBanner.interface';
 
 function parseResponseData (responseData: any): CampaignsGetAPIResponse {
-  const campaignData = responseData.result.campaignContent;
+  const campaignData = responseData?.result?.campaignContent;
   let discountsContent: Dictionary<number> = {};
 
-  if (campaignData.discounts && campaignData.discounts) {
+  if (!campaignData) {
+    return {
+      campaignContent: {},
+      campaignToken: ''
+    }
+  }
+
+  if (campaignData.discounts && campaignData.discounts.prices) {
     discountsContent = campaignData.discounts.prices as Dictionary<number>;
   }
 
@@ -69,11 +77,19 @@ export const PromotionPlatformService = {
 
     url = eventPayload.url;
 
-    const response = await fetch(url, payload);
+    try {
+      const response = await fetch(url, payload);
 
-    const responseData = await response.json();
+      const responseData = await response.json();
 
-    return parseResponseData(responseData);
+      return parseResponseData(responseData);
+    } catch (error) {
+      Logger.error('Error while updating active campaign: ' + error);
+      return {
+        campaignContent: {},
+        campaignToken: ''
+      }
+    }
   },
   async fetchActiveCampaign (cartId: string, userToken?: string): Promise<CampaignsGetAPIResponse> {
     let url = processURLAddress(`${config.budsies.endpoint}/promotion-platform/quotes-campaigns?cartId=${cartId}`);
@@ -97,11 +113,19 @@ export const PromotionPlatformService = {
 
     url = eventPayload.url;
 
-    const response = await fetch(url, payload);
+    try {
+      const response = await fetch(url, payload);
 
-    const responseData = await response.json();
+      const responseData = await response.json();
 
-    return parseResponseData(responseData);
+      return parseResponseData(responseData);
+    } catch (error) {
+      Logger.error('Error while fetching active campaign: ' + error);
+      return {
+        campaignContent: {},
+        campaignToken: ''
+      }
+    }
   },
   async fetchDefaultActiveCampaignData (): Promise<CampaignsGetAPIResponse> {
     let url = processURLAddress(`${config.budsies.endpoint}/promotion-platform/campaigns/default`);
@@ -121,10 +145,18 @@ export const PromotionPlatformService = {
 
     url = eventPayload.url;
 
-    const response = await fetch(url, payload);
+    try {
+      const response = await fetch(url, payload);
 
-    const responseData = await response.json();
+      const responseData = await response.json();
 
-    return parseResponseData(responseData);
+      return parseResponseData(responseData);
+    } catch (error) {
+      Logger.error('Error while fetching default active campaign data: ' + error);
+      return {
+        campaignContent: {},
+        campaignToken: ''
+      }
+    }
   }
 }

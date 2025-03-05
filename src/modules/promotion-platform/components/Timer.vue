@@ -82,6 +82,10 @@ export default Vue.extend({
       fUpdateTimerData: undefined as (() => void) | undefined
     }
   },
+  beforeMount () {
+    this.time = this.countdownTime;
+    this.startTimer();
+  },
   beforeDestroy () {
     this.stopTimer();
   },
@@ -140,8 +144,6 @@ export default Vue.extend({
 
       window.clearInterval(this.intervalId);
       this.intervalId = undefined;
-
-      this.$emit('timer-stopped');
     },
     updateTimerData (): void {
       if (!this.time) {
@@ -152,6 +154,7 @@ export default Vue.extend({
 
       if (this.time <= 0) {
         this.stopTimer();
+        this.$emit('timer-stopped');
         return;
       }
 
@@ -173,10 +176,10 @@ export default Vue.extend({
           return;
         }
 
+        this.stopTimer();
         this.time = this.countdownTime;
         this.startTimer();
-      },
-      immediate: true
+      }
     }
   }
 })
