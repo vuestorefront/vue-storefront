@@ -23,7 +23,7 @@ const SNEAK_PEEK_OPTION_VALUES_SKUS = [
   'specialty_commission_sneak_peek'
 ];
 
-const ADD_SNEAK_PEEK_AVAILABILITY_RULES = false;
+const ADD_SNEAK_PEEK_AVAILABILITY_RULES = true;
 
 // Make customization required, add "Standard" option value
 // And remove option values missing in "Rush Addons" list
