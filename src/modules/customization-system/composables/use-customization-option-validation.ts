@@ -88,10 +88,12 @@ export function useCustomizationOptionValidation (customization: Ref<Customizati
     }
   });
 
-  async function validateSilent (): Promise<ValidationResult> {
+  async function validate (silent: boolean): Promise<ValidationResult> {
     if (validationProvider.value) {
       // TODO: temporary - current TS version don't handle `value` type right in this case
-      return (validationProvider as any).value.validateSilent()
+      return silent
+        ? (validationProvider as any).value.validateSilent()
+        : (validationProvider as any).value.validate()
     }
 
     return {
@@ -99,6 +101,10 @@ export function useCustomizationOptionValidation (customization: Ref<Customizati
       errors: [],
       failedRules: {}
     };
+  }
+
+  async function validateSilent (): Promise<ValidationResult> {
+    return validate(true);
   }
 
   function extendMaxValueCountValidationRule (): void {
@@ -114,6 +120,7 @@ export function useCustomizationOptionValidation (customization: Ref<Customizati
 
   return {
     isFieldRequired,
+    validate,
     validateSilent,
     validationProvider,
     validationRef,
