@@ -15,7 +15,7 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "axios": "^0.29.0"
+    "axios": "^1.7.9"
   },
   "engines": {
     "node": ">=18"
