@@ -242,7 +242,12 @@ app.get('*', async (req, res, next) => {
       if (config.server.useOutputCache && cache && !context.output.cacheTags['no-cache']) {
         cache.set(
           cacheKey,
-          { headers: res.getHeaders(), body: output, httpCode: res.statusCode },
+          {
+            headers: res.getHeaders(),
+            body: output,
+            httpCode: res.statusCode,
+            redirect: context.output.redirect
+          },
           tagsArray
         ).catch(errorHandler)
       }
@@ -254,6 +259,13 @@ app.get('*', async (req, res, next) => {
         output,
         isProd
       })
+
+      if (context.output.redirect) {
+        return res.redirect(
+          context.output.redirect.code,
+          context.output.redirect.path
+        );
+      }
 
       if (typeof afterOutputRenderedResponse === 'string') {
         res.end(afterOutputRenderedResponse)
@@ -286,6 +298,12 @@ app.get('*', async (req, res, next) => {
 
           if (output.httpCode) {
             res.status(output.httpCode)
+          }
+
+          if (output.redirect) {
+            res.redirect(output.redirect.code, output.redirect.path)
+            console.log(`redirect cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
+            return
           }
 
           if (output.body) {
