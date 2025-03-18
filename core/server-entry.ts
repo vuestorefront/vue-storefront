@@ -80,6 +80,13 @@ export default async context => {
     context.extendedHead = extendedHead
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
+
+      if (router.currentRoute.redirectedFrom) {
+        context.output.redirect = { code: 301, path: router.currentRoute.fullPath };
+
+        return resolve(app);
+      }
+
       if (!matchedComponents.length || !matchedComponents[0]) {
         return reject(new HttpError('No components matched', 404)) // TODO - don't redirect if already on page-not-found
       }

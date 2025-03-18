@@ -11,8 +11,8 @@ const config = require('config')
 const minify = require('html-minifier').minify
 
 function createRenderer (bundle, clientManifest, template?) {
-  let shouldPreload = () => {}
-  let shouldPrefetch = () => {}
+  let shouldPreload = () => { }
+  let shouldPrefetch = () => { }
   try {
     const scripts = require('../../modules/initial-resources/serverResourcesFilter')
     shouldPreload = scripts.shouldPreload
@@ -106,7 +106,6 @@ function initTemplatesCache (config, compileOptions) {
   return templatesCache
 }
 
-
 function initSSRRequestContext (app, req, res, config): Context {
   return {
     url: decodeURI(req.url),
@@ -116,7 +115,8 @@ function initSSRRequestContext (app, req, res, config): Context {
       filter: (output, context) => { return output },
       appendHead: (context) => { return ''; },
       template: 'default',
-      cacheTags: new Set()
+      cacheTags: new Set(),
+      redirect: null
     },
     server: {
       app: app,
@@ -136,6 +136,7 @@ function clearContext (context) {
   Object.keys(context.server).forEach(key => delete context.server[key])
   delete context.output['cacheTags']
   delete context['meta']
+  delete context.output['redirect']
 }
 
 export {
