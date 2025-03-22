@@ -1,5 +1,11 @@
 # @vue-storefront/sdk-axios-request-sender
 
+## 2.1.0
+
+### Minor Changes
+
+- **[CHANGED]** Update axios version from "^0.29.0" to "^1.7.9".
+
 ## 2.0.1
 
 ### Patch Changes

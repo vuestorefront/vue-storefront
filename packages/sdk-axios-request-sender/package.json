@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/sdk-axios-request-sender",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
@@ -15,7 +15,7 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "axios": "^0.29.0"
+    "axios": "^1.7.9"
   },
   "engines": {
     "node": ">=18"
