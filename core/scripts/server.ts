@@ -239,7 +239,7 @@ app.get('*', async (req, res, next) => {
       }
 
       output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, isProd);
-      if (config.server.useOutputCache && cache && !context.output.cacheTags['no-cache']) {
+      if (config.server.useOutputCache && cache && !context.output.cacheTags.has('no-cache')) {
         cache.set(
           cacheKey,
           {

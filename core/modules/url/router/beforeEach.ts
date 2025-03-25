@@ -45,7 +45,9 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
       }
     } catch (e) {
       Logger.error(e, 'dispatcher')()
-      next()
+      next({
+        name: 'error'
+      });
     } finally {
       RouterManager.unlockRoute()
     }
