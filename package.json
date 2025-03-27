@@ -75,7 +75,7 @@
     "graphql-tag": "^2.10.3",
     "intl": "^1.2.5",
     "intl-locales-supported": "^1.8.2",
-    "isomorphic-fetch": "^2.2.1",
+    "isomorphic-fetch": "^3.0.0",
     "js-sha3": "^0.8.0",
     "localforage": "^1.7.2",
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
