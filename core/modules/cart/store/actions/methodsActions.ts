@@ -91,7 +91,8 @@ const methodsActions = {
         street: [shippingDetails.streetAddress1, shippingDetails.streetAddress2],
         postcode: shippingDetails.zipCode,
         city: shippingDetails.city,
-        region_code: shippingDetails.region_code ? shippingDetails.region_code : ''
+        region_code: shippingDetails.region_code ? shippingDetails.region_code : '',
+        vat_id: shippingDetails.vat_id || ''
       } : { country_id: storeView.tax.defaultCountry }
 
       const task = await CartService.getShippingMethods(address);

@@ -11,7 +11,7 @@ export default function getDefaultPaymentDetails () {
     region_id: null,
     zipCode: '',
     phoneNumber: '',
-    taxId: '',
+    vat_id: '',
     paymentMethod: '',
     paymentMethodAdditional: {}
   }

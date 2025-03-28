@@ -125,15 +125,15 @@ export default Vue.extend({
     },
     embedUrl (): string | undefined {
       if (this.provider === VideoProvider.vimeo) {
-        return '//player.vimeo.com/video/' + this.videoId;
+        return 'https://player.vimeo.com/video/' + this.videoId;
       }
 
       if (this.provider === VideoProvider.wistia) {
-        return '//fast.wistia.net/embed/iframe/' + this.videoId;
+        return 'https://fast.wistia.net/embed/iframe/' + this.videoId;
       }
 
       if (this.provider === VideoProvider.coub) {
-        return '//coub.com/embed/' +
+        return 'https://coub.com/embed/' +
           this.videoId +
           '?muted=false' +
           '&autostart=false' +
@@ -141,7 +141,7 @@ export default Vue.extend({
       }
 
       if (this.provider === VideoProvider.dailymotion) {
-        return '//www.dailymotion.com/embed/video/' + this.videoId;
+        return 'https://www.dailymotion.com/embed/video/' + this.videoId;
       }
 
       return undefined;

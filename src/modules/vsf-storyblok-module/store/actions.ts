@@ -120,7 +120,10 @@ export const actions: ActionTree<StoryblokState, RootState> = {
       commit('setStory', { key, story });
 
       return story
-    })
+    }).catch((error) => {
+      commit('removeStory', key);
+      throw new Error(`Could not load story ${key}: ${error}`)
+    });
 
     commit('loadingStory', { key, loadingPromise })
 

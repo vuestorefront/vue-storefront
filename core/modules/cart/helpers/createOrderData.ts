@@ -43,7 +43,8 @@ const createOrderData = ({
       street: [shippingDetails.streetAddress],
       region: shippingDetails.state ? shippingDetails.state : undefined,
       region_id: shippingDetails.region_id,
-      telephone: shippingDetails.phoneNumber
+      telephone: shippingDetails.phoneNumber,
+      vat_id: shippingDetails.vat_id
     },
     billingAddress: {
       firstname: paymentDetails.firstName,
@@ -54,7 +55,8 @@ const createOrderData = ({
       countryId: paymentDetails.country,
       region: paymentDetails.state ? paymentDetails.state : undefined,
       region_id: paymentDetails.region_id,
-      telephone: paymentDetails.phoneNumber
+      telephone: paymentDetails.phoneNumber,
+      vat_id: paymentDetails.vat_id
     },
     method_code: shippingMethodCode,
     carrier_code: shippingCarrierCode,
