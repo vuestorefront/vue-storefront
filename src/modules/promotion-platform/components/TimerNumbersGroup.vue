@@ -19,6 +19,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { isServer } from '@vue-storefront/core/helpers';
+
 export default Vue.extend({
   props: {
     value: {
@@ -41,6 +43,10 @@ export default Vue.extend({
   watch: {
     value: {
       handler (val, oldVal): void {
+        if (isServer) {
+          return;
+        }
+
         if (val !== oldVal) {
           this.oldValue = oldVal;
           this.isAnimated = true;
