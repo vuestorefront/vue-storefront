@@ -1,4 +1,6 @@
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
+import { TEST_GROUP_ID_COOKIE_KEY } from '../../src/modules/a-b-testing/types/test-group-id-cookie-key'
+import { getCookieByName } from '../helpers/get-cookie-by-name.function'
 
 const qs = require('qs')
 const config = require('config')
@@ -203,7 +205,7 @@ app.get('*', async (req, res, next) => {
   }
 
   const site = req.headers['x-vs-store-code'] || 'main'
-  const cacheKey = `page:${site}:${req.url}`
+  let cacheKey = `page:${site}:${req.url}`
 
   const dynamicRequestHandler = (renderer, config) => {
     if (!renderer) {
@@ -212,6 +214,13 @@ app.get('*', async (req, res, next) => {
       return next()
     }
     const context = ssr.initSSRRequestContext(app, req, res, config)
+
+    const testGroupId = getCookieByName(TEST_GROUP_ID_COOKIE_KEY, req?.headers?.cookie);
+
+    if (testGroupId) {
+      cacheKey += `:${testGroupId}`;
+    }
+
     renderer.renderToString(context).then(output => {
       if (!res.get('content-type')) {
         res.setHeader('Content-Type', 'text/html')
