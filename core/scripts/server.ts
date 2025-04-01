@@ -207,6 +207,12 @@ app.get('*', async (req, res, next) => {
   const site = req.headers['x-vs-store-code'] || 'main'
   let cacheKey = `page:${site}:${req.url}`
 
+  const testGroupId = getCookieByName(TEST_GROUP_ID_COOKIE_KEY, req?.headers?.cookie);
+
+  if (testGroupId) {
+    cacheKey += `:${testGroupId}`;
+  }
+
   const dynamicRequestHandler = (renderer, config) => {
     if (!renderer) {
       res.setHeader('Content-Type', 'text/html')
@@ -214,12 +220,6 @@ app.get('*', async (req, res, next) => {
       return next()
     }
     const context = ssr.initSSRRequestContext(app, req, res, config)
-
-    const testGroupId = getCookieByName(TEST_GROUP_ID_COOKIE_KEY, req?.headers?.cookie);
-
-    if (testGroupId) {
-      cacheKey += `:${testGroupId}`;
-    }
 
     renderer.renderToString(context).then(output => {
       if (!res.get('content-type')) {
