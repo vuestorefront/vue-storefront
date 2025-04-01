@@ -54,6 +54,7 @@
 import Vue from 'vue';
 
 import TimerNumbersGroup from './TimerNumbersGroup.vue';
+import { isServer } from '@vue-storefront/core/helpers';
 
 const millisecondsInSecond = 1000;
 const millisecondsInMinute = millisecondsInSecond * 60;
@@ -81,10 +82,8 @@ export default Vue.extend({
       fUpdateTimerData: undefined as (() => void) | undefined
     }
   },
-  created () {
+  beforeMount () {
     this.time = this.countdownTime;
-  },
-  mounted () {
     this.startTimer();
   },
   beforeDestroy () {
@@ -129,7 +128,7 @@ export default Vue.extend({
       return Math.round(((this.time - daysCount * millisecondsInDay - hoursCount * millisecondsInHour - minutesCount * millisecondsInMinute) / millisecondsInSecond))
     },
     startTimer (): void {
-      if (this.intervalId) {
+      if (this.intervalId || isServer) {
         return;
       }
 
@@ -145,8 +144,6 @@ export default Vue.extend({
 
       window.clearInterval(this.intervalId);
       this.intervalId = undefined;
-
-      this.$emit('timer-stopped');
     },
     updateTimerData (): void {
       if (!this.time) {
@@ -157,6 +154,7 @@ export default Vue.extend({
 
       if (this.time <= 0) {
         this.stopTimer();
+        this.$emit('timer-stopped');
         return;
       }
 
@@ -170,6 +168,19 @@ export default Vue.extend({
       this.minutes = this.getArrayOfString(minutes);
       this.seconds = this.getArrayOfString(seconds);
     }
+  },
+  watch: {
+    countdownTime: {
+      handler (value: number, oldValue: number) {
+        if (value === oldValue) {
+          return;
+        }
+
+        this.stopTimer();
+        this.time = this.countdownTime;
+        this.startTimer();
+      }
+    }
   }
 })
 </script>
@@ -181,7 +192,6 @@ export default Vue.extend({
   font-size: 32px;
   line-height: 108%;
   font-weight: bold;
-  height: 32px;
 
   ._number-group-container {
     display: flex;

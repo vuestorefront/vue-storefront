@@ -1,53 +1,36 @@
+import fetch from 'isomorphic-fetch';
 import config from 'config';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { Logger } from '@vue-storefront/core/lib/logger'
 import { processURLAddress } from '@vue-storefront/core/helpers';
 
 import CampaignsGetAPIResponse from './types/CampaignsGetAPIResponse';
-import CampaignContent from './types/CampaignContent.model';
+import { CampaignContent } from './types/CampaignContent.interface';
 import { Dictionary } from '../budsies';
-import ImageBanner from './types/ImageBanner.model';
+import { ImageBanner } from './types/ImageBanner.interface';
 import { BEFORE_STORE_BACKEND_API_REQUEST } from '../shared';
+import { CountdownBanner } from './types/CountdownBanner.interface';
 
 function parseResponseData (responseData: any): CampaignsGetAPIResponse {
-  const campaignData = responseData.result.campaignContent;
-  let countdownBannerContent;
-  let discountsContent: Dictionary<number> | undefined;
-  let imagesBannerContent: ImageBanner | undefined;
-  let countdownBannerBlacklistUrls: string[] = [];
+  const campaignData = responseData?.result?.campaignContent;
+  let discountsContent: Dictionary<number> = {};
 
-  if (!campaignData || campaignData.length === 0) {
+  if (!campaignData) {
     return {
-      campaignContent: new CampaignContent(),
-      campaignToken: responseData.result.campaignToken
+      campaignContent: {},
+      campaignToken: ''
     }
   }
 
-  if (campaignData.countdown_banner) {
-    countdownBannerContent = campaignData.countdown_banner;
-  }
-
-  if (campaignData.countdown_banner_blacklist_urls &&
-    campaignData.countdown_banner_blacklist_urls.length > 0
-  ) {
-    countdownBannerBlacklistUrls = campaignData.countdown_banner_blacklist_urls;
-  }
-
-  const imageBanner = campaignData.image_banner;
-
-  if (imageBanner && imageBanner.content && imageBanner.campaign_id) {
-    imagesBannerContent = new ImageBanner(imageBanner.campaign_id, imageBanner.content);
-  }
-
   if (campaignData.discounts && campaignData.discounts.prices) {
-    discountsContent = campaignData.discounts.prices;
+    discountsContent = campaignData.discounts.prices as Dictionary<number>;
   }
 
-  const campaignContent = new CampaignContent(
-    countdownBannerContent,
-    discountsContent,
-    imagesBannerContent,
-    countdownBannerBlacklistUrls
-  )
+  const campaignContent: CampaignContent = {
+    countdown: campaignData.countdown as CountdownBanner | undefined,
+    discounts: discountsContent,
+    image_banner: campaignData.image_banner as ImageBanner | undefined
+  };
 
   return {
     campaignContent,
@@ -94,11 +77,19 @@ export const PromotionPlatformService = {
 
     url = eventPayload.url;
 
-    const response = await fetch(url, payload);
+    try {
+      const response = await fetch(url, payload);
 
-    const responseData = await response.json();
+      const responseData = await response.json();
 
-    return parseResponseData(responseData);
+      return parseResponseData(responseData);
+    } catch (error) {
+      Logger.error('Error while updating active campaign: ' + error);
+      return {
+        campaignContent: {},
+        campaignToken: ''
+      }
+    }
   },
   async fetchActiveCampaign (cartId: string, userToken?: string): Promise<CampaignsGetAPIResponse> {
     let url = processURLAddress(`${config.budsies.endpoint}/promotion-platform/quotes-campaigns?cartId=${cartId}`);
@@ -122,10 +113,50 @@ export const PromotionPlatformService = {
 
     url = eventPayload.url;
 
-    const response = await fetch(url, payload);
+    try {
+      const response = await fetch(url, payload);
 
-    const responseData = await response.json();
+      const responseData = await response.json();
 
-    return parseResponseData(responseData);
+      return parseResponseData(responseData);
+    } catch (error) {
+      Logger.error('Error while fetching active campaign: ' + error);
+      return {
+        campaignContent: {},
+        campaignToken: ''
+      }
+    }
+  },
+  async fetchDefaultActiveCampaignData (): Promise<CampaignsGetAPIResponse> {
+    let url = processURLAddress(`${config.budsies.endpoint}/promotion-platform/campaigns/default`);
+
+    const mode: RequestMode = 'cors';
+    const payload = {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' },
+      mode
+    };
+
+    const eventPayload = {
+      url
+    };
+
+    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+    url = eventPayload.url;
+
+    try {
+      const response = await fetch(url, payload);
+
+      const responseData = await response.json();
+
+      return parseResponseData(responseData);
+    } catch (error) {
+      Logger.error('Error while fetching default active campaign data: ' + error);
+      return {
+        campaignContent: {},
+        campaignToken: ''
+      }
+    }
   }
 }

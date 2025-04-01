@@ -1,4 +1,4 @@
-import CampaignContent from './CampaignContent.model';
+import { CampaignContent } from './CampaignContent.interface';
 
 export default interface PromotionPlatformState {
   campaignContent?: CampaignContent,

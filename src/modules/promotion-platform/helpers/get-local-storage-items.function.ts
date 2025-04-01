@@ -3,7 +3,6 @@ import rootStore from '@vue-storefront/core/store'
 import { parseLocalStorageValue } from 'src/modules/shared';
 import { checkMultiStoreLocalStorageKey } from 'src/modules/shared/helpers/check-multi-store-local-storage-key.function';
 
-import CampaignContent from '../types/CampaignContent.model';
 import { CAMPAIGN_CONTENT, CAMPAIGN_TOKEN, LAST_BANNER_VERSION, PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE } from '../types/local-storage-key';
 import { SET_CAMPAIGN_CONTENT, SET_CAMPAIGN_TOKEN, SET_LAST_BANNER_VERSION_CLOSED_BY_USER, SET_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, SN_PROMOTION_PLATFORM } from '../types/StoreMutations';
 
@@ -72,10 +71,6 @@ export function getItemsFromStorage ({ key }: StorageEvent) {
   if (!value) {
     clearItem(mutationName);
     return;
-  }
-
-  if (isCampaignContentChanged) {
-    value = CampaignContent.fromPlainObject(value);
   }
 
   rootStore.commit(
