@@ -143,7 +143,7 @@ const serve = (path, cache, options?) => express.static(resolve(path), Object.as
 }, options))
 
 const themeRoot = require('../build/theme-path')
-const TEST_GROUP_ID_COOKIE_KEY = config.abTesting.cookieKey;
+const TEST_GROUP_ID_COOKIE_KEY = config.abTesting?.cookieKey;
 
 if (config.server.helmet && config.server.helmet.enabled && isProd) {
   app.use(helmet(config.server.helmet.config))
@@ -207,10 +207,12 @@ app.get('*', async (req, res, next) => {
   const site = req.headers['x-vs-store-code'] || 'main'
   let cacheKey = `page:${site}:${req.url}`
 
-  const testGroupId = extractCookieValue(TEST_GROUP_ID_COOKIE_KEY, req?.headers?.cookie);
+  if (TEST_GROUP_ID_COOKIE_KEY) {
+    const testGroupId = extractCookieValue(TEST_GROUP_ID_COOKIE_KEY, req?.headers?.cookie);
 
-  if (testGroupId) {
-    cacheKey += `:${testGroupId}`;
+    if (testGroupId) {
+      cacheKey += `:${testGroupId}`;
+    }
   }
 
   const dynamicRequestHandler = (renderer, config) => {
@@ -220,7 +222,6 @@ app.get('*', async (req, res, next) => {
       return next()
     }
     const context = ssr.initSSRRequestContext(app, req, res, config)
-
     renderer.renderToString(context).then(output => {
       if (!res.get('content-type')) {
         res.setHeader('Content-Type', 'text/html')
