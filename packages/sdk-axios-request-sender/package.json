@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/sdk-axios-request-sender",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
