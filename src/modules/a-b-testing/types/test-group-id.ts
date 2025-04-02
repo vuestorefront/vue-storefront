@@ -1,3 +1,3 @@
 export enum TestGroupId {
-  UPLOAD_LATER_DISABLE = 'upload_later_disable'
+  UPLOAD_LATER_DISABLED = 'upload_later_disabled'
 }

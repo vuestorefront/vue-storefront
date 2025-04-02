@@ -6,7 +6,7 @@ import { getCookieByName } from 'src/modules/shared';
 
 import { TestGroupId } from '../types/test-group-id';
 
-const testGroupIds: TestGroupId[] = [TestGroupId.UPLOAD_LATER_DISABLE];
+const testGroupIds: TestGroupId[] = [TestGroupId.UPLOAD_LATER_DISABLED];
 
 const uploadLaterCustomizationNames: string[] = [
   'send later upload method',
@@ -29,7 +29,7 @@ export function useABTestingCustomizationsFilter (ssrContext: Context) {
     }
 
     switch (testGroupId) {
-      case TestGroupId.UPLOAD_LATER_DISABLE:
+      case TestGroupId.UPLOAD_LATER_DISABLED:
         return !uploadLaterCustomizationNames.includes(customization.name.toLowerCase());
       default:
         return true;
