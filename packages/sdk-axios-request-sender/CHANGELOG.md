@@ -1,5 +1,11 @@
 # @vue-storefront/sdk-axios-request-sender
 
+## 3.0.0
+
+### Major Changes
+
+- **[UPDATED]** Minimum required Node.js version is now v20.
+
 ## 2.1.0
 
 ### Minor Changes
