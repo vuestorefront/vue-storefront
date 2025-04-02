@@ -1,4 +1,4 @@
-export function getCookieByName (name: string, cookieString: string | undefined): string | undefined {
+export function extractCookieValue (name: string, cookieString: string | undefined): string | undefined {
   if (!cookieString) {
     return;
   }

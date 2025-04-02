@@ -924,5 +924,8 @@
   ],
   "errorLogging": {
     "serviceUrl": "${ERROR_LOGGING_SERVICE_URL}"
+  },
+  "abTesting": {
+    "cookieKey": "exp_variant_string"
   }
 }

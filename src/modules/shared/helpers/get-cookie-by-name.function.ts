@@ -1,4 +1,4 @@
-import { isServer, getCookieByName as getCookieByNameBase } from '@vue-storefront/core/helpers';
+import { isServer, extractCookieValue } from '@vue-storefront/core/helpers';
 
 import { Context } from 'core/scripts/utils/types';
 
@@ -7,7 +7,15 @@ export default function getCookieByName (name: string, ssrContext?: Context): st
     return;
   }
 
-  const cookie = ssrContext ? (ssrContext.server.request as any).headers.cookie : document.cookie;
+  let cookieString: string |undefined;
 
-  return getCookieByNameBase(name, cookie);
+  if (ssrContext) {
+    cookieString = (ssrContext.server.request as any).headers.cookie
+  }
+
+  if (typeof document !== 'undefined') {
+    cookieString = document.cookie;
+  }
+
+  return extractCookieValue(name, cookieString);
 }

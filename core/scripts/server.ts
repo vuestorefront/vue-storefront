@@ -1,6 +1,5 @@
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
-import { TEST_GROUP_ID_COOKIE_KEY } from '../../src/modules/a-b-testing/types/test-group-id-cookie-key'
-import { getCookieByName } from '../helpers/get-cookie-by-name.function'
+import { extractCookieValue } from '../helpers/extract-cookie-value.function'
 
 const qs = require('qs')
 const config = require('config')
@@ -144,6 +143,7 @@ const serve = (path, cache, options?) => express.static(resolve(path), Object.as
 }, options))
 
 const themeRoot = require('../build/theme-path')
+const TEST_GROUP_ID_COOKIE_KEY = config.abTesting.cookieKey;
 
 if (config.server.helmet && config.server.helmet.enabled && isProd) {
   app.use(helmet(config.server.helmet.config))
@@ -207,7 +207,7 @@ app.get('*', async (req, res, next) => {
   const site = req.headers['x-vs-store-code'] || 'main'
   let cacheKey = `page:${site}:${req.url}`
 
-  const testGroupId = getCookieByName(TEST_GROUP_ID_COOKIE_KEY, req?.headers?.cookie);
+  const testGroupId = extractCookieValue(TEST_GROUP_ID_COOKIE_KEY, req?.headers?.cookie);
 
   if (testGroupId) {
     cacheKey += `:${testGroupId}`;

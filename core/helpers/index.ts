@@ -365,4 +365,4 @@ export function productJsonLd ({ category, image, name, id, sku, mpn, descriptio
   }
 }
 
-export { getCookieByName } from './get-cookie-by-name.function';
+export { extractCookieValue } from './extract-cookie-value.function';
