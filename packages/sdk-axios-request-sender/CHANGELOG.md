@@ -4,7 +4,7 @@
 
 ### Major Changes
 
-- **[UPDATED]** Minimum required Node.js version is now v20.
+- **[UPDATED]** Recommended Node.js version is now v22.14.0 or higher. Minimum required Node.js version is now v20.
 
 ## 2.1.0
 
