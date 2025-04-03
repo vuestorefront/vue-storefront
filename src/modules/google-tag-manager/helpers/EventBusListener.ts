@@ -22,6 +22,7 @@ import { prepareProductItemData } from './prepare-product-item-data.function';
 import { DEFAULT_CURRENCY } from '../types/default-currency';
 import GoogleTagManagerEvents from '../types/GoogleTagManagerEvents';
 import { trackEcommerceEventFactory } from './track-ecommerce-event.factory';
+import { A_B_TEST_GROUP_CHANGED } from 'src/modules/a-b-testing';
 
 const shareasaleSSCIDCookieName = 'shareasaleMagentoSSCID';
 
@@ -144,6 +145,13 @@ export default class EventBusListener {
         this.gtm.trackEvent(customerData);
       }
     );
+
+    EventBus.$on(A_B_TEST_GROUP_CHANGED, (testGroupId: string) => {
+      this.gtm.trackEvent({
+        event: GoogleTagManagerEvents.A_B_TEST_GROUP_CHANGED,
+        exp_variant_string: testGroupId
+      });
+    });
 
     cartHooks.afterAddToCart(this.onAfterAddToCartHookHandler.bind(this));
     cartHooks.afterRemoveFromCart(this.onAfterRemoveFromCartHookHandler.bind(this));
