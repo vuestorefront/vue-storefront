@@ -1,5 +1,17 @@
 # @vue-storefront/sdk-axios-request-sender
 
+## 3.0.0
+
+### Major Changes
+
+- **[UPDATED]** Recommended Node.js version is now v22.14.0 or higher. Minimum required Node.js version is now v20.
+
+## 2.1.0
+
+### Minor Changes
+
+- **[CHANGED]** Update axios version from "^0.29.0" to "^1.7.9".
+
 ## 2.0.1
 
 ### Patch Changes
