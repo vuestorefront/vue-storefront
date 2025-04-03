@@ -80,7 +80,6 @@ export const OrderReview = {
           })
           this.$bus.$emit('notification-progress-stop')
           this.$bus.$emit('checkout-before-placeOrder', result.result.id)
-          this.onSuccess()
         }
       } catch (err) {
         this.$bus.$emit('notification-progress-stop')
