@@ -51,6 +51,7 @@ export const CheckoutModule: StorefrontModule = function ({ store }) {
   });
 
   if (!isServer) {
+    store.dispatch('checkout/load');
     const onClearUserData = () => store.dispatch('checkout/resetDetails');
     EventBus.$on('clear-user-data', onClearUserData);
   }

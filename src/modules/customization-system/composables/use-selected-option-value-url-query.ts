@@ -3,29 +3,31 @@ import { computed, Ref, SetupContext, watch } from '@vue/composition-api';
 import Product from 'core/modules/catalog/types/Product';
 
 import { CustomizationOptionValue } from '../types/customization-option-value';
+import { CustomizationStateItem } from '../types/customization-state-item.interface';
 import { Customization } from '../types/customization.interface';
 import { isFileUploadValue } from '../types/is-file-upload-value.typeguard';
 import { OptionValue } from '../types/option-value.interface';
 
 export function useSelectedOptionValueUrlQuery (
-  availableCustomizationDictionary: Ref<Record<string, Customization>>,
+  customizations: Ref<Customization[]>,
   availableOptionValues: Ref<OptionValue[]>,
   customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>,
   currentProduct: Ref<Product | undefined>,
-  updateCustomizationOptionValue: (payload: { customizationId: string, value: CustomizationOptionValue }) => void,
+  mergeCustomizationState: (payload: CustomizationStateItem[]) => void,
+  removeUnavailableOptionValues: () => void,
   { root }: SetupContext
 ) {
   const showInUrlQueryCustomizations = computed<Customization[]>(() => {
-    const customizations: Customization[] = [];
+    const relatedCustomizations: Customization[] = [];
 
     // TODO: temporary - current TS version don't handle `value` type right in this case
-    for (const customization of Object.values((availableCustomizationDictionary as any).value)) {
+    for (const customization of customizations.value) {
       if ((customization as Customization).optionData?.showInUrlQuery) {
-        customizations.push((customization as Customization));
+        relatedCustomizations.push((customization as Customization));
       }
     }
 
-    return customizations;
+    return relatedCustomizations;
   });
 
   const availableOptionValueDictionary = computed<Record<string, OptionValue>>(() => {
@@ -87,7 +89,31 @@ export function useSelectedOptionValueUrlQuery (
     return root.$route.query;
   });
 
+  function unhandledCustomizationsFilter (customizationId: string): boolean {
+    return !!showInUrlQueryCustomizations.value.find((customization) => customization.id === customizationId);
+  }
+
+  function updateQuery () {
+    if (!currentProduct.value) {
+      return;
+    }
+
+    const _showInUrlQueryData = showInUrlQueryData.value;
+
+    const isChanged = Object.keys(_showInUrlQueryData).some((key) => {
+      return _showInUrlQueryData[key] !== root.$route.query[key];
+    });
+
+    if (!isChanged) {
+      return;
+    }
+
+    root.$router.replace({ query: { ...root.$route.query, ..._showInUrlQueryData } });
+  }
+
   function updateCustomizationOptionValueFromQuery (): void {
+    const customizationStateItemsForUpdate: CustomizationStateItem[] = [];
+
     for (const customization of showInUrlQueryCustomizations.value) {
       if (!customization.optionData?.sku) {
         continue;
@@ -129,28 +155,29 @@ export function useSelectedOptionValueUrlQuery (
         continue;
       }
 
-      updateCustomizationOptionValue({
-        customizationId: customization.id,
-        value
+      customizationStateItemsForUpdate.push({
+        customization_id: customization.id,
+        value: value
       });
 
       if (typeof window !== 'undefined') {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       }
     }
+
+    if (customizationStateItemsForUpdate.length === 0) {
+      return;
+    }
+
+    mergeCustomizationState(customizationStateItemsForUpdate);
+    removeUnavailableOptionValues();
   }
 
   updateCustomizationOptionValueFromQuery();
 
   watch(
     queryString,
-    () => {
-      if (!currentProduct.value) {
-        return;
-      }
-
-      root.$router.push({ query: { ...root.$route.query, ...showInUrlQueryData.value } });
-    },
+    updateQuery,
     {
       immediate: true
     }
@@ -162,4 +189,8 @@ export function useSelectedOptionValueUrlQuery (
       updateCustomizationOptionValueFromQuery();
     }
   );
+
+  return {
+    unhandledCustomizationsFilter
+  }
 }

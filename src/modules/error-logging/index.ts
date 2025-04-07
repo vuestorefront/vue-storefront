@@ -7,13 +7,14 @@ import { afterRegistration } from './listeners/afterRegistration';
 import { module } from './store';
 import LOCAL_STORAGE_KEY from './type/LocalStorageKey';
 import { SET_TRACE_ID, SN_ERROR_LOGGING } from './type/StoreMutations';
+import { logAutocompleteOptionNotFound } from './helpers/log-autocomplete-option-not-found.function';
 
 export const ErrorLoggingModule: StorefrontModule = function ({ appConfig, store }) {
   store.registerModule(SN_ERROR_LOGGING, module);
 
   if (isServer) {
     AsyncDataLoader.push({
-      execute: async ({ context }: {context: any}) => {
+      execute: async ({ context }: { context: any }) => {
         const headers = context?.server?.request?.headers;
 
         if (!headers || !headers['x-amzn-trace-id']) {
@@ -30,4 +31,8 @@ export const ErrorLoggingModule: StorefrontModule = function ({ appConfig, store
   StorageManager.init(LOCAL_STORAGE_KEY);
 
   afterRegistration(appConfig)
+}
+
+export {
+  logAutocompleteOptionNotFound
 }

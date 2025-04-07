@@ -11,6 +11,7 @@ import { useCustomizationProductDescription } from './composables/use-customizat
 import { useCustomizationState } from './composables/use-customization-state';
 import { useCustomizationStatePreservation } from './composables/use-customization-state-preservation';
 import { useEmailCustomization } from './composables/use-email-customization';
+import { useEstimatedShipment } from './composables/use-estimated-shipment';
 import { useFilesUpload } from './composables/use-files-upload';
 import { useListWidget } from './composables/use-list-widget';
 import { useOptionValueActions } from './composables/use-option-value-actions';
@@ -23,6 +24,7 @@ import { getCartItemExtensionAttributes } from './helpers/get-cart-item-extensio
 import { getCustomizationSelectedValues } from './helpers/get-customization-selected-values';
 import { getCustomizationSystemCartItemThumbnail } from './helpers/get-customization-system-cart-item-thumbnail';
 import { getCustomizationValueIdFieldKey } from './helpers/get-customization-value-id-field-key';
+import { getSelectedOptionValuesByCustomizationState } from './helpers/get-selected-options-values-by-customization-state';
 import { isEmailCustomization } from './helpers/is-email-customization';
 import { requiredCustomizationsFilter } from './helpers/required-customizations-filter';
 import { updateCartItemProductionTimeCustomizationState } from './helpers/update-cart-item-production-time-customization-state';
@@ -30,6 +32,7 @@ import { updateProductProductionTimeCustomizationData } from './helpers/update-p
 
 import { Customization } from './types/customization.interface';
 import { CustomizationOptionValue } from './types/customization-option-value';
+import { EstimatedShipment } from './types/estimated-shipment.interface';
 import { ExtensionAttributes } from './types/extension-attributes.interface'
 import { CustomizationStateItem } from './types/customization-state-item.interface'
 import { FileUploadValue } from './types/file-upload-value';
@@ -37,6 +40,7 @@ import { isFileUploadValue } from './types/is-file-upload-value.typeguard';
 import { ListWidgetInputType } from './types/list-widget-input-type';
 import { OptionType } from './types/option-type';
 import { OptionValue } from './types/option-value.interface';
+import { PersistedData } from './types/persisted-data.interface';
 import { PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID } from './types/production-time-selector-standard-option-value-id';
 import { WidgetOptionShape } from './types/widget-option-shape.type';
 import { WidgetType } from './types/widget-type';
@@ -47,11 +51,13 @@ export {
   Customization,
   CustomizationOptionValue,
   CustomizationStateItem,
+  EstimatedShipment,
   ExtensionAttributes,
   FileUploadValue,
   ListWidgetInputType,
   OptionType,
   OptionValue,
+  PersistedData,
   PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID,
   WidgetOptionAlignment,
   WidgetOptions,
@@ -63,6 +69,7 @@ export {
   getCustomizationSelectedValues,
   getCustomizationSystemCartItemThumbnail,
   getCustomizationValueIdFieldKey,
+  getSelectedOptionValuesByCustomizationState,
   isEmailCustomization,
   isFileUploadValue,
   requiredCustomizationsFilter,
@@ -81,6 +88,7 @@ export {
   useCustomizationState,
   useCustomizationStatePreservation,
   useEmailCustomization,
+  useEstimatedShipment,
   useFilesUpload,
   useListWidget,
   useOptionValueActions,

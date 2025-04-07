@@ -3,8 +3,12 @@ services:
   app:
     extra_hosts:
       - "[api-host]:host-gateway"
-    environment:
-      - CERT_NAME=localdev
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
+    #environment:
+    #  - CERT_NAME=localdev
+    #  - NODE_TLS_REJECT_UNAUTHORIZED=0
     ports:
       - 9229:9229
+  tests:
+      extra_hosts:
+        - "[vsf-host]:host-gateway"
+        - "[api-host]:host-gateway"

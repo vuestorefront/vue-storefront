@@ -10,22 +10,34 @@
       "minifyJS": true,
       "minifyCSS": true
     },
-    "useOutputCacheTagging": false,
-    "useOutputCache": false,
-    "outputCacheDefaultTtl": 86400,
+    "useOutputCacheTagging": ${SSR_OUTPUT_CACHE_ENABLE},
+    "useOutputCache": ${SSR_OUTPUT_CACHE_ENABLE},
+    "outputCacheDefaultTtl": ${SSR_OUTPUT_CACHE_TTL},
     "availableCacheTags": [
       "attribute",
-      "C",
+      "category_",
       "category",
       "checkout",
       "compare",
       "error",
       "home",
       "my-account",
-      "P",
+      "product_",
       "page-not-found",
       "product",
-      "taxrule"
+      "taxrule",
+      "statistic_value",
+      "statistic_value_",
+      "storyblok",
+      "storyblok_",
+      "store_rating",
+      "settings",
+      "settings_",
+      "url_rewrite",
+      "url_rewrite_",
+      "rush_addons",
+      "rush_addons_",
+      "gift_card_templates"
     ],
     "invalidateCacheKey": "${CACHE_INVALIDATION_KEY}",
     "invalidateCacheForwarding": false,
@@ -87,7 +99,8 @@
     "endpoint": "https://${VSF_API_DOMAIN}/api/ext/vsf-storyblok-extension",
     "settings": {
       "addRoutes": true
-    }
+    },
+    "homeStorySlug": "${STORYBLOK_HOME_STORY_SLUG}"
   },
   "urlRewrite": {
     "endpoint": "https://${VSF_API_DOMAIN}/api/ext/url-rewrite"
@@ -105,7 +118,8 @@
     "url": "${PRIVACY_POLICY_URL}",
     "californiaPrivacyNoticeUrl": "${PRIVACY_POLICY_URL}#california-privacy-notice",
     "financialIncentiveNoticeUrl": "${PRIVACY_POLICY_URL}#financial-incentive",
-    "optOutUrl": "${PRIVACY_OPT_OUT_URL}"
+    "optOutUrl": "${PRIVACY_OPT_OUT_URL}",
+    "enablePolaris": ${ENABLE_POLARIS}
   },
   "initialResources": [
     {
@@ -142,7 +156,6 @@
     {
       "filters": [
         "filepond",
-        "vue-slick-carousel",
         "vue2-datepicker",
         "jquery",
         "vue-multiselect",
@@ -911,5 +924,8 @@
   ],
   "errorLogging": {
     "serviceUrl": "${ERROR_LOGGING_SERVICE_URL}"
+  },
+  "abTesting": {
+    "cookieKey": "exp_variant_string"
   }
 }

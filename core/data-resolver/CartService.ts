@@ -25,7 +25,6 @@ const getTotals = async (): Promise<Task> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'totals_endpoint')),
     payload: {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
     silent: true
@@ -78,8 +77,8 @@ const updateItem = async (cartServerToken: string, cartItem: CartItem): Promise<
       body: JSON.stringify({
         cartItem: {
           ...cartItem,
-          quoteId: cartItem.quoteId || cartServerToken,
-        },
+          quoteId: cartItem.quoteId || cartServerToken
+        }
       })
     }
   });
@@ -106,7 +105,6 @@ const getPaymentMethods = async (): Promise<Task> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'paymentmethods_endpoint')),
     payload: {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
     silent: true
@@ -131,7 +129,6 @@ const getItems = async (): Promise<Task> =>
     url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'pull_endpoint')),
     payload: {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
     silent: true

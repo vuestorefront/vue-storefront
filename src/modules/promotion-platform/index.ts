@@ -5,11 +5,12 @@ import { CART_ADD_ITEM } from '@vue-storefront/core/modules/cart/store/mutation-
 
 import { cacheHandlerFactory } from './helpers/cacheHandler.factory';
 import initEventBusListeners from './helpers/initEventBusListeners';
+import { isCampaignEmpty } from './helpers/is-campaign-empty.function';
 import { getItemsFromStorage } from './helpers/get-local-storage-items.function';
+import { mouseEventHandlerFactory } from './helpers/mouse-event-handler.factory';
 import { module } from './store';
 import { CLEAR_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, SN_PROMOTION_PLATFORM } from './types/StoreMutations';
 import isCustomProduct from '../shared/helpers/is-custom-product.function';
-import onWindowMouseLeaveEventHandler from './helpers/on-window-mouseleave-event-handler.function';
 import { CAMPAIGN_CONTENT_CHANGED } from './types/campaign-content-changed.event';
 import CampaignsGetAPIResponse from './types/CampaignsGetAPIResponse';
 import { USER_LEAVING_WEBSITE } from './types/user-leaving-website.event';
@@ -50,7 +51,7 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
         }
       );
 
-      if (!response.campaignContent.isEmpty) {
+      if (!isCampaignEmpty(response.campaignContent)) {
         return;
       }
 
@@ -91,7 +92,10 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
 
     store.subscribe(localStorageSynchronization.setItems);
 
-    document.body.addEventListener('mouseleave', onWindowMouseLeaveEventHandler);
+    const { mouseEnterHandler, mouseLeaveHandler } = mouseEventHandlerFactory();
+
+    document.body.addEventListener('mouseleave', mouseLeaveHandler);
+    document.body.addEventListener('mouseenter', mouseEnterHandler);
   }
 }
 

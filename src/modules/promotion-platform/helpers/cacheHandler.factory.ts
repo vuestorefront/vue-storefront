@@ -53,7 +53,7 @@ export function cacheHandlerFactory () {
       }
 
       return promotionPlatformStorage
-        .setItem(CAMPAIGN_CONTENT, value.toPlainObject())
+        .setItem(CAMPAIGN_CONTENT, value)
         .catch((reason) => {
           Logger.error(reason)()
         })

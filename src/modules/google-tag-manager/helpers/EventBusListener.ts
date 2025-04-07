@@ -10,7 +10,7 @@ import { SearchQuery } from 'storefront-query-builder';
 import getCookieByName from 'src/modules/shared/helpers/get-cookie-by-name.function';
 import CartEvents from 'src/modules/shared/types/cart-events';
 import { PlushieWizardEvents } from 'src/modules/budsies';
-import { PriceHelper, ProductEvent } from 'src/modules/shared';
+import { CustomerDataChangedEventPayload, PriceHelper, ProductEvent, UserEvents } from 'src/modules/shared';
 
 import CartItem from 'core/modules/cart/types/CartItem';
 import { GET_PRODUCT_PRICE } from '@vue-storefront/core/modules/catalog';
@@ -24,6 +24,7 @@ import { prepareProductItemData } from './prepare-product-item-data.function';
 import { DEFAULT_CURRENCY } from '../types/default-currency';
 import GoogleTagManagerEvents from '../types/GoogleTagManagerEvents';
 import { trackEcommerceEventFactory } from './track-ecommerce-event.factory';
+import { A_B_TEST_GROUP_CHANGED } from 'src/modules/a-b-testing';
 
 const shareasaleSSCIDCookieName = 'shareasaleMagentoSSCID';
 
@@ -100,7 +101,7 @@ export default class EventBusListener {
 
     EventBus.$on(
       CartEvents.CART_VIEWED,
-      ({ products, platformTotals }: {products: CartItem[], platformTotals: any}) => {
+      ({ products, platformTotals }: { products: CartItem[], platformTotals: any }) => {
         this.trackEcommerceEvent({
           event: GoogleTagManagerEvents.VIEW_CART,
           ecommerce: {
@@ -151,7 +152,21 @@ export default class EventBusListener {
     EventBus.$on(
       ORDER_ERROR_EVENT,
       this.onOrderErrorEventHandler.bind(this)
-    )
+    );
+
+    EventBus.$on(
+      UserEvents.CUSTOMER_DATA_CHANGED,
+      (customerData: CustomerDataChangedEventPayload) => {
+        this.gtm.trackEvent(customerData);
+      }
+    );
+
+    EventBus.$on(A_B_TEST_GROUP_CHANGED, (testGroupId: string) => {
+      this.gtm.trackEvent({
+        event: GoogleTagManagerEvents.A_B_TEST_GROUP_CHANGED,
+        exp_variant_string: testGroupId
+      });
+    });
 
     cartHooks.afterAddToCart(this.onAfterAddToCartHookHandler.bind(this));
     cartHooks.afterRemoveFromCart(this.onAfterRemoveFromCartHookHandler.bind(this));
@@ -339,7 +354,7 @@ export default class EventBusListener {
     });
   }
 
-  private onPlushieWizardTypeChangeEventHandler ({ plushieType, productType }: {plushieType: string, productType: string}) {
+  private onPlushieWizardTypeChangeEventHandler ({ plushieType, productType }: { plushieType: string, productType: string }) {
     const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_TYPE_CHANGE}`;
 
     this.gtm.trackEvent({
@@ -356,7 +371,7 @@ export default class EventBusListener {
     })
   }
 
-  private async onOrderAfterPlacedEventHandler ({ order, confirmation }: {order: Order, confirmation?: any}) {
+  private async onOrderAfterPlacedEventHandler ({ order, confirmation }: { order: Order, confirmation?: any }) {
     if (!confirmation) {
       return;
     }

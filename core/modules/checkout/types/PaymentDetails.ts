@@ -10,7 +10,7 @@ export default interface PaymentDetails {
   state: string,
   zipCode: string,
   phoneNumber: string,
-  taxId: string,
+  vat_id: string,
   paymentMethod: string,
   paymentMethodAdditional: any
 }

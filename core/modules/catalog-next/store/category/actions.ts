@@ -10,7 +10,7 @@ import { localizedDispatcherRoute } from '@vue-storefront/core/lib/multistore'
 import FilterVariant from '../../types/FilterVariant'
 import { CategoryService } from '@vue-storefront/core/data-resolver'
 import { changeFilterQuery } from '../../helpers/filterHelpers'
-import { products, entities } from 'config'
+import config, { products, entities } from 'config'
 import { DataResolver } from 'core/data-resolver/types/DataResolver';
 import { Category } from '../../types/Category';
 import { _prepareCategoryPathIds } from '../../helpers/categoryHelpers';
@@ -18,7 +18,7 @@ import { prefetchStockItems } from '../../helpers/cacheProductsHelper';
 import chunk from 'lodash-es/chunk'
 import omit from 'lodash-es/omit'
 import cloneDeep from 'lodash-es/cloneDeep'
-import config from 'config'
+
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
 import createCategoryListQuery from '@vue-storefront/core/modules/catalog/helpers/createCategoryListQuery'
 import { transformCategoryUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
@@ -43,7 +43,6 @@ const actions: ActionTree<CategoryState, RootState> = {
       size: pageSize,
       configuration: searchQuery.filters,
       options: {
-        populateRequestCacheTags: true,
         prefetchGroupProducts: false,
         setProductErrors: false,
         fallbackToDefaultWhenNoAvailable: true,
@@ -78,7 +77,6 @@ const actions: ActionTree<CategoryState, RootState> = {
       excludeFields: entities.productList.excludeFields,
       configuration: searchQuery.filters,
       options: {
-        populateRequestCacheTags: true,
         prefetchGroupProducts: false,
         setProductErrors: false,
         fallbackToDefaultWhenNoAvailable: true,
@@ -109,7 +107,6 @@ const actions: ActionTree<CategoryState, RootState> = {
       query: filterQr,
       sort: searchQuery.sort,
       options: {
-        populateRequestCacheTags: false,
         prefetchGroupProducts: false
       }
     }, { root: true })
@@ -139,11 +136,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     if (!searchingByIds || categorySearchOptions.filters.id.length) {
       categorySearchOptions.filters = Object.assign(cloneDeep(config.entities.category.filterFields), categorySearchOptions.filters ? cloneDeep(categorySearchOptions.filters) : {})
       const categories = await CategoryService.getCategories(categorySearchOptions)
-      if (Vue.prototype.$cacheTags) {
-        categories.forEach(category => {
-          Vue.prototype.$cacheTags.add(`C${category.id}`)
-        })
-      }
+
       const notFoundCategories = searchedIds.filter(categoryId => !categories.some(cat => cat.id === parseInt(categoryId) || cat.id === categoryId))
 
       commit(types.CATEGORY_ADD_CATEGORIES, categories)
@@ -155,9 +148,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   async loadCategory ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category> {
     const categories: Category[] = await CategoryService.getCategories(categorySearchOptions)
     const category: Category = categories && categories.length ? categories[0] : null
-    if (Vue.prototype.$cacheTags && category) {
-      Vue.prototype.$cacheTags.add(`C${category.id}`)
-    }
+
     commit(types.CATEGORY_ADD_CATEGORY, category)
     return category
   },
@@ -263,7 +254,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       }
     }
   },
-  async fetchPageProducts({ commit, dispatch, getters }, { page, pageSize, route }: { page: number, pageSize: number, route: Route }) {
+  async fetchPageProducts ({ commit, dispatch, getters }, { page, pageSize, route }: { page: number, pageSize: number, route: Route }) {
     const start = (page - 1) * pageSize;
     const categoryProductsTotal = getters['getCategoryProductsTotal'];
 

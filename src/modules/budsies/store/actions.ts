@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import RootState from '@vue-storefront/core/types/RootState'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { processURLAddress } from '@vue-storefront/core/helpers'
@@ -119,25 +120,53 @@ export const actions: ActionTree<BudsiesState, RootState> = {
 
     commit('setPrintedProductAddons', { key: productId, addons: addons });
   },
-  async loadProductRushAddons (
-    { commit, state },
-    { productId }
+  async loadProductsRushAddons (
+    { commit, state, getters },
+    { productSku }: { productSku: string }
   ): Promise<void> {
-    const url = processURLAddress(`${config.budsies.endpoint}/plushies/rush-upgrades`);
+    if (Vue.prototype.$cacheTags) {
+      Vue.prototype.$cacheTags.add(`rush_addons`);
+      Vue.prototype.$cacheTags.add(`rush_addons_${productSku}`);
+    }
 
-    const result = await TaskQueue.execute({
-      url: `${url}?productId=${productId}`,
-      payload: {
-        headers: { 'Accept': 'application/json' },
-        mode: 'cors',
-        method: 'GET'
-      },
-      silent: true
+    if (state.isRushAddonsLoaded) {
+      return;
+    }
+
+    const existingPromise = getters['extraPhotoAddonsLoadingPromise'];
+
+    if (existingPromise) {
+      return existingPromise;
+    }
+
+    const loadingPromise = new Promise<void>(async (resolve) => {
+      const url = processURLAddress(`${config.budsies.endpoint}/plushies/products-rush-upgrades`);
+
+      const result = await TaskQueue.execute({
+        url: `${url}`,
+        payload: {
+          headers: { 'Accept': 'application/json' },
+          mode: 'cors',
+          method: 'GET'
+        },
+        silent: true
+      });
+
+      for (const productId in result.result) {
+        const addons = parse<RushAddon, RushAddonApiResponse>(result.result[productId], rushAddonFactory, isRushAddonApiResponse);
+
+        commit('setProductRushAddons', { key: productId, addons });
+      }
+
+      commit(types.SET_RUSH_ADDONS_LOADING_PROMISE, undefined);
+      commit(types.SET_IS_RUSH_ADDONS_LOADED);
+
+      resolve();
     });
 
-    const addons = parse<RushAddon, RushAddonApiResponse>(result.result, rushAddonFactory, isRushAddonApiResponse);
+    commit(types.SET_RUSH_ADDONS_LOADING_PROMISE, loadingPromise);
 
-    commit('setProductRushAddons', { key: productId, addons });
+    return loadingPromise;
   },
   // TODO: used in Bulkorders theme on Bulk Request page
   async loadProductBodyparts (
@@ -239,7 +268,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
     return TaskQueue.execute({
       url: `${url}/${plushieId}`,
       payload: {
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        headers: { 'Accept': 'application/json' },
         mode: 'cors',
         method: 'GET'
       },
@@ -296,7 +325,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
   },
   async createMailingListSubscription (
     store,
-    payload: {email: string, listId: string}
+    payload: { email: string, listId: string }
   ): Promise<Task> {
     const url = processURLAddress(`${config.budsies.endpoint}/mailing-list-subscriptions?token={{token}}`);
 
@@ -501,6 +530,10 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       useCache: boolean
     }
   ): Promise<StoreRating> {
+    if (Vue.prototype.$cacheTags) {
+      Vue.prototype.$cacheTags.add(`store_rating`);
+    }
+
     const storeRating = getters['getStoreRating'];
 
     if (useCache && storeRating) {
@@ -539,6 +572,11 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       useCache: boolean
     }
   ): Promise<Pick<StatisticValue, 'value'>> {
+    if (Vue.prototype.$cacheTags) {
+      Vue.prototype.$cacheTags.add(`statistic_value`);
+      Vue.prototype.$cacheTags.add(`statistic_value_${metric}`);
+    }
+
     const cachedMetric: Pick<StatisticValue, 'value'> = getters.getStatisticValueByMetric(metric);
 
     if (useCache && cachedMetric) {

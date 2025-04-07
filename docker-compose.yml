@@ -1,9 +1,14 @@
 version: '2.0'
 services:
+  redis:
+    image: 'redis:4-alpine'
+
   app:
     build:
       context: .
       dockerfile: docker/vue-storefront/Dockerfile
+    depends_on:
+      - redis
     environment:
       - VS_ENV
       - APPVERSION
@@ -17,6 +22,8 @@ services:
       - NODEJS_INSTANCE_MAX_OLD_SPACE
 
       - SSR_USE_HTML_MINIFIER
+      - SSR_OUTPUT_CACHE_ENABLE
+      - SSR_OUTPUT_CACHE_TTL
 
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -30,10 +37,12 @@ services:
       - STORE_THEME
       - PRIVACY_POLICY_URL
       - PRIVACY_OPT_OUT_URL
+      - ENABLE_POLARIS
       - PETSIES_STORE_DOMAIN
       - BUDSIES_STORE_DOMAIN
       - BULKORDERS_STORE_DOMAIN
       - WAGGABLES_STORE_DOMAIN
+      - STORYBLOK_HOME_STORY_SLUG
 
       - VSF_API_DOMAIN
       - MAGENTO_DOMAIN
@@ -41,13 +50,13 @@ services:
       - FILEUPLOADER_UPLOAD_URL
       - IMAGE_HANDLER_SERVICE_URL
       - ERROR_LOGGING_SERVICE_URL
-      
+
       - GTM_ID
       - GOOGLE_ANALYTICS_TRACKING_ID
-      
+
       - AFFIRM_PUBLIC_KEY
       - AFFIRM_CDN
-      
+
       - AMAZONPAY_SANDBOX
       - AMAZONPAY_SELLER_ID
       - AMAZONPAY_CLIENT_ID
@@ -82,7 +91,25 @@ services:
     expose:
       - 3000
 
-volumes: 
+  tests:
+      image: mcr.microsoft.com/playwright:v1.50.1-noble
+      environment:
+        - DEFAULT_STORE_DOMAIN
+      volumes:
+        - .:/var/www
+      working_dir: "/var/www"
+      command:
+        [
+           "/bin/sh",
+           "-c",
+           "echo Container started\n trap \"exit 0\" 15\n \n \"$@\" & \n while sleep 1 & wait $!; do :; done",
+           "-",
+           "/bin/sh",
+           "-c",
+           "cd /var/www/src/themes/petsies-capybara/e2e-tests && yarn"
+        ]
+
+volumes:
   cache:
   dist:
 

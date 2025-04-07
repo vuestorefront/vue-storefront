@@ -235,9 +235,9 @@ const actions = {
       }
     }
   },
-  async preConfigureProduct (context, { product, populateRequestCacheTags, configuration }) {
+  async preConfigureProduct (context, { product, configuration }) {
     Logger.warn('`product/preConfigureProduct` deprecated, will be not used from 1.12')()
-    let _product = preConfigureProduct({ product, populateRequestCacheTags })
+    let _product = preConfigureProduct({ product })
 
     if (configuration) {
       const selectedVariant = await context.dispatch('getProductVariant', { product: _product, configuration })
@@ -246,14 +246,13 @@ const actions = {
 
     return _product
   },
-  async configureLoadedProducts (context, { products, isCacheable, cacheByKey, populateRequestCacheTags, configuration }) {
+  async configureLoadedProducts (context, { products, isCacheable, cacheByKey, configuration }) {
     Logger.warn('`product/configureLoadedProducts` deprecated, will be not used from 1.12')()
     const configuredProducts = await context.dispatch(
       'category-next/configureProducts',
       {
         products: products.items,
-        filters: configuration || {},
-        populateRequestCacheTags
+        filters: configuration || {}
       },
       { root: true }
     )

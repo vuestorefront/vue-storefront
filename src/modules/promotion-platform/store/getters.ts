@@ -1,5 +1,5 @@
 import { GetterTree } from 'vuex';
-import CampaignContent from '../types/CampaignContent.model';
+import { CampaignContent } from '../types/CampaignContent.interface';
 
 import PromotionPlatformState from '../types/PromotionPlatformState';
 
@@ -14,11 +14,11 @@ export const getters: GetterTree<PromotionPlatformState, any> = {
     return (product) => {
       const campaignContent = state.campaignContent;
 
-      if (!campaignContent || !campaignContent.productDiscountPriceDictionary) {
+      if (!campaignContent || !campaignContent.discounts) {
         return;
       }
 
-      const discountPrice = campaignContent.productDiscountPriceDictionary[product.id];
+      const discountPrice = campaignContent.discounts[product.id];
 
       if (!discountPrice) {
         return;

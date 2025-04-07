@@ -42,6 +42,11 @@ Which Vue Storefront should I choose for my next project?
 
 Check our Rodmap -> link do  [https://github.com/vuestorefront/vue-storefront#roadmap](https://github.com/vuestorefront/vue-storefront#roadmap)
 
+## Tests
+
+docker compose exec tests ./run-tests.sh
+
+
 ## About Vue Storefront Next
 
 We're developing a next version of Vue Storefront on the  [`next`  branch](https://github.com/vuestorefront/vue-storefront/tree/next).

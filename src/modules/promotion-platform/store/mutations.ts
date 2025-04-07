@@ -3,7 +3,7 @@ import { MutationTree } from 'vuex';
 
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
-import CampaignContent from '../types/CampaignContent.model';
+import { CampaignContent } from '../types/CampaignContent.interface';
 import PromotionPlatformState from '../types/PromotionPlatformState';
 import * as types from '../types/StoreMutations';
 import { CAMPAIGN_CONTENT_CHANGED } from '../types/campaign-content-changed.event';

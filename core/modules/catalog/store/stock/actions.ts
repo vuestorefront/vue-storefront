@@ -14,7 +14,7 @@ const actions: ActionTree<StockState, RootState> = {
       status: getStatus(product, 'ok')
     }
 
-    if (config.stock.synchronize) {
+    if (config.stock.synchronize && product.stock && product.stock.manage_stock) {
       const task = await StockService.queueCheck(product.sku, 'cart/stockSync')
 
       // @ts-ignore
@@ -40,7 +40,7 @@ const actions: ActionTree<StockState, RootState> = {
         status: getStatus(result, 'ok'),
         isManageStock: result.manage_stock,
         onlineCheckTaskId: task_id,
-        isInStock: result.is_in_stock,
+        isInStock: result.is_in_stock
       }
     }
 

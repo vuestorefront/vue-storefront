@@ -11,8 +11,8 @@ const config = require('config')
 const minify = require('html-minifier').minify
 
 function createRenderer (bundle, clientManifest, template?) {
-  let shouldPreload = () => {}
-  let shouldPrefetch = () => {}
+  let shouldPreload = () => { }
+  let shouldPrefetch = () => { }
   try {
     const scripts = require('../../modules/initial-resources/serverResourcesFilter')
     shouldPreload = scripts.shouldPreload
@@ -115,7 +115,8 @@ function initSSRRequestContext (app, req, res, config): Context {
       filter: (output, context) => { return output },
       appendHead: (context) => { return ''; },
       template: 'default',
-      cacheTags: new Set()
+      cacheTags: new Set(),
+      redirect: null
     },
     server: {
       app: app,
@@ -127,20 +128,7 @@ function initSSRRequestContext (app, req, res, config): Context {
       config: config,
       storeCode: typeof req.header === 'function' ? (req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE) : process.env.STORE_CODE
     },
-    polaris: () => {
-      const options = config.analytics.id
-        ? `<script>
-            window.polarisOptions = {
-              GoogleAnalyticsTrackingId: "${config.analytics.id}"
-            };
-        </script>`
-        : '';
-
-      return `
-        ${options}
-        <script src="https://polaris.truevaultcdn.com/static/polaris.js" defer></script>
-      `
-    }
+    extendedHead: null
   };
 }
 
@@ -148,6 +136,7 @@ function clearContext (context) {
   Object.keys(context.server).forEach(key => delete context.server[key])
   delete context.output['cacheTags']
   delete context['meta']
+  delete context.output['redirect']
 }
 
 export {

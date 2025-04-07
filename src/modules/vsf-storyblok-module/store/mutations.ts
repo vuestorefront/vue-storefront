@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import { MutationTree } from 'vuex'
 import { StoryblokState } from '../types/State'
 
@@ -7,7 +8,7 @@ export const mutations: MutationTree<StoryblokState> = {
   },
   loadingStory (
     state: StoryblokState,
-    { key, loadingPromise }: {key: string, loadingPromise: Promise<Record<string, any>>}
+    { key, loadingPromise }: { key: string, loadingPromise: Promise<Record<string, any>> }
   ) {
     state.stories = {
       ...state.stories,
@@ -17,6 +18,9 @@ export const mutations: MutationTree<StoryblokState> = {
         loadingPromise
       }
     }
+  },
+  removeStory (state: StoryblokState, key: string) {
+    Vue.delete(state.stories, key)
   },
   setStory (state: StoryblokState, { key, story }) {
     state.stories = {

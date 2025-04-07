@@ -47,11 +47,23 @@ export const BudsiesModule: StorefrontModule = async function ({ store }) {
   store.registerModule('budsies', budsiesStore);
 
   if (!isServer) {
-    EventBus.$on(BEFORE_STORE_BACKEND_API_REQUEST, (payload: any) => {
+    EventBus.$on(BEFORE_STORE_BACKEND_API_REQUEST, (payload: { url: string }) => {
+      const urlParts = payload.url.split('?');
+      const existingQueryString = urlParts[1] || '';
+      const searchParams = new URLSearchParams(existingQueryString);
+
       const { instanceId, appVersion } = debugData.getDebugData();
 
-      payload.headers['x-instance-id'] = instanceId;
-      payload.headers['x-app-version'] = appVersion;
+      if (instanceId) {
+        searchParams.set('x-instance-id', instanceId);
+      }
+
+      if (appVersion) {
+        searchParams.set('x-app-version', appVersion);
+      }
+
+      const newQueryString = searchParams.toString();
+      payload.url = urlParts[0] + '?' + newQueryString;
     });
 
     EventBus.$on('cart-prepare-item-product', fillProductWithAdditionalFields);

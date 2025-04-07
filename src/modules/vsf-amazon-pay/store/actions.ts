@@ -72,7 +72,13 @@ export const actions: ActionTree<AmazonPayState, any> = {
       }
     };
 
-    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, payload);
+    const eventPayload = {
+      url
+    };
+
+    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+    url = eventPayload.url;
 
     return new Promise((resolve, reject) => {
       fetch(url, payload).then(resp => {
@@ -100,7 +106,13 @@ export const actions: ActionTree<AmazonPayState, any> = {
       body: JSON.stringify({ orderReferenceAttributes })
     };
 
-    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, payload);
+    const eventPayload = {
+      url
+    };
+
+    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+    url = eventPayload.url;
 
     return new Promise((resolve, reject) => {
       fetch(url, payload).then(resp => {
@@ -152,7 +164,13 @@ export const actions: ActionTree<AmazonPayState, any> = {
       }
     };
 
-    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, payload);
+    const eventPayload = {
+      url
+    };
+
+    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+    url = eventPayload.url;
 
     return new Promise((resolve, reject) => {
       fetch(url, payload).then(resp => {
@@ -194,7 +212,13 @@ export const actions: ActionTree<AmazonPayState, any> = {
       })
     };
 
-    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, payload);
+    const eventPayload = {
+      url
+    };
+
+    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+    url = eventPayload.url;
 
     return new Promise((resolve, reject) => {
       fetch(url, payload).then(resp => {
@@ -220,7 +244,13 @@ export const actions: ActionTree<AmazonPayState, any> = {
       }
     };
 
-    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, payload);
+    const eventPayload = {
+      url
+    };
+
+    EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+    url = eventPayload.url;
 
     return new Promise((resolve, reject) => {
       fetch(url, payload).then(resp => {

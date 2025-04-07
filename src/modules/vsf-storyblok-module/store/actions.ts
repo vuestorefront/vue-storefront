@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import StoryblokClient from 'storyblok-js-client'
 
 import { StoryblokState } from '../types/State'
@@ -14,7 +15,7 @@ const fetchStory = async url => {
   const { result: story }: any = await TaskQueue.execute({
     url,
     payload: {
-      headers: { 'Content-Type': 'application/json' },
+      method: 'GET',
       mode: 'cors'
     },
     silent: true
@@ -43,7 +44,7 @@ export const actions: ActionTree<StoryblokState, RootState> = {
     const { result: { previewToken } }: any = await TaskQueue.execute({
       url,
       payload: {
-        headers: { 'Content-Type': 'application/json' },
+        method: 'GET',
         mode: 'cors'
       },
       silent: true
@@ -56,6 +57,10 @@ export const actions: ActionTree<StoryblokState, RootState> = {
     if (state.stories[id]?.loading) {
       // Already fetching this story
       return state.stories[id].loadingPromise;
+    }
+
+    if (Vue.prototype.$cacheTags) {
+      Vue.prototype.$cacheTags.add(`no-cache`);
     }
 
     const loadingPromise = (this['$storyblokClient'] as StoryblokClient).get(`cdn/stories/${id}`, {
@@ -79,10 +84,29 @@ export const actions: ActionTree<StoryblokState, RootState> = {
 
     return loadingPromise;
   },
+  async checkStoryExist (context, { fullSlug: key }): Promise<boolean> {
+    const url = processURLAddress(`${config.storyblok.endpoint}/check-exist/${key}`.replace(/([^:]\/)\/+/g, '$1'))
+
+    const { result }: any = await TaskQueue.execute({
+      url,
+      payload: {
+        method: 'GET',
+        mode: 'cors'
+      },
+      silent: true
+    });
+
+    return result.exist;
+  },
   async loadStory ({ commit, state }, { fullSlug: key }) {
     if (state.stories[key]?.loading) {
       // Already fetching this story
       return state.stories[key].loadingPromise;
+    }
+
+    if (Vue.prototype.$cacheTags) {
+      Vue.prototype.$cacheTags.add(`storyblok`);
+      Vue.prototype.$cacheTags.add(`storyblok_${key}`);
     }
 
     const cachedStory = state.stories[key]?.story
@@ -96,7 +120,10 @@ export const actions: ActionTree<StoryblokState, RootState> = {
       commit('setStory', { key, story });
 
       return story
-    })
+    }).catch((error) => {
+      commit('removeStory', key);
+      throw new Error(`Could not load story ${key}: ${error}`)
+    });
 
     commit('loadingStory', { key, loadingPromise })
 

@@ -15,8 +15,7 @@ import {
   doPlatformPricesSync,
   setCustomProductOptionsAsync,
   setBundleProductOptionsAsync,
-  getProductGallery,
-  setRequestCacheTags
+  getProductGallery
 } from '@vue-storefront/core/modules/catalog/helpers'
 import { getProductConfigurationOptions } from '@vue-storefront/core/modules/catalog/helpers/productOptions'
 import { checkParentRedirection } from '@vue-storefront/core/modules/catalog/events'
@@ -56,7 +55,6 @@ const actions: ActionTree<ProductState, RootState> = {
     excludeFields = null,
     includeFields = null,
     configuration = null,
-    populateRequestCacheTags = true,
     updateState = false,
     append = false
   } = {}) {
@@ -70,7 +68,6 @@ const actions: ActionTree<ProductState, RootState> = {
       includeFields,
       configuration,
       options: {
-        populateRequestCacheTags,
         prefetchGroupProducts
       }
     })
@@ -93,9 +90,7 @@ const actions: ActionTree<ProductState, RootState> = {
     excludeFields = null,
     includeFields = null,
     configuration = null,
-    populateRequestCacheTags = false,
     options: {
-      populateRequestCacheTags: populateRequestCacheTagsNew = false,
       prefetchGroupProducts = !isServer,
       setProductErrors = false,
       fallbackToDefaultWhenNoAvailable = true,
@@ -125,14 +120,6 @@ const actions: ActionTree<ProductState, RootState> = {
     })
 
     registerProductsMapping(context, items)
-
-    if (populateRequestCacheTags) {
-      Logger.warn('deprecated from 1.13, use "options.populateRequestCacheTags" instead')()
-    }
-
-    if (populateRequestCacheTags || populateRequestCacheTagsNew) {
-      setRequestCacheTags({ products: items })
-    }
 
     await context.dispatch('tax/calculateTaxes', { products: items }, { root: true })
 
@@ -244,8 +231,6 @@ const actions: ActionTree<ProductState, RootState> = {
     if (!product) {
       return;
     }
-
-    setRequestCacheTags({ products: [product] })
 
     if (setCurrent) {
       await dispatch('setCurrent', product)

@@ -124,6 +124,10 @@
     "code": "BR"
   },
   {
+    "name": "Bonaire, Sint Eustatius, and Saba",
+    "code": "BQ"
+  },
+  {
     "name": "British Indian Ocean Territory",
     "code": "IO"
   },
@@ -222,6 +226,10 @@
   {
     "name": "Cuba",
     "code": "CU"
+  },
+  {
+    "name": "Curaçao",
+    "code": "CW"
   },
   {
     "name": "Cyprus",
@@ -454,6 +462,10 @@
   {
     "name": "Kiribati",
     "code": "KI"
+  },
+  {
+    "name": "Kosovo",
+    "code": "XK"
   },
   {
     "name": "Kuwait",
@@ -782,6 +794,10 @@
   {
     "name": "Singapore",
     "code": "SG"
+  },
+  {
+    "name": "Sint Maarten",
+    "code": "SX"
   },
   {
     "name": "Slovakia",

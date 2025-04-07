@@ -32,19 +32,7 @@ const connectActions = {
   async disconnect ({ commit }) {
     commit(types.CART_LOAD_CART_SERVER_TOKEN, null);
   },
-  async authorize ({ dispatch, getters }) {
-    const coupon = getters.getCoupon.code
-    if (coupon) {
-      await dispatch('removeCoupon', { sync: false })
-    }
-
-    await dispatch('connect', { guestCart: false })
-
-    if (coupon) {
-      await dispatch('applyCoupon', coupon)
-    }
-  },
-  async mergeGuestAndCustomer({ commit, dispatch, getters }): Promise<void> {
+  async mergeGuestAndCustomer ({ commit, dispatch, getters }): Promise<void> {
     const cartToken = getters.getCartToken;
     const isCartEmpty = !getters.getCartItems.length;
     const shouldMergeCart = cartToken && !isCartEmpty;
@@ -53,7 +41,7 @@ const connectActions = {
       return dispatch('synchronizeCart');
     }
 
-    const {result, resultCode} = await CartService.mergeGuestAndCustomer();
+    const { result, resultCode } = await CartService.mergeGuestAndCustomer();
 
     if (resultCode === 200) {
       Logger.info('Customer and guest carts are merged.', 'cart', result)();
@@ -71,7 +59,7 @@ const connectActions = {
       Logger.info('Server cart token created.', 'cart', result)();
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result);
 
-      EventBus.$emit('cart-connected', {cartId: result, userToken});
+      EventBus.$emit('cart-connected', { cartId: result, userToken });
       return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault });
     }
 

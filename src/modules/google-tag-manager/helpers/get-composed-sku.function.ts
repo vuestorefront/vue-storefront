@@ -1,14 +1,32 @@
-import { getBundleOptionsValues, getSelectedBundleOptions } from '@vue-storefront/core/modules/catalog/helpers/bundleOptions';
-import Product from 'core/modules/catalog/types/Product';
+import CartItem from 'core/modules/cart/types/CartItem';
+import { getSelectedOptionValuesByCustomizationState } from 'src/modules/customization-system';
 
-export function getComposedSku (product: Product) {
-  const selectedBundleOptions = getSelectedBundleOptions(product);
-  const selectedBundleOptionsValues = getBundleOptionsValues(selectedBundleOptions, product.bundle_options || []);
+export function getComposedSku (cartItem: CartItem) {
+  const customizationsWithBundleOptionId = (cartItem.customizations || [])
+    .filter((customization) => {
+      return !!customization.bundleOptionId;
+    });
 
-  let sku = product.sku;
+  let sku = cartItem.sku;
 
-  for (const value of selectedBundleOptionsValues) {
-    sku += `-${value.sku}`;
+  const selectedOptionValues = getSelectedOptionValuesByCustomizationState(
+    cartItem.extension_attributes?.customization_state,
+    customizationsWithBundleOptionId
+  );
+  const optionValuesSkus: string[] = [];
+
+  for (const optionValue of selectedOptionValues) {
+    if (!optionValue.sku) {
+      continue;
+    }
+
+    optionValuesSkus.push(optionValue.sku);
+  }
+
+  optionValuesSkus.sort();
+
+  for (const value of optionValuesSkus) {
+    sku += `-${value}`;
   }
 
   return sku;

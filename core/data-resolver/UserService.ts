@@ -74,7 +74,9 @@ const getProfile = async () =>
     payload: {
       method: 'GET',
       mode: 'cors',
-      headers
+      headers: {
+        'Accept': 'application/json, text/plain, */*'
+      }
     }
   })
 
@@ -86,7 +88,9 @@ const getOrdersHistory = async (pageSize = 20, currentPage = 1): Promise<Task> =
     payload: {
       method: 'GET',
       mode: 'cors',
-      headers
+      headers: {
+        'Accept': 'application/json, text/plain, */*'
+      }
     }
   })
 
@@ -102,6 +106,9 @@ const changePassword = async (passwordData: DataResolver.PasswordData): Promise<
   })
 
 const refreshToken = async (refreshToken: string): Promise<string> => {
+  let url = processLocalizedURLAddress(
+    getApiEndpointUrl(config.users, 'refresh_endpoint')
+  );
   const mode: RequestMode = 'cors';
   const payload = {
     method: 'POST',
@@ -110,11 +117,18 @@ const refreshToken = async (refreshToken: string): Promise<string> => {
     body: JSON.stringify({ refreshToken })
   };
 
-  EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, payload);
-  return fetch(processLocalizedURLAddress(
-    getApiEndpointUrl(config.users, 'refresh_endpoint')),
+  const eventPayload = {
+    url
+  };
+
+  EventBus.$emit(BEFORE_STORE_BACKEND_API_REQUEST, eventPayload);
+
+  url = eventPayload.url;
+
+  return fetch(
+    url,
     payload
-    ).then(resp => resp.json())
+  ).then(resp => resp.json())
     .then(resp => {
       return resp.code === 200 ? resp.result : null
     });

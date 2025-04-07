@@ -364,3 +364,5 @@ export function productJsonLd ({ category, image, name, id, sku, mpn, descriptio
     }
   }
 }
+
+export { extractCookieValue } from './extract-cookie-value.function';

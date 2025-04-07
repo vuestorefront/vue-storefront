@@ -46,7 +46,7 @@ export default {
       return this.isExternal;
     },
     url () {
-      return getUrlFromLink(this.link, this.storeCodeFromHeader);
+      return getUrlFromLink(this.link, this.$ssrContext, this.storeCodeFromHeader);
     }
   }
 }

@@ -39,6 +39,7 @@ export function useCustomizationsPrice (
     const productBySkuDictionary = root.$store.getters['product/getProductBySkuDictionary'];
     const productPriceDictionary = root.$store.getters[PRODUCT_PRICE_DICTIONARY];
     const selectedOptionValuesPrices: PriceHelper.ProductPrice[] = [];
+    const _customizationOptionValuesLowestPrice = customizationOptionValuesLowestPrice.value;
 
     customizations.value.forEach((customization) => {
       if (!customization.optionData) {
@@ -59,7 +60,7 @@ export function useCustomizationsPrice (
       }
 
       if (!hasSelections) {
-        const lowestPrice = customizationOptionValuesLowestPrice.value[customization.id];
+        const lowestPrice = _customizationOptionValuesLowestPrice[customization.id];
 
         if (lowestPrice) {
           selectedOptionValuesPrices.push(lowestPrice);

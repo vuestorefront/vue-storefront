@@ -30,7 +30,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, [])
     context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY, {})
     rootStore.dispatch('stock/clearCache')
-    EventBus.$emit('category-after-reset', { })
+    EventBus.$emit('category-after-reset', {})
   },
   /**
    * Load categories within specified parent
@@ -82,7 +82,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * @param {String} value
    * @param {Bool} setCurrentCategory default=true and means that state.current_category is set to the one loaded
    */
-  single (context, { key, value, setCurrentCategory = true, setCurrentCategoryPath = true, populateRequestCacheTags = true, skipCache = false }) {
+  single (context, { key, value, setCurrentCategory = true, setCurrentCategoryPath = true, skipCache = false }) {
     const state = context.state
     const commit = context.commit
     const dispatch = context.dispatch
@@ -114,9 +114,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         if (setCurrentCategory) {
           commit(types.CATEGORY_UPD_CURRENT_CATEGORY, mainCategory)
         }
-        if (populateRequestCacheTags && mainCategory && Vue.prototype.$cacheTags) {
-          Vue.prototype.$cacheTags.add(`C${mainCategory.id}`)
-        }
+
         if (setCurrentCategoryPath) {
           let currentPath = []
           let recurCatFinder = (category) => {
