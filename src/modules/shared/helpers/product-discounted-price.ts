@@ -1,9 +1,9 @@
-import { BundleProductDiscountPrice } from 'src/modules/shared';
+import { BundleProductDiscountedPrice } from 'src/modules/shared';
 
 import { isBundleProduct } from '@vue-storefront/core/modules/catalog/helpers';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
-function getDiscountPrice (
+function getDiscountedPrice (
   product: Product,
   productDiscount: Record<string, number>,
   bundlePriceCalculationFunction: (
@@ -27,24 +27,24 @@ function getDiscountPrice (
   return productDiscount[product.id];
 }
 
-export function getProductDiscountPrice (
+export function getProductDiscountedPrice (
   product: Product,
-  productDiscount: Record<string, number>
+  productDiscountedPrice: Record<string, number>
 ): number | undefined {
-  return getDiscountPrice(
+  return getDiscountedPrice(
     product,
-    productDiscount,
-    BundleProductDiscountPrice.getBundleProductDefaultDiscountPrice
+    productDiscountedPrice,
+    BundleProductDiscountedPrice.getBundleProductDefaultDiscountedPrice
   );
 }
 
-export function getCartItemDiscountPrice (
+export function getCartItemDiscountedPrice (
   product: Product,
-  productDiscount: Record<string, number>
+  productDiscountedPrice: Record<string, number>
 ): number | undefined {
-  return getDiscountPrice(
+  return getDiscountedPrice(
     product,
-    productDiscount,
-    BundleProductDiscountPrice.getBundleCartItemDiscountPrice
+    productDiscountedPrice,
+    BundleProductDiscountedPrice.getBundleCartItemDiscountedPrice
   );
 }

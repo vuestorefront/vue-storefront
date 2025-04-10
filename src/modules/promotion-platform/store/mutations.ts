@@ -1,17 +1,13 @@
 import Vue from 'vue';
 import { MutationTree } from 'vuex';
 
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-
 import { CampaignContent } from '../types/CampaignContent.interface';
 import PromotionPlatformState from '../types/PromotionPlatformState';
 import * as types from '../types/StoreMutations';
-import { CAMPAIGN_CONTENT_CHANGED } from '../types/campaign-content-changed.event';
 
 export const mutations: MutationTree<PromotionPlatformState> = {
   [types.SET_CAMPAIGN_CONTENT] (state, payload?: CampaignContent) {
     Vue.set(state, 'campaignContent', payload)
-    EventBus.$emit(CAMPAIGN_CONTENT_CHANGED, payload);
   },
   [types.SET_CAMPAIGN_TOKEN] (state, payload?: string) {
     Vue.set(state, 'campaignToken', payload)

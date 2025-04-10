@@ -19,18 +19,15 @@
 <script lang="ts">
 import { v4 as uuidv4 } from 'uuid';
 import Vue, { PropType } from 'vue';
-import { PriceHelper } from 'src/modules/shared';
 import { SearchQuery } from 'storefront-query-builder'
 import { mapGetters } from 'vuex';
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 
 import { StatisticMetric } from 'src/modules/budsies/types/statistic-metric';
-import { PRODUCT_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
-import { CAMPAIGN_CONTENT_CHANGED } from 'src/modules/promotion-platform';
 
 import RichTextItem from '../../../../types/rich-text-item.interface';
 
 import PriceComponent from './PriceComponent.vue';
+import SimplePriceComponent from './SimplePriceComponent.vue';
 
 type priceType = 'regular' | 'special';
 
@@ -85,7 +82,8 @@ function isProductDependentDirective (directive: Directive): directive is Produc
 export default Vue.extend({
   name: 'StoryblokRichTextTextComponent',
   components: {
-    PriceComponent
+    PriceComponent,
+    SimplePriceComponent
   },
   props: {
     item: {
@@ -95,8 +93,7 @@ export default Vue.extend({
   },
   data () {
     return {
-      textParts: [] as ProcessedTextPart[],
-      onPromotionCampaignContentChangedHandler: undefined as ((text: string) => void) | undefined
+      textParts: [] as ProcessedTextPart[]
     }
   },
   computed: {
@@ -144,9 +141,6 @@ export default Vue.extend({
       }
 
       return result;
-    },
-    productPriceDictionary (): Record<string, PriceHelper.ProductPrice> {
-      return this.$store.getters[PRODUCT_PRICE_DICTIONARY];
     }
   },
   serverPrefetch (): Promise<void> {
@@ -154,14 +148,6 @@ export default Vue.extend({
   },
   beforeMount (): void {
     this.processDirectivesInText(this.item.text || '');
-
-    this.onPromotionCampaignContentChangedHandler = () => this.processDirectivesInText(this.item.text || '');
-    EventBus.$on(CAMPAIGN_CONTENT_CHANGED, this.onPromotionCampaignContentChangedHandler);
-  },
-  beforeDestroy (): void {
-    if (this.onPromotionCampaignContentChangedHandler) {
-      EventBus.$off(CAMPAIGN_CONTENT_CHANGED, this.onPromotionCampaignContentChangedHandler);
-    }
   },
   methods: {
     getDirectiveFromSpecification (specification: DirectiveSpecification): Directive {
@@ -331,8 +317,6 @@ export default Vue.extend({
       }
     },
     processProductPriceDirective (textPart: ProductPriceDirective): ProcessedTextPart {
-      const { regular, special } = this.productPriceDictionary[this.productBySkuDictionary[textPart.productSku].id];
-
       const processedTextPart: ProcessedTextPart = {
         id: uuidv4(),
         text: '',
@@ -340,8 +324,7 @@ export default Vue.extend({
         styles: this.styles,
         component: 'price-component',
         props: {
-          regularPrice: regular,
-          specialPrice: special,
+          product: this.productBySkuDictionary[textPart.productSku],
           isPromo: textPart.isPromo,
           isColorful: textPart.isColorful
         }
@@ -350,15 +333,16 @@ export default Vue.extend({
       return processedTextPart;
     },
     processProductSpecificPriceDirective (textPart: ProductSpecificPriceDirective): ProcessedTextPart {
-      const prices = this.productPriceDictionary[this.productBySkuDictionary[textPart.productSku]];
-      const formattedPrice = PriceHelper.formatProductPrice(prices);
-
       return {
         id: uuidv4(),
-        text: formattedPrice[textPart.priceType],
+        text: '',
         classes: this.classes,
         styles: this.styles,
-        component: 'span'
+        component: 'simple-price-component',
+        props: {
+          product: this.productBySkuDictionary[textPart.productSku],
+          priceType: textPart.priceType
+        }
       }
     },
     getPartsFromText (text: string): TextPart[] {

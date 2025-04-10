@@ -7,9 +7,7 @@ import { onlineHelper, isServer, calcItemsHmac } from '@vue-storefront/core/help
 import { calculateTotals } from '@vue-storefront/core/modules/cart/helpers'
 import config from 'config'
 import { AmGiftCardType } from 'src/modules/gift-card'
-import { Dictionary } from 'src/modules/budsies'
 import { PriceHelper } from 'src/modules/shared'
-import { PROMOTION_PLATFORM_PRODUCT_DISCOUNT_GETTER } from 'src/modules/promotion-platform'
 
 import CartItem from '../types/CartItem'
 
@@ -39,8 +37,8 @@ const getters: GetterTree<CartState, RootState> = {
   isVirtualCart: ({ cartItems }) => cartItems.length ? cartItems.every(itm =>
     itm.type_id === 'downloadable' ||
     itm.type_id === 'virtual' ||
-    (itm.type_id === 'giftvoucher' && itm.giftcard_options && itm.giftcard_options.recipient_ship === undefined)
-    || (itm.type_id === 'amgiftcard' && itm.product_option?.extension_attributes?.am_giftcard_options?.am_giftcard_type === AmGiftCardType.VIRTUAL)
+    (itm.type_id === 'giftvoucher' && itm.giftcard_options && itm.giftcard_options.recipient_ship === undefined) ||
+    (itm.type_id === 'amgiftcard' && itm.product_option?.extension_attributes?.am_giftcard_options?.am_giftcard_type === AmGiftCardType.VIRTUAL)
   ) : false,
   canUpdateMethods: (state, getters) => getters.isCartSyncEnabled && getters.isCartConnected,
   canSyncTotals: (state, getters) => getters.isTotalsSyncEnabled && getters.isCartConnected,
@@ -53,13 +51,10 @@ const getters: GetterTree<CartState, RootState> = {
   isLocalDataLoaded: state => state.isLocalDataLoaded,
   cartItemPriceDictionary: (
     state,
-    getters,
-    rootState,
-    rootGetters
-  ): Dictionary<PriceHelper.ProductPrice> => {
-    const cartItems: CartItem[] = rootGetters['cart/getCartItems'];
-    const cartItemPrices: Dictionary<PriceHelper.ProductPrice> = {};
-    const productDiscountPriceDictionary = rootGetters[PROMOTION_PLATFORM_PRODUCT_DISCOUNT_GETTER];
+    getters
+  ): Record<string, PriceHelper.ProductPrice> => {
+    const cartItems: CartItem[] = getters['getCartItems'];
+    const cartItemPrices: Record<string, PriceHelper.ProductPrice> = {};
 
     for (const cartItem of cartItems) {
       if (!cartItem.checksum) {
@@ -68,20 +63,18 @@ const getters: GetterTree<CartState, RootState> = {
 
       cartItemPrices[cartItem.checksum] = PriceHelper.getCartItemPrice(
         cartItem,
-        productDiscountPriceDictionary
+        state.productDiscountedPrice
       );
     }
 
     return cartItemPrices;
   },
-  getCartItemPrice: (state, getters, rootState, rootGetters): (cartItem: CartItem) => PriceHelper.ProductPrice => {
+  getCartItemPrice: (state, getters): (cartItem: CartItem) => PriceHelper.ProductPrice => {
     return (cartItem: CartItem) => {
       const price: PriceHelper.ProductPrice | undefined =
         cartItem.checksum
           ? getters['cartItemPriceDictionary'][cartItem.checksum]
           : undefined;
-
-      const productDiscountPriceDictionary = rootGetters[PROMOTION_PLATFORM_PRODUCT_DISCOUNT_GETTER];
 
       if (price) {
         return price;
@@ -89,7 +82,7 @@ const getters: GetterTree<CartState, RootState> = {
 
       return PriceHelper.getCartItemPrice(
         cartItem,
-        productDiscountPriceDictionary
+        state.productDiscountedPrice
       )
     }
   }

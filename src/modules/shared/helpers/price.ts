@@ -7,7 +7,7 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { price } from '@vue-storefront/core/filters';
 import UpdateProductDiscountPriceEventData from 'src/modules/shared/types/discount-price/update-product-discount-price-event-data.interface';
 
-import { getCartItemDiscountPrice, getProductDiscountPrice } from './product-discount-price';
+import { getCartItemDiscountedPrice, getProductDiscountedPrice } from './product-discounted-price';
 
 interface ProductPriceData {
   originalPriceInclTax: number,
@@ -116,7 +116,7 @@ export function getProductDiscount (
 ): ProductDiscount {
   if (
     productPrice.special === null ||
-        productPrice.regular === productPrice.special
+    productPrice.regular === productPrice.special
   ) {
     return {
       discount: 0,
@@ -159,13 +159,13 @@ export function getTotalPriceForProductPrices (
 
 function getProductPrice (
   product: Product,
-  productDiscountPriceData: UpdateProductDiscountPriceEventData,
+  productDiscountedPriceData: UpdateProductDiscountPriceEventData,
   productPriceData: ProductPriceData
 ) {
   const quantity = (product.qty || 1);
-  const productDiscountPrice = productDiscountPriceData.value
-    ? productDiscountPriceData.value * quantity
-    : productDiscountPriceData.value;
+  const productDiscountPrice = productDiscountedPriceData.value
+    ? productDiscountedPriceData.value * quantity
+    : productDiscountedPriceData.value;
 
   let priceInclTax = productPriceData.priceInclTax;
   let originalPriceInclTax = productPriceData.originalPriceInclTax;
@@ -180,7 +180,7 @@ function getProductPrice (
   }
 
   const isSpecialPrice = (!!productDiscountPrice ||
-   (specialPrice && priceInclTax && originalPriceInclTax) ||
+    (specialPrice && priceInclTax && originalPriceInclTax) ||
     specialPrice === 0) &&
     special < original;
 
@@ -196,40 +196,40 @@ function getProductPrice (
 
 export function getCartItemPrice (
   cartItem: CartItem,
-  productDiscountPriceDictionary: Record<string, number>
+  productDiscountedPriceDictionary: Record<string, number>
 ) {
   const productPriceData = getProductPriceData(
     cartItem,
     calculateCartItemBundleOptionsPrice
   );
-  const productDiscountPriceData: UpdateProductDiscountPriceEventData = {
-    value: getCartItemDiscountPrice(cartItem, productDiscountPriceDictionary),
+  const productDiscountedPriceData: UpdateProductDiscountPriceEventData = {
+    value: getCartItemDiscountedPrice(cartItem, productDiscountedPriceDictionary),
     product: cartItem
   }
 
   return getProductPrice(
     cartItem,
-    productDiscountPriceData,
+    productDiscountedPriceData,
     productPriceData
   );
 }
 
 export function getProductDefaultPrice (
   product: Product,
-  productDiscountPriceDictionary: Record<string, number>
+  productDiscountedPriceDictionary: Record<string, number>
 ) {
   const productPriceData = getProductPriceData(
     product,
     calculateProductDefaultBundleOptionsPrice
   );
-  const productDiscountPriceData: UpdateProductDiscountPriceEventData = {
-    value: getProductDiscountPrice(product, productDiscountPriceDictionary),
+  const productDiscountedPriceData: UpdateProductDiscountPriceEventData = {
+    value: getProductDiscountedPrice(product, productDiscountedPriceDictionary),
     product
   }
 
   return getProductPrice(
     product,
-    productDiscountPriceData,
+    productDiscountedPriceData,
     productPriceData
   );
 }

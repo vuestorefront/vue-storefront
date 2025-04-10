@@ -1,6 +1,11 @@
+import { MutationPayload } from 'vuex';
+
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import RootState from '@vue-storefront/core/types/RootState';
+import { CART_SET_PRODUCT_DISCOUNTED_PRICE_MUTATION } from '@vue-storefront/core/modules/cart';
+import { SET_PRODUCT_DISCOUNTED_PRICE_MUTATION } from '@vue-storefront/core/modules/catalog';
 import { CART_ADD_ITEM } from '@vue-storefront/core/modules/cart/store/mutation-types';
 
 import { cacheHandlerFactory } from './helpers/cacheHandler.factory';
@@ -9,12 +14,12 @@ import { isCampaignEmpty } from './helpers/is-campaign-empty.function';
 import { getItemsFromStorage } from './helpers/get-local-storage-items.function';
 import { mouseEventHandlerFactory } from './helpers/mouse-event-handler.factory';
 import { module } from './store';
-import { CLEAR_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, SN_PROMOTION_PLATFORM } from './types/StoreMutations';
+import { CLEAR_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, SET_CAMPAIGN_CONTENT, SN_PROMOTION_PLATFORM } from './types/StoreMutations';
 import isCustomProduct from '../shared/helpers/is-custom-product.function';
-import { CAMPAIGN_CONTENT_CHANGED } from './types/campaign-content-changed.event';
 import CampaignsGetAPIResponse from './types/CampaignsGetAPIResponse';
 import { USER_LEAVING_WEBSITE } from './types/user-leaving-website.event';
 import { localStorageSynchronizationFactory } from '../shared';
+import { CampaignContent } from './types/CampaignContent.interface';
 
 const PROMOTION_PLATFORM_PRODUCT_DISCOUNT_GETTER = `${SN_PROMOTION_PLATFORM}/productDiscount`;
 
@@ -90,7 +95,21 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
       cacheHandlerFactory()
     );
 
-    store.subscribe(localStorageSynchronization.setItems);
+    const storeListener = (mutation: MutationPayload, state: RootState) => {
+      localStorageSynchronization.setItems(mutation, state);
+
+      const type = mutation.type;
+
+      if (type.endsWith(SET_CAMPAIGN_CONTENT)) {
+        const payload: CampaignContent = mutation.payload;
+        const discounts = payload.discounts || {};
+
+        store.commit(SET_PRODUCT_DISCOUNTED_PRICE_MUTATION, discounts);
+        store.commit(CART_SET_PRODUCT_DISCOUNTED_PRICE_MUTATION, discounts);
+      }
+    };
+
+    store.subscribe(storeListener);
 
     const { mouseEnterHandler, mouseLeaveHandler } = mouseEventHandlerFactory();
 
@@ -100,7 +119,6 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
 }
 
 export {
-  CAMPAIGN_CONTENT_CHANGED,
   USER_LEAVING_WEBSITE,
   PROMOTION_PLATFORM_PRODUCT_DISCOUNT_GETTER
 }

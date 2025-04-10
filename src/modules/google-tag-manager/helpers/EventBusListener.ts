@@ -91,7 +91,7 @@ export default class EventBusListener {
             items: [
               prepareProductItemData(
                 product,
-                this.store.getters[GET_PRODUCT_PRICE](product)
+                this.store
               )
             ]
           }
@@ -109,7 +109,7 @@ export default class EventBusListener {
             value: platformTotals?.base_grand_total || 0,
             items: products.map((cartItem) => prepareCartItemData(
               cartItem,
-              this.store.getters[GET_CART_ITEM_PRICE](cartItem)
+              this.store
             ))
           }
         })
@@ -136,7 +136,7 @@ export default class EventBusListener {
             items: products.map(
               (product) => prepareProductItemData(
                 product,
-                this.store.getters[GET_PRODUCT_PRICE](product)
+                this.store
               )
             )
           }
@@ -191,7 +191,7 @@ export default class EventBusListener {
         items: order.products.map(
           (cartItem) => prepareCartItemData(
             cartItem as CartItem,
-            this.store.getters[GET_CART_ITEM_PRICE](cartItem)
+            this.store
           )
         )
       }
@@ -209,7 +209,7 @@ export default class EventBusListener {
         items: [
           prepareProductItemData(
             product,
-            price
+            this.store
           )
         ]
       }
@@ -231,7 +231,7 @@ export default class EventBusListener {
         items: [
           prepareCartItemData(
             cartItem,
-            price
+            this.store
           )
         ]
       }
@@ -250,7 +250,7 @@ export default class EventBusListener {
       ecommerce: {
         currency: DEFAULT_CURRENCY,
         value: PriceHelper.getFinalPrice(price),
-        items: [prepareCartItemData(cartItem, price)]
+        items: [prepareCartItemData(cartItem, this.store)]
       }
     })
   }
@@ -278,7 +278,7 @@ export default class EventBusListener {
       coupon: platformTotals.coupon_code,
       items: cartItems.map((cartItem) => prepareCartItemData(
         cartItem,
-        this.store.getters[GET_CART_ITEM_PRICE](cartItem)
+        this.store
       ))
     }
 
@@ -300,7 +300,7 @@ export default class EventBusListener {
       items: cartItems.map(
         (cartItem) => prepareCartItemData(
           cartItem,
-          this.store.getters[GET_CART_ITEM_PRICE](cartItem)
+          this.store
         )
       )
     };
@@ -323,7 +323,7 @@ export default class EventBusListener {
       items: cartItems.map(
         (cartItem) => prepareCartItemData(
           cartItem,
-          this.store.getters[GET_CART_ITEM_PRICE](cartItem)
+          this.store
         )
       )
     };
@@ -410,7 +410,7 @@ export default class EventBusListener {
       items: order.products.map(
         (cartItem) => prepareCartItemData(
           cartItem as CartItem,
-          this.store.getters[GET_CART_ITEM_PRICE](cartItem)
+          this.store
         )
       ),
       custom_fields: {

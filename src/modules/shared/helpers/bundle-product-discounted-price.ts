@@ -3,9 +3,9 @@ import { BundleOptionsProductLink, SelectedBundleOption } from '@vue-storefront/
 import { getBundleOptionsValues, getDefaultBundleOptions } from '@vue-storefront/core/modules/catalog/helpers/bundleOptions';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
-function getBundleOptionDiscountPrice (
+function getBundleOptionDiscountedPrice (
   bundleOptionValues: BundleOptionsProductLink[],
-  productDiscount: Record<string, number>
+  productDiscountedPrice: Record<string, number>
 ): number | undefined {
   let isDiscounted = false;
 
@@ -16,7 +16,7 @@ function getBundleOptionDiscountPrice (
       return optionValue.price || 0;
     }
 
-    const productPrice = productDiscount[product.id];
+    const productPrice = productDiscountedPrice[product.id];
 
     if (productPrice) {
       isDiscounted = true;
@@ -32,9 +32,9 @@ function getBundleOptionDiscountPrice (
   return price;
 }
 
-export function getBundleCartItemDiscountPrice (
+export function getBundleCartItemDiscountedPrice (
   product: Product,
-  productDiscount: Record<string, number>
+  productDiscountedPrice: Record<string, number>
 ): number | undefined {
   const allBundleOptions = product.bundle_options || [];
 
@@ -50,12 +50,12 @@ export function getBundleCartItemDiscountPrice (
     allBundleOptions
   );
 
-  return getBundleOptionDiscountPrice(bundleOptionsValues, productDiscount);
+  return getBundleOptionDiscountedPrice(bundleOptionsValues, productDiscountedPrice);
 }
 
-export function getBundleProductDefaultDiscountPrice (
+export function getBundleProductDefaultDiscountedPrice (
   product: Product,
-  productDiscount: Record<string, number>
+  productDiscountedPrice: Record<string, number>
 ): number | undefined {
   const allBundleOptions = product.bundle_options || [];
 
@@ -65,5 +65,5 @@ export function getBundleProductDefaultDiscountPrice (
     allBundleOptions
   );
 
-  return getBundleOptionDiscountPrice(bundleOptionsValues, productDiscount);
+  return getBundleOptionDiscountedPrice(bundleOptionsValues, productDiscountedPrice);
 }

@@ -15,7 +15,7 @@ import { getProductOptions } from './helpers/get-product-options.function';
 import { localStorageSynchronizationFactory } from './helpers/local-storage-synchronization.factory';
 import { parseLocalStorageValue } from './helpers/parse-local-storage-value.function';
 import * as PriceHelper from './helpers/price';
-import * as BundleProductDiscountPrice from './helpers/bundle-product-discount-price';
+import * as BundleProductDiscountedPrice from './helpers/bundle-product-discounted-price';
 import { stateCodeAutocompleteOptionSearch } from './helpers/state-code-autocomplete-option-search.function';
 
 import EmailSubmitForm from './components/email-submit-form.vue';
@@ -42,7 +42,7 @@ export {
   parseLocalStorageValue,
   localStorageSynchronizationFactory,
   getProductOptions,
-  BundleProductDiscountPrice,
+  BundleProductDiscountedPrice,
   PrivacyPolicyLink,
   stateCodeAutocompleteOptionSearch,
   getCanonicalUrl,
