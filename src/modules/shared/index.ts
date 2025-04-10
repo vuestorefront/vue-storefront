@@ -14,8 +14,8 @@ import { CustomerDataChangedEventPayload } from './types/user-events-payload';
 import { getProductOptions } from './helpers/get-product-options.function';
 import { localStorageSynchronizationFactory } from './helpers/local-storage-synchronization.factory';
 import { parseLocalStorageValue } from './helpers/parse-local-storage-value.function';
-import * as PriceHelper from './helpers/price';
-import * as BundleProductDiscountedPrice from './helpers/bundle-product-discounted-price';
+import * as PriceHelper from '@vue-storefront/core/helpers/price';
+import * as BundleProductDiscountedPrice from '@vue-storefront/core/helpers/bundle-product-discounted-price';
 import { stateCodeAutocompleteOptionSearch } from './helpers/state-code-autocomplete-option-search.function';
 
 import EmailSubmitForm from './components/email-submit-form.vue';

@@ -18,7 +18,7 @@ import { computed, defineComponent, PropType } from '@vue/composition-api';
 
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
-import { formatPrice, getFinalPrice, ProductPrice } from 'src/modules/shared/helpers/price';
+import { PriceHelper } from '@vue-storefront/core/helpers';
 
 export default defineComponent({
   name: 'StoryblokRichTextPriceComponent',
@@ -37,24 +37,24 @@ export default defineComponent({
     }
   },
   setup (props, { root }) {
-    const productPrice = computed<ProductPrice>(() => {
+    const productPrice = computed<PriceHelper.ProductPrice>(() => {
       return root.$store.getters['product/getProductPrice'](props.product);
     });
 
     const finalPrice = computed<number>(() => {
       const _productPrice = productPrice.value;
 
-      return getFinalPrice({
+      return PriceHelper.getFinalPrice({
         special: _productPrice.special,
         regular: _productPrice.regular
       });
     });
 
     const formattedFinalPrice = computed<string>(() => {
-      return formatPrice(finalPrice.value);
+      return PriceHelper.formatPrice(finalPrice.value);
     });
     const formattedRegularPrice = computed<string>(() => {
-      return formatPrice(productPrice.value.regular);
+      return PriceHelper.formatPrice(productPrice.value.regular);
     });
 
     const showRegularPrice = computed<boolean>(() => {

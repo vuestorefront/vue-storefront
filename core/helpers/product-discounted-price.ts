@@ -1,7 +1,7 @@
-import { BundleProductDiscountedPrice } from 'src/modules/shared';
-
 import { isBundleProduct } from '@vue-storefront/core/modules/catalog/helpers';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
+
+import * as BundleProductDiscountedPrice from './bundle-product-discounted-price';
 
 function getDiscountedPrice (
   product: Product,

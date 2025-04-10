@@ -7,7 +7,7 @@ import { onlineHelper, isServer, calcItemsHmac } from '@vue-storefront/core/help
 import { calculateTotals } from '@vue-storefront/core/modules/cart/helpers'
 import config from 'config'
 import { AmGiftCardType } from 'src/modules/gift-card'
-import { PriceHelper } from 'src/modules/shared'
+import { PriceHelper } from '@vue-storefront/core/helpers'
 
 import CartItem from '../types/CartItem'
 

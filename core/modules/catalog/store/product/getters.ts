@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
-import { PriceHelper } from 'src/modules/shared';
+import { PriceHelper } from '@vue-storefront/core/helpers';
 import Product from '../../types/Product';
 
 const getters: GetterTree<ProductState, RootState> = {

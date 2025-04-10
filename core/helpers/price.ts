@@ -5,7 +5,6 @@ import { isBundleProduct } from '@vue-storefront/core/modules/catalog/helpers';
 import { getBundleOptionsValues, getBundleOptionPrice } from '@vue-storefront/core/modules/catalog/helpers/bundleOptions'
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { price } from '@vue-storefront/core/filters';
-import UpdateProductDiscountPriceEventData from 'src/modules/shared/types/discount-price/update-product-discount-price-event-data.interface';
 
 import { getCartItemDiscountedPrice, getProductDiscountedPrice } from './product-discounted-price';
 
@@ -159,13 +158,13 @@ export function getTotalPriceForProductPrices (
 
 function getProductPrice (
   product: Product,
-  productDiscountedPriceData: UpdateProductDiscountPriceEventData,
+  productDiscountedPriceValue: number | undefined,
   productPriceData: ProductPriceData
 ) {
   const quantity = (product.qty || 1);
-  const productDiscountPrice = productDiscountedPriceData.value
-    ? productDiscountedPriceData.value * quantity
-    : productDiscountedPriceData.value;
+  const productDiscountedPrice = productDiscountedPriceValue
+    ? productDiscountedPriceValue * quantity
+    : productDiscountedPriceValue;
 
   let priceInclTax = productPriceData.priceInclTax;
   let originalPriceInclTax = productPriceData.originalPriceInclTax;
@@ -173,13 +172,13 @@ function getProductPrice (
 
   const original = originalPriceInclTax
   const regular = product.regular_price || priceInclTax
-  let special = productDiscountPrice || priceInclTax
+  let special = productDiscountedPrice || priceInclTax
 
-  if (productDiscountPrice !== undefined && productDiscountPrice < special) {
-    special = productDiscountPrice
+  if (productDiscountedPrice !== undefined && productDiscountedPrice < special) {
+    special = productDiscountedPrice
   }
 
-  const isSpecialPrice = (!!productDiscountPrice ||
+  const isSpecialPrice = (!!productDiscountedPrice ||
     (specialPrice && priceInclTax && originalPriceInclTax) ||
     specialPrice === 0) &&
     special < original;
@@ -202,14 +201,11 @@ export function getCartItemPrice (
     cartItem,
     calculateCartItemBundleOptionsPrice
   );
-  const productDiscountedPriceData: UpdateProductDiscountPriceEventData = {
-    value: getCartItemDiscountedPrice(cartItem, productDiscountedPriceDictionary),
-    product: cartItem
-  }
+  const productDiscountedPriceValue = getCartItemDiscountedPrice(cartItem, productDiscountedPriceDictionary);
 
   return getProductPrice(
     cartItem,
-    productDiscountedPriceData,
+    productDiscountedPriceValue,
     productPriceData
   );
 }
@@ -222,14 +218,11 @@ export function getProductDefaultPrice (
     product,
     calculateProductDefaultBundleOptionsPrice
   );
-  const productDiscountedPriceData: UpdateProductDiscountPriceEventData = {
-    value: getProductDiscountedPrice(product, productDiscountedPriceDictionary),
-    product
-  }
+  const productDiscountedPriceValue = getProductDiscountedPrice(product, productDiscountedPriceDictionary);
 
   return getProductPrice(
     product,
-    productDiscountedPriceData,
+    productDiscountedPriceValue,
     productPriceData
   );
 }

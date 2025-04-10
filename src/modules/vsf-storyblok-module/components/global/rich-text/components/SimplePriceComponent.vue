@@ -9,7 +9,7 @@ import { PropType, computed, defineComponent } from '@vue/composition-api';
 
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
-import { PriceHelper } from 'src/modules/shared';
+import { PriceHelper } from '@vue-storefront/core/helpers';
 
 export enum PriceType {
   regular = 'regular',

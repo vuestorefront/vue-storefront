@@ -9,6 +9,7 @@ import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks';
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 import omit from 'lodash-es/omit'
+import * as PriceHelper from './price';
 
 export const processURLAddress = (url: string = '') => {
   if (url.startsWith('/')) return `${getApiEndpointUrl(config.api, 'url')}${url}`
@@ -27,7 +28,7 @@ export const processLocalizedURLAddress = (url: string = '') => {
  * Create slugify -> "create-slugify" permalink  of text
  * @param {String} text
  */
-export function slugify (text) {
+export function slugify(text) {
   // remove regional characters
   text = removeAccents(text)
 
@@ -47,7 +48,7 @@ export function slugify (text) {
  * @param {string} pathType
  * @returns {string}
  */
-export function getThumbnailPath (relativeUrl: string, width: number = 0, height: number = 0, pathType: string = 'product'): string {
+export function getThumbnailPath(relativeUrl: string, width: number = 0, height: number = 0, pathType: string = 'product'): string {
   if (config.images.useSpecificImagePaths) {
     const path = config.images.paths[pathType] !== undefined ? config.images.paths[pathType] : ''
     relativeUrl = path + relativeUrl
@@ -78,7 +79,7 @@ export function getThumbnailPath (relativeUrl: string, width: number = 0, height
  * Re-format category path to be suitable for breadcrumb
  * @param {Array} categoryPath
  */
-export function formatBreadCrumbRoutes (categoryPath) {
+export function formatBreadCrumbRoutes(categoryPath) {
   const breadCrumbRoutesArray = []
   for (let category of categoryPath) {
     breadCrumbRoutesArray.push({
@@ -94,7 +95,7 @@ export function formatBreadCrumbRoutes (categoryPath) {
  * @param {object} product
  * @param {bool} ignoreConfig
  */
-export function productThumbnailPath (product, ignoreConfig = false) {
+export function productThumbnailPath(product, ignoreConfig = false) {
   let thumbnail = product.image
 
   if (product.thumbnail && !product.thumbnail.includes('://')) {
@@ -118,7 +119,7 @@ export function productThumbnailPath (product, ignoreConfig = false) {
   return thumbnail
 }
 
-export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO add aggregation of color_options and size_options fields
+export function baseFilterProductsQuery(parentCategory, filters = []) { // TODO add aggregation of color_options and size_options fields
   let searchProductQuery = new SearchQuery()
   searchProductQuery = searchProductQuery
     .applyFilter({ key: 'visibility', value: { 'in': [2, 3, 4] } })
@@ -159,7 +160,7 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
   return searchProductQuery
 }
 
-export function buildFilterProductsQuery (currentCategory, chosenFilters = {}, defaultFilters = null) {
+export function buildFilterProductsQuery(currentCategory, chosenFilters = {}, defaultFilters = null) {
   let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? config.products.defaultFilters : defaultFilters)
 
   // add choosedn filters
@@ -186,7 +187,7 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters = {}, d
   return filterQr
 }
 
-export function once (key, fn) {
+export function once(key, fn) {
   const { process = {} } = global
   const processKey = key + '__ONCE__'
   if (!process.hasOwnProperty(processKey)) {
@@ -241,7 +242,7 @@ export const calcItemsHmac = (items = [], token) => {
   }))
 }
 
-export function extendStore (moduleName: string | string[], module: any) {
+export function extendStore(moduleName: string | string[], module: any) {
   const merge = function (object: any = {}, source: any) {
     for (let key in source) {
       if (Array.isArray(source[key])) {
@@ -271,7 +272,7 @@ export function extendStore (moduleName: string | string[], module: any) {
   store.registerModule(moduleName, extendedModule)
 }
 
-export function reviewJsonLd (reviews, { name, category, mpn, url_path, price, stock, is_in_stock, sku, image, description }, priceCurrency) {
+export function reviewJsonLd(reviews, { name, category, mpn, url_path, price, stock, is_in_stock, sku, image, description }, priceCurrency) {
   return reviews.map(({ title, detail, nickname, created_at }) => (
     {
       '@context': 'http://schema.org/',
@@ -306,7 +307,7 @@ export function reviewJsonLd (reviews, { name, category, mpn, url_path, price, s
   )
 }
 
-function getMaterials (material, customAttributes) {
+function getMaterials(material, customAttributes) {
   const materialsArr = []
   if (customAttributes && customAttributes.length && customAttributes.length > 0 && material && material.length && material.length > 0) {
     const materialOptions = customAttributes.find(({ attribute_code }) => attribute_code === 'material').options
@@ -329,7 +330,7 @@ function getMaterials (material, customAttributes) {
   return materialsArr
 }
 
-export function productJsonLd ({ category, image, name, id, sku, mpn, description, price, url_path, stock, is_in_stock, material }, color, priceCurrency, customAttributes) {
+export function productJsonLd({ category, image, name, id, sku, mpn, description, price, url_path, stock, is_in_stock, material }, color, priceCurrency, customAttributes) {
   return {
     '@context': 'http://schema.org',
     '@type': 'Product',
@@ -366,3 +367,4 @@ export function productJsonLd ({ category, image, name, id, sku, mpn, descriptio
 }
 
 export { extractCookieValue } from './extract-cookie-value.function';
+export { PriceHelper };
