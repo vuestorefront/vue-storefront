@@ -1,5 +1,6 @@
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
 import { extractCookieValue } from '../helpers/extract-cookie-value.function'
+import { cacheInstanceFactory } from './utils/cache-instance';
 
 const qs = require('qs')
 const config = require('config')
@@ -24,7 +25,7 @@ const ms = require('ms')
 const request = require('request');
 const helmet = require('helmet')
 
-const cache = require('./utils/cache-instance')
+const cache = cacheInstanceFactory();
 const apiStatus = require('./utils/api-status')
 const HTMLContent = require('../pages/Compilation')
 const ssr = require('./utils/ssr-renderer')
@@ -70,7 +71,7 @@ function healthCheck (req, res) {
 }
 
 function invalidateCache (req, res) {
-  if (config.server.useOutputCache) {
+  if (config.server.useOutputCache && cache) {
     if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
       if (req.query.key !== config.server.invalidateCacheKey) {
         console.error('Invalid cache invalidation key')
