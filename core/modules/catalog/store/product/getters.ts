@@ -1,7 +1,8 @@
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
-import { Logger } from '@vue-storefront/core/lib/logger';
+import { PriceHelper } from '@vue-storefront/core/helpers';
+import Product from '../../types/Product';
 
 const getters: GetterTree<ProductState, RootState> = {
   getCurrentProduct: state => state.current,
@@ -21,7 +22,38 @@ const getters: GetterTree<ProductState, RootState> = {
   getProductRelated: state => state.related,
   getCurrentCustomOptions: state => state.current_custom_options,
   getProductBySkuDictionary: state => state.productBySku,
-  getCurrentBundleOptions: state => state.current_bundle_options
+  getCurrentBundleOptions: state => state.current_bundle_options,
+  getProductPrice: (state, getters): (product: Product) => PriceHelper.ProductPrice => {
+    return (product: Product) => {
+      const price: PriceHelper.ProductPrice | undefined = getters['productPriceDictionary'][product.id];
+
+      if (price) {
+        return price;
+      }
+
+      return PriceHelper.getProductDefaultPrice(
+        product,
+        state.productDiscountedPrice
+      )
+    }
+  },
+  productPriceDictionary: (state): Record<string, PriceHelper.ProductPrice> => {
+    const loadedProducts = Object.values(state.productBySku);
+    const productPrices: Record<string, PriceHelper.ProductPrice> = {};
+
+    for (const product of loadedProducts) {
+      if (!product.id) {
+        continue;
+      }
+
+      productPrices[product.id] = PriceHelper.getProductDefaultPrice(
+        product,
+        state.productDiscountedPrice
+      );
+    }
+
+    return productPrices;
+  }
 }
 
 export default getters

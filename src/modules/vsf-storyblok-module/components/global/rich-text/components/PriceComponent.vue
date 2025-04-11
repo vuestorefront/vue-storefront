@@ -14,20 +14,18 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import { computed, defineComponent, PropType } from '@vue/composition-api';
 
-import { formatPrice, getFinalPrice } from 'src/modules/shared/helpers/price';
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
-export default Vue.extend({
+import { PriceHelper } from '@vue-storefront/core/helpers';
+
+export default defineComponent({
   name: 'StoryblokRichTextPriceComponent',
   props: {
-    regularPrice: {
-      type: Number,
+    product: {
+      type: Object as PropType<Product>,
       required: true
-    },
-    specialPrice: {
-      type: Number as PropType<number | null>,
-      default: undefined
     },
     isPromo: {
       type: Boolean,
@@ -38,21 +36,35 @@ export default Vue.extend({
       default: true
     }
   },
-  computed: {
-    finalPrice (): number {
-      return getFinalPrice({
-        special: this.specialPrice || null,
-        regular: this.regularPrice
+  setup (props, { root }) {
+    const productPrice = computed<PriceHelper.ProductPrice>(() => {
+      return root.$store.getters['product/getProductPrice'](props.product);
+    });
+
+    const finalPrice = computed<number>(() => {
+      const _productPrice = productPrice.value;
+
+      return PriceHelper.getFinalPrice({
+        special: _productPrice.special,
+        regular: _productPrice.regular
       });
-    },
-    formattedFinalPrice (): string {
-      return formatPrice(this.finalPrice);
-    },
-    formattedRegularPrice (): string {
-      return formatPrice(this.regularPrice);
-    },
-    showRegularPrice (): boolean {
-      return this.specialPrice !== null && this.isPromo;
+    });
+
+    const formattedFinalPrice = computed<string>(() => {
+      return PriceHelper.formatPrice(finalPrice.value);
+    });
+    const formattedRegularPrice = computed<string>(() => {
+      return PriceHelper.formatPrice(productPrice.value.regular);
+    });
+
+    const showRegularPrice = computed<boolean>(() => {
+      return productPrice.value.special !== null && props.isPromo;
+    });
+
+    return {
+      formattedFinalPrice,
+      formattedRegularPrice,
+      showRegularPrice
     }
   }
 })

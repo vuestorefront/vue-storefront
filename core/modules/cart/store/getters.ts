@@ -7,6 +7,9 @@ import { onlineHelper, isServer, calcItemsHmac } from '@vue-storefront/core/help
 import { calculateTotals } from '@vue-storefront/core/modules/cart/helpers'
 import config from 'config'
 import { AmGiftCardType } from 'src/modules/gift-card'
+import { PriceHelper } from '@vue-storefront/core/helpers'
+
+import CartItem from '../types/CartItem'
 
 const getters: GetterTree<CartState, RootState> = {
   getCartToken: state => state.cartServerToken,
@@ -34,8 +37,8 @@ const getters: GetterTree<CartState, RootState> = {
   isVirtualCart: ({ cartItems }) => cartItems.length ? cartItems.every(itm =>
     itm.type_id === 'downloadable' ||
     itm.type_id === 'virtual' ||
-    (itm.type_id === 'giftvoucher' && itm.giftcard_options && itm.giftcard_options.recipient_ship === undefined)
-    || (itm.type_id === 'amgiftcard' && itm.product_option?.extension_attributes?.am_giftcard_options?.am_giftcard_type === AmGiftCardType.VIRTUAL)
+    (itm.type_id === 'giftvoucher' && itm.giftcard_options && itm.giftcard_options.recipient_ship === undefined) ||
+    (itm.type_id === 'amgiftcard' && itm.product_option?.extension_attributes?.am_giftcard_options?.am_giftcard_type === AmGiftCardType.VIRTUAL)
   ) : false,
   canUpdateMethods: (state, getters) => getters.isCartSyncEnabled && getters.isCartConnected,
   canSyncTotals: (state, getters) => getters.isTotalsSyncEnabled && getters.isCartConnected,
@@ -45,7 +48,44 @@ const getters: GetterTree<CartState, RootState> = {
   getPaymentMethodCode: state => state.payment && state.payment.code,
   getIsAdding: state => state.isAddingToCart,
   getIsMicroCartOpen: state => state.isMicrocartOpen,
-  isLocalDataLoaded: state => state.isLocalDataLoaded
+  isLocalDataLoaded: state => state.isLocalDataLoaded,
+  cartItemPriceDictionary: (
+    state,
+    getters
+  ): Record<string, PriceHelper.ProductPrice> => {
+    const cartItems: CartItem[] = getters['getCartItems'];
+    const cartItemPrices: Record<string, PriceHelper.ProductPrice> = {};
+
+    for (const cartItem of cartItems) {
+      if (!cartItem.checksum) {
+        continue;
+      }
+
+      cartItemPrices[cartItem.checksum] = PriceHelper.getCartItemPrice(
+        cartItem,
+        state.productDiscountedPrice
+      );
+    }
+
+    return cartItemPrices;
+  },
+  getCartItemPrice: (state, getters): (cartItem: CartItem) => PriceHelper.ProductPrice => {
+    return (cartItem: CartItem) => {
+      const price: PriceHelper.ProductPrice | undefined =
+        cartItem.checksum
+          ? getters['cartItemPriceDictionary'][cartItem.checksum]
+          : undefined;
+
+      if (price) {
+        return price;
+      }
+
+      return PriceHelper.getCartItemPrice(
+        cartItem,
+        state.productDiscountedPrice
+      )
+    }
+  }
 
 }
 
