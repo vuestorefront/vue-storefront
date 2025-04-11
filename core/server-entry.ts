@@ -81,7 +81,7 @@ export default async context => {
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
 
-      if (router.currentRoute.redirectedFrom) {
+      if (router.currentRoute.redirectedFrom && router.currentRoute.redirectedFrom !== router.currentRoute.fullPath) {
         context.output.redirect = { code: 301, path: router.currentRoute.fullPath };
 
         return resolve(app);
