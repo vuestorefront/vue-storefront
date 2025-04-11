@@ -112,7 +112,7 @@ const mutations: MutationTree<CartState> = {
     updateCartItemEstimatedShipment(clientCartItem, serverItemEstimatedShipment);
   },
   [types.CART_SET_PRODUCT_DISCOUNTED_PRICE] (state, productDiscountedPrice: Record<string, number>) {
-    state.productDiscountedPrice = productDiscountedPrice;
+    state.productDiscountedPrice = { ...productDiscountedPrice };
   }
 }
 

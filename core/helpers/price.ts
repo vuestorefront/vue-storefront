@@ -166,9 +166,9 @@ function getProductPrice (
     ? productDiscountedPriceValue * quantity
     : productDiscountedPriceValue;
 
-  let priceInclTax = productPriceData.priceInclTax;
-  let originalPriceInclTax = productPriceData.originalPriceInclTax;
-  let specialPrice = productPriceData.specialPrice;
+  let priceInclTax = productPriceData.priceInclTax * quantity;
+  let originalPriceInclTax = productPriceData.originalPriceInclTax * quantity;
+  let specialPrice = productPriceData.specialPrice * quantity;
 
   const original = originalPriceInclTax
   const regular = product.regular_price || priceInclTax
