@@ -168,7 +168,9 @@ function getProductPrice (
 
   let priceInclTax = productPriceData.priceInclTax * quantity;
   let originalPriceInclTax = productPriceData.originalPriceInclTax * quantity;
-  let specialPrice = productPriceData.specialPrice * quantity;
+  let specialPrice = productPriceData.specialPrice !== null
+    ? productPriceData.specialPrice * quantity
+    : null;
 
   const original = originalPriceInclTax
   const regular = product.regular_price || priceInclTax
