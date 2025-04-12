@@ -3,13 +3,13 @@ import sumBy from 'lodash-es/sumBy'
 import CartState from '../types/CartState'
 import RootState from '@vue-storefront/core/types/RootState'
 import AppliedCoupon from '../types/AppliedCoupon'
-import { onlineHelper, isServer, calcItemsHmac } from '@vue-storefront/core/helpers'
+import { onlineHelper, isServer, calcItemsHmac, PriceHelper } from '@vue-storefront/core/helpers'
 import { calculateTotals } from '@vue-storefront/core/modules/cart/helpers'
 import config from 'config'
 import { AmGiftCardType } from 'src/modules/gift-card'
-import { PriceHelper } from '@vue-storefront/core/helpers'
 
 import CartItem from '../types/CartItem'
+import getCartItemKey from '../helpers/get-cart-item-key.function'
 
 const getters: GetterTree<CartState, RootState> = {
   getCartToken: state => state.cartServerToken,
@@ -57,11 +57,9 @@ const getters: GetterTree<CartState, RootState> = {
     const cartItemPrices: Record<string, PriceHelper.ProductPrice> = {};
 
     for (const cartItem of cartItems) {
-      if (!cartItem.checksum) {
-        continue;
-      }
+      const cartItemKey = getCartItemKey(cartItem);
 
-      cartItemPrices[cartItem.checksum] = PriceHelper.getCartItemPrice(
+      cartItemPrices[cartItemKey] = PriceHelper.getCartItemPrice(
         cartItem,
         state.productDiscountedPrice
       );
@@ -71,9 +69,10 @@ const getters: GetterTree<CartState, RootState> = {
   },
   getCartItemPrice: (state, getters): (cartItem: CartItem) => PriceHelper.ProductPrice => {
     return (cartItem: CartItem) => {
+      const cartItemKey = getCartItemKey(cartItem);
       const price: PriceHelper.ProductPrice | undefined =
-        cartItem.checksum
-          ? getters['cartItemPriceDictionary'][cartItem.checksum]
+        cartItemKey
+          ? getters['cartItemPriceDictionary'][cartItemKey]
           : undefined;
 
       if (price) {
