@@ -13,5 +13,6 @@ export default interface CartState {
   cartItems: any[],
   connectBypassCount: number,
   isAddingToCart: boolean,
-  isLocalDataLoaded: boolean
+  isLocalDataLoaded: boolean,
+  productDiscountedPrice: Record<string, number>
 }

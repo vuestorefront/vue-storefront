@@ -27,6 +27,9 @@ export const getters: GetterTree<PromotionPlatformState, any> = {
       return discountPrice;
     }
   },
+  productDiscount (state): Record<string, number> {
+    return state.campaignContent?.discounts || {};
+  },
   isSynced (state): boolean {
     return state.isSynced;
   },
