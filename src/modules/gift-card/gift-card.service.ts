@@ -24,7 +24,7 @@ export const GiftCardService = {
   async applyGiftCardCode (code: string, cartId?: string, userToken?: string): Promise<GiftCard> {
     let url = processURLAddress(`${config.budsies.endpoint}/giftcards/apply`);
     const queryString = getQueryString(cartId, userToken);
-    const _code = code.trim();
+    code = code.trim();
 
     if (queryString) {
       url += `?${queryString}`;
@@ -36,7 +36,7 @@ export const GiftCardService = {
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         mode: 'cors',
         method: 'POST',
-        body: JSON.stringify({ code: _code })
+        body: JSON.stringify({ code })
       },
       silent: true
     });
@@ -47,7 +47,7 @@ export const GiftCardService = {
     }
 
     return {
-      code: _code,
+      code,
       value: Number.parseFloat(result.result)
     }
   },
@@ -59,7 +59,7 @@ export const GiftCardService = {
   ): Promise<GiftCard> {
     let url = processURLAddress(`${config.budsies.endpoint}/giftcards/change-value`);
     const queryString = getQueryString(cartId, userToken);
-    const _code = code.trim();
+    code = code.trim();
 
     if (queryString) {
       url += `?${queryString}`;
@@ -71,7 +71,7 @@ export const GiftCardService = {
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         mode: 'cors',
         method: 'POST',
-        body: JSON.stringify({ code: _code, value })
+        body: JSON.stringify({ code, value })
       },
       silent: true
     });
@@ -81,7 +81,7 @@ export const GiftCardService = {
     }
 
     return {
-      code: _code,
+      code,
       value: result.result
     }
   },
