@@ -135,7 +135,8 @@ const getItems = async (): Promise<Task> =>
   });
 
 const applyCoupon = async (couponCode: string): Promise<Task> => {
-  const url = processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'applycoupon_endpoint').replace('{{coupon}}', couponCode))
+  const url = processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'applycoupon_endpoint')
+    .replace('{{coupon}}', couponCode.trim()))
 
   return TaskQueue.execute({
     url,
