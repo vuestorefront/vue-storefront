@@ -1,6 +1,6 @@
 
 export function getPolarisScript (appConfig: any) {
-  if (!appConfig.privacyPolicy.enablePolaris) {
+  if (!appConfig.privacyPolicy?.polarisId) {
     return '';
   }
 
