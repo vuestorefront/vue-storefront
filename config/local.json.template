@@ -119,7 +119,8 @@
     "californiaPrivacyNoticeUrl": "${PRIVACY_POLICY_URL}#california-privacy-notice",
     "financialIncentiveNoticeUrl": "${PRIVACY_POLICY_URL}#financial-incentive",
     "optOutUrl": "${PRIVACY_OPT_OUT_URL}",
-    "enablePolaris": ${ENABLE_POLARIS}
+    "enablePolaris": ${ENABLE_POLARIS},
+    "polarisId": "${POLARIS_ID}"
   },
   "initialResources": [
     {

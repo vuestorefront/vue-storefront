@@ -14,6 +14,6 @@ export function getPolarisScript (appConfig: any) {
 
   return `
         ${options}
-        <script src="https://polaris.truevaultcdn.com/static/polaris.js" defer></script>
+        <script src="https://polaris.truevaultcdn.com/static/pc/${appConfig.privacyPolicy.polarisId}/polaris.js" defer></script>
       `
 };
