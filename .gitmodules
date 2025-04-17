@@ -1,7 +1,3 @@
-[submodule "src/modules/vsf-cache-nginx"]
-	path = src/modules/vsf-cache-nginx
-	url = https://github.com/Kidl/vsf-cache-nginx
-	branch = master
 [submodule "src/modules/vsf-cache-varnish"]
 	path = src/modules/vsf-cache-varnish
 	url = https://github.com/wmycco1/vsf-cache-varnish-1

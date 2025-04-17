@@ -1,6 +1,5 @@
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import RootState from 'core/types/RootState';
 import { MutationPayload } from 'vuex';
 import { CAMPAIGN_CONTENT, CAMPAIGN_TOKEN, LAST_BANNER_VERSION, PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE } from '../types/local-storage-key';
 

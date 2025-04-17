@@ -9,6 +9,7 @@ import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks';
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 import omit from 'lodash-es/omit'
+import * as PriceHelper from './price';
 
 export const processURLAddress = (url: string = '') => {
   if (url.startsWith('/')) return `${getApiEndpointUrl(config.api, 'url')}${url}`
@@ -364,3 +365,6 @@ export function productJsonLd ({ category, image, name, id, sku, mpn, descriptio
     }
   }
 }
+
+export { extractCookieValue } from './extract-cookie-value.function';
+export { PriceHelper };

@@ -1,4 +1,6 @@
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
+import { extractCookieValue } from '../helpers/extract-cookie-value.function'
+import { cacheInstanceFactory } from './utils/cache-instance';
 
 const qs = require('qs')
 const config = require('config')
@@ -23,7 +25,7 @@ const ms = require('ms')
 const request = require('request');
 const helmet = require('helmet')
 
-const cache = require('./utils/cache-instance')
+const cache = cacheInstanceFactory();
 const apiStatus = require('./utils/api-status')
 const HTMLContent = require('../pages/Compilation')
 const ssr = require('./utils/ssr-renderer')
@@ -69,7 +71,7 @@ function healthCheck (req, res) {
 }
 
 function invalidateCache (req, res) {
-  if (config.server.useOutputCache) {
+  if (config.server.useOutputCache && cache) {
     if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
       if (req.query.key !== config.server.invalidateCacheKey) {
         console.error('Invalid cache invalidation key')
@@ -142,6 +144,7 @@ const serve = (path, cache, options?) => express.static(resolve(path), Object.as
 }, options))
 
 const themeRoot = require('../build/theme-path')
+const TEST_GROUP_ID_COOKIE_KEY = config.abTesting?.cookieKey;
 
 if (config.server.helmet && config.server.helmet.enabled && isProd) {
   app.use(helmet(config.server.helmet.config))
@@ -203,7 +206,15 @@ app.get('*', async (req, res, next) => {
   }
 
   const site = req.headers['x-vs-store-code'] || 'main'
-  const cacheKey = `page:${site}:${req.url}`
+  let cacheKey = `page:${site}:${req.url}`
+
+  if (TEST_GROUP_ID_COOKIE_KEY) {
+    const testGroupId = extractCookieValue(TEST_GROUP_ID_COOKIE_KEY, req?.headers?.cookie);
+
+    if (testGroupId) {
+      cacheKey += `:${testGroupId}`;
+    }
+  }
 
   const dynamicRequestHandler = (renderer, config) => {
     if (!renderer) {

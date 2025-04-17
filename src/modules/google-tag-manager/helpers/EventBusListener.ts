@@ -13,6 +13,8 @@ import { PlushieWizardEvents } from 'src/modules/budsies';
 import { CustomerDataChangedEventPayload, PriceHelper, ProductEvent, UserEvents } from 'src/modules/shared';
 
 import CartItem from 'core/modules/cart/types/CartItem';
+import { GET_PRODUCT_PRICE } from '@vue-storefront/core/modules/catalog';
+import { GET_CART_ITEM_PRICE } from '@vue-storefront/core/modules/cart';
 import PaymentDetails from 'core/modules/checkout/types/PaymentDetails';
 import ShippingDetails from 'core/modules/checkout/types/ShippingDetails';
 import { ORDER_ERROR_EVENT } from '@vue-storefront/core/modules/checkout';
@@ -22,6 +24,7 @@ import { prepareProductItemData } from './prepare-product-item-data.function';
 import { DEFAULT_CURRENCY } from '../types/default-currency';
 import GoogleTagManagerEvents from '../types/GoogleTagManagerEvents';
 import { trackEcommerceEventFactory } from './track-ecommerce-event.factory';
+import { A_B_TEST_GROUP_CHANGED } from 'src/modules/a-b-testing';
 
 const shareasaleSSCIDCookieName = 'shareasaleMagentoSSCID';
 
@@ -85,7 +88,12 @@ export default class EventBusListener {
           ecommerce: {
             item_list_id: categoryId,
             item_list_name: categoryName,
-            items: [prepareProductItemData(product)]
+            items: [
+              prepareProductItemData(
+                product,
+                this.store
+              )
+            ]
           }
         })
       }
@@ -99,7 +107,10 @@ export default class EventBusListener {
           ecommerce: {
             currency: platformTotals?.quote_currency_code || DEFAULT_CURRENCY,
             value: platformTotals?.base_grand_total || 0,
-            items: products.map(prepareCartItemData)
+            items: products.map((cartItem) => prepareCartItemData(
+              cartItem,
+              this.store
+            ))
           }
         })
       }
@@ -122,7 +133,12 @@ export default class EventBusListener {
           ecommerce: {
             item_list_name: categoryName,
             item_list_id: categoryId,
-            items: products.map(prepareProductItemData)
+            items: products.map(
+              (product) => prepareProductItemData(
+                product,
+                this.store
+              )
+            )
           }
         })
       }
@@ -145,6 +161,13 @@ export default class EventBusListener {
       }
     );
 
+    EventBus.$on(A_B_TEST_GROUP_CHANGED, (testGroupId: string) => {
+      this.gtm.trackEvent({
+        event: GoogleTagManagerEvents.A_B_TEST_GROUP_CHANGED,
+        exp_variant_string: testGroupId
+      });
+    });
+
     cartHooks.afterAddToCart(this.onAfterAddToCartHookHandler.bind(this));
     cartHooks.afterRemoveFromCart(this.onAfterRemoveFromCartHookHandler.bind(this));
   }
@@ -166,14 +189,17 @@ export default class EventBusListener {
           purchase_error_code: code
         },
         items: order.products.map(
-          (cartItem) => prepareCartItemData(cartItem as CartItem)
+          (cartItem) => prepareCartItemData(
+            cartItem as CartItem,
+            this.store
+          )
         )
       }
     });
   }
 
   private onProductPageShowEventHandler (product: Product): void {
-    const price = PriceHelper.getProductDefaultPrice(product, {}, false);
+    const price = this.store.getters[GET_PRODUCT_PRICE](product);
 
     this.trackEcommerceEvent({
       event: GoogleTagManagerEvents.VIEW_ITEM,
@@ -181,7 +207,10 @@ export default class EventBusListener {
         currency: DEFAULT_CURRENCY,
         value: PriceHelper.getFinalPrice(price),
         items: [
-          prepareProductItemData(product)
+          prepareProductItemData(
+            product,
+            this.store
+          )
         ]
       }
     });
@@ -192,7 +221,7 @@ export default class EventBusListener {
   }: {
     cartItem: CartItem
   }) {
-    const price = PriceHelper.getCartItemPrice(cartItem, {}, false);
+    const price: PriceHelper.ProductPrice = this.store.getters[GET_CART_ITEM_PRICE](cartItem);
 
     this.trackEcommerceEvent({
       event: GoogleTagManagerEvents.ADD_TO_CART,
@@ -200,7 +229,10 @@ export default class EventBusListener {
         currency: this.store.state.cart.platformTotals?.quote_currency_code || DEFAULT_CURRENCY,
         value: PriceHelper.getFinalPrice(price),
         items: [
-          prepareCartItemData(cartItem)
+          prepareCartItemData(
+            cartItem,
+            this.store
+          )
         ]
       }
     });
@@ -211,14 +243,14 @@ export default class EventBusListener {
   }: {
     cartItem: CartItem
   }) {
-    const price = PriceHelper.getCartItemPrice(cartItem, {}, false);
+    const price: PriceHelper.ProductPrice = this.store.getters[GET_CART_ITEM_PRICE](cartItem);
 
     this.trackEcommerceEvent({
       event: GoogleTagManagerEvents.REMOVE_FORM_CART,
       ecommerce: {
         currency: DEFAULT_CURRENCY,
         value: PriceHelper.getFinalPrice(price),
-        items: [prepareCartItemData(cartItem)]
+        items: [prepareCartItemData(cartItem, this.store)]
       }
     })
   }
@@ -244,7 +276,10 @@ export default class EventBusListener {
       currency: platformTotals.quote_currency_code,
       value: platformTotals.base_grand_total,
       coupon: platformTotals.coupon_code,
-      items: cartItems.map((product) => prepareCartItemData(product as CartItem))
+      items: cartItems.map((cartItem) => prepareCartItemData(
+        cartItem,
+        this.store
+      ))
     }
 
     this.trackEcommerceEvent({
@@ -262,7 +297,12 @@ export default class EventBusListener {
       value: platformTotals.base_grand_total,
       coupon: platformTotals.coupon_code,
       payment_type: paymentDetails.paymentMethod,
-      items: cartItems.map((product) => prepareCartItemData(product as CartItem))
+      items: cartItems.map(
+        (cartItem) => prepareCartItemData(
+          cartItem,
+          this.store
+        )
+      )
     };
 
     this.trackEcommerceEvent({
@@ -280,7 +320,12 @@ export default class EventBusListener {
       value: platformTotals.base_grand_total,
       coupon: platformTotals.coupon_code,
       shipping_tier: shippingDetails.shippingMethod,
-      items: cartItems.map((product) => prepareCartItemData(product as CartItem))
+      items: cartItems.map(
+        (cartItem) => prepareCartItemData(
+          cartItem,
+          this.store
+        )
+      )
     };
 
     this.trackEcommerceEvent({
@@ -362,7 +407,12 @@ export default class EventBusListener {
       coupon: couponCode,
       shipping: orderPaymentDetails.base_shipping_amount,
       tax: orderPaymentDetails.base_tax_amount,
-      items: order.products.map((product) => prepareCartItemData(product as CartItem)),
+      items: order.products.map(
+        (cartItem) => prepareCartItemData(
+          cartItem as CartItem,
+          this.store
+        )
+      ),
       custom_fields: {
         shareasale_sscid: getCookieByName(shareasaleSSCIDCookieName),
         is_new_customer: isNewCustomer,

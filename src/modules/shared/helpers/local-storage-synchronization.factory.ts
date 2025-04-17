@@ -2,7 +2,7 @@ export function localStorageSynchronizationFactory (
   getItemsFromStorage: (event: StorageEvent) => void,
   setItemsToStorage: (...args: any[]) => void
 ): {
-    setItems: () => void,
+    setItems: (...args: any[]) => void,
     removeStorageEventListener: () => void
   } {
   let isSetItemsToStorageLocked = false;

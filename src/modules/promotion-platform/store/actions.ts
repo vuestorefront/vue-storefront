@@ -3,6 +3,9 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
+import { CART_SET_PRODUCT_DISCOUNTED_PRICE_MUTATION } from '@vue-storefront/core/modules/cart';
+import { SET_PRODUCT_DISCOUNTED_PRICE_MUTATION } from '@vue-storefront/core/modules/catalog';
+
 import { PromotionPlatformService } from '../promotion-platform.service';
 import PromotionPlatformState from '../types/PromotionPlatformState';
 import CampaignsGetAPIResponse from '../types/CampaignsGetAPIResponse';
@@ -32,6 +35,10 @@ export const actions: ActionTree<PromotionPlatformState, any> = {
     const content = await PromotionPlatformService.fetchDefaultActiveCampaignData();
 
     commit(types.SET_CAMPAIGN_CONTENT, content.campaignContent);
+
+    const discounts = content.campaignContent.discounts || {};
+    commit(SET_PRODUCT_DISCOUNTED_PRICE_MUTATION, discounts, { root: true });
+    commit(CART_SET_PRODUCT_DISCOUNTED_PRICE_MUTATION, discounts, { root: true });
 
     return content;
   },

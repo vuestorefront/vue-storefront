@@ -34,6 +34,6 @@
 </implementation_issues>
 
 Use <code_review_guidelines> and do a thorough code review of the code and highlight issues. Do it in the following steps:
-1. Look for <business_login_issues>
-2. Look for <architecture_issues>
-3. Look for <implementation_issues>
+1. Highlight <business_login_issues>
+2. Highlight <architecture_issues>
+3. Highlight <implementation_issues>

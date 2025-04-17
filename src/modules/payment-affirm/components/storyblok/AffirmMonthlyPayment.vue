@@ -11,11 +11,11 @@
 <script lang="ts">
 import { VueConstructor } from 'vue';
 import { isServer } from '@vue-storefront/core/helpers';
-import { InjectType, getProductDefaultPrice } from 'src/modules/shared';
+import { InjectType, PriceHelper } from 'src/modules/shared';
 import { Blok } from 'src/modules/vsf-storyblok-module/components'
-import { getFinalPrice } from 'src/modules/shared/helpers/price';
 
-import Product from 'core/modules/catalog/types/Product';
+import { PRODUCT_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import AffirmMonthlyPaymentData from './interfaces/affirm-monthly-payment-data.interface';
 
 interface InjectedServices {
@@ -37,14 +37,17 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
     itemData (): AffirmMonthlyPaymentData {
       return this.item as AffirmMonthlyPaymentData;
     },
+    productPriceDictionary (): Record<string, PriceHelper.ProductPrice> {
+      return this.$store.getters[PRODUCT_PRICE_DICTIONARY];
+    },
     productPriceInCents (): number {
       if (!this.product) {
         return 0
       }
 
-      const price = getProductDefaultPrice(this.product, {}, false);
+      const price = this.productPriceDictionary[this.product.id];
 
-      return getFinalPrice(price) * 100;
+      return PriceHelper.getFinalPrice(price) * 100;
     }
   },
   created: async function (): Promise<void> {
