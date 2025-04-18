@@ -14,5 +14,6 @@ export default interface CartState {
   connectBypassCount: number,
   isAddingToCart: boolean,
   isLocalDataLoaded: boolean,
-  productDiscountedPrice: Record<string, number>
+  productDiscountedPrice: Record<string, number>,
+  isShippingMethodsSyncing: boolean
 }

@@ -27,7 +27,6 @@ export default {
       order: {},
       personalDetails: {},
       shipping: {},
-      shippingMethod: {},
       payment: {},
       orderReview: {},
       cartSummary: {},
@@ -146,7 +145,6 @@ export default {
     },
     async onAfterShippingMethodChanged (payload) {
       await this.$store.dispatch('cart/syncTotals', { forceServerSync: true, methodsData: payload })
-      this.shippingMethod = payload
     },
     onBeforeShippingMethods (country) {
       this.$store.dispatch('checkout/updatePropValue', ['country', country])
@@ -294,8 +292,8 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.vat_id
           },
-          shipping_method_code: this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
-          shipping_carrier_code: this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
+          shipping_method_code: this.shipping.shippingMethod,
+          shipping_carrier_code: this.shipping.shippingCarrier,
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
