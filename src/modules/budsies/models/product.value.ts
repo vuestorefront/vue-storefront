@@ -39,6 +39,5 @@ export enum ProductValue {
   GOLF_SHIRTS = '43',
   HAWAIIAN_SHIRTS = '44',
   PHOTO_PORTRAITS = '47',
-  // TODO: update
-  TUMBLERS = '48',
+  TUMBLERS = '46',
 }
