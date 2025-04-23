@@ -146,7 +146,7 @@ export default defineComponent({
   }
 
   ._toggle-extended-info {
-    width: 32px;
+    width: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
