@@ -22,7 +22,7 @@ export function createMulterMiddleware(
 
   const maxFileSizeLimit = Math.min(
     config.maxFileSize,
-    10 * 1024 * 1024 // 10MB absolute maximum
+    20 * 1024 * 1024 // 20MB absolute maximum
   );
 
   const upload = multer({
