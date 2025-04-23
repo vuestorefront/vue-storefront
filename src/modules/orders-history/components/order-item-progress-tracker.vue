@@ -40,7 +40,7 @@ export default defineComponent({
       return props.progressTracker.status_list
     });
     const isCancelled = computed<boolean>(() => {
-      return props.progressTracker.is_cancelled
+      return props.progressTracker.cancelled
     });
     const activeStatusId = computed<number>(() => {
       return props.progressTracker.status_id
