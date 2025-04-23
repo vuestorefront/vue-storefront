@@ -1,5 +1,11 @@
 # Change log
 
+## 5.4.0
+
+### Minor Changes
+
+- **[CHANGED]** The maximum file upload size limit has been increased to 20MB.
+
 ## 5.3.2
 
 ### Patch Changes
@@ -14,7 +20,7 @@ import { createServer, type CreateServerOptions } from "@vue-storefront/middlewa
 async function runApp() {
   const app = await createServer(config, {
     cors: process.env.NODE_ENV === "production" ? undefined : developmentCorsConfig,
--   readinessProbes: [] 
+-   readinessProbes: []
   });
 }
 ```
@@ -122,7 +128,7 @@ import { createServer, type CreateServerOptions } from "@vue-storefront/middlewa
 async function runApp() {
   const app = await createServer(config, {
     cors: process.env.NODE_ENV === "production" ? undefined : developmentCorsConfig,
-+   readinessProbes: [] 
++   readinessProbes: []
   });
 }
 
