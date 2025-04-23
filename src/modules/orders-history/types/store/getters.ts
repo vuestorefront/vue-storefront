@@ -1,0 +1,1 @@
+export const GET_ORDERS_HISTORY = 'GET_ORDERS_HISTORY';

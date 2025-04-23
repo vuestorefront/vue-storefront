@@ -1,0 +1,1 @@
+export const SET_ORDERS_HISTORY = 'SET_ORDERS_HISTORY';
