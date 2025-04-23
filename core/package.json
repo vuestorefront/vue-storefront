@@ -20,7 +20,6 @@
     "lru-cache": "^5.1.1",
     "qs": "^6.6.0",
     "query-string": "6.13.2",
-    "redis-tag-cache": "^1.2.1",
     "remove-accents": "^0.4.2",
     "uuid": "^7.0.2",
     "vue": "^2.6.11",

@@ -77,8 +77,9 @@ const methodsActions = {
       .filter(method => !method.hasOwnProperty('available') || method.available)
     await dispatch('checkout/replaceShippingMethods', newShippingMethods, { root: true })
   },
-  async syncShippingMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
+  async syncShippingMethods ({ commit, getters, rootGetters, dispatch }, { forceServerSync = false }) {
     if (getters.canUpdateMethods && (getters.isTotalsSyncRequired || forceServerSync)) {
+      commit(types.SET_IS_SHIPPING_METHODS_SYNCING, true);
       const storeView = currentStoreView()
       Logger.debug('Refreshing shipping methods', 'cart')()
       const shippingDetails = rootGetters['checkout/getShippingDetails']
@@ -95,15 +96,19 @@ const methodsActions = {
         vat_id: shippingDetails.vat_id || ''
       } : { country_id: storeView.tax.defaultCountry }
 
-      const task = await CartService.getShippingMethods(address);
+      try {
+        const task = await CartService.getShippingMethods(address);
 
-      if (isCartNotFoundError(task)) {
-        return dispatch('clear', { disconnect: true, sync: false });
+        if (isCartNotFoundError(task)) {
+          return dispatch('clear', { disconnect: true, sync: false });
+        }
+
+        const result = task.resultCode === 200 ? task.result : [];
+
+        await dispatch('updateShippingMethods', { shippingMethods: result })
+      } finally {
+        commit(types.SET_IS_SHIPPING_METHODS_SYNCING, false);
       }
-
-      const result = task.resultCode === 200 ? task.result : [];
-
-      await dispatch('updateShippingMethods', { shippingMethods: result })
     } else {
       Logger.debug('Shipping methods does not need to be updated', 'cart')()
     }

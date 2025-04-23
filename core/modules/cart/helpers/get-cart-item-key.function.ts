@@ -1,4 +1,4 @@
-import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
+import CartItem from '../types/CartItem';
 
 export default function getCartItemKey (cartItem: CartItem): string {
   let key = cartItem.sku;

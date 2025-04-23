@@ -61,10 +61,12 @@ const mutations: MutationTree<ProductState> = {
     state.current_custom_options = Object.assign(
       {},
       state.current_custom_options,
-      { [optionId]: {
-        option_id: optionId,
-        option_value: optionValue
-      } }
+      {
+        [optionId]: {
+          option_id: optionId,
+          option_value: optionValue
+        }
+      }
     )
   },
   [types.PRODUCT_SET_BUNDLE_OPTION] (state, { optionId, optionQty, optionSelections }) {
@@ -106,6 +108,9 @@ const mutations: MutationTree<ProductState> = {
     state.current_options = { color: [], size: [] };
     state.current_bundle_options = {};
     state.current_custom_options = {};
+  },
+  [types.SET_PRODUCT_DISCOUNTED_PRICE] (state, productDiscountedPrice: Record<string, number>) {
+    state.productDiscountedPrice = { ...productDiscountedPrice }
   },
   [types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR] (state, { validationRule, validatorFunction }) {
     Logger.error('Deprecated mutation CATALOG_ADD_CUSTOM_OPTION_VALIDATOR - use PRODUCT_SET_CUSTOM_OPTION_VALIDATOR instead')()

@@ -5,7 +5,8 @@ import { OptionValue } from '../types/option-value.interface';
 
 export function getOptionValuePrice (
   optionValue: OptionValue,
-  productBySkuDictionary: Record<string, Product>
+  productBySkuDictionary: Record<string, Product>,
+  productPriceDictionary: Record<string, PriceHelper.ProductPrice>
 ): PriceHelper.ProductPrice | undefined {
   const defaultOptionValuePrice = optionValue.price
     ? {
@@ -23,11 +24,11 @@ export function getOptionValuePrice (
 
   const product = productBySkuDictionary[optionValue.sku];
 
-  if (!product) {
+  if (!product || !product.id) {
     return defaultOptionValuePrice;
   }
 
-  const price = PriceHelper.getProductDefaultPrice(product, {}, false);
+  const price = productPriceDictionary[product.id];
 
   if (!price.regular) {
     return defaultOptionValuePrice;
