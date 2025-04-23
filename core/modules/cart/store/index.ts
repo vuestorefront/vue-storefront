@@ -22,7 +22,8 @@ export const cartStore: Module<CartState, any> = {
     connectBypassCount: 0,
     isAddingToCart: false,
     isLocalDataLoaded: false,
-    productDiscountedPrice: {}
+    productDiscountedPrice: {},
+    isShippingMethodsSyncing: false
   },
   getters,
   actions,
