@@ -10,12 +10,9 @@
 <script lang="ts">
 import { PropType, computed, defineComponent } from '@vue/composition-api';
 
-import { CustomizationStateItem, Customization } from 'src/modules/customization-system';
+import { CartItemConfiguration, CustomizationStateItem, Customization } from 'src/modules/customization-system';
 
 import { OrderItemExtensionAttributes } from '../types/order-item-extension-attributes';
-
-// TODO: refactor
-import CartItemConfiguration from 'src/themes/petsies-capybara/components/customization-system/cart-item-configuration.vue';
 
 export default defineComponent({
   name: 'OrderItemExtendedInfo',

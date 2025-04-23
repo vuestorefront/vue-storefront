@@ -47,7 +47,10 @@ import { WidgetType } from './types/widget-type';
 import { WidgetOptionAlignment } from './types/widget-option-alignment.type';
 import { WidgetOptions } from './types/widget-options.interface';
 
+import CartItemConfiguration from './components/cart-item-configuration.vue';
+
 export {
+  CartItemConfiguration,
   Customization,
   CustomizationOptionValue,
   CustomizationStateItem,
