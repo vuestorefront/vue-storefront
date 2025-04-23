@@ -19,14 +19,13 @@
       v-if="actionsListGroups.availableActionsList.length"
     >
       <component
-        v-for="action in actionsListGroups.availableActionsList"
-        :key="action.code"
+        v-for="actionItem in actionsListGroups.availableActionsList"
+        :key="actionItem.action.code"
         class="_available-action sf-button"
-        :is="!!action.url ? 'a' : 'div'"
-        :href="action.url"
-        :target="action.url ? '_blank' : ''"
+        :is="actionItem.component"
+        v-bind="actionItem.props"
       >
-        <span class="_action-name">{{ action.name }}</span>
+        <span class="_action-name">{{ actionItem.action.name }}</span>
       </component>
     </div>
   </div>
@@ -34,16 +33,26 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from '@vue/composition-api';
+import { SfButton } from '@storefront-ui/vue';
 
 import { OrderItemAvailableAction } from '../types/order-item-available-action';
 
+interface ActionItem {
+  action: OrderItemAvailableAction,
+  component: string,
+  props: Record<string, string | undefined>
+}
+
 interface ActionsListGroups {
   actionsWithMessagesList: OrderItemAvailableAction[],
-  availableActionsList: OrderItemAvailableAction[]
+  availableActionsList: ActionItem[]
 }
 
 export default defineComponent({
   name: 'OrderItemActions',
+  components: {
+    SfButton
+  },
   props: {
     actionsList: {
       type: Array as PropType<OrderItemAvailableAction[]>,
@@ -54,7 +63,7 @@ export default defineComponent({
     const actionsListGroups = computed<ActionsListGroups>(() => {
       const actionsWithMessagesList: OrderItemAvailableAction[] = [];
       const blockingProgresssActionsList: OrderItemAvailableAction[] = [];
-      const availableActionsList: OrderItemAvailableAction[] = [];
+      const availableActionsList: ActionItem[] = [];
 
       for (const action of props.actionsList) {
         if (action.blocking_progress) {
@@ -67,7 +76,21 @@ export default defineComponent({
           continue;
         }
 
-        availableActionsList.push(action);
+        const actionItem: ActionItem = {
+          action,
+          component: 'SfButton',
+          props: {}
+        };
+
+        if (action.url) {
+          actionItem.component = 'a';
+          actionItem.props = {
+            href: action.url,
+            target: '_blank'
+          }
+        }
+
+        availableActionsList.push(actionItem);
       }
 
       actionsWithMessagesList.unshift(...blockingProgresssActionsList)
