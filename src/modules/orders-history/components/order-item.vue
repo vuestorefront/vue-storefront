@@ -33,7 +33,7 @@
 
       <div
         class="_extended-info"
-        v-if="item.extension_attributes"
+        v-if="isExtendedInfoAvailable"
       >
         <template>
           <order-item-extended-info
@@ -46,7 +46,7 @@
 
     <div
       class="_toggle-extended-info"
-      v-if="item.extension_attributes"
+      v-if="isExtendedInfoAvailable"
       @click="toggleExtendedInfo"
     >
       <SfChevron :class="{'-expanded': showExtendedInfo}" />
@@ -95,12 +95,16 @@ export default defineComponent({
     const showActions = computed<boolean>(() => {
       return props.item.available_actions.length > 0;
     });
+    const isExtendedInfoAvailable = computed<boolean>(() => {
+      return !!props.item.extension_attributes && !!Object.keys(props.item.extension_attributes).length;
+    });
 
     function toggleExtendedInfo () {
       showExtendedInfo.value = !showExtendedInfo.value;
     }
 
     return {
+      isExtendedInfoAvailable,
       showActions,
       showExtendedInfo,
       showProgressTracker,
