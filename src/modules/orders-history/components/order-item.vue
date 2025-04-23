@@ -14,6 +14,7 @@
         <div class="_base-info-container">
           <order-item-base-info
             :product-name="item.product.name"
+            :item-display-id="item.display_id"
             :shipments="item.shipments"
             :estimated-shipment-date="item.estimated_shipment_date"
             :shipped-date="item.shipped_date"

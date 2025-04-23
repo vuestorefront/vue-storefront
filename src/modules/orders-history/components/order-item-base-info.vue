@@ -1,7 +1,7 @@
 <template>
   <div class="order-item-base-info">
     <span class="_product-name">
-      {{ productName }}
+      {{ itemDisplayId }} - {{ productName }}
     </span>
 
     <span class="_estimated-shipment-date" v-if="showEstimatedShipmentDate">
@@ -34,6 +34,10 @@ export default defineComponent({
   props: {
     productName: {
       type: String,
+      required: true
+    },
+    itemDisplayId: {
+      type: Number,
       required: true
     },
     shipments: {
