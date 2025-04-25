@@ -124,7 +124,7 @@ export default defineComponent({
   ._action-with-message {
     &.-blocking {
       padding: var(--spacer-xs) var(--spacer-sm);
-      background-color: var(--c-light);
+      background-color: var(--c-warning);
     }
   }
 
