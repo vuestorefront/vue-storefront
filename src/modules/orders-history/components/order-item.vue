@@ -5,7 +5,7 @@
         <div class="_image-container">
           <BaseImage
             :lazy="false"
-            :src="item.product.thumbnail"
+            :src="orderItemImage"
             :alt="item.product.name"
             :aspect-ratio="1"
           />
@@ -56,10 +56,12 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent, computed, ref } from '@vue/composition-api';
+import { PropType, defineComponent, computed, ref, inject } from '@vue/composition-api';
 import { SfChevron } from '@storefront-ui/vue';
 
 import { BaseImage } from 'src/modules/budsies';
+import { getCustomizationSystemCartItemThumbnail } from 'src/modules/customization-system';
+import { ImageHandlerService } from 'src/modules/file-storage';
 
 import { OrderItem } from '../types/order-item';
 
@@ -85,6 +87,8 @@ export default defineComponent({
     }
   },
   setup (props) {
+    const imageHandlerService = inject<ImageHandlerService>('ImageHandlerService');
+
     const showExtendedInfo = ref<boolean>(false);
     const showProgressTracker = computed<boolean>(() => {
       return props.item.available_actions.every(
@@ -99,6 +103,25 @@ export default defineComponent({
     const isExtendedInfoAvailable = computed<boolean>(() => {
       return !!props.item.extension_attributes && !!Object.keys(props.item.extension_attributes).length;
     });
+    const orderItemImage = computed<string>(() => {
+      const defaultImage = props.item.product.thumbnail;
+
+      if (!imageHandlerService) {
+        return defaultImage;
+      }
+
+      const customizationSystemThumbnail = getCustomizationSystemCartItemThumbnail(
+        props.item.extension_attributes?.customizations,
+        props.item.extension_attributes?.customization_states,
+        imageHandlerService
+      );
+
+      if (!customizationSystemThumbnail) {
+        return defaultImage;
+      }
+
+      return customizationSystemThumbnail;
+    });
 
     function toggleExtendedInfo () {
       showExtendedInfo.value = !showExtendedInfo.value;
@@ -106,6 +129,7 @@ export default defineComponent({
 
     return {
       isExtendedInfoAvailable,
+      orderItemImage,
       showActions,
       showExtendedInfo,
       showProgressTracker,

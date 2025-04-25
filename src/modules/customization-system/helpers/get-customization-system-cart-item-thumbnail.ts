@@ -1,20 +1,22 @@
-import CartItem from 'core/modules/cart/types/CartItem';
 import { ImageHandlerService } from 'src/modules/file-storage';
 
 import { isFileUploadValue } from '../types/is-file-upload-value.typeguard';
 import { WidgetType } from '../types/widget-type';
+import { CustomizationStateItem } from '../types/customization-state-item.interface';
+import { Customization } from '../types/customization.interface';
 
 const THUMBNAIL_SIZE = 320;
 
 export function getCustomizationSystemCartItemThumbnail (
-  cartItem: CartItem,
+  customizations: Customization[] | undefined,
+  customizationState: CustomizationStateItem[] | undefined,
   imageHandlerService: ImageHandlerService
 ): string | undefined {
-  if (!cartItem.customizations || !cartItem.extension_attributes?.customization_state) {
+  if (!customizations || !customizationState) {
     return;
   }
 
-  const imageUploadCustomization = cartItem.customizations.find((customization) => {
+  const imageUploadCustomization = customizations.find((customization) => {
     if (!customization.showInCart) {
       return false;
     }
@@ -26,7 +28,7 @@ export function getCustomizationSystemCartItemThumbnail (
     return;
   }
 
-  const customizationStateItem = cartItem.extension_attributes?.customization_state.find((item) => {
+  const customizationStateItem = customizationState.find((item) => {
     return item.customization_id === imageUploadCustomization.id;
   });
 
