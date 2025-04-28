@@ -34,9 +34,10 @@
       <picture>
         <source
           v-for="source of sortedSources"
-          :key="source.breakpoint"
+          :key="source.breakpoint + (source.type ? source.type : '')"
           :srcset="source.srcset.join(', ')"
           :media="getMediaQuery(source.breakpoint)"
+          :type="source.type"
         >
         <img
           v-show="defaultSrc"
@@ -95,6 +96,10 @@ export default Vue.extend({
       type: Array as PropType<ImageSourceItem[]>,
       default: () => []
     },
+    fallbackSrcset: {
+      type: Object as PropType<ImageSourceItem> | undefined,
+      default: undefined
+    },
     lazy: {
       type: Boolean,
       default: true
@@ -146,6 +151,10 @@ export default Vue.extend({
       return [...this.srcsets].sort((a, b) => a.breakpoint - b.breakpoint)
     },
     defaultSrcSet (): string[] | undefined {
+      if (this.fallbackSrcset) {
+        return this.fallbackSrcset.srcset;
+      }
+
       if (!this.sortedSources.length) {
         return undefined;
       }
