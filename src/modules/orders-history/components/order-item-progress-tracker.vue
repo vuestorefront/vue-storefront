@@ -132,6 +132,7 @@ export default defineComponent({
 .order-item-progress-tracker {
   display: flex;
   flex-direction: column;
+  font-size: var(--font-xs);
 
   ._progress-tracker {
     display: flex;
@@ -143,7 +144,6 @@ export default defineComponent({
     border: 1px solid var(--c-secondary);
     padding: var(--spacer-2xs) var(--spacer-sm);
     box-sizing: border-box;
-    font-size: var(--font-xs);
 
     &.-active {
       background-color: var(--c-secondary);
