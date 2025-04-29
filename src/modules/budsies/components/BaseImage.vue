@@ -74,6 +74,7 @@ import { v1 as uuidv1 } from 'uuid';
 
 import ImageAspectRatioSpec from '../types/image-aspect-ratio-spec.interface';
 import ImageSourceItem from '../types/image-source-item.interface';
+import { MimeTypeValue } from 'src/modules/shared';
 
 interface PaddingSpec {
   breakpoint: number,
@@ -148,7 +149,21 @@ export default Vue.extend({
       return this.optimizedAspectRatiosList.length > 0;
     },
     sortedSources (): ImageSourceItem[] {
-      return [...this.srcsets].sort((a, b) => a.breakpoint - b.breakpoint)
+      const typeOrder: Record<string, number> = {
+        [MimeTypeValue.IMAGE_AVIF]: 1,
+        [MimeTypeValue.IMAGE_WEBP]: 2
+      };
+
+      return [...this.srcsets].sort((a, b) => {
+        const aTypeOrder = a.type ? typeOrder[a.type] || 3 : 3;
+        const bTypeOrder = b.type ? typeOrder[b.type] || 3 : 3;
+
+        if (aTypeOrder !== bTypeOrder) {
+          return aTypeOrder - bTypeOrder;
+        }
+
+        return a.breakpoint - b.breakpoint;
+      });
     },
     defaultSrcSet (): string[] | undefined {
       if (this.fallbackSrcset) {
