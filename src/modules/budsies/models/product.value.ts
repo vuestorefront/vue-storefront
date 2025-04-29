@@ -38,5 +38,6 @@ export enum ProductValue {
   GOLF_COVERS_OTHER = '39',
   GOLF_SHIRTS = '43',
   HAWAIIAN_SHIRTS = '44',
-  PHOTO_PORTRAITS = '47'
+  PHOTO_PORTRAITS = '47',
+  TUMBLERS = '46',
 }
