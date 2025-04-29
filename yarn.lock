@@ -994,9 +994,9 @@
   resolved "https://registry.yarnpkg.com/@braintree/wrap-promise/-/wrap-promise-2.1.0.tgz#7e27ffc5dacd2d71533b0c42506eea8e7c2e50fa"
   integrity sha512-UIrJB+AfKU0CCfbMoWrsGpd2D/hBpY/SGgFI6WRHPOwhaZ3g9rz1weiJ6eb6L9KgVyunT7s2tckcPkbHw+NzeA==
 
-"@cabbiepete/cloud-zoom@https://github.com/GorbunovStudio/cloud-zoom.git#gorbunov-studio":
+"@cabbiepete/cloud-zoom@https://github.com/GorbunovStudio/cloud-zoom.git#56945ff73093cd969fe27d8111fa927322b0d8de":
   version "1.0.4"
-  resolved "https://github.com/GorbunovStudio/cloud-zoom.git#5e620753247ec4db69dd95610367f813d91e1489"
+  resolved "https://github.com/GorbunovStudio/cloud-zoom.git#56945ff73093cd969fe27d8111fa927322b0d8de"
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
