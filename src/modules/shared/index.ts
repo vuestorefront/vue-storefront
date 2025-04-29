@@ -23,6 +23,7 @@ import PrivacyPolicyLink from './components/privacy-policy-link.vue';
 import StreamingVideo from './components/streaming-video.vue';
 import { getCanonicalUrl } from './helpers/get-canonical-url.function';
 import getCookieByName from './helpers/get-cookie-by-name.function';
+import { MimeTypeValue } from './types/mime-type.value';
 
 export {
   InjectType,
@@ -48,5 +49,6 @@ export {
   getCanonicalUrl,
   UserEvents,
   CustomerDataChangedEventPayload,
-  getCookieByName
+  getCookieByName,
+  MimeTypeValue
 }

@@ -6,9 +6,6 @@ import { StoryblokState } from '../types/State'
 const getters: GetterTree<StoryblokState, RootState> = {
   storeCode: (state: StoryblokState): string => {
     return state.storeCode;
-  },
-  supportsWebp (state: StoryblokState): boolean {
-    return state.supportsWebp
   }
 }
 

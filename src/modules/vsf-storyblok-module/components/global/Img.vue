@@ -8,19 +8,12 @@
 <script>
 import get from 'lodash-es/get'
 import config from 'config'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'StoryblokImage',
   computed: {
-    ...mapGetters({
-      supportsWebp: 'storyblok/supportsWebp'
-    }),
     computedFilters () {
-      if (this.detectWebp && this.supportsWebp) {
-        return [...this.filters, 'format(webp)']
-      }
-      return this.filters
+      return [...this.filters, 'format(webp)']
     },
     image () {
       if (!this.src.includes('/a.storyblok.com')) {

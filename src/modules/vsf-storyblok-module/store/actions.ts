@@ -24,13 +24,11 @@ const fetchStory = async url => {
 }
 
 export const actions: ActionTree<StoryblokState, RootState> = {
-  async ssrContext ({ commit, dispatch }, ssrContext) {
+  async ssrContext ({ dispatch }, ssrContext) {
     const { request } = ssrContext.server
     if (request.headers['x-vs-store-code']) {
       dispatch('setStoreCode', request.headers['x-vs-store-code'])
     }
-    const supportsWebp = request.headers.accept && request.headers.accept.includes('image/webp')
-    commit('supportsWebp', supportsWebp)
   },
   async setStoreCode ({ commit, state }, storeCode) {
     commit('setStoreCode', storeCode)
