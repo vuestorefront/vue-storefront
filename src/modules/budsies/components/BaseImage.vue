@@ -97,7 +97,7 @@ export default Vue.extend({
       default: () => []
     },
     fallbackSrcset: {
-      type: Object as PropType<ImageSourceItem> | undefined,
+      type: Object as PropType<ImageSourceItem | undefined>,
       default: undefined
     },
     lazy: {
