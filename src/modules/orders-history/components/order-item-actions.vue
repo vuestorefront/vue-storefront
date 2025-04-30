@@ -6,7 +6,7 @@
     >
       <div
         v-for="action in actionsListGroups.actionsWithMessagesList"
-        :key="action.code + action.name"
+        :key="action.code + ';' + action.name"
         class="_action-with-message"
         :class="{'-blocking': action.blocking_progress}"
       >
@@ -20,7 +20,7 @@
     >
       <component
         v-for="actionItem in actionsListGroups.availableActionsList"
-        :key="actionItem.action.code + actionItem.action.name"
+        :key="actionItem.action.code + ';' + actionItem.action.name"
         class="_available-action sf-button"
         :is="actionItem.component"
         v-bind="actionItem.props"
