@@ -10,7 +10,7 @@
           class="_status-item"
           :class="{
             '-active': status.id === activeStatusId,
-            '-completed': index < currentStepIndex
+            '-completed': index < currentStepIndex || lastStatus.id === activeStatusId
           }"
           :key="status.id"
           v-for="(status, index) in filteredStatusesList"
@@ -228,6 +228,33 @@ export default defineComponent({
         }
       }
     }
+  }
+
+  // hide some status items on small screens
+  @media (max-width: 456px) {
+      // ._status-item {
+        // hide even
+        // &:nth-child(even) {
+        //   display: none;
+        // }
+        //
+        // &:first-of-type,
+        // &:last-of-type,
+        // &.-active {
+        //   display: flex;
+        // }
+
+        // hide completed
+        // &.-completed {
+        //   display: none;
+        // }
+        //
+        // &:first-of-type,
+        // &:last-of-type,
+        // &.-active {
+        //   display: flex;
+        // }
+      // }
   }
 }
 </style>

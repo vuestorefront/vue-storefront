@@ -152,9 +152,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .order-item {
   display: flex;
-  column-gap: var(--spacer-sm);
   border: 1px solid var(--c-secondary);
-  padding: var(--spacer-sm) 0 var(--spacer-sm) var(--spacer-sm);
+  padding: var(--spacer-sm) 0 var(--spacer-sm) var(--spacer-xs);
 
   ._content {
     display: flex;
@@ -199,6 +198,14 @@ export default defineComponent({
 
   .order-item-extended-info {
     margin-top: var(--spacer-base);
+  }
+
+  .order-item-progress-tracker {
+    max-width: 512px;
+  }
+
+  @media (min-width: 426px) {
+    padding: var(--spacer-sm) 0 var(--spacer-sm) var(--spacer-sm);
   }
 }
 </style>
