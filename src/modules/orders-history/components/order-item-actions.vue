@@ -6,7 +6,7 @@
     >
       <div
         v-for="action in actionsListGroups.actionsWithMessagesList"
-        :key="action.code"
+        :key="action.code + action.name"
         class="_action-with-message"
         :class="{'-blocking': action.blocking_progress}"
       >
@@ -20,7 +20,7 @@
     >
       <component
         v-for="actionItem in actionsListGroups.availableActionsList"
-        :key="actionItem.action.code"
+        :key="actionItem.action.code + actionItem.action.name"
         class="_available-action sf-button"
         :is="actionItem.component"
         v-bind="actionItem.props"
@@ -62,16 +62,10 @@ export default defineComponent({
   setup (props) {
     const actionsListGroups = computed<ActionsListGroups>(() => {
       const actionsWithMessagesList: OrderItemAvailableAction[] = [];
-      const blockingProgresssActionsList: OrderItemAvailableAction[] = [];
       const availableActionsList: ActionItem[] = [];
 
       for (const action of props.actionsList) {
         if (action.blocking_progress) {
-          blockingProgresssActionsList.push(action);
-          continue;
-        }
-
-        if (action.message) {
           actionsWithMessagesList.push(action);
           continue;
         }
@@ -92,8 +86,6 @@ export default defineComponent({
 
         availableActionsList.push(actionItem);
       }
-
-      actionsWithMessagesList.unshift(...blockingProgresssActionsList)
 
       return {
         actionsWithMessagesList,
