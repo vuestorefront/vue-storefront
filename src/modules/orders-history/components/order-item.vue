@@ -2,7 +2,7 @@
   <div class="order-item">
     <div class="_content">
       <div class="_info-container">
-        <div class="_image-container">
+        <div class="_image-container desktop-only">
           <BaseImage
             :lazy="false"
             :src="orderItemImage"
@@ -18,7 +18,17 @@
             :shipments="item.shipments"
             :estimated-shipment-date="item.estimated_shipment_date"
             :shipped-date="item.shipped_date"
-          />
+          >
+            <template #image>
+              <BaseImage
+                class="_mobile-image mobile-only"
+                :lazy="false"
+                :src="orderItemImage"
+                :alt="item.product.name"
+                :aspect-ratio="1"
+              />
+            </template>
+          </order-item-base-info>
 
           <order-item-progress-tracker
             :progress-tracker="item.progress_tracker"
@@ -175,6 +185,10 @@ export default defineComponent({
     align-items: center;
     justify-content: center;
     cursor: pointer;
+  }
+
+  ._mobile-image {
+    width: 72px;
   }
 
   .sf-chevron {

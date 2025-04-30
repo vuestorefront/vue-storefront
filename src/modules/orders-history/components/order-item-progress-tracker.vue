@@ -10,13 +10,18 @@
           class="_status-item"
           :class="{
             '-active': status.id === activeStatusId,
+            '-completed': index < currentStepIndex
           }"
           :key="status.id"
-          v-for="status in statusesToDisplay"
+          v-for="(status, index) in filteredStatusesList"
         >
-          <span class="_name">
-            {{ status.name }}
-          </span>
+          <div class="_mark" />
+
+          <template v-if="[activeStatusId, firstStatus.id, lastStatus.id].includes(status.id)">
+            <span class="_name">
+              {{ status.name }}
+            </span>
+          </template>
         </div>
       </div>
     </template>
@@ -119,8 +124,11 @@ export default defineComponent({
       activeStatusId,
       currentStepIndex,
       filteredStatusesCount,
+      filteredStatusesList,
+      firstStatus,
       isCancelled,
       isOnHold,
+      lastStatus,
       statusesToDisplay,
       statusesList
     }
@@ -130,6 +138,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .order-item-progress-tracker {
+  $mark-size: 10px;
+  $mark-border-width: 2px;
+
   display: flex;
   flex-direction: column;
   font-size: var(--font-xs);
@@ -137,16 +148,85 @@ export default defineComponent({
   ._progress-tracker {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     row-gap: var(--spacer-2xs);
   }
 
   ._status-item {
-    border: 1px solid var(--c-secondary);
-    padding: var(--spacer-2xs) var(--spacer-sm);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     box-sizing: border-box;
+    flex: 1;
+    text-align: center;
+
+    ._mark {
+      border-radius: 50%;
+      width: $mark-size;
+      height: $mark-size;
+      border: $mark-border-width solid var(--c-secondary);
+
+      &::before,
+      &::after {
+        content: "";
+        width: calc(calc(50% - #{$mark-size / 2}) - #{$mark-border-width / 2});
+        top: calc(#{$mark-size / 2} + #{$mark-border-width / 2});
+        height: $mark-border-width;
+        background-color: var(--c-secondary);
+        position: absolute;
+      }
+
+      &::before {
+        left: 0;
+      }
+
+      &::after {
+        right: 0;
+      }
+
+    }
+
+    &:first-of-type {
+      ._mark {
+        &::before {
+          display: none;
+        }
+      }
+    }
+
+    &:last-of-type {
+      ._mark {
+        &::after {
+          display: none;
+        }
+      }
+    }
+
+    ._name {
+      margin-top: var(--spacer-2xs);
+    }
 
     &.-active {
-      background-color: var(--c-secondary);
+      ._mark {
+        background-color: var(--c-secondary);
+
+        &::before {
+          background-color: var(--c-success);
+        }
+      }
+    }
+
+    &.-completed {
+      ._mark {
+        background-color: var(--c-success);
+        border-color: var(--c-success);
+
+        &::before,
+        &::after {
+          background-color: var(--c-success);
+        }
+      }
     }
   }
 }

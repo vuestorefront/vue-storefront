@@ -1,25 +1,29 @@
 <template>
   <div class="order-item-base-info">
-    <span class="_product-name">
-      {{ itemDisplayId }} - {{ productName }}
-    </span>
+    <slot name="image" />
 
-    <span class="_estimated-shipment-date" v-if="showEstimatedShipmentDate">
-      {{ $t('Estimated shipment date: {date}', {date: formattedEstimatedShipmentDate}) }}
-    </span>
-
-    <span class="_shipped-date" v-if="shippedDate">
-      {{ shippedDate }}
-    </span>
-
-    <div class="_shipments-list" v-if="showShipmentsList">
-      <span
-        class="_shipment-item"
-        v-for="shipment in shipments"
-        :key="shipment.tracking_number"
-      >
-        {{ shipment.tracking_number }}
+    <div class="_content">
+      <span class="_product-name">
+        {{ itemDisplayId }} - {{ productName }}
       </span>
+
+      <span class="_estimated-shipment-date" v-if="showEstimatedShipmentDate">
+        {{ $t('Estimated shipment date: {date}', {date: formattedEstimatedShipmentDate}) }}
+      </span>
+
+      <span class="_shipped-date" v-if="shippedDate">
+        {{ shippedDate }}
+      </span>
+
+      <div class="_shipments-list" v-if="showShipmentsList">
+        <span
+          class="_shipment-item"
+          v-for="shipment in shipments"
+          :key="shipment.tracking_number"
+        >
+          {{ shipment.tracking_number }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -85,8 +89,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 .order-item-base-info {
   display: flex;
-  flex-direction: column;
-  row-gap: var(--spacer-xs);
+  column-gap: var(--spacer-xs);
+
+  ._content {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--spacer-xs);
+  }
 
   ._product-name {
     font-weight: bold;
