@@ -70,7 +70,7 @@ import { PropType, defineComponent, computed, ref, inject } from '@vue/compositi
 import { SfChevron } from '@storefront-ui/vue';
 
 import { BaseImage } from 'src/modules/budsies';
-import { getCustomizationSystemCartItemThumbnail } from 'src/modules/customization-system';
+import { getCustomizationSystemThumbnail } from 'src/modules/customization-system';
 import { ImageHandlerService } from 'src/modules/file-storage';
 
 import { OrderItem } from '../types/order-item';
@@ -120,7 +120,7 @@ export default defineComponent({
         return defaultImage;
       }
 
-      const customizationSystemThumbnail = getCustomizationSystemCartItemThumbnail(
+      const customizationSystemThumbnail = getCustomizationSystemThumbnail(
         props.item.extension_attributes?.customizations,
         props.item.extension_attributes?.customization_states,
         imageHandlerService

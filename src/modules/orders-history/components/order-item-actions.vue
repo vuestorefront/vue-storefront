@@ -2,10 +2,10 @@
   <div class="order-item-actions">
     <div
       class="_actions-with-messages"
-      v-if="actionsListGroups.actionsWithMessagesList.length"
+      v-if="actionsListGroups.blockingActionsList.length"
     >
       <div
-        v-for="action in actionsListGroups.actionsWithMessagesList"
+        v-for="action in actionsListGroups.blockingActionsList"
         :key="action.code + ';' + action.name"
         class="_action-with-message"
         :class="{'-blocking': action.blocking_progress}"
@@ -16,10 +16,10 @@
 
     <div
       class="_available-actions"
-      v-if="actionsListGroups.availableActionsList.length"
+      v-if="actionsListGroups.nonBlockingActionsList.length"
     >
       <component
-        v-for="actionItem in actionsListGroups.availableActionsList"
+        v-for="actionItem in actionsListGroups.nonBlockingActionsList"
         :key="actionItem.action.code + ';' + actionItem.action.name"
         class="_available-action sf-button"
         :is="actionItem.component"
@@ -44,8 +44,8 @@ interface ActionItem {
 }
 
 interface ActionsListGroups {
-  actionsWithMessagesList: OrderItemAvailableAction[],
-  availableActionsList: ActionItem[]
+  blockingActionsList: OrderItemAvailableAction[],
+  nonBlockingActionsList: ActionItem[]
 }
 
 export default defineComponent({
@@ -61,12 +61,12 @@ export default defineComponent({
   },
   setup (props) {
     const actionsListGroups = computed<ActionsListGroups>(() => {
-      const actionsWithMessagesList: OrderItemAvailableAction[] = [];
-      const availableActionsList: ActionItem[] = [];
+      const blockingActionsList: OrderItemAvailableAction[] = [];
+      const nonBlockingActionsList: ActionItem[] = [];
 
       for (const action of props.actionsList) {
         if (action.blocking_progress) {
-          actionsWithMessagesList.push(action);
+          blockingActionsList.push(action);
           continue;
         }
 
@@ -84,12 +84,12 @@ export default defineComponent({
           }
         }
 
-        availableActionsList.push(actionItem);
+        nonBlockingActionsList.push(actionItem);
       }
 
       return {
-        actionsWithMessagesList,
-        availableActionsList
+        blockingActionsList,
+        nonBlockingActionsList
       }
     });
 

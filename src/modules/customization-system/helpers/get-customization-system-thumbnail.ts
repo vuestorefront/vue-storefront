@@ -7,7 +7,7 @@ import { Customization } from '../types/customization.interface';
 
 const THUMBNAIL_SIZE = 320;
 
-export function getCustomizationSystemCartItemThumbnail (
+export function getCustomizationSystemThumbnail (
   customizations: Customization[] | undefined,
   customizationState: CustomizationStateItem[] | undefined,
   imageHandlerService: ImageHandlerService

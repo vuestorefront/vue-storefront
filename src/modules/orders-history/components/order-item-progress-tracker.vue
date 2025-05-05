@@ -38,8 +38,7 @@ import { PropType, defineComponent, computed } from '@vue/composition-api';
 import { ProgressTrackerStatus } from '../types/progress-tracker-status';
 import { ProgressTrackerData } from '../types/progress-tracker-data';
 
-const CANCELLED_STATUS_NAME = 'cancelled';
-const ON_HOLD_STATUS_NAME = 'on hold';
+const ON_HOLD_STATUS_ID = 14;
 const STATUSES_TO_DISPLAY_COUNT = 3;
 
 export default defineComponent({
@@ -70,12 +69,12 @@ export default defineComponent({
         return false;
       }
 
-      return _activeStatus.name.toLowerCase() === ON_HOLD_STATUS_NAME;
+      return _activeStatus.id === ON_HOLD_STATUS_ID;
     });
 
     const filteredStatusesList = computed<ProgressTrackerStatus[]>(() => {
       return statusesList.value.filter((status) =>
-        status.name.toLowerCase() !== CANCELLED_STATUS_NAME && status.name.toLowerCase() !== ON_HOLD_STATUS_NAME
+        status.id !== ON_HOLD_STATUS_ID
       );
     });
     const filteredStatusesCount = computed<number>(() => {
