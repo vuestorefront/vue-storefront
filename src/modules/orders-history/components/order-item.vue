@@ -200,7 +200,7 @@ export default defineComponent({
   }
 
   .order-item-progress-tracker {
-    max-width: 512px;
+    max-width: 370px;
   }
 
   @media (min-width: 426px) {
