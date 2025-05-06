@@ -173,7 +173,7 @@ export default defineComponent({
     display: flex;
     justify-content: space-between;
     row-gap: var(--spacer-2xs);
-    padding-top: var(--spacer-sm);
+    padding-top: var(--spacer-base);
     margin-top: var(--spacer-xs);
 
     &.-vertical {
@@ -239,7 +239,7 @@ export default defineComponent({
 
   ._step-counter {
     position: absolute;
-    bottom: 100%;
+    bottom: 108%;
     white-space: nowrap;
 
     &.-vertical {
