@@ -30,9 +30,16 @@
           </order-item-base-info>
 
           <order-item-progress-tracker
-            :progress-tracker="item.progress_tracker"
-            v-if="showProgressTracker"
+            :active-status="progressTrackerActiveStatus"
+            :is-vertical="false"
+            :filtered-statuses-list="progressTrackerFilteredStatusesList"
+            :max-statuses-to-display-horizontal="PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT"
+            v-if="canShowProgressTracker"
           />
+
+          <div class="_cancelled" v-if="isOrderCancelledOrOnHold">
+            {{ isOrderCancelled ? $t('Order is Cancelled') : $t('Order is On Hold') }}
+          </div>
 
           <order-item-actions
             :actions-list="item.available_actions"
@@ -50,6 +57,15 @@
             :extension-attributes="item.extension_attributes"
             v-show="showExtendedInfo"
           />
+
+          <template v-if="canShowExtendedProgressTracker">
+            <order-item-progress-tracker
+              :active-status="progressTrackerActiveStatus"
+              :is-vertical="true"
+              :filtered-statuses-list="progressTrackerFilteredStatusesList"
+              v-show="showExtendedInfo"
+            />
+          </template>
         </template>
       </div>
     </div>
@@ -65,19 +81,22 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent, computed, ref, inject } from '@vue/composition-api';
+import { PropType, defineComponent, computed, ref, inject, toRef } from '@vue/composition-api';
 import { SfChevron } from '@storefront-ui/vue';
 
 import { BaseImage } from 'src/modules/budsies';
 import { getCustomizationSystemThumbnail } from 'src/modules/customization-system';
 import { ImageHandlerService } from 'src/modules/file-storage';
 
+import { useOrderItemProgressTracker } from '../composables/use-order-item-progress-tracker';
 import { OrderItem } from '../types/order-item';
 
 import OrderItemBaseInfo from './order-item-base-info.vue';
 import OrderItemExtendedInfo from './order-item-extended-info.vue';
 import OrderItemProgressTracker from './order-item-progress-tracker.vue';
 import OrderItemActions from './order-item-actions.vue';
+
+const PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT = 3;
 
 export default defineComponent({
   name: 'OrderItem',
@@ -99,18 +118,8 @@ export default defineComponent({
     const imageHandlerService = inject<ImageHandlerService>('ImageHandlerService');
 
     const showExtendedInfo = ref<boolean>(false);
-    const showProgressTracker = computed<boolean>(() => {
-      return props.item.available_actions.every(
-        (item) => {
-          return !item.blocking_progress;
-        }
-      );
-    });
     const showActions = computed<boolean>(() => {
       return props.item.available_actions.length > 0;
-    });
-    const isExtendedInfoAvailable = computed<boolean>(() => {
-      return !!props.item.extension_attributes && !!Object.keys(props.item.extension_attributes).length;
     });
     const orderItemImage = computed<string>(() => {
       const defaultImage = props.item.product.thumbnail;
@@ -136,13 +145,39 @@ export default defineComponent({
       showExtendedInfo.value = !showExtendedInfo.value;
     }
 
+    const {
+      activeStatus: progressTrackerActiveStatus,
+      canShowExtendedProgressTracker,
+      canShowProgressTracker,
+      filteredStatusesList: progressTrackerFilteredStatusesList,
+      isOrderCancelled,
+      isOrderCancelledOrOnHold
+    } = useOrderItemProgressTracker(
+      toRef(props, 'item'),
+      PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT
+    );
+
+    const isExtendedInfoAvailable = computed<boolean>(() => {
+      if (canShowExtendedProgressTracker.value) {
+        return true;
+      }
+
+      return !!props.item.extension_attributes && !!Object.keys(props.item.extension_attributes).length;
+    });
+
     return {
+      canShowExtendedProgressTracker,
       isExtendedInfoAvailable,
+      isOrderCancelled,
+      isOrderCancelledOrOnHold,
       orderItemImage,
+      progressTrackerActiveStatus,
+      progressTrackerFilteredStatusesList,
       showActions,
       showExtendedInfo,
-      showProgressTracker,
-      toggleExtendedInfo
+      canShowProgressTracker,
+      toggleExtendedInfo,
+      PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT
     }
   }
 })
@@ -201,6 +236,12 @@ export default defineComponent({
 
   .order-item-progress-tracker {
     max-width: 370px;
+  }
+
+  ._extended-info {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--spacer-sm);
   }
 
   @media (min-width: 426px) {
