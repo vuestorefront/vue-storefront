@@ -2,7 +2,7 @@
   <div class="order-item-shipment-info">
     <div class="_content">
       <span class="_estimated-shipment-date" v-if="showEstimatedShipmentDate">
-        {{ $t('Estimated shipment date: {date}', { date: formattedEstimatedShipmentDate }) }}
+        {{ $t('Est. shipment date') + ': ' + formattedEstimatedShipmentDate }}
       </span>
 
       <span class="_shipped-date" v-if="shipmentDate">

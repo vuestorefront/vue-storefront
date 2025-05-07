@@ -1,9 +1,5 @@
 <template>
   <div class="order-item-progress-tracker" :title="$t('Progress Tracker')">
-    <div class="_heading-container">
-      <SfHeading class="_heading" :title="$t('Progress')" :level="5" />
-    </div>
-
     <div class="_step-counter -vertical" v-if="isVertical">
       {{ $t('Step {current} of {total}', {current: currentStepIndex + 1, total: filteredStatusesCount}) }}
     </div>
@@ -39,7 +35,6 @@
 
 <script lang="ts">
 import { PropType, defineComponent, computed } from '@vue/composition-api';
-import { SfHeading } from '@storefront-ui/vue';
 
 import { ProgressTrackerStatus } from '../types/progress-tracker-status';
 
@@ -69,7 +64,6 @@ export default defineComponent({
     }
   },
   components: {
-    SfHeading
   },
   setup (props) {
     const filteredStatusesList = computed<ProgressTrackerStatus[]>(() => {
@@ -174,7 +168,6 @@ export default defineComponent({
     justify-content: space-between;
     row-gap: var(--spacer-2xs);
     padding-top: var(--spacer-base);
-    margin-top: var(--spacer-xs);
 
     &.-vertical {
       flex-direction: column;
@@ -225,21 +218,9 @@ export default defineComponent({
     }
   }
 
-  ._heading-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  ._heading {
-    --heading-padding: 0;
-
-    text-align: start;
-  }
-
   ._step-counter {
     position: absolute;
-    bottom: 108%;
+    bottom: 117%;
     white-space: nowrap;
 
     &.-vertical {
