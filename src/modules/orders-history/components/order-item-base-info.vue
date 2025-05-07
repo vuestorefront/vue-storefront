@@ -8,22 +8,22 @@
       </span>
 
       <span class="_estimated-shipment-date" v-if="showEstimatedShipmentDate">
-        {{ $t('Estimated shipment date: {date}', {date: formattedEstimatedShipmentDate}) }}
+        {{ $t('Estimated shipment date: {date}', { date: formattedEstimatedShipmentDate }) }}
       </span>
 
-      <span class="_shipped-date" v-if="shippedDate">
-        {{ shippedDate }}
+      <span class="_shipped-date" v-if="shipmentDate">
+        {{ shipmentDate }}
       </span>
 
-      <div class="_shipments-list" v-if="showShipmentsList">
-        <span
+      <ul class="_shipments-list" v-if="showShipmentsList">
+        <li
           class="_shipment-item"
           v-for="shipment in shipments"
           :key="shipment.tracking_number"
         >
-          {{ shipment.tracking_number }}
-        </span>
-      </div>
+          {{ shipment.carrier_code }} - {{ shipment.tracking_number }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -51,15 +51,33 @@ export default defineComponent({
     estimatedShipmentDate: {
       type: String as PropType<string | null | undefined>,
       default: undefined
-    },
-    shippedDate: {
-      type: String as PropType<string | null | undefined>,
-      default: undefined
     }
   },
   setup (props, { root }) {
     const showShipmentsList = computed<boolean>(() => {
       return props.shipments.length > 0;
+    });
+
+    const shipmentDate = computed<string | undefined>(() => {
+      let shipmentDate: Date | undefined;
+
+      for (const shipment of props.shipments) {
+        if (!shipment.shipment_date) {
+          continue;
+        }
+
+        const date = new Date(shipment.shipment_date);
+
+        if (!shipmentDate || shipmentDate.getTime() > date.getTime()) {
+          shipmentDate = date;
+        }
+      }
+
+      if (!shipmentDate) {
+        return;
+      }
+
+      return root.$t('Shipment date: {date}', { date: shipmentDate.toLocaleDateString() });
     });
 
     const formattedEstimatedShipmentDate = computed<string>(() => {
@@ -73,13 +91,15 @@ export default defineComponent({
     });
 
     const showEstimatedShipmentDate = computed<boolean>(() => {
-      return !!formattedEstimatedShipmentDate.value && !props.shippedDate;
+      return !!formattedEstimatedShipmentDate.value && !shipmentDate.value;
     });
 
     return {
       formattedEstimatedShipmentDate,
+      shipmentDate,
       showEstimatedShipmentDate,
       showShipmentsList
+
     }
   }
 })
@@ -99,6 +119,10 @@ export default defineComponent({
 
   ._product-name {
     font-weight: bold;
+  }
+
+  ._shipments-list {
+    list-style: disc;
   }
 }
 </style>
