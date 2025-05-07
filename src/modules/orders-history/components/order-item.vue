@@ -33,8 +33,8 @@
             v-if="showShipmentInfo"
           />
 
-          <div class="_cancelled" v-if="isOrderCancelledOrOnHold">
-            {{ isOrderCancelled ? $t('Order is Cancelled') : $t('Order is On Hold') }}
+          <div class="_cancelled" v-if="isOrderCancelledOrOnHoldOrCompleted">
+            {{ isOrderCancelled ? $t('Order is Cancelled') : isOrderCompleted ? $t('Order is Completed') : $t('Order is On Hold') }}
           </div>
 
           <order-item-actions
@@ -140,7 +140,8 @@ export default defineComponent({
       canShowProgressTracker,
       filteredStatusesList: progressTrackerFilteredStatusesList,
       isOrderCancelled,
-      isOrderCancelledOrOnHold
+      isOrderCompleted,
+      isOrderCancelledOrOnHoldOrCompleted
     } = useOrderItemProgressTracker(
       toRef(props, 'item'),
       PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT
@@ -163,7 +164,8 @@ export default defineComponent({
       canShowProgressTracker,
       isExtendedInfoAvailable,
       isOrderCancelled,
-      isOrderCancelledOrOnHold,
+      isOrderCompleted,
+      isOrderCancelledOrOnHoldOrCompleted,
       orderItemImage,
       progressTrackerActiveStatus,
       progressTrackerFilteredStatusesList,

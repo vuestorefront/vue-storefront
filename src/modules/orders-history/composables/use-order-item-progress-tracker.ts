@@ -16,8 +16,13 @@ export function useOrderItemProgressTracker (
   const isOrderCancelled = computed<boolean>(() => {
     return progressTrackerData.value.cancelled;
   });
-  const isOrderCancelledOrOnHold = computed<boolean>(() => {
-    return isOrderCancelled.value || progressTrackerData.value.status_id === ProgressStatusId.ON_HOLD;
+
+  const isOrderCompleted = computed<boolean>(() => {
+    return progressTrackerData.value.completed;
+  });
+
+  const isOrderCancelledOrOnHoldOrCompleted = computed<boolean>(() => {
+    return isOrderCancelled.value || isOrderCompleted.value || progressTrackerData.value.status_id === ProgressStatusId.ON_HOLD;
   });
 
   const filteredStatusesList = computed<ProgressTrackerStatus[]>(() => {
@@ -31,7 +36,7 @@ export function useOrderItemProgressTracker (
   });
 
   const canShowProgressTracker = computed<boolean>(() => {
-    return !!activeStatus.value && !isOrderCancelledOrOnHold.value && orderItem.value.available_actions.every(
+    return !!activeStatus.value && !isOrderCancelledOrOnHoldOrCompleted.value && orderItem.value.available_actions.every(
       (item) => {
         return !item.blocking_progress;
       }
@@ -52,6 +57,7 @@ export function useOrderItemProgressTracker (
     canShowProgressTracker,
     filteredStatusesList,
     isOrderCancelled,
-    isOrderCancelledOrOnHold
+    isOrderCompleted,
+    isOrderCancelledOrOnHoldOrCompleted: isOrderCancelledOrOnHoldOrCompleted
   }
 }
