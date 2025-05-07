@@ -1,3 +1,5 @@
+import { Request } from 'express';
+
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
 import { extractCookieValue } from '../helpers/extract-cookie-value.function'
 import { cacheInstanceFactory } from './utils/cache-instance';
@@ -166,6 +168,50 @@ function cacheVersion (req, res) {
   res.send(fs.readFileSync(resolve('core/build/cache-version.json')))
 }
 
+const ignoredQueryKeys = [
+  'srsltid',
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'fbclid',
+  'utm_term',
+  'utm_content',
+  'utm_id',
+  'gad_source',
+  'gclid',
+  'id',
+  'gbraid',
+  'campaign',
+  'data',
+  'content',
+  'msclkid',
+  'uri',
+  'url',
+  'dest',
+  'redirect',
+  'file',
+  'target',
+  'mc_cid',
+  'mc_eid',
+  'sscid',
+  'gad_campaignid',
+  'gQT',
+  'wbraid',
+  'pp',
+  'audience',
+  'ref',
+  'continueFlag',
+  'hc_location'
+];
+
+function generateCacheKey (site: string, req: Request) {
+  const url = new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+
+  ignoredQueryKeys.forEach((key) => url.searchParams.delete(key));
+
+  return `page:${site}:${url.pathname}${url.search}`;
+}
+
 app.get('/cache-version.json', cacheVersion)
 
 let globalContextConfig: any = null;
@@ -206,7 +252,7 @@ app.get('*', async (req, res, next) => {
   }
 
   const site = req.headers['x-vs-store-code'] || 'main'
-  let cacheKey = `page:${site}:${req.url}`
+  let cacheKey = generateCacheKey(site, req);
 
   if (TEST_GROUP_ID_COOKIE_KEY) {
     const testGroupId = extractCookieValue(TEST_GROUP_ID_COOKIE_KEY, req?.headers?.cookie);
