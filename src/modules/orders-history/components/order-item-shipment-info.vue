@@ -63,7 +63,7 @@ export default defineComponent({
         return;
       }
 
-      return root.$t('Shipment date: {date}', { date: shipmentDate.toLocaleDateString() });
+      return root.$t('Shipment date') + ': ' + shipmentDate.toLocaleDateString();
     });
 
     const formattedEstimatedShipmentDate = computed<string>(() => {
