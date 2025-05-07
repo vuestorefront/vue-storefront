@@ -1,8 +1,11 @@
 <template>
-  <div class="order-item">
+  <div
+    class="order-item"
+    :class="{ '-extendable': isExtendedInfoAvailable }"
+  >
     <div class="_content">
       <div class="_info-container">
-        <div class="_image-container desktop-only">
+        <div class="_image-container">
           <BaseImage
             :lazy="false"
             :src="orderItemImage"
@@ -12,29 +15,22 @@
         </div>
 
         <div class="_base-info-container">
-          <order-item-base-info
-            :product-name="item.product.name"
-            :item-display-id="item.display_id"
-            :shipments="item.shipments"
-            :estimated-shipment-date="item.estimated_shipment_date"
-          >
-            <template #image>
-              <BaseImage
-                class="_mobile-image mobile-only"
-                :lazy="false"
-                :src="orderItemImage"
-                :alt="item.product.name"
-                :aspect-ratio="1"
-              />
-            </template>
-          </order-item-base-info>
+          <span class="_product-name">
+            {{ item.display_id }} - {{ item.product.name }}
+          </span>
 
           <order-item-progress-tracker
             :active-status="progressTrackerActiveStatus"
-            :is-vertical="false"
+            :is-vertical="canShowExtendedProgressTracker && showExtendedInfo"
             :filtered-statuses-list="progressTrackerFilteredStatusesList"
             :max-statuses-to-display-horizontal="PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT"
             v-if="canShowProgressTracker"
+          />
+
+          <order-item-shipment-info
+            :shipments="item.shipments"
+            :estimated-shipment-date="item.estimated_shipment_date"
+            v-if="showShipmentInfo"
           />
 
           <div class="_cancelled" v-if="isOrderCancelledOrOnHold">
@@ -57,15 +53,6 @@
             :extension-attributes="item.extension_attributes"
             v-show="showExtendedInfo"
           />
-
-          <template v-if="canShowExtendedProgressTracker">
-            <order-item-progress-tracker
-              :active-status="progressTrackerActiveStatus"
-              :is-vertical="true"
-              :filtered-statuses-list="progressTrackerFilteredStatusesList"
-              v-show="showExtendedInfo"
-            />
-          </template>
         </template>
       </div>
     </div>
@@ -91,10 +78,10 @@ import { ImageHandlerService } from 'src/modules/file-storage';
 import { useOrderItemProgressTracker } from '../composables/use-order-item-progress-tracker';
 import { OrderItem } from '../types/order-item';
 
-import OrderItemBaseInfo from './order-item-base-info.vue';
+import OrderItemActions from './order-item-actions.vue';
 import OrderItemExtendedInfo from './order-item-extended-info.vue';
 import OrderItemProgressTracker from './order-item-progress-tracker.vue';
-import OrderItemActions from './order-item-actions.vue';
+import OrderItemShipmentInfo from './order-item-shipment-info.vue';
 
 const PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT = 3;
 
@@ -103,9 +90,9 @@ export default defineComponent({
   components: {
     BaseImage,
     OrderItemActions,
-    OrderItemBaseInfo,
     OrderItemExtendedInfo,
     OrderItemProgressTracker,
+    OrderItemShipmentInfo,
     SfChevron
   },
   props: {
@@ -165,8 +152,13 @@ export default defineComponent({
       return !!props.item.extension_attributes && !!Object.keys(props.item.extension_attributes).length;
     });
 
+    const showShipmentInfo = computed<boolean>(() => {
+      return props.item.shipments.length > 0 || props.item.estimated_shipment_date;
+    });
+
     return {
       canShowExtendedProgressTracker,
+      canShowProgressTracker,
       isExtendedInfoAvailable,
       isOrderCancelled,
       isOrderCancelledOrOnHold,
@@ -175,7 +167,7 @@ export default defineComponent({
       progressTrackerFilteredStatusesList,
       showActions,
       showExtendedInfo,
-      canShowProgressTracker,
+      showShipmentInfo,
       toggleExtendedInfo,
       PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT
     }
@@ -187,7 +179,11 @@ export default defineComponent({
 .order-item {
   display: flex;
   border: 1px solid var(--c-secondary);
-  padding: var(--spacer-sm) 0 var(--spacer-sm) var(--spacer-xs);
+  padding: var(--spacer-sm) var(--spacer-xs);
+
+  &.-extendable {
+    padding-right: 0;
+  }
 
   ._content {
     display: flex;
@@ -200,8 +196,13 @@ export default defineComponent({
     column-gap: var(--spacer-sm);
   }
 
+  ._product-name {
+    font-weight: bold;
+  }
+
   ._image-container {
     display: flex;
+    align-items: flex-start;
     flex: 1;
   }
 
@@ -245,7 +246,7 @@ export default defineComponent({
   }
 
   @media (min-width: 426px) {
-    padding: var(--spacer-sm) 0 var(--spacer-sm) var(--spacer-sm);
+    padding: var(--spacer-sm);
   }
 }
 </style>
