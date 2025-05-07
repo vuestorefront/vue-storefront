@@ -60,10 +60,11 @@
 
     <div
       class="_toggle-extended-info"
+      :class="{'-expanded': showExtendedInfo}"
       v-if="isExtendedInfoAvailable"
       @click="toggleExtendedInfo"
     >
-      <SfChevron :class="{'-expanded': showExtendedInfo}" />
+      <SfChevron />
     </div>
   </div>
 </template>
@@ -220,16 +221,18 @@ export default defineComponent({
     align-items: center;
     justify-content: center;
     cursor: pointer;
+
+    &.-expanded {
+      align-items: end;
+
+      .sf-chevron {
+        rotate: 180deg;
+      }
+    }
   }
 
   ._mobile-image {
     width: 72px;
-  }
-
-  .sf-chevron {
-    &.-expanded {
-      rotate: 180deg;
-    }
   }
 
   .order-item-extended-info {
