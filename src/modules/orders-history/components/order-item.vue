@@ -50,6 +50,7 @@
       >
         <template>
           <order-item-extended-info
+            :item="item"
             :extension-attributes="item.extension_attributes"
             v-show="showExtendedInfo"
           />
