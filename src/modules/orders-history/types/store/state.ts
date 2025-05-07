@@ -1,5 +1,6 @@
 import { Order } from '../order';
 
 export interface OrdersHistoryState {
-  orders: Order[]
+  orders: Order[],
+  suggestedProductsIds: number[]
 }

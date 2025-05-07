@@ -22,12 +22,12 @@ import { defineComponent, computed, ref } from '@vue/composition-api';
 
 import { Logger } from '@vue-storefront/core/lib/logger';
 
-import OrderView from './order-view.vue';
-
 import { Order } from '../types/order';
 import { STORE_NAME } from '../store/store-name';
 import { GET_ORDERS_HISTORY } from '../types/store/getters';
 import { FETCH_ORDERS_HISTORY } from '../types/store/actions';
+
+import OrderView from './order-view.vue';
 
 export default defineComponent({
   name: 'OrdersHistoryList',
