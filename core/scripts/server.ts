@@ -201,7 +201,14 @@ const ignoredQueryKeys = [
   'audience',
   'ref',
   'continueFlag',
-  'hc_location'
+  'hc_location',
+  'qty',
+  'email',
+  'epik',
+  'user',
+  'SID',
+  'referral_code',
+  'newsletter-subscription-form-email-input',
 ];
 
 function generateCacheKey (site: string, req: Request) {
