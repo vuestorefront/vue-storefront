@@ -1,14 +1,8 @@
 <template>
-  <div class="order-item-base-info">
-    <slot name="image" />
-
+  <div class="order-item-shipment-info">
     <div class="_content">
-      <span class="_product-name">
-        {{ itemDisplayId }} - {{ productName }}
-      </span>
-
       <span class="_estimated-shipment-date" v-if="showEstimatedShipmentDate">
-        {{ $t('Estimated shipment date: {date}', { date: formattedEstimatedShipmentDate }) }}
+        {{ $t('Est. shipment date') + ': ' + formattedEstimatedShipmentDate }}
       </span>
 
       <span class="_shipped-date" v-if="shipmentDate">
@@ -34,16 +28,8 @@ import { PropType, computed, defineComponent } from '@vue/composition-api';
 import { OrderItemShipment } from '../types/order-item-shipment';
 
 export default defineComponent({
-  name: 'OrderItemBaseInfo',
+  name: 'OrderItemShipmentInfo',
   props: {
-    productName: {
-      type: String,
-      required: true
-    },
-    itemDisplayId: {
-      type: Number,
-      required: true
-    },
     shipments: {
       type: Array as PropType<OrderItemShipment[]>,
       required: true
@@ -77,7 +63,7 @@ export default defineComponent({
         return;
       }
 
-      return root.$t('Shipment date: {date}', { date: shipmentDate.toLocaleDateString() });
+      return root.$t('Shipment date') + ': ' + shipmentDate.toLocaleDateString();
     });
 
     const formattedEstimatedShipmentDate = computed<string>(() => {
@@ -107,7 +93,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.order-item-base-info {
+.order-item-shipment-info {
   display: flex;
   column-gap: var(--spacer-xs);
 
@@ -115,10 +101,6 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     row-gap: var(--spacer-xs);
-  }
-
-  ._product-name {
-    font-weight: bold;
   }
 
   ._shipments-list {

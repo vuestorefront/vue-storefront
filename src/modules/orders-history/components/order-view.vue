@@ -6,7 +6,7 @@
       </span>
 
       <h4 class="_order-number">
-        #{{ orderNumber }}
+        Order #{{ orderNumber }}
       </h4>
     </div>
 
@@ -78,12 +78,10 @@ export default defineComponent({
     }
 
     ._created-date {
-      flex: 1;
-      text-align: center;
+      text-align: left;
     }
 
     ._order-number {
-      flex: 4;
     }
   }
 
