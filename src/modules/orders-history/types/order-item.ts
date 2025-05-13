@@ -5,6 +5,7 @@ import { ProgressTrackerData } from './progress-tracker-data';
 
 export interface OrderItem {
   display_id: number,
+  quantity: number,
   estimated_shipment_date: string,
   product: {
     id: number,

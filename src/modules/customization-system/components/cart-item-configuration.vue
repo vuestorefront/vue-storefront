@@ -252,7 +252,7 @@ export default defineComponent({
   --property-value-font-size: var(--font-xs);
 
   .collected-product__properties {
-    font-size: var(--font-xs);
+    font-size: var(--cart-item-configuration-font-size, var(--font-xs));
     margin-bottom: var(--spacer-xs);
     display: flex;
     flex-direction: row;
