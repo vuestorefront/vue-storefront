@@ -1,33 +1,34 @@
 <template>
   <div class="order-item-progress-tracker" :title="$t('Progress Tracker')">
-    <template v-if="!isCancelled && !isOnHold">
-      <div class="_step-counter">
-        {{ $t('Step {current} of {total}', {current: currentStepIndex + 1, total: filteredStatusesCount}) }}
-      </div>
+    <div class="_step-counter -vertical" v-if="isVertical">
+      {{ $t('Step {current} of {total}', {current: currentStepIndex + 1, total: filteredStatusesCount}) }}
+    </div>
 
-      <div class="_progress-tracker">
-        <div
-          class="_status-item"
-          :class="{
-            '-active': status.id === activeStatusId,
-            '-completed': index < currentStepIndex || lastStatus.id === activeStatusId
-          }"
-          :key="status.id"
-          v-for="(status, index) in filteredStatusesList"
-        >
-          <div class="_mark" />
-
-          <template v-if="[activeStatusId, firstStatus.id, lastStatus.id].includes(status.id)">
-            <span class="_name">
-              {{ status.name }}
-            </span>
-          </template>
+    <div
+      class="_progress-tracker"
+      :class="{'-vertical': isVertical}"
+    >
+      <div
+        class="_status-item"
+        :class="{
+          '-active': status.statusData.id === activeStatus.id,
+          '-completed': status.index < currentStepIndex || lastStatus.id === activeStatus.id
+        }"
+        :key="status.statusData.id"
+        v-for="status in statusesToDisplay"
+      >
+        <div class="_step-counter" v-if="!isVertical && activeStatus.id === status.statusData.id">
+          {{ $t('Step {current} of {total}', {current: currentStepIndex + 1, total: filteredStatusesCount}) }}
         </div>
-      </div>
-    </template>
 
-    <div class="_cancelled" v-else>
-      {{ isCancelled ? $t('Order is Cancelled') : $t('Order is On Hold') }}
+        <div class="_mark" />
+
+        <template v-if="shouldShowStatusName(status)">
+          <span class="_name">
+            {{ status.statusData.name }}
+          </span>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -36,46 +37,40 @@
 import { PropType, defineComponent, computed } from '@vue/composition-api';
 
 import { ProgressTrackerStatus } from '../types/progress-tracker-status';
-import { ProgressTrackerData } from '../types/progress-tracker-data';
 
-const ON_HOLD_STATUS_ID = 14;
-const STATUSES_TO_DISPLAY_COUNT = 3;
+interface StatusDisplayItem {
+  statusData: ProgressTrackerStatus,
+  index: number
+}
 
 export default defineComponent({
   name: 'OrderItemProgressTracker',
   props: {
-    progressTracker: {
-      type: Object as PropType<ProgressTrackerData>,
+    activeStatus: {
+      type: Object as PropType<ProgressTrackerStatus>,
+      default: undefined
+    },
+    filteredStatusesList: {
+      type: Array as PropType<ProgressTrackerStatus[]>,
       required: true
+    },
+    isVertical: {
+      type: Boolean,
+      default: false
+    },
+    maxStatusesToDisplayHorizontal: {
+      type: Number,
+      default: 3
     }
   },
+  components: {
+  },
   setup (props) {
-    const statusesList = computed<ProgressTrackerStatus[]>(() => {
-      return props.progressTracker.status_list
-    });
-    const isCancelled = computed<boolean>(() => {
-      return props.progressTracker.cancelled
-    });
-    const activeStatusId = computed<number>(() => {
-      return props.progressTracker.status_id
-    });
-    const activeStatus = computed<ProgressTrackerStatus | undefined>(() => {
-      return statusesList.value.find((status) => status.id === activeStatusId.value);
-    });
-    const isOnHold = computed<boolean>(() => {
-      const _activeStatus = activeStatus.value;
-
-      if (!_activeStatus) {
-        return false;
-      }
-
-      return _activeStatus.id === ON_HOLD_STATUS_ID;
-    });
-
     const filteredStatusesList = computed<ProgressTrackerStatus[]>(() => {
-      return statusesList.value.filter((status) =>
-        status.id !== ON_HOLD_STATUS_ID
-      );
+      return props.filteredStatusesList;
+    });
+    const activeStatusIndex = computed<number>(() => {
+      return filteredStatusesList.value.findIndex((status) => status.id === props.activeStatus.id);
     });
     const filteredStatusesCount = computed<number>(() => {
       return filteredStatusesList.value.length;
@@ -88,48 +83,72 @@ export default defineComponent({
       return filteredStatusesList.value[filteredStatusesList.value.length - 1];
     });
     const currentStepIndex = computed<number>(() => {
-      return filteredStatusesList.value.findIndex((status) => status.id === activeStatusId.value);
+      return filteredStatusesList.value.findIndex((status) => status.id === props.activeStatus.id);
     });
     const isFirstStepActive = computed<boolean>(() => {
-      return props.progressTracker.status_id === firstStatus.value.id;
+      return props.activeStatus.id === firstStatus.value.id;
     });
     const isLastStepActive = computed<boolean>(() => {
-      return props.progressTracker.status_id === lastStatus.value.id;
+      return props.activeStatus.id === lastStatus.value.id;
     });
 
-    const statusesToDisplay = computed<ProgressTrackerStatus[]>(() => {
+    const statusesToDisplay = computed<StatusDisplayItem[]>(() => {
       const _statusesList = filteredStatusesList.value;
 
-      if (_statusesList.length <= STATUSES_TO_DISPLAY_COUNT) {
-        return _statusesList;
+      if (_statusesList.length <= props.maxStatusesToDisplayHorizontal || props.isVertical) {
+        return _statusesList.map(
+          (status, index) => ({
+            statusData: status,
+            index
+          })
+        );
       }
 
-      const statuses: ProgressTrackerStatus[] = [firstStatus.value];
+      const statuses: StatusDisplayItem[] = [
+        {
+          statusData: firstStatus.value,
+          index: 0
+        }
+      ];
 
       if (isFirstStepActive.value) {
-        statuses.push(_statusesList[1]);
+        statuses.push({
+          statusData: _statusesList[1],
+          index: 1
+        });
       } else if (isLastStepActive.value) {
-        statuses.push(_statusesList[_statusesList.length - 2]);
-      } else if (activeStatus.value) {
-        statuses.push(activeStatus.value);
+        const index = _statusesList.length - 2;
+
+        statuses.push({
+          statusData: _statusesList[index],
+          index
+        });
+      } else if (props.activeStatus) {
+        statuses.push({
+          statusData: props.activeStatus,
+          index: activeStatusIndex.value
+        });
       }
 
-      statuses.push(lastStatus.value);
+      statuses.push({
+        statusData: lastStatus.value,
+        index: _statusesList.length - 1
+      });
 
       return statuses;
     });
 
+    function shouldShowStatusName (status: StatusDisplayItem): boolean {
+      return [props.activeStatus.id, firstStatus.value.id, lastStatus.value.id].includes(status.statusData.id) || props.isVertical;
+    }
+
     return {
-      activeStatusId,
       currentStepIndex,
       filteredStatusesCount,
-      filteredStatusesList,
       firstStatus,
-      isCancelled,
-      isOnHold,
       lastStatus,
-      statusesToDisplay,
-      statusesList
+      shouldShowStatusName,
+      statusesToDisplay
     }
   }
 })
@@ -146,9 +165,69 @@ export default defineComponent({
 
   ._progress-tracker {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     row-gap: var(--spacer-2xs);
+    padding-top: var(--spacer-base);
+
+    &.-vertical {
+      flex-direction: column;
+      align-items: flex-start;
+      row-gap: 0;
+      margin-top: 0;
+      padding-top: 0;
+
+      ._status-item {
+        flex-direction: row;
+        align-items: center;
+        flex-basis: 32px;
+        column-gap: var(--spacer-xs);
+
+        ._mark {
+          &::before,
+          &::after {
+            border-left-style: solid
+          }
+        }
+      }
+
+      ._name {
+        margin-top: 0;
+      }
+
+      ._mark {
+        &::before,
+        &::after {
+          height: calc(calc(50% - #{$mark-size / 2}) - #{$mark-border-width / 2});
+          width: 2px;
+          left: 6px;
+          border-left: 2px dashed var(--c-secondary);
+          border-top: 0;
+        }
+
+        &::after {
+          bottom: 0;
+          top: auto;
+        }
+
+        &::before {
+          top: 0;
+          bottom: auto;
+        }
+      }
+
+    }
+  }
+
+  ._step-counter {
+    position: absolute;
+    bottom: 117%;
+    white-space: nowrap;
+
+    &.-vertical {
+      position: relative;
+      bottom: auto;
+      margin-top: var(--spacer-xs);
+    }
   }
 
   ._status-item {
@@ -171,8 +250,7 @@ export default defineComponent({
         content: "";
         width: calc(calc(50% - #{$mark-size / 2}) - #{$mark-border-width / 2});
         top: calc(#{$mark-size / 2} + #{$mark-border-width / 2});
-        height: $mark-border-width;
-        background-color: var(--c-secondary);
+        border-top: $mark-border-width dashed var(--c-secondary);
         position: absolute;
       }
 
@@ -187,17 +265,29 @@ export default defineComponent({
     }
 
     &:first-of-type {
+      align-items: flex-start;
+
       ._mark {
         &::before {
           display: none;
+        }
+
+        &::after {
+          width: calc(100% - #{$mark-size + $mark-border-width * 2});
         }
       }
     }
 
     &:last-of-type {
+      align-items: flex-end;
+
       ._mark {
         &::after {
           display: none;
+        }
+
+        &::before {
+          width: calc(100% - #{$mark-size + $mark-border-width * 2});
         }
       }
     }
@@ -211,49 +301,22 @@ export default defineComponent({
         background-color: var(--c-secondary);
 
         &::before {
-          background-color: var(--c-success);
+          border-color: var(--c-primary);
         }
       }
     }
 
     &.-completed {
       ._mark {
-        background-color: var(--c-success);
-        border-color: var(--c-success);
+        background-color: var(--c-primary);
+        border-color: var(--c-primary);
 
         &::before,
         &::after {
-          background-color: var(--c-success);
+          border-color: var(--c-primary);
         }
       }
     }
-  }
-
-  // hide some status items on small screens
-  @media (max-width: 456px) {
-      // ._status-item {
-        // hide even
-        // &:nth-child(even) {
-        //   display: none;
-        // }
-        //
-        // &:first-of-type,
-        // &:last-of-type,
-        // &.-active {
-        //   display: flex;
-        // }
-
-        // hide completed
-        // &.-completed {
-        //   display: none;
-        // }
-        //
-        // &:first-of-type,
-        // &:last-of-type,
-        // &.-active {
-        //   display: flex;
-        // }
-      // }
   }
 }
 </style>

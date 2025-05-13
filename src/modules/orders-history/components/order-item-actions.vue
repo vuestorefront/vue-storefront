@@ -21,7 +21,7 @@
       <component
         v-for="actionItem in actionsListGroups.nonBlockingActionsList"
         :key="actionItem.action.code + ';' + actionItem.action.name"
-        class="_available-action sf-button"
+        class="_available-action sf-button color-secondary"
         :is="actionItem.component"
         v-bind="actionItem.props"
       >
