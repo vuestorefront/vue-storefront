@@ -50,7 +50,7 @@ const synchronizeActions = {
     commit(types.CART_SET_LOCAL_DATA_LOADED, true);
     EventBus.$emit(LOCAL_CART_DATA_LOADED_EVENT);
   },
-  async synchronizeCart({dispatch, rootGetters}) {
+  async synchronizeCart ({ dispatch, rootGetters }) {
     const isUserAuthorized = rootGetters['user/getUserToken'];
 
     if (isUserAuthorized) {

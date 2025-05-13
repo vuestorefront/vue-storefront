@@ -25,8 +25,9 @@ const methodsActions = {
       commit(types.CART_UPD_PAYMENT, rootGetters['checkout/getDefaultPaymentMethod'])
     }
   },
-  async syncPaymentMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
+  async syncPaymentMethods ({ commit, getters, rootGetters, dispatch }, { forceServerSync = false }) {
     if (getters.canUpdateMethods && (getters.isTotalsSyncRequired || forceServerSync)) {
+      commit(types.SET_IS_PAYMENT_METHODS_SYNCING, true);
       Logger.debug('Refreshing payment methods', 'cart')()
       let backendPaymentMethods: PaymentMethod[]
 
@@ -46,6 +47,7 @@ const methodsActions = {
           backendPaymentMethods = task.result.payment_methods || []
 
           if (isCartNotFoundError(task)) {
+            commit(types.SET_IS_PAYMENT_METHODS_SYNCING, false);
             return dispatch('clear', { disconnect: true, sync: false });
           }
         }
@@ -55,6 +57,7 @@ const methodsActions = {
         const task = await CartService.getPaymentMethods();
 
         if (isCartNotFoundError(task)) {
+          commit(types.SET_IS_PAYMENT_METHODS_SYNCING, false);
           return dispatch('clear', { disconnect: true, sync: false });
         }
 
@@ -66,6 +69,7 @@ const methodsActions = {
         rootGetters['checkout/getNotServerPaymentMethods']
       )
       await dispatch('checkout/replacePaymentMethods', paymentMethods, { root: true })
+      commit(types.SET_IS_PAYMENT_METHODS_SYNCING, false);
       EventBus.$emit('set-unique-payment-methods', uniqueBackendMethods)
     } else {
       Logger.debug('Payment methods does not need to be updated', 'cart')()
