@@ -50,7 +50,7 @@ const synchronizeActions = {
     commit(types.CART_SET_LOCAL_DATA_LOADED, true);
     EventBus.$emit(LOCAL_CART_DATA_LOADED_EVENT);
   },
-  async synchronizeCart({dispatch, rootGetters}) {
+  async synchronizeCart ({ dispatch, rootGetters }) {
     const isUserAuthorized = rootGetters['user/getUserToken'];
 
     if (isUserAuthorized) {
@@ -69,6 +69,7 @@ const synchronizeActions = {
   async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false, mergeQty = false, forceSync = false, forceUpdateServerItem = false }) {
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
     if ((!canUpdateMethods || !isSyncRequired) && !forceSync) return createDiffLog()
+    commit(types.SET_IS_CART_SYNCING, true);
     commit(types.CART_SET_SYNC)
     const { result, resultCode } = await CartService.getItems()
 
@@ -94,6 +95,7 @@ const synchronizeActions = {
         forceUpdateServerItem
       })
       cartHooksExecutors.afterSync(diffLog)
+      commit(types.SET_IS_CART_SYNCING, false);
       return diffLog
     }
 
@@ -105,6 +107,7 @@ const synchronizeActions = {
           sync: false
         }
       );
+      commit(types.SET_IS_CART_SYNCING, false);
       return createDiffLog();
     }
 
@@ -117,6 +120,7 @@ const synchronizeActions = {
     Logger.error(result, 'cart')
     cartHooksExecutors.afterSync(result)
     commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
+    commit(types.SET_IS_CART_SYNCING, false);
     return createDiffLog()
   },
   async stockSync ({ dispatch, commit, getters }, stockTask) {

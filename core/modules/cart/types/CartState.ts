@@ -15,5 +15,6 @@ export default interface CartState {
   isAddingToCart: boolean,
   isLocalDataLoaded: boolean,
   productDiscountedPrice: Record<string, number>,
-  isShippingMethodsSyncing: boolean
+  isShippingMethodsSyncing: boolean,
+  isCartSyncing: boolean
 }

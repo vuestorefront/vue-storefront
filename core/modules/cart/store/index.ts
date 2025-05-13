@@ -23,7 +23,8 @@ export const cartStore: Module<CartState, any> = {
     isAddingToCart: false,
     isLocalDataLoaded: false,
     productDiscountedPrice: {},
-    isShippingMethodsSyncing: false
+    isShippingMethodsSyncing: false,
+    isCartSyncing: false
   },
   getters,
   actions,
