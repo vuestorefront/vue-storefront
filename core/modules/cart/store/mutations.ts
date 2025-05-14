@@ -116,6 +116,15 @@ const mutations: MutationTree<CartState> = {
   },
   [types.SET_IS_SHIPPING_METHODS_SYNCING] (state, isSyncing: boolean) {
     state.isShippingMethodsSyncing = isSyncing;
+  },
+  [types.SET_IS_TOTALS_SYNCING] (state, isSyncing: boolean) {
+    state.isTotalsSyncing = isSyncing;
+  },
+  [types.SET_IS_PAYMENT_METHODS_SYNCING] (state, isSyncing: boolean) {
+    state.isPaymentMethodsSyncing = isSyncing;
+  },
+  [types.SET_IS_COUPON_PROCESSING] (state, isProcessing: boolean) {
+    state.isCouponProcessing = isProcessing;
   }
 }
 
