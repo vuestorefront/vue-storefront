@@ -33,8 +33,8 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
 
     return orders;
   },
-  async [FETCH_SUGGESTED_PRODUCTS] ({ commit }): Promise<string[]> {
-    const url = processURLAddress(`${config.budsies.endpoint}/customers/me/suggested-products/active-orders?token={{token}}`);
+  async [FETCH_SUGGESTED_PRODUCTS] ({ commit }, { pageSize }: { pageSize: number }): Promise<string[]> {
+    const url = processURLAddress(`${config.budsies.endpoint}/customers/me/suggested-products/active-orders?token={{token}}&page_size=${pageSize}`);
 
     const { result, resultCode } = await TaskQueue.execute({
       url,
