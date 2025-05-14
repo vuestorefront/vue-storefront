@@ -39,6 +39,7 @@
 
           <order-item-actions
             :actions-list="item.available_actions"
+            :order-item-id="item.item_id"
             v-if="showActions"
           />
         </div>
