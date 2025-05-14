@@ -221,14 +221,13 @@ export default defineComponent({
   ._toggle-extended-info {
     width: 45px;
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
     cursor: pointer;
 
     &.-expanded {
-      align-items: end;
 
-      .sf-chevron {
+.sf-chevron {
         rotate: 180deg;
       }
     }
