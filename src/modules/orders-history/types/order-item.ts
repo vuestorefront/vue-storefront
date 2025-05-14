@@ -18,5 +18,6 @@ export interface OrderItem {
   progress_tracker: ProgressTrackerData,
   available_actions: OrderItemAvailableAction[],
   shipments: OrderItemShipment[],
-  extension_attributes: OrderItemExtensionAttributes
+  extension_attributes: OrderItemExtensionAttributes,
+  item_id: number
 }
