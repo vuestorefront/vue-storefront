@@ -13,7 +13,7 @@ import { LOCAL_CART_DATA_LOADED_EVENT } from '../../types/local-cart-data-loaded
 const synchronizeActions = {
   async load (
     { commit, dispatch },
-    { forceClientState = false, forceSync = false }: { forceClientState?: boolean, forceSync?: boolean} = {}
+    { forceClientState = false, forceSync = false }: { forceClientState?: boolean, forceSync?: boolean } = {}
   ) {
     if (isServer) return
 
@@ -71,57 +71,59 @@ const synchronizeActions = {
     if ((!canUpdateMethods || !isSyncRequired) && !forceSync) return createDiffLog()
     commit(types.SET_IS_CART_SYNCING, true);
     commit(types.CART_SET_SYNC)
-    const { result, resultCode } = await CartService.getItems()
 
-    if (resultCode === 200) {
-      if (Array.isArray(result)) {
-        result.forEach((item) => {
-          const sku = item.product_type === 'bundle'
-            ? item.sku.split('-')[0]
-            : item.sku;
+    try {
+      const { result, resultCode } = await CartService.getItems()
 
-          item.sku = sku;
-        });
+      if (resultCode === 200) {
+        if (Array.isArray(result)) {
+          result.forEach((item) => {
+            const sku = item.product_type === 'bundle'
+              ? item.sku.split('-')[0]
+              : item.sku;
+
+            item.sku = sku;
+          });
+        }
+
+        const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
+
+        const diffLog = await dispatch('merge', {
+          dryRun,
+          serverItems,
+          clientItems,
+          forceClientState,
+          mergeQty,
+          forceUpdateServerItem
+        })
+        cartHooksExecutors.afterSync(diffLog)
+        return diffLog
       }
 
-      const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
+      if (resultCode === 404) {
+        dispatch(
+          'clear',
+          {
+            disconnect: true,
+            sync: false
+          }
+        );
+        return createDiffLog();
+      }
 
-      const diffLog = await dispatch('merge', {
-        dryRun,
-        serverItems,
-        clientItems,
-        forceClientState,
-        mergeQty,
-        forceUpdateServerItem
-      })
-      cartHooksExecutors.afterSync(diffLog)
+      if (bypassCounter < config.queues.maxCartBypassAttempts) {
+        Logger.log('Bypassing with guest cart' + bypassCounter, 'cart')()
+        commit(types.CART_UPDATE_BYPASS_COUNTER, { counter: 1 })
+        await dispatch('connect', { guestCart: true })
+      }
+
+      Logger.error(result, 'cart')
+      cartHooksExecutors.afterSync(result)
+      commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
+      return createDiffLog()
+    } finally {
       commit(types.SET_IS_CART_SYNCING, false);
-      return diffLog
     }
-
-    if (resultCode === 404) {
-      dispatch(
-        'clear',
-        {
-          disconnect: true,
-          sync: false
-        }
-      );
-      commit(types.SET_IS_CART_SYNCING, false);
-      return createDiffLog();
-    }
-
-    if (bypassCounter < config.queues.maxCartBypassAttempts) {
-      Logger.log('Bypassing with guest cart' + bypassCounter, 'cart')()
-      commit(types.CART_UPDATE_BYPASS_COUNTER, { counter: 1 })
-      await dispatch('connect', { guestCart: true })
-    }
-
-    Logger.error(result, 'cart')
-    cartHooksExecutors.afterSync(result)
-    commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
-    commit(types.SET_IS_CART_SYNCING, false);
-    return createDiffLog()
   },
   async stockSync ({ dispatch, commit, getters }, stockTask) {
     const product = { sku: stockTask.product_sku }

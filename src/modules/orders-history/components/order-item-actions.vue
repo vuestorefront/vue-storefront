@@ -89,6 +89,12 @@ export default defineComponent({
           REORDER_ITEM_ACTION,
           { orderItemId: props.orderItemId }
         );
+
+        root.$store.dispatch('notification/spawnNotification', {
+          type: 'success',
+          message: root.$t('Product has been added to the cart!'),
+          action1: { label: root.$t('OK') }
+        });
       } catch (_) {
         root.$store.dispatch('notification/spawnNotification', {
           type: 'danger',

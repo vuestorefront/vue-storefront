@@ -38,21 +38,23 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
 
     commit(SET_IS_REORDERING_ITEM, true);
 
-    const { resultCode } = await TaskQueue.execute({
-      url,
-      payload: {
-        method: 'POST',
-        mode: 'cors',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      },
-      silent: true
-    });
+    try {
+      const { resultCode } = await TaskQueue.execute({
+        url,
+        payload: {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        },
+        silent: true
+      });
 
-    commit(SET_IS_REORDERING_ITEM, false);
-
-    if (resultCode !== 200) {
-      throw new Error('Failed to reorder item');
+      if (resultCode !== 200) {
+        throw new Error('Failed to reorder item');
+      }
+    } finally {
+      commit(SET_IS_REORDERING_ITEM, false);
     }
 
     await dispatch('cart/pullServerCart', true, { root: true });
