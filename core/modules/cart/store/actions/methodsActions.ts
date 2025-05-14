@@ -28,49 +28,51 @@ const methodsActions = {
   async syncPaymentMethods ({ commit, getters, rootGetters, dispatch }, { forceServerSync = false }) {
     if (getters.canUpdateMethods && (getters.isTotalsSyncRequired || forceServerSync)) {
       commit(types.SET_IS_PAYMENT_METHODS_SYNCING, true);
-      Logger.debug('Refreshing payment methods', 'cart')()
-      let backendPaymentMethods: PaymentMethod[]
 
-      const paymentDetails = rootGetters['checkout/getPaymentDetails']
-      if (paymentDetails.country) {
-        // use shipping info endpoint to get payment methods using billing address
-        const shippingMethodsData = createOrderData({
-          shippingDetails: rootGetters['checkout/getShippingDetails'],
-          shippingMethods: rootGetters['checkout/getShippingMethods'],
-          paymentMethods: rootGetters['checkout/getPaymentMethods'],
-          paymentDetails: paymentDetails
-        })
+      try {
+        Logger.debug('Refreshing payment methods', 'cart')()
+        let backendPaymentMethods: PaymentMethod[]
 
-        if (shippingMethodsData.country) {
-          const task = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData));
+        const paymentDetails = rootGetters['checkout/getPaymentDetails']
+        if (paymentDetails.country) {
+          // use shipping info endpoint to get payment methods using billing address
+          const shippingMethodsData = createOrderData({
+            shippingDetails: rootGetters['checkout/getShippingDetails'],
+            shippingMethods: rootGetters['checkout/getShippingMethods'],
+            paymentMethods: rootGetters['checkout/getPaymentMethods'],
+            paymentDetails: paymentDetails
+          })
 
-          backendPaymentMethods = task.result.payment_methods || []
+          if (shippingMethodsData.country) {
+            const task = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData));
 
-          if (isCartNotFoundError(task)) {
-            commit(types.SET_IS_PAYMENT_METHODS_SYNCING, false);
-            return dispatch('clear', { disconnect: true, sync: false });
+            backendPaymentMethods = task.result.payment_methods || []
+
+            if (isCartNotFoundError(task)) {
+              return dispatch('clear', { disconnect: true, sync: false });
+            }
           }
         }
-      }
 
-      if (!backendPaymentMethods || backendPaymentMethods.length === 0) {
-        const task = await CartService.getPaymentMethods();
+        if (!backendPaymentMethods || backendPaymentMethods.length === 0) {
+          const task = await CartService.getPaymentMethods();
 
-        if (isCartNotFoundError(task)) {
-          commit(types.SET_IS_PAYMENT_METHODS_SYNCING, false);
-          return dispatch('clear', { disconnect: true, sync: false });
+          if (isCartNotFoundError(task)) {
+            return dispatch('clear', { disconnect: true, sync: false });
+          }
+
+          backendPaymentMethods = task.resultCode === 200 ? task.result : [];
         }
 
-        backendPaymentMethods = task.resultCode === 200 ? task.result : [];
+        const { uniqueBackendMethods, paymentMethods } = preparePaymentMethodsToSync(
+          backendPaymentMethods,
+          rootGetters['checkout/getNotServerPaymentMethods']
+        )
+        await dispatch('checkout/replacePaymentMethods', paymentMethods, { root: true })
+        EventBus.$emit('set-unique-payment-methods', uniqueBackendMethods)
+      } finally {
+        commit(types.SET_IS_PAYMENT_METHODS_SYNCING, false);
       }
-
-      const { uniqueBackendMethods, paymentMethods } = preparePaymentMethodsToSync(
-        backendPaymentMethods,
-        rootGetters['checkout/getNotServerPaymentMethods']
-      )
-      await dispatch('checkout/replacePaymentMethods', paymentMethods, { root: true })
-      commit(types.SET_IS_PAYMENT_METHODS_SYNCING, false);
-      EventBus.$emit('set-unique-payment-methods', uniqueBackendMethods)
     } else {
       Logger.debug('Payment methods does not need to be updated', 'cart')()
     }

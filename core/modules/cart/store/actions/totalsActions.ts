@@ -14,15 +14,17 @@ const totalsActions = {
   async getTotals ({ commit }, { addressInformation, hasShippingInformation }) {
     commit(types.SET_IS_TOTALS_SYNCING, true);
 
-    if (hasShippingInformation) {
-      const response = await CartService.setShippingInfo(addressInformation);
-      commit(types.SET_IS_TOTALS_SYNCING, false);
-      return response;
-    }
+    try {
+      if (hasShippingInformation) {
+        const response = await CartService.setShippingInfo(addressInformation);
+        return response;
+      }
 
-    const response = await CartService.getTotals();
-    commit(types.SET_IS_TOTALS_SYNCING, false);
-    return response;
+      const response = await CartService.getTotals();
+      return response;
+    } finally {
+      commit(types.SET_IS_TOTALS_SYNCING, false);
+    }
   },
   async overrideServerTotals ({ commit, getters, rootGetters, dispatch }, { addressInformation, hasShippingInformation }) {
     const task = await dispatch('getTotals', { addressInformation, hasShippingInformation })

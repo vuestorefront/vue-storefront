@@ -5,36 +5,40 @@ const couponActions = {
   async removeCoupon ({ commit, getters, dispatch }, { sync = true } = {}) {
     if (getters.canSyncTotals) {
       commit(types.SET_IS_COUPON_PROCESSING, true);
-      const { result } = await CartService.removeCoupon()
+      try {
+        const { result } = await CartService.removeCoupon()
 
-      if (result && sync) {
-        await dispatch('syncTotals', { forceServerSync: true })
+        if (result && sync) {
+          await dispatch('syncTotals', { forceServerSync: true })
 
-        // 'getCurrentCartHash' has been changed (it's based on cart items data)
-        // so we need to update it in vuex and StorageManager
-        commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
+          // 'getCurrentCartHash' has been changed (it's based on cart items data)
+          // so we need to update it in vuex and StorageManager
+          commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
+          return result
+        }
+      } finally {
         commit(types.SET_IS_COUPON_PROCESSING, false);
-        return result
       }
-
-      commit(types.SET_IS_COUPON_PROCESSING, false);
     }
   },
   async applyCoupon ({ getters, dispatch, commit }, couponCode) {
     if (couponCode && getters.canSyncTotals) {
       commit(types.SET_IS_COUPON_PROCESSING, true);
-      const task = await CartService.applyCoupon(couponCode)
+      try {
+        const task = await CartService.applyCoupon(couponCode)
 
-      if (task.result) {
-        await dispatch('syncTotals', { forceServerSync: true })
+        if (task.result) {
+          await dispatch('syncTotals', { forceServerSync: true })
 
-        // 'getCurrentCartHash' has been changed (it's based on cart items data)
-        // so we need to update it in vuex and StorageManager
-        commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
+          // 'getCurrentCartHash' has been changed (it's based on cart items data)
+          // so we need to update it in vuex and StorageManager
+          commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
+        }
+
+        return task;
+      } finally {
+        commit(types.SET_IS_COUPON_PROCESSING, false);
       }
-
-      commit(types.SET_IS_COUPON_PROCESSING, false);
-      return task;
     }
   }
 }
