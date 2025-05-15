@@ -357,7 +357,6 @@ const actions: ActionTree<UserState, RootState> = {
   async sessionAfterAuthorized ({ dispatch }, { refresh = onlineHelper.isOnline, useCache = true }) {
     Logger.info('User session authorised ', 'user')()
     await dispatch('me', { refresh, useCache })
-    await dispatch('getOrdersHistory', { refresh, useCache })
   },
   addAddress ({ state, dispatch }, payload) {
     if (!state.current) {
