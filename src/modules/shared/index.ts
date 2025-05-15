@@ -25,6 +25,7 @@ import { getCanonicalUrl } from './helpers/get-canonical-url.function';
 import getCookieByName from './helpers/get-cookie-by-name.function';
 import { MimeTypeValue } from './types/mime-type.value';
 import { useMobileObserver } from './helpers/use-mobile-observer';
+import isCustomProduct from './helpers/is-custom-product.function';
 
 export {
   InjectType,
@@ -52,5 +53,6 @@ export {
   CustomerDataChangedEventPayload,
   getCookieByName,
   MimeTypeValue,
-  useMobileObserver
+  useMobileObserver,
+  isCustomProduct
 }
