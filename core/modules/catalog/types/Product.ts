@@ -87,7 +87,8 @@ export default interface Product {
   meta_description?: string | null,
   landing_page_url?: string | null,
   disabled_upgrades?: string[],
-  customizations?: Customization[]
+  customizations?: Customization[],
+  turnaround_time?: number
 }
 
 export interface ProductLink {

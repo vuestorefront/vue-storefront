@@ -9,16 +9,23 @@
       />
     </div>
 
-    <div v-else-if="showLoadingIndicator" class="_loading-indicator" />
+    <div v-else-if="showLoadingIndicator" class="_loading-indicator">
+      <SfLoader class="_sf-loader" :loading="true" />
+    </div>
+
+    <div v-else-if="showEmptyOrdersHistoryMessage" class="_empty">
+      {{ $t('Your order history is empty') }}
+    </div>
 
     <div v-else-if="isError" class="_error">
-      <p>{{ $t('Error loading orders') }}</p>
+      {{ $t('Error loading orders') }}
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, ref } from '@vue/composition-api';
+import { SfLoader } from '@storefront-ui/vue';
 
 import { Logger } from '@vue-storefront/core/lib/logger';
 
@@ -32,7 +39,8 @@ import OrderView from './order-view.vue';
 export default defineComponent({
   name: 'OrdersHistoryList',
   components: {
-    OrderView
+    OrderView,
+    SfLoader
   },
   setup (_, { root }) {
     const isLoading = ref<boolean>(false);
@@ -45,8 +53,11 @@ export default defineComponent({
     const showLoadingIndicator = computed<boolean>(() => {
       return isLoading.value && !isError.value;
     });
+    const showEmptyOrdersHistoryMessage = computed<boolean>(() => {
+      return !showLoadingIndicator.value && !isError.value && ordersList.value.length === 0;
+    });
     const showOrdersHistoryList = computed<boolean>(() => {
-      return !isLoading.value && !isError.value;
+      return !isLoading.value && !isError.value && !showEmptyOrdersHistoryMessage.value;
     });
 
     async function loadOrders () {
@@ -73,6 +84,7 @@ export default defineComponent({
       isError,
       isLoading,
       ordersList,
+      showEmptyOrdersHistoryMessage,
       showLoadingIndicator,
       showOrdersHistoryList
     }
@@ -86,6 +98,10 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     row-gap: var(--spacer-xl);
+  }
+
+  ._loading-indicator {
+    padding: var(--spacer-lg);
   }
 }
 </style>
