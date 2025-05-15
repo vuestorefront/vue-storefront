@@ -10,7 +10,7 @@ import { AmGiftCardType } from 'src/modules/gift-card'
 
 import CartItem from '../types/CartItem'
 import getCartItemKey from '../helpers/get-cart-item-key.function'
-import { IS_SHIPPING_METHODS_SYNCING, IS_CART_SYNCING } from './getter-types'
+import { IS_SHIPPING_METHODS_SYNCING, IS_CART_SYNCING, IS_TOTALS_SYNCING, IS_PAYMENT_METHODS_SYNCING, IS_COUPON_PROCESSING } from './getter-types'
 
 const getters: GetterTree<CartState, RootState> = {
   getCartToken: state => state.cartServerToken,
@@ -87,7 +87,10 @@ const getters: GetterTree<CartState, RootState> = {
     }
   },
   [IS_SHIPPING_METHODS_SYNCING]: (state) => state.isShippingMethodsSyncing,
-  [IS_CART_SYNCING]: (state) => state.isCartSyncing
+  [IS_CART_SYNCING]: (state) => state.isCartSyncing,
+  [IS_TOTALS_SYNCING]: (state) => state.isTotalsSyncing,
+  [IS_PAYMENT_METHODS_SYNCING]: (state) => state.isPaymentMethodsSyncing,
+  [IS_COUPON_PROCESSING]: (state) => state.isCouponProcessing
 }
 
 export default getters
