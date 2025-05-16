@@ -25,6 +25,7 @@ import { DEFAULT_CURRENCY } from '../types/default-currency';
 import GoogleTagManagerEvents from '../types/GoogleTagManagerEvents';
 import { trackEcommerceEventFactory } from './track-ecommerce-event.factory';
 import { A_B_TEST_GROUP_CHANGED } from 'src/modules/a-b-testing';
+import { FETCH_ORDERS_HISTORY_ACTION } from 'src/modules/orders-history';
 
 const shareasaleSSCIDCookieName = 'shareasaleMagentoSSCID';
 
@@ -376,7 +377,7 @@ export default class EventBusListener {
       return;
     }
 
-    const ordersHistory = this.store.getters['user/getOrdersHistory'];
+    const ordersHistory = await this.store.dispatch(FETCH_ORDERS_HISTORY_ACTION);
     const sessionOrderHashes = this.store.getters['order/getSessionOrderHashes'];
     const currentUser = this.store.state.user.current;
     const orderPaymentDetails = order.paymentDetails;
