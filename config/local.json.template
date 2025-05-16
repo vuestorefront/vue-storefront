@@ -811,7 +811,7 @@
       "label": "Budsies PR LLC"
     },
     "googlePay": {
-      "merchantId": ${GOOGLE_PAY_MERCHANT_ID}
+      "merchantId": "${GOOGLE_PAY_MERCHANT_ID}"
     }
   },
   "affirm": {
