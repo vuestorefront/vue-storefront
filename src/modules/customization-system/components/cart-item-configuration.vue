@@ -32,7 +32,6 @@
         <SfIcon
           icon="check"
           size="xxs"
-          color="blue-primary"
           class="collected-product__properties__icon"
         />
         {{ optionValueProperty.value }}
@@ -262,6 +261,8 @@ export default defineComponent({
 
   .collected-product__properties__icon {
     display: inline-block;
+
+    --icon-color: var(--cart-item-configuration-checkmark-color, var(--c-primary));
   }
 
   ._shipment {
