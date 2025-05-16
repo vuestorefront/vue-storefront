@@ -221,7 +221,7 @@ export default defineComponent({
   ._toggle-extended-info {
     width: 45px;
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     justify-content: center;
     cursor: pointer;
 
