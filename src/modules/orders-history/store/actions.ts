@@ -61,7 +61,7 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
     commit(SET_IS_REORDERING_ITEM, true);
 
     try {
-      const { resultCode } = await TaskQueue.execute({
+      const { resultCode, result } = await TaskQueue.execute({
         url,
         payload: {
           method: 'POST',
@@ -73,7 +73,8 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
       });
 
       if (resultCode !== 200) {
-        throw new Error('Failed to reorder item');
+        const errorMessage = result?.errorMessage || 'Failed to reorder item';
+        throw new Error(errorMessage);
       }
     } finally {
       commit(SET_IS_REORDERING_ITEM, false);
