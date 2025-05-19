@@ -95,10 +95,10 @@ export default defineComponent({
           message: root.$t('Product has been added to the cart!'),
           action1: { label: root.$t('OK') }
         });
-      } catch (_) {
+      } catch (error) {
         root.$store.dispatch('notification/spawnNotification', {
           type: 'danger',
-          message: root.$t('Failed to reorder item'),
+          message: error.message,
           action1: { label: root.$t('OK') }
         });
       }
