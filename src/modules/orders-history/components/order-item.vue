@@ -157,7 +157,7 @@ export default defineComponent({
     });
 
     const showShipmentInfo = computed<boolean>(() => {
-      return props.item.shipments.length > 0 || props.item.estimated_shipment_date;
+      return canShowProgressTracker.value && (props.item.shipments.length > 0 || Boolean(props.item.estimated_shipment_date));
     });
 
     return {
