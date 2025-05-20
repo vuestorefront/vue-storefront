@@ -174,7 +174,7 @@ export default defineComponent({
 .order-item-actions {
   display: flex;
   flex-direction: column;
-  row-gap: var(--spacer-sm);
+  row-gap: var(--spacer-xs);
 
   ._actions-with-messages {
     display: flex;
@@ -201,7 +201,7 @@ export default defineComponent({
     display: flex;
     flex-wrap: wrap;
     row-gap: var(--spacer-xs);
-    column-gap: var(--spacer-sm);
+    column-gap: var(--spacer-xs);
   }
 
   ._available-action {
