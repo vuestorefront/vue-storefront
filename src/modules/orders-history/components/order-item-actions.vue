@@ -5,12 +5,25 @@
       v-if="actionsListGroups.blockingActionsList.length"
     >
       <div
-        v-for="action in actionsListGroups.blockingActionsList"
-        :key="action.code + ';' + action.name"
-        class="_action-with-message"
-        :class="{'-blocking': action.blocking_progress}"
+        v-for="actionItem in actionsListGroups.blockingActionsList"
+        :key="actionItem.action.code + ';' + actionItem.action.name"
+        class="_action-with-message-container"
+        :class="{'-blocking': actionItem.action.blocking_progress}"
       >
-        <span class="_message">{{ action.message }}</span>
+        <span class="_action-with-message">{{ actionItem.action.message }}</span>
+
+        <component
+          :is="actionItem.component"
+          :disabled="disabledItems[actionItem.action.code]"
+          class="_available-action sf-button color-secondary"
+          v-bind="actionItem.props"
+          v-on="actionItem.handlers"
+          v-if="actionItem.component"
+        >
+          <span class="_action-name">
+            {{ actionItem.action.name }}
+          </span>
+        </component>
       </div>
     </div>
 
@@ -45,13 +58,13 @@ import { REORDER_ITEM_ACTION, IS_REORDERING_ITEM } from '..';
 
 interface ActionItem {
   action: OrderItemAvailableAction,
-  component: string,
+  component?: 'SfButton' | 'a',
   props: Record<string, string | undefined>,
   handlers: Record<string, () => Promise<void>>
 }
 
 interface ActionsListGroups {
-  blockingActionsList: OrderItemAvailableAction[],
+  blockingActionsList: ActionItem[],
   nonBlockingActionsList: ActionItem[]
 }
 
@@ -95,34 +108,30 @@ export default defineComponent({
           message: root.$t('Product has been added to the cart!'),
           action1: { label: root.$t('OK') }
         });
-      } catch (_) {
+      } catch (error) {
         root.$store.dispatch('notification/spawnNotification', {
           type: 'danger',
-          message: root.$t('Failed to reorder item'),
+          message: error.message,
           action1: { label: root.$t('OK') }
         });
       }
     }
 
     const actionsListGroups = computed<ActionsListGroups>(() => {
-      const blockingActionsList: OrderItemAvailableAction[] = [];
+      const blockingActionsList: ActionItem[] = [];
       const nonBlockingActionsList: ActionItem[] = [];
 
       for (const action of props.actionsList) {
-        if (action.blocking_progress) {
-          blockingActionsList.push(action);
-          continue;
-        }
-
         const actionItem: ActionItem = {
           action,
-          component: 'SfButton',
+          component: undefined,
           props: {},
           handlers: {}
         };
 
         if (action.code === OrderItemAvailableActionCode.RE_ORDER) {
           actionItem.handlers.click = onReorderActionClick;
+          actionItem.component = 'SfButton';
           nonBlockingActionsList.push(actionItem);
           continue;
         }
@@ -133,6 +142,15 @@ export default defineComponent({
             href: action.url,
             target: '_blank'
           }
+        }
+
+        if (action.blocking_progress) {
+          blockingActionsList.push(actionItem);
+          continue;
+        }
+
+        if (!actionItem.component) {
+          continue;
         }
 
         nonBlockingActionsList.push(actionItem);
@@ -156,7 +174,7 @@ export default defineComponent({
 .order-item-actions {
   display: flex;
   flex-direction: column;
-  row-gap: var(--spacer-sm);
+  row-gap: var(--spacer-xs);
 
   ._actions-with-messages {
     display: flex;
@@ -165,10 +183,17 @@ export default defineComponent({
     row-gap: var(--spacer-xs);
   }
 
-  ._action-with-message {
+  ._action-with-message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: var(--spacer-xs);
+
     &.-blocking {
-      padding: var(--spacer-xs) var(--spacer-sm);
-      background-color: var(--c-warning);
+      ._action-with-message {
+        padding: var(--spacer-xs) var(--spacer-sm);
+        background-color: var(--c-warning);
+      }
     }
   }
 
@@ -176,7 +201,7 @@ export default defineComponent({
     display: flex;
     flex-wrap: wrap;
     row-gap: var(--spacer-xs);
-    column-gap: var(--spacer-sm);
+    column-gap: var(--spacer-xs);
   }
 
   ._available-action {
