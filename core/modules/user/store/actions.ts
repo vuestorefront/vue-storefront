@@ -197,8 +197,6 @@ const actions: ActionTree<UserState, RootState> = {
    */
   async update (_, profile: UserProfile) {
     profile = userHooksExecutors.beforeUserProfileUpdate(profile)
-    // TODO: hack to avoid address duplication, need to check on the API side
-    profile.customer.addresses = [];
     await UserService.updateProfile(profile, 'user/handleUpdateProfile')
   },
   async handleUpdateProfile ({ dispatch, getters }, event: Task) {
