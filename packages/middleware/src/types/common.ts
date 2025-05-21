@@ -108,7 +108,7 @@ export interface ApiClientExtension<API = any, CONTEXT = any, CONFIG = any> {
     req: AlokaiRequest,
     res: AlokaiResponse,
     hooksContext: AlokaiContainer
-  ) => ApiClientExtensionHooks;
+  ) => ApiClientExtensionHooks<CONFIG>;
 }
 
 export type ErrorHandler = (
@@ -129,7 +129,7 @@ export interface Integration<
     extensions: ApiClientExtension<API, CONTEXT>[]
     // TODO(IN-4338): There is a bug in the types here
     // we're not able to verify if the methods are namespaced or not with this implementation.
-  ) => ApiClientExtension<API, CONTEXT>[];
+  ) => ApiClientExtension<API, CONTEXT, CONFIG>[];
   customQueries?: Record<string, CustomQueryFunction>;
   initConfig?: TObject;
   /**
