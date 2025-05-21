@@ -377,7 +377,12 @@ export default class EventBusListener {
       return;
     }
 
-    const ordersHistory = await this.store.dispatch(FETCH_ORDERS_HISTORY_ACTION);
+    let ordersHistory = [];
+
+    try {
+      ordersHistory = await this.store.dispatch(FETCH_ORDERS_HISTORY_ACTION);
+    } catch (_) {}
+
     const sessionOrderHashes = this.store.getters['order/getSessionOrderHashes'];
     const currentUser = this.store.state.user.current;
     const orderPaymentDetails = order.paymentDetails;
