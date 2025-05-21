@@ -386,7 +386,7 @@ export default class EventBusListener {
       try {
         ordersHistory = await this.store.dispatch(FETCH_ORDERS_HISTORY_ACTION);
       } catch (error) {
-        Logger.error(`Error loading orders: ${error}`);
+        Logger.error(`Error loading orders: ${error}`, 'GoogleTagManager')();
       }
     }
 
