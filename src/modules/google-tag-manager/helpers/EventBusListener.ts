@@ -6,6 +6,7 @@ import { Order } from '@vue-storefront/core/modules/order/types/Order';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { cartHooks } from '@vue-storefront/core/modules/cart/hooks';
 import { SearchQuery } from 'storefront-query-builder';
+import { Logger } from '@vue-storefront/core/lib/logger';
 
 import getCookieByName from 'src/modules/shared/helpers/get-cookie-by-name.function';
 import CartEvents from 'src/modules/shared/types/cart-events';
@@ -377,14 +378,19 @@ export default class EventBusListener {
       return;
     }
 
+    const currentUser = this.store.state.user.current;
+
     let ordersHistory = [];
 
-    try {
-      ordersHistory = await this.store.dispatch(FETCH_ORDERS_HISTORY_ACTION);
-    } catch (_) {}
+    if (currentUser) {
+      try {
+        ordersHistory = await this.store.dispatch(FETCH_ORDERS_HISTORY_ACTION);
+      } catch (error) {
+        Logger.error(`Error loading orders: ${error}`);
+      }
+    }
 
     const sessionOrderHashes = this.store.getters['order/getSessionOrderHashes'];
-    const currentUser = this.store.state.user.current;
     const orderPaymentDetails = order.paymentDetails;
     const orderPersonalDetails = order.personalDetails;
     const couponCode = orderPaymentDetails.coupon_code ? orderPaymentDetails.coupon_code : '';
