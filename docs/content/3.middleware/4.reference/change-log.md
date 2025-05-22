@@ -1,5 +1,11 @@
 # Change log
 
+## 5.4.1
+
+### Patch Changes
+
+- **[CHANGED]** Update multer dependency to avoid security vulnerabilities
+
 ## 5.4.0
 
 ### Minor Changes

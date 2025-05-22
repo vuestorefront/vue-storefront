@@ -25,7 +25,7 @@
   "devDependencies": {
     "@types/jest": "^29.0.3",
     "@types/node": "^18.11.17",
-    "@vue-storefront/middleware": "5.4.0",
+    "@vue-storefront/middleware": "5.4.1",
     "axios": "^1.8.2",
     "babel-preset-node": "^5.1.1",
     "isomorphic-fetch": "^3.0.0",
