@@ -209,6 +209,7 @@ const ignoredQueryKeys = [
   'SID',
   'referral_code',
   'newsletter-subscription-form-email-input',
+  'redirect-target'
 ];
 
 function generateCacheKey (site: string, req: Request) {
