@@ -24,7 +24,7 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
 
   if (to.meta?.auth) {
     if (!store.getters['user/isLoggedIn']) {
-      next({ name: 'sign-in-redirect', query: { 'redirect-target': to.fullPath } });
+      next({ name: 'sign-in-redirect', query: { ...to.query, 'redirect-target': to.path } });
       RouterManager.unlockRoute();
       return
     }
