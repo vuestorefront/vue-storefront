@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/middleware",
-  "version": "5.3.2",
+  "version": "5.4.0",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
@@ -28,7 +28,7 @@
     "@godaddy/terminus": "^4.12.1",
     "lodash.merge": "^4.6.2",
     "xss": "^1.0.15",
-    "multer": "^1.4.5-lts.1",
+    "multer": "^2.0.0",
     "@types/multer": "^1.4.7"
   },
   "devDependencies": {
