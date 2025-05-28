@@ -65,7 +65,7 @@ export function useCustomizationsGroups (
 
         return customizationRootGroupCustomizations.value[customization.id]?.length > 0;
       }
-    ).sort((a, b) => a.sn > b.sn ? 1 : -1);
+    ).sort((a, b) => a.sn - b.sn);
   });
 
   function isLastGroup (index: number): boolean {
