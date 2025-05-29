@@ -33,6 +33,7 @@ function getBundleOptionDiscountedPrice (
         product.price_incl_tax ||
         0,
       regular: productPrice?.regular ||
+        product.original_price_incl_tax ||
         product.priceInclTax ||
         product.price_incl_tax ||
         0

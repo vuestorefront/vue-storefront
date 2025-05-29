@@ -163,7 +163,10 @@ function getProductPrice (
   productPriceData: ProductPriceData
 ) {
   const quantity = (product.qty || 1);
-  const productDiscountedFinalPrice = productDiscountedPriceValue?.final;
+  const productDiscountedFinalPrice = productDiscountedPriceValue?.final !== undefined
+    ? productDiscountedPriceValue.final * quantity
+    : undefined;
+
   const productDiscountedRegularPrice = productDiscountedPriceValue?.regular;
 
   let priceInclTax = productPriceData.priceInclTax * quantity;
@@ -175,10 +178,6 @@ function getProductPrice (
   const original = productDiscountedRegularPrice ? productDiscountedRegularPrice * quantity : originalPriceInclTax
   const regular = product.regular_price || priceInclTax
   let special = productDiscountedFinalPrice || priceInclTax
-
-  if (productDiscountedFinalPrice !== undefined) {
-    special = productDiscountedFinalPrice * quantity;
-  }
 
   const isSpecialPrice = (!!productDiscountedFinalPrice ||
     (specialPrice && priceInclTax && originalPriceInclTax) ||
