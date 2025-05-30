@@ -1,10 +1,6 @@
 <template>
   <div
     class="streaming-video"
-    :class="{
-      '-you-tube': isYouTubeVideo,
-      '-short': isYouTubeShortsVideo
-    }"
     :style="styles"
   >
     <div
@@ -180,17 +176,5 @@ export default Vue.extend({
     height: 100%;
     padding-bottom: 0;
   }
-
-  // &.-you-tube {
-  //   padding-top: calc(100% / (16 / 9));
-  // }
-
-  // @media (max-width: 40em) {
-  //   &.-you-tube {
-  //     &.-short {
-  //       padding-top: calc(100% / (9 / 16));
-  //     }
-  //   }
-  // }
 }
 </style>
