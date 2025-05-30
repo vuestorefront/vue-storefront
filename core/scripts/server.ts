@@ -173,6 +173,7 @@ const ignoredQueryKeys = [
   'utm_source',
   'utm_medium',
   'utm_campaign',
+  '_kx',
   'fbclid',
   'utm_term',
   'utm_content',
