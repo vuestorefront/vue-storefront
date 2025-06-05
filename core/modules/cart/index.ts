@@ -7,10 +7,11 @@ import { localStorageSynchronizationFactory } from 'src/modules/shared';
 
 import { cartCacheHandlerPlugin, getItemsFromStorage } from './helpers';
 import cartClearHandlerFactory from './helpers/cartClearHandler.factory';
+import getCartItemKey from './helpers/get-cart-item-key.function';
 import { cartStore } from './store'
 import { LOCAL_CART_DATA_LOADED_EVENT } from './types/local-cart-data-loaded.event';
 import { ORDER_CONFLICT_EVENT } from '../order';
-import { CART_ITEM_PRICE_DICTIONARY, GET_CART_ITEM_PRICE } from './types/CartItemGetters';
+import { CART_ITEM_PRICE_DICTIONARY, CART_ITEM_LOCALIZED_PRICE_DICTIONARY, GET_CART_ITEM_PRICE } from './types/CartItemGetters';
 import { CART_SET_PRODUCT_DISCOUNTED_PRICE, SN_CART } from './store/mutation-types';
 
 import * as getterTypes from './store/getter-types';
@@ -61,9 +62,11 @@ const IS_PAYMENT_METHODS_SYNCING = `${SN_CART}/${getterTypes.IS_PAYMENT_METHODS_
 const IS_COUPON_PROCESSING = `${SN_CART}/${getterTypes.IS_COUPON_PROCESSING}`
 
 export {
+  getCartItemKey,
   LOCAL_CART_DATA_LOADED_EVENT,
   GET_CART_ITEM_PRICE,
   CART_ITEM_PRICE_DICTIONARY,
+  CART_ITEM_LOCALIZED_PRICE_DICTIONARY,
   CART_SET_PRODUCT_DISCOUNTED_PRICE_MUTATION,
   IS_SHIPPING_METHODS_SYNCING,
   IS_CART_SYNCING,

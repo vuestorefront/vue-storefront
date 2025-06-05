@@ -42,6 +42,24 @@ const getters: GetterTree<ProductState, RootState> = {
       )
     }
   },
+  productLocalizedPriceDictionary: (state, getters, rootState, rootGetters) => {
+    const _productPriceDictionary = getters.productPriceDictionary;
+    const prices: Record<string, PriceHelper.ProductPrice> = {};
+    const exchangeRate: number = rootGetters['currency-module/getCurrencyExchangeRate'];
+
+    for (const key of Object.keys(_productPriceDictionary)) {
+      const price = _productPriceDictionary[key];
+
+      prices[key] = {
+        regular: price.regular * exchangeRate,
+        special: price.special === null
+          ? null
+          : price.special * exchangeRate
+      }
+    }
+
+    return prices;
+  },
   productPriceDictionary: (state): Record<string, PriceHelper.ProductPrice> => {
     const loadedProducts = Object.values(state.productBySku);
     const productPrices: Record<string, PriceHelper.ProductPrice> = {};

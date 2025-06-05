@@ -1,7 +1,7 @@
 import { Ref, computed, SetupContext } from '@vue/composition-api';
 
 import { PriceHelper } from 'src/modules/shared';
-import { PRODUCT_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
+import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
 
 import { Customization, CustomizationOptionValue } from '..';
 import { getLowestPriceForOptionValues } from '../helpers/get-lowest-price-for-option-values';
@@ -17,7 +17,7 @@ export function useCustomizationsPrice (
     () => {
       const dictionary: Record<string, PriceHelper.ProductPrice | undefined> = {};
       const productBySkuDictionary = root.$store.getters['product/getProductBySkuDictionary'];
-      const productPriceDictionary = root.$store.getters[PRODUCT_PRICE_DICTIONARY];
+      const productPriceDictionary = root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
 
       customizations.value.forEach((customization) => {
         if (!customization.optionData?.values) {
@@ -37,7 +37,7 @@ export function useCustomizationsPrice (
 
   const totalPrice = computed<PriceHelper.ProductPrice>(() => {
     const productBySkuDictionary = root.$store.getters['product/getProductBySkuDictionary'];
-    const productPriceDictionary = root.$store.getters[PRODUCT_PRICE_DICTIONARY];
+    const productPriceDictionary = root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
     const selectedOptionValuesPrices: PriceHelper.ProductPrice[] = [];
     const _customizationOptionValuesLowestPrice = customizationOptionValuesLowestPrice.value;
 
