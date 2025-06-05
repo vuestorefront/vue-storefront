@@ -1,0 +1,47 @@
+import { isServer } from '@vue-storefront/core/helpers';
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import LocalForageCacheDriver from '@vue-storefront/core/lib/store/storage';
+
+import { localStorageSynchronizationFactory } from 'src/modules/shared';
+
+import { cacheHandlerFactory } from './helpers/cache-handler.factory';
+import { module } from './store';
+import { FETCH_AVAILABLE_CURRENCIES, FETCH_CURRENCY_RATES, SYNC } from './types/actions';
+import * as getters from './types/getters';
+import { Currency } from './types/currency.interface';
+import { MODULE_NAME } from './types/module-name';
+
+import CurrencySelector from './components/currency-selector.vue';
+import { getItemsFromStorageFactory } from './helpers/get-local-storage-items';
+
+export const CurrencyModule: StorefrontModule = async function ({ store }) {
+  const currencyStorage: LocalForageCacheDriver = StorageManager.init(MODULE_NAME);
+  store.registerModule(`${MODULE_NAME}`, module);
+
+  if (isServer) {
+    return;
+  }
+
+  const localStorageSynchronization = localStorageSynchronizationFactory(
+    getItemsFromStorageFactory(store),
+    cacheHandlerFactory(currencyStorage)
+  );
+
+  store.dispatch(`${MODULE_NAME}/${SYNC}`);
+  store.subscribe(localStorageSynchronization.setItems);
+}
+
+const FETCH_AVAILABLE_CURRENCIES_ACTION = `${MODULE_NAME}/${FETCH_AVAILABLE_CURRENCIES}`;
+const FETCH_CURRENCY_RATES_ACTION = `${MODULE_NAME}/${FETCH_CURRENCY_RATES}`;
+const GET_SELECTED_CURRENCY = `${MODULE_NAME}/${getters.GET_SELECTED_CURRENCY}`;
+const GET_CURRENCY_EXCHANGE_RATE = `${MODULE_NAME}/${getters.GET_CURRENCY_EXCHANGE_RATE}`;
+
+export {
+  Currency,
+  CurrencySelector,
+  FETCH_AVAILABLE_CURRENCIES_ACTION,
+  FETCH_CURRENCY_RATES_ACTION,
+  GET_SELECTED_CURRENCY,
+  GET_CURRENCY_EXCHANGE_RATE
+}
