@@ -19,6 +19,8 @@ import { computed, defineComponent, PropType } from '@vue/composition-api';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import { PriceHelper } from '@vue-storefront/core/helpers';
+import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
+import { Currency, GET_SELECTED_CURRENCY } from 'src/modules/currency';
 
 export default defineComponent({
   name: 'StoryblokRichTextPriceComponent',
@@ -38,7 +40,7 @@ export default defineComponent({
   },
   setup (props, { root }) {
     const productPrice = computed<PriceHelper.ProductPrice>(() => {
-      return root.$store.getters['product/getProductPrice'](props.product);
+      return root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY][props.product.id];
     });
 
     const finalPrice = computed<number>(() => {
@@ -50,11 +52,15 @@ export default defineComponent({
       });
     });
 
+    const selectedCurrency = computed<Currency>(() => {
+      return root.$store.getters[GET_SELECTED_CURRENCY];
+    });
+
     const formattedFinalPrice = computed<string>(() => {
-      return PriceHelper.formatPrice(finalPrice.value);
+      return PriceHelper.formatPrice(finalPrice.value, selectedCurrency.value.symbol);
     });
     const formattedRegularPrice = computed<string>(() => {
-      return PriceHelper.formatPrice(productPrice.value.regular);
+      return PriceHelper.formatPrice(productPrice.value.regular, selectedCurrency.value.symbol);
     });
 
     const showRegularPrice = computed<boolean>(() => {

@@ -3,7 +3,7 @@
     class="storyblok-rich-text-text-component"
   >
     <component
-      v-for="part in textParts"
+      v-for="part in processedTextParts"
       :key="part.id"
       :class="part.classes"
       :style="part.styles"
@@ -18,46 +18,16 @@
 
 <script lang="ts">
 import { v4 as uuidv4 } from 'uuid';
-import Vue, { PropType } from 'vue';
-import { SearchQuery } from 'storefront-query-builder'
-import { mapGetters } from 'vuex';
+import { computed, defineComponent, PropType, Ref, ref } from '@vue/composition-api';
 
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { StatisticMetric } from 'src/modules/budsies/types/statistic-metric';
+import { DirectiveType, ProductPriceDirective, ProductSpecificPriceDirective, TextPart, useTextDirectives } from 'src/modules/shared/composables/use-text-directives';
 
 import RichTextItem from '../../../../types/rich-text-item.interface';
 
 import PriceComponent from './PriceComponent.vue';
 import SimplePriceComponent from './SimplePriceComponent.vue';
-
-type priceType = 'regular' | 'special';
-
-enum DirectiveType {
-  PRODUCT_PRICE = 'productPrice',
-  PRODUCT_SPECIFIC_PRICE = 'productSpecificPrice',
-  ORDERED_PLUSHIES_COUNT = 'orderedPlushiesCount'
-}
-
-interface DirectiveSpecification {
-  directiveName: string,
-  directiveParams: string[]
-}
-
-interface ProductSpecificPriceDirective {
-  type: DirectiveType.PRODUCT_SPECIFIC_PRICE,
-  priceType: priceType,
-  productSku: string
-}
-
-interface ProductPriceDirective {
-  type: DirectiveType.PRODUCT_PRICE,
-  isPromo: boolean,
-  productSku: string,
-  isColorful: boolean
-}
-
-interface OrderedPlushiesCountDirective {
-  type: DirectiveType.ORDERED_PLUSHIES_COUNT
-}
 
 interface ProcessedTextPart {
   id: string,
@@ -68,18 +38,7 @@ interface ProcessedTextPart {
   props?: Record<string, any>
 }
 
-type ProductDependentDirective = ProductSpecificPriceDirective | ProductPriceDirective
-type Directive = ProductDependentDirective | OrderedPlushiesCountDirective
-type TextPart = string | Directive;
-
-const directivesRegexp = /\{\{(.*?)\}\}/gi;
-const directiveSpecificationRegexp = /(.*)\((.*)\)/i;
-
-function isProductDependentDirective (directive: Directive): directive is ProductDependentDirective {
-  return directive.hasOwnProperty('productSku');
-}
-
-export default Vue.extend({
+export default defineComponent({
   name: 'StoryblokRichTextTextComponent',
   components: {
     PriceComponent,
@@ -93,54 +52,146 @@ export default Vue.extend({
   },
   data () {
     return {
-      textParts: [] as ProcessedTextPart[]
     }
   },
-  computed: {
-    ...mapGetters({
-      productBySkuDictionary: 'product/getProductBySkuDictionary'
-    }),
-    classes (): string[] {
-      return [...this.fontDecorationClasses, ...this.styledClasses];
-    },
-    fontDecorationClasses (): string[] {
-      if (!this.item.marks?.length) {
+  setup (props, context) {
+    const processedTextParts = ref<ProcessedTextPart[]>([]);
+
+    const productBySkuDictionary = computed<Record<string, Product>>(() => {
+      return context.root.$store.getters['product/getProductBySkuDictionary'];
+    });
+
+    const fontDecorationClasses = computed<string[]>(() => {
+      if (!props.item.marks?.length) {
         return [];
       }
 
-      return this.item.marks.filter((mark) => mark.type !== 'styled' && mark.type !== 'textStyle').map((mark) => {
+      return props.item.marks.filter((mark) => mark.type !== 'styled' && mark.type !== 'textStyle').map((mark) => {
         return `-${mark.type}`;
       })
-    },
-    styledClasses (): string[] {
-      if (!this.item.marks?.length) {
+    });
+
+    const styledClasses = computed< string[]>(() => {
+      if (!props.item.marks?.length) {
         return [];
       }
 
-      return this.item.marks
+      return props.item.marks
         .filter((mark) => mark.type === 'styled')
         .map((mark) => mark.attrs?.class || '')
-    },
-    styles (): Record<string, string | number> {
+    });
+
+    const classes = computed<string[]>(() => {
+      return [...fontDecorationClasses.value, ...styledClasses.value];
+    });
+
+    const styles = computed<Record<string, string | number>>(() => {
       const result: Record<string, string | number> = {};
 
-      if (!this.item.marks?.length) {
+      if (!props.item.marks?.length) {
         return result;
       }
 
-      const textStyle = this.item.marks.find((mark) => mark.type === 'textStyle');
+      const textStyle = props.item.marks.find((mark) => mark.type === 'textStyle');
 
       if (textStyle?.attrs?.color) {
         result.color = textStyle.attrs.color;
       }
 
-      const highlightStyle = this.item.marks.find((mark) => mark.type === 'highlight');
+      const highlightStyle = props.item.marks.find((mark) => mark.type === 'highlight');
 
       if (highlightStyle?.attrs?.color) {
         result.backgroundColor = highlightStyle?.attrs?.color;
       }
 
       return result;
+    });
+
+    function processOrderedPlushiesCountDirective (): ProcessedTextPart {
+      const metricValue = context.root.$store.getters['budsies/getStatisticValueByMetric'](
+        StatisticMetric.ORDERED_PLUSHIES_COUNT
+      );
+
+      return {
+        id: uuidv4(),
+        text: metricValue,
+        classes: classes.value,
+        styles: styles.value,
+        component: 'span'
+      }
+    }
+
+    function processProductPriceDirective (textPart: ProductPriceDirective): ProcessedTextPart {
+      const processedTextPart: ProcessedTextPart = {
+        id: uuidv4(),
+        text: '',
+        classes: classes.value,
+        styles: styles.value,
+        component: 'price-component',
+        props: {
+          product: productBySkuDictionary.value[textPart.productSku],
+          isPromo: textPart.isPromo,
+          isColorful: textPart.isColorful
+        }
+      }
+
+      return processedTextPart;
+    }
+
+    function processProductSpecificPriceDirective (textPart: ProductSpecificPriceDirective): ProcessedTextPart {
+      return {
+        id: uuidv4(),
+        text: '',
+        classes: classes.value,
+        styles: styles.value,
+        component: 'simple-price-component',
+        props: {
+          product: productBySkuDictionary.value[textPart.productSku],
+          priceType: textPart.priceType
+        }
+      }
+    }
+
+    function processTextParts (textParts: TextPart[]): void {
+      const list: ProcessedTextPart[] = [];
+
+      for (const textPart of textParts) {
+        if (typeof textPart === 'string') {
+          list.push({
+            id: uuidv4(),
+            text: textPart,
+            component: 'span',
+            classes: classes.value,
+            styles: styles.value
+          })
+          continue;
+        }
+
+        if (textPart.type === DirectiveType.PRODUCT_SPECIFIC_PRICE) {
+          list.push(
+            processProductSpecificPriceDirective(
+              textPart
+            )
+          );
+        } else if (textPart.type === DirectiveType.PRODUCT_PRICE) {
+          list.push(
+            processProductPriceDirective(textPart)
+          );
+        } else if (textPart.type === DirectiveType.ORDERED_PLUSHIES_COUNT) {
+          list.push(
+            processOrderedPlushiesCountDirective()
+          );
+        }
+      }
+
+      (processedTextParts as Ref<ProcessedTextPart[]>).value = list;
+    }
+
+    const { processDirectivesInText } = useTextDirectives(processTextParts, context);
+
+    return {
+      processedTextParts,
+      processDirectivesInText
     }
   },
   serverPrefetch (): Promise<void> {
@@ -148,232 +199,6 @@ export default Vue.extend({
   },
   beforeMount (): void {
     this.processDirectivesInText(this.item.text || '');
-  },
-  methods: {
-    getDirectiveFromSpecification (specification: DirectiveSpecification): Directive {
-      const { directiveName, directiveParams } = specification;
-
-      if (directiveName === 'productSpecificPrice') {
-        if (directiveParams[1] !== 'regular' && directiveParams[1] !== 'special') {
-          throw new Error('Unknown price type for the productSpecificPrice directive: ' + directiveParams[1]);
-        }
-
-        const directive: ProductSpecificPriceDirective = {
-          productSku: directiveParams[0],
-          priceType: directiveParams[1],
-          type: DirectiveType.PRODUCT_SPECIFIC_PRICE
-        }
-
-        return directive;
-      }
-
-      if (directiveName === 'productPrice') {
-        const style = directiveParams[2];
-
-        const directive: ProductPriceDirective = {
-          productSku: directiveParams[0],
-          isPromo: directiveParams[1] === 'promo',
-          type: DirectiveType.PRODUCT_PRICE,
-          isColorful: !style || style !== 'plain'
-        }
-
-        return directive
-      }
-
-      if (directiveName === DirectiveType.ORDERED_PLUSHIES_COUNT) {
-        return {
-          type: DirectiveType.ORDERED_PLUSHIES_COUNT
-        }
-      }
-
-      throw new Error('Unknown directive type: ' + directiveName);
-    },
-    parseDirectiveText (directive: string): DirectiveSpecification {
-      const directiveString = directive.replace(/\{|\}|&quot|"/g, '').trim();
-      const match = directiveSpecificationRegexp.exec(directiveString);
-
-      if (!match) {
-        throw new Error('Unable to parse directive: ' + directive);
-      }
-
-      const directiveName = match[1].trim();
-      const directiveParams = match[2].split(',');
-
-      return {
-        directiveName,
-        directiveParams: directiveParams.map((param) => param.trim())
-      }
-    },
-    async loadProducts (productsSkus: string[]): Promise<void> {
-      let searchQuery = new SearchQuery();
-      searchQuery = searchQuery.applyFilter({ key: 'sku', value: { 'in': productsSkus } })
-
-      await this.$store.dispatch(
-        'product/findProducts',
-        {
-          query: searchQuery,
-          size: productsSkus.length
-        }
-      )
-    },
-    loadDirectivesRelatedData (directives: Directive[]): void | Promise<any[]> {
-      const promises = [];
-
-      const productSkusUsedInDirectives = this.getProductSkusUsedInDirectives(directives);
-      const productsToLoadSkus: string[] = [];
-
-      productSkusUsedInDirectives.forEach((sku) => {
-        if (!this.productBySkuDictionary[sku]) {
-          productsToLoadSkus.push(sku);
-        }
-      });
-
-      if (productsToLoadSkus.length) {
-        promises.push(this.loadProducts(productsToLoadSkus))
-      }
-
-      if (directives.find((value) => value.type === DirectiveType.ORDERED_PLUSHIES_COUNT)) {
-        promises.push(this.$store.dispatch(
-          'budsies/fetchStatisticValuesByMetric',
-          { metric: StatisticMetric.ORDERED_PLUSHIES_COUNT })
-        );
-      }
-
-      if (!promises.length) {
-        return;
-      }
-
-      return Promise.all(promises);
-    },
-    getProductSkusUsedInDirectives (directives: Directive[]): string[] {
-      const productSkusSet = new Set<string>();
-      directives.forEach((directive) => {
-        if (!isProductDependentDirective(directive)) {
-          return;
-        }
-
-        if (directive.productSku) {
-          productSkusSet.add(directive.productSku)
-        }
-      });
-      return Array.from(productSkusSet);
-    },
-    async processDirectivesInText (text: string): Promise<void> {
-      const parts = this.getPartsFromText(text);
-      const directives = (parts.filter((part) => typeof part !== 'string')) as Directive[];
-
-      const promise = this.loadDirectivesRelatedData(directives);
-
-      if (promise) {
-        await promise;
-      }
-
-      this.textParts = this.processTextParts(parts);
-    },
-    processTextParts (textParts: TextPart[]): ProcessedTextPart[] {
-      const processedTextParts: ProcessedTextPart[] = [];
-      for (const textPart of textParts) {
-        if (typeof textPart === 'string') {
-          processedTextParts.push({
-            id: uuidv4(),
-            text: textPart,
-            component: 'span',
-            classes: this.classes,
-            styles: this.styles
-          })
-          continue;
-        }
-
-        if (textPart.type === DirectiveType.PRODUCT_SPECIFIC_PRICE) {
-          processedTextParts.push(
-            this.processProductSpecificPriceDirective(
-              textPart
-            )
-          );
-        } else if (textPart.type === DirectiveType.PRODUCT_PRICE) {
-          processedTextParts.push(
-            this.processProductPriceDirective(textPart)
-          );
-        } else if (textPart.type === DirectiveType.ORDERED_PLUSHIES_COUNT) {
-          processedTextParts.push(
-            this.processOrderedPlushiesCountDirective()
-          );
-        }
-      }
-
-      return processedTextParts;
-    },
-    processOrderedPlushiesCountDirective (): ProcessedTextPart {
-      const metricValue = this.$store.getters['budsies/getStatisticValueByMetric'](
-        StatisticMetric.ORDERED_PLUSHIES_COUNT
-      );
-
-      return {
-        id: uuidv4(),
-        text: metricValue,
-        classes: this.classes,
-        styles: this.styles,
-        component: 'span'
-      }
-    },
-    processProductPriceDirective (textPart: ProductPriceDirective): ProcessedTextPart {
-      const processedTextPart: ProcessedTextPart = {
-        id: uuidv4(),
-        text: '',
-        classes: this.classes,
-        styles: this.styles,
-        component: 'price-component',
-        props: {
-          product: this.productBySkuDictionary[textPart.productSku],
-          isPromo: textPart.isPromo,
-          isColorful: textPart.isColorful
-        }
-      }
-
-      return processedTextPart;
-    },
-    processProductSpecificPriceDirective (textPart: ProductSpecificPriceDirective): ProcessedTextPart {
-      return {
-        id: uuidv4(),
-        text: '',
-        classes: this.classes,
-        styles: this.styles,
-        component: 'simple-price-component',
-        props: {
-          product: this.productBySkuDictionary[textPart.productSku],
-          priceType: textPart.priceType
-        }
-      }
-    },
-    getPartsFromText (text: string): TextPart[] {
-      let match = directivesRegexp.exec(text);
-      if (!match) {
-        return [text];
-      }
-
-      const textParts: TextPart[] = [];
-      let textFragmentStartIndex = 0;
-
-      while (match !== null) {
-        const index = match.index;
-
-        if (textFragmentStartIndex !== index) {
-          textParts.push(text.slice(textFragmentStartIndex, index));
-        }
-
-        const directiveData = this.parseDirectiveText(match[0]);
-
-        textParts.push(this.getDirectiveFromSpecification(directiveData));
-        textFragmentStartIndex = match.index + match[0].length;
-        match = directivesRegexp.exec(text);
-      }
-
-      if (textFragmentStartIndex < text.length - 1) {
-        textParts.push(text.slice(textFragmentStartIndex));
-      }
-
-      return textParts;
-    }
   },
   watch: {
     'item.text' (val, oldVal) {
