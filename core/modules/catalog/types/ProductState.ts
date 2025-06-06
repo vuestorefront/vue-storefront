@@ -27,5 +27,6 @@ export default interface ProductState {
   productLoadPromise: Promise<any> | null,
   productGallery: any,
   productBySku: Record<string, Product>,
-  productDiscountedPrice: Record<string, number>
+  productDiscountedPrice: Record<string, number>,
+  exchangeRate: number
 }

@@ -1,7 +1,12 @@
+import { MutationPayload } from 'vuex';
+
 import { isServer } from '@vue-storefront/core/helpers';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import LocalForageCacheDriver from '@vue-storefront/core/lib/store/storage';
+import RootState from '@vue-storefront/core/types/RootState';
+import { CART_SET_EXCHANGE_RATE_MUTATION } from '@vue-storefront/core/modules/cart';
+import { SET_EXCHANGE_RATE_MUTATION } from '@vue-storefront/core/modules/catalog';
 
 import { localStorageSynchronizationFactory } from 'src/modules/shared';
 
@@ -14,6 +19,12 @@ import { MODULE_NAME } from './types/module-name';
 
 import CurrencySelector from './components/currency-selector.vue';
 import { getItemsFromStorageFactory } from './helpers/get-local-storage-items';
+import { SET_SELECTED_CURRENCY, SET_CURRENCY_RATES } from './types/mutations';
+
+const FETCH_AVAILABLE_CURRENCIES_ACTION = `${MODULE_NAME}/${FETCH_AVAILABLE_CURRENCIES}`;
+const FETCH_CURRENCY_RATES_ACTION = `${MODULE_NAME}/${FETCH_CURRENCY_RATES}`;
+const GET_SELECTED_CURRENCY = `${MODULE_NAME}/${getters.GET_SELECTED_CURRENCY}`;
+const GET_CURRENCY_EXCHANGE_RATE = `${MODULE_NAME}/${getters.GET_CURRENCY_EXCHANGE_RATE}`;
 
 export const CurrencyModule: StorefrontModule = async function ({ store }) {
   const currencyStorage: LocalForageCacheDriver = StorageManager.init(MODULE_NAME);
@@ -29,13 +40,20 @@ export const CurrencyModule: StorefrontModule = async function ({ store }) {
   );
 
   store.dispatch(`${MODULE_NAME}/${SYNC}`);
-  store.subscribe(localStorageSynchronization.setItems);
-}
+  store.subscribe((mutation: MutationPayload, state: RootState) => {
+    localStorageSynchronization.setItems(mutation, state);
 
-const FETCH_AVAILABLE_CURRENCIES_ACTION = `${MODULE_NAME}/${FETCH_AVAILABLE_CURRENCIES}`;
-const FETCH_CURRENCY_RATES_ACTION = `${MODULE_NAME}/${FETCH_CURRENCY_RATES}`;
-const GET_SELECTED_CURRENCY = `${MODULE_NAME}/${getters.GET_SELECTED_CURRENCY}`;
-const GET_CURRENCY_EXCHANGE_RATE = `${MODULE_NAME}/${getters.GET_CURRENCY_EXCHANGE_RATE}`;
+    if (
+      mutation.type.endsWith(SET_SELECTED_CURRENCY) ||
+        mutation.type.endsWith(SET_CURRENCY_RATES)
+    ) {
+      const exchangeRate = store.getters[GET_CURRENCY_EXCHANGE_RATE];
+
+      store.commit(CART_SET_EXCHANGE_RATE_MUTATION, exchangeRate);
+      store.commit(SET_EXCHANGE_RATE_MUTATION, exchangeRate);
+    }
+  });
+}
 
 export {
   Currency,

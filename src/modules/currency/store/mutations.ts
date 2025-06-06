@@ -12,6 +12,6 @@ export const mutations: MutationTree<CurrencyState> = {
     state.selectedCurrencyCode = selectedCurrency;
   },
   [SET_CURRENCY_RATES] (state, rates: Record<string, number>) {
-    state.currencyRates = rates;
+    state.currencyRates = rates || {};
   }
 }

@@ -19,5 +19,6 @@ export default interface CartState {
   isCartSyncing: boolean,
   isTotalsSyncing: boolean,
   isPaymentMethodsSyncing: boolean,
-  isCouponProcessing: boolean
+  isCouponProcessing: boolean,
+  exchangeRate: number
 }

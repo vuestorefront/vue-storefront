@@ -42,10 +42,10 @@ const getters: GetterTree<ProductState, RootState> = {
       )
     }
   },
-  productLocalizedPriceDictionary: (state, getters, rootState, rootGetters) => {
+  productLocalizedPriceDictionary: (state, getters) => {
     const _productPriceDictionary = getters.productPriceDictionary;
     const prices: Record<string, PriceHelper.ProductPrice> = {};
-    const exchangeRate: number = rootGetters['currency-module/getCurrencyExchangeRate'];
+    const exchangeRate: number = state.exchangeRate;
 
     for (const key of Object.keys(_productPriceDictionary)) {
       const price = _productPriceDictionary[key];

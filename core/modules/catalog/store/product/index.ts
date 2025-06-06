@@ -36,7 +36,8 @@ export const productModule: Module<ProductState, RootState> = {
     productLoadPromise: null,
     productGallery: [],
     productBySku: {},
-    productDiscountedPrice: {}
+    productDiscountedPrice: {},
+    exchangeRate: 1
   },
   getters,
   actions,

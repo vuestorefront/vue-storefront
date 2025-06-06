@@ -112,6 +112,9 @@ const mutations: MutationTree<ProductState> = {
   [types.SET_PRODUCT_DISCOUNTED_PRICE] (state, productDiscountedPrice: Record<string, number>) {
     state.productDiscountedPrice = { ...productDiscountedPrice }
   },
+  [types.SET_EXCHANGE_RATE] (state, exchangeRate: number) {
+    state.exchangeRate = exchangeRate || 1;
+  },
   [types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR] (state, { validationRule, validatorFunction }) {
     Logger.error('Deprecated mutation CATALOG_ADD_CUSTOM_OPTION_VALIDATOR - use PRODUCT_SET_CUSTOM_OPTION_VALIDATOR instead')()
   },

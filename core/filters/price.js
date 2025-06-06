@@ -1,5 +1,4 @@
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 
 const applyCurrencySign = (formattedPrice, { currencySign, priceFormat }) => {
   return priceFormat.replace('{sign}', currencySign).replace('{amount}', formattedPrice)
