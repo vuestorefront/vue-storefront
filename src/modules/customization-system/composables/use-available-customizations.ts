@@ -84,7 +84,7 @@ export function useAvailableCustomizations (
     );
 
     return filteredCustomizations.sort((a, b) => {
-      return a.sn > b.sn ? 1 : -1;
+      return a.sn - b.sn;
     });
   });
   // TODO rename to make it more obvious

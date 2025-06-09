@@ -3,6 +3,7 @@ import config from 'config';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { processURLAddress } from '@vue-storefront/core/helpers';
+import { ProductDiscountedPrice } from '@vue-storefront/core/modules/catalog';
 
 import CampaignsGetAPIResponse from './types/CampaignsGetAPIResponse';
 import { CampaignContent } from './types/CampaignContent.interface';
@@ -13,7 +14,7 @@ import { CountdownBanner } from './types/CountdownBanner.interface';
 
 function parseResponseData (responseData: any): CampaignsGetAPIResponse {
   const campaignData = responseData?.result?.campaignContent;
-  let discountsContent: Dictionary<number> = {};
+  let discountsContent: Dictionary<ProductDiscountedPrice> = {};
 
   if (!campaignData) {
     return {
@@ -23,7 +24,20 @@ function parseResponseData (responseData: any): CampaignsGetAPIResponse {
   }
 
   if (campaignData.discounts && campaignData.discounts.prices) {
-    discountsContent = campaignData.discounts.prices as Dictionary<number>;
+    const prices = campaignData.discounts.prices as Dictionary<number>;
+
+    for (const key of Object.keys(prices)) {
+      const price = prices[key];
+
+      discountsContent[key] = {
+        regular: undefined,
+        final: price
+      };
+    }
+  }
+
+  if (campaignData.discounts?.adjustedPrices) {
+    discountsContent = { ...discountsContent, ...campaignData.discounts.adjustedPrices };
   }
 
   const campaignContent: CampaignContent = {

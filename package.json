@@ -52,7 +52,7 @@
     "update-i18n-files": "node core/i18n/scripts/updateI18nFiles.js src/themes/petsies-capybara/resource/i18n/en-US.csv"
   },
   "dependencies": {
-    "@justinribeiro/lite-youtube": "^1.5.0",
+    "@justinribeiro/lite-youtube": "^1.8.2",
     "@types/webpack": "^4.41",
     "@types/webpack-dev-server": "^3.10",
     "@vue/composition-api": "^1.7.1",
