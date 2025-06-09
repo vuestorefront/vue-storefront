@@ -20,6 +20,7 @@ import { MODULE_NAME } from './types/module-name';
 import CurrencySelector from './components/currency-selector.vue';
 import { getItemsFromStorageFactory } from './helpers/get-local-storage-items';
 import { SET_SELECTED_CURRENCY, SET_CURRENCY_RATES } from './types/mutations';
+import { DEFAULT_CURRENCY } from './types/default-currency';
 
 const FETCH_AVAILABLE_CURRENCIES_ACTION = `${MODULE_NAME}/${FETCH_AVAILABLE_CURRENCIES}`;
 const FETCH_CURRENCY_RATES_ACTION = `${MODULE_NAME}/${FETCH_CURRENCY_RATES}`;
@@ -45,7 +46,7 @@ export const CurrencyModule: StorefrontModule = async function ({ store }) {
 
     if (
       mutation.type.endsWith(SET_SELECTED_CURRENCY) ||
-        mutation.type.endsWith(SET_CURRENCY_RATES)
+      mutation.type.endsWith(SET_CURRENCY_RATES)
     ) {
       const exchangeRate = store.getters[GET_CURRENCY_EXCHANGE_RATE];
 
@@ -58,6 +59,7 @@ export const CurrencyModule: StorefrontModule = async function ({ store }) {
 export {
   Currency,
   CurrencySelector,
+  DEFAULT_CURRENCY,
   FETCH_AVAILABLE_CURRENCIES_ACTION,
   FETCH_CURRENCY_RATES_ACTION,
   GET_SELECTED_CURRENCY,
