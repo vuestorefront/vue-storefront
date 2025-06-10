@@ -7,9 +7,9 @@
       <div class="_info-container">
         <div class="_image-container">
           <BaseImage
+            alt=""
             :lazy="false"
             :src="orderItemImage"
-            :alt="item.product.name"
             :aspect-ratio="1"
           />
         </div>
