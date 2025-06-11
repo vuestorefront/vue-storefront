@@ -1,11 +1,13 @@
 import { ActionTree } from 'vuex'
+import config from 'config';
 import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
+import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import RootState from '@vue-storefront/core/types/RootState'
 import UserState from '../types/UserState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { UserProfile } from '../types/UserProfile'
-import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
+import { isServer, onlineHelper, processURLAddress } from '@vue-storefront/core/helpers'
 import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
@@ -74,13 +76,43 @@ const actions: ActionTree<UserState, RootState> = {
   createPassword (context, { email, newPassword, resetToken }) {
     return UserService.createPassword(email, newPassword, resetToken)
   },
+  async login (_, { email }) {
+    const { resultCode } = await TaskQueue.execute({
+      url: processURLAddress(`${config.budsies.endpoint}/customer/login-requests`),
+      payload: {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+      }
+    });
+
+    if (resultCode !== 200) {
+      throw new Error('Unable to login');
+    }
+  },
   /**
    * Login user and return user profile and current token
    */
-  async login ({ commit, dispatch, getters }, { username, password }) {
+  async authenticate ({ commit, dispatch, getters }, { token }) {
     await dispatch('resetUserInvalidation', {}, { root: true })
 
-    const resp = await UserService.login(username, password)
+    const resp = await TaskQueue.execute({
+      url: processURLAddress(`${config.budsies.endpoint}/customer/authenticate-requests`),
+      payload: {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token })
+      }
+    });
+
     userHooksExecutors.afterUserAuthorize(resp)
 
     if (resp.code === 200) {
