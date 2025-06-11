@@ -1,12 +1,7 @@
-import { MutationPayload } from 'vuex';
-
 import { isServer } from '@vue-storefront/core/helpers';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import LocalForageCacheDriver from '@vue-storefront/core/lib/store/storage';
-import RootState from '@vue-storefront/core/types/RootState';
-import { CART_SET_EXCHANGE_RATE_MUTATION } from '@vue-storefront/core/modules/cart';
-import { SET_EXCHANGE_RATE_MUTATION } from '@vue-storefront/core/modules/catalog';
 
 import { localStorageSynchronizationFactory } from 'src/modules/shared';
 
@@ -19,7 +14,6 @@ import { MODULE_NAME } from './types/module-name';
 
 import CurrencySelector from './components/currency-selector.vue';
 import { getItemsFromStorageFactory } from './helpers/get-local-storage-items';
-import { SET_SELECTED_CURRENCY, SET_CURRENCY_RATES } from './types/mutations';
 import { DEFAULT_CURRENCY } from './types/default-currency';
 
 const FETCH_AVAILABLE_CURRENCIES_ACTION = `${MODULE_NAME}/${FETCH_AVAILABLE_CURRENCIES}`;
