@@ -41,19 +41,7 @@ export const CurrencyModule: StorefrontModule = async function ({ store }) {
   );
 
   store.dispatch(`${MODULE_NAME}/${SYNC}`);
-  store.subscribe((mutation: MutationPayload, state: RootState) => {
-    localStorageSynchronization.setItems(mutation, state);
-
-    if (
-      mutation.type.endsWith(SET_SELECTED_CURRENCY) ||
-      mutation.type.endsWith(SET_CURRENCY_RATES)
-    ) {
-      const exchangeRate = store.getters[GET_CURRENCY_EXCHANGE_RATE];
-
-      store.commit(CART_SET_EXCHANGE_RATE_MUTATION, exchangeRate);
-      store.commit(SET_EXCHANGE_RATE_MUTATION, exchangeRate);
-    }
-  });
+  store.subscribe(localStorageSynchronization.setItems);
 }
 
 export {

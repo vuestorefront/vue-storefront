@@ -2,6 +2,7 @@ import { Currency } from './currency.interface';
 
 export interface CurrencyState {
   availableCurrencies: Currency[],
-  selectedCurrencyCode: string,
-  currencyRates: Record<string, number>
+  selectedCurrencyCode: string | undefined,
+  currencyRates: Record<string, number>,
+  detectedCountryCurrency: string | undefined
 }

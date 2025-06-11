@@ -1,17 +1,19 @@
 import { ActionTree } from 'vuex';
 
 import config from 'config'
-import { processURLAddress } from '@vue-storefront/core/helpers';
+import { extractCookieValue, processURLAddress } from '@vue-storefront/core/helpers';
 import { TaskQueue } from '@vue-storefront/core/lib/sync';
 import RootState from '@vue-storefront/core/types/RootState';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 import { FETCH_AVAILABLE_CURRENCIES, FETCH_CURRENCY_RATES, SYNC } from '../types/actions';
+import { CookieKey } from '../types/cookie.key';
+import { countryToCurrency } from '../types/country-to-currency';
 import { Currency } from '../types/currency.interface';
 import { CurrencyState } from '../types/currency-state.interface';
-import { SET_AVAILABLE_CURRENCIES, SET_CURRENCY_RATES, SET_SELECTED_CURRENCY } from '../types/mutations';
-import { MODULE_NAME } from '../types/module-name';
 import { LocalStorageKey } from '../types/local-storage.key';
+import { SET_AVAILABLE_CURRENCIES, SET_CURRENCY_RATES, SET_DETECTED_COUNTRY_CURRENCY, SET_SELECTED_CURRENCY } from '../types/mutations';
+import { MODULE_NAME } from '../types/module-name';
 
 export const actions: ActionTree<CurrencyState, RootState> = {
   async [FETCH_AVAILABLE_CURRENCIES] ({ commit }): Promise<Currency[]> {
@@ -57,9 +59,17 @@ export const actions: ActionTree<CurrencyState, RootState> = {
   async [SYNC] ({ commit }): Promise<void> {
     const currencyStorage = StorageManager.get(MODULE_NAME);
     const selectedCurrency = await currencyStorage.getItem(LocalStorageKey.SELECTED_CURRENCY);
+    const detectedCountry = extractCookieValue(CookieKey.DETECTED_COUNTRY, document.cookie);
 
     if (selectedCurrency) {
       commit(SET_SELECTED_CURRENCY, selectedCurrency);
     }
+
+    if (!detectedCountry) {
+      return;
+    }
+
+    const detectedCountryCurrency = countryToCurrency[detectedCountry];
+    commit(SET_DETECTED_COUNTRY_CURRENCY, detectedCountryCurrency);
   }
 }

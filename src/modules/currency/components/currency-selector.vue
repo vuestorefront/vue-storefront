@@ -7,7 +7,7 @@
       <SfSelectOption
         v-for="currency in availableCurrencies"
         :key="currency.code"
-        :value="currency"
+        :value="currency.code"
       >
         {{ currency.code }}
 
@@ -23,7 +23,6 @@
 import { defineComponent, computed } from '@vue/composition-api';
 import { SfSelect } from '@storefront-ui/vue';
 
-import { Currency } from '../types/currency.interface';
 import { GET_SELECTED_CURRENCY, GET_AVAILABLE_CURRENCIES } from '../types/getters';
 import { MODULE_NAME } from '../types/module-name';
 import { SET_SELECTED_CURRENCY } from '../types/mutations';
@@ -34,12 +33,12 @@ export default defineComponent({
     SfSelect
   },
   setup (_, { root }) {
-    const selectedCurrency = computed<Currency>({
+    const selectedCurrency = computed<string>({
       get: () => {
-        return root.$store.getters[`${MODULE_NAME}/${GET_SELECTED_CURRENCY}`]
+        return root.$store.getters[`${MODULE_NAME}/${GET_SELECTED_CURRENCY}`].code;
       },
-      set: (value: Currency) => {
-        root.$store.commit(`${MODULE_NAME}/${SET_SELECTED_CURRENCY}`, value.code)
+      set: (value: string) => {
+        root.$store.commit(`${MODULE_NAME}/${SET_SELECTED_CURRENCY}`, value);
       }
     });
 
