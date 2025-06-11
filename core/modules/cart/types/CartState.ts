@@ -1,3 +1,5 @@
+import { ProductDiscountedPrice } from '@vue-storefront/core/modules/catalog';
+
 export default interface CartState {
   isMicrocartOpen: boolean,
   itemsAfterPlatformTotals: any,
@@ -14,7 +16,7 @@ export default interface CartState {
   connectBypassCount: number,
   isAddingToCart: boolean,
   isLocalDataLoaded: boolean,
-  productDiscountedPrice: Record<string, number>,
+  productDiscountedPrice: Record<string, ProductDiscountedPrice>,
   isShippingMethodsSyncing: boolean,
   isCartSyncing: boolean,
   isTotalsSyncing: boolean,
