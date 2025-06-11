@@ -64,6 +64,10 @@ export default defineComponent({
   display: flex;
   align-items: center;
 
+  ._select {
+    cursor: pointer;
+  }
+
   .sf-select {
     ::v-deep {
       .sf-select__selected {
