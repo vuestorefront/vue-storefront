@@ -3,6 +3,7 @@ import { DEFAULT_CURRENCY } from '../types/default-currency';
 
 export const state: CurrencyState = {
   availableCurrencies: [],
-  selectedCurrencyCode: DEFAULT_CURRENCY.code,
-  currencyRates: {}
+  selectedCurrencyCode: undefined,
+  currencyRates: {},
+  activeCurrency: DEFAULT_CURRENCY
 }

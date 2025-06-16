@@ -54,7 +54,7 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { Dictionary } from 'src/modules/budsies';
 import { DirectiveType, TextPart, useTextDirectives } from 'src/modules/shared/composables/use-text-directives';
 import { StatisticMetric } from 'src/modules/budsies/types/statistic-metric';
-import { Currency, GET_SELECTED_CURRENCY } from 'src/modules/currency';
+import { Currency, GET_ACTIVE_CURRENCY } from 'src/modules/currency';
 
 import { CampaignContent } from '../types/CampaignContent.interface';
 import { SET_LAST_BANNER_VERSION_CLOSED_BY_USER } from '../types/StoreMutations';
@@ -79,7 +79,7 @@ export default defineComponent({
       return context.root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
     });
     const selectedCurrency = computed<Currency>(() => {
-      return context.root.$store.getters[GET_SELECTED_CURRENCY];
+      return context.root.$store.getters[GET_ACTIVE_CURRENCY];
     });
 
     const campaignContent = computed<CampaignContent | undefined>(() => {

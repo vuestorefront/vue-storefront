@@ -6,7 +6,8 @@ import { parseLocalStorageValue } from 'src/modules/shared';
 
 import { LocalStorageKey } from '../types/local-storage.key';
 import { MODULE_NAME } from '../types/module-name';
-import { SET_SELECTED_CURRENCY, SET_AVAILABLE_CURRENCIES, SET_CURRENCY_RATES } from '../types/mutations';
+import { SET_AVAILABLE_CURRENCIES, SET_CURRENCY_RATES } from '../types/mutations';
+import { UPDATE_ACTIVE_CURRENCY } from '../types/actions';
 
 export function getItemsFromStorageFactory (store: Store<RootState>) {
   return function getItemsFromStorage ({ key }: StorageEvent) {
@@ -34,7 +35,7 @@ export function getItemsFromStorageFactory (store: Store<RootState>) {
     }
 
     if (isSelectedCurrencyChanged) {
-      store.commit(`${MODULE_NAME}/${SET_SELECTED_CURRENCY}`, value);
+      void store.dispatch(`${MODULE_NAME}/${UPDATE_ACTIVE_CURRENCY}`, value);
     }
 
     if (isAvailableCurrenciesChanged) {

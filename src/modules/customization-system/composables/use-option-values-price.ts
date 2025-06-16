@@ -6,7 +6,7 @@ import { PriceHelper } from 'src/modules/shared';
 
 import { getOptionValuePrice } from '../helpers/get-option-value-price';
 import { OptionValue } from '../types/option-value.interface';
-import { Currency, GET_SELECTED_CURRENCY } from 'src/modules/currency';
+import { Currency, GET_ACTIVE_CURRENCY } from 'src/modules/currency';
 
 export function useOptionValuesPrice (
   values: Ref<OptionValue[]>,
@@ -125,7 +125,7 @@ export function useOptionValuesPrice (
   });
 
   const selectedCurrency = computed<Currency>(() => {
-    return root.$store.getters[GET_SELECTED_CURRENCY];
+    return root.$store.getters[GET_ACTIVE_CURRENCY];
   });
 
   function isDefaultOptionValue (optionValue: OptionValue): boolean {
