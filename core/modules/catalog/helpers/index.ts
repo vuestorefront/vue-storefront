@@ -90,7 +90,8 @@ export function getMediaGallery (product) {
           'src': getThumbnailPath(mediaItem.image, config.products.gallery.width, config.products.gallery.height),
           'loading': getThumbnailPath(mediaItem.image, config.products.thumbnails.width, config.products.thumbnails.height),
           'error': getThumbnailPath(mediaItem.image, config.products.thumbnails.width, config.products.thumbnails.height),
-          'video': video
+          'video': video,
+          alt: mediaItem.lab || ''
         })
       }
     }
