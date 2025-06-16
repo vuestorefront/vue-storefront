@@ -20,7 +20,7 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import { PriceHelper } from '@vue-storefront/core/helpers';
 import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
-import { Currency, GET_SELECTED_CURRENCY } from 'src/modules/currency';
+import { Currency, GET_ACTIVE_CURRENCY } from 'src/modules/currency';
 
 export default defineComponent({
   name: 'StoryblokRichTextPriceComponent',
@@ -53,7 +53,7 @@ export default defineComponent({
     });
 
     const selectedCurrency = computed<Currency>(() => {
-      return root.$store.getters[GET_SELECTED_CURRENCY];
+      return root.$store.getters[GET_ACTIVE_CURRENCY];
     });
 
     const formattedFinalPrice = computed<string>(() => {

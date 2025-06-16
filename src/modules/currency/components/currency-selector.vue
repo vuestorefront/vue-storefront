@@ -23,9 +23,9 @@
 import { defineComponent, computed } from '@vue/composition-api';
 import { SfSelect } from '@storefront-ui/vue';
 
-import { GET_SELECTED_CURRENCY, GET_AVAILABLE_CURRENCIES } from '../types/getters';
+import { GET_ACTIVE_CURRENCY, GET_AVAILABLE_CURRENCIES } from '../types/getters';
 import { MODULE_NAME } from '../types/module-name';
-import { SET_SELECTED_CURRENCY } from '../types/mutations';
+import { UPDATE_ACTIVE_CURRENCY } from '../types/actions';
 
 export default defineComponent({
   name: 'CurrencySelector',
@@ -35,10 +35,10 @@ export default defineComponent({
   setup (_, { root }) {
     const selectedCurrency = computed<string>({
       get: () => {
-        return root.$store.getters[`${MODULE_NAME}/${GET_SELECTED_CURRENCY}`].code;
+        return root.$store.getters[`${MODULE_NAME}/${GET_ACTIVE_CURRENCY}`].code;
       },
       set: (value: string) => {
-        root.$store.commit(`${MODULE_NAME}/${SET_SELECTED_CURRENCY}`, value);
+        root.$store.dispatch(`${MODULE_NAME}/${UPDATE_ACTIVE_CURRENCY}`, value);
       }
     });
 
