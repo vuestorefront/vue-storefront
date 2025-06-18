@@ -1,4 +1,5 @@
 export interface GalleryImage {
   sn: number,
-  imageUrl: string
+  imageUrl: string,
+  alt?: string
 }
