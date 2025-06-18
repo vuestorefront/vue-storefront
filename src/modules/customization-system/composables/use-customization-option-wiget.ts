@@ -49,7 +49,8 @@ export function useCustomizationOptionWidget (
           bundleOptionId: customization.value.bundleOptionId,
           placeholder: widgetOptions?.placeholder,
           productId: productId.value,
-          values: values.value
+          values: values.value,
+          title: customization.value.title || customization.value.name
         }
       };
     }
@@ -88,7 +89,8 @@ export function useCustomizationOptionWidget (
           component: 'DropdownWidget',
           props: {
             values: values.value,
-            placeholder: widgetOptions?.placeholder
+            placeholder: widgetOptions?.placeholder,
+            title: customization.value.title || customization.value.name
           }
         };
       case WidgetType.EMAIL_INPUT:
