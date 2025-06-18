@@ -31,7 +31,7 @@ export const actions: ActionTree<CurrencyState, RootState> = {
       silent: true
     });
 
-    commit(SET_AVAILABLE_CURRENCIES, result.currencies);
+    commit(SET_AVAILABLE_CURRENCIES, result);
 
     return result;
   },
