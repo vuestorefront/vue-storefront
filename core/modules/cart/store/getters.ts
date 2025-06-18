@@ -50,6 +50,24 @@ const getters: GetterTree<CartState, RootState> = {
   getIsAdding: state => state.isAddingToCart,
   getIsMicroCartOpen: state => state.isMicrocartOpen,
   isLocalDataLoaded: state => state.isLocalDataLoaded,
+  localizedCartItemPriceDictionary: (state, getters) => {
+    const _cartItemPriceDictionary = getters.cartItemPriceDictionary;
+    const prices: Record<string, PriceHelper.ProductPrice> = {};
+    const exchangeRate: number = state.exchangeRate;
+
+    for (const key of Object.keys(_cartItemPriceDictionary)) {
+      const price = _cartItemPriceDictionary[key];
+
+      prices[key] = {
+        regular: price.regular * exchangeRate,
+        special: price.special === null
+          ? null
+          : price.special * exchangeRate
+      }
+    }
+
+    return prices;
+  },
   cartItemPriceDictionary: (
     state,
     getters

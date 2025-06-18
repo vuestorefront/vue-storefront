@@ -116,6 +116,9 @@ const mutations: MutationTree<CartState> = {
   [types.CART_SET_PRODUCT_DISCOUNTED_PRICE] (state, productDiscountedPrice: Record<string, ProductDiscountedPrice>) {
     state.productDiscountedPrice = { ...productDiscountedPrice };
   },
+  [types.SET_EXCHANGE_RATE] (state, exchangeRate: number) {
+    state.exchangeRate = exchangeRate || 1;
+  },
   [types.SET_IS_SHIPPING_METHODS_SYNCING] (state, isSyncing: boolean) {
     state.isShippingMethodsSyncing = isSyncing;
   },

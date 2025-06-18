@@ -21,7 +21,7 @@ const replaceSeparators = (formattedPrice, currencySeparators, separators) => {
  * Converts number to price string
  * @param {Number} value
  */
-export function price (value, storeView) {
+export function price (value, storeView, currencySign) {
   if (isNaN(value)) {
     return value
   }
@@ -32,7 +32,7 @@ export function price (value, storeView) {
     return Number.value(value).toFixed(isZeroDecimal ? 0 : 2);
   }
 
-  const { defaultLocale, currencySign, currencyDecimal, currencyGroup, fractionDigits, priceFormat } = _storeView.i18n;
+  const { defaultLocale, currencySign: storeViewCurrencySign, currencyDecimal, currencyGroup, fractionDigits, priceFormat } = _storeView.i18n;
 
   const options = {
     minimumFractionDigits: isZeroDecimal ? 0 : fractionDigits,
@@ -43,6 +43,10 @@ export function price (value, storeView) {
 
   if (currencyDecimal !== '' || currencyGroup !== '') {
     localePrice = replaceSeparators(localePrice, { decimal: currencyDecimal, group: currencyGroup }, getLocaleSeparators(defaultLocale));
+  }
+
+  if (!currencySign) {
+    currencySign = storeViewCurrencySign;
   }
 
   const valueWithSign = applyCurrencySign(localePrice, { currencySign, priceFormat });

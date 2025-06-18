@@ -1,11 +1,12 @@
 import { Ref, computed, SetupContext } from '@vue/composition-api';
 
-import { PRODUCT_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
+import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
 
 import { PriceHelper } from 'src/modules/shared';
 
 import { getOptionValuePrice } from '../helpers/get-option-value-price';
 import { OptionValue } from '../types/option-value.interface';
+import { Currency, GET_ACTIVE_CURRENCY } from 'src/modules/currency';
 
 export function useOptionValuesPrice (
   values: Ref<OptionValue[]>,
@@ -16,7 +17,7 @@ export function useOptionValuesPrice (
     () => {
       const dictionary: Record<string, PriceHelper.ProductPrice | undefined> = {};
       const productBySkuDictionary = root.$store.getters['product/getProductBySkuDictionary'];
-      const productPriceDictionary = root.$store.getters[PRODUCT_PRICE_DICTIONARY];
+      const productPriceDictionary = root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
 
       values.value.forEach((optionValue) => {
         dictionary[optionValue.id] = getOptionValuePrice(
@@ -123,9 +124,17 @@ export function useOptionValuesPrice (
     return true;
   });
 
+  const selectedCurrency = computed<Currency>(() => {
+    return root.$store.getters[GET_ACTIVE_CURRENCY];
+  });
+
   function isDefaultOptionValue (optionValue: OptionValue): boolean {
     const _defaultOptionValue = defaultOptionValue.value;
     return !!_defaultOptionValue && _defaultOptionValue.id === optionValue.id;
+  }
+
+  function formatPrice (value: number): string {
+    return PriceHelper.formatPrice(value, selectedCurrency.value.symbol);
   }
 
   return {
@@ -134,6 +143,6 @@ export function useOptionValuesPrice (
     isOptionValuesSamePrice,
     optionValuePriceDictionary,
     optionValueFinalPriceDeltaDictionary,
-    formatPrice: PriceHelper.formatPrice
+    formatPrice
   }
 }
