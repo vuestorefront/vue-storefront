@@ -77,7 +77,7 @@ const actions: ActionTree<UserState, RootState> = {
     return UserService.createPassword(email, newPassword, resetToken)
   },
   async login (_, { email }) {
-    const { resultCode } = await TaskQueue.execute({
+    return TaskQueue.execute({
       url: processURLAddress(`${config.budsies.endpoint}/customer/login-requests`),
       payload: {
         method: 'POST',
@@ -89,10 +89,6 @@ const actions: ActionTree<UserState, RootState> = {
         body: JSON.stringify({ email })
       }
     });
-
-    if (resultCode !== 200) {
-      throw new Error('Unable to login');
-    }
   },
   /**
    * Login user and return user profile and current token
