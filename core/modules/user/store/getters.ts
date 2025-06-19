@@ -18,10 +18,32 @@ const getters: GetterTree<UserState, RootState> = {
     return state.token
   },
   getUserEmail (state, getters) {
-    return getters.isLoggedIn ? state.current.email : null
+    return getters.isLoggedIn && state.current ? state.current.email : null
   },
   getIsSessionStarted (state) {
     return state.isSessionStarted;
+  },
+  defaultBillingAddress (state) {
+    const { current } = state;
+
+    if (!current || !current.default_billing || !current.addresses) {
+      return;
+    }
+
+    return current.addresses.find(
+      (address) => String(address.id) === String(current.default_billing)
+    );
+  },
+  defaultShippingAddress (state) {
+    const { current } = state;
+
+    if (!current || !current.default_shipping || !current.addresses) {
+      return;
+    }
+
+    return current.addresses.find(
+      (address) => String(address.id) === String(current.default_shipping)
+    );
   }
 }
 
