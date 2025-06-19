@@ -14,6 +14,7 @@ import { SN_PERSISTED_CUSTOMER_DATA } from './types/store-name';
 import { persistedCustomerDataStore } from './store';
 import { getItemsFromStorage } from './helpers/get-local-storage-items.function';
 import { cacheHandlerFactory } from './helpers/cache-handler.factory';
+import { notifyCustomerDataChanged } from './helpers/notify-customer-data-changed.function';
 import { localStorageSynchronizationFactory } from '../shared';
 
 const LAST_USED_CUSTOMER_EMAIL = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.LAST_USED_CUSTOMER_EMAIL}`;
@@ -21,6 +22,8 @@ const LAST_USED_CUSTOMER_FIRST_NAME = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.L
 const LAST_USED_CUSTOMER_LAST_NAME = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.LAST_USED_CUSTOMER_LAST_NAME}`;
 const LAST_USED_CUSTOMER_PHONE_NUMBER = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.LAST_USED_CUSTOMER_PHONE_NUMBER}`;
 const LAST_USED_CUSTOMER_SHIPPING_COUNTRY = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.LAST_USED_CUSTOMER_SHIPPING_COUNTRY}`;
+const PERSISTED_CUSTOMER_DATA = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.PERSISTED_CUSTOMER_DATA}`;
+const CUSTOMER_DATA_HASH = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.CUSTOMER_DATA_HASH}`;
 
 const SET_LAST_USED_CUSTOMER_EMAIL = `${SN_PERSISTED_CUSTOMER_DATA}/${mutations.SET_LAST_USED_CUSTOMER_EMAIL}`;
 const SET_LAST_USED_CUSTOMER_FIRST_NAME = `${SN_PERSISTED_CUSTOMER_DATA}/${mutations.SET_LAST_USED_CUSTOMER_FIRST_NAME}`;
@@ -54,11 +57,13 @@ export const PersistedCustomerDataModule: StorefrontModule = async function ({ s
 }
 
 export {
+  CUSTOMER_DATA_HASH,
   LAST_USED_CUSTOMER_EMAIL,
   LAST_USED_CUSTOMER_FIRST_NAME,
   LAST_USED_CUSTOMER_LAST_NAME,
   LAST_USED_CUSTOMER_PHONE_NUMBER,
   LAST_USED_CUSTOMER_SHIPPING_COUNTRY,
+  PERSISTED_CUSTOMER_DATA,
   SET_LAST_USED_CUSTOMER_EMAIL,
   SET_LAST_USED_CUSTOMER_FIRST_NAME,
   SET_LAST_USED_CUSTOMER_LAST_NAME,
@@ -68,5 +73,6 @@ export {
   usePersistedFirstName,
   usePersistedLastName,
   usePersistedPhoneNumber,
-  usePersistedShippingCountry
+  usePersistedShippingCountry,
+  notifyCustomerDataChanged
 }

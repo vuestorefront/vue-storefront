@@ -1,5 +1,11 @@
 export interface CustomerDataChangedEventPayload {
+  customerId: string,
   customerEmail: string,
-  customerFullName: string,
-  customerId: number
+  customerFirstName: string,
+  customerLastName: string,
+  customerPhoneNumber: string,
+  customerCity: string,
+  customerState: string,
+  customerZipCode: string,
+  customerCountry: string
 }

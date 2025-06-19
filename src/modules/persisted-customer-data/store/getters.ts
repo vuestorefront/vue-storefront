@@ -10,12 +10,12 @@ import {
   LAST_USED_CUSTOMER_LAST_NAME,
   LAST_USED_CUSTOMER_PHONE_NUMBER,
   LAST_USED_CUSTOMER_SHIPPING_COUNTRY,
-  LAST_USED_CUSTOMER_CITY,
-  LAST_USED_CUSTOMER_STATE,
-  LAST_USED_CUSTOMER_ZIP_CODE,
-  LAST_USED_CUSTOMER_BILLING_COUNTRY,
-  CUSTOMER_DATA_HASH
+  LAST_USED_CUSTOMER_BILLING_ADDRESS,
+  CUSTOMER_DATA_HASH,
+  PERSISTED_CUSTOMER_DATA
 } from '../types/getter';
+import { PersistedBillingAddress } from '../types/persisted-billing-address.interface';
+import { PersistedCustomerData } from '../types/persisted-customer-data.interface';
 
 export const getters: GetterTree<StoreState, RootState> = {
   [LAST_USED_CUSTOMER_EMAIL] (state, getters, rootState, rootGetters): string {
@@ -51,54 +51,35 @@ export const getters: GetterTree<StoreState, RootState> = {
   [LAST_USED_CUSTOMER_SHIPPING_COUNTRY] (state): string {
     return state.shippingCountry || '';
   },
-  [LAST_USED_CUSTOMER_CITY] (state, getters, rootState, rootGetters): string {
+  [LAST_USED_CUSTOMER_BILLING_ADDRESS] (state, getters, rootState, rootGetters): PersistedBillingAddress {
     const defaultBillingAddress = rootGetters['user/defaultBillingAddress'];
 
-    if (defaultBillingAddress && defaultBillingAddress.city) {
-      return defaultBillingAddress.city;
+    if (defaultBillingAddress) {
+      return {
+        firstName: defaultBillingAddress.firstname,
+        lastName: defaultBillingAddress.lastname,
+        phoneNumber: defaultBillingAddress.telephone,
+        city: defaultBillingAddress.city,
+        state: defaultBillingAddress.region?.region || '',
+        zipCode: defaultBillingAddress.postcode,
+        country: defaultBillingAddress.country_id
+      };
     }
 
-    return state.city || '';
+    return state.lastUsedCustomerBillingAddress;
   },
-  [LAST_USED_CUSTOMER_STATE] (state, getters, rootState, rootGetters): string {
-    const defaultBillingAddress = rootGetters['user/defaultBillingAddress'];
-
-    if (defaultBillingAddress && defaultBillingAddress.region?.region) {
-      return defaultBillingAddress.region.region;
-    }
-
-    return state.state || '';
-  },
-  [LAST_USED_CUSTOMER_ZIP_CODE] (state, getters, rootState, rootGetters): string {
-    const defaultBillingAddress = rootGetters['user/defaultBillingAddress'];
-
-    if (defaultBillingAddress && defaultBillingAddress.postcode) {
-      return defaultBillingAddress.postcode;
-    }
-
-    return state.zipCode || '';
-  },
-  [LAST_USED_CUSTOMER_BILLING_COUNTRY] (state, getters, rootState, rootGetters): string {
-    const defaultBillingAddress = rootGetters['user/defaultBillingAddress'];
-
-    if (defaultBillingAddress && defaultBillingAddress.country_id) {
-      return defaultBillingAddress.country_id;
-    }
-
-    return state.billingCountry || '';
-  },
-  [CUSTOMER_DATA_HASH] (state, getters): string {
-    const customerData = {
+  [PERSISTED_CUSTOMER_DATA] (state, getters, rootState): PersistedCustomerData {
+    return {
+      id: rootState.user.current?.id || '',
       email: getters[LAST_USED_CUSTOMER_EMAIL],
       firstName: getters[LAST_USED_CUSTOMER_FIRST_NAME],
       lastName: getters[LAST_USED_CUSTOMER_LAST_NAME],
       phoneNumber: getters[LAST_USED_CUSTOMER_PHONE_NUMBER],
-      city: getters[LAST_USED_CUSTOMER_CITY],
-      state: getters[LAST_USED_CUSTOMER_STATE],
-      zipCode: getters[LAST_USED_CUSTOMER_ZIP_CODE],
-      billingCountry: getters[LAST_USED_CUSTOMER_BILLING_COUNTRY]
-    };
-
-    return sha3_224(JSON.stringify(customerData));
+      shippingCountry: getters[LAST_USED_CUSTOMER_SHIPPING_COUNTRY],
+      billingAddress: getters[LAST_USED_CUSTOMER_BILLING_ADDRESS]
+    }
+  },
+  [CUSTOMER_DATA_HASH] (state, getters): string {
+    return sha3_224(JSON.stringify(getters[PERSISTED_CUSTOMER_DATA]));
   }
 }

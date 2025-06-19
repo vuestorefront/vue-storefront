@@ -6,8 +6,13 @@ export const state: StoreState = {
   lastName: undefined,
   phoneNumber: undefined,
   shippingCountry: undefined,
-  city: undefined,
-  state: undefined,
-  zipCode: undefined,
-  billingCountry: undefined
+  lastUsedCustomerBillingAddress: {
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    country: ''
+  }
 }
