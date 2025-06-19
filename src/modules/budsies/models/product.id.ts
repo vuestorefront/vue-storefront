@@ -35,4 +35,6 @@ export enum ProductId {
   SELFIES_PUPPETS = 430,
   SPECIALTY_COMMISSION = 163,
   TUMBLERS = 746,
+  // TODO: update
+  PETSIES_HUGGABLES = 747,
 }
