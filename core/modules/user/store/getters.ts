@@ -24,7 +24,7 @@ const getters: GetterTree<UserState, RootState> = {
     return state.isSessionStarted;
   },
   defaultBillingAddress (state) {
-    const { current } = state;
+    const current = state.current;
 
     if (!current || !current.default_billing || !current.addresses) {
       return;
@@ -35,7 +35,7 @@ const getters: GetterTree<UserState, RootState> = {
     );
   },
   defaultShippingAddress (state) {
-    const { current } = state;
+    const current = state.current;
 
     if (!current || !current.default_shipping || !current.addresses) {
       return;
