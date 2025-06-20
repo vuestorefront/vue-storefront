@@ -1,5 +1,7 @@
+import { v4 as uuidv4 } from 'uuid';
 import { Store } from 'vuex';
 import VueGtm from 'vue-gtm';
+
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { Order } from '@vue-storefront/core/modules/order/types/Order';
@@ -159,7 +161,12 @@ export default class EventBusListener {
     EventBus.$on(
       UserEvents.CUSTOMER_DATA_CHANGED,
       (customerData: CustomerDataChangedEventPayload) => {
-        this.gtm.trackEvent(customerData);
+        const eventData = {
+          ...customerData,
+          eventId: `${Date.now()}-${uuidv4()}`
+        };
+
+        this.gtm.trackEvent(eventData);
       }
     );
 
