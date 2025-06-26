@@ -20,7 +20,8 @@ export default {
         return this.src
       }
       const [, resource] = this.src.split('/a.storyblok.com')
-      let mod = ''
+      let mod = '/m'
+
       if (this.height > 0 || this.width > 0) {
         if (this.fitIn) {
           mod += '/fit-in'
@@ -30,10 +31,12 @@ export default {
           mod += '/smart'
         }
       }
+
       if (this.computedFilters.length) {
         mod += '/filters:' + this.computedFilters.join(':')
       }
-      return 'https://img2.storyblok.com' + mod + resource
+
+      return 'https://a.storyblok.com' + resource + mod
     }
   },
   props: {
