@@ -27,7 +27,8 @@ export const cartStore: Module<CartState, any> = {
     isCartSyncing: false,
     isTotalsSyncing: false,
     isPaymentMethodsSyncing: false,
-    isCouponProcessing: false
+    isCouponProcessing: false,
+    exchangeRate: 1
   },
   getters,
   actions,

@@ -25,7 +25,7 @@
             </div>
           </div>
 
-          <div class="_content" v-html="description" />
+          <div class="_content" v-html="processedDescription" />
 
           <div class="_timer-btn _close-btn" @click="onCloseButtonClickHandler">
             <i class="fa fa-times" />
@@ -46,10 +46,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { computed, defineComponent, ref, watch } from '@vue/composition-api';
 
-import { isServer } from '@vue-storefront/core/helpers';
+import { isServer, PriceHelper } from '@vue-storefront/core/helpers';
+import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { Dictionary } from 'src/modules/budsies';
+import { DirectiveType, TextPart, useTextDirectives } from 'src/modules/shared/composables/use-text-directives';
+import { StatisticMetric } from 'src/modules/budsies/types/statistic-metric';
+import { Currency, GET_ACTIVE_CURRENCY } from 'src/modules/currency';
 
 import { CampaignContent } from '../types/CampaignContent.interface';
 import { SET_LAST_BANNER_VERSION_CLOSED_BY_USER } from '../types/StoreMutations';
@@ -59,14 +64,108 @@ import { CountdownBanner } from '../types/CountdownBanner.interface';
 
 const startTimeThreshold = 1;
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     CountdownTimer: Timer
   },
+  setup (props, context) {
+    const processedDescription = ref<string>('');
+
+    const productBySkuDictionary = computed<Record<string, Product>>(() => {
+      return context.root.$store.getters['product/getProductBySkuDictionary'];
+    });
+
+    const localizedPriceDictionary = computed<Record<string, PriceHelper.ProductPrice>>(() => {
+      return context.root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
+    });
+    const selectedCurrency = computed<Currency>(() => {
+      return context.root.$store.getters[GET_ACTIVE_CURRENCY];
+    });
+
+    const campaignContent = computed<CampaignContent | undefined>(() => {
+      return context.root.$store.getters['promotionPlatform/campaignContent'];
+    });
+
+    const bannerContent = computed< CountdownBanner | undefined>(() => {
+      return campaignContent.value?.countdown;
+    });
+
+    function processTextPart (
+      textPart: TextPart,
+      productLocalizedPriceDictionary: Record<string, PriceHelper.ProductPrice>
+    ): string {
+      if (typeof textPart === 'string') {
+        return textPart;
+      }
+
+      if (textPart.type === DirectiveType.ORDERED_PLUSHIES_COUNT) {
+        return context.root.$store.getters['budsies/getStatisticValueByMetric'](
+          StatisticMetric.ORDERED_PLUSHIES_COUNT
+        );
+      }
+
+      const product = productBySkuDictionary.value[textPart.productSku];
+
+      if (!product) {
+        return '';
+      }
+
+      const productPrice = productLocalizedPriceDictionary[product.id];
+
+      if (!productPrice) {
+        return '';
+      }
+
+      const finalPrice = PriceHelper.getFinalPrice(productPrice);
+
+      if (textPart.type === DirectiveType.PRODUCT_PRICE) {
+        return PriceHelper.formatPrice(finalPrice, selectedCurrency.value.symbol);
+      }
+
+      const specificPrice = textPart.priceType === 'special'
+        ? productPrice.special
+        : productPrice.regular;
+
+      if (!specificPrice) {
+        return '';
+      }
+
+      return PriceHelper.formatPrice(specificPrice, selectedCurrency.value.symbol);
+    }
+
+    function processTextParts (textParts: TextPart[]) {
+      processedDescription.value = '';
+
+      if (!textParts.length) {
+        return;
+      }
+
+      for (const textPart of textParts) {
+        processedDescription.value += processTextPart(
+          textPart,
+          localizedPriceDictionary.value
+        );
+      }
+    }
+
+    const { processDirectivesInText, isDirectivesProcessing } = useTextDirectives(processTextParts, context);
+
+    watch(
+      localizedPriceDictionary,
+      () => {
+        processDirectivesInText(bannerContent.value?.description || '');
+      }
+    );
+
+    return {
+      bannerContent,
+      campaignContent,
+      isDirectivesProcessing,
+      processDirectivesInText,
+      processedDescription
+    };
+  },
   computed: {
-    bannerContent (): CountdownBanner | undefined {
-      return this.campaignContent?.countdown;
-    },
     backgroundColor (): string | undefined {
       return this.bannerContent?.style?.background_color;
     },
@@ -112,9 +211,6 @@ export default Vue.extend({
     blackListUrls (): string[] {
       return this.bannerContent?.blacklist_urls || [];
     },
-    campaignContent (): CampaignContent | undefined {
-      return this.$store.getters['promotionPlatform/campaignContent'];
-    },
     isBannerWasClosedByUser (): boolean {
       return (
         this.$store.getters['promotionPlatform/lastClosedBannerVersionByUser'] ===
@@ -122,7 +218,11 @@ export default Vue.extend({
       );
     },
     showBanner (): boolean {
-      return !!this.bannerContent && this.showOnCurrentPage && (!this.isBannerWasClosedByUser || isServer) && !this.isTimeOver;
+      return !!this.bannerContent &&
+        this.showOnCurrentPage &&
+        (!this.isBannerWasClosedByUser || isServer) &&
+        !this.isTimeOver &&
+        !this.isDirectivesProcessing;
     },
     showOnCurrentPage (): boolean {
       return this.blackListUrls.every((url) => !this.$route.path.includes(url));
@@ -173,6 +273,7 @@ export default Vue.extend({
     }
   },
   created () {
+    this.processDirectivesInText(this.description || '');
     this.initBanner();
   },
   watch: {
@@ -183,6 +284,7 @@ export default Vue.extend({
           return;
         }
 
+        this.processDirectivesInText(val.description || '');
         this.initBanner();
       }
     } }

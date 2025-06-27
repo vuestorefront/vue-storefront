@@ -87,24 +87,26 @@ export function getProductPriceData (
   return productPriceData;
 }
 
-export function formatPrice (value: number | null) {
-  return value !== null ? price(value) : ''
+export function formatPrice (value: number | null, currencySign?: string) {
+  return value !== null ? price(value, undefined, currencySign) : ''
 }
 
 export function formatProductPrice (
-  value: ProductPrice
+  value: ProductPrice,
+  currencySign?: string
 ): FormattedProductPrice {
   return {
-    special: formatPrice(value.special),
-    regular: formatPrice(value.regular)
+    special: formatPrice(value.special, currencySign),
+    regular: formatPrice(value.regular, currencySign)
   }
 }
 
 export function formatProductDiscount (
-  value: ProductDiscount
+  value: ProductDiscount,
+  currencySign?: string
 ): FormattedProductDiscount {
   return {
-    discount: value.discount ? price(value) : '',
+    discount: value.discount ? formatPrice(value.discount, currencySign) : '',
     discountPercent: value.discountPercent
       ? `-${value.discountPercent}%`
       : ''
