@@ -1,7 +1,7 @@
 import rootStore from '@vue-storefront/core/store';
 import VueRouter, { RouteConfig } from 'vue-router'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
-import { ErrorHandler, RawLocation, Route } from 'vue-router/types/router'
+import { ErrorHandler, RawLocation, Route, PositionResult } from 'vue-router/types/router'
 import { once } from '@vue-storefront/core/helpers'
 
 once('__VUE_EXTEND_PUSH_RR__', () => {
@@ -26,31 +26,35 @@ once('__VUE_EXTEND_PUSH_RR__', () => {
   }
 })
 
+function waitNextTick (value: PositionResult): Promise<PositionResult> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(value)
+    }, 0);
+  })
+}
+
 export const createRouter = (): VueRouter => {
   return new VueRouter({
     mode: 'history',
     base: __dirname,
     scrollBehavior: (to, from) => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          if (to.hash) {
-            return resolve({
-              selector: to.hash
-            })
-          }
+      if (to.hash) {
+        return waitNextTick({
+          selector: to.hash
+        });
+      }
 
-          if (rootStore.getters['url/isBackRoute']) {
-            const { scrollPosition = { x: 0, y: 0 } } = rootStore.getters['url/getCurrentRoute']
-            return resolve(scrollPosition)
-          } else if (to.path !== from.path) { // do not change scroll position when navigating on the same page (ex. change filters)
-            return resolve({ x: 0, y: 0 })
-          }
+      if (rootStore.getters['url/isBackRoute']) {
+        const { scrollPosition = { x: 0, y: 0 } } = rootStore.getters['url/getCurrentRoute'];
+        return waitNextTick(scrollPosition);
+      } else if (to.path !== from.path) { // do not change scroll position when navigating on the same page (ex. change filters)
+        return waitNextTick({ x: 0, y: 0 });
+      }
 
-          resolve(null as any);
-        }, 0);
-      });
+      return null;
     }
-  })
+  });
 }
 
 export const createRouterProxy = (router: VueRouter): VueRouter => {
