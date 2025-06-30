@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import { MutationTree } from 'vuex';
 
+import { PersistedBillingAddress } from 'src/modules/shared';
+
 import { StoreState } from '../types/store-state.interface';
 import {
   SET_PERSISTED_CUSTOMER_EMAIL,
@@ -10,7 +12,6 @@ import {
   SET_PERSISTED_CUSTOMER_SHIPPING_COUNTRY,
   SET_PERSISTED_CUSTOMER_BILLING_ADDRESS
 } from '../types/mutation';
-import { PersistedBillingAddress } from '../types/persisted-billing-address.interface';
 
 export const mutations: MutationTree<StoreState> = {
   [SET_PERSISTED_CUSTOMER_EMAIL] (state, payload: string | undefined): void {

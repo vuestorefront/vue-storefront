@@ -2,6 +2,7 @@ import { GetterTree } from 'vuex';
 import { sha3_224 } from 'js-sha3';
 
 import RootState from '@vue-storefront/core/types/RootState'
+import { PersistedCustomerData, PersistedBillingAddress } from 'src/modules/shared';
 
 import { StoreState } from '../types/store-state.interface';
 import {
@@ -14,8 +15,6 @@ import {
   CUSTOMER_DATA_HASH,
   PERSISTED_CUSTOMER_DATA
 } from '../types/getter';
-import { PersistedBillingAddress } from '../types/persisted-billing-address.interface';
-import { PersistedCustomerData } from '../types/persisted-customer-data.interface';
 
 export const getters: GetterTree<StoreState, RootState> = {
   [PERSISTED_CUSTOMER_EMAIL] (state, getters, rootState, rootGetters): string {

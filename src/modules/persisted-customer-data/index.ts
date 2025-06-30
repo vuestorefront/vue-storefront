@@ -14,8 +14,7 @@ import { SN_PERSISTED_CUSTOMER_DATA } from './types/store-name';
 import { persistedCustomerDataStore } from './store';
 import { getItemsFromStorage } from './helpers/get-local-storage-items.function';
 import { cacheHandlerFactory } from './helpers/cache-handler.factory';
-import { notifyCustomerDataChanged } from './helpers/notify-customer-data-changed.function';
-import { localStorageSynchronizationFactory } from '../shared';
+import { localStorageSynchronizationFactory, UserEvents } from '../shared';
 
 const PERSISTED_CUSTOMER_EMAIL = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.PERSISTED_CUSTOMER_EMAIL}`;
 const PERSISTED_CUSTOMER_FIRST_NAME = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.PERSISTED_CUSTOMER_FIRST_NAME}`;
@@ -54,11 +53,22 @@ export const PersistedCustomerDataModule: StorefrontModule = async function ({ s
     store.commit(SET_PERSISTED_CUSTOMER_LAST_NAME, undefined);
     store.commit(SET_PERSISTED_CUSTOMER_PHONE_NUMBER, undefined);
     store.commit(SET_PERSISTED_CUSTOMER_SHIPPING_COUNTRY, undefined);
-  })
+  });
+
+  store.watch(
+    (_, getters) => getters[CUSTOMER_DATA_HASH],
+    (newValue, oldValue) => {
+      if (newValue !== oldValue) {
+        EventBus.$emit(
+          UserEvents.CUSTOMER_DATA_CHANGED,
+          store.getters[PERSISTED_CUSTOMER_DATA]
+        );
+      }
+    }
+  )
 }
 
 export {
-  CUSTOMER_DATA_HASH,
   PERSISTED_CUSTOMER_EMAIL,
   PERSISTED_CUSTOMER_FIRST_NAME,
   PERSISTED_CUSTOMER_LAST_NAME,
@@ -75,6 +85,5 @@ export {
   usePersistedFirstName,
   usePersistedLastName,
   usePersistedPhoneNumber,
-  usePersistedShippingCountry,
-  notifyCustomerDataChanged
+  usePersistedShippingCountry
 }

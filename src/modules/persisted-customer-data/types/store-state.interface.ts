@@ -1,4 +1,4 @@
-import { PersistedBillingAddress } from './persisted-billing-address.interface';
+import { PersistedBillingAddress } from 'src/modules/shared';
 
 export interface StoreState {
   email: string | undefined,
