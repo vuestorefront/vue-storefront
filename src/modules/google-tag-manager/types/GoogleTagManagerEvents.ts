@@ -18,6 +18,7 @@ enum GoogleTagManagerEvents {
   VIEW_ITEM = 'view_item',
   PURCHASE_ERROR = 'purchase_error',
   A_B_TEST_GROUP_CHANGED = 'experience_impression',
+  USER_DATA_CHANGED = 'user_data_changed',
 }
 
 export default GoogleTagManagerEvents;

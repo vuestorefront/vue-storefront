@@ -4,8 +4,8 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import rootStore from '@vue-storefront/core/store';
 
 import { SN_PERSISTED_CUSTOMER_DATA } from '../types/store-name';
-import { LAST_USED_CUSTOMER_EMAIL } from '../types/getter';
-import { SET_LAST_USED_CUSTOMER_EMAIL } from '../types/mutation';
+import { PERSISTED_CUSTOMER_EMAIL } from '../types/getter';
+import { SET_PERSISTED_CUSTOMER_EMAIL } from '../types/mutation';
 
 export function usePersistedEmail (
   email: Ref<string | undefined>
@@ -21,11 +21,11 @@ export function usePersistedEmail (
       return;
     }
 
-    email.value = rootStore.getters[`${SN_PERSISTED_CUSTOMER_DATA}/${LAST_USED_CUSTOMER_EMAIL}`];
+    email.value = rootStore.getters[`${SN_PERSISTED_CUSTOMER_DATA}/${PERSISTED_CUSTOMER_EMAIL}`];
   }
 
   function persistLastUsedCustomerEmail (email: string | undefined) {
-    rootStore.commit(`${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_EMAIL}`, email);
+    rootStore.commit(`${SN_PERSISTED_CUSTOMER_DATA}/${SET_PERSISTED_CUSTOMER_EMAIL}`, email);
   }
 
   onBeforeMount(() => {
@@ -38,7 +38,7 @@ export function usePersistedEmail (
   });
 
   const hasPrefilledEmail = computed(() => {
-    return !!rootStore.getters[`${SN_PERSISTED_CUSTOMER_DATA}/${LAST_USED_CUSTOMER_EMAIL}`];
+    return !!rootStore.getters[`${SN_PERSISTED_CUSTOMER_DATA}/${PERSISTED_CUSTOMER_EMAIL}`];
   })
 
   return {
