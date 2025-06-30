@@ -465,6 +465,7 @@ export default class EventBusListener {
       customerEmail: customerData.email,
       customerFirstName: customerData.firstName || customerData.billingAddress.firstName,
       customerLastName: customerData.lastName || customerData.billingAddress.lastName,
+      customerFullName: `${customerData.firstName} ${customerData.lastName}`,
       customerPhoneNumber: customerData.phoneNumber || customerData.billingAddress.phoneNumber,
       customerCity: customerData.billingAddress.city,
       customerState: customerData.billingAddress.state,
