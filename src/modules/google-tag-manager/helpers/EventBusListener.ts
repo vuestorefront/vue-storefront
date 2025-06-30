@@ -13,7 +13,7 @@ import { Logger } from '@vue-storefront/core/lib/logger';
 import getCookieByName from 'src/modules/shared/helpers/get-cookie-by-name.function';
 import CartEvents from 'src/modules/shared/types/cart-events';
 import { PlushieWizardEvents } from 'src/modules/budsies';
-import { CustomerDataChangedEventPayload, PriceHelper, ProductEvent, UserEvents } from 'src/modules/shared';
+import { PriceHelper, ProductEvent, UserEvents, PersistedCustomerData } from 'src/modules/shared';
 
 import CartItem from 'core/modules/cart/types/CartItem';
 import { GET_PRODUCT_PRICE } from '@vue-storefront/core/modules/catalog';
@@ -64,14 +64,14 @@ export default class EventBusListener {
       this.sendBeginCheckoutEvent.bind(this)
     );
     EventBus.$on('user-after-loggedin', () => {
-      this.gtm.trackEvent({
+      this.trackEvent({
         event: GoogleTagManagerEvents.LOGIN
-      })
+      });
     });
     EventBus.$on('user-after-register', () => {
-      this.gtm.trackEvent({
+      this.trackEvent({
         event: GoogleTagManagerEvents.SIGN_UP
-      })
+      });
     });
     EventBus.$on(CartEvents.MAKE_ANOTHER_FROM_CART, this.onMakeAnotherFromCartEventHandler.bind(this))
 
@@ -160,18 +160,24 @@ export default class EventBusListener {
 
     EventBus.$on(
       UserEvents.CUSTOMER_DATA_CHANGED,
-      (customerData: CustomerDataChangedEventPayload) => {
-        const eventData = {
-          ...customerData,
-          eventId: `${Date.now()}-${uuidv4()}`
-        };
-
-        this.gtm.trackEvent(eventData);
+      (customerData: PersistedCustomerData) => {
+        this.trackEvent({
+          event: GoogleTagManagerEvents.USER_DATA_CHANGED,
+          customerId: customerData.id,
+          customerEmail: customerData.email,
+          customerFirstName: customerData.firstName || customerData.billingAddress.firstName,
+          customerLastName: customerData.lastName || customerData.billingAddress.lastName,
+          customerPhoneNumber: customerData.phoneNumber || customerData.billingAddress.phoneNumber,
+          customerCity: customerData.billingAddress.city,
+          customerState: customerData.billingAddress.state,
+          customerZipCode: customerData.billingAddress.zipCode,
+          customerCountry: customerData.billingAddress.country
+        });
       }
     );
 
     EventBus.$on(A_B_TEST_GROUP_CHANGED, (testGroupId: string) => {
-      this.gtm.trackEvent({
+      this.trackEvent({
         event: GoogleTagManagerEvents.A_B_TEST_GROUP_CHANGED,
         exp_variant_string: testGroupId
       });
@@ -346,9 +352,9 @@ export default class EventBusListener {
   private onPlushieWizardInfoFillEventHandler (plushieType: string) {
     const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_INFO_FILL}`;
 
-    this.gtm.trackEvent({
+    this.trackEvent({
       event
-    })
+    });
   }
 
   private onPlushieWizardPhotosProvideEventHandler (
@@ -357,7 +363,7 @@ export default class EventBusListener {
   ) {
     const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_PHOTOS_PROVIDE}`;
 
-    this.gtm.trackEvent({
+    this.trackEvent({
       event,
       [`${event}.methodName`]: uploadMethod
     });
@@ -366,18 +372,18 @@ export default class EventBusListener {
   private onPlushieWizardTypeChangeEventHandler ({ plushieType, productType }: { plushieType: string, productType: string }) {
     const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_TYPE_CHANGE}`;
 
-    this.gtm.trackEvent({
+    this.trackEvent({
       event,
       [`${event}.typeName`]: productType
-    })
+    });
   }
 
   private onMakeAnotherFromCartEventHandler (productName: string) {
-    const event = GoogleTagManagerEvents.MAKE_ANOTHER_FROM_CART
-    this.gtm.trackEvent({
+    const event = GoogleTagManagerEvents.MAKE_ANOTHER_FROM_CART;
+    this.trackEvent({
       event,
       [`${event}.product`]: productName
-    })
+    });
   }
 
   private async onOrderAfterPlacedEventHandler ({ order, confirmation }: { order: Order, confirmation?: any }) {
@@ -447,5 +453,14 @@ export default class EventBusListener {
       customerFullName: `${orderPersonalDetails.firstName} ${orderPersonalDetails.lastName}`,
       customerId: currentUser ? currentUser.id : ''
     });
+  }
+
+  private trackEvent (eventData: any): void {
+    const data = {
+      ...eventData,
+      eventId: `${Date.now()}-${uuidv4()}`
+    };
+
+    this.gtm.trackEvent(data);
   }
 }
