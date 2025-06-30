@@ -6,7 +6,7 @@ import { once } from '@vue-storefront/core/helpers'
 
 once('__VUE_EXTEND_PUSH_RR__', () => {
   const originalPush = VueRouter.prototype.push
-  VueRouter.prototype.push = function push (location: RawLocation, onComplete: Function = () => {}, onAbort?: ErrorHandler): Promise<Route> {
+  VueRouter.prototype.push = function push (location: RawLocation, onComplete: Function = () => { }, onAbort?: ErrorHandler): Promise<Route> {
     if (typeof location === 'string') {
       const [path, query] = location.split('?');
       const hasQuery = query && query.length;
@@ -14,7 +14,7 @@ once('__VUE_EXTEND_PUSH_RR__', () => {
       if (!path.endsWith('/')) {
         location = `${path}/`;
         if (hasQuery) {
-          location += '?'+ query;
+          location += '?' + query;
         }
       }
     } else if (location.path && !location.path.endsWith('/')) {
@@ -31,17 +31,24 @@ export const createRouter = (): VueRouter => {
     mode: 'history',
     base: __dirname,
     scrollBehavior: (to, from) => {
-      if (to.hash) {
-        return {
-          selector: to.hash
-        }
-      }
-      if (rootStore.getters['url/isBackRoute']) {
-        const { scrollPosition = { x: 0, y: 0 } } = rootStore.getters['url/getCurrentRoute']
-        return scrollPosition
-      } else if (to.path !== from.path) { // do not change scroll position when navigating on the same page (ex. change filters)
-        return { x: 0, y: 0 }
-      }
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          if (to.hash) {
+            return resolve({
+              selector: to.hash
+            })
+          }
+
+          if (rootStore.getters['url/isBackRoute']) {
+            const { scrollPosition = { x: 0, y: 0 } } = rootStore.getters['url/getCurrentRoute']
+            return resolve(scrollPosition)
+          } else if (to.path !== from.path) { // do not change scroll position when navigating on the same page (ex. change filters)
+            return resolve({ x: 0, y: 0 })
+          }
+
+          resolve(null as any);
+        }, 0);
+      });
     }
   })
 }
