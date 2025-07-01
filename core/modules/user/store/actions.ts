@@ -17,8 +17,6 @@ import Task from '@vue-storefront/core/lib/sync/types/Task'
 import uniqBy from 'lodash-es/uniqBy'
 import { LOCAL_CART_DATA_LOADED_EVENT } from '@vue-storefront/core/modules/cart'
 
-import { notifyCustomerDataChanged } from '../helpers/notify-customer-data-changed.function'
-
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters, rootGetters }) {
     const usersCollection = StorageManager.get('user')
@@ -37,8 +35,6 @@ const actions: ActionTree<UserState, RootState> = {
     if (lastUserToken) {
       commit(types.USER_TOKEN_CHANGED, { newToken: lastUserToken })
       await dispatch('sessionAfterAuthorized', {})
-
-      notifyCustomerDataChanged(getters['current']);
 
       if (userData) {
         dispatch('setUserGroup', userData)
@@ -116,8 +112,6 @@ const actions: ActionTree<UserState, RootState> = {
         commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
         await dispatch('cart/mergeGuestAndCustomer', undefined, { root: true });
         await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
-
-        notifyCustomerDataChanged(getters['current']);
 
         EventBus.$emit('user-after-logged-in', resp.result);
       } catch (err) {
@@ -235,7 +229,6 @@ const actions: ActionTree<UserState, RootState> = {
         action1: { label: i18n.t('OK') }
       }, { root: true })
       await dispatch('user/setCurrentUser', event.result, { root: true });
-      notifyCustomerDataChanged(getters['current']);
     }
     userHooksExecutors.afterUserProfileUpdated(event)
   },

@@ -4,8 +4,8 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import rootStore from '@vue-storefront/core/store';
 
 import { SN_PERSISTED_CUSTOMER_DATA } from '../types/store-name';
-import { LAST_USED_CUSTOMER_FIRST_NAME } from '../types/getter';
-import { SET_LAST_USED_CUSTOMER_FIRST_NAME } from '../types/mutation';
+import { PERSISTED_CUSTOMER_FIRST_NAME } from '../types/getter';
+import { SET_PERSISTED_CUSTOMER_FIRST_NAME } from '../types/mutation';
 
 export function usePersistedFirstName (
   firstName: Ref<string | undefined>
@@ -17,11 +17,11 @@ export function usePersistedFirstName (
       return;
     }
 
-    firstName.value = rootStore.getters[`${SN_PERSISTED_CUSTOMER_DATA}/${LAST_USED_CUSTOMER_FIRST_NAME}`];
+    firstName.value = rootStore.getters[`${SN_PERSISTED_CUSTOMER_DATA}/${PERSISTED_CUSTOMER_FIRST_NAME}`];
   }
 
   function persistLastUsedCustomerFirstName (firstName: string | undefined) {
-    rootStore.commit(`${SN_PERSISTED_CUSTOMER_DATA}/${SET_LAST_USED_CUSTOMER_FIRST_NAME}`, firstName);
+    rootStore.commit(`${SN_PERSISTED_CUSTOMER_DATA}/${SET_PERSISTED_CUSTOMER_FIRST_NAME}`, firstName);
   }
 
   onBeforeMount(() => {
