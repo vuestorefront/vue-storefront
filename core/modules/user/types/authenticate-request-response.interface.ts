@@ -1,5 +1,5 @@
 export interface AuthenticateRequestResponse {
   token: string,
   email: string,
-  isNewCustomer: boolean
+  is_new_customer: boolean
 }
