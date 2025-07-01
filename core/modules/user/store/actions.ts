@@ -86,13 +86,32 @@ const actions: ActionTree<UserState, RootState> = {
       }
     });
   },
-  /**
-   * Login user and return user profile and current token
-   */
-  async authenticate ({ commit, dispatch, getters }, { token }) {
+  async authorize ({ commit, dispatch }, { token }) {
+    try {
+      commit(types.USER_TOKEN_CHANGED, { newToken: token });
+      await dispatch('cart/mergeGuestAndCustomer', undefined, { root: true });
+      await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false });
+
+      userHooksExecutors.afterUserAuthorize(token);
+
+      EventBus.$emit('user-after-logged-in', token);
+    } catch (err) {
+      await dispatch('clearCurrentUser')
+      throw new Error(err)
+    }
+  },
+  async authenticate (
+    {
+      dispatch
+    },
+    payload: {
+      token: string,
+      email: string
+    }
+  ): Promise<Task> {
     await dispatch('resetUserInvalidation', {}, { root: true })
 
-    const resp = await TaskQueue.execute({
+    const task = await TaskQueue.execute({
       url: processURLAddress(`${config.budsies.endpoint}/customer/authenticate-requests`),
       payload: {
         method: 'POST',
@@ -101,40 +120,45 @@ const actions: ActionTree<UserState, RootState> = {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ token })
+        body: JSON.stringify(payload)
       }
     });
 
-    userHooksExecutors.afterUserAuthorize(resp)
-
-    if (resp.code === 200) {
-      try {
-        commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
-        await dispatch('cart/mergeGuestAndCustomer', undefined, { root: true });
-        await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
-
-        EventBus.$emit('user-after-logged-in', resp.result);
-      } catch (err) {
-        await dispatch('clearCurrentUser')
-        throw new Error(err)
-      }
-    }
-
-    return resp
-  },
-  /**
-   * Login user and return user profile and current token
-   */
-  async register (context, { password, ...customer }) {
-    const task = await UserService.register(customer, password);
-
-    if (task.code === 200) {
-      EventBus.$emit('user-after-register');
+    if (task.code === 200 && !task.result.isNewCustomer) {
+      await dispatch('authorize', { token: task.result.token });
     }
 
     return task;
   },
+  async register (
+    { dispatch },
+    payload: {
+      token: string,
+      email: string,
+      firstname: string,
+      lastname: string
+    }
+  ) {
+    const resp = await TaskQueue.execute({
+      url: processURLAddress(`${config.budsies.endpoint}/customer/registration-requests`),
+      payload: {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }
+    });
 
+    if (resp.code === 200) {
+      await dispatch('authorize', { token: resp.result });
+      EventBus.$emit('user-after-register');
+    }
+
+    return resp;
+  },
   /**
   * Invalidate user token
   */
