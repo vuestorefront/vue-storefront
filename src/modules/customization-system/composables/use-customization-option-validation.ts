@@ -8,15 +8,17 @@ import { getFieldAnchorName } from 'theme/helpers/use-form-validation';
 import { Customization } from '../types/customization.interface';
 import { isEmailCustomization } from '../helpers/is-email-customization';
 
-extend('required', {
-  ...required,
-  message: 'The \'{_field_}\' field is required'
-});
+function extendValidationRules () {
+  extend('required', {
+    ...required,
+    message: 'The \'{_field_}\' field is required'
+  });
 
-extend('email', {
-  ...email,
-  message: 'Please, provide the correct email address'
-});
+  extend('email', {
+    ...email,
+    message: 'Please, provide the correct email address'
+  });
+}
 
 export function useCustomizationOptionValidation (customization: Ref<Customization>) {
   const validationProvider = ref<InstanceType<typeof ValidationProvider> | null>(null);
@@ -112,6 +114,7 @@ export function useCustomizationOptionValidation (customization: Ref<Customizati
   }
 
   extendMaxValueCountValidationRule();
+  extendValidationRules();
 
   watch(
     maxValueCountValidationRule,
