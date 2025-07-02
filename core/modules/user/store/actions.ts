@@ -16,6 +16,7 @@ import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import uniqBy from 'lodash-es/uniqBy'
 import { LOCAL_CART_DATA_LOADED_EVENT } from '@vue-storefront/core/modules/cart'
+import { AuthenticateRequestResponse } from '../types/authenticate-request-response.interface';
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters, rootGetters }) {
@@ -124,7 +125,9 @@ const actions: ActionTree<UserState, RootState> = {
       }
     });
 
-    if (task.code === 200 && !task.result.isNewCustomer) {
+    const result: AuthenticateRequestResponse = task.result;
+
+    if (task.code === 200 && !result.is_new_customer) {
       await dispatch('authorize', { token: task.result.token });
     }
 
