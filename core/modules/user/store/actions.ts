@@ -30,7 +30,6 @@ const actions: ActionTree<UserState, RootState> = {
       commit(types.USER_INFO_LOADED, userData)
     }
 
-    commit(types.USER_START_SESSION)
     const lastUserToken = await usersCollection.getItem('current-token')
 
     if (lastUserToken) {
@@ -57,8 +56,8 @@ const actions: ActionTree<UserState, RootState> = {
   async sessionAfterStarted ({ commit, getters, dispatch }) {
     await dispatch('cart/synchronizeCart', undefined, { root: true });
     const userToken = getters['getUserToken'];
-    commit(types.USER_SESSION_STARTED);
     EventBus.$emit('session-after-started', userToken);
+    commit(types.USER_SESSION_STARTED);
   },
   /**
    * Send password reset link for specific e-mail
