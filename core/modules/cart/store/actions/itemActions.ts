@@ -94,7 +94,7 @@ const itemActions = {
     }
 
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
-      const syncDiffLog = await dispatch('sync', { forceClientState: true })
+      const syncDiffLog = await dispatch('sync', { forceClientState: true, waitForTotalsUpdate: false })
 
       if (!syncDiffLog.isEmpty()) {
         diffLog.merge(syncDiffLog)
