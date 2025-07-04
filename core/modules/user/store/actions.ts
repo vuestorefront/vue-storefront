@@ -98,7 +98,7 @@ const actions: ActionTree<UserState, RootState> = {
       EventBus.$emit('user-after-logged-in', token);
     } catch (err) {
       await dispatch('clearCurrentUser')
-      throw new Error(err)
+      throw err;
     }
   },
   async authenticate (
