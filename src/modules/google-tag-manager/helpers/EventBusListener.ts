@@ -345,7 +345,27 @@ export default class EventBusListener {
     });
   }
 
-  private onPlushieWizardInfoFillEventHandler (plushieType: string) {
+  private onPlushieWizardInfoFillEventHandler (
+    {
+      plushieType,
+      customerEmail
+    }: {
+      plushieType: string,
+      customerEmail: string | undefined
+    }
+  ) {
+    if (customerEmail) {
+      const customerData = this.store.getters[PERSISTED_CUSTOMER_DATA];
+      const eventData = this.getCustomerEventData(customerData);
+
+      eventData.customerEmail = customerEmail;
+
+      this.trackEvent({
+        ...eventData,
+        event: GoogleTagManagerEvents.USER_DATA_CHANGED
+      });
+    }
+
     const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_INFO_FILL}`;
 
     this.trackEvent({
@@ -461,7 +481,8 @@ export default class EventBusListener {
   }
 
   private getCustomerEventData (customerData: PersistedCustomerData): CustomerDataChangedEventPayload {
-    return { customerId: customerData.id,
+    return {
+      customerId: customerData.id,
       customerEmail: customerData.email,
       customerFirstName: customerData.firstName || customerData.billingAddress.firstName,
       customerLastName: customerData.lastName || customerData.billingAddress.lastName,
