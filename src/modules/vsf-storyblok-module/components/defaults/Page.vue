@@ -1,6 +1,6 @@
 <template>
   <div data-testid="storyblok-page">
-    <sb-rich-text :text="itemData.description" v-if="itemData.description" />
+    <sb-rich-text :text="itemData.description" v-if="hasDescription" />
 
     <sb-render
       v-for="(child) in itemData.body"
@@ -32,6 +32,9 @@ export default Blok.extend({
     }
   },
   computed: {
+    hasDescription (): boolean {
+      return !!this.itemData.description && JSON.stringify(this.itemData.description) !== '{"type":"doc","content":[{"type":"paragraph"}]}';
+    },
     itemData (): PageData {
       return this.item as unknown as PageData;
     },
