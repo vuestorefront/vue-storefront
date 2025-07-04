@@ -354,12 +354,6 @@ export default class EventBusListener {
       customerEmail: string | undefined
     }
   ) {
-    const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_INFO_FILL}`;
-
-    this.trackEvent({
-      event
-    });
-
     if (customerEmail) {
       const customerData = this.store.getters[PERSISTED_CUSTOMER_DATA];
       const eventData = this.getCustomerEventData(customerData);
@@ -371,6 +365,12 @@ export default class EventBusListener {
         event: GoogleTagManagerEvents.USER_DATA_CHANGED
       });
     }
+
+    const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_INFO_FILL}`;
+
+    this.trackEvent({
+      event
+    });
   }
 
   private onPlushieWizardPhotosProvideEventHandler (
