@@ -35,6 +35,7 @@ import { GET_ORDERS_HISTORY } from '../types/store/getters';
 import { FETCH_ORDERS_HISTORY } from '../types/store/actions';
 
 import OrderView from './order-view.vue';
+import { OrderItemAvailableActionCode } from '../types/order-item-available-action.code';
 
 export default defineComponent({
   name: 'OrdersHistoryList',
@@ -47,7 +48,30 @@ export default defineComponent({
     const isError = ref<boolean>(false);
 
     const ordersList = computed<Order[]>(() => {
-      return root.$store.getters[`${STORE_NAME}/${GET_ORDERS_HISTORY}`];
+      // return root.$store.getters[`${STORE_NAME}/${GET_ORDERS_HISTORY}`];
+
+      // TODO: mock
+      return root.$store.getters[`${STORE_NAME}/${GET_ORDERS_HISTORY}`].map((order: Order) => {
+        if (order.items.length > 1) {
+          return order;
+        }
+
+        const firstItem = order.items[0];
+
+        if (firstItem.product.sku !== 'ForeversDog_bundle') {
+          return order;
+        }
+
+        order.items[0].available_actions.push({
+          code: OrderItemAvailableActionCode.AWAITING_CUSTOMIZATION,
+          name: 'Awaiting customization',
+          message: `We're waiting for your decisions. Please complete the customization.`,
+          blocking_progress: true,
+          url: null
+        });
+
+        return order;
+      });
     });
 
     const showLoadingIndicator = computed<boolean>(() => {
