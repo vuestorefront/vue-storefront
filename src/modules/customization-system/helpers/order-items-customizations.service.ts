@@ -14,8 +14,7 @@ export async function fetchOrderItemCustomizationsState (orderItemId: string): P
       headers: { 'Accept': 'application/json' },
       mode: 'cors',
       method: 'GET'
-    },
-    silent: true
+    }
   });
 
   if (result.code !== 200) {
@@ -35,8 +34,7 @@ export async function saveOrderItemCustomizationsState (payload: DraftPlushie): 
       mode: 'cors',
       method: 'POST',
       body: JSON.stringify(payload)
-    },
-    silent: true
+    }
   });
 }
 
@@ -50,7 +48,6 @@ export async function submitOrderItemCustomizationsState (payload: { orderItemId
       mode: 'cors',
       method: 'POST',
       body: JSON.stringify(payload)
-    },
-    silent: true
+    }
   });
 }
