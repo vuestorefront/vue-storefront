@@ -66,7 +66,7 @@ const synchronizeActions = {
     Logger.warn('The "cart/serverPull" action is deprecated and will not be supported with the Vue Storefront 1.11', 'cart')()
     return dispatch('sync', { forceClientState, dryRun })
   },
-  async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false, mergeQty = false, forceSync = false, forceUpdateServerItem = false }) {
+  async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false, mergeQty = false, forceSync = false, forceUpdateServerItem = false, waitForTotalsUpdate = true }) {
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
     if ((!canUpdateMethods || !isSyncRequired) && !forceSync) return createDiffLog()
     commit(types.SET_IS_CART_SYNCING, true);
@@ -94,7 +94,8 @@ const synchronizeActions = {
           clientItems,
           forceClientState,
           mergeQty,
-          forceUpdateServerItem
+          forceUpdateServerItem,
+          waitForTotalsUpdate
         })
         cartHooksExecutors.afterSync(diffLog)
         return diffLog
