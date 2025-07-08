@@ -92,6 +92,7 @@ export function useEmailCustomization (
 
   return {
     emailCustomizationFilter,
+    emailValue,
     hasPrefilledEmail,
     persistCustomerEmail
   };
