@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
-import * as types from './mutation-types'
-import CartState from '../types/CartState'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { ProductDiscountedPrice } from '@vue-storefront/core/modules/catalog'
+
 import productsEquals from './../helpers/productsEquals'
 import CartItem from '../types/CartItem'
 import { updateCartItemEstimatedShipment } from '../helpers/update-cart-item-estimated-shipment.function'
+import * as types from './mutation-types'
+import CartState from '../types/CartState'
 
 const mutations: MutationTree<CartState> = {
   /**
@@ -111,11 +113,26 @@ const mutations: MutationTree<CartState> = {
     const serverItemEstimatedShipment = serverItem.extension_attributes?.estimated_shipment;
     updateCartItemEstimatedShipment(clientCartItem, serverItemEstimatedShipment);
   },
-  [types.CART_SET_PRODUCT_DISCOUNTED_PRICE] (state, productDiscountedPrice: Record<string, number>) {
+  [types.CART_SET_PRODUCT_DISCOUNTED_PRICE] (state, productDiscountedPrice: Record<string, ProductDiscountedPrice>) {
     state.productDiscountedPrice = { ...productDiscountedPrice };
+  },
+  [types.SET_EXCHANGE_RATE] (state, exchangeRate: number) {
+    state.exchangeRate = exchangeRate || 1;
   },
   [types.SET_IS_SHIPPING_METHODS_SYNCING] (state, isSyncing: boolean) {
     state.isShippingMethodsSyncing = isSyncing;
+  },
+  [types.SET_IS_CART_SYNCING] (state, isSyncing: boolean) {
+    state.isCartSyncing = isSyncing;
+  },
+  [types.SET_IS_TOTALS_SYNCING] (state, isSyncing: boolean) {
+    state.isTotalsSyncing = isSyncing;
+  },
+  [types.SET_IS_PAYMENT_METHODS_SYNCING] (state, isSyncing: boolean) {
+    state.isPaymentMethodsSyncing = isSyncing;
+  },
+  [types.SET_IS_COUPON_PROCESSING] (state, isProcessing: boolean) {
+    state.isCouponProcessing = isProcessing;
   }
 }
 

@@ -1,6 +1,8 @@
 import { GetterTree } from 'vuex';
-import { CampaignContent } from '../types/CampaignContent.interface';
 
+import { ProductDiscountedPrice } from '@vue-storefront/core/modules/catalog';
+
+import { CampaignContent } from '../types/CampaignContent.interface';
 import PromotionPlatformState from '../types/PromotionPlatformState';
 
 export const getters: GetterTree<PromotionPlatformState, any> = {
@@ -10,7 +12,7 @@ export const getters: GetterTree<PromotionPlatformState, any> = {
   campaignToken (state): string | undefined {
     return state.campaignToken;
   },
-  getProductCampaignDiscountPrice (state): (product: any) => number | undefined {
+  getProductCampaignDiscountPrice (state): (product: any) => ProductDiscountedPrice | undefined {
     return (product) => {
       const campaignContent = state.campaignContent;
 
@@ -27,7 +29,7 @@ export const getters: GetterTree<PromotionPlatformState, any> = {
       return discountPrice;
     }
   },
-  productDiscount (state): Record<string, number> {
+  productDiscount (state): Record<string, ProductDiscountedPrice> {
     return state.campaignContent?.discounts || {};
   },
   isSynced (state): boolean {

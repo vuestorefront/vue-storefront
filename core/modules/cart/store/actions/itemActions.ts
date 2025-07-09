@@ -94,7 +94,7 @@ const itemActions = {
     }
 
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
-      const syncDiffLog = await dispatch('sync', { forceClientState: true })
+      const syncDiffLog = await dispatch('sync', { forceClientState: true, waitForTotalsUpdate: false })
 
       if (!syncDiffLog.isEmpty()) {
         diffLog.merge(syncDiffLog)
@@ -124,7 +124,7 @@ const itemActions = {
   async updateClientAndServerItem ({ dispatch }, { product, forceClientState = false, forceUpdateServerItem = false }) {
     await dispatch('updateItem', { product });
 
-    const diffLog = await dispatch('sync', { forceClientState, forceUpdateServerItem });
+    const diffLog = await dispatch('sync', { forceClientState, forceUpdateServerItem, waitForTotalsUpdate: false });
     throwServerErrorFromDiffLog(diffLog);
   }
 }

@@ -5,6 +5,7 @@ import { isBundleProduct } from '@vue-storefront/core/modules/catalog/helpers';
 import { getBundleOptionsValues, getBundleOptionPrice } from '@vue-storefront/core/modules/catalog/helpers/bundleOptions'
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { price } from '@vue-storefront/core/filters';
+import { ProductDiscountedPrice } from '@vue-storefront/core/modules/catalog';
 
 import { getCartItemDiscountedPrice, getProductDiscountedPrice } from './product-discounted-price';
 
@@ -86,24 +87,26 @@ export function getProductPriceData (
   return productPriceData;
 }
 
-export function formatPrice (value: number | null) {
-  return value !== null ? price(value) : ''
+export function formatPrice (value: number | null, currencySign?: string) {
+  return value !== null ? price(value, undefined, currencySign) : ''
 }
 
 export function formatProductPrice (
-  value: ProductPrice
+  value: ProductPrice,
+  currencySign?: string
 ): FormattedProductPrice {
   return {
-    special: formatPrice(value.special),
-    regular: formatPrice(value.regular)
+    special: formatPrice(value.special, currencySign),
+    regular: formatPrice(value.regular, currencySign)
   }
 }
 
 export function formatProductDiscount (
-  value: ProductDiscount
+  value: ProductDiscount,
+  currencySign?: string
 ): FormattedProductDiscount {
   return {
-    discount: value.discount ? price(value) : '',
+    discount: value.discount ? formatPrice(value.discount, currencySign) : '',
     discountPercent: value.discountPercent
       ? `-${value.discountPercent}%`
       : ''
@@ -158,13 +161,15 @@ export function getTotalPriceForProductPrices (
 
 function getProductPrice (
   product: Product,
-  productDiscountedPriceValue: number | undefined,
+  productDiscountedPriceValue: ProductDiscountedPrice | undefined,
   productPriceData: ProductPriceData
 ) {
   const quantity = (product.qty || 1);
-  const productDiscountedPrice = productDiscountedPriceValue
-    ? productDiscountedPriceValue * quantity
-    : productDiscountedPriceValue;
+  const productDiscountedFinalPrice = productDiscountedPriceValue?.final !== undefined
+    ? productDiscountedPriceValue.final * quantity
+    : undefined;
+
+  const productDiscountedRegularPrice = productDiscountedPriceValue?.regular;
 
   let priceInclTax = productPriceData.priceInclTax * quantity;
   let originalPriceInclTax = productPriceData.originalPriceInclTax * quantity;
@@ -172,15 +177,11 @@ function getProductPrice (
     ? productPriceData.specialPrice * quantity
     : null;
 
-  const original = originalPriceInclTax
+  const original = productDiscountedRegularPrice ? productDiscountedRegularPrice * quantity : originalPriceInclTax
   const regular = product.regular_price || priceInclTax
-  let special = productDiscountedPrice || priceInclTax
+  let special = productDiscountedFinalPrice || priceInclTax
 
-  if (productDiscountedPrice !== undefined && productDiscountedPrice < special) {
-    special = productDiscountedPrice
-  }
-
-  const isSpecialPrice = (!!productDiscountedPrice ||
+  const isSpecialPrice = (!!productDiscountedFinalPrice ||
     (specialPrice && priceInclTax && originalPriceInclTax) ||
     specialPrice === 0) &&
     special < original;
@@ -197,7 +198,7 @@ function getProductPrice (
 
 export function getCartItemPrice (
   cartItem: CartItem,
-  productDiscountedPriceDictionary: Record<string, number>
+  productDiscountedPriceDictionary: Record<string, ProductDiscountedPrice>
 ) {
   const productPriceData = getProductPriceData(
     cartItem,
@@ -214,7 +215,7 @@ export function getCartItemPrice (
 
 export function getProductDefaultPrice (
   product: Product,
-  productDiscountedPriceDictionary: Record<string, number>
+  productDiscountedPriceDictionary: Record<string, ProductDiscountedPrice>
 ) {
   const productPriceData = getProductPriceData(
     product,

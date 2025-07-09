@@ -82,6 +82,11 @@ export default async context => {
       const matchedComponents = router.getMatchedComponents()
 
       if (router.currentRoute.redirectedFrom && router.currentRoute.redirectedFrom !== router.currentRoute.fullPath) {
+        // We don't want to cache redirects to the 'sign-in' page since they may contain user email in query params
+        if (router.currentRoute.name === 'sign-in') {
+          (app as any).$cacheTags.add('no-cache');
+        }
+
         context.output.redirect = { code: 301, path: router.currentRoute.fullPath };
 
         return resolve(app);

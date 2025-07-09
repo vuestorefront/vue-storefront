@@ -1487,10 +1487,10 @@
   resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.3.1.tgz#b50a781709c81e10701004214340f25475a171a0"
   integrity sha512-zMM9Ds+SawiUkakS7y94Ymqx+S0ORzpG3frZirN3l+UlXUmSUR7hF4wxCVqW+ei94JzV5kt0uXBcoOEAuiydrw==
 
-"@justinribeiro/lite-youtube@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@justinribeiro/lite-youtube/-/lite-youtube-1.5.0.tgz#c8f5b1e9bc6980defb725bf84d84a957deea1b92"
-  integrity sha512-TU92RKtz9BI9PRYrVwDIUsnFadLZtqRKWl1ZOdbxb7roJDb8Dd/xURllAsLEmCg6oJNyhXlVa5RsnUc0EKd8Cw==
+"@justinribeiro/lite-youtube@^1.8.2":
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/@justinribeiro/lite-youtube/-/lite-youtube-1.8.2.tgz#7b0b1b43623a52fe8381a8b84d8ee4153191fc14"
+  integrity sha512-wayU5sYA/e5J/1j7zFk8Hoi72Hk67Axy7Za2OFRzsytd9gvtv7ZeWhmdi2lOGbnXwMZHkeMsqxRGFxH60lo5bg==
 
 "@lerna/add@3.20.0":
   version "3.20.0"
@@ -2327,13 +2327,13 @@
   dependencies:
     type-detect "4.0.8"
 
-"@storefront-ui/shared@0.7.11", "@storefront-ui/shared@https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/shared?a318b31fbe68657cb629bf40ef040d4f572e30a3":
+"@storefront-ui/shared@0.7.11", "@storefront-ui/shared@https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/shared?cf2bf55e26be1988572a586ff5e2fe9d66136463":
   version "0.7.11"
-  resolved "https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/shared?a318b31fbe68657cb629bf40ef040d4f572e30a3#cfc15bd469ba9d5838b7d89bda5eff28e6d17bfe"
+  resolved "https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/shared?cf2bf55e26be1988572a586ff5e2fe9d66136463#d736c619cc3624ef6bdcb229f95c158ddd0be280"
 
-"@storefront-ui/vue@https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/vue?a318b31fbe68657cb629bf40ef040d4f572e30a3":
+"@storefront-ui/vue@https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/vue?cf2bf55e26be1988572a586ff5e2fe9d66136463":
   version "0.7.11"
-  resolved "https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/vue?a318b31fbe68657cb629bf40ef040d4f572e30a3#32ee6591b431ec95c9dbe70158487dd9ae65070a"
+  resolved "https://gitpkg.vercel.app/BudsiesApp/storefront-ui/packages/vue?cf2bf55e26be1988572a586ff5e2fe9d66136463#ed3c8ea376645c396d7d50818ab19edd1cda4b52"
   dependencies:
     "@glidejs/glide" "^3.3.0"
     "@storefront-ui/shared" "0.7.11"
@@ -2679,6 +2679,11 @@
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/@types/googlepay/-/googlepay-0.6.4.tgz#e0b06ae1f12496c4fa43e52d35e76411dbbee135"
   integrity sha512-PTt/UCllzl8z5HmhymPpSj6uENZvVKZvCBYdDVmbBVJnLStitxtWrterAOQZkKGlqVdzxNXYeif5hOAMNMS5mw==
+
+"@types/googlepay@^0.7.6":
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/@types/googlepay/-/googlepay-0.7.6.tgz#ba444ad8b2945e70f873673b8f5371745b8cfe37"
+  integrity sha512-5003wG+qvf4Ktf1hC9IJuRakNzQov00+Xf09pAWGJLpdOjUrq0SSLCpXX7pwSeTG9r5hrdzq1iFyZcW7WVyr4g==
 
 "@types/http-proxy-middleware@*":
   version "0.19.3"

@@ -57,7 +57,7 @@ const register = async (customer: DataResolver.Customer, password: string): Prom
   })
 
 const updateProfile = async (userProfile: UserProfile, actionName: string): Promise<any> =>
-  TaskQueue.queue({
+  TaskQueue.execute({
     url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'me_endpoint')),
     payload: {
       method: 'POST',

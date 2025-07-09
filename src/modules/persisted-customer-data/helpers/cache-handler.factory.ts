@@ -13,23 +13,23 @@ export function cacheHandlerFactory () {
 
     let localStorageKey: string | undefined;
 
-    if (type.endsWith(types.SET_LAST_USED_CUSTOMER_EMAIL)) {
+    if (type.endsWith(types.SET_PERSISTED_CUSTOMER_EMAIL)) {
       localStorageKey = EMAIL;
     }
 
-    if (type.endsWith(types.SET_LAST_USED_CUSTOMER_FIRST_NAME)) {
+    if (type.endsWith(types.SET_PERSISTED_CUSTOMER_FIRST_NAME)) {
       localStorageKey = FIRST_NAME;
     }
 
-    if (type.endsWith(types.SET_LAST_USED_CUSTOMER_LAST_NAME)) {
+    if (type.endsWith(types.SET_PERSISTED_CUSTOMER_LAST_NAME)) {
       localStorageKey = LAST_NAME;
     }
 
-    if (type.endsWith(types.SET_LAST_USED_CUSTOMER_PHONE_NUMBER)) {
+    if (type.endsWith(types.SET_PERSISTED_CUSTOMER_PHONE_NUMBER)) {
       localStorageKey = PHONE_NUMBER;
     }
 
-    if (type.endsWith(types.SET_LAST_USED_CUSTOMER_SHIPPING_COUNTRY)) {
+    if (type.endsWith(types.SET_PERSISTED_CUSTOMER_SHIPPING_COUNTRY)) {
       localStorageKey = SHIPPING_COUNTRY;
     }
 

@@ -22,6 +22,14 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
   }
   RouterManager.lockRoute()
 
+  if (to.meta?.auth) {
+    if (!store.getters['user/isLoggedIn']) {
+      next({ name: 'sign-in-redirect', query: { ...to.query, 'redirect-target': to.path } });
+      RouterManager.unlockRoute();
+      return
+    }
+  }
+
   const path = normalizeUrlPath(to.path, false)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
   const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name && to.name.startsWith('urldispatcher')

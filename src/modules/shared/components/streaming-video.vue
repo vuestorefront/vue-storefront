@@ -1,10 +1,6 @@
 <template>
   <div
     class="streaming-video"
-    :class="{
-      '-you-tube': isYouTubeVideo,
-      '-short': isYouTubeShortsVideo
-    }"
     :style="styles"
   >
     <div
@@ -102,24 +98,31 @@ export default Vue.extend({
       }
 
       let height = 0.0;
+      let aspectRatioValue = '1';
 
       switch (this.aspectRatio) {
         case AspectRatio.A4_3:
           height = 3 / 4;
+          aspectRatioValue = '4 / 3';
           break;
         case AspectRatio.A16_10:
           height = 10 / 16;
+          aspectRatioValue = '16 / 10';
           break;
         case AspectRatio.A9_16:
           height = 16 / 9;
+          aspectRatioValue = '9 / 16';
           break;
         case AspectRatio.A16_9:
         default:
           height = 9 / 16;
+          aspectRatioValue = '16 / 9';
           break;
       }
 
       result['--streaming-video-height'] = height * 100 + '%';
+      result['--lite-youtube-aspect-ratio'] = aspectRatioValue;
+      result['--lite-youtube-aspect-ratio-short'] = aspectRatioValue;
 
       return result;
     },
@@ -172,18 +175,6 @@ export default Vue.extend({
     max-width: 100%;
     height: 100%;
     padding-bottom: 0;
-  }
-
-  &.-you-tube {
-    padding-top: calc(100% / (16 / 9));
-  }
-
-  @media (max-width: 40em) {
-    &.-you-tube {
-      &.-short {
-        padding-top: calc(100% / (9 / 16));
-      }
-    }
   }
 }
 </style>

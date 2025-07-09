@@ -3,6 +3,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import * as types from './mutation-types'
 import ProductState, { PagedProductList } from '../../types/ProductState'
 import Vue from 'vue'
+import { ProductDiscountedPrice } from '../../types/product-discounted-price.interface'
 
 const mutations: MutationTree<ProductState> = {
   [types.PRODUCT_SET_PAGED_PRODUCTS] (state, searchResult) {
@@ -109,8 +110,11 @@ const mutations: MutationTree<ProductState> = {
     state.current_bundle_options = {};
     state.current_custom_options = {};
   },
-  [types.SET_PRODUCT_DISCOUNTED_PRICE] (state, productDiscountedPrice: Record<string, number>) {
+  [types.SET_PRODUCT_DISCOUNTED_PRICE] (state, productDiscountedPrice: Record<string, ProductDiscountedPrice>) {
     state.productDiscountedPrice = { ...productDiscountedPrice }
+  },
+  [types.SET_EXCHANGE_RATE] (state, exchangeRate: number) {
+    state.exchangeRate = exchangeRate || 1;
   },
   [types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR] (state, { validationRule, validatorFunction }) {
     Logger.error('Deprecated mutation CATALOG_ADD_CUSTOM_OPTION_VALIDATOR - use PRODUCT_SET_CUSTOM_OPTION_VALIDATOR instead')()

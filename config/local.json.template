@@ -809,6 +809,9 @@
     "applePay": {
       "displayName": "${DEFAULT_STORE_NAME}",
       "label": "Budsies PR LLC"
+    },
+    "googlePay": {
+      "merchantId": "${GOOGLE_PAY_MERCHANT_ID}"
     }
   },
   "affirm": {

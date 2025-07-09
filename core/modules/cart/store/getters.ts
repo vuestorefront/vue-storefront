@@ -10,7 +10,7 @@ import { AmGiftCardType } from 'src/modules/gift-card'
 
 import CartItem from '../types/CartItem'
 import getCartItemKey from '../helpers/get-cart-item-key.function'
-import { IS_SHIPPING_METHODS_SYNCING } from './getter-types'
+import { IS_SHIPPING_METHODS_SYNCING, IS_CART_SYNCING, IS_TOTALS_SYNCING, IS_PAYMENT_METHODS_SYNCING, IS_COUPON_PROCESSING } from './getter-types'
 
 const getters: GetterTree<CartState, RootState> = {
   getCartToken: state => state.cartServerToken,
@@ -50,6 +50,24 @@ const getters: GetterTree<CartState, RootState> = {
   getIsAdding: state => state.isAddingToCart,
   getIsMicroCartOpen: state => state.isMicrocartOpen,
   isLocalDataLoaded: state => state.isLocalDataLoaded,
+  localizedCartItemPriceDictionary: (state, getters) => {
+    const _cartItemPriceDictionary = getters.cartItemPriceDictionary;
+    const prices: Record<string, PriceHelper.ProductPrice> = {};
+    const exchangeRate: number = state.exchangeRate;
+
+    for (const key of Object.keys(_cartItemPriceDictionary)) {
+      const price = _cartItemPriceDictionary[key];
+
+      prices[key] = {
+        regular: price.regular * exchangeRate,
+        special: price.special === null
+          ? null
+          : price.special * exchangeRate
+      }
+    }
+
+    return prices;
+  },
   cartItemPriceDictionary: (
     state,
     getters
@@ -86,7 +104,11 @@ const getters: GetterTree<CartState, RootState> = {
       )
     }
   },
-  [IS_SHIPPING_METHODS_SYNCING]: (state) => state.isShippingMethodsSyncing
+  [IS_SHIPPING_METHODS_SYNCING]: (state) => state.isShippingMethodsSyncing,
+  [IS_CART_SYNCING]: (state) => state.isCartSyncing,
+  [IS_TOTALS_SYNCING]: (state) => state.isTotalsSyncing,
+  [IS_PAYMENT_METHODS_SYNCING]: (state) => state.isPaymentMethodsSyncing,
+  [IS_COUPON_PROCESSING]: (state) => state.isCouponProcessing
 }
 
 export default getters

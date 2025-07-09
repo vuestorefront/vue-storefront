@@ -3,6 +3,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
 import { PriceHelper } from '@vue-storefront/core/helpers';
 import Product from '../../types/Product';
+import { getProductGallery } from '../../helpers';
 
 const getters: GetterTree<ProductState, RootState> = {
   getCurrentProduct: state => state.current,
@@ -18,7 +19,11 @@ const getters: GetterTree<ProductState, RootState> = {
   getParentProduct: state => state.parent,
   getProductsSearchResult: state => state.list,
   getProducts: (state, getters) => getters.getProductsSearchResult.items,
-  getProductGallery: state => state.productGallery,
+  getProductGallery: (state, getters) => {
+    if (!getters.getCurrentProduct) return [];
+
+    return getProductGallery(getters.getCurrentProduct);
+  },
   getProductRelated: state => state.related,
   getCurrentCustomOptions: state => state.current_custom_options,
   getProductBySkuDictionary: state => state.productBySku,
@@ -36,6 +41,24 @@ const getters: GetterTree<ProductState, RootState> = {
         state.productDiscountedPrice
       )
     }
+  },
+  productLocalizedPriceDictionary: (state, getters) => {
+    const _productPriceDictionary = getters.productPriceDictionary;
+    const prices: Record<string, PriceHelper.ProductPrice> = {};
+    const exchangeRate: number = state.exchangeRate;
+
+    for (const key of Object.keys(_productPriceDictionary)) {
+      const price = _productPriceDictionary[key];
+
+      prices[key] = {
+        regular: price.regular * exchangeRate,
+        special: price.special === null
+          ? null
+          : price.special * exchangeRate
+      }
+    }
+
+    return prices;
   },
   productPriceDictionary: (state): Record<string, PriceHelper.ProductPrice> => {
     const loadedProducts = Object.values(state.productBySku);

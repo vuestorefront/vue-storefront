@@ -24,29 +24,28 @@ export default {
     this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
     this.$bus.$on('user-after-logout', this.afterUserIsLogout)
   },
-  async mounted () {
-    await this.$store.dispatch('user/startSession')
-    if (!this.$store.getters['user/isLoggedIn']) {
-      localStorage.setItem('redirect', this.$route.path)
-      this.$router.push(localizedRoute('/', currentStoreView().storeCode))
-    }
-  },
   beforeDestroy () {
     this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)
     this.$bus.$off('user-after-logout', this.afterUserIsLogout)
   },
   methods: {
-    onBeforeChangePassword (passwordData) {
-      this.$store.dispatch('user/changePassword', passwordData)
+    async onBeforeChangePassword (passwordData) {
+      try {
+        await this.$store.dispatch('user/changePassword', passwordData);
+      } finally {
+        this.$bus.$emit('myAccount-after-changePassword');
+      }
     },
-    onBeforeUpdateUser (updatedData) {
+    async onBeforeUpdateUser (updatedData) {
       if (updatedData) {
         try {
-          this.$store.dispatch('user/update', { customer: updatedData })
+          await this.$store.dispatch('user/update', { customer: updatedData })
         } catch (err) {
           this.$bus.$emit('myAccount-before-remainInEditMode', this.$props.activeBlock)
           Logger.error(err)()
+        } finally {
+          this.$bus.$emit('myAccount-after-updateUser')
         }
       }
     },

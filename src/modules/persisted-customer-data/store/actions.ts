@@ -8,7 +8,7 @@ import { SN_BUDSIES } from 'src/modules/budsies/store/mutation-types';
 import { StoreState } from '../types/store-state.interface';
 import { SN_PERSISTED_CUSTOMER_DATA } from '../types/store-name';
 import { EMAIL, FIRST_NAME, LAST_NAME, PHONE_NUMBER, SHIPPING_COUNTRY } from '../types/local-storage-key';
-import { SET_LAST_USED_CUSTOMER_EMAIL, SET_LAST_USED_CUSTOMER_FIRST_NAME, SET_LAST_USED_CUSTOMER_LAST_NAME, SET_LAST_USED_CUSTOMER_PHONE_NUMBER, SET_LAST_USED_CUSTOMER_SHIPPING_COUNTRY } from '../types/mutation';
+import { SET_PERSISTED_CUSTOMER_EMAIL, SET_PERSISTED_CUSTOMER_FIRST_NAME, SET_PERSISTED_CUSTOMER_LAST_NAME, SET_PERSISTED_CUSTOMER_PHONE_NUMBER, SET_PERSISTED_CUSTOMER_SHIPPING_COUNTRY } from '../types/mutation';
 
 export const actions: ActionTree<StoreState, RootState> = {
   async synchronize ({ commit }): Promise<void> {
@@ -29,23 +29,23 @@ export const actions: ActionTree<StoreState, RootState> = {
     }
 
     if (email) {
-      commit(SET_LAST_USED_CUSTOMER_EMAIL, email);
+      commit(SET_PERSISTED_CUSTOMER_EMAIL, email);
     }
 
     if (firstName) {
-      commit(SET_LAST_USED_CUSTOMER_FIRST_NAME, firstName);
+      commit(SET_PERSISTED_CUSTOMER_FIRST_NAME, firstName);
     }
 
     if (lastName) {
-      commit(SET_LAST_USED_CUSTOMER_LAST_NAME, lastName);
+      commit(SET_PERSISTED_CUSTOMER_LAST_NAME, lastName);
     }
 
     if (phoneNumber) {
-      commit(SET_LAST_USED_CUSTOMER_PHONE_NUMBER, phoneNumber);
+      commit(SET_PERSISTED_CUSTOMER_PHONE_NUMBER, phoneNumber);
     }
 
     if (shippingCountry) {
-      commit(SET_LAST_USED_CUSTOMER_SHIPPING_COUNTRY, shippingCountry);
+      commit(SET_PERSISTED_CUSTOMER_SHIPPING_COUNTRY, shippingCountry);
     }
   }
 }

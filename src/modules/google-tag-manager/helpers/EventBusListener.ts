@@ -1,16 +1,19 @@
+import { v4 as uuidv4 } from 'uuid';
 import { Store } from 'vuex';
 import VueGtm from 'vue-gtm';
+
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { Order } from '@vue-storefront/core/modules/order/types/Order';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { cartHooks } from '@vue-storefront/core/modules/cart/hooks';
 import { SearchQuery } from 'storefront-query-builder';
+import { Logger } from '@vue-storefront/core/lib/logger';
 
 import getCookieByName from 'src/modules/shared/helpers/get-cookie-by-name.function';
 import CartEvents from 'src/modules/shared/types/cart-events';
 import { PlushieWizardEvents } from 'src/modules/budsies';
-import { CustomerDataChangedEventPayload, PriceHelper, ProductEvent, UserEvents } from 'src/modules/shared';
+import { PriceHelper, ProductEvent, UserEvents, PersistedCustomerData, CustomerDataChangedEventPayload } from 'src/modules/shared';
 
 import CartItem from 'core/modules/cart/types/CartItem';
 import { GET_PRODUCT_PRICE } from '@vue-storefront/core/modules/catalog';
@@ -25,6 +28,8 @@ import { DEFAULT_CURRENCY } from '../types/default-currency';
 import GoogleTagManagerEvents from '../types/GoogleTagManagerEvents';
 import { trackEcommerceEventFactory } from './track-ecommerce-event.factory';
 import { A_B_TEST_GROUP_CHANGED } from 'src/modules/a-b-testing';
+import { FETCH_ORDERS_HISTORY_ACTION } from 'src/modules/orders-history';
+import { PERSISTED_CUSTOMER_DATA } from 'src/modules/persisted-customer-data';
 
 const shareasaleSSCIDCookieName = 'shareasaleMagentoSSCID';
 
@@ -60,14 +65,17 @@ export default class EventBusListener {
       this.sendBeginCheckoutEvent.bind(this)
     );
     EventBus.$on('user-after-loggedin', () => {
-      this.gtm.trackEvent({
+      const customerData = this.store.getters[PERSISTED_CUSTOMER_DATA];
+
+      this.trackEvent({
+        ...this.getCustomerEventData(customerData),
         event: GoogleTagManagerEvents.LOGIN
-      })
+      });
     });
     EventBus.$on('user-after-register', () => {
-      this.gtm.trackEvent({
+      this.trackEvent({
         event: GoogleTagManagerEvents.SIGN_UP
-      })
+      });
     });
     EventBus.$on(CartEvents.MAKE_ANOTHER_FROM_CART, this.onMakeAnotherFromCartEventHandler.bind(this))
 
@@ -156,13 +164,16 @@ export default class EventBusListener {
 
     EventBus.$on(
       UserEvents.CUSTOMER_DATA_CHANGED,
-      (customerData: CustomerDataChangedEventPayload) => {
-        this.gtm.trackEvent(customerData);
+      (customerData: PersistedCustomerData) => {
+        this.trackEvent({
+          event: GoogleTagManagerEvents.USER_DATA_CHANGED,
+          ...this.getCustomerEventData(customerData)
+        });
       }
     );
 
     EventBus.$on(A_B_TEST_GROUP_CHANGED, (testGroupId: string) => {
-      this.gtm.trackEvent({
+      this.trackEvent({
         event: GoogleTagManagerEvents.A_B_TEST_GROUP_CHANGED,
         exp_variant_string: testGroupId
       });
@@ -334,12 +345,32 @@ export default class EventBusListener {
     });
   }
 
-  private onPlushieWizardInfoFillEventHandler (plushieType: string) {
+  private onPlushieWizardInfoFillEventHandler (
+    {
+      plushieType,
+      customerEmail
+    }: {
+      plushieType: string,
+      customerEmail: string | undefined
+    }
+  ) {
+    if (customerEmail) {
+      const customerData = this.store.getters[PERSISTED_CUSTOMER_DATA];
+      const eventData = this.getCustomerEventData(customerData);
+
+      eventData.customerEmail = customerEmail;
+
+      this.trackEvent({
+        ...eventData,
+        event: GoogleTagManagerEvents.USER_DATA_CHANGED
+      });
+    }
+
     const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_INFO_FILL}`;
 
-    this.gtm.trackEvent({
+    this.trackEvent({
       event
-    })
+    });
   }
 
   private onPlushieWizardPhotosProvideEventHandler (
@@ -348,7 +379,7 @@ export default class EventBusListener {
   ) {
     const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_PHOTOS_PROVIDE}`;
 
-    this.gtm.trackEvent({
+    this.trackEvent({
       event,
       [`${event}.methodName`]: uploadMethod
     });
@@ -357,18 +388,18 @@ export default class EventBusListener {
   private onPlushieWizardTypeChangeEventHandler ({ plushieType, productType }: { plushieType: string, productType: string }) {
     const event = `${plushieType}${GoogleTagManagerEvents.PLUSHIE_WIZARD_TYPE_CHANGE}`;
 
-    this.gtm.trackEvent({
+    this.trackEvent({
       event,
       [`${event}.typeName`]: productType
-    })
+    });
   }
 
   private onMakeAnotherFromCartEventHandler (productName: string) {
-    const event = GoogleTagManagerEvents.MAKE_ANOTHER_FROM_CART
-    this.gtm.trackEvent({
+    const event = GoogleTagManagerEvents.MAKE_ANOTHER_FROM_CART;
+    this.trackEvent({
       event,
       [`${event}.product`]: productName
-    })
+    });
   }
 
   private async onOrderAfterPlacedEventHandler ({ order, confirmation }: { order: Order, confirmation?: any }) {
@@ -376,9 +407,19 @@ export default class EventBusListener {
       return;
     }
 
-    const ordersHistory = this.store.getters['user/getOrdersHistory'];
-    const sessionOrderHashes = this.store.getters['order/getSessionOrderHashes'];
     const currentUser = this.store.state.user.current;
+
+    let ordersHistory = [];
+
+    if (currentUser) {
+      try {
+        ordersHistory = await this.store.dispatch(FETCH_ORDERS_HISTORY_ACTION);
+      } catch (error) {
+        Logger.error(`Error loading orders: ${error}`, 'GoogleTagManager')();
+      }
+    }
+
+    const sessionOrderHashes = this.store.getters['order/getSessionOrderHashes'];
     const orderPaymentDetails = order.paymentDetails;
     const orderPersonalDetails = order.personalDetails;
     const couponCode = orderPaymentDetails.coupon_code ? orderPaymentDetails.coupon_code : '';
@@ -428,5 +469,29 @@ export default class EventBusListener {
       customerFullName: `${orderPersonalDetails.firstName} ${orderPersonalDetails.lastName}`,
       customerId: currentUser ? currentUser.id : ''
     });
+  }
+
+  private trackEvent (eventData: any): void {
+    const data = {
+      ...eventData,
+      eventId: `${Date.now()}-${uuidv4()}`
+    };
+
+    this.gtm.trackEvent(data);
+  }
+
+  private getCustomerEventData (customerData: PersistedCustomerData): CustomerDataChangedEventPayload {
+    return {
+      customerId: customerData.id,
+      customerEmail: customerData.email,
+      customerFirstName: customerData.firstName || customerData.billingAddress.firstName,
+      customerLastName: customerData.lastName || customerData.billingAddress.lastName,
+      customerFullName: `${customerData.firstName} ${customerData.lastName}`,
+      customerPhoneNumber: customerData.phoneNumber || customerData.billingAddress.phoneNumber,
+      customerCity: customerData.billingAddress.city,
+      customerState: customerData.billingAddress.state,
+      customerZipCode: customerData.billingAddress.zipCode,
+      customerCountry: customerData.billingAddress.country
+    }
   }
 }

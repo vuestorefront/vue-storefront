@@ -1,16 +1,17 @@
 import { isBundleProduct } from '@vue-storefront/core/modules/catalog/helpers';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
+import { ProductDiscountedPrice } from '@vue-storefront/core/modules/catalog';
 
 import * as BundleProductDiscountedPrice from './bundle-product-discounted-price';
 
 function getDiscountedPrice (
   product: Product,
-  productDiscount: Record<string, number>,
+  productDiscount: Record<string, ProductDiscountedPrice>,
   bundlePriceCalculationFunction: (
     product: Product,
-    productDiscount: Record<string, number>
-  ) => (number | undefined)
-): number | undefined {
+    productDiscount: Record<string, ProductDiscountedPrice>
+  ) => ProductDiscountedPrice
+): ProductDiscountedPrice | undefined {
   if (
     isBundleProduct(product)
   ) {
@@ -29,8 +30,8 @@ function getDiscountedPrice (
 
 export function getProductDiscountedPrice (
   product: Product,
-  productDiscountedPrice: Record<string, number>
-): number | undefined {
+  productDiscountedPrice: Record<string, ProductDiscountedPrice>
+): ProductDiscountedPrice | undefined {
   return getDiscountedPrice(
     product,
     productDiscountedPrice,
@@ -40,8 +41,8 @@ export function getProductDiscountedPrice (
 
 export function getCartItemDiscountedPrice (
   product: Product,
-  productDiscountedPrice: Record<string, number>
-): number | undefined {
+  productDiscountedPrice: Record<string, ProductDiscountedPrice>
+): ProductDiscountedPrice | undefined {
   return getDiscountedPrice(
     product,
     productDiscountedPrice,

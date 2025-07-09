@@ -1,4 +1,5 @@
 import Product from './Product';
+import { ProductDiscountedPrice } from './product-discounted-price.interface';
 
 export interface PagedProductList {
   start: number,
@@ -27,5 +28,6 @@ export default interface ProductState {
   productLoadPromise: Promise<any> | null,
   productGallery: any,
   productBySku: Record<string, Product>,
-  productDiscountedPrice: Record<string, number>
+  productDiscountedPrice: Record<string, ProductDiscountedPrice>,
+  exchangeRate: number
 }

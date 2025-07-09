@@ -10,6 +10,7 @@ import { PropType, computed, defineComponent } from '@vue/composition-api';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import { PriceHelper } from '@vue-storefront/core/helpers';
+import { GET_ACTIVE_CURRENCY, Currency } from 'src/modules/currency';
 
 export enum PriceType {
   regular = 'regular',
@@ -29,6 +30,10 @@ export default defineComponent({
     }
   },
   setup (props, { root }) {
+    const selectedCurrency = computed<Currency>(() => {
+      return root.$store.getters[GET_ACTIVE_CURRENCY];
+    });
+
     const formattedPrice = computed<string>(() => {
       const price = root.$store.getters['product/getProductPrice'](props.product);
 
@@ -36,7 +41,7 @@ export default defineComponent({
         return '';
       }
 
-      return PriceHelper.formatPrice(price[props.priceType]);
+      return PriceHelper.formatPrice(price[props.priceType], selectedCurrency.value.symbol);
     });
 
     return {

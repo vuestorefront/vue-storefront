@@ -154,7 +154,6 @@ export default {
     async onAfterPlaceOrder (payload) {
       this.confirmation = payload.confirmation
       this.$store.dispatch('checkout/setThankYouPage', true)
-      this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
       Logger.debug(payload.order)()
     },
     onBeforeEdit (section) {

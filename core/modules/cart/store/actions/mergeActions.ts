@@ -336,7 +336,7 @@ const mergeActions = {
       await dispatch('updateClientItemProductData', clientItem);
     }
   },
-  async merge ({ commit, getters, dispatch }, { serverItems, clientItems, dryRun = false, forceClientState = false, mergeQty = false, forceUpdateServerItem = false }) {
+  async merge ({ commit, getters, dispatch }, { serverItems, clientItems, dryRun = false, forceClientState = false, mergeQty = false, forceUpdateServerItem = false, waitForTotalsUpdate = true }) {
     const hookResult = cartHooksExecutors.beforeSync({ clientItems, serverItems })
 
     const diffLog = createDiffLog()
@@ -363,8 +363,15 @@ const mergeActions = {
     }
 
     const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
-    dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
-    dispatch('updateItemsProductData')
+
+    const updatePromises = Promise.all([
+      dispatch('updateTotalsAfterMerge', { clientItems, dryRun }),
+      dispatch('updateItemsProductData')
+    ]);
+
+    if (waitForTotalsUpdate) {
+      await updatePromises;
+    }
 
     diffLog
       .merge(mergeClientItemsDiffLog)

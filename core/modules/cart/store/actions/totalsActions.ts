@@ -11,12 +11,20 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { isCartNotFoundError } from '../../helpers/is-cart-not-found-error'
 
 const totalsActions = {
-  async getTotals (context, { addressInformation, hasShippingInformation }) {
-    if (hasShippingInformation) {
-      return CartService.setShippingInfo(addressInformation)
-    }
+  async getTotals ({ commit }, { addressInformation, hasShippingInformation }) {
+    commit(types.SET_IS_TOTALS_SYNCING, true);
 
-    return CartService.getTotals()
+    try {
+      if (hasShippingInformation) {
+        const response = await CartService.setShippingInfo(addressInformation);
+        return response;
+      }
+
+      const response = await CartService.getTotals();
+      return response;
+    } finally {
+      commit(types.SET_IS_TOTALS_SYNCING, false);
+    }
   },
   async overrideServerTotals ({ commit, getters, rootGetters, dispatch }, { addressInformation, hasShippingInformation }) {
     const task = await dispatch('getTotals', { addressInformation, hasShippingInformation })

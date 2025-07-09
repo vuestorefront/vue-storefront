@@ -11,6 +11,8 @@ import ServerError from './types/server-error';
 import * as ProductEvent from './types/product-events';
 import { UserEvents } from './types/user-events';
 import { CustomerDataChangedEventPayload } from './types/user-events-payload';
+import { PersistedCustomerData } from './types/persisted-customer-data.interface';
+import { PersistedBillingAddress } from './types/persisted-billing-address.interface';
 import { getProductOptions } from './helpers/get-product-options.function';
 import { localStorageSynchronizationFactory } from './helpers/local-storage-synchronization.factory';
 import { parseLocalStorageValue } from './helpers/parse-local-storage-value.function';
@@ -24,6 +26,8 @@ import StreamingVideo from './components/streaming-video.vue';
 import { getCanonicalUrl } from './helpers/get-canonical-url.function';
 import getCookieByName from './helpers/get-cookie-by-name.function';
 import { MimeTypeValue } from './types/mime-type.value';
+import { useMobileObserver } from './helpers/use-mobile-observer';
+import isCustomProduct from './helpers/is-custom-product.function';
 
 export {
   InjectType,
@@ -49,6 +53,10 @@ export {
   getCanonicalUrl,
   UserEvents,
   CustomerDataChangedEventPayload,
+  PersistedCustomerData,
+  PersistedBillingAddress,
   getCookieByName,
-  MimeTypeValue
+  MimeTypeValue,
+  useMobileObserver,
+  isCustomProduct
 }
