@@ -2870,9 +2870,9 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
 
-"@types/storefront-ui__vue@https://github.com/GorbunovStudio/vue-storefront-ui-type-definitions.git#f8c6cce62488e885d0e0bf350130d61b007a1119":
+"@types/storefront-ui__vue@https://github.com/GorbunovStudio/vue-storefront-ui-type-definitions.git#03d314eee72a2b6e09e2d240243a81e03a1d7bfd":
   version "0.7.0"
-  resolved "https://github.com/GorbunovStudio/vue-storefront-ui-type-definitions.git#f8c6cce62488e885d0e0bf350130d61b007a1119"
+  resolved "https://github.com/GorbunovStudio/vue-storefront-ui-type-definitions.git#03d314eee72a2b6e09e2d240243a81e03a1d7bfd"
   dependencies:
     "@types/glidejs__glide" "*"
     vue "^2.0.0"
