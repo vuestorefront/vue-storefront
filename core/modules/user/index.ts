@@ -7,6 +7,7 @@ import { localStorageSynchronizationFactory } from 'src/modules/shared'
 
 import { cacheHandlerFactory } from './helpers/cache-handler.factory'
 import { getItemsFromStorage } from './helpers/get-local-storage-items.function'
+import { AuthenticateRequestResponse } from './types/authenticate-request-response.interface'
 
 export const UserModule: StorefrontModule = async function ({ store }) {
   StorageManager.init('user')
@@ -51,4 +52,8 @@ export const UserModule: StorefrontModule = async function ({ store }) {
 
     store.dispatch('user/startSession');
   }
+}
+
+export {
+  AuthenticateRequestResponse
 }
