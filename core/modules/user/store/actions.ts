@@ -1,11 +1,13 @@
 import { ActionTree } from 'vuex'
+import config from 'config';
 import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
+import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import RootState from '@vue-storefront/core/types/RootState'
 import UserState from '../types/UserState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { UserProfile } from '../types/UserProfile'
-import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
+import { isServer, onlineHelper, processURLAddress } from '@vue-storefront/core/helpers'
 import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
@@ -14,6 +16,7 @@ import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import uniqBy from 'lodash-es/uniqBy'
 import { LOCAL_CART_DATA_LOADED_EVENT } from '@vue-storefront/core/modules/cart'
+import { AuthenticateRequestResponse } from '../types/authenticate-request-response.interface';
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters, rootGetters }) {
@@ -70,43 +73,95 @@ const actions: ActionTree<UserState, RootState> = {
   createPassword (context, { email, newPassword, resetToken }) {
     return UserService.createPassword(email, newPassword, resetToken)
   },
-  /**
-   * Login user and return user profile and current token
-   */
-  async login ({ commit, dispatch, getters }, { username, password }) {
+  async login (_, { email }) {
+    return TaskQueue.execute({
+      url: processURLAddress(`${config.budsies.endpoint}/customer/login-requests`),
+      payload: {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+      }
+    });
+  },
+  async authorize ({ commit, dispatch }, { token }) {
+    try {
+      commit(types.USER_TOKEN_CHANGED, { newToken: token });
+      await dispatch('cart/mergeGuestAndCustomer', undefined, { root: true });
+      await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false });
+
+      userHooksExecutors.afterUserAuthorize(token);
+
+      EventBus.$emit('user-after-logged-in', token);
+    } catch (err) {
+      await dispatch('clearCurrentUser')
+      throw err;
+    }
+  },
+  async authenticate (
+    {
+      dispatch
+    },
+    payload: {
+      token: string,
+      email: string
+    }
+  ): Promise<Task> {
     await dispatch('resetUserInvalidation', {}, { root: true })
 
-    const resp = await UserService.login(username, password)
-    userHooksExecutors.afterUserAuthorize(resp)
-
-    if (resp.code === 200) {
-      try {
-        commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
-        await dispatch('cart/mergeGuestAndCustomer', undefined, { root: true });
-        await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
-
-        EventBus.$emit('user-after-logged-in', resp.result);
-      } catch (err) {
-        await dispatch('clearCurrentUser')
-        throw new Error(err)
+    const task = await TaskQueue.execute({
+      url: processURLAddress(`${config.budsies.endpoint}/customer/authenticate-requests`),
+      payload: {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
       }
-    }
+    });
 
-    return resp
-  },
-  /**
-   * Login user and return user profile and current token
-   */
-  async register (context, { password, ...customer }) {
-    const task = await UserService.register(customer, password);
+    const result: AuthenticateRequestResponse = task.result;
 
-    if (task.code === 200) {
-      EventBus.$emit('user-after-register');
+    if (task.code === 200 && !result.is_new_customer) {
+      await dispatch('authorize', { token: task.result.token });
     }
 
     return task;
   },
+  async register (
+    { dispatch },
+    payload: {
+      token: string,
+      email: string,
+      firstname: string,
+      lastname: string
+    }
+  ) {
+    const resp = await TaskQueue.execute({
+      url: processURLAddress(`${config.budsies.endpoint}/customer/registration-requests`),
+      payload: {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }
+    });
 
+    if (resp.code === 200) {
+      await dispatch('authorize', { token: resp.result });
+      EventBus.$emit('user-after-register');
+    }
+
+    return resp;
+  },
   /**
   * Invalidate user token
   */

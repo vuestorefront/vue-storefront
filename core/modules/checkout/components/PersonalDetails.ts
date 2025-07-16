@@ -81,10 +81,17 @@ export const PersonalDetails = {
   },
   beforeMount () {
     this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
-    this.$bus.$on('user-after-loggedin', this.onLoggedIn)
   },
   beforeDestroy () {
     this.$bus.$off('checkout-after-load', this.onCheckoutLoad)
-    this.$bus.$off('user-after-loggedin', this.onLoggedIn)
+  },
+  watch: {
+    currentUser (newValue, oldValue) {
+      if (!newValue) {
+        return;
+      }
+
+      this.onLoggedIn(newValue);
+    }
   }
 }
