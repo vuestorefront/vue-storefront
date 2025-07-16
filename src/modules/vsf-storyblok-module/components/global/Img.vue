@@ -36,7 +36,7 @@ export default {
         mod += '/filters:' + this.computedFilters.join(':')
       }
 
-      return 'https://a.storyblok.com' + resource + mod
+      return 'https://sb-assets.budsies.com' + resource + mod
     }
   },
   props: {
