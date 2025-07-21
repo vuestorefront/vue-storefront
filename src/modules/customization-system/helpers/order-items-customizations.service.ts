@@ -30,7 +30,7 @@ export async function saveOrderItemCustomizationsState (payload: DraftPlushie): 
   return TaskQueue.execute({
     url,
     payload: {
-      headers: { 'Accept': 'application/json' },
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       mode: 'cors',
       method: 'POST',
       body: JSON.stringify(payload)
@@ -38,13 +38,13 @@ export async function saveOrderItemCustomizationsState (payload: DraftPlushie): 
   });
 }
 
-export async function submitOrderItemCustomizationsState (payload: { orderItemId: string }): Promise<Task> {
+export async function submitOrderItemCustomizationsState (payload: { order_item_id: string }): Promise<Task> {
   const url = `${config.budsies.endpoint}/customizations/order-items/submit-requests`;
 
   return TaskQueue.execute({
     url,
     payload: {
-      headers: { 'Accept': 'application/json' },
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       mode: 'cors',
       method: 'POST',
       body: JSON.stringify(payload)
