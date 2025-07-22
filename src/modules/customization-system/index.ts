@@ -17,7 +17,7 @@ import { useFilesUpload } from './composables/use-files-upload';
 import { useListWidget } from './composables/use-list-widget';
 import { useOptionValueActions } from './composables/use-option-value-actions';
 import { useOptionValuesPrice } from './composables/use-option-values-price';
-import { usePreSelectedCustomizations } from './composables/use-pre-selected-customizations';
+import { useLockedCustomizations } from './composables/use-locked-customizations';
 import { useSelectedOptionValueUrlQuery } from './composables/use-selected-option-value-url-query';
 import { useValuesSort } from './composables/use-values-sort';
 import { useWidgetBusyState } from './composables/use-widget-busy-state';
@@ -36,7 +36,7 @@ import { updateProductProductionTimeCustomizationData } from './helpers/update-p
 import { Customization } from './types/customization.interface';
 import { CustomizableProductFlowType } from './types/customizable-product-flow.type';
 import { CustomizationOptionValue } from './types/customization-option-value';
-import { DraftPlushie } from './types/draft-plushie.interface';
+import { DraftOrderItem } from './types/draft-order-item.interface';
 import { EstimatedShipment } from './types/estimated-shipment.interface';
 import { ExtensionAttributes } from './types/extension-attributes.interface'
 import { CustomizationStateItem } from './types/customization-state-item.interface'
@@ -60,7 +60,7 @@ export {
   CustomizableProductFlowType,
   CustomizationOptionValue,
   CustomizationStateItem,
-  DraftPlushie,
+  DraftOrderItem,
   EstimatedShipment,
   ExtensionAttributes,
   FileUploadValue,
@@ -107,7 +107,7 @@ export {
   useListWidget,
   useOptionValueActions,
   useOptionValuesPrice,
-  usePreSelectedCustomizations,
+  useLockedCustomizations,
   useSelectedOptionValueUrlQuery,
   useValuesSort,
   useWidgetBusyState
