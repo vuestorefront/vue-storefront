@@ -1,4 +1,4 @@
-import { ref, computed, del, set, Ref, onMounted, unref } from '@vue/composition-api';
+import { ref, computed, del, set, Ref, onMounted } from '@vue/composition-api';
 
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 
@@ -6,7 +6,8 @@ import { CustomizationOptionValue, CustomizationStateItem } from '..';
 import { isFileUploadValue } from '../types/is-file-upload-value.typeguard';
 
 export function useCustomizationState (
-  existingCartItem?: Ref<CartItem | undefined>
+  existingCartItem?: Ref<CartItem | undefined>,
+  initialCustomizationState?: Ref<CustomizationStateItem[] | undefined>
 ) {
   const customizationOptionValue = ref<Record<string, CustomizationOptionValue>>({});
 
@@ -130,22 +131,29 @@ export function useCustomizationState (
     (customizationOptionValue.value as unknown as Record<string, CustomizationOptionValue>) = {};
   }
 
-  function fillCustomizationStateFromExistingCartItem () {
+  function fillCustomizationStateFromExistingCartItem (cartItem: CartItem) {
     // TODO: temporary - current TS version don't handle `value` type right in this case
-    const existingCartItemValue: CartItem | undefined = unref(existingCartItem);
-
-    if (!existingCartItemValue || !existingCartItemValue.extension_attributes?.customization_state) {
+    if (!cartItem.extension_attributes?.customization_state) {
       return;
     }
 
     const customizationOptionValueDictionary: Record<string, CustomizationOptionValue> = {};
 
-    existingCartItemValue.extension_attributes?.customization_state.forEach((item) => {
+    cartItem.extension_attributes?.customization_state.forEach((item) => {
       customizationOptionValueDictionary[item.customization_id] = item.value;
     });
 
     // TODO: temporary - current TS version don't handle `value` type right in this case
     (customizationOptionValue.value as unknown as Record<string, CustomizationOptionValue>) = customizationOptionValueDictionary;
+  }
+
+  function fillInitialCustomizationState (customizationState: CustomizationStateItem[]): void {
+    for (const initialCustomizationStateItem of customizationState) {
+      updateCustomizationOptionValue({
+        customizationId: initialCustomizationStateItem.customization_id,
+        value: initialCustomizationStateItem.value
+      });
+    }
   }
 
   // Need to wait hydration before fill customization state
@@ -154,7 +162,13 @@ export function useCustomizationState (
   // So some of customizations may be hidden on SSR
   // But became available after fill customization state
   onMounted(() => {
-    fillCustomizationStateFromExistingCartItem();
+    if (existingCartItem && existingCartItem.value) {
+      return fillCustomizationStateFromExistingCartItem(existingCartItem.value);
+    }
+
+    if (initialCustomizationState && initialCustomizationState.value) {
+      fillInitialCustomizationState(initialCustomizationState.value);
+    }
   });
 
   return {
