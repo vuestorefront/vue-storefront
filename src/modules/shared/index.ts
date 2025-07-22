@@ -7,6 +7,8 @@ import { InjectType } from './types/inject-type';
 import { VideoProvider } from './types/video-provider.value';
 import CustomerImage from './types/customer-image.interface';
 import { PAYMENT_ERROR_EVENT } from './types/payment-error-event';
+import { DETECTED_COUNTRY_COOKIE_KEY } from './types/detected-country-cookie.key';
+import { EU_COUNTRY_CODES } from './types/eu-country-codes';
 import ServerError from './types/server-error';
 import * as ProductEvent from './types/product-events';
 import { UserEvents } from './types/user-events';
@@ -58,5 +60,7 @@ export {
   getCookieByName,
   MimeTypeValue,
   useMobileObserver,
-  isCustomProduct
+  isCustomProduct,
+  EU_COUNTRY_CODES,
+  DETECTED_COUNTRY_COOKIE_KEY
 }

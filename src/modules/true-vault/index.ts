@@ -12,7 +12,13 @@ const californiaPrivacyNoticeLink = {
 };
 
 export const TrueVaultModule: StorefrontModule = ({ app, appConfig }) => {
-  app.$extendedHead.append(getPolarisScript(appConfig));
+  const polarisId = appConfig.privacyPolicy?.polarisId;
+
+  if (!polarisId) {
+    return;
+  }
+
+  app.$extendedHead.append(getPolarisScript(polarisId));
 
   if (!app.$root.$options.additionalContent) {
     return;
