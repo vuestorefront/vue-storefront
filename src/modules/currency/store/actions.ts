@@ -7,7 +7,7 @@ import RootState from '@vue-storefront/core/types/RootState';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 import { FETCH_AVAILABLE_CURRENCIES, FETCH_CURRENCY_RATES, SYNC, UPDATE_ACTIVE_CURRENCY } from '../types/actions';
-import { CookieKey } from '../types/cookie.key';
+import { DETECTED_COUNTRY_COOKIE_KEY } from 'src/modules/shared';
 import { countryToCurrency } from '../types/country-to-currency';
 import { Currency } from '../types/currency.interface';
 import { CurrencyState } from '../types/currency-state.interface';
@@ -74,7 +74,7 @@ export const actions: ActionTree<CurrencyState, RootState> = {
       return;
     }
 
-    const detectedCountry = extractCookieValue(CookieKey.DETECTED_COUNTRY, document.cookie);
+    const detectedCountry = extractCookieValue(DETECTED_COUNTRY_COOKIE_KEY, document.cookie);
     const detectedCountryCurrencyCode = detectedCountry
       ? countryToCurrency[detectedCountry]
       : undefined;
