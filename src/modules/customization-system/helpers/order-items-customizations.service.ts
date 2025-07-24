@@ -26,6 +26,11 @@ async function postRequest (url: string, body: string): Promise<Response> {
   return fetch(url, requestPayload);
 }
 
+async function getErrorMessage (response: Response, defaultMessage: string): Promise<string> {
+  const result = await response.json();
+  return result?.result?.errorMessage || defaultMessage;
+}
+
 export async function fetchOrderItemCustomizationsState (orderItemId: string): Promise<DraftOrderItem> {
   const url = `${config.budsies.endpoint}/customizations/order-items/states?token={{token}}&orderItemId=${orderItemId}`;
 
@@ -51,7 +56,8 @@ export async function saveOrderItemCustomizationsState (payload: DraftOrderItem,
   const response = await postRequest(url, JSON.stringify(payload));
 
   if (response.status !== 200) {
-    throw new Error(`Failed to save order item customizations state`);
+    const message = await getErrorMessage(response, `Failed to save order item customizations state`)
+    throw new Error(message);
   }
 }
 
@@ -64,6 +70,7 @@ export async function submitOrderItemCustomizationsState (
   const response = await postRequest(url, JSON.stringify(payload));
 
   if (response.status !== 200) {
-    throw new Error(`Failed to submit order item customizations state`);
+    const message = await getErrorMessage(response, `Failed to submit order item customizations state`);
+    throw new Error(message);
   }
 }
