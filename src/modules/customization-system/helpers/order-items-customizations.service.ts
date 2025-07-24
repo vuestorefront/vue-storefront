@@ -26,9 +26,19 @@ async function postRequest (url: string, body: string): Promise<Response> {
   return fetch(url, requestPayload);
 }
 
-async function getErrorMessage (response: Response, defaultMessage: string): Promise<string> {
+async function getErrorMessage (
+  response: Response,
+  defaultMessage: string,
+  prefix: string
+): Promise<string> {
   const result = await response.json();
-  return result?.result?.errorMessage || defaultMessage;
+  const errorMessage = result?.result?.errorMessage;
+
+  if (!errorMessage) {
+    return defaultMessage;
+  }
+
+  return `${prefix}: ${errorMessage}`;
 }
 
 export async function fetchOrderItemCustomizationsState (orderItemId: string): Promise<DraftOrderItem> {
@@ -56,7 +66,7 @@ export async function saveOrderItemCustomizationsState (payload: DraftOrderItem,
   const response = await postRequest(url, JSON.stringify(payload));
 
   if (response.status !== 200) {
-    const message = await getErrorMessage(response, `Failed to save order item customizations state`)
+    const message = await getErrorMessage(response, `Failed to save order item customizations state`, `Save State`);
     throw new Error(message);
   }
 }
@@ -70,7 +80,7 @@ export async function submitOrderItemCustomizationsState (
   const response = await postRequest(url, JSON.stringify(payload));
 
   if (response.status !== 200) {
-    const message = await getErrorMessage(response, `Failed to submit order item customizations state`);
+    const message = await getErrorMessage(response, `Failed to submit order item customizations state`, `Submit State`);
     throw new Error(message);
   }
 }
