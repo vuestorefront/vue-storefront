@@ -19,6 +19,7 @@ const STANDARD_OPTION_VALUE: OptionValue = {
 const SNEAK_PEEK_OPTION_VALUES_SKUS = [
   'sneak_peek',
   'golf_cover_sneak_peek',
+  'sneak_peek_huggables',
   'bulk_sample_sneak_peek',
   'specialty_commission_sneak_peek'
 ];
