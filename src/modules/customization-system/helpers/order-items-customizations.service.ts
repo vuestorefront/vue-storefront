@@ -26,19 +26,22 @@ async function postRequest (url: string, body: string): Promise<Response> {
   return fetch(url, requestPayload);
 }
 
-async function getErrorMessage (
-  response: Response,
+function getErrorMessages (
+  result: any,
   defaultMessage: string,
   prefix: string
-): Promise<string> {
-  const result = await response.json();
-  const errorMessage = result?.result?.errorMessage;
+): string[] {
+  const results = result?.result?.results || [];
+  const errorItems = results.filter((item: any) => item.error_message);
 
-  if (!errorMessage) {
-    return defaultMessage;
+  if (!errorItems.length) {
+    return [defaultMessage];
   }
 
-  return `${prefix}: ${errorMessage}`;
+  return errorItems.map((errorItem: any) => {
+    const errorMessage = errorItem.error_message || defaultMessage;
+    return `${prefix}: ${errorMessage}`;
+  });
 }
 
 export async function fetchOrderItemCustomizationsState (orderItemId: string): Promise<DraftOrderItem> {
@@ -60,27 +63,41 @@ export async function fetchOrderItemCustomizationsState (orderItemId: string): P
   return result.result as DraftOrderItem;
 }
 
-export async function saveOrderItemCustomizationsState (payload: DraftOrderItem, userToken: string): Promise<void> {
+export async function saveOrderItemCustomizationsState (orderItems: DraftOrderItem[], userToken: string): Promise<void> {
+  const payload = {
+    order_items: orderItems
+  };
+
   const url = `${config.budsies.endpoint}/customizations/order-items/states?token=${userToken}`;
 
   const response = await postRequest(url, JSON.stringify(payload));
+  const result = await response.json();
 
-  if (response.status !== 200) {
-    const message = await getErrorMessage(response, `Failed to save order item customizations state`, `Save State`);
-    throw new Error(message);
+  if (response.status !== 200 || !result?.result?.success) {
+    const messages = getErrorMessages(result, `Failed to save order item customizations state`, `Save State`);
+    const error = { messages };
+
+    throw error;
   }
 }
 
 export async function submitOrderItemCustomizationsState (
-  payload: { order_item_id: string },
+  orderItemIds: string[],
   userToken: string
 ): Promise<void> {
+  const payload = {
+    order_items: orderItemIds.map(id => ({ id }))
+  };
+
   const url = `${config.budsies.endpoint}/customizations/order-items/submit-requests?token=${userToken}`;
 
   const response = await postRequest(url, JSON.stringify(payload));
+  const result = await response.json();
 
-  if (response.status !== 200) {
-    const message = await getErrorMessage(response, `Failed to submit order item customizations state`, `Submit State`);
-    throw new Error(message);
+  if (response.status !== 200 || !result?.result?.success) {
+    const messages = getErrorMessages(result, `Failed to submit order item customizations state`, `Submit State`);
+    const error = { messages };
+
+    throw error;
   }
 }
