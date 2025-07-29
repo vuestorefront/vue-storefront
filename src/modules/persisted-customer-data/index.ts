@@ -14,6 +14,7 @@ import { SN_PERSISTED_CUSTOMER_DATA } from './types/store-name';
 import { persistedCustomerDataStore } from './store';
 import { getItemsFromStorage } from './helpers/get-local-storage-items.function';
 import { cacheHandlerFactory } from './helpers/cache-handler.factory';
+import { klaviyoFormsHandlerFactory } from './helpers/klaviyo-forms-handler.factory';
 import { localStorageSynchronizationFactory, UserEvents } from '../shared';
 
 const PERSISTED_CUSTOMER_EMAIL = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.PERSISTED_CUSTOMER_EMAIL}`;
@@ -47,6 +48,17 @@ export const PersistedCustomerDataModule: StorefrontModule = async function ({ s
   store.subscribe(localStorageSynchronization.setItems);
 
   store.dispatch(`${SN_PERSISTED_CUSTOMER_DATA}/synchronize`);
+
+  if (typeof window !== 'undefined') {
+    const klaviyoFormsHandler = klaviyoFormsHandlerFactory(
+      (email) => store.commit(SET_PERSISTED_CUSTOMER_EMAIL, email),
+      (phoneNumber) => store.commit(SET_PERSISTED_CUSTOMER_PHONE_NUMBER, phoneNumber)
+    );
+
+    window.addEventListener('klaviyoForms', klaviyoFormsHandler);
+  }
+
+  // Cleanup on logout
   EventBus.$on('user-after-logout', () => {
     store.commit(SET_PERSISTED_CUSTOMER_EMAIL, undefined);
     store.commit(SET_PERSISTED_CUSTOMER_FIRST_NAME, undefined);
