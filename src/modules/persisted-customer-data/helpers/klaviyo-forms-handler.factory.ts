@@ -1,8 +1,8 @@
 interface KlaviyoFormsEventData {
   type: string,
   metaData?: {
-    email?: string,
-    phone_number?: string
+    $email?: string,
+    $phone_number?: string
   }
 }
 
@@ -22,14 +22,14 @@ export const klaviyoFormsHandlerFactory = (
       return;
     }
 
-    const { email, phone_number } = metaData;
+    const { $email, $phone_number } = metaData;
 
-    if (email) {
-      setEmail(email);
+    if ($email) {
+      setEmail($email);
     }
 
-    if (phone_number) {
-      setPhoneNumber(phone_number);
+    if ($phone_number) {
+      setPhoneNumber($phone_number);
     }
   };
 };
