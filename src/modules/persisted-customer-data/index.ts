@@ -47,7 +47,6 @@ export const PersistedCustomerDataModule: StorefrontModule = async function ({ s
   store.subscribe(localStorageSynchronization.setItems);
 
   store.dispatch(`${SN_PERSISTED_CUSTOMER_DATA}/synchronize`);
-
   EventBus.$on('user-after-logout', () => {
     store.commit(SET_PERSISTED_CUSTOMER_EMAIL, undefined);
     store.commit(SET_PERSISTED_CUSTOMER_FIRST_NAME, undefined);
