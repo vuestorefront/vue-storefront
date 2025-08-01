@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from '@vue/composition-api';
-import { SfHeading, SfLoader } from '@storefront-ui/vue';
+import { SfHeading } from '@storefront-ui/vue';
 
 import { Order } from '../types/order';
 
@@ -25,8 +25,7 @@ export default defineComponent({
   name: 'OrdersHistoryList',
   components: {
     OrderView,
-    SfHeading,
-    SfLoader
+    SfHeading
   },
   props: {
     orders: {
