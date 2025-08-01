@@ -27,12 +27,6 @@
             v-if="canShowProgressTracker"
           />
 
-          <order-item-shipment-info
-            :shipments="item.shipments"
-            :estimated-shipment-date="item.estimated_shipment_date"
-            v-if="showShipmentInfo"
-          />
-
           <div class="_cancelled" v-if="isOrderCancelledOrOnHoldOrCompleted">
             {{ isOrderCancelled ? $t('Order is Cancelled') : isOrderCompleted ? $t('Order is Completed') : $t('Order is On Hold') }}
           </div>
@@ -53,6 +47,7 @@
           <order-item-extended-info
             :item="item"
             :extension-attributes="item.extension_attributes"
+            :show-shipment-info="showShipmentInfo"
             v-show="showExtendedInfo"
           />
         </template>
@@ -84,7 +79,6 @@ import { OrderItem } from '../types/order-item';
 import OrderItemActions from './order-item-actions.vue';
 import OrderItemExtendedInfo from './order-item-extended-info.vue';
 import OrderItemProgressTracker from './order-item-progress-tracker.vue';
-import OrderItemShipmentInfo from './order-item-shipment-info.vue';
 
 const PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT = 3;
 
@@ -95,7 +89,6 @@ export default defineComponent({
     OrderItemActions,
     OrderItemExtendedInfo,
     OrderItemProgressTracker,
-    OrderItemShipmentInfo,
     SfChevron
   },
   props: {
