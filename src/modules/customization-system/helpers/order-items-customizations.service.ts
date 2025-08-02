@@ -60,7 +60,11 @@ export async function fetchOrderItemCustomizationsState (orderItemId: string): P
     throw new Error(`Failed to fetch order item customizations state: ${result.result}`);
   }
 
-  return result.result as DraftOrderItem;
+  if (!result.result || result.result.length === 0) {
+    throw new Error(`No order item customizations state found for orderItemId: ${orderItemId}`);
+  }
+
+  return result.result[0] as DraftOrderItem;
 }
 
 export async function saveOrderItemCustomizationsState (orderItems: DraftOrderItem[], userToken: string): Promise<void> {
@@ -73,7 +77,7 @@ export async function saveOrderItemCustomizationsState (orderItems: DraftOrderIt
   const response = await postRequest(url, JSON.stringify(payload));
   const result = await response.json();
 
-  if (response.status !== 200 || !result?.result?.success) {
+  if (response.status !== 200 || result?.result?.has_errors) {
     const messages = getErrorMessages(result, `Failed to save order item customizations state`, `Save State`);
     const error = { messages };
 
@@ -94,7 +98,7 @@ export async function submitOrderItemCustomizationsState (
   const response = await postRequest(url, JSON.stringify(payload));
   const result = await response.json();
 
-  if (response.status !== 200 || !result?.result?.success) {
+  if (response.status !== 200 || result?.result?.has_errors) {
     const messages = getErrorMessages(result, `Failed to submit order item customizations state`, `Submit State`);
     const error = { messages };
 
