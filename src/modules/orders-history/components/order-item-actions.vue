@@ -148,6 +148,10 @@ export default defineComponent({
         }
 
         if (action.code === OrderItemAvailableActionCode.AWAITING_CUSTOMIZATION) {
+          if (props.orderItem.support_bulk_customization) {
+            continue;
+          }
+
           actionItem.handlers.click = onCustomizeOrderItemActionClick;
           actionItem.component = 'SfButton';
           blockingActionsList.push(actionItem);

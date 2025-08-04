@@ -8,6 +8,14 @@
       <h4 class="_order-number">
         Order #{{ orderNumber }}
       </h4>
+
+      <router-link
+        v-if="hasBulkCustomizableOrderItems"
+        :to="bulkCustomizationRoute"
+        class="_customize-link"
+      >
+        {{ $t('Customize items') }}
+      </router-link>
     </div>
 
     <div class="_content">
@@ -27,6 +35,7 @@ import { computed, defineComponent, PropType } from '@vue/composition-api';
 import { Order } from '../types/order';
 
 import OrderItem from './order-item.vue';
+import { useBulkCustomizableOrderItems } from '../composables/use-bulk-customizable-order-items';
 
 export default defineComponent({
   name: 'OrderView',
@@ -53,6 +62,7 @@ export default defineComponent({
     });
 
     return {
+      ...useBulkCustomizableOrderItems(orderItems),
       createdDate,
       orderItems,
       orderNumber
@@ -79,9 +89,6 @@ export default defineComponent({
 
     ._created-date {
       text-align: left;
-    }
-
-    ._order-number {
     }
   }
 
