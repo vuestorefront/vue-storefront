@@ -44,6 +44,39 @@ function getErrorMessages (
   });
 }
 
+export async function fetchOrderItemsCustomizationsStates (orderItemIds: string[]): Promise<DraftOrderItem[]> {
+  if (orderItemIds.length === 0) {
+    return [];
+  }
+
+  const params = new URLSearchParams();
+
+  for (const orderItemId of orderItemIds) {
+    params.append('orderItemId', orderItemId);
+  }
+
+  const url = `${config.budsies.endpoint}/customizations/order-items/states?token={{token}}&${params.toString()}`;
+
+  const result = await TaskQueue.execute({
+    url,
+    payload: {
+      headers: { 'Accept': 'application/json' },
+      mode: 'cors',
+      method: 'GET'
+    }
+  });
+
+  if (result.code !== 200) {
+    throw new Error(`Failed to fetch order items customizations states: ${result.result}`);
+  }
+
+  if (!result.result || result.result.length === 0) {
+    throw new Error(`No order items customizations states found for orderItemIds: ${orderItemIds.join(', ')}`);
+  }
+
+  return result.result as DraftOrderItem[];
+}
+
 export async function fetchOrderItemCustomizationsState (orderItemId: string): Promise<DraftOrderItem> {
   const url = `${config.budsies.endpoint}/customizations/order-items/states?token={{token}}&orderItemId=${orderItemId}`;
 
