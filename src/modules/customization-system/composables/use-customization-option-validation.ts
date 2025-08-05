@@ -20,7 +20,10 @@ function extendValidationRules () {
   });
 }
 
-export function useCustomizationOptionValidation (customization: Ref<Customization>) {
+export function useCustomizationOptionValidation (
+  customization: Ref<Customization>,
+  disableValidation: Ref<boolean>
+) {
   const validationProvider = ref<InstanceType<typeof ValidationProvider> | null>(null);
 
   const validationRef = computed<string>(() => {
@@ -33,6 +36,10 @@ export function useCustomizationOptionValidation (customization: Ref<Customizati
   });
 
   const validationRules = computed<Record<string, any>>(() => {
+    if (disableValidation.value) {
+      return {};
+    }
+
     const maxValueCount = customization.value.optionData?.maxValuesCount;
 
     const validationRules: Record<string, any> = {
