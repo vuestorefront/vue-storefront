@@ -8,6 +8,11 @@ import { BEFORE_STORE_BACKEND_API_REQUEST } from 'src/modules/shared';
 
 import { DraftOrderItem } from '../types/draft-order-item.interface';
 
+export interface OrderItemsRequestResult {
+  success: { orderItemId: string }[],
+  errors: { orderItemId: string, errorMessage: string }[]
+}
+
 async function postRequest (url: string, body: string): Promise<Response> {
   const mode: RequestMode = 'cors';
   const eventPayload = {
@@ -26,22 +31,38 @@ async function postRequest (url: string, body: string): Promise<Response> {
   return fetch(url, requestPayload);
 }
 
-function getErrorMessages (
-  result: any,
+function getItemErrorMessage (
+  item: any,
   defaultMessage: string,
   prefix: string
-): string[] {
-  const results = result?.result?.results || [];
-  const errorItems = results.filter((item: any) => item.error_message);
+): string {
+  const errorMessage = item?.error_message || defaultMessage;
+  return `${prefix}: ${errorMessage}`;
+}
 
-  if (!errorItems.length) {
-    return [defaultMessage];
+function gerOrderItemsRequestResult (data: any, defaultErrorMessage: string): OrderItemsRequestResult {
+  const result: OrderItemsRequestResult = {
+    success: [],
+    errors: []
+  };
+
+  for (const orderItemResult of data.result.results) {
+    if (orderItemResult.error_message) {
+      const errorMessage = getItemErrorMessage(orderItemResult, defaultErrorMessage, `Save State`);
+
+      result.errors.push({
+        orderItemId: orderItemResult.id,
+        errorMessage
+      });
+      continue;
+    }
+
+    result.success.push({
+      orderItemId: orderItemResult.id
+    });
   }
 
-  return errorItems.map((errorItem: any) => {
-    const errorMessage = errorItem.error_message || defaultMessage;
-    return `${prefix}: ${errorMessage}`;
-  });
+  return result;
 }
 
 export async function fetchOrderItemsCustomizationsStates (orderItemIds: string[]): Promise<DraftOrderItem[]> {
@@ -100,7 +121,10 @@ export async function fetchOrderItemCustomizationsState (orderItemId: string): P
   return result.result[0] as DraftOrderItem;
 }
 
-export async function saveOrderItemCustomizationsState (orderItems: DraftOrderItem[], userToken: string): Promise<void> {
+export async function saveOrderItemCustomizationsState (
+  orderItems: DraftOrderItem[],
+  userToken: string
+): Promise<OrderItemsRequestResult> {
   const payload = {
     order_items: orderItems
   };
@@ -108,20 +132,23 @@ export async function saveOrderItemCustomizationsState (orderItems: DraftOrderIt
   const url = `${config.budsies.endpoint}/customizations/order-items/states?token=${userToken}`;
 
   const response = await postRequest(url, JSON.stringify(payload));
-  const result = await response.json();
+  const data = await response.json();
 
-  if (response.status !== 200 || result?.result?.has_errors) {
-    const messages = getErrorMessages(result, `Failed to save order item customizations state`, `Save State`);
-    const error = { messages };
+  const defaultErrorMessage = `Failed to save order item customizations state`;
 
-    throw error;
+  if (response.status !== 200) {
+    const errorMessage = data?.result?.error_message || defaultErrorMessage;
+
+    throw new Error(errorMessage);
   }
+
+  return gerOrderItemsRequestResult(data, defaultErrorMessage);
 }
 
 export async function submitOrderItemCustomizationsState (
   orderItemIds: string[],
   userToken: string
-): Promise<void> {
+): Promise<OrderItemsRequestResult> {
   const payload = {
     order_items: orderItemIds.map(id => ({ id }))
   };
@@ -129,12 +156,15 @@ export async function submitOrderItemCustomizationsState (
   const url = `${config.budsies.endpoint}/customizations/order-items/submit-requests?token=${userToken}`;
 
   const response = await postRequest(url, JSON.stringify(payload));
-  const result = await response.json();
+  const data = await response.json();
 
-  if (response.status !== 200 || result?.result?.has_errors) {
-    const messages = getErrorMessages(result, `Failed to submit order item customizations state`, `Submit State`);
-    const error = { messages };
+  const defaultErrorMessage = `Failed to submit order item customizations state`;
 
-    throw error;
+  if (response.status !== 200) {
+    const errorMessage = data?.result?.error_message || defaultErrorMessage;
+
+    throw new Error(errorMessage);
   }
+
+  return gerOrderItemsRequestResult(data, defaultErrorMessage);
 }

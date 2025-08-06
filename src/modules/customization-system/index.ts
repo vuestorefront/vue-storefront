@@ -28,7 +28,7 @@ import { getCustomizationSystemThumbnail } from './helpers/get-customization-sys
 import { getCustomizationValueIdFieldKey } from './helpers/get-customization-value-id-field-key';
 import { getSelectedOptionValuesByCustomizationState } from './helpers/get-selected-options-values-by-customization-state';
 import { isEmailCustomization } from './helpers/is-email-customization';
-import { fetchOrderItemCustomizationsState, saveOrderItemCustomizationsState, submitOrderItemCustomizationsState } from './helpers/order-items-customizations.service';
+import { fetchOrderItemCustomizationsState, fetchOrderItemsCustomizationsStates, saveOrderItemCustomizationsState, submitOrderItemCustomizationsState } from './helpers/order-items-customizations.service';
 import { requiredCustomizationsFilter } from './helpers/required-customizations-filter';
 import { updateCartItemProductionTimeCustomizationState } from './helpers/update-cart-item-production-time-customization-state';
 import { updateProductProductionTimeCustomizationData } from './helpers/update-product-production-time-customization-data';
@@ -75,6 +75,7 @@ export {
   WidgetType,
 
   fetchOrderItemCustomizationsState,
+  fetchOrderItemsCustomizationsStates,
   filterCustomizationState,
   getCartItemExtensionAttributes,
   getCustomizationSelectedValues,
