@@ -2,8 +2,9 @@ import Vue, { VueConstructor } from 'vue';
 
 declare module 'core/types/additional-content' {
   interface AdditionalContent {
-    privacyPolicyAdditionalLinks?: {component: VueConstructor<Vue>, key: string}[],
-    financialIncentivesLinks?: {component: VueConstructor<Vue>, key: string}[],
-    footerLinks?: {component: VueConstructor<Vue>, key: string}[]
+    privacyPolicyAdditionalLinks?: { component: VueConstructor<Vue>, key: string }[],
+    financialIncentivesLinks?: { component: VueConstructor<Vue>, key: string }[],
+    footerLinks?: { component: VueConstructor<Vue>, key: string }[],
+    navigationHeader?: { component: VueConstructor<Vue>, props: Record<string, any> }
   }
 }

@@ -1,16 +1,17 @@
 import Vue from 'vue'
 
-interface AdditionalContent {}
+interface AdditionalContent { }
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $additionalContent: AdditionalContent;
-    _additionalContent?: AdditionalContent;
+    $additionalContent: AdditionalContent,
+    _additionalContentRoot: Vue,
+    _additionalContent?: AdditionalContent
   }
 }
 
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
-    additionalContent?: AdditionalContent;
+    additionalContent?: AdditionalContent
   }
 }
