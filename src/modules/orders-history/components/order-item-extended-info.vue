@@ -1,17 +1,36 @@
 <template>
   <div class="order-item-extended-info">
-    <div class="_heading-container">
-      <SfHeading class="_heading" :title="$t('Item details')" :level="5" />
+    <div
+      class="_section"
+      v-if="showShipmentInfo"
+    >
+      <div class="_heading-container">
+        <SfHeading class="_heading" :title="$t('Shipment information')" :level="5" />
+      </div>
+
+      <order-item-shipment-info
+        :shipments="item.shipments"
+        :estimated-shipment-date="item.estimated_shipment_date"
+        class="_section-content"
+      />
     </div>
 
-    <div class="_quantity">
-      {{ $t('Quantity') + ': ' + item.quantity }}
-    </div>
+    <div class="_section">
+      <div class="_heading-container">
+        <SfHeading class="_heading" :title="$t('Item details')" :level="5" />
+      </div>
 
-    <cart-item-configuration
-      :customizations="customizations"
-      :customization-state="customizationState"
-    />
+      <div class="_section-content">
+        <div class="_quantity">
+          {{ $t('Quantity') + ': ' + item.quantity }}
+        </div>
+
+        <cart-item-configuration
+          :customizations="customizations"
+          :customization-state="customizationState"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,10 +43,13 @@ import { CartItemConfiguration, CustomizationStateItem, Customization } from 'sr
 import { OrderItemExtensionAttributes } from '../types/order-item-extension-attributes';
 import { OrderItem } from '../types/order-item';
 
+import OrderItemShipmentInfo from './order-item-shipment-info.vue';
+
 export default defineComponent({
   name: 'OrderItemExtendedInfo',
   components: {
     CartItemConfiguration,
+    OrderItemShipmentInfo,
     SfHeading
   },
   props: {
@@ -37,6 +59,10 @@ export default defineComponent({
     },
     extensionAttributes: {
       type: Object as PropType<OrderItemExtensionAttributes>,
+      required: true
+    },
+    showShipmentInfo: {
+      type: Boolean,
       required: true
     }
   },
@@ -60,6 +86,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .order-item-extended-info {
+  ._section {
+    margin-top: var(--spacer-base);
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
   ._heading-container {
     display: flex;
     justify-content: space-between;
@@ -72,7 +106,7 @@ export default defineComponent({
     text-align: start;
   }
 
-  ._quantity {
+  ._section-content {
     margin-top: var(--spacer-xs);
   }
 
