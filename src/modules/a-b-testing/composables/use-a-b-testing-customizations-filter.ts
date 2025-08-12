@@ -6,12 +6,13 @@ import { getCookieByName } from 'src/modules/shared';
 
 import { TestGroupId } from '../types/test-group-id';
 
-const testGroupIds: TestGroupId[] = [TestGroupId.UPLOAD_LATER_DISABLED];
+const testGroupIds: TestGroupId[] = [TestGroupId.UPLOAD_LATER_DISABLED, TestGroupId.BREED_SELECTOR_DISABLED];
 
 const uploadLaterCustomizationNames: string[] = [
   'send later upload method',
   'by email images uploader'
 ];
+const breedSelectorCustomizationName = 'breed';
 
 export function useABTestingCustomizationsFilter (ssrContext: Context) {
   const TEST_GROUP_ID_COOKIE_KEY = config.abTesting?.cookieKey;
@@ -31,6 +32,8 @@ export function useABTestingCustomizationsFilter (ssrContext: Context) {
     switch (testGroupId) {
       case TestGroupId.UPLOAD_LATER_DISABLED:
         return !uploadLaterCustomizationNames.includes(customization.name.toLowerCase());
+      case TestGroupId.BREED_SELECTOR_DISABLED:
+        return breedSelectorCustomizationName !== customization.name.toLowerCase();
       default:
         return true;
     }
