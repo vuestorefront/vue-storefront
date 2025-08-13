@@ -16,7 +16,7 @@ export function useBulkCustomizableOrderItems (orderItems: Ref<OrderItem[]>) {
 
   const bulkCustomizationRoute = computed<RawLocation>(() => {
     return {
-      name: 'bulk-customization',
+      name: 'order-items-bulk-customize',
       query: {
         orderItemIds: bulkCustomizableOrderItems.value.map((item) => item.item_id.toString())
       }
