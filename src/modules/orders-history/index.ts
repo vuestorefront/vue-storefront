@@ -3,8 +3,8 @@ import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { STORE_NAME } from './store/store-name';
 import { ordersHistoryModule } from './store';
 import { FETCH_ORDERS_HISTORY, FETCH_SUGGESTED_PRODUCTS, REORDER_ITEM } from './types/store/actions';
-import { GET_SUGGESTED_PRODUCTS_IDS } from './types/store/getters';
-import { GET_IS_REORDERING_ITEM } from './types/store/getters';
+import { useOrderHistoryList } from './composables/use-order-history-list';
+import { GET_SUGGESTED_PRODUCTS_IDS, GET_IS_REORDERING_ITEM } from './types/store/getters';
 
 import OrdersHistoryList from './components/orders-history-list.vue';
 
@@ -26,5 +26,6 @@ export {
   FETCH_SUGGESTED_PRODUCTS_ACTION,
   SUGGESTED_PRODUCTS_IDS_GETTER,
   REORDER_ITEM_ACTION,
-  IS_REORDERING_ITEM
+  IS_REORDERING_ITEM,
+  useOrderHistoryList
 }
