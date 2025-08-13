@@ -1,7 +1,7 @@
 import { useAvailableCustomizations } from './composables/use-available-customizations';
 import { useAvailableOptionsValuesFilter } from './composables/use-available-options-values-filter';
 import { useCustomizationsBundleOptions } from './composables/use-customizations-bundle-options';
-import { useCustomizationsBusyState } from './composables/use-customizations-busy-state';
+import { useEntityBusyState } from './composables/use-customizations-busy-state';
 import { useCustomizationsFilter } from './composables/use-customizations-filter';
 import { useCustomizationsGroups } from './composables/use-customizations-groups';
 import { useCustomizationsOptionsDefaultValue } from './composables/use-customizations-options-default-value';
@@ -92,7 +92,7 @@ export {
   useAvailableCustomizations,
   useAvailableOptionsValuesFilter,
   useCustomizationsBundleOptions,
-  useCustomizationsBusyState,
+  useEntityBusyState,
   useCustomizationsFilter,
   useCustomizationsGroups,
   useCustomizationsOptionsDefaultValue,

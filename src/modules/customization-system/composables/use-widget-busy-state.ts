@@ -12,7 +12,7 @@ export function useWidgetBusyState (
       busyChangedEventName,
       {
         isBusy,
-        customizationId: customization.value.id
+        entityId: customization.value.id
       }
     );
   }

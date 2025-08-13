@@ -1,24 +1,25 @@
 import { computed, ref, set } from '@vue/composition-api';
 
-export function useCustomizationsBusyState () {
-  const customizationsBusyState = ref<Record<string, boolean>>({});
-  const isSomeCustomizationOptionBusy = computed<boolean>(() => {
-    return Object.values(customizationsBusyState.value).some((isBusy) => isBusy);
+export function useEntityBusyState () {
+  const entityBusyState = ref<Record<string, boolean>>({});
+  const isSomeEntityBusy = computed<boolean>(() => {
+    return Object.values(entityBusyState.value).some((isBusy) => isBusy);
   });
 
-  function onCustomizationOptionBusyChanged (
-    { isBusy,
-      customizationId
+  function onEntityBusyChanged (
+    {
+      isBusy,
+      entityId
     }: {
       isBusy: boolean,
-      customizationId: string
+      entityId: string
     }
   ): void {
-    set(customizationsBusyState.value, customizationId, isBusy);
+    set(entityBusyState.value, entityId, isBusy);
   }
 
   return {
-    isSomeCustomizationOptionBusy,
-    onCustomizationOptionBusyChanged
+    isSomeEntityBusy,
+    onEntityBusyChanged
   }
 }
