@@ -1,7 +1,7 @@
+import { RawLocation } from 'vue-router';
 import { Ref, computed } from '@vue/composition-api';
 
 import { OrderItem } from '../types/order-item';
-import { RawLocation } from 'vue-router';
 
 export function useBulkCustomizableOrderItems (orderItems: Ref<OrderItem[]>) {
   const bulkCustomizableOrderItems = computed<OrderItem[]>(() => {
