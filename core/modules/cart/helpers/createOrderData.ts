@@ -4,6 +4,8 @@ import ShippingMethod from '@vue-storefront/core/modules/cart/types/ShippingMeth
 import CheckoutData from '@vue-storefront/core/modules/cart/types/CheckoutData'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
+import ShippingAddress from '../types/ShippingAddress'
+
 const getDefaultShippingMethod = (shippingMethods: ShippingMethod[] = []): ShippingMethod | undefined => {
   const onlineShippingMethods = shippingMethods.filter(shippingMethod => !shippingMethod.offline)
   if (!onlineShippingMethods.length) return
@@ -16,6 +18,22 @@ const getDefaultPaymentMethod = (paymentMethods: PaymentMethod[] = []): PaymentM
 
   return paymentMethods.find(item => item.default) || paymentMethods[0]
 }
+
+export const createShippingAddressData = (
+  shippingDetails: CheckoutData['shippingDetails']
+): ShippingAddress => {
+  return {
+    firstname: shippingDetails.firstName,
+    lastname: shippingDetails.lastName,
+    city: shippingDetails.city,
+    postcode: shippingDetails.zipCode,
+    street: [shippingDetails.streetAddress],
+    region: shippingDetails.state ? shippingDetails.state : undefined,
+    region_id: shippingDetails.region_id,
+    telephone: shippingDetails.phoneNumber,
+    vat_id: shippingDetails.vat_id
+  }
+};
 
 const createOrderData = ({
   shippingDetails,
@@ -35,17 +53,7 @@ const createOrderData = ({
 
   return {
     country,
-    shippingAddress: {
-      firstname: shippingDetails.firstName,
-      lastname: shippingDetails.lastName,
-      city: shippingDetails.city,
-      postcode: shippingDetails.zipCode,
-      street: [shippingDetails.streetAddress],
-      region: shippingDetails.state ? shippingDetails.state : undefined,
-      region_id: shippingDetails.region_id,
-      telephone: shippingDetails.phoneNumber,
-      vat_id: shippingDetails.vat_id
-    },
+    shippingAddress: createShippingAddressData(shippingDetails),
     billingAddress: {
       firstname: paymentDetails.firstName,
       lastname: paymentDetails.lastName,
