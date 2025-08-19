@@ -33,7 +33,7 @@
 
           <order-item-actions
             :actions-list="item.available_actions"
-            :order-item-id="item.item_id"
+            :order-item="item"
             v-if="showActions"
           />
         </div>

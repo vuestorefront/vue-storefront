@@ -1,4 +1,5 @@
 import { useAvailableCustomizations } from './composables/use-available-customizations';
+import { useAvailableOptionsValuesFilter } from './composables/use-available-options-values-filter';
 import { useCustomizationsBundleOptions } from './composables/use-customizations-bundle-options';
 import { useCustomizationsBusyState } from './composables/use-customizations-busy-state';
 import { useCustomizationsFilter } from './composables/use-customizations-filter';
@@ -16,6 +17,7 @@ import { useFilesUpload } from './composables/use-files-upload';
 import { useListWidget } from './composables/use-list-widget';
 import { useOptionValueActions } from './composables/use-option-value-actions';
 import { useOptionValuesPrice } from './composables/use-option-values-price';
+import { useLockedCustomizations } from './composables/use-locked-customizations';
 import { useSelectedOptionValueUrlQuery } from './composables/use-selected-option-value-url-query';
 import { useValuesSort } from './composables/use-values-sort';
 import { useWidgetBusyState } from './composables/use-widget-busy-state';
@@ -26,12 +28,15 @@ import { getCustomizationSystemThumbnail } from './helpers/get-customization-sys
 import { getCustomizationValueIdFieldKey } from './helpers/get-customization-value-id-field-key';
 import { getSelectedOptionValuesByCustomizationState } from './helpers/get-selected-options-values-by-customization-state';
 import { isEmailCustomization } from './helpers/is-email-customization';
+import { fetchOrderItemCustomizationsState, saveOrderItemCustomizationsState, submitOrderItemCustomizationsState } from './helpers/order-items-customizations.service';
 import { requiredCustomizationsFilter } from './helpers/required-customizations-filter';
 import { updateCartItemProductionTimeCustomizationState } from './helpers/update-cart-item-production-time-customization-state';
 import { updateProductProductionTimeCustomizationData } from './helpers/update-product-production-time-customization-data';
 
 import { Customization } from './types/customization.interface';
+import { CustomizableProductFlowType } from './types/customizable-product-flow.type';
 import { CustomizationOptionValue } from './types/customization-option-value';
+import { DraftOrderItem } from './types/draft-order-item.interface';
 import { EstimatedShipment } from './types/estimated-shipment.interface';
 import { ExtensionAttributes } from './types/extension-attributes.interface'
 import { CustomizationStateItem } from './types/customization-state-item.interface'
@@ -52,8 +57,10 @@ import CartItemConfiguration from './components/cart-item-configuration.vue';
 export {
   CartItemConfiguration,
   Customization,
+  CustomizableProductFlowType,
   CustomizationOptionValue,
   CustomizationStateItem,
+  DraftOrderItem,
   EstimatedShipment,
   ExtensionAttributes,
   FileUploadValue,
@@ -67,6 +74,7 @@ export {
   WidgetOptionShape,
   WidgetType,
 
+  fetchOrderItemCustomizationsState,
   filterCustomizationState,
   getCartItemExtensionAttributes,
   getCustomizationSelectedValues,
@@ -76,9 +84,12 @@ export {
   isEmailCustomization,
   isFileUploadValue,
   requiredCustomizationsFilter,
+  saveOrderItemCustomizationsState,
+  submitOrderItemCustomizationsState,
   updateCartItemProductionTimeCustomizationState,
   updateProductProductionTimeCustomizationData,
   useAvailableCustomizations,
+  useAvailableOptionsValuesFilter,
   useCustomizationsBundleOptions,
   useCustomizationsBusyState,
   useCustomizationsFilter,
@@ -96,6 +107,7 @@ export {
   useListWidget,
   useOptionValueActions,
   useOptionValuesPrice,
+  useLockedCustomizations,
   useSelectedOptionValueUrlQuery,
   useValuesSort,
   useWidgetBusyState

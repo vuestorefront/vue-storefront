@@ -52,6 +52,7 @@ import { SfButton } from '@storefront-ui/vue';
 
 import { IS_CART_SYNCING } from '@vue-storefront/core/modules/cart';
 
+import { OrderItem } from '../types/order-item';
 import { OrderItemAvailableAction } from '../types/order-item-available-action';
 import { OrderItemAvailableActionCode } from '../types/order-item-available-action.code';
 import { REORDER_ITEM_ACTION, IS_REORDERING_ITEM } from '..';
@@ -74,8 +75,8 @@ export default defineComponent({
     SfButton
   },
   props: {
-    orderItemId: {
-      type: Number,
+    orderItem: {
+      type: Object as PropType<OrderItem>,
       required: true
     },
     actionsList: {
@@ -92,6 +93,16 @@ export default defineComponent({
       return items;
     });
 
+    async function onCustomizeOrderItemActionClick (): Promise<void> {
+      root.$router.push({
+        name: 'forevers-customize',
+        query: {
+          orderItemId: props.orderItem.item_id.toString(),
+          sku: props.orderItem.product.sku
+        }
+      });
+    }
+
     async function onReorderActionClick (): Promise<void> {
       if (disabledItems.value[OrderItemAvailableActionCode.RE_ORDER]) {
         return;
@@ -100,7 +111,7 @@ export default defineComponent({
       try {
         await root.$store.dispatch(
           REORDER_ITEM_ACTION,
-          { orderItemId: props.orderItemId }
+          { orderItemId: props.orderItem.item_id }
         );
 
         root.$store.dispatch('notification/spawnNotification', {
@@ -133,6 +144,13 @@ export default defineComponent({
           actionItem.handlers.click = onReorderActionClick;
           actionItem.component = 'SfButton';
           nonBlockingActionsList.push(actionItem);
+          continue;
+        }
+
+        if (action.code === OrderItemAvailableActionCode.AWAITING_CUSTOMIZATION) {
+          actionItem.handlers.click = onCustomizeOrderItemActionClick;
+          actionItem.component = 'SfButton';
+          blockingActionsList.push(actionItem);
           continue;
         }
 
