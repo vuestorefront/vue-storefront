@@ -20,7 +20,7 @@ describe("jsonReporter", () => {
       args: [{ structuredLog: { message: "test message" } }],
     };
 
-    jsonReporter(logObject);
+    jsonReporter(logObject, "development");
 
     expect(consoleSpy).toHaveBeenCalledWith({ message: "test message" });
   });
@@ -34,7 +34,7 @@ describe("jsonReporter", () => {
       args: [{ structuredLog: { message: "test message" } }],
     };
 
-    jsonReporter(logObject);
+    jsonReporter(logObject, "development");
 
     expect(consoleSpy).toHaveBeenCalledWith({ message: "test message" });
 
@@ -48,7 +48,7 @@ describe("jsonReporter", () => {
       args: [{ structuredLog: { message: "test message" } }],
     };
 
-    jsonReporter(logObject);
+    jsonReporter(logObject, "production");
 
     expect(consoleSpy).toHaveBeenCalledWith(
       JSON.stringify({ message: "test message" })
