@@ -1,6 +1,6 @@
-import { GCPStructuredLog } from "./structuredLog/GCPStructuredLog";
-import { LoggerOptions } from "./interfaces/LoggerOptions";
 import { createConsolaStructuredLogger } from "./ConsolaStructuredLogger";
+import type { LoggerOptions } from "./interfaces/LoggerOptions";
+import { GCPStructuredLog } from "./structuredLog/GCPStructuredLog";
 
 export enum LoggerType {
   ConsolaGcp = "consola-gcp",
@@ -13,11 +13,17 @@ export enum LoggerType {
  *
  * @param type The type of logger to create
  */
+
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class LoggerFactory {
-  static create(type: LoggerType, options?: LoggerOptions) {
+  static create(
+    type: LoggerType,
+    options?: LoggerOptions,
+    environment = process.env.NODE_ENV ?? "production"
+  ) {
     const defaultOptions = {
-      verbosity: "info",
       includeStackTrace: false,
+      verbosity: "info",
     } satisfies LoggerOptions;
 
     const mergedOptions = {
@@ -29,6 +35,7 @@ export class LoggerFactory {
       case LoggerType.ConsolaGcp:
         return createConsolaStructuredLogger(
           new GCPStructuredLog(),
+          environment,
           mergedOptions
         );
       default:

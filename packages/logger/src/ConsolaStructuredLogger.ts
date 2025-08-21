@@ -1,20 +1,15 @@
-import { ConsolaOptions, createConsola } from "consola";
+import type { ConsolaOptions, LogObject } from "consola";
+import { createConsola } from "consola";
 
-import dotenv from "dotenv";
-import { LogVerbosity } from "./interfaces/LogVerbosity";
 import type {
   LogData,
   LoggerInterface,
   Metadata,
 } from "./interfaces/LoggerInterface";
 import type { LoggerOptions } from "./interfaces/LoggerOptions";
+import type { LogVerbosity } from "./interfaces/LogVerbosity";
 import type { StructuredLog } from "./interfaces/StructuredLog";
 import { jsonReporter } from "./reporters/consola/jsonReporter";
-
-// We do not want to load the .env in the browser and in the edge runtime
-if (typeof window === "undefined" && process.env.NEXT_RUNTIME !== "edge") {
-  dotenv.config();
-}
 
 interface ConsolaLoggerOptions
   extends LoggerOptions,
@@ -22,25 +17,26 @@ interface ConsolaLoggerOptions
 
 const createConsolaStructuredLogger = (
   structuredLog: StructuredLog,
+  environment: string,
   options: ConsolaLoggerOptions = {
-    verbosity: "info",
     includeStackTrace: true,
+    verbosity: "info",
   }
 ): LoggerInterface => {
   const levelMap: Record<LogVerbosity, number> = {
-    emergency: 0,
     alert: 0,
     critical: 0,
-    error: 0,
-    warning: 1,
-    notice: 2,
-    info: 3,
     debug: 4,
+    emergency: 0,
+    error: 0,
+    info: 3,
+    notice: 2,
+    warning: 1,
   };
 
   const buildJsonReporter = () => {
     return {
-      log: jsonReporter,
+      log: (logObject: LogObject) => jsonReporter(logObject, environment),
     };
   };
 
@@ -121,14 +117,14 @@ const createConsolaStructuredLogger = (
   const debug = logAtLevel("debug");
 
   return {
-    emergency,
     alert,
     critical,
-    error,
-    warning,
-    notice,
-    info,
     debug,
+    emergency,
+    error,
+    info,
+    notice,
+    warning,
   };
 };
 
