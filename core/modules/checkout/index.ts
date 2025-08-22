@@ -4,6 +4,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
+import { useOrderCreation } from './composables/use-order-creation'
 import { checkoutModule } from './store/checkout'
 import { paymentModule } from './store/payment'
 import { shippingModule } from './store/shipping'
@@ -32,7 +33,8 @@ export const CheckoutModule: StorefrontModule = function ({ store }) {
     if (
       type.endsWith(types.CHECKOUT_SAVE_SHIPPING_DETAILS) ||
       type.endsWith(types.CHECKOUT_UPDATE_PROP_VALUE) ||
-      type.endsWith(types.CHECKOUT_RESET_SHIPPING_DETAILS)
+      type.endsWith(types.CHECKOUT_RESET_SHIPPING_DETAILS) ||
+      type.endsWith(types.CHECKOUT_UPDATE_SHIPPING_DETAILS)
     ) {
       StorageManager.get('checkout').setItem('shipping-details', state.checkout.shippingDetails).catch((reason) => {
         Logger.error(reason)() // it doesn't work on SSR
@@ -57,6 +59,16 @@ export const CheckoutModule: StorefrontModule = function ({ store }) {
   }
 }
 
+const CHECKOUT_UPDATE_SHIPPING_DETAILS_MUTATION = `checkout/${types.CHECKOUT_UPDATE_SHIPPING_DETAILS}`;
+const CHECKOUT_UPDATE_PAYMENT_DETAILS_MUTATION = `checkout/${types.CHECKOUT_UPDATE_PAYMENT_DETAILS}`;
+const CHECKOUT_SET_THANKYOU_MUTATION = `checkout/${types.CHECKOUT_SET_THANKYOU}`;
+const CHECKOUT_UPDATE_EXPRESS_CHECKOUT_DATA_MUTATION = `checkout/${types.CHECKOUT_UPDATE_EXPRESS_CHECKOUT_DATA}`;
+
 export {
+  useOrderCreation,
+  CHECKOUT_SET_THANKYOU_MUTATION,
+  CHECKOUT_UPDATE_PAYMENT_DETAILS_MUTATION,
+  CHECKOUT_UPDATE_SHIPPING_DETAILS_MUTATION,
+  CHECKOUT_UPDATE_EXPRESS_CHECKOUT_DATA_MUTATION,
   ORDER_ERROR_EVENT
 }

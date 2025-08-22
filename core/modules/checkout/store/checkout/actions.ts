@@ -116,7 +116,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
       !!paymentMethods.find((method: any) => method.code === selectedPaymentMethod);
 
     if (!isSelectedPaymentMethodAvailable) {
-      commit(types.CHECKOUT_UPDATE_PAYMENT_DETAILS, {paymentMethod: ''});
+      commit(types.CHECKOUT_UPDATE_PAYMENT_DETAILS, { paymentMethod: '' });
     }
 
     commit(types.CHECKOUT_SET_PAYMENT_METHODS, paymentMethods);

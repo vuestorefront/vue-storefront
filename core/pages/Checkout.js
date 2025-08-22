@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { router } from '@vue-storefront/core/app';
 import i18n from '@vue-storefront/i18n'
 import config from 'config'
@@ -9,6 +8,7 @@ import Composite from '@vue-storefront/core/mixins/composite'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { isServer } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { CHECKOUT_UPDATE_EXPRESS_CHECKOUT_DATA_MUTATION } from '@vue-storefront/core/modules/checkout';
 
 export default {
   name: 'Checkout',
@@ -41,7 +41,8 @@ export default {
   computed: {
     ...mapGetters({
       isVirtualCart: 'cart/isVirtualCart',
-      isThankYouPage: 'checkout/isThankYouPage'
+      isThankYouPage: 'checkout/isThankYouPage',
+      expressCheckoutData: 'checkout/getExpressCheckoutData'
     }),
     ...mapState({
       platformTotals: state => state.cart.platformTotals
@@ -65,6 +66,16 @@ export default {
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
     this.$bus.$on('checkout-after-validationError', this.focusField)
     this.$bus.$on('checkout-after-paymentMethodChanged', this.onPaymentMethodChanged)
+
+    if (this.expressCheckoutData) {
+      if (this.isThankYouPage) {
+        this.confirmation = JSON.parse(JSON.stringify(this.expressCheckoutData.confirmation));
+        this.order = JSON.parse(JSON.stringify(this.expressCheckoutData.order));
+      }
+
+      this.$store.commit(CHECKOUT_UPDATE_EXPRESS_CHECKOUT_DATA_MUTATION, undefined);
+    }
+
     if (!this.isThankYouPage) {
       this.$store.dispatch('cart/load', { forceClientState: true }).then(() => {
         if (this.$store.state.cart.cartItems.length === 0) {

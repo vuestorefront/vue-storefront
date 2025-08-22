@@ -18,6 +18,7 @@ import { PersistedBillingAddress } from './types/persisted-billing-address.inter
 import { getProductOptions } from './helpers/get-product-options.function';
 import { localStorageSynchronizationFactory } from './helpers/local-storage-synchronization.factory';
 import { parseLocalStorageValue } from './helpers/parse-local-storage-value.function';
+import { getRegionIdByCountryAndStateCode } from './helpers/get-region-id-by-country-and-state-code.function';
 import * as PriceHelper from '@vue-storefront/core/helpers/price';
 import * as BundleProductDiscountedPrice from '@vue-storefront/core/helpers/bundle-product-discounted-price';
 import { stateCodeAutocompleteOptionSearch } from './helpers/state-code-autocomplete-option-search.function';
@@ -62,5 +63,6 @@ export {
   useMobileObserver,
   isCustomProduct,
   EU_COUNTRY_CODES,
-  DETECTED_COUNTRY_COOKIE_KEY
+  DETECTED_COUNTRY_COOKIE_KEY,
+  getRegionIdByCountryAndStateCode
 }

@@ -26,7 +26,8 @@ const getters: GetterTree<CheckoutState, RootState> = {
       (typeof itm !== 'object' || !itm.is_server_method)
     ),
   getShippingMethods: state => state.shippingMethods,
-  getDefaultShippingMethod: state => state.shippingMethods.find(item => item.default)
+  getDefaultShippingMethod: state => state.shippingMethods.find(item => item.default),
+  getExpressCheckoutData: state => state.expressCheckoutData
 }
 
 export default getters

@@ -15,5 +15,9 @@ export default interface CheckoutState {
   shippingDetails: ShippingDetails,
   paymentDetails: PaymentDetails,
   isThankYouPage: boolean,
-  modifiedAt: number
+  modifiedAt: number,
+  expressCheckoutData: {
+    order: any,
+    confirmation: any
+  } | undefined
 }

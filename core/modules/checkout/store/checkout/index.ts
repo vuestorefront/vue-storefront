@@ -21,7 +21,8 @@ export const checkoutModule: Module<CheckoutState, RootState> = {
     shippingDetails: getDefaultShippingDetails(),
     paymentDetails: getDefaultPaymentDetails(),
     isThankYouPage: false,
-    modifiedAt: 0
+    modifiedAt: 0,
+    expressCheckoutData: undefined
   },
   getters,
   actions,
