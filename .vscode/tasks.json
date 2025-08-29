@@ -11,6 +11,7 @@
             "args": [
                 "${input:diffTarget}",
                 "${input:themeDiffTarget}",
+                "${input:moduleBraintreeDiffTarget}",
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -29,6 +30,12 @@
             "type": "promptString",
             "description": "Enter theme diff target",
             "default": "petsies-theme"
+        },
+        {
+            "id": "moduleBraintreeDiffTarget",
+            "type": "promptString",
+            "description": "Enter module Braintree diff target",
+            "default": "optimuspro"
         }
     ]
 }
