@@ -21,6 +21,7 @@ import { parseLocalStorageValue } from './helpers/parse-local-storage-value.func
 import * as PriceHelper from '@vue-storefront/core/helpers/price';
 import * as BundleProductDiscountedPrice from '@vue-storefront/core/helpers/bundle-product-discounted-price';
 import { stateCodeAutocompleteOptionSearch } from './helpers/state-code-autocomplete-option-search.function';
+import { createPhoneHelpers } from './helpers/phone-number';
 
 import EmailSubmitForm from './components/email-submit-form.vue';
 import PrivacyPolicyLink from './components/privacy-policy-link.vue';
@@ -62,5 +63,6 @@ export {
   useMobileObserver,
   isCustomProduct,
   EU_COUNTRY_CODES,
-  DETECTED_COUNTRY_COOKIE_KEY
+  DETECTED_COUNTRY_COOKIE_KEY,
+  createPhoneHelpers
 }
