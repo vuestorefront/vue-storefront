@@ -74,6 +74,7 @@ export default {
       }
 
       this.$store.commit(CHECKOUT_UPDATE_EXPRESS_CHECKOUT_DATA_MUTATION, undefined);
+      return;
     }
 
     if (!this.isThankYouPage) {
