@@ -12,7 +12,6 @@ const getters: GetterTree<CheckoutState, RootState> = {
   },
   getPersonalDetails: state => state.personalDetails,
   getPaymentDetails: state => state.paymentDetails,
-  isThankYouPage: state => state.isThankYouPage,
   getModifiedAt: state => state.modifiedAt,
   isUserInCheckout: state => ((Date.now() - state.modifiedAt) <= (60 * 30 * 1000)),
   getPaymentMethods: (state, getters, rootState, rootGetters) => {
@@ -27,7 +26,7 @@ const getters: GetterTree<CheckoutState, RootState> = {
     ),
   getShippingMethods: state => state.shippingMethods,
   getDefaultShippingMethod: state => state.shippingMethods.find(item => item.default),
-  getExpressCheckoutData: state => state.expressCheckoutData
+  getSuccessOrderData: state => state.successOrderData
 }
 
 export default getters
