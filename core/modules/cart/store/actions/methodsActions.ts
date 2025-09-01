@@ -6,6 +6,8 @@ import { CartService } from '@vue-storefront/core/data-resolver'
 import { preparePaymentMethodsToSync, createOrderData, createShippingInfoData } from '@vue-storefront/core/modules/cart/helpers'
 import PaymentMethod from '../../types/PaymentMethod'
 import { isCartNotFoundError } from '../../helpers/is-cart-not-found-error'
+import { createShippingAddressData } from '../../helpers/createOrderData'
+import ShippingAddress from '../../types/ShippingAddress'
 
 const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
@@ -91,16 +93,10 @@ const methodsActions = {
       const shippingDetails = rootGetters['checkout/getShippingDetails']
 
       // build address data with what we have
-      const address = (shippingDetails) ? {
-        region: shippingDetails.state,
-        region_id: shippingDetails.region_id ? shippingDetails.region_id : null,
-        country_id: shippingDetails.country,
-        street: [shippingDetails.streetAddress1, shippingDetails.streetAddress2],
-        postcode: shippingDetails.zipCode,
-        city: shippingDetails.city,
-        region_code: shippingDetails.region_code ? shippingDetails.region_code : '',
-        vat_id: shippingDetails.vat_id || ''
-      } : { country_id: storeView.tax.defaultCountry }
+      const address: ShippingAddress & { countryId: string } = {
+        ...createShippingAddressData(shippingDetails),
+        countryId: shippingDetails.country || storeView.tax.defaultCountry
+      }
 
       try {
         const task = await CartService.getShippingMethods(address);
