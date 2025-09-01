@@ -72,9 +72,7 @@ export async function fetchOrderItemsCustomizationsStates (orderItemIds: string[
 
   const params = new URLSearchParams();
 
-  for (const orderItemId of orderItemIds) {
-    params.append('orderItemId', orderItemId);
-  }
+  params.append('orderItemId', orderItemIds.join(','));
 
   const url = `${config.budsies.endpoint}/customizations/order-items/states?token={{token}}&${params.toString()}`;
 
