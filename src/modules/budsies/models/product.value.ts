@@ -41,7 +41,4 @@ export enum ProductValue {
   PHOTO_PORTRAITS = '47',
   TUMBLERS = '46',
   PETSIES_HUGGABLES = '53',
-  // TODO: update
-  TEACHERS_BUDSIE = '757',
-  TEACHERS_SELFIE = '759',
 }
