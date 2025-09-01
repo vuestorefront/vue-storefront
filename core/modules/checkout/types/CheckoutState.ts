@@ -1,3 +1,5 @@
+import { Order } from '@vue-storefront/core/modules/order/types/Order'
+
 import ShippingDetails from './ShippingDetails'
 import PaymentDetails from './PaymentDetails'
 
@@ -14,10 +16,9 @@ export default interface CheckoutState {
   },
   shippingDetails: ShippingDetails,
   paymentDetails: PaymentDetails,
-  isThankYouPage: boolean,
   modifiedAt: number,
-  expressCheckoutData: {
-    order: any,
+  successOrderData: {
+    order: Order,
     confirmation: any
   } | undefined
 }

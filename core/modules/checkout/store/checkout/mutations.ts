@@ -56,9 +56,6 @@ const mutations: MutationTree<CheckoutState> = {
     state.personalDetails.password = ''
     state.personalDetails.createAccount = false
   },
-  [types.CHECKOUT_SET_THANKYOU] (state, payload) {
-    state.isThankYouPage = payload
-  },
   [types.CHECKOUT_ADD_PAYMENT_METHOD] (state, paymentMethod) {
     state.paymentMethods.push(paymentMethod)
   },
@@ -74,8 +71,8 @@ const mutations: MutationTree<CheckoutState> = {
   [types.CHECKOUT_UPDATE_PAYMENT_DETAILS] (state, updateData = {}) {
     state.paymentDetails = Object.assign({}, state.paymentDetails, updateData)
   },
-  [types.CHECKOUT_UPDATE_EXPRESS_CHECKOUT_DATA] (state, payload) {
-    Vue.set(state, 'expressCheckoutData', payload);
+  [types.CHECKOUT_UPDATE_SUCCESS_ORDER_DATA] (state, payload) {
+    Vue.set(state, 'successOrderData', payload);
   }
 }
 

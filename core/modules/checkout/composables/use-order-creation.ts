@@ -1,4 +1,5 @@
-import { SetupContext } from '@vue/composition-api'
+import { SetupContext } from '@vue/composition-api';
+import { Order } from '@vue-storefront/core/modules/order/types/Order';
 
 export function useOrderCreation ({ root }: SetupContext) {
   function prepareOrderData (paymentAdditionalData: any) {
@@ -8,7 +9,7 @@ export function useOrderCreation ({ root }: SetupContext) {
     const platformTotals = root.$store.state.cart.platformTotals;
     const isVirtualCart = root.$store.getters['cart/isVirtualCart'];
 
-    const orderData: any = {
+    const orderData: Order = {
       user_id: root.$store.state.user.current ? root.$store.state.user.current.id.toString() : '',
       cart_id: root.$store.state.cart.cartServerToken ? root.$store.state.cart.cartServerToken.toString() : '',
       products: root.$store.state.cart.cartItems,
