@@ -2687,10 +2687,10 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/googlepay@*":
-  version "0.6.4"
-  resolved "https://registry.yarnpkg.com/@types/googlepay/-/googlepay-0.6.4.tgz#e0b06ae1f12496c4fa43e52d35e76411dbbee135"
-  integrity sha512-PTt/UCllzl8z5HmhymPpSj6uENZvVKZvCBYdDVmbBVJnLStitxtWrterAOQZkKGlqVdzxNXYeif5hOAMNMS5mw==
+"@types/googlepay@*", "@types/googlepay@^0.7.6":
+  version "0.7.7"
+  resolved "https://registry.yarnpkg.com/@types/googlepay/-/googlepay-0.7.7.tgz#c42c9dd512ce9de94b52b173b168fd79c542064a"
+  integrity sha512-3u9u6RtlTYu+dFJEn+ur1tGMvR6zmKKRaEEva7RCg/qBqy31+6O79JP0hGdEriUNEDy8BR6jdP+TLvDmtTNwbw==
 
 "@types/http-proxy-middleware@*":
   version "0.19.3"
