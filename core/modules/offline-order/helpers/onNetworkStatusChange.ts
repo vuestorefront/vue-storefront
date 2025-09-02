@@ -9,7 +9,7 @@ export function onNetworkStatusChange (store) {
   if (typeof navigator !== 'undefined' && navigator.onLine) {
     EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
     store.dispatch('cart/load', { forceClientState: true })
-    if (config.orders.offline_orders.automatic_transmission_enabled || store.getters['checkout/successOrderData']) {
+    if (config.orders.offline_orders.automatic_transmission_enabled || store.getters['checkout/getSuccessOrderData']) {
       EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
     } else {
       const ordersToConfirm = []
