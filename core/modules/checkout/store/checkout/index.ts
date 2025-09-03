@@ -20,8 +20,8 @@ export const checkoutModule: Module<CheckoutState, RootState> = {
     personalDetails: getDefaultPersonalDetails(),
     shippingDetails: getDefaultShippingDetails(),
     paymentDetails: getDefaultPaymentDetails(),
-    isThankYouPage: false,
-    modifiedAt: 0
+    modifiedAt: 0,
+    successOrderData: undefined
   },
   getters,
   actions,

@@ -94,9 +94,6 @@ const actions: ActionTree<CheckoutState, RootState> = {
   async updatePropValue ({ commit }, payload) {
     commit(types.CHECKOUT_UPDATE_PROP_VALUE, payload)
   },
-  async setThankYouPage ({ commit }, payload) {
-    commit(types.CHECKOUT_SET_THANKYOU, payload)
-  },
   async addPaymentMethod ({ commit }, paymentMethod) {
     commit(types.CHECKOUT_ADD_PAYMENT_METHOD, paymentMethod)
   },
@@ -116,7 +113,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
       !!paymentMethods.find((method: any) => method.code === selectedPaymentMethod);
 
     if (!isSelectedPaymentMethodAvailable) {
-      commit(types.CHECKOUT_UPDATE_PAYMENT_DETAILS, {paymentMethod: ''});
+      commit(types.CHECKOUT_UPDATE_PAYMENT_DETAILS, { paymentMethod: '' });
     }
 
     commit(types.CHECKOUT_SET_PAYMENT_METHODS, paymentMethods);

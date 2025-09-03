@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { MutationTree } from 'vuex'
 
 import * as types from './mutation-types'
@@ -5,6 +6,7 @@ import CheckoutState from '../../types/CheckoutState'
 import getDefaultPersonalDetails from '../../helpers/default-personal-details.factory'
 import getDefaultShippingDetails from '../../helpers/default-shipping-details.factory'
 import getDefaultPaymentDetails from '../../helpers/default-payment-details.factory'
+import ShippingDetails from '../../types/ShippingDetails'
 
 const mutations: MutationTree<CheckoutState> = {
   /**
@@ -22,6 +24,9 @@ const mutations: MutationTree<CheckoutState> = {
   },
   [types.CHECKOUT_SAVE_SHIPPING_DETAILS] (state, shippingDetails) {
     state.shippingDetails = shippingDetails
+  },
+  [types.CHECKOUT_UPDATE_SHIPPING_DETAILS] (state, shippingDetailsUpdate: Partial<ShippingDetails>) {
+    state.shippingDetails = { ...state.shippingDetails, ...shippingDetailsUpdate };
   },
   [types.CHECKOUT_SAVE_PAYMENT_DETAILS] (state, paymentDetails) {
     state.paymentDetails = paymentDetails
@@ -51,9 +56,6 @@ const mutations: MutationTree<CheckoutState> = {
     state.personalDetails.password = ''
     state.personalDetails.createAccount = false
   },
-  [types.CHECKOUT_SET_THANKYOU] (state, payload) {
-    state.isThankYouPage = payload
-  },
   [types.CHECKOUT_ADD_PAYMENT_METHOD] (state, paymentMethod) {
     state.paymentMethods.push(paymentMethod)
   },
@@ -68,6 +70,9 @@ const mutations: MutationTree<CheckoutState> = {
   },
   [types.CHECKOUT_UPDATE_PAYMENT_DETAILS] (state, updateData = {}) {
     state.paymentDetails = Object.assign({}, state.paymentDetails, updateData)
+  },
+  [types.CHECKOUT_UPDATE_SUCCESS_ORDER_DATA] (state, payload) {
+    Vue.set(state, 'successOrderData', payload);
   }
 }
 
