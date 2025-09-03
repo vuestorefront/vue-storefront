@@ -39,7 +39,7 @@ export function createPhoneHelpers (parsePhoneNumber: ParsePhoneNumber): PhoneHe
           const parsedNumber = parsePhoneNumber(phoneNumber);
           return parsedNumber.formatInternational();
         }
-      } catch (innerError) {}
+      } catch (innerError) { }
 
       return phoneNumber;
     }
