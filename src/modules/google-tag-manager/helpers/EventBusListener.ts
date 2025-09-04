@@ -290,7 +290,9 @@ export default class EventBusListener {
         cartItem,
         this.store
       )),
-      express_checkout: isExpressCheckout
+      custom_fields: {
+        express_checkout: isExpressCheckout
+      }
     }
 
     this.trackEcommerceEvent({
