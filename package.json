@@ -62,6 +62,7 @@
     "apollo-link-http": "^1.5.16",
     "body-scroll-lock": "^2.6.4",
     "bodybuilder": "2.5.1",
+    "bowser": "^2.12.1",
     "braintree": "^3.6.0",
     "config": "^1.30.0",
     "cross-env": "^3.1.4",
