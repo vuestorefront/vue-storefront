@@ -30,15 +30,11 @@ export function useLockedCustomizations (
     return lockedCustomizations.value.filter((customization) => {
       const selectedOptions = customizationOptionValueDictionary.value[customization.id];
 
-      if (!selectedOptions) {
-        return false;
-      }
-
       if (Array.isArray(selectedOptions)) {
         return selectedOptions.length > 0;
       }
 
-      return true;
+      return !!selectedOptions;
     });
   });
 
