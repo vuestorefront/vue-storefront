@@ -23,6 +23,7 @@ import { getRegionIdByCountryAndStateCode } from './helpers/get-region-id-by-cou
 import * as PriceHelper from '@vue-storefront/core/helpers/price';
 import * as BundleProductDiscountedPrice from '@vue-storefront/core/helpers/bundle-product-discounted-price';
 import { stateCodeAutocompleteOptionSearch } from './helpers/state-code-autocomplete-option-search.function';
+import { createPhoneHelpers } from './helpers/phone-number';
 
 import EmailSubmitForm from './components/email-submit-form.vue';
 import PrivacyPolicyLink from './components/privacy-policy-link.vue';
@@ -66,5 +67,6 @@ export {
   EU_COUNTRY_CODES,
   DETECTED_COUNTRY_COOKIE_KEY,
   getRegionIdByCountryAndStateCode,
+  createPhoneHelpers,
   DEFAULT_CURRENCY_CODE
 }

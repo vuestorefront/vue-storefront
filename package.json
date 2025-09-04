@@ -79,6 +79,7 @@
     "ioredis": "^4.0.0",
     "isomorphic-fetch": "^3.0.0",
     "js-sha3": "^0.8.0",
+    "libphonenumber-js": "^1.12.14",
     "localforage": "^1.7.2",
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
     "ms": "^2.1.2",
