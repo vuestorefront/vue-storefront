@@ -8,6 +8,7 @@ import { VideoProvider } from './types/video-provider.value';
 import CustomerImage from './types/customer-image.interface';
 import { PAYMENT_ERROR_EVENT } from './types/payment-error-event';
 import { DETECTED_COUNTRY_COOKIE_KEY } from './types/detected-country-cookie.key';
+import { DEFAULT_CURRENCY_CODE } from './types/default-currency-code';
 import { EU_COUNTRY_CODES } from './types/eu-country-codes';
 import ServerError from './types/server-error';
 import * as ProductEvent from './types/product-events';
@@ -66,5 +67,6 @@ export {
   EU_COUNTRY_CODES,
   DETECTED_COUNTRY_COOKIE_KEY,
   getRegionIdByCountryAndStateCode,
-  createPhoneHelpers
+  createPhoneHelpers,
+  DEFAULT_CURRENCY_CODE
 }

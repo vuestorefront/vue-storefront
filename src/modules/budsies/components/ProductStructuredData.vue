@@ -10,7 +10,7 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { getThumbnailPath, productThumbnailPath } from '@vue-storefront/core/helpers';
 
-import { PriceHelper } from 'src/modules/shared';
+import { PriceHelper, DEFAULT_CURRENCY_CODE } from 'src/modules/shared';
 
 export default Vue.extend({
   name: 'ProductStructuredData',
@@ -44,7 +44,7 @@ export default Vue.extend({
         offers: {
           '@type': 'Offer',
           price: finalPrice,
-          priceCurrency: 'USD',
+          priceCurrency: DEFAULT_CURRENCY_CODE,
           availability: 'https://schema.org/InStock',
           itemCondition: 'https://schema.org/NewCondition'
         }
