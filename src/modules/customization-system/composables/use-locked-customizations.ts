@@ -26,6 +26,25 @@ export function useLockedCustomizations (
     return Object.values(lockedCustomizationDictionary.value);
   });
 
+  const selectedLockedCustomizations = computed<Customization[]>(() => {
+    const list: Customization[] = [];
+
+    for (const customization of lockedCustomizations.value) {
+      const selectedOptions = customizationOptionValueDictionary.value[customization.id];
+      const hasSelectedOptions = Array.isArray(selectedOptions)
+        ? selectedOptions.length > 0
+        : !!selectedOptions;
+
+      if (!hasSelectedOptions) {
+        continue;
+      }
+
+      list.push(customization);
+    }
+
+    return list;
+  });
+
   function customizationsFilter (customization: Customization): boolean {
     if (flow.value !== CustomizableProductFlowType.CUSTOMIZE) {
       return true;
@@ -55,7 +74,7 @@ export function useLockedCustomizations (
   }
 
   return {
-    lockedCustomizations,
+    selectedLockedCustomizations,
     customizationsFilter,
     optionValuesFilter
   };
