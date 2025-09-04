@@ -27,22 +27,19 @@ export function useLockedCustomizations (
   });
 
   const selectedLockedCustomizations = computed<Customization[]>(() => {
-    const list: Customization[] = [];
-
-    for (const customization of lockedCustomizations.value) {
+    return lockedCustomizations.value.filter((customization) => {
       const selectedOptions = customizationOptionValueDictionary.value[customization.id];
-      const hasSelectedOptions = Array.isArray(selectedOptions)
-        ? selectedOptions.length > 0
-        : !!selectedOptions;
 
-      if (!hasSelectedOptions) {
-        continue;
+      if (!selectedOptions) {
+        return false;
       }
 
-      list.push(customization);
-    }
+      if (Array.isArray(selectedOptions)) {
+        return selectedOptions.length > 0;
+      }
 
-    return list;
+      return true;
+    });
   });
 
   function customizationsFilter (customization: Customization): boolean {
