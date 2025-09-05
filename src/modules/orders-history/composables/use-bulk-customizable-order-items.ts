@@ -6,7 +6,7 @@ import { OrderItem } from '../types/order-item';
 export function useBulkCustomizableOrderItems (orderItems: Ref<OrderItem[]>) {
   const bulkCustomizableOrderItems = computed<OrderItem[]>(() => {
     return orderItems.value.filter((item: OrderItem) => {
-      return item.support_bulk_customization;
+      return item.extension_attributes.support_bulk_customization;
     });
   });
 

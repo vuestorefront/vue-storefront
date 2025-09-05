@@ -19,6 +19,5 @@ export interface OrderItem {
   available_actions: OrderItemAvailableAction[],
   shipments: OrderItemShipment[],
   extension_attributes: OrderItemExtensionAttributes,
-  item_id: number,
-  support_bulk_customization?: boolean
+  item_id: number
 }
