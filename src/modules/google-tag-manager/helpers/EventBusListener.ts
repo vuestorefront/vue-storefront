@@ -13,7 +13,7 @@ import { Logger } from '@vue-storefront/core/lib/logger';
 import getCookieByName from 'src/modules/shared/helpers/get-cookie-by-name.function';
 import CartEvents from 'src/modules/shared/types/cart-events';
 import { PlushieWizardEvents } from 'src/modules/budsies';
-import { PriceHelper, ProductEvent, UserEvents, PersistedCustomerData, CustomerDataChangedEventPayload } from 'src/modules/shared';
+import { PriceHelper, ProductEvent, UserEvents, PersistedCustomerData, CustomerDataChangedEventPayload, DEFAULT_CURRENCY_CODE } from 'src/modules/shared';
 
 import CartItem from 'core/modules/cart/types/CartItem';
 import { GET_PRODUCT_PRICE } from '@vue-storefront/core/modules/catalog';
@@ -24,7 +24,6 @@ import { ORDER_ERROR_EVENT } from '@vue-storefront/core/modules/checkout';
 
 import { prepareCartItemData } from './prepare-cart-item-data.function';
 import { prepareProductItemData } from './prepare-product-item-data.function';
-import { DEFAULT_CURRENCY } from '../types/default-currency';
 import GoogleTagManagerEvents from '../types/GoogleTagManagerEvents';
 import { trackEcommerceEventFactory } from './track-ecommerce-event.factory';
 import { A_B_TEST_GROUP_CHANGED } from 'src/modules/a-b-testing';
@@ -113,7 +112,7 @@ export default class EventBusListener {
         this.trackEcommerceEvent({
           event: GoogleTagManagerEvents.VIEW_CART,
           ecommerce: {
-            currency: platformTotals?.quote_currency_code || DEFAULT_CURRENCY,
+            currency: platformTotals?.quote_currency_code || DEFAULT_CURRENCY_CODE,
             value: platformTotals?.base_grand_total || 0,
             items: products.map((cartItem) => prepareCartItemData(
               cartItem,
@@ -215,7 +214,7 @@ export default class EventBusListener {
     this.trackEcommerceEvent({
       event: GoogleTagManagerEvents.VIEW_ITEM,
       ecommerce: {
-        currency: DEFAULT_CURRENCY,
+        currency: DEFAULT_CURRENCY_CODE,
         value: PriceHelper.getFinalPrice(price),
         items: [
           prepareProductItemData(
@@ -237,7 +236,7 @@ export default class EventBusListener {
     this.trackEcommerceEvent({
       event: GoogleTagManagerEvents.ADD_TO_CART,
       ecommerce: {
-        currency: this.store.state.cart.platformTotals?.quote_currency_code || DEFAULT_CURRENCY,
+        currency: this.store.state.cart.platformTotals?.quote_currency_code || DEFAULT_CURRENCY_CODE,
         value: PriceHelper.getFinalPrice(price),
         items: [
           prepareCartItemData(
@@ -259,7 +258,7 @@ export default class EventBusListener {
     this.trackEcommerceEvent({
       event: GoogleTagManagerEvents.REMOVE_FORM_CART,
       ecommerce: {
-        currency: DEFAULT_CURRENCY,
+        currency: DEFAULT_CURRENCY_CODE,
         value: PriceHelper.getFinalPrice(price),
         items: [prepareCartItemData(cartItem, this.store)]
       }
@@ -279,7 +278,7 @@ export default class EventBusListener {
     )
   }
 
-  private sendBeginCheckoutEvent (): void {
+  private sendBeginCheckoutEvent (isExpressCheckout: boolean = false): void {
     const platformTotals = this.store.state.cart.platformTotals;
     const cartItems: CartItem[] = this.store.getters['cart/getCartItems'];
 
@@ -290,7 +289,10 @@ export default class EventBusListener {
       items: cartItems.map((cartItem) => prepareCartItemData(
         cartItem,
         this.store
-      ))
+      )),
+      custom_fields: {
+        express_checkout: isExpressCheckout
+      }
     }
 
     this.trackEcommerceEvent({
