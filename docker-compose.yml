@@ -63,6 +63,8 @@ services:
 
       - GOOGLE_PAY_MERCHANT_ID
 
+      - FERA_API_KEY
+
       - VIRTUAL_HOST=${DOMAIN}
       - VIRTUAL_PORT=3000
       - LETSENCRYPT_HOST=${DOMAIN}
