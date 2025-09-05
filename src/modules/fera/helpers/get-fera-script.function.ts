@@ -3,8 +3,6 @@ export function getFeraScript (apiKey: string): string {
   <script>
     window.feraStandaloneMode = true;
     window.fera = window.fera || [];
-    window.feraDebugMode = true;
-    window.fera.push('loadPlatformAdapter', "magento2");
     window.fera.push('configure', {
       api_key: "${apiKey}",
       app_url: "https://app.fera.ai/",
