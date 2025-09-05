@@ -26,6 +26,18 @@ export function useLockedCustomizations (
     return Object.values(lockedCustomizationDictionary.value);
   });
 
+  const selectedLockedCustomizations = computed<Customization[]>(() => {
+    return lockedCustomizations.value.filter((customization) => {
+      const selectedOptions = customizationOptionValueDictionary.value[customization.id];
+
+      if (Array.isArray(selectedOptions)) {
+        return selectedOptions.length > 0;
+      }
+
+      return !!selectedOptions;
+    });
+  });
+
   function customizationsFilter (customization: Customization): boolean {
     if (flow.value !== CustomizableProductFlowType.CUSTOMIZE) {
       return true;
@@ -55,7 +67,7 @@ export function useLockedCustomizations (
   }
 
   return {
-    lockedCustomizations,
+    selectedLockedCustomizations,
     customizationsFilter,
     optionValuesFilter
   };

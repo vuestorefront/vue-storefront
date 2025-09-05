@@ -143,7 +143,6 @@ export default {
           this.$store.dispatch('order/placeOrder', this.createOrder(response), { root: true }).then(result => {
             if (!result.resultCode || result.resultCode === 200) {
               response.complete()
-              this.$store.dispatch('checkout/setThankYouPage', true)
               this.$store.commit('ui/setMicrocart', false)
               this.$router.push(this.localizedRoute({ name: 'checkout' }))
               // clear cart without sync, because after order cart will be already cleared on backend

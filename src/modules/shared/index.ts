@@ -8,6 +8,7 @@ import { VideoProvider } from './types/video-provider.value';
 import CustomerImage from './types/customer-image.interface';
 import { PAYMENT_ERROR_EVENT } from './types/payment-error-event';
 import { DETECTED_COUNTRY_COOKIE_KEY } from './types/detected-country-cookie.key';
+import { DEFAULT_CURRENCY_CODE } from './types/default-currency-code';
 import { EU_COUNTRY_CODES } from './types/eu-country-codes';
 import ServerError from './types/server-error';
 import * as ProductEvent from './types/product-events';
@@ -18,9 +19,11 @@ import { PersistedBillingAddress } from './types/persisted-billing-address.inter
 import { getProductOptions } from './helpers/get-product-options.function';
 import { localStorageSynchronizationFactory } from './helpers/local-storage-synchronization.factory';
 import { parseLocalStorageValue } from './helpers/parse-local-storage-value.function';
+import { getRegionIdByCountryAndStateCode } from './helpers/get-region-id-by-country-and-state-code.function';
 import * as PriceHelper from '@vue-storefront/core/helpers/price';
 import * as BundleProductDiscountedPrice from '@vue-storefront/core/helpers/bundle-product-discounted-price';
 import { stateCodeAutocompleteOptionSearch } from './helpers/state-code-autocomplete-option-search.function';
+import { createPhoneHelpers } from './helpers/phone-number';
 
 import EmailSubmitForm from './components/email-submit-form.vue';
 import PrivacyPolicyLink from './components/privacy-policy-link.vue';
@@ -62,5 +65,8 @@ export {
   useMobileObserver,
   isCustomProduct,
   EU_COUNTRY_CODES,
-  DETECTED_COUNTRY_COOKIE_KEY
+  DETECTED_COUNTRY_COOKIE_KEY,
+  getRegionIdByCountryAndStateCode,
+  createPhoneHelpers,
+  DEFAULT_CURRENCY_CODE
 }

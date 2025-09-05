@@ -63,6 +63,21 @@ const totalsActions = {
 
     Logger.error(result, 'cart')()
   },
+  async fetchTotals ({ dispatch, rootGetters }): Promise<void> {
+    const shippingMethodsData = createOrderData({
+      shippingDetails: rootGetters['checkout/getShippingDetails'],
+      shippingMethods: rootGetters['checkout/getShippingMethods'],
+      paymentMethods: rootGetters['checkout/getPaymentMethods'],
+      paymentDetails: rootGetters['checkout/getPaymentDetails']
+    });
+
+    if (shippingMethodsData.country) {
+      await dispatch('overrideServerTotals', {
+        hasShippingInformation: shippingMethodsData.method_code || shippingMethodsData.carrier_code,
+        addressInformation: createShippingInfoData(shippingMethodsData)
+      });
+    }
+  },
   async syncTotals ({ dispatch, getters, rootGetters }, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null }) {
     const methodsData = payload ? payload.methodsData : null
     await dispatch('pullMethods', { forceServerSync: payload.forceServerSync })
