@@ -3,11 +3,11 @@ import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { getFeraScript } from './helpers/get-fera-script.function';
 
 export const FeraModule: StorefrontModule = ({ app, appConfig }) => {
-  const feraApiKey = appConfig.fera.apiKey;
+  const apiPublicKey = appConfig.fera.apiPublicKey;
 
-  if (!feraApiKey) {
+  if (!apiPublicKey) {
     return;
   }
 
-  app.$extendedHead.append(getFeraScript(feraApiKey));
+  app.$extendedHead.append(getFeraScript(apiPublicKey));
 }

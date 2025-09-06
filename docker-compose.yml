@@ -63,7 +63,7 @@ services:
 
       - GOOGLE_PAY_MERCHANT_ID
 
-      - FERA_API_KEY
+      - FERA_API_PUBLIC_KEY
 
       - VIRTUAL_HOST=${DOMAIN}
       - VIRTUAL_PORT=3000

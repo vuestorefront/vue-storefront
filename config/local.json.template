@@ -932,6 +932,6 @@
     "cookieKey": "exp_variant_string"
   },
   "fera": {
-    "apiKey": "${FERA_API_KEY}"
+    "apiPublicKey": "${FERA_API_PUBLIC_KEY}"
   }
 }
