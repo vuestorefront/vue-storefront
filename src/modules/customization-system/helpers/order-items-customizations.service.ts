@@ -46,7 +46,9 @@ function getOrderItemsRequestResult (data: any, defaultErrorMessage: string): Or
     errors: []
   };
 
-  for (const orderItemResult of data.result.results) {
+  const results = data?.result?.results || [];
+
+  for (const orderItemResult of results) {
     if (orderItemResult.error_message) {
       const errorMessage = getItemErrorMessage(orderItemResult, defaultErrorMessage, `Save State`);
 
