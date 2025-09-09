@@ -124,7 +124,12 @@ export async function saveOrderItemCustomizationsState (
   userToken: string
 ): Promise<OrderItemsRequestResult> {
   const payload = {
-    order_items: orderItems
+    order_items: orderItems.map((item) => {
+      return {
+        id: item.id,
+        customization_state: item.customization_state
+      }
+    })
   };
 
   const url = `${config.budsies.endpoint}/customizations/order-items/states?token=${userToken}`;

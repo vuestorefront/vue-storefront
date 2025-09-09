@@ -1,12 +1,15 @@
 import { RawLocation } from 'vue-router';
 import { Ref, computed } from '@vue/composition-api';
 
+import { BudsieStatus } from 'src/modules/shared';
+
 import { OrderItem } from '../types/order-item';
 
 export function useBulkCustomizableOrderItems (orderItems: Ref<OrderItem[]>) {
   const bulkCustomizableOrderItems = computed<OrderItem[]>(() => {
     return orderItems.value.filter((item: OrderItem) => {
-      return item.extension_attributes.support_bulk_customization;
+      return item.extension_attributes?.support_bulk_customization &&
+        item.progress_tracker.status_id === BudsieStatus.AWAITING_CUSTOMIZATION;
     });
   });
 

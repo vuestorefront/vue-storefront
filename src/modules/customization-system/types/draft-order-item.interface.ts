@@ -1,8 +1,10 @@
+import { BudsieStatus } from 'src/modules/shared';
+
 import { CustomizationStateItem } from './customization-state-item.interface';
 
 export interface DraftOrderItem {
-  id: string,
+  id: number,
   customization_state: CustomizationStateItem[],
   product_sku?: string,
-  is_customized?: boolean
+  status_id: BudsieStatus
 }
