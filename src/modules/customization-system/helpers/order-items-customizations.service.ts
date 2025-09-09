@@ -40,7 +40,7 @@ function getItemErrorMessage (
   return `${prefix}: ${errorMessage}`;
 }
 
-function gerOrderItemsRequestResult (data: any, defaultErrorMessage: string): OrderItemsRequestResult {
+function getOrderItemsRequestResult (data: any, defaultErrorMessage: string): OrderItemsRequestResult {
   const result: OrderItemsRequestResult = {
     success: [],
     errors: []
@@ -145,7 +145,7 @@ export async function saveOrderItemCustomizationsState (
     throw new Error(errorMessage);
   }
 
-  return gerOrderItemsRequestResult(data, defaultErrorMessage);
+  return getOrderItemsRequestResult(data, defaultErrorMessage);
 }
 
 export async function submitOrderItemCustomizationsState (
@@ -169,5 +169,5 @@ export async function submitOrderItemCustomizationsState (
     throw new Error(errorMessage);
   }
 
-  return gerOrderItemsRequestResult(data, defaultErrorMessage);
+  return getOrderItemsRequestResult(data, defaultErrorMessage);
 }
