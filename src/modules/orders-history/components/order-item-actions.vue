@@ -148,7 +148,7 @@ export default defineComponent({
         }
 
         if (action.code === OrderItemAvailableActionCode.AWAITING_CUSTOMIZATION) {
-          if (props.orderItem.extension_attributes.support_bulk_customization) {
+          if (props.orderItem.extension_attributes?.support_bulk_customization) {
             continue;
           }
 

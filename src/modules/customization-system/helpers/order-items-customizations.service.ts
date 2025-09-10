@@ -9,8 +9,8 @@ import { BEFORE_STORE_BACKEND_API_REQUEST } from 'src/modules/shared';
 import { DraftOrderItem } from '../types/draft-order-item.interface';
 
 export interface OrderItemsRequestResult {
-  success: { orderItemId: string }[],
-  errors: { orderItemId: string, errorMessage: string }[]
+  success: { orderItemId: number }[],
+  errors: { orderItemId: number, errorMessage: string }[]
 }
 
 async function postRequest (url: string, body: string): Promise<Response> {
@@ -151,7 +151,7 @@ export async function saveOrderItemCustomizationsState (
 }
 
 export async function submitOrderItemCustomizationsState (
-  orderItemIds: string[],
+  orderItemIds: number[],
   userToken: string
 ): Promise<OrderItemsRequestResult> {
   const payload = {
