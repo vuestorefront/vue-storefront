@@ -215,6 +215,7 @@ export default defineComponent({
       ._action-with-message {
         padding: var(--spacer-xs) var(--spacer-sm);
         background-color: var(--c-warning);
+        color: var(--c-white);
       }
     }
   }
