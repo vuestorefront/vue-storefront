@@ -33,6 +33,7 @@ import getCookieByName from './helpers/get-cookie-by-name.function';
 import { MimeTypeValue } from './types/mime-type.value';
 import { useMobileObserver } from './helpers/use-mobile-observer';
 import isCustomProduct from './helpers/is-custom-product.function';
+import { BudsieStatus } from './types/budsie-status';
 
 export {
   InjectType,
@@ -68,5 +69,6 @@ export {
   DETECTED_COUNTRY_COOKIE_KEY,
   getRegionIdByCountryAndStateCode,
   createPhoneHelpers,
-  DEFAULT_CURRENCY_CODE
+  DEFAULT_CURRENCY_CODE,
+  BudsieStatus
 }

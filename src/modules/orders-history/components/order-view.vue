@@ -1,13 +1,23 @@
 <template>
   <div class="order-view">
-    <div class="_header">
-      <span class="_created-date">
-        {{ createdDate }}
-      </span>
+    <div class="_header-container">
+      <div class="_header">
+        <span class="_created-date">
+          {{ createdDate }}
+        </span>
 
-      <h4 class="_order-number">
-        Order #{{ orderNumber }}
-      </h4>
+        <h4 class="_order-number">
+          Order #{{ orderNumber }}
+        </h4>
+      </div>
+
+      <router-link
+        v-if="hasBulkCustomizableOrderItems"
+        :to="bulkCustomizationRoute"
+        class="_customize-link sf-button"
+      >
+        {{ $t('Customize items') }}
+      </router-link>
     </div>
 
     <div class="_content">
@@ -27,6 +37,7 @@ import { computed, defineComponent, PropType } from '@vue/composition-api';
 import { Order } from '../types/order';
 
 import OrderItem from './order-item.vue';
+import { useBulkCustomizableOrderItems } from '../composables/use-bulk-customizable-order-items';
 
 export default defineComponent({
   name: 'OrderView',
@@ -53,6 +64,7 @@ export default defineComponent({
     });
 
     return {
+      ...useBulkCustomizableOrderItems(orderItems),
       createdDate,
       orderItems,
       orderNumber
@@ -67,6 +79,12 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
 
+  ._header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
   ._header {
     display: flex;
     column-gap: var(--spacer-sm);
@@ -80,9 +98,6 @@ export default defineComponent({
     ._created-date {
       text-align: left;
     }
-
-    ._order-number {
-    }
   }
 
   ._content {
@@ -90,6 +105,15 @@ export default defineComponent({
     flex-direction: column;
     row-gap: var(--spacer-sm);
     margin-top: var(--spacer-xs);
+  }
+
+  ._customize-link {
+    --button-font-size: var(--font-xs);
+    --button-padding: var(--spacer-xs) var(--spacer-sm);
+
+    &:hover {
+      color: var(--c-white);
+    }
   }
 }
 </style>

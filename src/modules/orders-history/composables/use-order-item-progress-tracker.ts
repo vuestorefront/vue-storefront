@@ -1,6 +1,7 @@
 import { Ref, computed } from '@vue/composition-api';
 
-import { ProgressStatusId } from '../types/progress-status.id';
+import { BudsieStatus } from 'src/modules/shared';
+
 import { ProgressTrackerData } from '../types/progress-tracker-data';
 import { ProgressTrackerStatus } from '../types/progress-tracker-status';
 import { OrderItem } from '../types/order-item';
@@ -22,12 +23,12 @@ export function useOrderItemProgressTracker (
   });
 
   const isOrderCancelledOrOnHoldOrCompleted = computed<boolean>(() => {
-    return isOrderCancelled.value || isOrderCompleted.value || progressTrackerData.value.status_id === ProgressStatusId.ON_HOLD;
+    return isOrderCancelled.value || isOrderCompleted.value || progressTrackerData.value.status_id === BudsieStatus.ON_HOLD;
   });
 
   const filteredStatusesList = computed<ProgressTrackerStatus[]>(() => {
     return progressTrackerData.value.status_list.filter((status) =>
-      status.id !== ProgressStatusId.ON_HOLD
+      status.id !== BudsieStatus.ON_HOLD
     );
   });
 
