@@ -69,6 +69,7 @@ export function useLockedCustomizations (
   return {
     selectedLockedCustomizations,
     customizationsFilter,
-    optionValuesFilter
+    optionValuesFilter,
+    lockedCustomizationDictionary
   };
 }
