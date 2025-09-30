@@ -17,7 +17,7 @@ import { useFilesUpload } from './composables/use-files-upload';
 import { useListWidget } from './composables/use-list-widget';
 import { useOptionValueActions } from './composables/use-option-value-actions';
 import { useOptionValuesPrice } from './composables/use-option-values-price';
-import { useLockedCustomizations } from './composables/use-locked-customizations';
+import { FilterType, useLockedCustomizations } from './composables/use-locked-customizations';
 import { useSelectedOptionValueUrlQuery } from './composables/use-selected-option-value-url-query';
 import { useValuesSort } from './composables/use-values-sort';
 import { useWidgetBusyState } from './composables/use-widget-busy-state';
@@ -65,6 +65,7 @@ export {
   ExtensionAttributes,
   FileUploadValue,
   ListWidgetInputType,
+  FilterType as LockedCustomizationsFilterType,
   OptionType,
   OptionValue,
   PersistedData,

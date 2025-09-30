@@ -3,10 +3,16 @@ import { computed, Ref } from '@vue/composition-api';
 import { Customization, CustomizationOptionValue, isFileUploadValue, OptionValue } from 'src/modules/customization-system';
 import { CustomizableProductFlowType } from 'src/modules/customization-system/types/customizable-product-flow.type';
 
+export enum FilterType {
+  ALL = 'all',
+  UNSELECTED = 'unselected'
+}
+
 export function useLockedCustomizations (
   customizationOptionValueDictionary: Ref<Record<string, CustomizationOptionValue>>,
   customizations: Ref<Customization[]>,
-  flow: Ref<CustomizableProductFlowType>
+  flow: Ref<CustomizableProductFlowType>,
+  filterType: FilterType = FilterType.ALL
 ) {
   const lockedCustomizationDictionary = computed<Record<string, Customization>>(() => {
     const set: Record<string, Customization> = {};
@@ -38,12 +44,26 @@ export function useLockedCustomizations (
     });
   });
 
+  const selectedLockedCustomizationDictionary = computed<Record<string, Customization>>(() => {
+    const dictionary: Record<string, Customization> = {};
+
+    for (const customization of selectedLockedCustomizations.value) {
+      dictionary[customization.id] = customization;
+    }
+
+    return dictionary;
+  });
+
   function customizationsFilter (customization: Customization): boolean {
     if (flow.value !== CustomizableProductFlowType.CUSTOMIZE) {
       return true;
     }
 
-    return !lockedCustomizationDictionary.value[customization.id];
+    if (filterType === FilterType.ALL) {
+      return !lockedCustomizationDictionary.value[customization.id];
+    }
+
+    return !!selectedLockedCustomizationDictionary.value[customization.id] || !lockedCustomizationDictionary.value[customization.id];
   }
 
   function optionValuesFilter (customizationId: string, optionValue: OptionValue): boolean {
