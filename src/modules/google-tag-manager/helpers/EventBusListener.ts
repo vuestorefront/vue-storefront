@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Store } from 'vuex';
 import VueGtm from 'vue-gtm';
+import { sha3_256 } from 'js-sha3'
 
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
@@ -361,6 +362,7 @@ export default class EventBusListener {
       const eventData = this.getCustomerEventData(customerData);
 
       eventData.customerEmail = customerEmail;
+      eventData.customerEmailHashed = sha3_256(customerEmail);
 
       this.trackEvent({
         ...eventData,
@@ -468,6 +470,7 @@ export default class EventBusListener {
       event: GoogleTagManagerEvents.PURCHASE,
       ecommerce: data,
       customerEmail: orderPersonalDetails.emailAddress,
+      customerEmailHashed: sha3_256(orderPersonalDetails.emailAddress),
       customerFullName: `${orderPersonalDetails.firstName} ${orderPersonalDetails.lastName}`,
       customerId: currentUser ? currentUser.id : ''
     });
@@ -486,6 +489,7 @@ export default class EventBusListener {
     return {
       customerId: customerData.id,
       customerEmail: customerData.email,
+      customerEmailHashed: sha3_256(customerData.email),
       customerFirstName: customerData.firstName || customerData.billingAddress.firstName,
       customerLastName: customerData.lastName || customerData.billingAddress.lastName,
       customerFullName: `${customerData.firstName} ${customerData.lastName}`,

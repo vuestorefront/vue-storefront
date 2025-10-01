@@ -9,6 +9,7 @@ export function prepareBaseItemData (product: Product) {
   return {
     affiliation: storeView.name,
     item_id: product.sku,
+    item_internal_id: product.id,
     item_name: product.name,
     item_category: prepareProductCategories(product),
     quantity: product.qty
