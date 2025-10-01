@@ -1,4 +1,5 @@
 export enum AmGiftCardType {
   VIRTUAL = 1,
-  PHYSICAL = 2
+  PHYSICAL = 2,
+  COMBINED = 3
 }
