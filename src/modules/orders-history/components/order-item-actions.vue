@@ -70,7 +70,12 @@ interface ActionsListGroups {
 }
 
 const printedProductSkus = new Set<string>([
-  // TODO add appropriate skus
+  'ShopifyPhotoPortraits_bundle',
+  'ShopifyPajamas_bundle',
+  'ShopifyPetPhotoBlankets_bundle',
+  'ShopifyRenaissanceBlankets_bundle',
+  'ShopifyTumblers_bundle',
+  'ShopifyPetSocks_bundle'
 ]);
 
 export default defineComponent({
