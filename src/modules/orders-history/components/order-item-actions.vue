@@ -69,6 +69,16 @@ interface ActionsListGroups {
   nonBlockingActionsList: ActionItem[]
 }
 
+const printedProductSkus = new Set<string>([
+  'ShopifyPhotoPortraits_bundle',
+  'ShopifyPajamas_bundle',
+  'ShopifyPetPhotoBlankets_bundle',
+  'ShopifyRenaissanceBlankets_bundle',
+  'ShopifyTumblers_bundle',
+  'ShopifyPetSocks_bundle',
+  'ShopifyGolfShirts_bundle'
+]);
+
 export default defineComponent({
   name: 'OrderItemActions',
   components: {
@@ -94,11 +104,17 @@ export default defineComponent({
     });
 
     async function onCustomizeOrderItemActionClick (): Promise<void> {
+      const sku = props.orderItem.product.sku;
+
+      const routeName = printedProductSkus.has(sku)
+        ? 'printed-product-customize'
+        : 'forevers-customize';
+
       root.$router.push({
-        name: 'forevers-customize',
+        name: routeName,
         query: {
           orderItemId: props.orderItem.item_id.toString(),
-          sku: props.orderItem.product.sku
+          sku
         }
       });
     }
@@ -122,7 +138,7 @@ export default defineComponent({
       } catch (error) {
         root.$store.dispatch('notification/spawnNotification', {
           type: 'danger',
-          message: error.message,
+          message: (error as any)?.message || root.$t('Something went wrong'),
           action1: { label: root.$t('OK') }
         });
       }
