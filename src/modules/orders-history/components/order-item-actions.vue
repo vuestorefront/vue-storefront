@@ -75,7 +75,8 @@ const printedProductSkus = new Set<string>([
   'ShopifyPetPhotoBlankets_bundle',
   'ShopifyRenaissanceBlankets_bundle',
   'ShopifyTumblers_bundle',
-  'ShopifyPetSocks_bundle'
+  'ShopifyPetSocks_bundle',
+  'ShopifyGolfShirts_bundle'
 ]);
 
 export default defineComponent({
