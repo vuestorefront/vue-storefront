@@ -50,6 +50,7 @@
 import { computed, defineComponent, PropType } from '@vue/composition-api';
 import { SfButton } from '@storefront-ui/vue';
 
+import { Logger } from '@vue-storefront/core/lib/logger'
 import { IS_CART_SYNCING } from '@vue-storefront/core/modules/cart';
 
 import { OrderItem } from '../types/order-item';
@@ -69,7 +70,8 @@ interface ActionsListGroups {
   nonBlockingActionsList: ActionItem[]
 }
 
-const printedProductSkus = new Set<string>([
+const printedProductCustomizeRouteName = 'printed-product-customize';
+const printedProductSkus = [
   'ShopifyPhotoPortraits_bundle',
   'ShopifyPajamas_bundle',
   'ShopifyPetPhotoBlankets_bundle',
@@ -77,7 +79,39 @@ const printedProductSkus = new Set<string>([
   'ShopifyTumblers_bundle',
   'ShopifyPetSocks_bundle',
   'ShopifyGolfShirts_bundle'
-]);
+];
+
+const foreversProductCustomizeRouteName = 'forevers-customize';
+const foreversProductSkus = [
+  'ShopifyForeversDog_bundle',
+  'ShopifyForeversCat_bundle',
+  'ShopifyForeversOther_bundle'
+];
+
+const golfHeadCoversProductCustomizeRouteName = 'golf-head-covers-customize';
+const golfHeadCoversProductSkus = [
+  'ShopifyGolfHeadCoversDog_bundle',
+  'ShopifyGolfHeadCoversCat_bundle',
+  'ShopifyGolfHeadCoversOther_bundle'
+];
+
+function getProductSkuRouteNameMapping (): Record<string, string> {
+  const productSkuRouteNameMapping: Record<string, string> = {};
+
+  for (const sku of printedProductSkus) {
+    productSkuRouteNameMapping[sku] = printedProductCustomizeRouteName;
+  }
+
+  for (const sku of foreversProductSkus) {
+    productSkuRouteNameMapping[sku] = foreversProductCustomizeRouteName;
+  }
+
+  for (const sku of golfHeadCoversProductSkus) {
+    productSkuRouteNameMapping[sku] = golfHeadCoversProductCustomizeRouteName;
+  }
+
+  return productSkuRouteNameMapping;
+}
 
 export default defineComponent({
   name: 'OrderItemActions',
@@ -95,6 +129,8 @@ export default defineComponent({
     }
   },
   setup (props, { root }) {
+    const productSkuRouteNameMapping = getProductSkuRouteNameMapping();
+
     const disabledItems = computed<Record<string, boolean>>(() => {
       const items: Record<string, boolean> = {};
 
@@ -106,9 +142,12 @@ export default defineComponent({
     async function onCustomizeOrderItemActionClick (): Promise<void> {
       const sku = props.orderItem.product.sku;
 
-      const routeName = printedProductSkus.has(sku)
-        ? 'printed-product-customize'
-        : 'forevers-customize';
+      const routeName = productSkuRouteNameMapping[sku];
+
+      if (!routeName) {
+        Logger.error(`Route for product with "${sku}" SKU is not found`, 'order-item-actions')();
+        return;
+      }
 
       root.$router.push({
         name: routeName,
