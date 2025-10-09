@@ -1,0 +1,1 @@
+export const PAYMENT_NONCE = 'PAYMENT_NONCE';

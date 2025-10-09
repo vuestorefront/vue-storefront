@@ -1,18 +1,38 @@
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
-import { afterRegistration } from './hooks/afterRegistration'
-import { module } from './store'
-import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
-import config from 'config'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
-export const KEY = 'amazon-pay'
-export const METHOD_CODE = config.amazonPay.backend_method_code || KEY
+import { PAYMENT_NONCE } from './types/getters';
+import { CLEAR_PAYMENT_NONCE } from './types/mutations';
+import { MODULE_NAME } from './types/module-name';
+import { AmazonPayModule } from './store';
+import { SupportedMethodCodes } from './types/supported-method-codes';
 
-export const cacheStorage = initCacheStorage(KEY)
+const AMAZON_SCRIPT = '<script async src="https://static-na.payments-amazon.com/checkout.js"></script>';
 
-const moduleConfig: VueStorefrontModuleConfig = {
-  key: KEY,
-  store: { modules: [{ key: KEY, module }] },
-  afterRegistration
+export const AmazonPay: StorefrontModule = function ({ app, store }) {
+  store.registerModule(MODULE_NAME, AmazonPayModule);
+
+  app.$extendedHead.append(AMAZON_SCRIPT);
+
+  if (app.$isServer) {
+    return;
+  }
+
+  const onCollectSupportedPaymentMethodsEventHandler = (methods: string[]) => {
+    methods.push(SupportedMethodCodes.AMAZON_PAY);
+  };
+
+  EventBus.$on(
+    'collect-methods-handled-by-other-modules',
+    onCollectSupportedPaymentMethodsEventHandler
+  );
+};
+
+const PAYMENT_NONCE_GETTER = `${MODULE_NAME}/${PAYMENT_NONCE}`;
+const CLEAR_PAYMENT_NONCE_MUTATION = `${MODULE_NAME}/${CLEAR_PAYMENT_NONCE}`;
+
+export {
+  PAYMENT_NONCE_GETTER,
+  CLEAR_PAYMENT_NONCE_MUTATION,
+  SupportedMethodCodes
 }
-
-export const AmazonPay = new VueStorefrontModule(moduleConfig)
