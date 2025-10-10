@@ -1,1 +1,1 @@
-export const PAYMENT_NONCE = 'PAYMENT_NONCE';
+export const AMAZON_SESSION_ID = 'AMAZON_SESSION_ID';

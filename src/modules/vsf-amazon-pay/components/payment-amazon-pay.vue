@@ -11,7 +11,7 @@ import config from 'config';
 import { ExpressCheckoutData, getFirstAndLastFromFullName, getRegionIdByCountryAndStateCode } from 'src/modules/shared'
 
 import { MODULE_NAME } from '../types/module-name';
-import { SET_PAYMENT_NONCE } from '../types/mutations';
+import { SET_AMAZON_SESSION_ID } from '../types/mutations';
 import { SupportedMethodCodes } from '../types/supported-method-codes';
 
 type AdditionalAddressData = ExpressCheckoutData.AdditionalAddressData;
@@ -360,7 +360,7 @@ export default defineComponent({
               throw new Error('onExpressCheckoutAuthorized is not defined');
             }
 
-            root.$store.commit(`${MODULE_NAME}/${SET_PAYMENT_NONCE}`, event.amazonCheckoutSessionId);
+            root.$store.commit(`${MODULE_NAME}/${SET_AMAZON_SESSION_ID}`, event.amazonCheckoutSessionId);
 
             const data = customerData.getData();
 

@@ -1,4 +1,3 @@
 export interface AmazonPayState {
-  paymentNonce: string | null
+  sessionId: string | null
 }
-

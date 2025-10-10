@@ -1,8 +1,8 @@
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
-import { PAYMENT_NONCE } from './types/getters';
-import { CLEAR_PAYMENT_NONCE } from './types/mutations';
+import { AMAZON_SESSION_ID } from './types/getters';
+import { CLEAR_AMAZON_SESSION_ID } from './types/mutations';
 import { MODULE_NAME } from './types/module-name';
 import { AmazonPayModule } from './store';
 import { SupportedMethodCodes } from './types/supported-method-codes';
@@ -30,12 +30,12 @@ export const AmazonPay: StorefrontModule = function ({ app, store }) {
   );
 };
 
-const PAYMENT_NONCE_GETTER = `${MODULE_NAME}/${PAYMENT_NONCE}`;
-const CLEAR_PAYMENT_NONCE_MUTATION = `${MODULE_NAME}/${CLEAR_PAYMENT_NONCE}`;
+const AMAZON_SESSION_ID_GETTER = `${MODULE_NAME}/${AMAZON_SESSION_ID}`;
+const CLEAR_AMAZON_SESSION_ID_MUTATION = `${MODULE_NAME}/${CLEAR_AMAZON_SESSION_ID}`;
 
 export {
-  PAYMENT_NONCE_GETTER,
-  CLEAR_PAYMENT_NONCE_MUTATION,
+  AMAZON_SESSION_ID_GETTER,
+  CLEAR_AMAZON_SESSION_ID_MUTATION,
   SupportedMethodCodes,
   PaymentAmazonPay
 }
