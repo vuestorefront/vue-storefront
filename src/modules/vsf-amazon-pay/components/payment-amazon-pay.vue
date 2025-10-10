@@ -175,7 +175,7 @@ export default defineComponent({
 
     const customerData = useCustomerData();
 
-    function getTotalsData (totals: ExpressCheckoutUpdateData['total']): AmazonPay.UpdateData {
+    function getTotalsData (totals: ExpressCheckoutUpdateData['total']): AmazonPay.SuccessUpdateData {
       return {
         totalBaseAmount: getPrice(totals.base),
         totalTaxAmount: getPrice(totals.tax),
@@ -213,6 +213,13 @@ export default defineComponent({
 
       const totalsData = getTotalsData(result.total);
       totalsData.deliveryOptions = deliveryOptions;
+
+      if (totalsData.deliveryOptions.length === 0) {
+        return {
+          status: 'error',
+          reasonCode: 'shippingAddressInvalid'
+        }
+      }
 
       return totalsData;
     }

@@ -60,7 +60,7 @@ declare namespace AmazonPay {
     message: string
   }
 
-  interface UpdateData {
+  interface SuccessUpdateData {
     totalBaseAmount: Price,
     totalTaxAmount: Price,
     totalShippingAmount: Price,
@@ -70,11 +70,17 @@ declare namespace AmazonPay {
     deliveryOptions?: DeliveryOption[]
   }
 
+  interface ErrorUpdateData {
+    status: 'error',
+    reasonCode: 'shippingAddressInvalid' | 'unknownError'
+  }
+
   type ProductType = 'PayAndShip' | 'PayOnly'
   type ButtonColor = 'Gold' | 'LightGray' | 'DarkGray'
   type Placement = 'Cart' | 'PaymentSelect' | 'Checkout' | 'Other'
   type PaymentIntent = 'Authorize' | 'AuthorizeWithCapture'
   type Scope = 'name' | 'email' | 'phoneNumber' | 'billingAddress' | 'shippingAddress'
+  type UpdateData = SuccessUpdateData | ErrorUpdateData
 
   interface PaymentDetails {
     paymentIntent: PaymentIntent,
