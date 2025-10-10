@@ -42,7 +42,8 @@ function useCustomerData () {
     return {
       firstName: '',
       lastName: '',
-      streetAddress: ''
+      streetAddress: '',
+      phoneNumber: ''
     };
   }
 
@@ -87,6 +88,14 @@ function useCustomerData () {
     customer.lastName = lastName;
   }
 
+  function getStreetAddress (address: AmazonPay.Address): string {
+    if (!address.addressLine2) {
+      return address.addressLine1;
+    }
+
+    return `${address.addressLine1} ${address.addressLine2}`;
+  }
+
   function updateBillingAddress (billingAddress: AmazonPay.Address) {
     const regionId = getRegionIdByCountryAndStateCode(
       billingAddress.countryCode,
@@ -108,7 +117,8 @@ function useCustomerData () {
     billingAddressAdditionalData = {
       firstName,
       lastName,
-      streetAddress: billingAddress.addressLine1 + (billingAddress.addressLine2 || '')
+      streetAddress: getStreetAddress(billingAddress),
+      phoneNumber: billingAddress.phoneNumber
     }
   }
 
@@ -118,7 +128,8 @@ function useCustomerData () {
     shippingAddressAdditionalData = {
       firstName,
       lastName,
-      streetAddress: shippingAddress.addressLine1 + (shippingAddress.addressLine2 || '')
+      streetAddress: getStreetAddress(shippingAddress),
+      phoneNumber: shippingAddress.phoneNumber
     }
   }
 
@@ -190,7 +201,7 @@ export default defineComponent({
 
       for (const option of result.availableShippingMethods) {
         if (
-          !option.price_incl_tax || !option.method_title || !option.method_code || !option.carrier_code
+          option.price_incl_tax === undefined || !option.method_title || !option.method_code || !option.carrier_code
         ) {
           continue;
         }
@@ -352,15 +363,21 @@ export default defineComponent({
 
             const data = customerData.getData();
 
-            await props.onExpressCheckoutAuthorized({
-              paymentMethod: SupportedMethodCodes.AMAZON_PAY,
-              customer: data.customer,
-              shippingDetails: data.shippingAddressAdditionalData,
-              paymentDetails: data.billingAddressAdditionalData
-            });
+            try {
+              await props.onExpressCheckoutAuthorized({
+                paymentMethod: SupportedMethodCodes.AMAZON_PAY,
+                customer: data.customer,
+                shippingDetails: data.shippingAddressAdditionalData,
+                paymentDetails: data.billingAddressAdditionalData
+              });
 
-            emit('success');
-            customerData.clearData();
+              emit('success');
+            } catch (error) {
+              Logger.error('Error during payment authorization: ' + error, 'amazon-pay')();
+              EventBus.$emit(PAYMENT_ERROR_EVENT);
+            } finally {
+              customerData.clearData();
+            }
           },
           onCancel: function () {
             customerData.clearData();
