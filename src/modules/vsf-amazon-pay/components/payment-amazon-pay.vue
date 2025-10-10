@@ -8,7 +8,7 @@
 import { computed, defineComponent, onMounted, PropType } from '@vue/composition-api'
 import config from 'config';
 
-import { ExpressCheckoutData, getFirstAndLastFromFullName, getRegionIdByCountryAndStateCode } from 'src/modules/shared'
+import { DEFAULT_CURRENCY_CODE, ExpressCheckoutData, getFirstAndLastFromFullName, getRegionIdByCountryAndStateCode, PaymentType } from 'src/modules/shared'
 
 import { MODULE_NAME } from '../types/module-name';
 import { SET_AMAZON_SESSION_ID } from '../types/mutations';
@@ -20,74 +20,11 @@ type ExpressCheckoutUpdateData = ExpressCheckoutData.ExpressCheckoutUpdateData;
 type MainAddressData = ExpressCheckoutData.MainAddressData;
 type ShippingDetailsChangedCallbackData = ExpressCheckoutData.ShippingDetailsChangedCallbackData
 
-interface Price {
-  amount: string,
-  currencyCode: string
-}
-
-function getPrice (value: number): Price {
+function getPrice (value: number): AmazonPay.Price {
   return {
     amount: value.toString(10),
-    currencyCode: 'USD'
+    currencyCode: DEFAULT_CURRENCY_CODE
   }
-}
-
-// TODO: move to a separate d.ts file for amazon pay JS script
-interface DeliveryOption {
-  id: string,
-  price: Price,
-  shippingMethod: {
-    shippingMethodName: string,
-    shippingMethodCode: string
-  },
-  isDefault: boolean
-}
-
-interface UpdateData {
-  totalBaseAmount: Price,
-  totalTaxAmount: Price,
-  totalShippingAmount: Price,
-  totalChargeAmount: Price,
-  totalOrderAmount?: Price,
-  totalDiscountAmount?: Price,
-  deliveryOptions?: DeliveryOption[]
-}
-
-interface Address {
-  name: string,
-  addressLine1: string,
-  addressLine2?: string,
-  city: string,
-  county?: string,
-  district?: string,
-  stateOrRegion: string,
-  postalCode: string,
-  countryCode: string,
-  phoneNumber: string
-}
-
-interface Buyer {
-  name: string,
-  email: string,
-  phoneNumber: string
-}
-
-interface AddressSelectionEvent {
-  shippingAddress?: Address,
-  billingAddress?: Address,
-  buyer?: Buyer
-}
-
-interface ShippingMethodSelectionEvent {
-  deliveryOptions?: {
-    id: string,
-    displayName: string,
-    amount: string
-  }
-}
-
-interface CompleteCheckoutEvent {
-  amazonCheckoutSessionId: string
 }
 
 function useCustomerData () {
@@ -132,7 +69,7 @@ function useCustomerData () {
     customer = defaultCustomerDataFactory();
   }
 
-  function updateCustomer (buyer: Buyer) {
+  function updateCustomer (buyer: AmazonPay.Buyer) {
     const { firstName, lastName } = getFirstAndLastFromFullName(buyer.name);
 
     customer.emailAddress = buyer.email;
@@ -140,7 +77,7 @@ function useCustomerData () {
     customer.lastName = lastName;
   }
 
-  function updateBillingAddress (billingAddress: Address) {
+  function updateBillingAddress (billingAddress: AmazonPay.Address) {
     const regionId = getRegionIdByCountryAndStateCode(
       billingAddress.countryCode,
       billingAddress.stateOrRegion
@@ -165,7 +102,7 @@ function useCustomerData () {
     }
   }
 
-  function updateShippingAddress (shippingAddress: Address) {
+  function updateShippingAddress (shippingAddress: AmazonPay.Address) {
     const { firstName, lastName } = getFirstAndLastFromFullName(shippingAddress.name);
 
     shippingAddressAdditionalData = {
@@ -202,17 +139,25 @@ export default defineComponent({
     onShippingDetailsChanged: {
       type: Function as PropType<((data: ShippingDetailsChangedCallbackData) => Promise<ExpressCheckoutUpdateData>) | undefined>,
       default: undefined
+    },
+    type: {
+      type: String as PropType<PaymentType>,
+      default: PaymentType.PAYMENT
     }
   },
   setup (props, { emit, root }) {
+    const isExpressCheckout = computed<boolean>(() => {
+      return props.type === PaymentType.EXPRESS_CHECKOUT;
+    });
+
     const isShippingAddressRequired = computed<boolean>(() => {
-      return root.$store.getters['cart/isVirtualCart'];
+      return isExpressCheckout && !root.$store.getters['cart/isVirtualCart'];
     });
 
     const customerData = useCustomerData();
 
-    function generateUpdateDataObject (result: ExpressCheckoutUpdateData): UpdateData {
-      const deliveryOptions: DeliveryOption[] = [];
+    function generateUpdateDataObject (result: ExpressCheckoutUpdateData): AmazonPay.UpdateData {
+      const deliveryOptions: AmazonPay.DeliveryOption[] = [];
 
       for (const option of result.availableShippingMethods) {
         if (
@@ -226,7 +171,7 @@ export default defineComponent({
             id: option.carrier_code,
             price: {
               amount: option.price_incl_tax.toString(10),
-              currencyCode: 'USD'
+              currencyCode: DEFAULT_CURRENCY_CODE
             },
             shippingMethod: {
               shippingMethodCode: option.method_code,
@@ -247,19 +192,7 @@ export default defineComponent({
       }
     }
 
-    async function onShippingMethodUpdate (shippingMethod: ShippingMethodSelectionEvent['deliveryOptions']): Promise<UpdateData> {
-      if (!props.onShippingDetailsChanged) {
-        throw new Error('onShippingDetailsChanged is not defined');
-      }
-
-      const result = await props.onShippingDetailsChanged({
-        shippingMethod: shippingMethod?.id
-      });
-
-      return generateUpdateDataObject(result);
-    }
-
-    async function onAddressUpdate (shippingAddress?: Address): Promise<UpdateData> {
+    async function onAddressUpdate (shippingAddress?: AmazonPay.Address): Promise<AmazonPay.UpdateData> {
       if (!props.onShippingDetailsChanged) {
         throw new Error('onShippingDetailsChanged is not defined');
       }
@@ -293,14 +226,14 @@ export default defineComponent({
     }
 
     async function renderAmazonPayButton () {
-      const amazon = (window as any).amazon;
+      const amazon = window.amazon;
 
       if (!amazon) {
         return;
       }
 
-      const scopes: ('name' | 'email' | 'phoneNumber' | 'billingAddress' | 'shippingAddress')[] = ['name', 'email', 'phoneNumber', 'billingAddress'];
-      let productType: 'PayAndShip' | 'PayOnly' = 'PayOnly';
+      const scopes: AmazonPay.Scope[] = ['name', 'email', 'phoneNumber', 'billingAddress'];
+      let productType: AmazonPay.ProductType = 'PayOnly';
 
       if (isShippingAddressRequired) {
         scopes.push('shippingAddress');
@@ -308,25 +241,24 @@ export default defineComponent({
       }
 
       try {
-        await amazon.Pay.renderJSButton('._amazon-pay-container', {
+        const button = await amazon.Pay.renderJSButton('._amazon-pay-container', {
           merchantId: config.amazonPay.merchantId,
-          ledgerCurrency: 'USD',
+          ledgerCurrency: DEFAULT_CURRENCY_CODE,
           productType,
-          sandbox: true,
+          sandbox: config.amazonPay.sandbox,
           placement: 'Cart',
           buttonColor: 'Gold',
           // TODO: replace with actual total
-          estimatedOrderAmount: { 'amount': '109.99', 'currencyCode': 'USD' },
+          estimatedOrderAmount: { 'amount': '109.99', 'currencyCode': DEFAULT_CURRENCY_CODE },
           checkoutSessionConfig: {
             storeId: config.amazonPay.storeId,
             scopes,
             paymentDetails: {
-              // paymentIntent: 'AuthorizeWithCapture'
               paymentIntent: 'Authorize',
               canHandlePendingAuthorization: false
             }
           },
-          onInitCheckout: async function (event: AddressSelectionEvent): Promise<UpdateData> {
+          onInitCheckout: async function (event) {
             if (!props.onShippingDetailsChanged) {
               throw new Error('onShippingDetailsChanged is not defined');
             }
@@ -349,13 +281,21 @@ export default defineComponent({
 
             return onAddressUpdate(event.shippingAddress);
           },
-          onShippingAddressSelection: function (event: AddressSelectionEvent) {
+          onShippingAddressSelection: function (event) {
             return onAddressUpdate(event.shippingAddress);
           },
-          onDeliveryOptionSelection: async function (event: ShippingMethodSelectionEvent): Promise<UpdateData> {
-            return onShippingMethodUpdate(event.deliveryOptions);
+          onDeliveryOptionSelection: async function (event) {
+            if (!props.onShippingDetailsChanged) {
+              throw new Error('onShippingDetailsChanged is not defined');
+            }
+
+            const result = await props.onShippingDetailsChanged({
+              shippingMethod: event.deliveryOptions?.id
+            });
+
+            return generateUpdateDataObject(result);
           },
-          onCompleteCheckout: async function (event: CompleteCheckoutEvent) {
+          onCompleteCheckout: async function (event) {
             if (!props.onExpressCheckoutAuthorized) {
               throw new Error('onExpressCheckoutAuthorized is not defined');
             }
@@ -378,6 +318,8 @@ export default defineComponent({
             customerData.clearData();
           }
         });
+
+        console.log(button);
       } catch (error) {
       }
     }
