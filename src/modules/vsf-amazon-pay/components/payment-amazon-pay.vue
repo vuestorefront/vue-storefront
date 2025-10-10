@@ -1,14 +1,24 @@
 <template>
-  <div class="payment-amazon-pay">
-    <div class="_amazon-pay-container" />
+  <div class="payment-amazon-pay" v-if="canUseAmazonPay">
+    <div class="_amazon-pay-container" v-if="showContainer" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, PropType } from '@vue/composition-api'
+import { computed, defineComponent, nextTick, onMounted, PropType, ref, watch } from '@vue/composition-api'
 import config from 'config';
 
-import { DEFAULT_CURRENCY_CODE, ExpressCheckoutData, getFirstAndLastFromFullName, getRegionIdByCountryAndStateCode, PaymentType } from 'src/modules/shared'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { Logger } from '@vue-storefront/core/lib/logger';
+import {
+  useExpressCheckoutTotals,
+  DEFAULT_CURRENCY_CODE,
+  ExpressCheckoutData,
+  getFirstAndLastFromFullName,
+  getRegionIdByCountryAndStateCode,
+  PaymentType,
+  PAYMENT_ERROR_EVENT
+} from 'src/modules/shared'
 
 import { MODULE_NAME } from '../types/module-name';
 import { SET_AMAZON_SESSION_ID } from '../types/mutations';
@@ -145,16 +155,35 @@ export default defineComponent({
       default: PaymentType.PAYMENT
     }
   },
-  setup (props, { emit, root }) {
+  setup (props, context) {
+    const emit = context.emit;
+    const root = context.root;
+
+    const { expressCheckoutTotals } = useExpressCheckoutTotals(context);
+
     const isExpressCheckout = computed<boolean>(() => {
       return props.type === PaymentType.EXPRESS_CHECKOUT;
     });
 
     const isShippingAddressRequired = computed<boolean>(() => {
-      return isExpressCheckout && !root.$store.getters['cart/isVirtualCart'];
+      return isExpressCheckout.value && !root.$store.getters['cart/isVirtualCart'];
+    });
+
+    const canUseAmazonPay = computed<boolean>(() => {
+      return isShippingAddressRequired.value;
     });
 
     const customerData = useCustomerData();
+
+    function getTotalsData (totals: ExpressCheckoutUpdateData['total']): AmazonPay.UpdateData {
+      return {
+        totalBaseAmount: getPrice(totals.base),
+        totalTaxAmount: getPrice(totals.tax),
+        totalShippingAmount: getPrice(totals.shipping),
+        totalChargeAmount: getPrice(totals.final),
+        totalDiscountAmount: getPrice(totals.discount)
+      }
+    }
 
     function generateUpdateDataObject (result: ExpressCheckoutUpdateData): AmazonPay.UpdateData {
       const deliveryOptions: AmazonPay.DeliveryOption[] = [];
@@ -182,14 +211,10 @@ export default defineComponent({
         );
       }
 
-      return {
-        totalBaseAmount: getPrice(result.total.base),
-        totalTaxAmount: getPrice(result.total.tax),
-        totalShippingAmount: getPrice(result.total.shipping),
-        totalChargeAmount: getPrice(result.total.final),
-        totalDiscountAmount: getPrice(result.total.discount),
-        deliveryOptions
-      }
+      const totalsData = getTotalsData(result.total);
+      totalsData.deliveryOptions = deliveryOptions;
+
+      return totalsData;
     }
 
     async function onAddressUpdate (shippingAddress?: AmazonPay.Address): Promise<AmazonPay.UpdateData> {
@@ -228,42 +253,46 @@ export default defineComponent({
     async function renderAmazonPayButton () {
       const amazon = window.amazon;
 
-      if (!amazon) {
+      if (!amazon || !canUseAmazonPay.value) {
         return;
       }
 
       const scopes: AmazonPay.Scope[] = ['name', 'email', 'phoneNumber', 'billingAddress'];
       let productType: AmazonPay.ProductType = 'PayOnly';
 
-      if (isShippingAddressRequired) {
+      if (isShippingAddressRequired.value) {
         scopes.push('shippingAddress');
         productType = 'PayAndShip';
       }
 
       try {
-        const button = await amazon.Pay.renderJSButton('._amazon-pay-container', {
+        await amazon.Pay.renderJSButton('._amazon-pay-container', {
           merchantId: config.amazonPay.merchantId,
           ledgerCurrency: DEFAULT_CURRENCY_CODE,
           productType,
           sandbox: config.amazonPay.sandbox,
           placement: 'Cart',
           buttonColor: 'Gold',
-          // TODO: replace with actual total
-          estimatedOrderAmount: { 'amount': '109.99', 'currencyCode': DEFAULT_CURRENCY_CODE },
           checkoutSessionConfig: {
             storeId: config.amazonPay.storeId,
             scopes,
             paymentDetails: {
-              paymentIntent: 'Authorize',
+              paymentIntent: 'AuthorizeWithCapture',
               canHandlePendingAuthorization: false
             }
           },
           onInitCheckout: async function (event) {
+            customerData.clearData();
+
+            if (!isExpressCheckout.value) {
+              return getTotalsData(expressCheckoutTotals.value);
+            }
+
             if (!props.onShippingDetailsChanged) {
               throw new Error('onShippingDetailsChanged is not defined');
             }
 
-            customerData.clearData();
+            emit('payment-started');
 
             if (event.buyer) {
               customerData.updateCustomer(event.buyer);
@@ -277,14 +306,20 @@ export default defineComponent({
               customerData.updateShippingAddress(event.shippingAddress);
             }
 
-            emit('payment-started');
+            return onAddressUpdate(event.shippingAddress);
+          },
+          onShippingAddressSelection: async function (event) {
+            if (!isExpressCheckout.value) {
+              return getTotalsData(expressCheckoutTotals.value);
+            }
 
             return onAddressUpdate(event.shippingAddress);
           },
-          onShippingAddressSelection: function (event) {
-            return onAddressUpdate(event.shippingAddress);
-          },
           onDeliveryOptionSelection: async function (event) {
+            if (!isExpressCheckout.value) {
+              return getTotalsData(expressCheckoutTotals.value);
+            }
+
             if (!props.onShippingDetailsChanged) {
               throw new Error('onShippingDetailsChanged is not defined');
             }
@@ -296,11 +331,17 @@ export default defineComponent({
             return generateUpdateDataObject(result);
           },
           onCompleteCheckout: async function (event) {
+            root.$store.commit(`${MODULE_NAME}/${SET_AMAZON_SESSION_ID}`, event.amazonCheckoutSessionId);
+
+            if (!isExpressCheckout.value) {
+              emit('success');
+              customerData.clearData();
+              return;
+            }
+
             if (!props.onExpressCheckoutAuthorized) {
               throw new Error('onExpressCheckoutAuthorized is not defined');
             }
-
-            root.$store.commit(`${MODULE_NAME}/${SET_AMAZON_SESSION_ID}`, event.amazonCheckoutSessionId);
 
             const data = customerData.getData();
 
@@ -316,11 +357,15 @@ export default defineComponent({
           },
           onCancel: function () {
             customerData.clearData();
+          },
+          onError: function (event) {
+            Logger.error('Checkout instance creation error: ' + event.message, 'amazon-pay')();
+            // No need to emit PAYMENT_ERROR_EVENT because in this case, the Amazon Pay popup doesn’t close and shows the error inside it.
           }
         });
-
-        console.log(button);
       } catch (error) {
+        Logger.error('Checkout instance creation error: ' + error, 'amazon-pay')();
+        EventBus.$emit(PAYMENT_ERROR_EVENT);
       }
     }
 
@@ -328,13 +373,25 @@ export default defineComponent({
       renderAmazonPayButton();
     });
 
-    // TODO: watch for virtual cart and update payment button options
+    const showContainer = ref(true);
+
+    watch([isShippingAddressRequired, canUseAmazonPay], async () => {
+      if (!canUseAmazonPay.value) {
+        return;
+      }
+
+      showContainer.value = false;
+      await nextTick();
+      showContainer.value = true;
+      await nextTick();
+
+      renderAmazonPayButton();
+    });
+
+    return {
+      canUseAmazonPay,
+      showContainer
+    }
   }
 });
 </script>
-
-<style lang="scss" scoped>
-.payment-amazon-pay {
-  //
-}
-</style>

@@ -56,6 +56,10 @@ declare namespace AmazonPay {
     billingAddress?: Address
   }
 
+  interface ErrorEvent {
+    message: string
+  }
+
   interface UpdateData {
     totalBaseAmount: Price,
     totalTaxAmount: Price,
@@ -88,6 +92,7 @@ declare namespace AmazonPay {
   type OnDeliveryOptionSelectionCallback = (event: DeliveryOptionSelectionEvent) => Promise<UpdateData>
   type OnCompleteCheckoutCallback = (event: CompleteCheckoutEvent) => Promise<void>
   type OnCancelCallback = () => void
+  type OnErrorCallback = (event: ErrorEvent) => void
 
   interface ButtonConfig {
     merchantId: string,
@@ -96,13 +101,14 @@ declare namespace AmazonPay {
     sandbox: boolean,
     placement: Placement,
     buttonColor: ButtonColor,
-    estimatedOrderAmount: Price,
+    estimatedOrderAmount?: Price,
     checkoutSessionConfig: CheckoutSessionConfig,
     onInitCheckout: OnInitCheckoutCallback,
     onShippingAddressSelection?: OnShippingAddressSelectionCallback,
     onDeliveryOptionSelection?: OnDeliveryOptionSelectionCallback,
     onCompleteCheckout: OnCompleteCheckoutCallback,
-    onCancel?: OnCancelCallback
+    onCancel?: OnCancelCallback,
+    onError?: OnErrorCallback
   }
 
   interface PaySDK {

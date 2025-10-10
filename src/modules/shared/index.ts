@@ -25,10 +25,6 @@ import * as BundleProductDiscountedPrice from '@vue-storefront/core/helpers/bund
 import { stateCodeAutocompleteOptionSearch } from './helpers/state-code-autocomplete-option-search.function';
 import { createPhoneHelpers } from './helpers/phone-number';
 import { getFirstAndLastFromFullName } from './helpers/get-first-and-last-from-full-name.function';
-
-import EmailSubmitForm from './components/email-submit-form.vue';
-import PrivacyPolicyLink from './components/privacy-policy-link.vue';
-import StreamingVideo from './components/streaming-video.vue';
 import { getCanonicalUrl } from './helpers/get-canonical-url.function';
 import getCookieByName from './helpers/get-cookie-by-name.function';
 import { MimeTypeValue } from './types/mime-type.value';
@@ -37,6 +33,11 @@ import isCustomProduct from './helpers/is-custom-product.function';
 import { BudsieStatus } from './types/budsie-status';
 import { PaymentType } from './types/payment-type';
 import * as ExpressCheckoutData from './types/express-checkout-data.interface';
+import { useExpressCheckoutTotals } from './composables/use-express-checkout-totals';
+
+import EmailSubmitForm from './components/email-submit-form.vue';
+import PrivacyPolicyLink from './components/privacy-policy-link.vue';
+import StreamingVideo from './components/streaming-video.vue';
 
 export {
   InjectType,
@@ -76,5 +77,6 @@ export {
   BudsieStatus,
   PaymentType,
   ExpressCheckoutData,
-  getFirstAndLastFromFullName
+  getFirstAndLastFromFullName,
+  useExpressCheckoutTotals
 }
