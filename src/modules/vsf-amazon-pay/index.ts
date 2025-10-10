@@ -1,4 +1,3 @@
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
 import { AMAZON_SESSION_ID } from './types/getters';
@@ -15,19 +14,6 @@ export const AmazonPay: StorefrontModule = function ({ app, store }) {
   store.registerModule(MODULE_NAME, AmazonPayModule);
 
   app.$extendedHead.append(AMAZON_SCRIPT);
-
-  if (app.$isServer) {
-    return;
-  }
-
-  const onCollectSupportedPaymentMethodsEventHandler = (methods: string[]) => {
-    methods.push(SupportedMethodCodes.AMAZON_PAY);
-  };
-
-  EventBus.$on(
-    'collect-methods-handled-by-other-modules',
-    onCollectSupportedPaymentMethodsEventHandler
-  );
 };
 
 const AMAZON_SESSION_ID_GETTER = `${MODULE_NAME}/${AMAZON_SESSION_ID}`;

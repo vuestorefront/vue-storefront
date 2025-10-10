@@ -197,7 +197,7 @@ export default defineComponent({
 
         deliveryOptions.push(
           {
-            id: option.carrier_code,
+            id: option.method_code,
             price: {
               amount: option.price_incl_tax.toString(10),
               currencyCode: DEFAULT_CURRENCY_CODE
