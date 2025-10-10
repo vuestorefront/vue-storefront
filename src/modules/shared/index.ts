@@ -24,6 +24,7 @@ import * as PriceHelper from '@vue-storefront/core/helpers/price';
 import * as BundleProductDiscountedPrice from '@vue-storefront/core/helpers/bundle-product-discounted-price';
 import { stateCodeAutocompleteOptionSearch } from './helpers/state-code-autocomplete-option-search.function';
 import { createPhoneHelpers } from './helpers/phone-number';
+import { getFirstAndLastFromFullName } from './helpers/get-first-and-last-from-full-name.function';
 
 import EmailSubmitForm from './components/email-submit-form.vue';
 import PrivacyPolicyLink from './components/privacy-policy-link.vue';
@@ -34,6 +35,8 @@ import { MimeTypeValue } from './types/mime-type.value';
 import { useMobileObserver } from './helpers/use-mobile-observer';
 import isCustomProduct from './helpers/is-custom-product.function';
 import { BudsieStatus } from './types/budsie-status';
+import { PaymentType } from './types/payment-type';
+import * as ExpressCheckoutData from './types/express-checkout-data.interface';
 
 export {
   InjectType,
@@ -70,5 +73,8 @@ export {
   getRegionIdByCountryAndStateCode,
   createPhoneHelpers,
   DEFAULT_CURRENCY_CODE,
-  BudsieStatus
+  BudsieStatus,
+  PaymentType,
+  ExpressCheckoutData,
+  getFirstAndLastFromFullName
 }

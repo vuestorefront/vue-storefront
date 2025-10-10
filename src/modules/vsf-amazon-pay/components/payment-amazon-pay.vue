@@ -8,14 +8,17 @@
 import { computed, defineComponent, onMounted, PropType } from '@vue/composition-api'
 import config from 'config';
 
-import { getFirstAndLastFromFullName } from 'src/modules/payment-braintree/helpers/get-first-and-last-from-full-name.function';
-
-import { AdditionalAddressData, ExpressCheckoutAuthorizedCallbackData, ExpressCheckoutUpdateData, MainAddressData, ShippingDetailsChangedCallbackData } from 'src/modules/payment-braintree/types/express-checkout-data.interface'
-import { getRegionIdByCountryAndStateCode } from 'src/modules/shared'
+import { ExpressCheckoutData, getFirstAndLastFromFullName, getRegionIdByCountryAndStateCode } from 'src/modules/shared'
 
 import { MODULE_NAME } from '../types/module-name';
 import { SET_PAYMENT_NONCE } from '../types/mutations';
 import { SupportedMethodCodes } from '../types/supported-method-codes';
+
+type AdditionalAddressData = ExpressCheckoutData.AdditionalAddressData;
+type ExpressCheckoutAuthorizedCallbackData = ExpressCheckoutData.ExpressCheckoutAuthorizedCallbackData<SupportedMethodCodes>;
+type ExpressCheckoutUpdateData = ExpressCheckoutData.ExpressCheckoutUpdateData;
+type MainAddressData = ExpressCheckoutData.MainAddressData;
+type ShippingDetailsChangedCallbackData = ExpressCheckoutData.ShippingDetailsChangedCallbackData
 
 interface Price {
   amount: string,
