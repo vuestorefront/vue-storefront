@@ -1,0 +1,1 @@
+export const AMAZON_SESSION_ID = 'AMAZON_SESSION_ID';
