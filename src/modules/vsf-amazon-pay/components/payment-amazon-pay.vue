@@ -30,9 +30,13 @@ type ExpressCheckoutUpdateData = ExpressCheckoutData.ExpressCheckoutUpdateData;
 type MainAddressData = ExpressCheckoutData.MainAddressData;
 type ShippingDetailsChangedCallbackData = ExpressCheckoutData.ShippingDetailsChangedCallbackData
 
+function formatAmount (value: number): string {
+  return Number.isFinite(value) ? value.toFixed(2) : '0.00';
+}
+
 function getPrice (value: number): AmazonPay.Price {
   return {
-    amount: value.toString(10),
+    amount: formatAmount(value),
     currencyCode: DEFAULT_CURRENCY_CODE
   }
 }
@@ -210,7 +214,7 @@ export default defineComponent({
           {
             id: option.method_code,
             price: {
-              amount: option.price_incl_tax.toString(10),
+              amount: formatAmount(option.price_incl_tax),
               currencyCode: DEFAULT_CURRENCY_CODE
             },
             shippingMethod: {
