@@ -9,6 +9,7 @@ import { AFFIRM_METHOD_CODE } from './types/AffirmPaymentMethod';
 import { AFFIRM_MODAL_CLOSED } from './types/AffirmCheckoutEvents';
 import affirmIcon from './assets/affirm-icon.svg';
 import { PAYMENT_ERROR_EVENT } from '../shared';
+import { getCheckoutObject } from './helpers/get-checkout-object.service';
 
 export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig }) {
   registerStoryblokComponents();
@@ -30,7 +31,7 @@ export const PaymentAffirm: StorefrontModule = function ({ app, store, appConfig
         let checkoutObject;
 
         try {
-          checkoutObject = await store.dispatch('affirm/getCheckoutObject');
+          checkoutObject = await getCheckoutObject();
         } catch (_) {
           checkoutObject = undefined;
         }
