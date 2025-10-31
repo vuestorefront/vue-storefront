@@ -28,7 +28,7 @@ import { getCustomizationSystemThumbnail } from './helpers/get-customization-sys
 import { getCustomizationValueIdFieldKey } from './helpers/get-customization-value-id-field-key';
 import { getSelectedOptionValuesByCustomizationState } from './helpers/get-selected-options-values-by-customization-state';
 import { isEmailCustomization } from './helpers/is-email-customization';
-import { fetchOrderItemCustomizationsState, fetchOrderItemsCustomizationsStates, saveOrderItemCustomizationsState, submitOrderItemCustomizationsState } from './helpers/order-items-customizations.service';
+import { fetchOrderItemCustomizationsState, fetchOrderItemDeliverables, fetchOrderItemsCustomizationsStates, saveOrderItemCustomizationsState, submitOrderItemCustomizationsState } from './helpers/order-items-customizations.service';
 import { requiredCustomizationsFilter } from './helpers/required-customizations-filter';
 import { updateCartItemProductionTimeCustomizationState } from './helpers/update-cart-item-production-time-customization-state';
 import { updateProductProductionTimeCustomizationData } from './helpers/update-product-production-time-customization-data';
@@ -36,6 +36,7 @@ import { updateProductProductionTimeCustomizationData } from './helpers/update-p
 import { Customization } from './types/customization.interface';
 import { CustomizableProductFlowType } from './types/customizable-product-flow.type';
 import { CustomizationOptionValue } from './types/customization-option-value';
+import { Deliverable } from './types/deliverable.interface';
 import { DraftOrderItem } from './types/draft-order-item.interface';
 import { EstimatedShipment } from './types/estimated-shipment.interface';
 import { ExtensionAttributes } from './types/extension-attributes.interface'
@@ -60,6 +61,7 @@ export {
   CustomizableProductFlowType,
   CustomizationOptionValue,
   CustomizationStateItem,
+  Deliverable,
   DraftOrderItem,
   EstimatedShipment,
   ExtensionAttributes,
@@ -76,6 +78,7 @@ export {
   WidgetType,
 
   fetchOrderItemCustomizationsState,
+  fetchOrderItemDeliverables,
   fetchOrderItemsCustomizationsStates,
   filterCustomizationState,
   getCartItemExtensionAttributes,

@@ -7,6 +7,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { BEFORE_STORE_BACKEND_API_REQUEST } from 'src/modules/shared';
 
 import { DraftOrderItem } from '../types/draft-order-item.interface';
+import { Deliverable } from '../types/deliverable.interface';
 
 export interface OrderItemsRequestResult {
   success: { orderItemId: number }[],
@@ -172,4 +173,27 @@ export async function submitOrderItemCustomizationsState (
   }
 
   return getOrderItemsRequestResult(data, defaultErrorMessage);
+}
+
+export async function fetchOrderItemDeliverables (orderItemId: number): Promise<Deliverable[]> {
+  const url = `${config.budsies.endpoint}/customizations/order-items/deliverables?token={{token}}&order_item_id=${orderItemId}`;
+
+  const result = await TaskQueue.execute({
+    url,
+    payload: {
+      headers: { 'Accept': 'application/json' },
+      mode: 'cors',
+      method: 'GET'
+    }
+  });
+
+  if (result.code !== 200) {
+    throw new Error(`Failed to fetch order item deliverables: ${result.result}`);
+  }
+
+  if (!result.result) {
+    return [];
+  }
+
+  return result.result as Deliverable[];
 }
