@@ -20,7 +20,8 @@ export function useCustomizationStatePreservation (
   removeUnavailableOptionValues: () => void,
   beforeCustomizationStateMerge?: (persistedData: PersistedData) => Promise<boolean>,
   afterCustomizationStateMerge?: (persistedData: PersistedData) => void,
-  additionalData?: Ref<Record<string, any>> | undefined
+  additionalData?: Ref<Record<string, any>> | undefined,
+  onPreservedStateUnavailable?: () => void
 ) {
   const mutex = new Mutex();
   const customizationSystemStorage = StorageManager.get(STORAGE_NAME);
@@ -107,6 +108,11 @@ export function useCustomizationStatePreservation (
     if (existingCartItem.value || !canRestorePreservedData.value) {
       removePreservedState();
       canUpdateState.value = true;
+
+      if (onPreservedStateUnavailable) {
+        onPreservedStateUnavailable();
+      }
+
       return;
     }
 
@@ -114,6 +120,11 @@ export function useCustomizationStatePreservation (
 
     if (!persistedData) {
       canUpdateState.value = true;
+
+      if (onPreservedStateUnavailable) {
+        onPreservedStateUnavailable();
+      }
+
       return;
     }
 
