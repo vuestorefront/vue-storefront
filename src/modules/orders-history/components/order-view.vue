@@ -60,7 +60,17 @@ export default defineComponent({
     });
 
     const orderItems = computed(() => {
-      return props.order.items;
+      return props.order.items.map((item) => {
+        // TODO: mock
+        item.available_actions.push({
+          code: 'download_results',
+          name: 'Download Result',
+          message: '',
+          blocking_progress: false,
+          url: null
+        })
+        return item;
+      });
     });
 
     return {
