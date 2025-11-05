@@ -211,7 +211,7 @@ export default defineComponent({
           continue;
         }
 
-        if (action.code === OrderItemAvailableActionCode.DOWNLOAD_RESULTS) {
+        if (action.code === OrderItemAvailableActionCode.DOWNLOAD_RESULT) {
           actionItem.handlers.click = onDownloadResultsActionClick;
           actionItem.component = 'SfButton';
           nonBlockingActionsList.push(actionItem);
