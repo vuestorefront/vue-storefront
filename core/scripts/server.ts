@@ -212,7 +212,7 @@ const ignoredQueryKeys = [
   'newsletter-subscription-form-email-input',
   'redirect-target',
   'image-url',
-  'order-item-id'
+  'order_item_id'
 ];
 
 function generateCacheKey (site: string, req: Request) {

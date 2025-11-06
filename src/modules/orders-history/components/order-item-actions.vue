@@ -187,7 +187,7 @@ export default defineComponent({
       await root.$router.push({
         name: 'order-item-deliverables-download',
         query: {
-          'order-item-id': props.orderItem.item_id.toString()
+          'order_item_id': props.orderItem.item_id.toString()
         }
       });
     }
