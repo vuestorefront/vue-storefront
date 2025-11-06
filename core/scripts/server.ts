@@ -211,7 +211,7 @@ const ignoredQueryKeys = [
   'referral_code',
   'newsletter-subscription-form-email-input',
   'redirect-target',
-  'existing-image-url'
+  'image-url'
 ];
 
 function generateCacheKey (site: string, req: Request) {
@@ -227,7 +227,7 @@ app.get('/cache-version.json', cacheVersion)
 let globalContextConfig: any = null;
 
 app.get('*', async (req, res, next) => {
-  if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
+  if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.path)) {
     apiStatus(res, 'Vue Storefront: Resource is not found', 404)
     return
   }
@@ -235,7 +235,7 @@ app.get('*', async (req, res, next) => {
   const s = Date.now()
   const errorHandler = err => {
     if (err && err.code === 404) {
-      if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
+      if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.path)) {
         console.error(`Resource is not found : ${req.url}`)
         return apiStatus(res, 'Vue Storefront: Resource is not found', 404)
       } else {
