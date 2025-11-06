@@ -731,7 +731,8 @@
     },
     "productPlaceholder": "/assets/placeholder.jpg",
     "fileuploaderUploadUrl": "${FILEUPLOADER_UPLOAD_URL}",
-    "imageHandlerServiceUrl": "${IMAGE_HANDLER_SERVICE_URL}"
+    "imageHandlerServiceUrl": "${IMAGE_HANDLER_SERVICE_URL}",
+    "qaPhotosHandlerServiceUrl": "${QA_PHOTOS_HANDLER_SERVICE_URL}"
   },
   "install": {
     "is_local_backend": true,

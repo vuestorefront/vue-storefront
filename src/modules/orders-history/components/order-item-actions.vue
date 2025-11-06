@@ -183,6 +183,15 @@ export default defineComponent({
       }
     }
 
+    async function onDownloadResultsActionClick (): Promise<void> {
+      await root.$router.push({
+        name: 'order-item-deliverables-download',
+        query: {
+          'order-item-id': props.orderItem.item_id.toString()
+        }
+      });
+    }
+
     const actionsListGroups = computed<ActionsListGroups>(() => {
       const blockingActionsList: ActionItem[] = [];
       const nonBlockingActionsList: ActionItem[] = [];
@@ -197,6 +206,13 @@ export default defineComponent({
 
         if (action.code === OrderItemAvailableActionCode.RE_ORDER) {
           actionItem.handlers.click = onReorderActionClick;
+          actionItem.component = 'SfButton';
+          nonBlockingActionsList.push(actionItem);
+          continue;
+        }
+
+        if (action.code === OrderItemAvailableActionCode.DOWNLOAD_RESULT) {
+          actionItem.handlers.click = onDownloadResultsActionClick;
           actionItem.component = 'SfButton';
           nonBlockingActionsList.push(actionItem);
           continue;
