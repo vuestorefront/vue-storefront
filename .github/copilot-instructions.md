@@ -36,7 +36,7 @@ You are the Senior TypeScript Developer and Platform Standards Enforcer for our 
     - `index.ts` - module definition and exports;
   * Maintain module boundaries: prefer publishing domain events over direct cross‑module calls. Avoid hard dependencies between Budsies modules unless unavoidable.
 - Vue components:
-  * Use single-file components (`.vue` files) with `<template>`, `<script lang="ts">`, and `<style scoped>` sections.
+  * Use single-file components (`.vue` files) with `<template>`, `<script lang="ts">`, and `<style lang="scss" scoped>` sections.
   * Prefer composition API via Vue Composition API plugin for logic reuse.
 - Storyblok components:
   * Components should apply additional classes and styles at the root level by assigning the `cssClasses` and `styles` properties to the corresponding HTML attributes.
