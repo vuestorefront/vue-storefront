@@ -56,17 +56,14 @@
     "githubIssues.issueBranchTitle": "${issueNumber}-${sanitizedIssueTitle}",
     "github.copilot.chat.reviewSelection.instructions": [
         {
-            "file": ".github/.copilot-instructions.md"
-        },
-    ],
-    "github.copilot.chat.codeGeneration.instructions": [
-        {
-            "file": ".github/.copilot-instructions.md"
+            "file": ".github/copilot-instructions.md"
         },
     ],
     "github.copilot.chat.commitMessageGeneration.instructions": [
         {
-            "file": ".github/.copilot-commit-message-instructions.md"
+            "file": ".github/copilot-commit-message-instructions.md"
         }
-    ]
+    ],
+    "chat.detectParticipant.enabled": false,
+    "chat.checkpoints.showFileChanges": true
 }
