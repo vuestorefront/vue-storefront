@@ -4,5 +4,6 @@ import { EstimatedShipment } from './estimated-shipment.interface';
 export interface ExtensionAttributes {
   customization_state?: CustomizationStateItem[],
   plushie_id?: string,
-  estimated_shipment?: EstimatedShipment
+  estimated_shipment?: EstimatedShipment,
+  is_virtual?: boolean
 }
