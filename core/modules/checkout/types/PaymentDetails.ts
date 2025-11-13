@@ -1,16 +1,7 @@
-export default interface PaymentDetails {
-  firstName: string,
-  lastName: string,
+import BaseAddressDetails from './BaseAddressDetails';
+
+export default interface PaymentDetails extends BaseAddressDetails {
   company: string,
-  country: string,
-  streetAddress: string,
-  apartmentNumber: string,
-  city: string,
-  region_id: number | null,
-  state: string,
-  zipCode: string,
-  phoneNumber: string,
-  vat_id: string,
   paymentMethod: string,
   paymentMethodAdditional: any
 }
