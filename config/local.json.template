@@ -114,6 +114,11 @@
     "magentoDomain": "https://${MAGENTO_DOMAIN}",
     "enableRaffle": false
   },
+  "address": {
+    "google": {
+      "placesPublicApiKey": "${GOOGLE_PLACES_PUBLIC_API_KEY}"
+    }
+  },
   "privacyPolicy": {
     "url": "${PRIVACY_POLICY_URL}",
     "californiaPrivacyNoticeUrl": "${PRIVACY_POLICY_URL}#california-privacy-notice",
