@@ -116,7 +116,7 @@
   },
   "address": {
     "google": {
-      "placesPublicApiKey": "${GOOGLE_PLACES_PUBLIC_API_KEY}"
+      "placesPublicApiKey": "${PLACES_API_PUBLIC_KEY}"
     }
   },
   "privacyPolicy": {

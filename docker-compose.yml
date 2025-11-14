@@ -66,6 +66,8 @@ services:
 
       - FERA_API_PUBLIC_KEY
 
+      - PLACES_API_PUBLIC_KEY
+
       - VIRTUAL_HOST=${DOMAIN}
       - VIRTUAL_PORT=3000
       - LETSENCRYPT_HOST=${DOMAIN}
