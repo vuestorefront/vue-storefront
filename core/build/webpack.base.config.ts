@@ -153,6 +153,7 @@ export default {
         include: [
           path.resolve(__dirname, '../../node_modules/@vue-storefront'),
           path.resolve(__dirname, '../../node_modules/@justinribeiro/lite-youtube'),
+          path.resolve(__dirname, '../../node_modules/@googlemaps/js-api-loader'),
           path.resolve(__dirname, '../../src'),
           path.resolve(__dirname, '../../core')
         ]
