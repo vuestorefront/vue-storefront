@@ -10,7 +10,7 @@ import { loadGooglePlacesScript } from './google-script-loader';
 import { mapGoogleAddressToBaseAddress } from './google-address-mapping';
 import { classifyValidationVerdict } from '../helpers/verdict-classifier';
 
-class GoogleAddressValidationProviderService implements AddressValidationProvider {
+export class GoogleAddressValidationProviderService implements AddressValidationProvider {
   private scriptsLoadedPromise: Promise<void> | null = null;
 
   private autocompleteService: google.maps.places.AutocompleteService | null = null;
@@ -184,5 +184,3 @@ class GoogleAddressValidationProviderService implements AddressValidationProvide
     }
   }
 }
-
-export const googleAddressValidationProvider = new GoogleAddressValidationProviderService();

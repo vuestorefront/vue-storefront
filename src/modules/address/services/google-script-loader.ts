@@ -1,5 +1,5 @@
 import { isServer } from '@vue-storefront/core/helpers';
-import { setOptions, importLibrary } from '@googlemaps/js-api-loader';
+import { setOptions, importLibrary } from '@googlemaps/js-api-loader/dist';
 
 let scriptsLoadPromise: Promise<void> | null = null;
 
