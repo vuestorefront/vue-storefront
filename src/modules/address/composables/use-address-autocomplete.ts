@@ -1,4 +1,4 @@
-import { ref, watch, onBeforeMount, inject, Ref } from '@vue/composition-api';
+import { ref, onBeforeMount, inject, Ref } from '@vue/composition-api';
 import debounce from 'lodash.debounce';
 
 import { BaseAddressFormValue } from 'theme/components/interfaces/base-address-form-value.interface';
@@ -8,10 +8,6 @@ import { AutocompleteSuggestion } from '../types/autocomplete';
 
 export function useAddressAutocomplete (addressRef: Ref<BaseAddressFormValue>) {
   const provider = inject<AddressValidationProvider>('AddressValidationProviderService');
-
-  if (!provider) {
-    throw new Error('Google address validation provider not found. Make sure it is provided in App.vue');
-  }
 
   const suggestions: Ref<AutocompleteSuggestion[]> = ref([]);
   const loading: Ref<boolean> = ref(false);
@@ -31,10 +27,12 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressFormValue>) {
 
     try {
       if (provider) {
-        const results = await provider.getAutocompleteSuggestions(
-          normalizedQuery,
-          { country: addressRef.value.country }
-        );
+        // const results = await provider.getAutocompleteSuggestions(
+        //   normalizedQuery,
+        //   { country: addressRef.value.country }
+        // );
+        // MOCK
+        const results: AutocompleteSuggestion[] = [{ description: 'test 1234, test', id: '123' }, { description: '144 Testement St', id: '124' }];
 
         suggestions.value = results;
       }
@@ -72,18 +70,6 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressFormValue>) {
     }
   }
 
-  watch(
-    () => addressRef.value.streetAddress,
-    (newValue: string) => {
-      if (newValue) {
-        debouncedFetch(newValue);
-      } else {
-        suggestions.value = [];
-        loading.value = false;
-      }
-    }
-  );
-
   onBeforeMount(async () => {
     try {
       if (provider) {
@@ -97,6 +83,7 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressFormValue>) {
   return {
     suggestions,
     loading,
-    selectSuggestion
+    selectSuggestion,
+    runSuggestionQuery: debouncedFetch
   };
 }
