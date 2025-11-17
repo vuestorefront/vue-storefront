@@ -10,7 +10,7 @@ export function classifyValidationVerdict (rawResponse: any, originalAddress: Ba
   };
 
   try {
-    const action = rawResponse?.result?.verdict?.possibleNextActions?.[0]?.action;
+    const action = rawResponse?.result?.verdict?.possibleNextAction;
 
     if (!action) {
       return defaultResult;

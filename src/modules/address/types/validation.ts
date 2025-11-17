@@ -7,5 +7,8 @@ export interface ValidationResult {
   raw: any,
   suggested?: BaseAddressDetails,
   requiresSubpremise?: boolean,
-  message?: string
+  message?: string,
+  useOriginal?: boolean,
+  useSuggested?: boolean,
+  addedSubpremise?: boolean
 }

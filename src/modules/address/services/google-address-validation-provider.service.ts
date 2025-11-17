@@ -145,7 +145,8 @@ export class GoogleAddressValidationProviderService implements AddressValidation
         state: address.state,
         zipCode: address.zipCode,
         country: address.country
-      }
+      },
+      enableUspsCass: true
     };
 
     try {
