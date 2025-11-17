@@ -7,7 +7,7 @@ import { AddressValidationProvider } from './address-validation-provider.interfa
 import { AutocompleteSuggestion } from '../types/autocomplete';
 import { ValidationResult } from '../types/validation';
 import { loadGooglePlacesScript } from './google-script-loader';
-import { mapGoogleAddressToBaseAddress } from './google-address-mapping';
+import { mapPlacesAddressToBaseAddress } from './google-places-address-mapping';
 import { classifyValidationVerdict } from '../helpers/verdict-classifier';
 
 export class GoogleAddressValidationProviderService implements AddressValidationProvider {
@@ -115,7 +115,7 @@ export class GoogleAddressValidationProviderService implements AddressValidation
       throw new Error('No address components found');
     }
 
-    const mappedAddress = mapGoogleAddressToBaseAddress(place.address_components);
+    const mappedAddress = mapPlacesAddressToBaseAddress(place.address_components);
 
     const baseAddress: BaseAddressDetails = {
       firstName: '',
@@ -139,12 +139,11 @@ export class GoogleAddressValidationProviderService implements AddressValidation
   public async validate (address: BaseAddressDetails): Promise<ValidationResult> {
     const requestBody = {
       address: {
-        streetAddress: address.streetAddress,
-        apartmentNumber: address.apartmentNumber,
-        city: address.city,
-        state: address.state,
-        zipCode: address.zipCode,
-        country: address.country
+        addressLines: [address.streetAddress],
+        locality: address.city,
+        administrativeArea: address.state,
+        postalCode: address.zipCode,
+        regionCode: address.country
       },
       enableUspsCass: true
     };

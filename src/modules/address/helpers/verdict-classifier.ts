@@ -1,6 +1,6 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import { ValidationResult, ValidationVerdict } from '../types/validation';
-import { mapGoogleAddressToBaseAddress } from '../services/google-address-mapping';
+import { mapValidationResponseToBaseAddress } from '../services/google-validation-address-mapping';
 
 export function classifyValidationVerdict (rawResponse: any, originalAddress: BaseAddressDetails): ValidationResult {
   const defaultResult: ValidationResult = {
@@ -39,10 +39,8 @@ export function classifyValidationVerdict (rawResponse: any, originalAddress: Ba
       raw: rawResponse
     };
 
-    if (verdict !== 'ACCEPT' && rawResponse?.result?.address?.addressComponents) {
-      const mappedAddress = mapGoogleAddressToBaseAddress(
-        rawResponse.result.address.addressComponents
-      );
+    if (verdict !== 'ACCEPT') {
+      const mappedAddress = mapValidationResponseToBaseAddress(rawResponse);
 
       if (Object.keys(mappedAddress).length > 0) {
         const suggestedAddress: BaseAddressDetails = {

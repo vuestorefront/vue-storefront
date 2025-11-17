@@ -1,17 +1,11 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 
-interface AddressComponent {
-  long_name: string,
-  short_name: string,
-  types: string[]
-}
-
-export function mapGoogleAddressToBaseAddress (
-  addressComponents: AddressComponent[]
+export function mapPlacesAddressToBaseAddress (
+  addressComponents: google.maps.GeocoderAddressComponent[]
 ): Partial<BaseAddressDetails> {
   const result: Partial<BaseAddressDetails> = {};
 
-  const findComponent = (types: string[]): AddressComponent | undefined => {
+  const findComponent = (types: string[]): google.maps.GeocoderAddressComponent | undefined => {
     for (const type of types) {
       const component = addressComponents.find(c => c.types.includes(type));
       if (component) return component;

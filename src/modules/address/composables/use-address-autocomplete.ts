@@ -27,12 +27,12 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressFormValue>) {
 
     try {
       if (provider) {
-        // const results = await provider.getAutocompleteSuggestions(
-        //   normalizedQuery,
-        //   { country: addressRef.value.country }
-        // );
-        // MOCK
-        const results: AutocompleteSuggestion[] = [{ description: 'test 1234, test', id: '123' }, { description: '144 Testement St', id: '124' }];
+        const results = await provider.getAutocompleteSuggestions(
+          normalizedQuery,
+          { country: addressRef.value.country }
+        );
+        // // MOCK
+        // const results: AutocompleteSuggestion[] = [{ description: 'test 1234, test', id: '123' }, { description: '144 Testement St', id: '124' }];
 
         suggestions.value = results;
       }
