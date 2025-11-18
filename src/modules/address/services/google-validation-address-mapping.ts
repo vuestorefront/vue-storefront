@@ -1,4 +1,5 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
+import { getRegionIdByCountryAndStateCode } from 'src/modules/shared';
 
 function fallbackToPostalAddress (response: any): Partial<BaseAddressDetails> {
   const result: Partial<BaseAddressDetails> = {};
@@ -18,16 +19,27 @@ function fallbackToPostalAddress (response: any): Partial<BaseAddressDetails> {
       result.city = postalAddress.locality;
     }
 
-    if (postalAddress.administrativeArea) {
-      result.state = postalAddress.administrativeArea;
+    if (postalAddress.regionCode) {
+      result.country = postalAddress.regionCode;
+    }
+
+    if (postalAddress.administrativeArea && postalAddress.regionCode) {
+      const regionId = getRegionIdByCountryAndStateCode(
+        postalAddress.regionCode,
+        postalAddress.administrativeArea
+      );
+
+      if (regionId !== null) {
+        result.region_id = regionId;
+        result.state = '';
+      } else {
+        result.state = postalAddress.administrativeArea;
+        result.region_id = null;
+      }
     }
 
     if (postalAddress.postalCode) {
       result.zipCode = postalAddress.postalCode;
-    }
-
-    if (postalAddress.regionCode) {
-      result.country = postalAddress.regionCode;
     }
 
     return result;
@@ -73,9 +85,24 @@ export function mapValidationResponseToBaseAddress (
       result.city = locality.componentName.text;
     }
 
+    if (postalAddress?.regionCode) {
+      result.country = postalAddress.regionCode;
+    }
+
     const state = findComponent('administrative_area_level_1');
-    if (state) {
-      result.state = state.componentName.text;
+    if (state && postalAddress?.regionCode) {
+      const regionId = getRegionIdByCountryAndStateCode(
+        postalAddress.regionCode,
+        state.componentName.text
+      );
+
+      if (regionId !== null) {
+        result.region_id = regionId;
+        result.state = '';
+      } else {
+        result.state = state.componentName.text;
+        result.region_id = null;
+      }
     }
 
     const postalCode = findComponent('postal_code');
@@ -86,10 +113,6 @@ export function mapValidationResponseToBaseAddress (
       if (postalCodeSuffix) {
         result.zipCode += `-${postalCodeSuffix.componentName.text}`;
       }
-    }
-
-    if (postalAddress?.regionCode) {
-      result.country = postalAddress.regionCode;
     }
 
     if (Object.keys(result).length === 0) {

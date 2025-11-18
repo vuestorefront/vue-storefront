@@ -122,7 +122,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         apartmentNumber: mappedAddress.apartmentNumber || '',
         city: mappedAddress.city || '',
         state: mappedAddress.state || '',
-        region_id: null,
+        region_id: mappedAddress.region_id || null,
         zipCode: mappedAddress.zipCode || '',
         phoneNumber: '',
         vat_id: ''

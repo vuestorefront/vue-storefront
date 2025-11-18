@@ -1,4 +1,5 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
+import { getRegionIdByCountryAndStateCode } from 'src/modules/shared';
 
 export function mapPlacesAddressToBaseAddress (
   addressComponents: google.maps.places.AddressComponent[]
@@ -10,6 +11,7 @@ export function mapPlacesAddressToBaseAddress (
       const component = addressComponents.find(c => c.types.includes(type));
       if (component) return component;
     }
+
     return undefined;
   };
 
@@ -38,9 +40,26 @@ export function mapPlacesAddressToBaseAddress (
     result.city = city.longText;
   }
 
+  const country = findComponent(['country']);
+  if (country?.shortText) {
+    result.country = country.shortText;
+  }
+
   const state = findComponent(['administrative_area_level_1']);
-  if (state?.shortText) {
-    result.state = state.shortText;
+
+  if (state?.shortText && country?.shortText) {
+    const regionId = getRegionIdByCountryAndStateCode(
+      country.shortText,
+      state.shortText
+    );
+
+    if (regionId !== null) {
+      result.region_id = regionId;
+      result.state = '';
+    } else {
+      result.state = state.shortText;
+      result.region_id = null;
+    }
   }
 
   const postalCode = findComponent(['postal_code']);
@@ -51,11 +70,6 @@ export function mapPlacesAddressToBaseAddress (
     if (postalCodeSuffix?.longText) {
       result.zipCode += `-${postalCodeSuffix.longText}`;
     }
-  }
-
-  const country = findComponent(['country']);
-  if (country?.shortText) {
-    result.country = country.shortText;
   }
 
   return result;

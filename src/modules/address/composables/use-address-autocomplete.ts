@@ -53,11 +53,15 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressFormValue>) {
       if (provider) {
         const details = await provider.getPlaceDetails(placeId);
 
-        addressRef.value.streetAddress = details.streetAddress || addressRef.value.streetAddress;
-        addressRef.value.city = details.city || addressRef.value.city;
-        addressRef.value.state = details.state || addressRef.value.state;
-        addressRef.value.zipCode = details.zipCode || addressRef.value.zipCode;
-        addressRef.value.country = details.country || addressRef.value.country;
+        addressRef.value = {
+          ...addressRef.value,
+          streetAddress: details.streetAddress || addressRef.value.streetAddress,
+          city: details.city || addressRef.value.city,
+          state: details.state,
+          regionId: details.region_id,
+          zipCode: details.zipCode || addressRef.value.zipCode,
+          country: details.country || addressRef.value.country
+        };
 
         suggestions.value = [];
       }
