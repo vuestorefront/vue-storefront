@@ -145,9 +145,12 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         administrativeArea: address.state,
         postalCode: address.zipCode,
         regionCode: address.country
-      },
-      enableUspsCass: true
+      }
     };
+
+    if (address.country.toLowerCase() === 'US') {
+      requestBody.enableUspsCass = true;
+    }
 
     if (previousResponseId) {
       requestBody.previousResponseId = previousResponseId;
