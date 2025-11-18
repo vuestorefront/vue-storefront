@@ -137,8 +137,8 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
     }
   }
 
-  async function validate (address: BaseAddressDetails): Promise<ValidationResult> {
-    const requestBody = {
+  async function validate (address: BaseAddressDetails, previousResponseId?: string): Promise<ValidationResult> {
+    const requestBody: any = {
       address: {
         addressLines: [address.streetAddress],
         locality: address.city,
@@ -148,6 +148,10 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
       },
       enableUspsCass: true
     };
+
+    if (previousResponseId) {
+      requestBody.previousResponseId = previousResponseId;
+    }
 
     try {
       const endpoint = config.budsies?.endpoint || '';

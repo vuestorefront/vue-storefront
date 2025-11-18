@@ -10,5 +10,6 @@ export interface ValidationResult {
   message?: string,
   useOriginal?: boolean,
   useSuggested?: boolean,
-  addedSubpremise?: boolean
+  addedSubpremise?: boolean,
+  responseId?: string
 }

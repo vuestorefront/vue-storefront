@@ -6,5 +6,5 @@ export interface AddressValidationProvider {
   ensureProviderScriptsLoaded(): Promise<void>,
   getAutocompleteSuggestions(query: string, opts?: { country?: string }): Promise<AutocompleteSuggestion[]>,
   getPlaceDetails(placeId: string): Promise<BaseAddressDetails>,
-  validate(address: BaseAddressDetails): Promise<ValidationResult>
+  validate(address: BaseAddressDetails, previousResponseId?: string): Promise<ValidationResult>
 }

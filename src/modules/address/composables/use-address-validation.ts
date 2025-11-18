@@ -14,6 +14,11 @@ export function useAddressValidation (context: SetupContext) {
 
   let resolveValidation: ((shouldProceed: boolean) => void) | null = null;
   let currentAddressRef: Ref<BaseAddressDetails> | null = null;
+  let responseId: string | undefined;
+
+  function completeValidation (): void {
+    responseId = undefined;
+  }
 
   function setupModalEventListeners (
     result: ValidationResult
@@ -28,11 +33,24 @@ export function useAddressValidation (context: SetupContext) {
       EventBus.$off('modal-hide', modalClosedHandler);
     };
 
-    addressSelectedHandler = (decision: any) => {
+    addressSelectedHandler = async (decision: any) => {
       cleanup();
 
       if (!resolveValidation || !currentAddressRef) {
         console.warn('[useAddressValidation] No validation resolver available');
+        return;
+      }
+
+      if (decision.type === 'with-unit' && decision.address) {
+        currentAddressRef.value = {
+          ...decision.address,
+          useSuggested: true,
+          addedSubpremise: true
+        };
+
+        const shouldProceed = await validateAddress(currentAddressRef);
+        resolveValidation(shouldProceed);
+        resolveValidation = null;
         return;
       }
 
@@ -49,16 +67,6 @@ export function useAddressValidation (context: SetupContext) {
             currentAddressRef.value = {
               ...decision.address,
               useSuggested: true
-            };
-          }
-          break;
-
-        case 'with-unit':
-          if (decision.address) {
-            currentAddressRef.value = {
-              ...decision.address,
-              useSuggested: true,
-              addedSubpremise: true
             };
           }
           break;
@@ -129,7 +137,7 @@ export function useAddressValidation (context: SetupContext) {
     });
   }
 
-  async function validateAddress (addressRef: Ref<BaseAddressDetails>): Promise<boolean> {
+  const validateAddress = async function (addressRef: Ref<BaseAddressDetails>): Promise<boolean> {
     currentAddressRef = addressRef;
 
     if (!provider) {
@@ -140,7 +148,14 @@ export function useAddressValidation (context: SetupContext) {
     isValidating.value = true;
 
     try {
-      const result: ValidationResult = await provider.validate(currentAddressRef.value);
+      const result: ValidationResult = await provider.validate(
+        currentAddressRef.value,
+        responseId
+      );
+
+      if (result.responseId && !responseId) {
+        responseId = result.responseId;
+      }
 
       switch (result.verdict) {
         case 'ACCEPT':
@@ -165,10 +180,11 @@ export function useAddressValidation (context: SetupContext) {
     } finally {
       isValidating.value = false;
     }
-  }
+  };
 
   return {
     validateAddress,
-    isValidating
+    isValidating,
+    completeValidation
   };
 }

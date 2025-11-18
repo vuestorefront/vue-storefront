@@ -39,6 +39,10 @@ export function classifyValidationVerdict (rawResponse: any, originalAddress: Ba
       raw: rawResponse
     };
 
+    if (rawResponse?.responseId) {
+      result.responseId = rawResponse.responseId;
+    }
+
     const mappedAddress = mapValidationResponseToBaseAddress(rawResponse);
 
     if (Object.keys(mappedAddress).length > 0) {
