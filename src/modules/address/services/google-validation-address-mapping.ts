@@ -68,6 +68,7 @@ export function mapValidationResponseToBaseAddress (
 
     const streetNumber = findComponent('street_number');
     const route = findComponent('route');
+    const subpremise = findComponent('subpremise');
 
     if (streetNumber && route) {
       result.streetAddress = `${streetNumber.componentName.text} ${route.componentName.text}`;
@@ -75,9 +76,8 @@ export function mapValidationResponseToBaseAddress (
       result.streetAddress = route.componentName.text;
     }
 
-    const subpremise = findComponent('subpremise');
-    if (subpremise) {
-      result.apartmentNumber = subpremise.componentName.text;
+    if (subpremise && result.streetAddress) {
+      result.streetAddress = `${result.streetAddress} ${subpremise.componentName.text}`;
     }
 
     const locality = findComponent('locality');

@@ -119,7 +119,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         lastName: '',
         country: mappedAddress.country || '',
         streetAddress: mappedAddress.streetAddress || '',
-        apartmentNumber: mappedAddress.apartmentNumber || '',
+        apartmentNumber: '',
         city: mappedAddress.city || '',
         state: mappedAddress.state || '',
         region_id: mappedAddress.region_id || null,

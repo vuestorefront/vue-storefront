@@ -17,6 +17,8 @@ export function mapPlacesAddressToBaseAddress (
 
   const streetNumber = findComponent(['street_number']);
   const route = findComponent(['route']);
+  const subpremise = findComponent(['subpremise']);
+  const premise = findComponent(['premise']);
 
   if (streetNumber?.longText && route?.longText) {
     result.streetAddress = `${streetNumber.longText} ${route.longText}`;
@@ -26,13 +28,12 @@ export function mapPlacesAddressToBaseAddress (
     result.streetAddress = '';
   }
 
-  const subpremise = findComponent(['subpremise']);
-  const premise = findComponent(['premise']);
-
-  if (subpremise?.longText) {
-    result.apartmentNumber = subpremise.longText;
-  } else if (premise?.longText) {
-    result.apartmentNumber = premise.longText;
+  if (result.streetAddress) {
+    if (subpremise?.longText) {
+      result.streetAddress = `${result.streetAddress} ${subpremise.longText}`;
+    } else if (premise?.longText) {
+      result.streetAddress = `${result.streetAddress} ${premise.longText}`;
+    }
   }
 
   const city = findComponent(['locality', 'postal_town']);
