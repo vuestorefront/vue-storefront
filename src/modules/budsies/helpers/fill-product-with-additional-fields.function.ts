@@ -62,7 +62,7 @@ export default function fillProductWithAdditionalFields (
           plushie_id: plushieId,
           customization_state: customizationState,
           estimated_shipment: value.estimated_shipment,
-          is_virtual: value.is_virtual
+          is_virtual_item: value.is_virtual_item
         }
 
         break;
