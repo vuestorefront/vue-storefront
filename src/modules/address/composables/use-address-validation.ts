@@ -127,6 +127,9 @@ export function useAddressValidation (context: SetupContext) {
 
       switch (result.verdict) {
         case 'ACCEPT':
+          if (result.suggested) {
+            currentAddressRef.value = result.suggested;
+          }
           return true;
 
         case 'CONFIRM':

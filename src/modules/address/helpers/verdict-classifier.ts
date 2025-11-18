@@ -39,16 +39,14 @@ export function classifyValidationVerdict (rawResponse: any, originalAddress: Ba
       raw: rawResponse
     };
 
-    if (verdict !== 'ACCEPT') {
-      const mappedAddress = mapValidationResponseToBaseAddress(rawResponse);
+    const mappedAddress = mapValidationResponseToBaseAddress(rawResponse);
 
-      if (Object.keys(mappedAddress).length > 0) {
-        const suggestedAddress: BaseAddressDetails = {
-          ...originalAddress,
-          ...mappedAddress
-        };
-        result.suggested = suggestedAddress;
-      }
+    if (Object.keys(mappedAddress).length > 0) {
+      const suggestedAddress: BaseAddressDetails = {
+        ...originalAddress,
+        ...mappedAddress
+      };
+      result.suggested = suggestedAddress;
     }
 
     if (verdict === 'CONFIRM_ADD_SUBPREMISE') {
