@@ -133,7 +133,7 @@ export function useAddressValidation (context: SetupContext) {
           return true;
 
         case 'CONFIRM':
-        case 'CONFIRM_ADD_SUBPREMISE':
+        case 'CONFIRM_ADD_SUBPREMISES':
         case 'FIX':
           return await handleInteractiveVerdict(result);
 

@@ -24,8 +24,8 @@ export function classifyValidationVerdict (rawResponse: any, originalAddress: Ba
       case 'CONFIRM':
         verdict = 'CONFIRM';
         break;
-      case 'CONFIRM_ADD_SUBPREMISE':
-        verdict = 'CONFIRM_ADD_SUBPREMISE';
+      case 'CONFIRM_ADD_SUBPREMISES':
+        verdict = 'CONFIRM_ADD_SUBPREMISES';
         break;
       case 'FIX':
         verdict = 'FIX';
@@ -49,7 +49,7 @@ export function classifyValidationVerdict (rawResponse: any, originalAddress: Ba
       result.suggested = suggestedAddress;
     }
 
-    if (verdict === 'CONFIRM_ADD_SUBPREMISE') {
+    if (verdict === 'CONFIRM_ADD_SUBPREMISES') {
       result.requiresSubpremise = true;
     }
 
