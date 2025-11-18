@@ -1,6 +1,7 @@
 import { ref, inject, Ref, SetupContext } from '@vue/composition-api';
 
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
 import { ValidationResult } from '../types/validation';
@@ -19,10 +20,12 @@ export function useAddressValidation (context: SetupContext) {
   ): void {
     let addressSelectedHandler: any;
     let changeAddressHandler: any;
+    let modalClosedHandler: any;
 
     const cleanup = () => {
-      root.$bus.$off('address-selected', addressSelectedHandler);
-      root.$bus.$off('change-address', changeAddressHandler);
+      EventBus.$off('address-selected', addressSelectedHandler);
+      EventBus.$off('change-address', changeAddressHandler);
+      EventBus.$off('modal-hide', modalClosedHandler);
     };
 
     addressSelectedHandler = (decision: any) => {
@@ -80,8 +83,22 @@ export function useAddressValidation (context: SetupContext) {
       resolveValidation = null;
     };
 
-    root.$bus.$on('address-selected', addressSelectedHandler);
-    root.$bus.$on('change-address', changeAddressHandler);
+    modalClosedHandler = (modalName: string) => {
+      if (modalName === ModalList.AddressValidation) {
+        cleanup();
+
+        if (!resolveValidation) {
+          return;
+        }
+
+        resolveValidation(false);
+        resolveValidation = null;
+      }
+    };
+
+    EventBus.$on('address-selected', addressSelectedHandler);
+    EventBus.$on('change-address', changeAddressHandler);
+    EventBus.$on('modal-hide', modalClosedHandler);
   }
 
   async function handleInteractiveVerdict (
