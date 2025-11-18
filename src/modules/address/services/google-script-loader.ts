@@ -1,11 +1,11 @@
 import { isServer } from '@vue-storefront/core/helpers';
 import { setOptions, importLibrary } from '@googlemaps/js-api-loader/dist';
 
-let scriptsLoadPromise: Promise<void> | null = null;
+let scriptsLoadPromise: Promise<google.maps.PlacesLibrary | null> | null = null;
 
-export async function loadGooglePlacesScript (apiKey: string): Promise<void> {
+export async function loadGooglePlacesScript (apiKey: string): Promise<google.maps.PlacesLibrary | null> {
   if (isServer) {
-    return;
+    return null;
   }
 
   if (scriptsLoadPromise) {
@@ -19,10 +19,11 @@ export async function loadGooglePlacesScript (apiKey: string): Promise<void> {
     });
 
     try {
-      await importLibrary('places');
+      return await importLibrary('places');
     } catch (error) {
       scriptsLoadPromise = null;
       // TODO: log error
+      return null
     }
   })();
 

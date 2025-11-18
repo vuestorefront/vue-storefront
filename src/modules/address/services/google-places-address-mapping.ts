@@ -1,11 +1,11 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 
 export function mapPlacesAddressToBaseAddress (
-  addressComponents: google.maps.GeocoderAddressComponent[]
+  addressComponents: google.maps.places.AddressComponent[]
 ): Partial<BaseAddressDetails> {
   const result: Partial<BaseAddressDetails> = {};
 
-  const findComponent = (types: string[]): google.maps.GeocoderAddressComponent | undefined => {
+  const findComponent = (types: string[]): google.maps.places.AddressComponent | undefined => {
     for (const type of types) {
       const component = addressComponents.find(c => c.types.includes(type));
       if (component) return component;
@@ -16,10 +16,10 @@ export function mapPlacesAddressToBaseAddress (
   const streetNumber = findComponent(['street_number']);
   const route = findComponent(['route']);
 
-  if (streetNumber && route) {
-    result.streetAddress = `${streetNumber.long_name} ${route.long_name}`;
-  } else if (route) {
-    result.streetAddress = route.long_name;
+  if (streetNumber?.longText && route?.longText) {
+    result.streetAddress = `${streetNumber.longText} ${route.longText}`;
+  } else if (route?.longText) {
+    result.streetAddress = route.longText;
   } else if (streetNumber) {
     result.streetAddress = '';
   }
@@ -27,35 +27,35 @@ export function mapPlacesAddressToBaseAddress (
   const subpremise = findComponent(['subpremise']);
   const premise = findComponent(['premise']);
 
-  if (subpremise) {
-    result.apartmentNumber = subpremise.long_name;
-  } else if (premise) {
-    result.apartmentNumber = premise.long_name;
+  if (subpremise?.longText) {
+    result.apartmentNumber = subpremise.longText;
+  } else if (premise?.longText) {
+    result.apartmentNumber = premise.longText;
   }
 
   const city = findComponent(['locality', 'postal_town']);
-  if (city) {
-    result.city = city.long_name;
+  if (city?.longText) {
+    result.city = city.longText;
   }
 
   const state = findComponent(['administrative_area_level_1']);
-  if (state) {
-    result.state = state.short_name;
+  if (state?.shortText) {
+    result.state = state.shortText;
   }
 
   const postalCode = findComponent(['postal_code']);
   const postalCodeSuffix = findComponent(['postal_code_suffix']);
 
-  if (postalCode) {
-    result.zipCode = postalCode.long_name;
-    if (postalCodeSuffix) {
-      result.zipCode += `-${postalCodeSuffix.long_name}`;
+  if (postalCode?.longText) {
+    result.zipCode = postalCode.longText;
+    if (postalCodeSuffix?.longText) {
+      result.zipCode += `-${postalCodeSuffix.longText}`;
     }
   }
 
   const country = findComponent(['country']);
-  if (country) {
-    result.country = country.short_name;
+  if (country?.shortText) {
+    result.country = country.shortText;
   }
 
   return result;

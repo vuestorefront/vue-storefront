@@ -10,35 +10,35 @@ import { loadGooglePlacesScript } from './google-script-loader';
 import { mapPlacesAddressToBaseAddress } from './google-places-address-mapping';
 import { classifyValidationVerdict } from '../helpers/verdict-classifier';
 
-export class GoogleAddressValidationProviderService implements AddressValidationProvider {
-  private scriptsLoadedPromise: Promise<void> | null = null;
+export function createGoogleAddressValidationProvider (): AddressValidationProvider {
+  let placesLibrary: google.maps.PlacesLibrary | null = null;
+  let sessionToken: google.maps.places.AutocompleteSessionToken | null = null;
+  let scriptsLoadedPromise: Promise<void> | null = null;
 
-  private autocompleteService: google.maps.places.AutocompleteService | null = null;
-  private placesService: google.maps.places.PlacesService | null = null;
-  private sessionToken: google.maps.places.AutocompleteSessionToken | null = null;
+  async function ensureProviderScriptsLoaded (): Promise<void> {
+    if (placesLibrary) {
+      return;
+    }
 
-  public async ensureProviderScriptsLoaded (): Promise<void> {
     const apiKey = config.address?.google?.placesPublicApiKey;
 
     if (!apiKey) {
       return;
     }
 
-    if (this.scriptsLoadedPromise) {
-      await this.scriptsLoadedPromise;
+    if (scriptsLoadedPromise) {
+      await scriptsLoadedPromise;
       return;
     }
 
-    this.scriptsLoadedPromise = loadGooglePlacesScript(apiKey);
-    await this.scriptsLoadedPromise;
+    scriptsLoadedPromise = (async () => {
+      placesLibrary = await loadGooglePlacesScript(apiKey);
+    })();
 
-    if (window.google?.maps?.places) {
-      this.autocompleteService = new window.google.maps.places.AutocompleteService();
-      this.sessionToken = new window.google.maps.places.AutocompleteSessionToken();
-    }
+    await scriptsLoadedPromise;
   }
 
-  public async getAutocompleteSuggestions (
+  async function getAutocompleteSuggestions (
     query: string,
     opts?: { country?: string }
   ): Promise<AutocompleteSuggestion[]> {
@@ -47,96 +47,97 @@ export class GoogleAddressValidationProviderService implements AddressValidation
     }
 
     try {
-      await this.ensureProviderScriptsLoaded();
+      await ensureProviderScriptsLoaded();
 
-      if (!this.autocompleteService) {
+      if (!placesLibrary) {
         return [];
       }
 
-      if (!this.sessionToken) {
-        this.sessionToken = new window.google.maps.places.AutocompleteSessionToken();
+      if (!sessionToken) {
+        sessionToken = new placesLibrary.AutocompleteSessionToken();
       }
 
-      const request: google.maps.places.AutocompletionRequest = {
+      const request: any = {
         input: query,
-        sessionToken: this.sessionToken
+        sessionToken
       };
 
       if (opts?.country) {
-        request.componentRestrictions = { country: opts.country };
+        request.includedRegionCodes = [opts.country];
       }
 
-      const response = await this.autocompleteService.getPlacePredictions(request);
+      const { suggestions } = await placesLibrary.AutocompleteSuggestion.fetchAutocompleteSuggestions(request);
 
-      if (!response.predictions) {
+      if (!suggestions || suggestions.length === 0) {
         return [];
       }
 
-      return response.predictions.map((prediction) => ({
-        id: prediction.place_id,
-        description: prediction.description
-      }));
+      const suggestionsItems: AutocompleteSuggestion[] = [];
+
+      for (const suggestion of suggestions) {
+        if (!suggestion.placePrediction) {
+          continue;
+        }
+
+        suggestionsItems.push({
+          id: suggestion.placePrediction.placeId,
+          description: suggestion.placePrediction.text.toString()
+        })
+      }
+
+      return suggestionsItems;
     } catch (error) {
       console.error('Autocomplete error:', error);
       return [];
     }
   }
 
-  public async getPlaceDetails (placeId: string): Promise<BaseAddressDetails> {
-    await this.ensureProviderScriptsLoaded();
+  async function getPlaceDetails (placeId: string): Promise<BaseAddressDetails> {
+    await ensureProviderScriptsLoaded();
 
-    if (!this.placesService) {
-      const div = document.createElement('div');
-      this.placesService = new window.google.maps.places.PlacesService(div);
+    if (!placesLibrary) {
+      // todo: don't throw error
+      throw new Error('Places library not loaded');
     }
 
-    const placesService = this.placesService;
+    try {
+      const { Place } = placesLibrary;
+      const place = new Place({ id: placeId, requestedLanguage: 'en' });
 
-    const place = await new Promise<google.maps.places.PlaceResult>((resolve, reject) => {
-      placesService.getDetails(
-        {
-          placeId,
-          fields: ['address_components'],
-          sessionToken: this.sessionToken || undefined
-        },
-        (result, status) => {
-          if (status === window.google.maps.places.PlacesServiceStatus.OK && result) {
-            resolve(result);
-          } else {
-            // todo: fix
-            // reject(new Error(`Failed to get place details: ${status}`));
-          }
-        }
-      );
-    });
+      await place.fetchFields({
+        fields: ['addressComponents']
+      });
 
-    // todo: fix
-    if (!place.address_components) {
-      throw new Error('No address components found');
+      if (!place.addressComponents || place.addressComponents.length === 0) {
+        throw new Error('No address components found');
+      }
+
+      const mappedAddress = mapPlacesAddressToBaseAddress(place.addressComponents);
+
+      const baseAddress: BaseAddressDetails = {
+        firstName: '',
+        lastName: '',
+        country: mappedAddress.country || '',
+        streetAddress: mappedAddress.streetAddress || '',
+        apartmentNumber: mappedAddress.apartmentNumber || '',
+        city: mappedAddress.city || '',
+        state: mappedAddress.state || '',
+        region_id: null,
+        zipCode: mappedAddress.zipCode || '',
+        phoneNumber: '',
+        vat_id: ''
+      };
+
+      sessionToken = null;
+
+      return baseAddress;
+    } catch (error) {
+      console.error('Place details error:', error);
+      throw error;
     }
-
-    const mappedAddress = mapPlacesAddressToBaseAddress(place.address_components);
-
-    const baseAddress: BaseAddressDetails = {
-      firstName: '',
-      lastName: '',
-      country: mappedAddress.country || '',
-      streetAddress: mappedAddress.streetAddress || '',
-      apartmentNumber: mappedAddress.apartmentNumber || '',
-      city: mappedAddress.city || '',
-      state: mappedAddress.state || '',
-      region_id: null,
-      zipCode: mappedAddress.zipCode || '',
-      phoneNumber: '',
-      vat_id: ''
-    };
-
-    this.sessionToken = new window.google.maps.places.AutocompleteSessionToken();
-
-    return baseAddress;
   }
 
-  public async validate (address: BaseAddressDetails): Promise<ValidationResult> {
+  async function validate (address: BaseAddressDetails): Promise<ValidationResult> {
     const requestBody = {
       address: {
         addressLines: [address.streetAddress],
@@ -183,4 +184,11 @@ export class GoogleAddressValidationProviderService implements AddressValidation
       };
     }
   }
+
+  return {
+    ensureProviderScriptsLoaded,
+    getAutocompleteSuggestions,
+    getPlaceDetails,
+    validate
+  };
 }

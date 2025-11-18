@@ -1,4 +1,4 @@
-export { GoogleAddressValidationProviderService } from './services/google-address-validation-provider.service';
+export { createGoogleAddressValidationProvider } from './services/google-address-validation-provider.service';
 export type { AddressValidationProvider } from './services/address-validation-provider.interface';
 
 export type { AutocompleteSuggestion } from './types/autocomplete';
