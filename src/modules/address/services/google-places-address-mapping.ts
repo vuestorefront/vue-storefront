@@ -8,7 +8,7 @@ export function mapPlacesAddressToBaseAddress (
 
   const findComponent = (types: string[]): google.maps.places.AddressComponent | undefined => {
     for (const type of types) {
-      const component = addressComponents.find(c => c.types.includes(type));
+      const component = addressComponents.find((item) => item.types.includes(type));
       if (component) return component;
     }
 
@@ -36,7 +36,7 @@ export function mapPlacesAddressToBaseAddress (
     }
   }
 
-  const city = findComponent(['locality', 'postal_town']);
+  const city = findComponent(['locality', 'postal_town', 'sublocality_level_1']);
   if (city?.longText) {
     result.city = city.longText;
   }

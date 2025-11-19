@@ -16,7 +16,11 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressFormValue>) {
   async function runSuggestionQuery (query: string): Promise<void> {
     const normalizedQuery = query?.trim() || '';
 
-    if (normalizedQuery === lastQuery || normalizedQuery.length < 3) {
+    if ((normalizedQuery === lastQuery) && suggestions.value.length > 0) {
+      return;
+    }
+
+    if (normalizedQuery.length < 3) {
       suggestions.value = [];
       loading.value = false;
       return;
@@ -31,8 +35,6 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressFormValue>) {
           normalizedQuery,
           { country: addressRef.value.country }
         );
-        // // MOCK
-        // const results: AutocompleteSuggestion[] = [{ description: 'test 1234, test', id: '123' }, { description: '144 Testement St', id: '124' }];
 
         suggestions.value = results;
       }
