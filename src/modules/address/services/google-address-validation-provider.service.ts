@@ -2,6 +2,7 @@ import config from 'config';
 import { processURLAddress } from '@vue-storefront/core/helpers';
 import { TaskQueue } from '@vue-storefront/core/lib/sync';
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
+import { Logger } from '@vue-storefront/core/lib/logger';
 import { getStateCodeByCountryAndRegionId } from 'src/modules/shared';
 
 import { AddressValidationProvider } from './address-validation-provider.interface';
@@ -88,7 +89,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
 
       return suggestionsItems;
     } catch (error) {
-      console.error('Autocomplete error:', error);
+      Logger.error('Autocomplete error: ' + error, 'google-address-validation')();
       return [];
     }
   }
@@ -133,7 +134,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
 
       return baseAddress;
     } catch (error) {
-      console.error('Place details error:', error);
+      Logger.error('Place details error: ' + error, 'google-address-validation')();
       throw error;
     }
   }

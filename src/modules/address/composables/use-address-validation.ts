@@ -2,10 +2,11 @@ import { ref, inject, Ref, SetupContext } from '@vue/composition-api';
 
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
+import { Logger } from '@vue-storefront/core/lib/logger';
+import { ModalList } from 'src/themes/petsies-capybara/store/ui/modals';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
 import { ValidationResult, AddressSelectedEvent } from '../types/validation';
-import { ModalList } from 'src/themes/petsies-capybara/store/ui/modals';
 
 export function useAddressValidation (context: SetupContext) {
   const { root } = context;
@@ -25,17 +26,17 @@ export function useAddressValidation (context: SetupContext) {
     let changeAddressHandler: () => void;
     let modalClosedHandler: (modalName: string) => void;
 
-    const cleanup = () => {
+    function cleanup () {
       EventBus.$off('address-selected', addressSelectedHandler);
       EventBus.$off('change-address', changeAddressHandler);
       EventBus.$off('modal-hide', modalClosedHandler);
-    };
+    }
 
-    addressSelectedHandler = async (decision: AddressSelectedEvent) => {
+    addressSelectedHandler = async function (decision: AddressSelectedEvent) {
       cleanup();
 
       if (!resolveValidation || !currentAddressRef) {
-        console.warn('[useAddressValidation] No validation resolver available');
+        Logger.warn('No validation resolver available', 'address-validation')();
         return;
       }
 
@@ -75,18 +76,18 @@ export function useAddressValidation (context: SetupContext) {
           break;
 
         default:
-          console.warn('[useAddressValidation] Unknown decision type:', decision.type);
+          Logger.warn('Unknown decision type: ' + decision.type, 'address-validation')();
       }
 
       resolveValidation(true);
       resolveValidation = null;
     };
 
-    changeAddressHandler = () => {
+    changeAddressHandler = function () {
       cleanup();
 
       if (!resolveValidation) {
-        console.warn('[useAddressValidation] No validation resolver available');
+        Logger.warn('No validation resolver available', 'address-validation')();
         return;
       }
 
@@ -94,7 +95,7 @@ export function useAddressValidation (context: SetupContext) {
       resolveValidation = null;
     };
 
-    modalClosedHandler = (modalName: string) => {
+    modalClosedHandler = function (modalName: string) {
       if (modalName === ModalList.AddressValidation) {
         cleanup();
 
@@ -119,7 +120,7 @@ export function useAddressValidation (context: SetupContext) {
       resolveValidation = resolve;
 
       if (!currentAddressRef) {
-        console.warn('[useAddressValidation] No address reference available');
+        Logger.warn('No address reference available', 'address-validation')();
         resolve(true);
         return;
       }
@@ -140,11 +141,11 @@ export function useAddressValidation (context: SetupContext) {
     });
   }
 
-  const validateAddress = async function (addressRef: Ref<BaseAddressDetails>): Promise<boolean> {
+  async function validateAddress (addressRef: Ref<BaseAddressDetails>): Promise<boolean> {
     currentAddressRef = addressRef;
 
     if (!provider) {
-      console.warn('[useAddressValidation] Address validation provider not available, proceeding without validation');
+      Logger.warn('Address validation provider not available, proceeding without validation', 'address-validation')();
       return true;
     }
 
@@ -174,16 +175,16 @@ export function useAddressValidation (context: SetupContext) {
 
         case 'ERROR':
         default:
-          console.error('[useAddressValidation] Address validation error:', result.message);
+          Logger.error('Address validation error: ' + result.message, 'address-validation')();
           return true;
       }
     } catch (error) {
-      console.error('[useAddressValidation] Address validation failed:', error);
+      Logger.error('Address validation failed: ' + error, 'address-validation')();
       return true;
     } finally {
       isValidating.value = false;
     }
-  };
+  }
 
   return {
     validateAddress,

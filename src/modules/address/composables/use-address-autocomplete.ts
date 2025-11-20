@@ -1,5 +1,6 @@
 import { ref, onBeforeMount, inject, Ref } from '@vue/composition-api';
 import debounce from 'lodash.debounce';
+import { Logger } from '@vue-storefront/core/lib/logger';
 
 import { BaseAddressFormValue } from 'theme/components/interfaces/base-address-form-value.interface';
 
@@ -39,7 +40,7 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressFormValue>) {
         suggestions.value = results;
       }
     } catch (error) {
-      console.error('Error fetching address suggestions:', error);
+      Logger.error('Error fetching address suggestions: ' + error, 'address-autocomplete')();
       suggestions.value = [];
     } finally {
       loading.value = false;
@@ -68,7 +69,7 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressFormValue>) {
         suggestions.value = [];
       }
     } catch (error) {
-      console.error('Error fetching place details:', error);
+      Logger.error('Error fetching place details: ' + error, 'address-autocomplete')();
     } finally {
       loading.value = false;
     }
@@ -80,7 +81,7 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressFormValue>) {
         await provider.ensureProviderScriptsLoaded();
       }
     } catch (error) {
-      console.error('Error loading address autocomplete scripts:', error);
+      Logger.error('Error loading address autocomplete scripts: ' + error, 'address-autocomplete')();
     }
   });
 
