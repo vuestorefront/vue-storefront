@@ -188,7 +188,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
       if (resultCode < 200 || resultCode >= 300) {
         return {
           verdict: 'ERROR',
-          raw: result,
+          raw: result || {},
           message: `Validation request failed with status ${resultCode}`
         };
       }
@@ -197,7 +197,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
     } catch (error) {
       return {
         verdict: 'ERROR',
-        raw: null,
+        raw: {},
         message: `Validation error: ${error.message || 'Unknown error'}`
       };
     }

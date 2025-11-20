@@ -1,8 +1,9 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import { getRegionIdByCountryAndStateCode } from 'src/modules/shared';
+import { GoogleValidationResponse } from '../types/google-validation-response';
 
 export function mapValidationResponseToBaseAddress (
-  response: any
+  response: GoogleValidationResponse
 ): Partial<BaseAddressDetails> {
   const result: Partial<BaseAddressDetails> = {};
 

@@ -4,7 +4,7 @@ import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/Base
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
-import { ValidationResult } from '../types/validation';
+import { ValidationResult, AddressSelectedEvent } from '../types/validation';
 import { ModalList } from 'src/themes/petsies-capybara/store/ui/modals';
 
 export function useAddressValidation (context: SetupContext) {
@@ -20,12 +20,10 @@ export function useAddressValidation (context: SetupContext) {
     responseId = undefined;
   }
 
-  function setupModalEventListeners (
-    result: ValidationResult
-  ): void {
-    let addressSelectedHandler: any;
-    let changeAddressHandler: any;
-    let modalClosedHandler: any;
+  function setupModalEventListeners (): void {
+    let addressSelectedHandler: (decision: AddressSelectedEvent) => Promise<void>;
+    let changeAddressHandler: () => void;
+    let modalClosedHandler: (modalName: string) => void;
 
     const cleanup = () => {
       EventBus.$off('address-selected', addressSelectedHandler);
@@ -33,7 +31,7 @@ export function useAddressValidation (context: SetupContext) {
       EventBus.$off('modal-hide', modalClosedHandler);
     };
 
-    addressSelectedHandler = async (decision: any) => {
+    addressSelectedHandler = async (decision: AddressSelectedEvent) => {
       cleanup();
 
       if (!resolveValidation || !currentAddressRef) {
@@ -42,11 +40,13 @@ export function useAddressValidation (context: SetupContext) {
       }
 
       if (decision.type === 'with-unit' && decision.address) {
-        currentAddressRef.value = {
+        const updatedAddress: BaseAddressDetails = {
+          ...currentAddressRef.value,
           ...decision.address,
           useSuggested: true,
           addedSubpremise: true
         };
+        currentAddressRef.value = updatedAddress;
 
         const shouldProceed = await validateAddress(currentAddressRef);
         resolveValidation(shouldProceed);
@@ -56,18 +56,21 @@ export function useAddressValidation (context: SetupContext) {
 
       switch (decision.type) {
         case 'entered':
-          currentAddressRef.value = {
+          const enteredAddress: BaseAddressDetails = {
             ...currentAddressRef.value,
             useOriginal: true
           };
+          currentAddressRef.value = enteredAddress;
           break;
 
         case 'suggested':
           if (decision.address) {
-            currentAddressRef.value = {
+            const suggestedAddress: BaseAddressDetails = {
+              ...currentAddressRef.value,
               ...decision.address,
               useSuggested: true
             };
+            currentAddressRef.value = suggestedAddress;
           }
           break;
 
@@ -133,7 +136,7 @@ export function useAddressValidation (context: SetupContext) {
         payload
       });
 
-      setupModalEventListeners(result);
+      setupModalEventListeners();
     });
   }
 

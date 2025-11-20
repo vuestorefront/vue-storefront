@@ -1,8 +1,12 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import { ValidationResult, ValidationVerdict } from '../types/validation';
+import { GoogleValidationResponse } from '../types/google-validation-response';
 import { mapValidationResponseToBaseAddress } from '../services/google-validation-address-mapping';
 
-export function classifyValidationVerdict (rawResponse: any, originalAddress: BaseAddressDetails): ValidationResult {
+export function classifyValidationVerdict (
+  rawResponse: GoogleValidationResponse,
+  originalAddress: BaseAddressDetails
+): ValidationResult {
   const defaultResult: ValidationResult = {
     verdict: 'ERROR',
     raw: rawResponse,
