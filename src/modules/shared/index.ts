@@ -20,6 +20,7 @@ import { getProductOptions } from './helpers/get-product-options.function';
 import { localStorageSynchronizationFactory } from './helpers/local-storage-synchronization.factory';
 import { parseLocalStorageValue } from './helpers/parse-local-storage-value.function';
 import { getRegionIdByCountryAndStateCode } from './helpers/get-region-id-by-country-and-state-code.function';
+import { getStateCodeByCountryAndRegionId } from './helpers/get-state-code-by-country-and-region-id.function';
 import * as PriceHelper from '@vue-storefront/core/helpers/price';
 import * as BundleProductDiscountedPrice from '@vue-storefront/core/helpers/bundle-product-discounted-price';
 import { stateCodeAutocompleteOptionSearch } from './helpers/state-code-autocomplete-option-search.function';
@@ -72,6 +73,7 @@ export {
   EU_COUNTRY_CODES,
   DETECTED_COUNTRY_COOKIE_KEY,
   getRegionIdByCountryAndStateCode,
+  getStateCodeByCountryAndRegionId,
   createPhoneHelpers,
   DEFAULT_CURRENCY_CODE,
   BudsieStatus,

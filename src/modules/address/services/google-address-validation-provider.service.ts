@@ -2,6 +2,7 @@ import config from 'config';
 import { processURLAddress } from '@vue-storefront/core/helpers';
 import { TaskQueue } from '@vue-storefront/core/lib/sync';
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
+import { getStateCodeByCountryAndRegionId } from 'src/modules/shared';
 
 import { AddressValidationProvider } from './address-validation-provider.interface';
 import { AutocompleteSuggestion } from '../types/autocomplete';
@@ -138,11 +139,21 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
   }
 
   async function validate (address: BaseAddressDetails, previousResponseId?: string): Promise<ValidationResult> {
+    let administrativeArea = address.state;
+
+    if (!administrativeArea && address.region_id && address.country) {
+      const stateCode = getStateCodeByCountryAndRegionId(address.country, address.region_id);
+
+      if (stateCode) {
+        administrativeArea = stateCode;
+      }
+    }
+
     const requestBody: any = {
       address: {
         addressLines: [address.streetAddress],
         locality: address.city,
-        administrativeArea: address.state,
+        administrativeArea: administrativeArea,
         postalCode: address.zipCode,
         regionCode: address.country
       }
