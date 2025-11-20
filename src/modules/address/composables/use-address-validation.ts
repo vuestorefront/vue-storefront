@@ -6,12 +6,22 @@ import { Logger } from '@vue-storefront/core/lib/logger';
 import { ModalList } from 'src/themes/petsies-capybara/store/ui/modals';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
-import { ValidationResult, AddressSelectedEvent } from '../types/validation';
+import { ValidationResult, AddressSelectedEvent, ValidationVerdict } from '../types/validation';
 
-export function useAddressValidation (context: SetupContext) {
+const DEFAULT_INTERACTIVE_VERDICTS: ValidationVerdict[] = ['CONFIRM', 'CONFIRM_ADD_SUBPREMISES', 'FIX'];
+
+export interface UseAddressValidationOptions {
+  interactiveVerdicts?: ValidationVerdict[]
+}
+
+export function useAddressValidation (
+  context: SetupContext,
+  options: UseAddressValidationOptions = {}
+) {
   const { root } = context;
   const provider = inject<AddressValidationProvider>('AddressValidationProviderService');
   const isValidating = ref(false);
+  const interactiveVerdicts = options.interactiveVerdicts || DEFAULT_INTERACTIVE_VERDICTS;
 
   let resolveValidation: ((shouldProceed: boolean) => void) | null = null;
   let currentAddressRef: Ref<BaseAddressDetails> | null = null;
@@ -167,7 +177,11 @@ export function useAddressValidation (context: SetupContext) {
         case 'CONFIRM':
         case 'CONFIRM_ADD_SUBPREMISES':
         case 'FIX':
-          return await handleInteractiveVerdict(result);
+          if (interactiveVerdicts.includes(result.verdict)) {
+            return await handleInteractiveVerdict(result);
+          }
+
+          return true;
 
         case 'ERROR':
         default:
