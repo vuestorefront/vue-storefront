@@ -187,7 +187,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
 
     try {
       const endpoint = config.budsies?.endpoint || '';
-      const url = processURLAddress(`${endpoint}/addresses/validate?token={{token}}`);
+      const url = processURLAddress(`${endpoint}/address-validation-requests?token={{token}}`);
 
       const { result, resultCode } = await TaskQueue.execute({
         url,
