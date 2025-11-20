@@ -1,7 +1,7 @@
 import { ref, onBeforeMount, inject, Ref } from '@vue/composition-api';
 import debounce from 'lodash.debounce';
-import { Logger } from '@vue-storefront/core/lib/logger';
 
+import { Logger } from '@vue-storefront/core/lib/logger';
 import { BaseAddressFormValue } from 'theme/components/interfaces/base-address-form-value.interface';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';

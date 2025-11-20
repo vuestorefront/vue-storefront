@@ -1,4 +1,5 @@
 import { isServer } from '@vue-storefront/core/helpers';
+import { Logger } from '@vue-storefront/core/lib/logger';
 import { setOptions, importLibrary } from '@googlemaps/js-api-loader/dist';
 
 let scriptsLoadPromise: Promise<google.maps.PlacesLibrary | null> | null = null;
@@ -22,7 +23,7 @@ export async function loadGooglePlacesScript (apiKey: string): Promise<google.ma
       return await importLibrary('places');
     } catch (error) {
       scriptsLoadPromise = null;
-      // TODO: log error
+      Logger.error('Error loading Google Places script: ' + error, 'google-script-loader')();
       return null
     }
   })();

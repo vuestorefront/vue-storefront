@@ -22,17 +22,13 @@ export function useAddressValidation (context: SetupContext) {
   }
 
   function setupModalEventListeners (): void {
-    let addressSelectedHandler: (decision: AddressSelectedEvent) => Promise<void>;
-    let changeAddressHandler: () => void;
-    let modalClosedHandler: (modalName: string) => void;
-
     function cleanup () {
       EventBus.$off('address-selected', addressSelectedHandler);
       EventBus.$off('change-address', changeAddressHandler);
       EventBus.$off('modal-hide', modalClosedHandler);
     }
 
-    addressSelectedHandler = async function (decision: AddressSelectedEvent) {
+    async function addressSelectedHandler (decision: AddressSelectedEvent) {
       cleanup();
 
       if (!resolveValidation || !currentAddressRef) {
@@ -81,9 +77,9 @@ export function useAddressValidation (context: SetupContext) {
 
       resolveValidation(true);
       resolveValidation = null;
-    };
+    }
 
-    changeAddressHandler = function () {
+    function changeAddressHandler () {
       cleanup();
 
       if (!resolveValidation) {
@@ -93,9 +89,9 @@ export function useAddressValidation (context: SetupContext) {
 
       resolveValidation(false);
       resolveValidation = null;
-    };
+    }
 
-    modalClosedHandler = function (modalName: string) {
+    function modalClosedHandler (modalName: string) {
       if (modalName === ModalList.AddressValidation) {
         cleanup();
 
@@ -106,7 +102,7 @@ export function useAddressValidation (context: SetupContext) {
         resolveValidation(false);
         resolveValidation = null;
       }
-    };
+    }
 
     EventBus.$on('address-selected', addressSelectedHandler);
     EventBus.$on('change-address', changeAddressHandler);

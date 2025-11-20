@@ -34,7 +34,12 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
     }
 
     scriptsLoadedPromise = (async () => {
-      placesLibrary = await loadGooglePlacesScript(apiKey);
+      try {
+        placesLibrary = await loadGooglePlacesScript(apiKey);
+      } catch (error) {
+        Logger.error('Error ensuring provider scripts loaded: ' + error, 'google-address-validation')();
+        scriptsLoadedPromise = null;
+      }
     })();
 
     await scriptsLoadedPromise;
@@ -98,8 +103,20 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
     await ensureProviderScriptsLoaded();
 
     if (!placesLibrary) {
-      // todo: don't throw error
-      throw new Error('Places library not loaded');
+      Logger.warn('Places library not loaded, returning empty address', 'google-address-validation')();
+      return {
+        firstName: '',
+        lastName: '',
+        country: '',
+        streetAddress: '',
+        apartmentNumber: '',
+        city: '',
+        state: '',
+        region_id: null,
+        zipCode: '',
+        phoneNumber: '',
+        vat_id: ''
+      };
     }
 
     try {
