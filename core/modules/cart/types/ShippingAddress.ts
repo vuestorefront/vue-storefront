@@ -7,6 +7,7 @@ export default interface ShippingAddress {
   region?: string,
   region_id: number | null,
   telephone?: string,
-  vat_id?: string,
-  is_suggested?: boolean
+  vat_id?: string
+  // TODO: uncomment after API support this field
+  // is_suggested?: boolean
 }

@@ -49,8 +49,9 @@ export function useAddressValidation (
       if (decision.type === 'with-unit' && decision.address) {
         const updatedAddress: BaseAddressDetails = {
           ...currentAddressRef.value,
-          ...decision.address,
-          is_suggested: true
+          ...decision.address
+          // TODO: uncomment after API support this field
+          // is_suggested: true
         };
         currentAddressRef.value = updatedAddress;
 
@@ -63,8 +64,9 @@ export function useAddressValidation (
       switch (decision.type) {
         case 'entered':
           currentAddressRef.value = {
-            ...currentAddressRef.value,
-            is_suggested: false
+            ...currentAddressRef.value
+            // TODO: uncomment after API support this field
+            // is_suggested: false
           };
           break;
 
@@ -72,8 +74,9 @@ export function useAddressValidation (
           if (decision.address) {
             currentAddressRef.value = {
               ...currentAddressRef.value,
-              ...decision.address,
-              is_suggested: true
+              ...decision.address
+              // TODO: uncomment after API support this field
+              // is_suggested: true
             };
           }
           break;
@@ -168,8 +171,9 @@ export function useAddressValidation (
         case 'ACCEPT':
           if (result.suggested) {
             currentAddressRef.value = {
-              ...result.suggested,
-              is_suggested: true
+              ...result.suggested
+              // TODO: uncomment after API support this field
+              // is_suggested: true
             };
           }
           return true;

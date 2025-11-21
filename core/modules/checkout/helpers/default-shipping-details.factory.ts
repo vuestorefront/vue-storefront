@@ -11,7 +11,8 @@ export default function getDefaultShippingDetails () {
     zipCode: '',
     phoneNumber: '',
     shippingMethod: '',
-    vat_id: '',
-    is_suggested: false
+    vat_id: ''
+    // TODO: uncomment after API support this field
+    // is_suggested: false
   }
 }

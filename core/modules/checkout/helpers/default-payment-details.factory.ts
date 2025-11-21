@@ -13,7 +13,8 @@ export default function getDefaultPaymentDetails () {
     phoneNumber: '',
     vat_id: '',
     paymentMethod: '',
-    paymentMethodAdditional: {},
-    is_suggested: false
+    paymentMethodAdditional: {}
+    // TODO: uncomment after API support this field
+    // is_suggested: false
   }
 }

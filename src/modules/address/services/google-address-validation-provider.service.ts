@@ -9,6 +9,7 @@ import { AddressValidationProvider } from './address-validation-provider.interfa
 import { AutocompleteSuggestion } from '../types/autocomplete';
 import { ValidationResult } from '../types/validation';
 import { loadGooglePlacesScript } from './google-script-loader';
+import { mapPostalAddressToBaseAddress } from './postal-address-mapper';
 import { mapPlacesAddressToBaseAddress } from './google-places-address-mapping';
 import { classifyValidationVerdict } from '../helpers/verdict-classifier';
 
@@ -71,6 +72,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
 
       if (opts?.country) {
         request.includedRegionCodes = [opts.country];
+        request.region = opts.country;
       }
 
       const { suggestions } = await placesLibrary.AutocompleteSuggestion.fetchAutocompleteSuggestions(request);
@@ -115,8 +117,9 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         region_id: null,
         zipCode: '',
         phoneNumber: '',
-        vat_id: '',
-        is_suggested: false
+        vat_id: ''
+        // TODO: uncomment after API support this field
+        // is_suggested: false
       };
     }
 
@@ -128,12 +131,18 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         fields: ['addressComponents', 'postalAddress']
       });
 
-      if (!place.addressComponents || place.addressComponents.length === 0) {
-        throw new Error('No address components found');
-      }
+      const postalAddress = (place as any).postalAddress;
+      const addressComponents = place.addressComponents;
 
-      const mappedAddress = mapPlacesAddressToBaseAddress(place.addressComponents);
-      debugger;
+      let mappedAddress;
+
+      if (postalAddress) {
+        mappedAddress = mapPostalAddressToBaseAddress(postalAddress);
+      } else if (addressComponents) {
+        mappedAddress = mapPlacesAddressToBaseAddress(addressComponents);
+      } else {
+        throw new Error('No postal address or address components found');
+      }
 
       const baseAddress: BaseAddressDetails = {
         firstName: '',
@@ -146,8 +155,9 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         region_id: mappedAddress.region_id || null,
         zipCode: mappedAddress.zipCode || '',
         phoneNumber: '',
-        vat_id: '',
-        is_suggested: false
+        vat_id: ''
+        // TODO: uncomment after API support this field
+        // is_suggested: false
       };
 
       sessionToken = null;
@@ -174,11 +184,17 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
       address: {
         addressLines: [address.streetAddress],
         locality: address.city,
-        administrativeArea: administrativeArea,
         postalCode: address.zipCode,
         regionCode: address.country
+      },
+      languageOptions: {
+        returnEnglishLatinAddress: true
       }
     };
+
+    if (administrativeArea) {
+      requestBody.address.administrativeArea = administrativeArea;
+    }
 
     if (address.country.toLowerCase() === 'US') {
       requestBody.enableUspsCass = true;
