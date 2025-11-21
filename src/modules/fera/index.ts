@@ -5,7 +5,7 @@ import { getFeraScript } from './helpers/get-fera-script.function';
 import ProductDetailRating from './components/product-detail-rating.vue';
 
 export const FeraModule: StorefrontModule = ({ app, appConfig }) => {
-  const apiPublicKey = appConfig.fera.apiPublicKey;
+  const apiPublicKey = (appConfig.fera.apiPublicKey || '').trim();
 
   if (!apiPublicKey) {
     return;
@@ -13,8 +13,8 @@ export const FeraModule: StorefrontModule = ({ app, appConfig }) => {
 
   Vue.mixin({
     provide: {
-    ProductRatingComponent: ProductDetailRating
-  }
+      ProductRatingComponent: ProductDetailRating
+    }
   });
 
   app.$extendedHead.append(getFeraScript(apiPublicKey));
