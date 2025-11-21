@@ -642,7 +642,8 @@
       "maxPrice": false,
       "minPrice": false
     },
-    "endpoint_ssr": "https://${VSF_API_DOMAIN}/api/product"
+    "endpoint_ssr": "https://${VSF_API_DOMAIN}/api/product",
+    "showRating": ${SHOW_PRODUCT_RATING}
   },
   "orders": {
     "directBackendSync": true,

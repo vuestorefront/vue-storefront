@@ -625,7 +625,8 @@
     "aggregate": {
       "maxPrice": false,
       "minPrice": false
-    }
+    },
+    "showRating": false
   },
   "orders": {
     "directBackendSync": true,
