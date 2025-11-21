@@ -11,7 +11,8 @@ export const FeraModule: StorefrontModule = ({ app, appConfig }) => {
     return;
   }
 
-  Vue.mixin({ provide: {
+  Vue.mixin({
+    provide: {
     ProductRatingComponent: ProductDetailRating
   }
   });
