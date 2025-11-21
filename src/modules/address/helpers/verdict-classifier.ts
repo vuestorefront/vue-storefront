@@ -57,10 +57,6 @@ export function classifyValidationVerdict (
       result.suggested = suggestedAddress;
     }
 
-    if (verdict === 'CONFIRM_ADD_SUBPREMISES') {
-      result.requiresSubpremise = true;
-    }
-
     return result;
   } catch (error) {
     return {

@@ -13,6 +13,7 @@ export default function getDefaultPaymentDetails () {
     phoneNumber: '',
     vat_id: '',
     paymentMethod: '',
-    paymentMethodAdditional: {}
+    paymentMethodAdditional: {},
+    is_suggested: false
   }
 }

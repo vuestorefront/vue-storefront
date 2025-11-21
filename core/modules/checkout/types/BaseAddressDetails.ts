@@ -9,5 +9,6 @@ export default interface BaseAddressDetails {
   region_id: number | null,
   zipCode: string,
   phoneNumber: string,
-  vat_id: string
+  vat_id: string,
+  is_suggested: boolean
 }

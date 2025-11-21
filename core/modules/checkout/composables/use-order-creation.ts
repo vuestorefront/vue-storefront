@@ -61,7 +61,8 @@ export function useOrderCreation ({ root }: SetupContext) {
         lastname: shippingDetails.lastName,
         email: personalDetails.emailAddress,
         region_code: shippingDetails.region_code ? shippingDetails.region_code : '',
-        vat_id: shippingDetails.vat_id
+        vat_id: shippingDetails.vat_id,
+        is_suggested: shippingDetails.is_suggested || false
       }
     }
 

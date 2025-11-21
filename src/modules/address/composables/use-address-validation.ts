@@ -50,8 +50,7 @@ export function useAddressValidation (
         const updatedAddress: BaseAddressDetails = {
           ...currentAddressRef.value,
           ...decision.address,
-          useSuggested: true,
-          addedSubpremise: true
+          is_suggested: true
         };
         currentAddressRef.value = updatedAddress;
 
@@ -63,21 +62,19 @@ export function useAddressValidation (
 
       switch (decision.type) {
         case 'entered':
-          const enteredAddress: BaseAddressDetails = {
+          currentAddressRef.value = {
             ...currentAddressRef.value,
-            useOriginal: true
+            is_suggested: false
           };
-          currentAddressRef.value = enteredAddress;
           break;
 
         case 'suggested':
           if (decision.address) {
-            const suggestedAddress: BaseAddressDetails = {
+            currentAddressRef.value = {
               ...currentAddressRef.value,
               ...decision.address,
-              useSuggested: true
+              is_suggested: true
             };
-            currentAddressRef.value = suggestedAddress;
           }
           break;
 
@@ -170,7 +167,10 @@ export function useAddressValidation (
       switch (result.verdict) {
         case 'ACCEPT':
           if (result.suggested) {
-            currentAddressRef.value = result.suggested;
+            currentAddressRef.value = {
+              ...result.suggested,
+              is_suggested: true
+            };
           }
           return true;
 

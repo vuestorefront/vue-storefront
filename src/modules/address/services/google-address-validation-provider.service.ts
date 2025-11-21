@@ -115,7 +115,8 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         region_id: null,
         zipCode: '',
         phoneNumber: '',
-        vat_id: ''
+        vat_id: '',
+        is_suggested: false
       };
     }
 
@@ -124,7 +125,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
       const place = new Place({ id: placeId, requestedLanguage: 'en' });
 
       await place.fetchFields({
-        fields: ['addressComponents']
+        fields: ['addressComponents', 'postalAddress']
       });
 
       if (!place.addressComponents || place.addressComponents.length === 0) {
@@ -132,6 +133,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
       }
 
       const mappedAddress = mapPlacesAddressToBaseAddress(place.addressComponents);
+      debugger;
 
       const baseAddress: BaseAddressDetails = {
         firstName: '',
@@ -144,7 +146,8 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         region_id: mappedAddress.region_id || null,
         zipCode: mappedAddress.zipCode || '',
         phoneNumber: '',
-        vat_id: ''
+        vat_id: '',
+        is_suggested: false
       };
 
       sessionToken = null;

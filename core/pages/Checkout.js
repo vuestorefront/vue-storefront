@@ -291,7 +291,8 @@ export default {
             lastname: this.payment.lastName,
             email: this.personalDetails.emailAddress,
             region_code: this.payment.region_code ? this.payment.region_code : '',
-            vat_id: this.payment.vat_id
+            vat_id: this.payment.vat_id,
+            is_suggested: this.payment.is_suggested || false
           },
           shipping_method_code: this.shipping.shippingMethod,
           shipping_carrier_code: this.shipping.shippingCarrier,
@@ -324,7 +325,8 @@ export default {
           lastname: this.shipping.lastName,
           email: this.personalDetails.emailAddress,
           region_code: this.shipping.region_code ? this.shipping.region_code : '',
-          vat_id: this.shipping.vat_id
+          vat_id: this.shipping.vat_id,
+          is_suggested: this.shipping.is_suggested || false
         }
       }
       return this.order

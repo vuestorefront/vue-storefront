@@ -14,10 +14,6 @@ export interface ValidationResult {
   verdict: ValidationVerdict,
   raw: GoogleValidationResponse,
   suggested?: BaseAddressDetails,
-  requiresSubpremise?: boolean,
   message?: string,
-  useOriginal?: boolean,
-  useSuggested?: boolean,
-  addedSubpremise?: boolean,
   responseId?: string
 }
