@@ -65,6 +65,7 @@ services:
       - GOOGLE_PAY_MERCHANT_ID
 
       - FERA_API_PUBLIC_KEY
+      - SHOW_PRODUCT_RATING
 
       - PLACES_API_PUBLIC_KEY
 
