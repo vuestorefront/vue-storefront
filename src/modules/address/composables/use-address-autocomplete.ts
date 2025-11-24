@@ -2,12 +2,12 @@ import { ref, onBeforeMount, inject, Ref } from '@vue/composition-api';
 import debounce from 'lodash.debounce';
 
 import { Logger } from '@vue-storefront/core/lib/logger';
-import { BaseAddressFormValue } from 'theme/components/interfaces/base-address-form-value.interface';
+import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
 import { AutocompleteSuggestion } from '../types/autocomplete';
 
-export function useAddressAutocomplete (addressRef: Ref<BaseAddressFormValue>) {
+export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
   const provider = inject<AddressValidationProvider>('AddressValidationProviderService');
 
   const suggestions: Ref<AutocompleteSuggestion[]> = ref([]);
@@ -60,8 +60,8 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressFormValue>) {
           ...addressRef.value,
           streetAddress: details.streetAddress || addressRef.value.streetAddress,
           city: details.city || addressRef.value.city,
-          state: details.state,
-          regionId: details.region_id,
+          state: details.state || '',
+          region_id: details.region_id,
           zipCode: details.zipCode || addressRef.value.zipCode,
           country: details.country || addressRef.value.country
         };

@@ -21,7 +21,7 @@ export function mapPlacesAddressToBaseAddress (
   const premise = findComponent(['premise']);
 
   if (streetNumber?.longText && route?.longText) {
-    result.streetAddress = `${route.longText}, ${streetNumber.longText}`;
+    result.streetAddress = `${streetNumber.longText} ${route.longText}`;
   } else if (route?.longText) {
     result.streetAddress = route.longText;
   } else if (streetNumber) {
