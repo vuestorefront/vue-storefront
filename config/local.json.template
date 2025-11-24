@@ -117,7 +117,8 @@
   "address": {
     "google": {
       "placesPublicApiKey": "${PLACES_API_PUBLIC_KEY}"
-    }
+    },
+    "validationSupportedCountries": ["US"]
   },
   "privacyPolicy": {
     "url": "${PRIVACY_POLICY_URL}",

@@ -7,6 +7,7 @@ import { ModalList } from 'src/themes/petsies-capybara/store/ui/modals';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
 import { ValidationResult, AddressSelectedEvent, ValidationVerdict } from '../types/validation';
+import { checkCountrySupported } from '../helpers';
 
 const DEFAULT_INTERACTIVE_VERDICTS: ValidationVerdict[] = ['CONFIRM', 'CONFIRM_ADD_SUBPREMISES', 'FIX'];
 
@@ -149,6 +150,15 @@ export function useAddressValidation (
 
   async function validateAddress (addressRef: Ref<BaseAddressDetails>): Promise<boolean> {
     currentAddressRef = addressRef;
+
+    if (!checkCountrySupported(currentAddressRef.value.country)) {
+      currentAddressRef.value = {
+        ...currentAddressRef.value
+        // TODO: uncomment after API support this field
+        // is_suggested: false
+      };
+      return true;
+    }
 
     if (!provider) {
       Logger.warn('Address validation provider not available, proceeding without validation', 'address-validation')();

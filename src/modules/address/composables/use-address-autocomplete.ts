@@ -1,4 +1,4 @@
-import { ref, onBeforeMount, inject, Ref } from '@vue/composition-api';
+import { ref, onBeforeMount, inject, Ref, computed, watch } from '@vue/composition-api';
 import debounce from 'lodash.debounce';
 
 import { Logger } from '@vue-storefront/core/lib/logger';
@@ -6,6 +6,7 @@ import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/Base
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
 import { AutocompleteSuggestion } from '../types/autocomplete';
+import { checkCountrySupported } from '../helpers';
 
 export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
   const provider = inject<AddressValidationProvider>('AddressValidationProviderService');
@@ -13,6 +14,10 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
   const suggestions: Ref<AutocompleteSuggestion[]> = ref([]);
   const loading: Ref<boolean> = ref(false);
   let lastQuery = '';
+
+  const isCountrySupported = computed<boolean>(() => {
+    return checkCountrySupported(addressRef.value.country);
+  });
 
   async function runSuggestionQuery (query: string): Promise<void> {
     const normalizedQuery = query?.trim() || '';
@@ -22,6 +27,12 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
     }
 
     if (normalizedQuery.length < 3) {
+      suggestions.value = [];
+      loading.value = false;
+      return;
+    }
+
+    if (!isCountrySupported.value) {
       suggestions.value = [];
       loading.value = false;
       return;
@@ -82,6 +93,13 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
       }
     } catch (error) {
       Logger.error('Error loading address autocomplete scripts: ' + error, 'address-autocomplete')();
+    }
+  });
+
+  watch(isCountrySupported, (newValue) => {
+    if (!newValue) {
+      suggestions.value = [];
+      lastQuery = '';
     }
   });
 
