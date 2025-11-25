@@ -15,7 +15,8 @@ export interface GoogleValidationResponseAddress {
     },
     componentType?: string,
     confirmationLevel?: string
-  }[]
+  }[],
+  missingComponentTypes?: string[]
 }
 
 export interface GoogleValidationResponse {

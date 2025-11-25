@@ -24,7 +24,15 @@ export function mapPostalAddressToBaseAddress (
   }
 
   if (postalAddress.addressLines && postalAddress.addressLines.length > 0) {
-    result.streetAddress = postalAddress.addressLines.join(' ');
+    const firstLine = postalAddress.addressLines[0];
+    result.streetAddress = firstLine;
+
+    const otherLines = postalAddress.addressLines.slice(1);
+    result.apartmentNumber = '';
+
+    for (const line of otherLines) {
+      result.apartmentNumber += `${line} `;
+    }
   }
 
   if (postalAddress.locality) {

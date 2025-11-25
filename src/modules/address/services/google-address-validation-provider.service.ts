@@ -196,6 +196,10 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
       requestBody.address.administrativeArea = administrativeArea;
     }
 
+    if (address.apartmentNumber) {
+      requestBody.address.addressLines.push(address.apartmentNumber);
+    }
+
     if (address.country.toLowerCase() === 'US') {
       requestBody.enableUspsCass = true;
     }

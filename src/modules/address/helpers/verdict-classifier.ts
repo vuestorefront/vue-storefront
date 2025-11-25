@@ -47,6 +47,13 @@ export function classifyValidationVerdict (
       result.responseId = rawResponse.responseId;
     }
 
+    if (verdict === 'FIX') {
+      const address = rawResponse?.result?.englishLatinAddress || rawResponse?.result?.address;
+      const missingComponents = address?.missingComponentTypes || [];
+
+      result.missingComponents = missingComponents;
+    }
+
     const mappedAddress = mapValidationResponseToBaseAddress(rawResponse);
 
     if (Object.keys(mappedAddress).length > 0) {
