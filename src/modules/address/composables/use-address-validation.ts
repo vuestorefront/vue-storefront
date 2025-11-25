@@ -3,11 +3,11 @@ import { ref, inject, Ref, SetupContext } from '@vue/composition-api';
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import { Logger } from '@vue-storefront/core/lib/logger';
-import { ModalList } from 'src/themes/petsies-capybara/store/ui/modals';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
 import { ValidationResult, AddressSelectedEvent, ValidationVerdict } from '../types/validation';
-import { checkCountrySupported } from '../helpers';
+import { checkCountrySupported } from '../helpers/check-country-supported';
+import { MODAL_NAME } from '../components/modal-address-validation.vue';
 
 const DEFAULT_INTERACTIVE_VERDICTS: ValidationVerdict[] = ['CONFIRM', 'CONFIRM_ADD_SUBPREMISES', 'FIX'];
 
@@ -109,7 +109,7 @@ export function useAddressValidation (
     }
 
     function modalClosedHandler (modalName: string) {
-      if (modalName === ModalList.AddressValidation) {
+      if (modalName === MODAL_NAME) {
         cleanup();
 
         resolveValidation(false);
@@ -140,7 +140,7 @@ export function useAddressValidation (
       };
 
       root.$store.dispatch('ui/openModal', {
-        name: ModalList.AddressValidation,
+        name: MODAL_NAME,
         payload
       });
 

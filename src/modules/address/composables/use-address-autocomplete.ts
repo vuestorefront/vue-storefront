@@ -6,7 +6,7 @@ import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/Base
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
 import { AutocompleteSuggestion } from '../types/autocomplete';
-import { checkCountrySupported } from '../helpers';
+import { checkCountrySupported } from '../helpers/check-country-supported';
 
 export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
   const provider = inject<AddressValidationProvider>('AddressValidationProviderService');

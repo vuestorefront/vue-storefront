@@ -7,3 +7,5 @@ export type { ValidationResult, ValidationVerdict } from './types/validation';
 export { useAddressAutocomplete } from './composables/use-address-autocomplete';
 export { useAddressValidation } from './composables/use-address-validation';
 export type { UseAddressValidationOptions } from './composables/use-address-validation';
+
+export { MODAL_NAME as ADDRESS_VALIDATION_MODAL } from './components/modal-address-validation.vue';
