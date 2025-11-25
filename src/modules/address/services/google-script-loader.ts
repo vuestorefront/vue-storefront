@@ -1,6 +1,7 @@
+import { setOptions, importLibrary } from '@googlemaps/js-api-loader/dist';
+
 import { isServer } from '@vue-storefront/core/helpers';
 import { Logger } from '@vue-storefront/core/lib/logger';
-import { setOptions, importLibrary } from '@googlemaps/js-api-loader/dist';
 
 let scriptsLoadPromise: Promise<google.maps.PlacesLibrary | null> | null = null;
 

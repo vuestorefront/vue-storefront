@@ -1,4 +1,5 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
+
 import { ValidationResult, ValidationVerdict } from '../types/validation';
 import { GoogleValidationResponse } from '../types/google-validation-response';
 import { mapValidationResponseToBaseAddress } from '../services/google-validation-address-mapping';

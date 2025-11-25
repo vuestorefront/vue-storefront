@@ -9,6 +9,7 @@ export function mapPlacesAddressToBaseAddress (
   const findComponent = (types: string[]): google.maps.places.AddressComponent | undefined => {
     for (const type of types) {
       const component = addressComponents.find((item) => item.types.includes(type));
+
       if (component) return component;
     }
 
@@ -68,6 +69,7 @@ export function mapPlacesAddressToBaseAddress (
 
   if (postalCode?.longText) {
     result.zipCode = postalCode.longText;
+
     if (postalCodeSuffix?.longText) {
       result.zipCode += `-${postalCodeSuffix.longText}`;
     }
