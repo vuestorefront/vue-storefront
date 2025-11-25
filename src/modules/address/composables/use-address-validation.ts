@@ -24,7 +24,6 @@ export function useAddressValidation (
   const isValidating = ref(false);
   const interactiveVerdicts = options.interactiveVerdicts || DEFAULT_INTERACTIVE_VERDICTS;
 
-  let resolveValidation: ((shouldProceed: boolean) => void) | null = null;
   let currentAddressRef: Ref<BaseAddressDetails> | null = null;
   let responseId: string | undefined;
 
@@ -32,7 +31,7 @@ export function useAddressValidation (
     responseId = undefined;
   }
 
-  function setupModalEventListeners (): void {
+  function setupModalEventListeners (resolveValidation: ((shouldProceed: boolean) => void)): void {
     function cleanup () {
       EventBus.$off('address-selected', addressSelectedHandler);
       EventBus.$off('change-address', changeAddressHandler);
@@ -42,8 +41,8 @@ export function useAddressValidation (
     async function addressSelectedHandler (decision: AddressSelectedEvent) {
       cleanup();
 
-      if (!resolveValidation || !currentAddressRef) {
-        Logger.warn('No validation resolver available', 'address-validation')();
+      if (!currentAddressRef) {
+        Logger.warn('Current address is not defined', 'address-validation')();
         return;
       }
 
@@ -57,8 +56,22 @@ export function useAddressValidation (
         currentAddressRef.value = updatedAddress;
 
         const shouldProceed = await validateAddress(currentAddressRef);
+
         resolveValidation(shouldProceed);
-        resolveValidation = null;
+        return;
+      }
+
+      if (decision.type === 'with-street-number' && decision.address) {
+        const updatedAddress: BaseAddressDetails = {
+          ...currentAddressRef.value,
+          ...decision.address
+          // TODO: uncomment after API support this field
+          // is_suggested: true
+        };
+        currentAddressRef.value = updatedAddress;
+        const shouldProceed = await validateAddress(currentAddressRef);
+
+        resolveValidation(shouldProceed);
         return;
       }
 
@@ -87,31 +100,19 @@ export function useAddressValidation (
       }
 
       resolveValidation(true);
-      resolveValidation = null;
     }
 
     function changeAddressHandler () {
       cleanup();
 
-      if (!resolveValidation) {
-        Logger.warn('No validation resolver available', 'address-validation')();
-        return;
-      }
-
       resolveValidation(false);
-      resolveValidation = null;
     }
 
     function modalClosedHandler (modalName: string) {
       if (modalName === ModalList.AddressValidation) {
         cleanup();
 
-        if (!resolveValidation) {
-          return;
-        }
-
         resolveValidation(false);
-        resolveValidation = null;
       }
     }
 
@@ -124,8 +125,6 @@ export function useAddressValidation (
     result: ValidationResult
   ): Promise<boolean> {
     return new Promise((resolve) => {
-      resolveValidation = resolve;
-
       if (!currentAddressRef) {
         Logger.warn('No address reference available', 'address-validation')();
         resolve(true);
@@ -136,7 +135,8 @@ export function useAddressValidation (
         verdict: result.verdict,
         enteredAddress: currentAddressRef.value,
         suggestedAddress: result.suggested,
-        validationResult: result
+        missingComponents: result.missingComponents || [],
+        zIndex: 1002
       };
 
       root.$store.dispatch('ui/openModal', {
@@ -144,7 +144,7 @@ export function useAddressValidation (
         payload
       });
 
-      setupModalEventListeners();
+      setupModalEventListeners(resolve);
     });
   }
 
@@ -186,6 +186,7 @@ export function useAddressValidation (
               // is_suggested: true
             };
           }
+
           return true;
 
         case 'CONFIRM':
@@ -194,6 +195,9 @@ export function useAddressValidation (
           if (interactiveVerdicts.includes(result.verdict)) {
             return await handleInteractiveVerdict(result);
           }
+
+          // TODO: uncomment after API support this field
+          // currentAddressRef.value.is_suggested = false;
 
           return true;
 
