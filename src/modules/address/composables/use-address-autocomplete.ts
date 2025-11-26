@@ -8,6 +8,8 @@ import { AddressValidationProvider } from '../services/address-validation-provid
 import { AutocompleteSuggestion } from '../types/autocomplete';
 import { checkCountrySupported } from '../helpers/check-country-supported';
 
+const SUGGESTION_QUERY_DEBOUNCE_MS = 300;
+
 export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
   const provider = inject<AddressValidationProvider>('AddressValidationProviderService');
 
@@ -59,7 +61,7 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
     }
   }
 
-  const debouncedFetch = debounce(runSuggestionQuery, 300);
+  const debouncedFetch = debounce(runSuggestionQuery, SUGGESTION_QUERY_DEBOUNCE_MS);
 
   async function selectSuggestion (placeId: string): Promise<void> {
     loading.value = true;

@@ -25,16 +25,18 @@ export function mapPlacesAddressToBaseAddress (
     result.streetAddress = `${streetNumber.longText} ${route.longText}`;
   } else if (route?.longText) {
     result.streetAddress = route.longText;
-  } else if (streetNumber) {
-    result.streetAddress = '';
+  } else if (streetNumber?.longText) {
+    result.streetAddress = streetNumber.longText;
   }
 
   if (result.streetAddress) {
-    if (subpremise?.longText) {
-      result.streetAddress = `${result.streetAddress} ${subpremise.longText}`;
-    } else if (premise?.longText) {
+    if (premise?.longText) {
       result.streetAddress = `${result.streetAddress} ${premise.longText}`;
     }
+  }
+
+  if (subpremise?.longText) {
+    result.apartmentNumber = subpremise.longText;
   }
 
   const city = findComponent(['locality', 'postal_town', 'sublocality_level_1']);

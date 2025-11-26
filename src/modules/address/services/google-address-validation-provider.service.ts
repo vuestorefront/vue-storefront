@@ -91,7 +91,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         suggestionsItems.push({
           id: suggestion.placePrediction.placeId,
           description: suggestion.placePrediction.text.toString()
-        })
+        });
       }
 
       return suggestionsItems;
@@ -200,7 +200,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
       requestBody.address.addressLines.push(address.apartmentNumber);
     }
 
-    if (address.country.toLowerCase() === 'US') {
+    if (address.country.toLowerCase() === 'us') {
       requestBody.enableUspsCass = true;
     }
 

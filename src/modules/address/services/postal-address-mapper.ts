@@ -28,11 +28,8 @@ export function mapPostalAddressToBaseAddress (
     result.streetAddress = firstLine;
 
     const otherLines = postalAddress.addressLines.slice(1);
-    result.apartmentNumber = '';
 
-    for (const line of otherLines) {
-      result.apartmentNumber += `${line} `;
-    }
+    result.apartmentNumber = otherLines.join(' ').trim()
   }
 
   if (postalAddress.locality) {
