@@ -2,19 +2,35 @@
   <div
     class="address-card"
   >
-    <p class="_street">
+    <p
+      class="_street"
+      :class="{ '_highlighted': isHighlighted('streetAddress') }"
+    >
       {{ address.streetAddress }}
     </p>
 
-    <p v-if="address.apartmentNumber" class="_apartment">
+    <p
+      v-if="address.apartmentNumber"
+      class="_apartment"
+      :class="{ '_highlighted': isHighlighted('apartmentNumber') }"
+    >
       {{ address.apartmentNumber }}
     </p>
 
     <p class="_location">
-      {{ address.city }}, {{ stateName }} {{ address.zipCode }}
+      <span :class="{ '_highlighted': isHighlighted('city') }">{{ address.city }}</span>
+
+      <span v-if="address.city">, </span>
+
+      <span :class="{ '_highlighted': isHighlighted('state') }">{{ stateName }}</span>
+
+      <span :class="{ '_highlighted': isHighlighted('zipCode') }">{{ address.zipCode }}</span>
     </p>
 
-    <p class="_country">
+    <p
+      class="_country"
+      :class="{ '_highlighted': isHighlighted('country') }"
+    >
       {{ address.country }}
     </p>
   </div>
@@ -32,6 +48,10 @@ export default defineComponent({
     address: {
       type: Object as PropType<Partial<BaseAddressDetails>>,
       required: true
+    },
+    highlightedFields: {
+      type: Array as PropType<string[]>,
+      default: () => []
     }
   },
   setup (props) {
@@ -55,8 +75,13 @@ export default defineComponent({
       return '';
     });
 
+    const isHighlighted = (fieldName: string): boolean => {
+      return props.highlightedFields.includes(fieldName);
+    };
+
     return {
-      stateName
+      stateName,
+      isHighlighted
     };
   }
 });
@@ -85,6 +110,10 @@ export default defineComponent({
   ._country {
     font-size: var(--font-sm);
     color: var(--c-text-muted);
+  }
+
+  ._highlighted {
+    font-weight: var(--font-bold);
   }
 }
 </style>

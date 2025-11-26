@@ -74,6 +74,7 @@
 
                 <AddressCard
                   :address="suggestedAddress"
+                  :highlighted-fields="modifiedFields"
                 />
               </div>
             </template>
@@ -246,6 +247,30 @@ export default defineComponent({
              missingComponents.includes('street_number');
     });
 
+    const modifiedFields = computed<string[]>(() => {
+      const entered = enteredAddress.value;
+      const suggested = suggestedAddress.value;
+
+      if (!entered || !suggested || Object.keys(entered).length === 0 || Object.keys(suggested).length === 0) {
+        return [];
+      }
+
+      const fieldsToCompare: (keyof BaseAddressDetails)[] = [
+        'streetAddress',
+        'apartmentNumber',
+        'city',
+        'state',
+        'zipCode',
+        'country'
+      ];
+
+      return fieldsToCompare.filter(field => {
+        const enteredValue = entered[field];
+        const suggestedValue = suggested[field];
+        return enteredValue !== suggestedValue;
+      });
+    });
+
     const getModalTitle = computed<string>(() => {
       if (isFixMode.value) {
         if (isMissingStreetNumber.value) {
@@ -367,6 +392,7 @@ export default defineComponent({
       isFixMode,
       isSubpremisesMode,
       isMissingStreetNumber,
+      modifiedFields,
       getModalTitle,
       getModalSubtitle,
       closeModal,
