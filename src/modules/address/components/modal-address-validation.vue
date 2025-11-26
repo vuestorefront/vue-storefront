@@ -19,7 +19,7 @@
             :level="4"
           />
 
-          <AAddressCard
+          <AddressCard
             :address="enteredAddress"
           />
 
@@ -39,7 +39,7 @@
             :level="4"
           />
 
-          <AAddressCard
+          <AddressCard
             :address="suggestedAddress"
           />
         </div>
@@ -55,7 +55,7 @@
               <div class="_radio-label">
                 <span class="_radio-title">{{ $t('Address You Entered') }}</span>
 
-                <AAddressCard
+                <AddressCard
                   :address="enteredAddress"
                 />
               </div>
@@ -72,7 +72,7 @@
               <div class="_radio-label">
                 <span class="_radio-title">{{ $t('Suggested Address') }}</span>
 
-                <AAddressCard
+                <AddressCard
                   :address="suggestedAddress"
                 />
               </div>
@@ -87,7 +87,7 @@
             :level="4"
           />
 
-          <AAddressCard
+          <AddressCard
             :address="suggestedAddress"
           />
 
