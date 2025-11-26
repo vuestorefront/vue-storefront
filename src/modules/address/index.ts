@@ -1,3 +1,5 @@
+import googleMapsAttributionLogo from './assets/google-maps-logo.svg';
+
 export { createGoogleAddressValidationProvider } from './services/google-address-validation-provider.service';
 export type { AddressValidationProvider } from './services/address-validation-provider.interface';
 
@@ -9,3 +11,7 @@ export { useAddressValidation } from './composables/use-address-validation';
 export type { UseAddressValidationOptions } from './composables/use-address-validation';
 
 export { MODAL_NAME as ADDRESS_VALIDATION_MODAL } from './components/modal-address-validation.vue';
+
+export {
+  googleMapsAttributionLogo
+}
