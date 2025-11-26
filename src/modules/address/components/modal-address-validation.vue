@@ -170,6 +170,7 @@ import { SfModal, SfHeading, SfButton, SfInput, SfRadio } from '@storefront-ui/v
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 
+import { AddressSelectedEvent, ADDRESS_VALIDATION_EVENTS } from '../types/address-validation-events';
 import AddressCard from './address-card.vue';
 
 interface ModalData {
@@ -266,26 +267,29 @@ export default defineComponent({
     });
 
     const closeModal = () => {
-      EventBus.$emit('modal-hide', props.modalData.name);
+      EventBus.$emit(ADDRESS_VALIDATION_EVENTS.MODAL_HIDE, props.modalData.name);
       emit('close', props.modalData.name);
       unitNumber.value = '';
       streetNumber.value = '';
+      selectedAddressType.value = 'suggested';
     };
 
     const useEnteredAddress = () => {
-      EventBus.$emit('address-selected', {
+      const event: AddressSelectedEvent = {
         type: 'entered',
         address: enteredAddress.value
-      });
+      };
+      EventBus.$emit(ADDRESS_VALIDATION_EVENTS.ADDRESS_SELECTED, event);
 
       closeModal();
     };
 
     const useSuggestedAddress = () => {
-      EventBus.$emit('address-selected', {
+      const event: AddressSelectedEvent = {
         type: 'suggested',
         address: suggestedAddress.value
-      });
+      };
+      EventBus.$emit(ADDRESS_VALIDATION_EVENTS.ADDRESS_SELECTED, event);
       closeModal();
     };
 
@@ -298,15 +302,16 @@ export default defineComponent({
     };
 
     const changeAddress = () => {
-      EventBus.$emit('change-address');
+      EventBus.$emit(ADDRESS_VALIDATION_EVENTS.CHANGE_ADDRESS);
       closeModal();
     };
 
     const useWithoutUnit = () => {
-      EventBus.$emit('address-selected', {
+      const event: AddressSelectedEvent = {
         type: 'entered',
         address: enteredAddress.value
-      });
+      };
+      EventBus.$emit(ADDRESS_VALIDATION_EVENTS.ADDRESS_SELECTED, event);
 
       closeModal();
     };
@@ -317,10 +322,11 @@ export default defineComponent({
         apartmentNumber: unitNumber.value
       };
 
-      EventBus.$emit('address-selected', {
+      const event: AddressSelectedEvent = {
         type: 'with-unit',
         address: addressWithUnit
-      });
+      };
+      EventBus.$emit(ADDRESS_VALIDATION_EVENTS.ADDRESS_SELECTED, event);
 
       closeModal();
     };
@@ -329,13 +335,14 @@ export default defineComponent({
       const currentStreetAddress = enteredAddress.value.streetAddress || '';
       const updatedStreetAddress = `${streetNumber.value} ${currentStreetAddress}`.trim();
 
-      EventBus.$emit('address-selected', {
+      const event: AddressSelectedEvent = {
         type: 'with-street-number',
         address: {
           ...enteredAddress.value,
           streetAddress: updatedStreetAddress
         }
-      });
+      };
+      EventBus.$emit(ADDRESS_VALIDATION_EVENTS.ADDRESS_SELECTED, event);
 
       closeModal();
     };

@@ -5,7 +5,8 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import { Logger } from '@vue-storefront/core/lib/logger';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
-import { ValidationResult, AddressSelectedEvent, ValidationVerdict } from '../types/validation';
+import { ValidationResult, ValidationVerdict } from '../types/validation';
+import { AddressSelectedEvent, ADDRESS_VALIDATION_EVENTS } from '../types/address-validation-events';
 import { checkCountrySupported } from '../helpers/check-country-supported';
 import { MODAL_NAME } from '../components/modal-address-validation.vue';
 
@@ -33,9 +34,9 @@ export function useAddressValidation (
 
   function setupModalEventListeners (resolveValidation: ((shouldProceed: boolean) => void)): void {
     function cleanup () {
-      EventBus.$off('address-selected', addressSelectedHandler);
-      EventBus.$off('change-address', changeAddressHandler);
-      EventBus.$off('modal-hide', modalClosedHandler);
+      EventBus.$off(ADDRESS_VALIDATION_EVENTS.ADDRESS_SELECTED, addressSelectedHandler);
+      EventBus.$off(ADDRESS_VALIDATION_EVENTS.CHANGE_ADDRESS, changeAddressHandler);
+      EventBus.$off(ADDRESS_VALIDATION_EVENTS.MODAL_HIDE, modalClosedHandler);
     }
 
     async function addressSelectedHandler (decision: AddressSelectedEvent) {
@@ -116,9 +117,9 @@ export function useAddressValidation (
       }
     }
 
-    EventBus.$on('address-selected', addressSelectedHandler);
-    EventBus.$on('change-address', changeAddressHandler);
-    EventBus.$on('modal-hide', modalClosedHandler);
+    EventBus.$on(ADDRESS_VALIDATION_EVENTS.ADDRESS_SELECTED, addressSelectedHandler);
+    EventBus.$on(ADDRESS_VALIDATION_EVENTS.CHANGE_ADDRESS, changeAddressHandler);
+    EventBus.$on(ADDRESS_VALIDATION_EVENTS.MODAL_HIDE, modalClosedHandler);
   }
 
   async function handleInteractiveVerdict (
