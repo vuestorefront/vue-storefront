@@ -159,6 +159,14 @@
           {{ $t('Use Updated Address') }}
         </SfButton>
       </div>
+
+      <div class="_attribution">
+        <img
+          alt=""
+          :src="googleMapsAttributionLogo"
+          class="_logo-icon"
+        >
+      </div>
     </SfModal>
   </div>
 </template>
@@ -170,7 +178,9 @@ import { SfModal, SfHeading, SfButton, SfInput, SfRadio } from '@storefront-ui/v
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 
+import googleMapsAttributionLogo from '../assets/google-maps-logo.svg';
 import { AddressSelectedEvent, ADDRESS_VALIDATION_EVENTS } from '../types/address-validation-events';
+
 import AddressCard from './address-card.vue';
 
 interface ModalData {
@@ -366,7 +376,8 @@ export default defineComponent({
       changeAddress,
       useWithoutUnit,
       useUpdatedAddress,
-      useAddressWithStreetNumber
+      useAddressWithStreetNumber,
+      googleMapsAttributionLogo
     };
   }
 });
@@ -383,6 +394,12 @@ export default defineComponent({
     margin: var(--spacer-xs) 0 0 0;
     line-height: 1.4;
     font-size: var(--font-sm);
+  }
+
+  ._attribution {
+    margin-top: var(--spacer-sm);
+    display: flex;
+    align-items: center;
   }
 
   ._container {
