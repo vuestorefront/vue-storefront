@@ -29,6 +29,7 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
     if (normalizedQuery.length < 3) {
       suggestions.value = [];
       loading.value = false;
+      lastQuery = '';
       return;
     }
 

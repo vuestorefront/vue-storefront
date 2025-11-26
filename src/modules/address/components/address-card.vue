@@ -27,7 +27,7 @@ import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/Base
 const States = require('@vue-storefront/i18n/resource/states.json');
 
 export default defineComponent({
-  name: 'AAddressCard',
+  name: 'AddressCard',
   props: {
     address: {
       type: Object as PropType<Partial<BaseAddressDetails>>,

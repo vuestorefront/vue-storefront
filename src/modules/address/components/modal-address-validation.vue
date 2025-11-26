@@ -314,7 +314,7 @@ export default defineComponent({
     const useUpdatedAddress = () => {
       const addressWithUnit = {
         ...suggestedAddress.value,
-        streetAddress: `${suggestedAddress.value.streetAddress} ${unitNumber.value}`.trim()
+        apartmentNumber: unitNumber.value
       };
 
       EventBus.$emit('address-selected', {
