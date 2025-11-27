@@ -29,6 +29,7 @@ export function mapPlacesAddressToBaseAddress (
     result.streetAddress = streetNumber.longText;
   }
 
+  // Append building name (premise) to the street address if available, e.g. "123 Main St Building A".
   if (result.streetAddress) {
     if (premise?.longText) {
       result.streetAddress = `${result.streetAddress} ${premise.longText}`;
@@ -39,6 +40,10 @@ export function mapPlacesAddressToBaseAddress (
     result.apartmentNumber = subpremise.longText;
   }
 
+  // Google doesn't have a single "city" field.
+  // 1. locality: Standard city/town (US/EU).
+  // 2. postal_town: UK-style postal towns (often more accurate than locality in UK).
+  // 3. sublocality_level_1: Districts/neighborhoods (fallback for large Asian cities or when locality is missing).
   const city = findComponent(['locality', 'postal_town', 'sublocality_level_1']);
   if (city?.longText) {
     result.city = city.longText;
