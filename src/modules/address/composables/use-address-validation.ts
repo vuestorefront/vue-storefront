@@ -125,7 +125,7 @@ export function useAddressValidation (
   async function handleInteractiveVerdict (
     result: ValidationResult
   ): Promise<boolean> {
-    return new Promise((resolve) => {
+    return new Promise<boolean>((resolve) => {
       if (!currentAddressRef) {
         Logger.warn('No address reference available', 'address-validation')();
         resolve(true);

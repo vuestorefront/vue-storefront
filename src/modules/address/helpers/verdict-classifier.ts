@@ -36,7 +36,7 @@ export function classifyValidationVerdict (
         verdict = 'FIX';
         break;
       default:
-        verdict = 'FIX';
+        return defaultResult;
     }
 
     const result: ValidationResult = {

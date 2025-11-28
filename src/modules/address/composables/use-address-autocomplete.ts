@@ -1,4 +1,4 @@
-import { ref, onBeforeMount, inject, Ref, computed, watch } from '@vue/composition-api';
+import { ref, onBeforeMount, inject, Ref, computed, watch, onBeforeUnmount } from '@vue/composition-api';
 import debounce from 'lodash.debounce';
 
 import { Logger } from '@vue-storefront/core/lib/logger';
@@ -21,6 +21,16 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
     return checkCountrySupported(addressRef.value.country);
   });
 
+  const country = computed<string>(() => {
+    return addressRef.value.country;
+  });
+
+  function resetData () {
+    suggestions.value = [];
+    loading.value = false;
+    lastQuery = '';
+  }
+
   async function runSuggestionQuery (query: string): Promise<void> {
     const normalizedQuery = query?.trim() || '';
 
@@ -29,15 +39,12 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
     }
 
     if (normalizedQuery.length < 3) {
-      suggestions.value = [];
-      loading.value = false;
-      lastQuery = '';
+      resetData();
       return;
     }
 
     if (!isCountrySupported.value) {
-      suggestions.value = [];
-      loading.value = false;
+      resetData();
       return;
     }
 
@@ -51,7 +58,12 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
           { country: addressRef.value.country }
         );
 
-        suggestions.value = results;
+        if (loading.value) {
+          suggestions.value = results;
+          return;
+        }
+
+        suggestions.value = [];
       }
     } catch (error) {
       Logger.error('Error fetching address suggestions: ' + error, 'address-autocomplete')();
@@ -70,15 +82,17 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
       if (provider) {
         const details = await provider.getPlaceDetails(placeId);
 
-        addressRef.value = {
-          ...addressRef.value,
-          streetAddress: details.streetAddress || addressRef.value.streetAddress,
-          city: details.city || addressRef.value.city,
-          state: details.state || '',
-          region_id: details.region_id,
-          zipCode: details.zipCode || addressRef.value.zipCode,
-          country: details.country || addressRef.value.country
-        };
+        if (loading.value) {
+          addressRef.value = {
+            ...addressRef.value,
+            streetAddress: details.streetAddress || addressRef.value.streetAddress,
+            city: details.city || addressRef.value.city,
+            state: details.state || '',
+            region_id: details.region_id,
+            zipCode: details.zipCode || addressRef.value.zipCode,
+            country: details.country || addressRef.value.country
+          };
+        }
 
         suggestions.value = [];
       }
@@ -99,11 +113,12 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
     }
   });
 
-  watch(isCountrySupported, (newValue) => {
-    if (!newValue) {
-      suggestions.value = [];
-      lastQuery = '';
-    }
+  onBeforeUnmount(() => {
+    resetData();
+  });
+
+  watch(country, () => {
+    resetData();
   });
 
   return {

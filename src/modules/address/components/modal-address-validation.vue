@@ -452,7 +452,7 @@ export default defineComponent({
 
   ._buttons {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: var(--spacer-sm);
     margin-top: var(--spacer-xl);
 
