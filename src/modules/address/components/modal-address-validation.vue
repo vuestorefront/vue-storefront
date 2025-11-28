@@ -414,6 +414,7 @@ export default defineComponent({
 
 .modal-address-validation {
   --modal-width: auto;
+  --modal-content-padding: var(--spacer-base);
 
   ._subtitle {
     display: block;
