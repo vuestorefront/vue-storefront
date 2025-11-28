@@ -13,6 +13,7 @@
         @close="changeAddress"
         @use-modified-address="useModifiedAddress"
         @use-entered-address="useEnteredAddress"
+        class="_address-form"
       />
 
       <confirm-mode
@@ -21,6 +22,7 @@
         :suggested-address="suggestedAddress"
         @use-suggested-address="useSuggestedAddress"
         @use-entered-address="useEnteredAddress"
+        class="_address-form"
       />
 
       <confirm-add-subpremises-mode
@@ -29,6 +31,7 @@
         :suggested-address="suggestedAddress"
         @use-modified-address="useModifiedAddress"
         @use-entered-address="useEnteredAddress"
+        class="_address-form"
       />
 
       <div class="_attribution">
@@ -178,11 +181,28 @@ export default defineComponent({
   --modal-width: auto;
   --modal-content-padding: var(--spacer-base);
 
+  ::v-deep .sf-modal__content {
+    display: flex;
+    flex-direction: column;
+    justify-self: stretch;
+    height: 100%;
+  }
+
+  ._address-form {
+    flex-grow: 1;
+  }
+
   ._attribution {
     margin-top: var(--spacer-sm);
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 
+  @include for-desktop {
+    ._attribution {
+      justify-content: end;
+    }
+  }
 }
 </style>
