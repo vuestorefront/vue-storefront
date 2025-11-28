@@ -115,6 +115,7 @@ export function useAddressAutocomplete (addressRef: Ref<BaseAddressDetails>) {
 
   onBeforeUnmount(() => {
     resetData();
+    debouncedFetch.cancel();
   });
 
   watch(country, () => {
