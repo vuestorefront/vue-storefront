@@ -47,23 +47,7 @@ export function useAddressValidation (
         return;
       }
 
-      if (decision.type === 'with-unit' && decision.address) {
-        const updatedAddress: BaseAddressDetails = {
-          ...currentAddressRef.value,
-          ...decision.address
-          // TODO: uncomment after API support this field
-          // is_suggested: true
-        };
-        currentAddressRef.value = updatedAddress;
-
-        await nextTick();
-        const shouldProceed = await validateAddress(currentAddressRef);
-
-        resolveValidation(shouldProceed);
-        return;
-      }
-
-      if (decision.type === 'with-street-number' && decision.address) {
+      if (decision.type === 'modified' && decision.address) {
         const updatedAddress: BaseAddressDetails = {
           ...currentAddressRef.value,
           ...decision.address

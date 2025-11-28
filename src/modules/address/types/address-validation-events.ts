@@ -1,6 +1,6 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 
-export type AddressSelectedType = 'entered' | 'suggested' | 'with-unit' | 'with-street-number';
+export type AddressSelectedType = 'entered' | 'suggested' | 'modified';
 
 export interface AddressSelectedEvent {
   type: AddressSelectedType,
