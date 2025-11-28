@@ -1,4 +1,4 @@
-import { ref, inject, Ref, SetupContext } from '@vue/composition-api';
+import { ref, inject, Ref, SetupContext, nextTick } from '@vue/composition-api';
 
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
@@ -56,6 +56,7 @@ export function useAddressValidation (
         };
         currentAddressRef.value = updatedAddress;
 
+        await nextTick();
         const shouldProceed = await validateAddress(currentAddressRef);
 
         resolveValidation(shouldProceed);
@@ -70,6 +71,8 @@ export function useAddressValidation (
           // is_suggested: true
         };
         currentAddressRef.value = updatedAddress;
+
+        await nextTick();
         const shouldProceed = await validateAddress(currentAddressRef);
 
         resolveValidation(shouldProceed);

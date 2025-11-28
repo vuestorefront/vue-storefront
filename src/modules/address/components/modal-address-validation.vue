@@ -212,7 +212,9 @@ export default defineComponent({
     },
     modalData: {
       type: Object as PropType<ModalData>,
-      required: true
+      default: () => ({
+        name: ADDRESS_VALIDATION_MODAL_NAME
+      })
     }
   },
   setup (props, { emit, root }: SetupContext) {
