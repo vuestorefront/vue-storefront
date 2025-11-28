@@ -181,6 +181,7 @@ import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/Base
 
 import googleMapsAttributionLogo from '../assets/google-maps-logo.svg';
 import { AddressSelectedEvent, ADDRESS_VALIDATION_EVENTS } from '../types/address-validation-events';
+import { ADDRESS_VALIDATION_MODAL_NAME } from '../types/modal-names';
 
 import AddressCard from './address-card.vue';
 
@@ -193,8 +194,6 @@ interface ModalData {
     missingComponents?: string[]
   }
 }
-
-export const MODAL_NAME = 'modal-address-validation';
 
 export default defineComponent({
   name: 'ModalAddressValidation',

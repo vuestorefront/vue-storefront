@@ -8,7 +8,7 @@ import { AddressValidationProvider } from '../services/address-validation-provid
 import { ValidationResult, ValidationVerdict } from '../types/validation';
 import { AddressSelectedEvent, ADDRESS_VALIDATION_EVENTS } from '../types/address-validation-events';
 import { checkCountrySupported } from '../helpers/check-country-supported';
-import { MODAL_NAME } from '../components/modal-address-validation.vue';
+import { ADDRESS_VALIDATION_MODAL_NAME } from '../types/modal-names';
 
 const DEFAULT_INTERACTIVE_VERDICTS: ValidationVerdict[] = ['CONFIRM', 'CONFIRM_ADD_SUBPREMISES', 'FIX'];
 
@@ -110,7 +110,7 @@ export function useAddressValidation (
     }
 
     function modalClosedHandler (modalName: string) {
-      if (modalName === MODAL_NAME) {
+      if (modalName === ADDRESS_VALIDATION_MODAL_NAME) {
         cleanup();
 
         resolveValidation(false);
@@ -141,7 +141,7 @@ export function useAddressValidation (
       };
 
       root.$store.dispatch('ui/openModal', {
-        name: MODAL_NAME,
+        name: ADDRESS_VALIDATION_MODAL_NAME,
         payload
       });
 

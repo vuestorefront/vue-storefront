@@ -10,7 +10,7 @@ export { useAddressAutocomplete } from './composables/use-address-autocomplete';
 export { useAddressValidation } from './composables/use-address-validation';
 export type { UseAddressValidationOptions } from './composables/use-address-validation';
 
-export { MODAL_NAME as ADDRESS_VALIDATION_MODAL } from './components/modal-address-validation.vue';
+export { ADDRESS_VALIDATION_MODAL_NAME } from './types/modal-names';
 
 export {
   googleMapsAttributionLogo
