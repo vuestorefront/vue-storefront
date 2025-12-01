@@ -32,6 +32,8 @@ export const createShippingAddressData = (
     region_id: shippingDetails.region_id,
     telephone: shippingDetails.phoneNumber,
     vat_id: shippingDetails.vat_id
+    // TODO: uncomment after API support this field
+    // is_suggested: shippingDetails.is_suggested || false
   }
 };
 
@@ -65,6 +67,8 @@ const createOrderData = ({
       region_id: paymentDetails.region_id,
       telephone: paymentDetails.phoneNumber,
       vat_id: paymentDetails.vat_id
+      // TODO: uncomment after API support this field
+      // is_suggested: paymentDetails.is_suggested || false
     },
     method_code: shippingMethodCode,
     carrier_code: shippingCarrierCode,

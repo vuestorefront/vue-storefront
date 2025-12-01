@@ -12,5 +12,7 @@ export default function getDefaultShippingDetails () {
     phoneNumber: '',
     shippingMethod: '',
     vat_id: ''
+    // TODO: uncomment after API support this field
+    // is_suggested: false
   }
 }

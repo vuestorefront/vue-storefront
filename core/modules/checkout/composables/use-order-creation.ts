@@ -62,6 +62,8 @@ export function useOrderCreation ({ root }: SetupContext) {
         email: personalDetails.emailAddress,
         region_code: shippingDetails.region_code ? shippingDetails.region_code : '',
         vat_id: shippingDetails.vat_id
+        // TODO: uncomment after API support this field
+        // is_suggested: shippingDetails.is_suggested || false
       }
     }
 

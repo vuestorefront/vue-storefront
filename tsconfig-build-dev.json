@@ -17,7 +17,8 @@
       "reflect-metadata",
       "node",
       "jest",
-      "braintree"
+      "braintree",
+      "google.maps"
     ],
     "paths": {
       "core/*": ["core/*"],
