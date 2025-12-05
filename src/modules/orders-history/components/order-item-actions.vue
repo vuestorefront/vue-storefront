@@ -51,6 +51,7 @@ import { computed, defineComponent, PropType } from '@vue/composition-api';
 import { SfButton } from '@storefront-ui/vue';
 
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { isServer } from '@vue-storefront/core/helpers';
 import { IS_CART_SYNCING } from '@vue-storefront/core/modules/cart';
 
 import { OrderItem } from '../types/order-item';
@@ -62,7 +63,7 @@ interface ActionItem {
   action: OrderItemAvailableAction,
   component?: 'SfButton' | 'a',
   props: Record<string, string | undefined>,
-  handlers: Record<string, () => Promise<void>>
+  handlers: Record<string, () => Promise<void> | void>
 }
 
 interface ActionsListGroups {
@@ -125,6 +126,10 @@ export default defineComponent({
     },
     actionsList: {
       type: Array as PropType<OrderItemAvailableAction[]>,
+      required: true
+    },
+    orderId: {
+      type: Number,
       required: true
     }
   },
@@ -192,6 +197,15 @@ export default defineComponent({
       });
     }
 
+    async function onProvideTaxIdActionClick (): Promise<void> {
+      await root.$router.push({
+        name: 'tax-id-request',
+        query: {
+          orderId: props.orderId.toString()
+        }
+      });
+    }
+
     const actionsListGroups = computed<ActionsListGroups>(() => {
       const blockingActionsList: ActionItem[] = [];
       const nonBlockingActionsList: ActionItem[] = [];
@@ -215,6 +229,13 @@ export default defineComponent({
           actionItem.handlers.click = onDownloadResultsActionClick;
           actionItem.component = 'SfButton';
           nonBlockingActionsList.push(actionItem);
+          continue;
+        }
+
+        if (action.code === OrderItemAvailableActionCode.PROVIDE_TAX_ID) {
+          actionItem.handlers.click = onProvideTaxIdActionClick;
+          actionItem.component = 'SfButton';
+          blockingActionsList.push(actionItem);
           continue;
         }
 

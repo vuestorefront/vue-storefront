@@ -34,6 +34,7 @@
           <order-item-actions
             :actions-list="item.available_actions"
             :order-item="item"
+            :order-id="orderId"
             v-if="showActions"
           />
         </div>
@@ -94,6 +95,10 @@ export default defineComponent({
   props: {
     item: {
       type: Object as PropType<OrderItem>,
+      required: true
+    },
+    orderId: {
+      type: Number,
       required: true
     }
   },
