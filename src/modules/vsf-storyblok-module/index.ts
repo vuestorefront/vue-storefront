@@ -8,6 +8,7 @@ import { SpacingSettingsField } from './types/spacing-settings-field.type'
 import { Display } from './types/display.value'
 import AssetField from './types/asset-field.interface'
 import ColorPickerField from './types/color-picker-field.interface'
+import { ColumnsCountField } from './types/columns-count-field.type'
 import LinkField from './types/link-field.interface'
 import VideoUrlField from './types/video-url-field.interface'
 import { LinkType } from './types/link-type.value'
@@ -43,5 +44,6 @@ export {
   getUrlFromLink,
   hydrateInPreviewOrWhenVisible,
   getHeaderId,
-  isStoryblokPreview
+  isStoryblokPreview,
+  ColumnsCountField
 }

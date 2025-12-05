@@ -27,6 +27,29 @@ const getters: GetterTree<ProductState, RootState> = {
   getProductRelated: state => state.related,
   getCurrentCustomOptions: state => state.current_custom_options,
   getProductBySkuDictionary: state => state.productBySku,
+  getProductByIdDictionary: (state, getters) => {
+    const dictionary: Record<Product['id'], Product> = {};
+
+    for (const product of Object.values(getters['getProductBySkuDictionary']) as Product[]) {
+      dictionary[product.id] = product;
+    }
+
+    return dictionary;
+  },
+  getProductByCategoryIdDictionary: (state, getters) => {
+    const dictionary: Record<string | number, Product[]> = {};
+
+    for (const product of Object.values(getters['getProductBySkuDictionary']) as Product[]) {
+      for (const id of product.category_ids) {
+        if (!dictionary[id]) {
+          dictionary[id] = [];
+        }
+        dictionary[id].push(product);
+      }
+    }
+
+    return dictionary;
+  },
   getCurrentBundleOptions: state => state.current_bundle_options,
   getProductPrice: (state, getters): (product: Product) => PriceHelper.ProductPrice => {
     return (product: Product) => {
