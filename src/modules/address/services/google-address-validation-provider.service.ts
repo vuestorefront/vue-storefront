@@ -134,12 +134,16 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
       const postalAddress = (place as any).postalAddress;
       const addressComponents = place.addressComponents;
 
+      const mappedAddressComponents = addressComponents
+        ? mapPlacesAddressToBaseAddress(addressComponents)
+        : undefined;
+
       let mappedAddress;
 
       if (postalAddress) {
-        mappedAddress = mapPostalAddressToBaseAddress(postalAddress);
-      } else if (addressComponents) {
-        mappedAddress = mapPlacesAddressToBaseAddress(addressComponents);
+        mappedAddress = mapPostalAddressToBaseAddress(postalAddress, mappedAddressComponents);
+      } else if (mappedAddressComponents) {
+        mappedAddress = mappedAddressComponents;
       } else {
         throw new Error('No postal address or address components found');
       }

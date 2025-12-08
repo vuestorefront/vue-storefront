@@ -15,7 +15,8 @@ export interface PostalAddress {
 }
 
 export function mapPostalAddressToBaseAddress (
-  postalAddress: PostalAddress | undefined
+  postalAddress: PostalAddress | undefined,
+  mappedAddressComponents?: Partial<BaseAddressDetails>
 ): Partial<BaseAddressDetails> {
   const result: Partial<BaseAddressDetails> = {};
 
@@ -57,6 +58,8 @@ export function mapPostalAddressToBaseAddress (
 
   if (postalAddress.postalCode) {
     result.zipCode = postalAddress.postalCode;
+  } else if (mappedAddressComponents?.zipCode) {
+    result.zipCode = mappedAddressComponents.zipCode;
   }
 
   return result;
