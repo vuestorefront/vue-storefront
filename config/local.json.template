@@ -118,7 +118,7 @@
     "google": {
       "placesPublicApiKey": "${PLACES_API_PUBLIC_KEY}"
     },
-    "validationSupportedCountries": ["US"]
+    "validationSupportedCountries": ["US", "CA", "AU", "UK"]
   },
   "privacyPolicy": {
     "url": "${PRIVACY_POLICY_URL}",
