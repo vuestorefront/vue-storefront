@@ -68,6 +68,9 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
       const request: google.maps.places.AutocompleteRequest = {
         input: query,
         sessionToken,
+        // Restrict results to addresses only.
+        // - 'street_address': Matches precise locations (requires number).
+        // - 'route': Matches street names (allows suggestions without a number).
         includedPrimaryTypes: ['street_address', 'route']
       };
 
