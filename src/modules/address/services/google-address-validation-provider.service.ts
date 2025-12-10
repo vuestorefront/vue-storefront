@@ -65,9 +65,10 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         sessionToken = new placesLibrary.AutocompleteSessionToken();
       }
 
-      const request: any = {
+      const request: google.maps.places.AutocompleteRequest = {
         input: query,
-        sessionToken
+        sessionToken,
+        includedPrimaryTypes: ['street_address', 'route']
       };
 
       if (opts?.country) {
