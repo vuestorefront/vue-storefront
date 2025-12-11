@@ -71,7 +71,14 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         // Restrict results to addresses only.
         // - 'street_address': Matches precise locations (requires number).
         // - 'route': Matches street names (allows suggestions without a number).
-        includedPrimaryTypes: ['street_address', 'route']
+        // - 'premise': Matches named buildings (critical for Singapore postal codes).
+        // - 'subpremise': Matches specific units/apartments (critical for New Zealand).
+        includedPrimaryTypes: [
+          'street_address',
+          'route',
+          'premise',
+          'subpremise'
+        ]
       };
 
       if (opts?.country) {
