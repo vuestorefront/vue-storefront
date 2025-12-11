@@ -62,5 +62,9 @@ export function mapPostalAddressToBaseAddress (
     result.zipCode = mappedAddressComponents.zipCode;
   }
 
+  if (postalAddress.sublocality) {
+    result.streetAddress += `, ${postalAddress.sublocality}`;
+  }
+
   return result;
 }
