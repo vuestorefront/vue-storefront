@@ -1,7 +1,9 @@
 import config from 'config';
 
-export function checkCountrySupported (country: string): boolean {
-  const supportedCountries = config.address?.validationSupportedCountries || [];
+import { CountryValidationConfig } from '../types/country-validation-config';
 
-  return supportedCountries.includes(country);
+export function checkCountrySupported (country: string): boolean {
+  const countryValidationConfig: CountryValidationConfig = config.address?.countryValidationConfig || {};
+
+  return countryValidationConfig.hasOwnProperty(country);
 }

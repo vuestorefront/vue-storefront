@@ -118,9 +118,25 @@
     "google": {
       "placesPublicApiKey": "${PLACES_API_PUBLIC_KEY}"
     },
-    "validationSupportedCountries": ["US", "CA", "AU", "GB", "FR", "DE", "CH", "NL", "SE", "NO", "BE", "AT", "DK", "NZ", "BR", "IE", "IT"],
-    "hiddenStateCountries": ["GB", "FR", "DE", "CH", "NL", "SE", "NO", "BE", "AT", "DK", "NZ"],
-    "useStateFromAddressComponents": ["BR", "IE", "IT"]
+    "countryValidationConfig": {
+      "US": {},
+      "CA": {},
+      "AU": {},
+      "GB": { "hideState": true },
+      "FR": { "hideState": true },
+      "DE": { "hideState": true },
+      "CH": { "hideState": true },
+      "NL": { "hideState": true },
+      "SE": { "hideState": true },
+      "NO": { "hideState": true },
+      "BE": { "hideState": true },
+      "AT": { "hideState": true },
+      "DK": { "hideState": true },
+      "NZ": { "hideState": true },
+      "BR": { "useStateFromAddressComponents": true },
+      "IE": { "useStateFromAddressComponents": true },
+      "IT": { "useStateFromAddressComponents": true }
+    }
   },
   "privacyPolicy": {
     "url": "${PRIVACY_POLICY_URL}",

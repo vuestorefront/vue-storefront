@@ -1,9 +1,9 @@
 import config from 'config';
 
-export function isStateHidden (countryCode: string): boolean {
-  const hiddenStateCountries: string[] = config.address?.hiddenStateCountries || [];
+import { CountryValidationConfig } from '../types/country-validation-config';
 
-  return !!hiddenStateCountries.find(
-    (country) => country.toLowerCase() === countryCode.toLowerCase()
-  );
+export function isStateHidden (country: string): boolean {
+  const countryValidationConfig: CountryValidationConfig = config.address?.countryValidationConfig || {};
+
+  return !!countryValidationConfig[country]?.hideState;
 }

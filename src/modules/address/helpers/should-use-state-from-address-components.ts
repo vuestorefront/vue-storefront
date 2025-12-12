@@ -1,13 +1,13 @@
 import config from 'config';
 
+import { CountryValidationConfig } from '../types/country-validation-config';
+
 export function shouldUseStateFromAddressComponents (country: string | undefined): boolean {
   if (!country) {
     return false;
   }
 
-  const useStateFromAddressComponentsCountriesList: string[] = config.address?.useStateFromAddressComponents || [];
+  const countryValidationConfig: CountryValidationConfig = config.address?.countryValidationConfig || {};
 
-  return !!useStateFromAddressComponentsCountriesList.find(
-    (item) => item.toLowerCase() === country.toLowerCase()
-  );
+  return !!countryValidationConfig[country]?.useStateFromAddressComponents;
 }
