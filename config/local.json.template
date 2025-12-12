@@ -119,7 +119,8 @@
       "placesPublicApiKey": "${PLACES_API_PUBLIC_KEY}"
     },
     "validationSupportedCountries": ["US", "CA", "AU", "GB", "FR", "DE", "CH", "NL", "SE", "NO", "BE", "AT", "DK", "NZ", "BR"],
-    "hiddenStateCountries": ["GB", "FR", "DE", "CH", "NL", "SE", "NO", "BE", "AT", "DK", "NZ"]
+    "hiddenStateCountries": ["GB", "FR", "DE", "CH", "NL", "SE", "NO", "BE", "AT", "DK", "NZ"],
+    "useStateFromAddressComponents": ["BR"]
   },
   "privacyPolicy": {
     "url": "${PRIVACY_POLICY_URL}",

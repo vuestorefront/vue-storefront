@@ -1,6 +1,8 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import { getRegionIdByCountryAndStateCode } from 'src/modules/shared';
 
+import { shouldUseStateFromAddressComponents } from '../helpers/should-use-state-from-address-components';
+
 export interface PostalAddress {
   regionCode?: string,
   addressLines?: string[],
@@ -41,7 +43,13 @@ export function mapPostalAddressToBaseAddress (
     result.country = postalAddress.regionCode;
   }
 
-  if (postalAddress.administrativeArea && postalAddress.regionCode) {
+  if (
+    shouldUseStateFromAddressComponents(postalAddress.regionCode) &&
+    mappedAddressComponents?.region_id
+  ) {
+    result.region_id = mappedAddressComponents.region_id;
+    result.state = '';
+  } else if (postalAddress.administrativeArea && postalAddress.regionCode) {
     const regionId = getRegionIdByCountryAndStateCode(
       postalAddress.regionCode,
       postalAddress.administrativeArea
