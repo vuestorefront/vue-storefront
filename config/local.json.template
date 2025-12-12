@@ -133,7 +133,6 @@
       "AT": { "hideState": true },
       "DK": { "hideState": true },
       "NZ": { "hideState": true },
-      "BR": { "useStateFromAddressComponents": true },
       "IE": { "useStateFromAddressComponents": true }
     }
   },
