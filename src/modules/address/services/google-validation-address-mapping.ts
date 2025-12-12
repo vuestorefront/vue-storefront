@@ -1,6 +1,7 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import { getRegionIdByCountryAndStateCode } from 'src/modules/shared';
 
+import { getStateComponentType } from '../helpers/get-state-component-type';
 import { GoogleValidationResponse, GoogleValidationResponseAddress, GoogleValidationResponseAddressComponent } from '../types/google-validation-response';
 import { mapPostalAddressToBaseAddress } from './postal-address-mapper';
 
@@ -13,12 +14,14 @@ function mapAddressComponentsToBaseAddress (
     return addressComponents?.find((item) => item.componentType === type);
   }
 
-  const administrativeArea = findComponent('administrative_area_level_1');
   const country = findComponent('country');
 
-  if (administrativeArea?.componentName?.text && country?.componentName?.text) {
+  const stateComponentType = getStateComponentType(country?.componentName?.text);
+  const state = findComponent(stateComponentType);
+
+  if (state?.componentName?.text && country?.componentName?.text) {
     result.region_id = getRegionIdByCountryAndStateCode(
-      administrativeArea.componentName.text,
+      state.componentName.text,
       country.componentName.text
     );
   }

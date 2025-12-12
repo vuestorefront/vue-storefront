@@ -576,7 +576,7 @@
   ],
   "IT": [
     {"code":"AG","name":"Agrigento","id":832},
-    {"code":"AL","name":"Alessandria","id":833},
+    {"code":"AL","name":"Alessandria","alternative_name": "Province of Alessandria", "id":833},
     {"code":"AN","name":"Ancona","id":834},
     {"code":"AO","name":"Aosta","id":835},
     {"code":"AQ","name":"L'Aquila","id":836},

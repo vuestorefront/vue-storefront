@@ -135,7 +135,10 @@
       "NZ": { "hideState": true },
       "BR": { "useStateFromAddressComponents": true },
       "IE": { "useStateFromAddressComponents": true },
-      "IT": { "useStateFromAddressComponents": true }
+      "IT": {
+        "useStateFromAddressComponents": true,
+        "stateComponentType": "administrative_area_level_2"
+      }
     }
   },
   "privacyPolicy": {

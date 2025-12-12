@@ -1,5 +1,6 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import { getRegionIdByCountryAndStateCode } from 'src/modules/shared';
+import { getStateComponentType } from '../helpers/get-state-component-type';
 
 export function mapPlacesAddressToBaseAddress (
   addressComponents: google.maps.places.AddressComponent[]
@@ -54,7 +55,8 @@ export function mapPlacesAddressToBaseAddress (
     result.country = country.shortText;
   }
 
-  const state = findComponent(['administrative_area_level_1']);
+  const stateComponentType = getStateComponentType(country?.shortText || undefined);
+  const state = findComponent([stateComponentType]);
 
   if (state?.shortText && country?.shortText) {
     const regionId = getRegionIdByCountryAndStateCode(

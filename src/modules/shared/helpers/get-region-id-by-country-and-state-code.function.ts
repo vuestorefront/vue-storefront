@@ -7,14 +7,25 @@ export function getRegionIdByCountryAndStateCode (country: string, stateCode: st
     return null;
   }
 
-  const stateItem = countryData.find((stateData: { code: string, name: string, id: number }) => {
+  const stateItem = countryData.find((stateData: {
+    code: string,
+    name: string,
+    id: number,
+    alternative_name?: string
+  }) => {
     const isCodeEqual = stateData.code.toUpperCase() === stateCode.toUpperCase();
 
     if (isCodeEqual) {
       return true;
     }
 
-    return stateData.name.toLowerCase() === stateCode.toLowerCase();
+    const isNameEqual = stateData.name.toLowerCase() === stateCode.toLowerCase();
+
+    if (isNameEqual) {
+      return true;
+    }
+
+    return stateData.alternative_name?.toLowerCase() === stateCode.toLowerCase();
   });
 
   return stateItem?.id || null;
