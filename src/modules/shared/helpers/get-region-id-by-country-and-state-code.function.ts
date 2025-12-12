@@ -8,7 +8,13 @@ export function getRegionIdByCountryAndStateCode (country: string, stateCode: st
   }
 
   const stateItem = countryData.find((stateData: { code: string, name: string, id: number }) => {
-    return stateData.code.toUpperCase() === stateCode.toUpperCase();
+    const isCodeEqual = stateData.code.toUpperCase() === stateCode.toUpperCase();
+
+    if (isCodeEqual) {
+      return true;
+    }
+
+    return stateData.name.toLowerCase() === stateCode.toLowerCase();
   });
 
   return stateItem?.id || null;

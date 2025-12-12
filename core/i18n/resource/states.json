@@ -545,5 +545,33 @@
     {"code":"SE","name":"Sergipe","id":509},
     {"code":"TO","name":"Tocantins","id":510},
     {"code":"DF","name":"Distrito Federal","id":511}
+  ],
+  "IE": [
+    {"code": "CW","name": "Co. Carlow","id": 1157},
+    {"code": "CN","name": "Co. Cavan","id": 1158},
+    {"code": "CE","name": "Co. Clare","id": 1159},
+    {"code": "CO","name": "Co. Cork","id": 1160},
+    {"code": "DL","name": "Co. Donegal","id": 1161},
+    {"code": "D","name": "Co. Dublin","id": 1162},
+    {"code": "G","name": "Co. Galway","id": 1163},
+    {"code": "KY","name": "Co. Kerry","id": 1164},
+    {"code": "KE","name": "Co. Kildare","id": 1165},
+    {"code": "KK","name": "Co. Kilkenny","id": 1166},
+    {"code": "LS","name": "Co. Laois","id": 1167},
+    {"code": "LM","name": "Co. Leitrim","id": 1168},
+    {"code": "LK","name": "Co. Limerick","id": 1169},
+    {"code": "LD","name": "Co. Longford","id": 1170},
+    {"code": "LH","name": "Co. Louth","id": 1171},
+    {"code": "MO","name": "Co. Mayo","id": 1172},
+    {"code": "MH","name": "Co. Meath","id": 1173},
+    {"code": "MN","name": "Co. Monaghan","id": 1174},
+    {"code": "OY","name": "Co. Offaly","id": 1175},
+    {"code": "RN","name": "Co. Roscommon","id": 1176},
+    {"code": "SO","name": "Co. Sligo","id": 1177},
+    {"code": "TA","name": "Co. Tipperary","id": 1178},
+    {"code": "WD","name": "Co. Waterford","id": 1179},
+    {"code": "WH","name": "Co. Westmeath","id": 1180},
+    {"code": "WX","name": "Co. Wexford","id": 1181},
+    {"code": "WW","name": "Co. Wicklow","id": 1182}
   ]
 }

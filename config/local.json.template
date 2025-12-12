@@ -118,9 +118,9 @@
     "google": {
       "placesPublicApiKey": "${PLACES_API_PUBLIC_KEY}"
     },
-    "validationSupportedCountries": ["US", "CA", "AU", "GB", "FR", "DE", "CH", "NL", "SE", "NO", "BE", "AT", "DK", "NZ", "BR"],
+    "validationSupportedCountries": ["US", "CA", "AU", "GB", "FR", "DE", "CH", "NL", "SE", "NO", "BE", "AT", "DK", "NZ", "BR", "IE"],
     "hiddenStateCountries": ["GB", "FR", "DE", "CH", "NL", "SE", "NO", "BE", "AT", "DK", "NZ"],
-    "useStateFromAddressComponents": ["BR"]
+    "useStateFromAddressComponents": ["BR", "IE"]
   },
   "privacyPolicy": {
     "url": "${PRIVACY_POLICY_URL}",
