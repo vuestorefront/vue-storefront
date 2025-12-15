@@ -59,10 +59,17 @@ export function mapPlacesAddressToBaseAddress (
   const state = findComponent([stateComponentType]);
 
   if (state?.shortText && country?.shortText) {
-    const regionId = getRegionIdByCountryAndStateCode(
+    let regionId = getRegionIdByCountryAndStateCode(
       country.shortText,
       state.shortText
     );
+
+    if (regionId === null && state.longText) {
+      regionId = getRegionIdByCountryAndStateCode(
+        country.shortText,
+        state.longText
+      );
+    }
 
     if (regionId !== null) {
       result.region_id = regionId;
