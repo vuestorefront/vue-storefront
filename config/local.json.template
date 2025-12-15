@@ -141,6 +141,9 @@
       },
       "ES": {
         "useStateFromAddressComponents": true
+      },
+      "MX": {
+        "useStateFromAddressComponents": true
       }
     }
   },
