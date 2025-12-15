@@ -138,6 +138,9 @@
       "IT": {
         "useStateFromAddressComponents": true,
         "stateComponentType": "administrative_area_level_2"
+      },
+      "ES": {
+        "useStateFromAddressComponents": true
       }
     }
   },
