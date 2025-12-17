@@ -2,6 +2,7 @@
   "server": {
     "host": "0.0.0.0",
     "port": 3000,
+    "keepAliveTimeout": ${NODEJS_KEEP_ALIVE_TIMEOUT},
     "protocol": "http",
     "api": "api-search-query",
     "devServiceWorker": false,

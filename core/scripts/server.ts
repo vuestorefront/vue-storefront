@@ -4,6 +4,7 @@ import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
 import { extractCookieValue } from '../helpers/extract-cookie-value.function'
 import { cacheInstanceFactory } from './utils/cache-instance';
 
+const gracefulShutdown = require('http-graceful-shutdown')
 const qs = require('qs')
 const config = require('config')
 const path = require('path')
@@ -426,8 +427,13 @@ app.get('*', async (req, res, next) => {
 
 let port = process.env.PORT || config.server.port
 const host = process.env.HOST || config.server.host
+const keepAliveTimeout = process.env.KEEP_ALIVE_TIMEOUT || config.server.keepAliveTimeout || 5000
 const start = () => {
-  const server = app.listen(port, host)
+  const server = app.listen(port, host);
+  server.keepAliveTimeout = keepAliveTimeout;
+  server.headersTimeout = keepAliveTimeout + 1000;
+  gracefulShutdown(server);
+
   server.on('listening', () => {
     console.log(`\n\n----------------------------------------------------------`)
     console.log('|                                                        |')
@@ -436,7 +442,11 @@ const start = () => {
     console.log(`----------------------------------------------------------\n\n`)
 
     serverHooksExecutors.httpServerIsReady({ server, config: config.server, isProd })
-  }).on('error', (e) => {
+ 
+    if (process && typeof process.send === 'function') {
+    process.send('ready');
+    } 
+  }).on('error', (e: any) => {
     if (e.code === 'EADDRINUSE') {
       port = parseInt(port) + 1
       console.log(`The port is already in use, trying ${port}`)
