@@ -10,6 +10,7 @@ import {
   SET_PERSISTED_CUSTOMER_LAST_NAME,
   SET_PERSISTED_CUSTOMER_PHONE_NUMBER,
   SET_PERSISTED_CUSTOMER_SHIPPING_COUNTRY,
+  SET_PERSISTED_CUSTOMER_VAT_ID,
   SET_PERSISTED_CUSTOMER_BILLING_ADDRESS
 } from '../types/mutation';
 
@@ -28,6 +29,9 @@ export const mutations: MutationTree<StoreState> = {
   },
   [SET_PERSISTED_CUSTOMER_SHIPPING_COUNTRY] (state, payload: string | undefined): void {
     Vue.set(state, 'shippingCountry', payload);
+  },
+  [SET_PERSISTED_CUSTOMER_VAT_ID] (state, payload: string | undefined): void {
+    Vue.set(state, 'vatId', payload);
   },
   [SET_PERSISTED_CUSTOMER_BILLING_ADDRESS] (state, payload: PersistedBillingAddress): void {
     state.lastUsedCustomerBillingAddress = payload;

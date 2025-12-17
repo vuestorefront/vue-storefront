@@ -4,8 +4,8 @@ import { parseLocalStorageValue } from 'src/modules/shared';
 import { checkMultiStoreLocalStorageKey } from 'src/modules/shared/helpers/check-multi-store-local-storage-key.function';
 
 import { SN_PERSISTED_CUSTOMER_DATA } from '../types/store-name';
-import { SET_PERSISTED_CUSTOMER_EMAIL, SET_PERSISTED_CUSTOMER_FIRST_NAME, SET_PERSISTED_CUSTOMER_LAST_NAME, SET_PERSISTED_CUSTOMER_PHONE_NUMBER, SET_PERSISTED_CUSTOMER_SHIPPING_COUNTRY } from '../types/mutation';
-import { EMAIL, FIRST_NAME, LAST_NAME, PHONE_NUMBER, SHIPPING_COUNTRY } from '../types/local-storage-key';
+import { SET_PERSISTED_CUSTOMER_EMAIL, SET_PERSISTED_CUSTOMER_FIRST_NAME, SET_PERSISTED_CUSTOMER_LAST_NAME, SET_PERSISTED_CUSTOMER_PHONE_NUMBER, SET_PERSISTED_CUSTOMER_SHIPPING_COUNTRY, SET_PERSISTED_CUSTOMER_VAT_ID } from '../types/mutation';
+import { EMAIL, FIRST_NAME, LAST_NAME, PHONE_NUMBER, SHIPPING_COUNTRY, VAT_ID } from '../types/local-storage-key';
 
 const clearItem = (mutationName: string) => {
   rootStore.commit(
@@ -39,6 +39,11 @@ const clearLastUsedCustomerShippingCountry = () => {
     `${SN_PERSISTED_CUSTOMER_DATA}/${SET_PERSISTED_CUSTOMER_SHIPPING_COUNTRY}`
   );
 }
+const clearLastUsedCustomerVatId = () => {
+  clearItem(
+    `${SN_PERSISTED_CUSTOMER_DATA}/${SET_PERSISTED_CUSTOMER_VAT_ID}`
+  );
+}
 
 export function getItemsFromStorage ({ key }: { key: string | null }) {
   if (!key) {
@@ -47,6 +52,7 @@ export function getItemsFromStorage ({ key }: { key: string | null }) {
     clearLastUsedCustomerLastName();
     clearLastUsedCustomerPhoneNumber();
     clearLastUsedCustomerShippingCountry();
+    clearLastUsedCustomerVatId();
     return;
   }
 
@@ -70,13 +76,18 @@ export function getItemsFromStorage ({ key }: { key: string | null }) {
     key,
     `${SN_PERSISTED_CUSTOMER_DATA}/${SHIPPING_COUNTRY}`
   );
+  const isVatIdChanged = checkMultiStoreLocalStorageKey(
+    key,
+    `${SN_PERSISTED_CUSTOMER_DATA}/${VAT_ID}`
+  );
 
   if (
     !isEmailChanged &&
     !isFirstNameChanged &&
     !isLastNameChanged &&
     !isPhoneNumberChanged &&
-    !isCountryChanged
+    !isCountryChanged &&
+    !isVatIdChanged
   ) {
     return;
   }
@@ -100,6 +111,10 @@ export function getItemsFromStorage ({ key }: { key: string | null }) {
 
     if (isCountryChanged) {
       clearLastUsedCustomerShippingCountry();
+    }
+
+    if (isVatIdChanged) {
+      clearLastUsedCustomerVatId();
     }
   }
 
@@ -130,6 +145,10 @@ export function getItemsFromStorage ({ key }: { key: string | null }) {
 
   if (isCountryChanged) {
     mutationName = `${SN_PERSISTED_CUSTOMER_DATA}/${SET_PERSISTED_CUSTOMER_SHIPPING_COUNTRY}`;
+  }
+
+  if (isVatIdChanged) {
+    mutationName = `${SN_PERSISTED_CUSTOMER_DATA}/${SET_PERSISTED_CUSTOMER_VAT_ID}`;
   }
 
   if (!mutationName) {

@@ -84,6 +84,8 @@ import { SfButton, SfCheckbox, SfHeading, SfInput } from '@storefront-ui/vue';
 
 import i18n from '@vue-storefront/i18n';
 
+import { SET_PERSISTED_CUSTOMER_VAT_ID } from 'src/modules/persisted-customer-data';
+
 import { STORE_NAME } from '../store/store-name';
 import { FETCH_ORDER_DETAILS, SUBMIT_TAX_ID_UPDATE_REQUEST } from '../types/store/actions';
 import { Order } from '../types/order';
@@ -187,6 +189,8 @@ export default defineComponent({
         if (shouldSaveToDefaultAddress.value && hasDefaultShippingAddress.value) {
           await updateDefaultAddress();
         }
+
+        root.$store.commit(SET_PERSISTED_CUSTOMER_VAT_ID, taxIdValue.value);
 
         root.$store.dispatch('notification/spawnNotification', {
           type: 'success',

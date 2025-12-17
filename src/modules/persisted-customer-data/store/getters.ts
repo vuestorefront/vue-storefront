@@ -11,6 +11,7 @@ import {
   PERSISTED_CUSTOMER_LAST_NAME,
   PERSISTED_CUSTOMER_PHONE_NUMBER,
   PERSISTED_CUSTOMER_SHIPPING_COUNTRY,
+  PERSISTED_CUSTOMER_VAT_ID,
   PERSISTED_CUSTOMER_BILLING_ADDRESS,
   CUSTOMER_DATA_HASH,
   PERSISTED_CUSTOMER_DATA
@@ -50,6 +51,15 @@ export const getters: GetterTree<StoreState, RootState> = {
   [PERSISTED_CUSTOMER_SHIPPING_COUNTRY] (state): string {
     return state.shippingCountry || '';
   },
+  [PERSISTED_CUSTOMER_VAT_ID] (state, getters, rootState, rootGetters): string {
+    const defaultShippingAddress = rootGetters['user/defaultShippingAddress'];
+
+    if (defaultShippingAddress?.vat_id) {
+      return defaultShippingAddress.vat_id;
+    }
+
+    return state.vatId || '';
+  },
   [PERSISTED_CUSTOMER_BILLING_ADDRESS] (state, getters, rootState, rootGetters): PersistedBillingAddress {
     const defaultBillingAddress = rootGetters['user/defaultBillingAddress'];
 
@@ -75,7 +85,8 @@ export const getters: GetterTree<StoreState, RootState> = {
       lastName: getters[PERSISTED_CUSTOMER_LAST_NAME],
       phoneNumber: getters[PERSISTED_CUSTOMER_PHONE_NUMBER],
       shippingCountry: getters[PERSISTED_CUSTOMER_SHIPPING_COUNTRY],
-      billingAddress: getters[PERSISTED_CUSTOMER_BILLING_ADDRESS]
+      billingAddress: getters[PERSISTED_CUSTOMER_BILLING_ADDRESS],
+      vatId: getters[PERSISTED_CUSTOMER_VAT_ID]
     }
   },
   [CUSTOMER_DATA_HASH] (state, getters): string {
