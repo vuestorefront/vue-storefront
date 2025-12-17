@@ -65,9 +65,13 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         sessionToken = new placesLibrary.AutocompleteSessionToken();
       }
 
-      const request: any = {
+      const request: google.maps.places.AutocompleteRequest = {
         input: query,
-        sessionToken
+        sessionToken,
+        // Restrict results to addresses only.
+        // - 'street_address': Matches precise locations (requires number).
+        // - 'route': Matches street names (allows suggestions without a number).
+        includedPrimaryTypes: ['street_address', 'route']
       };
 
       if (opts?.country) {
@@ -134,12 +138,16 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
       const postalAddress = (place as any).postalAddress;
       const addressComponents = place.addressComponents;
 
+      const mappedAddressComponents = addressComponents
+        ? mapPlacesAddressToBaseAddress(addressComponents)
+        : undefined;
+
       let mappedAddress;
 
       if (postalAddress) {
-        mappedAddress = mapPostalAddressToBaseAddress(postalAddress);
-      } else if (addressComponents) {
-        mappedAddress = mapPlacesAddressToBaseAddress(addressComponents);
+        mappedAddress = mapPostalAddressToBaseAddress(postalAddress, mappedAddressComponents);
+      } else if (mappedAddressComponents) {
+        mappedAddress = mappedAddressComponents;
       } else {
         throw new Error('No postal address or address components found');
       }

@@ -1,4 +1,14 @@
 {
+  "AU": [
+    {"code":"ACT","name":"Australian Capital Territory","id":605},
+    {"code":"NSW","name":"New South Wales","id":606},
+    {"code":"VIC","name":"Victoria","id":607},
+    {"code":"QLD","name":"Queensland","id":608},
+    {"code":"SA","name":"South Australia","id":609},
+    {"code":"TAS","name":"Tasmania","id":610},
+    {"code":"WA","name":"Western Australia","id":611},
+    {"code":"NT","name":"Northern Territory","id":612}
+  ],
 	"LT": [
 		{"code":"LT-AL","name":"Alytaus Apskritis","id":475},
 		{"code":"LT-KU","name":"Kauno Apskritis","id":476},

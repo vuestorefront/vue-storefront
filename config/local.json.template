@@ -118,7 +118,8 @@
     "google": {
       "placesPublicApiKey": "${PLACES_API_PUBLIC_KEY}"
     },
-    "validationSupportedCountries": ["US"]
+    "validationSupportedCountries": ["US", "CA", "AU", "GB", "FR", "DE", "CH", "NL", "SE", "NO", "BE", "AT", "DK"],
+    "hiddenStateCountries": ["GB", "FR", "DE", "CH", "NL", "SE", "NO", "BE", "AT", "DK"]
   },
   "privacyPolicy": {
     "url": "${PRIVACY_POLICY_URL}",
