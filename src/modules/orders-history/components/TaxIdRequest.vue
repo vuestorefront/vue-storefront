@@ -18,9 +18,10 @@
     </div>
 
     <div v-else class="_form-container">
-      <h1 class="_heading">
-        {{ $t('Tax ID Required for Order #{orderNumber}', { orderNumber }) }}
-      </h1>
+      <SfHeading
+        :title="$t('Tax ID Required for Order #{orderNumber}', { orderNumber })"
+        class="_heading"
+      />
 
       <p class="_subtitle">
         {{ $t('To ensure your package clears customs without delay, the destination country requires your Tax ID for delivery.') }}
@@ -45,7 +46,6 @@
               :disabled="isSubmitting"
               :valid="!errors.length"
               :error-message="errors[0]"
-              required
             />
           </validation-provider>
 
@@ -80,9 +80,8 @@
 import { defineComponent, ref, computed, onMounted } from '@vue/composition-api';
 import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
 import { required, max } from 'vee-validate/dist/rules';
-import { SfInput, SfButton, SfCheckbox } from '@storefront-ui/vue';
+import { SfButton, SfCheckbox, SfHeading, SfInput } from '@storefront-ui/vue';
 
-import { isServer } from '@vue-storefront/core/helpers';
 import i18n from '@vue-storefront/i18n';
 
 import { STORE_NAME } from '../store/store-name';
@@ -99,9 +98,10 @@ extend('max', max);
 export default defineComponent({
   name: 'TaxIdRequest',
   components: {
-    SfInput,
     SfButton,
     SfCheckbox,
+    SfHeading,
+    SfInput,
     ValidationProvider,
     ValidationObserver
   },
@@ -121,7 +121,7 @@ export default defineComponent({
     const order = ref<Order | null>(null);
 
     const orderNumber = computed(() => {
-      return order.value?.increment_id || '';
+      return ((order as any).value as (Order | null))?.increment_id || '';
     });
 
     const defaultShippingAddress = computed(() => {
@@ -140,7 +140,7 @@ export default defineComponent({
           `${STORE_NAME}/${FETCH_ORDER_DETAILS}`,
           { orderId: props.orderId }
         );
-        order.value = result;
+        ((order as any).value as (Order | null)) = result;
         error.value = false;
       } catch (e) {
         error.value = true;
@@ -230,9 +230,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .tax-id-request {
-  max-width: 600px;
+  max-width: 1272px;
+  width: 100%;
   margin: 0 auto;
   padding: var(--spacer-xl);
+  box-sizing: border-box;
 
   ._error-container {
     text-align: center;
@@ -264,19 +266,15 @@ export default defineComponent({
       line-height: 1.6;
       margin-bottom: var(--spacer-xl);
       color: var(--c-text-muted);
+      text-align: center;
     }
 
     ._form {
-      ._input {
-        margin-bottom: var(--spacer-lg);
-      }
-
-      ._checkbox-container {
-        margin-bottom: var(--spacer-lg);
-      }
+      max-width: 32rem;
+      margin: 0 auto;
 
       ._button-container {
-        margin-top: var(--spacer-xl);
+        margin-top: var(--spacer-base);
       }
 
       ._submit-button {

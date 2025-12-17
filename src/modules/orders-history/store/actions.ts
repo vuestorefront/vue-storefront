@@ -83,7 +83,7 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
     await dispatch('cart/pullServerCart', true, { root: true });
   },
   async [FETCH_ORDER_DETAILS] ({ commit }, { orderId }: { orderId: string }): Promise<Order> {
-    const url = processURLAddress(`${config.budsies.endpoint}/customers/me/orders/${orderId}?token={{token}}`);
+    const url = processURLAddress(`${config.budsies.endpoint}/customers/me/orders/?token={{token}}&orderId=${orderId}`);
 
     const { result, resultCode } = await TaskQueue.execute({
       url,
@@ -101,7 +101,7 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
     return result;
   },
   async [SUBMIT_TAX_ID_UPDATE_REQUEST] ({ commit }, { orderId, taxId }: { orderId: string, taxId: string }): Promise<void> {
-    const url = processURLAddress(`${config.budsies.endpoint}/orders/${orderId}/taxid-update-requests?token={{token}}`);
+    const url = processURLAddress(`${config.budsies.endpoint}/order/tax-id-request?token={{token}}`);
 
     const { resultCode, result } = await TaskQueue.execute({
       url,
@@ -109,7 +109,7 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
         method: 'POST',
         mode: 'cors',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ taxId })
+        body: JSON.stringify({ taxId, orderId, type: 'shipping' })
       },
       silent: true
     });
