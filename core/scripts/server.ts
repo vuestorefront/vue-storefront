@@ -444,7 +444,8 @@ app.get('*', async (req, res, next) => {
 
 let port = process.env.PORT || config.server.port
 const host = process.env.HOST || config.server.host
-const keepAliveTimeout = process.env.KEEP_ALIVE_TIMEOUT || config.server.keepAliveTimeout || 5000
+let keepAliveTimeout = process.env.KEEP_ALIVE_TIMEOUT || config.server.keepAliveTimeout
+keepAliveTimeout = parseInt(keepAliveTimeout) || 5000
 const start = () => {
   const server = app.listen(port, host);
   server.keepAliveTimeout = keepAliveTimeout;
