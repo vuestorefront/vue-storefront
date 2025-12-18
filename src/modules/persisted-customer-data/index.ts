@@ -8,6 +8,7 @@ import { usePersistedPhoneNumber } from './composables/use-persisted-customer-ph
 import { usePersistedFirstName } from './composables/use-persisted-first-name';
 import { usePersistedLastName } from './composables/use-persisted-last-name';
 import { usePersistedShippingCountry } from './composables/use-persisted-shipping-country';
+import { usePersistedVatId } from './composables/use-persisted-vat-id';
 import * as getters from './types/getter';
 import * as mutations from './types/mutation';
 import { SN_PERSISTED_CUSTOMER_DATA } from './types/store-name';
@@ -90,5 +91,6 @@ export {
   usePersistedFirstName,
   usePersistedLastName,
   usePersistedPhoneNumber,
-  usePersistedShippingCountry
+  usePersistedShippingCountry,
+  usePersistedVatId
 }

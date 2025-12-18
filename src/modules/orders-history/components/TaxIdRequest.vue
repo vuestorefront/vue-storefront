@@ -77,14 +77,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted } from '@vue/composition-api';
+import { defineComponent, ref, computed, onMounted, onBeforeMount } from '@vue/composition-api';
 import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
 import { required, max } from 'vee-validate/dist/rules';
 import { SfButton, SfCheckbox, SfHeading, SfInput } from '@storefront-ui/vue';
 
 import i18n from '@vue-storefront/i18n';
 
-import { SET_PERSISTED_CUSTOMER_VAT_ID } from 'src/modules/persisted-customer-data';
+import { usePersistedVatId } from 'src/modules/persisted-customer-data';
 
 import { STORE_NAME } from '../store/store-name';
 import { FETCH_ORDER_DETAILS, SUBMIT_TAX_ID_UPDATE_REQUEST } from '../types/store/actions';
@@ -135,6 +135,8 @@ export default defineComponent({
     const hasDefaultShippingAddress = computed(() => {
       return !!defaultShippingAddress.value;
     });
+
+    const { persistLastUsedCustomerVatId } = usePersistedVatId(taxIdValue);
 
     async function fetchOrderDetails () {
       try {
@@ -190,7 +192,7 @@ export default defineComponent({
           await updateDefaultAddress();
         }
 
-        root.$store.commit(SET_PERSISTED_CUSTOMER_VAT_ID, taxIdValue.value);
+        persistLastUsedCustomerVatId(taxIdValue.value);
 
         root.$store.dispatch('notification/spawnNotification', {
           type: 'success',
@@ -213,7 +215,7 @@ export default defineComponent({
       }
     }
 
-    onMounted(() => {
+    onBeforeMount(() => {
       fetchOrderDetails();
     });
 
