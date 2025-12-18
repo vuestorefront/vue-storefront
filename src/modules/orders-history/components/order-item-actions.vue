@@ -62,7 +62,7 @@ interface ActionItem {
   action: OrderItemAvailableAction,
   component?: 'SfButton' | 'a',
   props: Record<string, string | undefined>,
-  handlers: Record<string, () => Promise<void> | void>
+  handlers: Record<string, () => Promise<void>>
 }
 
 interface ActionsListGroups {

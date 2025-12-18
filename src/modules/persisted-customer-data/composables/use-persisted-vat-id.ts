@@ -10,10 +10,9 @@ import { SET_PERSISTED_CUSTOMER_VAT_ID } from '../types/mutation';
 export function usePersistedVatId (
   vatId: Ref<string | undefined>
   | WritableComputedRef<string | undefined>
-  | undefined
 ) {
   function fillLastUsedCustomerVatId () {
-    if (!vatId || vatId.value) {
+    if (vatId.value) {
       return;
     }
 
