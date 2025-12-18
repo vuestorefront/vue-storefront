@@ -51,7 +51,6 @@ import { computed, defineComponent, PropType } from '@vue/composition-api';
 import { SfButton } from '@storefront-ui/vue';
 
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { isServer } from '@vue-storefront/core/helpers';
 import { IS_CART_SYNCING } from '@vue-storefront/core/modules/cart';
 
 import { OrderItem } from '../types/order-item';
