@@ -2,7 +2,7 @@ import logError from '../services/errorLogger';
 import ErrorMessage from '../type/ErrorMessage';
 
 export default function unhandledRejectionHandler (event: PromiseRejectionEvent): void {
-  if (event.reason || JSON.stringify(event.reason) === '{}') {
+  if (event.reason && JSON.stringify(event.reason) === '{}') {
     return;
   }
 
