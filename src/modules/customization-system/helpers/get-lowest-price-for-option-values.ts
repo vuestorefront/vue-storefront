@@ -13,6 +13,10 @@ export function getLowestPriceForOptionValues (
   let lowestProductPrice: PriceHelper.ProductPrice | undefined;
 
   optionValues.forEach((optionValue) => {
+    if (!optionValue.isEnabled) {
+      return;
+    }
+
     const price = getOptionValuePrice(
       optionValue,
       productBySkuDictionary,
