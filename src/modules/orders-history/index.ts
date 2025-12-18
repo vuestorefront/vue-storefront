@@ -5,6 +5,7 @@ import { ordersHistoryModule } from './store';
 import { FETCH_ORDERS_HISTORY, FETCH_SUGGESTED_PRODUCTS, REORDER_ITEM, FETCH_ORDER_DETAILS, SUBMIT_TAX_ID_UPDATE_REQUEST } from './types/store/actions';
 import { useOrderHistoryList } from './composables/use-order-history-list';
 import { GET_SUGGESTED_PRODUCTS_IDS, GET_IS_REORDERING_ITEM } from './types/store/getters';
+import { Order } from './types/order';
 
 import OrdersHistoryList from './components/orders-history-list.vue';
 
@@ -31,5 +32,6 @@ export {
   SUGGESTED_PRODUCTS_IDS_GETTER,
   REORDER_ITEM_ACTION,
   IS_REORDERING_ITEM,
-  useOrderHistoryList
+  useOrderHistoryList,
+  Order
 }
