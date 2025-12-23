@@ -4,6 +4,8 @@
       "name": "server",
       "max_memory_restart": "${NODEJS_INSTANCE_MAX_MEMORY}",
       "instances": "${NODEJS_INSTANCES_COUNT}",
+      "wait_ready": true,
+      "kill_timeout": 5000,
       "exec_mode": "cluster",
       "env": {
         "TS_NODE_PROJECT": "tsconfig-build.json",

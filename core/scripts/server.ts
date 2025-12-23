@@ -4,6 +4,7 @@ import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
 import { extractCookieValue } from '../helpers/extract-cookie-value.function'
 import { cacheInstanceFactory } from './utils/cache-instance';
 
+const gracefulShutdown = require('http-graceful-shutdown')
 const qs = require('qs')
 const config = require('config')
 const path = require('path')
@@ -13,6 +14,23 @@ const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
 const serverExtensions = glob.sync('src/modules/*/server.{ts,js}')
 const configProviders: Function[] = []
+
+const PM2_INSTANCE_ID = process.env.NODE_APP_INSTANCE || process.env.pm_id || process.env.PM2_INSTANCE_ID;
+const PM2_PROCESS_NAME = process.env.name || process.env.PM2_PROCESS_NAME;
+
+function getProcessLogPrefix () {
+  const parts: string[] = [`pid:${process.pid}`];
+
+  if (PM2_INSTANCE_ID !== undefined && PM2_INSTANCE_ID !== null && `${PM2_INSTANCE_ID}`.length > 0) {
+    parts.push(`pm2:${PM2_INSTANCE_ID}`);
+  }
+
+  if (PM2_PROCESS_NAME) {
+    parts.push(`name:${PM2_PROCESS_NAME}`);
+  }
+
+  return `[${parts.join(' ')}]`;
+}
 
 serverExtensions.map(serverModule => {
   const module = require(resolve(serverModule))
@@ -343,7 +361,7 @@ app.get('*', async (req, res, next) => {
         res.end(output)
       }
 
-      console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
+      console.log(`${getProcessLogPrefix()} whole request [${req.url}]: ${Date.now() - s}ms`)
       next()
     }).catch(errorHandler)
       .finally(() => {
@@ -370,7 +388,7 @@ app.get('*', async (req, res, next) => {
 
           if (output.redirect) {
             res.redirect(output.redirect.code, output.redirect.path)
-            console.log(`redirect cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
+            console.log(`${getProcessLogPrefix()} redirect cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
             return
           }
 
@@ -380,11 +398,11 @@ app.get('*', async (req, res, next) => {
             res.setHeader('Content-Type', 'text/html')
             res.end(output)
           }
-          console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
+          console.log(`${getProcessLogPrefix()} cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
           next()
         } else {
           res.setHeader('X-VS-Cache', 'Miss')
-          console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
+          console.log(`${getProcessLogPrefix()} cache miss [${req.url}], request: ${Date.now() - s}ms`)
           dynamicRequestHandler(renderer, config) // render response
         }
       }).catch(errorHandler)
@@ -426,17 +444,28 @@ app.get('*', async (req, res, next) => {
 
 let port = process.env.PORT || config.server.port
 const host = process.env.HOST || config.server.host
+let keepAliveTimeout = process.env.KEEP_ALIVE_TIMEOUT || config.server.keepAliveTimeout
+keepAliveTimeout = parseInt(keepAliveTimeout) || 5000
 const start = () => {
-  const server = app.listen(port, host)
+  const server = app.listen(port, host);
+  server.keepAliveTimeout = keepAliveTimeout;
+  server.headersTimeout = keepAliveTimeout + 1000;
+  gracefulShutdown(server);
+
   server.on('listening', () => {
     console.log(`\n\n----------------------------------------------------------`)
     console.log('|                                                        |')
     console.log(`| Vue Storefront Server started at http://${host}:${port} |`)
+    console.log(`| Worker ${getProcessLogPrefix()}                                         |`)
     console.log('|                                                        |')
     console.log(`----------------------------------------------------------\n\n`)
 
     serverHooksExecutors.httpServerIsReady({ server, config: config.server, isProd })
-  }).on('error', (e) => {
+    
+    if (process && typeof process.send === 'function') {
+      process.send('ready');
+    } 
+  }).on('error', (e: any) => {
     if (e.code === 'EADDRINUSE') {
       port = parseInt(port) + 1
       console.log(`The port is already in use, trying ${port}`)
