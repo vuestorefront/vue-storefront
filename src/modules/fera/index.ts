@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+import { once } from '@vue-storefront/core/helpers'
 
 import { getFeraScript } from './helpers/get-fera-script.function';
 import ProductDetailRating from './components/product-detail-rating.vue';
@@ -12,12 +13,14 @@ export const FeraModule: StorefrontModule = ({ app, appConfig }) => {
     return;
   }
 
-  Vue.mixin({
-    provide: {
-      ProductRatingComponent: ProductDetailRating,
-      ProductCollectionRatingComponent: ProductCollectionRating
-    }
-  });
+  once('__VUE_EXTEND__FERA__', () => {
+    Vue.mixin({
+      provide: {
+        ProductRatingComponent: ProductDetailRating,
+        ProductCollectionRatingComponent: ProductCollectionRating
+      }
+    });
+  })
 
   app.$extendedHead.append(getFeraScript(apiPublicKey));
 }
