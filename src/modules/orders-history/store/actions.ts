@@ -101,7 +101,7 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
     return result;
   },
   async [SUBMIT_TAX_ID_UPDATE_REQUEST] ({ commit }, { orderId, taxId }: { orderId: string, taxId: string }): Promise<void> {
-    const url = processURLAddress(`${config.budsies.endpoint}/order/tax-id-request?token={{token}}`);
+    const url = processURLAddress(`${config.budsies.endpoint}/order/taxid-update-requests?token={{token}}`);
 
     const { resultCode, result } = await TaskQueue.execute({
       url,

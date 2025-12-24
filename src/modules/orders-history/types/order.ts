@@ -1,3 +1,4 @@
+import { OrderAddress } from './order-address';
 import { OrderItem } from './order-item';
 
 export interface Order {
@@ -6,5 +7,7 @@ export interface Order {
   created_at: string,
   updated_at: string,
   store_id: number,
-  items: OrderItem[]
+  items: OrderItem[],
+  // TODO: replace with `shipping_address`
+  order_address: OrderAddress
 }
