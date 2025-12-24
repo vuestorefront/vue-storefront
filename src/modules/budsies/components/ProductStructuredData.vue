@@ -1,5 +1,7 @@
 <template>
-  <script type="application/ld+json" v-html="structuredData" />
+  <div style="display: none;">
+    <script type="application/ld+json" v-html="structuredData" />
+  </div>
 </template>
 
 <script lang="ts">
