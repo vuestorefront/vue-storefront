@@ -281,7 +281,7 @@ export default defineComponent({
       try {
         await root.$store.dispatch(`${MODULE_NAME}/${ENSURE_SCRIPT_LOADED}`)
       } catch (error) {
-        Logger.error('Error during Amazon script loading :' + error, 'amazon-pay')();
+        Logger.error('Error during Amazon script loading: ' + error, 'amazon-pay')();
       }
 
       const amazon = window.amazon;
