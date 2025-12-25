@@ -8,12 +8,8 @@ import { SupportedMethodCodes } from './types/supported-method-codes';
 
 import PaymentAmazonPay from './components/payment-amazon-pay.vue';
 
-const AMAZON_SCRIPT = '<script async src="https://static-na.payments-amazon.com/checkout.js"></script>';
-
-export const AmazonPay: StorefrontModule = function ({ app, store }) {
+export const AmazonPay: StorefrontModule = function ({ store }) {
   store.registerModule(MODULE_NAME, AmazonPayModule);
-
-  app.$extendedHead.append(AMAZON_SCRIPT);
 };
 
 const AMAZON_SESSION_ID_GETTER = `${MODULE_NAME}/${AMAZON_SESSION_ID}`;

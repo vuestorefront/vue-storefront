@@ -20,6 +20,7 @@ import {
   PAYMENT_ERROR_EVENT
 } from 'src/modules/shared'
 
+import { ENSURE_SCRIPT_LOADED } from '../types/actions';
 import { MODULE_NAME } from '../types/module-name';
 import { SET_AMAZON_SESSION_ID } from '../types/mutations';
 import { SupportedMethodCodes } from '../types/supported-method-codes';
@@ -273,6 +274,16 @@ export default defineComponent({
     }
 
     async function renderAmazonPayButton () {
+      if (!root.$store.hasModule(MODULE_NAME)) {
+        return;
+      }
+
+      try {
+        await root.$store.dispatch(`${MODULE_NAME}/${ENSURE_SCRIPT_LOADED}`)
+      } catch (error) {
+        Logger.error('Error during Amazon script loading :' + error, 'amazon-pay')();
+      }
+
       const amazon = window.amazon;
 
       if (!amazon || !canUseAmazonPay.value) {
