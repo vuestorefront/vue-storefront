@@ -1,7 +1,7 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import { getRegionIdByCountryAndStateCode } from 'src/modules/shared';
 
-import { shouldUseStateFromAddressComponents } from '../helpers/should-use-state-from-address-components';
+import { isStateNonPostal } from '../helpers/is-state-non-postal';
 
 export interface PostalAddress {
   regionCode?: string,
@@ -20,19 +20,16 @@ export function mapPostalAddressToBaseAddress (
   postalAddress: PostalAddress | undefined,
   mappedAddressComponents?: Partial<BaseAddressDetails>
 ): Partial<BaseAddressDetails> {
-  const result: Partial<BaseAddressDetails> = {};
+  const result: Partial<BaseAddressDetails> = {
+    apartmentNumber: ''
+  };
 
   if (!postalAddress) {
     return result;
   }
 
   if (postalAddress.addressLines && postalAddress.addressLines.length > 0) {
-    const firstLine = postalAddress.addressLines[0];
-    result.streetAddress = firstLine;
-
-    const otherLines = postalAddress.addressLines.slice(1);
-
-    result.apartmentNumber = otherLines.join(' ').trim()
+    result.streetAddress = postalAddress.addressLines.join(', ');
   }
 
   if (postalAddress.locality) {
@@ -43,25 +40,25 @@ export function mapPostalAddressToBaseAddress (
     result.country = postalAddress.regionCode;
   }
 
-  if (
-    shouldUseStateFromAddressComponents(postalAddress.regionCode) &&
-    mappedAddressComponents?.region_id
-  ) {
-    result.region_id = mappedAddressComponents.region_id;
-    result.state = '';
-  } else if (postalAddress.administrativeArea && postalAddress.regionCode) {
-    const regionId = getRegionIdByCountryAndStateCode(
-      postalAddress.regionCode,
-      postalAddress.administrativeArea
-    );
+  if (postalAddress.regionCode && !isStateNonPostal(postalAddress.regionCode)) {
+    result.state = ''
+    let regionId: number | null = null;
 
-    if (regionId !== null) {
-      result.region_id = regionId;
-      result.state = '';
-    } else {
-      result.state = postalAddress.administrativeArea;
-      result.region_id = null;
+    if (postalAddress.regionCode && postalAddress.administrativeArea) {
+      regionId = getRegionIdByCountryAndStateCode(
+        postalAddress.regionCode,
+        postalAddress.administrativeArea
+      )
     }
+
+    if (regionId === null && mappedAddressComponents?.region_id) {
+      regionId = mappedAddressComponents?.region_id;
+    }
+
+    result.region_id = regionId;
+  } else {
+    result.state = '';
+    result.region_id = null;
   }
 
   if (postalAddress.postalCode) {

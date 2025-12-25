@@ -1,6 +1,5 @@
 export interface CountryValidationOptions {
-  hideState?: boolean,
-  useStateFromAddressComponents?: boolean,
+  isStateNonPostal?: boolean,
   stateComponentType?: string
 }
 

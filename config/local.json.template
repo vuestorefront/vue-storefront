@@ -123,30 +123,27 @@
       "US": {},
       "CA": {},
       "AU": {},
-      "GB": { "hideState": true },
-      "FR": { "hideState": true },
-      "DE": { "hideState": true },
-      "CH": { "hideState": true },
-      "NL": { "hideState": true },
-      "SE": { "hideState": true },
-      "NO": { "hideState": true },
-      "BE": { "hideState": true },
-      "AT": { "hideState": true },
-      "DK": { "hideState": true },
-      "NZ": { "hideState": true },
-      "SG": { "hideState": true },
-      "BR": { "useStateFromAddressComponents": true },
-      "IE": { "useStateFromAddressComponents": true },
+      "GB": { "isStateNonPostal": true },
+      "FR": { "isStateNonPostal": true },
+      "DE": { "isStateNonPostal": true },
+      "CH": { "isStateNonPostal": true },
+      "NL": { "isStateNonPostal": true },
+      "SE": { "isStateNonPostal": true },
+      "NO": { "isStateNonPostal": true },
+      "BE": { "isStateNonPostal": true },
+      "AT": { "isStateNonPostal": true },
+      "DK": { "isStateNonPostal": true },
+      "NZ": { "isStateNonPostal": true },
+      "SG": { "isStateNonPostal": true },
+      "BR": {},
+      "IE": {},
       "IT": {
-        "useStateFromAddressComponents": true,
         "stateComponentType": "administrative_area_level_2"
       },
       "ES": {
-        "useStateFromAddressComponents": true
+        "stateComponentType": "administrative_area_level_2"
       },
-      "MX": {
-        "useStateFromAddressComponents": true
-      }
+      "MX": {}
     }
   },
   "privacyPolicy": {
