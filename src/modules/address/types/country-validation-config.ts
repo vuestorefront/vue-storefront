@@ -9,7 +9,6 @@ export interface CountryValidationOptions {
    * When true:
    * 1. The Google Validation API is expected to omit the `administrativeArea` field.
    * 2. The UI state selector will be hidden.
-   * 3. The system will use the internal `region_id` instead of a state string.
    */
   isStateNonPostal?: boolean,
 
