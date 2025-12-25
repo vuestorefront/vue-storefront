@@ -8,6 +8,5 @@ export interface Order {
   updated_at: string,
   store_id: number,
   items: OrderItem[],
-  // TODO: replace with `shipping_address`
-  order_address: OrderAddress
+  shipping_address: OrderAddress
 }
