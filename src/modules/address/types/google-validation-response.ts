@@ -1,3 +1,12 @@
+export interface GoogleValidationResponseAddressComponent {
+  componentName?: {
+    text?: string,
+    languageCode?: string
+  },
+  componentType?: string,
+  confirmationLevel?: string
+}
+
 export interface GoogleValidationResponseAddress {
   formattedAddress?: string,
   postalAddress?: {
@@ -8,14 +17,7 @@ export interface GoogleValidationResponseAddress {
     locality?: string,
     addressLines?: string[]
   },
-  addressComponents?: {
-    componentName?: {
-      text?: string,
-      languageCode?: string
-    },
-    componentType?: string,
-    confirmationLevel?: string
-  }[],
+  addressComponents?: GoogleValidationResponseAddressComponent[],
   missingComponentTypes?: string[]
 }
 
