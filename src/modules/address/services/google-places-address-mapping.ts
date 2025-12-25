@@ -76,6 +76,8 @@ export function mapPlacesAddressToBaseAddress (
         state.longText
       );
     }
+
+    result.region_id = regionId;
   } else {
     result.state = '';
     result.region_id = null;
