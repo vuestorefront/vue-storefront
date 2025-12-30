@@ -18,7 +18,7 @@ export interface UseAddressValidationOptions {
   interactiveVerdicts?: ValidationVerdict[]
 }
 
-function buildValidationWarningMessage (result: ValidationResult): string {
+function getValidationWarningMessage (result: ValidationResult): string {
   if (result.verdict === 'FIX') {
     return result.missingComponents?.includes('street_number')
       ? 'Please provide the street number to complete validation.'
@@ -49,7 +49,7 @@ function getDefaultValidationExtensionAttributes (): AddressExtensionAttributes 
 function getValidationExtensionAttributesByValidationResult (
   result: ValidationResult
 ): AddressExtensionAttributes {
-  const validationWarnings = buildValidationWarningMessage(result);
+  const validationWarnings = getValidationWarningMessage(result);
 
   if (result.verdict === 'ACCEPT') {
     return {
@@ -67,7 +67,7 @@ function getValidationExtensionAttributesByValidationResult (
       validation_warnings: validationWarnings,
       validation_customer_override: false
       // TODO: uncomment after API support
-      // validation_suggested_address: result.suggested
+      // validation_suggested_address: result.suggested ? JSON.stringify(result.suggested) : undefined
     };
   }
 
@@ -77,7 +77,7 @@ function getValidationExtensionAttributesByValidationResult (
       validation_warnings: validationWarnings,
       validation_customer_override: false
       // TODO: uncomment after API support
-      // validation_suggested_address: result.suggested
+      // validation_suggested_address: result.suggested ? JSON.stringify(result.suggested) : undefined
     };
   }
 
@@ -93,7 +93,7 @@ function getValidationExtensionAttributesByDecision (
   if (decision.type === 'entered') {
     return {
       validation_status_id: validationExtensionAttributesByResult.validation_status_id,
-      validation_warnings: buildValidationWarningMessage(result),
+      validation_warnings: getValidationWarningMessage(result),
       validation_customer_override: true
       // TODO: uncomment after API support
       // validation_suggested_address: validationExtensionAttributesByResult.validation_suggested_address
