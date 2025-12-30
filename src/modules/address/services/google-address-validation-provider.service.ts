@@ -4,7 +4,6 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync';
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { getStateCodeByCountryAndRegionId } from 'src/modules/shared';
-import { AddressValidationStatus } from '@vue-storefront/core/modules/shared';
 
 import { AddressValidationProvider } from './address-validation-provider.interface';
 import { AutocompleteSuggestion } from '../types/autocomplete';

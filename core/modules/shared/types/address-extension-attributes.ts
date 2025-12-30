@@ -1,7 +1,7 @@
-import { AddressValidationStatus } from './address-validation-status';
+import { AddressValidationStatusId } from './address-validation-status-id';
 
 export interface AddressExtensionAttributes {
-  validation_status_id?: AddressValidationStatus,
+  validation_status_id?: AddressValidationStatusId,
   validation_customer_override?: boolean,
   validation_warnings?: string,
   validation_suggested_address?: string

@@ -3,7 +3,7 @@ import { ref, inject, Ref, SetupContext, nextTick } from '@vue/composition-api';
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import { Logger } from '@vue-storefront/core/lib/logger';
-import { AddressExtensionAttributes, AddressValidationStatus } from '@vue-storefront/core/modules/shared';
+import { AddressExtensionAttributes, AddressValidationStatusId } from '@vue-storefront/core/modules/shared';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
 import { ValidationResult, ValidationVerdict } from '../types/validation';
@@ -38,7 +38,7 @@ function buildValidationWarningMessage (result: ValidationResult): string {
 
 function getDefaultValidationExtensionAttributes (): AddressExtensionAttributes {
   return {
-    validation_status_id: AddressValidationStatus.UNVERIFIED,
+    validation_status_id: AddressValidationStatusId.UNVERIFIED,
     validation_warnings: '',
     validation_customer_override: false
     // TODO: uncomment after API support
@@ -53,7 +53,7 @@ function getValidationExtensionAttributesByValidationResult (
 
   if (result.verdict === 'ACCEPT') {
     return {
-      validation_status_id: AddressValidationStatus.VALID,
+      validation_status_id: AddressValidationStatusId.VALID,
       validation_warnings: validationWarnings,
       validation_customer_override: false
       // TODO: uncomment after API support
@@ -63,7 +63,7 @@ function getValidationExtensionAttributesByValidationResult (
 
   if (result.verdict === 'FIX') {
     return {
-      validation_status_id: AddressValidationStatus.INVALID,
+      validation_status_id: AddressValidationStatusId.INVALID,
       validation_warnings: validationWarnings,
       validation_customer_override: false
       // TODO: uncomment after API support
@@ -73,7 +73,7 @@ function getValidationExtensionAttributesByValidationResult (
 
   if (SUSPECT_VERDICTS.includes(result.verdict)) {
     return {
-      validation_status_id: AddressValidationStatus.SUSPECT,
+      validation_status_id: AddressValidationStatusId.SUSPECT,
       validation_warnings: validationWarnings,
       validation_customer_override: false
       // TODO: uncomment after API support
@@ -102,7 +102,7 @@ function getValidationExtensionAttributesByDecision (
 
   if (decision.type === 'suggested') {
     return {
-      validation_status_id: AddressValidationStatus.VALID,
+      validation_status_id: AddressValidationStatusId.VALID,
       validation_warnings: '',
       validation_customer_override: false
       // TODO: uncomment after API support
@@ -288,7 +288,10 @@ export function useAddressValidation (
         case 'CONFIRM':
         case 'CONFIRM_ADD_SUBPREMISES':
         case 'FIX':
-          currentAddressRef.value.extension_attributes = extensionAttributes;
+          currentAddressRef.value = {
+            ...currentAddressRef.value,
+            extension_attributes: extensionAttributes
+          };
 
           if (interactiveVerdicts.includes(result.verdict)) {
             return await handleInteractiveVerdict(result);
@@ -298,14 +301,20 @@ export function useAddressValidation (
 
         case 'ERROR':
         default:
-          currentAddressRef.value.extension_attributes = extensionAttributes;
+          currentAddressRef.value = {
+            ...currentAddressRef.value,
+            extension_attributes: extensionAttributes
+          };
           Logger.error('Address validation error: ' + result.message, 'address-validation')();
           return true;
       }
     } catch (error) {
-      currentAddressRef.value.extension_attributes = {
-        ...(currentAddressRef.value.extension_attributes || {}),
-        ...getDefaultValidationExtensionAttributes()
+      currentAddressRef.value = {
+        ...currentAddressRef.value,
+        extension_attributes: {
+          ...(currentAddressRef.value.extension_attributes || {}),
+          ...getDefaultValidationExtensionAttributes()
+        }
       };
 
       Logger.error('Address validation failed: ' + error, 'address-validation')();

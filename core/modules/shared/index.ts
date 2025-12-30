@@ -1,2 +1,2 @@
 export { AddressExtensionAttributes } from './types/address-extension-attributes';
-export { AddressValidationStatus } from './types/address-validation-status';
+export { AddressValidationStatusId } from './types/address-validation-status-id';
