@@ -40,7 +40,9 @@ function getDefaultValidationExtensionAttributes (): AddressExtensionAttributes 
   return {
     validation_status_id: AddressValidationStatusId.UNVERIFIED,
     validation_warnings: '',
-    validation_customer_override: false
+    validation_customer_override: false,
+    validation_missing_address_components: undefined,
+    validation_validated_at: new Date().toUTCString()
     // TODO: uncomment after API support
     // validation_suggested_address: undefined
   };
@@ -50,12 +52,15 @@ function getValidationExtensionAttributesByValidationResult (
   result: ValidationResult
 ): AddressExtensionAttributes {
   const validationWarnings = getValidationWarningMessage(result);
+  const validationDate = new Date().toUTCString();
 
   if (result.verdict === 'ACCEPT') {
     return {
       validation_status_id: AddressValidationStatusId.VALID,
       validation_warnings: validationWarnings,
-      validation_customer_override: false
+      validation_customer_override: false,
+      validation_missing_address_components: undefined,
+      validation_validated_at: validationDate
       // TODO: uncomment after API support
       // validation_suggested_address: undefined
     };
@@ -65,7 +70,9 @@ function getValidationExtensionAttributesByValidationResult (
     return {
       validation_status_id: AddressValidationStatusId.INVALID,
       validation_warnings: validationWarnings,
-      validation_customer_override: false
+      validation_customer_override: false,
+      validation_missing_address_components: JSON.stringify(result.missingComponents),
+      validation_validated_at: validationDate
       // TODO: uncomment after API support
       // validation_suggested_address: result.suggested ? JSON.stringify(result.suggested) : undefined
     };
@@ -75,7 +82,9 @@ function getValidationExtensionAttributesByValidationResult (
     return {
       validation_status_id: AddressValidationStatusId.SUSPECT,
       validation_warnings: validationWarnings,
-      validation_customer_override: false
+      validation_customer_override: false,
+      validation_missing_address_components: JSON.stringify(result.missingComponents),
+      validation_validated_at: validationDate
       // TODO: uncomment after API support
       // validation_suggested_address: result.suggested ? JSON.stringify(result.suggested) : undefined
     };
@@ -94,7 +103,9 @@ function getValidationExtensionAttributesByDecision (
     return {
       validation_status_id: validationExtensionAttributesByResult.validation_status_id,
       validation_warnings: getValidationWarningMessage(result),
-      validation_customer_override: true
+      validation_customer_override: true,
+      validation_missing_address_components: validationExtensionAttributesByResult.validation_missing_address_components,
+      validation_validated_at: validationExtensionAttributesByResult.validation_validated_at
       // TODO: uncomment after API support
       // validation_suggested_address: validationExtensionAttributesByResult.validation_suggested_address
     };
@@ -104,7 +115,9 @@ function getValidationExtensionAttributesByDecision (
     return {
       validation_status_id: AddressValidationStatusId.VALID,
       validation_warnings: '',
-      validation_customer_override: false
+      validation_customer_override: false,
+      validation_missing_address_components: undefined,
+      validation_validated_at: validationExtensionAttributesByResult.validation_validated_at
       // TODO: uncomment after API support
       // validation_suggested_address: undefined
     };
