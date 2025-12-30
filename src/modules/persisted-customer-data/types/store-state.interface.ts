@@ -6,5 +6,6 @@ export interface StoreState {
   lastName: string | undefined,
   phoneNumber: string | undefined,
   shippingCountry: string | undefined,
+  vatId: string | undefined,
   lastUsedCustomerBillingAddress: PersistedBillingAddress
 }

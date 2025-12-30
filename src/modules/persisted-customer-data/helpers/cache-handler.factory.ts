@@ -4,7 +4,7 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 import * as types from '../types/mutation';
 import { SN_PERSISTED_CUSTOMER_DATA } from '../types/store-name';
-import { EMAIL, FIRST_NAME, LAST_NAME, PHONE_NUMBER, SHIPPING_COUNTRY } from '../types/local-storage-key';
+import { EMAIL, FIRST_NAME, LAST_NAME, PHONE_NUMBER, SHIPPING_COUNTRY, VAT_ID } from '../types/local-storage-key';
 
 export function cacheHandlerFactory () {
   return (mutation: MutationPayload) => {
@@ -31,6 +31,10 @@ export function cacheHandlerFactory () {
 
     if (type.endsWith(types.SET_PERSISTED_CUSTOMER_SHIPPING_COUNTRY)) {
       localStorageKey = SHIPPING_COUNTRY;
+    }
+
+    if (type.endsWith(types.SET_PERSISTED_CUSTOMER_VAT_ID)) {
+      localStorageKey = VAT_ID;
     }
 
     if (!localStorageKey) {

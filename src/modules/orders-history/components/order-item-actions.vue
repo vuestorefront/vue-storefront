@@ -126,6 +126,10 @@ export default defineComponent({
     actionsList: {
       type: Array as PropType<OrderItemAvailableAction[]>,
       required: true
+    },
+    orderId: {
+      type: Number,
+      required: true
     }
   },
   setup (props, { root }) {
@@ -192,6 +196,15 @@ export default defineComponent({
       });
     }
 
+    async function onProvideTaxIdActionClick (): Promise<void> {
+      await root.$router.push({
+        name: 'tax-id-request',
+        query: {
+          orderId: props.orderId.toString()
+        }
+      });
+    }
+
     const actionsListGroups = computed<ActionsListGroups>(() => {
       const blockingActionsList: ActionItem[] = [];
       const nonBlockingActionsList: ActionItem[] = [];
@@ -215,6 +228,13 @@ export default defineComponent({
           actionItem.handlers.click = onDownloadResultsActionClick;
           actionItem.component = 'SfButton';
           nonBlockingActionsList.push(actionItem);
+          continue;
+        }
+
+        if (action.code === OrderItemAvailableActionCode.PROVIDE_TAX_ID) {
+          actionItem.handlers.click = onProvideTaxIdActionClick;
+          actionItem.component = 'SfButton';
+          blockingActionsList.push(actionItem);
           continue;
         }
 

@@ -25,6 +25,7 @@
         v-for="item in orderItems"
         :key="item.display_id"
         :item="item"
+        :order-id="order.entity_id"
         class="_order-item"
       />
     </div>
