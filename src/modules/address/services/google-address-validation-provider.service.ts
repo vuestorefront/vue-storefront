@@ -129,12 +129,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         region_id: null,
         zipCode: '',
         phoneNumber: '',
-        vat_id: '',
-        extension_attributes: {
-          validation_status_id: AddressValidationStatus.UNVERIFIED,
-          validation_warnings: '',
-          validation_customer_override: false
-        }
+        vat_id: ''
       };
     }
 
@@ -174,12 +169,7 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         region_id: mappedAddress.region_id || null,
         zipCode: mappedAddress.zipCode || '',
         phoneNumber: '',
-        vat_id: '',
-        extension_attributes: {
-          validation_status_id: AddressValidationStatus.UNVERIFIED,
-          validation_warnings: '',
-          validation_customer_override: false
-        }
+        vat_id: ''
       };
 
       sessionToken = null;
