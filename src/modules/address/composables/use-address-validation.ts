@@ -14,18 +14,17 @@ import { AddressValidationExtensionAttributes } from '../types/address-validatio
 import { AddressExtensionAttributes } from 'core/modules/checkout';
 
 const DEFAULT_INTERACTIVE_VERDICTS: ValidationVerdict[] = ['CONFIRM', 'CONFIRM_ADD_SUBPREMISES', 'FIX'];
+const SUSPECT_VERDICTS: ValidationResult['verdict'][] = ['CONFIRM', 'CONFIRM_ADD_SUBPREMISES'];
 
 export interface UseAddressValidationOptions {
   interactiveVerdicts?: ValidationVerdict[]
 }
 
-const SUSPECT_VALIDATION_VERDICT: ValidationResult['verdict'][] = ['CONFIRM', 'CONFIRM_ADD_SUBPREMISES'];
-
-function getValidationWarningsByValidationResult (result: ValidationResult): string {
+function buildValidationWarningMessage (result: ValidationResult): string {
   if (result.verdict === 'FIX') {
     return result.missingComponents?.includes('street_number')
       ? 'Please provide the street number to complete validation.'
-      : 'The address you entered could not be validated. Please review and correct it.'
+      : 'The address you entered could not be validated. Please review and correct it.';
   }
 
   if (result.verdict === 'CONFIRM') {
@@ -33,7 +32,7 @@ function getValidationWarningsByValidationResult (result: ValidationResult): str
   }
 
   if (result.verdict === 'CONFIRM_ADD_SUBPREMISES') {
-    return 'We found your address but need the unit or apartment number to ensure accurate delivery.'
+    return 'We found your address but need the unit or apartment number to ensure accurate delivery.';
   }
 
   return '';
@@ -46,13 +45,13 @@ function getDefaultValidationExtensionAttributes (): AddressValidationExtensionA
     validation_customer_override: false
     // TODO: uncomment after API support
     // validation_suggested_address: undefined
-  }
+  };
 }
 
 function getValidationExtensionAttributesByValidationResult (
   result: ValidationResult
 ): AddressValidationExtensionAttributes {
-  const validationWarnings = getValidationWarningsByValidationResult(result);
+  const validationWarnings = buildValidationWarningMessage(result);
 
   if (result.verdict === 'ACCEPT') {
     return {
@@ -74,7 +73,7 @@ function getValidationExtensionAttributesByValidationResult (
     };
   }
 
-  if (SUSPECT_VALIDATION_VERDICT.includes(result.verdict)) {
+  if (SUSPECT_VERDICTS.includes(result.verdict)) {
     return {
       validation_status_id: ValidationStatus.SUSPECT,
       validation_warnings: validationWarnings,
@@ -96,11 +95,11 @@ function getValidationExtensionAttributesByDecision (
   if (decision.type === 'entered') {
     return {
       validation_status_id: validationExtensionAttributesByResult.validation_status_id,
-      validation_warnings: getValidationWarningsByValidationResult(result),
+      validation_warnings: buildValidationWarningMessage(result),
       validation_customer_override: true
       // TODO: uncomment after API support
       // validation_suggested_address: validationExtensionAttributesByResult.validation_suggested_address
-    }
+    };
   }
 
   if (decision.type === 'suggested') {
@@ -110,7 +109,7 @@ function getValidationExtensionAttributesByDecision (
       validation_customer_override: false
       // TODO: uncomment after API support
       // validation_suggested_address: undefined
-    }
+    };
   }
 
   return getDefaultValidationExtensionAttributes();
@@ -151,7 +150,7 @@ export function useAddressValidation (
       }
 
       const extensionAttributes: AddressExtensionAttributes = {
-        ...currentAddressRef.value.extension_attributes,
+        ...(currentAddressRef.value.extension_attributes || {}),
         ...getValidationExtensionAttributesByDecision(decision, result)
       }
 
@@ -248,7 +247,7 @@ export function useAddressValidation (
       currentAddressRef.value = {
         ...currentAddressRef.value,
         extension_attributes: {
-          ...currentAddressRef.value.extension_attributes,
+          ...(currentAddressRef.value.extension_attributes || {}),
           ...getDefaultValidationExtensionAttributes()
         }
       };
@@ -273,7 +272,7 @@ export function useAddressValidation (
       }
 
       const extensionAttributes: AddressExtensionAttributes = {
-        ...currentAddressRef.value.extension_attributes,
+        ...(currentAddressRef.value.extension_attributes || {}),
         ...getValidationExtensionAttributesByValidationResult(result)
       }
 
