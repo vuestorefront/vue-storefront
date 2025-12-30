@@ -51,13 +51,7 @@ export const getters: GetterTree<StoreState, RootState> = {
   [PERSISTED_CUSTOMER_SHIPPING_COUNTRY] (state): string {
     return state.shippingCountry || '';
   },
-  [PERSISTED_CUSTOMER_VAT_ID] (state, getters, rootState, rootGetters): string {
-    const defaultShippingAddress = rootGetters['user/defaultShippingAddress'];
-
-    if (defaultShippingAddress?.vat_id) {
-      return defaultShippingAddress.vat_id;
-    }
-
+  [PERSISTED_CUSTOMER_VAT_ID] (state): string {
     return state.vatId || '';
   },
   [PERSISTED_CUSTOMER_BILLING_ADDRESS] (state, getters, rootState, rootGetters): PersistedBillingAddress {
