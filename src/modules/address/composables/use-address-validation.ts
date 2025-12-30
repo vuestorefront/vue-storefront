@@ -44,6 +44,8 @@ function getDefaultValidationExtensionAttributes (): AddressValidationExtensionA
     validation_status_id: ValidationStatus.UNVERIFIED,
     validation_warnings: '',
     validation_customer_override: false
+    // TODO: uncomment after API support
+    // validation_suggested_address: undefined
   }
 }
 
@@ -57,6 +59,8 @@ function getValidationExtensionAttributesByValidationResult (
       validation_status_id: ValidationStatus.VALID,
       validation_warnings: validationWarnings,
       validation_customer_override: false
+      // TODO: uncomment after API support
+      // validation_suggested_address: undefined
     };
   }
 
@@ -65,6 +69,8 @@ function getValidationExtensionAttributesByValidationResult (
       validation_status_id: ValidationStatus.INVALID,
       validation_warnings: validationWarnings,
       validation_customer_override: false
+      // TODO: uncomment after API support
+      // validation_suggested_address: result.suggested
     };
   }
 
@@ -73,6 +79,8 @@ function getValidationExtensionAttributesByValidationResult (
       validation_status_id: ValidationStatus.SUSPECT,
       validation_warnings: validationWarnings,
       validation_customer_override: false
+      // TODO: uncomment after API support
+      // validation_suggested_address: result.suggested
     };
   }
 
@@ -90,6 +98,8 @@ function getValidationExtensionAttributesByDecision (
       validation_status_id: validationExtensionAttributesByResult.validation_status_id,
       validation_warnings: getValidationWarningsByValidationResult(result),
       validation_customer_override: true
+      // TODO: uncomment after API support
+      // validation_suggested_address: validationExtensionAttributesByResult.validation_suggested_address
     }
   }
 
@@ -98,6 +108,8 @@ function getValidationExtensionAttributesByDecision (
       validation_status_id: ValidationStatus.VALID,
       validation_warnings: '',
       validation_customer_override: false
+      // TODO: uncomment after API support
+      // validation_suggested_address: undefined
     }
   }
 
