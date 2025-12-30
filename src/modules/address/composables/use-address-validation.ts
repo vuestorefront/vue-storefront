@@ -47,29 +47,6 @@ function getDefaultValidationExtensionAttributes (): AddressValidationExtensionA
   }
 }
 
-function getValidationExtensionAttributesByDecision (
-  decision: AddressSelectedEvent,
-  result: ValidationResult
-): AddressValidationExtensionAttributes {
-  if (decision.type === 'entered') {
-    return {
-      validation_status_id: ValidationStatus.SUSPECT,
-      validation_warnings: getValidationWarningsByValidationResult(result),
-      validation_customer_override: true
-    }
-  }
-
-  if (decision.type === 'suggested') {
-    return {
-      validation_status_id: ValidationStatus.VALID,
-      validation_warnings: '',
-      validation_customer_override: false
-    }
-  }
-
-  return getDefaultValidationExtensionAttributes();
-}
-
 function getValidationExtensionAttributesByValidationResult (
   result: ValidationResult
 ): AddressValidationExtensionAttributes {
@@ -97,6 +74,31 @@ function getValidationExtensionAttributesByValidationResult (
       validation_warnings: validationWarnings,
       validation_customer_override: false
     };
+  }
+
+  return getDefaultValidationExtensionAttributes();
+}
+
+function getValidationExtensionAttributesByDecision (
+  decision: AddressSelectedEvent,
+  result: ValidationResult
+): AddressValidationExtensionAttributes {
+  const validationExtensionAttributesByResult = getValidationExtensionAttributesByValidationResult(result);
+
+  if (decision.type === 'entered') {
+    return {
+      validation_status_id: validationExtensionAttributesByResult.validation_status_id,
+      validation_warnings: getValidationWarningsByValidationResult(result),
+      validation_customer_override: true
+    }
+  }
+
+  if (decision.type === 'suggested') {
+    return {
+      validation_status_id: ValidationStatus.VALID,
+      validation_warnings: '',
+      validation_customer_override: false
+    }
   }
 
   return getDefaultValidationExtensionAttributes();
