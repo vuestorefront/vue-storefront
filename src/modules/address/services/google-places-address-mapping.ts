@@ -1,5 +1,7 @@
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import { getRegionIdByCountryAndStateCode } from 'src/modules/shared';
+import { getStateComponentType } from '../helpers/get-state-component-type';
+import { isStateNonPostal } from '../helpers/is-state-non-postal';
 
 export function mapPlacesAddressToBaseAddress (
   addressComponents: google.maps.places.AddressComponent[]
@@ -54,21 +56,31 @@ export function mapPlacesAddressToBaseAddress (
     result.country = country.shortText;
   }
 
-  const state = findComponent(['administrative_area_level_1']);
+  if (country?.shortText && !isStateNonPostal(country.shortText)) {
+    result.state = ''
+    let regionId: number | null = null;
 
-  if (state?.shortText && country?.shortText) {
-    const regionId = getRegionIdByCountryAndStateCode(
-      country.shortText,
-      state.shortText
-    );
+    const stateComponentType = getStateComponentType(country.shortText);
+    const state = findComponent([stateComponentType]);
 
-    if (regionId !== null) {
-      result.region_id = regionId;
-      result.state = '';
-    } else {
-      result.state = state.shortText;
-      result.region_id = null;
+    if (state?.shortText && country?.shortText) {
+      regionId = getRegionIdByCountryAndStateCode(
+        country.shortText,
+        state.shortText
+      );
     }
+
+    if (regionId === null && state?.longText) {
+      regionId = getRegionIdByCountryAndStateCode(
+        country.shortText,
+        state.longText
+      );
+    }
+
+    result.region_id = regionId;
+  } else {
+    result.state = '';
+    result.region_id = null;
   }
 
   const postalCode = findComponent(['postal_code']);
