@@ -1,4 +1,4 @@
-export enum ValidationStatus {
+export enum AddressValidationStatus {
   UNVERIFIED = 1,
   VALID = 2,
   SUSPECT = 3,

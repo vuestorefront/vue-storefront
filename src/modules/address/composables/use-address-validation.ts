@@ -3,15 +3,13 @@ import { ref, inject, Ref, SetupContext, nextTick } from '@vue/composition-api';
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import { Logger } from '@vue-storefront/core/lib/logger';
+import { AddressExtensionAttributes, AddressValidationStatus } from '@vue-storefront/core/modules/shared';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
 import { ValidationResult, ValidationVerdict } from '../types/validation';
 import { AddressSelectedEvent, ADDRESS_VALIDATION_EVENTS } from '../types/address-validation-events';
 import { checkCountrySupported } from '../helpers/check-country-supported';
 import { ADDRESS_VALIDATION_MODAL_NAME } from '../types/modal-names';
-import { ValidationStatus } from '../types/validation-status';
-import { AddressValidationExtensionAttributes } from '../types/address-validation-extension-attributes';
-import { AddressExtensionAttributes } from 'core/modules/checkout';
 
 const DEFAULT_INTERACTIVE_VERDICTS: ValidationVerdict[] = ['CONFIRM', 'CONFIRM_ADD_SUBPREMISES', 'FIX'];
 const SUSPECT_VERDICTS: ValidationResult['verdict'][] = ['CONFIRM', 'CONFIRM_ADD_SUBPREMISES'];
@@ -38,9 +36,9 @@ function buildValidationWarningMessage (result: ValidationResult): string {
   return '';
 }
 
-function getDefaultValidationExtensionAttributes (): AddressValidationExtensionAttributes {
+function getDefaultValidationExtensionAttributes (): AddressExtensionAttributes {
   return {
-    validation_status_id: ValidationStatus.UNVERIFIED,
+    validation_status_id: AddressValidationStatus.UNVERIFIED,
     validation_warnings: '',
     validation_customer_override: false
     // TODO: uncomment after API support
@@ -50,12 +48,12 @@ function getDefaultValidationExtensionAttributes (): AddressValidationExtensionA
 
 function getValidationExtensionAttributesByValidationResult (
   result: ValidationResult
-): AddressValidationExtensionAttributes {
+): AddressExtensionAttributes {
   const validationWarnings = buildValidationWarningMessage(result);
 
   if (result.verdict === 'ACCEPT') {
     return {
-      validation_status_id: ValidationStatus.VALID,
+      validation_status_id: AddressValidationStatus.VALID,
       validation_warnings: validationWarnings,
       validation_customer_override: false
       // TODO: uncomment after API support
@@ -65,7 +63,7 @@ function getValidationExtensionAttributesByValidationResult (
 
   if (result.verdict === 'FIX') {
     return {
-      validation_status_id: ValidationStatus.INVALID,
+      validation_status_id: AddressValidationStatus.INVALID,
       validation_warnings: validationWarnings,
       validation_customer_override: false
       // TODO: uncomment after API support
@@ -75,7 +73,7 @@ function getValidationExtensionAttributesByValidationResult (
 
   if (SUSPECT_VERDICTS.includes(result.verdict)) {
     return {
-      validation_status_id: ValidationStatus.SUSPECT,
+      validation_status_id: AddressValidationStatus.SUSPECT,
       validation_warnings: validationWarnings,
       validation_customer_override: false
       // TODO: uncomment after API support
@@ -89,7 +87,7 @@ function getValidationExtensionAttributesByValidationResult (
 function getValidationExtensionAttributesByDecision (
   decision: AddressSelectedEvent,
   result: ValidationResult
-): AddressValidationExtensionAttributes {
+): AddressExtensionAttributes {
   const validationExtensionAttributesByResult = getValidationExtensionAttributesByValidationResult(result);
 
   if (decision.type === 'entered') {
@@ -104,7 +102,7 @@ function getValidationExtensionAttributesByDecision (
 
   if (decision.type === 'suggested') {
     return {
-      validation_status_id: ValidationStatus.VALID,
+      validation_status_id: AddressValidationStatus.VALID,
       validation_warnings: '',
       validation_customer_override: false
       // TODO: uncomment after API support
@@ -152,7 +150,7 @@ export function useAddressValidation (
       const extensionAttributes: AddressExtensionAttributes = {
         ...(currentAddressRef.value.extension_attributes || {}),
         ...getValidationExtensionAttributesByDecision(decision, result)
-      }
+      };
 
       if (decision.type === 'modified' && decision.address) {
         const updatedAddress: BaseAddressDetails = {
@@ -274,7 +272,7 @@ export function useAddressValidation (
       const extensionAttributes: AddressExtensionAttributes = {
         ...(currentAddressRef.value.extension_attributes || {}),
         ...getValidationExtensionAttributesByValidationResult(result)
-      }
+      };
 
       switch (result.verdict) {
         case 'ACCEPT':
@@ -306,6 +304,7 @@ export function useAddressValidation (
       }
     } catch (error) {
       currentAddressRef.value.extension_attributes = {
+        ...(currentAddressRef.value.extension_attributes || {}),
         ...getDefaultValidationExtensionAttributes()
       };
 

@@ -4,6 +4,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync';
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { getStateCodeByCountryAndRegionId } from 'src/modules/shared';
+import { AddressValidationStatus } from '@vue-storefront/core/modules/shared';
 
 import { AddressValidationProvider } from './address-validation-provider.interface';
 import { AutocompleteSuggestion } from '../types/autocomplete';
@@ -128,9 +129,12 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         region_id: null,
         zipCode: '',
         phoneNumber: '',
-        vat_id: ''
-        // TODO: uncomment after API support this field
-        // is_suggested: false
+        vat_id: '',
+        extension_attributes: {
+          validation_status_id: AddressValidationStatus.UNVERIFIED,
+          validation_warnings: '',
+          validation_customer_override: false
+        }
       };
     }
 
@@ -170,9 +174,12 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         region_id: mappedAddress.region_id || null,
         zipCode: mappedAddress.zipCode || '',
         phoneNumber: '',
-        vat_id: ''
-        // TODO: uncomment after API support this field
-        // is_suggested: false
+        vat_id: '',
+        extension_attributes: {
+          validation_status_id: AddressValidationStatus.UNVERIFIED,
+          validation_warnings: '',
+          validation_customer_override: false
+        }
       };
 
       sessionToken = null;

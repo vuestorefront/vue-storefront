@@ -1,4 +1,4 @@
-import { AddressExtensionAttributes } from './address-extension-attributes';
+import { AddressExtensionAttributes } from '@vue-storefront/core/modules/shared';
 
 export default interface BaseAddressDetails {
   firstName: string,

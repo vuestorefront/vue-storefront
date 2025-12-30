@@ -1,4 +1,4 @@
-import { AddressExtensionAttributes } from 'core/modules/checkout'
+import { AddressExtensionAttributes } from '@vue-storefront/core/modules/shared';
 
 export interface Order {
   checkout_token?: string,
@@ -54,7 +54,8 @@ export interface Order {
       properties?: {
         [k: string]: any
       },
-      [k: string]: any
+      [k: string]: any,
+      extension_attributes?: AddressExtensionAttributes
     },
     shipping_method_code?: string,
     shipping_carrier_code?: string,

@@ -1,4 +1,4 @@
-import { AddressExtensionAttributes } from 'core/modules/checkout';
+import { AddressExtensionAttributes } from '@vue-storefront/core/modules/shared';
 
 export default interface BillingAddress {
   firstname: string,
