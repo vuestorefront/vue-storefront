@@ -73,12 +73,12 @@ function getValidationExtensionAttributesByDecision (
 function getValidationExtensionAttributesByValidationResult (
   result: ValidationResult
 ): AddressValidationExtensionAttributes {
-  const validation_warnings = getValidationWarningsByValidationResult(result);
+  const validationWarnings = getValidationWarningsByValidationResult(result);
 
   if (result.verdict === 'ACCEPT') {
     return {
       validation_status_id: ValidationStatus.VALID,
-      validation_warnings,
+      validation_warnings: validationWarnings,
       validation_customer_override: false
     };
   }
@@ -86,7 +86,7 @@ function getValidationExtensionAttributesByValidationResult (
   if (result.verdict === 'FIX') {
     return {
       validation_status_id: ValidationStatus.INVALID,
-      validation_warnings,
+      validation_warnings: validationWarnings,
       validation_customer_override: false
     };
   }
@@ -94,7 +94,7 @@ function getValidationExtensionAttributesByValidationResult (
   if (SUSPECT_VALIDATION_VERDICT.includes(result.verdict)) {
     return {
       validation_status_id: ValidationStatus.SUSPECT,
-      validation_warnings,
+      validation_warnings: validationWarnings,
       validation_customer_override: false
     };
   }
@@ -136,7 +136,7 @@ export function useAddressValidation (
         return;
       }
 
-      const extension_attributes: AddressExtensionAttributes = {
+      const extensionAttributes: AddressExtensionAttributes = {
         ...currentAddressRef.value.extension_attributes,
         ...getValidationExtensionAttributesByDecision(decision, result)
       }
@@ -145,7 +145,7 @@ export function useAddressValidation (
         const updatedAddress: BaseAddressDetails = {
           ...currentAddressRef.value,
           ...decision.address,
-          extension_attributes
+          extension_attributes: extensionAttributes
         };
         currentAddressRef.value = updatedAddress;
 
@@ -160,7 +160,7 @@ export function useAddressValidation (
         case 'entered':
           currentAddressRef.value = {
             ...currentAddressRef.value,
-            extension_attributes
+            extension_attributes: extensionAttributes
           };
           break;
 
@@ -169,7 +169,7 @@ export function useAddressValidation (
             currentAddressRef.value = {
               ...currentAddressRef.value,
               ...decision.address,
-              extension_attributes
+              extension_attributes: extensionAttributes
             };
           }
           break;
@@ -258,7 +258,7 @@ export function useAddressValidation (
         responseId = result.responseId;
       }
 
-      const extension_attributes: AddressExtensionAttributes = {
+      const extensionAttributes: AddressExtensionAttributes = {
         ...currentAddressRef.value.extension_attributes,
         ...getValidationExtensionAttributesByValidationResult(result)
       }
@@ -268,7 +268,7 @@ export function useAddressValidation (
           if (result.suggested) {
             currentAddressRef.value = {
               ...result.suggested,
-              extension_attributes
+              extension_attributes: extensionAttributes
             };
           }
 
@@ -277,7 +277,7 @@ export function useAddressValidation (
         case 'CONFIRM':
         case 'CONFIRM_ADD_SUBPREMISES':
         case 'FIX':
-          currentAddressRef.value.extension_attributes = extension_attributes;
+          currentAddressRef.value.extension_attributes = extensionAttributes;
 
           if (interactiveVerdicts.includes(result.verdict)) {
             return await handleInteractiveVerdict(result);
@@ -287,7 +287,7 @@ export function useAddressValidation (
 
         case 'ERROR':
         default:
-          currentAddressRef.value.extension_attributes = extension_attributes;
+          currentAddressRef.value.extension_attributes = extensionAttributes;
           Logger.error('Address validation error: ' + result.message, 'address-validation')();
           return true;
       }
