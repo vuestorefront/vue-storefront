@@ -9,11 +9,97 @@ import { ValidationResult, ValidationVerdict } from '../types/validation';
 import { AddressSelectedEvent, ADDRESS_VALIDATION_EVENTS } from '../types/address-validation-events';
 import { checkCountrySupported } from '../helpers/check-country-supported';
 import { ADDRESS_VALIDATION_MODAL_NAME } from '../types/modal-names';
+import { ValidationStatus } from '../types/validation-status';
+import { AddressValidationExtensionAttributes } from '../types/address-validation-extension-attributes';
+import { AddressExtensionAttributes } from 'core/modules/checkout';
 
 const DEFAULT_INTERACTIVE_VERDICTS: ValidationVerdict[] = ['CONFIRM', 'CONFIRM_ADD_SUBPREMISES', 'FIX'];
 
 export interface UseAddressValidationOptions {
   interactiveVerdicts?: ValidationVerdict[]
+}
+
+const SUSPECT_VALIDATION_VERDICT: ValidationResult['verdict'][] = ['CONFIRM', 'CONFIRM_ADD_SUBPREMISES'];
+
+function getValidationWarningsByValidationResult (result: ValidationResult): string {
+  if (result.verdict === 'FIX') {
+    return result.missingComponents?.includes('street_number')
+      ? 'Please provide the street number to complete validation.'
+      : 'The address you entered could not be validated. Please review and correct it.'
+  }
+
+  if (result.verdict === 'CONFIRM') {
+    return 'We found a suggested address that may be more accurate. Please select which address to use.';
+  }
+
+  if (result.verdict === 'CONFIRM_ADD_SUBPREMISES') {
+    return 'We found your address but need the unit or apartment number to ensure accurate delivery.'
+  }
+
+  return '';
+}
+
+function getDefaultValidationExtensionAttributes (): AddressValidationExtensionAttributes {
+  return {
+    validation_status_id: ValidationStatus.UNVERIFIED,
+    validation_warnings: '',
+    validation_customer_override: false
+  }
+}
+
+function getValidationExtensionAttributesByDecision (
+  decision: AddressSelectedEvent,
+  result: ValidationResult
+): AddressValidationExtensionAttributes {
+  if (decision.type === 'entered') {
+    return {
+      validation_status_id: ValidationStatus.SUSPECT,
+      validation_warnings: getValidationWarningsByValidationResult(result),
+      validation_customer_override: true
+    }
+  }
+
+  if (decision.type === 'suggested') {
+    return {
+      validation_status_id: ValidationStatus.VALID,
+      validation_warnings: '',
+      validation_customer_override: false
+    }
+  }
+
+  return getDefaultValidationExtensionAttributes();
+}
+
+function getValidationExtensionAttributesByValidationResult (
+  result: ValidationResult
+): AddressValidationExtensionAttributes {
+  const validation_warnings = getValidationWarningsByValidationResult(result);
+
+  if (result.verdict === 'ACCEPT') {
+    return {
+      validation_status_id: ValidationStatus.VALID,
+      validation_warnings,
+      validation_customer_override: false
+    };
+  }
+
+  if (result.verdict === 'FIX') {
+    return {
+      validation_status_id: ValidationStatus.INVALID,
+      validation_warnings,
+      validation_customer_override: false
+    };
+  }
+
+  if (SUSPECT_VALIDATION_VERDICT.includes(result.verdict)) {
+    return {
+      validation_status_id: ValidationStatus.SUSPECT,
+      validation_warnings,
+      validation_customer_override: false
+    };
+  }
+
+  return getDefaultValidationExtensionAttributes();
 }
 
 export function useAddressValidation (
@@ -32,7 +118,10 @@ export function useAddressValidation (
     responseId = undefined;
   }
 
-  function setupModalEventListeners (resolveValidation: ((shouldProceed: boolean) => void)): void {
+  function setupModalEventListeners (
+    resolveValidation: ((shouldProceed: boolean) => void),
+    result: ValidationResult
+  ): void {
     function cleanup () {
       EventBus.$off(ADDRESS_VALIDATION_EVENTS.ADDRESS_SELECTED, addressSelectedHandler);
       EventBus.$off(ADDRESS_VALIDATION_EVENTS.CHANGE_ADDRESS, changeAddressHandler);
@@ -47,12 +136,16 @@ export function useAddressValidation (
         return;
       }
 
+      const extension_attributes: AddressExtensionAttributes = {
+        ...currentAddressRef.value.extension_attributes,
+        ...getValidationExtensionAttributesByDecision(decision, result)
+      }
+
       if (decision.type === 'modified' && decision.address) {
         const updatedAddress: BaseAddressDetails = {
           ...currentAddressRef.value,
-          ...decision.address
-          // TODO: uncomment after API support this field
-          // is_suggested: true
+          ...decision.address,
+          extension_attributes
         };
         currentAddressRef.value = updatedAddress;
 
@@ -66,9 +159,8 @@ export function useAddressValidation (
       switch (decision.type) {
         case 'entered':
           currentAddressRef.value = {
-            ...currentAddressRef.value
-            // TODO: uncomment after API support this field
-            // is_suggested: false
+            ...currentAddressRef.value,
+            extension_attributes
           };
           break;
 
@@ -76,9 +168,8 @@ export function useAddressValidation (
           if (decision.address) {
             currentAddressRef.value = {
               ...currentAddressRef.value,
-              ...decision.address
-              // TODO: uncomment after API support this field
-              // is_suggested: true
+              ...decision.address,
+              extension_attributes
             };
           }
           break;
@@ -132,7 +223,7 @@ export function useAddressValidation (
         payload
       });
 
-      setupModalEventListeners(resolve);
+      setupModalEventListeners(resolve, result);
     });
   }
 
@@ -141,9 +232,11 @@ export function useAddressValidation (
 
     if (!checkCountrySupported(currentAddressRef.value.country)) {
       currentAddressRef.value = {
-        ...currentAddressRef.value
-        // TODO: uncomment after API support this field
-        // is_suggested: false
+        ...currentAddressRef.value,
+        extension_attributes: {
+          ...currentAddressRef.value.extension_attributes,
+          ...getDefaultValidationExtensionAttributes()
+        }
       };
       return true;
     }
@@ -165,13 +258,17 @@ export function useAddressValidation (
         responseId = result.responseId;
       }
 
+      const extension_attributes: AddressExtensionAttributes = {
+        ...currentAddressRef.value.extension_attributes,
+        ...getValidationExtensionAttributesByValidationResult(result)
+      }
+
       switch (result.verdict) {
         case 'ACCEPT':
           if (result.suggested) {
             currentAddressRef.value = {
-              ...result.suggested
-              // TODO: uncomment after API support this field
-              // is_suggested: true
+              ...result.suggested,
+              extension_attributes
             };
           }
 
@@ -180,21 +277,25 @@ export function useAddressValidation (
         case 'CONFIRM':
         case 'CONFIRM_ADD_SUBPREMISES':
         case 'FIX':
+          currentAddressRef.value.extension_attributes = extension_attributes;
+
           if (interactiveVerdicts.includes(result.verdict)) {
             return await handleInteractiveVerdict(result);
           }
-
-          // TODO: uncomment after API support this field
-          // currentAddressRef.value.is_suggested = false;
 
           return true;
 
         case 'ERROR':
         default:
+          currentAddressRef.value.extension_attributes = extension_attributes;
           Logger.error('Address validation error: ' + result.message, 'address-validation')();
           return true;
       }
     } catch (error) {
+      currentAddressRef.value.extension_attributes = {
+        ...getDefaultValidationExtensionAttributes()
+      };
+
       Logger.error('Address validation failed: ' + error, 'address-validation')();
       return true;
     } finally {
