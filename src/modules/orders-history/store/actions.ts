@@ -5,7 +5,7 @@ import { processURLAddress } from '@vue-storefront/core/helpers';
 import { TaskQueue } from '@vue-storefront/core/lib/sync';
 import RootState from '@vue-storefront/core/types/RootState';
 
-import { FETCH_ORDERS_HISTORY, FETCH_SUGGESTED_PRODUCTS, REORDER_ITEM } from '../types/store/actions';
+import { FETCH_ORDERS_HISTORY, FETCH_SUGGESTED_PRODUCTS, REORDER_ITEM, FETCH_ORDER_DETAILS, SUBMIT_TAX_ID_UPDATE_REQUEST } from '../types/store/actions';
 import { OrdersHistoryState } from '../types/store/state';
 import { Order } from '../types/order';
 import { SET_ORDERS_HISTORY, SET_SUGGESTED_PRODUCTS, SET_IS_REORDERING_ITEM } from '../types/store/mutations';
@@ -81,5 +81,42 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
     }
 
     await dispatch('cart/pullServerCart', true, { root: true });
+  },
+  async [FETCH_ORDER_DETAILS] (_, { orderId }: { orderId: string }): Promise<Order> {
+    const url = processURLAddress(`${config.budsies.endpoint}/customers/me/orders/${orderId}?token={{token}}`);
+
+    const { result, resultCode } = await TaskQueue.execute({
+      url,
+      payload: {
+        method: 'GET',
+        mode: 'cors',
+        headers: { 'Accept': 'application/json' }
+      }
+    });
+
+    if (resultCode !== 200) {
+      throw new Error('Order not found');
+    }
+
+    return result;
+  },
+  async [SUBMIT_TAX_ID_UPDATE_REQUEST] ({ commit }, { orderId, taxId }: { orderId: string, taxId: string }): Promise<void> {
+    const url = processURLAddress(`${config.budsies.endpoint}/order/taxid-update-requests?token={{token}}`);
+
+    const { resultCode, result } = await TaskQueue.execute({
+      url,
+      payload: {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ taxId, orderId, type: 'shipping' })
+      },
+      silent: true
+    });
+
+    if (resultCode !== 200) {
+      const errorMessage = result?.errorMessage || 'Failed to submit Tax ID';
+      throw new Error(errorMessage);
+    }
   }
 }

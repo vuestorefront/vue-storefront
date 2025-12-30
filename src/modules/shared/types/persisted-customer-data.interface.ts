@@ -7,5 +7,6 @@ export interface PersistedCustomerData {
   lastName: string,
   phoneNumber: string,
   shippingCountry: string,
-  billingAddress: PersistedBillingAddress
+  billingAddress: PersistedBillingAddress,
+  vatId: string
 }
