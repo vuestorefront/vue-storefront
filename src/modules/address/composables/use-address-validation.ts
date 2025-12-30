@@ -42,9 +42,8 @@ function getDefaultValidationExtensionAttributes (): AddressExtensionAttributes 
     validation_warnings: '',
     validation_customer_override: false,
     validation_missing_address_components: undefined,
-    validation_validated_at: new Date().toUTCString()
-    // TODO: uncomment after API support
-    // validation_suggested_address: undefined
+    validation_validated_at: new Date().toUTCString(),
+    validation_suggested_address: undefined
   };
 }
 
@@ -60,9 +59,8 @@ function getValidationExtensionAttributesByValidationResult (
       validation_warnings: validationWarnings,
       validation_customer_override: false,
       validation_missing_address_components: undefined,
-      validation_validated_at: validationDate
-      // TODO: uncomment after API support
-      // validation_suggested_address: undefined
+      validation_validated_at: validationDate,
+      validation_suggested_address: undefined
     };
   }
 
@@ -72,9 +70,8 @@ function getValidationExtensionAttributesByValidationResult (
       validation_warnings: validationWarnings,
       validation_customer_override: false,
       validation_missing_address_components: JSON.stringify(result.missingComponents),
-      validation_validated_at: validationDate
-      // TODO: uncomment after API support
-      // validation_suggested_address: result.suggested ? JSON.stringify(result.suggested) : undefined
+      validation_validated_at: validationDate,
+      validation_suggested_address: result.suggested ? JSON.stringify(result.suggested) : undefined
     };
   }
 
@@ -84,9 +81,8 @@ function getValidationExtensionAttributesByValidationResult (
       validation_warnings: validationWarnings,
       validation_customer_override: false,
       validation_missing_address_components: JSON.stringify(result.missingComponents),
-      validation_validated_at: validationDate
-      // TODO: uncomment after API support
-      // validation_suggested_address: result.suggested ? JSON.stringify(result.suggested) : undefined
+      validation_validated_at: validationDate,
+      validation_suggested_address: result.suggested ? JSON.stringify(result.suggested) : undefined
     };
   }
 
@@ -105,9 +101,8 @@ function getValidationExtensionAttributesByDecision (
       validation_warnings: getValidationWarningMessage(result),
       validation_customer_override: true,
       validation_missing_address_components: validationExtensionAttributesByResult.validation_missing_address_components,
-      validation_validated_at: validationExtensionAttributesByResult.validation_validated_at
-      // TODO: uncomment after API support
-      // validation_suggested_address: validationExtensionAttributesByResult.validation_suggested_address
+      validation_validated_at: validationExtensionAttributesByResult.validation_validated_at,
+      validation_suggested_address: validationExtensionAttributesByResult.validation_suggested_address
     };
   }
 
@@ -117,9 +112,8 @@ function getValidationExtensionAttributesByDecision (
       validation_warnings: '',
       validation_customer_override: false,
       validation_missing_address_components: undefined,
-      validation_validated_at: validationExtensionAttributesByResult.validation_validated_at
-      // TODO: uncomment after API support
-      // validation_suggested_address: undefined
+      validation_validated_at: validationExtensionAttributesByResult.validation_validated_at,
+      validation_suggested_address: undefined
     };
   }
 
