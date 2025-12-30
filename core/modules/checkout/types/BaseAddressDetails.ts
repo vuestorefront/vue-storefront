@@ -1,3 +1,5 @@
+import { AddressExtensionAttributes } from './address-extension-attributes';
+
 export default interface BaseAddressDetails {
   firstName: string,
   lastName: string,
@@ -9,7 +11,6 @@ export default interface BaseAddressDetails {
   region_id: number | null,
   zipCode: string,
   phoneNumber: string,
-  vat_id: string
-  // TODO: uncomment after API support this field
-  // is_suggested: boolean
+  vat_id: string,
+  extension_attributes?: AddressExtensionAttributes
 }

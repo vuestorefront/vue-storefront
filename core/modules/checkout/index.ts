@@ -10,6 +10,7 @@ import { paymentModule } from './store/payment'
 import { shippingModule } from './store/shipping'
 import * as types from './store/checkout/mutation-types'
 import { ORDER_ERROR_EVENT } from './types/OrderErrorEvent'
+import { AddressExtensionAttributes } from './types/address-extension-attributes'
 
 export const CheckoutModule: StorefrontModule = function ({ store }) {
   StorageManager.init('checkout')
@@ -68,5 +69,6 @@ export {
   CHECKOUT_UPDATE_PAYMENT_DETAILS_MUTATION,
   CHECKOUT_UPDATE_SHIPPING_DETAILS_MUTATION,
   CHECKOUT_UPDATE_SUCCESS_ORDER_DATA_MUTATION,
-  ORDER_ERROR_EVENT
+  ORDER_ERROR_EVENT,
+  AddressExtensionAttributes
 }

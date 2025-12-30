@@ -31,9 +31,8 @@ export const createShippingAddressData = (
     region: shippingDetails.state ? shippingDetails.state : undefined,
     region_id: shippingDetails.region_id,
     telephone: shippingDetails.phoneNumber,
-    vat_id: shippingDetails.vat_id
-    // TODO: uncomment after API support this field
-    // is_suggested: shippingDetails.is_suggested || false
+    vat_id: shippingDetails.vat_id,
+    extension_attributes: shippingDetails.extension_attributes
   }
 };
 
@@ -66,9 +65,8 @@ const createOrderData = ({
       region: paymentDetails.state ? paymentDetails.state : undefined,
       region_id: paymentDetails.region_id,
       telephone: paymentDetails.phoneNumber,
-      vat_id: paymentDetails.vat_id
-      // TODO: uncomment after API support this field
-      // is_suggested: paymentDetails.is_suggested || false
+      vat_id: paymentDetails.vat_id,
+      extension_attributes: paymentDetails.extension_attributes
     },
     method_code: shippingMethodCode,
     carrier_code: shippingCarrierCode,

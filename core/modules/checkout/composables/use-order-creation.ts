@@ -1,10 +1,13 @@
 import { SetupContext } from '@vue/composition-api';
 import { Order } from '@vue-storefront/core/modules/order/types/Order';
 
+import ShippingDetails from '../types/ShippingDetails';
+import PaymentDetails from '../types/PaymentDetails';
+
 export function useOrderCreation ({ root }: SetupContext) {
   function prepareOrderData (paymentAdditionalData: any) {
-    const paymentDetails = root.$store.getters['checkout/getPaymentDetails'];
-    const shippingDetails = root.$store.getters['checkout/getShippingDetails'];
+    const paymentDetails: PaymentDetails = root.$store.getters['checkout/getPaymentDetails'];
+    const shippingDetails: ShippingDetails = root.$store.getters['checkout/getShippingDetails'];
     const personalDetails = root.$store.getters['checkout/getPersonalDetails'];
     const platformTotals = root.$store.state.cart.platformTotals;
     const isVirtualCart = root.$store.getters['cart/isVirtualCart'];
@@ -26,14 +29,14 @@ export function useOrderCreation ({ root }: SetupContext) {
           firstname: paymentDetails.firstName,
           lastname: paymentDetails.lastName,
           email: personalDetails.emailAddress,
-          region_code: paymentDetails.region_code ? paymentDetails.region_code : '',
-          vat_id: paymentDetails.vat_id
+          region_code: '',
+          vat_id: paymentDetails.vat_id,
+          extension_attributes: shippingDetails.extension_attributes
         },
         shipping_method_code: shippingDetails.shippingMethod,
         shipping_carrier_code: shippingDetails.shippingCarrier,
         payment_method_code: paymentDetails.paymentMethod,
-        payment_method_additional: paymentAdditionalData,
-        shippingExtraFields: shippingDetails.extraFields
+        payment_method_additional: paymentAdditionalData
       },
       paymentDetails: {
         base_grand_total: platformTotals.base_grand_total,
@@ -60,10 +63,9 @@ export function useOrderCreation ({ root }: SetupContext) {
         firstname: shippingDetails.firstName,
         lastname: shippingDetails.lastName,
         email: personalDetails.emailAddress,
-        region_code: shippingDetails.region_code ? shippingDetails.region_code : '',
-        vat_id: shippingDetails.vat_id
-        // TODO: uncomment after API support this field
-        // is_suggested: shippingDetails.is_suggested || false
+        region_code: '',
+        vat_id: shippingDetails.vat_id,
+        extension_attributes: shippingDetails.extension_attributes
       }
     }
 

@@ -291,9 +291,8 @@ export default {
             lastname: this.payment.lastName,
             email: this.personalDetails.emailAddress,
             region_code: this.payment.region_code ? this.payment.region_code : '',
-            vat_id: this.payment.vat_id
-            // TODO: uncomment after API support this field
-            // is_suggested: this.payment.is_suggested || false
+            vat_id: this.payment.vat_id,
+            extension_attributes: this.payment.extension_attributes
           },
           shipping_method_code: this.shipping.shippingMethod,
           shipping_carrier_code: this.shipping.shippingCarrier,
@@ -326,9 +325,8 @@ export default {
           lastname: this.shipping.lastName,
           email: this.personalDetails.emailAddress,
           region_code: this.shipping.region_code ? this.shipping.region_code : '',
-          vat_id: this.shipping.vat_id
-          // TODO: uncomment after API support this field
-          // is_suggested: this.shipping.is_suggested || false
+          vat_id: this.shipping.vat_id,
+          extension_attributes: this.shipping.extension_attributes
         }
       }
       return this.order

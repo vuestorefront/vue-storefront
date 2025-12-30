@@ -1,5 +1,6 @@
 import BaseAddressDetails from './BaseAddressDetails';
 
 export default interface ShippingDetails extends BaseAddressDetails {
-  shippingMethod: string
+  shippingMethod: string,
+  shippingCarrier: string
 }
