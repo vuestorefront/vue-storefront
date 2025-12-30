@@ -31,7 +31,7 @@ export function useOrderCreation ({ root }: SetupContext) {
           email: personalDetails.emailAddress,
           region_code: '',
           vat_id: paymentDetails.vat_id,
-          extension_attributes: shippingDetails.extension_attributes
+          extension_attributes: paymentDetails.extension_attributes
         },
         shipping_method_code: shippingDetails.shippingMethod,
         shipping_carrier_code: shippingDetails.shippingCarrier,
