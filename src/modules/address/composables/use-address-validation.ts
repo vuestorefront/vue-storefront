@@ -18,6 +18,19 @@ export interface UseAddressValidationOptions {
   interactiveVerdicts?: ValidationVerdict[]
 }
 
+type ReportAddress = Pick<BaseAddressDetails, 'country' | 'streetAddress' | 'city' | 'state' | 'region_id' | 'zipCode'>;
+
+function prepareAddressForReport (address: BaseAddressDetails): ReportAddress {
+  return {
+    country: address.country,
+    streetAddress: address.streetAddress,
+    city: address.city,
+    state: address.state,
+    region_id: address.region_id,
+    zipCode: address.zipCode
+  }
+}
+
 function getValidationWarningMessage (result: ValidationResult): string {
   if (result.verdict === 'FIX') {
     return result.missingComponents?.includes('street_number')
@@ -64,6 +77,8 @@ function getValidationExtensionAttributesByValidationResult (
     };
   }
 
+  const validationSuggestedAddress = result.suggested ? JSON.stringify(prepareAddressForReport(result.suggested)) : undefined;
+
   if (result.verdict === 'FIX') {
     return {
       validation_status_id: AddressValidationStatusId.INVALID,
@@ -71,7 +86,7 @@ function getValidationExtensionAttributesByValidationResult (
       validation_customer_override: false,
       validation_missing_address_components: JSON.stringify(result.missingComponents),
       validation_validated_at: validationDate,
-      validation_suggested_address: result.suggested ? JSON.stringify(result.suggested) : undefined
+      validation_suggested_address: validationSuggestedAddress
     };
   }
 
@@ -82,7 +97,7 @@ function getValidationExtensionAttributesByValidationResult (
       validation_customer_override: false,
       validation_missing_address_components: JSON.stringify(result.missingComponents),
       validation_validated_at: validationDate,
-      validation_suggested_address: result.suggested ? JSON.stringify(result.suggested) : undefined
+      validation_suggested_address: validationSuggestedAddress
     };
   }
 
