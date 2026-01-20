@@ -6,5 +6,6 @@ export interface AddressExtensionAttributes {
   validation_warnings?: string,
   validation_suggested_address?: string,
   validation_validated_at?: string,
-  validation_missing_address_components?: string
+  validation_missing_address_components?: string,
+  validation_hash?: string
 }
