@@ -3,7 +3,7 @@ import { ref, inject, Ref, SetupContext, nextTick } from '@vue/composition-api';
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import { Logger } from '@vue-storefront/core/lib/logger';
-import { AddressExtensionAttributes, AddressValidationStatusId } from '@vue-storefront/core/modules/shared';
+import { AddressExtensionAttributes, AddressValidationStatusId, generateAddressHash } from '@vue-storefront/core/modules/shared';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
 import { ValidationResult, ValidationVerdict } from '../types/validation';
@@ -29,6 +29,17 @@ function prepareAddressForReport (address: BaseAddressDetails): ReportAddress {
     region_id: address.region_id,
     zipCode: address.zipCode
   }
+}
+
+async function getAddressHash (address: BaseAddressDetails): Promise<string> {
+  return generateAddressHash({
+    country: address.country,
+    city: address.city,
+    region: address.state,
+    region_id: address.region_id,
+    postcode: address.zipCode,
+    street: [address.streetAddress, address.apartmentNumber]
+  });
 }
 
 function getValidationWarningMessage (result: ValidationResult): string {
@@ -296,6 +307,8 @@ export function useAddressValidation (
         ...getValidationExtensionAttributesByValidationResult(result)
       };
 
+      let shouldProceed = false;
+
       switch (result.verdict) {
         case 'ACCEPT':
           if (result.suggested) {
@@ -305,8 +318,8 @@ export function useAddressValidation (
             };
           }
 
-          return true;
-
+          shouldProceed = true;
+          break;
         case 'CONFIRM':
         case 'CONFIRM_ADD_SUBPREMISES':
         case 'FIX':
@@ -316,20 +329,29 @@ export function useAddressValidation (
           };
 
           if (interactiveVerdicts.includes(result.verdict)) {
-            return await handleInteractiveVerdict(result);
+            shouldProceed = await handleInteractiveVerdict(result);
+          } else {
+            shouldProceed = true;
           }
-
-          return true;
-
+          break;
         case 'ERROR':
         default:
           currentAddressRef.value = {
             ...currentAddressRef.value,
             extension_attributes: extensionAttributes
           };
+
           Logger.error('Address validation error: ' + result.message, 'address-validation')();
-          return true;
+          shouldProceed = true;
       }
+
+      if (!currentAddressRef.value.extension_attributes) {
+        currentAddressRef.value.extension_attributes = {};
+      }
+
+      currentAddressRef.value.extension_attributes.validation_hash = await getAddressHash(currentAddressRef.value);
+
+      return shouldProceed;
     } catch (error) {
       currentAddressRef.value = {
         ...currentAddressRef.value,
@@ -338,6 +360,12 @@ export function useAddressValidation (
           ...getDefaultValidationExtensionAttributes()
         }
       };
+
+      if (!currentAddressRef.value.extension_attributes) {
+        currentAddressRef.value.extension_attributes = {};
+      }
+
+      currentAddressRef.value.extension_attributes.validation_hash = await getAddressHash(currentAddressRef.value);
 
       Logger.error('Address validation failed: ' + error, 'address-validation')();
       return true;
