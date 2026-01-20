@@ -275,13 +275,17 @@ export function useAddressValidation (
     currentAddressRef = addressRef;
 
     if (!checkCountrySupported(currentAddressRef.value.country)) {
+      const hash = await getAddressHash(currentAddressRef.value);
+
       currentAddressRef.value = {
         ...currentAddressRef.value,
         extension_attributes: {
           ...(currentAddressRef.value.extension_attributes || {}),
-          ...getDefaultValidationExtensionAttributes()
+          ...getDefaultValidationExtensionAttributes(),
+          validation_hash: hash
         }
       };
+
       return true;
     }
 
@@ -345,27 +349,28 @@ export function useAddressValidation (
           shouldProceed = true;
       }
 
-      if (!currentAddressRef.value.extension_attributes) {
-        currentAddressRef.value.extension_attributes = {};
-      }
+      const hash = await getAddressHash(currentAddressRef.value);
 
-      currentAddressRef.value.extension_attributes.validation_hash = await getAddressHash(currentAddressRef.value);
-
-      return shouldProceed;
-    } catch (error) {
       currentAddressRef.value = {
         ...currentAddressRef.value,
         extension_attributes: {
           ...(currentAddressRef.value.extension_attributes || {}),
-          ...getDefaultValidationExtensionAttributes()
+          validation_hash: hash
         }
       };
 
-      if (!currentAddressRef.value.extension_attributes) {
-        currentAddressRef.value.extension_attributes = {};
-      }
+      return shouldProceed;
+    } catch (error) {
+      const hash = await getAddressHash(currentAddressRef.value);
 
-      currentAddressRef.value.extension_attributes.validation_hash = await getAddressHash(currentAddressRef.value);
+      currentAddressRef.value = {
+        ...currentAddressRef.value,
+        extension_attributes: {
+          ...(currentAddressRef.value.extension_attributes || {}),
+          ...getDefaultValidationExtensionAttributes(),
+          validation_hash: hash
+        }
+      };
 
       Logger.error('Address validation failed: ' + error, 'address-validation')();
       return true;
