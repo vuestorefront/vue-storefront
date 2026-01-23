@@ -88,8 +88,6 @@ function getValidationExtensionAttributesByValidationResult (
     };
   }
 
-  const validationSuggestedAddress = result.suggested ? JSON.stringify(prepareAddressForReport(result.suggested)) : undefined;
-
   if (result.verdict === 'FIX') {
     return {
       validation_status_id: AddressValidationStatusId.INVALID,
@@ -97,11 +95,13 @@ function getValidationExtensionAttributesByValidationResult (
       validation_customer_override: false,
       validation_missing_address_components: JSON.stringify(result.missingComponents),
       validation_validated_at: validationDate,
-      validation_suggested_address: validationSuggestedAddress
+      validation_suggested_address: undefined
     };
   }
 
   if (SUSPECT_VERDICTS.includes(result.verdict)) {
+    const validationSuggestedAddress = result.suggested ? JSON.stringify(prepareAddressForReport(result.suggested)) : undefined;
+
     return {
       validation_status_id: AddressValidationStatusId.SUSPECT,
       validation_warnings: validationWarnings,
