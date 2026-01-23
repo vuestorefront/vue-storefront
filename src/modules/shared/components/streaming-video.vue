@@ -88,7 +88,8 @@ export default Vue.extend({
       return 'modestbranding=1' +
           '&rel=0' +
           '&controls=' + (this.displayControls ? 1 : 0) +
-          '&autoplay=' + (this.autoPlay ? 1 : 0);
+          '&autoplay=' + (this.autoPlay ? 1 : 0) +
+          '&enablejsapi=1';
     },
     styles (): Record<string, string> {
       const result: Record<string, string> = {};
