@@ -59,7 +59,8 @@ export const Payment = {
         apartmentNumber: address.street[1],
         zipCode: address.postcode.toString(),
         phoneNumber: address.telephone.toString(),
-        vat_id: address.vat_id || ''
+        vat_id: address.vat_id || '',
+        extension_attributes: address.extension_attributes
       }
     }
   },
@@ -158,7 +159,8 @@ export const Payment = {
         zipCode: this.shippingDetails.zipCode,
         phoneNumber: this.shippingDetails.phoneNumber,
         paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : '',
-        vat_id: this.shippingDetails.vat_id
+        vat_id: this.shippingDetails.vat_id,
+        extension_attributes: this.shippingDetails.extension_attributes
       }
     },
     useBillingAddress () {

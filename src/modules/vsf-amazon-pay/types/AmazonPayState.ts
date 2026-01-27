@@ -1,3 +1,4 @@
 export interface AmazonPayState {
-  sessionId: string | null
+  sessionId: string | null,
+  scriptLoadingPromise: Promise<void> | null
 }

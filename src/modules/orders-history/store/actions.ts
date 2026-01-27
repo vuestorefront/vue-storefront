@@ -83,7 +83,7 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
 
     await dispatch('cart/pullServerCart', true, { root: true });
   },
-  async [FETCH_ORDER_DETAILS] ({ commit }, { orderId }: { orderId: string }): Promise<Order> {
+  async [FETCH_ORDER_DETAILS] (_, { orderId }: { orderId: string }): Promise<Order> {
     const url = processURLAddress(`${config.budsies.endpoint}/customers/me/orders/${orderId}?token={{token}}`);
 
     const { result, resultCode } = await TaskQueue.execute({

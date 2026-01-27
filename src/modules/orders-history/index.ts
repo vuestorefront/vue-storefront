@@ -1,5 +1,6 @@
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
+import { mapOrderAddressToBaseAddressDetails } from './helpers/map-order-address-to-base-address-details';
 import { STORE_NAME } from './store/store-name';
 import { ordersHistoryModule } from './store';
 import { FETCH_ORDERS_HISTORY, FETCH_SUGGESTED_PRODUCTS, REORDER_ITEM, FETCH_ORDER_DETAILS, SUBMIT_TAX_ID_UPDATE_REQUEST, SUBMIT_ORDER_ADDRESS_UPDATE_REQUEST } from './types/store/actions';
@@ -7,6 +8,7 @@ import { useOrderHistoryList } from './composables/use-order-history-list';
 import { useOrderHistoryOrder } from './composables/use-order-history-order';
 import { GET_SUGGESTED_PRODUCTS_IDS, GET_IS_REORDERING_ITEM } from './types/store/getters';
 import { Order } from './types/order';
+import { OrderAddress } from './types/order-address';
 
 import OrdersHistoryList from './components/orders-history-list.vue';
 
@@ -35,7 +37,9 @@ export {
   SUGGESTED_PRODUCTS_IDS_GETTER,
   REORDER_ITEM_ACTION,
   IS_REORDERING_ITEM,
+  mapOrderAddressToBaseAddressDetails,
   useOrderHistoryList,
   useOrderHistoryOrder,
-  Order
+  Order,
+  OrderAddress
 }

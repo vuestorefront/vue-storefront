@@ -3,6 +3,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 
 import isAddressEmpty from '../helpers/is-address-empty.function'
 import isAddressesEquals from '../helpers/is-addresses-equals.function'
+import { CHECKOUT_UPDATE_PROP_VALUE } from '../store/checkout/mutation-types'
 
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
@@ -169,14 +170,13 @@ export const Shipping = {
     },
     changeShippingMethod () {
       let currentShippingMethod = this.getCurrentShippingMethod()
+
       if (currentShippingMethod) {
-        this.shipping = Object.assign(this.shipping, { shippingCarrier: currentShippingMethod.carrier_code })
-        this.$bus.$emit('checkout-after-shippingMethodChanged', {
-          country: this.shipping.country,
-          method_code: currentShippingMethod.method_code,
-          carrier_code: currentShippingMethod.carrier_code,
-          payment_method: this.paymentMethod[0].code
-        })
+        this.shipping = Object.assign(this.shipping, { shippingCarrier: currentShippingMethod.carrier_code, shippingMethod: currentShippingMethod.method_code })
+        this.$store.commit(`checkout/${CHECKOUT_UPDATE_PROP_VALUE}`, ['shippingCarrier', currentShippingMethod.carrier_code])
+        this.$store.commit(`checkout/${CHECKOUT_UPDATE_PROP_VALUE}`, ['shippingMethod', currentShippingMethod.method_code])
+
+        this.$bus.$emit('checkout-after-shippingMethodChanged')
       }
     },
     notInMethods (method) {
