@@ -53,6 +53,10 @@
           />
         </template>
       </div>
+
+      <alteration-product-form
+        :order-item="item"
+      />
     </div>
 
     <div
@@ -77,6 +81,7 @@ import { ImageHandlerService } from 'src/modules/file-storage';
 import { useOrderItemProgressTracker } from '../composables/use-order-item-progress-tracker';
 import { OrderItem } from '../types/order-item';
 
+import AlterationProductForm from './alteration-product-form.vue';
 import OrderItemActions from './order-item-actions.vue';
 import OrderItemExtendedInfo from './order-item-extended-info.vue';
 import OrderItemProgressTracker from './order-item-progress-tracker.vue';
@@ -86,6 +91,7 @@ const PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT = 3;
 export default defineComponent({
   name: 'OrderItem',
   components: {
+    AlterationProductForm,
     BaseImage,
     OrderItemActions,
     OrderItemExtendedInfo,
@@ -236,6 +242,10 @@ export default defineComponent({
   }
 
   .order-item-extended-info {
+    margin-top: var(--spacer-base);
+  }
+
+  .alteration-product-form {
     margin-top: var(--spacer-base);
   }
 
