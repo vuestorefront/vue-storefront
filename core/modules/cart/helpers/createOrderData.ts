@@ -28,12 +28,11 @@ export const createShippingAddressData = (
     city: shippingDetails.city,
     postcode: shippingDetails.zipCode,
     street: [shippingDetails.streetAddress, shippingDetails.apartmentNumber],
-    region: shippingDetails.state ? shippingDetails.state : undefined,
+    region: shippingDetails.state || '',
     region_id: shippingDetails.region_id,
     telephone: shippingDetails.phoneNumber,
-    vat_id: shippingDetails.vat_id
-    // TODO: uncomment after API support this field
-    // is_suggested: shippingDetails.is_suggested || false
+    vat_id: shippingDetails.vat_id,
+    extension_attributes: shippingDetails.extension_attributes
   }
 };
 
@@ -49,8 +48,7 @@ const createOrderData = ({
   const payment = getDefaultPaymentMethod(paymentMethods)
 
   let shippingMethodCode = shippingDetails.shippingMethod || shipping?.method_code;
-  // TODO: update type properly
-  let shippingCarrierCode: string | undefined = (shippingDetails as any).shippingCarrier || shipping?.carrier_code;
+  let shippingCarrierCode: string | undefined = shippingDetails.shippingCarrier || shipping?.carrier_code;
   let paymentMethodCode = paymentDetails.paymentMethod || payment?.code;
 
   return {
@@ -63,12 +61,11 @@ const createOrderData = ({
       postcode: paymentDetails.zipCode,
       street: [paymentDetails.streetAddress, paymentDetails.apartmentNumber],
       countryId: paymentDetails.country,
-      region: paymentDetails.state ? paymentDetails.state : undefined,
+      region: paymentDetails.state || '',
       region_id: paymentDetails.region_id,
       telephone: paymentDetails.phoneNumber,
-      vat_id: paymentDetails.vat_id
-      // TODO: uncomment after API support this field
-      // is_suggested: paymentDetails.is_suggested || false
+      vat_id: paymentDetails.vat_id,
+      extension_attributes: paymentDetails.extension_attributes
     },
     method_code: shippingMethodCode,
     carrier_code: shippingCarrierCode,
