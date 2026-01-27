@@ -123,7 +123,7 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
   async [SUBMIT_ORDER_ADDRESS_UPDATE_REQUEST] (_context, { orderId, address }: { orderId: string, address: OrderAddress }): Promise<void> {
     const url = processURLAddress(`${config.budsies.endpoint}/order/address/update-requests?token={{token}}`);
 
-    const { country_id, address_type, email, entity_id, parent_id, vat_id, ...addressWithoutCountry } = address;
+    const { country_id, address_type, email, entity_id, parent_id, ...addressWithoutCountry } = address;
 
     const { resultCode, result } = await TaskQueue.execute({
       url,
@@ -131,7 +131,7 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
         method: 'POST',
         mode: 'cors',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data: { address_id: entity_id, ...addressWithoutCountry } })
+        body: JSON.stringify({ request: { address_id: entity_id, ...addressWithoutCountry } })
       },
       silent: true
     });
