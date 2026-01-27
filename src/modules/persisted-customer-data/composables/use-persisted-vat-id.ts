@@ -1,6 +1,5 @@
-import { Ref, WritableComputedRef, onBeforeMount, onBeforeUnmount } from '@vue/composition-api';
+import { Ref, WritableComputedRef, onBeforeMount } from '@vue/composition-api';
 
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import rootStore from '@vue-storefront/core/store';
 
 import { SN_PERSISTED_CUSTOMER_DATA } from '../types/store-name';
@@ -25,11 +24,6 @@ export function usePersistedVatId (
 
   onBeforeMount(() => {
     fillLastUsedCustomerVatId();
-    EventBus.$on('user-after-loggedin', fillLastUsedCustomerVatId);
-  });
-
-  onBeforeUnmount(() => {
-    EventBus.$off('user-after-loggedin', fillLastUsedCustomerVatId);
   });
 
   return {
