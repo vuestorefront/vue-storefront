@@ -64,7 +64,9 @@ export function useExistingValidationResult (
       return false;
     }
 
-    if (!EXISTING_RESULT_INTERACTIVE_VERDICTS.includes(validationResult.value.verdict)) {
+    const isMissingStreetNumber = validationResult.value.verdict === 'FIX' && validationResult.value.missingComponents?.includes('street_number');
+
+    if (!EXISTING_RESULT_INTERACTIVE_VERDICTS.includes(validationResult.value.verdict) && !isMissingStreetNumber) {
       return false;
     }
 
