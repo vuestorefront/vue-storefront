@@ -6,7 +6,7 @@ export type ValidationVerdict = 'ACCEPT' | 'CONFIRM' | 'CONFIRM_ADD_SUBPREMISES'
 
 export interface ValidationResult {
   verdict: ValidationVerdict,
-  raw: GoogleValidationResponse,
+  raw?: GoogleValidationResponse,
   suggested?: BaseAddressDetails,
   message?: string,
   responseId?: string,

@@ -271,6 +271,67 @@ export function useAddressValidation (
     });
   }
 
+  async function handleValidationResult (result: ValidationResult, addressRef: Ref<BaseAddressDetails>): Promise<boolean> {
+    if (!currentAddressRef?.value) {
+      currentAddressRef = addressRef;
+    }
+
+    const extensionAttributes: AddressExtensionAttributes = {
+      ...(currentAddressRef.value.extension_attributes || {}),
+      ...getValidationExtensionAttributesByValidationResult(result)
+    };
+
+    let shouldProceed = false;
+
+    switch (result.verdict) {
+      case 'ACCEPT':
+        if (result.suggested) {
+          currentAddressRef.value = {
+            ...result.suggested,
+            extension_attributes: extensionAttributes
+          };
+        }
+
+        shouldProceed = true;
+        break;
+      case 'CONFIRM':
+      case 'CONFIRM_ADD_SUBPREMISES':
+      case 'FIX':
+        currentAddressRef.value = {
+          ...currentAddressRef.value,
+          extension_attributes: extensionAttributes
+        };
+
+        if (interactiveVerdicts.includes(result.verdict)) {
+          shouldProceed = await handleInteractiveVerdict(result);
+        } else {
+          shouldProceed = true;
+        }
+        break;
+      case 'ERROR':
+      default:
+        currentAddressRef.value = {
+          ...currentAddressRef.value,
+          extension_attributes: extensionAttributes
+        };
+
+        Logger.error('Address validation error: ' + result.message, 'address-validation')();
+        shouldProceed = true;
+    }
+
+    const hash = await getAddressHash(currentAddressRef.value);
+
+    currentAddressRef.value = {
+      ...currentAddressRef.value,
+      extension_attributes: {
+        ...(currentAddressRef.value.extension_attributes || {}),
+        validation_hash: hash
+      }
+    };
+
+    return shouldProceed;
+  }
+
   async function validateAddress (addressRef: Ref<BaseAddressDetails>): Promise<boolean> {
     currentAddressRef = addressRef;
 
@@ -306,60 +367,7 @@ export function useAddressValidation (
         responseId = result.responseId;
       }
 
-      const extensionAttributes: AddressExtensionAttributes = {
-        ...(currentAddressRef.value.extension_attributes || {}),
-        ...getValidationExtensionAttributesByValidationResult(result)
-      };
-
-      let shouldProceed = false;
-
-      switch (result.verdict) {
-        case 'ACCEPT':
-          if (result.suggested) {
-            currentAddressRef.value = {
-              ...result.suggested,
-              extension_attributes: extensionAttributes
-            };
-          }
-
-          shouldProceed = true;
-          break;
-        case 'CONFIRM':
-        case 'CONFIRM_ADD_SUBPREMISES':
-        case 'FIX':
-          currentAddressRef.value = {
-            ...currentAddressRef.value,
-            extension_attributes: extensionAttributes
-          };
-
-          if (interactiveVerdicts.includes(result.verdict)) {
-            shouldProceed = await handleInteractiveVerdict(result);
-          } else {
-            shouldProceed = true;
-          }
-          break;
-        case 'ERROR':
-        default:
-          currentAddressRef.value = {
-            ...currentAddressRef.value,
-            extension_attributes: extensionAttributes
-          };
-
-          Logger.error('Address validation error: ' + result.message, 'address-validation')();
-          shouldProceed = true;
-      }
-
-      const hash = await getAddressHash(currentAddressRef.value);
-
-      currentAddressRef.value = {
-        ...currentAddressRef.value,
-        extension_attributes: {
-          ...(currentAddressRef.value.extension_attributes || {}),
-          validation_hash: hash
-        }
-      };
-
-      return shouldProceed;
+      return handleValidationResult(result, addressRef);
     } catch (error) {
       const hash = await getAddressHash(currentAddressRef.value);
 
@@ -380,6 +388,7 @@ export function useAddressValidation (
   }
 
   return {
+    handleValidationResult,
     validateAddress,
     isValidating,
     completeValidation
