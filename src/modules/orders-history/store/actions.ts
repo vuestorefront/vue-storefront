@@ -5,7 +5,7 @@ import { processURLAddress } from '@vue-storefront/core/helpers';
 import { TaskQueue } from '@vue-storefront/core/lib/sync';
 import RootState from '@vue-storefront/core/types/RootState';
 
-import { FETCH_ORDERS_HISTORY, FETCH_SUGGESTED_PRODUCTS, REORDER_ITEM, FETCH_ORDER_DETAILS, SUBMIT_TAX_ID_UPDATE_REQUEST, SUBMIT_ORDER_ADDRESS_UPDATE_REQUEST } from '../types/store/actions';
+import { FETCH_ORDERS_HISTORY, FETCH_SUGGESTED_PRODUCTS, REORDER_ITEM, FETCH_ORDER_DETAILS, SUBMIT_TAX_ID_UPDATE_REQUEST, REQUEST_ORDER_SHIPPING_ADDRESS_UPDATE } from '../types/store/actions';
 import { OrdersHistoryState } from '../types/store/state';
 import { Order } from '../types/order';
 import { SET_ORDERS_HISTORY, SET_SUGGESTED_PRODUCTS, SET_IS_REORDERING_ITEM } from '../types/store/mutations';
@@ -120,7 +120,7 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
       throw new Error(errorMessage);
     }
   },
-  async [SUBMIT_ORDER_ADDRESS_UPDATE_REQUEST] (_context, { orderId, address }: { orderId: string, address: OrderAddress }): Promise<void> {
+  async [REQUEST_ORDER_SHIPPING_ADDRESS_UPDATE] (_context, { address }: { address: OrderAddress }): Promise<void> {
     const url = processURLAddress(`${config.budsies.endpoint}/order/address/update-requests?token={{token}}`);
 
     const { country_id, address_type, email, entity_id, parent_id, ...addressWithoutCountry } = address;
