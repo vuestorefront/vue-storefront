@@ -11,6 +11,7 @@ export type { ValidationResult, ValidationVerdict } from './types/validation';
 export { useAddressAutocomplete } from './composables/use-address-autocomplete';
 export { useAddressValidation } from './composables/use-address-validation';
 export type { UseAddressValidationOptions } from './composables/use-address-validation';
+export { useExistingValidationResult } from './composables/use-existing-validation-result';
 
 export { ADDRESS_VALIDATION_MODAL_NAME } from './types/modal-names';
 

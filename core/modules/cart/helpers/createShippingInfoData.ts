@@ -1,4 +1,6 @@
-const createShippingInfoData = (methodsData) => ({
+import OrderShippingDetails from '../types/OrderShippingDetails';
+
+const createShippingInfoData = (methodsData: OrderShippingDetails) => ({
   shippingAddress: {
     countryId: methodsData.country,
     ...(methodsData.shippingAddress ? methodsData.shippingAddress : {})

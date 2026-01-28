@@ -129,8 +129,6 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         zipCode: '',
         phoneNumber: '',
         vat_id: ''
-        // TODO: uncomment after API support this field
-        // is_suggested: false
       };
     }
 
@@ -171,8 +169,6 @@ export function createGoogleAddressValidationProvider (): AddressValidationProvi
         zipCode: mappedAddress.zipCode || '',
         phoneNumber: '',
         vat_id: ''
-        // TODO: uncomment after API support this field
-        // is_suggested: false
       };
 
       sessionToken = null;
