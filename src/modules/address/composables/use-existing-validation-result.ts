@@ -60,7 +60,7 @@ export function useExistingValidationResult (
   });
 
   async function handleExistingValidationResult (): Promise<boolean> {
-    if (!validationResult.value) {
+    if (isExistingValidationResultHandled.value || !validationResult.value) {
       return false;
     }
 
