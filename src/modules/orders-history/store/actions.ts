@@ -123,7 +123,7 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
   async [REQUEST_ORDER_SHIPPING_ADDRESS_UPDATE] (_context, { address }: { address: OrderAddress }): Promise<void> {
     const url = processURLAddress(`${config.budsies.endpoint}/order/address/update-requests?token={{token}}`);
 
-    const { country_id, address_type, email, entity_id, parent_id, ...addressWithoutCountry } = address;
+    const { country_id, address_type, email, entity_id, parent_id, region_code, ...addressWithoutCountry } = address;
 
     const { resultCode, result } = await TaskQueue.execute({
       url,
