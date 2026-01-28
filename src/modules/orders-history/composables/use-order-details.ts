@@ -6,7 +6,7 @@ import { Order } from '../types/order';
 import { STORE_NAME } from '../store/store-name';
 import { FETCH_ORDER_DETAILS } from '../types/store/actions';
 
-export function useOrderHistoryOrder ({ root }: SetupContext, orderId: string) {
+export function useOrderDetails ({ root }: SetupContext, orderId: string) {
   const order = ref<Order | null>(null);
   const isLoading = ref<boolean>(false);
   const isError = ref<boolean>(false);

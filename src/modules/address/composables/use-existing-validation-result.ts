@@ -5,7 +5,7 @@ import { AddressExtensionAttributes, AddressValidationStatusId } from '@vue-stor
 import { ValidationResult, ValidationVerdict } from '../types/validation';
 import BaseAddressDetails from 'core/modules/checkout/types/BaseAddressDetails';
 
-const HANDLE_VERDICTS: ValidationVerdict[] = ['CONFIRM', 'CONFIRM_ADD_SUBPREMISES'];
+const EXISTING_RESULT_INTERACTIVE_VERDICTS: ValidationVerdict[] = ['CONFIRM', 'CONFIRM_ADD_SUBPREMISES'];
 
 export function useExistingValidationResult (
   addressExtensionAttributes: Ref<AddressExtensionAttributes | undefined>,
@@ -64,7 +64,7 @@ export function useExistingValidationResult (
       return false;
     }
 
-    if (!HANDLE_VERDICTS.includes(validationResult.value.verdict)) {
+    if (!EXISTING_RESULT_INTERACTIVE_VERDICTS.includes(validationResult.value.verdict)) {
       return false;
     }
 
