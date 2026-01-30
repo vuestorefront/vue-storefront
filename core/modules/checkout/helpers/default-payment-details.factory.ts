@@ -1,4 +1,6 @@
-export default function getDefaultPaymentDetails () {
+import PaymentDetails from '../types/PaymentDetails';
+
+export default function getDefaultPaymentDetails (): PaymentDetails {
   return {
     firstName: '',
     lastName: '',
@@ -14,7 +16,5 @@ export default function getDefaultPaymentDetails () {
     vat_id: '',
     paymentMethod: '',
     paymentMethodAdditional: {}
-    // TODO: uncomment after API support this field
-    // is_suggested: false
   }
 }

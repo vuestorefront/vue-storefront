@@ -20,7 +20,7 @@
 
         <template v-if="isMissingStreetNumber">
           <AddressCard
-            :address="suggestedAddress"
+            :address="enteredAddress"
           />
 
           <SfInput

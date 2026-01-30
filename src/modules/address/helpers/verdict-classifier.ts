@@ -48,12 +48,10 @@ export function classifyValidationVerdict (
       result.responseId = rawResponse.responseId;
     }
 
-    if (verdict === 'FIX') {
-      const address = rawResponse?.result?.englishLatinAddress || rawResponse?.result?.address;
-      const missingComponents = address?.missingComponentTypes || [];
+    const address = rawResponse?.result?.englishLatinAddress || rawResponse?.result?.address;
+    const missingComponents = address?.missingComponentTypes;
 
-      result.missingComponents = missingComponents;
-    }
+    result.missingComponents = missingComponents;
 
     const mappedAddress = mapValidationResponseToBaseAddress(rawResponse);
 

@@ -1,3 +1,5 @@
+import { AddressExtensionAttributes } from '@vue-storefront/core/modules/shared';
+
 export interface Order {
   checkout_token?: string,
   order_id?: string,
@@ -27,14 +29,12 @@ export interface Order {
   addressInformation: {
     shippingAddress?: {
       region?: string,
-      region_id?: number | string,
+      region_id?: number | null,
       country_id?: string,
       /**
        * Street name
        */
-      street: {
-        [k: string]: any
-      }[],
+      street: string[],
       company?: string,
       telephone?: string,
       postcode: string,
@@ -47,13 +47,15 @@ export interface Order {
       email?: string,
       region_code?: string,
       sameAsBilling?: number,
-      [k: string]: any
+      [k: string]: any,
+      extension_attributes?: AddressExtensionAttributes
     },
     billingAddress?: {
       properties?: {
         [k: string]: any
       },
-      [k: string]: any
+      [k: string]: any,
+      extension_attributes?: AddressExtensionAttributes
     },
     shipping_method_code?: string,
     shipping_carrier_code?: string,
