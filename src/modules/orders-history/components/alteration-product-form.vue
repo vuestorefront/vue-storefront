@@ -3,27 +3,51 @@
     class="alteration-product-form"
     v-if="showBlock"
   >
-    <div
-      class="_heading-container"
-      @click="onHeadingClick"
-    >
+    <div class="_heading-container">
       <SfHeading
         class="_heading"
         :level="5"
-        :title="$t('Upgrades Available')"
+        :title="$t('Upgrade Your Plush')"
       />
 
-      <div
-        class="_toggle-content"
-        :class="{'-expanded': isExpanded}"
+      <SfButton
+        v-if="!isExpanded"
+        class="sf-button--text"
+        @click="onShowDetailsClick"
       >
-        <SfChevron />
+        {{ $t('Show More') }}
+      </SfButton>
+
+      <SfButton
+        v-else
+        class="sf-button--text"
+        @click="onHideDetailsClick"
+      >
+        {{ $t('Show Less') }}
+      </SfButton>
+    </div>
+
+    <div
+      class="_collapsed-preview"
+      :class="{ '-hidden': isExpanded }"
+    >
+      <div class="_products">
+        <o-product-card
+          v-for="item in collapsedViewItems"
+          :key="item.id"
+          :product="item"
+          :wishlist-icon="false"
+          :image-width="144"
+          :image-height="144"
+          class="_product"
+          @click.native.prevent="onShowDetailsClick"
+        />
       </div>
     </div>
 
     <div
       class="_content"
-      :class="{'-expanded': isExpanded}"
+      :class="{ '-expanded': isExpanded }"
       :style="contentStyle"
       ref="contentBlock"
     >
@@ -67,7 +91,9 @@ import {
   ref,
   toRefs
 } from '@vue/composition-api';
-import { SfButton, SfHeading, SfChevron } from '@storefront-ui/vue';
+import { SfButton, SfHeading } from '@storefront-ui/vue';
+import { getThumbnailPath } from '@vue-storefront/core/helpers';
+import { formatPrice } from '@vue-storefront/core/helpers/price';
 
 import {
   Customization,
@@ -80,13 +106,24 @@ import {
   useCustomizationsOptionsDefaultValue,
   useCustomizationState,
   useEntityBusyState,
-  useOptionValueActions,
-  WidgetType
+  useOptionValueActions
 } from 'src/modules/customization-system';
 
 import CustomizationOption from 'theme/components/customization-system/customization-option.vue';
+import OProductCard from 'theme/components/organisms/o-product-card.vue';
 
 import { OrderItem } from '../types/order-item';
+
+interface CollapsedViewItem {
+  id: string,
+  title: string,
+  image: string,
+  price: {
+    regular: string,
+    special: string | null
+  },
+  link: string
+}
 
 function extractSelectedOptionValuesIdsFromOrderItem (
   customizationStates: CustomizationStateItem[] | undefined
@@ -122,8 +159,8 @@ export default defineComponent({
   name: 'AlterationProductForm',
   components: {
     CustomizationOption,
+    OProductCard,
     SfButton,
-    SfChevron,
     SfHeading
   },
   props: {
@@ -136,6 +173,10 @@ export default defineComponent({
     const { orderItem } = toRefs(props);
     const isExpanded = ref(false);
     const contentBlock = ref<HTMLElement | null>(null);
+    const contentStyle = ref<Record<string, string>>({
+      '--content-max-height': '0px',
+      '--content-max-height-collapsed': '0px'
+    });
 
     const addedToCartOptionValuesIds = ref<string[]>([]);
     const customizations = ref<Customization[]>([
@@ -143,15 +184,9 @@ export default defineComponent({
         'availabilityRules': null,
         'bundleOptionId': 47,
         'optionData': {
-          'isRequired': true,
+          'isRequired': false,
           'previewUrl': null,
           'values': [
-            {
-              'id': 'production_time_selector_standard_option',
-              'isEnabled': true,
-              'isDefault': false,
-              'sn': 0
-            },
             {
               'specialPriceFromDate': null,
               'attachmentUrl': null,
@@ -171,7 +206,7 @@ export default defineComponent({
               'sku': 'basic_rush_forevers',
               'specialPrice': 0,
               'actions': null,
-              'thumbnailUrl': null
+              'thumbnailUrl': '/catalog/product/h/e/heart_module_1.png'
             },
             {
               'specialPriceFromDate': null,
@@ -192,20 +227,20 @@ export default defineComponent({
               'sku': 'super_rush_forevers',
               'specialPrice': 0,
               'actions': null,
-              'thumbnailUrl': null
+              'thumbnailUrl': '/catalog/product/w/o/wood_ornament_dog.png'
             }
           ],
           'maxValuesCount': 1,
           'description': null,
           'hasGalleryImages': false,
-          'type': 'production_time_upgrade',
+          'type': 'generic_option',
           'hint': '*We will refund the rush fee in the unlikely event we do not meet a promised delivery date.',
           'showInUrlQuery': false,
           'displayWidgetOptions': null,
           'sku': null,
           'hasDetailedDescription': false,
           'displayWidgetId': '02f86c77-6f81-47d8-8569-1f0c6925c889',
-          'displayWidget': 'dropdown'
+          'displayWidget': 'thumbnails_list'
         },
         'variants': null,
         'title': null,
@@ -415,7 +450,7 @@ export default defineComponent({
           'displayWidget': 'cards_list'
         },
         'variants': null,
-        'title': 'Upgrade Your Plush (optional)',
+        'title': 'Plushie Upgrades',
         'type': 'option',
         'parentId': '776b9342-1944-4091-ac21-982d33f977f4',
         'showInCart': true,
@@ -434,10 +469,6 @@ export default defineComponent({
       (customizations as any).value[1].sn = 1;
       firstItemIdx = 1;
     }
-    const contentStyle = ref<Record<string, string>>({
-      '--content-max-height': '100%',
-      '--content-max-height-collapsed': (customizations as any).value[firstItemIdx].optionData?.displayWidget === WidgetType.CARDS_LIST ? '400px' : '180px'
-    });
 
     const productCustomizations = computed<Customization[]>(() => {
       return (customizations as any).value;
@@ -519,10 +550,6 @@ export default defineComponent({
     }) {
       updateCustomizationOptionValue(payload);
       executeActionsByCustomizationIdAndCustomizationOptionValue(payload);
-
-      if (!isExpanded.value) {
-        onHeadingClick();
-      }
     }
 
     useCustomizationsOptionsDefaultValue(
@@ -558,17 +585,61 @@ export default defineComponent({
       return true;
     });
 
-    async function onHeadingClick () {
-      if (!(contentBlock as any).value) {
-        return;
+    const allAvailableOptionValues = computed<OptionValue[]>(() => {
+      const values: OptionValue[] = [];
+
+      for (const customizationId of Object.keys(customizationAvailableOptionValues.value)) {
+        const optionValues = customizationAvailableOptionValues.value[customizationId] || [];
+        values.push(...optionValues);
       }
 
-      if (!isExpanded.value) {
-        contentStyle.value['--content-max-height'] = `${(contentBlock as any).value.scrollHeight}px`;
-      }
+      return values;
+    });
 
-      await nextTick();
-      isExpanded.value = !isExpanded.value
+    const COLLAPSED_VIEW_MAX_ITEMS = 4;
+
+    const collapsedViewItems = computed<CollapsedViewItem[]>(() => {
+      return allAvailableOptionValues.value
+        .slice(0, COLLAPSED_VIEW_MAX_ITEMS)
+        .map((optionValue) => {
+          const isInCart = (addedToCartOptionValuesIds as any).value.includes(optionValue.id);
+          const priceLabel = isInCart
+            ? 'Added'
+            : optionValue.price
+              ? formatPrice(optionValue.price)
+              : '';
+
+          return {
+            id: optionValue.id,
+            title: optionValue.name || '',
+            image: optionValue.thumbnailUrl
+              ? getThumbnailPath(optionValue.thumbnailUrl, 144, 144, '')
+              : '',
+            price: {
+              regular: priceLabel,
+              special: null
+            },
+            link: ''
+          };
+        });
+    });
+
+    function onShowDetailsClick () {
+      isExpanded.value = true;
+
+      nextTick(() => {
+        if ((contentBlock as any).value) {
+          const scrollHeight = (contentBlock as any).value.scrollHeight;
+          (contentStyle as any).value = {
+            '--content-max-height': `${scrollHeight}px`,
+            '--content-max-height-collapsed': '0px'
+          };
+        }
+      });
+    }
+
+    function onHideDetailsClick () {
+      isExpanded.value = false;
     }
 
     function onAddToCart () {
@@ -581,10 +652,12 @@ export default defineComponent({
 
     return {
       addedToCartOptionValuesIds,
+      collapsedViewItems,
+      contentStyle,
       onAddToCart,
       contentBlock,
-      onHeadingClick,
-      contentStyle,
+      onShowDetailsClick,
+      onHideDetailsClick,
       isExpanded,
       customizationAvailableOptionValues,
       customizationOptionValue,
@@ -599,12 +672,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "~@storefront-ui/shared/styles/helpers/breakpoints";
+
 .alteration-product-form {
   ._heading-container {
     display: flex;
     align-items: center;
-    column-gap: var(--spacer-2xs);
-    margin-bottom: var(--spacer-sm);
+    justify-content: space-between;
+    column-gap: var(--spacer-sm);
   }
 
   ._heading {
@@ -616,17 +691,58 @@ export default defineComponent({
     text-align: left;
   }
 
-  ._form-errors {
+  ._collapsed-preview {
+    display: flex;
+    flex-direction: column;
+
+    &.-hidden {
+      display: none;
+    }
+  }
+
+  ._products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: var(--spacer-sm);
+    column-gap: var(--spacer-sm);
+  }
+
+  ._product {
+    --o-product-card-badge-size: 48px;
+    --product-card-title-font-size: var(--font-size-base);
+    --price-regular-font-size: var(--font-size-base);
+    --price-special-font-size: var(--font-size-base);
+    --price-old-font-size: var(--font-size-base);
+    --product-card-title-font-line-height: 1.2;
+
+    max-width: 160px;
+
+    ::v-deep {
+      .sf-product-card {
+        --product-card-padding: var(--spacer-xs);
+      }
+
+      .sf-badge {
+        z-index: 2;
+      }
+
+      .base-image {
+        width: 100%;
+      }
+
+      .sf-price {
+        flex-wrap: wrap;
+      }
+    }
   }
 
   ._content {
     display: flex;
     flex-direction: column;
     row-gap: var(--spacer-base);
+    margin-top: var(--spacer-xl);
     max-height: var(--content-max-height-collapsed);
     overflow: hidden;
-    will-change: max-height;
-    transition: max-height 0.3s ease;
     position: relative;
 
     &::after {
@@ -641,6 +757,8 @@ export default defineComponent({
 
     &.-expanded {
       max-height: var(--content-max-height);
+      will-change: max-height;
+      transition: max-height 0.3s ease;
 
       &::after {
         display: none;
@@ -648,24 +766,10 @@ export default defineComponent({
     }
   }
 
-  ._toggle-content {
-      width: 45px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      cursor: pointer;
-
-      &.-expanded {
-        .sf-chevron {
-            rotate: 180deg;
-         }
-      }
-   }
-
   ._buttons {
     display: flex;
     justify-content: flex-end;
-    margin-top: var(--spacer-base);
+    gap: var(--spacer-sm);
   }
 
   ._customization-option {
@@ -675,12 +779,31 @@ export default defineComponent({
     --customization-option-label-size: var(--font-base);
     --customization-option-description-align: left;
     --customization-option-hint-align: left;
+
+    // --customization-option-label-display: none;
+    --customization-option-hint-display: none;
+    --customization-option-description-display: none;
+
+    &.-widget-CardsListWidget {
+      width: 100%;
+
+      ::v-deep {
+        ._widget {
+          width: 100%;
+        }
+      }
+    }
   }
 
-  ._empty {
-    color: var(--c-gray);
-    font-size: var(--font-sm);
-    font-style: italic;
+  @media (max-width: $mobile-max) {
+    ._products {
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: var(--spacer-xs);
+    }
+
+    ._product:nth-child(n+4) {
+      display: none;
+    }
   }
 }
 </style>
