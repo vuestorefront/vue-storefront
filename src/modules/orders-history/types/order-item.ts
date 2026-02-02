@@ -7,13 +7,15 @@ export interface OrderItem {
   display_id: number,
   quantity: number,
   estimated_shipment_date: string,
+  plushie_id?: string,
   product: {
     id: number,
     sku: string,
     name: string,
     image: string,
     small_image: string,
-    thumbnail: string
+    thumbnail: string,
+    related_alteration_product?: string
   },
   progress_tracker: ProgressTrackerData,
   available_actions: OrderItemAvailableAction[],
