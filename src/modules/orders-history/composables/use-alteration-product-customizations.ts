@@ -6,12 +6,31 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import {
   Customization,
   CustomizationOptionValue,
-  CustomizationStateItem,
   isFileUploadValue,
   OptionValue
 } from 'src/modules/customization-system';
 
 import { OrderItem } from '../types/order-item';
+
+function mapOrderItemOptionValueIdToAlterationProduct (
+  orderItemOptionValueId: string,
+  orderItemOptionValueNameById: Record<string, string>,
+  alterationProductOptionValueByName: Record<string, OptionValue>
+): string | undefined {
+  const optionValueName = orderItemOptionValueNameById[orderItemOptionValueId];
+
+  if (!optionValueName) {
+    return undefined;
+  }
+
+  const optionValue = alterationProductOptionValueByName[optionValueName];
+
+  if (!optionValue) {
+    return undefined;
+  }
+
+  return optionValue.id;
+}
 
 export function useAlterationProductCustomizations (
   orderItem: Ref<OrderItem>,
@@ -96,7 +115,7 @@ export function useAlterationProductCustomizations (
     }
 
     for (const customization of product.customizations as Customization[]) {
-      result[customization.name] = customization;
+      result[customization.name.toLowerCase()] = customization;
     }
 
     return result;
@@ -138,27 +157,48 @@ export function useAlterationProductCustomizations (
         continue;
       }
 
-      if (typeof item.value === 'string') {
-        const optionValueName = optionValueNameDictionary[item.value]
+      const alterationOptionValueDictionary = _alterationProductOptionValueIdByNameAndCustomizaitionId[alterationProductCustomization.id];
 
-        if (!optionValueName) {
-          continue;
-        }
-
-        const optionValueDictionary = _alterationProductOptionValueIdByNameAndCustomizaitionId[alterationProductCustomization.id];
-
-        if (!optionValueDictionary) {
-          continue;
-        }
-
-        const optionValue = optionValueDictionary[optionValueName];
-
-        if (!optionValue) {
-          continue;
-        }
-
-        result[alterationProductCustomization.id] = optionValue.id;
+      if (!alterationOptionValueDictionary) {
         continue;
+      }
+
+      if (typeof item.value === 'string') {
+        const mappedId = mapOrderItemOptionValueIdToAlterationProduct(
+          item.value,
+          optionValueNameDictionary,
+          alterationOptionValueDictionary
+        );
+
+        if (mappedId) {
+          result[alterationProductCustomization.id] = mappedId;
+        }
+
+        continue;
+      }
+
+      if (item.value) {
+        const mappedIds: string[] = [];
+
+        for (const selectedId of item.value) {
+          if (typeof selectedId !== 'string') {
+            continue;
+          }
+
+          const mappedId = mapOrderItemOptionValueIdToAlterationProduct(
+            selectedId,
+            optionValueNameDictionary,
+            alterationOptionValueDictionary
+          );
+
+          if (mappedId) {
+            mappedIds.push(mappedId);
+          }
+        }
+
+        if (mappedIds.length > 0) {
+          result[alterationProductCustomization.id] = mappedIds;
+        }
       }
     }
 
@@ -199,10 +239,37 @@ export function useAlterationProductCustomizations (
       return true;
     }
 
-    return Array.isArray(value) ? !value.includes(optionValue.id) : !value;
+    return Array.isArray(value) ? !value.includes(optionValue.id) : value !== optionValue.id;
+  }
+
+  function customizationsFilter (customization: Customization): boolean {
+    const value = orderItemOptionValue.value[customization.id];
+
+    if (!value) {
+      return true;
+    }
+
+    if (isFileUploadValue(value)) {
+      return true;
+    }
+
+    const maxValuesCount = customization.optionData?.maxValuesCount || 0;
+    const totalOptionValuesCount = customization.optionData?.values?.length || 0;
+    const purchasedCount = Array.isArray(value) ? value.length : 1;
+
+    if (purchasedCount >= totalOptionValuesCount) {
+      return false;
+    }
+
+    if (maxValuesCount === 0) {
+      return true;
+    }
+
+    return purchasedCount < maxValuesCount;
   }
 
   return {
+    customizationsFilter,
     inCartOptionValueIds,
     optionValuesFilter
   };
