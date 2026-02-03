@@ -6,6 +6,7 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import {
   Customization,
   CustomizationOptionValue,
+  CustomizationStateItem,
   isFileUploadValue,
   OptionValue
 } from 'src/modules/customization-system';
@@ -17,7 +18,7 @@ export function useAlterationProductCustomizations (
   alterationProduct: Ref<Product | undefined>,
   existingCartItem: Ref<CartItem | undefined>
 ) {
-  const orderItemCustomizationNameById = computed<Record<string, string>>(() => {
+  const orderItemCustomizationNameByIdDictionary = computed<Record<string, string>>(() => {
     const result: Record<string, string> = {};
     const extensionAttributes = orderItem.value.extension_attributes;
 
@@ -32,8 +33,9 @@ export function useAlterationProductCustomizations (
     return result;
   });
 
-  const orderItemOptionValueNameByCustomizationAndId = computed<Record<string, Record<string, string> | undefined>>(() => {
+  const orderItemOptionValueNameByIdAndCustomizaitionId = computed<Record<string, Record<string, string> | undefined>>(() => {
     const result: Record<string, Record<string, string>> = {};
+
     const extensionAttributes = orderItem.value.extension_attributes;
 
     if (!extensionAttributes?.customizations) {
@@ -59,28 +61,14 @@ export function useAlterationProductCustomizations (
     return result;
   });
 
-  const alterationProductCustomizationIdByName = computed<Record<string, string>>(() => {
-    const result: Record<string, string> = {};
+  const alterationProductOptionValueIdByNameAndCustomizaitionId = computed<Record<string, Record<string, OptionValue> | undefined>>(() => {
+    const result: Record<string, Record<string, OptionValue>> = {};
 
     if (!alterationProduct.value?.customizations) {
       return result;
     }
 
-    for (const customization of alterationProduct.value.customizations as Customization[]) {
-      result[customization.name.toLowerCase()] = customization.id;
-    }
-
-    return result;
-  });
-
-  const alterationProductOptionValueIdByCustomizationAndName = computed<Record<string, Record<string, string> | undefined>>(() => {
-    const result: Record<string, Record<string, string>> = {};
-
-    if (!alterationProduct.value?.customizations) {
-      return result;
-    }
-
-    for (const customization of alterationProduct.value.customizations as Customization[]) {
+    for (const customization of alterationProduct.value.customizations) {
       result[customization.id] = {};
 
       if (!customization.optionData?.values) {
@@ -92,120 +80,86 @@ export function useAlterationProductCustomizations (
           continue;
         }
 
-        result[customization.id][optionValue.name.toLowerCase()] = optionValue.id;
+        result[customization.id][optionValue.name.toLowerCase()] = optionValue;
       }
     }
 
     return result;
   });
 
-  const purchasedOptionsWithAlterationProductIds = computed<Record<string, CustomizationOptionValue>>(() => {
-    const result: Record<string, CustomizationOptionValue> = {};
-    const extensionAttributes = orderItem.value.extension_attributes;
+  const alterationProductCustomizationsByName = computed<Record<string, Customization>>(() => {
+    const result: Record<string, Customization> = {};
+    const product = alterationProduct.value;
 
-    if (!extensionAttributes?.customization_states) {
+    if (!product || !product.customizations) {
       return result;
     }
 
-    const customizationNameById = orderItemCustomizationNameById.value;
-    const optionValueNameByCustomizationAndId = orderItemOptionValueNameByCustomizationAndId.value;
-    const alterationCustomizationIdByName = alterationProductCustomizationIdByName.value;
-    const alterationOptionValueIdByCustomizationAndName = alterationProductOptionValueIdByCustomizationAndName.value;
+    for (const customization of product.customizations as Customization[]) {
+      result[customization.name] = customization;
+    }
+
+    return result;
+  });
+
+  const orderItemOptionValue = computed<Record<string, CustomizationOptionValue>>(() => {
+    const result: Record<string, CustomizationOptionValue> = {};
+    const extensionAttributes = orderItem.value.extension_attributes;
+    const _orderItemCustomizationNameByIdDictionary = orderItemCustomizationNameByIdDictionary.value;
+    const _orderItemOptionValueNameByIdAndCustomizaitionId = orderItemOptionValueNameByIdAndCustomizaitionId.value;
+    const _alterationProductCustomizationsByName = alterationProductCustomizationsByName.value;
+    const _alterationProductOptionValueIdByNameAndCustomizaitionId = alterationProductOptionValueIdByNameAndCustomizaitionId.value;
+    const alterationProductCustomizations = alterationProduct.value?.customizations;
+
+    if (!extensionAttributes || !alterationProductCustomizations) {
+      return result;
+    }
 
     for (const item of extensionAttributes.customization_states) {
-      if (isFileUploadValue(item.value) || (Array.isArray(item.value) && item.value.length > 0 && isFileUploadValue(item.value[0]))) {
+      if (isFileUploadValue(item.value)) {
         continue;
       }
 
-      const customizationName = customizationNameById[item.customization_id];
+      const customizationName = _orderItemCustomizationNameByIdDictionary[item.customization_id];
 
       if (!customizationName) {
         continue;
       }
 
-      const alterationCustomizationId = alterationCustomizationIdByName[customizationName];
+      const alterationProductCustomization = _alterationProductCustomizationsByName[customizationName];
 
-      if (!alterationCustomizationId) {
+      if (!alterationProductCustomization) {
         continue;
       }
 
-      const optionValueNameDictionary = optionValueNameByCustomizationAndId[item.customization_id];
+      const optionValueNameDictionary = _orderItemOptionValueNameByIdAndCustomizaitionId[item.customization_id];
 
       if (!optionValueNameDictionary) {
         continue;
       }
 
-      const alterationOptionValueDictionary = alterationOptionValueIdByCustomizationAndName[alterationCustomizationId];
-
-      if (!alterationOptionValueDictionary) {
-        continue;
-      }
-
-      const selectedIds = Array.isArray(item.value) ? item.value : [item.value];
-      const mappedIds: string[] = [];
-
-      for (const selectedId of selectedIds) {
-        if (typeof selectedId !== 'string') {
-          continue;
-        }
-
-        const optionValueName = optionValueNameDictionary[selectedId];
+      if (typeof item.value === 'string') {
+        const optionValueName = optionValueNameDictionary[item.value]
 
         if (!optionValueName) {
           continue;
         }
 
-        const alterationOptionValueId = alterationOptionValueDictionary[optionValueName];
+        const optionValueDictionary = _alterationProductOptionValueIdByNameAndCustomizaitionId[alterationProductCustomization.id];
 
-        if (alterationOptionValueId) {
-          mappedIds.push(alterationOptionValueId);
+        if (!optionValueDictionary) {
+          continue;
         }
-      }
 
-      if (mappedIds.length > 0) {
-        result[alterationCustomizationId] = mappedIds.length === 1 ? mappedIds[0] : mappedIds;
-      }
-    }
+        const optionValue = optionValueDictionary[optionValueName];
 
-    return result;
-  });
+        if (!optionValue) {
+          continue;
+        }
 
-  const purchasedOptionValueIds = computed<Record<string, boolean | undefined>>(() => {
-    const result: Record<string, boolean | undefined> = {};
-
-    for (const customizationId of Object.keys(purchasedOptionsWithAlterationProductIds.value)) {
-      const value = purchasedOptionsWithAlterationProductIds.value[customizationId];
-
-      if (!value) {
+        result[alterationProductCustomization.id] = optionValue.id;
         continue;
       }
-
-      const selectedIds = Array.isArray(value) ? value : [value];
-
-      for (const selectedId of selectedIds) {
-        if (typeof selectedId === 'string') {
-          result[selectedId] = true;
-        }
-      }
-    }
-
-    return result;
-  });
-
-  const purchasedCountPerCustomizationId = computed<Record<string, number>>(() => {
-    const result: Record<string, number> = {};
-
-    for (const customizationId of Object.keys(purchasedOptionsWithAlterationProductIds.value)) {
-      const value = purchasedOptionsWithAlterationProductIds.value[customizationId];
-
-      if (!value) {
-        continue;
-      }
-
-      const selectedIds = Array.isArray(value) ? value : [value];
-      const count = selectedIds.filter((id) => typeof id === 'string').length;
-
-      result[customizationId] = (result[customizationId] || 0) + count;
     }
 
     return result;
@@ -234,61 +188,21 @@ export function useAlterationProductCustomizations (
     return result;
   });
 
-  const availableOptionValueIds = computed<Record<string, Record<string, boolean>>>(() => {
-    const result: Record<string, Record<string, boolean>> = {};
-    const product = alterationProduct.value;
+  function optionValuesFilter (customizationId: string, optionValue: OptionValue): boolean {
+    const value = orderItemOptionValue.value[customizationId];
 
-    if (!product || !product.customizations) {
-      return result;
-    }
-
-    for (const customization of product.customizations as Customization[]) {
-      const optionValues = customization.optionData?.values || [];
-      result[customization.id] = {};
-
-      for (const optionValue of optionValues) {
-        const isPurchased = purchasedOptionValueIds.value[optionValue.id] === true;
-        result[customization.id][optionValue.id] = !isPurchased;
-      }
-    }
-
-    return result;
-  });
-
-  function customizationsFilter (customization: Customization): boolean {
-    const optionValuesAvailability = availableOptionValueIds.value[customization.id];
-
-    if (!optionValuesAvailability) {
-      return false;
-    }
-
-    const hasAvailableOptions = Object.values(optionValuesAvailability).some((isAvailable) => isAvailable);
-
-    if (!hasAvailableOptions) {
-      return false;
-    }
-
-    const maxValuesCount = customization.optionData?.maxValuesCount || 0;
-
-    if (maxValuesCount === 0) {
+    if (isFileUploadValue(value)) {
       return true;
     }
 
-    const purchasedCount = purchasedCountPerCustomizationId.value[customization.id] || 0;
-
-    return purchasedCount < maxValuesCount;
-  }
-
-  function optionValuesFilter (customizationId: string, optionValue: OptionValue): boolean {
-    if (!availableOptionValueIds.value[customizationId]) {
-      return false;
+    if (!value) {
+      return true;
     }
 
-    return availableOptionValueIds.value[customizationId][optionValue.id];
+    return Array.isArray(value) ? !value.includes(optionValue.id) : !value;
   }
 
   return {
-    customizationsFilter,
     inCartOptionValueIds,
     optionValuesFilter
   };
