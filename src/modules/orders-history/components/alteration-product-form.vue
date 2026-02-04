@@ -182,22 +182,6 @@ export default defineComponent({
     });
 
     const {
-      customizationsFilter: alterationProductCustomizationsFilter,
-      inCartOptionValueIds,
-      optionValuesFilter
-    } = useAlterationProductCustomizations(
-      orderItem,
-      alterationProduct,
-      existingCartItem
-    );
-
-    const inCartOptionValueIdsArray = computed<string[]>(() => {
-      return Object.keys(inCartOptionValueIds.value).filter(
-        (id) => inCartOptionValueIds.value[id]
-      );
-    });
-
-    const {
       addCustomizationOptionValue,
       customizationOptionValue,
       customizationState,
@@ -217,6 +201,22 @@ export default defineComponent({
       customizationOptionValue,
       updateCustomizationOptionValue
     );
+
+    const {
+      customizationsFilter: alterationProductCustomizationsFilter,
+      inCartOptionValueIds,
+      optionValuesFilter
+    } = useAlterationProductCustomizations(
+      orderItem,
+      alterationProduct,
+      existingCartItem
+    );
+
+    const inCartOptionValueIdsArray = computed<string[]>(() => {
+      return Object.keys(inCartOptionValueIds.value).filter(
+        (id) => inCartOptionValueIds.value[id]
+      );
+    });
 
     const { executeActionsByCustomizationIdAndCustomizationOptionValue } =
       useOptionValueActions(

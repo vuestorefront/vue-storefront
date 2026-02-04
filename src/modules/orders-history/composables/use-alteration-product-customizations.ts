@@ -242,7 +242,7 @@ export function useAlterationProductCustomizations (
     return Array.isArray(value) ? !value.includes(optionValue.id) : value !== optionValue.id;
   }
 
-  function customizationsFilter (customization: Customization): boolean {
+  function customizationsFilter (customization: Customization, availableOptionValues: OptionValue[]): boolean {
     const value = orderItemOptionValue.value[customization.id];
 
     if (!value) {
@@ -251,6 +251,12 @@ export function useAlterationProductCustomizations (
 
     if (isFileUploadValue(value)) {
       return true;
+    }
+
+    const filteredAvailableOptionValues = availableOptionValues.filter((item) => optionValuesFilter(customization.id, item));
+
+    if (filteredAvailableOptionValues.length === 0) {
+      return false;
     }
 
     const maxValuesCount = customization.optionData?.maxValuesCount || 0;
