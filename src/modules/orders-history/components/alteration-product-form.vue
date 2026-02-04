@@ -102,6 +102,7 @@ import {
   Customization,
   CustomizationOptionValue,
   OptionValue,
+  isFileUploadValue,
   requiredCustomizationsFilter,
   useAvailableCustomizations,
   useAvailableOptionsValuesFilter,
@@ -274,7 +275,33 @@ export default defineComponent({
     );
 
     const canAddToCart = computed<boolean>(() => {
-      return selectedOptionValuesIds.value.length > 0;
+      if (selectedOptionValuesIds.value.length === 0) {
+        return false;
+      }
+
+      const existingCartItemCustomizationState = existingCartItem.value?.extension_attributes?.customization_state || [];
+      const existingCartItemOptionValuesId: Record<string, boolean> = {};
+
+      for (const item of existingCartItemCustomizationState) {
+        if (isFileUploadValue(item.value)) {
+          continue;
+        }
+
+        if (Array.isArray(item.value)) {
+          for (const value of item.value) {
+            existingCartItemOptionValuesId[value] = true;
+          }
+          continue;
+        }
+
+        existingCartItemOptionValuesId[item.value] = true;
+      }
+
+      if (Object.keys(existingCartItemOptionValuesId).length === 0) {
+        return selectedOptionValuesIds.value.length > 0;
+      }
+
+      return selectedOptionValuesIds.value.some((id) => !existingCartItemOptionValuesId[id]);
     });
 
     const hasAvailableUpgrades = computed<boolean>(() => {
