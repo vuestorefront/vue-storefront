@@ -299,9 +299,10 @@ export default defineComponent({
     const collapsedViewItems = computed<CollapsedViewItem[]>(() => {
       const values: OptionValue[] = [];
       const _customizationAvailableOptionValues = customizationAvailableOptionValues.value;
+      const _filteredOptionValues = filteredOptionValues.value;
       const availableCustomizationDictionary = availableCustomization.value
 
-      for (const customization of availableCustomizations.value) {
+      for (const customization of filteredCustomizations.value) {
         if (!customization.optionData?.values || !availableCustomizationDictionary[customization.id]) {
           continue;
         }
@@ -312,7 +313,15 @@ export default defineComponent({
           continue;
         }
 
-        values.push(...optionValues)
+        for (const optionValue of optionValues) {
+          const filteredOptionValue = _filteredOptionValues[customization.id].find((item) => item.id === optionValue.id);
+
+          if (!filteredOptionValue) {
+            continue
+          }
+
+          values.push(filteredOptionValue);
+        }
       }
 
       return values
