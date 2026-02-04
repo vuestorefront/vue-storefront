@@ -67,15 +67,31 @@
             class="_customization-option"
             ref="customizationOption"
             :customization="customization"
-            :is-disabled="isSomeEntityBusy || isSubmitting"
+            :is-disabled="isSomeEntityBusy || isSubmitting || disabledOptionValues[customization.id].disableCustomization"
             :option-values="filteredOptionValues[customization.id]"
             :product-id="Number(alterationProduct.id)"
             :value="customizationOptionValue[customization.id]"
             :disable-validation="false"
-            :values-in-cart="inCartOptionValueIdsArray"
+            :disabled-option-values="disabledOptionValues[customization.id]"
             @input="onCustomizationOptionInput"
             @customization-option-busy-state-changed="onEntityBusyChanged"
-          />
+          >
+            <template #label="{label, isFieldRequired}">
+              <label
+                class="_option-label"
+                :class="{ '-required': isFieldRequired && !disabledOptionValues[customization.id].disableCustomization}"
+              >
+                {{ label }}
+
+                <span
+                  class="_disabled-hint"
+                  v-if="disabledOptionValues[customization.id] && disabledOptionValues[customization.id].disableCustomization && disabledOptionValues[customization.id].message"
+                >
+                  {{ disabledOptionValues[customization.id].message }}
+                </span>
+              </label>
+            </template>
+          </customization-option>
         </div>
 
         <m-form-errors
@@ -241,19 +257,13 @@ export default defineComponent({
 
     const {
       customizationsFilter: alterationProductCustomizationsFilter,
-      inCartOptionValueIds,
+      disabledOptionValues,
       optionValuesFilter
     } = useAlterationProductCustomizations(
       orderItem,
       alterationProduct,
       existingCartItem
     );
-
-    const inCartOptionValueIdsArray = computed<string[]>(() => {
-      return Object.keys(inCartOptionValueIds.value).filter(
-        (id) => inCartOptionValueIds.value[id]
-      );
-    });
 
     const { executeActionsByCustomizationIdAndCustomizationOptionValue } =
       useOptionValueActions(
@@ -394,7 +404,15 @@ export default defineComponent({
       return values
         .slice(0, COLLAPSED_VIEW_MAX_ITEMS)
         .map((optionValue: OptionValue) => {
-          const isInCart = !!inCartOptionValueIds.value[optionValue.id];
+          const allDisabledOptionValues: Record<string, boolean> = {};
+
+          for (const disabledValues of Object.values(disabledOptionValues.value)) {
+            for (const id of (disabledValues as any).ids) {
+              allDisabledOptionValues[id] = true;
+            }
+          }
+
+          const isInCart = !!allDisabledOptionValues[optionValue.id];
           const priceLabel = isInCart
             ? 'Added'
             : optionValue.price
@@ -461,7 +479,7 @@ export default defineComponent({
       contentBlock,
       filteredOptionValues,
       customizationOptionValue,
-      inCartOptionValueIdsArray,
+      disabledOptionValues,
       isExpanded,
       isSomeEntityBusy,
       isSubmitting,
@@ -544,11 +562,15 @@ export default defineComponent({
     }
   }
 
+  ._disabled-hint {
+    color: var(--c-accent);
+    font-size: var(--font-base);
+  }
+
   ._content {
     display: flex;
     flex-direction: column;
     row-gap: var(--spacer-base);
-    margin-top: var(--spacer-xl);
     max-height: var(--content-max-height-collapsed);
     overflow: hidden;
     position: relative;

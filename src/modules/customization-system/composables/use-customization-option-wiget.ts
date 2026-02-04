@@ -5,13 +5,16 @@ import { Customization } from '../types/customization.interface';
 import { OptionType } from '../types/option-type';
 import { OptionValue } from '../types/option-value.interface';
 import { WidgetType } from '../types/widget-type';
+import { WidgetOptionAlignment } from '../types/widget-option-alignment.type';
+import { WidgetOptionShape } from '../types/widget-option-shape.type';
 
 export function useCustomizationOptionWidget (
   value: Ref<CustomizationOptionValue>,
   customization: Ref<Customization>,
   values: Ref<OptionValue[]>,
   productId: Ref<number>,
-  { emit }: SetupContext
+  { emit }: SetupContext,
+  disabledOptionValues?: Ref<{ ids: string[], message: string }>
 ) {
   const selectedOption = computed<CustomizationOptionValue>({
     get: () => {
@@ -55,12 +58,22 @@ export function useCustomizationOptionWidget (
       };
     }
 
-    const listWidgetsProps = {
+    const listWidgetsProps: {
+      alignment?: WidgetOptionAlignment,
+      maxValuesCount: number | undefined,
+      shape: WidgetOptionShape | undefined,
+      values: OptionValue[],
+      disabledOptionValues?: {ids: string[], message: string}
+    } = {
       alignment: widgetOptions?.alignment,
       maxValuesCount: maxValuesCount.value,
       shape: widgetOptions?.shape,
       values: values.value
     };
+
+    if (disabledOptionValues?.value && maxValuesCount.value && (maxValuesCount.value === 0 || maxValuesCount.value > 1)) {
+      listWidgetsProps.disabledOptionValues = disabledOptionValues.value;
+    }
 
     switch (displayWidget) {
       case WidgetType.CARDS_LIST:
@@ -68,7 +81,8 @@ export function useCustomizationOptionWidget (
           component: 'CardsListWidget',
           props: {
             maxValuesCount: maxValuesCount.value,
-            values: values.value
+            values: values.value,
+            disabledOptionValues: listWidgetsProps.disabledOptionValues
           }
         };
       case WidgetType.CHECKBOX:
