@@ -12,7 +12,7 @@ export function useCustomizationsBundleOptions (
   customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>,
   availableOptionValues: Ref<OptionValue[]>
 ) {
-  const bundleOptions = ref<Record<number, SelectedBundleOption>>({});
+  const bundleOptions: Ref<Record<number, SelectedBundleOption>> = ref({});
 
   const customizationsWithBundleOptions = computed<Customization[]>(() => {
     return customizations.value.filter((customization) => !!customization.bundleOptionId);
