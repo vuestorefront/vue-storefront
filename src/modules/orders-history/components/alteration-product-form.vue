@@ -49,6 +49,7 @@
       class="_content"
       :class="{ '-expanded': isExpanded }"
       :style="contentStyle"
+      @transitionend="onTransitionEnd"
       ref="contentBlock"
     >
       <div
@@ -313,18 +314,23 @@ export default defineComponent({
         });
     });
 
+    function onTransitionEnd () {
+      contentStyle.value = {
+        '--content-max-height': 'auto',
+        '--content-max-height-collapsed': '0px'
+      };
+    }
+
     function onShowDetailsClick () {
       isExpanded.value = true;
 
-      nextTick(() => {
-        if (contentBlock.value) {
-          const scrollHeight = contentBlock.value.scrollHeight;
-          contentStyle.value = {
-            '--content-max-height': `${scrollHeight}px`,
-            '--content-max-height-collapsed': '0px'
-          };
-        }
-      });
+      if (contentBlock.value) {
+        const scrollHeight = contentBlock.value.scrollHeight;
+        contentStyle.value = {
+          '--content-max-height': `${scrollHeight}px`,
+          '--content-max-height-collapsed': '0px'
+        };
+      }
     }
 
     function onHideDetailsClick () {
@@ -355,6 +361,7 @@ export default defineComponent({
       onEntityBusyChanged,
       onHideDetailsClick,
       onShowDetailsClick,
+      onTransitionEnd,
       showBlock,
       filteredCustomizations
     };
