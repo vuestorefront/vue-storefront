@@ -31,7 +31,7 @@ export function useAlterationProductsLoader (
 
     for (const item of eligibleOrderItems.value) {
       if (item.product.related_alteration_product) {
-        skus.add(item.product.related_alteration_product);
+        skus.add(item.product.related_alteration_product.sku);
       }
     }
 
@@ -46,7 +46,7 @@ export function useAlterationProductsLoader (
     const dictionary: Record<number, Product> = {};
 
     for (const orderItem of eligibleOrderItems.value) {
-      const alterationSku = orderItem.product.related_alteration_product;
+      const alterationSku = orderItem.product.related_alteration_product?.sku;
 
       if (!alterationSku) {
         continue;
