@@ -56,6 +56,7 @@
 
       <alteration-product-form
         :order-item="item"
+        :alteration-product="alterationProduct"
       />
     </div>
 
@@ -77,6 +78,8 @@ import { SfChevron } from '@storefront-ui/vue';
 import { BaseImage } from 'src/modules/budsies';
 import { getCustomizationSystemThumbnail } from 'src/modules/customization-system';
 import { ImageHandlerService } from 'src/modules/file-storage';
+
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import { useOrderItemProgressTracker } from '../composables/use-order-item-progress-tracker';
 import { OrderItem } from '../types/order-item';
@@ -106,6 +109,10 @@ export default defineComponent({
     orderId: {
       type: Number,
       required: true
+    },
+    alterationProduct: {
+      type: Object as PropType<Product>,
+      default: undefined
     }
   },
   setup (props) {
