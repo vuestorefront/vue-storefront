@@ -2,7 +2,10 @@ import { SetupContext, ref, computed } from '@vue/composition-api';
 
 import { Logger } from '@vue-storefront/core/lib/logger';
 
+import isAlterationProduct from 'src/modules/shared/helpers/is-alteration-product.function';
+
 import { Order } from '../types/order';
+import { OrderItem } from '../types/order-item';
 import { STORE_NAME } from '../store/store-name';
 import { GET_ORDERS_HISTORY } from '../types/store/getters';
 import { FETCH_ORDERS_HISTORY } from '../types/store/actions';
@@ -11,21 +14,30 @@ export function useOrderHistoryList ({ root }: SetupContext) {
   const isLoading = ref<boolean>(false);
   const isError = ref<boolean>(false);
 
-  const ordersList = computed<Order[]>(() => {
+  const rawOrdersList = computed<Order[]>(() => {
     return root.$store.getters[`${STORE_NAME}/${GET_ORDERS_HISTORY}`];
   });
 
+  const ordersList = computed<Order[]>(() => {
+    return rawOrdersList.value
+      .map((order: Order) => ({
+        ...order,
+        items: order.items.filter((item: OrderItem) => !isAlterationProduct(item.product.id))
+      }))
+      .filter((order: Order) => order.items.length > 0);
+  });
+
   const completedOrdersList = computed<Order[]>(() => {
-    return ordersList.value.filter((order) => {
-      return order.items.every((item) => {
+    return ordersList.value.filter((order: Order) => {
+      return order.items.every((item: OrderItem) => {
         return item.progress_tracker.completed || item.progress_tracker.cancelled;
       });
     });
   });
 
   const activeOrdersList = computed<Order[]>(() => {
-    return ordersList.value.filter((order) => {
-      return order.items.some((item) => {
+    return ordersList.value.filter((order: Order) => {
+      return order.items.some((item: OrderItem) => {
         return !item.progress_tracker.completed && !item.progress_tracker.cancelled;
       });
     });
