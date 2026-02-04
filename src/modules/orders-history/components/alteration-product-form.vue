@@ -52,34 +52,48 @@
       @transitionend="onTransitionEnd"
       ref="contentBlock"
     >
-      <div
-        class="_customization"
-        v-for="customization in filteredCustomizations"
-        :key="customization.id"
+      <validation-observer
+        v-slot="{ errors: formErrors }"
+        tag="form"
+        ref="validationObserver"
+        @submit.prevent.native="onAddToCart"
       >
-        <customization-option
-          class="_customization-option"
-          :customization="customization"
-          :is-disabled="isSomeEntityBusy || isSubmitting"
-          :option-values="filteredOptionValues[customization.id]"
-          :product-id="alterationProduct ? alterationProduct.id : 0"
-          :value="customizationOptionValue[customization.id]"
-          :disable-validation="false"
-          :values-in-cart="inCartOptionValueIdsArray"
-          @input="onCustomizationOptionInput"
-          @customization-option-busy-state-changed="onEntityBusyChanged"
-        />
-      </div>
-
-      <div class="_buttons">
-        <SfButton
-          class="_add-to-cart color-primary"
-          :disabled="!canAddToCart || isSubmitting"
-          @click="onAddToCart"
+        <div
+          class="_customization"
+          v-for="customization in filteredCustomizations"
+          :key="customization.id"
         >
-          {{ $t('Add to Cart') }}
-        </SfButton>
-      </div>
+          <customization-option
+            class="_customization-option"
+            ref="customizationOption"
+            :customization="customization"
+            :is-disabled="isSomeEntityBusy || isSubmitting"
+            :option-values="filteredOptionValues[customization.id]"
+            :product-id="Number(alterationProduct.id)"
+            :value="customizationOptionValue[customization.id]"
+            :disable-validation="false"
+            :values-in-cart="inCartOptionValueIdsArray"
+            @input="onCustomizationOptionInput"
+            @customization-option-busy-state-changed="onEntityBusyChanged"
+          />
+        </div>
+
+        <m-form-errors
+          class="_form-errors"
+          :form-errors="formErrors"
+          @item-click="goToFieldByName"
+        />
+
+        <div class="_buttons">
+          <SfButton
+            class="_add-to-cart color-primary"
+            type="submit"
+            :disabled="!canAddToCart || isSubmitting"
+          >
+            {{ $t('Add to Cart') }}
+          </SfButton>
+        </div>
+      </validation-observer>
     </div>
   </div>
 </template>
@@ -94,6 +108,7 @@ import {
   toRefs
 } from '@vue/composition-api';
 import { SfButton, SfHeading } from '@storefront-ui/vue';
+import { ValidationObserver } from 'vee-validate';
 import { getThumbnailPath } from '@vue-storefront/core/helpers';
 import { formatPrice } from '@vue-storefront/core/helpers/price';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
@@ -114,9 +129,11 @@ import {
   useOptionValueActions
 } from 'src/modules/customization-system';
 
-import { useAddToCart } from 'theme/helpers/use-add-to-cart.ts';
+import { useAddToCart } from 'theme/helpers/use-add-to-cart';
 import { useExistingCartItem } from 'theme/helpers/use-existing-cart-item';
+import { useFormValidation } from 'theme/helpers/use-form-validation';
 import CustomizationOption from 'theme/components/customization-system/customization-option.vue';
+import MFormErrors from 'theme/components/molecules/m-form-errors.vue';
 import OProductCard from 'theme/components/organisms/o-product-card.vue';
 
 import { useAlterationProductCustomizations } from '../composables/use-alteration-product-customizations';
@@ -134,13 +151,32 @@ interface CollapsedViewItem {
   link: string
 }
 
+function getAllFormRefs (
+  refs: Record<string, Vue | Element | Vue[] | Element[]>
+): Record<string, Vue | Element | Vue[] | Element[]> {
+  let refsDictionary: Record<string, Vue | Element | Vue[] | Element[]> = {};
+  const customizationOptions = refs['customizationOption'] as InstanceType<
+    typeof CustomizationOption
+  >[];
+
+  for (const customizationOption of customizationOptions) {
+    for (const key in customizationOption.$refs) {
+      refsDictionary[key] = customizationOption.$refs[key];
+    }
+  }
+
+  return refsDictionary;
+}
+
 export default defineComponent({
   name: 'AlterationProductForm',
   components: {
     CustomizationOption,
+    MFormErrors,
     OProductCard,
     SfButton,
-    SfHeading
+    SfHeading,
+    ValidationObserver
   },
   props: {
     orderItem: {
@@ -156,6 +192,7 @@ export default defineComponent({
     const { orderItem, alterationProduct } = toRefs(props);
     const isExpanded = ref(false);
     const contentBlock: Ref<HTMLElement | null> = ref(null);
+    const validationObserver: Ref<InstanceType<typeof ValidationObserver> | null> = ref(null);
     const contentStyle: Ref<Record<string, string>> = ref({
       '--content-max-height': '0px',
       '--content-max-height-collapsed': '0px'
@@ -229,6 +266,10 @@ export default defineComponent({
       );
 
     const { isSomeEntityBusy, onEntityBusyChanged } = useEntityBusyState();
+
+    const formValidation = useFormValidation(validationObserver, () =>
+      getAllFormRefs(context.refs)
+    );
 
     function onCustomizationOptionInput (payload: {
       customizationId: string,
@@ -403,10 +444,17 @@ export default defineComponent({
         return;
       }
 
+      const isValid = await formValidation.validateAndGoToFirstError();
+
+      if (!isValid) {
+        return;
+      }
+
       await addToCartHandler();
     }
 
     return {
+      ...formValidation,
       canAddToCart,
       collapsedViewItems,
       contentStyle,
@@ -424,7 +472,8 @@ export default defineComponent({
       onShowDetailsClick,
       onTransitionEnd,
       showBlock,
-      filteredCustomizations
+      filteredCustomizations,
+      validationObserver
     };
   }
 });
@@ -525,10 +574,16 @@ export default defineComponent({
     }
   }
 
+  ._customization,
+  ._form-errors {
+    margin-top: var(--spacer-base);
+  }
+
   ._buttons {
     display: flex;
     justify-content: flex-end;
     gap: var(--spacer-sm);
+    margin-top: var(--spacer-base);
   }
 
   ._customization-option {
