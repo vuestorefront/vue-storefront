@@ -28,16 +28,16 @@ export function useOrderHistoryList ({ root }: SetupContext) {
   });
 
   const completedOrdersList = computed<Order[]>(() => {
-    return ordersList.value.filter((order: Order) => {
-      return order.items.every((item: OrderItem) => {
+    return ordersList.value.filter((order) => {
+      return order.items.every((item) => {
         return item.progress_tracker.completed || item.progress_tracker.cancelled;
       });
     });
   });
 
   const activeOrdersList = computed<Order[]>(() => {
-    return ordersList.value.filter((order: Order) => {
-      return order.items.some((item: OrderItem) => {
+    return ordersList.value.filter((order) => {
+      return order.items.some((item) => {
         return !item.progress_tracker.completed && !item.progress_tracker.cancelled;
       });
     });

@@ -64,7 +64,7 @@
           :option-values="filteredOptionValues[customization.id]"
           :product-id="alterationProduct ? alterationProduct.id : 0"
           :value="customizationOptionValue[customization.id]"
-          :disable-validation="true"
+          :disable-validation="false"
           :values-in-cart="inCartOptionValueIdsArray"
           @input="onCustomizationOptionInput"
           @customization-option-busy-state-changed="onEntityBusyChanged"
@@ -88,7 +88,6 @@
 import {
   computed,
   defineComponent,
-  nextTick,
   PropType,
   Ref,
   ref,
@@ -162,7 +161,7 @@ export default defineComponent({
     });
 
     const plushieId = computed<string | undefined>(() => {
-      return orderItem.value.plushie_id.toString();
+      return orderItem.value.plushie_id?.toString();
     });
 
     const { existingCartItem } = useExistingCartItem(plushieId, context);

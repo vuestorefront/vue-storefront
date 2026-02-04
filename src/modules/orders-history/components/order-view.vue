@@ -26,7 +26,7 @@
         :key="item.display_id"
         :item="item"
         :order-id="order.entity_id"
-        :alteration-product="getAlterationProductForItem(item)"
+        :alteration-product="alterationProducts[item.item_id]"
         class="_order-item"
       />
     </div>
@@ -39,7 +39,6 @@ import { computed, defineComponent, PropType } from '@vue/composition-api';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import { Order } from '../types/order';
-import { OrderItem as OrderItemType } from '../types/order-item';
 
 import OrderItem from './order-item.vue';
 import { useBulkCustomizableOrderItems } from '../composables/use-bulk-customizable-order-items';
@@ -72,14 +71,9 @@ export default defineComponent({
       return props.order.items;
     });
 
-    function getAlterationProductForItem (item: OrderItemType): Product | undefined {
-      return props.alterationProducts[item.item_id];
-    }
-
     return {
       ...useBulkCustomizableOrderItems(orderItems),
       createdDate,
-      getAlterationProductForItem,
       orderItems,
       orderNumber
     };
