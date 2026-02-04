@@ -162,7 +162,7 @@ export default defineComponent({
     });
 
     const plushieId = computed<string | undefined>(() => {
-      return orderItem.value.plushie_id;
+      return orderItem.value.plushie_id.toString();
     });
 
     const { existingCartItem } = useExistingCartItem(plushieId, context);
@@ -204,7 +204,7 @@ export default defineComponent({
       removeCustomizationOptionValue,
       selectedOptionValuesIds,
       updateCustomizationOptionValue
-    } = useCustomizationState(ref(undefined));
+    } = useCustomizationState(existingCartItem);
 
     const {
       availableCustomizations,
@@ -270,7 +270,8 @@ export default defineComponent({
       customizationState,
       bundleOptions,
       existingCartItem,
-      context
+      context,
+      plushieId.value
     );
 
     const canAddToCart = computed<boolean>(() => {
