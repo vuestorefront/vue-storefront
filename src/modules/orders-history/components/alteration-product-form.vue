@@ -61,7 +61,7 @@
           class="_customization-option"
           :customization="customization"
           :is-disabled="isSomeEntityBusy || isSubmitting"
-          :option-values="customizationAvailableOptionValues[customization.id]"
+          :option-values="filteredOptionValues[customization.id]"
           :product-id="alterationProduct ? alterationProduct.id : 0"
           :value="customizationOptionValue[customization.id]"
           :disable-validation="true"
@@ -105,6 +105,7 @@ import {
   OptionValue,
   requiredCustomizationsFilter,
   useAvailableCustomizations,
+  useAvailableOptionsValuesFilter,
   useCustomizationsBundleOptions,
   useCustomizationsFilter,
   useCustomizationsOptionsDefaultValue,
@@ -207,6 +208,7 @@ export default defineComponent({
 
     const {
       availableCustomizations,
+      availableCustomization,
       availableOptionValues,
       customizationAvailableOptionValues
     } = useAvailableCustomizations(
@@ -241,6 +243,11 @@ export default defineComponent({
       customizationAvailableOptionValues,
       customizationOptionValue,
       onCustomizationOptionInput
+    );
+
+    const { filteredOptionValues } = useAvailableOptionsValuesFilter(
+      customizationAvailableOptionValues,
+      [optionValuesFilter]
     );
 
     const { filteredCustomizations } = useCustomizationsFilter(
@@ -289,7 +296,25 @@ export default defineComponent({
     const COLLAPSED_VIEW_MAX_ITEMS = 4;
 
     const collapsedViewItems = computed<CollapsedViewItem[]>(() => {
-      return availableOptionValues.value
+      const values: OptionValue[] = [];
+      const _customizationAvailableOptionValues = customizationAvailableOptionValues.value;
+      const availableCustomizationDictionary = availableCustomization.value
+
+      for (const customization of availableCustomizations.value) {
+        if (!customization.optionData?.values || !availableCustomizationDictionary[customization.id]) {
+          continue;
+        }
+
+        const optionValues = _customizationAvailableOptionValues[customization.id];
+
+        if (!optionValues) {
+          continue;
+        }
+
+        values.push(...optionValues)
+      }
+
+      return values
         .slice(0, COLLAPSED_VIEW_MAX_ITEMS)
         .map((optionValue: OptionValue) => {
           const isInCart = !!inCartOptionValueIds.value[optionValue.id];
@@ -350,7 +375,7 @@ export default defineComponent({
       collapsedViewItems,
       contentStyle,
       contentBlock,
-      customizationAvailableOptionValues,
+      filteredOptionValues,
       customizationOptionValue,
       inCartOptionValueIdsArray,
       isExpanded,

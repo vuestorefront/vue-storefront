@@ -1,4 +1,4 @@
-import { computed, Ref } from '@vue/composition-api';
+import { computed, ComputedRef, Ref } from '@vue/composition-api';
 
 import { OptionValue } from 'src/modules/customization-system';
 
@@ -6,7 +6,7 @@ export function useAvailableOptionsValuesFilter (
   customizationAvailableOptionValues: Ref<Record<string, OptionValue[]>>,
   filters: ((customizationId: string, optionValue: OptionValue) => boolean)[]
 ) {
-  const filteredOptionValues = computed<Record<string, OptionValue[]>>(() => {
+  const filteredOptionValues: ComputedRef<Record<string, OptionValue[]>> = computed<Record<string, OptionValue[]>>(() => {
     const optionValues: Record<string, OptionValue[]> = {};
     const _customizationAvailableOptionValues = customizationAvailableOptionValues.value;
 
