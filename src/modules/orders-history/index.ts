@@ -1,15 +1,18 @@
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
+import { canOrderItemHaveUpgrades } from './helpers/can-order-item-have-upgrades';
 import { mapOrderAddressToBaseAddressDetails } from './helpers/map-order-address-to-base-address-details';
 import { STORE_NAME } from './store/store-name';
 import { ordersHistoryModule } from './store';
 import { FETCH_ORDERS_HISTORY, FETCH_SUGGESTED_PRODUCTS, REORDER_ITEM, FETCH_ORDER_DETAILS, SUBMIT_TAX_ID_UPDATE_REQUEST, REQUEST_ORDER_SHIPPING_ADDRESS_UPDATE } from './types/store/actions';
+import { useAlterationProductCustomizations } from './composables/use-alteration-product-customizations';
 import { useAlterationProductsLoader } from './composables/use-alteration-products-loader';
 import { useOrderHistoryList } from './composables/use-order-history-list';
 import { useOrderDetails } from './composables/use-order-details';
 import { GET_SUGGESTED_PRODUCTS_IDS, GET_IS_REORDERING_ITEM } from './types/store/getters';
 import { Order } from './types/order';
 import { OrderAddress } from './types/order-address';
+import { OrderItem } from './types/order-item';
 
 import OrdersHistoryList from './components/orders-history-list.vue';
 
@@ -38,10 +41,13 @@ export {
   SUGGESTED_PRODUCTS_IDS_GETTER,
   REORDER_ITEM_ACTION,
   IS_REORDERING_ITEM,
+  canOrderItemHaveUpgrades,
   mapOrderAddressToBaseAddressDetails,
+  useAlterationProductCustomizations,
   useAlterationProductsLoader,
   useOrderHistoryList,
   useOrderDetails,
   Order,
-  OrderAddress
+  OrderAddress,
+  OrderItem
 }

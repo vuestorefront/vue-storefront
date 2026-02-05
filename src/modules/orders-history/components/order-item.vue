@@ -54,7 +54,9 @@
         </template>
       </div>
 
-      <alteration-product-form
+      <component
+        v-if="alterationProductFormComponent"
+        :is="alterationProductFormComponent"
         :order-item="item"
         :alteration-product="alterationProduct"
       />
@@ -84,7 +86,6 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { useOrderItemProgressTracker } from '../composables/use-order-item-progress-tracker';
 import { OrderItem } from '../types/order-item';
 
-import AlterationProductForm from './alteration-product-form.vue';
 import OrderItemActions from './order-item-actions.vue';
 import OrderItemExtendedInfo from './order-item-extended-info.vue';
 import OrderItemProgressTracker from './order-item-progress-tracker.vue';
@@ -94,7 +95,6 @@ const PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT = 3;
 export default defineComponent({
   name: 'OrderItem',
   components: {
-    AlterationProductForm,
     BaseImage,
     OrderItemActions,
     OrderItemExtendedInfo,
@@ -117,6 +117,7 @@ export default defineComponent({
   },
   setup (props) {
     const imageHandlerService = inject<ImageHandlerService>('ImageHandlerService');
+    const alterationProductFormComponent = inject('AlterationProductForm');
 
     const showExtendedInfo = ref<boolean>(false);
     const showActions = computed<boolean>(() => {
@@ -172,6 +173,7 @@ export default defineComponent({
     });
 
     return {
+      alterationProductFormComponent,
       canShowExtendedProgressTracker,
       canShowProgressTracker,
       isExtendedInfoAvailable,
