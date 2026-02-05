@@ -2,6 +2,7 @@ import { computed, ComputedRef, SetupContext } from '@vue/composition-api';
 
 import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
 import { getThumbnailPath, PriceHelper } from '@vue-storefront/core/helpers';
+import { Currency, GET_ACTIVE_CURRENCY } from 'src/modules/currency';
 
 import { Customization } from '../types/customization.interface';
 import { CustomizationOptionValue } from '../types/customization-option-value';
@@ -35,6 +36,7 @@ export function useCollapsedCustomizationsView (
     const _existingCartItemCustomizationOptionValue = existingCartItemCustomizationOptionValue.value;
     const productBySkuDictionary = root.$store.getters['product/getProductBySkuDictionary'];
     const productPriceDictionary = root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
+    const selectedCurrency: Currency = root.$store.getters[GET_ACTIVE_CURRENCY];
 
     for (const customization of _filteredAvailableCustomizations) {
       if (!customization.optionData?.values) {
@@ -83,7 +85,7 @@ export function useCollapsedCustomizationsView (
           );
 
           if (productPrice) {
-            price = PriceHelper.formatProductPrice(productPrice);
+            price = PriceHelper.formatProductPrice(productPrice, selectedCurrency.symbol);
           }
         }
 

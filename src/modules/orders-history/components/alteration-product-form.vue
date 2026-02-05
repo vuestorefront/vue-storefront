@@ -10,26 +10,28 @@
         :title="$t('Upgrade Your Plush')"
       />
 
-      <SfButton
-        v-if="!isExpanded"
-        class="sf-button--text"
-        @click="onShowDetailsClick"
-      >
-        {{ $t('Show More') }}
-      </SfButton>
+      <template v-if="collapsedViewItems.length > 0">
+        <SfButton
+          v-if="!isExpanded"
+          class="sf-button--text"
+          @click="onShowDetailsClick"
+        >
+          {{ $t('Show More') }}
+        </SfButton>
 
-      <SfButton
-        v-else
-        class="sf-button--text"
-        @click="onHideDetailsClick"
-      >
-        {{ $t('Show Less') }}
-      </SfButton>
+        <SfButton
+          v-else
+          class="sf-button--text"
+          @click="onHideDetailsClick"
+        >
+          {{ $t('Show Less') }}
+        </SfButton>
+      </template>
     </div>
 
     <div
       class="_collapsed-preview"
-      :class="{ '-hidden': isExpanded }"
+      :class="{ '-hidden': isExpanded || collapsedViewItems.length == 0 }"
     >
       <div class="_products">
         <o-product-card
@@ -47,7 +49,7 @@
 
     <div
       class="_content"
-      :class="{ '-expanded': isExpanded }"
+      :class="{ '-expanded': isExpanded || collapsedViewItems.length == 0 }"
       :style="contentStyle"
       @transitionend="onTransitionEnd"
       ref="contentBlock"
@@ -255,7 +257,7 @@ export default defineComponent({
     const { customizationDisableConfigById } = useExistingcartItemCustomizationsDisable(
       availableCustomizations,
       existingCartItemCustomizationOptionValue,
-      context.root.$t('Added to Cart')
+      context.root.$t('Added to Cart').toString()
     );
 
     const { executeActionsByCustomizationIdAndCustomizationOptionValue } =
