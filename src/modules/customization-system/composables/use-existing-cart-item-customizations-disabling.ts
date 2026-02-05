@@ -10,7 +10,7 @@ export interface CustomizationDisableConfig {
   disabledOptionValuesIds: string[]
 }
 
-export function useExistingCartItemCustomizationsDisable (
+export function useExistingCartItemCustomizationsDisabling (
   availableCustomizations: ComputedRef<Customization[]>,
   existingCartItemCustomizationOptionValue: ComputedRef<Record<string, CustomizationOptionValue>>,
   disabledMessage: string
