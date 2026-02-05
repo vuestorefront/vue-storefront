@@ -53,6 +53,11 @@ export function useAlterationProductsLoader (
       }
 
       const product = productBySkuDictionary.value[alterationSku];
+
+      if (!product) {
+        continue;
+      }
+
       dictionary[orderItem.item_id] = product;
     }
 
