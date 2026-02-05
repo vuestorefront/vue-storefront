@@ -67,27 +67,27 @@
             class="_customization-option"
             ref="customizationOption"
             :customization="customization"
-            :is-disabled="isSomeEntityBusy || isSubmitting || disabledOptionValues[customization.id].disableCustomization"
+            :is-disabled="isSomeEntityBusy || isSubmitting || customizationDisableConfigById[customization.id].isDisabled"
             :option-values="filteredOptionValues[customization.id]"
             :product-id="Number(alterationProduct.id)"
             :value="customizationOptionValue[customization.id]"
             :disable-validation="false"
-            :disabled-option-values="disabledOptionValues[customization.id]"
+            :customization-disable-config="customizationDisableConfigById[customization.id]"
             @input="onCustomizationOptionInput"
             @customization-option-busy-state-changed="onEntityBusyChanged"
           >
             <template #label="{label, isFieldRequired}">
               <label
                 class="_option-label"
-                :class="{ '-required': isFieldRequired && !disabledOptionValues[customization.id].disableCustomization}"
+                :class="{ '-required': isFieldRequired && !customizationDisableConfigById[customization.id].isDisabled}"
               >
                 {{ label }}
 
                 <span
                   class="_disabled-hint"
-                  v-if="disabledOptionValues[customization.id] && disabledOptionValues[customization.id].disableCustomization && disabledOptionValues[customization.id].message"
+                  v-if="customizationDisableConfigById[customization.id].isDisabled"
                 >
-                  {{ disabledOptionValues[customization.id].message }}
+                  {{ customizationDisableConfigById[customization.id].message }}
                 </span>
               </label>
             </template>
@@ -125,23 +125,22 @@ import {
 } from '@vue/composition-api';
 import { SfButton, SfHeading } from '@storefront-ui/vue';
 import { ValidationObserver } from 'vee-validate';
-import { getThumbnailPath } from '@vue-storefront/core/helpers';
-import { formatPrice } from '@vue-storefront/core/helpers/price';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import {
   Customization,
   CustomizationOptionValue,
-  OptionValue,
   isFileUploadValue,
   requiredCustomizationsFilter,
   useAvailableCustomizations,
   useAvailableOptionsValuesFilter,
   useCustomizationsBundleOptions,
+  useCollapsedCustomizationsView,
   useCustomizationsFilter,
   useCustomizationsOptionsDefaultValue,
   useCustomizationState,
   useEntityBusyState,
+  useExistingcartItemCustomizationsDisable,
   useOptionValueActions
 } from 'src/modules/customization-system';
 
@@ -155,17 +154,6 @@ import OProductCard from 'theme/components/organisms/o-product-card.vue';
 import { useAlterationProductCustomizations } from '../composables/use-alteration-product-customizations';
 import { canOrderItemHaveUpgrades } from '../helpers/can-order-item-have-upgrades';
 import { OrderItem } from '../types/order-item';
-
-interface CollapsedViewItem {
-  id: string,
-  title: string,
-  image: string,
-  price: {
-    regular: string,
-    special: string | null
-  },
-  link: string
-}
 
 function getAllFormRefs (
   refs: Record<string, Vue | Element | Vue[] | Element[]>
@@ -238,6 +226,7 @@ export default defineComponent({
       addCustomizationOptionValue,
       customizationOptionValue,
       customizationState,
+      existingCartItemCustomizationOptionValue,
       removeCustomizationOptionValue,
       selectedOptionValuesIds,
       updateCustomizationOptionValue
@@ -245,7 +234,6 @@ export default defineComponent({
 
     const {
       availableCustomizations,
-      availableCustomization,
       availableOptionValues,
       customizationAvailableOptionValues
     } = useAvailableCustomizations(
@@ -257,12 +245,17 @@ export default defineComponent({
 
     const {
       customizationsFilter: alterationProductCustomizationsFilter,
-      disabledOptionValues,
       optionValuesFilter
     } = useAlterationProductCustomizations(
       orderItem,
       alterationProduct,
       existingCartItem
+    );
+
+    const { customizationDisableConfigById } = useExistingcartItemCustomizationsDisable(
+      availableCustomizations,
+      existingCartItemCustomizationOptionValue,
+      context.root.$t('Added to Cart')
     );
 
     const { executeActionsByCustomizationIdAndCustomizationOptionValue } =
@@ -296,7 +289,7 @@ export default defineComponent({
       onCustomizationOptionInput
     );
 
-    const { filteredOptionValues } = useAvailableOptionsValuesFilter(
+    const { filteredOptionValues, filteredOptionValuesIdsByCustomizationId } = useAvailableOptionsValuesFilter(
       customizationAvailableOptionValues,
       [optionValuesFilter]
     );
@@ -371,68 +364,12 @@ export default defineComponent({
       return hasAvailableUpgrades.value;
     });
 
-    const COLLAPSED_VIEW_MAX_ITEMS = 4;
-
-    const collapsedViewItems = computed<CollapsedViewItem[]>(() => {
-      const values: OptionValue[] = [];
-      const _customizationAvailableOptionValues = customizationAvailableOptionValues.value;
-      const _filteredOptionValues = filteredOptionValues.value;
-      const availableCustomizationDictionary = availableCustomization.value
-
-      for (const customization of filteredCustomizations.value) {
-        if (!customization.optionData?.values || !availableCustomizationDictionary[customization.id]) {
-          continue;
-        }
-
-        const optionValues = _customizationAvailableOptionValues[customization.id];
-
-        if (!optionValues) {
-          continue;
-        }
-
-        for (const optionValue of optionValues) {
-          const filteredOptionValue = _filteredOptionValues[customization.id].find((item) => item.id === optionValue.id);
-
-          if (!filteredOptionValue) {
-            continue
-          }
-
-          values.push(filteredOptionValue);
-        }
-      }
-
-      return values
-        .slice(0, COLLAPSED_VIEW_MAX_ITEMS)
-        .map((optionValue: OptionValue) => {
-          const allDisabledOptionValues: Record<string, boolean> = {};
-
-          for (const disabledValues of Object.values(disabledOptionValues.value)) {
-            for (const id of (disabledValues as any).ids) {
-              allDisabledOptionValues[id] = true;
-            }
-          }
-
-          const isInCart = !!allDisabledOptionValues[optionValue.id];
-          const priceLabel = isInCart
-            ? 'Added'
-            : optionValue.price
-              ? formatPrice(optionValue.price)
-              : '';
-
-          return {
-            id: optionValue.id,
-            title: optionValue.name || '',
-            image: optionValue.thumbnailUrl
-              ? getThumbnailPath(optionValue.thumbnailUrl, 144, 144, '')
-              : '',
-            price: {
-              regular: priceLabel,
-              special: null
-            },
-            link: ''
-          };
-        });
-    });
+    const { collapsedViewItems } = useCollapsedCustomizationsView(
+      filteredCustomizations,
+      existingCartItemCustomizationOptionValue,
+      filteredOptionValuesIdsByCustomizationId,
+      context
+    );
 
     function onTransitionEnd () {
       contentStyle.value = {
@@ -477,9 +414,9 @@ export default defineComponent({
       collapsedViewItems,
       contentStyle,
       contentBlock,
+      customizationDisableConfigById,
       filteredOptionValues,
       customizationOptionValue,
-      disabledOptionValues,
       isExpanded,
       isSomeEntityBusy,
       isSubmitting,

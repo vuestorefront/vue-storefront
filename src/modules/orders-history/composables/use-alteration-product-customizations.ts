@@ -278,41 +278,8 @@ export function useAlterationProductCustomizations (
     return purchasedCount < maxValuesCount;
   }
 
-  const disabledOptionValues: Ref<Record<string, {ids: string[], message: string, disableCustomization: boolean} | undefined>> = computed(() => {
-    const states = existingCartItem.value?.extension_attributes?.customization_state || [];
-    const result: Record<string, {ids: string[], message: string, disableCustomization: boolean} | undefined> = {};
-
-    if (!states.length) {
-      return result;
-    }
-
-    for (const state of states) {
-      if (!state.value || isFileUploadValue(state.value)) {
-        continue;
-      }
-
-      if (state.value && !Array.isArray(state.value)) {
-        result[state.customization_id] = {
-          disableCustomization: true,
-          message: 'Added to Cart',
-          ids: [state.value]
-        };
-        continue;
-      } else {
-        result[state.customization_id] = {
-          disableCustomization: false,
-          message: 'Added to Cart',
-          ids: state.value as string[]
-        }
-      }
-    }
-
-    return result;
-  });
-
   return {
     customizationsFilter,
-    disabledOptionValues,
     optionValuesFilter
   };
 }

@@ -44,6 +44,7 @@ export function useAvailableCustomizations (
       return dictionary;
     }
   );
+
   const availableOptionValues = computed<OptionValue[]>(() => {
     const optionValues: OptionValue[] = [];
 

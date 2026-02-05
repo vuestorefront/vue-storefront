@@ -7,6 +7,7 @@ import { OptionValue } from '../types/option-value.interface';
 import { WidgetType } from '../types/widget-type';
 import { WidgetOptionAlignment } from '../types/widget-option-alignment.type';
 import { WidgetOptionShape } from '../types/widget-option-shape.type';
+import { CustomizationDisableConfig } from './use-existing-cart-item-customizations-disable';
 
 export function useCustomizationOptionWidget (
   value: Ref<CustomizationOptionValue>,
@@ -14,7 +15,7 @@ export function useCustomizationOptionWidget (
   values: Ref<OptionValue[]>,
   productId: Ref<number>,
   { emit }: SetupContext,
-  disabledOptionValues?: Ref<{ ids: string[], message: string }>
+  customizationDisableConfig?: Ref<CustomizationDisableConfig | undefined>
 ) {
   const selectedOption = computed<CustomizationOptionValue>({
     get: () => {
@@ -63,17 +64,14 @@ export function useCustomizationOptionWidget (
       maxValuesCount: number | undefined,
       shape: WidgetOptionShape | undefined,
       values: OptionValue[],
-      disabledOptionValues?: {ids: string[], message: string}
+      customizationDisableConfig?: CustomizationDisableConfig
     } = {
       alignment: widgetOptions?.alignment,
       maxValuesCount: maxValuesCount.value,
       shape: widgetOptions?.shape,
-      values: values.value
+      values: values.value,
+      customizationDisableConfig: customizationDisableConfig?.value
     };
-
-    if (disabledOptionValues?.value && maxValuesCount.value && (maxValuesCount.value === 0 || maxValuesCount.value > 1)) {
-      listWidgetsProps.disabledOptionValues = disabledOptionValues.value;
-    }
 
     switch (displayWidget) {
       case WidgetType.CARDS_LIST:
@@ -82,7 +80,7 @@ export function useCustomizationOptionWidget (
           props: {
             maxValuesCount: maxValuesCount.value,
             values: values.value,
-            disabledOptionValues: listWidgetsProps.disabledOptionValues
+            customizationDisableConfig: listWidgetsProps.customizationDisableConfig
           }
         };
       case WidgetType.CHECKBOX:

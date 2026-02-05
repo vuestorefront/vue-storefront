@@ -2,6 +2,7 @@ import { useAvailableCustomizations } from './composables/use-available-customiz
 import { useAvailableOptionsValuesFilter } from './composables/use-available-options-values-filter';
 import { useCustomizationsBundleOptions } from './composables/use-customizations-bundle-options';
 import { useEntityBusyState } from './composables/use-entity-busy-state';
+import { useCollapsedCustomizationsView } from './composables/use-collapsed-customizations-view';
 import { useCustomizationsFilter } from './composables/use-customizations-filter';
 import { useCustomizationsGroups } from './composables/use-customizations-groups';
 import { useCustomizationsOptionsDefaultValue } from './composables/use-customizations-options-default-value';
@@ -13,6 +14,7 @@ import { useCustomizationState } from './composables/use-customization-state';
 import { useCustomizationStatePreservation } from './composables/use-customization-state-preservation';
 import { useEmailCustomization } from './composables/use-email-customization';
 import { useEstimatedShipment } from './composables/use-estimated-shipment';
+import { CustomizationDisableConfig, useExistingcartItemCustomizationsDisable } from './composables/use-existing-cart-item-customizations-disable';
 import { useFilesUpload } from './composables/use-files-upload';
 import { useListWidget } from './composables/use-list-widget';
 import { useOptionValueActions } from './composables/use-option-value-actions';
@@ -58,6 +60,7 @@ import CartItemConfiguration from './components/cart-item-configuration.vue';
 export {
   CartItemConfiguration,
   Customization,
+  CustomizationDisableConfig,
   CustomizableProductFlowType,
   CustomizationOptionValue,
   CustomizationStateItem,
@@ -97,6 +100,7 @@ export {
   useAvailableOptionsValuesFilter,
   useCustomizationsBundleOptions,
   useEntityBusyState,
+  useCollapsedCustomizationsView,
   useCustomizationsFilter,
   useCustomizationsGroups,
   useCustomizationsOptionsDefaultValue,
@@ -108,6 +112,7 @@ export {
   useCustomizationStatePreservation,
   useEmailCustomization,
   useEstimatedShipment,
+  useExistingcartItemCustomizationsDisable,
   useFilesUpload,
   useListWidget,
   useOptionValueActions,
