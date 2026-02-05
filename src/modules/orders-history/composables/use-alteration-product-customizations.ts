@@ -52,7 +52,7 @@ export function useAlterationProductCustomizations (
     return result;
   });
 
-  const orderItemOptionValueNameByIdAndCustomizaitionId = computed<Record<string, Record<string, string> | undefined>>(() => {
+  const orderItemOptionValueNameByIdAndCustomizationId = computed<Record<string, Record<string, string> | undefined>>(() => {
     const result: Record<string, Record<string, string>> = {};
 
     const extensionAttributes = orderItem.value.extension_attributes;
@@ -80,7 +80,7 @@ export function useAlterationProductCustomizations (
     return result;
   });
 
-  const alterationProductOptionValueIdByNameAndCustomizaitionId = computed<Record<string, Record<string, OptionValue> | undefined>>(() => {
+  const alterationProductOptionValueIdByNameAndCustomizationId = computed<Record<string, Record<string, OptionValue> | undefined>>(() => {
     const result: Record<string, Record<string, OptionValue>> = {};
 
     if (!alterationProduct.value?.customizations) {
@@ -125,9 +125,9 @@ export function useAlterationProductCustomizations (
     const result: Record<string, CustomizationOptionValue> = {};
     const extensionAttributes = orderItem.value.extension_attributes;
     const _orderItemCustomizationNameByIdDictionary = orderItemCustomizationNameByIdDictionary.value;
-    const _orderItemOptionValueNameByIdAndCustomizaitionId = orderItemOptionValueNameByIdAndCustomizaitionId.value;
+    const _orderItemOptionValueNameByIdAndCustomizationId = orderItemOptionValueNameByIdAndCustomizationId.value;
     const _alterationProductCustomizationsByName = alterationProductCustomizationsByName.value;
-    const _alterationProductOptionValueIdByNameAndCustomizaitionId = alterationProductOptionValueIdByNameAndCustomizaitionId.value;
+    const _alterationProductOptionValueIdByNameAndCustomizationId = alterationProductOptionValueIdByNameAndCustomizationId.value;
     const alterationProductCustomizations = alterationProduct.value?.customizations;
 
     if (!extensionAttributes || !alterationProductCustomizations) {
@@ -151,13 +151,13 @@ export function useAlterationProductCustomizations (
         continue;
       }
 
-      const optionValueNameDictionary = _orderItemOptionValueNameByIdAndCustomizaitionId[item.customization_id];
+      const optionValueNameDictionary = _orderItemOptionValueNameByIdAndCustomizationId[item.customization_id];
 
       if (!optionValueNameDictionary) {
         continue;
       }
 
-      const alterationOptionValueDictionary = _alterationProductOptionValueIdByNameAndCustomizaitionId[alterationProductCustomization.id];
+      const alterationOptionValueDictionary = _alterationProductOptionValueIdByNameAndCustomizationId[alterationProductCustomization.id];
 
       if (!alterationOptionValueDictionary) {
         continue;
@@ -198,29 +198,6 @@ export function useAlterationProductCustomizations (
 
         if (mappedIds.length > 0) {
           result[alterationProductCustomization.id] = mappedIds;
-        }
-      }
-    }
-
-    return result;
-  });
-
-  const inCartOptionValueIds = computed<Record<string, boolean | undefined>>(() => {
-    const result: Record<string, boolean | undefined> = {};
-    const cartItem = existingCartItem.value;
-
-    if (!cartItem) {
-      return result;
-    }
-
-    const states = cartItem.extension_attributes?.customization_state || [];
-
-    for (const state of states) {
-      const selectedIds = Array.isArray(state.value) ? state.value : [state.value];
-
-      for (const selectedId of selectedIds) {
-        if (typeof selectedId === 'string') {
-          result[selectedId] = true;
         }
       }
     }

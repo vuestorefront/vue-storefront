@@ -1,7 +1,6 @@
-import { computed, Ref, ref, watch } from '@vue/composition-api';
+import { computed, Ref, ref, SetupContext, watch } from '@vue/composition-api';
 import { SearchQuery } from 'storefront-query-builder';
 
-import rootStore from '@vue-storefront/core/store';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import { canOrderItemHaveUpgrades } from '../helpers/can-order-item-have-upgrades';
@@ -18,7 +17,8 @@ function getSearchQuery (skus: string[]): SearchQuery {
 }
 
 export function useAlterationProductsLoader (
-  orderItems: Ref<OrderItem[]>
+  orderItems: Ref<OrderItem[]>,
+  { root }: SetupContext
 ) {
   const isLoading = ref<boolean>(false);
 
@@ -39,7 +39,7 @@ export function useAlterationProductsLoader (
   });
 
   const productBySkuDictionary = computed<Record<string, Product>>(() => {
-    return rootStore.getters['product/getProductBySkuDictionary'] || {};
+    return root.$store.getters['product/getProductBySkuDictionary'] || {};
   });
 
   const alterationProductsByOrderItemId = computed<Record<number, Product>>(() => {
@@ -52,14 +52,8 @@ export function useAlterationProductsLoader (
         continue;
       }
 
-      for (const key in productBySkuDictionary.value) {
-        const product = productBySkuDictionary.value[key];
-
-        if (product.parentSku === alterationSku || product.sku === alterationSku) {
-          dictionary[orderItem.item_id] = product;
-          break;
-        }
-      }
+      const product = productBySkuDictionary.value[alterationSku];
+      dictionary[orderItem.item_id] = product;
     }
 
     return dictionary;
@@ -96,7 +90,7 @@ export function useAlterationProductsLoader (
     isLoading.value = true;
 
     try {
-      await rootStore.dispatch('product/findProducts', {
+      await root.$store.dispatch('product/findProducts', {
         query: getSearchQuery(notLoadedSkus),
         options: {
           prefetchGroupProducts: false
