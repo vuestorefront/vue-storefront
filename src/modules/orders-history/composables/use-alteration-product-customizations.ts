@@ -1,6 +1,5 @@
 import { computed, Ref } from '@vue/composition-api';
 
-import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import {
@@ -34,8 +33,7 @@ function mapOrderItemOptionValueIdToAlterationProduct (
 
 export function useAlterationProductCustomizations (
   orderItem: Ref<OrderItem>,
-  alterationProduct: Ref<Product | undefined>,
-  existingCartItem: Ref<CartItem | undefined>
+  alterationProduct: Ref<Product | undefined>
 ) {
   const orderItemCustomizationNameByIdDictionary = computed<Record<string, string>>(() => {
     const result: Record<string, string> = {};

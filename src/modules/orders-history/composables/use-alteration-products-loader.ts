@@ -67,18 +67,9 @@ export function useAlterationProductsLoader (
     const notLoadedSkus: string[] = [];
 
     for (const sku of alterationProductSkus.value) {
-      let found = false;
+      const product = productBySkuDictionary.value[sku];
 
-      for (const key in productBySkuDictionary.value) {
-        const product = productBySkuDictionary.value[key];
-
-        if (product.parentSku === sku || product.sku === sku) {
-          found = true;
-          break;
-        }
-      }
-
-      if (!found) {
+      if (!product) {
         notLoadedSkus.push(sku);
       }
     }
