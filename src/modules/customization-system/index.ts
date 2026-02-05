@@ -13,7 +13,7 @@ import { useCustomizationState } from './composables/use-customization-state';
 import { useCustomizationStatePreservation } from './composables/use-customization-state-preservation';
 import { useEmailCustomization } from './composables/use-email-customization';
 import { useEstimatedShipment } from './composables/use-estimated-shipment';
-import { CustomizationDisableConfig, useExistingCartItemCustomizationsDisabling } from './composables/use-existing-cart-item-customizations-disabling';
+import { useExistingCartItemCustomizationsDisabling } from './composables/use-existing-cart-item-customizations-disabling';
 import { useFilesUpload } from './composables/use-files-upload';
 import { useListWidget } from './composables/use-list-widget';
 import { useOptionValueActions } from './composables/use-option-value-actions';
@@ -37,6 +37,7 @@ import { updateProductProductionTimeCustomizationData } from './helpers/update-p
 import { Customization } from './types/customization.interface';
 import { CustomizableProductFlowType } from './types/customizable-product-flow.type';
 import { CustomizationOptionValue } from './types/customization-option-value';
+import { CustomizationDisableConfig } from './types/customization-disable-config.interface';
 import { Deliverable } from './types/deliverable.interface';
 import { DraftOrderItem } from './types/draft-order-item.interface';
 import { EstimatedShipment } from './types/estimated-shipment.interface';

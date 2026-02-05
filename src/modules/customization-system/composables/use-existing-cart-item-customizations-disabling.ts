@@ -3,12 +3,7 @@ import { computed, ComputedRef } from '@vue/composition-api';
 import { CustomizationOptionValue } from '../types/customization-option-value';
 import { Customization } from '../types/customization.interface';
 import { isFileUploadValue } from '../types/is-file-upload-value.typeguard';
-
-export interface CustomizationDisableConfig {
-  isDisabled: boolean,
-  message: string,
-  disabledOptionValuesIds: string[]
-}
+import { CustomizationDisableConfig } from '../types/customization-disable-config.interface';
 
 export function useExistingCartItemCustomizationsDisabling (
   availableCustomizations: ComputedRef<Customization[]>,
