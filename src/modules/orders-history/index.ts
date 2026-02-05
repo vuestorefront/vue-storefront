@@ -5,7 +5,6 @@ import { mapOrderAddressToBaseAddressDetails } from './helpers/map-order-address
 import { STORE_NAME } from './store/store-name';
 import { ordersHistoryModule } from './store';
 import { FETCH_ORDERS_HISTORY, FETCH_SUGGESTED_PRODUCTS, REORDER_ITEM, FETCH_ORDER_DETAILS, SUBMIT_TAX_ID_UPDATE_REQUEST, REQUEST_ORDER_SHIPPING_ADDRESS_UPDATE } from './types/store/actions';
-import { useAlterationProductCustomizations } from './composables/use-alteration-product-customizations';
 import { useAlterationProductsLoader } from './composables/use-alteration-products-loader';
 import { useOrderHistoryList } from './composables/use-order-history-list';
 import { useOrderDetails } from './composables/use-order-details';
@@ -43,7 +42,6 @@ export {
   IS_REORDERING_ITEM,
   canOrderItemHaveUpgrades,
   mapOrderAddressToBaseAddressDetails,
-  useAlterationProductCustomizations,
   useAlterationProductsLoader,
   useOrderHistoryList,
   useOrderDetails,
