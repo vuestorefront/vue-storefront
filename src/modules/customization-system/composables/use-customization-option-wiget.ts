@@ -7,7 +7,7 @@ import { OptionValue } from '../types/option-value.interface';
 import { WidgetType } from '../types/widget-type';
 import { WidgetOptionAlignment } from '../types/widget-option-alignment.type';
 import { WidgetOptionShape } from '../types/widget-option-shape.type';
-import { CustomizationDisableConfig } from './use-existing-cart-item-customizations-disable';
+import { CustomizationDisableConfig } from './use-existing-cart-item-customizations-disabling';
 
 export function useCustomizationOptionWidget (
   value: Ref<CustomizationOptionValue>,
