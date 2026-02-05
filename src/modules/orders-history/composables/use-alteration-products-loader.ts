@@ -42,7 +42,7 @@ export function useAlterationProductsLoader (
     return root.$store.getters['product/getProductBySkuDictionary'] || {};
   });
 
-  const alterationProductsByOrderItemId = computed<Record<number, Product>>(() => {
+  const alterationProductByOrderItemId = computed<Record<number, Product>>(() => {
     const dictionary: Record<number, Product> = {};
 
     for (const orderItem of eligibleOrderItems.value) {
@@ -107,7 +107,7 @@ export function useAlterationProductsLoader (
 
   return {
     isLoading,
-    alterationProductsByOrderItemId,
+    alterationProductByOrderItemId,
     eligibleOrderItems,
     loadAlterationProducts
   };
