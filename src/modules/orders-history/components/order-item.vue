@@ -21,7 +21,6 @@
 
           <order-item-progress-tracker
             :active-status="progressTrackerActiveStatus"
-            :is-vertical="canShowExtendedProgressTracker && showExtendedInfo"
             :filtered-statuses-list="progressTrackerFilteredStatusesList"
             :max-statuses-to-display-horizontal="PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT"
             v-if="canShowProgressTracker"
@@ -42,28 +41,27 @@
     </div>
 
     <div
-      class="_toggle-extended-info"
-      :class="{'-expanded': showExtendedInfo}"
-      v-if="isExtendedInfoAvailable"
-      @click="toggleExtendedInfo"
-    >
-      <SfHeading class="_item-details-heading" :title="$t('Item details')" :level="5" />
-
-      <SfChevron />
-    </div>
-
-    <div
-      class="_extended-info"
+      class="_item-details"
       v-if="isExtendedInfoAvailable"
     >
-      <template>
+      <div
+        class="_toggle-extended-info"
+        :class="{'-expanded': showExtendedInfo}"
+        @click="toggleExtendedInfo"
+      >
+        <SfHeading class="_item-details-heading" :title="$t('Item details')" :level="5" />
+
+        <SfChevron />
+      </div>
+
+      <div
+        class="_extended-info"
+        :class="{ '-expanded': showExtendedInfo }"
+      >
         <order-item-extended-info
           :item="item"
-          :extension-attributes="item.extension_attributes"
-          :show-shipment-info="showShipmentInfo"
-          v-show="showExtendedInfo"
         />
-      </template>
+      </div>
     </div>
 
     <component
@@ -164,15 +162,11 @@ export default defineComponent({
     );
 
     const isExtendedInfoAvailable = computed<boolean>(() => {
-      if (canShowExtendedProgressTracker.value) {
+      if (canShowProgressTracker.value) {
         return true;
       }
 
       return !!props.item.extension_attributes && !!Object.keys(props.item.extension_attributes).length;
-    });
-
-    const showShipmentInfo = computed<boolean>(() => {
-      return canShowProgressTracker.value && (props.item.shipments.length > 0 || Boolean(props.item.estimated_shipment_date));
     });
 
     return {
@@ -188,7 +182,6 @@ export default defineComponent({
       progressTrackerFilteredStatusesList,
       showActions,
       showExtendedInfo,
-      showShipmentInfo,
       toggleExtendedInfo,
       PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT
     }
@@ -250,17 +243,20 @@ export default defineComponent({
     }
   }
 
-  ._mobile-image {
-    width: 72px;
+  ._item-details {
+    margin-top: var(--spacer-base);
+    background-color: var(--c-secondary);
+    padding: var(--spacer-sm);
   }
 
-  ._toggle-extended-info {
-    margin-top: var(--spacer-base);
+  ._mobile-image {
+    width: 72px;
   }
 
   ._item-details-heading {
     --heading-title-font-size: var(--font-base);
     --heading-title-font-weight: var(--font-semibold);
+    --heading-padding: 0;
 
     user-select: none;
   }
@@ -274,9 +270,20 @@ export default defineComponent({
   }
 
   ._extended-info {
-    display: flex;
-    flex-direction: column;
-    row-gap: var(--spacer-sm);
+    display: grid;
+    grid-template-rows: 0fr;
+    margin-top: 0;
+    transition: grid-template-rows 300ms ease-in-out, margin-top 300ms ease-in-out;
+  }
+
+  ._extended-info.-expanded {
+    grid-template-rows: 1fr;
+    margin-top: var(--spacer-sm);
+  }
+
+  ._extended-info > * {
+    overflow: hidden;
+    min-height: 0;
   }
 
   @media (min-width: 426px) {

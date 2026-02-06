@@ -158,6 +158,7 @@ export default defineComponent({
 .order-item-progress-tracker {
   $mark-size: 10px;
   $mark-border-width: 2px;
+  $line-color: #4F7D8F;
 
   display: flex;
   flex-direction: column;
@@ -200,7 +201,7 @@ export default defineComponent({
           height: calc(calc(50% - #{$mark-size / 2}) - #{$mark-border-width / 2});
           width: 2px;
           left: 6px;
-          border-left: 2px dashed var(--c-secondary);
+          border-left: 2px dashed $line-color;
           border-top: 0;
         }
 
@@ -243,14 +244,15 @@ export default defineComponent({
       border-radius: 50%;
       width: $mark-size;
       height: $mark-size;
-      border: $mark-border-width solid var(--c-secondary);
+      border: $mark-border-width solid $line-color;
+      background-color: var(--c-white);
 
       &::before,
       &::after {
         content: "";
-        width: calc(calc(50% - #{$mark-size / 2}) - #{$mark-border-width / 2});
+        width: calc(calc(50% - #{$mark-size / 2}) - #{$mark-border-width});
         top: calc(#{$mark-size / 2} + #{$mark-border-width / 2});
-        border-top: $mark-border-width dashed var(--c-secondary);
+        border-top: $mark-border-width dashed $line-color;
         position: absolute;
       }
 
@@ -298,23 +300,33 @@ export default defineComponent({
 
     &.-active {
       ._mark {
-        background-color: var(--c-secondary);
+        background-color: var(--c-blue);
+        border-color: var(--c-blue);
 
         &::before {
-          border-color: var(--c-primary);
+          border-color: var(--c-blue);
         }
+      }
+
+      ._name {
+        color: var(--c-blue);
+        font-weight: var(--font-bold);
       }
     }
 
     &.-completed {
       ._mark {
-        background-color: var(--c-primary);
-        border-color: var(--c-primary);
+        background-color: var(--c-blue);
+        border-color: var(--c-blue);
 
         &::before,
         &::after {
-          border-color: var(--c-primary);
+          border-color: var(--c-blue);
         }
+      }
+
+      ._name {
+        font-weight: var(--font-semibold);
       }
     }
   }
