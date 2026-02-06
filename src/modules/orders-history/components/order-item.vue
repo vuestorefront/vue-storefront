@@ -39,27 +39,6 @@
           />
         </div>
       </div>
-
-      <div
-        class="_extended-info"
-        v-if="isExtendedInfoAvailable"
-      >
-        <template>
-          <order-item-extended-info
-            :item="item"
-            :extension-attributes="item.extension_attributes"
-            :show-shipment-info="showShipmentInfo"
-            v-show="showExtendedInfo"
-          />
-        </template>
-      </div>
-
-      <component
-        v-if="alterationProductFormComponent"
-        :is="alterationProductFormComponent"
-        :order-item="item"
-        :alteration-product="alterationProduct"
-      />
     </div>
 
     <div
@@ -68,14 +47,37 @@
       v-if="isExtendedInfoAvailable"
       @click="toggleExtendedInfo"
     >
+      <SfHeading class="_item-details-heading" :title="$t('Item details')" :level="5" />
+
       <SfChevron />
     </div>
+
+    <div
+      class="_extended-info"
+      v-if="isExtendedInfoAvailable"
+    >
+      <template>
+        <order-item-extended-info
+          :item="item"
+          :extension-attributes="item.extension_attributes"
+          :show-shipment-info="showShipmentInfo"
+          v-show="showExtendedInfo"
+        />
+      </template>
+    </div>
+
+    <component
+      v-if="alterationProductFormComponent"
+      :is="alterationProductFormComponent"
+      :order-item="item"
+      :alteration-product="alterationProduct"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { PropType, defineComponent, computed, ref, inject, toRef } from '@vue/composition-api';
-import { SfChevron } from '@storefront-ui/vue';
+import { SfChevron, SfHeading } from '@storefront-ui/vue';
 
 import { BaseImage } from 'src/modules/budsies';
 import { getCustomizationSystemThumbnail } from 'src/modules/customization-system';
@@ -99,7 +101,8 @@ export default defineComponent({
     OrderItemActions,
     OrderItemExtendedInfo,
     OrderItemProgressTracker,
-    SfChevron
+    SfChevron,
+    SfHeading
   },
   props: {
     item: {
@@ -196,12 +199,14 @@ export default defineComponent({
 <style lang="scss" scoped>
 .order-item {
   display: flex;
+  flex-direction: column;
   border: 1px solid var(--c-secondary);
   padding: var(--spacer-sm) var(--spacer-xs);
+  --alteration-product-form-padding: 0 var(--spacer-xs) 0 0;
 
-  &.-extendable {
-    padding-right: 0;
-  }
+  // &.-extendable {
+  //   padding-right: 0;
+  // }
 
   ._content {
     display: flex;
@@ -232,15 +237,14 @@ export default defineComponent({
   }
 
   ._toggle-extended-info {
-    width: 45px;
+    // width: 45px;
     display: flex;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: space-between;
     cursor: pointer;
 
     &.-expanded {
-
-.sf-chevron {
+      .sf-chevron {
         rotate: 180deg;
       }
     }
@@ -250,8 +254,15 @@ export default defineComponent({
     width: 72px;
   }
 
-  .order-item-extended-info {
+  ._toggle-extended-info {
     margin-top: var(--spacer-base);
+  }
+
+  ._item-details-heading {
+    --heading-title-font-size: var(--font-base);
+    --heading-title-font-weight: var(--font-semibold);
+
+    user-select: none;
   }
 
   .alteration-product-form {

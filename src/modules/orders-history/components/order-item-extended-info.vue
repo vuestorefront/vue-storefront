@@ -16,7 +16,10 @@
     </div>
 
     <div class="_section">
-      <div class="_heading-container">
+      <div
+        class="_heading-container"
+        v-if="showShipmentInfo"
+      >
         <SfHeading class="_heading" :title="$t('Item details')" :level="5" />
       </div>
 
