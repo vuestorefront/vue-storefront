@@ -13,7 +13,7 @@ import { useCustomizationState } from './composables/use-customization-state';
 import { useCustomizationStatePreservation } from './composables/use-customization-state-preservation';
 import { useEmailCustomization } from './composables/use-email-customization';
 import { useEstimatedShipment } from './composables/use-estimated-shipment';
-import { useExistingCartItemCustomizationsDisabling } from './composables/use-existing-cart-item-customizations-disabling';
+import { useExistingCartItemAddedToCartMessage } from './composables/use-existing-cart-item-added-to-cart-message';
 import { useFilesUpload } from './composables/use-files-upload';
 import { useListWidget } from './composables/use-list-widget';
 import { useOptionValueActions } from './composables/use-option-value-actions';
@@ -37,7 +37,6 @@ import { updateProductProductionTimeCustomizationData } from './helpers/update-p
 import { Customization } from './types/customization.interface';
 import { CustomizableProductFlowType } from './types/customizable-product-flow.type';
 import { CustomizationOptionValue } from './types/customization-option-value';
-import { CustomizationDisableConfig } from './types/customization-disable-config.interface';
 import { Deliverable } from './types/deliverable.interface';
 import { DraftOrderItem } from './types/draft-order-item.interface';
 import { EstimatedShipment } from './types/estimated-shipment.interface';
@@ -54,14 +53,15 @@ import { WidgetOptionShape } from './types/widget-option-shape.type';
 import { WidgetType } from './types/widget-type';
 import { WidgetOptionAlignment } from './types/widget-option-alignment.type';
 import { WidgetOptions } from './types/widget-options.interface';
+import { CustomizationAddedToCartMessageConfig } from './types/customization-added-to-cart-message-config.interface';
 
 import CartItemConfiguration from './components/cart-item-configuration.vue';
 
 export {
   CartItemConfiguration,
   Customization,
-  CustomizationDisableConfig,
   CustomizableProductFlowType,
+  CustomizationAddedToCartMessageConfig,
   CustomizationOptionValue,
   CustomizationStateItem,
   Deliverable,
@@ -111,7 +111,7 @@ export {
   useCustomizationStatePreservation,
   useEmailCustomization,
   useEstimatedShipment,
-  useExistingCartItemCustomizationsDisabling,
+  useExistingCartItemAddedToCartMessage,
   useFilesUpload,
   useListWidget,
   useOptionValueActions,

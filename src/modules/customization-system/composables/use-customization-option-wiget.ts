@@ -7,7 +7,7 @@ import { OptionValue } from '../types/option-value.interface';
 import { WidgetType } from '../types/widget-type';
 import { WidgetOptionAlignment } from '../types/widget-option-alignment.type';
 import { WidgetOptionShape } from '../types/widget-option-shape.type';
-import { CustomizationDisableConfig } from '../types/customization-disable-config.interface';
+import { CustomizationAddedToCartMessageConfig } from '../types/customization-added-to-cart-message-config.interface';
 
 export function useCustomizationOptionWidget (
   value: Ref<CustomizationOptionValue>,
@@ -15,7 +15,7 @@ export function useCustomizationOptionWidget (
   values: Ref<OptionValue[]>,
   productId: Ref<number>,
   { emit }: SetupContext,
-  customizationDisableConfig?: Ref<CustomizationDisableConfig | undefined>
+  addedToCartMessageConfig?: Ref<CustomizationAddedToCartMessageConfig | undefined>
 ) {
   const selectedOption = computed<CustomizationOptionValue>({
     get: () => {
@@ -64,13 +64,13 @@ export function useCustomizationOptionWidget (
       maxValuesCount: number | undefined,
       shape: WidgetOptionShape | undefined,
       values: OptionValue[],
-      customizationDisableConfig?: CustomizationDisableConfig
+      addedToCartMessageConfig?: CustomizationAddedToCartMessageConfig
     } = {
       alignment: widgetOptions?.alignment,
       maxValuesCount: maxValuesCount.value,
       shape: widgetOptions?.shape,
       values: values.value,
-      customizationDisableConfig: customizationDisableConfig?.value
+      addedToCartMessageConfig: addedToCartMessageConfig?.value
     };
 
     switch (displayWidget) {
@@ -80,7 +80,7 @@ export function useCustomizationOptionWidget (
           props: {
             maxValuesCount: maxValuesCount.value,
             values: values.value,
-            customizationDisableConfig: listWidgetsProps.customizationDisableConfig
+            addedToCartMessageConfig: listWidgetsProps.addedToCartMessageConfig
           }
         };
       case WidgetType.CHECKBOX:
@@ -148,6 +148,8 @@ export function useCustomizationOptionWidget (
           component: 'ThumbnailsListWidget',
           props: listWidgetsProps
         };
+      default:
+        throw new Error(`Unknown widget type: ${String(displayWidget)}`);
     }
   });
 
