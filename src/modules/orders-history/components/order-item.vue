@@ -197,10 +197,6 @@ export default defineComponent({
   padding: var(--spacer-sm) var(--spacer-xs);
   --alteration-product-form-padding: 0 var(--spacer-xs) 0 0;
 
-  // &.-extendable {
-  //   padding-right: 0;
-  // }
-
   ._content {
     display: flex;
     flex-direction: column;
@@ -245,7 +241,7 @@ export default defineComponent({
 
   ._item-details {
     border: 1px solid var(--c-secondary);
-    margin-top: var(--spacer-base);
+    margin-top: var(--spacer-sm);
     padding: var(--spacer-sm);
   }
 
@@ -262,11 +258,7 @@ export default defineComponent({
   }
 
   .alteration-product-form {
-    margin-top: var(--spacer-base);
-  }
-
-  .order-item-progress-tracker {
-    max-width: 370px;
+    margin-top: var(--spacer-sm);
   }
 
   ._extended-info {
