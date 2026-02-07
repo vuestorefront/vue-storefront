@@ -230,10 +230,10 @@ export default defineComponent({
   }
 
   ._toggle-extended-info {
-    // width: 45px;
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: var(--spacer-xs);
     cursor: pointer;
 
     &.-expanded {
@@ -244,8 +244,8 @@ export default defineComponent({
   }
 
   ._item-details {
+    border: 1px solid var(--c-secondary);
     margin-top: var(--spacer-base);
-    background-color: var(--c-secondary);
     padding: var(--spacer-sm);
   }
 
