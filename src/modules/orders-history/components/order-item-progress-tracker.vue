@@ -1,15 +1,15 @@
 <template>
   <div
     class="order-item-progress-tracker"
-    :class="{'-compact': !isVertical}"
+    :class="isVertical ? '-vertical' : '-compact'"
     :title="$t('Progress Tracker')"
   >
     <template v-if="isVertical">
-      <div class="_step-counter -vertical">
+      <div class="_step-counter">
         {{ $t('Step {current} of {total}', {current: currentStepIndex + 1, total: filteredStatusesCount}) }}
       </div>
 
-      <div class="_progress-tracker -vertical">
+      <div class="_progress-tracker">
         <div
           class="_status-item"
           :class="{
@@ -121,7 +121,9 @@ export default defineComponent({
 .order-item-progress-tracker {
   $mark-size: 10px;
   $mark-border-width: 2px;
-  $line-color: #4F7D8F;
+  $color-step-active: var(--c-primary);
+  $color-step-completed: var(--c-blue);
+  $color-step-incomplete: var(--c-text-muted);
 
   display: flex;
   flex-direction: column;
@@ -142,7 +144,7 @@ export default defineComponent({
 
       ._bar-fill {
         height: 100%;
-        background-color: var(--c-primary);
+        background-color: $color-step-active;
         transition: width 0.3s ease;
       }
     }
@@ -154,177 +156,121 @@ export default defineComponent({
 
       ._label {
         color: var(--c-text-muted);
+
         &.-start {
-            color: var(--c-primary);
-            font-weight: var(--font-bold);
+          color: $color-step-active;
+          font-weight: var(--font-bold);
         }
+
         &.-end {
-           text-align: right;
+          text-align: right;
         }
       }
     }
   }
 
-  ._progress-tracker {
-    display: flex;
-    justify-content: space-between;
-    row-gap: var(--spacer-2xs);
-    padding-top: var(--spacer-base);
+  &.-vertical {
+    ._step-counter {
+      white-space: nowrap;
+      position: relative;
+      margin-top: var(--spacer-xs);
+    }
 
-    &.-vertical {
+    ._progress-tracker {
+      display: flex;
       flex-direction: column;
       align-items: flex-start;
       row-gap: 0;
-      margin-top: 0;
-      padding-top: 0;
 
       ._status-item {
+        display: flex;
         flex-direction: row;
         align-items: center;
         flex-basis: 32px;
         column-gap: var(--spacer-xs);
+        position: relative;
+        box-sizing: border-box;
 
         ._mark {
+          border-radius: 50%;
+          width: $mark-size;
+          height: $mark-size;
+          border: $mark-border-width solid $color-step-incomplete;
+          background-color: var(--c-white);
+
           &::before,
           &::after {
-            border-left-style: solid
+            content: "";
+            position: absolute;
+            height: calc(calc(50% - #{$mark-size / 2}) - #{$mark-border-width / 2});
+            width: 2px;
+            left: 6px;
+            border-left: 2px solid $color-step-incomplete;
+          }
+
+          &::after {
+            bottom: 0;
+            top: auto;
+          }
+
+          &::before {
+            top: 0;
+            bottom: auto;
           }
         }
-      }
 
-      ._name {
-        margin-top: 0;
-      }
-
-      ._mark {
-        &::before,
-        &::after {
-          height: calc(calc(50% - #{$mark-size / 2}) - #{$mark-border-width / 2});
-          width: 2px;
-          left: 6px;
-          border-left: 2px dashed $line-color;
-          border-top: 0;
+        &:first-of-type {
+          ._mark {
+            &::before {
+              display: none;
+            }
+          }
         }
 
-        &::after {
-          bottom: 0;
-          top: auto;
+        &:last-of-type {
+          ._mark {
+            &::after {
+              display: none;
+            }
+          }
         }
 
-        &::before {
-          top: 0;
-          bottom: auto;
-        }
-      }
-
-    }
-  }
-
-  ._step-counter {
-    white-space: nowrap;
-
-    &.-vertical {
-      position: relative;
-      margin-top: var(--spacer-xs);
-    }
-  }
-
-  ._status-item {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-sizing: border-box;
-    flex: 1;
-    text-align: center;
-
-    ._mark {
-      border-radius: 50%;
-      width: $mark-size;
-      height: $mark-size;
-      border: $mark-border-width solid $line-color;
-      background-color: var(--c-white);
-
-      &::before,
-      &::after {
-        content: "";
-        width: calc(calc(50% - #{$mark-size / 2}) - #{$mark-border-width});
-        top: calc(#{$mark-size / 2} + #{$mark-border-width / 2});
-        border-top: $mark-border-width dashed $line-color;
-        position: absolute;
-      }
-
-      &::before {
-        left: 0;
-      }
-
-      &::after {
-        right: 0;
-      }
-
-    }
-
-    &:first-of-type {
-      align-items: flex-start;
-
-      ._mark {
-        &::before {
-          display: none;
+        ._name {
+          color: $color-step-incomplete;
+          margin-top: 0;
         }
 
-        &::after {
-          width: calc(100% - #{$mark-size + $mark-border-width * 2});
+        &.-active {
+          ._mark {
+            background-color: $color-step-active;
+            border-color: $color-step-active;
+
+            &::before {
+              border-color: $color-step-completed;
+            }
+          }
+
+          ._name {
+            color: $color-step-active;
+            font-weight: var(--font-semibold);
+          }
         }
-      }
-    }
 
-    &:last-of-type {
-      align-items: flex-end;
+        &.-completed {
+          ._mark {
+            background-color: $color-step-completed;
+            border-color: $color-step-completed;
 
-      ._mark {
-        &::after {
-          display: none;
+            &::before,
+            &::after {
+              border-color: $color-step-completed;
+            }
+          }
+
+          ._name {
+            color: var(--c-text);
+          }
         }
-
-        &::before {
-          width: calc(100% - #{$mark-size + $mark-border-width * 2});
-        }
-      }
-    }
-
-    ._name {
-      margin-top: var(--spacer-2xs);
-    }
-
-    &.-active {
-      ._mark {
-        background-color: var(--c-blue);
-        border-color: var(--c-blue);
-
-        &::before {
-          border-color: var(--c-blue);
-        }
-      }
-
-      ._name {
-        color: var(--c-blue);
-        font-weight: var(--font-bold);
-      }
-    }
-
-    &.-completed {
-      ._mark {
-        background-color: var(--c-blue);
-        border-color: var(--c-blue);
-
-        &::before,
-        &::after {
-          border-color: var(--c-blue);
-        }
-      }
-
-      ._name {
-        font-weight: var(--font-semibold);
       }
     }
   }
