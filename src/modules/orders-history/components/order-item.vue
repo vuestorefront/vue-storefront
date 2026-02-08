@@ -46,8 +46,12 @@
     >
       <div
         class="_toggle-extended-info"
+        role="button"
         :class="{'-expanded': showExtendedInfo}"
+        tabindex="0"
         @click="toggleExtendedInfo"
+        @keydown.enter.prevent="toggleExtendedInfo"
+        @keydown.space.prevent="toggleExtendedInfo"
       >
         <SfHeading class="_item-details-heading" :title="$t('Item details')" :level="5" />
 
