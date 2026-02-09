@@ -7,7 +7,6 @@ import { OptionValue } from '../types/option-value.interface';
 import { WidgetType } from '../types/widget-type';
 import { WidgetOptionAlignment } from '../types/widget-option-alignment.type';
 import { WidgetOptionShape } from '../types/widget-option-shape.type';
-import { CustomizationAddedToCartMessageConfig } from '../types/customization-added-to-cart-message-config.interface';
 
 export function useCustomizationOptionWidget (
   value: Ref<CustomizationOptionValue>,
@@ -15,7 +14,7 @@ export function useCustomizationOptionWidget (
   values: Ref<OptionValue[]>,
   productId: Ref<number>,
   { emit }: SetupContext,
-  addedToCartMessageConfig?: Ref<CustomizationAddedToCartMessageConfig | undefined>
+  addedToCartOptionValueId?: Ref<Record<string, boolean> | undefined>
 ) {
   const selectedOption = computed<CustomizationOptionValue>({
     get: () => {
@@ -64,13 +63,13 @@ export function useCustomizationOptionWidget (
       maxValuesCount: number | undefined,
       shape: WidgetOptionShape | undefined,
       values: OptionValue[],
-      addedToCartMessageConfig?: CustomizationAddedToCartMessageConfig
+      addedToCartOptionValueId?: Record<string, boolean>
     } = {
       alignment: widgetOptions?.alignment,
       maxValuesCount: maxValuesCount.value,
       shape: widgetOptions?.shape,
       values: values.value,
-      addedToCartMessageConfig: addedToCartMessageConfig?.value
+      addedToCartOptionValueId: addedToCartOptionValueId?.value
     };
 
     switch (displayWidget) {
@@ -80,7 +79,7 @@ export function useCustomizationOptionWidget (
           props: {
             maxValuesCount: maxValuesCount.value,
             values: values.value,
-            addedToCartMessageConfig: listWidgetsProps.addedToCartMessageConfig
+            addedToCartOptionValueId: listWidgetsProps.addedToCartOptionValueId
           }
         };
       case WidgetType.CHECKBOX:

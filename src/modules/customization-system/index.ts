@@ -13,7 +13,7 @@ import { useCustomizationState } from './composables/use-customization-state';
 import { useCustomizationStatePreservation } from './composables/use-customization-state-preservation';
 import { useEmailCustomization } from './composables/use-email-customization';
 import { useEstimatedShipment } from './composables/use-estimated-shipment';
-import { useExistingCartItemAddedToCartMessage } from './composables/use-existing-cart-item-added-to-cart-message';
+import { useExistingCartItemOptionValues } from './composables/use-existing-cart-item-option-values';
 import { useFilesUpload } from './composables/use-files-upload';
 import { useListWidget } from './composables/use-list-widget';
 import { useOptionValueActions } from './composables/use-option-value-actions';
@@ -53,7 +53,6 @@ import { WidgetOptionShape } from './types/widget-option-shape.type';
 import { WidgetType } from './types/widget-type';
 import { WidgetOptionAlignment } from './types/widget-option-alignment.type';
 import { WidgetOptions } from './types/widget-options.interface';
-import { CustomizationAddedToCartMessageConfig } from './types/customization-added-to-cart-message-config.interface';
 
 import CartItemConfiguration from './components/cart-item-configuration.vue';
 
@@ -61,7 +60,6 @@ export {
   CartItemConfiguration,
   Customization,
   CustomizableProductFlowType,
-  CustomizationAddedToCartMessageConfig,
   CustomizationOptionValue,
   CustomizationStateItem,
   Deliverable,
@@ -111,7 +109,7 @@ export {
   useCustomizationStatePreservation,
   useEmailCustomization,
   useEstimatedShipment,
-  useExistingCartItemAddedToCartMessage,
+  useExistingCartItemOptionValues,
   useFilesUpload,
   useListWidget,
   useOptionValueActions,
