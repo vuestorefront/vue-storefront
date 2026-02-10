@@ -3,5 +3,6 @@ export interface OrderItemAvailableAction {
   name: string,
   message: string,
   blocking_progress: boolean,
-  url: string | null
+  url: string | null,
+  open_in_new_tab: boolean
 }
