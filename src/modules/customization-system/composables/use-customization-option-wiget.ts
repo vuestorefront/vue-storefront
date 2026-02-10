@@ -14,7 +14,11 @@ export function useCustomizationOptionWidget (
   values: Ref<OptionValue[]>,
   productId: Ref<number>,
   { emit }: SetupContext,
-  addedToCartOptionValueId?: Ref<Record<string, boolean> | undefined>
+  addedToCartOptionValueId?: Ref<Record<string, boolean> | undefined>,
+  expandConfig?: Ref<{
+    isExpandable: boolean,
+    isExpanded: boolean
+  } | undefined>
 ) {
   const selectedOption = computed<CustomizationOptionValue>({
     get: () => {
@@ -79,7 +83,8 @@ export function useCustomizationOptionWidget (
           props: {
             maxValuesCount: maxValuesCount.value,
             values: values.value,
-            addedToCartOptionValueId: listWidgetsProps.addedToCartOptionValueId
+            addedToCartOptionValueId: listWidgetsProps.addedToCartOptionValueId,
+            expandConfig: expandConfig?.value
           }
         };
       case WidgetType.CHECKBOX:
