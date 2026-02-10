@@ -60,7 +60,7 @@ import { REORDER_ITEM_ACTION, IS_REORDERING_ITEM } from '..';
 
 interface ActionItem {
   action: OrderItemAvailableAction,
-  component?: 'SfButton' | 'a',
+  component?: 'SfButton' | 'a' | 'router-link',
   props: Record<string, string | undefined>,
   handlers: Record<string, () => Promise<void>>
 }
@@ -250,10 +250,21 @@ export default defineComponent({
         }
 
         if (action.url) {
-          actionItem.component = 'a';
-          actionItem.props = {
-            href: action.url,
-            target: '_blank'
+          const isExternal = action.url.startsWith('http');
+          const target = action.open_in_new_tab ? '_blank' : undefined;
+
+          if (isExternal) {
+            actionItem.component = 'a';
+            actionItem.props = {
+              href: action.url,
+              target
+            };
+          } else {
+            actionItem.component = 'router-link';
+            actionItem.props = {
+              to: action.url,
+              target
+            };
           }
         }
 
