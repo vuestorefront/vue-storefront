@@ -18,7 +18,8 @@ export function useCustomizationOptionWidget (
   expandConfig?: Ref<{
     isExpandable: boolean,
     isExpanded: boolean
-  } | undefined>
+  } | undefined>,
+  hiddenOptionValues?: Ref<Record<string, boolean> | undefined>
 ) {
   const selectedOption = computed<CustomizationOptionValue>({
     get: () => {
@@ -84,7 +85,8 @@ export function useCustomizationOptionWidget (
             maxValuesCount: maxValuesCount.value,
             values: values.value,
             addedToCartOptionValueId: listWidgetsProps.addedToCartOptionValueId,
-            expandConfig: expandConfig?.value
+            expandConfig: expandConfig?.value,
+            hiddenOptionValues: hiddenOptionValues?.value
           }
         };
       case WidgetType.CHECKBOX:
