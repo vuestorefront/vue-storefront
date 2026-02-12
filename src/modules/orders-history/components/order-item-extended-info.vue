@@ -79,13 +79,25 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props) {
+  setup (props, { root }) {
     const customizationState = computed<CustomizationStateItem[]>(() => {
       return (props.item.extension_attributes && props.item.extension_attributes.customization_states) || [];
     });
 
     const customizations = computed<Customization[]>(() => {
-      return (props.item.extension_attributes && props.item.extension_attributes.customizations) || [];
+      const productCustomizations = (props.item.extension_attributes && props.item.extension_attributes.customizations) || [];
+
+      if (!props.item.product.related_alteration_product) {
+        return productCustomizations;
+      }
+
+      const alterationProduct = root.$store.getters['product/getProductBySkuDictionary'][props.item.product.related_alteration_product.sku];
+
+      if (!alterationProduct) {
+        return productCustomizations;
+      }
+
+      return [...productCustomizations, ...alterationProduct.customizations];
     });
 
     const {
