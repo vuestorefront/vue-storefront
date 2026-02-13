@@ -1,1 +1,0 @@
-export { registerIntegrations } from "./registerIntegrations";
