@@ -16,7 +16,10 @@ export function isItemAvailable (
     return true;
   }
 
+  const selectedOptionValueIdsSet = new Set(selectedOptionValuesIds);
+  const extraSelectedOptionValueIdsSet = new Set(extraSelectedOptionValueIds);
+
   return forActivatedOptionValueIds.some((id) => {
-    return selectedOptionValuesIds.includes(id) || extraSelectedOptionValueIds.includes(id);
+    return selectedOptionValueIdsSet.has(id) || extraSelectedOptionValueIdsSet.has(id);
   });
 }
