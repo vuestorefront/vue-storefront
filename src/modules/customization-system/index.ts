@@ -34,6 +34,7 @@ import { requiredCustomizationsFilter } from './helpers/required-customizations-
 import { updateCartItemProductionTimeCustomizationState } from './helpers/update-cart-item-production-time-customization-state';
 import { updateProductProductionTimeCustomizationData } from './helpers/update-product-production-time-customization-data';
 
+import { AvailabilityRules } from './types/availability-rules.interface';
 import { Customization } from './types/customization.interface';
 import { CustomizableProductFlowType } from './types/customizable-product-flow.type';
 import { CustomizationOptionValue } from './types/customization-option-value';
@@ -57,6 +58,7 @@ import { WidgetOptions } from './types/widget-options.interface';
 import CartItemConfiguration from './components/cart-item-configuration.vue';
 
 export {
+  AvailabilityRules,
   CartItemConfiguration,
   Customization,
   CustomizableProductFlowType,

@@ -4,7 +4,8 @@ export function isItemAvailable (
   itemWithAvailabilityRules: {
     availabilityRules?: AvailabilityRules | undefined
   },
-  selectedOptionValuesIds: string[]
+  selectedOptionValuesIds: string[],
+  extraSelectedOptionValueIds: string[] = []
 ) {
   const forActivatedOptionValueIds = itemWithAvailabilityRules.availabilityRules?.forActivatedOptionValueIds;
 
@@ -16,6 +17,6 @@ export function isItemAvailable (
   }
 
   return forActivatedOptionValueIds.some((id) => {
-    return selectedOptionValuesIds.includes(id);
+    return selectedOptionValuesIds.includes(id) || extraSelectedOptionValueIds.includes(id);
   });
 }
