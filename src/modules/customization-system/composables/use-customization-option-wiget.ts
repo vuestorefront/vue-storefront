@@ -15,10 +15,10 @@ export function useCustomizationOptionWidget (
   productId: Ref<number>,
   { emit }: SetupContext,
   addedToCartOptionValueId?: Ref<Record<string, boolean> | undefined>,
-  expandConfig?: Ref<{
+  expandConfig?: Ref<Record<string, {
     isExpandable: boolean,
     isExpanded: boolean
-  } | undefined>,
+  }> | undefined>,
   hiddenOptionValues?: Ref<Record<string, boolean> | undefined>
 ) {
   const selectedOption = computed<CustomizationOptionValue>({
