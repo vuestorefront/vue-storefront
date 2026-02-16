@@ -104,9 +104,11 @@ services:
   tests:
       image: mcr.microsoft.com/playwright:v1.50.1-noble
       environment:
+        - SSH_AUTH_SOCK=/ssh-agent.sock
         - DEFAULT_STORE_DOMAIN
       volumes:
         - .:/var/www
+        - ${SSH_AUTH_SOCK}:/ssh-agent.sock
       working_dir: "/var/www"
       command:
         [
