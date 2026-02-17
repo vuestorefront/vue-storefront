@@ -4,7 +4,9 @@ import { SearchQuery } from 'storefront-query-builder';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import { canOrderItemHaveUpgrades } from '../helpers/can-order-item-have-upgrades';
+import { Order } from '../types/order';
 import { OrderItem } from '../types/order-item';
+import { updateProductProductionTimeCustomizationData } from 'src/modules/customization-system';
 
 function getSearchQuery (skus: string[]): SearchQuery {
   let productsQuery = new SearchQuery();
@@ -17,13 +19,37 @@ function getSearchQuery (skus: string[]): SearchQuery {
 }
 
 export function useAlterationProductsLoader (
-  orderItems: Ref<OrderItem[]>,
+  orders: Ref<Order[]>,
   { root }: SetupContext
 ) {
   const isLoading = ref<boolean>(false);
 
+  const allOrderItems = computed<OrderItem[]>(() => {
+    const items: OrderItem[] = [];
+
+    for (const order of orders.value) {
+      items.push(...order.items);
+    }
+
+    return items;
+  });
+
+  const orderItemIdToShippingCountryId = computed<Record<number, string | undefined>>(() => {
+    const mapping: Record<number, string | undefined> = {};
+
+    for (const order of orders.value) {
+      const shippingCountryId = order.shipping_address?.country_id;
+
+      for (const item of order.items) {
+        mapping[item.item_id] = shippingCountryId;
+      }
+    }
+
+    return mapping;
+  });
+
   const eligibleOrderItems = computed<OrderItem[]>(() => {
-    return orderItems.value.filter((item: OrderItem) => canOrderItemHaveUpgrades(item));
+    return allOrderItems.value.filter((item: OrderItem) => canOrderItemHaveUpgrades(item));
   });
 
   const alterationProductSkus = computed<string[]>(() => {
@@ -58,7 +84,18 @@ export function useAlterationProductsLoader (
         continue;
       }
 
-      dictionary[orderItem.item_id] = product;
+      const shippingCountryId = orderItemIdToShippingCountryId.value[orderItem.item_id];
+
+      const updatedProduct = updateProductProductionTimeCustomizationData(
+        product,
+        root.$store,
+        {
+          shippingCountryId,
+          addDefaultOptionValue: false
+        }
+      );
+
+      dictionary[orderItem.item_id] = updatedProduct;
     }
 
     return dictionary;
@@ -80,18 +117,27 @@ export function useAlterationProductsLoader (
     }
 
     if (notLoadedSkus.length === 0) {
-      return;
+      return root.$store.dispatch(
+        'budsies/loadProductsRushAddons',
+        { productSku: '' }
+      );
     }
 
     isLoading.value = true;
 
     try {
-      await root.$store.dispatch('product/findProducts', {
-        query: getSearchQuery(notLoadedSkus),
-        options: {
-          prefetchGroupProducts: false
-        }
-      });
+      await Promise.all([
+        root.$store.dispatch('product/findProducts', {
+          query: getSearchQuery(notLoadedSkus),
+          options: {
+            prefetchGroupProducts: false
+          }
+        }),
+        root.$store.dispatch(
+          'budsies/loadProductsRushAddons',
+          { productSku: '' }
+        )
+      ]);
     } finally {
       isLoading.value = false;
     }
@@ -99,8 +145,8 @@ export function useAlterationProductsLoader (
 
   watch(
     alterationProductSkus,
-    () => {
-      void loadAlterationProducts();
+    async () => {
+      await loadAlterationProducts();
     },
     { immediate: true }
   );
