@@ -16,7 +16,7 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
     { commit },
     { excludeAlterationProducts }: { excludeAlterationProducts?: boolean } = {}
   ): Promise<Order[]> {
-    const excludeAlterationProductsQuery = excludeAlterationProducts ? '&exclude_alteration_products=1' : '';
+    const excludeAlterationProductsQuery = excludeAlterationProducts ? '&excludeAlterationProducts=true' : '';
     const url = processURLAddress(`${config.budsies.endpoint}/customers/me/orders?token={{token}}${excludeAlterationProductsQuery}`);
 
     const { result, resultCode } = await TaskQueue.execute({
