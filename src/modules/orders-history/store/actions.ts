@@ -12,8 +12,12 @@ import { SET_ORDERS_HISTORY, SET_SUGGESTED_PRODUCTS, SET_IS_REORDERING_ITEM } fr
 import { OrderAddress } from '../types/order-address';
 
 export const actions: ActionTree<OrdersHistoryState, RootState> = {
-  async [FETCH_ORDERS_HISTORY] ({ commit }): Promise<Order[]> {
-    const url = processURLAddress(`${config.budsies.endpoint}/customers/me/orders?token={{token}}`);
+  async [FETCH_ORDERS_HISTORY] (
+    { commit },
+    { excludeAlterationProducts }: { excludeAlterationProducts?: boolean } = {}
+  ): Promise<Order[]> {
+    const excludeAlterationProductsQuery = excludeAlterationProducts ? '&exclude_alteration_products=1' : '';
+    const url = processURLAddress(`${config.budsies.endpoint}/customers/me/orders?token={{token}}${excludeAlterationProductsQuery}`);
 
     const { result, resultCode } = await TaskQueue.execute({
       url,
