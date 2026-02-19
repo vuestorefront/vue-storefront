@@ -7,6 +7,7 @@ import { PriceHelper } from 'src/modules/shared';
 import { getOptionValuePrice } from '../helpers/get-option-value-price';
 import { OptionValue } from '../types/option-value.interface';
 import { Currency, GET_ACTIVE_CURRENCY } from 'src/modules/currency';
+import { PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID } from '../types/production-time-selector-standard-option-value-id';
 
 export function useOptionValuesPrice (
   values: Ref<OptionValue[]>,
@@ -20,6 +21,14 @@ export function useOptionValuesPrice (
       const productPriceDictionary = root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
 
       values.value.forEach((optionValue) => {
+        if (optionValue.id === PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID) {
+          dictionary[optionValue.id] = {
+            regular: 0,
+            special: null
+          };
+          return;
+        }
+
         dictionary[optionValue.id] = getOptionValuePrice(
           optionValue,
           productBySkuDictionary,
@@ -33,7 +42,7 @@ export function useOptionValuesPrice (
 
   const defaultOptionValue = computed<OptionValue | undefined>(() => {
     const _values = values.value;
-    const defaultValue = _values.find((value) => value.isDefault);
+    const defaultValue = _values.find((value) => value.isDefault || value.id === PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID);
 
     if (defaultValue && !useLowestPriceAsDefault) {
       return defaultValue;
@@ -138,6 +147,7 @@ export function useOptionValuesPrice (
   }
 
   return {
+    defaultOptionValue,
     defaultOptionValueFinalPrice,
     isDefaultOptionValue,
     isOptionValuesSamePrice,

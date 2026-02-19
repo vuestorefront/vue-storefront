@@ -9,13 +9,6 @@ import { OptionData } from '../types/option-data.interface';
 import { OptionValue } from '../types/option-value.interface';
 import { PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID } from '../types/production-time-selector-standard-option-value-id';
 
-const STANDARD_OPTION_VALUE: OptionValue = {
-  id: PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID,
-  isEnabled: true,
-  isDefault: false,
-  sn: 0
-};
-
 const SNEAK_PEEK_OPTION_VALUES_SKUS = [
   'sneak_peek',
   'golf_cover_sneak_peek',
@@ -26,33 +19,64 @@ const SNEAK_PEEK_OPTION_VALUES_SKUS = [
 
 const ADD_SNEAK_PEEK_AVAILABILITY_RULES = false;
 
+const DOMESTIC_COUNTRY_ID = 'US';
+
+function buildStandardOptionValue (standardText?: string): OptionValue {
+  return {
+    id: PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID,
+    isEnabled: true,
+    isDefault: false,
+    sn: 0,
+    name: standardText || ''
+  };
+}
+
 // Make customization required, add "Standard" option value
 // And remove option values missing in "Rush Addons" list
 function updateProductionTimeCustomization (
   productionTimeCustomization: Customization,
-  availableAddons: RushAddon[]
+  availableAddons: RushAddon[],
+  addDefaultOptionValue: boolean
 ): Customization {
   if (!productionTimeCustomization.optionData) {
     return productionTimeCustomization;
   }
 
-  const values = (productionTimeCustomization.optionData.values || []).filter(
-    (value) => {
-      if (!value.sku) {
-        return false;
-      }
+  const addonBySku: Record<string, RushAddon> = {};
+  const standardAddon = availableAddons.find((addon) => !addon.id);
 
-      const relatedAddon = availableAddons.find((addon) => addon.id === value.sku);
-
-      return !!relatedAddon;
+  for (const addon of availableAddons) {
+    if (addon.id) {
+      addonBySku[addon.id] = addon;
     }
-  );
+  }
 
-  values.unshift(STANDARD_OPTION_VALUE);
+  const values: OptionValue[] = [];
+
+  for (const value of (productionTimeCustomization.optionData.values || [])) {
+    if (!value.sku) {
+      continue;
+    }
+
+    const addon = addonBySku[value.sku];
+
+    if (!addon) {
+      continue;
+    }
+
+    values.push({
+      ...value,
+      name: addon.text
+    });
+  }
+
+  if (addDefaultOptionValue) {
+    values.unshift(buildStandardOptionValue(standardAddon?.text));
+  }
 
   const optionData: OptionData = {
     ...productionTimeCustomization.optionData,
-    isRequired: true,
+    isRequired: addDefaultOptionValue ? true : productionTimeCustomization.optionData.isRequired,
     values
   }
 
@@ -133,11 +157,20 @@ function removeProductionTimeCustomizationFromProduct (
 // production time will be added
 export function updateProductProductionTimeCustomizationData (
   product: Product,
-  store: Store<any>
+  store: Store<any>,
+  options: {
+    shippingCountryId?: string,
+    addDefaultOptionValue: boolean
+  } = {
+    shippingCountryId: undefined,
+    addDefaultOptionValue: true
+  }
 ): Product {
   if (!product.customizations) {
     return product;
   }
+
+  const { shippingCountryId, addDefaultOptionValue } = options;
 
   const productionTimeCustomization = product.customizations.find(
     (customization) => customization.optionData?.type === OptionType.PRODUCTION_TIME
@@ -147,8 +180,16 @@ export function updateProductProductionTimeCustomizationData (
     return product;
   }
 
-  const availableAddons: RushAddon[] =
+  let availableAddons: RushAddon[] =
     store.getters['budsies/getProductRushAddons'](product.id);
+
+  if (shippingCountryId) {
+    const isDomesticShipping = shippingCountryId.toUpperCase() === DOMESTIC_COUNTRY_ID;
+
+    availableAddons = availableAddons.filter(
+      (addon) => addon.isDomestic === isDomesticShipping
+    );
+  }
 
   if (availableAddons.length === 0) {
     return removeProductionTimeCustomizationFromProduct(
@@ -159,7 +200,8 @@ export function updateProductProductionTimeCustomizationData (
 
   const updatedProductionTimeCustomization = updateProductionTimeCustomization(
     productionTimeCustomization,
-    availableAddons
+    availableAddons,
+    addDefaultOptionValue
   );
 
   return updateProductCustomizations(
