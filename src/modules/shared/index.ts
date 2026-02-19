@@ -37,6 +37,7 @@ import * as ExpressCheckoutData from './types/express-checkout-data.interface';
 import { useExpressCheckoutTotals } from './composables/use-express-checkout-totals';
 import { useImageDownload } from './composables/use-image-download';
 import { useBatchImageDownload } from './composables/use-batch-image-download';
+import { useImagesPrint } from './composables/use-images-print';
 
 import EmailSubmitForm from './components/email-submit-form.vue';
 import PrivacyPolicyLink from './components/privacy-policy-link.vue';
@@ -84,5 +85,6 @@ export {
   getFirstAndLastFromFullName,
   useExpressCheckoutTotals,
   useImageDownload,
-  useBatchImageDownload
+  useBatchImageDownload,
+  useImagesPrint
 }
