@@ -12,7 +12,7 @@ const UPGRADE_ELIGIBLE_STATUSES: BudsieStatus[] = [
 ];
 
 export function canOrderItemHaveUpgrades (orderItem: OrderItem): boolean {
-  if (!orderItem.product.extension_attributes?.related_alteration_product) {
+  if (!orderItem.extension_attributes?.alteration_product) {
     return false;
   }
 

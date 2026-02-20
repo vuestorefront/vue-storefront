@@ -3,16 +3,13 @@ import { OrderItemShipment } from './order-item-shipment';
 import { OrderItemExtensionAttributes } from './order-item-extension-attributes';
 import { ProgressTrackerData } from './progress-tracker-data';
 
-interface OrderItemProduct {
+export interface OrderItemProduct {
   id: number,
   sku: string,
   name: string,
   image: string,
   small_image: string,
-  thumbnail: string,
-  extension_attributes?: {
-    related_alteration_product?: Omit<OrderItemProduct, 'extension_attributes'>
-  }
+  thumbnail: string
 }
 
 export interface OrderItem {
