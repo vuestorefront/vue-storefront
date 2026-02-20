@@ -50,19 +50,6 @@ export function useCustomizationOptionWidget (
     const widgetOptions = customization.value.optionData.displayWidgetOptions;
     const displayWidget = customization.value.optionData.displayWidget;
 
-    if (customization.value.optionData.type === OptionType.PRODUCTION_TIME) {
-      return {
-        component: 'ProductionTimeSelector',
-        props: {
-          bundleOptionId: customization.value.bundleOptionId,
-          placeholder: widgetOptions?.placeholder,
-          productId: productId.value,
-          values: values.value,
-          title: customization.value.title || customization.value.name
-        }
-      };
-    }
-
     const listWidgetsProps: {
       alignment?: WidgetOptionAlignment,
       maxValuesCount: number | undefined,
