@@ -30,8 +30,10 @@ export function useAlterationProductsLoader (
     const skus = new Set<string>();
 
     for (const item of eligibleOrderItems.value) {
-      if (item.product.related_alteration_product) {
-        skus.add(item.product.related_alteration_product.sku);
+      const relatedAlterationProduct = item.product.extension_attributes?.related_alteration_product;
+
+      if (relatedAlterationProduct) {
+        skus.add(relatedAlterationProduct.sku);
       }
     }
 
@@ -46,7 +48,7 @@ export function useAlterationProductsLoader (
     const dictionary: Record<number, Product> = {};
 
     for (const orderItem of eligibleOrderItems.value) {
-      const alterationSku = orderItem.product.related_alteration_product?.sku;
+      const alterationSku = orderItem.product.extension_attributes?.related_alteration_product?.sku;
 
       if (!alterationSku) {
         continue;

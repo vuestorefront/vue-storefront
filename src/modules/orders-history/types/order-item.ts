@@ -10,7 +10,9 @@ interface OrderItemProduct {
   image: string,
   small_image: string,
   thumbnail: string,
-  related_alteration_product?: Omit<OrderItemProduct, 'related_alteration_product'>
+  extension_attributes?: {
+    related_alteration_product?: Omit<OrderItemProduct, 'extension_attributes'>
+  }
 }
 
 export interface OrderItem {
