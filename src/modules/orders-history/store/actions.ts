@@ -17,7 +17,7 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
     { filters }: { filters?: { excludeAlterationProducts?: boolean } } = {}
   ): Promise<Order[]> {
     const excludeAlterationProductsQuery = filters?.excludeAlterationProducts
-      ? `&filters=excludeAlterationProducts`
+      ? `&excludeAlterationProducts=true`
       : '';
     const url = processURLAddress(`${config.budsies.endpoint}/customers/me/orders?token={{token}}${excludeAlterationProductsQuery}`);
 
