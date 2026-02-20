@@ -41,7 +41,9 @@ export function useOrderHistoryList ({ root }: SetupContext) {
 
     try {
       await root.$store.dispatch(`${STORE_NAME}/${FETCH_ORDERS_HISTORY}`, {
-        excludeAlterationProducts: true
+        filters: {
+          excludeAlterationProducts: true
+        }
       });
     } catch (error) {
       isError.value = true;

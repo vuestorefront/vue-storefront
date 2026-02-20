@@ -14,9 +14,11 @@ import { OrderAddress } from '../types/order-address';
 export const actions: ActionTree<OrdersHistoryState, RootState> = {
   async [FETCH_ORDERS_HISTORY] (
     { commit },
-    { excludeAlterationProducts }: { excludeAlterationProducts?: boolean } = {}
+    { filters }: { filters?: { excludeAlterationProducts?: boolean } } = {}
   ): Promise<Order[]> {
-    const excludeAlterationProductsQuery = excludeAlterationProducts ? '&excludeAlterationProducts=true' : '';
+    const excludeAlterationProductsQuery = filters?.excludeAlterationProducts
+      ? `&filters=excludeAlterationProducts`
+      : '';
     const url = processURLAddress(`${config.budsies.endpoint}/customers/me/orders?token={{token}}${excludeAlterationProductsQuery}`);
 
     const { result, resultCode } = await TaskQueue.execute({
