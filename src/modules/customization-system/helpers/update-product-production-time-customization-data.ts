@@ -17,7 +17,7 @@ const SNEAK_PEEK_OPTION_VALUES_SKUS = [
   'specialty_commission_sneak_peek'
 ];
 
-const ADD_SNEAK_PEEK_AVAILABILITY_RULES = false;
+const ADD_SNEAK_PEEK_AVAILABILITY_RULES = true;
 
 const DOMESTIC_COUNTRY_ID = 'US';
 
@@ -36,7 +36,7 @@ function buildStandardOptionValue (standardText?: string): OptionValue {
 function updateProductionTimeCustomization (
   productionTimeCustomization: Customization,
   availableAddons: RushAddon[],
-  addDefaultOptionValue: boolean
+  makeProductionTimeRequired: boolean
 ): Customization {
   if (!productionTimeCustomization.optionData) {
     return productionTimeCustomization;
@@ -70,13 +70,11 @@ function updateProductionTimeCustomization (
     });
   }
 
-  if (addDefaultOptionValue) {
-    values.unshift(buildStandardOptionValue(standardAddon?.text));
-  }
+  values.unshift(buildStandardOptionValue(standardAddon?.text));
 
   const optionData: OptionData = {
     ...productionTimeCustomization.optionData,
-    isRequired: addDefaultOptionValue ? true : productionTimeCustomization.optionData.isRequired,
+    isRequired: makeProductionTimeRequired,
     values
   }
 
@@ -160,17 +158,17 @@ export function updateProductProductionTimeCustomizationData (
   store: Store<any>,
   options: {
     shippingCountryId?: string,
-    addDefaultOptionValue: boolean
+    makeProductionTimeRequired: boolean
   } = {
     shippingCountryId: undefined,
-    addDefaultOptionValue: true
+    makeProductionTimeRequired: true
   }
 ): Product {
   if (!product.customizations) {
     return product;
   }
 
-  const { shippingCountryId, addDefaultOptionValue } = options;
+  const { shippingCountryId, makeProductionTimeRequired } = options;
 
   const productionTimeCustomization = product.customizations.find(
     (customization) => customization.optionData?.type === OptionType.PRODUCTION_TIME
@@ -201,7 +199,7 @@ export function updateProductProductionTimeCustomizationData (
   const updatedProductionTimeCustomization = updateProductionTimeCustomization(
     productionTimeCustomization,
     availableAddons,
-    addDefaultOptionValue
+    makeProductionTimeRequired
   );
 
   return updateProductCustomizations(
