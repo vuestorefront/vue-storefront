@@ -18,5 +18,5 @@ export interface OptionValue {
   actions?: Actions,
   sn: number,
   galleryImages?: GalleryImage[],
-  originalOptionValueId?: string
+  originalValueId?: string
 }
