@@ -89,7 +89,8 @@ export default interface Product {
   landing_page_url?: string | null,
   disabled_upgrades?: string[],
   customizations?: Customization[],
-  turnaround_time?: number
+  turnaround_time?: number,
+  is_alteration_product?: boolean
 }
 
 export interface ProductLink {
