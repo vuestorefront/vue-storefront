@@ -88,8 +88,6 @@ export function useImagesPrint (imageHandlerService: ImageHandlerService) {
         throw new Error('Print iframe is not available');
       }
 
-      debugger;
-
       doc.open();
       doc.write(buildPrintHtml(resolvedUrls));
       doc.close();
