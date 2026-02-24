@@ -9,10 +9,7 @@ export function useImageDownload (imageHandlerService: ImageHandlerService) {
       throw new Error('Image Handler Service is not defined');
     }
 
-    const urlWithoutBucket = url.split('/')[1];
-    const imageUrl = urlWithoutBucket
-      ? imageHandlerService.getOriginalImageUrl(urlWithoutBucket)
-      : imageHandlerService.getOriginalImageUrl(url);
+    const imageUrl = imageHandlerService.getOriginalImageUrl(url);
 
     const response = await fetch(imageUrl);
 

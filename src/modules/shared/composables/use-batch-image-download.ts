@@ -35,11 +35,7 @@ export function useBatchImageDownload (imageHandlerService: ImageHandlerService)
     const zip = new JSZipCtor();
 
     const blobs = await Promise.all(entries.map(async (entry) => {
-      const urlWithoutBucket = entry.url.split('/')[1];
-      const imageUrl = urlWithoutBucket
-        ? imageHandlerService.getOriginalImageUrl(urlWithoutBucket)
-        : imageHandlerService.getOriginalImageUrl(entry.url);
-
+      const imageUrl = imageHandlerService.getOriginalImageUrl(entry.url);
       const response = await fetch(imageUrl);
 
       return response.blob();

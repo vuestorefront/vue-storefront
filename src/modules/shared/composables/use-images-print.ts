@@ -76,12 +76,7 @@ export function useImagesPrint (imageHandlerService: ImageHandlerService) {
       return;
     }
 
-    const resolvedUrls = imageUrls.map((url) => {
-      const urlWithoutBucket = url.split('/')[1];
-      return urlWithoutBucket
-        ? imageHandlerService.getOriginalImageUrl(urlWithoutBucket)
-        : imageHandlerService.getOriginalImageUrl(url);
-    });
+    const resolvedUrls = imageUrls.map((url) => imageHandlerService.getOriginalImageUrl(url));
 
     const iframe = createHiddenIframe();
 
@@ -92,6 +87,8 @@ export function useImagesPrint (imageHandlerService: ImageHandlerService) {
       if (!doc || !contentWindow) {
         throw new Error('Print iframe is not available');
       }
+
+      debugger;
 
       doc.open();
       doc.write(buildPrintHtml(resolvedUrls));
