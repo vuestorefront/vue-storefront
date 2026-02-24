@@ -1,5 +1,5 @@
 import { Customization, CustomizationStateItem } from 'src/modules/customization-system';
-import { OrderItemProduct } from './order-item';
+import { OrderItemProduct } from './order-item-product';
 
 export interface OrderItemExtensionAttributes {
   alteration_product?: OrderItemProduct,
