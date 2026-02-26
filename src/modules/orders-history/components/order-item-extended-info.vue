@@ -87,11 +87,13 @@ export default defineComponent({
     const customizations = computed<Customization[]>(() => {
       const productCustomizations = (props.item.extension_attributes && props.item.extension_attributes.customizations) || [];
 
-      if (!props.item.product.related_alteration_product) {
+      const alterationProductData = props.item.extension_attributes?.alteration_product;
+
+      if (!alterationProductData) {
         return productCustomizations;
       }
 
-      const alterationProduct = root.$store.getters['product/getProductBySkuDictionary'][props.item.product.related_alteration_product.sku];
+      const alterationProduct = root.$store.getters['product/getProductBySkuDictionary'][alterationProductData.sku];
 
       if (!alterationProduct) {
         return productCustomizations;

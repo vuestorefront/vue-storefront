@@ -16,5 +16,6 @@ export interface Customization {
   title?: string,
   type: CustomizationType,
   variants?: OptionVariant[],
-  isLocked: boolean
+  isLocked: boolean,
+  originalCustomizationId?: string
 }
