@@ -3,12 +3,10 @@ import { BudsieStatus } from 'src/modules/shared';
 import { OrderItem } from '../types/order-item';
 
 const UPGRADE_ELIGIBLE_STATUSES: BudsieStatus[] = [
-  BudsieStatus.CREATED,
-  BudsieStatus.REVIEW,
-  BudsieStatus.APPROVED,
+  BudsieStatus.AWAITING_CUSTOMIZATION,
   BudsieStatus.AWAITING_ARTWORK,
-  BudsieStatus.READY_FOR_PRODUCTION,
-  BudsieStatus.AWAITING_CUSTOMIZATION
+  BudsieStatus.ON_HOLD,
+  BudsieStatus.REVIEW
 ];
 
 export function canOrderItemHaveUpgrades (orderItem: OrderItem): boolean {
