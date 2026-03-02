@@ -1,6 +1,6 @@
-import { computed, Ref, SetupContext, watch } from '@vue/composition-api';
+import { computed, Ref, ref, watch } from '@vue/composition-api';
 
-import { PRODUCT_REMOVE_BUNDLE_OPTION, PRODUCT_SET_BUNDLE_OPTION } from '@vue-storefront/core/modules/catalog/store/product/mutation-types';
+import { SelectedBundleOption } from '@vue-storefront/core/modules/catalog/types/BundleOption';
 
 import { CustomizationOptionValue } from '../types/customization-option-value';
 import { Customization } from '../types/customization.interface';
@@ -10,9 +10,10 @@ import { OptionValue } from '../types/option-value.interface';
 export function useCustomizationsBundleOptions (
   customizations: Ref<Customization[]>,
   customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>,
-  availableOptionValues: Ref<OptionValue[]>,
-  { root }: SetupContext
+  availableOptionValues: Ref<OptionValue[]>
 ) {
+  const bundleOptions: Ref<Record<number, SelectedBundleOption>> = ref({});
+
   const customizationsWithBundleOptions = computed<Customization[]>(() => {
     return customizations.value.filter((customization) => !!customization.bundleOptionId);
   });
@@ -38,10 +39,9 @@ export function useCustomizationsBundleOptions (
   });
 
   const selectedBundleOptionsIds = computed<number[]>(() => {
-    const selectedBundleOptions = root.$store.getters['product/getCurrentBundleOptions'];
     const ids: number[] = [];
 
-    for (const key in selectedBundleOptions) {
+    for (const key in bundleOptions.value) {
       ids.push(Number(key));
     }
 
@@ -53,10 +53,20 @@ export function useCustomizationsBundleOptions (
     optionQty: number,
     optionSelections: number[]
   ): void {
-    root.$store.commit(
-      `product/${PRODUCT_SET_BUNDLE_OPTION}`,
-      { optionId, optionQty, optionSelections }
-    )
+    bundleOptions.value = {
+      ...bundleOptions.value,
+      [optionId]: {
+        option_id: optionId,
+        option_qty: optionQty,
+        option_selections: optionSelections
+      }
+    };
+  }
+
+  function removeBundleOption (optionId: number): void {
+    const newOptions = { ...bundleOptions.value };
+    delete newOptions[optionId];
+    bundleOptions.value = newOptions;
   }
 
   function updateBundleOptionValue (
@@ -102,7 +112,7 @@ export function useCustomizationsBundleOptions (
   ): void {
     for (const id of selectedBundleOptionsIds) {
       if (!availableBundleOptionsIds.includes(id)) {
-        root.$store.commit(`product/${PRODUCT_REMOVE_BUNDLE_OPTION}`, id);
+        removeBundleOption(id);
       }
     }
   }
@@ -134,4 +144,8 @@ export function useCustomizationsBundleOptions (
     updateBundleOptionValues,
     { immediate: true }
   );
+
+  return {
+    bundleOptions
+  };
 }

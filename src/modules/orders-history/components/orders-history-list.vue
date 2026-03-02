@@ -7,6 +7,7 @@
         v-for="order in orders"
         :key="order.entity_id"
         :order="order"
+        :alteration-products="alterationProducts"
         class="_order"
       />
     </div>
@@ -16,6 +17,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from '@vue/composition-api';
 import { SfHeading } from '@storefront-ui/vue';
+
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import { Order } from '../types/order';
 
@@ -31,6 +34,10 @@ export default defineComponent({
     orders: {
       type: Array as PropType<Order[]>,
       required: true
+    },
+    alterationProducts: {
+      type: Object as PropType<Record<number, Product>>,
+      default: () => ({})
     },
     title: {
       type: String,

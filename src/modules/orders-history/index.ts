@@ -1,5 +1,6 @@
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
+import { canOrderItemHaveUpgrades } from './helpers/can-order-item-have-upgrades';
 import { mapOrderAddressToBaseAddressDetails } from './helpers/map-order-address-to-base-address-details';
 import { STORE_NAME } from './store/store-name';
 import { ordersHistoryModule } from './store';
@@ -9,6 +10,7 @@ import { useOrderDetails } from './composables/use-order-details';
 import { GET_SUGGESTED_PRODUCTS_IDS, GET_IS_REORDERING_ITEM } from './types/store/getters';
 import { Order } from './types/order';
 import { OrderAddress } from './types/order-address';
+import { OrderItem } from './types/order-item';
 
 import OrdersHistoryList from './components/orders-history-list.vue';
 
@@ -37,9 +39,11 @@ export {
   SUGGESTED_PRODUCTS_IDS_GETTER,
   REORDER_ITEM_ACTION,
   IS_REORDERING_ITEM,
+  canOrderItemHaveUpgrades,
   mapOrderAddressToBaseAddressDetails,
   useOrderHistoryList,
   useOrderDetails,
   Order,
-  OrderAddress
+  OrderAddress,
+  OrderItem
 }

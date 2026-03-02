@@ -4,7 +4,8 @@ export function isItemAvailable (
   itemWithAvailabilityRules: {
     availabilityRules?: AvailabilityRules | undefined
   },
-  selectedOptionValuesIds: string[]
+  selectedOptionValuesIds: string[],
+  extraSelectedOptionValueIds: string[] = []
 ) {
   const forActivatedOptionValueIds = itemWithAvailabilityRules.availabilityRules?.forActivatedOptionValueIds;
 
@@ -15,7 +16,10 @@ export function isItemAvailable (
     return true;
   }
 
+  const selectedOptionValueIdsSet = new Set(selectedOptionValuesIds);
+  const extraSelectedOptionValueIdsSet = new Set(extraSelectedOptionValueIds);
+
   return forActivatedOptionValueIds.some((id) => {
-    return selectedOptionValuesIds.includes(id);
+    return selectedOptionValueIdsSet.has(id) || extraSelectedOptionValueIdsSet.has(id);
   });
 }

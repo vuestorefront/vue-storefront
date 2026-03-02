@@ -5,13 +5,21 @@ import { Customization } from '../types/customization.interface';
 import { OptionType } from '../types/option-type';
 import { OptionValue } from '../types/option-value.interface';
 import { WidgetType } from '../types/widget-type';
+import { WidgetOptionAlignment } from '../types/widget-option-alignment.type';
+import { WidgetOptionShape } from '../types/widget-option-shape.type';
 
 export function useCustomizationOptionWidget (
   value: Ref<CustomizationOptionValue>,
   customization: Ref<Customization>,
   values: Ref<OptionValue[]>,
   productId: Ref<number>,
-  { emit }: SetupContext
+  { emit }: SetupContext,
+  addedToCartOptionValueId?: Ref<Record<string, boolean> | undefined>,
+  expandConfig?: Ref<Record<string, {
+    isExpandable: boolean,
+    isExpanded: boolean
+  }> | undefined>,
+  hiddenOptionValues?: Ref<Record<string, boolean> | undefined>
 ) {
   const selectedOption = computed<CustomizationOptionValue>({
     get: () => {
@@ -42,24 +50,18 @@ export function useCustomizationOptionWidget (
     const widgetOptions = customization.value.optionData.displayWidgetOptions;
     const displayWidget = customization.value.optionData.displayWidget;
 
-    if (customization.value.optionData.type === OptionType.PRODUCTION_TIME) {
-      return {
-        component: 'ProductionTimeSelector',
-        props: {
-          bundleOptionId: customization.value.bundleOptionId,
-          placeholder: widgetOptions?.placeholder,
-          productId: productId.value,
-          values: values.value,
-          title: customization.value.title || customization.value.name
-        }
-      };
-    }
-
-    const listWidgetsProps = {
+    const listWidgetsProps: {
+      alignment?: WidgetOptionAlignment,
+      maxValuesCount: number | undefined,
+      shape: WidgetOptionShape | undefined,
+      values: OptionValue[],
+      addedToCartOptionValueId?: Record<string, boolean>
+    } = {
       alignment: widgetOptions?.alignment,
       maxValuesCount: maxValuesCount.value,
       shape: widgetOptions?.shape,
-      values: values.value
+      values: values.value,
+      addedToCartOptionValueId: addedToCartOptionValueId?.value
     };
 
     switch (displayWidget) {
@@ -68,7 +70,10 @@ export function useCustomizationOptionWidget (
           component: 'CardsListWidget',
           props: {
             maxValuesCount: maxValuesCount.value,
-            values: values.value
+            values: values.value,
+            addedToCartOptionValueId: listWidgetsProps.addedToCartOptionValueId,
+            expandConfig: expandConfig?.value,
+            hiddenOptionValues: hiddenOptionValues?.value
           }
         };
       case WidgetType.CHECKBOX:
@@ -136,6 +141,8 @@ export function useCustomizationOptionWidget (
           component: 'ThumbnailsListWidget',
           props: listWidgetsProps
         };
+      default:
+        throw new Error(`Unknown widget type: ${String(displayWidget)}`);
     }
   });
 

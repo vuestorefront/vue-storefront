@@ -26,10 +26,11 @@ const productFieldsAllowedToUpdate = [
   'stock',
   'product_links',
   'video_url',
-  'slug'
+  'slug',
+  'is_alteration_product'
 ]
 
-export function updateClientItemProductData(clientItem: any, product: any) {
+export function updateClientItemProductData (clientItem: any, product: any) {
   for (const key of productFieldsAllowedToUpdate) {
     if (!product[key]) {
       continue
@@ -39,3 +40,4 @@ export function updateClientItemProductData(clientItem: any, product: any) {
 
   return clientItem;
 }
+

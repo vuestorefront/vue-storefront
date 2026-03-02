@@ -13,6 +13,7 @@ import { useCustomizationState } from './composables/use-customization-state';
 import { useCustomizationStatePreservation } from './composables/use-customization-state-preservation';
 import { useEmailCustomization } from './composables/use-email-customization';
 import { useEstimatedShipment } from './composables/use-estimated-shipment';
+import { useExistingCartItemOptionValues } from './composables/use-existing-cart-item-option-values';
 import { useFilesUpload } from './composables/use-files-upload';
 import { useListWidget } from './composables/use-list-widget';
 import { useOptionValueActions } from './composables/use-option-value-actions';
@@ -108,6 +109,7 @@ export {
   useCustomizationStatePreservation,
   useEmailCustomization,
   useEstimatedShipment,
+  useExistingCartItemOptionValues,
   useFilesUpload,
   useListWidget,
   useOptionValueActions,

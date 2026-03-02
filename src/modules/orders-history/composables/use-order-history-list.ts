@@ -40,7 +40,11 @@ export function useOrderHistoryList ({ root }: SetupContext) {
     isError.value = false;
 
     try {
-      await root.$store.dispatch(`${STORE_NAME}/${FETCH_ORDERS_HISTORY}`);
+      await root.$store.dispatch(`${STORE_NAME}/${FETCH_ORDERS_HISTORY}`, {
+        filters: {
+          excludeAlterationProducts: true
+        }
+      });
     } catch (error) {
       isError.value = true;
       Logger.error(`Error loading orders: ${error}`, 'order-history')();

@@ -18,24 +18,27 @@ export function useAvailableCustomizations (
   customizations: Ref<Customization[]>,
   selectedOptionValuesIds: ComputedRef<string[]>,
   customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>,
-  updateCustomizationOptionValue: (payload: { customizationId: string, value: CustomizationOptionValue }) => void
+  updateCustomizationOptionValue: (payload: { customizationId: string, value: CustomizationOptionValue }) => void,
+  extraSelectedOptionValueIds?: ComputedRef<string[]>
 ) {
   const customizationAvailableOptionValues = computed<Record<string, OptionValue[]>>(
     () => {
       const dictionary: Record<string, OptionValue[]> = {};
       const _selectedOptionValuesIds = selectedOptionValuesIds.value;
+      const _extraSelectedOptionValueIds = extraSelectedOptionValueIds?.value || [];
 
       for (const customization of customizations.value) {
         dictionary[customization.id] =
           customization.optionData?.values?.filter(
-            (value) => {
+            (value: OptionValue) => {
               if (!value.isEnabled) {
                 return false;
               }
 
               return isItemAvailable(
                 value,
-                _selectedOptionValuesIds
+                _selectedOptionValuesIds,
+                _extraSelectedOptionValueIds
               );
             }
           ) || [];
@@ -44,6 +47,7 @@ export function useAvailableCustomizations (
       return dictionary;
     }
   );
+
   const availableOptionValues = computed<OptionValue[]>(() => {
     const optionValues: OptionValue[] = [];
 
@@ -67,6 +71,8 @@ export function useAvailableCustomizations (
   });
 
   const availableCustomizations = computed<Customization[]>(() => {
+    const _extraSelectedOptionValueIds = extraSelectedOptionValueIds?.value || [];
+
     const filteredCustomizations: Customization[] = customizations.value.filter(
       (customization: Customization) => {
         if (!customization.isEnabled) {
@@ -78,7 +84,11 @@ export function useAvailableCustomizations (
           !customization.optionData ||
           ignoreAvailableOptionsCheckFor.includes(customization.optionData.displayWidget);
 
-        return isItemAvailable(customization, selectedOptionValuesIds.value) &&
+        return isItemAvailable(
+          customization,
+          selectedOptionValuesIds.value,
+          _extraSelectedOptionValueIds
+        ) &&
           hasAvailableOptionValues;
       }
     );
@@ -148,7 +158,7 @@ export function useAvailableCustomizations (
         continue;
       }
 
-      const availableSelectedOptionValues = optionValue.filter((valueId) => !!availableOptionValues.find((item) => item.id === valueId));
+      const availableSelectedOptionValues = optionValue.filter((valueId: string) => !!availableOptionValues.find((item) => item.id === valueId));
       updateCustomizationOptionValue({ customizationId: key, value: availableSelectedOptionValues });
     }
   }

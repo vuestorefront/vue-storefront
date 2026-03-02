@@ -2,6 +2,22 @@
   <div class="order-item-extended-info">
     <div
       class="_section"
+      v-if="canShowProgressTracker"
+    >
+      <div class="_heading-container">
+        <SfHeading class="_heading" :title="$t('Progress Tracker')" :level="5" />
+      </div>
+
+      <order-item-progress-tracker
+        class="_section-content"
+        :active-status="activeStatus"
+        :is-vertical="true"
+        :filtered-statuses-list="filteredStatusesList"
+      />
+    </div>
+
+    <div
+      class="_section"
       v-if="showShipmentInfo"
     >
       <div class="_heading-container">
@@ -16,7 +32,10 @@
     </div>
 
     <div class="_section">
-      <div class="_heading-container">
+      <div
+        class="_heading-container"
+        v-if="showShipmentInfo"
+      >
         <SfHeading class="_heading" :title="$t('Item details')" :level="5" />
       </div>
 
@@ -35,49 +54,71 @@
 </template>
 
 <script lang="ts">
-import { PropType, computed, defineComponent } from '@vue/composition-api';
+import { PropType, computed, defineComponent, toRef } from '@vue/composition-api';
 import { SfHeading } from '@storefront-ui/vue';
 
 import { CartItemConfiguration, CustomizationStateItem, Customization } from 'src/modules/customization-system';
 
-import { OrderItemExtensionAttributes } from '../types/order-item-extension-attributes';
 import { OrderItem } from '../types/order-item';
 
 import OrderItemShipmentInfo from './order-item-shipment-info.vue';
+import { useOrderItemProgressTracker } from '../composables/use-order-item-progress-tracker';
+import OrderItemProgressTracker from './order-item-progress-tracker.vue';
 
 export default defineComponent({
   name: 'OrderItemExtendedInfo',
   components: {
     CartItemConfiguration,
     OrderItemShipmentInfo,
+    OrderItemProgressTracker,
     SfHeading
   },
   props: {
     item: {
       type: Object as PropType<OrderItem>,
       required: true
-    },
-    extensionAttributes: {
-      type: Object as PropType<OrderItemExtensionAttributes>,
-      required: true
-    },
-    showShipmentInfo: {
-      type: Boolean,
-      required: true
     }
   },
-  setup (props) {
+  setup (props, { root }) {
     const customizationState = computed<CustomizationStateItem[]>(() => {
-      return props.extensionAttributes.customization_states;
+      return (props.item.extension_attributes && props.item.extension_attributes.customization_states) || [];
     });
 
     const customizations = computed<Customization[]>(() => {
-      return props.extensionAttributes.customizations;
+      const productCustomizations = (props.item.extension_attributes && props.item.extension_attributes.customizations) || [];
+
+      const alterationProductData = props.item.extension_attributes?.alteration_product;
+
+      if (!alterationProductData) {
+        return productCustomizations;
+      }
+
+      const alterationProduct = root.$store.getters['product/getProductBySkuDictionary'][alterationProductData.sku];
+
+      if (!alterationProduct) {
+        return productCustomizations;
+      }
+
+      return [...productCustomizations, ...alterationProduct.customizations];
+    });
+
+    const {
+      activeStatus,
+      filteredStatusesList,
+      canShowProgressTracker
+    } = useOrderItemProgressTracker(toRef(props, 'item'), 0);
+
+    const showShipmentInfo = computed<boolean>(() => {
+      return canShowProgressTracker.value && (props.item.shipments.length > 0 || Boolean(props.item.estimated_shipment_date));
     });
 
     return {
       customizations,
-      customizationState
+      customizationState,
+      activeStatus,
+      filteredStatusesList,
+      canShowProgressTracker,
+      showShipmentInfo
     }
   }
 })

@@ -21,7 +21,6 @@
 
           <order-item-progress-tracker
             :active-status="progressTrackerActiveStatus"
-            :is-vertical="canShowExtendedProgressTracker && showExtendedInfo"
             :filtered-statuses-list="progressTrackerFilteredStatusesList"
             :max-statuses-to-display-horizontal="PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT"
             v-if="canShowProgressTracker"
@@ -39,40 +38,54 @@
           />
         </div>
       </div>
-
-      <div
-        class="_extended-info"
-        v-if="isExtendedInfoAvailable"
-      >
-        <template>
-          <order-item-extended-info
-            :item="item"
-            :extension-attributes="item.extension_attributes"
-            :show-shipment-info="showShipmentInfo"
-            v-show="showExtendedInfo"
-          />
-        </template>
-      </div>
     </div>
 
     <div
-      class="_toggle-extended-info"
-      :class="{'-expanded': showExtendedInfo}"
+      class="_item-details"
       v-if="isExtendedInfoAvailable"
-      @click="toggleExtendedInfo"
     >
-      <SfChevron />
+      <div
+        class="_toggle-extended-info"
+        role="button"
+        :class="{'-expanded': showExtendedInfo}"
+        tabindex="0"
+        @click="toggleExtendedInfo"
+        @keydown.enter.prevent="toggleExtendedInfo"
+        @keydown.space.prevent="toggleExtendedInfo"
+      >
+        <SfHeading class="_item-details-heading" :title="$t('Item details')" :level="5" />
+
+        <SfChevron />
+      </div>
+
+      <div
+        class="_extended-info"
+        :class="{ '-expanded': showExtendedInfo }"
+      >
+        <order-item-extended-info
+          :item="item"
+        />
+      </div>
     </div>
+
+    <component
+      v-if="alterationProductFormComponent"
+      :is="alterationProductFormComponent"
+      :order-item="item"
+      :alteration-product="alterationProduct"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { PropType, defineComponent, computed, ref, inject, toRef } from '@vue/composition-api';
-import { SfChevron } from '@storefront-ui/vue';
+import { SfChevron, SfHeading } from '@storefront-ui/vue';
 
 import { BaseImage } from 'src/modules/budsies';
 import { getCustomizationSystemThumbnail } from 'src/modules/customization-system';
 import { ImageHandlerService } from 'src/modules/file-storage';
+
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import { useOrderItemProgressTracker } from '../composables/use-order-item-progress-tracker';
 import { OrderItem } from '../types/order-item';
@@ -90,7 +103,8 @@ export default defineComponent({
     OrderItemActions,
     OrderItemExtendedInfo,
     OrderItemProgressTracker,
-    SfChevron
+    SfChevron,
+    SfHeading
   },
   props: {
     item: {
@@ -100,10 +114,15 @@ export default defineComponent({
     orderId: {
       type: Number,
       required: true
+    },
+    alterationProduct: {
+      type: Object as PropType<Product>,
+      default: undefined
     }
   },
   setup (props) {
     const imageHandlerService = inject<ImageHandlerService>('ImageHandlerService');
+    const alterationProductFormComponent = inject('AlterationProductForm');
 
     const showExtendedInfo = ref<boolean>(false);
     const showActions = computed<boolean>(() => {
@@ -147,18 +166,15 @@ export default defineComponent({
     );
 
     const isExtendedInfoAvailable = computed<boolean>(() => {
-      if (canShowExtendedProgressTracker.value) {
+      if (canShowProgressTracker.value) {
         return true;
       }
 
       return !!props.item.extension_attributes && !!Object.keys(props.item.extension_attributes).length;
     });
 
-    const showShipmentInfo = computed<boolean>(() => {
-      return canShowProgressTracker.value && (props.item.shipments.length > 0 || Boolean(props.item.estimated_shipment_date));
-    });
-
     return {
+      alterationProductFormComponent,
       canShowExtendedProgressTracker,
       canShowProgressTracker,
       isExtendedInfoAvailable,
@@ -170,7 +186,6 @@ export default defineComponent({
       progressTrackerFilteredStatusesList,
       showActions,
       showExtendedInfo,
-      showShipmentInfo,
       toggleExtendedInfo,
       PROGRESS_TRACKER_MAX_HORIZONTAL_STATUSES_TO_DISPLAY_COUNT
     }
@@ -181,12 +196,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 .order-item {
   display: flex;
+  flex-direction: column;
   border: 1px solid var(--c-secondary);
   padding: var(--spacer-sm) var(--spacer-xs);
-
-  &.-extendable {
-    padding-right: 0;
-  }
+  --alteration-product-form-padding: 0 var(--spacer-xs) 0 0;
 
   ._content {
     display: flex;
@@ -217,36 +230,56 @@ export default defineComponent({
   }
 
   ._toggle-extended-info {
-    width: 45px;
     display: flex;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: flex-start;
+    gap: var(--spacer-xs);
     cursor: pointer;
 
     &.-expanded {
-
-.sf-chevron {
+      .sf-chevron {
         rotate: 180deg;
       }
     }
+  }
+
+  ._item-details {
+    border: 1px solid var(--c-secondary);
+    margin-top: var(--spacer-sm);
+    padding: var(--spacer-sm);
   }
 
   ._mobile-image {
     width: 72px;
   }
 
-  .order-item-extended-info {
-    margin-top: var(--spacer-base);
+  ._item-details-heading {
+    --heading-title-font-size: var(--font-base);
+    --heading-title-font-weight: var(--font-semibold);
+    --heading-padding: 0;
+
+    user-select: none;
   }
 
-  .order-item-progress-tracker {
-    max-width: 370px;
+  .alteration-product-form {
+    margin-top: var(--spacer-sm);
   }
 
   ._extended-info {
-    display: flex;
-    flex-direction: column;
-    row-gap: var(--spacer-sm);
+    display: grid;
+    grid-template-rows: 0fr;
+    margin-top: 0;
+    transition: grid-template-rows 300ms ease-in-out, margin-top 300ms ease-in-out;
+  }
+
+  ._extended-info.-expanded {
+    grid-template-rows: 1fr;
+    margin-top: var(--spacer-sm);
+  }
+
+  ._extended-info > * {
+    overflow: hidden;
+    min-height: 0;
   }
 
   @media (min-width: 426px) {

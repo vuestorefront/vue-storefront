@@ -1,4 +1,4 @@
-import { ref, computed, del, set, Ref, onMounted } from '@vue/composition-api';
+import { ref, computed, del, set, Ref, onMounted, ComputedRef } from '@vue/composition-api';
 
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 
@@ -9,7 +9,21 @@ export function useCustomizationState (
   existingCartItem?: Ref<CartItem | undefined>,
   initialCustomizationState?: Ref<CustomizationStateItem[] | undefined>
 ) {
-  const customizationOptionValue = ref<Record<string, CustomizationOptionValue>>({});
+  const customizationOptionValue: Ref<Record<string, CustomizationOptionValue>> = ref({});
+
+  const existingCartItemCustomizationOptionValue: ComputedRef<Record<string, CustomizationOptionValue>> = computed(() => {
+    if (!existingCartItem?.value?.extension_attributes?.customization_state) {
+      return {};
+    }
+
+    const customizationOptionValueDictionary: Record<string, CustomizationOptionValue> = {};
+
+    existingCartItem.value.extension_attributes.customization_state.forEach((item) => {
+      customizationOptionValueDictionary[item.customization_id] = item.value;
+    });
+
+    return customizationOptionValueDictionary;
+  });
 
   const customizationState = computed<CustomizationStateItem[]>(() => {
     const items: CustomizationStateItem[] = [];
@@ -76,8 +90,7 @@ export function useCustomizationState (
     }
 
     customizationOptionValue.value = {
-      // TODO: temporary - current TS version don't handle `value` type right in this case
-      ...(customizationOptionValue as any).value,
+      ...customizationOptionValue.value,
       ...customizationOptionValueForMerge
     };
   }
@@ -105,8 +118,7 @@ export function useCustomizationState (
       return;
     }
 
-    // TODO: temporary - current TS version don't handle `value` type right in this case
-    for (const customizationId in (customizationOptionValue.value as unknown as Record<string, CustomizationOptionValue>)) {
+    for (const customizationId in customizationOptionValue.value) {
       const value = customizationOptionValue.value[customizationId];
 
       if (!value || isFileUploadValue(value)) {
@@ -127,12 +139,10 @@ export function useCustomizationState (
   }
 
   function resetCustomizationState () {
-    // TODO: temporary - current TS version don't handle `value` type right in this case
-    (customizationOptionValue.value as unknown as Record<string, CustomizationOptionValue>) = {};
+    customizationOptionValue.value = {};
   }
 
   function fillCustomizationStateFromExistingCartItem (cartItem: CartItem) {
-    // TODO: temporary - current TS version don't handle `value` type right in this case
     if (!cartItem.extension_attributes?.customization_state) {
       return;
     }
@@ -143,8 +153,7 @@ export function useCustomizationState (
       customizationOptionValueDictionary[item.customization_id] = item.value;
     });
 
-    // TODO: temporary - current TS version don't handle `value` type right in this case
-    (customizationOptionValue.value as unknown as Record<string, CustomizationOptionValue>) = customizationOptionValueDictionary;
+    customizationOptionValue.value = customizationOptionValueDictionary;
   }
 
   function fillInitialCustomizationState (customizationState: CustomizationStateItem[]): void {
@@ -175,6 +184,7 @@ export function useCustomizationState (
     addCustomizationOptionValue,
     customizationOptionValue,
     customizationState,
+    existingCartItemCustomizationOptionValue,
     removeCustomizationOptionValue,
     mergeCustomizationState,
     resetCustomizationState,
