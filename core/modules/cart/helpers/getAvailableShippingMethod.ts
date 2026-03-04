@@ -1,7 +1,7 @@
-import ShippingMethod from '../types/ShippingMethod'
+import ShippingMethod from '../types/ShippingMethod';
 
-const PREFERRED_CARRIER_CODE = 'tablerate'
-const PREFERRED_METHOD_CODE = 'bestway'
+const PREFERRED_CARRIER_CODE = 'tablerate';
+const PREFERRED_METHOD_CODE = 'bestway';
 
 export const getAvailableShippingMethod = (
   selectedCarrierCode: string | undefined,
@@ -30,11 +30,5 @@ export const getAvailableShippingMethod = (
     return preferredMethod;
   }
 
-  const firstMethod = availableMethods[0];
-
-  if (!firstMethod) {
-    return;
-  }
-
-  return firstMethod;
-}
+  return availableMethods[0];
+};
