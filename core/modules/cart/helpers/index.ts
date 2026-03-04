@@ -16,6 +16,7 @@ import getProductConfiguration from './getProductConfiguration'
 import createOrderData from './createOrderData'
 import createShippingInfoData from './createShippingInfoData'
 import { getItemsFromStorage } from './get-local-storage-items.function'
+import { getAvailableShippingMethod } from './getAvailableShippingMethod'
 
 export {
   cartCacheHandlerPlugin,
@@ -35,5 +36,6 @@ export {
   getProductConfiguration,
   createOrderData,
   createShippingInfoData,
-  getItemsFromStorage
+  getItemsFromStorage,
+  getAvailableShippingMethod
 }
