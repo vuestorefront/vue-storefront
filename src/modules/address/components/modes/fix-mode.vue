@@ -142,18 +142,18 @@ export default defineComponent({
 
     const modalTitle = computed<string>(() => {
       if (isMissingStreetNumber.value) {
-        return root.$t('Street Number Required').toString();
+        return root.$t('Street Number Missing?').toString();
       }
 
-      return root.$t('Address Could Not Be Validated').toString();
+      return root.$t('Review Address').toString();
     });
 
     const modalSubtitle = computed<string>(() => {
       if (isMissingStreetNumber.value) {
-        return root.$t('Please provide the street number to complete validation.').toString();
+        return root.$t('We could not find a street number in this address. Please add one if your address uses them (e.g., 123 Main St), or continue if it is correct.').toString();
       }
 
-      return root.$t('The address you entered could not be validated. Please review and correct it.').toString();
+      return root.$t('We were not able to confirm this address. Please review it carefully, or you can continue if you are confident it is correct.').toString();
     });
 
     return {

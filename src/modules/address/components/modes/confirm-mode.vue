@@ -2,12 +2,12 @@
   <div class="confirm-mode modal-address-validation-mode">
     <SfHeading
       class="sf-heading--left"
-      :title="$t('Confirm Shipping Address')"
+      :title="$t('Check Address Format')"
       :level="3"
     />
 
     <span class="_subtitle">
-      {{ $t('We found a suggested address that may be more accurate. Please select which address to use.') }}
+      {{ $t('We found a standard version of this address that looks slightly different. Please select the one you prefer to use.') }}
     </span>
 
     <div class="_container">
