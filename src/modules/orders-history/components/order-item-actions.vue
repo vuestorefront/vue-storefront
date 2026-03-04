@@ -196,6 +196,15 @@ export default defineComponent({
       });
     }
 
+    async function onDownloadPrintoutsActionClick (): Promise<void> {
+      await root.$router.push({
+        name: 'orders-printouts-download',
+        query: {
+          orderId: props.orderId.toString()
+        }
+      });
+    }
+
     async function onProvideTaxIdActionClick (): Promise<void> {
       await root.$router.push({
         name: 'tax-id-request',
@@ -226,6 +235,13 @@ export default defineComponent({
 
         if (action.code === OrderItemAvailableActionCode.DOWNLOAD_RESULT) {
           actionItem.handlers.click = onDownloadResultsActionClick;
+          actionItem.component = 'SfButton';
+          nonBlockingActionsList.push(actionItem);
+          continue;
+        }
+
+        if (action.code === OrderItemAvailableActionCode.DOWNLOAD_PRINTOUTS) {
+          actionItem.handlers.click = onDownloadPrintoutsActionClick;
           actionItem.component = 'SfButton';
           nonBlockingActionsList.push(actionItem);
           continue;
