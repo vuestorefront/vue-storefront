@@ -1,4 +1,4 @@
-import { SetupContext, ref, onBeforeMount } from '@vue/composition-api';
+import { SetupContext, ref, onBeforeMount, Ref } from '@vue/composition-api';
 
 import { Logger } from '@vue-storefront/core/lib/logger';
 
@@ -7,7 +7,7 @@ import { STORE_NAME } from '../store/store-name';
 import { FETCH_ORDER_DETAILS } from '../types/store/actions';
 
 export function useOrderDetails ({ root }: SetupContext, orderId: string) {
-  const order = ref<Order | null>(null);
+  const order: Ref<Order | null> = ref(null);
   const isLoading = ref<boolean>(false);
   const isError = ref<boolean>(false);
 
@@ -21,7 +21,7 @@ export function useOrderDetails ({ root }: SetupContext, orderId: string) {
 
     try {
       const result = await root.$store.dispatch(`${STORE_NAME}/${FETCH_ORDER_DETAILS}`, { orderId });
-      ((order as any).value as (Order | null)) = result;
+      order.value = result;
     } catch (error) {
       isError.value = true;
       Logger.error(`Error loading order: ${error}`, 'order-history')();

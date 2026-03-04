@@ -45,16 +45,16 @@ async function getAddressHash (address: BaseAddressDetails): Promise<string> {
 function getValidationWarningMessage (result: ValidationResult): string {
   if (result.verdict === 'FIX') {
     return result.missingComponents?.includes('street_number')
-      ? 'Please provide the street number to complete validation.'
-      : 'The address you entered could not be validated. Please review and correct it.';
+      ? 'We could not find a street number in this address. Please add one if your address uses them (e.g., 123 Main St), or continue if it is correct.'
+      : 'We were not able to confirm this address. Please review it carefully, or you can continue if you are confident it is correct.';
   }
 
   if (result.verdict === 'CONFIRM') {
-    return 'We found a suggested address that may be more accurate. Please select which address to use.';
+    return 'We found a standard version of this address that looks slightly different. Please select the one you prefer to use.';
   }
 
   if (result.verdict === 'CONFIRM_ADD_SUBPREMISES') {
-    return 'We found your address but need the unit or apartment number to ensure accurate delivery.';
+    return "It looks like this building usually requires a unit or apartment number. Please add one if applicable, or continue if you are sure it isn't required.";
   }
 
   return '';
