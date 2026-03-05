@@ -5,7 +5,8 @@ import {
   preparePaymentMethodsToSync,
   prepareShippingInfoForUpdateTotals,
   createOrderData,
-  createShippingInfoData
+  createShippingInfoData,
+  getAvailableShippingMethod
 } from '@vue-storefront/core/modules/cart/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { isCartNotFoundError } from '../../helpers/is-cart-not-found-error'
@@ -64,18 +65,31 @@ const totalsActions = {
     Logger.error(result, 'cart')()
   },
   async fetchTotals ({ dispatch, rootGetters }): Promise<void> {
+    const shippingDetails = rootGetters['checkout/getShippingDetails'];
+    const shippingMethods = rootGetters['checkout/getShippingMethods'];
+
     const shippingMethodsData = createOrderData({
-      shippingDetails: rootGetters['checkout/getShippingDetails'],
-      shippingMethods: rootGetters['checkout/getShippingMethods'],
+      shippingDetails,
+      shippingMethods,
       paymentMethods: rootGetters['checkout/getPaymentMethods'],
       paymentDetails: rootGetters['checkout/getPaymentDetails']
     });
 
     if (shippingMethodsData.country) {
-      await dispatch('overrideServerTotals', {
-        hasShippingInformation: shippingMethodsData.method_code || shippingMethodsData.carrier_code,
-        addressInformation: createShippingInfoData(shippingMethodsData)
+      const availableShippingMethod = getAvailableShippingMethod(
+        shippingDetails.shippingCarrier,
+        shippingDetails.shippingMethod,
+        shippingMethods
+      );
+
+      const hasShippingInformation = !!availableShippingMethod;
+      const addressInformation = createShippingInfoData({
+        ...shippingMethodsData,
+        carrier_code: availableShippingMethod?.carrier_code,
+        method_code: availableShippingMethod?.method_code
       });
+
+      await dispatch('overrideServerTotals', { hasShippingInformation, addressInformation });
     }
   },
   async syncTotals ({ dispatch, getters, rootGetters }, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null }) {
@@ -83,18 +97,31 @@ const totalsActions = {
     await dispatch('pullMethods', { forceServerSync: payload.forceServerSync })
 
     if (getters.canSyncTotals && (getters.isTotalsSyncRequired || payload.forceServerSync)) {
+      const shippingDetails = rootGetters['checkout/getShippingDetails'];
+      const shippingMethods = rootGetters['checkout/getShippingMethods'];
+
       const shippingMethodsData = methodsData || createOrderData({
-        shippingDetails: rootGetters['checkout/getShippingDetails'],
-        shippingMethods: rootGetters['checkout/getShippingMethods'],
+        shippingDetails,
+        shippingMethods,
         paymentMethods: rootGetters['checkout/getPaymentMethods'],
         paymentDetails: rootGetters['checkout/getPaymentDetails']
       })
 
       if (shippingMethodsData.country) {
-        await dispatch('overrideServerTotals', {
-          hasShippingInformation: shippingMethodsData.method_code || shippingMethodsData.carrier_code,
-          addressInformation: createShippingInfoData(shippingMethodsData)
-        })
+        const availableShippingMethod = getAvailableShippingMethod(
+          shippingDetails.shippingCarrier,
+          shippingDetails.shippingMethod,
+          shippingMethods
+        );
+
+        const hasShippingInformation = !!availableShippingMethod;
+        const addressInformation = createShippingInfoData({
+          ...shippingMethodsData,
+          carrier_code: availableShippingMethod?.carrier_code,
+          method_code: availableShippingMethod?.method_code
+        });
+
+        await dispatch('overrideServerTotals', { hasShippingInformation, addressInformation })
         return
       }
 

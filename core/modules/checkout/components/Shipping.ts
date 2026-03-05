@@ -104,6 +104,9 @@ export const Shipping = {
         }
         this.shipping.shippingMethod = shipping ? shipping.method_code : undefined;
         this.shipping.shippingCarrier = shipping ? shipping.carrier_code : undefined;
+
+        this.$store.commit(`checkout/${CHECKOUT_UPDATE_PROP_VALUE}`, ['shippingCarrier', this.shipping.shippingCarrier || ''])
+        this.$store.commit(`checkout/${CHECKOUT_UPDATE_PROP_VALUE}`, ['shippingMethod', this.shipping.shippingMethod || ''])
       }
     },
     onAfterShippingSet (receivedData) {
