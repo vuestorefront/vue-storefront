@@ -3,7 +3,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { CartService } from '@vue-storefront/core/data-resolver'
-import { preparePaymentMethodsToSync, createOrderData, createShippingInfoData } from '@vue-storefront/core/modules/cart/helpers'
+import { preparePaymentMethodsToSync, createOrderData, createShippingInfoData, getAvailableShippingMethod } from '@vue-storefront/core/modules/cart/helpers'
 import PaymentMethod from '../../types/PaymentMethod'
 import { isCartNotFoundError } from '../../helpers/is-cart-not-found-error'
 import { createShippingAddressData } from '../../helpers/createOrderData'
@@ -37,21 +37,38 @@ const methodsActions = {
 
         const paymentDetails = rootGetters['checkout/getPaymentDetails']
         if (paymentDetails.country) {
-          // use shipping info endpoint to get payment methods using billing address
+          // use shipping info endpoint to get payment methods
+          const shippingDetails = rootGetters['checkout/getShippingDetails']
+          const shippingMethods = rootGetters['checkout/getShippingMethods']
+
           const shippingMethodsData = createOrderData({
-            shippingDetails: rootGetters['checkout/getShippingDetails'],
-            shippingMethods: rootGetters['checkout/getShippingMethods'],
+            shippingDetails,
+            shippingMethods,
             paymentMethods: rootGetters['checkout/getPaymentMethods'],
             paymentDetails: paymentDetails
           })
 
           if (shippingMethodsData.country) {
-            const task = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData));
+            const availableShippingMethod = getAvailableShippingMethod(
+              shippingDetails.shippingCarrier,
+              shippingDetails.shippingMethod,
+              shippingMethods
+            );
 
-            backendPaymentMethods = task.result.payment_methods || []
+            const hasShippingInformation = !!availableShippingMethod;
+            const addressInformation = createShippingInfoData({
+              ...shippingMethodsData,
+              carrier_code: availableShippingMethod?.carrier_code,
+              method_code: availableShippingMethod?.method_code
+            });
 
-            if (isCartNotFoundError(task)) {
-              return dispatch('clear', { disconnect: true, sync: false });
+            if (hasShippingInformation) {
+              const task = await dispatch('getTotals', { addressInformation, hasShippingInformation });
+              backendPaymentMethods = task.result.payment_methods || []
+
+              if (isCartNotFoundError(task)) {
+                return dispatch('clear', { disconnect: true, sync: false });
+              }
             }
           }
         }
@@ -108,6 +125,21 @@ const methodsActions = {
         const result = task.resultCode === 200 ? task.result : [];
 
         await dispatch('updateShippingMethods', { shippingMethods: result })
+
+        const availableMethods = rootGetters['checkout/getShippingMethods'];
+        const availableShippingMethod = getAvailableShippingMethod(
+          shippingDetails.shippingCarrier,
+          shippingDetails.shippingMethod,
+          availableMethods
+        );
+
+        if (availableShippingMethod) {
+          commit('checkout/checkout/UPDATE_PROP_VALUE', ['shippingCarrier', availableShippingMethod.carrier_code], { root: true });
+          commit('checkout/checkout/UPDATE_PROP_VALUE', ['shippingMethod', availableShippingMethod.method_code], { root: true });
+        } else {
+          commit('checkout/checkout/UPDATE_PROP_VALUE', ['shippingCarrier', ''], { root: true });
+          commit('checkout/checkout/UPDATE_PROP_VALUE', ['shippingMethod', ''], { root: true });
+        }
       } finally {
         commit(types.SET_IS_SHIPPING_METHODS_SYNCING, false);
       }
