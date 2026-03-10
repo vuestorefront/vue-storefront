@@ -680,7 +680,9 @@
   "orders": {
     "directBackendSync": true,
     "endpoint": "https://${VSF_API_DOMAIN}/api/order?token={{token}}",
-    "payment_methods_mapping": {},
+    "payment_methods_mapping": {
+      "braintree_paypal_pay_later": "braintree_paypal"
+    },
     "offline_orders": {
       "automatic_transmission_enabled": false,
       "notification": {
