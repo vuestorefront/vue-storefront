@@ -51,6 +51,7 @@ import { ListWidgetInputType } from './types/list-widget-input-type';
 import { OptionType } from './types/option-type';
 import { OptionValue } from './types/option-value.interface';
 import { PersistedData } from './types/persisted-data.interface';
+import { ProductPurchaseFlow, DEFAULT_PRODUCT_PURCHASE_FLOW, normalizeProductPurchaseFlow, getCustomizationAvailabilityFlowByProductPurchaseFlow } from './types/product-purchase-flow.type';
 import { PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID } from './types/production-time-selector-standard-option-value-id';
 import { WidgetOptionShape } from './types/widget-option-shape.type';
 import { WidgetType } from './types/widget-type';
@@ -68,6 +69,7 @@ export {
   CustomizationStateItem,
   DEFAULT_CUSTOMIZATION_AVAILABILITY_FLOW,
   DEFAULT_CUSTOMIZATION_AVAILABILITY_FLOWS,
+  DEFAULT_PRODUCT_PURCHASE_FLOW,
   Deliverable,
   DraftOrderItem,
   EstimatedShipment,
@@ -78,6 +80,7 @@ export {
   OptionType,
   OptionValue,
   PersistedData,
+  ProductPurchaseFlow,
   PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID,
   WidgetOptionAlignment,
   WidgetOptions,
@@ -96,8 +99,10 @@ export {
   isCustomizationVisibleInFlow,
   isEmailCustomization,
   isFileUploadValue,
+  getCustomizationAvailabilityFlowByProductPurchaseFlow,
   normalizeCustomizationAvailabilityFlow,
   normalizeCustomizationAvailabilityFlows,
+  normalizeProductPurchaseFlow,
   requiredCustomizationsFilter,
   saveOrderItemCustomizationsState,
   submitOrderItemCustomizationsState,

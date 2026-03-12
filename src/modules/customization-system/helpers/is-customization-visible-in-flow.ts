@@ -1,19 +1,24 @@
 import {
-  CustomizationAvailabilityFlow,
   normalizeCustomizationAvailabilityFlow,
   normalizeCustomizationAvailabilityFlows
 } from '../types/customization-availability-flow.type';
 import { Customization } from '../types/customization.interface';
+import {
+  getCustomizationAvailabilityFlowByProductPurchaseFlow,
+  ProductPurchaseFlow
+} from '../types/product-purchase-flow.type';
 
 export function isCustomizationVisibleInFlow (
   customization: Customization,
-  flow?: CustomizationAvailabilityFlow
+  productPurchaseFlow?: ProductPurchaseFlow
 ): boolean {
   if (customization.is_hidden) {
     return false;
   }
 
-  const normalizedFlow = normalizeCustomizationAvailabilityFlow(flow);
+  const normalizedFlow = normalizeCustomizationAvailabilityFlow(
+    getCustomizationAvailabilityFlowByProductPurchaseFlow(productPurchaseFlow)
+  );
   const availableFlows = normalizeCustomizationAvailabilityFlows(customization.flow_availability);
 
   return availableFlows.includes(normalizedFlow);

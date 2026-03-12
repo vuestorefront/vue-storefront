@@ -1,7 +1,7 @@
 import CartItem from 'core/modules/cart/types/CartItem';
 
-import { normalizeCustomizationAvailabilityFlow } from '../types/customization-availability-flow.type';
 import { ExtensionAttributes } from '../types/extension-attributes.interface';
+import { normalizeProductPurchaseFlow } from '../types/product-purchase-flow.type';
 
 export function getCartItemExtensionAttributes (
   cartItem: CartItem
@@ -14,7 +14,7 @@ export function getCartItemExtensionAttributes (
 
   return {
     // TODO: uncomment when API will support this field
-    flow: normalizeCustomizationAvailabilityFlow(extensionAttributes.flow),
+    // flow: normalizeProductPurchaseFlow(extensionAttributes.flow),
     plushie_id: extensionAttributes.plushie_id,
     customization_state: extensionAttributes.customization_state
   }
