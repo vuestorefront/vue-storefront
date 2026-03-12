@@ -37,7 +37,7 @@ import { updateCartItemProductionTimeCustomizationState } from './helpers/update
 import { updateProductProductionTimeCustomizationData } from './helpers/update-product-production-time-customization-data';
 
 import { Customization } from './types/customization.interface';
-import { CustomizationAvailabilityFlow, DEFAULT_CUSTOMIZATION_AVAILABILITY_FLOW, DEFAULT_CUSTOMIZATION_AVAILABILITY_FLOWS, normalizeCustomizationAvailabilityFlow, normalizeCustomizationAvailabilityFlows } from './types/customization-availability-flow.type';
+import { CustomizationAvailabilityFlow, normalizeCustomizationAvailabilityFlow, normalizeCustomizationAvailabilityFlows } from './types/customization-availability-flow.type';
 import { CustomizableProductFlowType } from './types/customizable-product-flow.type';
 import { CustomizationOptionValue } from './types/customization-option-value';
 import { Deliverable } from './types/deliverable.interface';
@@ -67,8 +67,6 @@ export {
   CustomizableProductFlowType,
   CustomizationOptionValue,
   CustomizationStateItem,
-  DEFAULT_CUSTOMIZATION_AVAILABILITY_FLOW,
-  DEFAULT_CUSTOMIZATION_AVAILABILITY_FLOWS,
   DEFAULT_PRODUCT_PURCHASE_FLOW,
   Deliverable,
   DraftOrderItem,
