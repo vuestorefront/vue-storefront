@@ -13,8 +13,7 @@ export function getCartItemExtensionAttributes (
   }
 
   return {
-    // TODO: uncomment when API will support this field
-    // flow: normalizeProductPurchaseFlow(extensionAttributes.flow),
+    flow: normalizeProductPurchaseFlow(extensionAttributes.flow),
     plushie_id: extensionAttributes.plushie_id,
     customization_state: extensionAttributes.customization_state
   }
