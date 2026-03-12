@@ -1,4 +1,5 @@
 import { useAvailableCustomizations } from './composables/use-available-customizations';
+import { useCustomizationAvailabilityFlowFilter } from './composables/use-customization-availability-flow-filter';
 import { useAvailableOptionsValuesFilter } from './composables/use-available-options-values-filter';
 import { useCustomizationsBundleOptions } from './composables/use-customizations-bundle-options';
 import { useEntityBusyState } from './composables/use-entity-busy-state';
@@ -28,6 +29,7 @@ import { getCustomizationSelectedValues } from './helpers/get-customization-sele
 import { getCustomizationSystemThumbnail } from './helpers/get-customization-system-thumbnail';
 import { getCustomizationValueIdFieldKey } from './helpers/get-customization-value-id-field-key';
 import { getSelectedOptionValuesByCustomizationState } from './helpers/get-selected-options-values-by-customization-state';
+import { isCustomizationVisibleInFlow } from './helpers/is-customization-visible-in-flow';
 import { isEmailCustomization } from './helpers/is-email-customization';
 import { fetchOrderItemCustomizationsState, fetchOrderItemDeliverables, fetchOrderItemsCustomizationsStates, saveOrderItemCustomizationsState, submitOrderItemCustomizationsState } from './helpers/order-items-customizations.service';
 import { requiredCustomizationsFilter } from './helpers/required-customizations-filter';
@@ -35,6 +37,7 @@ import { updateCartItemProductionTimeCustomizationState } from './helpers/update
 import { updateProductProductionTimeCustomizationData } from './helpers/update-product-production-time-customization-data';
 
 import { Customization } from './types/customization.interface';
+import { CustomizationAvailabilityFlow, DEFAULT_CUSTOMIZATION_AVAILABILITY_FLOW, DEFAULT_CUSTOMIZATION_AVAILABILITY_FLOWS, normalizeCustomizationAvailabilityFlow, normalizeCustomizationAvailabilityFlows } from './types/customization-availability-flow.type';
 import { CustomizableProductFlowType } from './types/customizable-product-flow.type';
 import { CustomizationOptionValue } from './types/customization-option-value';
 import { Deliverable } from './types/deliverable.interface';
@@ -59,9 +62,12 @@ import CartItemConfiguration from './components/cart-item-configuration.vue';
 export {
   CartItemConfiguration,
   Customization,
+  CustomizationAvailabilityFlow,
   CustomizableProductFlowType,
   CustomizationOptionValue,
   CustomizationStateItem,
+  DEFAULT_CUSTOMIZATION_AVAILABILITY_FLOW,
+  DEFAULT_CUSTOMIZATION_AVAILABILITY_FLOWS,
   Deliverable,
   DraftOrderItem,
   EstimatedShipment,
@@ -87,14 +93,18 @@ export {
   getCustomizationSystemThumbnail,
   getCustomizationValueIdFieldKey,
   getSelectedOptionValuesByCustomizationState,
+  isCustomizationVisibleInFlow,
   isEmailCustomization,
   isFileUploadValue,
+  normalizeCustomizationAvailabilityFlow,
+  normalizeCustomizationAvailabilityFlows,
   requiredCustomizationsFilter,
   saveOrderItemCustomizationsState,
   submitOrderItemCustomizationsState,
   updateCartItemProductionTimeCustomizationState,
   updateProductProductionTimeCustomizationData,
   useAvailableCustomizations,
+  useCustomizationAvailabilityFlowFilter,
   useAvailableOptionsValuesFilter,
   useCustomizationsBundleOptions,
   useEntityBusyState,
