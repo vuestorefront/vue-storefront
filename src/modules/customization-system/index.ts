@@ -1,5 +1,5 @@
 import { useAvailableCustomizations } from './composables/use-available-customizations';
-import { useCustomizationAvailabilityFlowFilter } from './composables/use-customization-availability-flow-filter';
+import { usePurchaseFlowCustomizations } from './composables/use-purchase-flow-customizations';
 import { useAvailableOptionsValuesFilter } from './composables/use-available-options-values-filter';
 import { useCustomizationsBundleOptions } from './composables/use-customizations-bundle-options';
 import { useEntityBusyState } from './composables/use-entity-busy-state';
@@ -109,7 +109,7 @@ export {
   updateCartItemProductionTimeCustomizationState,
   updateProductProductionTimeCustomizationData,
   useAvailableCustomizations,
-  useCustomizationAvailabilityFlowFilter,
+  usePurchaseFlowCustomizations,
   useAvailableOptionsValuesFilter,
   useCustomizationsBundleOptions,
   useEntityBusyState,
