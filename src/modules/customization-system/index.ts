@@ -30,7 +30,6 @@ import { getCustomizationSystemThumbnail } from './helpers/get-customization-sys
 import { getCustomizationValueIdFieldKey } from './helpers/get-customization-value-id-field-key';
 import { getCustomizationAvailabilityFlowByProductPurchaseFlow } from './helpers/get-customization-availability-flow-by-product-purchase-flow';
 import { getSelectedOptionValuesByCustomizationState } from './helpers/get-selected-options-values-by-customization-state';
-import { isCustomizationVisibleInFlow } from './helpers/is-customization-visible-in-flow';
 import { isEmailCustomization } from './helpers/is-email-customization';
 import { fetchOrderItemCustomizationsState, fetchOrderItemDeliverables, fetchOrderItemsCustomizationsStates, saveOrderItemCustomizationsState, submitOrderItemCustomizationsState } from './helpers/order-items-customizations.service';
 import { requiredCustomizationsFilter } from './helpers/required-customizations-filter';
@@ -39,6 +38,7 @@ import { updateProductProductionTimeCustomizationData } from './helpers/update-p
 
 import { Customization } from './types/customization.interface';
 import { CustomizationAvailabilityFlow } from './types/customization-availability-flow.type';
+import { CustomizationType } from './types/customization-type';
 import { ProductCustomizationMode } from './types/customizable-product-flow.type';
 import { CustomizationOptionValue } from './types/customization-option-value';
 import { Deliverable } from './types/deliverable.interface';
@@ -65,6 +65,7 @@ export {
   CartItemConfiguration,
   Customization,
   CustomizationAvailabilityFlow,
+  CustomizationType,
   ProductCustomizationMode,
   CustomizationOptionValue,
   CustomizationStateItem,
