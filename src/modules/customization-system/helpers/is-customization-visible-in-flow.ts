@@ -1,3 +1,4 @@
+import { CustomizableProductFlowType } from '../types/customizable-product-flow.type';
 import {
   normalizeCustomizationAvailabilityFlow,
   normalizeCustomizationAvailabilityFlows
@@ -10,6 +11,7 @@ import {
 
 export function isCustomizationVisibleInFlow (
   customization: Customization,
+  flow: CustomizableProductFlowType,
   productPurchaseFlow?: ProductPurchaseFlow
 ): boolean {
   if (customization.is_hidden) {

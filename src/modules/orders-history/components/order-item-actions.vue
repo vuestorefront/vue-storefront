@@ -58,6 +58,9 @@ import { OrderItemAvailableAction } from '../types/order-item-available-action';
 import { OrderItemAvailableActionCode } from '../types/order-item-available-action.code';
 import { REORDER_ITEM_ACTION, IS_REORDERING_ITEM } from '..';
 
+// TODO: get rid of module dependency
+import { ProductPurchaseFlow } from 'src/modules/customization-system';
+
 interface ActionItem {
   action: OrderItemAvailableAction,
   component?: 'SfButton' | 'a' | 'router-link',
@@ -85,7 +88,8 @@ const foreversProductCustomizeRouteName = 'forevers-customize';
 const foreversProductSkus = [
   'ShopifyForeversDog_bundle',
   'ShopifyForeversCat_bundle',
-  'ShopifyForeversOther_bundle'
+  'ShopifyForeversOther_bundle',
+  'ForeversDog_bundle'
 ];
 
 const golfHeadCoversProductCustomizeRouteName = 'golf-head-covers-customize';
@@ -255,7 +259,7 @@ export default defineComponent({
         }
 
         if (action.code === OrderItemAvailableActionCode.AWAITING_CUSTOMIZATION) {
-          if (props.orderItem.extension_attributes?.support_bulk_customization) {
+          if (props.orderItem.extension_attributes?.support_bulk_customization || props.orderItem.extension_attributes?.flow !== ProductPurchaseFlow.CUSTOMIZE_LATER) {
             continue;
           }
 

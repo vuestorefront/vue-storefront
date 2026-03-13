@@ -5,6 +5,7 @@ import { CustomizationOptionValue } from '../types/customization-option-value';
 import { Customization } from '../types/customization.interface';
 import { OptionValue } from '../types/option-value.interface';
 import { normalizeProductPurchaseFlow, ProductPurchaseFlow } from '../types/product-purchase-flow.type';
+import { CustomizableProductFlowType } from '../types/customizable-product-flow.type';
 
 const FLOW_CUSTOMIZATION_NAME = 'flow';
 
@@ -27,7 +28,8 @@ export function usePurchaseFlowCustomizations (
     customizationId: string,
     value: CustomizationOptionValue
   }) => void,
-  customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>
+  customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>,
+  flow: CustomizableProductFlowType
 ) {
   const flowFilteredCustomizations = computed<Customization[]>(() => {
     return customizations.value.filter((customization: Customization) => {
