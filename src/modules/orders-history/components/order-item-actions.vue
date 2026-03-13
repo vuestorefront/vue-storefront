@@ -58,8 +58,6 @@ import { OrderItemAvailableAction } from '../types/order-item-available-action';
 import { OrderItemAvailableActionCode } from '../types/order-item-available-action.code';
 import { REORDER_ITEM_ACTION, IS_REORDERING_ITEM } from '..';
 
-import { ProductPurchaseFlow } from 'src/modules/shared';
-
 interface ActionItem {
   action: OrderItemAvailableAction,
   component?: 'SfButton' | 'a' | 'router-link',
@@ -258,15 +256,7 @@ export default defineComponent({
         }
 
         if (action.code === OrderItemAvailableActionCode.AWAITING_CUSTOMIZATION) {
-          const isExplicitFlow = !!props.orderItem.extension_attributes?.flow;
-
-          if (
-            props.orderItem.extension_attributes?.support_bulk_customization ||
-              (
-                isExplicitFlow &&
-                  props.orderItem.extension_attributes?.flow !== ProductPurchaseFlow.CUSTOMIZE_LATER
-              )
-          ) {
+          if (props.orderItem.extension_attributes?.support_bulk_customization) {
             continue;
           }
 
