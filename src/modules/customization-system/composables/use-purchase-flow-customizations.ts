@@ -14,11 +14,9 @@ function normalizeName (value?: string): string {
 }
 
 function isFlowCustomizationByName (customization: Customization): boolean {
-  const normalizedTitle = normalizeName(customization.title);
   const normalizedName = normalizeName(customization.name);
 
-  return normalizedTitle === FLOW_CUSTOMIZATION_NAME ||
-    normalizedName === FLOW_CUSTOMIZATION_NAME;
+  return normalizedName === FLOW_CUSTOMIZATION_NAME;
 }
 
 export function usePurchaseFlowCustomizations (
