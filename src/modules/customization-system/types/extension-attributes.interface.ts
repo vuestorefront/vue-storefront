@@ -1,6 +1,6 @@
 import { CustomizationStateItem } from './customization-state-item.interface';
 import { EstimatedShipment } from './estimated-shipment.interface';
-import { ProductPurchaseFlow } from './product-purchase-flow.type';
+import { ProductPurchaseFlow } from 'src/modules/shared';
 
 export interface ExtensionAttributes {
   customization_state?: CustomizationStateItem[],

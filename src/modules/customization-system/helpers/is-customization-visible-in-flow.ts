@@ -4,10 +4,8 @@ import {
   normalizeCustomizationAvailabilityFlows
 } from '../types/customization-availability-flow.type';
 import { Customization } from '../types/customization.interface';
-import {
-  getCustomizationAvailabilityFlowByProductPurchaseFlow,
-  ProductPurchaseFlow
-} from '../types/product-purchase-flow.type';
+import { getCustomizationAvailabilityFlowByProductPurchaseFlow } from './get-customization-availability-flow-by-product-purchase-flow';
+import { ProductPurchaseFlow } from 'src/modules/shared';
 
 export function isCustomizationVisibleInFlow (
   customization: Customization,

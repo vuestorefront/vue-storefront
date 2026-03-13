@@ -1,11 +1,10 @@
 import {
-  DEFAULT_PRODUCT_PURCHASE_FLOW,
   normalizeProductPurchaseFlow,
   ProductPurchaseFlow
 } from 'src/modules/shared';
 
-import { CustomizationAvailabilityFlow } from './customization-availability-flow.type';
-import { ProductCustomizationMode } from './customizable-product-flow.type';
+import { CustomizationAvailabilityFlow } from '../types/customization-availability-flow.type';
+import { ProductCustomizationMode } from '../types/customizable-product-flow.type';
 
 export function getCustomizationAvailabilityFlowByProductPurchaseFlow (
   customizationMode: ProductCustomizationMode,
@@ -23,9 +22,3 @@ export function getCustomizationAvailabilityFlowByProductPurchaseFlow (
       return CustomizationAvailabilityFlow.CUSTOMIZE_NOW;
   }
 }
-
-export {
-  DEFAULT_PRODUCT_PURCHASE_FLOW,
-  normalizeProductPurchaseFlow,
-  ProductPurchaseFlow
-};

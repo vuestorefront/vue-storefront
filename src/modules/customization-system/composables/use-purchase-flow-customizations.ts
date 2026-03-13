@@ -4,8 +4,8 @@ import { isCustomizationVisibleInFlow } from '../helpers/is-customization-visibl
 import { CustomizationOptionValue } from '../types/customization-option-value';
 import { Customization } from '../types/customization.interface';
 import { OptionValue } from '../types/option-value.interface';
-import { normalizeProductPurchaseFlow, ProductPurchaseFlow } from '../types/product-purchase-flow.type';
 import { ProductCustomizationMode } from '../types/customizable-product-flow.type';
+import { normalizeProductPurchaseFlow, ProductPurchaseFlow } from 'src/modules/shared';
 
 const FLOW_CUSTOMIZATION_NAME = 'flow';
 
@@ -37,14 +37,14 @@ export function usePurchaseFlowCustomizations (
     });
   });
 
-  const hiddenFlowCustomization = computed<Customization | undefined>(() => {
+  const flowCustomization = computed<Customization | undefined>(() => {
     return customizations.value.find((customization: Customization) => {
-      return customization.is_hidden && isFlowCustomizationByName(customization);
+      return isFlowCustomizationByName(customization);
     });
   });
 
-  const hiddenFlowOptionValue = computed<OptionValue | undefined>(() => {
-    const customization = hiddenFlowCustomization.value;
+  const flowOptionValue = computed<OptionValue | undefined>(() => {
+    const customization = flowCustomization.value;
 
     if (!customization?.optionData?.values?.length) {
       return undefined;
@@ -58,8 +58,8 @@ export function usePurchaseFlowCustomizations (
   });
 
   function syncHiddenFlowCustomization (): void {
-    const customization = hiddenFlowCustomization.value;
-    const optionValue = hiddenFlowOptionValue.value;
+    const customization = flowCustomization.value;
+    const optionValue = flowOptionValue.value;
 
     if (!customization || !optionValue) {
       return;
@@ -86,9 +86,6 @@ export function usePurchaseFlowCustomizations (
   );
 
   return {
-    flowFilteredCustomizations,
-    hiddenFlowCustomization,
-    hiddenFlowOptionValue,
-    syncHiddenFlowCustomization
+    flowFilteredCustomizations
   };
 }

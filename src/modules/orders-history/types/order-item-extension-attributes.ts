@@ -1,4 +1,5 @@
-import { Customization, CustomizationStateItem, ProductPurchaseFlow } from 'src/modules/customization-system';
+import { Customization, CustomizationStateItem } from 'src/modules/customization-system';
+import { ProductPurchaseFlow } from 'src/modules/shared';
 import { OrderItemProduct } from './order-item-product';
 
 export interface OrderItemExtensionAttributes {

@@ -33,6 +33,7 @@ import { useMobileObserver } from './helpers/use-mobile-observer';
 import isCustomProduct from './helpers/is-custom-product.function';
 import { BudsieStatus } from './types/budsie-status';
 import { PaymentType } from './types/payment-type';
+import { ProductPurchaseFlow, DEFAULT_PRODUCT_PURCHASE_FLOW, normalizeProductPurchaseFlow } from './types/product-purchase-flow.type';
 import * as ExpressCheckoutData from './types/express-checkout-data.interface';
 import { useExpressCheckoutTotals } from './composables/use-express-checkout-totals';
 
@@ -77,8 +78,11 @@ export {
   createPhoneHelpers,
   DEFAULT_CURRENCY_CODE,
   BudsieStatus,
+  DEFAULT_PRODUCT_PURCHASE_FLOW,
   PaymentType,
+  ProductPurchaseFlow,
   ExpressCheckoutData,
   getFirstAndLastFromFullName,
+  normalizeProductPurchaseFlow,
   useExpressCheckoutTotals
 }

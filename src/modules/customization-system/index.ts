@@ -28,6 +28,7 @@ import { getCartItemExtensionAttributes } from './helpers/get-cart-item-extensio
 import { getCustomizationSelectedValues } from './helpers/get-customization-selected-values';
 import { getCustomizationSystemThumbnail } from './helpers/get-customization-system-thumbnail';
 import { getCustomizationValueIdFieldKey } from './helpers/get-customization-value-id-field-key';
+import { getCustomizationAvailabilityFlowByProductPurchaseFlow } from './helpers/get-customization-availability-flow-by-product-purchase-flow';
 import { getSelectedOptionValuesByCustomizationState } from './helpers/get-selected-options-values-by-customization-state';
 import { isCustomizationVisibleInFlow } from './helpers/is-customization-visible-in-flow';
 import { isEmailCustomization } from './helpers/is-email-customization';
@@ -37,7 +38,7 @@ import { updateCartItemProductionTimeCustomizationState } from './helpers/update
 import { updateProductProductionTimeCustomizationData } from './helpers/update-product-production-time-customization-data';
 
 import { Customization } from './types/customization.interface';
-import { CustomizationAvailabilityFlow, normalizeCustomizationAvailabilityFlow, normalizeCustomizationAvailabilityFlows } from './types/customization-availability-flow.type';
+import { CustomizationAvailabilityFlow } from './types/customization-availability-flow.type';
 import { ProductCustomizationMode } from './types/customizable-product-flow.type';
 import { CustomizationOptionValue } from './types/customization-option-value';
 import { Deliverable } from './types/deliverable.interface';
@@ -51,12 +52,12 @@ import { ListWidgetInputType } from './types/list-widget-input-type';
 import { OptionType } from './types/option-type';
 import { OptionValue } from './types/option-value.interface';
 import { PersistedData } from './types/persisted-data.interface';
-import { ProductPurchaseFlow, DEFAULT_PRODUCT_PURCHASE_FLOW, normalizeProductPurchaseFlow, getCustomizationAvailabilityFlowByProductPurchaseFlow } from './types/product-purchase-flow.type';
 import { PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID } from './types/production-time-selector-standard-option-value-id';
 import { WidgetOptionShape } from './types/widget-option-shape.type';
 import { WidgetType } from './types/widget-type';
 import { WidgetOptionAlignment } from './types/widget-option-alignment.type';
 import { WidgetOptions } from './types/widget-options.interface';
+import { ProductPurchaseFlow, DEFAULT_PRODUCT_PURCHASE_FLOW, normalizeProductPurchaseFlow } from 'src/modules/shared';
 
 import CartItemConfiguration from './components/cart-item-configuration.vue';
 
@@ -94,12 +95,9 @@ export {
   getCustomizationSystemThumbnail,
   getCustomizationValueIdFieldKey,
   getSelectedOptionValuesByCustomizationState,
-  isCustomizationVisibleInFlow,
+  getCustomizationAvailabilityFlowByProductPurchaseFlow,
   isEmailCustomization,
   isFileUploadValue,
-  getCustomizationAvailabilityFlowByProductPurchaseFlow,
-  normalizeCustomizationAvailabilityFlow,
-  normalizeCustomizationAvailabilityFlows,
   normalizeProductPurchaseFlow,
   requiredCustomizationsFilter,
   saveOrderItemCustomizationsState,

@@ -58,8 +58,7 @@ import { OrderItemAvailableAction } from '../types/order-item-available-action';
 import { OrderItemAvailableActionCode } from '../types/order-item-available-action.code';
 import { REORDER_ITEM_ACTION, IS_REORDERING_ITEM } from '..';
 
-// TODO: get rid of module dependency
-import { ProductPurchaseFlow } from 'src/modules/customization-system';
+import { ProductPurchaseFlow } from 'src/modules/shared';
 
 interface ActionItem {
   action: OrderItemAvailableAction,
