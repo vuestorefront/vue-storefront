@@ -258,7 +258,15 @@ export default defineComponent({
         }
 
         if (action.code === OrderItemAvailableActionCode.AWAITING_CUSTOMIZATION) {
-          if (props.orderItem.extension_attributes?.support_bulk_customization || props.orderItem.extension_attributes?.flow !== ProductPurchaseFlow.CUSTOMIZE_LATER) {
+          const isExplicitFlow = !!props.orderItem.extension_attributes?.flow;
+
+          if (
+            props.orderItem.extension_attributes?.support_bulk_customization ||
+              (
+                isExplicitFlow &&
+                  props.orderItem.extension_attributes?.flow !== ProductPurchaseFlow.CUSTOMIZE_LATER
+              )
+          ) {
             continue;
           }
 
