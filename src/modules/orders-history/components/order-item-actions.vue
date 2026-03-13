@@ -52,6 +52,7 @@ import { SfButton } from '@storefront-ui/vue';
 
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { IS_CART_SYNCING } from '@vue-storefront/core/modules/cart';
+import { FOREVERS_BUNDLE_SKUS } from 'src/modules/shared';
 
 import { OrderItem } from '../types/order-item';
 import { OrderItemAvailableAction } from '../types/order-item-available-action';
@@ -83,10 +84,10 @@ const printedProductSkus = [
 
 const foreversProductCustomizeRouteName = 'forevers-customize';
 const foreversProductSkus = [
+  ...FOREVERS_BUNDLE_SKUS,
   'ShopifyForeversDog_bundle',
   'ShopifyForeversCat_bundle',
-  'ShopifyForeversOther_bundle',
-  'ForeversDog_bundle'
+  'ShopifyForeversOther_bundle'
 ];
 
 const golfHeadCoversProductCustomizeRouteName = 'golf-head-covers-customize';
