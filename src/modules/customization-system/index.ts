@@ -57,7 +57,6 @@ import { WidgetOptionShape } from './types/widget-option-shape.type';
 import { WidgetType } from './types/widget-type';
 import { WidgetOptionAlignment } from './types/widget-option-alignment.type';
 import { WidgetOptions } from './types/widget-options.interface';
-import { ProductPurchaseFlow, DEFAULT_PRODUCT_PURCHASE_FLOW, normalizeProductPurchaseFlow } from 'src/modules/shared';
 
 import CartItemConfiguration from './components/cart-item-configuration.vue';
 
@@ -69,7 +68,6 @@ export {
   ProductCustomizationMode,
   CustomizationOptionValue,
   CustomizationStateItem,
-  DEFAULT_PRODUCT_PURCHASE_FLOW,
   Deliverable,
   DraftOrderItem,
   EstimatedShipment,
@@ -80,7 +78,6 @@ export {
   OptionType,
   OptionValue,
   PersistedData,
-  ProductPurchaseFlow,
   PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID,
   WidgetOptionAlignment,
   WidgetOptions,
@@ -99,7 +96,6 @@ export {
   getCustomizationAvailabilityFlowByProductPurchaseFlow,
   isEmailCustomization,
   isFileUploadValue,
-  normalizeProductPurchaseFlow,
   requiredCustomizationsFilter,
   saveOrderItemCustomizationsState,
   submitOrderItemCustomizationsState,
