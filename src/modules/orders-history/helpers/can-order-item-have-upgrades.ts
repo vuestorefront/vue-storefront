@@ -3,7 +3,6 @@ import { BudsieStatus } from 'src/modules/shared';
 import { OrderItem } from '../types/order-item';
 
 const UPGRADE_ELIGIBLE_STATUSES: BudsieStatus[] = [
-  BudsieStatus.AWAITING_CUSTOMIZATION,
   BudsieStatus.AWAITING_ARTWORK,
   BudsieStatus.ON_HOLD,
   BudsieStatus.REVIEW
