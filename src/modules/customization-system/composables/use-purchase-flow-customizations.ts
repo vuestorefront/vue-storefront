@@ -56,6 +56,10 @@ export function usePurchaseFlowCustomizations (
   });
 
   function syncHiddenFlowCustomization (): void {
+    if (customizationMode.value === ProductCustomizationMode.CUSTOMIZE) {
+      return;
+    }
+
     const customization = flowCustomization.value;
     const optionValue = flowOptionValue.value;
 
