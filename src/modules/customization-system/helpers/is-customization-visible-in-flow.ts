@@ -1,4 +1,4 @@
-import { CustomizableProductFlowType } from '../types/customizable-product-flow.type';
+import { ProductCustomizationMode } from '../types/customizable-product-flow.type';
 import {
   normalizeCustomizationAvailabilityFlow,
   normalizeCustomizationAvailabilityFlows
@@ -11,7 +11,7 @@ import {
 
 export function isCustomizationVisibleInFlow (
   customization: Customization,
-  flow: CustomizableProductFlowType,
+  customizationMode: ProductCustomizationMode,
   productPurchaseFlow?: ProductPurchaseFlow
 ): boolean {
   if (customization.is_hidden) {
@@ -19,7 +19,7 @@ export function isCustomizationVisibleInFlow (
   }
 
   const normalizedFlow = normalizeCustomizationAvailabilityFlow(
-    getCustomizationAvailabilityFlowByProductPurchaseFlow(productPurchaseFlow)
+    getCustomizationAvailabilityFlowByProductPurchaseFlow(customizationMode, productPurchaseFlow)
   );
   const availableFlows = normalizeCustomizationAvailabilityFlows(customization.flow_availability);
 

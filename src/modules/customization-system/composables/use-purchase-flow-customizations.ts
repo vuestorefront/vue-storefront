@@ -5,7 +5,7 @@ import { CustomizationOptionValue } from '../types/customization-option-value';
 import { Customization } from '../types/customization.interface';
 import { OptionValue } from '../types/option-value.interface';
 import { normalizeProductPurchaseFlow, ProductPurchaseFlow } from '../types/product-purchase-flow.type';
-import { CustomizableProductFlowType } from '../types/customizable-product-flow.type';
+import { ProductCustomizationMode } from '../types/customizable-product-flow.type';
 
 const FLOW_CUSTOMIZATION_NAME = 'flow';
 
@@ -29,11 +29,11 @@ export function usePurchaseFlowCustomizations (
     value: CustomizationOptionValue
   }) => void,
   customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>,
-  flow: CustomizableProductFlowType
+  customizationMode: Ref<ProductCustomizationMode>
 ) {
   const flowFilteredCustomizations = computed<Customization[]>(() => {
     return customizations.value.filter((customization: Customization) => {
-      return isCustomizationVisibleInFlow(customization, productPurchaseFlow.value);
+      return isCustomizationVisibleInFlow(customization, customizationMode.value, productPurchaseFlow.value);
     });
   });
 
@@ -78,7 +78,7 @@ export function usePurchaseFlowCustomizations (
   }
 
   watch(
-    [productPurchaseFlow, customizations],
+    [productPurchaseFlow, customizations, customizationMode],
     () => {
       syncHiddenFlowCustomization();
     },

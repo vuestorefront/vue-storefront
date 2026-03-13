@@ -1,4 +1,5 @@
 import { CustomizationAvailabilityFlow } from './customization-availability-flow.type';
+import { ProductCustomizationMode } from './customizable-product-flow.type';
 
 export enum ProductPurchaseFlow {
   CUSTOMIZE_NOW = 'customize-now',
@@ -14,8 +15,13 @@ export function normalizeProductPurchaseFlow (
 }
 
 export function getCustomizationAvailabilityFlowByProductPurchaseFlow (
+  customizationMode: ProductCustomizationMode,
   flow?: ProductPurchaseFlow
 ): CustomizationAvailabilityFlow {
+  if (customizationMode === ProductCustomizationMode.CUSTOMIZE) {
+    return CustomizationAvailabilityFlow.CUSTOMIZE_LATER_COMPLETION;
+  }
+
   switch (normalizeProductPurchaseFlow(flow)) {
     case ProductPurchaseFlow.CUSTOMIZE_LATER:
       return CustomizationAvailabilityFlow.CUSTOMIZE_LATER_PURCHASE;
