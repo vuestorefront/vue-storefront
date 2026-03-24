@@ -22,7 +22,7 @@ export function useLockedCustomizations (
     }
 
     for (const customization of customizations.value) {
-      if (!customization.isLocked) {
+      if (customization.isHidden || !customization.isLocked) {
         continue;
       }
 
