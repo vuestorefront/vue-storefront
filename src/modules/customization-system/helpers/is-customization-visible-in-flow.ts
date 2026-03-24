@@ -12,14 +12,14 @@ export function isCustomizationVisibleInFlow (
   customizationMode: ProductCustomizationMode,
   productPurchaseFlow?: ProductPurchaseFlow
 ): boolean {
-  if (customization.is_hidden) {
+  if (customization.isHidden) {
     return false;
   }
 
   const normalizedFlow = normalizeCustomizationAvailabilityFlow(
     getCustomizationAvailabilityFlowByProductPurchaseFlow(customizationMode, productPurchaseFlow)
   );
-  const availableFlows = normalizeCustomizationAvailabilityFlows(customization.flow_availability);
+  const availableFlows = normalizeCustomizationAvailabilityFlows(customization.flowAvailability);
 
   return availableFlows.includes(normalizedFlow);
 }

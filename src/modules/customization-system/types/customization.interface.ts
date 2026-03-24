@@ -7,10 +7,10 @@ import { OptionVariant } from './option-variant.interface';
 export interface Customization {
   availabilityRules: AvailabilityRules,
   bundleOptionId?: number,
-  flow_availability?: CustomizationAvailabilityFlow[],
+  flowAvailability?: CustomizationAvailabilityFlow[],
   id: string,
   isEnabled: boolean,
-  is_hidden?: boolean,
+  isHidden?: boolean,
   parentId?: string,
   name: string,
   optionData?: OptionData,
