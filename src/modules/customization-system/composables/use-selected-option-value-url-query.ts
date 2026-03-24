@@ -17,6 +17,10 @@ export function useSelectedOptionValueUrlQuery (
   removeUnavailableOptionValues: () => void,
   { root }: SetupContext
 ) {
+  const currentProductSku = computed<string | undefined>(() => {
+    return currentProduct.value?.sku;
+  });
+
   const showInUrlQueryCustomizations = computed<Customization[]>(() => {
     const relatedCustomizations: Customization[] = [];
 
@@ -186,6 +190,17 @@ export function useSelectedOptionValueUrlQuery (
   watch(
     routeQuery,
     () => {
+      updateCustomizationOptionValueFromQuery();
+    }
+  );
+
+  watch(
+    currentProductSku,
+    (newValue, oldValue) => {
+      if (!newValue || newValue === oldValue) {
+        return;
+      }
+
       updateCustomizationOptionValueFromQuery();
     }
   );

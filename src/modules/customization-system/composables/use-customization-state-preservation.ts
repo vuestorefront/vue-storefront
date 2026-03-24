@@ -21,11 +21,17 @@ export function useCustomizationStatePreservation (
   beforeCustomizationStateMerge?: (persistedData: PersistedData) => Promise<boolean>,
   afterCustomizationStateMerge?: (persistedData: PersistedData) => void,
   additionalData?: Ref<Record<string, any>> | undefined,
-  onPreservedStateUnavailable?: () => void
+  onPreservedStateUnavailable?: () => void,
+  resetCustomizationState?: () => void
 ) {
   const mutex = new Mutex();
   const customizationSystemStorage = StorageManager.get(STORAGE_NAME);
   const canUpdateState = ref(false);
+  const restorationId = ref(0);
+
+  function isStaleRestoration (id: number): boolean {
+    return id !== restorationId.value;
+  }
 
   const storageItemKey = computed<string>(() => {
     return `${STORAGE_BASE_KEY}/${productSku.value}`;
@@ -102,11 +108,27 @@ export function useCustomizationStatePreservation (
     }
   }
 
-  onMounted(async () => {
+  async function restorePreservedState (shouldResetState: boolean = false): Promise<void> {
+    const currentRestorationId = ++restorationId.value;
+
+    canUpdateState.value = false;
     await nextTick();
 
+    if (isStaleRestoration(currentRestorationId)) {
+      return;
+    }
+
+    if (shouldResetState && resetCustomizationState) {
+      resetCustomizationState();
+    }
+
     if (existingCartItem.value || !canRestorePreservedData.value) {
-      removePreservedState();
+      await removePreservedState();
+
+      if (isStaleRestoration(currentRestorationId)) {
+        return;
+      }
+
       canUpdateState.value = true;
 
       if (onPreservedStateUnavailable) {
@@ -117,6 +139,10 @@ export function useCustomizationStatePreservation (
     }
 
     const persistedData = await getPreservedData();
+
+    if (isStaleRestoration(currentRestorationId)) {
+      return;
+    }
 
     if (!persistedData) {
       canUpdateState.value = true;
@@ -131,8 +157,12 @@ export function useCustomizationStatePreservation (
     if (beforeCustomizationStateMerge) {
       const isSuccess = await beforeCustomizationStateMerge(persistedData);
 
+      if (isStaleRestoration(currentRestorationId)) {
+        return;
+      }
+
       if (!isSuccess) {
-        removePreservedState();
+        await removePreservedState();
         canUpdateState.value = true;
         return;
       }
@@ -146,6 +176,18 @@ export function useCustomizationStatePreservation (
     }
 
     canUpdateState.value = true;
+  }
+
+  onMounted(async () => {
+    await restorePreservedState();
+  });
+
+  watch(storageItemKey, (newValue, oldValue) => {
+    if (!oldValue || newValue === oldValue) {
+      return;
+    }
+
+    void restorePreservedState(true);
   });
 
   const watchProperties: Ref<any>[] = [filteredCustomizationState];
