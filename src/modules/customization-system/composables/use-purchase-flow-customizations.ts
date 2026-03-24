@@ -7,7 +7,12 @@ import { OptionValue } from '../types/option-value.interface';
 import { ProductCustomizationMode } from '../types/customizable-product-flow.type';
 import { normalizeProductPurchaseFlow, ProductPurchaseFlow } from 'src/modules/shared';
 
-const FLOW_CUSTOMIZATION_NAME = 'flow';
+const FLOW_CUSTOMIZATION_NAME = 'purchase flow';
+
+const flowToCustomizationValueMap: Record<ProductPurchaseFlow, string> = {
+  [ProductPurchaseFlow.CUSTOMIZE_NOW]: 'customize now',
+  [ProductPurchaseFlow.CUSTOMIZE_LATER]: 'customize later'
+};
 
 function normalizeName (value?: string): string {
   return (value || '').trim().toLowerCase();
@@ -48,7 +53,7 @@ export function usePurchaseFlowCustomizations (
       return undefined;
     }
 
-    const expectedOptionValueName = normalizeProductPurchaseFlow(productPurchaseFlow.value);
+    const expectedOptionValueName = flowToCustomizationValueMap[productPurchaseFlow.value];
 
     return customization.optionData.values.find((optionValue) => {
       return normalizeName(optionValue.name) === expectedOptionValueName;
