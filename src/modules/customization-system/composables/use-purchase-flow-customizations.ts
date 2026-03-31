@@ -1,11 +1,12 @@
 import { computed, Ref, watch } from '@vue/composition-api';
 
+import { ProductPurchaseFlow } from 'src/modules/shared';
+
 import { isCustomizationVisibleInFlow } from '../helpers/is-customization-visible-in-flow';
 import { CustomizationOptionValue } from '../types/customization-option-value';
 import { Customization } from '../types/customization.interface';
 import { OptionValue } from '../types/option-value.interface';
 import { ProductCustomizationMode } from '../types/customizable-product-flow.type';
-import { normalizeProductPurchaseFlow, ProductPurchaseFlow } from 'src/modules/shared';
 
 const FLOW_CUSTOMIZATION_NAME = 'purchase flow';
 
