@@ -159,7 +159,8 @@ export default defineComponent({
         name: routeName,
         query: {
           orderItemId: props.orderItem.item_id.toString(),
-          sku
+          sku,
+          orderId: props.orderId.toString()
         }
       });
     }
