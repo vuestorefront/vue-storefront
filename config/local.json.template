@@ -474,6 +474,7 @@
         "id",
         "image",
         "info",
+        "is_custom_product",
         "is_configured",
         "links",
         "max_price",

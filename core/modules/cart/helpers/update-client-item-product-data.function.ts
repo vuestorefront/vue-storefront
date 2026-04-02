@@ -27,6 +27,7 @@ const productFieldsAllowedToUpdate = [
   'product_links',
   'video_url',
   'slug',
+  'is_custom_product',
   'is_alteration_product'
 ]
 

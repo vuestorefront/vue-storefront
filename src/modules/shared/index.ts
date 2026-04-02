@@ -30,7 +30,6 @@ import { getCanonicalUrl } from './helpers/get-canonical-url.function';
 import getCookieByName from './helpers/get-cookie-by-name.function';
 import { MimeTypeValue } from './types/mime-type.value';
 import { useMobileObserver } from './helpers/use-mobile-observer';
-import isCustomProduct from './helpers/is-custom-product.function';
 import { BudsieStatus } from './types/budsie-status';
 import { PaymentType } from './types/payment-type';
 import * as ExpressCheckoutData from './types/express-checkout-data.interface';
@@ -69,7 +68,6 @@ export {
   getCookieByName,
   MimeTypeValue,
   useMobileObserver,
-  isCustomProduct,
   EU_COUNTRY_CODES,
   DETECTED_COUNTRY_COOKIE_KEY,
   getRegionIdByCountryAndStateCode,
