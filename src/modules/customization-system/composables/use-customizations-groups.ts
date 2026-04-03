@@ -58,7 +58,8 @@ export function useCustomizationsGroups (
       (customization) => {
         if (
           customization.type !== CustomizationType.OPTIONS_GROUP ||
-          !!customization.parentId
+          !!customization.parentId ||
+          customization.isHidden
         ) {
           return false;
         }
