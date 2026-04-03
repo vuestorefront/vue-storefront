@@ -15,7 +15,6 @@ import { getItemsFromStorage } from './helpers/get-local-storage-items.function'
 import { mouseEventHandlerFactory } from './helpers/mouse-event-handler.factory';
 import { module } from './store';
 import { CLEAR_PRODUCTION_SPOT_COUNTDOWN_EXPIRATION_DATE, SET_CAMPAIGN_CONTENT, SN_PROMOTION_PLATFORM } from './types/StoreMutations';
-import isCustomProduct from '../shared/helpers/is-custom-product.function';
 import CampaignsGetAPIResponse from './types/CampaignsGetAPIResponse';
 import { USER_LEAVING_WEBSITE } from './types/user-leaving-website.event';
 import { localStorageSynchronizationFactory } from '../shared';
@@ -77,7 +76,7 @@ export const PromotionPlatformModule: StorefrontModule = function ({ app, store 
 
     store.subscribe((mutation) => {
       if (mutation.type === `cart/${CART_ADD_ITEM}`) {
-        if (!isCustomProduct(mutation.payload.product.id)) {
+        if (!mutation.payload.product || !Boolean(mutation.payload.product.is_custom_product)) {
           return;
         }
 

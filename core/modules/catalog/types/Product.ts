@@ -90,6 +90,7 @@ export default interface Product {
   disabled_upgrades?: string[],
   customizations?: Customization[],
   turnaround_time?: number,
+  is_custom_product?: boolean,
   is_alteration_product?: boolean
 }
 
