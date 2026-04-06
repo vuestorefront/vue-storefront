@@ -12,7 +12,7 @@ export function useOrderDetails ({ root }: SetupContext, orderId: string) {
   const isError = ref<boolean>(false);
 
   async function loadOrder (): Promise<void> {
-    if (isLoading.value) {
+    if (isLoading.value || !orderId) {
       return;
     }
 

@@ -1,7 +1,7 @@
 import { computed, Ref } from '@vue/composition-api';
 
 import { Customization, CustomizationOptionValue, isFileUploadValue, OptionValue } from 'src/modules/customization-system';
-import { CustomizableProductFlowType } from 'src/modules/customization-system/types/customizable-product-flow.type';
+import { ProductCustomizationMode } from 'src/modules/customization-system/types/customizable-product-flow.type';
 
 export enum FilterType {
   ALL = 'all',
@@ -11,14 +11,18 @@ export enum FilterType {
 export function useLockedCustomizations (
   customizationOptionValueDictionary: Ref<Record<string, CustomizationOptionValue>>,
   customizations: Ref<Customization[]>,
-  flow: Ref<CustomizableProductFlowType>,
+  customizationMode: Ref<ProductCustomizationMode>,
   filterType: FilterType = FilterType.ALL
 ) {
   const lockedCustomizationDictionary = computed<Record<string, Customization>>(() => {
     const set: Record<string, Customization> = {};
 
+    if (customizationMode.value !== ProductCustomizationMode.CUSTOMIZE) {
+      return set;
+    }
+
     for (const customization of customizations.value) {
-      if (!customization.isLocked) {
+      if (customization.isHidden || !customization.isLocked) {
         continue;
       }
 
@@ -55,7 +59,7 @@ export function useLockedCustomizations (
   });
 
   function customizationsFilter (customization: Customization): boolean {
-    if (flow.value !== CustomizableProductFlowType.CUSTOMIZE) {
+    if (customizationMode.value !== ProductCustomizationMode.CUSTOMIZE) {
       return true;
     }
 

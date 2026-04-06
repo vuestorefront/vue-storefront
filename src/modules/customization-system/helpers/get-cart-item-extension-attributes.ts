@@ -1,5 +1,7 @@
 import CartItem from 'core/modules/cart/types/CartItem';
 
+import { normalizeProductPurchaseFlow } from 'src/modules/shared';
+
 import { ExtensionAttributes } from '../types/extension-attributes.interface';
 
 export function getCartItemExtensionAttributes (
@@ -12,6 +14,7 @@ export function getCartItemExtensionAttributes (
   }
 
   return {
+    flow: normalizeProductPurchaseFlow(extensionAttributes.flow),
     plushie_id: extensionAttributes.plushie_id,
     customization_state: extensionAttributes.customization_state
   }
