@@ -5,7 +5,7 @@ import { processURLAddress } from '@vue-storefront/core/helpers';
 import { TaskQueue } from '@vue-storefront/core/lib/sync';
 import RootState from '@vue-storefront/core/types/RootState';
 
-import { FETCH_ORDERS_HISTORY, FETCH_SUGGESTED_PRODUCTS, REORDER_ITEM, FETCH_ORDER_DETAILS, SUBMIT_TAX_ID_UPDATE_REQUEST, REQUEST_ORDER_SHIPPING_ADDRESS_UPDATE } from '../types/store/actions';
+import { FETCH_ORDERS_HISTORY, FETCH_SUGGESTED_PRODUCTS, REORDER_ITEM, FETCH_ORDER_DETAILS, SUBMIT_TAX_ID_UPDATE_REQUEST, REQUEST_ORDER_SHIPPING_ADDRESS_UPDATE, REQUEST_ORDER_SHIPPING_ADDRESS_CONFIRMATION } from '../types/store/actions';
 import { OrdersHistoryState } from '../types/store/state';
 import { Order } from '../types/order';
 import { SET_ORDERS_HISTORY, SET_SUGGESTED_PRODUCTS, SET_IS_REORDERING_ITEM } from '../types/store/mutations';
@@ -168,6 +168,25 @@ export const actions: ActionTree<OrdersHistoryState, RootState> = {
 
     if (resultCode !== 200) {
       const errorMessage = result?.errorMessage || 'Failed to update shipping address';
+      throw new Error(errorMessage);
+    }
+  },
+  async [REQUEST_ORDER_SHIPPING_ADDRESS_CONFIRMATION] (_context, { addressId }: { addressId: number }): Promise<void> {
+    const url = processURLAddress(`${config.budsies.endpoint}/order/address/confirmation-requests?token={{token}}`);
+
+    const { resultCode, result } = await TaskQueue.execute({
+      url,
+      payload: {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ addressId })
+      },
+      silent: true
+    });
+
+    if (resultCode !== 200) {
+      const errorMessage = result?.errorMessage || 'Failed to confirm shipping address';
       throw new Error(errorMessage);
     }
   }
