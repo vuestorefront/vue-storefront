@@ -20,7 +20,7 @@ export const GoogleTagManagerModule: StorefrontModule = function ({ store, route
         vueRouter: router,
         trackOnNextTick: true,
         defer: true,
-        source: appConfig.googleTagManager.jsUrl || null
+        source: appConfig.googleTagManager.scriptSource || null
       })
     })
   } else {

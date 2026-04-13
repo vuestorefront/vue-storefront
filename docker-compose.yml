@@ -56,7 +56,7 @@ services:
 
       - GTM_ID
       - GOOGLE_ANALYTICS_TRACKING_ID
-      - GTM_JS_URL
+      - GTM_SCRIPT_SOURCE
 
       - AFFIRM_PUBLIC_KEY
       - AFFIRM_CDN

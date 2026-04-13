@@ -856,7 +856,7 @@
   },
   "googleTagManager": {
     "id": "${GTM_ID}",
-    "jsUrl": "${GTM_JS_URL}",
+    "scriptSource": "${GTM_SCRIPT_SOURCE}",
     "debug": false,
     "product_attributes": [
       "name",
