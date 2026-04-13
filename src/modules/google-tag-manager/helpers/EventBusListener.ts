@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Store } from 'vuex';
-import VueGtm from 'vue-gtm';
+import VueGtm from '@gtm-support/vue2-gtm';
 import { sha3_256 } from 'js-sha3'
 
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';

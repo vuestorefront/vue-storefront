@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueGtm from 'vue-gtm'
+import VueGtm from '@gtm-support/vue2-gtm'
 
 import { once } from '@vue-storefront/core/helpers'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
@@ -19,7 +19,8 @@ export const GoogleTagManagerModule: StorefrontModule = function ({ store, route
         debug: appConfig.googleTagManager.debug,
         vueRouter: router,
         trackOnNextTick: true,
-        defer: true
+        defer: true,
+        source: appConfig.googleTagManager.scriptSource || null
       })
     })
   } else {

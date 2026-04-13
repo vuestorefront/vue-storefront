@@ -1,4 +1,4 @@
-import VueGtm from 'vue-gtm';
+import VueGtm from '@gtm-support/vue2-gtm';
 
 import GoogleTagManagerEvents from '../types/GoogleTagManagerEvents';
 
