@@ -8,6 +8,11 @@ import fs from 'fs'
 import path from 'path'
 import uuid from 'uuid/v4'
 
+const bundledServerDependencies = [
+  '@gtm-support/vue2-gtm',
+  '@gtm-support/core'
+]
+
 fs.writeFileSync(
   path.join(__dirname, 'cache-version.json'),
   JSON.stringify(uuid())
@@ -26,7 +31,8 @@ export default merge(base, {
       'create-api': './create-api-server.js'
     }
   },
-  externals: Object.keys(require('../../package.json').dependencies),
+  externals: Object.keys(require('../../package.json').dependencies)
+    .filter((dependencyName) => !bundledServerDependencies.includes(dependencyName)),
   plugins: [
     new webpack.DefinePlugin({
       'process.env.VUE_ENV': '"server"'

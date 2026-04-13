@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueGtm from 'vue-gtm'
+import VueGtm from '@gtm-support/vue2-gtm'
 import { Store } from 'vuex'
 import { isServer } from '@vue-storefront/core/helpers'
 import VueRouter from 'vue-router'

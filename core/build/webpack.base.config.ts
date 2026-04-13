@@ -148,10 +148,12 @@ export default {
         exclude: /node_modules/
       },
       {
-        test: /\.js$/,
+        test: /\.(js|cjs)$/,
         loader: 'babel-loader',
         include: [
           path.resolve(__dirname, '../../node_modules/@vue-storefront'),
+          path.resolve(__dirname, '../../node_modules/@gtm-support/vue2-gtm'),
+          path.resolve(__dirname, '../../node_modules/@gtm-support/core'),
           path.resolve(__dirname, '../../node_modules/@justinribeiro/lite-youtube'),
           path.resolve(__dirname, '../../node_modules/@googlemaps/js-api-loader'),
           path.resolve(__dirname, '../../src'),
