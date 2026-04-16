@@ -7,15 +7,11 @@ import { Customization } from '../types/customization.interface';
 import { getCustomizationAvailabilityFlowByProductPurchaseFlow } from './get-customization-availability-flow-by-product-purchase-flow';
 import { ProductPurchaseFlow } from 'src/modules/shared';
 
-export function isCustomizationVisibleInFlow (
+export function isCustomizationAvailableInFlow (
   customization: Customization,
   customizationMode: ProductCustomizationMode,
   productPurchaseFlow?: ProductPurchaseFlow
 ): boolean {
-  if (customization.isHidden) {
-    return false;
-  }
-
   const normalizedFlow = normalizeCustomizationAvailabilityFlow(
     getCustomizationAvailabilityFlowByProductPurchaseFlow(customizationMode, productPurchaseFlow)
   );
@@ -23,3 +19,4 @@ export function isCustomizationVisibleInFlow (
 
   return availableFlows.includes(normalizedFlow);
 }
+

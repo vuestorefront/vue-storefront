@@ -10,6 +10,10 @@ export function useCustomizationsFilter (
 ) {
   const filteredCustomizations = computed<Customization[]>(() => {
     return availableCustomizations.value.filter((customization) => {
+      if (customization.isHidden) {
+        return false;
+      }
+
       const availableOptionValues = customizationAvailableOptionValues.value[customization.id];
 
       for (const filter of filters) {

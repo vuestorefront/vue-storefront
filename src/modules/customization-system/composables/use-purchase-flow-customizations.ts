@@ -2,7 +2,7 @@ import { computed, Ref, watch } from '@vue/composition-api';
 
 import { ProductPurchaseFlow } from 'src/modules/shared';
 
-import { isCustomizationVisibleInFlow } from '../helpers/is-customization-visible-in-flow';
+import { isCustomizationAvailableInFlow } from '../helpers/is-customization-available-in-flow';
 import { CustomizationOptionValue } from '../types/customization-option-value';
 import { Customization } from '../types/customization.interface';
 import { OptionValue } from '../types/option-value.interface';
@@ -17,6 +17,14 @@ const flowToCustomizationValueMap: Record<ProductPurchaseFlow, string> = {
 
 function normalizeName (value?: string): string {
   return (value || '').trim().toLowerCase();
+}
+
+// TODO: quick fix to make "send later upload method" customization hidden in the CUSTOMIZE flow
+const SEND_PHOTOS_LATER_CUSTOMIZATION_NAME = 'send later upload method';
+function isSendPhotosLaterCustomization (customization: Customization) {
+  const normalizedName = normalizeName(customization.name);
+
+  return normalizedName === SEND_PHOTOS_LATER_CUSTOMIZATION_NAME;
 }
 
 function isFlowCustomizationByName (customization: Customization): boolean {
@@ -35,10 +43,24 @@ export function usePurchaseFlowCustomizations (
   customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>,
   customizationMode: Ref<ProductCustomizationMode>
 ) {
-  const flowFilteredCustomizations = computed<Customization[]>(() => {
-    return customizations.value.filter((customization: Customization) => {
-      return isCustomizationVisibleInFlow(customization, customizationMode.value, productPurchaseFlow.value);
-    });
+  const flowAvailableCustomizations = computed<Customization[]>(() => {
+    const result: Customization[] = [];
+
+    // TODO: quick fix to make "send later upload method" customization hidden in the CUSTOMIZE flow. Replace with simple filter
+    for (const customization of customizations.value) {
+      if (!isCustomizationAvailableInFlow(customization, customizationMode.value, productPurchaseFlow.value)) {
+        continue;
+      }
+
+      if (customizationMode.value !== ProductCustomizationMode.CUSTOMIZE || !isSendPhotosLaterCustomization(customization)) {
+        result.push(customization);
+        continue;
+      }
+
+      result.push({ ...customization, isHidden: true });
+    }
+
+    return result;
   });
 
   const flowCustomization = computed<Customization | undefined>(() => {
@@ -94,6 +116,6 @@ export function usePurchaseFlowCustomizations (
   );
 
   return {
-    flowFilteredCustomizations
+    flowAvailableCustomizations
   };
 }
