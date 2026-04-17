@@ -164,7 +164,12 @@ export function useCustomizationState (
   }
 
   function fillInitialCustomizationState (customizationState: CustomizationStateItem[]): void {
-    mergeCustomizationState(customizationState);
+    for (const initialCustomizationStateItem of customizationState) {
+      updateCustomizationOptionValue({
+        customizationId: initialCustomizationStateItem.customization_id,
+        value: initialCustomizationStateItem.value
+      });
+    }
   }
 
   // Need to wait hydration before fill customization state
