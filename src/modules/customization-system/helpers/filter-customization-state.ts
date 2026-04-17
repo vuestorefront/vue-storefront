@@ -10,8 +10,8 @@ export function filterCustomizationState (customizationState: CustomizationState
   for (const stateItem of customizationState) {
     const itemToAdd = { ...stateItem };
 
-    if (itemToAdd.quantity && itemToAdd.quantity === 1) {
-      delete itemToAdd.quantity;
+    if (itemToAdd.qty && itemToAdd.qty === 1) {
+      delete itemToAdd.qty;
     }
 
     if (isFileUploadValue(itemToAdd.value)) {
@@ -37,8 +37,8 @@ export function filterCustomizationState (customizationState: CustomizationState
         value: filteredValues
       }
 
-      if (stateItem.quantity && stateItem.quantity !== 1) {
-        data.quantity = stateItem.quantity;
+      if (stateItem.qty && stateItem.qty !== 1) {
+        data.qty = stateItem.qty;
       }
 
       filteredState.push(data);
