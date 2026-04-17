@@ -91,6 +91,14 @@ function getCustomizablePropertyComposedId (
   return `${customizationId}-${optionValue}`;
 }
 
+function formatOptionValueName (name: string, quantity?: number): string {
+  if (!quantity || quantity <= 1) {
+    return name;
+  }
+
+  return `${name} x${quantity}`;
+}
+
 export default defineComponent({
   name: 'CartItemConfiguration',
   components: {
@@ -190,12 +198,17 @@ export default defineComponent({
             continue;
           }
 
+          const value = formatOptionValueName(
+            selectedOptionValue.name,
+            customizationStateItem.quantity
+          );
+
           properties.push({
             id: getCustomizablePropertyComposedId(
-              selectedOptionValue.name,
+              value,
               customizationStateItem.customization_id
             ),
-            value: selectedOptionValue.name,
+            value,
             sn: relatedCustomization.sn,
             isTextValue: false
           });

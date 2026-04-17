@@ -8,28 +8,40 @@ export function filterCustomizationState (customizationState: CustomizationState
   const filteredState: CustomizationStateItem[] = [];
 
   for (const stateItem of customizationState) {
-    if (isFileUploadValue(stateItem.value)) {
-      filteredState.push(stateItem);
+    const itemToAdd = { ...stateItem };
+
+    if (itemToAdd.quantity && itemToAdd.quantity === 1) {
+      delete itemToAdd.quantity;
+    }
+
+    if (isFileUploadValue(itemToAdd.value)) {
+      filteredState.push(itemToAdd);
       continue;
     }
 
     if (
-      !Array.isArray(stateItem.value) &&
-      !valuesForFilter.includes(stateItem.value)
+      !Array.isArray(itemToAdd.value) &&
+      !valuesForFilter.includes(itemToAdd.value)
     ) {
-      filteredState.push(stateItem);
+      filteredState.push(itemToAdd);
       continue;
     }
 
-    if (Array.isArray(stateItem.value)) {
-      const filteredValues = stateItem.value.filter((value) => {
+    if (Array.isArray(itemToAdd.value)) {
+      const filteredValues = itemToAdd.value.filter((value) => {
         return !valuesForFilter.includes(value);
       });
 
-      filteredState.push({
+      const data: CustomizationStateItem = {
         customization_id: stateItem.customization_id,
         value: filteredValues
-      });
+      }
+
+      if (stateItem.quantity && stateItem.quantity !== 1) {
+        data.quantity = stateItem.quantity;
+      }
+
+      filteredState.push(data);
     }
   }
 
