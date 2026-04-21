@@ -7,5 +7,9 @@ export interface ExtensionAttributes {
   flow?: ProductPurchaseFlow,
   plushie_id?: string,
   estimated_shipment?: EstimatedShipment,
-  is_virtual_item?: boolean
+  is_virtual_item?: boolean,
+  budsies_quote_item_totals?: {
+    regular_price?: number,
+    final_price?: number
+  }
 }
