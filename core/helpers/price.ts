@@ -200,6 +200,18 @@ export function getCartItemPrice (
   cartItem: CartItem,
   productDiscountedPriceDictionary: Record<string, ProductDiscountedPrice>
 ) {
+  const itemTotals = cartItem.extension_attributes?.budsies_quote_item_totals;
+
+  if (itemTotals?.final_price !== undefined && itemTotals?.regular_price !== undefined) {
+    const isEqual = itemTotals.final_price === itemTotals.regular_price;
+    const quantity = cartItem.qty || 1; 
+
+    return {
+      regular: itemTotals.regular_price * quantity,
+      special: isEqual ? null : itemTotals.final_price * quantity
+    }
+  }
+
   const productPriceData = getProductPriceData(
     cartItem,
     calculateCartItemBundleOptionsPrice
