@@ -34,7 +34,17 @@
           size="xxs"
           class="collected-product__properties__icon"
         />
-        {{ optionValueProperty.value }}
+
+        <span>
+          {{ optionValueProperty.value }}
+        </span>
+
+        <span
+          v-if="optionValueProperty.qty"
+          class="_quantity"
+        >
+          {{ optionValueProperty.qty }}
+        </span>
       </div>
     </template>
 
@@ -81,7 +91,8 @@ interface CustomizableProperty {
   id: string,
   value: string,
   isTextValue: boolean,
-  sn: number
+  sn: number,
+  qty: string
 }
 
 function getCustomizablePropertyComposedId (
@@ -89,14 +100,6 @@ function getCustomizablePropertyComposedId (
   customizationId: string
 ): string {
   return `${customizationId}-${optionValue}`;
-}
-
-function formatOptionValueName (name: string, quantity?: number): string {
-  if (!quantity || quantity <= 1) {
-    return name;
-  }
-
-  return `${name} x${quantity}`;
 }
 
 export default defineComponent({
@@ -158,6 +161,8 @@ export default defineComponent({
           continue;
         }
 
+        const quantityText = customizationStateItem.quantity && customizationStateItem.quantity > 1 ? `x${customizationStateItem.quantity}` : '';
+
         if (!relatedCustomization.optionData.values?.length) {
           const value = Array.isArray(customizationStateItem.value)
             ? customizationStateItem.value.join(',')
@@ -170,7 +175,8 @@ export default defineComponent({
             ),
             value,
             sn: relatedCustomization.sn,
-            isTextValue: true
+            isTextValue: true,
+            qty: quantityText
           });
           continue;
         }
@@ -198,19 +204,17 @@ export default defineComponent({
             continue;
           }
 
-          const value = formatOptionValueName(
-            selectedOptionValue.name,
-            customizationStateItem.quantity
-          );
+          const value = selectedOptionValue.name;
 
           properties.push({
             id: getCustomizablePropertyComposedId(
               value,
               customizationStateItem.customization_id
             ),
-            value,
+            value: selectedOptionValue.name,
             sn: relatedCustomization.sn,
-            isTextValue: false
+            isTextValue: false,
+            qty: quantityText
           });
         }
       }
@@ -285,6 +289,10 @@ export default defineComponent({
   ._shipment-promise,
   ._offer-expiration-date-text {
     margin-bottom: 0;
+  }
+
+  ._quantity {
+    font-weight: var(--font-bold);
   }
 }
 </style>
