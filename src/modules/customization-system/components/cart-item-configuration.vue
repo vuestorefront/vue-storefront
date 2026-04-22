@@ -49,7 +49,6 @@
             class="collected-product__properties"
           >
             <SfIcon
-              v-if="!property.isTextValue"
               icon="check"
               size="xxs"
               class="collected-product__properties__icon"
