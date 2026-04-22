@@ -200,7 +200,7 @@ export default defineComponent({
 
           const value = formatOptionValueName(
             selectedOptionValue.name,
-            customizationStateItem.qty
+            customizationStateItem.quantity
           );
 
           properties.push({
