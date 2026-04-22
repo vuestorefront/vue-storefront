@@ -23,7 +23,7 @@
       >
         <span class="_customization-name">{{ group.customizationName }}:</span>
 
-        <span class="_customization-value">
+        <span>
           {{ group.properties[0].value }}
         </span>
 
@@ -46,7 +46,7 @@
           <li
             v-for="property in group.properties"
             :key="property.id"
-            class="_customization-value"
+            class="collected-product__properties"
           >
             <SfIcon
               v-if="!property.isTextValue"
@@ -323,6 +323,7 @@ export default defineComponent({
 
   ._customization-value {
     list-style: none;
+    margin-bottom: var(--spacer-xs);
   }
 
   .collected-product__properties__icon {
