@@ -109,7 +109,6 @@ import { useMobileObserver } from 'src/modules/shared';
 interface CustomizableProperty {
   id: string,
   value: string,
-  isTextValue: boolean,
   sn: number,
   qty: string
 }
@@ -231,7 +230,6 @@ export default defineComponent({
             ),
             value: truncate(value),
             sn: relatedCustomization.sn,
-            isTextValue: true,
             qty: quantityText
           });
 
@@ -268,7 +266,6 @@ export default defineComponent({
             ),
             value: selectedOptionValue.name,
             sn: relatedCustomization.sn,
-            isTextValue: false,
             qty: quantityText
           });
         }
