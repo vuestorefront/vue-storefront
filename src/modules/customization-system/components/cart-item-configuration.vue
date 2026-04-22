@@ -26,6 +26,13 @@
         <span class="_customization-value">
           {{ group.properties[0].value }}
         </span>
+
+        <span
+          v-if="group.properties[0].qty"
+          class="_quantity"
+        >
+          {{ group.properties[0].qty }}
+        </span>
       </div>
 
       <div
@@ -50,7 +57,12 @@
 
             {{ property.value }}
 
-            <span v-if="property.qty" class="_quantity">{{ property.qty }}</span>
+            <span
+              v-if="property.qty"
+              class="_quantity"
+            >
+              {{ property.qty }}
+            </span>
           </li>
         </ul>
       </div>
