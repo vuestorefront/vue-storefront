@@ -1,0 +1,9 @@
+export const GOLF_HEAD_COVERS_DOG_BUNDLE_SKU = 'golfHeadCoversDog_bundle';
+export const GOLF_HEAD_COVERS_CAT_BUNDLE_SKU = 'golfHeadCoversCat_bundle';
+export const GOLF_HEAD_COVERS_OTHER_BUNDLE_SKU = 'golfHeadCoversOther_bundle';
+
+export const GOLF_HEAD_COVERS_BUNDLE_SKUS = [
+  GOLF_HEAD_COVERS_DOG_BUNDLE_SKU,
+  GOLF_HEAD_COVERS_CAT_BUNDLE_SKU,
+  GOLF_HEAD_COVERS_OTHER_BUNDLE_SKU
+];
