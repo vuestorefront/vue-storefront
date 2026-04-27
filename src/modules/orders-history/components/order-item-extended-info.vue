@@ -54,9 +54,10 @@
 </template>
 
 <script lang="ts">
-import { PropType, computed, defineComponent, toRef } from '@vue/composition-api';
+import { PropType, computed, defineComponent, toRef, ComputedRef } from '@vue/composition-api';
 import { SfHeading } from '@storefront-ui/vue';
 
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { CartItemConfiguration, CustomizationStateItem, Customization } from 'src/modules/customization-system';
 
 import { OrderItem } from '../types/order-item';
@@ -84,22 +85,20 @@ export default defineComponent({
       return (props.item.extension_attributes && props.item.extension_attributes.customization_states) || [];
     });
 
+    const productBySkuDictionary: ComputedRef<Record<string, Product>> = computed(() => {
+      return root.$store.getters['product/getProductBySkuDictionary'] || {};
+    });
+
     const customizations = computed<Customization[]>(() => {
       const productCustomizations = (props.item.extension_attributes && props.item.extension_attributes.customizations) || [];
 
       const alterationProductData = props.item.extension_attributes?.alteration_product;
+      const extraChargesProductData = props.item.extension_attributes?.manufacturing_extra_charge_product;
 
-      if (!alterationProductData) {
-        return productCustomizations;
-      }
+      const alterationProduct = alterationProductData?.sku ? productBySkuDictionary.value[alterationProductData.sku] : undefined;
+      const extraChargesProduct = extraChargesProductData?.sku ? productBySkuDictionary.value[extraChargesProductData.sku] : undefined;
 
-      const alterationProduct = root.$store.getters['product/getProductBySkuDictionary'][alterationProductData.sku];
-
-      if (!alterationProduct) {
-        return productCustomizations;
-      }
-
-      return [...productCustomizations, ...alterationProduct.customizations];
+      return [...productCustomizations, ...(alterationProduct?.customizations || []), ...(extraChargesProduct?.customizations || [])];
     });
 
     const {
