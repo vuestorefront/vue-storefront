@@ -10,6 +10,7 @@ export function useCustomizationState (
   initialCustomizationState?: Ref<CustomizationStateItem[] | undefined>
 ) {
   const customizationOptionValue: Ref<Record<string, CustomizationOptionValue>> = ref({});
+  const customizationQuantity: Ref<Record<string, number>> = ref({});
 
   const existingCartItemCustomizationOptionValue: ComputedRef<Record<string, CustomizationOptionValue>> = computed(() => {
     if (!existingCartItem?.value?.extension_attributes?.customization_state) {
@@ -37,6 +38,7 @@ export function useCustomizationState (
 
       items.push({
         customization_id: customizationId,
+        quantity: customizationQuantity.value[customizationId] || 1,
         value
       });
     }
@@ -87,6 +89,8 @@ export function useCustomizationState (
 
     for (const customizationStateItem of state) {
       customizationOptionValueForMerge[customizationStateItem.customization_id] = customizationStateItem.value;
+
+      customizationQuantity.value[customizationStateItem.customization_id] = customizationStateItem.quantity || 1;
     }
 
     customizationOptionValue.value = {
@@ -140,6 +144,7 @@ export function useCustomizationState (
 
   function resetCustomizationState () {
     customizationOptionValue.value = {};
+    customizationQuantity.value = {};
   }
 
   function fillCustomizationStateFromExistingCartItem (cartItem: CartItem) {
@@ -151,6 +156,8 @@ export function useCustomizationState (
 
     cartItem.extension_attributes?.customization_state.forEach((item) => {
       customizationOptionValueDictionary[item.customization_id] = item.value;
+
+      customizationQuantity.value[item.customization_id] = item.quantity || 1;
     });
 
     customizationOptionValue.value = customizationOptionValueDictionary;
@@ -182,6 +189,7 @@ export function useCustomizationState (
 
   return {
     addCustomizationOptionValue,
+    customizationQuantity,
     customizationOptionValue,
     customizationState,
     existingCartItemCustomizationOptionValue,
