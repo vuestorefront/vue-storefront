@@ -17,32 +17,19 @@
 
     <template v-if="hasCustomizableProperties">
       <div
-        v-for="group in inlineGroups"
+        v-for="group in customizationGroups"
         :key="group.customizationId"
-        class="collected-product__properties"
+        :class="[
+          'collected-product__properties',
+          { '-list': group.isList }
+        ]"
       >
         <span class="_customization-name">{{ group.customizationName }}:</span>
 
-        <span>
-          {{ group.properties[0].value }}
-        </span>
-
-        <span
-          v-if="group.properties[0].qty"
-          class="_quantity"
+        <ul
+          v-if="group.isList"
+          class="_customization-values-list"
         >
-          {{ group.properties[0].qty }}
-        </span>
-      </div>
-
-      <div
-        v-for="group in listGroups"
-        :key="group.customizationId"
-        class="collected-product__properties -list"
-      >
-        <span class="_customization-name">{{ group.customizationName }}:</span>
-
-        <ul class="_customization-values-list">
           <li
             v-for="property in group.properties"
             :key="property.id"
@@ -64,6 +51,19 @@
             </span>
           </li>
         </ul>
+
+        <template v-else>
+          <span>
+            {{ group.properties[0].value }}
+          </span>
+
+          <span
+            v-if="group.properties[0].qty"
+            class="_quantity"
+          >
+            {{ group.properties[0].qty }}
+          </span>
+        </template>
       </div>
     </template>
 
@@ -119,6 +119,30 @@ interface CustomizationGroup {
   isList: boolean,
   sn: number,
   properties: CustomizableProperty[]
+}
+
+function sortCustomizationGroups (
+  groups: CustomizationGroup[]
+): CustomizationGroup[] {
+  return groups.sort((leftGroup, rightGroup) => {
+    if (leftGroup.sn === rightGroup.sn) {
+      return leftGroup.customizationName.localeCompare(rightGroup.customizationName);
+    }
+
+    return leftGroup.sn - rightGroup.sn;
+  });
+}
+
+function sortCustomizableProperties (
+  properties: CustomizableProperty[]
+): CustomizableProperty[] {
+  return properties.sort((leftProperty, rightProperty) => {
+    if (leftProperty.sn === rightProperty.sn) {
+      return leftProperty.value.localeCompare(rightProperty.value);
+    }
+
+    return leftProperty.sn - rightProperty.sn;
+  });
 }
 
 function getCustomizablePropertyComposedId (
@@ -203,19 +227,26 @@ export default defineComponent({
 
         const isList = !relatedCustomization.optionData.maxValuesCount ||
           relatedCustomization.optionData.maxValuesCount > 1;
+        const groupKey = relatedCustomization.name;
 
         const ensureGroup = (): CustomizationGroup => {
-          if (!groupMap[customizationStateItem.customization_id]) {
-            groupMap[customizationStateItem.customization_id] = {
-              customizationId: customizationStateItem.customization_id,
+          if (!groupMap[groupKey]) {
+            groupMap[groupKey] = {
+              customizationId: groupKey,
               customizationName: relatedCustomization.name,
               isList,
               sn: relatedCustomization.sn,
               properties: []
             };
+          } else {
+            groupMap[groupKey].isList = groupMap[groupKey].isList || isList;
+            groupMap[groupKey].sn = Math.min(
+              groupMap[groupKey].sn,
+              relatedCustomization.sn
+            );
           }
 
-          return groupMap[customizationStateItem.customization_id];
+          return groupMap[groupKey];
         };
 
         if (!relatedCustomization.optionData.values?.length) {
@@ -271,15 +302,13 @@ export default defineComponent({
         }
       }
 
-      return Object.values(groupMap).sort((a, b) => a.sn - b.sn);
-    });
+      const groups = Object.values(groupMap).map((group) => ({
+        ...group,
+        isList: group.isList || group.properties.length > 1,
+        properties: sortCustomizableProperties(group.properties)
+      }));
 
-    const inlineGroups = computed<CustomizationGroup[]>(() => {
-      return customizationGroups.value.filter((group) => !group.isList);
-    });
-
-    const listGroups = computed<CustomizationGroup[]>(() => {
-      return customizationGroups.value.filter((group) => group.isList);
+      return sortCustomizationGroups(groups);
     });
 
     const hasCustomizableProperties = computed<boolean>(() => {
@@ -288,9 +317,9 @@ export default defineComponent({
 
     return {
       ...useEstimatedShipment(toRef(props, 'estimatedShipment')),
-      inlineGroups,
-      listGroups,
-      hasCustomizableProperties
+      customizationGroups,
+      hasCustomizableProperties,
+      truncate
     };
   }
 });
