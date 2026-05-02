@@ -67,8 +67,8 @@ export default Vue.extend({
         '@type': 'Product',
         sku: this.product.sku,
         image: getThumbnailPath(productThumbnailPath(this.product)),
-        name: this.product.name,
-        description: this.product.short_description,
+        name: this.product.meta_title || this.product.name,
+        description: this.product.meta_description || this.product.short_description,
         brand: {
           '@type': 'Brand',
           name: storeView.name
