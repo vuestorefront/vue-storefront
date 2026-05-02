@@ -87,9 +87,15 @@ export default interface Product {
   meta_title?: string | null,
   meta_description?: string | null,
   landing_page_url?: string | null,
+  default_shipping_weight?: number,
   disabled_upgrades?: string[],
   customizations?: Customization[],
   turnaround_time?: number,
+  turnaround_time_minimal?: number,
+  transit_time_domestic_min?: number,
+  transit_time_domestic_max?: number,
+  transit_time_international_min?: number,
+  transit_time_international_max?: number,
   is_custom_product?: boolean,
   is_alteration_product?: boolean
 }
