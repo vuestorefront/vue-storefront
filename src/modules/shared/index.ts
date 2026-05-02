@@ -34,6 +34,7 @@ import { BudsieStatus } from './types/budsie-status';
 import { PaymentType } from './types/payment-type';
 import { ProductPurchaseFlow, DEFAULT_PRODUCT_PURCHASE_FLOW, normalizeProductPurchaseFlow } from './types/product-purchase-flow.type';
 import { FOREVERS_BUNDLE_SKUS, FOREVERS_CAT_BUNDLE_SKU, FOREVERS_DOG_BUNDLE_SKU, FOREVERS_OTHER_BUNDLE_SKU } from './types/forevers-product-skus';
+import { GOLF_HEAD_COVERS_BUNDLE_SKUS } from './types/golf-head-covers-product-skus';
 import * as ExpressCheckoutData from './types/express-checkout-data.interface';
 import { useExpressCheckoutTotals } from './composables/use-express-checkout-totals';
 
@@ -81,6 +82,7 @@ export {
   FOREVERS_CAT_BUNDLE_SKU,
   FOREVERS_DOG_BUNDLE_SKU,
   FOREVERS_OTHER_BUNDLE_SKU,
+  GOLF_HEAD_COVERS_BUNDLE_SKUS,
   DEFAULT_PRODUCT_PURCHASE_FLOW,
   PaymentType,
   ProductPurchaseFlow,
