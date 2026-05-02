@@ -10,14 +10,12 @@ const THIRTY_DAY_RETURN_COHORT_SKUS = new Set([
 
 const DEFAULT_RETURN_POLICY = {
   '@type': 'MerchantReturnPolicy',
-  applicableCountry: 'US',
   returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
   itemDefectReturnFees: 'https://schema.org/FreeReturn'
 };
 
 const THIRTY_DAY_RETURN_POLICY = {
   '@type': 'MerchantReturnPolicy',
-  applicableCountry: 'US',
   returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
   merchantReturnDays: 30,
   returnMethod: 'https://schema.org/ReturnByMail',
