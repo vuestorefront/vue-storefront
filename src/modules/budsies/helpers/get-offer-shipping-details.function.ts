@@ -26,6 +26,32 @@ interface ShippingRateTier {
   internationalRateUsd: number
 }
 
+interface QuantitativeValue {
+  '@type': 'QuantitativeValue',
+  unitCode: string,
+  minValue?: number,
+  maxValue?: number
+}
+
+interface OfferShippingDetails {
+  '@type': 'OfferShippingDetails',
+  shippingRate: {
+    '@type': 'MonetaryAmount',
+    value: number,
+    currency: string
+  },
+  shippingDestination?: {
+    '@type': 'DefinedRegion',
+    addressCountry: string
+  }[],
+  deliveryTime?: {
+    handlingTime?: QuantitativeValue,
+    transitTime?: QuantitativeValue
+  }
+}
+
+type TransitTimeField = 'transit_time_domestic_min' | 'transit_time_domestic_max' | 'transit_time_international_min' | 'transit_time_international_max';
+
 const SHIPPING_RATE_TIERS: ShippingRateTier[] = [
   { maxWeightLbs: 0.0, usRateUsd: 6.95, internationalRateUsd: 10.95 },
   { maxWeightLbs: 1.0, usRateUsd: 6.95, internationalRateUsd: 15.95 },
@@ -44,12 +70,34 @@ const SHIPPING_RATE_TIERS: ShippingRateTier[] = [
 
 function findShippingRateTier (weightLbs: number): ShippingRateTier {
   return (
-    SHIPPING_RATE_TIERS.find(tier => weightLbs <= tier.maxWeightLbs) ||
+    SHIPPING_RATE_TIERS.find(tier => weightLbs <= tier.maxWeightLbs) ??
     SHIPPING_RATE_TIERS[SHIPPING_RATE_TIERS.length - 1]
   );
 }
 
-function buildShippingDetail (countryCodes: string[], rateUsd: number): object {
+function buildQuantitativeValue (min: number | undefined, max: number | undefined): QuantitativeValue | undefined {
+  if (!min && !max) return undefined;
+  return {
+    '@type': 'QuantitativeValue',
+    unitCode: 'd',
+    minValue: min || max,
+    maxValue: max || min
+  };
+}
+
+function buildShippingDetail (
+  product: Product,
+  countryCodes: string[],
+  rateUsd: number,
+  transitTimeMinField: TransitTimeField,
+  transitTimeMaxField: TransitTimeField
+): OfferShippingDetails {
+  const handlingTime = buildQuantitativeValue(product.turnaround_time_minimal, product.turnaround_time);
+  const transitTime = buildQuantitativeValue(product[transitTimeMinField], product[transitTimeMaxField]);
+  const deliveryTime = (handlingTime || transitTime)
+    ? { handlingTime, transitTime }
+    : undefined;
+
   return {
     '@type': 'OfferShippingDetails',
     shippingRate: {
@@ -57,6 +105,7 @@ function buildShippingDetail (countryCodes: string[], rateUsd: number): object {
       value: rateUsd,
       currency: DEFAULT_CURRENCY_CODE
     },
+    ...(deliveryTime && { deliveryTime }),
     shippingDestination: countryCodes.map(addressCountry => ({
       '@type': 'DefinedRegion',
       addressCountry
@@ -64,7 +113,7 @@ function buildShippingDetail (countryCodes: string[], rateUsd: number): object {
   };
 }
 
-export function getOfferShippingDetails (product: Product): object[] | undefined {
+export function getOfferShippingDetails (product: Product): OfferShippingDetails[] | undefined {
   const weightLbs = product.default_shipping_weight;
 
   if (!weightLbs) {
@@ -73,8 +122,24 @@ export function getOfferShippingDetails (product: Product): object[] | undefined
 
   const tier = findShippingRateTier(weightLbs);
 
+  const domesticShippingDetail = buildShippingDetail(
+    product,
+    ['US'],
+    tier.usRateUsd,
+    'transit_time_domestic_min',
+    'transit_time_domestic_max'
+  );
+
+  const internationalShippingDetail = buildShippingDetail(
+    product,
+    INTERNATIONAL_SHIPPING_COUNTRY_CODES,
+    tier.internationalRateUsd,
+    'transit_time_international_min',
+    'transit_time_international_max'
+  );
+
   return [
-    buildShippingDetail(['US'], tier.usRateUsd),
-    buildShippingDetail(INTERNATIONAL_SHIPPING_COUNTRY_CODES, tier.internationalRateUsd)
+    domesticShippingDetail,
+    internationalShippingDetail
   ];
 }
