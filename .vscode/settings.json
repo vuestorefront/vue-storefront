@@ -65,5 +65,8 @@
         }
     ],
     "chat.detectParticipant.enabled": false,
-    "chat.checkpoints.showFileChanges": true
+    "chat.checkpoints.showFileChanges": true,
+    "chat.tools.terminal.autoApprove": {
+        "/usr/bin/openspec": true
+    }
 }
