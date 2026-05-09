@@ -4,7 +4,7 @@
     :class="cssClasses"
     :style="styles"
   >
-    <p class="affirm-as-low-as" data-page-type="landing" :data-amount="productPriceInCents" />
+    <div class="affirm-as-low-as" data-page-type="landing" :data-amount="productPriceInCents" />
   </div>
 </template>
 
@@ -118,3 +118,10 @@ export default (Blok as VueConstructor<InstanceType<typeof Blok> & InjectedServi
   }
 })
 </script>
+
+<style lang="scss" scoped>
+.storyblok-affirm-monthly-payment {
+  min-height: 3.3ex;
+  padding: var(--spacer-xs);
+}
+</style>
