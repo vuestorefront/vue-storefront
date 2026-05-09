@@ -46,6 +46,7 @@
           v-bind="$attrs"
           :width="width"
           :loading="lazy ? 'lazy' : 'eager'"
+          :fetchpriority="fetchpriority"
           @load="onLoad"
         >
       </picture>
@@ -104,6 +105,10 @@ export default Vue.extend({
     lazy: {
       type: Boolean,
       default: true
+    },
+    fetchpriority: {
+      type: String as PropType<'high' | 'low' | 'auto'>,
+      default: 'auto'
     },
     width: {
       type: [String, Number],
