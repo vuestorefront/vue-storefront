@@ -26,10 +26,13 @@ export function filterCustomizationState (customizationState: CustomizationState
         return !valuesForFilter.includes(value);
       });
 
-      filteredState.push({
+      const data: CustomizationStateItem = {
         customization_id: stateItem.customization_id,
-        value: filteredValues
-      });
+        value: filteredValues,
+        quantity: stateItem.quantity
+      }
+
+      filteredState.push(data);
     }
   }
 

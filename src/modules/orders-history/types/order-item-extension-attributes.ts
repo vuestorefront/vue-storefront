@@ -4,6 +4,7 @@ import { OrderItemProduct } from './order-item-product';
 
 export interface OrderItemExtensionAttributes {
   alteration_product?: OrderItemProduct,
+  manufacturing_extra_charge_product?: OrderItemProduct,
   customizations: Customization[],
   customization_states: CustomizationStateItem[],
   is_alteration_product?: boolean,

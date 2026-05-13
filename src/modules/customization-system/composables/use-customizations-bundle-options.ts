@@ -10,7 +10,8 @@ import { OptionValue } from '../types/option-value.interface';
 export function useCustomizationsBundleOptions (
   customizations: Ref<Customization[]>,
   customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>,
-  availableOptionValues: Ref<OptionValue[]>
+  availableOptionValues: Ref<OptionValue[]>,
+  customizationQuantity?: Ref<Record<string, number>>
 ) {
   const bundleOptions: Ref<Record<number, SelectedBundleOption>> = ref({});
 
@@ -101,7 +102,7 @@ export function useCustomizationsBundleOptions (
 
     setBundleOptionValue(
       customization.bundleOptionId,
-      1,
+      customizationQuantity?.value[customization.id] || 1,
       bundleOptionItemIds
     )
   }
@@ -144,6 +145,14 @@ export function useCustomizationsBundleOptions (
     updateBundleOptionValues,
     { immediate: true }
   );
+
+  if (customizationQuantity) {
+    watch(
+      customizationQuantity,
+      updateBundleOptionValues,
+      { immediate: true, deep: true }
+    );
+  }
 
   return {
     bundleOptions

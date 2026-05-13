@@ -17,24 +17,53 @@
 
     <template v-if="hasCustomizableProperties">
       <div
-        class="collected-product__properties"
-        v-for="textProperty in textProperties"
-        :key="textProperty.id"
+        v-for="group in customizationGroups"
+        :key="group.customizationId"
+        :class="[
+          'collected-product__properties',
+          { '-list': group.isList }
+        ]"
       >
-        {{ truncate(textProperty.value) }}
-      </div>
+        <span class="_customization-name">{{ group.customizationName }}:</span>
 
-      <div
-        class="collected-product__properties"
-        v-for="optionValueProperty in optionValueProperties"
-        :key="optionValueProperty.id"
-      >
-        <SfIcon
-          icon="check"
-          size="xxs"
-          class="collected-product__properties__icon"
-        />
-        {{ optionValueProperty.value }}
+        <ul
+          v-if="group.isList"
+          class="_customization-values-list"
+        >
+          <li
+            v-for="property in group.properties"
+            :key="property.id"
+            class="collected-product__properties"
+          >
+            <SfIcon
+              icon="check"
+              size="xxs"
+              class="collected-product__properties__icon"
+            />
+
+            {{ property.value }}
+
+            <span
+              v-if="property.qty"
+              class="_quantity"
+            >
+              {{ property.qty }}
+            </span>
+          </li>
+        </ul>
+
+        <template v-else>
+          <span>
+            {{ group.properties[0].value }}
+          </span>
+
+          <span
+            v-if="group.properties[0].qty"
+            class="_quantity"
+          >
+            {{ group.properties[0].qty }}
+          </span>
+        </template>
       </div>
     </template>
 
@@ -80,8 +109,40 @@ import { useMobileObserver } from 'src/modules/shared';
 interface CustomizableProperty {
   id: string,
   value: string,
-  isTextValue: boolean,
-  sn: number
+  sn: number,
+  qty: string
+}
+
+interface CustomizationGroup {
+  customizationId: string,
+  customizationName: string,
+  isList: boolean,
+  sn: number,
+  properties: CustomizableProperty[]
+}
+
+function sortCustomizationGroups (
+  groups: CustomizationGroup[]
+): CustomizationGroup[] {
+  return groups.sort((leftGroup, rightGroup) => {
+    if (leftGroup.sn === rightGroup.sn) {
+      return leftGroup.customizationName.localeCompare(rightGroup.customizationName);
+    }
+
+    return leftGroup.sn - rightGroup.sn;
+  });
+}
+
+function sortCustomizableProperties (
+  properties: CustomizableProperty[]
+): CustomizableProperty[] {
+  return properties.sort((leftProperty, rightProperty) => {
+    if (leftProperty.sn === rightProperty.sn) {
+      return leftProperty.value.localeCompare(rightProperty.value);
+    }
+
+    return leftProperty.sn - rightProperty.sn;
+  });
 }
 
 function getCustomizablePropertyComposedId (
@@ -132,8 +193,18 @@ export default defineComponent({
       }
     );
 
-    const customizableProperties = computed<CustomizableProperty[]>(() => {
-      const properties: CustomizableProperty[] = [];
+    function truncate (text: string, desktopLength = 75, mobileLength = 50) {
+      const maxLength = isMobile.value ? mobileLength : desktopLength;
+
+      if (text.length <= maxLength) {
+        return text;
+      }
+
+      return text.substring(0, maxLength) + '...';
+    }
+
+    const customizationGroups = computed<CustomizationGroup[]>(() => {
+      const groupMap: Record<string, CustomizationGroup> = {};
 
       for (const customizationStateItem of props.customizationState) {
         if (isFileUploadValue(customizationStateItem.value)) {
@@ -150,20 +221,49 @@ export default defineComponent({
           continue;
         }
 
+        const quantityText = customizationStateItem.quantity && customizationStateItem.quantity > 1
+          ? `x${customizationStateItem.quantity}`
+          : '';
+
+        const isList = !relatedCustomization.optionData.maxValuesCount ||
+          relatedCustomization.optionData.maxValuesCount > 1;
+        const groupKey = relatedCustomization.name;
+
+        const ensureGroup = (): CustomizationGroup => {
+          if (!groupMap[groupKey]) {
+            groupMap[groupKey] = {
+              customizationId: groupKey,
+              customizationName: relatedCustomization.name,
+              isList,
+              sn: relatedCustomization.sn,
+              properties: []
+            };
+          } else {
+            groupMap[groupKey].isList = groupMap[groupKey].isList || isList;
+            groupMap[groupKey].sn = Math.min(
+              groupMap[groupKey].sn,
+              relatedCustomization.sn
+            );
+          }
+
+          return groupMap[groupKey];
+        };
+
         if (!relatedCustomization.optionData.values?.length) {
           const value = Array.isArray(customizationStateItem.value)
             ? customizationStateItem.value.join(',')
             : customizationStateItem.value;
 
-          properties.push({
+          ensureGroup().properties.push({
             id: getCustomizablePropertyComposedId(
               value,
               customizationStateItem.customization_id
             ),
-            value,
+            value: truncate(value),
             sn: relatedCustomization.sn,
-            isTextValue: true
+            qty: quantityText
           });
+
           continue;
         }
 
@@ -190,55 +290,35 @@ export default defineComponent({
             continue;
           }
 
-          properties.push({
+          ensureGroup().properties.push({
             id: getCustomizablePropertyComposedId(
               selectedOptionValue.name,
               customizationStateItem.customization_id
             ),
             value: selectedOptionValue.name,
             sn: relatedCustomization.sn,
-            isTextValue: false
+            qty: quantityText
           });
         }
       }
 
-      properties.sort((a, b) => a.sn - b.sn);
+      const groups = Object.values(groupMap).map((group) => ({
+        ...group,
+        isList: group.isList || group.properties.length > 1,
+        properties: sortCustomizableProperties(group.properties)
+      }));
 
-      return properties;
+      return sortCustomizationGroups(groups);
     });
 
     const hasCustomizableProperties = computed<boolean>(() => {
-      return customizableProperties.value.length > 0;
+      return customizationGroups.value.length > 0;
     });
-
-    const textProperties = computed<CustomizableProperty[]>(() => {
-      return customizableProperties.value.filter(
-        ({ isTextValue }) => isTextValue
-      );
-    });
-
-    const optionValueProperties = computed<CustomizableProperty[]>(() => {
-      return customizableProperties.value.filter(
-        ({ isTextValue }) => !isTextValue
-      );
-    });
-
-    function truncate (text: string, desktopLength = 75, mobileLength = 50) {
-      const maxLength = isMobile.value ? mobileLength : desktopLength;
-
-      if (text.length <= maxLength) {
-        return text;
-      }
-
-      return text.substring(0, maxLength) + '...';
-    }
 
     return {
       ...useEstimatedShipment(toRef(props, 'estimatedShipment')),
-      customizableProperties,
+      customizationGroups,
       hasCustomizableProperties,
-      optionValueProperties,
-      textProperties,
       truncate
     };
   }
@@ -253,10 +333,22 @@ export default defineComponent({
   .collected-product__properties {
     font-size: var(--cart-item-configuration-font-size, var(--font-xs));
     margin-bottom: var(--spacer-xs);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--spacer-xs);
+    display: block;
+
+    &.-list {
+      gap: var(--spacer-xs);
+      flex-direction: column;
+      display: flex;
+    }
+  }
+
+  ._customization-values-list {
+    padding: 0;
+  }
+
+  ._customization-value {
+    list-style: none;
+    margin-bottom: var(--spacer-xs);
   }
 
   .collected-product__properties__icon {
@@ -272,6 +364,11 @@ export default defineComponent({
   ._shipment-promise,
   ._offer-expiration-date-text {
     margin-bottom: 0;
+  }
+
+  ._customization-name,
+  ._quantity {
+    font-weight: var(--font-bold);
   }
 }
 </style>
