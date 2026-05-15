@@ -3,12 +3,16 @@
     v-if="!isExternal"
     :to="url"
     :target="shouldOpenInNewWindow ? '_blank' : '_self'"
+    :rel="shouldOpenInNewWindow ? 'noopener noreferrer' : null"
+    :aria-label="newWindowAriaLabel"
   >
     <slot />
   </router-link>
   <a v-else
      :href="url"
      :target="shouldOpenInNewWindow ? '_blank' : '_self'"
+     :rel="shouldOpenInNewWindow ? 'noopener noreferrer' : null"
+     :aria-label="newWindowAriaLabel"
   >
     <slot />
   </a>
@@ -22,6 +26,7 @@ import getUrlFromLink from '../../helpers/get-url-from-link';
 
 export default {
   name: 'StoryblokRouterLink',
+  inheritAttrs: false,
   props: {
     link: {
       type: Object,
@@ -29,6 +34,10 @@ export default {
     },
     isNewWindow: {
       type: Boolean
+    },
+    ariaLabel: {
+      type: String,
+      default: undefined
     }
   },
   computed: {
@@ -47,6 +56,13 @@ export default {
     },
     url () {
       return getUrlFromLink(this.link, this.$ssrContext, this.storeCodeFromHeader);
+    },
+    newWindowAriaLabel () {
+      if (!this.shouldOpenInNewWindow || !this.ariaLabel) {
+        return this.ariaLabel;
+      }
+
+      return this.ariaLabel + ' ' + this.$t('opens in new tab');
     }
   }
 }
