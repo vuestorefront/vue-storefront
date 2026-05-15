@@ -55,13 +55,15 @@ export function useCustomizationOptionWidget (
       maxValuesCount: number | undefined,
       shape: WidgetOptionShape | undefined,
       values: OptionValue[],
-      addedToCartOptionValueId?: Record<string, boolean>
+      addedToCartOptionValueId?: Record<string, boolean>,
+      'aria-labelledby': string
     } = {
       alignment: widgetOptions?.alignment,
       maxValuesCount: maxValuesCount.value,
       shape: widgetOptions?.shape,
       values: values.value,
-      addedToCartOptionValueId: addedToCartOptionValueId?.value
+      addedToCartOptionValueId: addedToCartOptionValueId?.value,
+      'aria-labelledby': customization.value.id
     };
 
     switch (displayWidget) {
@@ -73,7 +75,8 @@ export function useCustomizationOptionWidget (
             values: values.value,
             addedToCartOptionValueId: listWidgetsProps.addedToCartOptionValueId,
             expandConfig: expandConfig?.value,
-            hiddenOptionValues: hiddenOptionValues?.value
+            hiddenOptionValues: hiddenOptionValues?.value,
+            ariaLabelledby: customization.value.id
           }
         };
       case WidgetType.CHECKBOX:
@@ -81,7 +84,8 @@ export function useCustomizationOptionWidget (
           component: 'CheckboxWidget',
           props: {
             label: customization.value.title || customization.value.name,
-            values: values.value
+            values: values.value,
+            title: customization.value.title || customization.value.name
           }
         };
       case WidgetType.COLORS_LIST:
@@ -111,7 +115,8 @@ export function useCustomizationOptionWidget (
           component: 'ImageUploadWidget',
           props: {
             maxValuesCount: maxValuesCount.value,
-            productId: productId.value
+            productId: productId.value,
+            ariaLabelledby: customization.value.id
           }
         };
       case WidgetType.SEARCH_FIELD:
