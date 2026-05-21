@@ -18,10 +18,13 @@ export default function isRushAddonApiResponse (
   }
 
   for (const field in fields) {
-    const a = fields['id'];
     if (!(field in tmpArg) || typeof tmpArg[field] !== fields[field]) {
       return false;
     }
+  }
+
+  if ('slotsLeft' in tmpArg && typeof tmpArg.slotsLeft !== 'number') {
+    return false;
   }
 
   return true;

@@ -1,4 +1,5 @@
 import { Store } from 'vuex';
+import i18n from '@vue-storefront/core/i18n';
 
 import Product from 'core/modules/catalog/types/Product';
 import { RushAddon } from 'src/modules/budsies';
@@ -20,6 +21,39 @@ const SNEAK_PEEK_OPTION_VALUES_SKUS = [
 const ADD_SNEAK_PEEK_AVAILABILITY_RULES = true;
 
 const DOMESTIC_COUNTRY_ID = 'US';
+
+function isRushAddonAvailableBySlotsLeft (addon: RushAddon): boolean {
+  if (!addon.id) {
+    return true;
+  }
+
+  return typeof addon.slotsLeft !== 'number' || addon.slotsLeft > 0;
+}
+
+function getSlotsLeftDescription (slotsLeft: number): string {
+  const text = slotsLeft === 1
+    ? i18n.t('1 rush slot left').toString()
+    : i18n.t('{slotsLeft} rush slots left', { slotsLeft }).toString();
+
+  return `<br> <b> ${text} </b>`
+}
+
+function appendSlotsLeftDescription (
+  description: string | undefined,
+  slotsLeft: number | undefined
+): string | undefined {
+  if (typeof slotsLeft !== 'number') {
+    return description;
+  }
+
+  const slotsLeftDescription = getSlotsLeftDescription(slotsLeft);
+
+  if (!description) {
+    return slotsLeftDescription;
+  }
+
+  return `${description} ${slotsLeftDescription}`;
+}
 
 function buildStandardOptionValue (standardText?: string): OptionValue {
   return {
@@ -64,9 +98,14 @@ function updateProductionTimeCustomization (
       continue;
     }
 
+    if (typeof addon.slotsLeft === 'number' && addon.slotsLeft <= 0) {
+      continue;
+    }
+
     values.push({
       ...value,
-      name: addon.text
+      name: addon.text,
+      description: appendSlotsLeftDescription(value.description, addon.slotsLeft)
     });
   }
 
@@ -188,6 +227,8 @@ export function updateProductProductionTimeCustomizationData (
       (addon) => addon.isDomestic === isDomesticShipping
     );
   }
+
+  availableAddons = availableAddons.filter(isRushAddonAvailableBySlotsLeft);
 
   if (availableAddons.length === 0) {
     return removeProductionTimeCustomizationFromProduct(

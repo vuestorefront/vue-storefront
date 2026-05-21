@@ -4,7 +4,8 @@ export default class RushAddon {
     public readonly text: string,
     public readonly price: number,
     public readonly isDomestic: boolean,
-    public readonly isNew = true
+    public readonly isNew = true,
+    public readonly slotsLeft?: number
   ) {
     [id, text, price, isDomestic, isNew].forEach((arg, index) => {
       if (arg === undefined) {
