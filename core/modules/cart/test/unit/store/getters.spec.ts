@@ -1,4 +1,5 @@
 import cartGetters from '../../../store/getters';
+import { IS_COUPON_INTERACTION_BLOCKED } from '../../../store/getter-types';
 import { onlineHelper } from '@vue-storefront/core/helpers'
 import config from 'config'
 
@@ -217,6 +218,24 @@ describe('Cart getters', () => {
     const wrapper = (getters: any) => getters.getCoupon(stateMock);
 
     expect(wrapper(cartGetters)).toBe(false);
+  });
+
+  it('coupon interactions are blocked when add-to-cart, cart sync, or coupon processing is active', () => {
+    const wrapper = (stateMock: any) => cartGetters[IS_COUPON_INTERACTION_BLOCKED](stateMock);
+
+    expect(wrapper({ isAddingToCart: true })).toBe(true);
+    expect(wrapper({ isCartSyncing: true })).toBe(true);
+    expect(wrapper({ isCouponProcessing: true })).toBe(true);
+  });
+
+  it('coupon interactions are not blocked when no relevant cart operation is active', () => {
+    const wrapper = (stateMock: any) => cartGetters[IS_COUPON_INTERACTION_BLOCKED](stateMock);
+
+    expect(wrapper({
+      isAddingToCart: false,
+      isCartSyncing: false,
+      isCouponProcessing: false
+    })).toBe(false);
   });
 
   it('isVirtualCart returns true given only virtual items in cart', () => {

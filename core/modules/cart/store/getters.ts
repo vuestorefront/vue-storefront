@@ -9,7 +9,7 @@ import config from 'config'
 
 import CartItem from '../types/CartItem'
 import getCartItemKey from '../helpers/get-cart-item-key.function'
-import { IS_SHIPPING_METHODS_SYNCING, IS_CART_SYNCING, IS_TOTALS_SYNCING, IS_PAYMENT_METHODS_SYNCING, IS_COUPON_PROCESSING } from './getter-types'
+import { IS_SHIPPING_METHODS_SYNCING, IS_CART_SYNCING, IS_TOTALS_SYNCING, IS_PAYMENT_METHODS_SYNCING, IS_COUPON_PROCESSING, IS_COUPON_INTERACTION_BLOCKED } from './getter-types'
 
 const getters: GetterTree<CartState, RootState> = {
   getCartToken: state => state.cartServerToken,
@@ -44,6 +44,9 @@ const getters: GetterTree<CartState, RootState> = {
   getIsAdding: state => state.isAddingToCart,
   getIsMicroCartOpen: state => state.isMicrocartOpen,
   isLocalDataLoaded: state => state.isLocalDataLoaded,
+  [IS_COUPON_INTERACTION_BLOCKED]: (state) => Boolean(
+    state.isAddingToCart || state.isCartSyncing || state.isCouponProcessing
+  ),
   localizedCartItemPriceDictionary: (state, getters) => {
     const _cartItemPriceDictionary = getters.cartItemPriceDictionary;
     const prices: Record<string, PriceHelper.ProductPrice> = {};
