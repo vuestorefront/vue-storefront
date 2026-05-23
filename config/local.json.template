@@ -555,7 +555,19 @@
     "shippinginfo_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
     "collecttotals_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
     "deletecoupon_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-    "applycoupon_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+    "applycoupon_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}",
+    "cartLineCouponOffers": {
+      "mappings": {
+        "PETLOVE50": {
+          "buttonText": "Get Extra $50 Off",
+          "productSkus": [
+            "ForeversCat_bundle",
+            "ForeversDog_bundle",
+            "ForeversOther_bundle"
+          ]
+        }
+      }
+    }
   },
   "attributes": {
     "disablePersistentAttributesCache": false
