@@ -90,3 +90,8 @@ Use the following files as references for the established patterns:
 - [VSF1 Module](src/modules/currency/index.ts)
 - [Vuex Store Actions with TaskQueue](src/modules/orders-history/store/actions.ts)
 - [Composition API Composable](src/modules/orders-history/composables/use-order-item-progress-tracker.ts)
+
+## Localization & Internationalization
+
+- i18n files are located in `src/themes/petsies-capybara/i18n/` and follow the standard Vue i18n structure. Use the `t()` function for translations in components, and ensure all user-facing text is included in the i18n files for localization support.
+- Use `yarn update-i18n-files` command to automatically extract new translation keys from the codebase and update the i18n files.
