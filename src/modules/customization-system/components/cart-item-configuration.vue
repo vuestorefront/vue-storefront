@@ -49,6 +49,12 @@
             >
               {{ property.qty }}
             </span>
+            <SfPrice
+              v-if="property.regularPrice"
+              class="_option-price"
+              :regular="property.regularPrice"
+              :special="property.specialPrice"
+            />
           </li>
         </ul>
 
@@ -63,6 +69,13 @@
           >
             {{ group.properties[0].qty }}
           </span>
+
+          <SfPrice
+            v-if="group.properties[0].regularPrice"
+            class="_option-price"
+            :regular="group.properties[0].regularPrice"
+            :special="group.properties[0].specialPrice"
+          />
         </template>
       </div>
     </template>
@@ -88,7 +101,7 @@
 </template>
 
 <script lang="ts">
-import { SfIcon, SfProperty } from '@storefront-ui/vue';
+import { SfIcon, SfPrice, SfProperty } from '@storefront-ui/vue';
 import {
   computed,
   defineComponent,
@@ -104,13 +117,18 @@ import {
   isFileUploadValue,
   useEstimatedShipment
 } from 'src/modules/customization-system';
-import { useMobileObserver } from 'src/modules/shared';
+import { PriceHelper, useMobileObserver } from 'src/modules/shared';
+import { GET_ACTIVE_CURRENCY } from 'src/modules/currency';
+import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
+import { getOptionValuePrice } from '../helpers/get-option-value-price';
 
 interface CustomizableProperty {
   id: string,
   value: string,
   sn: number,
-  qty: string
+  qty: string,
+  regularPrice?: string,
+  specialPrice?: string | null
 }
 
 interface CustomizationGroup {
@@ -156,6 +174,7 @@ export default defineComponent({
   name: 'CartItemConfiguration',
   components: {
     SfIcon,
+    SfPrice,
     SfProperty
   },
   props: {
@@ -178,7 +197,7 @@ export default defineComponent({
       default: () => []
     }
   },
-  setup (props) {
+  setup (props, { root }) {
     const { isMobile } = useMobileObserver();
 
     const customizationDictionary = computed<Record<string, Customization>>(
@@ -204,6 +223,9 @@ export default defineComponent({
     }
 
     const customizationGroups = computed<CustomizationGroup[]>(() => {
+      const productBySkuDictionary = root.$store.getters['product/getProductBySkuDictionary'];
+      const productPriceDictionary = root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
+      const currency = root.$store.getters[GET_ACTIVE_CURRENCY];
       const groupMap: Record<string, CustomizationGroup> = {};
 
       for (const customizationStateItem of props.customizationState) {
@@ -290,6 +312,12 @@ export default defineComponent({
             continue;
           }
 
+          const optionPrice = getOptionValuePrice(
+            selectedOptionValue,
+            productBySkuDictionary,
+            productPriceDictionary
+          );
+
           ensureGroup().properties.push({
             id: getCustomizablePropertyComposedId(
               selectedOptionValue.name,
@@ -297,7 +325,13 @@ export default defineComponent({
             ),
             value: selectedOptionValue.name,
             sn: relatedCustomization.sn,
-            qty: quantityText
+            qty: quantityText,
+            regularPrice: optionPrice?.regular
+              ? PriceHelper.formatPrice(optionPrice.regular, currency.symbol)
+              : undefined,
+            specialPrice: optionPrice?.regular && optionPrice.special !== null
+              ? PriceHelper.formatPrice(optionPrice.special, currency.symbol)
+              : null
           });
         }
       }
@@ -333,17 +367,27 @@ export default defineComponent({
   .collected-product__properties {
     font-size: var(--cart-item-configuration-font-size, var(--font-xs));
     margin-bottom: var(--spacer-xs);
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: var(--spacer-xs);
 
     &.-list {
       gap: var(--spacer-xs);
       flex-direction: column;
+      align-items: flex-start;
       display: flex;
     }
   }
 
   ._customization-values-list {
     padding: 0;
+    width: 100%;
+
+    li {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
   }
 
   ._customization-value {
@@ -369,6 +413,14 @@ export default defineComponent({
   ._customization-name,
   ._quantity {
     font-weight: var(--font-bold);
+  }
+
+  ._option-price {
+    display: inline-block;
+    margin-left: auto;
+    --price-regular-font-size: var(--cart-item-configuration-font-size, var(--font-xs));
+    --price-special-font-size: var(--cart-item-configuration-font-size, var(--font-xs));
+    --price-old-font-size: var(--cart-item-configuration-font-size, var(--font-xs));
   }
 }
 </style>
