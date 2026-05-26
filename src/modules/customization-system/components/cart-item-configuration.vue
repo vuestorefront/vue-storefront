@@ -128,7 +128,8 @@ interface CustomizableProperty {
   sn: number,
   qty: string,
   regularPrice?: string,
-  specialPrice?: string | null
+  specialPrice?: string | null,
+  rawPrice?: PriceHelper.ProductPrice
 }
 
 interface CustomizationGroup {
@@ -195,6 +196,14 @@ export default defineComponent({
       { value: string, label: string, isCustom?: boolean }[]
       >,
       default: () => []
+    },
+    cartItemPrice: {
+      type: Object as PropType<PriceHelper.ProductPrice | undefined>,
+      default: undefined
+    },
+    showPrices: {
+      type: Boolean,
+      default: false
     }
   },
   setup (props, { root }) {
@@ -223,9 +232,9 @@ export default defineComponent({
     }
 
     const customizationGroups = computed<CustomizationGroup[]>(() => {
-      const productBySkuDictionary = root.$store.getters['product/getProductBySkuDictionary'];
-      const productPriceDictionary = root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
-      const currency = root.$store.getters[GET_ACTIVE_CURRENCY];
+      const productBySkuDictionary = props.showPrices ? root.$store.getters['product/getProductBySkuDictionary'] : {};
+      const productPriceDictionary = props.showPrices ? root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY] : {};
+      const currency = props.showPrices ? root.$store.getters[GET_ACTIVE_CURRENCY] : null;
       const groupMap: Record<string, CustomizationGroup> = {};
 
       for (const customizationStateItem of props.customizationState) {
@@ -312,11 +321,17 @@ export default defineComponent({
             continue;
           }
 
-          const optionPrice = getOptionValuePrice(
-            selectedOptionValue,
-            productBySkuDictionary,
-            productPriceDictionary
-          );
+          let optionPrice = props.showPrices
+            ? getOptionValuePrice(
+              selectedOptionValue,
+              productBySkuDictionary,
+              productPriceDictionary
+            )
+            : undefined;
+
+          if (optionPrice?.regular === 0) {
+            optionPrice = undefined;
+          }
 
           ensureGroup().properties.push({
             id: getCustomizablePropertyComposedId(
@@ -326,10 +341,11 @@ export default defineComponent({
             value: selectedOptionValue.name,
             sn: relatedCustomization.sn,
             qty: quantityText,
-            regularPrice: optionPrice?.regular
+            rawPrice: optionPrice,
+            regularPrice: optionPrice
               ? PriceHelper.formatPrice(optionPrice.regular, currency.symbol)
               : undefined,
-            specialPrice: optionPrice?.regular && optionPrice.special !== null
+            specialPrice: optionPrice && optionPrice.special !== null
               ? PriceHelper.formatPrice(optionPrice.special, currency.symbol)
               : null
           });
@@ -342,7 +358,30 @@ export default defineComponent({
         properties: sortCustomizableProperties(group.properties)
       }));
 
-      return sortCustomizationGroups(groups);
+      const sortedGroups = sortCustomizationGroups(groups);
+
+      if (props.cartItemPrice) {
+        const paidProperties: CustomizableProperty[] = sortedGroups.reduce<CustomizableProperty[]>(
+          (acc, group) => acc.concat(group.properties.filter((p) => p.rawPrice)),
+          []
+        );
+
+        if (paidProperties.length === 1) {
+          const singleRawPrice = paidProperties[0].rawPrice;
+
+          if (singleRawPrice) {
+            const cartItemFinalPrice = PriceHelper.getFinalPrice(props.cartItemPrice);
+            const optionFinalPrice = PriceHelper.getFinalPrice(singleRawPrice);
+
+            if (cartItemFinalPrice === optionFinalPrice) {
+              paidProperties[0].regularPrice = undefined;
+              paidProperties[0].specialPrice = undefined;
+            }
+          }
+        }
+      }
+
+      return sortedGroups;
     });
 
     const hasCustomizableProperties = computed<boolean>(() => {
