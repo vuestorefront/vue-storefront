@@ -99,7 +99,8 @@ export function useCustomizationOptionWidget (
           props: {
             values: values.value,
             placeholder: widgetOptions?.placeholder,
-            title: customization.value.title || customization.value.name
+            title: customization.value.title || customization.value.name,
+            ariaLabelledby: customization.value.id
           }
         };
       case WidgetType.EMAIL_INPUT:
