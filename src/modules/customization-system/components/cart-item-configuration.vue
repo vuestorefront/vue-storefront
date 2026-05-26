@@ -201,6 +201,10 @@ export default defineComponent({
       type: Object as PropType<PriceHelper.ProductPrice | undefined>,
       default: undefined
     },
+    cartItemQty: {
+      type: Number,
+      default: 1
+    },
     showPrices: {
       type: Boolean,
       default: false
@@ -331,6 +335,14 @@ export default defineComponent({
 
           if (optionPrice?.regular === 0) {
             optionPrice = undefined;
+          }
+
+          if (optionPrice) {
+            const combinedQty = (props.cartItemQty || 1) * (customizationStateItem.quantity || 1);
+            optionPrice = {
+              regular: optionPrice.regular * combinedQty,
+              special: optionPrice.special !== null ? optionPrice.special * combinedQty : null
+            };
           }
 
           ensureGroup().properties.push({
