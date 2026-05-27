@@ -1,5 +1,5 @@
 <template>
-  <div
+  <address
     class="address-card"
   >
     <p
@@ -33,7 +33,7 @@
     >
       {{ address.country }}
     </p>
-  </div>
+  </address>
 </template>
 
 <script lang="ts">
@@ -90,6 +90,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .address-card {
   flex-grow: 1;
+  font-style: normal;
 
   p {
     margin: 0 0 var(--spacer-2xs) 0;

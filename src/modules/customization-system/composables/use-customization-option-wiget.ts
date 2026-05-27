@@ -52,18 +52,20 @@ export function useCustomizationOptionWidget (
 
     const listWidgetsProps: {
       alignment?: WidgetOptionAlignment,
+      ariaLabelledby: string,
       maxValuesCount: number | undefined,
+      radioGroupName: string,
       shape: WidgetOptionShape | undefined,
       values: OptionValue[],
-      addedToCartOptionValueId?: Record<string, boolean>,
-      'aria-labelledby': string
+      addedToCartOptionValueId?: Record<string, boolean>
     } = {
       alignment: widgetOptions?.alignment,
+      ariaLabelledby: customization.value.id,
       maxValuesCount: maxValuesCount.value,
+      radioGroupName: customization.value.id,
       shape: widgetOptions?.shape,
       values: values.value,
-      addedToCartOptionValueId: addedToCartOptionValueId?.value,
-      'aria-labelledby': customization.value.id
+      addedToCartOptionValueId: addedToCartOptionValueId?.value
     };
 
     switch (displayWidget) {

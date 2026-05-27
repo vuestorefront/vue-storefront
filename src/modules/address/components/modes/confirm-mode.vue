@@ -1,5 +1,9 @@
 <template>
-  <div class="confirm-mode modal-address-validation-mode">
+  <div
+    class="confirm-mode modal-address-validation-mode"
+    role="alertdialog"
+    aria-modal="true"
+  >
     <SfHeading
       class="sf-heading--left"
       :title="$t('Check Address Format')"

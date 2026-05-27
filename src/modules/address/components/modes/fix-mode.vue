@@ -1,5 +1,9 @@
 <template>
-  <div class="fix-mode modal-address-validation-mode">
+  <div
+    class="fix-mode modal-address-validation-mode"
+    role="alertdialog"
+    aria-modal="true"
+  >
     <SfHeading
       class="sf-heading--left"
       :title="modalTitle"
