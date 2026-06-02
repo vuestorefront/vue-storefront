@@ -5,9 +5,11 @@
     aria-modal="true"
   >
     <SfHeading
+      ref="heading"
       class="sf-heading--left"
       :title="$t('Check Address Format')"
       :level="3"
+      tabindex="-1"
     />
 
     <span class="_subtitle">
@@ -63,7 +65,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from '@vue/composition-api';
+import { computed, defineComponent, onMounted, PropType, ref, Ref } from '@vue/composition-api';
 import { SfButton, SfRadio, SfHeading } from '@storefront-ui/vue';
 
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
@@ -90,6 +92,7 @@ export default defineComponent({
   },
   setup (props, { emit }) {
     const selectedAddressType = ref<'entered' | 'suggested'>('suggested');
+    const heading: Ref<InstanceType<typeof SfHeading> | null> = ref(null);
 
     const useSelected = () => {
       if (selectedAddressType.value === 'entered') {
@@ -124,7 +127,16 @@ export default defineComponent({
       });
     });
 
+    onMounted(() => {
+      if (heading.value === null) {
+        return;
+      }
+
+      (heading.value.$el as HTMLElement).focus();
+    });
+
     return {
+      heading,
       modifiedFields,
       selectedAddressType,
       useSelected
