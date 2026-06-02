@@ -2371,13 +2371,13 @@
   dependencies:
     type-detect "4.0.8"
 
-"@storefront-ui/shared@0.7.11", "@storefront-ui/shared@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?bafba8bc0d2efa50f2000460f1eda62d50a47c77":
+"@storefront-ui/shared@0.7.11", "@storefront-ui/shared@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?6af5192cfd66b41f10c340c7a18e436bfafae60a":
   version "0.7.11"
-  resolved "https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?bafba8bc0d2efa50f2000460f1eda62d50a47c77#1448524b75b5edb78af63230f09502e3006a709e"
+  resolved "https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?6af5192cfd66b41f10c340c7a18e436bfafae60a#8ed1a9568c49864b850c572a11e42645ccc08bc0"
 
-"@storefront-ui/vue@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?bafba8bc0d2efa50f2000460f1eda62d50a47c77":
+"@storefront-ui/vue@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?6af5192cfd66b41f10c340c7a18e436bfafae60a":
   version "0.7.11"
-  resolved "https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?bafba8bc0d2efa50f2000460f1eda62d50a47c77#d592d3811de6929a91b2967e77a8647679c20a0d"
+  resolved "https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?6af5192cfd66b41f10c340c7a18e436bfafae60a#0045115d32f03eaebf1e2370f3a212f8aceca985"
   dependencies:
     "@glidejs/glide" "^3.3.0"
     "@storefront-ui/shared" "0.7.11"
