@@ -59,9 +59,11 @@ import { WidgetOptionAlignment } from './types/widget-option-alignment.type';
 import { WidgetOptions } from './types/widget-options.interface';
 
 import CartItemConfiguration from './components/cart-item-configuration.vue';
+import CartItemShipmentPromise from './components/cart-item-shipment-promise.vue';
 
 export {
   CartItemConfiguration,
+  CartItemShipmentPromise,
   Customization,
   CustomizationAvailabilityFlow,
   CustomizationType,

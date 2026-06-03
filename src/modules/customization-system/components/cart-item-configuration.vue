@@ -1,20 +1,5 @@
 <template>
   <div class="cart-item-configuration">
-    <div class="_shipment">
-      <div
-        class="collected-product__properties _shipment-promise"
-        v-html="shipmentPromiseText"
-        v-if="shipmentPromiseText"
-      />
-
-      <div
-        class="collected-product__properties _offer-expiration-date-text"
-        v-if="offerExpirationDateText"
-      >
-        {{ offerExpirationDateText }}
-      </div>
-    </div>
-
     <template v-if="hasCustomizableProperties">
       <div
         v-for="group in customizationGroups"
@@ -50,10 +35,9 @@
               {{ property.qty }}
             </span>
             <SfPrice
-              v-if="property.regularPrice"
+              v-if="property.price"
               class="_option-price"
-              :regular="property.regularPrice"
-              :special="property.specialPrice"
+              :regular="property.price"
             />
           </li>
         </ul>
@@ -71,10 +55,9 @@
           </span>
 
           <SfPrice
-            v-if="group.properties[0].regularPrice"
+            v-if="group.properties[0].price"
             class="_option-price"
-            :regular="group.properties[0].regularPrice"
-            :special="group.properties[0].specialPrice"
+            :regular="group.properties[0].price"
           />
         </template>
       </div>
@@ -105,8 +88,7 @@ import { SfIcon, SfPrice, SfProperty } from '@storefront-ui/vue';
 import {
   computed,
   defineComponent,
-  PropType,
-  toRef
+  PropType
 } from '@vue/composition-api';
 
 import {
@@ -114,12 +96,12 @@ import {
   CustomizationStateItem,
   EstimatedShipment,
   getCustomizationValueIdFieldKey,
-  isFileUploadValue,
-  useEstimatedShipment
+  isFileUploadValue
 } from 'src/modules/customization-system';
 import { PriceHelper, useMobileObserver } from 'src/modules/shared';
 import { GET_ACTIVE_CURRENCY } from 'src/modules/currency';
 import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
+
 import { getOptionValuePrice } from '../helpers/get-option-value-price';
 
 interface CustomizableProperty {
@@ -127,9 +109,8 @@ interface CustomizableProperty {
   value: string,
   sn: number,
   qty: string,
-  regularPrice?: string,
-  specialPrice?: string | null,
-  rawPrice?: PriceHelper.ProductPrice
+  price?: string,
+  finalPriceValue?: number
 }
 
 interface CustomizationGroup {
@@ -337,12 +318,10 @@ export default defineComponent({
             optionPrice = undefined;
           }
 
+          let finalPrice: number | undefined;
           if (optionPrice) {
             const combinedQty = (props.cartItemQty || 1) * (customizationStateItem.quantity || 1);
-            optionPrice = {
-              regular: optionPrice.regular * combinedQty,
-              special: optionPrice.special !== null ? optionPrice.special * combinedQty : null
-            };
+            finalPrice = PriceHelper.getFinalPrice(optionPrice) * combinedQty;
           }
 
           ensureGroup().properties.push({
@@ -353,13 +332,10 @@ export default defineComponent({
             value: selectedOptionValue.name,
             sn: relatedCustomization.sn,
             qty: quantityText,
-            rawPrice: optionPrice,
-            regularPrice: optionPrice
-              ? PriceHelper.formatPrice(optionPrice.regular, currency.symbol)
-              : undefined,
-            specialPrice: optionPrice && optionPrice.special !== null
-              ? PriceHelper.formatPrice(optionPrice.special, currency.symbol)
-              : null
+            finalPriceValue: finalPrice,
+            price: finalPrice !== undefined
+              ? PriceHelper.formatPrice(finalPrice, currency.symbol)
+              : undefined
           });
         }
       }
@@ -374,21 +350,15 @@ export default defineComponent({
 
       if (props.cartItemPrice) {
         const paidProperties: CustomizableProperty[] = sortedGroups.reduce<CustomizableProperty[]>(
-          (acc, group) => acc.concat(group.properties.filter((p) => p.rawPrice)),
+          (acc, group) => acc.concat(group.properties.filter((p) => p.finalPriceValue !== undefined)),
           []
         );
 
         if (paidProperties.length === 1) {
-          const singleRawPrice = paidProperties[0].rawPrice;
+          const cartItemFinalPrice = PriceHelper.getFinalPrice(props.cartItemPrice);
 
-          if (singleRawPrice) {
-            const cartItemFinalPrice = PriceHelper.getFinalPrice(props.cartItemPrice);
-            const optionFinalPrice = PriceHelper.getFinalPrice(singleRawPrice);
-
-            if (cartItemFinalPrice === optionFinalPrice) {
-              paidProperties[0].regularPrice = undefined;
-              paidProperties[0].specialPrice = undefined;
-            }
+          if (cartItemFinalPrice === paidProperties[0].finalPriceValue) {
+            paidProperties[0].price = undefined;
           }
         }
       }
@@ -401,7 +371,6 @@ export default defineComponent({
     });
 
     return {
-      ...useEstimatedShipment(toRef(props, 'estimatedShipment')),
       customizationGroups,
       hasCustomizableProperties,
       truncate
@@ -450,15 +419,6 @@ export default defineComponent({
     display: inline-block;
 
     --icon-color: var(--cart-item-configuration-checkmark-color, var(--c-primary));
-  }
-
-  ._shipment {
-    margin-bottom: var(--spacer-xs);
-  }
-
-  ._shipment-promise,
-  ._offer-expiration-date-text {
-    margin-bottom: 0;
   }
 
   ._customization-name,

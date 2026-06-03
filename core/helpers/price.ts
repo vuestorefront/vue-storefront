@@ -204,7 +204,7 @@ export function getCartItemPrice (
 
   if (itemTotals?.final_price !== undefined && itemTotals?.regular_price !== undefined) {
     const isEqual = itemTotals.final_price === itemTotals.regular_price;
-    const quantity = cartItem.qty || 1; 
+    const quantity = cartItem.qty || 1;
 
     return {
       regular: itemTotals.regular_price * quantity,
