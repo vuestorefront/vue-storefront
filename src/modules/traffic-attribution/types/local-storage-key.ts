@@ -1,1 +1,2 @@
-export const LAST_MEANINGFUL_TRAFFIC_ATTRIBUTION = 'lastMeaningfulTrafficAttribution';
+export const FIRST_TOUCH = 'firstTouch';
+export const LAST_TOUCH = 'lastTouch';

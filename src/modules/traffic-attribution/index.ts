@@ -28,15 +28,15 @@ export const TrafficAttributionModule: StorefrontModule = function ({ store, rou
     cacheHandlerFactory(storage)
   );
 
-  store.subscribe((mutation: MutationPayload) => {
-    localStorageSynchronization.setItems(mutation);
-  });
-
-  EventBus.$on('cart-connected', () => {
-    store.dispatch(`${MODULE_NAME}/${REPORT_TRAFFIC_ATTRIBUTION}`);
+  store.subscribe((mutation, state) => {
+    localStorageSynchronization.setItems(mutation, state);
   });
 
   EventBus.$on('cart-created', () => {
+    store.dispatch(`${MODULE_NAME}/${REPORT_TRAFFIC_ATTRIBUTION}`);
+  });
+
+  EventBus.$on('cart-connected', () => {
     store.dispatch(`${MODULE_NAME}/${REPORT_TRAFFIC_ATTRIBUTION}`);
   });
 

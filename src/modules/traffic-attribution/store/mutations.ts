@@ -1,21 +1,29 @@
 import { MutationTree } from 'vuex';
 
-import { TrafficAttributionData } from '../types/traffic-attribution.interface';
+import { TouchData } from '../types/traffic-attribution.interface';
 import { TrafficAttributionState } from '../types/state.interface';
 import {
-  SET_TRAFFIC_ATTRIBUTION,
-  SET_LAST_MEANINGFUL_TRAFFIC_ATTRIBUTION,
-  CLEAR_LAST_MEANINGFUL_TRAFFIC_ATTRIBUTION
+  SET_FIRST_TOUCH,
+  SET_LAST_TOUCH,
+  MARK_FIRST_TOUCH_SENT,
+  MARK_LAST_TOUCH_SENT
 } from '../types/mutations';
 
 export const mutations: MutationTree<TrafficAttributionState> = {
-  [SET_TRAFFIC_ATTRIBUTION] (state, attribution: TrafficAttributionData) {
-    state.trafficAttribution = attribution;
+  [SET_FIRST_TOUCH] (state, touch: TouchData) {
+    state.firstTouch = touch;
   },
-  [SET_LAST_MEANINGFUL_TRAFFIC_ATTRIBUTION] (state, attribution: TrafficAttributionData) {
-    state.lastMeaningfulTrafficAttribution = attribution;
+  [SET_LAST_TOUCH] (state, touch: TouchData) {
+    state.lastTouch = touch;
   },
-  [CLEAR_LAST_MEANINGFUL_TRAFFIC_ATTRIBUTION] (state) {
-    state.lastMeaningfulTrafficAttribution = null;
+  [MARK_FIRST_TOUCH_SENT] (state) {
+    if (state.firstTouch) {
+      state.firstTouch.isSent = true;
+    }
+  },
+  [MARK_LAST_TOUCH_SENT] (state) {
+    if (state.lastTouch) {
+      state.lastTouch.isSent = true;
+    }
   }
 };

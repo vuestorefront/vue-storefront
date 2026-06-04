@@ -1,6 +1,6 @@
-import { TrafficAttributionData } from './traffic-attribution.interface';
+import { TouchData } from './traffic-attribution.interface';
 
 export interface TrafficAttributionState {
-  trafficAttribution: TrafficAttributionData | null,
-  lastMeaningfulTrafficAttribution: TrafficAttributionData | null
+  firstTouch: TouchData | null,
+  lastTouch: TouchData | null
 }
