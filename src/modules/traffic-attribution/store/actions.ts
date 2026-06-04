@@ -87,7 +87,7 @@ export const actions: ActionTree<TrafficAttributionState, RootState> = {
     }
 
     const currentLastTouch: TouchData | null = getters[GET_LAST_TOUCH];
-    const isNewAttribution = !currentLastTouch || isSameTouchAttribution(currentLastTouch.attribution, attribution);
+    const isNewAttribution = !currentLastTouch || !isSameTouchAttribution(currentLastTouch.attribution, attribution);
 
     if (isNewAttribution) {
       commit(SET_LAST_TOUCH, { attribution, isSent: false });
