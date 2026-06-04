@@ -8,7 +8,7 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import RootState from '@vue-storefront/core/types/RootState';
 
-import { getTrafficAttributionDataFromRoute } from '../helpers/get-traffic-attribution-data-from-route.function';
+import { DEFAULT_SOURCE, getTrafficAttributionDataFromRoute } from '../helpers/get-traffic-attribution-data-from-route.function';
 import { TouchData, TrafficAttributionData } from '../types/traffic-attribution.interface';
 import { TrafficAttributionState } from '../types/state.interface';
 import { MODULE_NAME } from '../types/store-name';
@@ -82,7 +82,7 @@ export const actions: ActionTree<TrafficAttributionState, RootState> = {
       return;
     }
 
-    if (!attribution.utm_source) {
+    if (attribution.utm_source === DEFAULT_SOURCE) {
       return;
     }
 

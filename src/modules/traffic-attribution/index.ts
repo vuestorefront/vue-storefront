@@ -1,5 +1,3 @@
-import { MutationPayload } from 'vuex';
-
 import { isServer } from '@vue-storefront/core/helpers';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';

@@ -25,6 +25,8 @@ function normalizeValue (value: undefined | string | (string | null)[]): string 
   return stringValue;
 }
 
+export const DEFAULT_SOURCE = 'direct';
+
 export function getTrafficAttributionDataFromRoute (route: Route): TrafficAttributionData {
   const query = route.query;
   const reportableFields: string[] = config.trafficAttribution?.reportableFields || [];
@@ -59,6 +61,10 @@ export function getTrafficAttributionDataFromRoute (route: Route): TrafficAttrib
 
   if (Object.keys(rawAttributes).length > 0) {
     attribution.rawAttributes = rawAttributes;
+  }
+
+  if (!attribution.utm_source) {
+    attribution.utm_source = DEFAULT_SOURCE;
   }
 
   return attribution;
