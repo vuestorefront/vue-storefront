@@ -75,10 +75,10 @@ export const actions: ActionTree<TrafficAttributionState, RootState> = {
 
     if (!currentFirstTouch) {
       const firstTouch: TouchData = { attribution: { ...attribution }, isSent: false };
-      const secondTouch: TouchData = { attribution: { ...attribution }, isSent: false };
+      const lastTouch: TouchData = { attribution: { ...attribution }, isSent: false };
 
       commit(SET_FIRST_TOUCH, firstTouch);
-      commit(SET_LAST_TOUCH, secondTouch);
+      commit(SET_LAST_TOUCH, lastTouch);
       return;
     }
 
