@@ -109,7 +109,11 @@ export const actions: ActionTree<TrafficAttributionState, RootState> = {
       }
     }
 
-    if (lastTouch && !lastTouch.isSent) {
+    if (
+      lastTouch &&
+      !lastTouch.isSent &&
+      !isSameTouchAttribution(firstTouch.attribution, lastTouch.attribution)
+    ) {
       const success = await sendAttribution(lastTouch.attribution);
 
       if (success) {
