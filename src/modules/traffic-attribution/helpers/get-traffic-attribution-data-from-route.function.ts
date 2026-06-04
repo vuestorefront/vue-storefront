@@ -27,8 +27,8 @@ function normalizeValue (value: undefined | string | (string | null)[]): string 
 
 export function getTrafficAttributionDataFromRoute (route: Route): TrafficAttributionData {
   const query = route.query;
-  const reportableFields: string[] = config.trafficAttribution.reportableFields;
-  const rawAttributeFields: string[] = config.trafficAttribution.rawAttributes;
+  const reportableFields: string[] = config.trafficAttribution?.reportableFields || [];
+  const rawAttributeFields: string[] = config.trafficAttribution?.rawAttributes || [];
 
   const attribution: TrafficAttributionData = {};
 
