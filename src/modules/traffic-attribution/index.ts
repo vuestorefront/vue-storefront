@@ -1,6 +1,7 @@
 import { isServer } from '@vue-storefront/core/helpers';
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
+import { Logger } from '@vue-storefront/core/lib/logger';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import { localStorageSynchronizationFactory } from 'src/modules/shared';
 
@@ -30,13 +31,15 @@ export const TrafficAttributionModule: StorefrontModule = function ({ store, rou
     localStorageSynchronization.setItems(mutation, state);
   });
 
-  EventBus.$on('cart-created', () => {
-    store.dispatch(`${MODULE_NAME}/${REPORT_TRAFFIC_ATTRIBUTION}`);
-  });
+  const reportTrafficAttribution = () => {
+    store.dispatch(`${MODULE_NAME}/${REPORT_TRAFFIC_ATTRIBUTION}`)
+      .catch((reason) => {
+        Logger.error(reason, MODULE_NAME)();
+      });
+  };
 
-  EventBus.$on('cart-connected', () => {
-    store.dispatch(`${MODULE_NAME}/${REPORT_TRAFFIC_ATTRIBUTION}`);
-  });
+  EventBus.$on('cart-created', reportTrafficAttribution);
+  EventBus.$on('cart-connected', reportTrafficAttribution);
 
   store.dispatch(`${MODULE_NAME}/${SYNCHRONIZE}`, router);
 };
