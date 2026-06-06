@@ -84,6 +84,10 @@ export default defineComponent({
       .sf-select__chevron {
         right: 0;
       }
+
+      .sf-select__error-message {
+        display: none;
+      }
     }
   }
 }
