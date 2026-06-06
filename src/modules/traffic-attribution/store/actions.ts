@@ -1,4 +1,4 @@
-import { ActionTree } from 'vuex';
+import { ActionTree, Commit } from 'vuex';
 import VueRouter from 'vue-router';
 
 import config from 'config';
@@ -53,6 +53,34 @@ function isSameTouchAttribution (a: TrafficAttributionData, b: TrafficAttributio
   return JSON.stringify(a) === JSON.stringify(b);
 }
 
+let reportTrafficAttributionPromise: Promise<void> | null = null;
+
+async function reportTrafficAttribution (
+  commit: Commit,
+  firstTouch: TouchData,
+  lastTouch: TouchData | null
+): Promise<void> {
+  if (!firstTouch.isSent) {
+    const success = await sendAttribution(firstTouch.attribution);
+
+    if (success) {
+      commit(MARK_FIRST_TOUCH_SENT);
+    }
+  }
+
+  if (
+    lastTouch &&
+    !lastTouch.isSent &&
+    !isSameTouchAttribution(firstTouch.attribution, lastTouch.attribution)
+  ) {
+    const success = await sendAttribution(lastTouch.attribution);
+
+    if (success) {
+      commit(MARK_LAST_TOUCH_SENT);
+    }
+  }
+}
+
 export const actions: ActionTree<TrafficAttributionState, RootState> = {
   async [SYNCHRONIZE] ({ commit, getters }, router: VueRouter): Promise<void> {
     const storage = StorageManager.get(MODULE_NAME);
@@ -94,6 +122,10 @@ export const actions: ActionTree<TrafficAttributionState, RootState> = {
     }
   },
   async [REPORT_TRAFFIC_ATTRIBUTION] ({ commit, getters }): Promise<void> {
+    if (reportTrafficAttributionPromise) {
+      return reportTrafficAttributionPromise;
+    }
+
     const firstTouch: TouchData | null = getters[GET_FIRST_TOUCH];
     const lastTouch: TouchData | null = getters[GET_LAST_TOUCH];
 
@@ -101,24 +133,11 @@ export const actions: ActionTree<TrafficAttributionState, RootState> = {
       return;
     }
 
-    if (!firstTouch.isSent) {
-      const success = await sendAttribution(firstTouch.attribution);
+    reportTrafficAttributionPromise = reportTrafficAttribution(commit, firstTouch, lastTouch)
+      .finally(() => {
+        reportTrafficAttributionPromise = null;
+      });
 
-      if (success) {
-        commit(MARK_FIRST_TOUCH_SENT);
-      }
-    }
-
-    if (
-      lastTouch &&
-      !lastTouch.isSent &&
-      !isSameTouchAttribution(firstTouch.attribution, lastTouch.attribution)
-    ) {
-      const success = await sendAttribution(lastTouch.attribution);
-
-      if (success) {
-        commit(MARK_LAST_TOUCH_SENT);
-      }
-    }
+    return reportTrafficAttributionPromise;
   }
 };
