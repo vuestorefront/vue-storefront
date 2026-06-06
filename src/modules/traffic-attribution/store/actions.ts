@@ -51,8 +51,25 @@ async function sendAttribution (attribution: TrafficAttributionData): Promise<bo
   return true;
 }
 
+function normalizeAttributionValue (value: any): any {
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+    return value;
+  }
+
+  const normalized: Record<string, any> = {};
+
+  Object.keys(value)
+    .filter((key) => typeof value[key] !== 'undefined')
+    .sort()
+    .forEach((key) => {
+      normalized[key] = normalizeAttributionValue(value[key]);
+    });
+
+  return normalized;
+}
+
 function isSameTouchAttribution (a: TrafficAttributionData, b: TrafficAttributionData): boolean {
-  return JSON.stringify(a) === JSON.stringify(b);
+  return JSON.stringify(normalizeAttributionValue(a)) === JSON.stringify(normalizeAttributionValue(b));
 }
 
 const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
