@@ -5,6 +5,7 @@ import config from 'config';
 import { processURLAddress } from '@vue-storefront/core/helpers';
 import { TaskQueue } from '@vue-storefront/core/lib/sync';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
+import LocalForageCacheDriver from '@vue-storefront/core/lib/store/storage';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import RootState from '@vue-storefront/core/types/RootState';
 
@@ -119,6 +120,20 @@ function isTouchExpired (touch: TouchData): boolean {
   return !touch.expiresAt || touch.expiresAt <= Date.now();
 }
 
+async function getStoredTouchData (
+  storage: LocalForageCacheDriver,
+  key: string
+): Promise<TouchData | null> {
+  try {
+    const touch = await storage.getItem(key);
+
+    return touch || null;
+  } catch (reason) {
+    Logger.error(reason, MODULE_NAME)();
+    return null;
+  }
+}
+
 let reportTrafficAttributionPromise: Promise<void> | null = null;
 
 async function reportTrafficAttribution (
@@ -152,8 +167,8 @@ export const actions: ActionTree<TrafficAttributionState, RootState> = {
     const storage = StorageManager.get(MODULE_NAME);
 
     const [storedFirstTouch, storedLastTouch] = await Promise.all([
-      storage.getItem(FIRST_TOUCH),
-      storage.getItem(LAST_TOUCH)
+      getStoredTouchData(storage, FIRST_TOUCH),
+      getStoredTouchData(storage, LAST_TOUCH)
     ]);
 
     if (storedFirstTouch) {
