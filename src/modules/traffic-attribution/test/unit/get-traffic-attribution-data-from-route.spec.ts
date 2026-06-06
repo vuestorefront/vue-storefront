@@ -10,7 +10,18 @@ jest.mock('config', () => ({
   trafficAttribution: {
     acquisitionClickIdKeys: ['gclid', 'msclkid'],
     ignoredReferrerHosts: ['internal.example', 'paypal.com', 'pay.google.com'],
-    sensitiveQueryKeys: ['token', 'email', 'redirect']
+    sensitiveQueryKeys: [
+      'token',
+      'email',
+      'redirect',
+      'order_id',
+      'order_item_id',
+      'order_item_ids',
+      'cart_id',
+      'image-url',
+      'existing_plushie_id',
+      'customization_values'
+    ]
   }
 }));
 
@@ -58,6 +69,23 @@ describe('traffic attribution raw capture helpers', () => {
     } as any)).toEqual({
       msclkid: 'raw-click-id',
       utm_medium: 'cpc'
+    });
+  });
+
+  it('omits sensitive query parameters across naming variants', () => {
+    expect(normalizeTrafficAttributionQueryParams({
+      orderId: '1001',
+      order_item_id: '2002',
+      orderItemIds: '2002,2003',
+      cartId: 'quote-1',
+      imageUrl: 'https://cdn.example.com/photo.jpg',
+      existing_plushie_id: 'plushie-1',
+      customization_values: 'encoded-customization-state',
+      gclid: 'raw-click-id',
+      utm_source: 'google'
+    } as any)).toEqual({
+      gclid: 'raw-click-id',
+      utm_source: 'google'
     });
   });
 

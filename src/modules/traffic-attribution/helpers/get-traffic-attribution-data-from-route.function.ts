@@ -35,6 +35,7 @@ const DEFAULT_SENSITIVE_QUERY_KEYS = [
   'customer_id',
   'order_id',
   'order_item_id',
+  'order_item_ids',
   'quote_id',
   'cart_id',
   'SID',
@@ -47,7 +48,11 @@ const DEFAULT_SENSITIVE_QUERY_KEYS = [
   'dest',
   'target',
   'file',
-  'image-url'
+  'image-url',
+  'existing_plushie_id',
+  'plushie_id',
+  'customization_values',
+  'product_design'
 ];
 
 function getTrafficAttributionConfig (): any {
@@ -82,6 +87,12 @@ function normalizeKeyList (keys: string[] = []): string[] {
     .map((key) => key.toLowerCase());
 }
 
+function normalizeSensitiveQueryKey (key: string): string {
+  return key
+    .toLowerCase()
+    .replace(/[-_]/g, '');
+}
+
 function getConfiguredList (key: string, defaults: string[]): string[] {
   const configured = getTrafficAttributionConfig()[key];
 
@@ -93,13 +104,14 @@ function getConfiguredList (key: string, defaults: string[]): string[] {
 }
 
 export function normalizeTrafficAttributionQueryParams (query: Route['query']): Record<string, string> {
-  const sensitiveKeys = normalizeKeyList(getConfiguredList('sensitiveQueryKeys', DEFAULT_SENSITIVE_QUERY_KEYS));
+  const sensitiveKeys = getConfiguredList('sensitiveQueryKeys', DEFAULT_SENSITIVE_QUERY_KEYS)
+    .map(normalizeSensitiveQueryKey);
   const queryParams: Record<string, string> = {};
 
   Object.keys(query)
     .sort()
     .forEach((key) => {
-      if (sensitiveKeys.indexOf(key.toLowerCase()) !== -1) {
+      if (sensitiveKeys.indexOf(normalizeSensitiveQueryKey(key)) !== -1) {
         return;
       }
 

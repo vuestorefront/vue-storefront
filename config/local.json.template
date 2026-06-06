@@ -169,6 +169,7 @@
       "customer_id",
       "order_id",
       "order_item_id",
+      "order_item_ids",
       "quote_id",
       "cart_id",
       "SID",
@@ -181,7 +182,11 @@
       "dest",
       "target",
       "file",
-      "image-url"
+      "image-url",
+      "existing_plushie_id",
+      "plushie_id",
+      "customization_values",
+      "product_design"
     ]
   },
   "address": {
