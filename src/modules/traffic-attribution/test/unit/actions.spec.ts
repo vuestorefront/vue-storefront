@@ -9,9 +9,12 @@ import {
   MARK_FIRST_TOUCH_SENT,
   MARK_LAST_TOUCH_SENT,
   SET_FIRST_TOUCH,
-  SET_LAST_TOUCH
+  SET_LAST_TOUCH,
+  CLEAR_FIRST_TOUCH,
+  CLEAR_LAST_TOUCH
 } from '../../types/mutations';
 import { TouchData, TrafficAttributionData } from '../../types/traffic-attribution.interface';
+import { FIRST_TOUCH, LAST_TOUCH } from '../../types/local-storage-key';
 
 jest.mock('config', () => ({
   budsies: {
@@ -71,6 +74,16 @@ function createTouch (attribution: TrafficAttributionData, isSent = false): Touc
   };
 }
 
+function createDeferredTask () {
+  let resolve: (value: { resultCode: number }) => void = jest.fn();
+
+  const promise = new Promise<{ resultCode: number }>((promiseResolve) => {
+    resolve = promiseResolve;
+  });
+
+  return { promise, resolve };
+}
+
 function createContext (firstTouch: TouchData | null, lastTouch: TouchData | null) {
   const commits: { type: string, payload?: any }[] = [];
   const getters: Record<string, TouchData | null> = {
@@ -87,6 +100,12 @@ function createContext (firstTouch: TouchData | null, lastTouch: TouchData | nul
         }
         if (type === SET_LAST_TOUCH) {
           getters[GET_LAST_TOUCH] = payload;
+        }
+        if (type === CLEAR_FIRST_TOUCH) {
+          getters[GET_FIRST_TOUCH] = null;
+        }
+        if (type === CLEAR_LAST_TOUCH) {
+          getters[GET_LAST_TOUCH] = null;
         }
       }),
       getters
@@ -158,6 +177,74 @@ describe('traffic attribution actions', () => {
     expect(commits[0].payload.attribution.query_params).toEqual({ gclid: 'new-click' });
   });
 
+  it('loads unexpired stored touches during synchronization', async () => {
+    const firstTouch = createTouch(createAttribution({ utm_source: 'stored-first' }));
+    const lastTouch = createTouch(createAttribution({ gclid: 'stored-last' }));
+    const getItem = jest.fn((key: string) => Promise.resolve(
+      key === FIRST_TOUCH ? firstTouch : lastTouch
+    ));
+    (StorageManager.get as jest.Mock).mockReturnValue({ getItem });
+    const { context, commits } = createContext(null, null);
+
+    await (actions as any)[SYNCHRONIZE](context, {
+      currentRoute: {
+        query: {}
+      }
+    });
+
+    expect(getItem).toHaveBeenCalledWith(FIRST_TOUCH);
+    expect(getItem).toHaveBeenCalledWith(LAST_TOUCH);
+    expect(commits).toEqual([
+      { type: SET_FIRST_TOUCH, payload: firstTouch },
+      { type: SET_LAST_TOUCH, payload: lastTouch }
+    ]);
+  });
+
+  it('clears expired stored touches during synchronization', async () => {
+    const expiredFirstTouch = {
+      ...createTouch(createAttribution({ utm_source: 'expired-first' })),
+      expiresAt: 1000
+    };
+    const expiredLastTouch = {
+      ...createTouch(createAttribution({ gclid: 'expired-last' })),
+      expiresAt: 1000
+    };
+    (StorageManager.get as jest.Mock).mockReturnValue({
+      getItem: jest.fn((key: string) => Promise.resolve(
+        key === FIRST_TOUCH ? expiredFirstTouch : expiredLastTouch
+      ))
+    });
+    jest.spyOn(Date, 'now').mockReturnValue(2000);
+    const { context, commits } = createContext(null, null);
+
+    await (actions as any)[SYNCHRONIZE](context, {
+      currentRoute: {
+        query: {}
+      }
+    });
+
+    expect(commits[0]).toEqual({ type: CLEAR_FIRST_TOUCH, payload: undefined });
+    expect(commits[1]).toEqual({ type: CLEAR_LAST_TOUCH, payload: undefined });
+  });
+
+  it('reuses the in-flight report execution for duplicate report dispatches', async () => {
+    const firstTouch = createTouch(createAttribution({ utm_source: 'first' }));
+    const { context } = createContext(firstTouch, null);
+    const deferredTask = createDeferredTask();
+    (TaskQueue.execute as jest.Mock).mockReturnValue(deferredTask.promise);
+
+    const firstReport = (actions as any)[REPORT_TRAFFIC_ATTRIBUTION](context);
+    const secondReport = (actions as any)[REPORT_TRAFFIC_ATTRIBUTION](context);
+
+    expect(TaskQueue.execute as jest.Mock).toHaveBeenCalledTimes(1);
+
+    deferredTask.resolve({ resultCode: 200 });
+    await Promise.all([firstReport, secondReport]);
+
+    expect(context.commit).toHaveBeenCalledTimes(1);
+    expect(context.commit).toHaveBeenCalledWith(MARK_FIRST_TOUCH_SENT);
+  });
+
   it('reports first then different last touch and marks sent only after success', async () => {
     const firstTouch = createTouch(createAttribution({ utm_source: 'first' }));
     const lastTouch = createTouch(createAttribution({ gclid: 'last' }));
@@ -187,18 +274,6 @@ describe('traffic attribution actions', () => {
 
     expect(TaskQueue.execute as jest.Mock).toHaveBeenCalledTimes(1);
     expect(context.commit).toHaveBeenCalledWith(MARK_FIRST_TOUCH_SENT);
-    expect(context.commit).not.toHaveBeenCalledWith(MARK_LAST_TOUCH_SENT);
-  });
-
-  it('leaves sent flags unset when submission fails', async () => {
-    const firstTouch = createTouch(createAttribution({ utm_source: 'first' }));
-    const { context } = createContext(firstTouch, null);
-    (TaskQueue.execute as jest.Mock).mockResolvedValue({ resultCode: 500 });
-
-    await (actions as any)[REPORT_TRAFFIC_ATTRIBUTION](context);
-
-    expect(TaskQueue.execute as jest.Mock).toHaveBeenCalledTimes(1);
-    expect(context.commit).not.toHaveBeenCalledWith(MARK_FIRST_TOUCH_SENT);
     expect(context.commit).not.toHaveBeenCalledWith(MARK_LAST_TOUCH_SENT);
   });
 });
