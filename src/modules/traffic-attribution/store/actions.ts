@@ -9,7 +9,11 @@ import LocalForageCacheDriver from '@vue-storefront/core/lib/store/storage';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import RootState from '@vue-storefront/core/types/RootState';
 
-import { DEFAULT_SOURCE, getTrafficAttributionDataFromRoute } from '../helpers/get-traffic-attribution-data-from-route.function';
+import {
+  getTrafficAttributionDataFromRoute,
+  hasTrafficAttributionAcquisitionSignal,
+  isSameTouchAttribution
+} from '../helpers/get-traffic-attribution-data-from-route.function';
 import { TouchData, TrafficAttributionData } from '../types/traffic-attribution.interface';
 import { TrafficAttributionState } from '../types/state.interface';
 import { MODULE_NAME } from '../types/store-name';
@@ -50,27 +54,6 @@ async function sendAttribution (attribution: TrafficAttributionData): Promise<bo
   }
 
   return true;
-}
-
-function normalizeAttributionValue (value: any): any {
-  if (value === null || typeof value !== 'object' || Array.isArray(value)) {
-    return value;
-  }
-
-  const normalized: Record<string, any> = {};
-
-  Object.keys(value)
-    .filter((key) => typeof value[key] !== 'undefined')
-    .sort()
-    .forEach((key) => {
-      normalized[key] = normalizeAttributionValue(value[key]);
-    });
-
-  return normalized;
-}
-
-function isSameTouchAttribution (a: TrafficAttributionData, b: TrafficAttributionData): boolean {
-  return JSON.stringify(normalizeAttributionValue(a)) === JSON.stringify(normalizeAttributionValue(b));
 }
 
 const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
@@ -188,6 +171,11 @@ export const actions: ActionTree<TrafficAttributionState, RootState> = {
     }
 
     const attribution = getTrafficAttributionDataFromRoute(router.currentRoute);
+
+    if (!attribution) {
+      return;
+    }
+
     const currentFirstTouch: TouchData | null = getters[GET_FIRST_TOUCH];
 
     if (!currentFirstTouch) {
@@ -199,7 +187,7 @@ export const actions: ActionTree<TrafficAttributionState, RootState> = {
       return;
     }
 
-    if (attribution.utm_source === DEFAULT_SOURCE) {
+    if (!hasTrafficAttributionAcquisitionSignal(attribution)) {
       return;
     }
 

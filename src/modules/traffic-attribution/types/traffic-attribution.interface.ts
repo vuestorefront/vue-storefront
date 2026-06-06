@@ -1,7 +1,9 @@
-export type TrafficAttributionData = {
-  utm_source?: string,
-  rawAttributes?: Record<string, string>
-} & Record<string, string>;
+export interface TrafficAttributionData {
+  landing_page_url: string,
+  referrer_url?: string,
+  query_params: Record<string, string>,
+  detected_at: string
+}
 
 export interface TouchData {
   attribution: TrafficAttributionData,
