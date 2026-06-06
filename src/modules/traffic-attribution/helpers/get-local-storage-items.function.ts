@@ -6,10 +6,15 @@ import RootState from '@vue-storefront/core/types/RootState';
 
 import { MODULE_NAME } from '../types/store-name';
 import { FIRST_TOUCH, LAST_TOUCH } from '../types/local-storage-key';
-import { SET_FIRST_TOUCH, SET_LAST_TOUCH } from '../types/mutations';
+import {
+  SET_FIRST_TOUCH,
+  SET_LAST_TOUCH,
+  CLEAR_FIRST_TOUCH,
+  CLEAR_LAST_TOUCH
+} from '../types/mutations';
 
 export function getItemsFromStorageFactory (store: Store<RootState>) {
-  return function getItemsFromStorage ({ key }: StorageEvent) {
+  return function getItemsFromStorage ({ key, newValue }: StorageEvent) {
     if (!key) {
       return;
     }
@@ -20,10 +25,13 @@ export function getItemsFromStorageFactory (store: Store<RootState>) {
     );
 
     if (isFirstTouchChanged) {
-      const value = parseLocalStorageValue(localStorage[key]);
+      const value = parseLocalStorageValue(newValue || undefined);
       if (value) {
-        store.commit(`${MODULE_NAME}/${SET_FIRST_TOUCH}`, value);
+        store.commit(MODULE_NAME + '/' + SET_FIRST_TOUCH, value);
+        return;
       }
+
+      store.commit(MODULE_NAME + '/' + CLEAR_FIRST_TOUCH);
       return;
     }
 
@@ -33,10 +41,13 @@ export function getItemsFromStorageFactory (store: Store<RootState>) {
     );
 
     if (isLastTouchChanged) {
-      const value = parseLocalStorageValue(localStorage[key]);
+      const value = parseLocalStorageValue(newValue || undefined);
       if (value) {
-        store.commit(`${MODULE_NAME}/${SET_LAST_TOUCH}`, value);
+        store.commit(MODULE_NAME + '/' + SET_LAST_TOUCH, value);
+        return;
       }
+
+      store.commit(MODULE_NAME + '/' + CLEAR_LAST_TOUCH);
     }
   };
 }

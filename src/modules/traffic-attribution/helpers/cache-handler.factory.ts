@@ -11,7 +11,9 @@ import {
   SET_FIRST_TOUCH,
   SET_LAST_TOUCH,
   MARK_FIRST_TOUCH_SENT,
-  MARK_LAST_TOUCH_SENT
+  MARK_LAST_TOUCH_SENT,
+  CLEAR_FIRST_TOUCH,
+  CLEAR_LAST_TOUCH
 } from '../types/mutations';
 
 export function cacheHandlerFactory (storage: LocalForageCacheDriver) {
@@ -21,6 +23,14 @@ export function cacheHandlerFactory (storage: LocalForageCacheDriver) {
 
     if (type.endsWith(SET_FIRST_TOUCH)) {
       storage.setItem(FIRST_TOUCH, mutation.payload)
+        .catch((reason: any) => {
+          Logger.error(reason, MODULE_NAME)();
+        });
+      return;
+    }
+
+    if (type.endsWith(CLEAR_FIRST_TOUCH)) {
+      storage.removeItem(FIRST_TOUCH)
         .catch((reason: any) => {
           Logger.error(reason, MODULE_NAME)();
         });
@@ -37,6 +47,14 @@ export function cacheHandlerFactory (storage: LocalForageCacheDriver) {
 
     if (type.endsWith(SET_LAST_TOUCH)) {
       storage.setItem(LAST_TOUCH, mutation.payload)
+        .catch((reason: any) => {
+          Logger.error(reason, MODULE_NAME)();
+        });
+      return;
+    }
+
+    if (type.endsWith(CLEAR_LAST_TOUCH)) {
+      storage.removeItem(LAST_TOUCH)
         .catch((reason: any) => {
           Logger.error(reason, MODULE_NAME)();
         });

@@ -5,5 +5,7 @@ export type TrafficAttributionData = {
 
 export interface TouchData {
   attribution: TrafficAttributionData,
-  isSent: boolean
+  isSent: boolean,
+  createdAt: number,
+  expiresAt: number
 }

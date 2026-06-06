@@ -18,7 +18,9 @@ import {
   SET_FIRST_TOUCH,
   SET_LAST_TOUCH,
   MARK_FIRST_TOUCH_SENT,
-  MARK_LAST_TOUCH_SENT
+  MARK_LAST_TOUCH_SENT,
+  CLEAR_FIRST_TOUCH,
+  CLEAR_LAST_TOUCH
 } from '../types/mutations';
 import { FIRST_TOUCH, LAST_TOUCH } from '../types/local-storage-key';
 
@@ -51,6 +53,53 @@ async function sendAttribution (attribution: TrafficAttributionData): Promise<bo
 
 function isSameTouchAttribution (a: TrafficAttributionData, b: TrafficAttributionData): boolean {
   return JSON.stringify(a) === JSON.stringify(b);
+}
+
+const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
+const DEFAULT_FIRST_TOUCH_EXPIRATION_DAYS = 90;
+const DEFAULT_LAST_TOUCH_EXPIRATION_DAYS = 30;
+
+function getExpirationDays (days: any, defaultDays: number): number {
+  const normalizedDays = Number(days);
+
+  if (normalizedDays > 0) {
+    return normalizedDays;
+  }
+
+  return defaultDays;
+}
+
+function createTouchData (attribution: TrafficAttributionData, expirationDays: number): TouchData {
+  const createdAt = Date.now();
+
+  return {
+    attribution: { ...attribution },
+    isSent: false,
+    createdAt,
+    expiresAt: createdAt + expirationDays * DAY_IN_MILLISECONDS
+  };
+}
+
+function createFirstTouchData (attribution: TrafficAttributionData): TouchData {
+  const expirationDays = getExpirationDays(
+    config.trafficAttribution && config.trafficAttribution.firstTouchExpirationDays,
+    DEFAULT_FIRST_TOUCH_EXPIRATION_DAYS
+  );
+
+  return createTouchData(attribution, expirationDays);
+}
+
+function createLastTouchData (attribution: TrafficAttributionData): TouchData {
+  const expirationDays = getExpirationDays(
+    config.trafficAttribution && config.trafficAttribution.lastTouchExpirationDays,
+    DEFAULT_LAST_TOUCH_EXPIRATION_DAYS
+  );
+
+  return createTouchData(attribution, expirationDays);
+}
+
+function isTouchExpired (touch: TouchData): boolean {
+  return !touch.expiresAt || touch.expiresAt <= Date.now();
 }
 
 let reportTrafficAttributionPromise: Promise<void> | null = null;
@@ -91,19 +140,27 @@ export const actions: ActionTree<TrafficAttributionState, RootState> = {
     ]);
 
     if (storedFirstTouch) {
-      commit(SET_FIRST_TOUCH, storedFirstTouch);
+      if (isTouchExpired(storedFirstTouch)) {
+        commit(CLEAR_FIRST_TOUCH);
+      } else {
+        commit(SET_FIRST_TOUCH, storedFirstTouch);
+      }
     }
 
     if (storedLastTouch) {
-      commit(SET_LAST_TOUCH, storedLastTouch);
+      if (isTouchExpired(storedLastTouch)) {
+        commit(CLEAR_LAST_TOUCH);
+      } else {
+        commit(SET_LAST_TOUCH, storedLastTouch);
+      }
     }
 
     const attribution = getTrafficAttributionDataFromRoute(router.currentRoute);
     const currentFirstTouch: TouchData | null = getters[GET_FIRST_TOUCH];
 
     if (!currentFirstTouch) {
-      const firstTouch: TouchData = { attribution: { ...attribution }, isSent: false };
-      const lastTouch: TouchData = { attribution: { ...attribution }, isSent: false };
+      const firstTouch = createFirstTouchData(attribution);
+      const lastTouch = createLastTouchData(attribution);
 
       commit(SET_FIRST_TOUCH, firstTouch);
       commit(SET_LAST_TOUCH, lastTouch);
@@ -118,7 +175,7 @@ export const actions: ActionTree<TrafficAttributionState, RootState> = {
     const isNewAttribution = !currentLastTouch || !isSameTouchAttribution(currentLastTouch.attribution, attribution);
 
     if (isNewAttribution) {
-      commit(SET_LAST_TOUCH, { attribution, isSent: false });
+      commit(SET_LAST_TOUCH, createLastTouchData(attribution));
     }
   },
   async [REPORT_TRAFFIC_ATTRIBUTION] ({ commit, getters }): Promise<void> {

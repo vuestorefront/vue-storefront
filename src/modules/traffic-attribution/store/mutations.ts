@@ -6,7 +6,9 @@ import {
   SET_FIRST_TOUCH,
   SET_LAST_TOUCH,
   MARK_FIRST_TOUCH_SENT,
-  MARK_LAST_TOUCH_SENT
+  MARK_LAST_TOUCH_SENT,
+  CLEAR_FIRST_TOUCH,
+  CLEAR_LAST_TOUCH
 } from '../types/mutations';
 
 export const mutations: MutationTree<TrafficAttributionState> = {
@@ -25,5 +27,11 @@ export const mutations: MutationTree<TrafficAttributionState> = {
     if (state.lastTouch) {
       state.lastTouch.isSent = true;
     }
+  },
+  [CLEAR_FIRST_TOUCH] (state) {
+    state.firstTouch = null;
+  },
+  [CLEAR_LAST_TOUCH] (state) {
+    state.lastTouch = null;
   }
 };

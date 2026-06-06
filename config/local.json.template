@@ -116,8 +116,27 @@
     "enableRaffle": false
   },
   "trafficAttribution": {
-    "reportableFields": ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "utm_id", "gad_source", "gad_campaignid", "ref"],
-    "rawAttributes": ["fbclid", "gclid", "gbraid", "msclkid", "sscid", "srsltid"]
+    "firstTouchExpirationDays": 90,
+    "lastTouchExpirationDays": 30,
+    "reportableFields": [
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_term",
+      "utm_content",
+      "utm_id",
+      "gad_source",
+      "gad_campaignid",
+      "ref"
+    ],
+    "rawAttributes": [
+      "fbclid",
+      "gclid",
+      "gbraid",
+      "msclkid",
+      "sscid",
+      "srsltid"
+    ]
   },
   "address": {
     "google": {
