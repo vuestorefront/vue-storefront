@@ -1,8 +1,16 @@
 <template>
   <div class="currency-selector">
+    <span
+      id="currency-selector-label"
+      class="_label"
+    >
+      {{ $t('Select Currency') }}
+    </span>
+
     <SfSelect
       v-model="selectedCurrency"
       class="_select"
+      label-id="currency-selector-label"
     >
       <SfSelectOption
         v-for="currency in availableCurrencies"
@@ -65,6 +73,18 @@ export default defineComponent({
 
   ._select {
     cursor: pointer;
+  }
+
+  ._label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   .sf-select {
