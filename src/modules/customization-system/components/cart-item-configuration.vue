@@ -88,7 +88,8 @@ import { SfIcon, SfPrice, SfProperty } from '@storefront-ui/vue';
 import {
   computed,
   defineComponent,
-  PropType
+  PropType,
+  watch
 } from '@vue/composition-api';
 
 import {
@@ -191,7 +192,7 @@ export default defineComponent({
       default: false
     }
   },
-  setup (props, { root }) {
+  setup (props, { root, emit }) {
     const { isMobile } = useMobileObserver();
 
     const customizationDictionary = computed<Record<string, Customization>>(
@@ -369,6 +370,17 @@ export default defineComponent({
     const hasCustomizableProperties = computed<boolean>(() => {
       return customizationGroups.value.length > 0;
     });
+
+    const selectionsCount = computed<number>(() => {
+      if (hasCustomizableProperties.value) {
+        return customizationGroups.value.reduce((total, group) => total + group.properties.length, 0);
+      }
+      return props.productOptions.length;
+    });
+
+    watch(selectionsCount, (count) => {
+      emit('selections-count-change', count);
+    }, { immediate: true });
 
     return {
       customizationGroups,
