@@ -1,0 +1,2 @@
+export const GET_FIRST_TOUCH = 'GET_FIRST_TOUCH';
+export const GET_LAST_TOUCH = 'GET_LAST_TOUCH';

@@ -1,9 +1,15 @@
 <template>
-  <div class="fix-mode modal-address-validation-mode">
+  <div
+    class="fix-mode modal-address-validation-mode"
+    role="alertdialog"
+    aria-modal="true"
+  >
     <SfHeading
       class="sf-heading--left"
       :title="modalTitle"
       :level="3"
+      tabindex="-1"
+      ref="heading"
     />
 
     <span class="_subtitle">
@@ -64,7 +70,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, ref } from '@vue/composition-api';
+import { defineComponent, computed, PropType, ref, Ref, onMounted } from '@vue/composition-api';
 import { SfHeading, SfButton, SfInput } from '@storefront-ui/vue';
 
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
@@ -95,6 +101,7 @@ export default defineComponent({
   },
   setup (props, { emit, root }) {
     const localStreetNumber = ref<string>('');
+    const heading: Ref<InstanceType<typeof SfHeading> | null> = ref(null);
 
     const isMissingStreetNumber = computed<boolean>(() => {
       return props.missingComponents.includes('street_number');
@@ -156,9 +163,18 @@ export default defineComponent({
       return root.$t('We were not able to confirm this address. Please review it carefully, or you can continue if you are confident it is correct.').toString();
     });
 
+    onMounted(() => {
+      if (heading.value === null) {
+        return;
+      }
+
+      (heading.value.$el as HTMLElement).focus()
+    });
+
     return {
       addressHeading,
       canSubmitUpdatedStreetNumber,
+      heading,
       isMissingStreetNumber,
       localStreetNumber,
       modalSubtitle,
