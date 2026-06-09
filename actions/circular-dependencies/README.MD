@@ -11,7 +11,7 @@
 ## Example usage
 
 ```yaml
-uses: vuestorefront/vue-storefront/actions/circular-dependencies@main
+uses: vuestorefront/vue-storefront/actions/circular-dependencies@lerna
 with:
   filesPath: 'packages/**/*.{ts,vue}'
 ```

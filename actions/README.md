@@ -4,7 +4,7 @@ You can use them in your workflows as such:
 
 ```yaml
 - name: Check licenses 🧪
-  uses: vuestorefront/vue-storefront/actions/check-licenses@main
+  uses: vuestorefront/vue-storefront/actions/check-licenses@lerna
   with:
   projectPath: ${{ github.workspace }}
 ```
