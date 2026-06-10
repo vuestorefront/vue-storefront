@@ -107,6 +107,8 @@ services:
       build:
         context: .
         dockerfile: docker/tests/Dockerfile
+      security_opt:
+        - seccomp:unconfined
       environment:
         - SSH_AUTH_SOCK=/ssh-agent.sock
         - DEFAULT_STORE_DOMAIN
