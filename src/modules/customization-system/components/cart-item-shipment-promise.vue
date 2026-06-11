@@ -45,18 +45,19 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .cart-item-shipment-promise {
-  ._shipment-promise,
-  ._offer-expiration-date-text {
-    margin-bottom: 0;
-    font-size:  var(--font-xs);
-    margin-bottom: var(--spacer-xs);
-  }
-
-  ._shipment-promise {
     background: var(--c-secondary-lighten);
     padding: var(--spacer-xs);
     display: inline-block;
     border-left: var(--c-primary) solid 4px;
+
+  ._shipment-promise,
+  ._offer-expiration-date-text {
+    font-size:  var(--font-xs);
+    margin-bottom: var(--spacer-xs);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 </style>

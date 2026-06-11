@@ -397,6 +397,9 @@ export default defineComponent({
   --property-value-font-size: var(--font-xs);
 
   .collected-product__properties {
+    padding: var(--configuration-item-padding, 0);
+    border-top: var(--configuration-item-border-top, none);
+
     font-size: var(--cart-item-configuration-font-size, var(--font-xs));
     margin-bottom: var(--spacer-xs);
     display: flex;
@@ -408,6 +411,15 @@ export default defineComponent({
       flex-direction: column;
       align-items: flex-start;
       display: flex;
+    }
+
+    &:first-child {
+      padding-top: 0;
+      border-top: none;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 
