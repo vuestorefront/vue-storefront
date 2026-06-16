@@ -1,4 +1,4 @@
-import { computed, Ref, SetupContext } from '@vue/composition-api';
+import { computed, ref, Ref, SetupContext } from '@vue/composition-api';
 
 import { useMobileObserver, PriceHelper } from 'src/modules/shared';
 
@@ -10,7 +10,10 @@ import { CustomizationStateItem } from '../types/customization-state-item.interf
 import { getCustomizationValueIdFieldKey } from '../helpers/get-customization-value-id-field-key';
 import { isFileUploadValue } from '../types/is-file-upload-value.typeguard';
 import { getOptionValuePrice } from '../helpers/get-option-value-price';
+
 import { CartItemConfigurationProperty, CartItemConfigurationGroup } from '../types/cart-item-configuration.types';
+
+const PLUSHIE_NAME_CUSTOMIZATION_NAME = 'name';
 
 function sortGroups (groups: CartItemConfigurationGroup[]): CartItemConfigurationGroup[] {
   return groups.sort((a, b) => {
@@ -44,7 +47,8 @@ export function useCartItemConfiguration (
   cartItemPrice: Ref<PriceHelper.ProductPrice | undefined>,
   cartItemQty: Ref<number>,
   showPrices: Ref<boolean>,
-  { root }: SetupContext
+  { root }: SetupContext,
+  filterOutNameCustomization: Ref<boolean> = ref(false)
 ) {
   const { isMobile } = useMobileObserver();
 
@@ -66,6 +70,26 @@ export function useCartItemConfiguration (
     }
 
     return dictionary;
+  });
+
+  const nameCustomizationId = computed<string | undefined>(() =>
+    customizations.value.find((c) => c.name.toLowerCase() === PLUSHIE_NAME_CUSTOMIZATION_NAME)?.id
+  );
+
+  const plushieName = computed<string>(() => {
+    const id = nameCustomizationId.value;
+
+    if (!id) {
+      return '';
+    }
+
+    const stateItem = customizationState.value.find((item) => item.customization_id === id);
+
+    if (!stateItem || isFileUploadValue(stateItem.value)) {
+      return '';
+    }
+
+    return Array.isArray(stateItem.value) ? stateItem.value.join(', ') : stateItem.value;
   });
 
   const customizationGroups = computed<CartItemConfigurationGroup[]>(() => {
@@ -103,8 +127,9 @@ export function useCartItemConfiguration (
       const ensureGroup = (): CartItemConfigurationGroup => {
         if (!groupMap[groupKey]) {
           groupMap[groupKey] = {
-            customizationId: groupKey,
+            groupKey,
             customizationName: relatedCustomization.name,
+            customizationId: relatedCustomization.id,
             isList,
             sn: relatedCustomization.sn,
             properties: []
@@ -204,13 +229,23 @@ export function useCartItemConfiguration (
     return sortedGroups;
   });
 
+  const filteredCustomizationGroups = computed<CartItemConfigurationGroup[]>(() => {
+    if (!filterOutNameCustomization.value || !nameCustomizationId.value) {
+      return customizationGroups.value;
+    }
+
+    return customizationGroups.value.filter(
+      (group) => group.customizationId !== nameCustomizationId.value
+    );
+  });
+
   const hasCustomizableProperties = computed<boolean>(
-    () => customizationGroups.value.length > 0
+    () => filteredCustomizationGroups.value.length > 0
   );
 
   const selectionsCount = computed<number>(() => {
     if (hasCustomizableProperties.value) {
-      return customizationGroups.value.reduce(
+      return filteredCustomizationGroups.value.reduce(
         (total, group) => total + group.properties.length,
         0
       );
@@ -220,8 +255,10 @@ export function useCartItemConfiguration (
   });
 
   return {
-    customizationGroups,
+    customizationGroups: filteredCustomizationGroups,
     hasCustomizableProperties,
+    nameCustomizationId,
+    plushieName,
     selectionsCount,
     truncate
   };

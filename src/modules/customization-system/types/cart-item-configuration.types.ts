@@ -8,6 +8,7 @@ export interface CartItemConfigurationProperty {
 }
 
 export interface CartItemConfigurationGroup {
+  groupKey: string,
   customizationId: string,
   customizationName: string,
   isList: boolean,
