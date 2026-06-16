@@ -22,6 +22,8 @@ import { useOptionValuesPrice } from './composables/use-option-values-price';
 import { FilterType, useLockedCustomizations } from './composables/use-locked-customizations';
 import { useSelectedOptionValueUrlQuery } from './composables/use-selected-option-value-url-query';
 import { useValuesSort } from './composables/use-values-sort';
+import { useCartItemConfiguration } from './composables/use-cart-item-configuration';
+import { CartItemConfigurationGroup, CartItemConfigurationProperty } from './types/cart-item-configuration.types';
 import { useWidgetBusyState } from './composables/use-widget-busy-state';
 import { filterCustomizationState } from './helpers/filter-customization-state';
 import { getCartItemExtensionAttributes } from './helpers/get-cart-item-extension-attributes';
@@ -126,6 +128,9 @@ export {
   useOptionValuesPrice,
   useLockedCustomizations,
   useSelectedOptionValueUrlQuery,
+  useCartItemConfiguration,
+  CartItemConfigurationGroup,
+  CartItemConfigurationProperty,
   useValuesSort,
   useWidgetBusyState
 }
