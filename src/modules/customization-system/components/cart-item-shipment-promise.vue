@@ -25,7 +25,8 @@ import {
   toRef
 } from '@vue/composition-api';
 
-import { EstimatedShipment, useEstimatedShipment } from 'src/modules/customization-system';
+import { useEstimatedShipment } from '../composables/use-estimated-shipment';
+import { EstimatedShipment } from '../types/estimated-shipment.interface';
 
 export default defineComponent({
   name: 'CartItemShipmentPromise',
