@@ -46,15 +46,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .cart-item-shipment-promise {
-    background: var(--c-secondary-lighten);
-    padding: var(--spacer-xs);
-    display: inline-block;
-    border-left: var(--c-primary) solid 4px;
+  display: inline-block;
 
   ._shipment-promise,
   ._offer-expiration-date-text {
-    font-size:  var(--font-xs);
-    margin-bottom: var(--spacer-xs);
+    font-size: var(--font-xs);
+    line-height: 1.4;
+    margin-bottom: var(--spacer-2xs);
 
     &:last-child {
       margin-bottom: 0;
