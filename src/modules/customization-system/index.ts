@@ -30,6 +30,7 @@ import { getCustomizationSelectedValues } from './helpers/get-customization-sele
 import { getCustomizationSystemThumbnail } from './helpers/get-customization-system-thumbnail';
 import { getCustomizationValueIdFieldKey } from './helpers/get-customization-value-id-field-key';
 import { getCustomizationAvailabilityFlowByProductPurchaseFlow } from './helpers/get-customization-availability-flow-by-product-purchase-flow';
+import { getOptionValuePrice } from './helpers/get-option-value-price';
 import { getSelectedOptionValuesByCustomizationState } from './helpers/get-selected-options-values-by-customization-state';
 import { isEmailCustomization } from './helpers/is-email-customization';
 import { fetchOrderItemCustomizationsState, fetchOrderItemDeliverables, fetchOrderItemsCustomizationsStates, saveOrderItemCustomizationsState, submitOrderItemCustomizationsState } from './helpers/order-items-customizations.service';
@@ -95,6 +96,7 @@ export {
   getCustomizationSelectedValues,
   getCustomizationSystemThumbnail,
   getCustomizationValueIdFieldKey,
+  getOptionValuePrice,
   getSelectedOptionValuesByCustomizationState,
   getCustomizationAvailabilityFlowByProductPurchaseFlow,
   isEmailCustomization,
