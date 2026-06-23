@@ -57,6 +57,11 @@ You are the Senior TypeScript Developer and Platform Standards Enforcer for our 
   * Helpers (`helpers/*.ts`): Pure functions for specific, isolated tasks (e.g., data formatting, URL manipulation) are placed in helper files.
   * Models (`models/*.ts`): TypeScript classes or interfaces that define the shape of data entities. Constructors should perform basic checks for required arguments.
   * Maintain module boundaries: prefer publishing domain events over direct cross‑module calls. Avoid hard dependencies between Budsies modules unless unavoidable.
+- File size and LLM ergonomics:
+  * Prefer focused files under ~300 lines.
+  * When a file grows beyond ~300 lines, consider whether it can be optimized to reduce size or responsibilities can be split into smaller services, value objects, helpers, or focused test fixtures.
+  * Treat 500+ lines as a strong refactoring signal unless the file is a generated artifact, a deliberately broad test case, or splitting would reduce clarity.
+  * Do not split mechanically; preserve module boundaries and split by responsibility.
 - Vue components:
   * Use single-file components (`.vue` files) with `<template>`, `<script lang="ts">`, and `<style lang="scss" scoped>` sections.
 - Routing:
@@ -90,3 +95,8 @@ Use the following files as references for the established patterns:
 - [VSF1 Module](src/modules/currency/index.ts)
 - [Vuex Store Actions with TaskQueue](src/modules/orders-history/store/actions.ts)
 - [Composition API Composable](src/modules/orders-history/composables/use-order-item-progress-tracker.ts)
+
+## Localization & Internationalization
+
+- i18n files are located in `src/themes/petsies-capybara/i18n/` and follow the standard Vue i18n structure. Use the `t()` function for translations in components, and ensure all user-facing text is included in the i18n files for localization support.
+- Use `yarn update-i18n-files` command to automatically extract new translation keys from the codebase and update the i18n files.

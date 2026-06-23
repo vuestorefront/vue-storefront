@@ -2371,13 +2371,13 @@
   dependencies:
     type-detect "4.0.8"
 
-"@storefront-ui/shared@0.7.11", "@storefront-ui/shared@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?d0034d97cf8f9ed13363c08ff5cc2179e0276603":
+"@storefront-ui/shared@0.7.11", "@storefront-ui/shared@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?6b3198c0eecdf8c1fcb50ca3ad084c499c1cf0b7":
   version "0.7.11"
-  resolved "https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?d0034d97cf8f9ed13363c08ff5cc2179e0276603#4b95b5fda2a1f27f2233c426fa04b3314cc5295e"
+  resolved "https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?6b3198c0eecdf8c1fcb50ca3ad084c499c1cf0b7#30a6223545b9e820f907eea3bbcba1605a1e0014"
 
-"@storefront-ui/vue@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?d0034d97cf8f9ed13363c08ff5cc2179e0276603":
+"@storefront-ui/vue@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?6b3198c0eecdf8c1fcb50ca3ad084c499c1cf0b7":
   version "0.7.11"
-  resolved "https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?d0034d97cf8f9ed13363c08ff5cc2179e0276603#77627c90736070de422dd09f76305d2a2c185eb9"
+  resolved "https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?6b3198c0eecdf8c1fcb50ca3ad084c499c1cf0b7#8484188f91729c079197d477577ea9a3763ffe24"
   dependencies:
     "@glidejs/glide" "^3.3.0"
     "@storefront-ui/shared" "0.7.11"
@@ -16823,9 +16823,9 @@ vue-meta@^2.3.3:
   dependencies:
     deepmerge "^4.2.2"
 
-"vue-multiselect@https://github.com/BudsiesApp/vue-multiselect.git#e6538c9dbebc10073e934e0708dc972aa9c32a2d":
+"vue-multiselect@https://github.com/BudsiesApp/vue-multiselect.git#5c9365c483a77534ac458ab86064f6d57ef6770f":
   version "2.1.6"
-  resolved "https://github.com/BudsiesApp/vue-multiselect.git#e6538c9dbebc10073e934e0708dc972aa9c32a2d"
+  resolved "https://github.com/BudsiesApp/vue-multiselect.git#5c9365c483a77534ac458ab86064f6d57ef6770f"
 
 vue-no-ssr@^0.2.2:
   version "0.2.2"

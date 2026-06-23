@@ -115,6 +115,80 @@
     "magentoDomain": "https://${MAGENTO_DOMAIN}",
     "enableRaffle": false
   },
+  "trafficAttribution": {
+    "firstTouchExpirationDays": 90,
+    "lastTouchExpirationDays": 30,
+    "acquisitionClickIdKeys": [
+      "gclid",
+      "gbraid",
+      "wbraid",
+      "dclid",
+      "gad_source",
+      "gad_campaignid",
+      "msclkid",
+      "fbclid",
+      "ttclid",
+      "li_fat_id",
+      "twclid",
+      "sccid",
+      "epik",
+      "rdt_cid",
+      "srsltid",
+      "irclickid",
+      "sscid",
+      "awc"
+    ],
+    "ignoredReferrerHosts": [
+      "${MAGENTO_DOMAIN}",
+      "accounts.google.com",
+      "affirm.com",
+      "afterpay.com",
+      "amazonpay.amazon.com",
+      "apple-pay-gateway.apple.com",
+      "braintree-api.com",
+      "braintreegateway.com",
+      "checkout.stripe.com",
+      "klarna.com",
+      "pay.amazon.com",
+      "pay.google.com",
+      "payments.amazon.com",
+      "payments.google.com",
+      "paypal.com",
+      "paypalobjects.com",
+      "shop.app",
+      "stripe.com"
+    ],
+    "sensitiveQueryKeys": [
+      "token",
+      "auth_token",
+      "access_token",
+      "refresh_token",
+      "id_token",
+      "email",
+      "user",
+      "customer_id",
+      "order_id",
+      "order_item_id",
+      "order_item_ids",
+      "quote_id",
+      "cart_id",
+      "SID",
+      "redirect",
+      "redirect-target",
+      "redirect_url",
+      "return_url",
+      "url",
+      "uri",
+      "dest",
+      "target",
+      "file",
+      "image-url",
+      "existing_plushie_id",
+      "plushie_id",
+      "customization_values",
+      "product_design"
+    ]
+  },
   "address": {
     "google": {
       "placesPublicApiKey": "${PLACES_API_PUBLIC_KEY}"
@@ -555,7 +629,19 @@
     "shippinginfo_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
     "collecttotals_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
     "deletecoupon_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-    "applycoupon_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+    "applycoupon_endpoint_ssr": "https://${VSF_API_DOMAIN}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}",
+    "cartLineCouponOffers": {
+      "mappings": {
+        "PETLOVE50": {
+          "buttonText": "Get Extra $50 Off",
+          "productSkus": [
+            "ForeversCat_bundle",
+            "ForeversDog_bundle",
+            "ForeversOther_bundle"
+          ]
+        }
+      }
+    }
   },
   "attributes": {
     "disablePersistentAttributesCache": false

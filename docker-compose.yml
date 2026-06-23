@@ -93,6 +93,7 @@ services:
       - './packages:/var/www/packages'
       - './node_modules:/var/www/node_modules'
       - './yarn.lock:/var/www/yarn.lock'
+      - './test:/var/www/test'
       - cache:/usr/local/share/.cache
       - dist:/var/www/dist
     networks:
@@ -106,6 +107,8 @@ services:
       build:
         context: .
         dockerfile: docker/tests/Dockerfile
+      security_opt:
+        - seccomp:unconfined
       environment:
         - SSH_AUTH_SOCK=/ssh-agent.sock
         - DEFAULT_STORE_DOMAIN

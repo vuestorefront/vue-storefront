@@ -22,6 +22,7 @@ import { useOptionValuesPrice } from './composables/use-option-values-price';
 import { FilterType, useLockedCustomizations } from './composables/use-locked-customizations';
 import { useSelectedOptionValueUrlQuery } from './composables/use-selected-option-value-url-query';
 import { useValuesSort } from './composables/use-values-sort';
+import { CartItemConfigurationGroup, CartItemConfigurationProperty } from './types/cart-item-configuration.types';
 import { useWidgetBusyState } from './composables/use-widget-busy-state';
 import { filterCustomizationState } from './helpers/filter-customization-state';
 import { getCartItemExtensionAttributes } from './helpers/get-cart-item-extension-attributes';
@@ -29,6 +30,7 @@ import { getCustomizationSelectedValues } from './helpers/get-customization-sele
 import { getCustomizationSystemThumbnail } from './helpers/get-customization-system-thumbnail';
 import { getCustomizationValueIdFieldKey } from './helpers/get-customization-value-id-field-key';
 import { getCustomizationAvailabilityFlowByProductPurchaseFlow } from './helpers/get-customization-availability-flow-by-product-purchase-flow';
+import { getOptionValuePrice } from './helpers/get-option-value-price';
 import { getSelectedOptionValuesByCustomizationState } from './helpers/get-selected-options-values-by-customization-state';
 import { isEmailCustomization } from './helpers/is-email-customization';
 import { fetchOrderItemCustomizationsState, fetchOrderItemDeliverables, fetchOrderItemsCustomizationsStates, saveOrderItemCustomizationsState, submitOrderItemCustomizationsState } from './helpers/order-items-customizations.service';
@@ -59,9 +61,11 @@ import { WidgetOptionAlignment } from './types/widget-option-alignment.type';
 import { WidgetOptions } from './types/widget-options.interface';
 
 import CartItemConfiguration from './components/cart-item-configuration.vue';
+import CartItemShipmentPromise from './components/cart-item-shipment-promise.vue';
 
 export {
   CartItemConfiguration,
+  CartItemShipmentPromise,
   Customization,
   CustomizationAvailabilityFlow,
   CustomizationType,
@@ -92,6 +96,7 @@ export {
   getCustomizationSelectedValues,
   getCustomizationSystemThumbnail,
   getCustomizationValueIdFieldKey,
+  getOptionValuePrice,
   getSelectedOptionValuesByCustomizationState,
   getCustomizationAvailabilityFlowByProductPurchaseFlow,
   isEmailCustomization,
@@ -124,6 +129,8 @@ export {
   useOptionValuesPrice,
   useLockedCustomizations,
   useSelectedOptionValueUrlQuery,
+  CartItemConfigurationGroup,
+  CartItemConfigurationProperty,
   useValuesSort,
   useWidgetBusyState
 }

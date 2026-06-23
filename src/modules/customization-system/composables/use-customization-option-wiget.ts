@@ -52,13 +52,17 @@ export function useCustomizationOptionWidget (
 
     const listWidgetsProps: {
       alignment?: WidgetOptionAlignment,
+      ariaLabelledby: string,
       maxValuesCount: number | undefined,
+      radioGroupName: string,
       shape: WidgetOptionShape | undefined,
       values: OptionValue[],
       addedToCartOptionValueId?: Record<string, boolean>
     } = {
       alignment: widgetOptions?.alignment,
+      ariaLabelledby: customization.value.id,
       maxValuesCount: maxValuesCount.value,
+      radioGroupName: customization.value.id,
       shape: widgetOptions?.shape,
       values: values.value,
       addedToCartOptionValueId: addedToCartOptionValueId?.value
@@ -73,7 +77,8 @@ export function useCustomizationOptionWidget (
             values: values.value,
             addedToCartOptionValueId: listWidgetsProps.addedToCartOptionValueId,
             expandConfig: expandConfig?.value,
-            hiddenOptionValues: hiddenOptionValues?.value
+            hiddenOptionValues: hiddenOptionValues?.value,
+            ariaLabelledby: customization.value.id
           }
         };
       case WidgetType.CHECKBOX:
@@ -81,7 +86,8 @@ export function useCustomizationOptionWidget (
           component: 'CheckboxWidget',
           props: {
             label: customization.value.title || customization.value.name,
-            values: values.value
+            values: values.value,
+            title: customization.value.title || customization.value.name
           }
         };
       case WidgetType.COLORS_LIST:
@@ -95,7 +101,8 @@ export function useCustomizationOptionWidget (
           props: {
             values: values.value,
             placeholder: widgetOptions?.placeholder,
-            title: customization.value.title || customization.value.name
+            title: customization.value.title || customization.value.name,
+            ariaLabelledby: customization.value.id
           }
         };
       case WidgetType.EMAIL_INPUT:
@@ -111,7 +118,8 @@ export function useCustomizationOptionWidget (
           component: 'ImageUploadWidget',
           props: {
             maxValuesCount: maxValuesCount.value,
-            productId: productId.value
+            productId: productId.value,
+            ariaLabelledby: customization.value.id
           }
         };
       case WidgetType.SEARCH_FIELD:

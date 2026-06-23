@@ -16,6 +16,7 @@ import { persistedCustomerDataStore } from './store';
 import { getItemsFromStorage } from './helpers/get-local-storage-items.function';
 import { cacheHandlerFactory } from './helpers/cache-handler.factory';
 import { localStorageSynchronizationFactory, UserEvents } from '../shared';
+import { registerWindowCustomerDataUpdater } from './helpers/register-window-customer-data-updater.function';
 
 const PERSISTED_CUSTOMER_EMAIL = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.PERSISTED_CUSTOMER_EMAIL}`;
 const PERSISTED_CUSTOMER_FIRST_NAME = `${SN_PERSISTED_CUSTOMER_DATA}/${getters.PERSISTED_CUSTOMER_FIRST_NAME}`;
@@ -69,7 +70,12 @@ export const PersistedCustomerDataModule: StorefrontModule = async function ({ s
         );
       }
     }
-  )
+  );
+
+  registerWindowCustomerDataUpdater(
+    (email) => store.commit(SET_PERSISTED_CUSTOMER_EMAIL, email),
+    (phoneNumber) => store.commit(SET_PERSISTED_CUSTOMER_PHONE_NUMBER, phoneNumber)
+  );
 }
 
 export {
