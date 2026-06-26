@@ -21,6 +21,9 @@ export function useCustomizationOptionWidget (
   }> | undefined>,
   hiddenOptionValues?: Ref<Record<string, boolean> | undefined>
 ) {
+  const useCompactSpacing = computed<boolean>(() => {
+    return !!customization.value.optionData?.displayWidgetOptions?.useCompactSpacing;
+  });
   const selectedOption = computed<CustomizationOptionValue>({
     get: () => {
       return value.value;
@@ -157,6 +160,7 @@ export function useCustomizationOptionWidget (
   return {
     maxValuesCount,
     selectedOption,
+    useCompactSpacing,
     widget
   }
 }
