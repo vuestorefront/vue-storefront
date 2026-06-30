@@ -14,7 +14,7 @@ export function useSelectedOptionValueUrlQuery (
   customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>,
   currentProduct: Ref<Product | undefined>,
   mergeCustomizationState: (payload: CustomizationStateItem[]) => void,
-  removeUnavailableOptionValues: () => void,
+  removeUnavailableOptionValues: () => Record<string, CustomizationOptionValue>,
   { root }: SetupContext
 ) {
   const currentProductSku = computed<string | undefined>(() => {

@@ -99,19 +99,24 @@ export function useCustomizationState (
     };
   }
 
-  function addCustomizationOptionValue (customizationId: string, optionValueId: string) {
+  function addCustomizationOptionValue (customizationId: string, optionValue: CustomizationOptionValue) {
     const value = customizationOptionValue.value[customizationId];
 
-    if (isFileUploadValue(value)) {
+    if (!optionValue) {
       return;
     }
 
     if (!value || !Array.isArray(value)) {
-      customizationOptionValue.value[customizationId] = optionValueId;
+      set(customizationOptionValue.value, customizationId, optionValue);
       return;
     }
 
-    value.push(optionValueId)
+    if (Array.isArray(optionValue)) {
+      value.push(...optionValue as any);
+    } else {
+      value.push(optionValue as any);
+    }
+
     set(customizationOptionValue.value, customizationId, value);
   }
 
@@ -130,7 +135,10 @@ export function useCustomizationState (
       }
 
       if (!Array.isArray(value)) {
-        del(customizationOptionValue, customizationId);
+        if (value === optionValueId) {
+          del(customizationOptionValue.value, customizationId);
+        }
+
         continue;
       }
 
@@ -138,7 +146,7 @@ export function useCustomizationState (
         continue;
       }
 
-      set(customizationOptionValue, customizationId, value.filter((id) => id !== optionValueId));
+      set(customizationOptionValue.value, customizationId, value.filter((id) => id !== optionValueId));
     }
   }
 
