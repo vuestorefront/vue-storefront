@@ -18,5 +18,6 @@ export interface OptionValue {
   actions?: Actions,
   sn: number,
   galleryImages?: GalleryImage[],
-  originalValueId?: string
+  originalValueId?: string,
+  allowRemovingFromCart?: boolean
 }
