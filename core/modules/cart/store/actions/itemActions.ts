@@ -121,10 +121,10 @@ const itemActions = {
     cartHooksExecutors.afterRemoveFromCart({ diffLog, cartItem });
     return diffLog
   },
-  async updateClientAndServerItem ({ dispatch }, { product, forceClientState = false, forceUpdateServerItem = false }) {
+  async updateClientAndServerItem ({ dispatch }, { product, forceClientState = false, forceUpdateServerItem = false, waitForTotalsUpdate = false }) {
     await dispatch('updateItem', { product });
 
-    const diffLog = await dispatch('sync', { forceClientState, forceUpdateServerItem, waitForTotalsUpdate: false });
+    const diffLog = await dispatch('sync', { forceClientState, forceUpdateServerItem, waitForTotalsUpdate });
     throwServerErrorFromDiffLog(diffLog);
   }
 }
