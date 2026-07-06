@@ -1,5 +1,4 @@
 import { Store } from 'vuex';
-import i18n from '@vue-storefront/core/i18n';
 
 import Product from 'core/modules/catalog/types/Product';
 import { RushAddon } from 'src/modules/budsies';
