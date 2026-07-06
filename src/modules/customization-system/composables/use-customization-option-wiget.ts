@@ -148,9 +148,9 @@ export function useCustomizationOptionWidget (
           component: 'ThumbnailsListWidget',
           props: listWidgetsProps
         };
-      case WidgetType.TIMELINE_LIST:
+      case WidgetType.PRODUCTION_TIME_TIMELINE:
         return {
-          component: 'TimelineListWidget',
+          component: 'ProductionTimeTimelineWidget',
           props: {
             ariaLabelledby: customization.value.id,
             maxValuesCount: maxValuesCount.value,
