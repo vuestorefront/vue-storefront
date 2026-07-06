@@ -20,5 +20,6 @@ export interface Customization {
   type: CustomizationType,
   variants?: OptionVariant[],
   isLocked: boolean,
-  originalCustomizationId?: string
+  originalCustomizationId?: string,
+  allowRemovingFromCart?: boolean
 }
