@@ -36,6 +36,7 @@
 				"stylelint.vscode-stylelint",
 				"octref.vetur",
 				"ms-playwright.playwright",
+				"thimo.integrated-browser-mcp"
 			]
 		}
 	}

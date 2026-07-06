@@ -1,0 +1,4 @@
+[mcp_servers.integrated-browser]
+enabled = true
+command = "node"
+args = ["/home/ubuntu/.integrated-browser-mcp/mcp-server.mjs"]
