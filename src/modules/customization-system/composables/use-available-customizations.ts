@@ -1,7 +1,10 @@
 import { Ref, ComputedRef, computed, watch } from '@vue/composition-api';
 
-import { Customization, CustomizationOptionValue, isFileUploadValue, OptionValue } from '..';
 import { isItemAvailable } from '../helpers/is-item-available';
+import { isFileUploadValue } from '../types/is-file-upload-value.typeguard';
+import { CustomizationOptionValue } from '../types/customization-option-value';
+import { Customization } from '../types/customization.interface';
+import { OptionValue } from '../types/option-value.interface';
 import { CustomizationType } from '../types/customization-type';
 import { WidgetType } from '../types/widget-type';
 
@@ -124,13 +127,16 @@ export function useAvailableCustomizations (
     return ids;
   });
 
-  function removeUnavailableOptionValues () {
+  function removeUnavailableOptionValues (): Record<string, CustomizationOptionValue> {
+    const removedOptionValues: Record<string, CustomizationOptionValue> = {};
+
     // Remove option values that became unavailable from customization state
     for (const key of Object.keys(customizationOptionValue.value)) {
-      const customization = availableCustomization.value[key]
+      const customization = availableCustomization.value[key];
       const optionValue = customizationOptionValue.value[key];
 
       if (!customization) {
+        removedOptionValues[key] = optionValue;
         updateCustomizationOptionValue({ customizationId: key, value: undefined });
         continue;
       }
@@ -152,6 +158,7 @@ export function useAvailableCustomizations (
         }
 
         if (!availableOptionValues.find((item) => item.id === optionValue)) {
+          removedOptionValues[key] = optionValue;
           updateCustomizationOptionValue({ customizationId: key, value: undefined });
         }
 
@@ -159,8 +166,18 @@ export function useAvailableCustomizations (
       }
 
       const availableSelectedOptionValues = optionValue.filter((valueId: string) => !!availableOptionValues.find((item) => item.id === valueId));
+      const unavailableSelectedOptionValues = optionValue.filter(
+        (valueId: string) => !availableOptionValues.find((item) => item.id === valueId)
+      );
+
+      if (unavailableSelectedOptionValues.length > 0) {
+        removedOptionValues[key] = unavailableSelectedOptionValues;
+      }
+
       updateCustomizationOptionValue({ customizationId: key, value: availableSelectedOptionValues });
     }
+
+    return removedOptionValues;
   }
 
   watch(

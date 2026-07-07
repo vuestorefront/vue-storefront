@@ -1,5 +1,6 @@
 export interface CartItemConfigurationProperty {
   id: string,
+  optionValueId?: string,
   value: string,
   sn: number,
   qty: string,

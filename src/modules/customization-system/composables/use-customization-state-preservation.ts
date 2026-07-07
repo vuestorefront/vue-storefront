@@ -7,6 +7,7 @@ import CartItem from 'core/modules/cart/types/CartItem';
 import { CustomizationStateItem } from '../types/customization-state-item.interface';
 import { STORAGE_NAME } from '../types/storage-name';
 import { PersistedData } from '../types/persisted-data.interface';
+import { CustomizationOptionValue } from '../types/customization-option-value';
 
 const STORAGE_BASE_KEY = 'form-state';
 
@@ -17,7 +18,7 @@ export function useCustomizationStatePreservation (
   unhandledCustomizationsFilters: ((customizationId: string) => boolean)[] = [],
   canRestorePreservedData: Ref<boolean>,
   mergeCustomizationState: (state: CustomizationStateItem[]) => void,
-  removeUnavailableOptionValues: () => void,
+  removeUnavailableOptionValues: () => Record<string, CustomizationOptionValue>,
   beforeCustomizationStateMerge?: (persistedData: PersistedData) => Promise<boolean>,
   afterCustomizationStateMerge?: (persistedData: PersistedData) => void,
   additionalData?: Ref<Record<string, any>> | undefined,

@@ -5,5 +5,6 @@ export interface WidgetOptions {
   alignment?: WidgetOptionAlignment,
   hideTitle?: boolean,
   placeholder?: string,
-  shape?: WidgetOptionShape
+  shape?: WidgetOptionShape,
+  useCompactSpacing?: boolean
 }

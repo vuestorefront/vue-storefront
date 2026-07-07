@@ -15,6 +15,8 @@ enum GoogleTagManagerEvents {
   BEGIN_CHECKOUT = 'begin_checkout',
   PURCHASE = 'purchase',
   ADD_TO_CART = 'add_to_cart',
+  CART_UPGRADE_REMOVED = 'cart_upgrade_removed',
+  CART_UPGRADE_RESTORE = 'cart_upgrade_restore',
   VIEW_ITEM = 'view_item',
   PURCHASE_ERROR = 'purchase_error',
   A_B_TEST_GROUP_CHANGED = 'experience_impression',

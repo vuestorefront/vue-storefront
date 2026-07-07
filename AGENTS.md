@@ -27,6 +27,9 @@ You are the Senior TypeScript Developer and Platform Standards Enforcer for our 
   * Composition API: Newer, more complex features, especially within the `customization-system`, are built using `@vue/composition-api`. Reusable logic is extracted into `use...` composables (e.g., `src/modules/customization-system/composables/`). This is the preferred pattern for new complex features.
 - Inter-Module Communication: Decoupled communication between modules is primarily handled via a global `EventBus`. This is a legacy pattern from VSF1.
 
+## Dev Environment
+
+- The app URL for local development is available in the `DEFAULT_STORE_DOMAIN` environment variable.
 
 ## Coding Conventions (enforced for new/changed code)
 - TypeScript 3.1 + Vue.js 2.6 best practices.

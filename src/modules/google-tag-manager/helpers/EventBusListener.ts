@@ -78,6 +78,8 @@ export default class EventBusListener {
       });
     });
     EventBus.$on(CartEvents.MAKE_ANOTHER_FROM_CART, this.onMakeAnotherFromCartEventHandler.bind(this))
+    EventBus.$on(CartEvents.CART_UPGRADE_REMOVED, this.onCartUpgradeRemoveEventHandler.bind(this))
+    EventBus.$on(CartEvents.CART_UPGRADE_RESTORE, this.onCartUpgradeRestoreEventHandler.bind(this))
 
     EventBus.$on(
       ProductEvent.PRODUCT_CARD_CLICK,
@@ -403,6 +405,21 @@ export default class EventBusListener {
     this.trackEvent({
       event,
       [`${event}.product`]: productName
+    });
+  }
+
+  private onCartUpgradeRemoveEventHandler (optionIdentifier: string) {
+    this.trackUpgradeCartEvent(GoogleTagManagerEvents.CART_UPGRADE_REMOVED, optionIdentifier);
+  }
+
+  private onCartUpgradeRestoreEventHandler (optionIdentifier: string) {
+    this.trackUpgradeCartEvent(GoogleTagManagerEvents.CART_UPGRADE_RESTORE, optionIdentifier);
+  }
+
+  private trackUpgradeCartEvent (event: GoogleTagManagerEvents, optionIdentifier: string): void {
+    this.trackEvent({
+      event,
+      [`${event}.option`]: optionIdentifier
     });
   }
 
