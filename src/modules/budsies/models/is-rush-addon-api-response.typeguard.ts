@@ -14,7 +14,7 @@ export default function isRushAddonApiResponse (
     'sku': 'string',
     'text': 'string',
     'price': 'number',
-    'turnaroundTime': 'number'
+    'turnaround_time': 'number'
   }
 
   for (const field in fields) {

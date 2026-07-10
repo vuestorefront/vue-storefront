@@ -2,6 +2,6 @@ export default interface RushAddonApiResponse {
   sku: string,
   text: string,
   price: number,
-  turnaroundTime: number,
-  slotsLeft?: number
+  turnaround_time: number,
+  slots_left?: number
 }
