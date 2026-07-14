@@ -17,6 +17,7 @@ const connectActions = {
    * disconnect - if you want to clear cart token.
    */
   async clear ({ commit, dispatch }, { disconnect = true, sync = true } = {}) {
+    commit(types.CART_SET_PENDING_COUPON, null)
     await commit(types.CART_LOAD_CART, [])
 
     if (sync) {
@@ -60,7 +61,9 @@ const connectActions = {
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result);
 
       EventBus.$emit('cart-connected', { cartId: result, userToken });
-      return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault });
+      const diffLog = await dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault });
+      await dispatch('applyPendingCoupon');
+      return diffLog;
     }
 
     if (resultCode === 401 && getters.bypassCounter < config.queues.maxCartBypassAttempts) {

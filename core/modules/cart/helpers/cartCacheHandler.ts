@@ -24,6 +24,12 @@ export const cartCacheHandlerPlugin = (mutation, state) => {
       Logger.error(reason)()
     })
   } else if (
+    type.endsWith(types.CART_SET_PENDING_COUPON)
+  ) {
+    return StorageManager.get('cart').setItem('pending-coupon-code', state.cart.pendingCouponCode).catch((reason) => {
+      Logger.error(reason)()
+    })
+  } else if (
     type.endsWith(types.CART_SET_ITEMS_HASH)
   ) {
     return StorageManager.get('cart').setItem('current-cart-hash', state.cart.cartItemsHash).catch((reason) => {

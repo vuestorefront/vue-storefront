@@ -15,6 +15,7 @@ const getters: GetterTree<CartState, RootState> = {
   getCartToken: state => state.cartServerToken,
   getLastSyncDate: state => state.cartServerLastSyncDate,
   getLastTotalsSyncDate: state => state.cartServerLastTotalsSyncDate,
+  getPendingCouponCode: state => state.pendingCouponCode,
   getShippingMethod: state => state.shipping,
   getPaymentMethod: state => state.payment,
   getLastCartHash: state => state.cartItemsHash,
