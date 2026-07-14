@@ -10,14 +10,18 @@ const couponActions = {
       return false
     }
 
-    const task = await dispatch('applyCoupon', couponCode)
+    try {
+      const task = await dispatch('applyCoupon', couponCode)
 
-    if (!task || !task.result) {
+      if (!task || !task.result) {
+        return false
+      }
+
+      commit(types.CART_SET_PENDING_COUPON, null)
+      return true
+    } catch (error) {
       return false
     }
-
-    commit(types.CART_SET_PENDING_COUPON, null)
-    return true
   },
   async removeCoupon ({ commit, getters, dispatch }, { sync = true } = {}) {
     if (getters.canSyncTotals) {
