@@ -25,7 +25,7 @@
 
 ## 4. Migration and Validation
 
-- [ ] 4.1 Add selector-backed `video` to the Storyblok Video block schema while retaining existing URL-backed entries without migration.
-- [ ] 4.2 Add optional `desktop_content_start` and `desktop_content_end` number fields to the Homepage Intro Storyblok schema.
+- [x] 4.1 Add selector-backed `video` to the Storyblok Video block schema while retaining existing URL-backed entries without migration.
+- [x] 4.2 Add optional `desktop_content_start` and `desktop_content_end` number fields to the Homepage Intro Storyblok schema.
 - [x] 4.3 Run the repository TypeScript and focused lint checks for all changed theme and shared-module files.
-- [ ] 4.4 Verify the homepage asset hero and general Video block in local SSR across desktop, mobile, URL-fallback, failure, and Storyblok preview cases, checking first paint and confirming that only the applicable hero asset loads and plays.
+- [x] 4.4 Verify the homepage asset hero and general Video block in local SSR across desktop, mobile, URL-fallback, failure, and Storyblok preview cases, checking first paint and confirming that only the applicable hero asset loads and plays.
