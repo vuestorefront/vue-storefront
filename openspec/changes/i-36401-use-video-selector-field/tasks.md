@@ -15,7 +15,7 @@
 
 - [x] 3.1 Add optional `background_video` and `mobile_background_video` `VideoSelectorField` values to `HomepageIntroSectionData`.
 - [x] 3.2 Remove the unused injected browser `WindowObject` from the baseline Homepage Intro Section.
-- [x] 3.3 Render only selector assets through one native hero video with breakpoint-qualified mobile and desktop sources, apply the corresponding selector `aspect_ratio` to the media container, avoid implicit desktop-video fallback on mobile, and prevent duplicate loading and playback.
+- [x] 3.3 Render only selector assets through one native hero video, assign and replace its single `src` URL after mount with an injected-window `matchMedia` `change` listener, clean up the listener during teardown, apply the corresponding selector `aspect_ratio` to the media container, avoid implicit desktop-video fallback on mobile, and prevent duplicate loading and playback.
 - [x] 3.4 Apply fixed muted, autoplay, looped, inline playback with controls hidden, ignoring selector playback and URL values.
 - [x] 3.5 Use a transparent single-pixel poster and retain the responsive image beneath video without readiness state.
 - [x] 3.6 Preserve inherited Storyblok styles, content stacking, CTA usability, and editor-preview interaction blocking using TypeScript 3.1-compatible code.

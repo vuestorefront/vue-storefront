@@ -15,7 +15,7 @@ The Homepage Intro Section supports responsive static images but has no normaliz
 - Retain top-level `aspect_ratio` and `display_controls` only as legacy URL fallback settings.
 - Update Video block type guards, rendering, and downstream gallery conversion to resolve the primary selector contract consistently.
 - Implement the Homepage Intro Section against the asset value of its desktop and mobile `VideoSelectorField` fields. Hero video always autoplays muted and looped with controls hidden; selector playback values and URL-based sources are ignored.
-- Select the applicable mobile or desktop asset through one native video element so only the matching responsive source loads and plays, without an implicit desktop-video fallback on mobile.
+- Render one native video element, assign its single `src` URL after mount from the applicable mobile or desktop asset, and replace that URL when the responsive breakpoint changes so only one asset loads and plays without an implicit desktop-video fallback on mobile.
 - Size the Homepage Intro media container from the applicable mobile or desktop selector's `aspect_ratio` so the complete asset video fits its responsive media box, and clip a small video overscan to prevent the fallback image from appearing at fractional-pixel edges.
 - Give Homepage Intro asset videos a transparent single-pixel poster so the existing responsive image remains visible beneath video before media is available, without readiness state.
 - Add optional desktop content-start and content-end percentage controls while preserving the existing 55% and 5% defaults.

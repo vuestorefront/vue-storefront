@@ -67,7 +67,7 @@ The general Storyblok Video block SHALL keep controls hidden for URL sources whe
 - **THEN** the rendered asset does not autoplay, is not forced muted or looping, and keeps controls hidden
 
 ### Requirement: Responsive Homepage Intro asset selection
-The Homepage Intro Section SHALL render selector-backed uploaded assets through one native video element and SHALL load and play only the source applicable to the current responsive breakpoint.
+The Homepage Intro Section SHALL render selector-backed uploaded assets through one native video element, SHALL assign one applicable asset URL to its `src` after client mount, and SHALL load and play only that URL for the current responsive breakpoint.
 
 #### Scenario: Desktop asset is applicable
 - **WHEN** the viewport is at the desktop breakpoint and `background_video` contains a playable asset
@@ -76,6 +76,10 @@ The Homepage Intro Section SHALL render selector-backed uploaded assets through 
 #### Scenario: Mobile asset is applicable
 - **WHEN** the viewport is below the desktop breakpoint and `mobile_background_video` contains a playable asset
 - **THEN** the system selects the mobile asset and does not load or play the desktop asset
+
+#### Scenario: Viewport crosses the video breakpoint
+- **WHEN** the mounted Homepage Intro Section crosses between mobile and desktop breakpoints
+- **THEN** the system replaces the video's `src` URL with the applicable asset and does not leave the previous responsive asset playing
 
 #### Scenario: Mobile asset is absent
 - **WHEN** the viewport is below the desktop breakpoint and only `background_video` contains a playable asset
