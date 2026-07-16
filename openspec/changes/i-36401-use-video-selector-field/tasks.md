@@ -15,13 +15,17 @@
 
 - [x] 3.1 Add optional `background_video` and `mobile_background_video` `VideoSelectorField` values to `HomepageIntroSectionData`.
 - [x] 3.2 Remove the unused injected browser `WindowObject` from the baseline Homepage Intro Section.
-- [x] 3.3 Render only selector assets as native desktop and mobile hero videos at their respective CSS breakpoints, apply the corresponding selector `aspect_ratio` to the media container, and avoid implicit desktop-video fallback on mobile.
+- [x] 3.3 Render only selector assets through one native hero video with breakpoint-qualified mobile and desktop sources, apply the corresponding selector `aspect_ratio` to the media container, avoid implicit desktop-video fallback on mobile, and prevent duplicate loading and playback.
 - [x] 3.4 Apply fixed muted, autoplay, looped, inline playback with controls hidden, ignoring selector playback and URL values.
 - [x] 3.5 Use a transparent single-pixel poster and retain the responsive image beneath video without readiness state.
 - [x] 3.6 Preserve inherited Storyblok styles, content stacking, CTA usability, and editor-preview interaction blocking using TypeScript 3.1-compatible code.
+- [x] 3.7 Clip a one-pixel video overscan within the media container so fractional-pixel rendering does not expose the fallback image.
+- [x] 3.8 Add optional numeric or numeric-string desktop content-start and content-end values, normalize them to clamped percentages, and preserve 55% and 5% defaults.
+- [x] 3.9 Apply shared Storyblok alignment to heading, subtitle, and CTA on desktop while retaining centered mobile content and a left-aligned desktop default.
 
 ## 4. Migration and Validation
 
 - [ ] 4.1 Add selector-backed `video` to the Storyblok Video block schema while retaining existing URL-backed entries without migration.
-- [x] 4.2 Run the repository TypeScript and focused lint checks for all changed theme and shared-module files.
-- [ ] 4.3 Verify the homepage asset hero and general Video block in local SSR across desktop, mobile, URL-fallback, failure, and Storyblok preview cases, checking first paint and media network behavior.
+- [ ] 4.2 Add optional `desktop_content_start` and `desktop_content_end` number fields to the Homepage Intro Storyblok schema.
+- [x] 4.3 Run the repository TypeScript and focused lint checks for all changed theme and shared-module files.
+- [ ] 4.4 Verify the homepage asset hero and general Video block in local SSR across desktop, mobile, URL-fallback, failure, and Storyblok preview cases, checking first paint and confirming that only the applicable hero asset loads and plays.

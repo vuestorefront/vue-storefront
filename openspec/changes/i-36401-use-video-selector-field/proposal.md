@@ -15,8 +15,11 @@ The Homepage Intro Section supports responsive static images but has no normaliz
 - Retain top-level `aspect_ratio` and `display_controls` only as legacy URL fallback settings.
 - Update Video block type guards, rendering, and downstream gallery conversion to resolve the primary selector contract consistently.
 - Implement the Homepage Intro Section against the asset value of its desktop and mobile `VideoSelectorField` fields. Hero video always autoplays muted and looped with controls hidden; selector playback values and URL-based sources are ignored.
-- Size the Homepage Intro media container from the applicable mobile or desktop selector's `aspect_ratio` so the complete asset video fits its responsive media box.
+- Select the applicable mobile or desktop asset through one native video element so only the matching responsive source loads and plays, without an implicit desktop-video fallback on mobile.
+- Size the Homepage Intro media container from the applicable mobile or desktop selector's `aspect_ratio` so the complete asset video fits its responsive media box, and clip a small video overscan to prevent the fallback image from appearing at fractional-pixel edges.
 - Give Homepage Intro asset videos a transparent single-pixel poster so the existing responsive image remains visible beneath video before media is available, without readiness state.
+- Add optional desktop content-start and content-end percentage controls while preserving the existing 55% and 5% defaults.
+- Apply the shared Storyblok alignment setting to Homepage Intro text and CTA on desktop only; retain centered mobile content and left-aligned desktop content when alignment is omitted.
 
 ## Capabilities
 
@@ -30,7 +33,7 @@ None.
 
 ## Impact
 
-- Affects Storyblok contracts in `HomepageIntroSectionData`, `VideoData`, and the shared `VideoSelectorField` type/export surface.
+- Affects Storyblok contracts in `HomepageIntroSectionData`, `VideoData`, and the shared `VideoSelectorField` type/export surface, including optional desktop content-position fields.
 - Affects `HomepageIntroSection.vue`, `Video.vue`, the Video block type guard, and video-to-zoom-gallery conversion.
-- Requires Storyblok schema alignment for the new Video block selector field; existing URL-only entries remain supported without migration.
+- Requires Storyblok schema alignment for the new Video block selector field and Homepage Intro desktop content-position fields; existing URL-only entries remain supported without migration.
 - Does not add dependencies or permit direct API calls; rendering remains SSR-safe and follows existing Storyblok editor-preview interaction rules.

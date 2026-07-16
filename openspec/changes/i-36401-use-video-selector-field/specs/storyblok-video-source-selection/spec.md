@@ -66,9 +66,77 @@ The general Storyblok Video block SHALL keep controls hidden for URL sources whe
 - **WHEN** a playable asset selector omits autoplay, muted, loop, and `display_controls`
 - **THEN** the rendered asset does not autoplay, is not forced muted or looping, and keeps controls hidden
 
+### Requirement: Responsive Homepage Intro asset selection
+The Homepage Intro Section SHALL render selector-backed uploaded assets through one native video element and SHALL load and play only the source applicable to the current responsive breakpoint.
+
+#### Scenario: Desktop asset is applicable
+- **WHEN** the viewport is at the desktop breakpoint and `background_video` contains a playable asset
+- **THEN** the system selects the desktop asset and does not load or play the mobile asset
+
+#### Scenario: Mobile asset is applicable
+- **WHEN** the viewport is below the desktop breakpoint and `mobile_background_video` contains a playable asset
+- **THEN** the system selects the mobile asset and does not load or play the desktop asset
+
+#### Scenario: Mobile asset is absent
+- **WHEN** the viewport is below the desktop breakpoint and only `background_video` contains a playable asset
+- **THEN** the system keeps the configured mobile image visible and does not implicitly use the desktop video
+
+#### Scenario: Selector contains an embedded source
+- **WHEN** a Homepage Intro video selector contains a URL-based source without a playable uploaded asset
+- **THEN** the system does not render that source as Homepage Intro video
+
+### Requirement: Stable Homepage Intro playback and fallback
+The Homepage Intro Section SHALL autoplay applicable asset video muted, looped, inline, without controls, and SHALL keep the configured responsive image rendered beneath the video as its loading and failure fallback.
+
+#### Scenario: Selector playback options differ
+- **WHEN** an applicable Homepage Intro asset selector disables autoplay, muted, or loop or enables controls
+- **THEN** the system ignores those options and renders the hero video autoplaying, muted, looped, inline, and without controls
+
+#### Scenario: Video media is not yet available
+- **WHEN** the applicable video has not produced a frame or cannot play
+- **THEN** the responsive image remains visible beneath the transparent video surface without readiness-state handling
+
+#### Scenario: Responsive video defines an aspect ratio
+- **WHEN** an applicable Homepage Intro asset selector provides an aspect ratio
+- **THEN** the media container uses that ratio and clips the video overlay so the fallback image does not appear at fractional-pixel edges
+
+### Requirement: Configurable Homepage Intro desktop content bounds
+The Homepage Intro Section SHALL allow optional `desktop_content_start` and `desktop_content_end` values expressed as numbers or numeric strings and SHALL apply them as percentages only at the desktop breakpoint.
+
+#### Scenario: Desktop content bounds are omitted or invalid
+- **WHEN** content-start or content-end is missing, empty, or not numeric
+- **THEN** the system uses 55% for the start and 5% for the end respectively
+
+#### Scenario: Desktop content bounds are valid
+- **WHEN** content-start or content-end contains a numeric number or string
+- **THEN** the system clamps the value to the 0–100 range and applies it as the corresponding desktop percentage
+
+#### Scenario: Homepage Intro is rendered on mobile
+- **WHEN** the viewport is below the desktop breakpoint
+- **THEN** desktop content-start and content-end values do not change the mobile content spacing
+
+### Requirement: Responsive Homepage Intro content alignment
+The Homepage Intro Section SHALL apply the shared Storyblok alignment value to its heading, subtitle, and CTA at the desktop breakpoint only.
+
+#### Scenario: Desktop alignment is configured
+- **WHEN** the Homepage Intro Section is rendered on desktop with left, center, or right alignment
+- **THEN** its heading, subtitle, and CTA use that alignment within the configured content bounds
+
+#### Scenario: Desktop alignment is omitted
+- **WHEN** the Homepage Intro Section is rendered on desktop without an alignment value
+- **THEN** its heading, subtitle, and CTA are left-aligned
+
+#### Scenario: Mobile alignment is configured
+- **WHEN** the Homepage Intro Section is rendered below the desktop breakpoint
+- **THEN** its heading, subtitle, and CTA remain centered regardless of the shared alignment value
+
 ### Requirement: Storyblok editor interaction safety
-The system SHALL prevent pointer interaction with selector-backed asset and embedded video surfaces while the Video block is rendered in Storyblok editor-preview mode.
+The system SHALL prevent pointer interaction with selector-backed asset and embedded video surfaces while their Storyblok components are rendered in editor-preview mode and SHALL keep Homepage Intro content above its non-interactive background media.
 
 #### Scenario: Selector video appears in editor preview
 - **WHEN** an author previews a selector-backed Video block in the Storyblok editor
 - **THEN** pointer interaction with its video surface is disabled
+
+#### Scenario: Homepage Intro video appears in editor preview
+- **WHEN** an author previews a Homepage Intro Section with selector-backed background video in the Storyblok editor
+- **THEN** pointer interaction with its background video and CTA is disabled and its content remains above the video
