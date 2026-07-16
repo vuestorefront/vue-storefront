@@ -54,7 +54,7 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { Dictionary } from 'src/modules/budsies';
 import { DirectiveType, TextPart, useTextDirectives } from 'src/modules/shared/composables/use-text-directives';
 import { StatisticMetric } from 'src/modules/budsies/types/statistic-metric';
-import { Currency, GET_ACTIVE_CURRENCY } from 'src/modules/currency';
+import { Currency, DEFAULT_CURRENCY, GET_ACTIVE_CURRENCY, GET_CURRENCY_EXCHANGE_RATE } from 'src/modules/currency';
 
 import { CampaignContent } from '../types/CampaignContent.interface';
 import { SET_LAST_BANNER_VERSION_CLOSED_BY_USER } from '../types/StoreMutations';
@@ -79,8 +79,17 @@ export default defineComponent({
       return context.root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
     });
     const selectedCurrency = computed<Currency>(() => {
-      return context.root.$store.getters[GET_ACTIVE_CURRENCY];
+      return context.root.$store.getters[GET_ACTIVE_CURRENCY] || DEFAULT_CURRENCY;
     });
+    const exchangeRate = computed<number>(() => {
+      return context.root.$store.getters[GET_CURRENCY_EXCHANGE_RATE] || 1;
+    });
+    const bannerRenderingDependencies = computed(() => ({
+      localizedPriceDictionary: localizedPriceDictionary.value,
+      currencyCode: selectedCurrency.value.code,
+      currencySymbol: selectedCurrency.value.symbol,
+      exchangeRate: exchangeRate.value
+    }));
 
     const campaignContent = computed<CampaignContent | undefined>(() => {
       return context.root.$store.getters['promotionPlatform/campaignContent'];
@@ -101,6 +110,13 @@ export default defineComponent({
       if (textPart.type === DirectiveType.ORDERED_PLUSHIES_COUNT) {
         return context.root.$store.getters['budsies/getStatisticValueByMetric'](
           StatisticMetric.ORDERED_PLUSHIES_COUNT
+        );
+      }
+
+      if (textPart.type === DirectiveType.PRICE_VALUE) {
+        return PriceHelper.formatPrice(
+          textPart.amount * exchangeRate.value,
+          selectedCurrency.value.symbol
         );
       }
 
@@ -151,7 +167,7 @@ export default defineComponent({
     const { processDirectivesInText, isDirectivesProcessing } = useTextDirectives(processTextParts, context);
 
     watch(
-      localizedPriceDictionary,
+      bannerRenderingDependencies,
       () => {
         processDirectivesInText(bannerContent.value?.description || '');
       }
