@@ -22,12 +22,13 @@ import { computed, defineComponent, PropType, Ref, ref } from '@vue/composition-
 
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { StatisticMetric } from 'src/modules/budsies/types/statistic-metric';
-import { DirectiveType, ProductPriceDirective, ProductSpecificPriceDirective, TextPart, useTextDirectives } from 'src/modules/shared/composables/use-text-directives';
+import { DirectiveType, PriceValueDirective, ProductPriceDirective, ProductSpecificPriceDirective, TextPart, useTextDirectives } from 'src/modules/shared/composables/use-text-directives';
 
 import RichTextItem from '../../../../types/rich-text-item.interface';
 
 import PriceComponent from './PriceComponent.vue';
 import SimplePriceComponent from './SimplePriceComponent.vue';
+import FixedPriceValueComponent from './FixedPriceValueComponent.vue';
 
 interface ProcessedTextPart {
   id: string,
@@ -41,6 +42,7 @@ interface ProcessedTextPart {
 export default defineComponent({
   name: 'StoryblokRichTextTextComponent',
   components: {
+    FixedPriceValueComponent,
     PriceComponent,
     SimplePriceComponent
   },
@@ -152,6 +154,19 @@ export default defineComponent({
       }
     }
 
+    function processPriceValueDirective (textPart: PriceValueDirective): ProcessedTextPart {
+      return {
+        id: uuidv4(),
+        text: '',
+        classes: classes.value,
+        styles: styles.value,
+        component: 'fixed-price-value-component',
+        props: {
+          amount: textPart.amount
+        }
+      }
+    }
+
     function processTextParts (textParts: TextPart[]): void {
       const list: ProcessedTextPart[] = [];
 
@@ -172,6 +187,10 @@ export default defineComponent({
             processProductSpecificPriceDirective(
               textPart
             )
+          );
+        } else if (textPart.type === DirectiveType.PRICE_VALUE) {
+          list.push(
+            processPriceValueDirective(textPart)
           );
         } else if (textPart.type === DirectiveType.PRODUCT_PRICE) {
           list.push(

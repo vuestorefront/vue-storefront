@@ -8,6 +8,7 @@ import { StatisticMetric } from 'src/modules/budsies/types/statistic-metric';
 export enum DirectiveType {
   PRODUCT_PRICE = 'productPrice',
   PRODUCT_SPECIFIC_PRICE = 'productSpecificPrice',
+  PRICE_VALUE = 'priceValue',
   ORDERED_PLUSHIES_COUNT = 'orderedPlushiesCount'
 }
 
@@ -28,7 +29,12 @@ export interface OrderedPlushiesCountDirective extends BaseDirective {
   type: DirectiveType.ORDERED_PLUSHIES_COUNT
 }
 
-export type Directive = ProductDependentDirective | OrderedPlushiesCountDirective;
+export interface PriceValueDirective extends BaseDirective {
+  type: DirectiveType.PRICE_VALUE,
+  amount: number
+}
+
+export type Directive = ProductDependentDirective | OrderedPlushiesCountDirective | PriceValueDirective;
 export type TextPart = string | Directive;
 
 type priceType = 'regular' | 'special';
@@ -80,6 +86,14 @@ export function useTextDirectives (
     }
   }
 
+  function parsePriceValueDirective (specification: DirectiveSpecification): PriceValueDirective {
+    return {
+      originalText: specification.originalText,
+      type: DirectiveType.PRICE_VALUE,
+      amount: Number(specification.directiveParams[0])
+    }
+  }
+
   function getDirectiveFromSpecification (specification: DirectiveSpecification): Directive {
     const { directiveName, directiveParams } = specification;
 
@@ -110,6 +124,10 @@ export function useTextDirectives (
       }
 
       return directive
+    }
+
+    if (directiveName === DirectiveType.PRICE_VALUE) {
+      return parsePriceValueDirective(specification);
     }
 
     if (directiveName === DirectiveType.ORDERED_PLUSHIES_COUNT) {
