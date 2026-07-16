@@ -5,17 +5,19 @@ interface HeaderContent {
 
 export default function getHeaderId (
   headerSize: number,
-  headerContent: HeaderContent[]
+  headerContent: HeaderContent[] | undefined
 ): string {
   var headerText = '';
 
-  headerContent.forEach((contentItem: HeaderContent) => {
-    if (contentItem.type !== 'text') {
-      return;
-    }
+  if (!!headerContent && Array.isArray(headerContent)) {
+    headerContent.forEach((contentItem: HeaderContent) => {
+      if (contentItem.type !== 'text') {
+        return;
+      }
 
-    headerText = headerText + (headerText ? '-' : '') + contentItem.text || '';
-  });
+      headerText = headerText + (headerText ? '-' : '') + contentItem.text || '';
+    });
+  }
 
   const preparedHeaderText = headerText.trim().replace(/\s+/g, '-');
 
