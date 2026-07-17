@@ -116,7 +116,7 @@ declare namespace DataResolver {
     getPaymentMethods: () => Promise<Task>,
     getShippingMethods: (address: any /*: ShippingMethodsData */) => Promise<Task>,
     getItems: () => Promise<Task>,
-    applyCoupon: (couponCode: string) => Promise<Task>,
+    applyCoupon: (couponCode: string, silent: boolean) => Promise<Task>,
     removeCoupon: () => Promise<Task>,
     mergeGuestAndCustomer: () => Promise<Task>
   }

@@ -21,7 +21,7 @@ export const Microcart = {
   },
   methods: {
     applyCoupon (code: string): Promise<boolean> {
-      return this.$store.dispatch('cart/applyCoupon', code)
+      return this.$store.dispatch('cart/applyCoupon', { couponCode: code })
     },
     removeCoupon (): Promise<boolean> {
       return this.$store.dispatch('cart/removeCoupon')

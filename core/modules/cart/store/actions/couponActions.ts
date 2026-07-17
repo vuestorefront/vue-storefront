@@ -11,9 +11,9 @@ const couponActions = {
     }
 
     try {
-      const task = await dispatch('applyCoupon', couponCode)
+      const task = await dispatch('applyCoupon', { couponCode, silent: true })
 
-      if (!task || !task.result) {
+      if (!task || task.resultCode !== 200) {
         return false
       }
 
@@ -42,11 +42,11 @@ const couponActions = {
       }
     }
   },
-  async applyCoupon ({ getters, dispatch, commit }, couponCode) {
+  async applyCoupon ({ getters, dispatch, commit }, { couponCode, silent = false }: {couponCode: string, silent: boolean}) {
     if (couponCode && getters.canSyncTotals) {
       commit(types.SET_IS_COUPON_PROCESSING, true);
       try {
-        const task = await CartService.applyCoupon(couponCode)
+        const task = await CartService.applyCoupon(couponCode, silent)
 
         if (task.result) {
           await dispatch('syncTotals', { forceServerSync: true })
