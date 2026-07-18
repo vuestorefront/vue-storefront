@@ -10,7 +10,6 @@ import AssetField from './types/asset-field.interface'
 import ColorPickerField from './types/color-picker-field.interface'
 import { ColumnsCountField } from './types/columns-count-field.type'
 import LinkField from './types/link-field.interface'
-import VideoUrlField from './types/video-url-field.interface'
 import { VideoSelectorField } from './types/video-selector-field.interface'
 import VideoSelectorOptions from './types/video-selector-options.interface'
 import { LinkType } from './types/link-type.value'
@@ -41,7 +40,6 @@ export {
   ColorPickerField,
   LinkField,
   LinkType,
-  VideoUrlField,
   VideoSelectorField,
   VideoSelectorOptions,
   isUrlExternal,
