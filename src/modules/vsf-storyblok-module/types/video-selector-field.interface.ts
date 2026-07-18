@@ -1,6 +1,7 @@
 import { AspectRatio, VideoProvider } from 'src/modules/shared';
 
 import AssetField from './asset-field.interface';
+import VideoSelectorOptions from './video-selector-options.interface';
 
 export interface VideoSelectorField {
   video_id?: string,
@@ -8,8 +9,5 @@ export interface VideoSelectorField {
   provider?: VideoProvider,
   aspect_ratio: AspectRatio | number,
   asset?: AssetField,
-  autoplay?: boolean,
-  muted?: boolean,
-  loop?: boolean,
-  display_controls?: boolean
+  options?: VideoSelectorOptions
 }

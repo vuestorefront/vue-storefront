@@ -1,72 +1,62 @@
 # storyblok-video-source-selection Specification
 
 ## Purpose
-Define selector-first video resolution for Storyblok Video blocks and responsive Homepage Intro asset videos while preserving legacy URL-backed Video blocks.
+Define selector-only video resolution for Storyblok Video blocks and responsive Homepage Intro asset videos after removal of the legacy top-level Video fields.
+
 ## Requirements
 ### Requirement: Selector-first Video block contract
-The system SHALL allow a Storyblok Video block to specify an optional `video` value using the `VideoSelectorField` contract, and SHALL treat that value as the authoritative source whenever the field is specified.
+The system SHALL resolve a Storyblok Video block exclusively from its optional `video` value using the `VideoSelectorField` contract.
 
 #### Scenario: Selector asset is specified
 - **WHEN** a Video block specifies `video` with a playable asset
-- **THEN** the system renders the selector asset using its aspect ratio and its autoplay, muted, loop, and display-controls settings
+- **THEN** the system renders the selector asset using its aspect ratio and its `video.options.autoplay`, `video.options.muted`, `video.options.loop`, and `video.options.display_controls` settings
 
 #### Scenario: Selector embed is specified
 - **WHEN** a Video block specifies `video` with a supported provider and video identifier
 - **THEN** the system renders the embedded video through the shared streaming-video abstraction using the selector's aspect ratio and display-controls setting
 
-#### Scenario: Specified selector is incomplete
-- **WHEN** a Video block has a `video` field that does not contain a playable asset or valid embedded source
-- **THEN** the system renders no video and does not fall back to the legacy `url` field
-
-### Requirement: Legacy URL fallback
-The system SHALL resolve `VideoData.url` only when selector-backed `video` is not specified, preserving existing URL-backed Storyblok Video entries.
-
-#### Scenario: Selector is absent and URL is valid
-- **WHEN** a Video block does not specify `video` and its legacy `url` contains a supported provider and video identifier
-- **THEN** the system renders the legacy embedded video using the block's `aspect_ratio` and `display_controls`, with omitted playback flags disabled
-
-#### Scenario: Selector and URL are absent
-- **WHEN** a Video block specifies neither `video` nor a valid legacy `url`
-- **THEN** the system does not classify or render the item as playable video content
+#### Scenario: Selector is absent or incomplete
+- **WHEN** a Video block does not specify `video` or its value does not contain a playable asset or valid embedded source
+- **THEN** the system renders no video
 
 ### Requirement: Selector-exclusive uploaded assets
-The system SHALL define `VideoData.video` as a `VideoSelectorField` and SHALL obtain uploaded Video block assets exclusively from `video.asset`, not from a standalone asset contract.
+The system SHALL define `VideoData.video` as a `VideoSelectorField` and SHALL obtain all Video block source data, including uploaded assets and provider embeds, exclusively from that selector contract.
 
 #### Scenario: Video field contains no playable selector source
-- **WHEN** a Video block payload contains `video` without a playable selector asset or embedded source and also contains a valid legacy `url`
-- **THEN** the system does not classify or render the invalid selector and does not fall back to the legacy URL
+- **WHEN** a Video block payload contains `video` without a playable selector asset or embedded source
+- **THEN** the system does not classify or render the item as playable video content
 
 ### Requirement: Consistent source resolution across consumers
-All Video block consumers SHALL apply the same selector-presence precedence when classifying items, rendering Video blocks, and converting Video data for the zoom gallery.
+All Video block consumers SHALL apply the same selector-only resolution rules when classifying items, rendering Video blocks, and converting Video data for the zoom gallery.
 
 #### Scenario: Gallery receives selector-backed YouTube video
-- **WHEN** zoom-gallery conversion receives a Video block with a YouTube selector and a conflicting legacy URL
+- **WHEN** zoom-gallery conversion receives a Video block with a playable YouTube selector
 - **THEN** the converted gallery asset uses the selector's provider, video identifier, aspect ratio, and applicable playback settings
 
-#### Scenario: Gallery receives URL fallback video
-- **WHEN** zoom-gallery conversion receives a Video block without `video` and with a valid supported legacy URL
-- **THEN** the converted gallery asset uses the legacy URL source, `aspect_ratio`, and `display_controls`
+#### Scenario: Gallery receives legacy-only video data
+- **WHEN** zoom-gallery conversion receives a Video block without a playable `video` selector even if legacy top-level video fields are present
+- **THEN** the conversion produces no gallery asset
 
 ### Requirement: Source-specific playback behavior
-The system SHALL honor only `display_controls` for URL-based selector sources, matching the legacy URL-based `VideoData` behavior, and SHALL honor autoplay, muted, loop, and `display_controls` for uploaded asset selector sources.
+The system SHALL honor only `video.options.display_controls` for URL-based selector sources and SHALL honor `video.options.autoplay`, `video.options.muted`, `video.options.loop`, and `video.options.display_controls` for uploaded asset selector sources.
 
 #### Scenario: URL selector contains asset playback flags
-- **WHEN** a URL-based selector contains autoplay, muted, or loop values
-- **THEN** the system ignores those values and applies only its `display_controls` value
+- **WHEN** a URL-based selector's `options` contains autoplay, muted, or loop values
+- **THEN** the system ignores those values and applies only its `options.display_controls` value
 
 #### Scenario: Asset selector contains playback flags
-- **WHEN** an uploaded asset selector contains autoplay, muted, loop, or `display_controls` values
+- **WHEN** an uploaded asset selector's `options` contains autoplay, muted, loop, or `display_controls` values
 - **THEN** the system applies those values to the asset video
 
 ### Requirement: Stable general Video playback defaults
-The general Storyblok Video block SHALL keep controls hidden for URL sources when `display_controls` is omitted, and SHALL default every omitted asset playback flag to false.
+The general Storyblok Video block SHALL keep controls hidden for selector URL sources when `video.options.display_controls` is omitted and SHALL default every omitted asset option to false.
 
 #### Scenario: URL selector omits controls option
-- **WHEN** a playable URL-based selector omits `display_controls`
+- **WHEN** a playable URL-based selector omits `options.display_controls`
 - **THEN** the rendered embedded Video block keeps controls hidden
 
 #### Scenario: Asset selector omits playback flags
-- **WHEN** a playable asset selector omits autoplay, muted, loop, and `display_controls`
+- **WHEN** a playable asset selector omits `options.autoplay`, `options.muted`, `options.loop`, and `options.display_controls`
 - **THEN** the rendered asset does not autoplay, is not forced muted or looping, and keeps controls hidden
 
 ### Requirement: Responsive Homepage Intro asset selection
