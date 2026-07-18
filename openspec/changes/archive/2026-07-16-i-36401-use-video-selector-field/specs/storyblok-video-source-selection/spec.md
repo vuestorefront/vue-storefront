@@ -5,7 +5,7 @@ The system SHALL allow a Storyblok Video block to specify an optional `video` va
 
 #### Scenario: Selector asset is specified
 - **WHEN** a Video block specifies `video` with a playable asset
-- **THEN** the system renders the selector asset using its aspect ratio and its autoplay, muted, loop, and display-controls settings
+- **THEN** the system renders the selector asset using its aspect ratio and its `video.options.autoplay`, `video.options.muted`, `video.options.loop`, and `video.options.display_controls` settings
 
 #### Scenario: Selector embed is specified
 - **WHEN** a Video block specifies `video` with a supported provider and video identifier
@@ -45,25 +45,25 @@ All Video block consumers SHALL apply the same selector-presence precedence when
 - **THEN** the converted gallery asset uses the legacy URL source, `aspect_ratio`, and `display_controls`
 
 ### Requirement: Source-specific playback behavior
-The system SHALL honor only `display_controls` for URL-based selector sources, matching the legacy URL-based `VideoData` behavior, and SHALL honor autoplay, muted, loop, and `display_controls` for uploaded asset selector sources.
+The system SHALL honor only `video.options.display_controls` for URL-based selector sources, matching the legacy URL-based `VideoData` behavior, and SHALL honor `video.options.autoplay`, `video.options.muted`, `video.options.loop`, and `video.options.display_controls` for uploaded asset selector sources.
 
 #### Scenario: URL selector contains asset playback flags
-- **WHEN** a URL-based selector contains autoplay, muted, or loop values
-- **THEN** the system ignores those values and applies only its `display_controls` value
+- **WHEN** a URL-based selector's `options` contains autoplay, muted, or loop values
+- **THEN** the system ignores those values and applies only its `options.display_controls` value
 
 #### Scenario: Asset selector contains playback flags
-- **WHEN** an uploaded asset selector contains autoplay, muted, loop, or `display_controls` values
+- **WHEN** an uploaded asset selector's `options` contains autoplay, muted, loop, or `display_controls` values
 - **THEN** the system applies those values to the asset video
 
 ### Requirement: Stable general Video playback defaults
-The general Storyblok Video block SHALL keep controls hidden for URL sources when `display_controls` is omitted, and SHALL default every omitted asset playback flag to false.
+The general Storyblok Video block SHALL keep controls hidden for selector URL sources when `video.options.display_controls` is omitted and for legacy URL sources when top-level `display_controls` is omitted, and SHALL default every omitted asset option to false.
 
 #### Scenario: URL selector omits controls option
-- **WHEN** a playable URL-based selector omits `display_controls`
+- **WHEN** a playable URL-based selector omits `options.display_controls`
 - **THEN** the rendered embedded Video block keeps controls hidden
 
 #### Scenario: Asset selector omits playback flags
-- **WHEN** a playable asset selector omits autoplay, muted, loop, and `display_controls`
+- **WHEN** a playable asset selector omits `options.autoplay`, `options.muted`, `options.loop`, and `options.display_controls`
 - **THEN** the rendered asset does not autoplay, is not forced muted or looping, and keeps controls hidden
 
 ### Requirement: Responsive Homepage Intro asset selection

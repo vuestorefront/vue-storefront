@@ -1,7 +1,7 @@
 ## 1. Video Contracts and Resolution
 
-- [x] 1.1 Define the flat `VideoSelectorField` contract with URL, asset, aspect-ratio, and playback fields.
-- [x] 1.2 Export `VideoSelectorField` from the module's public type surface.
+- [x] 1.1 Define the `VideoSelectorField` contract with URL, asset, aspect-ratio, and nested `options` playback fields.
+- [x] 1.2 Export `VideoSelectorField` and `VideoSelectorOptions` from the module's public type surface.
 - [x] 1.3 Update `VideoData` with selector-backed `video` as the primary field; make legacy `url` and `aspect_ratio` optional; retain only `aspect_ratio` and `display_controls` outside the selector; do not retain a standalone asset contract.
 - [x] 1.4 Add a typed pure resolver for selector-first source, source-specific aspect-ratio, and effective playback settings; ignore autoplay, muted, and loop for URL sources; and ensure a present invalid selector suppresses legacy URL fallback.
 - [x] 1.5 Update `isVideoData` to use the shared resolution rules.
