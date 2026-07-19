@@ -1,13 +1,10 @@
 import { buildLocaleIgnorePattern } from './../i18n/helpers';
 import path from 'path';
-import fs from 'fs';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import autoprefixer from 'autoprefixer';
-import HTMLPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
 import dayjs from 'dayjs';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 
 // eslint-disable-next-line import/first
 import themeRoot from './theme-path';
@@ -16,10 +13,6 @@ const themesRoot = '../../src/themes'
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
-const themedIndex = path.join(themeRoot, '/templates/index.template.html')
-const themedIndexMinimal = path.join(themeRoot, '/templates/index.minimal.template.html')
-const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.html')
-const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
 
 const postcssConfig = {
   loader: 'postcss-loader',
@@ -32,7 +25,6 @@ const postcssConfig = {
     ]
   }
 };
-const isProd = process.env.NODE_ENV === 'production'
 // todo: usemultipage-webpack-plugin for multistore
 export default {
   plugins: [
@@ -40,42 +32,9 @@ export default {
     new webpack.ProgressPlugin(),
     new CaseSensitivePathsPlugin(),
     new VueLoaderPlugin(),
-    // generate output HTML
-    new HTMLPlugin({
-      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
-      filename: 'index.html',
-      chunksSortMode: 'none',
-      inject: isProd === false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
-    }),
-    new HTMLPlugin({
-      template: fs.existsSync(themedIndexMinimal) ? themedIndexMinimal : 'src/index.minimal.template.html',
-      filename: 'index.minimal.html',
-      chunksSortMode: 'none',
-      inject: isProd === false
-    }),
-    new HTMLPlugin({
-      template: fs.existsSync(themedIndexBasic) ? themedIndexBasic : 'src/index.basic.template.html',
-      filename: 'index.basic.html',
-      chunksSortMode: 'none',
-      inject: isProd === false
-    }),
-    new HTMLPlugin({
-      template: fs.existsSync(themedIndexAmp) ? themedIndexAmp : 'src/index.amp.template.html',
-      filename: 'index.amp.html',
-      chunksSortMode: 'none',
-      inject: isProd === false
-    }),
     new webpack.DefinePlugin({
       'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
       'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss'))
-    }),
-    new ForkTsCheckerWebpackPlugin({
-      async: false,
-      typescript: {
-        extensions: {
-          vue: true
-        }
-      }
     })
   ],
   devtool: 'source-map',
