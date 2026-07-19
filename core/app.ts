@@ -2,7 +2,7 @@ import { Store } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import Vue, { VueConstructor } from 'vue'
 import VueCompositionAPI from '@vue/composition-api'
-import { isServer } from '@vue-storefront/core/helpers'
+import { isServer, once } from '@vue-storefront/core/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import i18n from '@vue-storefront/i18n'
 import VueRouter from 'vue-router'
@@ -17,7 +17,7 @@ import { prepareStoreView, currentStoreView } from '@vue-storefront/core/lib/mul
 import * as coreMixins from '@vue-storefront/core/mixins'
 import * as coreFilters from '@vue-storefront/core/filters'
 import * as corePlugins from '@vue-storefront/core/compatibility/plugins'
-import { once } from '@vue-storefront/core/helpers'
+
 import store from '@vue-storefront/core/store'
 import { enabledModules } from './modules-entry'
 import globalConfig from 'config'
@@ -37,7 +37,7 @@ let routerProxy: VueRouter = null
 once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
   Vue.use(VueCompositionAPI as unknown as { // TODO - for some reasons TS doesn't recognize type of VueCompositionAPI right
-    install: (Vue: VueConstructor) => void;
+    install: (Vue: VueConstructor) => void
   })
 })
 
@@ -106,7 +106,6 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   registerClientModules()
   registerModules(enabledModules, appContext)
   registerTheme(globalConfig.theme, app, routerProxy, store, globalConfig, ssrContext)
-
 
   coreHooksExecutors.afterAppInit()
   // @deprecated from 2.0

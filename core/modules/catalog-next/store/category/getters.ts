@@ -2,8 +2,8 @@ import { nonReactiveState } from './index';
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
-import { compareByLabel } from '../../helpers/categoryHelpers'
-import { products } from 'config'
+import { compareByLabel, _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers'
+import config, { products } from 'config'
 import FilterVariant from '../../types/FilterVariant'
 import { optionLabel } from '@vue-storefront/core/modules/catalog/helpers'
 import trim from 'lodash-es/trim'
@@ -13,10 +13,9 @@ import get from 'lodash-es/get'
 import { getFiltersFromQuery } from '../../helpers/filterHelpers'
 import { Category } from '../../types/Category'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
-import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
+
 import { currentStoreView, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import cloneDeep from 'lodash-es/cloneDeep'
-import config from 'config';
 
 function mapCategoryProducts (productsFromState, productsData) {
   return productsFromState.map(prodState => {
@@ -33,7 +32,7 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCategoriesMap: (state): { [id: string]: Category} => state.categoriesMap,
   getNotFoundCategoryIds: (state): string[] => state.notFoundCategoryIds,
   getCategoryProducts: (state) => mapCategoryProducts(state.products, nonReactiveState.products),
-  getCategoryFrom: (state, getters) => (path: string = '') => {
+  getCategoryFrom: (state, getters) => (path = '') => {
     return getters.getCategories.find(category => (removeStoreCodeFromRoute(path) as string).replace(/^(\/)/gm, '') === category.url_path)
   },
   getCategoryByParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {

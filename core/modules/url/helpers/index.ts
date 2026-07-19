@@ -63,7 +63,7 @@ function prepareDynamicRoute (routeData: LocalizedRoute, path: string): RouteCon
   }
 }
 
-export function processDynamicRoute (routeData: LocalizedRoute, path: string, addToRoutes: boolean = true): LocalizedRoute {
+export function processDynamicRoute (routeData: LocalizedRoute, path: string, addToRoutes = true): LocalizedRoute {
   const preparedRoute = prepareDynamicRoute(routeData, path)
   if (addToRoutes && preparedRoute) {
     router.addRoutes([preparedRoute], true)
@@ -71,7 +71,7 @@ export function processDynamicRoute (routeData: LocalizedRoute, path: string, ad
   return preparedRoute
 }
 
-export function preProcessDynamicRoutes (dispatcherMap: {}, addToRoutes: boolean = true): LocalizedRoute[] {
+export function preProcessDynamicRoutes (dispatcherMap: {}, addToRoutes = true): LocalizedRoute[] {
   const preparedRoutes = []
   for (const [url, routeData] of Object.entries(dispatcherMap)) {
     const preparedRoute = prepareDynamicRoute(routeData, url)
@@ -89,7 +89,7 @@ export function findRouteByPath (path: string): RouteConfig {
   return RouterManager.findByPath(path)
 }
 
-export function normalizeUrlPath (url: string, clearTrailingSlash: boolean = true): string {
+export function normalizeUrlPath (url: string, clearTrailingSlash = true): string {
   if (url && url.length > 0) {
     if (url.length > 0 && !url.startsWith('/')) url = `/${url}`
     if (url.endsWith('/') && clearTrailingSlash) url = url.slice(0, -1)

@@ -41,4 +41,3 @@ export function updateClientItemProductData (clientItem: any, product: any) {
 
   return clientItem;
 }
-

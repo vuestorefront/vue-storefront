@@ -19,4 +19,3 @@ export function isCustomizationAvailableInFlow (
 
   return availableFlows.includes(normalizedFlow);
 }
-

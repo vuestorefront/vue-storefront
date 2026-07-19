@@ -1,8 +1,8 @@
-import { EstimatedShipment } from "src/modules/customization-system";
+import { EstimatedShipment } from 'src/modules/customization-system';
 
-import CartItem from "../types/CartItem";
+import CartItem from '../types/CartItem';
 
-export function updateCartItemEstimatedShipment(
+export function updateCartItemEstimatedShipment (
   cartItem: CartItem,
   estimatedShipment: EstimatedShipment | undefined
 ): void {

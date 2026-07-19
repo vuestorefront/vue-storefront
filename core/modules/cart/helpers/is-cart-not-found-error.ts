@@ -1,4 +1,4 @@
-import Task from "core/lib/sync/types/Task";
+import Task from 'core/lib/sync/types/Task';
 
 const ERROR_MESSAGES = [
   'No such entity with cartId',
@@ -9,7 +9,7 @@ const ERROR_MESSAGES = [
   'Active Quote not found'
 ];
 
-export function isCartNotFoundError(task: Task): boolean {
+export function isCartNotFoundError (task: Task): boolean {
   if (task.code !== 404 && task.resultCode !== 404) {
     return false;
   }

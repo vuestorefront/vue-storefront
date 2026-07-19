@@ -40,7 +40,7 @@ function buildBaseStoreView (): StoreView {
   let storeId = 1
   let storeName = ''
   let storeCode = null
-  
+
   if (config.defaultStoreCode && config.defaultStoreCode !== '' && config.storeViews[config.defaultStoreCode]) {
     storeId = config.storeViews[config.defaultStoreCode].storeId
     storeName = config.storeViews[config.defaultStoreCode].name
@@ -69,7 +69,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   if (config.storeViews.multistore === true) {
     storeView.storeCode = storeCode || config.defaultStoreCode || ''
   } else {
-    storeView.storeCode = storeCode || storeView.storeCode || '' 
+    storeView.storeCode = storeCode || storeView.storeCode || ''
   }
 
   const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
@@ -98,7 +98,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   }
 
   coreHooksExecutors.afterStoreViewChanged(storeView)
-  
+
   return storeView
 }
 
@@ -171,7 +171,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
   return routeObj
 }
 
-export function localizedDispatcherRouteName (routeName: string, storeCode: string, appendStoreCode: boolean = false): string {
+export function localizedDispatcherRouteName (routeName: string, storeCode: string, appendStoreCode = false): string {
   if (appendStoreCode) {
     return `${storeCode}-${routeName}`
   }
@@ -195,7 +195,7 @@ export function localizedRoutePath (path: string, storeCode: string): string {
  * @param storeCode - language prefix specified in global config
  * @param isChildRoute - determines if route config is for child route
  */
-export function localizedRouteConfig (route: RouteConfig, storeCode: string, isChildRoute: boolean = false): RouteConfig {
+export function localizedRouteConfig (route: RouteConfig, storeCode: string, isChildRoute = false): RouteConfig {
   // note: we need shallow copy to prevent modifications in provided route object
   const _route = { ...route }
 
@@ -238,7 +238,7 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
   return routeObj
 }
 
-export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[], priority: number = 0): void {
+export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[], priority = 0): void {
   const allRoutes: RouteConfig[] = []
   const { storeCode, appendStoreCode } = currentStoreView()
   if (storeCode && appendStoreCode) {

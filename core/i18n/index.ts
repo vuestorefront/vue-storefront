@@ -26,7 +26,7 @@ function setI18nLanguage (lang: string): string {
 /**
  * Lazy load date locales file for current switched language.
  */
-const loadDateLocales = async (lang: string = 'en'): Promise<void> => {
+const loadDateLocales = async (lang = 'en'): Promise<void> => {
   let localeCode = lang.toLocaleLowerCase()
   try { // try to load full locale name
     await import(/* webpackChunkName: "dayjs-locales-[request]" */ `dayjs/locale/${localeCode}`)

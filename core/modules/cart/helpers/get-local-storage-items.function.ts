@@ -11,22 +11,22 @@ export function getItemsFromStorage ({ key }) {
   if (checkMultiStoreLocalStorageKey(key, 'cart/current-cart')) {
     rootStore.commit(
       `cart/${CART_LOAD_CART}`,
-      valueFromStorage,
+      valueFromStorage
     );
   } else if (checkMultiStoreLocalStorageKey(key, 'cart/current-totals')) {
     rootStore.commit(
       `cart/${CART_UPD_TOTALS}`,
-      valueFromStorage,
+      valueFromStorage
     );
   } else if (checkMultiStoreLocalStorageKey(key, 'cart/current-cart-token')) {
     rootStore.commit(
       `cart/${CART_LOAD_CART_SERVER_TOKEN}`,
-      valueFromStorage,
+      valueFromStorage
     );
   } else if (checkMultiStoreLocalStorageKey(key, 'cart/current-cart-hash')) {
     rootStore.commit(
       `cart/${CART_SET_ITEMS_HASH}`,
-      valueFromStorage,
+      valueFromStorage
     );
   }
 }

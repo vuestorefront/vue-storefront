@@ -16,7 +16,7 @@ function _prepareCacheStorage (key, localized = !config.storeViews.commonCache, 
   }), true, storageQuota)
 }
 
-function getStorageName(localized = !config.storeViews.commonCache): string {
+function getStorageName (localized = !config.storeViews.commonCache): string {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView && storeView.storeCode ? storeView.storeCode + '-' : ''
   return localized ? `${dbNamePrefix}shop` : 'shop';

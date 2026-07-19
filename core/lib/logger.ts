@@ -26,7 +26,7 @@ class Logger {
    * @param verbosityLevel
    * @param showErrorOnProduction
    */
-  public constructor (verbosityLevel: string = 'display-everything', showErrorOnProduction: boolean = false) {
+  public constructor (verbosityLevel = 'display-everything', showErrorOnProduction = false) {
     this.verbosityLevel = verbosityLevel
     this.showErrorOnProduction = showErrorOnProduction
     this.isProduction = process.env.NODE_ENV === 'production'

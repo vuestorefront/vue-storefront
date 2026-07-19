@@ -8,7 +8,7 @@ const RouterManager = {
   _routeLock: null,
   _routeDispatched: false,
   _callbacks: [],
-  addRoutes: function (routes: RouteConfig[], useRouteQueue: boolean = false, priority: number = 0): void {
+  addRoutes: function (routes: RouteConfig[], useRouteQueue = false, priority = 0): void {
     if (useRouteQueue && !this._routeQueueFlushed) {
       this._routeQueue.push(...routes.map(route => { return { route: route, priority: priority } }))
     } else {

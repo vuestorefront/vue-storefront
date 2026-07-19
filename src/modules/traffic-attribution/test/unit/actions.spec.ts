@@ -75,13 +75,13 @@ function createTouch (attribution: TrafficAttributionData, isSent = false): Touc
 }
 
 function createDeferredTask () {
-  let resolve: (value: { resultCode: number }) => void = jest.fn();
+  let deferredResolve: (value: { resultCode: number }) => void = jest.fn();
 
-  const promise = new Promise<{ resultCode: number }>((promiseResolve) => {
-    resolve = promiseResolve;
+  const promise = new Promise<{ resultCode: number }>((resolve) => {
+    deferredResolve = resolve;
   });
 
-  return { promise, resolve };
+  return { promise, resolve: deferredResolve };
 }
 
 function createContext (firstTouch: TouchData | null, lastTouch: TouchData | null) {

@@ -8,7 +8,7 @@ import { CURRENT_REFRESH_TOKEN, CURRENT_TOKEN, CURRENT_USER, ORDERS_HISTORY } fr
 const tokenMutationName = `user/${SET_USER_TOKEN}`;
 const refreshTokenMutationName = `user/${SET_USER_REFRESH_TOKEN}`;
 const currentUserMutationName = `user/${USER_INFO_LOADED}`;
-const orderHistoryMutationName = `user/${USER_ORDERS_HISTORY_LOADED}`;  
+const orderHistoryMutationName = `user/${USER_ORDERS_HISTORY_LOADED}`;
 
 const clearItem = (mutationName: string) => {
   rootStore.commit(mutationName, undefined);

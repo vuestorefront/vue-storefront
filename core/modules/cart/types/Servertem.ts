@@ -11,6 +11,6 @@ export default interface ServerItem {
   product_option: ProductOptions,
   type_id: any,
   thumbnail?: string,
-  extension_attributes?: ExtensionAttributes
+  extension_attributes?: ExtensionAttributes,
   giftcard_options?: GiftCardOptions
 }

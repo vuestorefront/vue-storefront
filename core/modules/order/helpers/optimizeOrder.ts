@@ -9,7 +9,7 @@ const optimizeOrder = (order: Order): OptimizedOrder | Order => {
       products: order.products.map(product => ({
         server_item_id: product.server_item_id as number,
         sku: product.sku,
-        qty: product.qty as number,
+        qty: product.qty as number
       })
       )
     }
