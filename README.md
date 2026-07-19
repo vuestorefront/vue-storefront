@@ -157,12 +157,14 @@ Yes! There are more than **140 implementations** happening right now and many li
 
 ## Browser Compatibility
 
-* last 2 Chrome versions
-* last 2 Firefox versions
-* last 2 Edge versions
-* modern browsers
+The storefront supports the latest three versions of Chrome, Firefox, and
+Chrome for Android, plus the latest two versions of Edge, Safari, iOS Safari,
+Firefox for Android, and Samsung Internet. Purchasing flows should also be
+tested in the latest Instagram, Facebook, and Pinterest in-app browsers on
+Android and iOS.
 
-For an up-to-date list of supported browsers please see "browserslist" in package.json
+For the authoritative list of build targets, see `browserslist` in
+`package.json`.
 
 ## Join the community on Slack
 

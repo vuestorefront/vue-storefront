@@ -434,3 +434,17 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="scss" scoped>
+.payment-amazon-pay {
+  width: 100%;
+
+  ._amazon-pay-container {
+    width: 100% !important;
+    min-width: 150px;
+    max-width: 500px;
+    height: 45px !important;
+    min-height: 45px;
+  }
+}
+</style>

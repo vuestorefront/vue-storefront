@@ -8,7 +8,6 @@ import HTMLPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
 import dayjs from 'dayjs';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // eslint-disable-next-line import/first
 import themeRoot from './theme-path';
@@ -27,7 +26,6 @@ const postcssConfig = {
   options: {
     ident: 'postcss',
     plugins: (loader) => [
-      require('postcss-flexbugs-fixes'),
       require('autoprefixer')({
         flexbox: 'no-2009'
       })
@@ -40,9 +38,6 @@ export default {
   plugins: [
     new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
     new webpack.ProgressPlugin(),
-    /* new BundleAnalyzerPlugin({
-      generateStatsFile: true
-    }), */
     new CaseSensitivePathsPlugin(),
     new VueLoaderPlugin(),
     // generate output HTML
@@ -85,7 +80,7 @@ export default {
   ],
   devtool: 'source-map',
   entry: {
-    app: ['@babel/polyfill', './core/client-entry.ts']
+    app: ['./core/client-entry.ts']
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
@@ -132,11 +127,7 @@ export default {
       },
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          preserveWhitespace: false,
-          postcss: [autoprefixer()]
-        }
+        loader: 'vue-loader'
       },
       {
         test: /\.ts$/,
