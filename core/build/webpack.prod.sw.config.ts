@@ -5,6 +5,7 @@ import SWPrecachePlugin from 'sw-precache-webpack-plugin';
 
 module.exports = merge(base, {
   mode: 'production',
+  devtool: false,
   target: 'web',
   entry: ['./core/service-worker/index.js'],
   output: {
@@ -21,7 +22,7 @@ module.exports = merge(base, {
       staticFileGlobsIgnorePatterns: [/\.map$/],
       staticFileGlobs: [
         'dist/**.*.js',
-        'dist/**.*.json',
+        'dist/vue-ssr-client-manifest.json',
         'dist/**.*.css',
         'assets/**.*',
         'assets/ig/**.*',
