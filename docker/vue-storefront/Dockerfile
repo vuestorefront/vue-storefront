@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:10.24.1-alpine
 
 ENV VS_ENV prod
 

@@ -57,7 +57,6 @@ const compileOptions = {
 const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(`^.*\\.(${config.server.ssrDisabledFor.extensions.join('|')})$`)
 
 const isProd = process.env.NODE_ENV === 'production'
-process['noDeprecation'] = true
 
 const app = express()
 
@@ -469,10 +468,10 @@ const start = () => {
     console.log(`----------------------------------------------------------\n\n`)
 
     serverHooksExecutors.httpServerIsReady({ server, config: config.server, isProd })
-    
+
     if (process && typeof process.send === 'function') {
       process.send('ready');
-    } 
+    }
   }).on('error', (e: any) => {
     if (e.code === 'EADDRINUSE') {
       port = parseInt(port) + 1
