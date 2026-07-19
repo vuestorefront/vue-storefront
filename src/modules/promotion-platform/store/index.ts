@@ -5,10 +5,12 @@ import { actions } from './actions'
 import { state } from './state';
 import PromotionPlatformState from '../types/PromotionPlatformState'
 
-export const module: Module<PromotionPlatformState, any> = {
+const storeModule: Module<PromotionPlatformState, any> = {
   namespaced: true,
   state,
   mutations,
   actions,
   getters
 }
+
+export { storeModule as module }

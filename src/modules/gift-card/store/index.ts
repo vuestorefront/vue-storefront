@@ -6,10 +6,12 @@ import { actions } from './actions'
 import { state } from './state';
 import GiftCardState from '../types/GiftCardState';
 
-export const module: Module<GiftCardState, any> = {
+const storeModule: Module<GiftCardState, any> = {
   namespaced: true,
   state,
   mutations,
   actions,
   getters
 }
+
+export { storeModule as module }

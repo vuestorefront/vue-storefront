@@ -5,7 +5,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import ErrorLoggingState from '../type/ErrorLoggingState';
 import { SET_TRACE_ID } from '../type/StoreMutations';
 
-export const module: Module<ErrorLoggingState, RootState> = {
+const storeModule: Module<ErrorLoggingState, RootState> = {
   namespaced: true,
   state: {
     traceId: ''
@@ -19,3 +19,5 @@ export const module: Module<ErrorLoggingState, RootState> = {
     traceId: (state) => state.traceId
   }
 }
+
+export { storeModule as module }

@@ -4,7 +4,7 @@ import { mutations } from './mutations';
 import { getters } from './getters';
 import { actions } from './actions';
 
-export const module: Module<BackendSettingsState, any> = {
+const storeModule: Module<BackendSettingsState, any> = {
   namespaced: true,
   state: {
     settings: {}
@@ -13,3 +13,5 @@ export const module: Module<BackendSettingsState, any> = {
   actions,
   getters
 }
+
+export { storeModule as module }

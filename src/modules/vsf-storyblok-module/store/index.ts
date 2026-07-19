@@ -6,10 +6,12 @@ import getters from './getters'
 import { state } from './state'
 import { StoryblokState } from '../types/State'
 
-export const module: Module<StoryblokState, RootState> = {
+const storeModule: Module<StoryblokState, RootState> = {
   namespaced: true,
   state,
   mutations,
   actions,
   getters
 }
+
+export { storeModule as module }
