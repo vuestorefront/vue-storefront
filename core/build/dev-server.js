@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const MFS = require('memory-fs')
+const { createFsFromVolume, Volume } = require('memfs')
 
 let baseClientConfig = require('./webpack.client.config').default
 let baseServerConfig = require('./webpack.server.config').default
@@ -10,6 +10,13 @@ const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'))
 
 let clientConfig = extendedConfig(baseClientConfig, { isClient: true, isDev: true })
 let serverConfig = extendedConfig(baseServerConfig, { isClient: false, isDev: true })
+
+function createMemoryFileSystem () {
+  const fileSystem = createFsFromVolume(new Volume())
+  fileSystem.join = path.join.bind(path)
+  fileSystem.mkdirp = (directory, callback) => fileSystem.mkdir(directory, { recursive: true }, callback)
+  return fileSystem
+}
 
 module.exports = function setupDevServer (app, cb) {
   let bundle
@@ -34,7 +41,7 @@ module.exports = function setupDevServer (app, cb) {
   })
   app.use(devMiddleware)
   clientCompiler.hooks.done.tap('VueStorefrontDevServer', () => {
-    const fs = devMiddleware.fileSystem
+    const fs = devMiddleware.context.outputFileSystem
     const filePath = path.join(clientConfig.output.path, 'index.html')
     if (fs.existsSync(filePath)) {
       template = fs.readFileSync(filePath, 'utf-8')
@@ -49,7 +56,7 @@ module.exports = function setupDevServer (app, cb) {
 
   // watch and update server renderer
   const serverCompiler = webpack(serverConfig)
-  const mfs = new MFS()
+  const mfs = createMemoryFileSystem()
   serverCompiler.outputFileSystem = mfs
   serverCompiler.watch({}, (err, stats) => {
     if (err) throw err

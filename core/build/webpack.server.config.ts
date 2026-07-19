@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import merge from 'webpack-merge';
+import { merge } from 'webpack-merge';
 import base from './webpack.base.config';
 import VueSSRPlugin from 'vue-ssr-webpack-plugin';
 import path from 'path'
@@ -10,7 +10,7 @@ const bundledServerDependencies = [
   '@gtm-support/core'
 ]
 
-export default merge(base, {
+export default merge<webpack.Configuration>(base, {
   mode: 'development',
   target: 'node',
   entry: ['./core/server-entry.ts'],

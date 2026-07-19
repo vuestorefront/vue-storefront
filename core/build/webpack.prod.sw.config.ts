@@ -1,10 +1,10 @@
 import webpack from 'webpack';
 import path from 'path';
-import merge from 'webpack-merge';
+import { merge } from 'webpack-merge';
 import base from './webpack.base.config';
 import SWPrecachePlugin from 'sw-precache-webpack-plugin';
 
-module.exports = merge(base, {
+module.exports = merge<webpack.Configuration>(base, {
   mode: 'production',
   devtool: false,
   stats: {

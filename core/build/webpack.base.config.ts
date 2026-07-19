@@ -2,6 +2,7 @@ import { buildLocaleIgnorePattern } from './../i18n/helpers';
 import path from 'path';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import webpack from 'webpack';
+import TerserPlugin from 'terser-webpack-plugin';
 import dayjs from 'dayjs';
 
 // eslint-disable-next-line import/first
@@ -15,16 +16,31 @@ const themeApp = themeRoot + '/App.vue'
 const postcssConfig = {
   loader: 'postcss-loader',
   options: {
-    ident: 'postcss',
-    plugins: (loader) => [
-      require('autoprefixer')({
-        flexbox: 'no-2009'
-      })
-    ]
+    postcssOptions: {
+      plugins: [
+        require('autoprefixer')({
+          flexbox: 'no-2009'
+        })
+      ]
+    }
   }
 };
 // todo: usemultipage-webpack-plugin for multistore
-export default {
+const config: webpack.Configuration = {
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        sourceMap: true,
+        extractComments: false,
+        terserOptions: {
+          output: {
+            comments: false
+          }
+        }
+      })
+    ]
+  },
   plugins: [
     new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
     new webpack.ProgressPlugin(),
@@ -133,7 +149,9 @@ export default {
           {
             loader: 'sass-loader',
             options: {
-              indentedSyntax: true
+              sassOptions: {
+                indentedSyntax: true
+              }
             }
           }
         ]
@@ -149,3 +167,5 @@ export default {
     ]
   }
 }
+
+export default config

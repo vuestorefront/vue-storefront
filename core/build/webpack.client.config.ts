@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import webpack from 'webpack'
-import merge from 'webpack-merge'
+import { merge } from 'webpack-merge'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import HTMLPlugin from 'html-webpack-plugin'
 import base from './webpack.base.config'
@@ -14,7 +14,7 @@ const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.h
 const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
 const isProd = process.env.NODE_ENV === 'production'
 
-const config = merge(base, {
+const config = merge<webpack.Configuration>(base, {
   optimization: {
     splitChunks: {
       cacheGroups: {
@@ -45,25 +45,29 @@ const config = merge(base, {
     new HTMLPlugin({
       template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
       filename: 'index.html',
-      chunksSortMode: 'none',
+      chunksSortMode: 'auto',
+      minify: false,
       inject: isProd === false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexMinimal) ? themedIndexMinimal : 'src/index.minimal.template.html',
       filename: 'index.minimal.html',
-      chunksSortMode: 'none',
+      chunksSortMode: 'auto',
+      minify: false,
       inject: isProd === false
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexBasic) ? themedIndexBasic : 'src/index.basic.template.html',
       filename: 'index.basic.html',
-      chunksSortMode: 'none',
+      chunksSortMode: 'auto',
+      minify: false,
       inject: isProd === false
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexAmp) ? themedIndexAmp : 'src/index.amp.template.html',
       filename: 'index.amp.html',
-      chunksSortMode: 'none',
+      chunksSortMode: 'auto',
+      minify: false,
       inject: isProd === false
     }),
     new ForkTsCheckerWebpackPlugin({
