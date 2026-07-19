@@ -7,6 +7,9 @@ import SWPrecachePlugin from 'sw-precache-webpack-plugin';
 module.exports = merge(base, {
   mode: 'production',
   devtool: false,
+  stats: {
+    modules: false
+  },
   target: 'web',
   entry: ['./core/service-worker/index.js'],
   output: {

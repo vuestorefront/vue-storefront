@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import fetch from 'isomorphic-fetch';
 
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
 import { extractCookieValue } from '../helpers/extract-cookie-value.function'
@@ -42,7 +43,6 @@ serverExtensions.map(serverModule => {
 serverHooksExecutors.afterProcessStarted(config.server)
 const express = require('express')
 const ms = require('ms')
-const request = require('request');
 const helmet = require('helmet')
 
 const cache = cacheInstanceFactory();
@@ -89,6 +89,21 @@ function healthCheck (req, res) {
   res.status(200).end();
 }
 
+function forwardCacheInvalidation (url: string): void {
+  fetch(url)
+    .then(response => response.text())
+    .then(body => {
+      if (!body) return
+
+      try {
+        if (JSON.parse(body).code !== 200) console.log(body)
+      } catch (error) {
+        console.error('Invalid Cache Invalidation response format', error)
+      }
+    })
+    .catch(error => console.error(error))
+}
+
 function invalidateCache (req, res) {
   if (config.server.useOutputCache && cache) {
     if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
@@ -131,14 +146,7 @@ function invalidateCache (req, res) {
 
       if (config.server.invalidateCacheForwarding) { // forward invalidate request to the next server in the chain
         if (!req.query.forwardedFrom && config.server.invalidateCacheForwardUrl) { // don't forward forwarded requests
-          request(config.server.invalidateCacheForwardUrl + req.query.tag + '&forwardedFrom=vs', {}, (err, res, body) => {
-            if (err) { console.error(err); }
-            try {
-              if (body && JSON.parse(body).code !== 200) console.log(body);
-            } catch (e) {
-              console.error('Invalid Cache Invalidation response format', e)
-            }
-          });
+          forwardCacheInvalidation(config.server.invalidateCacheForwardUrl + req.query.tag + '&forwardedFrom=vs')
         }
       }
     } else {

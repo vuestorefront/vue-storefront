@@ -1,8 +1,6 @@
 import { buildLocaleIgnorePattern } from './../i18n/helpers';
 import path from 'path';
-import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
-import autoprefixer from 'autoprefixer';
 import webpack from 'webpack';
 import dayjs from 'dayjs';
 
@@ -30,7 +28,6 @@ export default {
   plugins: [
     new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
     new webpack.ProgressPlugin(),
-    new CaseSensitivePathsPlugin(),
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
       'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
@@ -77,12 +74,6 @@ export default {
   },
   module: {
     rules: [
-      {
-        enforce: 'pre',
-        test: /\.(js|vue,ts)$/,
-        loader: 'eslint-loader',
-        exclude: [/node_modules/, /test/]
-      },
       {
         test: /\.vue$/,
         loader: 'vue-loader'

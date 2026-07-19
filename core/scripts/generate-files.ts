@@ -1,10 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import config from 'config';
+import { v4 as uuidv4 } from 'uuid';
 
 fs.writeFileSync(
   path.resolve(__dirname, '../build/config.json'),
   JSON.stringify(config)
+)
+
+fs.writeFileSync(
+  path.resolve(__dirname, '../build/cache-version.json'),
+  JSON.stringify(uuidv4())
 )
 
 const csvDirectories = [

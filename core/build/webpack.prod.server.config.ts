@@ -9,7 +9,10 @@ const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'))
 
 const prodServerConfig = merge(baseServerConfig, {
   mode: 'production',
-  devtool: false
+  devtool: false,
+  stats: {
+    modules: false
+  }
 })
 
 export default extendedConfig(prodServerConfig, {

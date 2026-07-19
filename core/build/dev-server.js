@@ -33,7 +33,7 @@ module.exports = function setupDevServer (app, cb) {
     }
   })
   app.use(devMiddleware)
-  clientCompiler.plugin('done', () => {
+  clientCompiler.hooks.done.tap('VueStorefrontDevServer', () => {
     const fs = devMiddleware.fileSystem
     const filePath = path.join(clientConfig.output.path, 'index.html')
     if (fs.existsSync(filePath)) {

@@ -11,26 +11,59 @@ module.exports = {
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: [
     'plugin:vue/recommended',
-    'standard',
-    'plugin:@typescript-eslint/recommended'
+    'standard'
   ],
   plugins: ['vue', 'vue-storefront', '@typescript-eslint'],
   // add your custom rules here
   rules: {
-    '@typescript-eslint/no-var-requires': 1,
+    // Preserve the former @typescript-eslint 1.x recommended policy without
+    // enabling the substantially broader 3.x recommended ruleset.
+    '@typescript-eslint/adjacent-overload-signatures': 'error',
+    '@typescript-eslint/array-type': 'error',
+    '@typescript-eslint/ban-types': ['error', {
+      extendDefaults: false,
+      types: {
+        String: { message: 'Use string instead', fixWith: 'string' },
+        Boolean: { message: 'Use boolean instead', fixWith: 'boolean' },
+        Number: { message: 'Use number instead', fixWith: 'number' },
+        Object: { message: 'Use Record<string, any> instead', fixWith: 'Record<string, any>' },
+        Symbol: { message: 'Use symbol instead', fixWith: 'symbol' }
+      }
+    }],
+    camelcase: 'off',
+    '@typescript-eslint/explicit-member-accessibility': 'error',
+    indent: 'off',
     '@typescript-eslint/indent': ['error', 2],
-    '@typescript-eslint/camelcase': 0,
     semi: 'off',
     '@typescript-eslint/semi': 0,
     '@typescript-eslint/member-delimiter-style': ['error', { 'multiline': { 'delimiter': 'comma', 'requireLast': false }, 'singleline': { 'delimiter': 'comma' } }],
+    'no-array-constructor': 'off',
+    '@typescript-eslint/no-array-constructor': 'error',
     '@typescript-eslint/no-empty-interface': 1,
+    '@typescript-eslint/no-inferrable-types': 'error',
+    '@typescript-eslint/no-misused-new': 'error',
+    '@typescript-eslint/no-namespace': 'error',
+    '@typescript-eslint/no-non-null-assertion': 'error',
+    'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': 1,
     '@typescript-eslint/no-explicit-any': 0,
-    '@typescript-eslint/class-name-casing': 1,
+    '@typescript-eslint/consistent-type-assertions': ['error', { assertionStyle: 'as', objectLiteralTypeAssertions: 'never' }],
+    '@typescript-eslint/triple-slash-reference': 'error',
+    'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 0,
+    'no-unused-expressions': 'off',
+    '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true, allowTaggedTemplates: true }],
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/no-parameter-properties': 0,
+    '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
+    '@typescript-eslint/prefer-namespace-keyword': 'error',
+    '@typescript-eslint/type-annotation-spacing': 'error',
+    '@typescript-eslint/naming-convention': [
+      'warn',
+      { selector: 'typeLike', format: ['PascalCase'] },
+      { selector: 'interface', format: ['PascalCase'], custom: { regex: '^I[A-Z]', match: false } }
+    ],
     'no-useless-constructor': 0,
     '@typescript-eslint/no-useless-constructor': 1,
     'handle-callback-err': 1,
@@ -63,6 +96,12 @@ module.exports = {
     'vue-storefront/no-corepage': 'error'
   },
   overrides: [
+    {
+      files: ['**/*.js'],
+      rules: {
+        '@typescript-eslint/explicit-member-accessibility': 'off'
+      }
+    },
     {
       // @todo check if this is closed https://github.com/typescript-eslint/typescript-eslint/issues/342
       // This is an issue with interfaces so we need to wait until it fixed.
