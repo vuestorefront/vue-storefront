@@ -23,6 +23,7 @@ export default merge(base, {
   target: 'node',
   entry: ['./core/server-entry.ts'],
   output: {
+    path: path.resolve(__dirname, '../../dist/server'),
     filename: 'server-bundle.js',
     libraryTarget: 'commonjs2'
   },

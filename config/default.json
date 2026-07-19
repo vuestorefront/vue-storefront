@@ -155,10 +155,10 @@
   },
   "ssr": {
     "templates": {
-      "default": "dist/index.html",
-      "minimal": "dist/index.minimal.html",
-      "basic": "dist/index.basic.html",
-      "amp": "dist/index.amp.html"
+      "default": "dist/client/index.html",
+      "minimal": "dist/client/index.minimal.html",
+      "basic": "dist/client/index.basic.html",
+      "amp": "dist/client/index.amp.html"
     },
     "lazyHydrateFor": [
       "category-next.products",

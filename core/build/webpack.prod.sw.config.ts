@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import path from 'path';
 import merge from 'webpack-merge';
 import base from './webpack.base.config';
 import SWPrecachePlugin from 'sw-precache-webpack-plugin';
@@ -9,6 +10,7 @@ module.exports = merge(base, {
   target: 'web',
   entry: ['./core/service-worker/index.js'],
   output: {
+    path: path.resolve(__dirname, '../../dist/client'),
     filename: 'core-service-worker.js'
   },
   plugins: [
@@ -20,10 +22,12 @@ module.exports = merge(base, {
       cacheId: 'vue-sfr',
       filename: 'service-worker.js',
       staticFileGlobsIgnorePatterns: [/\.map$/],
+      stripPrefix: 'dist/client/',
+      replacePrefix: 'dist/',
       staticFileGlobs: [
-        'dist/**.*.js',
-        'dist/vue-ssr-client-manifest.json',
-        'dist/**.*.css',
+        'dist/client/**.*.js',
+        'dist/client/vue-ssr-client-manifest.json',
+        'dist/client/**.*.css',
         'assets/**.*',
         'assets/ig/**.*',
         'index.html',

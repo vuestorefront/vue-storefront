@@ -32,6 +32,9 @@ const config = merge(base, {
     }
   },
   mode: 'development',
+  output: {
+    path: path.resolve(__dirname, '../../dist/client')
+  },
   resolve: {
     alias: {
       'create-api': './create-api-client.js'

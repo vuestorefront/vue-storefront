@@ -42,7 +42,6 @@ export default {
     app: ['./core/client-entry.ts']
   },
   output: {
-    path: path.resolve(__dirname, '../../dist'),
     publicPath: '/dist/',
     filename: '[name].[contenthash].js'
   },
