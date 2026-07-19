@@ -43,10 +43,6 @@ spec:
           name: code
           subPath: .eslintrc.js
           readOnly: true
-        - mountPath: /var/www/lerna.json
-          name: code
-          subPath: lerna.json
-          readOnly: true
         - mountPath: /var/www/package.json
           name: code
           subPath: package.json

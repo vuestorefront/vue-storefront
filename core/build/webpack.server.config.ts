@@ -6,16 +6,17 @@ import VueSSRPlugin from 'vue-ssr-webpack-plugin';
 // when output cache is enabled generate cache version key
 import fs from 'fs'
 import path from 'path'
-import uuid from 'uuid/v4'
+import { v4 as uuidv4 } from 'uuid'
 
 const bundledServerDependencies = [
+  '@storefront-ui/vue',
   '@gtm-support/vue2-gtm',
   '@gtm-support/core'
 ]
 
 fs.writeFileSync(
   path.join(__dirname, 'cache-version.json'),
-  JSON.stringify(uuid())
+  JSON.stringify(uuidv4())
 )
 
 export default merge(base, {
