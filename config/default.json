@@ -3,13 +3,8 @@
     "host": "localhost",
     "port": 3000,
     "protocol": "http",
-    "api": "api",
+    "api": "api-search-query",
     "devServiceWorker": false,
-    "useHtmlMinifier": true,
-    "htmlMinifierOptions": {
-      "minifyJS": true,
-      "minifyCSS": true
-    },
     "useOutputCacheTagging": false,
     "useOutputCache": false,
     "outputCacheDefaultTtl": 86400,
@@ -64,10 +59,6 @@
         "woff2"
       ]
     },
-    "trace": {
-      "enabled": false,
-      "config": {}
-    },
     "helmet": {
       "enabled": true
     }
@@ -103,10 +94,6 @@
     "host": "localhost",
     "port": 6379,
     "db": 0
-  },
-  "graphql": {
-    "host": "localhost",
-    "port": 8080
   },
   "api": {
     "url": "http://localhost:8080",
@@ -762,9 +749,6 @@
     "sendConfirmation": true
   },
   "theme": "@vue-storefront/theme-default",
-  "analytics": {
-    "id": false
-  },
   "googleTagManager": {
     "id": false,
     "debug": true,
@@ -838,7 +822,6 @@
   "purgeConfig": [
     "server.invalidateCacheKey",
     "server.invalidateCacheForwardUrl",
-    "server.trace",
     "redis",
     "install",
     "expireHeaders",

@@ -56,7 +56,7 @@ export default {
       'node_modules',
       path.resolve(__dirname, themesRoot)
     ],
-    extensions: ['.js', '.vue', '.gql', '.graphqls', '.ts'],
+    extensions: ['.js', '.vue', '.ts'],
     alias: {
       // Main aliases
       'config': path.resolve(__dirname, './config.json'),
@@ -150,11 +150,6 @@ export default {
       {
         test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/,
         loader: 'url-loader?importLoaders=1&limit=10000'
-      },
-      {
-        test: /\.(graphqls|gql)$/,
-        exclude: /node_modules/,
-        loader: ['graphql-tag/loader']
       },
       {
         test: /core\/build\/config\.json$/,
