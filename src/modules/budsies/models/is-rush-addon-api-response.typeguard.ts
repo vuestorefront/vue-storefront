@@ -13,15 +13,17 @@ export default function isRushAddonApiResponse (
   const fields: Record<string, string> = {
     'sku': 'string',
     'text': 'string',
-    'price': 'number',
-    'isDomestic': 'number'
+    'price': 'number'
   }
 
   for (const field in fields) {
-    const a = fields['id'];
     if (!(field in tmpArg) || typeof tmpArg[field] !== fields[field]) {
       return false;
     }
+  }
+
+  if ('slotsLeft' in tmpArg && typeof tmpArg.slotsLeft !== 'number') {
+    return false;
   }
 
   return true;
