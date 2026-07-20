@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, computed } from '@vue/composition-api';
-import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
+import AddressValidationDetails from '../types/address-validation-details.interface';
 
 const States = require('@vue-storefront/i18n/resource/states.json');
 
@@ -46,7 +46,7 @@ export default defineComponent({
   name: 'AddressCard',
   props: {
     address: {
-      type: Object as PropType<Partial<BaseAddressDetails>>,
+      type: Object as PropType<AddressValidationDetails>,
       required: true
     },
     highlightedFields: {

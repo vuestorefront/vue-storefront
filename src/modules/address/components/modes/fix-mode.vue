@@ -73,7 +73,7 @@
 import { defineComponent, computed, PropType, ref, Ref, onMounted } from '@vue/composition-api';
 import { SfHeading, SfButton, SfInput } from '@storefront-ui/vue';
 
-import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
+import AddressValidationDetails from '../../types/address-validation-details.interface';
 
 import AddressCard from '../address-card.vue';
 
@@ -87,11 +87,11 @@ export default defineComponent({
   },
   props: {
     enteredAddress: {
-      type: Object as PropType<Partial<BaseAddressDetails>>,
+      type: Object as PropType<AddressValidationDetails>,
       required: true
     },
     suggestedAddress: {
-      type: Object as PropType<Partial<BaseAddressDetails>>,
+      type: Object as PropType<AddressValidationDetails>,
       required: true
     },
     missingComponents: {
@@ -115,7 +115,7 @@ export default defineComponent({
       const currentStreetAddress = props.enteredAddress.streetAddress || '';
       const updatedStreetAddress = `${localStreetNumber.value} ${currentStreetAddress}`.trim();
 
-      const updated: Partial<BaseAddressDetails> = {
+      const updated: AddressValidationDetails = {
         ...props.enteredAddress,
         streetAddress: updatedStreetAddress
       };
