@@ -46,3 +46,4 @@ core/resource/i18n/ru-RU.json
 docker-compose.override.yml
 changes.diff
 plan*.md
+ecosystem.json
