@@ -61,6 +61,8 @@ const itemActions = {
   },
   async addItems ({ commit, dispatch, getters }, { productsToAdd, forceServerSilence = false }) {
     let productIndex = 0
+    const wasCartConnected = getters.isCartConnected
+    let hasAddedProduct = false
     const diffLog = createDiffLog()
     for (let product of productsToAdd) {
       const errors = validateProduct(product)
@@ -80,6 +82,7 @@ const itemActions = {
           commit(types.CART_ADD_ITEM, {
             product: { ...product, onlineStockCheckid: onlineCheckTaskId }
           })
+          hasAddedProduct = true
         }
         if (productIndex === (productsToAdd.length - 1) && (!getters.isCartSyncEnabled || forceServerSilence)) {
           diffLog.pushNotification(notifications.productAddedToCart())
@@ -93,11 +96,22 @@ const itemActions = {
       diffLog.merge(newDiffLog)
     }
 
+    const shouldRetryPendingCoupon = wasCartConnected &&
+      hasAddedProduct &&
+      Boolean(getters.getPendingCouponCode)
+
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
-      const syncDiffLog = await dispatch('sync', { forceClientState: true, waitForTotalsUpdate: false })
+      const syncDiffLog = await dispatch('sync', {
+        forceClientState: true,
+        waitForTotalsUpdate: shouldRetryPendingCoupon
+      })
 
       if (!syncDiffLog.isEmpty()) {
         diffLog.merge(syncDiffLog)
+      }
+
+      if (shouldRetryPendingCoupon) {
+        await dispatch('applyPendingCoupon')
       }
     }
 
