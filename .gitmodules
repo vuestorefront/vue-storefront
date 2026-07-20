@@ -5,7 +5,6 @@
 [submodule "src/themes/petsies-capybara"]
 	path = src/themes/petsies-capybara
 	url = https://github.com/BudsiesApp/vsf-capybara.git
-	branch = petsies-theme
 [submodule "src/modules/payment-braintree"]
     path = src/modules/payment-braintree
     url = git@github.com:BudsiesApp/vsf-payment-braintree.git

@@ -4,24 +4,55 @@ on:
   push:
     branches:
       - petsies-theme
-      - 'release/v**'
-      - 'hotfix/v**'
+      - bulkorders-theme
   pull_request:
     branches:
       - petsies-theme
-      - 'release/v**'
-      - 'hotfix/v**'
+      - bulkorders-theme
 
 jobs:
-  prepare_dependencies:
-    name: Prepare dependencies
+  resolve_theme_matrix:
+    name: Resolve theme matrix
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.resolve.outputs.matrix }}
+    steps:
+      - name: Select theme branches
+        id: resolve
+        env:
+          APP_BRANCH: ${{ github.event_name == 'pull_request' && github.base_ref || github.ref_name }}
+        run: |
+          case "$APP_BRANCH" in
+            petsies-theme)
+              echo 'matrix={"include":[{"theme_branch":"petsies-theme"},{"theme_branch":"budsies-theme"},{"theme_branch":"waggables-theme"}]}' >> "$GITHUB_OUTPUT"
+              ;;
+            bulkorders-theme)
+              echo 'matrix={"include":[{"theme_branch":"bulkorders-theme"}]}' >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "Unsupported app branch: $APP_BRANCH" >&2
+              exit 1
+              ;;
+          esac
+
+  prepare_dependencies:
+    name: Prepare dependencies (${{ matrix.theme_branch }})
+    needs: resolve_theme_matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.resolve_theme_matrix.outputs.matrix) }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Checkout Petsies theme
-        run: git submodule update --init --recursive src/themes/petsies-capybara
+      - name: Checkout storefront theme
+        env:
+          THEME_BRANCH: ${{ matrix.theme_branch }}
+        run: |
+          git submodule update --init src/themes/petsies-capybara
+          git -C src/themes/petsies-capybara fetch origin "$THEME_BRANCH"
+          git -C src/themes/petsies-capybara checkout --detach FETCH_HEAD
+          git -C src/themes/petsies-capybara submodule update --init --recursive
 
       - name: Setup node
         uses: actions/setup-node@v7
@@ -38,21 +69,31 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
         run: yarn install --immutable
 
   lint:
-    name: Lint
-    needs: prepare_dependencies
+    name: Lint (${{ matrix.theme_branch }})
+    needs:
+      - resolve_theme_matrix
+      - prepare_dependencies
     runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.resolve_theme_matrix.outputs.matrix) }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Checkout Petsies theme
-        run: git submodule update --init --recursive src/themes/petsies-capybara
+      - name: Checkout storefront theme
+        env:
+          THEME_BRANCH: ${{ matrix.theme_branch }}
+        run: |
+          git submodule update --init src/themes/petsies-capybara
+          git -C src/themes/petsies-capybara fetch origin "$THEME_BRANCH"
+          git -C src/themes/petsies-capybara checkout --detach FETCH_HEAD
+          git -C src/themes/petsies-capybara submodule update --init --recursive
 
       - name: Setup node
         uses: actions/setup-node@v7
@@ -69,7 +110,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Verify upgrade configuration lifecycle
         run: yarn test:upgrade:config
@@ -78,15 +119,25 @@ jobs:
         run: yarn lint
 
   unit_tests:
-    name: Maintained unit tests
-    needs: prepare_dependencies
+    name: Maintained unit tests (${{ matrix.theme_branch }})
+    needs:
+      - resolve_theme_matrix
+      - prepare_dependencies
     runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.resolve_theme_matrix.outputs.matrix) }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Checkout Petsies theme
-        run: git submodule update --init --recursive src/themes/petsies-capybara
+      - name: Checkout storefront theme
+        env:
+          THEME_BRANCH: ${{ matrix.theme_branch }}
+        run: |
+          git submodule update --init src/themes/petsies-capybara
+          git -C src/themes/petsies-capybara fetch origin "$THEME_BRANCH"
+          git -C src/themes/petsies-capybara checkout --detach FETCH_HEAD
+          git -C src/themes/petsies-capybara submodule update --init --recursive
 
       - name: Setup node
         uses: actions/setup-node@v7
@@ -103,7 +154,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run maintained project unit tests
         run: yarn test:unit:maintained
@@ -113,15 +164,25 @@ jobs:
         run: yarn test:unit:core
 
   build:
-    name: Build
-    needs: prepare_dependencies
+    name: Build (${{ matrix.theme_branch }})
+    needs:
+      - resolve_theme_matrix
+      - prepare_dependencies
     runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.resolve_theme_matrix.outputs.matrix) }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Checkout Petsies theme
-        run: git submodule update --init --recursive src/themes/petsies-capybara
+      - name: Checkout storefront theme
+        env:
+          THEME_BRANCH: ${{ matrix.theme_branch }}
+        run: |
+          git submodule update --init src/themes/petsies-capybara
+          git -C src/themes/petsies-capybara fetch origin "$THEME_BRANCH"
+          git -C src/themes/petsies-capybara checkout --detach FETCH_HEAD
+          git -C src/themes/petsies-capybara submodule update --init --recursive
 
       - name: Setup node
         uses: actions/setup-node@v7
@@ -138,7 +199,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run build
         run: yarn build
