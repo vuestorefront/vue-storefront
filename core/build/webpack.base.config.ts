@@ -4,6 +4,7 @@ import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import webpack from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
 import dayjs from 'dayjs';
+import { isDeprecationWarning, sassDeprecationsToSilence } from './deprecation-warnings';
 
 // eslint-disable-next-line import/first
 import themeRoot from './theme-path';
@@ -35,8 +36,17 @@ const cssLoaderConfig = {
     }
   }
 }
+const sassLoaderConfig = {
+  loader: 'sass-loader',
+  options: {
+    sassOptions: {
+      silenceDeprecations: sassDeprecationsToSilence
+    }
+  }
+}
 // todo: usemultipage-webpack-plugin for multistore
 const config: webpack.Configuration = {
+  ignoreWarnings: [isDeprecationWarning],
   optimization: {
     minimizer: [
       new TerserPlugin({
@@ -145,7 +155,7 @@ const config: webpack.Configuration = {
           'vue-style-loader',
           cssLoaderConfig,
           postcssConfig,
-          'sass-loader'
+          sassLoaderConfig
         ]
       },
       {
@@ -154,7 +164,7 @@ const config: webpack.Configuration = {
           'vue-style-loader',
           cssLoaderConfig,
           postcssConfig,
-          'sass-loader'
+          sassLoaderConfig
         ]
       },
       {
