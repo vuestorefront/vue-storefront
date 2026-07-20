@@ -46,7 +46,7 @@ export default function fillProductWithAdditionalFields (
       case 'GiftCardOptions':
         value = value as GiftCardOptions;
         break;
-      case 'ExtensionAttributes':
+      case 'ExtensionAttributes': {
         value = value as ExtensionAttributes;
 
         const plushieId = value.plushie_id ? String(value.plushie_id) : undefined;
@@ -68,6 +68,7 @@ export default function fillProductWithAdditionalFields (
         }
 
         break;
+      }
       default:
         throw new Error('Unsupported additional field type ');
     }

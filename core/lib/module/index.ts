@@ -127,10 +127,13 @@ function createModule (config: VueStorefrontModuleConfig): VueStorefrontModule {
 }
 
 export {
-  VSF,
-  VueStorefrontModuleConfig,
   extendModule,
   VueStorefrontModule,
   registerModules,
   createModule
+}
+
+export type {
+  VSF,
+  VueStorefrontModuleConfig
 }

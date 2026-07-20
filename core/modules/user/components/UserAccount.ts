@@ -105,7 +105,7 @@ export const UserAccount = {
               updatedProfile.addresses[index].firstname = this.currentUser.firstname || ''
               updatedProfile.addresses[index].lastname = this.currentUser.lastname || ''
               updatedProfile.addresses[index].company = this.userCompany.company || ''
-              updatedProfile.addresses[index].street = [this.userCompany.street, this.userCompany.house] || ['', '']
+              updatedProfile.addresses[index].street = [this.userCompany.street || '', this.userCompany.house || '']
               updatedProfile.addresses[index].city = this.userCompany.city || ''
               updatedProfile.addresses[index].region = {
                 region: this.userCompany.region ? this.userCompany.region : null

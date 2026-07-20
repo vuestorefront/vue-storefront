@@ -84,7 +84,11 @@ export const OrderModule: StorefrontModule = function ({ store }) {
                 }).catch(err => {
                   if (config.orders.offline_orders.notification.enabled) {
                     navigator.serviceWorker.ready.then(registration => {
-                      registration.sync.register('orderSync')
+                      const backgroundSyncRegistration = registration as ServiceWorkerRegistration & {
+                        sync: { register: (tag: string) => Promise<void> }
+                      }
+
+                      backgroundSyncRegistration.sync.register('orderSync')
                         .then(() => {
                           Logger.log('Order sync registered')()
                         })

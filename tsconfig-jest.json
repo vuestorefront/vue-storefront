@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig-build-dev.json",
+  "compilerOptions": {
+    "isolatedModules": true
+  }
+}

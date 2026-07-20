@@ -1,7 +1,7 @@
 import webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import base from './webpack.base.config';
-import VueSSRPlugin from 'vue-ssr-webpack-plugin';
+import VueSSRPlugin from 'vue-server-renderer/server-plugin';
 import path from 'path'
 
 const bundledServerDependencies = [
@@ -17,7 +17,9 @@ export default merge<webpack.Configuration>(base, {
   output: {
     path: path.resolve(__dirname, '../../dist/server'),
     filename: 'server-bundle.js',
-    libraryTarget: 'commonjs2'
+    library: {
+      type: 'commonjs2'
+    }
   },
   resolve: {
     alias: {

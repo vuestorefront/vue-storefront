@@ -71,12 +71,7 @@ const config = merge<webpack.Configuration>(base, {
       inject: isProd === false
     }),
     new ForkTsCheckerWebpackPlugin({
-      async: false,
-      typescript: {
-        extensions: {
-          vue: true
-        }
-      }
+      async: false
     }),
     // strip dev-only code in Vue source
     new webpack.DefinePlugin({

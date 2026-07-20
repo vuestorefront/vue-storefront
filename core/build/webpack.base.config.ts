@@ -25,16 +25,25 @@ const postcssConfig = {
     }
   }
 };
+
+const cssLoaderConfig = {
+  loader: 'css-loader',
+  options: {
+    esModule: false,
+    url: {
+      filter: (url: string) => !url.startsWith('/')
+    }
+  }
+}
 // todo: usemultipage-webpack-plugin for multistore
 const config: webpack.Configuration = {
   optimization: {
     minimizer: [
       new TerserPlugin({
         parallel: true,
-        sourceMap: true,
         extractComments: false,
         terserOptions: {
-          output: {
+          format: {
             comments: false
           }
         }
@@ -46,6 +55,7 @@ const config: webpack.Configuration = {
     new webpack.ProgressPlugin(),
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
+      'process.env.BUILD': JSON.stringify('lib'),
       'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
       'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss'))
     })
@@ -56,7 +66,8 @@ const config: webpack.Configuration = {
   },
   output: {
     publicPath: '/dist/',
-    filename: '[name].[contenthash].js'
+    filename: '[name].[contenthash].js',
+    assetModuleFilename: 'assets/[name].[contenthash][ext]'
   },
   resolveLoader: {
     modules: [
@@ -118,16 +129,13 @@ const config: webpack.Configuration = {
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]?[hash]'
-        }
+        type: 'asset/resource'
       },
       {
         test: /\.css$/,
         use: [
           'vue-style-loader',
-          'css-loader',
+          cssLoaderConfig,
           postcssConfig
         ]
       },
@@ -135,7 +143,7 @@ const config: webpack.Configuration = {
         test: /\.scss$/,
         use: [
           'vue-style-loader',
-          'css-loader',
+          cssLoaderConfig,
           postcssConfig,
           'sass-loader'
         ]
@@ -144,21 +152,19 @@ const config: webpack.Configuration = {
         test: /\.sass$/,
         use: [
           'vue-style-loader',
-          'css-loader',
+          cssLoaderConfig,
           postcssConfig,
-          {
-            loader: 'sass-loader',
-            options: {
-              sassOptions: {
-                indentedSyntax: true
-              }
-            }
-          }
+          'sass-loader'
         ]
       },
       {
         test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/,
-        loader: 'url-loader?importLoaders=1&limit=10000'
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10000
+          }
+        }
       },
       {
         test: /core\/build\/config\.json$/,

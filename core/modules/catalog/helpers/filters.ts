@@ -60,4 +60,5 @@ const getSelectedFiltersByProduct = (product: Product, configuration: ProductCon
   return selectedFilters
 }
 
-export { getAvailableFiltersByProduct, getSelectedFiltersByProduct, ProductVariant }
+export { getAvailableFiltersByProduct, getSelectedFiltersByProduct }
+export type { ProductVariant }

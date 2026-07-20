@@ -1,4 +1,6 @@
-import { server } from 'config'
+import config from 'config'
+
+const { server } = config
 let instances = {}
 
 const isImplementingSearchAdapterInterface = (obj) => {
@@ -10,12 +12,16 @@ export const getSearchAdapter = async (adapterName = server.api) => {
 
   try {
     SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-[request]" */ `src/search/adapter/${adapterName}/searchAdapter`)
-  } catch {}
+  } catch {
+    // Fall back to the core adapter location below.
+  }
 
   if (!SearchAdapterModule) {
     try {
       SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-[request]" */ `./${adapterName}/searchAdapter`)
-    } catch {}
+    } catch {
+      // The explicit not-found error below includes both attempted locations.
+    }
   }
 
   if (!SearchAdapterModule) {

@@ -1,5 +1,7 @@
-import { storeViews } from 'config';
+import config from 'config';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+
+const { storeViews } = config;
 
 export function checkMultiStoreLocalStorageKey (key: string, path: string): boolean {
   const { multistore, commonCache } = storeViews;

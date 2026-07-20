@@ -1,17 +1,15 @@
-import webpack from 'webpack';
-import path from 'path';
-import { merge } from 'webpack-merge';
-import base from './webpack.base.config';
-import SWPrecachePlugin from 'sw-precache-webpack-plugin';
+import path from 'path'
+import webpack from 'webpack'
+import { merge } from 'webpack-merge'
+import base from './webpack.base.config'
 
-module.exports = merge<webpack.Configuration>(base, {
+const config = merge<webpack.Configuration>(base, {
   mode: 'production',
   devtool: false,
   stats: {
     modules: false
   },
   target: 'web',
-  entry: ['./core/service-worker/index.js'],
   output: {
     path: path.resolve(__dirname, '../../dist/client'),
     filename: 'core-service-worker.js'
@@ -19,93 +17,10 @@ module.exports = merge<webpack.Configuration>(base, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.VUE_ENV': '"client"'
-    }),
-    // auto generate service worker
-    new SWPrecachePlugin({
-      cacheId: 'vue-sfr',
-      filename: 'service-worker.js',
-      staticFileGlobsIgnorePatterns: [/\.map$/],
-      stripPrefix: 'dist/client/',
-      replacePrefix: 'dist/',
-      staticFileGlobs: [
-        'dist/client/**.*.js',
-        'dist/client/vue-ssr-client-manifest.json',
-        'dist/client/**.*.css',
-        'assets/**.*',
-        'assets/ig/**.*',
-        'index.html',
-        '/'
-      ],
-      runtimeCaching: [
-        {
-          // eslint-disable-next-line no-useless-escape
-          urlPattern: '^https://fonts\.googleapis\.com/', /** cache the html stub  */
-          handler: 'cacheFirst'
-        },
-        {
-          // eslint-disable-next-line no-useless-escape
-          urlPattern: '^https://fonts\.gstatic\.com/', /** cache the html stub  */
-          handler: 'cacheFirst'
-        },
-        {
-          // eslint-disable-next-line no-useless-escape
-          urlPattern: '^https://unpkg\.com/', /** cache the html stub  */
-          handler: 'cacheFirst'
-        },
-        {
-          urlPattern: '/pwa.html', /** cache the html stub  */
-          handler: 'networkFirst'
-        }, {
-          urlPattern: '/', /** cache the html stub for homepage  */
-          handler: 'networkFirst'
-        },
-        {
-          urlPattern: '/p/*', /** cache the html stub  */
-          handler: 'networkFirst'
-        },
-        {
-          urlPattern: '/c/*', /** cache the html stub  */
-          handler: 'networkFirst'
-        },
-        {
-          urlPattern: '/img/(.*)',
-          handler: 'fastest'
-        },
-        {
-          urlPattern: /(http[s]?:\/\/)?(\/)?([^\/\s]+\/)?(api\/catalog\/)(.*)/g, // eslint-disable-line no-useless-escape
-          handler: 'networkFirst'
-        },
-        {
-          urlPattern: '/api/*',
-          handler: 'networkFirst'
-        }, {
-          urlPattern: '/assets/logo.svg',
-          handler: 'networkFirst'
-        }, {
-          urlPattern: '/index.html',
-          handler: 'networkFirst'
-        }, {
-          urlPattern: '/assets/*',
-          handler: 'fastest'
-        }, {
-          urlPattern: '/assets/ig/(.*)',
-          handler: 'fastest'
-        }, {
-          urlPattern: '/dist/(.*)',
-          handler: 'fastest'
-        }, {
-          urlPattern: '/*/*', /** this is new product URL format  */
-          handler: 'networkFirst'
-        },
-        {
-          urlPattern: '/*/*/*', /** this is new product URL format  */
-          handler: 'networkFirst'
-        },
-        {
-          urlPattern: '/*', /** this is new category URL format  */
-          handler: 'networkFirst'
-        }],
-      'importScripts': ['/dist/core-service-worker.js'] /* custom logic */
     })
   ]
 })
+
+config.entry = ['./core/service-worker/index.js']
+
+export default config

@@ -27,10 +27,11 @@ jobs:
         with:
           node-version: '24.14.1'
 
-      - name: Setup Yarn Classic
+      - name: Setup Yarn
         run: |
-          corepack prepare yarn@1.22.22 --activate
-          test "$(yarn --version)" = "1.22.22"
+          corepack enable
+          corepack install --global yarn@4.17.1
+          test "$(yarn --version)" = "4.17.1"
 
       - name: Clone default theme
         run: git clone --quiet --single-branch --branch master https://github.com/vuestorefront/vsf-default.git ./src/themes/default
@@ -39,10 +40,10 @@ jobs:
         uses: actions/cache@v4
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-1.22.22-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
   lint:
     name: Lint
@@ -57,16 +58,17 @@ jobs:
         with:
           node-version: '24.14.1'
 
-      - name: Setup Yarn Classic
+      - name: Setup Yarn
         run: |
-          corepack prepare yarn@1.22.22 --activate
-          test "$(yarn --version)" = "1.22.22"
+          corepack enable
+          corepack install --global yarn@4.17.1
+          test "$(yarn --version)" = "4.17.1"
 
       - name: Get cached dependencies
         uses: actions/cache@v4
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-1.22.22-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ hashFiles('**/yarn.lock') }}
 
       - name: Verify upgrade configuration lifecycle
         run: yarn test:upgrade:config
@@ -87,16 +89,17 @@ jobs:
         with:
           node-version: '24.14.1'
 
-      - name: Setup Yarn Classic
+      - name: Setup Yarn
         run: |
-          corepack prepare yarn@1.22.22 --activate
-          test "$(yarn --version)" = "1.22.22"
+          corepack enable
+          corepack install --global yarn@4.17.1
+          test "$(yarn --version)" = "4.17.1"
 
       - name: Get cached dependencies
         uses: actions/cache@v4
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-1.22.22-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run maintained project unit tests
         run: yarn test:unit:maintained
@@ -118,10 +121,11 @@ jobs:
         with:
           node-version: '24.14.1'
 
-      - name: Setup Yarn Classic
+      - name: Setup Yarn
         run: |
-          corepack prepare yarn@1.22.22 --activate
-          test "$(yarn --version)" = "1.22.22"
+          corepack enable
+          corepack install --global yarn@4.17.1
+          test "$(yarn --version)" = "4.17.1"
 
       - name: Clone default theme
         run: git clone --quiet --single-branch --branch master https://github.com/vuestorefront/vsf-default.git ./src/themes/default
@@ -130,7 +134,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-1.22.22-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run build
         run: yarn build

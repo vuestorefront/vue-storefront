@@ -4,7 +4,7 @@ set -e
 envsubst < config/local.json.template > config/local.json
 envsubst < ecosystem.json.template > ecosystem.json
 
-yarn install --frozen-lockfile
+yarn install --immutable
 
 if [ "$VS_ENV" = 'dev' ]; then
   exec yarn dev

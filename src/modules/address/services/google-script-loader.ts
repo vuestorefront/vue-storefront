@@ -1,4 +1,4 @@
-import { setOptions, importLibrary } from '@googlemaps/js-api-loader/dist';
+import { setOptions, importLibrary } from '@googlemaps/js-api-loader';
 
 import { isServer } from '@vue-storefront/core/helpers';
 import { Logger } from '@vue-storefront/core/lib/logger';

@@ -4,7 +4,7 @@ import config from 'config'
 import qs from 'qs'
 
 export function loadScript (src: string, id: string) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     if (document.getElementById(id)) {
       resolve()
       return

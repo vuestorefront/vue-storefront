@@ -1,4 +1,6 @@
-import { products } from 'config'
+import config from 'config'
+
+const { products } = config
 
 export const prefetchStockItems = (cachedProductsResponse, cache = {}) => {
   const skus = []

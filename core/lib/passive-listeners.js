@@ -5,12 +5,15 @@ const eventListenerOptionsSupported = () => {
     const opts = Object.defineProperty({}, 'passive', {
       get () {
         supported = true
+        return undefined
       }
     })
 
     window.addEventListener('test', null, opts)
     window.removeEventListener('test', null, opts)
-  } catch (e) {}
+  } catch (e) {
+    // Older browsers reject the options object; the boolean fallback is used.
+  }
 
   return supported
 }

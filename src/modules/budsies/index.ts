@@ -36,10 +36,6 @@ import { BEFORE_STORE_BACKEND_API_REQUEST } from 'src/modules/shared';
 import ProductStructuredData from './components/ProductStructuredData.vue';
 import { debugDataFactory } from './helpers/debug-data.factory';
 
-if (typeof URLSearchParams === 'undefined') {
-  (global as any).URLSearchParams = require('url').URLSearchParams;
-}
-
 const debugData = debugDataFactory();
 
 export const BudsiesModule: StorefrontModule = async function ({ store }) {
@@ -74,15 +70,10 @@ export {
   ExtraPhotoAddon,
   addonFactory,
   nl2br,
-  Dictionary,
-  ObjectBuilderInterface,
   ErrorConverterService,
   ProductValue,
   ValueCollection,
-  Value,
   BaseImage,
-  ImageSourceItem,
-  ImageAspectRatioSpec,
   Bodypart,
   BodypartValue,
   BodyPartValueContentType,
@@ -91,10 +82,18 @@ export {
   RushAddon,
   ImageUploadMethod,
   ProductId,
-  BodypartOption,
   PlushieWizardEvents,
   ProductStructuredData,
-  Hospital,
-  StoreRating,
   debugData
+}
+
+export type {
+  Dictionary,
+  ObjectBuilderInterface,
+  Value,
+  ImageSourceItem,
+  ImageAspectRatioSpec,
+  BodypartOption,
+  Hospital,
+  StoreRating
 }

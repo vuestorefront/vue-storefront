@@ -3,7 +3,7 @@ import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
 import { compareByLabel, _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers'
-import config, { products } from 'config'
+import config from 'config'
 import FilterVariant from '../../types/FilterVariant'
 import { optionLabel } from '@vue-storefront/core/modules/catalog/helpers'
 import trim from 'lodash-es/trim'
@@ -16,6 +16,8 @@ import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/help
 
 import { currentStoreView, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import cloneDeep from 'lodash-es/cloneDeep'
+
+const { products } = config
 
 function mapCategoryProducts (productsFromState, productsData) {
   return productsFromState.map(prodState => {

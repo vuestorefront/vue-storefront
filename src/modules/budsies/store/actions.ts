@@ -139,7 +139,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       return existingPromise;
     }
 
-    const loadingPromise = new Promise<void>(async (resolve) => {
+    const loadingPromise = (async (): Promise<void> => {
       const url = processURLAddress(`${config.budsies.endpoint}/plushies/products-rush-upgrades`);
 
       const result = await TaskQueue.execute({
@@ -161,8 +161,7 @@ export const actions: ActionTree<BudsiesState, RootState> = {
       commit(types.SET_RUSH_ADDONS_LOADING_PROMISE, undefined);
       commit(types.SET_IS_RUSH_ADDONS_LOADED);
 
-      resolve();
-    });
+    })();
 
     commit(types.SET_RUSH_ADDONS_LOADING_PROMISE, loadingPromise);
 

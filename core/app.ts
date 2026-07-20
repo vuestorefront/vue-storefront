@@ -47,7 +47,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   // sync router with vuex 'router' store
   sync(store, routerProxy)
   // TODO: Don't mutate the state directly, use mutation instead
-  store.state.version = process.env.APPVERSION
+  store.state.version = process.env.__APPVERSION__
   store.state.config = config // @deprecated
   store.state.__DEMO_MODE__ = (config.demomode === true)
   if (ssrContext) {

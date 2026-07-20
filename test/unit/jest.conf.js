@@ -15,9 +15,12 @@ module.exports = {
   ],
   transform: {
     '^.+\\.js$': '<rootDir>/node_modules/babel-jest',
-    '^.+\\.ts$': '<rootDir>/node_modules/ts-jest',
-    '.*\\.(vue)$': '<rootDir>/node_modules/vue-jest'
+    '^.+\\.ts$': ['<rootDir>/node_modules/ts-jest', {
+      tsconfig: '<rootDir>/tsconfig-jest.json'
+    }],
+    '.*\\.(vue)$': '<rootDir>/node_modules/@vue/vue2-jest'
   },
+  testEnvironment: 'jsdom',
   snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue'],
   coverageDirectory: '<rootDir>/test/unit/coverage',
   collectCoverageFrom: [
@@ -33,8 +36,7 @@ module.exports = {
   },
   transformIgnorePatterns: [
     '(.*)storefront-query-builder/node_modules/(.*)',
-    '<rootDir>/node_modules/(?!lodash)',
-    '<rootDir>/node_modules/(?!lodash-es/.*)'
+    '<rootDir>/node_modules/(?!lodash(?:-es)?/)'
   ],
   setupFiles: [
     '<rootDir>/test/unit/setupTestEnvironment.ts'

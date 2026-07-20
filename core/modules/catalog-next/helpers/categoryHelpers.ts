@@ -1,5 +1,7 @@
-import { entities } from 'config'
+import config from 'config'
 import { Category, ChildrenData } from '../types/Category'
+
+const { entities } = config
 
 export const compareByLabel = (a, b) => {
   if (a.label < b.label) {
