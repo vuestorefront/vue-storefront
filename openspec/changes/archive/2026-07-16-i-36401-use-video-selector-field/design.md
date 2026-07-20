@@ -35,15 +35,15 @@ An alternative was to add separate asset and playback fields directly to `VideoD
 
 A pure resolver will return a selector-backed effective source whenever `video` is not `undefined`. It will consult legacy `url` and top-level Video block settings only when `video` is absent. An empty or incomplete selector therefore produces no playable source and does not silently reveal stale legacy content. This implements the requested precedence literally and makes authoring errors observable.
 
-The resolved shape will contain source kind, asset URL or provider/video ID, source-specific aspect ratio, and effective playback settings. `Video.vue`, `isVideoData`, and zoom-gallery conversion will share this resolver or equivalent focused helpers. For legacy URLs and selector URLs, the resolver preserves only `display_controls` and ignores autoplay, muted, and loop values even if they are present in the flat selector payload. For asset sources, it preserves autoplay, muted, loop, and controls, with every omitted flag defaulting to false for the general Video block.
+The resolved shape will contain source kind, asset URL or provider/video ID, source-specific aspect ratio, and effective playback settings. `Video.vue`, `isVideoData`, and zoom-gallery conversion will share this resolver or equivalent focused helpers. For legacy URLs, the resolver preserves only the top-level `display_controls`; for selector URLs, it preserves only `video.options.display_controls` and ignores `video.options.autoplay`, `video.options.muted`, and `video.options.loop`. For asset sources, it preserves the four playback settings from `video.options`, with every omitted option defaulting to false for the general Video block.
 
 Selector assets provide a numeric aspect ratio, while selector embeds and legacy URL video provide an `AspectRatio` value. The resolver preserves those types instead of normalizing them. `StreamingVideo` continues to accept only the predefined `AspectRatio` values as it did before this change.
 
-### Interpret the flat selector according to source type
+### Interpret selector options according to source type
 
-`VideoSelectorField` remains a flat contract containing the source fields and all playback flags. Consumers determine whether the selected source is URL-based or asset-based. URL-based consumers honor only `display_controls`; asset consumers honor autoplay, muted, loop, and `display_controls`.
+`VideoSelectorField` contains the source fields and an `options` object containing the playback flags. Consumers determine whether the selected source is URL-based or asset-based. URL-based consumers honor only `options.display_controls`; asset consumers honor `options.autoplay`, `options.muted`, `options.loop`, and `options.display_controls`.
 
-A discriminated union was rejected because the existing flat field already represents the Storyblok payload. The behavioral distinction belongs in source resolution, and URL playback flags other than controls are deliberately ignored.
+A discriminated union was rejected because the existing compound field already represents the Storyblok payload. The behavioral distinction belongs in source resolution, and URL playback options other than controls are deliberately ignored.
 
 An alternative was to fall back whenever the selector was invalid. That is more forgiving, but contradicts the requirement that `url` be used only when the new field is not specified and can mask incomplete selector authoring.
 
@@ -71,7 +71,7 @@ An alternative was to expose a single width or a set of layout presets. Independ
 
 ### Preserve shared embedded aspect-ratio inputs
 
-`StreamingVideo` will remain the provider abstraction for the general Video block and keep its existing embedded-video playback and predefined `AspectRatio` contract. URL-based selectors pass their provider, video identifier, embedded aspect ratio, and controls visibility to it; autoplay, muted, and loop selector values are not forwarded. These values come from the legacy `VideoData.url`, `aspect_ratio`, and `display_controls` fields only when `video` is absent. General Video block assets use their explicit flags with false defaults. Homepage Intro does not use `StreamingVideo`.
+`StreamingVideo` will remain the provider abstraction for the general Video block and keep its existing embedded-video playback and predefined `AspectRatio` contract. URL-based selectors pass their provider, video identifier, embedded aspect ratio, and `options.display_controls` visibility to it; `options.autoplay`, `options.muted`, and `options.loop` are not forwarded. These values come from the legacy `VideoData.url`, `aspect_ratio`, and top-level `display_controls` fields only when `video` is absent. General Video block assets use their explicit `video.options` flags with false defaults. Homepage Intro does not use `StreamingVideo`.
 
 Building a Homepage Intro-specific YouTube embed was rejected because it would duplicate provider rules and create a second player path.
 
@@ -87,7 +87,7 @@ Building a Homepage Intro-specific YouTube embed was rejected because it would d
 
 ## Migration Plan
 
-1. Add/export `VideoSelectorField`, the selector-backed `video` contract, and effective-source helpers while retaining legacy `url`, `aspect_ratio`, and `display_controls` support.
+1. Add/export `VideoSelectorField` and `VideoSelectorOptions`, the selector-backed `video` contract, and effective-source helpers while retaining legacy `url`, `aspect_ratio`, and `display_controls` support.
 2. Update Video, gallery, and Homepage Intro consumers for selector, fallback, invalid selector, viewport, and image-only cases.
 3. Add the selector-backed `video` field to the Storyblok Video block schema and the optional desktop content-position fields to Homepage Intro; existing URL-backed entries require no content migration.
 4. Deploy and monitor Video blocks and homepage hero behavior across desktop/mobile and preview mode.

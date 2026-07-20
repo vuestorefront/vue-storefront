@@ -8,7 +8,7 @@ The Homepage Intro Section supports responsive static images but has no normaliz
 - Add optional desktop and mobile selector fields to `HomepageIntroSectionData`.
 - Add an optional `video` field of type `VideoSelectorField` to `VideoData`.
 - Make `video` the primary source of asset and embedded video data, including selector-level aspect ratio.
-- For URL-based selector video, honor only `display_controls` and ignore autoplay, muted, and loop values; for asset video, honor all four playback options.
+- For URL-based selector video, honor only `video.options.display_controls` and ignore `video.options.autoplay`, `video.options.muted`, and `video.options.loop`; for asset video, honor all four playback options from `video.options`.
 - Use the legacy `VideoData.url` source only when `video` is not specified; a present selector does not silently fall back to `url`.
 - Define `VideoData.video` exclusively as a `VideoSelectorField`; uploaded assets are read from `video.asset` rather than from a standalone `AssetField` contract.
 - Make `VideoData.url` and top-level `aspect_ratio` optional at the type boundary so selector-only Video blocks do not require redundant legacy values.
