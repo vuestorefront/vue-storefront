@@ -34,8 +34,10 @@ const translationPreprocessor = require('@vue-storefront/i18n/scripts/translatio
 translationPreprocessor(csvDirectories, config)
 
 const tsconfig = require('../../tsconfig-build-dev.json');
+const projectRoot = path.resolve(__dirname, '../..');
+const themeRelativePath = path.relative(projectRoot, themeRoot).split(path.sep).join('/');
 tsconfig.compilerOptions.paths['theme/*'] = [
-  `${themeRoot}/*`
+  `./${themeRelativePath}/*`
 ];
 
 require('fs').writeFileSync('tsconfig.json', JSON.stringify(tsconfig, null, 2));

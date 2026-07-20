@@ -23,9 +23,6 @@
     "skipLibCheck": true,
     "tsBuildInfoFile": "./var/vue-tsc.tsbuildinfo"
   },
-  "vueCompilerOptions": {
-    "target": 2
-  },
   "include": [
     "shims.d.ts",
     "core/**/*.ts",

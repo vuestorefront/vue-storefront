@@ -22,6 +22,9 @@
     },
     "lib": ["es2020", "dom"]
   },
+  "vueCompilerOptions": {
+    "target": 2
+  },
   "files": ["shims.d.ts"],
   "include": [
     "src/**/*.ts",
