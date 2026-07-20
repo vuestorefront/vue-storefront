@@ -13,8 +13,7 @@ export default function isRushAddonApiResponse (
   const fields: Record<string, string> = {
     'sku': 'string',
     'text': 'string',
-    'price': 'number',
-    'turnaround_time': 'number'
+    'price': 'number'
   }
 
   for (const field in fields) {
