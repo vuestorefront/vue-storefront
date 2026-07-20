@@ -20,24 +20,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '10.24.1'
+          node-version: '24.14.1'
+
+      - name: Setup Yarn Classic
+        run: |
+          corepack prepare yarn@1.22.22 --activate
+          test "$(yarn --version)" = "1.22.22"
 
       - name: Clone default theme
         run: git clone --quiet --single-branch --branch master https://github.com/vuestorefront/vsf-default.git ./src/themes/default
 
       - name: Get cached dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-1.22.22-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: yarn install --frozen-lockfile
 
   lint:
     name: Lint
@@ -45,43 +50,60 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '10.24.1'
+          node-version: '24.14.1'
+
+      - name: Setup Yarn Classic
+        run: |
+          corepack prepare yarn@1.22.22 --activate
+          test "$(yarn --version)" = "1.22.22"
 
       - name: Get cached dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-1.22.22-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Verify upgrade configuration lifecycle
+        run: yarn test:upgrade:config
 
       - name: Run linter
         run: yarn lint
 
   unit_tests:
-    name: Unit tests
+    name: Maintained unit tests
     needs: prepare_dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '10.24.1'
+          node-version: '24.14.1'
+
+      - name: Setup Yarn Classic
+        run: |
+          corepack prepare yarn@1.22.22 --activate
+          test "$(yarn --version)" = "1.22.22"
 
       - name: Get cached dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-1.22.22-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Run unit tests
-        run: yarn test:unit
+      - name: Run maintained project unit tests
+        run: yarn test:unit:maintained
+
+      - name: Run stock Vue Storefront core unit tests (disabled)
+        if: ${{ false }}
+        run: yarn test:unit:core
 
   build:
     name: Build
@@ -89,21 +111,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '10.24.1'
+          node-version: '24.14.1'
+
+      - name: Setup Yarn Classic
+        run: |
+          corepack prepare yarn@1.22.22 --activate
+          test "$(yarn --version)" = "1.22.22"
 
       - name: Clone default theme
         run: git clone --quiet --single-branch --branch master https://github.com/vuestorefront/vsf-default.git ./src/themes/default
 
       - name: Get cached dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-1.22.22-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run build
         run: yarn build

@@ -12,8 +12,6 @@ services:
     environment:
       - VS_ENV
       - APPVERSION
-      - NODE_CONFIG_ENV=docker
-      - PM2_ARGS=--no-daemon
       - HELMET_ENABLED
       - HELMET_FRAME_ANCESTORS
 

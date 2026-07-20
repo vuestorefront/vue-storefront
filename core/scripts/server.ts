@@ -465,7 +465,11 @@ const start = () => {
   const server = app.listen(port, host);
   server.keepAliveTimeout = keepAliveTimeout;
   server.headersTimeout = keepAliveTimeout + 1000;
-  gracefulShutdown(server);
+  gracefulShutdown(server, {
+    onShutdown: async () => {
+      if (cache) await cache.close();
+    }
+  });
 
   server.on('listening', () => {
     console.log(`\n\n----------------------------------------------------------`)

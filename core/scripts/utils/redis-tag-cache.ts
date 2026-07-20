@@ -96,6 +96,12 @@ class TagCache {
       return Promise.reject(err);
     }
   };
+
+  public close = async (): Promise<void> => {
+    if (this.redis.status === 'end') return;
+
+    await this.redis.quit();
+  };
 }
 
 export default TagCache;

@@ -17,10 +17,27 @@ Please take a look at the `node-config` docs as the library is open for some oth
 :::
 
 :::tip NOTE
-Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes, you shall rebuild the app, even when using the `yarn dev` mode. This limitation can be solved with the VS 1.4 special config variable. Now the config can be reloaded on the fly with each server request if `config.server.dynamicConfigReload` and `config.server.dynamicConfigReloadWithEachRequest` are set to true. However, in that case, the config is added to `window.INITIAL_STATE` with the responses.
-
-When you are using the `config.server.dynamicConfigReload` please remember about `config.server.dynamicConfigExclude` and `config.server.dynamicConfigInclude`.
+`dynamicConfigReload` controls configuration providers registered by server modules. It does not watch or reload `config/local.json`. When dynamic configuration is enabled, review `dynamicConfigExclude`, `dynamicConfigInclude`, and `purgeConfig` because the selected values are serialized into the SSR state returned to the browser.
 :::
+
+## Configuration lifecycle
+
+The application has separate build-time and server-runtime configuration paths. A configuration key can participate in both paths when it is used by both bundled application code and the unbundled server bootstrap.
+
+| Path | When values are resolved | Consumers | Change requirement |
+| --- | --- | --- | --- |
+| Generated bundle configuration | `yarn generate-files`, before Webpack starts | Client, SSR bundle, and service worker imports from `config` | Regenerate and rebuild |
+| Server configuration | Once per PM2 worker when the unbundled server starts | HTTP server, output cache, Redis, SSR templates, and server extensions | Restart all workers |
+| Direct process environment | When the server process starts | `PORT`, `HOST`, and `KEEP_ALIVE_TIMEOUT` overrides | Restart all workers |
+| Dynamic configuration providers | On the first request, or each request when configured | SSR request context and the explicitly included browser state | Depends on the provider policy |
+
+`yarn generate-files` resolves the merged node-config input and writes `core/build/config.json`. The shared Webpack configuration aliases every bundled `config` import to that generated snapshot, and `purgeConfig` removes configured private sections before the snapshot is embedded. This applies to the client, SSR server bundle, and service worker. Storefront behavior such as theme selection, store views, browser API endpoints, Storyblok settings, and payment public configuration is therefore build-time state.
+
+The process started by PM2 is not bundled. `core/scripts/server.ts`, its utilities, and server extensions load node-config directly at worker startup. Server binding, output-cache behavior, Redis connection settings, SSR template paths, cache headers, and server-only extension settings are runtime startup state. Changing a file under `config/` does not alter already running workers.
+
+The checked-in application container renders `config/local.json.template` and `ecosystem.json.template` before it builds and starts the application. Environment-backed values in `config/local.json.template` are consequently used for both the generated bundle snapshot and the server startup configuration; changing those environment variables on an already running container has no effect. The ecosystem template controls PM2 process settings such as worker count and memory limits.
+
+Never treat `purgeConfig` as a general secret store. Any value that can reach the generated browser configuration or dynamic SSR state must be safe to expose publicly.
 
 Please find the configuration properties reference below.
 

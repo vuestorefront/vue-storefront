@@ -4,11 +4,11 @@ set -e
 envsubst < config/local.json.template > config/local.json
 envsubst < ecosystem.json.template > ecosystem.json
 
-yarn install || exit $?
+yarn install --frozen-lockfile
 
 if [ "$VS_ENV" = 'dev' ]; then
-  yarn dev
+  exec yarn dev
 else
-  yarn build || exit $?
-  yarn start
+  yarn build
+  exec ./node_modules/.bin/pm2-runtime start ecosystem.json
 fi

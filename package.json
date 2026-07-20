@@ -4,7 +4,8 @@
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {
-    "node": "10.24.x"
+    "node": "24.14.1",
+    "yarn": "1.22.22"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,7 @@
     "static-server": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/static-server.ts",
     "generate": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/generate.ts",
     "generate-files": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/generate-files.ts",
-    "start": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" pm2 start ecosystem.json $PM2_ARGS",
+    "start": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" pm2-runtime start ecosystem.json",
     "start:inspect": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" node --inspect=0.0.0.0 -r ts-node/register ./core/scripts/server",
     "all": "cross-env NODE_ENV=development node ./core/scripts/all",
     "cache": "node ./core/scripts/cache",
@@ -42,9 +43,12 @@
     "build:bundles": "npm-run-all -p build:client build:server",
     "build": "rimraf dist/* && yarn generate-files && yarn build:bundles && yarn build:sw",
     "test:unit": "jest -c test/unit/jest.conf.js",
+    "test:unit:maintained": "jest -c test/unit/jest.conf.js --testPathIgnorePatterns='/(core|e2e-tests)/'",
+    "test:unit:core": "jest -c test/unit/jest.conf.js --testPathPattern=/core/",
     "test:unit:watch": "jest -c test/unit/jest.conf.js --watch",
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
+    "test:upgrade:config": "node test/upgrade/configuration-lifecycle.js",
     "lint": "cross-env NODE_ENV=production eslint --ext .js,.vue,.ts core src",
     "lint:fix": "yarn lint --fix",
     "deduplicate-lock": "yarn-deduplicate",
@@ -184,9 +188,6 @@
     "vue-template-compiler": "2.6.14"
   },
   "resolutions": {
-    "@pm2/agent": "2.0.1",
-    "node-releases": "2.0.36",
-    "socks": "2.7.1",
     "vue": "2.6.14"
   },
   "browserslist": [

@@ -1,19 +1,15 @@
-FROM node:10.24.1-alpine
+FROM node:24.14.1-alpine
+
+ARG YARN_VERSION=1.22.22
 
 ENV VS_ENV prod
 
 WORKDIR /var/www
 
-#COPY package.json ./
-#COPY yarn.lock ./
+RUN apk add --no-cache gettext git grep
 
-RUN apk add --no-cache --virtual .build-deps ca-certificates wget python make g++ \
-  && apk add --no-cache git \
-  && apk del .build-deps
-
-RUN apk add --update libintl && apk add --virtual build_deps gettext
-
-RUN apk add --no-cache --upgrade grep
+RUN corepack prepare "yarn@${YARN_VERSION}" --activate \
+  && test "$(yarn --version)" = "${YARN_VERSION}"
 
 COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
 
