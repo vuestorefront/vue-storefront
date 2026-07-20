@@ -1,0 +1,44 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "incremental": true,
+    "noEmit": true,
+    "paths": {
+      "core/*": [
+        "core/*"
+      ],
+      "core/modules/*": [
+        "./core/modules/*"
+      ],
+      "@vue-storefront/core/helpers/initCacheStorage": [
+        "./core/lib/storage-manager.ts"
+      ],
+      "@vue-storefront/*": [
+        "./"
+      ],
+      "theme/*": [
+        "src/themes/petsies-capybara/*"
+      ]
+    },
+    "skipLibCheck": true,
+    "tsBuildInfoFile": "./var/vue-tsc.tsbuildinfo"
+  },
+  "vueCompilerOptions": {
+    "target": 2
+  },
+  "include": [
+    "shims.d.ts",
+    "core/**/*.ts",
+    "core/**/*.vue",
+    "src/**/*.ts",
+    "src/**/*.vue"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "var",
+    "test",
+    "**/*.spec.ts",
+    "**/e2e-tests"
+  ]
+}

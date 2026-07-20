@@ -44,6 +44,9 @@ const sassLoaderConfig = {
     }
   }
 }
+const progressPlugins = process.env.WEBPACK_PROGRESS === 'true'
+  ? [new webpack.ProgressPlugin()]
+  : []
 // todo: usemultipage-webpack-plugin for multistore
 const config: webpack.Configuration = {
   ignoreWarnings: [isDeprecationWarning],
@@ -62,7 +65,7 @@ const config: webpack.Configuration = {
   },
   plugins: [
     new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
-    new webpack.ProgressPlugin(),
+    ...progressPlugins,
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
       'process.env.BUILD': JSON.stringify('lib'),
