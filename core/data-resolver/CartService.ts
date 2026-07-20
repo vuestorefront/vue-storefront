@@ -134,7 +134,7 @@ const getItems = async (): Promise<Task> =>
     silent: true
   });
 
-const applyCoupon = async (couponCode: string): Promise<Task> => {
+const applyCoupon = async (couponCode: string, silent = false): Promise<Task> => {
   const url = processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'applycoupon_endpoint')
     .replace('{{coupon}}', couponCode.trim()))
 
@@ -145,7 +145,7 @@ const applyCoupon = async (couponCode: string): Promise<Task> => {
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
-    silent: false
+    silent
   });
 }
 

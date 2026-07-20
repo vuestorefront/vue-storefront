@@ -80,6 +80,9 @@ const mutations: MutationTree<CartState> = {
   [types.CART_LOAD_CART_SERVER_TOKEN] (state, token) {
     state.cartServerToken = token
   },
+  [types.CART_SET_PENDING_COUPON] (state, couponCode: string | null) {
+    state.pendingCouponCode = couponCode || null
+  },
   [types.CART_UPD_TOTALS] (state, { itemsAfterPlatformTotals, platformTotals, platformTotalSegments }) {
     state.itemsAfterPlatformTotals = itemsAfterPlatformTotals
     state.platformTotals = platformTotals

@@ -9,4 +9,5 @@ export enum WidgetType {
   TEXT_AREA = 'text_area',
   TEXT_INPUT = 'text_input',
   THUMBNAILS_LIST = 'thumbnails_list',
+  PRODUCTION_TIME_TIMELINE = 'production_time_timeline'
 }

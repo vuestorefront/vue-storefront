@@ -19,8 +19,6 @@ const SNEAK_PEEK_OPTION_VALUES_SKUS = [
 
 const ADD_SNEAK_PEEK_AVAILABILITY_RULES = true;
 
-const DOMESTIC_COUNTRY_ID = 'US';
-
 function buildStandardOptionValue (standardText?: string): OptionValue {
   return {
     id: PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID,
@@ -66,7 +64,8 @@ function updateProductionTimeCustomization (
 
     values.push({
       ...value,
-      name: addon.text
+      name: addon.text,
+      description: value.description
     });
   }
 
@@ -157,10 +156,8 @@ export function updateProductProductionTimeCustomizationData (
   product: Product,
   store: Store<any>,
   options: {
-    shippingCountryId?: string,
     makeProductionTimeRequired: boolean
   } = {
-    shippingCountryId: undefined,
     makeProductionTimeRequired: true
   }
 ): Product {
@@ -168,7 +165,7 @@ export function updateProductProductionTimeCustomizationData (
     return product;
   }
 
-  const { shippingCountryId, makeProductionTimeRequired } = options;
+  const { makeProductionTimeRequired } = options;
 
   const productionTimeCustomization = product.customizations.find(
     (customization) => customization.optionData?.type === OptionType.PRODUCTION_TIME
@@ -180,14 +177,6 @@ export function updateProductProductionTimeCustomizationData (
 
   let availableAddons: RushAddon[] =
     store.getters['budsies/getProductRushAddons'](product.id);
-
-  if (shippingCountryId) {
-    const isDomesticShipping = shippingCountryId.toUpperCase() === DOMESTIC_COUNTRY_ID;
-
-    availableAddons = availableAddons.filter(
-      (addon) => addon.isDomestic === isDomesticShipping
-    );
-  }
 
   if (availableAddons.length === 0) {
     return removeProductionTimeCustomizationFromProduct(

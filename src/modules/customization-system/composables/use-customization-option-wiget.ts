@@ -2,7 +2,6 @@ import { computed, Ref, SetupContext } from '@vue/composition-api';
 
 import { CustomizationOptionValue } from '../types/customization-option-value';
 import { Customization } from '../types/customization.interface';
-import { OptionType } from '../types/option-type';
 import { OptionValue } from '../types/option-value.interface';
 import { WidgetType } from '../types/widget-type';
 import { WidgetOptionAlignment } from '../types/widget-option-alignment.type';
@@ -152,6 +151,17 @@ export function useCustomizationOptionWidget (
           component: 'ThumbnailsListWidget',
           props: listWidgetsProps
         };
+      case WidgetType.PRODUCTION_TIME_TIMELINE:
+        return {
+          component: 'ProductionTimeTimelineWidget',
+          props: {
+            ariaLabelledby: customization.value.id,
+            maxValuesCount: maxValuesCount.value,
+            productId: productId.value,
+            radioGroupName: customization.value.id,
+            values: values.value
+          }
+        }
       default:
         throw new Error(`Unknown widget type: ${String(displayWidget)}`);
     }

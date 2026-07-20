@@ -26,6 +26,12 @@ const synchronizeActions = {
   },
   async loadCartDataFromLocalStorage ({ commit, dispatch }, { forceClientState, forceSync }) {
     const { synchronize } = config.cart
+    const cartStorage = StorageManager.get('cart')
+    const pendingCouponCode = await cartStorage.getItem('pending-coupon-code')
+
+    if (pendingCouponCode) {
+      commit(types.CART_SET_PENDING_COUPON, pendingCouponCode)
+    }
 
     if (!synchronize) {
       commit(types.CART_SET_LOCAL_DATA_LOADED, true);
@@ -33,7 +39,6 @@ const synchronizeActions = {
       return;
     }
 
-    const cartStorage = StorageManager.get('cart')
     const token = await cartStorage.getItem('current-cart-token')
     const hash = await cartStorage.getItem('current-cart-hash')
 

@@ -7,6 +7,7 @@ export default interface CartState {
   platformTotalSegments: any,
   cartIsLoaded: boolean,
   cartServerToken: string,
+  pendingCouponCode: string | null,
   shipping: any,
   payment: any,
   cartItemsHash: string,

@@ -1,7 +1,28 @@
 import { CartService } from '@vue-storefront/core/data-resolver'
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
+import { IS_CART_SYNCING, IS_COUPON_PROCESSING } from '../getter-types'
 
 const couponActions = {
+  async applyPendingCoupon ({ getters, commit, dispatch }) {
+    const couponCode = getters.getPendingCouponCode
+
+    if (!couponCode || getters.getCoupon || getters[IS_CART_SYNCING] || getters[IS_COUPON_PROCESSING]) {
+      return false
+    }
+
+    try {
+      const task = await dispatch('applyCoupon', { couponCode, silent: true })
+
+      if (!task || task.resultCode !== 200) {
+        return false
+      }
+
+      commit(types.CART_SET_PENDING_COUPON, null)
+      return true
+    } catch (error) {
+      return false
+    }
+  },
   async removeCoupon ({ commit, getters, dispatch }, { sync = true } = {}) {
     if (getters.canSyncTotals) {
       commit(types.SET_IS_COUPON_PROCESSING, true);
@@ -21,11 +42,11 @@ const couponActions = {
       }
     }
   },
-  async applyCoupon ({ getters, dispatch, commit }, couponCode) {
+  async applyCoupon ({ getters, dispatch, commit }, { couponCode, silent = false }: {couponCode: string, silent: boolean}) {
     if (couponCode && getters.canSyncTotals) {
       commit(types.SET_IS_COUPON_PROCESSING, true);
       try {
-        const task = await CartService.applyCoupon(couponCode)
+        const task = await CartService.applyCoupon(couponCode, silent)
 
         if (task.result) {
           await dispatch('syncTotals', { forceServerSync: true })
