@@ -3,14 +3,12 @@ name: Run VSF1 tests
 on:
   push:
     branches:
-      - master
-      - develop
+      - petsies-theme
       - 'release/v**'
       - 'hotfix/v**'
   pull_request:
     branches:
-      - master
-      - develop
+      - petsies-theme
       - 'release/v**'
       - 'hotfix/v**'
 
@@ -20,10 +18,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+
+      - name: Checkout Petsies theme
+        run: git submodule update --init --recursive src/themes/petsies-capybara
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '24.14.1'
 
@@ -33,11 +34,8 @@ jobs:
           corepack install --global yarn@4.17.1
           test "$(yarn --version)" = "4.17.1"
 
-      - name: Clone default theme
-        run: git clone --quiet --single-branch --branch master https://github.com/vuestorefront/vsf-default.git ./src/themes/default
-
       - name: Get cached dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ hashFiles('**/yarn.lock') }}
@@ -51,10 +49,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+
+      - name: Checkout Petsies theme
+        run: git submodule update --init --recursive src/themes/petsies-capybara
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '24.14.1'
 
@@ -65,7 +66,7 @@ jobs:
           test "$(yarn --version)" = "4.17.1"
 
       - name: Get cached dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ hashFiles('**/yarn.lock') }}
@@ -82,10 +83,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+
+      - name: Checkout Petsies theme
+        run: git submodule update --init --recursive src/themes/petsies-capybara
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '24.14.1'
 
@@ -96,7 +100,7 @@ jobs:
           test "$(yarn --version)" = "4.17.1"
 
       - name: Get cached dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ hashFiles('**/yarn.lock') }}
@@ -114,10 +118,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+
+      - name: Checkout Petsies theme
+        run: git submodule update --init --recursive src/themes/petsies-capybara
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '24.14.1'
 
@@ -127,11 +134,8 @@ jobs:
           corepack install --global yarn@4.17.1
           test "$(yarn --version)" = "4.17.1"
 
-      - name: Clone default theme
-        run: git clone --quiet --single-branch --branch master https://github.com/vuestorefront/vsf-default.git ./src/themes/default
-
       - name: Get cached dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ hashFiles('**/yarn.lock') }}
