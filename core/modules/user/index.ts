@@ -54,6 +54,6 @@ export const UserModule: StorefrontModule = async function ({ store }) {
   }
 }
 
-export {
+export type {
   AuthenticateRequestResponse
 }

@@ -11,12 +11,12 @@ import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 import omit from 'lodash-es/omit'
 import * as PriceHelper from './price';
 
-export const processURLAddress = (url: string = '') => {
+export const processURLAddress = (url = '') => {
   if (url.startsWith('/')) return `${getApiEndpointUrl(config.api, 'url')}${url}`
   return url
 }
 
-export const processLocalizedURLAddress = (url: string = '') => {
+export const processLocalizedURLAddress = (url = '') => {
   if (config.storeViews.multistore) {
     return processURLAddress(adjustMultistoreApiUrl(url))
   }
@@ -48,7 +48,7 @@ export function slugify (text) {
  * @param {string} pathType
  * @returns {string}
  */
-export function getThumbnailPath (relativeUrl: string, width: number = 0, height: number = 0, pathType: string = 'product'): string {
+export function getThumbnailPath (relativeUrl: string, width = 0, height = 0, pathType = 'product'): string {
   if (config.images.useSpecificImagePaths) {
     const path = config.images.paths[pathType] !== undefined ? config.images.paths[pathType] : ''
     relativeUrl = path + relativeUrl

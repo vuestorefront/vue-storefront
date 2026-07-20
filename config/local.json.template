@@ -6,11 +6,6 @@
     "protocol": "http",
     "api": "api-search-query",
     "devServiceWorker": false,
-    "useHtmlMinifier": ${SSR_USE_HTML_MINIFIER},
-    "htmlMinifierOptions": {
-      "minifyJS": true,
-      "minifyCSS": true
-    },
     "useOutputCacheTagging": ${SSR_OUTPUT_CACHE_ENABLE},
     "useOutputCache": ${SSR_OUTPUT_CACHE_ENABLE},
     "outputCacheDefaultTtl": ${SSR_OUTPUT_CACHE_TTL},
@@ -76,10 +71,6 @@
         "woff",
         "woff2"
       ]
-    },
-    "trace": {
-      "enabled": false,
-      "config": {}
     },
     "helmet": {
       "enabled": ${HELMET_ENABLED},
@@ -304,12 +295,6 @@
     "port": ${REDIS_PORT},
     "db": ${REDIS_DB}
   },
-  "graphql": {
-    "host": "vsf-api-app",
-    "port": 8080,
-    "host_ssr": "vsf-api-app",
-    "port_ssr": 8080
-  },
   "api": {
     "url": "https://${VSF_API_DOMAIN}",
     "saveBandwidthOverCache": true,
@@ -359,10 +344,10 @@
   },
   "ssr": {
     "templates": {
-      "default": "dist/index.html",
-      "minimal": "dist/index.minimal.html",
-      "basic": "dist/index.basic.html",
-      "amp": "dist/index.amp.html"
+      "default": "dist/client/index.html",
+      "minimal": "dist/client/index.minimal.html",
+      "basic": "dist/client/index.basic.html",
+      "amp": "dist/client/index.amp.html"
     },
     "lazyHydrateFor": [
       "homepage.new_collection"
@@ -923,9 +908,6 @@
     "sendConfirmation": true
   },
   "theme": "${STORE_THEME}",
-  "analytics": {
-    "id": "${GOOGLE_ANALYTICS_TRACKING_ID}"
-  },
   "braintree" : {
     "endpoint": "https://${VSF_API_DOMAIN}/api/ext/braintree",
     "applePay": {
@@ -1031,7 +1013,6 @@
   "purgeConfig": [
     "server.invalidateCacheKey",
     "server.invalidateCacheForwardUrl",
-    "server.trace",
     "redis",
     "install",
     "expireHeaders",

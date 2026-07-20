@@ -109,14 +109,17 @@ describe('traffic attribution storage helpers', () => {
     };
     const handleStorageEvent = getItemsFromStorageFactory(store as any);
 
-    handleStorageEvent({
+    const firstTouchEvent = {
       key: `shop/${MODULE_NAME}/${FIRST_TOUCH}`,
       newValue: JSON.stringify(firstTouch)
-    } as StorageEvent);
-    handleStorageEvent({
+    };
+    const lastTouchEvent = {
       key: `shop/${MODULE_NAME}/${LAST_TOUCH}`,
       newValue: JSON.stringify(lastTouch)
-    } as StorageEvent);
+    };
+
+    handleStorageEvent(firstTouchEvent as StorageEvent);
+    handleStorageEvent(lastTouchEvent as StorageEvent);
 
     expect(store.commit).toHaveBeenCalledWith(`${MODULE_NAME}/${SET_FIRST_TOUCH}`, firstTouch);
     expect(store.commit).toHaveBeenCalledWith(`${MODULE_NAME}/${SET_LAST_TOUCH}`, lastTouch);
@@ -128,14 +131,17 @@ describe('traffic attribution storage helpers', () => {
     };
     const handleStorageEvent = getItemsFromStorageFactory(store as any);
 
-    handleStorageEvent({
+    const firstTouchEvent = {
       key: `shop/${MODULE_NAME}/${FIRST_TOUCH}`,
       newValue: null
-    } as StorageEvent);
-    handleStorageEvent({
+    };
+    const lastTouchEvent = {
       key: `shop/${MODULE_NAME}/${LAST_TOUCH}`,
       newValue: null
-    } as StorageEvent);
+    };
+
+    handleStorageEvent(firstTouchEvent as StorageEvent);
+    handleStorageEvent(lastTouchEvent as StorageEvent);
 
     expect(store.commit).toHaveBeenCalledWith(`${MODULE_NAME}/${CLEAR_FIRST_TOUCH}`);
     expect(store.commit).toHaveBeenCalledWith(`${MODULE_NAME}/${CLEAR_LAST_TOUCH}`);

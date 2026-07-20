@@ -66,7 +66,7 @@ export class DiffLog {
       !this.hasServerResponses()
   }
 
-  public hasNotFoundServerResponse(): boolean {
+  public hasNotFoundServerResponse (): boolean {
     return !!this.serverResponses.find((item) => item.status === 404);
   }
 }

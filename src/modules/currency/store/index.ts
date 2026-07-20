@@ -8,10 +8,12 @@ import { actions } from './actions'
 import { state } from './state';
 import { CurrencyState } from '../types/currency-state.interface'
 
-export const module: Module<CurrencyState, RootState> = {
+const storeModule: Module<CurrencyState, RootState> = {
   namespaced: true,
   state,
   mutations,
   actions,
   getters
 }
+
+export { storeModule as module }

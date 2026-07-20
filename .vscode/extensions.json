@@ -7,7 +7,7 @@
 		"dbaeumer.vscode-eslint",
 		"stylelint.vscode-stylelint",
 		"syler.sass-indented",
-		"octref.vetur",
+		"Vue.volar",
 		"mhutchie.git-graph",
 		"github.vscode-pull-request-github",
 		"eamodio.gitlens",
@@ -18,5 +18,6 @@
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": [
 		"ms-vscode.vscode-typescript-tslint-plugin",
+		"octref.vetur",
 	]
 }

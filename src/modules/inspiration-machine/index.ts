@@ -21,11 +21,14 @@ export {
   SN_INSPIRATION_MACHINE,
   actions,
   getters,
-  SelectableItem,
-  Theme,
   InspirationMachineCharacterStep,
   InspirationMachineDownloadGuideStep,
   InspirationMachineDownloadKit,
   InspirationMachineExtrasStep,
   InspirationMachineThemeStep
+}
+
+export type {
+  SelectableItem,
+  Theme
 }

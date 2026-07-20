@@ -28,7 +28,7 @@ export const Compare = {
     }
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve) => {
       if (context) context.output.cacheTags.add(`compare`)
       resolve()
     })

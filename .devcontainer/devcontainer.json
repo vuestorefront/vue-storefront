@@ -34,7 +34,7 @@
 				"dbaeumer.vscode-eslint",
 				"syler.sass-indented",
 				"stylelint.vscode-stylelint",
-				"octref.vetur",
+				"Vue.volar",
 				"ms-playwright.playwright",
 				"thimo.integrated-browser-mcp"
 			]

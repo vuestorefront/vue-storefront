@@ -35,7 +35,7 @@ export function useExistingValidationResult (
       case AddressValidationStatusId.VALID:
         validationVerdict = 'ACCEPT';
         break;
-      case AddressValidationStatusId.SUSPECT:
+      case AddressValidationStatusId.SUSPECT: {
         const isMissingSubpremises = missingComponents?.includes('subpremise');
 
         if (!isMissingSubpremises && !suggestedAddress) {
@@ -44,6 +44,7 @@ export function useExistingValidationResult (
 
         validationVerdict = isMissingSubpremises ? 'CONFIRM_ADD_SUBPREMISES' : 'CONFIRM';
         break;
+      }
       case AddressValidationStatusId.INVALID:
         validationVerdict = 'FIX';
     }

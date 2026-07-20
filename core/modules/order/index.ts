@@ -5,9 +5,9 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index
 import { Logger } from '@vue-storefront/core/lib/logger'
 import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
-import { serial, onlineHelper, processURLAddress } from '@vue-storefront/core/helpers'
+import { serial, onlineHelper, processURLAddress, isServer } from '@vue-storefront/core/helpers'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { isServer } from '@vue-storefront/core/helpers'
+
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { ORDER_CONFLICT_EVENT } from './types/OrderConflictEvent'
 
@@ -84,7 +84,11 @@ export const OrderModule: StorefrontModule = function ({ store }) {
                 }).catch(err => {
                   if (config.orders.offline_orders.notification.enabled) {
                     navigator.serviceWorker.ready.then(registration => {
-                      registration.sync.register('orderSync')
+                      const backgroundSyncRegistration = registration as ServiceWorkerRegistration & {
+                        sync: { register: (tag: string) => Promise<void> }
+                      }
+
+                      backgroundSyncRegistration.sync.register('orderSync')
                         .then(() => {
                           Logger.log('Order sync registered')()
                         })

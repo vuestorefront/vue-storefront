@@ -58,7 +58,6 @@ export const CurrencyModule: StorefrontModule = async function ({ store }) {
 }
 
 export {
-  Currency,
   CurrencySelector,
   DEFAULT_CURRENCY,
   FETCH_AVAILABLE_CURRENCIES_ACTION,
@@ -66,3 +65,5 @@ export {
   GET_ACTIVE_CURRENCY,
   GET_CURRENCY_EXCHANGE_RATE
 }
+
+export type { Currency }

@@ -1,5 +1,11 @@
 .DS_Store
 node_modules/
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 dist/
 *.icloud
 npm-debug.log
@@ -40,3 +46,4 @@ core/resource/i18n/ru-RU.json
 docker-compose.override.yml
 changes.diff
 plan*.md
+ecosystem.json

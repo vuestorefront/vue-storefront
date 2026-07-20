@@ -8,7 +8,6 @@ const omit = require('lodash/omit')
 const set = require('lodash/set')
 const get = require('lodash/get')
 const config = require('config')
-const minify = require('html-minifier').minify
 
 function createRenderer (bundle, clientManifest, template?) {
   let shouldPreload = () => { }
@@ -80,11 +79,6 @@ function applyAdvancedOutputProcessing (context, output, templatesCache, isProd 
     output = output.replace(new RegExp('/dist', 'g'), `${relativePath}/dist`)
     output = output.replace(new RegExp('/assets', 'g'), `${relativePath}/dist`)
     output = output.replace(new RegExp('href="/', 'g'), `href="${relativePath}/`)
-  }
-
-  if (config.server.useHtmlMinifier) {
-    console.debug('HTML Minifier is enabled')
-    output = minify(output, config.server.htmlMinifierOptions)
   }
 
   if ((typeof context.output.filter === 'function')) {

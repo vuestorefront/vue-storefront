@@ -1,9 +1,9 @@
 {
     "window.title": "vue-storefront-store-budsies${separator}${activeEditorShort} ${dirty}",
-    "vetur.validation.templateProps": true,
-    "vetur.experimental.templateInterpolationService": true,
+    "vue.server.path": "node_modules/@vue/language-server",
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
     "emmet.includeLanguages": {
-        "vue-html": "html",
         "vue": "html"
     },
     "editor.formatOnSave": false,

@@ -91,7 +91,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
         content: data.content,
         ...data.attrs
       }
-    case 'text':
+    case 'text': {
       const id = uuidv4();
       const link = data.marks?.find((mark: any) => mark.type === 'link');
 
@@ -116,6 +116,7 @@ export default function getRichTextItemData (data: any): RichTextItem {
         },
         content: [{ ...data, marks: data.marks.filter((mark: any) => mark.type !== 'link') }]
       }
+    }
 
     case 'list_item':
       return {

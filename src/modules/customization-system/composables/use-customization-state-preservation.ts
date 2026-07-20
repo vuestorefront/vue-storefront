@@ -109,7 +109,7 @@ export function useCustomizationStatePreservation (
     }
   }
 
-  async function restorePreservedState (shouldResetState: boolean = false): Promise<void> {
+  async function restorePreservedState (shouldResetState = false): Promise<void> {
     const currentRestorationId = ++restorationId.value;
 
     canUpdateState.value = false;

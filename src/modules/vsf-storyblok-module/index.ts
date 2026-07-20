@@ -33,19 +33,22 @@ export {
   ComponentWidthCalculator,
   SizeValue,
   Alignment,
-  ItemData,
-  SpacingSettingsField,
   Display,
-  AssetField,
-  ColorPickerField,
-  LinkField,
   LinkType,
-  VideoSelectorField,
-  VideoSelectorOptions,
   isUrlExternal,
   getUrlFromLink,
   hydrateInPreviewOrWhenVisible,
   getHeaderId,
-  isStoryblokPreview,
+  isStoryblokPreview
+}
+
+export type {
+  ItemData,
+  SpacingSettingsField,
+  AssetField,
+  ColorPickerField,
+  LinkField,
+  VideoSelectorField,
+  VideoSelectorOptions,
   ColumnsCountField
 }

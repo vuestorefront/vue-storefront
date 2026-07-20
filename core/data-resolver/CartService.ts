@@ -30,7 +30,7 @@ const getTotals = async (): Promise<Task> =>
     silent: true
   });
 
-const getCartToken = async (guestCart: boolean = false, forceClientState: boolean = false): Promise<Task> => {
+const getCartToken = async (guestCart = false, forceClientState = false): Promise<Task> => {
   let url = processLocalizedURLAddress(guestCart
     ? getApiEndpointUrl(config.cart, 'create_endpoint').replace('{{token}}', '')
     : getApiEndpointUrl(config.cart, 'create_endpoint'))

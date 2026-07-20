@@ -1,7 +1,7 @@
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 import config from 'config'
-import { getThumbnailPath } from '@vue-storefront/core/helpers'
-import { productThumbnailPath } from '@vue-storefront/core/helpers'
+import { getThumbnailPath, productThumbnailPath } from '@vue-storefront/core/helpers'
+
 import getProductImagePlaceholder from './getProductImagePlaceholder'
 
 const getThumbnailForProduct = (product: CartItem): string => {

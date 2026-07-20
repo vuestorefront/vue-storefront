@@ -8,7 +8,7 @@ const actions: ActionTree<WishlistState, RootState> = {
   clear (context) {
     context.commit(types.WISH_DEL_ALL_ITEMS, [])
   },
-  async load ({ commit, getters, dispatch }, force: boolean = false) {
+  async load ({ commit, getters, dispatch }, force = false) {
     if (!force && getters.isWishlistLoaded) return
     commit(types.SET_WISHLIST_LOADED)
     const storedItems = await dispatch('loadFromCache')

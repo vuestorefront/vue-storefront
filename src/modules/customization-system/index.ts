@@ -68,26 +68,13 @@ import CartItemShipmentPromise from './components/cart-item-shipment-promise.vue
 export {
   CartItemConfiguration,
   CartItemShipmentPromise,
-  Customization,
   CustomizationAvailabilityFlow,
   CustomizationType,
   ProductCustomizationMode,
-  CustomizationOptionValue,
-  CustomizationStateItem,
-  Deliverable,
-  DraftOrderItem,
-  EstimatedShipment,
-  ExtensionAttributes,
-  FileUploadValue,
   ListWidgetInputType,
   FilterType as LockedCustomizationsFilterType,
   OptionType,
-  OptionValue,
-  PersistedData,
   PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID,
-  WidgetOptionAlignment,
-  WidgetOptions,
-  WidgetOptionShape,
   WidgetType,
 
   fetchOrderItemCustomizationsState,
@@ -133,8 +120,24 @@ export {
   useOptionValuesPrice,
   useLockedCustomizations,
   useSelectedOptionValueUrlQuery,
-  CartItemConfigurationGroup,
-  CartItemConfigurationProperty,
   useValuesSort,
   useWidgetBusyState
+}
+
+export type {
+  Customization,
+  CustomizationOptionValue,
+  CustomizationStateItem,
+  Deliverable,
+  DraftOrderItem,
+  EstimatedShipment,
+  ExtensionAttributes,
+  FileUploadValue,
+  OptionValue,
+  PersistedData,
+  WidgetOptionAlignment,
+  WidgetOptions,
+  WidgetOptionShape,
+  CartItemConfigurationGroup,
+  CartItemConfigurationProperty
 }

@@ -1,6 +1,6 @@
-export function extendHeadFactory(): {
+export function extendHeadFactory (): {
   append: (value: string) => void,
-  inject: () => string,
+  inject: () => string
 } {
   let extensions: string[] = [];
 
@@ -14,6 +14,6 @@ export function extendHeadFactory(): {
 
   return {
     append,
-    inject,
+    inject
   }
 }

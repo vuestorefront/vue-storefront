@@ -281,7 +281,7 @@ export default class EventBusListener {
     )
   }
 
-  private sendBeginCheckoutEvent (isExpressCheckout: boolean = false): void {
+  private sendBeginCheckoutEvent (isExpressCheckout = false): void {
     const platformTotals = this.store.state.cart.platformTotals;
     const cartItems: CartItem[] = this.store.getters['cart/getCartItems'];
 

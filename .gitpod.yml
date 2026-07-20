@@ -11,7 +11,7 @@ ports:
 
 vscode:
   extensions:
-    - octref.vetur@0.23.0:TEzauMObB6f3i2JqlvrOpA==
+    - Vue.volar
     - dbaeumer.vscode-eslint@2.0.15:/v3eRFwBI38JLZJv5ExY5g==
     - eg2.vscode-npm-script@0.3.11:peDPJqeL8FmmJiabU4fAJQ==
     - formulahendry.auto-close-tag@0.5.6:oZ/8R2VhZEhkHsoeO57hSw==

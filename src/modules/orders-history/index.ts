@@ -52,7 +52,10 @@ export {
   normalizeBaseAddressDetailsForComparison,
   isOrderAddressConfirmationSubmission,
   useOrderHistoryList,
-  useOrderDetails,
+  useOrderDetails
+}
+
+export type {
   Order,
   OrderAddress,
   OrderItem

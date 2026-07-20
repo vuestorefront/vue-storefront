@@ -367,7 +367,7 @@ class LocalForageCacheDriver {
         return promise
       }
     } else {
-      return new Promise((resolve, reject) => resolve())
+      return new Promise<void>((resolve) => resolve())
     }
   }
 }

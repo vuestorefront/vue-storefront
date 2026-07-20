@@ -12,7 +12,7 @@ import { PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID } from '../types/prod
 export function useOptionValuesPrice (
   values: Ref<OptionValue[]>,
   { root }: SetupContext,
-  useLowestPriceAsDefault: boolean = false
+  useLowestPriceAsDefault = false
 ) {
   const optionValuePriceDictionary = computed<Record<string, PriceHelper.ProductPrice | undefined>>(
     () => {

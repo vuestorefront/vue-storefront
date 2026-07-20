@@ -1,13 +1,13 @@
-import { MutationPayload } from "vuex";
+import { MutationPayload } from 'vuex';
 
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
-import RootState from "@vue-storefront/core/types/RootState";
+import RootState from '@vue-storefront/core/types/RootState';
 
 import * as types from '../store/mutation-types';
-import { CURRENT_REFRESH_TOKEN, CURRENT_TOKEN, CURRENT_USER, ORDERS_HISTORY } from "../types/local-storage-key";
+import { CURRENT_REFRESH_TOKEN, CURRENT_TOKEN, CURRENT_USER, ORDERS_HISTORY } from '../types/local-storage-key';
 
-export function cacheHandlerFactory() {
+export function cacheHandlerFactory () {
   return (mutation: MutationPayload, state: RootState) => {
     const type = mutation.type
     const userStorage = StorageManager.get('user');

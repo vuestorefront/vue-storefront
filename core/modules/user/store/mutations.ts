@@ -11,10 +11,10 @@ const mutations: MutationTree<UserState> = {
       Logger.log('Refresh token is set to' + state.refreshToken, 'user')()
     }
   },
-  [types.SET_USER_TOKEN] (state, payload: string = '') {
+  [types.SET_USER_TOKEN] (state, payload = '') {
     state.token = payload;
   },
-  [types.SET_USER_REFRESH_TOKEN] (state, payload: string = '') {
+  [types.SET_USER_REFRESH_TOKEN] (state, payload = '') {
     state.refreshToken = payload
   },
   [types.USER_START_SESSION] (state) {

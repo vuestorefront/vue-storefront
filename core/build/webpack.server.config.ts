@@ -1,30 +1,25 @@
 import webpack from 'webpack';
-import merge from 'webpack-merge';
+import { merge } from 'webpack-merge';
 import base from './webpack.base.config';
-import VueSSRPlugin from 'vue-ssr-webpack-plugin';
-
-// when output cache is enabled generate cache version key
-import fs from 'fs'
+import VueSSRPlugin from 'vue-server-renderer/server-plugin';
 import path from 'path'
-import uuid from 'uuid/v4'
 
 const bundledServerDependencies = [
+  '@storefront-ui/vue',
   '@gtm-support/vue2-gtm',
   '@gtm-support/core'
 ]
 
-fs.writeFileSync(
-  path.join(__dirname, 'cache-version.json'),
-  JSON.stringify(uuid())
-)
-
-export default merge(base, {
+export default merge<webpack.Configuration>(base, {
   mode: 'development',
   target: 'node',
-  entry: ['@babel/polyfill', './core/server-entry.ts'],
+  entry: ['./core/server-entry.ts'],
   output: {
+    path: path.resolve(__dirname, '../../dist/server'),
     filename: 'server-bundle.js',
-    libraryTarget: 'commonjs2'
+    library: {
+      type: 'commonjs2'
+    }
   },
   resolve: {
     alias: {

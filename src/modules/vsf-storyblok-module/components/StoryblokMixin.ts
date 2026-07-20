@@ -88,7 +88,7 @@ export default {
     return { story }
   },
   async asyncData ({ route, context }) {
-    return new Promise((resolve) => {
+    return new Promise<void>((resolve) => {
       const { id } = getStoryblokQueryParams(route)
       if (context && !id) {
         context.output.cacheTags.add(KEY)

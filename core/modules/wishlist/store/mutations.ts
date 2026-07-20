@@ -21,7 +21,7 @@ const mutations: MutationTree<WishlistState> = {
   [types.WISH_DEL_ALL_ITEMS] (state) {
     state.items = []
   },
-  [types.SET_WISHLIST_LOADED] (state, isLoaded: boolean = true) {
+  [types.SET_WISHLIST_LOADED] (state, isLoaded = true) {
     state.loaded = isLoaded
   }
 }

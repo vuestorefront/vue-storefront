@@ -58,9 +58,7 @@ export const createRouter = (): VueRouter => {
 }
 
 export const createRouterProxy = (router: VueRouter): VueRouter => {
-  const ProxyConstructor = Proxy || require('proxy-polyfill/src/proxy')
-
-  return new ProxyConstructor(router, {
+  return new Proxy(router, {
     get (target, propKey) {
       const origMethod = target[propKey]
 

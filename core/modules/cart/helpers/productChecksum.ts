@@ -29,9 +29,9 @@ export const getProductOptions = (product, optionsName) => {
 }
 
 const getDataToHash = (product: CartItem | ServerItem): any => {
-  //TODO rewrite to keep implementation details in corresponding modules (customization-system, budsies, etc.)
+  // TODO rewrite to keep implementation details in corresponding modules (customization-system, budsies, etc.)
 
-  //ServerItem doesn't have the "customizations" field
+  // ServerItem doesn't have the "customizations" field
   const emailCustomization = (product as any).customizations?.find(isEmailCustomization);
 
   let customizationState = product.extension_attributes?.customization_state;
@@ -73,7 +73,6 @@ const getDataToHash = (product: CartItem | ServerItem): any => {
   if (!product.product_option) {
     return null
   }
-
 
   const giftCardOptions = product.product_option?.extension_attributes?.am_giftcard_options;
 

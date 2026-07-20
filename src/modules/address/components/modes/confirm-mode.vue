@@ -19,10 +19,11 @@
     <div class="_container">
       <div class="_radio-group">
         <SfRadio
-          v-model="selectedAddressType"
+          :selected="selectedAddressType"
           value="entered"
           name="address-selection"
           class="_radio"
+          @input="onSelectedAddressInput"
         >
           <template #label>
             <div class="_radio-label">
@@ -34,10 +35,11 @@
         </SfRadio>
 
         <SfRadio
-          v-model="selectedAddressType"
+          :selected="selectedAddressType"
           value="suggested"
           name="address-selection"
           class="_radio"
+          @input="onSelectedAddressInput"
         >
           <template #label>
             <div class="_radio-label">
@@ -68,7 +70,7 @@
 import { computed, defineComponent, onMounted, PropType, ref, Ref } from '@vue/composition-api';
 import { SfButton, SfRadio, SfHeading } from '@storefront-ui/vue';
 
-import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
+import AddressValidationDetails from '../../types/address-validation-details.interface';
 
 import AddressCard from '../address-card.vue';
 
@@ -82,17 +84,21 @@ export default defineComponent({
   },
   props: {
     enteredAddress: {
-      type: Object as PropType<Partial<BaseAddressDetails>>,
+      type: Object as PropType<AddressValidationDetails>,
       required: true
     },
     suggestedAddress: {
-      type: Object as PropType<Partial<BaseAddressDetails>>,
+      type: Object as PropType<AddressValidationDetails>,
       required: true
     }
   },
   setup (props, { emit }) {
     const selectedAddressType = ref<'entered' | 'suggested'>('suggested');
     const heading: Ref<InstanceType<typeof SfHeading> | null> = ref(null);
+
+    const onSelectedAddressInput = (value: 'entered' | 'suggested'): void => {
+      selectedAddressType.value = value;
+    };
 
     const useSelected = () => {
       if (selectedAddressType.value === 'entered') {
@@ -110,7 +116,7 @@ export default defineComponent({
         return [];
       }
 
-      const fieldsToCompare: (keyof BaseAddressDetails)[] = [
+      const fieldsToCompare: (keyof AddressValidationDetails)[] = [
         'streetAddress',
         'apartmentNumber',
         'city',
@@ -138,6 +144,7 @@ export default defineComponent({
     return {
       heading,
       modifiedFields,
+      onSelectedAddressInput,
       selectedAddressType,
       useSelected
     };

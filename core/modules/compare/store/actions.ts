@@ -7,7 +7,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
 
 const actions: ActionTree<CompareState, RootState> = {
-  async load ({ commit, getters, dispatch }, force: boolean = false) {
+  async load ({ commit, getters, dispatch }, force = false) {
     if (force || !getters.isCompareLoaded) {
       commit(types.SET_COMPARE_LOADED)
       const storedItems = await dispatch('fetchCurrentCompare')
