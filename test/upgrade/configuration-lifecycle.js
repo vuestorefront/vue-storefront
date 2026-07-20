@@ -42,6 +42,7 @@ assert.match(serviceWorkerGenerator, /importScripts: \['\/dist\/core-service-wor
 assert.match(serviceWorkerGenerator, /\['audio', 'video'\]\.includes\(request\.destination\)/)
 assert.match(serviceWorkerGenerator, /handler: 'NetworkOnly'/)
 assert.match(serviceWorkerGenerator, /\['', 'p', 'c', 'i'\]/)
+assert.doesNotMatch(serviceWorkerGenerator, /\{ url: '\/', revision:/)
 assert.match(serviceWorkerGenerator, /request\.destination === 'font'/)
 assert.match(serviceWorkerGenerator, /request\.headers\.has\('range'\)/)
 assert.doesNotMatch(serviceWorkerGenerator, /themeRelativePath/)

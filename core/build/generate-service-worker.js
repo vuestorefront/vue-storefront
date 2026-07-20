@@ -1,9 +1,7 @@
-const fs = require('fs')
 const path = require('path')
 const { generateSW } = require('workbox-build')
 
 const rootPath = path.resolve(__dirname, '../..')
-const cacheVersion = fs.readFileSync(path.join(__dirname, 'cache-version.json'), 'utf8')
 
 generateSW({
   cacheId: 'vue-sfr',
@@ -24,9 +22,6 @@ generateSW({
   modifyURLPrefix: {
     'dist/client/': '/dist/'
   },
-  additionalManifestEntries: [
-    { url: '/', revision: cacheVersion }
-  ],
   importScripts: ['/dist/core-service-worker.js'],
   runtimeCaching: [
     {
