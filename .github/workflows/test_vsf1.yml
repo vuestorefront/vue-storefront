@@ -6,9 +6,9 @@ on:
       - petsies-theme
       - bulkorders-theme
   pull_request:
-    branches:
-      - petsies-theme
-      - bulkorders-theme
+
+permissions:
+  contents: read
 
 jobs:
   resolve_theme_matrix:
@@ -16,24 +16,28 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.resolve.outputs.matrix }}
+      payment_branch: ${{ steps.resolve.outputs.payment_branch }}
+      task_number: ${{ steps.resolve.outputs.task_number }}
     steps:
-      - name: Select theme branches
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24.14.1'
+
+      - name: Resolve submodule branches
         id: resolve
         env:
-          APP_BRANCH: ${{ github.event_name == 'pull_request' && github.base_ref || github.ref_name }}
+          CI_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_API_URL: ${{ github.api_url }}
+          PR_BASE_BRANCH: ${{ github.base_ref }}
+          PR_HEAD_BRANCH: ${{ github.head_ref }}
+          REF_NAME: ${{ github.ref_name }}
         run: |
-          case "$APP_BRANCH" in
-            petsies-theme)
-              echo 'matrix={"include":[{"theme_branch":"petsies-theme"},{"theme_branch":"budsies-theme"},{"theme_branch":"waggables-theme"}]}' >> "$GITHUB_OUTPUT"
-              ;;
-            bulkorders-theme)
-              echo 'matrix={"include":[{"theme_branch":"bulkorders-theme"}]}' >> "$GITHUB_OUTPUT"
-              ;;
-            *)
-              echo "Unsupported app branch: $APP_BRANCH" >&2
-              exit 1
-              ;;
-          esac
+          node --test .github/scripts/resolve-pr-ci-selection.test.js
+          node .github/scripts/resolve-pr-ci-selection.js
 
   prepare_dependencies:
     name: Prepare dependencies (${{ matrix.theme_branch }})
@@ -47,7 +51,7 @@ jobs:
 
       - name: Checkout workspace submodules
         env:
-          PAYMENT_BRAINTREE_BRANCH: optimuspro
+          PAYMENT_BRAINTREE_BRANCH: ${{ needs.resolve_theme_matrix.outputs.payment_branch }}
           THEME_BRANCH: ${{ matrix.theme_branch }}
         run: |
           git submodule update --init src/modules/payment-braintree src/themes/petsies-capybara
@@ -72,7 +76,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ needs.resolve_theme_matrix.outputs.payment_branch }}-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -92,7 +96,7 @@ jobs:
 
       - name: Checkout workspace submodules
         env:
-          PAYMENT_BRAINTREE_BRANCH: optimuspro
+          PAYMENT_BRAINTREE_BRANCH: ${{ needs.resolve_theme_matrix.outputs.payment_branch }}
           THEME_BRANCH: ${{ matrix.theme_branch }}
         run: |
           git submodule update --init src/modules/payment-braintree src/themes/petsies-capybara
@@ -117,7 +121,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ needs.resolve_theme_matrix.outputs.payment_branch }}-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
 
       - name: Verify upgrade configuration lifecycle
         run: yarn test:upgrade:config
@@ -140,7 +144,7 @@ jobs:
 
       - name: Checkout workspace submodules
         env:
-          PAYMENT_BRAINTREE_BRANCH: optimuspro
+          PAYMENT_BRAINTREE_BRANCH: ${{ needs.resolve_theme_matrix.outputs.payment_branch }}
           THEME_BRANCH: ${{ matrix.theme_branch }}
         run: |
           git submodule update --init src/modules/payment-braintree src/themes/petsies-capybara
@@ -165,7 +169,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ needs.resolve_theme_matrix.outputs.payment_branch }}-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
 
       - name: Run maintained project unit tests
         run: yarn test:unit:maintained
@@ -189,7 +193,7 @@ jobs:
 
       - name: Checkout workspace submodules
         env:
-          PAYMENT_BRAINTREE_BRANCH: optimuspro
+          PAYMENT_BRAINTREE_BRANCH: ${{ needs.resolve_theme_matrix.outputs.payment_branch }}
           THEME_BRANCH: ${{ matrix.theme_branch }}
         run: |
           git submodule update --init src/modules/payment-braintree src/themes/petsies-capybara
@@ -230,7 +234,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ needs.resolve_theme_matrix.outputs.payment_branch }}-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
 
       - name: Run build
         run: yarn build
