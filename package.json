@@ -5,7 +5,7 @@
   "private": true,
   "packageManager": "yarn@4.17.1",
   "engines": {
-    "node": "24.14.1",
+    "node": "24.17.0",
     "yarn": "4.17.1"
   },
   "repository": {

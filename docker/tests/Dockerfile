@@ -1,7 +1,7 @@
-FROM mcr.microsoft.com/playwright:v1.59.1-noble
+FROM mcr.microsoft.com/playwright:v1.61.1-noble
 
 ARG YARN_VERSION=4.17.1
-ARG NODE_VERSION=24.14.1
+ARG NODE_VERSION=24.17.0
 ARG UV_VERSION=0.11.30
 ARG OPENSPEC_VERSION=1.6.0
 

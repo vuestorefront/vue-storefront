@@ -25,7 +25,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v7
         with:
-          node-version: '24.14.1'
+          node-version: '24.17.0'
 
       - name: Resolve submodule branches
         id: resolve
@@ -64,7 +64,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v7
         with:
-          node-version: '24.14.1'
+          node-version: '24.17.0'
 
       - name: Setup Yarn
         run: |
@@ -76,7 +76,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ needs.resolve_theme_matrix.outputs.payment_branch }}-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
+          key: ${{ runner.os }}-node-24.17.0-yarn-4.17.1-${{ needs.resolve_theme_matrix.outputs.payment_branch }}-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -109,7 +109,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v7
         with:
-          node-version: '24.14.1'
+          node-version: '24.17.0'
 
       - name: Setup Yarn
         run: |
@@ -121,7 +121,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ needs.resolve_theme_matrix.outputs.payment_branch }}-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
+          key: ${{ runner.os }}-node-24.17.0-yarn-4.17.1-${{ needs.resolve_theme_matrix.outputs.payment_branch }}-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
 
       - name: Verify upgrade configuration lifecycle
         run: yarn test:upgrade:config
@@ -157,7 +157,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v7
         with:
-          node-version: '24.14.1'
+          node-version: '24.17.0'
 
       - name: Setup Yarn
         run: |
@@ -169,7 +169,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ needs.resolve_theme_matrix.outputs.payment_branch }}-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
+          key: ${{ runner.os }}-node-24.17.0-yarn-4.17.1-${{ needs.resolve_theme_matrix.outputs.payment_branch }}-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
 
       - name: Run maintained project unit tests
         run: yarn test:unit:maintained
@@ -222,7 +222,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v7
         with:
-          node-version: '24.14.1'
+          node-version: '24.17.0'
 
       - name: Setup Yarn
         run: |
@@ -234,7 +234,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ needs.resolve_theme_matrix.outputs.payment_branch }}-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
+          key: ${{ runner.os }}-node-24.17.0-yarn-4.17.1-${{ needs.resolve_theme_matrix.outputs.payment_branch }}-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
 
       - name: Run build
         run: yarn build

@@ -1,4 +1,4 @@
-FROM node:24.14.1-alpine
+FROM node:24.17.0-alpine
 
 ARG YARN_VERSION=4.17.1
 
