@@ -199,6 +199,22 @@ jobs:
           git -C src/themes/petsies-capybara checkout --detach FETCH_HEAD
           git -C src/themes/petsies-capybara submodule update --init --recursive
 
+      - name: Generate runtime configuration
+        env:
+          STORE_THEME: '@vue-storefront/theme-petsies-capybara'
+          NODEJS_KEEP_ALIVE_TIMEOUT: '61000'
+          SSR_OUTPUT_CACHE_ENABLE: 'false'
+          SSR_OUTPUT_CACHE_TTL: '1200'
+          HELMET_ENABLED: 'false'
+          DEFAULT_STORE_ID: '1'
+          REDIS_PORT: '6379'
+          REDIS_DB: '0'
+          SHOW_PRODUCT_RATING: 'true'
+          AMAZONPAY_SANDBOX: 'true'
+        run: |
+          envsubst < config/local.json.template > config/local.json
+          envsubst < ecosystem.json.template > ecosystem.json
+
       - name: Setup node
         uses: actions/setup-node@v7
         with:
