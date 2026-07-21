@@ -3477,6 +3477,7 @@ __metadata:
     semver: "npm:^7.3.2"
     supports-webp: "npm:^2.0.1"
     swiper: "npm:^11.1.14"
+    vue: "npm:2.6.14"
     vue-cool-lightbox: "npm:^2.7.4"
     vue-croppie: "https://github.com/BudsiesApp/vue-croppie.git#optimuspro"
     vue-filepond: "npm:^6.0.2"
