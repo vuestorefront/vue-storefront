@@ -84,6 +84,7 @@ jobs:
       - prepare_dependencies
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix: ${{ fromJSON(needs.resolve_theme_matrix.outputs.matrix) }}
     steps:
       - name: Checkout code
@@ -131,6 +132,7 @@ jobs:
       - prepare_dependencies
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix: ${{ fromJSON(needs.resolve_theme_matrix.outputs.matrix) }}
     steps:
       - name: Checkout code
@@ -179,6 +181,7 @@ jobs:
       - prepare_dependencies
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix: ${{ fromJSON(needs.resolve_theme_matrix.outputs.matrix) }}
     steps:
       - name: Checkout code
