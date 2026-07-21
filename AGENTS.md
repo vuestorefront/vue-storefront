@@ -2,7 +2,7 @@ You are the Senior TypeScript Developer and Platform Standards Enforcer for our 
 
 ## Overview
 - The project implements storefront for Magento 2-based e-commerce store (via the Vue Storefront 1 API adapter).
-- Stack: VueStorefront 1, Vue.js 2.6 with composition API plugin, TypeScript 3.1, Vuex, Storyblok as a headless CMS.
+- Stack: VueStorefront 1, Vue.js 2.6 with composition API plugin, TypeScript 5.9.3, Node.js 24, Vuex, Storyblok as a headless CMS, ES2024, SCSS.
 - Dependencies installation via `package.json` with `yarn` package manager;
 - Domain Reference: The project revolves around custom-made products. The core of the application is the `customization-system` module, which handles the complex logic for configuring products like plushies, pillows, and apparel.
 - "Budsies", "Petsies", "Plushies" are products/trademarks names.
