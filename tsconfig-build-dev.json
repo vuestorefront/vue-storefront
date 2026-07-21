@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "es2024",
     "module": "esnext",
+    "useDefineForClassFields": false,
     "strict": false,
     "allowJs": true,
     "moduleResolution": "node",
@@ -20,7 +21,7 @@
       "@vue-storefront/core/helpers/initCacheStorage": ["./core/lib/storage-manager.ts"],
       "@vue-storefront/*": ["./"]
     },
-    "lib": ["es2020", "dom"]
+    "lib": ["es2024", "dom"]
   },
   "vueCompilerOptions": {
     "target": 2

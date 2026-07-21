@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2020",
+    "target": "es2024",
+    "useDefineForClassFields": false,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "resolveJsonModule": true
