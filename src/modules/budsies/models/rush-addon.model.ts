@@ -3,7 +3,7 @@ export default class RushAddon {
     public readonly id: string,
     public readonly text: string,
     public readonly price: number,
-    public readonly turnaroundTime: number = 42,
+    public readonly turnaroundTime = 42,
     public readonly isNew = true,
     public readonly slotsLeft?: number
   ) {
