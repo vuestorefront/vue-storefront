@@ -3481,7 +3481,7 @@ __metadata:
     vue-cool-lightbox: "npm:^2.7.4"
     vue-croppie: "https://github.com/BudsiesApp/vue-croppie.git#optimuspro"
     vue-filepond: "npm:^6.0.2"
-    vue-multiselect: "https://github.com/BudsiesApp/vue-multiselect/archive/5c9365c483a77534ac458ab86064f6d57ef6770f.tar.gz"
+    vue-multiselect: "https://github.com/BudsiesApp/vue-multiselect/archive/14bffb09762ad97c076cc32d05d61d840614f299.tar.gz"
     vue-no-ssr: "npm:^0.2.2"
     vue-star-rating: "npm:^1.7.0"
     vue2-datepicker: "npm:3.11.1"
@@ -13428,10 +13428,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-multiselect@https://github.com/BudsiesApp/vue-multiselect/archive/5c9365c483a77534ac458ab86064f6d57ef6770f.tar.gz":
+"vue-multiselect@https://github.com/BudsiesApp/vue-multiselect/archive/14bffb09762ad97c076cc32d05d61d840614f299.tar.gz":
   version: 2.1.6
-  resolution: "vue-multiselect@https://github.com/BudsiesApp/vue-multiselect/archive/5c9365c483a77534ac458ab86064f6d57ef6770f.tar.gz"
-  checksum: 10c0/4f7f39c706d34ebf0b546baf09a4e6c236552989e699550a106fe77ef6d7bc489fb4d02847317bf8f2b61eb47add6b73c5b3eb1b28b944d59605b7fa4ded1326
+  resolution: "vue-multiselect@https://github.com/BudsiesApp/vue-multiselect/archive/14bffb09762ad97c076cc32d05d61d840614f299.tar.gz"
+  checksum: 10c0/0ad4c2ca21fc2c63a6dc02a274ce1dd6882020ad26c5845362e82c24b1653c5ba9c22d198f1ac32204823880dda478e2bbfa62ca446715d1e835b450d5b1461b
   languageName: node
   linkType: hard
 
