@@ -45,11 +45,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Checkout storefront theme
+      - name: Checkout workspace submodules
         env:
+          PAYMENT_BRAINTREE_BRANCH: optimuspro
           THEME_BRANCH: ${{ matrix.theme_branch }}
         run: |
-          git submodule update --init src/themes/petsies-capybara
+          git submodule update --init src/modules/payment-braintree src/themes/petsies-capybara
+          git -C src/modules/payment-braintree fetch origin "$PAYMENT_BRAINTREE_BRANCH"
+          git -C src/modules/payment-braintree checkout --detach FETCH_HEAD
           git -C src/themes/petsies-capybara fetch origin "$THEME_BRANCH"
           git -C src/themes/petsies-capybara checkout --detach FETCH_HEAD
           git -C src/themes/petsies-capybara submodule update --init --recursive
@@ -69,7 +72,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -86,11 +89,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Checkout storefront theme
+      - name: Checkout workspace submodules
         env:
+          PAYMENT_BRAINTREE_BRANCH: optimuspro
           THEME_BRANCH: ${{ matrix.theme_branch }}
         run: |
-          git submodule update --init src/themes/petsies-capybara
+          git submodule update --init src/modules/payment-braintree src/themes/petsies-capybara
+          git -C src/modules/payment-braintree fetch origin "$PAYMENT_BRAINTREE_BRANCH"
+          git -C src/modules/payment-braintree checkout --detach FETCH_HEAD
           git -C src/themes/petsies-capybara fetch origin "$THEME_BRANCH"
           git -C src/themes/petsies-capybara checkout --detach FETCH_HEAD
           git -C src/themes/petsies-capybara submodule update --init --recursive
@@ -110,7 +116,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
 
       - name: Verify upgrade configuration lifecycle
         run: yarn test:upgrade:config
@@ -130,11 +136,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Checkout storefront theme
+      - name: Checkout workspace submodules
         env:
+          PAYMENT_BRAINTREE_BRANCH: optimuspro
           THEME_BRANCH: ${{ matrix.theme_branch }}
         run: |
-          git submodule update --init src/themes/petsies-capybara
+          git submodule update --init src/modules/payment-braintree src/themes/petsies-capybara
+          git -C src/modules/payment-braintree fetch origin "$PAYMENT_BRAINTREE_BRANCH"
+          git -C src/modules/payment-braintree checkout --detach FETCH_HEAD
           git -C src/themes/petsies-capybara fetch origin "$THEME_BRANCH"
           git -C src/themes/petsies-capybara checkout --detach FETCH_HEAD
           git -C src/themes/petsies-capybara submodule update --init --recursive
@@ -154,7 +163,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
 
       - name: Run maintained project unit tests
         run: yarn test:unit:maintained
@@ -175,11 +184,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      - name: Checkout storefront theme
+      - name: Checkout workspace submodules
         env:
+          PAYMENT_BRAINTREE_BRANCH: optimuspro
           THEME_BRANCH: ${{ matrix.theme_branch }}
         run: |
-          git submodule update --init src/themes/petsies-capybara
+          git submodule update --init src/modules/payment-braintree src/themes/petsies-capybara
+          git -C src/modules/payment-braintree fetch origin "$PAYMENT_BRAINTREE_BRANCH"
+          git -C src/modules/payment-braintree checkout --detach FETCH_HEAD
           git -C src/themes/petsies-capybara fetch origin "$THEME_BRANCH"
           git -C src/themes/petsies-capybara checkout --detach FETCH_HEAD
           git -C src/themes/petsies-capybara submodule update --init --recursive
@@ -199,7 +211,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-24.14.1-yarn-4.17.1-${{ matrix.theme_branch }}-${{ hashFiles('yarn.lock', 'src/modules/payment-braintree/package.json', 'src/themes/petsies-capybara/package.json') }}
 
       - name: Run build
         run: yarn build

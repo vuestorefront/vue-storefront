@@ -7,5 +7,5 @@
 	url = https://github.com/BudsiesApp/vsf-capybara.git
 [submodule "src/modules/payment-braintree"]
     path = src/modules/payment-braintree
-    url = git@github.com:BudsiesApp/vsf-payment-braintree.git
+    url = https://github.com/BudsiesApp/vsf-payment-braintree.git
     branch = optimuspro
