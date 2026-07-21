@@ -86,6 +86,7 @@ services:
       build:
         context: .
         dockerfile: docker/tests/Dockerfile
+      user: '${HOST_UID:-1000}:${HOST_GID:-1000}'
       security_opt:
         - seccomp:unconfined
       environment:
