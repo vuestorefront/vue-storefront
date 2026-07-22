@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import fetch from '@vue-storefront/core/lib/fetch';
 import config from 'config';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { Logger } from '@vue-storefront/core/lib/logger'

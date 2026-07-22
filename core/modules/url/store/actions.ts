@@ -10,7 +10,7 @@ import { SearchQuery } from 'storefront-query-builder'
 import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData, getFallbackRouteData } from '../helpers'
 import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName, adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
-import fetch from 'isomorphic-fetch'
+import fetch from '@vue-storefront/core/lib/fetch'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 import * as categoryMutationTypes from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'

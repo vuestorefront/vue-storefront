@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import fetch from '@vue-storefront/core/lib/fetch';
 import config from 'config';
 
 import { TaskQueue } from '@vue-storefront/core/lib/sync';

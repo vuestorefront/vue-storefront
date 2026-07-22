@@ -1,5 +1,5 @@
 import map from 'lodash-es/map'
-import fetch from 'isomorphic-fetch'
+import fetch from '@vue-storefront/core/lib/fetch'
 import { slugify, processURLAddress } from '@vue-storefront/core/helpers'
 import queryString from 'query-string'
 import { currentStoreView, prepareStoreView } from '@vue-storefront/core/lib/multistore'

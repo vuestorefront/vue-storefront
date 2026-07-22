@@ -98,6 +98,7 @@ const config: webpack.Configuration = {
       // Main aliases
       'config': path.resolve(__dirname, './config.json'),
       'src': path.resolve(__dirname, '../../src'),
+      '@vue-storefront/core/lib/fetch$': path.resolve(__dirname, '../lib/fetch/client.ts'),
 
       // Theme aliases
       'theme': themeRoot,

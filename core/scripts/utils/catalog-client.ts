@@ -1,5 +1,5 @@
 import queryString from 'query-string'
-import fetch from 'isomorphic-fetch'
+import fetch from '@vue-storefront/core/lib/fetch/server'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 export const processURLAddress = (url = '', config: any) => {

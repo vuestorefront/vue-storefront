@@ -1,7 +1,7 @@
 import i18n from '@vue-storefront/i18n'
 import isNaN from 'lodash-es/isNaN'
 import isUndefined from 'lodash-es/isUndefined'
-import fetch from 'isomorphic-fetch'
+import fetch from '@vue-storefront/core/lib/fetch'
 import rootStore from '@vue-storefront/core/store'
 import { adjustMultistoreApiUrl, currentStoreView } from '@vue-storefront/core/lib/multistore'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'

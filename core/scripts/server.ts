@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import fetch from 'isomorphic-fetch';
+import fetch from '@vue-storefront/core/lib/fetch/server';
 
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
 import { extractCookieValue } from '../helpers/extract-cookie-value.function'
