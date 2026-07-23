@@ -1,7 +1,7 @@
 <template>
   <div class="currency-selector">
     <span
-      id="currency-selector-label"
+      :id="labelId"
       class="_label"
     >
       {{ $t('Select Currency') }}
@@ -10,7 +10,7 @@
     <SfSelect
       v-model="selectedCurrency"
       class="_select"
-      label-id="currency-selector-label"
+      :label-id="labelId"
     >
       <SfSelectOption
         v-for="currency in availableCurrencies"
@@ -39,6 +39,12 @@ export default defineComponent({
   name: 'CurrencySelector',
   components: {
     SfSelect
+  },
+  props: {
+    labelId: {
+      type: String,
+      required: true
+    }
   },
   setup (_, { root }) {
     const selectedCurrency = computed<string>({

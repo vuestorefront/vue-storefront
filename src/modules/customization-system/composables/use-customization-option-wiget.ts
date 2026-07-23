@@ -112,7 +112,8 @@ export function useCustomizationOptionWidget (
           component: 'TextInputWidget',
           props: {
             placeholder: widgetOptions?.placeholder,
-            type: 'email'
+            type: 'email',
+            ariaLabelledby: customization.value.id
           }
         };
       case WidgetType.IMAGE_UPLOAD:
@@ -129,21 +130,24 @@ export function useCustomizationOptionWidget (
           component: 'SearchFieldWidget',
           props: {
             values: values.value,
-            placeholder: widgetOptions?.placeholder
+            placeholder: widgetOptions?.placeholder,
+            ariaLabelledby: customization.value.id
           }
         };
       case WidgetType.TEXT_AREA:
         return {
           component: 'TextAreaWidget',
           props: {
-            placeholder: widgetOptions?.placeholder
+            placeholder: widgetOptions?.placeholder,
+            ariaLabelledby: customization.value.id
           }
         };
       case WidgetType.TEXT_INPUT:
         return {
           component: 'TextInputWidget',
           props: {
-            placeholder: widgetOptions?.placeholder
+            placeholder: widgetOptions?.placeholder,
+            ariaLabelledby: customization.value.id
           }
         };
       case WidgetType.THUMBNAILS_LIST:
