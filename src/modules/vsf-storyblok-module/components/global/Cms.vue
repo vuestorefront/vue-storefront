@@ -8,7 +8,7 @@
 
 <script>
 import config from 'config'
-import fetch from 'isomorphic-fetch'
+import fetch from '@vue-storefront/core/lib/fetch'
 import { processURLAddress } from '@vue-storefront/core/helpers'
 
 import { loadScript } from '../../helpers'

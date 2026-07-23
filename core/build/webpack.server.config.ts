@@ -23,7 +23,8 @@ export default merge<webpack.Configuration>(base, {
   },
   resolve: {
     alias: {
-      'create-api': './create-api-server.js'
+      'create-api': './create-api-server.js',
+      '@vue-storefront/core/lib/fetch$': path.resolve(__dirname, '../lib/fetch/server.ts')
     }
   },
   externals: Object.keys(require('../../package.json').dependencies)

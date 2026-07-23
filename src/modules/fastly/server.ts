@@ -1,5 +1,5 @@
 import { serverHooks } from '@vue-storefront/core/server/hooks'
-import fetch from 'isomorphic-fetch'
+import fetch from '@vue-storefront/core/lib/fetch/server'
 import config from 'config'
 
 const chunk = require('lodash/chunk')
