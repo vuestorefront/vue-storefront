@@ -2709,9 +2709,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storefront-ui/shared@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?73eab2f48e6a77f9e3e77b71f1c5f0f144065db7":
+"@storefront-ui/shared@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?739ddd27d31dc0b7228316206b264de554d0e57b":
   version: 0.7.11
-  resolution: "@storefront-ui/shared@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?73eab2f48e6a77f9e3e77b71f1c5f0f144065db7"
+  resolution: "@storefront-ui/shared@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?739ddd27d31dc0b7228316206b264de554d0e57b"
   checksum: 10c0/ab08d99ecbc2f0b59112666e0e203ec3684bdfa0930b170e46d70846b1e1986a0b697b23e2212eef13d4e13dabe40586158037502992930c269237e2e1e07a6a
   languageName: node
   linkType: hard
@@ -2723,9 +2723,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storefront-ui/vue@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?73eab2f48e6a77f9e3e77b71f1c5f0f144065db7":
+"@storefront-ui/vue@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?739ddd27d31dc0b7228316206b264de554d0e57b":
   version: 0.7.11
-  resolution: "@storefront-ui/vue@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?73eab2f48e6a77f9e3e77b71f1c5f0f144065db7"
+  resolution: "@storefront-ui/vue@https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?739ddd27d31dc0b7228316206b264de554d0e57b"
   dependencies:
     "@glidejs/glide": "npm:^3.3.0"
     "@storefront-ui/shared": "npm:0.7.11"
@@ -2740,7 +2740,7 @@ __metadata:
     vue2-leaflet: "npm:^2.5.2"
   peerDependencies:
     vue: ^2.6.x
-  checksum: 10c0/856911bc5297eddf79fb3c881a59adf956fdd7de158eb45e0d03bf95b4fa119fb64fa481e324956c07ceeb6bee9e796709bd510890672968c6a32e74c8e321bf
+  checksum: 10c0/f7e4a4dc16b731291c4986c6968f89d0010fc49043c0d5fcb1009a72b3e0e01c0e4b586767af39798769026c22d61093bac4d9ae29405824f1f8cfe250d587e9
   languageName: node
   linkType: hard
 
@@ -13482,8 +13482,8 @@ __metadata:
     "@googlemaps/js-api-loader": "npm:^2.0.2"
     "@gtm-support/vue2-gtm": "npm:2.0.0"
     "@justinribeiro/lite-youtube": "npm:^1.8.2"
-    "@storefront-ui/shared": "https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?73eab2f48e6a77f9e3e77b71f1c5f0f144065db7"
-    "@storefront-ui/vue": "https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?73eab2f48e6a77f9e3e77b71f1c5f0f144065db7"
+    "@storefront-ui/shared": "https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/shared?739ddd27d31dc0b7228316206b264de554d0e57b"
+    "@storefront-ui/vue": "https://gitpkg-budsies-xi.vercel.app/BudsiesApp/storefront-ui/packages/vue?739ddd27d31dc0b7228316206b264de554d0e57b"
     "@types/croppie": "npm:^2.5.4"
     "@types/google.maps": "npm:^3.58.1"
     "@types/ioredis": "npm:^4.0.0"
