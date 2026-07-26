@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent, computed, ref, inject, toRef } from '@vue/composition-api';
+import { PropType, defineComponent, computed, ref, inject, toRef } from 'vue';
 import { SfChevron, SfHeading } from '@storefront-ui/vue';
 
 import { BaseImage } from 'src/modules/budsies';

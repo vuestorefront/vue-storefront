@@ -1,4 +1,4 @@
-import { ref, onBeforeMount, inject, Ref, computed, watch, onBeforeUnmount } from '@vue/composition-api';
+import { ref, onBeforeMount, inject, Ref, computed, watch, onBeforeUnmount } from 'vue';
 import debounce from 'lodash.debounce';
 
 import { Logger } from '@vue-storefront/core/lib/logger';

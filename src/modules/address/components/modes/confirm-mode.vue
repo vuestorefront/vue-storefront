@@ -67,7 +67,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, PropType, ref, Ref } from '@vue/composition-api';
+import { computed, defineComponent, onMounted, PropType, ref, Ref } from 'vue';
 import { SfButton, SfRadio, SfHeading } from '@storefront-ui/vue';
 
 import AddressValidationDetails from '../../types/address-validation-details.interface';

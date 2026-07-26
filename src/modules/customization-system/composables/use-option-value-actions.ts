@@ -1,4 +1,4 @@
-import { ComputedRef } from '@vue/composition-api';
+import { ComputedRef } from 'vue';
 
 import { getCustomizationIdByOptionValueId } from '../helpers/get-customization-id-by-option-value-id';
 import { getCustomizationSelectedValues } from '../helpers/get-customization-selected-values';

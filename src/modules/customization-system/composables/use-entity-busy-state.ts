@@ -1,4 +1,4 @@
-import { computed, ref, set } from '@vue/composition-api';
+import { computed, ref, set } from 'vue';
 
 export function useEntityBusyState () {
   const entityBusyState = ref<Record<string, boolean>>({});

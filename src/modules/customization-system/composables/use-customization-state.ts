@@ -1,4 +1,4 @@
-import { ref, computed, del, set, Ref, onMounted, ComputedRef } from '@vue/composition-api';
+import { ref, computed, del, set, Ref, onMounted, ComputedRef } from 'vue';
 
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 

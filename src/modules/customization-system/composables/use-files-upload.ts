@@ -1,4 +1,4 @@
-import { inject, computed, Ref, SetupContext, ref, watch, set, del } from '@vue/composition-api';
+import { inject, computed, Ref, SetupContext, ref, watch, set, del } from 'vue';
 
 import { ImageHandlerService, Item } from 'src/modules/file-storage';
 import { CustomerImage } from 'src/modules/shared';
@@ -32,7 +32,7 @@ function getInitialItems (
 export function useFilesUpload (
   value: Ref<FileUploadValue | FileUploadValue[] | undefined>,
   maxValuesCount: Ref<number | undefined>,
-  { emit }: SetupContext
+  { emit }: Pick<SetupContext, 'emit'>
 ) {
   const imageHandlerService = inject<ImageHandlerService>('ImageHandlerService');
 

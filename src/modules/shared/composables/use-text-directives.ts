@@ -1,9 +1,10 @@
-import { computed, ref, SetupContext } from '@vue/composition-api';
+import { computed, ref } from 'vue';
 import { SearchQuery } from 'storefront-query-builder'
 
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import { StatisticMetric } from 'src/modules/budsies/types/statistic-metric';
+import { useRootInstance } from './use-current-instance';
 
 export enum DirectiveType {
   PRODUCT_PRICE = 'productPrice',
@@ -55,9 +56,9 @@ const directivesRegexp = /\{\{(.*?)\}\}/gi;
 const directiveSpecificationRegexp = /(.*)\((.*)\)/i;
 
 export function useTextDirectives (
-  processTextPartsFunction: (textPart: TextPart[]) => void,
-  { root }: SetupContext
+  processTextPartsFunction: (textPart: TextPart[]) => void
 ) {
+  const root = useRootInstance();
   const isDirectivesProcessing = ref<boolean>(false);
 
   const productBySkuDictionary = computed<Record<string, Product>>(() => {

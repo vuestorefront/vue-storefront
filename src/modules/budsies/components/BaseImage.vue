@@ -42,7 +42,7 @@
         <img
           v-show="defaultSrc"
           :src="defaultSrc"
-          :srcset="defaultSrcSet"
+          :srcset="defaultSrcSetAttribute"
           v-bind="$attrs"
           :width="width"
           :loading="lazy ? 'lazy' : 'eager'"
@@ -58,7 +58,7 @@
       <noscript inline-template>
         <img
         :src="defaultSrc"
-        :srcset="defaultSrcSet"
+        :srcset="defaultSrcSetAttribute"
         class="sf-image sf-image-loaded"
         v-bind="$attrs"
         :width="width"
@@ -180,6 +180,9 @@ export default Vue.extend({
       }
 
       return this.sortedSources.slice(-1)[0].srcset;
+    },
+    defaultSrcSetAttribute (): string | undefined {
+      return this.defaultSrcSet?.join(', ');
     },
     defaultSrc (): string | null {
       if (this.src) {

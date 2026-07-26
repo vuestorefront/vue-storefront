@@ -1,5 +1,5 @@
 import { mapMobileObserver, unMapMobileObserver } from '@storefront-ui/vue/src/utilities/mobile-observer';
-import { computed, onBeforeUnmount } from '@vue/composition-api';
+import { computed, onBeforeUnmount } from 'vue';
 
 import { isServer } from '@vue-storefront/core/helpers';
 

@@ -23,7 +23,7 @@ import {
   defineComponent,
   PropType,
   toRef
-} from '@vue/composition-api';
+} from 'vue';
 
 import { useEstimatedShipment } from '../composables/use-estimated-shipment';
 import { EstimatedShipment } from '../types/estimated-shipment.interface';

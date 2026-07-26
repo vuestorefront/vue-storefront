@@ -1,4 +1,4 @@
-import { computed, Ref, ref, watch } from '@vue/composition-api';
+import { computed, Ref, ref, watch } from 'vue';
 
 import { SelectedBundleOption } from '@vue-storefront/core/modules/catalog/types/BundleOption';
 

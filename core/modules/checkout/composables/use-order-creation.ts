@@ -1,10 +1,11 @@
-import { SetupContext } from '@vue/composition-api';
 import { Order } from '@vue-storefront/core/modules/order/types/Order';
+import { useRootInstance } from 'src/modules/shared';
 
 import ShippingDetails from '../types/ShippingDetails';
 import PaymentDetails from '../types/PaymentDetails';
 
-export function useOrderCreation ({ root }: SetupContext) {
+export function useOrderCreation () {
+  const root = useRootInstance();
   function prepareOrderData (paymentAdditionalData: any) {
     const paymentDetails: PaymentDetails = root.$store.getters['checkout/getPaymentDetails'];
     const shippingDetails: ShippingDetails = root.$store.getters['checkout/getShippingDetails'];

@@ -1,4 +1,4 @@
-import { computed, Ref, SetupContext } from '@vue/composition-api';
+import { computed, Ref, SetupContext } from 'vue';
 
 import { CustomizationOptionValue } from '../types/customization-option-value';
 import { Customization } from '../types/customization.interface';
@@ -12,7 +12,7 @@ export function useCustomizationOptionWidget (
   customization: Ref<Customization>,
   values: Ref<OptionValue[]>,
   productId: Ref<number>,
-  { emit }: SetupContext,
+  { emit }: Pick<SetupContext, 'emit'>,
   addedToCartOptionValueId?: Ref<Record<string, boolean> | undefined>,
   expandConfig?: Ref<Record<string, {
     isExpandable: boolean,

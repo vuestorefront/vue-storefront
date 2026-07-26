@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from '@vue/composition-api';
+import { defineComponent, PropType } from 'vue';
 import { SfHeading } from '@storefront-ui/vue';
 
 import Product from '@vue-storefront/core/modules/catalog/types/Product';

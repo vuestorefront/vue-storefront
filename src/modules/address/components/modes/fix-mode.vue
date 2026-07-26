@@ -70,8 +70,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, ref, Ref, onMounted } from '@vue/composition-api';
+import { defineComponent, computed, PropType, ref, Ref, onMounted } from 'vue';
 import { SfHeading, SfButton, SfInput } from '@storefront-ui/vue';
+import { useRootInstance } from 'src/modules/shared';
 
 import AddressValidationDetails from '../../types/address-validation-details.interface';
 
@@ -99,7 +100,8 @@ export default defineComponent({
       default: () => []
     }
   },
-  setup (props, { emit, root }) {
+  setup (props, { emit }) {
+    const root = useRootInstance();
     const localStreetNumber = ref<string>('');
     const heading: Ref<InstanceType<typeof SfHeading> | null> = ref(null);
 

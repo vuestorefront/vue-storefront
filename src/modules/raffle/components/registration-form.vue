@@ -136,7 +136,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
+import Vue, { ref } from 'vue';
 import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
 import { email, required } from 'vee-validate/dist/rules';
 
@@ -158,7 +158,7 @@ extend('email', {
   message: 'Please, provide the correct email address'
 });
 
-export default defineComponent({
+export default Vue.extend({
   name: 'RaffleRegistrationForm',
   components: {
     SfButton,

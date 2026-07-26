@@ -2,7 +2,7 @@
   <div
     class="order-item-progress-tracker"
     :class="isVertical ? '-vertical' : '-compact'"
-    :title="$t('Progress Tracker')"
+    :title="$t('Progress Tracker').toString()"
   >
     <template v-if="isVertical">
       <div class="_step-counter">
@@ -34,7 +34,7 @@
         :aria-valuenow="currentStepIndex + 1"
         aria-valuemin="1"
         :aria-valuemax="filteredStatusesCount"
-        :aria-label="$t('Order Progress')"
+        :aria-label="$t('Order Progress').toString()"
       >
         <div class="_bar-track">
           <div class="_bar-fill" :style="{ width: `${progressPercentage}%` }" />
@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent, computed } from '@vue/composition-api';
+import { PropType, defineComponent, computed } from 'vue';
 
 import { ProgressTrackerStatus } from '../types/progress-tracker-status';
 

@@ -46,12 +46,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from '@vue/composition-api';
+import Vue, { computed, ref, watch } from 'vue';
 
 import { isServer, PriceHelper } from '@vue-storefront/core/helpers';
 import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { Dictionary } from 'src/modules/budsies';
+import { useRootInstance } from 'src/modules/shared/composables/use-current-instance';
 import { DirectiveType, TextPart, useTextDirectives } from 'src/modules/shared/composables/use-text-directives';
 import { StatisticMetric } from 'src/modules/budsies/types/statistic-metric';
 import { Currency, DEFAULT_CURRENCY, GET_ACTIVE_CURRENCY, GET_CURRENCY_EXCHANGE_RATE } from 'src/modules/currency';
@@ -64,25 +65,26 @@ import { CountdownBanner } from '../types/CountdownBanner.interface';
 
 const startTimeThreshold = 1;
 
-export default defineComponent({
+export default Vue.extend({
   components: {
     CountdownTimer: Timer
   },
-  setup (props, context) {
+  setup (props) {
+    const root = useRootInstance();
     const processedDescription = ref<string>('');
 
     const productBySkuDictionary = computed<Record<string, Product>>(() => {
-      return context.root.$store.getters['product/getProductBySkuDictionary'];
+      return root.$store.getters['product/getProductBySkuDictionary'];
     });
 
     const localizedPriceDictionary = computed<Record<string, PriceHelper.ProductPrice>>(() => {
-      return context.root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
+      return root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
     });
     const selectedCurrency = computed<Currency>(() => {
-      return context.root.$store.getters[GET_ACTIVE_CURRENCY] || DEFAULT_CURRENCY;
+      return root.$store.getters[GET_ACTIVE_CURRENCY] || DEFAULT_CURRENCY;
     });
     const exchangeRate = computed<number>(() => {
-      return context.root.$store.getters[GET_CURRENCY_EXCHANGE_RATE] || 1;
+      return root.$store.getters[GET_CURRENCY_EXCHANGE_RATE] || 1;
     });
     const bannerRenderingDependencies = computed(() => ({
       localizedPriceDictionary: localizedPriceDictionary.value,
@@ -92,7 +94,7 @@ export default defineComponent({
     }));
 
     const campaignContent = computed<CampaignContent | undefined>(() => {
-      return context.root.$store.getters['promotionPlatform/campaignContent'];
+      return root.$store.getters['promotionPlatform/campaignContent'];
     });
 
     const bannerContent = computed< CountdownBanner | undefined>(() => {
@@ -108,7 +110,7 @@ export default defineComponent({
       }
 
       if (textPart.type === DirectiveType.ORDERED_PLUSHIES_COUNT) {
-        return context.root.$store.getters['budsies/getStatisticValueByMetric'](
+        return root.$store.getters['budsies/getStatisticValueByMetric'](
           StatisticMetric.ORDERED_PLUSHIES_COUNT
         );
       }
@@ -164,7 +166,7 @@ export default defineComponent({
       }
     }
 
-    const { processDirectivesInText, isDirectivesProcessing } = useTextDirectives(processTextParts, context);
+    const { processDirectivesInText, isDirectivesProcessing } = useTextDirectives(processTextParts);
 
     watch(
       bannerRenderingDependencies,

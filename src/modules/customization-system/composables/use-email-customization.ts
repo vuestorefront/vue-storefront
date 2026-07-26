@@ -1,4 +1,4 @@
-import { computed, nextTick, onMounted, ref, Ref, watch } from '@vue/composition-api';
+import { computed, nextTick, onMounted, ref, Ref, watch } from 'vue';
 import { usePersistedEmail } from 'src/modules/persisted-customer-data';
 import { isEmailCustomization } from '../helpers/is-email-customization';
 import { CustomizationOptionValue } from '../types/customization-option-value';

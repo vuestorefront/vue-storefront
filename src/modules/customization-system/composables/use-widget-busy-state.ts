@@ -1,11 +1,11 @@
-import { onBeforeMount, onBeforeUnmount, Ref, SetupContext } from '@vue/composition-api';
+import { onBeforeMount, onBeforeUnmount, Ref, SetupContext } from 'vue';
 
 import { Customization } from '../types/customization.interface';
 
 export function useWidgetBusyState (
   customization: Ref<Customization>,
   busyChangedEventName: string,
-  { emit }: SetupContext
+  { emit }: Pick<SetupContext, 'emit'>
 ) {
   function onWidgetBusyChanged (isBusy: boolean): void {
     emit(

@@ -1,13 +1,15 @@
-import { SetupContext, ref, computed } from '@vue/composition-api';
+import { ref, computed } from 'vue';
 
 import { Logger } from '@vue-storefront/core/lib/logger';
+import { useRootInstance } from 'src/modules/shared';
 
 import { Order } from '../types/order';
 import { STORE_NAME } from '../store/store-name';
 import { GET_ORDERS_HISTORY } from '../types/store/getters';
 import { FETCH_ORDERS_HISTORY } from '../types/store/actions';
 
-export function useOrderHistoryList ({ root }: SetupContext) {
+export function useOrderHistoryList () {
+  const root = useRootInstance();
   const isLoading = ref<boolean>(false);
   const isError = ref<boolean>(false);
 

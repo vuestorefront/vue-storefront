@@ -1,4 +1,4 @@
-import { computed, Ref } from '@vue/composition-api';
+import { computed, Ref } from 'vue';
 
 import { Customization, CustomizationOptionValue, isFileUploadValue, OptionValue } from 'src/modules/customization-system';
 import { ProductCustomizationMode } from 'src/modules/customization-system/types/customizable-product-flow.type';

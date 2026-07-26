@@ -54,11 +54,12 @@
 </template>
 
 <script lang="ts">
-import { PropType, computed, defineComponent, toRef, ComputedRef } from '@vue/composition-api';
+import { PropType, computed, defineComponent, toRef, ComputedRef } from 'vue';
 import { SfHeading } from '@storefront-ui/vue';
 
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { CartItemConfiguration, CustomizationStateItem, Customization } from 'src/modules/customization-system';
+import { useRootInstance } from 'src/modules/shared';
 
 import { OrderItem } from '../types/order-item';
 
@@ -80,7 +81,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props, { root }) {
+  setup (props) {
+    const root = useRootInstance();
     const customizationState = computed<CustomizationStateItem[]>(() => {
       return (props.item.extension_attributes && props.item.extension_attributes.customization_states) || [];
     });

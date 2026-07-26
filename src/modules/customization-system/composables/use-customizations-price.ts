@@ -1,6 +1,6 @@
-import { Ref, computed, SetupContext } from '@vue/composition-api';
+import { Ref, computed } from 'vue';
 
-import { PriceHelper } from 'src/modules/shared';
+import { PriceHelper, useRootInstance } from 'src/modules/shared';
 import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
 
 import { Customization, CustomizationOptionValue } from '..';
@@ -10,9 +10,9 @@ import { getOptionValuePrice } from '../helpers/get-option-value-price';
 
 export function useCustomizationsPrice (
   customizations: Ref<Customization[]>,
-  customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>,
-  { root }: SetupContext
+  customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>
 ) {
+  const root = useRootInstance();
   const customizationOptionValuesLowestPrice = computed<Record<string, PriceHelper.ProductPrice | undefined>>(
     () => {
       const dictionary: Record<string, PriceHelper.ProductPrice | undefined> = {};

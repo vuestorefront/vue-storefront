@@ -1,4 +1,4 @@
-import { computed, Ref, SetupContext } from '@vue/composition-api';
+import { computed, Ref, SetupContext } from 'vue';
 
 import { ListWidgetInputType } from '../types/list-widget-input-type';
 import { OptionValue } from '../types/option-value.interface';
@@ -6,7 +6,7 @@ import { OptionValue } from '../types/option-value.interface';
 export function useListWidget (
   selectedValue: Ref<string | string[] | undefined>,
   maxValuesCount: Ref<number | undefined>,
-  { emit }: SetupContext
+  { emit }: Pick<SetupContext, 'emit'>
 ) {
   const inputType = computed<ListWidgetInputType>(() => {
     if (!maxValuesCount.value) {

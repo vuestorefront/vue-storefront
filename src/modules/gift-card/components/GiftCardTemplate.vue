@@ -19,7 +19,7 @@
         <img
           class="_template-image"
           :src="giftCardTemplate.backgroundImage"
-          :alt="$t('{name} gift card template', { name: giftCardTemplate.name })"
+          :alt="$t('{name} gift card template', { name: giftCardTemplate.name }).toString()"
         >
 
         <div class="_to">

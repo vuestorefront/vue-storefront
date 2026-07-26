@@ -1,9 +1,9 @@
 /* eslint-disable valid-typeof */
 
-import Vue from 'vue';
+import Vue, { ComponentPublicInstance } from 'vue';
 
 export default function isVue (
   arg: unknown
-): arg is Vue {
+): arg is Vue | ComponentPublicInstance {
   return arg instanceof Vue;
 }

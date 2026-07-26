@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from '@vue/composition-api';
+import { defineComponent, PropType, computed } from 'vue';
 import AddressValidationDetails from '../types/address-validation-details.interface';
 
 const States = require('@vue-storefront/i18n/resource/states.json');

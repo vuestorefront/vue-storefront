@@ -1,6 +1,7 @@
-import { computed, Ref, SetupContext, watch } from '@vue/composition-api';
+import { computed, Ref, watch } from 'vue';
 
 import Product from 'core/modules/catalog/types/Product';
+import { useRootInstance } from 'src/modules/shared';
 
 import { CustomizationOptionValue } from '../types/customization-option-value';
 import { CustomizationStateItem } from '../types/customization-state-item.interface';
@@ -14,9 +15,9 @@ export function useSelectedOptionValueUrlQuery (
   customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>,
   currentProduct: Ref<Product | undefined>,
   mergeCustomizationState: (payload: CustomizationStateItem[]) => void,
-  removeUnavailableOptionValues: () => Record<string, CustomizationOptionValue>,
-  { root }: SetupContext
+  removeUnavailableOptionValues: () => Record<string, CustomizationOptionValue>
 ) {
+  const root = useRootInstance();
   const currentProductSku = computed<string | undefined>(() => {
     return currentProduct.value?.sku;
   });
@@ -86,7 +87,7 @@ export function useSelectedOptionValueUrlQuery (
   });
 
   const queryString = computed<string>(() => {
-    return JSON.stringify(showInUrlQueryData);
+    return JSON.stringify(showInUrlQueryData.value);
   });
 
   const routeQuery = computed<Record<string, string | undefined |(string | null)[]>>(() => {
