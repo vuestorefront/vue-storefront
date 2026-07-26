@@ -11,7 +11,10 @@ import Vue, {
 import { mount, Wrapper } from '@vue/test-utils';
 import { createRenderer } from 'vue-server-renderer';
 
-import { useCurrentInstance } from '../../../composables/use-current-instance';
+import {
+  requestServicesInjectionKey,
+  useRequestServices
+} from '@vue-storefront/core/request-services';
 
 async function flushWatchers (): Promise<void> {
   await Vue.nextTick();
@@ -166,19 +169,18 @@ describe('Vue Composition API parity fixtures', () => {
     expect(field.value).toBeNull();
   });
 
-  it('awaits server prefetch and isolates current-instance SSR data per render', async () => {
+  it('awaits server prefetch and isolates explicit request services per render', async () => {
     const renderer = createRenderer();
     const SsrFixture = defineComponent({
       name: 'ServerPrefetchParityFixture',
       template: '<div>{{ renderedHost }}</div>',
       setup () {
-        const currentInstance = useCurrentInstance();
+        const requestServices = useRequestServices();
         const renderedHost = ref('pending');
 
         onServerPrefetch(async () => {
           await Promise.resolve();
-          renderedHost.value =
-            currentInstance.$ssrContext.server.request.headers.host;
+          renderedHost.value = requestServices.host;
         });
 
         return { renderedHost };
@@ -187,16 +189,17 @@ describe('Vue Composition API parity fixtures', () => {
 
     async function renderForHost (host: string): Promise<string> {
       const app = new Vue({
+        provide: {
+          [requestServicesInjectionKey as symbol]: {
+            host,
+            userAgent: '',
+            getCookie: () => undefined
+          }
+        },
         render: createElement => createElement(SsrFixture as any)
       });
 
-      return renderer.renderToString(app, {
-        server: {
-          request: {
-            headers: { host }
-          }
-        }
-      });
+      return renderer.renderToString(app);
     }
 
     const [firstRender, secondRender] = await Promise.all([

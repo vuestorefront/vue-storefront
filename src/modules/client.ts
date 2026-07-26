@@ -21,7 +21,6 @@ import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { forStoryblok } from './vsf-storyblok-module/mappingFallback'
 import { PaymentAffirm } from 'src/modules/payment-affirm';
 
-// import { DeviceModule } from './device/index';
 import { registerModule } from '@vue-storefront/core/lib/modules'
 
 const extendUrlVuex = {
@@ -57,7 +56,6 @@ export function registerClientModules () {
   // registerModule(AmpRendererModule)
   registerModule(NewsletterModule)
   registerModule(InitialResourcesModule)
-  // registerModule(DeviceModule)
   registerModule(StoryblokModule)
   registerModule(extendUrlModule)
   registerModule(PaymentAffirm)

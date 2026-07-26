@@ -1,6 +1,17 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
+
 import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
 import { Payment } from '../../../components/Payment';
 
+
+jest.mock('@vue-storefront/core/compatibility/plugins/event-bus', () => ({
+  __esModule: true,
+  default: {
+    $emit: jest.fn(),
+    $on: jest.fn(),
+    $off: jest.fn()
+  }
+}));
 describe('Payment', () => {
   let mockStore;
   let mockMountingOptions;
@@ -226,7 +237,7 @@ describe('Payment', () => {
 
       (wrapper.vm as any).sendDataToCheckout();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-after-paymentDetails', paymentDetails, undefined);
+      expect(EventBus.$emit).toHaveBeenCalledWith('checkout-after-paymentDetails', paymentDetails, undefined);
       expect((wrapper.vm as any).isFilled).toBe(true);
     });
 
@@ -238,7 +249,7 @@ describe('Payment', () => {
       wrapper.setData({ isFilled: true });
       (wrapper.vm as any).edit();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-before-edit', 'payment');
+      expect(EventBus.$emit).toHaveBeenCalledWith('checkout-before-edit', 'payment');
     });
 
     it('edit method should not emit event if flag is not set', () => {
@@ -249,7 +260,7 @@ describe('Payment', () => {
       wrapper.setData({ isFilled: false });
       (wrapper.vm as any).edit();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).not.toHaveBeenCalled();
+      expect(EventBus.$emit).not.toHaveBeenCalled();
     });
 
     it('hasBillingData method should inform if current user has default_billing own property', () => {
@@ -596,7 +607,7 @@ describe('Payment', () => {
       const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
       (wrapper.vm as any).changePaymentMethod();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-payment-method-changed', expect.anything());
+      expect(EventBus.$emit).toHaveBeenCalledWith('checkout-payment-method-changed', expect.anything());
     });
   });
 });

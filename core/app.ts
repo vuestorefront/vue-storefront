@@ -15,7 +15,6 @@ import { registerModules } from '@vue-storefront/core/lib/module'
 import { prepareStoreView, currentStoreView } from '@vue-storefront/core/lib/multistore'
 import * as coreMixins from '@vue-storefront/core/mixins'
 import * as coreFilters from '@vue-storefront/core/filters'
-import * as corePlugins from '@vue-storefront/core/compatibility/plugins'
 
 import store from '@vue-storefront/core/store'
 import { enabledModules } from './modules-entry'
@@ -25,8 +24,20 @@ import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { registerClientModules } from 'src/modules/client'
 import initialStateFactory from '@vue-storefront/core/helpers/initialStateFactory'
 import { createRouter, createRouterProxy } from '@vue-storefront/core/helpers/router'
-import { extendHeadFactory } from './helpers/extended-head.factory'
-import { AdditionalContent } from './plugins/additional-content.plugin'
+import { extendHeadFactory, HeadManager } from './helpers/extended-head.factory'
+import {
+  createApplicationServiceProviders,
+  createI18nAdapter,
+  createRouteView
+} from './application-services'
+import {
+  AdditionalContentRegistry,
+  additionalContentInjectionKey
+} from './additional-content'
+import {
+  createRequestServices,
+  requestServicesInjectionKey
+} from './request-services'
 
 const stateFactory = initialStateFactory(store.state)
 
@@ -37,7 +48,13 @@ once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
 })
 
-const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
+const createApp = async (ssrContext, config, storeCode = null): Promise<{
+  app: Vue,
+  router: VueRouter,
+  store: Store<RootState>,
+  initialState: RootState,
+  head: HeadManager
+}> => {
   router = createRouter()
   routerProxy = createRouterProxy(router)
   // sync router with vuex 'router' store
@@ -47,19 +64,14 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   store.state.config = config // @deprecated
   store.state.__DEMO_MODE__ = (config.demomode === true)
   if (ssrContext) {
-    // @deprecated - we shouldn't share server context between requests
-    Vue.prototype.$ssrRequestContext = {
-      output: {
-        cacheTags: ssrContext.output.cacheTags
-      },
-      userAgent: ssrContext.server.request.headers['user-agent']
-    }
-
     Vue.prototype.$cacheTags = ssrContext.output.cacheTags
   }
   if (!store.state.config) store.state.config = globalConfig //  @deprecated - we should avoid the `config`
   const storeView = await prepareStoreView(storeCode) // prepare the default storeView
   store.state.storeView = storeView
+  const routeView = createRouteView(routerProxy)
+  const additionalContent = new AdditionalContentRegistry()
+  const requestServices = createRequestServices(ssrContext)
 
   // @deprecated from 2.0
   once('__VUE_EXTEND__', () => {
@@ -67,12 +79,6 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     Vue.use(Meta, {
       ssrAppId: 1
     })
-    Vue.use(AdditionalContent);
-
-    Object.keys(corePlugins).forEach(key => {
-      Vue.use(corePlugins[key])
-    })
-
     Object.keys(coreMixins).forEach(key => {
       Vue.mixin(coreMixins[key])
     })
@@ -86,19 +92,32 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     router: routerProxy,
     store,
     i18n,
-    additionalContent: {},
+    provide: {
+      ...createApplicationServiceProviders({
+        store,
+        router: routerProxy,
+        route: routeView,
+        i18n: createI18nAdapter(i18n)
+      }),
+      [additionalContentInjectionKey as symbol]: additionalContent,
+      [requestServicesInjectionKey as symbol]: requestServices
+    },
     render: h => h(themeEntry)
   }
 
   const app = new Vue(vueOptions)
-  app.$extendedHead = extendHeadFactory();
+  const head = extendHeadFactory();
 
   const appContext = {
     isServer,
     ssrContext
   }
 
-  injectReferences(app, store, routerProxy, globalConfig)
+  injectReferences(app, store, routerProxy, globalConfig, {
+    head,
+    additionalContent,
+    request: requestServices
+  })
   registerClientModules()
   registerModules(enabledModules, appContext)
   registerTheme(globalConfig.theme, app, routerProxy, store, globalConfig, ssrContext)
@@ -107,7 +126,13 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   // @deprecated from 2.0
   EventBus.$emit('application-after-init', app)
 
-  return { app, router: routerProxy, store, initialState: stateFactory.createInitialState(store.state) }
+  return {
+    app,
+    router: routerProxy,
+    store,
+    initialState: stateFactory.createInitialState(store.state),
+    head
+  }
 }
 
 export { routerProxy as router, createApp, router as baseRouter }

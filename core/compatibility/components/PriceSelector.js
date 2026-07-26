@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 // replaced with generic ProductCustomOption
 export default {
   name: 'PriceSelector',
@@ -33,12 +34,12 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('filter-reset', this.filterReset)
-    this.$bus.$on('filter-changed-' + this.context, this.filterChanged)
+    EventBus.$on('filter-reset', this.filterReset)
+    EventBus.$on('filter-changed-' + this.context, this.filterChanged)
   },
   beforeDestroy () {
-    this.$bus.$off('filter-reset', this.filterReset)
-    this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
+    EventBus.$off('filter-reset', this.filterReset)
+    EventBus.$off('filter-changed-' + this.context, this.filterChanged)
   },
   methods: {
     filterChanged (filterOption) {
@@ -59,7 +60,7 @@ export default {
       this.active = false
     },
     switchFilter (id, from, to) {
-      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, from: from, to: to })
+      EventBus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, from: from, to: to })
     }
   }
 }

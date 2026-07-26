@@ -1,6 +1,17 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
+
 import { mountMixin, mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
 import { OrderReview } from '../../../components/OrderReview';
 
+
+jest.mock('@vue-storefront/core/compatibility/plugins/event-bus', () => ({
+  __esModule: true,
+  default: {
+    $emit: jest.fn(),
+    $on: jest.fn(),
+    $off: jest.fn()
+  }
+}));
 jest.mock('@vue-storefront/i18n', () => ({
   t: jest.fn(t => t)
 }));
@@ -61,7 +72,7 @@ describe('OrderReview', () => {
     let wrapper;
     const mockGetPersonalDetails = jest.fn();
     const mockRegisterFn = jest.fn();
-    const mockEmitFn = jest.fn();
+    const mockEmitFn = EventBus.$emit as jest.Mock;
 
     beforeEach(() => {
       wrapper = mountMixin(OrderReview, {

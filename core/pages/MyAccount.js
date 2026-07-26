@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import i18n from '@vue-storefront/i18n'
 
 import Composite from '@vue-storefront/core/mixins/composite'
@@ -20,21 +21,21 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
-    this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
-    this.$bus.$on('user-after-logout', this.afterUserIsLogout)
+    EventBus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
+    EventBus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
+    EventBus.$on('user-after-logout', this.afterUserIsLogout)
   },
   beforeDestroy () {
-    this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
-    this.$bus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)
-    this.$bus.$off('user-after-logout', this.afterUserIsLogout)
+    EventBus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
+    EventBus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)
+    EventBus.$off('user-after-logout', this.afterUserIsLogout)
   },
   methods: {
     async onBeforeChangePassword (passwordData) {
       try {
         await this.$store.dispatch('user/changePassword', passwordData);
       } finally {
-        this.$bus.$emit('myAccount-after-changePassword');
+        EventBus.$emit('myAccount-after-changePassword');
       }
     },
     async onBeforeUpdateUser (updatedData) {
@@ -42,10 +43,10 @@ export default {
         try {
           await this.$store.dispatch('user/update', { customer: updatedData })
         } catch (err) {
-          this.$bus.$emit('myAccount-before-remainInEditMode', this.$props.activeBlock)
+          EventBus.$emit('myAccount-before-remainInEditMode', this.$props.activeBlock)
           Logger.error(err)()
         } finally {
-          this.$bus.$emit('myAccount-after-updateUser')
+          EventBus.$emit('myAccount-after-updateUser')
         }
       }
     },

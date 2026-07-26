@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { customOptionFieldName, selectedCustomOptionValue, defaultCustomOptionValue } from '@vue-storefront/core/modules/catalog/helpers/customOption';
 import { mapMutations } from 'vuex'
 import * as types from '../store/product/mutation-types'
@@ -66,7 +67,7 @@ export const ProductCustomOptions = {
       this.validateField(option)
       this.setCustomOptionValue({ optionId: option.option_id, optionValue: this.selectedOptions[fieldName] })
       this.$store.dispatch('product/setCustomOptions', { product: this.product, customOptions: this.$store.state.product.current_custom_options }) // TODO: move it to "AddToCart"
-      this.$bus.$emit('product-after-customoptions', { product: this.product, option: option, optionValues: this.selectedOptions })
+      EventBus.$emit('product-after-customoptions', { product: this.product, option: option, optionValues: this.selectedOptions })
     },
     validateField (option) {
       const fieldName = customOptionFieldName(option)

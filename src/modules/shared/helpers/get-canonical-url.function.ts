@@ -1,15 +1,9 @@
 import VueRouter from 'vue-router';
 
-import getHostFromHeaders from '@vue-storefront/core/helpers/get-host-from-headers.function';
-
 export function getCanonicalUrl (
-  ssrContext: any,
+  host: string,
   router: VueRouter
 ) {
-  const host = ssrContext
-    ? getHostFromHeaders(ssrContext.server.request.headers)
-    : window.location.host;
-
   const routeName = router.currentRoute.name;
 
   if (!routeName) {

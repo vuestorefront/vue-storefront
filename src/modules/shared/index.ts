@@ -37,7 +37,6 @@ import { FOREVERS_BUNDLE_SKUS, FOREVERS_CAT_BUNDLE_SKU, FOREVERS_DOG_BUNDLE_SKU,
 import { GOLF_HEAD_COVERS_BUNDLE_SKUS } from './types/golf-head-covers-product-skus';
 import * as ExpressCheckoutData from './types/express-checkout-data.interface';
 import { useExpressCheckoutTotals } from './composables/use-express-checkout-totals';
-import { useCurrentInstance, useRootInstance } from './composables/use-current-instance';
 
 import EmailSubmitForm from './components/email-submit-form.vue';
 import PrivacyPolicyLink from './components/privacy-policy-link.vue';
@@ -86,8 +85,6 @@ export {
   getFirstAndLastFromFullName,
   normalizeProductPurchaseFlow,
   useExpressCheckoutTotals,
-  useCurrentInstance,
-  useRootInstance
 }
 
 export type {
@@ -97,5 +94,3 @@ export type {
   PersistedCustomerData,
   PersistedBillingAddress
 }
-
-export type { CurrentPublicInstance } from './composables/use-current-instance';

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { createLocalVue, shallowMount, Wrapper } from '@vue/test-utils';
 import Vuex, { Store } from 'vuex';
 
+import { storeInjectionKey } from '@vue-storefront/core/application-services';
 import Banner from '../../../components/Banner.vue';
 import { Currency, DEFAULT_CURRENCY } from 'src/modules/currency';
 import { CampaignContent } from '../../../types/CampaignContent.interface';
@@ -143,6 +144,9 @@ function createBanner (options: BannerTestOptions) {
   const wrapper = shallowMount(Banner as any, {
     localVue,
     store,
+    provide: {
+      [storeInjectionKey as symbol]: store
+    },
     mocks: {
       $store: store,
       $route: { path: '/' },

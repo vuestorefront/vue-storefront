@@ -26,7 +26,7 @@ import get from 'lodash-es/get'
 import config from 'config'
 
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import getHostFromHeaders from '@vue-storefront/core/helpers/get-host-from-headers.function';
+import { useRequestServices } from '@vue-storefront/core/request-services';
 
 import { getSettings } from '../helpers'
 
@@ -37,6 +37,11 @@ const PROTOCOL = 'https://';
 
 export default {
   name: 'StoryblokPage',
+  setup () {
+    return {
+      requestServices: useRequestServices()
+    };
+  },
   mixins: [StoryblokMixin],
   components: {
     PageBreadcrumbs
@@ -102,11 +107,7 @@ export default {
       if (!fullSlug.endsWith('/')) {
         fullSlug = `${fullSlug}/`;
       }
-      const host = this.$ssrContext
-        ? getHostFromHeaders(this.$ssrContext.server.request.headers)
-        : window.location.host;
-
-      return PROTOCOL + host + hreflangPrefix + fullSlug;
+      return PROTOCOL + this.requestServices.host + hreflangPrefix + fullSlug;
     },
     getCanonical (storeView = currentStoreView(), story = this.story) {
       const storeViewUrl = get(storeView, 'url', '')

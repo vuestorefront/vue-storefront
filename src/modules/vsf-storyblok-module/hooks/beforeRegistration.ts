@@ -28,7 +28,6 @@ function beforeRegistration (appConfig, store) {
   }
 
   const storyblokClient = new StoryblokClient(storyblokClientConfig)
-  Vue.prototype.$storyblokClient = storyblokClient
   store.$storyblokClient = storyblokClient
 
   once('__VUE_USE_STORYBLOK__', () => {

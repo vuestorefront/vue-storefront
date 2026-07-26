@@ -1,10 +1,10 @@
+import { useStore } from '@vue-storefront/core/application-services';
 import { computed, ref } from 'vue';
 import { SearchQuery } from 'storefront-query-builder'
 
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import { StatisticMetric } from 'src/modules/budsies/types/statistic-metric';
-import { useRootInstance } from './use-current-instance';
 
 export enum DirectiveType {
   PRODUCT_PRICE = 'productPrice',
@@ -58,11 +58,11 @@ const directiveSpecificationRegexp = /(.*)\((.*)\)/i;
 export function useTextDirectives (
   processTextPartsFunction: (textPart: TextPart[]) => void
 ) {
-  const root = useRootInstance();
+  const applicationStore = useStore();
   const isDirectivesProcessing = ref<boolean>(false);
 
   const productBySkuDictionary = computed<Record<string, Product>>(() => {
-    return root.$store.getters['product/getProductBySkuDictionary'];
+    return applicationStore.getters['product/getProductBySkuDictionary'];
   });
 
   function isProductDependentDirective (directive: Directive): directive is ProductDependentDirective {
@@ -189,7 +189,7 @@ export function useTextDirectives (
     let searchQuery = new SearchQuery();
     searchQuery = searchQuery.applyFilter({ key: 'sku', value: { 'in': productsSkus } })
 
-    await root.$store.dispatch(
+    await applicationStore.dispatch(
       'product/findProducts',
       {
         query: searchQuery,
@@ -216,7 +216,7 @@ export function useTextDirectives (
     }
 
     if (directives.find((value) => value.type === DirectiveType.ORDERED_PLUSHIES_COUNT)) {
-      promises.push(root.$store.dispatch(
+      promises.push(applicationStore.dispatch(
         'budsies/fetchStatisticValuesByMetric',
         { metric: StatisticMetric.ORDERED_PLUSHIES_COUNT })
       );

@@ -1,6 +1,17 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
+
 import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
 import { Shipping } from '../../../components/Shipping';
 
+
+jest.mock('@vue-storefront/core/compatibility/plugins/event-bus', () => ({
+  __esModule: true,
+  default: {
+    $emit: jest.fn(),
+    $on: jest.fn(),
+    $off: jest.fn()
+  }
+}));
 describe('Shipping', () => {
   let mockStore;
   let mockMountingOptions;
@@ -88,9 +99,9 @@ describe('Shipping', () => {
 
       const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
 
-      expect(mockMountingOptions.mocks.$bus.$on)
+      expect(EventBus.$on)
         .toHaveBeenCalledWith('checkout-after-personalDetails', (wrapper.vm as any).onAfterPersonalDetails);
-      expect(mockMountingOptions.mocks.$bus.$on)
+      expect(EventBus.$on)
         .toHaveBeenCalledWith('checkout-after-shippingset', (wrapper.vm as any).onAfterShippingSet);
     });
 
@@ -100,9 +111,9 @@ describe('Shipping', () => {
       const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
       wrapper.destroy();
 
-      expect(mockMountingOptions.mocks.$bus.$off)
+      expect(EventBus.$off)
         .toHaveBeenCalledWith('checkout-after-personalDetails', (wrapper.vm as any).onAfterPersonalDetails);
-      expect(mockMountingOptions.mocks.$bus.$off)
+      expect(EventBus.$off)
         .toHaveBeenCalledWith('checkout-after-shippingset', (wrapper.vm as any).onAfterShippingSet);
     });
 
@@ -230,7 +241,7 @@ describe('Shipping', () => {
       wrapper.setData({ shipping: shippingData });
       (wrapper.vm as any).sendDataToCheckout();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-after-shippingDetails', shippingData, undefined);
+      expect(EventBus.$emit).toHaveBeenCalledWith('checkout-after-shippingDetails', shippingData, undefined);
       expect((wrapper.vm as any).isFilled).toBe(true);
     });
 
@@ -239,17 +250,17 @@ describe('Shipping', () => {
 
       const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
 
-      mockMountingOptions.mocks.$bus.$emit.mockClear();
+      EventBus.$emit.mockClear();
       wrapper.setData({ isFilled: true });
       (wrapper.vm as any).edit();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-before-edit', 'shipping');
+      expect(EventBus.$emit).toHaveBeenCalledWith('checkout-before-edit', 'shipping');
 
-      mockMountingOptions.mocks.$bus.$emit.mockClear();
+      EventBus.$emit.mockClear();
       wrapper.setData({ isFilled: false });
       (wrapper.vm as any).edit();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).not.toHaveBeenCalled();
+      expect(EventBus.$emit).not.toHaveBeenCalled();
     });
 
     it('hasShippingDetails should check if shipping address is configured', () => {
@@ -397,7 +408,7 @@ describe('Shipping', () => {
       const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
       (wrapper.vm as any).changeCountry();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-before-shippingMethods', 'PL');
+      expect(EventBus.$emit).toHaveBeenCalledWith('checkout-before-shippingMethods', 'PL');
     });
 
     it('getCurrentShippingMethod should return undefined if there are no supported methods', () => {
@@ -433,7 +444,7 @@ describe('Shipping', () => {
       const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
       (wrapper.vm as any).changeShippingMethod();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).not.toHaveBeenCalled();
+      expect(EventBus.$emit).not.toHaveBeenCalled();
     });
 
     it('changeShippingMethod should emit event with current shipping method if it is configured', () => {
@@ -445,7 +456,7 @@ describe('Shipping', () => {
       const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
       (wrapper.vm as any).changeShippingMethod();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-after-shippingMethodChanged', {
+      expect(EventBus.$emit).toHaveBeenCalledWith('checkout-after-shippingMethodChanged', {
         country: 'PL',
         method_code: 'method code',
         carrier_code: 'carrier code',

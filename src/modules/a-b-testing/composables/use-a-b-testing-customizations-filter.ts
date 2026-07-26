@@ -1,8 +1,7 @@
 import config from 'config';
-import { Context } from 'core/scripts/utils/types';
+import { useRequestServices } from '@vue-storefront/core/request-services';
 
 import { Customization } from 'src/modules/customization-system';
-import { getCookieByName } from 'src/modules/shared';
 
 import { TestGroupId } from '../types/test-group-id';
 
@@ -14,12 +13,13 @@ const uploadLaterCustomizationNames: string[] = [
 ];
 const breedSelectorCustomizationName = 'breed';
 
-export function useABTestingCustomizationsFilter (ssrContext: Context) {
+export function useABTestingCustomizationsFilter () {
+  const request = useRequestServices();
   const TEST_GROUP_ID_COOKIE_KEY = config.abTesting?.cookieKey;
 
   let testGroupId: TestGroupId | undefined;
   if (TEST_GROUP_ID_COOKIE_KEY) {
-    testGroupId = getCookieByName(TEST_GROUP_ID_COOKIE_KEY, ssrContext) as TestGroupId | undefined;
+    testGroupId = request.getCookie(TEST_GROUP_ID_COOKIE_KEY) as TestGroupId | undefined;
   }
 
   const canFilter = testGroupId && testGroupIds.includes(testGroupId);

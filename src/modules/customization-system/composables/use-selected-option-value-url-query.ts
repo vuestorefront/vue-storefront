@@ -1,7 +1,7 @@
+import { useRoute, useRouter } from '@vue-storefront/core/application-services';
 import { computed, Ref, watch } from 'vue';
 
 import Product from 'core/modules/catalog/types/Product';
-import { useRootInstance } from 'src/modules/shared';
 
 import { CustomizationOptionValue } from '../types/customization-option-value';
 import { CustomizationStateItem } from '../types/customization-state-item.interface';
@@ -17,7 +17,8 @@ export function useSelectedOptionValueUrlQuery (
   mergeCustomizationState: (payload: CustomizationStateItem[]) => void,
   removeUnavailableOptionValues: () => Record<string, CustomizationOptionValue>
 ) {
-  const root = useRootInstance();
+  const applicationRouter = useRouter();
+  const currentRoute = useRoute();
   const currentProductSku = computed<string | undefined>(() => {
     return currentProduct.value?.sku;
   });
@@ -91,7 +92,7 @@ export function useSelectedOptionValueUrlQuery (
   });
 
   const routeQuery = computed<Record<string, string | undefined |(string | null)[]>>(() => {
-    return root.$route.query;
+    return currentRoute.query;
   });
 
   function unhandledCustomizationsFilter (customizationId: string): boolean {
@@ -106,14 +107,14 @@ export function useSelectedOptionValueUrlQuery (
     const _showInUrlQueryData = showInUrlQueryData.value;
 
     const isChanged = Object.keys(_showInUrlQueryData).some((key) => {
-      return _showInUrlQueryData[key] !== root.$route.query[key];
+      return _showInUrlQueryData[key] !== currentRoute.query[key];
     });
 
     if (!isChanged) {
       return;
     }
 
-    root.$router.replace({ query: { ...root.$route.query, ..._showInUrlQueryData } });
+    applicationRouter.replace({ query: { ...currentRoute.query, ..._showInUrlQueryData } });
   }
 
   function updateCustomizationOptionValueFromQuery (): void {
@@ -124,7 +125,7 @@ export function useSelectedOptionValueUrlQuery (
         continue;
       }
 
-      const selectedValuesSkus = root.$route.query[customization.optionData?.sku];
+      const selectedValuesSkus = currentRoute.query[customization.optionData?.sku];
 
       if (!selectedValuesSkus) {
         continue;

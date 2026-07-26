@@ -1,7 +1,7 @@
+import { useStore } from '@vue-storefront/core/application-services';
 import { ref, computed } from 'vue';
 
 import { Logger } from '@vue-storefront/core/lib/logger';
-import { useRootInstance } from 'src/modules/shared';
 
 import { Order } from '../types/order';
 import { STORE_NAME } from '../store/store-name';
@@ -9,12 +9,12 @@ import { GET_ORDERS_HISTORY } from '../types/store/getters';
 import { FETCH_ORDERS_HISTORY } from '../types/store/actions';
 
 export function useOrderHistoryList () {
-  const root = useRootInstance();
+  const applicationStore = useStore();
   const isLoading = ref<boolean>(false);
   const isError = ref<boolean>(false);
 
   const ordersList = computed<Order[]>(() => {
-    return root.$store.getters[`${STORE_NAME}/${GET_ORDERS_HISTORY}`];
+    return applicationStore.getters[`${STORE_NAME}/${GET_ORDERS_HISTORY}`];
   });
 
   const completedOrdersList = computed<Order[]>(() => {
@@ -42,7 +42,7 @@ export function useOrderHistoryList () {
     isError.value = false;
 
     try {
-      await root.$store.dispatch(`${STORE_NAME}/${FETCH_ORDERS_HISTORY}`, {
+      await applicationStore.dispatch(`${STORE_NAME}/${FETCH_ORDERS_HISTORY}`, {
         filters: {
           excludeAlterationProducts: true
         }

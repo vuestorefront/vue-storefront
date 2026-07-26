@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 export const ProductCustomOption = {
   name: 'ProductCustomOption',
   props: {
@@ -28,12 +29,12 @@ export const ProductCustomOption = {
     }
   },
   beforeMount () {
-    this.$bus.$on('filter-reset', this.filterReset)
-    this.$bus.$on('filter-changed-' + this.context, this.filterChanged)
+    EventBus.$on('filter-reset', this.filterReset)
+    EventBus.$on('filter-changed-' + this.context, this.filterChanged)
   },
   beforeDestroy () {
-    this.$bus.$off('filter-reset', this.filterReset)
-    this.$bus.$off('filter-changed-' + this.context, this.filterChanged)
+    EventBus.$off('filter-reset', this.filterReset)
+    EventBus.$off('filter-changed-' + this.context, this.filterChanged)
   },
   methods: {
     filterChanged (filterOption) {
@@ -45,7 +46,7 @@ export const ProductCustomOption = {
       this.active = false
     },
     switchFilter (id, label) {
-      this.$bus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label })
+      EventBus.$emit('filter-changed-' + this.context, { attribute_code: this.code, id: id, label: label })
     }
   }
 }

@@ -1,6 +1,17 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
+
 import { mountMixin } from '@vue-storefront/unit-tests/utils';
 import { Product } from '../../../components/Product';
 
+
+jest.mock('@vue-storefront/core/compatibility/plugins/event-bus', () => ({
+  __esModule: true,
+  default: {
+    $emit: jest.fn(),
+    $on: jest.fn(),
+    $off: jest.fn()
+  }
+}));
 describe('Product', () => {
   let mockMountingOptions;
 
@@ -44,7 +55,7 @@ describe('Product', () => {
     it('beforeMount hook should start subscription for cart-after-itemchanged event', () => {
       const wrapper = mountMixin(Product, mockMountingOptions);
 
-      expect(mockMountingOptions.mocks.$bus.$on).toHaveBeenCalledWith('cart-after-itemchanged', (wrapper.vm as any).onProductChanged);
+      expect(EventBus.$on).toHaveBeenCalledWith('cart-after-itemchanged', (wrapper.vm as any).onProductChanged);
     });
 
     it('beforeDestroy hook should stop subscription for user-after-itemchanged event', () => {
@@ -52,7 +63,7 @@ describe('Product', () => {
 
       wrapper.destroy();
 
-      expect(mockMountingOptions.mocks.$bus.$off).toHaveBeenCalledWith('cart-after-itemchanged', (wrapper.vm as any).onProductChanged);
+      expect(EventBus.$off).toHaveBeenCalledWith('cart-after-itemchanged', (wrapper.vm as any).onProductChanged);
     });
   });
 

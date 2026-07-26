@@ -11,7 +11,7 @@ import { PRODUCT_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { getThumbnailPath, productThumbnailPath } from '@vue-storefront/core/helpers';
-import getHostFromHeaders from '@vue-storefront/core/helpers/get-host-from-headers.function';
+import { useRequestServices } from '@vue-storefront/core/request-services';
 
 import { PriceHelper, DEFAULT_CURRENCY_CODE } from 'src/modules/shared';
 import { getOfferUrl } from '../helpers/get-offer-url.function';
@@ -20,6 +20,11 @@ import { getOfferShippingDetails } from '../helpers/get-offer-shipping-details.f
 
 export default Vue.extend({
   name: 'ProductStructuredData',
+  setup () {
+    return {
+      requestServices: useRequestServices()
+    };
+  },
   props: {
     product: {
       type: Object as PropType<Product>,
@@ -36,10 +41,7 @@ export default Vue.extend({
       const price = this.productPriceDictionary[this.product.id];
       const finalPrice = PriceHelper.getFinalPrice(price);
 
-      const host = (this as any).$ssrContext
-        ? getHostFromHeaders((this as any).$ssrContext.server.request.headers)
-        : window.location.host;
-      const siteBaseUrl = `https://${host}`;
+      const siteBaseUrl = `https://${this.requestServices.host}`;
 
       const priceValidUntil = new Date();
       priceValidUntil.setFullYear(priceValidUntil.getFullYear() + 1);

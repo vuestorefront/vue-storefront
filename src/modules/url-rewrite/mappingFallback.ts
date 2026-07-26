@@ -18,11 +18,13 @@ export const mappingFallbackForUrlRewrite = async (
   {
     url,
     params,
-    ssrContext
+    ssrContext,
+    redirect
   }: {
     url: string,
     params: queryString.ParsedQuery<string>,
-    ssrContext?: Context
+    ssrContext?: Context,
+    redirect?: (path: string, statusCode?: number) => void
   }
 ): Promise<LocalizedRoute | undefined> => {
   if (Vue.prototype.$cacheTags) {
@@ -56,6 +58,11 @@ export const mappingFallbackForUrlRewrite = async (
   const ssrRedirectFullPath = `/${targetPath}/${query}`;
 
   // serverPrefetch case, AsyncDataLoader is not used
+  if (redirect) {
+    redirect(ssrRedirectFullPath, redirectCode);
+    return;
+  }
+
   if (ssrContext) {
     (ssrContext.server.response as Response).redirect(
       redirectCode,

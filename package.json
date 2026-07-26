@@ -52,6 +52,7 @@
     "test:e2e:ci": "cypress run",
     "test:upgrade:config": "node test/upgrade/configuration-lifecycle.js",
     "test:upgrade:type-check-watch": "node test/upgrade/vue-tsc-watch-coordinator.js",
+    "test:upgrade:vue-instance-access": "node test/upgrade/prohibited-vue-instance-access.js",
     "type-check": "vue-tsc --noEmit -p tsconfig.vue-tsc.json",
     "type-check:watch": "vue-tsc --noEmit --watch --pretty --preserveWatchOutput -p tsconfig.vue-tsc.json",
     "lint": "cross-env NODE_ENV=production eslint \"core/**/*.{js,ts,vue}\" \"src/**/*.{js,ts,vue}\"",

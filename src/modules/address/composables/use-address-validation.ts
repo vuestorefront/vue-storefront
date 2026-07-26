@@ -1,10 +1,10 @@
+import { useStore } from '@vue-storefront/core/application-services';
 import { ref, inject, Ref, nextTick } from 'vue';
 
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { AddressExtensionAttributes, AddressValidationStatusId, generateAddressHash } from '@vue-storefront/core/modules/shared';
-import { useRootInstance } from 'src/modules/shared';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
 import { ValidationResult, ValidationVerdict } from '../types/validation';
@@ -150,7 +150,7 @@ function getValidationExtensionAttributesByDecision (
 export function useAddressValidation (
   options: UseAddressValidationOptions = {}
 ) {
-  const root = useRootInstance();
+  const applicationStore = useStore();
   const provider = inject<AddressValidationProvider>('AddressValidationProviderService');
   const isValidating = ref(false);
   const interactiveVerdicts = options.interactiveVerdicts || DEFAULT_INTERACTIVE_VERDICTS;
@@ -262,7 +262,7 @@ export function useAddressValidation (
         zIndex: 1002
       };
 
-      root.$store.dispatch('ui/openModal', {
+      applicationStore.dispatch('ui/openModal', {
         name: ADDRESS_VALIDATION_MODAL_NAME,
         payload
       });

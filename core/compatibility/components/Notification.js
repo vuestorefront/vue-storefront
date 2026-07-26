@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 // deprecated moved to store
 export default {
   name: 'Notification',
@@ -7,10 +8,10 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('notification', this.onNotification)
+    EventBus.$on('notification', this.onNotification)
   },
   beforeDestroy () {
-    this.$bus.$off('notification', this.onNotification)
+    EventBus.$off('notification', this.onNotification)
   },
   methods: {
     onNotification (data) {
@@ -26,7 +27,7 @@ export default {
       }
     },
     action (action, id, notification) {
-      this.$bus.$emit('notification-after-' + action, notification)
+      EventBus.$emit('notification-after-' + action, notification)
       switch (action) {
         case 'goToCheckout':
           this.$router.push(this.localizedRoute({ name: 'checkout' }))

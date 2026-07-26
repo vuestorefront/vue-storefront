@@ -70,25 +70,25 @@ export default {
   },
   // Move busses to mixin which is directly imported in Project.vue
   beforeDestroy () {
-    this.$bus.$off('product-after-removevariant')
-    this.$bus.$off('filter-changed-product')
-    this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
-    this.$bus.$off('product-after-customoptions')
-    this.$bus.$off('product-after-bundleoptions')
+    EventBus.$off('product-after-removevariant')
+    EventBus.$off('filter-changed-product')
+    EventBus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
+    EventBus.$off('product-after-customoptions')
+    EventBus.$off('product-after-bundleoptions')
     if (config.usePriceTiers || this.isUserGroupedTaxActive) {
-      this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
-      this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
+      EventBus.$off('user-after-loggedin', this.onUserPricesRefreshed)
+      EventBus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
   },
   beforeMount () {
-    this.$bus.$on('product-after-removevariant', this.onAfterVariantChanged)
-    this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate) // moved to catalog module
-    this.$bus.$on('filter-changed-product', this.onAfterFilterChanged) // moved to catalog module
-    this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged) // moved to catalog module
-    this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged) // moved to catalog module
+    EventBus.$on('product-after-removevariant', this.onAfterVariantChanged)
+    EventBus.$on('product-after-priceupdate', this.onAfterPriceUpdate) // moved to catalog module
+    EventBus.$on('filter-changed-product', this.onAfterFilterChanged) // moved to catalog module
+    EventBus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged) // moved to catalog module
+    EventBus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged) // moved to catalog module
     if (config.usePriceTiers || this.isUserGroupedTaxActive) { // moved to catalog module
-      this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
-      this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
+      EventBus.$on('user-after-loggedin', this.onUserPricesRefreshed)
+      EventBus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
     this.onStateCheck()
     this.$store.dispatch('recently-viewed/addItem', this.product)
@@ -180,7 +180,7 @@ export default {
       this.$forceUpdate()
     },
     onAfterFilterChanged (filterOption) {
-      this.$bus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
+      EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
       const prevOption = this.configuration[filterOption.attribute_code]
       let changedConfig = Object.assign({}, this.configuration, { [filterOption.attribute_code]: filterOption })
       this.$forceUpdate() // this is to update the available options regarding current selection
@@ -213,7 +213,7 @@ export default {
     onUserPricesRefreshed () {
       if (this.$route.params.parentSku) {
         this.$store.dispatch('product/reset')
-        this.$bus.$emit('product-before-load', { store: this.$store, route: this.$route })
+        EventBus.$emit('product-before-load', { store: this.$store, route: this.$route })
         this.$store.dispatch('product/single', {
           options: {
             sku: this.$route.params.parentSku,

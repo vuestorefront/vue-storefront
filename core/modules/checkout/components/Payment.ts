@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import debounce from 'lodash-es/debounce'
@@ -70,7 +71,7 @@ export const Payment = {
     }
   },
   beforeMount () {
-    this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
+    EventBus.$on('checkout-after-load', this.onCheckoutLoad)
   },
   mounted () {
     if (this.payment.company) {
@@ -82,7 +83,7 @@ export const Payment = {
     this.fillFormData();
   },
   beforeDestroy () {
-    this.$bus.$off('checkout-after-load', this.onCheckoutLoad)
+    EventBus.$off('checkout-after-load', this.onCheckoutLoad)
   },
   watch: {
     shippingDetails: {
@@ -116,12 +117,12 @@ export const Payment = {
   },
   methods: {
     sendDataToCheckout () {
-      this.$bus.$emit('checkout-after-paymentDetails', this.payment, this.$v)
+      EventBus.$emit('checkout-after-paymentDetails', this.payment, this.$v)
       this.isFilled = true
     },
     edit () {
       if (this.isFilled) {
-        this.$bus.$emit('checkout-before-edit', 'payment')
+        EventBus.$emit('checkout-before-edit', 'payment')
       }
     },
     hasBillingData () {
@@ -222,7 +223,7 @@ export const Payment = {
 
       // Let anyone listening know that we've changed payment method, usually a payment extension.
       if (this.payment.paymentMethod) {
-        this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
+        EventBus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
       }
     },
     changeCountry () {

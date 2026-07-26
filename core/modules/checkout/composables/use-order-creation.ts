@@ -1,22 +1,22 @@
+import { useStore } from '@vue-storefront/core/application-services';
 import { Order } from '@vue-storefront/core/modules/order/types/Order';
-import { useRootInstance } from 'src/modules/shared';
 
 import ShippingDetails from '../types/ShippingDetails';
 import PaymentDetails from '../types/PaymentDetails';
 
 export function useOrderCreation () {
-  const root = useRootInstance();
+  const applicationStore = useStore();
   function prepareOrderData (paymentAdditionalData: any) {
-    const paymentDetails: PaymentDetails = root.$store.getters['checkout/getPaymentDetails'];
-    const shippingDetails: ShippingDetails = root.$store.getters['checkout/getShippingDetails'];
-    const personalDetails = root.$store.getters['checkout/getPersonalDetails'];
-    const platformTotals = root.$store.state.cart.platformTotals;
-    const isVirtualCart = root.$store.getters['cart/isVirtualCart'];
+    const paymentDetails: PaymentDetails = applicationStore.getters['checkout/getPaymentDetails'];
+    const shippingDetails: ShippingDetails = applicationStore.getters['checkout/getShippingDetails'];
+    const personalDetails = applicationStore.getters['checkout/getPersonalDetails'];
+    const platformTotals = applicationStore.state.cart.platformTotals;
+    const isVirtualCart = applicationStore.getters['cart/isVirtualCart'];
 
     const orderData: Order = {
-      user_id: root.$store.state.user.current ? root.$store.state.user.current.id.toString() : '',
-      cart_id: root.$store.state.cart.cartServerToken ? root.$store.state.cart.cartServerToken.toString() : '',
-      products: root.$store.state.cart.cartItems,
+      user_id: applicationStore.state.user.current ? applicationStore.state.user.current.id.toString() : '',
+      cart_id: applicationStore.state.cart.cartServerToken ? applicationStore.state.cart.cartServerToken.toString() : '',
+      products: applicationStore.state.cart.cartItems,
       addressInformation: {
         billingAddress: {
           region: paymentDetails.state,
