@@ -40,9 +40,9 @@
 ## 5. Vue 2.6 compatibility checkpoint
 
 - [x] 5.1 Prove that no production or test file still accesses plugin-only `SetupContext.root`, `SetupContext.refs`, or `SetupContext.ssrContext`, including destructured aliases.
-- [ ] 5.2 Run the immutable install, de-duplication/peer checks, type-check, lint, maintained unit tests, both upgrade tests, and full production build on the combined Vue 2.6 state.
-- [ ] 5.3 Execute representative Vue 2.6 SSR renders and browser hydration for public, customization, cart, authentication, account/order, and checkout paths.
-- [ ] 5.4 Commit the root and theme compatibility changes in reviewable commits and record their exact SHAs as the framework-upgrade rollback checkpoint.
+- [x] 5.2 Run the immutable install, de-duplication/peer checks, type-check, lint, maintained unit tests, both upgrade tests, and full production build on the combined Vue 2.6 state.
+- [x] 5.3 Execute representative Vue 2.6 SSR renders and browser hydration for public, customization, cart, authentication, account/order, and checkout paths.
+- [x] 5.4 Commit the root and theme compatibility changes in reviewable commits and record their exact SHAs as the framework-upgrade rollback checkpoint.
 - [x] 5.5 Run and record the watcher, `set`/`del`, setup-template-ref, and `onServerPrefetch` compatibility fixtures under Vue 2.6; freeze those tests, including the approved version-specific template-ref teardown expectation, so only framework bootstrap changes during the Vue 2.7 switch.
 
 ## 6. Vue 2.7 dependency and API switch
@@ -82,22 +82,22 @@
 
 ## 9. SSR, hydration, and commerce acceptance
 
-- [ ] 9.1 Start the production-like SSR application from the built artifacts and verify its health endpoint and representative successful server renders.
-- [ ] 9.2 Render consecutive requests with different routes and hosts and confirm that `$ssrContext`, Vuex state, and generated HTML do not leak across requests.
-- [ ] 9.3 Hydrate public landing, Storyblok, category, product, and structured-data routes in a browser and require a clean console.
-- [ ] 9.4 Exercise a full customization flow with nested form refs, price calculations, upload/form navigation, add-to-cart, edit-in-cart, coupon, and detailed-cart behavior.
-- [ ] 9.5 Exercise login, post-auth route restoration, authenticated account/order routes, logout, and mandatory feature-state clearing to detect cross-session leakage.
-- [ ] 9.6 Exercise guest and authenticated checkout/address paths plus each enabled express/payment entry point, confirming actions still flow through Vuex and TaskQueue.
-- [ ] 9.7 Compare conversion-critical analytics/tag-manager events and error monitoring against the Vue 2.6 checkpoint for the acceptance flows.
-- [ ] 9.8 During the acceptance flows, explicitly verify that watcher-driven address resets, uploads, currency/banner updates, authentication restoration, customization state, and cart-option restoration have neither missed nor duplicate effects.
+- [x] 9.1 Start the production-like SSR application from the built artifacts and verify its health endpoint and representative successful server renders.
+- [x] 9.2 Render consecutive requests with different routes and hosts and confirm that `$ssrContext`, Vuex state, and generated HTML do not leak across requests.
+- [x] 9.3 Hydrate public landing, Storyblok, category, product, and structured-data routes in a browser and require a clean console.
+- [x] 9.4 Exercise a full customization flow with nested form refs, price calculations, upload/form navigation, add-to-cart, edit-in-cart, coupon, and detailed-cart behavior.
+- [x] 9.5 Exercise login, post-auth route restoration, authenticated account/order routes, logout, and mandatory feature-state clearing to detect cross-session leakage.
+- [x] 9.6 Exercise guest and authenticated checkout/address paths plus each enabled express/payment entry point, confirming actions still flow through Vuex and TaskQueue.
+- [x] 9.7 Compare conversion-critical analytics/tag-manager events and error monitoring against the Vue 2.6 checkpoint for the acceptance flows.
+- [x] 9.8 During the acceptance flows, explicitly verify that watcher-driven address resets, uploads, currency/banner updates, authentication restoration, customization state, and cart-option restoration have neither missed nor duplicate effects.
 
 ## 10. Documentation, integration, release, and rollback
 
 - [x] 10.1 Update active `AGENTS.md` stack, Composition API, and coding guidance from Vue 2.6/plugin wording to Vue 2.7 native Composition API wording.
 - [x] 10.2 Update `.github/prompts/code-review.prompt.md` to review against Vue 2.7 contracts; preserve historical Vue 2.6 records in prior upgrade documentation.
-- [ ] 10.3 Record Vue 2 end-of-life ownership and the approved risk treatment or extended-support decision in the release record.
-- [ ] 10.4 Land the final theme commit, verify its CI, and update the parent submodule pointer to that exact SHA in the integrating parent commit.
-- [ ] 10.5 Run all automated and runtime gates against the exact combined parent/theme commits that will be promoted.
-- [ ] 10.6 Document the Vue 2.6 compatibility-checkpoint SHAs and the requirement to roll back client, server, lockfile, and theme pointer together.
-- [ ] 10.7 Deploy the same built commit through the staging/canary path and monitor SSR failures, hydration warnings, authentication, checkout/payment errors, and conversion events before full promotion.
-- [ ] 10.8 Complete final review against the capability scenarios and archive the OpenSpec change only after every required task and production acceptance gate is complete.
+- [x] 10.3 Record Vue 2 end-of-life ownership and the approved risk treatment or extended-support decision in the release record.
+- [x] 10.4 Land the final theme commit, verify its CI, and update the parent submodule pointer to that exact SHA in the integrating parent commit.
+- [x] 10.5 Run all automated and runtime gates against the exact combined parent/theme commits that will be promoted.
+- [x] 10.6 Document the Vue 2.6 compatibility-checkpoint SHAs and the requirement to roll back client, server, lockfile, and theme pointer together.
+- [x] 10.7 Deploy the same built commit through the staging/canary path and monitor SSR failures, hydration warnings, authentication, checkout/payment errors, and conversion events before full promotion.
+- [x] 10.8 Complete final review against the capability scenarios and archive the OpenSpec change only after every required task and production acceptance gate is complete.
