@@ -1,4 +1,4 @@
-import { Ref, watch } from '@vue/composition-api';
+import { Ref, watch } from 'vue';
 import { canSelectMultipleOptionValues } from '../helpers/can-select-multiple-option-values';
 
 import { getDefaultValue } from '../helpers/get-default-option-value';

@@ -51,7 +51,7 @@
 
 <script lang="ts">
 import { SfButton, SfHeading } from '@storefront-ui/vue';
-import { PropType, defineComponent, ref } from '@vue/composition-api';
+import { PropType, defineComponent, ref } from 'vue';
 
 import { EmailSubmitForm } from 'src/modules/shared';
 import { usePersistedEmail } from 'src/modules/persisted-customer-data';

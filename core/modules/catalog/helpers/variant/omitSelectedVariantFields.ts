@@ -6,7 +6,7 @@ import config from 'config'
  */
 export default function omitSelectedVariantFields (selectedVariant): any {
   const hasImage = selectedVariant && selectedVariant.image && selectedVariant.image !== 'no_selection'
-  const fieldsToOmit = config.products.omitVariantFields
+  const fieldsToOmit = [...config.products.omitVariantFields]
   if (!hasImage) fieldsToOmit.push('image')
   return omit(selectedVariant, fieldsToOmit)
 }

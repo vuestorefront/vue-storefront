@@ -1,8 +1,8 @@
-import { Ref, computed, SetupContext } from '@vue/composition-api';
+import { Ref, computed } from 'vue';
 
 import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
 
-import { PriceHelper } from 'src/modules/shared';
+import { PriceHelper, useRootInstance } from 'src/modules/shared';
 
 import { getOptionValuePrice } from '../helpers/get-option-value-price';
 import { OptionValue } from '../types/option-value.interface';
@@ -11,9 +11,9 @@ import { PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID } from '../types/prod
 
 export function useOptionValuesPrice (
   values: Ref<OptionValue[]>,
-  { root }: SetupContext,
   useLowestPriceAsDefault = false
 ) {
+  const root = useRootInstance();
   const optionValuePriceDictionary = computed<Record<string, PriceHelper.ProductPrice | undefined>>(
     () => {
       const dictionary: Record<string, PriceHelper.ProductPrice | undefined> = {};

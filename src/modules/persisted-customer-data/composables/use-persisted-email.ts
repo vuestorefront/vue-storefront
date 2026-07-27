@@ -1,4 +1,4 @@
-import { Ref, WritableComputedRef, computed, onBeforeMount, onBeforeUnmount } from '@vue/composition-api';
+import { Ref, WritableComputedRef, computed, onBeforeMount, onBeforeUnmount } from 'vue';
 
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import rootStore from '@vue-storefront/core/store';

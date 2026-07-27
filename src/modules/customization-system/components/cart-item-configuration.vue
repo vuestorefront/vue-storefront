@@ -94,7 +94,7 @@ import {
   defineComponent,
   PropType,
   toRef
-} from '@vue/composition-api';
+} from 'vue';
 
 import {
   Customization,

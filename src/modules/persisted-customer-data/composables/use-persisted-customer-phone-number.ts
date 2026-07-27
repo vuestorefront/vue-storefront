@@ -1,4 +1,4 @@
-import { Ref, WritableComputedRef, onBeforeMount } from '@vue/composition-api';
+import { Ref, WritableComputedRef, onBeforeMount } from 'vue';
 
 import rootStore from '@vue-storefront/core/store';
 

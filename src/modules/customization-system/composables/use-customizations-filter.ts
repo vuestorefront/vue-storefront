@@ -1,4 +1,4 @@
-import { computed, Ref } from '@vue/composition-api';
+import { computed, Ref } from 'vue';
 
 import { Customization } from '../types/customization.interface';
 import { OptionValue } from '../types/option-value.interface';

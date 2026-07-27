@@ -1,4 +1,4 @@
-import { computed, ComputedRef, Ref } from '@vue/composition-api';
+import { computed, ComputedRef, Ref } from 'vue';
 
 import { OptionValue } from 'src/modules/customization-system';
 

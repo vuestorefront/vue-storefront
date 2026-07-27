@@ -1,4 +1,4 @@
-import { computed, Ref, watch } from '@vue/composition-api';
+import { computed, Ref, watch } from 'vue';
 
 import { ProductPurchaseFlow } from 'src/modules/shared';
 

@@ -1,4 +1,4 @@
-import { computed, ref, Ref } from '@vue/composition-api';
+import { computed, ref, Ref } from 'vue';
 
 import { AddressExtensionAttributes, AddressValidationStatusId } from '@vue-storefront/core/modules/shared';
 

@@ -23,7 +23,8 @@
 </template>
 
 <script lang="ts">
-import { PropType, computed, defineComponent } from '@vue/composition-api';
+import { PropType, computed, defineComponent } from 'vue';
+import { useRootInstance } from 'src/modules/shared';
 
 import { OrderItemShipment } from '../types/order-item-shipment';
 
@@ -39,7 +40,8 @@ export default defineComponent({
       default: undefined
     }
   },
-  setup (props, { root }) {
+  setup (props) {
+    const root = useRootInstance();
     const showShipmentsList = computed<boolean>(() => {
       return props.shipments.length > 0;
     });

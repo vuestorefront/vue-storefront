@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import VueCompositionAPI from '@vue/composition-api';
 import { createLocalVue, shallowMount, Wrapper } from '@vue/test-utils';
 import Vuex, { Store } from 'vuex';
 
@@ -47,7 +46,6 @@ jest.mock('src/modules/currency', () => ({
   GET_CURRENCY_EXCHANGE_RATE: 'currency/getCurrencyExchangeRate'
 }));
 
-Vue.use(VueCompositionAPI as any);
 Vue.use(Vuex);
 
 interface BannerTestOptions {
@@ -141,7 +139,6 @@ function createBanner (options: BannerTestOptions) {
 
   const localVue = createLocalVue();
   localVue.use(Vuex);
-  localVue.use(VueCompositionAPI as any);
 
   const wrapper = shallowMount(Banner as any, {
     localVue,

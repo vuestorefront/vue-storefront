@@ -1,8 +1,10 @@
-import { computed, SetupContext } from '@vue/composition-api';
+import { computed } from 'vue';
 
 import { ExpressCheckoutUpdateData } from '../types/express-checkout-data.interface';
+import { useRootInstance } from './use-current-instance';
 
-export function useExpressCheckoutTotals ({ root }: SetupContext) {
+export function useExpressCheckoutTotals () {
+  const root = useRootInstance();
   const expressCheckoutTotals = computed<ExpressCheckoutUpdateData['total']>(() => {
     const totalsData = root.$store.getters['cart/getTotals'];
 

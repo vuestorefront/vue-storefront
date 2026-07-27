@@ -5,13 +5,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, onMounted, PropType, ref, watch } from '@vue/composition-api'
+import { computed, defineComponent, nextTick, onMounted, PropType, ref, watch } from 'vue'
 import config from 'config';
 
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { Logger } from '@vue-storefront/core/lib/logger';
 import {
   useExpressCheckoutTotals,
+  useRootInstance,
   DEFAULT_CURRENCY_CODE,
   ExpressCheckoutData,
   getFirstAndLastFromFullName,
@@ -171,11 +172,10 @@ export default defineComponent({
       default: PaymentType.PAYMENT
     }
   },
-  setup (props, context) {
-    const emit = context.emit;
-    const root = context.root;
+  setup (props, { emit }) {
+    const root = useRootInstance();
 
-    const { expressCheckoutTotals } = useExpressCheckoutTotals(context);
+    const { expressCheckoutTotals } = useExpressCheckoutTotals();
 
     const isExpressCheckout = computed<boolean>(() => {
       return props.type === PaymentType.EXPRESS_CHECKOUT;

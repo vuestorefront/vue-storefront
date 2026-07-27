@@ -1,5 +1,5 @@
 import { RawLocation } from 'vue-router';
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, computed } from 'vue';
 
 import { BudsieStatus } from 'src/modules/shared';
 

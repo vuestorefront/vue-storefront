@@ -1,9 +1,10 @@
-import { ref, inject, Ref, SetupContext, nextTick } from '@vue/composition-api';
+import { ref, inject, Ref, nextTick } from 'vue';
 
 import BaseAddressDetails from '@vue-storefront/core/modules/checkout/types/BaseAddressDetails';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { AddressExtensionAttributes, AddressValidationStatusId, generateAddressHash } from '@vue-storefront/core/modules/shared';
+import { useRootInstance } from 'src/modules/shared';
 
 import { AddressValidationProvider } from '../services/address-validation-provider.interface';
 import { ValidationResult, ValidationVerdict } from '../types/validation';
@@ -147,10 +148,9 @@ function getValidationExtensionAttributesByDecision (
 }
 
 export function useAddressValidation (
-  context: SetupContext,
   options: UseAddressValidationOptions = {}
 ) {
-  const { root } = context;
+  const root = useRootInstance();
   const provider = inject<AddressValidationProvider>('AddressValidationProviderService');
   const isValidating = ref(false);
   const interactiveVerdicts = options.interactiveVerdicts || DEFAULT_INTERACTIVE_VERDICTS;

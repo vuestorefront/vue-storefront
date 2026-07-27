@@ -1,4 +1,4 @@
-import { computed, nextTick, onMounted, ref, Ref, watch } from '@vue/composition-api';
+import { computed, nextTick, onMounted, ref, Ref, watch } from 'vue';
 import { Mutex } from 'async-mutex';
 
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';

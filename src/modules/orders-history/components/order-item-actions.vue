@@ -47,12 +47,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from '@vue/composition-api';
+import { computed, defineComponent, PropType } from 'vue';
 import { SfButton } from '@storefront-ui/vue';
 
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { IS_CART_SYNCING } from '@vue-storefront/core/modules/cart';
-import { FOREVERS_BUNDLE_SKUS } from 'src/modules/shared';
+import { FOREVERS_BUNDLE_SKUS, useRootInstance } from 'src/modules/shared';
 
 import { OrderItem } from '../types/order-item';
 import { OrderItemAvailableAction } from '../types/order-item-available-action';
@@ -134,7 +134,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props, { root }) {
+  setup (props) {
+    const root = useRootInstance();
     const productSkuRouteNameMapping = getProductSkuRouteNameMapping();
 
     const disabledItems = computed<Record<string, boolean>>(() => {

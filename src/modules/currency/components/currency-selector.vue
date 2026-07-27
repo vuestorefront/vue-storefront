@@ -28,8 +28,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from '@vue/composition-api';
+import { defineComponent, computed } from 'vue';
 import { SfSelect } from '@storefront-ui/vue';
+import { useRootInstance } from 'src/modules/shared';
 
 import { GET_ACTIVE_CURRENCY, GET_AVAILABLE_CURRENCIES } from '../types/getters';
 import { MODULE_NAME } from '../types/module-name';
@@ -46,7 +47,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup (_, { root }) {
+  setup () {
+    const root = useRootInstance();
     const selectedCurrency = computed<string>({
       get: () => {
         return root.$store.getters[`${MODULE_NAME}/${GET_ACTIVE_CURRENCY}`].code;

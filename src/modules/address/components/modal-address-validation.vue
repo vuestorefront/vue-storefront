@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, SetupContext } from '@vue/composition-api';
+import { defineComponent, computed, PropType, SetupContext } from 'vue';
 import { SfModal, SfHeading } from '@storefront-ui/vue';
 
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
@@ -92,7 +92,7 @@ export default defineComponent({
       })
     }
   },
-  setup (props, { emit }: SetupContext) {
+  setup (props, { emit }: Pick<SetupContext, 'emit'>) {
     const enteredAddress = computed(() => {
       return toAddressValidationDetails(props.modalData.payload?.enteredAddress);
     });

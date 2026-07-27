@@ -1,8 +1,8 @@
 import { register } from 'register-service-worker'
-import { server } from 'config'
+import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-if (process.env.NODE_ENV === 'production' || server.devServiceWorker) {
+if (process.env.NODE_ENV === 'production' || config.server.devServiceWorker) {
   register(`/service-worker.js`, {
     ready () {
       Logger.log(

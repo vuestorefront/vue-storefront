@@ -1,4 +1,4 @@
-import { computed, Ref, ref, unref, watch } from '@vue/composition-api';
+import { computed, Ref, ref, unref, watch } from 'vue';
 import { extend, ValidationProvider } from 'vee-validate';
 import { email, required } from 'vee-validate/dist/rules';
 import { ValidationRuleSchema, ValidationResult } from 'vee-validate/dist/types/types'

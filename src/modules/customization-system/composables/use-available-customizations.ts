@@ -1,4 +1,4 @@
-import { Ref, ComputedRef, computed, watch } from '@vue/composition-api';
+import { Ref, ComputedRef, computed, watch } from 'vue';
 
 import { isItemAvailable } from '../helpers/is-item-available';
 import { isFileUploadValue } from '../types/is-file-upload-value.typeguard';

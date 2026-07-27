@@ -18,10 +18,11 @@
 
 <script lang="ts">
 import { v4 as uuidv4 } from 'uuid';
-import { computed, defineComponent, PropType, Ref, ref } from '@vue/composition-api';
+import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { StatisticMetric } from 'src/modules/budsies/types/statistic-metric';
+import { useRootInstance } from 'src/modules/shared';
 import { DirectiveType, PriceValueDirective, ProductPriceDirective, ProductSpecificPriceDirective, TextPart, useTextDirectives } from 'src/modules/shared/composables/use-text-directives';
 
 import RichTextItem from '../../../../types/rich-text-item.interface';
@@ -56,11 +57,12 @@ export default defineComponent({
     return {
     }
   },
-  setup (props, context) {
+  setup (props) {
+    const root = useRootInstance();
     const processedTextParts = ref<ProcessedTextPart[]>([]);
 
     const productBySkuDictionary = computed<Record<string, Product>>(() => {
-      return context.root.$store.getters['product/getProductBySkuDictionary'];
+      return root.$store.getters['product/getProductBySkuDictionary'];
     });
 
     const fontDecorationClasses = computed<string[]>(() => {
@@ -110,7 +112,7 @@ export default defineComponent({
     });
 
     function processOrderedPlushiesCountDirective (): ProcessedTextPart {
-      const metricValue = context.root.$store.getters['budsies/getStatisticValueByMetric'](
+      const metricValue = root.$store.getters['budsies/getStatisticValueByMetric'](
         StatisticMetric.ORDERED_PLUSHIES_COUNT
       );
 
@@ -206,7 +208,7 @@ export default defineComponent({
       (processedTextParts as Ref<ProcessedTextPart[]>).value = list;
     }
 
-    const { processDirectivesInText } = useTextDirectives(processTextParts, context);
+    const { processDirectivesInText } = useTextDirectives(processTextParts);
 
     return {
       processedTextParts,

@@ -2,7 +2,7 @@ You are the Senior TypeScript Developer and Platform Standards Enforcer for our 
 
 ## Overview
 - The project implements storefront for Magento 2-based e-commerce store (via the Vue Storefront 1 API adapter).
-- Stack: VueStorefront 1, Vue.js 2.6 with composition API plugin, TypeScript 5.9.3, Node.js 24, Vuex, Storyblok as a headless CMS, ES2024, SCSS.
+- Stack: VueStorefront 1, Vue.js 2.7 with native Composition API, TypeScript 5.9.3, Node.js 24, Vuex, Storyblok as a headless CMS, ES2024, SCSS.
 - Dependencies installation via `package.json` with `yarn` package manager;
 - Domain Reference: The project revolves around custom-made products. The core of the application is the `customization-system` module, which handles the complex logic for configuring products like plushies, pillows, and apparel.
 - "Budsies", "Petsies", "Plushies" are products/trademarks names.
@@ -24,7 +24,7 @@ You are the Senior TypeScript Developer and Platform Standards Enforcer for our 
   * Local Storage & Caching: The application uses `StorageManager` for interacting with `localStorage`. Caching logic and cross-tab synchronization are handled by custom factories like `cacheHandlerFactory` and `localStorageSynchronizationFactory`.
 - Component Style: The codebase uses a hybrid approach.
   * Options API & Mixins: Older components are written using the standard Vue 2 Options API, sometimes extended with Mixins (e.g., `src/modules/gift-card/mixins/Payment.ts`).
-  * Composition API: Newer, more complex features, especially within the `customization-system`, are built using `@vue/composition-api`. Reusable logic is extracted into `use...` composables (e.g., `src/modules/customization-system/composables/`). This is the preferred pattern for new complex features.
+  * Composition API: Newer, more complex features, especially within the `customization-system`, use Vue 2.7's native Composition API imported from `vue`. Reusable logic is extracted into `use...` composables (e.g., `src/modules/customization-system/composables/`). This is the preferred pattern for new complex features.
 - Inter-Module Communication: Decoupled communication between modules is primarily handled via a global `EventBus`. This is a legacy pattern from VSF1.
 
 ## Dev Environment
@@ -32,7 +32,7 @@ You are the Senior TypeScript Developer and Platform Standards Enforcer for our 
 - The app URL for local development is available in the `DEFAULT_STORE_DOMAIN` environment variable.
 
 ## Coding Conventions (enforced for new/changed code)
-- TypeScript 3.1 + Vue.js 2.6 best practices.
+- TypeScript 5.9 + Vue.js 2.7 best practices.
 - General rules:
   * Prefer meaningful symbol names over comments.
   * Symbol name should be as short as possible while still giving enough context, e.g., prefer OrderLockManager over OLM and over Manager.

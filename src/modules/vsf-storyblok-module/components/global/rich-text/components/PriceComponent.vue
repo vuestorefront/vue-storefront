@@ -14,13 +14,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from '@vue/composition-api';
+import { computed, defineComponent, PropType } from 'vue';
 
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import { PriceHelper } from '@vue-storefront/core/helpers';
 import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
 import { Currency, GET_ACTIVE_CURRENCY } from 'src/modules/currency';
+import { useRootInstance } from 'src/modules/shared';
 
 export default defineComponent({
   name: 'StoryblokRichTextPriceComponent',
@@ -38,7 +39,8 @@ export default defineComponent({
       default: true
     }
   },
-  setup (props, { root }) {
+  setup (props) {
+    const root = useRootInstance();
     const productPrice = computed<PriceHelper.ProductPrice>(() => {
       return root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY][props.product.id];
     });

@@ -5,10 +5,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from '@vue/composition-api';
+import { computed, defineComponent, PropType } from 'vue';
 
 import { PriceHelper } from '@vue-storefront/core/helpers';
 import { Currency, DEFAULT_CURRENCY, GET_ACTIVE_CURRENCY, GET_CURRENCY_EXCHANGE_RATE } from 'src/modules/currency';
+import { useRootInstance } from 'src/modules/shared';
 
 export default defineComponent({
   name: 'StoryblokFixedPriceValueComponent',
@@ -18,7 +19,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup (props, { root }) {
+  setup (props) {
+    const root = useRootInstance();
     const selectedCurrency = computed<Currency>(() => {
       return root.$store.getters[GET_ACTIVE_CURRENCY] || DEFAULT_CURRENCY;
     });
