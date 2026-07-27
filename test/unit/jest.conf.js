@@ -1,5 +1,3 @@
-const config = require('config')
-
 module.exports = {
   rootDir: '../../',
   moduleFileExtensions: [
@@ -31,7 +29,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^src(.*)$': '<rootDir>/src$1',
-    '^theme(.*)$': `<rootDir>/node_modules/${config.theme}$1`,
+    '^theme(.*)$': '<rootDir>/src/themes/petsies-capybara$1',
     '^@vue-storefront/unit-tests/utils$': '<rootDir>/test/unit/utils',
     '^.+\\.(css|less)$': '<rootDir>/test/unit/cssStub.js'
   },
