@@ -116,8 +116,9 @@ The facade preserves:
 - removal of all listeners, all listeners for one event, or one callback;
 - once-listener removal through the original callback;
 - listener invocation order and argument forwarding;
+- reporting synchronous throws and asynchronous rejections without aborting later listeners;
 - `$filter` registration;
-- `$emitFilter` emitting the ordinary event first, passing a scalar for one argument or an argument array for multiple arguments, invoking all registered filters, and resolving `Promise.all` results.
+- `$emitFilter` emitting the ordinary event first even when an ordinary listener fails, passing a scalar for one argument or an argument array for multiple arguments, invoking all registered filters, and resolving `Promise.all` results.
 
 Options API and Composition API consumers currently using `this.$bus` or `root.$bus` will import the facade explicitly. This change does not alter event names, authentication events, checkout events, or module boundaries.
 

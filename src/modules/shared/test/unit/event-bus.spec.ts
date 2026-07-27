@@ -9,6 +9,7 @@ describe('EventBus compatibility', () => {
   afterEach(() => {
     EventBus.$off();
     EventBus.$dataFilters = [];
+    jest.restoreAllMocks();
   });
 
   it('preserves listener order, argument forwarding, and chainable returns', () => {
@@ -28,6 +29,41 @@ describe('EventBus compatibility', () => {
       ['first', 'payload', 2],
       ['second', 'payload', 2]
     ]);
+  });
+
+  it('reports a listener failure and continues invoking later listeners', () => {
+    const error = new Error('listener failed');
+    const consoleError = jest.spyOn(console, 'error').mockImplementation();
+    const laterListener = jest.fn();
+    EventBus.$on('failing-listener', () => {
+      throw error;
+    });
+    EventBus.$on('failing-listener', laterListener);
+
+    expect(EventBus.$emit('failing-listener', 'payload')).toBe(EventBus);
+
+    expect(consoleError).toHaveBeenCalledWith(
+      error,
+      '[EventBus] Listener "failing-listener" failed.'
+    );
+    expect(laterListener).toHaveBeenCalledWith('payload');
+  });
+
+  it('reports an asynchronous listener failure without aborting the event chain', async () => {
+    const error = new Error('asynchronous listener failed');
+    const consoleError = jest.spyOn(console, 'error').mockImplementation();
+    const laterListener = jest.fn();
+    EventBus.$on('rejecting-listener', () => Promise.reject(error));
+    EventBus.$on('rejecting-listener', laterListener);
+
+    EventBus.$emit('rejecting-listener', 'payload');
+    await Promise.resolve();
+
+    expect(consoleError).toHaveBeenCalledWith(
+      error,
+      '[EventBus] Listener "rejecting-listener" failed.'
+    );
+    expect(laterListener).toHaveBeenCalledWith('payload');
   });
 
   it('removes one listener without changing the remaining listeners', () => {
@@ -93,6 +129,29 @@ describe('EventBus compatibility', () => {
     expect(ordinaryListener).toHaveBeenCalledWith('value');
     expect(firstFilter).toHaveBeenCalledWith('value');
     expect(secondFilter).toHaveBeenCalledWith('value');
+  });
+
+  it('runs filters after an ordinary event listener fails', async () => {
+    const error = new Error('ordinary listener failed');
+    const consoleError = jest.spyOn(console, 'error').mockImplementation();
+    const laterListener = jest.fn();
+    const filter = jest.fn(() => 'filtered');
+    EventBus.$on('listener-failure-filter', () => {
+      throw error;
+    });
+    EventBus.$on('listener-failure-filter', laterListener);
+    EventBus.$filter('listener-failure-filter', filter);
+
+    await expect(
+      EventBus.$emitFilter('listener-failure-filter', 'payload')
+    ).resolves.toEqual(['filtered']);
+
+    expect(consoleError).toHaveBeenCalledWith(
+      error,
+      '[EventBus] Listener "listener-failure-filter" failed.'
+    );
+    expect(laterListener).toHaveBeenCalledWith('payload');
+    expect(filter).toHaveBeenCalledWith('payload');
   });
 
   it('passes multiple arguments as one array and preserves filter result order', async () => {

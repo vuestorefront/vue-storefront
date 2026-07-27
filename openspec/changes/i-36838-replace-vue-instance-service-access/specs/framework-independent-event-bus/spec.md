@@ -26,6 +26,10 @@ The EventBus SHALL preserve the existing `$on`, `$off`, `$once`, and `$emit` lis
 - **WHEN** `$off` receives only an event or receives no arguments
 - **THEN** it respectively clears all listeners for that event or all EventBus listeners
 
+#### Scenario: One listener fails
+- **WHEN** a synchronous listener throws or an asynchronous listener rejects
+- **THEN** the failure is reported and the EventBus continues invoking the remaining listeners for that emission
+
 ### Requirement: Filter compatibility
 The EventBus SHALL preserve `$filter` and `$emitFilter` behavior for asynchronous extension filters.
 
@@ -36,6 +40,10 @@ The EventBus SHALL preserve `$filter` and `$emitFilter` behavior for asynchronou
 #### Scenario: Multiple filter arguments are emitted
 - **WHEN** `$emitFilter` receives multiple values
 - **THEN** it first emits the ordinary event, passes the argument array to every registered filter, and resolves results in filter registration order through `Promise.all`
+
+#### Scenario: Ordinary listener fails during a filtered emission
+- **WHEN** an ordinary event listener fails while `$emitFilter` is emitting the event
+- **THEN** the failure is reported, later ordinary listeners still run, and every registered filter is invoked
 
 ### Requirement: Existing inter-module contracts remain stable
 The EventBus replacement MUST preserve existing event names, authentication transitions, checkout/payment events, and filter registration boundaries.

@@ -20,7 +20,7 @@ class EventBusFacade {
   $once (eventName, callback) {
     const once = (...args) => {
       this.$off(eventName, once)
-      callback.apply(this, args)
+      return callback.apply(this, args)
     }
     once.callback = callback
     return this.$on(eventName, once)
@@ -62,8 +62,21 @@ class EventBusFacade {
       return this
     }
 
-    listeners.slice().forEach(listener => listener.apply(this, args))
+    listeners.slice().forEach(listener => {
+      try {
+        const result = listener.apply(this, args)
+        if (result && typeof result.then === 'function') {
+          Promise.resolve(result).catch(error => this.reportListenerError(eventName, error))
+        }
+      } catch (error) {
+        this.reportListenerError(eventName, error)
+      }
+    })
     return this
+  }
+
+  reportListenerError (eventName, error) {
+    console.error(error, `[EventBus] Listener "${eventName}" failed.`)
   }
 
   $filter (eventName, callback) {

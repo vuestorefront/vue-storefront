@@ -241,6 +241,7 @@ Vue 2.7 array if consumers require rendered-order lookup.
 
 - Replaced the Vue instance at the existing EventBus import path with a dependency-free listener facade.
 - Preserved listener order, chainable listener operations, once-listener removal by original callback, scalar/array filter payloads, and asynchronous filter result ordering.
+- Isolated synchronous listener throws and asynchronous listener rejections so failures are reported without skipping later listeners or `$emitFilter` filters.
 - Removed the Vue plugin/prototype getter and migrated all parent and theme production consumers to explicit imports.
 - Added focused domain-flow coverage for logout state clearing, cart mutation ordering, checkout arguments, payment place-order chaining, and customization request instrumentation.
 - The legacy core checkout suites require an unavailable `@vue-storefront/unit-tests` package mapping and contain unrelated stale assertions; the new focused suite runs through the maintained local Jest configuration.
