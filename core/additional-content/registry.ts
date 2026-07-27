@@ -75,9 +75,14 @@ export class AdditionalContentRegistry {
       existingKeys.add(entry.key);
     }
 
+    const storedEntries = entriesToRegister.map(entry => Object.freeze({
+      key: entry.key,
+      component: entry.component
+    }));
+
     this.entries[outlet].value = Object.freeze([
       ...this.entries[outlet].value,
-      ...entriesToRegister
+      ...storedEntries
     ]);
   }
 }

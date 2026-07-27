@@ -27,7 +27,7 @@ class EventBusFacade {
   }
 
   $off (eventName, callback) {
-    if (!eventName) {
+    if (arguments.length === 0) {
       this.listeners = Object.create(null)
       return this
     }
@@ -90,7 +90,11 @@ class EventBusFacade {
     const payload = args.length === 1 ? args[0] : args
     this.$emit(eventName, payload)
     const filters = this.$dataFilters[eventName] || []
-    return Promise.all(filters.map(callback => callback(payload)))
+    const results = []
+    for (const callback of filters) {
+      results.push(callback(payload))
+    }
+    return Promise.all(results)
   }
 }
 

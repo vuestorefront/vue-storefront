@@ -9,6 +9,6 @@ export enum AdditionalContentOutlet {
 export type AdditionalContentKey = `${string}:${string}`;
 
 export interface AdditionalContentEntry {
-  key: AdditionalContentKey,
-  component: Component
+  readonly key: AdditionalContentKey,
+  readonly component: Component
 }

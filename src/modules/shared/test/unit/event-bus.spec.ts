@@ -97,6 +97,20 @@ describe('EventBus compatibility', () => {
     expect(secondEventListener).toHaveBeenCalledTimes(1);
   });
 
+  it('treats an empty event name as an event instead of clearing the bus', () => {
+    const emptyEventListener = jest.fn();
+    const otherEventListener = jest.fn();
+    EventBus.$on('', emptyEventListener);
+    EventBus.$on('other-event', otherEventListener);
+
+    expect(EventBus.$off('')).toBe(EventBus);
+    EventBus.$emit('');
+    EventBus.$emit('other-event');
+
+    expect(emptyEventListener).not.toHaveBeenCalled();
+    expect(otherEventListener).toHaveBeenCalledTimes(1);
+  });
+
   it('runs a once listener once and removes it through its original callback', () => {
     const onceListener = jest.fn();
     expect(EventBus.$once('once-event', onceListener)).toBe(EventBus);
@@ -174,6 +188,20 @@ describe('EventBus compatibility', () => {
     ]);
     expect(ordinaryListener).toHaveBeenCalledWith(['value', 2]);
     expect(calls).toEqual(['second', 'first']);
+  });
+
+  it('runs filters appended during the current filtered emission', async () => {
+    const appendedFilter = jest.fn(() => 'appended');
+    EventBus.$filter('growing-filter-list', () => {
+      EventBus.$filter('growing-filter-list', appendedFilter);
+      return 'first';
+    });
+    EventBus.$filter('growing-filter-list', () => 'second');
+
+    await expect(
+      EventBus.$emitFilter('growing-filter-list', 'value')
+    ).resolves.toEqual(['first', 'second', 'appended']);
+    expect(appendedFilter).toHaveBeenCalledWith('value');
   });
 
   it('invokes all filters and rejects when one asynchronous filter rejects', async () => {

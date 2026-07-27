@@ -34,7 +34,11 @@ The registry SHALL combine contributions in deterministic registration order, pr
 - **THEN** registration fails descriptively instead of silently overwriting or rendering a duplicate
 
 ### Requirement: Reactive readonly content consumption
-Consumers SHALL receive readonly reactive outlet lists, and stored component definitions MUST remain suitable for Vue 2.7 SSR and client rendering without recursive observation.
+Consumers SHALL receive readonly reactive outlet lists with immutable entry
+fields, and stored component definitions MUST remain suitable for Vue 2.7 SSR
+and client rendering without recursive observation. The registry SHALL store
+frozen entry copies so mutation of a caller-owned entry cannot alter registered
+keys or components.
 
 #### Scenario: Contribution exists before initial render
 - **WHEN** server and client initialize the same enabled modules
@@ -43,6 +47,10 @@ Consumers SHALL receive readonly reactive outlet lists, and stored component def
 #### Scenario: Contribution is registered after a consumer exists
 - **WHEN** an enabled module contributes after the consumer has been created
 - **THEN** the consumer updates to render the new entry without mutating the registry directly
+
+#### Scenario: Registered entry mutation is attempted
+- **WHEN** a contributor mutates its source entry or a consumer attempts to mutate an exposed entry field
+- **THEN** the stored key and component remain unchanged and duplicate-key enforcement cannot be bypassed
 
 ### Requirement: Existing module lifecycle is retained
 Additional Content contribution SHALL use the existing `StorefrontModule` setup path with an explicit registry dependency and MUST NOT introduce a TrueVault-only initializer or a separate application lifecycle.

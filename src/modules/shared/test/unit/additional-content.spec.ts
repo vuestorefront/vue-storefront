@@ -125,6 +125,31 @@ describe('AdditionalContentRegistry', () => {
     )).toThrow('Additional Content key "invalid" must be namespaced.');
   });
 
+  it('stores frozen entry copies', () => {
+    const registry = new AdditionalContentRegistry();
+    const sourceEntry = {
+      key: 'mutable-source:first' as AdditionalContentEntry['key'],
+      component: FirstComponent
+    };
+    registry.register(
+      AdditionalContentOutlet.FOOTER_LINKS,
+      sourceEntry
+    );
+    const storedEntry = registry.get(
+      AdditionalContentOutlet.FOOTER_LINKS
+    ).value[0];
+
+    expect(storedEntry).not.toBe(sourceEntry);
+    sourceEntry.key = 'mutable-source:changed';
+    expect(storedEntry.key).toBe('mutable-source:first');
+    expect(Object.isFrozen(storedEntry)).toBe(true);
+    expect(() => {
+      (storedEntry as { key: AdditionalContentEntry['key'] }).key =
+        'consumer:changed';
+    }).toThrow();
+    expect(storedEntry.key).toBe('mutable-source:first');
+  });
+
   it('exposes a readonly reactive list and observes late registration', async () => {
     const registry = new AdditionalContentRegistry();
     let outlet: ComputedRef<readonly AdditionalContentEntry[]> | undefined;

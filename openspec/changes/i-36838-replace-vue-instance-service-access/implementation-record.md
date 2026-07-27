@@ -242,9 +242,11 @@ sorts the current mounted instances by rendered DOM order at consumption time.
 - Replaced the Vue instance at the existing EventBus import path with a dependency-free listener facade.
 - Preserved listener order, chainable listener operations, once-listener removal by original callback, scalar/array filter payloads, and asynchronous filter result ordering.
 - Isolated synchronous listener throws and asynchronous listener rejections so failures are reported without skipping later listeners or `$emitFilter` filters.
+- Preserved Vue's no-argument `$off()` distinction for empty-string events and the legacy filter extension's live iteration when a filter is appended synchronously during an emission.
 - Removed the Vue plugin/prototype getter and migrated all parent and theme production consumers to explicit imports.
+- Updated the newsletter mixin suite to mock and reset the imported EventBus facade instead of installing a stale component `$bus` mock.
 - Added focused domain-flow coverage for logout state clearing, cart mutation ordering, checkout arguments, payment place-order chaining, and customization request instrumentation.
-- The legacy core checkout suites require an unavailable `@vue-storefront/unit-tests` package mapping and contain unrelated stale assertions; the new focused suite runs through the maintained local Jest configuration.
+- Mapped the legacy checkout suites to the maintained local unit utilities and refreshed their stale assertions; all five suites execute and pass 85 tests.
 
 ## App-scoped module contributions
 
@@ -252,6 +254,11 @@ sorts the current mounted instances by rendered DOM order at consumption time.
 - Registered TrueVault, Fera, and A/B assignment per application so consecutive applications receive their own head, Additional Content, and request-cookie contributions.
 - Kept Fera's Vue mixin behind its existing process-wide `once()` guard while repeating only its app-specific head contribution.
 - Added focused coverage proving global modules initialize once and app-scoped modules initialize once per application with the exact services for that application.
+
+## Additional Content immutability
+
+- Made Additional Content entry fields readonly and stored frozen entry copies so contributor or consumer mutation cannot change a registered key/component or bypass duplicate-key checks.
+- Added focused coverage for source-entry mutation, consumer-entry mutation, readonly list mutation, late registration, SSR output, hydration, and application isolation.
 
 ## Store, router, route, and translation adapters
 
@@ -289,7 +296,7 @@ sorts the current mounted instances by rendered DOM order at consumption time.
 
 - `yarn install --immutable --check-cache` completed without a lockfile change or a new direct dependency. The checked install repaired a stale Rollup Linux optional-package artifact in `node_modules`.
 - `yarn type-check`, `yarn lint`, and `yarn test:upgrade:vue-instance-access` pass. Lint retains 100 pre-existing warnings and reports zero errors.
-- `yarn test:unit:maintained --runInBand` passes 20 suites and 77 tests.
+- `yarn test:unit:maintained --runInBand` passes 22 suites and 88 tests; the complete newsletter unit directory passes 5 suites and 26 tests with the imported EventBus mock.
 - `yarn generate-files`, `yarn build:client`, `yarn build:server`, `yarn build:sw`, and the clean `yarn build` pass. Build output contains the existing deployment-config, module-type, and asset-size warnings, with no missing-provider, hydration, browser-global, or duplicate-listener warning.
 - `openspec validate i-36838-replace-vue-instance-service-access --strict` and parent/theme `git diff --check` pass.
 
