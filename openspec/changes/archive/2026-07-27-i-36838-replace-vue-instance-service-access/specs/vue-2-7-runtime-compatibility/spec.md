@@ -11,11 +11,11 @@ Composition API code SHALL obtain application services through typed project-own
 - **WHEN** a form or component needs template refs from Composition API code
 - **THEN** it uses setup-owned typed refs or an explicit nested-form contract without reading a current public instance's `$refs`
 
-#### Scenario: SSR request metadata is used
+#### Scenario: SSR request context is used
 - **WHEN** server rendering requires the host, user agent, cookie, or narrow redirect operation
 - **THEN** the code obtains it from the request service created for that application and does not share request data across renders
 
-#### Scenario: Required provider is absent
+#### Scenario: Helper is called without a current component
 - **WHEN** an application-service or request-service composable is invoked without its required provider
 - **THEN** it fails immediately with a descriptive error instead of locating a fallback Vue instance
 
