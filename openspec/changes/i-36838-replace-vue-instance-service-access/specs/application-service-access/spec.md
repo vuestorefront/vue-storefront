@@ -43,3 +43,7 @@ Application service providers SHALL bind values created for the current applicat
 #### Scenario: Two SSR applications are created
 - **WHEN** two SSR applications use different routers or route values
 - **THEN** each application's consumers observe only its own provided router and route
+
+#### Scenario: App-scoped module contributors initialize
+- **WHEN** consecutive applications are created in the same JavaScript module context
+- **THEN** service-dependent module contributors receive each application's own head, request, and Additional Content services while global module setup remains registered once

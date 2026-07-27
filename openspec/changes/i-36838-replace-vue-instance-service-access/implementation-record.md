@@ -246,6 +246,13 @@ Vue 2.7 array if consumers require rendered-order lookup.
 - Added focused domain-flow coverage for logout state clearing, cart mutation ordering, checkout arguments, payment place-order chaining, and customization request instrumentation.
 - The legacy core checkout suites require an unavailable `@vue-storefront/unit-tests` package mapping and contain unrelated stale assertions; the new focused suite runs through the maintained local Jest configuration.
 
+## App-scoped module contributions
+
+- Kept `registerModule()` process-scoped for one-time Vue and Vuex setup and added `registerApplicationModule()` for contributors that consume per-app services.
+- Registered TrueVault, Fera, and A/B assignment per application so consecutive applications receive their own head, Additional Content, and request-cookie contributions.
+- Kept Fera's Vue mixin behind its existing process-wide `once()` guard while repeating only its app-specific head contribution.
+- Added focused coverage proving global modules initialize once and app-scoped modules initialize once per application with the exact services for that application.
+
 ## Store, router, route, and translation adapters
 
 - Migrated 70 root/core and theme consumers from `useRootInstance()` to only the application-service adapters each consumer needs.

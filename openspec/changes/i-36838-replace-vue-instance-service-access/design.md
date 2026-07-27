@@ -94,7 +94,14 @@ Create one `AdditionalContentRegistry` for each `createApp()` call. The same reg
 - provided to the component tree through a typed injection key; and
 - passed to modules through the existing `StorefrontModule` options, preferably under a typed `services` property.
 
-This is an extension of the existing module options, not a second initialization context or a TrueVault-specific lifecycle. The current guarded module-registration behavior remains unchanged.
+This is an extension of the existing module options, not a second
+initialization context or a TrueVault-specific lifecycle. Module registration
+retains its existing process-wide guard by default for one-time store and Vue
+setup. Modules that contribute through app-scoped services use an explicit
+application registration scope, guarded by the application instance, so they
+run once for every `createApp()` call. TrueVault, Fera, and A/B assignment use
+that scope; Fera's Vue mixin remains protected by its existing one-time guard
+inside the module while its head contribution is repeated for each app.
 
 Outlets use semantic project-owned identifiers for privacy-policy links, footer links, and financial-incentive links. Entries have a stable, namespaced key and a renderable component contract. Registration appends entries in deterministic registration order. Duplicate keys within one outlet fail descriptively rather than silently replacing another module's contribution. Component definitions are stored shallowly or marked raw so Vue does not recursively observe them.
 
