@@ -235,8 +235,8 @@ removed in the same candidate.
 The focused keyed `v-for` fixture confirms that Vue updates the DOM to the new
 rendered order but leaves the automatic setup-ref array in its original order.
 Removal then drops the unmounted element. The explicit repeated-ref migration
-must therefore own collection order rather than relying on the automatic
-Vue 2.7 array if consumers require rendered-order lookup.
+therefore wraps the automatic Vue 2.7 binding in a setup-owned accessor that
+sorts the current mounted instances by rendered DOM order at consumption time.
 ## Framework-independent EventBus
 
 - Replaced the Vue instance at the existing EventBus import path with a dependency-free listener facade.
@@ -265,7 +265,10 @@ Vue 2.7 array if consumers require rendered-order lookup.
 - Replaced all current/root-instance ref-map reads with setup-owned refs.
 - Added a narrow `getFormValidationRefs()` child contract for customization options and the base address form; parent validation no longer traverses arbitrary child `$refs`.
 - Replaced dynamic login and address anchors with stable setup bindings and explicit field-to-anchor mappings.
+- Updated shipping, customer-address editing, and order-address editing to consume the base-address validation handle and added invalid-submission scroll/focus coverage for all three flows.
+- Added a rendered-order-aware repeated-ref accessor and migrated repeated customization-form validation away from direct consumption of Vue 2.7's stale automatic ref arrays.
 - Preserved document-order error selection, focus behavior, conditional teardown, and repeated-child aggregation in the focused ref suites.
+- Mapped the legacy `@vue-storefront/unit-tests/utils` import to the maintained local utilities and refreshed the five checkout regression suites so all tests execute against the current checkout contracts.
 
 ## Request services
 
@@ -280,7 +283,7 @@ Vue 2.7 array if consumers require rendered-order lookup.
 - Removed the unused config plugin, component Storyblok prototype assignment, obsolete head augmentation, current/root-instance helpers and tests, and inactive plugin installation barrel.
 - Preserved the separately scoped Vuex Storyblok client dependency.
 - Added `yarn test:upgrade:vue-instance-access`, which rejects removed access paths across parent/theme production code and enforces the exact temporary cache-tag inventory.
-- Updated engineering and code-review guidance with the explicit service, ref, EventBus, head, and Additional Content boundaries.
+- Updated engineering and code-review guidance with the explicit service, ref, EventBus, head, and Additional Content boundaries, including EventBus failure isolation and per-application module registration for app-scoped service contributors.
 
 ## Validation
 

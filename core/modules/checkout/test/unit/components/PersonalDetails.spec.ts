@@ -72,18 +72,18 @@ describe('PersonalDetails', () => {
   });
 
   describe('hooks', () => {
-    it('beforeMount hook should start subscription for user-after-loggedin event', () => {
+    it('beforeMount hook should subscribe to checkout loading', () => {
       const wrapper = mountMixinWithStore(PersonalDetails, mockStore, mockMountingOptions);
 
-      expect(EventBus.$on).toHaveBeenCalledWith('user-after-loggedin', (wrapper.vm as any).onLoggedIn);
+      expect(EventBus.$on).toHaveBeenCalledWith('checkout-after-load', (wrapper.vm as any).onCheckoutLoad);
     });
 
-    it('destroyed hook should stop subscription for user-after-loggedin event', () => {
+    it('destroyed hook should stop the checkout loading subscription', () => {
       const wrapper = mountMixinWithStore(PersonalDetails, mockStore, mockMountingOptions);
 
       wrapper.destroy();
 
-      expect(EventBus.$off).toHaveBeenCalledWith('user-after-loggedin', (wrapper.vm as any).onLoggedIn);
+      expect(EventBus.$off).toHaveBeenCalledWith('checkout-after-load', (wrapper.vm as any).onCheckoutLoad);
     });
 
     it('updated hook should set focus on password field', async () => {
@@ -96,8 +96,10 @@ describe('PersonalDetails', () => {
       await Vue.nextTick()
 
       expect((wrapper.vm as any).isValidationError).toBe(true);
-      expect((wrapper.vm as any).password).toBe('');
-      expect((wrapper.vm as any).rPassword).toBe('');
+      expect((wrapper.vm as any).passwordData).toEqual({
+        password: '',
+        repeatPassword: ''
+      });
       expect((wrapper.vm as any).$refs.password.setFocus).toHaveBeenCalledWith('password');
     });
   });
@@ -125,7 +127,10 @@ describe('PersonalDetails', () => {
 
       wrapper.setData({
         createAccount: true,
-        password: 'example password'
+        passwordData: {
+          password: 'example password',
+          repeatPassword: 'example password'
+        }
       });
       (wrapper.vm as any).sendDataToCheckout();
 

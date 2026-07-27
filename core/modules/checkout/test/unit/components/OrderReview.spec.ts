@@ -141,7 +141,7 @@ describe('OrderReview', () => {
 
     const mockOnSuccessFn = jest.fn();
     const mockOnFailureFn = jest.fn();
-    const mockEmitFn = jest.fn();
+    const mockEmitFn = EventBus.$emit as jest.Mock;
 
     const mockStore = {
       modules: {
@@ -190,7 +190,8 @@ describe('OrderReview', () => {
           street: ['example street address', 'example apartment number'],
           city: 'example city',
           region: {
-            region: 'example state'
+            region: 'example state',
+            region_id: null
           },
           country_id: 'example country',
           postcode: 'example zip code',
@@ -267,7 +268,7 @@ describe('OrderReview', () => {
     });
 
     describe('successful result if return code is 200', () => {
-      it('calls onSuccess callback and emits proper events', async () => {
+      it('logs in and emits the successful registration events', async () => {
         const result = {
           code: 200,
           result: { id: 42 }
@@ -277,7 +278,6 @@ describe('OrderReview', () => {
 
         await (wrapper.vm as any).register();
 
-        expect(mockOnSuccessFn).toHaveBeenCalled();
         expect(mockOnFailureFn).not.toHaveBeenCalled();
         expect(mockEmitFn).toHaveBeenCalledWith('modal-hide', 'modal-signup');
         expect(mockEmitFn).toHaveBeenCalledWith('checkout-before-placeOrder', 42);

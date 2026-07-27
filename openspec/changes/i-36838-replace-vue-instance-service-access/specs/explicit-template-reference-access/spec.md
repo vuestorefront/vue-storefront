@@ -16,7 +16,7 @@ Repeated and dynamically selected fields SHALL expose explicit typed ref collect
 
 #### Scenario: Ref is rendered under v-for
 - **WHEN** repeated customization or form fields mount, reorder, or unmount
-- **THEN** the setup-owned ref collection represents the current rendered child instances without reading the complete `$refs` object
+- **THEN** the setup-owned ref collection represents the current child instances in rendered order without reading the complete `$refs` object
 
 #### Scenario: Validation anchor is selected dynamically
 - **WHEN** validation identifies the first invalid dynamic field

@@ -150,7 +150,7 @@ describe('Payment', () => {
         mockHooks['mounted'].mockRestore();
       });
 
-      it('should initialize billing address if payment is from individual customer and then change payment method', () => {
+      it('should load form data and change the payment method', () => {
         mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
           firstName: 'example first name',
           company: ''
@@ -158,11 +158,11 @@ describe('Payment', () => {
 
         mountMixinWithStore(Payment, mockStore, mockMountingOptions);
 
-        expect(mockMethods['initializeBillingAddress']).toHaveBeenCalled();
+        expect(mockMethods['fillFormData']).toHaveBeenCalled();
         expect(mockMethods['changePaymentMethod']).toHaveBeenCalled();
       });
 
-      it('should mark invoice generation and do not initialize billing address if payment is from company and then change payment method', () => {
+      it('should mark invoice generation when payment is from a company', () => {
         mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
           firstName: '',
           company: 'example company'
@@ -170,7 +170,7 @@ describe('Payment', () => {
 
         const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
 
-        expect(mockMethods['initializeBillingAddress']).not.toHaveBeenCalled();
+        expect(mockMethods['fillFormData']).toHaveBeenCalled();
         expect(mockMethods['changePaymentMethod']).toHaveBeenCalled();
         expect((wrapper.vm as any).generateInvoice).toBeTruthy();
       });
@@ -275,35 +275,7 @@ describe('Payment', () => {
       expect((wrapper.vm as any).hasBillingData()).toBe(false);
     });
 
-    it('initializeBillingAddress method should init payment properties with empty strings if current user and payment details are not set', () => {
-      mockMethods['initializeBillingAddress'].mockRestore();
-      mockMountingOptions.computed = {
-        currentUser: jest.fn(),
-        paymentDetails: jest.fn()
-      };
-
-      const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
-      (wrapper.vm as any).initializeBillingAddress();
-
-      expect((wrapper.vm as any).payment).toEqual({
-        firstName: '',
-        lastName: '',
-        company: '',
-        country: '',
-        state: '',
-        city: '',
-        streetAddress: '',
-        apartmentNumber: '',
-        postcode: '',
-        zipCode: '',
-        phoneNumber: '',
-        taxId: '',
-        paymentMethod: ''
-      });
-    });
-
-    it('initializeBillingAddress method should copy billing address from address id from current user', () => {
-      mockMethods['initializeBillingAddress'].mockRestore();
+    it('maps the configured default billing address', () => {
       mockMountingOptions.computed = {
         currentUser: jest.fn(() => ({
           default_billing: 123,
@@ -323,43 +295,42 @@ describe('Payment', () => {
             }
           ]
         })),
-        paymentMethods: jest.fn(() => ([{ code: 'example payment method' }])),
-        paymentDetails: jest.fn()
+        paymentMethods: jest.fn(() => ([{ code: 'example payment method' }]))
       };
 
       const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
-      (wrapper.vm as any).initializeBillingAddress();
 
-      expect((wrapper.vm as any).payment).toEqual({
+      expect((wrapper.vm as any).defaultBillingAddress).toEqual({
         firstName: 'example first name',
         lastName: 'example last name',
-        company: 'example company',
         country: 'example country',
         state: 'example region',
+        region_id: undefined,
         city: 'example city',
         streetAddress: 'example street',
         apartmentNumber: 'example apartment number',
         zipCode: 'example post code',
         phoneNumber: 'example telephone',
-        taxId: 'example vat id',
-        paymentMethod: 'example payment method'
+        vat_id: 'example vat id',
+        extension_attributes: undefined
       });
-      expect((wrapper.vm as any).generateInvoice).toBe(true);
-      expect((wrapper.vm as any).sendToBillingAddress).toBe(true);
     });
 
     it('useShippingAddress method should call copyShippingToBillingAddress if shipping address is set', () => {
       mockMethods['useShippingAddress'].mockRestore();
-      mockMountingOptions.methods = {
-        copyShippingToBillingAddress: jest.fn()
+      mockMountingOptions.computed = {
+        isVirtualCart: jest.fn(() => false)
       };
-
       const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
+      const copyShippingToBillingAddress = jest.spyOn(
+        wrapper.vm as any,
+        'copyShippingToBillingAddress'
+      );
 
       wrapper.setData({ sendToShippingAddress: true });
       (wrapper.vm as any).useShippingAddress();
 
-      expect(mockMountingOptions.methods.copyShippingToBillingAddress).toHaveBeenCalled();
+      expect(copyShippingToBillingAddress).toHaveBeenCalled();
       expect((wrapper.vm as any).sendToBillingAddress).toBe(false);
     });
 
@@ -456,15 +427,16 @@ describe('Payment', () => {
       expect((wrapper.vm as any).payment).toEqual({
         firstName: 'example first name',
         lastName: 'example last name',
-        company: 'example company',
         country: 'example country',
         state: 'example region',
+        region_id: undefined,
         city: 'example city',
         streetAddress: 'example street',
         apartmentNumber: 'example apartment number',
         zipCode: 'example post code',
         phoneNumber: 'example telephone',
-        taxId: 'example vat id',
+        vat_id: 'example vat id',
+        extension_attributes: undefined,
         paymentMethod: 'example payment method'
       });
       expect((wrapper.vm as any).generateInvoice).toBe(true);
@@ -500,11 +472,11 @@ describe('Payment', () => {
       expect((wrapper.vm as any).generateInvoice).toBe(false);
     });
 
-    it('useGenerateInvoice method should clear company and taxId fields if generateInvoice is not set', () => {
+    it('useGenerateInvoice method should clear company and vatId fields if generateInvoice is not set', () => {
       mockMethods['useGenerateInvoice'].mockRestore();
       mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
         company: 'example company',
-        taxId: 'example taxId'
+        vat_id: 'example vatId'
       }));
 
       const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
@@ -513,14 +485,14 @@ describe('Payment', () => {
       (wrapper.vm as any).useGenerateInvoice();
 
       expect((wrapper.vm as any).payment.company).toBe('');
-      expect((wrapper.vm as any).payment.taxId).toBe('');
+      expect((wrapper.vm as any).payment.vat_id).toBe('');
     });
 
-    it('useGenerateInvoice method should not clear company and taxId fields if generateInvoice is set', () => {
+    it('useGenerateInvoice method should not clear company and vatId fields if generateInvoice is set', () => {
       mockMethods['useGenerateInvoice'].mockRestore();
       mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
         company: 'example company',
-        taxId: 'example taxId'
+        vat_id: 'example vatId'
       }));
 
       const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
@@ -529,7 +501,7 @@ describe('Payment', () => {
       (wrapper.vm as any).useGenerateInvoice();
 
       expect((wrapper.vm as any).payment.company).toBe('example company');
-      expect((wrapper.vm as any).payment.taxId).toBe('example taxId');
+      expect((wrapper.vm as any).payment.vat_id).toBe('example vatId');
     });
 
     it('getCountryName method should return country name from payment', () => {
