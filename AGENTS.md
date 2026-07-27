@@ -27,6 +27,17 @@ You are the Senior TypeScript Developer and Platform Standards Enforcer for our 
   * Composition API: Newer, more complex features, especially within the `customization-system`, use Vue 2.7's native Composition API imported from `vue`. Reusable logic is extracted into `use...` composables (e.g., `src/modules/customization-system/composables/`). This is the preferred pattern for new complex features.
 - Inter-Module Communication: Decoupled communication between modules is primarily handled via a global `EventBus`. This is a legacy pattern from VSF1.
 
+### Explicit application boundaries
+
+- Composition API code must use `useStore()`, `useRouter()`, `useRoute()`, and `useI18n()` from `core/application-services`; do not recover services from a Vue root/current instance.
+- Request host, user agent, cookies, and server redirects must come from `core/request-services`; do not expose renderer contexts to components.
+- Template refs must be setup-owned typed refs or narrow child handles. Do not traverse arbitrary parent or child `$refs` maps.
+- Import the EventBus facade explicitly from `core/compatibility/plugins/event-bus`; it is not a Vue prototype property.
+- EventBus listener failures must be reported without preventing later listeners or `$emitFilter()` filters from running.
+- Contribute and consume Additional Content through semantic outlets in `core/additional-content`; do not mutate root options or private fields.
+- Use the explicit module `head` service for head contributions.
+- Modules that consume app-scoped `head`, request, or Additional Content services must use `registerApplicationModule()` so their contributions run once for every `createApp()` call. Use `registerModule()` only for process-wide initialization, and split modules that contain both lifecycles.
+
 ## Dev Environment
 
 - The app URL for local development is available in the `DEFAULT_STORE_DOMAIN` environment variable.

@@ -54,12 +54,12 @@
 </template>
 
 <script lang="ts">
+import { useStore } from '@vue-storefront/core/application-services';
 import { PropType, computed, defineComponent, toRef, ComputedRef } from 'vue';
 import { SfHeading } from '@storefront-ui/vue';
 
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { CartItemConfiguration, CustomizationStateItem, Customization } from 'src/modules/customization-system';
-import { useRootInstance } from 'src/modules/shared';
 
 import { OrderItem } from '../types/order-item';
 
@@ -82,13 +82,13 @@ export default defineComponent({
     }
   },
   setup (props) {
-    const root = useRootInstance();
+    const applicationStore = useStore();
     const customizationState = computed<CustomizationStateItem[]>(() => {
       return (props.item.extension_attributes && props.item.extension_attributes.customization_states) || [];
     });
 
     const productBySkuDictionary: ComputedRef<Record<string, Product>> = computed(() => {
-      return root.$store.getters['product/getProductBySkuDictionary'] || {};
+      return applicationStore.getters['product/getProductBySkuDictionary'] || {};
     });
 
     const customizations = computed<Customization[]>(() => {

@@ -1,6 +1,17 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
+
 import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
 import { Shipping } from '../../../components/Shipping';
 
+
+jest.mock('@vue-storefront/core/compatibility/plugins/event-bus', () => ({
+  __esModule: true,
+  default: {
+    $emit: jest.fn(),
+    $on: jest.fn(),
+    $off: jest.fn()
+  }
+}));
 describe('Shipping', () => {
   let mockStore;
   let mockMountingOptions;
@@ -88,9 +99,9 @@ describe('Shipping', () => {
 
       const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
 
-      expect(mockMountingOptions.mocks.$bus.$on)
+      expect(EventBus.$on)
         .toHaveBeenCalledWith('checkout-after-personalDetails', (wrapper.vm as any).onAfterPersonalDetails);
-      expect(mockMountingOptions.mocks.$bus.$on)
+      expect(EventBus.$on)
         .toHaveBeenCalledWith('checkout-after-shippingset', (wrapper.vm as any).onAfterShippingSet);
     });
 
@@ -100,18 +111,18 @@ describe('Shipping', () => {
       const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
       wrapper.destroy();
 
-      expect(mockMountingOptions.mocks.$bus.$off)
+      expect(EventBus.$off)
         .toHaveBeenCalledWith('checkout-after-personalDetails', (wrapper.vm as any).onAfterPersonalDetails);
-      expect(mockMountingOptions.mocks.$bus.$off)
+      expect(EventBus.$off)
         .toHaveBeenCalledWith('checkout-after-shippingset', (wrapper.vm as any).onAfterShippingSet);
     });
 
-    it('mounted hook should call shipping details methods', () => {
+    it('mounted hook should initialize shipping details and method', () => {
       mockHooks['mounted'].mockRestore();
 
       mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
 
-      expect(mockMethods['checkDefaultShippingAddress']).toHaveBeenCalled();
+      expect(mockMethods['fillFormData']).toHaveBeenCalled();
       expect(mockMethods['checkDefaultShippingMethod']).toHaveBeenCalled();
       expect(mockMethods['changeShippingMethod']).toHaveBeenCalled();
     });
@@ -136,26 +147,6 @@ describe('Shipping', () => {
   });
 
   describe('methods', () => {
-    it('checkDefaultShippingAddress should check if default shipping address is configured', () => {
-      mockMethods['checkDefaultShippingAddress'].mockRestore();
-
-      const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
-
-      mockMethods['hasShippingDetails'].mockClear();
-      mockMethods['hasShippingDetails'].mockReturnValue(false);
-      (wrapper.vm as any).checkDefaultShippingAddress();
-
-      expect(mockMethods['hasShippingDetails']).toHaveBeenCalled();
-      expect((wrapper.vm as any).shipToMyAddress).toBe(false);
-
-      mockMethods['hasShippingDetails'].mockClear();
-      mockMethods['hasShippingDetails'].mockReturnValue(true);
-      (wrapper.vm as any).checkDefaultShippingAddress();
-
-      expect(mockMethods['hasShippingDetails']).toHaveBeenCalled();
-      expect((wrapper.vm as any).shipToMyAddress).toBe(true);
-    });
-
     it('checkDefaultShippingMethod should configure default shipping method and carrier if current shipping method is falsy', () => {
       mockMethods['checkDefaultShippingMethod'].mockRestore();
       mockStore.modules.checkout.state.shippingDetails.shippingMethod = '';
@@ -230,7 +221,7 @@ describe('Shipping', () => {
       wrapper.setData({ shipping: shippingData });
       (wrapper.vm as any).sendDataToCheckout();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-after-shippingDetails', shippingData, undefined);
+      expect(EventBus.$emit).toHaveBeenCalledWith('checkout-after-shippingDetails', shippingData, undefined);
       expect((wrapper.vm as any).isFilled).toBe(true);
     });
 
@@ -239,47 +230,20 @@ describe('Shipping', () => {
 
       const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
 
-      mockMountingOptions.mocks.$bus.$emit.mockClear();
+      EventBus.$emit.mockClear();
       wrapper.setData({ isFilled: true });
       (wrapper.vm as any).edit();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-before-edit', 'shipping');
+      expect(EventBus.$emit).toHaveBeenCalledWith('checkout-before-edit', 'shipping');
 
-      mockMountingOptions.mocks.$bus.$emit.mockClear();
+      EventBus.$emit.mockClear();
       wrapper.setData({ isFilled: false });
       (wrapper.vm as any).edit();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).not.toHaveBeenCalled();
+      expect(EventBus.$emit).not.toHaveBeenCalled();
     });
 
-    it('hasShippingDetails should check if shipping address is configured', () => {
-      mockMethods['hasShippingDetails'].mockRestore();
-      mockStore.modules.user.state.current = {};
-
-      const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
-      const hasShippingDetails = (wrapper.vm as any).hasShippingDetails();
-
-      expect(hasShippingDetails).toBe(false);
-    });
-
-    it('hasShippingDetails should init default shipping address only if it is configured', () => {
-      mockMethods['hasShippingDetails'].mockRestore();
-
-      const defaultAddress = { id: 123, city: 'example city', street: 'example street' };
-
-      mockStore.modules.user.state.current = {
-        default_shipping: 123,
-        addresses: [defaultAddress]
-      };
-
-      const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
-      const hasShippingDetails = (wrapper.vm as any).hasShippingDetails();
-
-      expect(hasShippingDetails).toBe(true);
-      expect((wrapper.vm as any).myAddressDetails).toEqual(defaultAddress);
-    });
-
-    it('useMyAddress should init shipping address from myAddressDetails if shipToMyAddress is set', () => {
+    it('useMyAddress should initialize shipping from the default address when selected', () => {
       mockMethods['useMyAddress'].mockRestore();
       mockStore.modules.checkout.state.shippingDetails = {
         shippingMethod: 'example shipping method',
@@ -296,10 +260,13 @@ describe('Shipping', () => {
         postcode: 'example zip code',
         telephone: 'example phone number'
       };
+      mockStore.modules.user.state.current = {
+        default_shipping: 123,
+        addresses: [{ id: 123, ...myAddressDetails }]
+      };
 
       const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
       wrapper.setData({ shipToMyAddress: true });
-      wrapper.setData({ myAddressDetails });
       (wrapper.vm as any).useMyAddress();
 
       expect((wrapper.vm as any).shipping).toEqual({
@@ -307,11 +274,13 @@ describe('Shipping', () => {
         lastName: 'example last name',
         country: 'example country',
         state: 'example region',
+        region_id: undefined,
         city: 'example city',
         streetAddress: 'example street',
         apartmentNumber: 'example apartment number',
         zipCode: 'example zip code',
         phoneNumber: 'example phone number',
+        vat_id: '',
         shippingMethod: 'example shipping method',
         shippingCarrier: 'example shipping carrier'
       });
@@ -397,7 +366,7 @@ describe('Shipping', () => {
       const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
       (wrapper.vm as any).changeCountry();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-before-shippingMethods', 'PL');
+      expect(EventBus.$emit).toHaveBeenCalledWith('checkout-before-shippingMethods', 'PL');
     });
 
     it('getCurrentShippingMethod should return undefined if there are no supported methods', () => {
@@ -433,7 +402,7 @@ describe('Shipping', () => {
       const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
       (wrapper.vm as any).changeShippingMethod();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).not.toHaveBeenCalled();
+      expect(EventBus.$emit).not.toHaveBeenCalled();
     });
 
     it('changeShippingMethod should emit event with current shipping method if it is configured', () => {
@@ -445,12 +414,7 @@ describe('Shipping', () => {
       const wrapper = mountMixinWithStore(Shipping, mockStore, mockMountingOptions);
       (wrapper.vm as any).changeShippingMethod();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-after-shippingMethodChanged', {
-        country: 'PL',
-        method_code: 'method code',
-        carrier_code: 'carrier code',
-        payment_method: 'payment code'
-      });
+      expect(EventBus.$emit).toHaveBeenCalledWith('checkout-after-shippingMethodChanged');
     });
 
     it('notInMethods method should inform if given shipping method is not supported', () => {

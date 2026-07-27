@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { mapMutations } from 'vuex'
 import * as types from '../store/product/mutation-types'
 import rootStore from '@vue-storefront/core/store'
@@ -68,7 +69,7 @@ export const ProductBundleOptions = {
       this.selectedOptions[fieldName] = { qty, value }
       const valueId = value ? value.id : null
       if (this.validateField(option, qty, valueId)) {
-        this.$bus.$emit('product-after-bundleoptions', { product: this.product, option: option, optionValues: this.selectedOptions })
+        EventBus.$emit('product-after-bundleoptions', { product: this.product, option: option, optionValues: this.selectedOptions })
       }
     },
     isValid () {

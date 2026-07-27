@@ -1,5 +1,3 @@
-const config = require('config')
-
 module.exports = {
   rootDir: '../../',
   moduleFileExtensions: [
@@ -20,6 +18,11 @@ module.exports = {
     }],
     '.*\\.(vue)$': '<rootDir>/node_modules/@vue/vue2-jest'
   },
+  globals: {
+    'vue-jest': {
+      tsConfig: 'tsconfig-jest.json'
+    }
+  },
   testEnvironment: 'jsdom',
   snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue'],
   coverageDirectory: '<rootDir>/test/unit/coverage',
@@ -31,7 +34,8 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^src(.*)$': '<rootDir>/src$1',
-    '^theme(.*)$': `<rootDir>/node_modules/${config.theme}$1`,
+    '^theme(.*)$': '<rootDir>/src/themes/petsies-capybara$1',
+    '^@vue-storefront/unit-tests/utils$': '<rootDir>/test/unit/utils',
     '^.+\\.(css|less)$': '<rootDir>/test/unit/cssStub.js'
   },
   transformIgnorePatterns: [

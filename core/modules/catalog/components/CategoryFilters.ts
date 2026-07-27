@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { mapGetters } from 'vuex';
 
@@ -19,7 +20,7 @@ export default {
     },
     resetAllFilters () {
       // todo: get rid of this one
-      this.$bus.$emit('filter-reset')
+      EventBus.$emit('filter-reset')
       this.$store.dispatch('category/resetFilters')
       this.$store.dispatch('category/searchProductQuery', {})
       this.$store.dispatch('category/mergeSearchOptions', {

@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 export const Product = {
   name: 'Product',
   props: {
@@ -19,9 +20,9 @@ export const Product = {
     }
   },
   beforeMount () {
-    this.$bus.$on('cart-after-itemchanged', this.onProductChanged)
+    EventBus.$on('cart-after-itemchanged', this.onProductChanged)
   },
   beforeDestroy () {
-    this.$bus.$off('cart-after-itemchanged', this.onProductChanged)
+    EventBus.$off('cart-after-itemchanged', this.onProductChanged)
   }
 }

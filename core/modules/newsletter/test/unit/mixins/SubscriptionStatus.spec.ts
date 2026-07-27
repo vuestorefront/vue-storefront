@@ -1,6 +1,15 @@
 import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 import SubscriptionStatus from '../../../mixins/SubscriptionStatus'
+
+jest.mock('@vue-storefront/core/compatibility/plugins/event-bus', () => ({
+  __esModule: true,
+  default: {
+    $on: jest.fn(),
+    $off: jest.fn()
+  }
+}))
 
 jest.mock('vuelidate/lib/validators', () => ({
   email: {},
@@ -40,9 +49,6 @@ describe('SubscriptionStatus', () => {
         $emit: jest.fn(),
         $v: {
           $invalid: false
-        },
-        $bus: {
-          $on: jest.fn()
         }
       }
     })
@@ -76,9 +82,6 @@ describe('SubscriptionStatus', () => {
         $emit: jest.fn(),
         $v: {
           $invalid: false
-        },
-        $bus: {
-          $on: jest.fn()
         }
       }
     })
@@ -104,26 +107,25 @@ describe('SubscriptionStatus', () => {
       }
     }
 
-    const busOnHook = jest.fn()
-    const busOffHook = jest.fn()
-
     const wrapper = mountMixinWithStore(SubscriptionStatus, storeMock, {
       mocks: {
         $emit: jest.fn(),
         $v: {
           $invalid: false
-        },
-        $bus: {
-          $on: busOnHook,
-          $off: busOffHook
         }
       }
     })
 
     wrapper.destroy()
 
-    expect(busOnHook).toBeCalled()
-    expect(busOffHook).toBeCalled()
+    expect(EventBus.$on).toBeCalledWith(
+      'user-after-loggedin',
+      expect.any(Function)
+    )
+    expect(EventBus.$off).toBeCalledWith(
+      'user-after-loggedin',
+      expect.any(Function)
+    )
   })
 
   it('updates subscription status on mount if user emails is set', () => {
@@ -149,18 +151,11 @@ describe('SubscriptionStatus', () => {
       }
     }
 
-    const busOnHook = jest.fn()
-    const busOffHook = jest.fn()
-
     const wrapper = mountMixinWithStore(SubscriptionStatus, storeMock, {
       mocks: {
         $emit: jest.fn(),
         $v: {
           $invalid: false
-        },
-        $bus: {
-          $on: busOnHook,
-          $off: busOffHook
         }
       }
     })
@@ -168,8 +163,14 @@ describe('SubscriptionStatus', () => {
     wrapper.destroy()
 
     expect(storeMock.modules.newsletter.actions.status).toBeCalled()
-    expect(busOnHook).toBeCalled()
-    expect(busOffHook).toBeCalled()
+    expect(EventBus.$on).toBeCalledWith(
+      'user-after-loggedin',
+      expect.any(Function)
+    )
+    expect(EventBus.$off).toBeCalledWith(
+      'user-after-loggedin',
+      expect.any(Function)
+    )
   })
 
   it('renders subscription status', () => {
@@ -195,9 +196,6 @@ describe('SubscriptionStatus', () => {
         $emit: jest.fn(),
         $v: {
           $invalid: false
-        },
-        $bus: {
-          $on: jest.fn()
         }
       }
     }, "<p v-if='isSubscribed'>should be displayed</p>")
@@ -233,9 +231,6 @@ describe('SubscriptionStatus', () => {
         $emit: jest.fn(),
         $v: {
           $invalid: false
-        },
-        $bus: {
-          $on: jest.fn()
         }
       }
     });
@@ -273,9 +268,6 @@ describe('SubscriptionStatus', () => {
         $emit: jest.fn(),
         $v: {
           $invalid: false
-        },
-        $bus: {
-          $on: jest.fn()
         }
       }
     });

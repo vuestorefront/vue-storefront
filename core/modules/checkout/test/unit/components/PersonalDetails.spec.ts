@@ -1,7 +1,18 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
+
 import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
 import { PersonalDetails } from '../../../components/PersonalDetails';
 import Vue from 'vue'
 
+
+jest.mock('@vue-storefront/core/compatibility/plugins/event-bus', () => ({
+  __esModule: true,
+  default: {
+    $emit: jest.fn(),
+    $on: jest.fn(),
+    $off: jest.fn()
+  }
+}));
 describe('PersonalDetails', () => {
   let mockStore;
   let mockMountingOptions;
@@ -61,18 +72,18 @@ describe('PersonalDetails', () => {
   });
 
   describe('hooks', () => {
-    it('beforeMount hook should start subscription for user-after-loggedin event', () => {
+    it('beforeMount hook should subscribe to checkout loading', () => {
       const wrapper = mountMixinWithStore(PersonalDetails, mockStore, mockMountingOptions);
 
-      expect(mockMountingOptions.mocks.$bus.$on).toHaveBeenCalledWith('user-after-loggedin', (wrapper.vm as any).onLoggedIn);
+      expect(EventBus.$on).toHaveBeenCalledWith('checkout-after-load', (wrapper.vm as any).onCheckoutLoad);
     });
 
-    it('destroyed hook should stop subscription for user-after-loggedin event', () => {
+    it('destroyed hook should stop the checkout loading subscription', () => {
       const wrapper = mountMixinWithStore(PersonalDetails, mockStore, mockMountingOptions);
 
       wrapper.destroy();
 
-      expect(mockMountingOptions.mocks.$bus.$off).toHaveBeenCalledWith('user-after-loggedin', (wrapper.vm as any).onLoggedIn);
+      expect(EventBus.$off).toHaveBeenCalledWith('checkout-after-load', (wrapper.vm as any).onCheckoutLoad);
     });
 
     it('updated hook should set focus on password field', async () => {
@@ -85,8 +96,10 @@ describe('PersonalDetails', () => {
       await Vue.nextTick()
 
       expect((wrapper.vm as any).isValidationError).toBe(true);
-      expect((wrapper.vm as any).password).toBe('');
-      expect((wrapper.vm as any).rPassword).toBe('');
+      expect((wrapper.vm as any).passwordData).toEqual({
+        password: '',
+        repeatPassword: ''
+      });
       expect((wrapper.vm as any).$refs.password.setFocus).toHaveBeenCalledWith('password');
     });
   });
@@ -114,7 +127,10 @@ describe('PersonalDetails', () => {
 
       wrapper.setData({
         createAccount: true,
-        password: 'example password'
+        passwordData: {
+          password: 'example password',
+          repeatPassword: 'example password'
+        }
       });
       (wrapper.vm as any).sendDataToCheckout();
 
@@ -139,7 +155,7 @@ describe('PersonalDetails', () => {
       wrapper.setData({ createAccount: false });
       (wrapper.vm as any).sendDataToCheckout();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-after-personalDetails', { createAccount: false }, undefined);
+      expect(EventBus.$emit).toHaveBeenCalledWith('checkout-after-personalDetails', { createAccount: false }, undefined);
       expect((wrapper.vm as any).isFilled).toBe(true);
       expect((wrapper.vm as any).isValidationError).toBe(false);
     });
@@ -150,7 +166,7 @@ describe('PersonalDetails', () => {
       wrapper.setData({ isFilled: true });
       (wrapper.vm as any).edit();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('checkout-before-edit', 'personalDetails');
+      expect(EventBus.$emit).toHaveBeenCalledWith('checkout-before-edit', 'personalDetails');
     });
 
     it('edit method should not emit event if flag is not set', () => {
@@ -159,7 +175,7 @@ describe('PersonalDetails', () => {
       wrapper.setData({ isFilled: false });
       (wrapper.vm as any).edit();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).not.toHaveBeenCalled();
+      expect(EventBus.$emit).not.toHaveBeenCalled();
     });
 
     it('gotoAccount method should emit event', () => {
@@ -167,7 +183,7 @@ describe('PersonalDetails', () => {
 
       (wrapper.vm as any).gotoAccount();
 
-      expect(mockMountingOptions.mocks.$bus.$emit).toHaveBeenCalledWith('modal-show', 'modal-signup');
+      expect(EventBus.$emit).toHaveBeenCalledWith('modal-show', 'modal-signup');
     });
   });
 });

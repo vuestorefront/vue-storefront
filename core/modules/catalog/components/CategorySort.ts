@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import config from 'config'
 import { mapGetters } from 'vuex'
 export const CategorySort = {
@@ -21,7 +22,7 @@ export const CategorySort = {
     // emit to category, todo: move all logic inside
     sort () {
       this.$emit('change', this.sortby)
-      // this.$bus.$emit('list-change-sort', { attribute: this.sortby })
+      // EventBus.$emit('list-change-sort', { attribute: this.sortby })
     }
   },
   computed: {

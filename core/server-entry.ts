@@ -68,16 +68,15 @@ export default async context => {
       storeCode = storeCodeFromRoute(currentRoute)
     }
   }
-  const { app, router, store, initialState } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig, storeCode)
+  const { app, router, store, initialState, head } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig, storeCode)
 
   RouterManager.flushRouteQueue()
   context.initialState = initialState
   return new Promise((resolve, reject) => {
     const meta = (app as any).$meta()
-    const extendedHead = app.$extendedHead
     router.push(context.url)
     context.meta = meta
-    context.extendedHead = extendedHead
+    context.extendedHead = head
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
 

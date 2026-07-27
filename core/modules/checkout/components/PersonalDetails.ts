@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 
@@ -50,17 +51,17 @@ export const PersonalDetails = {
       } else {
         this.personalDetails.createAccount = false
       }
-      this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
+      EventBus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
       this.isFilled = true
       this.isValidationError = false
     },
     edit () {
       if (this.isFilled) {
-        this.$bus.$emit('checkout-before-edit', 'personalDetails')
+        EventBus.$emit('checkout-before-edit', 'personalDetails')
       }
     },
     gotoAccount () {
-      this.$bus.$emit('modal-show', 'modal-signup')
+      EventBus.$emit('modal-show', 'modal-signup')
     },
     onCheckoutLoad () {
       this.personalDetails = this.$store.state.checkout.personalDetails
@@ -80,10 +81,10 @@ export const PersonalDetails = {
     }
   },
   beforeMount () {
-    this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
+    EventBus.$on('checkout-after-load', this.onCheckoutLoad)
   },
   beforeDestroy () {
-    this.$bus.$off('checkout-after-load', this.onCheckoutLoad)
+    EventBus.$off('checkout-after-load', this.onCheckoutLoad)
   },
   watch: {
     currentUser (newValue, oldValue) {

@@ -1,6 +1,7 @@
+import { useStore } from '@vue-storefront/core/application-services';
 import { Ref, computed } from 'vue';
 
-import { PriceHelper, useRootInstance } from 'src/modules/shared';
+import { PriceHelper } from 'src/modules/shared';
 import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
 
 import { Customization, CustomizationOptionValue } from '..';
@@ -12,12 +13,12 @@ export function useCustomizationsPrice (
   customizations: Ref<Customization[]>,
   customizationOptionValue: Ref<Record<string, CustomizationOptionValue>>
 ) {
-  const root = useRootInstance();
+  const applicationStore = useStore();
   const customizationOptionValuesLowestPrice = computed<Record<string, PriceHelper.ProductPrice | undefined>>(
     () => {
       const dictionary: Record<string, PriceHelper.ProductPrice | undefined> = {};
-      const productBySkuDictionary = root.$store.getters['product/getProductBySkuDictionary'];
-      const productPriceDictionary = root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
+      const productBySkuDictionary = applicationStore.getters['product/getProductBySkuDictionary'];
+      const productPriceDictionary = applicationStore.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
 
       customizations.value.forEach((customization) => {
         if (!customization.optionData?.values) {
@@ -36,8 +37,8 @@ export function useCustomizationsPrice (
   );
 
   const totalPrice = computed<PriceHelper.ProductPrice>(() => {
-    const productBySkuDictionary = root.$store.getters['product/getProductBySkuDictionary'];
-    const productPriceDictionary = root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
+    const productBySkuDictionary = applicationStore.getters['product/getProductBySkuDictionary'];
+    const productPriceDictionary = applicationStore.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
     const selectedOptionValuesPrices: PriceHelper.ProductPrice[] = [];
     const _customizationOptionValuesLowestPrice = customizationOptionValuesLowestPrice.value;
 

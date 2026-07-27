@@ -46,13 +46,13 @@
 </template>
 
 <script lang="ts">
+import { useStore } from '@vue-storefront/core/application-services';
 import Vue, { computed, ref, watch } from 'vue';
 
 import { isServer, PriceHelper } from '@vue-storefront/core/helpers';
 import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { Dictionary } from 'src/modules/budsies';
-import { useRootInstance } from 'src/modules/shared/composables/use-current-instance';
 import { DirectiveType, TextPart, useTextDirectives } from 'src/modules/shared/composables/use-text-directives';
 import { StatisticMetric } from 'src/modules/budsies/types/statistic-metric';
 import { Currency, DEFAULT_CURRENCY, GET_ACTIVE_CURRENCY, GET_CURRENCY_EXCHANGE_RATE } from 'src/modules/currency';
@@ -70,21 +70,21 @@ export default Vue.extend({
     CountdownTimer: Timer
   },
   setup (props) {
-    const root = useRootInstance();
+    const applicationStore = useStore();
     const processedDescription = ref<string>('');
 
     const productBySkuDictionary = computed<Record<string, Product>>(() => {
-      return root.$store.getters['product/getProductBySkuDictionary'];
+      return applicationStore.getters['product/getProductBySkuDictionary'];
     });
 
     const localizedPriceDictionary = computed<Record<string, PriceHelper.ProductPrice>>(() => {
-      return root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
+      return applicationStore.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
     });
     const selectedCurrency = computed<Currency>(() => {
-      return root.$store.getters[GET_ACTIVE_CURRENCY] || DEFAULT_CURRENCY;
+      return applicationStore.getters[GET_ACTIVE_CURRENCY] || DEFAULT_CURRENCY;
     });
     const exchangeRate = computed<number>(() => {
-      return root.$store.getters[GET_CURRENCY_EXCHANGE_RATE] || 1;
+      return applicationStore.getters[GET_CURRENCY_EXCHANGE_RATE] || 1;
     });
     const bannerRenderingDependencies = computed(() => ({
       localizedPriceDictionary: localizedPriceDictionary.value,
@@ -94,7 +94,7 @@ export default Vue.extend({
     }));
 
     const campaignContent = computed<CampaignContent | undefined>(() => {
-      return root.$store.getters['promotionPlatform/campaignContent'];
+      return applicationStore.getters['promotionPlatform/campaignContent'];
     });
 
     const bannerContent = computed< CountdownBanner | undefined>(() => {
@@ -110,7 +110,7 @@ export default Vue.extend({
       }
 
       if (textPart.type === DirectiveType.ORDERED_PLUSHIES_COUNT) {
-        return root.$store.getters['budsies/getStatisticValueByMetric'](
+        return applicationStore.getters['budsies/getStatisticValueByMetric'](
           StatisticMetric.ORDERED_PLUSHIES_COUNT
         );
       }

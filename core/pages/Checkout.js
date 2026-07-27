@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { router } from '@vue-storefront/core/app';
 import i18n from '@vue-storefront/i18n'
 import config from 'config'
@@ -51,23 +52,23 @@ export default {
       return;
     }
 
-    this.$bus.$emit('checkout-after-load')
+    EventBus.$emit('checkout-after-load')
     this.$store.dispatch('checkout/setModifiedAt', Date.now())
     // TODO: Use one event with name as apram
-    this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
-    this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
-    this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
-    this.$bus.$on('checkout-after-shippingDetails', this.onAfterShippingDetails)
-    this.$bus.$on('checkout-after-paymentDetails', this.onAfterPaymentDetails)
-    this.$bus.$on('checkout-after-cartSummary', this.onAfterCartSummary)
-    this.$bus.$on('checkout-before-placeOrder', this.onBeforePlaceOrder)
-    this.$bus.$on('checkout-do-placeOrder', this.onDoPlaceOrder)
-    this.$bus.$on('checkout-before-edit', this.onBeforeEdit)
-    this.$bus.$on('order-after-placed', this.onAfterPlaceOrder)
-    this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
-    this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
-    this.$bus.$on('checkout-after-validationError', this.focusField)
-    this.$bus.$on('checkout-after-paymentMethodChanged', this.onPaymentMethodChanged)
+    EventBus.$on('cart-after-update', this.onCartAfterUpdate)
+    EventBus.$on('cart-after-delete', this.onCartAfterUpdate)
+    EventBus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
+    EventBus.$on('checkout-after-shippingDetails', this.onAfterShippingDetails)
+    EventBus.$on('checkout-after-paymentDetails', this.onAfterPaymentDetails)
+    EventBus.$on('checkout-after-cartSummary', this.onAfterCartSummary)
+    EventBus.$on('checkout-before-placeOrder', this.onBeforePlaceOrder)
+    EventBus.$on('checkout-do-placeOrder', this.onDoPlaceOrder)
+    EventBus.$on('checkout-before-edit', this.onBeforeEdit)
+    EventBus.$on('order-after-placed', this.onAfterPlaceOrder)
+    EventBus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
+    EventBus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
+    EventBus.$on('checkout-after-validationError', this.focusField)
+    EventBus.$on('checkout-after-paymentMethodChanged', this.onPaymentMethodChanged)
 
     this.$store.dispatch('cart/load', { forceClientState: true }).then(() => {
       if (this.$store.state.cart.cartItems.length === 0) {
@@ -116,24 +117,24 @@ export default {
 
     await this.$store.dispatch('checkout/updatePaymentDetails', { country: paymentCountry });
 
-    this.$bus.$emit('checkout-before-shippingMethods', shippingCountry)
+    EventBus.$emit('checkout-before-shippingMethods', shippingCountry)
   },
   beforeDestroy () {
     this.$store.dispatch('checkout/setModifiedAt', 0) // exit checkout
-    this.$bus.$off('cart-after-update', this.onCartAfterUpdate)
-    this.$bus.$off('cart-after-delete', this.onCartAfterUpdate)
-    this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
-    this.$bus.$off('checkout-after-shippingDetails', this.onAfterShippingDetails)
-    this.$bus.$off('checkout-after-paymentDetails', this.onAfterPaymentDetails)
-    this.$bus.$off('checkout-after-cartSummary', this.onAfterCartSummary)
-    this.$bus.$off('checkout-before-placeOrder', this.onBeforePlaceOrder)
-    this.$bus.$off('checkout-do-placeOrder', this.onDoPlaceOrder)
-    this.$bus.$off('checkout-before-edit', this.onBeforeEdit)
-    this.$bus.$off('order-after-placed', this.onAfterPlaceOrder)
-    this.$bus.$off('checkout-before-shippingMethods', this.onBeforeShippingMethods)
-    this.$bus.$off('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
-    this.$bus.$off('checkout-after-validationError', this.focusField)
-    this.$bus.$off('checkout-after-paymentMethodChanged', this.onPaymentMethodChanged)
+    EventBus.$off('cart-after-update', this.onCartAfterUpdate)
+    EventBus.$off('cart-after-delete', this.onCartAfterUpdate)
+    EventBus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
+    EventBus.$off('checkout-after-shippingDetails', this.onAfterShippingDetails)
+    EventBus.$off('checkout-after-paymentDetails', this.onAfterPaymentDetails)
+    EventBus.$off('checkout-after-cartSummary', this.onAfterCartSummary)
+    EventBus.$off('checkout-before-placeOrder', this.onBeforePlaceOrder)
+    EventBus.$off('checkout-do-placeOrder', this.onDoPlaceOrder)
+    EventBus.$off('checkout-before-edit', this.onBeforeEdit)
+    EventBus.$off('order-after-placed', this.onAfterPlaceOrder)
+    EventBus.$off('checkout-before-shippingMethods', this.onBeforeShippingMethods)
+    EventBus.$off('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
+    EventBus.$off('checkout-after-validationError', this.focusField)
+    EventBus.$off('checkout-after-paymentMethodChanged', this.onPaymentMethodChanged)
   },
   watch: {
     '$route': 'activateHashSection',

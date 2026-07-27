@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import { Logger } from '@vue-storefront/core/lib/logger'
@@ -30,11 +31,11 @@ export const OrderReview = {
       if (this.getPersonalDetails.createAccount) {
         this.register()
       } else {
-        this.$bus.$emit('checkout-before-placeOrder')
+        EventBus.$emit('checkout-before-placeOrder')
       }
     },
     async register () {
-      this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
+      EventBus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
 
       try {
         const region = this.getShippingDetails.state || this.getShippingDetails.region_id ? {
@@ -62,27 +63,27 @@ export const OrderReview = {
         })
 
         if (result.code !== 200) {
-          this.$bus.$emit('notification-progress-stop')
+          EventBus.$emit('notification-progress-stop')
           this.onFailure(result)
           // If error includes a word 'password', emit event that eventually focuses on a corresponding field
           if (result.result.includes(i18n.t('password'))) {
-            this.$bus.$emit('checkout-after-validationError', 'password')
+            EventBus.$emit('checkout-after-validationError', 'password')
           }
           // If error includes a word 'mail', emit event that eventually focuses on a corresponding field
           if (result.result.includes(i18n.t('email'))) {
-            this.$bus.$emit('checkout-after-validationError', 'email-address')
+            EventBus.$emit('checkout-after-validationError', 'email-address')
           }
         } else {
-          this.$bus.$emit('modal-hide', 'modal-signup')
+          EventBus.$emit('modal-hide', 'modal-signup')
           await this.$store.dispatch('user/login', {
             username: this.getPersonalDetails.emailAddress,
             password: this.getPersonalDetails.password
           })
-          this.$bus.$emit('notification-progress-stop')
-          this.$bus.$emit('checkout-before-placeOrder', result.result.id)
+          EventBus.$emit('notification-progress-stop')
+          EventBus.$emit('checkout-before-placeOrder', result.result.id)
         }
       } catch (err) {
-        this.$bus.$emit('notification-progress-stop')
+        EventBus.$emit('notification-progress-stop')
         Logger.error(err, 'checkout')()
       }
     }

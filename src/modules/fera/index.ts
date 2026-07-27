@@ -6,7 +6,7 @@ import { getFeraScript } from './helpers/get-fera-script.function';
 import ProductDetailRating from './components/product-detail-rating.vue';
 import ProductCollectionRating from './components/product-collection-rating.vue';
 
-export const FeraModule: StorefrontModule = ({ app, appConfig }) => {
+export const FeraModule: StorefrontModule = ({ appConfig, services }) => {
   const apiPublicKey = (appConfig.fera.apiPublicKey || '').trim();
 
   if (!apiPublicKey) {
@@ -22,5 +22,5 @@ export const FeraModule: StorefrontModule = ({ app, appConfig }) => {
     });
   })
 
-  app.$extendedHead.append(getFeraScript(apiPublicKey));
+  services.head.append(getFeraScript(apiPublicKey));
 }

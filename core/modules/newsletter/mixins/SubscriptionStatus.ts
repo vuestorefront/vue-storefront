@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { required, email } from 'vuelidate/lib/validators'
 
 /**
@@ -38,10 +39,10 @@ export default {
   beforeMount () {
     // the user might already be logged in, so check the subscription status
     if (this.$store.state.user.current) this.onLoggedIn()
-    this.$bus.$on('user-after-loggedin', this.onLoggedIn)
+    EventBus.$on('user-after-loggedin', this.onLoggedIn)
   },
   beforeDestroy () {
-    this.$bus.$off('user-after-loggedin', this.onLoggedIn)
+    EventBus.$off('user-after-loggedin', this.onLoggedIn)
   },
   computed: {
     isSubscribed (): boolean {

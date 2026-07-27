@@ -78,8 +78,8 @@
           {{ $t('You agree to receive email marketing from Budsies regarding our products and services.') }}
         </div>
 
-        <template v-if="$additionalContent.privacyPolicyAdditionalLinks">
-          <component :is="linkComponent.component" :key="linkComponent.key" v-for="linkComponent in $additionalContent.privacyPolicyAdditionalLinks" />
+        <template v-if="privacyPolicyLinks.length">
+          <component :is="linkComponent.component" :key="linkComponent.key" v-for="linkComponent in privacyPolicyLinks" />
         </template>
       </validation-observer>
     </form>
@@ -142,6 +142,11 @@ import { email, required } from 'vee-validate/dist/rules';
 
 import i18n from '@vue-storefront/i18n'
 import { usePersistedEmail, usePersistedFirstName, usePersistedLastName } from 'src/modules/persisted-customer-data';
+import {
+  AdditionalContentEntry,
+  AdditionalContentOutlet,
+  useAdditionalContent
+} from '@vue-storefront/core/additional-content';
 
 import { SfButton, SfHeading, SfInput } from '@storefront-ui/vue';
 
@@ -178,6 +183,9 @@ export default Vue.extend({
     }
   },
   setup () {
+    const privacyPolicyLinks = useAdditionalContent(
+      AdditionalContentOutlet.PRIVACY_POLICY_LINKS
+    );
     const email = ref<string | undefined>(undefined);
     const firstName = ref<string | undefined>(undefined);
     const lastName = ref<string | undefined>(undefined);
@@ -186,6 +194,8 @@ export default Vue.extend({
       email,
       firstName,
       lastName,
+      privacyPolicyLinks: privacyPolicyLinks as unknown as
+        readonly AdditionalContentEntry[],
       ...usePersistedEmail(email),
       ...usePersistedFirstName(firstName),
       ...usePersistedLastName(lastName)

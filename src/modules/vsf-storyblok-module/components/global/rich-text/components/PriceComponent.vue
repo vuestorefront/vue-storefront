@@ -14,6 +14,7 @@
 </template>
 
 <script lang="ts">
+import { useStore } from '@vue-storefront/core/application-services';
 import { computed, defineComponent, PropType } from 'vue';
 
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
@@ -21,7 +22,6 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { PriceHelper } from '@vue-storefront/core/helpers';
 import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
 import { Currency, GET_ACTIVE_CURRENCY } from 'src/modules/currency';
-import { useRootInstance } from 'src/modules/shared';
 
 export default defineComponent({
   name: 'StoryblokRichTextPriceComponent',
@@ -40,9 +40,9 @@ export default defineComponent({
     }
   },
   setup (props) {
-    const root = useRootInstance();
+    const applicationStore = useStore();
     const productPrice = computed<PriceHelper.ProductPrice>(() => {
-      return root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY][props.product.id];
+      return applicationStore.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY][props.product.id];
     });
 
     const finalPrice = computed<number>(() => {
@@ -55,7 +55,7 @@ export default defineComponent({
     });
 
     const selectedCurrency = computed<Currency>(() => {
-      return root.$store.getters[GET_ACTIVE_CURRENCY];
+      return applicationStore.getters[GET_ACTIVE_CURRENCY];
     });
 
     const formattedFinalPrice = computed<string>(() => {

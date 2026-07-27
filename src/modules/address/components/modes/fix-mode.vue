@@ -70,9 +70,9 @@
 </template>
 
 <script lang="ts">
+import { useI18n } from '@vue-storefront/core/application-services';
 import { defineComponent, computed, PropType, ref, Ref, onMounted } from 'vue';
 import { SfHeading, SfButton, SfInput } from '@storefront-ui/vue';
-import { useRootInstance } from 'src/modules/shared';
 
 import AddressValidationDetails from '../../types/address-validation-details.interface';
 
@@ -101,7 +101,7 @@ export default defineComponent({
     }
   },
   setup (props, { emit }) {
-    const root = useRootInstance();
+    const applicationI18n = useI18n();
     const localStreetNumber = ref<string>('');
     const heading: Ref<InstanceType<typeof SfHeading> | null> = ref(null);
 
@@ -135,34 +135,34 @@ export default defineComponent({
 
     const useEnteredButtonText = computed<string>(() => {
       if (isMissingStreetNumber.value) {
-        return root.$t('Use Without Street Number').toString();
+        return applicationI18n.t('Use Without Street Number').toString();
       }
 
-      return root.$t('Use Entered').toString();
+      return applicationI18n.t('Use Entered').toString();
     });
 
     const addressHeading = computed<string>(() => {
       if (isMissingStreetNumber.value) {
-        return root.$t('Suggested Address').toString();
+        return applicationI18n.t('Suggested Address').toString();
       }
 
-      return root.$t('Entered Address').toString();
+      return applicationI18n.t('Entered Address').toString();
     });
 
     const modalTitle = computed<string>(() => {
       if (isMissingStreetNumber.value) {
-        return root.$t('Street Number Missing?').toString();
+        return applicationI18n.t('Street Number Missing?').toString();
       }
 
-      return root.$t('Review Address').toString();
+      return applicationI18n.t('Review Address').toString();
     });
 
     const modalSubtitle = computed<string>(() => {
       if (isMissingStreetNumber.value) {
-        return root.$t('We could not find a street number in this address. Please add one if your address uses them (e.g., 123 Main St), or continue if it is correct.').toString();
+        return applicationI18n.t('We could not find a street number in this address. Please add one if your address uses them (e.g., 123 Main St), or continue if it is correct.').toString();
       }
 
-      return root.$t('We were not able to confirm this address. Please review it carefully, or you can continue if you are confident it is correct.').toString();
+      return applicationI18n.t('We were not able to confirm this address. Please review it carefully, or you can continue if you are confident it is correct.').toString();
     });
 
     onMounted(() => {

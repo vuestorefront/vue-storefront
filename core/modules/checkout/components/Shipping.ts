@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 
@@ -16,14 +17,14 @@ export const Shipping = {
     }
   },
   beforeDestroy () {
-    this.$bus.$off('checkout-after-load', this.onCheckoutLoad)
-    this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
-    this.$bus.$off('checkout-after-shippingset', this.onAfterShippingSet)
+    EventBus.$off('checkout-after-load', this.onCheckoutLoad)
+    EventBus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
+    EventBus.$off('checkout-after-shippingset', this.onAfterShippingSet)
   },
   beforeMount () {
-    this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
-    this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
-    this.$bus.$on('checkout-after-shippingset', this.onAfterShippingSet)
+    EventBus.$on('checkout-after-load', this.onCheckoutLoad)
+    EventBus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
+    EventBus.$on('checkout-after-shippingset', this.onAfterShippingSet)
   },
   data () {
     return {
@@ -121,12 +122,12 @@ export const Shipping = {
       this.useMyAddress()
     },
     sendDataToCheckout () {
-      this.$bus.$emit('checkout-after-shippingDetails', this.shipping, this.$v)
+      EventBus.$emit('checkout-after-shippingDetails', this.shipping, this.$v)
       this.isFilled = true
     },
     edit () {
       if (this.isFilled) {
-        this.$bus.$emit('checkout-before-edit', 'shipping')
+        EventBus.$emit('checkout-before-edit', 'shipping')
       }
     },
     useMyAddress () {
@@ -164,7 +165,7 @@ export const Shipping = {
       return ''
     },
     changeCountry () {
-      this.$bus.$emit('checkout-before-shippingMethods', this.shipping.country)
+      EventBus.$emit('checkout-before-shippingMethods', this.shipping.country)
     },
     getCurrentShippingMethod () {
       let shippingCode = this.shipping.shippingMethod
@@ -179,7 +180,7 @@ export const Shipping = {
         this.$store.commit(`checkout/${CHECKOUT_UPDATE_PROP_VALUE}`, ['shippingCarrier', currentShippingMethod.carrier_code])
         this.$store.commit(`checkout/${CHECKOUT_UPDATE_PROP_VALUE}`, ['shippingMethod', currentShippingMethod.method_code])
 
-        this.$bus.$emit('checkout-after-shippingMethodChanged')
+        EventBus.$emit('checkout-after-shippingMethodChanged')
       }
     },
     notInMethods (method) {

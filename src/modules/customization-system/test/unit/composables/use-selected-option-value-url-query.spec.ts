@@ -1,20 +1,21 @@
-import { mount, Wrapper } from '@vue/test-utils';
+import { Wrapper } from '@vue/test-utils';
 import Vue, { defineComponent, ref } from 'vue';
 
+import { mountWithApplicationServices } from '../../../../../../test/unit/utils/application-services';
 import { useSelectedOptionValueUrlQuery } from '../../../composables/use-selected-option-value-url-query';
 
-const mockRoot = {
-  $route: {
+const mockServices = {
+  route: {
     query: {}
   },
-  $router: {
+  router: {
     replace: jest.fn()
+  },
+  store: {},
+  i18n: {
+    t: jest.fn()
   }
-};
-
-jest.mock('src/modules/shared', () => ({
-  useRootInstance: () => mockRoot
-}));
+} as any;
 
 describe('useSelectedOptionValueUrlQuery', () => {
   let wrapper: Wrapper<Vue> | undefined;
@@ -22,7 +23,7 @@ describe('useSelectedOptionValueUrlQuery', () => {
   afterEach(() => {
     wrapper?.destroy();
     wrapper = undefined;
-    mockRoot.$router.replace.mockClear();
+    mockServices.router.replace.mockClear();
   });
 
   it('serializes computed query data without serializing the computed ref', () => {
@@ -50,9 +51,9 @@ describe('useSelectedOptionValueUrlQuery', () => {
     });
 
     expect(() => {
-      wrapper = mount(TestComponent as any);
+      wrapper = mountWithApplicationServices(TestComponent as any, mockServices);
     }).not.toThrow();
-    expect(mockRoot.$router.replace).toHaveBeenCalledWith({
+    expect(mockServices.router.replace).toHaveBeenCalledWith({
       query: {
         size: 'large'
       }

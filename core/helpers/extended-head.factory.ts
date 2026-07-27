@@ -1,7 +1,9 @@
-export function extendHeadFactory (): {
+export interface HeadManager {
   append: (value: string) => void,
   inject: () => string
-} {
+}
+
+export function extendHeadFactory (): HeadManager {
   let extensions: string[] = [];
 
   const append = (value: string) => {

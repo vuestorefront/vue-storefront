@@ -121,19 +121,19 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('filter-changed-category', this.onFilterChanged)
-    this.$bus.$on('list-change-sort', this.onSortOrderChanged)
+    EventBus.$on('filter-changed-category', this.onFilterChanged)
+    EventBus.$on('list-change-sort', this.onSortOrderChanged)
     if (config.usePriceTiers || this.getIsUserGroupedTaxActive) {
-      this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
-      this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
+      EventBus.$on('user-after-loggedin', this.onUserPricesRefreshed)
+      EventBus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
   },
   beforeDestroy () {
-    this.$bus.$off('list-change-sort', this.onSortOrderChanged)
-    this.$bus.$off('filter-changed-category', this.onFilterChanged)
+    EventBus.$off('list-change-sort', this.onSortOrderChanged)
+    EventBus.$off('filter-changed-category', this.onFilterChanged)
     if (config.usePriceTiers || this.getIsUserGroupedTaxActive) {
-      this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
-      this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
+      EventBus.$off('user-after-loggedin', this.onUserPricesRefreshed)
+      EventBus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
   },
   beforeRouteUpdate (to, from, next) {
@@ -217,7 +217,7 @@ export default {
     },
     validateRoute (route = this.$route) {
       this.$store.dispatch('category/resetFilters')
-      this.$bus.$emit('filter-reset')
+      EventBus.$emit('filter-reset')
 
       this.$store.dispatch('category/single', { key: config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then(category => {
         if (!category) {
@@ -225,7 +225,7 @@ export default {
         } else {
           this.pagination.current = 0
           let searchProductQuery = baseFilterProductsQuery(this.getCurrentCategory, config.products.defaultFilters)
-          this.$bus.$emit('current-category-changed', this.getCurrentCategoryPath)
+          EventBus.$emit('current-category-changed', this.getCurrentCategoryPath)
           this.mergeSearchOptions({ // base prototype from the asyncData is being used here
             current: this.pagination.current,
             perPage: this.pagination.perPage,
@@ -240,7 +240,7 @@ export default {
             })
           }
           this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
-          this.$bus.$emitFilter('category-after-load', { store: this.$store, route: route })
+          EventBus.$emitFilter('category-after-load', { store: this.$store, route: route })
         }
       }).catch(err => {
         if (err.message.indexOf('query returned empty result') > 0) {

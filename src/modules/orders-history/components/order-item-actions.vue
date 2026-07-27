@@ -47,12 +47,13 @@
 </template>
 
 <script lang="ts">
+import { useI18n, useRouter, useStore } from '@vue-storefront/core/application-services';
 import { computed, defineComponent, PropType } from 'vue';
 import { SfButton } from '@storefront-ui/vue';
 
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { IS_CART_SYNCING } from '@vue-storefront/core/modules/cart';
-import { FOREVERS_BUNDLE_SKUS, useRootInstance } from 'src/modules/shared';
+import { FOREVERS_BUNDLE_SKUS } from 'src/modules/shared';
 
 import { OrderItem } from '../types/order-item';
 import { OrderItemAvailableAction } from '../types/order-item-available-action';
@@ -135,13 +136,15 @@ export default defineComponent({
     }
   },
   setup (props) {
-    const root = useRootInstance();
+    const applicationStore = useStore();
+    const applicationRouter = useRouter();
+    const applicationI18n = useI18n();
     const productSkuRouteNameMapping = getProductSkuRouteNameMapping();
 
     const disabledItems = computed<Record<string, boolean>>(() => {
       const items: Record<string, boolean> = {};
 
-      items[OrderItemAvailableActionCode.RE_ORDER] = root.$store.getters[IS_CART_SYNCING] || root.$store.getters[IS_REORDERING_ITEM];
+      items[OrderItemAvailableActionCode.RE_ORDER] = applicationStore.getters[IS_CART_SYNCING] || applicationStore.getters[IS_REORDERING_ITEM];
 
       return items;
     });
@@ -156,7 +159,7 @@ export default defineComponent({
         return;
       }
 
-      root.$router.push({
+      applicationRouter.push({
         name: routeName,
         query: {
           orderItemId: props.orderItem.item_id.toString(),
@@ -172,27 +175,27 @@ export default defineComponent({
       }
 
       try {
-        await root.$store.dispatch(
+        await applicationStore.dispatch(
           REORDER_ITEM_ACTION,
           { orderItemId: props.orderItem.item_id }
         );
 
-        root.$store.dispatch('notification/spawnNotification', {
+        applicationStore.dispatch('notification/spawnNotification', {
           type: 'success',
-          message: root.$t('Product has been added to the cart!'),
-          action1: { label: root.$t('OK') }
+          message: applicationI18n.t('Product has been added to the cart!'),
+          action1: { label: applicationI18n.t('OK') }
         });
       } catch (error) {
-        root.$store.dispatch('notification/spawnNotification', {
+        applicationStore.dispatch('notification/spawnNotification', {
           type: 'danger',
-          message: (error as any)?.message || root.$t('Something went wrong'),
-          action1: { label: root.$t('OK') }
+          message: (error as any)?.message || applicationI18n.t('Something went wrong'),
+          action1: { label: applicationI18n.t('OK') }
         });
       }
     }
 
     async function onDownloadResultsActionClick (): Promise<void> {
-      await root.$router.push({
+      await applicationRouter.push({
         name: 'order-item-deliverables-download',
         query: {
           'order_item_id': props.orderItem.item_id.toString()
@@ -201,7 +204,7 @@ export default defineComponent({
     }
 
     async function onDownloadPrintoutsActionClick (): Promise<void> {
-      await root.$router.push({
+      await applicationRouter.push({
         name: 'orders-printouts-download',
         query: {
           orderId: props.orderId.toString()
@@ -210,7 +213,7 @@ export default defineComponent({
     }
 
     async function onProvideTaxIdActionClick (): Promise<void> {
-      await root.$router.push({
+      await applicationRouter.push({
         name: 'tax-id-request',
         query: {
           orderId: props.orderId.toString()

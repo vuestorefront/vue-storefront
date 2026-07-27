@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import config from 'config'
 
 export const ProductBundleOption = {
@@ -42,12 +43,12 @@ export const ProductBundleOption = {
   mounted () {
     this.setDefaultValues()
     if (config.usePriceTiers) {
-      this.$bus.$on('product-after-setup-associated', this.setDefaultValues)
+      EventBus.$on('product-after-setup-associated', this.setDefaultValues)
     }
   },
   beforeDestroy () {
     if (config.usePriceTiers) {
-      this.$bus.$off('product-after-setup-associated', this.setDefaultValues)
+      EventBus.$off('product-after-setup-associated', this.setDefaultValues)
     }
   },
   watch: {

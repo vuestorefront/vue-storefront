@@ -20,12 +20,18 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { useRequestServices } from '@vue-storefront/core/request-services';
 
 import isUrlExternal from '../../helpers/is-url-external';
 import getUrlFromLink from '../../helpers/get-url-from-link';
 
 export default {
   name: 'StoryblokRouterLink',
+  setup () {
+    return {
+      requestServices: useRequestServices()
+    };
+  },
   inheritAttrs: false,
   props: {
     link: {
@@ -55,7 +61,7 @@ export default {
       return this.isExternal;
     },
     url () {
-      return getUrlFromLink(this.link, this.$ssrContext, this.storeCodeFromHeader);
+      return getUrlFromLink(this.link, this.requestServices.host, this.storeCodeFromHeader);
     },
     newWindowAriaLabel () {
       if (!this.shouldOpenInNewWindow || !this.ariaLabel) {

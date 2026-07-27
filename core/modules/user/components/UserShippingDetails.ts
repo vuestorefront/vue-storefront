@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import toString from 'lodash-es/toString'
 import pick from 'lodash-es/pick'
 import config from 'config'
@@ -27,16 +28,16 @@ export const UserShippingDetails = {
     }
   },
   beforeMount () {
-    this.$bus.$on('user-after-loggedin', this.onLoggedIn)
-    this.$bus.$on('myAccount-before-remainInEditMode', block => {
+    EventBus.$on('user-after-loggedin', this.onLoggedIn)
+    EventBus.$on('myAccount-before-remainInEditMode', block => {
       if (block === 'MyShippingDetails') {
         this.remainInEditMode = true
       }
     })
   },
   beforeDestroy () {
-    this.$bus.$off('user-after-loggedin', this.onLoggedIn)
-    this.$bus.$off('myAccount-before-remainInEditMode')
+    EventBus.$off('user-after-loggedin', this.onLoggedIn)
+    EventBus.$off('myAccount-before-remainInEditMode')
   },
   mounted () {
     this.shippingDetails = this.getShippingDetails()
@@ -116,7 +117,7 @@ export const UserShippingDetails = {
       this.exitSection(null, updatedShippingDetails)
     },
     exitSection (event, updatedShippingDetails) {
-      this.$bus.$emit('myAccount-before-updateUser', updatedShippingDetails)
+      EventBus.$emit('myAccount-before-updateUser', updatedShippingDetails)
       userHooks.afterUserProfileUpdated(event => {
         if (event.resultCode === 200) {
           if (!updatedShippingDetails) {

@@ -1,8 +1,9 @@
+import { useStore } from '@vue-storefront/core/application-services';
 import { Ref, computed } from 'vue';
 
 import { PRODUCT_LOCALIZED_PRICE_DICTIONARY } from '@vue-storefront/core/modules/catalog';
 
-import { PriceHelper, useRootInstance } from 'src/modules/shared';
+import { PriceHelper } from 'src/modules/shared';
 
 import { getOptionValuePrice } from '../helpers/get-option-value-price';
 import { OptionValue } from '../types/option-value.interface';
@@ -13,12 +14,12 @@ export function useOptionValuesPrice (
   values: Ref<OptionValue[]>,
   useLowestPriceAsDefault = false
 ) {
-  const root = useRootInstance();
+  const applicationStore = useStore();
   const optionValuePriceDictionary = computed<Record<string, PriceHelper.ProductPrice | undefined>>(
     () => {
       const dictionary: Record<string, PriceHelper.ProductPrice | undefined> = {};
-      const productBySkuDictionary = root.$store.getters['product/getProductBySkuDictionary'];
-      const productPriceDictionary = root.$store.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
+      const productBySkuDictionary = applicationStore.getters['product/getProductBySkuDictionary'];
+      const productPriceDictionary = applicationStore.getters[PRODUCT_LOCALIZED_PRICE_DICTIONARY];
 
       values.value.forEach((optionValue) => {
         if (optionValue.id === PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID) {
@@ -134,7 +135,7 @@ export function useOptionValuesPrice (
   });
 
   const selectedCurrency = computed<Currency>(() => {
-    return root.$store.getters[GET_ACTIVE_CURRENCY];
+    return applicationStore.getters[GET_ACTIVE_CURRENCY];
   });
 
   function isDefaultOptionValue (optionValue: OptionValue): boolean {
