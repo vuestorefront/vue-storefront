@@ -18,6 +18,11 @@ module.exports = {
     }],
     '.*\\.(vue)$': '<rootDir>/node_modules/@vue/vue2-jest'
   },
+  globals: {
+    'vue-jest': {
+      tsConfig: 'tsconfig-jest.json'
+    }
+  },
   testEnvironment: 'jsdom',
   snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue'],
   coverageDirectory: '<rootDir>/test/unit/coverage',
