@@ -11,6 +11,14 @@ import {
 
 import { TrueVaultModule } from '../../index';
 
+jest.mock('config', () => ({
+  privacyPolicy: {
+    californiaPrivacyNoticeUrl: 'https://example.test/california-privacy-notice',
+    financialIncentiveNoticeUrl: 'https://example.test/financial-incentive-notice',
+    optOutUrl: 'https://example.test/opt-out'
+  }
+}));
+
 type AdditionalContentFixture = Vue & {
   privacyPolicyAdditionalLinks: readonly AdditionalContentEntry[],
   footerLinks: readonly AdditionalContentEntry[],
