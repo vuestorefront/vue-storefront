@@ -106,17 +106,17 @@
 
 - [x] 11.1 Start the production-like SSR application and verify health plus representative public, Storyblok, category, product, and structured-data renders.
 - [x] 11.2 Render consecutive and concurrent applications with different route, host, cookie, request, head, and Additional Content values and prove isolation.
-- [ ] 11.3 Hydrate representative public/content/product routes and require a clean console with reactive navigation after hydration.
-- [ ] 11.4 Exercise static, repeated, dynamic, and nested form validation, including first-error scroll/focus and conditional field teardown.
-- [ ] 11.5 Exercise a full customization and cart flow, including upload, pricing, add/edit cart, coupon, and detailed-cart behavior.
-- [ ] 11.6 Exercise login, post-auth route restoration, account/order access, logout, and mandatory EventBus-driven feature-state clearing.
-- [ ] 11.7 Exercise guest/authenticated checkout, address forms, gift cards, and enabled payment entrypoints, confirming existing Vuex/TaskQueue and EventBus behavior.
-- [ ] 11.8 Compare SSR output, hydration behavior, conversion-critical events, and error monitoring with the archived Vue 2.7 baseline.
+- [x] 11.3 Hydrate representative public/content/product routes and require a clean console with reactive navigation after hydration.
+- [x] 11.4 Exercise static, repeated, dynamic, and nested form validation, including first-error scroll/focus and conditional field teardown.
+- [x] 11.5 Exercise a full customization and cart flow, including upload, pricing, add/edit cart, coupon, and detailed-cart behavior.
+- [x] 11.6 Exercise login, post-auth route restoration, account/order access, logout, and mandatory EventBus-driven feature-state clearing.
+- [x] 11.7 Exercise guest/authenticated checkout, address forms, gift cards, and enabled payment entrypoints, confirming existing Vuex/TaskQueue and EventBus behavior.
+- [x] 11.8 Compare SSR output, hydration behavior, conversion-critical events, and error monitoring with the archived Vue 2.7 baseline.
 
 ## 12. Repository Coordination and Follow-up
 
-- [ ] 12.1 Land the theme-owned migration as a dedicated reviewed commit and run its relevant CI/validation against the parent integration state.
-- [ ] 12.2 Update the parent theme gitlink to the exact validated theme commit and run the complete combined validation and runtime acceptance matrix.
-- [ ] 12.3 Record coordinated parent/theme rollback revisions and require client and SSR artifacts to roll back together.
-- [ ] 12.4 Create or link the dependent request-local cache-tag OpenSpec change with the recorded component, Vuex, resolver, service, getter, and mapping-fallback inventory.
-- [ ] 12.5 Confirm the candidate satisfies every capability scenario and archive this change only after the scoped prototype/current-instance access is removed and the cache-tag exception is explicitly linked.
+- [x] 12.1 Land the theme-owned migration as a dedicated reviewed commit and run its relevant CI/validation against the parent integration state.
+- [x] 12.2 Update the parent theme gitlink to the exact validated theme commit and run the complete combined validation and runtime acceptance matrix.
+- [x] 12.3 Record coordinated parent/theme rollback revisions and require client and SSR artifacts to roll back together.
+- [x] 12.4 Create or link the dependent request-local cache-tag OpenSpec change with the recorded component, Vuex, resolver, service, getter, and mapping-fallback inventory.
+- [x] 12.5 Confirm the candidate satisfies every capability scenario and archive this change only after the scoped prototype/current-instance access is removed and the cache-tag exception is explicitly linked.
