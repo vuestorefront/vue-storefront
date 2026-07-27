@@ -3480,7 +3480,7 @@ __metadata:
     vue: "npm:2.7.16"
     vue-cool-lightbox: "npm:^2.7.4"
     vue-croppie: "https://github.com/BudsiesApp/vue-croppie.git#optimuspro"
-    vue-filepond: "npm:^6.0.3"
+    vue-filepond: "https://github.com/BudsiesApp/vue-filepond.git#budsies"
     vue-multiselect: "https://github.com/BudsiesApp/vue-multiselect/archive/14bffb09762ad97c076cc32d05d61d840614f299.tar.gz"
     vue-no-ssr: "npm:^0.2.2"
     vue-star-rating: "npm:^1.7.0"
@@ -13306,13 +13306,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-filepond@npm:^6.0.3":
+"vue-filepond@https://github.com/BudsiesApp/vue-filepond.git#budsies":
   version: 6.0.3
-  resolution: "vue-filepond@npm:6.0.3"
+  resolution: "vue-filepond@https://github.com/BudsiesApp/vue-filepond.git#commit=bc7c06315981d76dc18aaa9ab6378862c198cbf3"
   peerDependencies:
     filepond: ">=4.7.4 < 5.x"
     vue: ">=2.6.0 < 3.x"
-  checksum: 10c0/9164054158e1b0741adddc8050d3dd033bbbc3d6d6b0e28527f376b8bd1228de3e797a0f0a2d5ed1502db74ffd944b7bfdddd797f3383e5598b1968d36a1d2a2
+  checksum: 10c0/d0630420494a3074ed1954602d06bcb4c4e0c9bbc74747d89c8a35409dfc7989ba5157d19c418a103420a96029a21746b9af15b507cd3804b5c757eeed6ec853
   languageName: node
   linkType: hard
 
