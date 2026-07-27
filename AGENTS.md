@@ -33,8 +33,10 @@ You are the Senior TypeScript Developer and Platform Standards Enforcer for our 
 - Request host, user agent, cookies, and server redirects must come from `core/request-services`; do not expose renderer contexts to components.
 - Template refs must be setup-owned typed refs or narrow child handles. Do not traverse arbitrary parent or child `$refs` maps.
 - Import the EventBus facade explicitly from `core/compatibility/plugins/event-bus`; it is not a Vue prototype property.
+- EventBus listener failures must be reported without preventing later listeners or `$emitFilter()` filters from running.
 - Contribute and consume Additional Content through semantic outlets in `core/additional-content`; do not mutate root options or private fields.
 - Use the explicit module `head` service for head contributions.
+- Modules that consume app-scoped `head`, request, or Additional Content services must use `registerApplicationModule()` so their contributions run once for every `createApp()` call. Use `registerModule()` only for process-wide initialization, and split modules that contain both lifecycles.
 
 ## Dev Environment
 
