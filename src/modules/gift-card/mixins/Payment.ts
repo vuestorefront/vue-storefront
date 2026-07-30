@@ -77,6 +77,7 @@ export default Vue.extend({
       giftCardCode: '',
       isAllAppliedGiftCardsRemoving: false,
       isSubmitting: false,
+      liveMessage: '',
       fUseGiftCard: false
     };
   },
@@ -101,6 +102,7 @@ export default Vue.extend({
       }
 
       this.codeError = '';
+      this.liveMessage = this.$t('Adding Gift Card...').toString();
       this.isSubmitting = true;
       try {
         await this.$store.dispatch(
@@ -109,7 +111,11 @@ export default Vue.extend({
         );
 
         this.giftCardCode = '';
+        this.liveMessage = this.grandTotal === 0
+          ? this.$t('Your order’s grand total is now zero. You\'re all set!').toString()
+          : this.$t('Gift card applied').toString();
       } catch (err) {
+        this.liveMessage = '';
         this.codeError = (err as Error).message;
       } finally {
         this.isSubmitting = false;
