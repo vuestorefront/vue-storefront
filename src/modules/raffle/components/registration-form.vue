@@ -61,6 +61,7 @@
               name="email"
               type="email"
               :label="$t('E-mail')"
+              autocomplete="email"
               :valid="!errors.length"
               :error-message="errors[0]"
             />

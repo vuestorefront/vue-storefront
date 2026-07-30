@@ -12,9 +12,9 @@
       <div class="promotion-platform-countdown-banner">
         <div class="_container">
           <div class="_left-column">
-            <h2 class="_title">
+            <label class="_title">
               {{ title }}
-            </h2>
+            </label>
 
             <div class="_timer-container">
               <countdown-timer
@@ -349,6 +349,7 @@ $mobile-s: 640px;
         margin-bottom: 0.3em;
         margin-top: 0.5em;
         text-align: center;
+        font-weight: bold;
       }
 
       ._timer-container {
