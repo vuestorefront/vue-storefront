@@ -8,7 +8,7 @@
         :key="icon.id"
         :title="icon.title"
       >
-        <img :src="icon.iconSrc" class="_icon-image">
+        <img :src="icon.iconSrc" class="_icon-image" alt="">
       </div>
     </div>
   </div>
