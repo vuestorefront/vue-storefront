@@ -23,7 +23,7 @@ function buildStandardOptionValue (standardText?: string): OptionValue {
   return {
     id: PRODUCTION_TIME_SELECTOR_STANDARD_OPTION_VALUE_ID,
     isEnabled: true,
-    isDefault: false,
+    isDefault: true,
     sn: 0,
     name: standardText || ''
   };
