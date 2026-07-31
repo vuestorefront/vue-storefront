@@ -118,6 +118,9 @@ describe('TrueVault Additional Content compatibility', () => {
     wrapper = mount(createOutletFixture(), {
       provide: {
         [additionalContentInjectionKey as symbol]: additionalContent
+      },
+      mocks: {
+        $t: (value: string) => value
       }
     });
     await wrapper.vm.$nextTick();
