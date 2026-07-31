@@ -22,6 +22,7 @@
       <a
         :href="kitDownloadUrl"
         target="_blank"
+        :aria-label="$t('Download Your Kit') + ' ' + $t('opens in new tab')"
         class="_button"
       >
         <SfButton>
@@ -40,6 +41,7 @@
       <a
         :href="storybookDownloadUrl"
         target="_blank"
+        :aria-label="$t('Download The Storybook') + ' ' + $t('opens in new tab')"
         class="_button"
       >
         <SfButton>

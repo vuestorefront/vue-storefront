@@ -41,6 +41,7 @@
         class="_referral-link"
         :href="referralLink"
         target="_blank"
+        :aria-label="referralLink + ' ' + $t('opens in new tab')"
       >
         {{ referralLink }}
       </a>

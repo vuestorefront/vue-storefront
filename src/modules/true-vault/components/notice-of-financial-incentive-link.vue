@@ -4,6 +4,7 @@
       class="truevault-polaris-privacy-notice"
       :href="url"
       target="_blank"
+      :aria-label="'Notice of Financial Incentive' + ' ' + $t('opens in new tab')"
       noreferrer
       noopener
       hidden

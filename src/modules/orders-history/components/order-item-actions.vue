@@ -275,18 +275,23 @@ export default defineComponent({
         if (action.url) {
           const isExternal = action.url.startsWith('http');
           const target = action.open_in_new_tab ? '_blank' : undefined;
+          const ariaLabel = action.open_in_new_tab
+            ? `${action.name} ${applicationI18n.t('opens in new tab')}`
+            : undefined;
 
           if (isExternal) {
             actionItem.component = 'a';
             actionItem.props = {
               href: action.url,
-              target
+              target,
+              'aria-label': ariaLabel
             };
           } else {
             actionItem.component = 'router-link';
             actionItem.props = {
               to: action.url,
-              target
+              target,
+              'aria-label': ariaLabel
             };
           }
         }

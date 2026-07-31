@@ -4,6 +4,7 @@
       class="truevault-polaris-privacy-notice"
       target="_blank"
       :href="url"
+      :aria-label="text + ' ' + $t('opens in new tab')"
       noreferrer
       noopener
       hidden
