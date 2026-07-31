@@ -6,6 +6,7 @@
       :class="{'truevault-polaris-optout': isMounted}"
       :href="url"
       target="_blank"
+      :aria-label="'Your Privacy Choices' + ' ' + $t('opens in new tab')"
       noreferrer
       noopener
       hidden

@@ -2,6 +2,7 @@
   <a
     :href="url"
     target="_blank"
+    :aria-label="$t(text) + ' ' + $t('opens in new tab')"
   >
     {{ $t(text) }}
   </a>
