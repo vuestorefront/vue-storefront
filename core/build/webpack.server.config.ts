@@ -10,6 +10,11 @@ const bundledServerDependencies = [
   '@gtm-support/core'
 ]
 
+const externalServerDependencies = [
+  ...Object.keys(require('../../package.json').dependencies),
+  'storyblok-js-client'
+]
+
 export default merge<webpack.Configuration>(base, {
   mode: 'development',
   target: 'node',
@@ -27,7 +32,7 @@ export default merge<webpack.Configuration>(base, {
       '@vue-storefront/core/lib/fetch$': path.resolve(__dirname, '../lib/fetch/server.ts')
     }
   },
-  externals: Object.keys(require('../../package.json').dependencies)
+  externals: [...new Set(externalServerDependencies)]
     .filter((dependencyName) => !bundledServerDependencies.includes(dependencyName)),
   plugins: [
     new webpack.DefinePlugin({
