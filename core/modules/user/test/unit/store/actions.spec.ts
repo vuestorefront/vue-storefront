@@ -32,9 +32,25 @@ jest.mock('@vue-storefront/core/helpers', () => ({
   get isServer () {
     return false
   },
+  once: jest.fn(),
   onlineHelper: {
     isOnline: true
+  },
+  processURLAddress: jest.fn(url => url)
+}));
+jest.mock('@vue-storefront/core/store', () => ({
+  __esModule: true,
+  default: {
+    commit: jest.fn()
   }
+}));
+jest.mock('@vue-storefront/core/lib/sync', () => ({
+  TaskQueue: {
+    execute: jest.fn()
+  }
+}));
+jest.mock('@vue-storefront/core/modules/cart', () => ({
+  LOCAL_CART_DATA_LOADED_EVENT: 'local-cart-data-loaded'
 }));
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   StorageManager: {
@@ -385,32 +401,33 @@ describe('User actions', () => {
   });
 
   describe('clearCurrentUser action', () => {
-    it('should clear current user', () => {
+    it('should clear current user credentials and data', async () => {
       const contextMock = {
         commit: jest.fn(),
         dispatch: jest.fn()
       };
-      (StorageManager.get as jest.Mock).mockImplementation(() => ({
-        setItem: async () => {}
-      }));
+      const setItem = jest.fn().mockResolvedValue(undefined);
+      (StorageManager.get as jest.Mock).mockReturnValue({ setItem });
 
-      (userActions as any).clearCurrentUser(contextMock)
+      await (userActions as any).clearCurrentUser(contextMock)
 
-      expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.USER_TOKEN_CHANGED, { newToken: null })
-      expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.USER_GROUP_TOKEN_CHANGED, '')
-      expect(contextMock.commit).toHaveBeenNthCalledWith(3, types.USER_GROUP_CHANGED, null)
-      expect(contextMock.commit).toHaveBeenNthCalledWith(4, types.USER_INFO_LOADED, null)
-      expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'checkout/savePersonalDetails', {}, { root: true })
-      expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'checkout/saveShippingDetails', {}, { root: true })
-      expect(contextMock.dispatch).toHaveBeenNthCalledWith(3, 'checkout/savePaymentDetails', {}, { root: true })
+      expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.SET_USER_REFRESH_TOKEN, '')
+      expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.USER_TOKEN_CHANGED, { newToken: null })
+      expect(contextMock.commit).toHaveBeenNthCalledWith(3, types.USER_GROUP_TOKEN_CHANGED, '')
+      expect(contextMock.commit).toHaveBeenNthCalledWith(4, types.USER_GROUP_CHANGED, null)
+      expect(contextMock.commit).toHaveBeenNthCalledWith(5, types.USER_INFO_LOADED, null)
+      expect(setItem).toHaveBeenCalledWith('current-refresh-token', null)
     })
-    it('should clear additional modules when they are registered', () => {
+    it('should clear additional modules when they are registered', async () => {
       const contextMock = {
         commit: jest.fn(),
         dispatch: jest.fn()
       };
+      (StorageManager.get as jest.Mock).mockReturnValue({
+        setItem: jest.fn().mockResolvedValue(undefined)
+      });
       ;(isModuleRegistered as jest.Mock).mockImplementation(() => true);
-      (userActions as any).clearCurrentUser(contextMock)
+      await (userActions as any).clearCurrentUser(contextMock)
 
       expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'wishlist/clear', null, { root: true })
       expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'compare/clear', null, { root: true })
