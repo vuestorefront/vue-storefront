@@ -25,7 +25,7 @@
           :is="actionItem.component"
           :disabled="disabledItems[actionItem.action.code]"
           class="_available-action"
-          :class="{'sf-button color-secondary': actionItem.component !== 'MSpinnerButton'}"
+          :class="actionItem.cssClasses"
           v-bind="actionItem.props"
           v-on="actionItem.handlers"
           v-if="actionItem.component"
@@ -45,7 +45,7 @@
         v-for="actionItem in actionsListGroups.nonBlockingActionsList"
         :key="actionItem.action.code + ';' + actionItem.action.name"
         class="_available-action"
-        :class="{'sf-button color-secondary': actionItem.component !== 'MSpinnerButton'}"
+        :class="actionItem.cssClasses"
         :is="actionItem.component"
         :disabled="disabledItems[actionItem.action.code]"
         v-bind="actionItem.props"
@@ -76,6 +76,7 @@ import { REORDER_ITEM_ACTION, IS_REORDERING_ITEM } from '..';
 interface ActionItem {
   action: OrderItemAvailableAction,
   component?: 'SfButton' | 'MSpinnerButton' | 'a' | 'router-link',
+  cssClasses: string[],
   props: Record<string, string | boolean | undefined>,
   handlers: Record<string, () => Promise<void>>
 }
@@ -253,6 +254,7 @@ export default defineComponent({
         const actionItem: ActionItem = {
           action,
           component: undefined,
+          cssClasses: ['sf-button', 'color-secondary'],
           props: {},
           handlers: {}
         };
@@ -260,6 +262,7 @@ export default defineComponent({
         if (action.code === OrderItemAvailableActionCode.RE_ORDER) {
           actionItem.handlers.click = onReorderActionClick;
           actionItem.component = 'MSpinnerButton';
+          actionItem.cssClasses = [];
           actionItem.props.ariaLabel = action.name;
           actionItem.props.buttonClass = 'color-secondary';
           actionItem.props.showSpinner = isReorderPending.value;
