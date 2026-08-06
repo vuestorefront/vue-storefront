@@ -5,8 +5,9 @@ import RootState from '@vue-storefront/core/types/RootState';
 import i18n from '@vue-storefront/core/i18n';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
 import { notifications } from '@vue-storefront/core/modules/cart/helpers';
-import { IS_COUPON_INTERACTION_BLOCKED } from '@vue-storefront/core/modules/cart';
+import { IS_COUPON_INTERACTION_BLOCKED } from '@vue-storefront/core/modules/cart/store/getter-types';
 import { CART_SET_PENDING_COUPON, SN_CART } from '@vue-storefront/core/modules/cart/store/mutation-types';
+import { isStoryblokPreview } from 'src/modules/vsf-storyblok-module';
 
 import { CouponActivationResult } from '../types/coupon-activation-result';
 
@@ -47,11 +48,7 @@ function notify (store: Store<RootState>, type: string, message: string): void {
 
 function createCouponActivationAdapter (store: Store<RootState>): ApplyCoupon {
   const activateCoupon = async (couponCode: string): Promise<CouponActivationResult> => {
-    if (
-      typeof couponCode !== 'string' ||
-      !couponCode ||
-      store.getters[couponInteractionBlockedGetter]
-    ) {
+    if (store.getters[couponInteractionBlockedGetter]) {
       return { status: 'rejected' };
     }
 
@@ -94,24 +91,34 @@ function createCouponActivationAdapter (store: Store<RootState>): ApplyCoupon {
   };
 
   return async (couponCode: string): Promise<CouponActivationResult> => {
+    const normalizedCouponCode = typeof couponCode === 'string'
+      ? couponCode.trim()
+      : '';
+
+    if (!normalizedCouponCode || isStoryblokPreview()) {
+      return { status: 'rejected' };
+    }
+
     await waitForSessionStart(store);
     await store.dispatch('cart/waitForCartSync');
-    return activateCoupon(couponCode);
+    return activateCoupon(normalizedCouponCode);
   };
 }
 
 export function registerCouponActivation (store: Store<RootState>, router: VueRouter): void {
-      const applyCoupon = createCouponActivationAdapter(store);
-      const budsies = window.budsies || {};
+  const applyCoupon = createCouponActivationAdapter(store);
+  const budsies = window.budsies || {};
 
-      budsies.applyCoupon = applyCoupon;
-      window.budsies = budsies;
+  budsies.applyCoupon = applyCoupon;
+  window.budsies = budsies;
 
-      const couponCode = router.currentRoute.query.coupon_code;
+  router.onReady(() => {
+    const couponCode = router.currentRoute.query.coupon_code;
 
-      if (typeof couponCode !== 'string') {
-        return;
-      }
+    if (typeof couponCode !== 'string') {
+      return;
+    }
 
-      void applyCoupon(couponCode);
+    void applyCoupon(couponCode);
+  });
 }

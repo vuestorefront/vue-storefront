@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Public browser coupon activation API
-The storefront SHALL expose `window.budsies.applyCoupon(couponCode: string)` after client initialization. The method SHALL augment the existing `window.budsies` namespace, reuse the existing cart coupon mechanics, and resolve an object with exactly one of the statuses `applied`, `saved`, `already-applied`, `conflict`, or `rejected`. It SHALL NOT be exposed or invoke coupon behavior during SSR.
+The storefront SHALL expose `window.budsies.applyCoupon(couponCode: string)` after client initialization. The method SHALL augment the existing `window.budsies` namespace, trim leading and trailing whitespace from the supplied code, reuse the existing cart coupon mechanics, and resolve an object with exactly one of the statuses `applied`, `saved`, `already-applied`, `conflict`, or `rejected`. It SHALL NOT be exposed or invoke coupon behavior during SSR or Storyblok preview mode.
 
 #### Scenario: External integration applies a valid coupon
 - **WHEN** an external browser integration calls `window.budsies.applyCoupon` with a valid code and a usable cart without an active coupon
@@ -36,9 +36,14 @@ The storefront SHALL expose `window.budsies.applyCoupon(couponCode: string)` aft
 - **THEN** the system MUST apply, save, preserve, or reject the coupon according to the initialized Cart state
 
 #### Scenario: External integration requests an invalid or unavailable coupon
-- **WHEN** an external browser integration submits an empty code, reaches the existing cart-operation guard after Cart synchronization completes, or Magento rejects the code
+- **WHEN** an external browser integration submits an empty or whitespace-only code, reaches the existing cart-operation guard after Cart synchronization completes, or Magento rejects the code
 - **THEN** the system MUST NOT report the coupon as applied or saved after a usable cart exists
 - **THEN** the Promise MUST resolve with status `rejected`
+
+#### Scenario: Coupon activation is requested in Storyblok preview
+- **WHEN** a browser API or URL coupon request is handled in Storyblok preview mode
+- **THEN** the system MUST NOT persist a pending coupon, call Magento, or otherwise mutate cart state
+- **THEN** a browser API request MUST resolve with status `rejected`
 
 ### Requirement: Initial URL coupon activation is client-only
 The storefront SHALL process the initial `coupon_code` query parameter through the public browser coupon activation API after client initialization. It SHALL read the parameter from Vue Router's current route query, support URL-encoded values, and submit a decoded code once during the initial router-ready callback.

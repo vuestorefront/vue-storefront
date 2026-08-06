@@ -25,9 +25,9 @@ What does not exist is a client-facing adapter. An external script cannot safely
 
 Add a client-only coupon activation module that receives the initialized store and exposes `window.budsies.applyCoupon(couponCode): Promise<CouponActivationResult>`. It augments the existing lowercase `budsies` object rather than replacing it. `CouponActivationResult` is local to the adapter, with `status` set to `applied`, `saved`, `already-applied`, `conflict`, or `rejected`; no cart state or Vuex action type changes are required.
 
-The adapter follows the existing coupon decision flow with cart state:
+The adapter trims the browser-supplied coupon code once and follows the existing coupon decision flow with cart state:
 
-1. Reject empty input and the existing cart-interaction-blocked state without a mutation or Magento request.
+1. Reject empty normalized input, Storyblok preview mode, and the existing cart-interaction-blocked state without a mutation or Magento request.
 2. When there is no usable server cart (no server token or no cart items), commit the existing pending-coupon mutation and use the existing localized saved notification; return `saved`.
 3. When the existing cart getter reports the same active code, return `already-applied` without a request. When it reports a different code, preserve it, show the existing localized conflict notification, and return `conflict`.
 4. Otherwise dispatch the unchanged `cart/applyCoupon` action. Its existing service request and totals sync determine `applied` versus `rejected`.
