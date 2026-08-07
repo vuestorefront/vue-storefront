@@ -37,6 +37,7 @@ const mutations: MutationTree<UserState> = {
   },
   [types.USER_END_SESSION] (state) {
     state.token = ''
+    state.refreshToken = ''
     state.current = null
     state.session_started = null
   },

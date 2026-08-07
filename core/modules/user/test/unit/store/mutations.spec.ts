@@ -136,14 +136,16 @@ describe('User mutations', () => {
   })
 
   describe('USER_END_SESSION', () => {
-    it('should clear current user token, current user info and session_started', () => {
+    it('should clear user credentials, current user info and session_started', () => {
       const stateMock = {
         token: data.lastUserToken,
+        refreshToken: 'refresh-token',
         current: data.user,
         session_started: new Date()
       }
       const expectedState = {
         token: '',
+        refreshToken: '',
         current: null,
         session_started: null
       }

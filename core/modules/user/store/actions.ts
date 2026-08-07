@@ -296,7 +296,8 @@ const actions: ActionTree<UserState, RootState> = {
       }, { root: true })
     }
   },
-  clearCurrentUser ({ commit, dispatch }) {
+  async clearCurrentUser ({ commit, dispatch }) {
+    commit(types.SET_USER_REFRESH_TOKEN, '')
     commit(types.USER_TOKEN_CHANGED, { newToken: null })
     commit(types.USER_GROUP_TOKEN_CHANGED, '')
     commit(types.USER_GROUP_CHANGED, null)
@@ -305,7 +306,7 @@ const actions: ActionTree<UserState, RootState> = {
     if (isModuleRegistered('CompareModule')) dispatch('compare/clear', null, { root: true })
     EventBus.$emit('clear-user-data');
     commit(types.USER_ORDERS_HISTORY_LOADED, {})
-    StorageManager
+    await StorageManager
       .get('user')
       .setItem('current-refresh-token', null)
       .catch((reason) => {

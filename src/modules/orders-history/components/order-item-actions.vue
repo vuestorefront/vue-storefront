@@ -1,5 +1,14 @@
 <template>
   <div class="order-item-actions">
+    <p
+      class="sr-only"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      {{ reorderStatusMessage }}
+    </p>
+
     <div
       class="_actions-with-messages"
       v-if="actionsListGroups.blockingActionsList.length"
@@ -15,7 +24,8 @@
         <component
           :is="actionItem.component"
           :disabled="disabledItems[actionItem.action.code]"
-          class="_available-action sf-button color-secondary"
+          class="_available-action"
+          :class="actionItem.cssClasses"
           v-bind="actionItem.props"
           v-on="actionItem.handlers"
           v-if="actionItem.component"
@@ -34,7 +44,8 @@
       <component
         v-for="actionItem in actionsListGroups.nonBlockingActionsList"
         :key="actionItem.action.code + ';' + actionItem.action.name"
-        class="_available-action sf-button color-secondary"
+        class="_available-action"
+        :class="actionItem.cssClasses"
         :is="actionItem.component"
         :disabled="disabledItems[actionItem.action.code]"
         v-bind="actionItem.props"
@@ -48,12 +59,14 @@
 
 <script lang="ts">
 import { useI18n, useRouter, useStore } from '@vue-storefront/core/application-services';
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType, ref } from 'vue';
 import { SfButton } from '@storefront-ui/vue';
 
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { IS_CART_SYNCING } from '@vue-storefront/core/modules/cart';
 import { FOREVERS_BUNDLE_SKUS } from 'src/modules/shared';
+
+import MSpinnerButton from 'theme/components/molecules/m-spinner-button.vue';
 
 import { OrderItem } from '../types/order-item';
 import { OrderItemAvailableAction } from '../types/order-item-available-action';
@@ -62,8 +75,9 @@ import { REORDER_ITEM_ACTION, IS_REORDERING_ITEM } from '..';
 
 interface ActionItem {
   action: OrderItemAvailableAction,
-  component?: 'SfButton' | 'a' | 'router-link',
-  props: Record<string, string | undefined>,
+  component?: 'SfButton' | 'MSpinnerButton' | 'a' | 'router-link',
+  cssClasses: string[],
+  props: Record<string, string | boolean | undefined>,
   handlers: Record<string, () => Promise<void>>
 }
 
@@ -119,7 +133,8 @@ function getProductSkuRouteNameMapping (): Record<string, string> {
 export default defineComponent({
   name: 'OrderItemActions',
   components: {
-    SfButton
+    SfButton,
+    MSpinnerButton
   },
   props: {
     orderItem: {
@@ -140,6 +155,12 @@ export default defineComponent({
     const applicationRouter = useRouter();
     const applicationI18n = useI18n();
     const productSkuRouteNameMapping = getProductSkuRouteNameMapping();
+    const isReorderPending = ref(false);
+    const reorderStatusMessage = computed(() => {
+      return isReorderPending.value
+        ? applicationI18n.t('Item is being re-ordered')
+        : '';
+    });
 
     const disabledItems = computed<Record<string, boolean>>(() => {
       const items: Record<string, boolean> = {};
@@ -170,9 +191,11 @@ export default defineComponent({
     }
 
     async function onReorderActionClick (): Promise<void> {
-      if (disabledItems.value[OrderItemAvailableActionCode.RE_ORDER]) {
+      if (isReorderPending.value || disabledItems.value[OrderItemAvailableActionCode.RE_ORDER]) {
         return;
       }
+
+      isReorderPending.value = true;
 
       try {
         await applicationStore.dispatch(
@@ -191,6 +214,8 @@ export default defineComponent({
           message: (error as any)?.message || applicationI18n.t('Something went wrong'),
           action1: { label: applicationI18n.t('OK') }
         });
+      } finally {
+        isReorderPending.value = false;
       }
     }
 
@@ -229,13 +254,18 @@ export default defineComponent({
         const actionItem: ActionItem = {
           action,
           component: undefined,
+          cssClasses: ['sf-button', 'color-secondary'],
           props: {},
           handlers: {}
         };
 
         if (action.code === OrderItemAvailableActionCode.RE_ORDER) {
           actionItem.handlers.click = onReorderActionClick;
-          actionItem.component = 'SfButton';
+          actionItem.component = 'MSpinnerButton';
+          actionItem.cssClasses = [];
+          actionItem.props.ariaLabel = action.name;
+          actionItem.props.buttonClass = 'color-secondary';
+          actionItem.props.showSpinner = isReorderPending.value;
           nonBlockingActionsList.push(actionItem);
           continue;
         }
@@ -316,7 +346,8 @@ export default defineComponent({
 
     return {
       actionsListGroups,
-      disabledItems
+      disabledItems,
+      reorderStatusMessage
     }
   }
 });
