@@ -2,7 +2,7 @@ import * as types from '@vue-storefront/core/modules/cart/store/mutation-types';
 import config from 'config';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
 import { CartService } from '@vue-storefront/core/data-resolver';
-import cartActions from '@vue-storefront/core/modules/cart/store/actions';
+import cartActions from '@vue-storefront/core/modules/cart/store/actions/synchronizeActions';
 import { createContextMock } from '@vue-storefront/unit-tests/utils';
 
 jest.mock('@vue-storefront/core/store', () => ({
@@ -66,6 +66,7 @@ jest.mock('@vue-storefront/core/helpers', () => ({
   get isServer () {
     return false;
   },
+  once: jest.fn((_, callback) => callback()),
   onlineHelper: {
     get isOnline () {
       return true;
@@ -84,40 +85,34 @@ describe('Cart synchronizeActions', () => {
     await (cartActions as any).load(contextMock, {});
     expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'setDefaultCheckoutMethods')
     expect(contextMock.commit).toBeCalledWith(types.CART_LOAD_CART, {})
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'synchronizeCart', { forceClientState: false })
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'loadCartDataFromLocalStorage', {
+      forceClientState: false,
+      forceSync: false
+    })
   });
 
-  it('synchronizes cart', async () => {
-    (StorageManager.get as jest.Mock).mockImplementation(() => ({
-      getItem: async () => 'hash-token'
-    }))
+  it('connects the customer cart for an authorized user', async () => {
+    const contextMock = createContextMock({
+      rootGetters: {
+        'user/getUserToken': 'user-token'
+      }
+    });
 
-    config.cart = {
-      synchronize: true,
-      serverMergeByDefault: false
-    }
-    const contextMock = createContextMock();
+    await (cartActions as any).synchronizeCart(contextMock);
 
-    await (cartActions as any).synchronizeCart(contextMock, { forceClientState: false });
-    expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.CART_SET_ITEMS_HASH, 'hash-token')
-    expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.CART_LOAD_CART_SERVER_TOKEN, 'hash-token')
-    expect(contextMock.dispatch).toBeCalledWith('sync', { forceClientState: false, dryRun: true })
+    expect(contextMock.dispatch).toBeCalledWith('connect', { guestCart: false })
   })
 
-  it('creates a new cart token', async () => {
-    (StorageManager.get as jest.Mock).mockImplementation(() => ({
-      getItem: async () => null
-    }))
+  it('synchronizes and creates a guest cart when needed', async () => {
+    const contextMock = createContextMock({
+      rootGetters: {
+        'user/getUserToken': null
+      }
+    });
 
-    config.cart = {
-      synchronize: true,
-      serverMergeByDefault: false
-    }
-    const contextMock = createContextMock();
+    await (cartActions as any).synchronizeCart(contextMock);
 
-    await (cartActions as any).synchronizeCart(contextMock, { forceClientState: false });
-    expect(contextMock.commit).not.toHaveBeenNthCalledWith(1, types.CART_SET_ITEMS_HASH, 'hash-token')
-    expect(contextMock.commit).not.toHaveBeenNthCalledWith(2, types.CART_LOAD_CART_SERVER_TOKEN, 'hash-token')
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'sync', {})
     expect(contextMock.dispatch).toBeCalledWith('create')
   })
 
@@ -138,14 +133,76 @@ describe('Cart synchronizeActions', () => {
         bypassCounter: 0
       }
     });
-    await (cartActions as any).sync(contextMock, {});
+    await (cartActions as any).performSync(contextMock, {});
     expect(contextMock.dispatch).toBeCalledWith('merge', {
       clientItems: [],
       dryRun: false,
-      forceClientState: true,
+      forceClientState: false,
       serverItems: [],
-      mergeQty: false
+      mergeQty: false,
+      forceUpdateServerItem: false,
+      waitForTotalsUpdate: true
     })
+  })
+
+  it('serializes cart synchronization requests', async () => {
+    let activeSyncs = 0
+    let maxActiveSyncs = 0
+    let releaseFirstCoupon = () => {}
+    const firstCouponBarrier = new Promise<void>((resolve) => {
+      releaseFirstCoupon = resolve
+    })
+    const state = { syncPromise: null as Promise<unknown> | null }
+    let syncCall = 0
+    let couponCall = 0
+    const actionOrder: string[] = []
+    const commit = jest.fn((type, value) => {
+      if (type === types.SET_SYNC_PROMISE) {
+        state.syncPromise = value
+      }
+    })
+    const dispatch = jest.fn(async (action) => {
+      actionOrder.push(action)
+
+      if (action === 'applyPendingCouponInCartTransaction') {
+        couponCall += 1
+        if (couponCall === 1) {
+          await firstCouponBarrier
+        }
+        return
+      }
+
+      if (action !== 'performSync') return
+
+      syncCall += 1
+      activeSyncs += 1
+      maxActiveSyncs = Math.max(maxActiveSyncs, activeSyncs)
+      activeSyncs -= 1
+    })
+    const contextMock = { commit, dispatch, state }
+
+    const firstSync = (cartActions as any).sync(contextMock, { forceSync: true })
+    const secondSync = (cartActions as any).sync(contextMock, { forceSync: true })
+
+    await Promise.resolve()
+    await Promise.resolve()
+    expect(actionOrder).toEqual([
+      'performSync',
+      'applyPendingCouponInCartTransaction'
+    ])
+
+    releaseFirstCoupon()
+    await Promise.all([firstSync, secondSync])
+
+    expect(actionOrder).toEqual([
+      'performSync',
+      'applyPendingCouponInCartTransaction',
+      'performSync',
+      'applyPendingCouponInCartTransaction'
+    ])
+    expect(maxActiveSyncs).toBe(1)
+    expect(state.syncPromise).toBeNull()
+    expect(commit).toHaveBeenLastCalledWith(types.SET_IS_CART_SYNCING, false)
   })
 
   it('attempts to bypass guest cart', async () => {
@@ -170,8 +227,11 @@ describe('Cart synchronizeActions', () => {
       }
     });
 
-    await (cartActions as any).sync(contextMock, {});
-    expect(contextMock.dispatch).toBeCalledWith('connect', { guestCart: true })
+    await (cartActions as any).performSync(contextMock, {});
+    expect(contextMock.dispatch).toBeCalledWith('connect', {
+      guestCart: true,
+      isCartSyncRecovery: true
+    })
   })
 
   it('removes product when there is out of stock', async () => {

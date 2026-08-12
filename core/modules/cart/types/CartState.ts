@@ -20,6 +20,7 @@ export default interface CartState {
   productDiscountedPrice: Record<string, ProductDiscountedPrice>,
   isShippingMethodsSyncing: boolean,
   isCartSyncing: boolean,
+  syncPromise: Promise<unknown> | null,
   isTotalsSyncing: boolean,
   isPaymentMethodsSyncing: boolean,
   isCouponProcessing: boolean,
