@@ -1,8 +1,7 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 import config from 'config';
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { CartService } from '@vue-storefront/core/data-resolver'
-import cartActions from '@vue-storefront/core/modules/cart/store/actions';
+import cartActions from '@vue-storefront/core/modules/cart/store/actions/connectActions';
 import { createContextMock } from '@vue-storefront/unit-tests/utils';
 
 jest.mock('@vue-storefront/core/store', () => ({
@@ -28,6 +27,9 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
 jest.mock('@vue-storefront/core/data-resolver', () => ({ CartService: {
   getCartToken: jest.fn()
 } }));
+jest.mock('@vue-storefront/core/modules/cart/helpers', () => ({
+  createDiffLog: jest.fn(() => ({}))
+}));
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   StorageManager: {
     get: jest.fn()
@@ -38,6 +40,7 @@ jest.mock('@vue-storefront/core/helpers', () => ({
   get isServer () {
     return true
   },
+  once: jest.fn((_, callback) => callback()),
   onlineHelper: {
     get isOnline () {
       return true
@@ -60,7 +63,8 @@ describe('Cart connectActions', () => {
 
     expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.CART_LOAD_CART, []);
     expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'sync', { forceClientState: true, forceSync: true });
-    expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.CART_SET_ITEMS_HASH, null);
+    expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.CART_SET_PENDING_COUPON, null);
+    expect(contextMock.commit).toHaveBeenNthCalledWith(3, types.CART_SET_ITEMS_HASH, null);
     expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'disconnect');
   });
 
@@ -93,7 +97,8 @@ describe('Cart connectActions', () => {
     await wrapper(cartActions);
 
     expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.CART_LOAD_CART, []);
-    expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.CART_SET_ITEMS_HASH, null);
+    expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.CART_SET_PENDING_COUPON, null);
+    expect(contextMock.commit).toHaveBeenNthCalledWith(3, types.CART_SET_ITEMS_HASH, null);
     expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'disconnect');
   });
 
@@ -101,23 +106,6 @@ describe('Cart connectActions', () => {
     const contextMock = createContextMock()
     await (cartActions as any).disconnect(contextMock)
     expect(contextMock.commit).toBeCalledWith(types.CART_LOAD_CART_SERVER_TOKEN, null);
-  })
-
-  it('authorizes server cart token', async () => {
-    (StorageManager.get as jest.Mock).mockImplementation(() => ({
-      getItem: async () => 1
-    }));
-
-    const contextMock = createContextMock({
-      getters: {
-        getCoupon: {
-          code: null
-        }
-      }
-    })
-
-    await (cartActions as any).authorize(contextMock)
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'connect', { guestCart: false, mergeQty: true });
   })
 
   it('creates cart token', async () => {
@@ -128,6 +116,9 @@ describe('Cart connectActions', () => {
     const contextMock = createContextMock({
       getters: {
         isCartSyncEnabled: true
+      },
+      rootGetters: {
+        'user/getToken': null
       }
     })
 
@@ -137,7 +128,35 @@ describe('Cart connectActions', () => {
 
     await (cartActions as any).connect(contextMock, {})
     expect(contextMock.commit).toBeCalledWith(types.CART_LOAD_CART_SERVER_TOKEN, 'server-cart-token')
-    expect(contextMock.dispatch).toBeCalledWith('sync', { forceClientState: false, dryRun: true, mergeQty: false })
+    expect(contextMock.dispatch).toBeCalledWith('sync', { forceClientState: false, dryRun: true })
+    expect(contextMock.dispatch).not.toBeCalledWith('applyPendingCoupon')
+  })
+
+  it('performs reconnect synchronization inside the active sync transaction', async () => {
+    (CartService.getCartToken as jest.Mock).mockImplementation(async () =>
+      ({ resultCode: 200, result: 'server-cart-token' })
+    );
+
+    const contextMock = createContextMock({
+      getters: {
+        isCartSyncEnabled: true
+      },
+      rootGetters: {
+        'user/getToken': null
+      }
+    })
+
+    config.cart = {
+      serverMergeByDefault: false
+    }
+
+    await (cartActions as any).connect(contextMock, { isCartSyncRecovery: true })
+
+    expect(contextMock.dispatch).toBeCalledWith('performSync', {
+      forceClientState: false,
+      dryRun: true
+    })
+    expect(contextMock.dispatch).not.toBeCalledWith('applyPendingCoupon')
   })
 
   it('attempts bypassing guest cart', async () => {
@@ -149,6 +168,9 @@ describe('Cart connectActions', () => {
       getters: {
         isCartSyncEnabled: true,
         bypassCounter: 0
+      },
+      rootGetters: {
+        'user/getToken': null
       }
     })
 

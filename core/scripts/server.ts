@@ -244,6 +244,7 @@ const ignoredQueryKeys = [
   'referral_code',
   'newsletter-subscription-form-email-input',
   'redirect-target',
+  'coupon_code',
   'image-url',
   'order_item_id'
 ];

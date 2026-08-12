@@ -1,3 +1,11 @@
+# storyblok-coupon-offers Specification
+
+## Purpose
+
+Defines Storyblok coupon offers and their integration with the storefront cart coupon workflow.
+
+## Requirements
+
 ### Requirement: Storyblok landing-page coupon offers are actionable
 The system SHALL provide a dedicated Storyblok landing-page coupon-offer component that renders a configured coupon code as a coupon action. The component SHALL use the same reusable coupon-item presentation as the detailed cart coupon offer.
 
