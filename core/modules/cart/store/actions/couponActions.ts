@@ -3,10 +3,17 @@ import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 import { IS_CART_SYNCING, IS_COUPON_PROCESSING } from '../getter-types'
 
 const couponActions = {
-  async applyPendingCoupon ({ getters, commit, dispatch }) {
+  async applyPendingCoupon ({ getters, dispatch }) {
+    if (getters[IS_CART_SYNCING]) {
+      return false
+    }
+
+    return dispatch('applyPendingCouponInCartTransaction')
+  },
+  async applyPendingCouponInCartTransaction ({ getters, commit, dispatch }) {
     const couponCode = getters.getPendingCouponCode
 
-    if (!couponCode || getters.getCoupon || getters[IS_CART_SYNCING] || getters[IS_COUPON_PROCESSING]) {
+    if (!couponCode || getters.getCoupon || getters[IS_COUPON_PROCESSING]) {
       return false
     }
 

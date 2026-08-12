@@ -2,8 +2,10 @@
 
 - [x] 1.1 Add a client-side coupon activation module and result type that normalize coupon codes, block activation in Storyblok preview mode, and compose the existing cart getters, pending-coupon mutation, `cart/applyCoupon` action, cart-operation guard, and existing localized notifications.
 - [x] 1.2 Expose the adapter as `window.budsies.applyCoupon(couponCode)` after client state hydration while preserving existing namespace properties.
-- [x] 1.3 Add a Cart-owned `waitForCartSync` action backed by the active synchronization promise, and await it before browser coupon activation evaluates Cart state.
+- [x] 1.3 Add a Cart-owned `waitForCartSync` action backed by the serialized synchronization queue promise, and await it before browser coupon activation evaluates Cart state.
 - [x] 1.4 Wait for user session startup before browser coupon activation evaluates Cart state.
+- [x] 1.5 Serialize public Cart synchronization requests, keep reconnect reconciliation inside the owning synchronization transaction, and preserve pending-coupon handling without recursive lock acquisition.
+- [x] 1.6 Move pending-coupon application into the serialized synchronization transaction and remove the general synchronization-guard bypass option.
 
 ## 2. URL and cache integration
 

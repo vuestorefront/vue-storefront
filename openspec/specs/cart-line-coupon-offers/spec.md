@@ -1,3 +1,11 @@
+# cart-line-coupon-offers Specification
+
+## Purpose
+
+Defines configurable coupon offers shown and applied directly from eligible cart items.
+
+## Requirements
+
 ### Requirement: Configured cart line coupon offers
 The system SHALL allow cart line coupon offers to be configured by coupon code, offer button text, and eligible product SKU list.
 

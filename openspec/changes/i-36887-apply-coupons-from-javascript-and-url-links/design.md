@@ -15,7 +15,7 @@ What does not exist is a client-facing adapter. An external script cannot safely
 
 **Non-Goals:**
 
-- Change cart Vuex actions, pending-coupon persistence/retry, cart-line offers, Storyblok offers, manual promo-code entry/removal, checkout totals, translations, or Magento APIs.
+- Change public cart coupon behavior, pending-coupon persistence/retry semantics, cart-line offers, Storyblok offers, manual promo-code entry/removal, checkout totals, translations, or Magento APIs.
 - Add a new coupon API, multi-coupon behavior, new customer documentation, analytics, or a background retry process.
 - Run coupon logic during SSR, remove the query parameter from the address bar, or reprocess it after initial page-load handling.
 
@@ -34,9 +34,13 @@ The adapter trims the browser-supplied coupon code once and follows the existing
 
 The existing connection and add-item actions continue to retry any code saved in step 2, so the adapter adds no retry logic. Existing offer and manual-entry components are not modified.
 
-### Wait for an active Cart synchronization
+### Serialize Cart synchronization and wait for the queue
 
-Add a Cart-owned `waitForCartSync` action backed by a `syncPromise` field in Cart state. Each `cart/sync` invocation records its own promise in that field and clears it only if it remains the active promise. Concurrent synchronizations retain their existing behavior and overwrite the tracked promise rather than being deduplicated. The wait action awaits the current promise and repeats while a newer one is active. The coupon activation adapter awaits this action before it evaluates the cart-interaction guard, so a URL or browser API request is not rejected merely because startup synchronization is transiently active.
+Add a Cart-owned `waitForCartSync` action backed by a `syncPromise` field in Cart state. Public `cart/sync` invocations append their reconciliation to that promise so multiple requests execute sequentially. Each queued reconciliation evaluates the current Cart getters only when it starts, allowing a completed synchronization to make a non-forced queued request unnecessary. The last queued request clears the promise and synchronization flag after it settles. The wait action awaits the current queue tail and repeats while a newer request is appended. The coupon activation adapter awaits this action before it evaluates the cart-interaction guard, so a URL or browser API request is not rejected merely because startup synchronization is transiently active.
+
+The existing bypass flow reconnects from inside Cart synchronization and the connection flow normally starts another synchronization. Waiting on the public queue from that nested call would deadlock because the owning synchronization is waiting for the connection to finish. Extract the reconciliation into an internal `performSync` action. Public requests queue `performSync`; reconnects invoked by `performSync` explicitly call it inside the active queue owner.
+
+Pending-coupon application is the final awaited step of each successful public synchronization transaction. The normal `applyPendingCoupon` action remains blocked while synchronization is active, while a narrowly named internal transaction action applies the pending coupon only after reconciliation has completed. The synchronization promise and flag remain active until the coupon request and its totals update settle, so later synchronization requests and guarded coupon interactions cannot overlap it. Connection actions only establish the token and select public or transaction-owned reconciliation; they do not bypass the synchronization guard themselves.
 
 After waiting, the adapter evaluates the current cart state normally. If the synchronized cart has an active coupon, it returns `already-applied` or `conflict`; if no usable cart exists, it saves the pending coupon through the existing behavior.
 
@@ -67,7 +71,10 @@ Add `coupon_code` to the existing ignored-query-key list in `core/scripts/server
 - [An integration calls before client initialization] → The method is intentionally exposed only after the coupon activation module has initialized in the browser; no SSR stub is created.
 - [A campaign URL contains a percent-encoded value] → Read the decoded value from Vue Router's route query.
 - [A route or initializer is invoked repeatedly] → The coupon activation module registers one router-ready callback for the initial navigation.
-- [A coupon request arrives during Cart synchronization] → Wait for the active synchronization and re-evaluate the Cart state before activating or saving a coupon.
+- [A coupon request arrives during Cart synchronization] → Wait for the serialized synchronization queue and re-evaluate the Cart state before activating or saving a coupon.
+- [Multiple Cart synchronization requests overlap] → Queue reconciliation requests and re-evaluate whether each non-forced request is still necessary when it starts.
+- [Cart reconnection needs a nested synchronization] → Run the reconnect reconciliation inside the owning serialized operation rather than reacquiring its lock.
+- [A reconnect has a pending coupon] → Apply it as the final awaited step of the owning synchronization transaction, without exposing a synchronization-guard override.
 - [A coupon request arrives during session startup] → Wait for `session-after-started`, then synchronize with the current Cart state before evaluating the coupon.
 - [An active coupon exists] → Reuse the existing cart getter, preserve the code, and return `conflict` without calling Magento.
 - [A saved coupon cannot apply later] → Existing pending-coupon retry retains it because this change does not alter that flow.

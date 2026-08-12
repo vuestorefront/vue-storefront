@@ -30,6 +30,17 @@ The storefront SHALL expose `window.budsies.applyCoupon(couponCode: string)` aft
 - **THEN** the system MUST wait for the active synchronization to complete before evaluating coupon state
 - **THEN** the system MUST apply, save, preserve, or reject the coupon according to the synchronized Cart state
 
+#### Scenario: Cart synchronization requests overlap
+- **WHEN** another Cart synchronization is requested before the active synchronization completes
+- **THEN** the system MUST execute the requested reconciliation after the active synchronization rather than in parallel
+- **THEN** the queued reconciliation MUST evaluate the current Cart state before deciding whether synchronization remains necessary
+
+#### Scenario: Active synchronization reconnects the Cart
+- **WHEN** an active Cart synchronization reconnects the Cart and requires another reconciliation
+- **THEN** the reconnect reconciliation MUST execute inside the active serialized operation without waiting on its own synchronization lock
+- **THEN** pending-coupon handling MUST execute as an awaited part of the owning serialized operation after the reconnect reconciliation completes
+- **THEN** the system MUST keep later Cart synchronization requests behind the pending-coupon request and its totals update
+
 #### Scenario: External integration requests a coupon during session startup
 - **WHEN** an external browser integration requests a coupon before the user session has started
 - **THEN** the system MUST wait for user session startup before evaluating Cart state

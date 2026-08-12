@@ -6,6 +6,12 @@ import { CartService } from '@vue-storefront/core/data-resolver'
 import { createDiffLog } from '@vue-storefront/core/modules/cart/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
+interface ConnectOptions {
+  guestCart?: boolean,
+  forceClientState?: boolean,
+  isCartSyncRecovery?: boolean
+}
+
 const connectActions = {
   toggleMicrocart ({ commit }) {
     commit(types.CART_TOGGLE_MICROCART)
@@ -50,7 +56,10 @@ const connectActions = {
       await dispatch('pullServerCart', true);
     }
   },
-  async connect ({ getters, rootGetters, dispatch, commit }, { guestCart = false, forceClientState = false }) {
+  async connect (
+    { getters, rootGetters, dispatch, commit },
+    { guestCart = false, forceClientState = false, isCartSyncRecovery = false }: ConnectOptions = {}
+  ) {
     if (!getters.isCartSyncEnabled) return
     const userToken = rootGetters['user/getToken'];
 
@@ -61,16 +70,17 @@ const connectActions = {
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result);
 
       EventBus.$emit('cart-connected', { cartId: result, userToken });
-      const diffLog = await dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault });
-      await dispatch('applyPendingCoupon');
-      return diffLog;
+      const syncAction = isCartSyncRecovery ? 'performSync' : 'sync'
+      return dispatch(syncAction, { forceClientState, dryRun: !config.cart.serverMergeByDefault });
     }
 
     if (resultCode === 401 && getters.bypassCounter < config.queues.maxCartBypassAttempts) {
       Logger.log('Bypassing with guest cart' + getters.bypassCounter, 'cart')()
       commit(types.CART_UPDATE_BYPASS_COUNTER, { counter: 1 })
       Logger.error(result, 'cart')()
-      return dispatch('connect', { guestCart: true })
+      return dispatch('connect', isCartSyncRecovery
+        ? { guestCart: true, isCartSyncRecovery: true }
+        : { guestCart: true })
     }
 
     Logger.warn('Cart sync is disabled by the config', 'cart')()
