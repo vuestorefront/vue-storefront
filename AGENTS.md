@@ -88,6 +88,9 @@ You are the Senior TypeScript Developer and Platform Standards Enforcer for our 
   * The initial HTML shell is defined in `.template.html` files (e.g., `src/themes/petsies-capybara/templates/index.template.html`).
 - Storyblok components:
   * Storyblok components are located in `src/themes/petsies-capybara/components/storyblok/` and are registered in the `index.ts` file within that directory.
+  * **Never emit a direct Storyblok asset URL.** Every Storyblok-owned image, video, download, rich-text asset, metadata image, sharing-media URL, background, or other browser/third-party asset URL MUST be normalized through the public helpers exported by `src/modules/vsf-storyblok-module`: use `resolveStoryblokAssetUrl()` for raw assets and `buildStoryblokImageUrl()` for transformed images. Apply this policy at typed rendering/output boundaries so it works during SSR, client rendering, and Storyblok editor-preview updates. Do not hardcode or independently rewrite `a.storyblok.com`, legacy Storyblok S3, or the configured CDN origin in components or theme helpers.
+  * The asset-delivery rule does not apply to Storyblok Content API requests, the Storyblok editor bridge script, embedded third-party media providers, or unrelated external assets; those URLs MUST remain unchanged.
+  * New or changed Storyblok asset sinks MUST include regression coverage proving recognized Storyblok asset origins are absent from emitted URLs and unrelated URLs remain unchanged.
   * Components should apply additional classes and styles at the root level by assigning the `cssClasses` and `styles` properties to the corresponding HTML attributes.
   * Ensure the inclusion of a sub-component for editor icons, specifically `editor-block-icons`.
   * If the component has interactive elements (links, inputs, lightboxes, etc.), interactions must be disabled when in Storyblok editor mode. This can be achieved by applying specific CSS styles for the `-editor-preview-mode` class modifier.
