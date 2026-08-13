@@ -24,6 +24,6 @@
 
 ## 5. End-to-End Verification
 
-- [ ] 5.1 Add SSR and Storyblok editor-preview regression coverage demonstrating that published and live-updated content emit the same CDN asset URLs.
+- [x] 5.1 Add SSR and Storyblok editor-preview regression coverage demonstrating that published and live-updated content emit the same CDN asset URLs.
 - [x] 5.2 Run the focused Storyblok, BaseImage, rich-text, link, video, and theme component test suites plus TypeScript validation, and resolve any regressions.
-- [ ] 5.3 Search the storefront for remaining direct Storyblok asset rendering sinks, document intentional exclusions, and verify representative pages' rendered HTML and network requests contain no direct Storyblok asset origin.
+- [x] 5.3 Search the storefront for remaining direct Storyblok asset rendering sinks, document intentional exclusions, and verify representative pages' rendered HTML and network requests contain no direct Storyblok asset origin.
