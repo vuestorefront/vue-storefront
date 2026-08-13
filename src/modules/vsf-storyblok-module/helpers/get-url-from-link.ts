@@ -1,9 +1,11 @@
 import get from 'lodash-es/get';
 
 import config from 'config';
-import { LinkField, LinkType } from 'src/modules/vsf-storyblok-module';
+import LinkField from '../types/link-field.interface';
+import { LinkType } from '../types/link-type.value';
 
 import isUrlExternal from './is-url-external';
+import { resolveStoryblokAssetUrl } from './storyblok-asset-url';
 
 function removeDomainFromUrl (url: string, host: string): string {
   const protocol = 'https://';
@@ -17,6 +19,12 @@ export default function getUrlFromLink (
   storeCode?: string
 ): string {
   const formatUrl = (url: string): string => {
+    const resolvedAssetUrl = resolveStoryblokAssetUrl(url);
+
+    if (resolvedAssetUrl !== url) {
+      return resolvedAssetUrl;
+    }
+
     url = removeDomainFromUrl(url, host);
 
     if (isUrlExternal(url)) {

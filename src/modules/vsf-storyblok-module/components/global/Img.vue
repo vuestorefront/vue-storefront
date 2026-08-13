@@ -8,6 +8,7 @@
 <script>
 import get from 'lodash-es/get'
 import config from 'config'
+import { buildStoryblokImageUrl } from '../../helpers/storyblok-asset-url'
 
 export default {
   name: 'StoryblokImage',
@@ -16,10 +17,6 @@ export default {
       return [...this.filters, 'format(webp)']
     },
     image () {
-      if (!this.src.includes('/a.storyblok.com')) {
-        return this.src
-      }
-      const [, resource] = this.src.split('/a.storyblok.com')
       let mod = '/m'
 
       if (this.height > 0 || this.width > 0) {
@@ -36,7 +33,7 @@ export default {
         mod += '/filters:' + this.computedFilters.join(':')
       }
 
-      return 'https://sb-assets.budsies.com' + resource + mod
+      return buildStoryblokImageUrl(this.src, mod)
     }
   },
   props: {

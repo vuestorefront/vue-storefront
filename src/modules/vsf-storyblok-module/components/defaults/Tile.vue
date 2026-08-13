@@ -1,6 +1,6 @@
 <template>
   <div class="tile" :style="{
-    backgroundImage: 'url(' + item.background + ')',
+    backgroundImage: 'url(' + backgroundImage + ')',
     backgroundColor: item.overlay
   }"
   >
@@ -14,10 +14,16 @@
 
 <script>
 import { Blok } from '..'
+import { resolveStoryblokAssetUrl } from '../../helpers/storyblok-asset-url'
 
 export default {
   name: 'TileBlok',
-  extends: Blok
+  extends: Blok,
+  computed: {
+    backgroundImage () {
+      return resolveStoryblokAssetUrl(this.item.background)
+    }
+  }
 }
 </script>
 

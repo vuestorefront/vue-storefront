@@ -89,6 +89,7 @@
   },
   "storyblok": {
     "endpoint": "https://${VSF_API_DOMAIN}/api/ext/vsf-storyblok-extension",
+    "assetCdnOrigin": "https://sb-assets.budsies.com",
     "settings": {
       "addRoutes": true
     },

@@ -29,6 +29,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { useRequestServices } from '@vue-storefront/core/request-services';
 
 import { getSettings } from '../helpers'
+import { resolveStoryblokAssetUrl } from '../helpers/storyblok-asset-url'
 
 import StoryblokMixin from '../components/StoryblokMixin'
 import PageBreadcrumbs from '../components/defaults/PageBreadcrumbs.vue';
@@ -162,7 +163,16 @@ export default {
         data.push(
           this.getMetaItem(
             'og:image',
-            metaTags.og_image
+            resolveStoryblokAssetUrl(metaTags.og_image)
+          )
+        )
+      }
+
+      if (metaTags.twitter_image) {
+        data.push(
+          this.getMetaItem(
+            'twitter:image',
+            resolveStoryblokAssetUrl(metaTags.twitter_image)
           )
         )
       }
