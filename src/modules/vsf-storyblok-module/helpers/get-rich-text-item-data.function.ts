@@ -4,6 +4,7 @@ import RichTextItem from '../types/rich-text-item.interface'
 import { components } from '../components/index';
 import getHeaderId from './get-header-id';
 import RichTextTextComponent from '../components/global/rich-text/components/TextComponent.vue';
+import { resolveStoryblokAssetUrl } from './storyblok-asset-url';
 
 const genericComponentTag = 'sb-rich-text-generic-component';
 
@@ -75,7 +76,10 @@ export default function getRichTextItemData (data: any): RichTextItem {
         id: uuidv4(),
         component: genericComponentTag,
         rootTagName: 'img',
-        rootElementAttributes: data.attrs
+        rootElementAttributes: {
+          ...data.attrs,
+          src: resolveStoryblokAssetUrl(data.attrs?.src || '')
+        }
       }
     case 'paragraph':
       return {
