@@ -4,6 +4,7 @@ import fetch from '@vue-storefront/core/lib/fetch/server';
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
 import { extractCookieValue } from '../helpers/extract-cookie-value.function'
 import { cacheInstanceFactory } from './utils/cache-instance';
+import { generatePageCacheKey } from './utils/page-cache-key';
 
 const gracefulShutdown = require('http-graceful-shutdown')
 const qs = require('qs')
@@ -193,68 +194,11 @@ function cacheVersion (req, res) {
   res.send(fs.readFileSync(resolve('core/build/cache-version.json')))
 }
 
-const ignoredQueryKeys = [
-  'srsltid',
-  'utm_source',
-  'utm_medium',
-  'utm_campaign',
-  '_kx',
-  'fbclid',
-  'utm_term',
-  'utm_content',
-  'utm_id',
-  'gad_source',
-  'gclid',
-  'id',
-  'gbraid',
-  'dclid',
-  'campaign',
-  'data',
-  'content',
-  'msclkid',
-  'uri',
-  'url',
-  'dest',
-  'redirect',
-  'file',
-  'target',
-  'mc_cid',
-  'mc_eid',
-  'sscid',
-  'gad_campaignid',
-  'gQT',
-  'wbraid',
-  'ttclid',
-  'li_fat_id',
-  'twclid',
-  'sccid',
-  'rdt_cid',
-  'irclickid',
-  'awc',
-  'pp',
-  'audience',
-  'ref',
-  'continueFlag',
-  'hc_location',
-  'qty',
-  'email',
-  'epik',
-  'user',
-  'SID',
-  'referral_code',
-  'newsletter-subscription-form-email-input',
-  'redirect-target',
-  'coupon_code',
-  'image-url',
-  'order_item_id'
-];
-
 function generateCacheKey (site: string, req: Request) {
-  const url = new URL(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
-
-  ignoredQueryKeys.forEach((key) => url.searchParams.delete(key));
-
-  return `page:${site}:${url.pathname}${url.search}`;
+  return generatePageCacheKey(
+    site,
+    `${req.protocol}://${req.get('host')}${req.originalUrl}`
+  );
 }
 
 app.get('/cache-version.json', cacheVersion)

@@ -294,12 +294,15 @@ export const actions: ActionTree<BudsiesState, RootState> = {
   },
   async loadRecoverableCart (
     { commit, state },
-    { recoveryId, recoveryCode }
+    { recoveryId, recoveryCode, applyPromoCode }
   ): Promise<any> {
     const url = processURLAddress(`${config.budsies.endpoint}/carts/recovery-requests`);
+    const applyPromoCodeQuery = typeof applyPromoCode === 'string'
+      ? `&applyPromoCode=${encodeURIComponent(applyPromoCode)}`
+      : '';
 
     const { result, resultCode, code } = await TaskQueue.execute({
-      url: `${url}?recoveryId=${recoveryId}&recoveryCode=${recoveryCode}&token={{token}}`,
+      url: `${url}?recoveryId=${recoveryId}&recoveryCode=${recoveryCode}&token={{token}}${applyPromoCodeQuery}`,
       payload: {
         headers: { 'Accept': 'application/json' },
         mode: 'cors',
